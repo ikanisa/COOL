@@ -227,7 +227,7 @@ A screen is redesigned when:
 
 ```sh
 # Module screen counts
-for mod in auth basket credit groups home mobility momo partners profile; do
+for mod in auth basket credit groups home momo partners profile; do
   echo "$mod: $(find lib/features/$mod -name '*screen.dart' 2>/dev/null | wc -l | tr -d ' ')"
 done
 

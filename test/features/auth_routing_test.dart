@@ -253,19 +253,9 @@ void main() {
   });
 
   group('Edge cases', () {
-    test('/credit passes through for authenticated user', () {
+    test('/profile/identity passes through for authenticated user', () {
       final result = resolveAppRedirect(
-        location: AppRoutes.credit,
-        hasSession: true,
-        hasProfile: true,
-        profileRestoreState: AuthProfileRestoreState.available,
-      );
-      expect(result, isNull);
-    });
-
-    test('/mobility passes through for authenticated user', () {
-      final result = resolveAppRedirect(
-        location: AppRoutes.mobility,
+        location: AppRoutes.profileIdentity,
         hasSession: true,
         hasProfile: true,
         profileRestoreState: AuthProfileRestoreState.available,

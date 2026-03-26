@@ -273,8 +273,8 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
                   delegate: SliverChildListDelegate([
                     Text(
                       l10n.momoScreenTitle,
-                      style: theme.textTheme.displaySmall?.copyWith(
-                        fontWeight: FontWeight.w800,
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
                         color: colors.primaryText,
                       ),
                     ),

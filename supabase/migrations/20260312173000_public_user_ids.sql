@@ -157,35 +157,6 @@ exception
 end;
 $$;
 
-update public.mobility_trips as trip
-set contact_name = profile.public_user_id
-from public.users as profile
-where profile.id = trip.user_id
-  and coalesce(trip.contact_name, '') is distinct from profile.public_user_id;
-
-create or replace function public.sync_mobility_trip_contact()
-returns trigger
-language plpgsql
-as $$
-declare
-  profile_phone text;
-  profile_name text;
-begin
-  if new.user_id is null then
-    return new;
-  end if;
-
-  select u.phone, u.public_user_id
-  into profile_phone, profile_name
-  from public.users u
-  where u.id = new.user_id;
-
-  new.contact_phone := coalesce(nullif(new.contact_phone, ''), profile_phone);
-  new.contact_name := coalesce(profile_name, nullif(new.contact_name, ''));
-  return new;
-end;
-$$;
-
 create or replace function public.create_group_atomic(
   p_name text,
   p_visibility text,

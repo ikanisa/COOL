@@ -157,7 +157,9 @@ class BankAdminAllocationReviewItem {
 
   factory BankAdminAllocationReviewItem.fromJson(Map<String, dynamic> json) {
     final metadata = json['metadata'];
-    final metaMap = metadata is Map<String, dynamic> ? metadata : <String, dynamic>{};
+    final metaMap = metadata is Map<String, dynamic>
+        ? metadata
+        : <String, dynamic>{};
 
     double? parseConfidence(dynamic v) {
       if (v == null) return null;

@@ -58,12 +58,6 @@ INSERT INTO public.cool_activities (slug, title, description, emoji, category, t
   ('merchandise_purchase',  'Purchase Merchandise',  'Buy official Rayon Sports merchandise',        '👕', 'rayon',    20,  9),
   ('match_prediction',      'Match Prediction',      'Submit a match prediction before kickoff',     '🔮', 'rayon',    20, 10),
 
-  -- ── Mobility (4) ──
-  ('trip_completed',        'Complete a Trip',       'Complete a ride as passenger or driver',        '🚗', 'mobility', 20, 11),
-  ('trip_posted',           'Post a Trip',           'Post your route to offer rides',                '📍', 'mobility', 20, 12),
-  ('trip_rated',            'Rate a Trip',           'Leave a rating after completing a trip',        '⭐', 'mobility', 20, 13),
-  ('first_trip',            'First Trip Bonus',      'Complete your very first trip on Cool',         '🎉', 'mobility', 20, 14),
-
   -- ── Social (4) ──
   ('invite_qualified',      'Invite a Friend',       'Invite a friend who completes a qualifying action', '🎉', 'social', 20, 15),
   ('profile_completed',     'Complete Your Profile', 'Fill in all your profile details',              '📝', 'social',   20, 16),

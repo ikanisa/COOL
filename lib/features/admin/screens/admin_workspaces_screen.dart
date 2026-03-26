@@ -210,8 +210,6 @@ class _IntroCard extends StatelessWidget {
   }
 }
 
-
-
 class _WorkspaceCard extends StatelessWidget {
   const _WorkspaceCard({
     required this.title,

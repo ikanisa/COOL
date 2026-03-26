@@ -169,8 +169,7 @@ class BiopayRepository {
       final payload = jh.asMap(response.data);
       if (payload['success'] != true) {
         throw StateError(
-          payload['message']?.toString() ??
-              'Failed to create payment intent.',
+          payload['message']?.toString() ?? 'Failed to create payment intent.',
         );
       }
       final data = jh.asMap(payload['data']);

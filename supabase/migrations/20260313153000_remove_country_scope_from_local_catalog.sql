@@ -15,12 +15,6 @@ where country is not null
 update public.quick_actions
 set country = null
 where country is not null;
-delete from public.vehicle_types
-where country is not null
-  and upper(btrim(country)) <> 'RW';
-update public.vehicle_types
-set country = null
-where country is not null;
 delete from public.partner_services
 where country is not null
   and upper(btrim(country)) <> 'RW';

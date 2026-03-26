@@ -18,10 +18,11 @@ void main() {
       }
 
       final violations = <String>[];
-      for (final file in featuresDir
-          .listSync(recursive: true)
-          .whereType<File>()
-          .where((f) => f.path.endsWith('.dart'))) {
+      for (final file
+          in featuresDir
+              .listSync(recursive: true)
+              .whereType<File>()
+              .where((f) => f.path.endsWith('.dart'))) {
         final content = file.readAsStringSync();
         if (content.contains('coolPalette')) {
           violations.add(file.path);
@@ -43,10 +44,11 @@ void main() {
       if (!featuresDir.existsSync()) return;
 
       final violations = <String>[];
-      for (final file in featuresDir
-          .listSync(recursive: true)
-          .whereType<File>()
-          .where((f) => f.path.endsWith('.dart'))) {
+      for (final file
+          in featuresDir
+              .listSync(recursive: true)
+              .whereType<File>()
+              .where((f) => f.path.endsWith('.dart'))) {
         final content = file.readAsStringSync();
         if (content.contains('GoogleFonts.barlow(')) {
           violations.add(file.path);
@@ -68,10 +70,11 @@ void main() {
       if (!featuresDir.existsSync()) return;
 
       final violations = <String>[];
-      for (final file in featuresDir
-          .listSync(recursive: true)
-          .whereType<File>()
-          .where((f) => f.path.endsWith('.dart'))) {
+      for (final file
+          in featuresDir
+              .listSync(recursive: true)
+              .whereType<File>()
+              .where((f) => f.path.endsWith('.dart'))) {
         final content = file.readAsStringSync();
         // Skip files that import AppColors for migration compat
         if (content.contains('AppColors.') &&

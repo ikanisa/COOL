@@ -42,7 +42,6 @@ UserProfile _sampleUser({String? officialName, String? officialPhone}) {
     momoProvider: 'mtn_momo_rw',
     country: 'RW',
     languageCode: 'en',
-    isDriver: false,
     officialName: officialName,
     officialPhone: officialPhone,
   );
@@ -209,7 +208,6 @@ void main() {
           momoProvider: 'mtn_momo_rw',
           country: 'RW',
           languageCode: 'en',
-          isDriver: false,
         ),
       );
 

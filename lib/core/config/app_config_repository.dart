@@ -1,7 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract final class AppConfigKeys {
-  static const mobilitySubscriptionMomoCode = 'mobility_subscription_momo_code';
   static const productionRedesignEnabled = 'production_redesign_enabled';
   static const productionRedesignRoutes = 'production_redesign_routes';
   static const productionRedesignPartners = 'production_redesign_partners';
@@ -50,17 +49,6 @@ class AppConfigRepository {
     return null;
   }
 
-  Future<String?> getMobilitySubscriptionMomoCode({
-    bool forceRefresh = false,
-  }) async {
-    final value = await getValue(
-      AppConfigKeys.mobilitySubscriptionMomoCode,
-      forceRefresh: forceRefresh,
-    );
-    final trimmed = value?.trim();
-    return trimmed == null || trimmed.isEmpty ? null : trimmed;
-  }
-
   /// Fetch all config entries for the fixed Rwanda app shell.
   Future<Map<String, String>> getAll() async {
     final rows = await _client.from('app_config').select();
@@ -88,17 +76,6 @@ class AppConfigRepository {
   /// Convenience: get the support WhatsApp number.
   Future<String> getSupportWhatsApp() async {
     return await getValue('support_whatsapp') ?? '250795588248';
-  }
-
-  /// Convenience: get credit grade thresholds.
-  Future<({int excellent, int good, int building})> getCreditGrades() async {
-    final excellent =
-        int.tryParse(await getValue('credit_grade_excellent') ?? '') ?? 80;
-    final good = int.tryParse(await getValue('credit_grade_good') ?? '') ?? 60;
-    final building =
-        int.tryParse(await getValue('credit_grade_building') ?? '') ?? 40;
-
-    return (excellent: excellent, good: good, building: building);
   }
 
   /// Fetches default map center from app config (falls back to Kigali).

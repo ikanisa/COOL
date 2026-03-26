@@ -20,18 +20,18 @@ void main() {
         final service = FeatureFlagsService(
           bootstrapService: FakeFirebaseBootstrapService(true),
           loadRemoteConfigValues: (_) async => <String, Object?>{
-            'kill_mobility': false,
-            'feature_mobility_stage': 'pilot',
+            'kill_ticket_purchase': false,
+            'feature_ticket_purchase_stage': 'pilot',
           },
           loadAppConfigOverrides: (_) async => <String, Object?>{
-            'kill_mobility': 'true',
+            'kill_ticket_purchase': 'true',
           },
         );
 
         final flags = await service.initialize();
 
-        expect(flags.killMobility, isTrue);
-        expect(flags.mobility.stage, FeatureRolloutStage.pilot);
+        expect(flags.killTicketPurchase, isTrue);
+        expect(flags.ticketPurchase.stage, FeatureRolloutStage.pilot);
       },
     );
 
@@ -43,18 +43,18 @@ void main() {
           loadRemoteConfigValues: (_) async =>
               throw StateError('should not run'),
           loadAppConfigOverrides: (_) async => <String, Object?>{
-            'feature_credit_stage': 'internal',
-            'feature_credit_admin_only': 'true',
-            'kill_credit_features': 'false',
+            'feature_ticket_purchase_stage': 'internal',
+            'feature_ticket_purchase_admin_only': 'true',
+            'kill_ticket_purchase': 'false',
           },
         );
 
         final flags = await service.initialize();
 
-        expect(flags.credit.stage, FeatureRolloutStage.internal);
-        expect(flags.credit.adminOnly, isTrue);
-        expect(flags.isCreditEnabled(isAdmin: false), isFalse);
-        expect(flags.isCreditEnabled(isAdmin: true), isTrue);
+        expect(flags.ticketPurchase.stage, FeatureRolloutStage.internal);
+        expect(flags.ticketPurchase.adminOnly, isTrue);
+        expect(flags.isTicketPurchaseEnabled(isAdmin: false), isFalse);
+        expect(flags.isTicketPurchaseEnabled(isAdmin: true), isTrue);
       },
     );
   });

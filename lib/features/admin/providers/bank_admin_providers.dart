@@ -18,23 +18,9 @@ final bankAdminWorkspaceProvider = FutureProvider.autoDispose
       return repository.loadWorkspaceSnapshot(partnerId);
     });
 
-/// Loans for a bank partner.
-final bankLoansProvider = FutureProvider.autoDispose
-    .family<List<Map<String, dynamic>>, String>((ref, partnerId) async {
-  final repo = ref.read(bankAdminRepositoryProvider);
-  return repo.fetchLoans(partnerId);
-});
-
-/// Savings baskets for a bank partner.
-final bankBasketsProvider = FutureProvider.autoDispose
-    .family<List<Map<String, dynamic>>, String>((ref, partnerId) async {
-  final repo = ref.read(bankAdminRepositoryProvider);
-  return repo.fetchBaskets(partnerId);
-});
-
 /// Analytics summary for a bank partner.
 final bankAnalyticsProvider = FutureProvider.autoDispose
     .family<Map<String, dynamic>, String>((ref, partnerId) async {
-  final repo = ref.read(bankAdminRepositoryProvider);
-  return repo.fetchBankAnalytics(partnerId);
-});
+      final repo = ref.read(bankAdminRepositoryProvider);
+      return repo.fetchBankAnalytics(partnerId);
+    });

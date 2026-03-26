@@ -35,7 +35,7 @@ Bottom navigation: 5 destinations.
 | 1 | Home | `/home` |
 | 2 | Groups | `/groups` |
 | 3 (center) | MoMo | Pushes `/momo` (standalone) |
-| 4 | Mobility | `/mobility` |
+| 4 | Services | `/partners` |
 | 5 | Profile | `/profile` |
 
 ### Navigation Rules

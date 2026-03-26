@@ -149,7 +149,8 @@ class BankAllocationsTab extends StatelessWidget {
                   : ListView.separated(
                       padding: _bankAllocationListPadding(),
                       itemCount: filtered.length,
-                      separatorBuilder: (_, _) => const SizedBox(height: CoolSpace.x3),
+                      separatorBuilder: (_, _) =>
+                          const SizedBox(height: CoolSpace.x3),
                       itemBuilder: (context, index) {
                         final item = filtered[index];
                         final isActive = activeReviewId == item.reviewId;

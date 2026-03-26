@@ -7,7 +7,7 @@ import '../../../core/status/models/cool_season.dart';
 /// Admin CRUD repository for missions and seasons.
 class AdminGamificationRepository {
   AdminGamificationRepository({required SupabaseClient client})
-      : _client = client;
+    : _client = client;
 
   final SupabaseClient _client;
 

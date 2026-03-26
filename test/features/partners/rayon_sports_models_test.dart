@@ -178,13 +178,14 @@ void main() {
         'away_team': 'APR FC',
         'match_date': '2026-04-10',
       });
-      expect('${match.homeTeam} vs ${match.awayTeam}', 'Rayon Sports vs APR FC');
+      expect(
+        '${match.homeTeam} vs ${match.awayTeam}',
+        'Rayon Sports vs APR FC',
+      );
     });
 
     test('kickoff time is truncated to 5 chars if longer', () {
-      final match = RsMatch.fromJson(const {
-        'kickoff_time': '15:00:00',
-      });
+      final match = RsMatch.fromJson(const {'kickoff_time': '15:00:00'});
       expect(match.kickoffTime, '15:00');
     });
   });
@@ -202,10 +203,7 @@ void main() {
     });
 
     test('accepts numeric types (double price)', () {
-      final p = RsProduct.fromJson(const {
-        'price': 15000.5,
-        'stock': 10.0,
-      });
+      final p = RsProduct.fromJson(const {'price': 15000.5, 'stock': 10.0});
       expect(p.price, 15000);
       expect(p.stock, 10);
     });
@@ -274,7 +272,6 @@ void main() {
   });
 
   // RayonSportsData.demo() removed — repository uses _fallbackData() now
-
 
   group('RsLeagueTeam', () {
     test('constructor sets all fields', () {

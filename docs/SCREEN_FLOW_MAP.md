@@ -15,14 +15,12 @@ This map groups the implemented screens by likely user journey rather than by co
 
 1. `HomeScreen`: Primary app home screen that introduces the main product surfaces and top user actions. Route `/home`.
 2. `PartnersScreen`: Partner directory screen where users browse the available institutions and partner product surfaces. Route `/partners`.
-3. `MobilityHomeScreen`: Mobility landing screen for transport-focused discovery, posting, and trip-related actions. Route `/mobility`.
 4. `GroupsScreen`: Main group discovery and management screen showing the user’s savings/community groups. Route `/groups`.
 5. `ProfileScreen`: User account hub for personal details, settings, wallet shortcuts, and identity-related actions. Route `/profile`.
 
 ## Profile And Verification
 
 1. `ProfileIdentityScreen`: Profile detail screen focused on identity data, KYC progress, and verification access points. Route `/profile/identity`.
-2. `ProfileTravelRoleScreen`: Preference screen for selecting or editing the user’s transport role and mobility behavior. Route `/profile/travel-role`.
 3. `ProfileWalletScreen`: Wallet settings/detail screen for payment route preferences and money-related profile controls. Route `/profile/wallet`.
 4. `KycIdScanScreen`: Camera-based identity capture flow for scanning an ID card with privacy guidance overlays. Internal flow only.
 5. `KycSelfieScreen`: Selfie verification screen that captures the user’s face for identity and face-match workflows. Route `/kyc/selfie`.
@@ -34,15 +32,6 @@ This map groups the implemented screens by likely user journey rather than by co
 3. `GroupInviteScreen`: Invite redemption screen that previews a group and lets a user join through a shared code. Route `/invite/:code`.
 4. `GroupDetailScreen`: Group overview screen for members, balances, contributions, invites, and group-level actions. Route `/groups/:id`.
 5. `GroupLedgerScreen`: Financial detail screen for reviewing posted group transactions and export-ready ledger history. Route `/groups/:id/ledger`.
-
-## Mobility Journey
-
-1. `MobilityHomeScreen`: Mobility landing screen for transport-focused discovery, posting, and trip-related actions. Route `/mobility`.
-2. `ScheduleTripScreen`: Trip creation flow for scheduling transport with route, timing, and rider-facing details. Route `/mobility/schedule`.
-3. `TripBoardScreen`: Trip listing board for browsing available trips, demand, route details, and booking/contact actions. Route `/mobility/trips`.
-4. `DriverProfileScreen`: Driver account hub for profile, availability, and operator-facing transport identity details. Route `/mobility/driver`.
-5. `DriverVehicleScreen`: Driver vehicle management screen for readiness, vehicle metadata, and posting eligibility. Route `/mobility/driver/vehicle`.
-6. `DriverSubscriptionScreen`: Driver monetization screen for viewing plan status, credits, and upgrade/subscription access. Route `/mobility/driver/subscription`.
 
 ## Wallet And MoMo Journey
 
@@ -100,7 +89,6 @@ This map groups the implemented screens by likely user journey rather than by co
 9. `BankAdminWorkspaceScreen`: Bank-specific operations screen for allocation, ledger review, and savings/group administration. Route `/admin/banks/:partnerId`.
 10. `ManageServicesScreen`: Service configuration screen for editing service cards, availability, and action behavior. Route `/admin/services`.
 11. `ManageQuickActionsScreen`: Admin tool for curating shortcut actions and surfaced utility flows in the app shell. Route `/admin/quick-actions`.
-12. `ManageVehicleTypesScreen`: Mobility configuration screen for maintaining vehicle categories and related operational metadata. Route `/admin/vehicle-types`.
 13. `ManageAppConfigScreen`: Central application configuration screen for rollout flags, runtime settings, and scoped config values. Route `/admin/app-config`.
 14. `ManageMissionsScreen`: Mission authoring and control screen for engagement missions, rules, and activation state. Route `/admin/missions`.
 15. `ManageActivitiesScreen`: Activity management screen for configuring platform activities and engagement surfaces. Route `/admin/activities`.

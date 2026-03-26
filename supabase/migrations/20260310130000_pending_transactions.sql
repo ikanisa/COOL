@@ -34,13 +34,9 @@ create policy "pending_tx_update_own"
   using (auth.uid() = user_id);
 -- ── Add momo_reference to payment-linked tables ──────────────────────────
 
-alter table public.driver_subscriptions
-  add column if not exists momo_reference text;
 alter table public.group_contributions
   add column if not exists momo_reference text;
 -- ── Add momo_provider to users table ─────────────────────────────────────
 
 alter table public.users
   add column if not exists momo_provider text;
-alter table public.users
-  add column if not exists is_driver boolean not null default false;

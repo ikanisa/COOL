@@ -18,7 +18,7 @@ import '../../../../shared/widgets/rs_achievement_badge.dart';
 import '../../../../shared/widgets/rs_progress_bar.dart';
 import '../models/rs_models.dart';
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/rayon_screen_scaffold.dart';
+import '../../../../shared/widgets/core_app_scaffold.dart';
 import '../widgets/rs_tier_badge.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../shared/widgets/cool_bottom_sheet.dart';
@@ -71,7 +71,7 @@ class _FanProfileScreenState extends ConsumerState<FanProfileScreen> {
     final ordersAsync = ref.watch(rayonShopOrdersProvider);
     final user = ref.watch(currentUserProvider);
 
-    return RayonScreenScaffold(
+    return CoreAppScaffold(
       title: context.l10n.fanProfile,
       fallbackLocation: AppRoutes.rayonHome,
       scrollable: false,

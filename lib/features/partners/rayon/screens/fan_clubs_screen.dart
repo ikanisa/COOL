@@ -12,7 +12,7 @@ import '../../../../shared/widgets/cool_text_field.dart';
 import '../../../../shared/widgets/rs_fan_club_card.dart';
 import '../../../../shared/widgets/vehicle_chip.dart';
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/rayon_screen_scaffold.dart';
+import '../../../../shared/widgets/core_app_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../shared/widgets/cool_bottom_sheet.dart';
@@ -37,7 +37,7 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
     final theme = Theme.of(context);
     final clubDirectory = ref.watch(rayonClubDirectoryProvider);
 
-    return RayonScreenScaffold(
+    return CoreAppScaffold(
       title: context.l10n.fanClubs,
       fallbackLocation: AppRoutes.rayonHome,
       scrollable: false,

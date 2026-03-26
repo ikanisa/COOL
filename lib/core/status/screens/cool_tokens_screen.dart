@@ -337,7 +337,6 @@ class _WaysToEarnGrid extends ConsumerWidget {
   static String _categoryLabel(String category) => switch (category) {
     'groups' => '💰 GROUPS',
     'rayon' => '⚽ RAYON SPORT',
-    'mobility' => '🚗 MOBILITY',
     'social' => '📲 SOCIAL',
     'general' => '⭐ GENERAL',
     _ => category.toUpperCase(),

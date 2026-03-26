@@ -13,7 +13,7 @@ import '../../../../shared/widgets/rs_shop_item.dart';
 import '../models/rs_models.dart';
 
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/rayon_screen_scaffold.dart';
+import '../../../../shared/widgets/core_app_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';
 import '../../../../core/l10n/l10n.dart';
 
@@ -64,7 +64,7 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
       ),
     );
 
-    return RayonScreenScaffold(
+    return CoreAppScaffold(
       title: context.l10n.clubShop,
       fallbackLocation: AppRoutes.rayonHome,
       scrollable: false,

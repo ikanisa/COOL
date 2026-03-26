@@ -3,22 +3,21 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:cool_app/shared/widgets/status_badge.dart';
 
-Widget _wrap(Widget child) =>
-    MaterialApp(home: Scaffold(body: Center(child: child)));
+Widget _wrap(Widget child) => MaterialApp(
+  home: Scaffold(body: Center(child: child)),
+);
 
 void main() {
   group('StatusBadge', () {
     testWidgets('renders label', (tester) async {
-      await tester.pumpWidget(_wrap(
-        const StatusBadge(label: 'Active'),
-      ));
+      await tester.pumpWidget(_wrap(const StatusBadge(label: 'Active')));
       expect(find.text('Active'), findsOneWidget);
     });
 
     testWidgets('renders emoji when provided', (tester) async {
-      await tester.pumpWidget(_wrap(
-        const StatusBadge(label: 'Hot', emoji: '🔥'),
-      ));
+      await tester.pumpWidget(
+        _wrap(const StatusBadge(label: 'Hot', emoji: '🔥')),
+      );
       expect(find.text('🔥'), findsOneWidget);
       expect(find.text('Hot'), findsOneWidget);
     });

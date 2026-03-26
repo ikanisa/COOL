@@ -9,6 +9,9 @@ abstract final class AppRoutes {
   static const appAccess = '/app-access';
   static const register = '/register';
   static const home = '/home';
+  static const shop = '/shop';
+  static const services = '/services';
+  static const momoTab = '/momo-tab';
   static const groups = '/groups';
   static const groupCreate = '/groups/create';
   static const groupDetail = '/groups/:id';
@@ -20,12 +23,6 @@ abstract final class AppRoutes {
   static const biopayRegister = '/momo/biopay/register';
   static const biopayScan = '/momo/biopay/scan';
   static const biopayConfirm = '/momo/biopay/confirm';
-  static const mobility = '/mobility';
-  static const mobilitySchedule = '/mobility/schedule';
-  static const mobilityTrips = '/mobility/trips';
-  static const mobilityDriver = '/mobility/driver';
-  static const mobilityDriverVehicle = '/mobility/driver/vehicle';
-  static const mobilityDriverSubscription = '/mobility/driver/subscription';
   static const partners = '/partners';
   static const rayonHome = '/partners/rayon-sports';
   static const rayonProfile = '/partners/rayon-sports/profile';
@@ -42,8 +39,6 @@ abstract final class AppRoutes {
   static const rayonTicketConfirm =
       '/partners/rayon-sports/tickets/:ticketId/confirm';
   static const rayonMembership = '/partners/rayon-sports/membership';
-  static const credit = '/credit';
-  static const creditReadiness = '/credit/readiness';
   static const missions = '/missions';
   static const seasons = '/seasons';
   static const tokens = '/tokens';
@@ -51,10 +46,8 @@ abstract final class AppRoutes {
   static const profile = '/profile';
   static const profileWallet = '/profile/wallet';
   static const profileIdentity = '/profile/identity';
-  static const profileTravelRole = '/profile/travel-role';
 
   static const scanner = '/scanner';
-  static const kycSelfie = '/kyc/selfie';
 
   static const admin = '/admin';
   static const adminPlatform = '/admin/platform';
@@ -62,7 +55,6 @@ abstract final class AppRoutes {
   static const adminPartners = '/admin/partners';
   static const adminServices = '/admin/services';
   static const adminQuickActions = '/admin/quick-actions';
-  static const adminVehicleTypes = '/admin/vehicle-types';
   static const adminAppConfig = '/admin/app-config';
   static const adminSpecialProducts = '/admin/special-products';
   static const adminOperations = '/admin/operations';
@@ -169,8 +161,9 @@ abstract final class AppRoutes {
 const _partnerDetailSlugs = {'urwego', 'equity', 'radiant', 'prisma'};
 const appShellRootLocations = {
   AppRoutes.home,
-  AppRoutes.groups,
-  AppRoutes.mobility,
+  AppRoutes.shop,
+  AppRoutes.momoTab,
+  AppRoutes.services,
   AppRoutes.profile,
 };
 

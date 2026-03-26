@@ -8,8 +8,9 @@ import '../models/cool_activity.dart';
 ///
 /// Used by the "Ways to Earn" grid on the Cool Tokens screen
 /// and various quest/gamification surfaces.
-final coolActivitiesProvider =
-    FutureProvider.autoDispose<List<CoolActivity>>((ref) async {
+final coolActivitiesProvider = FutureProvider.autoDispose<List<CoolActivity>>((
+  ref,
+) async {
   final client = ref.read(supabaseClientProvider);
   final rows = await client
       .from('cool_activities')

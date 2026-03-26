@@ -70,7 +70,6 @@ If a shipped feature is causing issues:
    - `kill_momo_payments` — disables MoMo payment flows
    - `kill_credit_features` — disables credit/loan features
    - `kill_ticket_purchase` — disables ticket purchasing
-   - `kill_mobility` — disables mobility/ride features
 3. Publish changes (takes effect within 4 hours or on next app restart)
 4. Verify: force-close app → reopen → feature shows "temporarily unavailable"
 
@@ -88,7 +87,6 @@ Current governed Flutter surfaces:
 - MoMo
 - Credit
 - Ticket purchase
-- Mobility
 
 When introducing a new governed surface, update both:
 

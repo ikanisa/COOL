@@ -36,10 +36,9 @@ final currentCountryBankPartnersProvider = bankPartnersProvider;
 /// True when the current market has at least one active bank partner.
 /// Drives visibility of all group-savings-related UI surfaces.
 final hasActiveBankPartnerProvider = Provider<bool>((ref) {
-  return ref.watch(bankPartnersProvider).maybeWhen(
-    data: (list) => list.isNotEmpty,
-    orElse: () => false,
-  );
+  return ref
+      .watch(bankPartnersProvider)
+      .maybeWhen(data: (list) => list.isNotEmpty, orElse: () => false);
 });
 
 /// All active organization partners for the fixed Rwanda market.

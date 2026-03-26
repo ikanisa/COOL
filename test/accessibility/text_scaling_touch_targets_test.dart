@@ -191,14 +191,7 @@ void main() {
 
     testWidgets('Switch meets 48dp height', (tester) async {
       await tester.pumpWidget(
-        wrapInScaffold(
-          Center(
-            child: Switch(
-              value: true,
-              onChanged: (v) {},
-            ),
-          ),
-        ),
+        wrapInScaffold(Center(child: Switch(value: true, onChanged: (v) {}))),
       );
 
       final size = tester.getSize(find.byType(Switch));

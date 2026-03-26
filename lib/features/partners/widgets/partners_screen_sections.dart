@@ -420,7 +420,7 @@ class _BanksTab extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Credit readiness comes first',
+                    'Bank custody for group savings',
                     style: theme.textTheme.titleLarge?.copyWith(
                       color: colors.primaryText,
                       fontWeight: FontWeight.w800,
@@ -428,7 +428,7 @@ class _BanksTab extends ConsumerWidget {
                   ),
                   const SizedBox(height: CoolSpace.x2),
                   Text(
-                    'Check your savings, statements, and contribution discipline before you request finance.',
+                    'Open a bank partner only when you want a custodian for collections, group balances, and contribution oversight.',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: colors.secondaryText,
                       fontWeight: FontWeight.w700,
@@ -437,9 +437,9 @@ class _BanksTab extends ConsumerWidget {
                   ),
                   const SizedBox(height: 14),
                   CoolButton(
-                    label: 'Open readiness checklist',
-                    icon: Icons.assignment_turned_in_outlined,
-                    onTap: () => context.push(AppRoutes.creditReadiness),
+                    label: 'Create group savings',
+                    icon: Icons.savings_rounded,
+                    onTap: () => context.push(AppRoutes.groupCreate),
                   ),
                 ],
               ),

@@ -1,4 +1,4 @@
-/// Model for a partner service (loan, insurance, professional service, etc.)
+/// Model for a single partner-facing service card and CTA.
 class PartnerService {
   const PartnerService({
     required this.id,

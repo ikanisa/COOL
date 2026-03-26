@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'core/brand/app_brand.dart';
 import 'core/providers/app_lifecycle_providers.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
@@ -8,7 +9,6 @@ import 'core/theme/theme_preference.dart';
 import 'core/theme/theme_preference_provider.dart';
 import 'core/theme/theme_system_chrome.dart';
 import 'l10n/app_localizations.dart';
-import 'core/l10n/l10n.dart';
 
 /// Root application widget.
 ///
@@ -23,11 +23,12 @@ class CoolApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(appLifecycleBindingProvider);
 
+    final brand = ref.watch(appBrandProvider);
     final router = ref.watch(appRouterProvider);
     final themePreference = ref.watch(themePreferenceProvider);
 
     return MaterialApp.router(
-      title: context.l10n.cool,
+      title: brand.appTitle,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,

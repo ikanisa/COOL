@@ -12,7 +12,7 @@ void main() {
     ) async {
       await pumpRouterApp(tester, initialLocation: AppRoutes.onboarding);
 
-      expect(find.text('Welcome to COOL'), findsOneWidget);
+      expect(find.text('Welcome to Rayon Sports'), findsOneWidget);
       expect(find.text('Get Started'), findsOneWidget);
       expect(find.text('Continue'), findsNothing);
       expect(find.text('I already have an account'), findsNothing);

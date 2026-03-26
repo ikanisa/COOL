@@ -132,6 +132,27 @@ List<RouteEntry> _readRouteEntries(Directory repoRoot) {
           routeConstants: routeConstants,
           screenPaths: screenPaths,
         );
+  entries.addAll(
+    _readReturnedGoRouteFile(
+      '${repoRoot.path}/lib/core/router/partner_routes.dart',
+      routeConstants: routeConstants,
+      screenPaths: screenPaths,
+    ),
+  );
+  entries.addAll(
+    _readReturnedGoRouteFile(
+      '${repoRoot.path}/lib/core/router/admin_routes.dart',
+      routeConstants: routeConstants,
+      screenPaths: screenPaths,
+    ),
+  );
+  entries.addAll(
+    _readReturnedGoRouteListFile(
+      '${repoRoot.path}/lib/core/router/biopay_routes.dart',
+      routeConstants: routeConstants,
+      screenPaths: screenPaths,
+    ),
+  );
 
   entries.sort((a, b) => a.path.compareTo(b.path));
   return <RouteEntry>[
@@ -143,6 +164,66 @@ List<RouteEntry> _readRouteEntries(Directory repoRoot) {
     ),
     ...entries,
   ];
+}
+
+List<RouteEntry> _readReturnedGoRouteFile(
+  String filePath, {
+  required Map<String, String> routeConstants,
+  required Map<String, String> screenPaths,
+}) {
+  final file = File(filePath);
+  if (!file.existsSync()) {
+    return const <RouteEntry>[];
+  }
+
+  final source = file.readAsStringSync();
+  final returnIndex = source.indexOf('return');
+  final routeIndex = returnIndex == -1
+      ? -1
+      : source.indexOf(_goRoutePrefix, returnIndex);
+  if (routeIndex == -1) {
+    return const <RouteEntry>[];
+  }
+
+  final routeBlock = _extractInvocation(source, routeIndex, _goRoutePrefix);
+  return _parseGoRoute(
+    routeBlock,
+    parentPath: '',
+    shell: 'No',
+    routeConstants: routeConstants,
+    screenPaths: screenPaths,
+  );
+}
+
+List<RouteEntry> _readReturnedGoRouteListFile(
+  String filePath, {
+  required Map<String, String> routeConstants,
+  required Map<String, String> screenPaths,
+}) {
+  final file = File(filePath);
+  if (!file.existsSync()) {
+    return const <RouteEntry>[];
+  }
+
+  final source = file.readAsStringSync();
+  final returnIndex = source.indexOf('return');
+  if (returnIndex == -1) {
+    return const <RouteEntry>[];
+  }
+
+  final listStart = source.indexOf('[', returnIndex);
+  if (listStart == -1) {
+    return const <RouteEntry>[];
+  }
+
+  final routeList = _extractDelimitedBlock(source, listStart, '[', ']');
+  return _parseRouteList(
+    routeList,
+    parentPath: '',
+    shell: 'No',
+    routeConstants: routeConstants,
+    screenPaths: screenPaths,
+  );
 }
 
 List<RouteEntry> _parseRouteList(
@@ -405,9 +486,6 @@ String _shellForPath(String path) {
   if (path == '/groups' || path.startsWith('/groups/')) {
     return 'Groups';
   }
-  if (path == '/mobility' || path.startsWith('/mobility/')) {
-    return 'Mobility';
-  }
   if (path == '/profile' || path.startsWith('/profile/')) {
     return 'Profile';
   }
@@ -434,8 +512,6 @@ String _categoryForPath(String path) {
   if (path == '/home' ||
       path == '/groups' ||
       path.startsWith('/groups/') ||
-      path == '/mobility' ||
-      path.startsWith('/mobility/') ||
       path == '/profile' ||
       path.startsWith('/profile/')) {
     return 'Shell Branches';
@@ -688,12 +764,22 @@ bool _matchesProperty(String source, int index, String property) {
 
 String _extractInvocation(String source, int start, String prefix) {
   final openParenIndex = start + prefix.length - 1;
+  return _extractDelimitedBlock(source, openParenIndex, '(', ')', start: start);
+}
+
+String _extractDelimitedBlock(
+  String source,
+  int openIndex,
+  String openChar,
+  String closeChar, {
+  int? start,
+}) {
   var depth = 0;
   var inSingleQuote = false;
   var inDoubleQuote = false;
   var escaped = false;
 
-  for (var cursor = openParenIndex; cursor < source.length; cursor++) {
+  for (var cursor = openIndex; cursor < source.length; cursor++) {
     final char = source[cursor];
 
     if (escaped) {
@@ -716,17 +802,17 @@ String _extractInvocation(String source, int start, String prefix) {
       continue;
     }
 
-    if (char == '(') {
+    if (char == openChar) {
       depth += 1;
-    } else if (char == ')') {
+    } else if (char == closeChar) {
       depth -= 1;
       if (depth == 0) {
-        return source.substring(start, cursor + 1);
+        return source.substring(start ?? openIndex, cursor + 1);
       }
     }
   }
 
-  throw StateError('Unbalanced invocation for $prefix');
+  throw StateError('Unbalanced block starting with $openChar');
 }
 
 String _invocationContent(String block, String prefix) {

@@ -38,21 +38,6 @@ final supportWhatsAppProvider = FutureProvider<String>((ref) {
 
 final currentCountrySupportWhatsAppProvider = supportWhatsAppProvider;
 
-final mobilitySubscriptionMomoCodeProvider = FutureProvider<String?>((ref) {
-  final repo = ref.read(appConfigRepositoryProvider);
-  return repo.getMobilitySubscriptionMomoCode();
-});
-
-final currentCountryMobilitySubscriptionMomoCodeProvider =
-    mobilitySubscriptionMomoCodeProvider;
-
-/// Fetches credit grade thresholds from app config.
-final creditGradesProvider =
-    FutureProvider<({int excellent, int good, int building})>((ref) {
-      final repo = ref.read(appConfigRepositoryProvider);
-      return repo.getCreditGrades();
-    });
-
 /// Fetches default map center from app config (e.g. Kigali).
 final defaultMapCenterProvider = FutureProvider<({double lat, double lng})>((
   ref,

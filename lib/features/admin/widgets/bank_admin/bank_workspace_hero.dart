@@ -52,7 +52,7 @@ class BankWorkspaceHero extends StatelessWidget {
           ),
           const SizedBox(height: CoolSpace.x2),
           Text(
-            'Custodian workspace for group savings and loans.',
+            'Custodian workspace for group savings collections and oversight.',
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colors.secondaryText,
               fontWeight: FontWeight.w600,
@@ -90,18 +90,16 @@ class BankWorkspaceHero extends StatelessWidget {
                 return const SizedBox.shrink();
               }
 
-              final totalAum = (data['total_aum'] as num?)?.toDouble() ?? 0;
-              final loansOutstanding =
-                  (data['loans_outstanding'] as num?)?.toDouble() ?? 0;
-              final activeBasketsCount =
-                  (data['active_baskets_count'] as num?)?.toInt() ?? 0;
-              final activeLoansCount =
-                  (data['active_loans_count'] as num?)?.toInt() ?? 0;
+              final totalGroupBalance =
+                  (data['total_group_balance'] as num?)?.toDouble() ?? 0;
+              final totalCollected =
+                  (data['total_collected'] as num?)?.toDouble() ?? 0;
+              final activeGroupsCount =
+                  (data['active_groups_count'] as num?)?.toInt() ?? 0;
 
-              if (totalAum == 0 &&
-                  loansOutstanding == 0 &&
-                  activeBasketsCount == 0 &&
-                  activeLoansCount == 0) {
+              if (totalGroupBalance == 0 &&
+                  totalCollected == 0 &&
+                  activeGroupsCount == 0) {
                 return const SizedBox.shrink();
               }
 
@@ -124,20 +122,16 @@ class BankWorkspaceHero extends StatelessWidget {
                     runSpacing: 12,
                     children: [
                       _MetricChip(
-                        label: context.l10n.aum,
-                        value: '${moneyFormat.format(totalAum)} RWF',
+                        label: 'Group balance',
+                        value: '${moneyFormat.format(totalGroupBalance)} RWF',
                       ),
                       _MetricChip(
-                        label: context.l10n.loansOut,
-                        value: '${moneyFormat.format(loansOutstanding)} RWF',
+                        label: 'Collected',
+                        value: '${moneyFormat.format(totalCollected)} RWF',
                       ),
                       _MetricChip(
-                        label: 'Active loans',
-                        value: activeLoansCount.toString(),
-                      ),
-                      _MetricChip(
-                        label: 'Active baskets',
-                        value: activeBasketsCount.toString(),
+                        label: 'Active groups',
+                        value: activeGroupsCount.toString(),
                       ),
                     ],
                   ),

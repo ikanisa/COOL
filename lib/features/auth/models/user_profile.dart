@@ -3,6 +3,8 @@ import '../../../core/config/country_catalog.dart';
 import '../../../core/identity/public_user_identity.dart';
 import '../../../core/utils/json_helpers.dart' as jh;
 
+const Object _copyWithUnset = Object();
+
 class UserProfile {
   const UserProfile({
     required this.id,
@@ -15,23 +17,13 @@ class UserProfile {
     required this.momoProvider,
     required this.country,
     String? languageCode = AppMarket.languageCode,
-    required this.isDriver,
     this.isAdmin = false,
-    this.vehicleType,
     this.avatarUrl,
     this.officialName,
     this.officialPhone,
     this.dateOfBirth,
     this.nationalIdNumber,
-    this.kycDocumentType,
-    this.kycExtractedAt,
-    this.kycExtractionProvider,
     this.identityData = const <String, Object?>{},
-    this.kycSelfieUrl,
-    this.kycIdPhotoUrl,
-    this.kycStatus = 'unverified',
-    this.kycVerifiedAt,
-    this.creditConsentGrantedAt,
     this.themePreference = 'system',
     this.themePreferenceUpdatedAt,
     this.createdAt,
@@ -48,23 +40,13 @@ class UserProfile {
   final String momoProvider;
   final String country;
   final String languageCode;
-  final bool isDriver;
   final bool isAdmin;
-  final String? vehicleType;
   final String? avatarUrl;
   final String? officialName;
   final String? officialPhone;
   final String? dateOfBirth;
   final String? nationalIdNumber;
-  final String? kycDocumentType;
-  final DateTime? kycExtractedAt;
-  final String? kycExtractionProvider;
   final Map<String, Object?> identityData;
-  final String? kycSelfieUrl;
-  final String? kycIdPhotoUrl;
-  final String kycStatus;
-  final DateTime? kycVerifiedAt;
-  final DateTime? creditConsentGrantedAt;
   final String themePreference;
   final DateTime? themePreferenceUpdatedAt;
   final DateTime? createdAt;
@@ -162,23 +144,13 @@ class UserProfile {
           json['language_code']?.toString() ??
           json['language']?.toString() ??
           AppMarket.languageCode,
-      isDriver: _asBool(json['is_driver']),
       isAdmin: _asBool(json['is_admin']),
-      vehicleType: json['vehicle_type']?.toString(),
       avatarUrl: _asNonEmptyString(json['avatar_url']),
       officialName: _asNonEmptyString(json['official_name']),
       officialPhone: _asNonEmptyString(json['official_phone']),
       dateOfBirth: _asNonEmptyString(json['date_of_birth']),
       nationalIdNumber: _asNonEmptyString(json['national_id_number']),
-      kycDocumentType: _asNonEmptyString(json['kyc_document_type']),
-      kycExtractedAt: _parseDateTime(json['kyc_extracted_at']),
-      kycExtractionProvider: _asNonEmptyString(json['kyc_extraction_provider']),
       identityData: _asJsonMap(json['identity_data']),
-      kycSelfieUrl: _asNonEmptyString(json['kyc_selfie_url']),
-      kycIdPhotoUrl: _asNonEmptyString(json['kyc_id_photo_url']),
-      kycStatus: _asNonEmptyString(json['kyc_status']) ?? 'unverified',
-      kycVerifiedAt: _parseDateTime(json['kyc_verified_at']),
-      creditConsentGrantedAt: _parseDateTime(json['credit_consent_granted_at']),
       themePreference: json['theme_preference']?.toString() ?? 'system',
       themePreferenceUpdatedAt: _parseDateTime(
         json['theme_preference_updated_at'],
@@ -214,23 +186,13 @@ class UserProfile {
       'momo_provider': normalizedProvider,
       'country': normalizedCountry,
       'language_code': AppMarket.languageCode,
-      'is_driver': isDriver,
       'is_admin': isAdmin,
-      'vehicle_type': vehicleType,
       'avatar_url': _asNonEmptyString(avatarUrl),
       'official_name': _asNonEmptyString(officialName),
       'official_phone': _asNonEmptyString(officialPhone),
       'date_of_birth': _asNonEmptyString(dateOfBirth),
       'national_id_number': _asNonEmptyString(nationalIdNumber),
-      'kyc_document_type': _asNonEmptyString(kycDocumentType),
-      'kyc_extracted_at': kycExtractedAt?.toIso8601String(),
-      'kyc_extraction_provider': _asNonEmptyString(kycExtractionProvider),
       'identity_data': identityData,
-      'kyc_selfie_url': _asNonEmptyString(kycSelfieUrl),
-      'kyc_id_photo_url': _asNonEmptyString(kycIdPhotoUrl),
-      'kyc_status': kycStatus,
-      'kyc_verified_at': kycVerifiedAt?.toIso8601String(),
-      'credit_consent_granted_at': creditConsentGrantedAt?.toIso8601String(),
       'theme_preference': themePreference,
       'theme_preference_updated_at': themePreferenceUpdatedAt
           ?.toIso8601String(),
@@ -248,32 +210,22 @@ class UserProfile {
     String? fullName,
     String? publicUserId,
     String? momoNumber,
-    String? momoCode,
-    MomoRecipientType? momoRouteType,
+    Object? momoCode = _copyWithUnset,
+    Object? momoRouteType = _copyWithUnset,
     String? momoProvider,
     String? country,
     String? languageCode,
-    bool? isDriver,
     bool? isAdmin,
-    String? vehicleType,
-    String? avatarUrl,
-    String? officialName,
-    String? officialPhone,
-    String? dateOfBirth,
-    String? nationalIdNumber,
-    String? kycDocumentType,
-    DateTime? kycExtractedAt,
-    String? kycExtractionProvider,
+    Object? avatarUrl = _copyWithUnset,
+    Object? officialName = _copyWithUnset,
+    Object? officialPhone = _copyWithUnset,
+    Object? dateOfBirth = _copyWithUnset,
+    Object? nationalIdNumber = _copyWithUnset,
     Map<String, Object?>? identityData,
-    String? kycSelfieUrl,
-    String? kycIdPhotoUrl,
-    String? kycStatus,
-    DateTime? kycVerifiedAt,
-    DateTime? creditConsentGrantedAt,
     String? themePreference,
-    DateTime? themePreferenceUpdatedAt,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+    Object? themePreferenceUpdatedAt = _copyWithUnset,
+    Object? createdAt = _copyWithUnset,
+    Object? updatedAt = _copyWithUnset,
   }) {
     final nextPhone = phone ?? this.phone;
     final nextCountry = country ?? this.country;
@@ -287,8 +239,12 @@ class UserProfile {
           ? PublicUserIdentity.normalize(publicUserId)
           : this.publicUserId,
       momoNumber: momoNumber ?? this.momoNumber,
-      momoCode: momoCode ?? this.momoCode,
-      momoRouteType: momoRouteType ?? this.momoRouteType,
+      momoCode: identical(momoCode, _copyWithUnset)
+          ? this.momoCode
+          : momoCode as String?,
+      momoRouteType: identical(momoRouteType, _copyWithUnset)
+          ? this.momoRouteType
+          : momoRouteType as MomoRecipientType?,
       momoProvider:
           nextProvider.isEmpty && nextCountry.isEmpty && nextPhone.isEmpty
           ? ''
@@ -301,30 +257,34 @@ class UserProfile {
           ? ''
           : CoolCountryCatalog.normalizeCountryCode(nextCountry),
       languageCode: AppMarket.languageCode,
-      isDriver: isDriver ?? this.isDriver,
       isAdmin: isAdmin ?? this.isAdmin,
-      vehicleType: vehicleType ?? this.vehicleType,
-      avatarUrl: avatarUrl ?? this.avatarUrl,
-      officialName: officialName ?? this.officialName,
-      officialPhone: officialPhone ?? this.officialPhone,
-      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
-      nationalIdNumber: nationalIdNumber ?? this.nationalIdNumber,
-      kycDocumentType: kycDocumentType ?? this.kycDocumentType,
-      kycExtractedAt: kycExtractedAt ?? this.kycExtractedAt,
-      kycExtractionProvider:
-          kycExtractionProvider ?? this.kycExtractionProvider,
+      avatarUrl: identical(avatarUrl, _copyWithUnset)
+          ? this.avatarUrl
+          : avatarUrl as String?,
+      officialName: identical(officialName, _copyWithUnset)
+          ? this.officialName
+          : officialName as String?,
+      officialPhone: identical(officialPhone, _copyWithUnset)
+          ? this.officialPhone
+          : officialPhone as String?,
+      dateOfBirth: identical(dateOfBirth, _copyWithUnset)
+          ? this.dateOfBirth
+          : dateOfBirth as String?,
+      nationalIdNumber: identical(nationalIdNumber, _copyWithUnset)
+          ? this.nationalIdNumber
+          : nationalIdNumber as String?,
       identityData: identityData ?? this.identityData,
-      kycSelfieUrl: kycSelfieUrl ?? this.kycSelfieUrl,
-      kycIdPhotoUrl: kycIdPhotoUrl ?? this.kycIdPhotoUrl,
-      kycStatus: kycStatus ?? this.kycStatus,
-      kycVerifiedAt: kycVerifiedAt ?? this.kycVerifiedAt,
-      creditConsentGrantedAt:
-          creditConsentGrantedAt ?? this.creditConsentGrantedAt,
       themePreference: themePreference ?? this.themePreference,
       themePreferenceUpdatedAt:
-          themePreferenceUpdatedAt ?? this.themePreferenceUpdatedAt,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
+          identical(themePreferenceUpdatedAt, _copyWithUnset)
+          ? this.themePreferenceUpdatedAt
+          : themePreferenceUpdatedAt as DateTime?,
+      createdAt: identical(createdAt, _copyWithUnset)
+          ? this.createdAt
+          : createdAt as DateTime?,
+      updatedAt: identical(updatedAt, _copyWithUnset)
+          ? this.updatedAt
+          : updatedAt as DateTime?,
     );
   }
 }

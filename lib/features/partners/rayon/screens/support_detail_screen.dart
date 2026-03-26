@@ -21,7 +21,7 @@ import '../models/rs_models.dart';
 
 import '../rayon_payment.dart';
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/rayon_screen_scaffold.dart';
+import '../../../../shared/widgets/core_app_scaffold.dart';
 import '../theme/rs_theme.dart';
 import '../../../../core/l10n/l10n.dart';
 
@@ -117,7 +117,7 @@ class SupportDetailScreen extends StatelessWidget {
         final theme = Theme.of(context);
         final referralInviteId = _resolveReferralInviteId(ref);
 
-        return RayonScreenScaffold(
+        return CoreAppScaffold(
           title: 'Support Club',
           fallbackLocation: AppRoutes.rayonSupport,
           scrollable: false,

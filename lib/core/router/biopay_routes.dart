@@ -20,11 +20,12 @@ typedef BiopayAuthReader = ({bool isAdmin}) Function();
 typedef BiopayFlagsReader = EngagementFeatureFlags Function();
 
 /// Typedef for building a Cool page transition.
-typedef CoolPageBuilder = CustomTransitionPage<dynamic> Function({
-  required BuildContext context,
-  required GoRouterState state,
-  required Widget child,
-});
+typedef CoolPageBuilder =
+    CustomTransitionPage<dynamic> Function({
+      required BuildContext context,
+      required GoRouterState state,
+      required Widget child,
+    });
 
 /// BioPay route list (4 routes: home, register, scan, confirm).
 List<GoRoute> biopayRoutes({

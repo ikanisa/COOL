@@ -92,8 +92,11 @@ void main() {
         // Both should be blue-range (hue ~210-230)
         for (final color in gradient.colors) {
           final hsl = HSLColor.fromColor(color);
-          expect(hsl.hue, inInclusiveRange(200, 230),
-              reason: 'Gradient colors should be blue');
+          expect(
+            hsl.hue,
+            inInclusiveRange(200, 230),
+            reason: 'Gradient colors should be blue',
+          );
         }
       });
 
@@ -145,8 +148,7 @@ void main() {
         expect(copy.appBackground, original.appBackground);
         expect(copy.primaryText, original.primaryText);
         expect(copy.accent, original.accent);
-        expect(copy.buttonPrimaryBackground,
-            original.buttonPrimaryBackground);
+        expect(copy.buttonPrimaryBackground, original.buttonPrimaryBackground);
         expect(copy.cardSurface, original.cardSurface);
         expect(copy.success, original.success);
         expect(copy.danger, original.danger);

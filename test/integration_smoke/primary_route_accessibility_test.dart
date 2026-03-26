@@ -3,35 +3,29 @@ import 'dart:io';
 import 'package:cool_app/core/providers/engagement_providers.dart';
 import 'package:cool_app/core/services/app_access_service.dart';
 import 'package:cool_app/core/services/fcm_service.dart';
-import 'package:cool_app/core/services/location_service.dart';
 import 'package:cool_app/core/status/models/cool_status.dart';
 import 'package:cool_app/core/status/providers/cool_status_provider.dart';
 import 'package:cool_app/core/status/repositories/cool_status_repository.dart';
-import 'package:cool_app/features/credit/models/credit_dashboard.dart';
-import 'package:cool_app/features/credit/providers/credit_provider.dart';
+import 'package:cool_app/features/admin/models/special_product.dart';
+import 'package:cool_app/features/admin/providers/special_products_provider.dart';
 import 'package:cool_app/features/groups/models/group.dart';
 import 'package:cool_app/features/groups/providers/groups_provider.dart';
 import 'package:cool_app/features/groups/repositories/group_repository.dart';
 import 'package:cool_app/features/groups/screens/groups_screen.dart';
 import 'package:cool_app/features/home/models/home_dashboard_data.dart';
+import 'package:cool_app/features/home/models/nexus_recommendation.dart';
 import 'package:cool_app/features/home/models/quick_action.dart';
 import 'package:cool_app/features/home/providers/home_dashboard_provider.dart';
+import 'package:cool_app/features/home/providers/nexus_provider.dart';
 import 'package:cool_app/features/home/providers/quick_action_provider.dart';
-import 'package:cool_app/features/home/screens/home_screen.dart';
-import 'package:cool_app/features/mobility/models/driver_profile.dart';
-import 'package:cool_app/features/mobility/models/subscription_status.dart';
-import 'package:cool_app/features/mobility/models/trip_type.dart';
-import 'package:cool_app/features/mobility/providers/driver_provider.dart';
-import 'package:cool_app/features/mobility/providers/mobility_location_provider.dart';
-import 'package:cool_app/features/mobility/providers/mobility_provider.dart';
-import 'package:cool_app/features/mobility/repositories/mobility_repository.dart';
-import 'package:cool_app/features/mobility/repositories/subscription_repository.dart';
-import 'package:cool_app/features/mobility/screens/mobility_home_screen.dart';
+import 'package:cool_app/features/home/screens/services_hub_screen.dart';
 import 'package:cool_app/features/momo/screens/momo_screen.dart';
 import 'package:cool_app/features/partners/models/partner.dart';
 import 'package:cool_app/features/partners/providers/partner_provider.dart';
+import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
 import 'package:cool_app/features/partners/repositories/partner_repository.dart';
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
+import 'package:cool_app/features/partners/rayon/screens/rayon_home_screen.dart';
 import 'package:cool_app/features/partners/screens/partners_screen.dart';
 import 'package:cool_app/features/profile/screens/profile_screen.dart';
 import 'package:cool_app/features/momo/widgets/momo_cards_widgets.dart';
@@ -42,7 +36,6 @@ import 'package:cool_app/shared/widgets/tab_pill.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -55,11 +48,6 @@ class _MockPartnerRepository extends Mock implements PartnerRepository {}
 class _MockGroupRepository extends Mock implements GroupRepository {}
 
 class _MockCoolStatusRepository extends Mock implements CoolStatusRepository {}
-
-class _MockMobilityRepository extends Mock implements MobilityRepository {}
-
-class _MockSubscriptionRepository extends Mock
-    implements SubscriptionRepository {}
 
 class _MemoryFcmPreferenceStore implements FcmPreferenceStore {
   @override
@@ -82,57 +70,6 @@ class _FakeFcmTokenRepository implements FcmTokenRepository {
     required String token,
     required String platform,
   }) async {}
-}
-
-class _DisabledLocationService implements LocationService {
-  @override
-  Future<LocationPermission> checkPermission() async =>
-      LocationPermission.denied;
-
-  @override
-  double calculateDistance(double lat1, double lng1, double lat2, double lng2) {
-    return 0;
-  }
-
-  @override
-  Future<Position> getCurrentLocation({
-    LocationAccuracy accuracy = LocationAccuracy.high,
-    Duration? timeLimit,
-  }) {
-    throw StateError('Location unavailable in accessibility tests.');
-  }
-
-  @override
-  Future<LocationAccuracyStatus> getLocationAccuracy() async {
-    return LocationAccuracyStatus.precise;
-  }
-
-  @override
-  Future<Position?> getLastKnownLocation() async => null;
-
-  @override
-  Future<bool> isLocationServiceEnabled() async => false;
-
-  @override
-  bool isWithin10km(Position userPos, double targetLat, double targetLng) {
-    return false;
-  }
-
-  @override
-  Future<bool> openAppSettings() async => true;
-
-  @override
-  Future<bool> openLocationSettings() async => true;
-
-  @override
-  Future<LocationPermission> requestPermission() async =>
-      LocationPermission.denied;
-
-  @override
-  Future<void> startLocationUpdates(void Function(Position) onUpdate) async {}
-
-  @override
-  Future<void> stopLocationUpdates() async {}
 }
 
 Widget _accessibleHarness(Widget child) {
@@ -197,8 +134,6 @@ void main() {
   late _MockPartnerRepository partnerRepository;
   late _MockGroupRepository groupRepository;
   late _MockCoolStatusRepository coolStatusRepository;
-  late _MockMobilityRepository mobilityRepository;
-  late _MockSubscriptionRepository subscriptionRepository;
 
   const sampleGroup = Group(
     id: 'group-1',
@@ -225,17 +160,110 @@ void main() {
     gameCount: 4,
   );
 
+  FanMembership sampleMembership() {
+    return FanMembership(
+      id: 'membership-1',
+      userId: 'user-1',
+      partnerId: 'partner-1',
+      displayName: 'Alex Fan',
+      tier: FanTier.gold,
+      points: 2200,
+      chapter: 'Kigali Central',
+      membershipNumber: 'RS-2026-AAA111',
+      joinedAt: DateTime(2026, 1, 1),
+    );
+  }
+
+  RsMatch sampleMatch() {
+    return RsMatch(
+      id: 'match-1',
+      homeTeam: 'Rayon Sports',
+      awayTeam: 'APR FC',
+      competition: 'RPL',
+      venue: 'Amahoro',
+      matchDate: DateTime(2026, 4, 1),
+      kickoffTime: '18:00',
+      isOnSale: true,
+      ticketGeneralPrice: 3000,
+      ticketVipPrice: 6000,
+      saleStartsAt: DateTime(2026, 3, 20),
+      capacity: 1000,
+    );
+  }
+
+  RayonSportsData sampleRayonData() {
+    final membership = sampleMembership();
+    final match = sampleMatch();
+
+    return RayonSportsData(
+      partnerId: 'partner-1',
+      membership: membership,
+      joinedClubIds: const {'club-1'},
+      registryMembers: [
+        RsRegistryMember(
+          userId: 'user-1',
+          displayName: 'Alex Fan',
+          membershipNumber: 'RS-2026-AAA111',
+          points: 2200,
+          tier: FanTier.gold,
+          chapter: 'Kigali Central',
+          joinedAt: DateTime(2026, 1, 1),
+        ),
+      ],
+      achievements: const <RsAchievement>[],
+      clubs: const [
+        RsFanClub(
+          id: 'club-1',
+          partnerId: 'partner-1',
+          name: 'Kigali Blue',
+          region: 'Kigali',
+          description: 'Main chapter',
+          memberCount: 120,
+          eventCount: 5,
+          rating: 4.8,
+          bannerEmoji: '🥁',
+        ),
+      ],
+      products: const [
+        RsProduct(
+          id: 'product-1',
+          partnerId: 'partner-1',
+          name: 'Replica Jersey',
+          category: ProductCategory.kits,
+          price: 5000,
+          imageEmoji: '👕',
+          bgColor: Colors.blue,
+          stock: 10,
+          isActive: true,
+          isNew: false,
+        ),
+      ],
+      initiatives: const [
+        RsInitiative(
+          id: 'initiative-1',
+          partnerId: 'partner-1',
+          title: 'Youth Academy',
+          description: 'Back the academy pipeline.',
+          category: InitiativeCategory.youth,
+          targetAmount: 1000000,
+          raisedAmount: 125000,
+          supporterCount: 42,
+          isActive: true,
+          endsAt: null,
+        ),
+      ],
+      matches: [match],
+      tickets: const <RsTicket>[],
+    );
+  }
+
   setUpAll(() async {
     hiveDir = await Directory.systemTemp.createTemp('cool_accessibility');
     Hive.init(hiveDir.path);
-    registerFallbackValue(TripType.passenger);
   });
 
   tearDown(() async {
-    for (final boxName in <String>[
-      AppAccessService.boxName,
-      'mobility_location_cache',
-    ]) {
+    for (final boxName in <String>[AppAccessService.boxName]) {
       if (Hive.isBoxOpen(boxName)) {
         await Hive.box<dynamic>(boxName).clear();
         await Hive.box<dynamic>(boxName).close();
@@ -252,8 +280,6 @@ void main() {
     partnerRepository = _MockPartnerRepository();
     groupRepository = _MockGroupRepository();
     coolStatusRepository = _MockCoolStatusRepository();
-    mobilityRepository = _MockMobilityRepository();
-    subscriptionRepository = _MockSubscriptionRepository();
 
     when(
       () => partnerRepository.fetchAll(),
@@ -280,45 +306,47 @@ void main() {
         createdAt: DateTime(2026, 3, 1),
       ),
     );
-
-    when(() => mobilityRepository.getDriverProfile(any())).thenAnswer(
-      (_) async => const DriverProfile(
-        userId: 'user-1',
-        fullName: 'Alex Driver',
-        vehicleType: 'Cab',
-        isOnline: true,
-      ),
-    );
-    when(
-      () => mobilityRepository.getMyTrips(any()),
-    ).thenAnswer((_) async => const []);
-    when(
-      () => mobilityRepository.getNearbyDrivers(any(), any(), any(), any()),
-    ).thenAnswer((_) async => const []);
-    when(
-      () => mobilityRepository.getScheduledTrips(
-        any(),
-        any(),
-        any(),
-        any(),
-        any(),
-      ),
-    ).thenAnswer((_) async => const []);
-    when(() => subscriptionRepository.getSubscriptionStatus(any())).thenAnswer(
-      (_) async =>
-          SubscriptionStatus.freeTier(driverId: 'user-1', tripsUsed: 0),
-    );
   });
 
   group('Primary route accessibility', () {
     testWidgets('Home route supports large text and accessible actions', (
       tester,
     ) async {
-      final l10n = lookupAppLocalizations(const Locale('en'));
       await _runWithSemantics(tester, () async {
         await pumpScopedApp(
           tester,
-          child: _accessibleHarness(const HomeScreen()),
+          child: _accessibleHarness(const RayonHomeScreen()),
+          session: fakeSession(),
+          user: fakeUser(fullName: 'Alex Fan'),
+          overrides: <Override>[
+            rayonSportsDataProvider.overrideWith(
+              (ref) => AsyncData(sampleRayonData()),
+            ),
+            rayonMembershipProvider.overrideWith(
+              (ref) => AsyncData(sampleMembership()),
+            ),
+            rayonNextMatchProvider.overrideWith(
+              (ref) => AsyncData(sampleMatch()),
+            ),
+            rayonActionLoadingProvider.overrideWith((ref) => false),
+          ],
+        );
+
+        await settleTestApp(tester);
+
+        expect(find.text('Club Services'), findsOneWidget);
+        _expectTouchTarget(tester, find.byType(CoolCard).first);
+        _expectNoCapturedException(tester);
+      });
+    });
+
+    testWidgets('Services route supports large text and accessible actions', (
+      tester,
+    ) async {
+      await _runWithSemantics(tester, () async {
+        await pumpScopedApp(
+          tester,
+          child: _accessibleHarness(const ServicesHubScreen()),
           session: fakeSession(),
           user: fakeUser(),
           overrides: <Override>[
@@ -348,12 +376,22 @@ void main() {
                 ),
               ],
             ),
+            bankPartnersProvider.overrideWith((ref) async => const <Partner>[]),
             activeSeasonProvider.overrideWith((ref) async => null),
             questsProvider.overrideWith((ref) => const []),
+            activeSpecialProductsProvider.overrideWith(
+              (ref) async => const <SpecialProduct>[],
+            ),
+            nexusRecommendationsProvider.overrideWith(
+              (ref) async => const <NexusRecommendation>[],
+            ),
           ],
         );
 
-        expect(find.text(l10n.recentActivity), findsWidgets);
+        await settleTestApp(tester);
+
+        expect(find.text('Utilities'), findsOneWidget);
+        _expectTouchTarget(tester, find.byType(CoolCard).first);
         _expectNoCapturedException(tester);
       });
     });
@@ -400,35 +438,6 @@ void main() {
       });
     });
 
-    testWidgets('Mobility route supports large text and touch targets', (
-      tester,
-    ) async {
-      final l10n = lookupAppLocalizations(const Locale('en'));
-      await _runWithSemantics(tester, () async {
-        await pumpScopedApp(
-          tester,
-          child: _accessibleHarness(const MobilityHomeScreen()),
-          session: fakeSession(),
-          user: fakeUser(isDriver: true, vehicleType: 'Cab'),
-          overrides: <Override>[
-            mobilityRepositoryProvider.overrideWithValue(mobilityRepository),
-            subscriptionRepositoryProvider.overrideWithValue(
-              subscriptionRepository,
-            ),
-            locationServiceProvider.overrideWithValue(
-              _DisabledLocationService(),
-            ),
-          ],
-        );
-
-        await settleTestApp(tester);
-
-        expect(find.bySemanticsLabel(l10n.navMobility), findsWidgets);
-        _expectTouchTarget(tester, find.byType(CoolCard).first);
-        _expectNoCapturedException(tester);
-      });
-    });
-
     testWidgets('Partners route supports large text and touch targets', (
       tester,
     ) async {
@@ -470,15 +479,10 @@ void main() {
             publicUserId: '123456',
             officialName: 'Alex Fan',
             officialPhone: '+250788123456',
-            kycStatus: 'verified',
           ),
           overrides: <Override>[
             coolStatusRepositoryProvider.overrideWithValue(
               coolStatusRepository,
-            ),
-            creditDashboardProvider.overrideWith(
-              (ref) async =>
-                  const CreditDashboard(score: 712, statementCount: 12),
             ),
             fcmServiceProvider.overrideWithValue(
               FcmService(

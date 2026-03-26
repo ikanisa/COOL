@@ -9,7 +9,9 @@ final nexusRepositoryProvider = Provider<NexusRepository>((ref) {
 });
 
 /// Fetches active Nexus recommendations.
-final nexusRecommendationsProvider = FutureProvider<List<NexusRecommendation>>((ref) async {
+final nexusRecommendationsProvider = FutureProvider<List<NexusRecommendation>>((
+  ref,
+) async {
   final repository = ref.read(nexusRepositoryProvider);
   // Default to Rwanda for now, or fetch from market provider if available.
   return repository.fetchRecommendations(country: 'RW');

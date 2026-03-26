@@ -451,148 +451,6 @@ class _EditPartnerPaymentRouteSheetState
   );
 }
 
-class EditMobilitySubscriptionCodeSheet extends StatefulWidget {
-  const EditMobilitySubscriptionCodeSheet({
-    this.config,
-    required this.ref,
-    required this.countries,
-    super.key,
-  });
-
-  final Map<String, dynamic>? config;
-  final WidgetRef ref;
-  final List<CoolCountry> countries;
-
-  @override
-  State<EditMobilitySubscriptionCodeSheet> createState() =>
-      _EditMobilitySubscriptionCodeSheetState();
-}
-
-class _EditMobilitySubscriptionCodeSheetState
-    extends State<EditMobilitySubscriptionCodeSheet> {
-  late final TextEditingController _codeCtl;
-  bool _saving = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _codeCtl = TextEditingController(
-      text: widget.config?['value']?.toString() ?? '',
-    );
-  }
-
-  @override
-  void dispose() {
-    _codeCtl.dispose();
-    super.dispose();
-  }
-
-  Future<void> _save() async {
-    final code = _codeCtl.text.trim();
-    if (code.isEmpty) {
-      CoolToast.error(context, 'Enter the mobility subscription MoMo code.');
-      return;
-    }
-
-    setState(() => _saving = true);
-    final data = <String, dynamic>{
-      'key': AppConfigKeys.mobilitySubscriptionMomoCode,
-      'value': code,
-      'description':
-          'MoMo code used to receive mobility subscription payments.',
-      'country': AppMarket.countryCode,
-    };
-
-    try {
-      await widget.ref.read(adminContentRepositoryProvider).upsertAppConfig(data);
-      widget.ref.invalidate(adminAppConfigProvider);
-      if (mounted) {
-        Navigator.of(context).pop();
-      }
-    } catch (error) {
-      if (mounted) {
-        CoolToast.error(context, 'Error: $error');
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _saving = false);
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) => DecoratedBox(
-    decoration: _adminSheetDecoration(context),
-    child: SafeArea(
-      top: false,
-      child: Padding(
-        padding: _adminSheetInsets(context),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _adminSheetHandle(context),
-              const SizedBox(height: CoolSpace.x4),
-              Text(
-                widget.config == null
-                    ? 'Add Mobility Subscription Code'
-                    : 'Edit Mobility Subscription Code',
-                style: _adminSheetTitleStyle(context),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: CoolSpace.x2),
-              Text(
-                'This code receives Rwanda mobility subscription payments.',
-                style: _adminSheetMessageStyle(context),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: CoolSpace.x4),
-              _field('MoMo code', _codeCtl),
-              _marketField(),
-              const SizedBox(height: CoolSpace.x3),
-              _adminSheetPrimaryButton(
-                context,
-                label: 'Save code',
-                isLoading: _saving,
-                onPressed: _saving ? null : _save,
-              ),
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
-
-  Widget _field(String label, TextEditingController ctl) => Padding(
-    padding: _adminFieldInsets(context),
-    child: Semantics(
-      textField: true,
-      label: label,
-      hint: 'Enter $label',
-      child: TextField(
-        controller: ctl,
-        maxLines: 1,
-        style: _adminSheetFieldStyle(context),
-        decoration: _adminSheetInputDecoration(context, label: label),
-      ),
-    ),
-  );
-
-  Widget _marketField() => Padding(
-    padding: _adminFieldInsets(context),
-    child: TextFormField(
-      initialValue: AppMarket.country.name,
-      enabled: false,
-      style: _adminSheetFieldStyle(context),
-      decoration: _adminSheetInputDecoration(
-        context,
-        label: 'Market',
-        enabled: false,
-      ),
-    ),
-  );
-}
-
 class EditConfigSheet extends StatefulWidget {
   const EditConfigSheet({
     this.config,
@@ -636,13 +494,6 @@ class _EditConfigSheetState extends State<EditConfigSheet> {
 
   Future<void> _save() async {
     final key = _keyCtl.text.trim();
-    if (key == AppConfigKeys.mobilitySubscriptionMomoCode) {
-      CoolToast.error(
-        context,
-        'Use the mobility subscription card for this MoMo code.',
-      );
-      return;
-    }
     if (widget.config == null &&
         AdminFeatureRolloutConfig.isManagedFeatureConfigKey(key)) {
       CoolToast.error(
@@ -659,7 +510,9 @@ class _EditConfigSheetState extends State<EditConfigSheet> {
       'country': AppMarket.countryCode,
     };
     try {
-      await widget.ref.read(adminContentRepositoryProvider).upsertAppConfig(data);
+      await widget.ref
+          .read(adminContentRepositoryProvider)
+          .upsertAppConfig(data);
       widget.ref.invalidate(adminAppConfigProvider);
       if (mounted) {
         Navigator.of(context).pop();

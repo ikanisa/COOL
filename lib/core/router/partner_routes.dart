@@ -1,9 +1,7 @@
-
 import 'package:go_router/go_router.dart';
 
 import '../../core/models/engagement_feature_flags.dart';
 
-import '../../features/partners/bank_onboarding/screens/bank_onboarding_screen.dart';
 import '../../features/partners/rayon/screens/club_shop_screen.dart';
 import '../../features/partners/rayon/screens/fan_club_detail_screen.dart';
 import '../../features/partners/rayon/screens/fan_clubs_screen.dart';
@@ -28,11 +26,7 @@ import 'app_routes.dart';
 
 /// Typedef for an auth snapshot read function used by routes that need feature
 /// flag + auth checks.
-typedef AuthSnapshotReader = ({
-  bool isAdmin,
-  bool hasSession,
-})
-Function();
+typedef AuthSnapshotReader = ({bool isAdmin, bool hasSession}) Function();
 
 /// Typedef for feature flags read function.
 typedef FeatureFlagsReader = EngagementFeatureFlags Function();
@@ -96,8 +90,7 @@ GoRoute partnerRoutes({
               GoRoute(
                 path: ':initiativeId',
                 builder: (context, state) => SupportDetailScreen(
-                  initiativeId:
-                      state.pathParameters['initiativeId'] ?? '',
+                  initiativeId: state.pathParameters['initiativeId'] ?? '',
                 ),
               ),
             ],
@@ -146,19 +139,6 @@ GoRoute partnerRoutes({
             _ => BankPartnerScreen(bankId: id),
           };
         },
-        routes: [
-          GoRoute(
-            path: 'onboarding/:type',
-            builder: (context, state) {
-              final slug = state.pathParameters['id'] ?? '';
-              final typeStr = state.pathParameters['type'] ?? 'loan';
-              final type = typeStr == 'account'
-                  ? BankOnboardingType.account
-                  : BankOnboardingType.loan;
-              return BankOnboardingScreen(slug: slug, type: type);
-            },
-          ),
-        ],
       ),
     ],
   );

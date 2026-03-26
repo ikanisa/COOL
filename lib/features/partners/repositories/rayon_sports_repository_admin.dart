@@ -506,9 +506,7 @@ extension RayonSportsAdminRepository on RayonSportsRepository {
     final row = _asListOfMaps(
       await _client
           .from('rs_fan_memberships')
-          .update(<String, Object?>{
-            'expires_at': newExpiry.toIso8601String(),
-          })
+          .update(<String, Object?>{'expires_at': newExpiry.toIso8601String()})
           .eq('partner_id', partnerId)
           .eq('user_id', userId)
           .select(),

@@ -40,8 +40,6 @@ class _SummaryCard extends StatelessWidget {
     required this.totalUsers,
     required this.mockUsers,
     required this.adminUsers,
-    required this.driverUsers,
-    required this.verifiedUsers,
     required this.momoUsers,
     required this.mockBatches,
   });
@@ -49,8 +47,6 @@ class _SummaryCard extends StatelessWidget {
   final int totalUsers;
   final int mockUsers;
   final int adminUsers;
-  final int driverUsers;
-  final int verifiedUsers;
   final int momoUsers;
   final List<String> mockBatches;
 
@@ -115,29 +111,22 @@ class _SummaryCard extends StatelessWidget {
                   const SizedBox(width: CoolSpace.x2),
                   Expanded(
                     child: _MetricChip(
-                      label: 'Drivers',
-                      value: driverUsers.toString(),
+                      label: 'Batches',
+                      value: mockBatches.length.toString(),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: CoolSpace.x2),
-              Row(
-                children: [
-                  Expanded(
-                    child: _MetricChip(
-                      label: 'Verified',
-                      value: verifiedUsers.toString(),
-                    ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 220),
+                  child: _MetricChip(
+                    label: 'MoMo',
+                    value: momoUsers.toString(),
                   ),
-                  const SizedBox(width: CoolSpace.x2),
-                  Expanded(
-                    child: _MetricChip(
-                      label: 'MoMo',
-                      value: momoUsers.toString(),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ],
           ),
@@ -285,12 +274,9 @@ class _UserTile extends ConsumerWidget {
     );
     final momoProvider = user['momo_provider']?.toString().trim() ?? '';
     final momoNumber = user['momo_number']?.toString().trim() ?? '';
-    final vehicleType = user['vehicle_type']?.toString().trim() ?? '';
     final createdAt = user['created_at']?.toString().trim() ?? '';
-    final kycStatus = user['kyc_status']?.toString().trim() ?? '';
     final isMock = user['is_mock'] == true;
     final isAdmin = user['is_admin'] == true;
-    final isDriver = user['is_driver'] == true;
     final mockBatch = user['mock_batch']?.toString().trim() ?? '';
 
     return Semantics(
@@ -349,18 +335,6 @@ class _UserTile extends ConsumerWidget {
                         if (isMock) const SizedBox(height: CoolSpace.x2),
                         _MarkerChip(label: 'Admin', color: colors.success),
                       ],
-                      if (isDriver) ...[
-                        if (isMock || isAdmin)
-                          const SizedBox(height: CoolSpace.x2),
-                        _MarkerChip(label: 'Driver', color: colors.info),
-                      ],
-                      if (kycStatus == 'verified') ...[
-                        const SizedBox(height: CoolSpace.x2),
-                        _MarkerChip(label: 'KYC ✓', color: colors.accent),
-                      ] else if (kycStatus == 'pending_review') ...[
-                        const SizedBox(height: CoolSpace.x2),
-                        _MarkerChip(label: 'KYC ⏳', color: colors.warning),
-                      ],
                       if (momoNumber.isNotEmpty) ...[
                         const SizedBox(height: CoolSpace.x2),
                         _MarkerChip(label: 'MoMo', color: colors.info),
@@ -378,16 +352,6 @@ class _UserTile extends ConsumerWidget {
                   color: colors.tertiaryText,
                 ),
               ),
-              if (vehicleType.isNotEmpty) ...[
-                const SizedBox(height: CoolSpace.x1),
-                Text(
-                  'Vehicle: $vehicleType',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: colors.tertiaryText,
-                  ),
-                ),
-              ],
               if (isMock && mockBatch.isNotEmpty) ...[
                 const SizedBox(height: CoolSpace.x2),
                 Text(

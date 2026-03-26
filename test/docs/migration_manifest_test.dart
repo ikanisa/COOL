@@ -31,13 +31,14 @@ void main() {
       manifest = yaml['migrations'] as YamlMap;
       manifestKeys = manifest.keys.cast<String>().toSet();
 
-      sqlFiles = Directory(migrationsDir)
-          .listSync()
-          .whereType<File>()
-          .where((f) => f.path.endsWith('.sql'))
-          .map((f) => f.uri.pathSegments.last)
-          .toList()
-        ..sort();
+      sqlFiles =
+          Directory(migrationsDir)
+              .listSync()
+              .whereType<File>()
+              .where((f) => f.path.endsWith('.sql'))
+              .map((f) => f.uri.pathSegments.last)
+              .toList()
+            ..sort();
     });
 
     test('every .sql file appears in the manifest', () {
@@ -45,15 +46,15 @@ void main() {
       expect(
         missing,
         isEmpty,
-        reason:
-            'Migrations not listed in manifest:\n  ${missing.join('\n  ')}',
+        reason: 'Migrations not listed in manifest:\n  ${missing.join('\n  ')}',
       );
     });
 
     test('manifest has no stale entries (files that no longer exist)', () {
       final sqlFileSet = sqlFiles.toSet();
-      final stale =
-          manifestKeys.where((key) => !sqlFileSet.contains(key)).toList();
+      final stale = manifestKeys
+          .where((key) => !sqlFileSet.contains(key))
+          .toList();
       expect(
         stale,
         isEmpty,

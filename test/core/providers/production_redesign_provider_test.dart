@@ -14,7 +14,6 @@ void main() {
       momoNumber: '250700000000',
       momoProvider: 'mtn',
       country: 'RW',
-      isDriver: false,
       isAdmin: isAdmin,
     );
   }
@@ -91,7 +90,7 @@ void main() {
         overrides: [
           allAppConfigProvider.overrideWith(
             (ref) async => <String, String>{
-              'production_redesign_routes': 'mobility_schedule',
+              'production_redesign_routes': 'rayon_shop_checkout',
               'production_redesign_cohort_percent': '0',
             },
           ),
@@ -105,7 +104,7 @@ void main() {
       final enabled = container.read(
         productionRedesignEnabledProvider(
           const ProductionRedesignScope(
-            route: ProductionRedesignRoutes.mobilitySchedule,
+            route: ProductionRedesignRoutes.rayonShopCheckout,
           ),
         ),
       );

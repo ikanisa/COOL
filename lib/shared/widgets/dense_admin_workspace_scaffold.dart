@@ -54,9 +54,7 @@ class DenseAdminWorkspaceScaffold extends StatelessWidget {
             const SizedBox(height: 8),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(
-                children: filterActions!,
-              ),
+              child: Row(children: filterActions!),
             ),
           ],
           if (searchBar != null || filterActions != null)

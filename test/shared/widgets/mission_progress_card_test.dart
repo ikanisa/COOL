@@ -11,17 +11,17 @@ CoolMission _fakeMission({
   int totalProgress = 45,
   int targetValue = 100,
   int rewardPoints = 25,
-  String? description = 'Three more rides unlock the reward.',
+  String? description = 'Three more supporters unlock the reward.',
 }) {
   final now = DateTime.now();
   return CoolMission(
     id: 'mission-1',
-    title: 'Commuter Week',
+    title: 'Supporter Season',
     description: description,
-    missionType: CoolMissionType.commuterWeek,
+    missionType: CoolMissionType.supporterSeason,
     targetValue: targetValue,
     scope: MissionScope.global,
-    emoji: '🚗',
+    emoji: '🤝',
     startsAt: now.subtract(const Duration(days: 1)),
     endsAt: now.add(const Duration(days: 2)),
     rewardPoints: rewardPoints,
@@ -39,8 +39,11 @@ void main() {
         _wrap(MissionProgressCard(mission: _fakeMission())),
       );
 
-      expect(find.text('Commuter Week'), findsOneWidget);
-      expect(find.text('Three more rides unlock the reward.'), findsOneWidget);
+      expect(find.text('Supporter Season'), findsOneWidget);
+      expect(
+        find.text('Three more supporters unlock the reward.'),
+        findsOneWidget,
+      );
       expect(find.text('25 Tokens'), findsOneWidget);
     });
 

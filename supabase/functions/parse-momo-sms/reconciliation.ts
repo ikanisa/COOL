@@ -3,7 +3,6 @@
  *
  * Delegates to focused reconciler modules:
  * - group_reconciler.ts: group contribution + payee route matching
- * - subscription_reconciler.ts: driver subscription matching
  * - rayon_reconciler.ts: Rayon Sports reference matching
  * - reconciliation_utils.ts: shared types, utilities, and scoring
  *
@@ -19,7 +18,6 @@ import {
   findGroupContributionCandidate,
   reconcileByPayeeRoute,
 } from "./group_reconciler.ts";
-import { findDriverSubscriptionCandidate } from "./subscription_reconciler.ts";
 import { findRayonReferenceCandidate } from "./rayon_reconciler.ts";
 import {
   asString,
@@ -48,7 +46,59 @@ export async function reconcileParsedSms(
     );
   }
 
-  // 1) Try payee-route-based group match first.
+  // 0) Look up receiver account
+  const receiverResult = await adminClient
+    .from("payment_receiver_accounts")
+    .select("receiver_type, owner_id")
+    .eq("code_or_number", parsed.payee_number_or_code ?? "")
+    .maybeSingle();
+
+  const receiverType = receiverResult.data?.receiver_type;
+  const isDedicated = receiverType === "bank_custody" || receiverType === "rayon_shop" || receiverType === "agent_till";
+
+  // 0.5) Try matching generic pending payment_intents first
+  const intentResult = await adminClient
+    .from("payment_intents")
+    .select("id, target_table, target_record_id, intent_type")
+    .eq("creator_id", rawSms.user_id)
+    .eq("status", "pending")
+    .eq("expected_amount", parsed.amount);
+
+  const pendingIntents = intentResult.data ?? [];
+  if (pendingIntents.length === 1) {
+    const intent = pendingIntents[0];
+    
+    // Update intent to completed
+    await adminClient
+      .from("payment_intents")
+      .update({
+        status: "completed",
+        updated_at: timestamp,
+      })
+      .eq("id", intent.id);
+
+    return {
+      matchType: `intent_${intent.intent_type}`,
+      matchStatus: "matched",
+      ledgerStatus: "posted",
+      targetTable: intent.target_table ?? "payment_intents",
+      targetRecordId: intent.target_record_id ?? intent.id,
+      matchedReference: parsed.momo_tx_id ?? sourceReference(rawSms, parsed),
+      notes: "Parsed SMS was explicitly matched to a pending intent.",
+      metadata: {
+        auto_match: true,
+        intent_id: intent.id,
+        provider: normalizeProviderId(rawSms.provider),
+      },
+    };
+  } else if (pendingIntents.length > 1) {
+    return buildManualReviewResult(
+      "Parsed SMS matched multiple pending intents.",
+      { reason: "ambiguous_intents", count: pendingIntents.length }
+    );
+  }
+
+  // 1) Try payee-route-based group match.
   const groupRouteMatch = await reconcileByPayeeRoute(
     adminClient,
     rawSms,
@@ -112,61 +162,7 @@ export async function reconcileParsedSms(
     };
   }
 
-  // 3) Try driver subscription candidate.
-  const {
-    candidate: subscriptionCandidate,
-    score: subscriptionScore,
-    ambiguous: subscriptionAmbiguous,
-  } = await findDriverSubscriptionCandidate(adminClient, rawSms, parsed);
-
-  if (subscriptionAmbiguous) {
-    return buildManualReviewResult(
-      "Parsed SMS matched multiple driver subscription candidates and needs review.",
-      {
-        reason: "ambiguous_driver_subscription_match",
-        candidate_score: subscriptionScore,
-      },
-    );
-  }
-
-  if (subscriptionCandidate) {
-    const startedAt = subscriptionCandidate.started_at ?? timestamp;
-    const expiresAt = subscriptionCandidate.expires_at ??
-      new Date(Date.parse(startedAt) + 30 * 24 * 60 * 60 * 1000).toISOString();
-
-    const updateResult = await adminClient
-      .from("driver_subscriptions")
-      .update({
-        status: "active",
-        started_at: startedAt,
-        expires_at: expiresAt,
-        updated_at: timestamp,
-      })
-      .eq("id", subscriptionCandidate.id);
-
-    if (updateResult.error) {
-      throw updateResult.error;
-    }
-
-    return {
-      matchType: "driver_subscription",
-      matchStatus: "matched",
-      ledgerStatus: "posted",
-      targetTable: "driver_subscriptions",
-      targetRecordId: subscriptionCandidate.id,
-      matchedReference: subscriptionCandidate.momo_reference ??
-        sourceReference(rawSms, parsed),
-      notes: "Parsed SMS matched a driver subscription payment.",
-      metadata: {
-        auto_match: true,
-        candidate_score: subscriptionScore,
-        driver_id: subscriptionCandidate.driver_id,
-        provider: normalizeProviderId(rawSms.provider),
-      },
-    };
-  }
-
-  // 4) Try Rayon reference candidate.
+  // 3) Try Rayon reference candidate.
   const {
     candidate: rayonCandidate,
     score: rayonScore,
@@ -209,7 +205,7 @@ export async function reconcileParsedSms(
     });
   }
 
-  // 5) Fall back to partner route match.
+  // 4) Fall back to partner route match.
   if (groupRouteMatch) {
     return groupRouteMatch;
   }
@@ -224,10 +220,30 @@ export async function reconcileParsedSms(
     return partnerRouteMatch;
   }
 
+  // 5) Safe fallback to wallet if not dedicated receiver
+  if (!isDedicated) {
+    // Attempt matched identity heuristics before falling back.
+    // (In future we could refine this further with payment_identities)
+    return {
+      matchType: "personal_wallet_fallback",
+      matchStatus: "matched",
+      ledgerStatus: "posted",
+      targetTable: "users",
+      targetRecordId: rawSms.user_id,
+      matchedReference: sourceReference(rawSms, parsed),
+      notes: "Parsed SMS was unmatched to any intent, safe fallback to personal wallet.",
+      metadata: {
+        auto_match: true,
+        provider: normalizeProviderId(rawSms.provider),
+      },
+    };
+  }
+
   return buildManualReviewResult(
-    "No group, subscription, or partner payment record matched the parsed SMS.",
+    "No intent matched this dedicated receiver code.",
     {
-      reason: "no_matching_payment_record",
+      reason: "unmatched_dedicated_code",
+      receiverType,
       provider: normalizeProviderId(rawSms.provider),
     },
   );

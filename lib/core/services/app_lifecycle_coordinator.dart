@@ -9,7 +9,6 @@ import 'performance_service.dart';
 import 'app_session_coordinator.dart';
 import 'app_update_service.dart';
 import 'deep_link_coordinator.dart';
-import 'trip_sync_coordinator.dart';
 
 class AppLifecycleCoordinator {
   AppLifecycleCoordinator({
@@ -21,7 +20,6 @@ class AppLifecycleCoordinator {
     required PerformanceService performance,
     required AppSessionCoordinator sessionCoordinator,
     required DeepLinkCoordinator deepLinkCoordinator,
-    required TripSyncCoordinator tripSyncCoordinator,
     required MomoSmsAutoreadService momoSmsAutoreadService,
     required MomoService momoService,
     required AppUpdateService appUpdateService,
@@ -33,7 +31,6 @@ class AppLifecycleCoordinator {
        _performance = performance,
        _sessionCoordinator = sessionCoordinator,
        _deepLinkCoordinator = deepLinkCoordinator,
-       _tripSyncCoordinator = tripSyncCoordinator,
        _momoSmsAutoreadService = momoSmsAutoreadService,
        _momoService = momoService,
        _appUpdateService = appUpdateService;
@@ -46,7 +43,6 @@ class AppLifecycleCoordinator {
   final PerformanceService _performance;
   final AppSessionCoordinator _sessionCoordinator;
   final DeepLinkCoordinator _deepLinkCoordinator;
-  final TripSyncCoordinator _tripSyncCoordinator;
   final MomoSmsAutoreadService _momoSmsAutoreadService;
   final MomoService _momoService;
   final AppUpdateService _appUpdateService;
@@ -81,7 +77,6 @@ class AppLifecycleCoordinator {
     await _engagementTracker.trackAppOpened();
     await _sessionCoordinator.bootstrap(_readAuthState());
 
-    _tripSyncCoordinator.start();
     await _deepLinkCoordinator.start();
 
     unawaited(_appUpdateService.checkForUpdate());
@@ -95,14 +90,12 @@ class AppLifecycleCoordinator {
   }
 
   void handleAppResumed() {
-    _tripSyncCoordinator.onAppResumed();
     unawaited(_momoSmsAutoreadService.refresh());
     unawaited(_appUpdateService.checkForUpdate());
   }
 
   void dispose() {
     _deepLinkCoordinator.dispose();
-    _tripSyncCoordinator.dispose();
     _started = false;
   }
 }

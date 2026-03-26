@@ -47,8 +47,7 @@ create or replace view public.operational_config_issues as
 with required_configs(config_key, scope_mode, stale_after_days, description) as (
   values
     ('support_whatsapp', 'global', 45, 'Global support escalation contact.'),
-    ('supported_languages', 'global', 90, 'Languages exposed by the app shell.'),
-    ('mobility_subscription_momo_code', 'any', 30, 'MoMo code used for mobility subscription checkout.')
+    ('supported_languages', 'global', 90, 'Languages exposed by the app shell.')
 ),
 matching_configs as (
   select

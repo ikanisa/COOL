@@ -6,6 +6,7 @@ import '../config/app_config_provider.dart';
 import '../config/app_config_repository.dart';
 
 abstract final class ProductionRedesignRoutes {
+  static const rayonBranding = 'rayon_branding';
   static const rayonHome = 'rayon_home';
   static const rayonShop = 'rayon_shop';
   static const rayonShopCheckout = 'rayon_shop_checkout';
@@ -14,7 +15,6 @@ abstract final class ProductionRedesignRoutes {
   static const rayonFanClubs = 'rayon_fan_clubs';
   static const rayonFanClubDetail = 'rayon_fan_club_detail';
   static const rayonMemberRegistry = 'rayon_member_registry';
-  static const mobilitySchedule = 'mobility_schedule';
 }
 
 class ProductionRedesignScope {

@@ -134,5 +134,17 @@ void main() {
 
       expect(metadata, isNull);
     });
+
+    test('MomoSmsRateLimitException carries a meaningful message', () {
+      const defaultException = MomoSmsRateLimitException();
+      expect(defaultException.message, contains('rate limit'));
+      expect(defaultException.toString(), contains('rate limit'));
+
+      const customException = MomoSmsRateLimitException(
+        'Rate limit exceeded. Max 100 SMS per hour.',
+      );
+      expect(customException.message, contains('100'));
+      expect(customException.toString(), contains('Max 100'));
+    });
   });
 }

@@ -487,8 +487,6 @@ class _ManualReviewSectionState extends ConsumerState<_ManualReviewSection> {
   }
 }
 
-
-
 class _SenderInventorySection extends ConsumerStatefulWidget {
   const _SenderInventorySection();
 

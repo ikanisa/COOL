@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../brand/app_brand.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_glass_card.dart';
 
-class ReferralBanner extends StatelessWidget {
+class ReferralBanner extends ConsumerWidget {
   const ReferralBanner({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final brand = ref.watch(appBrandProvider);
     final colors = context.coolSemanticColors;
     final space = context.coolSpace;
     final radii = context.coolRadii;
     final theme = Theme.of(context);
+    final title = brand.isRayonDominant
+        ? 'Invite fellow fans & earn tokens'
+        : 'Share Cool & Earn Tokens';
+    final subtitle = brand.isRayonDominant
+        ? 'Bring more supporters into the club app'
+        : 'Invite friends & grow together';
 
     return CoolGlassCard(
       onTap: () => context.push(AppRoutes.referral),
@@ -41,7 +50,7 @@ class ReferralBanner extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Share Cool & Earn Tokens',
+                    title,
                     style: theme.textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.w800,
                       color: colors.primaryText,
@@ -49,7 +58,7 @@ class ReferralBanner extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'Invite friends & grow together',
+                    subtitle,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: colors.secondaryText,
                     ),

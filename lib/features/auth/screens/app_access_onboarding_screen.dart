@@ -365,7 +365,7 @@ _OnboardingPermissionMeta _metadataFor(AppAccessPermission permission) {
     AppAccessPermission.camera => const _OnboardingPermissionMeta(
       icon: Icons.camera_alt_outlined,
       title: 'Camera',
-      subtitle: 'Scan QR codes, KYC verification, and profile photos.',
+      subtitle: 'Scan QR codes and capture profile photos when needed.',
     ),
     AppAccessPermission.photos => const _OnboardingPermissionMeta(
       icon: Icons.photo_library_outlined,

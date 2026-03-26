@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 final _fromPattern = RegExp(r"\.from\(\s*'([^']+)'\s*\)");
-final _fromConstPattern = RegExp(r"\.from\(\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*\)");
+final _fromConstPattern = RegExp(r'\.from\(\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*\)');
 final _constDeclPattern = RegExp(
   r"(?:static\s+)?(?:final|const)\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*'([^']+)'\s*;",
 );
@@ -113,34 +113,6 @@ void main() {
       }
 
       expect(failures, isEmpty, reason: failures.join('\n'));
-    },
-  );
-
-  test(
-    'mobility repositories do not reference removed driver profile columns',
-    () {
-      final mobilityRepositorySource = File(
-        'lib/features/mobility/repositories/mobility_repository.dart',
-      ).readAsStringSync();
-      final subscriptionRepositorySource = File(
-        'lib/features/mobility/repositories/subscription_repository.dart',
-      ).readAsStringSync();
-
-      expect(mobilityRepositorySource, isNot(contains("'is_regular_driver'")));
-      expect(mobilityRepositorySource, isNot(contains("'last_location_lat'")));
-      expect(mobilityRepositorySource, isNot(contains("'last_location_lng'")));
-      expect(
-        mobilityRepositorySource,
-        isNot(contains("'location_updated_at'")),
-      );
-      expect(
-        mobilityRepositorySource,
-        isNot(contains("'vehicle_description'")),
-      );
-      expect(
-        subscriptionRepositorySource,
-        isNot(contains(".select('credits')")),
-      );
     },
   );
 }

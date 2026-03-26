@@ -177,7 +177,8 @@ class BankLedgersTab extends StatelessWidget {
                 Expanded(
                   child: ListView.separated(
                     itemCount: page.entries.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: CoolSpace.x3),
+                    separatorBuilder: (_, _) =>
+                        const SizedBox(height: CoolSpace.x3),
                     itemBuilder: (context, index) {
                       return _LedgerEntryCard(entry: page.entries[index]);
                     },

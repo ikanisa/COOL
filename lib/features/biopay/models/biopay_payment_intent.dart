@@ -14,9 +14,8 @@ class BiopayPaymentIntent {
       intentId: data['intent_id']?.toString() ?? '',
       nonce: data['nonce']?.toString() ?? '',
       ussdCode: data['ussd_code']?.toString() ?? '',
-      expiresAt: DateTime.tryParse(
-            data['expires_at']?.toString() ?? '',
-          ) ??
+      expiresAt:
+          DateTime.tryParse(data['expires_at']?.toString() ?? '') ??
           DateTime.now(),
       displayName: data['display_name']?.toString() ?? '',
     );
@@ -31,6 +30,5 @@ class BiopayPaymentIntent {
   bool get isExpired => DateTime.now().isAfter(expiresAt);
 
   /// Build the tel: URI for dialing the server-issued USSD code.
-  Uri get dialUri =>
-      Uri.parse('tel:${ussdCode.replaceAll('#', '%23')}');
+  Uri get dialUri => Uri.parse('tel:${ussdCode.replaceAll('#', '%23')}');
 }

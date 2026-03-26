@@ -146,7 +146,7 @@ drifted:
   `ai_content_generation_config` directly and invokes the `generate-ai-content`
   function from the screen.
 - `lib/core/services/momo_service.dart` writes directly to
-  `driver_subscriptions`.
+  legacy subscription tables.
 - `lib/features/admin/repositories/admin_repository.dart` has become a generic
   multi-table admin gateway for users, partners, routes, quick actions, and
   more.

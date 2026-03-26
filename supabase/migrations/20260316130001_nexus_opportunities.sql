@@ -41,15 +41,4 @@ insert into public.nexus_opportunities (
   100, 
   true, 
   'initial_nexus_seed'
-),
-(
-  'Moto Subscription', 
-  'Save 3k next week', 
-  'Frequent mobility spend detected', 
-  'EFFICIENCY', 
-  'moped_rounded', 
-  '/mobility', 
-  90, 
-  true, 
-  'initial_nexus_seed'
 );

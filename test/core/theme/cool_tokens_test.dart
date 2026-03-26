@@ -18,8 +18,11 @@ void main() {
         CoolSpace.x10,
       ];
       for (var i = 1; i < scale.length; i++) {
-        expect(scale[i], greaterThan(scale[i - 1]),
-            reason: 'x$i should be > x${i - 1}');
+        expect(
+          scale[i],
+          greaterThan(scale[i - 1]),
+          reason: 'x$i should be > x${i - 1}',
+        );
       }
     });
 
@@ -63,8 +66,11 @@ void main() {
       ];
 
       for (var i = 1; i < scale.length; i++) {
-        expect(scale[i], greaterThan(scale[i - 1]),
-            reason: 'Radii scale must be increasing');
+        expect(
+          scale[i],
+          greaterThan(scale[i - 1]),
+          reason: 'Radii scale must be increasing',
+        );
       }
     });
 

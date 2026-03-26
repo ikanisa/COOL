@@ -10,44 +10,31 @@ import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_glass_card.dart';
 import 'profile_data.dart';
 
-/// Top-of-screen card showing user name, phone, KYC badge, and member since.
+/// Top-of-screen card showing user name, phone, wallet status, and member since.
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({required this.profile, super.key});
 
   final ProfileData profile;
 
-  Color _kycColor(CoolSemanticColors colors) {
-    return switch (profile.kycStatus) {
-      'verified' => colors.accent,
-      'pending_review' => colors.warning,
-      'rejected' => colors.danger,
-      _ => colors.tertiaryText,
-    };
+  Color _statusColor(CoolSemanticColors colors) {
+    return profile.momoLinked ? colors.accent : colors.warning;
   }
 
-  String _kycLabel() {
-    return switch (profile.kycStatus) {
-      'verified' => 'Verified',
-      'pending_review' => 'Pending',
-      'rejected' => 'Update needed',
-      _ => 'Unverified',
-    };
+  String _statusLabel() {
+    return profile.momoLinked ? 'Wallet linked' : 'Wallet setup needed';
   }
 
-  IconData _kycIcon() {
-    return switch (profile.kycStatus) {
-      'verified' => Icons.verified_rounded,
-      'pending_review' => Icons.schedule_rounded,
-      'rejected' => Icons.error_outline_rounded,
-      _ => Icons.shield_outlined,
-    };
+  IconData _statusIcon() {
+    return profile.momoLinked
+        ? Icons.account_balance_wallet_rounded
+        : Icons.warning_amber_rounded;
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
-    final kycColor = _kycColor(colors);
+    final statusColor = _statusColor(colors);
     final memberSince = profile.createdAt != null
         ? DateFormat('MMM yyyy').format(profile.createdAt!)
         : null;
@@ -108,18 +95,18 @@ class ProfileHeader extends StatelessWidget {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: kycColor.withValues(alpha: 0.12),
+                        color: statusColor.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(CoolRadii.sm),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(_kycIcon(), size: 16, color: kycColor),
+                          Icon(_statusIcon(), size: 16, color: statusColor),
                           const SizedBox(width: 4),
                           Text(
-                            _kycLabel(),
+                            _statusLabel(),
                             style: theme.textTheme.labelMedium?.copyWith(
-                              color: kycColor,
+                              color: statusColor,
                               fontWeight: FontWeight.w800,
                             ),
                           ),

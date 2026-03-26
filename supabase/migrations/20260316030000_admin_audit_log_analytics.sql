@@ -110,7 +110,6 @@ begin
     'real_users', (select count(*) from public.users where is_mock = false),
     'mock_users', (select count(*) from public.users where is_mock = true),
     'total_admins', (select count(*) from public.users where is_admin = true),
-    'total_drivers', (select count(*) from public.users where is_driver = true),
     'total_partners', (select count(*) from public.partners),
     'total_groups', (select count(*) from public.groups),
     'total_trips', (

@@ -3,7 +3,6 @@ import 'package:cool_app/features/admin/repositories/admin_content_repository.da
 import 'package:cool_app/features/admin/screens/manage_partners_screen.dart';
 import 'package:cool_app/features/admin/screens/manage_quick_actions_screen.dart';
 import 'package:cool_app/features/admin/screens/manage_services_screen.dart';
-import 'package:cool_app/features/admin/screens/manage_vehicle_types_screen.dart';
 import 'package:cool_app/shared/widgets/cool_admin_inline_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,23 +17,18 @@ class FakeCatalogAdminRepository extends AdminContentRepository {
     List<Map<String, dynamic>> partners = const <Map<String, dynamic>>[],
     List<Map<String, dynamic>> services = const <Map<String, dynamic>>[],
     List<Map<String, dynamic>> quickActions = const <Map<String, dynamic>>[],
-    List<Map<String, dynamic>> vehicleTypes = const <Map<String, dynamic>>[],
   }) : _partners = partners.map(Map<String, dynamic>.from).toList(),
        _services = services.map(Map<String, dynamic>.from).toList(),
        _quickActions = quickActions.map(Map<String, dynamic>.from).toList(),
-       _vehicleTypes = vehicleTypes.map(Map<String, dynamic>.from).toList(),
        super(client: MockSupabaseClient());
 
   final List<Map<String, dynamic>> _partners;
   final List<Map<String, dynamic>> _services;
   final List<Map<String, dynamic>> _quickActions;
-  final List<Map<String, dynamic>> _vehicleTypes;
 
   final List<Map<String, dynamic>> partnerUpserts = <Map<String, dynamic>>[];
   final List<Map<String, dynamic>> serviceUpserts = <Map<String, dynamic>>[];
   final List<Map<String, dynamic>> quickActionUpserts =
-      <Map<String, dynamic>>[];
-  final List<Map<String, dynamic>> vehicleTypeUpserts =
       <Map<String, dynamic>>[];
 
   @override
@@ -70,18 +64,6 @@ class FakeCatalogAdminRepository extends AdminContentRepository {
   @override
   Future<void> upsertQuickAction(Map<String, dynamic> action) async {
     quickActionUpserts.add(Map<String, dynamic>.from(action));
-  }
-
-  @override
-  Future<List<Map<String, dynamic>>> fetchVehicleTypes({
-    String? country,
-  }) async {
-    return _vehicleTypes.map(Map<String, dynamic>.from).toList(growable: false);
-  }
-
-  @override
-  Future<void> upsertVehicleType(Map<String, dynamic> type) async {
-    vehicleTypeUpserts.add(Map<String, dynamic>.from(type));
   }
 }
 
@@ -225,9 +207,9 @@ void main() {
     expect(_inputDecoratorWithLabel('Market'), findsOneWidget);
 
     await tester.enterText(_textFieldWithLabel('Title'), 'Ride');
-    await tester.enterText(_textFieldWithLabel('Subtitle'), 'Book a moto');
-    await tester.enterText(_textFieldWithLabel('Emoji'), '🛵');
-    await tester.enterText(_textFieldWithLabel('Route'), '/mobility');
+    await tester.enterText(_textFieldWithLabel('Subtitle'), 'Join a group');
+    await tester.enterText(_textFieldWithLabel('Emoji'), '🤝');
+    await tester.enterText(_textFieldWithLabel('Route'), '/groups');
     await tester.ensureVisible(find.text('Save'));
     await tester.tap(find.text('Save'));
     await tester.pumpAndSettle();
@@ -290,50 +272,5 @@ void main() {
 
     expect(repository.serviceUpserts, hasLength(1));
     expect(repository.serviceUpserts.single, containsPair('country', 'RW'));
-  });
-
-  testWidgets('vehicle types screen locks the market to Rwanda', (
-    tester,
-  ) async {
-    _configureTallViewport(tester);
-    final repository = FakeCatalogAdminRepository(
-      vehicleTypes: const <Map<String, dynamic>>[
-        <String, dynamic>{
-          'id': 'vehicle-1',
-          'label': 'Moto',
-          'value': 'moto',
-          'country': null,
-          'emoji': '🛵',
-        },
-      ],
-    );
-
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: <Override>[
-          adminContentRepositoryProvider.overrideWithValue(repository),
-        ],
-        child: const MaterialApp(home: ManageVehicleTypesScreen()),
-      ),
-    );
-    await tester.pumpAndSettle();
-
-    expect(find.text('value: moto · Rwanda'), findsOneWidget);
-
-    await _tapAddAction(tester);
-    await tester.pumpAndSettle();
-
-    expect(_dropdownFieldWithLabel('Market scope'), findsNothing);
-    expect(find.byType(TextFormField), findsAtLeastNWidgets(1));
-
-    await tester.enterText(_textFieldWithLabel('Label (e.g. Moto)'), 'Taxi');
-    await tester.enterText(_textFieldWithLabel('Value (e.g. Moto)'), 'taxi');
-    await tester.enterText(_textFieldWithLabel('Emoji'), '🚕');
-    await tester.ensureVisible(find.text('Save'));
-    await tester.tap(find.text('Save'));
-    await tester.pumpAndSettle();
-
-    expect(repository.vehicleTypeUpserts, hasLength(1));
-    expect(repository.vehicleTypeUpserts.single, containsPair('country', 'RW'));
   });
 }

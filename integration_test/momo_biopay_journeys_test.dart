@@ -1,10 +1,7 @@
-
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:cool_app/core/services/hive_runtime.dart';
 import 'package:cool_app/features/momo/screens/momo_screen.dart';
-import 'package:cool_app/features/biopay/screens/biopay_home_screen.dart';
 
 import '../test/integration_smoke/test_harness.dart';
 

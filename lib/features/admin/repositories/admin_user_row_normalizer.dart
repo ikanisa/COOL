@@ -10,7 +10,6 @@ Map<String, dynamic> normalizeAdminUserRowForAppMarket(
   normalized['full_name'] = _trimmed(row['full_name']);
   normalized['phone'] = _trimmed(row['phone']);
   normalized['public_user_id'] = _trimmed(row['public_user_id']);
-  normalized['vehicle_type'] = _trimmed(row['vehicle_type']);
   normalized['mock_batch'] = _trimmed(row['mock_batch']);
   return normalized;
 }

@@ -18,8 +18,9 @@ final adminRoleRepositoryProvider = Provider<AdminRoleRepository>((ref) {
 
 /// Async RPC-based admin access — single source of truth.
 /// Falls back to app_metadata if the RPC is unavailable.
-final adminAccessFromRpcProvider =
-    FutureProvider<AdminWorkspaceAccess>((ref) async {
+final adminAccessFromRpcProvider = FutureProvider<AdminWorkspaceAccess>((
+  ref,
+) async {
   final authState = ref.watch(authProvider);
   if (authState.session == null) {
     return const AdminWorkspaceAccess();
@@ -60,8 +61,9 @@ final adminWorkspaceAccessProvider = Provider<AdminWorkspaceAccess>((ref) {
 // ═══════════════════════════════════════════════════════════════
 
 /// Lists all admin role assignments (super admin only).
-final adminRoleAssignmentsProvider =
-    FutureProvider<List<AdminRoleAssignment>>((ref) async {
+final adminRoleAssignmentsProvider = FutureProvider<List<AdminRoleAssignment>>((
+  ref,
+) async {
   final repo = ref.read(adminRoleRepositoryProvider);
   return repo.listRoleAssignments();
 });
@@ -69,12 +71,12 @@ final adminRoleAssignmentsProvider =
 /// Lists role assignments filtered by a specific role.
 final adminRoleAssignmentsByRoleProvider =
     FutureProvider.family<List<AdminRoleAssignment>, AdminRole>((
-  ref,
-  role,
-) async {
-  final repo = ref.read(adminRoleRepositoryProvider);
-  return repo.listRoleAssignments(role: role);
-});
+      ref,
+      role,
+    ) async {
+      final repo = ref.read(adminRoleRepositoryProvider);
+      return repo.listRoleAssignments(role: role);
+    });
 
 // ═══════════════════════════════════════════════════════════════
 // Workspace listing providers (for admin entry screen)
@@ -120,9 +122,11 @@ final adminBankWorkspacesProvider = FutureProvider<List<Partner>>((ref) async {
 
 final rayonAdminAccessProvider = FutureProvider<bool>((ref) async {
   final access = ref.watch(adminWorkspaceAccessProvider);
-    if (access.partnerAdminIds.isEmpty && !access.hasPlatformAccess && !access.hasGlobalPartnerAccess) {
-      return false;
-    }
+  if (access.partnerAdminIds.isEmpty &&
+      !access.hasPlatformAccess &&
+      !access.hasGlobalPartnerAccess) {
+    return false;
+  }
   if (access.hasPlatformAccess || access.hasGlobalPartnerAccess) {
     return true;
   }
@@ -133,4 +137,3 @@ final rayonAdminAccessProvider = FutureProvider<bool>((ref) async {
   }
   return access.canAccessPartnerId(rayon.id);
 });
-

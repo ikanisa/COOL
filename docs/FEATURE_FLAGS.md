@@ -29,7 +29,6 @@ Kill-switches **immediately disable** a feature for all users (including admins)
 | `kill_momo_payments` | MoMo send/receive/QR/NFC | Platform | `false` |
 | `kill_credit_features` | Credit score + readiness | Platform | `false` |
 | `kill_ticket_purchase` | Rayon Sport ticket buy | Platform | `false` |
-| `kill_mobility` | Trip booking + history | Platform | `false` |
 
 ### How to Activate a Kill-Switch
 
@@ -62,7 +61,6 @@ Each managed feature has a `stage` controlling visibility:
 | MoMo | `feature_momo_stage` | `feature_momo_admin_only` |
 | Credit | `feature_credit_stage` | `feature_credit_admin_only` |
 | Tickets | `feature_ticket_purchase_stage` | `feature_ticket_purchase_admin_only` |
-| Mobility | `feature_mobility_stage` | `feature_mobility_admin_only` |
 
 ---
 

@@ -63,10 +63,6 @@ abstract final class DeepLinkConfig {
     return _httpsUri('/club/$clubId', queryParameters: queryParameters);
   }
 
-  static Uri tripUri(String tripId, {Map<String, String>? queryParameters}) {
-    return _httpsUri('/trip/$tripId', queryParameters: queryParameters);
-  }
-
   static Uri shopProductUri(
     String productId, {
     Map<String, String>? queryParameters,
@@ -102,10 +98,6 @@ abstract final class DeepLinkConfig {
       'home' => AppRoutes.home,
       'momo' => AppRoutes.momo,
       'profile' => AppRoutes.profile,
-      'mobility' =>
-        segments.length >= 2 && segments[1] == 'trips'
-            ? AppRoutes.mobilityTrips
-            : AppRoutes.mobility,
       'match' => segments.length < 2 ? null : '/partners/rayon-sports/tickets',
       'initiative' =>
         segments.length < 2
@@ -115,7 +107,6 @@ abstract final class DeepLinkConfig {
         segments.length < 2
             ? null
             : '/partners/rayon-sports/clubs/${segments[1]}',
-      'trip' => AppRoutes.mobilityTrips,
       'shop' => AppRoutes.rayonShop,
       'status' => AppRoutes.profile,
       _ => null,

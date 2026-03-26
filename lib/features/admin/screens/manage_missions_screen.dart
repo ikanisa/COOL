@@ -120,7 +120,8 @@ class ManageMissionsScreen extends ConsumerWidget {
                   return ListView.separated(
                     padding: _liveOpsListPadding(),
                     itemCount: missions.length + 1,
-                    separatorBuilder: (_, _) => const SizedBox(height: CoolSpace.x3),
+                    separatorBuilder: (_, _) =>
+                        const SizedBox(height: CoolSpace.x3),
                     itemBuilder: (context, index) {
                       if (index == 0) {
                         return _MissionSummaryCard(
@@ -428,7 +429,6 @@ class _MissionEditSheetState extends State<_MissionEditSheet> {
   static const List<String> _missionTypes = <String>[
     'savings_sprint',
     'supporter_season',
-    'commuter_week',
     'matchday_month',
   ];
 

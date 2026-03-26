@@ -55,12 +55,6 @@ class AdminDashboardScreen extends ConsumerWidget {
         l.adminSpecialProductsDesc,
       ),
       _AdminSection(
-        l.adminVehicleTypes,
-        Icons.directions_car_filled_rounded,
-        '/admin/vehicle-types',
-        l.adminVehicleTypesDesc,
-      ),
-      _AdminSection(
         l.adminAppConfig,
         Icons.settings_rounded,
         '/admin/app-config',

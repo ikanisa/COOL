@@ -97,22 +97,6 @@ create policy quick_actions_delete_admin
   on public.quick_actions for delete
   to authenticated
   using (public.is_admin_user());
-drop policy if exists vehicle_types_insert_admin on public.vehicle_types;
-create policy vehicle_types_insert_admin
-  on public.vehicle_types for insert
-  to authenticated
-  with check (public.is_admin_user());
-drop policy if exists vehicle_types_update_admin on public.vehicle_types;
-create policy vehicle_types_update_admin
-  on public.vehicle_types for update
-  to authenticated
-  using (public.is_admin_user())
-  with check (public.is_admin_user());
-drop policy if exists vehicle_types_delete_admin on public.vehicle_types;
-create policy vehicle_types_delete_admin
-  on public.vehicle_types for delete
-  to authenticated
-  using (public.is_admin_user());
 drop policy if exists app_config_insert_admin on public.app_config;
 create policy app_config_insert_admin
   on public.app_config for insert

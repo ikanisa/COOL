@@ -51,7 +51,7 @@ void main() {
   });
 
   group('BankServiceGrid', () {
-    testWidgets('renders the standard bank actions when no services exist', (
+    testWidgets('renders only the group savings custodian action', (
       tester,
     ) async {
       await tester.pumpWidget(
@@ -63,9 +63,10 @@ void main() {
         ),
       );
 
-      expect(find.text('Open Account'), findsOneWidget);
-      expect(find.text('Get a Loan'), findsOneWidget);
-      expect(find.text('Group Saving'), findsOneWidget);
+      expect(find.text('Group Savings Custodian'), findsOneWidget);
+      expect(find.text('Open custodian flow'), findsOneWidget);
+      expect(find.text('Open Account'), findsNothing);
+      expect(find.text('Get a Loan'), findsNothing);
     });
   });
 }

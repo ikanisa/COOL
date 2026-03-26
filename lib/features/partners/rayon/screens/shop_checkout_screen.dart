@@ -17,7 +17,7 @@ import '../models/rs_models.dart';
 
 import '../rayon_payment.dart';
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/rayon_screen_scaffold.dart';
+import '../../../../shared/widgets/core_app_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';
 import '../../../../core/l10n/l10n.dart';
 
@@ -74,7 +74,7 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
         : ref.watch(rayonShopOrdersProvider);
     final openedOrder = _findOrderById(ordersAsync.valueOrNull, _openedOrderId);
 
-    return RayonScreenScaffold(
+    return CoreAppScaffold(
       title: _openedOrderId == null
           ? 'Checkout'
           : _checkoutTitle(openedOrder?.status ?? OrderStatus.pending),

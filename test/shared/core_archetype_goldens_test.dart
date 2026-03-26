@@ -103,8 +103,18 @@ void main() {
       await pumpGolden(
         tester,
         child: const CoreTabRootScaffold(
-          title: Text('Home', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800, color: Colors.white)),
-          subtitle: Text('Welcome back', style: TextStyle(fontSize: 14, color: Colors.white70)),
+          title: Text(
+            'Home',
+            style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.w800,
+              color: Colors.white,
+            ),
+          ),
+          subtitle: Text(
+            'Welcome back',
+            style: TextStyle(fontSize: 14, color: Colors.white70),
+          ),
           child: Center(child: Text('Scrollable content')),
         ),
       );
@@ -128,8 +138,18 @@ void main() {
         tester,
         child: const CoreDetailScaffold(
           showHomeButton: true,
-          title: Text('Partners', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Colors.white)),
-          subtitle: Text('Explore partner services', style: TextStyle(fontSize: 14, color: Colors.white70)),
+          title: Text(
+            'Partners',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w800,
+              color: Colors.white,
+            ),
+          ),
+          subtitle: Text(
+            'Explore partner services',
+            style: TextStyle(fontSize: 14, color: Colors.white70),
+          ),
           child: Center(child: Text('Partner content')),
         ),
       );
@@ -142,12 +162,16 @@ void main() {
       await pumpGolden(
         tester,
         child: const AdminDetailScaffold(
-          title: Text('Admin Dashboard', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Colors.white)),
-          actions: [
-            IconButton(
-              onPressed: null,
-              icon: Icon(Icons.refresh_rounded),
+          title: Text(
+            'Admin Dashboard',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w800,
+              color: Colors.white,
             ),
+          ),
+          actions: [
+            IconButton(onPressed: null, icon: Icon(Icons.refresh_rounded)),
           ],
           child: Center(child: Text('Dashboard content')),
         ),
@@ -163,7 +187,10 @@ void main() {
         child: DenseAdminWorkspaceScaffold(
           searchBar: const CoolSearchField(hint: 'Search users...'),
           filterActions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list_rounded)),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.filter_list_rounded),
+            ),
           ],
           child: const Center(child: Text('Dense workspace content')),
         ),
@@ -282,10 +309,32 @@ void main() {
             padding: EdgeInsets.all(24),
             child: AdminSummaryMetricGrid(
               metrics: [
-                AdminMetric(label: 'Active Users', value: '1,234', icon: Icons.people_rounded, trend: '+12%', trendIsPositive: true),
-                AdminMetric(label: 'Revenue', value: '45.2K', icon: Icons.attach_money_rounded, trend: '-3%', trendIsPositive: false),
-                AdminMetric(label: 'Orders', value: '892', icon: Icons.receipt_long_rounded),
-                AdminMetric(label: 'Uptime', value: '99.9%', icon: Icons.monitor_heart_rounded, trend: '→', trendIsPositive: null),
+                AdminMetric(
+                  label: 'Active Users',
+                  value: '1,234',
+                  icon: Icons.people_rounded,
+                  trend: '+12%',
+                  trendIsPositive: true,
+                ),
+                AdminMetric(
+                  label: 'Revenue',
+                  value: '45.2K',
+                  icon: Icons.attach_money_rounded,
+                  trend: '-3%',
+                  trendIsPositive: false,
+                ),
+                AdminMetric(
+                  label: 'Orders',
+                  value: '892',
+                  icon: Icons.receipt_long_rounded,
+                ),
+                AdminMetric(
+                  label: 'Uptime',
+                  value: '99.9%',
+                  icon: Icons.monitor_heart_rounded,
+                  trend: '→',
+                  trendIsPositive: null,
+                ),
               ],
             ),
           ),
@@ -305,7 +354,7 @@ void main() {
             child: AdminFilterRail(
               filters: const ['All', 'Active', 'Pending', 'Failed', 'Archived'],
               selectedIndices: const {1},
-              onSelected: (_, __) {},
+              onSelected: (index, isSelected) {},
             ),
           ),
         ),

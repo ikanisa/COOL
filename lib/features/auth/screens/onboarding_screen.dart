@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/brand/app_brand.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
@@ -21,6 +22,7 @@ class OnboardingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final brand = ref.watch(appBrandProvider);
     final colors = context.coolSemanticColors;
     final radii = context.coolRadii;
     final space = context.coolSpace;
@@ -56,19 +58,26 @@ class OnboardingScreen extends ConsumerWidget {
                   ),
                   SizedBox(height: space.x7),
                   Text(
-                    'Welcome to COOL',
+                    brand.welcomeTitle,
                     textAlign: TextAlign.center,
-                    style: theme.textTheme.displaySmall?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: colors.primaryText,
-                      height: 1.1,
-                    ),
+                    style: brand.isRayonDominant
+                        ? context.coolText.rayonCondensed(
+                            theme.textTheme.displaySmall,
+                            fontWeight: FontWeight.w900,
+                            color: colors.primaryText,
+                            height: 1.0,
+                          )
+                        : theme.textTheme.displaySmall?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            color: colors.primaryText,
+                            height: 1.1,
+                          ),
                   ),
                   SizedBox(height: space.x4),
                   SizedBox(
                     width: 300,
                     child: Text(
-                      'Pay, save, and move.',
+                      brand.welcomeSubtitle,
                       textAlign: TextAlign.center,
                       style: theme.textTheme.bodyLarge?.copyWith(
                         color: colors.secondaryText,

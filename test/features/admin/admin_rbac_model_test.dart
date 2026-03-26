@@ -180,9 +180,7 @@ void main() {
       });
 
       test('scoped bank admin can only access their bank IDs', () {
-        const access = AdminWorkspaceAccess(
-          bankAdminIds: {'bank-A'},
-        );
+        const access = AdminWorkspaceAccess(bankAdminIds: {'bank-A'});
         expect(access.canAccessBankId('bank-A'), isTrue);
         expect(access.canAccessBankId('bank-B'), isFalse);
         expect(access.canAccessPartnerId('bank-A'), isFalse);

@@ -31,7 +31,7 @@
 		<key>NSFaceIDUsageDescription</key>
 		<string>Cool uses Face ID to confirm BioPay enrollments, revocations, and payment handoffs.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>Cool uses your location to find nearby drivers and mobility trips.</string>
+		<string>Cool uses your location for nearby services and location-aware discovery.</string>
 		<key>NFCReaderUsageDescription</key>
 		<string>Cool uses NFC for phone-to-phone sharing and MoMo tap experiences.</string>
 		<key>NSContactsUsageDescription</key>

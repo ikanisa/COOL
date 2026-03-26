@@ -47,7 +47,7 @@ VALUES
   (
     'Earn Cool Tokens Daily',
     'Complete activities to earn rewards',
-    'Engage with the app — join groups, schedule rides, check your statements — and earn Cool Tokens for every action.',
+    'Engage with the app — join groups, check your statements, support your club — and earn Cool Tokens for every action.',
     'Active users earn 3x more tokens than passive browsers',
     'promo',
     'draft',
@@ -55,19 +55,6 @@ VALUES
     '/tokens',
     'View Tokens',
     40,
-    false
-  ),
-  (
-    'Schedule Your Next Ride',
-    'Plan ahead, save time',
-    'Post a trip as a passenger or driver to find ride-sharing partners on your regular routes.',
-    'Pre-scheduled rides save an average of 45 minutes per week',
-    'recommendation',
-    'draft',
-    '🚗',
-    '/mobility/schedule',
-    'Schedule',
-    50,
     false
   ),
   (

@@ -305,6 +305,7 @@ class MomoSmsAutoreadService {
 
   Future<MomoInboxSyncResult> syncInbox({
     required MomoInboxSyncTrigger trigger,
+    ValueChanged<int>? onProgress,
   }) async {
     if (!_supportsSmsAutoread) {
       throw const MomoSmsSyncException('Android only');
@@ -340,7 +341,18 @@ class MomoSmsAutoreadService {
     final scanStartedAt = DateTime.now().toUtc();
     final syncState = await _readSyncState(session.user.id);
     final historicalCutoff = scanStartedAt.subtract(_initialInboxSyncLookback);
-    final cutoff = trigger == MomoInboxSyncTrigger.initialPermissionGrant
+
+    // Fix 7: If local sync state is completely empty on a manual trigger,
+    // the user likely reinstalled or cleared data. Force a full re-scan
+    // to recover any unsynced messages.
+    final isReinstallRecovery =
+        trigger == MomoInboxSyncTrigger.manual &&
+        !syncState.hasInitialBackfill &&
+        syncState.lastSuccessfulSyncAt == null;
+
+    final cutoff =
+        trigger == MomoInboxSyncTrigger.initialPermissionGrant ||
+            isReinstallRecovery
         ? historicalCutoff
         : MomoSmsSyncPlanner.resolveManualCutoff(
             syncState: syncState,
@@ -348,7 +360,14 @@ class MomoSmsAutoreadService {
           );
     final incremental =
         trigger == MomoInboxSyncTrigger.manual &&
+        !isReinstallRecovery &&
         cutoff.isAfter(historicalCutoff);
+
+    if (isReinstallRecovery) {
+      await _crashlytics?.log(
+        'momo_sms: reinstall recovery detected, forcing full 365-day scan',
+      );
+    }
 
     try {
       final messages = await _loadCandidateInboxMessages(cutoff: cutoff);
@@ -380,18 +399,58 @@ class MomoSmsAutoreadService {
         }
 
         scannedMessages += 1;
+        onProgress?.call(scannedMessages);
         oldestMessageAt = _olderOf(oldestMessageAt, capture.receivedAt);
         newestMessageAt = _newerOf(newestMessageAt, capture.receivedAt);
-        final result = await _ingestionRepository.ingestCapture(
-          capture: capture,
-        );
-        if (result == null) {
-          continue;
-        }
-        if (result.inserted) {
-          uploadedMessages += 1;
-        } else {
-          duplicateMessages += 1;
+
+        try {
+          final result = await _ingestionRepository.ingestCapture(
+            capture: capture,
+          );
+          if (result == null) {
+            continue;
+          }
+          if (result.inserted) {
+            uploadedMessages += 1;
+          } else {
+            duplicateMessages += 1;
+          }
+        } on MomoSmsRateLimitException {
+          // Rate-limited: break the loop and record a partial sync.
+          await _recordSyncRun(
+            userId: session.user.id,
+            trigger: trigger,
+            status: 'rate_limited',
+            lookbackDays: MomoSmsSyncPlanner.lookbackDaysFor(
+              cutoff: cutoff,
+              now: scanStartedAt,
+            ),
+            incremental: incremental,
+            scanStartedAt: scanStartedAt,
+            scanCompletedAt: DateTime.now().toUtc(),
+            scannedMessages: scannedMessages,
+            uploadedMessages: uploadedMessages,
+            duplicateMessages: duplicateMessages,
+            oldestMessageAt: oldestMessageAt,
+            newestMessageAt: newestMessageAt,
+            latestKnownMessageAt: _newerOf(
+              syncState.latestKnownMessageAt,
+              newestMessageAt,
+            ),
+            errorMessage: 'Rate-limited after $scannedMessages messages',
+          );
+          await _crashlytics?.log(
+            'momo_sms: rate-limited after $scannedMessages messages '
+            '(uploaded=$uploadedMessages)',
+          );
+          return MomoInboxSyncResult(
+            scannedMessages: scannedMessages,
+            uploadedMessages: uploadedMessages,
+            duplicateMessages: duplicateMessages,
+            oldestMessageAt: oldestMessageAt,
+            newestMessageAt: newestMessageAt,
+            incremental: incremental,
+          );
         }
       }
 
@@ -507,21 +566,24 @@ class MomoSmsAutoreadService {
 
     final cutoffMillis = cutoff.millisecondsSinceEpoch.toString();
     const senderIds = MomoSmsIngestionRepository.approvedInboxSenderIds;
-    final messages = <SmsMessage>[];
 
-    for (final senderId in senderIds) {
-      final filter = SmsFilter.where(
-        SmsColumn.ADDRESS,
-      ).equals(senderId).and(SmsColumn.DATE).greaterThanOrEqualTo(cutoffMillis);
-      final patternMessages = await _telephony.getInboxSms(
-        columns: const [SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE],
-        filter: filter,
-        sortOrder: [OrderBy(SmsColumn.DATE, sort: Sort.DESC)],
-      );
-      messages.addAll(patternMessages);
-    }
+    // Fix 8: Query all sender IDs in parallel for faster inbox loading.
+    final perSenderResults = await Future.wait(
+      senderIds.map((senderId) async {
+        final filter = SmsFilter.where(SmsColumn.ADDRESS)
+            .equals(senderId)
+            .and(SmsColumn.DATE)
+            .greaterThanOrEqualTo(cutoffMillis);
+        return _telephony.getInboxSms(
+          columns: const [SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE],
+          filter: filter,
+          sortOrder: [OrderBy(SmsColumn.DATE, sort: Sort.DESC)],
+        );
+      }),
+    );
 
-    messages.sort((a, b) => (b.date ?? 0).compareTo(a.date ?? 0));
+    final messages = perSenderResults.expand((m) => m).toList()
+      ..sort((a, b) => (b.date ?? 0).compareTo(a.date ?? 0));
     return messages;
   }
 
@@ -560,6 +622,12 @@ class MomoSmsAutoreadService {
     DateTime? latestKnownMessageAt,
     String? errorMessage,
   }) async {
+    // Fix 9: Include device metadata in every sync run record.
+    final deviceMetadata = <String, dynamic>{
+      'platform': Platform.operatingSystem,
+      'os_version': Platform.operatingSystemVersion,
+    };
+
     await _syncRunAuditWriter.record(
       MomoSmsSyncRunRecord(
         userId: userId,
@@ -576,8 +644,22 @@ class MomoSmsAutoreadService {
         newestMessageAt: newestMessageAt,
         latestKnownMessageAt: latestKnownMessageAt,
         errorMessage: errorMessage,
+        metadata: deviceMetadata,
       ),
     );
+  }
+
+  /// Fix 10: Returns the current retry queue size for UI display.
+  Future<int> getRetryQueueSize() async {
+    if (!_supportsSmsAutoread) {
+      return 0;
+    }
+    try {
+      final box = await _openBox(_retryQueueBoxName);
+      return box.length;
+    } catch (_) {
+      return 0;
+    }
   }
 
   Future<void> _queueRetryCapture(MomoSmsCapture capture) async {
@@ -753,16 +835,8 @@ class _MomoSmsBackgroundProcessor {
       return;
     }
 
-    SupabaseClient? client;
-    try {
-      client = await _ensureSupabaseClient();
-    } catch (_) {
-      return;
-    }
-    if (client == null || client.auth.currentUser?.id == null) {
-      return;
-    }
-
+    // Pre-queue the capture to Hive BEFORE Supabase init to guarantee
+    // the message is never lost (Fix 2: queue-before-ingest).
     final capture = MomoSmsIngestionRepository.captureFromDeviceMessage(
       sender: message.address,
       body: message.body,
@@ -770,63 +844,87 @@ class _MomoSmsBackgroundProcessor {
       ingestionSource: 'android_sms_listener_background',
     );
     if (capture == null) {
-      await _reportBackgroundSenderDriftIfNeeded(
-        client: client,
-        sender: message.address,
-        body: message.body,
-      );
+      // Not an approved sender — check for drift telemetry.
+      SupabaseClient? driftClient;
+      try {
+        driftClient = await _ensureSupabaseClient();
+      } catch (_) {
+        return;
+      }
+      if (driftClient != null) {
+        await _reportBackgroundSenderDriftIfNeeded(
+          client: driftClient,
+          sender: message.address,
+          body: message.body,
+        );
+      }
+      return;
+    }
+
+    // Pre-queue before any network call.
+    try {
+      final box = await _openRetryQueueBox(_retryQueueBoxName);
+      if (box.length < _retryQueueMaxSize) {
+        final payload = jsonEncode({
+          'sender': capture.sender,
+          'body': capture.body,
+          'deviceMessageKey': capture.deviceMessageKey,
+          'receivedAt': capture.receivedAt.toUtc().toIso8601String(),
+          'ingestionSource': capture.ingestionSource,
+        });
+        await box.put(capture.deviceMessageKey, payload);
+      }
+    } catch (_) {
+      // Hive write failed — continue with ingestion attempt anyway.
+    }
+
+    SupabaseClient? client;
+    try {
+      client = await _ensureSupabaseClient();
+    } catch (_) {
+      // Supabase init failed — capture is already queued for retry.
+      return;
+    }
+    if (client == null || client.auth.currentUser?.id == null) {
       return;
     }
 
     try {
       final repository = MomoSmsIngestionRepository(client: client);
       await repository.ingestCapture(capture: capture);
-    } catch (error) {
-      debugPrint(
-        '[MoMo SMS] background ingestion failed, queueing for retry: $error',
-      );
-      // Queue the capture for retry on next foreground refresh (G8).
+
+      // Ingestion succeeded — remove pre-queued retry entry.
       try {
         final box = await _openRetryQueueBox(_retryQueueBoxName);
-        final alreadyQueued = box.containsKey(capture.deviceMessageKey);
-        if (alreadyQueued || box.length < _retryQueueMaxSize) {
-          final payload = jsonEncode({
-            'sender': capture.sender,
-            'body': capture.body,
-            'deviceMessageKey': capture.deviceMessageKey,
-            'receivedAt': capture.receivedAt.toUtc().toIso8601String(),
-            'ingestionSource': capture.ingestionSource,
-          });
-          await box.put(capture.deviceMessageKey, payload);
-          final queueSize = box.length;
-          if (_retryQueueTelemetryThresholds.contains(queueSize)) {
-            await _recordSmsIngestOperationalEvent(
-              OperationalHealthService(client: client),
-              status: OperationalHealthStatus.warn,
-              severity: OperationalHealthSeverity.warning,
-              issueCode: 'retry_queue_backlog',
-              message: 'SMS retry queue has pending captures awaiting retry.',
-              metadata: <String, dynamic>{
-                'queued_after': queueSize,
-                'max_queue': _retryQueueMaxSize,
-              },
-            );
-          }
-        } else {
+        await box.delete(capture.deviceMessageKey);
+      } catch (_) {
+        // Non-critical: entry will be de-duplicated on retry drain.
+      }
+    } catch (error) {
+      debugPrint(
+        '[MoMo SMS] background ingestion failed, capture already queued '
+        'for retry: $error',
+      );
+      // Capture was pre-queued before Supabase init, so no need to
+      // queue again. Only record telemetry thresholds.
+      try {
+        final box = await _openRetryQueueBox(_retryQueueBoxName);
+        final queueSize = box.length;
+        if (_retryQueueTelemetryThresholds.contains(queueSize)) {
           await _recordSmsIngestOperationalEvent(
             OperationalHealthService(client: client),
-            status: OperationalHealthStatus.error,
-            severity: OperationalHealthSeverity.critical,
-            issueCode: 'retry_queue_full',
-            message: 'SMS retry queue is full; new capture was dropped.',
+            status: OperationalHealthStatus.warn,
+            severity: OperationalHealthSeverity.warning,
+            issueCode: 'retry_queue_backlog',
+            message: 'SMS retry queue has pending captures awaiting retry.',
             metadata: <String, dynamic>{
-              'queued_before': box.length,
+              'queued_after': queueSize,
               'max_queue': _retryQueueMaxSize,
             },
           );
         }
       } catch (queueError) {
-        debugPrint('[MoMo SMS] retry queue write failed: $queueError');
+        debugPrint('[MoMo SMS] retry queue telemetry failed: $queueError');
       }
     }
   }

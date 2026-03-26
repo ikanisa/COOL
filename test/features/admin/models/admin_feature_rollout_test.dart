@@ -8,59 +8,59 @@ void main() {
       final rollouts = AdminFeatureRolloutConfig.fromAppConfigEntries(
         <Map<String, dynamic>>[
           <String, dynamic>{
-            'key': 'feature_mobility_stage',
+            'key': 'feature_ticket_purchase_stage',
             'value': 'pilot',
             'country': 'RW',
           },
           <String, dynamic>{
-            'key': 'feature_mobility_admin_only',
+            'key': 'feature_ticket_purchase_admin_only',
             'value': 'true',
             'country': null,
           },
           <String, dynamic>{
-            'key': 'kill_mobility',
+            'key': 'kill_ticket_purchase',
             'value': 'false',
             'country': null,
           },
         ],
       );
 
-      final mobility = rollouts.firstWhere(
-        (rollout) => rollout.key == 'mobility',
+      final ticketing = rollouts.firstWhere(
+        (rollout) => rollout.key == 'ticket_purchase',
       );
-      expect(mobility.rollout.stage, FeatureRolloutStage.pilot);
-      expect(mobility.rollout.adminOnly, isTrue);
-      expect(mobility.rollout.killSwitch, isFalse);
+      expect(ticketing.rollout.stage, FeatureRolloutStage.pilot);
+      expect(ticketing.rollout.adminOnly, isTrue);
+      expect(ticketing.rollout.killSwitch, isFalse);
     });
 
     test('ignores rollout rows scoped outside Rwanda', () {
       final rollouts = AdminFeatureRolloutConfig.fromAppConfigEntries(
         <Map<String, dynamic>>[
           <String, dynamic>{
-            'key': 'feature_mobility_stage',
+            'key': 'feature_ticket_purchase_stage',
             'value': 'internal',
             'country': 'UG',
           },
         ],
       );
 
-      final mobility = rollouts.firstWhere(
-        (rollout) => rollout.key == 'mobility',
+      final ticketing = rollouts.firstWhere(
+        (rollout) => rollout.key == 'ticket_purchase',
       );
       expect(
-        mobility.rollout.stage,
-        EngagementFeatureFlags.defaults().mobility.stage,
+        ticketing.rollout.stage,
+        EngagementFeatureFlags.defaults().ticketPurchase.stage,
       );
     });
 
     test('serializes rollout values into app config rows', () {
       const config = AdminFeatureRolloutConfig(
-        key: 'credit',
-        label: 'Credit',
-        description: 'Credit rollout',
-        killSwitchKey: 'kill_credit_features',
+        key: 'ticket_purchase',
+        label: 'Ticketing',
+        description: 'Ticketing rollout',
+        killSwitchKey: 'kill_ticket_purchase',
         rollout: ManagedFeatureRollout(
-          key: 'credit',
+          key: 'ticket_purchase',
           stage: FeatureRolloutStage.internal,
           killSwitch: true,
           adminOnly: true,
@@ -71,16 +71,18 @@ void main() {
 
       expect(rows, hasLength(3));
       expect(
-        rows.firstWhere((row) => row['key'] == 'kill_credit_features')['value'],
+        rows.firstWhere((row) => row['key'] == 'kill_ticket_purchase')['value'],
         'true',
       );
       expect(
-        rows.firstWhere((row) => row['key'] == 'feature_credit_stage')['value'],
+        rows.firstWhere(
+          (row) => row['key'] == 'feature_ticket_purchase_stage',
+        )['value'],
         'internal',
       );
       expect(
         rows.firstWhere(
-          (row) => row['key'] == 'feature_credit_admin_only',
+          (row) => row['key'] == 'feature_ticket_purchase_admin_only',
         )['value'],
         'true',
       );

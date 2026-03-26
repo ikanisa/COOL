@@ -79,12 +79,6 @@ where route.id = ranked.id
 update public.partner_payment_routes
 set country = 'RW'
 where country is distinct from 'RW';
-update public.driver_profiles
-set country = 'RW'
-where country is distinct from 'RW';
-update public.mobility_trips
-set country = 'RW'
-where country is distinct from 'RW';
 alter table public.users
   alter column country set default 'RW';
 alter table public.users
@@ -96,10 +90,6 @@ alter table public.partners
 alter table public.partner_services
   alter column country set default 'RW';
 alter table public.partner_payment_routes
-  alter column country set default 'RW';
-alter table public.driver_profiles
-  alter column country set default 'RW';
-alter table public.mobility_trips
   alter column country set default 'RW';
 alter table public.supported_countries
   drop constraint if exists supported_countries_rwanda_only_check;
@@ -136,41 +126,16 @@ alter table public.partner_payment_routes
 alter table public.partner_payment_routes
   add constraint partner_payment_routes_country_rwanda_only_check
   check (country = 'RW');
-alter table public.driver_profiles
-  drop constraint if exists driver_profiles_country_rwanda_only_check;
-alter table public.driver_profiles
-  add constraint driver_profiles_country_rwanda_only_check
-  check (country = 'RW');
-alter table public.mobility_trips
-  drop constraint if exists mobility_trips_country_rwanda_only_check;
-alter table public.mobility_trips
-  add constraint mobility_trips_country_rwanda_only_check
-  check (country = 'RW');
 alter table public.quick_actions
   drop constraint if exists quick_actions_country_local_scope_check;
 alter table public.quick_actions
   add constraint quick_actions_country_local_scope_check
-  check (country is null or country = 'RW');
-alter table public.vehicle_types
-  drop constraint if exists vehicle_types_country_local_scope_check;
-alter table public.vehicle_types
-  add constraint vehicle_types_country_local_scope_check
   check (country is null or country = 'RW');
 alter table public.app_config
   drop constraint if exists app_config_country_local_scope_check;
 alter table public.app_config
   add constraint app_config_country_local_scope_check
   check (country is null or country = 'RW');
-create or replace function public.sync_mobility_country_from_user()
-returns trigger
-language plpgsql
-set search_path = public
-as $$
-begin
-  new.country := 'RW';
-  return new;
-end;
-$$;
 create or replace function public.enforce_partner_payment_route_fields()
 returns trigger
 language plpgsql

@@ -261,90 +261,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get momoDialerError => 'open the USSD failed';
 
   @override
-  String get mobilityTitle => 'Mobility';
-
-  @override
-  String get nearbyDrivers => 'Nearby Drivers';
-
-  @override
-  String get scheduledTrips => 'Scheduled Trips';
-
-  @override
-  String get scheduleTrip => 'Schedule a Trip';
-
-  @override
-  String get postTrip => 'Post Trip on Board';
-
-  @override
-  String get tripBoard => 'Trip Board';
-
-  @override
-  String get driverProfile => 'Driver Profile';
-
-  @override
-  String get allTrips => 'All Trips';
-
-  @override
-  String get oneWay => 'One Way';
-
-  @override
-  String get returnTrips => 'Return';
-
-  @override
-  String get noTripsAvailable => 'No trips available right';
-
-  @override
-  String get noDriversNearby => 'No drivers nearby.';
-
-  @override
-  String get contactViaWhatsapp => 'Contact via WhatsApp';
-
-  @override
-  String get tripDetails => 'Trip Details';
-
-  @override
-  String expiresIn(Object minutes) {
-    return 'Expires in $minutes min';
-  }
-
-  @override
-  String seatsLabel(Object count) {
-    return '$count seat';
-  }
-
-  @override
-  String seatsLabelPlural(Object count) {
-    return '$count seats';
-  }
-
-  @override
-  String get scheduleTripTitle => 'Schedule a Trip';
-
-  @override
-  String get scheduleTripInfoBanner => 'Schedule ahead to find!';
-
-  @override
-  String get scheduleTripDetailsTitle => 'Trip Details';
-
-  @override
-  String get scheduleTripFromHint => '📍 From — e.g. Nyamirambo';
-
-  @override
-  String get scheduleTripToHint => 'To e g Kigali';
-
-  @override
-  String get scheduleTripDateTimeLabel => 'Date & Time';
-
-  @override
-  String get scheduleTripVehicleLabel => 'Vehicle Preference';
-
-  @override
-  String get scheduleTripSeatsLabel => 'Seats Needed';
-
-  @override
-  String get scheduleTripReturnTitle => 'Return Trip';
-
-  @override
   String get scheduleTripReturnSubtitle => 'Drivers offer discounts on';
 
   @override
@@ -451,43 +367,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get driverOnlineMessage => 'Online now';
 
   @override
-  String get driverOfflineMessage => 'Offline now';
-
-  @override
   String get online => 'Online';
 
   @override
   String get offline => 'Offline';
 
   @override
-  String get tripsDone => 'Trips Done';
-
-  @override
-  String get freeTrips => 'Free Trips';
-
-  @override
   String get statusHealthy => 'Healthy';
 
   @override
   String get statusWarning => 'Warning';
-
-  @override
-  String get myVehicle => 'My Vehicle';
-
-  @override
-  String get editVehicle => 'Edit Vehicle';
-
-  @override
-  String get saveVehicleInfo => 'Save Vehicle Info';
-
-  @override
-  String get vehicleTypeLabel => 'Vehicle Type';
-
-  @override
-  String get plateNumberLabel => 'Plate Number';
-
-  @override
-  String get baseLocationLabel => 'Base Location';
 
   @override
   String get statusLabel => 'Status';
@@ -1831,48 +1720,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileOfficialIdentityLabel => 'Official identity';
 
   @override
-  String get profileTravelRoleLabel => 'Travel role';
-
-  @override
-  String get profilePassengerRoleLabel => 'Passenger';
-
-  @override
-  String get profileDriverRoleLabel => 'Driver';
-
-  @override
   String get profileMomoCodeNotSet => 'MoMo code not set';
-
-  @override
-  String get profileDriverSetupPending => 'Driver setup pending';
-
-  @override
-  String get profileRegularDriverCadence => 'Regular driver';
-
-  @override
-  String get profileOccasionalDriverCadence => 'Occasional driver';
-
-  @override
-  String profileMobilityCreditsValue(Object credits) {
-    return '$credits credits';
-  }
-
-  @override
-  String get profileMobilitySubscriptionActive => 'Subscription active';
-
-  @override
-  String profileMobilitySubscriptionUntil(Object date) {
-    return 'Subscribed until $date';
-  }
-
-  @override
-  String get mobilityNoWhatsappAvailable => 'No WhatsApp contact yet';
-
-  @override
-  String get mobilityNoContactYet => 'No contact yet';
-
-  @override
-  String get mobilityLocationRequiredDriverMode =>
-      'Location is required before';
 
   @override
   String momoSendMoneyOpensUssd(Object countryName) {
@@ -2217,9 +2065,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get credit => 'Credit';
 
   @override
-  String get mobility => 'Mobility';
-
-  @override
   String get rejectAllocation => 'Reject allocation';
 
   @override
@@ -2342,9 +2187,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rolloutGovernance => 'Rollout Governance';
-
-  @override
-  String get mobilitySubscriptionRecipient => 'Mobility Subscription Recipient';
 
   @override
   String get addRecipient => 'Add Recipient';
@@ -2756,9 +2598,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get location => 'Location';
 
   @override
-  String get neededForNearbyMobility => 'Needed for nearby mobility';
-
-  @override
   String get camera => 'Camera';
 
   @override
@@ -2804,30 +2643,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get darkMode => 'Dark mode';
 
   @override
-  String get vehicleDetails => 'Vehicle details';
-
-  @override
-  String get subscriptionAccess => 'Subscription access';
-
-  @override
-  String get renewalNote => 'Renewal note';
-
-  @override
-  String get selectedPlan => 'Selected plan';
-
-  @override
-  String get editVehicleInfo => 'Edit vehicle info';
-
-  @override
-  String get vehicleType => 'Vehicle type';
-
-  @override
-  String get plateNumber => 'Plate number';
-
-  @override
-  String get baseLocation => 'Base location';
-
-  @override
   String get verification => 'Verification';
 
   @override
@@ -2838,9 +2653,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get thisMonth => 'This month';
-
-  @override
-  String get retryLoadingDriverProfile => 'Retry loading driver profile';
 
   @override
   String get trips => 'Trips';
@@ -2864,181 +2676,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get preview => 'Preview';
 
   @override
-  String get trike => 'Trike';
-
-  @override
-  String get truck => 'Truck';
-
-  @override
-  String get others => 'Others';
-
-  @override
   String get payViaMomoUssd1 => 'Pay via MOMO USSD';
-
-  @override
-  String get tripsPosted => 'Trips Posted';
-
-  @override
-  String get mobilityCredits => 'Mobility Credits';
-
-  @override
-  String get openSubscriptionOptions => 'Open subscription options';
-
-  @override
-  String get allValueAll => 'All\', value: \'All';
-
-  @override
-  String get motoValueMoto => 'Moto\', value: \'Moto';
-
-  @override
-  String get cabValueCab => 'Cab\', value: \'Cab';
-
-  @override
-  String get truckValueTruck => 'Truck\', value: \'Truck';
-
-  @override
-  String get trikeValueTrike => 'Trike\', value: \'Trike';
-
-  @override
-  String get othersValueOthers => 'Others\', value: \'Others';
-
-  @override
-  String get nearby => 'Nearby';
-
-  @override
-  String get schedule => 'Schedule';
-
-  @override
-  String get returnTrip => 'Return trip';
-
-  @override
-  String get recurring => 'Recurring';
-
-  @override
-  String get postedBy => 'Posted by';
-
-  @override
-  String get routeCoordinates => 'Route coordinates';
-
-  @override
-  String get chatFlowValueAgree => 'Chat flow\', value: \'Agree via WhatsApp.';
-
-  @override
-  String get priceNote => 'Price note';
-
-  @override
-  String get confirmedViaWhatsapp => 'Confirmed via WhatsApp';
-
-  @override
-  String get shareThisTrip => 'Share this trip';
-
-  @override
-  String get whatsappUnavailable => 'WhatsApp unavailable.';
-
-  @override
-  String get hasReturnTrip => 'Has return trip';
-
-  @override
-  String get regularDriver => 'Regular driver';
-
-  @override
-  String get currentRoute => 'Current route';
-
-  @override
-  String get area => 'Area';
-
-  @override
-  String get vehicleStatus => 'Vehicle status';
-
-  @override
-  String get lastActive => 'Last active';
-
-  @override
-  String get chatFlowValueAgree1 => 'Chat flow\', value: \'Agree via WhatsApp';
-
-  @override
-  String get agreedViaWhatsapp => 'Agreed via WhatsApp';
-
-  @override
-  String get tripDestinationSearch => 'Trip destination search';
-
-  @override
-  String get searchLandmarkOrAddress => 'Search landmark or address';
-
-  @override
-  String get defaultMode => 'Default mode';
-
-  @override
-  String get postTrip1 => 'Post trip';
-
-  @override
-  String get tripType => 'Trip type';
-
-  @override
-  String get exploreTrips => 'Explore trips';
-
-  @override
-  String get findARideNearby => 'Find a ride nearby.';
-
-  @override
-  String get manageYourTrips => 'Manage your trips';
-
-  @override
-  String get manageYourPostedTrips => 'Manage your posted trips.';
-
-  @override
-  String get filterByTripType => 'Filter by trip type.';
-
-  @override
-  String get passengerTrips => 'Passenger trips';
-
-  @override
-  String get ridesNearYou => 'Rides near you.';
-
-  @override
-  String get driverReturns => 'Driver returns';
-
-  @override
-  String get driversWithAvailableSeats => 'Drivers with available seats.';
-
-  @override
-  String get pickup => 'Pickup';
-
-  @override
-  String get dropoff => 'Dropoff';
-
-  @override
-  String get useCurrentLocation => 'Use current location';
-
-  @override
-  String get searchPlaces => 'Search places';
-
-  @override
-  String get loadingNearbyTrips => 'Loading nearby trips';
-
-  @override
-  String get loadNearbyTripsFailed => 'Load nearby trips failed';
-
-  @override
-  String get loadingYourTrips => 'Loading your trips';
-
-  @override
-  String get loadYourTripsFailed => 'Load your trips failed';
-
-  @override
-  String get noTripsPostedYet => 'No trips posted yet';
-
-  @override
-  String get postATripTo => 'Post a trip to get started';
-
-  @override
-  String get noDriverReturnsAvailable => 'No driver returns available';
-
-  @override
-  String get tryAnotherVehicleType => 'Try another vehicle type';
-
-  @override
-  String get tripActions => 'Trip actions';
 
   @override
   String get expired => 'Expired';
@@ -3051,30 +2689,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get matched => 'Matched';
-
-  @override
-  String get vehicleType1 => 'Vehicle Type';
-
-  @override
-  String get plateNumber1 => 'Plate Number';
-
-  @override
-  String get baseLocation1 => 'Base Location';
-
-  @override
-  String get setBaseLocation => 'Set base location';
-
-  @override
-  String get vehicleType2 => 'Vehicle Type';
-
-  @override
-  String get plateNumber2 => 'Plate Number';
-
-  @override
-  String get baseLocation2 => 'Base Location';
-
-  @override
-  String get searchGooglePlaces => 'Search Google Places';
 
   @override
   String get home => 'Home';
@@ -4035,12 +3649,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminPartnersDesc => 'Manage partner profiles';
-
-  @override
-  String get adminVehicleTypes => 'Vehicle Types';
-
-  @override
-  String get adminVehicleTypesDesc => 'Mobility filter chips';
 
   @override
   String get adminSeasons => 'Seasons';

@@ -53,9 +53,7 @@ void main() {
         final relativePath = file.path;
 
         // Skip allowlisted paths
-        if (allowlistedPaths.any(
-          (allowed) => relativePath.contains(allowed),
-        )) {
+        if (allowlistedPaths.any((allowed) => relativePath.contains(allowed))) {
           continue;
         }
 
@@ -96,7 +94,9 @@ void main() {
   }
 
   test('SupportedCountriesRepository has no Supabase dependency', () {
-    final file = File('lib/core/repositories/supported_countries_repository.dart');
+    final file = File(
+      'lib/core/repositories/supported_countries_repository.dart',
+    );
     if (!file.existsSync()) {
       fail('supported_countries_repository.dart not found');
     }
@@ -125,8 +125,7 @@ void main() {
     expect(
       content.contains('Future<void> updateCountry('),
       isFalse,
-      reason:
-          'admin code must not expose supported_countries writes anymore',
+      reason: 'admin code must not expose supported_countries writes anymore',
     );
   });
 

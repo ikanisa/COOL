@@ -105,7 +105,10 @@ class FakeGroupRepository implements GroupRepository {
   }
 
   @override
-  Future<void> updateGroup(String groupId, Map<String, dynamic> updates) async {}
+  Future<void> updateGroup(
+    String groupId,
+    Map<String, dynamic> updates,
+  ) async {}
 
   @override
   Future<void> contribute(String groupId, int amount) async {}
@@ -181,7 +184,6 @@ const _signedInUser = UserProfile(
   momoProvider: 'mtn_rwanda',
   country: 'RW',
   languageCode: 'en',
-  isDriver: false,
 );
 
 const _publicGroup = Group(

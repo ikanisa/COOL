@@ -89,8 +89,11 @@ void main() {
           status: PaymentPollStatus.confirmed,
           dbStatus: s,
         );
-        expect(state.isConfirmed, isTrue,
-            reason: 'dbStatus "$s" should be confirmed');
+        expect(
+          state.isConfirmed,
+          isTrue,
+          reason: 'dbStatus "$s" should be confirmed',
+        );
       }
     });
 
@@ -101,8 +104,11 @@ void main() {
           status: PaymentPollStatus.failed,
           dbStatus: s,
         );
-        expect(state.isFailed, isTrue,
-            reason: 'dbStatus "$s" should be failed');
+        expect(
+          state.isFailed,
+          isTrue,
+          reason: 'dbStatus "$s" should be failed',
+        );
       }
     });
   });
@@ -148,9 +154,12 @@ void main() {
         timeoutSeconds: 600, // different timeout
       );
       // Per the implementation, equality only checks table + recordId
-      expect(args1, equals(args2),
-          reason:
-              'Same table+recordId should match even with different intervals');
+      expect(
+        args1,
+        equals(args2),
+        reason:
+            'Same table+recordId should match even with different intervals',
+      );
     });
   });
 }

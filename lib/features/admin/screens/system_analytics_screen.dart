@@ -115,16 +115,10 @@ class SystemAnalyticsScreen extends ConsumerWidget {
                       colors.accent,
                     ),
                     _Metric(
-                      'Drivers',
-                      _fmt(data['total_drivers']),
-                      Icons.directions_car_rounded,
-                      colors.info,
-                    ),
-                    _Metric(
                       'Partners',
                       _fmt(data['total_partners']),
                       Icons.handshake_rounded,
-                      colors.neutral,
+                      colors.info,
                     ),
                     _Metric(
                       'Groups',
@@ -133,9 +127,15 @@ class SystemAnalyticsScreen extends ConsumerWidget {
                       colors.info,
                     ),
                     _Metric(
-                      'Trips',
-                      _fmt(data['total_trips']),
-                      Icons.route_rounded,
+                      'Active Groups',
+                      _fmt(data['active_groups']),
+                      Icons.groups_rounded,
+                      colors.success,
+                    ),
+                    _Metric(
+                      'Tickets',
+                      _fmt(data['total_tickets']),
+                      Icons.confirmation_number_rounded,
                       colors.warning,
                     ),
                   ],
@@ -159,9 +159,9 @@ class SystemAnalyticsScreen extends ConsumerWidget {
                       colors.info,
                     ),
                     _Metric(
-                      'Trips (7d)',
-                      _fmt(data['trips_7d']),
-                      Icons.local_taxi_rounded,
+                      'Tickets (7d)',
+                      _fmt(data['tickets_7d']),
+                      Icons.local_activity_rounded,
                       colors.warning,
                     ),
                     _Metric(
@@ -228,8 +228,6 @@ class SystemAnalyticsScreen extends ConsumerWidget {
 // ═══════════════════════════════════════════════════════════════
 // Sub-widgets
 // ═══════════════════════════════════════════════════════════════
-
-
 
 class _Metric {
   const _Metric(this.label, this.value, this.icon, this.color);

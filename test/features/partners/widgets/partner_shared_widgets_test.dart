@@ -31,7 +31,9 @@ const _testPartner = Partner(
 );
 
 Widget _wrap(Widget child) {
-  return MaterialApp(home: Scaffold(body: SingleChildScrollView(child: child)));
+  return MaterialApp(
+    home: Scaffold(body: SingleChildScrollView(child: child)),
+  );
 }
 
 // ── tests ─────────────────────────────────────────────────────────────────
@@ -39,12 +41,14 @@ Widget _wrap(Widget child) {
 void main() {
   group('PartnerSectionHeader', () {
     testWidgets('renders title and description from meta', (tester) async {
-      await tester.pumpWidget(_wrap(
-        const PartnerSectionHeader(
-          category: 'digital',
-          categoryMeta: _testMeta,
+      await tester.pumpWidget(
+        _wrap(
+          const PartnerSectionHeader(
+            category: 'digital',
+            categoryMeta: _testMeta,
+          ),
         ),
-      ));
+      );
 
       expect(find.text('Digital Banking'), findsOneWidget);
       expect(find.text('Digital services description'), findsOneWidget);
@@ -52,13 +56,15 @@ void main() {
     });
 
     testWidgets('falls back to fallbackCategory when missing', (tester) async {
-      await tester.pumpWidget(_wrap(
-        const PartnerSectionHeader(
-          category: 'unknown',
-          categoryMeta: _testMeta,
-          fallbackCategory: 'support',
+      await tester.pumpWidget(
+        _wrap(
+          const PartnerSectionHeader(
+            category: 'unknown',
+            categoryMeta: _testMeta,
+            fallbackCategory: 'support',
+          ),
         ),
-      ));
+      );
 
       expect(find.text('Support'), findsOneWidget);
     });
@@ -79,17 +85,19 @@ void main() {
     testWidgets('renders title/subtitle and calls onTap', (tester) async {
       var tapped = false;
 
-      await tester.pumpWidget(_wrap(
-        SizedBox(
-          height: 200,
-          child: PartnerQuickActionTile(
-            icon: Icons.public,
-            title: 'Website',
-            subtitle: 'Open site',
-            onTap: () => tapped = true,
+      await tester.pumpWidget(
+        _wrap(
+          SizedBox(
+            height: 200,
+            child: PartnerQuickActionTile(
+              icon: Icons.public,
+              title: 'Website',
+              subtitle: 'Open site',
+              onTap: () => tapped = true,
+            ),
           ),
         ),
-      ));
+      );
 
       expect(find.text('Website'), findsOneWidget);
       expect(find.text('Open site'), findsOneWidget);
@@ -102,13 +110,15 @@ void main() {
 
   group('PartnerSupportLine', () {
     testWidgets('renders icon, label, and value', (tester) async {
-      await tester.pumpWidget(_wrap(
-        const PartnerSupportLine(
-          icon: Icons.phone,
-          label: 'Phone',
-          value: '+250 788 123 456',
+      await tester.pumpWidget(
+        _wrap(
+          const PartnerSupportLine(
+            icon: Icons.phone,
+            label: 'Phone',
+            value: '+250 788 123 456',
+          ),
         ),
-      ));
+      );
 
       expect(find.text('Phone'), findsOneWidget);
       expect(find.text('+250 788 123 456'), findsOneWidget);
@@ -118,12 +128,14 @@ void main() {
 
   group('PartnerDetailRow', () {
     testWidgets('renders detail label and value', (tester) async {
-      await tester.pumpWidget(_wrap(
-        const PartnerDetailRow(
-          detail: ServiceDetail(label: 'Rate', value: '5%', icon: '📊'),
-          accent: Colors.blue,
+      await tester.pumpWidget(
+        _wrap(
+          const PartnerDetailRow(
+            detail: ServiceDetail(label: 'Rate', value: '5%', icon: '📊'),
+            accent: Colors.blue,
+          ),
         ),
-      ));
+      );
 
       expect(find.text('Rate'), findsOneWidget);
       expect(find.text('5%'), findsOneWidget);
@@ -146,12 +158,14 @@ void main() {
     testWidgets('renders message and optional retry', (tester) async {
       var retried = false;
 
-      await tester.pumpWidget(_wrap(
-        PartnerErrorBody(
-          message: 'Something went wrong',
-          onRetry: () => retried = true,
+      await tester.pumpWidget(
+        _wrap(
+          PartnerErrorBody(
+            message: 'Something went wrong',
+            onRetry: () => retried = true,
+          ),
         ),
-      ));
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('Something went wrong'), findsOneWidget);
@@ -163,9 +177,7 @@ void main() {
     });
 
     testWidgets('hides retry button when onRetry is null', (tester) async {
-      await tester.pumpWidget(
-        _wrap(const PartnerErrorBody(message: 'Oops')),
-      );
+      await tester.pumpWidget(_wrap(const PartnerErrorBody(message: 'Oops')));
       await tester.pumpAndSettle();
 
       expect(find.text('Retry'), findsNothing);
@@ -179,10 +191,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(
-        find.textContaining('Acme'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('Acme'), findsOneWidget);
     });
   });
 
@@ -201,16 +210,17 @@ void main() {
         ctaAction: 'web:https://example.com',
       );
 
-      await tester.pumpWidget(_wrap(
-        PartnerServiceCard(
-          service: service,
-          partner: _testPartner,
-          categoryMeta: _testMeta,
-          normalizeCategory: (raw) => raw,
-          onCtaTap: (ctx, {required action, topic}) =>
-              tappedAction = action,
+      await tester.pumpWidget(
+        _wrap(
+          PartnerServiceCard(
+            service: service,
+            partner: _testPartner,
+            categoryMeta: _testMeta,
+            normalizeCategory: (raw) => raw,
+            onCtaTap: (ctx, {required action, topic}) => tappedAction = action,
+          ),
         ),
-      ));
+      );
 
       expect(find.text('Savings Account'), findsOneWidget);
       expect(find.text('Save monthly'), findsOneWidget);
@@ -229,15 +239,17 @@ void main() {
         category: 'digital',
       );
 
-      await tester.pumpWidget(_wrap(
-        PartnerServiceCard(
-          service: service,
-          partner: _testPartner,
-          categoryMeta: _testMeta,
-          normalizeCategory: (raw) => raw,
-          onCtaTap: (ctx, {required action, topic}) {},
+      await tester.pumpWidget(
+        _wrap(
+          PartnerServiceCard(
+            service: service,
+            partner: _testPartner,
+            categoryMeta: _testMeta,
+            normalizeCategory: (raw) => raw,
+            onCtaTap: (ctx, {required action, topic}) {},
+          ),
         ),
-      ));
+      );
 
       expect(find.text('Checking Account'), findsOneWidget);
       // No CTA button when ctaAction is null

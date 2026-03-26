@@ -48,12 +48,10 @@ function asString(value: unknown): string | null {
 
 function deriveLedgerScope(
   targetTable: string | null,
-): "wallet" | "group" | "partner" | "subscription" {
+): "wallet" | "group" | "partner" {
   switch (targetTable) {
     case "group_contributions":
       return "group";
-    case "driver_subscriptions":
-      return "subscription";
     case "partner_payment_routes":
     case "rs_tickets":
     case "rs_shop_orders":
@@ -292,7 +290,11 @@ Deno.serve(async (request: Request) => {
         }
       }
 
-      if (parsed.amount != null && parsed.amount > 0) {
+      if (
+        parsed.amount != null &&
+        parsed.amount > 0 &&
+        autoReconciliation.matchStatus === "matched"
+      ) {
         const payeeGroupId = asString(autoReconciliation.metadata.group_id);
         const payeePartnerId = asString(autoReconciliation.metadata.partner_id);
         const ledgerUpsert = await adminClient

@@ -84,21 +84,6 @@ begin
   get diagnostics v_count = row_count;
   v_result := v_result || jsonb_build_object('credit_scores', v_count);
 
-  delete from public.driver_subscriptions
-  where mock_batch = v_batch;
-  get diagnostics v_count = row_count;
-  v_result := v_result || jsonb_build_object('driver_subscriptions', v_count);
-
-  delete from public.mobility_trips
-  where mock_batch = v_batch;
-  get diagnostics v_count = row_count;
-  v_result := v_result || jsonb_build_object('mobility_trips', v_count);
-
-  delete from public.driver_profiles
-  where mock_batch = v_batch;
-  get diagnostics v_count = row_count;
-  v_result := v_result || jsonb_build_object('driver_profiles', v_count);
-
   delete from public.group_contributions
   where mock_batch = v_batch;
   get diagnostics v_count = row_count;

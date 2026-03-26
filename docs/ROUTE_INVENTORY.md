@@ -4,9 +4,9 @@ Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router
 
 Current router shape:
 
-- `81` `GoRoute` declarations
-- `4` shell branches
-- `82` screen files under `lib/features/**/screens/*.dart`
+- `72` `GoRoute` declarations
+- `5` shell branches
+- `73` screen files under `lib/features/**/screens/*.dart`
 
 Change policy:
 
@@ -30,20 +30,13 @@ Change policy:
 
 | Path | Target | Shell |
 |---|---|---|
-| `/groups` | [`GroupsScreen`](../lib/features/groups/screens/groups_screen.dart) | Groups |
-| `/groups/:id` | [`GroupDetailScreen`](../lib/features/groups/screens/group_detail_screen.dart) | Groups |
-| `/groups/:id/ledger` | [`GroupLedgerScreen`](../lib/features/groups/screens/group_ledger_screen.dart) | Groups |
-| `/groups/create` | [`CreateGroupScreen`](../lib/features/groups/screens/create_group_screen.dart) | Groups |
-| `/home` | [`HomeScreen`](../lib/features/home/screens/home_screen.dart) | Home |
-| `/mobility` | [`MobilityHomeScreen`](../lib/features/mobility/screens/mobility_home_screen.dart) | Mobility |
-| `/mobility/driver` | [`DriverProfileScreen`](../lib/features/mobility/screens/driver_profile_screen.dart) | Mobility |
-| `/mobility/driver/subscription` | [`DriverSubscriptionScreen`](../lib/features/mobility/screens/driver_detail_screens.dart) | Mobility |
-| `/mobility/driver/vehicle` | [`DriverVehicleScreen`](../lib/features/mobility/screens/driver_detail_screens.dart) | Mobility |
-| `/mobility/schedule` | [`ScheduleTripScreen`](../lib/features/mobility/screens/schedule_trip_screen.dart) | Mobility |
-| `/mobility/trips` | [`TripBoardScreen`](../lib/features/mobility/screens/trip_board_screen.dart) | Mobility |
+| `/groups` | [`GroupsScreen`](../lib/features/groups/screens/groups_screen.dart) | No |
+| `/groups/:id` | [`GroupDetailScreen`](../lib/features/groups/screens/group_detail_screen.dart) | No |
+| `/groups/:id/ledger` | [`GroupLedgerScreen`](../lib/features/groups/screens/group_ledger_screen.dart) | No |
+| `/groups/create` | [`CreateGroupScreen`](../lib/features/groups/screens/create_group_screen.dart) | No |
+| `/home` | [`RayonHomeScreen`](../lib/features/partners/rayon/screens/rayon_home_screen.dart) | Home |
 | `/profile` | [`ProfileScreen`](../lib/features/profile/screens/profile_screen.dart) | Profile |
 | `/profile/identity` | [`ProfileIdentityScreen`](../lib/features/profile/screens/profile_detail_screens.dart) | Profile |
-| `/profile/travel-role` | [`ProfileTravelRoleScreen`](../lib/features/profile/screens/profile_detail_screens.dart) | Profile |
 | `/profile/wallet` | [`ProfileWalletScreen`](../lib/features/profile/screens/profile_detail_screens.dart) | Profile |
 
 ## Standalone Core Routes
@@ -51,11 +44,9 @@ Change policy:
 | Path | Target | Shell |
 |---|---|---|
 | `/app-access` | [`AppAccessOnboardingScreen`](../lib/features/auth/screens/app_access_onboarding_screen.dart) | No |
-| `/credit` | [`CreditScoreScreen`](../lib/features/credit/screens/credit_score_screen.dart) | No |
-| `/credit/readiness` | [`CreditReadinessScreen`](../lib/features/credit/screens/credit_readiness_screen.dart) | No |
-| `/kyc/selfie` | [`KycSelfieScreen`](../lib/features/profile/screens/kyc_selfie_screen.dart) | No |
 | `/missions` | [`MissionsScreen`](../lib/core/status/screens/missions_screen.dart) | No |
 | `/momo` | [`MomoScreen`](../lib/features/momo/screens/momo_screen.dart) | No |
+| `/momo-tab` | [`MomoScreen`](../lib/features/momo/screens/momo_screen.dart) | No |
 | `/momo/biopay` | [`BiopayHomeScreen`](../lib/features/biopay/screens/biopay_home_screen.dart) | No |
 | `/momo/biopay/confirm` | [`BiopayConfirmScreen`](../lib/features/biopay/screens/biopay_confirm_screen.dart) | No |
 | `/momo/biopay/register` | [`BiopayRegisterScreen`](../lib/features/biopay/screens/biopay_register_screen.dart) | No |
@@ -63,6 +54,8 @@ Change policy:
 | `/momo/statements` | [`MomoStatementsScreen`](../lib/features/momo/screens/momo_statements_screen.dart) | No |
 | `/referral` | [`ReferralHubScreen`](../lib/core/status/screens/referral_hub_screen.dart) | No |
 | `/seasons` | [`SeasonsActivitiesScreen`](../lib/features/home/screens/seasons_activities_screen.dart) | No |
+| `/services` | [`ServicesHubScreen`](../lib/features/home/screens/services_hub_screen.dart) | No |
+| `/shop` | [`ClubShopScreen`](../lib/features/partners/rayon/screens/club_shop_screen.dart) | No |
 | `/tokens` | [`CoolTokensScreen`](../lib/core/status/screens/cool_tokens_screen.dart) | No |
 
 ## Partner And Rayon Consumer Routes
@@ -71,7 +64,6 @@ Change policy:
 |---|---|---|
 | `/partners` | [`PartnersScreen`](../lib/features/partners/screens/partners_screen.dart) | No |
 | `/partners/:id` | [`BankPartnerScreen`](../lib/features/partners/screens/bank_partner_screen.dart), [`PrismaPartnerScreen`](../lib/features/partners/screens/prisma_partner_screen.dart), [`RadiantPartnerScreen`](../lib/features/partners/screens/radiant_partner_screen.dart) | No |
-| `/partners/:id/onboarding/:type` | [`BankOnboardingScreen`](../lib/features/partners/bank_onboarding/screens/bank_onboarding_screen.dart) | No |
 | `/partners/rayon-sports` | [`RayonHomeScreen`](../lib/features/partners/rayon/screens/rayon_home_screen.dart) | No |
 | `/partners/rayon-sports/clubs` | [`FanClubsScreen`](../lib/features/partners/rayon/screens/fan_clubs_screen.dart) | No |
 | `/partners/rayon-sports/clubs/:clubId` | [`FanClubDetailScreen`](../lib/features/partners/rayon/screens/fan_club_detail_screen.dart) | No |
@@ -108,7 +100,6 @@ Change policy:
 | `/admin/services` | [`ManageServicesScreen`](../lib/features/admin/screens/manage_services_screen.dart) | No |
 | `/admin/special-products` | [`ManageSpecialProductsScreen`](../lib/features/admin/screens/manage_special_products_screen.dart) | No |
 | `/admin/users` | [`ManageUsersScreen`](../lib/features/admin/screens/manage_users_screen.dart) | No |
-| `/admin/vehicle-types` | [`ManageVehicleTypesScreen`](../lib/features/admin/screens/manage_vehicle_types_screen.dart) | No |
 
 ## Rayon Admin Routes
 

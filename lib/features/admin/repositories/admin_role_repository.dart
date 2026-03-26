@@ -46,12 +46,15 @@ class AdminRoleRepository {
     String? partnerScopeId,
     String? notes,
   }) async {
-    final result = await _client.rpc('assign_admin_role', params: {
-      'p_target_user_id': targetUserId,
-      'p_role': role.dbValue,
-      'p_partner_scope_id': ?partnerScopeId,
-      'p_notes': ?notes,
-    });
+    final result = await _client.rpc(
+      'assign_admin_role',
+      params: {
+        'p_target_user_id': targetUserId,
+        'p_role': role.dbValue,
+        'p_partner_scope_id': ?partnerScopeId,
+        'p_notes': ?notes,
+      },
+    );
     return result as Map<String, dynamic>;
   }
 
@@ -60,10 +63,10 @@ class AdminRoleRepository {
     required String assignmentId,
     String? notes,
   }) async {
-    final result = await _client.rpc('revoke_admin_role', params: {
-      'p_assignment_id': assignmentId,
-      'p_notes': ?notes,
-    });
+    final result = await _client.rpc(
+      'revoke_admin_role',
+      params: {'p_assignment_id': assignmentId, 'p_notes': ?notes},
+    );
     return result as Map<String, dynamic>;
   }
 
@@ -76,10 +79,13 @@ class AdminRoleRepository {
     AdminRole? role,
     bool activeOnly = true,
   }) async {
-    final result = await _client.rpc('list_admin_role_assignments', params: {
-      if (role != null) 'p_role': role.dbValue,
-      'p_active_only': activeOnly,
-    });
+    final result = await _client.rpc(
+      'list_admin_role_assignments',
+      params: {
+        if (role != null) 'p_role': role.dbValue,
+        'p_active_only': activeOnly,
+      },
+    );
     if (result is List) {
       return result
           .cast<Map<String, dynamic>>()

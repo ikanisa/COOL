@@ -39,7 +39,8 @@ class AdminDenseRowTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
-    final resolvedPadding = contentPadding ??
+    final resolvedPadding =
+        contentPadding ??
         const EdgeInsets.symmetric(horizontal: 14, vertical: 10);
 
     return Material(
@@ -51,10 +52,7 @@ class AdminDenseRowTile extends StatelessWidget {
           padding: resolvedPadding,
           child: Row(
             children: [
-              if (leading != null) ...[
-                leading!,
-                const SizedBox(width: 12),
-              ],
+              if (leading != null) ...[leading!, const SizedBox(width: 12)],
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,10 +81,7 @@ class AdminDenseRowTile extends StatelessWidget {
                   ],
                 ),
               ),
-              if (trailing != null) ...[
-                const SizedBox(width: 8),
-                trailing!,
-              ],
+              if (trailing != null) ...[const SizedBox(width: 8), trailing!],
             ],
           ),
         ),

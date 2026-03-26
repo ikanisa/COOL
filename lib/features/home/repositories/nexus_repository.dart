@@ -62,27 +62,31 @@ class NexusRepository {
 
   /// Set status to `approved`.
   Future<void> approve(String id) async {
-    await _client.from(_table).update({
-      'status': AiContentStatus.approved.dbValue,
-      'reviewed_by': _client.auth.currentUser?.id,
-      'reviewed_at': DateTime.now().toUtc().toIso8601String(),
-    }).eq('id', id);
+    await _client
+        .from(_table)
+        .update({
+          'status': AiContentStatus.approved.dbValue,
+          'reviewed_by': _client.auth.currentUser?.id,
+          'reviewed_at': DateTime.now().toUtc().toIso8601String(),
+        })
+        .eq('id', id);
   }
 
   /// Set status to `rejected`.
   Future<void> reject(String id) async {
-    await _client.from(_table).update({
-      'status': AiContentStatus.rejected.dbValue,
-      'reviewed_by': _client.auth.currentUser?.id,
-      'reviewed_at': DateTime.now().toUtc().toIso8601String(),
-    }).eq('id', id);
+    await _client
+        .from(_table)
+        .update({
+          'status': AiContentStatus.rejected.dbValue,
+          'reviewed_by': _client.auth.currentUser?.id,
+          'reviewed_at': DateTime.now().toUtc().toIso8601String(),
+        })
+        .eq('id', id);
   }
 
   /// Toggle `is_active` flag on approved content.
   Future<void> toggleActive(String id, {required bool isActive}) async {
-    await _client.from(_table).update({
-      'is_active': isActive,
-    }).eq('id', id);
+    await _client.from(_table).update({'is_active': isActive}).eq('id', id);
   }
 
   /// Delete a content item.

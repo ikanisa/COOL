@@ -91,35 +91,7 @@ class QuestEngine {
       );
     }
 
-    // ─── 4. Trip streak close to milestone ──────────────────
-    if (tripStreakCount > 0 && tripStreakCount % 5 == 4) {
-      quests.add(
-        CoolQuest(
-          id: 'trip_streak',
-          icon: Icons.directions_car_rounded,
-          title: 'One more trip!',
-          subtitle: '${tripStreakCount + 1} trips for a bonus',
-          route: '/mobility',
-          priority: 75,
-        ),
-      );
-    }
-
-    // ─── 5. Post a trip (driver) ────────────────────────────
-    if (!hasPostedTrip) {
-      quests.add(
-        const CoolQuest(
-          id: 'post_trip',
-          icon: Icons.pin_drop_rounded,
-          title: 'Post your route',
-          subtitle: 'Help others find a ride and earn tokens.',
-          route: '/mobility/schedule',
-          priority: 40,
-        ),
-      );
-    }
-
-    // ─── 6. Pending MoMo confirmations ──────────────────────
+    // ─── 4. Pending MoMo confirmations ──────────────────────
     if (pendingMomoCount > 0) {
       quests.add(
         CoolQuest(
@@ -133,7 +105,7 @@ class QuestEngine {
       );
     }
 
-    // ─── 7. Join a group ────────────────────────────────────
+    // ─── 5. Join a group ────────────────────────────────────
     if (groupCount == 0) {
       quests.add(
         const CoolQuest(
@@ -147,7 +119,7 @@ class QuestEngine {
       );
     }
 
-    // ─── 8. No fan club ─────────────────────────────────────
+    // ─── 6. No fan club ─────────────────────────────────────
     if (membership == null) {
       quests.add(
         const CoolQuest(
@@ -161,7 +133,7 @@ class QuestEngine {
       );
     }
 
-    // ─── 9. Streak maintenance ──────────────────────────────
+    // ─── 7. Streak maintenance ──────────────────────────────
     if (status.currentStreak > 0 && status.streakGraceRemaining == 0) {
       quests.add(
         const CoolQuest(

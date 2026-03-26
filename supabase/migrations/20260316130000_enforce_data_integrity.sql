@@ -19,6 +19,3 @@ ALTER TABLE public.rs_shop_products ALTER COLUMN category SET NOT NULL;
 -- Title and category
 ALTER TABLE public.rs_initiatives ALTER COLUMN title SET NOT NULL;
 ALTER TABLE public.rs_initiatives ALTER COLUMN category SET NOT NULL;
--- 5. Driver Profiles
-ALTER TABLE public.driver_profiles ALTER COLUMN vehicle_type SET NOT NULL;
-ALTER TABLE public.driver_profiles ALTER COLUMN vehicle_type SET DEFAULT 'moto';

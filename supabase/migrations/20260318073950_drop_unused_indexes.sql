@@ -8,12 +8,6 @@
 DROP INDEX IF EXISTS public.idx_fcm_tokens_user_id;
 DROP INDEX IF EXISTS public.idx_fcm_tokens_token;
 
--- mobility_trips
-DROP INDEX IF EXISTS public.idx_mobility_trips_country;
-DROP INDEX IF EXISTS public.idx_trips_departure;
-DROP INDEX IF EXISTS public.idx_trips_driver;
-DROP INDEX IF EXISTS public.idx_trips_driver_return;
-
 -- rs_fan_memberships
 DROP INDEX IF EXISTS public.idx_rs_fan_memberships_user;
 
@@ -122,10 +116,6 @@ DROP INDEX IF EXISTS public.idx_momo_ledger_entries_category;
 -- momo_parse_attempts
 DROP INDEX IF EXISTS public.idx_momo_parse_attempts_user;
 
--- driver_subscriptions
-DROP INDEX IF EXISTS public.idx_driver_subscriptions_driver;
-DROP INDEX IF EXISTS public.idx_driver_subscriptions_status;
-
 -- credit_score_runs
 DROP INDEX IF EXISTS public.idx_credit_score_runs_band;
 
@@ -133,9 +123,6 @@ DROP INDEX IF EXISTS public.idx_credit_score_runs_band;
 DROP INDEX IF EXISTS public.idx_admin_audit_log_actor;
 DROP INDEX IF EXISTS public.idx_admin_audit_log_action;
 DROP INDEX IF EXISTS public.idx_admin_audit_log_created;
-
--- driver_profiles
-DROP INDEX IF EXISTS public.idx_driver_profiles_country;
 
 -- wallet_pass_events
 DROP INDEX IF EXISTS public.idx_wallet_pass_events_user_id;

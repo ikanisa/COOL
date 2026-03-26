@@ -195,17 +195,17 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                                 children: [
                                   Text(
                                     currentCountry.flagEmoji,
-                                    style: theme.textTheme.titleSmall
-                                        ?.copyWith(height: 1),
+                                    style: theme.textTheme.titleSmall?.copyWith(
+                                      height: 1,
+                                    ),
                                   ),
                                   SizedBox(width: space.x1),
                                   Text(
                                     currentCountry.dialCode,
-                                    style: theme.textTheme.bodyLarge
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                          color: colors.primaryText,
-                                        ),
+                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: colors.primaryText,
+                                    ),
                                   ),
                                 ],
                               ),

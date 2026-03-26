@@ -726,11 +726,9 @@ class FcmService {
   bool _replacesCurrentRoute(String route) {
     return route == AppRoutes.home ||
         route == AppRoutes.groups ||
-        route == AppRoutes.mobility ||
         route == AppRoutes.profile ||
         route == AppRoutes.partners ||
         route == AppRoutes.momo ||
-        route == AppRoutes.credit ||
         route == AppRoutes.missions;
   }
 

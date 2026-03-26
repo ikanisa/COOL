@@ -136,7 +136,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             momoProvider: selectedCountry.providerId,
             country: AppMarket.countryCode,
             languageCode: AppMarket.languageCode,
-            isDriver: false,
             phone: widget.phone.trim().isEmpty ? null : widget.phone.trim(),
           ),
         );

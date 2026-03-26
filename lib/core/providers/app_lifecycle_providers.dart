@@ -7,7 +7,6 @@ import '../../features/auth/providers/auth_provider.dart';
 import '../../features/momo/providers/momo_service_provider.dart';
 import '../../features/momo/providers/momo_sms_rationale_provider.dart';
 import '../../features/momo/services/momo_sms_autoread_service.dart';
-import '../../features/mobility/services/trip_sync_service.dart';
 import '../providers/supported_countries_provider.dart';
 import '../router/app_router.dart';
 import '../router/navigation_keys.dart';
@@ -15,7 +14,6 @@ import '../services/app_lifecycle_coordinator.dart';
 import '../services/app_session_coordinator.dart';
 import '../services/app_update_service.dart';
 import '../services/deep_link_coordinator.dart';
-import '../services/trip_sync_coordinator.dart';
 import '../status/widgets/referral_welcome_sheet.dart';
 import 'app_access_provider.dart';
 import 'engagement_providers.dart';
@@ -25,15 +23,6 @@ import 'supabase_client_provider.dart';
 
 final appUpdateServiceProvider = Provider<AppUpdateService>((ref) {
   return AppUpdateService(ref.read(engagementTrackerProvider));
-});
-
-final tripSyncCoordinatorProvider = Provider<TripSyncCoordinator>((ref) {
-  final coordinator = TripSyncCoordinator(
-    readAuthState: () => ref.read(authProvider),
-    tripSyncService: ref.read(tripSyncServiceProvider),
-  );
-  ref.onDispose(coordinator.dispose);
-  return coordinator;
 });
 
 final momoSmsAutoreadServiceProvider = Provider<MomoSmsAutoreadService>((ref) {
@@ -70,7 +59,7 @@ final appSessionCoordinatorProvider = Provider<AppSessionCoordinator>((ref) {
         },
       );
     },
-    tripSyncCoordinator: ref.read(tripSyncCoordinatorProvider),
+    appAccessService: ref.read(appAccessServiceProvider),
     momoSmsAutoreadService: ref.read(momoSmsAutoreadServiceProvider),
   );
 });
@@ -114,7 +103,6 @@ final appLifecycleCoordinatorProvider = Provider<AppLifecycleCoordinator>((
     performance: ref.read(performanceServiceProvider),
     sessionCoordinator: ref.read(appSessionCoordinatorProvider),
     deepLinkCoordinator: ref.read(deepLinkCoordinatorProvider),
-    tripSyncCoordinator: ref.read(tripSyncCoordinatorProvider),
     momoSmsAutoreadService: ref.read(momoSmsAutoreadServiceProvider),
     momoService: ref.read(momoServiceProvider),
     appUpdateService: ref.read(appUpdateServiceProvider),

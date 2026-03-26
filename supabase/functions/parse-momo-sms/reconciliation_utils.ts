@@ -40,16 +40,6 @@ export type GroupContributionCandidateRecord = {
   route_digits: string | null;
 };
 
-export type DriverSubscriptionCandidateRecord = {
-  id: string;
-  driver_id: string;
-  status: string | null;
-  started_at: string | null;
-  expires_at: string | null;
-  momo_reference: string | null;
-  created_at: string | null;
-};
-
 export type RayonReferenceCandidateRecord = {
   reference: string;
   matchType: "rayon_ticket" | "rayon_shop_order" | "rayon_initiative_support";
@@ -185,7 +175,10 @@ export function buildDirectCandidateScore(
     normalizedStatus === "paid" ||
     normalizedStatus === "valid"
   ) {
-    score += 18;
+    // Downgraded so it cannot be a hard auto-allocation without being 'pending'
+    score -= 20;
+  } else {
+    score -= 50;
   }
 
   const smsTime = candidateTimestamp(parsed, rawSms);
@@ -246,10 +239,6 @@ export function chooseBestCandidate<T>(
   }
 
   return { candidate: best.candidate, score: best.score, ambiguous: false };
-}
-
-export function looksLikeSubscriptionReference(reference: string): boolean {
-  return reference.trim().toUpperCase().startsWith("SUB-");
 }
 
 export function asGroupRouteRecord(

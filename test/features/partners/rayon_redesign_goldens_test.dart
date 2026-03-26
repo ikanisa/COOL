@@ -44,7 +44,6 @@ UserProfile _fakeUser({
     momoCode: momoCode,
     momoProvider: momoProvider,
     country: country,
-    isDriver: false,
   );
 }
 

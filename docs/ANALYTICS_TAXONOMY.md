@@ -37,13 +37,6 @@
 | `wallet_add_started` | — | User initiates wallet add |
 | `wallet_add_completed` | — | Wallet add succeeds |
 
-### Mobility
-
-| Event | Parameters | Trigger |
-|---|---|---|
-| `trip_scheduled` | `role`, `veh_type`, `recurring`, `return_trip`, `stored_offline` | User schedules a trip |
-| `driver_went_online` | `is_online`, `veh_type` | Driver toggles online status |
-
 ## User Properties
 
 Set via `identifyUser()` in `EngagementTracker`:
@@ -53,7 +46,6 @@ Set via `identifyUser()` in `EngagementTracker`:
 | `market` | `AppMarket.countryCode` | `RW` |
 | `ui_language` | `AppMarket.languageCode` | `en` |
 | `momo_provider` | User profile | `mtn_rwanda` |
-| `is_driver` | User profile | `true`, `false` |
 
 ## Key Funnels
 
@@ -65,11 +57,6 @@ wallet_add_started → (recipient selected) → (amount entered) → wallet_add_
 ### Invite Conversion Funnel
 ```
 invite_sent → invite_opened → invite_accepted
-```
-
-### Mobility Funnel
-```
-trip_scheduled → driver_went_online → (trip matched) → (trip completed)
 ```
 
 ## Parameter Value Rules
@@ -89,5 +76,5 @@ trip_scheduled → driver_went_online → (trip matched) → (trip completed)
 ## Firebase Console Setup
 
 - **Custom definitions**: Register all user properties above in Firebase Console → Custom Definitions
-- **Audiences**: Create audiences by `momo_provider`, `is_driver`
-- **Remote Config targeting**: Use `is_driver` or `momo_provider` user properties for flag overrides
+- **Audiences**: Create audiences by `momo_provider`
+- **Remote Config targeting**: Use `momo_provider` user properties for flag overrides

@@ -39,19 +39,26 @@ class CoolActivity extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'slug': slug,
-        'title': title,
-        'description': description,
-        'emoji': emoji,
-        'category': category,
-        'tokens_awarded': tokensAwarded,
-        'is_active': isActive,
-        'sort_order': sortOrder,
-      };
+    'id': id,
+    'slug': slug,
+    'title': title,
+    'description': description,
+    'emoji': emoji,
+    'category': category,
+    'tokens_awarded': tokensAwarded,
+    'is_active': isActive,
+    'sort_order': sortOrder,
+  };
 
   @override
-  List<Object?> get props => [id, slug, title, category, tokensAwarded, isActive];
+  List<Object?> get props => [
+    id,
+    slug,
+    title,
+    category,
+    tokensAwarded,
+    isActive,
+  ];
 }
 
 int _asInt(dynamic value, {int fallback = 0}) {

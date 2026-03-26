@@ -67,12 +67,6 @@ final adminQuickActionsProvider = FutureProvider<List<Map<String, dynamic>>>((
   return ref.read(adminContentRepositoryProvider).fetchQuickActions();
 });
 
-final adminVehicleTypesProvider = FutureProvider<List<Map<String, dynamic>>>((
-  ref,
-) async {
-  return ref.read(adminContentRepositoryProvider).fetchVehicleTypes();
-});
-
 final adminAppConfigProvider = FutureProvider<List<Map<String, dynamic>>>((
   ref,
 ) async {

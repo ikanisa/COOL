@@ -32,14 +32,8 @@ void main() {
   });
 
   for (final entry in {
-    'dark': (
-      theme: () => darkTheme,
-      semantics: CoolSemanticColors.dark,
-    ),
-    'light': (
-      theme: () => lightTheme,
-      semantics: CoolSemanticColors.light,
-    ),
+    'dark': (theme: () => darkTheme, semantics: CoolSemanticColors.dark),
+    'light': (theme: () => lightTheme, semantics: CoolSemanticColors.light),
   }.entries) {
     final label = entry.key;
     final themeData = entry.value.theme;
@@ -64,7 +58,10 @@ void main() {
       });
 
       test('Scaffold background matches appBackground', () {
-        expect(themeData().scaffoldBackgroundColor, semanticColors.appBackground);
+        expect(
+          themeData().scaffoldBackgroundColor,
+          semanticColors.appBackground,
+        );
       });
 
       test('Card uses cardSurface', () {
@@ -118,12 +115,12 @@ class _ManropeAssetManifest implements AssetManifest {
 
   @override
   List<String> listAssets() => const <String>[
-        'google_fonts/Manrope-Regular.ttf',
-        'google_fonts/Manrope-Medium.ttf',
-        'google_fonts/Manrope-SemiBold.ttf',
-        'google_fonts/Manrope-Bold.ttf',
-        'google_fonts/Manrope-ExtraBold.ttf',
-      ];
+    'google_fonts/Manrope-Regular.ttf',
+    'google_fonts/Manrope-Medium.ttf',
+    'google_fonts/Manrope-SemiBold.ttf',
+    'google_fonts/Manrope-Bold.ttf',
+    'google_fonts/Manrope-ExtraBold.ttf',
+  ];
 
   @override
   List<AssetMetadata>? getAssetVariants(String key) => null;

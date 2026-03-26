@@ -17,7 +17,7 @@ class AdminUsersRepository with AdminRepositoryHelpers {
         .from('users')
         .select(
           'id, public_user_id, full_name, phone, country, language_code, '
-          'momo_provider, is_driver, vehicle_type, is_admin, '
+          'momo_provider, is_admin, '
           'created_at, is_mock, mock_batch',
         )
         .order('is_mock', ascending: false)

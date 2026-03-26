@@ -220,7 +220,11 @@ Widget _buildSendMoneyCard({
           ),
         ),
         const SizedBox(height: CoolSpace.x4),
-        CoolButton(label: l10n.sendMoney, icon: Icons.send_rounded, onTap: onSend),
+        CoolButton(
+          label: l10n.sendMoney,
+          icon: Icons.send_rounded,
+          onTap: onSend,
+        ),
       ],
     ),
   );
@@ -246,9 +250,7 @@ Widget _buildLaunchingOverlay({
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           decoration: BoxDecoration(
             color: colors.elevatedBackground,
-            borderRadius: const BorderRadius.all(
-              Radius.circular(CoolRadii.md),
-            ),
+            borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.md)),
             border: Border.all(color: colors.border),
           ),
           child: Row(
@@ -320,6 +322,7 @@ int _walletBalance(MomoStatementBundle? bundle) {
   if (bundle == null) return 0;
   var total = 0;
   for (final entry in bundle.walletEntries) {
+    if (entry.ledgerStatus != 'posted') continue;
     total += entry.isCredit ? entry.amount : -entry.amount;
   }
   return total;
@@ -328,14 +331,14 @@ int _walletBalance(MomoStatementBundle? bundle) {
 int _walletInflows(MomoStatementBundle? bundle) {
   if (bundle == null) return 0;
   return bundle.walletEntries
-      .where((entry) => entry.isCredit)
+      .where((entry) => entry.isCredit && entry.ledgerStatus == 'posted')
       .fold<int>(0, (sum, entry) => sum + entry.amount);
 }
 
 int _walletOutflows(MomoStatementBundle? bundle) {
   if (bundle == null) return 0;
   return bundle.walletEntries
-      .where((entry) => entry.isDebit)
+      .where((entry) => entry.isDebit && entry.ledgerStatus == 'posted')
       .fold<int>(0, (sum, entry) => sum + entry.amount);
 }
 

@@ -133,9 +133,9 @@ void main() {
           '${rwanda.dialCode}${rwanda.mobileExampleNational!.replaceFirst(RegExp(r'^0'), '')}';
       final e164 = rwanda.buildE164Phone(withDialCode);
       final dialDigits = rwanda.dialCode.replaceFirst('+', '');
-      final nationalPart = e164.replaceFirst('+', '').substring(
-        dialDigits.length,
-      );
+      final nationalPart = e164
+          .replaceFirst('+', '')
+          .substring(dialDigits.length);
       expect(
         nationalPart.startsWith(dialDigits),
         isFalse,

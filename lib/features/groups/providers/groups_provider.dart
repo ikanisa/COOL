@@ -492,10 +492,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
   }
 
   /// Update editable fields of a group (name, description, etc.).
-  Future<void> updateGroup(
-    String groupId,
-    Map<String, dynamic> updates,
-  ) async {
+  Future<void> updateGroup(String groupId, Map<String, dynamic> updates) async {
     await _repository.updateGroup(groupId, updates);
     unawaited(loadMyGroups());
   }

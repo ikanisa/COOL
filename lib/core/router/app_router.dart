@@ -13,23 +13,17 @@ import '../../features/auth/screens/otp_verify_screen.dart';
 import '../../features/auth/screens/app_access_onboarding_screen.dart';
 import '../../features/auth/screens/register_screen.dart';
 import '../../features/auth/screens/splash_screen.dart';
-import '../../features/credit/screens/credit_score_screen.dart';
-import '../../features/credit/screens/credit_readiness_screen.dart';
 import '../../features/groups/screens/create_group_screen.dart';
 import '../../features/groups/screens/group_detail_screen.dart';
 import '../../features/groups/screens/group_ledger_screen.dart';
 import '../../features/groups/screens/group_invite_screen.dart';
 import '../../features/groups/screens/groups_screen.dart';
-import '../../features/home/screens/home_screen.dart';
+import '../../features/home/screens/services_hub_screen.dart';
 import '../../features/home/screens/seasons_activities_screen.dart';
-import '../../features/mobility/screens/driver_detail_screens.dart';
-import '../../features/mobility/screens/driver_profile_screen.dart';
-import '../../features/mobility/screens/mobility_home_screen.dart';
-import '../../features/mobility/screens/schedule_trip_screen.dart';
-import '../../features/mobility/screens/trip_board_screen.dart';
+import '../../features/partners/rayon/screens/rayon_home_screen.dart';
+import '../../features/partners/rayon/screens/club_shop_screen.dart';
 import '../../features/momo/screens/momo_screen.dart';
 import '../../features/momo/screens/momo_statements_screen.dart';
-import '../../features/profile/screens/kyc_selfie_screen.dart';
 import '../../features/profile/screens/profile_detail_screens.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import '../../shared/widgets/qr_scanner_screen.dart';
@@ -53,11 +47,14 @@ export 'app_routes.dart';
 final _homeNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'homeNavigator',
 );
-final _groupsNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'groupsNavigator',
+final _shopNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'shopNavigator',
 );
-final _mobilityNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'mobilityNavigator',
+final _momoNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'momoNavigator',
+);
+final _servicesNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'servicesNavigator',
 );
 final _profileNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'profileNavigator',
@@ -253,15 +250,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
-      GoRoute(
-        path: AppRoutes.kycSelfie,
-        pageBuilder: (context, state) => coolPageTransition(
-          context: context,
-          state: state,
-          child: const KycSelfieScreen(),
-        ),
-      ),
-
       // ── Main app (shell with bottom nav) ──────────────────────
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) => AppShell(
@@ -276,92 +264,56 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: AppRoutes.home,
                 pageBuilder: (context, state) => NoTransitionPage(
                   key: state.pageKey,
-                  child: const HomeScreen(),
+                  child: const RayonHomeScreen(),
                 ),
               ),
             ],
           ),
           StatefulShellBranch(
-            navigatorKey: _groupsNavigatorKey,
+            navigatorKey: _shopNavigatorKey,
             routes: [
               GoRoute(
-                path: AppRoutes.groups,
+                path: AppRoutes.shop,
                 pageBuilder: (context, state) => NoTransitionPage(
                   key: state.pageKey,
-                  child: const GroupsScreen(),
+                  child: const ClubShopScreen(),
                 ),
-                routes: [
-                  GoRoute(
-                    path: 'create',
-                    builder: (context, state) {
-                      return const CreateGroupScreen();
-                    },
-                  ),
-                  GoRoute(
-                    path: ':id',
-                    builder: (context, state) {
-                      final id = state.pathParameters['id']!;
-                      return GroupDetailScreen(groupId: id);
-                    },
-                    routes: [
-                      GoRoute(
-                        path: 'ledger',
-                        builder: (context, state) {
-                          final id = state.pathParameters['id']!;
-                          return GroupLedgerScreen(groupId: id);
-                        },
-                      ),
-                    ],
-                  ),
-                ],
               ),
             ],
           ),
           StatefulShellBranch(
-            navigatorKey: _mobilityNavigatorKey,
+            navigatorKey: _momoNavigatorKey,
             routes: [
               GoRoute(
-                path: AppRoutes.mobility,
+                path: AppRoutes.momoTab,
                 pageBuilder: (context, state) {
                   final authSnapshot = readAuthSnapshot();
                   final featureFlags = ref.read(featureFlagsStateProvider);
                   return NoTransitionPage(
                     key: state.pageKey,
                     child: KillSwitchGate(
-                      enabled: featureFlags.isMobilityEnabled(
+                      enabled: featureFlags.isMomoEnabled(
                         isAdmin: authSnapshot.isAdmin,
                       ),
-                      featureName: 'Mobility',
-                      child: const MobilityHomeScreen(),
+                      featureName: 'Mobile Money',
+                      child: SecureScreenWrapper(
+                        child: MomoScreen(launchUri: state.uri),
+                      ),
                     ),
                   );
                 },
-                routes: [
-                  GoRoute(
-                    path: 'schedule',
-                    builder: (context, state) => const ScheduleTripScreen(),
-                  ),
-                  GoRoute(
-                    path: 'trips',
-                    builder: (context, state) => const TripBoardScreen(),
-                  ),
-                  GoRoute(
-                    path: 'driver',
-                    builder: (context, state) => const DriverProfileScreen(),
-                    routes: [
-                      GoRoute(
-                        path: 'vehicle',
-                        builder: (context, state) =>
-                            const DriverVehicleScreen(),
-                      ),
-                      GoRoute(
-                        path: 'subscription',
-                        builder: (context, state) =>
-                            const DriverSubscriptionScreen(),
-                      ),
-                    ],
-                  ),
-                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _servicesNavigatorKey,
+            routes: [
+              GoRoute(
+                path: AppRoutes.services,
+                pageBuilder: (context, state) => NoTransitionPage(
+                  key: state.pageKey,
+                  child: const ServicesHubScreen(), // Services Hub
+                ),
               ),
             ],
           ),
@@ -383,12 +335,35 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     path: 'identity',
                     builder: (context, state) => const ProfileIdentityScreen(),
                   ),
-                  GoRoute(
-                    path: 'travel-role',
-                    builder: (context, state) =>
-                        const ProfileTravelRoleScreen(),
-                  ),
                 ],
+              ),
+            ],
+          ),
+        ],
+      ),
+
+      // ── Groups routes (extracted from shell) ──────────────────
+      GoRoute(
+        path: AppRoutes.groups,
+        builder: (context, state) => const GroupsScreen(),
+        routes: [
+          GoRoute(
+            path: 'create',
+            builder: (context, state) => const CreateGroupScreen(),
+          ),
+          GoRoute(
+            path: ':id',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return GroupDetailScreen(groupId: id);
+            },
+            routes: [
+              GoRoute(
+                path: 'ledger',
+                builder: (context, state) {
+                  final id = state.pathParameters['id']!;
+                  return GroupLedgerScreen(groupId: id);
+                },
               ),
             ],
           ),
@@ -438,40 +413,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           return (isAdmin: snap.isAdmin, hasSession: snap.session != null);
         },
         readFeatureFlags: () => ref.read(featureFlagsStateProvider),
-      ),
-
-      // ── Credit routes ─────────────────────────────────────────
-      GoRoute(
-        path: AppRoutes.credit,
-        builder: (context, state) {
-          final authSnapshot = readAuthSnapshot();
-          final featureFlags = ref.read(featureFlagsStateProvider);
-          return KillSwitchGate(
-            enabled: featureFlags.isCreditEnabled(
-              isAdmin: authSnapshot.isAdmin,
-            ),
-            featureName: 'Credit Score',
-            child: const SecureScreenWrapper(child: CreditScoreScreen()),
-          );
-        },
-        routes: [
-          GoRoute(
-            path: 'readiness',
-            builder: (context, state) {
-              final authSnapshot = readAuthSnapshot();
-              final featureFlags = ref.read(featureFlagsStateProvider);
-              return KillSwitchGate(
-                enabled: featureFlags.isCreditEnabled(
-                  isAdmin: authSnapshot.isAdmin,
-                ),
-                featureName: 'Credit Readiness',
-                child: const SecureScreenWrapper(
-                  child: CreditReadinessScreen(),
-                ),
-              );
-            },
-          ),
-        ],
       ),
 
       // ── Status / engagement routes ────────────────────────────

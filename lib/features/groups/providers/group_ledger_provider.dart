@@ -36,11 +36,11 @@ class GroupLedgerQuery {
 /// Fetches all contributions for a group, filtered by contributor and date range.
 final groupLedgerProvider = FutureProvider.autoDispose
     .family<List<GroupContribution>, GroupLedgerQuery>((ref, query) async {
-  final repository = ref.watch(groupRepositoryProvider);
-  return repository.fetchAllContributions(
-    query.groupId,
-    userId: query.contributorId,
-    startDate: query.startDate,
-    endDate: query.endDate,
-  );
-});
+      final repository = ref.watch(groupRepositoryProvider);
+      return repository.fetchAllContributions(
+        query.groupId,
+        userId: query.contributorId,
+        startDate: query.startDate,
+        endDate: query.endDate,
+      );
+    });

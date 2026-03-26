@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS public.cool_achievements (
     emoji       text DEFAULT '🏆' NOT NULL,
     name        text NOT NULL,
     description text,
-    feature_context text, -- e.g. 'mobility', 'groups'
+    feature_context text, -- e.g. 'groups', 'rayon'
     points_value int DEFAULT 0,
     is_earned   boolean DEFAULT false,
     earned_at   timestamptz,

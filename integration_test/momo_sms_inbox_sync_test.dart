@@ -86,7 +86,8 @@ void main() {
         operationalHealthService: operationalHealthService,
         syncStateStore: syncStateStore,
         syncRunAuditWriter: MomoSmsSyncRunAuditWriter(
-          insert: (row) async => syncRunRows.add(Map<String, dynamic>.from(row)),
+          insert: (row) async =>
+              syncRunRows.add(Map<String, dynamic>.from(row)),
           crashlytics: crashlytics,
         ),
       );

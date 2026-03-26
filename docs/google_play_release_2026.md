@@ -31,9 +31,6 @@ the remaining Google Play and Firebase work.
   rate limits plus deterministic auth-user lookup.
 - Cool is implemented as a USSD/SMS reconciliation bridge, not as the general
   recipient of group or partner funds.
-- Mobility subscription payments now read their recipient MoMo code from
-  `public.app_config` using the admin-managed
-  `mobility_subscription_momo_code` key.
 - Community-group collections already route to recipient data stored on
   `public.groups`:
   - `receiving_momo_code`

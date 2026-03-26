@@ -20,8 +20,7 @@ where iso_code = 'RW';
 create or replace view public.operational_config_issues as
 with required_configs(config_key, scope_mode, stale_after_days, description) as (
   values
-    ('support_whatsapp', 'shared', 45, 'Primary support escalation contact.'),
-    ('mobility_subscription_momo_code', 'any', 30, 'MoMo code used for mobility subscription checkout.')
+    ('support_whatsapp', 'shared', 45, 'Primary support escalation contact.')
 ),
 matching_configs as (
   select

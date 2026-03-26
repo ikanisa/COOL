@@ -122,7 +122,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                         l10n.navGroups,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.displayLarge,
+                        style: Theme.of(context).textTheme.headlineLarge,
                       ),
                     ),
                   ),
@@ -212,5 +212,3 @@ extension on _GroupVisibilityFilter {
     };
   }
 }
-
-

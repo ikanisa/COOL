@@ -15,7 +15,7 @@ import '../../../../shared/widgets/rs_digital_ticket.dart';
 import '../../../../shared/widgets/share_card.dart';
 import '../models/rs_models.dart';
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/rayon_screen_scaffold.dart';
+import '../../../../shared/widgets/core_app_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';
 
 class TicketConfirmationScreen extends ConsumerWidget {
@@ -33,7 +33,7 @@ class TicketConfirmationScreen extends ConsumerWidget {
     final disableAnimations =
         MediaQuery.maybeOf(context)?.disableAnimations ?? false;
 
-    return RayonScreenScaffold(
+    return CoreAppScaffold(
       title: l10n.ticketConfirmationScreenTitle,
       fallbackLocation: AppRoutes.rayonTickets,
       scrollable: false,

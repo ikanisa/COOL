@@ -211,9 +211,7 @@ final class PatchMarkerViolation {
   String toString() => '$path:$line — $marker';
 }
 
-List<PatchMarkerViolation> scanMigrationsForPatchMarkers(
-  Directory repoRoot,
-) {
+List<PatchMarkerViolation> scanMigrationsForPatchMarkers(Directory repoRoot) {
   final Directory migrationsDir = Directory(
     '${repoRoot.path}${Platform.pathSeparator}supabase'
     '${Platform.pathSeparator}migrations',
@@ -228,8 +226,9 @@ List<PatchMarkerViolation> scanMigrationsForPatchMarkers(
       ? repoRoot.path
       : '${repoRoot.path}${Platform.pathSeparator}';
 
-  for (final FileSystemEntity entity
-      in migrationsDir.listSync(recursive: true)) {
+  for (final FileSystemEntity entity in migrationsDir.listSync(
+    recursive: true,
+  )) {
     if (entity is! File) continue;
     if (!entity.path.endsWith('.sql')) continue;
 

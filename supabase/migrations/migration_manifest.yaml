@@ -18,17 +18,13 @@ migrations:
   20260310120000_initial_schema.sql: [schema]
   20260310130000_pending_transactions.sql: [schema]
   20260310133000_mobile_integration_alignment.sql: [schema]
-  20260310143000_schedule_trip_expiry.sql: [schema]
   20260310153000_ai_momo_sms_pipeline.sql: [schema]
   20260310160000_momo_reconciliation_indexes.sql: [schema]
   20260310170000_supported_countries_catalog.sql: [schema, seed]
   20260310183000_dynamic_momo_ussd_routes.sql: [schema]
-  20260310190000_trip_board_contact_and_delete.sql: [schema]
   20260310200000_rayon_sports_extension.sql: [schema]
   20260310213000_rayon_sports_reconciliation.sql: [schema]
   20260310220000_rayon_sports_schema_lock.sql: [schema]
-  20260310224500_mobility_trip_location_alignment.sql: [schema]
-  20260310230000_mobility_price_note.sql: [schema]
   20260310231000_cool_status_foundation.sql: [schema]
   20260310232000_cool_missions.sql: [schema]
   20260310233000_cool_seasons.sql: [schema]
@@ -47,10 +43,7 @@ migrations:
   20260311163500_invite_preview_anon_access.sql: [security]
   20260311170000_user_fcm_tokens.sql: [schema]
   20260311183000_group_invite_code_runtime_compat.sql: [repair]
-  20260311190000_trip_status_alignment.sql: [schema]
-  20260311193000_mobility_trip_client_request_id.sql: [schema]
   20260311195000_google_wallet_passes.sql: [schema]
-  20260311200000_scheduled_trips_geo_rpc.sql: [schema]
   20260311203000_partner_mock_seed_batch.sql: [mock]
   20260311214500_demo_users_and_comprehensive_mock_seed.sql: [mock]
   20260311223000_admin_mock_batch_cleanup.sql: [cleanup]
@@ -63,7 +56,6 @@ migrations:
   20260311235100_equity_partner_content_refresh.sql: [seed]
   20260311235500_credit_scoring_foundation.sql: [schema]
   20260311235600_momo_validation_repair_rpc.sql: [schema, repair]
-  20260311235800_mobility_country_scoping.sql: [schema]
 
   # ── Day 3: Bank partners, credit, statements ──────────────────
   20260312000500_bank_partner_logo_urls.sql: [seed]
@@ -118,7 +110,6 @@ migrations:
   20260316100000_seed_admin_role_assignments.sql: [seed]
   20260316110000_bank_loans_baskets.sql: [schema]
   20260316120000_rs_notifications_batch_analytics.sql: [schema, observability]
-  20260316120001_update_liffan_to_trike.sql: [repair]
   20260316130000_enforce_data_integrity.sql: [schema, security]
   20260316130001_nexus_opportunities.sql: [schema]
   20260316131500_mock_tracking_enhancements.sql: [mock]
@@ -172,16 +163,9 @@ migrations:
   20260323190100_create_ai_content.sql: [schema]
   20260323190200_rate_limit_purge_cron.sql: [observability]
   20260323190300_biopay_payment_intents.sql: [schema]
-
-
-# ── Summary ─────────────────────────────────────────────────────
-# Total: 141 migrations
-#
-# schema:        85  (core DDL — tables, columns, RPCs, indexes)
-# security:      22  (RLS, abuse hardening, permission grants)
-# observability: 16  (health events, audit logs, analytics, cron)
-# seed:          10  (reference data, partner content, admin roles)
-# cleanup:        9  (drop dead tables/indexes/code, catalog trim)
-# fix:            9  (repair broken previous migrations)
-# repair:         5  (data backfill, state normalization)
-# mock:           4  (demo users, test data)
+  20260323210000_production_readiness.sql: [schema]
+  20260323213000_add_rate_limited_sync_status.sql: [observability]
+  20260323220500_momo_evidence_to_intent_foundation.sql: [schema]
+  20260323221500_momo_generalized_manual_allocation.sql: [schema]
+  20260323223000_update_momo_manual_review_queues_for_custodians.sql: [schema]
+  20260325110000_remove_credit_kyc_and_bank_loan_surfaces.sql: [cleanup, schema]

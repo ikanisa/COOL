@@ -149,7 +149,8 @@ class _RsAdminTicketsScreenState extends ConsumerState<RsAdminTicketsScreen> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: filtered.length,
-            separatorBuilder: (context, index) => const SizedBox(height: CoolSpace.x2),
+            separatorBuilder: (context, index) =>
+                const SizedBox(height: CoolSpace.x2),
             itemBuilder: (context, index) {
               final ticket = filtered[index];
               return _TicketTile(

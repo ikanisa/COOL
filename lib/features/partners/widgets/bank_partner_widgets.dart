@@ -79,10 +79,13 @@ class BankHero extends StatelessWidget {
             runSpacing: CoolSpace.x2,
             children: [
               PartnerHeroPill(
-                icon: Icons.verified_user_outlined,
-                label: 'Secure onboarding',
+                icon: Icons.savings_rounded,
+                label: 'Custodian-led savings',
               ),
-              PartnerHeroPill(icon: Icons.bolt_rounded, label: 'Fast approval'),
+              PartnerHeroPill(
+                icon: Icons.account_balance_rounded,
+                label: 'Bank collections oversight',
+              ),
             ],
           ),
         ],
@@ -105,62 +108,37 @@ class BankServiceGrid extends StatelessWidget {
   final Partner partner;
   final List<PartnerService> services;
 
-  /// The 3 standard bank CTA actions — no others are allowed.
-  static const _standardActions = [
-    'internal:open_account',
-    'internal:get_loan',
+  static const _supportedActions = {
     'internal:group_savings',
-  ];
+    'internal:group_savings_custodian',
+  };
 
-  /// Fallback definitions if the DB doesn't have matching services.
-  static const _fallbackTiles = [
-    _BankCta(
-      action: 'internal:open_account',
-      title: 'Open Account',
-      subtitle: 'Start banking today',
-      icon: Icons.account_balance_rounded,
-    ),
-    _BankCta(
-      action: 'internal:get_loan',
-      title: 'Get a Loan',
-      subtitle: 'Apply for credit',
-      icon: Icons.monetization_on_rounded,
-    ),
-    _BankCta(
-      action: 'internal:group_savings',
-      title: 'Group Saving',
-      subtitle: 'Save with others',
-      icon: Icons.people_rounded,
-    ),
-  ];
+  static const _fallbackTile = _BankCta(
+    action: 'internal:group_savings_custodian',
+    title: 'Group Savings Custodian',
+    subtitle: 'Launch a bank-custodied savings group',
+    icon: Icons.savings_rounded,
+  );
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = context.coolSemanticColors;
 
-    // Filter incoming services to only standard actions, preserving
-    // admin-customized titles/subtitles if they exist.
-    final matched = <String, PartnerService>{};
-    for (final service in services) {
-      final action = service.ctaAction?.trim() ?? '';
-      if (_standardActions.contains(action) && !matched.containsKey(action)) {
-        matched[action] = service;
-      }
-    }
-
-    final actions = [
-      for (final fallback in _fallbackTiles)
-        _ResolvedBankCta(fallback: fallback, service: matched[fallback.action]),
-    ];
-    final primary = actions.first;
-    final secondary = actions.skip(1).toList(growable: false);
+    final matchedService = services.cast<PartnerService?>().firstWhere(
+      (service) => _supportedActions.contains(service?.ctaAction?.trim()),
+      orElse: () => null,
+    );
+    final action = _ResolvedBankCta(
+      fallback: _fallbackTile,
+      service: matchedService,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'START HERE',
+          'GROUP SAVINGS CUSTODIAN',
           style: theme.textTheme.labelSmall?.copyWith(
             color: colors.secondaryText,
             fontWeight: FontWeight.w800,
@@ -174,10 +152,10 @@ class BankServiceGrid extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(primary.fallback.icon, color: colors.accent, size: 24),
+              Icon(action.fallback.icon, color: colors.accent, size: 24),
               const SizedBox(height: CoolSpace.x4),
               Text(
-                primary.title,
+                action.title,
                 style: theme.textTheme.headlineSmall?.copyWith(
                   color: colors.primaryText,
                   fontWeight: FontWeight.w800,
@@ -185,7 +163,7 @@ class BankServiceGrid extends StatelessWidget {
               ),
               const SizedBox(height: CoolSpace.x2),
               Text(
-                primary.subtitle,
+                action.subtitle,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: colors.secondaryText,
                   fontWeight: FontWeight.w700,
@@ -194,44 +172,18 @@ class BankServiceGrid extends StatelessWidget {
               ),
               const SizedBox(height: CoolSpace.x6),
               CoolButton(
-                label: 'Continue',
+                label: 'Open custodian flow',
                 fullWidth: false,
-                icon: primary.fallback.icon,
+                icon: action.fallback.icon,
                 onTap: () => launchPartnerAction(
                   context,
                   partner,
-                  action: primary.fallback.action,
+                  action: action.fallback.action,
                 ),
               ),
             ],
           ),
         ),
-        if (secondary.isNotEmpty) ...[
-          const SizedBox(height: CoolSpace.x6),
-          Text(
-            'MORE SERVICES',
-            style: theme.textTheme.labelSmall?.copyWith(
-              color: colors.secondaryText,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 1.4,
-            ),
-          ),
-          const SizedBox(height: CoolSpace.x3),
-          for (var index = 0; index < secondary.length; index++) ...[
-            PartnerQuickActionTile(
-              icon: secondary[index].fallback.icon,
-              title: secondary[index].title,
-              subtitle: secondary[index].subtitle,
-              onTap: () => launchPartnerAction(
-                context,
-                partner,
-                action: secondary[index].fallback.action,
-              ),
-            ),
-            if (index != secondary.length - 1)
-              const SizedBox(height: CoolSpace.x3),
-          ],
-        ],
       ],
     );
   }
@@ -297,14 +249,9 @@ Future<void> launchPartnerAction(
 
   // Legacy internal fallback
   switch (normalized) {
+    case 'internal:group_savings_custodian':
     case 'internal:group_savings':
       context.push('/groups/create');
-      return;
-    case 'internal:get_loan':
-      context.push('/partners/bank/${partner.slug}/onboarding/loan');
-      return;
-    case 'internal:open_account':
-      context.push('/partners/bank/${partner.slug}/onboarding/account');
       return;
     default:
       CoolToast.info(

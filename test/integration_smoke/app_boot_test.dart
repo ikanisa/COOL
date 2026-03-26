@@ -8,7 +8,7 @@ void main() {
   testWidgets('Unauthenticated app boot lands on onboarding', (tester) async {
     final app = await pumpRouterApp(tester);
 
-    expect(find.text('Welcome to COOL'), findsOneWidget);
+    expect(find.text('Welcome to Rayon Sports'), findsOneWidget);
     expect(find.text('Get Started'), findsOneWidget);
     expect(
       app.router.routeInformationProvider.value.uri.path,

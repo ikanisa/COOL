@@ -17,8 +17,9 @@ void main() {
 
     setUp(() {
       repository = MockGroupRepository();
-      when(() => repository.getMyGroups(any(), country: any(named: 'country')))
-          .thenAnswer(
+      when(
+        () => repository.getMyGroups(any(), country: any(named: 'country')),
+      ).thenAnswer(
         (_) async => [
           const Group(
             id: 'g1',
@@ -52,32 +53,31 @@ void main() {
       );
     });
 
-    testWidgets(
-      'uses My Groups and Discover as the primary split',
-      (tester) async {
-        await pumpScopedApp(
-          tester,
-          child: const GroupsScreen(),
-          session: fakeSession(),
-          user: fakeUser(),
-          overrides: <Override>[
-            groupRepositoryProvider.overrideWithValue(repository),
-          ],
-        );
+    testWidgets('uses My Groups and Discover as the primary split', (
+      tester,
+    ) async {
+      await pumpScopedApp(
+        tester,
+        child: const GroupsScreen(),
+        session: fakeSession(),
+        user: fakeUser(),
+        overrides: <Override>[
+          groupRepositoryProvider.overrideWithValue(repository),
+        ],
+      );
 
-        await settleTestApp(tester);
+      await settleTestApp(tester);
 
-        expect(find.text('My Groups'), findsOneWidget);
-        expect(find.text('Discover'), findsOneWidget);
-        expect(find.text('Create a New Group'), findsOneWidget);
-        expect(find.text('Family Save'), findsOneWidget);
+      expect(find.text('My Groups'), findsOneWidget);
+      expect(find.text('Discover'), findsOneWidget);
+      expect(find.text('Create a New Group'), findsOneWidget);
+      expect(find.text('Family Save'), findsOneWidget);
 
-        await tester.tap(find.text('Discover'));
-        await settleTestApp(tester);
+      await tester.tap(find.text('Discover'));
+      await settleTestApp(tester);
 
-        expect(find.text('Neighborhood Relief'), findsOneWidget);
-        verify(() => repository.getPublicGroups(any())).called(greaterThan(0));
-      },
-    );
+      expect(find.text('Neighborhood Relief'), findsOneWidget);
+      verify(() => repository.getPublicGroups(any())).called(greaterThan(0));
+    });
   });
 }

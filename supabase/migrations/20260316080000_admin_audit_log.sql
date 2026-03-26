@@ -62,7 +62,6 @@ BEGIN
     'partners',
     'partner_services',
     'quick_actions',
-    'vehicle_types',
     'app_config',
     'admin_role_assignments'
   ])

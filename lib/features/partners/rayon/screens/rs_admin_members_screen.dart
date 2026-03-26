@@ -197,7 +197,8 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: filtered.length,
-            separatorBuilder: (context, index) => const SizedBox(height: CoolSpace.x2),
+            separatorBuilder: (context, index) =>
+                const SizedBox(height: CoolSpace.x2),
             itemBuilder: (context, index) {
               final member = filtered[index];
               return _MemberTile(

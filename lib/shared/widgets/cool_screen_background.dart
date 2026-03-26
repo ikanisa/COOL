@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/brand/app_brand.dart';
 import '../../core/theme/cool_foundations.dart';
 
-class CoolScreenBackground extends StatelessWidget {
+class CoolScreenBackground extends ConsumerWidget {
   const CoolScreenBackground({
     required this.child,
     this.primaryColor,
@@ -20,8 +22,9 @@ class CoolScreenBackground extends StatelessWidget {
   final bool showGlow;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.coolSemanticColors;
+    final brand = ref.watch(appBrandProvider);
 
     if (!showGlow) {
       return DecoratedBox(
@@ -31,10 +34,16 @@ class CoolScreenBackground extends StatelessWidget {
     }
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentGlow = (primaryColor ?? colors.accent).withValues(
-      alpha: isDark ? 0.14 : 0.08,
-    );
-    final secondaryGlow = (secondaryColor ?? colors.info).withValues(
+
+    final effectivePrimary =
+        primaryColor ??
+        (brand.isRayonDominant ? brand.primaryColor : colors.accent);
+    final effectiveSecondary =
+        secondaryColor ??
+        (brand.isRayonDominant ? brand.secondaryColor : colors.info);
+
+    final accentGlow = effectivePrimary.withValues(alpha: isDark ? 0.14 : 0.08);
+    final secondaryGlow = effectiveSecondary.withValues(
       alpha: isDark ? 0.10 : 0.05,
     );
     final topWash = colors.highlightColor.withValues(

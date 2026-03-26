@@ -35,28 +35,12 @@ const CONTENT_TEMPLATES = [
     cta_label: "View Groups",
   },
   {
-    area: "credit",
-    prompt:
-      "Generate a short, practical tip about building or improving one's credit score. Keep it relevant to emerging markets.",
-    icon: "📈",
-    cta_action: "/credit",
-    cta_label: "Check Score",
-  },
-  {
     area: "tokens",
     prompt:
       "Generate a short, motivating message about earning rewards through daily app engagement. Mention specific activities like scheduling rides, joining groups, or checking statements.",
     icon: "🪙",
     cta_action: "/tokens",
     cta_label: "Earn Tokens",
-  },
-  {
-    area: "mobility",
-    prompt:
-      "Generate a short, practical tip about ride-sharing, commuting smarter, or scheduling trips ahead of time. Relevant to African urban commuters.",
-    icon: "🚗",
-    cta_action: "/mobility/schedule",
-    cta_label: "Schedule Ride",
   },
   {
     area: "rayon_sport",

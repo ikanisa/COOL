@@ -121,8 +121,8 @@ class _MetricCell extends StatelessWidget {
                     color: metric.trendIsPositive == true
                         ? colors.success
                         : metric.trendIsPositive == false
-                            ? colors.danger
-                            : colors.tertiaryText,
+                        ? colors.danger
+                        : colors.tertiaryText,
                   ),
                 ),
             ],

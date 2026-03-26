@@ -18,8 +18,6 @@ import '../../../shared/widgets/cool_screen_scaffold.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../admin/providers/admin_workspace_access_provider.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../../credit/providers/credit_provider.dart';
-import '../../mobility/providers/driver_provider.dart';
 import '../../partners/rayon/models/rs_models.dart' show FanTier;
 import '../providers/profile_view_provider.dart';
 import '../widgets/profile_data.dart';
@@ -38,9 +36,6 @@ class ProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
-  late final ProviderSubscription<AuthState> _authSubscription;
-  bool _didRequestDriverProfile = false;
-
   String _tierLabel(FanTier tier) {
     final l10n = context.l10n;
     return switch (tier) {
@@ -59,38 +54,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       if (userId != null && userId.isNotEmpty) {
         ref.read(coolStatusProvider.notifier).load(userId);
       }
-      _maybeLoadDriverProfile(ref.read(authProvider));
     });
-
-    _authSubscription = ref.listenManual<AuthState>(authProvider, (
-      previous,
-      next,
-    ) {
-      _maybeLoadDriverProfile(next);
-    });
-  }
-
-  @override
-  void dispose() {
-    _authSubscription.close();
-    super.dispose();
-  }
-
-  void _maybeLoadDriverProfile(AuthState authState) {
-    if (_didRequestDriverProfile) {
-      return;
-    }
-
-    final user = authState.user;
-    final shouldLoadDriverProfile =
-        user?.isDriver == true ||
-        (user?.vehicleType?.trim().isNotEmpty ?? false);
-    if (!shouldLoadDriverProfile) {
-      return;
-    }
-
-    _didRequestDriverProfile = true;
-    unawaited(ref.read(driverProvider.notifier).loadDriverProfile());
   }
 
   // ── App access sheet ──────────────────────────────────────────────────
@@ -126,8 +90,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     // Invalidate cached providers to prevent stale data leaking across sessions.
     ref.invalidate(coolStatusProvider);
-    ref.invalidate(driverProvider);
-    ref.invalidate(creditDashboardProvider);
 
     context.go(AppRoutes.onboarding);
   }
@@ -165,8 +127,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     // Invalidate cached providers before leaving.
     ref.invalidate(coolStatusProvider);
-    ref.invalidate(driverProvider);
-    ref.invalidate(creditDashboardProvider);
 
     context.go(AppRoutes.onboarding);
   }
@@ -240,13 +200,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         onTap: () => context.push(AppRoutes.referral),
       ),
       ProfileSettingsRow(
-        icon: Icons.swap_horiz_rounded,
-        label: 'Mobility',
-        value: profile.isDriver ? 'Driver' : 'Passenger',
-        valueColor: profile.travelRoleValueColor(colors),
-        onTap: () => context.push(AppRoutes.profileTravelRole),
-      ),
-      ProfileSettingsRow(
         icon: Icons.sms_outlined,
         label: 'MoMo Statements',
         value: profile.mobileMoneyActivityLabel,
@@ -264,10 +217,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         label: 'Personal Info',
         value: profile.officialName.isNotEmpty
             ? profile.officialName
-            : profile.kycLabel,
+            : profile.officialIdentitySummary,
         valueColor: profile.officialName.isNotEmpty
             ? colors.info
-            : profile.kycValueColor(colors),
+            : profile.hasOfficialIdentity
+            ? colors.info
+            : colors.tertiaryText,
         onTap: () => context.push(AppRoutes.profileIdentity),
       ),
     ];

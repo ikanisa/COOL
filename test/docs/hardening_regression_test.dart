@@ -13,7 +13,6 @@ const _migratedRedesignFiles = <String>[
   'lib/features/partners/rayon/widgets/fan_profile_parts.dart',
   'lib/features/partners/rayon/widgets/member_registry_parts.dart',
   'lib/features/partners/rayon/widgets/rs_admin_finance_parts.dart',
-  'lib/features/mobility/widgets/driver_detail_parts.dart',
   'lib/features/admin/widgets/manage_services_parts.dart',
   'lib/features/admin/widgets/manage_ai_content_parts.dart',
   'lib/features/admin/widgets/manage_users_parts.dart',
@@ -140,16 +139,6 @@ void main() {
             'Migrated redesign files should preserve the larger, heavier '
             'production typography floor.',
       );
-    });
-
-    test('kyc scanner overlay avoids tiny privacy labels', () {
-      final source = _readSanitizedSource(
-        repoRoot,
-        'lib/shared/widgets/kyc_id_scanner_overlay.dart',
-      );
-
-      expect(source, isNot(matches(RegExp(r'fontSize:\s*(?:8|9|10|11)\b'))));
-      expect(source, isNot(matches(RegExp(r'FontWeight\.(?:w400|w500)\b'))));
     });
   });
 }

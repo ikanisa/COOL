@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS public.cool_missions (
   season_id   uuid,
   title       text NOT NULL,
   description text,
-  mission_type text NOT NULL,         -- 'savings_sprint', 'supporter_season', 'commuter_week', 'matchday_month'
+  mission_type text NOT NULL,         -- 'savings_sprint', 'supporter_season', 'matchday_month'
   target_value int  NOT NULL,         -- goal: total group contributions, attendance count, etc.
   scope_type  text NOT NULL DEFAULT 'global',  -- 'group', 'chapter', 'global'
   scope_id    text,                   -- group_id, chapter name, or null for global

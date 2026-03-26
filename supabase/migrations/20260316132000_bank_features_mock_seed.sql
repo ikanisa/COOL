@@ -255,5 +255,5 @@ update public.nexus_opportunities
 set 
   is_mock = true,
   mock_batch = (select mock_batch from demo_context)
-where title IN ('Urwego Agri-Loan', 'Moto Subscription');
+where title IN ('Urwego Agri-Loan');
 commit;

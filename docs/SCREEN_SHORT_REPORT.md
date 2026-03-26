@@ -41,7 +41,6 @@ Each entry includes:
 | `BankAdminWorkspaceScreen` | `/admin/banks/:partnerId` | Bank-specific operations screen for allocation, ledger review, and savings/group administration. |
 | `ManageServicesScreen` | `/admin/services` | Service configuration screen for editing service cards, availability, and action behavior. |
 | `ManageQuickActionsScreen` | `/admin/quick-actions` | Admin tool for curating shortcut actions and surfaced utility flows in the app shell. |
-| `ManageVehicleTypesScreen` | `/admin/vehicle-types` | Mobility configuration screen for maintaining vehicle categories and related operational metadata. |
 | `ManageAppConfigScreen` | `/admin/app-config` | Central application configuration screen for rollout flags, runtime settings, and scoped config values. |
 | `ManageMissionsScreen` | `/admin/missions` | Mission authoring and control screen for engagement missions, rules, and activation state. |
 | `ManageActivitiesScreen` | `/admin/activities` | Activity management screen for configuring platform activities and engagement surfaces. |
@@ -73,17 +72,6 @@ Each entry includes:
 |---|---|---|
 | `HomeScreen` | `/home` | Primary app home screen that introduces the main product surfaces and top user actions. |
 | `SeasonsActivitiesScreen` | `/seasons` | Seasonal activity screen for current season content, progress, and campaign-linked participation. |
-
-## Mobility
-
-| Screen | Route | Short Description |
-|---|---|---|
-| `MobilityHomeScreen` | `/mobility` | Mobility landing screen for transport-focused discovery, posting, and trip-related actions. |
-| `DriverProfileScreen` | `/mobility/driver` | Driver account hub for profile, availability, and operator-facing transport identity details. |
-| `DriverSubscriptionScreen` | `/mobility/driver/subscription` | Driver monetization screen for viewing plan status, credits, and upgrade/subscription access. |
-| `DriverVehicleScreen` | `/mobility/driver/vehicle` | Driver vehicle management screen for readiness, vehicle metadata, and posting eligibility. |
-| `ScheduleTripScreen` | `/mobility/schedule` | Trip creation flow for scheduling transport with route, timing, and rider-facing details. |
-| `TripBoardScreen` | `/mobility/trips` | Trip listing board for browsing available trips, demand, route details, and booking/contact actions. |
 
 ## MoMo
 
@@ -142,7 +130,6 @@ Each entry includes:
 |---|---|---|
 | `ProfileScreen` | `/profile` | User account hub for personal details, settings, wallet shortcuts, and identity-related actions. |
 | `ProfileIdentityScreen` | `/profile/identity` | Profile detail screen focused on identity data, KYC progress, and verification access points. |
-| `ProfileTravelRoleScreen` | `/profile/travel-role` | Preference screen for selecting or editing the user’s transport role and mobility behavior. |
 | `ProfileWalletScreen` | `/profile/wallet` | Wallet settings/detail screen for payment route preferences and money-related profile controls. |
 | `KycIdScanScreen` | `Internal only` | Camera-based identity capture flow for scanning an ID card with privacy guidance overlays. |
 | `KycSelfieScreen` | `/kyc/selfie` | Selfie verification screen that captures the user’s face for identity and face-match workflows. |

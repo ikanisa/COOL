@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 enum CoolMissionType {
   savingsSprint, // group reaches X total contributions
   supporterSeason, // chapter reaches Y initiative support
-  commuterWeek, // mobility circle completes Z reliable trips
   matchdayMonth, // attend N matches in a month
 }
 
@@ -17,7 +16,6 @@ extension CoolMissionTypeX on CoolMissionType {
       'savings_sprint' || 'savingsSprint' => CoolMissionType.savingsSprint,
       'supporter_season' ||
       'supporterSeason' => CoolMissionType.supporterSeason,
-      'commuter_week' || 'commuterWeek' => CoolMissionType.commuterWeek,
       'matchday_month' || 'matchdayMonth' => CoolMissionType.matchdayMonth,
       _ => CoolMissionType.savingsSprint,
     };
@@ -26,14 +24,12 @@ extension CoolMissionTypeX on CoolMissionType {
   String get displayLabel => switch (this) {
     CoolMissionType.savingsSprint => 'Savings Sprint',
     CoolMissionType.supporterSeason => 'Supporter Season',
-    CoolMissionType.commuterWeek => 'Commuter Week',
     CoolMissionType.matchdayMonth => 'Matchday Month',
   };
 
   String get defaultEmoji => switch (this) {
     CoolMissionType.savingsSprint => '💰',
     CoolMissionType.supporterSeason => '🤝',
-    CoolMissionType.commuterWeek => '🚗',
     CoolMissionType.matchdayMonth => '⚽',
   };
 }

@@ -1,6 +1,6 @@
 import 'package:cool_app/core/router/app_router.dart';
 
-import 'package:cool_app/features/partners/widgets/rayon_screen_scaffold.dart';
+import 'package:cool_app/shared/widgets/core_app_scaffold.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,8 +8,6 @@ import 'package:go_router/go_router.dart';
 
 void main() {
   group('partner navigation', () {
-
-
     testWidgets('rayon scaffold back falls back to configured route', (
       tester,
     ) async {
@@ -77,7 +75,7 @@ class _RayonHarnessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const RayonScreenScaffold(
+    return const CoreAppScaffold(
       title: 'Harness',
       fallbackLocation: AppRoutes.rayonHome,
       child: SizedBox.shrink(),

@@ -418,7 +418,6 @@ class _ClubServicesDeck extends StatelessWidget {
   }
 }
 
-
 class _MatchdayBriefCard extends StatelessWidget {
   const _MatchdayBriefCard({
     required this.match,

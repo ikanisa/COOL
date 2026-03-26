@@ -7,9 +7,7 @@ void main() {
     testWidgets('displays message and default icon', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: CoolEmptyView(subtitle: 'No items found'),
-          ),
+          home: Scaffold(body: CoolEmptyView(subtitle: 'No items found')),
         ),
       );
       await tester.pumpAndSettle();
@@ -21,9 +19,7 @@ void main() {
     testWidgets('hides action button when action is null', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: CoolEmptyView(subtitle: 'Empty'),
-          ),
+          home: Scaffold(body: CoolEmptyView(subtitle: 'Empty')),
         ),
       );
       await tester.pumpAndSettle();

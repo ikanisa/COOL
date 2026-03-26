@@ -30,7 +30,7 @@ flutter test test/integration_smoke
 
 | File | Journey |
 |---|---|
-| `critical_journeys_test.dart` | Signed-out deep links, OTP validation, MoMo send validation, mobility degraded mode, and Rayon tickets |
+| `critical_journeys_test.dart` | Signed-out deep links, MoMo deep links, and Rayon tickets |
 | `momo_sms_inbox_sync_test.dart` | Real Android SMS inbox sync with seeded M-Money rows, sync-state persistence, and manual overlap replay |
 
 These tests intentionally reuse the fake-backed harness from
@@ -45,7 +45,6 @@ real mobile runtime.
 | `auth_flow_test.dart` | Onboarding and OTP validation |
 | `deep_link_test.dart` | Redirect preservation for signed-out deep links |
 | `momo_flow_test.dart` | MoMo screen and send validation |
-| `trip_offline_test.dart` | Mobility screen stays usable without location |
 | `ticket_flow_test.dart` | Rayon tickets hub and purchase sheet |
 
 ## Writing New Tests

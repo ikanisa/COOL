@@ -5,12 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:cool_app/shared/widgets/cool_brand_mark.dart';
 import 'package:cool_app/shared/widgets/cool_status_card.dart';
-import 'package:cool_app/shared/widgets/driver_card.dart';
 import 'package:cool_app/shared/widgets/group_card.dart';
 import 'package:cool_app/shared/widgets/member_row.dart';
 import 'package:cool_app/shared/widgets/rs_tier_badge.dart';
-
-import 'package:cool_app/shared/widgets/trip_card.dart';
 import 'package:cool_app/shared/widgets/vehicle_chip.dart';
 import 'package:cool_app/shared/widgets/wa_button.dart';
 import 'package:cool_app/shared/widgets/whatsapp_hint_chip.dart';
@@ -74,9 +71,7 @@ void main() {
 
     testWidgets('VehicleChip has Semantics', (tester) async {
       await tester.pumpWidget(
-        harness(
-          VehicleChip(label: '🚗 Car', isSelected: true, onTap: () {}),
-        ),
+        harness(VehicleChip(label: '🚗 Car', isSelected: true, onTap: () {})),
       );
       expect(hasNonEmptySemantics(tester), isTrue);
     });
@@ -111,41 +106,8 @@ void main() {
       expect(hasNonEmptySemantics(tester), isTrue);
     });
 
-    testWidgets('DriverCard has Semantics', (tester) async {
-      await tester.pumpWidget(
-        harness(
-          DriverCard(
-            driverId: 'd1',
-            displayName: 'Jean Driver',
-            vehicleType: 'Car',
-            distanceKm: 2.5,
-            isOnline: true,
-            onWhatsAppTap: () {},
-          ),
-        ),
-      );
-      expect(hasNonEmptySemantics(tester), isTrue);
-    });
-
-    testWidgets('TripCard has Semantics', (tester) async {
-      await tester.pumpWidget(
-        harness(
-          TripCard(
-            fromLocation: 'Kigali',
-            toLocation: 'Musanze',
-            departureTime: DateTime.now().add(const Duration(hours: 3)),
-            vehicleType: 'Car',
-            onTap: () {},
-          ),
-        ),
-      );
-      expect(hasNonEmptySemantics(tester), isTrue);
-    });
-
     testWidgets('RsTierBadge has Semantics', (tester) async {
-      await tester.pumpWidget(
-        harness(const RsTierBadge(tier: FanTier.gold)),
-      );
+      await tester.pumpWidget(harness(const RsTierBadge(tier: FanTier.gold)));
       expect(hasNonEmptySemantics(tester), isTrue);
     });
   });

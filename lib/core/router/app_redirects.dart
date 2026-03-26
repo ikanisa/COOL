@@ -22,7 +22,6 @@ const _platformAdminRoutes = {
   AppRoutes.adminPartners,
   AppRoutes.adminServices,
   AppRoutes.adminQuickActions,
-  AppRoutes.adminVehicleTypes,
   AppRoutes.adminAppConfig,
   AppRoutes.adminOperations,
 };

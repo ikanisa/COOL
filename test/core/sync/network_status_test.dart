@@ -10,10 +10,7 @@ void main() {
     });
 
     test('SocketException message is a network error', () {
-      expect(
-        isNetworkError(Exception('SocketException: OS Error')),
-        isTrue,
-      );
+      expect(isNetworkError(Exception('SocketException: OS Error')), isTrue);
     });
 
     test('Failed host lookup is a network error', () {
@@ -24,31 +21,19 @@ void main() {
     });
 
     test('Connection refused is a network error', () {
-      expect(
-        isNetworkError(Exception('Connection refused')),
-        isTrue,
-      );
+      expect(isNetworkError(Exception('Connection refused')), isTrue);
     });
 
     test('Connection reset is a network error', () {
-      expect(
-        isNetworkError(Exception('Connection reset by peer')),
-        isTrue,
-      );
+      expect(isNetworkError(Exception('Connection reset by peer')), isTrue);
     });
 
     test('Timed out is a network error', () {
-      expect(
-        isNetworkError(Exception('Request timed out')),
-        isTrue,
-      );
+      expect(isNetworkError(Exception('Request timed out')), isTrue);
     });
 
     test('XMLHttpRequest error is a network error', () {
-      expect(
-        isNetworkError(Exception('XMLHttpRequest error')),
-        isTrue,
-      );
+      expect(isNetworkError(Exception('XMLHttpRequest error')), isTrue);
     });
 
     test('ClientException is a network error', () {
@@ -59,10 +44,7 @@ void main() {
     });
 
     test('Generic Exception is NOT a network error', () {
-      expect(
-        isNetworkError(Exception('Something went wrong')),
-        isFalse,
-      );
+      expect(isNetworkError(Exception('Something went wrong')), isFalse);
     });
 
     test('StateError is NOT a network error', () {

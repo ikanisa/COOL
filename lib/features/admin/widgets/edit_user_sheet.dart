@@ -56,9 +56,7 @@ class EditUserSheet extends ConsumerStatefulWidget {
 
 class _EditUserSheetState extends ConsumerState<EditUserSheet> {
   late final TextEditingController _nameController;
-  late bool _isDriver;
   late bool _isAdmin;
-  late final TextEditingController _vehicleController;
   bool _isSaving = false;
 
   @override
@@ -67,17 +65,12 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
     _nameController = TextEditingController(
       text: widget.user['full_name']?.toString() ?? '',
     );
-    _isDriver = widget.user['is_driver'] == true;
     _isAdmin = widget.user['is_admin'] == true;
-    _vehicleController = TextEditingController(
-      text: widget.user['vehicle_type']?.toString() ?? '',
-    );
   }
 
   @override
   void dispose() {
     _nameController.dispose();
-    _vehicleController.dispose();
     super.dispose();
   }
 
@@ -95,10 +88,6 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
       final fields = <String, dynamic>{
         'full_name': _nameController.text.trim(),
         'is_admin': _isAdmin,
-        'is_driver': _isDriver,
-        'vehicle_type': _vehicleController.text.trim().isEmpty
-            ? null
-            : _vehicleController.text.trim(),
       };
 
       await ref
@@ -186,34 +175,6 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
                   ),
                 ],
               ),
-              const SizedBox(height: CoolSpace.x2),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Driver',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: colors.primaryText,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  Switch.adaptive(
-                    value: _isDriver,
-                    onChanged: (v) => setState(() => _isDriver = v),
-                    activeTrackColor: colors.accent,
-                  ),
-                ],
-              ),
-              if (_isDriver) ...[
-                const SizedBox(height: CoolSpace.x2),
-                const _FieldLabel('Vehicle type'),
-                const SizedBox(height: 6),
-                _EditInput(
-                  controller: _vehicleController,
-                  hint: 'e.g. motorcycle, car',
-                ),
-              ],
               const SizedBox(height: CoolSpace.x6),
               CoolButton(
                 label: 'Save User',
@@ -248,9 +209,8 @@ class _FieldLabel extends StatelessWidget {
 }
 
 class _EditInput extends StatelessWidget {
-  const _EditInput({required this.controller, this.hint});
+  const _EditInput({required this.controller});
   final TextEditingController controller;
-  final String? hint;
 
   @override
   Widget build(BuildContext context) {
@@ -263,10 +223,6 @@ class _EditInput extends StatelessWidget {
         fontWeight: FontWeight.w600,
       ),
       decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: theme.textTheme.bodySmall?.copyWith(
-          color: colors.tertiaryText,
-        ),
         filled: true,
         fillColor: colors.inputSurface,
         contentPadding: _editUserFieldPadding(),

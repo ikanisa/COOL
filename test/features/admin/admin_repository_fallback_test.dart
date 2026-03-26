@@ -52,7 +52,6 @@ void main() {
           'country': 'UG',
           'language_code': 'sw',
           'momo_provider': ' MTN ',
-          'vehicle_type': ' bike ',
           'mock_batch': ' batch-1 ',
         });
 
@@ -62,7 +61,6 @@ void main() {
         expect(row['full_name'], 'Alice');
         expect(row['phone'], '+250788000111');
         expect(row['public_user_id'], 'cool-user-1');
-        expect(row['vehicle_type'], 'bike');
         expect(row['mock_batch'], 'batch-1');
       },
     );

@@ -114,7 +114,6 @@ Deno.test("reconcileParsedSms confirms a matched group contribution", async () =
         created_at: "2026-03-11T14:57:00.000Z",
       },
     ],
-    driver_subscriptions: [],
   };
 
   const adminClient = new FakeAdminClient(tables);
@@ -169,7 +168,6 @@ Deno.test("reconcileParsedSms allocates group payments directly from payee route
     ],
     group_members: [],
     group_contributions: [],
-    driver_subscriptions: [],
   };
 
   const adminClient = new FakeAdminClient(tables);
@@ -211,7 +209,6 @@ Deno.test("reconcileParsedSms allocates group payments directly from payee route
 Deno.test("reconcileParsedSms leaves unmatched target records in pending review", async () => {
   const tables: TableStore = {
     group_contributions: [],
-    driver_subscriptions: [],
   };
 
   const adminClient = new FakeAdminClient(tables);
@@ -249,7 +246,6 @@ Deno.test("reconcileParsedSms allocates partner payments directly from payee rou
   const tables: TableStore = {
     pending_transactions: [],
     group_contributions: [],
-    driver_subscriptions: [],
     groups: [],
     partner_payment_routes: [
       {
@@ -297,65 +293,6 @@ Deno.test("reconcileParsedSms allocates partner payments directly from payee rou
   );
 });
 
-Deno.test("reconcileParsedSms activates matched driver subscriptions", async () => {
-  const tables: TableStore = {
-    group_contributions: [],
-    driver_subscriptions: [
-      {
-        id: "driver-sub-1",
-        driver_id: "user-1",
-        amount: 10000,
-        amount_rwf: 10000,
-        momo_reference: "SUB-user-1-1741700000000",
-        status: "pending",
-        started_at: null,
-        expires_at: null,
-        created_at: "2026-03-11T14:59:00.000Z",
-      },
-    ],
-  };
-
-  const adminClient = new FakeAdminClient(tables);
-  const timestamp = "2026-03-11T15:05:00.000Z";
-  const result = await reconcileParsedSms(
-    adminClient as unknown as ReturnType<typeof createAdminClient>,
-    sampleRawSms,
-    sampleParsedSms,
-    "parsed-sms-sub-1",
-    timestamp,
-  );
-
-  assertEquals(
-    result.matchType,
-    "driver_subscription",
-    "subscription rows should resolve directly from driver_subscriptions",
-  );
-  assertEquals(
-    result.targetTable,
-    "driver_subscriptions",
-    "driver subscriptions should be activated",
-  );
-  assertEquals(
-    result.targetRecordId,
-    "driver-sub-1",
-    "matched subscription id should round-trip",
-  );
-  assertEquals(
-    tables.driver_subscriptions[0]?.status,
-    "active",
-    "driver subscription should become active",
-  );
-  assertEquals(
-    tables.driver_subscriptions[0]?.started_at,
-    timestamp,
-    "missing started_at should backfill from reconciliation time",
-  );
-  assert(
-    typeof tables.driver_subscriptions[0]?.expires_at === "string",
-    "missing expires_at should be synthesized",
-  );
-});
-
 Deno.test("reconcileParsedSms confirms matched Rayon ticket references", async () => {
   const tables: TableStore = {
     pending_transactions: [
@@ -374,7 +311,6 @@ Deno.test("reconcileParsedSms confirms matched Rayon ticket references", async (
       },
     ],
     group_contributions: [],
-    driver_subscriptions: [],
     rs_tickets: [
       {
         id: "ticket-1",
@@ -460,7 +396,6 @@ Deno.test("reconcileParsedSms confirms matched Rayon shop order references", asy
       },
     ],
     group_contributions: [],
-    driver_subscriptions: [],
     rs_shop_orders: [
       {
         id: "shop-order-1",
@@ -541,7 +476,6 @@ Deno.test("reconcileParsedSms confirms matched Rayon initiative references", asy
       },
     ],
     group_contributions: [],
-    driver_subscriptions: [],
     rs_initiative_contributions: [
       {
         id: "initiative-contribution-1",
@@ -632,7 +566,6 @@ Deno.test("reconcileParsedSms returns manual review when Rayon ticket rows are m
       },
     ],
     group_contributions: [],
-    driver_subscriptions: [],
     rs_tickets: [],
   });
 
@@ -674,7 +607,6 @@ Deno.test("reconcileParsedSms returns manual review when Rayon shop rows are mis
       },
     ],
     group_contributions: [],
-    driver_subscriptions: [],
     rs_shop_orders: [],
   });
 
@@ -716,7 +648,6 @@ Deno.test("reconcileParsedSms returns manual review when Rayon initiative rows a
       },
     ],
     group_contributions: [],
-    driver_subscriptions: [],
     rs_initiative_contributions: [],
   });
 
@@ -759,7 +690,6 @@ Deno.test("reconcileParsedSms degrades cleanly when RPCs and WhatsApp delivery f
         },
       ],
       group_contributions: [],
-      driver_subscriptions: [],
       rs_tickets: [
         {
           id: "ticket-degraded-1",
@@ -858,7 +788,6 @@ Deno.test("reconcileParsedSms keeps Rayon ticket replays idempotent", async () =
       },
     ],
     group_contributions: [],
-    driver_subscriptions: [],
     rs_tickets: [
       {
         id: "ticket-replay-1",
@@ -946,7 +875,6 @@ Deno.test("reconcileParsedSms keeps Rayon initiative replays idempotent", async 
       },
     ],
     group_contributions: [],
-    driver_subscriptions: [],
     rs_initiative_contributions: [
       {
         id: "initiative-contribution-replay-1",

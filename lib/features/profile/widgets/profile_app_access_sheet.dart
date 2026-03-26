@@ -6,7 +6,6 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../core/providers/app_access_provider.dart';
 import '../../../core/providers/notification_settings_provider.dart';
 import '../../../core/providers/app_lifecycle_providers.dart';
-import '../../mobility/providers/mobility_location_provider.dart';
 import '../../../core/services/fcm_service.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
@@ -135,11 +134,9 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
         case AppAccessPermission.sms:
           await ref.read(momoSmsAutoreadServiceProvider).stop();
           break;
-        case AppAccessPermission.location:
-          ref.read(mobilityLocationProvider.notifier).stopTracking();
-          break;
         case AppAccessPermission.contacts:
         case AppAccessPermission.camera:
+        case AppAccessPermission.location:
         case AppAccessPermission.nfc:
         case AppAccessPermission.photos:
           break;
@@ -790,8 +787,8 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
     AppAccessPermission.location => const _PermissionMetadata(
       icon: Icons.location_on_outlined,
       title: 'Location',
-      subtitle: 'Needed for nearby mobility',
-      linkedFeatures: ['Mobility nearby', 'Trip pickup', 'Driver discovery'],
+      subtitle: 'Used for nearby services and place-aware flows',
+      linkedFeatures: ['Nearby services', 'Partner discovery', 'Map context'],
       serviceActionLabel: 'Open location settings',
     ),
     AppAccessPermission.camera => const _PermissionMetadata(

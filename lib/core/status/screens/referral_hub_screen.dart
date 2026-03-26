@@ -183,8 +183,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                               ),
                               decoration: BoxDecoration(
                                 color: colors.cardSurface,
-                                borderRadius:
-                                    BorderRadius.circular(radii.sm),
+                                borderRadius: BorderRadius.circular(radii.sm),
                                 border: Border.all(color: colors.border),
                               ),
                               child: Row(
@@ -194,11 +193,11 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                                       _inviteLink!.uri.toString(),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style:
-                                          theme.textTheme.bodySmall?.copyWith(
-                                        color: colors.secondaryText,
-                                        fontFamily: 'monospace',
-                                      ),
+                                      style: theme.textTheme.bodySmall
+                                          ?.copyWith(
+                                            color: colors.secondaryText,
+                                            fontFamily: 'monospace',
+                                          ),
                                     ),
                                   ),
                                   SizedBox(width: space.x2),
@@ -269,8 +268,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                     _StepRow(
                       number: '3',
                       title: context.l10n.earnTokens,
-                      message:
-                          'Earn tokens when they complete an activity.',
+                      message: 'Earn tokens when they complete an activity.',
                       icon: Icons.stars_rounded,
                     ),
                   ]),

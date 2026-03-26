@@ -65,7 +65,6 @@ immutable
 as $$
   select case
     when lower(coalesce(p_target_table, '')) = 'group_contributions' then 'group_contribution'
-    when lower(coalesce(p_target_table, '')) = 'driver_subscriptions' then 'subscription'
     when lower(coalesce(p_tx_type, '')) in ('salary', 'payroll') then 'salary'
     when lower(coalesce(p_tx_type, '')) in ('subscription', 'bundle') then 'subscription'
     when lower(coalesce(p_tx_type, '')) in ('cash_in', 'deposit') then 'cash_in'

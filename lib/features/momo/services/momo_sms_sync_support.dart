@@ -140,6 +140,7 @@ class MomoSmsSyncRunRecord {
     this.newestMessageAt,
     this.latestKnownMessageAt,
     this.errorMessage,
+    this.metadata,
   });
 
   final String userId;
@@ -156,6 +157,7 @@ class MomoSmsSyncRunRecord {
   final DateTime? newestMessageAt;
   final DateTime? latestKnownMessageAt;
   final String? errorMessage;
+  final Map<String, dynamic>? metadata;
 
   Map<String, dynamic> toInsertRow() {
     return <String, dynamic>{
@@ -175,6 +177,7 @@ class MomoSmsSyncRunRecord {
           ?.toUtc()
           .toIso8601String(),
       'error_message': errorMessage,
+      if (metadata != null && metadata!.isNotEmpty) 'metadata': metadata,
     };
   }
 }

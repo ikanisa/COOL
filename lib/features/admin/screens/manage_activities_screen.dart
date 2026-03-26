@@ -124,7 +124,8 @@ class ManageActivitiesScreen extends ConsumerWidget {
                   return ListView.separated(
                     padding: _liveOpsListPadding(),
                     itemCount: activities.length + 1,
-                    separatorBuilder: (_, _) => const SizedBox(height: CoolSpace.x3),
+                    separatorBuilder: (_, _) =>
+                        const SizedBox(height: CoolSpace.x3),
                     itemBuilder: (context, index) {
                       if (index == 0) {
                         return _ActivitySummaryCard(
@@ -422,7 +423,6 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
   static const List<String> _categories = <String>[
     'groups',
     'rayon',
-    'mobility',
     'social',
     'general',
   ];

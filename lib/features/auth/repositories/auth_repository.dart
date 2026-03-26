@@ -5,7 +5,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
-import '../models/face_match_result.dart';
 import '../models/user_profile.dart';
 
 class AuthRepository {
@@ -90,44 +89,6 @@ class AuthRepository {
     return result;
   }
 
-  Future<({UserProfile profile, Map<String, Object?> extracted})>
-  submitKycDocument({
-    required String documentType,
-    required String frontImageBase64,
-    required String frontMimeType,
-    String? backImageBase64,
-    String? backMimeType,
-  }) async {
-    final response = await _client.functions.invoke(
-      'kyc-ocr',
-      body: <String, Object?>{
-        'documentType': documentType,
-        'frontImage': frontImageBase64,
-        'frontMimeType': frontMimeType,
-        if (backImageBase64 != null && backImageBase64.trim().isNotEmpty)
-          'backImage': backImageBase64,
-        if (backMimeType != null && backMimeType.trim().isNotEmpty)
-          'backMimeType': backMimeType,
-      },
-    );
-
-    final payload = jh.asMap(response.data);
-    if (payload['success'] != true) {
-      throw StateError(
-        payload['message']?.toString() ??
-            'Could not extract identity details from the document.',
-      );
-    }
-
-    final data = jh.asMap(payload['data']);
-    final extracted = jh.asMap(data['extracted']);
-    final profile = UserProfile.fromJson(
-      _lockProfileMarket(jh.asMap(data['profile'])),
-    );
-    await _persistProfileMetadata(profile);
-    return (profile: profile, extracted: extracted);
-  }
-
   /// Partial update: only touches wallet routing fields.
   /// Prevents the full-profile upsert from writing privileged fields like
   /// is_admin back into the DB (audit fix P0 #3).
@@ -190,8 +151,6 @@ class AuthRepository {
     return getProfile(userId);
   }
 
-
-
   Future<void> signOut() async {
     await _client.auth.signOut();
   }
@@ -214,32 +173,6 @@ class AuthRepository {
     } catch (_) {
       // The auth user may already be gone server-side.
     }
-  }
-
-  Future<FaceMatchResult> verifyFaceMatch({
-    required String idImageBase64,
-    required String selfieBase64,
-    String? idMimeType,
-    String? selfieMimeType,
-  }) async {
-    final response = await _client.functions.invoke(
-      'verify-face-match',
-      body: <String, Object?>{
-        'idImageBase64': idImageBase64,
-        'selfieBase64': selfieBase64,
-        'idMimeType': ?idMimeType,
-        'selfieMimeType': ?selfieMimeType,
-      },
-    );
-
-    final payload = jh.asMap(response.data);
-    if (payload['success'] != true) {
-      throw StateError(
-        payload['message']?.toString() ?? 'Identity verification failed.',
-      );
-    }
-
-    return FaceMatchResult.fromJson(jh.asMap(payload['data']));
   }
 
   Future<void> _persistProfileMetadata(UserProfile profile) async {
@@ -267,15 +200,9 @@ class AuthRepository {
           'language_code': AppMarket.languageCode,
           'market': AppMarket.countryCode,
           'ui_language': AppMarket.languageCode,
-          'is_driver': profile.isDriver,
-          'vehicle_type': profile.vehicleType,
           'avatar_url': profile.avatarUrl,
           'official_name': profile.officialName,
           'official_phone': profile.officialPhone,
-          'kyc_status': profile.kycStatus,
-          'kyc_verified_at': profile.kycVerifiedAt?.toIso8601String(),
-          'credit_consent_granted_at': profile.creditConsentGrantedAt
-              ?.toIso8601String(),
           'theme_preference': profile.themePreference,
           'theme_preference_updated_at': profile.themePreferenceUpdatedAt
               ?.toIso8601String(),
@@ -316,14 +243,9 @@ class AuthRepository {
         'momo_provider': metadata['momo_provider']?.toString() ?? '',
         'country': AppMarket.countryCode,
         'language_code': AppMarket.languageCode,
-        'is_driver': jh.asBool(metadata['is_driver']),
-        'vehicle_type': metadata['vehicle_type']?.toString(),
         'avatar_url': metadata['avatar_url']?.toString(),
         'official_name': metadata['official_name']?.toString(),
         'official_phone': metadata['official_phone']?.toString(),
-        'kyc_status': metadata['kyc_status']?.toString() ?? 'unverified',
-        'kyc_verified_at': metadata['kyc_verified_at'],
-        'credit_consent_granted_at': metadata['credit_consent_granted_at'],
         'theme_preference': metadata['theme_preference'],
         'theme_preference_updated_at': metadata['theme_preference_updated_at'],
       }),

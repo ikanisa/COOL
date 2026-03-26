@@ -39,45 +39,46 @@ abstract final class AppThemeText {
     final base = brightness == Brightness.dark
         ? ThemeData.dark()
         : ThemeData.light();
-    final baseText = GoogleFonts.manropeTextTheme(base.textTheme);
+    final baseText = GoogleFonts.barlowTextTheme(base.textTheme);
+    final condensedText = GoogleFonts.barlowCondensedTextTheme(base.textTheme);
 
     return baseText.copyWith(
-      displayLarge: baseText.displayLarge?.copyWith(
+      displayLarge: condensedText.displayLarge?.copyWith(
         fontSize: AppThemeText.displayLarge,
         fontWeight: black,
         color: semanticColors.primaryText,
         letterSpacing: -2.0,
         height: 1.1,
       ),
-      displayMedium: baseText.displayMedium?.copyWith(
+      displayMedium: condensedText.displayMedium?.copyWith(
         fontSize: AppThemeText.displayMedium,
         fontWeight: extraBold,
         color: semanticColors.primaryText,
         letterSpacing: -1.6,
         height: 1.1,
       ),
-      displaySmall: baseText.displaySmall?.copyWith(
+      displaySmall: condensedText.displaySmall?.copyWith(
         fontSize: AppThemeText.displaySmall,
         fontWeight: extraBold,
         color: semanticColors.primaryText,
         letterSpacing: -1.2,
         height: 1.12,
       ),
-      headlineLarge: baseText.headlineLarge?.copyWith(
+      headlineLarge: condensedText.headlineLarge?.copyWith(
         fontSize: AppThemeText.headlineLarge,
         fontWeight: extraBold,
         color: semanticColors.primaryText,
         letterSpacing: -1.0,
         height: 1.15,
       ),
-      headlineMedium: baseText.headlineMedium?.copyWith(
+      headlineMedium: condensedText.headlineMedium?.copyWith(
         fontSize: AppThemeText.headlineMedium,
         fontWeight: extraBold,
         color: semanticColors.primaryText,
         letterSpacing: -0.8,
         height: 1.18,
       ),
-      headlineSmall: baseText.headlineSmall?.copyWith(
+      headlineSmall: condensedText.headlineSmall?.copyWith(
         fontSize: AppThemeText.headlineSmall,
         fontWeight: extraBold,
         color: semanticColors.primaryText,

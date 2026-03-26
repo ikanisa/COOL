@@ -40,7 +40,9 @@ class FakeAppAccessService extends AppAccessService {
     final prev = _snapshots[permission]!;
     _snapshots[permission] = AppAccessSnapshot(
       permission: permission,
-      kind: enabled ? AppAccessStateKind.ready : AppAccessStateKind.disabledInApp,
+      kind: enabled
+          ? AppAccessStateKind.ready
+          : AppAccessStateKind.disabledInApp,
       enabledInApp: enabled,
       supportedOnDevice: prev.supportedOnDevice,
       systemGranted: prev.systemGranted,

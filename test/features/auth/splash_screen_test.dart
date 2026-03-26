@@ -85,7 +85,7 @@ void main() {
     );
     await tester.pump(const Duration(milliseconds: 700));
 
-    expect(find.text('Cool'), findsOneWidget);
+    expect(find.text('Rayon Sports'), findsOneWidget);
     expect(find.text('We could not restore'), findsOneWidget);
     expect(find.text('Retry'), findsOneWidget);
   });

@@ -48,16 +48,6 @@ class EnvConfig {
     defaultValue: true,
   );
 
-  static const mobilityGeocodingBaseUrl = String.fromEnvironment(
-    'COOL_GEOCODING_BASE_URL',
-    defaultValue: 'https://nominatim.openstreetmap.org',
-  );
-
-  static const mobilityGeocodingUserAgent = String.fromEnvironment(
-    'COOL_GEOCODING_USER_AGENT',
-    defaultValue: 'CoolApp/1.0',
-  );
-
   static const privacyPolicyUrl = String.fromEnvironment(
     'COOL_PRIVACY_POLICY_URL',
     defaultValue: 'https://cool.ikanisa.com/privacy',

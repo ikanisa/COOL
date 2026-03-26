@@ -5,7 +5,7 @@ import '../../../core/config/country_catalog.dart';
 import 'admin_repository_helpers.dart';
 
 /// Admin repository for content management: partners, services, payment
-/// routes, quick actions, vehicle types, and app config.
+/// routes, quick actions, and app config.
 class AdminContentRepository with AdminRepositoryHelpers {
   AdminContentRepository({required SupabaseClient client}) : _client = client;
 
@@ -176,28 +176,6 @@ class AdminContentRepository with AdminRepositoryHelpers {
           .update(<String, dynamic>{'sort_order': i})
           .eq('id', orderedIds[i]);
     }
-  }
-
-  // ── Vehicle Types ─────────────────────────────────────────────────────
-
-  Future<List<Map<String, dynamic>>> fetchVehicleTypes({
-    String? country,
-  }) async {
-    final data = await _client
-        .from('vehicle_types')
-        .select()
-        .order('sort_order', ascending: true);
-    return asListOfMaps(
-      data,
-    ).map((row) => _coerceBlankCountryToRwanda(row)).toList(growable: false);
-  }
-
-  Future<void> upsertVehicleType(Map<String, dynamic> type) async {
-    await _client.from('vehicle_types').upsert(_lockCountryScopeToRwanda(type));
-  }
-
-  Future<void> deleteVehicleType(String id) async {
-    await _client.from('vehicle_types').delete().eq('id', id);
   }
 
   // ── App Config ────────────────────────────────────────────────────────

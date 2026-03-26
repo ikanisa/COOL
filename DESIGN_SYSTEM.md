@@ -869,7 +869,6 @@ Current concentration by file count:
 - `lib/features/profile`: `10`
 - `lib/core/theme`: `8`
 - `lib/features/credit`: `6`
-- `lib/features/mobility`: `4`
 - `lib/core/status`: `1`
 
 Expected bridge files that may remain temporarily:
@@ -884,7 +883,6 @@ Highest-value migration targets:
 
 - Rayon consumer and Rayon admin surfaces
 - profile/settings widgets and sheets
-- mobility listing and driver/list marketplace widgets
 - credit score and readiness surfaces
 - remaining core status legacy screens
 
@@ -976,9 +974,7 @@ Section 13.
 | `/home` | `Home feed` | Mixed-priority feed with sectioned actions and refresh |
 | `/groups`, `/groups/create` | `List plus hero controls` | Filter/view hero plus list or create path |
 | `/groups/:id`, `/groups/:id/ledger` | `Detail and drill-in` | Focused group follow-up and ledger context |
-| `/mobility` | `Map plus marketplace` | Map supports discovery, list and contact actions do the work |
-| `/mobility/driver`, `/mobility/driver/subscription`, `/mobility/driver/vehicle`, `/mobility/schedule`, `/mobility/trips` | `Detail and drill-in` | Follow-up routes inside the mobility marketplace |
-| `/profile`, `/profile/identity`, `/profile/travel-role`, `/profile/wallet`, `/app-access`, `/kyc/selfie` | `Settings and account hub` | Account management, permissions, identity, and wallet details |
+| `/profile`, `/profile/identity`, `/profile/wallet`, `/app-access`, `/kyc/selfie` | `Settings and account hub` | Account management, permissions, identity, and wallet details |
 | `/momo`, `/momo/statements` | `Secure transaction hub` | Standalone financial route with explicit exit path |
 | `/credit`, `/credit/readiness`, `/missions`, `/referral`, `/tokens`, `/seasons` | `Detail and drill-in` | Supporting program routes with focused state or progression |
 | `/partners`, `/partners/:id`, `/partners/:id/onboarding/:type` | `Partner discovery and onboarding` | Trusted partner browse, compare, and handoff |

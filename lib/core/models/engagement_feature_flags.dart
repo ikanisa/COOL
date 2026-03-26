@@ -99,9 +99,7 @@ class EngagementFeatureFlags {
     required this.rayonChapterEnabled,
     required this.biopayEnabled,
     required this.momo,
-    required this.credit,
     required this.ticketPurchase,
-    required this.mobility,
   });
 
   factory EngagementFeatureFlags.defaults() {
@@ -112,9 +110,7 @@ class EngagementFeatureFlags {
       rayonChapterEnabled: false,
       biopayEnabled: false,
       momo: ManagedFeatureRollout(key: 'momo'),
-      credit: ManagedFeatureRollout(key: 'credit'),
       ticketPurchase: ManagedFeatureRollout(key: 'ticket_purchase'),
-      mobility: ManagedFeatureRollout(key: 'mobility'),
     );
   }
 
@@ -147,23 +143,11 @@ class EngagementFeatureFlags {
         values: values,
         fallback: defaults.momo,
       ),
-      credit: ManagedFeatureRollout.fromValues(
-        key: 'credit',
-        killSwitchKey: 'kill_credit_features',
-        values: values,
-        fallback: defaults.credit,
-      ),
       ticketPurchase: ManagedFeatureRollout.fromValues(
         key: 'ticket_purchase',
         killSwitchKey: 'kill_ticket_purchase',
         values: values,
         fallback: defaults.ticketPurchase,
-      ),
-      mobility: ManagedFeatureRollout.fromValues(
-        key: 'mobility',
-        killSwitchKey: 'kill_mobility',
-        values: values,
-        fallback: defaults.mobility,
       ),
     );
   }
@@ -174,20 +158,14 @@ class EngagementFeatureFlags {
   final bool rayonChapterEnabled;
   final bool biopayEnabled;
   final ManagedFeatureRollout momo;
-  final ManagedFeatureRollout credit;
   final ManagedFeatureRollout ticketPurchase;
-  final ManagedFeatureRollout mobility;
 
   bool get killMomoPayments => momo.killSwitch;
-  bool get killCreditFeatures => credit.killSwitch;
   bool get killTicketPurchase => ticketPurchase.killSwitch;
-  bool get killMobility => mobility.killSwitch;
 
   bool get momoEnabled => isMomoEnabled();
   bool get biopayAvailable => isBiopayEnabled();
-  bool get creditEnabled => isCreditEnabled();
   bool get ticketEnabled => isTicketPurchaseEnabled();
-  bool get mobilityEnabled => isMobilityEnabled();
 
   bool isMomoEnabled({bool isAdmin = false}) {
     return momo.isEnabled(isAdmin: isAdmin);
@@ -197,16 +175,8 @@ class EngagementFeatureFlags {
     return biopayEnabled && isMomoEnabled(isAdmin: isAdmin);
   }
 
-  bool isCreditEnabled({bool isAdmin = false}) {
-    return credit.isEnabled(isAdmin: isAdmin);
-  }
-
   bool isTicketPurchaseEnabled({bool isAdmin = false}) {
     return ticketPurchase.isEnabled(isAdmin: isAdmin);
-  }
-
-  bool isMobilityEnabled({bool isAdmin = false}) {
-    return mobility.isEnabled(isAdmin: isAdmin);
   }
 
   Map<String, Object> toRemoteConfigDefaults() {
@@ -217,11 +187,9 @@ class EngagementFeatureFlags {
       'engagement_rayon_chapter_enabled': rayonChapterEnabled,
       'feature_biopay_enabled': biopayEnabled,
       ...momo.toRemoteConfigDefaults(killSwitchKey: 'kill_momo_payments'),
-      ...credit.toRemoteConfigDefaults(killSwitchKey: 'kill_credit_features'),
       ...ticketPurchase.toRemoteConfigDefaults(
         killSwitchKey: 'kill_ticket_purchase',
       ),
-      ...mobility.toRemoteConfigDefaults(killSwitchKey: 'kill_mobility'),
     };
   }
 }

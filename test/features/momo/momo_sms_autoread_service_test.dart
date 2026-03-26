@@ -47,7 +47,10 @@ void main() {
     }
     await Hive.deleteBoxFromDisk(AppAccessService.boxName);
 
-    for (final boxName in <String>['momo_sms_sync_state', 'momo_sms_retry_queue']) {
+    for (final boxName in <String>[
+      'momo_sms_sync_state',
+      'momo_sms_retry_queue',
+    ]) {
       if (Hive.isBoxOpen(boxName)) {
         await Hive.box<String>(boxName).clear();
         await Hive.box<String>(boxName).close();
@@ -175,9 +178,8 @@ void main() {
           ingestionRepository: repository,
           syncStateStore: syncStateStore,
           syncRunAuditWriter: MomoSmsSyncRunAuditWriter(
-            insert: (row) async => recordedSyncRuns.add(
-              Map<String, dynamic>.from(row),
-            ),
+            insert: (row) async =>
+                recordedSyncRuns.add(Map<String, dynamic>.from(row)),
             crashlytics: crashlytics,
           ),
           operationalHealthService: operationalHealthService,
@@ -210,10 +212,7 @@ void main() {
         final scanStartedAt = DateTime.parse(
           syncRun['scan_started_at'] as String,
         ).toUtc();
-        expect(
-          loadedCutoff,
-          scanStartedAt.subtract(const Duration(days: 365)),
-        );
+        expect(loadedCutoff, scanStartedAt.subtract(const Duration(days: 365)));
         expect(syncRun['status'], 'succeeded');
         expect(syncRun['trigger'], 'initial_permission_grant');
         expect(syncRun['incremental'], isFalse);
@@ -263,9 +262,8 @@ void main() {
           ingestionRepository: repository,
           syncStateStore: syncStateStore,
           syncRunAuditWriter: MomoSmsSyncRunAuditWriter(
-            insert: (row) async => recordedSyncRuns.add(
-              Map<String, dynamic>.from(row),
-            ),
+            insert: (row) async =>
+                recordedSyncRuns.add(Map<String, dynamic>.from(row)),
             crashlytics: crashlytics,
           ),
           operationalHealthService: operationalHealthService,
@@ -311,7 +309,8 @@ void main() {
           expect(
             capture.receivedAt.isBefore(expectedCutoff),
             isFalse,
-            reason: 'capture ${capture.deviceMessageKey} fell before manual cutoff',
+            reason:
+                'capture ${capture.deviceMessageKey} fell before manual cutoff',
           );
         }
 
@@ -338,75 +337,83 @@ void main() {
           syncState.initialBackfillCompletedAt?.toIso8601String(),
           priorBackfillAt,
         );
-        expect(syncState.latestKnownMessageAt, DateTime.utc(2026, 3, 22, 9, 45));
+        expect(
+          syncState.latestKnownMessageAt,
+          DateTime.utc(2026, 3, 22, 9, 45),
+        );
         expect(syncState.lastSuccessfulSyncAt, isNotNull);
       },
     );
 
-    test('sync failure records failed audit context and crashlytics reason', () async {
-      final session = _sessionFor('user-failure');
-      when(() => mockAuth.currentSession).thenReturn(session);
+    test(
+      'sync failure records failed audit context and crashlytics reason',
+      () async {
+        final session = _sessionFor('user-failure');
+        when(() => mockAuth.currentSession).thenReturn(session);
 
-      final latestKnownMessageAt = DateTime.utc(2026, 3, 22, 6, 0);
-      await syncStateStore.write(
-        session.user.id,
-        MomoSmsSyncState(
-          initialBackfillCompletedAt: DateTime.utc(2026, 3, 21, 10, 0),
-          lastSuccessfulSyncAt: DateTime.utc(2026, 3, 22, 6, 15),
-          latestKnownMessageAt: latestKnownMessageAt,
-        ),
-      );
+        final latestKnownMessageAt = DateTime.utc(2026, 3, 22, 6, 0);
+        await syncStateStore.write(
+          session.user.id,
+          MomoSmsSyncState(
+            initialBackfillCompletedAt: DateTime.utc(2026, 3, 21, 10, 0),
+            lastSuccessfulSyncAt: DateTime.utc(2026, 3, 22, 6, 15),
+            latestKnownMessageAt: latestKnownMessageAt,
+          ),
+        );
 
-      final service = MomoSmsAutoreadService(
-        client: mockClient,
-        appAccessService: appAccessService,
-        ingestionRepository: _FakeIngestionRepository(
-          onIngest: (_) async => throw UnimplementedError(),
-        ),
-        crashlytics: crashlytics,
-        syncStateStore: syncStateStore,
-        syncRunAuditWriter: MomoSmsSyncRunAuditWriter(
-          insert: (row) async => recordedSyncRuns.add(
-            Map<String, dynamic>.from(row),
+        final service = MomoSmsAutoreadService(
+          client: mockClient,
+          appAccessService: appAccessService,
+          ingestionRepository: _FakeIngestionRepository(
+            onIngest: (_) async => throw UnimplementedError(),
           ),
           crashlytics: crashlytics,
-        ),
-        operationalHealthService: operationalHealthService,
-        supportsSmsAutoread: () => true,
-        smsPermissionStatus: () async => PermissionStatus.granted,
-        requestSmsPermission: () async => PermissionStatus.granted,
-        inboxLoader: (_) async => throw StateError('telephony down'),
-      );
+          syncStateStore: syncStateStore,
+          syncRunAuditWriter: MomoSmsSyncRunAuditWriter(
+            insert: (row) async =>
+                recordedSyncRuns.add(Map<String, dynamic>.from(row)),
+            crashlytics: crashlytics,
+          ),
+          operationalHealthService: operationalHealthService,
+          supportsSmsAutoread: () => true,
+          smsPermissionStatus: () async => PermissionStatus.granted,
+          requestSmsPermission: () async => PermissionStatus.granted,
+          inboxLoader: (_) async => throw StateError('telephony down'),
+        );
 
-      await expectLater(
-        service.syncInbox(trigger: MomoInboxSyncTrigger.manual),
-        throwsA(isA<StateError>()),
-      );
+        await expectLater(
+          service.syncInbox(trigger: MomoInboxSyncTrigger.manual),
+          throwsA(isA<StateError>()),
+        );
 
-      final syncRun = recordedSyncRuns.single;
-      final scanStartedAt = DateTime.parse(
-        syncRun['scan_started_at'] as String,
-      ).toUtc();
-      final expectedCutoff = latestKnownMessageAt.subtract(
-        MomoSmsSyncPlanner.overlapWindow,
-      );
-      expect(syncRun['status'], 'failed');
-      expect(syncRun['trigger'], 'manual');
-      expect(syncRun['incremental'], isTrue);
-      expect(
-        syncRun['lookback_days'],
-        MomoSmsSyncPlanner.lookbackDaysFor(
-          cutoff: expectedCutoff,
-          now: scanStartedAt,
-        ),
-      );
-      expect(syncRun['error_message'], contains('telephony down'));
-      expect(
-        syncRun['latest_known_message_at'],
-        latestKnownMessageAt.toIso8601String(),
-      );
-      expect(crashlytics.recordedReasons, contains('momo_sms_inbox_sync_failed'));
-    });
+        final syncRun = recordedSyncRuns.single;
+        final scanStartedAt = DateTime.parse(
+          syncRun['scan_started_at'] as String,
+        ).toUtc();
+        final expectedCutoff = latestKnownMessageAt.subtract(
+          MomoSmsSyncPlanner.overlapWindow,
+        );
+        expect(syncRun['status'], 'failed');
+        expect(syncRun['trigger'], 'manual');
+        expect(syncRun['incremental'], isTrue);
+        expect(
+          syncRun['lookback_days'],
+          MomoSmsSyncPlanner.lookbackDaysFor(
+            cutoff: expectedCutoff,
+            now: scanStartedAt,
+          ),
+        );
+        expect(syncRun['error_message'], contains('telephony down'));
+        expect(
+          syncRun['latest_known_message_at'],
+          latestKnownMessageAt.toIso8601String(),
+        );
+        expect(
+          crashlytics.recordedReasons,
+          contains('momo_sms_inbox_sync_failed'),
+        );
+      },
+    );
   });
 
   group('MomoSmsIngestionRepository sender alignment', () {
@@ -497,8 +504,7 @@ class _MockSupabaseClient extends Mock implements SupabaseClient {}
 class _MockGoTrueClient extends Mock implements GoTrueClient {}
 
 class _FakeOperationalHealthService extends OperationalHealthService {
-  _FakeOperationalHealthService()
-    : super(client: _MockSupabaseClient());
+  _FakeOperationalHealthService() : super(client: _MockSupabaseClient());
 
   final List<Map<String, dynamic>> recordedEvents = <Map<String, dynamic>>[];
 
@@ -533,11 +539,11 @@ class _FakeOperationalHealthService extends OperationalHealthService {
 }
 
 class _FakeIngestionRepository extends MomoSmsIngestionRepository {
-  _FakeIngestionRepository({
-    required this.onIngest,
-  }) : super(client: _MockSupabaseClient());
+  _FakeIngestionRepository({required this.onIngest})
+    : super(client: _MockSupabaseClient());
 
-  final Future<MomoSmsIngestionResult?> Function(MomoSmsCapture capture) onIngest;
+  final Future<MomoSmsIngestionResult?> Function(MomoSmsCapture capture)
+  onIngest;
 
   @override
   Future<MomoSmsIngestionResult?> ingestCapture({
@@ -587,15 +593,14 @@ SmsMessage _smsMessage({
   required String body,
   required DateTime receivedAt,
 }) {
-  return SmsMessage.fromMap(<String, String>{
-    'address': sender,
-    'body': body,
-    'date': receivedAt.millisecondsSinceEpoch.toString(),
-  }, const <SmsColumn>[
-    SmsColumn.ADDRESS,
-    SmsColumn.BODY,
-    SmsColumn.DATE,
-  ]);
+  return SmsMessage.fromMap(
+    <String, String>{
+      'address': sender,
+      'body': body,
+      'date': receivedAt.millisecondsSinceEpoch.toString(),
+    },
+    const <SmsColumn>[SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE],
+  );
 }
 
 class _FakeDeviceSettingsService extends DeviceSettingsService {

@@ -33,7 +33,6 @@ void main() {
       momoProvider: 'mtn',
       country: 'RW',
       languageCode: 'en',
-      isDriver: false,
     );
     membership = FanMembership(
       id: 'membership-1',

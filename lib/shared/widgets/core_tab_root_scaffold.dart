@@ -19,6 +19,8 @@ class CoreTabRootScaffold extends StatelessWidget {
     this.subtitle,
     this.actions,
     this.showGlow = true,
+    this.primaryColor,
+    this.secondaryColor,
     this.padding,
     this.addBottomNavClearance = true,
     super.key,
@@ -38,6 +40,10 @@ class CoreTabRootScaffold extends StatelessWidget {
 
   /// Whether the radial glow is rendered in the background.
   final bool showGlow;
+
+  /// Optional background glow overrides used for partner-dominant variants.
+  final Color? primaryColor;
+  final Color? secondaryColor;
 
   /// Custom padding override. When null, defaults to
   /// [CoolLayout.rootPagePadding] if [title] is non-null, otherwise no
@@ -82,6 +88,8 @@ class CoreTabRootScaffold extends StatelessWidget {
     }
 
     return CoolScreenBackground(
+      primaryColor: primaryColor,
+      secondaryColor: secondaryColor,
       showGlow: showGlow,
       child: Scaffold(
         backgroundColor: Colors.transparent,

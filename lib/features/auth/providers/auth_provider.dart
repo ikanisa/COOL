@@ -12,7 +12,6 @@ import '../../../core/services/momo_service.dart';
 import '../../../core/services/performance_service.dart';
 import '../../biopay/providers/biopay_providers.dart';
 import '../../momo/providers/momo_service_provider.dart';
-import '../models/face_match_result.dart';
 import '../models/user_profile.dart';
 import '../repositories/auth_repository.dart';
 
@@ -94,9 +93,7 @@ class AuthProfileData {
     required this.momoProvider,
     required this.country,
     required this.languageCode,
-    required this.isDriver,
     this.phone,
-    this.vehicleType,
   });
 
   final String fullName;
@@ -106,9 +103,7 @@ class AuthProfileData {
   final String momoProvider;
   final String country;
   final String languageCode;
-  final bool isDriver;
   final String? phone;
-  final String? vehicleType;
 }
 
 class AuthNotifier extends StateNotifier<AuthState> {
@@ -337,8 +332,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
           momoProvider: normalizedIdentity.momoProvider,
           country: AppMarket.countryCode,
           languageCode: AppMarket.languageCode,
-          isDriver: data.isDriver,
-          vehicleType: data.vehicleType,
         ),
       ),
     );
@@ -483,28 +476,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
       }
     }
 
-    final updatedProfile = UserProfile(
-      id: user.id,
-      phone: user.phone,
-      fullName: user.fullName,
-      publicUserId: user.publicUserId,
-      momoNumber: user.momoNumber,
-      momoCode: user.momoCode,
-      momoRouteType: user.momoRouteType,
-      momoProvider: user.momoProvider,
-      country: AppMarket.countryCode,
-      languageCode: AppMarket.languageCode,
-      isDriver: user.isDriver,
-      isAdmin: user.isAdmin,
-      vehicleType: user.vehicleType,
-      avatarUrl: user.avatarUrl,
+    final updatedProfile = user.copyWith(
       officialName: trimmedName.isEmpty ? null : trimmedName,
       officialPhone: normalizedOfficialPhone,
-      kycStatus: user.kycStatus,
-      kycVerifiedAt: user.kycVerifiedAt,
-      creditConsentGrantedAt: user.creditConsentGrantedAt,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
     );
 
     state = state.copyWith(isLoading: true, error: null);
@@ -531,139 +505,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
 
     return success;
-  }
-
-  /// Updates profile with KYC OCR-extracted data from an ID card scan.
-  Future<bool> updateProfileFromKyc({
-    required String officialName,
-    String? dateOfBirth,
-    String? nationalIdNumber,
-    String? kycIdPhotoUrl,
-  }) async {
-    final user = state.user;
-    if (user == null) {
-      state = state.copyWith(error: 'No user profile loaded.');
-      return false;
-    }
-
-    final updatedProfile = user.copyWith(
-      officialName: officialName.trim().isEmpty ? null : officialName.trim(),
-      dateOfBirth: dateOfBirth,
-      nationalIdNumber: nationalIdNumber,
-      kycIdPhotoUrl: kycIdPhotoUrl,
-      kycStatus: 'pending_review',
-    );
-
-    state = state.copyWith(isLoading: true, error: null);
-
-    final result = await AsyncValue.guard(
-      () => _repository.updateProfile(updatedProfile),
-    );
-
-    var success = false;
-    result.when(
-      data: (value) {
-        success = true;
-        state = state.copyWith(user: value, isLoading: false, error: null);
-      },
-      error: (error, stack) {
-        _crashlytics.recordError(
-          error,
-          stackTrace: stack,
-          reason: 'update_profile_from_kyc',
-        );
-        state = state.copyWith(isLoading: false, error: _errorMessage(error));
-      },
-      loading: () {},
-    );
-
-    return success;
-  }
-
-  Future<({UserProfile profile, Map<String, Object?> extracted})?>
-  submitKycDocument({
-    required String documentType,
-    required String frontImageBase64,
-    required String frontMimeType,
-    String? backImageBase64,
-    String? backMimeType,
-  }) async {
-    if (state.user == null) {
-      state = state.copyWith(error: 'No user profile loaded.');
-      return null;
-    }
-
-    state = state.copyWith(isLoading: true, error: null);
-
-    final result = await AsyncValue.guard(
-      () => _repository.submitKycDocument(
-        documentType: documentType,
-        frontImageBase64: frontImageBase64,
-        frontMimeType: frontMimeType,
-        backImageBase64: backImageBase64,
-        backMimeType: backMimeType,
-      ),
-    );
-
-    ({UserProfile profile, Map<String, Object?> extracted})? submission;
-    result.when(
-      data: (value) {
-        submission = value;
-        state = state.copyWith(
-          user: value.profile,
-          isLoading: false,
-          error: null,
-        );
-      },
-      error: (error, stack) {
-        _crashlytics.recordError(
-          error,
-          stackTrace: stack,
-          reason: 'submit_kyc_document',
-        );
-        state = state.copyWith(isLoading: false, error: _errorMessage(error));
-      },
-      loading: () {},
-    );
-
-    return submission;
-  }
-
-  Future<FaceMatchResult?> verifyFaceMatch({
-    required String idImageBase64,
-    required String selfieBase64,
-    String? idMimeType,
-    String? selfieMimeType,
-  }) async {
-    state = state.copyWith(isLoading: true, error: null);
-
-    final result = await AsyncValue.guard(
-      () => _repository.verifyFaceMatch(
-        idImageBase64: idImageBase64,
-        selfieBase64: selfieBase64,
-        idMimeType: idMimeType,
-        selfieMimeType: selfieMimeType,
-      ),
-    );
-
-    FaceMatchResult? matchResult;
-    result.when(
-      data: (value) {
-        matchResult = value;
-        state = state.copyWith(isLoading: false, error: null);
-      },
-      error: (error, stack) {
-        _crashlytics.recordError(
-          error,
-          stackTrace: stack,
-          reason: 'verify_face_match',
-        );
-        state = state.copyWith(isLoading: false, error: _errorMessage(error));
-      },
-      loading: () {},
-    );
-
-    return matchResult;
   }
 
   Future<bool> updateProfile(UserProfile profile) async {

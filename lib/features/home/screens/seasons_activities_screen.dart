@@ -169,7 +169,7 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
       grouped.putIfAbsent(a.category, () => []).add(a);
     }
 
-    final categoryOrder = ['groups', 'rayon', 'mobility', 'social', 'general'];
+    final categoryOrder = ['groups', 'rayon', 'social', 'general'];
     final sortedKeys = grouped.keys.toList()
       ..sort((a, b) {
         final ai = categoryOrder.indexOf(a);
@@ -206,7 +206,6 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
   static String _categoryLabel(String category) => switch (category) {
     'groups' => '💰 Groups',
     'rayon' => '⚽ Rayon Sports',
-    'mobility' => '🚗 Mobility',
     'social' => '📲 Social',
     'general' => '⭐ General',
     _ => category,

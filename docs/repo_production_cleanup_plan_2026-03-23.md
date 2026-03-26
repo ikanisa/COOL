@@ -5,7 +5,6 @@ Date: 2026-03-23
 This plan is based on the current repository state, plus the earlier audit and
 remediation docs already in this repo:
 
-- `docs/REPO_FULLSTACK_AUDIT.md`
 - `docs/fullstack_audit_report_2026-03-13.md`
 - `docs/fullstack_remediation_implementation_plan_2026-03-13.md`
 

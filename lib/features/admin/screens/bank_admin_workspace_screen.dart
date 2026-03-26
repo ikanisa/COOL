@@ -15,11 +15,9 @@ import '../providers/bank_admin_providers.dart';
 import '../widgets/admin_workspace_gate.dart';
 import '../widgets/bank_admin/bank_admin_helpers.dart';
 import '../widgets/bank_admin/bank_allocations_tab.dart';
-import '../widgets/bank_admin/bank_baskets_tab.dart';
 import '../widgets/bank_admin/bank_contributions_tab.dart';
 import '../widgets/bank_admin/bank_groups_tab.dart';
 import '../widgets/bank_admin/bank_ledgers_tab.dart';
-import '../widgets/bank_admin/bank_loans_tab.dart';
 import '../widgets/bank_admin/bank_members_tab.dart';
 import '../widgets/bank_admin/bank_workspace_hero.dart';
 import '../../../core/l10n/l10n.dart';
@@ -67,15 +65,13 @@ class _BankAdminWorkspaceScreenState
   String _groupSearch = '';
   String _contribStatusFilter = 'all';
   String? _contribGroupFilter;
-  String _loanStatusFilter = 'all';
-  String _basketStatusFilter = 'all';
   String _allocationStatusFilter = 'all';
   bool _isAiRunning = false;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 7, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
     _tabController.addListener(() {
       if (!_tabController.indexIsChanging) setState(() {});
     });
@@ -188,8 +184,6 @@ class _BankAdminWorkspaceScreenState
                                 Tab(text: 'CONTRIBUTIONS', height: 40),
                                 Tab(text: 'LEDGERS', height: 40),
                                 Tab(text: 'ALLOCATIONS', height: 40),
-                                Tab(text: 'LOANS', height: 40),
-                                Tab(text: 'BASKETS', height: 40),
                               ],
                             ),
                           ),
@@ -263,18 +257,6 @@ class _BankAdminWorkspaceScreenState
                                   onAcceptSuggestion: _acceptSuggestion,
                                   onTriggerAi: _triggerAiAllocation,
                                   isAiRunning: _isAiRunning,
-                                ),
-                                BankLoansTab(
-                                  partnerId: widget.partnerId,
-                                  statusFilter: _loanStatusFilter,
-                                  onStatusFilterChanged: (v) =>
-                                      setState(() => _loanStatusFilter = v),
-                                ),
-                                BankBasketsTab(
-                                  partnerId: widget.partnerId,
-                                  statusFilter: _basketStatusFilter,
-                                  onStatusFilterChanged: (v) =>
-                                      setState(() => _basketStatusFilter = v),
                                 ),
                               ],
                             ),

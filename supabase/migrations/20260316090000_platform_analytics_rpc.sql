@@ -22,9 +22,7 @@ BEGIN
     -- ── Core counts ──────────────────────────────────────────────────
     'total_users',     (SELECT count(*) FROM public.users),
     'total_groups',    (SELECT count(*) FROM public.groups),
-    'total_trips',     (SELECT count(*) FROM public.mobility_trips),
     'total_partners',  (SELECT count(*) FROM public.partners),
-    'total_drivers',   (SELECT count(*) FROM public.users WHERE is_driver = true),
     'total_admins',    (SELECT count(*) FROM public.users WHERE is_admin = true),
     'mock_users',      (SELECT count(*) FROM public.users WHERE is_mock = true),
     'real_users',      (SELECT count(*) FROM public.users WHERE is_mock IS NOT TRUE),
@@ -39,8 +37,6 @@ BEGIN
     'active_groups',   (SELECT count(*) FROM public.groups
                         WHERE (SELECT count(*) FROM public.group_members gm
                                WHERE gm.group_id = groups.id) > 0),
-    'trips_7d',        (SELECT count(*) FROM public.mobility_trips
-                        WHERE created_at >= now() - interval '7 days'),
     'active_partners', (SELECT count(*) FROM public.partners
                         WHERE is_active = true),
 

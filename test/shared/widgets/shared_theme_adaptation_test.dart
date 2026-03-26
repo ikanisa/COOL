@@ -4,9 +4,7 @@ import 'package:cool_app/shared/widgets/balance_card.dart';
 import 'package:cool_app/shared/widgets/cool_button.dart';
 import 'package:cool_app/shared/widgets/cool_card.dart';
 import 'package:cool_app/shared/widgets/cool_screen_scaffold.dart';
-import 'package:cool_app/shared/widgets/driver_card.dart';
 import 'package:cool_app/shared/widgets/tab_pill.dart';
-import 'package:cool_app/shared/widgets/trip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -101,61 +99,6 @@ void main() {
       expect(decoration.border, isNull);
     });
 
-    testWidgets('DriverCard resolves light proximity surface token', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _wrapWithBrightness(
-          Brightness.light,
-          const DriverCard(
-            driverId: 'd1',
-            displayName: 'Jean Driver',
-            vehicleType: 'Car',
-            distanceKm: 2.5,
-            isOnline: true,
-            onWhatsAppTap: _noop,
-          ),
-        ),
-      );
-
-      expect(
-        find.byWidgetPredicate(
-          (widget) =>
-              widget is Container &&
-              widget.decoration is BoxDecoration &&
-              (widget.decoration! as BoxDecoration).color ==
-                  CoolSemanticColors.light.proximitySurface,
-        ),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('TripCard resolves light route surface token', (tester) async {
-      await tester.pumpWidget(
-        _wrapWithBrightness(
-          Brightness.light,
-          TripCard(
-            fromLocation: 'Kigali',
-            toLocation: 'Musanze',
-            departureTime: DateTime(2026, 3, 22, 9, 30),
-            vehicleType: 'Car',
-            onTap: _noop,
-          ),
-        ),
-      );
-
-      expect(
-        find.byWidgetPredicate(
-          (widget) =>
-              widget is Container &&
-              widget.decoration is BoxDecoration &&
-              (widget.decoration! as BoxDecoration).color ==
-                  CoolSemanticColors.light.routeSurface,
-        ),
-        findsOneWidget,
-      );
-    });
-
     testWidgets('BalanceCard resolves light financial surface token', (
       tester,
     ) async {
@@ -183,5 +126,3 @@ void main() {
     });
   });
 }
-
-void _noop() {}

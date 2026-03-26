@@ -9,8 +9,6 @@ import 'package:cool_app/core/router/app_routes.dart';
 import 'package:cool_app/core/status/models/cool_status.dart';
 import 'package:cool_app/core/status/providers/cool_status_provider.dart';
 import 'package:cool_app/core/status/repositories/cool_status_repository.dart';
-import 'package:cool_app/features/credit/models/credit_dashboard.dart';
-import 'package:cool_app/features/credit/providers/credit_provider.dart';
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
 import 'package:cool_app/features/profile/screens/profile_screen.dart';
 import 'package:cool_app/features/profile/widgets/profile_settings_widgets.dart';
@@ -74,9 +72,6 @@ void main() {
     List<Override> overrides() {
       return <Override>[
         coolStatusRepositoryProvider.overrideWithValue(coolStatusRepository),
-        creditDashboardProvider.overrideWith(
-          (ref) async => const CreditDashboard(statementCount: 12, score: 712),
-        ),
         fcmServiceProvider.overrideWithValue(
           FcmService(
             preferenceStore: MemoryFcmPreferenceStore(),
@@ -98,7 +93,6 @@ void main() {
           publicUserId: '123456',
           officialName: 'Alex Fan',
           officialPhone: '+250788123456',
-          kycStatus: 'verified',
         ),
         overrides: overrides(),
       );
@@ -111,46 +105,15 @@ void main() {
       expect(find.text('Account'), findsOneWidget);
       expect(find.text('Settings'), findsOneWidget);
       expect(find.text('Personal Info'), findsOneWidget);
+      expect(find.widgetWithText(ProfileSettingsRow, 'Wallet'), findsOneWidget);
       expect(
-        find.widgetWithText(ProfileSettingsRow, 'Mobility'),
+        find.widgetWithText(ProfileSettingsRow, 'Invite Friends'),
         findsOneWidget,
       );
-
-      expect(find.text('Passenger'), findsAtLeastNWidgets(1));
       expect(find.text('MoMo Statements'), findsOneWidget);
       expect(find.text('App access'), findsOneWidget);
       expect(find.text('Support'), findsAtLeastNWidgets(1));
     });
-
-    testWidgets(
-      'opens a dedicated travel role route with passenger and driver actions',
-      (tester) async {
-        await pumpRouterApp(
-          tester,
-          initialLocation: AppRoutes.profile,
-          session: fakeSession(),
-          user: fakeUser().copyWith(
-            publicUserId: '123456',
-            officialName: 'Alex Fan',
-            officialPhone: '+250788123456',
-            kycStatus: 'verified',
-          ),
-          overrides: overrides(),
-        );
-
-        await settleTestApp(tester);
-
-        expect(
-          find.widgetWithText(ProfileSettingsRow, 'Mobility'),
-          findsOneWidget,
-        );
-
-        await tester.tap(find.widgetWithText(ProfileSettingsRow, 'Mobility'));
-        await tester.pumpAndSettle();
-
-        expect(find.text('Passenger'), findsAtLeastNWidgets(1));
-      },
-    );
 
     testWidgets(
       'opens dedicated wallet and identity routes from primary rows',
@@ -163,7 +126,6 @@ void main() {
             publicUserId: '123456',
             officialName: 'Alex Fan',
             officialPhone: '+250788123456',
-            kycStatus: 'verified',
           ),
           overrides: overrides(),
         );
@@ -184,39 +146,14 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.text('Personal Info'), findsWidgets);
-        expect(find.text('Choose document type'), findsOneWidget);
-        expect(find.text('Front of ID'), findsOneWidget);
+        expect(find.text('Official details on file'), findsOneWidget);
+        expect(find.text('Official name'), findsOneWidget);
+        expect(find.text('Official phone'), findsOneWidget);
+        expect(find.text('National ID'), findsOneWidget);
+        expect(find.text('Alex Fan'), findsWidgets);
+        expect(find.text('+250788123456'), findsWidgets);
       },
     );
-
-    testWidgets('shows driver setup state on the travel role route', (
-      tester,
-    ) async {
-      await pumpRouterApp(
-        tester,
-        initialLocation: AppRoutes.profile,
-        session: fakeSession(),
-        user: fakeUser(isDriver: true, vehicleType: 'Cab').copyWith(
-          publicUserId: '123456',
-          officialName: 'Alex Fan',
-          officialPhone: '+250788123456',
-          kycStatus: 'verified',
-        ),
-        overrides: overrides(),
-      );
-
-      await settleTestApp(tester);
-
-      expect(
-        find.widgetWithText(ProfileSettingsRow, 'Mobility'),
-        findsOneWidget,
-      );
-
-      await tester.tap(find.widgetWithText(ProfileSettingsRow, 'Mobility'));
-      await tester.pumpAndSettle();
-      expect(find.text('Passenger'), findsWidgets);
-      expect(find.text('Switch to driver'), findsNothing);
-    });
 
     testWidgets('shows tools directly without toggle', (tester) async {
       await pumpScopedApp(
@@ -227,7 +164,6 @@ void main() {
           publicUserId: '123456',
           officialName: 'Alex Fan',
           officialPhone: '+250788123456',
-          kycStatus: 'verified',
         ),
         overrides: overrides(),
       );
@@ -248,7 +184,6 @@ void main() {
           publicUserId: '123456',
           officialName: 'Alex Fan',
           officialPhone: '+250788123456',
-          kycStatus: 'verified',
         ),
         overrides: overrides(),
       );
@@ -271,7 +206,6 @@ void main() {
           publicUserId: '123456',
           officialName: 'Alex Fan',
           officialPhone: '+250788123456',
-          kycStatus: 'verified',
         ),
         overrides: overrides(),
       );
@@ -293,7 +227,6 @@ void main() {
           officialName: 'Alex Fan',
           officialPhone: '+250788123456',
           momoNumber: '+250795588248',
-          kycStatus: 'verified',
         ),
         overrides: overrides(),
       );

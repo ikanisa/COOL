@@ -2,15 +2,13 @@
 -- Cool App - Mobile integration alignment
 -- ==========================================================================
 -- Aligns the SQL schema with the Flutter repositories and edge functions.
--- Adds missing profile, payment, mobility, and subscription fields.
+-- Adds missing profile and payment fields.
 -- ==========================================================================
 
 -- -- Users -----------------------------------------------------------------
 
 alter table public.users
-  add column if not exists momo_provider text not null default '',
-  add column if not exists is_driver boolean not null default false,
-  add column if not exists vehicle_type text;
+  add column if not exists momo_provider text not null default '';
 -- -- Groups ----------------------------------------------------------------
 
 alter table public.groups
@@ -56,63 +54,6 @@ create index if not exists idx_pending_transactions_group
   on public.pending_transactions (group_id);
 create index if not exists idx_pending_transactions_status
   on public.pending_transactions (status);
--- -- Mobility trips --------------------------------------------------------
-
-alter table public.mobility_trips
-  add column if not exists driver_id uuid references public.users(id) on delete cascade,
-  add column if not exists vehicle_type text,
-  add column if not exists vehicle_emoji text,
-  add column if not exists seats int,
-  add column if not exists distance_km double precision,
-  add column if not exists trip_type text not null default 'passenger'
-    check (trip_type in ('passenger', 'driver_return'));
-create index if not exists idx_trips_driver on public.mobility_trips (driver_id);
-create index if not exists idx_trips_driver_return
-  on public.mobility_trips (is_driver_return_trip)
-  where is_driver_return_trip = true;
-update public.mobility_trips
-set
-  driver_id = coalesce(driver_id, user_id),
-  vehicle_type = coalesce(nullif(vehicle_type, ''), vehicle_preference),
-  vehicle_preference = coalesce(nullif(vehicle_preference, ''), vehicle_type, 'any'),
-  seats = coalesce(seats, seats_needed, 1),
-  seats_needed = coalesce(seats_needed, seats, 1),
-  trip_type = coalesce(
-    nullif(trip_type, ''),
-    case
-      when coalesce(is_driver_return_trip, false) then 'driver_return'
-      else 'passenger'
-    end
-  ),
-  expires_at = coalesce(expires_at, departure_at + interval '1 hour')
-where true;
--- -- Driver profiles -------------------------------------------------------
-
-alter table public.driver_profiles
-  add column if not exists vehicle_emoji text;
--- -- Driver subscriptions --------------------------------------------------
-
-alter table public.driver_subscriptions
-  add column if not exists plan_id text,
-  add column if not exists plan_name text,
-  add column if not exists amount_rwf int,
-  add column if not exists momo_reference text,
-  add column if not exists updated_at timestamptz not null default now();
-update public.driver_subscriptions
-set
-  plan_id = coalesce(plan_id, plan),
-  plan_name = coalesce(
-    plan_name,
-    case
-      when coalesce(plan, '') = '' then null
-      else initcap(replace(plan, '_', ' '))
-    end
-  ),
-  amount_rwf = coalesce(amount_rwf, amount)
-where true;
-create unique index if not exists idx_driver_subscriptions_momo_reference
-  on public.driver_subscriptions (momo_reference)
-  where momo_reference is not null;
 -- -- Shared helpers --------------------------------------------------------
 
 create or replace function public.set_updated_at()
@@ -137,11 +78,6 @@ create trigger trg_groups_set_updated_at
 drop trigger if exists trg_pending_transactions_set_updated_at on public.pending_transactions;
 create trigger trg_pending_transactions_set_updated_at
   before update on public.pending_transactions
-  for each row
-  execute function public.set_updated_at();
-drop trigger if exists trg_driver_subscriptions_set_updated_at on public.driver_subscriptions;
-create trigger trg_driver_subscriptions_set_updated_at
-  before update on public.driver_subscriptions
   for each row
   execute function public.set_updated_at();
 create or replace function public.sync_group_member_count()
@@ -215,130 +151,6 @@ create trigger trg_sync_group_financials
   after insert or update or delete on public.group_contributions
   for each row
   execute function public.sync_group_financials();
-create or replace function public.sync_mobility_trip_compat()
-returns trigger
-language plpgsql
-as $$
-begin
-  new.user_id := coalesce(new.user_id, new.driver_id);
-  new.driver_id := coalesce(new.driver_id, new.user_id);
-  new.vehicle_type := coalesce(nullif(new.vehicle_type, ''), nullif(new.vehicle_preference, ''), 'any');
-  new.vehicle_preference := coalesce(nullif(new.vehicle_preference, ''), nullif(new.vehicle_type, ''), 'any');
-  new.seats := coalesce(new.seats, new.seats_needed, 1);
-  new.seats_needed := coalesce(new.seats_needed, new.seats, 1);
-  new.trip_type := coalesce(
-    nullif(new.trip_type, ''),
-    case
-      when coalesce(new.is_driver_return_trip, false) then 'driver_return'
-      else 'passenger'
-    end
-  );
-  new.vehicle_emoji := coalesce(
-    nullif(new.vehicle_emoji, ''),
-    case lower(coalesce(new.vehicle_type, new.vehicle_preference, ''))
-      when 'moto' then '🛺'
-      when 'moto taxi' then '🛺'
-      when 'cab' then '🚗'
-      when 'truck' then '🚛'
-      when 'liffan' then '🚐'
-      else '🚗'
-    end
-  );
-  new.expires_at := coalesce(new.expires_at, new.departure_at + interval '1 hour');
-  new.updated_at := now();
-  return new;
-end;
-$$;
-drop trigger if exists trg_sync_mobility_trip_compat on public.mobility_trips;
-create trigger trg_sync_mobility_trip_compat
-  before insert or update on public.mobility_trips
-  for each row
-  execute function public.sync_mobility_trip_compat();
--- -- Replace nearby drivers RPC with a response shape that matches the app --
-
-drop function if exists public.get_nearby_drivers(double precision, double precision, text, double precision);
-create or replace function public.get_nearby_drivers(
-  p_lat double precision,
-  p_lng double precision,
-  p_vehicle_type text default null,
-  radius_km double precision default 10
-)
-returns table (
-  driver_id uuid,
-  user_id uuid,
-  vehicle_type text,
-  vehicle_emoji text,
-  distance_km double precision,
-  is_online boolean,
-  rating double precision,
-  trip_count int,
-  scheduled_route text,
-  has_return_trip boolean,
-  latitude double precision,
-  longitude double precision
-)
-language sql
-stable
-security definer
-set search_path = public, extensions
-as $$
-  select
-    dp.user_id as driver_id,
-    dp.user_id,
-    dp.vehicle_type,
-    coalesce(
-      dp.vehicle_emoji,
-      case lower(dp.vehicle_type)
-        when 'moto' then '🛺'
-        when 'moto taxi' then '🛺'
-        when 'cab' then '🚗'
-        when 'truck' then '🚛'
-        when 'liffan' then '🚐'
-        else '🚗'
-      end
-    ) as vehicle_emoji,
-    round(
-      (st_distancesphere(
-        dp.location::geometry,
-        st_setsrid(st_makepoint(p_lng, p_lat), 4326)
-      ) / 1000.0)::numeric,
-      2
-    )::double precision as distance_km,
-    dp.is_online,
-    dp.rating,
-    dp.trips_done as trip_count,
-    (
-      select mt.from_location || ' -> ' || mt.to_location
-      from public.mobility_trips mt
-      where mt.driver_id = dp.user_id
-        and mt.status = 'open'
-        and mt.departure_at >= now()
-      order by mt.departure_at asc
-      limit 1
-    ) as scheduled_route,
-    exists (
-      select 1
-      from public.mobility_trips mt
-      where mt.driver_id = dp.user_id
-        and mt.status = 'open'
-        and mt.is_driver_return_trip = true
-        and coalesce(mt.expires_at, mt.departure_at + interval '1 hour') >= now()
-    ) as has_return_trip,
-    dp.latitude,
-    dp.longitude
-  from public.driver_profiles dp
-  where dp.is_online = true
-    and dp.location is not null
-    and st_dwithin(
-      dp.location,
-      st_setsrid(st_makepoint(p_lng, p_lat), 4326)::geography,
-      radius_km * 1000
-    )
-    and (p_vehicle_type is null or dp.vehicle_type = p_vehicle_type)
-  order by distance_km;
-$$;
-revoke all on function public.get_nearby_drivers(double precision, double precision, text, double precision) from public;
-grant execute on function public.get_nearby_drivers(double precision, double precision, text, double precision) to anon, authenticated;
 -- -- RLS -------------------------------------------------------------------
 
 alter table public.pending_transactions enable row level security;

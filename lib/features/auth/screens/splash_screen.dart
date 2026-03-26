@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/brand/app_brand.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_brand_mark.dart';
@@ -48,6 +49,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final brand = ref.watch(appBrandProvider);
     final colors = context.coolSemanticColors;
     final radii = context.coolRadii;
     final space = context.coolSpace;
@@ -88,12 +90,19 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                         ),
                         SizedBox(height: space.x3),
                         Text(
-                          'Cool',
-                          style: theme.textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: colors.primaryText,
-                            letterSpacing: -0.8,
-                          ),
+                          brand.splashTitle,
+                          style: brand.isRayonDominant
+                              ? context.coolText.rayonCondensed(
+                                  theme.textTheme.headlineSmall,
+                                  fontWeight: FontWeight.w900,
+                                  color: colors.primaryText,
+                                  letterSpacing: 0.2,
+                                )
+                              : theme.textTheme.headlineSmall?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: colors.primaryText,
+                                  letterSpacing: -0.8,
+                                ),
                         ),
                       ],
                     ),

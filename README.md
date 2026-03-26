@@ -1,6 +1,6 @@
 # Cool
 
-Cool is a Flutter mobile app for community finance, group savings, mobility, partner ecosystems, and credit visibility in Rwanda.
+Cool is a Flutter mobile app for community finance, group savings, partner ecosystems, and credit visibility in Rwanda.
 
 The app is Android-first, English-only, and designed around Mobile Money (MTN Rwanda), WhatsApp OTP, offline-friendly UX, and Supabase-backed data flows.
 
@@ -10,7 +10,6 @@ Cool combines multiple modules in a single app:
 
 - Group savings and community fundraising
 - Mobile Money USSD payments and payment confirmation sync
-- Mobility matching, nearby drivers, and scheduled trips
 - Partner experiences such as clubs, tickets, and fan programs
 - Credit score and profile visibility
 - Admin and partner-operations consoles
@@ -39,11 +38,10 @@ Payment initiation happens on-device. The app opens the dialer with a generated
 USSD string, then listens for confirmation SMS on Android and reconciles
 against Supabase records.
 
-Mobility subscription payments do not use a build-time recipient number.
-Admins configure the receiving MoMo code in the admin panel via
-`app_config.mobility_subscription_momo_code`, with optional country-specific
-overrides. Group, community, and partner payment flows remain
-recipient-driven and do not route through a single Cool collector account.
+The canonical architecture guide for this gateway lives in
+[`docs/MOMO_SMS_PAYMENT_GATEWAY_GUIDE.md`](/Volumes/PRO-G40/COOL/docs/MOMO_SMS_PAYMENT_GATEWAY_GUIDE.md).
+Use it when changing SMS permissions, parsing, allocation, manual review,
+wallet statement handling, or payment ledgers.
 
 ## MoMo Routing Model
 
@@ -81,8 +79,15 @@ Current recipient sources in this repo:
 
 - Community groups use `public.groups.receiving_momo_code` /
   `public.groups.momo_number`
-- Mobility subscriptions use `public.app_config.key = mobility_subscription_momo_code`
 - Rayon Sports currently uses a hardcoded MTN MoMo code: `008000`
+
+Authoritative payment design notes:
+
+- SMS is payment evidence, not a posted ledger entry.
+- Matching must start from the receiving account or receiving code.
+- Personal receiver accounts may fall back to wallet statement recording.
+- Shared receiver codes must fall back to exception review, not wallet.
+- Wallet history is statement-only and must not be treated as stored-value balance.
 
 
 ## Core UX Principles
@@ -173,7 +178,6 @@ lib/
     credit/
     groups/
     home/
-    mobility/
     momo/
     partners/
     profile/
@@ -210,7 +214,7 @@ COOL.html
 
 ## Deep Links
 
-- Installed app routes handled directly: `/basket`, `/invite/<CODE>`, `/groups/<ID>`, `/home`, `/momo`, `/profile`, `/mobility`
+- Installed app routes handled directly: `/basket`, `/invite/<CODE>`, `/groups/<ID>`, `/home`, `/momo`, `/profile`
 - Group invite share links should use `https://cool.app/invite/<CODE>`
 - Direct basket handoff can use `https://cool.app/basket`
 - The fallback site and universal-link templates live in [deeplinks/site/README.md](/Volumes/PRO-G40/COOL/deeplinks/site/README.md)
@@ -251,18 +255,6 @@ Important files:
 
 - [group_repository.dart](/Volumes/PRO-G40/COOL/lib/features/groups/repositories/group_repository.dart)
 - [create_group_screen.dart](/Volumes/PRO-G40/COOL/lib/features/groups/screens/create_group_screen.dart)
-
-### Mobility
-
-- Nearby drivers
-- Driver online/offline state
-- Scheduled trips
-- Driver subscriptions
-
-Important files:
-
-- [mobility_repository.dart](/Volumes/PRO-G40/COOL/lib/features/mobility/repositories/mobility_repository.dart)
-- [subscription_repository.dart](/Volumes/PRO-G40/COOL/lib/features/mobility/repositories/subscription_repository.dart)
 
 ### MoMo
 
@@ -488,7 +480,6 @@ Implemented under [supabase/functions](/Volumes/PRO-G40/COOL/supabase/functions)
 | `send-otp` | Send WhatsApp OTP |
 | `verify-otp` | Verify OTP and return session |
 | `parse-momo-sms` | Parse uploaded M-Money confirmation SMS into normalized transaction data |
-| `expire-trips` | Expire mobility trips automatically |
 | `maps-gateway` | Proxy Google Places (New), geocoding, and routes access with auth and usage logging |
 | `rs-scan-ticket` | Verify Rayon Sports ticket QR scans with auth and partner-admin checks |
 | `wallet-issuer` | Deployed placeholder only. Google Wallet issuance is deferred until production go-live. |
@@ -501,9 +492,9 @@ be blocked on `GOOGLE_WALLET_ISSUER_ID` or
 the production go-live phase when wallet support is actually activated.
 
 `maps-gateway` uses `GOOGLE_MAPS_SERVER_API_KEY` when present and falls back to
-`GEMINI_API_KEY` for mobility autocomplete, place details, text geocoding,
-reverse geocoding, and route preview if that shared Google credential already
-has the required Maps Platform APIs enabled.
+`GEMINI_API_KEY` for place autocomplete, place details, text geocoding, and
+reverse geocoding if that shared Google credential already has the required
+Maps Platform APIs enabled.
 
 ## SMS and Permissions
 
@@ -562,7 +553,7 @@ local-only run. On macOS it also verifies that the iOS `staging` and
 Current tests include:
 
 - auth routing regression tests (25 tests)
-- host-side integration smoke tests for boot, auth, deep links, MoMo, tickets, and mobility
+- host-side integration smoke tests for boot, auth, deep links, MoMo, and tickets
 - device-backed critical journey tests under `integration_test/`
 - group model tests
 - user profile tests

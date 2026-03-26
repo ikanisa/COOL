@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/config/app_market.dart';
-import '../../../core/config/app_config_repository.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/models/engagement_feature_flags.dart';
 import '../../../core/providers/engagement_providers.dart';
@@ -114,53 +113,6 @@ class ManageAppConfigScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: CoolSpace.x3),
-                const AppConfigSectionHeader(
-                  title: 'Mobility Subscription Recipient',
-                  message: 'Set the MoMo code',
-                ),
-                const SizedBox(height: CoolSpace.x3),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: OutlinedButton.icon(
-                    onPressed: () => _showMobilitySubscriptionSheet(
-                      context,
-                      ref,
-                      null,
-                      countries,
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: colors.primaryText,
-                      side: BorderSide(color: colors.border),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: _appConfigActionRadius,
-                      ),
-                    ),
-                    icon: const Icon(Icons.add_rounded, size: 18),
-                    label: Text(context.l10n.addRecipient),
-                  ),
-                ),
-                const SizedBox(height: CoolSpace.x3),
-                if (viewModel.mobilitySubscriptionConfigs.isEmpty)
-                  const EmptyConfigCard(
-                    message: 'No mobility subscription MoMo',
-                  )
-                else
-                  ...viewModel.mobilitySubscriptionConfigs.map(
-                    (config) => Padding(
-                      padding: _appConfigTileSpacing(),
-                      child: MobilitySubscriptionConfigTile(
-                        config: config,
-                        countries: countries,
-                        onEdit: () => _showMobilitySubscriptionSheet(
-                          context,
-                          ref,
-                          config,
-                          countries,
-                        ),
-                      ),
-                    ),
-                  ),
                 const SizedBox(height: CoolSpace.x3),
                 const AppConfigSectionHeader(
                   title: 'Partner Payment Routes',
@@ -297,24 +249,6 @@ class ManageAppConfigScreen extends ConsumerWidget {
       isScrollControlled: true,
       builder: (_) =>
           EditRolloutSheet(rollout: rollout, ref: ref, countries: countries),
-    );
-  }
-
-  void _showMobilitySubscriptionSheet(
-    BuildContext context,
-    WidgetRef ref,
-    Map<String, dynamic>? config,
-    List<CoolCountry> countries,
-  ) {
-    showCoolBottomSheet<void>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (_) => EditMobilitySubscriptionCodeSheet(
-        config: config,
-        ref: ref,
-        countries: countries,
-      ),
     );
   }
 }

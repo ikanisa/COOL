@@ -11,7 +11,7 @@ import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/rs_achievement_badge.dart';
 import '../../../../shared/widgets/share_card.dart';
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/rayon_screen_scaffold.dart';
+import '../../../../shared/widgets/core_app_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';
 import '../../../../core/l10n/l10n.dart';
 
@@ -56,7 +56,7 @@ class FanClubDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final clubDetail = ref.watch(rayonClubDetailProvider(clubId));
 
-    return RayonScreenScaffold(
+    return CoreAppScaffold(
       title: context.l10n.fanClub,
       fallbackLocation: AppRoutes.rayonClubs,
       scrollable: false,

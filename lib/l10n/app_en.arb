@@ -63,7 +63,7 @@
   "cycleDays": "Cycle (days)",
   "memberCount": "{count} members",
   "groupMembers": "Members",
-  "recentContributions": "Recent Contributions",
+  "recentContributions": "Recent contributions",
   "shareInvite": "Share / QR",
   "groupCreated": "Group created successfully.",
   "groupNameLabel": "Group Name",
@@ -82,32 +82,6 @@
   "momoTitle": "MOMO Pay",
   "payViaUssd": "Pay via MOMO USSD",
   "momoDialerError": "open the USSD failed",
-  "mobilityTitle": "Mobility",
-  "nearbyDrivers": "Nearby Drivers",
-  "scheduledTrips": "Scheduled Trips",
-  "scheduleTrip": "Schedule a Trip",
-  "postTrip": "Post Trip on Board",
-  "tripBoard": "Trip Board",
-  "driverProfile": "Driver Profile",
-  "allTrips": "All Trips",
-  "oneWay": "One Way",
-  "returnTrips": "Return",
-  "noTripsAvailable": "No trips available right",
-  "noDriversNearby": "No drivers nearby.",
-  "contactViaWhatsapp": "Contact via WhatsApp",
-  "tripDetails": "Trip Details",
-  "expiresIn": "Expires in {minutes} min",
-  "seatsLabel": "{count} seat",
-  "seatsLabelPlural": "{count} seats",
-  "scheduleTripTitle": "Schedule a Trip",
-  "scheduleTripInfoBanner": "Schedule ahead to find!",
-  "scheduleTripDetailsTitle": "Trip Details",
-  "scheduleTripFromHint": "📍 From — e.g. Nyamirambo",
-  "scheduleTripToHint": "To e g Kigali",
-  "scheduleTripDateTimeLabel": "Date & Time",
-  "scheduleTripVehicleLabel": "Vehicle Preference",
-  "scheduleTripSeatsLabel": "Seats Needed",
-  "scheduleTripReturnTitle": "Return Trip",
   "scheduleTripReturnSubtitle": "Drivers offer discounts on",
   "scheduleTripReturnFieldsLabel": "Return Date & Time",
   "scheduleTripRecurringTitle": "Recurring Trip",
@@ -142,19 +116,10 @@
   "scheduleTripTimeFieldPrefix": "🕐",
   "driverMode": "Driver Mode",
   "driverOnlineMessage": "Online now",
-  "driverOfflineMessage": "Offline now",
   "online": "Online",
   "offline": "Offline",
-  "tripsDone": "Trips Done",
-  "freeTrips": "Free Trips",
   "statusHealthy": "Healthy",
   "statusWarning": "Warning",
-  "myVehicle": "My Vehicle",
-  "editVehicle": "Edit Vehicle",
-  "saveVehicleInfo": "Save Vehicle Info",
-  "vehicleTypeLabel": "Vehicle Type",
-  "plateNumberLabel": "Plate Number",
-  "baseLocationLabel": "Base Location",
   "statusLabel": "Status",
   "verified": "Verified",
   "pendingReview": "Pending Review",
@@ -587,19 +552,7 @@
   "profileSetupTitle": "Profile setup",
   "profilePublicProfileLabel": "Public profile",
   "profileOfficialIdentityLabel": "Official identity",
-  "profileTravelRoleLabel": "Travel role",
-  "profilePassengerRoleLabel": "Passenger",
-  "profileDriverRoleLabel": "Driver",
   "profileMomoCodeNotSet": "MoMo code not set",
-  "profileDriverSetupPending": "Driver setup pending",
-  "profileRegularDriverCadence": "Regular driver",
-  "profileOccasionalDriverCadence": "Occasional driver",
-  "profileMobilityCreditsValue": "{credits} credits",
-  "profileMobilitySubscriptionActive": "Subscription active",
-  "profileMobilitySubscriptionUntil": "Subscribed until {date}",
-  "mobilityNoWhatsappAvailable": "No WhatsApp contact yet",
-  "mobilityNoContactYet": "No contact yet",
-  "mobilityLocationRequiredDriverMode": "Location is required before",
   "momoSendMoneyOpensUssd": "Open {countryName} MoMo USSD",
   "momoMoreToolsSubtitle": "Statements QR and NFC",
   "momoStatementsToolSubtitle": "Review wallet and savings",
@@ -713,7 +666,6 @@
   "continueWithGoogle": "Continue with Google",
   "mobileMoney": "Mobile Money",
   "credit": "Credit",
-  "mobility": "Mobility",
   "rejectAllocation": "Reject allocation",
   "thisWillRemoveThe": "This removes the pending allocation.",
   "reject": "Reject",
@@ -755,7 +707,6 @@
   "code": "Code",
   "addConfigEntry": "Add config entry",
   "rolloutGovernance": "Rollout Governance",
-  "mobilitySubscriptionRecipient": "Mobility Subscription Recipient",
   "addRecipient": "Add Recipient",
   "partnerPaymentRoutes": "Partner Payment Routes",
   "additionalConfig": "Additional Config",
@@ -892,7 +843,6 @@
   "openSystemSettings": "Open system settings",
   "smsPaymentSync": "SMS payment sync",
   "location": "Location",
-  "neededForNearbyMobility": "Needed for nearby mobility",
   "camera": "Camera",
   "usedForMomoQr": "Used for MoMo QR",
   "contacts": "Contacts",
@@ -908,19 +858,10 @@
   "systemDefault": "System default",
   "lightMode": "Light mode",
   "darkMode": "Dark mode",
-  "vehicleDetails": "Vehicle details",
-  "subscriptionAccess": "Subscription access",
-  "renewalNote": "Renewal note",
-  "selectedPlan": "Selected plan",
-  "editVehicleInfo": "Edit vehicle info",
-  "vehicleType": "Vehicle type",
-  "plateNumber": "Plate number",
-  "baseLocation": "Base location",
   "verification": "Verification",
   "plan": "Plan",
   "credits": "Credits",
   "thisMonth": "This month",
-  "retryLoadingDriverProfile": "Retry loading driver profile",
   "trips": "Trips",
   "addReturnTrip1": "Add return trip",
   "route": "Route",
@@ -928,77 +869,11 @@
   "returnKey": "Return",
   "repeat": "Repeat",
   "preview": "Preview",
-  "trike": "Trike",
-  "truck": "Truck",
-  "others": "Others",
   "payViaMomoUssd1": "Pay via MOMO USSD",
-  "tripsPosted": "Trips Posted",
-  "mobilityCredits": "Mobility Credits",
-  "openSubscriptionOptions": "Open subscription options",
-  "allValueAll": "All', value: 'All",
-  "motoValueMoto": "Moto', value: 'Moto",
-  "cabValueCab": "Cab', value: 'Cab",
-  "truckValueTruck": "Truck', value: 'Truck",
-  "trikeValueTrike": "Trike', value: 'Trike",
-  "othersValueOthers": "Others', value: 'Others",
-  "nearby": "Nearby",
-  "schedule": "Schedule",
-  "returnTrip": "Return trip",
-  "recurring": "Recurring",
-  "postedBy": "Posted by",
-  "routeCoordinates": "Route coordinates",
-  "chatFlowValueAgree": "Chat flow', value: 'Agree via WhatsApp.",
-  "priceNote": "Price note",
-  "confirmedViaWhatsapp": "Confirmed via WhatsApp",
-  "shareThisTrip": "Share this trip",
-  "whatsappUnavailable": "WhatsApp unavailable.",
-  "hasReturnTrip": "Has return trip",
-  "regularDriver": "Regular driver",
-  "currentRoute": "Current route",
-  "area": "Area",
-  "vehicleStatus": "Vehicle status",
-  "lastActive": "Last active",
-  "chatFlowValueAgree1": "Chat flow', value: 'Agree via WhatsApp",
-  "agreedViaWhatsapp": "Agreed via WhatsApp",
-  "tripDestinationSearch": "Trip destination search",
-  "searchLandmarkOrAddress": "Search landmark or address",
-  "defaultMode": "Default mode",
-  "postTrip1": "Post trip",
-  "tripType": "Trip type",
-  "exploreTrips": "Explore trips",
-  "findARideNearby": "Find a ride nearby.",
-  "manageYourTrips": "Manage your trips",
-  "manageYourPostedTrips": "Manage your posted trips.",
-  "filterByTripType": "Filter by trip type.",
-  "passengerTrips": "Passenger trips",
-  "ridesNearYou": "Rides near you.",
-  "driverReturns": "Driver returns",
-  "driversWithAvailableSeats": "Drivers with available seats.",
-  "pickup": "Pickup",
-  "dropoff": "Dropoff",
-  "useCurrentLocation": "Use current location",
-  "searchPlaces": "Search places",
-  "loadingNearbyTrips": "Loading nearby trips",
-  "loadNearbyTripsFailed": "Load nearby trips failed",
-  "loadingYourTrips": "Loading your trips",
-  "loadYourTripsFailed": "Load your trips failed",
-  "noTripsPostedYet": "No trips posted yet",
-  "postATripTo": "Post a trip to get started",
-  "noDriverReturnsAvailable": "No driver returns available",
-  "tryAnotherVehicleType": "Try another vehicle type",
-  "tripActions": "Trip actions",
   "expired": "Expired",
   "cancelled": "Cancelled",
   "paused": "Paused",
   "matched": "Matched",
-  "vehicleType1": "Vehicle Type",
-  "plateNumber1": "Plate Number",
-  "baseLocation1": "Base Location",
-  "setBaseLocation": "Set base location",
-  "vehicleType2": "Vehicle Type",
-  "plateNumber2": "Plate Number",
-  "baseLocation2": "Base Location",
-  "searchGooglePlaces": "Search Google Places",
   "home": "Home",
   "syncSms": "Sync SMS",
   "incoming": "Incoming",
@@ -1226,7 +1101,6 @@
   "str50Tokens": "+50 Tokens",
   "wealthArchiveSavedTo": "Wealth Archive saved to Google Drive & emailed!",
   "rwf1": "Rwf",
-
   "seasonsAndActivities": "Seasons & Activities",
   "activeSeasons": "Active Seasons",
   "pastSeasons": "Past Seasons",
@@ -1236,47 +1110,75 @@
   "seasonStatusUpcoming": "Upcoming",
   "seasonsEmptyTitle": "No seasons or activities yet",
   "earnTokensLabel": "Earn Tokens",
-
   "creditReadinessTitle": "Credit readiness",
-
   "groupDetailTitle": "Group Detail",
   "groupNotFound": "Group not found.",
   "couldNotJoinGroup": "Could not join group.",
   "noInviteCodeYet": "This group does not have a shareable invite code yet.",
   "noContributionsYet": "No contributions yet",
-  "recentContributions": "Recent contributions",
   "showAll": "Show all",
   "showLess": "Show less",
-  "more": "More",
   "membersCount": "Members ({count})",
   "@membersCount": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "targetAmountRwf": "Target: RWF {amount}",
   "@targetAmountRwf": {
-    "placeholders": { "amount": { "type": "String" } }
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
   },
   "joinGroupShareText": "Join {groupName} on Cool: {url}",
   "@joinGroupShareText": {
-    "placeholders": { "groupName": { "type": "String" }, "url": { "type": "String" } }
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
   },
   "joinGroupShareTextEmoji": "Join {groupName} on Cool! 🎉\n{url}",
   "@joinGroupShareTextEmoji": {
-    "placeholders": { "groupName": { "type": "String" }, "url": { "type": "String" } }
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
   },
-  "inviteToGroup": "Invite to {groupName}",
   "@inviteToGroup": {
-    "placeholders": { "groupName": { "type": "String" } }
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      }
+    }
   },
   "alreadyMemberOf": "You are already a member of {groupName}.",
   "@alreadyMemberOf": {
-    "placeholders": { "groupName": { "type": "String" } }
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      }
+    }
   },
   "youJoinedGroup": "You joined {groupName}.",
   "@youJoinedGroup": {
-    "placeholders": { "groupName": { "type": "String" } }
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      }
+    }
   },
-
   "ledgerTitle": "Ledger & Statements",
   "allContributors": "All contributors",
   "allTime": "All time",
@@ -1286,7 +1188,11 @@
   "exportFailed": "Export failed. Please try again.",
   "ledgerExported": "Ledger exported: {fileName}",
   "@ledgerExported": {
-    "placeholders": { "fileName": { "type": "String" } }
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
   },
   "noDataToExport": "No data to export.",
   "csvLabel": "CSV",
@@ -1306,21 +1212,27 @@
   "year": "Year",
   "group": "Group",
   "unknown": "Unknown",
-
   "kycFrontIdFirst": "Add front ID first",
   "kycAlignBack": "Align back of {docType}",
   "@kycAlignBack": {
-    "placeholders": { "docType": { "type": "String" } }
+    "placeholders": {
+      "docType": {
+        "type": "String"
+      }
+    }
   },
   "kycAlignFront": "Align front of {docType}",
   "@kycAlignFront": {
-    "placeholders": { "docType": { "type": "String" } }
+    "placeholders": {
+      "docType": {
+        "type": "String"
+      }
+    }
   },
   "kycBackOfDocument": "Back of document",
   "kycBackOfId": "Back of ID",
   "kycChooseDocumentType": "Choose document type",
   "kycFrontOfId": "Front of ID",
-  "personalInfo": "Personal Info",
   "kycAutoFilled": "Cool has already filled",
   "kycExtracting": "Cool is extracting your",
   "kycCurrentIdentity": "Current identity on file",
@@ -1335,13 +1247,20 @@
   "kycIdentityMismatch": "Identity mismatch detected.",
   "kycDobValue": "DOB {dob}",
   "@kycDobValue": {
-    "placeholders": { "dob": { "type": "String" } }
+    "placeholders": {
+      "dob": {
+        "type": "String"
+      }
+    }
   },
   "kycIdMasked": "ID ••••{last4}",
   "@kycIdMasked": {
-    "placeholders": { "last4": { "type": "String" } }
+    "placeholders": {
+      "last4": {
+        "type": "String"
+      }
+    }
   },
-
   "adminPanelTitle": "Admin Panel",
   "adminQuickActions": "Quick Actions",
   "adminOperations": "Operations",
@@ -1355,8 +1274,6 @@
   "adminAdminRolesDesc": "Assign & manage admin access",
   "adminPartners": "Partners",
   "adminPartnersDesc": "Manage partner profiles",
-  "adminVehicleTypes": "Vehicle Types",
-  "adminVehicleTypesDesc": "Mobility filter chips",
   "adminSeasons": "Seasons",
   "adminSeasonsDesc": "Token-earning gamification activities",
   "adminActivities": "Activities",
@@ -1380,24 +1297,33 @@
   "adminNoPartnersFound": "No partners found",
   "adminFailedToLoadPartners": "Failed to load partners: {error}",
   "@adminFailedToLoadPartners": {
-    "placeholders": { "error": { "type": "String" } }
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   },
-
   "rsAdminUpdateStatus": "Update Status",
   "rsAdminOrderNumber": "Order #{orderId}",
   "@rsAdminOrderNumber": {
-    "placeholders": { "orderId": { "type": "String" } }
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
   },
   "rsAdminItemsCount": "Items ({count})",
   "@rsAdminItemsCount": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
-
   "partnerNotFound": "Partner not found",
   "prismaLabel": "PRISMA",
   "couldNotLoadServices": "Could not load services",
   "partnerLabel": "Partner",
-
   "spreadsheetHeaders": "Spreadsheet with headers",
   "contributorsLabel": "Contributors",
   "kycIdentityVerification": "Identity verification",

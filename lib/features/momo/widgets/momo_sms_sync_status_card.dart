@@ -39,11 +39,16 @@ class MomoSmsSyncStatusCard extends ConsumerStatefulWidget {
 class _MomoSmsSyncStatusCardState extends ConsumerState<MomoSmsSyncStatusCard>
     with WidgetsBindingObserver {
   bool _isWorking = false;
+  int _syncProgress = 0;
+  int _retryQueueSize = 0;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _loadRetryQueueSize();
+    });
   }
 
   @override
@@ -60,6 +65,20 @@ class _MomoSmsSyncStatusCardState extends ConsumerState<MomoSmsSyncStatusCard>
 
     ref.invalidate(momoSmsAccessSnapshotProvider);
     ref.invalidate(momoSmsSyncStatusProvider);
+    _loadRetryQueueSize();
+  }
+
+  Future<void> _loadRetryQueueSize() async {
+    try {
+      final size = await ref
+          .read(momoSmsAutoreadServiceProvider)
+          .getRetryQueueSize();
+      if (mounted && size != _retryQueueSize) {
+        setState(() => _retryQueueSize = size);
+      }
+    } catch (_) {
+      // Non-critical: don't block UI.
+    }
   }
 
   Future<void> _enableAndSync() async {
@@ -79,6 +98,11 @@ class _MomoSmsSyncStatusCardState extends ConsumerState<MomoSmsSyncStatusCard>
       try {
         final result = await service.syncInbox(
           trigger: MomoInboxSyncTrigger.manual,
+          onProgress: (count) {
+            if (mounted) {
+              setState(() => _syncProgress = count);
+            }
+          },
         );
         ref.invalidate(momoSmsSyncStatusProvider);
         widget.onSyncComplete?.call(result);
@@ -111,7 +135,10 @@ class _MomoSmsSyncStatusCardState extends ConsumerState<MomoSmsSyncStatusCard>
       );
     } finally {
       if (mounted) {
-        setState(() => _isWorking = false);
+        setState(() {
+          _isWorking = false;
+          _syncProgress = 0;
+        });
       }
     }
   }
@@ -125,7 +152,14 @@ class _MomoSmsSyncStatusCardState extends ConsumerState<MomoSmsSyncStatusCard>
     try {
       final result = await ref
           .read(momoSmsAutoreadServiceProvider)
-          .syncInbox(trigger: MomoInboxSyncTrigger.manual);
+          .syncInbox(
+            trigger: MomoInboxSyncTrigger.manual,
+            onProgress: (count) {
+              if (mounted) {
+                setState(() => _syncProgress = count);
+              }
+            },
+          );
       ref.invalidate(momoSmsSyncStatusProvider);
       widget.onSyncComplete?.call(result);
       if (!mounted) {
@@ -146,7 +180,10 @@ class _MomoSmsSyncStatusCardState extends ConsumerState<MomoSmsSyncStatusCard>
       );
     } finally {
       if (mounted) {
-        setState(() => _isWorking = false);
+        setState(() {
+          _isWorking = false;
+          _syncProgress = 0;
+        });
       }
     }
   }
@@ -183,9 +220,14 @@ class _MomoSmsSyncStatusCardState extends ConsumerState<MomoSmsSyncStatusCard>
     final accessSnapshot = accessSnapshotAsync.valueOrNull;
     final syncStatus = syncStatusAsync.valueOrNull ?? const MomoSmsSyncStatus();
 
+    // Fix 5: Hide the card entirely on platforms that don't support SMS.
+    if (accessSnapshot?.kind == AppAccessStateKind.notAvailable) {
+      return const SizedBox.shrink();
+    }
+
     final title = _titleFor(accessSnapshot, syncStatus, context);
     final subtitle = _subtitleFor(accessSnapshot, syncStatus, context);
-    final chips = _buildChips(syncStatus);
+    final chips = _buildChips(syncStatus, retryQueueSize: _retryQueueSize);
 
     return CoolCard(
       child: Column(
@@ -243,6 +285,7 @@ class _MomoSmsSyncStatusCardState extends ConsumerState<MomoSmsSyncStatusCard>
           const SizedBox(height: 14),
           _ActionRow(
             isWorking: _isWorking,
+            syncProgress: _syncProgress,
             primaryLabel: _primaryLabelFor(accessSnapshot, syncStatus, context),
             onPrimaryTap: () {
               switch (accessSnapshot?.kind) {
@@ -285,7 +328,7 @@ class _MomoSmsSyncStatusCardState extends ConsumerState<MomoSmsSyncStatusCard>
   }
 }
 
-List<Widget> _buildChips(MomoSmsSyncStatus status) {
+List<Widget> _buildChips(MomoSmsSyncStatus status, {int retryQueueSize = 0}) {
   final chips = <Widget>[];
   final latest = status.latestSuccessfulRun;
   if (status.initialBackfillCompleted) {
@@ -299,6 +342,9 @@ List<Widget> _buildChips(MomoSmsSyncStatus status) {
   }
   if (latest != null && latest.duplicateMessages > 0) {
     chips.add(_SyncChip(label: '${latest.duplicateMessages} duplicates'));
+  }
+  if (retryQueueSize > 0) {
+    chips.add(_SyncChip(label: '$retryQueueSize pending retry'));
   }
   return chips;
 }
@@ -397,11 +443,13 @@ class _ActionRow extends StatelessWidget {
     required this.isWorking,
     required this.primaryLabel,
     required this.onPrimaryTap,
+    this.syncProgress = 0,
     this.secondaryLabel,
     this.onSecondaryTap,
   });
 
   final bool isWorking;
+  final int syncProgress;
   final String? primaryLabel;
   final VoidCallback? onPrimaryTap;
   final String? secondaryLabel;
@@ -431,7 +479,9 @@ class _ActionRow extends StatelessWidget {
         if (primaryLabel != null && onPrimaryTap != null)
           Expanded(
             child: CoolButton(
-              label: primaryLabel!,
+              label: isWorking && syncProgress > 0
+                  ? 'Scanning $syncProgress messages…'
+                  : primaryLabel!,
               isLoading: isWorking,
               onTap: onPrimaryTap!,
             ),

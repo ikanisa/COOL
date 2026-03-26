@@ -78,7 +78,9 @@ class _BiopayConfirmScreenState extends ConsumerState<BiopayConfirmScreen> {
       }
 
       // Mark the intent as dialed (one-time use enforcement).
-      await ref.read(biopayRepositoryProvider).markIntentDialed(intent.intentId);
+      await ref
+          .read(biopayRepositoryProvider)
+          .markIntentDialed(intent.intentId);
 
       if (!mounted) {
         return;

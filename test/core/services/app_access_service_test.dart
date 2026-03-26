@@ -65,19 +65,16 @@ void main() {
     expect(nfcHceService.active, isFalse);
   });
 
-  test(
-    'sms access defaults off inside COOL until the user opts in',
-    () async {
-      final service = AppAccessService(
-        openBox: Hive.openBox<bool>,
-        locationService: _FakeLocationService(),
-        deviceSettingsService: _FakeDeviceSettingsService(),
-        nfcHceService: _FakeNfcHceService(supported: true),
-      );
+  test('sms access defaults off inside COOL until the user opts in', () async {
+    final service = AppAccessService(
+      openBox: Hive.openBox<bool>,
+      locationService: _FakeLocationService(),
+      deviceSettingsService: _FakeDeviceSettingsService(),
+      nfcHceService: _FakeNfcHceService(supported: true),
+    );
 
-      expect(await service.isEnabled(AppAccessPermission.sms), isFalse);
-    },
-  );
+    expect(await service.isEnabled(AppAccessPermission.sms), isFalse);
+  });
 }
 
 class _FakeDeviceSettingsService extends DeviceSettingsService {

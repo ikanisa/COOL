@@ -1,5 +1,4 @@
 import 'package:cool_app/core/config/country_catalog.dart';
-import 'package:cool_app/core/config/app_config_repository.dart';
 import 'package:cool_app/core/models/engagement_feature_flags.dart';
 import 'package:cool_app/core/providers/engagement_providers.dart';
 import 'package:cool_app/core/providers/supported_countries_provider.dart';
@@ -198,13 +197,6 @@ void main() {
           'description': 'Support line',
           'country': null,
         },
-        <String, dynamic>{
-          'key': AppConfigKeys.mobilitySubscriptionMomoCode,
-          'value': '008000',
-          'description':
-              'MoMo code used to receive mobility subscription payments.',
-          'country': null,
-        },
       ]);
       final featureFlagsService = FakeFeatureFlagsService();
 
@@ -253,15 +245,6 @@ void main() {
       expect(find.text('Killed'), findsOneWidget);
 
       await tester.scrollUntilVisible(
-        find.text('Mobility Subscription Recipient'),
-        250,
-        scrollable: find.byType(Scrollable).first,
-      );
-      await tester.pumpAndSettle();
-      expect(find.text('Mobility Subscription Recipient'), findsOneWidget);
-      expect(find.textContaining('MoMo code: 008000'), findsOneWidget);
-
-      await tester.scrollUntilVisible(
         find.text('Additional Config'),
         300,
         scrollable: find.byType(Scrollable).first,
@@ -278,64 +261,8 @@ void main() {
       expect(find.text('support_whatsapp'), findsOneWidget);
       expect(find.byIcon(Icons.edit_rounded), findsWidgets);
       expect(find.text('feature_momo_stage'), findsNothing);
-      expect(find.text('mobility_subscription_momo_code'), findsNothing);
     },
   );
-
-  testWidgets('mobility subscription section saves admin-managed MoMo code', (
-    tester,
-  ) async {
-    final repository = FakeAdminContentRepository(
-      const <Map<String, dynamic>>[],
-    );
-    final featureFlagsService = FakeFeatureFlagsService();
-
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: <Override>[
-          adminContentRepositoryProvider.overrideWithValue(repository),
-          supportedCountriesProvider.overrideWith((ref) => countries),
-          featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
-        ],
-        child: const MaterialApp(home: ManageAppConfigScreen()),
-      ),
-    );
-    await tester.pumpAndSettle();
-
-    await tester.scrollUntilVisible(
-      find.text('Mobility Subscription Recipient'),
-      250,
-      scrollable: find.byType(Scrollable).first,
-    );
-    await tester.pumpAndSettle();
-    expect(find.text('Mobility Subscription Recipient'), findsOneWidget);
-    await tester.tap(find.text('Add Recipient'));
-    await tester.pumpAndSettle();
-
-    expect(_dropdownFieldWithLabel('Country scope'), findsNothing);
-    await tester.enterText(_textFieldWithLabel('MoMo code'), '0788000000');
-    await _tapPrimaryButton(tester, 'Save code');
-    await tester.pumpAndSettle();
-
-    expect(repository.singleUpserts, hasLength(1));
-    expect(
-      repository.singleUpserts.single,
-      containsPair('key', AppConfigKeys.mobilitySubscriptionMomoCode),
-    );
-    expect(
-      repository.singleUpserts.single,
-      containsPair('value', '0788000000'),
-    );
-    expect(
-      repository.singleUpserts.single,
-      containsPair(
-        'description',
-        'MoMo code used to receive mobility subscription payments.',
-      ),
-    );
-    expect(repository.singleUpserts.single, containsPair('country', 'RW'));
-    expect(find.textContaining('MoMo code: 0788000000'), findsOneWidget);
-  });
 
   testWidgets(
     'partner payment routes section saves admin-managed checkout path',
@@ -446,7 +373,7 @@ void main() {
 
     expect(_dropdownFieldWithLabel('Country scope'), findsNothing);
     expect(_textFieldWithLabel('Market'), findsOneWidget);
-    await tester.enterText(_textFieldWithLabel('Key'), 'kill_mobility');
+    await tester.enterText(_textFieldWithLabel('Key'), 'kill_ticket_purchase');
     await tester.enterText(_textFieldWithLabel('Value'), 'true');
     await _tapPrimaryButton(tester, 'Save');
     await tester.pumpAndSettle();
@@ -458,44 +385,5 @@ void main() {
     expect(repository.singleUpserts, isEmpty);
     expect(repository.batchUpserts, isEmpty);
     expect(featureFlagsService.refreshCalls, 0);
-  });
-
-  testWidgets('generic editor blocks mobility subscription code key', (
-    tester,
-  ) async {
-    final repository = FakeAdminContentRepository(
-      const <Map<String, dynamic>>[],
-    );
-    final featureFlagsService = FakeFeatureFlagsService();
-
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: <Override>[
-          adminContentRepositoryProvider.overrideWithValue(repository),
-          supportedCountriesProvider.overrideWith((ref) => countries),
-          featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
-        ],
-        child: const MaterialApp(home: ManageAppConfigScreen()),
-      ),
-    );
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.byType(FloatingActionButton));
-    await tester.pumpAndSettle();
-
-    expect(_dropdownFieldWithLabel('Country scope'), findsNothing);
-    await tester.enterText(
-      _textFieldWithLabel('Key'),
-      AppConfigKeys.mobilitySubscriptionMomoCode,
-    );
-    await tester.enterText(_textFieldWithLabel('Value'), '0788000000');
-    await _tapPrimaryButton(tester, 'Save');
-    await tester.pumpAndSettle();
-
-    expect(
-      find.text('Use the mobility subscription card for this MoMo code.'),
-      findsOneWidget,
-    );
-    expect(repository.singleUpserts, isEmpty);
   });
 }

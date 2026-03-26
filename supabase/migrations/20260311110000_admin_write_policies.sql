@@ -2,7 +2,7 @@
 -- Cool App — Admin write policies for dynamic content tables
 -- ==========================================================================
 -- Enables admin users to INSERT/UPDATE/DELETE from partner_services,
--- quick_actions, vehicle_types, supported_countries, and app_config.
+-- quick_actions, supported_countries, and app_config.
 --
 -- Requires: users.is_admin column (added in this migration)
 -- ==========================================================================
@@ -60,21 +60,6 @@ create policy "quick_actions_update_admin"
 drop policy if exists "quick_actions_delete_admin" on public.quick_actions;
 create policy "quick_actions_delete_admin"
   on public.quick_actions for delete
-  using (public.is_admin());
--- ── vehicle_types ────────────────────────────────────────────────────────
-
-drop policy if exists "vehicle_types_insert_admin" on public.vehicle_types;
-create policy "vehicle_types_insert_admin"
-  on public.vehicle_types for insert
-  with check (public.is_admin());
-drop policy if exists "vehicle_types_update_admin" on public.vehicle_types;
-create policy "vehicle_types_update_admin"
-  on public.vehicle_types for update
-  using (public.is_admin())
-  with check (public.is_admin());
-drop policy if exists "vehicle_types_delete_admin" on public.vehicle_types;
-create policy "vehicle_types_delete_admin"
-  on public.vehicle_types for delete
   using (public.is_admin());
 -- ── app_config ───────────────────────────────────────────────────────────
 

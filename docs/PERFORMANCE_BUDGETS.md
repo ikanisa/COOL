@@ -27,7 +27,7 @@
 
 ### Firebase Performance
 - Dashboard: Firebase Console → Performance → Traces
-- Custom traces: `cold_start`, `mobility_search`, `ticket_purchase`, `momo_send`
+- Custom traces: `cold_start`, `ticket_purchase`, `momo_send`
 - Network traces: auto-instrumented via Dio interceptor
 
 ### Crashlytics

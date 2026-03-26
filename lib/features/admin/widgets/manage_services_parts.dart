@@ -416,7 +416,9 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
     };
     if (widget.service != null) data['id'] = widget.service!['id'];
     try {
-      await widget.ref.read(adminContentRepositoryProvider).upsertPartnerService(data);
+      await widget.ref
+          .read(adminContentRepositoryProvider)
+          .upsertPartnerService(data);
       widget.ref.invalidate(adminPartnerServicesProvider(null));
       if (mounted) {
         Navigator.of(context).pop();

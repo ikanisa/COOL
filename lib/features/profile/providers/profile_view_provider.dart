@@ -5,20 +5,18 @@ import '../../../core/config/app_market.dart';
 import '../../../core/providers/notification_settings_provider.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../../credit/providers/credit_provider.dart';
-import '../../mobility/providers/driver_provider.dart';
+import '../../momo/models/momo_statement.dart';
+import '../../momo/providers/momo_statement_providers.dart';
 import '../widgets/profile_data.dart';
 
 final profileViewProvider = Provider<ProfileData>((ref) {
   final authState = ref.watch(authProvider);
   final notificationSettings = ref.watch(notificationSettingsProvider);
-  final creditDashboard = ref.watch(creditDashboardProvider).valueOrNull;
+  final statementBundle = ref.watch(
+    momoStatementBundleProvider(const MomoStatementQuery()),
+  );
   const profileLocale = Locale(AppMarket.languageCode);
   final l10n = lookupAppLocalizations(profileLocale);
-  final driverSnapshot = DriverProfileSnapshot.fromState(
-    ref.watch(driverProvider),
-    locale: profileLocale,
-  );
 
   final user = authState.user;
   if (user == null) {
@@ -29,17 +27,16 @@ final profileViewProvider = Provider<ProfileData>((ref) {
   }
 
   final country = AppMarket.country;
-  final hasDriverRole = user.isDriver || driverSnapshot.hasProfile;
   final officialName = user.officialName?.trim() ?? '';
   final officialPhone = user.officialPhone?.trim() ?? '';
   final dateOfBirth = user.dateOfBirth?.trim();
   final nationalIdNumber = user.nationalIdNumber?.trim();
   final walletConfigured = user.hasMomoRecipient;
+  final statementCount =
+      (statementBundle.valueOrNull?.walletTotalCount ?? 0) +
+      (statementBundle.valueOrNull?.savingsTotalCount ?? 0);
   final showCompletionBanner =
-      !user.hasBasicProfile ||
-      !walletConfigured ||
-      !user.hasOfficialIdentity ||
-      (hasDriverRole && !driverSnapshot.isSetupComplete);
+      !user.hasBasicProfile || !walletConfigured || !user.hasOfficialIdentity;
 
   final setupItems = <ProfileSetupItem>[
     ProfileSetupItem(
@@ -57,13 +54,6 @@ final profileViewProvider = Provider<ProfileData>((ref) {
       label: l10n.profileOfficialIdentityLabel,
       isComplete: user.hasOfficialIdentity,
     ),
-    ProfileSetupItem(
-      id: 'travel_role',
-      label: l10n.profileTravelRoleLabel,
-      isComplete:
-          walletConfigured &&
-          (!hasDriverRole || driverSnapshot.isSetupComplete),
-    ),
   ];
 
   return ProfileData(
@@ -74,7 +64,6 @@ final profileViewProvider = Provider<ProfileData>((ref) {
     officialPhone: officialPhone,
     dateOfBirth: dateOfBirth,
     nationalIdNumber: nationalIdNumber,
-    kycDocumentType: user.kycDocumentType,
     officialGender: user.identityData['gender']?.toString(),
     officialNationality: user.identityData['nationality']?.toString(),
     momoNumber: user.momoNumber,
@@ -86,19 +75,9 @@ final profileViewProvider = Provider<ProfileData>((ref) {
     momoLinked: walletConfigured,
     languageCode: AppMarket.languageCode,
     notificationsEnabled: notificationSettings.status.preferenceEnabled,
-    creditScoreLabel: creditDashboard?.score?.toString() ?? '--',
-    momoStatementCount: creditDashboard?.statementCount ?? 0,
-    kycStatus: user.kycStatus,
+    momoStatementCount: statementCount,
     showCompletionBanner: showCompletionBanner,
     setupItems: setupItems,
-    isDriver: hasDriverRole,
-    vehicleType: driverSnapshot.vehicleType ?? user.vehicleType,
-    driverVerificationStatus: driverSnapshot.verificationStatusLabel,
-    driverCadenceLabel: driverSnapshot.cadenceLabel,
-    driverBaseLocation: driverSnapshot.baseLocation,
-    driverPlateNumber: driverSnapshot.plateNumber,
-    subscriptionLabel: driverSnapshot.subscriptionLabel,
-    subscriptionExpiring: driverSnapshot.subscriptionExpiring,
     createdAt: user.createdAt,
   );
 });

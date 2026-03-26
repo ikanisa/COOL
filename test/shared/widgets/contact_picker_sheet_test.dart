@@ -58,9 +58,6 @@ void main() {
 
     expect(find.textContaining('Contacts are off'), findsOneWidget);
     expect(find.text('Enable Contacts'), findsOneWidget);
-    expect(
-      find.textContaining('Contacts access is currently'),
-      findsOneWidget,
-    );
+    expect(find.textContaining('Contacts access is currently'), findsOneWidget);
   });
 }

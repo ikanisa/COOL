@@ -198,14 +198,8 @@ class QuickActionRow extends StatelessWidget {
     if (route.startsWith(AppRoutes.momo)) {
       return Icons.account_balance_wallet_outlined;
     }
-    if (route.startsWith(AppRoutes.mobility)) {
-      return Icons.directions_car_outlined;
-    }
     if (route.startsWith(AppRoutes.partners)) {
       return Icons.storefront_outlined;
-    }
-    if (route.startsWith(AppRoutes.credit)) {
-      return Icons.insights_outlined;
     }
     return Icons.arrow_outward_rounded;
   }
@@ -222,9 +216,6 @@ class QuickActionRow extends StatelessWidget {
     }
     if (route.startsWith(AppRoutes.momo)) {
       return l10n.homeActionPay;
-    }
-    if (route.startsWith(AppRoutes.mobility)) {
-      return l10n.homeActionTrips;
     }
     return normalized;
   }
@@ -260,9 +251,9 @@ List<QuickActionData> _fallbackQuickActions(AppLocalizations l10n) {
       route: AppRoutes.partners,
     ),
     QuickActionData(
-      title: l10n.navMobility,
-      subtitle: l10n.homeFallbackTripsSubtitle,
-      route: AppRoutes.mobility,
+      title: l10n.navProfile,
+      subtitle: 'Open settings',
+      route: AppRoutes.profile,
     ),
   ];
 }

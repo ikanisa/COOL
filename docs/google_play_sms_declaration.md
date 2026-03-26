@@ -24,7 +24,6 @@ That verification is used to reconcile:
 
 - community group contributions
 - saving-group related payments
-- driver subscriptions
 - Rayon Sports tickets
 - Rayon Sports shop orders
 - Rayon Sports support / initiative contributions
@@ -83,7 +82,7 @@ the main manifest:
 
 Use this position in the Play Console restricted-permissions form:
 
-`Cool uses READ_SMS and RECEIVE_SMS only to process SMS from approved Mobile Money sender IDs after user-initiated USSD payment flows. The app filters inbox access to approved sender IDs, limits recovery to a recent operational window, and sends matching sender messages to Supabase where server-side parsing determines whether they complete group, mobility, or partner transactions. Cool does not use SMS access for personal messaging, contact discovery, marketing, or general inbox reading.`
+`Cool uses READ_SMS and RECEIVE_SMS only to process SMS from approved Mobile Money sender IDs after user-initiated USSD payment flows. The app filters inbox access to approved sender IDs, limits recovery to a recent operational window, and sends matching sender messages to Supabase where server-side parsing determines whether they complete group or partner transactions. Cool does not use SMS access for personal messaging, contact discovery, marketing, or general inbox reading.`
 
 ## Reviewer Evidence To Attach
 

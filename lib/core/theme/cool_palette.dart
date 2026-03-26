@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 import 'package:flutter/material.dart';
 
 /// Theme-aware semantic color roles for the Cool app shell.

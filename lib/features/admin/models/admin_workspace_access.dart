@@ -88,7 +88,8 @@ class AdminRoleAssignment {
       userName: json['user_name']?.toString(),
       userPhone: json['user_phone']?.toString(),
       grantedBy: json['granted_by']?.toString(),
-      grantedAt: DateTime.tryParse(json['granted_at']?.toString() ?? '') ??
+      grantedAt:
+          DateTime.tryParse(json['granted_at']?.toString() ?? '') ??
           DateTime.now(),
       revokedAt: json['revoked_at'] != null
           ? DateTime.tryParse(json['revoked_at'].toString())
@@ -128,8 +129,7 @@ class AdminWorkspaceAccess {
       hasPlatformAccess || hasPartnerAdminAccess || hasBankAdminAccess;
 
   /// The set of distinct roles this user has.
-  Set<AdminRole> get activeRoles =>
-      roleAssignments.map((a) => a.role).toSet();
+  Set<AdminRole> get activeRoles => roleAssignments.map((a) => a.role).toSet();
 
   bool canAccessPartnerId(String partnerId) {
     final normalizedPartnerId = partnerId.trim();

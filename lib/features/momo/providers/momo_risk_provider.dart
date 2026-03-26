@@ -34,7 +34,8 @@ class MomoRiskResult {
   final String actionSuggestion;
 
   bool get shouldWarn => actionSuggestion == 'warn' || riskScore > 0.5;
-  bool get shouldBlock => actionSuggestion == 'block_high_risk' || riskScore > 0.9;
+  bool get shouldBlock =>
+      actionSuggestion == 'block_high_risk' || riskScore > 0.9;
 }
 
 class MomoRiskNotifier extends StateNotifier<AsyncValue<MomoRiskResult?>> {
@@ -73,6 +74,7 @@ class MomoRiskNotifier extends StateNotifier<AsyncValue<MomoRiskResult?>> {
   }
 }
 
-final momoRiskProvider = StateNotifierProvider<MomoRiskNotifier, AsyncValue<MomoRiskResult?>>((ref) {
-  return MomoRiskNotifier(ref.read(supabaseClientProvider));
-});
+final momoRiskProvider =
+    StateNotifierProvider<MomoRiskNotifier, AsyncValue<MomoRiskResult?>>((ref) {
+      return MomoRiskNotifier(ref.read(supabaseClientProvider));
+    });

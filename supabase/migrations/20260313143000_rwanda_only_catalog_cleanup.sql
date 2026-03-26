@@ -44,12 +44,6 @@ where country is not null
 update public.quick_actions
 set country = 'RW'
 where country is null or btrim(country) = '';
-delete from public.vehicle_types
-where country is not null
-  and upper(btrim(country)) <> 'RW';
-update public.vehicle_types
-set country = 'RW'
-where country is null or btrim(country) = '';
 update public.partners
 set description =
       'Urwego Finance CBC offers current and savings accounts, group lending, SME credit, agricultural finance, mobile and internet banking, transfers, and payment services in Rwanda.',

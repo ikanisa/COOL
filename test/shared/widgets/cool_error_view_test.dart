@@ -7,9 +7,7 @@ void main() {
     testWidgets('displays message and icon', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: CoolErrorView(message: 'Something went wrong'),
-          ),
+          home: Scaffold(body: CoolErrorView(message: 'Something went wrong')),
         ),
       );
       await tester.pumpAndSettle();
@@ -21,9 +19,7 @@ void main() {
     testWidgets('hides retry button when onRetry is null', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: CoolErrorView(message: 'Error'),
-          ),
+          home: Scaffold(body: CoolErrorView(message: 'Error')),
         ),
       );
       await tester.pumpAndSettle();

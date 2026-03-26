@@ -105,7 +105,8 @@ class ProfileFactsCard extends StatelessWidget {
               children: [
                 for (var index = 0; index < items.length; index++) ...[
                   _ProfileFactTile(item: items[index]),
-                  if (index < items.length - 1) const SizedBox(height: CoolSpace.x4),
+                  if (index < items.length - 1)
+                    const SizedBox(height: CoolSpace.x4),
                 ],
               ],
             );

@@ -16,10 +16,6 @@ enum CoolEventType {
   clubJoined, // fan club membership created
   merchandisePurchase, // rayon merchandise bought
   matchPrediction, // match prediction submitted
-  tripCompleted, // reliable trip completion
-  tripPosted, // trip posted (driver or passenger)
-  tripRated, // user rated a completed trip
-  firstTrip, // user's very first trip
   inviteQualified, // invitee completed qualifying action
   profileCompleted, // user filled in all profile details
   appShared, // user shared the app
@@ -60,10 +56,6 @@ extension CoolEventTypeX on CoolEventType {
     CoolEventType.clubJoined => 'Join Fan Club',
     CoolEventType.merchandisePurchase => 'Purchase Merchandise',
     CoolEventType.matchPrediction => 'Match Prediction',
-    CoolEventType.tripCompleted => 'Complete a Trip',
-    CoolEventType.tripPosted => 'Post a Trip',
-    CoolEventType.tripRated => 'Rate a Trip',
-    CoolEventType.firstTrip => 'First Trip Bonus',
     CoolEventType.inviteQualified => 'Invite a Friend',
     CoolEventType.profileCompleted => 'Complete Your Profile',
     CoolEventType.appShared => 'Share the App',
@@ -87,10 +79,6 @@ extension CoolEventTypeX on CoolEventType {
     CoolEventType.clubJoined => '🏟️',
     CoolEventType.merchandisePurchase => '👕',
     CoolEventType.matchPrediction => '🔮',
-    CoolEventType.tripCompleted => '🚗',
-    CoolEventType.tripPosted => '📍',
-    CoolEventType.tripRated => '⭐',
-    CoolEventType.firstTrip => '🎉',
     CoolEventType.inviteQualified => '🎉',
     CoolEventType.profileCompleted => '📝',
     CoolEventType.appShared => '📲',

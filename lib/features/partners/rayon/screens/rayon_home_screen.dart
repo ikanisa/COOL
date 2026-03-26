@@ -19,7 +19,7 @@ import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../../../shared/widgets/rs_match_card.dart';
 import '../models/rs_models.dart';
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/rayon_screen_scaffold.dart';
+import '../../../../shared/widgets/core_app_scaffold.dart';
 import '../../../../core/l10n/l10n.dart';
 
 part 'rayon_home_screen_parts.dart';
@@ -47,7 +47,7 @@ class RayonHomeScreen extends StatelessWidget {
           ),
         );
 
-        return RayonScreenScaffold(
+        return CoreAppScaffold(
           title: context.l10n.rayonSports,
           fallbackLocation: AppRoutes.partners,
           scrollable: false,

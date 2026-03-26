@@ -29,7 +29,6 @@ DROP TRIGGER IF EXISTS audit_app_config ON public.app_config;
 DROP TRIGGER IF EXISTS audit_partner_services ON public.partner_services;
 DROP TRIGGER IF EXISTS audit_partners ON public.partners;
 DROP TRIGGER IF EXISTS audit_quick_actions ON public.quick_actions;
-DROP TRIGGER IF EXISTS audit_vehicle_types ON public.vehicle_types;
 
 -- Replace the missing audit trigger on admin_role_assignments with log_admin_mutation
 CREATE TRIGGER trg_audit_admin_role_assignments
@@ -65,14 +64,6 @@ CREATE TRIGGER trg_cool_mission_progress_set_updated_at
 
 CREATE TRIGGER trg_cool_status_set_updated_at
   BEFORE UPDATE ON public.cool_status
-  FOR EACH ROW EXECUTE FUNCTION set_updated_at();
-
-CREATE TRIGGER trg_driver_profiles_set_updated_at
-  BEFORE UPDATE ON public.driver_profiles
-  FOR EACH ROW EXECUTE FUNCTION set_updated_at();
-
-CREATE TRIGGER trg_mobility_trips_set_updated_at
-  BEFORE UPDATE ON public.mobility_trips
   FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
 CREATE TRIGGER trg_nexus_opportunities_set_updated_at
@@ -144,19 +135,11 @@ CREATE INDEX IF NOT EXISTS idx_cool_reward_redemptions_user_id
 CREATE INDEX IF NOT EXISTS idx_cool_status_active_season_id
   ON public.cool_status (active_season_id);
 
--- driver_subscriptions
-CREATE INDEX IF NOT EXISTS idx_driver_subscriptions_driver_id
-  ON public.driver_subscriptions (driver_id);
-
 -- groups
 CREATE INDEX IF NOT EXISTS idx_groups_bank_partner_id
   ON public.groups (bank_partner_id);
 CREATE INDEX IF NOT EXISTS idx_groups_creator_id
   ON public.groups (creator_id);
-
--- mobility_trips
-CREATE INDEX IF NOT EXISTS idx_mobility_trips_driver_id
-  ON public.mobility_trips (driver_id);
 
 -- momo_parse_attempts
 CREATE INDEX IF NOT EXISTS idx_momo_parse_attempts_user_id

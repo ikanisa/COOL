@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:cool_app/core/config/country_catalog.dart';
@@ -122,9 +121,7 @@ UserProfile fakeUser({
   String momoProvider = 'mtn_rwanda',
   String country = 'RW',
   String languageCode = 'en',
-  bool isDriver = false,
   bool isAdmin = false,
-  String? vehicleType,
 }) {
   return UserProfile(
     id: id,
@@ -135,9 +132,7 @@ UserProfile fakeUser({
     momoProvider: momoProvider,
     country: country,
     languageCode: languageCode,
-    isDriver: isDriver,
     isAdmin: isAdmin,
-    vehicleType: vehicleType,
   );
 }
 
@@ -223,9 +218,10 @@ _buildTestContainer({
       supportedCountriesRepositoryProvider.overrideWithValue(
         countriesRepository,
       ),
-      initialThemePreferenceProvider.overrideWithValue(
-        (preference: AppThemePreference.system, updatedAt: null),
-      ),
+      initialThemePreferenceProvider.overrideWithValue((
+        preference: AppThemePreference.system,
+        updatedAt: null,
+      )),
       ...overrides,
     ],
   );

@@ -58,38 +58,41 @@ void main() {
     ).called(1);
   });
 
-  test('search and filter are forwarded to the repository before paging', () async {
-    final notifier = MemberRegistryNotifier(repository: repository);
-    await notifier.init('partner-1');
+  test(
+    'search and filter are forwarded to the repository before paging',
+    () async {
+      final notifier = MemberRegistryNotifier(repository: repository);
+      await notifier.init('partner-1');
 
-    notifier.selectFilter(MemberRegistryFilter.kigali);
-    await pumpEventQueue();
+      notifier.selectFilter(MemberRegistryFilter.kigali);
+      await pumpEventQueue();
 
-    expect(notifier.state.filter, MemberRegistryFilter.kigali);
-    verify(
-      () => repository.getMembers(
-        'partner-1',
-        searchQuery: null,
-        filterTier: null,
-        region: 'kigali',
-        limit: 20,
-        offset: 0,
-      ),
-    ).called(1);
+      expect(notifier.state.filter, MemberRegistryFilter.kigali);
+      verify(
+        () => repository.getMembers(
+          'partner-1',
+          searchQuery: null,
+          filterTier: null,
+          region: 'kigali',
+          limit: 20,
+          offset: 0,
+        ),
+      ).called(1);
 
-    notifier.search('  Alex');
-    await pumpEventQueue();
+      notifier.search('  Alex');
+      await pumpEventQueue();
 
-    expect(notifier.state.query, 'Alex');
-    verify(
-      () => repository.getMembers(
-        'partner-1',
-        searchQuery: 'Alex',
-        filterTier: null,
-        region: 'kigali',
-        limit: 20,
-        offset: 0,
-      ),
-    ).called(1);
-  });
+      expect(notifier.state.query, 'Alex');
+      verify(
+        () => repository.getMembers(
+          'partner-1',
+          searchQuery: 'Alex',
+          filterTier: null,
+          region: 'kigali',
+          limit: 20,
+          offset: 0,
+        ),
+      ).called(1);
+    },
+  );
 }

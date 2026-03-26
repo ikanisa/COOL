@@ -37,7 +37,7 @@ Core principles:
 
 1. **Authority** — every surface projects confidence and control.
 2. **Premium minimalism** — fewer elements, larger type, generous space, quiet surfaces.
-3. **Trust-first** — money, identity, permissions, mobility state are always explicit.
+3. **Trust-first** — money, identity, permissions, and system state are always explicit.
 4. **Token-driven** — every color, spacing, radius, shadow, and type value comes from a named token.
 5. **Maximum typography** — text should feel oversized, heavy, and commanding everywhere.
 
@@ -130,7 +130,7 @@ These warm-tinted backgrounds distinguish product domains visually:
 | `analyticsSurface` | `#101721` | `#EEF1F5` | Data, analytics panels |
 | `teamSurface` | `#151320` | `#F1EEF6` | Team, sports, club containers |
 | `commerceSurface` | `#1A1713` | `#F5F0E8` | Marketplace, listings |
-| `routeSurface` | `#121814` | `#F1ECE4` | Trip routes, mobility |
+| `routeSurface` | `#121814` | `#F1ECE4` | Route summaries, journeys |
 | `proximitySurface` | `#0E1813` | `#E7F0EA` | Nearby, proximity indicators |
 | `contactSurface` | `#10201A` | `#EAF3ED` | Contact, WhatsApp CTAs |
 

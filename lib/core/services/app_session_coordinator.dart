@@ -4,9 +4,9 @@ import '../../features/momo/services/momo_sms_autoread_service.dart';
 import '../models/referral_attribution.dart';
 import '../providers/notification_settings_provider.dart';
 import '../repositories/referral_repository.dart';
+import '../services/app_access_service.dart';
 import 'crashlytics_service.dart';
 import 'engagement_tracker.dart';
-import 'trip_sync_coordinator.dart';
 
 class AppSessionCoordinator {
   AppSessionCoordinator({
@@ -17,7 +17,7 @@ class AppSessionCoordinator {
     required ReferralAttribution? Function() readReferralAttribution,
     required void Function(String inviteId) markReferralOpened,
     required Future<void> Function(String inviteId) showReferralHandshake,
-    required TripSyncCoordinator tripSyncCoordinator,
+    required AppAccessService appAccessService,
     required MomoSmsAutoreadService momoSmsAutoreadService,
   }) : _notificationSettings = notificationSettings,
        _engagementTracker = engagementTracker,
@@ -26,7 +26,7 @@ class AppSessionCoordinator {
        _readReferralAttribution = readReferralAttribution,
        _markReferralOpened = markReferralOpened,
        _showReferralHandshake = showReferralHandshake,
-       _tripSyncCoordinator = tripSyncCoordinator,
+       _appAccessService = appAccessService,
        _momoSmsAutoreadService = momoSmsAutoreadService;
 
   final NotificationSettingsNotifier _notificationSettings;
@@ -36,7 +36,7 @@ class AppSessionCoordinator {
   final ReferralAttribution? Function() _readReferralAttribution;
   final void Function(String inviteId) _markReferralOpened;
   final Future<void> Function(String inviteId) _showReferralHandshake;
-  final TripSyncCoordinator _tripSyncCoordinator;
+  final AppAccessService _appAccessService;
   final MomoSmsAutoreadService _momoSmsAutoreadService;
 
   Future<void> bootstrap(AuthState authState) async {
@@ -76,9 +76,13 @@ class AppSessionCoordinator {
 
     if (!hadSession && hasSession) {
       await markReferralInviteOpenedIfNeeded();
-      await _momoSmsAutoreadService.refresh(forcePermissionRequest: true);
+      // Only force-request SMS permission if user has completed onboarding.
+      final onboardingComplete = await _appAccessService
+          .hasCompletedPermissionOnboarding();
+      await _momoSmsAutoreadService.refresh(
+        forcePermissionRequest: onboardingComplete,
+      );
       await _notificationSettings.initializeForAuthState(next);
-      _tripSyncCoordinator.scheduleSync(source: 'auth_transition');
       await _engagementTracker.trackSessionStarted(
         userId: next.user?.id ?? next.session!.user.id,
         isAuthenticated: true,

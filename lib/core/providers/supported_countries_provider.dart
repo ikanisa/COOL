@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../config/country_catalog.dart';
 import '../repositories/supported_countries_repository.dart';
 
-
 /// Provider for the [SupportedCountriesRepository].
 final supportedCountriesRepositoryProvider =
     Provider<SupportedCountriesRepository>((ref) {

@@ -11,7 +11,7 @@ import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/rs_digital_ticket.dart';
 import '../models/rs_models.dart';
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/rayon_screen_scaffold.dart';
+import '../../../../shared/widgets/core_app_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';
 import '../../../../core/l10n/l10n.dart';
 
@@ -26,7 +26,7 @@ class MyTicketsScreen extends ConsumerWidget {
     final ticketsAsync = ref.watch(rayonUserTicketsProvider);
     final paymentRoute = ref.watch(rayonPaymentRouteProvider).valueOrNull;
 
-    return RayonScreenScaffold(
+    return CoreAppScaffold(
       title: context.l10n.myTickets,
       fallbackLocation: AppRoutes.rayonTickets,
       scrollable: false,

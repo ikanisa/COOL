@@ -18,7 +18,7 @@ import '../models/rs_models.dart';
 
 import '../rayon_payment.dart';
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/rayon_screen_scaffold.dart';
+import '../../../../shared/widgets/core_app_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../shared/widgets/cool_bottom_sheet.dart';
@@ -83,7 +83,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
       data: (hub) {
         final onSale = hub.onSaleMatches;
         final upcoming = hub.upcomingMatches;
-        return RayonScreenScaffold(
+        return CoreAppScaffold(
           title: context.l10n.tickets,
           fallbackLocation: AppRoutes.rayonHome,
           scrollable: false,

@@ -54,7 +54,7 @@ from `CoolSemanticColors` (see `design-foundations` skill):
 |---|---|
 | `financialSurface` | Wallet, balance, statement containers |
 | `operationalSurface` | Payout dashboards, admin reconciliation |
-| `routeSurface` | Trip cost breakdowns, mobility payments |
+| `routeSurface` | Route cost breakdowns and journey-related payments |
 | `contactSurface` | WhatsApp handoff, support CTAs |
 
 All financial amounts must use `DM Mono` font at `bodyLarge` (18dp) minimum.
@@ -90,7 +90,7 @@ Permission design must be truthful:
 - **Offer a fallback** when the product supports one.
 - **Send to system settings** only when necessary.
 - **Graceful degradation** on every denial — never a dead end.
-- **Contextual requests** — request location only on mobility, camera only on QR.
+- **Contextual requests** — request location only in user-initiated map flows, camera only on QR.
 - **Data minimization** — only access contacts when user explicitly triggers social features.
 
 ### Permission Audit Checklist
@@ -101,7 +101,7 @@ Permission design must be truthful:
 [ ] No permissions are requested on app launch (all contextual)
 [ ] Contacts access is scoped to minimum fields needed
 [ ] Camera access is only for QR scanning, not profile photos without consent
-[ ] Location access is only on mobility and map-related flows
+[ ] Location access is only on map-related flows the user explicitly opened
 ```
 
 ## Accessibility
@@ -114,7 +114,7 @@ Permission design must be truthful:
 | `comfortable` | 56dp | Standard payment buttons, list rows |
 | `navigation` | 64dp | Primary CTA (Pay, Send, Confirm) |
 
-- One-hand use matters for MoMo and mobility flows.
+- One-hand use matters for MoMo and other high-frequency transactional flows.
 - Avoid tiny chips as critical controls.
 - Ensure spacing between adjacent tap targets prevents mis-taps.
 

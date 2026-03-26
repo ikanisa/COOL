@@ -24,13 +24,21 @@ class MomoSmsIngestionResult {
     required this.rawSmsId,
     required this.inserted,
     required this.parseQueued,
-    this.otpWhatsAppNumber,
   });
 
   final String rawSmsId;
   final bool inserted;
   final bool parseQueued;
-  final String? otpWhatsAppNumber;
+}
+
+/// Thrown when the sms-ingest edge function returns HTTP 429.
+class MomoSmsRateLimitException implements Exception {
+  const MomoSmsRateLimitException([this.message = 'SMS rate limit exceeded']);
+
+  final String message;
+
+  @override
+  String toString() => message;
 }
 
 class MomoSmsIngestionRepository {
@@ -237,22 +245,35 @@ class MomoSmsIngestionRepository {
       return null;
     }
 
-    final response = await _client.functions.invoke(
-      'sms-ingest',
-      body: <String, dynamic>{
-        'sender': capture.sender,
-        'smsBody': capture.body,
-        'smsReceivedAt': capture.receivedAt.toIso8601String(),
-        'deviceMessageKey': capture.deviceMessageKey,
-        'ingestionSource': capture.ingestionSource,
-      },
-    );
+    final dynamic response;
+    try {
+      response = await _client.functions.invoke(
+        'sms-ingest',
+        body: <String, dynamic>{
+          'sender': capture.sender,
+          'smsBody': capture.body,
+          'smsReceivedAt': capture.receivedAt.toIso8601String(),
+          'deviceMessageKey': capture.deviceMessageKey,
+          'ingestionSource': capture.ingestionSource,
+        },
+      );
+    } on FunctionException catch (error) {
+      if (_isRateLimitError(error)) {
+        throw MomoSmsRateLimitException(
+          error.details?.toString() ?? 'SMS rate limit exceeded',
+        );
+      }
+      rethrow;
+    }
 
     final data = response.data;
     if (data is Map && data['success'] == false) {
-      throw StateError(
-        data['message']?.toString() ?? 'Failed to ingest M-Money SMS.',
-      );
+      final message =
+          data['message']?.toString() ?? 'Failed to ingest M-Money SMS.';
+      if (message.contains('Rate limit')) {
+        throw MomoSmsRateLimitException(message);
+      }
+      throw StateError(message);
     }
     if (data is! Map) {
       throw const FormatException('Unexpected sms-ingest response payload.');
@@ -267,7 +288,6 @@ class MomoSmsIngestionRepository {
       rawSmsId: rawSmsId,
       inserted: data['inserted'] == true,
       parseQueued: data['parseQueued'] == true,
-      otpWhatsAppNumber: _emptyToNull(data['otpWhatsAppNumber']?.toString()),
     );
   }
 
@@ -287,11 +307,12 @@ class MomoSmsIngestionRepository {
     return value.replaceAll(RegExp(r'\s+'), ' ').trim();
   }
 
-  static String? _emptyToNull(String? value) {
-    final trimmed = value?.trim();
-    if (trimmed == null || trimmed.isEmpty) {
-      return null;
+  static bool _isRateLimitError(FunctionException error) {
+    final status = error.status;
+    if (status == 429) {
+      return true;
     }
-    return trimmed;
+    final details = error.details?.toString().toLowerCase() ?? '';
+    return details.contains('rate limit');
   }
 }

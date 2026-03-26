@@ -56,7 +56,7 @@ void main() {
     test(
       'attaches an App Check header to BioPay enrollment requests',
       () async {
-        final draft = BiopayEnrollmentDraft(
+        const draft = BiopayEnrollmentDraft(
           displayName: 'Marie',
           routeType: MomoRecipientType.phoneNumber,
           recipientValue: '0781234567',

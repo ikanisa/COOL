@@ -119,7 +119,7 @@ declare
 begin
   for t in select unnest(array[
     'partners', 'partner_services', 'quick_actions',
-    'vehicle_types', 'app_config', 'admin_role_assignments'
+    'app_config', 'admin_role_assignments'
   ]) loop
     if exists (select 1 from information_schema.tables where table_name = t and table_schema = 'public') then
       -- Drop existing trigger if any

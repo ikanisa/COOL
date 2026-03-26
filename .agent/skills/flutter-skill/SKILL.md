@@ -12,7 +12,7 @@ description: >
 # Flutter World-Class Engineering Skill
 
 > **Validated**: March 11, 2026 · Flutter 3.38.9 / Dart 3.10.8
-> **Repo**: `/Volumes/PRO-G40/COOL` · Single-app Flutter project (finance + mobility + partners)
+> **Repo**: `/Volumes/PRO-G40/COOL` · Single-app Flutter project (finance + services + partners)
 > **Rating**: 3.5/5 — strong product foundation with solid ops backbone, not yet elite execution
 > **Audit**: March 11, 2026 — full codebase audit completed, 6 corrections applied (see §3)
 
@@ -119,7 +119,6 @@ lib/
 │   ├── credit/             # Credit/finance features
 │   ├── groups/             # Group finance
 │   ├── home/               # Home screen
-│   ├── mobility/           # Ride/transport features
 │   ├── momo/               # Mobile money
 │   ├── partners/           # Partner ecosystem (Rayon Sports, etc.)
 │   └── profile/            # User profile
@@ -129,7 +128,7 @@ lib/
 
 test/
 ├── core/                   # Router, config, l10n, utils, sync tests
-├── features/               # Auth, credit, mobility, momo, partners tests
+├── features/               # Auth, credit, momo, partners tests
 ├── integration_smoke/      # Host-side smoke tests (no emulator needed)
 ├── models/                 # Model tests
 ├── providers/              # Provider tests
@@ -183,7 +182,7 @@ Nubank explicitly credits testability for their developer scaling. If unit tests
 - `locale_provider.dart:14` opens Hive directly in constructor path
 - `main.dart` initializes Firebase, Supabase, and Hive as hard dependencies before app launch
 - `app.dart` triggers engagement, trip sync, deep links, and auth side effects in `initState`
-- `mobility_provider.dart` has engagement/bootstrap side effects that leak into widget tests
+- legacy location-aware providers have engagement/bootstrap side effects that leak into widget tests
 - Test files in `test/integration_smoke/` use provider overrides + fake repos (good pattern)
 
 ### World-Class Standard
@@ -355,17 +354,17 @@ Wolt builds adaptive UI across device classes as a first-class concern. Google C
 |---|---|---|
 | Remove portrait lock unless hard product requirement | Wolt | Allow landscape on tablets/foldables |
 | Define breakpoints: compact, medium, expanded | Google Classroom | Use `MediaQuery` + custom breakpoint constants |
-| Adaptive layouts for high-value screens | Wolt | Home, mobility map, partner screens |
+| Adaptive layouts for high-value screens | Wolt | Home, services, and partner screens |
 | Test on multiple form factors | Duolingo (5000+ screenshots) | Add golden tests at different sizes |
 
 ### Implementation Checklist
 ```
 [ ] Decide: is portrait-only a hard product rule? If yes, document why. If no, remove lock.
 [ ] Create lib/shared/widgets/responsive_builder.dart with breakpoint system
-[ ] Add adaptive layouts for: home, mobility, partners, profile, credit
+[ ] Add adaptive layouts for: home, services, partners, profile, credit
 [ ] Test layouts at: 360dp (small phone), 412dp (standard), 600dp (small tablet), 840dp (tablet)
 [ ] Add golden tests for top-5 screens at compact and expanded breakpoints
-[ ] Support landscape for map-heavy screens (mobility, partners with maps)
+[ ] Support landscape for map-heavy screens (partner or location-aware flows)
 ```
 
 ### Breakpoint Pattern
@@ -591,7 +590,7 @@ The app handles payments (MoMo), credit, personal contacts, location, and camera
 | Practice | Reference App | Action |
 |---|---|---|
 | Sensitive screens blocked from screenshots/screen recording | Monzo | Add `FLAG_SECURE` for payment and credit screens |
-| Permission requests are contextual, not upfront | Google Classroom | Request location only on mobility, camera only on QR |
+| Permission requests are contextual, not upfront | Google Classroom | Request location only in user-initiated map flows, camera only on QR |
 | Permission denial is gracefully handled | Uber | Every permission has a denial UX with explanation |
 | Data minimization | Meta | Only access contacts when user explicitly triggers social feature |
 | Security review per release | Monzo | Add to release checklist |

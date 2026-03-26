@@ -6,7 +6,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../auth/auth_user_contact.dart';
 import '../config/app_market.dart';
-import '../config/app_config_repository.dart';
 import '../config/country_catalog.dart';
 import '../models/momo_qr_payload.dart';
 import '../repositories/supported_countries_repository.dart';
@@ -15,58 +14,21 @@ import 'crashlytics_service.dart';
 import 'hive_runtime.dart';
 import 'performance_service.dart';
 
-enum SubscriptionPlan { moto, cabOther }
-
-extension SubscriptionPlanX on SubscriptionPlan {
-  String get id => switch (this) {
-    SubscriptionPlan.moto => 'moto',
-    SubscriptionPlan.cabOther => 'cab_other',
-  };
-
-  String get displayName => switch (this) {
-    SubscriptionPlan.moto => 'Moto Taxi',
-    SubscriptionPlan.cabOther => 'Cab / Other',
-  };
-
-  int get amountRwf => switch (this) {
-    SubscriptionPlan.moto => 6000,
-    SubscriptionPlan.cabOther => 15000,
-  };
-
-  /// Material icon for this plan (used by subscription cards).
-  IconData get icon => switch (this) {
-    SubscriptionPlan.moto => Icons.two_wheeler_rounded,
-    SubscriptionPlan.cabOther => Icons.directions_car_rounded,
-  };
-}
-
 /// Mobile Money USSD gateway for bridge-style payments.
-///
-/// Most flows provide the destination recipient explicitly. Mobility
-/// subscription payments read their recipient code from admin-managed
-/// `app_config` instead of build-time env vars.
 class MomoService {
   MomoService({
     required SupabaseClient client,
     OpenHiveBox<dynamic>? openBox,
-    AppConfigRepository? appConfigRepository,
     SupportedCountriesRepository? supportedCountriesRepository,
     AppReviewService? appReviewService,
   }) : _client = client,
-       _appConfigRepository =
-           appConfigRepository ?? AppConfigRepository(client: client),
        _supportedCountriesRepository =
-           supportedCountriesRepository ??
-           SupportedCountriesRepository(),
+           supportedCountriesRepository ?? SupportedCountriesRepository(),
        _appReviewService = appReviewService;
 
   final SupabaseClient _client;
-  final AppConfigRepository _appConfigRepository;
   final SupportedCountriesRepository _supportedCountriesRepository;
   final AppReviewService? _appReviewService;
-
-  static const motoTaxiPlan = SubscriptionPlan.moto;
-  static const cabOtherPlan = SubscriptionPlan.cabOther;
 
   // Firebase services for observability (late-bound, no-op if unavailable).
   CrashlyticsService? _crashlytics;
@@ -147,76 +109,6 @@ class MomoService {
     unawaited(_appReviewService?.requestReview() ?? Future.value());
   }
 
-  Future<void> initiateSubscription({
-    required String driverId,
-    required SubscriptionPlan plan,
-    String? countryCode,
-    String? providerId,
-  }) async {
-    final country = await _resolveCountry(
-      countryCode: countryCode,
-      providerId: providerId,
-    );
-    final recipientMomo = await _appConfigRepository
-        .getMobilitySubscriptionMomoCode(forceRefresh: true);
-    if (recipientMomo == null) {
-      throw const MomoConfigurationException(
-        AppConfigKeys.mobilitySubscriptionMomoCode,
-      );
-    }
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final reference = 'SUB-$driverId-$timestamp';
-    final createdAt = DateTime.now().toIso8601String();
-
-    await _client.from('driver_subscriptions').insert(<String, dynamic>{
-      'driver_id': driverId,
-      'plan': plan.id,
-      'plan_id': plan.id,
-      'plan_name': plan.displayName,
-      'amount': plan.amountRwf,
-      'amount_rwf': plan.amountRwf,
-      'status': 'pending',
-      'momo_reference': reference,
-      'created_at': createdAt,
-      'updated_at': createdAt,
-    });
-
-    try {
-      await initiatePayment(
-        recipientMomo: recipientMomo,
-        amount: plan.amountRwf,
-        reference: reference,
-        recipientType: MomoRecipientType.code,
-        countryCode: country.isoCode,
-        providerId: country.providerId,
-      );
-    } catch (error) {
-      final cancelledAt = DateTime.now().toIso8601String();
-      try {
-        await _client
-            .from('driver_subscriptions')
-            .update(<String, dynamic>{
-              'status': 'cancelled',
-              'cancelled_at': cancelledAt,
-              'updated_at': cancelledAt,
-            })
-            .eq('driver_id', driverId)
-            .eq('momo_reference', reference)
-            .eq('status', 'pending');
-      } catch (updateError) {
-        debugPrint(
-          '[MoMo] ⚠️ Failed to cancel subscription checkout after dialer failure: '
-          '$updateError',
-        );
-        _crashlytics?.recordError(
-          updateError,
-          reason: 'momo_subscription_checkout_cancel_failed',
-        );
-      }
-      rethrow;
-    }
-  }
-
   Future<void> initiatePaymentUSSD(
     int amount, {
     required String recipientMomo,
@@ -251,20 +143,6 @@ class MomoService {
       recipientMomo: recipientMomo,
       reference: reference,
       recipientType: recipientType,
-      countryCode: countryCode,
-      providerId: providerId,
-    );
-  }
-
-  Future<void> initiateSubscriptionUSSD(
-    SubscriptionPlan plan, {
-    required String driverId,
-    String? countryCode,
-    String? providerId,
-  }) {
-    return initiateSubscription(
-      driverId: driverId,
-      plan: plan,
       countryCode: countryCode,
       providerId: providerId,
     );

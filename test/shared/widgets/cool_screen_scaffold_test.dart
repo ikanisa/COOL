@@ -32,8 +32,9 @@ void main() {
       expect(find.byIcon(Icons.arrow_back_rounded), findsOneWidget);
     });
 
-    testWidgets('hides back button when showBackButton is false',
-        (tester) async {
+    testWidgets('hides back button when showBackButton is false', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: CoolScreenScaffold(

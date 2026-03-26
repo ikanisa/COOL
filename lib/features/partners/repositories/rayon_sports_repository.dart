@@ -513,9 +513,10 @@ class RayonSportsRepository {
   Future<List<Map<String, dynamic>>> fetchRsNotifications({
     String? matchId,
   }) async {
-    final result = await _client.rpc('get_rs_notifications', params: {
-      'p_match_id': matchId,
-    });
+    final result = await _client.rpc(
+      'get_rs_notifications',
+      params: {'p_match_id': matchId},
+    );
     return _asListOfMaps(result);
   }
 
@@ -524,25 +525,26 @@ class RayonSportsRepository {
     required String title,
     required String body,
   }) async {
-    final result = await _client.rpc('send_rs_match_notification', params: {
-      'p_match_id': matchId,
-      'p_title': title,
-      'p_body': body,
-    });
+    final result = await _client.rpc(
+      'send_rs_match_notification',
+      params: {'p_match_id': matchId, 'p_title': title, 'p_body': body},
+    );
     return result.toString();
   }
 
   Future<int> bulkVoidTickets(List<String> ticketIds) async {
-    final result = await _client.rpc('bulk_void_rs_tickets', params: {
-      'p_ticket_ids': ticketIds,
-    });
+    final result = await _client.rpc(
+      'bulk_void_rs_tickets',
+      params: {'p_ticket_ids': ticketIds},
+    );
     return (result as num?)?.toInt() ?? 0;
   }
 
   Future<int> bulkRefundTickets(List<String> ticketIds) async {
-    final result = await _client.rpc('bulk_refund_rs_tickets', params: {
-      'p_ticket_ids': ticketIds,
-    });
+    final result = await _client.rpc(
+      'bulk_refund_rs_tickets',
+      params: {'p_ticket_ids': ticketIds},
+    );
     return (result as num?)?.toInt() ?? 0;
   }
 

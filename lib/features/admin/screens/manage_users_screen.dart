@@ -71,12 +71,6 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
             final adminCount = users
                 .where((user) => user['is_admin'] == true)
                 .length;
-            final driverCount = users
-                .where((user) => user['is_driver'] == true)
-                .length;
-            final verifiedCount = users
-                .where((user) => user['kyc_status']?.toString() == 'verified')
-                .length;
             final momoCount = users
                 .where(
                   (user) => (user['momo_number']?.toString() ?? '').isNotEmpty,
@@ -133,8 +127,6 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
                         totalUsers: users.length,
                         mockUsers: mockCount,
                         adminUsers: adminCount,
-                        driverUsers: driverCount,
-                        verifiedUsers: verifiedCount,
                         momoUsers: momoCount,
                         mockBatches: mockBatches,
                       ),

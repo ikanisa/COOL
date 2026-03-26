@@ -6,7 +6,6 @@ import 'package:cool_app/core/services/deep_link_coordinator.dart';
 import 'package:cool_app/core/services/engagement_tracker.dart';
 import 'package:cool_app/core/services/momo_service.dart';
 import 'package:cool_app/core/services/performance_service.dart';
-import 'package:cool_app/core/services/trip_sync_coordinator.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart' as auth;
 import 'package:cool_app/features/momo/services/momo_sms_autoread_service.dart';
@@ -26,8 +25,6 @@ class MockAppSessionCoordinator extends Mock implements AppSessionCoordinator {}
 
 class MockDeepLinkCoordinator extends Mock implements DeepLinkCoordinator {}
 
-class MockTripSyncCoordinator extends Mock implements TripSyncCoordinator {}
-
 class MockAppUpdateService extends Mock implements AppUpdateService {}
 
 class MockMomoSmsAutoreadService extends Mock
@@ -46,7 +43,6 @@ void main() {
     late MockPerformanceService performance;
     late MockAppSessionCoordinator sessionCoordinator;
     late MockDeepLinkCoordinator deepLinkCoordinator;
-    late MockTripSyncCoordinator tripSyncCoordinator;
     late MockAppUpdateService appUpdateService;
     late MockMomoSmsAutoreadService momoSmsAutoreadService;
     late List<String> events;
@@ -59,7 +55,6 @@ void main() {
       performance = MockPerformanceService();
       sessionCoordinator = MockAppSessionCoordinator();
       deepLinkCoordinator = MockDeepLinkCoordinator();
-      tripSyncCoordinator = MockTripSyncCoordinator();
       appUpdateService = MockAppUpdateService();
       momoSmsAutoreadService = MockMomoSmsAutoreadService();
       events = <String>[];
@@ -85,13 +80,6 @@ void main() {
       when(
         () => sessionCoordinator.handleAuthStateChanged(any(), any()),
       ).thenAnswer((_) async {});
-      when(() => tripSyncCoordinator.start()).thenAnswer((_) {
-        events.add('tripSync.start');
-      });
-      when(() => tripSyncCoordinator.onAppResumed()).thenAnswer((_) {});
-      when(() => tripSyncCoordinator.dispose()).thenAnswer((_) {
-        events.add('tripSync.dispose');
-      });
       when(() => deepLinkCoordinator.start()).thenAnswer((_) async {
         events.add('deepLink.start');
       });
@@ -114,7 +102,6 @@ void main() {
         performance: performance,
         sessionCoordinator: sessionCoordinator,
         deepLinkCoordinator: deepLinkCoordinator,
-        tripSyncCoordinator: tripSyncCoordinator,
         momoSmsAutoreadService: momoSmsAutoreadService,
         momoService: _buildTestMomoService(),
         appUpdateService: appUpdateService,
@@ -133,12 +120,10 @@ void main() {
         'performance.initialize',
         'engagement.trackAppOpened',
         'session.bootstrap',
-        'tripSync.start',
         'deepLink.start',
       ]);
       verify(() => sessionCoordinator.bootstrap(authState)).called(1);
       verify(() => deepLinkCoordinator.start()).called(1);
-      verify(() => tripSyncCoordinator.start()).called(1);
       verify(() => appUpdateService.checkForUpdate()).called(1);
     });
 
@@ -152,7 +137,6 @@ void main() {
       verify(
         () => sessionCoordinator.handleAuthStateChanged(previous, next),
       ).called(1);
-      verify(() => tripSyncCoordinator.onAppResumed()).called(1);
       verify(() => appUpdateService.checkForUpdate()).called(1);
     });
 
@@ -163,9 +147,7 @@ void main() {
       await coordinator.start();
 
       verify(() => deepLinkCoordinator.dispose()).called(1);
-      verify(() => tripSyncCoordinator.dispose()).called(1);
       verify(() => deepLinkCoordinator.start()).called(2);
-      verify(() => tripSyncCoordinator.start()).called(2);
     });
   });
 }
@@ -215,6 +197,5 @@ UserProfile _fakeUser() {
     momoProvider: 'mtn_rwanda',
     country: 'RW',
     languageCode: 'en',
-    isDriver: false,
   );
 }

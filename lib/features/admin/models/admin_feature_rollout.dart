@@ -20,30 +20,14 @@ class AdminFeatureRolloutConfig {
     const _ManagedFeatureSpec(
       key: 'momo',
       label: 'Mobile Money',
-      description:
-          'Control MoMo payments and',
+      description: 'Control MoMo payments and',
       killSwitchKey: 'kill_momo_payments',
-    ),
-    const _ManagedFeatureSpec(
-      key: 'credit',
-      label: 'Credit',
-      description:
-          'Stage lending readiness score',
-      killSwitchKey: 'kill_credit_features',
     ),
     const _ManagedFeatureSpec(
       key: 'ticket_purchase',
       label: 'Ticketing',
-      description:
-          'Gate Rayon Sports ticket',
+      description: 'Gate Rayon Sports ticket',
       killSwitchKey: 'kill_ticket_purchase',
-    ),
-    const _ManagedFeatureSpec(
-      key: 'mobility',
-      label: 'Mobility',
-      description:
-          'Roll out rider and',
-      killSwitchKey: 'kill_mobility',
     ),
   ];
 
@@ -139,12 +123,8 @@ class AdminFeatureRolloutConfig {
     switch (key) {
       case 'momo':
         return defaults.momo;
-      case 'credit':
-        return defaults.credit;
       case 'ticket_purchase':
         return defaults.ticketPurchase;
-      case 'mobility':
-        return defaults.mobility;
     }
     throw StateError('Unsupported managed feature key: $key');
   }

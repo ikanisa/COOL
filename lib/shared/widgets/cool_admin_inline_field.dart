@@ -69,12 +69,11 @@ class _CoolAdminInlineFieldState extends State<CoolAdminInlineField> {
     final theme = Theme.of(context);
     const fieldRadius = 10.0;
 
-    final fieldBackground =
-        _isFocused ? colors.cardSurfaceStrong : colors.inputSurface;
+    final fieldBackground = _isFocused
+        ? colors.cardSurfaceStrong
+        : colors.inputSurface;
     final fieldBorder = _isFocused
-        ? Border.all(
-            color: colors.accent.withValues(alpha: 0.25),
-          )
+        ? Border.all(color: colors.accent.withValues(alpha: 0.25))
         : null;
 
     return Column(
@@ -108,8 +107,10 @@ class _CoolAdminInlineFieldState extends State<CoolAdminInlineField> {
                     color: fieldBackground,
                     borderRadius: BorderRadius.circular(fieldRadius),
                     border: fieldBorder,
-                    boxShadow:
-                        CoolShadows.clay(theme.brightness, strength: 0.20),
+                    boxShadow: CoolShadows.clay(
+                      theme.brightness,
+                      strength: 0.20,
+                    ),
                   ),
                   child: Focus(
                     onFocusChange: (value) {
@@ -153,10 +154,7 @@ class _CoolAdminInlineFieldState extends State<CoolAdminInlineField> {
                 icon: const Icon(Icons.check_rounded, size: 18),
                 tooltip: 'Save',
                 color: colors.success,
-                constraints: const BoxConstraints(
-                  minWidth: 32,
-                  minHeight: 32,
-                ),
+                constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
                 padding: EdgeInsets.zero,
               ),
               IconButton(
@@ -164,10 +162,7 @@ class _CoolAdminInlineFieldState extends State<CoolAdminInlineField> {
                 icon: const Icon(Icons.close_rounded, size: 18),
                 tooltip: 'Cancel',
                 color: colors.danger,
-                constraints: const BoxConstraints(
-                  minWidth: 32,
-                  minHeight: 32,
-                ),
+                constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
                 padding: EdgeInsets.zero,
               ),
             ],

@@ -11,7 +11,7 @@ class MomoSmsRationaleNotifier extends ChangeNotifier {
   bool get isRequestPending => _pendingRequest != null;
 
   /// Requests the UI to show a rationale dialog.
-  /// 
+  ///
   /// Returns a [Future] that completes with `true` if the user accepted
   /// the rationale, or `false` if they dismissed/denied it.
   Future<bool> requestRationale() {
@@ -37,6 +37,7 @@ class MomoSmsRationaleNotifier extends ChangeNotifier {
 }
 
 /// Provider for the [MomoSmsRationaleNotifier].
-final momoSmsRationaleProvider = ChangeNotifierProvider<MomoSmsRationaleNotifier>((ref) {
-  return MomoSmsRationaleNotifier();
-});
+final momoSmsRationaleProvider =
+    ChangeNotifierProvider<MomoSmsRationaleNotifier>((ref) {
+      return MomoSmsRationaleNotifier();
+    });

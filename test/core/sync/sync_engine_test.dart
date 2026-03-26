@@ -13,7 +13,9 @@ void main() {
   const testBoxName = 'test_sync_engine';
 
   setUp(() async {
-    Hive.init('/tmp/hive_sync_engine_test_${DateTime.now().microsecondsSinceEpoch}');
+    Hive.init(
+      '/tmp/hive_sync_engine_test_${DateTime.now().microsecondsSinceEpoch}',
+    );
     testBox = await Hive.openBox<dynamic>(testBoxName);
     engine = SyncEngine(
       boxName: testBoxName,
@@ -36,11 +38,7 @@ void main() {
     });
 
     test('accepts a custom id', () async {
-      final id = await engine.enqueue(
-        'trip',
-        {'from': 'X'},
-        id: 'custom-123',
-      );
+      final id = await engine.enqueue('trip', {'from': 'X'}, id: 'custom-123');
       expect(id, 'custom-123');
       expect(testBox.containsKey('custom-123'), isTrue);
     });

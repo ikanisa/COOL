@@ -161,6 +161,5 @@ UserProfile _fakeUser() {
     momoProvider: 'mtn_rwanda',
     country: 'RW',
     languageCode: 'en',
-    isDriver: false,
   );
 }

@@ -586,162 +586,6 @@ abstract class AppLocalizations {
   /// **'open the USSD failed'**
   String get momoDialerError;
 
-  /// No description provided for @mobilityTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Mobility'**
-  String get mobilityTitle;
-
-  /// No description provided for @nearbyDrivers.
-  ///
-  /// In en, this message translates to:
-  /// **'Nearby Drivers'**
-  String get nearbyDrivers;
-
-  /// No description provided for @scheduledTrips.
-  ///
-  /// In en, this message translates to:
-  /// **'Scheduled Trips'**
-  String get scheduledTrips;
-
-  /// No description provided for @scheduleTrip.
-  ///
-  /// In en, this message translates to:
-  /// **'Schedule a Trip'**
-  String get scheduleTrip;
-
-  /// No description provided for @postTrip.
-  ///
-  /// In en, this message translates to:
-  /// **'Post Trip on Board'**
-  String get postTrip;
-
-  /// No description provided for @tripBoard.
-  ///
-  /// In en, this message translates to:
-  /// **'Trip Board'**
-  String get tripBoard;
-
-  /// No description provided for @driverProfile.
-  ///
-  /// In en, this message translates to:
-  /// **'Driver Profile'**
-  String get driverProfile;
-
-  /// No description provided for @allTrips.
-  ///
-  /// In en, this message translates to:
-  /// **'All Trips'**
-  String get allTrips;
-
-  /// No description provided for @oneWay.
-  ///
-  /// In en, this message translates to:
-  /// **'One Way'**
-  String get oneWay;
-
-  /// No description provided for @returnTrips.
-  ///
-  /// In en, this message translates to:
-  /// **'Return'**
-  String get returnTrips;
-
-  /// No description provided for @noTripsAvailable.
-  ///
-  /// In en, this message translates to:
-  /// **'No trips available right'**
-  String get noTripsAvailable;
-
-  /// No description provided for @noDriversNearby.
-  ///
-  /// In en, this message translates to:
-  /// **'No drivers nearby.'**
-  String get noDriversNearby;
-
-  /// No description provided for @contactViaWhatsapp.
-  ///
-  /// In en, this message translates to:
-  /// **'Contact via WhatsApp'**
-  String get contactViaWhatsapp;
-
-  /// No description provided for @tripDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'Trip Details'**
-  String get tripDetails;
-
-  /// No description provided for @expiresIn.
-  ///
-  /// In en, this message translates to:
-  /// **'Expires in {minutes} min'**
-  String expiresIn(Object minutes);
-
-  /// No description provided for @seatsLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} seat'**
-  String seatsLabel(Object count);
-
-  /// No description provided for @seatsLabelPlural.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} seats'**
-  String seatsLabelPlural(Object count);
-
-  /// No description provided for @scheduleTripTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Schedule a Trip'**
-  String get scheduleTripTitle;
-
-  /// No description provided for @scheduleTripInfoBanner.
-  ///
-  /// In en, this message translates to:
-  /// **'Schedule ahead to find!'**
-  String get scheduleTripInfoBanner;
-
-  /// No description provided for @scheduleTripDetailsTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Trip Details'**
-  String get scheduleTripDetailsTitle;
-
-  /// No description provided for @scheduleTripFromHint.
-  ///
-  /// In en, this message translates to:
-  /// **'📍 From — e.g. Nyamirambo'**
-  String get scheduleTripFromHint;
-
-  /// No description provided for @scheduleTripToHint.
-  ///
-  /// In en, this message translates to:
-  /// **'To e g Kigali'**
-  String get scheduleTripToHint;
-
-  /// No description provided for @scheduleTripDateTimeLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Date & Time'**
-  String get scheduleTripDateTimeLabel;
-
-  /// No description provided for @scheduleTripVehicleLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Vehicle Preference'**
-  String get scheduleTripVehicleLabel;
-
-  /// No description provided for @scheduleTripSeatsLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Seats Needed'**
-  String get scheduleTripSeatsLabel;
-
-  /// No description provided for @scheduleTripReturnTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Return Trip'**
-  String get scheduleTripReturnTitle;
-
   /// No description provided for @scheduleTripReturnSubtitle.
   ///
   /// In en, this message translates to:
@@ -946,12 +790,6 @@ abstract class AppLocalizations {
   /// **'Online now'**
   String get driverOnlineMessage;
 
-  /// No description provided for @driverOfflineMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Offline now'**
-  String get driverOfflineMessage;
-
   /// No description provided for @online.
   ///
   /// In en, this message translates to:
@@ -964,18 +802,6 @@ abstract class AppLocalizations {
   /// **'Offline'**
   String get offline;
 
-  /// No description provided for @tripsDone.
-  ///
-  /// In en, this message translates to:
-  /// **'Trips Done'**
-  String get tripsDone;
-
-  /// No description provided for @freeTrips.
-  ///
-  /// In en, this message translates to:
-  /// **'Free Trips'**
-  String get freeTrips;
-
   /// No description provided for @statusHealthy.
   ///
   /// In en, this message translates to:
@@ -987,42 +813,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Warning'**
   String get statusWarning;
-
-  /// No description provided for @myVehicle.
-  ///
-  /// In en, this message translates to:
-  /// **'My Vehicle'**
-  String get myVehicle;
-
-  /// No description provided for @editVehicle.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit Vehicle'**
-  String get editVehicle;
-
-  /// No description provided for @saveVehicleInfo.
-  ///
-  /// In en, this message translates to:
-  /// **'Save Vehicle Info'**
-  String get saveVehicleInfo;
-
-  /// No description provided for @vehicleTypeLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Vehicle Type'**
-  String get vehicleTypeLabel;
-
-  /// No description provided for @plateNumberLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Plate Number'**
-  String get plateNumberLabel;
-
-  /// No description provided for @baseLocationLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Base Location'**
-  String get baseLocationLabel;
 
   /// No description provided for @statusLabel.
   ///
@@ -3568,83 +3358,11 @@ abstract class AppLocalizations {
   /// **'Official identity'**
   String get profileOfficialIdentityLabel;
 
-  /// No description provided for @profileTravelRoleLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Travel role'**
-  String get profileTravelRoleLabel;
-
-  /// No description provided for @profilePassengerRoleLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Passenger'**
-  String get profilePassengerRoleLabel;
-
-  /// No description provided for @profileDriverRoleLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Driver'**
-  String get profileDriverRoleLabel;
-
   /// No description provided for @profileMomoCodeNotSet.
   ///
   /// In en, this message translates to:
   /// **'MoMo code not set'**
   String get profileMomoCodeNotSet;
-
-  /// No description provided for @profileDriverSetupPending.
-  ///
-  /// In en, this message translates to:
-  /// **'Driver setup pending'**
-  String get profileDriverSetupPending;
-
-  /// No description provided for @profileRegularDriverCadence.
-  ///
-  /// In en, this message translates to:
-  /// **'Regular driver'**
-  String get profileRegularDriverCadence;
-
-  /// No description provided for @profileOccasionalDriverCadence.
-  ///
-  /// In en, this message translates to:
-  /// **'Occasional driver'**
-  String get profileOccasionalDriverCadence;
-
-  /// No description provided for @profileMobilityCreditsValue.
-  ///
-  /// In en, this message translates to:
-  /// **'{credits} credits'**
-  String profileMobilityCreditsValue(Object credits);
-
-  /// No description provided for @profileMobilitySubscriptionActive.
-  ///
-  /// In en, this message translates to:
-  /// **'Subscription active'**
-  String get profileMobilitySubscriptionActive;
-
-  /// No description provided for @profileMobilitySubscriptionUntil.
-  ///
-  /// In en, this message translates to:
-  /// **'Subscribed until {date}'**
-  String profileMobilitySubscriptionUntil(Object date);
-
-  /// No description provided for @mobilityNoWhatsappAvailable.
-  ///
-  /// In en, this message translates to:
-  /// **'No WhatsApp contact yet'**
-  String get mobilityNoWhatsappAvailable;
-
-  /// No description provided for @mobilityNoContactYet.
-  ///
-  /// In en, this message translates to:
-  /// **'No contact yet'**
-  String get mobilityNoContactYet;
-
-  /// No description provided for @mobilityLocationRequiredDriverMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Location is required before'**
-  String get mobilityLocationRequiredDriverMode;
 
   /// No description provided for @momoSendMoneyOpensUssd.
   ///
@@ -4324,12 +4042,6 @@ abstract class AppLocalizations {
   /// **'Credit'**
   String get credit;
 
-  /// No description provided for @mobility.
-  ///
-  /// In en, this message translates to:
-  /// **'Mobility'**
-  String get mobility;
-
   /// No description provided for @rejectAllocation.
   ///
   /// In en, this message translates to:
@@ -4575,12 +4287,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Rollout Governance'**
   String get rolloutGovernance;
-
-  /// No description provided for @mobilitySubscriptionRecipient.
-  ///
-  /// In en, this message translates to:
-  /// **'Mobility Subscription Recipient'**
-  String get mobilitySubscriptionRecipient;
 
   /// No description provided for @addRecipient.
   ///
@@ -5398,12 +5104,6 @@ abstract class AppLocalizations {
   /// **'Location'**
   String get location;
 
-  /// No description provided for @neededForNearbyMobility.
-  ///
-  /// In en, this message translates to:
-  /// **'Needed for nearby mobility'**
-  String get neededForNearbyMobility;
-
   /// No description provided for @camera.
   ///
   /// In en, this message translates to:
@@ -5494,54 +5194,6 @@ abstract class AppLocalizations {
   /// **'Dark mode'**
   String get darkMode;
 
-  /// No description provided for @vehicleDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'Vehicle details'**
-  String get vehicleDetails;
-
-  /// No description provided for @subscriptionAccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Subscription access'**
-  String get subscriptionAccess;
-
-  /// No description provided for @renewalNote.
-  ///
-  /// In en, this message translates to:
-  /// **'Renewal note'**
-  String get renewalNote;
-
-  /// No description provided for @selectedPlan.
-  ///
-  /// In en, this message translates to:
-  /// **'Selected plan'**
-  String get selectedPlan;
-
-  /// No description provided for @editVehicleInfo.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit vehicle info'**
-  String get editVehicleInfo;
-
-  /// No description provided for @vehicleType.
-  ///
-  /// In en, this message translates to:
-  /// **'Vehicle type'**
-  String get vehicleType;
-
-  /// No description provided for @plateNumber.
-  ///
-  /// In en, this message translates to:
-  /// **'Plate number'**
-  String get plateNumber;
-
-  /// No description provided for @baseLocation.
-  ///
-  /// In en, this message translates to:
-  /// **'Base location'**
-  String get baseLocation;
-
   /// No description provided for @verification.
   ///
   /// In en, this message translates to:
@@ -5565,12 +5217,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This month'**
   String get thisMonth;
-
-  /// No description provided for @retryLoadingDriverProfile.
-  ///
-  /// In en, this message translates to:
-  /// **'Retry loading driver profile'**
-  String get retryLoadingDriverProfile;
 
   /// No description provided for @trips.
   ///
@@ -5614,359 +5260,11 @@ abstract class AppLocalizations {
   /// **'Preview'**
   String get preview;
 
-  /// No description provided for @trike.
-  ///
-  /// In en, this message translates to:
-  /// **'Trike'**
-  String get trike;
-
-  /// No description provided for @truck.
-  ///
-  /// In en, this message translates to:
-  /// **'Truck'**
-  String get truck;
-
-  /// No description provided for @others.
-  ///
-  /// In en, this message translates to:
-  /// **'Others'**
-  String get others;
-
   /// No description provided for @payViaMomoUssd1.
   ///
   /// In en, this message translates to:
   /// **'Pay via MOMO USSD'**
   String get payViaMomoUssd1;
-
-  /// No description provided for @tripsPosted.
-  ///
-  /// In en, this message translates to:
-  /// **'Trips Posted'**
-  String get tripsPosted;
-
-  /// No description provided for @mobilityCredits.
-  ///
-  /// In en, this message translates to:
-  /// **'Mobility Credits'**
-  String get mobilityCredits;
-
-  /// No description provided for @openSubscriptionOptions.
-  ///
-  /// In en, this message translates to:
-  /// **'Open subscription options'**
-  String get openSubscriptionOptions;
-
-  /// No description provided for @allValueAll.
-  ///
-  /// In en, this message translates to:
-  /// **'All\', value: \'All'**
-  String get allValueAll;
-
-  /// No description provided for @motoValueMoto.
-  ///
-  /// In en, this message translates to:
-  /// **'Moto\', value: \'Moto'**
-  String get motoValueMoto;
-
-  /// No description provided for @cabValueCab.
-  ///
-  /// In en, this message translates to:
-  /// **'Cab\', value: \'Cab'**
-  String get cabValueCab;
-
-  /// No description provided for @truckValueTruck.
-  ///
-  /// In en, this message translates to:
-  /// **'Truck\', value: \'Truck'**
-  String get truckValueTruck;
-
-  /// No description provided for @trikeValueTrike.
-  ///
-  /// In en, this message translates to:
-  /// **'Trike\', value: \'Trike'**
-  String get trikeValueTrike;
-
-  /// No description provided for @othersValueOthers.
-  ///
-  /// In en, this message translates to:
-  /// **'Others\', value: \'Others'**
-  String get othersValueOthers;
-
-  /// No description provided for @nearby.
-  ///
-  /// In en, this message translates to:
-  /// **'Nearby'**
-  String get nearby;
-
-  /// No description provided for @schedule.
-  ///
-  /// In en, this message translates to:
-  /// **'Schedule'**
-  String get schedule;
-
-  /// No description provided for @returnTrip.
-  ///
-  /// In en, this message translates to:
-  /// **'Return trip'**
-  String get returnTrip;
-
-  /// No description provided for @recurring.
-  ///
-  /// In en, this message translates to:
-  /// **'Recurring'**
-  String get recurring;
-
-  /// No description provided for @postedBy.
-  ///
-  /// In en, this message translates to:
-  /// **'Posted by'**
-  String get postedBy;
-
-  /// No description provided for @routeCoordinates.
-  ///
-  /// In en, this message translates to:
-  /// **'Route coordinates'**
-  String get routeCoordinates;
-
-  /// No description provided for @chatFlowValueAgree.
-  ///
-  /// In en, this message translates to:
-  /// **'Chat flow\', value: \'Agree via WhatsApp.'**
-  String get chatFlowValueAgree;
-
-  /// No description provided for @priceNote.
-  ///
-  /// In en, this message translates to:
-  /// **'Price note'**
-  String get priceNote;
-
-  /// No description provided for @confirmedViaWhatsapp.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirmed via WhatsApp'**
-  String get confirmedViaWhatsapp;
-
-  /// No description provided for @shareThisTrip.
-  ///
-  /// In en, this message translates to:
-  /// **'Share this trip'**
-  String get shareThisTrip;
-
-  /// No description provided for @whatsappUnavailable.
-  ///
-  /// In en, this message translates to:
-  /// **'WhatsApp unavailable.'**
-  String get whatsappUnavailable;
-
-  /// No description provided for @hasReturnTrip.
-  ///
-  /// In en, this message translates to:
-  /// **'Has return trip'**
-  String get hasReturnTrip;
-
-  /// No description provided for @regularDriver.
-  ///
-  /// In en, this message translates to:
-  /// **'Regular driver'**
-  String get regularDriver;
-
-  /// No description provided for @currentRoute.
-  ///
-  /// In en, this message translates to:
-  /// **'Current route'**
-  String get currentRoute;
-
-  /// No description provided for @area.
-  ///
-  /// In en, this message translates to:
-  /// **'Area'**
-  String get area;
-
-  /// No description provided for @vehicleStatus.
-  ///
-  /// In en, this message translates to:
-  /// **'Vehicle status'**
-  String get vehicleStatus;
-
-  /// No description provided for @lastActive.
-  ///
-  /// In en, this message translates to:
-  /// **'Last active'**
-  String get lastActive;
-
-  /// No description provided for @chatFlowValueAgree1.
-  ///
-  /// In en, this message translates to:
-  /// **'Chat flow\', value: \'Agree via WhatsApp'**
-  String get chatFlowValueAgree1;
-
-  /// No description provided for @agreedViaWhatsapp.
-  ///
-  /// In en, this message translates to:
-  /// **'Agreed via WhatsApp'**
-  String get agreedViaWhatsapp;
-
-  /// No description provided for @tripDestinationSearch.
-  ///
-  /// In en, this message translates to:
-  /// **'Trip destination search'**
-  String get tripDestinationSearch;
-
-  /// No description provided for @searchLandmarkOrAddress.
-  ///
-  /// In en, this message translates to:
-  /// **'Search landmark or address'**
-  String get searchLandmarkOrAddress;
-
-  /// No description provided for @defaultMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Default mode'**
-  String get defaultMode;
-
-  /// No description provided for @postTrip1.
-  ///
-  /// In en, this message translates to:
-  /// **'Post trip'**
-  String get postTrip1;
-
-  /// No description provided for @tripType.
-  ///
-  /// In en, this message translates to:
-  /// **'Trip type'**
-  String get tripType;
-
-  /// No description provided for @exploreTrips.
-  ///
-  /// In en, this message translates to:
-  /// **'Explore trips'**
-  String get exploreTrips;
-
-  /// No description provided for @findARideNearby.
-  ///
-  /// In en, this message translates to:
-  /// **'Find a ride nearby.'**
-  String get findARideNearby;
-
-  /// No description provided for @manageYourTrips.
-  ///
-  /// In en, this message translates to:
-  /// **'Manage your trips'**
-  String get manageYourTrips;
-
-  /// No description provided for @manageYourPostedTrips.
-  ///
-  /// In en, this message translates to:
-  /// **'Manage your posted trips.'**
-  String get manageYourPostedTrips;
-
-  /// No description provided for @filterByTripType.
-  ///
-  /// In en, this message translates to:
-  /// **'Filter by trip type.'**
-  String get filterByTripType;
-
-  /// No description provided for @passengerTrips.
-  ///
-  /// In en, this message translates to:
-  /// **'Passenger trips'**
-  String get passengerTrips;
-
-  /// No description provided for @ridesNearYou.
-  ///
-  /// In en, this message translates to:
-  /// **'Rides near you.'**
-  String get ridesNearYou;
-
-  /// No description provided for @driverReturns.
-  ///
-  /// In en, this message translates to:
-  /// **'Driver returns'**
-  String get driverReturns;
-
-  /// No description provided for @driversWithAvailableSeats.
-  ///
-  /// In en, this message translates to:
-  /// **'Drivers with available seats.'**
-  String get driversWithAvailableSeats;
-
-  /// No description provided for @pickup.
-  ///
-  /// In en, this message translates to:
-  /// **'Pickup'**
-  String get pickup;
-
-  /// No description provided for @dropoff.
-  ///
-  /// In en, this message translates to:
-  /// **'Dropoff'**
-  String get dropoff;
-
-  /// No description provided for @useCurrentLocation.
-  ///
-  /// In en, this message translates to:
-  /// **'Use current location'**
-  String get useCurrentLocation;
-
-  /// No description provided for @searchPlaces.
-  ///
-  /// In en, this message translates to:
-  /// **'Search places'**
-  String get searchPlaces;
-
-  /// No description provided for @loadingNearbyTrips.
-  ///
-  /// In en, this message translates to:
-  /// **'Loading nearby trips'**
-  String get loadingNearbyTrips;
-
-  /// No description provided for @loadNearbyTripsFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Load nearby trips failed'**
-  String get loadNearbyTripsFailed;
-
-  /// No description provided for @loadingYourTrips.
-  ///
-  /// In en, this message translates to:
-  /// **'Loading your trips'**
-  String get loadingYourTrips;
-
-  /// No description provided for @loadYourTripsFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Load your trips failed'**
-  String get loadYourTripsFailed;
-
-  /// No description provided for @noTripsPostedYet.
-  ///
-  /// In en, this message translates to:
-  /// **'No trips posted yet'**
-  String get noTripsPostedYet;
-
-  /// No description provided for @postATripTo.
-  ///
-  /// In en, this message translates to:
-  /// **'Post a trip to get started'**
-  String get postATripTo;
-
-  /// No description provided for @noDriverReturnsAvailable.
-  ///
-  /// In en, this message translates to:
-  /// **'No driver returns available'**
-  String get noDriverReturnsAvailable;
-
-  /// No description provided for @tryAnotherVehicleType.
-  ///
-  /// In en, this message translates to:
-  /// **'Try another vehicle type'**
-  String get tryAnotherVehicleType;
-
-  /// No description provided for @tripActions.
-  ///
-  /// In en, this message translates to:
-  /// **'Trip actions'**
-  String get tripActions;
 
   /// No description provided for @expired.
   ///
@@ -5991,54 +5289,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Matched'**
   String get matched;
-
-  /// No description provided for @vehicleType1.
-  ///
-  /// In en, this message translates to:
-  /// **'Vehicle Type'**
-  String get vehicleType1;
-
-  /// No description provided for @plateNumber1.
-  ///
-  /// In en, this message translates to:
-  /// **'Plate Number'**
-  String get plateNumber1;
-
-  /// No description provided for @baseLocation1.
-  ///
-  /// In en, this message translates to:
-  /// **'Base Location'**
-  String get baseLocation1;
-
-  /// No description provided for @setBaseLocation.
-  ///
-  /// In en, this message translates to:
-  /// **'Set base location'**
-  String get setBaseLocation;
-
-  /// No description provided for @vehicleType2.
-  ///
-  /// In en, this message translates to:
-  /// **'Vehicle Type'**
-  String get vehicleType2;
-
-  /// No description provided for @plateNumber2.
-  ///
-  /// In en, this message translates to:
-  /// **'Plate Number'**
-  String get plateNumber2;
-
-  /// No description provided for @baseLocation2.
-  ///
-  /// In en, this message translates to:
-  /// **'Base Location'**
-  String get baseLocation2;
-
-  /// No description provided for @searchGooglePlaces.
-  ///
-  /// In en, this message translates to:
-  /// **'Search Google Places'**
-  String get searchGooglePlaces;
 
   /// No description provided for @home.
   ///
@@ -7899,18 +7149,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Manage partner profiles'**
   String get adminPartnersDesc;
-
-  /// No description provided for @adminVehicleTypes.
-  ///
-  /// In en, this message translates to:
-  /// **'Vehicle Types'**
-  String get adminVehicleTypes;
-
-  /// No description provided for @adminVehicleTypesDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Mobility filter chips'**
-  String get adminVehicleTypesDesc;
 
   /// No description provided for @adminSeasons.
   ///

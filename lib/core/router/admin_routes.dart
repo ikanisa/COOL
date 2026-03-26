@@ -1,6 +1,4 @@
-
 import 'package:go_router/go_router.dart';
-
 
 import '../../features/admin/screens/admin_dashboard_screen.dart';
 import '../../features/admin/screens/admin_workspaces_screen.dart';
@@ -17,7 +15,6 @@ import '../../features/admin/screens/manage_seasons_screen.dart';
 import '../../features/admin/screens/manage_services_screen.dart';
 import '../../features/admin/screens/manage_special_products_screen.dart';
 import '../../features/admin/screens/manage_users_screen.dart';
-import '../../features/admin/screens/manage_vehicle_types_screen.dart';
 import '../../features/admin/screens/operational_dashboard_screen.dart';
 import '../../features/admin/screens/partner_admin_workspace_screen.dart';
 import '../../features/admin/screens/system_analytics_screen.dart';
@@ -70,11 +67,6 @@ GoRoute adminRoutes() {
         path: 'quick-actions',
         builder: (context, state) =>
             const PlatformAdminGate(child: ManageQuickActionsScreen()),
-      ),
-      GoRoute(
-        path: 'vehicle-types',
-        builder: (context, state) =>
-            const PlatformAdminGate(child: ManageVehicleTypesScreen()),
       ),
       GoRoute(
         path: 'app-config',

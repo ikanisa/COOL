@@ -76,26 +76,7 @@ DO $$ BEGIN
     CREATE POLICY "Public read quick_actions" ON public.quick_actions FOR SELECT USING (true);
   END IF;
 END $$;
--- ─── 4) vehicle_types ────────────────────────────────────────────────────
-
-CREATE TABLE IF NOT EXISTS public.vehicle_types (
-  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  label       TEXT NOT NULL,
-  value       TEXT NOT NULL UNIQUE,
-  emoji       TEXT DEFAULT '🚘',
-  country     TEXT,
-  sort_order  INT DEFAULT 0,
-  is_active   BOOLEAN DEFAULT true,
-  created_at  TIMESTAMPTZ DEFAULT now(),
-  updated_at  TIMESTAMPTZ DEFAULT now()
-);
-ALTER TABLE public.vehicle_types ENABLE ROW LEVEL SECURITY;
-DO $$ BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename='vehicle_types' AND policyname='Public read vehicle_types') THEN
-    CREATE POLICY "Public read vehicle_types" ON public.vehicle_types FOR SELECT USING (true);
-  END IF;
-END $$;
--- ─── 5) app_config ───────────────────────────────────────────────────────
+-- ─── 4) app_config ───────────────────────────────────────────────────────
 
 CREATE TABLE IF NOT EXISTS public.app_config (
   key         TEXT PRIMARY KEY,
@@ -134,10 +115,6 @@ DROP TRIGGER IF EXISTS trg_quick_actions_updated ON public.quick_actions;
 CREATE TRIGGER trg_quick_actions_updated
   BEFORE UPDATE ON public.quick_actions
   FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
-DROP TRIGGER IF EXISTS trg_vehicle_types_updated ON public.vehicle_types;
-CREATE TRIGGER trg_vehicle_types_updated
-  BEFORE UPDATE ON public.vehicle_types
-  FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
 DROP TRIGGER IF EXISTS trg_app_config_updated ON public.app_config;
 CREATE TRIGGER trg_app_config_updated
   BEFORE UPDATE ON public.app_config
@@ -151,17 +128,7 @@ CREATE TRIGGER trg_app_config_updated
 INSERT INTO public.quick_actions (title, subtitle, emoji, route, sort_order) VALUES
   ('Groups',   'Savings and invites', '👥', '/groups',   0),
   ('MoMo',     'USSD and sync',       '📲', '/momo',     1),
-  ('Partners', 'Rayon and clubs',     '💙', '/partners', 2),
-  ('Mobility', 'Drivers and trips',   '🛺', '/mobility', 3)
-ON CONFLICT DO NOTHING;
--- ─── Vehicle Types ───────────────────────────────────────────────────────
-
-INSERT INTO public.vehicle_types (label, value, emoji, sort_order) VALUES
-  ('All',       'All',    '🔍', 0),
-  ('🛺 Moto',   'Moto',   '🛺', 1),
-  ('🚗 Cab',    'Cab',    '🚗', 2),
-  ('🚛 Truck',  'Truck',  '🚛', 3),
-  ('🚐 Liffan', 'Liffan', '🚐', 4)
+  ('Partners', 'Rayon and clubs',     '💙', '/partners', 2)
 ON CONFLICT DO NOTHING;
 -- ─── App Config ──────────────────────────────────────────────────────────
 

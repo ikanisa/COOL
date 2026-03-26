@@ -11,29 +11,34 @@ import '../repositories/admin_gamification_repository.dart';
 
 final adminGamificationRepositoryProvider =
     Provider<AdminGamificationRepository>((ref) {
-  return AdminGamificationRepository(client: ref.read(supabaseClientProvider));
-});
+      return AdminGamificationRepository(
+        client: ref.read(supabaseClientProvider),
+      );
+    });
 
 // ─── Missions ────────────────────────────────────────────────────
 
-final adminMissionsProvider =
-    FutureProvider.autoDispose<List<CoolMission>>((ref) async {
+final adminMissionsProvider = FutureProvider.autoDispose<List<CoolMission>>((
+  ref,
+) async {
   final repo = ref.watch(adminGamificationRepositoryProvider);
   return repo.listMissions();
 });
 
 // ─── Seasons ─────────────────────────────────────────────────────
 
-final adminSeasonsProvider =
-    FutureProvider.autoDispose<List<CoolSeason>>((ref) async {
+final adminSeasonsProvider = FutureProvider.autoDispose<List<CoolSeason>>((
+  ref,
+) async {
   final repo = ref.watch(adminGamificationRepositoryProvider);
   return repo.listSeasons();
 });
 
 // ─── Activities ──────────────────────────────────────────────────
 
-final adminActivitiesProvider =
-    FutureProvider.autoDispose<List<CoolActivity>>((ref) async {
+final adminActivitiesProvider = FutureProvider.autoDispose<List<CoolActivity>>((
+  ref,
+) async {
   final repo = ref.watch(adminGamificationRepositoryProvider);
   return repo.listActivities();
 });
