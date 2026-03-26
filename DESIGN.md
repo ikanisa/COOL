@@ -108,10 +108,8 @@ Use a stacked flow. Lead with a single commanding heading, a short subhead, then
 Use the default Manrope-led editorial system for:
 - Home
 - Groups
-- Mobility
 - MoMo
 - Profile
-- Credit
 - Admin
 
 ### Rayon Variant

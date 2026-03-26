@@ -278,62 +278,6 @@ class StatusPill extends StatelessWidget {
   }
 }
 
-class MobilitySubscriptionConfigTile extends StatelessWidget {
-  const MobilitySubscriptionConfigTile({
-    required this.config,
-    required this.countries,
-    required this.onEdit,
-    super.key,
-  });
-
-  final Map<String, dynamic> config;
-  final List<CoolCountry> countries;
-  final VoidCallback onEdit;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    final code = config['value']?.toString() ?? '';
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.cardSurfaceStrong,
-        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
-        border: Border.all(color: colors.border),
-      ),
-      child: ListTile(
-        title: Text(
-          _configScopeLabel(config['country']?.toString()),
-          style: theme.textTheme.titleMedium?.copyWith(
-            color: colors.primaryText,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        subtitle: Text(
-          'MoMo code: $code',
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: colors.secondaryText,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        trailing: Semantics(
-          button: true,
-          label: context.l10n.editMomoSubscriptionConfig,
-          child: IconButton(
-            onPressed: onEdit,
-            tooltip: context.l10n.editMomoSubscriptionConfig,
-            icon: Icon(
-              Icons.edit_rounded,
-              size: 18,
-              color: colors.secondaryText,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class PartnerPaymentRouteConfigTile extends StatelessWidget {
   const PartnerPaymentRouteConfigTile({

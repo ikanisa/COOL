@@ -11,7 +11,6 @@ Cool combines multiple modules in a single app:
 - Group savings and community fundraising
 - Mobile Money USSD payments and payment confirmation sync
 - Partner experiences such as clubs, tickets, and fan programs
-- Credit score and profile visibility
 - Admin and partner-operations consoles
 
 ## Non-Negotiable Payment Rules
@@ -175,7 +174,6 @@ lib/
   features/
     auth/
     basket/
-    credit/
     groups/
     home/
     momo/
@@ -270,20 +268,18 @@ Important files:
 - [momo_statements_screen.dart](/Volumes/PRO-G40/COOL/lib/features/momo/screens/momo_statements_screen.dart)
 - [momo_statement_repository.dart](/Volumes/PRO-G40/COOL/lib/features/momo/repositories/momo_statement_repository.dart)
 
-### Partners and Credit
+### Partners
 
 - Partner dashboards
 - Fan/ticket/shop surfaces
-- Credit score visualization
 - Partner discovery and service detail routes
 
 ### Banking Partner Services Guardrail
 
-Every bank partner page displays exactly 3 standard CTA cards:
+Every bank partner page displays exactly 2 standard CTA cards:
 
 1. **Open a Bank Account** — `internal:open_account`
-2. **Get a Loan** — `internal:get_loan`
-3. **Create Group Saving** — `internal:group_savings`
+2. **Create Group Saving** — `internal:group_savings`
 
 These are managed dynamically in the `partner_services` Supabase table and
 administered via the platform admin. No other services may be added to bank
@@ -387,7 +383,7 @@ That file should include the platform `FIREBASE_*` values from
 [.env.example](/Volumes/PRO-G40/COOL/.env.example); the staging and production
 build scripts now fail fast when those platform Firebase defines are missing.
 
-Mobility subscription recipient codes are managed in Admin > App Config, not
+MoMo recipient codes are managed in Admin > App Config, not
 through `--dart-define`.
 
 ### Supabase Edge Function Secrets
@@ -662,9 +658,8 @@ The file [COOL.html](/Volumes/PRO-G40/COOL/COOL.html) contains the original inte
 - **Date:** March 2026
 - **Status:** ✅ Published on Google Play
 - **Key features:** Auth (WhatsApp OTP), MoMo payments (USSD + SMS verification),
-  Groups (savings, community funds), Mobility (trip board, scheduled trips,
-  subscriptions), Partners (Rayon Sports tickets/shop/membership, Prisma, bank
-  partners), Credit score, Profile (KYC, delete account), Admin workspaces
+  Groups (savings, community funds), Partners (Rayon Sports tickets/shop/membership, Prisma, bank
+  partners), Profile (delete account), Admin workspaces
 - **Permissions:** `READ_SMS`, `RECEIVE_SMS`, `CAMERA`, `NFC`,
   `ACCESS_FINE_LOCATION`, `ACCESS_COARSE_LOCATION`, `READ_CONTACTS`,
   `POST_NOTIFICATIONS`

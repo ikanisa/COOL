@@ -4,7 +4,7 @@ import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/cool_layout.dart';
 import 'cool_screen_background.dart';
 
-/// Standard shell for primary tab-root surfaces (Home, Groups, Mobility, etc).
+/// Standard shell for primary tab-root surfaces (Home, Groups, MoMo, etc).
 ///
 /// This owns the shared background treatment and neutral app bar chrome while
 /// leaving the route body free to choose the right scroll container.

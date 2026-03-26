@@ -3,7 +3,6 @@
   "appName": "Cool",
   "navHome": "Home",
   "navGroups": "Groups",
-  "navMobility": "Mobility",
   "navProfile": "Profile",
   "welcomeTitle": "Welcome to Cool",
   "welcomeSubtitle": "Community savings group funds",
@@ -190,8 +189,6 @@
   "noTicketsYet": "No tickets yet",
   "buyTicketsToUpcomingMatches": "Buy tickets to upcoming",
   "cartItemCount": "{count} items",
-  "creditScore": "Credit Score",
-  "coolCreditScore": "COOL CREDIT SCORE",
   "excellentGrade": "Excellent",
   "goodStanding": "Good Standing",
   "fairGrade": "Fair",
@@ -339,9 +336,7 @@
   "homeLoadErrorTitle": "Couldn't load this section",
   "homeLoadErrorMessage": "Pull to refresh",
   "profileMobileMoney": "Mobile Money",
-  "profileCreditScore": "Credit score",
   "profileNotLinked": "Not linked",
-  "profileCreditReadiness": "Credit readiness",
   "profileDriverTools": "Driver tools",
   "profileCoolStatus": "COOL status",
   "profileAdminPanel": "Admin panel",
@@ -372,8 +367,6 @@
   "profileEditMomoInfo": "Edit MoMo Info",
   "profileEditMomoSubtitle": "This number will be",
   "profileMomoCodeOptional": "MOMO CODE (OPTIONAL)",
-  "kycNeedsUpdate": "Needs update",
-  "kycUnverified": "Unverified",
   "userFallbackName": "User",
   "notSetLabel": "Not set",
   "momoStatementsTitle": "Statements & Ledger",
@@ -455,8 +448,6 @@
   "partnersLoadingMessage": "Loading partners…",
   "partnersNoFinancePartners": "No finance partners yet",
   "partnersFinancePrepTitle": "Financial Readiness",
-  "partnersFinancePrepSubtitle": "Check your credit readiness",
-  "partnersReadinessChecklistCta": "Credit Readiness Checklist",
   "partnersWhatsappMessage": "Hi I'd like to",
   "partnersNoServicePartners": "No service partners yet",
   "partnersInsurancePartnerBadge": "Insurance Partner",
@@ -600,7 +591,6 @@
   "payAtShopsAnd": "Pay at shops and partners",
   "amount": "Amount",
   "rate": "Rate",
-  "loan": "Loan",
   "saved": "Saved",
   "groups": "Groups",
   "explore": "Explore",
@@ -615,14 +605,10 @@
   "profileStrength": "Profile Strength",
   "officialNameOnFile": "Official name on file",
   "officialPhoneConfirmed": "Official phone confirmed",
-  "kycReviewStarted": "KYC review started",
-  "kycFullyVerified": "KYC fully verified",
-  "creditReportGenerated": "Credit report generated",
   "walletHistoryDepth": "Wallet history depth",
   "activeMonths": "Active months",
   "savingsAndGroupEvidence": "Savings and group evidence",
   "bankAccountOpening": "Bank Account Opening",
-  "loanApplication": "Loan Application",
   "refresh": "Refresh",
   "bankReportGeneratedIn": "Bank Report generated in Google Docs!",
   "open": "OPEN",
@@ -634,14 +620,12 @@
   "connectYourMomoTo": "Connect your MoMo to see AI insights.",
   "recentApplications": "Recent applications",
   "eligiblePartners": "Eligible partners",
-  "kyc": "KYC",
   "score": "Score",
   "checks": "Checks",
   "viewAllPartners": "View all partners",
   "readiness": "Readiness",
   "created": "Created",
   "applicationPath": "Application path",
-  "loanApplication1": "Loan application",
   "accountOpening": "Account opening",
   "requestedProduct": "Requested product",
   "internalNote": "Internal note",
@@ -677,7 +661,6 @@
   "contributions": "CONTRIBUTIONS",
   "ledgers": "LEDGERS",
   "allocations": "ALLOCATIONS",
-  "loans": "LOANS",
   "baskets": "BASKETS",
   "bankAdmin": "Bank Admin",
   "addVehicleType": "Add vehicle type",
@@ -767,8 +750,6 @@
   "contributions1": "contributions",
   "manualReview": "manual review",
   "aum": "AUM",
-  "loansOut": "loans out",
-  "activeLoans": "active loans",
   "activeBaskets": "active baskets",
   "category": "Category",
   "bucket": "Bucket",
@@ -1057,7 +1038,6 @@
   "groupSavings": "Group Savings",
   "digitalGroupWallet": "Digital group wallet",
   "getLoan": "Get Loan",
-  "fastCreditAccess": "Fast credit access",
   "coolAppLogo": "Cool app logo",
   "saving": "Saving",
   "community": "Community",
@@ -1110,7 +1090,6 @@
   "seasonStatusUpcoming": "Upcoming",
   "seasonsEmptyTitle": "No seasons or activities yet",
   "earnTokensLabel": "Earn Tokens",
-  "creditReadinessTitle": "Credit readiness",
   "groupDetailTitle": "Group Detail",
   "groupNotFound": "Group not found.",
   "couldNotJoinGroup": "Could not join group.",
@@ -1212,55 +1191,6 @@
   "year": "Year",
   "group": "Group",
   "unknown": "Unknown",
-  "kycFrontIdFirst": "Add front ID first",
-  "kycAlignBack": "Align back of {docType}",
-  "@kycAlignBack": {
-    "placeholders": {
-      "docType": {
-        "type": "String"
-      }
-    }
-  },
-  "kycAlignFront": "Align front of {docType}",
-  "@kycAlignFront": {
-    "placeholders": {
-      "docType": {
-        "type": "String"
-      }
-    }
-  },
-  "kycBackOfDocument": "Back of document",
-  "kycBackOfId": "Back of ID",
-  "kycChooseDocumentType": "Choose document type",
-  "kycFrontOfId": "Front of ID",
-  "kycAutoFilled": "Cool has already filled",
-  "kycExtracting": "Cool is extracting your",
-  "kycCurrentIdentity": "Current identity on file",
-  "kycDrivingLicence": "Driving licence",
-  "kycExtractedReady": "Extracted profile ready",
-  "kycExtractionFailed": "Extraction failed",
-  "kycNationalId": "National ID",
-  "kycPassport": "Passport",
-  "kycNoImageYet": "No image yet",
-  "kycReadingId": "Reading your ID",
-  "kycSelfieForFaceMatch": "Take a selfie for face match",
-  "kycIdentityMismatch": "Identity mismatch detected.",
-  "kycDobValue": "DOB {dob}",
-  "@kycDobValue": {
-    "placeholders": {
-      "dob": {
-        "type": "String"
-      }
-    }
-  },
-  "kycIdMasked": "ID ••••{last4}",
-  "@kycIdMasked": {
-    "placeholders": {
-      "last4": {
-        "type": "String"
-      }
-    }
-  },
   "adminPanelTitle": "Admin Panel",
   "adminQuickActions": "Quick Actions",
   "adminOperations": "Operations",
@@ -1326,6 +1256,5 @@
   "partnerLabel": "Partner",
   "spreadsheetHeaders": "Spreadsheet with headers",
   "contributorsLabel": "Contributors",
-  "kycIdentityVerification": "Identity verification",
   "rsAdminNoOrders": "No orders yet"
 }

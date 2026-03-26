@@ -3,8 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
+import 'cool_press_feedback.dart';
 
 /// A restrained premium glass surface.
+///
+/// Uses [CoolGlassOpacity] tokens for per-mode alpha values and
+/// [CoolPressFeedback] for tactile press animation when tappable.
 class CoolGlassCard extends StatelessWidget {
   const CoolGlassCard({
     required this.child,
@@ -31,18 +35,21 @@ class CoolGlassCard extends StatelessWidget {
     final brightness = Theme.of(context).brightness;
     final isDark = brightness == Brightness.dark;
 
-    final glassColor = colors.glassSurface.withValues(
-      alpha: isDark ? opacity - 0.06 : opacity,
-    );
-    final borderCol =
-        borderColor ?? colors.border.withValues(alpha: isDark ? 0.55 : 0.35);
+    // Use CoolGlassOpacity tokens for mode-aware alpha values.
+    final bgAlpha = CoolGlassOpacity.glassBackground(brightness);
+    final borderAlpha = CoolGlassOpacity.glassBorderWhite(brightness);
+    final gradientAlpha = CoolGlassOpacity.glassGradientWhite(brightness);
+
+    final glassColor = colors.glassSurface.withValues(alpha: bgAlpha);
+    final borderCol = borderColor ??
+        colors.highlightColor.withValues(alpha: borderAlpha);
 
     final content = Padding(
       padding: padding ?? CoolSpace.sectionPadding,
       child: child,
     );
 
-    return ClipRRect(
+    final glass = ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
@@ -53,7 +60,7 @@ class CoolGlassCard extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: <Color>[
-                colors.highlightColor.withValues(alpha: isDark ? 0.08 : 0.18),
+                colors.highlightColor.withValues(alpha: gradientAlpha),
                 colors.buttonPrimaryBackground.withValues(
                   alpha: isDark ? 0.03 : 0.02,
                 ),
@@ -82,5 +89,12 @@ class CoolGlassCard extends StatelessWidget {
         ),
       ),
     );
+
+    // Wrap tappable glass cards with press feedback.
+    if (onTap != null) {
+      return CoolPressFeedback(onTap: onTap!, child: glass);
+    }
+    return glass;
   }
 }
+

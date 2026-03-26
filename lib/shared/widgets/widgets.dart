@@ -12,6 +12,7 @@ export 'cool_bottom_sheet.dart';
 export 'cool_button.dart';
 export 'cool_card.dart';
 export 'cool_empty_view.dart';
+export 'cool_press_feedback.dart';
 export 'cool_error_boundary.dart';
 export 'cool_error_view.dart';
 export 'core_detail_scaffold.dart';

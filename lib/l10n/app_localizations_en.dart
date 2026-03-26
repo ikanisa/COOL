@@ -18,9 +18,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navGroups => 'Groups';
 
   @override
-  String get navMobility => 'Mobility';
-
-  @override
   String get navProfile => 'Profile';
 
   @override
@@ -601,12 +598,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get creditScore => 'Credit Score';
-
-  @override
-  String get coolCreditScore => 'COOL CREDIT SCORE';
-
-  @override
   String get excellentGrade => 'Excellent';
 
   @override
@@ -1042,13 +1033,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileMobileMoney => 'Mobile Money';
 
   @override
-  String get profileCreditScore => 'Credit score';
-
-  @override
   String get profileNotLinked => 'Not linked';
-
-  @override
-  String get profileCreditReadiness => 'Credit readiness';
 
   @override
   String get profileDriverTools => 'Driver tools';
@@ -1141,12 +1126,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileMomoCodeOptional => 'MOMO CODE (OPTIONAL)';
-
-  @override
-  String get kycNeedsUpdate => 'Needs update';
-
-  @override
-  String get kycUnverified => 'Unverified';
 
   @override
   String get userFallbackName => 'User';
@@ -1405,12 +1384,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get partnersFinancePrepTitle => 'Financial Readiness';
-
-  @override
-  String get partnersFinancePrepSubtitle => 'Check your credit readiness';
-
-  @override
-  String get partnersReadinessChecklistCta => 'Credit Readiness Checklist';
 
   @override
   String get partnersWhatsappMessage => 'Hi I\'d like to';
@@ -1866,9 +1839,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rate => 'Rate';
 
   @override
-  String get loan => 'Loan';
-
-  @override
   String get saved => 'Saved';
 
   @override
@@ -1911,15 +1881,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get officialPhoneConfirmed => 'Official phone confirmed';
 
   @override
-  String get kycReviewStarted => 'KYC review started';
-
-  @override
-  String get kycFullyVerified => 'KYC fully verified';
-
-  @override
-  String get creditReportGenerated => 'Credit report generated';
-
-  @override
   String get walletHistoryDepth => 'Wallet history depth';
 
   @override
@@ -1930,9 +1891,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bankAccountOpening => 'Bank Account Opening';
-
-  @override
-  String get loanApplication => 'Loan Application';
 
   @override
   String get refresh => 'Refresh';
@@ -1968,9 +1926,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get eligiblePartners => 'Eligible partners';
 
   @override
-  String get kyc => 'KYC';
-
-  @override
   String get score => 'Score';
 
   @override
@@ -1987,9 +1942,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get applicationPath => 'Application path';
-
-  @override
-  String get loanApplication1 => 'Loan application';
 
   @override
   String get accountOpening => 'Account opening';
@@ -2096,9 +2048,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get allocations => 'ALLOCATIONS';
-
-  @override
-  String get loans => 'LOANS';
 
   @override
   String get baskets => 'BASKETS';
@@ -2367,12 +2316,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aum => 'AUM';
-
-  @override
-  String get loansOut => 'loans out';
-
-  @override
-  String get activeLoans => 'active loans';
 
   @override
   String get activeBaskets => 'active baskets';
@@ -3243,9 +3186,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get getLoan => 'Get Loan';
 
   @override
-  String get fastCreditAccess => 'Fast credit access';
-
-  @override
   String get coolAppLogo => 'Cool app logo';
 
   @override
@@ -3404,9 +3344,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get earnTokensLabel => 'Earn Tokens';
 
   @override
-  String get creditReadinessTitle => 'Credit readiness';
-
-  @override
   String get groupDetailTitle => 'Group Detail';
 
   @override
@@ -3539,77 +3476,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unknown => 'Unknown';
-
-  @override
-  String get kycFrontIdFirst => 'Add front ID first';
-
-  @override
-  String kycAlignBack(String docType) {
-    return 'Align back of $docType';
-  }
-
-  @override
-  String kycAlignFront(String docType) {
-    return 'Align front of $docType';
-  }
-
-  @override
-  String get kycBackOfDocument => 'Back of document';
-
-  @override
-  String get kycBackOfId => 'Back of ID';
-
-  @override
-  String get kycChooseDocumentType => 'Choose document type';
-
-  @override
-  String get kycFrontOfId => 'Front of ID';
-
-  @override
-  String get kycAutoFilled => 'Cool has already filled';
-
-  @override
-  String get kycExtracting => 'Cool is extracting your';
-
-  @override
-  String get kycCurrentIdentity => 'Current identity on file';
-
-  @override
-  String get kycDrivingLicence => 'Driving licence';
-
-  @override
-  String get kycExtractedReady => 'Extracted profile ready';
-
-  @override
-  String get kycExtractionFailed => 'Extraction failed';
-
-  @override
-  String get kycNationalId => 'National ID';
-
-  @override
-  String get kycPassport => 'Passport';
-
-  @override
-  String get kycNoImageYet => 'No image yet';
-
-  @override
-  String get kycReadingId => 'Reading your ID';
-
-  @override
-  String get kycSelfieForFaceMatch => 'Take a selfie for face match';
-
-  @override
-  String get kycIdentityMismatch => 'Identity mismatch detected.';
-
-  @override
-  String kycDobValue(String dob) {
-    return 'DOB $dob';
-  }
-
-  @override
-  String kycIdMasked(String last4) {
-    return 'ID ••••$last4';
-  }
 
   @override
   String get adminPanelTitle => 'Admin Panel';
@@ -3750,9 +3616,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contributorsLabel => 'Contributors';
-
-  @override
-  String get kycIdentityVerification => 'Identity verification';
 
   @override
   String get rsAdminNoOrders => 'No orders yet';

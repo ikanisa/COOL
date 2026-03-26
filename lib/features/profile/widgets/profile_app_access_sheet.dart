@@ -391,7 +391,7 @@ class _NotificationAccessCard extends StatelessWidget {
       linkedFeatures: const [
         'MoMo updates',
         'Groups activity',
-        'Mobility alerts',
+        'Service updates',
         'Partner announcements',
       ],
       trailing: ProfileNotificationToggle(

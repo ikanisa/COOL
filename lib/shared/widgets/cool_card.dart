@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
+import 'cool_press_feedback.dart';
 
 /// A reusable premium surface card with tonal separation instead of visible borders.
+///
+/// When [onTap] is set, wraps content in [CoolPressFeedback] for tactile
+/// scale + opacity animation on press.
 class CoolCard extends StatelessWidget {
   const CoolCard({
     required this.child,
@@ -36,7 +40,6 @@ class CoolCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final brightness = Theme.of(context).brightness;
-    final isLight = brightness == Brightness.light;
     final radius = borderRadius ?? _defaultRadius;
     final hasBorder = borderColor != null;
     final shape = RoundedRectangleBorder(
@@ -71,6 +74,9 @@ class CoolCard extends StatelessWidget {
       shadows: CoolShadows.clay(brightness),
     );
 
+    // Use CoolGlassOpacity tokens for the clay gradient overlay.
+    final clayAlpha = CoolGlassOpacity.clayGradientWhite(brightness);
+
     final Widget content = Stack(
       children: [
         Positioned.fill(
@@ -81,9 +87,11 @@ class CoolCard extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: <Color>[
-                    Colors.white.withValues(alpha: isLight ? 0.16 : 0.08),
+                    Colors.white.withValues(alpha: clayAlpha),
                     Colors.transparent,
-                    Colors.black.withValues(alpha: isLight ? 0.00 : 0.04),
+                    Colors.black.withValues(
+                      alpha: brightness == Brightness.dark ? 0.04 : 0.00,
+                    ),
                   ],
                   stops: const <double>[0, 0.34, 1],
                 ),
@@ -95,34 +103,38 @@ class CoolCard extends StatelessWidget {
       ],
     );
 
+    final card = Material(
+      color: Colors.transparent,
+      shape: shape,
+      clipBehavior: Clip.antiAlias,
+      child: onTap != null
+          ? Ink(
+              decoration: decoration,
+              child: InkWell(
+                onTap: onTap,
+                splashColor: colors.buttonPrimaryBackground.withValues(
+                  alpha: 0.06,
+                ),
+                highlightColor: Colors.transparent,
+                child: content,
+              ),
+            )
+          : Ink(decoration: decoration, child: content),
+    );
+
+    // Wrap tappable cards with press feedback for tactile scale + opacity.
     if (onTap != null) {
       return Semantics(
         label: semanticsLabel,
         button: true,
-        child: Material(
-          color: Colors.transparent,
-          shape: shape,
-          clipBehavior: Clip.antiAlias,
-          child: Ink(
-            decoration: decoration,
-            child: InkWell(
-              onTap: onTap,
-              splashColor: colors.buttonPrimaryBackground.withValues(
-                alpha: 0.06,
-              ),
-              highlightColor: Colors.transparent,
-              child: content,
-            ),
-          ),
+        child: CoolPressFeedback(
+          onTap: onTap!,
+          child: card,
         ),
       );
     }
 
-    return Material(
-      color: Colors.transparent,
-      shape: shape,
-      clipBehavior: Clip.antiAlias,
-      child: Ink(decoration: decoration, child: content),
-    );
+    return card;
   }
 }
+

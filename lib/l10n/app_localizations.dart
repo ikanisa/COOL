@@ -112,12 +112,6 @@ abstract class AppLocalizations {
   /// **'Groups'**
   String get navGroups;
 
-  /// No description provided for @navMobility.
-  ///
-  /// In en, this message translates to:
-  /// **'Mobility'**
-  String get navMobility;
-
   /// No description provided for @navProfile.
   ///
   /// In en, this message translates to:
@@ -1234,18 +1228,6 @@ abstract class AppLocalizations {
   /// **'{count} items'**
   String cartItemCount(Object count);
 
-  /// No description provided for @creditScore.
-  ///
-  /// In en, this message translates to:
-  /// **'Credit Score'**
-  String get creditScore;
-
-  /// No description provided for @coolCreditScore.
-  ///
-  /// In en, this message translates to:
-  /// **'COOL CREDIT SCORE'**
-  String get coolCreditScore;
-
   /// No description provided for @excellentGrade.
   ///
   /// In en, this message translates to:
@@ -2080,23 +2062,11 @@ abstract class AppLocalizations {
   /// **'Mobile Money'**
   String get profileMobileMoney;
 
-  /// No description provided for @profileCreditScore.
-  ///
-  /// In en, this message translates to:
-  /// **'Credit score'**
-  String get profileCreditScore;
-
   /// No description provided for @profileNotLinked.
   ///
   /// In en, this message translates to:
   /// **'Not linked'**
   String get profileNotLinked;
-
-  /// No description provided for @profileCreditReadiness.
-  ///
-  /// In en, this message translates to:
-  /// **'Credit readiness'**
-  String get profileCreditReadiness;
 
   /// No description provided for @profileDriverTools.
   ///
@@ -2277,18 +2247,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'MOMO CODE (OPTIONAL)'**
   String get profileMomoCodeOptional;
-
-  /// No description provided for @kycNeedsUpdate.
-  ///
-  /// In en, this message translates to:
-  /// **'Needs update'**
-  String get kycNeedsUpdate;
-
-  /// No description provided for @kycUnverified.
-  ///
-  /// In en, this message translates to:
-  /// **'Unverified'**
-  String get kycUnverified;
 
   /// No description provided for @userFallbackName.
   ///
@@ -2775,18 +2733,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Financial Readiness'**
   String get partnersFinancePrepTitle;
-
-  /// No description provided for @partnersFinancePrepSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Check your credit readiness'**
-  String get partnersFinancePrepSubtitle;
-
-  /// No description provided for @partnersReadinessChecklistCta.
-  ///
-  /// In en, this message translates to:
-  /// **'Credit Readiness Checklist'**
-  String get partnersReadinessChecklistCta;
 
   /// No description provided for @partnersWhatsappMessage.
   ///
@@ -3646,12 +3592,6 @@ abstract class AppLocalizations {
   /// **'Rate'**
   String get rate;
 
-  /// No description provided for @loan.
-  ///
-  /// In en, this message translates to:
-  /// **'Loan'**
-  String get loan;
-
   /// No description provided for @saved.
   ///
   /// In en, this message translates to:
@@ -3736,24 +3676,6 @@ abstract class AppLocalizations {
   /// **'Official phone confirmed'**
   String get officialPhoneConfirmed;
 
-  /// No description provided for @kycReviewStarted.
-  ///
-  /// In en, this message translates to:
-  /// **'KYC review started'**
-  String get kycReviewStarted;
-
-  /// No description provided for @kycFullyVerified.
-  ///
-  /// In en, this message translates to:
-  /// **'KYC fully verified'**
-  String get kycFullyVerified;
-
-  /// No description provided for @creditReportGenerated.
-  ///
-  /// In en, this message translates to:
-  /// **'Credit report generated'**
-  String get creditReportGenerated;
-
   /// No description provided for @walletHistoryDepth.
   ///
   /// In en, this message translates to:
@@ -3777,12 +3699,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Bank Account Opening'**
   String get bankAccountOpening;
-
-  /// No description provided for @loanApplication.
-  ///
-  /// In en, this message translates to:
-  /// **'Loan Application'**
-  String get loanApplication;
 
   /// No description provided for @refresh.
   ///
@@ -3850,12 +3766,6 @@ abstract class AppLocalizations {
   /// **'Eligible partners'**
   String get eligiblePartners;
 
-  /// No description provided for @kyc.
-  ///
-  /// In en, this message translates to:
-  /// **'KYC'**
-  String get kyc;
-
   /// No description provided for @score.
   ///
   /// In en, this message translates to:
@@ -3891,12 +3801,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Application path'**
   String get applicationPath;
-
-  /// No description provided for @loanApplication1.
-  ///
-  /// In en, this message translates to:
-  /// **'Loan application'**
-  String get loanApplication1;
 
   /// No description provided for @accountOpening.
   ///
@@ -4107,12 +4011,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'ALLOCATIONS'**
   String get allocations;
-
-  /// No description provided for @loans.
-  ///
-  /// In en, this message translates to:
-  /// **'LOANS'**
-  String get loans;
 
   /// No description provided for @baskets.
   ///
@@ -4647,18 +4545,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'AUM'**
   String get aum;
-
-  /// No description provided for @loansOut.
-  ///
-  /// In en, this message translates to:
-  /// **'loans out'**
-  String get loansOut;
-
-  /// No description provided for @activeLoans.
-  ///
-  /// In en, this message translates to:
-  /// **'active loans'**
-  String get activeLoans;
 
   /// No description provided for @activeBaskets.
   ///
@@ -6388,12 +6274,6 @@ abstract class AppLocalizations {
   /// **'Get Loan'**
   String get getLoan;
 
-  /// No description provided for @fastCreditAccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Fast credit access'**
-  String get fastCreditAccess;
-
   /// No description provided for @coolAppLogo.
   ///
   /// In en, this message translates to:
@@ -6706,12 +6586,6 @@ abstract class AppLocalizations {
   /// **'Earn Tokens'**
   String get earnTokensLabel;
 
-  /// No description provided for @creditReadinessTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Credit readiness'**
-  String get creditReadinessTitle;
-
   /// No description provided for @groupDetailTitle.
   ///
   /// In en, this message translates to:
@@ -6945,132 +6819,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown'**
   String get unknown;
-
-  /// No description provided for @kycFrontIdFirst.
-  ///
-  /// In en, this message translates to:
-  /// **'Add front ID first'**
-  String get kycFrontIdFirst;
-
-  /// No description provided for @kycAlignBack.
-  ///
-  /// In en, this message translates to:
-  /// **'Align back of {docType}'**
-  String kycAlignBack(String docType);
-
-  /// No description provided for @kycAlignFront.
-  ///
-  /// In en, this message translates to:
-  /// **'Align front of {docType}'**
-  String kycAlignFront(String docType);
-
-  /// No description provided for @kycBackOfDocument.
-  ///
-  /// In en, this message translates to:
-  /// **'Back of document'**
-  String get kycBackOfDocument;
-
-  /// No description provided for @kycBackOfId.
-  ///
-  /// In en, this message translates to:
-  /// **'Back of ID'**
-  String get kycBackOfId;
-
-  /// No description provided for @kycChooseDocumentType.
-  ///
-  /// In en, this message translates to:
-  /// **'Choose document type'**
-  String get kycChooseDocumentType;
-
-  /// No description provided for @kycFrontOfId.
-  ///
-  /// In en, this message translates to:
-  /// **'Front of ID'**
-  String get kycFrontOfId;
-
-  /// No description provided for @kycAutoFilled.
-  ///
-  /// In en, this message translates to:
-  /// **'Cool has already filled'**
-  String get kycAutoFilled;
-
-  /// No description provided for @kycExtracting.
-  ///
-  /// In en, this message translates to:
-  /// **'Cool is extracting your'**
-  String get kycExtracting;
-
-  /// No description provided for @kycCurrentIdentity.
-  ///
-  /// In en, this message translates to:
-  /// **'Current identity on file'**
-  String get kycCurrentIdentity;
-
-  /// No description provided for @kycDrivingLicence.
-  ///
-  /// In en, this message translates to:
-  /// **'Driving licence'**
-  String get kycDrivingLicence;
-
-  /// No description provided for @kycExtractedReady.
-  ///
-  /// In en, this message translates to:
-  /// **'Extracted profile ready'**
-  String get kycExtractedReady;
-
-  /// No description provided for @kycExtractionFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Extraction failed'**
-  String get kycExtractionFailed;
-
-  /// No description provided for @kycNationalId.
-  ///
-  /// In en, this message translates to:
-  /// **'National ID'**
-  String get kycNationalId;
-
-  /// No description provided for @kycPassport.
-  ///
-  /// In en, this message translates to:
-  /// **'Passport'**
-  String get kycPassport;
-
-  /// No description provided for @kycNoImageYet.
-  ///
-  /// In en, this message translates to:
-  /// **'No image yet'**
-  String get kycNoImageYet;
-
-  /// No description provided for @kycReadingId.
-  ///
-  /// In en, this message translates to:
-  /// **'Reading your ID'**
-  String get kycReadingId;
-
-  /// No description provided for @kycSelfieForFaceMatch.
-  ///
-  /// In en, this message translates to:
-  /// **'Take a selfie for face match'**
-  String get kycSelfieForFaceMatch;
-
-  /// No description provided for @kycIdentityMismatch.
-  ///
-  /// In en, this message translates to:
-  /// **'Identity mismatch detected.'**
-  String get kycIdentityMismatch;
-
-  /// No description provided for @kycDobValue.
-  ///
-  /// In en, this message translates to:
-  /// **'DOB {dob}'**
-  String kycDobValue(String dob);
-
-  /// No description provided for @kycIdMasked.
-  ///
-  /// In en, this message translates to:
-  /// **'ID ••••{last4}'**
-  String kycIdMasked(String last4);
 
   /// No description provided for @adminPanelTitle.
   ///
@@ -7335,12 +7083,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Contributors'**
   String get contributorsLabel;
-
-  /// No description provided for @kycIdentityVerification.
-  ///
-  /// In en, this message translates to:
-  /// **'Identity verification'**
-  String get kycIdentityVerification;
 
   /// No description provided for @rsAdminNoOrders.
   ///

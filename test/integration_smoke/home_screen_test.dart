@@ -224,7 +224,6 @@ void main() {
           expect(find.text('Recent activity'), findsOneWidget);
           expect(find.text('Mobile Money'), findsOneWidget);
           expect(find.text('Groups'), findsOneWidget);
-          expect(find.text('Mobility'), findsOneWidget);
           expect(find.text('Profile'), findsOneWidget);
         } finally {
           ErrorWidget.builder = originalErrorWidgetBuilder;

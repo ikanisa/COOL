@@ -30,7 +30,7 @@ Two migration notes matter:
   missing stored preference falls back to `dark`.
 - Localization: the app currently ships English-only. Copy budgets should still
   avoid bloated strings so future localization remains viable.
-- Primary shell: `Home`, `Groups`, center `MoMo`, `Mobility`, `Profile`.
+- Primary shell: `Home`, `Groups`, center `MoMo`, `Profile`.
 - `MoMo` is a pushed standalone route, not a shell branch.
 - Payment verification is Android SMS-based. Permission, blocked, offline,
   pending, and failure states must be visually honest.
@@ -98,7 +98,7 @@ These exist to support domain-aware cards without inventing one-off palettes:
 | `analyticsSurface` | `#EEF1F5` | `#101721` | Charts/analytics |
 | `teamSurface` | `#F1EEF6` | `#151320` | Team/community context |
 | `commerceSurface` | `#F5F0E8` | `#1A1713` | Commerce/checkout context |
-| `routeSurface` | `#F1ECE4` | `#121814` | Mobility/trip context |
+| `routeSurface` | `#F1ECE4` | `#121814` | Route/context surface |
 | `proximitySurface` | `#E7F0EA` | `#0E1813` | Nearby/location context |
 | `contactSurface` | `#EAF3ED` | `#10201A` | Contact/member context |
 
@@ -288,8 +288,7 @@ single-column layout.
 
 The live shell is not a simple five-equal-tab bar. It is a glass dock with:
 
-- four standard navigation destinations: `Home`, `Groups`, `Mobility`,
-  `Profile`
+- three standard navigation destinations: `Home`, `Groups`, `Profile`
 - one empty center slot reserved for the MoMo action
 - a separate center-docked MoMo `FloatingActionButton`
 
@@ -420,10 +419,7 @@ The design system also includes domain-flavored shared widgets that should be
 reused instead of rebuilt ad hoc:
 
 - `GroupCard`
-- `DriverCard`
-- `TripCard`
 - `MemberRow`
-- `VehicleChip`
 - `QrShareSheet`
 - `WaButton`
 
@@ -510,15 +506,14 @@ The rule is controlled deviation, not parallel design systems.
 
 ### 10.7 Filter and Selection Chips
 
-`VehicleChip` is the current reference for compact filter chips:
+`TabPill` is the current reference for compact filter/selection chips:
 
 - pill radius
 - semantic selected/inactive backgrounds
 - border-only emphasis when inactive
 - no extra shadow or gradient noise
 
-For same-shape segmented controls, prefer `TabPill`. For lightweight filter
-selection, prefer the `VehicleChip` pattern.
+For same-shape segmented controls, prefer `TabPill`.
 
 ### 10.8 Maps and Location Surfaces
 

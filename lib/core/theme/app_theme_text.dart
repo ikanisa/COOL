@@ -4,7 +4,10 @@ import 'cool_foundations.dart';
 
 /// Typography constants and [TextTheme] builder for the Cool design system.
 ///
-/// Uses a larger, heavier Manrope scale with short-copy hierarchy.
+/// Dual-font strategy inspired by Mobio's "Claymorphic Utility":
+/// - **BarlowCondensed** for display/headline — impact & brand authority
+/// - **Barlow** for title — structural hierarchy
+/// - **Inter** for body/label — optimised for dense reading (Groups, Admin, MoMo)
 abstract final class AppThemeText {
   // ── Weight aliases ──────────────────────────────────────────────────
   static const black = FontWeight.w900;
@@ -12,7 +15,7 @@ abstract final class AppThemeText {
   static const bold = FontWeight.w800;
   static const semibold = FontWeight.w700;
   static const medium = FontWeight.w600;
-  static const regular = FontWeight.w600;
+  static const regular = FontWeight.w500;
 
   // ── Named sizes ─────────────────────────────────────────────────────
   static const displayLarge = 56.0;
@@ -32,6 +35,10 @@ abstract final class AppThemeText {
   static const labelSmall = 14.0;
 
   /// Builds the full [TextTheme] for the given [brightness] and [semanticColors].
+  ///
+  /// Display/Headline → BarlowCondensed (impact)
+  /// Title → Barlow (structural)
+  /// Body/Label → Inter (readable, lighter weights for dense content)
   static TextTheme build({
     required Brightness brightness,
     required CoolSemanticColors semanticColors,
@@ -39,10 +46,12 @@ abstract final class AppThemeText {
     final base = brightness == Brightness.dark
         ? ThemeData.dark()
         : ThemeData.light();
-    final baseText = GoogleFonts.barlowTextTheme(base.textTheme);
+    final barlowText = GoogleFonts.barlowTextTheme(base.textTheme);
     final condensedText = GoogleFonts.barlowCondensedTextTheme(base.textTheme);
+    final interText = GoogleFonts.interTextTheme(base.textTheme);
 
-    return baseText.copyWith(
+    return barlowText.copyWith(
+      // ── Display (BarlowCondensed — hero impact) ─────────────────────
       displayLarge: condensedText.displayLarge?.copyWith(
         fontSize: AppThemeText.displayLarge,
         fontWeight: black,
@@ -64,6 +73,8 @@ abstract final class AppThemeText {
         letterSpacing: -1.2,
         height: 1.12,
       ),
+
+      // ── Headline (BarlowCondensed — section authority) ──────────────
       headlineLarge: condensedText.headlineLarge?.copyWith(
         fontSize: AppThemeText.headlineLarge,
         fontWeight: extraBold,
@@ -85,61 +96,68 @@ abstract final class AppThemeText {
         letterSpacing: -0.6,
         height: 1.2,
       ),
-      titleLarge: baseText.titleLarge?.copyWith(
+
+      // ── Title (Barlow — structural hierarchy) ──────────────────────
+      titleLarge: barlowText.titleLarge?.copyWith(
         fontSize: AppThemeText.titleLarge,
         fontWeight: bold,
         color: semanticColors.primaryText,
         letterSpacing: -0.4,
         height: 1.22,
       ),
-      titleMedium: baseText.titleMedium?.copyWith(
+      titleMedium: barlowText.titleMedium?.copyWith(
         fontSize: AppThemeText.titleMedium,
         fontWeight: bold,
         color: semanticColors.primaryText,
         letterSpacing: -0.3,
         height: 1.24,
       ),
-      titleSmall: baseText.titleSmall?.copyWith(
+      titleSmall: barlowText.titleSmall?.copyWith(
         fontSize: AppThemeText.titleSmall,
         fontWeight: semibold,
         color: semanticColors.primaryText,
         letterSpacing: -0.2,
         height: 1.25,
       ),
-      bodyLarge: baseText.bodyLarge?.copyWith(
+
+      // ── Body (Inter — optimised for dense reading) ─────────────────
+      bodyLarge: interText.bodyLarge?.copyWith(
         fontSize: AppThemeText.bodyLarge,
-        fontWeight: semibold,
+        fontWeight: regular,
         color: semanticColors.primaryText,
-        height: 1.3,
+        height: 1.5,
       ),
-      bodyMedium: baseText.bodyMedium?.copyWith(
+      bodyMedium: interText.bodyMedium?.copyWith(
         fontSize: AppThemeText.bodyMedium,
+        fontWeight: FontWeight.w400,
+        color: semanticColors.primaryText,
+        height: 1.5,
+      ),
+      bodySmall: interText.bodySmall?.copyWith(
+        fontSize: AppThemeText.bodySmall,
+        fontWeight: FontWeight.w400,
+        color: semanticColors.secondaryText,
+        height: 1.5,
+      ),
+
+      // ── Label (Inter — metadata & captions) ────────────────────────
+      labelLarge: interText.labelLarge?.copyWith(
+        fontSize: AppThemeText.labelLarge,
         fontWeight: semibold,
         color: semanticColors.primaryText,
-        height: 1.3,
-      ),
-      bodySmall: baseText.bodySmall?.copyWith(
-        fontSize: AppThemeText.bodySmall,
-        fontWeight: medium,
-        color: semanticColors.secondaryText,
-        height: 1.3,
-      ),
-      labelLarge: baseText.labelLarge?.copyWith(
-        fontSize: AppThemeText.labelLarge,
-        fontWeight: bold,
-        color: semanticColors.primaryText,
         height: 1.2,
       ),
-      labelMedium: baseText.labelMedium?.copyWith(
+      labelMedium: interText.labelMedium?.copyWith(
         fontSize: AppThemeText.labelMedium,
-        fontWeight: bold,
+        fontWeight: semibold,
         color: semanticColors.primaryText,
         height: 1.2,
       ),
-      labelSmall: baseText.labelSmall?.copyWith(
+      labelSmall: interText.labelSmall?.copyWith(
         fontSize: AppThemeText.labelSmall,
         fontWeight: medium,
         color: semanticColors.secondaryText,
+        letterSpacing: 0.5,
         height: 1.2,
       ),
     );

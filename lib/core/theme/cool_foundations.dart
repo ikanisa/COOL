@@ -485,6 +485,21 @@ class CoolTextStyles {
     );
   }
 
+  /// Large hero number for financial dashboards (MoMo balance, group totals).
+  ///
+  /// BarlowCondensed 56px, w900, tight height for stamp-like impact.
+  TextStyle heroNumber({Color? color}) {
+    return GoogleFonts.barlowCondensed(
+      textStyle: TextStyle(
+        fontSize: 56,
+        fontWeight: FontWeight.w900,
+        color: color ?? _defaultColor,
+        letterSpacing: -3.0,
+        height: 0.9,
+      ),
+    );
+  }
+
   TextStyle rayon(
     TextStyle? base, {
     Color? color,
@@ -650,11 +665,32 @@ abstract final class CoolRadii {
 }
 
 /// Blur guidance for glass surfaces.
+///
+/// Increased sigma values (inspired by Mobio σ30) for heavier frosted glass.
 abstract final class CoolBlur {
-  static const double subtle = 12.0;
-  static const double standard = 18.0;
-  static const double overlay = 22.0;
+  static const double subtle = 14.0;
+  static const double standard = 24.0;
+  static const double overlay = 28.0;
   static const double heavy = overlay;
+}
+
+/// Per-mode opacity tokens for glass and clay surfaces.
+///
+/// Inspired by Mobio's explicit per-mode alpha tuning.
+abstract final class CoolGlassOpacity {
+  // ── Glass card ──────────────────────────────────────────────────────
+  static double glassBackground(Brightness brightness) =>
+      brightness == Brightness.dark ? 0.40 : 0.60;
+
+  static double glassBorderWhite(Brightness brightness) =>
+      brightness == Brightness.dark ? 0.05 : 0.20;
+
+  static double glassGradientWhite(Brightness brightness) =>
+      brightness == Brightness.dark ? 0.03 : 0.10;
+
+  // ── Clay card ──────────────────────────────────────────────────────
+  static double clayGradientWhite(Brightness brightness) =>
+      brightness == Brightness.dark ? 0.04 : 0.14;
 }
 
 /// Elevation guidance for the redesign.
@@ -706,13 +742,15 @@ abstract final class CoolResponsive {
 }
 
 /// Shadow recipes for clay, floating, and glass surfaces.
+///
+/// Light-mode values refined for softer appearance (Mobio-inspired per-mode tuning).
 abstract final class CoolShadows {
   static List<BoxShadow> clay(Brightness brightness, {double strength = 1}) {
     final bool isDark = brightness == Brightness.dark;
     return <BoxShadow>[
       BoxShadow(
         color: Colors.black.withValues(
-          alpha: (isDark ? 0.34 : 0.10) * strength,
+          alpha: (isDark ? 0.34 : 0.06) * strength,
         ),
         blurRadius: 28,
         spreadRadius: -14,
@@ -720,7 +758,7 @@ abstract final class CoolShadows {
       ),
       BoxShadow(
         color: Colors.white.withValues(
-          alpha: (isDark ? 0.05 : 0.68) * strength,
+          alpha: (isDark ? 0.05 : 0.50) * strength,
         ),
         blurRadius: 12,
         spreadRadius: -10,
@@ -751,7 +789,7 @@ abstract final class CoolShadows {
     return <BoxShadow>[
       BoxShadow(
         color: Colors.black.withValues(
-          alpha: (isDark ? 0.30 : 0.12) * strength,
+          alpha: (isDark ? 0.30 : 0.08) * strength,
         ),
         blurRadius: 36,
         spreadRadius: -18,
