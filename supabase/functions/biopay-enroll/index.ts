@@ -8,6 +8,7 @@ import {
 } from "../_shared/http.ts";
 import { HttpError } from "../_shared/auth.ts";
 import { requireAppCheckToken } from "../_shared/app_check.ts";
+import { normalizeBiopayEmbedding } from "../_shared/biopay_embedding.ts";
 import { normalizeBiopayLivenessMetadata } from "../_shared/biopay_liveness.ts";
 import {
   recordEdgeFunctionFailure,
@@ -51,20 +52,6 @@ export type BiopayEnrollHandlerDependencies = {
     options: Parameters<typeof recordEdgeFunctionFailure>[1],
   ) => Promise<void>;
 };
-
-function normalizeEmbedding(input: unknown): number[] {
-  if (!Array.isArray(input) || input.length !== 128) {
-    throw new Error("BioPay embedding must contain exactly 128 values.");
-  }
-
-  return input.map((value) => {
-    const numberValue = typeof value === "number" ? value : Number(value);
-    if (!Number.isFinite(numberValue)) {
-      throw new Error("BioPay embedding contains a non-numeric value.");
-    }
-    return numberValue;
-  });
-}
 
 const defaultDependencies: BiopayEnrollHandlerDependencies = {
   createAdminClient,
@@ -114,7 +101,7 @@ export function createBiopayEnrollHandler(
       await deps.requireAppCheckToken(request);
 
       const body = await request.json() as EnrollRequest;
-      const embedding = normalizeEmbedding(body.embedding);
+      const embedding = normalizeBiopayEmbedding(body.embedding);
       const liveness = normalizeBiopayLivenessMetadata(body.liveness);
       const { data, error } = await userClient.rpc("biopay_upsert_enrollment", {
         p_display_name: body.display_name ?? null,

@@ -1,6 +1,14 @@
 import '../router/app_routes.dart';
 
 abstract final class DeepLinkConfig {
+  static const _momoIncomingKeys = <String>{
+    'action',
+    'recipient',
+    'amount',
+    'recipient_type',
+    'country',
+    'reference',
+  };
   static const _legacyHosts = <String>{
     'cool.app',
     'www.cool.app',
@@ -96,7 +104,8 @@ abstract final class DeepLinkConfig {
       'groups' =>
         segments.length < 2 ? AppRoutes.groups : '/groups/${segments[1]}',
       'home' => AppRoutes.home,
-      'momo' => AppRoutes.momo,
+      'momo' => _momoRouteForSegments(segments, uri),
+      'biopay-tab' => AppRoutes.biopayHome,
       'profile' => AppRoutes.profile,
       'match' => segments.length < 2 ? null : '/partners/rayon-sports/tickets',
       'initiative' =>
@@ -117,6 +126,29 @@ abstract final class DeepLinkConfig {
     }
 
     return Uri(path: route, queryParameters: uri.queryParameters).toString();
+  }
+
+  static String _momoRouteForSegments(List<String> segments, Uri uri) {
+    if (segments.length == 1) {
+      return _hasIncomingMomoQuery(uri) ? AppRoutes.momo : AppRoutes.biopayHome;
+    }
+
+    return switch (segments[1].toLowerCase()) {
+      'statements' => AppRoutes.momoStatements,
+      'biopay' => switch (segments.length > 2
+          ? segments[2].toLowerCase()
+          : '') {
+        'register' => AppRoutes.biopayRegister,
+        'scan' => AppRoutes.biopayScan,
+        'nfc' => AppRoutes.biopayNfc,
+        _ => AppRoutes.biopayHome,
+      },
+      _ => _hasIncomingMomoQuery(uri) ? AppRoutes.momo : AppRoutes.biopayHome,
+    };
+  }
+
+  static bool _hasIncomingMomoQuery(Uri uri) {
+    return uri.queryParameters.keys.any(_momoIncomingKeys.contains);
   }
 
   static bool _supportsUri(Uri uri) {

@@ -7,14 +7,21 @@ import 'package:cool_app/core/providers/supabase_client_provider.dart';
 import 'package:cool_app/core/providers/supported_countries_provider.dart';
 import 'package:cool_app/core/repositories/supported_countries_repository.dart';
 import 'package:cool_app/core/router/app_router.dart';
+import 'package:cool_app/core/services/firebase_bootstrap_service.dart';
 import 'package:cool_app/core/services/hive_runtime.dart';
 import 'package:cool_app/core/theme/app_theme.dart';
 import 'package:cool_app/core/theme/theme_preference.dart';
 import 'package:cool_app/core/theme/theme_preference_provider.dart';
 import 'package:cool_app/features/momo/providers/momo_service_provider.dart';
+import 'package:cool_app/features/momo/models/momo_sms_sync_status.dart';
+import 'package:cool_app/features/momo/models/momo_statement.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
+import 'package:cool_app/features/momo/providers/momo_sms_sync_providers.dart';
+import 'package:cool_app/features/momo/providers/momo_statement_providers.dart';
+import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
+import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,6 +38,29 @@ class MockAuthRepository extends Mock implements AuthRepository {}
 
 class MockSupportedCountriesRepository extends Mock
     implements SupportedCountriesRepository {}
+
+class _FakeFirebaseBootstrapService extends FirebaseBootstrapService {
+  @override
+  Future<bool> initialize() async => false;
+
+  @override
+  bool get isAvailable => false;
+}
+
+RayonSportsData _defaultRayonData() {
+  return const RayonSportsData(
+    partnerId: '',
+    membership: null,
+    joinedClubIds: <String>{},
+    registryMembers: <RsRegistryMember>[],
+    achievements: <RsAchievement>[],
+    clubs: <RsFanClub>[],
+    products: <RsProduct>[],
+    initiatives: <RsInitiative>[],
+    matches: <RsMatch>[],
+    tickets: <RsTicket>[],
+  );
+}
 
 SupabaseClient _buildTestSupabaseClient() {
   return SupabaseClient(
@@ -154,6 +184,15 @@ void _configureTestViewport(WidgetTester tester) {
   });
 }
 
+Widget _wrapWithTestMediaQuery(WidgetTester tester, Widget child) {
+  return MediaQuery(
+    data: MediaQueryData.fromView(
+      tester.view,
+    ).copyWith(disableAnimations: true),
+    child: child,
+  );
+}
+
 ({
   ProviderContainer container,
   MockAuthRepository authRepository,
@@ -169,6 +208,7 @@ _buildTestContainer({
   final countriesRepository = MockSupportedCountriesRepository();
   final resolvedCountries = countries ?? CoolCountryCatalog.all;
   final supabaseClient = _buildTestSupabaseClient();
+  final defaultRayonData = _defaultRayonData();
 
   when(() => authRepository.currentSession).thenReturn(session);
   when(() => authRepository.currentUserId).thenReturn(session?.user.id);
@@ -203,6 +243,9 @@ _buildTestContainer({
   final container = createTestContainer(
     overrides: <Override>[
       supabaseClientProvider.overrideWithValue(supabaseClient),
+      firebaseBootstrapServiceProvider.overrideWithValue(
+        _FakeFirebaseBootstrapService(),
+      ),
       authRepositoryProvider.overrideWithValue(authRepository),
       authProvider.overrideWith(
         (ref) => TestAuthNotifier(
@@ -221,6 +264,22 @@ _buildTestContainer({
         preference: AppThemePreference.system,
         updatedAt: null,
       )),
+      rayonSportsDataProvider.overrideWith(
+        (ref) => AsyncValue<RayonSportsData>.data(defaultRayonData),
+      ),
+      rayonMembershipProvider.overrideWith(
+        (ref) => const AsyncValue<RsFanMembership?>.data(null),
+      ),
+      rayonNextMatchProvider.overrideWith(
+        (ref) => const AsyncValue<RsMatch?>.data(null),
+      ),
+      rayonActionLoadingProvider.overrideWith((ref) => false),
+      momoStatementBundleProvider.overrideWith(
+        (ref, query) async => const MomoStatementBundle(),
+      ),
+      momoSmsSyncStatusProvider.overrideWith(
+        (ref) async => const MomoSmsSyncStatus(),
+      ),
       ...overrides,
     ],
   );
@@ -272,13 +331,16 @@ Future<ScopedTestApp> pumpScopedApp(
       child: Consumer(
         builder: (context, ref, _) {
           final locale = ref.watch(localeProvider);
-          return MaterialApp.router(
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.dark,
-            routerConfig: router,
-            locale: locale,
-            supportedLocales: AppLocalizations.supportedLocales,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
+          return _wrapWithTestMediaQuery(
+            tester,
+            MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.dark,
+              routerConfig: router,
+              locale: locale,
+              supportedLocales: AppLocalizations.supportedLocales,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+            ),
           );
         },
       ),
@@ -325,13 +387,16 @@ Future<RoutedTestApp> pumpRouterApp(
       child: Consumer(
         builder: (context, ref, _) {
           final locale = ref.watch(localeProvider);
-          return MaterialApp.router(
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.dark,
-            routerConfig: router,
-            locale: locale,
-            supportedLocales: AppLocalizations.supportedLocales,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
+          return _wrapWithTestMediaQuery(
+            tester,
+            MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.dark,
+              routerConfig: router,
+              locale: locale,
+              supportedLocales: AppLocalizations.supportedLocales,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+            ),
           );
         },
       ),

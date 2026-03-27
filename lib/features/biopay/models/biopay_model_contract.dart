@@ -22,11 +22,11 @@ class BiopayModelContract {
   static const contractAssetPath =
       'assets/models/biopay/mobilefacenet_int8.contract.json';
   static const defaultModelVersion = 'mobilefacenet_int8_v1';
-  static const expectedInputShape = <int>[1, 160, 160, 3];
-  static const expectedOutputShape = <int>[1, 128];
+  static const expectedInputShape = <int>[1, 112, 112, 3];
+  static const expectedOutputShape = <int>[1, 192];
   static const expectedInputType = 'float32';
   static const expectedOutputType = 'float32';
-  static const expectedEmbeddingSize = 128;
+  static const expectedEmbeddingSize = 192;
 
   final String assetPath;
   final String modelVersion;

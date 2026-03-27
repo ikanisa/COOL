@@ -25,6 +25,10 @@ fi
 
 _load_release_env
 
+# ── CRITICAL BLOCKER: Supabase env vars are mandatory for ANY Android build ──
+: "${SUPABASE_URL:?CRITICAL BLOCKER — Set SUPABASE_URL before building ANY APK or AAB. The app will crash or show a config error screen without it.}"
+: "${SUPABASE_ANON_KEY:?CRITICAL BLOCKER — Set SUPABASE_ANON_KEY before building ANY APK or AAB. The app will crash or show a config error screen without it.}"
+
 : "${FIREBASE_ANDROID_STAGING_API_KEY:?Set FIREBASE_ANDROID_STAGING_API_KEY before building the staging APK.}"
 : "${FIREBASE_ANDROID_STAGING_APP_ID:?Set FIREBASE_ANDROID_STAGING_APP_ID before building the staging APK.}"
 : "${FIREBASE_ANDROID_STAGING_MESSAGING_SENDER_ID:?Set FIREBASE_ANDROID_STAGING_MESSAGING_SENDER_ID before building the staging APK.}"
@@ -40,8 +44,8 @@ fi
   --debug \
   --flavor staging \
   --dart-define=FLAVOR=staging \
-  --dart-define=SUPABASE_URL="${SUPABASE_URL:-}" \
-  --dart-define=SUPABASE_ANON_KEY="${SUPABASE_ANON_KEY:-}" \
+  --dart-define=SUPABASE_URL="${SUPABASE_URL}" \
+  --dart-define=SUPABASE_ANON_KEY="${SUPABASE_ANON_KEY}" \
   --dart-define=COOL_DEEP_LINK_HOST="${COOL_DEEP_LINK_HOST:-cool.app}" \
   --dart-define=FIREBASE_ANDROID_STAGING_API_KEY="${FIREBASE_ANDROID_STAGING_API_KEY}" \
   --dart-define=FIREBASE_ANDROID_STAGING_APP_ID="${FIREBASE_ANDROID_STAGING_APP_ID}" \

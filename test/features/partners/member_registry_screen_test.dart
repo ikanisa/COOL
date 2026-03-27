@@ -26,10 +26,10 @@ void main() {
             rayonSportsRepositoryProvider.overrideWithValue(repository),
             rayonPartnerIdProvider.overrideWith((ref) async => 'partner-1'),
           ],
-          child: MaterialApp(
+          child: const MaterialApp(
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
-            home: const MemberRegistryScreen(),
+            home: MemberRegistryScreen(),
           ),
         ),
       ),

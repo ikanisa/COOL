@@ -18,7 +18,7 @@ class HomeQuickServices extends StatelessWidget {
     (
       icon: Icons.face_retouching_natural_rounded,
       label: 'BIOPAY',
-      route: AppRoutes.biopayTab,
+      route: AppRoutes.biopayHome,
     ),
     (
       icon: Icons.shopping_bag_rounded,
@@ -72,7 +72,7 @@ class HomeQuickServices extends StatelessWidget {
                   ),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(CoolRadii.lg),
-                    onTap: () => context.push(item.route),
+                    onTap: () => openQuickActionRoute(context, item.route),
                     child: Column(
                       children: [
                         Container(

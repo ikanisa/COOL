@@ -109,7 +109,7 @@ class EngagementFeatureFlags {
       shareTrackingEnabled: true,
       groupCaptainEnabled: false,
       rayonChapterEnabled: false,
-      biopayEnabled: false,
+      biopayEnabled: true,
       momo: ManagedFeatureRollout(key: 'momo'),
       ticketPurchase: ManagedFeatureRollout(key: 'ticket_purchase'),
       credit: ManagedFeatureRollout(key: 'credit'),
@@ -182,7 +182,10 @@ class EngagementFeatureFlags {
   }
 
   bool isBiopayEnabled({bool isAdmin = false}) {
-    return biopayEnabled && isMomoEnabled(isAdmin: isAdmin);
+    // BioPay now ships whenever MoMo is live. Keep the legacy field for
+    // compatibility with existing config payloads and admin surfaces, but do
+    // not let stale remote values suppress the launch.
+    return isMomoEnabled(isAdmin: isAdmin);
   }
 
   bool isTicketPurchaseEnabled({bool isAdmin = false}) {

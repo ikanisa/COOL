@@ -10,8 +10,8 @@ class BiopayEmbeddingService {
   static const modelAssetPath = BiopayModelContract.modelAssetPath;
   static const modelContractAssetPath = BiopayModelContract.contractAssetPath;
   static const embeddingSize = BiopayModelContract.expectedEmbeddingSize;
-  static const inputWidth = 160;
-  static const inputHeight = 160;
+  static int get inputWidth => BiopayModelContract.expectedInputShape[1];
+  static int get inputHeight => BiopayModelContract.expectedInputShape[2];
 
   Interpreter? _interpreter;
   Delegate? _delegate;

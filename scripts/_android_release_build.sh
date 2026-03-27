@@ -53,8 +53,9 @@ build_android_release() {
 }
 
 _require_build_env() {
-  : "${SUPABASE_URL:?Set SUPABASE_URL before building an Android release artifact.}"
-  : "${SUPABASE_ANON_KEY:?Set SUPABASE_ANON_KEY before building an Android release artifact.}"
+  # ── CRITICAL BLOCKER: Supabase env vars are mandatory for ANY Android build ──
+  : "${SUPABASE_URL:?CRITICAL BLOCKER — Set SUPABASE_URL before building ANY APK or AAB. The app will crash or show a config error screen without it.}"
+  : "${SUPABASE_ANON_KEY:?CRITICAL BLOCKER — Set SUPABASE_ANON_KEY before building ANY APK or AAB. The app will crash or show a config error screen without it.}"
   # Firebase keys are optional build-time overrides (google-services.json is the runtime source).
   if [[ -z "${FIREBASE_ANDROID_PRODUCTION_API_KEY:-}" ]]; then
     echo "⚠️  FIREBASE_ANDROID_PRODUCTION_API_KEY not set; Firebase will use google-services.json defaults." >&2

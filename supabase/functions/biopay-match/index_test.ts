@@ -3,13 +3,17 @@ import {
   createBiopayMatchHandler,
 } from "./index.ts";
 import { HttpError } from "../_shared/auth.ts";
+import { BIOPAY_EMBEDDING_LENGTH } from "../_shared/biopay_embedding.ts";
 import type {
   BiopayMatchProtectionConfig,
   BiopayMatchRateOutcome,
 } from "../_shared/biopay_match_abuse.ts";
 
 const fixedNow = new Date("2026-03-23T12:00:00.000Z");
-const sampleEmbedding = Array.from({ length: 128 }, (_, index) => index / 1000);
+const sampleEmbedding = Array.from(
+  { length: BIOPAY_EMBEDDING_LENGTH },
+  (_, index) => index / 1000,
+);
 
 function buildConfig(): BiopayMatchProtectionConfig {
   return {

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart';
@@ -272,6 +273,16 @@ class NfcService {
         await FlutterNfcKit.finish(iosErrorMessage: 'Read failed');
       } catch (_) {}
       rethrow;
+    }
+  }
+
+  static Future<void> cancelSession({String? reason}) async {
+    try {
+      await FlutterNfcKit.finish(
+        iosErrorMessage: reason ?? 'Cancelled',
+      ).timeout(const Duration(milliseconds: 400));
+    } catch (_) {
+      // Best effort only. The NFC session may already be closed.
     }
   }
 

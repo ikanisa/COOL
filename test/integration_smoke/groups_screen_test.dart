@@ -68,15 +68,15 @@ void main() {
 
       await settleTestApp(tester);
 
-      expect(find.text('My Groups'), findsOneWidget);
-      expect(find.text('Discover'), findsOneWidget);
-      expect(find.text('Create a New Group'), findsOneWidget);
-      expect(find.text('Family Save'), findsOneWidget);
+      expect(find.text('MY GROUPS'), findsOneWidget);
+      expect(find.text('DISCOVER'), findsOneWidget);
+      expect(find.text('CREATE A NEW GROUP'), findsOneWidget);
+      expect(find.text('FAMILY SAVE'), findsOneWidget);
 
-      await tester.tap(find.text('Discover'));
+      await tester.tap(find.text('DISCOVER'));
       await settleTestApp(tester);
 
-      expect(find.text('Neighborhood Relief'), findsOneWidget);
+      expect(find.text('NEIGHBORHOOD RELIEF'), findsOneWidget);
       verify(() => repository.getPublicGroups(any())).called(greaterThan(0));
     });
   });

@@ -191,7 +191,6 @@ supabase/
 assets/
 docs/
 test/
-COOL.html
 ```
 
 ## Key Flutter Entry Points
@@ -205,16 +204,16 @@ COOL.html
 - Typography scale: [lib/core/theme/app_theme_text.dart](/Volumes/PRO-G40/COOL/lib/core/theme/app_theme_text.dart)
 - Component theming: [lib/core/theme/app_theme_components.dart](/Volumes/PRO-G40/COOL/lib/core/theme/app_theme_components.dart)
 - Theme config: [lib/core/theme/app_theme.dart](/Volumes/PRO-G40/COOL/lib/core/theme/app_theme.dart)
-- Legacy compatibility palette: [lib/core/theme/app_colors.dart](/Volumes/PRO-G40/COOL/lib/core/theme/app_colors.dart)
-- Redesign rollout gate: [lib/core/providers/production_redesign_provider.dart](/Volumes/PRO-G40/COOL/lib/core/providers/production_redesign_provider.dart)
+- Theme preference provider: [lib/core/theme/theme_preference_provider.dart](/Volumes/PRO-G40/COOL/lib/core/theme/theme_preference_provider.dart)
+- System chrome wiring: [lib/core/theme/theme_system_chrome.dart](/Volumes/PRO-G40/COOL/lib/core/theme/theme_system_chrome.dart)
 - Route inventory: [docs/ROUTE_INVENTORY.md](/Volumes/PRO-G40/COOL/docs/ROUTE_INVENTORY.md)
 - Screen budgets: [docs/SCREEN_BUDGETS.md](/Volumes/PRO-G40/COOL/docs/SCREEN_BUDGETS.md)
 
 ## Deep Links
 
-- Installed app routes handled directly: `/basket`, `/invite/<CODE>`, `/groups/<ID>`, `/home`, `/momo`, `/profile`
+- Supported universal-link patterns: `/invite/<CODE>`, `/groups/<ID>`, `/home`, `/momo`, `/profile`, `/match/<ID>`, `/initiative/<ID>`, `/club/<ID>`, `/shop/<ID>`, `/status/<ID>`
+- Legacy `/basket` links still resolve to home for backward compatibility.
 - Group invite share links should use `https://cool.app/invite/<CODE>`
-- Direct basket handoff can use `https://cool.app/basket`
 - The fallback site and universal-link templates live in [deeplinks/site/README.md](/Volumes/PRO-G40/COOL/deeplinks/site/README.md)
 
 ## Main Feature Areas
@@ -568,6 +567,29 @@ Governance references:
 
 ## Build Commands
 
+> **⛔ CRITICAL BLOCKER — Supabase env vars are MANDATORY for every APK and AAB build**
+>
+> Every Android build — staging, production, QA, Play release — **MUST** have
+> `SUPABASE_URL` and `SUPABASE_ANON_KEY` set before building. Without them, the
+> app will crash at startup or display a configuration error screen. The build
+> scripts enforce this with a hard `set -euo pipefail` check, and the Dart
+> runtime (`lib/core/config/env_config.dart`) validates them at app launch.
+>
+> **How to provide them:**
+> - Export in your shell: `export SUPABASE_URL=https://... SUPABASE_ANON_KEY=...`
+> - Or use `--dart-define-from-file=.env.json`
+> - Or set them in `.env` (auto-loaded by build scripts)
+>
+> **This rule applies to:**
+> - `scripts/build_production.sh` (APK)
+> - `scripts/build_play_release.sh` (AAB)
+> - `scripts/build_qa_apk.sh` (QA APK)
+> - `scripts/build_staging.sh` (Staging APK)
+> - `scripts/build_ios_production.sh` and `scripts/build_ios_staging.sh`
+> - GitHub Actions `release.yml` (uses `secrets.SUPABASE_URL` and `secrets.SUPABASE_ANON_KEY`)
+> - Any manual `flutter build apk` or `flutter build appbundle` command
+
+
 Android debug APK:
 
 ```bash
@@ -617,10 +639,6 @@ and
 ## Compatibility Notes
 
 The app is written against a normalized `users` profile model, but the repository layer includes fallback handling for legacy schemas that still use `profiles`. This is intentional and supports projects with partially migrated Supabase databases.
-
-## Reference Prototype
-
-The file [COOL.html](/Volumes/PRO-G40/COOL/COOL.html) contains the original interactive UI prototype used as a visual reference for many screens and shared widgets.
 
 ## Security Notes
 

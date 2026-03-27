@@ -135,6 +135,15 @@ class BiopayFaceDetectionService {
     if (inputImageFormat == null) {
       throw StateError('Unsupported BioPay camera image format.');
     }
+    if (Platform.isAndroid &&
+        inputImageFormat != InputImageFormat.nv21 &&
+        inputImageFormat != InputImageFormat.yv12) {
+      throw StateError(
+        'Unsupported BioPay camera image format on Android: '
+        '${frame.format.group.name} (${frame.format.raw}). '
+        'Configure the scanner to use ImageFormatGroup.nv21.',
+      );
+    }
 
     final bytes = _packPlaneBytes(frame);
     return InputImage.fromBytes(
@@ -151,7 +160,7 @@ class BiopayFaceDetectionService {
   }
 
   Uint8List _packPlaneBytes(CameraImage frame) {
-    if (Platform.isIOS) {
+    if (Platform.isIOS || frame.planes.length == 1) {
       return frame.planes.first.bytes;
     }
 

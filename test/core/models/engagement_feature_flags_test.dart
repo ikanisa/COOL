@@ -12,7 +12,7 @@ void main() {
 
       test('kill-switches default to false (features ON)', () {
         final flags = EngagementFeatureFlags.defaults();
-        expect(flags.biopayEnabled, isFalse);
+        expect(flags.biopayEnabled, isTrue);
         expect(flags.killMomoPayments, isFalse);
         expect(flags.killTicketPurchase, isFalse);
       });
@@ -20,13 +20,13 @@ void main() {
       test('convenience getters reflect kill-switch state', () {
         final flags = EngagementFeatureFlags.defaults();
         expect(flags.momoEnabled, isTrue);
-        expect(flags.biopayAvailable, isFalse);
+        expect(flags.biopayAvailable, isTrue);
         expect(flags.ticketEnabled, isTrue);
       });
     });
 
     group('fromValues', () {
-      test('parses kill-switch values from Remote Config', () {
+      test('MoMo kill-switch still blocks BioPay availability', () {
         final flags = EngagementFeatureFlags.fromValues(<String, Object?>{
           'engagement_enabled': true,
           'engagement_share_tracking_enabled': true,
@@ -107,7 +107,7 @@ void main() {
         expect(map.containsKey('feature_momo_stage'), isTrue);
         expect(map.containsKey('feature_ticket_purchase_admin_only'), isTrue);
         expect(map.containsKey('feature_ticket_purchase_stage'), isTrue);
-        expect(map['feature_biopay_enabled'], isFalse);
+        expect(map['feature_biopay_enabled'], isTrue);
         expect(map['kill_momo_payments'], isFalse);
         expect(map['feature_ticket_purchase_stage'], 'live');
       });

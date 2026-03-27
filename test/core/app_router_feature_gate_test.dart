@@ -37,7 +37,7 @@ Future<FeatureFlagsService> _buildFeatureFlagsService({
 void main() {
   group('appRouter feature gating', () {
     testWidgets(
-      'managed app config can block Mobile Money for standard users',
+      'managed app config blocks the default payments entry for standard users',
       (tester) async {
         final featureFlagsService = await _buildFeatureFlagsService(
           appConfigOverrides: const <String, Object?>{
@@ -58,18 +58,18 @@ void main() {
 
         expect(
           app.router.routeInformationProvider.value.uri.path,
-          AppRoutes.momo,
+          AppRoutes.biopayHome,
         );
         expect(find.text('Temporarily Unavailable'), findsOneWidget);
         expect(
-          find.textContaining('Mobile Money is temporarily unavailable.'),
+          find.textContaining('BioPay is temporarily unavailable.'),
           findsOneWidget,
         );
         expect(find.text('GO BACK'), findsOneWidget);
       },
     );
 
-    testWidgets('managed app config still allows admins into Mobile Money', (
+    testWidgets('managed app config still allows admins into BioPay hub', (
       tester,
     ) async {
       final featureFlagsService = await _buildFeatureFlagsService(
@@ -91,10 +91,10 @@ void main() {
 
       expect(
         app.router.routeInformationProvider.value.uri.path,
-        AppRoutes.momo,
+        AppRoutes.biopayHome,
       );
       expect(find.text('Temporarily Unavailable'), findsNothing);
-      expect(find.text('Mobile Money'), findsOneWidget);
+      expect(find.text('BioPay Hub'), findsOneWidget);
     });
 
     testWidgets(
@@ -123,14 +123,14 @@ void main() {
         );
         expect(find.text('Temporarily Unavailable'), findsOneWidget);
         expect(
-          find.textContaining('Mobile Money is temporarily unavailable.'),
+          find.textContaining('Payments is temporarily unavailable.'),
           findsOneWidget,
         );
       },
     );
 
     testWidgets(
-      'managed app config blocks direct BioPay routes when BioPay is disabled',
+      'direct BioPay routes remain available even if the legacy BioPay flag is false',
       (tester) async {
         final featureFlagsService = await _buildFeatureFlagsService(
           appConfigOverrides: const <String, Object?>{
@@ -152,11 +152,8 @@ void main() {
           app.router.routeInformationProvider.value.uri.path,
           AppRoutes.biopayHome,
         );
-        expect(find.text('Temporarily Unavailable'), findsOneWidget);
-        expect(
-          find.textContaining('BioPay is temporarily unavailable.'),
-          findsOneWidget,
-        );
+        expect(find.text('Temporarily Unavailable'), findsNothing);
+        expect(find.text('BioPay Hub'), findsWidgets);
       },
     );
 

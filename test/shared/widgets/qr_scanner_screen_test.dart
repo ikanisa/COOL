@@ -47,7 +47,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.textContaining('Camera is off'), findsOneWidget);
-    expect(find.text('Enable Camera'), findsOneWidget);
+    expect(find.text('ENABLE CAMERA'), findsOneWidget);
     expect(find.textContaining('Enable camera access'), findsOneWidget);
   });
 
@@ -100,6 +100,6 @@ void main() {
       find.textContaining('Missing signing configuration'),
       findsOneWidget,
     );
-    expect(find.text('Go Back'), findsOneWidget);
+    expect(find.text('GO BACK'), findsOneWidget);
   });
 }

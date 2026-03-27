@@ -120,18 +120,18 @@ void main() {
 
         await settleTestApp(tester);
 
-        expect(find.text('+ Contribute'), findsOneWidget);
-        expect(find.text('More'), findsOneWidget);
+        expect(find.text('+ CONTRIBUTE'), findsOneWidget);
+        expect(find.text('MORE'), findsOneWidget);
         expect(find.text('Recent contributions'), findsOneWidget);
         expect(find.text('Share / QR'), findsNothing);
         expect(find.text('Invite from Contacts'), findsNothing);
 
-        await tester.tap(find.text('More'));
+        await tester.tap(find.text('MORE'));
         await settleTestApp(tester);
 
         expect(find.text('More actions'), findsOneWidget);
-        expect(find.text('Share / QR'), findsOneWidget);
-        expect(find.text('Invite from Contacts'), findsOneWidget);
+        expect(find.text('SHARE / QR'), findsOneWidget);
+        expect(find.text('INVITE FROM CONTACTS'), findsOneWidget);
       },
     );
 
@@ -150,11 +150,11 @@ void main() {
 
         await settleTestApp(tester);
 
-        await tester.tap(find.text('+ Contribute'));
+        await tester.tap(find.text('+ CONTRIBUTE'));
         await settleTestApp(tester);
 
         expect(find.text('Amount'), findsOneWidget);
-        expect(find.text('Pay via MOMO'), findsOneWidget);
+        expect(find.text('PAY VIA MOMO'), findsOneWidget);
         expect(
           find.text('You will confirm the contribution on your MoMo prompt.'),
           findsOneWidget,
@@ -167,7 +167,7 @@ void main() {
         await settleTestApp(tester);
 
         expect(find.text('Group settings'), findsOneWidget);
-        expect(find.text('Save changes'), findsOneWidget);
+        expect(find.text('SAVE CHANGES'), findsOneWidget);
       },
     );
   });

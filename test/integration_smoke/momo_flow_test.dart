@@ -46,6 +46,8 @@ void main() {
         ],
       );
 
+      await settleTestApp(tester);
+
       expect(
         find.byKey(const ValueKey<String>('momo-action-receive-qr')),
         findsOneWidget,
@@ -62,13 +64,13 @@ void main() {
       await tester.tap(
         find.byKey(const ValueKey<String>('momo-action-receive-qr')),
       );
-      await tester.pumpAndSettle();
+      await settleTestApp(tester);
 
       expect(find.byType(MomoReceiveQrScreen), findsOneWidget);
-      expect(find.text('Share link'), findsOneWidget);
+      expect(find.text('SHARE LINK'), findsOneWidget);
 
       await tester.tap(find.byIcon(Icons.arrow_back_rounded).last);
-      await tester.pumpAndSettle();
+      await settleTestApp(tester);
 
       expect(find.byType(MomoReceiveQrScreen), findsNothing);
       expect(
@@ -115,18 +117,18 @@ void main() {
         ],
       );
 
+      await settleTestApp(tester);
+
       await tester.tap(
         find.byKey(const ValueKey<String>('momo-action-nfc-pay')),
       );
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 500));
+      await settleTestApp(tester);
 
       expect(find.byType(MomoNfcScreen), findsOneWidget);
-      expect(find.text('Read tag'), findsWidgets);
+      expect(find.text('READ TAG'), findsWidgets);
 
       await tester.tap(find.byIcon(Icons.arrow_back_rounded).last);
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 500));
+      await settleTestApp(tester);
 
       expect(find.byType(MomoNfcScreen), findsNothing);
       expect(

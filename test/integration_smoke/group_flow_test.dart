@@ -35,7 +35,9 @@ void main() {
         ],
       );
 
-      expect(find.text('Create Group'), findsWidgets);
+      await settleTestApp(tester);
+
+      expect(find.text('CREATE GROUP'), findsWidgets);
 
       expect(find.text('Group Name'), findsOneWidget);
       expect(find.text('Target (RWF)'), findsOneWidget);
@@ -55,7 +57,9 @@ void main() {
         ],
       );
 
-      final createButton = find.widgetWithText(CoolButton, 'Create Group');
+      await settleTestApp(tester);
+
+      final createButton = find.widgetWithText(CoolButton, 'CREATE GROUP');
       await tester.ensureVisible(createButton);
       await tester.tap(createButton);
       await settleTestApp(tester);
@@ -82,7 +86,7 @@ void main() {
       );
       await settleTestApp(tester);
 
-      final createButton = find.widgetWithText(CoolButton, 'Create Group');
+      final createButton = find.widgetWithText(CoolButton, 'CREATE GROUP');
       await tester.ensureVisible(createButton);
       await tester.tap(createButton);
       await settleTestApp(tester);

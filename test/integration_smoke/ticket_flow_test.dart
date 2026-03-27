@@ -81,9 +81,11 @@ void main() {
       ],
     );
 
+    await settleTestApp(tester);
+
     expect(find.text('Tickets'), findsOneWidget);
-    expect(find.textContaining('On Sale'), findsOneWidget);
-    expect(find.text('My Tickets'), findsOneWidget);
+    expect(find.text('ON SALE'), findsWidgets);
+    expect(find.text('MY TICKETS'), findsOneWidget);
   });
 
   testWidgets('Ticket hub shows the on-sale fixture details', (tester) async {
@@ -98,6 +100,8 @@ void main() {
         rayonPartnerIdProvider.overrideWith((ref) async => 'partner-1'),
       ],
     );
+
+    await settleTestApp(tester);
 
     expect(find.text('Rayon Sports'), findsOneWidget);
     expect(find.text('APR FC'), findsOneWidget);

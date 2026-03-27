@@ -133,6 +133,7 @@ class _CoolButtonState extends State<CoolButton>
           label: widget.semanticsLabel ?? widget.label,
           button: true,
           enabled: _enabled,
+          onTap: _enabled ? _handleTap : null,
           excludeSemantics: true,
           child: SizedBox(
             width: widget.fullWidth && !isIcon ? double.infinity : null,

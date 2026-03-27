@@ -6,9 +6,11 @@ import 'package:camera/camera.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:image/image.dart' as img;
 
+import '../models/biopay_model_contract.dart';
+
 class BiopayFaceAlignmentService {
-  static const inputWidth = 160;
-  static const inputHeight = 160;
+  static int get inputWidth => BiopayModelContract.expectedInputShape[1];
+  static int get inputHeight => BiopayModelContract.expectedInputShape[2];
 
   Future<Float32List> extractAlignedFaceTensor({
     required CameraImage frame,
@@ -53,11 +55,43 @@ class BiopayFaceAlignmentService {
         bytes: frame.planes.first.bytes.buffer,
         order: img.ChannelOrder.bgra,
       ),
+      ImageFormatGroup.nv21 => _convertNv21(frame),
       ImageFormatGroup.yuv420 => _convertYuv420(frame),
       _ => throw StateError(
         'Unsupported BioPay image format group: ${frame.format.group}',
       ),
     };
+  }
+
+  img.Image _convertNv21(CameraImage frame) {
+    final image = img.Image(width: frame.width, height: frame.height);
+    final plane = frame.planes.first;
+    final bytes = plane.bytes;
+    final yRowStride = plane.bytesPerRow;
+    final yPlaneLength = yRowStride * frame.height;
+
+    for (var h = 0; h < frame.height; h += 1) {
+      final uvRowStart = yPlaneLength + (h ~/ 2) * yRowStride;
+      for (var w = 0; w < frame.width; w += 1) {
+        final yIndex = (h * yRowStride) + w;
+        final uvIndex = uvRowStart + (w & ~1);
+
+        final y = bytes[yIndex];
+        final v = bytes[uvIndex];
+        final u = bytes[uvIndex + 1];
+
+        var r = (y + v * 1436 / 1024 - 179).round();
+        var g = (y - u * 46549 / 131072 + 44 - v * 93604 / 131072 + 91).round();
+        var b = (y + u * 1814 / 1024 - 227).round();
+
+        r = r.clamp(0, 255);
+        g = g.clamp(0, 255);
+        b = b.clamp(0, 255);
+        image.setPixelRgb(w, h, r, g, b);
+      }
+    }
+
+    return image;
   }
 
   img.Image _convertYuv420(CameraImage frame) {

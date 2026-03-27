@@ -54,10 +54,10 @@ void main() {
         ).copyWith(disableAnimations: true),
         child: ProviderScope(
           overrides: [partnerRepositoryProvider.overrideWithValue(repository)],
-          child: MaterialApp(
+          child: const MaterialApp(
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
-            home: const PartnersScreen(),
+            home: PartnersScreen(),
           ),
         ),
       ),

@@ -6,6 +6,7 @@ import {
 } from "../_shared/http.ts";
 import { HttpError } from "../_shared/auth.ts";
 import { requireAppCheckToken } from "../_shared/app_check.ts";
+import { normalizeBiopayEmbedding } from "../_shared/biopay_embedding.ts";
 import { normalizeBiopayLivenessMetadata } from "../_shared/biopay_liveness.ts";
 import {
   countRecentBiopayMatchRateEvents,
@@ -119,24 +120,6 @@ export type BiopayMatchHandlerDependencies = {
 };
 
 class BiopayValidationError extends Error {}
-
-function normalizeEmbedding(input: unknown): number[] {
-  if (!Array.isArray(input) || input.length !== 128) {
-    throw new BiopayValidationError(
-      "BioPay embedding must contain exactly 128 values.",
-    );
-  }
-
-  return input.map((value) => {
-    const numberValue = typeof value === "number" ? value : Number(value);
-    if (!Number.isFinite(numberValue)) {
-      throw new BiopayValidationError(
-        "BioPay embedding contains a non-numeric value.",
-      );
-    }
-    return numberValue;
-  });
-}
 
 function sanitizeHeaderValue(
   value: string | null,
@@ -278,7 +261,14 @@ export function createBiopayMatchHandler(
 
       const now = deps.now();
       const body = await request.json() as MatchRequest;
-      const embedding = normalizeEmbedding(body.embedding);
+      let embedding: number[];
+      try {
+        embedding = normalizeBiopayEmbedding(body.embedding);
+      } catch (error) {
+        throw new BiopayValidationError(
+          error instanceof Error ? error.message : "Invalid BioPay embedding.",
+        );
+      }
       const liveness = normalizeBiopayLivenessMetadata(body.liveness);
       const protectionConfig = await deps.getProtectionConfig(adminClient);
       const clientIp = extractClientIp(request);

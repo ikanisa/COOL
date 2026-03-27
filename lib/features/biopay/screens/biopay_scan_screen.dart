@@ -53,6 +53,7 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
   bool _isProcessingFrame = false;
   bool _isSubmitting = false;
   bool _isEmbeddingReady = false;
+  bool _isClosing = false;
   int _capturedEnrollmentFrames = 0;
   String? _cameraError;
   String? _pipelineError;
@@ -61,6 +62,7 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
   BiopayScannerTone _tone = BiopayScannerTone.searching;
   DateTime? _lastEnrollmentCaptureAt;
   DateTime? _lastMatchAttemptAt;
+  DateTime? _lastFrameProcessedAt;
 
   @override
   void initState() {
@@ -77,7 +79,9 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
   void dispose() {
     _embeddingService.dispose();
     unawaited(_faceDetectionService.close());
-    _controller?.dispose();
+    final controller = _controller;
+    _controller = null;
+    controller?.dispose();
     super.dispose();
   }
 
@@ -145,7 +149,7 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
         enableAudio: false,
         imageFormatGroup: Platform.isIOS
             ? ImageFormatGroup.bgra8888
-            : ImageFormatGroup.yuv420,
+            : ImageFormatGroup.nv21,
       );
 
       await controller.initialize();
@@ -205,6 +209,44 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
     await controller.startImageStream(_handleCameraFrame);
   }
 
+  Future<void> _stopCameraPipeline() async {
+    final controller = _controller;
+    if (controller == null) {
+      return;
+    }
+    try {
+      if (controller.value.isStreamingImages) {
+        await controller.stopImageStream();
+      }
+    } catch (_) {
+      // Best effort only. The image stream may already be stopping.
+    }
+    try {
+      await controller.dispose();
+    } catch (_) {
+      // Best effort only. The controller may already be disposed.
+    }
+    if (identical(_controller, controller)) {
+      _controller = null;
+    }
+  }
+
+  Future<void> _closeScanner() async {
+    if (_isClosing) {
+      return;
+    }
+    _isClosing = true;
+    await _stopCameraPipeline();
+    if (!mounted) {
+      return;
+    }
+    if (context.canPop()) {
+      context.pop();
+      return;
+    }
+    context.go(AppRoutes.biopayHome);
+  }
+
   void _handleCameraFrame(CameraImage frame) {
     if (!mounted ||
         _isProcessingFrame ||
@@ -212,6 +254,13 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
         _controller == null) {
       return;
     }
+    final now = DateTime.now();
+    if (_lastFrameProcessedAt != null &&
+        now.difference(_lastFrameProcessedAt!) <
+            const Duration(milliseconds: 120)) {
+      return;
+    }
+    _lastFrameProcessedAt = now;
     _isProcessingFrame = true;
     unawaited(
       _processFrame(frame).whenComplete(() {
@@ -564,7 +613,10 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
         return;
       }
 
-      CoolToast.success(context, 'MoMo dialer opened for ${result.profile!.displayName}');
+      CoolToast.success(
+        context,
+        'MoMo dialer opened for ${result.profile!.displayName}',
+      );
       context.go(AppRoutes.biopayHome);
     } catch (error) {
       if (!mounted) {
@@ -656,150 +708,164 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
         ? _helperText
         : 'Enable camera access to continue. BioPay uses the existing Cool app access controls.';
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.white,
-        elevation: 0,
-        title: Text(
-          isEnroll ? 'Face Capture' : 'Scan to Pay',
-          style: theme.textTheme.titleMedium?.copyWith(
-            color: Colors.white,
-            fontWeight: FontWeight.w800,
+    return PopScope<void>(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          _closeScanner();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            onPressed: _closeScanner,
+            tooltip: 'Back',
+            icon: const Icon(Icons.arrow_back_rounded),
+          ),
+          title: Text(
+            isEnroll ? 'Face Capture' : 'Scan to Pay',
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w800,
+            ),
           ),
         ),
-      ),
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: BiopayScannerShell(
-              controller: _controller,
-              isCameraReady: isCameraReady,
-              statusLabel: statusLabel,
-              helperText: helperText,
-              tone: tone,
-              footer: CoolCard(
-                backgroundColor: Colors.black.withValues(alpha: 0.66),
-                borderColor: Colors.white.withValues(alpha: 0.12),
-                useGradient: false,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (widget.enrollmentDraft != null) ...[
-                      Text(
-                        'Enrollment route',
-                        style: theme.textTheme.labelLarge?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      SizedBox(height: space.x1),
-                      Text(
-                        '${widget.enrollmentDraft!.displayName} · ${widget.enrollmentDraft!.recipientValue}',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: Colors.white.withValues(alpha: 0.88),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(height: space.x3),
-                    ],
-                    if (!enabled)
-                      Text(
-                        'BioPay is disabled by app configuration.',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: colors.warning,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      )
-                    else if (!isCameraReady) ...[
-                      CoolButton(
-                        label: 'Enable Camera',
-                        onTap: _requestCameraAccess,
-                      ),
-                      SizedBox(height: space.x2),
-                      CoolButton(
-                        label: 'Manage App Access',
-                        variant: CoolButtonVariant.secondary,
-                        onTap: () => ProfileAppAccessSheet.show(context),
-                      ),
-                    ] else ...[
-                      Text(
-                        _isEmbeddingReady
-                            ? 'On-device face detection and the TFLite embedding service are active. BioPay will use Supabase for enrollment and matching.'
-                            : 'On-device face detection is active, but the embedding model is not available yet.',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: Colors.white.withValues(alpha: 0.84),
-                          fontWeight: FontWeight.w500,
-                          height: 1.45,
-                        ),
-                      ),
-                      if (_capturedEnrollmentFrames > 0) ...[
-                        SizedBox(height: space.x3),
+        body: Stack(
+          children: [
+            Positioned.fill(
+              child: BiopayScannerShell(
+                controller: _controller,
+                isCameraReady: isCameraReady,
+                statusLabel: statusLabel,
+                helperText: helperText,
+                tone: tone,
+                footer: CoolCard(
+                  backgroundColor: Colors.black.withValues(alpha: 0.66),
+                  borderColor: Colors.white.withValues(alpha: 0.12),
+                  useGradient: false,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (widget.enrollmentDraft != null) ...[
                         Text(
-                          'Enrollment frames captured: $_capturedEnrollmentFrames / 5',
+                          'Enrollment route',
                           style: theme.textTheme.labelLarge?.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w800,
                           ),
                         ),
-                      ],
-                    ],
-                    if (_cameraError != null || _pipelineError != null) ...[
-                      SizedBox(height: space.x3),
-                      Text(
-                        _cameraError ?? _pipelineError!,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: colors.danger,
-                          fontWeight: FontWeight.w600,
+                        SizedBox(height: space.x1),
+                        Text(
+                          '${widget.enrollmentDraft!.displayName} · ${widget.enrollmentDraft!.recipientValue}',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: Colors.white.withValues(alpha: 0.88),
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-            ),
-          ),
-          if (_isInitializingCamera)
-            Positioned(
-              top: 16,
-              left: 16,
-              right: 16,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.72),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(CoolRadii.md),
-                  ),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.12),
-                  ),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 18,
-                        height: 18,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'Preparing secure camera...',
-                          style: TextStyle(
-                            color: Colors.white,
+                        SizedBox(height: space.x3),
+                      ],
+                      if (!enabled) ...[
+                        Text(
+                          'BioPay is disabled by app configuration.',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colors.warning,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                      ),
+                      ] else if (!isCameraReady) ...[
+                        CoolButton(
+                          label: 'Enable Camera',
+                          onTap: _requestCameraAccess,
+                        ),
+                        SizedBox(height: space.x2),
+                        CoolButton(
+                          label: 'Manage App Access',
+                          variant: CoolButtonVariant.secondary,
+                          onTap: () => ProfileAppAccessSheet.show(context),
+                        ),
+                      ] else ...[
+                        Text(
+                          _isEmbeddingReady
+                              ? 'On-device face detection and the TFLite embedding service are active. BioPay will use Supabase for enrollment and matching.'
+                              : 'On-device face detection is active, but the embedding model is not available yet.',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: Colors.white.withValues(alpha: 0.84),
+                            fontWeight: FontWeight.w500,
+                            height: 1.45,
+                          ),
+                        ),
+                        if (_capturedEnrollmentFrames > 0) ...[
+                          SizedBox(height: space.x3),
+                          Text(
+                            'Enrollment frames captured: $_capturedEnrollmentFrames / 5',
+                            style: theme.textTheme.labelLarge?.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ],
+                      ],
+                      if (_cameraError != null || _pipelineError != null) ...[
+                        SizedBox(height: space.x3),
+                        Text(
+                          _cameraError ?? _pipelineError!,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colors.danger,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),
               ),
             ),
-        ],
+            if (_isInitializingCamera)
+              Positioned(
+                top: 16,
+                left: 16,
+                right: 16,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.72),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(CoolRadii.md),
+                    ),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.12),
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'Preparing secure camera...',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

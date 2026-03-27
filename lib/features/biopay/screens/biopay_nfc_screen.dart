@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/rs_colors.dart';
 import '../../../shared/widgets/atmospheric_background.dart';
@@ -30,9 +33,11 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
 
   String _statusText = 'SEARCHING FOR DEVICE...';
   String _helperTitle = 'Hold phones back-to-back';
-  String _helperDesc = 'Keep both devices close until the transfer is confirmed.';
+  String _helperDesc =
+      'Keep both devices close until the transfer is confirmed.';
   bool _isError = false;
   bool _isProcessing = false;
+  bool _isClosing = false;
 
   @override
   void initState() {
@@ -52,8 +57,21 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
 
   @override
   void dispose() {
+    unawaited(NfcService.cancelSession(reason: 'BioPay NFC scan closed'));
     _pulseController.dispose();
     super.dispose();
+  }
+
+  Future<void> _closeScreen() async {
+    if (_isClosing) {
+      return;
+    }
+    _isClosing = true;
+    unawaited(NfcService.cancelSession(reason: 'BioPay NFC scan closed'));
+    if (!mounted) {
+      return;
+    }
+    context.go(AppRoutes.biopayHome);
   }
 
   Future<void> _startNfcSession() async {
@@ -77,7 +95,8 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
         _handleError(
           statusText: 'NFC NOT AVAILABLE',
           title: 'Device unsupported',
-          desc: 'Your device does not support NFC or it is turned off in settings.',
+          desc:
+              'Your device does not support NFC or it is turned off in settings.',
         );
         return;
       }
@@ -89,7 +108,8 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
         _handleError(
           statusText: 'INVALID TAG',
           title: 'No payment data found',
-          desc: 'The scanned NFC tag does not contain a valid BioPay or MoMo payload.',
+          desc:
+              'The scanned NFC tag does not contain a valid BioPay or MoMo payload.',
         );
         return;
       }
@@ -101,7 +121,9 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
         _isProcessing = true;
       });
 
-      await ref.read(momoServiceProvider).initiatePayment(
+      await ref
+          .read(momoServiceProvider)
+          .initiatePayment(
             recipientMomo: result.recipientValue!,
             amount: int.tryParse(result.amount!) ?? 0,
             reference: 'NFC-${DateTime.now().millisecondsSinceEpoch}',
@@ -119,7 +141,8 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
       _handleError(
         statusText: 'NFC READ FAILED',
         title: 'Connection lost',
-        desc: 'Could not read the NFC tag. Make sure the devices stay in contact.',
+        desc:
+            'Could not read the NFC tag. Make sure the devices stay in contact.',
       );
     }
   }
@@ -145,230 +168,218 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
     final topPad = MediaQuery.viewPaddingOf(context).top;
     final bottomPad = MediaQuery.viewPaddingOf(context).bottom;
 
-    return Scaffold(
-      backgroundColor: colors.appBackground,
-      body: Stack(
-        children: [
-          const AtmosphericBackground(showGrid: true),
-
-          // ── Close button ─────────────────────────────────────────
-          Positioned(
-            top: topPad + 12,
-            left: 16,
-            child: GestureDetector(
-              onTap: () {
-                if (context.canPop()) context.pop();
-              },
-              child: Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.08),
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.12),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Icon(
-                  Icons.close_rounded,
-                  color: colors.primaryText,
-                  size: 22,
-                ),
-              ),
-            ),
-          ),
-
-          // ── Title ────────────────────────────────────────────────
-          Positioned(
-            top: topPad + 22,
-            left: 0,
-            right: 0,
-            child: Text(
-              'NFC SCAN',
-              textAlign: TextAlign.center,
-              style: context.coolText.rayonCondensed(
-                Theme.of(context).textTheme.titleLarge,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 0.5,
-              ),
-            ),
-          ),
-
-          // ── Center content: pulse icon + status ──────────────────
-          Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // ── Animated NFC icon ──
-                ScaleTransition(
-                  scale: _pulseAnimation,
-                  child: Container(
-                    width: 140,
-                    height: 140,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: RadialGradient(
-                        colors: [
-                          RsColors.rsGold.withValues(alpha: 0.25),
-                          RsColors.rsGold.withValues(alpha: 0.08),
-                          Colors.transparent,
-                        ],
-                        stops: const [0.0, 0.5, 1.0],
-                      ),
-                    ),
-                    alignment: Alignment.center,
+    return PopScope<void>(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          _closeScreen();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: colors.appBackground,
+        body: Stack(
+          children: [
+            const AtmosphericBackground(showGrid: true),
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ScaleTransition(
+                    scale: _pulseAnimation,
                     child: Container(
-                      width: 88,
-                      height: 88,
+                      width: 140,
+                      height: 140,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: _isError
-                            ? colors.danger.withValues(alpha: 0.12)
-                            : RsColors.rsGold.withValues(alpha: 0.12),
-                        border: Border.all(
-                          color: _isError 
-                              ? colors.danger.withValues(alpha: 0.3)
-                              : RsColors.rsGold.withValues(alpha: 0.3),
-                          width: 2,
+                        gradient: RadialGradient(
+                          colors: [
+                            RsColors.rsGold.withValues(alpha: 0.25),
+                            RsColors.rsGold.withValues(alpha: 0.08),
+                            Colors.transparent,
+                          ],
+                          stops: const [0.0, 0.5, 1.0],
                         ),
                       ),
                       alignment: Alignment.center,
-                      child: Icon(
-                        _isError
-                            ? Icons.error_outline_rounded
-                            : _isProcessing 
-                                ? Icons.check_circle_outline_rounded
-                                : Icons.nfc_rounded,
-                        size: 42,
-                        color: _isError ? colors.danger : RsColors.rsGold,
+                      child: Container(
+                        width: 88,
+                        height: 88,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _isError
+                              ? colors.danger.withValues(alpha: 0.12)
+                              : RsColors.rsGold.withValues(alpha: 0.12),
+                          border: Border.all(
+                            color: _isError
+                                ? colors.danger.withValues(alpha: 0.3)
+                                : RsColors.rsGold.withValues(alpha: 0.3),
+                            width: 2,
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: Icon(
+                          _isError
+                              ? Icons.error_outline_rounded
+                              : _isProcessing
+                              ? Icons.check_circle_outline_rounded
+                              : Icons.nfc_rounded,
+                          size: 42,
+                          color: _isError ? colors.danger : RsColors.rsGold,
+                        ),
                       ),
                     ),
                   ),
-                ),
-
-                const SizedBox(height: 40),
-
-                // ── Status text ──
-                Text(
-                  'PHONE TO PHONE',
-                  style: context.coolText.rayonCondensed(
-                    Theme.of(context).textTheme.headlineMedium,
-                    fontWeight: FontWeight.w900,
-                    color: _isError ? colors.danger : RsColors.rsGold,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-
-                const SizedBox(height: 12),
-
-                Text(
-                  _statusText,
-                  style: context.coolText.mono(
-                    Theme.of(context).textTheme.labelSmall,
-                    fontWeight: FontWeight.w700,
-                    color: _isError ? colors.danger : colors.secondaryText,
-                    letterSpacing: 2.0,
-                  ),
-                ),
-
-                const SizedBox(height: 32),
-
-                // ── Instruction card ──
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 40),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(CoolRadii.lg),
-                    border: Border.all(
-                      color: _isError 
-                          ? colors.danger.withValues(alpha: 0.15)
-                          : RsColors.rsGold.withValues(alpha: 0.15),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        _helperTitle,
-                        textAlign: TextAlign.center,
-                        style: context.coolText.mono(
-                          Theme.of(context).textTheme.bodySmall,
-                          fontWeight: FontWeight.w600,
-                          color: colors.primaryText,
-                          height: 1.5,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        _helperDesc,
-                        textAlign: TextAlign.center,
-                        style: context.coolText.mono(
-                          Theme.of(context).textTheme.labelSmall,
-                          fontWeight: FontWeight.w600,
-                          color: colors.secondaryText,
-                          height: 1.5,
-                        ),
-                      ),
-                      if (_isError) ...[
-                        const SizedBox(height: 16),
-                        CoolButton(
-                          label: 'Try Again',
-                          onTap: _startNfcSession,
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // ── Bottom status banner ──────────────────────────
-          Positioned(
-            bottom: bottomPad + 32,
-            left: 32,
-            right: 32,
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 14,
-              ),
-              decoration: BoxDecoration(
-                color: RsColors.rsGold.withValues(alpha: 0.10),
-                borderRadius: BorderRadius.circular(CoolRadii.lg),
-                border: Border.all(
-                  color: RsColors.rsGold.withValues(alpha: 0.20),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.contactless_outlined,
-                    color: RsColors.rsGoldLight,
-                    size: 18,
-                  ),
-                  const SizedBox(width: 10),
+                  const SizedBox(height: 40),
                   Text(
-                    _isProcessing ? 'HANDING OFF...' : 'READY TO SCAN',
+                    'PHONE TO PHONE',
+                    style: context.coolText.rayonCondensed(
+                      Theme.of(context).textTheme.headlineMedium,
+                      fontWeight: FontWeight.w900,
+                      color: _isError ? colors.danger : RsColors.rsGold,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    _statusText,
                     style: context.coolText.mono(
                       Theme.of(context).textTheme.labelSmall,
-                      fontWeight: FontWeight.w800,
-                      color: RsColors.rsGoldLight,
-                      letterSpacing: 1.0,
+                      fontWeight: FontWeight.w700,
+                      color: _isError ? colors.danger : colors.secondaryText,
+                      letterSpacing: 2.0,
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 40),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 16,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.05),
+                      borderRadius: BorderRadius.circular(CoolRadii.lg),
+                      border: Border.all(
+                        color: _isError
+                            ? colors.danger.withValues(alpha: 0.15)
+                            : RsColors.rsGold.withValues(alpha: 0.15),
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          _helperTitle,
+                          textAlign: TextAlign.center,
+                          style: context.coolText.mono(
+                            Theme.of(context).textTheme.bodySmall,
+                            fontWeight: FontWeight.w600,
+                            color: colors.primaryText,
+                            height: 1.5,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          _helperDesc,
+                          textAlign: TextAlign.center,
+                          style: context.coolText.mono(
+                            Theme.of(context).textTheme.labelSmall,
+                            fontWeight: FontWeight.w600,
+                            color: colors.secondaryText,
+                            height: 1.5,
+                          ),
+                        ),
+                        if (_isError) ...[
+                          const SizedBox(height: 16),
+                          CoolButton(
+                            label: 'Try Again',
+                            onTap: _startNfcSession,
+                          ),
+                        ],
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+            Positioned(
+              bottom: bottomPad + 32,
+              left: 32,
+              right: 32,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 14,
+                ),
+                decoration: BoxDecoration(
+                  color: RsColors.rsGold.withValues(alpha: 0.10),
+                  borderRadius: BorderRadius.circular(CoolRadii.lg),
+                  border: Border.all(
+                    color: RsColors.rsGold.withValues(alpha: 0.20),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.contactless_outlined,
+                      color: RsColors.rsGoldLight,
+                      size: 18,
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      _isProcessing ? 'HANDING OFF...' : 'READY TO SCAN',
+                      style: context.coolText.mono(
+                        Theme.of(context).textTheme.labelSmall,
+                        fontWeight: FontWeight.w800,
+                        color: RsColors.rsGoldLight,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: topPad + 12,
+              left: 16,
+              right: 16,
+              child: Row(
+                children: [
+                  Semantics(
+                    button: true,
+                    label: 'Close NFC scan',
+                    child: Material(
+                      color: Colors.white.withValues(alpha: 0.08),
+                      shape: const CircleBorder(),
+                      child: IconButton(
+                        onPressed: _closeScreen,
+                        tooltip: 'Close NFC scan',
+                        icon: Icon(
+                          Icons.close_rounded,
+                          color: colors.primaryText,
+                          size: 22,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'NFC SCAN',
+                      textAlign: TextAlign.center,
+                      style: context.coolText.rayonCondensed(
+                        Theme.of(context).textTheme.titleLarge,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 48),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
-

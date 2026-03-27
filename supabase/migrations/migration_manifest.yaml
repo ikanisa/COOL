@@ -169,3 +169,8 @@ migrations:
   20260323221500_momo_generalized_manual_allocation.sql: [schema]
   20260323223000_update_momo_manual_review_queues_for_custodians.sql: [schema]
   20260325110000_remove_credit_kyc_and_bank_loan_surfaces.sql: [cleanup, schema]
+  20260327120000_home_banners.sql: [schema, security]
+  20260327153000_notification_event_log.sql: [schema, security, observability]
+  20260327171000_enable_biopay_by_default.sql: [seed]
+  20260327235000_biopay_embedding_dim_192.sql: [schema, fix]
+  20260328000000_admin_readiness_security_hardening.sql: [security]

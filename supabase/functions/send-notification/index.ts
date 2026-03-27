@@ -12,9 +12,15 @@
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
-import { handleCors, jsonResponse, errorResponse, methodNotAllowed } from "../_shared/http.ts";
-import { sendToUser, sendToTopic } from "../_shared/fcm.ts";
-import type { FcmNotification, FcmData } from "../_shared/fcm.ts";
+import {
+  errorResponse,
+  handleCors,
+  jsonResponse,
+  methodNotAllowed,
+} from "../_shared/http.ts";
+import { sendToTopic, sendToUser } from "../_shared/fcm.ts";
+import type { FcmData, FcmNotification } from "../_shared/fcm.ts";
+import { createAdminClient } from "../_shared/supabase.ts";
 
 function requireEnv(name: string): string {
   const value = Deno.env.get(name);
@@ -35,6 +41,70 @@ function isServiceRole(request: Request): boolean {
     return token === serviceRoleKey;
   } catch {
     return false;
+  }
+}
+
+type NotificationTarget = {
+  type: "user" | "topic";
+  userId?: string;
+  topic?: string;
+};
+
+function notificationSendStatus(result: {
+  success: boolean;
+  sent_count: number;
+  failed_count: number;
+}): "sent" | "partial" | "failed" {
+  if (result.success && result.failed_count == 0) {
+    return "sent";
+  }
+  if (result.sent_count > 0) {
+    return "partial";
+  }
+  return "failed";
+}
+
+async function logNotificationEvent(options: {
+  target: NotificationTarget;
+  notification: FcmNotification;
+  data?: FcmData;
+  result: {
+    success: boolean;
+    sent_count: number;
+    failed_count: number;
+    cleaned_tokens: number;
+    errors: string[];
+  };
+}) {
+  try {
+    const adminClient = createAdminClient();
+    const sendStatus = notificationSendStatus(options.result);
+    const sentAt = options.result.sent_count > 0
+      ? new Date().toISOString()
+      : null;
+
+    await adminClient.from("notification_events").insert({
+      target_type: options.target.type,
+      user_id: options.target.userId ?? null,
+      topic: options.target.topic ?? null,
+      title: options.notification.title,
+      body: options.notification.body,
+      route: options.data?.route ?? null,
+      image_url: options.notification.image ?? null,
+      data: options.data ?? {},
+      provider: "fcm",
+      send_status: sendStatus,
+      sent_count: options.result.sent_count,
+      failed_count: options.result.failed_count,
+      cleaned_tokens: options.result.cleaned_tokens,
+      errors: options.result.errors,
+      sent_at: sentAt,
+    });
+  } catch (error) {
+    console.error(
+      "[send-notification] Failed to log notification event:",
+      error,
+    );
   }
 }
 
@@ -85,6 +155,12 @@ Deno.serve(async (request) => {
       }
 
       const result = await sendToTopic(topic, notification, data);
+      await logNotificationEvent({
+        target: { type: "topic", topic },
+        notification,
+        data,
+        result,
+      });
       return jsonResponse(result, result.success ? 200 : 502);
     }
 
@@ -95,6 +171,12 @@ Deno.serve(async (request) => {
       }
 
       const result = await sendToUser(userId, notification, data);
+      await logNotificationEvent({
+        target: { type: "user", userId },
+        notification,
+        data,
+        result,
+      });
       return jsonResponse(result, result.success ? 200 : 502);
     }
 

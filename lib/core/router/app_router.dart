@@ -13,7 +13,11 @@ import '../../features/groups/screens/group_invite_screen.dart';
 import '../../features/groups/screens/groups_screen.dart';
 import '../../features/home/screens/seasons_activities_screen.dart';
 import '../../features/home/screens/home_screen.dart';
+import '../../features/biopay/models/biopay_enrollment_draft.dart';
 import '../../features/biopay/screens/biopay_home_screen.dart';
+import '../../features/biopay/screens/biopay_nfc_screen.dart';
+import '../../features/biopay/screens/biopay_register_screen.dart';
+import '../../features/biopay/screens/biopay_scan_screen.dart';
 import '../../features/momo/screens/momo_screen.dart';
 import '../../features/momo/screens/momo_statements_screen.dart';
 import '../../features/profile/screens/profile_detail_screens.dart';
@@ -29,7 +33,6 @@ import '../../features/admin/models/admin_workspace_access.dart';
 import '../../features/admin/providers/admin_workspace_access_provider.dart';
 import '../providers/engagement_providers.dart';
 import 'admin_routes.dart';
-import 'biopay_routes.dart';
 import 'navigation_keys.dart';
 import 'partner_routes.dart';
 import 'shell_route.dart';
@@ -222,7 +225,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             navigatorKey: _biopayNavigatorKey,
             routes: [
               GoRoute(
-                path: AppRoutes.biopayTab,
+                path: AppRoutes.biopayHome,
                 pageBuilder: (context, state) {
                   final authSnapshot = readAuthSnapshot();
                   final featureFlags = ref.read(featureFlagsStateProvider);
@@ -233,10 +236,82 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                         isAdmin: authSnapshot.isAdmin,
                       ),
                       featureName: 'BioPay',
-                      child: const BiopayHomeScreen(),
+                      child: const SecureScreenWrapper(child: BiopayHomeScreen()),
                     ),
                   );
                 },
+                routes: [
+                  GoRoute(
+                    path: 'register',
+                    pageBuilder: (context, state) {
+                      final authSnapshot = readAuthSnapshot();
+                      final featureFlags = ref.read(featureFlagsStateProvider);
+                      return coolPageTransition(
+                        context: context,
+                        state: state,
+                        child: KillSwitchGate(
+                          enabled: featureFlags.isBiopayEnabled(
+                            isAdmin: authSnapshot.isAdmin,
+                          ),
+                          featureName: 'BioPay',
+                          child: const SecureScreenWrapper(
+                            child: BiopayRegisterScreen(),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  GoRoute(
+                    path: 'scan',
+                    pageBuilder: (context, state) {
+                      final authSnapshot = readAuthSnapshot();
+                      final featureFlags = ref.read(featureFlagsStateProvider);
+                      final modeParam = state.uri.queryParameters['mode']?.trim();
+                      final mode = modeParam == 'enroll'
+                          ? BiopayScanMode.enroll
+                          : BiopayScanMode.pay;
+                      final draft = state.extra is BiopayEnrollmentDraft
+                          ? state.extra! as BiopayEnrollmentDraft
+                          : null;
+                      return coolPageTransition(
+                        context: context,
+                        state: state,
+                        child: KillSwitchGate(
+                          enabled: featureFlags.isBiopayEnabled(
+                            isAdmin: authSnapshot.isAdmin,
+                          ),
+                          featureName: 'BioPay',
+                          child: SecureScreenWrapper(
+                            child: BiopayScanScreen(
+                              mode: mode,
+                              enrollmentDraft: draft,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  GoRoute(
+                    path: 'nfc',
+                    pageBuilder: (context, state) {
+                      final authSnapshot = readAuthSnapshot();
+                      final featureFlags = ref.read(featureFlagsStateProvider);
+                      return coolPageTransition(
+                        context: context,
+                        state: state,
+                        child: KillSwitchGate(
+                          enabled: featureFlags.isBiopayEnabled(
+                            isAdmin: authSnapshot.isAdmin,
+                          ),
+                          featureName: 'BioPay',
+                          child: const SecureScreenWrapper(
+                            child: BiopayNfcScreen(),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
             ],
           ),
@@ -317,12 +392,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       // ── MoMo routes ───────────────────────────────────────────
       GoRoute(
         path: AppRoutes.momo,
+        redirect: (context, state) {
+          if (_hasIncomingMomoLaunch(state.uri)) {
+            return null;
+          }
+          return AppRoutes.biopayHome;
+        },
         builder: (context, state) {
           final authSnapshot = readAuthSnapshot();
           final featureFlags = ref.read(featureFlagsStateProvider);
           return KillSwitchGate(
             enabled: featureFlags.isMomoEnabled(isAdmin: authSnapshot.isAdmin),
-            featureName: 'Mobile Money',
+            featureName: 'Payments',
             child: SecureScreenWrapper(child: MomoScreen(launchUri: state.uri)),
           );
         },
@@ -334,22 +415,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final featureFlags = ref.read(featureFlagsStateProvider);
           return KillSwitchGate(
             enabled: featureFlags.isMomoEnabled(isAdmin: authSnapshot.isAdmin),
-            featureName: 'Mobile Money',
+            featureName: 'Payments',
             child: const SecureScreenWrapper(child: MomoStatementsScreen()),
           );
         },
       ),
-
-      // ── BioPay routes (extracted) ─────────────────────────────
-      ...biopayRoutes(
-        coolPageTransition: coolPageTransition,
-        readIsBiopayEnabled: () {
-          final authSnapshot = readAuthSnapshot();
-          final featureFlags = ref.read(featureFlagsStateProvider);
-          return featureFlags.isBiopayEnabled(isAdmin: authSnapshot.isAdmin);
-        },
-      ),
-
       // ── Partner + Rayon routes (extracted) ─────────────────────
       partnerRoutes(
         readAuthSnapshot: () {
@@ -400,6 +470,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   ref.onDispose(router.dispose);
   return router;
 });
+
+bool _hasIncomingMomoLaunch(Uri uri) {
+  const incomingKeys = <String>{
+    'action',
+    'recipient',
+    'amount',
+    'recipient_type',
+    'country',
+    'reference',
+  };
+  return uri.queryParameters.keys.any(incomingKeys.contains);
+}
 
 class _AppRouterRefreshNotifier extends ChangeNotifier {
   void refresh() => notifyListeners();

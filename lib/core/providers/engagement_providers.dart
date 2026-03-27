@@ -62,6 +62,9 @@ final fcmServiceProvider = Provider<FcmService>((ref) {
     preferenceStore: HiveFcmPreferenceStore(
       openBox: ref.read(hiveOpenBoxProvider),
     ),
+    topicPreferenceStore: HiveFcmTopicPreferenceStore(
+      openBox: ref.read(hiveOpenBoxProvider),
+    ),
     tokenRepository: SupabaseFcmTokenRepository(clientFactory: () => client),
   );
   ref.onDispose(service.dispose);

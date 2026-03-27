@@ -130,7 +130,7 @@ const _partnerDetailSlugs = {'urwego', 'equity', 'radiant', 'prisma'};
 const appShellRootLocations = {
   AppRoutes.home,
   AppRoutes.groups,
-  AppRoutes.biopayTab,
+  AppRoutes.biopayHome,
   AppRoutes.profile,
 };
 

@@ -11,6 +11,7 @@ No build is release-candidate quality unless every gate below is green.
 
 | Gate | Requirement | Source of truth |
 |---|---|---|
+| **Supabase env vars** | **`SUPABASE_URL` and `SUPABASE_ANON_KEY` MUST be set** before building any APK or AAB. Build scripts abort without them; Dart runtime shows config error screen if empty. | `scripts/_android_release_build.sh`, `scripts/build_staging.sh`, `lib/core/config/env_config.dart` |
 | Static analysis | `flutter analyze` passes with zero issues | `scripts/release_readiness.sh` |
 | Flutter tests | `flutter test` passes with zero failures | `scripts/release_readiness.sh` |
 | Deep-link assets | `dart tool/deep_link_release_assets.dart --check` passes against `deeplinks/release_metadata.json`, with populated AASA details and no placeholder store metadata | `scripts/release_readiness.sh` and hosted `.well-known` files |

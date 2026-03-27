@@ -12,7 +12,7 @@ import 'package:cool_app/features/groups/repositories/group_repository.dart';
 import 'package:cool_app/features/groups/screens/groups_screen.dart';
 import 'package:cool_app/features/home/models/home_dashboard_data.dart';
 import 'package:cool_app/features/home/providers/home_dashboard_provider.dart';
-import 'package:cool_app/features/momo/screens/momo_screen.dart';
+import 'package:cool_app/features/biopay/screens/biopay_home_screen.dart';
 import 'package:cool_app/features/partners/models/partner.dart';
 import 'package:cool_app/features/partners/providers/partner_provider.dart';
 import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
@@ -21,7 +21,6 @@ import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
 import 'package:cool_app/features/home/screens/home_screen.dart';
 import 'package:cool_app/features/partners/screens/partners_screen.dart';
 import 'package:cool_app/features/profile/screens/profile_screen.dart';
-import 'package:cool_app/features/momo/widgets/momo_cards_widgets.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
 import 'package:cool_app/shared/widgets/tab_pill.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +43,20 @@ class _MemoryFcmPreferenceStore implements FcmPreferenceStore {
 
   @override
   Future<void> writeEnabled(bool enabled) async {}
+}
+
+class _MemoryFcmTopicPreferenceStore implements FcmTopicPreferenceStore {
+  @override
+  Future<Map<FcmTopicCategory, bool>> readPreferences() async {
+    return const <FcmTopicCategory, bool>{
+      FcmTopicCategory.matchAlerts: true,
+      FcmTopicCategory.promotions: true,
+      FcmTopicCategory.groupUpdates: true,
+    };
+  }
+
+  @override
+  Future<void> writePreference(FcmTopicCategory category, bool enabled) async {}
 }
 
 class _FakeFcmTokenRepository implements FcmTokenRepository {
@@ -344,20 +357,25 @@ void main() {
       });
     });
 
-    testWidgets('MoMo route supports large text and button hit areas', (
+    testWidgets('BioPay route supports large text and button hit areas', (
       tester,
     ) async {
-      final l10n = lookupAppLocalizations(const Locale('en'));
       await _runWithSemantics(tester, () async {
         await pumpScopedApp(
           tester,
-          child: _accessibleHarness(const MomoScreen()),
+          child: _accessibleHarness(const BiopayHomeScreen()),
           session: fakeSession(),
           user: fakeUser(momoNumber: '0788123456'),
         );
 
-        expect(find.bySemanticsLabel(l10n.momoScreenTitle), findsWidgets);
-        _expectTouchTarget(tester, find.byType(MomoActionGrid));
+        expect(find.text('BioPay Hub'), findsOneWidget);
+        _expectTouchTarget(
+          tester,
+          find.ancestor(
+            of: find.text('FACE\nSCAN'),
+            matching: find.byType(InkWell),
+          ),
+        );
         _expectNoCapturedException(tester);
       });
     });
@@ -439,6 +457,7 @@ void main() {
             fcmServiceProvider.overrideWithValue(
               FcmService(
                 preferenceStore: _MemoryFcmPreferenceStore(),
+                topicPreferenceStore: _MemoryFcmTopicPreferenceStore(),
                 tokenRepository: _FakeFcmTokenRepository(),
                 isFirebaseAvailable: () => false,
               ),

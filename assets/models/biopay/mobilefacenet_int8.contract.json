@@ -5,16 +5,16 @@
   "bytes": 5233552,
   "input_shape": [
     1,
-    160,
-    160,
+    112,
+    112,
     3
   ],
   "input_type": "float32",
   "output_shape": [
     1,
-    128
+    192
   ],
   "output_type": "float32",
-  "embedding_size": 128,
-  "generated_at": "2026-03-27T12:28:55.292961Z"
+  "embedding_size": 192,
+  "generated_at": "2026-03-27T22:50:16.422437Z"
 }

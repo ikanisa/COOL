@@ -83,6 +83,8 @@ output/play_store/play-store-sa-key.json
 analysis_output*.txt
 update_profile.dart
 package-lock.json
+.firebase/
+.agent/
 
 # ── Production hygiene (NEVER commit) ─────────────────────────
 # Backup / stale suffixes
@@ -103,6 +105,7 @@ output/
 
 # third-party local.properties (generated, machine-specific)
 third_party/**/local.properties
+third_party/**/example/
 
 # Gradle build caches (third-party modules)
 **/.gradle/

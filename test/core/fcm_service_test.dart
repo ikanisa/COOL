@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cool_app/core/services/fcm_foreground_notification_presenter.dart';
 import 'package:cool_app/core/services/fcm_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,6 +16,24 @@ class InMemoryPreferenceStore implements FcmPreferenceStore {
   @override
   Future<void> writeEnabled(bool enabled) async {
     this.enabled = enabled;
+  }
+}
+
+class InMemoryTopicPreferenceStore implements FcmTopicPreferenceStore {
+  Map<FcmTopicCategory, bool> preferences = <FcmTopicCategory, bool>{
+    FcmTopicCategory.matchAlerts: true,
+    FcmTopicCategory.promotions: true,
+    FcmTopicCategory.groupUpdates: true,
+  };
+
+  @override
+  Future<Map<FcmTopicCategory, bool>> readPreferences() async {
+    return Map<FcmTopicCategory, bool>.from(preferences);
+  }
+
+  @override
+  Future<void> writePreference(FcmTopicCategory category, bool enabled) async {
+    preferences = <FcmTopicCategory, bool>{...preferences, category: enabled};
   }
 }
 
@@ -133,12 +152,14 @@ class FakeFcmMessagingClient implements FcmMessagingClient {
 
 void main() {
   late InMemoryPreferenceStore preferenceStore;
+  late InMemoryTopicPreferenceStore topicPreferenceStore;
   late FakeFcmMessagingClient messagingClient;
   late FakeFcmTokenRepository tokenRepository;
   late FcmService service;
 
   setUp(() {
     preferenceStore = InMemoryPreferenceStore(enabled: true);
+    topicPreferenceStore = InMemoryTopicPreferenceStore();
     messagingClient = FakeFcmMessagingClient(
       authorizationStatus: FcmAuthorizationStatus.authorized,
       token: 'token-1',
@@ -147,7 +168,9 @@ void main() {
     service = FcmService(
       messagingClient: messagingClient,
       preferenceStore: preferenceStore,
+      topicPreferenceStore: topicPreferenceStore,
       tokenRepository: tokenRepository,
+      foregroundPresenter: const NoopFcmForegroundNotificationPresenter(),
       isFirebaseAvailable: () => true,
     );
   });
@@ -180,7 +203,9 @@ void main() {
       service = FcmService(
         messagingClient: messagingClient,
         preferenceStore: preferenceStore,
+        topicPreferenceStore: topicPreferenceStore,
         tokenRepository: tokenRepository,
+        foregroundPresenter: const NoopFcmForegroundNotificationPresenter(),
         isFirebaseAvailable: () => true,
       );
 
@@ -192,7 +217,15 @@ void main() {
       expect(tokenRepository.upserts, hasLength(1));
       expect(tokenRepository.upserts.single.userId, 'user-1');
       expect(tokenRepository.upserts.single.token, 'token-1');
-      expect(messagingClient.subscribedTopics, ['market_RW']);
+      expect(
+        messagingClient.subscribedTopics,
+        containsAll([
+          'market_RW',
+          'match_alerts_RW',
+          'promotions_RW',
+          'group_updates_RW',
+        ]),
+      );
     },
   );
 
@@ -208,7 +241,15 @@ void main() {
     expect(tokenRepository.deletes, hasLength(1));
     expect(tokenRepository.deletes.single.userId, 'user-1');
     expect(tokenRepository.deletes.single.token, 'token-1');
-    expect(messagingClient.unsubscribedTopics, contains('market_RW'));
+    expect(
+      messagingClient.unsubscribedTopics,
+      containsAll([
+        'market_RW',
+        'match_alerts_RW',
+        'promotions_RW',
+        'group_updates_RW',
+      ]),
+    );
     expect(messagingClient.deleteTokenCalled, isTrue);
   });
 
@@ -224,7 +265,15 @@ void main() {
       expect(status.isInitialized, isFalse);
       expect(status.activeMarketTopic, isNull);
       expect(tokenRepository.deletes, hasLength(1));
-      expect(messagingClient.unsubscribedTopics, contains('market_RW'));
+      expect(
+        messagingClient.unsubscribedTopics,
+        containsAll([
+          'market_RW',
+          'match_alerts_RW',
+          'promotions_RW',
+          'group_updates_RW',
+        ]),
+      );
       expect(messagingClient.deleteTokenCalled, isTrue);
     },
   );
@@ -236,7 +285,15 @@ void main() {
 
     expect(status.activeMarketTopic, 'market_RW');
     expect(messagingClient.unsubscribedTopics, isEmpty);
-    expect(messagingClient.subscribedTopics, ['market_RW']);
+    expect(
+      messagingClient.subscribedTopics,
+      containsAll([
+        'market_RW',
+        'match_alerts_RW',
+        'promotions_RW',
+        'group_updates_RW',
+      ]),
+    );
   });
 
   test('enable keeps the preference off when permission is denied', () async {
@@ -249,7 +306,9 @@ void main() {
     service = FcmService(
       messagingClient: messagingClient,
       preferenceStore: preferenceStore,
+      topicPreferenceStore: topicPreferenceStore,
       tokenRepository: tokenRepository,
+      foregroundPresenter: const NoopFcmForegroundNotificationPresenter(),
       isFirebaseAvailable: () => true,
     );
 
@@ -276,8 +335,39 @@ void main() {
       expect(tokenRepository.deletes, hasLength(1));
       expect(tokenRepository.deletes.single.userId, 'user-1');
       expect(tokenRepository.deletes.single.token, 'token-1');
-      expect(messagingClient.unsubscribedTopics, contains('market_RW'));
+      expect(
+        messagingClient.unsubscribedTopics,
+        containsAll([
+          'market_RW',
+          'match_alerts_RW',
+          'promotions_RW',
+          'group_updates_RW',
+        ]),
+      );
       expect(messagingClient.deleteTokenCalled, isTrue);
+    },
+  );
+
+  test(
+    'setTopicEnabled unsubscribes only the disabled category topic',
+    () async {
+      await service.enable(userId: 'user-1');
+      messagingClient.subscribedTopics.clear();
+      messagingClient.unsubscribedTopics.clear();
+
+      final status = await service.setTopicEnabled(
+        FcmTopicCategory.promotions,
+        false,
+      );
+
+      expect(status.topicPreferences[FcmTopicCategory.promotions], isFalse);
+      expect(status.activeTopics, isNot(contains('promotions_RW')));
+      expect(messagingClient.unsubscribedTopics, contains('promotions_RW'));
+      expect(messagingClient.unsubscribedTopics, isNot(contains('market_RW')));
+      expect(
+        topicPreferenceStore.preferences[FcmTopicCategory.promotions],
+        isFalse,
+      );
     },
   );
 }

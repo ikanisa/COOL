@@ -23,6 +23,20 @@ class _MemoryFcmPreferenceStore implements FcmPreferenceStore {
   }
 }
 
+class _MemoryFcmTopicPreferenceStore implements FcmTopicPreferenceStore {
+  @override
+  Future<Map<FcmTopicCategory, bool>> readPreferences() async {
+    return const <FcmTopicCategory, bool>{
+      FcmTopicCategory.matchAlerts: true,
+      FcmTopicCategory.promotions: true,
+      FcmTopicCategory.groupUpdates: true,
+    };
+  }
+
+  @override
+  Future<void> writePreference(FcmTopicCategory category, bool enabled) async {}
+}
+
 class _NoopFcmTokenRepository implements FcmTokenRepository {
   @override
   Future<void> deleteToken({
@@ -98,6 +112,7 @@ void main() {
       final fcmService = FcmService(
         messagingClient: _FakeFcmMessagingClient(FcmAuthorizationStatus.denied),
         preferenceStore: _MemoryFcmPreferenceStore(false),
+        topicPreferenceStore: _MemoryFcmTopicPreferenceStore(),
         tokenRepository: _NoopFcmTokenRepository(),
         isFirebaseAvailable: () => true,
       );

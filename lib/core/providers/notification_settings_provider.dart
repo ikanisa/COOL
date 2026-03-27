@@ -86,6 +86,16 @@ class NotificationSettingsNotifier
     );
   }
 
+  Future<void> setTopicEnabled(FcmTopicCategory category, bool enabled) async {
+    state = state.copyWith(isLoading: true, error: null);
+    final status = await _service.setTopicEnabled(category, enabled);
+    state = state.copyWith(
+      status: status,
+      isLoading: false,
+      error: status.lastError,
+    );
+  }
+
   Future<void> initializeForAuthState(AuthState authState) async {
     final userId = authState.user?.id ?? authState.session?.user.id;
     if (userId == null || userId.isEmpty) {

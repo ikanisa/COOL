@@ -1,4 +1,5 @@
 import { HttpError } from "../_shared/auth.ts";
+import { BIOPAY_EMBEDDING_LENGTH } from "../_shared/biopay_embedding.ts";
 import {
   type BiopayEnrollHandlerDependencies,
   createBiopayEnrollHandler,
@@ -20,7 +21,10 @@ function buildRequest() {
     },
     body: JSON.stringify({
       display_name: "Marie",
-      embedding: Array.from({ length: 128 }, (_, index) => index / 1000),
+      embedding: Array.from(
+        { length: BIOPAY_EMBEDDING_LENGTH },
+        (_, index) => index / 1000,
+      ),
     }),
   });
 }

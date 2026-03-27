@@ -11,6 +11,7 @@ import '../config/app_market.dart';
 import '../config/deep_link_config.dart';
 import '../router/app_routes.dart';
 import '../router/navigation_keys.dart';
+import 'fcm_foreground_notification_presenter.dart';
 import 'hive_runtime.dart';
 import 'firebase_bootstrap_service.dart';
 
@@ -19,6 +20,30 @@ import 'firebase_bootstrap_service.dart';
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await FirebaseBootstrapService.ensureInitialized();
   debugPrint('[FCM] Background message: ${message.messageId}');
+}
+
+enum FcmTopicCategory { matchAlerts, promotions, groupUpdates }
+
+const _defaultTopicPreferences = <FcmTopicCategory, bool>{
+  FcmTopicCategory.matchAlerts: true,
+  FcmTopicCategory.promotions: true,
+  FcmTopicCategory.groupUpdates: true,
+};
+
+String _topicStorageKey(FcmTopicCategory category) {
+  return switch (category) {
+    FcmTopicCategory.matchAlerts => 'topic_match_alerts_enabled',
+    FcmTopicCategory.promotions => 'topic_promotions_enabled',
+    FcmTopicCategory.groupUpdates => 'topic_group_updates_enabled',
+  };
+}
+
+String _topicNameFor(FcmTopicCategory category) {
+  return switch (category) {
+    FcmTopicCategory.matchAlerts => 'match_alerts_${AppMarket.countryCode}',
+    FcmTopicCategory.promotions => 'promotions_${AppMarket.countryCode}',
+    FcmTopicCategory.groupUpdates => 'group_updates_${AppMarket.countryCode}',
+  };
 }
 
 enum FcmAuthorizationStatus {
@@ -35,6 +60,8 @@ class FcmStatus {
     this.authorizationStatus = FcmAuthorizationStatus.unknown,
     this.isInitialized = false,
     this.activeMarketTopic,
+    this.activeTopics = const <String>{},
+    this.topicPreferences = _defaultTopicPreferences,
     this.lastError,
   });
 
@@ -44,6 +71,8 @@ class FcmStatus {
   final FcmAuthorizationStatus authorizationStatus;
   final bool isInitialized;
   final String? activeMarketTopic;
+  final Set<String> activeTopics;
+  final Map<FcmTopicCategory, bool> topicPreferences;
   final String? lastError;
 
   bool get isAuthorized =>
@@ -58,6 +87,8 @@ class FcmStatus {
     FcmAuthorizationStatus? authorizationStatus,
     bool? isInitialized,
     Object? activeMarketTopic = _sentinel,
+    Set<String>? activeTopics,
+    Map<FcmTopicCategory, bool>? topicPreferences,
     Object? lastError = _sentinel,
   }) {
     return FcmStatus(
@@ -67,6 +98,8 @@ class FcmStatus {
       activeMarketTopic: activeMarketTopic == _sentinel
           ? this.activeMarketTopic
           : activeMarketTopic as String?,
+      activeTopics: activeTopics ?? this.activeTopics,
+      topicPreferences: topicPreferences ?? this.topicPreferences,
       lastError: lastError == _sentinel ? this.lastError : lastError as String?,
     );
   }
@@ -141,6 +174,42 @@ class SupabaseFcmTokenRepository implements FcmTokenRepository {
         .delete()
         .eq('user_id', userId)
         .eq('token', token);
+  }
+}
+
+abstract class FcmTopicPreferenceStore {
+  Future<Map<FcmTopicCategory, bool>> readPreferences();
+  Future<void> writePreference(FcmTopicCategory category, bool enabled);
+}
+
+class HiveFcmTopicPreferenceStore implements FcmTopicPreferenceStore {
+  HiveFcmTopicPreferenceStore({
+    required OpenHiveBox<dynamic> openBox,
+    this.boxName = FcmService.preferenceBoxName,
+  }) : _openBox = openBox;
+
+  final OpenHiveBox<dynamic> _openBox;
+  final String boxName;
+
+  @override
+  Future<Map<FcmTopicCategory, bool>> readPreferences() async {
+    final box = await _openBox(boxName);
+    return <FcmTopicCategory, bool>{
+      for (final category in FcmTopicCategory.values)
+        category:
+            box.get(
+                  _topicStorageKey(category),
+                  defaultValue: _defaultTopicPreferences[category],
+                )
+                as bool? ??
+            _defaultTopicPreferences[category]!,
+    };
+  }
+
+  @override
+  Future<void> writePreference(FcmTopicCategory category, bool enabled) async {
+    final box = await _openBox(boxName);
+    await box.put(_topicStorageKey(category), enabled);
   }
 }
 
@@ -232,11 +301,16 @@ class FcmService {
   FcmService({
     FcmMessagingClient? messagingClient,
     required FcmPreferenceStore preferenceStore,
+    required FcmTopicPreferenceStore topicPreferenceStore,
     required FcmTokenRepository tokenRepository,
+    FcmForegroundNotificationPresenter? foregroundPresenter,
     bool Function()? isFirebaseAvailable,
   }) : _messagingClient = messagingClient,
        _preferenceStore = preferenceStore,
+       _topicPreferenceStore = topicPreferenceStore,
        _tokenRepository = tokenRepository,
+       _foregroundPresenter =
+           foregroundPresenter ?? LocalFcmForegroundNotificationPresenter(),
        _isFirebaseAvailable =
            isFirebaseAvailable ?? (() => Firebase.apps.isNotEmpty);
 
@@ -244,15 +318,21 @@ class FcmService {
   static const preferenceKey = 'notifications_enabled';
 
   final FcmPreferenceStore _preferenceStore;
+  final FcmTopicPreferenceStore _topicPreferenceStore;
   final FcmTokenRepository _tokenRepository;
+  final FcmForegroundNotificationPresenter _foregroundPresenter;
   final bool Function() _isFirebaseAvailable;
 
   FcmMessagingClient? _messagingClient;
   bool _handlersRegistered = false;
+  bool _foregroundPresenterInitialized = false;
   bool _isInitialized = false;
   String? _activeUserId;
   String? _currentToken;
   String? _activeMarketTopic;
+  final Set<String> _activeTopicSubscriptions = <String>{};
+  Map<FcmTopicCategory, bool> _topicPreferences =
+      Map<FcmTopicCategory, bool>.of(_defaultTopicPreferences);
   FcmStatus _status = const FcmStatus();
 
   StreamSubscription<String>? _tokenRefreshSubscription;
@@ -264,6 +344,7 @@ class FcmService {
   bool get isNotificationsEnabled => _status.preferenceEnabled;
 
   Future<FcmStatus> status({bool refreshPermission = true}) async {
+    await _loadTopicPreferences();
     var preferenceEnabled = await _safeReadPreference();
     final authorizationStatus = refreshPermission
         ? await _safeReadAuthorizationStatus()
@@ -274,7 +355,7 @@ class FcmService {
       preferenceEnabled = false;
       await _safeWritePreference(false);
       await _captureCurrentToken();
-      await _clearTopicSubscription();
+      await _clearTopicSubscriptions();
       await _deleteStoredToken();
       await _safeDeleteDeviceToken();
       _isInitialized = false;
@@ -286,6 +367,10 @@ class FcmService {
         authorizationStatus: authorizationStatus,
         isInitialized: _isInitialized,
         activeMarketTopic: _activeMarketTopic,
+        activeTopics: _activeTopicSubscriptions.toSet(),
+        topicPreferences: Map<FcmTopicCategory, bool>.unmodifiable(
+          _topicPreferences,
+        ),
         lastError: null,
       ),
     );
@@ -309,7 +394,7 @@ class FcmService {
       _isInitialized = false;
       await _safeWritePreference(false);
       await _captureCurrentToken();
-      await _clearTopicSubscription();
+      await _clearTopicSubscriptions();
       await _deleteStoredToken(userId: userId);
       await _safeDeleteDeviceToken();
       return _setStatus(
@@ -317,6 +402,7 @@ class FcmService {
           preferenceEnabled: false,
           authorizationStatus: authorizationStatus,
           isInitialized: false,
+          activeTopics: const <String>{},
           lastError: 'Notifications are blocked in system settings.',
         ),
       );
@@ -357,7 +443,7 @@ class FcmService {
   Future<FcmStatus> disable({String? userId}) async {
     await _safeWritePreference(false);
     await _captureCurrentToken();
-    await _clearTopicSubscription();
+    await _clearTopicSubscriptions();
     await _deleteStoredToken(userId: userId ?? _activeUserId);
     await _safeDeleteDeviceToken();
     _isInitialized = false;
@@ -366,7 +452,31 @@ class FcmService {
         preferenceEnabled: false,
         isInitialized: false,
         activeMarketTopic: null,
+        activeTopics: const <String>{},
         lastError: null,
+      ),
+    );
+  }
+
+  Future<FcmStatus> setTopicEnabled(
+    FcmTopicCategory category,
+    bool enabled,
+  ) async {
+    await _safeWriteTopicPreference(category, enabled);
+    _topicPreferences = <FcmTopicCategory, bool>{
+      ..._topicPreferences,
+      category: enabled,
+    };
+
+    if (_isInitialized && _status.preferenceEnabled && _status.isAuthorized) {
+      return syncTopics();
+    }
+
+    return _setStatus(
+      (await status()).copyWith(
+        topicPreferences: Map<FcmTopicCategory, bool>.unmodifiable(
+          _topicPreferences,
+        ),
       ),
     );
   }
@@ -376,38 +486,53 @@ class FcmService {
     if (!_isInitialized ||
         !current.preferenceEnabled ||
         !current.isAuthorized) {
-      await _clearTopicSubscription();
+      await _clearTopicSubscriptions();
       return _setStatus(
         current.copyWith(
           isInitialized: _isInitialized,
           activeMarketTopic: null,
+          activeTopics: const <String>{},
         ),
       );
     }
 
-    const desiredTopic = 'market_${AppMarket.countryCode}';
+    const desiredMarketTopic = 'market_${AppMarket.countryCode}';
+    final desiredTopics = <String>{
+      desiredMarketTopic,
+      for (final entry in _topicPreferences.entries)
+        if (entry.value) _topicNameFor(entry.key),
+    };
 
-    if (_activeMarketTopic != null && _activeMarketTopic != desiredTopic) {
+    final staleTopics = _activeTopicSubscriptions.difference(desiredTopics);
+    for (final topic in staleTopics) {
       try {
-        await _client.unsubscribeFromTopic(_activeMarketTopic!);
+        await _client.unsubscribeFromTopic(topic);
       } catch (error) {
         debugPrint('[FCM] Topic unsubscribe failed: $error');
       }
     }
 
-    if (desiredTopic != _activeMarketTopic) {
+    final newTopics = desiredTopics.difference(_activeTopicSubscriptions);
+    for (final topic in newTopics) {
       try {
-        await _client.subscribeToTopic(desiredTopic);
+        await _client.subscribeToTopic(topic);
       } catch (error) {
         debugPrint('[FCM] Topic subscribe failed: $error');
       }
     }
 
-    _activeMarketTopic = desiredTopic;
+    _activeTopicSubscriptions
+      ..clear()
+      ..addAll(desiredTopics);
+    _activeMarketTopic = desiredMarketTopic;
     return _setStatus(
       current.copyWith(
         isInitialized: _isInitialized,
         activeMarketTopic: _activeMarketTopic,
+        activeTopics: _activeTopicSubscriptions.toSet(),
+        topicPreferences: Map<FcmTopicCategory, bool>.unmodifiable(
+          _topicPreferences,
+        ),
         lastError: null,
       ),
     );
@@ -415,7 +540,7 @@ class FcmService {
 
   Future<FcmStatus> clearSession({required String userId}) async {
     await _captureCurrentToken();
-    await _clearTopicSubscription();
+    await _clearTopicSubscriptions();
     await _deleteStoredToken(userId: userId);
     await _safeDeleteDeviceToken();
     _activeUserId = null;
@@ -425,6 +550,7 @@ class FcmService {
       (await status(refreshPermission: false)).copyWith(
         isInitialized: false,
         activeMarketTopic: null,
+        activeTopics: const <String>{},
         lastError: null,
       ),
     );
@@ -464,6 +590,32 @@ class FcmService {
     }
   }
 
+  Future<void> _loadTopicPreferences() async {
+    try {
+      final stored = await _topicPreferenceStore.readPreferences();
+      _topicPreferences = <FcmTopicCategory, bool>{
+        ..._defaultTopicPreferences,
+        ...stored,
+      };
+    } catch (error) {
+      debugPrint('[FCM] Failed to read topic preferences: $error');
+      _topicPreferences = Map<FcmTopicCategory, bool>.of(
+        _defaultTopicPreferences,
+      );
+    }
+  }
+
+  Future<void> _safeWriteTopicPreference(
+    FcmTopicCategory category,
+    bool enabled,
+  ) async {
+    try {
+      await _topicPreferenceStore.writePreference(category, enabled);
+    } catch (error) {
+      debugPrint('[FCM] Failed to persist topic preference: $error');
+    }
+  }
+
   Future<FcmAuthorizationStatus> _safeReadAuthorizationStatus() async {
     if (!_isFirebaseAvailable()) {
       return FcmAuthorizationStatus.unknown;
@@ -498,6 +650,14 @@ class FcmService {
     }
 
     _handlersRegistered = true;
+    if (!_foregroundPresenterInitialized) {
+      _foregroundPresenterInitialized = true;
+      unawaited(
+        _foregroundPresenter.initialize(
+          onSelectNotification: _handleNotificationPayload,
+        ),
+      );
+    }
     _client.registerBackgroundHandler();
     _tokenRefreshSubscription = _client.onTokenRefresh.listen((token) {
       _currentToken = token;
@@ -583,19 +743,22 @@ class FcmService {
     }
   }
 
-  Future<void> _clearTopicSubscription() async {
-    final activeTopic = _activeMarketTopic;
-    if (activeTopic == null || activeTopic.isEmpty) {
+  Future<void> _clearTopicSubscriptions() async {
+    if (_activeTopicSubscriptions.isEmpty) {
       return;
     }
 
-    try {
-      await _client.unsubscribeFromTopic(activeTopic);
-    } catch (error) {
-      debugPrint('[FCM] Topic unsubscribe failed: $error');
-    } finally {
-      _activeMarketTopic = null;
+    for (final activeTopic in _activeTopicSubscriptions.toList(
+      growable: false,
+    )) {
+      try {
+        await _client.unsubscribeFromTopic(activeTopic);
+      } catch (error) {
+        debugPrint('[FCM] Topic unsubscribe failed: $error');
+      }
     }
+    _activeTopicSubscriptions.clear();
+    _activeMarketTopic = null;
   }
 
   FcmStatus _setStatus(FcmStatus status) {
@@ -609,109 +772,22 @@ class FcmService {
       return;
     }
 
-    debugPrint('[FCM] Foreground: ${notification.title}');
+    final title = notification.title?.trim().isNotEmpty == true
+        ? notification.title!.trim()
+        : 'Cool';
+    final body = notification.body?.trim().isNotEmpty == true
+        ? notification.body!.trim()
+        : 'Open Cool to view the latest update.';
+    final payload = _notificationPayload(message);
 
-    // Show a MaterialBanner at the top of the app.
-    final context = rootNavigatorKey.currentContext;
-    if (context == null) {
-      return;
-    }
-
-    final route = _resolveRoute(message);
-    final imageUrl = message.data['image_url']?.toString();
-
-    ScaffoldMessenger.of(context).showMaterialBanner(
-      MaterialBanner(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        leading: const Icon(Icons.notifications_rounded, color: Colors.white),
-        backgroundColor: const Color(0xFF1A1A2E),
-        content: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (notification.title != null)
-                    Text(
-                      notification.title!,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 14,
-                      ),
-                    ),
-                  if (notification.body != null) ...[
-                    const SizedBox(height: 2),
-                    Text(
-                      notification.body!,
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 13,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ],
-              ),
-            ),
-            if (imageUrl != null && imageUrl.isNotEmpty) ...[
-              const SizedBox(width: 12),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  imageUrl,
-                  width: 48,
-                  height: 48,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, _, _) => const SizedBox.shrink(),
-                ),
-              ),
-            ],
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-              if (route != null) {
-                _openRoute(context, route);
-              }
-            },
-            child: Text(
-              route != null ? 'VIEW' : 'DISMISS',
-              style: const TextStyle(
-                color: Color(0xFF6C63FF),
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-        ],
-      ),
+    debugPrint('[FCM] Foreground: $title');
+    unawaited(
+      _showForegroundNotification(title: title, body: body, payload: payload),
     );
-
-    // Auto-dismiss after 5 seconds.
-    Future.delayed(const Duration(seconds: 5), () {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-      }
-    });
   }
 
   void _handleNotificationTap(RemoteMessage message) {
-    final route = _resolveRoute(message);
-    if (route == null) {
-      return;
-    }
-
-    debugPrint('[FCM] Notification tap → navigating to: $route');
-
-    final context = rootNavigatorKey.currentContext;
-    if (context != null) {
-      _openRoute(context, route);
-    }
+    _handleNotificationPayload(_notificationPayload(message));
   }
 
   void _openRoute(BuildContext context, String route) {
@@ -734,6 +810,28 @@ class FcmService {
 
   String? _resolveRoute(RemoteMessage message) {
     final routeData = message.data['route']?.toString();
+    return _resolveRouteFromPayload(routeData);
+  }
+
+  String? _notificationPayload(RemoteMessage message) {
+    return _resolveRoute(message);
+  }
+
+  Future<void> _handleNotificationPayload(String? payload) async {
+    final route = _resolveRouteFromPayload(payload);
+    if (route == null) {
+      return;
+    }
+
+    debugPrint('[FCM] Notification tap → navigating to: $route');
+
+    final context = rootNavigatorKey.currentContext;
+    if (context != null) {
+      _openRoute(context, route);
+    }
+  }
+
+  String? _resolveRouteFromPayload(String? routeData) {
     if (routeData == null || routeData.isEmpty) {
       return null;
     }
@@ -746,5 +844,86 @@ class FcmService {
 
     // Plain route path (e.g. '/groups/123').
     return routeData.startsWith('/') ? routeData : '/$routeData';
+  }
+
+  Future<void> _showForegroundNotification({
+    required String title,
+    required String body,
+    required String? payload,
+  }) async {
+    try {
+      await _foregroundPresenter.show(
+        title: title,
+        body: body,
+        payload: payload,
+      );
+    } catch (error) {
+      debugPrint('[FCM] Foreground notification failed: $error');
+      _showForegroundBanner(title: title, body: body, payload: payload);
+    }
+  }
+
+  void _showForegroundBanner({
+    required String title,
+    required String body,
+    required String? payload,
+  }) {
+    final context = rootNavigatorKey.currentContext;
+    if (context == null) {
+      return;
+    }
+
+    final route = _resolveRouteFromPayload(payload);
+    ScaffoldMessenger.of(context).showMaterialBanner(
+      MaterialBanner(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        leading: const Icon(Icons.notifications_rounded, color: Colors.white),
+        backgroundColor: const Color(0xFF1A1A2E),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              body,
+              style: const TextStyle(color: Colors.white70, fontSize: 13),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+              if (route != null) {
+                _openRoute(context, route);
+              }
+            },
+            child: Text(
+              route != null ? 'VIEW' : 'DISMISS',
+              style: const TextStyle(
+                color: Color(0xFF6C63FF),
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    Future.delayed(const Duration(seconds: 5), () {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+      }
+    });
   }
 }

@@ -37,6 +37,30 @@ feature branch → main → tag v*.*.* → CI release → Firebase App Distribut
    - Archives APK as build artifact
 5. **Play Store**: Manual upload from Firebase App Distribution or CI artifact
 
+## Critical Build Blockers
+
+> **⛔ MANDATORY — These environment variables MUST be set for every APK and AAB
+> build. Builds without them will produce non-functional artifacts.**
+
+| Variable | Purpose | Enforcement |
+|---|---|---|
+| `SUPABASE_URL` | Production Supabase project URL baked into the binary via `--dart-define` | Shell scripts abort with `:?` check; Dart runtime shows config error screen |
+| `SUPABASE_ANON_KEY` | Production Supabase anon key baked into the binary via `--dart-define` | Shell scripts abort with `:?` check; Dart runtime shows config error screen |
+
+**Why this is critical:**
+- These values are compiled into the Flutter binary at build time via `--dart-define`.
+- If missing or empty, the app cannot initialize Supabase and will either crash or
+  display a full-screen configuration error (`ConfigErrorApp`).
+- This applies to **all build targets**: APK, AAB, staging, production, QA, iOS.
+- This applies to **all build methods**: local scripts, CI/CD, manual `flutter build`.
+
+**How to provide them:**
+1. Export: `export SUPABASE_URL=https://... SUPABASE_ANON_KEY=...`
+2. `.env` file at repo root (auto-loaded by build scripts)
+3. `.env.json` with `--dart-define-from-file=.env.json`
+4. CI secrets (GitHub Actions `release.yml` uses `secrets.SUPABASE_URL` and `secrets.SUPABASE_ANON_KEY`)
+
+
 ## Versioning
 
 Format: `MAJOR.MINOR.PATCH`

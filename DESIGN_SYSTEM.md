@@ -869,7 +869,6 @@ Current concentration by file count:
 Expected bridge files that may remain temporarily:
 
 - `lib/core/theme/cool_palette.dart`
-- `lib/core/theme/app_colors.dart`
 - `lib/core/theme/app_theme.dart`
 - `lib/core/theme/app_theme_components.dart`
 - `lib/core/theme/theme_system_chrome.dart`

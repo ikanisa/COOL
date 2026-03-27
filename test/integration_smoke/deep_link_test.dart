@@ -16,11 +16,8 @@ void main() {
 
       final uri = app.router.routeInformationProvider.value.uri;
 
-      expect(uri.path, AppRoutes.splash);
-      expect(
-        uri.queryParameters['redirect'],
-        AppRoutes.inviteLocation('abcd1234'),
-      );
+      expect(uri.path, AppRoutes.inviteLocation('abcd1234'));
+      expect(uri.queryParameters['redirect'], isNull);
     });
 
     testWidgets('Register deep link keeps its phone query during redirect', (

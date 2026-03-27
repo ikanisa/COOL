@@ -341,7 +341,7 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
 // Typography Helpers
 // ──────────────────────────────────────────────────────────────────────────────
 
-/// Typography helpers anchored to [TextTheme] with JetBrains Mono and
+/// Typography helpers anchored to [TextTheme] with DM Mono and
 /// Barlow Condensed overrides for values and headings.
 @immutable
 class CoolTextStyles {
@@ -356,7 +356,7 @@ class CoolTextStyles {
 
   TextTheme get theme => _textTheme;
 
-  /// Monospace text — JetBrains Mono for values, IDs, labels.
+  /// Monospace text — DM Mono for values, IDs, labels.
   TextStyle mono(
     TextStyle? base, {
     Color? color,
@@ -368,7 +368,7 @@ class CoolTextStyles {
         base ??
         _textTheme.bodyLarge ??
         const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
-    return GoogleFonts.jetBrainsMono(
+    return GoogleFonts.dmMono(
       textStyle: resolvedBase.copyWith(
         color: color ?? resolvedBase.color ?? _defaultColor,
         fontWeight: fontWeight ?? resolvedBase.fontWeight,
@@ -378,10 +378,10 @@ class CoolTextStyles {
     );
   }
 
-  /// mobi-label: 10px, JetBrains Mono, uppercase, wide tracking.
+  /// mobi-label: 10px, DM Mono, uppercase, wide tracking.
   TextStyle mobiLabel({Color? color}) {
     final labelColor = _textTheme.labelSmall?.color ?? _defaultColor;
-    return GoogleFonts.jetBrainsMono(
+    return GoogleFonts.dmMono(
       textStyle: TextStyle(
         fontSize: 10,
         fontWeight: FontWeight.w600,
@@ -392,9 +392,9 @@ class CoolTextStyles {
     );
   }
 
-  /// mobi-value: 14px, JetBrains Mono, tight tracking.
+  /// mobi-value: 14px, DM Mono, tight tracking.
   TextStyle mobiValue({Color? color}) {
-    return GoogleFonts.jetBrainsMono(
+    return GoogleFonts.dmMono(
       textStyle: TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w500,

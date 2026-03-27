@@ -40,7 +40,14 @@ class BiopayHomeScreen extends StatelessWidget {
                 scrolledUnderElevation: 0,
                 toolbarHeight: CoolSpace.x10,
                 leading: IconButton(
-                  onPressed: () => context.pop(),
+                  onPressed: () {
+                    if (context.canPop()) {
+                      context.pop();
+                      return;
+                    }
+                    context.go(AppRoutes.home);
+                  },
+                  tooltip: 'Back',
                   icon: Icon(
                     Icons.arrow_back_rounded,
                     color: colors.primaryText,

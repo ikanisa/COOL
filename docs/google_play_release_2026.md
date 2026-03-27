@@ -206,6 +206,10 @@ the remaining Google Play and Firebase work.
 
 ## Local Build Command
 
+> **⛔ CRITICAL BLOCKER — `SUPABASE_URL` and `SUPABASE_ANON_KEY` MUST be set.**
+> Without them the APK/AAB will crash at startup or show a config error screen.
+> The build script will abort immediately if either is missing.
+
 ```bash
 SUPABASE_URL="https://..." \
 SUPABASE_ANON_KEY="..." \

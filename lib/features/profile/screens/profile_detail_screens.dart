@@ -20,7 +20,7 @@ class ProfileWalletScreen extends ConsumerWidget {
     final profile = ref.watch(profileViewProvider);
 
     return _ProfileDetailScaffold(
-      title: context.l10n.profileMobileMoney,
+      title: context.l10n.profileWalletLabel,
       child: ProfileMomoEditSheet(
         currentMomoNumber: profile.momoNumber,
         currentMomoCode: profile.momoCode,
@@ -61,8 +61,6 @@ class ProfileWalletScreen extends ConsumerWidget {
     );
   }
 }
-
-
 
 class _ProfileDetailScaffold extends StatelessWidget {
   const _ProfileDetailScaffold({required this.title, required this.child});

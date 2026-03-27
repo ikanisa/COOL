@@ -53,6 +53,46 @@ void main() {
       );
     });
 
+    test('maps plain custom momo links to BioPay home', () {
+      expect(
+        DeepLinkConfig.routeForUri(Uri.parse('cool://momo')),
+        AppRoutes.biopayHome,
+      );
+    });
+
+    test('maps nested custom BioPay links under momo', () {
+      expect(
+        DeepLinkConfig.routeForUri(Uri.parse('cool://momo/biopay')),
+        AppRoutes.biopayHome,
+      );
+      expect(
+        DeepLinkConfig.routeForUri(
+          Uri.parse('cool://momo/biopay/scan?mode=pay'),
+        ),
+        '${AppRoutes.biopayScan}?mode=pay',
+      );
+      expect(
+        DeepLinkConfig.routeForUri(Uri.parse('cool://momo/biopay/nfc')),
+        AppRoutes.biopayNfc,
+      );
+    });
+
+    test('preserves incoming payment links on the momo handoff route', () {
+      expect(
+        DeepLinkConfig.routeForUri(
+          Uri.parse('cool://momo?action=nfc_pay&recipient=0788&amount=5000'),
+        ),
+        '${AppRoutes.momo}?action=nfc_pay&recipient=0788&amount=5000',
+      );
+    });
+
+    test('maps custom biopay-tab link', () {
+      expect(
+        DeepLinkConfig.routeForUri(Uri.parse('cool://biopay-tab')),
+        AppRoutes.biopayHome,
+      );
+    });
+
     test('ignores unsupported hosts', () {
       expect(
         DeepLinkConfig.routeForUri(Uri.parse('https://example.com/basket')),
