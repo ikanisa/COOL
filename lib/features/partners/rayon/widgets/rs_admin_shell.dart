@@ -188,8 +188,8 @@ class _MetricChip extends StatelessWidget {
         children: [
           Text(
             value,
-            style: GoogleFonts.dmMono(
-              fontSize: 20,
+            style: context.coolText.mono(
+              const TextStyle(fontSize: 20),
               fontWeight: FontWeight.w800,
               color: RsColors.rsGoldLight,
             ),

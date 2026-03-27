@@ -52,20 +52,50 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
     final detailAsync = ref.watch(groupDetailProvider(widget.groupId));
     final isJoiningGroup = ref.watch(groupJoinLoadingProvider);
 
+    final text = context.coolText;
+
     return Scaffold(
       backgroundColor: colors.appBackground,
       appBar: AppBar(
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () => context.pop(),
-          tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Center(
+            child: GestureDetector(
+              onTap: () => context.pop(),
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: colors.cardSurfaceStrong,
+                  borderRadius: BorderRadius.circular(CoolRadii.sm),
+                  border: Border.all(color: colors.borderStrong),
+                ),
+                child: Icon(
+                  Icons.chevron_left_rounded,
+                  color: colors.primaryText,
+                  size: 24,
+                ),
+              ),
+            ),
+          ),
+        ),
+        centerTitle: true,
+        title: Text(
+          'GROUP DETAILS',
+          style: text.rayonCondensed(
+            const TextStyle(fontSize: 20),
+            fontWeight: FontWeight.w900,
+            color: colors.primaryText,
+            letterSpacing: 0.5,
+          ),
         ),
         actions: [
           if (detailAsync.valueOrNull != null)
             _buildSettingsButton(context, detailAsync.value!),
+          const SizedBox(width: 12),
         ],
       ),
       body: CoolScreenBackground(
@@ -74,18 +104,6 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                CoolSpace.x4,
-                0,
-                CoolSpace.x4,
-                CoolSpace.x6,
-              ),
-              child: Text(
-                context.l10n.groupDetailTitle,
-                style: Theme.of(context).textTheme.displayLarge,
-              ),
-            ),
             Expanded(
               child: CoolAsyncView<GroupDetail?>(
                 value: detailAsync,
@@ -378,14 +396,22 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
 
     if (!isCreator && !isAdmin) return const SizedBox.shrink();
 
-    return IconButton(
-      onPressed: () => _openGroupSettings(context, detail),
-      icon: Icon(
-        Icons.settings_outlined,
-        color: colors.secondaryText,
-        size: 22,
+    return GestureDetector(
+      onTap: () => _openGroupSettings(context, detail),
+      child: Container(
+        width: 44,
+        height: 44,
+        decoration: BoxDecoration(
+          color: colors.cardSurfaceStrong,
+          borderRadius: BorderRadius.circular(CoolRadii.sm),
+          border: Border.all(color: colors.borderStrong),
+        ),
+        child: Icon(
+          Icons.settings_outlined,
+          color: colors.secondaryText,
+          size: 20,
+        ),
       ),
-      tooltip: context.l10n.groupSettings,
     );
   }
 

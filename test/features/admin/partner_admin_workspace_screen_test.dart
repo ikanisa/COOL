@@ -51,7 +51,7 @@ void main() {
     expect(find.text('Apex Services'), findsWidgets);
     expect(find.text('Workspace launch sequence'), findsOneWidget);
     expect(find.text('Dedicated partner command center'), findsOneWidget);
-    expect(find.text('Back to workspaces'), findsOneWidget);
+    expect(find.bySemanticsLabel('Back to workspaces'), findsOneWidget);
   });
 
   testWidgets('rayon partner workspace forwards into the dedicated admin hub', (
@@ -78,6 +78,6 @@ void main() {
 
     expect(find.text('Rayon Sports Admin'), findsWidgets);
     expect(find.text('Dedicated command routing'), findsOneWidget);
-    expect(find.text('Open Rayon Sports Admin'), findsOneWidget);
+    expect(find.bySemanticsLabel('Open Rayon Sports Admin'), findsOneWidget);
   });
 }

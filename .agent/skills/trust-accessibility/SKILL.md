@@ -5,217 +5,220 @@ description: >
   standards (touch targets, contrast, screen readers) and localization rules
   for the COOL Flutter super-app. Use when working on payment screens,
   permission flows, maps, accessibility audits, or localization.
-  Source of truth: DESIGN_SYSTEM.md §12–13.
+  Source of truth: Mobi × Rayon design system.
 ---
 
 # Trust & Accessibility
 
 Use this skill when the task involves:
 
-- Payment display screens (MoMo, tickets, checkout)
-- Permission request UX (location, camera, contacts, SMS)
-- Maps integration and fallback design
-- Accessibility audit or remediation
-- Screen reader support and semantic labels
-- Touch target sizing
-- Contrast ratio verification
-- Localization (EN/FR) and text expansion handling
+- Payment flows, confirmation screens, or financial data display
+- Permission requests or sensitive operations
+- Accessibility: touch targets, contrast, screen readers, focus order
+- Localization decisions (EN/FR)
 
 This skill is NOT for:
 
 - Color tokens or typography → use `design-foundations`
 - Screen layout or copy budgets → use `screen-composition`
-- Shared widgets or routing → use `component-navigation`
-- Module-specific UX → use `module-partner-ux`
+- Module-specific UX decisions → use `module-partner-ux`
 
-## Trust Design
+## Payment Trust
 
-### Payment Displays
+Payment screens are the highest-trust surfaces in the app. They must
+feel stable, honest, and immediately comprehensible.
 
-**Always show:**
-- Recipient identity
-- Route type (phone number vs. merchant code)
-- Amount
-- Pending vs. confirmed state
-- Reference where available
-- What happens next
+### Payment Screen Rules
 
-**Never hide:**
-- The receiving identity
-- Whether confirmation is still pending
-- Draft or manual-review state when it affects ledger meaning
+1. **One CTA** — one confirm/pay button per payment screen.
+2. **Amount prominent** — JetBrains Mono, headlineMedium (24dp) minimum.
+3. **State honest** — pending means pending. Never say "complete" before confirmed.
+4. **No marketing** — no branding, banners, or promotional noise on payment screens.
+5. **Confirmation required** — all payments require explicit user confirmation step.
+6. **Error states visible** — clear, actionable error messages with retry CTA.
 
-### Financial Surface Tokens
+### Financial Value Display
 
-Payment and financial screens must use the dedicated domain surface tokens
-from `CoolSemanticColors` (see `design-foundations` skill):
-
-| Token | Use |
-|---|---|
-| `financialSurface` | Wallet, balance, statement containers |
-| `operationalSurface` | Payout dashboards, admin reconciliation |
-| `routeSurface` | Route cost breakdowns and journey-related payments |
-| `contactSurface` | WhatsApp handoff, support CTAs |
-
-All financial amounts must use `DM Mono` font at `bodyLarge` (18dp) minimum.
-Balances and totals use `headlineMedium` (30dp) or larger.
-
-### Payment UX Rules
-
-- MoMo payments are payer-owned USSD handoff. No API, no webhooks.
-- SMS verification confirms the transaction on the device.
-- "Completed" state must not display before SMS or backend confirmation.
-- Payment screens feel like trust, not decoration — even on partner routes.
-- Checkout reads like a final review, not a second browsing screen.
-- Totals, quantities, and pending-state language must be explicit.
-- MoMo handoff feels like a deliberate next step, not a surprise.
-
-### Maps & Location
-
-Maps are useful only when they genuinely improve trip selection. Design rules:
-
-- List-first discovery is the default.
-- Route summary as a text fallback.
-- Manual place search available.
-- Explicit "unavailable" copy when maps cannot load.
-- Never assume maps will work. Always build the non-map path first.
-- No geolocation prompts without user-initiated context.
-
-### Permissions
-
-Permission design must be truthful:
-
-- **Explain why** access is needed before requesting.
-- **Show current status** of the permission.
-- **Offer a fallback** when the product supports one.
-- **Send to system settings** only when necessary.
-- **Graceful degradation** on every denial — never a dead end.
-- **Contextual requests** — request location only in user-initiated map flows, camera only on QR.
-- **Data minimization** — only access contacts when user explicitly triggers social features.
-
-### Permission Audit Checklist
-
-```
-[ ] Every permission request has a pre-prompt explanation
-[ ] Every permission denial has graceful degradation UX
-[ ] No permissions are requested on app launch (all contextual)
-[ ] Contacts access is scoped to minimum fields needed
-[ ] Camera access is only for QR scanning, not profile photos without consent
-[ ] Location access is only on map-related flows the user explicitly opened
-```
-
-## Accessibility
-
-### Touch Targets — Use `CoolTapTargets`
-
-| Token | Value | Use |
-|---|---|---|
-| `minimum` | 48dp | Absolute minimum for any interactive element |
-| `comfortable` | 56dp | Standard payment buttons, list rows |
-| `navigation` | 64dp | Primary CTA (Pay, Send, Confirm) |
-
-- One-hand use matters for MoMo and other high-frequency transactional flows.
-- Avoid tiny chips as critical controls.
-- Ensure spacing between adjacent tap targets prevents mis-taps.
-
-### Text & Contrast
-
-- Minimum contrast ratio: **4.5:1** for body text, **3:1** for large text (WCAG 2.1 AA).
-- Support dynamic type and text wrapping.
-- Ensure readable contrast in both light and dark themes.
-- All interactive elements must have visible focus states.
-- Test text scaling at 1.0x, 1.5x, and 2.0x — screens must not overflow.
-
-### Screen Reader
-
-- Give amounts meaningful phrasing: "1,500 Rwandan francs" not "1500".
-- Use explicit button labels (no icon-only buttons without semantic label).
-- Do not rely on placeholder-only fields.
-- Make error copy actionable: "Retry" not just "Error."
-- Add focus traversal order to critical flows: auth, MoMo, trip booking, tickets.
-
-### Accessibility Implementation
+All amounts, balances, and IDs use JetBrains Mono:
 
 ```dart
-// Every IconButton needs a semantic label
-IconButton(
-  icon: const Icon(Icons.send),
-  tooltip: 'Send payment',  // Serves as semantic label
-  onPressed: _send,
-)
-
-// Custom gesture areas need Semantics wrapper
-Semantics(
-  label: 'Open group details',
-  button: true,
-  child: GestureDetector(
-    onTap: _openGroup,
-    child: _buildGroupRow(),
-  ),
-)
-
-// Amount formatting for screen readers
-Semantics(
-  label: '${amount.toStringAsFixed(0)} Rwandan francs',
-  child: Text(
-    'RWF ${NumberFormat('#,##0').format(amount)}',
-    style: AppTypography.mono,
+Text(
+  'RWF 25,000',
+  style: TextStyle(
+    fontFamily: 'JetBrainsMono',
+    fontSize: 24,  // headlineMedium minimum for primary amounts
+    fontWeight: FontWeight.w700,
+    letterSpacing: -0.48,
+    color: CoolColors.textPrimary,
   ),
 )
 ```
 
-### Accessibility Audit Commands
+Rules:
+- Currency prefix always visible (RWF, EUR).
+- No abbreviation of amounts.
+- Thousand separators: comma for RWF, period for EUR.
+- Negative amounts in `danger` color.
+- Positive amounts in `success` color only in transaction lists.
+- Neutral amounts in `textPrimary`.
 
-```sh
-# Find interactive widgets missing semantic labels
-rg "IconButton\(" lib/ -l | xargs rg -L "tooltip\|semanticsLabel"
+### Payment States
 
-# Find GestureDetector without Semantics
-rg "GestureDetector\(" lib/ --count
+| State | Indicator | Color |
+|---|---|---|
+| Pending | `CoolBadge(variant: warning)` + "PENDING" | `#FFA500` |
+| Processing | Spinner + "PROCESSING" | `textSecondary` |
+| Complete | `CoolBadge(variant: success)` + "COMPLETE" | `#00FF00` |
+| Failed | `CoolBadge(variant: danger)` + "FAILED" | `#FF3B30` |
+| Cancelled | `CoolBadge(variant: secondary)` + "CANCELLED" | `textSecondary` |
 
-# Find InkWell without semantic context
-rg "InkWell\(" lib/ --count
+### MoMo USSD Handoff
 
-# Count explicit Semantics usage
-rg "Semantics\(" lib/ --count
+MoMo payments use USSD handoff, not in-app processing:
 
-# Find images missing semanticLabel
-rg "Image\.\|Image(" lib/ -l | xargs rg -L "semanticLabel\|Semantics"
-```
+1. Show amount + recipient confirmation screen.
+2. User taps "PAY" CTA.
+3. App launches USSD dial intent externally.
+4. App shows "WAITING FOR CONFIRMATION" state with timer.
+5. SMS listener (background) updates state when confirmation detected.
+6. If timeout: show "UNCONFIRMED" with manual refresh option.
+
+Never show fake success. Never hide the USSD handoff nature of the payment.
+
+## Permission Flows
+
+### Permission Request Rules
+
+1. **Explain before requesting** — show why on a clear screen before system dialog.
+2. **One permission at a time** — never batch-request multiple permissions.
+3. **Graceful degradation** — if denied, explain what's unavailable and provide fallback.
+4. **No repeated nagging** — if denied twice, stop asking until user initiates action.
+
+### Biometric Permission
+
+BioPay biometric enrollment:
+1. Explain what biometric data is used for.
+2. Request permission with system dialog.
+3. If denied: show "BIOMETRIC UNAVAILABLE" with PIN fallback option.
+
+## Accessibility Standards
+
+### Touch Targets
+
+| Element | Minimum Size | Comfortable Size |
+|---|---|---|
+| Buttons, list rows | 48dp × 48dp | 56dp × 56dp |
+| Icon buttons | 44dp × 44dp | 48dp × 48dp |
+| Bottom nav items | 48dp × 48dp | 64dp tall |
+| Checkboxes, switches | 44dp × 44dp | 48dp × 48dp |
+
+### Color Contrast
+
+Dark-only system contrast requirements:
+
+| Text Type | Foreground | Background | Ratio |
+|---|---|---|---|
+| Primary text | `#FFFFFF` | `#050505` | > 18:1 ✅ |
+| Secondary text | `#888888` | `#050505` | > 4.5:1 ✅ |
+| Primary accent | `#0047AB` | `#050505` | check > 3:1 |
+| On primary | `#FFFFFF` | `#0047AB` | > 4.5:1 ✅ |
+| Gold accent | `#FFD700` | `#050505` | check > 3:1 |
+| Neon success | `#00FF00` | `#050505` | > 4.5:1 ✅ |
+| Danger | `#FF3B30` | `#050505` | > 4.5:1 ✅ |
+
+Rules:
+- Never use color alone to convey meaning — always pair with icon, label, or shape.
+- mobi-label (`textSecondary` at 10px) is acceptable because it's a supplementary descriptor, never primary.
+- Blue and gold accents used on dark backgrounds must be checked for 3:1 minimum.
+
+### Screen Reader Support
+
+- All interactive elements: `Semantics` label required.
+- Images: meaningful `semanticsLabel` or `excludeFromSemantics: true`.
+- Custom widgets: implement `Semantics(button: true, label: ...)` for actions.
+- Financial values: announce with currency and full number (no abbreviation).
+- Status badges: announce variant + text (e.g., "success badge, verified").
+
+### Focus Order
+
+- Logical top-to-bottom, left-to-right reading order.
+- Modals and sheets: trap focus within the overlay.
+- On dismiss: return focus to trigger element.
+- Skip navigation: not needed in mobile (3-item nav is compact enough).
+
+### Reduced Motion
+
+- `MediaQuery.disableAnimations` must be respected.
+- Skip decorative animations (atmospheric blobs, mobi-grid pulse).
+- Keep functional transitions (page push/pop) but reduce to instant.
+- Never block user interaction behind animation completion.
 
 ## Localization
 
-### Language Rules
+### Language Support
 
-- English and French are first-order requirements.
-- Account for text expansion: French is typically **15–30% longer**.
-- Keep short labels short enough for French expansion.
-- Format money, dates, and phone numbers by locale and country rules.
-- Use ARB files for all user-facing strings — no hardcoded text.
+EN (primary) and FR (secondary). All user-facing strings must be localized.
 
-### Money Formatting
+### Localization Rules
+
+1. All copy is externalized via ARB/l10n — no hardcoded strings.
+2. Currency formatting: locale-aware (RWF uses comma separator, EUR uses period).
+3. Date formatting: locale-aware via `intl`.
+4. RTL: not required (EN/FR are LTR).
+5. Uppercase transform on headings must work for both EN and FR.
+
+### Copy Constraints
+
+- Headlines: 2-4 words (applies in both languages).
+- Labels: ≤ 12 characters where possible (fits mobi-label space).
+- If French translation exceeds budget, abbreviate or restructure — don't break layout.
+
+## Error State Design
+
+Every error state must include:
+
+1. **Clear title** — "PAYMENT FAILED", "CONNECTION ERROR" (uppercase, Barlow Condensed)
+2. **Brief explanation** — one sentence max, Inter, textSecondary
+3. **Action CTA** — "RETRY", "GO BACK", "CONTACT SUPPORT"
+4. **No blame language** — no "you did X wrong"
+5. **Never raw error codes** — translate to human language
+
+### Error Card Pattern
 
 ```dart
-// Rwanda
-'RWF 1,500'  // No decimals for RWF
-
-// Format by country context
-String formatAmount(int amount, String country) {
-  final format = NumberFormat('#,##0', country == 'RW' ? 'en_RW' : 'fr_FR');
-  return '${country == 'RW' ? 'RWF' : 'EUR'} ${format.format(amount)}';
-}
+CoolCard(
+  variant: CoolCardVariant.outline,
+  child: Column(
+    children: [
+      Icon(LucideIcons.alertTriangle, color: CoolColors.danger, size: 24),
+      SizedBox(height: CoolSpace.m3),
+      Text('CONNECTION ERROR', style: headlineSmall),
+      SizedBox(height: CoolSpace.m2),
+      Text('Unable to reach the server. Check your connection.', 
+           style: bodySmall.copyWith(color: CoolColors.textSecondary)),
+      SizedBox(height: CoolSpace.m4),
+      CoolButton(variant: CoolButtonVariant.primary, child: Text('RETRY')),
+    ],
+  ),
+)
 ```
 
-### Date & Phone Formatting
+## Audit Commands
 
-- Dates: locale-aware via `intl` package.
-- Phone numbers: display in national format for the user's country.
-- Always show country code prefix for cross-border displays.
+```sh
+# Missing Semantics labels
+rg "GestureDetector\|InkWell\|TextButton" lib/ --files-without-match "Semantics\|semanticsLabel"
+
+# Touch target violations (height < 48)
+rg "SizedBox\(height: [0-3][0-9]\b" lib/shared/widgets/ --count
+
+# Hardcoded strings
+rg "Text\('[A-Z]" lib/features/ | grep -v "\.l10n\|AppLocalizations\|context\."
+```
 
 ## Cross-References
 
-- Color contrast and theme tokens → `design-foundations` skill
-- Screen layout for payment/permission screens → `screen-composition` skill
-- Payment and permission widgets → `component-navigation` skill
-- Module-specific trust rules (MoMo, Mobility) → `module-partner-ux` skill
-- Full human-readable reference → `DESIGN_SYSTEM.md`
+- Color contrast values → `design-foundations` skill
+- Touch target sizes in component specs → `component-navigation` skill
+- Module-specific trust rules → `module-partner-ux` skill
+- Screen error state composition → `screen-composition` skill

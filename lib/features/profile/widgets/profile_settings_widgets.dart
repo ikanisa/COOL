@@ -519,7 +519,6 @@ class _ProfileAppearanceOption extends StatelessWidget {
     final l10n = context.l10n;
     return switch (preference) {
       AppThemePreference.system => l10n.appearanceSystemLabel,
-      AppThemePreference.light => l10n.appearanceLightLabel,
       AppThemePreference.dark => l10n.appearanceDarkLabel,
     };
   }
@@ -527,7 +526,6 @@ class _ProfileAppearanceOption extends StatelessWidget {
   IconData _icon() {
     return switch (preference) {
       AppThemePreference.system => Icons.brightness_auto_rounded,
-      AppThemePreference.light => Icons.light_mode_outlined,
       AppThemePreference.dark => Icons.dark_mode_outlined,
     };
   }

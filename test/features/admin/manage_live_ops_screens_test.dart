@@ -6,6 +6,7 @@ import 'package:cool_app/features/admin/repositories/admin_gamification_reposito
 import 'package:cool_app/features/admin/screens/manage_activities_screen.dart';
 import 'package:cool_app/features/admin/screens/manage_missions_screen.dart';
 import 'package:cool_app/features/admin/screens/manage_seasons_screen.dart';
+import 'package:cool_app/shared/widgets/cool_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -158,7 +159,8 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.enterText(_textFieldWithLabel('Title'), 'Supporter Week');
-    await tester.tap(find.text('Create Season').last);
+    await tester.ensureVisible(find.byType(CoolButton).last);
+    await tester.tap(find.byType(CoolButton).last);
     await tester.pumpAndSettle();
 
     expect(repository.upsertedSeasons, hasLength(1));
@@ -189,7 +191,8 @@ void main() {
     await tester.enterText(_textFieldWithLabel('Slug'), 'share-referral');
     await tester.enterText(_textFieldWithLabel('Tokens Awarded'), '45');
 
-    await tester.tap(find.text('Create Activity').last);
+    await tester.ensureVisible(find.byType(CoolButton).last);
+    await tester.tap(find.byType(CoolButton).last);
     await tester.pumpAndSettle();
 
     expect(repository.upsertedActivities, hasLength(1));

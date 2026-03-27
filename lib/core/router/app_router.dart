@@ -11,14 +11,14 @@ import '../../features/groups/screens/group_detail_screen.dart';
 import '../../features/groups/screens/group_ledger_screen.dart';
 import '../../features/groups/screens/group_invite_screen.dart';
 import '../../features/groups/screens/groups_screen.dart';
-import '../../features/home/screens/services_hub_screen.dart';
 import '../../features/home/screens/seasons_activities_screen.dart';
-import '../../features/partners/rayon/screens/rayon_home_screen.dart';
-import '../../features/partners/rayon/screens/club_shop_screen.dart';
+import '../../features/home/screens/home_screen.dart';
+import '../../features/biopay/screens/biopay_home_screen.dart';
 import '../../features/momo/screens/momo_screen.dart';
 import '../../features/momo/screens/momo_statements_screen.dart';
 import '../../features/profile/screens/profile_detail_screens.dart';
 import '../../features/profile/screens/profile_screen.dart';
+import '../../features/profile/screens/profile_sub_screens.dart';
 import '../../shared/widgets/qr_scanner_screen.dart';
 import '../../shared/widgets/kill_switch_gate.dart';
 import '../../shared/widgets/secure_screen_wrapper.dart';
@@ -40,14 +40,8 @@ export 'app_routes.dart';
 final _homeNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'homeNavigator',
 );
-final _shopNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'shopNavigator',
-);
-final _momoNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'momoNavigator',
-);
-final _servicesNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'servicesNavigator',
+final _biopayNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'biopayNavigator',
 );
 final _profileNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'profileNavigator',
@@ -168,7 +162,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         isAdmin: authSnapshot.isAdmin,
         adminAccess: authSnapshot.adminAccess,
         hasRayonAdminAccess: authSnapshot.hasRayonAdminAccess,
-      sessionPhone: null,
+        sessionPhone: null,
         pendingRedirect: state.uri.queryParameters['redirect'],
       );
     },
@@ -219,56 +213,30 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: AppRoutes.home,
                 pageBuilder: (context, state) => NoTransitionPage(
                   key: state.pageKey,
-                  child: const RayonHomeScreen(),
+                  child: const HomeScreen(),
                 ),
               ),
             ],
           ),
           StatefulShellBranch(
-            navigatorKey: _shopNavigatorKey,
+            navigatorKey: _biopayNavigatorKey,
             routes: [
               GoRoute(
-                path: AppRoutes.shop,
-                pageBuilder: (context, state) => NoTransitionPage(
-                  key: state.pageKey,
-                  child: const ClubShopScreen(),
-                ),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            navigatorKey: _momoNavigatorKey,
-            routes: [
-              GoRoute(
-                path: AppRoutes.momoTab,
+                path: AppRoutes.biopayTab,
                 pageBuilder: (context, state) {
                   final authSnapshot = readAuthSnapshot();
                   final featureFlags = ref.read(featureFlagsStateProvider);
                   return NoTransitionPage(
                     key: state.pageKey,
                     child: KillSwitchGate(
-                      enabled: featureFlags.isMomoEnabled(
+                      enabled: featureFlags.isBiopayEnabled(
                         isAdmin: authSnapshot.isAdmin,
                       ),
-                      featureName: 'Mobile Money',
-                      child: SecureScreenWrapper(
-                        child: MomoScreen(launchUri: state.uri),
-                      ),
+                      featureName: 'BioPay',
+                      child: const BiopayHomeScreen(),
                     ),
                   );
                 },
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            navigatorKey: _servicesNavigatorKey,
-            routes: [
-              GoRoute(
-                path: AppRoutes.services,
-                pageBuilder: (context, state) => NoTransitionPage(
-                  key: state.pageKey,
-                  child: const ServicesHubScreen(), // Services Hub
-                ),
               ),
             ],
           ),
@@ -285,6 +253,31 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: 'wallet',
                     builder: (context, state) => const ProfileWalletScreen(),
+                  ),
+                  GoRoute(
+                    path: 'account',
+                    builder: (context, state) => const AccountDetailsScreen(),
+                  ),
+                  GoRoute(
+                    path: 'notifications',
+                    builder: (context, state) =>
+                        const NotificationsSettingsScreen(),
+                  ),
+                  GoRoute(
+                    path: 'privacy',
+                    builder: (context, state) => const PrivacySecurityScreen(),
+                  ),
+                  GoRoute(
+                    path: 'orders',
+                    builder: (context, state) => const OrderHistoryScreen(),
+                  ),
+                  GoRoute(
+                    path: 'help',
+                    builder: (context, state) => const HelpCenterScreen(),
+                  ),
+                  GoRoute(
+                    path: 'about',
+                    builder: (context, state) => const AboutAppScreen(),
                   ),
                 ],
               ),
@@ -349,12 +342,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
       // ── BioPay routes (extracted) ─────────────────────────────
       ...biopayRoutes(
-        readAuthSnapshot: () {
-          final snap = readAuthSnapshot();
-          return (isAdmin: snap.isAdmin);
-        },
-        readFeatureFlags: () => ref.read(featureFlagsStateProvider),
         coolPageTransition: coolPageTransition,
+        readIsBiopayEnabled: () {
+          final authSnapshot = readAuthSnapshot();
+          final featureFlags = ref.read(featureFlagsStateProvider);
+          return featureFlags.isBiopayEnabled(isAdmin: authSnapshot.isAdmin);
+        },
       ),
 
       // ── Partner + Rayon routes (extracted) ─────────────────────

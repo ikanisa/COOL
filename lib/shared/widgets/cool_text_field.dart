@@ -52,9 +52,7 @@ class _CoolTextFieldState extends State<CoolTextField> {
     final fieldBackground = _isFocused
         ? colors.cardSurfaceStrong
         : colors.inputSurface;
-    final fieldShadow = _isFocused
-        ? CoolShadows.clay(theme.brightness, strength: 0.58)
-        : CoolShadows.clay(theme.brightness, strength: 0.38);
+    const List<BoxShadow>? fieldShadow = null;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

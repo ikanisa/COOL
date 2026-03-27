@@ -2,35 +2,34 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 
-/// A shimmer-effect skeleton placeholder used during loading states.
+/// A shimmer-effect skeleton placeholder — Mobi × Rayon system.
 ///
-/// Provides a pulsing gradient animation that indicates content is loading.
-/// Respects reduced-motion preference via [MediaQuery.disableAnimationsOf].
+/// Tight radii, dark-only colors. Respects reduced-motion preference.
 class CoolSkeleton extends StatefulWidget {
   const CoolSkeleton({
     this.width,
     this.height = 16,
-    this.borderRadius = 8,
+    this.borderRadius = CoolRadii.sm, // 8
     super.key,
   });
 
-  /// Creates a skeleton shaped like a card (full width, rounded, taller).
+  /// Card-shaped skeleton (full width, taller).
   const CoolSkeleton.card({super.key})
     : width = double.infinity,
       height = 120,
-      borderRadius = 28;
+      borderRadius = CoolRadii.lg; // 16
 
-  /// Creates a skeleton shaped like a horizontal list item card.
+  /// Horizontal list item card.
   const CoolSkeleton.listCard({super.key})
     : width = 180,
       height = 200,
-      borderRadius = 28;
+      borderRadius = CoolRadii.lg; // 16
 
-  /// Creates a skeleton shaped like a line of text.
+  /// Line of text.
   const CoolSkeleton.line({double? width, super.key})
     : width = width ?? 120,
       height = 12,
-      borderRadius = 6;
+      borderRadius = CoolRadii.xs; // 4
 
   final double? width;
   final double height;
@@ -104,7 +103,7 @@ class _CoolSkeletonState extends State<CoolSkeleton>
   }
 }
 
-/// A column of skeleton lines used as a loading placeholder for lists.
+/// A column of skeleton cards.
 class CoolSkeletonList extends StatelessWidget {
   const CoolSkeletonList({this.itemCount = 3, this.spacing = 12, super.key});
 
@@ -125,7 +124,7 @@ class CoolSkeletonList extends StatelessWidget {
   }
 }
 
-/// A horizontal row of skeleton cards used for horizontal scroll loading.
+/// A horizontal row of skeleton cards.
 class CoolSkeletonRow extends StatelessWidget {
   const CoolSkeletonRow({this.itemCount = 3, this.spacing = 12, super.key});
 

@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_card.dart';
-import '../../../../shared/widgets/status_badge.dart';
 import '../../models/group.dart';
 import '../../models/group_member.dart';
 import 'group_detail_helpers.dart';
 
+/// Group hero card matching the design screenshot:
+///
+/// ┌────────────────────────────────────────────┐
+/// │  PRIVATE GROUP              ┌──────────┐   │
+/// │                             │ 4         │   │
+/// │  FAMILY                     │ MEMBERS   │   │
+/// │  SUMMER                     └──────────┘   │
+/// │  TRIP                                      │
+/// │                                            │
+/// │  TOTAL BALANCE                             │
+/// │  450,000                           RWF     │
+/// │                                            │
+/// │  PROGRESS                          38%     │
+/// │  ████████████████████                      │
+/// │  0 RWF          TARGET: 1,200,000 RWF      │
+/// └────────────────────────────────────────────┘
 class GroupHeroCard extends StatelessWidget {
   const GroupHeroCard({required this.group, required this.members, super.key});
 
@@ -17,98 +33,199 @@ class GroupHeroCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final text = context.coolText;
-    final radii = context.coolRadii;
     final theme = Theme.of(context);
-    final isSaving = group.type == 'saving';
-    final accent = isSaving ? colors.accent : colors.warning;
-    final surface = isSaving ? colors.financialSurface : colors.teamSurface;
+    final isPrivate = group.visibility == 'private';
     final progress = group.targetAmount > 0
         ? (group.amount / group.targetAmount).clamp(0.0, 1.0)
         : 0.0;
     final percent = (progress * 100).round();
 
     return CoolCard(
-      backgroundColor: surface,
-      borderColor: colors.border,
+      backgroundColor: colors.cardSurfaceStrong,
+      borderColor: colors.borderStrong,
       padding: const EdgeInsets.all(CoolSpace.x6),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            group.name,
-            style: theme.textTheme.headlineMedium?.copyWith(
-              color: colors.primaryText,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          const SizedBox(height: CoolSpace.x3),
+          // ─── Top row: visibility label + member count box ─────
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (isSaving)
-                const StatusBadge.saving()
-              else
-                const StatusBadge.community(),
-              const SizedBox(width: CoolSpace.x2),
-              if (group.visibility == 'public')
-                const StatusBadge.public()
-              else
-                const StatusBadge.private(),
+              Expanded(
+                child: Text(
+                  isPrivate ? 'PRIVATE GROUP' : 'PUBLIC GROUP',
+                  style: text.mono(
+                    theme.textTheme.labelSmall,
+                    fontWeight: FontWeight.w700,
+                    color: colors.secondaryText,
+                    letterSpacing: 1.0,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: colors.cardSurface,
+                  borderRadius: BorderRadius.circular(CoolRadii.sm),
+                  border: Border.all(color: colors.borderStrong),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      '${members.length}',
+                      style: text.mono(
+                        theme.textTheme.titleMedium,
+                        fontWeight: FontWeight.w800,
+                        color: colors.primaryText,
+                      ),
+                    ),
+                    Text(
+                      'MEMBERS',
+                      style: text.mono(
+                        theme.textTheme.labelSmall,
+                        fontWeight: FontWeight.w600,
+                        color: colors.secondaryText,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
-          const SizedBox(height: CoolSpace.x6),
+          const SizedBox(height: 8),
+
+          // ─── Group name (giant condensed) ─────────────────────
           Text(
-            '${groupFormatAmount(group.amount)} RWF',
-            style: text.mono(
+            group.name.toUpperCase(),
+            style: text.rayonCondensed(
               theme.textTheme.displaySmall,
               fontWeight: FontWeight.w900,
-              color: accent,
+              color: colors.primaryText,
+              height: 1.0,
             ),
           ),
-          const SizedBox(height: CoolSpace.x2),
+          const SizedBox(height: CoolSpace.x6),
+
+          // ─── Total balance section ────────────────────────────
           Text(
-            'Target: RWF ${groupFormatAmount(group.targetAmount)}',
-            style: theme.textTheme.bodySmall?.copyWith(
+            'TOTAL BALANCE',
+            style: text.mono(
+              theme.textTheme.labelSmall,
+              fontWeight: FontWeight.w600,
               color: colors.secondaryText,
+              letterSpacing: 1.0,
             ),
           ),
-          const SizedBox(height: CoolSpace.x5),
-          ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(radii.xs)),
-            child: LinearProgressIndicator(
-              value: progress,
-              minHeight: 8,
-              backgroundColor: colors.cardSurfaceStrong,
-              color: accent,
-            ),
-          ),
-          const SizedBox(height: CoolSpace.x3),
-          Text(
-            '$percent% reached',
-            style: theme.textTheme.labelSmall?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: colors.secondaryText,
-            ),
-          ),
-          const SizedBox(height: CoolSpace.x5),
-          Wrap(
-            spacing: CoolSpace.x3,
-            runSpacing: CoolSpace.x2,
+          const SizedBox(height: 6),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
             children: [
-              GroupHeroInfoChip(
-                icon: Icons.groups_2_outlined,
-                label: members.length == 1
-                    ? '1 member'
-                    : '${members.length} members',
-              ),
-              if (group.frequency != null && group.frequency!.isNotEmpty)
-                GroupHeroInfoChip(
-                  icon: Icons.event_repeat_rounded,
-                  label: groupFormatFrequency(group.frequency!),
+              Text(
+                _formatCompact(group.amount.toDouble()),
+                style: text.mono(
+                  const TextStyle(fontSize: 40),
+                  fontWeight: FontWeight.w900,
+                  color: colors.primaryText,
                 ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'RWF',
+                style: text.mono(
+                  theme.textTheme.titleSmall,
+                  fontWeight: FontWeight.w600,
+                  color: colors.secondaryText,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: CoolSpace.x5),
+
+          // ─── Progress section ─────────────────────────────────
+          Row(
+            children: [
+              Text(
+                'PROGRESS',
+                style: text.mono(
+                  theme.textTheme.labelSmall,
+                  fontWeight: FontWeight.w600,
+                  color: colors.secondaryText,
+                  letterSpacing: 1.0,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                '$percent%',
+                style: text.mono(
+                  theme.textTheme.labelMedium,
+                  fontWeight: FontWeight.w800,
+                  color: colors.primaryText,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+
+          // Progress bar
+          ClipRRect(
+            borderRadius: BorderRadius.circular(CoolRadii.pill),
+            child: SizedBox(
+              height: 8,
+              child: Stack(
+                children: [
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: colors.overlaySurface,
+                    ),
+                    child: const SizedBox.expand(),
+                  ),
+                  FractionallySizedBox(
+                    widthFactor: progress,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: colors.primaryText,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+
+          // Amount range labels
+          Row(
+            children: [
+              Text(
+                '${groupFormatAmount(0)} RWF',
+                style: text.mono(
+                  theme.textTheme.labelSmall,
+                  fontWeight: FontWeight.w600,
+                  color: colors.tertiaryText,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                'TARGET: ${groupFormatAmount(group.targetAmount)} RWF',
+                style: text.mono(
+                  theme.textTheme.labelSmall,
+                  fontWeight: FontWeight.w600,
+                  color: colors.tertiaryText,
+                ),
+              ),
             ],
           ),
         ],
       ),
     );
+  }
+
+  static String _formatCompact(double amount) {
+    return NumberFormat.decimalPattern('en').format(amount.toInt());
   }
 }

@@ -12,6 +12,7 @@ class RayonSportsData {
     required this.initiatives,
     required this.matches,
     required this.tickets,
+    this.banners = const [],
   });
 
   final String partnerId;
@@ -24,6 +25,7 @@ class RayonSportsData {
   final List<RsInitiative> initiatives;
   final List<RsMatch> matches;
   final List<RsTicket> tickets;
+  final List<RsHomeBanner> banners;
 
   RsFanClub? clubById(String id) {
     for (final club in clubs) {

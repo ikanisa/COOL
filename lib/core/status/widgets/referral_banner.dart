@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../brand/app_brand.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../shared/widgets/cool_glass_card.dart';
+import '../../../shared/widgets/cool_card.dart';
 
 class ReferralBanner extends ConsumerWidget {
   const ReferralBanner({super.key});
@@ -24,11 +24,11 @@ class ReferralBanner extends ConsumerWidget {
         ? 'Bring more supporters into the club app'
         : 'Invite friends & grow together';
 
-    return CoolGlassCard(
+    return CoolCard(
+      variant: CoolCardVariant.glass,
       onTap: () => context.push(AppRoutes.referral),
       padding: EdgeInsets.zero,
       borderRadius: radii.lg,
-      opacity: 0.1,
       child: Container(
         padding: EdgeInsets.all(space.x5),
         decoration: BoxDecoration(

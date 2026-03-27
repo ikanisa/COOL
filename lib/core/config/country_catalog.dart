@@ -118,7 +118,7 @@ class CoolCountry {
 
   String buildUssdCode({
     required String recipientMomo,
-    required int amount,
+    int? amount,
     MomoRecipientType recipientType = MomoRecipientType.phoneNumber,
   }) {
     final template = switch (recipientType) {
@@ -137,9 +137,13 @@ class CoolCountry {
       MomoRecipientType.code => normalizeMerchantCode(recipientMomo),
     };
 
-    final ussdCode = template
-        .replaceAll('{recipient}', recipient)
-        .replaceAll('{amount}', amount.toString());
+    var ussdCode = template.replaceAll('{recipient}', recipient);
+    if (amount != null && amount > 0) {
+      ussdCode = ussdCode.replaceAll('{amount}', amount.toString());
+    } else {
+      // Remove the expected literal '*{amount}' or just '{amount}'
+      ussdCode = ussdCode.replaceAll('*{amount}', '').replaceAll('{amount}', '');
+    }
 
     final routeRegex = switch (recipientType) {
       MomoRecipientType.phoneNumber => momoNumberUssdRegex,

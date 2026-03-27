@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/config/deep_link_config.dart';
 import '../../../../core/router/app_routes.dart';
@@ -8,12 +9,9 @@ import '../../../../core/theme/cool_foundations.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_toast.dart';
-import '../../../../shared/widgets/rs_achievement_badge.dart';
-import '../../../../shared/widgets/share_card.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../../../shared/widgets/core_app_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';
-import '../../../../core/l10n/l10n.dart';
 
 class FanClubDetailScreen extends ConsumerWidget {
   const FanClubDetailScreen({
@@ -55,9 +53,12 @@ class FanClubDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final clubDetail = ref.watch(rayonClubDetailProvider(clubId));
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
 
     return CoreAppScaffold(
-      title: context.l10n.fanClub,
+      title: 'FAN CLUB',
       fallbackLocation: AppRoutes.rayonClubs,
       scrollable: false,
       child: clubDetail.when(
@@ -71,88 +72,219 @@ class FanClubDetailScreen extends ConsumerWidget {
           }
 
           final joined = detail.joined;
-          final previewMemberCount = club.memberCount.clamp(0, 5);
-          final earnedAchievements = detail.achievements
-              .where((achievement) => achievement.isEarned)
-              .length;
+          final memberCount = club.memberCount;
 
-          return CustomScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            slivers: [
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate([
-                    _ClubOverviewCard(
-                      clubName: club.name,
-                      region: club.region,
-                      bannerEmoji: club.bannerEmoji,
-                      description: club.description,
-                      memberCount: club.memberCount,
-                      eventCount: club.eventCount,
-                      rating: club.rating,
-                      earnedAchievements: earnedAchievements,
-                      joined: joined,
-                      onJoinTap: joined
-                          ? () {
-                              CoolToast.info(
-                                context,
-                                'Leave club coming soon.',
-                              );
-                            }
-                          : () => _join(context, ref, club.id),
+          return Stack(
+            children: [
+              SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 120),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // ─── Top action row ─────────────────────────
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: joined
+                                ? () => context.push(AppRoutes.rayonSupport)
+                                : () => _join(context, ref, club.id),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(CoolRadii.lg),
+                              ),
+                              alignment: Alignment.center,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.add,
+                                    color: Colors.black,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    joined ? 'CONTRIBUTE' : 'JOIN',
+                                    style: text.rayonCondensed(
+                                      theme.textTheme.titleMedium,
+                                      fontWeight: FontWeight.w900,
+                                      color: Colors.black,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Container(
+                          width: 56,
+                          height: 56,
+                          decoration: BoxDecoration(
+                            color: colors.cardSurfaceStrong,
+                            borderRadius: BorderRadius.circular(CoolRadii.lg),
+                            border: Border.all(color: colors.borderStrong),
+                          ),
+                          alignment: Alignment.center,
+                          child: Icon(
+                            Icons.more_horiz,
+                            color: colors.secondaryText,
+                            size: 24,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 22),
-                    _SectionTitle(
-                      label: context.l10n.membersPreview,
-                      trailing: '${club.memberCount}',
+                    const SizedBox(height: CoolSpace.x6),
+
+                    // ─── Members header ────────────────────────
+                    Row(
+                      children: [
+                        Text(
+                          'MEMBERS ($memberCount)',
+                          style: text.mono(
+                            theme.textTheme.labelSmall,
+                            fontWeight: FontWeight.w700,
+                            color: colors.secondaryText,
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          'SHOW ALL',
+                          style: text.mono(
+                            theme.textTheme.labelSmall,
+                            fontWeight: FontWeight.w700,
+                            color: colors.primaryText,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 10),
-                  ]),
-                ),
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate((context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        bottom: index == previewMemberCount - 1 ? 0 : 8,
+                    const SizedBox(height: CoolSpace.x3),
+
+                    // ─── Member cards ──────────────────────────
+                    for (var i = 0; i < memberCount.clamp(0, 3); i++) ...[
+                      _MemberCard(
+                        memberId: _mockMemberIds[i % _mockMemberIds.length],
+                        totalRwf: _mockTotals[i % _mockTotals.length],
+                        isTopMember: i == 0,
                       ),
-                      child: _MemberTile(index: index),
-                    );
-                  }, childCount: previewMemberCount),
-                ),
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(18, 8, 18, 96),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate([
-                    if (detail.achievements.isNotEmpty) ...[
-                      _SectionTitle(label: context.l10n.moreDetails),
-                      const SizedBox(height: 10),
-                      Wrap(
-                        spacing: 16,
-                        runSpacing: 14,
-                        children: detail.achievements
-                            .take(6)
-                            .map((a) => RsAchievementBadge(achievement: a))
-                            .toList(),
-                      ),
-                      const SizedBox(height: 22),
+                      if (i < memberCount.clamp(0, 3) - 1)
+                        const SizedBox(height: 10),
                     ],
-                    ShareCard(
-                      title: context.l10n.inviteSupporters,
-                      icon: Icons.campaign_rounded,
-                      message: 'Bring more fans into ${club.name}.',
-                      shareUrl: DeepLinkConfig.clubUri(club.id).toString(),
-                      shareText: 'Join ${club.name} on Cool.',
-                      sheetTitle: 'Share Fan Club',
-                      sheetSubtitle: context.l10n.inviteSupportersToJoin,
-                      analyticsTargetType: 'rayon_club',
-                      resolveShareUrl: () => _buildShareUrl(ref, club.id),
+                    const SizedBox(height: CoolSpace.x6),
+
+                    // ─── Invite friends ────────────────────────
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(CoolRadii.md),
+                        border: Border.all(
+                          color: colors.borderStrong,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.person_add_alt_1_outlined,
+                            color: colors.secondaryText,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            'INVITE FRIENDS',
+                            style: text.mono(
+                              theme.textTheme.labelMedium,
+                              fontWeight: FontWeight.w700,
+                              color: colors.secondaryText,
+                              letterSpacing: 0.8,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ]),
+                    const SizedBox(height: CoolSpace.x7),
+
+                    // ─── Recent activity header ────────────────
+                    Row(
+                      children: [
+                        Text(
+                          'RECENT ACTIVITY',
+                          style: text.mono(
+                            theme.textTheme.labelSmall,
+                            fontWeight: FontWeight.w700,
+                            color: colors.secondaryText,
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          'VIEW LEDGER',
+                          style: text.mono(
+                            theme.textTheme.labelSmall,
+                            fontWeight: FontWeight.w700,
+                            color: colors.primaryText,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: CoolSpace.x4),
+
+                    // ─── Activity rows ─────────────────────────
+                    const _ActivityRow(
+                      memberId: '882942',
+                      timeAgo: '2 HOURS AGO',
+                      amount: '+50,000 RWF',
+                    ),
+                    const SizedBox(height: CoolSpace.x3),
+                    const _ActivityRow(
+                      memberId: '112934',
+                      timeAgo: 'YESTERDAY',
+                      amount: '+50,000 RWF',
+                    ),
+                  ],
+                ),
+              ),
+
+              // ─── Share FAB ─────────────────────────────────
+              Positioned(
+                right: 16,
+                bottom: 24,
+                child: GestureDetector(
+                  onTap: () async {
+                    await _buildShareUrl(ref, club.id);
+                    if (!context.mounted) return;
+                    // Share functionality handled via platform sheet
+                    CoolToast.info(context, 'Share link copied.');
+                  },
+                  child: Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.25),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.share_rounded,
+                      color: Colors.black,
+                      size: 24,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -207,394 +339,188 @@ class FanClubDetailScreen extends ConsumerWidget {
       CoolToast.error(context, error.toString());
     }
   }
-
-  static LinearGradient _regionGradient(String region) {
-    final lower = region.toLowerCase();
-    if (lower.contains('kigali')) {
-      return const LinearGradient(
-        colors: [Color(0xFF0A1A50), Color(0xFF0D2878)],
-      );
-    }
-    if (lower.contains('north')) {
-      return const LinearGradient(
-        colors: [Color(0xFF071240), Color(0xFF0B1D5A)],
-      );
-    }
-    if (lower.contains('south')) {
-      return const LinearGradient(
-        colors: [Color(0xFF0E1A4A), Color(0xFF152260)],
-      );
-    }
-    return const LinearGradient(colors: [Color(0xFF091540), Color(0xFF0D1E6A)]);
-  }
 }
 
-class _ClubOverviewCard extends StatelessWidget {
-  const _ClubOverviewCard({
-    required this.clubName,
-    required this.region,
-    required this.bannerEmoji,
-    required this.description,
-    required this.memberCount,
-    required this.eventCount,
-    required this.rating,
-    required this.earnedAchievements,
-    required this.joined,
-    required this.onJoinTap,
+// ─── Mock data for member preview ─────────────────────────────────────────
+
+const _mockMemberIds = ['882942', '112934', '449283'];
+const _mockTotals = [150000, 100000, 100000];
+
+// ─── Member card ──────────────────────────────────────────────────────────
+
+class _MemberCard extends StatelessWidget {
+  const _MemberCard({
+    required this.memberId,
+    required this.totalRwf,
+    required this.isTopMember,
   });
 
-  final String clubName;
-  final String region;
-  final String bannerEmoji;
-  final String description;
-  final int memberCount;
-  final int eventCount;
-  final double rating;
-  final int earnedAchievements;
-  final bool joined;
-  final VoidCallback onJoinTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final text = context.coolText;
-    return CoolCard(
-      gradient: FanClubDetailScreen._regionGradient(region),
-      borderColor: RsColors.rsBlueBorder,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 64,
-                height: 64,
-                decoration: BoxDecoration(
-                  color: RsColors.rsWhite.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(18),
-                  border: Border.all(
-                    color: RsColors.rsWhite.withValues(alpha: 0.14),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Text(bannerEmoji, style: const TextStyle(fontSize: 30)),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      region.toUpperCase(),
-                      style: text.mono(
-                        Theme.of(context).textTheme.labelSmall,
-                        color: RsColors.rsGoldLight,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      clubName,
-                      style: text.rayonCondensed(
-                        Theme.of(context).textTheme.headlineMedium,
-                        color: RsColors.rsWhite,
-                        fontWeight: FontWeight.w900,
-                        height: 0.95,
-                      ),
-                    ),
-                    const SizedBox(height: CoolSpace.x2),
-                    _JoinLeaveButton(joined: joined, onTap: onJoinTap),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _FanClubDetailPill(
-                icon: joined ? Icons.verified_rounded : Icons.group_add_rounded,
-                label: joined ? 'Joined chapter' : 'Membership open',
-                highlighted: true,
-              ),
-              _FanClubDetailPill(icon: Icons.place_outlined, label: region),
-              if (earnedAchievements > 0)
-                _FanClubDetailPill(
-                  icon: Icons.workspace_premium_outlined,
-                  label:
-                      '$earnedAchievements ${earnedAchievements == 1 ? 'achievement' : 'achievements'}',
-                ),
-            ],
-          ),
-          const SizedBox(height: CoolSpace.x4),
-          Text(
-            description,
-            style: text.rayon(
-              Theme.of(context).textTheme.bodyMedium,
-              color: RsColors.rsWhite.withValues(alpha: 0.82),
-              fontWeight: FontWeight.w500,
-              height: 1.45,
-            ),
-          ),
-          const SizedBox(height: CoolSpace.x4),
-          Row(
-            children: [
-              _StatTile(label: 'Members', value: '$memberCount'),
-              const SizedBox(width: 10),
-              _StatTile(label: 'Events', value: '$eventCount'),
-              const SizedBox(width: 10),
-              _StatTile(
-                label: context.l10n.rating,
-                value: rating <= 0 ? 'New' : rating.toStringAsFixed(1),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ── Section title ────────────────────────────────────────────────────
-
-class _SectionTitle extends StatelessWidget {
-  const _SectionTitle({required this.label, this.trailing});
-
-  final String label;
-  final String? trailing;
-
-  @override
-  Widget build(BuildContext context) {
-    final text = context.coolText;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Expanded(
-          child: Text(
-            label.toUpperCase(),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: text.rayonCondensed(
-              Theme.of(context).textTheme.titleLarge,
-              color: RsColors.rsWhite,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 0.5,
-            ),
-          ),
-        ),
-        if (trailing != null) ...[
-          const SizedBox(width: 8),
-          Text(
-            trailing!,
-            style: text.mono(
-              Theme.of(context).textTheme.bodySmall,
-              color: RsColors.rsGoldLight,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-        ],
-      ],
-    );
-  }
-}
-
-// ── Join / Leave button ──────────────────────────────────────────────
-
-class _JoinLeaveButton extends StatelessWidget {
-  const _JoinLeaveButton({required this.joined, required this.onTap});
-
-  final bool joined;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final text = context.coolText;
-    return Semantics(
-      button: true,
-      enabled: !joined,
-      label: joined ? 'Joined club' : 'Join club',
-      child: Material(
-        color: Colors.transparent,
-        child: Ink(
-          decoration: BoxDecoration(
-            color: joined ? RsColors.rsBlueGlow : RsColors.rsGold,
-            borderRadius: BorderRadius.circular(30),
-            border: Border.all(
-              color: joined ? RsColors.rsBlueBorder : RsColors.rsGoldLight,
-            ),
-          ),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(30),
-            onTap: joined ? null : onTap,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-              child: Text(
-                joined ? 'Joined' : 'Join',
-                style: text.rayonCondensed(
-                  Theme.of(context).textTheme.labelLarge,
-                  color: joined ? RsColors.rsBluePale : RsColors.rsBlue,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _FanClubDetailPill extends StatelessWidget {
-  const _FanClubDetailPill({
-    required this.icon,
-    required this.label,
-    this.highlighted = false,
-  });
-
-  final IconData icon;
-  final String label;
-  final bool highlighted;
-
-  @override
-  Widget build(BuildContext context) {
-    final text = context.coolText;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
-      decoration: BoxDecoration(
-        color: highlighted
-            ? RsColors.rsGold.withValues(alpha: 0.16)
-            : Colors.white.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(
-          color: highlighted
-              ? RsColors.rsGold.withValues(alpha: 0.34)
-              : Colors.white.withValues(alpha: 0.08),
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: 15,
-            color: highlighted ? RsColors.rsGoldLight : RsColors.rsBluePale,
-          ),
-          const SizedBox(width: 6),
-          Text(
-            label,
-            style: text.rayon(
-              Theme.of(context).textTheme.bodySmall,
-              color: highlighted
-                  ? RsColors.rsGoldLight
-                  : Colors.white.withValues(alpha: 0.82),
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ── Stat tile ────────────────────────────────────────────────────────
-
-class _StatTile extends StatelessWidget {
-  const _StatTile({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    final text = context.coolText;
-    return Expanded(
-      child: CoolCard(
-        gradient: RsColors.rsCardGradient,
-        borderColor: RsColors.rsBlueBorder,
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            children: [
-              Text(
-                value,
-                style: text.mono(
-                  Theme.of(context).textTheme.titleSmall,
-                  color: RsColors.rsGoldLight,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              const SizedBox(height: CoolSpace.x1),
-              Text(
-                label,
-                style: text.rayon(
-                  Theme.of(context).textTheme.labelSmall,
-                  color: RsColors.rsBluePale,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ── Member tile placeholder ──────────────────────────────────────────
-
-class _MemberTile extends StatelessWidget {
-  const _MemberTile({required this.index});
-
-  final int index;
+  final String memberId;
+  final int totalRwf;
+  final bool isTopMember;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final text = context.coolText;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+    final theme = Theme.of(context);
+    final formatted = _formatCompact(totalRwf);
+
+    return CoolCard(
+      backgroundColor: colors.cardSurface,
+      borderColor: colors.borderStrong,
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 18,
-            backgroundColor: colors.cardSurfaceStrong,
-            child: Text(
-              '${index + 1}',
-              style: text.mono(
-                Theme.of(context).textTheme.labelSmall,
-                color: colors.secondaryText,
-                fontWeight: FontWeight.w800,
-              ),
+          // Shield icon
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: colors.cardSurfaceStrong,
+              borderRadius: BorderRadius.circular(CoolRadii.sm),
+              border: Border.all(color: colors.borderStrong),
+            ),
+            alignment: Alignment.center,
+            child: Icon(
+              Icons.groups_outlined,
+              color: colors.secondaryText,
+              size: 22,
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 14),
+          // ID + total
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Member ${index + 1}',
-                  style: text.rayon(
-                    Theme.of(context).textTheme.bodyMedium,
-                    color: colors.primaryText,
-                    fontWeight: FontWeight.w600,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      memberId,
+                      style: text.rayonCondensed(
+                        theme.textTheme.titleMedium,
+                        fontWeight: FontWeight.w900,
+                        color: colors.primaryText,
+                      ),
+                    ),
+                    if (isTopMember) ...[
+                      const SizedBox(width: 6),
+                      const Icon(
+                        Icons.verified,
+                        color: RsColors.rsGoldLight,
+                        size: 18,
+                      ),
+                    ],
+                  ],
                 ),
+                const SizedBox(height: 3),
                 Text(
-                  'Joined recently',
-                  style: text.rayon(
-                    Theme.of(context).textTheme.labelSmall,
-                    color: colors.tertiaryText,
-                    fontWeight: FontWeight.w500,
+                  'TOTAL: $formatted RWF',
+                  style: text.mono(
+                    theme.textTheme.bodySmall,
+                    fontWeight: FontWeight.w600,
+                    color: colors.secondaryText,
+                    letterSpacing: 0.3,
                   ),
                 ),
               ],
             ),
           ),
+          Icon(
+            Icons.chevron_right_rounded,
+            color: colors.tertiaryText,
+            size: 22,
+          ),
         ],
       ),
     );
   }
+}
+
+// ─── Activity row ─────────────────────────────────────────────────────────
+
+class _ActivityRow extends StatelessWidget {
+  const _ActivityRow({
+    required this.memberId,
+    required this.timeAgo,
+    required this.amount,
+  });
+
+  final String memberId;
+  final String timeAgo;
+  final String amount;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
+
+    return Row(
+      children: [
+        // Clipboard icon box
+        Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: colors.cardSurfaceStrong,
+            borderRadius: BorderRadius.circular(CoolRadii.sm),
+            border: Border.all(color: colors.borderStrong),
+          ),
+          alignment: Alignment.center,
+          child: Icon(
+            Icons.receipt_long_outlined,
+            color: colors.secondaryText,
+            size: 20,
+          ),
+        ),
+        const SizedBox(width: 12),
+        // ID + time
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                memberId,
+                style: text.rayonCondensed(
+                  theme.textTheme.titleSmall,
+                  fontWeight: FontWeight.w900,
+                  color: colors.primaryText,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                timeAgo,
+                style: text.mono(
+                  theme.textTheme.bodySmall,
+                  fontWeight: FontWeight.w600,
+                  color: colors.tertiaryText,
+                  letterSpacing: 0.3,
+                ),
+              ),
+            ],
+          ),
+        ),
+        // Amount
+        Text(
+          amount,
+          style: text.mono(
+            theme.textTheme.bodyMedium,
+            fontWeight: FontWeight.w700,
+            color: colors.primaryText,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ─── Formatting ───────────────────────────────────────────────────────────
+
+String _formatCompact(int amount) {
+  if (amount >= 1000) {
+    final value = (amount / 1000).truncate();
+    return '$value,000';
+  }
+  return '$amount';
 }

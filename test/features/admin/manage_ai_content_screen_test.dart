@@ -4,6 +4,7 @@ import 'package:cool_app/features/admin/screens/manage_ai_content_screen.dart';
 import 'package:cool_app/features/home/models/nexus_recommendation.dart';
 import 'package:cool_app/features/home/providers/nexus_provider.dart';
 import 'package:cool_app/features/home/repositories/nexus_repository.dart';
+import 'package:cool_app/shared/widgets/cool_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -158,7 +159,8 @@ void main() {
     await tester.enterText(_textFieldWithLabel('Title *'), 'Market Prompt');
     await tester.enterText(_textFieldWithLabel('CTA Label'), 'Open MoMo');
 
-    await tester.tap(find.text('Create Content').last);
+    await tester.ensureVisible(find.byType(CoolButton).last);
+    await tester.tap(find.byType(CoolButton).last);
     await tester.pumpAndSettle();
 
     expect(repository.upsertedItems, hasLength(1));

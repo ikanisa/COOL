@@ -1,4 +1,5 @@
 import 'package:cool_app/core/providers/engagement_providers.dart';
+import 'package:cool_app/core/theme/app_theme.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
 import 'package:cool_app/features/auth/screens/splash_screen.dart';
@@ -76,17 +77,26 @@ void main() {
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: const MaterialApp(
+        child: MaterialApp(
+          theme: AppTheme.dark,
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
-          home: SplashScreen(),
+          builder: (context, widget) => MediaQuery(
+            data: MediaQuery.of(context).copyWith(disableAnimations: true),
+            child: widget!,
+          ),
+          home: const SplashScreen(),
         ),
       ),
     );
     await tester.pump(const Duration(milliseconds: 700));
 
     expect(find.text('Rayon Sports'), findsOneWidget);
-    expect(find.text('We could not restore'), findsOneWidget);
-    expect(find.text('Retry'), findsOneWidget);
+    expect(find.text('Connection issue'), findsOneWidget);
+    expect(
+      find.text('Unable to restore your profile right now.'),
+      findsOneWidget,
+    );
+    expect(find.text('RETRY'), findsOneWidget);
   });
 }

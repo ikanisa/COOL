@@ -1,11 +1,10 @@
-import 'package:cool_app/core/providers/production_redesign_provider.dart';
+
 import 'package:cool_app/shared/widgets/admin_dense_row_tile.dart';
 import 'package:cool_app/shared/widgets/admin_detail_scaffold.dart';
 import 'package:cool_app/shared/widgets/admin_filter_rail.dart';
 import 'package:cool_app/shared/widgets/admin_section_header.dart';
 import 'package:cool_app/shared/widgets/admin_summary_metric_grid.dart';
 import 'package:cool_app/shared/widgets/cool_admin_inline_field.dart';
-import 'package:cool_app/shared/widgets/cool_otp_field.dart';
 import 'package:cool_app/shared/widgets/cool_search_field.dart';
 import 'package:cool_app/shared/widgets/core_detail_scaffold.dart';
 import 'package:cool_app/shared/widgets/core_tab_root_scaffold.dart';
@@ -46,9 +45,6 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          productionRedesignConfigProvider.overrideWith(
-            (ref) => ProductionRedesignConfig.defaults(),
-          ),
           ...overrides,
         ],
         child: MaterialApp(
@@ -218,42 +214,6 @@ void main() {
     });
   });
 
-  group('CoolOtpField', () {
-    testWidgets('empty 6-digit', (tester) async {
-      await pumpGolden(
-        tester,
-        child: Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(24),
-            child: CoolOtpField(
-              onComplete: (_) {},
-              length: 6,
-              autofocus: false,
-            ),
-          ),
-        ),
-      );
-      await expectGolden(tester, 'cool_otp_field_empty');
-    });
-
-    testWidgets('with error', (tester) async {
-      await pumpGolden(
-        tester,
-        child: Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(24),
-            child: CoolOtpField(
-              onComplete: (_) {},
-              length: 6,
-              autofocus: false,
-              error: 'Invalid verification code',
-            ),
-          ),
-        ),
-      );
-      await expectGolden(tester, 'cool_otp_field_error');
-    });
-  });
 
   group('CoolAdminInlineField', () {
     testWidgets('with label and actions', (tester) async {

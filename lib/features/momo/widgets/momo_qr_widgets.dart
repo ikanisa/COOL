@@ -289,7 +289,6 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
     final colors = context.coolSemanticColors;
     final space = context.coolSpace;
     final theme = Theme.of(context);
-    final brightness = theme.brightness;
     return CoolCard(
       child: Padding(
         padding: const EdgeInsets.all(CoolSpace.x5 + CoolSpace.x1 / 2),
@@ -389,7 +388,6 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                   border: Border.all(
                     color: colors.border.withValues(alpha: 0.7),
                   ),
-                  boxShadow: CoolShadows.clay(brightness, strength: 0.32),
                 ),
                 child: QrImageView(
                   data: _qrData,

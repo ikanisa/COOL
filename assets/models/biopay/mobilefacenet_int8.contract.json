@@ -1,0 +1,20 @@
+{
+  "asset_path": "assets/models/biopay/mobilefacenet_int8.tflite",
+  "model_version": "mobilefacenet_int8_v1",
+  "sha256": "be4bc7cfc53f7bc336d0f28b1ab92535f618c913a422b683210750f6b5354854",
+  "bytes": 5233552,
+  "input_shape": [
+    1,
+    160,
+    160,
+    3
+  ],
+  "input_type": "float32",
+  "output_shape": [
+    1,
+    128
+  ],
+  "output_type": "float32",
+  "embedding_size": 128,
+  "generated_at": "2026-03-27T12:28:55.292961Z"
+}

@@ -109,7 +109,7 @@ class MomoActionCard extends StatelessWidget {
             ),
             boxShadow: isPrimary
                 ? CoolShadows.floating(brightness, strength: 0.52)
-                : CoolShadows.clay(brightness, strength: 0.42),
+                : null,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

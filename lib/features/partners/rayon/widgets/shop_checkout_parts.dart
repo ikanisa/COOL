@@ -605,7 +605,6 @@ class _CheckoutStatusState extends StatelessWidget {
     required this.onRefreshStatus,
     required this.onBackToShop,
     required this.onViewOrders,
-    required this.useProductionRedesign,
   });
 
   final String orderId;
@@ -617,7 +616,6 @@ class _CheckoutStatusState extends StatelessWidget {
   final VoidCallback onRefreshStatus;
   final VoidCallback onBackToShop;
   final VoidCallback onViewOrders;
-  final bool useProductionRedesign;
 
   @override
   Widget build(BuildContext context) {
@@ -629,15 +627,13 @@ class _CheckoutStatusState extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          if (useProductionRedesign) ...[
-            _CheckoutCommandCard(
-              itemCount: 1,
-              total: total,
-              hasMemberDiscount: false,
-              paymentRoute: paymentRoute,
-            ),
-            const SizedBox(height: 18),
-          ],
+          _CheckoutCommandCard(
+            itemCount: 1,
+            total: total,
+            hasMemberDiscount: false,
+            paymentRoute: paymentRoute,
+          ),
+          const SizedBox(height: 18),
           Container(
             width: 96,
             height: 96,

@@ -45,7 +45,7 @@ class MomoService {
 
   Future<void> initiatePayment({
     required String recipientMomo,
-    required int amount,
+    int? amount,
     required String reference,
     MomoRecipientType recipientType = MomoRecipientType.phoneNumber,
     String? countryCode,
@@ -110,7 +110,7 @@ class MomoService {
   }
 
   Future<void> initiatePaymentUSSD(
-    int amount, {
+    int? amount, {
     required String recipientMomo,
     String? reference,
     MomoRecipientType recipientType = MomoRecipientType.phoneNumber,
@@ -131,7 +131,7 @@ class MomoService {
   }
 
   Future<void> initiateUSSD({
-    required int amount,
+    int? amount,
     required String recipientMomo,
     String? reference,
     MomoRecipientType recipientType = MomoRecipientType.phoneNumber,

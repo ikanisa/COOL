@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_card.dart';
-import '../../../shared/widgets/cool_glass_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
@@ -136,9 +135,16 @@ class CoolTokensScreen extends ConsumerWidget {
                       icon: Icons.leaderboard_rounded,
                       trailing: TextButton(
                         onPressed: () {
-                          CoolToast.info(
-                            context,
-                            'Convert token flow coming soon',
+                          showModalBottomSheet(
+                            context: context,
+                            backgroundColor: colors.appBackground,
+                            builder: (context) => const Padding(
+                              padding: EdgeInsets.all(32),
+                              child: CoolEmptyView(
+                                message: 'Conversion currently unavailable',
+                                icon: Icons.currency_exchange_rounded,
+                              ),
+                            ),
                           );
                         },
                         child: Text(
@@ -233,7 +239,8 @@ class _StatCard extends StatelessWidget {
     final radii = context.coolRadii;
     final theme = Theme.of(context);
 
-    return CoolGlassCard(
+    return CoolCard(
+      variant: CoolCardVariant.glass,
       padding: EdgeInsets.all(space.x3),
       borderRadius: radii.sm,
       child: Column(
@@ -484,7 +491,17 @@ class _TopEarnersSection extends ConsumerWidget {
                 subtitle: Text(context.l10n.str50Tokens),
                 trailing: TextButton(
                   onPressed: () {
-                    CoolToast.info(context, 'Token history coming soon');
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: colors.appBackground,
+                      builder: (context) => const Padding(
+                        padding: EdgeInsets.all(32),
+                        child: CoolEmptyView(
+                          message: 'No transaction history found',
+                          icon: Icons.history_rounded,
+                        ),
+                      ),
+                    );
                   },
                   child: Text(
                     'View History',
@@ -714,7 +731,8 @@ class _RewardItem extends StatelessWidget {
     final radii = context.coolRadii;
     final theme = Theme.of(context);
 
-    return CoolGlassCard(
+    return CoolCard(
+      variant: CoolCardVariant.glass,
       onTap: canAfford ? onRedeem : null,
       padding: EdgeInsets.all(space.x4),
       borderRadius: radii.lg,

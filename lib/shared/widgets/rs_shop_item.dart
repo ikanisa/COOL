@@ -9,6 +9,7 @@ class RsShopItem extends StatelessWidget {
   const RsShopItem({
     required this.product,
     required this.onAddToCart,
+    this.onTap,
     this.hasMemberDiscount = false,
     this.discountPct = 0,
     this.isNew = false,
@@ -19,6 +20,7 @@ class RsShopItem extends StatelessWidget {
 
   final RsProduct product;
   final VoidCallback onAddToCart;
+  final VoidCallback? onTap;
   final bool hasMemberDiscount;
   final double discountPct;
   final bool isNew;
@@ -46,7 +48,9 @@ class RsShopItem extends StatelessWidget {
           '${NumberFormat.decimalPattern('en').format(discountedPrice)} RWF. '
           '${quantity > 0 ? '$quantity in cart.' : ''}',
       excludeSemantics: true,
-      child: DecoratedBox(
+      child: GestureDetector(
+        onTap: onTap,
+        child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -277,6 +281,7 @@ class RsShopItem extends StatelessWidget {
             ],
           ),
         ),
+      ),
       ),
     );
   }

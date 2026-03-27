@@ -189,7 +189,8 @@ class _BankAdminWorkspaceScreenState
                           ),
                           const SizedBox(height: CoolSpace.x6),
                           SizedBox(
-                            height: 600,
+                            height: (MediaQuery.sizeOf(context).height * 0.6)
+                                .clamp(400, 800),
                             child: TabBarView(
                               controller: _tabController,
                               children: [

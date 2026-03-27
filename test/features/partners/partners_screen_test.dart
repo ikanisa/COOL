@@ -1,14 +1,11 @@
-import 'package:cool_app/core/router/app_router.dart';
 import 'package:cool_app/features/partners/models/partner.dart';
 import 'package:cool_app/features/partners/providers/partner_provider.dart';
 import 'package:cool_app/features/partners/repositories/partner_repository.dart';
 import 'package:cool_app/features/partners/screens/partners_screen.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
-import 'package:cool_app/shared/widgets/tab_pill.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockPartnerRepository extends Mock implements PartnerRepository {}
@@ -16,168 +13,107 @@ class MockPartnerRepository extends Mock implements PartnerRepository {}
 void main() {
   late MockPartnerRepository repository;
 
-  setUp(() {
-    repository = MockPartnerRepository();
-
-    when(() => repository.fetchAll()).thenAnswer(
-      (_) async => const <Partner>[
-        Partner(
-          id: 'rayon-sports',
-          name: 'Rayon Sports',
-          slug: 'rayon-sports',
-          category: PartnerCategory.football,
-          country: 'RW',
-          subtitle: 'Club experience',
-          fanCount: 23000,
-          clubCount: 18,
-          gameCount: 4,
-        ),
-      ],
-    );
-  });
+  const rayonSports = Partner(
+    id: 'rayon-sports',
+    name: 'Rayon Sports',
+    slug: 'rayon-sports',
+    category: PartnerCategory.football,
+    country: 'RW',
+    subtitle: 'Club experience',
+    fanCount: 23000,
+    clubCount: 18,
+    gameCount: 4,
+  );
+  const prismaPartner = Partner(
+    id: 'prisma',
+    name: 'Prisma',
+    slug: 'prisma',
+    category: PartnerCategory.organization,
+    country: 'RW',
+    subtitle: 'Digital agency',
+  );
+  const bprPartner = Partner(
+    id: 'bpr',
+    name: 'BPR Bank',
+    slug: 'bpr',
+    category: PartnerCategory.bank,
+    country: 'RW',
+    subtitle: 'Banking partner',
+  );
 
   Future<void> pumpPartnersScreen(
     WidgetTester tester, {
-    required GoRouter router,
+    required List<Partner> partners,
   }) async {
+    when(() => repository.fetchAll()).thenAnswer((_) async => partners);
+
     await tester.pumpWidget(
-      ProviderScope(
-        overrides: [partnerRepositoryProvider.overrideWithValue(repository)],
-        child: MaterialApp.router(
-          routerConfig: router,
-          supportedLocales: AppLocalizations.supportedLocales,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
+      MediaQuery(
+        data: MediaQueryData.fromView(
+          tester.view,
+        ).copyWith(disableAnimations: true),
+        child: ProviderScope(
+          overrides: [partnerRepositoryProvider.overrideWithValue(repository)],
+          child: MaterialApp(
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            home: const PartnersScreen(),
+          ),
         ),
       ),
     );
 
-    await tester.pumpAndSettle();
+    for (var index = 0; index < 10; index++) {
+      await tester.pump(const Duration(milliseconds: 50));
+      if (!tester.binding.hasScheduledFrame) {
+        break;
+      }
+    }
   }
+
+  setUp(() {
+    repository = MockPartnerRepository();
+  });
 
   group('PartnersScreen features', () {
-    testWidgets('Fan Registry tile opens member registry', (tester) async {
-      final router = _buildRouter();
+    testWidgets('keeps Rayon Sports out of the flat list', (tester) async {
+      await pumpPartnersScreen(tester, partners: const <Partner>[rayonSports]);
 
-      await pumpPartnersScreen(tester, router: router);
-
-      await _tapFeatureTile(
-        tester,
-        tileKey: const ValueKey('partner_feature_fan_registry'),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.text('registry'), findsOneWidget);
+      expect(find.text('PARTNERS'), findsOneWidget);
+      expect(find.text('OFFICIAL PARTNER NETWORK'), findsOneWidget);
+      expect(find.text('RAYON SPORTS'), findsNothing);
+      expect(find.text('No partners found'), findsOneWidget);
     });
 
-    testWidgets('Fan Clubs tile opens fan clubs', (tester) async {
-      final router = _buildRouter();
-
-      await pumpPartnersScreen(tester, router: router);
-
-      await _tapFeatureTile(
-        tester,
-        tileKey: const ValueKey('partner_feature_fan_clubs'),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.text('clubs'), findsOneWidget);
-    });
-
-    testWidgets('Ticketing tile opens tickets', (tester) async {
-      final router = _buildRouter();
-
-      await pumpPartnersScreen(tester, router: router);
-
-      await _tapFeatureTile(
-        tester,
-        tileKey: const ValueKey('partner_feature_ticketing'),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.text('tickets'), findsOneWidget);
-    });
-
-    testWidgets('Club Shop tile opens club shop', (tester) async {
-      final router = _buildRouter();
-
-      await pumpPartnersScreen(tester, router: router);
-
-      await _tapFeatureTile(
-        tester,
-        tileKey: const ValueKey('partner_feature_club_shop'),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.text('shop'), findsOneWidget);
-    });
-
-    testWidgets('uses accessible tab pills to switch partner categories', (
+    testWidgets('renders non-Rayon partners and filters via search', (
       tester,
     ) async {
-      final router = _buildRouter();
+      await pumpPartnersScreen(
+        tester,
+        partners: const <Partner>[rayonSports, prismaPartner, bprPartner],
+      );
 
-      await pumpPartnersScreen(tester, router: router);
+      expect(find.text('PRISMA'), findsOneWidget);
+      expect(find.text('BPR BANK'), findsOneWidget);
 
-      expect(find.byType(TabPill), findsNWidgets(3));
+      await tester.enterText(find.byType(TextField), 'prisma');
+      await tester.pump(const Duration(milliseconds: 100));
 
-      await tester.tap(find.byKey(const ValueKey('partners_tab_1')));
-      await tester.pumpAndSettle();
+      expect(find.text('PRISMA'), findsOneWidget);
+      expect(find.text('BPR BANK'), findsNothing);
+    });
 
-      expect(find.text('No finance partners yet'), findsOneWidget);
+    testWidgets('non-WhatsApp partner rows use the internal route affordance', (
+      tester,
+    ) async {
+      await pumpPartnersScreen(
+        tester,
+        partners: const <Partner>[rayonSports, prismaPartner],
+      );
+
+      expect(find.text('PRISMA'), findsOneWidget);
+      expect(find.text('DIGITAL AGENCY'), findsWidgets);
+      expect(find.byIcon(Icons.chevron_right_rounded), findsOneWidget);
     });
   });
-}
-
-Future<void> _tapFeatureTile(
-  WidgetTester tester, {
-  required ValueKey<String> tileKey,
-}) async {
-  final tile = find.byKey(tileKey);
-  await tester.ensureVisible(tile);
-  await tester.tap(tile);
-}
-
-GoRouter _buildRouter() {
-  final router = GoRouter(
-    initialLocation: AppRoutes.partners,
-    routes: <RouteBase>[
-      GoRoute(
-        path: AppRoutes.home,
-        builder: (context, state) => const _RouteMarker('home'),
-      ),
-      GoRoute(
-        path: AppRoutes.partners,
-        builder: (context, state) => const PartnersScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.rayonRegistry,
-        builder: (context, state) => const _RouteMarker('registry'),
-      ),
-      GoRoute(
-        path: AppRoutes.rayonClubs,
-        builder: (context, state) => const _RouteMarker('clubs'),
-      ),
-      GoRoute(
-        path: AppRoutes.rayonTickets,
-        builder: (context, state) => const _RouteMarker('tickets'),
-      ),
-      GoRoute(
-        path: AppRoutes.rayonShop,
-        builder: (context, state) => const _RouteMarker('shop'),
-      ),
-    ],
-  );
-  addTearDown(router.dispose);
-  return router;
-}
-
-class _RouteMarker extends StatelessWidget {
-  const _RouteMarker(this.label);
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text(label)));
-  }
 }

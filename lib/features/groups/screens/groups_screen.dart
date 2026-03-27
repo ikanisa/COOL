@@ -10,10 +10,10 @@ import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/cool_layout.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
-import '../../../shared/widgets/cool_glass_card.dart';
-import '../../../shared/widgets/core_tab_root_scaffold.dart';
+import '../../../shared/widgets/core_app_scaffold.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_state_view.dart';
+import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/status_badge.dart';
 import '../../../shared/widgets/tab_pill.dart';
 import '../../partners/providers/partner_provider.dart';
@@ -96,7 +96,9 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
     final isDiscover = _activeView == _GroupsView.discover;
     final hasBankPartner = ref.watch(hasActiveBankPartnerProvider);
 
-    return CoreTabRootScaffold(
+    return CoreAppScaffold(
+      title: l10n.navGroups,
+      scrollable: false,
       child: isLoading && groups.isEmpty
           ? const Padding(
               padding: EdgeInsets.symmetric(
@@ -112,20 +114,6 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
               child: CustomScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
-                  SliverPadding(
-                    padding: CoolLayout.rootPagePadding.copyWith(
-                      bottom: 0,
-                      top: 0,
-                    ),
-                    sliver: SliverToBoxAdapter(
-                      child: Text(
-                        l10n.navGroups,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.headlineLarge,
-                      ),
-                    ),
-                  ),
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: CoolLayout.horizontalPagePadding,

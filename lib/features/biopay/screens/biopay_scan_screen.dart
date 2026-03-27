@@ -513,10 +513,59 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
         return;
       }
 
+      _setScannerState(
+        tone: BiopayScannerTone.ready,
+        statusLabel: 'Match confirmed',
+        helperText: 'Preparing secure dialer for handoff...',
+      );
+
+      final intent = await ref
+          .read(biopayRepositoryProvider)
+          .createPaymentIntent(
+            profilePublicId: result.profile!.publicId,
+            matchScore: result.score,
+          );
+
       if (!mounted) {
         return;
       }
-      context.go(AppRoutes.biopayConfirm, extra: result);
+
+      if (intent.isExpired) {
+        _setScannerState(
+          tone: BiopayScannerTone.error,
+          statusLabel: 'Intent expired',
+          helperText: 'The payment intent expired. Please try scanning again.',
+        );
+        return;
+      }
+
+      final launched = await ref
+          .read(biopayDialerServiceProvider)
+          .dialIntent(intent);
+
+      if (!mounted) {
+        return;
+      }
+
+      if (!launched) {
+        _setScannerState(
+          tone: BiopayScannerTone.error,
+          statusLabel: 'Dialer failed',
+          helperText: 'Could not open the MoMo dialer.',
+        );
+        return;
+      }
+
+      await ref
+          .read(biopayRepositoryProvider)
+          .markIntentDialed(intent.intentId);
+
+      if (!mounted) {
+        return;
+      }
+
+      CoolToast.success(context, 'MoMo dialer opened for ${result.profile!.displayName}');
+      context.go(AppRoutes.biopayHome);
     } catch (error) {
       if (!mounted) {
         return;
@@ -528,7 +577,9 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
       );
       CoolToast.error(context, error.toString());
     } finally {
-      _isSubmitting = false;
+      if (mounted) {
+        setState(() => _isSubmitting = false);
+      }
     }
   }
 

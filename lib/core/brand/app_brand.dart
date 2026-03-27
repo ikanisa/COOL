@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../providers/production_redesign_provider.dart';
 import '../theme/rs_colors.dart';
 
 enum AppBrand { cool, rayonDominant }
@@ -63,19 +62,7 @@ class AppBranding {
   bool get isRayonDominant => brand == AppBrand.rayonDominant;
 }
 
-final appBrandProvider = Provider<AppBranding>((ref) {
-  final useRayonBranding = ref.watch(
-    productionRedesignEnabledProvider(
-      const ProductionRedesignScope(
-        route: ProductionRedesignRoutes.rayonBranding,
-        partner: 'rayon',
-      ),
-    ),
-  );
-
-  if (useRayonBranding) {
-    return const AppBranding.rayon();
-  }
-
-  return const AppBranding.cool();
-});
+/// Always uses Rayon-dominant branding — legacy feature flag removed.
+final appBrandProvider = Provider<AppBranding>(
+  (_) => const AppBranding.rayon(),
+);

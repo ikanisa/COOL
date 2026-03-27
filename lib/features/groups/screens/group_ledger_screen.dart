@@ -66,6 +66,7 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        iconTheme: IconThemeData(color: colors.primaryText),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

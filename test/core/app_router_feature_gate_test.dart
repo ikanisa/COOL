@@ -65,7 +65,7 @@ void main() {
           find.textContaining('Mobile Money is temporarily unavailable.'),
           findsOneWidget,
         );
-        expect(find.text('Go Back'), findsOneWidget);
+        expect(find.text('GO BACK'), findsOneWidget);
       },
     );
 
@@ -184,7 +184,7 @@ void main() {
           AppRoutes.biopayHome,
         );
         expect(find.text('Temporarily Unavailable'), findsNothing);
-        expect(find.text('BioPay'), findsWidgets);
+        expect(find.text('BioPay Hub'), findsWidgets);
       },
     );
   });

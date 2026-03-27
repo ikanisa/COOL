@@ -9,7 +9,8 @@ import '../../features/partners/widgets/partner_navigation.dart';
 class CoreAppScaffold extends StatelessWidget {
   const CoreAppScaffold({
     required this.child,
-    required this.title,
+    this.title = '',
+    this.titleWidget,
     this.actions,
     this.showBackButton = true,
     this.showHomeButton = true,
@@ -21,6 +22,7 @@ class CoreAppScaffold extends StatelessWidget {
 
   final Widget child;
   final String title;
+  final Widget? titleWidget;
   final List<Widget>? actions;
   final bool showBackButton;
   final bool showHomeButton;
@@ -52,15 +54,16 @@ class CoreAppScaffold extends StatelessWidget {
                 color: chromeColor,
               )
             : null,
-        title: Text(
-          title,
-          style: context.coolText.rayonCondensed(
-            const TextStyle(fontSize: 32),
-            fontWeight: FontWeight.w900,
-            color: chromeColor,
-            letterSpacing: 0.8,
-          ),
-        ),
+        title: titleWidget ??
+            Text(
+              title,
+              style: context.coolText.rayonCondensed(
+                const TextStyle(fontSize: 32),
+                fontWeight: FontWeight.w900,
+                color: chromeColor,
+                letterSpacing: 0.8,
+              ),
+            ),
         actions: buildPartnerAppBarActions(
           context,
           actions: actions,

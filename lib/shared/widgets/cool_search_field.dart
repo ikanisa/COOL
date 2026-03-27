@@ -128,7 +128,6 @@ class _CoolSearchFieldState extends State<CoolSearchField> {
         decoration: BoxDecoration(
           color: colors.inputSurface,
           borderRadius: BorderRadius.circular(fieldRadius),
-          boxShadow: CoolShadows.clay(theme.brightness, strength: 0.30),
         ),
         child: TextField(
           controller: _controller,

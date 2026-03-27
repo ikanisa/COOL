@@ -2,17 +2,17 @@
 name: Screen Composition
 description: >
   Screen structure, copy budgets, simplification rules, anti-patterns, and
-  screen LOC governance for the COOL Flutter super-app. Use when building new
-  screens, redesigning screens, auditing screen complexity, or reviewing PRs
-  for UI noise. Replaces the legacy frontend-ui-simplification skill.
-  Source of truth: DESIGN_SYSTEM.md §9–10, §17.
+  screen LOC governance for the COOL Flutter super-app. Mobi × Rayon dark
+  fintech aesthetic — uppercase headings, mobi-grid backgrounds, high-density
+  data layouts. Use when building new screens, redesigning screens, auditing
+  screen complexity, or reviewing PRs for UI noise.
 ---
 
 # Screen Composition
 
 Use this skill for Flutter mobile UI structure and cleanup work. The job is
-not to make the UI more decorated. The job is to remove friction, reduce
-visible decisions, and make the primary task obvious on a small phone.
+to make every screen feel like a fintech terminal — precise, data-dense,
+and immediately actionable on a small phone.
 
 This skill is for:
 
@@ -20,11 +20,10 @@ This skill is for:
 - Redesigning existing screens (simplification priority)
 - Auditing screen complexity and noise
 - Reviewing PRs for UI clutter, copy violations, or hierarchy problems
-- Enforcing copy, form, and list budgets
 
 This skill is NOT for:
 
-- Color, font, or spacing token changes → use `design-foundations`
+- Color tokens or typography → use `design-foundations`
 - Shared widget API changes → use `component-navigation`
 - Module-specific UX decisions → use `module-partner-ux`
 
@@ -32,17 +31,82 @@ This skill is NOT for:
 
 - One obvious task per screen.
 - One primary CTA above the fold.
-- Quiet surfaces and restrained accents.
-- Short copy with no backend or policy exposition in the main path.
+- Dark surface with mobi-grid background.
+- Uppercase section headers in Barlow Condensed.
+- Mobi-label/mobi-value pairs for structured data.
 - Secondary details in drill-downs, sheets, or later steps.
-- Stable navigation with no competing models in one viewport.
+- Floating glass pill nav visible only on main screens.
 
-## Non-Goals
+## Screen Anatomy (Standard Pattern)
 
-- Do not add a new visual style to solve an information hierarchy problem.
-- Do not increase motion, gradients, or chrome to make a crowded screen feel "premium."
-- Do not preserve every existing section by shrinking it.
-- Do not treat feature density as value. World-class apps win by compression and deferral.
+```
+┌─────────────────────────────┐
+│ Sticky Header               │  ← bg-surface/80 backdrop-blur-xl
+│ [←] SCREEN TITLE    [Badge] │     border-b border-white/5
+├─────────────────────────────┤
+│                             │
+│  SECTION HEADER             │  ← Barlow Condensed, uppercase, primary color
+│  Description text           │  ← Inter, textSecondary, small
+│                             │
+│  ┌─────────────────────┐    │
+│  │ Card (surfaceAlt)   │    │  ← border white/5, rounded-2xl
+│  │ Content             │    │
+│  └─────────────────────┘    │
+│                             │
+│  SECTION HEADER             │
+│  ┌─────────────────────┐    │
+│  │ Card                │    │
+│  └─────────────────────┘    │
+│                             │
+│           ···               │
+│                             │
+│  [Floating Nav Pill]        │  ← Only on main screens
+└─────────────────────────────┘
+```
+
+### Sticky Header Pattern
+
+```dart
+// Sticky header with blur
+Container(
+  color: CoolColors.surface.withOpacity(0.80),
+  // + BackdropFilter(blur: 24)
+  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+  border: Border(bottom: BorderSide(color: CoolColors.borderSubtle)),
+  child: Row(
+    children: [
+      BackButton(rounded-xl, bg-white/5),
+      Expanded(child: Column(title, subtitle)),
+      TrailingWidget,
+    ],
+  ),
+)
+```
+
+### Section Header Pattern
+
+```dart
+// Section header — Barlow Condensed, uppercase, primary color
+Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Text('SECTION TITLE',
+      style: TextStyle(
+        fontFamily: 'BarlowCondensed',
+        fontWeight: FontWeight.w800,
+        color: CoolColors.primary,  // blue section headers
+        // fontSize from headlineSmall
+      ),
+    ),
+    Text('Brief description',
+      style: TextStyle(
+        color: CoolColors.textSecondary.withOpacity(0.6),
+        fontSize: 14,
+      ),
+    ),
+  ],
+)
+```
 
 ## Above-the-Fold Budget
 
@@ -50,45 +114,87 @@ This skill is NOT for:
 - **Exactly 1 primary CTA** above the fold.
 - **Max 5 primary actions** on a full screen.
 - **Max 1 local navigation model** in the body.
-- No stacked hero, quick actions, stats, and list all competing before scroll.
 
 ## Single-Card Rule
 
-Except Home, every screen/sheet uses **one card per section**. No stacked
-dual-cards — merge related content into one card with dividers.
+Except Home, every screen uses **one card per section**. No stacked
+dual-cards — merge related content into one card with separators.
 
 ## Copy Budgets
 
-- **No visible UI copy may exceed 4 words.** Enforced by `dart tool/ui_copy_guard.dart`.
-- Headlines: 2–4 words.
-- Above-the-fold helper copy: 1 short sentence max.
-- Use user language, not implementation language.
-- Backend/sync/policy explanation → move out of the main path.
-- CTA labels: action-first and specific.
+- Headlines: 2–4 words, **always uppercase**.
+- Above-the-fold helper copy: 1 short sentence max, **14px, uppercase, bold**.
+- Section descriptions: brief, `textSecondary`, `opacity-60`.
+- CTA labels: action-first, specific, uppercase.
+- No explanatory paragraph copy when structure can do the work.
 
-## Form Budgets
+## Data Display Patterns
 
-- First step shows only essential fields.
-- If the first step exceeds 6 inputs, split it.
-- Optional detail behind `Add details`, a sheet, or a later step.
-- Helper text stays adjacent and short.
+### Mobi Label + Value Pair
 
-## List & Data Budgets
+The signature data display pattern:
 
-- A row answers: what is it, what is the state, what can I do.
-- Summary clusters: 2–3 metrics max.
-- Historical data below current state or on a dedicated route.
-- Filters only for dimensions users actually switch during a session.
+```dart
+Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    // mobi-label
+    Text('TRANSACTION ID',
+      style: TextStyle(
+        fontFamily: 'JetBrainsMono', fontSize: 10,
+        fontWeight: FontWeight.w600, letterSpacing: 1.0,
+        color: CoolColors.textSecondary,
+      ),
+    ),
+    // mobi-value
+    Text('#TX-8829-AF',
+      style: TextStyle(
+        fontFamily: 'JetBrainsMono', fontSize: 14,
+        fontWeight: FontWeight.w500, letterSpacing: -0.28,
+        color: CoolColors.textPrimary,
+      ),
+    ),
+  ],
+)
+```
 
-## Simplification Decision Rules (Apply in Order)
+### Quick Actions Grid (Home)
 
-1. If a section does not help the main task → **remove** it.
-2. If two sections say similar things → **merge** them.
-3. If a section is useful but not needed before the main action → **move** below fold or into sheet.
-4. If a route contains both setup and usage → **split** them.
-5. If a route contains both browse and transact → make transaction dominant, **demote** browse.
-6. If a card only exists to route elsewhere → test if a **row or CTA** is cleaner.
-7. If a proposed fix adds more components than it removes → **reject** it.
+5-column grid of icon actions:
+
+```dart
+GridView.count(
+  crossAxisCount: 5,
+  children: [
+    QuickAction(icon: Send, label: 'SEND', color: accent),
+    QuickAction(icon: Smartphone, label: 'AIRTIME', color: blue/20),
+    QuickAction(icon: CreditCard, label: 'PAY', color: orange/20),
+    QuickAction(icon: Users, label: 'JOIN', color: success/20),
+    QuickAction(icon: PieChart, label: 'SCORE', color: purple/20),
+  ],
+)
+```
+
+Quick action icon container: 56×56, `rounded-md` (8px), colored bg.
+Label: 14px, black weight, uppercase, textSecondary.
+
+### Transaction Row
+
+```dart
+Row(
+  children: [
+    // Direction indicator (rounded-pill, success/error tinted)
+    Container(40×40, rounded-pill, bg: type==in ? success/10 : error/10),
+    // Details
+    Column(
+      Text(title, 14px, font-black, textPrimary),
+      Text(date, 14px, textSecondary, font-semibold),
+    ),
+    Spacer(),
+    Text(amount, 14px, font-black, type==in ? success : textPrimary),
+  ],
+)
+```
 
 ## Noise Elimination Checklist
 
@@ -96,50 +202,27 @@ Remove these from every screen:
 
 - [ ] Multiple equal-weight sections fighting for attention
 - [ ] Cards inside cards
-- [ ] `Wrap` used as a metadata dumping ground
+- [ ] Warm/earthy tones or claymorphism shadows
 - [ ] Tab bars + filter chips + inline tiles on the same route
-- [ ] Hero banners that restate the title without helping a decision
-- [ ] Big explanatory cards for features already represented by a direct action
-- [ ] Partner/admin surfaces using consumer marketing chrome
-- [ ] Duplicate summaries in header, chips, AND detail rows
-- [ ] Tappable cards that also contain the same primary button
-- [ ] Multiple dashboards stacked before scroll
-- [ ] Repeated summary pills and duplicate metadata
-- [ ] Chips + tabs + segmented controls on the same screen without strong reason
-- [ ] Empty states caused by bad filtering rather than missing data
-
-## Domain Surface Usage
-
-Screens should use dedicated `CoolSemanticColors` surface tokens to visually
-distinguish product domains without heavy color usage:
-
-| Screen Category | Surface Token | Example |
-|---|---|---|
-| Financial/wallet | `financialSurface` | MoMo balance card, statement list |
-| Admin/operational | `operationalSurface` | Dashboard panels, config cards |
-| Analytics/data | `analyticsSurface` | Charts, metrics panels |
-| Mobility/routes | `routeSurface` | Trip cards, route summaries |
-| Team/sports | `teamSurface` | Match cards, standings |
-| Commerce/listings | `commerceSurface` | Product cards, marketplace |
-| Proximity | `proximitySurface` | Nearby indicators |
-| Contact/CTA | `contactSurface` | WhatsApp buttons, call CTAs |
-
-Default to `cardSurface` if no domain-specific token applies.
+- [ ] Hero banners that restate the title
+- [ ] Oversized radii (>16px on cards)
+- [ ] Domain-specific tinted backgrounds (financialSurface, etc.)
+- [ ] Mixed-case headings (all must be uppercase)
+- [ ] Non-mono labels for data values
+- [ ] Manrope or DM Mono font usage (must be Inter/Barlow/JetBrains)
 
 ## Preferred Screen Patterns
 
 | Screen Type | Pattern |
 |---|---|
-| Landing | Summary → primary action cluster → recent items |
-| Settings | Grouped rows → quiet header → destructive actions at bottom |
-| Workflow | One step → one CTA → progressive disclosure for optional details |
-| Service detail | Compact brand context → one primary path → facts below |
-| Discovery | One filter model → one results list → optional map |
-| Transaction | Summary → selection → total → confirm CTA → status |
+| Landing / Home | Header → Quick actions grid → Recent activity list |
+| Settings / Profile | Avatar card → grouped setting rows → destructive at bottom |
+| Workflow | One step → one CTA → progressive disclosure |
+| Detail | Sticky header → content card → action footer |
+| List / Browse | Sticky header with filter tabs → scrollable card list |
+| Admin | Data table cards → action buttons → charts |
 
 ## Screen LOC Governance
-
-Budgets tracked in `docs/SCREEN_BUDGETS.md`:
 
 | Budget | New Screens | Existing Screens |
 |---|---|---|
@@ -147,59 +230,45 @@ Budgets tracked in `docs/SCREEN_BUDGETS.md`:
 | Review | 401–700 LOC | 701–1000 LOC (debt) |
 | Block | > 700 LOC | > 1000 LOC (hotspot) |
 
-Do not grow hotspot files unless the work explicitly simplifies them.
+## Background Treatment
+
+Every screen uses:
+1. `CoolColors.surface` (#050505) as base background
+2. `MobiGrid` overlay (24px gridlines at white/8)
+3. Optional `AtmosphericBackground` (blurred radial blobs) on discovery/landing screens
 
 ## Anti-Patterns (Reject These)
 
-- Generic "super-app" advice that ignores COOL's payment model
-- Shell-tab treatment for every route
-- Map-first UX without a working fallback
-- Fake permission surfaces or counts
-- Marketing-heavy partner screens hiding transactional clarity
-- Giant multi-purpose profile, home, or admin screens that keep growing
-- UI proposals assuming background sync the app does not have
-- "Completed" payment states before SMS or backend confirmation
-- Giant `Wrap` clusters as metadata dumps
-- New visual styles to solve hierarchy problems
-- Preserving every existing section by shrinking it
+- Claymorphism or clay shadows on any element
+- Warm earthy tones (cream, ivory, green-black)
+- Light theme or light mode surfaces
+- Oversized border radii (sm=16, md=22, etc.)
+- Domain-specific colored backgrounds
+- Non-uppercase headings
+- Paragraph-length explanatory copy
+- Manrope, DM Mono, or any non-system font
 
-## Required Workflow
-
-1. **Ground the audit in code** before making claims.
-2. **Diagnose noise** at system, screen, and component levels.
-3. **Simplify structure** before styling.
-4. **Implement** the smallest structural change that materially reduces noise.
-5. **Verify** the main task is clearer, not just different.
-
-## Quick Audit Commands
+## Audit Commands
 
 ```sh
-# Route count
-rg -o "GoRoute\(" -N lib/core/router/app_router.dart | wc -l
-
 # Screen file count
 find lib/features -type f -name '*screen.dart' | wc -l
 
 # Largest screen files
 find lib -type f -name '*.dart' -print0 | xargs -0 wc -l | sort -nr | head -n 20
 
-# Widget usage counts
-rg -o "CoolCard\(" -N lib | wc -l
-rg -o "CoolButton\(" -N lib | wc -l
-rg -o "StatusBadge\(" -N lib | wc -l
-rg -o "SectionTitle\(" -N lib | wc -l
-rg -o "TabPill\(" -N lib | wc -l
+# Legacy font usage (must be zero)
+rg "Manrope\|DM.Mono\|DMMono" lib/ --count
 
-# Copy violations (lines with long visible strings)
-dart tool/ui_copy_guard.dart
+# Legacy shadow usage (must be zero)
+rg "CoolShadows\.clay\|CoolShadows\.glass" lib/ --count
 
-# Cards-inside-cards pattern
-rg "CoolCard" lib/ -l | xargs rg "CoolCard" --count | awk -F: '$2 > 2'
+# Claymorphism remnants
+rg "claymorphi\|CoolGlassCard" lib/ --count
 ```
 
 ## Cross-References
 
-- Color tokens and typography used by screens → `design-foundations` skill
-- Shared components referenced in screen patterns → `component-navigation` skill
+- Color tokens and typography → `design-foundations` skill
+- Shared components → `component-navigation` skill
 - Module-specific UX decisions → `module-partner-ux` skill
-- Full human-readable reference → `DESIGN_SYSTEM.md`

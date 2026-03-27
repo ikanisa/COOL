@@ -4,15 +4,62 @@ import 'package:flutter/services.dart';
 
 import '../../core/theme/cool_foundations.dart';
 
-/// Variants available for [CoolButton].
-enum CoolButtonVariant { primary, secondary }
+/// Button variants — Mobi × Rayon system.
+enum CoolButtonVariant {
+  /// Royal blue background, white text, primary glow shadow.
+  primary,
 
-/// A styled button used throughout the COOL app.
+  /// white/10 background, white text.
+  secondary,
+
+  /// Transparent background, white/10 border, white text.
+  outline,
+
+  /// Transparent, secondary text, no border.
+  ghost,
+
+  /// Gold background, black text, gold glow shadow.
+  accent,
+}
+
+/// Button sizes — matches React UI kit.
+enum CoolButtonSize {
+  sm,
+  md,
+  lg,
+  icon;
+
+  double get height => switch (this) {
+    CoolButtonSize.sm => 32,
+    CoolButtonSize.md => 44,
+    CoolButtonSize.lg => 56,
+    CoolButtonSize.icon => 40,
+  };
+
+  EdgeInsets get padding => switch (this) {
+    CoolButtonSize.sm => const EdgeInsets.symmetric(horizontal: CoolSpace.x3),
+    CoolButtonSize.md => const EdgeInsets.symmetric(horizontal: CoolSpace.x6),
+    CoolButtonSize.lg => const EdgeInsets.symmetric(horizontal: CoolSpace.x7),
+    CoolButtonSize.icon => EdgeInsets.zero,
+  };
+
+  double get fontSize => switch (this) {
+    CoolButtonSize.sm => 10,
+    CoolButtonSize.md => 12,
+    CoolButtonSize.lg => 14,
+    CoolButtonSize.icon => 0,
+  };
+}
+
+/// A styled button — Mobi × Rayon system.
+///
+/// 5 variants, 4 sizes, press feedback (scale 0.98), JetBrains Mono uppercase.
 class CoolButton extends StatefulWidget {
   const CoolButton({
     required this.label,
     this.onTap,
     this.variant = CoolButtonVariant.primary,
+    this.size = CoolButtonSize.md,
     this.isLoading = false,
     this.isDisabled = false,
     this.fullWidth = true,
@@ -24,6 +71,7 @@ class CoolButton extends StatefulWidget {
   final String label;
   final VoidCallback? onTap;
   final CoolButtonVariant variant;
+  final CoolButtonSize size;
   final bool isLoading;
   final bool isDisabled;
   final bool fullWidth;
@@ -46,7 +94,7 @@ class _CoolButtonState extends State<CoolButton>
       vsync: this,
       duration: CoolMotion.press,
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.985).animate(
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.98).animate(
       CurvedAnimation(parent: _scaleController, curve: Curves.easeInOut),
     );
   }
@@ -57,177 +105,182 @@ class _CoolButtonState extends State<CoolButton>
     super.dispose();
   }
 
+  bool get _enabled =>
+      widget.onTap != null && !widget.isLoading && !widget.isDisabled;
+
   @override
   Widget build(BuildContext context) {
-    final space = context.coolSpace;
-    final theme = Theme.of(context);
     final colors = context.coolSemanticColors;
-    final brightness = theme.brightness;
-    final enabled =
-        widget.onTap != null && !widget.isLoading && !widget.isDisabled;
-    final isPrimary = widget.variant == CoolButtonVariant.primary;
-    const buttonRadius = 18.0;
+    final isIcon = widget.size == CoolButtonSize.icon;
 
-    final backgroundDecoration = BoxDecoration(
-      color: isPrimary
-          ? (enabled
-                ? colors.buttonPrimaryBackground
-                : colors.cardSurfaceStrong)
-          : Colors.transparent,
-      borderRadius: BorderRadius.circular(buttonRadius),
-      border: isPrimary
-          ? Border.all(
-              color: enabled
-                  ? colors.highlightColor.withValues(alpha: 0.08)
-                  : colors.border.withValues(alpha: 0.6),
-            )
-          : Border.all(color: colors.border),
-      boxShadow: enabled
-          ? (isPrimary
-                ? CoolShadows.floating(brightness, strength: 0.52)
-                : null)
-          : null,
+    final bg = _resolvedBg(colors);
+    final fg = _resolvedFg(colors);
+    final border = _resolvedBorder(colors);
+    final shadow = _resolvedShadow(colors);
+
+    final decoration = BoxDecoration(
+      color: bg,
+      borderRadius: BorderRadius.circular(CoolRadii.sm), // 8px
+      border: border != null ? Border.all(color: border, width: 1) : null,
+      boxShadow: _enabled ? shadow : null,
     );
 
     return MouseRegion(
-      cursor: enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
+      cursor: _enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
       child: ScaleTransition(
         scale: _scaleAnimation,
         child: Semantics(
           label: widget.semanticsLabel ?? widget.label,
           button: true,
-          enabled: enabled,
-          hint: widget.isLoading
-              ? 'Loading'
-              : (!enabled ? 'Unavailable' : null),
+          enabled: _enabled,
           excludeSemantics: true,
-          child: Tooltip(
-            message: widget.semanticsLabel ?? widget.label,
-            child: SizedBox(
-              width: widget.fullWidth ? double.infinity : null,
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  minHeight: CoolTapTargets.comfortable,
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(buttonRadius),
-                  child: Ink(
-                    decoration: backgroundDecoration,
-                    child: InkWell(
-                      onTapDown: enabled
-                          ? (_) => _scaleController.forward()
-                          : null,
-                      onTapUp: enabled
-                          ? (_) => _scaleController.reverse()
-                          : null,
-                      onTapCancel: enabled
-                          ? () => _scaleController.reverse()
-                          : null,
-                      onTap: enabled
-                          ? () {
-                              if (isPrimary) {
-                                HapticFeedback.mediumImpact();
-                              } else {
-                                HapticFeedback.lightImpact();
-                              }
-                              widget.onTap?.call();
-                            }
-                          : null,
-                      borderRadius: BorderRadius.circular(buttonRadius),
-                      splashColor: isPrimary
-                          ? theme.colorScheme.onPrimary.withValues(alpha: 0.1)
-                          : colors.buttonPrimaryBackground.withValues(
-                              alpha: 0.06,
-                            ),
-                      highlightColor: Colors.transparent,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: isPrimary && enabled
-                              ? LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: <Color>[
-                                    colors.highlightColor.withValues(
-                                      alpha: brightness == Brightness.dark
-                                          ? 0.10
-                                          : 0.16,
-                                    ),
-                                    colors.highlightColor.withValues(alpha: 0),
-                                  ],
-                                  stops: const <double>[0.0, 0.42],
-                                )
-                              : null,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: isPrimary ? 28 : space.x4,
-                            vertical: isPrimary ? 18 : 16,
-                          ),
-                          child: _buildChild(context, enabled),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          child: SizedBox(
+            width: widget.fullWidth && !isIcon ? double.infinity : null,
+            height: widget.size.height,
+            child: isIcon
+                ? _buildIconButton(colors, fg, decoration)
+                : _buildButton(colors, fg, decoration),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildChild(BuildContext context, bool enabled) {
-    final space = context.coolSpace;
-    final colors = context.coolSemanticColors;
-    final textColor = widget.variant == CoolButtonVariant.primary
-        ? (enabled
-              ? Theme.of(context).colorScheme.onPrimary
-              : colors.tertiaryText)
-        : (enabled ? colors.primaryText : colors.tertiaryText);
+  Widget _buildButton(
+    CoolSemanticColors colors,
+    Color fg,
+    BoxDecoration decoration,
+  ) {
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(CoolRadii.sm),
+      child: Ink(
+        decoration: decoration,
+        child: InkWell(
+          onTapDown: _enabled ? (_) => _scaleController.forward() : null,
+          onTapUp: _enabled ? (_) => _scaleController.reverse() : null,
+          onTapCancel: _enabled ? () => _scaleController.reverse() : null,
+          onTap: _enabled ? _handleTap : null,
+          borderRadius: BorderRadius.circular(CoolRadii.sm),
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          child: Padding(padding: widget.size.padding, child: _buildChild(fg)),
+        ),
+      ),
+    );
+  }
 
-    Widget child;
+  Widget _buildIconButton(
+    CoolSemanticColors colors,
+    Color fg,
+    BoxDecoration decoration,
+  ) {
+    return GestureDetector(
+      onTapDown: _enabled ? (_) => _scaleController.forward() : null,
+      onTapUp: _enabled ? (_) => _scaleController.reverse() : null,
+      onTapCancel: _enabled ? () => _scaleController.reverse() : null,
+      onTap: _enabled ? _handleTap : null,
+      child: Container(
+        width: widget.size.height,
+        height: widget.size.height,
+        decoration: decoration,
+        child: Icon(widget.icon, size: 18, color: fg),
+      ),
+    );
+  }
+
+  Widget _buildChild(Color fg) {
     if (widget.isLoading) {
-      child = CupertinoActivityIndicator(
-        key: const ValueKey('cool_button_loading'),
-        radius: 11,
-        color: textColor,
-      );
-    } else {
-      final textWidget = Text(
-        widget.label,
-        maxLines: 2,
-        softWrap: true,
-        textAlign: TextAlign.center,
-        overflow: TextOverflow.ellipsis,
-        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-          fontWeight: FontWeight.w800,
-          color: textColor,
-          letterSpacing: 0.8,
+      return Center(
+        child: CupertinoActivityIndicator(
+          key: const ValueKey('cool_button_loading'),
+          radius: 10,
+          color: fg,
         ),
       );
-
-      if (widget.icon == null) {
-        child = textWidget;
-      } else {
-        child = Wrap(
-          key: const ValueKey('cool_button_content'),
-          alignment: WrapAlignment.center,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          spacing: space.x2,
-          runSpacing: space.x1,
-          children: [
-            Icon(widget.icon, size: 20, color: textColor),
-            textWidget,
-          ],
-        );
-      }
     }
 
-    return AnimatedSwitcher(
-      duration: CoolMotion.quick,
-      child: Container(key: ValueKey(widget.isLoading), child: child),
+    final textStyle = context.coolText
+        .mobiLabel(color: fg)
+        .copyWith(
+          fontSize: widget.size.fontSize,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 2.0,
+        );
+
+    final textWidget = Text(
+      widget.label.toUpperCase(),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      textAlign: TextAlign.center,
+      style: textStyle,
     );
+
+    if (widget.icon == null) {
+      return Center(child: textWidget);
+    }
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(widget.icon, size: 16, color: fg),
+        const SizedBox(width: CoolSpace.x2),
+        textWidget,
+      ],
+    );
+  }
+
+  void _handleTap() {
+    final isPrimary =
+        widget.variant == CoolButtonVariant.primary ||
+        widget.variant == CoolButtonVariant.accent;
+    if (isPrimary) {
+      HapticFeedback.mediumImpact();
+    } else {
+      HapticFeedback.lightImpact();
+    }
+    widget.onTap?.call();
+  }
+
+  Color _resolvedBg(CoolSemanticColors colors) {
+    if (!_enabled) return colors.cardSurfaceStrong;
+    return switch (widget.variant) {
+      CoolButtonVariant.primary => colors.buttonPrimaryBackground,
+      CoolButtonVariant.secondary => colors.buttonSecondaryBackground,
+      CoolButtonVariant.outline => Colors.transparent,
+      CoolButtonVariant.ghost => Colors.transparent,
+      CoolButtonVariant.accent => colors.accentGold,
+    };
+  }
+
+  Color _resolvedFg(CoolSemanticColors colors) {
+    if (!_enabled) return colors.tertiaryText;
+    return switch (widget.variant) {
+      CoolButtonVariant.primary => colors.accentForeground,
+      CoolButtonVariant.secondary => colors.primaryText,
+      CoolButtonVariant.outline => colors.primaryText,
+      CoolButtonVariant.ghost => colors.secondaryText,
+      CoolButtonVariant.accent => Colors.black,
+    };
+  }
+
+  Color? _resolvedBorder(CoolSemanticColors colors) {
+    if (!_enabled) return colors.border;
+    return switch (widget.variant) {
+      CoolButtonVariant.primary => null,
+      CoolButtonVariant.secondary => null,
+      CoolButtonVariant.outline => Colors.white.withValues(alpha: 0.10),
+      CoolButtonVariant.ghost => null,
+      CoolButtonVariant.accent => null,
+    };
+  }
+
+  List<BoxShadow>? _resolvedShadow(CoolSemanticColors colors) {
+    return switch (widget.variant) {
+      CoolButtonVariant.primary => CoolShadows.primary(),
+      CoolButtonVariant.accent => CoolShadows.gold(),
+      _ => null,
+    };
   }
 }

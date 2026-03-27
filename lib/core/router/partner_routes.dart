@@ -9,7 +9,8 @@ import '../../features/partners/rayon/screens/fan_profile_screen.dart';
 import '../../features/partners/rayon/screens/member_registry_screen.dart';
 import '../../features/partners/rayon/screens/membership_tiers_screen.dart';
 import '../../features/partners/rayon/screens/my_tickets_screen.dart';
-import '../../features/partners/rayon/screens/rayon_home_screen.dart';
+import '../../features/home/screens/home_screen.dart';
+import '../../features/partners/rayon/screens/product_detail_screen.dart';
 import '../../features/partners/rayon/screens/shop_checkout_screen.dart';
 import '../../features/partners/rayon/screens/support_detail_screen.dart';
 import '../../features/partners/rayon/screens/support_screen.dart';
@@ -42,7 +43,7 @@ GoRoute partnerRoutes({
     routes: [
       GoRoute(
         path: 'rayon-sports',
-        builder: (context, state) => const RayonHomeScreen(),
+        builder: (context, state) => const HomeScreen(),
         routes: [
           GoRoute(
             path: 'profile',
@@ -79,6 +80,12 @@ GoRoute partnerRoutes({
                   child: ShopCheckoutScreen(
                     referralParameters: state.uri.queryParameters,
                   ),
+                ),
+              ),
+              GoRoute(
+                path: 'product/:productId',
+                builder: (context, state) => ProductDetailScreen(
+                  productId: state.pathParameters['productId'] ?? '',
                 ),
               ),
             ],

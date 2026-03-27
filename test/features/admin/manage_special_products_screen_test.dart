@@ -1,6 +1,8 @@
+import 'package:cool_app/core/theme/app_theme.dart';
 import 'package:cool_app/features/admin/models/special_product.dart';
 import 'package:cool_app/features/admin/providers/special_products_provider.dart';
 import 'package:cool_app/features/admin/screens/manage_special_products_screen.dart';
+import 'package:cool_app/shared/widgets/cool_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,13 +44,28 @@ void _configureTallViewport(WidgetTester tester) {
   });
 }
 
+Widget _wrapAdminScreen(Widget child, {required List<Override> overrides}) {
+  return ProviderScope(
+    overrides: overrides,
+    child: MaterialApp(
+      theme: AppTheme.dark,
+      builder: (context, widget) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(disableAnimations: true),
+        child: widget!,
+      ),
+      home: child,
+    ),
+  );
+}
+
 void main() {
   testWidgets('renders product list and toggles active state', (tester) async {
     _configureTallViewport(tester);
     final repository = FakeSpecialProductsRepository();
 
     await tester.pumpWidget(
-      ProviderScope(
+      _wrapAdminScreen(
+        const ManageSpecialProductsScreen(),
         overrides: <Override>[
           adminSpecialProductsProvider.overrideWith(
             (ref) async => <SpecialProduct>[
@@ -65,7 +82,6 @@ void main() {
           ),
           specialProductsRepositoryProvider.overrideWithValue(repository),
         ],
-        child: const MaterialApp(home: ManageSpecialProductsScreen()),
       ),
     );
 
@@ -89,14 +105,14 @@ void main() {
     final repository = FakeSpecialProductsRepository();
 
     await tester.pumpWidget(
-      ProviderScope(
+      _wrapAdminScreen(
+        const ManageSpecialProductsScreen(),
         overrides: <Override>[
           adminSpecialProductsProvider.overrideWith(
             (ref) async => const <SpecialProduct>[],
           ),
           specialProductsRepositoryProvider.overrideWithValue(repository),
         ],
-        child: const MaterialApp(home: ManageSpecialProductsScreen()),
       ),
     );
 
@@ -112,7 +128,7 @@ void main() {
       'merchant-200',
     );
 
-    await tester.tap(find.text('Create Product').last);
+    await tester.tap(find.byType(CoolButton).last);
     await tester.pumpAndSettle();
 
     expect(repository.upsertedProducts, hasLength(1));

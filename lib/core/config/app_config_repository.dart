@@ -1,13 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract final class AppConfigKeys {
-  static const productionRedesignEnabled = 'production_redesign_enabled';
-  static const productionRedesignRoutes = 'production_redesign_routes';
-  static const productionRedesignPartners = 'production_redesign_partners';
-  static const productionRedesignCohortPercent =
-      'production_redesign_cohort_percent';
-  static const productionRedesignAdminOverride =
-      'production_redesign_admin_override';
   static const biopayEnabled = 'feature_biopay_enabled';
   static const biopayMatchThreshold = 'biopay_match_threshold';
   static const biopayCacheTtlHours = 'biopay_cache_ttl_hours';

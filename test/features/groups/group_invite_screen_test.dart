@@ -78,7 +78,7 @@ void main() {
       expect(find.text('Monthly contributions'), findsOneWidget);
       expect(find.text('Build a rainy-day fund together.'), findsOneWidget);
       expect(find.text('You will join this group.'), findsOneWidget);
-      expect(find.text('Join Group'), findsOneWidget);
+      expect(find.bySemanticsLabel('Join Group'), findsOneWidget);
 
       verify(
         () => engagementTracker.trackInviteOpened(

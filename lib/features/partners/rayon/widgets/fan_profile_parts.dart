@@ -24,10 +24,10 @@ class _ProfileHero extends StatelessWidget {
         ? null
         : _progressMeta(membership!.points, tier);
 
-    return CoolGlassCard(
+    return CoolCard(
+      variant: CoolCardVariant.glass,
       borderColor: RsColors.rsBlueBorder,
       blur: 14,
-      opacity: 0.08,
       padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

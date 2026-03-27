@@ -13,6 +13,7 @@ import 'package:cool_app/features/partners/rayon/screens/club_shop_screen.dart';
 import 'package:cool_app/features/partners/rayon/screens/fan_clubs_screen.dart';
 import 'package:cool_app/features/partners/rayon/screens/shop_checkout_screen.dart';
 import 'package:cool_app/features/partners/rayon/screens/tickets_screen.dart';
+import 'package:cool_app/l10n/app_localizations.dart';
 
 class MockRayonSportsRepository extends Mock implements RayonSportsRepository {}
 
@@ -32,20 +33,32 @@ void main() {
     List<Override> overrides = const <Override>[],
   }) async {
     await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          rayonSportsRepositoryProvider.overrideWithValue(repository),
-          rayonCurrentUserIdProvider.overrideWith((ref) => 'user-1'),
-          rayonPartnerIdProvider.overrideWith((ref) async => 'partner-1'),
-          ...overrides,
-        ],
-        child: MaterialApp(home: screen),
+      MediaQuery(
+        data: MediaQueryData.fromView(
+          tester.view,
+        ).copyWith(disableAnimations: true),
+        child: ProviderScope(
+          overrides: [
+            rayonSportsRepositoryProvider.overrideWithValue(repository),
+            rayonCurrentUserIdProvider.overrideWith((ref) => 'user-1'),
+            rayonPartnerIdProvider.overrideWith((ref) async => 'partner-1'),
+            ...overrides,
+          ],
+          child: MaterialApp(
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            home: screen,
+          ),
+        ),
       ),
     );
 
-    await tester.pump();
-    await tester.pump();
-    await tester.pump();
+    for (var index = 0; index < 8; index++) {
+      await tester.pump(const Duration(milliseconds: 50));
+      if (!tester.binding.hasScheduledFrame) {
+        break;
+      }
+    }
   }
 
   setUp(() {
@@ -194,9 +207,10 @@ void main() {
 
       await pumpScreen(tester, const ClubShopScreen());
 
-      expect(find.text('Club Shop'), findsOneWidget);
-      expect(find.text('Official Club Store'), findsOneWidget);
-      expect(find.text('Verified commerce'), findsOneWidget);
+      expect(find.text('GIKUNDIRO'), findsOneWidget);
+      expect(find.text('SHOP'), findsWidgets);
+      expect(find.text('OFFICIAL MERCHANDISE'), findsOneWidget);
+      expect(find.bySemanticsLabel('Shopping cart, 0 items'), findsOneWidget);
 
       verify(() => repository.getProducts('partner-1', null)).called(1);
       verify(
@@ -212,7 +226,8 @@ void main() {
       await pumpScreen(tester, const TicketsScreen());
 
       expect(find.text('Tickets'), findsOneWidget);
-      expect(find.text('Official Ticket Office'), findsOneWidget);
+      expect(find.text('ON SALE'), findsWidgets);
+      expect(find.text('MY TICKETS'), findsOneWidget);
 
       verify(() => repository.getMatches('partner-1', false)).called(1);
       verify(
@@ -228,9 +243,9 @@ void main() {
     (tester) async {
       await pumpScreen(tester, const SupportScreen());
 
-      expect(find.text('Support Club'), findsOneWidget);
-      expect(find.text('Active Causes'), findsOneWidget);
-      expect(find.text('Official support network'), findsOneWidget);
+      expect(find.text('SUPPORT CLUB'), findsOneWidget);
+      expect(find.text('ACTIVE INITIATIVES'), findsOneWidget);
+      expect(find.text('ACTIVE CAUSES'), findsOneWidget);
 
       verify(() => repository.getInitiatives('partner-1')).called(1);
       // SupportScreen may or may not call getActivePaymentRoute depending on
@@ -274,7 +289,10 @@ void main() {
         ],
       );
 
-      expect(find.text('Payment route unavailable'), findsOneWidget);
+      expect(
+        find.bySemanticsLabel('Payment route unavailable'),
+        findsOneWidget,
+      );
       verifyNever(() => repository.getActivePaymentRoute());
     },
   );

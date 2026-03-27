@@ -65,7 +65,7 @@ class MomoQrPayload {
 
   bool get hasAmount => amount != null && amount! > 0;
   bool get canLaunchImmediately =>
-      action == MomoQrAction.pay && countryCode != null && hasAmount;
+      action == MomoQrAction.pay && hasAmount && countryCode != null;
 
   Uri toAppLinkUri() {
     return Uri.https(_coolDeepLinkHost, '/momo', <String, String>{
@@ -106,7 +106,7 @@ class MomoQrPayload {
   Uri toDialerUri(CoolCountry country) {
     final ussdCode = country.buildUssdCode(
       recipientMomo: recipientValue,
-      amount: amount!,
+      amount: amount,
       recipientType: recipientType,
     );
     // Android requires # to be %23 in tel: URIs; raw # is parsed as fragment.

@@ -5,14 +5,13 @@ import 'package:cool_app/core/router/app_router.dart';
 import 'test_harness.dart';
 
 void main() {
-  testWidgets('Unauthenticated app boot lands on onboarding', (tester) async {
+  testWidgets('Unauthenticated app boot auto-signs in and leaves splash', (
+    tester,
+  ) async {
     final app = await pumpRouterApp(tester);
 
-    expect(find.text('Welcome to Rayon Sports'), findsOneWidget);
-    expect(find.text('Get Started'), findsOneWidget);
-    expect(
-      app.router.routeInformationProvider.value.uri.path,
-      AppRoutes.splash,
-    );
+    expect(app.router.routeInformationProvider.value.uri.path, AppRoutes.home);
+    expect(find.text('Get Started'), findsNothing);
+    expect(find.text('Continue'), findsNothing);
   });
 }

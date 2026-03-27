@@ -15,6 +15,7 @@ class RsMatch extends Equatable {
     required this.saleStartsAt,
     required this.capacity,
     this.soldCount = 0,
+    this.imageUrl,
   });
 
   final String id;
@@ -30,6 +31,7 @@ class RsMatch extends Equatable {
   final DateTime saleStartsAt;
   final int capacity;
   final int soldCount;
+  final String? imageUrl;
 
   bool get isSoldOut => capacity > 0 && soldCount >= capacity;
 
@@ -87,6 +89,7 @@ class RsMatch extends Equatable {
           matchDate.subtract(const Duration(days: 7)),
       capacity: _asInt(json['capacity'], fallback: 0),
       soldCount: _asInt(json['sold_count'] ?? json['soldCount'], fallback: 0),
+      imageUrl: _asNullableString(json['image_url'] ?? json['imageUrl']),
     );
   }
 
@@ -105,6 +108,7 @@ class RsMatch extends Equatable {
       'sale_starts_at': saleStartsAt.toIso8601String(),
       'capacity': capacity,
       'sold_count': soldCount,
+      'image_url': imageUrl,
     };
   }
 
@@ -122,6 +126,7 @@ class RsMatch extends Equatable {
     DateTime? saleStartsAt,
     int? capacity,
     int? soldCount,
+    Object? imageUrl = _unset,
   }) {
     return RsMatch(
       id: id ?? this.id,
@@ -137,6 +142,9 @@ class RsMatch extends Equatable {
       saleStartsAt: saleStartsAt ?? this.saleStartsAt,
       capacity: capacity ?? this.capacity,
       soldCount: soldCount ?? this.soldCount,
+      imageUrl: identical(imageUrl, _unset)
+          ? this.imageUrl
+          : imageUrl as String?,
     );
   }
 
@@ -155,6 +163,7 @@ class RsMatch extends Equatable {
     saleStartsAt,
     capacity,
     soldCount,
+    imageUrl,
   ];
 }
 

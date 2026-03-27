@@ -4,9 +4,7 @@ import 'package:go_router/go_router.dart';
 abstract final class AppRoutes {
   static const splash = '/';
   static const home = '/home';
-  static const shop = '/shop';
-  static const services = '/services';
-  static const momoTab = '/momo-tab';
+  static const biopayTab = '/biopay-tab';
   static const groups = '/groups';
   static const groupCreate = '/groups/create';
   static const groupDetail = '/groups/:id';
@@ -17,7 +15,7 @@ abstract final class AppRoutes {
   static const biopayHome = '/momo/biopay';
   static const biopayRegister = '/momo/biopay/register';
   static const biopayScan = '/momo/biopay/scan';
-  static const biopayConfirm = '/momo/biopay/confirm';
+  static const biopayNfc = '/momo/biopay/nfc';
   static const partners = '/partners';
   static const rayonHome = '/partners/rayon-sports';
   static const rayonProfile = '/partners/rayon-sports/profile';
@@ -26,6 +24,8 @@ abstract final class AppRoutes {
   static const rayonClubDetail = '/partners/rayon-sports/clubs/:clubId';
   static const rayonShop = '/partners/rayon-sports/shop';
   static const rayonShopCheckout = '/partners/rayon-sports/shop/checkout';
+  static const rayonProductDetail =
+      '/partners/rayon-sports/shop/product/:productId';
   static const rayonSupport = '/partners/rayon-sports/support';
   static const rayonSupportDetail =
       '/partners/rayon-sports/support/:initiativeId';
@@ -40,6 +40,12 @@ abstract final class AppRoutes {
   static const referral = '/referral';
   static const profile = '/profile';
   static const profileWallet = '/profile/wallet';
+  static const profileAccount = '/profile/account';
+  static const profileNotifications = '/profile/notifications';
+  static const profilePrivacy = '/profile/privacy';
+  static const profileOrders = '/profile/orders';
+  static const profileHelp = '/profile/help';
+  static const profileAbout = '/profile/about';
 
   static const scanner = '/scanner';
 
@@ -123,9 +129,8 @@ abstract final class AppRoutes {
 const _partnerDetailSlugs = {'urwego', 'equity', 'radiant', 'prisma'};
 const appShellRootLocations = {
   AppRoutes.home,
-  AppRoutes.shop,
-  AppRoutes.momoTab,
-  AppRoutes.services,
+  AppRoutes.groups,
+  AppRoutes.biopayTab,
   AppRoutes.profile,
 };
 

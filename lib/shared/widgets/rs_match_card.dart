@@ -121,7 +121,6 @@ class _RsMatchCardState extends State<RsMatchCard> {
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: cardRadius,
-          boxShadow: CoolShadows.clay(theme.brightness, strength: 0.42),
         ),
         child: Material(
           color: Colors.transparent,

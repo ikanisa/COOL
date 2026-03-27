@@ -107,10 +107,6 @@ class _CoolAdminInlineFieldState extends State<CoolAdminInlineField> {
                     color: fieldBackground,
                     borderRadius: BorderRadius.circular(fieldRadius),
                     border: fieldBorder,
-                    boxShadow: CoolShadows.clay(
-                      theme.brightness,
-                      strength: 0.20,
-                    ),
                   ),
                   child: Focus(
                     onFocusChange: (value) {

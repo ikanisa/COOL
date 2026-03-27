@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-export 'cool_palette.dart';
 export 'package:google_fonts/google_fonts.dart';
 
-/// Next-generation semantic tokens for the production redesign.
+// ──────────────────────────────────────────────────────────────────────────────
+// Mobi × Rayon Design System — Foundation Tokens
+//
+// Shared light/dark foundations for the production UI system.
+// Dark remains the primary runtime presentation; light is maintained for
+// design-system parity, widget adaptation, and test coverage.
+// ──────────────────────────────────────────────────────────────────────────────
+
+/// Production semantic color tokens — Mobi × Rayon system.
 ///
-/// These tokens sit alongside [CoolPalette] so the app can migrate screen by
-/// screen without destabilizing the current production theme.
+/// Access via `context.coolSemanticColors` or `CoolSemanticColors.dark`.
 @immutable
 class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
   const CoolSemanticColors({
@@ -23,6 +29,7 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
     required this.accent,
     required this.accentStrong,
     required this.accentForeground,
+    required this.accentGold,
     required this.divider,
     required this.border,
     required this.borderStrong,
@@ -36,119 +43,70 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
     required this.buttonPrimaryBackground,
     required this.buttonSecondaryBackground,
     required this.inputSurface,
-    required this.operationalSurface,
-    required this.financialSurface,
-    required this.analyticsSurface,
-    required this.teamSurface,
-    required this.commerceSurface,
-    required this.routeSurface,
-    required this.proximitySurface,
-    required this.contactSurface,
-    required this.demandHigh,
-    required this.demandMedium,
-    required this.demandLow,
-    required this.shellGradientTop,
-    required this.shellGradientBottom,
-    required this.surfaceGradientTop,
-    required this.surfaceGradientBottom,
-    required this.accentGradientStart,
-    required this.accentGradientEnd,
     required this.shadowColor,
     required this.highlightColor,
   });
 
-  static const CoolSemanticColors light = CoolSemanticColors(
-    appBackground: Color(0xFFF3F0EA),
-    elevatedBackground: Color(0xFFFCFAF6),
-    cardSurface: Color(0xFFF7F2EA),
-    cardSurfaceStrong: Color(0xFFFFFDF9),
-    glassSurface: Color(0xD6FFF8F0),
-    overlaySurface: Color(0xFFFBF8F2),
-    primaryText: Color(0xFF0B0F0D),
-    secondaryText: Color(0xFF465147),
-    tertiaryText: Color(0xFF6D776E),
-    accent: Color(0xFF0047AB),
-    accentStrong: Color(0xFF0C64D9),
-    accentForeground: Color(0xFFFFFFFF),
-    divider: Color(0x140B0F0D),
-    border: Color(0x1F0B0F0D),
-    borderStrong: Color(0x300B0F0D),
-    success: Color(0xFF3FA06D),
-    warning: Color(0xFFD09A4D),
-    danger: Color(0xFFD0727A),
-    info: Color(0xFF7E9CBC),
-    neutral: Color(0xFF98A199),
-    chipBackground: Color(0xFFF7F2EA),
-    chipSelectedBackground: Color(0xFFFFFFFF),
-    buttonPrimaryBackground: Color(0xFF0047AB),
-    buttonSecondaryBackground: Color(0xFFF7F2EA),
-    inputSurface: Color(0xFFFFFFFF),
-    operationalSurface: Color(0xFFF1ECE4),
-    financialSurface: Color(0xFFF5EFE6),
-    analyticsSurface: Color(0xFFF3EEE8),
-    teamSurface: Color(0xFFF3EDF6),
-    commerceSurface: Color(0xFFF6F1EA),
-    routeSurface: Color(0xFFF0EADF),
-    proximitySurface: Color(0xFFF1EEE7),
-    contactSurface: Color(0xFFEDE7DD),
-    demandHigh: Color(0xFFD0727A),
-    demandMedium: Color(0xFFD09A4D),
-    demandLow: Color(0xFF58A67B),
-    shellGradientTop: Color(0xFFFFFDF9),
-    shellGradientBottom: Color(0xFFF0EBE2),
-    surfaceGradientTop: Color(0xFFFFFFFF),
-    surfaceGradientBottom: Color(0xFFF3EEE7),
-    accentGradientStart: Color(0xFF0C64D9),
-    accentGradientEnd: Color(0xFF003A90),
-    shadowColor: Color(0xFF15120F),
-    highlightColor: Color(0xFFFFFFFF),
+  static const CoolSemanticColors dark = CoolSemanticColors(
+    appBackground: Color(0xFF050505), // true black
+    elevatedBackground: Color(0xFF0A0A0A), // ink
+    cardSurface: Color(0xFF111111), // surfaceAlt
+    cardSurfaceStrong: Color(0xFF171717), // raised cards
+    glassSurface: Color(0x0DFFFFFF), // white/5 + backdrop-blur
+    overlaySurface: Color(0xFF0B0B0B), // modal surfaces
+    primaryText: Color(0xFFFFFFFF), // pure white
+    secondaryText: Color(0xFF888888), // muted gray
+    tertiaryText: Color(0xFF666666), // subtle gray
+    accent: Color(0xFF0047AB), // deep royal blue
+    accentStrong: Color(0xFF0C64D9), // bright blue
+    accentForeground: Color(0xFFFFFFFF), // white on accent
+    accentGold: Color(0xFFFFD700), // gold
+    divider: Color(0x14FFFFFF), // white/8
+    border: Color(0x0DFFFFFF), // white/5 — subtle
+    borderStrong: Color(0x33FFFFFF), // white/20 — hover/focus
+    success: Color(0xFF00FF00), // neon green
+    warning: Color(0xFFFFA500), // bright orange
+    danger: Color(0xFFFF3B30), // iOS red
+    info: Color(0xFF74A8FF), // soft blue
+    neutral: Color(0xFF888888), // gray
+    chipBackground: Color(0xFF141414), // slightly above surface
+    chipSelectedBackground: Color(0xFFFFFFFF), // white
+    buttonPrimaryBackground: Color(0xFF0047AB), // royal blue
+    buttonSecondaryBackground: Color(0x1AFFFFFF), // white/10
+    inputSurface: Color(0x0DFFFFFF), // white/5
+    shadowColor: Color(0xFF000000), // pure black
+    highlightColor: Color(0xFFFFFFFF), // pure white
   );
 
-  static const CoolSemanticColors dark = CoolSemanticColors(
-    appBackground: Color(0xFF050505),
-    elevatedBackground: Color(0xFF0A0A0A),
-    cardSurface: Color(0xFF111111),
-    cardSurfaceStrong: Color(0xFF171717),
-    glassSurface: Color(0xCC0A0A0A),
-    overlaySurface: Color(0xFF0B0B0B),
-    primaryText: Color(0xFFFFFFFF),
-    secondaryText: Color(0xFFB4B4B4),
-    tertiaryText: Color(0xFF808080),
+  static const CoolSemanticColors light = CoolSemanticColors(
+    appBackground: Color(0xFFF4F7FB),
+    elevatedBackground: Color(0xFFFFFFFF),
+    cardSurface: Color(0xFFF8FAFD),
+    cardSurfaceStrong: Color(0xFFFFFFFF),
+    glassSurface: Color(0xE6FFFFFF),
+    overlaySurface: Color(0xFFFFFFFF),
+    primaryText: Color(0xFF0B1220),
+    secondaryText: Color(0xFF475467),
+    tertiaryText: Color(0xFF667085),
     accent: Color(0xFF0047AB),
     accentStrong: Color(0xFF0C64D9),
     accentForeground: Color(0xFFFFFFFF),
-    divider: Color(0x14FFFFFF),
-    border: Color(0x1FFFFFFF),
-    borderStrong: Color(0x33FFFFFF),
-    success: Color(0xFF00C26E),
-    warning: Color(0xFFFFB547),
-    danger: Color(0xFFFF5B55),
-    info: Color(0xFF74A8FF),
-    neutral: Color(0xFF909B91),
-    chipBackground: Color(0xFF141414),
-    chipSelectedBackground: Color(0xFFFFFFFF),
+    accentGold: Color(0xFFFFD700),
+    divider: Color(0x140B1220),
+    border: Color(0x140B1220),
+    borderStrong: Color(0x330B1220),
+    success: Color(0xFF0E9F6E),
+    warning: Color(0xFFC97A00),
+    danger: Color(0xFFD92D20),
+    info: Color(0xFF2E90FA),
+    neutral: Color(0xFF98A2B3),
+    chipBackground: Color(0xFFE9EEF5),
+    chipSelectedBackground: Color(0xFFDDE8FF),
     buttonPrimaryBackground: Color(0xFF0047AB),
-    buttonSecondaryBackground: Color(0xFF161616),
-    inputSurface: Color(0xFF121212),
-    operationalSurface: Color(0xFF0F1115),
-    financialSurface: Color(0xFF0D111A),
-    analyticsSurface: Color(0xFF11131A),
-    teamSurface: Color(0xFF151320),
-    commerceSurface: Color(0xFF151311),
-    routeSurface: Color(0xFF101215),
-    proximitySurface: Color(0xFF0E1310),
-    contactSurface: Color(0xFF0F1513),
-    demandHigh: Color(0xFFFF5B55),
-    demandMedium: Color(0xFFFFB547),
-    demandLow: Color(0xFF00C26E),
-    shellGradientTop: Color(0xFF0A0A0A),
-    shellGradientBottom: Color(0xFF020202),
-    surfaceGradientTop: Color(0xFF171717),
-    surfaceGradientBottom: Color(0xFF0C0C0C),
-    accentGradientStart: Color(0xFF0C64D9),
-    accentGradientEnd: Color(0xFF003C92),
-    shadowColor: Color(0xFF000000),
-    highlightColor: Color(0xFFFFFFFF),
+    buttonSecondaryBackground: Color(0x120B1220),
+    inputSurface: Color(0xFFF1F5F9),
+    shadowColor: Color(0xFF0B1220),
+    highlightColor: Color(0xFF0B1220),
   );
 
   final Color appBackground;
@@ -163,6 +121,7 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
   final Color accent;
   final Color accentStrong;
   final Color accentForeground;
+  final Color accentGold;
   final Color divider;
   final Color border;
   final Color borderStrong;
@@ -176,25 +135,62 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
   final Color buttonPrimaryBackground;
   final Color buttonSecondaryBackground;
   final Color inputSurface;
-  final Color operationalSurface;
-  final Color financialSurface;
-  final Color analyticsSurface;
-  final Color teamSurface;
-  final Color commerceSurface;
-  final Color routeSurface;
-  final Color proximitySurface;
-  final Color contactSurface;
-  final Color demandHigh;
-  final Color demandMedium;
-  final Color demandLow;
-  final Color shellGradientTop;
-  final Color shellGradientBottom;
-  final Color surfaceGradientTop;
-  final Color surfaceGradientBottom;
-  final Color accentGradientStart;
-  final Color accentGradientEnd;
   final Color shadowColor;
   final Color highlightColor;
+
+  // ── Legacy alias getters (keep partial migrations compiling) ──────────
+
+  Color get bg => appBackground;
+  Color get surface => elevatedBackground;
+  Color get surface2 => cardSurface;
+  Color get surface3 => cardSurfaceStrong;
+  Color get border2 => borderStrong;
+  Color get text => primaryText;
+  Color get text2 => secondaryText;
+  Color get text3 => tertiaryText;
+  Color get accent2 => accentStrong;
+  Color get accentGlow => accentStrong.withValues(alpha: 0.16);
+  Color get blue => info;
+  Color get orange => warning;
+  Color get red => danger;
+  Color get yellow => warning;
+  Color get purple => chipBackground; // neutral surface
+
+  bool get _isDarkVariant => appBackground.computeLuminance() < 0.15;
+
+  // Keep domain surfaces visually close to the existing system while preserving
+  // distinct semantic tones for dashboards, finance, routing, and partner UIs.
+  Color get operationalSurface =>
+      _isDarkVariant ? const Color(0xFF121212) : const Color(0xFFF4F6FA);
+  Color get financialSurface =>
+      _isDarkVariant ? const Color(0xFF11141A) : const Color(0xFFF1F6FF);
+  Color get analyticsSurface =>
+      _isDarkVariant ? const Color(0xFF11161A) : const Color(0xFFF1F7F8);
+  Color get teamSurface =>
+      _isDarkVariant ? const Color(0xFF141219) : const Color(0xFFF7F3FF);
+  Color get commerceSurface =>
+      _isDarkVariant ? const Color(0xFF15120F) : const Color(0xFFFFF6EF);
+  Color get routeSurface =>
+      _isDarkVariant ? const Color(0xFF10151A) : const Color(0xFFF0F5FF);
+  Color get proximitySurface =>
+      _isDarkVariant ? const Color(0xFF0F1517) : const Color(0xFFF2FAF7);
+  Color get contactSurface =>
+      _isDarkVariant ? const Color(0xFF141411) : const Color(0xFFFFF9F0);
+
+  // ── Abolished demand colors — redirect to states ─────────────────────
+  Color get demandHigh => danger;
+  Color get demandMedium => warning;
+  Color get demandLow => success;
+
+  // ── Abolished gradient colors — kept as simple values ────────────────
+  Color get shellGradientTop => elevatedBackground;
+  Color get shellGradientBottom => appBackground;
+  Color get surfaceGradientTop => cardSurfaceStrong;
+  Color get surfaceGradientBottom => cardSurface;
+  Color get accentGradientStart => accentStrong;
+  Color get accentGradientEnd => accent;
+
+  // ── Gradient helpers ─────────────────────────────────────────────────
 
   LinearGradient get shellGradient => LinearGradient(
     begin: Alignment.topCenter,
@@ -214,23 +210,6 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
     colors: <Color>[accentGradientStart, accentGradientEnd],
   );
 
-  // Legacy alias getters to keep partial migrations compiling.
-  Color get bg => appBackground;
-  Color get surface => elevatedBackground;
-  Color get surface2 => cardSurface;
-  Color get surface3 => cardSurfaceStrong;
-  Color get border2 => borderStrong;
-  Color get text => primaryText;
-  Color get text2 => secondaryText;
-  Color get text3 => tertiaryText;
-  Color get accent2 => accentStrong;
-  Color get accentGlow => accentStrong.withValues(alpha: 0.16);
-  Color get blue => info;
-  Color get orange => warning;
-  Color get red => danger;
-  Color get yellow => warning;
-  Color get purple => teamSurface;
-
   @override
   CoolSemanticColors copyWith({
     Color? appBackground,
@@ -245,6 +224,7 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
     Color? accent,
     Color? accentStrong,
     Color? accentForeground,
+    Color? accentGold,
     Color? divider,
     Color? border,
     Color? borderStrong,
@@ -258,23 +238,6 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
     Color? buttonPrimaryBackground,
     Color? buttonSecondaryBackground,
     Color? inputSurface,
-    Color? operationalSurface,
-    Color? financialSurface,
-    Color? analyticsSurface,
-    Color? teamSurface,
-    Color? commerceSurface,
-    Color? routeSurface,
-    Color? proximitySurface,
-    Color? contactSurface,
-    Color? demandHigh,
-    Color? demandMedium,
-    Color? demandLow,
-    Color? shellGradientTop,
-    Color? shellGradientBottom,
-    Color? surfaceGradientTop,
-    Color? surfaceGradientBottom,
-    Color? accentGradientStart,
-    Color? accentGradientEnd,
     Color? shadowColor,
     Color? highlightColor,
   }) {
@@ -291,6 +254,7 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
       accent: accent ?? this.accent,
       accentStrong: accentStrong ?? this.accentStrong,
       accentForeground: accentForeground ?? this.accentForeground,
+      accentGold: accentGold ?? this.accentGold,
       divider: divider ?? this.divider,
       border: border ?? this.border,
       borderStrong: borderStrong ?? this.borderStrong,
@@ -307,24 +271,6 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
       buttonSecondaryBackground:
           buttonSecondaryBackground ?? this.buttonSecondaryBackground,
       inputSurface: inputSurface ?? this.inputSurface,
-      operationalSurface: operationalSurface ?? this.operationalSurface,
-      financialSurface: financialSurface ?? this.financialSurface,
-      analyticsSurface: analyticsSurface ?? this.analyticsSurface,
-      teamSurface: teamSurface ?? this.teamSurface,
-      commerceSurface: commerceSurface ?? this.commerceSurface,
-      routeSurface: routeSurface ?? this.routeSurface,
-      proximitySurface: proximitySurface ?? this.proximitySurface,
-      contactSurface: contactSurface ?? this.contactSurface,
-      demandHigh: demandHigh ?? this.demandHigh,
-      demandMedium: demandMedium ?? this.demandMedium,
-      demandLow: demandLow ?? this.demandLow,
-      shellGradientTop: shellGradientTop ?? this.shellGradientTop,
-      shellGradientBottom: shellGradientBottom ?? this.shellGradientBottom,
-      surfaceGradientTop: surfaceGradientTop ?? this.surfaceGradientTop,
-      surfaceGradientBottom:
-          surfaceGradientBottom ?? this.surfaceGradientBottom,
-      accentGradientStart: accentGradientStart ?? this.accentGradientStart,
-      accentGradientEnd: accentGradientEnd ?? this.accentGradientEnd,
       shadowColor: shadowColor ?? this.shadowColor,
       highlightColor: highlightColor ?? this.highlightColor,
     );
@@ -332,9 +278,7 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
 
   @override
   CoolSemanticColors lerp(ThemeExtension<CoolSemanticColors>? other, double t) {
-    if (other is! CoolSemanticColors) {
-      return this;
-    }
+    if (other is! CoolSemanticColors) return this;
 
     return CoolSemanticColors(
       appBackground: Color.lerp(appBackground, other.appBackground, t)!,
@@ -361,6 +305,7 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
         other.accentForeground,
         t,
       )!,
+      accentGold: Color.lerp(accentGold, other.accentGold, t)!,
       divider: Color.lerp(divider, other.divider, t)!,
       border: Color.lerp(border, other.border, t)!,
       borderStrong: Color.lerp(borderStrong, other.borderStrong, t)!,
@@ -386,71 +331,18 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
         t,
       )!,
       inputSurface: Color.lerp(inputSurface, other.inputSurface, t)!,
-      operationalSurface: Color.lerp(
-        operationalSurface,
-        other.operationalSurface,
-        t,
-      )!,
-      financialSurface: Color.lerp(
-        financialSurface,
-        other.financialSurface,
-        t,
-      )!,
-      analyticsSurface: Color.lerp(
-        analyticsSurface,
-        other.analyticsSurface,
-        t,
-      )!,
-      teamSurface: Color.lerp(teamSurface, other.teamSurface, t)!,
-      commerceSurface: Color.lerp(commerceSurface, other.commerceSurface, t)!,
-      routeSurface: Color.lerp(routeSurface, other.routeSurface, t)!,
-      proximitySurface: Color.lerp(
-        proximitySurface,
-        other.proximitySurface,
-        t,
-      )!,
-      contactSurface: Color.lerp(contactSurface, other.contactSurface, t)!,
-      demandHigh: Color.lerp(demandHigh, other.demandHigh, t)!,
-      demandMedium: Color.lerp(demandMedium, other.demandMedium, t)!,
-      demandLow: Color.lerp(demandLow, other.demandLow, t)!,
-      shellGradientTop: Color.lerp(
-        shellGradientTop,
-        other.shellGradientTop,
-        t,
-      )!,
-      shellGradientBottom: Color.lerp(
-        shellGradientBottom,
-        other.shellGradientBottom,
-        t,
-      )!,
-      surfaceGradientTop: Color.lerp(
-        surfaceGradientTop,
-        other.surfaceGradientTop,
-        t,
-      )!,
-      surfaceGradientBottom: Color.lerp(
-        surfaceGradientBottom,
-        other.surfaceGradientBottom,
-        t,
-      )!,
-      accentGradientStart: Color.lerp(
-        accentGradientStart,
-        other.accentGradientStart,
-        t,
-      )!,
-      accentGradientEnd: Color.lerp(
-        accentGradientEnd,
-        other.accentGradientEnd,
-        t,
-      )!,
       shadowColor: Color.lerp(shadowColor, other.shadowColor, t)!,
       highlightColor: Color.lerp(highlightColor, other.highlightColor, t)!,
     );
   }
 }
 
-/// Typography helpers that keep migrations anchored to [TextTheme] while
-/// allowing approved mono and Rayon brand overrides.
+// ──────────────────────────────────────────────────────────────────────────────
+// Typography Helpers
+// ──────────────────────────────────────────────────────────────────────────────
+
+/// Typography helpers anchored to [TextTheme] with JetBrains Mono and
+/// Barlow Condensed overrides for values and headings.
 @immutable
 class CoolTextStyles {
   const CoolTextStyles._({
@@ -464,6 +356,7 @@ class CoolTextStyles {
 
   TextTheme get theme => _textTheme;
 
+  /// Monospace text — JetBrains Mono for values, IDs, labels.
   TextStyle mono(
     TextStyle? base, {
     Color? color,
@@ -475,7 +368,7 @@ class CoolTextStyles {
         base ??
         _textTheme.bodyLarge ??
         const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
-    return GoogleFonts.dmMono(
+    return GoogleFonts.jetBrainsMono(
       textStyle: resolvedBase.copyWith(
         color: color ?? resolvedBase.color ?? _defaultColor,
         fontWeight: fontWeight ?? resolvedBase.fontWeight,
@@ -485,21 +378,49 @@ class CoolTextStyles {
     );
   }
 
+  /// mobi-label: 10px, JetBrains Mono, uppercase, wide tracking.
+  TextStyle mobiLabel({Color? color}) {
+    final labelColor = _textTheme.labelSmall?.color ?? _defaultColor;
+    return GoogleFonts.jetBrainsMono(
+      textStyle: TextStyle(
+        fontSize: 10,
+        fontWeight: FontWeight.w600,
+        color: color ?? labelColor,
+        letterSpacing: 1.0,
+        height: 1.2,
+      ),
+    );
+  }
+
+  /// mobi-value: 14px, JetBrains Mono, tight tracking.
+  TextStyle mobiValue({Color? color}) {
+    return GoogleFonts.jetBrainsMono(
+      textStyle: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        color: color ?? _defaultColor,
+        letterSpacing: -0.28,
+        height: 1.3,
+      ),
+    );
+  }
+
   /// Large hero number for financial dashboards (MoMo balance, group totals).
   ///
-  /// BarlowCondensed 56px, w900, tight height for stamp-like impact.
+  /// BarlowCondensed 48px, w900, tight height for stamp-like impact.
   TextStyle heroNumber({Color? color}) {
     return GoogleFonts.barlowCondensed(
       textStyle: TextStyle(
-        fontSize: 56,
+        fontSize: 48,
         fontWeight: FontWeight.w900,
         color: color ?? _defaultColor,
-        letterSpacing: -3.0,
+        letterSpacing: -2.0,
         height: 0.9,
       ),
     );
   }
 
+  /// Barlow body text for branded partner contexts.
   TextStyle rayon(
     TextStyle? base, {
     Color? color,
@@ -521,6 +442,7 @@ class CoolTextStyles {
     );
   }
 
+  /// Barlow Condensed for uppercase headings.
   TextStyle rayonCondensed(
     TextStyle? base, {
     Color? color,
@@ -542,6 +464,10 @@ class CoolTextStyles {
     );
   }
 }
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Spacing Scale
+// ──────────────────────────────────────────────────────────────────────────────
 
 @immutable
 class CoolSpaceTokens {
@@ -606,11 +532,14 @@ class CoolInsetsTokens {
   EdgeInsets get scaffoldPadding => CoolSpace.scaffoldPadding;
 }
 
+// ──────────────────────────────────────────────────────────────────────────────
+// BuildContext Extensions
+// ──────────────────────────────────────────────────────────────────────────────
+
 extension CoolSemanticColorsBuildContext on BuildContext {
   CoolSemanticColors get coolSemanticColors {
-    final theme = Theme.of(this);
-    return theme.extension<CoolSemanticColors>() ??
-        (theme.brightness == Brightness.dark
+    return Theme.of(this).extension<CoolSemanticColors>() ??
+        (Theme.of(this).brightness == Brightness.dark
             ? CoolSemanticColors.dark
             : CoolSemanticColors.light);
   }
@@ -627,33 +556,41 @@ extension CoolSemanticColorsBuildContext on BuildContext {
   CoolInsetsTokens get coolInsets => const CoolInsetsTokens._();
 }
 
-/// Shared spacing scale for the redesign rollout.
+// ──────────────────────────────────────────────────────────────────────────────
+// Spacing
+// ──────────────────────────────────────────────────────────────────────────────
+
+/// Shared spacing scale — Mobi × Rayon system.
 abstract final class CoolSpace {
   static const double x0 = 0.0;
-  static const double x1 = 4.0;
-  static const double x2 = 8.0;
-  static const double x3 = 12.0;
-  static const double x4 = 16.0;
+  static const double x1 = 4.0; // m1
+  static const double x2 = 8.0; // m2
+  static const double x3 = 12.0; // m3
+  static const double x4 = 16.0; // m4
   static const double x5 = 20.0;
-  static const double x6 = 24.0;
-  static const double x7 = 32.0;
+  static const double x6 = 24.0; // m5
+  static const double x7 = 32.0; // m6
   static const double x8 = 40.0;
-  static const double x9 = 48.0;
+  static const double x9 = 48.0; // m7
   static const double x10 = 64.0;
   static const double x12 = x3;
   static const double x16 = 88.0;
 
   static const EdgeInsets pagePadding = EdgeInsets.symmetric(
-    horizontal: x6,
-    vertical: x6,
+    horizontal: x4,
+    vertical: x4,
   );
 
   static const EdgeInsets sectionPadding = EdgeInsets.all(x6);
   static const EdgeInsets denseSectionPadding = EdgeInsets.all(x5);
-  static const EdgeInsets scaffoldPadding = EdgeInsets.fromLTRB(x6, 0, x6, 96);
+  static const EdgeInsets scaffoldPadding = EdgeInsets.fromLTRB(x4, 0, x4, 96);
 }
 
-/// Shared radii for redesign components.
+// ──────────────────────────────────────────────────────────────────────────────
+// Radii — tight, precise, fintech
+// ──────────────────────────────────────────────────────────────────────────────
+
+/// Corner radius scale — production card and shell geometry.
 abstract final class CoolRadii {
   static const double xs = 12.0;
   static const double sm = 16.0;
@@ -664,36 +601,23 @@ abstract final class CoolRadii {
   static const double pill = 999.0;
 }
 
-/// Blur guidance for glass surfaces.
-///
-/// Increased sigma values (inspired by Mobio σ30) for heavier frosted glass.
+// ──────────────────────────────────────────────────────────────────────────────
+// Blur
+// ──────────────────────────────────────────────────────────────────────────────
+
+/// Blur guidance for glass surfaces and atmospheric backgrounds.
 abstract final class CoolBlur {
-  static const double subtle = 14.0;
-  static const double standard = 24.0;
-  static const double overlay = 28.0;
+  static const double subtle = 12.0;
+  static const double standard = 24.0; // glass nav bar
+  static const double overlay = 32.0; // modals
   static const double heavy = overlay;
+  static const double atmospheric = 120.0; // background blobs
 }
 
-/// Per-mode opacity tokens for glass and clay surfaces.
-///
-/// Inspired by Mobio's explicit per-mode alpha tuning.
-abstract final class CoolGlassOpacity {
-  // ── Glass card ──────────────────────────────────────────────────────
-  static double glassBackground(Brightness brightness) =>
-      brightness == Brightness.dark ? 0.76 : 0.82;
+// ──────────────────────────────────────────────────────────────────────────────
+// Elevation
+// ──────────────────────────────────────────────────────────────────────────────
 
-  static double glassBorderWhite(Brightness brightness) =>
-      brightness == Brightness.dark ? 0.08 : 0.18;
-
-  static double glassGradientWhite(Brightness brightness) =>
-      brightness == Brightness.dark ? 0.05 : 0.12;
-
-  // ── Clay card ──────────────────────────────────────────────────────
-  static double clayGradientWhite(Brightness brightness) =>
-      brightness == Brightness.dark ? 0.03 : 0.12;
-}
-
-/// Elevation guidance for the redesign.
 abstract final class CoolElevation {
   static const double resting = 0.0;
   static const double raised = 8.0;
@@ -701,92 +625,118 @@ abstract final class CoolElevation {
   static const double overlay = 16.0;
 }
 
-/// Touch-target standards used across consumer and admin surfaces.
+// ──────────────────────────────────────────────────────────────────────────────
+// Tap Targets
+// ──────────────────────────────────────────────────────────────────────────────
+
 abstract final class CoolTapTargets {
   static const double minimum = 48.0;
   static const double comfortable = 56.0;
   static const double navigation = 64.0;
 }
 
-/// Motion primitives for calmer, higher-trust interactions.
-abstract final class CoolMotion {
-  static const Duration press = Duration(milliseconds: 110);
-  static const Duration quick = Duration(milliseconds: 180);
-  static const Duration standard = Duration(milliseconds: 240);
-  static const Duration medium = standard;
-  static const Duration emphasized = Duration(milliseconds: 300);
+// ──────────────────────────────────────────────────────────────────────────────
+// Motion
+// ──────────────────────────────────────────────────────────────────────────────
 
-  static const Curve enterCurve = Cubic(0.2, 0.0, 0.0, 1.0);
+/// Motion primitives — Mobi × Rayon system.
+abstract final class CoolMotion {
+  static const Duration press = Duration(milliseconds: 100);
+  static const Duration quick = Duration(milliseconds: 200);
+  static const Duration standard = Duration(milliseconds: 300);
+  static const Duration medium = standard;
+  static const Duration emphasized = Duration(milliseconds: 500);
+
+  static const Curve enterCurve = Cubic(0.4, 0.0, 0.2, 1.0);
   static const Curve exitCurve = Cubic(0.4, 0.0, 1.0, 1.0);
   static const Curve pressCurve = Curves.easeInOut;
 }
 
-/// Responsive helpers that keep the redesign mobile-first.
+// ──────────────────────────────────────────────────────────────────────────────
+// Responsive
+// ──────────────────────────────────────────────────────────────────────────────
+
 abstract final class CoolResponsive {
   static double horizontalPaddingForWidth(double width) {
-    if (width >= 840) {
-      return 40.0;
-    }
-    if (width >= 600) {
-      return 32.0;
-    }
-    return 24.0;
+    if (width >= 840) return 40.0;
+    if (width >= 600) return 32.0;
+    return 16.0; // tighter default (was 24)
   }
 
   static double maxContentWidthForWidth(double width) {
-    if (width >= 840) {
-      return 720.0;
-    }
+    if (width >= 840) return 720.0;
     return width;
   }
 }
 
-/// Shadow recipes for clay, floating, and glass surfaces.
-///
-/// Light-mode values refined for softer appearance (Mobio-inspired per-mode tuning).
+// ──────────────────────────────────────────────────────────────────────────────
+// Shadows — simple, no claymorphism
+// ──────────────────────────────────────────────────────────────────────────────
+
+/// Shadow recipes — flat, simple.
 abstract final class CoolShadows {
-  static List<BoxShadow> clay(Brightness brightness, {double strength = 1}) {
-    final bool isDark = brightness == Brightness.dark;
-    return <BoxShadow>[
-      BoxShadow(
-        color: Colors.black.withValues(
-          alpha: (isDark ? 0.42 : 0.08) * strength,
-        ),
-        blurRadius: 40,
-        spreadRadius: -18,
-        offset: const Offset(0, 24),
-      ),
-    ];
-  }
-
-  static List<BoxShadow> glass(Brightness brightness, {double strength = 1}) {
-    final bool isDark = brightness == Brightness.dark;
-    return <BoxShadow>[
-      BoxShadow(
-        color: Colors.black.withValues(
-          alpha: (isDark ? 0.40 : 0.10) * strength,
-        ),
-        blurRadius: 48,
-        spreadRadius: -22,
-        offset: const Offset(0, 28),
-      ),
-    ];
-  }
-
-  static List<BoxShadow> floating(
-    Brightness brightness, {
+  /// Standard card shadow.
+  static List<BoxShadow> standard(
+    Brightness? brightness, {
     double strength = 1,
   }) {
-    final bool isDark = brightness == Brightness.dark;
     return <BoxShadow>[
       BoxShadow(
-        color: Colors.black.withValues(
-          alpha: (isDark ? 0.46 : 0.10) * strength,
-        ),
-        blurRadius: 52,
-        spreadRadius: -24,
-        offset: const Offset(0, 30),
+        color: Colors.black.withValues(alpha: 0.50 * strength),
+        blurRadius: 25,
+        offset: const Offset(0, 10),
       ),
     ];
   }
+
+  /// Floating element shadow (FABs, nav bar).
+  static List<BoxShadow> floating(
+    Brightness? brightness, {
+    double strength = 1,
+  }) {
+    return <BoxShadow>[
+      BoxShadow(
+        color: Colors.black.withValues(alpha: 0.50 * strength),
+        blurRadius: 40,
+        offset: const Offset(0, 15),
+      ),
+    ];
+  }
+
+  /// Primary CTA glow shadow.
+  static List<BoxShadow> primary({double strength = 1}) {
+    return <BoxShadow>[
+      BoxShadow(
+        color: CoolSemanticColors.dark.accent.withValues(
+          alpha: 0.20 * strength,
+        ),
+        blurRadius: 20,
+        offset: const Offset(0, 8),
+      ),
+    ];
+  }
+
+  /// Gold accent glow shadow.
+  static List<BoxShadow> gold({double strength = 1}) {
+    return <BoxShadow>[
+      BoxShadow(
+        color: CoolSemanticColors.dark.accentGold.withValues(
+          alpha: 0.20 * strength,
+        ),
+        blurRadius: 20,
+        offset: const Offset(0, 8),
+      ),
+    ];
+  }
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Glass Opacity (simplified — dark-only)
+// ──────────────────────────────────────────────────────────────────────────────
+
+/// Per-mode opacity tokens (dark-only now, brightness param kept for compat).
+abstract final class CoolGlassOpacity {
+  static double glassBackground(Brightness brightness) => 0.05;
+  static double glassBorderWhite(Brightness brightness) => 0.10;
+  static double glassGradientWhite(Brightness brightness) => 0.05;
 }

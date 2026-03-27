@@ -12,7 +12,6 @@ import '../../../../features/auth/providers/auth_provider.dart';
 import '../../../../shared/widgets/cool_button.dart';
 import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/cool_card.dart';
-import '../../../../shared/widgets/cool_glass_card.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../../../shared/widgets/rs_achievement_badge.dart';
 import '../../../../shared/widgets/rs_progress_bar.dart';

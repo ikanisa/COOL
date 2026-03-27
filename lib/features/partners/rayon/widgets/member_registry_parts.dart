@@ -1,190 +1,48 @@
 part of '../screens/member_registry_screen.dart';
 
-class _RegistryCommandCard extends StatelessWidget {
-  const _RegistryCommandCard({
-    required this.visibleCount,
-    required this.activeFilter,
-    required this.topFan,
-    required this.query,
-    required this.hasMore,
-    required this.onFilterSelected,
-  });
+// ─── Tier chip (blue fill for selected, dark outline for others) ──────────
 
-  final int visibleCount;
-  final MemberRegistryFilter activeFilter;
-  final RsRegistryMember? topFan;
-  final String query;
-  final bool hasMore;
-  final ValueChanged<MemberRegistryFilter> onFilterSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    final text = context.coolText;
-    final space = context.coolSpace;
-    final theme = Theme.of(context);
-
-    return CoolCard(
-      gradient: const LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [Color(0xFF071224), Color(0xFF0D2758), Color(0xFF163C70)],
-      ),
-      borderColor: RsColors.rsBlueBorder,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Supporter Registry Command',
-            style: text.rayonCondensed(
-              theme.textTheme.headlineSmall,
-              fontWeight: FontWeight.w900,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(height: space.x1 + 2),
-          Text(
-            'Search, filter, and review supporter records.',
-            style: text.rayon(
-              theme.textTheme.bodySmall,
-              fontWeight: FontWeight.w600,
-              color: Colors.white.withValues(alpha: 0.76),
-              height: 1.4,
-            ),
-          ),
-          SizedBox(height: space.x4),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                for (final filter in MemberRegistryFilter.values) ...[
-                  VehicleChip(
-                    label: filter.label,
-                    isSelected: filter == activeFilter,
-                    onTap: () => onFilterSelected(filter),
-                  ),
-                  if (filter != MemberRegistryFilter.values.last)
-                    SizedBox(width: space.x2),
-                ],
-              ],
-            ),
-          ),
-          SizedBox(height: space.x3),
-          Row(
-            children: [
-              Expanded(
-                child: _RegistryMetricTile(
-                  label: 'Visible',
-                  value: '$visibleCount',
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: _RegistryMetricTile(
-                  label: 'View',
-                  value: activeFilter.label.replaceAll(' Members', ''),
-                  highlight: true,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: _RegistryMetricTile(
-                  label: 'Top Fan',
-                  value: topFan == null
-                      ? 'Pending'
-                      : _formatPoints(topFan!.points),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: space.x3),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                _RegistrySignalPill(
-                  icon: Icons.verified_user_outlined,
-                  label: topFan == null
-                      ? 'Registry verification live'
-                      : '${topFan!.displayName} leading',
-                ),
-                SizedBox(width: space.x2),
-                _RegistrySignalPill(
-                  icon: Icons.search_rounded,
-                  label: query.trim().isEmpty
-                      ? 'Search command ready'
-                      : 'Query: ${query.trim()}',
-                ),
-                SizedBox(width: space.x2),
-                _RegistrySignalPill(
-                  icon: Icons.fact_check_outlined,
-                  label: hasMore
-                      ? 'Additional records available'
-                      : 'Current segment loaded',
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _RegistryMetricTile extends StatelessWidget {
-  const _RegistryMetricTile({
+class _TierChip extends StatelessWidget {
+  const _TierChip({
     required this.label,
-    required this.value,
-    this.highlight = false,
+    required this.isSelected,
+    required this.onTap,
   });
 
   final String label;
-  final String value;
-  final bool highlight;
+  final bool isSelected;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final text = context.coolText;
-    final space = context.coolSpace;
-    final theme = Theme.of(context);
 
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: space.x3, vertical: space.x3),
-      decoration: BoxDecoration(
-        color: highlight
-            ? RsColors.rsGold.withValues(alpha: 0.14)
-            : Colors.white.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(CoolRadii.lg),
-        border: Border.all(
-          color: highlight
-              ? RsColors.rsGold.withValues(alpha: 0.34)
-              : Colors.white.withValues(alpha: 0.08),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+        decoration: BoxDecoration(
+          color: isSelected ? RsColors.rsBlue : Colors.transparent,
+          borderRadius: BorderRadius.circular(CoolRadii.pill),
+          border: Border.all(
+            color: isSelected ? RsColors.rsBlue : colors.borderStrong,
+          ),
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            value,
-            style: text.rayonCondensed(
-              theme.textTheme.headlineSmall,
-              fontWeight: FontWeight.w900,
-              color: highlight ? RsColors.rsGoldLight : Colors.white,
-            ),
+        child: Text(
+          label,
+          style: text.rayonCondensed(
+            Theme.of(context).textTheme.labelLarge,
+            fontWeight: FontWeight.w800,
+            color: isSelected ? Colors.white : colors.secondaryText,
           ),
-          SizedBox(height: space.x1 / 2),
-          Text(
-            label,
-            style: text.rayon(
-              theme.textTheme.labelSmall,
-              fontWeight: FontWeight.w600,
-              color: Colors.white.withValues(alpha: 0.72),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 }
+
+// ─── Search bar ───────────────────────────────────────────────────────────
 
 class _SearchBar extends StatelessWidget {
   const _SearchBar({required this.controller, required this.onChanged});
@@ -199,7 +57,7 @@ class _SearchBar extends StatelessWidget {
     final theme = Theme.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.inputSurface,
+        color: colors.cardSurface,
         borderRadius: BorderRadius.circular(CoolRadii.md),
         border: Border.all(color: colors.borderStrong),
       ),
@@ -213,7 +71,7 @@ class _SearchBar extends StatelessWidget {
         ),
         cursorColor: colors.accent,
         decoration: InputDecoration(
-          hintText: context.l10n.searchNameOrId,
+          hintText: 'Search by ID or Name...',
           hintStyle: text.rayon(
             theme.textTheme.bodyMedium,
             fontWeight: FontWeight.w600,
@@ -231,52 +89,10 @@ class _SearchBar extends StatelessWidget {
   }
 }
 
-class _RegistrySignalPill extends StatelessWidget {
-  const _RegistrySignalPill({required this.icon, required this.label});
+// ─── Top Fan Spotlight section ────────────────────────────────────────────
 
-  final IconData icon;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final text = context.coolText;
-    final theme = Theme.of(context);
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
-      ),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 220),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 15, color: RsColors.rsBluePale),
-            const SizedBox(width: 6),
-            Flexible(
-              child: Text(
-                label,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: text.rayon(
-                  theme.textTheme.labelMedium,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white.withValues(alpha: 0.82),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _TopFanSpotlight extends StatelessWidget {
-  const _TopFanSpotlight({required this.member});
+class _TopFanSpotlightSection extends StatelessWidget {
+  const _TopFanSpotlightSection({required this.member});
 
   final RsRegistryMember member;
 
@@ -285,215 +101,267 @@ class _TopFanSpotlight extends StatelessWidget {
     final colors = context.coolSemanticColors;
     final text = context.coolText;
     final theme = Theme.of(context);
-    return CoolCard(
-      backgroundColor: colors.cardSurfaceStrong,
-      borderColor: RsColors.rsGold.withValues(alpha: 0.4),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Top Fan This Month',
-                  style: text.rayon(
-                    theme.textTheme.labelLarge,
-                    fontWeight: FontWeight.w800,
-                    color: RsColors.rsGoldLight,
-                    letterSpacing: 0.3,
-                  ),
-                ),
-                const SizedBox(height: CoolSpace.x2),
-                Text(
-                  member.displayName,
-                  style: text.rayonCondensed(
-                    theme.textTheme.headlineMedium,
-                    fontWeight: FontWeight.w900,
-                    color: colors.primaryText,
-                    height: 0.98,
-                  ),
-                ),
-                const SizedBox(height: CoolSpace.x2),
-                Text(
-                  '#${member.membershipNumber} · ${_formatPoints(member.points)} Tokens',
-                  style: text.mono(
-                    theme.textTheme.bodySmall,
-                    fontWeight: FontWeight.w700,
-                    color: colors.secondaryText,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          RsTierBadge(tier: member.tier),
-        ],
-      ),
-    );
-  }
-}
 
-class _MemberListTile extends StatelessWidget {
-  const _MemberListTile({required this.member});
-
-  final RsRegistryMember member;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final text = context.coolText;
-    final theme = Theme.of(context);
-    final avatarTextColor = member.tier == FanTier.silver
-        ? colors.appBackground
-        : colors.accentForeground;
-
-    return CoolCard(
-      backgroundColor: colors.cardSurface,
-      borderColor: colors.borderStrong,
-      child: Row(
-        children: [
-          Container(
-            width: 52,
-            height: 52,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: _avatarGradient(member.tier),
-              ),
-              border: Border.all(
-                color: member.tier.color.withValues(alpha: 0.32),
-              ),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              _initialsFor(member.displayName),
-              style: text.rayonCondensed(
-                theme.textTheme.titleLarge,
-                fontWeight: FontWeight.w800,
-                color: avatarTextColor,
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  member.displayName,
-                  style: text.rayon(
-                    theme.textTheme.titleSmall,
-                    fontWeight: FontWeight.w700,
-                    color: colors.primaryText,
-                  ),
-                ),
-                const SizedBox(height: CoolSpace.x1),
-                Text(
-                  '#${member.membershipNumber} · ${member.chapter} · ${_formatPoints(member.points)} Tokens',
-                  style: text.mono(
-                    theme.textTheme.bodySmall,
-                    fontWeight: FontWeight.w600,
-                    color: colors.secondaryText,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          RsTierBadge(tier: member.tier),
-        ],
-      ),
-    );
-  }
-}
-
-class _LoadMoreButton extends StatelessWidget {
-  const _LoadMoreButton({required this.visibleCount, required this.onTap});
-
-  final int visibleCount;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return CoolButton(
-      label: 'Load more · $visibleCount loaded',
-      onTap: onTap,
-      variant: CoolButtonVariant.secondary,
-    );
-  }
-}
-
-class _TierLegendCard extends StatelessWidget {
-  const _TierLegendCard();
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final text = context.coolText;
-    final theme = Theme.of(context);
-    return CoolCard(
-      backgroundColor: colors.cardSurface,
-      borderColor: colors.borderStrong,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Membership tiers',
-            style: text.rayon(
-              theme.textTheme.labelLarge,
-              fontWeight: FontWeight.w700,
-              color: colors.secondaryText,
-              letterSpacing: 0.3,
-            ),
-          ),
-          const SizedBox(height: CoolSpace.x3),
-          for (final tier in FanTier.values) ...[
-            _TierLegendRow(tier: tier, range: _tierRangeFor(tier)),
-            if (tier != FanTier.values.last) const SizedBox(height: 10),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class _TierLegendRow extends StatelessWidget {
-  const _TierLegendRow({required this.tier, required this.range});
-
-  final FanTier tier;
-  final String range;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final text = context.coolText;
-    final theme = Theme.of(context);
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Text(
-            tier.label,
-            style: text.rayonCondensed(
-              theme.textTheme.titleMedium,
-              fontWeight: FontWeight.w800,
-              color: tier == FanTier.silver ? colors.primaryText : tier.color,
+        const SizedBox(height: CoolSpace.x6),
+        // Section header
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'TOP FAN SPOTLIGHT',
+              style: text.mono(
+                theme.textTheme.labelSmall,
+                fontWeight: FontWeight.w700,
+                color: colors.secondaryText,
+                letterSpacing: 1.0,
+              ),
             ),
+            Icon(
+              Icons.emoji_events_outlined,
+              color: colors.secondaryText,
+              size: 20,
+            ),
+          ],
+        ),
+        const SizedBox(height: CoolSpace.x4),
+        // Spotlight card
+        CoolCard(
+          backgroundColor: colors.cardSurfaceStrong,
+          borderColor: colors.borderStrong,
+          child: Row(
+            children: [
+              // Crown emoji circle
+              Container(
+                width: 64,
+                height: 64,
+                decoration: BoxDecoration(
+                  color: colors.cardSurface,
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  border: Border.all(color: colors.borderStrong),
+                ),
+                alignment: Alignment.center,
+                child: const Text('👑', style: TextStyle(fontSize: 32)),
+              ),
+              const SizedBox(width: 14),
+              // Info
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      member.membershipNumber,
+                      style: text.rayonCondensed(
+                        theme.textTheme.headlineSmall,
+                        fontWeight: FontWeight.w900,
+                        color: colors.primaryText,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        RsTierBadge(tier: member.tier),
+                        const SizedBox(width: 10),
+                        Text(
+                          '${_formatPoints(member.points)} PTS',
+                          style: text.mono(
+                            theme.textTheme.bodyMedium,
+                            fontWeight: FontWeight.w700,
+                            color: RsColors.rsBlueLight,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              // Trophy watermark
+              Icon(
+                Icons.emoji_events_rounded,
+                color: colors.borderStrong.withValues(alpha: 0.3),
+                size: 56,
+              ),
+            ],
           ),
         ),
-        Text(
-          range,
-          style: text.mono(
-            theme.textTheme.bodySmall,
-            fontWeight: FontWeight.w700,
-            color: colors.secondaryText,
-          ),
-        ),
+        const SizedBox(height: CoolSpace.x6),
       ],
     );
   }
 }
+
+// ─── Supporter Rankings header ────────────────────────────────────────────
+
+class _SupporterRankingsHeader extends StatelessWidget {
+  const _SupporterRankingsHeader({required this.count});
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: CoolSpace.x4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'SUPPORTER RANKINGS',
+            style: text.mono(
+              theme.textTheme.labelSmall,
+              fontWeight: FontWeight.w700,
+              color: colors.secondaryText,
+              letterSpacing: 1.0,
+            ),
+          ),
+          Text(
+            '$count Registered',
+            style: text.rayon(
+              theme.textTheme.bodySmall,
+              fontWeight: FontWeight.w600,
+              color: colors.tertiaryText,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Ranked member tile ──────────────────────────────────────────────────
+
+class _RankedMemberTile extends StatelessWidget {
+  const _RankedMemberTile({required this.member, required this.rank});
+
+  final RsRegistryMember member;
+  final int rank;
+
+  static const _rankEmojis = ['👑', '🌟', '⚽', '⚡', '🥁'];
+
+  String get _rankEmoji =>
+      rank <= _rankEmojis.length ? _rankEmojis[rank - 1] : '🏅';
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
+
+    return CoolCard(
+      backgroundColor: colors.cardSurface,
+      borderColor: colors.borderStrong,
+      child: Row(
+        children: [
+          // Avatar with rank badge
+          SizedBox(
+            width: 56,
+            height: 56,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: 52,
+                  height: 52,
+                  decoration: BoxDecoration(
+                    color: colors.cardSurfaceStrong,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: colors.borderStrong),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(_rankEmoji, style: const TextStyle(fontSize: 24)),
+                ),
+                // Rank badge
+                Positioned(
+                  bottom: -2,
+                  left: -2,
+                  child: Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: RsColors.rsBlue,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: colors.appBackground, width: 2),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      '$rank',
+                      style: text.mono(
+                        const TextStyle(fontSize: 14),
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          // Info column
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  member.membershipNumber,
+                  style: text.rayonCondensed(
+                    theme.textTheme.titleMedium,
+                    fontWeight: FontWeight.w900,
+                    color: colors.primaryText,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    RsTierBadge(tier: member.tier),
+                    const SizedBox(width: 8),
+                    Text(
+                      _formatJoinDate(member.joinedAt),
+                      style: text.rayon(
+                        theme.textTheme.bodySmall,
+                        fontWeight: FontWeight.w600,
+                        color: colors.tertiaryText,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          // Points
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                _formatPoints(member.points),
+                style: text.mono(
+                  theme.textTheme.titleMedium,
+                  fontWeight: FontWeight.w700,
+                  color: colors.primaryText,
+                ),
+              ),
+              Text(
+                'Points',
+                style: text.rayon(
+                  theme.textTheme.bodySmall,
+                  fontWeight: FontWeight.w600,
+                  color: colors.tertiaryText,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Empty state ──────────────────────────────────────────────────────────
 
 class _EmptyRegistryState extends StatelessWidget {
   const _EmptyRegistryState({required this.query});
@@ -525,34 +393,47 @@ class _EmptyRegistryState extends StatelessWidget {
   }
 }
 
-List<Color> _avatarGradient(FanTier tier) {
-  return switch (tier) {
-    FanTier.blue => [RsColors.rsBlueLight, RsColors.rsBlue],
-    FanTier.silver => [const Color(0xFFE4E8F1), const Color(0xFF8C94A9)],
-    FanTier.gold => [RsColors.rsGoldLight, RsColors.rsGold],
-    FanTier.platinum => [const Color(0xFFC8DCFF), const Color(0xFF7D6A8E)],
-  };
-}
+// ─── Load more button ─────────────────────────────────────────────────────
 
-String _initialsFor(String name) {
-  final parts = name
-      .trim()
-      .split(RegExp(r'\s+'))
-      .where((part) => part.isNotEmpty)
-      .take(2)
-      .toList(growable: false);
+class _LoadMoreButton extends StatelessWidget {
+  const _LoadMoreButton({required this.visibleCount, required this.onTap});
 
-  if (parts.isEmpty) {
-    return 'RS';
+  final int visibleCount;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        decoration: BoxDecoration(
+          color: colors.cardSurface,
+          borderRadius: BorderRadius.circular(CoolRadii.md),
+          border: Border.all(color: colors.borderStrong),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          'Load more · $visibleCount loaded',
+          style: text.mono(
+            Theme.of(context).textTheme.labelMedium,
+            fontWeight: FontWeight.w700,
+            color: RsColors.rsBlueLight,
+          ),
+        ),
+      ),
+    );
   }
-
-  return parts.map((part) => part.characters.first.toUpperCase()).join();
 }
+
+// ─── Utilities ────────────────────────────────────────────────────────────
 
 String _formatPoints(int points) {
   final raw = points.toString();
   final buffer = StringBuffer();
-
   for (var i = 0; i < raw.length; i++) {
     final indexFromEnd = raw.length - i;
     buffer.write(raw[i]);
@@ -560,15 +441,24 @@ String _formatPoints(int points) {
       buffer.write(',');
     }
   }
-
   return buffer.toString();
 }
 
-String _tierRangeFor(FanTier tier) {
-  return switch (tier) {
-    FanTier.blue => '0-999 Tokens',
-    FanTier.silver => '1,000-1,999 Tokens',
-    FanTier.gold => '2,000-4,999 Tokens',
-    FanTier.platinum => '5,000+ Tokens',
-  };
+String _formatJoinDate(DateTime? date) {
+  if (date == null) return '';
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+  return 'Joined ${months[date.month - 1]} ${date.year}';
 }

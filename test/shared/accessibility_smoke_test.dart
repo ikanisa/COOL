@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_redundant_argument_values
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:cool_app/shared/widgets/cool_brand_mark.dart';
@@ -21,7 +22,9 @@ import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
 /// verify exact label wording (that changes with data), only that a label
 /// exists.
 void main() {
-  Widget harness(Widget child) => MaterialApp(home: Scaffold(body: child));
+  Widget harness(Widget child) => ProviderScope(
+    child: MaterialApp(home: Scaffold(body: child)),
+  );
 
   // ── Helper: find a Semantics node with a non-empty label ────────────
   bool hasNonEmptySemantics(WidgetTester tester) {
@@ -34,6 +37,7 @@ void main() {
   group('Accessibility — Semantics labels present', () {
     testWidgets('CoolBrandMark has Semantics', (tester) async {
       await tester.pumpWidget(harness(const CoolBrandMark()));
+      expect(find.bySemanticsLabel('Rayon Sports logo'), findsOneWidget);
       expect(hasNonEmptySemantics(tester), isTrue);
     });
 

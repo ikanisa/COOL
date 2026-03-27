@@ -101,13 +101,12 @@ class _CoolPressFeedbackState extends State<CoolPressFeedback>
       onTapCancel: _handleTapCancel,
       onTap: _handleTap,
       behavior: HitTestBehavior.opaque,
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (context, child) => Opacity(
-          opacity: _opacity.value,
-          child: Transform.scale(scale: _scale.value, child: child),
+      child: FadeTransition(
+        opacity: _opacity,
+        child: ScaleTransition(
+          scale: _scale,
+          child: widget.child,
         ),
-        child: widget.child,
       ),
     );
   }

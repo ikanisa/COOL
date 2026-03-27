@@ -70,6 +70,11 @@ class RayonSportsDashboardRepository {
           .select()
           .eq('partner_id', partnerId)
           .order('match_date');
+      final bannersRowsFuture = _client
+          .from('rs_home_banners')
+          .select()
+          .eq('is_active', true)
+          .order('sort_order');
 
       final rawMembershipRows = await membershipRowsFuture;
       final membershipRows = _asListOfMaps(rawMembershipRows);
@@ -79,6 +84,7 @@ class RayonSportsDashboardRepository {
       final rawProductsRows = await productsRowsFuture;
       final rawInitiativesRows = await initiativesRowsFuture;
       final rawMatchesRows = await matchesRowsFuture;
+      final rawBannersRows = await bannersRowsFuture;
 
       final joinedClubIds = joinedClubRows
           .map((row) => row['club_id']?.toString() ?? '')
@@ -116,6 +122,9 @@ class RayonSportsDashboardRepository {
       final matches = _asListOfMaps(
         rawMatchesRows,
       ).map(RsMatch.fromJson).toList(growable: false);
+      final banners = _asListOfMaps(
+        rawBannersRows,
+      ).map(RsHomeBanner.fromJson).toList(growable: false);
 
       final matchesById = <String, RsMatch>{
         for (final match in matches) match.id: match,
@@ -170,6 +179,7 @@ class RayonSportsDashboardRepository {
         initiatives: initiatives,
         matches: matches,
         tickets: tickets,
+        banners: banners,
       );
     } catch (error, stack) {
       debugPrint('[RayonRepo] ❌ loadData failed: $error');

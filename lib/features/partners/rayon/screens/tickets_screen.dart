@@ -22,6 +22,7 @@ import '../../../../shared/widgets/core_app_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../shared/widgets/cool_bottom_sheet.dart';
+import '../../../../shared/widgets/cool_empty_view.dart';
 
 part '../widgets/tickets_screen_parts.dart';
 
@@ -77,7 +78,6 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
     final colors = context.coolSemanticColors;
     final text = context.coolText;
     final ticketHub = ref.watch(rayonTicketHubProvider);
-    final paymentRoute = ref.watch(rayonPaymentRouteProvider).valueOrNull;
 
     return ticketHub.when(
       data: (hub) {
@@ -88,6 +88,26 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
           fallbackLocation: AppRoutes.rayonHome,
           scrollable: false,
           actions: [
+            Container(
+              margin: const EdgeInsets.only(right: 8, top: 10, bottom: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: hub.currentTier.color.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(color: hub.currentTier.color.withValues(alpha: 0.3)),
+              ),
+              child: Text(
+                hub.currentTier.label.toUpperCase(),
+                style: text.mono(
+                  Theme.of(context).textTheme.labelSmall,
+                  fontWeight: FontWeight.w800,
+                  color: hub.currentTier == FanTier.silver
+                      ? colors.appBackground
+                      : Colors.white,
+                ),
+              ),
+            ),
             IconButton(
               onPressed: onSale.isEmpty ? null : () => _shareTicketsHub(onSale),
               tooltip: context.l10n.shareTickets,
@@ -114,49 +134,27 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                 padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
-                    _TicketHubCommandCard(
-                      hub: hub,
-                      paymentRouteReady: paymentRoute != null,
-                    ),
-                    const SizedBox(height: CoolSpace.x4),
                     DecoratedBox(
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            colors.cardSurfaceStrong.withValues(alpha: 0.92),
-                            colors.cardSurface.withValues(alpha: 0.82),
-                          ],
-                        ),
+                        color: colors.cardSurface,
                         borderRadius: BorderRadius.circular(CoolRadii.md),
-                        border: Border.all(
-                          color: colors.borderStrong,
-                          width: 1.2,
-                        ),
-                        boxShadow: CoolShadows.clay(
-                          Theme.of(context).brightness,
-                          strength: 0.45,
-                        ),
+                        border: Border.all(color: colors.borderStrong),
                       ),
                       child: TabBar(
                         controller: _tabController,
                         onTap: (_) => setState(() {}),
                         indicatorSize: TabBarIndicatorSize.tab,
                         indicator: BoxDecoration(
-                          gradient: const LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [Color(0xFF15498F), Color(0xFF0B2A63)],
-                          ),
-                          borderRadius: BorderRadius.circular(CoolRadii.sm),
+                          color: colors.surface,
+                          borderRadius: BorderRadius.circular(CoolRadii.md - 1),
+                          border: Border.all(color: colors.borderStrong),
                         ),
                         dividerHeight: 0,
-                        labelColor: Colors.white,
+                        labelColor: colors.primaryText,
                         unselectedLabelColor: colors.secondaryText,
                         labelStyle: text.rayon(
                           Theme.of(context).textTheme.titleSmall,
-                          color: Colors.white,
+                          color: colors.primaryText,
                           fontWeight: FontWeight.w800,
                         ),
                         unselectedLabelStyle: text.rayon(
@@ -166,9 +164,9 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                         ),
                         padding: const EdgeInsets.all(4),
                         tabs: const [
-                          Tab(text: 'On Sale', height: 48),
-                          Tab(text: 'Upcoming', height: 48),
-                          Tab(text: 'My Tickets', height: 48),
+                          Tab(text: 'ON SALE', height: 40),
+                          Tab(text: 'UPCOMING', height: 40),
+                          Tab(text: 'MY TICKETS', height: 40),
                         ],
                       ),
                     ),
@@ -347,49 +345,11 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
   }
 
   Widget _emptyState(String message) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return CoolCard(
-      backgroundColor: colors.cardSurfaceStrong.withValues(alpha: 0.86),
-      borderColor: colors.borderStrong,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: CoolSpace.x3),
-        child: Column(
-          children: [
-            Container(
-              width: 64,
-              height: 64,
-              decoration: BoxDecoration(
-                color: colors.routeSurface,
-                borderRadius: BorderRadius.circular(CoolRadii.lg),
-                border: Border.all(color: colors.borderStrong),
-              ),
-              alignment: Alignment.center,
-              child: Icon(
-                Icons.confirmation_number_outlined,
-                size: 30,
-                color: colors.primaryText,
-              ),
-            ),
-            const SizedBox(height: CoolSpace.x5),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: theme.textTheme.titleLarge?.copyWith(
-                color: colors.primaryText,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            const SizedBox(height: CoolSpace.x2),
-            Text(
-              'Tickets and entry passes appear here as fixtures open for sale or allocation.',
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: colors.secondaryText,
-              ),
-            ),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(top: CoolSpace.x5),
+      child: CoolEmptyView(
+        message: message,
+        icon: Icons.confirmation_number_outlined,
       ),
     );
   }

@@ -100,6 +100,7 @@ class EngagementFeatureFlags {
     required this.biopayEnabled,
     required this.momo,
     required this.ticketPurchase,
+    required this.credit,
   });
 
   factory EngagementFeatureFlags.defaults() {
@@ -111,6 +112,7 @@ class EngagementFeatureFlags {
       biopayEnabled: false,
       momo: ManagedFeatureRollout(key: 'momo'),
       ticketPurchase: ManagedFeatureRollout(key: 'ticket_purchase'),
+      credit: ManagedFeatureRollout(key: 'credit'),
     );
   }
 
@@ -149,6 +151,12 @@ class EngagementFeatureFlags {
         values: values,
         fallback: defaults.ticketPurchase,
       ),
+      credit: ManagedFeatureRollout.fromValues(
+        key: 'credit',
+        killSwitchKey: 'kill_credit_features',
+        values: values,
+        fallback: defaults.credit,
+      ),
     );
   }
 
@@ -159,9 +167,11 @@ class EngagementFeatureFlags {
   final bool biopayEnabled;
   final ManagedFeatureRollout momo;
   final ManagedFeatureRollout ticketPurchase;
+  final ManagedFeatureRollout credit;
 
   bool get killMomoPayments => momo.killSwitch;
   bool get killTicketPurchase => ticketPurchase.killSwitch;
+  bool get killCreditFeatures => credit.killSwitch;
 
   bool get momoEnabled => isMomoEnabled();
   bool get biopayAvailable => isBiopayEnabled();
@@ -189,6 +199,9 @@ class EngagementFeatureFlags {
       ...momo.toRemoteConfigDefaults(killSwitchKey: 'kill_momo_payments'),
       ...ticketPurchase.toRemoteConfigDefaults(
         killSwitchKey: 'kill_ticket_purchase',
+      ),
+      ...credit.toRemoteConfigDefaults(
+        killSwitchKey: 'kill_credit_features',
       ),
     };
   }

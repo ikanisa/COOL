@@ -7,12 +7,41 @@ import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart'
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
 import 'package:cool_app/features/partners/repositories/rayon_sports_repository.dart';
 import 'package:cool_app/features/partners/rayon/screens/member_registry_screen.dart';
+import 'package:cool_app/l10n/app_localizations.dart';
 
 class MockRayonSportsRepository extends Mock implements RayonSportsRepository {}
 
 void main() {
   late MockRayonSportsRepository repository;
   late RsRegistryMember member;
+
+  Future<void> pumpMemberRegistryScreen(WidgetTester tester) async {
+    await tester.pumpWidget(
+      MediaQuery(
+        data: MediaQueryData.fromView(
+          tester.view,
+        ).copyWith(disableAnimations: true),
+        child: ProviderScope(
+          overrides: [
+            rayonSportsRepositoryProvider.overrideWithValue(repository),
+            rayonPartnerIdProvider.overrideWith((ref) async => 'partner-1'),
+          ],
+          child: MaterialApp(
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            home: const MemberRegistryScreen(),
+          ),
+        ),
+      ),
+    );
+
+    for (var index = 0; index < 8; index++) {
+      await tester.pump(const Duration(milliseconds: 50));
+      if (!tester.binding.hasScheduledFrame) {
+        break;
+      }
+    }
+  }
 
   setUpAll(() {
     registerFallbackValue(FanTier.blue);
@@ -45,22 +74,12 @@ void main() {
   testWidgets(
     'member registry resolves the lightweight partner id path without loading full Rayon data',
     (tester) async {
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            rayonSportsRepositoryProvider.overrideWithValue(repository),
-            rayonPartnerIdProvider.overrideWith((ref) async => 'partner-1'),
-          ],
-          child: const MaterialApp(home: MemberRegistryScreen()),
-        ),
-      );
+      await pumpMemberRegistryScreen(tester);
 
-      await tester.pump();
-      await tester.pump();
-      await tester.pump();
-
-      expect(find.text('Alex Fan'), findsWidgets);
-      expect(find.text('Supporter Registry Command'), findsOneWidget);
+      expect(find.text('FAN REGISTRY'), findsOneWidget);
+      expect(find.text('OFFICIAL GIKUNDIRO DATABASE'), findsOneWidget);
+      expect(find.text(member.membershipNumber), findsWidgets);
+      expect(find.text('SUPPORTER RANKINGS'), findsOneWidget);
       verify(
         () => repository.getMembers(
           'partner-1',

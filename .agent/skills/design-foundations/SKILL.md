@@ -2,9 +2,10 @@
 name: Design Foundations
 description: >
   Visual design tokens, theme architecture, color system, typography scale,
-  spacing, surface language, and fixed-color exceptions for the COOL Flutter
-  super-app. Use when working on colors, fonts, spacing, radius, theme
-  switching, or token definitions. Source of truth: DESIGN_SYSTEM.md §1–6.
+  spacing, surface language, and atmospheric effects for the COOL Flutter
+  super-app. Mobi × Rayon design system — dark-only, high-contrast fintech
+  aesthetic. Use when working on colors, fonts, spacing, radius, shadows,
+  surfaces, or theme configuration.
 ---
 
 # Design Foundations
@@ -14,13 +15,11 @@ Use this skill when the task involves:
 - Creating, modifying, or auditing color tokens
 - Changing typography (font, scale, weight)
 - Adjusting spacing or radius values
-- Working on surface/card/sheet styling (claymorphism, glassmorphism)
-- Shadow recipes, elevation, or blur values
-- Gradient tokens or gradient usage
-- Theme switching, light/dark mode, or theme extensions
+- Working on surface/card/sheet styling
+- Shadow recipes or blur values
+- Theme configuration (dark-only)
 - Partner-specific visual overrides (Rayon typography, brand palette)
-- Fixed-color exception review (QR, PDF, status bar)
-- Responsive breakpoints or layout spacing
+- Atmospheric backgrounds, mobi-grid, gradients
 
 This skill is NOT for:
 
@@ -30,339 +29,173 @@ This skill is NOT for:
 
 ## Design Philosophy
 
-COOL targets a refined, institutional aesthetic — closer to a premium banking
-app or a high-end sports club membership. Not a decorated fintech startup.
+COOL targets a **high-contrast fintech-sports hybrid** — closer to a premium
+fintech terminal crossed with a sports club membership. Dark-only, precise,
+data-dense.
 
 Core principles:
 
-1. **Authority** — every surface projects confidence and control.
-2. **Premium minimalism** — fewer elements, larger type, generous space, quiet surfaces.
-3. **Trust-first** — money, identity, permissions, and system state are always explicit.
-4. **Token-driven** — every color, spacing, radius, shadow, and type value comes from a named token.
-5. **Maximum typography** — text should feel oversized, heavy, and commanding everywhere.
+1. **Precision** — tight radii, clean borders, grid-aligned elements.
+2. **High contrast** — true black backgrounds, pure white text, vibrant accents.
+3. **Data-first** — monospace for values, uppercase micro-labels, clear hierarchy.
+4. **Sporty energy** — condensed uppercase headlines, gold accents, neon status colors.
+5. **Dark authority** — single dark theme, no light mode, surfaces layered with subtle borders.
 
 ## Product Truths
 
-These are non-negotiable constraints the visual system must accommodate:
+Non-negotiable constraints the visual system must accommodate:
 
-- Flutter mobile, Android-first, dark-first, EN/FR.
+- Flutter mobile, Android-first, dark-only, EN/FR.
 - Portrait-only by product decision.
-- Dual-theme (light + dark) — both are first-class citizens with warm earthy tones.
+- Single theme: dark. No light mode.
 - Pending, draft, posted, blocked, offline, disabled states shown honestly.
 - Widgets render. Providers coordinate state. Repositories own Supabase access.
 
 ---
 
-## Color System — `CoolSemanticColors`
+## Color System — `CoolColors`
 
-The production redesign uses `CoolSemanticColors` (in `cool_foundations.dart`),
-not the legacy `CoolPalette`. All new and migrated screens must use semantic
-tokens.
+The production system uses the Mobi × Rayon palette. All screens must use
+these semantic tokens.
 
-### Dark Theme
+### Core Palette
 
-| Token | Role | Value |
+| Token | Value | Role |
 |---|---|---|
-| `appBackground` | App background | `#070B09` (deep green-black) |
-| `elevatedBackground` | Elevated bg | `#0D110E` |
-| `cardSurface` | Primary card | `#141A16` |
-| `cardSurfaceStrong` | Emphasized card | `#1B221D` |
-| `glassSurface` | Glass overlay | `#111713` at 82% opacity |
-| `overlaySurface` | Modal/sheet bg | `#111713` |
-| `primaryText` | Primary text | `#F4F1E9` (warm white) |
-| `secondaryText` | Secondary text | `#C4CBC2` |
-| `tertiaryText` | Tertiary/disabled | `#909B91` |
-| `accent` | Primary action | `#3A8A5E` (forest green) |
-| `accentStrong` | Emphasized accent | `#173726` |
-| `accentForeground` | Text on accent | `#F7F3EA` |
-| `divider` | Section separators | `#FFFFFF` at 8% |
-| `border` | Subtle borders | `#FFFFFF` at 12% |
-| `borderStrong` | Emphasized borders | `#FFFFFF` at 20% |
+| `surface` | `#050505` | App background (true black) |
+| `surfaceAlt` | `#111111` | Elevated surfaces, cards |
+| `ink` | `#0A0A0A` | Deep black for specific surfaces |
+| `paper` | `#F5F5F5` | Light contrast (rare, data overlays) |
+| `line` | `rgba(255, 255, 255, 0.08)` | Grid lines, subtle borders |
 
-### Light Theme
+### Brand Colors
 
-| Token | Role | Value |
+| Token | Value | Role |
 |---|---|---|
-| `appBackground` | App background | `#F3F0EA` (warm cream) |
-| `elevatedBackground` | Elevated bg | `#FCFAF6` |
-| `cardSurface` | Primary card | `#F7F2EA` (warm ivory) |
-| `cardSurfaceStrong` | Emphasized card | `#FFFDF9` |
-| `glassSurface` | Glass overlay | `#FFFCF7` at 84% opacity |
-| `overlaySurface` | Modal/sheet bg | `#FBF8F2` |
-| `primaryText` | Primary text | `#0B0F0D` (deep green-black) |
-| `secondaryText` | Secondary text | `#465147` |
-| `tertiaryText` | Tertiary/disabled | `#6D776E` |
-| `accent` | Primary action | `#2F7252` (deep forest green) |
-| `accentStrong` | Emphasized accent | `#103322` |
-| `accentForeground` | Text on accent | `#F8F5EE` |
-| `divider` | Section separators | `#0B0F0D` at 8% |
-| `border` | Subtle borders | `#0B0F0D` at 12% |
-| `borderStrong` | Emphasized borders | `#0B0F0D` at 18% |
+| `primary` | `#0047AB` | Deep royal blue — primary CTA, active states |
+| `accentGold` | `#FFD700` | Gold accent — highlights, active indicators, premium |
 
-### Semantic State Colors
+### Text Colors
 
-| Token | Dark | Light | Purpose |
-|---|---|---|---|
-| `success` | `#58A67B` | `#2F7252` | Positive/complete |
-| `warning` | `#D09A4D` | `#A86F26` | Attention/caution |
-| `danger` | `#D0727A` | `#A24C54` | Error/destructive |
-| `info` | `#7E9CBC` | `#4C6886` | Informational |
-| `neutral` | `#98A199` | `#737B74` | Neutral/disabled |
+| Token | Value | Role |
+|---|---|---|
+| `textPrimary` | `#FFFFFF` | Primary text (pure white) |
+| `textSecondary` | `#888888` | Secondary text (muted gray) |
 
-### UI-Specific Tokens
+### State Colors
 
-| Token | Purpose |
-|---|---|
-| `chipBackground` | Chip resting state |
-| `chipSelectedBackground` | Chip selected state |
-| `buttonPrimaryBackground` | Primary CTA fill |
-| `buttonSecondaryBackground` | Secondary button fill |
-| `inputSurface` | Text field background |
+| Token | Value | Role |
+|---|---|---|
+| `success` | `#00FF00` | Neon green — positive/complete |
+| `warning` | `#FFA500` | Bright orange — attention/caution |
+| `danger` | `#FF3B30` | iOS red — error/destructive |
 
-### Domain-Specific Surface Tokens
+### Border System
 
-These warm-tinted backgrounds distinguish product domains visually:
-
-| Token | Dark | Light | Use |
-|---|---|---|---|
-| `operationalSurface` | `#0F1814` | `#EEF2F0` | Admin dashboards, ops containers |
-| `financialSurface` | `#0E1712` | `#EDF4EF` | Wallets, payments, statements |
-| `analyticsSurface` | `#101721` | `#EEF1F5` | Data, analytics panels |
-| `teamSurface` | `#151320` | `#F1EEF6` | Team, sports, club containers |
-| `commerceSurface` | `#1A1713` | `#F5F0E8` | Marketplace, listings |
-| `routeSurface` | `#121814` | `#F1ECE4` | Route summaries, journeys |
-| `proximitySurface` | `#0E1813` | `#E7F0EA` | Nearby, proximity indicators |
-| `contactSurface` | `#10201A` | `#EAF3ED` | Contact, WhatsApp CTAs |
-
-### Demand Indicators
-
-| Token | Dark | Light | Use |
-|---|---|---|---|
-| `demandHigh` | `#D0727A` | `#A24C54` | High demand / surge |
-| `demandMedium` | `#D09A4D` | `#A86F26` | Moderate demand |
-| `demandLow` | `#58A67B` | `#2F7252` | Low demand / available |
+| Token | Value | Use |
+|---|---|---|
+| `borderSubtle` | `rgba(255, 255, 255, 0.05)` | Default card/section borders |
+| `borderDefault` | `rgba(255, 255, 255, 0.08)` | Grid lines, standard borders |
+| `borderMedium` | `rgba(255, 255, 255, 0.10)` | Interactive element borders |
+| `borderStrong` | `rgba(255, 255, 255, 0.20)` | Hover/focus/emphasized borders |
 
 ### Color Rules
 
-- Reserve accent for primary CTA, active state, or critical status. Not everywhere.
-- Never rely on color alone for status. Always pair with icon, label, or shape.
-- No glow-heavy or neon-heavy surfaces.
-- Stronger brand colors only on partner surfaces that need them.
-- Use domain-specific surface tokens to distinguish product categories without heavy color.
-- Green success chips must not appear on partner routes with their own brand system.
-
-### Theme Parity
-
-Both themes use a **warm, earthy tone** — cream/ivory in light, green-tinted
-darks in dark mode. Both are first-class. Every screen, component, and state
-must work in both. The theme toggle must not require manual color overrides.
-
-### Fixed-Color Exceptions
-
-| Location | Color | Reason |
-|---|---|---|
-| QR code generation/scanning | `Colors.black` / `Colors.white` | Scanner accuracy |
-| PDF export surfaces | `Colors.white` | Print fidelity |
-| Status bar overlays | `Colors.black` / `Colors.white` | System chrome |
-
-All other colors must use semantic tokens from `CoolSemanticColors`.
-
----
-
-## Gradient System
-
-`CoolSemanticColors` provides 3 gradient token pairs with convenience getters:
-
-| Gradient | Getter | Direction | Use |
-|---|---|---|---|
-| Shell | `shellGradient` | Top → Bottom | Full-screen background atmosphere |
-| Surface | `surfaceGradient` | TopLeft → BottomRight | Card/container subtle gradient |
-| Accent | `accentGradient` | TopLeft → BottomRight | CTA buttons, accent surfaces |
-
-### Gradient Values
-
-| Gradient | Light Top | Light Bottom | Dark Top | Dark Bottom |
-|---|---|---|---|---|
-| Shell | `#FAF7F2` | `#ECE5DA` | `#141915` | `#060806` |
-| Surface | `#FFFDF9` | `#F2ECE3` | `#1A211C` | `#0E120F` |
-| Accent | `#2F7252` | `#103322` | `#3A8A5E` | `#173726` |
-
-### Gradient Rules
-
-- Shell gradient: background atmosphere only. Subtle shift, never distracting.
-- Surface gradient: adds premium depth to cards/containers. Keep direction consistent.
-- Accent gradient: for primary CTAs and accent surfaces. Deepens authority.
-- Never stack gradient + heavy shadow + glow on the same element.
-- Gradients must work in both themes — both sets are pre-defined.
-
-### Usage
-
-```dart
-final sem = context.coolSemanticColors;
-Container(
-  decoration: BoxDecoration(gradient: sem.shellGradient),
-)
-```
-
----
-
-## Shadow System — `CoolShadows`
-
-Three brightness-adaptive shadow recipes, each with adjustable strength:
-
-### Clay Shadow (Claymorphism)
-
-Dual-shadow recipe: **down shadow + inner highlight** for tactile, premium feel.
-
-```dart
-CoolShadows.clay(brightness, strength: 1)
-```
-
-| Parameter | Dark Mode | Light Mode |
-|---|---|---|
-| Shadow 1 color alpha | 0.34 | 0.10 |
-| Shadow 1 blur | 28 | 28 |
-| Shadow 1 spread | -14 | -14 |
-| Shadow 1 offset | (0, 18) | (0, 18) |
-| Highlight color alpha (white) | 0.05 | 0.68 |
-| Highlight blur | 12 | 12 |
-| Highlight spread | -10 | -10 |
-| Highlight offset | (-3, -4) | (-3, -4) |
-
-Use for: primary cards, buttons, icon containers, selectors, tiles, panels.
-
-### Glass Shadow (Glassmorphism)
-
-Single softer shadow for glass/translucent overlay surfaces.
-
-```dart
-CoolShadows.glass(brightness, strength: 1)
-```
-
-| Parameter | Dark Mode | Light Mode |
-|---|---|---|
-| Color alpha | 0.26 | 0.10 |
-| Blur | 32 | 32 |
-| Spread | -16 | -16 |
-| Offset | (0, 18) | (0, 18) |
-
-Use for: overlays, floating filter bars, bottom sheets, modals.
-
-### Floating Shadow
-
-Strongest shadow for floating/elevated elements.
-
-```dart
-CoolShadows.floating(brightness, strength: 1)
-```
-
-| Parameter | Dark Mode | Light Mode |
-|---|---|---|
-| Color alpha | 0.30 | 0.12 |
-| Blur | 36 | 36 |
-| Spread | -18 | -18 |
-| Offset | (0, 22) | (0, 22) |
-
-Use for: FABs, sticky action bars, draggable elements.
-
-### Shadow Rules
-
-- All shadows are brightness-aware — dark mode uses higher opacity.
-- `strength` parameter scales alpha: use < 1 for subtlety, > 1 for emphasis.
-- Light mode clay has a strong white inner highlight (0.68 alpha) — this is the claymorphism "tactile" signal.
-- Dark mode inner highlight is subtle (0.05) — refined, not glowing.
-- Never add custom shadow colors. Use the recipes.
-
----
-
-## Elevation System — `CoolElevation`
-
-| Token | Value | Use |
-|---|---|---|
-| `resting` | 0 | Flat surfaces, inline content |
-| `raised` | 8 | Cards, buttons, chips |
-| `floating` | 12 | FABs, sticky elements, floating bars |
-| `overlay` | 16 | Sheets, modals, critical overlays |
-
----
-
-## Blur System — `CoolBlur`
-
-| Token | Value | Use |
-|---|---|---|
-| `subtle` | 12 | Light atmosphere, frosted hints |
-| `standard` | 18 | Normal glass surfaces (sheet backgrounds) |
-| `overlay` | 22 | Heavy glass (modals, critical overlays) |
-
-### Blur Rules
-
-- Glassmorphism for overlays only. Never on inline cards.
-- Keep blur refined and readable. Never frosted to the point of illegibility.
-- Pair glass blur with `glassSurface` token at ~82-84% opacity.
+- Reserve `primary` (blue) for primary CTA, active state, or branding.
+- Reserve `accentGold` for premium highlights, nav indicators, emphasis only.
+- Never rely on color alone for status — always pair with icon, label, or shape.
+- No warm/earthy tones. No greens as primary CTA.
+- State colors are vibrant/neon — this is intentional (fintech energy).
+- `success` (#00FF00) is bright neon — not muted.
 
 ---
 
 ## Typography
 
-### System Font
+### Font Stack
 
-**Manrope** is the primary font for all interface text.
-
-### Weight Aliases
-
-The system **maximizes weight** across the board:
-
-| Alias | Weight | Meaning |
+| Family | Use | Weight Range |
 |---|---|---|
-| `black` | w800 | ExtraBold — used for display |
-| `extraBold` | w800 | Same as black — used for headlines |
-| `bold` | w700 | Bold — used for titles |
-| `semibold` | w700 | Same as bold — used for body emphasis |
-| `medium` | w600 | SemiBold — used for labels |
-| `regular` | w600 | **Also SemiBold** — even "regular" text is bold |
+| **Inter** | All body text, UI labels, descriptions | 300–800 |
+| **Barlow Condensed** | All headings (h1–h6) | 700–800 |
+| **Barlow** | Body copy in branded partner contexts | 400–800 |
+| **JetBrains Mono** | Financial values, IDs, labels, badges | 400–700 |
 
-> **Critical rule:** There is NO w400 (regular) or w300 (light) in the system.
-> The minimum weight is w600. This is intentional: maximum authority everywhere.
+### Heading Convention
+
+ALL headings use **Barlow Condensed**, **uppercase**, **font-weight 800**,
+**letter-spacing -0.02em**. No exceptions.
+
+```dart
+// Every heading widget
+style: TextStyle(
+  fontFamily: 'BarlowCondensed',
+  fontWeight: FontWeight.w800,
+  letterSpacing: -0.02 * fontSize,
+  // text is always uppercase via .toUpperCase()
+)
+```
 
 ### Type Scale
 
-| Token | Size | Weight | Letter Spacing | Height | Use |
+| Token | Size | Font | Weight | Style | Use |
 |---|---|---|---|---|---|
-| `displayLarge` | **56** | w800 | -2.0 | 1.1 | Hero headlines, splash |
-| `displayMedium` | **48** | w800 | -1.6 | 1.1 | Section heroes |
-| `displaySmall` | **40** | w800 | -1.2 | 1.12 | Large feature titles |
-| `headlineLarge` | **36** | w800 | -1.0 | 1.15 | Screen titles |
-| `headlineMedium` | **30** | w800 | -0.8 | 1.18 | Card titles, sheet headers |
-| `headlineSmall` | **26** | w800 | -0.6 | 1.2 | Subsection titles |
-| `titleLarge` | **24** | w800 | -0.4 | 1.22 | Row titles, primary labels |
-| `titleMedium` | **22** | w700 | -0.3 | 1.24 | Button text, nav labels |
-| `titleSmall` | **20** | w700 | -0.2 | 1.25 | Secondary labels |
-| `bodyLarge` | **18** | w700 | — | 1.3 | Primary body text |
-| `bodyMedium` | **17** | w600 | — | 1.3 | Secondary body text |
-| `bodySmall` | **15** | w600 | — | 1.3 | Captions, timestamps |
-| `labelLarge` | **16** | w700 | — | — | Chip text, badges |
-| `labelMedium` | **15** | w700 | — | — | Button labels |
-| `labelSmall` | **14** | w700 | — | — | Overlines, micro labels |
+| `displayLarge` | 48 | Barlow Condensed | w800 | uppercase | Hero headlines |
+| `displayMedium` | 40 | Barlow Condensed | w800 | uppercase | Section heroes |
+| `displaySmall` | 36 | Barlow Condensed | w800 | uppercase | Feature titles |
+| `headlineLarge` | 30 | Barlow Condensed | w800 | uppercase | Screen titles |
+| `headlineMedium` | 24 | Barlow Condensed | w800 | uppercase | Card titles |
+| `headlineSmall` | 20 | Barlow Condensed | w700 | uppercase | Subsection titles |
+| `titleLarge` | 18 | Inter | w600 | normal | Row titles |
+| `titleMedium` | 16 | Inter | w600 | normal | Button text |
+| `titleSmall` | 14 | Inter | w500 | normal | Secondary labels |
+| `bodyLarge` | 16 | Inter | w400 | normal | Primary body text |
+| `bodyMedium` | 14 | Inter | w500 | normal | Secondary body text |
+| `bodySmall` | 12 | Inter | w400 | normal | Captions, timestamps |
+| `labelLarge` | 14 | Inter | w600 | normal | Chip text |
+| `labelMedium` | 12 | JetBrains Mono | w600 | uppercase, tracking +0.1em | Button labels |
+| `labelSmall` | 10 | JetBrains Mono | w600 | uppercase, tracking +0.1em | Micro labels, mobi-label |
+
+### Mobi Micro-Typography
+
+Two signature micro-typography patterns used everywhere:
+
+**mobi-label:**
+```dart
+TextStyle(
+  fontFamily: 'JetBrainsMono',
+  fontSize: 10,
+  fontWeight: FontWeight.w600,
+  letterSpacing: 0.1 * 10, // 1.0
+  color: CoolColors.textSecondary,
+  // text is always uppercase
+)
+```
+
+**mobi-value:**
+```dart
+TextStyle(
+  fontFamily: 'JetBrainsMono',
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+  letterSpacing: -0.02 * 14,
+  color: CoolColors.textPrimary,
+)
+```
 
 ### Typography Rules
 
-- **Maximize size and weight.** Text should feel oversized and commanding.
-- **Negative letter spacing** on all headlines — tight tracking = premium signal.
-- **Minimum text size is 14dp** (labelSmall). Nothing smaller in the system.
-- **Minimum weight is w600.** Even body and caption text feels bold.
-- Use `DM Mono` for all financial values, IDs, codes, numeric summaries.
-- Headlines: 2–4 words maximum.
-- No explanatory paragraph copy when structure can do the work.
-- No all-caps labels unless they are status badges or micro-overlines.
+- **All headings are uppercase.** No mixed-case headings.
+- Body text uses Inter at conventional weights (w400–w600).
+- All financial values, IDs, codes, counters use JetBrains Mono.
+- Labels at 10px are allowed (mobi-label pattern).
+- Badge text as small as 9px is allowed.
+- Negative letter spacing on headlines, positive letter spacing on labels.
 
-### Partner Typography
+### Partner Typography (Rayon Sports)
 
-Rayon Sports routes:
-- **Barlow Condensed** for hero and section headlines (w900/w800)
-- **Barlow** for body copy and navigation labels
-- **DM Mono** only for IDs, counters, seat codes, payment values
-
-Other partners use standard Manrope unless a dedicated brand shell is approved.
+Rayon routes use the same system — Barlow Condensed is already the headline font.
+No separate partner typography override needed.
 
 ---
 
@@ -370,32 +203,28 @@ Other partners use standard Manrope unless a dedicated brand shell is approved.
 
 | Token | Value | Use |
 |---|---|---|
-| `x1` | 4 | Tight internal padding |
-| `x2` | 8 | Compact spacing |
-| `x3` | 12 | Standard element gaps |
-| `x4` | 16 | Section padding, card internal |
-| `x5` | 20 | Comfortable internal padding |
-| `x6` | 24 | Page padding, section gaps |
-| `x7` | 32 | Major section separation |
-| `x8` | 40 | Large section breathing room |
-| `x9` | 48 | Screen-level breathing room |
-| `x10` | 64 | Hero spacing |
+| `m1` | 4 | Tight internal padding |
+| `m2` | 8 | Compact spacing |
+| `m3` | 12 | Standard element gaps |
+| `m4` | 16 | Section padding, card internal |
+| `m5` | 24 | Page padding, section gaps |
+| `m6` | 32 | Major section separation |
+| `m7` | 48 | Screen-level breathing room |
 
-### Pre-defined Padding Constants
+### Pre-defined Constants
 
 ```dart
-CoolSpace.pagePadding    // horizontal: 24, vertical: 24
-CoolSpace.sectionPadding // all: 24
-CoolSpace.denseSectionPadding // all: 20
+CoolSpace.pagePadding    // horizontal: 16–24
+CoolSpace.sectionGap     // 24
+CoolSpace.cardPadding    // 16
 ```
 
 ### Layout Rules
 
-- **Whitespace is a feature.** Generous spacing improves readability and authority.
-- Minimum side padding: 24dp (not 16dp — premium spacing).
-- Consistent vertical rhythm using x4–x6 for most gaps.
-- Single-column preferred. Grids only for homogeneous small items.
-- Safe bottom spacing for shell nav on scrollable screens.
+- Page padding: 16–24dp (high-density, not premium-generous).
+- Consistent vertical rhythm using m3–m5 for most gaps.
+- Single-column preferred. Grids for homogeneous small items (5-col quick actions).
+- Safe bottom spacing for floating pill nav on scrollable screens.
 
 ---
 
@@ -403,100 +232,134 @@ CoolSpace.denseSectionPadding // all: 20
 
 | Token | Value | Use |
 |---|---|---|
-| `sm` | **16** | Chips, badges, small controls |
-| `md` | **22** | Buttons, inputs, small cards |
-| `lg` | **28** | Cards, containers |
-| `xl` | **32** | Sheets, modals |
-| `xxl` | **36** | Large sheets, hero surfaces |
-| `pill` | 999 | Pills, avatars, FABs |
+| `sm` | **4** | Small badges, micro elements |
+| `md` | **8** | Buttons, inputs, toasts |
+| `lg` | **12** | Standard cards, containers |
+| `xl` | **16** | Large cards, sheets |
+| `xxl` | **24** | Hero surfaces, modals |
+| `pill` | 999 | Pills, avatars, nav bar, badges |
 
-> **Note:** These radii are intentionally large — premium, rounded, soft feel.
-> `sm` starts at 16, not 8. This is a deliberate authority choice.
+> **Critical:** These radii are tight and precise — fintech, not playful.
+> `sm` starts at 4, not 16. Buttons are `rounded-xl` (12px), not `rounded-3xl`.
 
 ---
 
 ## Surface Language
 
-### Primary Surfaces — Refined Claymorphism
+### Primary Card — Flat with Subtle Border
 
 ```dart
 Container(
   decoration: BoxDecoration(
-    color: context.coolSemanticColors.cardSurface,
-    borderRadius: BorderRadius.circular(CoolRadii.lg),
+    color: CoolColors.surfaceAlt,          // #111111
+    borderRadius: BorderRadius.circular(CoolRadii.xl),  // 16
     border: Border.all(
-      color: context.coolSemanticColors.border,
+      color: CoolColors.borderSubtle,      // white/5
       width: 1,
     ),
-    boxShadow: CoolShadows.clay(Theme.of(context).brightness),
   ),
 )
 ```
 
 Rules:
-- Cards feel solid, tactile, and institutional — not glossy or playful.
-- **Light mode:** strong white inner highlight creates the clay "pillow" feel.
-- **Dark mode:** subtle inner highlight keeps refinement without glow.
-- One card per section on non-home screens.
-- Never stack gradient + heavy shadow + glow on the same element.
+- Cards are **flat** — no claymorphism, no clay shadows, no inner highlights.
+- Hover/press: border brightens to `white/20`, bg lightens to `#161616`.
+- Transition: 200ms `cubic-bezier(0.4, 0, 0.2, 1)`.
+- No domain-specific tinted surfaces. Only `surface` and `surfaceAlt`.
 
-### Overlay Surfaces — Restrained Glassmorphism
+### Glass Surface — For Navigation & Overlays
 
 ```dart
 ClipRRect(
-  borderRadius: BorderRadius.vertical(
-    top: Radius.circular(CoolRadii.xl),
-  ),
+  borderRadius: BorderRadius.circular(CoolRadii.pill),
   child: BackdropFilter(
-    filter: ImageFilter.blur(
-      sigmaX: CoolBlur.standard,
-      sigmaY: CoolBlur.standard,
-    ),
+    filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
     child: Container(
       decoration: BoxDecoration(
-        color: context.coolSemanticColors.glassSurface,
+        color: Colors.white.withOpacity(0.05),
         border: Border.all(
-          color: context.coolSemanticColors.border,
+          color: CoolColors.borderMedium,  // white/10
           width: 1,
         ),
-        boxShadow: CoolShadows.glass(Theme.of(context).brightness),
       ),
     ),
   ),
 )
 ```
 
-Rules:
-- Glassmorphism for overlays only. Never on inline cards.
-- Use `CoolBlur.standard` (18) for sheets, `CoolBlur.overlay` (22) for modals.
-- Keep blur refined and readable.
+Use for: floating nav bar, overlays, sticky headers.
 
-### Background
+### Mobi Grid Background
 
-`CoolScreenBackground` is intentionally restrained. The shell gradient
-(`shellGradient`) may be used for subtle full-screen atmosphere.
+Subtle 24px grid overlay for screen backgrounds:
 
-Partner shells (e.g., `RayonShellBackground`) may add subtle branded
-atmosphere on entry/discovery surfaces only. Checkout stays quiet.
+```dart
+Container(
+  decoration: BoxDecoration(
+    image: DecorationImage(
+      image: // 24px grid pattern at white/8 opacity
+      repeat: ImageRepeat.repeat,
+    ),
+  ),
+)
+```
+
+### Atmospheric Background
+
+Blurred radial blobs for visual atmosphere:
+
+```dart
+// Blue blob (top-left)
+Container(
+  width: screenWidth * 0.4,
+  height: screenWidth * 0.4,
+  decoration: BoxDecoration(
+    shape: BoxShape.circle,
+    color: CoolColors.primary.withOpacity(0.10),
+  ),
+  // blur: 120
+)
+
+// Gold blob (top-right, delayed pulse)
+Container(
+  width: screenWidth * 0.3,
+  height: screenWidth * 0.3,
+  decoration: BoxDecoration(
+    shape: BoxShape.circle,
+    color: CoolColors.accentGold.withOpacity(0.05),
+  ),
+  // blur: 100, animateOpacity pulse
+)
+```
 
 ---
 
-## Responsive System — `CoolResponsive`
+## Shadow System
 
-| Breakpoint | Padding | Max Content Width |
+Simplified. No claymorphism.
+
+| Recipe | Use | Values |
 |---|---|---|
-| < 600dp (phone) | 24dp | Full width |
-| 600–839dp (small tablet) | 32dp | Full width |
-| ≥ 840dp (large tablet) | 40dp | 720dp |
+| `standard` | Cards, buttons | black/50, blur 25, offset (0, 10) |
+| `floating` | FABs, floating nav | `shadow-2xl` equivalent + `shadow-black/50` |
+| `primary` | Primary CTA buttons | `primary/20`, blur 20, offset (0, 8) |
+| `gold` | Accent/gold elements | `accentGold/20`, blur 20, offset (0, 8) |
 
-```dart
-final padding = CoolResponsive.horizontalPaddingForWidth(
-  MediaQuery.sizeOf(context).width,
-);
-final maxWidth = CoolResponsive.maxContentWidthForWidth(
-  MediaQuery.sizeOf(context).width,
-);
-```
+### Shadow Rules
+
+- Dark-only: shadows must be visible against `#050505` background.
+- Use colored shadows for primary/accent buttons (subtle brand glow).
+- Never stack multiple shadow recipes on one element.
+
+---
+
+## Blur System
+
+| Token | Value | Use |
+|---|---|---|
+| `standard` | 24 | Glass nav bar, sticky headers |
+| `overlay` | 32 | Modals, full-screen overlays |
+| `atmospheric` | 100–150 | Background radial blobs |
 
 ---
 
@@ -512,65 +375,84 @@ final maxWidth = CoolResponsive.maxContentWidthForWidth(
 
 ## Icon Style
 
-- Prefer outlined/regular weight Material Icons.
-- Icon size: 24dp standard, 20dp compact, 28dp emphasis.
-- Color: `secondaryText` default, `accent` for active/selected, `primaryText` for emphasis.
-- Always pair icons with labels for critical actions.
-- Avoid filled icon variants unless indicating active/selected state.
+- Use **Lucide** icon set (line icons, consistent stroke weight).
+- Icon size: 18dp compact, 20dp standard, 24dp emphasis.
+- Color: `textSecondary` default, `primary` for active, `textPrimary` for emphasis.
+- Stroke width: 2 default, 2.5 for active state.
+
+---
+
+## Motion System
+
+### Duration Scale
+
+| Token | Duration | Use |
+|---|---|---|
+| `press` | 100ms | Micro-feedback (tap, scale 0.98) |
+| `quick` | 200ms | State changes, reveals |
+| `standard` | 300ms | Page transitions, expansions |
+| `emphasized` | 500ms | Spring animations (nav bar entry) |
+
+### Curves
+
+| Token | Value | Use |
+|---|---|---|
+| `standard` | `cubic-bezier(0.4, 0, 0.2, 1)` | All standard transitions |
+| `spring` | `damping: 20, stiffness: 100` | Nav bar, dramatic entries |
+
+### Animation Patterns
+
+```dart
+// Card/button press feedback
+active:scale-[0.98]  →  Transform.scale(scale: 0.98)
+
+// Staggered list entry
+initial: { opacity: 0, y: 20 }
+animate: { opacity: 1, y: 0 }
+
+// Nav bar slide up
+initial: { y: 100, opacity: 0 }
+animate: { y: 0, opacity: 1 }
+transition: spring(damping: 20, stiffness: 100)
+```
 
 ---
 
 ## Flutter Implementation
 
-### Token-Driven Architecture
+### Token Access Pattern
 
 ```dart
-// Semantic colors (production redesign system)
-final sem = context.coolSemanticColors;
-sem.cardSurface, sem.primaryText, sem.accent, sem.financialSurface
+// Colors
+CoolColors.surface, CoolColors.surfaceAlt, CoolColors.primary
+CoolColors.accentGold, CoolColors.textPrimary, CoolColors.textSecondary
+CoolColors.success, CoolColors.warning, CoolColors.danger
 
 // Spacing
-CoolSpace.x4, CoolSpace.x6, CoolSpace.pagePadding
+CoolSpace.m1, CoolSpace.m4, CoolSpace.pagePadding
 
 // Radius
 CoolRadii.sm, CoolRadii.lg, CoolRadii.pill
 
+// Typography (via TextTheme)
+Theme.of(context).textTheme.headlineLarge  // Barlow Condensed, uppercase
+Theme.of(context).textTheme.bodyMedium     // Inter
+
 // Shadows
-CoolShadows.clay(brightness), CoolShadows.glass(brightness)
-
-// Elevation
-CoolElevation.raised, CoolElevation.overlay
-
-// Blur
-CoolBlur.standard, CoolBlur.overlay
-
-// Motion
-CoolMotion.standard, CoolMotion.enterCurve
+CoolShadows.standard, CoolShadows.floating, CoolShadows.primary(color)
 
 // Tap targets
 CoolTapTargets.comfortable, CoolTapTargets.navigation
-
-// Responsive
-CoolResponsive.horizontalPaddingForWidth(width)
-
-// Typography (via TextTheme)
-Theme.of(context).textTheme.headlineLarge
-Theme.of(context).textTheme.bodyMedium
 ```
 
 ### Key Files
 
 | File | Purpose |
 |---|---|
-| `cool_foundations.dart` | `CoolSemanticColors`, `CoolSpace`, `CoolRadii`, `CoolBlur`, `CoolElevation`, `CoolTapTargets`, `CoolMotion`, `CoolResponsive`, `CoolShadows` |
-| `app_theme_text.dart` | Typography scale, weight aliases, `TextTheme` builder |
-| `cool_palette.dart` | Legacy `CoolPalette` (migration source, do not extend) |
+| `cool_foundations.dart` | `CoolColors`, `CoolSpace`, `CoolRadii`, `CoolTapTargets`, `CoolShadows`, `CoolBlur` |
+| `app_theme_text.dart` | Typography scale: Inter, Barlow Condensed, JetBrains Mono |
+| `app_theme.dart` | Theme assembly (`ThemeData` + dark-only) |
 | `app_theme_components.dart` | Component-level theme overrides |
-| `app_theme.dart` | Theme assembly (`ThemeData` + extensions) |
-| `app_colors.dart` | Legacy static colors (do not extend — migrate away) |
-| `cool_layout.dart` | Layout helper constants |
-| `rs_colors.dart` | Rayon Sports brand palette |
-| `rs_text_styles.dart` | Rayon Sports typography override |
 
 ### Audit Commands
 
@@ -579,23 +461,19 @@ Theme.of(context).textTheme.bodyMedium
 rg "Color(0x" lib/ --count
 rg "Colors\." lib/ --count
 
-# Find legacy AppColors usage (should migrate to CoolSemanticColors)
+# Find legacy warm palette usage (must be zero)
 rg "AppColors\." lib/ --count
-
-# Find legacy CoolPalette usage (should migrate to CoolSemanticColors)
 rg "coolPalette\|CoolPalette" lib/ --count
+rg "CoolSemanticColors" lib/ --count
 
-# Find non-token font sizes
-rg "fontSize:" lib/ | grep -v "Foundations\|theme\|rs_text"
+# Find non-token font families
+rg "Manrope\|DM Mono\|fontFamily:" lib/ | grep -v "Inter\|Barlow\|JetBrains\|theme"
 
-# Find non-token radii
-rg "BorderRadius\." lib/ | grep -v "CoolRadii\|Radii\.\|\.circular(Cool"
+# Find oversized radii (old system used 16-36)
+rg "circular(1[6-9]\|circular(2[0-9]\|circular(3[0-6]" lib/ --count
 
-# Find non-token spacing
-rg "EdgeInsets\." lib/ | grep -v "CoolSpace\|Space\.\|pagePadding\|sectionPadding"
-
-# Find non-recipe shadows
-rg "BoxShadow\(" lib/ | grep -v "CoolShadows\|Shadows\.\|cool_foundations"
+# Find claymorphism remnants
+rg "CoolShadows.clay\|CoolShadows.glass" lib/ --count
 ```
 
 ---
@@ -606,4 +484,3 @@ rg "BoxShadow\(" lib/ | grep -v "CoolShadows\|Shadows\.\|cool_foundations"
 - Component catalog and routing → `component-navigation` skill
 - Module-specific visual rules → `module-partner-ux` skill
 - Trust design and accessibility → `trust-accessibility` skill
-- Full human-readable reference → `DESIGN_SYSTEM.md`

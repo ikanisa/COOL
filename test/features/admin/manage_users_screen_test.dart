@@ -1,6 +1,8 @@
+import 'package:cool_app/core/theme/app_theme.dart';
 import 'package:cool_app/features/admin/providers/admin_providers.dart';
 import 'package:cool_app/features/admin/repositories/admin_users_repository.dart';
 import 'package:cool_app/features/admin/screens/manage_users_screen.dart';
+import 'package:cool_app/shared/widgets/cool_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -40,6 +42,20 @@ void _configureTallViewport(WidgetTester tester) {
   });
 }
 
+Widget _wrapAdminScreen(Widget child, {required List<Override> overrides}) {
+  return ProviderScope(
+    overrides: overrides,
+    child: MaterialApp(
+      theme: AppTheme.dark,
+      builder: (context, widget) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(disableAnimations: true),
+        child: widget!,
+      ),
+      home: child,
+    ),
+  );
+}
+
 void main() {
   testWidgets(
     'users screen renders Rwanda and English as fixed app invariants',
@@ -61,11 +77,11 @@ void main() {
       );
 
       await tester.pumpWidget(
-        ProviderScope(
+        _wrapAdminScreen(
+          const ManageUsersScreen(),
           overrides: <Override>[
             adminUsersRepositoryProvider.overrideWithValue(repository),
           ],
-          child: const MaterialApp(home: ManageUsersScreen()),
         ),
       );
       await tester.pumpAndSettle();
@@ -95,17 +111,17 @@ void main() {
     );
 
     await tester.pumpWidget(
-      ProviderScope(
+      _wrapAdminScreen(
+        const ManageUsersScreen(),
         overrides: <Override>[
           adminUsersRepositoryProvider.overrideWithValue(repository),
         ],
-        child: const MaterialApp(home: ManageUsersScreen()),
       ),
     );
     await tester.pumpAndSettle();
 
-    await tester.ensureVisible(find.text('Edit').first);
-    await tester.tap(find.text('Edit').first);
+    await tester.ensureVisible(find.byType(TextButton).first);
+    await tester.tap(find.byType(TextButton).first);
     await tester.pumpAndSettle();
 
     await tester.enterText(
@@ -116,7 +132,7 @@ void main() {
       'Alice Updated',
     );
 
-    await tester.tap(find.text('Save User').last);
+    await tester.tap(find.byType(CoolButton).last);
     await tester.pumpAndSettle();
 
     expect(repository.updatedUsers, hasLength(1));

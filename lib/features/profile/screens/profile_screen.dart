@@ -3,31 +3,23 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../../../core/config/app_config_provider.dart';
-import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/status/providers/cool_status_provider.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/theme_preference.dart';
-import '../../../core/theme/theme_preference_provider.dart';
-import '../../../shared/widgets/cool_bottom_sheet.dart';
-import '../../../shared/widgets/cool_card.dart';
-import '../../../shared/widgets/cool_screen_scaffold.dart';
+import '../../../core/theme/rs_colors.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
-import '../../admin/providers/admin_workspace_access_provider.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../../partners/rayon/models/rs_models.dart' show FanTier;
+import '../../partners/providers/rayon_sports_provider.dart';
 import '../providers/profile_view_provider.dart';
-import '../widgets/profile_data.dart';
-import '../widgets/profile_app_access_sheet.dart';
 import '../widgets/profile_dialogs.dart';
-import '../widgets/profile_header_widgets.dart';
-import '../widgets/profile_settings_widgets.dart';
-import '../widgets/profile_theme_sheet.dart';
 
-/// User profile and settings hub.
+// ─────────────────────────────────────────────────────────────────────
+// ProfileScreen — faithful replica of the React reference screenshots
+// Sections: Header → Blue Membership Card → FAN IDENTITY →
+//   APP SETTINGS → SUPPORT (with LOGOUT in red)
+// ─────────────────────────────────────────────────────────────────────
+
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
@@ -36,38 +28,7 @@ class ProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
-  String _tierLabel(FanTier tier) {
-    final l10n = context.l10n;
-    return switch (tier) {
-      FanTier.blue => l10n.profileTierBlue,
-      FanTier.silver => l10n.profileTierSilver,
-      FanTier.gold => l10n.profileTierGold,
-      FanTier.platinum => l10n.profileTierPlatinum,
-    };
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() {
-      final userId = ref.read(authProvider).user?.id;
-      if (userId != null && userId.isNotEmpty) {
-        ref.read(coolStatusProvider.notifier).load(userId);
-      }
-    });
-  }
-
-  // ── App access sheet ──────────────────────────────────────────────────
-
-  Future<void> _showAppAccessSheet() {
-    return ProfileAppAccessSheet.show(context);
-  }
-
-  Future<void> _showThemeSheet() {
-    return ProfileThemeSheet.show(context);
-  }
-
-  // ── Sign out ──────────────────────────────────────────────────────────
+  // ── Sign out ──────────────────────────────────────────────────────
 
   Future<void> _confirmSignOut() async {
     final confirmed = await showDialog<bool>(
@@ -78,9 +39,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     if (confirmed != true || !mounted) return;
 
     await ref.read(authProvider.notifier).signOut();
-    if (!mounted) {
-      return;
-    }
+    if (!mounted) return;
 
     final error = ref.read(authProvider).error;
     if (error != null && error.isNotEmpty) {
@@ -88,322 +47,400 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       return;
     }
 
-    // Invalidate cached providers to prevent stale data leaking across sessions.
-    ref.invalidate(coolStatusProvider);
-
     context.go(AppRoutes.splash);
-  }
-
-  Future<void> _confirmDeleteAccount() async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (_) => const ProfileDeleteAccountDialog(),
-    );
-
-    if (confirmed != true || !mounted) {
-      return;
-    }
-
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => ProfileBlockingProgressDialog(
-        message: context.l10n.profileDeletingAccount,
-      ),
-    );
-
-    await ref.read(authProvider.notifier).deleteAccount();
-    if (!mounted) {
-      return;
-    }
-
-    Navigator.of(context, rootNavigator: true).pop();
-
-    final error = ref.read(authProvider).error;
-    if (error != null && error.isNotEmpty) {
-      CoolToast.error(context, error);
-      return;
-    }
-
-    // Invalidate cached providers before leaving.
-    ref.invalidate(coolStatusProvider);
-
-    context.go(AppRoutes.splash);
-  }
-
-  Future<void> _showMomoQrSheet(ProfileData profile) async {
-    await showCoolBottomSheet<void>(
-      context: context,
-      useRootNavigator: true,
-      isScrollControlled: true,
-      builder: (_) => ProfileMomoQrCard(
-        momoNumber: profile.momoNumber,
-        countryCode: profile.countryCode,
-      ),
-    );
-  }
-
-  Future<void> _openSupportWhatsApp() async {
-    try {
-      final number = await ref.read(
-        currentCountrySupportWhatsAppProvider.future,
-      );
-      final uri = Uri.parse('https://wa.me/$number');
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-        return;
-      }
-
-      if (!mounted) {
-        return;
-      }
-      CoolToast.error(context, context.l10n.profileSupportOpenError);
-    } catch (_) {
-      if (!mounted) {
-        return;
-      }
-      CoolToast.error(context, context.l10n.profileSupportUnavailable);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final l10n = context.l10n;
-    final themePreference = ref.watch(themePreferenceProvider);
+    final topPad = MediaQuery.viewPaddingOf(context).top;
+    final bottomPad = MediaQuery.viewPaddingOf(context).bottom;
+
+    final membership = ref.watch(rayonMembershipProvider);
+    final rayon = ref.watch(rayonSportsDataProvider);
     final profile = ref.watch(profileViewProvider);
-    final status = ref.watch(coolStatusProvider).valueOrNull;
-    final adminAccess = ref.watch(adminWorkspaceAccessProvider);
 
-    // ── Account rows ───────────────────────────────────────────────
-    final accountRows = <ProfileSettingsRow>[
-      ProfileSettingsRow(
-        icon: Icons.account_balance_wallet_outlined,
-        label: 'Wallet',
-        value: profile.momoLinked ? profile.momoDisplayLabel : 'Link wallet',
-        valueColor: profile.momoLinked ? colors.accent : colors.tertiaryText,
-        onTap: () => context.push(AppRoutes.profileWallet),
-      ),
-      if (status != null)
-        ProfileSettingsRow(
-          icon: Icons.token_rounded,
-          label: 'Cool Tokens',
-          value: '${_tierLabel(status.tier)} · ${status.totalPoints} Tokens',
-          valueColor: colors.accent,
-          onTap: () => context.push(AppRoutes.tokens),
-        ),
-      ProfileSettingsRow(
-        icon: Icons.card_giftcard_rounded,
-        label: 'Invite Friends',
-        value: 'Share & earn tokens',
-        valueColor: colors.accent,
-        onTap: () => context.push(AppRoutes.referral),
-      ),
-      ProfileSettingsRow(
-        icon: Icons.sms_outlined,
-        label: 'MoMo Statements',
-        value: profile.mobileMoneyActivityLabel,
-        valueColor: profile.momoStatementCount > 0
-            ? colors.info
-            : colors.tertiaryText,
-        onTap: () => context.push(
-          profile.momoStatementCount > 0
-              ? AppRoutes.momoStatements
-              : AppRoutes.momo,
-        ),
-      ),
+    final mem = membership.valueOrNull ?? rayon.valueOrNull?.membership;
+    final memberId = profile.userId;
+    final tier = mem != null
+        ? mem.tier.name.toUpperCase()
+        : 'GUEST';
+    final tokens = mem?.points ?? 0;
+    final progress = mem?.progressToNextTier ?? 0.0;
 
-    ];
-
-    // ── Settings rows ──────────────────────────────────────────────
-    final settingsRows = <ProfileSettingsRow>[
-      if (profile.canShowMomoQr)
-        ProfileSettingsRow(
-          icon: Icons.qr_code_rounded,
-          label: l10n.profileMomoQrTitle,
-          value: l10n.openAction,
-          valueColor: colors.accent,
-          onTap: () => _showMomoQrSheet(profile),
-        ),
-      if (adminAccess.hasAnyAdminAccess)
-        ProfileSettingsRow(
-          icon: Icons.admin_panel_settings_outlined,
-          iconColor: colors.accentStrong,
-          label: l10n.profileAdminPanel,
-          value: l10n.openAction,
-          valueColor: colors.accentStrong,
-          onTap: () => context.push(AppRoutes.admin),
-        ),
-      ProfileSettingsRow(
-        icon: Icons.brightness_6_outlined,
-        label: 'Theme',
-        value: switch (themePreference) {
-          AppThemePreference.system => 'System',
-          AppThemePreference.light => 'Light',
-          AppThemePreference.dark => 'Dark',
-        },
-        onTap: _showThemeSheet,
-      ),
-      ProfileSettingsRow(
-        icon: Icons.help_outline_rounded,
-        label: l10n.supportLabel,
-        value: l10n.whatsapp,
-        onTap: _openSupportWhatsApp,
-      ),
-      ProfileSettingsRow(
-        icon: Icons.security_outlined,
-        label: l10n.profileAppAccess,
-        value: l10n.profileManageAction,
-        onTap: _showAppAccessSheet,
-      ),
-    ];
-
-    return CoolScreenScaffold(
-      title: l10n.navProfile,
-      showBackButton: false,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ProfileHeader(profile: profile),
-          if (profile.showCompletionBanner) ...[
-            const SizedBox(height: CoolSpace.x4),
-            _ProfileCompletionBar(profile: profile),
-          ],
-          const SizedBox(height: CoolSpace.x7),
-          _ProfileCommandDeck(
-            accountRows: accountRows,
-            settingsRows: settingsRows,
-          ),
-          const SizedBox(height: CoolSpace.x6),
-          ProfileDangerZone(
-            onDeleteAccount: _confirmDeleteAccount,
-            onSignOut: _confirmSignOut,
-          ),
-          const SizedBox(height: CoolSpace.x8),
-          Center(
-            child: Text(
-              'COOL v1.1.0',
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: context.coolSemanticColors.tertiaryText,
-                fontWeight: FontWeight.w700,
+    return Scaffold(
+      backgroundColor: colors.appBackground,
+      body: CoolScreenBackground(
+        child: CustomScrollView(
+        slivers: [
+          // ── Header ───────────────────────────────────────────────
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(
+                CoolSpace.x4, topPad + CoolSpace.x3, CoolSpace.x4, 0,
+              ),
+              child: Row(
+                children: [
+                  // Back button
+                  InkWell(
+                    borderRadius: BorderRadius.circular(CoolRadii.pill),
+                    onTap: () {
+                      if (context.canPop()) {
+                        context.pop();
+                      }
+                    },
+                    child: Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.05),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.10),
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.arrow_back_rounded,
+                        color: colors.primaryText,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: CoolSpace.x3),
+                  // Title
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'SETTINGS',
+                          style: context.coolText.rayonCondensed(
+                            Theme.of(context).textTheme.headlineSmall,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        Text(
+                          'FAN IDENTITY',
+                          style: context.coolText.mono(
+                            Theme.of(context).textTheme.labelSmall,
+                            fontWeight: FontWeight.w700,
+                            color: colors.secondaryText,
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Shield icon
+                  Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: RsColors.rsBlue.withValues(alpha: 0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.verified_user_rounded,
+                      color: RsColors.rsBlue,
+                      size: 22,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
+
+          // ── Content ──────────────────────────────────────────────
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(
+              CoolSpace.x5, CoolSpace.x5, CoolSpace.x5,
+              CoolSpace.x8 + bottomPad + 80,
+            ),
+            sliver: SliverList.list(
+              children: [
+                // ── 1. Blue Membership Card ───────────────────────
+                _BlueMembershipCard(
+                  memberId: memberId,
+                  tier: tier,
+                  tokens: tokens,
+                  progress: progress,
+                ),
+                const SizedBox(height: CoolSpace.x6),
+
+                // ── 2. FAN IDENTITY section ───────────────────────
+                const _SectionLabel(label: 'FAN IDENTITY'),
+                const SizedBox(height: CoolSpace.x3),
+                _GlassCard(
+                  child: Column(
+                    children: [
+                      _SettingsRow(
+                        icon: Icons.emoji_events_outlined,
+                        title: 'ACHIEVEMENTS',
+                        subtitle: '12 UNLOCKED',
+                        onTap: () => context.push(AppRoutes.missions),
+                      ),
+                      _SettingsDivider(),
+                      _SettingsRow(
+                        icon: Icons.receipt_long_outlined,
+                        title: 'ORDER HISTORY',
+                        subtitle: '3 RECENT ORDERS',
+                        onTap: () =>
+                            context.push(AppRoutes.profileOrders),
+                      ),
+                      _SettingsDivider(),
+                      _SettingsRow(
+                        icon: Icons.confirmation_number_outlined,
+                        title: 'MY TICKETS',
+                        subtitle: '2 UPCOMING MATCHES',
+                        onTap: () =>
+                            context.push(AppRoutes.rayonMyTickets),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: CoolSpace.x6),
+
+                // ── 3. APP SETTINGS section ───────────────────────
+                const _SectionLabel(label: 'APP SETTINGS'),
+                const SizedBox(height: CoolSpace.x3),
+                _GlassCard(
+                  child: Column(
+                    children: [
+                      _SettingsRow(
+                        icon: Icons.person_outline_rounded,
+                        title: 'ACCOUNT DETAILS',
+                        subtitle: 'PERSONAL INFORMATION',
+                        onTap: () =>
+                            context.push(AppRoutes.profileAccount),
+                      ),
+                      _SettingsDivider(),
+                      _SettingsRow(
+                        icon: Icons.notifications_none_rounded,
+                        title: 'NOTIFICATIONS',
+                        subtitle: 'MATCH ALERTS & NEWS',
+                        onTap: () =>
+                            context.push(AppRoutes.profileNotifications),
+                      ),
+                      _SettingsDivider(),
+                      _SettingsRow(
+                        icon: Icons.lock_outline_rounded,
+                        title: 'PRIVACY & SECURITY',
+                        subtitle: 'BIOMETRICS & PIN',
+                        onTap: () =>
+                            context.push(AppRoutes.profilePrivacy),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: CoolSpace.x6),
+
+                // ── 4. SUPPORT section ────────────────────────────
+                const _SectionLabel(label: 'SUPPORT'),
+                const SizedBox(height: CoolSpace.x3),
+                _GlassCard(
+                  child: Column(
+                    children: [
+                      _SettingsRow(
+                        icon: Icons.help_outline_rounded,
+                        title: 'HELP CENTER',
+                        onTap: () =>
+                            context.push(AppRoutes.profileHelp),
+                      ),
+                      _SettingsDivider(),
+                      _SettingsRow(
+                        icon: Icons.info_outline_rounded,
+                        title: 'ABOUT RAYON APP',
+                        subtitle: 'VERSION 2.4.0',
+                        onTap: () =>
+                            context.push(AppRoutes.profileAbout),
+                      ),
+                      _SettingsDivider(),
+                      _SettingsRow(
+                        icon: Icons.logout_rounded,
+                        title: 'LOGOUT',
+                        isDestructive: true,
+                        onTap: _confirmSignOut,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
+      ),
       ),
     );
   }
 }
 
-/// Shows profile completion progress when setup is incomplete.
-class _ProfileCompletionBar extends StatelessWidget {
-  const _ProfileCompletionBar({required this.profile});
-  final ProfileData profile;
+// ═════════════════════════════════════════════════════════════════════
+// BLUE MEMBERSHIP CARD
+// ═════════════════════════════════════════════════════════════════════
+
+class _BlueMembershipCard extends StatelessWidget {
+  const _BlueMembershipCard({
+    required this.memberId,
+    required this.tier,
+    required this.tokens,
+    required this.progress,
+  });
+
+  final String memberId;
+  final String tier;
+  final int tokens;
+  final double progress;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    final fraction = profile.completionFraction;
-    final done = profile.setupItems.where((i) => i.isComplete).length;
-    final total = profile.setupItems.length;
+    const targetTokens = 3000;
+    const rewardLabel = 'EARN 1 MATCH TICKET';
 
-    return CoolCard(
-      useGradient: false,
-      backgroundColor: colors.cardSurface,
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(CoolSpace.x6),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF1565C0),
+            RsColors.rsBlue,
+            Color(0xFF42A5F5),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(CoolRadii.xl),
+        boxShadow: [
+          BoxShadow(
+            color: RsColors.rsBlue.withValues(alpha: 0.3),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header: OFFICIAL MEMBER + GOLD TIER tag
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: colors.cardSurfaceStrong.withValues(alpha: 0.92),
-                  borderRadius: BorderRadius.circular(CoolRadii.sm),
-                  boxShadow: CoolShadows.floating(
-                    Theme.of(context).brightness,
-                    strength: 0.18,
-                  ),
-                ),
-                child: Icon(
-                  Icons.checklist_rounded,
-                  size: 20,
-                  color: colors.accent,
-                ),
-              ),
-              const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  'Profile Setup',
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    color: colors.primaryText,
-                    fontWeight: FontWeight.w800,
+                  'OFFICIAL\nMEMBER',
+                  style: context.coolText.mono(
+                    Theme.of(context).textTheme.labelMedium,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white.withValues(alpha: 0.7),
+                    letterSpacing: 1.5,
+                    height: 1.4,
                   ),
                 ),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
+                  horizontal: 14,
+                  vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: colors.cardSurfaceStrong.withValues(alpha: 0.92),
-                  borderRadius: BorderRadius.circular(99),
+                  color: Colors.white.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(CoolRadii.pill),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.2),
+                  ),
                 ),
                 child: Text(
-                  '$done / $total',
-                  style: theme.textTheme.labelLarge?.copyWith(
-                    color: colors.accent,
+                  '${tier.toUpperCase()}\nTIER',
+                  textAlign: TextAlign.center,
+                  style: context.coolText.mono(
+                    Theme.of(context).textTheme.labelSmall,
                     fontWeight: FontWeight.w800,
+                    color: Colors.white,
+                    letterSpacing: 0.8,
+                    height: 1.3,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: CoolSpace.x4),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: LinearProgressIndicator(
-              value: fraction,
-              minHeight: 10,
-              backgroundColor: colors.cardSurfaceStrong,
-              valueColor: AlwaysStoppedAnimation(colors.accent),
+          const SizedBox(height: CoolSpace.x3),
+
+          // Member ID
+          Text(
+            memberId.isNotEmpty ? memberId : '------',
+            style: context.coolText.rayonCondensed(
+              Theme.of(context).textTheme.displayLarge,
+              fontWeight: FontWeight.w900,
+              color: Colors.white,
+              letterSpacing: 1.0,
             ),
           ),
-          const SizedBox(height: CoolSpace.x4),
-          Wrap(
-            spacing: 12,
-            runSpacing: 8,
-            children: profile.setupItems.map((item) {
-              final color = item.isComplete
-                  ? colors.accent
-                  : colors.secondaryText;
-              return Row(
-                mainAxisSize: MainAxisSize.min,
+          const SizedBox(height: CoolSpace.x5),
+
+          // FAN TOKENS label
+          Text(
+            'FAN TOKENS',
+            style: context.coolText.mono(
+              Theme.of(context).textTheme.labelSmall,
+              fontWeight: FontWeight.w700,
+              color: Colors.white.withValues(alpha: 0.7),
+              letterSpacing: 1.5,
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x2),
+
+          // Token count + target + reward
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Text(
+                _fmtAmt(tokens),
+                style: context.coolText.rayonCondensed(
+                  Theme.of(context).textTheme.displayMedium,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.white,
+                  letterSpacing: -0.5,
+                ),
+              ),
+              const Spacer(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Icon(
-                    item.isComplete
-                        ? Icons.check_circle_rounded
-                        : Icons.radio_button_unchecked,
-                    size: 16,
-                    color: color,
-                  ),
-                  const SizedBox(width: 6),
                   Text(
-                    item.label,
-                    style: theme.textTheme.labelMedium?.copyWith(
-                      color: item.isComplete
-                          ? colors.primaryText
-                          : colors.secondaryText,
-                      decoration: item.isComplete
-                          ? TextDecoration.lineThrough
-                          : null,
+                    _fmtAmt(targetTokens),
+                    style: context.coolText.mono(
+                      Theme.of(context).textTheme.titleMedium,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    rewardLabel,
+                    style: context.coolText.mono(
+                      Theme.of(context).textTheme.labelSmall,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white.withValues(alpha: 0.6),
+                      letterSpacing: 0.5,
                     ),
                   ),
                 ],
-              );
-            }).toList(),
+              ),
+            ],
+          ),
+          const SizedBox(height: CoolSpace.x4),
+
+          // White progress bar
+          ClipRRect(
+            borderRadius: BorderRadius.circular(CoolRadii.pill),
+            child: LinearProgressIndicator(
+              minHeight: 10,
+              value: progress.clamp(0, 1),
+              backgroundColor: Colors.white.withValues(alpha: 0.2),
+              color: Colors.white,
+            ),
           ),
         ],
       ),
@@ -411,47 +448,178 @@ class _ProfileCompletionBar extends StatelessWidget {
   }
 }
 
-class _ProfileCommandDeck extends StatelessWidget {
-  const _ProfileCommandDeck({
-    required this.accountRows,
-    required this.settingsRows,
-  });
+// ═════════════════════════════════════════════════════════════════════
+// SECTION LABEL  (e.g. "FAN IDENTITY", "APP SETTINGS", "SUPPORT")
+// ═════════════════════════════════════════════════════════════════════
 
-  final List<ProfileSettingsRow> accountRows;
-  final List<ProfileSettingsRow> settingsRows;
+class _SectionLabel extends StatelessWidget {
+  const _SectionLabel({required this.label});
+  final String label;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-
-    return CoolCard(
-      useGradient: false,
-      backgroundColor: colors.cardSurface,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Profile Command',
-            style: theme.textTheme.headlineSmall?.copyWith(
-              color: colors.primaryText,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          const SizedBox(height: CoolSpace.x6),
-          ProfileSettingsSection(
-            title: 'Account',
-            rows: accountRows,
-            useCard: false,
-          ),
-          const SizedBox(height: CoolSpace.x5),
-          ProfileSettingsSection(
-            title: 'Settings',
-            rows: settingsRows,
-            useCard: false,
-          ),
-        ],
+    return Text(
+      label,
+      style: context.coolText.mono(
+        Theme.of(context).textTheme.labelSmall,
+        fontWeight: FontWeight.w700,
+        color: colors.secondaryText,
+        letterSpacing: 2.0,
       ),
     );
   }
+}
+
+// ═════════════════════════════════════════════════════════════════════
+// SETTINGS ROW  (icon circle + title + subtitle + chevron)
+// ═════════════════════════════════════════════════════════════════════
+
+class _SettingsRow extends StatelessWidget {
+  const _SettingsRow({
+    required this.icon,
+    required this.title,
+    this.subtitle,
+    this.isDestructive = false,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+  final bool isDestructive;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final textColor = isDestructive
+        ? const Color(0xFFEF5350)
+        : colors.primaryText;
+    final iconColor = isDestructive
+        ? const Color(0xFFEF5350)
+        : colors.primaryText;
+
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: CoolSpace.x4),
+        child: Row(
+          children: [
+            // Icon circle
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.05),
+                borderRadius: BorderRadius.circular(CoolRadii.md),
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.10),
+                ),
+              ),
+              alignment: Alignment.center,
+              child: Icon(icon, color: iconColor, size: 22),
+            ),
+            const SizedBox(width: CoolSpace.x4),
+
+            // Title + subtitle
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: context.coolText.mono(
+                      Theme.of(context).textTheme.titleSmall,
+                      fontWeight: FontWeight.w800,
+                      color: textColor,
+                      letterSpacing: 0.8,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (subtitle != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle!,
+                      style: context.coolText.mono(
+                        Theme.of(context).textTheme.labelSmall,
+                        fontWeight: FontWeight.w600,
+                        color: colors.secondaryText,
+                        letterSpacing: 0.8,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+
+            // Chevron
+            Icon(
+              Icons.chevron_right_rounded,
+              color: colors.secondaryText,
+              size: 20,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ═════════════════════════════════════════════════════════════════════
+// SETTINGS DIVIDER
+// ═════════════════════════════════════════════════════════════════════
+
+class _SettingsDivider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Divider(
+      height: 1,
+      color: Colors.white.withValues(alpha: 0.06),
+    );
+  }
+}
+
+// ═════════════════════════════════════════════════════════════════════
+// GLASS CARD
+// ═════════════════════════════════════════════════════════════════════
+
+class _GlassCard extends StatelessWidget {
+  const _GlassCard({required this.child});
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: CoolSpace.x5,
+        vertical: CoolSpace.x2,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(CoolRadii.xl),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.10),
+        ),
+      ),
+      child: child,
+    );
+  }
+}
+
+// ═════════════════════════════════════════════════════════════════════
+// Helpers
+// ═════════════════════════════════════════════════════════════════════
+
+String _fmtAmt(int v) {
+  final s = v.toString();
+  final b = StringBuffer();
+  for (var i = 0; i < s.length; i++) {
+    if (i > 0 && (s.length - i) % 3 == 0) b.write(',');
+    b.write(s[i]);
+  }
+  return b.toString();
 }

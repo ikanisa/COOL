@@ -20,12 +20,13 @@ void main() {
       expect(appThemePreferenceFromStorage(null), AppThemePreference.dark);
     });
 
-    test('parses system, light, and dark values', () {
+    test('parses system and dark values, maps light to dark', () {
       expect(
         appThemePreferenceFromStorage('system'),
         AppThemePreference.system,
       );
-      expect(appThemePreferenceFromStorage('light'), AppThemePreference.light);
+      // Legacy 'light' stored value maps to dark
+      expect(appThemePreferenceFromStorage('light'), AppThemePreference.dark);
       expect(appThemePreferenceFromStorage('dark'), AppThemePreference.dark);
     });
   });
@@ -99,13 +100,13 @@ void main() {
         overrides: [
           themePreferenceStoreProvider.overrideWithValue(store),
           initialThemePreferenceProvider.overrideWithValue((
-            preference: AppThemePreference.light,
+            preference: AppThemePreference.system,
             updatedAt: null,
           )),
         ],
       );
 
-      expect(container.read(themePreferenceProvider), AppThemePreference.light);
+      expect(container.read(themePreferenceProvider), AppThemePreference.system);
 
       await container
           .read(themePreferenceProvider.notifier)

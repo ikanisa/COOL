@@ -9,6 +9,7 @@ import 'rs_initiative_models.dart';
 export 'rs_initiative_models.dart';
 
 part 'rs_achievement_models.dart';
+part 'rs_banner_models.dart';
 part 'rs_data_models.dart';
 part 'rs_membership_models.dart';
 part 'rs_shop_models.dart';

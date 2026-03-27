@@ -19,7 +19,9 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.coolSemanticColors;
     final space = context.coolSpace;
+    final text = context.coolText;
     final theme = Theme.of(context);
+    
     final seasonsAsync = ref.watch(adminSeasonsProvider);
     final activitiesAsync = ref.watch(adminActivitiesProvider);
 
@@ -27,14 +29,6 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
       showGlow: true,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
-          ),
-        ),
         body: seasonsAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (e, _) => Center(
@@ -59,94 +53,143 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
                 .toList();
             final pastSeasons = seasons.where((s) => s.isExpired).toList();
 
-            return ListView(
-              padding: EdgeInsets.fromLTRB(space.x5, 0, space.x5, space.x12),
-              children: [
-                // ── Title ──────────────────────────────────────────
-                Text(
-                  context.l10n.seasonsAndActivities,
-                  style: theme.textTheme.displaySmall?.copyWith(
-                    fontWeight: FontWeight.w800,
-                    color: colors.primaryText,
-                    height: 1.1,
-                  ),
-                ),
-                SizedBox(height: space.x1),
-                Text(
-                  context.l10n.seasonEarnTokensSubtitle,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: colors.tertiaryText,
-                  ),
-                ),
-
-                // ── Active / Upcoming Seasons ──────────────────────
-                if (liveSeasons.isNotEmpty) ...[
-                  SizedBox(height: space.x7),
-                  _SectionHeader(
-                    icon: Icons.bolt_rounded,
-                    label: context.l10n.activeSeasons,
-                  ),
-                  SizedBox(height: space.x3),
-                  ...liveSeasons.map(
-                    (s) => Padding(
-                      padding: EdgeInsets.only(bottom: space.x3),
-                      child: _SeasonCard(season: s),
-                    ),
-                  ),
-                ],
-
-                // ── Token Activities ───────────────────────────────
-                if (activeActivities.isNotEmpty) ...[
-                  SizedBox(height: space.x6),
-                  _SectionHeader(
-                    icon: Icons.star_rounded,
-                    label: context.l10n.earnTokensLabel,
-                  ),
-                  SizedBox(height: space.x3),
-                  ..._buildCategoryGroups(context, activeActivities),
-                ],
-
-                // ── Past Seasons ───────────────────────────────────
-                if (pastSeasons.isNotEmpty) ...[
-                  SizedBox(height: space.x7),
-                  _SectionHeader(
-                    icon: Icons.history_rounded,
-                    label: context.l10n.pastSeasons,
-                  ),
-                  SizedBox(height: space.x3),
-                  ...pastSeasons.map(
-                    (s) => Padding(
-                      padding: EdgeInsets.only(bottom: space.x3),
-                      child: _SeasonCard(season: s, dimmed: true),
-                    ),
-                  ),
-                ],
-
-                // ── Empty state ────────────────────────────────────
-                if (liveSeasons.isEmpty &&
-                    pastSeasons.isEmpty &&
-                    activeActivities.isEmpty)
-                  Padding(
-                    padding: EdgeInsets.only(top: space.x16),
-                    child: Center(
-                      child: Column(
+            return CustomScrollView(
+              slivers: [
+                SliverSafeArea(
+                  bottom: false,
+                  sliver: SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(space.x5, space.x6, space.x5, space.x4),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(
-                            Icons.emoji_events_rounded,
-                            size: 48,
-                            color: colors.tertiaryText,
-                          ),
-                          SizedBox(height: space.x3),
-                          Text(
-                            context.l10n.seasonsEmptyTitle,
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: colors.tertiaryText,
-                            ),
+                          Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () => Navigator.of(context).pop(),
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: colors.cardSurfaceStrong,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: colors.primaryText.withValues(alpha: 0.1),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Icon(
+                                    Icons.arrow_back_rounded,
+                                    color: colors.primaryText,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: space.x4),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'MISSIONS & SEASONS',
+                                    style: text.rayon(
+                                      theme.textTheme.titleMedium,
+                                      fontWeight: FontWeight.w800,
+                                      color: colors.primaryText,
+                                    ),
+                                  ),
+                                  Text(
+                                    'EARN REWARDS',
+                                    style: text.mono(
+                                      theme.textTheme.labelSmall,
+                                      color: colors.accent,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
                   ),
+                ),
+                SliverPadding(
+                  padding: EdgeInsets.fromLTRB(space.x5, 0, space.x5, space.x12),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate([
+                      // ── Active / Upcoming Seasons ──────────────────────
+                      if (liveSeasons.isNotEmpty) ...[
+                        SizedBox(height: space.x6),
+                        const _SectionHeader(
+                          icon: Icons.bolt_rounded,
+                          label: 'ACTIVE SEASONS',
+                        ),
+                        SizedBox(height: space.x3),
+                        ...liveSeasons.map(
+                          (s) => Padding(
+                            padding: EdgeInsets.only(bottom: space.x3),
+                            child: _SeasonCard(season: s),
+                          ),
+                        ),
+                      ],
+
+                      // ── Token Activities ───────────────────────────────
+                      if (activeActivities.isNotEmpty) ...[
+                        SizedBox(height: space.x6),
+                        const _SectionHeader(
+                          icon: Icons.star_rounded,
+                          label: 'FAN MISSIONS',
+                        ),
+                        SizedBox(height: space.x3),
+                        ..._buildCategoryGroups(context, activeActivities),
+                      ],
+
+                      // ── Past Seasons ───────────────────────────────────
+                      if (pastSeasons.isNotEmpty) ...[
+                        SizedBox(height: space.x7),
+                        const _SectionHeader(
+                          icon: Icons.history_rounded,
+                          label: 'PAST SEASONS',
+                        ),
+                        SizedBox(height: space.x3),
+                        ...pastSeasons.map(
+                          (s) => Padding(
+                            padding: EdgeInsets.only(bottom: space.x3),
+                            child: _SeasonCard(season: s, dimmed: true),
+                          ),
+                        ),
+                      ],
+
+                      // ── Empty state ────────────────────────────────────
+                      if (liveSeasons.isEmpty &&
+                          pastSeasons.isEmpty &&
+                          activeActivities.isEmpty)
+                        Padding(
+                          padding: EdgeInsets.only(top: space.x16),
+                          child: Center(
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.emoji_events_rounded,
+                                  size: 48,
+                                  color: colors.tertiaryText,
+                                ),
+                                SizedBox(height: space.x3),
+                                Text(
+                                  'NO ACTIVE MISSIONS',
+                                  style: text.rayon(
+                                    theme.textTheme.bodyMedium,
+                                    color: colors.tertiaryText,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                    ]),
+                  ),
+                ),
               ],
             );
           },
@@ -162,6 +205,7 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
   ) {
     final colors = context.coolSemanticColors;
     final space = context.coolSpace;
+    final text = context.coolText;
     final theme = Theme.of(context);
 
     final grouped = <String, List<CoolActivity>>{};
@@ -183,9 +227,10 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
         Padding(
           padding: EdgeInsets.only(top: space.x2, bottom: space.x2),
           child: Text(
-            _categoryLabel(key),
-            style: theme.textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.w700,
+            _categoryLabel(key).toUpperCase(),
+            style: text.rayon(
+              theme.textTheme.labelMedium,
+              fontWeight: FontWeight.w800,
               color: colors.secondaryText,
             ),
           ),
@@ -204,10 +249,10 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
   }
 
   static String _categoryLabel(String category) => switch (category) {
-    'groups' => '💰 Groups',
-    'rayon' => '⚽ Rayon Sports',
-    'social' => '📲 Social',
-    'general' => '⭐ General',
+    'groups' => 'Groups',
+    'rayon' => 'Rayon Sports',
+    'social' => 'Social',
+    'general' => 'General',
     _ => category,
   };
 }
@@ -223,15 +268,17 @@ class _SectionHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final space = context.coolSpace;
+    final text = context.coolText;
     final theme = Theme.of(context);
 
     return Row(
       children: [
-        Icon(icon, size: 18, color: colors.accent),
+        Icon(icon, size: 16, color: colors.accent),
         SizedBox(width: space.x1),
         Text(
-          label,
-          style: theme.textTheme.titleSmall?.copyWith(
+          label.toUpperCase(),
+          style: text.rayon(
+            theme.textTheme.titleSmall,
             fontWeight: FontWeight.w800,
             color: colors.primaryText,
           ),
@@ -253,13 +300,14 @@ class _SeasonCard extends StatelessWidget {
     final colors = context.coolSemanticColors;
     final radii = context.coolRadii;
     final space = context.coolSpace;
+    final text = context.coolText;
     final theme = Theme.of(context);
     final dateFmt = DateFormat('dd MMM');
     final statusLabel = season.isLive
-        ? context.l10n.seasonStatusLive
+        ? 'LIVE'
         : season.isUpcoming
-        ? context.l10n.seasonStatusUpcoming
-        : context.l10n.seasonStatusEnded;
+        ? 'UPCOMING'
+        : 'ENDED';
     final statusColor = season.isLive
         ? colors.success
         : season.isUpcoming
@@ -294,16 +342,18 @@ class _SeasonCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        season.title,
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w700,
+                        season.title.toUpperCase(),
+                        style: text.rayon(
+                          theme.textTheme.bodyLarge,
+                          fontWeight: FontWeight.w800,
                           color: colors.primaryText,
                         ),
                       ),
                       SizedBox(height: space.x0),
                       Text(
                         '${dateFmt.format(season.startsAt)} – ${dateFmt.format(season.endsAt)}',
-                        style: theme.textTheme.bodySmall?.copyWith(
+                        style: text.mono(
+                          theme.textTheme.labelMedium,
                           color: colors.tertiaryText,
                         ),
                       ),
@@ -313,7 +363,7 @@ class _SeasonCard extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: space.x2,
-                    vertical: space.x0,
+                    vertical: space.x1,
                   ),
                   decoration: BoxDecoration(
                     color: statusColor.withValues(alpha: 0.1),
@@ -323,8 +373,9 @@ class _SeasonCard extends StatelessWidget {
                   ),
                   child: Text(
                     statusLabel,
-                    style: theme.textTheme.labelSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
+                    style: text.rayon(
+                      theme.textTheme.labelSmall,
+                      fontWeight: FontWeight.w800,
                       color: statusColor,
                     ),
                   ),
@@ -348,8 +399,9 @@ class _SeasonCard extends StatelessWidget {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  season.timeRemainingLabel,
-                  style: theme.textTheme.labelSmall?.copyWith(
+                  season.timeRemainingLabel.toUpperCase(),
+                  style: text.mono(
+                    theme.textTheme.labelSmall,
                     fontWeight: FontWeight.w600,
                     color: colors.accent,
                   ),
@@ -391,9 +443,18 @@ class _ActivityCard extends StatelessWidget {
     return CoolCard(
       child: Row(
         children: [
-          Text(
-            activity.emoji,
-            style: theme.textTheme.titleLarge?.copyWith(height: 1),
+          Container(
+            width: 40,
+            height: 40,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: colors.cardSurfaceStrong,
+              borderRadius: BorderRadius.all(Radius.circular(context.coolRadii.sm)),
+            ),
+            child: Text(
+              activity.emoji,
+              style: theme.textTheme.titleMedium?.copyWith(height: 1),
+            ),
           ),
           SizedBox(width: space.x3),
           Expanded(
@@ -401,9 +462,10 @@ class _ActivityCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  activity.title,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
+                  activity.title.toUpperCase(),
+                  style: text.rayon(
+                    theme.textTheme.bodyMedium,
+                    fontWeight: FontWeight.w800,
                     color: colors.primaryText,
                   ),
                 ),
@@ -436,8 +498,8 @@ class _ActivityCard extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.star_rounded, size: 13, color: colors.accent),
-                SizedBox(width: space.x0),
+                Icon(Icons.star_rounded, size: 14, color: colors.accent),
+                SizedBox(width: space.x1),
                 Text(
                   '${activity.tokensAwarded}',
                   style: text.mono(

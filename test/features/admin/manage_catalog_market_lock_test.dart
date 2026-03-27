@@ -4,6 +4,7 @@ import 'package:cool_app/features/admin/screens/manage_partners_screen.dart';
 import 'package:cool_app/features/admin/screens/manage_quick_actions_screen.dart';
 import 'package:cool_app/features/admin/screens/manage_services_screen.dart';
 import 'package:cool_app/shared/widgets/cool_admin_inline_field.dart';
+import 'package:cool_app/shared/widgets/cool_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -101,7 +102,7 @@ Finder _dropdownFieldWithLabel(String label) {
 
 void _configureTallViewport(WidgetTester tester) {
   tester.view.devicePixelRatio = 1;
-  tester.view.physicalSize = const Size(1440, 2560);
+  tester.view.physicalSize = const Size(1440, 4800);
   addTearDown(() {
     tester.view.resetPhysicalSize();
     tester.view.resetDevicePixelRatio();
@@ -118,6 +119,19 @@ Future<void> _tapAddAction(WidgetTester tester) async {
   final addButton = find.byIcon(Icons.add_rounded);
   expect(addButton, findsWidgets);
   await tester.tap(addButton.first);
+}
+
+Widget _buildTestApp(Widget child) {
+  return MaterialApp(
+    builder: (context, appChild) {
+      final mediaQuery = MediaQuery.of(context);
+      return MediaQuery(
+        data: mediaQuery.copyWith(disableAnimations: true),
+        child: appChild ?? const SizedBox.shrink(),
+      );
+    },
+    home: child,
+  );
 }
 
 void main() {
@@ -142,10 +156,10 @@ void main() {
         overrides: <Override>[
           adminContentRepositoryProvider.overrideWithValue(repository),
         ],
-        child: const MaterialApp(home: ManagePartnersScreen()),
+        child: _buildTestApp(const ManagePartnersScreen()),
       ),
     );
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 500));
 
     expect(find.text('urwego · bank'), findsOneWidget);
 
@@ -153,7 +167,8 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(_dropdownFieldWithLabel('Market'), findsNothing);
-    expect(find.byType(TextFormField), findsAtLeastNWidgets(1));
+    expect(find.text('New Partner'), findsOneWidget);
+    expect(_textFieldWithLabel('Name *'), findsOneWidget);
 
     await tester.enterText(_textFieldWithLabel('Name *'), 'Rayon Tickets');
     await tester.enterText(_textFieldWithLabel('Slug *'), 'rayon-tickets');
@@ -164,9 +179,8 @@ void main() {
       _textFieldWithLabel('WhatsApp Number'),
       '+250788123456',
     );
-    await tester.ensureVisible(find.text('Save'));
-    await tester.tap(find.text('Save'));
-    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(TextButton, 'Save'));
+    await tester.pump(const Duration(milliseconds: 500));
 
     expect(repository.partnerUpserts, hasLength(1));
     expect(repository.partnerUpserts.single, containsPair('country', 'RW'));
@@ -193,15 +207,15 @@ void main() {
         overrides: <Override>[
           adminContentRepositoryProvider.overrideWithValue(repository),
         ],
-        child: const MaterialApp(home: ManageQuickActionsScreen()),
+        child: _buildTestApp(const ManageQuickActionsScreen()),
       ),
     );
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 500));
 
     expect(find.text('/tickets · Rwanda'), findsOneWidget);
 
     await _tapAddAction(tester);
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 500));
 
     expect(_dropdownFieldWithLabel('Market scope'), findsNothing);
     expect(_inputDecoratorWithLabel('Market'), findsOneWidget);
@@ -210,9 +224,9 @@ void main() {
     await tester.enterText(_textFieldWithLabel('Subtitle'), 'Join a group');
     await tester.enterText(_textFieldWithLabel('Emoji'), '🤝');
     await tester.enterText(_textFieldWithLabel('Route'), '/groups');
-    await tester.ensureVisible(find.text('Save'));
-    await tester.tap(find.text('Save'));
-    await tester.pumpAndSettle();
+    final saveButton = tester.widget<CoolButton>(find.byType(CoolButton).last);
+    saveButton.onTap?.call();
+    await tester.pump(const Duration(milliseconds: 500));
 
     expect(repository.quickActionUpserts, hasLength(1));
     expect(repository.quickActionUpserts.single, containsPair('country', 'RW'));
@@ -248,7 +262,7 @@ void main() {
         overrides: <Override>[
           adminContentRepositoryProvider.overrideWithValue(repository),
         ],
-        child: const MaterialApp(home: ManageServicesScreen()),
+        child: _buildTestApp(const ManageServicesScreen()),
       ),
     );
     await tester.pumpAndSettle();

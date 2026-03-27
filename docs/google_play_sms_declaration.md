@@ -135,10 +135,10 @@ would destroy the data the parser needs to extract. For example:
 
 ### Privacy policy update checklist
 
-- [ ] Add "SMS Data Processing" section to privacy policy page
-- [ ] List Gemini and OpenAI as sub-processors
-- [ ] State data retention period for raw SMS bodies
-- [ ] Document user's right to delete SMS data
+- [x] Add "SMS Data Processing" section to privacy policy page
+- [x] List Gemini and OpenAI as sub-processors
+- [x] State data retention period for raw SMS bodies
+- [x] Document user's right to delete SMS data
 
 ## Remaining Requirement
 

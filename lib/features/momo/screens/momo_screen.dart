@@ -14,9 +14,11 @@ import '../../../core/providers/engagement_providers.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/balance_card.dart';
-import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
+import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -249,13 +251,8 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
         ? user!.phone
         : '';
     final momoCode = user?.momoCode;
-    final statementBundle = ref
-        .watch(momoStatementBundleProvider(const MomoStatementQuery()))
-        .valueOrNull;
-    final walletBalance = _walletBalance(statementBundle);
-    final walletInflows = _walletInflows(statementBundle);
-    final walletOutflows = _walletOutflows(statementBundle);
-    final savingsTotal = _savingsTotal(statementBundle);
+    final statementBundleAsync =
+        ref.watch(momoStatementBundleProvider(const MomoStatementQuery()));
 
     return CoreDetailScaffold(
       onBack: _closeOrReturnHome,
@@ -279,39 +276,51 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
                       ),
                     ),
                     const SizedBox(height: CoolSpace.x6),
-                    _buildBalanceSection(
-                      context: context,
-                      colors: colors,
-                      theme: theme,
-                      walletBalance: walletBalance,
-                      walletInflows: walletInflows,
-                      walletOutflows: walletOutflows,
-                      savingsTotal: savingsTotal,
-                      country: country,
-                      momoNumber: momoNumber,
-                      momoCode: momoCode,
-                      onSendMoney: () => _showSendMoneySheet(
-                        context,
+                    CoolAsyncView<MomoStatementBundle>(
+                      value: statementBundleAsync,
+                      onRetry: () => ref.invalidate(
+                        momoStatementBundleProvider(
+                          const MomoStatementQuery(),
+                        ),
+                      ),
+                      loadingWidget: const Padding(
+                        padding: EdgeInsets.only(bottom: CoolSpace.x3),
+                        child: CoolSkeletonList(itemCount: 1),
+                      ),
+                      builder: (MomoStatementBundle statementBundle) => _buildBalanceSection(
+                        context: context,
+                        colors: colors,
+                        theme: theme,
+                        walletBalance: _walletBalance(statementBundle),
+                        walletInflows: _walletInflows(statementBundle),
+                        walletOutflows: _walletOutflows(statementBundle),
+                        savingsTotal: _savingsTotal(statementBundle),
                         country: country,
                         momoNumber: momoNumber,
                         momoCode: momoCode,
-                      ),
-                      onOpenStatements: () =>
-                          context.push(AppRoutes.momoStatements),
-                      onOpenQrCode: () {
-                        if (!_ensureReceiveRouteConfigured()) return;
-                        unawaited(
-                          Navigator.of(context).push<void>(
-                            MaterialPageRoute<void>(
-                              builder: (_) => MomoReceiveQrScreen(
-                                country: country,
-                                momoNumber: momoNumber,
-                                momoCode: momoCode,
+                        onSendMoney: () => _showSendMoneySheet(
+                          context,
+                          country: country,
+                          momoNumber: momoNumber,
+                          momoCode: momoCode,
+                        ),
+                        onOpenStatements: () =>
+                            context.push(AppRoutes.momoStatements),
+                        onOpenQrCode: () {
+                          if (!_ensureReceiveRouteConfigured()) return;
+                          unawaited(
+                            Navigator.of(context).push<void>(
+                              MaterialPageRoute<void>(
+                                builder: (_) => MomoReceiveQrScreen(
+                                  country: country,
+                                  momoNumber: momoNumber,
+                                  momoCode: momoCode,
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                     const SizedBox(height: CoolSpace.x6),
                     MomoSmsSyncStatusCard(

@@ -6,11 +6,16 @@ import 'package:cool_app/shared/widgets/cool_card.dart';
 import 'package:cool_app/shared/widgets/cool_screen_scaffold.dart';
 import 'package:cool_app/shared/widgets/tab_pill.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Widget _wrapWithBrightness(Brightness brightness, Widget child) {
   return MaterialApp(
     theme: brightness == Brightness.dark ? AppTheme.dark : AppTheme.light,
+    builder: (context, widget) => MediaQuery(
+      data: MediaQuery.of(context).copyWith(disableAnimations: true),
+      child: widget!,
+    ),
     home: Scaffold(body: Center(child: child)),
   );
 }
@@ -27,10 +32,13 @@ void main() {
         ),
       );
 
-      final ink = tester.widget<Ink>(
-        find.descendant(of: find.byType(CoolCard), matching: find.byType(Ink)),
+      final decoratedBox = tester.widget<DecoratedBox>(
+        find.descendant(
+          of: find.byType(CoolCard),
+          matching: find.byType(DecoratedBox),
+        ),
       );
-      final decoration = ink.decoration! as ShapeDecoration;
+      final decoration = decoratedBox.decoration as BoxDecoration;
 
       expect(decoration.color, CoolSemanticColors.light.cardSurface);
     });
@@ -57,7 +65,10 @@ void main() {
       );
       final decoration = ink.decoration! as BoxDecoration;
 
-      expect(decoration.color, Colors.transparent);
+      expect(
+        decoration.color,
+        CoolSemanticColors.light.buttonSecondaryBackground,
+      );
       expect(decoration.border, isNull);
     });
 
@@ -65,9 +76,15 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
-          theme: AppTheme.light,
-          home: const CoolScreenScaffold(child: Text('Body')),
+        ProviderScope(
+          child: MaterialApp(
+            theme: AppTheme.light,
+            builder: (context, widget) => MediaQuery(
+              data: MediaQuery.of(context).copyWith(disableAnimations: true),
+              child: widget!,
+            ),
+            home: const CoolScreenScaffold(child: Text('Body')),
+          ),
         ),
       );
 
@@ -92,11 +109,8 @@ void main() {
       );
       final decoration = container.decoration! as BoxDecoration;
 
-      expect(
-        decoration.color,
-        CoolSemanticColors.light.buttonPrimaryBackground,
-      );
-      expect(decoration.border, isNull);
+      expect(decoration.color, CoolSemanticColors.light.chipSelectedBackground);
+      expect(decoration.border, isNotNull);
     });
 
     testWidgets('BalanceCard resolves light financial surface token', (

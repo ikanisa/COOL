@@ -1,12 +1,6 @@
 part of '../screens/partners_screen.dart';
 
 extension _PartnersScreenController on _PartnersScreenState {
-  List<String> _tabLabels(BuildContext context) => const <String>[
-    'Football',
-    'Finance',
-    'Services',
-  ];
-
   Future<void> _openRayonSports() async {
     try {
       final authState = ref.read(authProvider);

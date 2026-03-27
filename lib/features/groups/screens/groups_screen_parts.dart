@@ -27,32 +27,95 @@ class _GroupsHeroCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDiscover = activeView == _GroupsView.discover;
 
-    return CoolGlassCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: TabPill(
-                  label: context.l10n.myGroups,
-                  isActive: !isDiscover,
-                  onTap: () => onViewChanged(_GroupsView.mine),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Top Search Bar & Filter Icon
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                height: 48,
+                decoration: BoxDecoration(
+                  color: context.coolSemanticColors.cardSurface,
+                  borderRadius: BorderRadius.circular(context.coolRadii.lg),
+                  border: Border.all(
+                    color: context.coolSemanticColors.border.withValues(alpha: 0.5),
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: CoolSpace.x4),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.search_rounded,
+                      color: context.coolSemanticColors.secondaryText,
+                      size: 20,
+                    ),
+                    const SizedBox(width: CoolSpace.x3),
+                    Expanded(
+                      child: Text(
+                        'Search groups...',
+                        style: context.coolText.mono(
+                          Theme.of(context).textTheme.bodyMedium,
+                          color: context.coolSemanticColors.secondaryText,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(width: CoolSpace.x3),
-              Expanded(
-                child: TabPill(
-                  label: context.l10n.discover,
-                  isActive: isDiscover,
-                  onTap: () => onViewChanged(_GroupsView.discover),
+            ),
+            const SizedBox(width: CoolSpace.x3),
+            Container(
+              height: 48,
+              width: 48,
+              decoration: BoxDecoration(
+                color: context.coolSemanticColors.cardSurface,
+                borderRadius: BorderRadius.circular(context.coolRadii.lg),
+                border: Border.all(
+                  color: context.coolSemanticColors.border.withValues(alpha: 0.5),
                 ),
               ),
-            ],
-          ),
-          if (!isDiscover) ...[
-            const SizedBox(height: CoolSpace.x6),
-            Row(
+              child: IconButton(
+                onPressed: () => CoolToast.info(context, 'Group filters coming soon.'),
+                icon: Icon(
+                  Icons.tune_rounded,
+                  color: context.coolSemanticColors.primaryText,
+                  size: 20,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: CoolSpace.x4),
+
+        // Action Chips
+        Row(
+          children: [
+            Expanded(
+              child: TabPill(
+                label: context.l10n.myGroups.toUpperCase(),
+                isActive: !isDiscover,
+                onTap: () => onViewChanged(_GroupsView.mine),
+              ),
+            ),
+            const SizedBox(width: CoolSpace.x3),
+            Expanded(
+              child: TabPill(
+                label: context.l10n.discover.toUpperCase(),
+                isActive: isDiscover,
+                onTap: () => onViewChanged(_GroupsView.discover),
+              ),
+            ),
+          ],
+        ),
+
+        // Filters (when in MY GROUPS)
+        if (!isDiscover) ...[
+          const SizedBox(height: CoolSpace.x6),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 _FilterIconButton(
@@ -65,7 +128,7 @@ class _GroupsHeroCard extends StatelessWidget {
                 const SizedBox(width: CoolSpace.x3),
                 _FilterIconButton(
                   tooltip: context.l10n.peopleOutline,
-                  icon: Icons.people_outline_rounded,
+                  icon: Icons.groups_2_rounded,
                   isActive: typeFilter == _GroupTypeFilter.community,
                   onTap: () => onToggleType(_GroupTypeFilter.community),
                 ),
@@ -73,29 +136,25 @@ class _GroupsHeroCard extends StatelessWidget {
                 _FilterIconButton(
                   tooltip: context.l10n.lockOutline,
                   icon: Icons.lock_outline_rounded,
-                  isActive:
-                      visibilityFilter == _GroupVisibilityFilter.privateOnly,
-                  onTap: () =>
-                      onToggleVisibility(_GroupVisibilityFilter.privateOnly),
+                  isActive: visibilityFilter == _GroupVisibilityFilter.privateOnly,
+                  onTap: () => onToggleVisibility(_GroupVisibilityFilter.privateOnly),
                 ),
                 const SizedBox(width: CoolSpace.x3),
                 _FilterIconButton(
                   tooltip: 'Public',
                   icon: Icons.public_rounded,
-                  isActive:
-                      visibilityFilter == _GroupVisibilityFilter.publicOnly,
-                  onTap: () =>
-                      onToggleVisibility(_GroupVisibilityFilter.publicOnly),
+                  isActive: visibilityFilter == _GroupVisibilityFilter.publicOnly,
+                  onTap: () => onToggleVisibility(_GroupVisibilityFilter.publicOnly),
                 ),
               ],
             ),
-          ],
-          if (!isDiscover && onCreate != null) ...[
-            const SizedBox(height: CoolSpace.x6),
-            CoolButton(label: createLabel, onTap: onCreate!),
-          ],
+          ),
         ],
-      ),
+        if (!isDiscover && onCreate != null) ...[
+          const SizedBox(height: CoolSpace.x6),
+          CoolButton(label: createLabel, onTap: onCreate!),
+        ],
+      ],
     );
   }
 }
@@ -205,51 +264,79 @@ class _GroupListItem extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: text.mono(
-                Theme.of(context).textTheme.headlineSmall,
+                Theme.of(context).textTheme.titleLarge,
                 fontWeight: FontWeight.w800,
                 color: accentColor,
               ),
             ),
-            const SizedBox(height: CoolSpace.x3 - 2),
+            const SizedBox(height: CoolSpace.x2),
             Text(
-              group.name,
+              group.name.toUpperCase(),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: text.rayonCondensed(
+                Theme.of(context).textTheme.headlineMedium,
+                fontWeight: FontWeight.w900,
+                color: colors.primaryText,
+              ),
             ),
-            const SizedBox(height: CoolSpace.x3 - 2),
-            Wrap(
-              spacing: CoolSpace.x2 - 2,
-              runSpacing: CoolSpace.x2 - 2,
+            const SizedBox(height: CoolSpace.x4),
+            Row(
               children: [
-                if (group.momoNumber != null &&
-                    group.momoNumber!.trim().isNotEmpty)
-                  _MetaChip(label: _shortenPhone(group.momoNumber!)),
-                if (group.type == 'saving')
-                  const StatusBadge.saving()
-                else
-                  const StatusBadge.community(),
-                if (group.visibility == 'public')
-                  const StatusBadge.public()
-                else
-                  const StatusBadge.private(),
+                Expanded(
+                  child: Wrap(
+                    spacing: CoolSpace.x2,
+                    runSpacing: CoolSpace.x2,
+                    children: [
+                      if (group.momoNumber != null &&
+                          group.momoNumber!.trim().isNotEmpty)
+                        _MetaChip(label: _shortenPhone(group.momoNumber!)),
+                      if (group.type == 'saving')
+                        const StatusBadge.saving()
+                      else
+                        const StatusBadge.community(),
+                      if (group.visibility == 'public')
+                        const StatusBadge.public()
+                      else
+                        const StatusBadge.private(),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: CoolSpace.x2,
+                    vertical: CoolSpace.x1,
+                  ),
+                  decoration: BoxDecoration(
+                    color: colors.cardSurfaceStrong,
+                    borderRadius: BorderRadius.all(Radius.circular(context.coolRadii.pill)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.people_alt_rounded, size: 14, color: colors.secondaryText),
+                      const SizedBox(width: 4),
+                      Text(
+                        l10n.memberCount(group.memberCount).split(' ').first,
+                        style: text.mono(
+                          Theme.of(context).textTheme.labelSmall,
+                          fontWeight: FontWeight.w700,
+                          color: colors.secondaryText,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
-            const SizedBox(height: CoolSpace.x2 - 2),
-            Text(
-              l10n.memberCount(group.memberCount),
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: colors.secondaryText),
-            ),
-            const SizedBox(height: CoolSpace.x5),
+            const SizedBox(height: CoolSpace.x6),
             ClipRRect(
               borderRadius: const BorderRadius.all(
-                Radius.circular(CoolRadii.xs),
+                Radius.circular(CoolRadii.pill),
               ),
               child: LinearProgressIndicator(
                 value: progress,
-                minHeight: 8,
+                minHeight: 6,
                 backgroundColor: colors.cardSurfaceStrong,
                 color: accentColor,
               ),
@@ -258,10 +345,12 @@ class _GroupListItem extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  '$percent% of target',
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  '$percent% OF TARGET',
+                  style: text.mono(
+                    Theme.of(context).textTheme.labelSmall,
                     fontWeight: FontWeight.w700,
                     color: colors.tertiaryText,
+                    letterSpacing: 1.0,
                   ),
                 ),
                 const Spacer(),

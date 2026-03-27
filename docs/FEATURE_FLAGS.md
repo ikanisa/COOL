@@ -28,6 +28,7 @@ Kill-switches **immediately disable** a feature for all users (including admins)
 |-----|---------|-------|---------|
 | `kill_momo_payments` | MoMo send/receive/QR/NFC | Platform | `false` |
 | `kill_ticket_purchase` | Rayon Sport ticket buy | Platform | `false` |
+| `kill_credit_features` | Credit/loan features | Platform | `false` |
 
 ### How to Activate a Kill-Switch
 

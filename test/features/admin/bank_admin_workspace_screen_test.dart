@@ -292,9 +292,9 @@ void main() {
 
     expect(find.text('Posted payment ledger'), findsOneWidget);
     expect(find.text('15,000 RWF'), findsOneWidget);
-    expect(find.text('Export Excel'), findsOneWidget);
+    expect(find.bySemanticsLabel('Export Excel'), findsOneWidget);
 
-    await tester.tap(find.text('Export Excel'));
+    await tester.tap(find.bySemanticsLabel('Export Excel'));
     await tester.pumpAndSettle();
 
     expect(exportService.ledgerExportCalls, 1);

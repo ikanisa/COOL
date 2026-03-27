@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/router/app_routes.dart';
-import '../../../../core/providers/production_redesign_provider.dart';
+
 import '../../../../core/providers/referral_providers.dart';
 import '../../../../core/status/cool_status_awarder.dart';
 import '../../../../core/theme/cool_foundations.dart';
@@ -61,14 +61,6 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
   Widget build(BuildContext context) {
     final shopCatalog = ref.watch(rayonShopCatalogProvider);
     final paymentRoute = ref.watch(rayonPaymentRouteProvider).valueOrNull;
-    final useProductionRedesign = ref.watch(
-      productionRedesignEnabledProvider(
-        const ProductionRedesignScope(
-          route: ProductionRedesignRoutes.rayonShopCheckout,
-          partner: 'rayon',
-        ),
-      ),
-    );
     final ordersAsync = _openedOrderId == null
         ? const AsyncData<List<RsShopOrder>>(<RsShopOrder>[])
         : ref.watch(rayonShopOrdersProvider);
@@ -100,7 +92,7 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
                           ref.invalidate(rayonShopOrdersProvider),
                       onBackToShop: () => context.go(AppRoutes.rayonShop),
                       onViewOrders: () => context.go(AppRoutes.rayonProfile),
-                      useProductionRedesign: useProductionRedesign,
+
                     ),
                   ),
                 ),
@@ -133,15 +125,13 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
                 sliver: SliverToBoxAdapter(
                   child: Column(
                     children: [
-                      if (useProductionRedesign) ...[
-                        _CheckoutCommandCard(
-                          itemCount: itemCount,
-                          total: total,
-                          hasMemberDiscount: shop.hasMemberDiscount,
-                          paymentRoute: paymentRoute,
-                        ),
-                        const SizedBox(height: CoolSpace.x4),
-                      ],
+                      _CheckoutCommandCard(
+                        itemCount: itemCount,
+                        total: total,
+                        hasMemberDiscount: shop.hasMemberDiscount,
+                        paymentRoute: paymentRoute,
+                      ),
+                      const SizedBox(height: CoolSpace.x4),
                       _ShopCheckoutOverviewCard(
                         products: products,
                         shop: shop,

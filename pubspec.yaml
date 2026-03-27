@@ -1,7 +1,7 @@
 name: cool_app
 description: Cool community finance and partner platform.
 publish_to: 'none'
-version: 1.1.1+4
+version: 1.2.0+5
 
 environment:
   sdk: ^3.10.8
@@ -14,7 +14,7 @@ dependencies:
 
   # Core UI
   cupertino_icons: ^1.0.8
-  google_fonts: ^6.3.2
+  google_fonts: ^8.0.2
   flutter_animate: ^4.5.0
 
 
@@ -23,8 +23,8 @@ dependencies:
   equatable: ^2.0.7
 
   # Navigation & deep links
-  go_router: ^16.2.1
-  app_links: ^6.1.1
+  go_router: ^16.3.0
+  app_links: ^7.0.0
 
   # Supabase
   supabase_flutter: ^2.10.2
@@ -43,7 +43,7 @@ dependencies:
 
   # NFC
   flutter_nfc_kit: ^3.4.0
-  ndef: ^0.3.1
+  ndef: ^0.4.0
 
   # USSD / URL launcher / sharing
   url_launcher: ^6.3.2
@@ -75,7 +75,7 @@ dependencies:
   crypto: ^3.0.7
   image: ^4.5.4
   pdf: ^3.11.3
-  syncfusion_flutter_xlsio: ^32.2.9
+  syncfusion_flutter_xlsio: ^33.1.45
   file_saver: ^0.3.1
   flutter_contacts: ^2.0.0
   in_app_review: ^2.0.11
@@ -85,7 +85,7 @@ dependencies:
   path_provider: ^2.1.5
   flutter_svg: ^2.2.4
   no_screenshot: ^1.0.0
-  tflite_flutter: ^0.11.0
+  tflite_flutter: ^0.12.1
   uuid: ^4.5.3
   local_auth: ^3.0.1
 
@@ -118,10 +118,10 @@ flutter:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path_ios: assets/icons/cool_app_icon.png
-  image_path_android: assets/icons/cool_app_icon.png
+  image_path_ios: launcher/cool_app_icon.png
+  image_path_android: launcher/cool_app_icon.png
   adaptive_icon_background: "#0A0A0F"
-  adaptive_icon_foreground: assets/icons/cool_app_icon_foreground.png
+  adaptive_icon_foreground: launcher/cool_app_icon_foreground.png
   remove_alpha_ios: true
 
 flutter_native_splash:

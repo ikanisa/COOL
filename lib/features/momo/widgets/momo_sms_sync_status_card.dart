@@ -12,6 +12,8 @@ import '../../../core/services/app_access_service.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_error_view.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../models/momo_sms_sync_status.dart';
 import '../providers/momo_sms_sync_providers.dart';
@@ -216,6 +218,28 @@ class _MomoSmsSyncStatusCardState extends ConsumerState<MomoSmsSyncStatusCard>
     final theme = Theme.of(context);
     final accessSnapshotAsync = ref.watch(momoSmsAccessSnapshotProvider);
     final syncStatusAsync = ref.watch(momoSmsSyncStatusProvider);
+
+    if (accessSnapshotAsync.isLoading || syncStatusAsync.isLoading) {
+      return const CoolCard(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 12),
+          child: CoolSkeletonList(itemCount: 1),
+        ),
+      );
+    }
+
+    if (accessSnapshotAsync.hasError || syncStatusAsync.hasError) {
+      final error = accessSnapshotAsync.error ?? syncStatusAsync.error!;
+      return CoolCard(
+        child: CoolErrorView(
+          message: error.toString(),
+          onRetry: () {
+            ref.invalidate(momoSmsAccessSnapshotProvider);
+            ref.invalidate(momoSmsSyncStatusProvider);
+          },
+        ),
+      );
+    }
 
     final accessSnapshot = accessSnapshotAsync.valueOrNull;
     final syncStatus = syncStatusAsync.valueOrNull ?? const MomoSmsSyncStatus();

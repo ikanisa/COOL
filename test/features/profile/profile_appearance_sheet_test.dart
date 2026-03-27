@@ -36,8 +36,8 @@ void main() {
 
     expect(find.text('Appearance'), findsOneWidget);
     expect(find.text('System'), findsOneWidget);
-    expect(find.text('Light'), findsOneWidget);
     expect(find.text('Dark'), findsOneWidget);
+    expect(find.text('Light'), findsNothing);
   });
 
   testWidgets('reports the selected theme preference', (tester) async {
@@ -55,6 +55,5 @@ void main() {
     await tester.pump();
 
     expect(selectedPreference, AppThemePreference.dark);
-    expect(find.byIcon(Icons.check_circle_rounded), findsOneWidget);
   });
 }

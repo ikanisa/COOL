@@ -111,7 +111,7 @@ lib/
 │   │                       #   PerformanceDioInterceptor, Performance, WhatsApp
 │   ├── status/             # Status enums/types
 │   ├── sync/               # SyncEngine, NetworkStatus, SyncStatus
-│   ├── theme/              # AppTheme
+│   ├── theme/              # Mobi × Rayon dark-only design system (CoolColors, Inter/Barlow/JetBrains)
 │   └── utils/              # Utility functions
 ├── features/
 │   ├── auth/               # Authentication screens + providers

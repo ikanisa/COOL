@@ -6,40 +6,29 @@ import 'package:cool_app/core/services/fcm_service.dart';
 import 'package:cool_app/core/status/models/cool_status.dart';
 import 'package:cool_app/core/status/providers/cool_status_provider.dart';
 import 'package:cool_app/core/status/repositories/cool_status_repository.dart';
-import 'package:cool_app/features/admin/models/special_product.dart';
-import 'package:cool_app/features/admin/providers/special_products_provider.dart';
 import 'package:cool_app/features/groups/models/group.dart';
 import 'package:cool_app/features/groups/providers/groups_provider.dart';
 import 'package:cool_app/features/groups/repositories/group_repository.dart';
 import 'package:cool_app/features/groups/screens/groups_screen.dart';
 import 'package:cool_app/features/home/models/home_dashboard_data.dart';
-import 'package:cool_app/features/home/models/nexus_recommendation.dart';
-import 'package:cool_app/features/home/models/quick_action.dart';
 import 'package:cool_app/features/home/providers/home_dashboard_provider.dart';
-import 'package:cool_app/features/home/providers/nexus_provider.dart';
-import 'package:cool_app/features/home/providers/quick_action_provider.dart';
-import 'package:cool_app/features/home/screens/services_hub_screen.dart';
 import 'package:cool_app/features/momo/screens/momo_screen.dart';
 import 'package:cool_app/features/partners/models/partner.dart';
 import 'package:cool_app/features/partners/providers/partner_provider.dart';
 import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
 import 'package:cool_app/features/partners/repositories/partner_repository.dart';
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
-import 'package:cool_app/features/partners/rayon/screens/rayon_home_screen.dart';
+import 'package:cool_app/features/home/screens/home_screen.dart';
 import 'package:cool_app/features/partners/screens/partners_screen.dart';
 import 'package:cool_app/features/profile/screens/profile_screen.dart';
 import 'package:cool_app/features/momo/widgets/momo_cards_widgets.dart';
-import 'package:cool_app/features/profile/widgets/profile_settings_widgets.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
-import 'package:cool_app/shared/widgets/cool_card.dart';
 import 'package:cool_app/shared/widgets/tab_pill.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mocktail/mocktail.dart';
-
-import 'package:cool_app/core/status/providers/home_status_providers.dart';
 
 import 'test_harness.dart';
 
@@ -149,15 +138,15 @@ void main() {
   );
 
   const samplePartner = Partner(
-    id: 'rayon-sports',
-    name: 'Rayon Sports',
-    slug: 'rayon-sports',
-    category: PartnerCategory.football,
+    id: 'urwego',
+    name: 'Urwego Finance',
+    slug: 'urwego',
+    category: PartnerCategory.bank,
     country: 'RW',
-    subtitle: 'Club experience',
-    fanCount: 23000,
-    clubCount: 18,
-    gameCount: 4,
+    subtitle: 'Community banking',
+    fanCount: 0,
+    clubCount: 0,
+    gameCount: 0,
   );
 
   FanMembership sampleMembership() {
@@ -257,6 +246,14 @@ void main() {
     );
   }
 
+  HomeDashboardData sampleDashboardData() {
+    return const HomeDashboardData(
+      totalBalance: 12450,
+      monthlyNetChange: 200,
+      memberCount: 2,
+    );
+  }
+
   setUpAll(() async {
     hiveDir = await Directory.systemTemp.createTemp('cool_accessibility');
     Hive.init(hiveDir.path);
@@ -315,7 +312,7 @@ void main() {
       await _runWithSemantics(tester, () async {
         await pumpScopedApp(
           tester,
-          child: _accessibleHarness(const RayonHomeScreen()),
+          child: _accessibleHarness(const HomeScreen()),
           session: fakeSession(),
           user: fakeUser(fullName: 'Alex Fan'),
           overrides: <Override>[
@@ -329,69 +326,20 @@ void main() {
               (ref) => AsyncData(sampleMatch()),
             ),
             rayonActionLoadingProvider.overrideWith((ref) => false),
+            homeDashboardProvider.overrideWith((ref) => sampleDashboardData()),
           ],
         );
 
         await settleTestApp(tester);
 
-        expect(find.text('Club Services'), findsOneWidget);
-        _expectTouchTarget(tester, find.byType(CoolCard).first);
-        _expectNoCapturedException(tester);
-      });
-    });
-
-    testWidgets('Services route supports large text and accessible actions', (
-      tester,
-    ) async {
-      await _runWithSemantics(tester, () async {
-        await pumpScopedApp(
+        expect(find.text('QUICK SERVICES'), findsOneWidget);
+        _expectTouchTarget(
           tester,
-          child: _accessibleHarness(const ServicesHubScreen()),
-          session: fakeSession(),
-          user: fakeUser(),
-          overrides: <Override>[
-            homeDashboardProvider.overrideWith(
-              (ref) async => HomeDashboardData(
-                totalBalance: 120000,
-                monthlyNetChange: 15000,
-                memberCount: 3,
-                recentTransactions: <HomeDashboardTransaction>[
-                  HomeDashboardTransaction(
-                    title: 'Contribution',
-                    type: 'credit',
-                    amount: 5000,
-                    currency: 'RWF',
-                    recordedAt: DateTime(2026, 3, 12, 10),
-                  ),
-                ],
-              ),
-            ),
-            currentCountryQuickActionsProvider.overrideWith(
-              (ref) async => const <QuickAction>[
-                QuickAction(
-                  id: 'momo',
-                  title: 'MoMo',
-                  subtitle: 'Pay and statements',
-                  route: '/momo',
-                ),
-              ],
-            ),
-            bankPartnersProvider.overrideWith((ref) async => const <Partner>[]),
-            activeSeasonProvider.overrideWith((ref) async => null),
-            questsProvider.overrideWith((ref) => const []),
-            activeSpecialProductsProvider.overrideWith(
-              (ref) async => const <SpecialProduct>[],
-            ),
-            nexusRecommendationsProvider.overrideWith(
-              (ref) async => const <NexusRecommendation>[],
-            ),
-          ],
+          find.ancestor(
+            of: find.text('GROUPS'),
+            matching: find.byType(InkWell),
+          ),
         );
-
-        await settleTestApp(tester);
-
-        expect(find.text('Utilities'), findsOneWidget);
-        _expectTouchTarget(tester, find.byType(CoolCard).first);
         _expectNoCapturedException(tester);
       });
     });
@@ -453,14 +401,13 @@ void main() {
           ],
         );
 
-        expect(find.bySemanticsLabel(l10n.partnersTitle), findsWidgets);
+        expect(find.text(l10n.partnersTitle.toUpperCase()), findsOneWidget);
         _expectTouchTarget(
           tester,
-          find.byKey(const ValueKey('partners_tab_0')),
-        );
-        _expectTouchTarget(
-          tester,
-          find.byKey(const ValueKey('partner_feature_fan_registry')),
+          find.ancestor(
+            of: find.text(samplePartner.name.toUpperCase()),
+            matching: find.byType(GestureDetector),
+          ),
         );
         _expectNoCapturedException(tester);
       });
@@ -469,7 +416,6 @@ void main() {
     testWidgets('Profile route supports large text and touch targets', (
       tester,
     ) async {
-      final l10n = lookupAppLocalizations(const Locale('en'));
       await _runWithSemantics(tester, () async {
         await pumpScopedApp(
           tester,
@@ -481,6 +427,12 @@ void main() {
             officialPhone: '+250788123456',
           ),
           overrides: <Override>[
+            rayonSportsDataProvider.overrideWith(
+              (ref) => AsyncData(sampleRayonData()),
+            ),
+            rayonMembershipProvider.overrideWith(
+              (ref) => AsyncData(sampleMembership()),
+            ),
             coolStatusRepositoryProvider.overrideWithValue(
               coolStatusRepository,
             ),
@@ -494,8 +446,14 @@ void main() {
           ],
         );
 
-        expect(find.bySemanticsLabel(l10n.navProfile), findsWidgets);
-        _expectTouchTarget(tester, find.byType(ProfileSettingsRow).first);
+        expect(find.text('SETTINGS'), findsOneWidget);
+        _expectTouchTarget(
+          tester,
+          find.ancestor(
+            of: find.text('ACHIEVEMENTS'),
+            matching: find.byType(InkWell),
+          ),
+        );
         _expectNoCapturedException(tester);
       });
     });

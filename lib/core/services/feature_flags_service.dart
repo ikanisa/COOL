@@ -92,6 +92,7 @@ class FeatureFlagsService {
       'feature_biopay_enabled': remoteConfig.getBool('feature_biopay_enabled'),
       'kill_momo_payments': remoteConfig.getBool('kill_momo_payments'),
       'kill_ticket_purchase': remoteConfig.getBool('kill_ticket_purchase'),
+      'kill_credit_features': remoteConfig.getBool('kill_credit_features'),
       'feature_momo_stage': remoteConfig.getString('feature_momo_stage'),
       'feature_momo_admin_only': remoteConfig.getBool(
         'feature_momo_admin_only',
@@ -101,6 +102,10 @@ class FeatureFlagsService {
       ),
       'feature_ticket_purchase_admin_only': remoteConfig.getBool(
         'feature_ticket_purchase_admin_only',
+      ),
+      'feature_credit_stage': remoteConfig.getString('feature_credit_stage'),
+      'feature_credit_admin_only': remoteConfig.getBool(
+        'feature_credit_admin_only',
       ),
     };
   }

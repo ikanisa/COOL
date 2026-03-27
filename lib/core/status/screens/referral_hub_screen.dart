@@ -7,7 +7,9 @@ import 'package:share_plus/share_plus.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_error_view.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/qr_share_sheet.dart';
 import '../../providers/referral_providers.dart';
@@ -174,7 +176,10 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                       child: Column(
                         children: [
                           if (_isLoading)
-                            const LinearProgressIndicator()
+                            const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              child: CoolSkeletonList(itemCount: 1),
+                            )
                           else if (_inviteLink != null)
                             Container(
                               padding: EdgeInsets.symmetric(
@@ -213,8 +218,9 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                               ),
                             )
                           else
-                            const Text(
-                              'Could not generate link. Please try again.',
+                            CoolErrorView(
+                              message: 'Could not generate link. Please check your connection.',
+                              onRetry: _loadInviteLink,
                             ),
                           SizedBox(height: space.x5),
                           Row(

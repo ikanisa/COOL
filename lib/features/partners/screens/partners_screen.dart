@@ -4,35 +4,33 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/services/whatsapp_contact_service.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/rs_colors.dart';
-import '../../../core/utils/icon_mapper.dart';
 import '../../../features/auth/providers/auth_provider.dart';
 import '../../../features/partners/models/partner.dart';
 import '../../../features/partners/providers/partner_provider.dart';
 import '../../../features/partners/providers/rayon_sports_provider.dart';
 import '../../../features/partners/rayon/models/rs_models.dart';
-import '../../../features/partners/widgets/partner_brand_mark.dart';
 import '../../../features/partners/widgets/partner_navigation.dart';
-import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
-import '../../../shared/widgets/cool_card.dart';
-import '../../../shared/widgets/core_detail_scaffold.dart';
-import '../../../shared/widgets/cool_state_view.dart';
+import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../../shared/widgets/rs_membership_card.dart';
-import '../../../shared/widgets/section_title.dart';
-import '../../../shared/widgets/tab_pill.dart';
-import '../../../shared/widgets/whatsapp_hint_chip.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part '../controllers/partners_screen_controller.dart';
 part '../widgets/partners_screen_sections.dart';
 
-/// Partners hub — football clubs, banks, and organizations.
+/// Partners hub — flat list of all partners with search.
 ///
-/// All partners are loaded dynamically from Supabase for the fixed Rwanda
-/// market.
+/// Screenshot layout:
+/// "PARTNERS" / "OFFICIAL PARTNER NETWORK" title
+/// Search bar
+/// Flat list of partner rows (thumbnail + name + category + chevron)
+/// "BECOME A PARTNER" CTA card
 class PartnersScreen extends ConsumerStatefulWidget {
   const PartnersScreen({super.key});
 
@@ -41,13 +39,13 @@ class PartnersScreen extends ConsumerStatefulWidget {
 }
 
 class _PartnersScreenState extends ConsumerState<PartnersScreen> {
-  int _activeTab = 0;
+  String _searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
+    final text = context.coolText;
     final theme = Theme.of(context);
-    final tabs = _tabLabels(context);
 
     return CoreDetailScaffold(
       onBack: () => popOrGo(context, AppRoutes.home),
@@ -59,58 +57,107 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Semantics(
-              header: true,
-              child: Text(
-                context.l10n.partnersTitle,
-                semanticsLabel: context.l10n.partnersTitle,
-                style: theme.textTheme.displayLarge?.copyWith(
-                  color: colors.primaryText,
-                  height: 1.0,
-                ),
-              ),
-            ),
-            const SizedBox(height: CoolSpace.x2),
+            // ─── Title ──────────────────────────────────────────
             Text(
-              'Official clubs, finance partners, and service operators in one trusted network.',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: colors.secondaryText,
-                fontWeight: FontWeight.w700,
+              'PARTNERS',
+              style: text.rayonCondensed(
+                theme.textTheme.displayLarge,
+                color: colors.primaryText,
+                fontWeight: FontWeight.w900,
+                height: 1.0,
               ),
             ),
-            const SizedBox(height: CoolSpace.x6),
-            Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                color: colors.cardSurfaceStrong,
-                borderRadius: BorderRadius.circular(CoolRadii.md),
-                border: Border.all(color: colors.border),
-              ),
-              child: Row(
-                children: List.generate(tabs.length, (index) {
-                  final isActive = _activeTab == index;
-                  return Expanded(
-                    child: TabPill(
-                      key: ValueKey('partners_tab_$index'),
-                      label: tabs[index],
-                      isActive: isActive,
-                      onTap: () => setState(() => _activeTab = index),
-                    ),
-                  );
-                }),
+            const SizedBox(height: 4),
+            Text(
+              'OFFICIAL PARTNER NETWORK',
+              style: text.mono(
+                theme.textTheme.labelSmall,
+                fontWeight: FontWeight.w600,
+                color: colors.secondaryText,
+                letterSpacing: 1.0,
               ),
             ),
             const SizedBox(height: CoolSpace.x5),
-            IndexedStack(
-              index: _activeTab,
-              children: [
-                _FootballTab(onOpenRayonSports: _openRayonSports),
-                const _BanksTab(),
-                const _OrgsTab(),
-              ],
+
+            // ─── Search bar ─────────────────────────────────────
+            _SearchBar(
+              query: _searchQuery,
+              onChanged: (val) => setState(() => _searchQuery = val),
+            ),
+            const SizedBox(height: CoolSpace.x5),
+
+            // ─── Partner list ───────────────────────────────────
+            _PartnerList(
+              searchQuery: _searchQuery,
+              onOpenRayonSports: _openRayonSports,
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+// ─── Search bar ─────────────────────────────────────────────────────────
+
+class _SearchBar extends StatelessWidget {
+  const _SearchBar({required this.query, required this.onChanged});
+
+  final String query;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
+
+    return Container(
+      height: 56,
+      decoration: BoxDecoration(
+        color: colors.cardSurface,
+        borderRadius: BorderRadius.circular(CoolRadii.md),
+        border: Border.all(color: colors.borderStrong),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: CoolSpace.x3),
+      child: Row(
+        children: [
+          Icon(Icons.search_rounded, color: colors.secondaryText, size: 20),
+          const SizedBox(width: CoolSpace.x2),
+          Expanded(
+            child: TextField(
+              onChanged: onChanged,
+              controller: TextEditingController(text: query)
+                ..selection = TextSelection.collapsed(offset: query.length),
+              style: text.rayon(
+                theme.textTheme.bodyMedium,
+                fontWeight: FontWeight.w600,
+                color: colors.primaryText,
+              ),
+              cursorColor: colors.accent,
+              decoration: InputDecoration(
+                hintText: 'SEARCH PARTNERS...',
+                hintStyle: text.rayon(
+                  theme.textTheme.bodyMedium,
+                  fontWeight: FontWeight.w600,
+                  color: colors.tertiaryText,
+                ),
+                border: InputBorder.none,
+                isDense: true,
+                contentPadding: EdgeInsets.zero,
+              ),
+            ),
+          ),
+          if (query.isNotEmpty)
+            GestureDetector(
+              onTap: () => onChanged(''),
+              child: Icon(
+                Icons.close_rounded,
+                color: colors.secondaryText,
+                size: 20,
+              ),
+            ),
+        ],
       ),
     );
   }

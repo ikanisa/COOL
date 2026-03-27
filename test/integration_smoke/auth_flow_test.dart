@@ -2,69 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:cool_app/core/router/app_router.dart';
+import 'package:cool_app/features/auth/screens/splash_screen.dart';
+import 'package:cool_app/shared/widgets/cool_brand_mark.dart';
 
 import 'test_harness.dart';
 
 void main() {
-  group('Auth onboarding flow', () {
-    testWidgets('Onboarding renders a single primary entry CTA', (
+  group('Auth splash flow', () {
+    testWidgets('splash screen keeps the current branded shell', (
       tester,
     ) async {
-      await pumpRouterApp(tester, initialLocation: AppRoutes.splash);
+      await pumpScopedApp(tester, child: const SplashScreen());
 
-      expect(find.text('Welcome to Rayon Sports'), findsOneWidget);
-      expect(find.text('Get Started'), findsOneWidget);
+      expect(find.byType(CoolBrandMark), findsOneWidget);
+      expect(find.text('Rayon Sports'), findsOneWidget);
+      expect(find.text('Get Started'), findsNothing);
       expect(find.text('Continue'), findsNothing);
-      expect(find.text('I already have an account'), findsNothing);
+      expect(find.byType(TextField), findsNothing);
     });
 
-    testWidgets('OTP screen validates empty phone number', (tester) async {
-      await pumpRouterApp(tester, initialLocation: AppRoutes.splash);
-
-      await tester.tap(find.text('Continue'));
-      await settleTestApp(tester);
-
-      expect(find.text('Enter your phone number'), findsOneWidget);
-    });
-
-    testWidgets('OTP screen validates invalid phone format', (tester) async {
-      await pumpRouterApp(tester, initialLocation: AppRoutes.splash);
-
-      await tester.enterText(find.byType(TextField), '123');
-      await tester.tap(find.text('Continue'));
-      await settleTestApp(tester);
-
-      expect(find.byType(TextField), findsOneWidget);
-      expect(find.text('Enter Code'), findsNothing);
-    });
-
-    testWidgets('OTP screen accepts global WhatsApp numbers with +', (
+    testWidgets('router boot auto-signs in and redirects to home', (
       tester,
     ) async {
-      await pumpRouterApp(tester, initialLocation: AppRoutes.splash);
+      final app = await pumpRouterApp(
+        tester,
+        initialLocation: AppRoutes.splash,
+      );
 
-      await tester.enterText(find.byType(TextField), '+256781234567');
-      await tester.tap(find.text('Continue'));
-      await settleTestApp(tester);
-
-      expect(find.text('Verify code'), findsOneWidget);
+      expect(
+        app.router.routeInformationProvider.value.uri.path,
+        AppRoutes.home,
+      );
+      expect(find.text('Rayon Sports'), findsNothing);
     });
 
-    testWidgets('OTP screen explains WhatsApp verification simply', (
+    testWidgets('splash route no longer exposes legacy onboarding fields', (
       tester,
     ) async {
-      await pumpRouterApp(tester, initialLocation: AppRoutes.splash);
-
-      expect(find.textContaining('A one-time code will'), findsOneWidget);
-    });
-
-    testWidgets('OTP screen shows the Rwanda prefix without a picker', (
-      tester,
-    ) async {
-      await pumpRouterApp(tester, initialLocation: AppRoutes.splash);
+      await pumpScopedApp(tester, child: const SplashScreen());
 
       expect(find.byIcon(Icons.keyboard_arrow_down_rounded), findsNothing);
-      expect(find.text('+250'), findsOneWidget);
+      expect(find.byType(TextField), findsNothing);
+      expect(find.text('Verify & Continue'), findsNothing);
     });
   });
 }

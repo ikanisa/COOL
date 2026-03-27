@@ -13,8 +13,8 @@ platform :android do
       skip_upload_images: true,
       skip_upload_screenshots: true,
       skip_upload_changelogs: false,
-      version_name: "1.1.1",
-      version_code: 4
+      version_name: "1.2.0",
+      version_code: 5
     )
   end
 
@@ -30,7 +30,7 @@ platform :android do
       skip_upload_images: false,
       skip_upload_screenshots: false,
       skip_upload_changelogs: false,
-      version_code: 3
+      version_code: 5
     )
   end
 

@@ -1,50 +1,44 @@
-// ignore_for_file: deprecated_member_use_from_same_package
 import 'package:flutter/material.dart';
 
 import 'app_theme_components.dart';
 import 'app_theme_text.dart';
 import 'cool_foundations.dart';
 
-/// Global [ThemeData] definitions for the Cool app.
-///
-/// Delegates to [AppThemeText] for typography and
-/// [AppThemeComponents] for individual component themes.
+/// Global [ThemeData] for the production design system.
 abstract final class AppTheme {
-  static ThemeData get dark => _build(brightness: Brightness.dark);
+  static ThemeData get dark => _build(
+    brightness: Brightness.dark,
+    semanticColors: CoolSemanticColors.dark,
+  );
 
-  static ThemeData get light => _build(brightness: Brightness.light);
+  static ThemeData get light => _build(
+    brightness: Brightness.light,
+    semanticColors: CoolSemanticColors.light,
+  );
 
-  static ThemeData _build({required Brightness brightness}) {
-    final isDark = brightness == Brightness.dark;
-    // ignore: deprecated_member_use
-    final palette = isDark ? CoolPalette.dark : CoolPalette.light;
-    final semanticColors = isDark
-        ? CoolSemanticColors.dark
-        : CoolSemanticColors.light;
+  static ThemeData _build({
+    required Brightness brightness,
+    required CoolSemanticColors semanticColors,
+  }) {
     final textTheme = AppThemeText.build(
       brightness: brightness,
       semanticColors: semanticColors,
     );
 
-    final colorScheme = isDark
-        ? ColorScheme.dark(
-            surface: semanticColors.elevatedBackground,
-            primary: semanticColors.buttonPrimaryBackground,
-            secondary: semanticColors.success,
-            error: semanticColors.danger,
-            onPrimary: semanticColors.accentForeground,
-            onSurface: semanticColors.primaryText,
-            onError: Colors.white,
-          )
-        : ColorScheme.light(
-            surface: semanticColors.elevatedBackground,
-            primary: semanticColors.buttonPrimaryBackground,
-            secondary: semanticColors.success,
-            error: semanticColors.danger,
-            onPrimary: semanticColors.accentForeground,
-            onSurface: semanticColors.primaryText,
-            onError: Colors.white,
-          );
+    final colorScheme =
+        ColorScheme.fromSeed(
+          seedColor: semanticColors.buttonPrimaryBackground,
+          brightness: brightness,
+          surface: semanticColors.elevatedBackground,
+        ).copyWith(
+          primary: semanticColors.buttonPrimaryBackground,
+          secondary: semanticColors.accentGold,
+          error: semanticColors.danger,
+          onPrimary: semanticColors.accentForeground,
+          onSurface: semanticColors.primaryText,
+          onError: Colors.white,
+        );
+    final isDark = brightness == Brightness.dark;
 
     return ThemeData(
       useMaterial3: true,
@@ -55,7 +49,7 @@ abstract final class AppTheme {
       scaffoldBackgroundColor: semanticColors.appBackground,
       colorScheme: colorScheme,
       canvasColor: semanticColors.elevatedBackground,
-      extensions: <ThemeExtension<dynamic>>[palette, semanticColors],
+      extensions: <ThemeExtension<dynamic>>[semanticColors],
       textTheme: textTheme,
 
       // ── Component themes (delegated) ─────────────────────────────────
@@ -86,11 +80,43 @@ abstract final class AppTheme {
       checkboxTheme: AppThemeComponents.checkbox(semanticColors),
       radioTheme: AppThemeComponents.radio(semanticColors),
 
+      // ── Branded page transition (Fade + Scale, 300ms) ───────────────
+      pageTransitionsTheme: PageTransitionsTheme(
+        builders: {
+          for (final platform in TargetPlatform.values)
+            platform: const _CoolPageTransitionsBuilder(),
+        },
+      ),
+
       // ── Global interaction overrides ─────────────────────────────────
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       splashFactory: NoSplash.splashFactory,
-      iconTheme: IconThemeData(color: semanticColors.secondaryText, size: 24),
+      iconTheme: IconThemeData(color: semanticColors.secondaryText, size: 20),
+    );
+  }
+}
+
+/// Branded fade + subtle scale page transition for all Material routes.
+class _CoolPageTransitionsBuilder extends PageTransitionsBuilder {
+  const _CoolPageTransitionsBuilder();
+
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T> route,
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return FadeTransition(
+      opacity: CurveTween(curve: Curves.easeOut).animate(animation),
+      child: ScaleTransition(
+        scale: Tween<double>(begin: 0.98, end: 1.0).animate(
+          CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
+        ),
+        child: child,
+      ),
     );
   }
 }

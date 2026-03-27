@@ -22,13 +22,9 @@ class CoolBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final brightness = Theme.of(context).brightness;
-    final isDark = brightness == Brightness.dark;
-    final bgColor = colors.overlaySurface.withValues(
-      alpha: isDark ? 0.94 : 0.98,
-    );
-    final borderCol = colors.border.withValues(alpha: isDark ? 0.95 : 0.7);
-    final glowCol = colors.accent.withValues(alpha: isDark ? 0.08 : 0.04);
+    final bgColor = colors.overlaySurface.withValues(alpha: 0.94);
+    final borderCol = colors.border.withValues(alpha: 0.95);
+    final glowCol = colors.accent.withValues(alpha: 0.08);
 
     return ClipRRect(
       borderRadius: BorderRadius.vertical(top: Radius.circular(borderRadius)),
@@ -49,13 +45,13 @@ class CoolBottomSheet extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                colors.highlightColor.withValues(alpha: isDark ? 0.03 : 0.24),
+                colors.highlightColor.withValues(alpha: 0.03),
                 glowCol,
                 Colors.transparent,
               ],
               stops: const [0.0, 0.12, 0.6],
             ),
-            boxShadow: CoolShadows.floating(brightness),
+            boxShadow: CoolShadows.floating(null),
           ),
           child: SafeArea(
             child: Padding(

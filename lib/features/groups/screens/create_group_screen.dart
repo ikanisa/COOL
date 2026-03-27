@@ -7,9 +7,9 @@ import '../../../core/config/country_catalog.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../shared/widgets/cool_button.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_text_field.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../../../shared/widgets/core_app_scaffold.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../partners/models/partner.dart';
 import '../../partners/providers/partner_provider.dart';
@@ -122,6 +122,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
+    final text = context.coolText;
     final theme = Theme.of(context);
     final isCreating = ref.watch(groupsCreateLoadingProvider);
     final createError = ref.watch(groupsCreateErrorProvider);
@@ -156,318 +157,307 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
       });
     }
 
-    return CoolScreenBackground(
-      showGlow: true,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          leading: IconButton(
-            tooltip: context.l10n.back,
-            onPressed: () => context.pop(),
-            icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
-          ),
-          title: Text(
-            'Create Group',
-            style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: colors.primaryText,
-            ),
-          ),
-        ),
-        body: Form(
-          key: _formKey,
-          child: CustomScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            slivers: [
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(
-                  CoolSpace.x4,
-                  CoolSpace.x3,
-                  CoolSpace.x4,
-                  80,
+    return CoreAppScaffold(
+      title: 'CREATE GROUP',
+      scrollable: false,
+      child: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(16, 4, 16, 120),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // ─── Group type section ──────────────────────────
+              const _SectionLabel(label: 'GROUP TYPE'),
+              const SizedBox(height: CoolSpace.x3),
+              if (hasBankPartner)
+                _AdaptiveCardPair(
+                  first: _TypeCard(
+                    emoji: '🏦',
+                    title: context.l10n.groupSaving,
+                    subtitle: 'BANK CUSTODIAN',
+                    isSelected: _isSaving,
+                    onTap: () => setState(() {
+                      _type = 'saving';
+                      _frequency = 'monthly';
+                    }),
+                  ),
+                  second: _TypeCard(
+                    emoji: '💛',
+                    title: 'Community',
+                    subtitle: 'MOMO TO CREATOR',
+                    isSelected: !_isSaving,
+                    onTap: () => setState(() {
+                      _type = 'community';
+                      _frequency = 'one_off';
+                    }),
+                  ),
+                )
+              else
+                _TypeCard(
+                  emoji: '💛',
+                  title: 'Community',
+                  subtitle: 'MOMO TO CREATOR',
+                  isSelected: true,
+                  onTap: () {},
                 ),
-                sliver: SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              const SizedBox(height: CoolSpace.x4),
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                child: _isSaving
+                    ? _InfoBanner(
+                        key: const ValueKey('saving'),
+                        icon: Icons.shield_outlined,
+                        text: 'Bank-held and insured.',
+                        color: colors.accent,
+                      )
+                    : _InfoBanner(
+                        key: const ValueKey('community'),
+                        icon: Icons.phone_android_rounded,
+                        text: communityCountry.supportsMomoCode
+                            ? 'Sent to MOMO phone or code.'
+                            : 'Sent to your MOMO number.',
+                        color: colors.warning,
+                      ),
+              ),
+              const SizedBox(height: CoolSpace.x7),
+
+              // ─── Name + target fields ───────────────────────
+              CoolTextField(
+                label: 'Group Name',
+                hint: 'e.g. Family Save',
+                controller: _nameController,
+                textInputAction: TextInputAction.next,
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty) {
+                    return 'Group name is required';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: CoolSpace.x5),
+              CoolTextField(
+                label: 'Target (RWF)',
+                hint: '100,000',
+                controller: _targetController,
+                keyboardType: TextInputType.number,
+                prefixIcon: Icons.flag_rounded,
+                textInputAction: TextInputAction.next,
+                validator: (v) {
+                  final normalized =
+                      v?.replaceAll(',', '').trim() ?? '';
+                  if (normalized.isEmpty) return null;
+                  final amount = int.tryParse(normalized);
+                  if (amount != null && amount <= 0) {
+                    return 'Amount must be positive';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: CoolSpace.x7),
+
+              // ─── Frequency section ──────────────────────────
+              const _SectionLabel(label: 'FREQUENCY'),
+              const SizedBox(height: CoolSpace.x3),
+              Wrap(
+                spacing: CoolSpace.x2,
+                runSpacing: CoolSpace.x2,
+                children: [
+                  for (final option in _frequenciesFor(_type))
+                    _SelectionChip(
+                      label: option.label.toUpperCase(),
+                      isSelected: _frequency == option.value,
+                      onTap: () =>
+                          setState(() => _frequency = option.value),
+                    ),
+                ],
+              ),
+              const SizedBox(height: CoolSpace.x7),
+
+              // ─── Community collection route ─────────────────
+              if (!_isSaving) ...[
+                const _SectionLabel(label: 'COLLECTION ROUTE'),
+                const SizedBox(height: CoolSpace.x3),
+                Wrap(
+                  spacing: CoolSpace.x2,
+                  runSpacing: CoolSpace.x2,
+                  children: [
+                    _SelectionChip(
+                      label: 'PHONE NUMBER',
+                      isSelected: activeRouteType == 'phone_number',
+                      onTap: () => setState(() {
+                        _communityRouteType = 'phone_number';
+                        _momoController.text =
+                            user?.momoNumber.isNotEmpty == true
+                            ? user!.momoNumber
+                            : user?.phone ?? _momoController.text;
+                      }),
+                    ),
+                    if (communityCountry.supportsMomoCode)
+                      _SelectionChip(
+                        label: 'MERCHANT CODE',
+                        isSelected: activeRouteType == 'code',
+                        onTap: () => setState(() {
+                          _communityRouteType = 'code';
+                          _momoController.text =
+                              user?.momoCode?.trim() ?? '';
+                        }),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: CoolSpace.x4),
+                CoolTextField(
+                  label: activeRouteType == 'code'
+                      ? 'Merchant Code'
+                      : 'MOMO Number',
+                  hint: activeRouteType == 'code'
+                      ? communityCountry.momoCodeExample ?? '123456'
+                      : communityCountry.phoneExampleHint(),
+                  controller: _momoController,
+                  keyboardType: activeRouteType == 'code'
+                      ? TextInputType.number
+                      : TextInputType.phone,
+                  prefixIcon: activeRouteType == 'code'
+                      ? Icons.tag_rounded
+                      : Icons.phone_rounded,
+                  validator: (value) {
+                    if (_isSaving) return null;
+                    if (value == null || value.trim().isEmpty) {
+                      return activeRouteType == 'code'
+                          ? 'A merchant code is required'
+                          : 'A MOMO number is required';
+                    }
+                    try {
+                      if (activeRouteType == 'code') {
+                        communityCountry.normalizeMerchantCode(value);
+                      } else {
+                        communityCountry.buildE164Phone(value);
+                      }
+                      return null;
+                    } on FormatException catch (error) {
+                      return error.message.toString();
+                    } on UnsupportedError catch (error) {
+                      return error.message?.toString() ??
+                          'Route not configured.';
+                    }
+                  },
+                ),
+                const SizedBox(height: CoolSpace.x7),
+              ],
+
+              // ─── Saving: bank partner + monthly ─────────────
+              if (_isSaving) ...[
+                if (bankPartners.length > 1) ...[
+                  const _SectionLabel(label: 'BANKING PARTNER'),
+                  const SizedBox(height: CoolSpace.x3),
+                  Wrap(
+                    spacing: CoolSpace.x2,
+                    runSpacing: CoolSpace.x2,
                     children: [
-                      _label('Group Type'),
-                      const SizedBox(height: CoolSpace.x2),
-                      if (hasBankPartner)
-                        _AdaptiveCardPair(
-                          first: _TypeCard(
-                            icon: Icons.account_balance_rounded,
-                            title: context.l10n.groupSaving,
-                            subtitle: 'Bank custodian',
-                            isSelected: _isSaving,
-                            onTap: () => setState(() {
-                              _type = 'saving';
-                              _frequency = 'monthly';
-                            }),
-                          ),
-                          second: _TypeCard(
-                            icon: Icons.favorite_rounded,
-                            title: 'Community Fund',
-                            subtitle: 'MOMO to creator',
-                            isSelected: !_isSaving,
-                            onTap: () => setState(() {
-                              _type = 'community';
-                              _frequency = 'one_off';
-                            }),
-                          ),
-                        )
-                      else
-                        _TypeCard(
-                          icon: Icons.favorite_rounded,
-                          title: 'Community Fund',
-                          subtitle: 'MOMO to creator',
-                          isSelected: true,
-                          onTap: () {},
-                        ),
-                      const SizedBox(height: CoolSpace.x4),
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 250),
-                        child: _isSaving
-                            ? _InfoBanner(
-                                key: const ValueKey('saving'),
-                                icon: Icons.account_balance_rounded,
-                                text: 'Bank-held and insured.',
-                                color: colors.accent,
-                              )
-                            : _InfoBanner(
-                                key: const ValueKey('community'),
-                                icon: Icons.phone_android_rounded,
-                                text: communityCountry.supportsMomoCode
-                                    ? 'Sent to your MOMO phone or code.'
-                                    : 'Sent to your MOMO number.',
-                                color: colors.warning,
-                              ),
-                      ),
-                      const SizedBox(height: CoolSpace.x6),
-                      CoolTextField(
-                        label: 'Group Name',
-                        hint: 'e.g. Family Save',
-                        controller: _nameController,
-                        textInputAction: TextInputAction.next,
-                        validator: (v) {
-                          if (v == null || v.trim().isEmpty) {
-                            return 'Group name is required';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: CoolSpace.x5 - 2),
-                      CoolTextField(
-                        label: 'Target (RWF)',
-                        hint: '100,000',
-                        controller: _targetController,
-                        keyboardType: TextInputType.number,
-                        prefixIcon: Icons.flag_rounded,
-                        textInputAction: TextInputAction.next,
-                        validator: (v) {
-                          final normalized =
-                              v?.replaceAll(',', '').trim() ?? '';
-                          if (normalized.isEmpty) return null;
-                          final amount = int.tryParse(normalized);
-                          if (amount != null && amount <= 0) {
-                            return 'Amount must be positive';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: CoolSpace.x6),
-                      _label('Frequency'),
-                      const SizedBox(height: CoolSpace.x2),
-                      Wrap(
-                        spacing: CoolSpace.x2,
-                        runSpacing: CoolSpace.x2,
-                        children: [
-                          for (final option in _frequenciesFor(_type))
-                            _BankChip(
-                              label: option.label,
-                              isSelected: _frequency == option.value,
-                              onTap: () =>
-                                  setState(() => _frequency = option.value),
-                            ),
-                        ],
-                      ),
-                      const SizedBox(height: CoolSpace.x6),
-                      if (!_isSaving) ...[
-                        _label('Collection Route'),
-                        const SizedBox(height: CoolSpace.x2),
-                        Wrap(
-                          spacing: CoolSpace.x2,
-                          runSpacing: CoolSpace.x2,
-                          children: [
-                            _BankChip(
-                              label: 'Phone Number',
-                              isSelected: activeRouteType == 'phone_number',
-                              onTap: () => setState(() {
-                                _communityRouteType = 'phone_number';
-                                _momoController.text =
-                                    user?.momoNumber.isNotEmpty == true
-                                    ? user!.momoNumber
-                                    : user?.phone ?? _momoController.text;
-                              }),
-                            ),
-                            if (communityCountry.supportsMomoCode)
-                              _BankChip(
-                                label: 'Merchant Code',
-                                isSelected: activeRouteType == 'code',
-                                onTap: () => setState(() {
-                                  _communityRouteType = 'code';
-                                  _momoController.text =
-                                      user?.momoCode?.trim() ?? '';
-                                }),
-                              ),
-                          ],
-                        ),
-                        const SizedBox(height: CoolSpace.x3),
-                        CoolTextField(
-                          label: activeRouteType == 'code'
-                              ? 'Merchant Code'
-                              : 'MOMO Number',
-                          hint: activeRouteType == 'code'
-                              ? communityCountry.momoCodeExample ?? '123456'
-                              : communityCountry.phoneExampleHint(),
-                          controller: _momoController,
-                          keyboardType: activeRouteType == 'code'
-                              ? TextInputType.number
-                              : TextInputType.phone,
-                          prefixIcon: activeRouteType == 'code'
-                              ? Icons.tag_rounded
-                              : Icons.phone_rounded,
-                          validator: (value) {
-                            if (_isSaving) return null;
-                            if (value == null || value.trim().isEmpty) {
-                              return activeRouteType == 'code'
-                                  ? 'A merchant code is required'
-                                  : 'A MOMO number is required';
-                            }
-                            try {
-                              if (activeRouteType == 'code') {
-                                communityCountry.normalizeMerchantCode(value);
-                              } else {
-                                communityCountry.buildE164Phone(value);
-                              }
-                              return null;
-                            } on FormatException catch (error) {
-                              return error.message.toString();
-                            } on UnsupportedError catch (error) {
-                              return error.message?.toString() ??
-                                  'Route not configured.';
-                            }
-                          },
-                        ),
-                        const SizedBox(height: CoolSpace.x6),
-                      ],
-                      if (_isSaving) ...[
-                        if (bankPartners.length > 1) ...[
-                          _label('Banking Partner'),
-                          const SizedBox(height: CoolSpace.x2),
-                          Wrap(
-                            spacing: CoolSpace.x2,
-                            runSpacing: CoolSpace.x2,
-                            children: [
-                              for (final bank in bankPartners)
-                                _BankChip(
-                                  label: bank.name,
-                                  isSelected:
-                                      _selectedBankPartner?.id == bank.id,
-                                  onTap: () => setState(
-                                    () => _selectedBankPartner = bank,
-                                  ),
-                                ),
-                            ],
-                          ),
-                          const SizedBox(height: CoolSpace.x4),
-                        ],
-                        if (_selectedBankPartner != null &&
-                            (_selectedBankPartner!.momoCode?.isNotEmpty ??
-                                false))
-                          _InfoBanner(
-                            icon: Icons.account_balance_rounded,
-                            text:
-                                'Contributions go to ${_selectedBankPartner!.name} '
-                                '(code: ${_selectedBankPartner!.momoCode}). '
-                                'This cannot be changed.',
-                            color: colors.accent,
-                          ),
-                        if (_selectedBankPartner != null &&
-                            (_selectedBankPartner!.momoCode?.isNotEmpty ??
-                                false))
-                          const SizedBox(height: CoolSpace.x4),
-                        CoolTextField(
-                          label: 'Monthly (RWF)',
-                          hint: '5,000',
-                          controller: _monthlyController,
-                          keyboardType: TextInputType.number,
-                          prefixIcon: Icons.calendar_today_rounded,
-                          textInputAction: TextInputAction.next,
-                        ),
-                        const SizedBox(height: CoolSpace.x6),
-                      ],
-                      CoolTextField(
-                        label: 'Description',
-                        hint: 'Group purpose?',
-                        controller: _descriptionController,
-                        maxLines: 3,
-                        textInputAction: TextInputAction.newline,
-                      ),
-                      const SizedBox(height: CoolSpace.x5 - 2),
-                      _label('Visibility'),
-                      const SizedBox(height: CoolSpace.x2),
-                      Wrap(
-                        spacing: CoolSpace.x2,
-                        runSpacing: CoolSpace.x2,
-                        children: [
-                          _BankChip(
-                            label: 'Private',
-                            isSelected: _visibility == 'private',
-                            onTap: () =>
-                                setState(() => _visibility = 'private'),
-                          ),
-                          _BankChip(
-                            label: 'Public',
-                            isSelected: _visibility == 'public',
-                            onTap: () => setState(() => _visibility = 'public'),
-                          ),
-                        ],
-                      ),
-                      if (createError != null) ...[
-                        const SizedBox(height: CoolSpace.x4),
-                        Text(
-                          createError,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: colors.danger,
+                      for (final bank in bankPartners)
+                        _SelectionChip(
+                          label: bank.name.toUpperCase(),
+                          isSelected:
+                              _selectedBankPartner?.id == bank.id,
+                          onTap: () => setState(
+                            () => _selectedBankPartner = bank,
                           ),
                         ),
-                      ],
-                      const SizedBox(height: CoolSpace.x7),
-                      CoolButton(
-                        label: 'Create Group',
-                        isLoading: isCreating,
-                        onTap: _createGroup,
-                      ),
-                      const SizedBox(height: 80),
                     ],
                   ),
+                  const SizedBox(height: CoolSpace.x4),
+                ],
+                if (_selectedBankPartner != null &&
+                    (_selectedBankPartner!.momoCode?.isNotEmpty ??
+                        false))
+                  _InfoBanner(
+                    icon: Icons.shield_outlined,
+                    text:
+                        'Contributions go to ${_selectedBankPartner!.name} '
+                        '(code: ${_selectedBankPartner!.momoCode}). '
+                        'This cannot be changed.',
+                    color: colors.accent,
+                  ),
+                if (_selectedBankPartner != null &&
+                    (_selectedBankPartner!.momoCode?.isNotEmpty ??
+                        false))
+                  const SizedBox(height: CoolSpace.x4),
+                CoolTextField(
+                  label: 'Monthly (RWF)',
+                  hint: '5,000',
+                  controller: _monthlyController,
+                  keyboardType: TextInputType.number,
+                  prefixIcon: Icons.calendar_today_rounded,
+                  textInputAction: TextInputAction.next,
                 ),
+                const SizedBox(height: CoolSpace.x7),
+              ],
+
+              // ─── Description field ──────────────────────────
+              CoolTextField(
+                label: 'Description',
+                hint: 'Group purpose?',
+                controller: _descriptionController,
+                maxLines: 3,
+                textInputAction: TextInputAction.newline,
+              ),
+              const SizedBox(height: CoolSpace.x6),
+
+              // ─── Visibility section ─────────────────────────
+              const _SectionLabel(label: 'VISIBILITY'),
+              const SizedBox(height: CoolSpace.x3),
+              Wrap(
+                spacing: CoolSpace.x2,
+                runSpacing: CoolSpace.x2,
+                children: [
+                  _SelectionChip(
+                    label: '🔒 PRIVATE',
+                    isSelected: _visibility == 'private',
+                    onTap: () =>
+                        setState(() => _visibility = 'private'),
+                  ),
+                  _SelectionChip(
+                    label: '🌐 PUBLIC',
+                    isSelected: _visibility == 'public',
+                    onTap: () => setState(() => _visibility = 'public'),
+                  ),
+                ],
+              ),
+
+              // ─── Error display ──────────────────────────────
+              if (createError != null) ...[
+                const SizedBox(height: CoolSpace.x5),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(CoolSpace.x3),
+                  decoration: BoxDecoration(
+                    color: colors.danger.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(CoolRadii.sm),
+                    border: Border.all(
+                      color: colors.danger.withValues(alpha: 0.4),
+                    ),
+                  ),
+                  child: Text(
+                    createError,
+                    style: text.rayon(
+                      theme.textTheme.bodySmall,
+                      fontWeight: FontWeight.w600,
+                      color: colors.danger,
+                    ),
+                  ),
+                ),
+              ],
+              const SizedBox(height: CoolSpace.x7),
+
+              // ─── Create button ──────────────────────────────
+              CoolButton(
+                label: 'Create Group',
+                isLoading: isCreating,
+                onTap: _createGroup,
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _label(String text) {
-    final colors = context.coolSemanticColors;
-    return Text(
-      text,
-      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-        fontWeight: FontWeight.w700,
-        color: colors.secondaryText,
       ),
     );
   }

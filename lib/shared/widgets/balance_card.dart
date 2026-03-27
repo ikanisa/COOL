@@ -70,7 +70,7 @@ class BalanceCard extends StatelessWidget {
           border: Border.all(
             color: colors.borderStrong.withValues(alpha: 0.72),
           ),
-          boxShadow: CoolShadows.floating(theme.brightness, strength: 1),
+          boxShadow: CoolShadows.floating(null, strength: 1),
         ),
         clipBehavior: Clip.antiAlias,
         child: Stack(
@@ -112,15 +112,11 @@ class BalanceCard extends StatelessWidget {
                       end: Alignment.bottomRight,
                       colors: [
                         colors.highlightColor.withValues(
-                          alpha: theme.brightness == Brightness.light
-                              ? 0.14
-                              : 0.03,
+                          alpha: 0.03,
                         ),
                         Colors.transparent,
                         colors.shadowColor.withValues(
-                          alpha: theme.brightness == Brightness.light
-                              ? 0.02
-                              : 0.10,
+                          alpha: 0.10,
                         ),
                       ],
                       stops: const [0, 0.36, 1],

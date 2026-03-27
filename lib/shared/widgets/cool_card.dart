@@ -1,103 +1,103 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 import 'cool_press_feedback.dart';
 
-/// A reusable premium surface card tuned for the dashboard redesign.
+/// Card variants — Mobi × Rayon design system.
+enum CoolCardVariant {
+  /// Default: solid surface with subtle border.
+  default_,
+
+  /// Glass: translucent with backdrop blur.
+  glass,
+
+  /// Outline: transparent with visible border.
+  outline,
+
+  /// Accent: primary tinted background with primary border.
+  accent,
+}
+
+/// Card padding presets.
+enum CoolCardPadding {
+  none,
+  sm,
+  md,
+  lg;
+
+  EdgeInsets get insets => switch (this) {
+    CoolCardPadding.none => EdgeInsets.zero,
+    CoolCardPadding.sm => const EdgeInsets.all(CoolSpace.x3), // 12
+    CoolCardPadding.md => const EdgeInsets.all(CoolSpace.x4), // 16
+    CoolCardPadding.lg => const EdgeInsets.all(CoolSpace.x6), // 24
+  };
+}
+
+/// A shared card surface — Mobi × Rayon system.
 ///
-/// When [onTap] is set, wraps content in [CoolPressFeedback] for tactile
-/// scale + opacity animation on press.
+/// Flat borders (white/5), no claymorphism. 4 variants.
 class CoolCard extends StatelessWidget {
   const CoolCard({
     required this.child,
+    this.variant = CoolCardVariant.default_,
+    this.cardPadding = CoolCardPadding.md,
     this.padding,
     this.onTap,
     this.backgroundColor,
     this.borderColor,
     this.borderRadius,
     this.gradient,
-    this.useGradient = true,
+    this.useGradient = false,
+    this.blur = CoolBlur.standard,
     this.semanticsLabel,
     super.key,
   });
 
   final Widget child;
+  final CoolCardVariant variant;
+  final CoolCardPadding cardPadding;
   final EdgeInsets? padding;
   final VoidCallback? onTap;
   final Color? backgroundColor;
   final Color? borderColor;
   final double? borderRadius;
-
   final Gradient? gradient;
-
   final bool useGradient;
-
+  final double blur;
   final String? semanticsLabel;
-
-  static const _defaultRadius = 28.0;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final brightness = Theme.of(context).brightness;
-    final radius = borderRadius ?? _defaultRadius;
-    final resolvedBorderColor = borderColor ?? colors.border;
+    final radius = borderRadius ?? CoolRadii.lg; // 16px default
+
+    // Resolve decoration based on variant.
+    final resolvedBg = backgroundColor ?? _variantBg(colors);
+    final resolvedBorder = borderColor ?? _variantBorder(colors);
+    final resolvedGradient = gradient ?? (useGradient ? colors.surfaceGradient : null);
+
     final shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radius),
-      side: BorderSide(color: resolvedBorderColor, width: 1),
+      side: BorderSide(color: resolvedBorder, width: 1),
     );
 
-    final Gradient? resolvedGradient;
-    final Color? resolvedColor;
-    if (backgroundColor != null) {
-      resolvedGradient = null;
-      resolvedColor = backgroundColor;
-    } else if (gradient != null) {
-      resolvedGradient = gradient;
-      resolvedColor = null;
-    } else if (useGradient) {
-      resolvedGradient = colors.surfaceGradient;
-      resolvedColor = null;
-    } else {
-      resolvedGradient = null;
-      resolvedColor = colors.cardSurface;
+    final Widget content = Padding(
+      padding: padding ?? cardPadding.insets,
+      child: child,
+    );
+
+    // Glass variant uses backdrop filter.
+    if (variant == CoolCardVariant.glass) {
+      return _buildGlassCard(context, content, colors, radius, resolvedBorder);
     }
 
-    final decoration = ShapeDecoration(
-      shape: shape,
-      color: resolvedGradient == null
-          ? (resolvedColor ?? colors.cardSurface)
-          : null,
+    final decoration = BoxDecoration(
+      color: resolvedGradient == null ? resolvedBg : null,
       gradient: resolvedGradient,
-      shadows: CoolShadows.clay(brightness),
-    );
-
-    final Widget content = Stack(
-      children: [
-        Positioned.fill(
-          child: IgnorePointer(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: <Color>[
-                    colors.highlightColor.withValues(
-                      alpha: brightness == Brightness.dark ? 0.05 : 0.18,
-                    ),
-                    Colors.transparent,
-                    colors.shadowColor.withValues(
-                      alpha: brightness == Brightness.dark ? 0.18 : 0.04,
-                    ),
-                  ],
-                  stops: const <double>[0, 0.24, 1],
-                ),
-              ),
-            ),
-          ),
-        ),
-        Padding(padding: padding ?? CoolSpace.sectionPadding, child: child),
-      ],
+      borderRadius: BorderRadius.circular(radius),
+      border: Border.all(color: resolvedBorder, width: 1),
     );
 
     final card = Material(
@@ -109,17 +109,15 @@ class CoolCard extends StatelessWidget {
               decoration: decoration,
               child: InkWell(
                 onTap: onTap,
-                splashColor: colors.buttonPrimaryBackground.withValues(
-                  alpha: 0.06,
-                ),
+                borderRadius: BorderRadius.circular(radius),
+                splashColor: colors.accent.withValues(alpha: 0.06),
                 highlightColor: Colors.transparent,
                 child: content,
               ),
             )
-          : Ink(decoration: decoration, child: content),
+          : DecoratedBox(decoration: decoration, child: content),
     );
 
-    // Wrap tappable cards with press feedback for tactile scale + opacity.
     if (onTap != null) {
       return Semantics(
         label: semanticsLabel,
@@ -130,4 +128,60 @@ class CoolCard extends StatelessWidget {
 
     return card;
   }
+
+  Widget _buildGlassCard(
+    BuildContext context,
+    Widget content,
+    CoolSemanticColors colors,
+    double radius,
+    Color borderCol,
+  ) {
+    final glass = ClipRRect(
+      borderRadius: BorderRadius.circular(radius),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: colors.glassSurface,
+            borderRadius: BorderRadius.circular(radius),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.10),
+              width: 1,
+            ),
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: onTap == null
+                ? content
+                : InkWell(
+                    onTap: onTap,
+                    borderRadius: BorderRadius.circular(radius),
+                    splashColor: colors.accent.withValues(alpha: 0.05),
+                    highlightColor: Colors.transparent,
+                    child: content,
+                  ),
+          ),
+        ),
+      ),
+    );
+
+    if (onTap != null) {
+      return CoolPressFeedback(onTap: onTap!, child: glass);
+    }
+    return glass;
+  }
+
+  Color _variantBg(CoolSemanticColors colors) => switch (variant) {
+    CoolCardVariant.default_ => colors.cardSurface,
+    CoolCardVariant.glass => colors.glassSurface,
+    CoolCardVariant.outline => Colors.transparent,
+    CoolCardVariant.accent => colors.accent.withValues(alpha: 0.05),
+  };
+
+  Color _variantBorder(CoolSemanticColors colors) => switch (variant) {
+    CoolCardVariant.default_ => Colors.white.withValues(alpha: 0.05),
+    CoolCardVariant.glass => Colors.white.withValues(alpha: 0.10),
+    CoolCardVariant.outline => Colors.white.withValues(alpha: 0.10),
+    CoolCardVariant.accent => colors.accent.withValues(alpha: 0.20),
+  };
 }
