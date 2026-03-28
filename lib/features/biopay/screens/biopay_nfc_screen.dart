@@ -32,9 +32,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
   late final Animation<double> _pulseAnimation;
 
   String _statusText = 'SEARCHING FOR DEVICE...';
-  String _helperTitle = 'Hold phones back-to-back';
-  String _helperDesc =
-      'Keep both devices close until the transfer is confirmed.';
+  String? _detailText;
   bool _isError = false;
   bool _isProcessing = false;
   bool _isClosing = false;
@@ -78,8 +76,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
     if (!mounted) return;
     setState(() {
       _statusText = 'SEARCHING FOR DEVICE...';
-      _helperTitle = 'Hold phones back-to-back';
-      _helperDesc = 'Keep both devices close until the transfer is confirmed.';
+      _detailText = null;
       _isError = false;
       _isProcessing = false;
     });
@@ -94,9 +91,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
       if (status != NfcStatus.available) {
         _handleError(
           statusText: 'NFC NOT AVAILABLE',
-          title: 'Device unsupported',
-          desc:
-              'Your device does not support NFC or it is turned off in settings.',
+          detailText: 'Turn on NFC or use another device.',
         );
         return;
       }
@@ -107,17 +102,14 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
       if (!result.hasPaymentData) {
         _handleError(
           statusText: 'INVALID TAG',
-          title: 'No payment data found',
-          desc:
-              'The scanned NFC tag does not contain a valid BioPay or MoMo payload.',
+          detailText: 'Use a valid BioPay or MoMo tap target.',
         );
         return;
       }
 
       setState(() {
-        _statusText = 'PROCESSING PAYMENT...';
-        _helperTitle = 'Payload received';
-        _helperDesc = 'Preparing the secure dialer for handoff...';
+        _statusText = 'HANDING OFF...';
+        _detailText = null;
         _isProcessing = true;
       });
 
@@ -140,25 +132,18 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
       if (!mounted) return;
       _handleError(
         statusText: 'NFC READ FAILED',
-        title: 'Connection lost',
-        desc:
-            'Could not read the NFC tag. Make sure the devices stay in contact.',
+        detailText: 'Keep both phones in contact and try again.',
       );
     }
   }
 
-  void _handleError({
-    required String statusText,
-    required String title,
-    required String desc,
-  }) {
+  void _handleError({required String statusText, String? detailText}) {
     _pulseController.stop();
     setState(() {
       _isError = true;
       _isProcessing = false;
       _statusText = statusText;
-      _helperTitle = title;
-      _helperDesc = desc;
+      _detailText = detailText;
     });
   }
 
@@ -166,7 +151,6 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final topPad = MediaQuery.viewPaddingOf(context).top;
-    final bottomPad = MediaQuery.viewPaddingOf(context).bottom;
 
     return PopScope<void>(
       canPop: false,
@@ -231,112 +215,48 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                   ),
                   const SizedBox(height: 40),
                   Text(
-                    'PHONE TO PHONE',
-                    style: context.coolText.rayonCondensed(
-                      Theme.of(context).textTheme.headlineMedium,
-                      fontWeight: FontWeight.w900,
-                      color: _isError ? colors.danger : RsColors.rsGold,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
                     _statusText,
                     style: context.coolText.mono(
-                      Theme.of(context).textTheme.labelSmall,
-                      fontWeight: FontWeight.w700,
+                      Theme.of(context).textTheme.titleSmall,
+                      fontWeight: FontWeight.w800,
                       color: _isError ? colors.danger : colors.secondaryText,
-                      letterSpacing: 2.0,
+                      letterSpacing: 1.4,
                     ),
                   ),
-                  const SizedBox(height: 32),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 40),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.05),
-                      borderRadius: BorderRadius.circular(CoolRadii.lg),
-                      border: Border.all(
-                        color: _isError
-                            ? colors.danger.withValues(alpha: 0.15)
-                            : RsColors.rsGold.withValues(alpha: 0.15),
+                  if (_detailText != null) ...[
+                    const SizedBox(height: 20),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 52),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 14,
                       ),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          _helperTitle,
-                          textAlign: TextAlign.center,
-                          style: context.coolText.mono(
-                            Theme.of(context).textTheme.bodySmall,
-                            fontWeight: FontWeight.w600,
-                            color: colors.primaryText,
-                            height: 1.5,
-                          ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.05),
+                        borderRadius: BorderRadius.circular(CoolRadii.lg),
+                        border: Border.all(
+                          color: _isError
+                              ? colors.danger.withValues(alpha: 0.15)
+                              : RsColors.rsGold.withValues(alpha: 0.15),
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          _helperDesc,
-                          textAlign: TextAlign.center,
-                          style: context.coolText.mono(
-                            Theme.of(context).textTheme.labelSmall,
-                            fontWeight: FontWeight.w600,
-                            color: colors.secondaryText,
-                            height: 1.5,
-                          ),
+                      ),
+                      child: Text(
+                        _detailText!,
+                        textAlign: TextAlign.center,
+                        style: context.coolText.mono(
+                          Theme.of(context).textTheme.labelSmall,
+                          fontWeight: FontWeight.w600,
+                          color: colors.secondaryText,
+                          height: 1.45,
                         ),
-                        if (_isError) ...[
-                          const SizedBox(height: 16),
-                          CoolButton(
-                            label: 'Try Again',
-                            onTap: _startNfcSession,
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              bottom: bottomPad + 32,
-              left: 32,
-              right: 32,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 14,
-                ),
-                decoration: BoxDecoration(
-                  color: RsColors.rsGold.withValues(alpha: 0.10),
-                  borderRadius: BorderRadius.circular(CoolRadii.lg),
-                  border: Border.all(
-                    color: RsColors.rsGold.withValues(alpha: 0.20),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.contactless_outlined,
-                      color: RsColors.rsGoldLight,
-                      size: 18,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      _isProcessing ? 'HANDING OFF...' : 'READY TO SCAN',
-                      style: context.coolText.mono(
-                        Theme.of(context).textTheme.labelSmall,
-                        fontWeight: FontWeight.w800,
-                        color: RsColors.rsGoldLight,
-                        letterSpacing: 1.0,
                       ),
                     ),
                   ],
-                ),
+                  if (_isError) ...[
+                    const SizedBox(height: 20),
+                    CoolButton(label: 'Try Again', onTap: _startNfcSession),
+                  ],
+                ],
               ),
             ),
             Positioned(

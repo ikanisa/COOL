@@ -668,8 +668,6 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = context.coolSemanticColors;
-    final space = context.coolSpace;
     final authState = ref.watch(authProvider);
     final enabled = ref.watch(
       featureFlagsStateProvider.select(
@@ -744,84 +742,10 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
                 statusLabel: statusLabel,
                 helperText: helperText,
                 tone: tone,
-                footer: CoolCard(
-                  backgroundColor: Colors.black.withValues(alpha: 0.66),
-                  borderColor: Colors.white.withValues(alpha: 0.12),
-                  useGradient: false,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (widget.enrollmentDraft != null) ...[
-                        Text(
-                          'Enrollment route',
-                          style: theme.textTheme.labelLarge?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        SizedBox(height: space.x1),
-                        Text(
-                          '${widget.enrollmentDraft!.displayName} · ${widget.enrollmentDraft!.recipientValue}',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: Colors.white.withValues(alpha: 0.88),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(height: space.x3),
-                      ],
-                      if (!enabled) ...[
-                        Text(
-                          'BioPay is disabled by app configuration.',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: colors.warning,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ] else if (!isCameraReady) ...[
-                        CoolButton(
-                          label: 'Enable Camera',
-                          onTap: _requestCameraAccess,
-                        ),
-                        SizedBox(height: space.x2),
-                        CoolButton(
-                          label: 'Manage App Access',
-                          variant: CoolButtonVariant.secondary,
-                          onTap: () => ProfileAppAccessSheet.show(context),
-                        ),
-                      ] else ...[
-                        Text(
-                          _isEmbeddingReady
-                              ? 'On-device face detection and the TFLite embedding service are active. BioPay will use Supabase for enrollment and matching.'
-                              : 'On-device face detection is active, but the embedding model is not available yet.',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: Colors.white.withValues(alpha: 0.84),
-                            fontWeight: FontWeight.w500,
-                            height: 1.45,
-                          ),
-                        ),
-                        if (_capturedEnrollmentFrames > 0) ...[
-                          SizedBox(height: space.x3),
-                          Text(
-                            'Enrollment frames captured: $_capturedEnrollmentFrames / 5',
-                            style: theme.textTheme.labelLarge?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ],
-                      ],
-                      if (_cameraError != null || _pipelineError != null) ...[
-                        SizedBox(height: space.x3),
-                        Text(
-                          _cameraError ?? _pipelineError!,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: colors.danger,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
+                footer: _buildScannerFooter(
+                  context,
+                  enabled: enabled,
+                  isCameraReady: isCameraReady,
                 ),
               ),
             ),
@@ -868,5 +792,94 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
         ),
       ),
     );
+  }
+
+  Widget? _buildScannerFooter(
+    BuildContext context, {
+    required bool enabled,
+    required bool isCameraReady,
+  }) {
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final errorMessage = _cameraError ?? _pipelineError;
+
+    if (!enabled) {
+      return CoolCard(
+        backgroundColor: Colors.black.withValues(alpha: 0.66),
+        borderColor: Colors.white.withValues(alpha: 0.12),
+        useGradient: false,
+        child: Text(
+          'BioPay unavailable',
+          style: theme.textTheme.labelLarge?.copyWith(
+            color: colors.warning,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      );
+    }
+
+    if (!isCameraReady) {
+      return CoolCard(
+        backgroundColor: Colors.black.withValues(alpha: 0.66),
+        borderColor: Colors.white.withValues(alpha: 0.12),
+        useGradient: false,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CoolButton(label: 'Enable Camera', onTap: _requestCameraAccess),
+            SizedBox(height: space.x2),
+            CoolButton(
+              label: 'Manage Access',
+              variant: CoolButtonVariant.secondary,
+              onTap: () => ProfileAppAccessSheet.show(context),
+            ),
+            if (errorMessage != null) ...[
+              SizedBox(height: space.x3),
+              Text(
+                errorMessage,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.danger,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ],
+        ),
+      );
+    }
+
+    if (errorMessage != null) {
+      return CoolCard(
+        backgroundColor: Colors.black.withValues(alpha: 0.66),
+        borderColor: Colors.white.withValues(alpha: 0.12),
+        useGradient: false,
+        child: Text(
+          errorMessage,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: colors.danger,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      );
+    }
+
+    if (widget.mode == BiopayScanMode.enroll && _capturedEnrollmentFrames > 0) {
+      return CoolCard(
+        backgroundColor: Colors.black.withValues(alpha: 0.66),
+        borderColor: Colors.white.withValues(alpha: 0.12),
+        useGradient: false,
+        child: Text(
+          '$_capturedEnrollmentFrames / 5',
+          textAlign: TextAlign.center,
+          style: theme.textTheme.labelLarge?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      );
+    }
+
+    return null;
   }
 }

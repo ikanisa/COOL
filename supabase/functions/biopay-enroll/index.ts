@@ -18,6 +18,9 @@ import { createAdminClient, createUserClient } from "../_shared/supabase.ts";
 
 type EnrollRequest = {
   display_name?: string;
+  route_type?: string;
+  recipient_value?: string;
+  country_code?: string;
   consent_version?: string;
   embedding?: unknown;
   liveness?: unknown;
@@ -105,6 +108,9 @@ export function createBiopayEnrollHandler(
       const liveness = normalizeBiopayLivenessMetadata(body.liveness);
       const { data, error } = await userClient.rpc("biopay_upsert_enrollment", {
         p_display_name: body.display_name ?? null,
+        p_route_type: body.route_type ?? null,
+        p_recipient_value: body.recipient_value ?? null,
+        p_country_code: body.country_code ?? "RW",
         p_consent_version: body.consent_version ?? "biopay-v1",
         p_embedding: embedding,
         p_model_version: body.model_version ?? "mobilefacenet_int8_v1",

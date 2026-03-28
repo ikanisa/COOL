@@ -9,6 +9,7 @@ import 'package:cool_app/core/router/app_routes.dart';
 import 'package:cool_app/core/status/models/cool_status.dart';
 import 'package:cool_app/core/status/providers/cool_status_provider.dart';
 import 'package:cool_app/core/status/repositories/cool_status_repository.dart';
+import 'package:cool_app/features/biopay/providers/biopay_providers.dart';
 import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
 import 'package:cool_app/features/profile/screens/profile_screen.dart';
@@ -126,6 +127,7 @@ void main() {
             ),
           ),
         ),
+        biopayProfileProvider.overrideWith((ref) async => null),
       ];
     }
 
@@ -150,6 +152,7 @@ void main() {
       expect(find.text('FAN IDENTITY'), findsWidgets);
       expect(find.text('MY TICKETS'), findsOneWidget);
       expect(find.text('ACCOUNT DETAILS'), findsOneWidget);
+      expect(find.text('FACE ID REGISTER'), findsOneWidget);
       expect(find.text('NOTIFICATIONS'), findsOneWidget);
       expect(find.text('PRIVACY & SECURITY'), findsOneWidget);
       expect(find.text('HELP CENTER'), findsOneWidget);
@@ -157,44 +160,59 @@ void main() {
       expect(find.text('LOGOUT'), findsOneWidget);
     });
 
-    testWidgets('opens account and notification routes from settings rows', (
-      tester,
-    ) async {
-      await pumpRouterApp(
-        tester,
-        initialLocation: AppRoutes.profile,
-        session: fakeSession(),
-        user: fakeUser().copyWith(
-          publicUserId: '123456',
-          officialName: 'Alex Fan',
-          officialPhone: '+250788123456',
-        ),
-        overrides: overrides(),
-      );
+    testWidgets(
+      'opens account, Face ID, and notification routes from settings rows',
+      (tester) async {
+        await pumpRouterApp(
+          tester,
+          initialLocation: AppRoutes.profile,
+          session: fakeSession(),
+          user: fakeUser().copyWith(
+            publicUserId: '123456',
+            officialName: 'Alex Fan',
+            officialPhone: '+250788123456',
+          ),
+          overrides: overrides(),
+        );
 
-      await settleTestApp(tester);
+        await settleTestApp(tester);
 
-      await tester.tap(find.text('ACCOUNT DETAILS'));
-      await settleTestApp(tester);
+        await tester.tap(find.text('ACCOUNT DETAILS'));
+        await settleTestApp(tester);
 
-      expect(find.text('ACCOUNT'), findsOneWidget);
-      expect(find.text('PERSONAL INFORMATION'), findsOneWidget);
-      expect(find.text('MEMBER ID'), findsOneWidget);
-      expect(find.text('PHONE'), findsOneWidget);
-      expect(find.text('MOBILE MONEY'), findsOneWidget);
-      expect(find.text('MOMO STATUS'), findsOneWidget);
-      expect(find.text('MOMO NUMBER'), findsOneWidget);
+        expect(find.text('ACCOUNT'), findsOneWidget);
+        expect(find.text('PERSONAL INFORMATION'), findsOneWidget);
+        expect(find.text('MEMBER ID'), findsOneWidget);
+        expect(find.text('PHONE'), findsOneWidget);
+        expect(find.text('PAYMENTS'), findsOneWidget);
+        expect(find.text('PAYMENT STATUS'), findsOneWidget);
+        expect(find.text('RECEIVE ROUTE'), findsOneWidget);
 
-      await tester.tap(find.byIcon(Icons.arrow_back_rounded).first);
-      await settleTestApp(tester);
+        await tester.tap(find.byIcon(Icons.arrow_back_rounded).first);
+        await settleTestApp(tester);
 
-      await tester.tap(find.text('NOTIFICATIONS'));
-      await settleTestApp(tester);
+        await tester.tap(find.text('FACE ID REGISTER'));
+        await settleTestApp(tester);
 
-      expect(find.text('ALL NOTIFICATIONS'), findsOneWidget);
-      expect(find.text('MATCH ALERTS'), findsOneWidget);
-      expect(find.text('GROUP UPDATES'), findsOneWidget);
-    });
+        expect(find.text('Register My Face'), findsOneWidget);
+        expect(find.text('Receive With'), findsOneWidget);
+        expect(find.text('Number'), findsOneWidget);
+        expect(find.text('Code'), findsOneWidget);
+        expect(find.text('MoMo Number'), findsOneWidget);
+        expect(find.text('MoMo Code'), findsNothing);
+        expect(find.text('CONTINUE'), findsOneWidget);
+
+        await tester.tap(find.byIcon(Icons.arrow_back_rounded).first);
+        await settleTestApp(tester);
+
+        await tester.tap(find.text('NOTIFICATIONS'));
+        await settleTestApp(tester);
+
+        expect(find.text('ALL NOTIFICATIONS'), findsOneWidget);
+        expect(find.text('MATCH ALERTS'), findsOneWidget);
+        expect(find.text('GROUP UPDATES'), findsOneWidget);
+      },
+    );
 
     testWidgets('opens help and about routes from support rows', (
       tester,

@@ -7,9 +7,11 @@ import 'package:go_router/go_router.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/rs_colors.dart';
+import '../../../core/providers/engagement_providers.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../biopay/providers/biopay_providers.dart';
 import '../../partners/providers/rayon_sports_provider.dart';
 import '../providers/profile_view_provider.dart';
 import '../widgets/profile_dialogs.dart';
@@ -61,12 +63,30 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final membership = ref.watch(rayonMembershipProvider);
     final rayon = ref.watch(rayonSportsDataProvider);
     final profile = ref.watch(profileViewProvider);
+    final authState = ref.watch(authProvider);
+    final featureFlags = ref.watch(featureFlagsStateProvider);
+    final biopayProfile = ref.watch(biopayProfileProvider);
 
     final mem = membership.valueOrNull ?? rayon.valueOrNull?.membership;
     final memberId = profile.userId;
     final tier = mem != null ? mem.tier.name.toUpperCase() : 'GUEST';
     final tokens = mem?.points ?? 0;
     final progress = mem?.progressToNextTier ?? 0.0;
+    final faceIdEnabled = featureFlags.isBiopayEnabled(
+      isAdmin: authState.user?.isAdmin ?? false,
+    );
+    final faceIdSubtitle = !faceIdEnabled
+        ? 'TEMPORARILY UNAVAILABLE'
+        : biopayProfile.when(
+            data: (profile) {
+              if (profile?.active ?? false) {
+                return 'REGISTERED - ${profile!.maskedRecipientValue}';
+              }
+              return 'SCAN YOUR FACE TO PAY';
+            },
+            loading: () => 'CHECKING FACE ID STATUS',
+            error: (err, st) => 'SCAN YOUR FACE TO PAY',
+          );
 
     return Scaffold(
       backgroundColor: colors.appBackground,
@@ -216,6 +236,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           title: 'ACCOUNT DETAILS',
                           subtitle: 'PERSONAL INFORMATION',
                           onTap: () => context.push(AppRoutes.profileAccount),
+                        ),
+                        _SettingsDivider(),
+                        _SettingsRow(
+                          icon: Icons.face_retouching_natural_rounded,
+                          title: 'FACE ID REGISTER',
+                          subtitle: faceIdSubtitle,
+                          onTap: () => context.push(AppRoutes.biopayRegister),
                         ),
                         _SettingsDivider(),
                         _SettingsRow(

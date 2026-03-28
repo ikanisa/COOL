@@ -21,6 +21,12 @@ class BiopayEnrollmentDraft {
   }) {
     return <String, Object?>{
       'display_name': displayName,
+      'route_type': switch (routeType) {
+        MomoRecipientType.phoneNumber => 'phone_number',
+        MomoRecipientType.code => 'code',
+      },
+      'recipient_value': recipientValue.trim(),
+      'country_code': countryCode.trim().isEmpty ? 'RW' : countryCode.trim(),
       'consent_version': consentVersion,
       'embedding': embedding,
       'liveness': ?liveness,

@@ -6,27 +6,24 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('BiopayEnrollmentDraft', () {
-    test(
-      'builds a minimal enrollment payload for server-side route derivation',
-      () {
-        const draft = BiopayEnrollmentDraft(
-          displayName: 'Uwimana Marie',
-          routeType: MomoRecipientType.phoneNumber,
-          recipientValue: '0781234567',
-          countryCode: 'RW',
-          consentVersion: 'biopay-v1',
-        );
+    test('builds an enrollment payload with explicit route data', () {
+      const draft = BiopayEnrollmentDraft(
+        displayName: 'Uwimana Marie',
+        routeType: MomoRecipientType.phoneNumber,
+        recipientValue: '0781234567',
+        countryCode: 'RW',
+        consentVersion: 'biopay-v1',
+      );
 
-        final payload = draft.toPayload(const <double>[0.1, 0.2, 0.3]);
+      final payload = draft.toPayload(const <double>[0.1, 0.2, 0.3]);
 
-        expect(payload['display_name'], 'Uwimana Marie');
-        expect(payload['consent_version'], 'biopay-v1');
-        expect(payload['embedding'], const <double>[0.1, 0.2, 0.3]);
-        expect(payload.containsKey('route_type'), isFalse);
-        expect(payload.containsKey('recipient_value'), isFalse);
-        expect(payload.containsKey('country_code'), isFalse);
-      },
-    );
+      expect(payload['display_name'], 'Uwimana Marie');
+      expect(payload['consent_version'], 'biopay-v1');
+      expect(payload['embedding'], const <double>[0.1, 0.2, 0.3]);
+      expect(payload['route_type'], 'phone_number');
+      expect(payload['recipient_value'], '0781234567');
+      expect(payload['country_code'], 'RW');
+    });
 
     test('adds liveness metadata when the scanner has passed a challenge', () {
       const draft = BiopayEnrollmentDraft(

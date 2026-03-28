@@ -21,6 +21,9 @@ function buildRequest() {
     },
     body: JSON.stringify({
       display_name: "Marie",
+      route_type: "phone_number",
+      recipient_value: "0781234567",
+      country_code: "RW",
       embedding: Array.from(
         { length: BIOPAY_EMBEDDING_LENGTH },
         (_, index) => index / 1000,
@@ -79,8 +82,33 @@ Deno.test("biopay-enroll rejects requests without valid App Check attestation", 
 });
 
 Deno.test("biopay-enroll succeeds when App Check attestation is valid", async () => {
-  const handler = createBiopayEnrollHandler(buildDeps());
-  const response = await handler(buildRequest());
+  let capturedArgs: Record<string, unknown> | null = null;
+  const instrumented = createBiopayEnrollHandler({
+    ...buildDeps(),
+    createUserClient: () =>
+      ({
+        auth: {
+          getUser: async () => ({
+            data: { user: { id: "user-1" } },
+            error: null,
+          }),
+        },
+        rpc: async (_fn: string, args: Record<string, unknown>) => {
+          capturedArgs = args;
+          return {
+            data: {
+              id: "profile-1",
+              route_type: "phone_number",
+              country_code: "RW",
+            },
+            error: null,
+          };
+        },
+      }) as unknown as ReturnType<
+        BiopayEnrollHandlerDependencies["createUserClient"]
+      >,
+  });
+  const response = await instrumented(buildRequest());
   const payload = await response.json();
 
   assertEquals(response.status, 200, "should accept attested requests");
@@ -89,5 +117,23 @@ Deno.test("biopay-enroll succeeds when App Check attestation is valid", async ()
     payload.data.id,
     "profile-1",
     "should return the enrolled profile",
+  );
+  if (!capturedArgs) {
+    throw new Error("expected RPC arguments to be captured");
+  }
+  assertEquals(
+    capturedArgs["p_route_type"],
+    "phone_number",
+    "should forward the route type",
+  );
+  assertEquals(
+    capturedArgs["p_recipient_value"],
+    "0781234567",
+    "should forward the recipient value",
+  );
+  assertEquals(
+    capturedArgs["p_country_code"],
+    "RW",
+    "should forward the country code",
   );
 });

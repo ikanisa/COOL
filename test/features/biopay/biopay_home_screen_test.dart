@@ -58,7 +58,12 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
 
-    expect(find.text('Model asset required'), findsOneWidget);
+    expect(find.text('Receive With'), findsOneWidget);
+    expect(find.text('Number'), findsOneWidget);
+    expect(find.text('Code'), findsOneWidget);
+    expect(find.text('MoMo Number'), findsOneWidget);
+    expect(find.text('MoMo Code'), findsNothing);
+    expect(find.text('Face capture unavailable'), findsOneWidget);
     expect(
       find.text('BioPay face model is not bundled in this build yet.'),
       findsOneWidget,

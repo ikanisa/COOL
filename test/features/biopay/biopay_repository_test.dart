@@ -54,7 +54,7 @@ void main() {
     });
 
     test(
-      'attaches an App Check header to BioPay enrollment requests',
+      'attaches an App Check header and explicit route payload to enrollment requests',
       () async {
         const draft = BiopayEnrollmentDraft(
           displayName: 'Marie',
@@ -69,19 +69,22 @@ void main() {
           embedding: List<double>.filled(128, 0.01),
         );
 
-        final capturedHeaders =
-            verify(
-                  () => functionsClient.invoke(
-                    'biopay-enroll',
-                    headers: captureAny(named: 'headers'),
-                    body: any(named: 'body'),
-                  ),
-                ).captured.single
-                as Map<dynamic, dynamic>;
+        final captured = verify(
+          () => functionsClient.invoke(
+            'biopay-enroll',
+            headers: captureAny(named: 'headers'),
+            body: captureAny(named: 'body'),
+          ),
+        ).captured;
+        final capturedHeaders = captured[0] as Map<dynamic, dynamic>;
+        final capturedBody = captured[1] as Map<dynamic, dynamic>;
 
         expect(capturedHeaders, <String, String>{
           'X-Firebase-AppCheck': 'limited-use-token',
         });
+        expect(capturedBody['route_type'], 'phone_number');
+        expect(capturedBody['recipient_value'], '0781234567');
+        expect(capturedBody['country_code'], 'RW');
       },
     );
   });

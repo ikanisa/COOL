@@ -73,34 +73,6 @@ class _ScannerOverlay extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          top: scanWindow.top - 34,
-          left: scanWindow.left,
-          right: scanWindow.right,
-          child: Center(
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: space.x3,
-                vertical: space.x1 + 2,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.55),
-                borderRadius: BorderRadius.circular(radii.pill),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.14)),
-              ),
-              child: Text(
-                mode == QrScanMode.ticket
-                    ? 'Signed ticket only'
-                    : 'Dialer-ready QR',
-                style: textTheme.labelSmall?.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                  letterSpacing: 0.2,
-                ),
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }

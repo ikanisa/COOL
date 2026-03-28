@@ -215,26 +215,26 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
     if (!cameraAccess.isReady) {
       final gate = switch (cameraAccess.kind) {
         AppAccessStateKind.disabledInApp => (
-          title: context.l10n.cameraIsOffIn,
-          message: 'Enable camera access',
+          title: 'Camera is off',
+          message: 'Enable camera access to scan.',
           actionLabel: 'Enable Camera',
           onTap: _enableCameraAccess,
         ),
         AppAccessStateKind.blockedInSystem => (
-          title: 'Camera is blocked in',
-          message: 'Open system settings',
+          title: 'Camera is blocked',
+          message: 'Open system settings.',
           actionLabel: 'Open Settings',
           onTap: _openCameraSettings,
         ),
         AppAccessStateKind.notAvailable => (
-          title: 'Camera not available',
-          message: 'This device does not',
+          title: 'Camera unavailable',
+          message: 'This device cannot scan.',
           actionLabel: 'Go Back',
           onTap: () => Navigator.of(context).pop(),
         ),
         _ => (
           title: 'Allow camera access',
-          message: 'COOL needs camera access',
+          message: 'Camera access is required.',
           actionLabel: 'Allow Camera',
           onTap: _enableCameraAccess,
         ),
@@ -377,43 +377,6 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: SafeArea(
-                    top: false,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(
-                        space.x6,
-                        0,
-                        space.x6,
-                        space.x6,
-                      ),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: space.x4 + 2,
-                          vertical: space.x3 + 2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.66),
-                          borderRadius: BorderRadius.circular(radii.sm),
-                        ),
-                        child: Text(
-                          widget.mode == QrScanMode.ticket
-                              ? 'Keep the signed ticket centered inside the frame until verification completes.'
-                              : 'Center the QR inside the frame. Tap the viewfinder to focus, or turn on the torch if glare washes out the code.',
-                          textAlign: TextAlign.center,
-                          style: textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                            height: 1.4,
-                          ),
-                        ),
                       ),
                     ),
                   ),

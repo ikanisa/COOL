@@ -57,38 +57,6 @@ class BiopayScannerShell extends StatelessWidget {
             ),
           ),
         ),
-        SafeArea(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(space.x5, space.x5, space.x5, 0),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.48),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(CoolRadii.pill),
-                  ),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.14),
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: space.x3,
-                    vertical: space.x2,
-                  ),
-                  child: Text(
-                    'Secure camera',
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
         Positioned(
           left: space.x5,
           right: space.x5,
@@ -126,15 +94,6 @@ class BiopayScannerShell extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: space.x2),
-                    Text(
-                      helperText,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.white.withValues(alpha: 0.82),
-                        fontWeight: FontWeight.w500,
-                        height: 1.45,
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -156,10 +115,15 @@ class _BiopayScannerOverlayPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final overlayPaint = Paint()..color = Colors.black.withValues(alpha: 0.38);
     final fullRect = Path()..addRect(Offset.zero & size);
+    const horizontalInset = 18.0;
+    final ovalWidth = size.width - (horizontalInset * 2);
+    final ovalHeight = (ovalWidth * 1.52)
+        .clamp(size.height * 0.54, size.height * 0.68)
+        .toDouble();
     final ovalRect = Rect.fromCenter(
-      center: Offset(size.width / 2, size.height * 0.44),
-      width: size.width * 0.62,
-      height: size.height * 0.42,
+      center: Offset(size.width / 2, size.height * 0.43),
+      width: ovalWidth,
+      height: ovalHeight,
     );
     final ovalPath = Path()..addOval(ovalRect);
     final mask = Path.combine(PathOperation.difference, fullRect, ovalPath);

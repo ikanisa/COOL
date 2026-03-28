@@ -6,6 +6,7 @@ import 'package:cool_app/core/services/fcm_service.dart';
 import 'package:cool_app/core/status/models/cool_status.dart';
 import 'package:cool_app/core/status/providers/cool_status_provider.dart';
 import 'package:cool_app/core/status/repositories/cool_status_repository.dart';
+import 'package:cool_app/features/biopay/providers/biopay_providers.dart';
 import 'package:cool_app/features/groups/models/group.dart';
 import 'package:cool_app/features/groups/providers/groups_provider.dart';
 import 'package:cool_app/features/groups/repositories/group_repository.dart';
@@ -451,6 +452,7 @@ void main() {
             rayonMembershipProvider.overrideWith(
               (ref) => AsyncData(sampleMembership()),
             ),
+            biopayProfileProvider.overrideWith((ref) async => null),
             coolStatusRepositoryProvider.overrideWithValue(
               coolStatusRepository,
             ),

@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
-import '../../../core/config/env_config.dart';
-import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_scaffold.dart';
 import '../../../shared/widgets/cool_text_field.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../../../shared/widgets/momo_route_type_selector.dart';
 import '../../auth/models/user_profile.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/biopay_enrollment_draft.dart';
 import '../providers/biopay_providers.dart';
-import '../services/biopay_auth_gate_service.dart';
 
 class BiopayRegisterScreen extends ConsumerStatefulWidget {
   const BiopayRegisterScreen({super.key});
@@ -29,74 +27,39 @@ class BiopayRegisterScreen extends ConsumerStatefulWidget {
 }
 
 class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
-  late final TextEditingController _displayNameController;
-  bool _consentAccepted = false;
-  bool _isRevoking = false;
+  late final TextEditingController _momoNumberController;
+  late final TextEditingController _momoCodeController;
+  late MomoRecipientType _selectedRouteType;
+
+  String? _numberError;
+  String? _codeError;
+  bool _isSubmitting = false;
 
   @override
   void initState() {
     super.initState();
     final user = ref.read(authProvider).user;
-    _displayNameController = TextEditingController(text: user?.fullName ?? '');
+    final country = _resolveCountry(user);
+    final localNumber = _toLocalNumber(user?.momoNumber ?? '', country);
+    final momoCode = country.supportsMomoCode
+        ? user?.momoCode?.trim() ?? ''
+        : '';
+
+    _momoNumberController = TextEditingController(text: localNumber);
+    _momoCodeController = TextEditingController(text: momoCode);
+    _selectedRouteType = _resolveRouteType(
+      country: country,
+      preferredRouteType: user?.effectiveMomoRouteType,
+      number: localNumber,
+      code: momoCode,
+    );
   }
 
   @override
   void dispose() {
-    _displayNameController.dispose();
+    _momoNumberController.dispose();
+    _momoCodeController.dispose();
     super.dispose();
-  }
-
-  Future<void> _revokeProfile() async {
-    if (_isRevoking) {
-      return;
-    }
-    setState(() => _isRevoking = true);
-    try {
-      final authResult = await ref
-          .read(biopayAuthGateServiceProvider)
-          .authorize(BiopayAuthAction.revocation);
-      if (!mounted) {
-        return;
-      }
-      if (!authResult.isAuthorized) {
-        CoolToast.error(context, authResult.message);
-        return;
-      }
-
-      await ref
-          .read(biopayRepositoryProvider)
-          .revoke(
-            reason: 'User requested revocation from BioPay register screen',
-          );
-      ref.invalidate(biopayProfileProvider);
-      if (!mounted) {
-        return;
-      }
-      CoolToast.success(context, 'BioPay enrollment revoked');
-    } catch (error) {
-      if (!mounted) {
-        return;
-      }
-      CoolToast.error(context, error.toString());
-    } finally {
-      if (mounted) {
-        setState(() => _isRevoking = false);
-      }
-    }
-  }
-
-  Future<void> _openPrivacyPolicy() async {
-    final uri = Uri.tryParse(EnvConfig.privacyPolicyUrl);
-    if (uri == null) {
-      return;
-    }
-
-    final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
-    if (launched || !mounted) {
-      return;
-    }
-
-    CoolToast.error(context, context.l10n.openLinkError);
   }
 
   @override
@@ -104,283 +67,380 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
     final theme = Theme.of(context);
     final colors = context.coolSemanticColors;
     final space = context.coolSpace;
-    final user = ref.watch(authProvider).user;
+    final authState = ref.watch(authProvider);
+    final user = authState.user;
     final activeProfile = ref.watch(biopayProfileProvider);
-    final modelIssueAsync = ref.watch(biopayModelAssetIssueProvider);
-    final route = _resolveRoute(user);
-    final hasRoute = route != null;
-    final modelIssue = modelIssueAsync.valueOrNull;
+    final modelIssue = ref.watch(biopayModelAssetIssueProvider).valueOrNull;
+    final country = _resolveCountry(user);
+    final hasActiveEnrollment = activeProfile.valueOrNull?.active ?? false;
+    final usesCodeRoute =
+        country.supportsMomoCode &&
+        _selectedRouteType == MomoRecipientType.code;
 
     return CoolScreenScaffold(
-      title: 'Register My Face',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CoolCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'BioPay uses your signed-in profile and your existing MoMo receive route. No phone OTP is required.',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colors.primaryText,
-                    fontWeight: FontWeight.w600,
-                    height: 1.5,
-                  ),
-                ),
-                SizedBox(height: space.x4),
-                CoolTextField(
-                  label: 'Display name',
-                  hint: 'How payers should see you',
-                  controller: _displayNameController,
-                  prefixIcon: Icons.badge_rounded,
-                  textInputAction: TextInputAction.done,
-                ),
-              ],
+          Text(
+            'Register My Face',
+            style: theme.textTheme.headlineMedium?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
+              letterSpacing: -0.3,
             ),
           ),
-          SizedBox(height: space.x5),
-          if (route == null)
-            CoolCard(
-              borderColor: colors.warning.withValues(alpha: 0.42),
-              useGradient: false,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Wallet route required',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: colors.primaryText,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  SizedBox(height: space.x2),
-                  Text(
-                    'Set a MoMo number or merchant code on your profile before BioPay enrollment can begin.',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: colors.secondaryText,
-                      fontWeight: FontWeight.w500,
-                      height: 1.45,
-                    ),
-                  ),
-                  SizedBox(height: space.x4),
-                  CoolButton(
-                    label: 'Open Wallet Setup',
-                    onTap: () => context.push(AppRoutes.profileWallet),
-                  ),
-                ],
-              ),
-            )
-          else
-            CoolCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Receive route',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: colors.primaryText,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  SizedBox(height: space.x2),
-                  Text(
-                    route.$1 == MomoRecipientType.code
-                        ? 'Merchant code'
-                        : 'MoMo number',
-                    style: theme.textTheme.labelLarge?.copyWith(
-                      color: colors.secondaryText,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  SizedBox(height: space.x1),
-                  Text(
-                    route.$2,
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      color: colors.primaryText,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                ],
-              ),
+          if (hasActiveEnrollment) ...[
+            SizedBox(height: space.x4),
+            const _RegisterNoticeCard(
+              icon: Icons.verified_rounded,
+              title: 'Face ID already registered',
+              message: 'Continuing will replace the current face scan.',
             ),
+          ],
           SizedBox(height: space.x5),
-          activeProfile.when(
-            data: (profile) => profile == null
-                ? const SizedBox.shrink()
-                : Column(
-                    children: [
-                      CoolCard(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Active enrollment',
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                color: colors.primaryText,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                            SizedBox(height: space.x2),
-                            Text(
-                              '${profile.displayName} · ID ${profile.publicId}',
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: colors.primaryText,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            SizedBox(height: space.x1),
-                            Text(
-                              '${profile.routeLabel}: ${profile.maskedRecipientValue}',
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: colors.secondaryText,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            SizedBox(height: space.x4),
-                            CoolButton(
-                              label: 'Revoke BioPay',
-                              variant: CoolButtonVariant.secondary,
-                              isLoading: _isRevoking,
-                              onTap: _revokeProfile,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: space.x5),
-                    ],
-                  ),
-            loading: () => const SizedBox.shrink(),
-            error: (_, _) => const SizedBox.shrink(),
-          ),
-          if (modelIssue != null) ...[
-            CoolCard(
-              borderColor: colors.warning.withValues(alpha: 0.42),
-              useGradient: false,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Model asset required',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: colors.primaryText,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  SizedBox(height: space.x2),
-                  Text(
-                    modelIssue,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: colors.secondaryText,
-                      fontWeight: FontWeight.w500,
-                      height: 1.45,
-                    ),
-                  ),
-                ],
-              ),
+          if (country.supportsMomoCode) ...[
+            const _FieldLabel(label: 'Receive With'),
+            SizedBox(height: space.x3),
+            MomoRouteTypeSelector(
+              value: _selectedRouteType,
+              phoneLabel: 'Number',
+              codeLabel: 'Code',
+              onChanged: (value) {
+                setState(() {
+                  _selectedRouteType = value;
+                  _numberError = null;
+                  _codeError = null;
+                });
+              },
             ),
             SizedBox(height: space.x5),
           ],
           CoolCard(
-            useGradient: false,
+            variant: CoolCardVariant.outline,
+            cardPadding: CoolCardPadding.lg,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Theme(
-                  data: Theme.of(context).copyWith(
-                    checkboxTheme: CheckboxThemeData(
-                      fillColor: WidgetStateProperty.resolveWith((states) {
-                        if (states.contains(WidgetState.selected)) {
-                          return colors.accent;
-                        }
-                        return colors.cardSurfaceStrong;
-                      }),
-                    ),
-                  ),
-                  child: CheckboxListTile(
-                    contentPadding: EdgeInsets.zero,
-                    value: _consentAccepted,
-                    onChanged: (value) {
-                      setState(() => _consentAccepted = value ?? false);
-                    },
-                    title: Text(
-                      'I consent to BioPay face embedding and payout route storage.',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: colors.primaryText,
-                        fontWeight: FontWeight.w600,
-                        height: 1.45,
-                      ),
-                    ),
-                    subtitle: Text(
-                      'Stores face template and payout route. Revoke anytime here.',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: colors.secondaryText,
-                        fontWeight: FontWeight.w500,
-                        height: 1.45,
-                      ),
-                    ),
-                    controlAffinity: ListTileControlAffinity.leading,
-                  ),
-                ),
-                SizedBox(height: space.x2),
-                Text(
-                  'See Privacy Policy. No camera frames are saved.',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: colors.secondaryText,
-                    fontWeight: FontWeight.w500,
-                    height: 1.45,
-                  ),
-                ),
+                _FieldLabel(label: usesCodeRoute ? 'MoMo Code' : 'MoMo Number'),
                 SizedBox(height: space.x3),
-                TextButton.icon(
-                  onPressed: _openPrivacyPolicy,
-                  icon: const Icon(Icons.open_in_new_rounded, size: 18),
-                  label: const Text('Open Privacy Policy'),
-                  style: TextButton.styleFrom(
-                    foregroundColor: colors.accent,
-                    padding: EdgeInsets.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    minimumSize: Size.zero,
+                if (usesCodeRoute)
+                  CoolTextField(
+                    hint: country.momoCodeExample ?? '123456',
+                    controller: _momoCodeController,
+                    keyboardType: TextInputType.number,
+                    prefixIcon: Icons.tag_rounded,
+                    textInputAction: TextInputAction.done,
+                    onChanged: (_) {
+                      if (_codeError != null) {
+                        setState(() => _codeError = null);
+                      }
+                    },
+                  )
+                else
+                  CoolTextField(
+                    hint: country.phoneExampleHint(),
+                    controller: _momoNumberController,
+                    keyboardType: TextInputType.phone,
+                    prefixIcon: Icons.phone_iphone_rounded,
+                    textInputAction: TextInputAction.done,
+                    onChanged: (_) {
+                      if (_numberError != null) {
+                        setState(() => _numberError = null);
+                      }
+                    },
                   ),
-                ),
+                if (!usesCodeRoute && _numberError != null) ...[
+                  SizedBox(height: space.x2),
+                  _FieldError(message: _numberError!),
+                ],
+                if (usesCodeRoute && _codeError != null) ...[
+                  SizedBox(height: space.x2),
+                  _FieldError(message: _codeError!),
+                ],
               ],
             ),
           ),
+          if (modelIssue != null) ...[
+            SizedBox(height: space.x4),
+            _RegisterNoticeCard(
+              icon: Icons.warning_amber_rounded,
+              title: 'Face capture unavailable',
+              message: modelIssue,
+              isWarning: true,
+            ),
+          ],
           SizedBox(height: space.x5),
           CoolButton(
-            label: 'Continue to Face Capture',
-            icon: Icons.camera_alt_rounded,
-            onTap: !hasRoute || !_consentAccepted || modelIssue != null
-                ? null
-                : () async {
-                    final draft = BiopayEnrollmentDraft(
-                      displayName: _displayNameController.text.trim(),
-                      routeType: route.$1,
-                      recipientValue: route.$2,
-                      countryCode: AppMarket.countryCode,
-                      consentVersion: 'biopay-v1',
-                    );
-                    await context.push(
-                      AppRoutes.biopayScanLocation(mode: 'enroll'),
-                      extra: draft,
-                    );
-                    ref.invalidate(biopayProfileProvider);
-                  },
+            label: hasActiveEnrollment ? 'Update Face Scan' : 'Continue',
+            icon: Icons.arrow_forward_rounded,
+            isLoading: _isSubmitting,
+            onTap: modelIssue != null ? null : _saveRouteAndContinue,
           ),
         ],
       ),
     );
   }
 
-  (MomoRecipientType, String)? _resolveRoute(UserProfile? user) {
-    if (user == null) {
-      return null;
+  Future<void> _saveRouteAndContinue() async {
+    if (_isSubmitting) {
+      return;
     }
-    final routeType = user.effectiveMomoRouteType;
-    final value = user.momoRecipientValue;
-    if (routeType == null || value.trim().isEmpty) {
-      return null;
+
+    if (!await _ensureSession()) {
+      if (mounted) {
+        CoolToast.error(context, 'BioPay could not open a secure session.');
+      }
+      return;
     }
-    return (routeType, value.trim());
+
+    final authState = ref.read(authProvider);
+    final user = authState.user;
+    final country = _resolveCountry(user);
+    final number = _momoNumberController.text.trim();
+    final code = country.supportsMomoCode
+        ? _momoCodeController.text.trim()
+        : '';
+    final usesCodeRoute =
+        country.supportsMomoCode &&
+        _selectedRouteType == MomoRecipientType.code;
+
+    final numberError = usesCodeRoute
+        ? null
+        : PhoneValidator.validateMomoNumberForCountry(number, country);
+    final codeError = usesCodeRoute
+        ? PhoneValidator.validateMomoCode(
+            code,
+            country: country,
+            required: true,
+          )
+        : null;
+
+    setState(() {
+      _numberError = numberError;
+      _codeError = codeError;
+    });
+
+    if (numberError != null || codeError != null) {
+      return;
+    }
+
+    setState(() => _isSubmitting = true);
+    try {
+      final routeType = usesCodeRoute
+          ? MomoRecipientType.code
+          : MomoRecipientType.phoneNumber;
+      final recipientValue = usesCodeRoute
+          ? country.normalizeMerchantCode(code)
+          : country.normalizeNationalPhone(number);
+
+      if (!mounted) {
+        return;
+      }
+
+      final draft = BiopayEnrollmentDraft(
+        displayName: _resolveDisplayName(authState),
+        routeType: routeType,
+        recipientValue: recipientValue,
+        countryCode: country.isoCode,
+        consentVersion: 'biopay-v1',
+      );
+
+      await context.push(
+        AppRoutes.biopayScanLocation(mode: 'enroll'),
+        extra: draft,
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _isSubmitting = false);
+      }
+    }
+  }
+
+  Future<bool> _ensureSession() async {
+    final authState = ref.read(authProvider);
+    if (authState.session != null) {
+      return true;
+    }
+
+    await ref.read(authProvider.notifier).signInAnonymously();
+    return ref.read(authProvider).session != null;
+  }
+
+  CoolCountry _resolveCountry(UserProfile? user) {
+    return CoolCountryCatalog.resolve(
+      country: user?.country ?? AppMarket.countryCode,
+      phone: user?.momoNumber,
+      providerId: user?.momoProvider,
+    );
+  }
+
+  String _toLocalNumber(String rawNumber, CoolCountry country) {
+    final trimmed = rawNumber.trim();
+    if (trimmed.isEmpty) {
+      return '';
+    }
+    try {
+      return country.normalizeNationalPhone(trimmed);
+    } catch (_) {
+      return trimmed;
+    }
+  }
+
+  MomoRecipientType _resolveRouteType({
+    required CoolCountry country,
+    MomoRecipientType? preferredRouteType,
+    required String number,
+    required String code,
+  }) {
+    if (!country.supportsMomoCode) {
+      return MomoRecipientType.phoneNumber;
+    }
+    if (preferredRouteType == MomoRecipientType.code &&
+        code.trim().isNotEmpty) {
+      return MomoRecipientType.code;
+    }
+    if (preferredRouteType == MomoRecipientType.phoneNumber &&
+        number.trim().isNotEmpty) {
+      return MomoRecipientType.phoneNumber;
+    }
+    if (code.trim().isNotEmpty && number.trim().isEmpty) {
+      return MomoRecipientType.code;
+    }
+    return MomoRecipientType.phoneNumber;
+  }
+
+  String _resolveDisplayName(AuthState authState) {
+    final existingProfileName =
+        ref.read(biopayProfileProvider).valueOrNull?.displayName.trim() ?? '';
+    if (existingProfileName.isNotEmpty) {
+      return existingProfileName;
+    }
+
+    final user = authState.user;
+    final officialName = user?.officialName?.trim() ?? '';
+    if (officialName.isNotEmpty) {
+      return officialName;
+    }
+    final fullName = user?.fullName.trim() ?? '';
+    if (fullName.isNotEmpty) {
+      return fullName;
+    }
+    final metadata = Map<String, dynamic>.from(
+      authState.session?.user.userMetadata ?? const <String, dynamic>{},
+    );
+    for (final candidate in <String?>[
+      metadata['full_name']?.toString(),
+      metadata['name']?.toString(),
+    ]) {
+      final trimmed = candidate?.trim() ?? '';
+      if (trimmed.isNotEmpty) {
+        return trimmed;
+      }
+    }
+    return 'BioPay User';
+  }
+}
+
+class _FieldLabel extends StatelessWidget {
+  const _FieldLabel({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    return Text(
+      label,
+      style: theme.textTheme.labelMedium?.copyWith(
+        color: colors.secondaryText,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0.2,
+      ),
+    );
+  }
+}
+
+class _RegisterNoticeCard extends StatelessWidget {
+  const _RegisterNoticeCard({
+    required this.icon,
+    required this.title,
+    required this.message,
+    this.isWarning = false,
+  });
+
+  final IconData icon;
+  final String title;
+  final String message;
+  final bool isWarning;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final tone = isWarning ? colors.warning : colors.accent;
+
+    return CoolCard(
+      variant: CoolCardVariant.outline,
+      borderColor: tone.withValues(alpha: 0.35),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: tone.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(CoolRadii.md),
+            ),
+            alignment: Alignment.center,
+            child: Icon(icon, color: tone, size: 20),
+          ),
+          const SizedBox(width: CoolSpace.x3),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: colors.primaryText,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const SizedBox(height: CoolSpace.x1),
+                Text(
+                  message,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.secondaryText,
+                    height: 1.45,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FieldError extends StatelessWidget {
+  const _FieldError({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    return Text(
+      message,
+      style: theme.textTheme.bodySmall?.copyWith(
+        color: colors.danger,
+        fontWeight: FontWeight.w600,
+      ),
+    );
   }
 }
