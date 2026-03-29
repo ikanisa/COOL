@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/rs_colors.dart';
-import '../../features/partners/rayon/models/rs_models.dart';
+import '../../features/rayon/models/rs_models.dart';
 
 /// Metadata derived from [RsAchievement.badgeType].
 class _BadgeMeta {
@@ -84,11 +84,11 @@ class RsAchievementBadge extends StatelessWidget {
 
     final borderColor = meta.isMilestone
         ? RsColors.rsGold
-        : RsColors.rsBlueLight;
+        : RsColors.rsNavyLight;
 
     final bgColor = meta.isMilestone
         ? RsColors.rsGold.withValues(alpha: 0.12)
-        : RsColors.rsBlueGlow;
+        : RsColors.rsRedGlow;
 
     return Semantics(
       label: '${meta.name} achievement. ${meta.description}',

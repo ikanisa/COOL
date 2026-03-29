@@ -40,9 +40,7 @@ class MomoStatementsScreen extends ConsumerStatefulWidget {
       _MomoStatementsScreenState();
 }
 
-class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
-    with SingleTickerProviderStateMixin {
-  late final TabController _tabController;
+class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen> {
   StatementPeriodPreset _periodPreset = StatementPeriodPreset.month;
   StatementSortOption _sortOption = StatementSortOption.newestFirst;
   String? _selectedParty;
@@ -50,28 +48,6 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
   DateTime? _customEndDate;
   bool _isExporting = false;
   bool _isSyncing = false;
-
-  bool get _isWalletTab => _tabController.index == 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-    _tabController.addListener(_handleTabChanged);
-  }
-
-  @override
-  void dispose() {
-    _tabController.removeListener(_handleTabChanged);
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  void _handleTabChanged() {
-    if (!_tabController.indexIsChanging && mounted) {
-      setState(() => _selectedParty = null);
-    }
-  }
 
   void _refresh() {
     ref.invalidate(momoStatementBundleProvider(_query));
@@ -163,54 +139,6 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
                         ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                space.x3,
-                0,
-                space.x3,
-                showHeroTitle ? space.x2 : space.x1,
-              ),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: colors.elevatedBackground,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(CoolRadii.md),
-                  ),
-                  border: Border.all(color: colors.border),
-                ),
-                child: TabBar(
-                  controller: _tabController,
-                  dividerColor: Colors.transparent,
-                  indicator: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(CoolRadii.sm),
-                    ),
-                    color: colors.cardSurfaceStrong,
-                  ),
-                  labelColor: colors.primaryText,
-                  unselectedLabelColor: colors.tertiaryText,
-                  labelStyle: theme.textTheme.labelLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                  unselectedLabelStyle: theme.textTheme.labelLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                  tabs: [
-                    Tab(
-                      icon: const Icon(
-                        Icons.account_balance_wallet_rounded,
-                        size: 20,
-                      ),
-                      text: context.l10n.walletLabel,
-                    ),
-                    Tab(
-                      icon: const Icon(Icons.savings_rounded, size: 20),
-                      text: context.l10n.savingsLabel,
-                    ),
-                  ],
-                ),
-              ),
-            ),
             Expanded(
               child: CoolAsyncView<MomoStatementBundle>(
                 value: bundleAsync,
@@ -249,15 +177,10 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
                               ),
                               inflow: _walletInflow(bundle.walletEntries),
                               outflow: _walletOutflow(bundle.walletEntries),
-                              savingsTotal: _confirmedSavingsTotal(
-                                bundle.savingsEntries,
-                              ),
                               onSelectPeriod: _selectPeriod,
                               onOpenOptions: () => _showOptionsSheet(
                                 viewModel: viewModel,
                                 walletEntries: viewModel.filteredWalletEntries,
-                                savingsEntries:
-                                    viewModel.filteredSavingsEntries,
                               ),
                             ),
                             SizedBox(
@@ -275,26 +198,13 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
                               const SizedBox(height: CoolSpace.x4),
                             ],
                             Expanded(
-                              child: TabBarView(
-                                controller: _tabController,
-                                children: [
-                                  WalletStatementTab(
-                                    entries: viewModel.filteredWalletEntries,
-                                    totalCount: bundle.walletTotalCount,
-                                    dateFormat: dateTimeFormat,
-                                    moneyFormat: moneyFormat,
-                                    isFilteredView:
-                                        viewModel.effectivePartyFilter != null,
-                                  ),
-                                  SavingsStatementTab(
-                                    entries: viewModel.filteredSavingsEntries,
-                                    totalCount: bundle.savingsTotalCount,
-                                    dateFormat: dateFormat,
-                                    moneyFormat: moneyFormat,
-                                    isFilteredView:
-                                        viewModel.effectivePartyFilter != null,
-                                  ),
-                                ],
+                              child: WalletStatementTab(
+                                entries: viewModel.filteredWalletEntries,
+                                totalCount: bundle.walletTotalCount,
+                                dateFormat: dateTimeFormat,
+                                moneyFormat: moneyFormat,
+                                isFilteredView:
+                                    viewModel.effectivePartyFilter != null,
                               ),
                             ),
                           ],
@@ -329,11 +239,5 @@ int _walletInflow(List<MomoWalletEntry> entries) {
 int _walletOutflow(List<MomoWalletEntry> entries) {
   return entries
       .where((entry) => entry.isDebit)
-      .fold<int>(0, (sum, entry) => sum + entry.amount);
-}
-
-int _confirmedSavingsTotal(List<SavingsStatementEntry> entries) {
-  return entries
-      .where((entry) => entry.isConfirmed)
       .fold<int>(0, (sum, entry) => sum + entry.amount);
 }

@@ -55,8 +55,7 @@ where key in (
 );
 
 delete from public.ai_content
-where area = 'credit'
-   or cta_action in ('/credit', '/credit/readiness');
+where cta_action in ('/credit', '/credit/readiness');
 
 delete from public.partner_services
 where partner_id in (

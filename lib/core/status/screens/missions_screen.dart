@@ -6,7 +6,7 @@ import '../../../core/theme/rs_colors.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/core_app_scaffold.dart';
 
-/// Fan Missions screen — seasonal events and token-earning activities.
+/// Rewards activities screen — seasonal events and reward-earning activities.
 class MissionsScreen extends StatelessWidget {
   const MissionsScreen({super.key});
 
@@ -20,7 +20,7 @@ class MissionsScreen extends StatelessWidget {
       titleWidget: Row(
         children: [
           Text(
-            'FAN ',
+            'REWARD ',
             style: text.rayonCondensed(
               const TextStyle(fontSize: 28),
               fontWeight: FontWeight.w900,
@@ -29,7 +29,7 @@ class MissionsScreen extends StatelessWidget {
             ),
           ),
           Text(
-            'MISSIONS',
+            'ACTIVITIES',
             style: text.rayonCondensed(
               const TextStyle(fontSize: 28),
               fontWeight: FontWeight.w900,
@@ -39,13 +39,13 @@ class MissionsScreen extends StatelessWidget {
           ),
         ],
       ),
-      fallbackLocation: AppRoutes.rayonHome,
+      fallbackLocation: AppRoutes.rewards,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // ─── Subtitle ─────────────────────────────────────────────
           Text(
-            'PARTICIPATE IN SEASONAL EVENTS AND COMPLETE ACTIVITIES TO EARN FAN TOKENS.',
+            'TRACK SEASONAL EVENTS AND COMPLETE ACTIVITIES TO EARN FAN REWARDS.',
             style: text.mono(
               theme.textTheme.bodySmall,
               fontWeight: FontWeight.w600,
@@ -59,7 +59,7 @@ class MissionsScreen extends StatelessWidget {
           // ─── Active Seasons ───────────────────────────────────────
           const _SectionHeader(
             icon: Icons.radio_button_checked,
-            label: 'ACTIVE SEASONS',
+            label: 'ACTIVE REWARD SEASONS',
           ),
           const SizedBox(height: CoolSpace.x4),
           _SeasonCard(
@@ -83,14 +83,14 @@ class MissionsScreen extends StatelessWidget {
             progress: 0,
             daysLeft: '',
             description:
-                'Collect tokens through community events and group activities.',
+                'Collect points through community events and group activities.',
           ),
           const SizedBox(height: CoolSpace.x7),
 
-          // ─── Earn Tokens ──────────────────────────────────────────
+          // ─── Earn Points ──────────────────────────────────────────
           const _SectionHeader(
             icon: Icons.star_outline_rounded,
-            label: 'EARN TOKENS',
+            label: 'EARN POINTS',
           ),
           const SizedBox(height: CoolSpace.x4),
 
@@ -295,8 +295,7 @@ class _SeasonCard extends StatelessWidget {
                           ),
                           decoration: BoxDecoration(
                             color: badgeColor.withValues(alpha: 0.15),
-                            borderRadius:
-                                BorderRadius.circular(CoolRadii.pill),
+                            borderRadius: BorderRadius.circular(CoolRadii.pill),
                             border: Border.all(
                               color: badgeColor.withValues(alpha: 0.5),
                             ),
@@ -334,7 +333,9 @@ class _SeasonCard extends StatelessWidget {
               child: LinearProgressIndicator(
                 value: progress,
                 backgroundColor: colors.cardSurface,
-                valueColor: const AlwaysStoppedAnimation<Color>(RsColors.rsBlueLight),
+                valueColor: const AlwaysStoppedAnimation<Color>(
+                  RsColors.rsNavyLight,
+                ),
                 minHeight: 6,
               ),
             ),
@@ -435,7 +436,11 @@ class _ActionTile extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.star_rounded, color: RsColors.rsGoldLight, size: 18),
+              const Icon(
+                Icons.star_rounded,
+                color: RsColors.rsGoldLight,
+                size: 18,
+              ),
               const SizedBox(width: 4),
               Text(
                 '$reward',

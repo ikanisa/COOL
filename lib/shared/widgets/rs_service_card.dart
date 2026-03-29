@@ -34,7 +34,7 @@ class RsServiceCard extends StatelessWidget {
       child: CoolCard(
         onTap: onTap,
         gradient: RsColors.rsHeroGradient,
-        borderColor: RsColors.rsBlueBorder,
+        borderColor: RsColors.rsRedBorder,
         child: Padding(
           padding: EdgeInsets.all(space.x4),
           child: Column(

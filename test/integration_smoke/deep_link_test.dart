@@ -16,7 +16,8 @@ void main() {
 
       final uri = app.router.routeInformationProvider.value.uri;
 
-      expect(uri.path, AppRoutes.inviteLocation('abcd1234'));
+      expect(uri.path, AppRoutes.contributionCircles);
+      expect(uri.queryParameters['invite_code'], 'ABCD1234');
       expect(uri.queryParameters['redirect'], isNull);
     });
 

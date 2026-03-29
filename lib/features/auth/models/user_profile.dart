@@ -62,9 +62,11 @@ class UserProfile {
       (dateOfBirth?.trim().isNotEmpty ?? false) &&
       (nationalIdNumber?.trim().isNotEmpty ?? false);
 
-  /// A user is minimally ready for in-app flows when the public profile and
-  /// wallet receive route are both configured.
-  bool get isProfileComplete => hasBasicProfile && hasMomoRecipient;
+  /// A user is profile-complete once the basic identity fields are present.
+  ///
+  /// MoMo setup is handled later from Settings and enforced only at
+  /// action-time for contribution flows.
+  bool get isProfileComplete => hasBasicProfile;
 
   String get persistedPublicUserId =>
       PublicUserIdentity.normalize(publicUserId);

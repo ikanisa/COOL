@@ -449,6 +449,9 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
       _enrollmentEmbeddings.add(embedding);
       _capturedEnrollmentFrames = _enrollmentEmbeddings.length;
 
+      // Haptic feedback on each capture
+      HapticFeedback.mediumImpact();
+
       if (_capturedEnrollmentFrames < 5) {
         _setScannerState(
           tone: BiopayScannerTone.ready,
@@ -742,6 +745,9 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
                 statusLabel: statusLabel,
                 helperText: helperText,
                 tone: tone,
+                sampleCount: _capturedEnrollmentFrames,
+                totalSamples: 5,
+                isEnrollMode: isEnroll,
                 footer: _buildScannerFooter(
                   context,
                   enabled: enabled,
@@ -864,21 +870,8 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
       );
     }
 
-    if (widget.mode == BiopayScanMode.enroll && _capturedEnrollmentFrames > 0) {
-      return CoolCard(
-        backgroundColor: Colors.black.withValues(alpha: 0.66),
-        borderColor: Colors.white.withValues(alpha: 0.12),
-        useGradient: false,
-        child: Text(
-          '$_capturedEnrollmentFrames / 5',
-          textAlign: TextAlign.center,
-          style: theme.textTheme.labelLarge?.copyWith(
-            color: Colors.white,
-            fontWeight: FontWeight.w800,
-          ),
-        ),
-      );
-    }
+    // Enrollment sample dots are now rendered inside BiopayScannerShell.
+    // No separate footer needed for enrollment progress.
 
     return null;
   }

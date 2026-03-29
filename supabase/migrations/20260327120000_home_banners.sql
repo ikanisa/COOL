@@ -21,12 +21,14 @@ create table if not exists rs_home_banners (
 alter table rs_home_banners enable row level security;
 
 -- Public read access for active banners
-create policy if not exists "Public can read active home banners"
+drop policy if exists "Public can read active home banners" on rs_home_banners;
+create policy "Public can read active home banners"
   on rs_home_banners for select
   using (is_active = true);
 
 -- Admin write access
-create policy if not exists "Admins can manage home banners"
+drop policy if exists "Admins can manage home banners" on rs_home_banners;
+create policy "Admins can manage home banners"
   on rs_home_banners for all
   using (
     exists (

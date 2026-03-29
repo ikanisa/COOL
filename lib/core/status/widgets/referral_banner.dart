@@ -18,8 +18,8 @@ class ReferralBanner extends ConsumerWidget {
     final radii = context.coolRadii;
     final theme = Theme.of(context);
     final title = brand.isRayonDominant
-        ? 'Invite fellow fans & earn tokens'
-        : 'Share Cool & Earn Tokens';
+        ? 'Invite fellow fans & earn points'
+        : 'Share COOL & earn points';
     final subtitle = brand.isRayonDominant
         ? 'Bring more supporters into the club app'
         : 'Invite friends & grow together';

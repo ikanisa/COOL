@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 
 import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/rs_colors.dart';
-import '../../features/partners/rayon/models/rs_models.dart';
-import '../../features/partners/rayon/theme/rs_theme.dart' as rs_theme;
+import '../../features/rayon/models/rs_models.dart';
+import '../../features/rayon/theme/rs_theme.dart' as rs_theme;
 
 /// Initiative card matching the Support Club design:
 ///
@@ -124,7 +124,7 @@ class RsInitiativeCard extends StatelessWidget {
                             style: text.mono(
                               theme.textTheme.labelMedium,
                               fontWeight: FontWeight.w800,
-                              color: RsColors.rsBlueLight,
+                              color: RsColors.rsNavyLight,
                             ),
                           ),
                         ],
@@ -150,8 +150,8 @@ class RsInitiativeCard extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [
-                                        RsColors.rsBlue,
-                                        RsColors.rsBlueLight,
+                                        RsColors.rsRed,
+                                        RsColors.rsNavyLight,
                                       ],
                                     ),
                                   ),
@@ -193,7 +193,7 @@ class RsInitiativeCard extends StatelessWidget {
                                   style: text.rayonCondensed(
                                     theme.textTheme.labelLarge,
                                     fontWeight: FontWeight.w800,
-                                    color: RsColors.rsBlueLight,
+                                    color: RsColors.rsNavyLight,
                                     letterSpacing: 0.5,
                                   ),
                                 ),
@@ -201,7 +201,7 @@ class RsInitiativeCard extends StatelessWidget {
                                 const Icon(
                                   Icons.arrow_forward_rounded,
                                   size: 16,
-                                  color: RsColors.rsBlueLight,
+                                  color: RsColors.rsNavyLight,
                                 ),
                               ],
                             ),

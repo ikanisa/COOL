@@ -22,12 +22,12 @@ class AboutAppScreen extends StatelessWidget {
                   gradient: const LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [RsColors.rsBlueLight, RsColors.rsBlue],
+                    colors: [RsColors.rsNavyLight, RsColors.rsRed],
                   ),
                   borderRadius: BorderRadius.circular(CoolRadii.xl),
                   boxShadow: [
                     BoxShadow(
-                      color: RsColors.rsBlue.withValues(alpha: 0.3),
+                      color: RsColors.rsRed.withValues(alpha: 0.3),
                       blurRadius: 20,
                       offset: const Offset(0, 8),
                     ),
@@ -207,7 +207,7 @@ class _ToggleRow extends StatelessWidget {
             Switch.adaptive(
               value: value,
               onChanged: onChanged,
-              activeTrackColor: RsColors.rsBlue,
+              activeTrackColor: RsColors.rsRed,
             ),
         ],
       ),
@@ -330,7 +330,7 @@ class _FaqItemState extends State<_FaqItem> {
                   alignment: Alignment.center,
                   child: const Icon(
                     Icons.help_outline_rounded,
-                    color: RsColors.rsBlue,
+                    color: RsColors.rsRed,
                     size: 20,
                   ),
                 ),

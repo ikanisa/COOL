@@ -211,8 +211,14 @@ test/
 
 ## Deep Links
 
-- Supported universal-link patterns: `/invite/<CODE>`, `/groups/<ID>`, `/home`, `/momo`, `/profile`, `/match/<ID>`, `/initiative/<ID>`, `/club/<ID>`, `/shop/<ID>`, `/status/<ID>`
+- Supported universal-link patterns:
+  `/invite/<CODE>`, `/home`, `/momo`, `/profile`, `/match/<ID>/engage`,
+  `/fan-profile`, `/registry`, `/fan-clubs/<ID>`,
+  `/contributions/<ID>`, `/contribution-circles/<ID>`,
+  `/shop/product/<ID>`, `/tickets/<ID>/confirm`
 - Legacy `/basket` links still resolve to home for backward compatibility.
+- Legacy `/groups/*` and `/partners/rayon-sports/*` links still resolve via
+  compatibility redirects.
 - Group invite share links should use `https://cool.app/invite/<CODE>`
 - The fallback site and universal-link templates live in [deeplinks/site/README.md](/Volumes/PRO-G40/COOL/deeplinks/site/README.md)
 
@@ -251,7 +257,7 @@ Important files:
 Important files:
 
 - [group_repository.dart](/Volumes/PRO-G40/COOL/lib/features/groups/repositories/group_repository.dart)
-- [create_group_screen.dart](/Volumes/PRO-G40/COOL/lib/features/groups/screens/create_group_screen.dart)
+- [groups_screen.dart](/Volumes/PRO-G40/COOL/lib/features/groups/screens/groups_screen.dart)
 
 ### MoMo
 

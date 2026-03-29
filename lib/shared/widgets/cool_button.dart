@@ -4,9 +4,9 @@ import 'package:flutter/services.dart';
 
 import '../../core/theme/cool_foundations.dart';
 
-/// Button variants — Mobi × Rayon system.
+/// Button variants — ROUGEBLACK system.
 enum CoolButtonVariant {
-  /// Royal blue background, white text, primary glow shadow.
+  /// Rayon Red background, white text, red glow shadow.
   primary,
 
   /// white/10 background, white text.
@@ -20,6 +20,10 @@ enum CoolButtonVariant {
 
   /// Gold background, black text, gold glow shadow.
   accent,
+
+  /// Claymorphic Rayon Red — dual inner-shadow 3D technique.
+  /// Use for hero CTAs that need tactile emphasis.
+  clay,
 }
 
 /// Button sizes — matches React UI kit.
@@ -51,9 +55,9 @@ enum CoolButtonSize {
   };
 }
 
-/// A styled button — Mobi × Rayon system.
+/// A styled button — ROUGEBLACK system.
 ///
-/// 5 variants, 4 sizes, press feedback (scale 0.98), JetBrains Mono uppercase.
+/// 6 variants, 4 sizes, press feedback (scale 0.95), JetBrains Mono uppercase.
 class CoolButton extends StatefulWidget {
   const CoolButton({
     required this.label,
@@ -94,7 +98,7 @@ class _CoolButtonState extends State<CoolButton>
       vsync: this,
       duration: CoolMotion.press,
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.98).animate(
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
       CurvedAnimation(parent: _scaleController, curve: Curves.easeInOut),
     );
   }
@@ -137,10 +141,16 @@ class _CoolButtonState extends State<CoolButton>
           excludeSemantics: true,
           child: SizedBox(
             width: widget.fullWidth && !isIcon ? double.infinity : null,
-            height: widget.size.height,
-            child: isIcon
-                ? _buildIconButton(colors, fg, decoration)
-                : _buildButton(colors, fg, decoration),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: widget.size.height),
+              child: isIcon
+                  ? SizedBox(
+                      width: widget.size.height,
+                      height: widget.size.height,
+                      child: _buildIconButton(colors, fg, decoration),
+                    )
+                  : _buildButton(colors, fg, decoration),
+            ),
           ),
         ),
       ),
@@ -201,18 +211,16 @@ class _CoolButtonState extends State<CoolButton>
       );
     }
 
-    final textStyle = context.coolText
-        .mobiLabel(color: fg)
-        .copyWith(
-          fontSize: widget.size.fontSize,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 2.0,
-        );
+    final textStyle = GoogleFonts.inter(
+      color: fg,
+      fontSize: widget.size.fontSize,
+      fontWeight: FontWeight.w700,
+      letterSpacing: 1.2,
+    );
 
     final textWidget = Text(
-      widget.label.toUpperCase(),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
+      widget.label,
+      softWrap: true,
       textAlign: TextAlign.center,
       style: textStyle,
     );
@@ -227,16 +235,17 @@ class _CoolButtonState extends State<CoolButton>
       children: [
         Icon(widget.icon, size: 16, color: fg),
         const SizedBox(width: CoolSpace.x2),
-        textWidget,
+        Flexible(child: textWidget),
       ],
     );
   }
 
   void _handleTap() {
-    final isPrimary =
+    final isHero =
         widget.variant == CoolButtonVariant.primary ||
-        widget.variant == CoolButtonVariant.accent;
-    if (isPrimary) {
+        widget.variant == CoolButtonVariant.accent ||
+        widget.variant == CoolButtonVariant.clay;
+    if (isHero) {
       HapticFeedback.mediumImpact();
     } else {
       HapticFeedback.lightImpact();
@@ -252,6 +261,7 @@ class _CoolButtonState extends State<CoolButton>
       CoolButtonVariant.outline => Colors.transparent,
       CoolButtonVariant.ghost => Colors.transparent,
       CoolButtonVariant.accent => colors.accentGold,
+      CoolButtonVariant.clay => colors.buttonPrimaryBackground,
     };
   }
 
@@ -263,6 +273,7 @@ class _CoolButtonState extends State<CoolButton>
       CoolButtonVariant.outline => colors.primaryText,
       CoolButtonVariant.ghost => colors.secondaryText,
       CoolButtonVariant.accent => Colors.black,
+      CoolButtonVariant.clay => colors.accentForeground,
     };
   }
 
@@ -274,6 +285,7 @@ class _CoolButtonState extends State<CoolButton>
       CoolButtonVariant.outline => Colors.white.withValues(alpha: 0.10),
       CoolButtonVariant.ghost => null,
       CoolButtonVariant.accent => null,
+      CoolButtonVariant.clay => null,
     };
   }
 
@@ -281,6 +293,7 @@ class _CoolButtonState extends State<CoolButton>
     return switch (widget.variant) {
       CoolButtonVariant.primary => CoolShadows.primary(),
       CoolButtonVariant.accent => CoolShadows.gold(),
+      CoolButtonVariant.clay => CoolShadows.clay(),
       _ => null,
     };
   }

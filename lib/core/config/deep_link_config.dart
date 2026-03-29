@@ -102,21 +102,29 @@ abstract final class DeepLinkConfig {
       'invite' =>
         segments.length < 2 ? null : '/invite/${segments[1].toUpperCase()}',
       'groups' =>
-        segments.length < 2 ? AppRoutes.groups : '/groups/${segments[1]}',
+        segments.length < 2
+            ? AppRoutes.contributionCircles
+            : AppRoutes.contributionCircleDetailLocation(segments[1]),
       'home' => AppRoutes.home,
       'momo' => _momoRouteForSegments(segments, uri),
       'biopay-tab' => AppRoutes.biopayHome,
       'profile' => AppRoutes.profile,
-      'match' => segments.length < 2 ? null : '/partners/rayon-sports/tickets',
+      'match' =>
+        segments.length < 2
+            ? null
+            : AppRoutes.matchEngagementLocation(segments[1]),
       'initiative' =>
         segments.length < 2
             ? null
-            : '/partners/rayon-sports/support/${segments[1]}',
+            : AppRoutes.contributionDetailLocation(segments[1]),
       'club' =>
         segments.length < 2
             ? null
-            : '/partners/rayon-sports/clubs/${segments[1]}',
-      'shop' => AppRoutes.rayonShop,
+            : AppRoutes.fanClubDetailLocation(segments[1]),
+      'shop' =>
+        segments.length < 2
+            ? AppRoutes.rayonShop
+            : AppRoutes.shopProductDetailLocation(segments[1]),
       'status' => AppRoutes.profile,
       _ => null,
     };

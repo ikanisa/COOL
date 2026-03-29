@@ -18,7 +18,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navGroups => 'Groups';
 
   @override
-  String get navProfile => 'Profile';
+  String get navProfile => 'Settings';
 
   @override
   String get welcomeTitle => 'Welcome to Cool';
@@ -1674,7 +1674,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String profileCoolStatusValue(Object points, Object tier) {
-    return '$tier · $points Tokens';
+    return '$tier · $points Points';
   }
 
   @override
@@ -1737,7 +1737,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get basketScreenBackHome => 'Back Home';
 
   @override
-  String get activeMissions => 'Active Missions';
+  String get activeMissions => 'Active Reward Activities';
 
   @override
   String get comingSoon => 'Coming Soon';
@@ -1761,7 +1761,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get friendJoins => 'Friend Joins';
 
   @override
-  String get earnTokens => 'Earn Tokens';
+  String get earnTokens => 'Earn Points';
 
   @override
   String get waysToEarn => 'Ways to Earn';
@@ -1788,7 +1788,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get attendAMatch => 'Attend a match';
 
   @override
-  String get earn10TokensFor => 'Earn 10 Tokens for attending';
+  String get earn10TokensFor => 'Earn 10 points for attending';
 
   @override
   String get oneMoreTrip => 'One more trip!';
@@ -1806,7 +1806,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get joinASavingsGroup => 'Join a savings group';
 
   @override
-  String get earn10TokensPer => 'Earn 10 Tokens per contribution';
+  String get earn10TokensPer => 'Earn 10 points per contribution';
 
   @override
   String get becomeARayonFan => 'Become a Rayon fan';
@@ -2240,7 +2240,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scope => 'Scope';
 
   @override
-  String get rewardPoints => 'Reward Tokens';
+  String get rewardPoints => 'Reward Points';
 
   @override
   String get rewardDescription => 'Reward Description';
@@ -2447,7 +2447,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get wallet => 'Wallet';
 
   @override
-  String get coolTokens => 'Cool Tokens';
+  String get coolTokens => 'Fan Rewards';
 
   @override
   String get inviteFriends => 'Invite Friends';
@@ -2854,7 +2854,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noMembersMatchFilter => 'No members match filter';
 
   @override
-  String get points1 => 'Tokens';
+  String get points1 => 'Points';
 
   @override
   String get memberCsvCopiedTo => 'Member CSV copied to clipboard';
@@ -3216,7 +3216,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get memberId => 'Member ID';
 
   @override
-  String get points2 => 'Tokens';
+  String get points2 => 'Points';
 
   @override
   String get askAboutYourFinances => 'Ask about your finances...';
@@ -3306,7 +3306,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get str14DaysStreak => '14 Days Streak';
 
   @override
-  String get str50Tokens => '+50 Tokens';
+  String get str50Tokens => '+50 Points';
 
   @override
   String get wealthArchiveSavedTo =>
@@ -3316,17 +3316,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rwf1 => 'Rwf';
 
   @override
-  String get seasonsAndActivities => 'Seasons & Activities';
+  String get seasonsAndActivities => 'Rewards & Activities';
 
   @override
-  String get activeSeasons => 'Active Seasons';
+  String get activeSeasons => 'Active Reward Seasons';
 
   @override
-  String get pastSeasons => 'Past Seasons';
+  String get pastSeasons => 'Past Reward Seasons';
 
   @override
   String get seasonEarnTokensSubtitle =>
-      'Earn tokens by completing activities during each season';
+      'Earn points by completing activities during each reward season';
 
   @override
   String get seasonStatusLive => 'Live';
@@ -3341,7 +3341,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get seasonsEmptyTitle => 'No seasons or activities yet';
 
   @override
-  String get earnTokensLabel => 'Earn Tokens';
+  String get earnTokensLabel => 'Earn Points';
 
   @override
   String get groupDetailTitle => 'Group Detail';
@@ -3520,7 +3520,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminSeasons => 'Seasons';
 
   @override
-  String get adminSeasonsDesc => 'Token-earning gamification activities';
+  String get adminSeasonsDesc => 'Reward-earning seasonal activities';
 
   @override
   String get adminActivities => 'Activities';

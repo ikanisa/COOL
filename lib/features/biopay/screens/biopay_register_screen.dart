@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -88,7 +89,10 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
               fontWeight: FontWeight.w800,
               letterSpacing: -0.3,
             ),
-          ),
+          )
+              .animate()
+              .fadeIn(duration: 400.ms)
+              .slideY(begin: 0.15, end: 0),
           if (hasActiveEnrollment) ...[
             SizedBox(height: space.x4),
             const _RegisterNoticeCard(
@@ -175,7 +179,10 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
             icon: Icons.arrow_forward_rounded,
             isLoading: _isSubmitting,
             onTap: modelIssue != null ? null : _saveRouteAndContinue,
-          ),
+          )
+              .animate()
+              .fadeIn(delay: 250.ms, duration: 400.ms)
+              .scale(begin: const Offset(0.95, 0.95)),
         ],
       ),
     );

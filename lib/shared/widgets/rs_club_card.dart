@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/rs_colors.dart';
-import '../../features/partners/rayon/models/rs_models.dart';
+import '../../features/rayon/models/rs_models.dart';
 import 'cool_card.dart';
 
 class RsClubCard extends StatelessWidget {
@@ -37,7 +37,7 @@ class RsClubCard extends StatelessWidget {
         gradient: RsColors.rsCardGradient,
         borderColor: joined
             ? RsColors.rsGold.withValues(alpha: 0.55)
-            : RsColors.rsBlueBorder,
+            : RsColors.rsRedBorder,
         borderRadius: radii.lg,
         padding: EdgeInsets.zero,
         child: Padding(
@@ -92,7 +92,7 @@ class RsClubCard extends StatelessWidget {
                 style: text.rayon(
                   theme.textTheme.labelSmall,
                   fontWeight: FontWeight.w700,
-                  color: RsColors.rsBluePale,
+                  color: RsColors.rsNavyPale,
                 ),
               ),
               SizedBox(height: space.x2),

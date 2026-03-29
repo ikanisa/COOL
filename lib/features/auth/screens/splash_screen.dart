@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/brand/app_brand.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/rs_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_brand_mark.dart';
 import '../../../core/l10n/l10n.dart';
@@ -11,11 +14,12 @@ import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../providers/auth_provider.dart';
 
-/// Animated splash screen that auto-signs-in anonymously and redirects.
+/// Animated splash screen — ROUGEBLACK design system.
 ///
-/// Shows the Cool logo mark with a staggered fade-in animation while
-/// signing in anonymously. The router-level redirect handles the
-/// transition to `/home` once a session is established.
+/// Renders the club crest over a deep-navy cinematic background with
+/// staggered fade-in + scale animation. Auto-signs-in anonymously.
+/// The router-level redirect handles transition to `/home` once
+/// a session is established.
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
@@ -27,25 +31,47 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     with TickerProviderStateMixin {
   late final AnimationController _logoController;
   late final Animation<double> _logoFade;
+  late final Animation<double> _logoScale;
+  late final AnimationController _textController;
+  late final Animation<double> _textFade;
+  Timer? _subtitleDelayTimer;
   bool _signInAttempted = false;
 
   @override
   void initState() {
     super.initState();
 
-    // Logo fade-in: 500ms
+    // Logo: 600ms fade + scale
     _logoController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 600),
     );
     _logoFade = CurvedAnimation(parent: _logoController, curve: Curves.easeOut);
+    _logoScale = Tween<double>(begin: 0.85, end: 1.0).animate(
+      CurvedAnimation(parent: _logoController, curve: Curves.easeOutCubic),
+    );
 
-    _logoController.forward();
+    // Subtitle text: 400ms fade, delayed 300ms after logo
+    _textController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    _textFade = CurvedAnimation(parent: _textController, curve: Curves.easeOut);
+
+    _logoController.forward().then((_) {
+      if (mounted) {
+        _subtitleDelayTimer = Timer(const Duration(milliseconds: 300), () {
+          if (mounted) _textController.forward();
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
+    _subtitleDelayTimer?.cancel();
     _logoController.dispose();
+    _textController.dispose();
     super.dispose();
   }
 
@@ -54,7 +80,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _signInAttempted = true;
 
     final authState = ref.read(authProvider);
-    // Only sign in if there's no existing session.
     if (authState.session == null) {
       ref.read(authProvider.notifier).signInAnonymously();
     }
@@ -76,7 +101,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         authState.session != null &&
         authState.profileRestoreState == AuthProfileRestoreState.failed;
 
-    // Auto sign-in after first frame if no session and not already pending.
+    // Auto sign-in after first frame.
     if (authState.session == null &&
         !authState.isLoading &&
         !_signInAttempted) {
@@ -87,6 +112,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
     return CoolScreenBackground(
       showGlow: true,
+      primaryColor: RsColors.rsRed,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Center(
@@ -97,52 +123,78 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // ── Brand mark ────────────────────────────────────────
+                  // ── Club crest + title ─────────────────────────────
                   FadeTransition(
                     opacity: _logoFade,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          width: 112,
-                          child: CoolCard(
+                    child: ScaleTransition(
+                      scale: _logoScale,
+                      child: Column(
+                        children: [
+                          // Glass-framed crest
+                          Container(
+                            width: 120,
+                            height: 120,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.06),
+                              borderRadius: BorderRadius.circular(radii.xl),
+                              border: Border.all(
+                                color: Colors.white.withValues(alpha: 0.12),
+                                width: 1,
+                              ),
+                              boxShadow: CoolShadows.glass(),
+                            ),
                             padding: EdgeInsets.all(space.x4),
-                            borderRadius: radii.xl,
-                            backgroundColor: colors.cardSurface,
-                            child: const AspectRatio(
-                              aspectRatio: 1,
-                              child: Center(child: CoolBrandMark(size: 68)),
+                            child: const Center(child: CoolBrandMark(size: 72)),
+                          ),
+                          SizedBox(height: space.x4),
+
+                          // Title — Barlow Condensed uppercase
+                          Text(
+                            brand.splashTitle,
+                            textAlign: TextAlign.center,
+                            style: context.coolText.rayonCondensed(
+                              theme.textTheme.headlineMedium,
+                              fontWeight: FontWeight.w900,
+                              color: colors.primaryText,
+                              letterSpacing: 2.0,
                             ),
                           ),
-                        ),
-                        SizedBox(height: space.x3),
-                        Text(
-                          brand.splashTitle,
-                          style: brand.isRayonDominant
-                              ? context.coolText.rayonCondensed(
-                                  theme.textTheme.headlineSmall,
-                                  fontWeight: FontWeight.w900,
-                                  color: colors.primaryText,
-                                  letterSpacing: 0.2,
-                                )
-                              : theme.textTheme.headlineSmall?.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  color: colors.primaryText,
-                                  letterSpacing: -0.8,
-                                ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                  SizedBox(height: space.x5),
+
+                  SizedBox(height: space.x3),
+
+                  // ── Subtitle — staggered ─────────────────────────
+                  FadeTransition(
+                    opacity: _textFade,
+                    child: Text(
+                      brand.welcomeSubtitle,
+                      textAlign: TextAlign.center,
+                      style: context.coolText.mono(
+                        theme.textTheme.bodySmall,
+                        fontWeight: FontWeight.w500,
+                        color: colors.secondaryText,
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: space.x6),
+
+                  // ── Loading indicator ─────────────────────────────
                   if (authState.isLoading || isRestorePending)
-                    SizedBox(
+                    const SizedBox(
                       width: 22,
                       height: 22,
                       child: CupertinoActivityIndicator(
                         radius: 11,
-                        color: colors.accent,
+                        color: RsColors.rsRed,
                       ),
                     ),
+
+                  // ── Error card ────────────────────────────────────
                   AnimatedSwitcher(
                     duration: CoolMotion.medium,
                     child: !showRestoreFailure
@@ -177,6 +229,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                   SizedBox(height: space.x4),
                                   CoolButton(
                                     label: context.l10n.retry,
+                                    variant: CoolButtonVariant.clay,
                                     onTap: () {
                                       _signInAttempted = false;
                                       ref

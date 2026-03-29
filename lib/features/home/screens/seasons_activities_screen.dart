@@ -11,7 +11,7 @@ import '../../../shared/widgets/cool_card.dart';
 import '../../admin/providers/admin_gamification_providers.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 
-/// User-facing read-only screen showing seasons & token-earning activities.
+/// User-facing read-only screen showing reward seasons and activities.
 class SeasonsActivitiesScreen extends ConsumerWidget {
   const SeasonsActivitiesScreen({super.key});
 
@@ -90,7 +90,7 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'MISSIONS & SEASONS',
+                                    'REWARDS & ACTIVITIES',
                                     style: text.rayon(
                                       theme.textTheme.titleMedium,
                                       fontWeight: FontWeight.w800,
@@ -123,7 +123,7 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
                         SizedBox(height: space.x6),
                         const _SectionHeader(
                           icon: Icons.bolt_rounded,
-                          label: 'ACTIVE SEASONS',
+                          label: 'ACTIVE REWARD SEASONS',
                         ),
                         SizedBox(height: space.x3),
                         ...liveSeasons.map(
@@ -139,7 +139,7 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
                         SizedBox(height: space.x6),
                         const _SectionHeader(
                           icon: Icons.star_rounded,
-                          label: 'FAN MISSIONS',
+                          label: 'REWARD ACTIVITIES',
                         ),
                         SizedBox(height: space.x3),
                         ..._buildCategoryGroups(context, activeActivities),
@@ -150,7 +150,7 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
                         SizedBox(height: space.x7),
                         const _SectionHeader(
                           icon: Icons.history_rounded,
-                          label: 'PAST SEASONS',
+                          label: 'PAST REWARD SEASONS',
                         ),
                         SizedBox(height: space.x3),
                         ...pastSeasons.map(
@@ -177,7 +177,7 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
                                 ),
                                 SizedBox(height: space.x3),
                                 Text(
-                                  'NO ACTIVE MISSIONS',
+                                  'NO ACTIVE REWARDS',
                                   style: text.rayon(
                                     theme.textTheme.bodyMedium,
                                     color: colors.tertiaryText,

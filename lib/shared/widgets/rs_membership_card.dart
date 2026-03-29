@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/l10n/l10n.dart';
 import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/rs_colors.dart';
-import '../../features/partners/rayon/models/rs_models.dart';
+import '../../features/rayon/models/rs_models.dart';
 import 'cool_card.dart';
 import 'rs_tier_badge.dart';
 
@@ -32,7 +32,7 @@ class RsMembershipCard extends StatelessWidget {
       excludeSemantics: true,
       child: CoolCard(
         gradient: RsColors.rsMembershipGradient,
-        borderColor: RsColors.rsBlueBorder,
+        borderColor: RsColors.rsRedBorder,
         borderRadius: radii.lg,
         padding: EdgeInsets.all(space.x5 + 2),
         child: Column(

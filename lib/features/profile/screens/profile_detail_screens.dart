@@ -13,7 +13,9 @@ import '../widgets/profile_dialogs.dart';
 import '../widgets/profile_momo_edit_sheet.dart';
 
 class ProfileWalletScreen extends ConsumerWidget {
-  const ProfileWalletScreen({super.key});
+  const ProfileWalletScreen({this.redirectLocation, super.key});
+
+  final String? redirectLocation;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -51,7 +53,12 @@ class ProfileWalletScreen extends ConsumerWidget {
 
           if (success) {
             CoolToast.success(context, context.l10n.profileMomoUpdated);
-            context.pop();
+            final redirect = redirectLocation?.trim();
+            if (redirect != null && redirect.isNotEmpty) {
+              context.go(redirect);
+            } else {
+              context.pop();
+            }
           } else {
             CoolToast.error(context, context.l10n.profileMomoUpdateFailed);
           }

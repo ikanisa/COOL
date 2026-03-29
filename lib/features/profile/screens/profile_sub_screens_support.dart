@@ -91,13 +91,13 @@ class OrderHistoryScreen extends StatelessWidget {
                 width: 72,
                 height: 72,
                 decoration: BoxDecoration(
-                  color: RsColors.rsBlue.withValues(alpha: 0.1),
+                  color: RsColors.rsRed.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 alignment: Alignment.center,
                 child: const Icon(
                   Icons.shopping_bag_outlined,
-                  color: RsColors.rsBlue,
+                  color: RsColors.rsRed,
                   size: 32,
                 ),
               ),
@@ -124,9 +124,9 @@ class OrderHistoryScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => context.push('/partners/rayon-sports/shop'),
+                  onPressed: () => context.push(AppRoutes.rayonShop),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: RsColors.rsBlue,
+                    backgroundColor: RsColors.rsRed,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(

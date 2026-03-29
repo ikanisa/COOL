@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/rs_colors.dart';
 
 // ═════════════════════════════════════════════════════════════════════
-// QUICK SERVICES  (4-icon row)
+// QUICK ACTIONS  (4-icon row)
 // ═════════════════════════════════════════════════════════════════════
 
 class HomeQuickServices extends StatelessWidget {
   const HomeQuickServices({super.key});
 
   static const _items = [
-    (icon: Icons.groups_rounded, label: 'GROUPS', route: AppRoutes.groups),
+    (
+      icon: Icons.confirmation_number_rounded,
+      label: 'TICKETS',
+      route: AppRoutes.tickets,
+    ),
+    (
+      icon: Icons.volunteer_activism_rounded,
+      label: 'CONTRIBUTE',
+      route: AppRoutes.contributionCircles,
+    ),
+    (
+      icon: Icons.workspace_premium_rounded,
+      label: 'REWARDS',
+      route: AppRoutes.rewards,
+    ),
     (icon: Icons.qr_code_2_rounded, label: 'SCAN', route: AppRoutes.scanner),
-    (
-      icon: Icons.face_retouching_natural_rounded,
-      label: 'BIOPAY',
-      route: AppRoutes.biopayHome,
-    ),
-    (
-      icon: Icons.shopping_bag_rounded,
-      label: 'SHOP',
-      route: AppRoutes.rayonShop,
-    ),
   ];
 
   @override
@@ -32,29 +34,15 @@ class HomeQuickServices extends StatelessWidget {
     final colors = context.coolSemanticColors;
     return Column(
       children: [
-        // QUICK SERVICES + VIEW ALL
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'QUICK SERVICES',
+              'QUICK ACTIONS',
               style: context.coolText.mono(
                 Theme.of(context).textTheme.labelSmall,
                 fontWeight: FontWeight.w700,
                 color: colors.secondaryText,
                 letterSpacing: 1.0,
-              ),
-            ),
-            GestureDetector(
-              onTap: () => context.push(AppRoutes.partners),
-              child: Text(
-                'VIEW ALL',
-                style: context.coolText.mono(
-                  Theme.of(context).textTheme.labelSmall,
-                  fontWeight: FontWeight.w700,
-                  color: RsColors.rsBlue,
-                  letterSpacing: 1.0,
-                ),
               ),
             ),
           ],

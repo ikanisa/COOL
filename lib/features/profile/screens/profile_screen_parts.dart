@@ -1,7 +1,7 @@
 part of 'profile_screen.dart';
 
-class _BlueMembershipCard extends StatelessWidget {
-  const _BlueMembershipCard({
+class _MembershipCard extends StatelessWidget {
+  const _MembershipCard({
     required this.memberId,
     required this.tier,
     required this.tokens,
@@ -15,7 +15,7 @@ class _BlueMembershipCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const targetTokens = 3000;
+    const targetPoints = 3000;
     const rewardLabel = 'EARN 1 MATCH TICKET';
 
     return Container(
@@ -25,12 +25,12 @@ class _BlueMembershipCard extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF1565C0), RsColors.rsBlue, Color(0xFF42A5F5)],
+          colors: [RsColors.rsNavyMid, RsColors.rsRed, RsColors.rsNavyLight],
         ),
         borderRadius: BorderRadius.circular(CoolRadii.xl),
         boxShadow: [
           BoxShadow(
-            color: RsColors.rsBlue.withValues(alpha: 0.3),
+            color: RsColors.rsRed.withValues(alpha: 0.3),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -92,7 +92,7 @@ class _BlueMembershipCard extends StatelessWidget {
           ),
           const SizedBox(height: CoolSpace.x5),
           Text(
-            'FAN TOKENS',
+            'FAN POINTS',
             style: context.coolText.mono(
               Theme.of(context).textTheme.labelSmall,
               fontWeight: FontWeight.w700,
@@ -119,7 +119,7 @@ class _BlueMembershipCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    _fmtAmt(targetTokens),
+                    _fmtAmt(targetPoints),
                     style: context.coolText.mono(
                       Theme.of(context).textTheme.titleMedium,
                       fontWeight: FontWeight.w800,

@@ -7,18 +7,18 @@ import '../../tool/governance_docs.dart';
 const _migratedRedesignFiles = <String>[
   'lib/features/admin/widgets/manage_app_config_sections.dart',
   'lib/shared/widgets/rs_shop_item.dart',
-  'lib/features/partners/rayon/widgets/support_detail_parts.dart',
-  'lib/features/partners/rayon/widgets/shop_checkout_parts.dart',
-  'lib/features/partners/rayon/widgets/tickets_screen_parts.dart',
-  'lib/features/partners/rayon/widgets/fan_profile_parts.dart',
-  'lib/features/partners/rayon/widgets/member_registry_parts.dart',
-  'lib/features/partners/rayon/widgets/rs_admin_finance_parts.dart',
+  'lib/features/rayon/widgets/support_detail_parts.dart',
+  'lib/features/rayon/widgets/shop_checkout_parts.dart',
+  'lib/features/rayon/widgets/tickets_screen_parts.dart',
+  'lib/features/rayon/widgets/fan_profile_parts.dart',
+  'lib/features/rayon/widgets/member_registry_parts.dart',
+  'lib/features/rayon/widgets/rs_admin_finance_parts.dart',
   'lib/features/admin/widgets/manage_services_parts.dart',
   'lib/features/admin/widgets/manage_ai_content_parts.dart',
   'lib/features/admin/widgets/manage_users_parts.dart',
   'lib/features/admin/widgets/manage_admin_roles_parts.dart',
-  'lib/features/groups/widgets/create_group_parts.dart',
-  'lib/features/admin/widgets/bank_admin/bank_admin_workspace_parts.dart',
+  'lib/features/groups/screens/groups_screen.dart',
+  'lib/features/admin/screens/bank_admin_workspace_screen.dart',
 ];
 
 void main() {

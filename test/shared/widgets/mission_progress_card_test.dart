@@ -44,7 +44,7 @@ void main() {
         find.text('Three more supporters unlock the reward.'),
         findsOneWidget,
       );
-      expect(find.text('25 Tokens'), findsOneWidget);
+      expect(find.text('25 Points'), findsOneWidget);
     });
 
     testWidgets('renders completion copy when mission is finished', (

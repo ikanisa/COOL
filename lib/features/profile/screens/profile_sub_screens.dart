@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/providers/notification_settings_provider.dart';
+import '../../../core/router/app_routes.dart';
 import '../../../core/services/fcm_service.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/rs_colors.dart';
@@ -105,11 +106,11 @@ class _ProfileSubScaffold extends StatelessWidget {
                       width: 44,
                       height: 44,
                       decoration: BoxDecoration(
-                        color: RsColors.rsBlue.withValues(alpha: 0.1),
+                        color: RsColors.rsRed.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       alignment: Alignment.center,
-                      child: Icon(icon, color: RsColors.rsBlue, size: 22),
+                      child: Icon(icon, color: RsColors.rsRed, size: 22),
                     ),
                   ],
                 ),

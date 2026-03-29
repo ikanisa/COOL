@@ -97,7 +97,12 @@ class BiopayRepository {
       final headers = await _buildAttestedHeaders();
       final response = await _client.functions.invoke(
         'biopay-match',
-        body: <String, Object?>{'embedding': embedding, 'liveness': ?liveness},
+        body: <String, Object?>{
+          'embedding': embedding,
+          ...?(liveness == null
+              ? null
+              : <String, Object?>{'liveness': liveness}),
+        },
         headers: headers,
       );
       final payload = jh.asMap(response.data);

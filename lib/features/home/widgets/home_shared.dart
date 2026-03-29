@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/rs_colors.dart';
 import '../../../shared/widgets/cool_toast.dart';
-import '../../partners/providers/rayon_sports_provider.dart';
+import '../../rayon/providers/rayon_sports_provider.dart';
 
 String fmtAmt(int v) {
   final s = v.toString();
@@ -107,8 +107,8 @@ class HomeGlassCard extends StatelessWidget {
   }
 }
 
-class HomeBluTag extends StatelessWidget {
-  const HomeBluTag({super.key, required this.label});
+class HomeRedTag extends StatelessWidget {
+  const HomeRedTag({super.key, required this.label});
   final String label;
 
   @override
@@ -116,10 +116,10 @@ class HomeBluTag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: RsColors.rsBlue.withValues(alpha: 0.2),
+        color: RsColors.rsRed.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(CoolRadii.sm),
         border: Border.all(
-          color: RsColors.rsBlue.withValues(alpha: 0.3),
+          color: RsColors.rsRed.withValues(alpha: 0.3),
         ),
       ),
       child: Text(
@@ -127,7 +127,7 @@ class HomeBluTag extends StatelessWidget {
         style: context.coolText.mono(
           Theme.of(context).textTheme.labelSmall,
           fontWeight: FontWeight.w800,
-          color: RsColors.rsBlue,
+          color: RsColors.rsRed,
           letterSpacing: 1.0,
         ),
       ),

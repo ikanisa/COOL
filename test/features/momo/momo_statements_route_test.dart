@@ -666,7 +666,9 @@ void main() {
     await settleTestApp(tester);
     await tester.tap(find.text('Alice').last);
     await settleTestApp(tester);
-    await tester.tap(find.text('Apply filters'));
+    await tester.tap(
+      find.byKey(const ValueKey<String>('statement-apply-filters')),
+    );
     await settleTestApp(tester);
 
     expect(find.textContaining('Alice'), findsWidgets);
@@ -674,7 +676,9 @@ void main() {
 
     await tester.tap(optionsButton);
     await settleTestApp(tester);
-    await tester.tap(find.text('PDF'));
+    await tester.tap(
+      find.byKey(const ValueKey<String>('statement-export-pdf')),
+    );
     await settleTestApp(tester);
 
     expect(exportService.walletExportCalls, 1);

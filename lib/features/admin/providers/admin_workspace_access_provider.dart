@@ -56,6 +56,46 @@ final adminWorkspaceAccessProvider = Provider<AdminWorkspaceAccess>((ref) {
   );
 });
 
+final adminPartnerWorkspacesProvider = FutureProvider<List<Partner>>((
+  ref,
+) async {
+  final access = ref.watch(adminWorkspaceAccessProvider);
+  if (!access.hasPartnerAdminAccess) {
+    return const <Partner>[];
+  }
+
+  final repository = ref.read(partnerRepositoryProvider);
+  final partners = await repository.fetchAll();
+  return partners
+      .where((partner) {
+        if (partner.isBank) {
+          return false;
+        }
+        return access.hasPlatformAccess ||
+            access.hasGlobalPartnerAccess ||
+            access.canAccessPartnerId(partner.id);
+      })
+      .toList(growable: false);
+});
+
+final adminBankWorkspacesProvider = FutureProvider<List<Partner>>((ref) async {
+  final access = ref.watch(adminWorkspaceAccessProvider);
+  if (!access.hasBankAdminAccess) {
+    return const <Partner>[];
+  }
+
+  final repository = ref.read(partnerRepositoryProvider);
+  final partners = await repository.fetchAll();
+  return partners
+      .where((partner) {
+        if (!partner.isBank) {
+          return false;
+        }
+        return access.hasPlatformAccess || access.canAccessBankId(partner.id);
+      })
+      .toList(growable: false);
+});
+
 // ═══════════════════════════════════════════════════════════════
 // Role management providers (super admin)
 // ═══════════════════════════════════════════════════════════════
@@ -77,63 +117,3 @@ final adminRoleAssignmentsByRoleProvider =
       final repo = ref.read(adminRoleRepositoryProvider);
       return repo.listRoleAssignments(role: role);
     });
-
-// ═══════════════════════════════════════════════════════════════
-// Workspace listing providers (for admin entry screen)
-// ═══════════════════════════════════════════════════════════════
-
-final adminPartnerWorkspacesProvider = FutureProvider<List<Partner>>((
-  ref,
-) async {
-  final access = ref.watch(adminWorkspaceAccessProvider);
-  final repo = ref.read(partnerRepositoryProvider);
-
-  if (access.hasPlatformAccess || access.hasGlobalPartnerAccess) {
-    return repo.fetchByCategory(PartnerCategory.football);
-  }
-  if (access.partnerAdminIds.isEmpty) {
-    return const <Partner>[];
-  }
-  final partners = await repo.fetchByIds(
-    access.partnerAdminIds.toList(growable: false),
-  );
-  return partners
-      .where((partner) => partner.category == PartnerCategory.football)
-      .toList(growable: false);
-});
-
-final adminBankWorkspacesProvider = FutureProvider<List<Partner>>((ref) async {
-  final access = ref.watch(adminWorkspaceAccessProvider);
-  final repo = ref.read(partnerRepositoryProvider);
-
-  if (access.hasPlatformAccess || access.hasGlobalBankAccess) {
-    return repo.fetchByCategory(PartnerCategory.bank);
-  }
-  if (access.bankAdminIds.isEmpty) {
-    return const <Partner>[];
-  }
-  final partners = await repo.fetchByIds(
-    access.bankAdminIds.toList(growable: false),
-  );
-  return partners
-      .where((partner) => partner.category == PartnerCategory.bank)
-      .toList(growable: false);
-});
-
-final rayonAdminAccessProvider = FutureProvider<bool>((ref) async {
-  final access = ref.watch(adminWorkspaceAccessProvider);
-  if (access.partnerAdminIds.isEmpty &&
-      !access.hasPlatformAccess &&
-      !access.hasGlobalPartnerAccess) {
-    return false;
-  }
-  if (access.hasPlatformAccess || access.hasGlobalPartnerAccess) {
-    return true;
-  }
-
-  final rayon = await ref.read(partnerBySlugProvider('rayon-sports').future);
-  if (rayon == null) {
-    return false;
-  }
-  return access.canAccessPartnerId(rayon.id);
-});

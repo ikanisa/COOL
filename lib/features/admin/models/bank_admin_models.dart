@@ -143,7 +143,6 @@ class BankAdminAllocationReviewItem {
   final String? reference;
   final String? provider;
   final String? payeeDigits;
-  // AI suggestion fields
   final String? suggestedGroupId;
   final String? suggestedMemberUserId;
   final String? suggestedMemberName;
@@ -161,10 +160,14 @@ class BankAdminAllocationReviewItem {
         ? metadata
         : <String, dynamic>{};
 
-    double? parseConfidence(dynamic v) {
-      if (v == null) return null;
-      if (v is num) return v.toDouble();
-      return double.tryParse(v.toString());
+    double? parseConfidence(dynamic value) {
+      if (value == null) {
+        return null;
+      }
+      if (value is num) {
+        return value.toDouble();
+      }
+      return double.tryParse(value.toString());
     }
 
     return BankAdminAllocationReviewItem(

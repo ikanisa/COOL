@@ -115,7 +115,7 @@ abstract class AppLocalizations {
   /// No description provided for @navProfile.
   ///
   /// In en, this message translates to:
-  /// **'Profile'**
+  /// **'Settings'**
   String get navProfile;
 
   /// No description provided for @welcomeTitle.
@@ -3271,7 +3271,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileCoolStatusValue.
   ///
   /// In en, this message translates to:
-  /// **'{tier} · {points} Tokens'**
+  /// **'{tier} · {points} Points'**
   String profileCoolStatusValue(Object points, Object tier);
 
   /// No description provided for @profileUserIdLabel.
@@ -3391,7 +3391,7 @@ abstract class AppLocalizations {
   /// No description provided for @activeMissions.
   ///
   /// In en, this message translates to:
-  /// **'Active Missions'**
+  /// **'Active Reward Activities'**
   String get activeMissions;
 
   /// No description provided for @comingSoon.
@@ -3439,7 +3439,7 @@ abstract class AppLocalizations {
   /// No description provided for @earnTokens.
   ///
   /// In en, this message translates to:
-  /// **'Earn Tokens'**
+  /// **'Earn Points'**
   String get earnTokens;
 
   /// No description provided for @waysToEarn.
@@ -3493,7 +3493,7 @@ abstract class AppLocalizations {
   /// No description provided for @earn10TokensFor.
   ///
   /// In en, this message translates to:
-  /// **'Earn 10 Tokens for attending'**
+  /// **'Earn 10 points for attending'**
   String get earn10TokensFor;
 
   /// No description provided for @oneMoreTrip.
@@ -3529,7 +3529,7 @@ abstract class AppLocalizations {
   /// No description provided for @earn10TokensPer.
   ///
   /// In en, this message translates to:
-  /// **'Earn 10 Tokens per contribution'**
+  /// **'Earn 10 points per contribution'**
   String get earn10TokensPer;
 
   /// No description provided for @becomeARayonFan.
@@ -4393,7 +4393,7 @@ abstract class AppLocalizations {
   /// No description provided for @rewardPoints.
   ///
   /// In en, this message translates to:
-  /// **'Reward Tokens'**
+  /// **'Reward Points'**
   String get rewardPoints;
 
   /// No description provided for @rewardDescription.
@@ -4807,7 +4807,7 @@ abstract class AppLocalizations {
   /// No description provided for @coolTokens.
   ///
   /// In en, this message translates to:
-  /// **'Cool Tokens'**
+  /// **'Fan Rewards'**
   String get coolTokens;
 
   /// No description provided for @inviteFriends.
@@ -5617,7 +5617,7 @@ abstract class AppLocalizations {
   /// No description provided for @points1.
   ///
   /// In en, this message translates to:
-  /// **'Tokens'**
+  /// **'Points'**
   String get points1;
 
   /// No description provided for @memberCsvCopiedTo.
@@ -6337,7 +6337,7 @@ abstract class AppLocalizations {
   /// No description provided for @points2.
   ///
   /// In en, this message translates to:
-  /// **'Tokens'**
+  /// **'Points'**
   String get points2;
 
   /// No description provided for @askAboutYourFinances.
@@ -6517,7 +6517,7 @@ abstract class AppLocalizations {
   /// No description provided for @str50Tokens.
   ///
   /// In en, this message translates to:
-  /// **'+50 Tokens'**
+  /// **'+50 Points'**
   String get str50Tokens;
 
   /// No description provided for @wealthArchiveSavedTo.
@@ -6535,25 +6535,25 @@ abstract class AppLocalizations {
   /// No description provided for @seasonsAndActivities.
   ///
   /// In en, this message translates to:
-  /// **'Seasons & Activities'**
+  /// **'Rewards & Activities'**
   String get seasonsAndActivities;
 
   /// No description provided for @activeSeasons.
   ///
   /// In en, this message translates to:
-  /// **'Active Seasons'**
+  /// **'Active Reward Seasons'**
   String get activeSeasons;
 
   /// No description provided for @pastSeasons.
   ///
   /// In en, this message translates to:
-  /// **'Past Seasons'**
+  /// **'Past Reward Seasons'**
   String get pastSeasons;
 
   /// No description provided for @seasonEarnTokensSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Earn tokens by completing activities during each season'**
+  /// **'Earn points by completing activities during each reward season'**
   String get seasonEarnTokensSubtitle;
 
   /// No description provided for @seasonStatusLive.
@@ -6583,7 +6583,7 @@ abstract class AppLocalizations {
   /// No description provided for @earnTokensLabel.
   ///
   /// In en, this message translates to:
-  /// **'Earn Tokens'**
+  /// **'Earn Points'**
   String get earnTokensLabel;
 
   /// No description provided for @groupDetailTitle.
@@ -6907,7 +6907,7 @@ abstract class AppLocalizations {
   /// No description provided for @adminSeasonsDesc.
   ///
   /// In en, this message translates to:
-  /// **'Token-earning gamification activities'**
+  /// **'Reward-earning seasonal activities'**
   String get adminSeasonsDesc;
 
   /// No description provided for @adminActivities.

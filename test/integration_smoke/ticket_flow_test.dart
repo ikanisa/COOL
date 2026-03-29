@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
-import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
+import 'package:cool_app/features/rayon/models/rs_models.dart';
 import 'package:cool_app/features/partners/repositories/rayon_sports_repository.dart';
-import 'package:cool_app/features/partners/rayon/screens/tickets_screen.dart';
+import 'package:cool_app/features/rayon/screens/tickets_screen.dart';
 
 import 'test_harness.dart';
 

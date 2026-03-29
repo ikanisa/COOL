@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../features/partners/rayon/models/rs_models.dart';
+import '../../../features/rayon/models/rs_models.dart';
 
 /// A single row in the Cool Tokens leaderboard.
 class LeaderboardEntry extends Equatable {

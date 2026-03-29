@@ -51,8 +51,10 @@ class AdminRoleRepository {
       params: {
         'p_target_user_id': targetUserId,
         'p_role': role.dbValue,
-        'p_partner_scope_id': ?partnerScopeId,
-        'p_notes': ?notes,
+        ...?(partnerScopeId == null
+            ? null
+            : <String, dynamic>{'p_partner_scope_id': partnerScopeId}),
+        ...?(notes == null ? null : <String, dynamic>{'p_notes': notes}),
       },
     );
     return result as Map<String, dynamic>;
@@ -65,7 +67,10 @@ class AdminRoleRepository {
   }) async {
     final result = await _client.rpc(
       'revoke_admin_role',
-      params: {'p_assignment_id': assignmentId, 'p_notes': ?notes},
+      params: {
+        'p_assignment_id': assignmentId,
+        ...?(notes == null ? null : <String, dynamic>{'p_notes': notes}),
+      },
     );
     return result as Map<String, dynamic>;
   }

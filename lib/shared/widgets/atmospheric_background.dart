@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class AtmosphericBackground extends StatelessWidget {
               child: _AnimatedBlob(
                 width: MediaQuery.sizeOf(context).width * 0.4,
                 height: MediaQuery.sizeOf(context).height * 0.4,
-                color: RsColors.rsBlue.withValues(alpha: 0.10),
+                color: RsColors.rsRed.withValues(alpha: 0.10),
                 blurSigma: 60,
                 animate: true,
               ),
@@ -46,7 +47,7 @@ class AtmosphericBackground extends StatelessWidget {
               child: _AnimatedBlob(
                 width: MediaQuery.sizeOf(context).width * 0.5,
                 height: MediaQuery.sizeOf(context).height * 0.5,
-                color: RsColors.rsBlue.withValues(alpha: 0.05),
+                color: RsColors.rsRed.withValues(alpha: 0.05),
                 blurSigma: 75,
                 animate: false,
               ),
@@ -101,6 +102,7 @@ class _AnimatedBlobState extends State<_AnimatedBlob>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _opacity;
+  Timer? _startDelayTimer;
   bool _started = false;
 
   @override
@@ -122,22 +124,33 @@ class _AnimatedBlobState extends State<_AnimatedBlob>
         MediaQuery.maybeOf(context)?.disableAnimations ?? false;
     if (widget.animate && !reduceMotion) {
       if (!_started) {
-        Future.delayed(widget.delay, () {
-          if (mounted) {
+        if (widget.delay == Duration.zero) {
+          _started = true;
+          _controller.repeat(reverse: true);
+        } else {
+          _startDelayTimer ??= Timer(widget.delay, () {
+            if (!mounted) {
+              return;
+            }
             _started = true;
             _controller.repeat(reverse: true);
-          }
-        });
+          });
+        }
       } else if (!_controller.isAnimating) {
         _controller.repeat(reverse: true);
       }
-    } else if (_controller.isAnimating) {
-      _controller.stop();
+    } else {
+      _startDelayTimer?.cancel();
+      _startDelayTimer = null;
+      if (_controller.isAnimating) {
+        _controller.stop();
+      }
     }
   }
 
   @override
   void dispose() {
+    _startDelayTimer?.cancel();
     _controller.dispose();
     super.dispose();
   }

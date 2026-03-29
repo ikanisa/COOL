@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/rs_colors.dart';
-import '../../features/partners/rayon/models/rs_models.dart';
+import '../../features/rayon/models/rs_models.dart';
 
 class RsShopItem extends StatelessWidget {
   const RsShopItem({
@@ -62,7 +62,7 @@ class RsShopItem extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(radii.md),
           border: Border.all(
-            color: RsColors.rsBlueBorder.withValues(alpha: 0.72),
+            color: RsColors.rsRedBorder.withValues(alpha: 0.72),
           ),
           boxShadow: CoolShadows.floating(theme.brightness, strength: 0.3),
         ),
@@ -110,7 +110,7 @@ class RsShopItem extends StatelessWidget {
                           child: _Badge(
                             label:
                                 '-${discountPct.toStringAsFixed(discountPct.truncateToDouble() == discountPct ? 0 : 1)}%',
-                            background: RsColors.rsBlue,
+                            background: RsColors.rsRed,
                             foreground: RsColors.rsWhite,
                           ),
                         ),
@@ -225,9 +225,9 @@ class RsShopItem extends StatelessWidget {
                         vertical: space.x1 + 2,
                       ),
                       decoration: BoxDecoration(
-                        color: RsColors.rsBlueGlow,
+                        color: RsColors.rsRedGlow,
                         borderRadius: BorderRadius.circular(radii.sm),
-                        border: Border.all(color: RsColors.rsBlueBorder),
+                        border: Border.all(color: RsColors.rsRedBorder),
                       ),
                       child: Text(
                         'x$quantity',
@@ -365,7 +365,7 @@ class _IconPill extends StatelessWidget {
         decoration: BoxDecoration(
           color: colors.overlaySurface,
           borderRadius: BorderRadius.circular(radii.sm),
-          border: Border.all(color: RsColors.rsBlueBorder),
+          border: Border.all(color: RsColors.rsRedBorder),
         ),
         child: Icon(icon, size: 18, color: RsColors.rsWhite),
       ),

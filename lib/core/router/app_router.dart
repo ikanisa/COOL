@@ -6,11 +6,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../features/auth/providers/auth_provider.dart';
 import '../../features/auth/screens/splash_screen.dart';
 import 'app_redirects.dart';
-import '../../features/groups/screens/create_group_screen.dart';
-import '../../features/groups/screens/group_detail_screen.dart';
-import '../../features/groups/screens/group_ledger_screen.dart';
-import '../../features/groups/screens/group_invite_screen.dart';
-import '../../features/groups/screens/groups_screen.dart';
 import '../../features/home/screens/seasons_activities_screen.dart';
 import '../../features/home/screens/home_screen.dart';
 import '../../features/biopay/models/biopay_enrollment_draft.dart';
@@ -49,45 +44,6 @@ final _biopayNavigatorKey = GlobalKey<NavigatorState>(
 final _profileNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'profileNavigator',
 );
-
-bool _asMetadataBool(dynamic value) {
-  if (value is bool) {
-    return value;
-  }
-  if (value is num) {
-    return value != 0;
-  }
-  if (value is String) {
-    final normalized = value.toLowerCase().trim();
-    return normalized == 'true' || normalized == '1';
-  }
-  return false;
-}
-
-bool _hasPartnerScannerAccess(User? user) {
-  if (user == null) {
-    return false;
-  }
-
-  final appMetadata = user.appMetadata;
-  if (_asMetadataBool(appMetadata['is_partner_admin'])) {
-    return true;
-  }
-
-  final partnerAdminIds = appMetadata['partner_admin_ids'];
-  if (partnerAdminIds is List) {
-    return partnerAdminIds.any((value) => value.toString().trim().isNotEmpty);
-  }
-  if (partnerAdminIds is Map) {
-    return partnerAdminIds.entries.any(
-      (entry) =>
-          _asMetadataBool(entry.value) &&
-          entry.key.toString().trim().isNotEmpty,
-    );
-  }
-
-  return false;
-}
 
 final _appRouterRefreshListenableProvider = Provider<ChangeNotifier>((ref) {
   final notifier = _AppRouterRefreshNotifier();
@@ -130,22 +86,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     bool isAdmin,
     AuthProfileRestoreState profileRestoreState,
     AdminWorkspaceAccess adminAccess,
-    bool hasRayonAdminAccess,
   })
   readAuthSnapshot() {
     final state = ref.read(authProvider);
     final adminAccess = ref.read(adminWorkspaceAccessProvider);
-    final rayonAdminAccessAsync = ref.read(rayonAdminAccessProvider);
     return (
       session: state.session,
       hasProfile: state.user?.isProfileComplete ?? false,
       isAdmin: state.user?.isAdmin ?? false,
       profileRestoreState: state.profileRestoreState,
       adminAccess: adminAccess,
-      hasRayonAdminAccess:
-          adminAccess.hasPlatformAccess ||
-          adminAccess.hasPartnerAdminAccess ||
-          rayonAdminAccessAsync.valueOrNull == true,
     );
   }
 
@@ -164,23 +114,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         profileRestoreState: authSnapshot.profileRestoreState,
         isAdmin: authSnapshot.isAdmin,
         adminAccess: authSnapshot.adminAccess,
-        hasRayonAdminAccess: authSnapshot.hasRayonAdminAccess,
+        hasRayonAdminAccess: authSnapshot.isAdmin,
         sessionPhone: null,
         pendingRedirect: state.uri.queryParameters['redirect'],
       );
     },
     routes: [
       GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
-      GoRoute(
-        path: AppRoutes.groupInvite,
-        builder: (context, state) {
-          final code = state.pathParameters['code'] ?? '';
-          return GroupInviteScreen(
-            inviteCode: code,
-            referralParameters: state.uri.queryParameters,
-          );
-        },
-      ),
 
       // ── QR Scanner (full-screen, no shell) ─────────────────────
       GoRoute(
@@ -189,9 +129,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final authSnapshot = readAuthSnapshot();
           final modeStr = state.uri.queryParameters['mode'] ?? 'ticket';
           final mode = modeStr == 'momo' ? QrScanMode.momo : QrScanMode.ticket;
-          final ticketScanningEnabled =
-              authSnapshot.isAdmin ||
-              _hasPartnerScannerAccess(authSnapshot.session?.user);
+          final ticketScanningEnabled = authSnapshot.isAdmin;
           return coolPageTransition(
             context: context,
             state: state,
@@ -236,7 +174,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                         isAdmin: authSnapshot.isAdmin,
                       ),
                       featureName: 'BioPay',
-                      child: const SecureScreenWrapper(child: BiopayHomeScreen()),
+                      child: const SecureScreenWrapper(
+                        child: BiopayHomeScreen(),
+                      ),
                     ),
                   );
                 },
@@ -266,7 +206,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     pageBuilder: (context, state) {
                       final authSnapshot = readAuthSnapshot();
                       final featureFlags = ref.read(featureFlagsStateProvider);
-                      final modeParam = state.uri.queryParameters['mode']?.trim();
+                      final modeParam = state.uri.queryParameters['mode']
+                          ?.trim();
                       final mode = modeParam == 'enroll'
                           ? BiopayScanMode.enroll
                           : BiopayScanMode.pay;
@@ -327,7 +268,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 routes: [
                   GoRoute(
                     path: 'wallet',
-                    builder: (context, state) => const ProfileWalletScreen(),
+                    builder: (context, state) => ProfileWalletScreen(
+                      redirectLocation: state.uri.queryParameters['redirect'],
+                    ),
                   ),
                   GoRoute(
                     path: 'account',
@@ -355,34 +298,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     builder: (context, state) => const AboutAppScreen(),
                   ),
                 ],
-              ),
-            ],
-          ),
-        ],
-      ),
-
-      // ── Groups routes (extracted from shell) ──────────────────
-      GoRoute(
-        path: AppRoutes.groups,
-        builder: (context, state) => const GroupsScreen(),
-        routes: [
-          GoRoute(
-            path: 'create',
-            builder: (context, state) => const CreateGroupScreen(),
-          ),
-          GoRoute(
-            path: ':id',
-            builder: (context, state) {
-              final id = state.pathParameters['id']!;
-              return GroupDetailScreen(groupId: id);
-            },
-            routes: [
-              GoRoute(
-                path: 'ledger',
-                builder: (context, state) {
-                  final id = state.pathParameters['id']!;
-                  return GroupLedgerScreen(groupId: id);
-                },
               ),
             ],
           ),
@@ -461,6 +376,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           state: state,
           child: const SeasonsActivitiesScreen(),
         ),
+      ),
+      GoRoute(
+        path: AppRoutes.gamification,
+        redirect: (context, state) => AppRoutes.rewards,
       ),
 
       // ── Admin routes (extracted) ──────────────────────────────

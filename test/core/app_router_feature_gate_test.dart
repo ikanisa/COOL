@@ -65,7 +65,7 @@ void main() {
           find.textContaining('BioPay is temporarily unavailable.'),
           findsOneWidget,
         );
-        expect(find.text('GO BACK'), findsOneWidget);
+        expect(find.text('Go Back'), findsOneWidget);
       },
     );
 

@@ -12,7 +12,7 @@ import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../biopay/providers/biopay_providers.dart';
-import '../../partners/providers/rayon_sports_provider.dart';
+import '../../rayon/providers/rayon_sports_provider.dart';
 import '../providers/profile_view_provider.dart';
 import '../widgets/profile_dialogs.dart';
 
@@ -20,7 +20,7 @@ part 'profile_screen_parts.dart';
 
 // ─────────────────────────────────────────────────────────────────────
 // ProfileScreen — faithful replica of the React reference screenshots
-// Sections: Header → Blue Membership Card → FAN IDENTITY →
+// Sections: Header → ROUGEBLACK Membership Card → FAN IDENTITY →
 //   APP SETTINGS → SUPPORT (with LOGOUT in red)
 // ─────────────────────────────────────────────────────────────────────
 
@@ -160,13 +160,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       width: 44,
                       height: 44,
                       decoration: BoxDecoration(
-                        color: RsColors.rsBlue.withValues(alpha: 0.1),
+                        color: RsColors.rsRed.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       alignment: Alignment.center,
                       child: const Icon(
                         Icons.verified_user_rounded,
-                        color: RsColors.rsBlue,
+                        color: RsColors.rsRed,
                         size: 22,
                       ),
                     ),
@@ -186,7 +186,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               sliver: SliverList.list(
                 children: [
                   // ── 1. Blue Membership Card ───────────────────────
-                  _BlueMembershipCard(
+                  _MembershipCard(
                     memberId: memberId,
                     tier: tier,
                     tokens: tokens,
@@ -202,9 +202,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       children: [
                         _SettingsRow(
                           icon: Icons.emoji_events_outlined,
-                          title: 'ACHIEVEMENTS',
-                          subtitle: '12 UNLOCKED',
-                          onTap: () => context.push(AppRoutes.missions),
+                          title: 'FAN REWARDS',
+                          subtitle: 'POINTS, ACTIVITIES & PERKS',
+                          onTap: () => context.push(AppRoutes.rewards),
                         ),
                         _SettingsDivider(),
                         _SettingsRow(
@@ -236,6 +236,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           title: 'ACCOUNT DETAILS',
                           subtitle: 'PERSONAL INFORMATION',
                           onTap: () => context.push(AppRoutes.profileAccount),
+                        ),
+                        _SettingsDivider(),
+                        _SettingsRow(
+                          icon: Icons.account_balance_wallet_outlined,
+                          title: 'WALLET & MOMO',
+                          subtitle: profile.momoLinked
+                              ? profile.momoDisplayLabel
+                              : 'SET UP YOUR DEFAULT MOMO',
+                          onTap: () => context.push(AppRoutes.settingsWallet),
                         ),
                         _SettingsDivider(),
                         _SettingsRow(

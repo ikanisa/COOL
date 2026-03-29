@@ -150,7 +150,7 @@ class _CustomAmountField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radii.sm),
-          borderSide: const BorderSide(color: RsColors.rsBlueLight),
+          borderSide: const BorderSide(color: RsColors.rsNavyLight),
         ),
       ),
       onSubmitted: (_) => onSubmitted(),
@@ -182,7 +182,7 @@ class _ConfirmCustomAmountButton extends StatelessWidget {
             width: CoolTapTargets.minimum,
             height: CoolTapTargets.minimum,
             decoration: BoxDecoration(
-              color: RsColors.rsBlue,
+              color: RsColors.rsRed,
               borderRadius: BorderRadius.circular(radii.sm),
             ),
             child: const Icon(
@@ -226,9 +226,9 @@ class _Chip extends StatelessWidget {
       border = RsColors.rsGold.withValues(alpha: isSelected ? 0.6 : 0.3);
       textColor = RsColors.rsGoldLight;
     } else if (isSelected) {
-      background = RsColors.rsBlueGlow;
-      border = RsColors.rsBlueBorder;
-      textColor = RsColors.rsBluePale;
+      background = RsColors.rsRedGlow;
+      border = RsColors.rsRedBorder;
+      textColor = RsColors.rsNavyPale;
     } else {
       background = colors.inputSurface;
       border = colors.border;

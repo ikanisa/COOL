@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:cool_app/core/status/models/cool_status.dart';
-import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
+import 'package:cool_app/features/rayon/models/rs_models.dart';
 import 'package:cool_app/shared/widgets/cool_status_card.dart';
 
 Widget _wrap(Widget child) => MaterialApp(
@@ -34,14 +34,14 @@ void main() {
       await tester.pumpWidget(
         _wrap(CoolStatusCard(status: _fakeStatus(tier: FanTier.silver))),
       );
-      expect(find.text('Silver Member'), findsOneWidget);
+      expect(find.text('Bronze Member'), findsOneWidget);
     });
 
     testWidgets('renders points pill', (tester) async {
       await tester.pumpWidget(
         _wrap(CoolStatusCard(status: _fakeStatus(totalPoints: 250))),
       );
-      expect(find.text('250 Tokens'), findsOneWidget);
+      expect(find.text('250 Points'), findsOneWidget);
     });
 
     testWidgets('renders streak info', (tester) async {

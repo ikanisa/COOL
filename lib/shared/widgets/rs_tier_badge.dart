@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../features/partners/rayon/models/rs_models.dart';
+import '../../features/rayon/models/rs_models.dart';
 
 class RsTierBadge extends StatelessWidget {
   const RsTierBadge({required this.tier, super.key});
@@ -35,7 +35,7 @@ class RsTierBadge extends StatelessWidget {
             theme.textTheme.labelSmall,
             fontWeight: FontWeight.w900,
             letterSpacing: 1.1,
-            color: tier == FanTier.silver ? colors.primaryText : tier.color,
+            color: tier == FanTier.bronze ? colors.primaryText : tier.color,
           ),
         ),
       ),

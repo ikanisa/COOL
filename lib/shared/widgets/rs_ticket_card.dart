@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../features/partners/rayon/models/rs_models.dart';
+import '../../features/rayon/models/rs_models.dart';
 import 'rs_digital_ticket.dart';
 
 class RsTicketCard extends StatelessWidget {

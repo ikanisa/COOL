@@ -43,7 +43,7 @@ class RsLeagueTable extends StatelessWidget {
 
     return CoolCard(
       gradient: RsColors.rsCardGradient,
-      borderColor: RsColors.rsBlueBorder,
+      borderColor: RsColors.rsRedBorder,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -128,9 +128,9 @@ class _TableRow extends StatelessWidget {
     final theme = Theme.of(context);
 
     final bg = isHighlighted
-        ? RsColors.rsBlue.withValues(alpha: 0.18)
+        ? RsColors.rsRed.withValues(alpha: 0.18)
         : Colors.transparent;
-    final border = isHighlighted ? RsColors.rsBlueBorder : Colors.transparent;
+    final border = isHighlighted ? RsColors.rsRedBorder : Colors.transparent;
     final textColor = isHeader
         ? colors.tertiaryText
         : isHighlighted

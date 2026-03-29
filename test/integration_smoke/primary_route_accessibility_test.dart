@@ -18,7 +18,7 @@ import 'package:cool_app/features/partners/models/partner.dart';
 import 'package:cool_app/features/partners/providers/partner_provider.dart';
 import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
 import 'package:cool_app/features/partners/repositories/partner_repository.dart';
-import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
+import 'package:cool_app/features/rayon/models/rs_models.dart';
 import 'package:cool_app/features/home/screens/home_screen.dart';
 import 'package:cool_app/features/partners/screens/partners_screen.dart';
 import 'package:cool_app/features/profile/screens/profile_screen.dart';
@@ -346,11 +346,11 @@ void main() {
 
         await settleTestApp(tester);
 
-        expect(find.text('QUICK SERVICES'), findsOneWidget);
+        expect(find.text('QUICK ACTIONS'), findsOneWidget);
         _expectTouchTarget(
           tester,
           find.ancestor(
-            of: find.text('GROUPS'),
+            of: find.text('CONTRIBUTE'),
             matching: find.byType(InkWell),
           ),
         );
@@ -471,7 +471,7 @@ void main() {
         _expectTouchTarget(
           tester,
           find.ancestor(
-            of: find.text('ACHIEVEMENTS'),
+            of: find.text('FAN REWARDS'),
             matching: find.byType(InkWell),
           ),
         );

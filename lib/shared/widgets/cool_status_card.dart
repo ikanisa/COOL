@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/status/models/cool_status.dart';
 import '../../core/theme/cool_foundations.dart';
-import '../../features/partners/rayon/models/rs_models.dart';
+import '../../features/rayon/models/rs_models.dart';
 import 'cool_card.dart';
 
 /// Compact status card showing unified COOL tier, points, streak,
@@ -52,7 +52,7 @@ class CoolStatusCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Cool Tokens',
+                        'Fan Rewards',
                         style: theme.textTheme.labelSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                           color: colors.tertiaryText,
@@ -82,7 +82,7 @@ class CoolStatusCard extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    '${status.totalPoints} Tokens',
+                    '${status.totalPoints} Points',
                     style: text.mono(
                       theme.textTheme.labelMedium,
                       fontWeight: FontWeight.w700,
@@ -147,8 +147,8 @@ class CoolStatusCard extends StatelessWidget {
   }
 
   static String _nextTierLabel(FanTier tier) => switch (tier) {
-    FanTier.blue => 'Silver',
-    FanTier.silver => 'Gold',
+    FanTier.fan => 'Silver',
+    FanTier.bronze => 'Gold',
     FanTier.gold => 'Platinum',
     FanTier.platinum => 'Max',
   };
@@ -179,8 +179,8 @@ class _TierDot extends StatelessWidget {
   }
 
   static IconData _tierIcon(FanTier tier) => switch (tier) {
-    FanTier.blue => Icons.favorite_rounded,
-    FanTier.silver => Icons.workspace_premium_rounded,
+    FanTier.fan => Icons.favorite_rounded,
+    FanTier.bronze => Icons.workspace_premium_rounded,
     FanTier.gold => Icons.emoji_events_rounded,
     FanTier.platinum => Icons.diamond_rounded,
   };

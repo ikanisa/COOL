@@ -3,9 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/rs_colors.dart';
 import 'cool_press_feedback.dart';
 
-/// Card variants — Mobi × Rayon design system.
+/// Card variants — ROUGEBLACK design system.
 enum CoolCardVariant {
   /// Default: solid surface with subtle border.
   default_,
@@ -35,7 +36,7 @@ enum CoolCardPadding {
   };
 }
 
-/// A shared card surface — Mobi × Rayon system.
+/// A shared card surface — ROUGEBLACK system.
 ///
 /// Flat borders (white/5), no claymorphism. 4 variants.
 class CoolCard extends StatelessWidget {
@@ -50,7 +51,7 @@ class CoolCard extends StatelessWidget {
     this.borderRadius,
     this.gradient,
     this.useGradient = false,
-    this.blur = CoolBlur.standard,
+    this.blur = CoolBlur.subtle, // ROUGEBLACK default is 12.0
     this.semanticsLabel,
     super.key,
   });
@@ -76,7 +77,8 @@ class CoolCard extends StatelessWidget {
     // Resolve decoration based on variant.
     final resolvedBg = backgroundColor ?? _variantBg(colors);
     final resolvedBorder = borderColor ?? _variantBorder(colors);
-    final resolvedGradient = gradient ?? (useGradient ? colors.surfaceGradient : null);
+    final resolvedGradient =
+        gradient ?? (useGradient ? colors.surfaceGradient : null);
 
     final shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radius),
@@ -136,6 +138,8 @@ class CoolCard extends StatelessWidget {
     double radius,
     Color borderCol,
   ) {
+    // Glass variant specifically uses the ROUGEBLACK specs
+    // Opacity: 0.06 (via colors.glassSurface), Blur: 12, Border: 0.15.
     final glass = ClipRRect(
       borderRadius: BorderRadius.circular(radius),
       child: BackdropFilter(
@@ -145,7 +149,9 @@ class CoolCard extends StatelessWidget {
             color: colors.glassSurface,
             borderRadius: BorderRadius.circular(radius),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.10),
+              color: Colors.white.withValues(
+                alpha: RsColors.glassBorderOpacity,
+              ),
               width: 1,
             ),
           ),
@@ -180,7 +186,9 @@ class CoolCard extends StatelessWidget {
 
   Color _variantBorder(CoolSemanticColors colors) => switch (variant) {
     CoolCardVariant.default_ => Colors.white.withValues(alpha: 0.05),
-    CoolCardVariant.glass => Colors.white.withValues(alpha: 0.10),
+    CoolCardVariant.glass => Colors.white.withValues(
+      alpha: RsColors.glassBorderOpacity,
+    ),
     CoolCardVariant.outline => Colors.white.withValues(alpha: 0.10),
     CoolCardVariant.accent => colors.accent.withValues(alpha: 0.20),
   };

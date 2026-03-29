@@ -11,7 +11,7 @@ import 'package:cool_app/core/status/providers/cool_status_provider.dart';
 import 'package:cool_app/core/status/repositories/cool_status_repository.dart';
 import 'package:cool_app/features/biopay/providers/biopay_providers.dart';
 import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
-import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
+import 'package:cool_app/features/rayon/models/rs_models.dart';
 import 'package:cool_app/features/profile/screens/profile_screen.dart';
 
 import 'test_harness.dart';
@@ -151,7 +151,9 @@ void main() {
       expect(find.text('SETTINGS'), findsOneWidget);
       expect(find.text('FAN IDENTITY'), findsWidgets);
       expect(find.text('MY TICKETS'), findsOneWidget);
+      expect(find.text('FAN REWARDS'), findsOneWidget);
       expect(find.text('ACCOUNT DETAILS'), findsOneWidget);
+      expect(find.text('WALLET & MOMO'), findsOneWidget);
       expect(find.text('FACE ID REGISTER'), findsOneWidget);
       expect(find.text('NOTIFICATIONS'), findsOneWidget);
       expect(find.text('PRIVACY & SECURITY'), findsOneWidget);
@@ -200,7 +202,7 @@ void main() {
         expect(find.text('Code'), findsOneWidget);
         expect(find.text('MoMo Number'), findsOneWidget);
         expect(find.text('MoMo Code'), findsNothing);
-        expect(find.text('CONTINUE'), findsOneWidget);
+        expect(find.text('Continue'), findsOneWidget);
 
         await tester.tap(find.byIcon(Icons.arrow_back_rounded).first);
         await settleTestApp(tester);

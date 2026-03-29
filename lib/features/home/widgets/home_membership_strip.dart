@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/rs_colors.dart';
-import '../../partners/rayon/models/rs_models.dart';
+import '../../rayon/models/rs_models.dart';
 import 'home_shared.dart';
 
 // ═════════════════════════════════════════════════════════════════════
@@ -38,13 +38,13 @@ class HomeMembershipStrip extends StatelessWidget {
             width: 52,
             height: 52,
             decoration: BoxDecoration(
-              color: RsColors.rsBlue.withValues(alpha: 0.15),
+              color: RsColors.rsRed.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(CoolRadii.lg),
             ),
             alignment: Alignment.center,
             child: const Icon(
               Icons.workspace_premium_rounded,
-              color: RsColors.rsBlue,
+              color: RsColors.rsRed,
               size: 26,
             ),
           ),
@@ -95,7 +95,7 @@ class HomeMembershipStrip extends StatelessWidget {
                 style: context.coolText.mono(
                   Theme.of(context).textTheme.headlineSmall,
                   fontWeight: FontWeight.w800,
-                  color: RsColors.rsBlue,
+                  color: RsColors.rsRed,
                 ),
               ),
             ],

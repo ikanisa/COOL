@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-
 import '../../features/momo/providers/momo_sms_rationale_provider.dart';
 import '../../features/momo/widgets/momo_sms_rationale_sheet.dart';
 import '../l10n/l10n.dart';
@@ -42,14 +41,14 @@ class _AppShellState extends ConsumerState<AppShell>
       vsync: this,
       duration: const Duration(milliseconds: 800),
     );
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 1.5),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _entryController,
-      // Spring-like: damping 20, stiffness 100 → elasticOut approximation
-      curve: const _SpringCurve(damping: 20, stiffness: 100),
-    ));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 1.5), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _entryController,
+            // Spring-like: damping 20, stiffness 100 → elasticOut approximation
+            curve: const _SpringCurve(damping: 20, stiffness: 100),
+          ),
+        );
     _fadeAnimation = CurvedAnimation(
       parent: _entryController,
       curve: const Interval(0.0, 0.5, curve: Curves.easeOut),
@@ -95,9 +94,7 @@ class _AppShellState extends ConsumerState<AppShell>
     final textScale = MediaQuery.textScalerOf(context).scale(1);
     final safeAreaBottom = MediaQuery.viewPaddingOf(context).bottom;
     // Pill height: ~60dp base + text scale adjustment
-    final pillHeight = (60 + ((textScale - 1) * 12))
-        .clamp(60, 72)
-        .toDouble();
+    final pillHeight = (60 + ((textScale - 1) * 12)).clamp(60, 72).toDouble();
     final navigationChromeInset = widget.showNavigationChrome
         ? pillHeight + CoolSpace.x8 + safeAreaBottom
         : 0.0;
@@ -147,7 +144,7 @@ class _AppShellState extends ConsumerState<AppShell>
                           ),
                           _NavItem(
                             label: context.l10n.navProfile,
-                            icon: Icons.person_rounded,
+                            icon: Icons.settings_rounded,
                             isSelected: index == 2,
                             onTap: () => _onItemTapped(2),
                             colors: colors,
@@ -216,9 +213,7 @@ class _GlassPill extends StatelessWidget {
                 vertical: CoolSpace.x2,
               ),
               child: Row(
-                children: children
-                    .map((c) => Expanded(child: c))
-                    .toList(),
+                children: children.map((c) => Expanded(child: c)).toList(),
               ),
             ),
           ),
@@ -341,10 +336,7 @@ class _NavItem extends StatelessWidget {
 // ─────────────────────────────────────────────────────────────────────────────
 
 class _SpringCurve extends Curve {
-  const _SpringCurve({
-    required this.damping,
-    required this.stiffness,
-  });
+  const _SpringCurve({required this.damping, required this.stiffness});
 
   final double damping;
   final double stiffness;
@@ -353,8 +345,7 @@ class _SpringCurve extends Curve {
   double transformInternal(double t) {
     // Critically damped spring (damping=20, stiffness=100, omega=10, zeta=1).
     // Formula: 1 - (1 + omega*t) * e^(-omega*t)
-    final double result = 1.0 -
-        (1.0 + 10.0 * t) * _expNeg(10.0 * t);
+    final double result = 1.0 - (1.0 + 10.0 * t) * _expNeg(10.0 * t);
     return result.clamp(0.0, 1.0);
   }
 

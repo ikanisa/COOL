@@ -109,7 +109,7 @@ class BiopayHomeScreen extends StatelessWidget {
                       style: context.coolText.rayonCondensed(
                         theme.textTheme.displayMedium,
                         fontWeight: FontWeight.w900,
-                        color: RsColors.rsBlue,
+                        color: RsColors.rsRed,
                         letterSpacing: -0.5,
                         height: 1.0,
                       ),
@@ -122,7 +122,7 @@ class BiopayHomeScreen extends StatelessWidget {
                       icon: Icons.face_retouching_natural_rounded,
                       title: 'FACE\nSCAN',
                       subtitle: 'SCAN FACE TO\nPAY',
-                      accentColor: RsColors.rsBlue,
+                      accentColor: RsColors.rsRed,
                       onTap: () => context.push(
                         AppRoutes.biopayScanLocation(mode: 'pay'),
                       ),
@@ -147,7 +147,7 @@ class BiopayHomeScreen extends StatelessWidget {
                       icon: Icons.qr_code_scanner_rounded,
                       title: 'QR\nSCAN',
                       subtitle: 'SCAN TO PAY',
-                      accentColor: RsColors.rsBlue,
+                      accentColor: RsColors.rsRed,
                       onTap: () =>
                           context.push('${AppRoutes.scanner}?mode=momo'),
                     ),

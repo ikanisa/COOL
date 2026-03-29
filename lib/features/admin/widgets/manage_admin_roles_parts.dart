@@ -67,14 +67,7 @@ OutlineInputBorder _adminRoleInputBorder(
 
 Color _adminRoleColor(BuildContext context, AdminRole role) {
   final colors = context.coolSemanticColors;
-  switch (role) {
-    case AdminRole.admin:
-      return colors.success;
-    case AdminRole.bank:
-      return colors.info;
-    case AdminRole.rayonSport:
-      return colors.accent;
-  }
+  return colors.success;
 }
 
 InputDecoration _roleInputDecoration(
@@ -111,14 +104,10 @@ class _SummaryCard extends StatelessWidget {
   const _SummaryCard({
     required this.totalAssignments,
     required this.adminCount,
-    required this.bankCount,
-    required this.rayonCount,
   });
 
   final int totalAssignments;
   final int adminCount;
-  final int bankCount;
-  final int rayonCount;
 
   @override
   Widget build(BuildContext context) {
@@ -151,16 +140,6 @@ class _SummaryCard extends StatelessWidget {
                 label: context.l10n.admin,
                 value: adminCount.toString(),
                 color: colors.success,
-              ),
-              _MetricChip(
-                label: context.l10n.bank,
-                value: bankCount.toString(),
-                color: colors.info,
-              ),
-              _MetricChip(
-                label: context.l10n.rayon,
-                value: rayonCount.toString(),
-                color: colors.accent,
               ),
             ],
           ),
@@ -427,7 +406,7 @@ class _AssignRoleSheet extends ConsumerStatefulWidget {
 class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
   final _userIdController = TextEditingController();
   AdminRole _selectedRole = AdminRole.admin;
-  String? _selectedPartnerId;
+  String? _selectedPartnerScopeId;
   bool _isSubmitting = false;
 
   @override
@@ -449,13 +428,22 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
     }
   }
 
-  bool get _needsPartnerScope =>
-      _selectedRole == AdminRole.bank || _selectedRole == AdminRole.rayonSport;
+  bool get _requiresPartnerScope => _selectedRole != AdminRole.admin;
 
   bool get _canSubmit =>
       _userIdController.text.trim().isNotEmpty &&
-      (!_needsPartnerScope ||
-          (_selectedPartnerId != null && _selectedPartnerId!.isNotEmpty));
+      (!_requiresPartnerScope || _selectedPartnerScopeId != null);
+
+  void _selectRole(AdminRole role) {
+    if (_selectedRole == role) {
+      return;
+    }
+
+    setState(() {
+      _selectedRole = role;
+      _selectedPartnerScopeId = null;
+    });
+  }
 
   Future<void> _submit() async {
     final userId = _userIdController.text.trim();
@@ -463,9 +451,8 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
       CoolToast.error(context, 'Enter a user ID.');
       return;
     }
-    if (_needsPartnerScope &&
-        (_selectedPartnerId == null || _selectedPartnerId!.isEmpty)) {
-      CoolToast.error(context, 'Select partner scope.');
+    if (_requiresPartnerScope && _selectedPartnerScopeId == null) {
+      CoolToast.error(context, 'Select a partner scope.');
       return;
     }
 
@@ -475,7 +462,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
       await repo.assignRole(
         targetUserId: userId,
         role: _selectedRole,
-        partnerScopeId: _needsPartnerScope ? _selectedPartnerId : null,
+        partnerScopeId: _selectedPartnerScopeId,
       );
       ref.invalidate(adminRoleAssignmentsProvider);
       if (!mounted) return;
@@ -496,6 +483,21 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     final partnersAsync = ref.watch(adminPartnersProvider);
+
+    List<Map<String, dynamic>> scopeOptions(
+      List<Map<String, dynamic>> partners,
+    ) {
+      return partners
+          .where((partner) {
+            final category = partner['category']?.toString() ?? '';
+            return switch (_selectedRole) {
+              AdminRole.admin => false,
+              AdminRole.bank => category == 'bank',
+              AdminRole.rayonSport => category == 'football',
+            };
+          })
+          .toList(growable: false);
+    }
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -556,116 +558,64 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                     ),
                   ),
                 ),
-                const SizedBox(height: CoolSpace.x5),
+                const SizedBox(height: CoolSpace.x4),
                 Text(
                   'Role',
                   style: theme.textTheme.labelLarge?.copyWith(
-                    color: colors.primaryText,
+                    color: colors.tertiaryText,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x2),
                 Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: AdminRole.values
-                      .map((role) {
-                        final isSelected = role == _selectedRole;
-                        final tone = _adminRoleColor(context, role);
-                        return ChoiceChip(
-                          label: Text(role.label),
-                          selected: isSelected,
-                          onSelected: (_) => setState(() {
-                            _selectedRole = role;
-                            if (!_needsPartnerScope) {
-                              _selectedPartnerId = null;
-                            }
-                          }),
-                          materialTapTargetSize: MaterialTapTargetSize.padded,
-                          backgroundColor: colors.inputSurface,
-                          selectedColor: tone.withValues(alpha: 0.18),
-                          labelStyle: theme.textTheme.labelLarge?.copyWith(
-                            color: isSelected ? tone : colors.secondaryText,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          side: BorderSide(
-                            color: isSelected ? tone : colors.border,
-                          ),
-                        );
-                      })
-                      .toList(growable: false),
+                  spacing: CoolSpace.x2,
+                  runSpacing: CoolSpace.x2,
+                  children: [
+                    for (final role in AdminRole.values)
+                      ChoiceChip(
+                        label: Text(role.label),
+                        selected: _selectedRole == role,
+                        onSelected: (_) => _selectRole(role),
+                      ),
+                  ],
                 ),
-                const SizedBox(height: CoolSpace.x5),
-                if (_needsPartnerScope) ...[
-                  Text(
-                    'Partner Scope',
-                    style: theme.textTheme.labelLarge?.copyWith(
-                      color: colors.primaryText,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: CoolSpace.x2),
+                if (_requiresPartnerScope) ...[
+                  const SizedBox(height: CoolSpace.x4),
                   partnersAsync.when(
                     data: (partners) {
-                      final filtered = _selectedRole == AdminRole.bank
-                          ? partners
-                                .where(
-                                  (p) => p['category']?.toString() == 'bank',
-                                )
-                                .toList(growable: false)
-                          : partners
-                                .where(
-                                  (p) =>
-                                      p['category']?.toString() == 'football',
-                                )
-                                .toList(growable: false);
+                      final options = scopeOptions(partners);
                       return DropdownButtonFormField<String>(
-                        initialValue: _selectedPartnerId,
+                        initialValue: _selectedPartnerScopeId,
                         decoration: _roleInputDecoration(
                           context,
                           label: 'Partner Scope',
                         ),
-                        dropdownColor: colors.overlaySurface,
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          color: colors.primaryText,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        hint: Text(
-                          'Select partner',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: colors.tertiaryText,
-                          ),
-                        ),
-                        items: filtered
-                            .map(
-                              (partner) => DropdownMenuItem<String>(
-                                value: partner['id']?.toString(),
-                                child: Text(
-                                  partner['name']?.toString() ?? 'Unknown',
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    color: colors.primaryText,
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(growable: false),
-                        onChanged: (value) =>
-                            setState(() => _selectedPartnerId = value),
+                        items: [
+                          for (final partner in options)
+                            DropdownMenuItem<String>(
+                              value: partner['id']?.toString(),
+                              child: Text(partner['name']?.toString() ?? ''),
+                            ),
+                        ],
+                        onChanged: (value) {
+                          setState(() => _selectedPartnerScopeId = value);
+                        },
                       );
                     },
-                    loading: () => const Center(
-                      child: CupertinoActivityIndicator(radius: 10),
+                    loading: () => const Padding(
+                      padding: EdgeInsets.symmetric(vertical: CoolSpace.x2),
+                      child: LinearProgressIndicator(minHeight: 2),
                     ),
-                    error: (e, _) => Text(
-                      'Failed to load partners',
+                    error: (error, stackTrace) => Text(
+                      'Failed to load partner scopes.',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colors.danger,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                  const SizedBox(height: CoolSpace.x5),
                 ],
+                const SizedBox(height: CoolSpace.x5),
                 SizedBox(
                   width: double.infinity,
                   child: CoolButton(

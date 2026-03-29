@@ -7,7 +7,6 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column;
 
 import '../models/momo_statement.dart';
-import '../../groups/models/group_contribution.dart';
 
 part 'momo_statement_export_group_ledger.dart';
 
@@ -86,21 +85,6 @@ class MomoStatementExportService {
     }
   }
 
-  Future<StatementExportFile> buildSavingsExport({
-    required StatementExportFormat format,
-    required List<SavingsStatementEntry> entries,
-    required StatementExportMetadata metadata,
-  }) async {
-    switch (format) {
-      case StatementExportFormat.pdf:
-        return _buildSavingsPdf(entries: entries, metadata: metadata);
-      case StatementExportFormat.excel:
-        return _buildSavingsExcel(entries: entries, metadata: metadata);
-      case StatementExportFormat.csv:
-        return _buildSavingsCsv(entries: entries, metadata: metadata);
-    }
-  }
-
   Future<StatementExportFile> buildPayeeLedgerExport({
     required StatementExportFormat format,
     required List<PayeePaymentLedgerEntry> entries,
@@ -113,6 +97,48 @@ class MomoStatementExportService {
         return _buildPayeeLedgerExcel(entries: entries, metadata: metadata);
       case StatementExportFormat.csv:
         return _buildPayeeLedgerCsv(entries: entries, metadata: metadata);
+    }
+  }
+
+  Future<StatementExportFile> buildSavingsExport({
+    required StatementExportFormat format,
+    required List<SavingsStatementEntry> entries,
+    required StatementExportMetadata metadata,
+  }) async {
+    final contributions = entries
+        .map(
+          (entry) => GroupContribution(
+            id: entry.id,
+            groupId: entry.groupId,
+            userId: entry.groupId,
+            contributorName: entry.groupName,
+            amount: entry.amount,
+            status: entry.status,
+            createdAt: entry.createdAt,
+            reference: entry.reference,
+          ),
+        )
+        .toList(growable: false);
+
+    switch (format) {
+      case StatementExportFormat.pdf:
+        return _buildGroupLedgerPdf(
+          this,
+          entries: contributions,
+          metadata: metadata,
+        );
+      case StatementExportFormat.excel:
+        return _buildGroupLedgerExcel(
+          this,
+          entries: contributions,
+          metadata: metadata,
+        );
+      case StatementExportFormat.csv:
+        return _buildGroupLedgerCsv(
+          this,
+          entries: contributions,
+          metadata: metadata,
+        );
     }
   }
 
@@ -192,107 +218,6 @@ class MomoStatementExportService {
                     _formatAmount(entry.amount),
                     entry.currency,
                     _titleize(entry.ledgerStatus),
-                    entry.reference ?? '-',
-                  ],
-                )
-                .toList(growable: false),
-            headerStyle: _pdfTableHeaderTextStyle(),
-            headerDecoration: pw.BoxDecoration(
-              color: PdfColor.fromHex('#0A0A0F'),
-              borderRadius: const pw.BorderRadius.all(pw.Radius.circular(4)),
-            ),
-            cellStyle: _pdfTableCellTextStyle(),
-            cellPadding: const pw.EdgeInsets.symmetric(
-              horizontal: 6,
-              vertical: 7,
-            ),
-            rowDecoration: pw.BoxDecoration(
-              border: pw.Border(
-                bottom: pw.BorderSide(color: PdfColor.fromHex('#DDE3EA')),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-
-    return StatementExportFile(
-      bytes: Uint8List.fromList(await document.save()),
-      fileName: _fileName(metadata.fileStem, metadata.generatedAt, 'pdf'),
-      mimeType: 'application/pdf',
-    );
-  }
-
-  Future<StatementExportFile> _buildSavingsPdf({
-    required List<SavingsStatementEntry> entries,
-    required StatementExportMetadata metadata,
-  }) async {
-    final document = pw.Document();
-    final logo = await _loadPdfLogo();
-    final fonts = await _loadPdfFonts();
-    final confirmedTotal = entries
-        .where((entry) => entry.isConfirmed)
-        .fold<int>(0, (sum, entry) => sum + entry.amount);
-    final activeGroups = entries
-        .map((entry) => entry.groupName.trim())
-        .where((name) => name.isNotEmpty)
-        .toSet()
-        .length;
-
-    document.addPage(
-      pw.MultiPage(
-        pageFormat: PdfPageFormat.a4,
-        margin: const pw.EdgeInsets.all(26),
-        theme: _pdfTheme(fonts),
-        footer: (context) => _pdfFooter(context),
-        build: (context) => <pw.Widget>[
-          _pdfHeader(metadata: metadata, logo: logo),
-          pw.SizedBox(height: 14),
-          pw.Row(
-            children: [
-              pw.Expanded(
-                child: _pdfMetricCard(
-                  label: 'Confirmed',
-                  value: '${_formatAmount(confirmedTotal)} RWF',
-                  accent: PdfColor.fromHex('#00E5A0'),
-                ),
-              ),
-              pw.SizedBox(width: 10),
-              pw.Expanded(
-                child: _pdfMetricCard(
-                  label: 'Groups',
-                  value: activeGroups.toString(),
-                  accent: PdfColor.fromHex('#9B6DFF'),
-                ),
-              ),
-              pw.SizedBox(width: 10),
-              pw.Expanded(
-                child: _pdfMetricCard(
-                  label: 'Entries',
-                  value: entries.length.toString(),
-                  accent: PdfColor.fromHex('#4D8EFF'),
-                ),
-              ),
-            ],
-          ),
-          pw.SizedBox(height: 14),
-          pw.TableHelper.fromTextArray(
-            headers: const <String>[
-              'Date',
-              'Group Name',
-              'Amount',
-              'Currency',
-              'Status',
-              'Reference',
-            ],
-            data: entries
-                .map(
-                  (entry) => <String>[
-                    _dateTimeFormat.format(entry.createdAt),
-                    entry.groupName,
-                    _formatAmount(entry.amount),
-                    'RWF',
-                    _titleize(entry.status),
                     entry.reference ?? '-',
                   ],
                 )
@@ -462,34 +387,6 @@ class MomoStatementExportService {
     );
   }
 
-  Future<StatementExportFile> _buildSavingsExcel({
-    required List<SavingsStatementEntry> entries,
-    required StatementExportMetadata metadata,
-  }) async {
-    final workbook = Workbook();
-    final sheet = workbook.worksheets[0];
-    sheet.name = 'Savings Statement';
-    sheet.showGridlines = false;
-
-    await _configureExcelSheetHeader(
-      sheet: sheet,
-      metadata: metadata,
-      columnEnd: 'F',
-    );
-
-    _writeExcelSavingsTable(sheet, entries, startRow: 9);
-
-    final bytes = workbook.saveAsStream();
-    workbook.dispose();
-
-    return StatementExportFile(
-      bytes: Uint8List.fromList(bytes),
-      fileName: _fileName(metadata.fileStem, metadata.generatedAt, 'xlsx'),
-      mimeType:
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    );
-  }
-
   Future<StatementExportFile> _buildPayeeLedgerExcel({
     required List<PayeePaymentLedgerEntry> entries,
     required StatementExportMetadata metadata,
@@ -556,47 +453,6 @@ class MomoStatementExportService {
           entry.amount.toString(),
           entry.currency,
           entry.ledgerStatus,
-          entry.reference ?? '',
-        ],
-    ];
-
-    return StatementExportFile(
-      bytes: Uint8List.fromList(utf8.encode(rows.map(_csvRow).join('\n'))),
-      fileName: _fileName(metadata.fileStem, metadata.generatedAt, 'csv'),
-      mimeType: 'text/csv',
-    );
-  }
-
-  StatementExportFile _buildSavingsCsv({
-    required List<SavingsStatementEntry> entries,
-    required StatementExportMetadata metadata,
-  }) {
-    final rows = <List<String>>[
-      <String>[_brandName],
-      <String>[metadata.statementTitle],
-      <String>['Official Holder', metadata.userName],
-      <String>['Official Phone', metadata.officialPhone],
-      <String>['Statement Period', metadata.periodLabel],
-      <String>['Generated At', metadata.generatedAt.toIso8601String()],
-      <String>['Search Query', metadata.searchQuery],
-      <String>['Filter', metadata.filterLabel],
-      <String>['Sort', metadata.sortLabel],
-      const <String>[],
-      const <String>[
-        'Date',
-        'Group Name',
-        'Amount',
-        'Currency',
-        'Status',
-        'MOMO Reference',
-      ],
-      for (final entry in entries)
-        <String>[
-          _dateTimeFormat.format(entry.createdAt),
-          entry.groupName,
-          entry.amount.toString(),
-          'RWF',
-          entry.status,
           entry.reference ?? '',
         ],
     ];
@@ -782,54 +638,6 @@ class MomoStatementExportService {
     if (bodyEndRow >= startRow + 1) {
       sheet
               .getRangeByName('A${startRow + 1}:J$bodyEndRow')
-              .cellStyle
-              .fontColor =
-          '#1C1C26';
-    }
-  }
-
-  void _writeExcelSavingsTable(
-    Worksheet sheet,
-    List<SavingsStatementEntry> entries, {
-    required int startRow,
-  }) {
-    const headers = <String>[
-      'Date',
-      'Group Name',
-      'Amount',
-      'Currency',
-      'Status',
-      'Reference',
-    ];
-
-    for (var i = 0; i < headers.length; i++) {
-      final cell = sheet.getRangeByIndex(startRow, i + 1);
-      cell.setText(headers[i]);
-    }
-
-    final headerRange = sheet.getRangeByName('A$startRow:F$startRow');
-    headerRange.cellStyle.backColor = '#0A0A0F';
-    headerRange.cellStyle.fontColor = '#FFFFFF';
-    headerRange.cellStyle.bold = true;
-
-    for (var i = 0; i < entries.length; i++) {
-      final row = startRow + i + 1;
-      final entry = entries[i];
-      sheet
-          .getRangeByIndex(row, 1)
-          .setText(_dateTimeFormat.format(entry.createdAt));
-      sheet.getRangeByIndex(row, 2).setText(entry.groupName);
-      sheet.getRangeByIndex(row, 3).setNumber(entry.amount.toDouble());
-      sheet.getRangeByIndex(row, 3).numberFormat = '#,##0';
-      sheet.getRangeByIndex(row, 4).setText('Rwf');
-      sheet.getRangeByIndex(row, 5).setText(_titleize(entry.status));
-      sheet.getRangeByIndex(row, 6).setText(entry.reference ?? '-');
-    }
-
-    final bodyEndRow = startRow + entries.length;
-    if (bodyEndRow >= startRow + 1) {
-      sheet
-              .getRangeByName('A${startRow + 1}:F$bodyEndRow')
               .cellStyle
               .fontColor =
           '#1C1C26';

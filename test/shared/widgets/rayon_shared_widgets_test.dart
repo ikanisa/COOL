@@ -1,5 +1,5 @@
 import 'package:cool_app/core/theme/app_theme.dart';
-import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
+import 'package:cool_app/features/rayon/models/rs_models.dart';
 import 'package:cool_app/shared/widgets/rs_digital_ticket.dart';
 import 'package:cool_app/shared/widgets/rs_fan_club_card.dart';
 import 'package:cool_app/shared/widgets/rs_initiative_card.dart';
@@ -177,7 +177,7 @@ void main() {
         ),
       );
 
-      expect(find.text('Youth Academy Expansion'), findsOneWidget);
+      expect(find.text('YOUTH ACADEMY EXPANSION'), findsOneWidget);
       expect(find.text('SUPPORT'), findsOneWidget);
       expect(find.text('13%'), findsOneWidget);
     });

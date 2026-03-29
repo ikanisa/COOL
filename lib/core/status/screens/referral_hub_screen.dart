@@ -143,7 +143,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                           const Text('🎁', style: TextStyle(fontSize: 48)),
                           SizedBox(height: space.x3),
                           Text(
-                            'Invite Friends, Earn Tokens',
+                            'Invite Friends, Earn Points',
                             textAlign: TextAlign.center,
                             style: theme.textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.w800,
@@ -152,7 +152,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                           ),
                           SizedBox(height: space.x2),
                           Text(
-                            'Earn Cool Tokens for every friend who joins and completes their first activity.',
+                            'Earn reward points for every friend who joins and completes their first activity.',
                             textAlign: TextAlign.center,
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: Colors.white.withValues(alpha: 0.9),

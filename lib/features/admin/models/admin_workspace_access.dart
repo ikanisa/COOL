@@ -1,51 +1,45 @@
 import '../../auth/providers/auth_provider.dart';
 
-/// The three admin role types in the COOL platform.
+/// Supported admin role types returned by auth metadata and RPC responses.
 enum AdminRole {
   /// Full platform access — can manage everything.
   admin,
 
-  /// Bank custodian — scoped to bank partner workspaces.
+  /// Scoped access to bank workspaces.
   bank,
 
-  /// Rayon Sports admin — scoped to RS partner workspace.
+  /// Rayon Sports partner administration.
   rayonSport;
 
   static AdminRole? fromString(String? value) {
-    if (value == null) return null;
+    if (value == null) {
+      return null;
+    }
+
     switch (value.trim().toLowerCase()) {
       case 'admin':
         return AdminRole.admin;
       case 'bank':
         return AdminRole.bank;
       case 'rayon_sport':
+      case 'rayon-sport':
         return AdminRole.rayonSport;
       default:
         return null;
     }
   }
 
-  String get label {
-    switch (this) {
-      case AdminRole.admin:
-        return 'Platform Admin';
-      case AdminRole.bank:
-        return 'Bank Admin';
-      case AdminRole.rayonSport:
-        return 'Rayon Sport Admin';
-    }
-  }
+  String get label => switch (this) {
+    AdminRole.admin => 'Platform Admin',
+    AdminRole.bank => 'Bank Admin',
+    AdminRole.rayonSport => 'Rayon Sport Admin',
+  };
 
-  String get dbValue {
-    switch (this) {
-      case AdminRole.admin:
-        return 'admin';
-      case AdminRole.bank:
-        return 'bank';
-      case AdminRole.rayonSport:
-        return 'rayon_sport';
-    }
-  }
+  String get dbValue => switch (this) {
+    AdminRole.admin => 'admin',
+    AdminRole.bank => 'bank',
+    AdminRole.rayonSport => 'rayon_sport',
+  };
 }
 
 /// A single admin role assignment from the database.
@@ -103,144 +97,154 @@ class AdminRoleAssignment {
 class AdminWorkspaceAccess {
   const AdminWorkspaceAccess({
     this.hasPlatformAccess = false,
+    this.hasBankAccess = false,
     this.hasGlobalPartnerAccess = false,
-    this.partnerAdminIds = const <String>{},
-    this.hasGlobalBankAccess = false,
     this.bankAdminIds = const <String>{},
+    this.partnerAdminIds = const <String>{},
     this.roleAssignments = const <AdminRoleAssignment>[],
   });
 
   final bool hasPlatformAccess;
+  final bool hasBankAccess;
   final bool hasGlobalPartnerAccess;
-  final Set<String> partnerAdminIds;
-  final bool hasGlobalBankAccess;
   final Set<String> bankAdminIds;
+  final Set<String> partnerAdminIds;
 
   /// All active role assignments for this user (from DB).
   final List<AdminRoleAssignment> roleAssignments;
 
-  bool get hasPartnerAdminAccess =>
-      hasPlatformAccess || hasGlobalPartnerAccess || partnerAdminIds.isNotEmpty;
-
   bool get hasBankAdminAccess =>
-      hasPlatformAccess || hasGlobalBankAccess || bankAdminIds.isNotEmpty;
+      hasPlatformAccess ||
+      hasBankAccess ||
+      bankAdminIds.isNotEmpty ||
+      roleAssignments.any((assignment) => assignment.role == AdminRole.bank);
+
+  bool get hasPartnerAdminAccess =>
+      hasPlatformAccess ||
+      hasGlobalPartnerAccess ||
+      partnerAdminIds.isNotEmpty ||
+      roleAssignments.any(
+        (assignment) => assignment.role == AdminRole.rayonSport,
+      );
 
   bool get hasAnyAdminAccess =>
-      hasPlatformAccess || hasPartnerAdminAccess || hasBankAdminAccess;
+      hasPlatformAccess || hasBankAdminAccess || hasPartnerAdminAccess;
 
   /// The set of distinct roles this user has.
-  Set<AdminRole> get activeRoles => roleAssignments.map((a) => a.role).toSet();
+  Set<AdminRole> get activeRoles =>
+      roleAssignments.map((assignment) => assignment.role).toSet();
 
-  bool canAccessPartnerId(String partnerId) {
-    final normalizedPartnerId = partnerId.trim();
-    if (normalizedPartnerId.isEmpty) {
+  bool canAccessBankId(String bankId) {
+    final normalized = bankId.trim();
+    if (normalized.isEmpty) {
       return false;
     }
-    return hasPlatformAccess ||
-        hasGlobalPartnerAccess ||
-        partnerAdminIds.contains(normalizedPartnerId);
+    if (hasPlatformAccess) {
+      return true;
+    }
+    return bankAdminIds.contains(normalized);
   }
 
-  bool canAccessBankId(String partnerId) {
-    final normalizedPartnerId = partnerId.trim();
-    if (normalizedPartnerId.isEmpty) {
+  bool canAccessPartnerId(String partnerId) {
+    final normalized = partnerId.trim();
+    if (normalized.isEmpty) {
       return false;
     }
-    return hasPlatformAccess ||
-        hasGlobalBankAccess ||
-        bankAdminIds.contains(normalizedPartnerId);
+    if (hasPlatformAccess || hasGlobalPartnerAccess) {
+      return true;
+    }
+    return partnerAdminIds.contains(normalized);
   }
 
   /// Parse the RPC response from `get_admin_access_for_user`.
   factory AdminWorkspaceAccess.fromRpcResponse(Map<String, dynamic> json) {
-    final hasPlatformAccess = json['has_platform_access'] as bool? ?? false;
-    final hasBankAccess = json['has_bank_access'] as bool? ?? false;
-    final hasRayonAccess = json['has_rayon_access'] as bool? ?? false;
-
-    final bankIds = _jsonArrayToStringSet(json['bank_partner_ids']);
-    final partnerIds = _jsonArrayToStringSet(json['partner_admin_ids']);
-
     final rawAssignments = json['role_assignments'];
     final assignments = <AdminRoleAssignment>[];
     if (rawAssignments is List) {
       for (final raw in rawAssignments) {
         if (raw is Map<String, dynamic>) {
           assignments.add(AdminRoleAssignment.fromJson(raw));
+        } else if (raw is Map) {
+          assignments.add(AdminRoleAssignment.fromJson(raw.cast()));
         }
       }
     }
 
     return AdminWorkspaceAccess(
-      hasPlatformAccess: hasPlatformAccess,
-      hasGlobalPartnerAccess: hasRayonAccess,
-      partnerAdminIds: partnerIds,
-      hasGlobalBankAccess: hasBankAccess && bankIds.isEmpty,
-      bankAdminIds: bankIds,
+      hasPlatformAccess: json['has_platform_access'] as bool? ?? false,
+      hasBankAccess: json['has_bank_access'] as bool? ?? false,
+      hasGlobalPartnerAccess: json['has_rayon_access'] as bool? ?? false,
+      bankAdminIds: _stringSet(json['bank_partner_ids']),
+      partnerAdminIds: _stringSet(json['partner_admin_ids']),
       roleAssignments: assignments,
     );
   }
 
   /// Legacy fallback: parse from Supabase app_metadata.
   factory AdminWorkspaceAccess.fromAuthState(AuthState authState) {
-    final appMetadata = authState.session?.user.appMetadata ?? const {};
+    final metadata = _metadataMap(authState);
+    final hasPlatformAccess =
+        authState.user?.isAdmin == true ||
+        _boolValue(
+          metadata['has_platform_access'] ??
+              metadata['is_admin'] ??
+              metadata['admin'],
+        );
+    final hasBankAccess = _boolValue(metadata['has_bank_access']);
+    final hasGlobalPartnerAccess = _boolValue(metadata['has_rayon_access']);
+    final bankAdminIds = _stringSet(
+      metadata['bank_partner_ids'] ?? metadata['bank_admin_ids'],
+    );
+    final partnerAdminIds = _stringSet(metadata['partner_admin_ids']);
+
     return AdminWorkspaceAccess(
-      hasPlatformAccess: authState.user?.isAdmin == true,
-      hasGlobalPartnerAccess: _asMetadataBool(appMetadata['is_partner_admin']),
-      partnerAdminIds: _metadataIdSet(appMetadata['partner_admin_ids']),
-      hasGlobalBankAccess: _asMetadataBool(appMetadata['is_bank_admin']),
-      bankAdminIds: _metadataIdSet(appMetadata['bank_admin_ids']),
+      hasPlatformAccess: hasPlatformAccess,
+      hasBankAccess: hasBankAccess,
+      hasGlobalPartnerAccess: hasGlobalPartnerAccess,
+      bankAdminIds: bankAdminIds,
+      partnerAdminIds: partnerAdminIds,
     );
   }
-}
 
-bool _asMetadataBool(dynamic value) {
-  if (value is bool) {
-    return value;
+  static Map<String, dynamic> _metadataMap(AuthState authState) {
+    final raw = authState.session?.user.toJson()['app_metadata'];
+    if (raw is Map<String, dynamic>) {
+      return raw;
+    }
+    if (raw is Map) {
+      return raw.cast<String, dynamic>();
+    }
+    return const <String, dynamic>{};
   }
-  if (value is num) {
-    return value != 0;
-  }
-  if (value is String) {
-    final normalized = value.toLowerCase().trim();
-    return normalized == 'true' || normalized == '1';
-  }
-  return false;
-}
 
-Set<String> _metadataIdSet(dynamic value) {
-  if (value is List) {
-    return value
-        .map((entry) => entry.toString().trim())
-        .where((entry) => entry.isNotEmpty)
-        .toSet();
+  static bool _boolValue(dynamic raw) {
+    if (raw is bool) {
+      return raw;
+    }
+    if (raw is num) {
+      return raw != 0;
+    }
+    if (raw is String) {
+      switch (raw.trim().toLowerCase()) {
+        case 'true':
+        case '1':
+        case 'yes':
+          return true;
+        default:
+          return false;
+      }
+    }
+    return false;
   }
-  if (value is Map) {
-    return value.entries
-        .where((entry) => _asMetadataBool(entry.value))
-        .map((entry) => entry.key.toString().trim())
-        .where((entry) => entry.isNotEmpty)
-        .toSet();
-  }
-  if (value is String) {
-    final normalized = value.trim();
-    if (normalized.isEmpty) {
+
+  static Set<String> _stringSet(dynamic raw) {
+    if (raw is! List) {
       return const <String>{};
     }
-    return normalized
-        .split(',')
-        .map((entry) => entry.trim())
-        .where((entry) => entry.isNotEmpty)
-        .toSet();
-  }
-  return const <String>{};
-}
 
-Set<String> _jsonArrayToStringSet(dynamic value) {
-  if (value is List) {
-    return value
-        .map((entry) => entry.toString().trim())
-        .where((entry) => entry.isNotEmpty && entry != 'null')
+    return raw
+        .map((value) => value?.toString().trim() ?? '')
+        .where((value) => value.isNotEmpty)
         .toSet();
   }
-  return const <String>{};
 }

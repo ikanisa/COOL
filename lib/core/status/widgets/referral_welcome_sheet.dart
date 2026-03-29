@@ -105,14 +105,14 @@ class ReferralWelcomeSheet extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Bonus Tokens Waiting',
+                        'Bonus Points Waiting',
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w700,
                           color: colors.primaryText,
                         ),
                       ),
                       Text(
-                        'Complete your first activity to earn 50 Cool Tokens.',
+                        'Complete your first activity to earn 50 reward points.',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: colors.tertiaryText,
                         ),

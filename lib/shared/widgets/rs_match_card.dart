@@ -3,7 +3,8 @@ import 'package:intl/intl.dart';
 
 import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/rs_colors.dart';
-import '../../features/partners/rayon/models/rs_models.dart';
+import '../../features/rayon/models/rs_models.dart';
+import 'cool_button.dart';
 
 enum SelectedSeatType { general, vip }
 
@@ -105,7 +106,7 @@ class _RsMatchCardState extends State<RsMatchCard> {
         ? RsColors.rsGold.withValues(alpha: 0.16)
         : match.isOnSale
         ? colors.accent.withValues(alpha: 0.18)
-        : RsColors.rsBlue.withValues(alpha: 0.14);
+        : RsColors.rsRed.withValues(alpha: 0.14);
     final statusForeground = match.isSoldOut
         ? colors.danger
         : !widget.tierAccessible && match.isOnSale
@@ -128,10 +129,10 @@ class _RsMatchCardState extends State<RsMatchCard> {
           clipBehavior: Clip.antiAlias,
           child: Ink(
             decoration: BoxDecoration(
-              color: colors.teamSurface,
+              color: colors.cardSurfaceStrong,
               gradient: RsColors.rsCardGradient,
               borderRadius: cardRadius,
-              border: Border.all(color: RsColors.rsBlueBorder),
+              border: Border.all(color: RsColors.rsRedBorder),
             ),
             child: Padding(
               padding: EdgeInsets.all(cardPadding),
@@ -443,7 +444,7 @@ class _VsBlock extends StatelessWidget {
             style: text.mono(
               theme.textTheme.labelSmall,
               fontWeight: FontWeight.w700,
-              color: RsColors.rsBluePale,
+              color: RsColors.rsNavyPale,
               height: 1.25,
             ),
           ),
@@ -488,7 +489,7 @@ class _DetailChip extends StatelessWidget {
           Icon(
             icon,
             size: 14,
-            color: highlight ? RsColors.rsGoldLight : RsColors.rsBluePale,
+            color: highlight ? RsColors.rsGoldLight : RsColors.rsNavyPale,
           ),
           SizedBox(width: space.x1 + 2),
           Flexible(
@@ -553,7 +554,7 @@ class _DashedLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = RsColors.rsBlueBorder.withValues(alpha: 0.8)
+      ..color = RsColors.rsRedBorder.withValues(alpha: 0.8)
       ..strokeWidth = 1.2
       ..style = PaintingStyle.stroke;
     const dashWidth = 6.0;
@@ -634,9 +635,9 @@ class _SeatTypeChip extends StatelessWidget {
       child: Ink(
         padding: EdgeInsets.symmetric(horizontal: space.x3, vertical: space.x2),
         decoration: BoxDecoration(
-          color: selected ? RsColors.rsBlue : colors.cardSurfaceStrong,
+          color: selected ? RsColors.rsRed : colors.cardSurfaceStrong,
           borderRadius: BorderRadius.circular(radii.sm),
-          border: Border.all(color: RsColors.rsBlueBorder),
+          border: Border.all(color: RsColors.rsRedBorder),
         ),
         child: Text(
           label,
@@ -663,34 +664,14 @@ class _BuyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final radii = context.coolRadii;
-    final theme = Theme.of(context);
-    return SizedBox(
-      height: CoolTapTargets.comfortable,
-      width: double.infinity,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: enabled ? RsColors.rsBlue : colors.cardSurfaceStrong,
-          borderRadius: BorderRadius.circular(radii.sm),
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: enabled ? onTap : null,
-            borderRadius: BorderRadius.circular(radii.sm),
-            child: Center(
-              child: Text(
-                label,
-                style: theme.textTheme.labelLarge?.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: enabled ? RsColors.rsWhite : colors.tertiaryText,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+    // ROUGEBLACK target: Use ClayButton for primary hero CTAs.
+    return CoolButton(
+      label: label,
+      onTap: onTap,
+      isDisabled: !enabled,
+      variant: enabled ? CoolButtonVariant.clay : CoolButtonVariant.secondary,
+      size: CoolButtonSize.md,
+      fullWidth: true,
     );
   }
 }

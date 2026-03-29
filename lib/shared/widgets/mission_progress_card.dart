@@ -135,7 +135,7 @@ class MissionProgressCard extends StatelessWidget {
                           ),
                           SizedBox(width: space.x1),
                           Text(
-                            '${mission.rewardPoints} Tokens',
+                            '${mission.rewardPoints} Points',
                             style: textTheme.labelSmall?.copyWith(
                               fontWeight: FontWeight.w700,
                               color: colors.warning,

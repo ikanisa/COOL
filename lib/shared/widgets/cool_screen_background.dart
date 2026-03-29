@@ -5,7 +5,7 @@ import '../../core/brand/app_brand.dart';
 import '../../core/theme/cool_foundations.dart';
 import 'atmospheric_background.dart';
 
-/// Universal screen background for the Mobi × Rayon design system.
+/// Universal screen background for the ROUGEBLACK design system.
 ///
 /// Renders the atmospheric blurred-blob layer + mobi-grid (24px crosshatch
 /// at white/8%) behind all content, then applies brand-aware radial glows.
@@ -32,7 +32,13 @@ class CoolScreenBackground extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.coolSemanticColors;
-    final brand = ref.watch(appBrandProvider);
+    final brand = () {
+      try {
+        return ref.watch(appBrandProvider);
+      } on StateError {
+        return const AppBranding.rayon();
+      }
+    }();
 
     if (!showGlow) {
       return DecoratedBox(

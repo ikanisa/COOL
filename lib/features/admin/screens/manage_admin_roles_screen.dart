@@ -11,8 +11,8 @@ import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../models/admin_workspace_access.dart';
-import '../providers/admin_workspace_access_provider.dart';
 import '../providers/admin_providers.dart';
+import '../providers/admin_workspace_access_provider.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
@@ -101,12 +101,6 @@ class ManageAdminRolesScreen extends ConsumerWidget {
                   final adminCount = assignments
                       .where((a) => a.role == AdminRole.admin)
                       .length;
-                  final bankCount = assignments
-                      .where((a) => a.role == AdminRole.bank)
-                      .length;
-                  final rayonCount = assignments
-                      .where((a) => a.role == AdminRole.rayonSport)
-                      .length;
 
                   return ListView.separated(
                     padding: CoolSpace.scaffoldPadding,
@@ -118,8 +112,6 @@ class ManageAdminRolesScreen extends ConsumerWidget {
                         return _SummaryCard(
                           totalAssignments: assignments.length,
                           adminCount: adminCount,
-                          bankCount: bankCount,
-                          rayonCount: rayonCount,
                         );
                       }
 

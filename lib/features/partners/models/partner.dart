@@ -1,31 +1,32 @@
-/// Data model for a Cool partner (football club, bank, service firm).
-///
-/// Partners are stored in `public.partners` and managed dynamically.
-/// Each partner is country-specific.
-library;
-
-import 'package:flutter/foundation.dart';
-
-// ── Category enum ─────────────────────────────────────────────────────────
+import '../../../core/config/country_catalog.dart';
 
 enum PartnerCategory {
-  football,
   bank,
-  organization;
+  football,
+  other;
 
-  static PartnerCategory fromString(String? value) {
-    return switch (value?.toLowerCase()) {
-      'football' => PartnerCategory.football,
-      'bank' => PartnerCategory.bank,
-      'organization' => PartnerCategory.organization,
-      _ => PartnerCategory.organization,
-    };
+  static PartnerCategory fromValue(String? value) {
+    switch ((value ?? '').trim().toLowerCase()) {
+      case 'bank':
+      case 'custodian_bank':
+        return PartnerCategory.bank;
+      case 'football':
+      case 'club':
+      case 'sports':
+      case 'rayon_sports':
+        return PartnerCategory.football;
+      default:
+        return PartnerCategory.other;
+    }
   }
+
+  String get dbValue => switch (this) {
+    PartnerCategory.bank => 'bank',
+    PartnerCategory.football => 'football',
+    PartnerCategory.other => 'other',
+  };
 }
 
-// ── Partner model ────────────────────────────────────────────────────────
-
-@immutable
 class Partner {
   const Partner({
     required this.id,
@@ -33,20 +34,13 @@ class Partner {
     required this.slug,
     required this.category,
     required this.country,
-    this.emoji = '🤝',
     this.subtitle,
-    this.description,
-    this.whatsappNumber,
-    this.momoCode,
-    this.logoUrl,
+    this.emoji,
+    this.whatsAppNumber,
+    this.isActive = true,
     this.fanCount = 0,
     this.clubCount = 0,
     this.gameCount = 0,
-    this.isActive = true,
-    this.sortOrder = 0,
-    this.metadata = const {},
-    this.createdAt,
-    this.updatedAt,
   });
 
   final String id;
@@ -54,81 +48,60 @@ class Partner {
   final String slug;
   final PartnerCategory category;
   final String country;
-  final String emoji;
   final String? subtitle;
-  final String? description;
-  final String? whatsappNumber;
-  final String? momoCode;
-  final String? logoUrl;
+  final String? emoji;
+  final String? whatsAppNumber;
+  final bool isActive;
   final int fanCount;
   final int clubCount;
   final int gameCount;
-  final bool isActive;
-  final int sortOrder;
-  final Map<String, dynamic> metadata;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
 
-  // ── JSON serialisation ───────────────────────────────────────────────
+  bool get isBank => category == PartnerCategory.bank;
 
   factory Partner.fromJson(Map<String, dynamic> json) {
+    final rawCountry = json['country']?.toString() ?? 'RW';
     return Partner(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      slug: json['slug'] as String? ?? '',
-      category: PartnerCategory.fromString(json['category'] as String?),
-      country: json['country'] as String? ?? 'RW',
-      emoji: json['emoji'] as String? ?? '🤝',
-      subtitle: json['subtitle'] as String?,
-      description: json['description'] as String?,
-      whatsappNumber: json['whatsapp_number'] as String?,
-      momoCode: json['momo_code'] as String?,
-      logoUrl: json['logo_url'] as String?,
-      fanCount: (json['fan_count'] as num?)?.toInt() ?? 0,
-      clubCount: (json['club_count'] as num?)?.toInt() ?? 0,
-      gameCount: (json['game_count'] as num?)?.toInt() ?? 0,
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      slug: json['slug']?.toString() ?? '',
+      category: PartnerCategory.fromValue(json['category']?.toString()),
+      country: rawCountry.trim().isEmpty
+          ? 'RW'
+          : CoolCountryCatalog.normalizeCountryCode(rawCountry),
+      subtitle: json['subtitle']?.toString(),
+      emoji: json['emoji']?.toString(),
+      whatsAppNumber: json['whatsapp_number']?.toString(),
       isActive: json['is_active'] as bool? ?? true,
-      sortOrder: (json['sort_order'] as num?)?.toInt() ?? 0,
-      metadata: json['metadata'] as Map<String, dynamic>? ?? const {},
-      createdAt: json['created_at'] != null
-          ? DateTime.tryParse(json['created_at'] as String)
-          : null,
-      updatedAt: json['updated_at'] != null
-          ? DateTime.tryParse(json['updated_at'] as String)
-          : null,
+      fanCount: _asInt(json['fan_count']),
+      clubCount: _asInt(json['club_count']),
+      gameCount: _asInt(json['game_count']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
+    return <String, dynamic>{
       'id': id,
       'name': name,
       'slug': slug,
-      'category': category.name,
-      'country': country,
-      'emoji': emoji,
+      'category': category.dbValue,
+      'country': CoolCountryCatalog.normalizeCountryCode(country),
       'subtitle': subtitle,
-      'description': description,
-      'whatsapp_number': whatsappNumber,
-      'momo_code': momoCode,
-      'logo_url': logoUrl,
+      'emoji': emoji,
+      'whatsapp_number': whatsAppNumber,
+      'is_active': isActive,
       'fan_count': fanCount,
       'club_count': clubCount,
       'game_count': gameCount,
-      'is_active': isActive,
-      'sort_order': sortOrder,
-      'metadata': metadata,
-    };
+    }..removeWhere((_, value) => value == null);
   }
+}
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Partner && runtimeType == other.runtimeType && id == other.id;
-
-  @override
-  int get hashCode => id.hashCode;
-
-  @override
-  String toString() => 'Partner($slug, $name, $category, $country)';
+int _asInt(dynamic value) {
+  if (value is int) {
+    return value;
+  }
+  if (value is num) {
+    return value.toInt();
+  }
+  return int.tryParse(value?.toString() ?? '') ?? 0;
 }

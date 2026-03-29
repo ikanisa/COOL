@@ -95,7 +95,7 @@ class HomeGlobalFanNetworkCard extends StatelessWidget {
                   ),
                 ),
               ),
-              HomeBluTag(
+              HomeRedTag(
                 label: fanCount == null && clubCount == null
                     ? 'SYNCING'
                     : 'LIVE DATA',
@@ -119,7 +119,7 @@ class HomeGlobalFanNetworkCard extends StatelessWidget {
             style: context.coolText.rayonCondensed(
               Theme.of(context).textTheme.headlineMedium,
               fontWeight: FontWeight.w800,
-              color: RsColors.rsBlue,
+              color: RsColors.rsRed,
             ),
           ),
           const SizedBox(height: CoolSpace.x5),
@@ -144,7 +144,7 @@ class HomeGlobalFanNetworkCard extends StatelessWidget {
                 style: context.coolText.mono(
                   Theme.of(context).textTheme.labelMedium,
                   fontWeight: FontWeight.w800,
-                  color: RsColors.rsBlue,
+                  color: RsColors.rsRed,
                 ),
               ),
               const Spacer(),
@@ -174,7 +174,7 @@ class HomeGlobalFanNetworkCard extends StatelessWidget {
 }
 
 // ═════════════════════════════════════════════════════════════════════
-// FAN MISSIONS  (● ACTIVE, big tokens, progress bar)
+// FAN REWARDS  (● ACTIVE, points, progress bar)
 // ═════════════════════════════════════════════════════════════════════
 
 class HomeFanMissionsCard extends StatelessWidget {
@@ -197,15 +197,15 @@ class HomeFanMissionsCard extends StatelessWidget {
     final isLive = tokens != null || progress != null;
 
     return HomeGlassCard(
-      onTap: () => context.push(AppRoutes.missions),
+      onTap: () => context.push(AppRoutes.rewards),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header: FAN MISSIONS + ● ACTIVE
+          // Header: FAN REWARDS + ● ACTIVE
           Row(
             children: [
               Text(
-                'FAN MISSIONS',
+                'FAN REWARDS',
                 style: context.coolText.mono(
                   Theme.of(context).textTheme.labelSmall,
                   fontWeight: FontWeight.w700,
@@ -247,13 +247,13 @@ class HomeFanMissionsCard extends StatelessWidget {
           ),
           const SizedBox(height: CoolSpace.x2),
 
-          // TOKENS label
+          // POINTS label
           Text(
-            'TOKENS',
+            'POINTS',
             style: context.coolText.rayonCondensed(
               Theme.of(context).textTheme.headlineMedium,
               fontWeight: FontWeight.w800,
-              color: RsColors.rsBlue,
+              color: RsColors.rsRed,
             ),
           ),
           const SizedBox(height: CoolSpace.x5),
@@ -286,7 +286,7 @@ class HomeFanMissionsCard extends StatelessWidget {
           // Blue progress bar
           HomeProgressBar(
             value: displayProgress.clamp(0, 1).toDouble(),
-            barColor: RsColors.rsBlue,
+            barColor: RsColors.rsRed,
           ),
         ],
       ),
@@ -344,7 +344,7 @@ class HomeClubCommunityCard extends StatelessWidget {
                 style: context.coolText.mono(
                   Theme.of(context).textTheme.titleMedium,
                   fontWeight: FontWeight.w800,
-                  color: RsColors.rsBlue,
+                  color: RsColors.rsRed,
                 ),
               ),
             ],
@@ -372,7 +372,7 @@ class HomeClubCommunityCard extends StatelessWidget {
                 style: context.coolText.mono(
                   Theme.of(context).textTheme.headlineMedium,
                   fontWeight: FontWeight.w800,
-                  color: RsColors.rsBlue,
+                  color: RsColors.rsRed,
                 ),
               ),
             ],
@@ -405,7 +405,7 @@ class HomeClubCommunityCard extends StatelessWidget {
           const SizedBox(height: CoolSpace.x2),
 
           // Blue progress bar
-          HomeProgressBar(value: progress, barColor: RsColors.rsBlue),
+          HomeProgressBar(value: progress, barColor: RsColors.rsRed),
         ],
       ),
     );
@@ -452,7 +452,7 @@ class HomePartnerNetworkCard extends StatelessWidget {
                       style: context.coolText.rayonCondensed(
                         Theme.of(context).textTheme.displaySmall,
                         fontWeight: FontWeight.w900,
-                        color: RsColors.rsBlue,
+                        color: RsColors.rsRed,
                         height: 0.95,
                       ),
                     ),
@@ -464,7 +464,7 @@ class HomePartnerNetworkCard extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: RsColors.rsBlue,
+                  color: RsColors.rsRed,
                   borderRadius: BorderRadius.circular(CoolRadii.lg),
                 ),
                 alignment: Alignment.center,
@@ -522,7 +522,7 @@ class HomePartnerNetworkCard extends StatelessWidget {
                 width: 40,
                 height: 40,
                 decoration: const BoxDecoration(
-                  color: RsColors.rsBlue,
+                  color: RsColors.rsRed,
                   shape: BoxShape.circle,
                 ),
                 alignment: Alignment.center,

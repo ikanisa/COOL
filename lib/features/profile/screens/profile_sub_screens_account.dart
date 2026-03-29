@@ -28,7 +28,7 @@ class AccountDetailsScreen extends ConsumerWidget {
                     height: 64,
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
-                        colors: [RsColors.rsBlueLight, RsColors.rsBlue],
+                        colors: [RsColors.rsNavyLight, RsColors.rsRed],
                       ),
                       borderRadius: BorderRadius.circular(CoolRadii.lg),
                     ),

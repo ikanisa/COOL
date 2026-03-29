@@ -11,7 +11,7 @@ import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_status_card.dart';
 import '../../../shared/widgets/mission_progress_card.dart';
 import '../../../features/auth/providers/auth_provider.dart';
-import '../../../features/partners/rayon/models/rs_models.dart';
+import '../../../features/rayon/models/rs_models.dart';
 import '../models/cool_activity.dart';
 import '../models/cool_leaderboard_entry.dart';
 import '../models/cool_reward.dart';
@@ -23,7 +23,7 @@ import '../providers/cool_status_provider.dart';
 import '../widgets/referral_banner.dart';
 import '../../../core/l10n/l10n.dart';
 
-/// Full-page gamification hub for Cool Tokens.
+/// Full-page rewards hub for fans.
 class CoolTokensScreen extends ConsumerWidget {
   const CoolTokensScreen({super.key});
 
@@ -52,7 +52,7 @@ class CoolTokensScreen extends ConsumerWidget {
                     if (context.canPop()) {
                       context.pop();
                     } else {
-                      context.go(AppRoutes.profile);
+                      context.go(AppRoutes.home);
                     }
                   },
                   tooltip: context.l10n.back,
@@ -62,7 +62,7 @@ class CoolTokensScreen extends ConsumerWidget {
                   ),
                 ),
                 title: Text(
-                  'Cool Tokens',
+                  'Fan Rewards',
                   style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w700,
                     color: colors.primaryText,
@@ -91,14 +91,14 @@ class CoolTokensScreen extends ConsumerWidget {
 
                     // ── 3. Ways to Earn ───────────────────────
                     const _SectionHeader(
-                      label: 'Welcome to COOL Tokens',
+                      label: 'Welcome to Fan Rewards',
                       icon: Icons.auto_awesome_rounded,
                     ),
                     SizedBox(height: space.x2),
                     const _WaysToEarnGrid(),
                     SizedBox(height: space.x6),
 
-                    // ── 4. Active Missions ────────────────────
+                    // ── 4. Reward Activities ──────────────────
                     _SectionHeader(
                       label: context.l10n.activeMissions,
                       icon: Icons.flag_rounded,
@@ -129,26 +129,14 @@ class CoolTokensScreen extends ConsumerWidget {
                     ),
                     SizedBox(height: space.x6),
 
-                    // ── 5. Top Earners ────────────────────────
+                    // ── 5. Leaderboard ────────────────────────
                     _SectionHeader(
-                      label: 'Convert Tokens',
+                      label: 'Top Fans',
                       icon: Icons.leaderboard_rounded,
                       trailing: TextButton(
-                        onPressed: () {
-                          showModalBottomSheet(
-                            context: context,
-                            backgroundColor: colors.appBackground,
-                            builder: (context) => const Padding(
-                              padding: EdgeInsets.all(32),
-                              child: CoolEmptyView(
-                                message: 'Conversion currently unavailable',
-                                icon: Icons.currency_exchange_rounded,
-                              ),
-                            ),
-                          );
-                        },
+                        onPressed: () => context.push(AppRoutes.leaderboard),
                         child: Text(
-                          'Convert',
+                          'View all',
                           style: theme.textTheme.labelSmall?.copyWith(
                             fontWeight: FontWeight.w600,
                             color: colors.accent,
@@ -400,7 +388,7 @@ class _EarnRow extends StatelessWidget {
               borderRadius: BorderRadius.circular(radii.md),
             ),
             child: Text(
-              '+${activity.tokensAwarded} Tokens',
+              '+${activity.tokensAwarded} Points',
               style: theme.textTheme.labelSmall?.copyWith(
                 fontWeight: FontWeight.w700,
                 color: colors.accent,
@@ -591,7 +579,7 @@ class _LeaderboardRow extends StatelessWidget {
           ),
           // Points
           Text(
-            '${entry.totalPoints} Tokens',
+            '${entry.totalPoints} Points',
             style: theme.textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w700,
               color: colors.accent,
@@ -676,7 +664,7 @@ class _RewardsMarketplace extends ConsumerWidget {
           ),
         ),
         content: Text(
-          'This will cost ${reward.tokenCost} Cool Tokens.',
+          'This will cost ${reward.tokenCost} points.',
           style: theme.textTheme.bodyMedium,
         ),
         actions: [
@@ -774,7 +762,7 @@ class _RewardItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(radii.sm),
             ),
             child: Text(
-              '${reward.tokenCost} Tokens',
+              '${reward.tokenCost} Points',
               style: theme.textTheme.labelSmall?.copyWith(
                 fontWeight: FontWeight.w700,
                 color: canAfford ? colors.accent : colors.tertiaryText,

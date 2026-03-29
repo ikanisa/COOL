@@ -1,5 +1,6 @@
 import 'package:cool_app/core/providers/engagement_providers.dart';
 import 'package:cool_app/core/theme/app_theme.dart';
+import 'package:cool_app/core/brand/app_brand.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
 import 'package:cool_app/features/auth/screens/splash_screen.dart';
@@ -91,12 +92,12 @@ void main() {
     );
     await tester.pump(const Duration(milliseconds: 700));
 
-    expect(find.text('Rayon Sports'), findsOneWidget);
+    expect(find.text(const AppBranding.rayon().splashTitle), findsOneWidget);
     expect(find.text('Connection issue'), findsOneWidget);
     expect(
       find.text('Unable to restore your profile right now.'),
       findsOneWidget,
     );
-    expect(find.text('RETRY'), findsOneWidget);
+    expect(find.text('Retry'), findsOneWidget);
   });
 }

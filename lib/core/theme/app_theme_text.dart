@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'cool_foundations.dart';
 
-/// Typography constants and [TextTheme] builder — Mobi × Rayon system.
+/// Typography constants and [TextTheme] builder — ROUGEBLACK system.
 ///
 /// Font stack:
 /// - **Barlow Condensed** — Display/Headline (uppercase, w800–w900, condensed impact)
 /// - **Inter** — Title/Body/Label (readable, w400–w700)
-/// - **JetBrains Mono** — Values, IDs, labels (via CoolTextStyles.mono/mobiLabel/mobiValue)
+/// - **JetBrains Mono** — Values, IDs, aliases (via CoolTextStyles.mono/mobiLabel/mobiValue)
 abstract final class AppThemeText {
   // ── Weight aliases ──────────────────────────────────────────────────
   static const black = FontWeight.w900;

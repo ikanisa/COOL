@@ -146,7 +146,7 @@ void main() {
     await tester.tap(find.text('Urwego').last);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('ASSIGN ROLE'));
+    await tester.tap(find.text('Assign Role'));
     await tester.pumpAndSettle();
 
     expect(repository.assignedRoles, hasLength(1));

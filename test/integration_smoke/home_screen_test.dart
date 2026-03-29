@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:cool_app/features/home/models/home_dashboard_data.dart';
 import 'package:cool_app/features/home/providers/home_dashboard_provider.dart';
 import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
-import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
+import 'package:cool_app/features/rayon/models/rs_models.dart';
 import 'package:cool_app/features/home/screens/home_screen.dart';
 
 import 'test_harness.dart';
@@ -136,9 +136,7 @@ void main() {
               (ref) => AsyncData(_sampleMatch()),
             ),
             rayonActionLoadingProvider.overrideWith((ref) => false),
-            homeDashboardProvider.overrideWith(
-              (ref) => _sampleDashboardData(),
-            ),
+            homeDashboardProvider.overrideWith((ref) => _sampleDashboardData()),
           ],
         );
 
@@ -154,12 +152,12 @@ void main() {
         // Fan Savings
         expect(find.textContaining('FAN SAVINGS'), findsOneWidget);
 
-        // Quick Services
-        expect(find.text('QUICK SERVICES'), findsOneWidget);
-        expect(find.text('VIEW ALL'), findsOneWidget);
-        expect(find.text('GROUPS'), findsOneWidget);
+        // Quick Actions
+        expect(find.text('QUICK ACTIONS'), findsOneWidget);
+        expect(find.text('TICKETS'), findsOneWidget);
+        expect(find.text('CONTRIBUTE'), findsOneWidget);
+        expect(find.text('REWARDS'), findsOneWidget);
         expect(find.text('SCAN'), findsOneWidget);
-        expect(find.text('SHOP'), findsOneWidget);
 
         // Official Network
         expect(find.text('OFFICIAL NETWORK'), findsOneWidget);
@@ -169,9 +167,9 @@ void main() {
         expect(find.text('GLOBAL FAN NETWORK'), findsOneWidget);
         expect(find.text('FAN CLUBS'), findsOneWidget);
 
-        // Fan Missions
-        expect(find.text('FAN MISSIONS'), findsOneWidget);
-        expect(find.text('TOKENS'), findsOneWidget);
+        // Fan Rewards
+        expect(find.text('FAN REWARDS'), findsOneWidget);
+        expect(find.text('POINTS'), findsOneWidget);
 
         // Club & Community
         expect(find.text('CLUB & COMMUNITY'), findsOneWidget);

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../features/partners/rayon/models/rs_models.dart';
+import '../../../features/rayon/models/rs_models.dart';
 
 /// Unified cross-app status for a user.
 ///
@@ -35,8 +35,8 @@ class CoolStatus extends Equatable {
   // ─── Progress helpers ───────────────────────────────────────────
 
   int get nextTierPoints => switch (tier) {
-    FanTier.blue => 100,
-    FanTier.silver => 300,
+    FanTier.fan => 100,
+    FanTier.bronze => 300,
     FanTier.gold => 500,
     FanTier.platinum => totalPoints,
   };
@@ -99,7 +99,7 @@ class CoolStatus extends Equatable {
     id: '',
     userId: userId,
     totalPoints: 0,
-    tier: FanTier.blue,
+    tier: FanTier.fan,
     currentStreak: 0,
     longestStreak: 0,
     streakGraceRemaining: 1,

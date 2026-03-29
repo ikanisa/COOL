@@ -4,7 +4,7 @@ import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/rs_colors.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
-import '../../features/partners/widgets/partner_navigation.dart';
+import '../../features/rayon/widgets/partner_navigation.dart';
 
 class CoreAppScaffold extends StatelessWidget {
   const CoreAppScaffold({
@@ -72,7 +72,7 @@ class CoreAppScaffold extends StatelessWidget {
         ),
       ),
       body: CoolScreenBackground(
-        primaryColor: RsColors.rsBlue,
+        primaryColor: RsColors.rsRed,
         secondaryColor: RsColors.rsGold,
         child: SafeArea(
           top: false,

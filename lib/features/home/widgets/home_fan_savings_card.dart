@@ -46,7 +46,7 @@ class HomeFanSavingsPlanCard extends StatelessWidget {
     };
 
     return HomeGlassCard(
-      onTap: () => context.push(AppRoutes.groups),
+      onTap: () => context.push(AppRoutes.contributionCircles),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -146,7 +146,7 @@ class HomeFanSavingsPlanCard extends StatelessWidget {
                     style: context.coolText.rayonCondensed(
                       Theme.of(context).textTheme.headlineSmall,
                       fontWeight: FontWeight.w800,
-                      color: RsColors.rsBlue,
+                      color: RsColors.rsRed,
                     ),
                   ),
                 ],

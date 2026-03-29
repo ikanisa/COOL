@@ -11,9 +11,7 @@ import '../../../core/router/app_routes.dart';
 import '../../../shared/widgets/admin_detail_scaffold.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../models/admin_workspace_access.dart';
-import '../providers/admin_providers.dart';
 import '../providers/admin_workspace_access_provider.dart';
-import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 part 'admin_dashboard_parts.dart';
 
@@ -33,96 +31,91 @@ class AdminDashboardScreen extends ConsumerWidget {
       _AdminSection(
         l.adminUsers,
         Icons.person_rounded,
-        '/admin/users',
+        AppRoutes.adminUsers,
         l.adminUsersDesc,
       ),
       _AdminSection(
         l.adminPartners,
         Icons.handshake_rounded,
-        '/admin/partners',
+        AppRoutes.admin,
         l.adminPartnersDesc,
       ),
       _AdminSection(
         l.adminServices,
         Icons.assignment_rounded,
-        '/admin/services',
+        AppRoutes.adminServices,
         l.adminServicesDesc,
       ),
       _AdminSection(
         l.adminQuickActions,
         Icons.bolt_rounded,
-        '/admin/quick-actions',
+        AppRoutes.adminQuickActions,
         l.adminSpecialProductsDesc,
       ),
       _AdminSection(
         l.adminAppConfig,
         Icons.settings_rounded,
-        '/admin/app-config',
+        AppRoutes.adminAppConfig,
         l.adminAppConfigDesc,
       ),
       _AdminSection(
         l.adminOperations,
         Icons.monitor_heart_rounded,
-        '/admin/operations',
+        AppRoutes.adminOperations,
         l.adminReleaseDesc,
       ),
       _AdminSection(
         l.rayonSports,
         Icons.sports_soccer_rounded,
-        '/admin/rayon',
+        AppRoutes.adminRayon,
         'Matches, tickets, shop, members',
-        visibleTo: {AdminRole.admin, AdminRole.rayonSport},
       ),
       _AdminSection(
         l.adminSpecialProducts,
         Icons.star_rounded,
-        '/admin/special-products',
+        AppRoutes.adminSpecialProducts,
         'Buri Munsi and savings cards',
-        visibleTo: {AdminRole.admin, AdminRole.bank},
       ),
       _AdminSection(
         l.adminMissions,
         Icons.flag_rounded,
-        '/admin/missions',
+        AppRoutes.adminMissions,
         l.adminMissionsDesc,
-        visibleTo: {AdminRole.admin, AdminRole.rayonSport, AdminRole.bank},
       ),
       _AdminSection(
         l.adminSeasons,
         Icons.emoji_events_rounded,
-        '/admin/seasons',
+        AppRoutes.adminSeasons,
         l.adminLiveOpsDesc,
-        visibleTo: {AdminRole.admin, AdminRole.rayonSport, AdminRole.bank},
       ),
       _AdminSection(
         l.adminActivities,
         Icons.local_fire_department_rounded,
         '/admin/activities',
         l.adminSeasonsDesc,
-        visibleTo: {AdminRole.admin, AdminRole.rayonSport, AdminRole.bank},
       ),
       _AdminSection(
         l.adminAdminRoles,
         Icons.admin_panel_settings_rounded,
-        '/admin/roles',
+        AppRoutes.adminRoles,
         l.adminAdminRolesDesc,
       ),
       _AdminSection(
         l.adminSystemAnalytics,
         Icons.analytics_rounded,
-        '/admin/analytics',
+        AppRoutes.adminAnalytics,
         l.adminSystemAnalyticsDesc,
       ),
       _AdminSection(
         l.adminAiContent,
         Icons.auto_awesome_rounded,
-        '/admin/ai-content',
+        AppRoutes.adminAiContent,
         l.adminAiContentDesc,
       ),
       _AdminSection(
         l.adminAuditLog,
         Icons.history_rounded,
-        '/admin/audit-log',
+        AppRoutes.adminAuditLog,
         l.adminAuditLogDesc,
       ),
     ];
@@ -135,27 +128,10 @@ class AdminDashboardScreen extends ConsumerWidget {
     final space = context.coolSpace;
     final access = ref.watch(adminWorkspaceAccessProvider);
 
-    // Filter sections based on user's role
-    final sections = _buildSections(context)
-        .where((section) {
-          // If visibleTo is null, only platform admins can see it
-          if (section.visibleTo == null) {
-            return access.hasPlatformAccess;
-          }
-          // Platform admins always see everything
-          if (access.hasPlatformAccess) return true;
-          // Check specific role visibility
-          if (section.visibleTo!.contains(AdminRole.bank) &&
-              access.hasBankAdminAccess) {
-            return true;
-          }
-          if (section.visibleTo!.contains(AdminRole.rayonSport) &&
-              access.hasPartnerAdminAccess) {
-            return true;
-          }
-          return false;
-        })
-        .toList(growable: false);
+    // All sections are visible to platform admins.
+    final sections = _buildSections(
+      context,
+    ).where((section) => access.hasPlatformAccess).toList(growable: false);
 
     return AdminDetailScaffold(
       backTooltip: context.l10n.back,
@@ -199,7 +175,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                   Text(
                     access.hasPlatformAccess
                         ? 'Full platform visibility with audit, content, and workspace management.'
-                        : 'Role-scoped access with only the surfaces assigned to your institution or partner.',
+                        : 'No active platform role. Access denied.',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: colors.secondaryText,
                       fontWeight: FontWeight.w700,
@@ -227,10 +203,6 @@ class AdminDashboardScreen extends ConsumerWidget {
                 return _AdminCard(section: section);
               },
             ),
-            if (access.hasPlatformAccess) ...[
-              SizedBox(height: space.x5),
-              _SupportModeCard(),
-            ],
           ],
         ),
       ),

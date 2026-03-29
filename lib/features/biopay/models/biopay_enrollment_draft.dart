@@ -29,7 +29,7 @@ class BiopayEnrollmentDraft {
       'country_code': countryCode.trim().isEmpty ? 'RW' : countryCode.trim(),
       'consent_version': consentVersion,
       'embedding': embedding,
-      'liveness': ?liveness,
+      ...?(liveness == null ? null : <String, Object?>{'liveness': liveness}),
     };
   }
 }

@@ -8,7 +8,6 @@ class StatementOverviewCard extends StatelessWidget {
     required this.netBalance,
     required this.inflow,
     required this.outflow,
-    required this.savingsTotal,
     required this.onSelectPeriod,
     required this.onOpenOptions,
     super.key,
@@ -20,7 +19,6 @@ class StatementOverviewCard extends StatelessWidget {
   final int netBalance;
   final int inflow;
   final int outflow;
-  final int savingsTotal;
   final Future<void> Function(StatementPeriodPreset period) onSelectPeriod;
   final VoidCallback onOpenOptions;
 
@@ -61,12 +59,6 @@ class StatementOverviewCard extends StatelessWidget {
                 label: 'Outflow',
                 value: '${moneyFormat.format(outflow)} ${context.l10n.rwf}',
                 accentColor: colors.warning,
-              ),
-              _SummaryMetric(
-                label: 'Savings',
-                value:
-                    '${moneyFormat.format(savingsTotal)} ${context.l10n.rwf}',
-                accentColor: colors.info,
               ),
             ],
           ),
@@ -317,6 +309,7 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                 children: [
                   Expanded(
                     child: CoolButton(
+                      key: const ValueKey<String>('statement-reset-filters'),
                       label: context.l10n.reset,
                       variant: CoolButtonVariant.secondary,
                       onTap: () {
@@ -328,6 +321,7 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                   const SizedBox(width: CoolSpace.x3),
                   Expanded(
                     child: CoolButton(
+                      key: const ValueKey<String>('statement-apply-filters'),
                       label: context.l10n.applyFilters,
                       onTap: () {
                         widget.onApply(_selectedParty, _selectedSort);
@@ -344,6 +338,7 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                 children: [
                   Expanded(
                     child: CoolButton(
+                      key: const ValueKey<String>('statement-export-pdf'),
                       label: context.l10n.pdf,
                       icon: Icons.picture_as_pdf_rounded,
                       onTap: widget.canExport
@@ -357,6 +352,7 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                   const SizedBox(width: CoolSpace.x3),
                   Expanded(
                     child: CoolButton(
+                      key: const ValueKey<String>('statement-export-excel'),
                       label: context.l10n.excel,
                       icon: Icons.table_view_rounded,
                       onTap: widget.canExport
@@ -667,149 +663,6 @@ class WalletStatementTab extends StatelessWidget {
   }
 }
 
-class SavingsStatementTab extends StatelessWidget {
-  const SavingsStatementTab({
-    required this.entries,
-    required this.totalCount,
-    required this.dateFormat,
-    required this.moneyFormat,
-    required this.isFilteredView,
-    super.key,
-  });
-
-  final List<SavingsStatementEntry> entries;
-  final int totalCount;
-  final DateFormat dateFormat;
-  final NumberFormat moneyFormat;
-  final bool isFilteredView;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final text = context.coolText;
-    final theme = Theme.of(context);
-    if (entries.isEmpty) {
-      return CoolEmptyView(
-        subtitle: isFilteredView
-            ? 'Adjust filters'
-            : context.l10n.savingsEmptyMessage,
-        icon: Icons.groups_2_rounded,
-      );
-    }
-
-    return ListView.separated(
-      itemCount: entries.length + 1,
-      separatorBuilder: (_, _) => const SizedBox(height: 10),
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          return _SectionLead(
-            title: context.l10n.savingsStatementTitle,
-            subtitle: context.l10n.savingsStatementSubtitle(
-              entries.length,
-              totalCount,
-            ),
-          );
-        }
-
-        final entry = entries[index - 1];
-        return CoolCard(
-          backgroundColor: colors.cardSurfaceStrong,
-          useGradient: false,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: colors.contactSurface,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(CoolRadii.xs),
-                      ),
-                    ),
-                    alignment: Alignment.center,
-                    child: Icon(Icons.groups_2_rounded, color: colors.info),
-                  ),
-                  const SizedBox(width: CoolSpace.x3),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          entry.groupName,
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: colors.primaryText,
-                          ),
-                        ),
-                        const SizedBox(height: CoolSpace.x1),
-                        Text(
-                          dateFormat.format(entry.createdAt),
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: colors.tertiaryText,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: CoolSpace.x3),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: CoolSpace.x3,
-                      vertical: CoolSpace.x2,
-                    ),
-                    decoration: BoxDecoration(
-                      color: colors.financialSurface,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(CoolRadii.sm),
-                      ),
-                    ),
-                    child: Text(
-                      '${moneyFormat.format(entry.amount)} ${context.l10n.rwf}',
-                      textAlign: TextAlign.right,
-                      style: text.mono(
-                        theme.textTheme.bodyMedium,
-                        fontWeight: FontWeight.w700,
-                        color: colors.info,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: CoolSpace.x3),
-              Wrap(
-                spacing: CoolSpace.x2,
-                runSpacing: CoolSpace.x2,
-                children: [
-                  _StatusChip(
-                    label: entry.isConfirmed
-                        ? context.l10n.confirmed
-                        : context.l10n.pending,
-                    color: entry.isConfirmed ? colors.success : colors.warning,
-                  ),
-                  _StatusChip(
-                    label: context.l10n.savingsLabel,
-                    color: colors.info,
-                  ),
-                ],
-              ),
-              if (entry.reference != null)
-                _DetailLine(
-                  label: context.l10n.referenceLabel,
-                  value: entry.reference!,
-                ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-}
-
 class _SectionLead extends StatelessWidget {
   const _SectionLead({required this.title, required this.subtitle});
 
@@ -870,41 +723,6 @@ class _StatusChip extends StatelessWidget {
         style: theme.textTheme.labelSmall?.copyWith(
           fontWeight: FontWeight.w700,
           color: color,
-        ),
-      ),
-    );
-  }
-}
-
-class _DetailLine extends StatelessWidget {
-  const _DetailLine({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.only(top: CoolSpace.x2),
-      child: RichText(
-        text: TextSpan(
-          style: theme.textTheme.bodySmall?.copyWith(
-            fontWeight: FontWeight.w500,
-            color: colors.tertiaryText,
-            height: 1.45,
-          ),
-          children: [
-            TextSpan(
-              text: '$label: ',
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                color: colors.secondaryText,
-              ),
-            ),
-            TextSpan(text: value),
-          ],
         ),
       ),
     );

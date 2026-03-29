@@ -4,6 +4,8 @@ import 'app_routes.dart';
 
 export 'app_routes.dart';
 
+const _adminBanksRoutePrefix = '/admin/banks';
+
 bool _isAdminRoute(String location) {
   final path = _locationPath(location);
   return path == AppRoutes.admin || path.startsWith('${AppRoutes.admin}/');
@@ -12,7 +14,6 @@ bool _isAdminRoute(String location) {
 const _platformAdminRoutes = {
   AppRoutes.adminPlatform,
   AppRoutes.adminUsers,
-  AppRoutes.adminPartners,
   AppRoutes.adminServices,
   AppRoutes.adminQuickActions,
   AppRoutes.adminAppConfig,
@@ -27,6 +28,25 @@ String _locationPath(String location) {
 
 bool _isPlatformAdminRoute(String location) {
   return _platformAdminRoutes.contains(_locationPath(location));
+}
+
+bool _isPartnerWorkspaceRoute(String location) {
+  final path = _locationPath(location);
+  return path == AppRoutes.adminPartners ||
+      path.startsWith('${AppRoutes.adminPartners}/');
+}
+
+bool _isBankWorkspaceRoute(String location) {
+  final path = _locationPath(location);
+  return path == _adminBanksRoutePrefix ||
+      path.startsWith('$_adminBanksRoutePrefix/');
+}
+
+String? _scopedWorkspaceId(String location) {
+  final segments = _locationPath(
+    location,
+  ).split('/').where((segment) => segment.isNotEmpty).toList(growable: false);
+  return segments.length >= 3 ? segments[2] : null;
 }
 
 String? _sanitizeRedirectTarget(String? location) {
@@ -48,30 +68,6 @@ bool _isRayonAdminRoute(String location) {
   final path = _locationPath(location);
   return path == AppRoutes.adminRayon ||
       path.startsWith('${AppRoutes.adminRayon}/');
-}
-
-String? _adminPartnerWorkspaceId(String location) {
-  final segments = Uri.parse(_locationPath(location)).pathSegments;
-  if (segments.length < 3) {
-    return null;
-  }
-  if (segments[0] != 'admin' || segments[1] != 'partners') {
-    return null;
-  }
-  final partnerId = segments[2].trim();
-  return partnerId.isEmpty ? null : partnerId;
-}
-
-String? _adminBankWorkspaceId(String location) {
-  final segments = Uri.parse(_locationPath(location)).pathSegments;
-  if (segments.length < 3) {
-    return null;
-  }
-  if (segments[0] != 'admin' || segments[1] != 'banks') {
-    return null;
-  }
-  final partnerId = segments[2].trim();
-  return partnerId.isEmpty ? null : partnerId;
 }
 
 /// Resolves where the user should be redirected based on auth and role state.
@@ -130,28 +126,31 @@ String? resolveAppRedirect({
       return AppRoutes.admin;
     }
 
-    final partnerId = _adminPartnerWorkspaceId(path);
-    if (partnerId != null && !adminScope.canAccessPartnerId(partnerId)) {
-      return AppRoutes.admin;
+    if (_isPartnerWorkspaceRoute(path)) {
+      final partnerId = _scopedWorkspaceId(path);
+      if (partnerId == null || !adminScope.canAccessPartnerId(partnerId)) {
+        return AppRoutes.admin;
+      }
     }
 
-    final bankId = _adminBankWorkspaceId(path);
-    if (bankId != null && !adminScope.canAccessBankId(bankId)) {
-      return AppRoutes.admin;
+    if (_isBankWorkspaceRoute(path)) {
+      final bankId = _scopedWorkspaceId(path);
+      if (bankId == null || !adminScope.canAccessBankId(bankId)) {
+        return AppRoutes.admin;
+      }
     }
 
     if (_isRayonAdminRoute(path) &&
         !adminScope.hasPlatformAccess &&
-        !adminScope.hasPartnerAdminAccess &&
         !hasRayonAdminAccess) {
       return AppRoutes.admin;
     }
 
     if (path != AppRoutes.admin &&
         !_isPlatformAdminRoute(path) &&
+        !_isPartnerWorkspaceRoute(path) &&
+        !_isBankWorkspaceRoute(path) &&
         !_isRayonAdminRoute(path) &&
-        partnerId == null &&
-        bankId == null &&
         !adminScope.hasPlatformAccess) {
       return AppRoutes.admin;
     }

@@ -7,19 +7,13 @@ import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/dense_admin_workspace_scaffold.dart';
 import '../../../shared/widgets/admin_section_header.dart';
+import '../../partners/models/partner.dart';
 import '../providers/admin_workspace_access_provider.dart';
 import '../widgets/admin_workspace_gate.dart';
 import '../../../core/l10n/l10n.dart';
 
 EdgeInsets _adminWorkspacesListPadding() =>
     CoolSpace.pagePadding.copyWith(top: 0, bottom: CoolSpace.x7);
-
-EdgeInsets _adminWorkspaceCardSpacing() => CoolSpace.sectionPadding.copyWith(
-  left: 0,
-  right: 0,
-  top: 0,
-  bottom: CoolSpace.x3,
-);
 
 const BorderRadius _adminWorkspaceIconRadius = BorderRadius.all(
   Radius.circular(CoolRadii.xs),
@@ -33,13 +27,12 @@ class AdminWorkspacesScreen extends ConsumerWidget {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     final access = ref.watch(adminWorkspaceAccessProvider);
-    final partnerWorkspacesAsync = ref.watch(adminPartnerWorkspacesProvider);
-    final bankWorkspacesAsync = ref.watch(adminBankWorkspacesProvider);
-
+    final partnerWorkspaces = ref.watch(adminPartnerWorkspacesProvider);
+    final bankWorkspaces = ref.watch(adminBankWorkspacesProvider);
     if (!access.hasAnyAdminAccess) {
       return AdminAccessDeniedScaffold(
         title: context.l10n.adminWorkspaces,
-        message: 'This account does not',
+        message: 'This account does not have admin workspace access.',
         fallbackLocation: AppRoutes.home,
       );
     }
@@ -68,65 +61,19 @@ class AdminWorkspacesScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: CoolSpace.x6),
-          _IntroCard(
-            hasPlatformAccess: access.hasPlatformAccess,
-            hasPartnerAccess: access.hasPartnerAdminAccess,
-            hasBankAccess: access.hasBankAdminAccess,
-          ),
-          if (access.hasPlatformAccess) ...[
-            const SizedBox(height: CoolSpace.x6),
-            AdminSectionHeader(
-              title: context.l10n.platform,
-              message: 'Global app operations content',
-            ),
-            const SizedBox(height: CoolSpace.x3),
-            _WorkspaceCard(
-              title: 'Platform Admin',
-              subtitle: 'Users partners services app',
-              icon: Icons.admin_panel_settings_outlined,
-              onTap: () => context.push(AppRoutes.adminPlatform),
-            ),
-          ],
+          _IntroCard(hasPlatformAccess: access.hasPlatformAccess),
           if (access.hasPartnerAdminAccess) ...[
             const SizedBox(height: CoolSpace.x6),
             const AdminSectionHeader(
               title: 'Partner Workspaces',
-              message: 'Partner-scoped admin surfaces for',
+              message: 'Scoped partner operations assigned to this account.',
             ),
             const SizedBox(height: CoolSpace.x3),
-            partnerWorkspacesAsync.when(
-              data: (partners) => partners.isEmpty
-                  ? const _EmptyWorkspaceCard(
-                      message: 'No explicit partner workspace',
-                    )
-                  : Column(
-                      children: partners
-                          .map(
-                            (partner) => Padding(
-                              padding: _adminWorkspaceCardSpacing(),
-                              child: _WorkspaceCard(
-                                title: partner.name,
-                                subtitle: partner.slug == 'rayon-sports'
-                                    ? 'Open the current Rayon Sports admin workspace.'
-                                    : 'Open the partner workspace foundation.',
-                                icon: Icons.storefront_rounded,
-                                onTap: () => context.push(
-                                  partner.slug == 'rayon-sports'
-                                      ? AppRoutes.adminRayon
-                                      : AppRoutes.adminPartnerWorkspaceLocation(
-                                          partner.id,
-                                        ),
-                                ),
-                              ),
-                            ),
-                          )
-                          .toList(growable: false),
-                    ),
-              loading: () => const _InlineLoadingCard(
-                message: 'Loading partner workspaces...',
-              ),
-              error: (error, _) => const _EmptyWorkspaceCard(
-                message: 'Load partner workspaces failed',
+            _WorkspaceCollection(
+              asyncPartners: partnerWorkspaces,
+              emptyLabel: 'No partner workspaces assigned.',
+              onTap: (partner) => context.push(
+                AppRoutes.adminPartnerWorkspaceLocation(partner.id),
               ),
             ),
           ],
@@ -134,37 +81,36 @@ class AdminWorkspacesScreen extends ConsumerWidget {
             const SizedBox(height: CoolSpace.x6),
             const AdminSectionHeader(
               title: 'Bank Custodian Workspaces',
-              message: 'Group savings oversight ledgers',
+              message: 'Scoped bank operations assigned to this account.',
             ),
             const SizedBox(height: CoolSpace.x3),
-            bankWorkspacesAsync.when(
-              data: (banks) => banks.isEmpty
-                  ? const _EmptyWorkspaceCard(
-                      message: 'No explicit bank workspace',
-                    )
-                  : Column(
-                      children: banks
-                          .map(
-                            (bank) => Padding(
-                              padding: _adminWorkspaceCardSpacing(),
-                              child: _WorkspaceCard(
-                                title: bank.name,
-                                subtitle: 'Open the bank custodian',
-                                icon: Icons.account_balance_rounded,
-                                onTap: () => context.push(
-                                  AppRoutes.adminBankWorkspaceLocation(bank.id),
-                                ),
-                              ),
-                            ),
-                          )
-                          .toList(growable: false),
-                    ),
-              loading: () => const _InlineLoadingCard(
-                message: 'Loading bank workspaces...',
+            _WorkspaceCollection(
+              asyncPartners: bankWorkspaces,
+              emptyLabel: 'No bank workspaces assigned.',
+              onTap: (partner) => context.push(
+                AppRoutes.adminBankWorkspaceLocation(partner.id),
               ),
-              error: (error, _) => const _EmptyWorkspaceCard(
-                message: 'Load bank workspaces failed',
-              ),
+            ),
+          ],
+          if (access.hasPlatformAccess) ...[
+            const SizedBox(height: CoolSpace.x6),
+            AdminSectionHeader(
+              title: context.l10n.platform,
+              message: 'Global app operations and release controls.',
+            ),
+            const SizedBox(height: CoolSpace.x3),
+            _WorkspaceCard(
+              title: 'Platform Admin',
+              subtitle: 'Users, services, content, roles, and operations.',
+              icon: Icons.admin_panel_settings_outlined,
+              onTap: () => context.push(AppRoutes.adminPlatform),
+            ),
+            const SizedBox(height: CoolSpace.x3),
+            _WorkspaceCard(
+              title: 'Rayon Sports',
+              subtitle: 'Matches, tickets, shop, membership, and engagement.',
+              icon: Icons.sports_soccer_rounded,
+              onTap: () => context.push(AppRoutes.adminRayon),
             ),
           ],
         ],
@@ -174,15 +120,9 @@ class AdminWorkspacesScreen extends ConsumerWidget {
 }
 
 class _IntroCard extends StatelessWidget {
-  const _IntroCard({
-    required this.hasPlatformAccess,
-    required this.hasPartnerAccess,
-    required this.hasBankAccess,
-  });
+  const _IntroCard({required this.hasPlatformAccess});
 
   final bool hasPlatformAccess;
-  final bool hasPartnerAccess;
-  final bool hasBankAccess;
 
   @override
   Widget build(BuildContext context) {
@@ -218,13 +158,6 @@ class _IntroCard extends StatelessWidget {
                   label: 'Platform Admin',
                   color: Color(0xFF2ECC71),
                 ),
-              if (hasPartnerAccess)
-                const _RoleChip(
-                  label: 'Partner Admin',
-                  color: Color(0xFF4AA4FF),
-                ),
-              if (hasBankAccess)
-                const _RoleChip(label: 'Bank Admin', color: Color(0xFFC9A84C)),
             ],
           ),
         ],
@@ -257,6 +190,50 @@ class _RoleChip extends StatelessWidget {
           letterSpacing: 0.7,
         ),
       ),
+    );
+  }
+}
+
+class _WorkspaceCollection extends StatelessWidget {
+  const _WorkspaceCollection({
+    required this.asyncPartners,
+    required this.emptyLabel,
+    required this.onTap,
+  });
+
+  final AsyncValue<List<Partner>> asyncPartners;
+  final String emptyLabel;
+  final void Function(Partner partner) onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return asyncPartners.when(
+      data: (partners) {
+        if (partners.isEmpty) {
+          return Text(emptyLabel);
+        }
+
+        return Column(
+          children: [
+            for (var index = 0; index < partners.length; index++) ...[
+              _WorkspaceCard(
+                title: partners[index].name,
+                subtitle:
+                    partners[index].subtitle ??
+                    '${partners[index].country} · ${partners[index].category.dbValue}',
+                icon: partners[index].isBank
+                    ? Icons.account_balance_rounded
+                    : Icons.sports_soccer_rounded,
+                onTap: () => onTap(partners[index]),
+              ),
+              if (index != partners.length - 1)
+                const SizedBox(height: CoolSpace.x3),
+            ],
+          ],
+        );
+      },
+      loading: () => const LinearProgressIndicator(minHeight: 2),
+      error: (_, _) => Text(emptyLabel),
     );
   }
 }
@@ -334,61 +311,6 @@ class _WorkspaceCard extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _InlineLoadingCard extends StatelessWidget {
-  const _InlineLoadingCard({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return CoolCard(
-      child: Row(
-        children: [
-          const SizedBox(
-            width: 18,
-            height: 18,
-            child: CircularProgressIndicator(strokeWidth: 2.2),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              message,
-              style: theme.textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.w500,
-                color: colors.secondaryText,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _EmptyWorkspaceCard extends StatelessWidget {
-  const _EmptyWorkspaceCard({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return CoolCard(
-      child: Text(
-        message,
-        style: theme.textTheme.bodySmall?.copyWith(
-          fontWeight: FontWeight.w500,
-          color: colors.secondaryText,
-          height: 1.4,
-        ),
       ),
     );
   }

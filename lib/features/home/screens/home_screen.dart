@@ -6,8 +6,8 @@ import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/rs_colors.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
-import '../../partners/providers/rayon_sports_provider.dart';
-import '../../partners/rayon/models/rs_models.dart';
+import '../../rayon/providers/rayon_sports_provider.dart';
+import '../../rayon/models/rs_models.dart';
 
 import '../providers/home_dashboard_provider.dart';
 import '../widgets/home_community_cards.dart';
@@ -96,16 +96,16 @@ class HomeScreen extends StatelessWidget {
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: RsColors.rsBlue.withValues(alpha: 0.15),
+                          color: RsColors.rsRed.withValues(alpha: 0.15),
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: RsColors.rsBlue.withValues(alpha: 0.3),
+                            color: RsColors.rsRed.withValues(alpha: 0.3),
                             width: 1.5,
                           ),
                         ),
                         child: const Icon(
                           Icons.person_outline_rounded,
-                          color: RsColors.rsBlue,
+                          color: RsColors.rsRed,
                           size: 24,
                         ),
                       ),
@@ -133,48 +133,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  actions: [
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.05),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.1),
-                        ),
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.bolt_rounded,
-                          color: colors.secondaryText,
-                          size: 22,
-                        ),
-                        onPressed: () => context.push(AppRoutes.tokens),
-                      ),
-                    ),
-                    const SizedBox(width: CoolSpace.x3),
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.05),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.1),
-                        ),
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.grid_view_rounded,
-                          color: colors.secondaryText,
-                          size: 20,
-                        ),
-                        onPressed: () => context.push(AppRoutes.missions),
-                      ),
-                    ),
-                    const SizedBox(width: CoolSpace.x5),
-                  ],
                 ),
 
                 // ── 1. Hero Carousel (Match + Banners) ────────────────

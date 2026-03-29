@@ -1,5 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' show Session;
 
+import 'package:cool_app/features/auth/providers/auth_provider.dart';
 import 'package:cool_app/features/admin/models/admin_workspace_access.dart';
 
 void main() {
@@ -169,6 +171,58 @@ void main() {
         expect(access.hasPartnerAdminAccess, isFalse);
         expect(access.hasAnyAdminAccess, isFalse);
         expect(access.roleAssignments, isEmpty);
+      });
+    });
+
+    group('fromAuthState', () {
+      Session sessionWithMetadata(Map<String, dynamic> appMetadata) {
+        return Session.fromJson(<String, dynamic>{
+          'access_token': 'token-user-1',
+          'token_type': 'bearer',
+          'expires_in': 3600,
+          'refresh_token': 'refresh-user-1',
+          'user': <String, dynamic>{
+            'id': 'user-1',
+            'phone': '+250788123456',
+            'user_metadata': const <String, dynamic>{'phone': '+250788123456'},
+            'app_metadata': appMetadata,
+            'aud': 'authenticated',
+            'created_at': DateTime(2026).toIso8601String(),
+          },
+        })!;
+      }
+
+      test('parses scoped partner and bank ids from session metadata', () {
+        final access = AdminWorkspaceAccess.fromAuthState(
+          AuthState(
+            session: sessionWithMetadata(const <String, dynamic>{
+              'partner_admin_ids': ['partner-rayon'],
+              'bank_admin_ids': ['bank-1'],
+            }),
+          ),
+        );
+
+        expect(access.hasAnyAdminAccess, isTrue);
+        expect(access.hasPartnerAdminAccess, isTrue);
+        expect(access.hasBankAdminAccess, isTrue);
+        expect(access.canAccessPartnerId('partner-rayon'), isTrue);
+        expect(access.canAccessBankId('bank-1'), isTrue);
+      });
+
+      test('parses platform and rayon booleans from session metadata', () {
+        final access = AdminWorkspaceAccess.fromAuthState(
+          AuthState(
+            session: sessionWithMetadata(const <String, dynamic>{
+              'is_admin': true,
+              'has_rayon_access': true,
+            }),
+          ),
+        );
+
+        expect(access.hasPlatformAccess, isTrue);
+        expect(access.hasPartnerAdminAccess, isTrue);
+        expect(access.canAccessPartnerId('any-id'), isTrue);
+        expect(access.canAccessBankId('any-id'), isTrue);
       });
     });
 

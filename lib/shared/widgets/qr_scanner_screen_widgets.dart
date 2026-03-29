@@ -9,8 +9,6 @@ class _ScannerOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final textTheme = Theme.of(context).textTheme;
-    final space = context.coolSpace;
     final radii = context.coolRadii;
     final accentColor = mode == QrScanMode.ticket
         ? Colors.white

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/rs_colors.dart';
-import '../../features/partners/rayon/models/rs_models.dart';
+import '../../features/rayon/models/rs_models.dart';
 import 'cool_card.dart';
 
 /// Fan-club card with join state and chapter stats.
@@ -32,7 +32,7 @@ class RsFanClubCard extends StatelessWidget {
       return const LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: <Color>[RsColors.rsBlue, RsColors.rsBlueMid],
+        colors: <Color>[RsColors.rsRed, RsColors.rsNavyMid],
       );
     }
     return RsColors.rsCardGradient;
@@ -57,7 +57,7 @@ class RsFanClubCard extends StatelessWidget {
         gradient: RsColors.rsCardGradient,
         borderColor: isJoined
             ? RsColors.rsGold.withValues(alpha: 0.5)
-            : RsColors.rsBlueBorder,
+            : RsColors.rsRedBorder,
         borderRadius: radii.lg,
         padding: EdgeInsets.zero,
         semanticsLabel: 'Open ${club.name} fan club',
@@ -82,9 +82,9 @@ class RsFanClubCard extends StatelessWidget {
                     height: CoolTapTargets.minimum,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: RsColors.rsBlueGlow,
+                      color: RsColors.rsRedGlow,
                       border: Border.all(
-                        color: RsColors.rsBlueBorder,
+                        color: RsColors.rsRedBorder,
                         width: 1.2,
                       ),
                     ),
@@ -117,7 +117,7 @@ class RsFanClubCard extends StatelessWidget {
                           style: text.rayon(
                             theme.textTheme.labelSmall,
                             fontWeight: FontWeight.w600,
-                            color: RsColors.rsBluePale,
+                            color: RsColors.rsNavyPale,
                           ),
                         ),
                       ],
@@ -182,8 +182,8 @@ class _JoinButton extends StatelessWidget {
     final space = context.coolSpace;
     final radii = context.coolRadii;
     final theme = Theme.of(context);
-    final background = isJoined ? RsColors.rsBlueGlow : RsColors.rsBlue;
-    final foreground = isJoined ? RsColors.rsBluePale : RsColors.rsWhite;
+    final background = isJoined ? RsColors.rsRedGlow : RsColors.rsRed;
+    final foreground = isJoined ? RsColors.rsNavyPale : RsColors.rsWhite;
 
     return Material(
       type: MaterialType.transparency,
@@ -198,7 +198,7 @@ class _JoinButton extends StatelessWidget {
             color: background,
             borderRadius: BorderRadius.circular(radii.pill),
             border: Border.all(
-              color: isJoined ? RsColors.rsBlueBorder : RsColors.rsBlueMid,
+              color: isJoined ? RsColors.rsRedBorder : RsColors.rsNavyMid,
             ),
           ),
           alignment: Alignment.center,

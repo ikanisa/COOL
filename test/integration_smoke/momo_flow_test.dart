@@ -67,7 +67,7 @@ void main() {
       await settleTestApp(tester);
 
       expect(find.byType(MomoReceiveQrScreen), findsOneWidget);
-      expect(find.text('SHARE LINK'), findsOneWidget);
+      expect(find.text('Share link'), findsOneWidget);
 
       await tester.tap(find.byIcon(Icons.arrow_back_rounded).last);
       await settleTestApp(tester);
@@ -125,7 +125,7 @@ void main() {
       await settleTestApp(tester);
 
       expect(find.byType(MomoNfcScreen), findsOneWidget);
-      expect(find.text('READ TAG'), findsWidgets);
+      expect(find.text('Read tag'), findsWidgets);
 
       await tester.tap(find.byIcon(Icons.arrow_back_rounded).last);
       await settleTestApp(tester);

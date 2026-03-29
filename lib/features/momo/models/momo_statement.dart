@@ -39,6 +39,66 @@ class MomoStatementPage<T> {
   bool hasMore({required int offset}) => offset + entries.length < totalCount;
 }
 
+class SavingsStatementEntry {
+  const SavingsStatementEntry({
+    required this.id,
+    required this.groupId,
+    required this.groupName,
+    required this.amount,
+    required this.status,
+    required this.createdAt,
+    this.reference,
+  });
+
+  final String id;
+  final String groupId;
+  final String groupName;
+  final int amount;
+  final String status;
+  final DateTime createdAt;
+  final String? reference;
+
+  bool get isConfirmed => status == 'confirmed' || status == 'completed';
+
+  factory SavingsStatementEntry.fromJson(Map<String, dynamic> json) {
+    return SavingsStatementEntry(
+      id: json['id']?.toString() ?? '',
+      groupId: json['group_id']?.toString() ?? '',
+      groupName: json['group_name']?.toString() ?? 'Contribution circle',
+      amount: _asInt(json['amount']),
+      status: json['status']?.toString() ?? 'pending',
+      createdAt:
+          _parseDateTime(json['created_at']) ??
+          _parseDateTime(json['tx_datetime']) ??
+          DateTime.now(),
+      reference:
+          _nonEmpty(json['reference']) ?? _nonEmpty(json['external_reference']),
+    );
+  }
+}
+
+class GroupContribution {
+  const GroupContribution({
+    required this.userId,
+    required this.amount,
+    required this.status,
+    this.id = '',
+    this.groupId = '',
+    this.contributorName,
+    this.createdAt,
+    this.reference,
+  });
+
+  final String id;
+  final String groupId;
+  final String userId;
+  final String? contributorName;
+  final int amount;
+  final String status;
+  final DateTime? createdAt;
+  final String? reference;
+}
+
 class PayeePaymentLedgerEntry {
   const PayeePaymentLedgerEntry({
     required this.ledgerId,
@@ -264,40 +324,6 @@ class MomoWalletEntry {
       payerPhone:
           _nonEmpty(parsedSms['payer_number_full']) ??
           _nonEmpty(parsedSms['payer_number_last3']),
-    );
-  }
-}
-
-class SavingsStatementEntry {
-  const SavingsStatementEntry({
-    required this.id,
-    required this.groupId,
-    required this.groupName,
-    required this.amount,
-    required this.status,
-    required this.createdAt,
-    this.reference,
-  });
-
-  final String id;
-  final String groupId;
-  final String groupName;
-  final int amount;
-  final String status;
-  final DateTime createdAt;
-  final String? reference;
-
-  bool get isConfirmed => status == 'confirmed' || status == 'completed';
-
-  factory SavingsStatementEntry.fromJson(Map<String, dynamic> json) {
-    return SavingsStatementEntry(
-      id: json['id']?.toString() ?? '',
-      groupId: json['group_id']?.toString() ?? '',
-      groupName: json['group_name']?.toString() ?? 'Savings group',
-      amount: _asInt(json['amount']),
-      status: json['status']?.toString() ?? 'pending',
-      createdAt: _parseDateTime(json['created_at']) ?? DateTime.now(),
-      reference: _nonEmpty(json['momo_reference']),
     );
   }
 }

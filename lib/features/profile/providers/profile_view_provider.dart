@@ -35,19 +35,13 @@ final profileViewProvider = Provider<ProfileData>((ref) {
   final statementCount =
       (statementBundle.valueOrNull?.walletTotalCount ?? 0) +
       (statementBundle.valueOrNull?.savingsTotalCount ?? 0);
-  final showCompletionBanner =
-      !user.hasBasicProfile || !walletConfigured;
+  final showCompletionBanner = !user.hasBasicProfile;
 
   final setupItems = <ProfileSetupItem>[
     ProfileSetupItem(
       id: 'account',
       label: l10n.profilePublicProfileLabel,
       isComplete: user.hasBasicProfile,
-    ),
-    ProfileSetupItem(
-      id: 'wallet',
-      label: l10n.profileWalletLabel,
-      isComplete: walletConfigured,
     ),
   ];
 

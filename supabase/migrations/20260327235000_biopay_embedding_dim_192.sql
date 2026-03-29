@@ -4,7 +4,7 @@ create or replace function public.biopay_vector_128_to_192(
 returns vector(192)
 language sql
 immutable
-set search_path = public
+set search_path = public, extensions
 as $$
   select (
     '[' ||
@@ -31,7 +31,7 @@ create or replace function public.biopay_array_to_vector_192(
 returns vector(192)
 language plpgsql
 immutable
-set search_path = public
+set search_path = public, extensions
 as $$
 begin
   if coalesce(array_length(p_embedding, 1), 0) != 192 then
@@ -70,7 +70,7 @@ returns table (
 )
 language plpgsql
 security definer
-set search_path = public
+set search_path = public, extensions
 as $$
 declare
   v_user_id uuid := auth.uid();
@@ -287,7 +287,7 @@ returns table (
 )
 language sql
 security definer
-set search_path = public
+set search_path = public, extensions
 as $$
   with query_vector as (
     select public.biopay_array_to_vector_192(p_embedding) as embedding

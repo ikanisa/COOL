@@ -37,13 +37,13 @@ class AppBranding {
   const AppBranding.rayon()
     : this(
         brand: AppBrand.rayonDominant,
-        appTitle: 'Rayon Sports',
-        welcomeTitle: 'Welcome to Rayon Sports',
-        welcomeSubtitle: 'Matchday, tickets, and club services.',
-        splashTitle: 'Rayon Sports',
+        appTitle: 'Rayon Sports FC',
+        welcomeTitle: 'Rayon Sports FC',
+        welcomeSubtitle: 'Your club. Your identity. Your game.',
+        splashTitle: 'Rayon Sports FC',
         logoAssetPath: 'assets/images/partners/rs_logo_mark.png',
-        logoSemanticLabel: 'Rayon Sports logo',
-        primaryColor: RsColors.rsBlue,
+        logoSemanticLabel: 'Rayon Sports FC logo',
+        primaryColor: RsColors.rsRed,
         secondaryColor: RsColors.rsGold,
         navSelectedColor: RsColors.rsGoldLight,
       );

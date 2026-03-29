@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/rs_colors.dart';
-import '../../partners/rayon/models/rs_models.dart';
+import '../../rayon/models/rs_models.dart';
 
 // ═════════════════════════════════════════════════════════════════════
 // 1. HERO CAROUSEL  (Match card + Stadium Lighting Fund card)
@@ -74,7 +74,7 @@ class _HomeHeroCarouselState extends State<HomeHeroCarousel> {
       height: 4,
       decoration: BoxDecoration(
         color: isActive
-            ? RsColors.rsBlue
+            ? RsColors.rsRed
             : Colors.white.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(2),
       ),
@@ -190,7 +190,7 @@ class HomeHeroMatchCard extends StatelessWidget {
                           style: context.coolText.rayonCondensed(
                             Theme.of(context).textTheme.displayLarge,
                             fontWeight: FontWeight.w900,
-                            color: RsColors.rsBlue,
+                            color: RsColors.rsRed,
                             height: 0.90,
                             letterSpacing: -0.5,
                           ),
@@ -308,10 +308,10 @@ class HomePromoHeroCard extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: RsColors.rsBlue.withValues(alpha: 0.25),
+                      color: RsColors.rsRed.withValues(alpha: 0.25),
                       borderRadius: BorderRadius.circular(CoolRadii.sm),
                       border: Border.all(
-                        color: RsColors.rsBlue.withValues(alpha: 0.4),
+                        color: RsColors.rsRed.withValues(alpha: 0.4),
                       ),
                     ),
                     child: Text(
@@ -319,7 +319,7 @@ class HomePromoHeroCard extends StatelessWidget {
                       style: context.coolText.mono(
                         Theme.of(context).textTheme.labelSmall,
                         fontWeight: FontWeight.w800,
-                        color: RsColors.rsBlueLight,
+                        color: RsColors.rsRedBright,
                         letterSpacing: 1.0,
                       ),
                     ),
@@ -361,7 +361,7 @@ class HomePromoHeroCard extends StatelessWidget {
                     vertical: CoolSpace.x3,
                   ),
                   decoration: BoxDecoration(
-                    color: RsColors.rsBlue,
+                    color: RsColors.rsRed,
                     borderRadius: BorderRadius.circular(CoolRadii.xl),
                   ),
                   child: Row(

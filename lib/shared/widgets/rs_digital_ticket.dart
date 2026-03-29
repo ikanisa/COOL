@@ -4,7 +4,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/rs_colors.dart';
-import '../../features/partners/rayon/models/rs_models.dart';
+import '../../features/rayon/models/rs_models.dart';
+import 'cool_card.dart';
 
 class RsDigitalTicket extends StatelessWidget {
   const RsDigitalTicket({
@@ -43,158 +44,148 @@ class RsDigitalTicket extends StatelessWidget {
           '${ticket.matchTitle}. ${ticket.seatType.value} seat.'
           'Status: ${ticket.status.label}. ${ticket.venue}.',
       excludeSemantics: true,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(radii.md),
-          boxShadow: CoolShadows.floating(theme.brightness, strength: 0.72),
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: RsColors.rsCardGradient,
-            borderRadius: BorderRadius.circular(radii.md),
-            border: Border.all(color: borderColor),
-          ),
-          padding: EdgeInsets.all(space.x5),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                ticket.competition.toUpperCase(),
-                style: text.rayon(
-                  theme.textTheme.labelSmall,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1.1,
-                  color: RsColors.rsGoldLight,
-                ),
+      child: CoolCard(
+        variant: CoolCardVariant.glass,
+        borderRadius: radii.md,
+        padding: EdgeInsets.all(space.x5),
+        borderColor: borderColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              ticket.competition.toUpperCase(),
+              style: text.rayon(
+                theme.textTheme.labelSmall,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1.1,
+                color: RsColors.rsGoldLight,
               ),
-              SizedBox(height: space.x2),
-              Text(
-                ticket.matchTitle,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: text.rayonCondensed(
-                  isExpanded
-                      ? theme.textTheme.titleLarge
-                      : theme.textTheme.titleSmall,
-                  fontWeight: FontWeight.w900,
-                  height: 1,
-                  color: RsColors.rsWhite,
-                ),
+            ),
+            SizedBox(height: space.x2),
+            Text(
+              ticket.matchTitle,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: text.rayonCondensed(
+                isExpanded
+                    ? theme.textTheme.titleLarge
+                    : theme.textTheme.titleSmall,
+                fontWeight: FontWeight.w900,
+                height: 1,
+                color: RsColors.rsWhite,
               ),
-              SizedBox(height: space.x1 + 2),
-              Text(
-                ticket.venue,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: text.rayon(
-                  theme.textTheme.bodySmall,
-                  fontWeight: FontWeight.w700,
-                  color: colors.secondaryText,
-                ),
+            ),
+            SizedBox(height: space.x1 + 2),
+            Text(
+              ticket.venue,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: text.rayon(
+                theme.textTheme.bodySmall,
+                fontWeight: FontWeight.w700,
+                color: colors.secondaryText,
               ),
-              SizedBox(height: space.x1),
-              Text(
-                '${DateFormat('EEE, d MMM').format(ticket.matchDate)} • ${ticket.kickoffTime}',
-                style: text.mono(
-                  theme.textTheme.labelSmall,
-                  fontWeight: FontWeight.w700,
-                  color: RsColors.rsBluePale,
-                ),
+            ),
+            SizedBox(height: space.x1),
+            Text(
+              '${DateFormat('EEE, d MMM').format(ticket.matchDate)} • ${ticket.kickoffTime}',
+              style: text.mono(
+                theme.textTheme.labelSmall,
+                fontWeight: FontWeight.w700,
+                color: RsColors.rsNavyPale,
               ),
-              SizedBox(height: space.x3 + 2),
-              Wrap(
-                spacing: space.x2,
-                runSpacing: space.x2,
-                children: [
-                  _TicketChip(label: 'Seat', value: ticket.seatType.value),
-                  _TicketChip(label: 'Fan ID', value: _fanIdFor(ticket)),
-                  _TicketChip(
-                    label: 'Price',
-                    value: _formatRwf(ticket.amountPaid),
+            ),
+            SizedBox(height: space.x3 + 2),
+            Wrap(
+              spacing: space.x2,
+              runSpacing: space.x2,
+              children: [
+                _TicketChip(label: 'Seat', value: ticket.seatType.value),
+                _TicketChip(label: 'Fan ID', value: _fanIdFor(ticket)),
+                _TicketChip(
+                  label: 'Price',
+                  value: _formatRwf(ticket.amountPaid),
+                ),
+              ],
+            ),
+            const SizedBox(height: CoolSpace.x4),
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: RsColors.rsWhite,
+                    borderRadius: BorderRadius.circular(radii.sm),
                   ),
-                ],
-              ),
-              const SizedBox(height: CoolSpace.x4),
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: RsColors.rsWhite,
-                      borderRadius: BorderRadius.circular(radii.sm),
-                    ),
-                    child: SizedBox(
-                      width: qrSize,
-                      height: qrSize,
-                      child: isGateReady
-                          ? QrImageView(
-                              data: ticket.qrData,
-                              version: QrVersions.auto,
-                              size: qrSize,
-                              backgroundColor: Colors.transparent,
-                              eyeStyle: const QrEyeStyle(
-                                color: RsColors.rsBlue,
-                              ),
-                              dataModuleStyle: const QrDataModuleStyle(
-                                color: RsColors.rsBlue,
-                              ),
-                            )
-                          : _LockedQrPlaceholder(status: ticket.status),
-                    ),
+                  child: SizedBox(
+                    width: qrSize,
+                    height: qrSize,
+                    child: isGateReady
+                        ? QrImageView(
+                            data: ticket.qrData,
+                            version: QrVersions.auto,
+                            size: qrSize,
+                            backgroundColor: Colors.transparent,
+                            eyeStyle: const QrEyeStyle(color: RsColors.rsRed),
+                            dataModuleStyle: const QrDataModuleStyle(
+                              color: RsColors.rsRed,
+                            ),
+                          )
+                        : _LockedQrPlaceholder(status: ticket.status),
                   ),
-                  SizedBox(width: space.x4),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          ticket.momoReference,
-                          style: text.mono(
-                            theme.textTheme.labelSmall,
-                            fontWeight: FontWeight.w700,
-                            color: RsColors.rsGoldLight,
+                ),
+                SizedBox(width: space.x4),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        ticket.momoReference,
+                        style: text.mono(
+                          theme.textTheme.labelSmall,
+                          fontWeight: FontWeight.w700,
+                          color: RsColors.rsGoldLight,
+                        ),
+                      ),
+                      SizedBox(height: space.x2),
+                      Row(
+                        children: [
+                          Container(
+                            width: 10,
+                            height: 10,
+                            decoration: BoxDecoration(
+                              color: statusColor,
+                              shape: BoxShape.circle,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: space.x2),
-                        Row(
-                          children: [
-                            Container(
-                              width: 10,
-                              height: 10,
-                              decoration: BoxDecoration(
-                                color: statusColor,
-                                shape: BoxShape.circle,
-                              ),
+                          const SizedBox(width: 8),
+                          Text(
+                            ticket.status.label.toUpperCase(),
+                            style: text.rayon(
+                              theme.textTheme.labelSmall,
+                              fontWeight: FontWeight.w700,
+                              color: RsColors.rsWhite,
+                              letterSpacing: 0.7,
                             ),
-                            const SizedBox(width: 8),
-                            Text(
-                              ticket.status.label.toUpperCase(),
-                              style: text.rayon(
-                                theme.textTheme.labelSmall,
-                                fontWeight: FontWeight.w700,
-                                color: RsColors.rsWhite,
-                                letterSpacing: 0.7,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              SizedBox(height: space.x3),
-              Text(
-                statusNote,
-                style: text.rayon(
-                  theme.textTheme.bodySmall,
-                  fontWeight: FontWeight.w700,
-                  color: colors.secondaryText,
-                  height: 1.4,
                 ),
+              ],
+            ),
+            SizedBox(height: space.x3),
+            Text(
+              statusNote,
+              style: text.rayon(
+                theme.textTheme.bodySmall,
+                fontWeight: FontWeight.w700,
+                color: colors.secondaryText,
+                height: 1.4,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -307,7 +298,7 @@ Color _statusBorderColor(RsTicketStatus status, CoolSemanticColors colors) =>
       RsTicketStatus.cancelled ||
       RsTicketStatus.voided ||
       RsTicketStatus.refunded => colors.danger.withValues(alpha: 0.45),
-      RsTicketStatus.pending => RsColors.rsBlueBorder,
+      RsTicketStatus.pending => RsColors.rsRedBorder,
     };
 
 Color _statusDotColor(RsTicketStatus status, CoolSemanticColors colors) =>

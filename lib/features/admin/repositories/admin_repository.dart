@@ -106,8 +106,8 @@ class AdminRepository with AdminRepositoryHelpers {
       params: <String, dynamic>{
         'p_limit': limit,
         'p_offset': offset,
-        'p_action': ?action,
-        'p_actor_id': ?actorId,
+        ...?(action == null ? null : <String, dynamic>{'p_action': action}),
+        ...?(actorId == null ? null : <String, dynamic>{'p_actor_id': actorId}),
       },
     );
     return asListOfMaps(data);

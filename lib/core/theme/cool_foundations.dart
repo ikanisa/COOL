@@ -4,14 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 export 'package:google_fonts/google_fonts.dart';
 
 // ──────────────────────────────────────────────────────────────────────────────
-// Mobi × Rayon Design System — Foundation Tokens
+// ROUGEBLACK Design System — Foundation Tokens
 //
 // Shared light/dark foundations for the production UI system.
 // Dark remains the primary runtime presentation; light is maintained for
 // design-system parity, widget adaptation, and test coverage.
 // ──────────────────────────────────────────────────────────────────────────────
 
-/// Production semantic color tokens — Mobi × Rayon system.
+/// Production semantic color tokens — ROUGEBLACK system.
 ///
 /// Access via `context.coolSemanticColors` or `CoolSemanticColors.dark`.
 @immutable
@@ -48,34 +48,41 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
   });
 
   static const CoolSemanticColors dark = CoolSemanticColors(
-    appBackground: Color(0xFF050505), // true black
-    elevatedBackground: Color(0xFF0A0A0A), // ink
-    cardSurface: Color(0xFF111111), // surfaceAlt
-    cardSurfaceStrong: Color(0xFF171717), // raised cards
-    glassSurface: Color(0x0DFFFFFF), // white/5 + backdrop-blur
-    overlaySurface: Color(0xFF0B0B0B), // modal surfaces
-    primaryText: Color(0xFFFFFFFF), // pure white
-    secondaryText: Color(0xFF888888), // muted gray
-    tertiaryText: Color(0xFF666666), // subtle gray
-    accent: Color(0xFF0047AB), // deep royal blue
-    accentStrong: Color(0xFF0C64D9), // bright blue
-    accentForeground: Color(0xFFFFFFFF), // white on accent
-    accentGold: Color(0xFFFFD700), // gold
-    divider: Color(0x14FFFFFF), // white/8
-    border: Color(0x0DFFFFFF), // white/5 — subtle
+    // ── ROUGEBLACK — Deep Navy background system ────────────────────
+    appBackground: Color(0xFF0A0F2C), // deep navy
+    elevatedBackground: Color(0xFF0D1333), // midnight
+    cardSurface: Color(0xFF131845), // indigo wash
+    cardSurfaceStrong: Color(0xFF1A2055), // soft navy
+    glassSurface: Color(0x0FFFFFFF), // white/6 + backdrop-blur
+    overlaySurface: Color(0xFF0D1333), // midnight (modals)
+    // ── Text ─────────────────────────────────────────────────────────
+    primaryText: Color(0xFFF7F9FC), // snow white
+    secondaryText: Color(0xFF8892A4), // steel gray
+    tertiaryText: Color(0xFF5A6478), // muted steel
+    // ── Accent — shared blue primary action system ───────────────────
+    accent: Color(0xFF0047AB),
+    accentStrong: Color(0xFF0C64D9),
+    accentForeground: Color(0xFFF7F9FC),
+    accentGold: Color(0xFFD4A017), // trophy gold
+    // ── Borders & dividers ──────────────────────────────────────────
+    divider: Color(0x0FFFFFFF), // white/6
+    border: Color(0x26FFFFFF), // white/15
     borderStrong: Color(0x33FFFFFF), // white/20 — hover/focus
-    success: Color(0xFF00FF00), // neon green
-    warning: Color(0xFFFFA500), // bright orange
-    danger: Color(0xFFFF3B30), // iOS red
-    info: Color(0xFF74A8FF), // soft blue
-    neutral: Color(0xFF888888), // gray
-    chipBackground: Color(0xFF141414), // slightly above surface
-    chipSelectedBackground: Color(0xFFFFFFFF), // white
-    buttonPrimaryBackground: Color(0xFF0047AB), // royal blue
+    // ── Status ───────────────────────────────────────────────────────
+    success: Color(0xFF00D4AA), // electric mint
+    warning: Color(0xFFFF6B35), // energy orange
+    danger: Color(0xFFE01535), // bright red
+    info: Color(0xFF6B8FD4), // soft blue
+    neutral: Color(0xFF8892A4), // steel gray
+    // ── Chips & buttons ─────────────────────────────────────────────
+    chipBackground: Color(0xFF131845), // indigo wash
+    chipSelectedBackground: Color(0xFF0047AB),
+    buttonPrimaryBackground: Color(0xFF0047AB),
     buttonSecondaryBackground: Color(0x1AFFFFFF), // white/10
-    inputSurface: Color(0x0DFFFFFF), // white/5
-    shadowColor: Color(0xFF000000), // pure black
-    highlightColor: Color(0xFFFFFFFF), // pure white
+    inputSurface: Color(0x0FFFFFFF), // white/6
+    // ── Shadow & highlight ──────────────────────────────────────────
+    shadowColor: Color(0xFF050820), // deep ink
+    highlightColor: Color(0xFFF7F9FC), // snow white
   );
 
   static const CoolSemanticColors light = CoolSemanticColors(
@@ -560,7 +567,7 @@ extension CoolSemanticColorsBuildContext on BuildContext {
 // Spacing
 // ──────────────────────────────────────────────────────────────────────────────
 
-/// Shared spacing scale — Mobi × Rayon system.
+/// Shared spacing scale — ROUGEBLACK system.
 abstract final class CoolSpace {
   static const double x0 = 0.0;
   static const double x1 = 4.0; // m1
@@ -639,7 +646,7 @@ abstract final class CoolTapTargets {
 // Motion
 // ──────────────────────────────────────────────────────────────────────────────
 
-/// Motion primitives — Mobi × Rayon system.
+/// Motion primitives — ROUGEBLACK system.
 abstract final class CoolMotion {
   static const Duration press = Duration(milliseconds: 100);
   static const Duration quick = Duration(milliseconds: 200);
@@ -673,7 +680,7 @@ abstract final class CoolResponsive {
 // Shadows — simple, no claymorphism
 // ──────────────────────────────────────────────────────────────────────────────
 
-/// Shadow recipes — flat, simple.
+/// Shadow recipes — ROUGEBLACK system.
 abstract final class CoolShadows {
   /// Standard card shadow.
   static List<BoxShadow> standard(
@@ -703,13 +710,11 @@ abstract final class CoolShadows {
     ];
   }
 
-  /// Primary CTA glow shadow.
+  /// Primary CTA glow shadow (Rayon Red).
   static List<BoxShadow> primary({double strength = 1}) {
     return <BoxShadow>[
       BoxShadow(
-        color: CoolSemanticColors.dark.accent.withValues(
-          alpha: 0.20 * strength,
-        ),
+        color: const Color(0xFFC8102E).withValues(alpha: 0.35 * strength),
         blurRadius: 20,
         offset: const Offset(0, 8),
       ),
@@ -720,11 +725,66 @@ abstract final class CoolShadows {
   static List<BoxShadow> gold({double strength = 1}) {
     return <BoxShadow>[
       BoxShadow(
-        color: CoolSemanticColors.dark.accentGold.withValues(
-          alpha: 0.20 * strength,
-        ),
+        color: const Color(0xFFD4A017).withValues(alpha: 0.25 * strength),
         blurRadius: 20,
         offset: const Offset(0, 8),
+      ),
+    ];
+  }
+
+  /// Claymorphic shadow — dual inner-shadow technique.
+  ///
+  /// Creates a 3D tactile "pressed" feel with:
+  /// - Deep outer shadow (down-right, dark)
+  /// - Light inner highlight (up-left, subtle white)
+  /// - Colored accent glow (optional)
+  static List<BoxShadow> clay({Color? accentColor, double strength = 1}) {
+    final accent = accentColor ?? const Color(0xFFC8102E);
+    return <BoxShadow>[
+      // Outer depth shadow
+      BoxShadow(
+        color: Colors.black.withValues(alpha: 0.35 * strength),
+        blurRadius: 8,
+        offset: const Offset(3, 4),
+      ),
+      // Inner highlight (up-left catch light)
+      BoxShadow(
+        color: Colors.white.withValues(alpha: 0.08 * strength),
+        blurRadius: 6,
+        offset: const Offset(-2, -2),
+      ),
+      // Accent glow halo
+      BoxShadow(
+        color: accent.withValues(alpha: 0.20 * strength),
+        blurRadius: 20,
+        offset: const Offset(0, 8),
+      ),
+    ];
+  }
+
+  /// Rayon Red CTA glow — strong red halo for primary actions.
+  static List<BoxShadow> redGlow({double strength = 1}) {
+    return <BoxShadow>[
+      BoxShadow(
+        color: const Color(0xFFC8102E).withValues(alpha: 0.45 * strength),
+        blurRadius: 24,
+        offset: const Offset(0, 8),
+      ),
+      BoxShadow(
+        color: const Color(0xFFC8102E).withValues(alpha: 0.15 * strength),
+        blurRadius: 60,
+        offset: const Offset(0, 16),
+      ),
+    ];
+  }
+
+  /// Frosted glass overlay shadow.
+  static List<BoxShadow> glass({double strength = 1}) {
+    return <BoxShadow>[
+      BoxShadow(
+        color: Colors.black.withValues(alpha: 0.40 * strength),
+        blurRadius: 32,
+        offset: const Offset(0, 12),
       ),
     ];
   }

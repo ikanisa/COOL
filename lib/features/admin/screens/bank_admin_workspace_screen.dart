@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../../core/theme/cool_foundations.dart';
-import '../../../shared/widgets/cool_async_view.dart';
-import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../momo/models/momo_statement.dart';
 import '../../momo/providers/momo_statement_providers.dart';
@@ -12,37 +9,8 @@ import '../../momo/services/momo_statement_export_service.dart';
 import '../../partners/providers/partner_provider.dart';
 import '../models/bank_admin_models.dart';
 import '../providers/bank_admin_providers.dart';
-import '../widgets/admin_workspace_gate.dart';
-import '../widgets/bank_admin/bank_admin_helpers.dart';
-import '../widgets/bank_admin/bank_allocations_tab.dart';
-import '../widgets/bank_admin/bank_contributions_tab.dart';
-import '../widgets/bank_admin/bank_groups_tab.dart';
-import '../widgets/bank_admin/bank_ledgers_tab.dart';
-import '../widgets/bank_admin/bank_members_tab.dart';
-import '../widgets/bank_admin/bank_workspace_hero.dart';
-import '../../../core/l10n/l10n.dart';
-import '../../../shared/widgets/cool_bottom_sheet.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
 
-part '../widgets/bank_admin/bank_admin_workspace_parts.dart';
-
-EdgeInsets _bankWorkspaceContentPadding() =>
-    CoolSpace.pagePadding.copyWith(top: 0, bottom: CoolSpace.x7);
-
-EdgeInsets _bankWorkspaceTabPadding() => CoolSpace.sectionPadding.copyWith(
-  left: CoolSpace.x1,
-  right: CoolSpace.x1,
-  top: CoolSpace.x1,
-  bottom: CoolSpace.x1,
-);
-
-const BorderRadius _bankWorkspaceTabsRadius = BorderRadius.all(
-  Radius.circular(CoolRadii.sm),
-);
-
-const BorderRadius _bankWorkspaceTabIndicatorRadius = BorderRadius.all(
-  Radius.circular(CoolRadii.xs),
-);
+enum _BankWorkspaceTab { overview, allocations, ledgers }
 
 class BankAdminWorkspaceScreen extends ConsumerStatefulWidget {
   const BankAdminWorkspaceScreen({required this.partnerId, super.key});
@@ -55,226 +23,407 @@ class BankAdminWorkspaceScreen extends ConsumerStatefulWidget {
 }
 
 class _BankAdminWorkspaceScreenState
-    extends ConsumerState<BankAdminWorkspaceScreen>
-    with SingleTickerProviderStateMixin {
-  late final TabController _tabController;
+    extends ConsumerState<BankAdminWorkspaceScreen> {
+  static final NumberFormat _amountFormat = NumberFormat.decimalPattern(
+    'en_US',
+  );
+
+  _BankWorkspaceTab _activeTab = _BankWorkspaceTab.overview;
   String? _selectedGroupId;
-  bool _isExportingLedger = false;
-  String? _activeReviewId;
-  String? _activeReviewAction;
-  String _groupSearch = '';
-  String _contribStatusFilter = 'all';
-  String? _contribGroupFilter;
-  String _allocationStatusFilter = 'all';
-  bool _isAiRunning = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 5, vsync: this);
-    _tabController.addListener(() {
-      if (!_tabController.indexIsChanging) setState(() {});
-    });
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return BankAdminGate(
-      partnerId: widget.partnerId,
-      child: ref
-          .watch(partnerByIdProvider(widget.partnerId))
-          .when(
-            data: (partner) {
-              final partnerName = partner?.name ?? 'Bank';
-              final workspaceAsync = ref.watch(
-                bankAdminWorkspaceProvider(widget.partnerId),
+    final workspaceAsync = ref.watch(
+      bankAdminWorkspaceProvider(widget.partnerId),
+    );
+    final partnerAsync = ref.watch(partnerByIdProvider(widget.partnerId));
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          partnerAsync.maybeWhen(
+            data: (partner) => '${partner?.name ?? 'Bank'} Terminal',
+            orElse: () => 'Bank Terminal',
+          ),
+        ),
+      ),
+      body: workspaceAsync.when(
+        data: (snapshot) {
+          final selectedGroup = snapshot.groups.entries
+              .where((group) => group.id == _selectedGroupId)
+              .cast<BankAdminGroupSummary?>()
+              .firstWhere(
+                (group) => group != null,
+                orElse: () => snapshot.groups.entries.isEmpty
+                    ? null
+                    : snapshot.groups.entries.first,
               );
-
-              return CoolScreenBackground(
-                showGlow: false,
-
-                child: Scaffold(
-                  backgroundColor: Colors.transparent,
-                  appBar: AppBar(
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    iconTheme: IconThemeData(color: colors.primaryText),
+          final resolvedGroupId = selectedGroup?.id ?? '';
+          final ledgerAsync = resolvedGroupId.isEmpty
+              ? const AsyncData(MomoStatementPage<PayeePaymentLedgerEntry>())
+              : ref.watch(
+                  groupPaymentLedgerProvider(
+                    GroupPaymentLedgerQuery(groupId: resolvedGroupId),
                   ),
-                  body: CoolAsyncView<BankAdminWorkspaceSnapshot>(
-                    value: workspaceAsync,
-                    onRetry: () => ref.invalidate(
-                      bankAdminWorkspaceProvider(widget.partnerId),
-                    ),
-                    builder: (snapshot) {
-                      _syncSelectedGroup(snapshot.groups.entries);
-                      final selectedGroup = _selectedGroup(
-                        snapshot.groups.entries,
-                      );
-                      final ledgerQuery = selectedGroup == null
-                          ? null
-                          : GroupPaymentLedgerQuery(
-                              groupId: selectedGroup.id,
-                              statementQuery: const MomoStatementQuery(
-                                limit: 100,
-                              ),
-                            );
-                      final ledgerAsync = ledgerQuery == null
-                          ? const AsyncValue.data(
-                              MomoStatementPage<PayeePaymentLedgerEntry>(),
-                            )
-                          : ref.watch(groupPaymentLedgerProvider(ledgerQuery));
+                );
 
-                      final analyticsAsync = ref.watch(
-                        bankAnalyticsProvider(widget.partnerId),
-                      );
-
-                      return ListView(
-                        padding: _bankWorkspaceContentPadding(),
-                        children: [
-                          Text(
-                            '$partnerName Terminal',
-                            style: theme.textTheme.displayLarge?.copyWith(
-                              color: colors.primaryText,
-                            ),
-                          ),
-                          const SizedBox(height: CoolSpace.x6),
-                          BankWorkspaceHero(
-                            partnerName: partnerName,
-                            snapshot: snapshot,
-                            analyticsAsync: analyticsAsync,
-                          ),
-                          const SizedBox(height: CoolSpace.x7),
-                          DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: colors.operationalSurface,
-                              borderRadius: _bankWorkspaceTabsRadius,
-                              border: Border.all(
-                                color: colors.border,
-                                width: 1.5,
-                              ),
-                            ),
-                            child: TabBar(
-                              controller: _tabController,
-                              isScrollable: true,
-                              labelColor: colors.accentForeground,
-                              unselectedLabelColor: colors.tertiaryText,
-                              indicatorSize: TabBarIndicatorSize.tab,
-                              indicator: BoxDecoration(
-                                color: colors.info,
-                                borderRadius: _bankWorkspaceTabIndicatorRadius,
-                              ),
-                              labelStyle: theme.textTheme.labelSmall?.copyWith(
-                                fontWeight: FontWeight.w800,
-                                letterSpacing: 0.5,
-                              ),
-                              unselectedLabelStyle: theme.textTheme.labelSmall
-                                  ?.copyWith(fontWeight: FontWeight.w600),
-                              padding: _bankWorkspaceTabPadding(),
-                              tabs: const [
-                                Tab(text: 'GROUPS', height: 40),
-                                Tab(text: 'MEMBERS', height: 40),
-                                Tab(text: 'CONTRIBUTIONS', height: 40),
-                                Tab(text: 'LEDGERS', height: 40),
-                                Tab(text: 'ALLOCATIONS', height: 40),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: CoolSpace.x6),
-                          SizedBox(
-                            height: (MediaQuery.sizeOf(context).height * 0.6)
-                                .clamp(400, 800),
-                            child: TabBarView(
-                              controller: _tabController,
-                              children: [
-                                BankGroupsTab(
-                                  groups: snapshot.groups.entries,
-                                  totalCount: snapshot.groups.totalCount,
-                                  onOpenGroup: (group) =>
-                                      _openGroupDetail(group, snapshot),
-                                  onOpenLedger: _openLedgerTab,
-                                  search: _groupSearch,
-                                  onSearchChanged: (v) =>
-                                      setState(() => _groupSearch = v),
-                                ),
-                                BankMembersTab(
-                                  members: snapshot.members.entries,
-                                  totalCount: snapshot.members.totalCount,
-                                ),
-                                BankContributionsTab(
-                                  contributions: snapshot.contributions.entries,
-                                  totalCount: snapshot.contributions.totalCount,
-                                  statusFilter: _contribStatusFilter,
-                                  onStatusFilterChanged: (v) =>
-                                      setState(() => _contribStatusFilter = v),
-                                  groupFilter: _contribGroupFilter,
-                                  onGroupFilterChanged: (v) =>
-                                      setState(() => _contribGroupFilter = v),
-                                  groups: snapshot.groups.entries,
-                                ),
-                                BankLedgersTab(
-                                  groups: snapshot.groups.entries,
-                                  selectedGroupId: _selectedGroupId,
-                                  onSelectedGroupChanged: (value) {
-                                    setState(() => _selectedGroupId = value);
-                                  },
-                                  ledgerAsync: ledgerAsync,
-                                  onRetry: ledgerQuery == null
-                                      ? null
-                                      : () => ref.invalidate(
-                                          groupPaymentLedgerProvider(
-                                            ledgerQuery,
-                                          ),
-                                        ),
-                                  onExport: selectedGroup == null
-                                      ? null
-                                      : (format, entries) => _exportLedger(
-                                          format: format,
-                                          partnerName: partnerName,
-                                          group: selectedGroup,
-                                          entries: entries,
-                                        ),
-                                  isExporting: _isExportingLedger,
-                                ),
-                                BankAllocationsTab(
-                                  items: snapshot.allocations.entries,
-                                  totalCount: snapshot.allocations.totalCount,
-                                  activeReviewId: _activeReviewId,
-                                  activeAction: _activeReviewAction,
-                                  statusFilter: _allocationStatusFilter,
-                                  onStatusFilterChanged: (v) => setState(
-                                    () => _allocationStatusFilter = v,
-                                  ),
-                                  onAllocate: (item) =>
-                                      _showAllocationSheet(item, snapshot),
-                                  onReject: _rejectManualReview,
-                                  onAcceptSuggestion: _acceptSuggestion,
-                                  onTriggerAi: _triggerAiAllocation,
-                                  isAiRunning: _isAiRunning,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+          return Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${snapshot.allocations.totalCount} pending allocation'
+                  '${snapshot.allocations.totalCount == 1 ? '' : 's'}',
                 ),
-              );
-            },
-            loading: () => const AdminLoadingScaffold(title: 'Bank Admin'),
-            error: (_, _) => const AdminAccessDeniedScaffold(
-              title: 'Bank Admin',
-              message: 'The bank workspace could',
+                const SizedBox(height: 16),
+                Wrap(
+                  spacing: 12,
+                  children: [
+                    _TabButton(
+                      label: 'OVERVIEW',
+                      isActive: _activeTab == _BankWorkspaceTab.overview,
+                      onTap: () {
+                        setState(() => _activeTab = _BankWorkspaceTab.overview);
+                      },
+                    ),
+                    _TabButton(
+                      label: 'ALLOCATIONS',
+                      isActive: _activeTab == _BankWorkspaceTab.allocations,
+                      onTap: () {
+                        setState(
+                          () => _activeTab = _BankWorkspaceTab.allocations,
+                        );
+                      },
+                    ),
+                    _TabButton(
+                      label: 'LEDGERS',
+                      isActive: _activeTab == _BankWorkspaceTab.ledgers,
+                      onTap: () {
+                        setState(() => _activeTab = _BankWorkspaceTab.ledgers);
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: switch (_activeTab) {
+                    _BankWorkspaceTab.overview => _OverviewTab(
+                      snapshot: snapshot,
+                      onViewDetails: (groupId) {
+                        setState(() {
+                          _selectedGroupId = groupId;
+                        });
+                      },
+                      onOpenLedger: (groupId) {
+                        setState(() {
+                          _selectedGroupId = groupId;
+                          _activeTab = _BankWorkspaceTab.ledgers;
+                        });
+                      },
+                    ),
+                    _BankWorkspaceTab.allocations => _AllocationsTab(
+                      snapshot: snapshot,
+                      onAllocate: (item) => _allocateReview(item, snapshot),
+                      onReject: _rejectReview,
+                    ),
+                    _BankWorkspaceTab.ledgers => _LedgersTab(
+                      ledgerAsync: ledgerAsync,
+                      onExportExcel: () =>
+                          _exportLedger(resolvedGroupId, ledgerAsync),
+                    ),
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, _) => Center(child: Text('Failed to load: $error')),
+      ),
+    );
+  }
+
+  Future<void> _allocateReview(
+    BankAdminAllocationReviewItem item,
+    BankAdminWorkspaceSnapshot snapshot,
+  ) async {
+    final member = snapshot.members.entries.firstWhere(
+      (entry) => entry.groupId == item.groupId,
+      orElse: () => const BankAdminMemberRecord(
+        groupId: '',
+        groupName: '',
+        userId: '',
+        displayName: '',
+        contributionAmount: 0,
+      ),
+    );
+
+    await showDialog<void>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Allocate payment'),
+          content: const Text('Assign this payment to the matched member.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                final repository = ref.read(bankAdminRepositoryProvider);
+                await repository.allocateManualReviewToGroupContribution(
+                  partnerId: widget.partnerId,
+                  reviewId: item.reviewId,
+                  groupId: item.groupId,
+                  memberUserId: member.userId,
+                );
+                if (!context.mounted) {
+                  return;
+                }
+                Navigator.of(context).pop();
+              },
+              child: const Text('Allocate to member'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _rejectReview(BankAdminAllocationReviewItem item) async {
+    await showDialog<void>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Reject allocation'),
+          content: const Text('This removes the pending allocation.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () async {
+                final repository = ref.read(bankAdminRepositoryProvider);
+                await repository.rejectManualReviewAllocation(
+                  partnerId: widget.partnerId,
+                  reviewId: item.reviewId,
+                );
+                if (!context.mounted) {
+                  return;
+                }
+                Navigator.of(context).pop();
+              },
+              child: const Text('Reject'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _exportLedger(
+    String groupId,
+    AsyncValue<MomoStatementPage<PayeePaymentLedgerEntry>> ledgerAsync,
+  ) async {
+    final page = ledgerAsync.valueOrNull;
+    if (groupId.isEmpty || page == null) {
+      return;
+    }
+
+    final authState = ref.read(authProvider);
+    final exportService = ref.read(momoStatementExportServiceProvider);
+    final downloadService = ref.read(momoStatementDownloadServiceProvider);
+
+    final export = await exportService.buildPayeeLedgerExport(
+      format: StatementExportFormat.excel,
+      entries: page.entries,
+      metadata: StatementExportMetadata(
+        statementTitle: 'Group Payment Ledger',
+        fileStem: 'cool_group_payment_ledger',
+        userName: authState.user?.fullName ?? 'COOL User',
+        officialPhone:
+            authState.user?.officialPhone ?? authState.user?.phone ?? '',
+        generatedAt: DateTime.now(),
+        periodLabel: 'All posted entries in view',
+        filterLabel: 'Group payment ledger',
+        sortLabel: 'Newest first',
+      ),
+    );
+
+    await downloadService.saveExport(export);
+  }
+}
+
+class _TabButton extends StatelessWidget {
+  const _TabButton({
+    required this.label,
+    required this.isActive,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool isActive;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onTap,
+      child: Text(
+        label,
+        style: TextStyle(fontWeight: isActive ? FontWeight.w700 : null),
+      ),
+    );
+  }
+}
+
+class _OverviewTab extends StatelessWidget {
+  const _OverviewTab({
+    required this.snapshot,
+    required this.onViewDetails,
+    required this.onOpenLedger,
+  });
+
+  final BankAdminWorkspaceSnapshot snapshot;
+  final void Function(String groupId) onViewDetails;
+  final void Function(String groupId) onOpenLedger;
+
+  @override
+  Widget build(BuildContext context) {
+    final group = snapshot.groups.entries.firstOrNull;
+    if (group == null) {
+      return const Center(child: Text('No linked groups.'));
+    }
+
+    final members = snapshot.members.entries
+        .where((entry) => entry.groupId == group.id)
+        .toList(growable: false);
+
+    return ListView(
+      children: [
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(group.group.name),
+                const SizedBox(height: 8),
+                Text('${snapshot.allocations.totalCount} manual review'),
+                const SizedBox(height: 12),
+                TextButton(
+                  onPressed: () => onViewDetails(group.id),
+                  child: const Text('View details'),
+                ),
+                const SizedBox(height: 12),
+                Text('Linked group profile: ${group.group.name}'),
+                const SizedBox(height: 8),
+                for (final member in members) Text(member.displayName),
+                const SizedBox(height: 8),
+                TextButton(
+                  onPressed: () => onOpenLedger(group.id),
+                  child: const Text('Open ledger'),
+                ),
+              ],
             ),
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class _AllocationsTab extends StatelessWidget {
+  const _AllocationsTab({
+    required this.snapshot,
+    required this.onAllocate,
+    required this.onReject,
+  });
+
+  final BankAdminWorkspaceSnapshot snapshot;
+  final Future<void> Function(BankAdminAllocationReviewItem item) onAllocate;
+  final Future<void> Function(BankAdminAllocationReviewItem item) onReject;
+
+  @override
+  Widget build(BuildContext context) {
+    if (snapshot.allocations.entries.isEmpty) {
+      return const Center(child: Text('No manual review items.'));
+    }
+
+    final item = snapshot.allocations.entries.first;
+    return ListView(
+      children: [
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Manual Review'),
+                const SizedBox(height: 8),
+                Text(item.groupName),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    TextButton(
+                      onPressed: () => onAllocate(item),
+                      child: const Text('Allocate'),
+                    ),
+                    const SizedBox(width: 8),
+                    TextButton(
+                      onPressed: () => onReject(item),
+                      child: const Text('Reject'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _LedgersTab extends StatelessWidget {
+  const _LedgersTab({required this.ledgerAsync, required this.onExportExcel});
+
+  final AsyncValue<MomoStatementPage<PayeePaymentLedgerEntry>> ledgerAsync;
+  final Future<void> Function() onExportExcel;
+
+  @override
+  Widget build(BuildContext context) {
+    return ledgerAsync.when(
+      data: (page) => ListView(
+        children: [
+          const Text('Posted payment ledger'),
+          const SizedBox(height: 12),
+          Align(
+            alignment: Alignment.centerRight,
+            child: IconButton(
+              onPressed: onExportExcel,
+              tooltip: 'Export Excel',
+              icon: const Icon(
+                Icons.file_download_outlined,
+                semanticLabel: 'Export Excel',
+              ),
+            ),
+          ),
+          for (final entry in page.entries)
+            ListTile(
+              title: Text(entry.label),
+              subtitle: Text(entry.payerName),
+              trailing: Text(
+                '${_BankAdminWorkspaceScreenState._amountFormat.format(entry.amount)} RWF',
+              ),
+            ),
+        ],
+      ),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, _) => Center(child: Text('Failed to load: $error')),
     );
   }
 }

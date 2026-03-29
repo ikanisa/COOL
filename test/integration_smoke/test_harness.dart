@@ -21,7 +21,7 @@ import 'package:cool_app/features/auth/repositories/auth_repository.dart';
 import 'package:cool_app/features/momo/providers/momo_sms_sync_providers.dart';
 import 'package:cool_app/features/momo/providers/momo_statement_providers.dart';
 import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
-import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
+import 'package:cool_app/features/rayon/models/rs_models.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

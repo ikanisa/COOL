@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
-import 'package:cool_app/features/partners/rayon/rayon_identity.dart';
-import 'package:cool_app/features/partners/rayon/rayon_payment.dart';
-import 'package:cool_app/features/partners/rayon/rayon_ticket_qr.dart';
+import 'package:cool_app/features/rayon/models/rs_models.dart';
+import 'package:cool_app/features/rayon/rayon_identity.dart';
+import 'package:cool_app/features/rayon/rayon_payment.dart';
+import 'package:cool_app/features/rayon/rayon_ticket_qr.dart';
 
 /// QA-03: End-to-End Rayon Flow QA
 ///

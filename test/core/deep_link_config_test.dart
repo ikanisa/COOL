@@ -35,7 +35,7 @@ void main() {
         DeepLinkConfig.routeForUri(
           Uri.parse('https://cool.app/club/rayon-kigali?ri=invite-1'),
         ),
-        '/partners/rayon-sports/clubs/rayon-kigali?ri=invite-1',
+        '/fan-clubs/rayon-kigali?ri=invite-1',
       );
     });
 

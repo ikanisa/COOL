@@ -3,6 +3,7 @@ import 'dart:io';
 const _goRouterPrefix = 'GoRouter(';
 const _goRoutePrefix = 'GoRoute(';
 const _shellRoutePrefix = 'StatefulShellRoute.indexedStack(';
+const _plainShellRoutePrefix = 'ShellRoute(';
 const _shellBranchPrefix = 'StatefulShellBranch(';
 
 class GovernanceDocs {
@@ -133,14 +134,14 @@ List<RouteEntry> _readRouteEntries(Directory repoRoot) {
           screenPaths: screenPaths,
         );
   entries.addAll(
-    _readReturnedGoRouteFile(
+    _readReturnedRouteBaseFile(
       '${repoRoot.path}/lib/core/router/partner_routes.dart',
       routeConstants: routeConstants,
       screenPaths: screenPaths,
     ),
   );
   entries.addAll(
-    _readReturnedGoRouteFile(
+    _readReturnedRouteBaseFile(
       '${repoRoot.path}/lib/core/router/admin_routes.dart',
       routeConstants: routeConstants,
       screenPaths: screenPaths,
@@ -166,7 +167,7 @@ List<RouteEntry> _readRouteEntries(Directory repoRoot) {
   ];
 }
 
-List<RouteEntry> _readReturnedGoRouteFile(
+List<RouteEntry> _readReturnedRouteBaseFile(
   String filePath, {
   required Map<String, String> routeConstants,
   required Map<String, String> screenPaths,
@@ -180,16 +181,46 @@ List<RouteEntry> _readReturnedGoRouteFile(
   final returnIndex = source.indexOf('return');
   final routeIndex = returnIndex == -1
       ? -1
-      : source.indexOf(_goRoutePrefix, returnIndex);
+      : _firstPositiveIndex([
+          source.indexOf(_goRoutePrefix, returnIndex),
+          source.indexOf(_shellRoutePrefix, returnIndex),
+          source.indexOf(_plainShellRoutePrefix, returnIndex),
+        ]);
   if (routeIndex == -1) {
     return const <RouteEntry>[];
   }
 
-  final routeBlock = _extractInvocation(source, routeIndex, _goRoutePrefix);
-  return _parseGoRoute(
+  if (source.startsWith(_goRoutePrefix, routeIndex)) {
+    final routeBlock = _extractInvocation(source, routeIndex, _goRoutePrefix);
+    return _parseGoRoute(
+      routeBlock,
+      parentPath: '',
+      shell: 'No',
+      routeConstants: routeConstants,
+      screenPaths: screenPaths,
+    );
+  }
+
+  if (source.startsWith(_shellRoutePrefix, routeIndex)) {
+    final routeBlock = _extractInvocation(
+      source,
+      routeIndex,
+      _shellRoutePrefix,
+    );
+    return _parseShellRoute(
+      routeBlock,
+      routeConstants: routeConstants,
+      screenPaths: screenPaths,
+    );
+  }
+
+  final routeBlock = _extractInvocation(
+    source,
+    routeIndex,
+    _plainShellRoutePrefix,
+  );
+  return _parsePlainShellRoute(
     routeBlock,
-    parentPath: '',
-    shell: 'No',
     routeConstants: routeConstants,
     screenPaths: screenPaths,
   );
@@ -237,6 +268,7 @@ List<RouteEntry> _parseRouteList(
   for (final block in _extractTopLevelInvocations(listSource, <String>[
     _goRoutePrefix,
     _shellRoutePrefix,
+    _plainShellRoutePrefix,
   ])) {
     if (block.startsWith(_goRoutePrefix)) {
       entries.addAll(
@@ -254,6 +286,17 @@ List<RouteEntry> _parseRouteList(
     if (block.startsWith(_shellRoutePrefix)) {
       entries.addAll(
         _parseShellRoute(
+          block,
+          routeConstants: routeConstants,
+          screenPaths: screenPaths,
+        ),
+      );
+      continue;
+    }
+
+    if (block.startsWith(_plainShellRoutePrefix)) {
+      entries.addAll(
+        _parsePlainShellRoute(
           block,
           routeConstants: routeConstants,
           screenPaths: screenPaths,
@@ -309,6 +352,26 @@ List<RouteEntry> _parseShellRoute(
   }
 
   return entries;
+}
+
+List<RouteEntry> _parsePlainShellRoute(
+  String block, {
+  required Map<String, String> routeConstants,
+  required Map<String, String> screenPaths,
+}) {
+  final content = _invocationContent(block, _plainShellRoutePrefix);
+  final routesSource = _findTopLevelPropertyValue(content, 'routes');
+  if (routesSource == null) {
+    return const <RouteEntry>[];
+  }
+
+  return _parseRouteList(
+    routesSource,
+    parentPath: '',
+    shell: 'No',
+    routeConstants: routeConstants,
+    screenPaths: screenPaths,
+  );
 }
 
 List<RouteEntry> _parseGoRoute(
@@ -487,7 +550,7 @@ String _shellForPath(String path) {
     return 'Groups';
   }
   if (path == '/profile' || path.startsWith('/profile/')) {
-    return 'Profile';
+    return 'Settings';
   }
   return 'No';
 }
@@ -614,7 +677,13 @@ List<ScreenBudgetEntry> _readScreenBudgets(Directory repoRoot) {
       ),
     );
   }
-  entries.sort((a, b) => b.loc.compareTo(a.loc));
+  entries.sort((a, b) {
+    final locCompare = b.loc.compareTo(a.loc);
+    if (locCompare != 0) {
+      return locCompare;
+    }
+    return a.path.compareTo(b.path);
+  });
   return entries;
 }
 
@@ -703,6 +772,19 @@ String _renderScreenBudgets(List<ScreenBudgetEntry> entries) {
   }
 
   return buffer.toString();
+}
+
+int _firstPositiveIndex(List<int> indexes) {
+  var first = -1;
+  for (final index in indexes) {
+    if (index == -1) {
+      continue;
+    }
+    if (first == -1 || index < first) {
+      first = index;
+    }
+  }
+  return first;
 }
 
 String? _findTopLevelPropertyValue(String source, String property) {

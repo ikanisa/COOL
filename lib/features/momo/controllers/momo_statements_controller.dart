@@ -5,21 +5,15 @@ class _MomoStatementsViewModel {
     required this.activePartyOptions,
     required this.effectivePartyFilter,
     required this.filteredWalletEntries,
-    required this.filteredSavingsEntries,
     required this.incomingTotal,
     required this.outgoingTotal,
-    required this.savingsTotal,
-    required this.activeSavingsGroups,
   });
 
   final List<String> activePartyOptions;
   final String? effectivePartyFilter;
   final List<MomoWalletEntry> filteredWalletEntries;
-  final List<SavingsStatementEntry> filteredSavingsEntries;
   final int incomingTotal;
   final int outgoingTotal;
-  final int savingsTotal;
-  final int activeSavingsGroups;
 }
 
 extension _MomoStatementsController on _MomoStatementsScreenState {
@@ -39,20 +33,13 @@ extension _MomoStatementsController on _MomoStatementsScreenState {
   }
 
   _MomoStatementsViewModel _buildViewModel(MomoStatementBundle bundle) {
-    final activePartyOptions = _isWalletTab
-        ? walletPartyOptions(bundle.walletEntries)
-        : savingsPartyOptions(bundle.savingsEntries);
+    final activePartyOptions = walletPartyOptions(bundle.walletEntries);
     final effectivePartyFilter = activePartyOptions.contains(_selectedParty)
         ? _selectedParty
         : null;
     final filteredWalletEntries = applyWalletStatementView(
       entries: bundle.walletEntries,
-      partyFilter: _isWalletTab ? effectivePartyFilter : null,
-      sortOption: _sortOption,
-    );
-    final filteredSavingsEntries = applySavingsStatementView(
-      entries: bundle.savingsEntries,
-      partyFilter: _isWalletTab ? null : effectivePartyFilter,
+      partyFilter: effectivePartyFilter,
       sortOption: _sortOption,
     );
 
@@ -60,30 +47,21 @@ extension _MomoStatementsController on _MomoStatementsScreenState {
       activePartyOptions: activePartyOptions,
       effectivePartyFilter: effectivePartyFilter,
       filteredWalletEntries: filteredWalletEntries,
-      filteredSavingsEntries: filteredSavingsEntries,
       incomingTotal: filteredWalletEntries
           .where((entry) => entry.isCredit)
           .fold<int>(0, (sum, entry) => sum + entry.amount),
       outgoingTotal: filteredWalletEntries
           .where((entry) => entry.isDebit)
           .fold<int>(0, (sum, entry) => sum + entry.amount),
-      savingsTotal: filteredSavingsEntries.fold<int>(
-        0,
-        (sum, entry) => sum + entry.amount,
-      ),
-      activeSavingsGroups: filteredSavingsEntries
-          .map((entry) => entry.groupId)
-          .toSet()
-          .length,
     );
   }
 
   String _activePartyLabel() {
-    return _isWalletTab ? 'Payer' : context.l10n.navGroups;
+    return 'Payer';
   }
 
   String _allPartyLabel() {
-    return _isWalletTab ? 'All payers' : 'All groups';
+    return 'All payers';
   }
 
   String _optionsSummary(String? effectivePartyFilter) {
@@ -135,7 +113,6 @@ extension _MomoStatementsController on _MomoStatementsScreenState {
   Future<void> _showOptionsSheet({
     required _MomoStatementsViewModel viewModel,
     required List<MomoWalletEntry> walletEntries,
-    required List<SavingsStatementEntry> savingsEntries,
   }) {
     return showCoolBottomSheet<void>(
       context: context,
@@ -149,9 +126,7 @@ extension _MomoStatementsController on _MomoStatementsScreenState {
           partyOptions: viewModel.activePartyOptions,
           initialParty: viewModel.effectivePartyFilter,
           initialSort: _sortOption,
-          canExport: _isWalletTab
-              ? walletEntries.isNotEmpty
-              : savingsEntries.isNotEmpty,
+          canExport: walletEntries.isNotEmpty,
           onApply: (party, sort) {
             _applyState(() {
               _selectedParty = party;
@@ -162,12 +137,10 @@ extension _MomoStatementsController on _MomoStatementsScreenState {
           onDownloadPdf: () => _downloadActiveStatement(
             format: StatementExportFormat.pdf,
             walletEntries: walletEntries,
-            savingsEntries: savingsEntries,
           ),
           onDownloadExcel: () => _downloadActiveStatement(
             format: StatementExportFormat.excel,
             walletEntries: walletEntries,
-            savingsEntries: savingsEntries,
           ),
         );
       },
@@ -177,30 +150,21 @@ extension _MomoStatementsController on _MomoStatementsScreenState {
   Future<void> _downloadActiveStatement({
     required StatementExportFormat format,
     required List<MomoWalletEntry> walletEntries,
-    required List<SavingsStatementEntry> savingsEntries,
   }) async {
     if (_isExporting) {
       return;
     }
 
     final l10n = context.l10n;
-    final activeWalletEntries = _isWalletTab
-        ? walletEntries
-        : const <MomoWalletEntry>[];
-    final activeSavingsEntries = _isWalletTab
-        ? const <SavingsStatementEntry>[]
-        : savingsEntries;
-    if (activeWalletEntries.isEmpty && activeSavingsEntries.isEmpty) {
+    if (walletEntries.isEmpty) {
       CoolToast.info(context, 'Nothing to download');
       return;
     }
 
     final user = ref.read(authProvider).user;
     final metadata = StatementExportMetadata(
-      statementTitle: _isWalletTab
-          ? l10n.walletLedgerTitle
-          : l10n.savingsStatementTitle,
-      fileStem: _isWalletTab ? 'cool_wallet_ledger' : 'cool_savings_statement',
+      statementTitle: l10n.walletLedgerTitle,
+      fileStem: 'cool_wallet_ledger',
       userName: user?.fullName ?? l10n.coolMemberFallback,
       officialPhone: user?.officialPhone ?? user?.phone ?? '',
       generatedAt: DateTime.now(),
@@ -213,17 +177,11 @@ extension _MomoStatementsController on _MomoStatementsScreenState {
     try {
       final exportService = ref.read(momoStatementExportServiceProvider);
       final downloadService = ref.read(momoStatementDownloadServiceProvider);
-      final export = _isWalletTab
-          ? await exportService.buildWalletExport(
-              format: format,
-              entries: activeWalletEntries,
-              metadata: metadata,
-            )
-          : await exportService.buildSavingsExport(
-              format: format,
-              entries: activeSavingsEntries,
-              metadata: metadata,
-            );
+      final export = await exportService.buildWalletExport(
+        format: format,
+        entries: walletEntries,
+        metadata: metadata,
+      );
       final result = await downloadService.saveExport(export);
       if (!mounted) {
         return;

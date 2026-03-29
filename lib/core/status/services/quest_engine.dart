@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../router/app_routes.dart';
 import '../models/cool_status.dart';
-import '../../../features/partners/rayon/models/rs_models.dart';
+import '../../../features/rayon/models/rs_models.dart';
 
 /// A suggested "next best action" for the user.
 class CoolQuest {
@@ -71,7 +72,7 @@ class QuestEngine {
           icon: Icons.gps_fixed_rounded,
           title: 'Your group is close!',
           subtitle: '$activeGroupGoalPercent% of goal contributed',
-          route: '/groups',
+          route: AppRoutes.contributionCircles,
           priority: 85,
         ),
       );
@@ -84,8 +85,8 @@ class QuestEngine {
           id: 'match_attend',
           icon: Icons.sports_soccer_rounded,
           title: 'Attend a match!',
-          subtitle: 'Earn 20 Tokens for supporting Rayon Sports in person.',
-          route: '/partners/rayon-sports/tickets',
+          subtitle: 'Earn 20 points for supporting Rayon Sports in person.',
+          route: AppRoutes.rayonTickets,
           priority: 70,
         ),
       );
@@ -112,8 +113,8 @@ class QuestEngine {
           id: 'join_group',
           icon: Icons.group_rounded,
           title: 'Join a savings group',
-          subtitle: 'Earn 20 tokens per week saved.',
-          route: '/groups',
+          subtitle: 'Earn 20 points per week saved.',
+          route: AppRoutes.contributionCircles,
           priority: 60,
         ),
       );
@@ -127,7 +128,7 @@ class QuestEngine {
           icon: Icons.stadium_rounded,
           title: 'Become a Rayon fan',
           subtitle: 'Join the club and earn rewards.',
-          route: '/partners/rayon-sports',
+          route: AppRoutes.rayonHome,
           priority: 50,
         ),
       );
@@ -153,8 +154,8 @@ class QuestEngine {
   }
 
   static String _nextTierLabel(FanTier tier) => switch (tier) {
-    FanTier.blue => 'Silver',
-    FanTier.silver => 'Gold',
+    FanTier.fan => 'Silver',
+    FanTier.bronze => 'Gold',
     FanTier.gold => 'Platinum',
     FanTier.platinum => 'Max',
   };

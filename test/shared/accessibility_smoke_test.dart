@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:cool_app/core/brand/app_brand.dart';
 import 'package:cool_app/shared/widgets/cool_brand_mark.dart';
 import 'package:cool_app/shared/widgets/cool_status_card.dart';
 import 'package:cool_app/shared/widgets/group_card.dart';
@@ -13,7 +14,7 @@ import 'package:cool_app/shared/widgets/vehicle_chip.dart';
 import 'package:cool_app/shared/widgets/wa_button.dart';
 import 'package:cool_app/shared/widgets/whatsapp_hint_chip.dart';
 import 'package:cool_app/core/status/models/cool_status.dart';
-import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
+import 'package:cool_app/features/rayon/models/rs_models.dart';
 
 /// Accessibility smoke tests.
 ///
@@ -37,7 +38,10 @@ void main() {
   group('Accessibility — Semantics labels present', () {
     testWidgets('CoolBrandMark has Semantics', (tester) async {
       await tester.pumpWidget(harness(const CoolBrandMark()));
-      expect(find.bySemanticsLabel('Rayon Sports logo'), findsOneWidget);
+      expect(
+        find.bySemanticsLabel(const AppBranding.rayon().logoSemanticLabel),
+        findsOneWidget,
+      );
       expect(hasNonEmptySemantics(tester), isTrue);
     });
 
