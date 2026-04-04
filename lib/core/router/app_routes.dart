@@ -22,74 +22,12 @@ abstract final class AppRoutes {
   static const biopayScan = '/momo/biopay/scan';
   static const biopayNfc = '/momo/biopay/nfc';
 
-  // ── Rayon Sports FC — Flattened routes ──────────────────────────
-  // (Previously under /rayon-sports/* — now root-level)
-
-  /// Fan profile + identity.
-  static const fanProfile = '/fan-profile';
-
-  /// Member registry (public fan directory).
-  static const registry = '/registry';
-
-  /// Fan clubs.
-  static const fanClubs = '/fan-clubs';
-  static const fanClubDetail = '/fan-clubs/:clubId';
-
-  /// Club shop.
-  static const shop = '/shop';
-  static const shopCheckout = '/shop/checkout';
-  static const shopProductDetail = '/shop/product/:productId';
-
-  /// Contributions (club initiatives / support).
-  static const contributions = '/contributions';
-  static const contributionDetail = '/contributions/:initiativeId';
-
-  /// Contribution circles (group fundraising + chat).
+  // ── Contribution Circles ────────────────────────────────────────
   static const contributionCircles = '/contribution-circles';
   static const contributionCircleDetail = '/contribution-circles/:groupId';
 
-  /// Ticketing.
-  static const tickets = '/tickets';
-  static const myTickets = '/tickets/my-tickets';
-  static const ticketConfirm = '/tickets/:ticketId/confirm';
-
-  /// Membership tiers & perks.
-  static const membership = '/membership';
-
-  // ── Legacy aliases (keep old references compiling) ─────────────
-  static const rayonHome = fanProfile;
-  static const rayonProfile = fanProfile;
-  static const rayonRegistry = registry;
-  static const rayonClubs = fanClubs;
-  static const rayonClubDetail = fanClubDetail;
-  static const rayonShop = shop;
-  static const rayonShopCheckout = shopCheckout;
-  static const rayonProductDetail = shopProductDetail;
-  static const rayonSupport = contributions;
-  static const rayonSupportDetail = contributionDetail;
-  static const rayonTickets = tickets;
-  static const rayonMyTickets = myTickets;
-  static const rayonTicketConfirm = ticketConfirm;
-  static const rayonMembership = membership;
-  static const rayonContributionCircles = contributionCircles;
-  static const rayonContributionCircleDetail = contributionCircleDetail;
-
-  /// Legacy alias — partner network is now contributions.
-  static const partners = contributions;
-
-  // ── Rewards Compatibility ───────────────────────────────────────
-  static const missions = '/missions';
-  static const seasons = '/seasons';
-  static const tokens = '/tokens';
+  // ── Rewards / Engagement ────────────────────────────────────────
   static const referral = '/referral';
-  static const gamification = '/gamification';
-  static const rewards = tokens;
-  static const rewardsActivities = missions;
-
-  // ── Fan Engagement ──────────────────────────────────────────────
-  static const matchEngagement = '/match/:matchId/engage';
-  static const fanLeaderboard = '/leaderboard';
-  static const leaderboard = fanLeaderboard;
 
   // ── Profile ─────────────────────────────────────────────────────
   static const profile = '/profile';
@@ -115,31 +53,14 @@ abstract final class AppRoutes {
   // ── Admin ───────────────────────────────────────────────────────
   static const admin = '/admin';
   static const adminPlatform = '/admin/platform';
-  static const adminPartners = '/admin/partners';
+  static const adminBankWorkspace = '/admin/banks/:bankId';
   static const adminUsers = '/admin/users';
-  static const adminServices = '/admin/services';
-  static const adminQuickActions = '/admin/quick-actions';
   static const adminAppConfig = '/admin/app-config';
-  static const adminSpecialProducts = '/admin/special-products';
   static const adminOperations = '/admin/operations';
 
-  static const adminMissions = '/admin/missions';
-  static const adminSeasons = '/admin/seasons';
   static const adminRoles = '/admin/roles';
   static const adminAnalytics = '/admin/analytics';
   static const adminAuditLog = '/admin/audit-log';
-  static const adminAiContent = '/admin/ai-content';
-
-  static const adminRayon = '/admin/rayon';
-  static const adminRayonMatches = '/admin/rayon/matches';
-  static const adminRayonTickets = '/admin/rayon/tickets';
-  static const adminRayonShop = '/admin/rayon/shop';
-  static const adminRayonOrders = '/admin/rayon/orders';
-  static const adminRayonMembers = '/admin/rayon/members';
-  static const adminRayonPackages = '/admin/rayon/packages';
-  static const adminRayonFinance = '/admin/rayon/finance';
-  static const adminRayonInitiatives = '/admin/rayon/initiatives';
-  static const adminRayonEngagement = '/admin/rayon/engagement';
 
   // ── Location builders ─────────────────────────────────────────
 
@@ -159,32 +80,12 @@ abstract final class AppRoutes {
     return '/invite/${code.trim().toUpperCase()}';
   }
 
-  static String fanClubDetailLocation(String id) {
-    return '/fan-clubs/$id';
-  }
-
-  static String contributionDetailLocation(String id) {
-    return '/contributions/$id';
-  }
-
   static String contributionCircleDetailLocation(String groupId) {
     return '/contribution-circles/$groupId';
   }
 
-  static String adminPartnerWorkspaceLocation(String partnerId) {
-    return '$adminPartners/${partnerId.trim()}';
-  }
-
   static String adminBankWorkspaceLocation(String bankId) {
     return '/admin/banks/${bankId.trim()}';
-  }
-
-  static String shopProductDetailLocation(String id) {
-    return '/shop/product/$id';
-  }
-
-  static String ticketConfirmLocation(String ticketId) {
-    return '/tickets/$ticketId/confirm';
   }
 
   static String biopayScanLocation({required String mode}) {
@@ -193,15 +94,6 @@ abstract final class AppRoutes {
       queryParameters: <String, String>{'mode': mode.trim()},
     );
   }
-
-  static String matchEngagementLocation(String matchId) =>
-      '/match/$matchId/engage';
-
-  // ── Legacy location aliases (keep references compiling) ────────
-  static String rayonClubDetailLocation(String id) => fanClubDetailLocation(id);
-
-  static String rayonSupportDetailLocation(String id) =>
-      contributionDetailLocation(id);
 
   static String _location(
     String path, {
@@ -251,22 +143,4 @@ void openQuickActionRoute(BuildContext context, String location) {
   }
 
   context.push(trimmed);
-}
-
-String? resolvePartnerDetailRedirect(String partnerSlug) {
-  final normalized = partnerSlug.trim().toLowerCase();
-  if (normalized.isEmpty) {
-    return AppRoutes.partners;
-  }
-
-  switch (normalized) {
-    case 'rayon-sports':
-    case 'rayon_sports':
-    case 'rayon sports':
-      return AppRoutes.rayonHome;
-    case 'radiant':
-      return null;
-    default:
-      return AppRoutes.partners;
-  }
 }

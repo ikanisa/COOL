@@ -4,10 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 const _guardedUiSurfaceFiles = <String>[
   'lib/features/home/screens/home_screen.dart',
-  'lib/features/home/widgets/home_fan_savings_card.dart',
-  'lib/features/home/widgets/home_community_cards.dart',
-  'lib/features/home/widgets/home_hero_carousel.dart',
-  'lib/features/home/widgets/home_membership_strip.dart',
   'lib/features/home/widgets/home_quick_services.dart',
   'lib/features/home/widgets/home_shared.dart',
   'lib/features/profile/screens/profile_sub_screens.dart',

@@ -10,12 +10,11 @@ require_build_env() {
   # ── CRITICAL BLOCKER: Supabase env vars are mandatory for ANY build ──
   : "${SUPABASE_URL:?CRITICAL BLOCKER — Set SUPABASE_URL before building ANY APK, AAB, or IPA. The app will crash or show a config error screen without it.}"
   : "${SUPABASE_ANON_KEY:?CRITICAL BLOCKER — Set SUPABASE_ANON_KEY before building ANY APK, AAB, or IPA. The app will crash or show a config error screen without it.}"
-  : "${FIREBASE_IOS_PRODUCTION_API_KEY:?Set FIREBASE_IOS_PRODUCTION_API_KEY before building the production iOS app.}"
-  : "${FIREBASE_IOS_PRODUCTION_APP_ID:?Set FIREBASE_IOS_PRODUCTION_APP_ID before building the production iOS app.}"
-  : "${FIREBASE_IOS_PRODUCTION_MESSAGING_SENDER_ID:?Set FIREBASE_IOS_PRODUCTION_MESSAGING_SENDER_ID before building the production iOS app.}"
-  : "${FIREBASE_IOS_PRODUCTION_PROJECT_ID:?Set FIREBASE_IOS_PRODUCTION_PROJECT_ID before building the production iOS app.}"
-  : "${FIREBASE_IOS_PRODUCTION_STORAGE_BUCKET:?Set FIREBASE_IOS_PRODUCTION_STORAGE_BUCKET before building the production iOS app.}"
-  : "${FIREBASE_IOS_PRODUCTION_BUNDLE_ID:?Set FIREBASE_IOS_PRODUCTION_BUNDLE_ID before building the production iOS app.}"
+  local native_firebase_config="$ROOT_DIR/ios/Runner/GoogleService-Info.plist"
+  if [[ ! -f "$native_firebase_config" ]]; then
+    echo "CRITICAL BLOCKER — Missing Firebase iOS config at $native_firebase_config." >&2
+    return 1
+  fi
 }
 
 echo "══════════════════════════════════════════════════════"
@@ -50,6 +49,10 @@ if [[ -f .env.json ]]; then
 fi
 
 require_build_env
+
+if [[ -z "${FIREBASE_IOS_PRODUCTION_API_KEY:-}" ]]; then
+  echo "⚠️  FIREBASE_IOS_PRODUCTION_* overrides not set; Firebase will use ios/Runner/GoogleService-Info.plist." >&2
+fi
 
 "$FLUTTER_BIN" build ios \
   --release \

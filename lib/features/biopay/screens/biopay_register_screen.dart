@@ -89,10 +89,7 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
               fontWeight: FontWeight.w800,
               letterSpacing: -0.3,
             ),
-          )
-              .animate()
-              .fadeIn(duration: 400.ms)
-              .slideY(begin: 0.15, end: 0),
+          ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.15, end: 0),
           if (hasActiveEnrollment) ...[
             SizedBox(height: space.x4),
             const _RegisterNoticeCard(
@@ -175,11 +172,11 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
           ],
           SizedBox(height: space.x5),
           CoolButton(
-            label: hasActiveEnrollment ? 'Update Face Scan' : 'Continue',
-            icon: Icons.arrow_forward_rounded,
-            isLoading: _isSubmitting,
-            onTap: modelIssue != null ? null : _saveRouteAndContinue,
-          )
+                label: hasActiveEnrollment ? 'Update Face Scan' : 'Continue',
+                icon: Icons.arrow_forward_rounded,
+                isLoading: _isSubmitting,
+                onTap: modelIssue != null ? null : _saveRouteAndContinue,
+              )
               .animate()
               .fadeIn(delay: 250.ms, duration: 400.ms)
               .scale(begin: const Offset(0.95, 0.95)),

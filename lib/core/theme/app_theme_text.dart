@@ -17,7 +17,7 @@ abstract final class AppThemeText {
   static const medium = FontWeight.w600;
   static const regular = FontWeight.w400;
 
-  // ── Named sizes (Mobi × Rayon scale) ────────────────────────────────
+  // ── Named sizes (Mobi × Partner scale) ────────────────────────────────
   static const displayLarge = 56.0;
   static const displayMedium = 48.0;
   static const displaySmall = 40.0;

@@ -40,13 +40,6 @@ export type GroupContributionCandidateRecord = {
   route_digits: string | null;
 };
 
-export type RayonReferenceCandidateRecord = {
-  reference: string;
-  matchType: "rayon_ticket" | "rayon_shop_order" | "rayon_initiative_support";
-  created_at: string | null;
-  status: string | null;
-};
-
 export type AutoReconciliationResult = {
   matchType: string;
   matchStatus: "matched" | "pending_review" | "manual_review";

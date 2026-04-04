@@ -12,7 +12,7 @@ import '../theme/cool_foundations.dart';
 
 /// The main scaffold that wraps all bottom-nav routes.
 ///
-/// Mobi × Rayon: 3-item floating glass pill, max 320px, gold active dot.
+/// Mobi × Partner: 3-item floating glass pill, max 320px, gold active dot.
 class AppShell extends ConsumerStatefulWidget {
   const AppShell({
     required this.navigationShell,

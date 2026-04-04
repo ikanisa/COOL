@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Dark-only theme preference. The `system` value is kept for future
-/// flexibility but resolves to dark in the current Mobi × Rayon system.
+/// flexibility but resolves to dark in the current Mobi × Partner system.
 enum AppThemePreference { system, dark }
 
 AppThemePreference appThemePreferenceFromStorage(String? value) {

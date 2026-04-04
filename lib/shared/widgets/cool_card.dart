@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/rs_colors.dart';
+
 import 'cool_press_feedback.dart';
 
 /// Card variants — ROUGEBLACK design system.
@@ -150,7 +150,7 @@ class CoolCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius),
             border: Border.all(
               color: Colors.white.withValues(
-                alpha: RsColors.glassBorderOpacity,
+                alpha: 0.10,
               ),
               width: 1,
             ),
@@ -187,7 +187,7 @@ class CoolCard extends StatelessWidget {
   Color _variantBorder(CoolSemanticColors colors) => switch (variant) {
     CoolCardVariant.default_ => Colors.white.withValues(alpha: 0.05),
     CoolCardVariant.glass => Colors.white.withValues(
-      alpha: RsColors.glassBorderOpacity,
+      alpha: 0.10,
     ),
     CoolCardVariant.outline => Colors.white.withValues(alpha: 0.10),
     CoolCardVariant.accent => colors.accent.withValues(alpha: 0.20),

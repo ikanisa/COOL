@@ -151,11 +151,11 @@ void main() {
               <String, dynamic>{
                 'id': 'event-1',
                 'service': 'partner_checkout',
-                'component': 'rayon_tickets',
+                'component': 'partner_tickets',
                 'status': 'ok',
                 'severity': 'info',
                 'issue_code': null,
-                'message': 'Rayon ticket checkout opened successfully.',
+                'message': 'Partner ticket checkout opened successfully.',
                 'function_name': null,
                 'occurred_at': '2026-03-13T10:16:00Z',
               },

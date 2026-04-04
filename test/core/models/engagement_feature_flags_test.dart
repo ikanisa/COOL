@@ -31,7 +31,7 @@ void main() {
           'engagement_enabled': true,
           'engagement_share_tracking_enabled': true,
           'engagement_group_captain_enabled': false,
-          'engagement_rayon_chapter_enabled': false,
+          'engagement_partner_chapter_enabled': false,
           'feature_biopay_enabled': true,
           'kill_momo_payments': true,
           'kill_ticket_purchase': true,
@@ -50,7 +50,7 @@ void main() {
           'engagement_enabled': true,
           'engagement_share_tracking_enabled': true,
           'engagement_group_captain_enabled': false,
-          'engagement_rayon_chapter_enabled': false,
+          'engagement_partner_chapter_enabled': false,
           // Note: no kill_ keys present
         });
 
@@ -63,7 +63,7 @@ void main() {
           'engagement_enabled': true,
           'engagement_share_tracking_enabled': true,
           'engagement_group_captain_enabled': false,
-          'engagement_rayon_chapter_enabled': false,
+          'engagement_partner_chapter_enabled': false,
           'kill_momo_payments': 'true',
           'kill_ticket_purchase': '1',
         });
@@ -77,7 +77,7 @@ void main() {
           'engagement_enabled': true,
           'engagement_share_tracking_enabled': true,
           'engagement_group_captain_enabled': false,
-          'engagement_rayon_chapter_enabled': false,
+          'engagement_partner_chapter_enabled': false,
           'feature_ticket_purchase_stage': 'internal',
           'feature_ticket_purchase_admin_only': true,
         });

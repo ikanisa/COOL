@@ -18,6 +18,9 @@ class CoolTextField extends StatefulWidget {
     this.onChanged,
     this.autofocus = false,
     this.textInputAction,
+    this.autofillHints,
+    this.enableSuggestions = true,
+    this.autocorrect = true,
     super.key,
   });
 
@@ -34,6 +37,21 @@ class CoolTextField extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final bool autofocus;
   final TextInputAction? textInputAction;
+
+  /// Web-specific autofill hints for browser autocomplete.
+  ///
+  /// Maps to HTML `autocomplete` attribute. Example values:
+  /// - [AutofillHints.email] → `autocomplete="email"`
+  /// - [AutofillHints.name] → `autocomplete="name"`
+  /// - [AutofillHints.telephoneNumber] → `autocomplete="tel"`
+  /// - [AutofillHints.password] → `autocomplete="current-password"`
+  final Iterable<String>? autofillHints;
+
+  /// Whether to show keyboard suggestions.
+  final bool enableSuggestions;
+
+  /// Whether to enable autocorrect.
+  final bool autocorrect;
 
   @override
   State<CoolTextField> createState() => _CoolTextFieldState();
@@ -110,6 +128,9 @@ class _CoolTextFieldState extends State<CoolTextField> {
                 onChanged: widget.onChanged,
                 autofocus: widget.autofocus,
                 textInputAction: widget.textInputAction,
+                autofillHints: widget.autofillHints,
+                enableSuggestions: widget.enableSuggestions,
+                autocorrect: widget.autocorrect,
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w800,
                   color: colors.primaryText,

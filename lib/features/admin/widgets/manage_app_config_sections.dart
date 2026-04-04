@@ -278,7 +278,6 @@ class StatusPill extends StatelessWidget {
   }
 }
 
-
 class PartnerPaymentRouteConfigTile extends StatelessWidget {
   const PartnerPaymentRouteConfigTile({
     required this.config,

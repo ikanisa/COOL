@@ -20,7 +20,7 @@ import '../../../shared/widgets/cool_screen_background.dart';
 part '../widgets/manage_admin_roles_parts.dart';
 
 /// Super admin screen for managing admin role assignments.
-/// Allows viewing, assigning, and revoking admin/bank/rayon_sport roles.
+/// Allows viewing, assigning, and revoking admin/bank roles.
 class ManageAdminRolesScreen extends ConsumerWidget {
   const ManageAdminRolesScreen({super.key});
 
@@ -101,6 +101,9 @@ class ManageAdminRolesScreen extends ConsumerWidget {
                   final adminCount = assignments
                       .where((a) => a.role == AdminRole.admin)
                       .length;
+                  final bankCount = assignments
+                      .where((a) => a.role == AdminRole.bank)
+                      .length;
 
                   return ListView.separated(
                     padding: CoolSpace.scaffoldPadding,
@@ -112,6 +115,7 @@ class ManageAdminRolesScreen extends ConsumerWidget {
                         return _SummaryCard(
                           totalAssignments: assignments.length,
                           adminCount: adminCount,
+                          bankCount: bankCount,
                         );
                       }
 

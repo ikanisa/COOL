@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 
-/// Badge variants — Mobi × Rayon system.
+/// Badge variants — Mobi × Partner system.
 enum CoolBadgeVariant {
   primary,
   secondary,
@@ -20,8 +20,7 @@ enum CoolBadgeSize {
 
   EdgeInsets get padding => switch (this) {
     CoolBadgeSize.sm => const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-    CoolBadgeSize.md =>
-      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+    CoolBadgeSize.md => const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
   };
 
   double get fontSize => switch (this) {
@@ -30,7 +29,7 @@ enum CoolBadgeSize {
   };
 }
 
-/// A pill-shaped badge — Mobi × Rayon system.
+/// A pill-shaped badge — Mobi × Partner system.
 ///
 /// JetBrains Mono, bold, uppercase, widest tracking.
 class CoolBadge extends StatelessWidget {
@@ -70,11 +69,13 @@ class CoolBadge extends StatelessWidget {
           ],
           Text(
             label.toUpperCase(),
-            style: context.coolText.mobiLabel(color: fg).copyWith(
-              fontSize: size.fontSize,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 2.0,
-            ),
+            style: context.coolText
+                .mobiLabel(color: fg)
+                .copyWith(
+                  fontSize: size.fontSize,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 2.0,
+                ),
           ),
         ],
       ),
@@ -102,8 +103,7 @@ class CoolBadge extends StatelessWidget {
   };
 
   Color? _resolvedBorder(CoolSemanticColors colors) => switch (variant) {
-    CoolBadgeVariant.outline =>
-      Colors.white.withValues(alpha: 0.10),
+    CoolBadgeVariant.outline => Colors.white.withValues(alpha: 0.10),
     _ => null,
   };
 }

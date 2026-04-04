@@ -54,10 +54,7 @@ class _CoolPressFeedbackState extends State<CoolPressFeedback>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: CoolMotion.press,
-    );
+    _controller = AnimationController(vsync: this, duration: CoolMotion.press);
     _scale = Tween<double>(begin: 1.0, end: widget.scaleEnd).animate(
       CurvedAnimation(parent: _controller, curve: CoolMotion.pressCurve),
     );
@@ -95,6 +92,16 @@ class _CoolPressFeedbackState extends State<CoolPressFeedback>
       return GestureDetector(onTap: widget.onTap, child: widget.child);
     }
 
+    // Respect prefers-reduced-motion system preference (WCAG 2.3.3).
+    final reduceMotion = MediaQuery.of(context).disableAnimations;
+    if (reduceMotion) {
+      return GestureDetector(
+        onTap: _handleTap,
+        behavior: HitTestBehavior.opaque,
+        child: widget.child,
+      );
+    }
+
     return GestureDetector(
       onTapDown: _handleTapDown,
       onTapUp: _handleTapUp,
@@ -103,10 +110,7 @@ class _CoolPressFeedbackState extends State<CoolPressFeedback>
       behavior: HitTestBehavior.opaque,
       child: FadeTransition(
         opacity: _opacity,
-        child: ScaleTransition(
-          scale: _scale,
-          child: widget.child,
-        ),
+        child: ScaleTransition(scale: _scale, child: widget.child),
       ),
     );
   }

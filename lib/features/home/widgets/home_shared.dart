@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/rs_colors.dart';
-import '../../../shared/widgets/cool_toast.dart';
-import '../../rayon/providers/rayon_sports_provider.dart';
 
 String fmtAmt(int v) {
   final s = v.toString();
@@ -14,18 +10,6 @@ String fmtAmt(int v) {
     b.write(s[i]);
   }
   return b.toString();
-}
-
-Future<void> ensureHomeMembership(BuildContext context, WidgetRef ref) async {
-  final notifier = ref.read(rayonSportsProvider.notifier);
-  try {
-    final result = await notifier.ensureMembership();
-    if (!context.mounted) return;
-    CoolToast.info(context, result.message);
-  } catch (error) {
-    if (!context.mounted) return;
-    CoolToast.error(context, error.toString());
-  }
 }
 
 class HomeProgressBar extends StatelessWidget {
@@ -86,9 +70,7 @@ class HomeGlassCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(CoolRadii.xl),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.10),
-        ),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
       ),
       child: child,
     );
@@ -107,27 +89,26 @@ class HomeGlassCard extends StatelessWidget {
   }
 }
 
-class HomeRedTag extends StatelessWidget {
-  const HomeRedTag({super.key, required this.label});
+class HomeAccentTag extends StatelessWidget {
+  const HomeAccentTag({super.key, required this.label});
   final String label;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: RsColors.rsRed.withValues(alpha: 0.2),
+        color: colors.accent.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(CoolRadii.sm),
-        border: Border.all(
-          color: RsColors.rsRed.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: colors.accent.withValues(alpha: 0.3)),
       ),
       child: Text(
         label,
         style: context.coolText.mono(
           Theme.of(context).textTheme.labelSmall,
           fontWeight: FontWeight.w800,
-          color: RsColors.rsRed,
+          color: colors.accent,
           letterSpacing: 1.0,
         ),
       ),

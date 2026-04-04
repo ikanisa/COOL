@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -6,7 +8,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../features/auth/providers/auth_provider.dart';
 import '../../features/auth/screens/splash_screen.dart';
 import 'app_redirects.dart';
-import '../../features/home/screens/seasons_activities_screen.dart';
+
 import '../../features/home/screens/home_screen.dart';
 import '../../features/biopay/models/biopay_enrollment_draft.dart';
 import '../../features/biopay/screens/biopay_home_screen.dart';
@@ -15,21 +17,18 @@ import '../../features/biopay/screens/biopay_register_screen.dart';
 import '../../features/biopay/screens/biopay_scan_screen.dart';
 import '../../features/momo/screens/momo_screen.dart';
 import '../../features/momo/screens/momo_statements_screen.dart';
+import '../../features/groups/screens/groups_screen.dart';
 import '../../features/profile/screens/profile_detail_screens.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import '../../features/profile/screens/profile_sub_screens.dart';
 import '../../shared/widgets/qr_scanner_screen.dart';
 import '../../shared/widgets/kill_switch_gate.dart';
 import '../../shared/widgets/secure_screen_wrapper.dart';
-import '../status/screens/cool_tokens_screen.dart';
-import '../status/screens/referral_hub_screen.dart';
-import '../status/screens/missions_screen.dart';
 import '../../features/admin/models/admin_workspace_access.dart';
 import '../../features/admin/providers/admin_workspace_access_provider.dart';
 import '../providers/engagement_providers.dart';
 import 'admin_routes.dart';
 import 'navigation_keys.dart';
-import 'partner_routes.dart';
 import 'shell_route.dart';
 
 export 'app_redirects.dart';
@@ -103,6 +102,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     navigatorKey: rootNavigatorKey,
     initialLocation: '/',
     refreshListenable: refreshListenable,
+    observers: [_PageTitleObserver()],
     redirect: (context, state) {
       final authSnapshot = readAuthSnapshot();
       final location = state.matchedLocation;
@@ -114,7 +114,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         profileRestoreState: authSnapshot.profileRestoreState,
         isAdmin: authSnapshot.isAdmin,
         adminAccess: authSnapshot.adminAccess,
-        hasRayonAdminAccess: authSnapshot.isAdmin,
+
         sessionPhone: null,
         pendingRedirect: state.uri.queryParameters['redirect'],
       );
@@ -335,54 +335,29 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
-      // ── Partner + Rayon routes (extracted) ─────────────────────
-      partnerRoutes(
-        readAuthSnapshot: () {
-          final snap = readAuthSnapshot();
-          return (isAdmin: snap.isAdmin, hasSession: snap.session != null);
+
+      // ── Group savings & contribution routes ────────────────────
+      GoRoute(
+        path: AppRoutes.groupInvite,
+        redirect: (context, state) {
+          final inviteCode = state.pathParameters['code']?.trim().toUpperCase();
+          if (inviteCode == null || inviteCode.isEmpty) {
+            return AppRoutes.contributionCircles;
+          }
+          return Uri(
+            path: AppRoutes.contributionCircles,
+            queryParameters: <String, String>{'invite_code': inviteCode},
+          ).toString();
         },
-        readFeatureFlags: () => ref.read(featureFlagsStateProvider),
       ),
-
-      // ── Status / engagement routes ────────────────────────────
       GoRoute(
-        path: AppRoutes.missions,
+        path: AppRoutes.contributionCircles,
         pageBuilder: (context, state) => coolPageTransition(
           context: context,
           state: state,
-          child: const MissionsScreen(),
+          child: const GroupsScreen(),
         ),
       ),
-      GoRoute(
-        path: AppRoutes.tokens,
-        pageBuilder: (context, state) => coolPageTransition(
-          context: context,
-          state: state,
-          child: const CoolTokensScreen(),
-        ),
-      ),
-      GoRoute(
-        path: AppRoutes.referral,
-        pageBuilder: (context, state) => coolPageTransition(
-          context: context,
-          state: state,
-          child: const ReferralHubScreen(),
-        ),
-      ),
-      GoRoute(
-        path: AppRoutes.seasons,
-        pageBuilder: (context, state) => coolPageTransition(
-          context: context,
-          state: state,
-          child: const SeasonsActivitiesScreen(),
-        ),
-      ),
-      GoRoute(
-        path: AppRoutes.gamification,
-        redirect: (context, state) => AppRoutes.rewards,
-      ),
-
-      // ── Admin routes (extracted) ──────────────────────────────
       adminRoutes(),
     ],
   );
@@ -404,4 +379,88 @@ bool _hasIncomingMomoLaunch(Uri uri) {
 
 class _AppRouterRefreshNotifier extends ChangeNotifier {
   void refresh() => notifyListeners();
+}
+
+/// Sets the browser tab title based on the current route.
+///
+/// Only active on Flutter Web — native platforms use the OS task switcher
+/// which already shows the app name.
+class _PageTitleObserver extends NavigatorObserver {
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    _updateTitle(route);
+  }
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    if (newRoute != null) _updateTitle(newRoute);
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    if (previousRoute != null) _updateTitle(previousRoute);
+  }
+
+  void _updateTitle(Route<dynamic> route) {
+    if (!kIsWeb) return;
+
+    final name = route.settings.name;
+    final title = _routeTitleFor(name);
+    SystemChrome.setApplicationSwitcherDescription(
+      ApplicationSwitcherDescription(label: title, primaryColor: 0xFF0D0A27),
+    );
+  }
+}
+
+/// Maps route paths to human-readable page titles for the browser tab.
+String _routeTitleFor(String? path) {
+  if (path == null || path.isEmpty || path == '/') return 'COOL';
+
+  final basePath = path.split('?').first;
+
+  // Static routes
+  const titles = <String, String>{
+    '/home': 'Home — COOL',
+    '/groups': 'Groups — COOL',
+    '/contribution-circles': 'Contribution Circles — COOL',
+    '/momo': 'MoMo — COOL',
+    '/momo/statements': 'MoMo Statements — COOL',
+    '/momo/biopay': 'BioPay — COOL',
+    '/momo/biopay/register': 'BioPay Register — COOL',
+    '/momo/biopay/scan': 'BioPay Scan — COOL',
+    '/momo/biopay/nfc': 'BioPay NFC — COOL',
+    '/profile': 'Profile — COOL',
+    '/profile/wallet': 'Wallet — COOL',
+    '/profile/account': 'Account — COOL',
+    '/profile/notifications': 'Notifications — COOL',
+    '/profile/privacy': 'Privacy & Security — COOL',
+    '/profile/orders': 'Orders — COOL',
+    '/profile/help': 'Help — COOL',
+    '/profile/about': 'About — COOL',
+    '/admin': 'Admin — COOL',
+    '/admin/platform': 'Platform — COOL Admin',
+    '/admin/users': 'Users — COOL Admin',
+    '/admin/app-config': 'App Config — COOL Admin',
+    '/admin/operations': 'Operations — COOL Admin',
+    '/admin/roles': 'Roles — COOL Admin',
+    '/admin/analytics': 'Analytics — COOL Admin',
+    '/admin/audit-log': 'Audit Log — COOL Admin',
+    '/scanner': 'Scanner — COOL',
+  };
+
+  final exact = titles[basePath];
+  if (exact != null) return exact;
+
+  // Dynamic routes (pattern match)
+  if (basePath.startsWith('/contribution-circles/')) {
+    return 'Group Details — COOL';
+  }
+  if (basePath.startsWith('/invite/')) {
+    return 'Invitation — COOL';
+  }
+  if (basePath.startsWith('/admin/banks/')) {
+    return 'Bank Workspace — COOL Admin';
+  }
+
+  return 'COOL';
 }

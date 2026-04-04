@@ -45,8 +45,6 @@ class MomoStatementRepository {
     );
   }
 
-
-
   Future<MomoStatementPage<PayeePaymentLedgerEntry>>
   loadGroupPaymentLedgerEntriesPage(
     String groupId, {
@@ -89,7 +87,6 @@ class MomoStatementRepository {
     );
   }
 
-
   Future<List<Map<String, dynamic>>> _loadWalletRows(
     String userId, {
     required MomoStatementQuery query,
@@ -120,8 +117,6 @@ class MomoStatementRepository {
           .range(query.offset, query.offset + query.limit - 1),
     );
   }
-
-
 
   Future<List<Map<String, dynamic>>> _loadPayeeLedgerRows(
     String rpcName, {

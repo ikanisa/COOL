@@ -8,20 +8,20 @@ class BankAdminRepository {
   final SupabaseClient _client;
 
   Future<BankAdminWorkspaceSnapshot> loadWorkspaceSnapshot(
-    String partnerId,
+    String bankId,
   ) async {
-    final trimmedPartnerId = partnerId.trim();
-    if (trimmedPartnerId.isEmpty) {
+    final trimmedBankId = bankId.trim();
+    if (trimmedBankId.isEmpty) {
       return const BankAdminWorkspaceSnapshot();
     }
 
-    final groupsFuture = loadCustodyGroupsPage(trimmedPartnerId, limit: 50);
-    final membersFuture = loadCustodyMembersPage(trimmedPartnerId, limit: 50);
+    final groupsFuture = loadCustodyGroupsPage(trimmedBankId, limit: 50);
+    final membersFuture = loadCustodyMembersPage(trimmedBankId, limit: 50);
     final contributionsFuture = loadCustodyContributionsPage(
-      trimmedPartnerId,
+      trimmedBankId,
       limit: 50,
     );
-    final allocationsFuture = loadAllocationReviewPage(trimmedPartnerId);
+    final allocationsFuture = loadAllocationReviewPage(trimmedBankId);
 
     final results = await Future.wait<Object>([
       groupsFuture,
@@ -39,7 +39,7 @@ class BankAdminRepository {
   }
 
   Future<BankAdminPage<BankAdminGroupSummary>> loadCustodyGroupsPage(
-    String partnerId, {
+    String bankId, {
     String? search,
     int limit = 1000,
     int offset = 0,
@@ -48,7 +48,7 @@ class BankAdminRepository {
       await _client.rpc(
         'get_bank_custody_groups',
         params: <String, dynamic>{
-          'p_partner_id': partnerId,
+          'p_partner_id': bankId,
           'p_search': _trimToNull(search),
           'p_limit': limit,
           'p_offset': offset,
@@ -62,7 +62,7 @@ class BankAdminRepository {
   }
 
   Future<BankAdminPage<BankAdminMemberRecord>> loadCustodyMembersPage(
-    String partnerId, {
+    String bankId, {
     String? groupId,
     String? search,
     int limit = 1000,
@@ -72,7 +72,7 @@ class BankAdminRepository {
       await _client.rpc(
         'get_bank_custody_group_members',
         params: <String, dynamic>{
-          'p_partner_id': partnerId,
+          'p_partner_id': bankId,
           'p_group_id': _trimToNull(groupId),
           'p_search': _trimToNull(search),
           'p_limit': limit,
@@ -88,7 +88,7 @@ class BankAdminRepository {
 
   Future<BankAdminPage<BankAdminContributionRecord>>
   loadCustodyContributionsPage(
-    String partnerId, {
+    String bankId, {
     String? groupId,
     String? status,
     int limit = 1000,
@@ -98,7 +98,7 @@ class BankAdminRepository {
       await _client.rpc(
         'get_bank_custody_contributions',
         params: <String, dynamic>{
-          'p_partner_id': partnerId,
+          'p_partner_id': bankId,
           'p_group_id': _trimToNull(groupId),
           'p_status': _trimToNull(status),
           'p_limit': limit,
@@ -115,7 +115,7 @@ class BankAdminRepository {
   }
 
   Future<BankAdminPage<BankAdminAllocationReviewItem>> loadAllocationReviewPage(
-    String partnerId, {
+    String bankId, {
     int limit = 1000,
     int offset = 0,
   }) async {
@@ -123,7 +123,7 @@ class BankAdminRepository {
       await _client.rpc(
         'get_bank_manual_review_allocations',
         params: <String, dynamic>{
-          'p_partner_id': partnerId,
+          'p_partner_id': bankId,
           'p_limit': limit,
           'p_offset': offset,
         },
@@ -138,7 +138,7 @@ class BankAdminRepository {
   }
 
   Future<void> allocateManualReviewToGroupContribution({
-    required String partnerId,
+    required String bankId,
     required String reviewId,
     required String groupId,
     required String memberUserId,
@@ -147,7 +147,7 @@ class BankAdminRepository {
     await _client.rpc(
       'bank_allocate_manual_review_allocation',
       params: <String, dynamic>{
-        'p_partner_id': partnerId,
+        'p_partner_id': bankId,
         'p_review_id': reviewId,
         'p_group_id': groupId,
         'p_member_user_id': memberUserId,
@@ -157,14 +157,14 @@ class BankAdminRepository {
   }
 
   Future<void> rejectManualReviewAllocation({
-    required String partnerId,
+    required String bankId,
     required String reviewId,
     String? note,
   }) async {
     await _client.rpc(
       'bank_reject_manual_review_allocation',
       params: <String, dynamic>{
-        'p_partner_id': partnerId,
+        'p_partner_id': bankId,
         'p_review_id': reviewId,
         'p_note': _trimToNull(note),
       },
@@ -175,10 +175,10 @@ class BankAdminRepository {
   // Analytics
   // ═══════════════════════════════════════════════════════════════
 
-  Future<Map<String, dynamic>> fetchBankAnalytics(String partnerId) async {
+  Future<Map<String, dynamic>> fetchBankAnalytics(String bankId) async {
     final result = await _client.rpc(
       'get_bank_analytics_summary',
-      params: {'p_partner_id': partnerId},
+      params: {'p_partner_id': bankId},
     );
     if (result is Map<String, dynamic>) return result;
     return const <String, dynamic>{};
@@ -191,14 +191,14 @@ class BankAdminRepository {
   /// Accepts an AI-suggested allocation by reading metadata from the
   /// reconciliation and delegating to the existing allocation RPC.
   Future<void> acceptSuggestedAllocation({
-    required String partnerId,
+    required String bankId,
     required String reviewId,
     String? note,
   }) async {
     await _client.rpc(
       'bank_accept_suggested_allocation',
       params: {
-        'p_partner_id': partnerId,
+        'p_partner_id': bankId,
         'p_review_id': reviewId,
         'p_note': _trimToNull(note),
       },
@@ -208,7 +208,7 @@ class BankAdminRepository {
   /// Adds a new member to a group by phone number.
   /// Returns the new member's user_id and display_name.
   Future<Map<String, dynamic>> addMemberToGroup({
-    required String partnerId,
+    required String bankId,
     required String groupId,
     required String phone,
     String? displayName,
@@ -216,7 +216,7 @@ class BankAdminRepository {
     final result = await _client.rpc(
       'bank_add_member_to_group',
       params: {
-        'p_partner_id': partnerId,
+        'p_partner_id': bankId,
         'p_group_id': groupId,
         'p_phone': phone,
         'p_display_name': _trimToNull(displayName),
@@ -228,12 +228,12 @@ class BankAdminRepository {
 
   /// Searches group members for the allocation modal type-ahead.
   Future<List<BankAdminMemberRecord>> searchMembers(
-    String partnerId, {
+    String bankId, {
     String? groupId,
     required String search,
   }) async {
     final page = await loadCustodyMembersPage(
-      partnerId,
+      bankId,
       groupId: groupId,
       search: search,
       limit: 20,
@@ -242,10 +242,10 @@ class BankAdminRepository {
   }
 
   /// Triggers the AI allocation Edge Function.
-  Future<void> triggerAiAllocation(String partnerId) async {
+  Future<void> triggerAiAllocation(String bankId) async {
     await _client.functions.invoke(
       'allocate-contributions',
-      body: {'partner_id': partnerId},
+      body: {'partner_id': bankId},
     );
   }
 }

@@ -19,15 +19,15 @@ class AboutAppScreen extends StatelessWidget {
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
+                  gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [RsColors.rsNavyLight, RsColors.rsRed],
+                    colors: [colors.accent, colors.info],
                   ),
                   borderRadius: BorderRadius.circular(CoolRadii.xl),
                   boxShadow: [
                     BoxShadow(
-                      color: RsColors.rsRed.withValues(alpha: 0.3),
+                      color: colors.shadowColor.withValues(alpha: 0.3),
                       blurRadius: 20,
                       offset: const Offset(0, 8),
                     ),
@@ -36,7 +36,7 @@ class AboutAppScreen extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   'RS',
-                  style: context.coolText.rayonCondensed(
+                  style: context.coolText.displayCondensed(
                     Theme.of(context).textTheme.headlineLarge,
                     fontWeight: FontWeight.w900,
                     color: Colors.white,
@@ -46,7 +46,7 @@ class AboutAppScreen extends StatelessWidget {
               const SizedBox(height: CoolSpace.x4),
               Text(
                 'RAYON SPORTS',
-                style: context.coolText.rayonCondensed(
+                style: context.coolText.displayCondensed(
                   Theme.of(context).textTheme.headlineMedium,
                   fontWeight: FontWeight.w900,
                 ),
@@ -100,7 +100,7 @@ class AboutAppScreen extends StatelessWidget {
                 icon: Icons.description_outlined,
                 title: 'TERMS OF SERVICE',
                 onTap: () async {
-                  final uri = Uri.parse('https://rayonsports.rw/terms');
+                  final uri = Uri.parse('https://cool.ikanisa.com/terms');
                   if (await canLaunchUrl(uri)) {
                     await launchUrl(uri, mode: LaunchMode.externalApplication);
                   }
@@ -111,7 +111,7 @@ class AboutAppScreen extends StatelessWidget {
                 icon: Icons.privacy_tip_outlined,
                 title: 'PRIVACY POLICY',
                 onTap: () async {
-                  final uri = Uri.parse('https://rayonsports.rw/privacy');
+                  final uri = Uri.parse('https://cool.ikanisa.com/privacy');
                   if (await canLaunchUrl(uri)) {
                     await launchUrl(uri, mode: LaunchMode.externalApplication);
                   }
@@ -123,8 +123,8 @@ class AboutAppScreen extends StatelessWidget {
                 title: 'OPEN SOURCE',
                 onTap: () => showLicensePage(
                   context: context,
-                  applicationName: 'Rayon Sports',
-                  applicationVersion: '2.4.0',
+                  applicationName: 'COOL',
+                  applicationVersion: '1.2.0',
                 ),
               ),
             ],
@@ -207,7 +207,7 @@ class _ToggleRow extends StatelessWidget {
             Switch.adaptive(
               value: value,
               onChanged: onChanged,
-              activeTrackColor: RsColors.rsRed,
+              activeTrackColor: colors.accent,
             ),
         ],
       ),
@@ -328,9 +328,9 @@ class _FaqItemState extends State<_FaqItem> {
                     ),
                   ),
                   alignment: Alignment.center,
-                  child: const Icon(
+                  child: Icon(
                     Icons.help_outline_rounded,
-                    color: RsColors.rsRed,
+                    color: colors.info,
                     size: 20,
                   ),
                 ),

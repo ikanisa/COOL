@@ -109,22 +109,10 @@ abstract final class DeepLinkConfig {
       'momo' => _momoRouteForSegments(segments, uri),
       'biopay-tab' => AppRoutes.biopayHome,
       'profile' => AppRoutes.profile,
-      'match' =>
-        segments.length < 2
-            ? null
-            : AppRoutes.matchEngagementLocation(segments[1]),
-      'initiative' =>
-        segments.length < 2
-            ? null
-            : AppRoutes.contributionDetailLocation(segments[1]),
-      'club' =>
-        segments.length < 2
-            ? null
-            : AppRoutes.fanClubDetailLocation(segments[1]),
-      'shop' =>
-        segments.length < 2
-            ? AppRoutes.rayonShop
-            : AppRoutes.shopProductDetailLocation(segments[1]),
+      'match' => AppRoutes.home,
+      'initiative' => AppRoutes.home,
+      'club' => AppRoutes.home,
+      'shop' => AppRoutes.home,
       'status' => AppRoutes.profile,
       _ => null,
     };

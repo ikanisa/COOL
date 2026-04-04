@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../brand/app_brand.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -12,17 +11,12 @@ class ReferralBanner extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final brand = ref.watch(appBrandProvider);
     final colors = context.coolSemanticColors;
     final space = context.coolSpace;
     final radii = context.coolRadii;
     final theme = Theme.of(context);
-    final title = brand.isRayonDominant
-        ? 'Invite fellow fans & earn points'
-        : 'Share COOL & earn points';
-    final subtitle = brand.isRayonDominant
-        ? 'Bring more supporters into the club app'
-        : 'Invite friends & grow together';
+    const title = 'Share COOL & earn points';
+    const subtitle = 'Invite friends & grow together';
 
     return CoolCard(
       variant: CoolCardVariant.glass,

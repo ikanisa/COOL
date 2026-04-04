@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/rs_colors.dart';
+
 
 /// A frosted glass surface — ROUGEBLACK design system.
 ///
@@ -14,15 +14,15 @@ import '../../core/theme/rs_colors.dart';
 /// ```dart
 /// GlassCard(
 ///   child: Text('Content'),
-///   gradientAccent: RsColors.rsRed,
+///   gradientAccent: Colors.red,
 /// )
 /// ```
 class GlassCard extends StatelessWidget {
   const GlassCard({
     required this.child,
     this.blur = 12.0,
-    this.opacity = RsColors.glassOpacity,
-    this.borderOpacity = RsColors.glassBorderOpacity,
+    this.opacity = 0.06,
+    this.borderOpacity = 0.10,
     this.borderRadius = CoolRadii.lg,
     this.gradientAccent,
     this.padding,
@@ -48,7 +48,7 @@ class GlassCard extends StatelessWidget {
   final double borderRadius;
 
   /// Optional accent color for a subtle top-left gradient wash.
-  /// Typically [RsColors.rsRed] or [RsColors.rsGold].
+  /// Optional accent color for a subtle top-left gradient wash.
   final Color? gradientAccent;
 
   /// Inner padding.

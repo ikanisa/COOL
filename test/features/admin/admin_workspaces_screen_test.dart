@@ -1,57 +1,80 @@
-import 'package:flutter_test/flutter_test.dart';
-
+import 'package:cool_app/features/admin/models/admin_workspace_access.dart';
+import 'package:cool_app/features/admin/providers/admin_providers.dart';
 import 'package:cool_app/features/admin/providers/admin_workspace_access_provider.dart';
 import 'package:cool_app/features/admin/screens/admin_workspaces_screen.dart';
-import 'package:cool_app/features/partners/models/partner.dart';
+import 'package:cool_app/l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
 
-import '../../integration_smoke/test_harness.dart';
+Widget _wrap(List<Override> overrides) {
+  return ProviderScope(
+    overrides: overrides,
+    child: const MaterialApp(
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      home: AdminWorkspacesScreen(),
+    ),
+  );
+}
 
 void main() {
-  const rayonPartner = Partner(
-    id: 'partner-rayon',
-    name: 'Rayon Sports',
-    slug: 'rayon-sports',
-    category: PartnerCategory.football,
-    country: 'RW',
-  );
-  const bankPartner = Partner(
-    id: 'bank-1',
-    name: 'Custody Bank',
-    slug: 'custody-bank',
-    category: PartnerCategory.bank,
-    country: 'RW',
-  );
-
-  testWidgets('shows partner and bank workspaces for scoped admin accounts', (
+  testWidgets('shows only assigned bank workspaces for scoped bank admins', (
     tester,
   ) async {
-    await pumpScopedApp(
-      tester,
-      child: const AdminWorkspacesScreen(),
-      session: fakeSession(
-        appMetadata: const <String, dynamic>{
-          'partner_admin_ids': ['partner-rayon'],
-          'bank_admin_ids': ['bank-1'],
-        },
-      ),
-      user: fakeUser(),
-      overrides: [
-        adminPartnerWorkspacesProvider.overrideWith(
-          (ref) async => const <Partner>[rayonPartner],
+    await tester.pumpWidget(
+      _wrap(<Override>[
+        adminWorkspaceAccessProvider.overrideWithValue(
+          const AdminWorkspaceAccess(
+            hasBankAccess: true,
+            bankAdminIds: {'bank-1'},
+          ),
         ),
-        adminBankWorkspacesProvider.overrideWith(
-          (ref) async => const <Partner>[bankPartner],
+        adminPartnersProvider.overrideWith(
+          (ref) async => <Map<String, dynamic>>[
+            <String, dynamic>{
+              'id': 'bank-1',
+              'name': 'Equity Bank',
+              'category': 'bank',
+            },
+            <String, dynamic>{
+              'id': 'bank-2',
+              'name': 'Urwego',
+              'category': 'bank',
+            },
+          ],
         ),
-      ],
+      ]),
     );
+    await tester.pumpAndSettle();
 
-    await settleTestApp(tester);
+    expect(find.text('Bank Workspaces'), findsOneWidget);
+    expect(find.text('Equity Bank'), findsOneWidget);
+    expect(find.text('Urwego'), findsNothing);
+  });
 
-    expect(find.text('Admin Workspaces'), findsOneWidget);
-    expect(find.text('Partner Workspaces'), findsOneWidget);
-    expect(find.text('Bank Custodian Workspaces'), findsOneWidget);
-    expect(find.text('Rayon Sports'), findsOneWidget);
-    expect(find.text('Custody Bank'), findsOneWidget);
-    expect(find.text('Platform Admin'), findsNothing);
+  testWidgets('shows platform and bank sections for platform admins', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _wrap(<Override>[
+        adminWorkspaceAccessProvider.overrideWithValue(
+          const AdminWorkspaceAccess(hasPlatformAccess: true),
+        ),
+        adminPartnersProvider.overrideWith(
+          (ref) async => <Map<String, dynamic>>[
+            <String, dynamic>{
+              'id': 'bank-1',
+              'name': 'Equity Bank',
+              'category': 'bank',
+            },
+          ],
+        ),
+      ]),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Platform Admin'), findsNWidgets(2));
+    expect(find.text('Equity Bank'), findsOneWidget);
   });
 }

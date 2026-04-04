@@ -1,6 +1,6 @@
 # Cool
 
-Cool is a Flutter mobile app for community finance, group savings, partner ecosystems, and credit visibility in Rwanda.
+Cool is a Flutter app for community finance, group savings, bank custody flows, and admin operations in Rwanda.
 
 The app is Android-first, English-only, and designed around Mobile Money (MTN Rwanda), WhatsApp OTP, offline-friendly UX, and Supabase-backed data flows.
 
@@ -10,8 +10,8 @@ Cool combines multiple modules in a single app:
 
 - Group savings and community fundraising
 - Mobile Money USSD payments and payment confirmation sync
-- Partner experiences such as clubs, tickets, and fan programs
-- Admin and partner-operations consoles
+- BioPay identity and payment tooling
+- Admin and bank-operations consoles
 
 ## Non-Negotiable Payment Rules
 
@@ -78,7 +78,7 @@ Current recipient sources in this repo:
 
 - Community groups use `public.groups.receiving_momo_code` /
   `public.groups.momo_number`
-- Rayon Sports currently uses a hardcoded MTN MoMo code: `008000`
+- Bank custody flows use bank-partner routing stored in Supabase
 
 Authoritative payment design notes:
 
@@ -93,8 +93,8 @@ Authoritative payment design notes:
 
 - Dual-theme UI with semantic tokens in
   [`lib/core/theme/cool_foundations.dart`](/Volumes/PRO-G40/COOL/lib/core/theme/cool_foundations.dart)
-- `Manrope` is the default interface font; `DM Mono` and Rayon brand fonts are
-  controlled exceptions, not the base system
+- `Manrope` is the default interface font; `DM Mono` is the monospace accent
+  and not the base system
 - One authoritative redesign guide:
   [`DESIGN_SYSTEM.md`](/Volumes/PRO-G40/COOL/DESIGN_SYSTEM.md)
 - Riverpod `StateNotifierProvider` pattern per feature
@@ -173,11 +173,11 @@ lib/
     theme/
   features/
     auth/
-    basket/
     groups/
     home/
+    admin/
+    biopay/
     momo/
-    partners/
     profile/
   l10n/
   shared/
@@ -212,13 +212,12 @@ test/
 ## Deep Links
 
 - Supported universal-link patterns:
-  `/invite/<CODE>`, `/home`, `/momo`, `/profile`, `/match/<ID>/engage`,
-  `/fan-profile`, `/registry`, `/fan-clubs/<ID>`,
-  `/contributions/<ID>`, `/contribution-circles/<ID>`,
-  `/shop/product/<ID>`, `/tickets/<ID>/confirm`
+  `/invite/<CODE>`, `/home`, `/momo`, `/momo/biopay`,
+  `/momo/statements`, `/profile`, `/groups`, `/groups/create`,
+  `/contribution-circles/<ID>`, `/admin`, `/admin/platform`,
+  `/admin/banks/<BANK_ID>`
 - Legacy `/basket` links still resolve to home for backward compatibility.
-- Legacy `/groups/*` and `/partners/rayon-sports/*` links still resolve via
-  compatibility redirects.
+- Legacy `/groups/*` links still resolve via compatibility redirects.
 - Group invite share links should use `https://cool.app/invite/<CODE>`
 - The fallback site and universal-link templates live in [deeplinks/site/README.md](/Volumes/PRO-G40/COOL/deeplinks/site/README.md)
 
@@ -288,8 +287,7 @@ Every bank partner page displays exactly 2 standard CTA cards:
 
 These are managed dynamically in the `partner_services` Supabase table and
 administered via the platform admin. No other services may be added to bank
-partner pages. Non-bank partner pages (Prisma AI services, Radiant insurance,
-Rayon football) have their own service schemas and are not subject to this rule.
+partner pages.
 
 Do not invent additional bank services, descriptions, or CTAs. Any
 modification to bank partner services must be reviewed against this guardrail.
@@ -305,8 +303,8 @@ modification to bank partner services must be reviewed against this guardrail.
 ### Admin
 
 - Internal CRUD and configuration surfaces
-- Partner, service, and quick-action management
-- Rayon Sports partner operations
+- Bank workspace allocations and ledger exports
+- Platform analytics, audit, and role management
 
 ## Navigation Map
 
@@ -384,9 +382,10 @@ flutter run \
 ```
 
 For full mobile feature parity, prefer `--dart-define-from-file=.env.json`.
-That file should include the platform `FIREBASE_*` values from
-[.env.example](/Volumes/PRO-G40/COOL/.env.example); the staging and production
-build scripts now fail fast when those platform Firebase defines are missing.
+That file can include the platform `FIREBASE_*` values from
+[.env.example](/Volumes/PRO-G40/COOL/.env.example) as optional overrides, but
+mobile builds now fall back to the checked-in native Firebase configs when
+those defines are omitted.
 
 MoMo recipient codes are managed in Admin > App Config, not
 through `--dart-define`.
@@ -481,9 +480,9 @@ Implemented under [supabase/functions](/Volumes/PRO-G40/COOL/supabase/functions)
 | `send-otp` | Send WhatsApp OTP |
 | `verify-otp` | Verify OTP and return session |
 | `parse-momo-sms` | Parse uploaded M-Money confirmation SMS into normalized transaction data |
+| `allocate-contributions` | Match reconciled MoMo transactions into bank-managed allocation queues |
+| `biopay-create-payment-intent` | Create BioPay payment intents for device-side checkout |
 | `maps-gateway` | Proxy Google Places (New), geocoding, and routes access with auth and usage logging |
-| `rs-scan-ticket` | Verify Rayon Sports ticket QR scans with auth and partner-admin checks |
-| `wallet-issuer` | Deployed placeholder only. Google Wallet issuance is deferred until production go-live. |
 | `delete-account` | Account deletion backend flow |
 
 Critical release note: Google Wallet is deferred. `wallet-issuer` stays
@@ -553,13 +552,12 @@ local-only run. On macOS it also verifies that the iOS `staging` and
 
 Current tests include:
 
-- auth routing regression tests (25 tests)
-- host-side integration smoke tests for boot, auth, deep links, MoMo, and tickets
+- router and deep-link regression tests
+- host-side integration smoke coverage for app boot, deep links, and MoMo flows
 - device-backed critical journey tests under `integration_test/`
-- group model tests
-- user profile tests
-- auth provider tests
-- groups notifier/provider tests
+- admin RBAC, workspace, and app-config regression tests
+- design-system and accessibility regression tests
+- repository schema, migration manifest, and governance doc sync tests
 
 Files live under [test](/Volumes/PRO-G40/COOL/test).
 
@@ -635,6 +633,10 @@ Android flavor-specific Firebase configs live at
 [android/app/src/staging/google-services.json](/Volumes/PRO-G40/COOL/android/app/src/staging/google-services.json)
 and
 [android/app/src/production/google-services.json](/Volumes/PRO-G40/COOL/android/app/src/production/google-services.json).
+iOS flavor-specific Firebase configs live at
+[ios/Runner/GoogleService-Info-staging.plist](/Volumes/PRO-G40/COOL/ios/Runner/GoogleService-Info-staging.plist)
+and
+[ios/Runner/GoogleService-Info.plist](/Volumes/PRO-G40/COOL/ios/Runner/GoogleService-Info.plist).
 
 ## Offline and Caching Notes
 
@@ -682,8 +684,8 @@ The app is written against a normalized `users` profile model, but the repositor
 - **Date:** March 2026
 - **Status:** ✅ Published on Google Play
 - **Key features:** Auth (WhatsApp OTP), MoMo payments (USSD + SMS verification),
-  Groups (savings, community funds), Partners (Rayon Sports tickets/shop/membership, Prisma, bank
-  partners), Profile (delete account), Admin workspaces
+  Groups (savings, community funds), partner-integrated services, Profile
+  (delete account), and Admin workspaces
 - **Permissions:** `READ_SMS`, `RECEIVE_SMS`, `CAMERA`, `NFC`,
   `ACCESS_FINE_LOCATION`, `ACCESS_COARSE_LOCATION`, `READ_CONTACTS`,
   `POST_NOTIFICATIONS`
@@ -724,8 +726,8 @@ bash scripts/build_play_release.sh
 
 ## Recommended Next Steps
 
-- Migrate Rayon Sports MoMo code from hardcoded `008000` to dynamic Supabase routing
+- Finish retiring obsolete Rayon-specific release notes and historical migration assumptions
 - Move Android signing keys (`upload-keystore.jks`, `key.properties`) to CI vault
 - Clean up root-level utility scripts (`auto_l10n.dart`, `fix_errors.dart`, `update_profile.dart`)
 - Expand device-backed integration suite beyond current critical journeys
-- Fix remaining 49 pre-existing test failures (governance sync, widget copy drift)
+- Keep shrinking historical product drift across release docs, migrations, and legacy partner seeds

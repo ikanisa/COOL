@@ -111,13 +111,9 @@ class BalanceCard extends StatelessWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        colors.highlightColor.withValues(
-                          alpha: 0.03,
-                        ),
+                        colors.highlightColor.withValues(alpha: 0.03),
                         Colors.transparent,
-                        colors.shadowColor.withValues(
-                          alpha: 0.10,
-                        ),
+                        colors.shadowColor.withValues(alpha: 0.10),
                       ],
                       stops: const [0, 0.36, 1],
                     ),

@@ -144,8 +144,6 @@ Widget _buildTrustAndActionsCard({
   );
 }
 
-
-
 /// Semi‑transparent overlay while USSD handoff is launching.
 Widget _buildLaunchingOverlay({
   required BuildContext context,
@@ -193,8 +191,6 @@ Widget _buildLaunchingOverlay({
     ),
   );
 }
-
-
 
 // ─── Pure helpers ──────────────────────────────────────────────────────────
 

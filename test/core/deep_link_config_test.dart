@@ -30,12 +30,12 @@ void main() {
       );
     });
 
-    test('maps club deep links', () {
+    test('maps legacy club deep links to home', () {
       expect(
         DeepLinkConfig.routeForUri(
-          Uri.parse('https://cool.app/club/rayon-kigali?ri=invite-1'),
+          Uri.parse('https://cool.app/club/partner-kigali?ri=invite-1'),
         ),
-        '/fan-clubs/rayon-kigali?ri=invite-1',
+        '${AppRoutes.home}?ri=invite-1',
       );
     });
 

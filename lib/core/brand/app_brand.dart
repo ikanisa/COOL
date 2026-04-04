@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../theme/rs_colors.dart';
-
-enum AppBrand { cool, rayonDominant }
+enum AppBrand { cool }
 
 @immutable
 class AppBranding {
@@ -34,20 +32,6 @@ class AppBranding {
         navSelectedColor: const Color(0xFF0047AB),
       );
 
-  const AppBranding.rayon()
-    : this(
-        brand: AppBrand.rayonDominant,
-        appTitle: 'Rayon Sports FC',
-        welcomeTitle: 'Rayon Sports FC',
-        welcomeSubtitle: 'Your club. Your identity. Your game.',
-        splashTitle: 'Rayon Sports FC',
-        logoAssetPath: 'assets/images/partners/rs_logo_mark.png',
-        logoSemanticLabel: 'Rayon Sports FC logo',
-        primaryColor: RsColors.rsRed,
-        secondaryColor: RsColors.rsGold,
-        navSelectedColor: RsColors.rsGoldLight,
-      );
-
   final AppBrand brand;
   final String appTitle;
   final String welcomeTitle;
@@ -58,11 +42,8 @@ class AppBranding {
   final Color primaryColor;
   final Color secondaryColor;
   final Color navSelectedColor;
-
-  bool get isRayonDominant => brand == AppBrand.rayonDominant;
 }
 
-/// Always uses Rayon-dominant branding — legacy feature flag removed.
 final appBrandProvider = Provider<AppBranding>(
-  (_) => const AppBranding.rayon(),
+  (_) => const AppBranding.cool(),
 );

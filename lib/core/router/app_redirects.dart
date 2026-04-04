@@ -14,8 +14,6 @@ bool _isAdminRoute(String location) {
 const _platformAdminRoutes = {
   AppRoutes.adminPlatform,
   AppRoutes.adminUsers,
-  AppRoutes.adminServices,
-  AppRoutes.adminQuickActions,
   AppRoutes.adminAppConfig,
   AppRoutes.adminOperations,
 };
@@ -30,11 +28,7 @@ bool _isPlatformAdminRoute(String location) {
   return _platformAdminRoutes.contains(_locationPath(location));
 }
 
-bool _isPartnerWorkspaceRoute(String location) {
-  final path = _locationPath(location);
-  return path == AppRoutes.adminPartners ||
-      path.startsWith('${AppRoutes.adminPartners}/');
-}
+
 
 bool _isBankWorkspaceRoute(String location) {
   final path = _locationPath(location);
@@ -64,12 +58,6 @@ String? _sanitizeRedirectTarget(String? location) {
   return trimmed;
 }
 
-bool _isRayonAdminRoute(String location) {
-  final path = _locationPath(location);
-  return path == AppRoutes.adminRayon ||
-      path.startsWith('${AppRoutes.adminRayon}/');
-}
-
 /// Resolves where the user should be redirected based on auth and role state.
 ///
 /// With anonymous auth, the splash screen handles sign-in. Once a session
@@ -83,7 +71,6 @@ String? resolveAppRedirect({
       AuthProfileRestoreState.available,
   bool isAdmin = false,
   AdminWorkspaceAccess? adminAccess,
-  bool hasRayonAdminAccess = false,
   String? sessionPhone,
   String? pendingRedirect,
 }) {
@@ -126,12 +113,7 @@ String? resolveAppRedirect({
       return AppRoutes.admin;
     }
 
-    if (_isPartnerWorkspaceRoute(path)) {
-      final partnerId = _scopedWorkspaceId(path);
-      if (partnerId == null || !adminScope.canAccessPartnerId(partnerId)) {
-        return AppRoutes.admin;
-      }
-    }
+
 
     if (_isBankWorkspaceRoute(path)) {
       final bankId = _scopedWorkspaceId(path);
@@ -140,17 +122,9 @@ String? resolveAppRedirect({
       }
     }
 
-    if (_isRayonAdminRoute(path) &&
-        !adminScope.hasPlatformAccess &&
-        !hasRayonAdminAccess) {
-      return AppRoutes.admin;
-    }
-
     if (path != AppRoutes.admin &&
         !_isPlatformAdminRoute(path) &&
-        !_isPartnerWorkspaceRoute(path) &&
         !_isBankWorkspaceRoute(path) &&
-        !_isRayonAdminRoute(path) &&
         !adminScope.hasPlatformAccess) {
       return AppRoutes.admin;
     }

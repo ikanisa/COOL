@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/rs_colors.dart';
 
 /// Displays a 6-digit fan alias in JetBrains Mono on a glass chip.
 ///
@@ -46,10 +45,7 @@ class AliasChip extends StatelessWidget {
     final displayText = showHash ? '#$alias' : alias;
 
     final style = text.mono(
-      TextStyle(
-        fontSize: size.fontSize,
-        fontWeight: FontWeight.w500,
-      ),
+      TextStyle(fontSize: size.fontSize, fontWeight: FontWeight.w500),
       color: colors.primaryText,
       letterSpacing: 2.0,
     );
@@ -60,18 +56,14 @@ class AliasChip extends StatelessWidget {
       child: Container(
         padding: size.padding,
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: RsColors.glassOpacity),
+          color: Colors.white.withValues(alpha: 0.06),
           borderRadius: BorderRadius.circular(CoolRadii.pill),
           border: Border.all(
-            color: Colors.white.withValues(alpha: RsColors.glassBorderOpacity),
+            color: Colors.white.withValues(alpha: 0.10),
             width: 1,
           ),
         ),
-        child: Text(
-          displayText,
-          style: style,
-          maxLines: 1,
-        ),
+        child: Text(displayText, style: style, maxLines: 1),
       ),
     );
   }

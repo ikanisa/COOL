@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 
-/// A shimmer-effect skeleton placeholder — Mobi × Rayon system.
+/// A shimmer-effect skeleton placeholder — Mobi × Partner system.
 ///
 /// Tight radii, dark-only colors. Respects reduced-motion preference.
 class CoolSkeleton extends StatefulWidget {

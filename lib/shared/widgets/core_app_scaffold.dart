@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/rs_colors.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
-import '../../features/rayon/widgets/partner_navigation.dart';
 
 class CoreAppScaffold extends StatelessWidget {
   const CoreAppScaffold({
@@ -14,7 +13,7 @@ class CoreAppScaffold extends StatelessWidget {
     this.actions,
     this.showBackButton = true,
     this.showHomeButton = true,
-    this.fallbackLocation = AppRoutes.rayonHome,
+    this.fallbackLocation = AppRoutes.splash,
     this.padding = const EdgeInsets.fromLTRB(18, 18, 18, 96),
     this.scrollable = true,
     super.key,
@@ -34,6 +33,22 @@ class CoreAppScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final chromeColor = colors.accentForeground;
+    
+    final resolvedActions = <Widget>[...?actions];
+    if (showHomeButton) {
+      resolvedActions.add(
+        IconButton(
+          icon: Icon(Icons.home_filled, color: chromeColor),
+          onPressed: () {
+            while (context.canPop()) {
+              context.pop();
+            }
+            context.go(AppRoutes.splash);
+          },
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: colors.appBackground,
       appBar: AppBar(
@@ -48,32 +63,33 @@ class CoreAppScaffold extends StatelessWidget {
           ),
         ),
         leading: showBackButton
-            ? buildPartnerBackButton(
-                context,
-                fallbackLocation: fallbackLocation,
-                color: chromeColor,
+            ? IconButton(
+                icon: Icon(Icons.arrow_back_rounded, color: chromeColor),
+                onPressed: () {
+                  if (context.canPop()) {
+                    context.pop();
+                  } else {
+                    context.go(fallbackLocation);
+                  }
+                },
               )
             : null,
-        title: titleWidget ??
+        title:
+            titleWidget ??
             Text(
               title,
-              style: context.coolText.rayonCondensed(
+              style: context.coolText.displayCondensed(
                 const TextStyle(fontSize: 32),
                 fontWeight: FontWeight.w900,
                 color: chromeColor,
                 letterSpacing: 0.8,
               ),
             ),
-        actions: buildPartnerAppBarActions(
-          context,
-          actions: actions,
-          showHomeButton: showHomeButton,
-          homeColor: chromeColor,
-        ),
+        actions: resolvedActions,
       ),
       body: CoolScreenBackground(
-        primaryColor: RsColors.rsRed,
-        secondaryColor: RsColors.rsGold,
+        primaryColor: colors.accent,
+        secondaryColor: colors.accentGold,
         child: SafeArea(
           top: false,
           child: scrollable

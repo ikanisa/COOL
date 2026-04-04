@@ -23,12 +23,9 @@ void main() {
   test('route inventory keeps nested routes visible', () {
     final routeInventory = buildGovernanceDocs(repoRoot).routeInventory;
 
-    expect(routeInventory, contains('`/groups/create`'));
-    expect(routeInventory, contains('`/partners/rayon-sports/clubs`'));
-    expect(
-      routeInventory,
-      contains('`/partners/rayon-sports/tickets/:ticketId/confirm`'),
-    );
-    expect(routeInventory, isNot(contains('`/partners/:id/fans`')));
+    expect(routeInventory, contains('`/profile/account`'));
+    expect(routeInventory, contains('`/momo/biopay/register`'));
+    expect(routeInventory, contains('`/admin/banks/:bankId`'));
+    expect(routeInventory, isNot(contains('`/partners/rayon-sports`')));
   });
 }

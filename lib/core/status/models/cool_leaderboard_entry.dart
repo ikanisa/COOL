@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../features/rayon/models/rs_models.dart';
-
+import 'cool_status.dart';
 /// A single row in the Cool Tokens leaderboard.
 class LeaderboardEntry extends Equatable {
   const LeaderboardEntry({
@@ -18,7 +17,7 @@ class LeaderboardEntry extends Equatable {
   final String displayName;
   final String? avatarUrl;
   final int totalPoints;
-  final FanTier tier;
+  final CoolTier tier;
 
   factory LeaderboardEntry.fromJson(Map<String, dynamic> json, int rank) {
     final points = _asInt(json['total_points']);
@@ -29,8 +28,8 @@ class LeaderboardEntry extends Equatable {
       avatarUrl: json['avatar_url']?.toString(),
       totalPoints: points,
       tier: json['tier'] != null
-          ? FanTierX.fromValue(json['tier']?.toString())
-          : FanTierX.fromPoints(points),
+          ? CoolTierX.fromValue(json['tier']?.toString())
+          : CoolTierX.fromPoints(points),
     );
   }
 

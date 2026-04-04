@@ -7,7 +7,6 @@ import '../../../core/providers/notification_settings_provider.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/services/fcm_service.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/rs_colors.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/profile_view_provider.dart';
@@ -85,7 +84,7 @@ class _ProfileSubScaffold extends StatelessWidget {
                         children: [
                           Text(
                             title,
-                            style: context.coolText.rayonCondensed(
+                            style: context.coolText.displayCondensed(
                               Theme.of(context).textTheme.headlineSmall,
                               fontWeight: FontWeight.w900,
                             ),
@@ -106,11 +105,11 @@ class _ProfileSubScaffold extends StatelessWidget {
                       width: 44,
                       height: 44,
                       decoration: BoxDecoration(
-                        color: RsColors.rsRed.withValues(alpha: 0.1),
+                        color: colors.accent.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       alignment: Alignment.center,
-                      child: Icon(icon, color: RsColors.rsRed, size: 22),
+                      child: Icon(icon, color: colors.accent, size: 22),
                     ),
                   ],
                 ),

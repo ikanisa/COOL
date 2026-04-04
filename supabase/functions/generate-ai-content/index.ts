@@ -42,14 +42,7 @@ const CONTENT_TEMPLATES = [
     cta_action: "/tokens",
     cta_label: "Earn Tokens",
   },
-  {
-    area: "rayon_sport",
-    prompt:
-      "Generate a short, engaging message about being an active football fan — attending matches, predicting scores, or engaging with a fan community. Reference Rayon Sport (Rwandan football club).",
-    icon: "⚽",
-    cta_action: "/rayon",
-    cta_label: "Fan Zone",
-  },
+
   {
     area: "general",
     prompt:

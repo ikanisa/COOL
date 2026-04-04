@@ -272,8 +272,8 @@ void main() {
         partners: const <Map<String, dynamic>>[
           <String, dynamic>{
             'id': 'partner-1',
-            'name': 'Rayon Sports',
-            'slug': 'rayon-sports',
+            'name': 'Partner Sports',
+            'slug': 'partner-sports',
             'country': 'RW',
           },
         ],
@@ -305,7 +305,7 @@ void main() {
 
       await tester.tap(_dropdownFieldWithLabel('Partner'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Rayon Sports').last);
+      await tester.tap(find.text('Partner Sports').last);
       await tester.pumpAndSettle();
 
       expect(_dropdownFieldWithLabel('Country'), findsNothing);
@@ -314,7 +314,7 @@ void main() {
       await tester.enterText(_textFieldWithLabel('Merchant code'), '008000');
       await tester.enterText(
         _textFieldWithLabel('Reconciliation label'),
-        'rayon_ticket_checkout',
+        'partner_ticket_checkout',
       );
 
       await tester.tap(_dropdownFieldWithLabel('Status'));
@@ -344,7 +344,7 @@ void main() {
       );
       expect(find.textContaining('MTN_RWANDA · code 008000'), findsOneWidget);
       expect(
-        find.textContaining('Reconciliation: rayon_ticket_checkout'),
+        find.textContaining('Reconciliation: partner_ticket_checkout'),
         findsOneWidget,
       );
     },

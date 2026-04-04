@@ -60,19 +60,10 @@ class _RoleBadge extends StatelessWidget {
   }
 }
 
-class _AdminSection {
-  const _AdminSection(this.title, this.icon, this.route, this.subtitle);
-
-  final String title;
-  final IconData icon;
-  final String route;
-  final String subtitle;
-}
-
 class _AdminCard extends StatelessWidget {
   const _AdminCard({required this.section});
 
-  final _AdminSection section;
+  final AdminWorkspaceDestination section;
 
   @override
   Widget build(BuildContext context) {

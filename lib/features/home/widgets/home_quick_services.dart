@@ -12,19 +12,14 @@ class HomeQuickServices extends StatelessWidget {
 
   static const _items = [
     (
-      icon: Icons.confirmation_number_rounded,
-      label: 'TICKETS',
-      route: AppRoutes.tickets,
+      icon: Icons.phone_android_rounded,
+      label: 'MOMO',
+      route: AppRoutes.momo,
     ),
     (
       icon: Icons.volunteer_activism_rounded,
       label: 'CONTRIBUTE',
       route: AppRoutes.contributionCircles,
-    ),
-    (
-      icon: Icons.workspace_premium_rounded,
-      label: 'REWARDS',
-      route: AppRoutes.rewards,
     ),
     (icon: Icons.qr_code_2_rounded, label: 'SCAN', route: AppRoutes.scanner),
   ];

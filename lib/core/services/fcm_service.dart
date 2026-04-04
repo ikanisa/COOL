@@ -801,11 +801,8 @@ class FcmService {
 
   bool _replacesCurrentRoute(String route) {
     return route == AppRoutes.home ||
-        route == AppRoutes.groups ||
         route == AppRoutes.profile ||
-        route == AppRoutes.partners ||
-        route == AppRoutes.momo ||
-        route == AppRoutes.missions;
+        route == AppRoutes.momo;
   }
 
   String? _resolveRoute(RemoteMessage message) {

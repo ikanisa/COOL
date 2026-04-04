@@ -86,8 +86,8 @@ class FeatureFlagsService {
       'engagement_group_captain_enabled': remoteConfig.getBool(
         'engagement_group_captain_enabled',
       ),
-      'engagement_rayon_chapter_enabled': remoteConfig.getBool(
-        'engagement_rayon_chapter_enabled',
+      'engagement_partner_chapter_enabled': remoteConfig.getBool(
+        'engagement_partner_chapter_enabled',
       ),
       'feature_biopay_enabled': remoteConfig.getBool('feature_biopay_enabled'),
       'kill_momo_payments': remoteConfig.getBool('kill_momo_payments'),

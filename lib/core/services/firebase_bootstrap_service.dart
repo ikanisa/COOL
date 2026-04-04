@@ -10,8 +10,7 @@ class FirebaseBootstrapService {
       return DefaultFirebaseOptions.currentPlatformForFlavor(EnvConfig.flavor);
     } on UnsupportedError {
       return null;
-    } on StateError catch (error) {
-      debugPrint('[Firebase] ⚠️ $error');
+    } on StateError {
       return null;
     }
   }
@@ -21,15 +20,26 @@ class FirebaseBootstrapService {
       return;
     }
 
+    if (_supportsNativeBootstrap) {
+      try {
+        await Firebase.initializeApp();
+        debugPrint('[Firebase] ✅ Initialized from native mobile config.');
+        return;
+      } catch (error) {
+        debugPrint('[Firebase] ⚠️ Native mobile bootstrap unavailable: $error');
+      }
+    }
+
     final options = currentOptions();
     if (options == null) {
       debugPrint(
-        '[Firebase] ⚠️ Unsupported platform for explicit Firebase bootstrap.',
+        '[Firebase] ⚠️ Firebase bootstrap skipped: no usable config was found.',
       );
       return;
     }
 
     await Firebase.initializeApp(options: options);
+    debugPrint('[Firebase] ✅ Initialized from explicit Dart options.');
   }
 
   Future<bool> initialize() async {
@@ -52,4 +62,9 @@ class FirebaseBootstrapService {
 
   bool _didCheck = false;
   bool _isAvailable = false;
+
+  static bool get _supportsNativeBootstrap =>
+      !kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS);
 }

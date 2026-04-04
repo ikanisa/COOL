@@ -43,7 +43,7 @@ class AdminRoleRepository {
   Future<Map<String, dynamic>> assignRole({
     required String targetUserId,
     required AdminRole role,
-    String? partnerScopeId,
+    String? bankId,
     String? notes,
   }) async {
     final result = await _client.rpc(
@@ -51,9 +51,9 @@ class AdminRoleRepository {
       params: {
         'p_target_user_id': targetUserId,
         'p_role': role.dbValue,
-        ...?(partnerScopeId == null
+        ...?(bankId == null
             ? null
-            : <String, dynamic>{'p_partner_scope_id': partnerScopeId}),
+            : <String, dynamic>{'p_partner_scope_id': bankId}),
         ...?(notes == null ? null : <String, dynamic>{'p_notes': notes}),
       },
     );

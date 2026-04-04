@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/rs_colors.dart';
 import '../../../shared/widgets/atmospheric_background.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_toast.dart';
@@ -177,8 +176,8 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                         shape: BoxShape.circle,
                         gradient: RadialGradient(
                           colors: [
-                            RsColors.rsGold.withValues(alpha: 0.25),
-                            RsColors.rsGold.withValues(alpha: 0.08),
+                            colors.accentGold.withValues(alpha: 0.25),
+                            colors.accentGold.withValues(alpha: 0.08),
                             Colors.transparent,
                           ],
                           stops: const [0.0, 0.5, 1.0],
@@ -192,11 +191,11 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                           shape: BoxShape.circle,
                           color: _isError
                               ? colors.danger.withValues(alpha: 0.12)
-                              : RsColors.rsGold.withValues(alpha: 0.12),
+                              : colors.accentGold.withValues(alpha: 0.12),
                           border: Border.all(
                             color: _isError
                                 ? colors.danger.withValues(alpha: 0.3)
-                                : RsColors.rsGold.withValues(alpha: 0.3),
+                                : colors.accentGold.withValues(alpha: 0.3),
                             width: 2,
                           ),
                         ),
@@ -208,7 +207,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                               ? Icons.check_circle_outline_rounded
                               : Icons.nfc_rounded,
                           size: 42,
-                          color: _isError ? colors.danger : RsColors.rsGold,
+                          color: _isError ? colors.danger : colors.accentGold,
                         ),
                       ),
                     ),
@@ -237,7 +236,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                         border: Border.all(
                           color: _isError
                               ? colors.danger.withValues(alpha: 0.15)
-                              : RsColors.rsGold.withValues(alpha: 0.15),
+                              : colors.accentGold.withValues(alpha: 0.15),
                         ),
                       ),
                       child: Text(
@@ -286,7 +285,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                     child: Text(
                       'NFC SCAN',
                       textAlign: TextAlign.center,
-                      style: context.coolText.rayonCondensed(
+                      style: context.coolText.displayCondensed(
                         Theme.of(context).textTheme.titleLarge,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 0.5,

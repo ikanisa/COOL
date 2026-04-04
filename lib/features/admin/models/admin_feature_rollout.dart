@@ -26,7 +26,7 @@ class AdminFeatureRolloutConfig {
     const _ManagedFeatureSpec(
       key: 'ticket_purchase',
       label: 'Ticketing',
-      description: 'Gate Rayon Sports ticket',
+      description: 'Gate Partner ticket',
       killSwitchKey: 'kill_ticket_purchase',
     ),
   ];

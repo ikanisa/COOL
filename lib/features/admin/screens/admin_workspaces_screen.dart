@@ -7,7 +7,9 @@ import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/dense_admin_workspace_scaffold.dart';
 import '../../../shared/widgets/admin_section_header.dart';
-import '../../partners/models/partner.dart';
+
+import '../models/admin_workspace_catalog.dart';
+import '../providers/admin_providers.dart';
 import '../providers/admin_workspace_access_provider.dart';
 import '../widgets/admin_workspace_gate.dart';
 import '../../../core/l10n/l10n.dart';
@@ -27,8 +29,8 @@ class AdminWorkspacesScreen extends ConsumerWidget {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     final access = ref.watch(adminWorkspaceAccessProvider);
-    final partnerWorkspaces = ref.watch(adminPartnerWorkspacesProvider);
-    final bankWorkspaces = ref.watch(adminBankWorkspacesProvider);
+    final partnersAsync = ref.watch(adminPartnersProvider);
+
     if (!access.hasAnyAdminAccess) {
       return AdminAccessDeniedScaffold(
         title: context.l10n.adminWorkspaces,
@@ -53,7 +55,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
           ),
           const SizedBox(height: CoolSpace.x2),
           Text(
-            'Open the right control surface for platform, partner, or bank operations.',
+            'Open the right control surface for platform or bank operations.',
             style: theme.textTheme.bodySmall?.copyWith(
               color: colors.secondaryText,
               fontWeight: FontWeight.w600,
@@ -61,37 +63,11 @@ class AdminWorkspacesScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: CoolSpace.x6),
-          _IntroCard(hasPlatformAccess: access.hasPlatformAccess),
-          if (access.hasPartnerAdminAccess) ...[
-            const SizedBox(height: CoolSpace.x6),
-            const AdminSectionHeader(
-              title: 'Partner Workspaces',
-              message: 'Scoped partner operations assigned to this account.',
-            ),
-            const SizedBox(height: CoolSpace.x3),
-            _WorkspaceCollection(
-              asyncPartners: partnerWorkspaces,
-              emptyLabel: 'No partner workspaces assigned.',
-              onTap: (partner) => context.push(
-                AppRoutes.adminPartnerWorkspaceLocation(partner.id),
-              ),
-            ),
-          ],
-          if (access.hasBankAdminAccess) ...[
-            const SizedBox(height: CoolSpace.x6),
-            const AdminSectionHeader(
-              title: 'Bank Custodian Workspaces',
-              message: 'Scoped bank operations assigned to this account.',
-            ),
-            const SizedBox(height: CoolSpace.x3),
-            _WorkspaceCollection(
-              asyncPartners: bankWorkspaces,
-              emptyLabel: 'No bank workspaces assigned.',
-              onTap: (partner) => context.push(
-                AppRoutes.adminBankWorkspaceLocation(partner.id),
-              ),
-            ),
-          ],
+          _IntroCard(
+            hasPlatformAccess: access.hasPlatformAccess,
+            hasBankAccess: access.hasBankAdminAccess,
+          ),
+
           if (access.hasPlatformAccess) ...[
             const SizedBox(height: CoolSpace.x6),
             AdminSectionHeader(
@@ -105,12 +81,48 @@ class AdminWorkspacesScreen extends ConsumerWidget {
               icon: Icons.admin_panel_settings_outlined,
               onTap: () => context.push(AppRoutes.adminPlatform),
             ),
+          ],
+
+          if (access.hasBankAdminAccess) ...[
+            const SizedBox(height: CoolSpace.x6),
+            const AdminSectionHeader(
+              title: 'Bank Workspaces',
+              message: 'Allocation review, custody, and ledger exports.',
+            ),
             const SizedBox(height: CoolSpace.x3),
-            _WorkspaceCard(
-              title: 'Rayon Sports',
-              subtitle: 'Matches, tickets, shop, membership, and engagement.',
-              icon: Icons.sports_soccer_rounded,
-              onTap: () => context.push(AppRoutes.adminRayon),
+            partnersAsync.when(
+              data: (partners) {
+                final workspaces = buildBankAdminDestinations(
+                  access: access,
+                  partners: partners,
+                );
+                if (workspaces.isEmpty) {
+                  return const _WorkspaceEmptyState(
+                    message: 'No bank workspace is assigned yet.',
+                  );
+                }
+                return Column(
+                  children: [
+                    for (final workspace in workspaces) ...[
+                      _WorkspaceCard(
+                        title: workspace.title,
+                        subtitle: workspace.subtitle,
+                        icon: workspace.icon,
+                        onTap: () => context.push(workspace.route),
+                      ),
+                      if (workspace != workspaces.last)
+                        const SizedBox(height: CoolSpace.x3),
+                    ],
+                  ],
+                );
+              },
+              loading: () => const Padding(
+                padding: EdgeInsets.symmetric(vertical: CoolSpace.x2),
+                child: LinearProgressIndicator(minHeight: 2),
+              ),
+              error: (error, stackTrace) => const _WorkspaceEmptyState(
+                message: 'Bank workspaces failed to load.',
+              ),
             ),
           ],
         ],
@@ -119,10 +131,35 @@ class AdminWorkspacesScreen extends ConsumerWidget {
   }
 }
 
+class _WorkspaceEmptyState extends StatelessWidget {
+  const _WorkspaceEmptyState({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    return CoolCard(
+      child: Text(
+        message,
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: colors.secondaryText,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+}
+
 class _IntroCard extends StatelessWidget {
-  const _IntroCard({required this.hasPlatformAccess});
+  const _IntroCard({
+    required this.hasPlatformAccess,
+    required this.hasBankAccess,
+  });
 
   final bool hasPlatformAccess;
+  final bool hasBankAccess;
 
   @override
   Widget build(BuildContext context) {
@@ -158,6 +195,8 @@ class _IntroCard extends StatelessWidget {
                   label: 'Platform Admin',
                   color: Color(0xFF2ECC71),
                 ),
+              if (hasBankAccess)
+                const _RoleChip(label: 'Bank Admin', color: Color(0xFF2D7FF9)),
             ],
           ),
         ],
@@ -190,50 +229,6 @@ class _RoleChip extends StatelessWidget {
           letterSpacing: 0.7,
         ),
       ),
-    );
-  }
-}
-
-class _WorkspaceCollection extends StatelessWidget {
-  const _WorkspaceCollection({
-    required this.asyncPartners,
-    required this.emptyLabel,
-    required this.onTap,
-  });
-
-  final AsyncValue<List<Partner>> asyncPartners;
-  final String emptyLabel;
-  final void Function(Partner partner) onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return asyncPartners.when(
-      data: (partners) {
-        if (partners.isEmpty) {
-          return Text(emptyLabel);
-        }
-
-        return Column(
-          children: [
-            for (var index = 0; index < partners.length; index++) ...[
-              _WorkspaceCard(
-                title: partners[index].name,
-                subtitle:
-                    partners[index].subtitle ??
-                    '${partners[index].country} · ${partners[index].category.dbValue}',
-                icon: partners[index].isBank
-                    ? Icons.account_balance_rounded
-                    : Icons.sports_soccer_rounded,
-                onTap: () => onTap(partners[index]),
-              ),
-              if (index != partners.length - 1)
-                const SizedBox(height: CoolSpace.x3),
-            ],
-          ],
-        );
-      },
-      loading: () => const LinearProgressIndicator(minHeight: 2),
-      error: (_, _) => Text(emptyLabel),
     );
   }
 }

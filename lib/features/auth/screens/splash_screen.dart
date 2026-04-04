@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/brand/app_brand.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/rs_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_brand_mark.dart';
 import '../../../core/l10n/l10n.dart';
@@ -14,10 +13,9 @@ import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../providers/auth_provider.dart';
 
-/// Animated splash screen — ROUGEBLACK design system.
+/// Animated splash screen
 ///
-/// Renders the club crest over a deep-navy cinematic background with
-/// staggered fade-in + scale animation. Auto-signs-in anonymously.
+/// Auto-signs-in anonymously.
 /// The router-level redirect handles transition to `/home` once
 /// a session is established.
 class SplashScreen extends ConsumerStatefulWidget {
@@ -112,7 +110,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
     return CoolScreenBackground(
       showGlow: true,
-      primaryColor: RsColors.rsRed,
+      primaryColor: brand.primaryColor,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Center(
@@ -123,14 +121,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // ── Club crest + title ─────────────────────────────
                   FadeTransition(
                     opacity: _logoFade,
                     child: ScaleTransition(
                       scale: _logoScale,
                       child: Column(
                         children: [
-                          // Glass-framed crest
                           Container(
                             width: 120,
                             height: 120,
@@ -148,11 +144,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                           ),
                           SizedBox(height: space.x4),
 
-                          // Title — Barlow Condensed uppercase
                           Text(
                             brand.splashTitle,
                             textAlign: TextAlign.center,
-                            style: context.coolText.rayonCondensed(
+                            style: context.coolText.displayCondensed(
                               theme.textTheme.headlineMedium,
                               fontWeight: FontWeight.w900,
                               color: colors.primaryText,
@@ -166,7 +161,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
                   SizedBox(height: space.x3),
 
-                  // ── Subtitle — staggered ─────────────────────────
                   FadeTransition(
                     opacity: _textFade,
                     child: Text(
@@ -183,18 +177,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
                   SizedBox(height: space.x6),
 
-                  // ── Loading indicator ─────────────────────────────
                   if (authState.isLoading || isRestorePending)
-                    const SizedBox(
+                    SizedBox(
                       width: 22,
                       height: 22,
                       child: CupertinoActivityIndicator(
                         radius: 11,
-                        color: RsColors.rsRed,
+                        color: brand.primaryColor,
                       ),
                     ),
 
-                  // ── Error card ────────────────────────────────────
                   AnimatedSwitcher(
                     duration: CoolMotion.medium,
                     child: !showRestoreFailure

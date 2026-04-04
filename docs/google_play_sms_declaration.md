@@ -24,9 +24,8 @@ That verification is used to reconcile:
 
 - community group contributions
 - saving-group related payments
-- Rayon Sports tickets
-- Rayon Sports shop orders
-- Rayon Sports support / initiative contributions
+- bank-managed custody collections
+- manual-review payment allocations resolved through admin workflows
 
 Without Android SMS access, the app cannot automatically confirm whether the
 payment actually completed after the USSD handoff.

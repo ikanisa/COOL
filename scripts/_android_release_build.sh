@@ -56,9 +56,14 @@ _require_build_env() {
   # ── CRITICAL BLOCKER: Supabase env vars are mandatory for ANY Android build ──
   : "${SUPABASE_URL:?CRITICAL BLOCKER — Set SUPABASE_URL before building ANY APK or AAB. The app will crash or show a config error screen without it.}"
   : "${SUPABASE_ANON_KEY:?CRITICAL BLOCKER — Set SUPABASE_ANON_KEY before building ANY APK or AAB. The app will crash or show a config error screen without it.}"
+  local native_firebase_config="$ROOT_DIR/android/app/src/production/google-services.json"
+  if [[ ! -f "$native_firebase_config" ]]; then
+    echo "CRITICAL BLOCKER — Missing Firebase Android config at $native_firebase_config." >&2
+    return 1
+  fi
   # Firebase keys are optional build-time overrides (google-services.json is the runtime source).
   if [[ -z "${FIREBASE_ANDROID_PRODUCTION_API_KEY:-}" ]]; then
-    echo "⚠️  FIREBASE_ANDROID_PRODUCTION_API_KEY not set; Firebase will use google-services.json defaults." >&2
+    echo "⚠️  FIREBASE_ANDROID_PRODUCTION_* overrides not set; Firebase will use $native_firebase_config." >&2
   fi
 }
 
@@ -80,6 +85,11 @@ _load_release_env() {
       COOL_TERMS_OF_SERVICE_URL \
       COOL_ACCOUNT_DELETION_URL \
       ENABLE_ANDROID_MOMO_SMS_AUTOREAD \
+      FIREBASE_ANDROID_STAGING_API_KEY \
+      FIREBASE_ANDROID_STAGING_APP_ID \
+      FIREBASE_ANDROID_STAGING_MESSAGING_SENDER_ID \
+      FIREBASE_ANDROID_STAGING_PROJECT_ID \
+      FIREBASE_ANDROID_STAGING_STORAGE_BUCKET \
       FIREBASE_ANDROID_PRODUCTION_API_KEY \
       FIREBASE_ANDROID_PRODUCTION_APP_ID \
       FIREBASE_ANDROID_PRODUCTION_MESSAGING_SENDER_ID \

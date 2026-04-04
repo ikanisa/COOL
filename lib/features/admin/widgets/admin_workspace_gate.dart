@@ -204,3 +204,26 @@ class PlatformAdminGate extends ConsumerWidget {
     );
   }
 }
+
+class BankAdminWorkspaceGate extends ConsumerWidget {
+  const BankAdminWorkspaceGate({
+    required this.bankId,
+    required this.child,
+    super.key,
+  });
+
+  final String bankId;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final access = ref.watch(adminWorkspaceAccessProvider);
+    if (access.canAccessBankId(bankId)) {
+      return child;
+    }
+    return const AdminAccessDeniedScaffold(
+      title: 'Bank Workspace',
+      message: 'This bank workspace is outside your assigned scope.',
+    );
+  }
+}

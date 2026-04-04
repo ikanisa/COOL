@@ -59,7 +59,7 @@ void main() {
         violations,
         isEmpty,
         reason:
-            'Feature code should use context.coolText.rayon() '
+            'Feature code should use context.coolText.display() '
             'instead of raw GoogleFonts.barlow().\n'
             'Violations:\n${violations.join('\n')}',
       );

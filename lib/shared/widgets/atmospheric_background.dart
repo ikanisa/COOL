@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../../core/theme/rs_colors.dart';
+import '../../core/theme/cool_foundations.dart';
 
 /// Atmospheric blurred-blob background layer matching the React
 /// `AtmosphericBackground` component.
@@ -23,6 +23,7 @@ class AtmosphericBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return Positioned.fill(
       child: IgnorePointer(
         child: Stack(
@@ -34,7 +35,7 @@ class AtmosphericBackground extends StatelessWidget {
               child: _AnimatedBlob(
                 width: MediaQuery.sizeOf(context).width * 0.4,
                 height: MediaQuery.sizeOf(context).height * 0.4,
-                color: RsColors.rsRed.withValues(alpha: 0.10),
+                color: colors.accent.withValues(alpha: 0.10),
                 blurSigma: 60,
                 animate: true,
               ),
@@ -47,7 +48,7 @@ class AtmosphericBackground extends StatelessWidget {
               child: _AnimatedBlob(
                 width: MediaQuery.sizeOf(context).width * 0.5,
                 height: MediaQuery.sizeOf(context).height * 0.5,
-                color: RsColors.rsRed.withValues(alpha: 0.05),
+                color: colors.accent.withValues(alpha: 0.05),
                 blurSigma: 75,
                 animate: false,
               ),
@@ -60,7 +61,7 @@ class AtmosphericBackground extends StatelessWidget {
               child: _AnimatedBlob(
                 width: MediaQuery.sizeOf(context).width * 0.3,
                 height: MediaQuery.sizeOf(context).height * 0.3,
-                color: RsColors.rsGold.withValues(alpha: 0.05),
+                color: colors.accentGold.withValues(alpha: 0.05),
                 blurSigma: 50,
                 animate: true,
                 delay: const Duration(seconds: 2),
@@ -112,9 +113,10 @@ class _AnimatedBlobState extends State<_AnimatedBlob>
       vsync: this,
       duration: const Duration(seconds: 4),
     );
-    _opacity = Tween<double>(begin: 0.6, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _opacity = Tween<double>(
+      begin: 0.6,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -166,19 +168,14 @@ class _AnimatedBlobState extends State<_AnimatedBlob>
       child: Container(
         width: widget.width,
         height: widget.height,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: widget.color,
-        ),
+        decoration: BoxDecoration(shape: BoxShape.circle, color: widget.color),
       ),
     );
 
     if (!widget.animate) return child;
 
     return FadeTransition(
-      opacity: _started
-          ? _opacity
-          : const AlwaysStoppedAnimation(0.8),
+      opacity: _started ? _opacity : const AlwaysStoppedAnimation(0.8),
       child: child,
     );
   }
@@ -201,10 +198,7 @@ class _MobiGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      child: CustomPaint(
-        painter: _MobiGridPainter(),
-        size: Size.infinite,
-      ),
+      child: CustomPaint(painter: _MobiGridPainter(), size: Size.infinite),
     );
   }
 }

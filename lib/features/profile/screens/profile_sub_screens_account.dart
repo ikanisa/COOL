@@ -27,15 +27,15 @@ class AccountDetailsScreen extends ConsumerWidget {
                     width: 64,
                     height: 64,
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [RsColors.rsNavyLight, RsColors.rsRed],
+                      gradient: LinearGradient(
+                        colors: [colors.accent, colors.info],
                       ),
                       borderRadius: BorderRadius.circular(CoolRadii.lg),
                     ),
                     alignment: Alignment.center,
                     child: Text(
                       profile.initials,
-                      style: context.coolText.rayonCondensed(
+                      style: context.coolText.displayCondensed(
                         Theme.of(context).textTheme.headlineMedium,
                         fontWeight: FontWeight.w900,
                         color: Colors.white,
@@ -51,7 +51,7 @@ class AccountDetailsScreen extends ConsumerWidget {
                           profile.name.isNotEmpty
                               ? profile.name.toUpperCase()
                               : 'ANONYMOUS FAN',
-                          style: context.coolText.rayonCondensed(
+                          style: context.coolText.displayCondensed(
                             Theme.of(context).textTheme.titleLarge,
                             fontWeight: FontWeight.w900,
                           ),

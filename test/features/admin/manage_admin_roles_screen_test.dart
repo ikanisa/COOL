@@ -47,13 +47,13 @@ class FakeAdminRoleRepository extends AdminRoleRepository {
   Future<Map<String, dynamic>> assignRole({
     required String targetUserId,
     required AdminRole role,
-    String? partnerScopeId,
+    String? bankId,
     String? notes,
   }) async {
     assignedRoles.add(<String, dynamic>{
       'targetUserId': targetUserId,
       'role': role,
-      'partnerScopeId': partnerScopeId,
+      'bankId': bankId,
       'notes': notes,
     });
     return <String, dynamic>{'id': 'assignment-${assignedRoles.length}'};
@@ -95,7 +95,7 @@ void _configureTallViewport(WidgetTester tester) {
 }
 
 void main() {
-  testWidgets('assigns a bank admin role with partner scope', (tester) async {
+  testWidgets('assigns a bank admin role with bank scope', (tester) async {
     _configureTallViewport(tester);
     final repository = FakeAdminRoleRepository(
       assignments: <AdminRoleAssignment>[
@@ -122,8 +122,8 @@ void main() {
                 'category': 'bank',
               },
               <String, dynamic>{
-                'id': 'partner-rayon-1',
-                'name': 'Rayon Sports',
+                'id': 'partner-partner-1',
+                'name': 'Partner Sports',
                 'category': 'football',
               },
             ],
@@ -141,7 +141,7 @@ void main() {
     await tester.tap(find.widgetWithText(ChoiceChip, 'Bank Admin'));
     await tester.pumpAndSettle();
 
-    await tester.tap(_dropdownFieldWithLabel('Partner Scope'));
+    await tester.tap(_dropdownFieldWithLabel('Bank Scope'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Urwego').last);
     await tester.pumpAndSettle();
@@ -152,7 +152,7 @@ void main() {
     expect(repository.assignedRoles, hasLength(1));
     expect(repository.assignedRoles.single['targetUserId'], 'user-42');
     expect(repository.assignedRoles.single['role'], AdminRole.bank);
-    expect(repository.assignedRoles.single['partnerScopeId'], 'partner-bank-1');
+    expect(repository.assignedRoles.single['bankId'], 'partner-bank-1');
   });
 
   testWidgets('revokes an existing admin role assignment', (tester) async {
@@ -163,7 +163,7 @@ void main() {
           id: 'assignment-1',
           userId: 'user-1',
           role: AdminRole.bank,
-          partnerName: 'Urwego',
+          bankName: 'Urwego',
           userName: 'Alice',
           userPhone: '+250788000111',
           grantedAt: DateTime(2026, 3, 1),

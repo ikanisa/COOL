@@ -6,22 +6,17 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/rs_colors.dart';
 import '../../../core/providers/engagement_providers.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../biopay/providers/biopay_providers.dart';
-import '../../rayon/providers/rayon_sports_provider.dart';
 import '../providers/profile_view_provider.dart';
 import '../widgets/profile_dialogs.dart';
 
-part 'profile_screen_parts.dart';
-
 // ─────────────────────────────────────────────────────────────────────
-// ProfileScreen — faithful replica of the React reference screenshots
-// Sections: Header → ROUGEBLACK Membership Card → FAN IDENTITY →
-//   APP SETTINGS → SUPPORT (with LOGOUT in red)
+// ProfileScreen
+// Sections: Header → IDENTITY → APP SETTINGS → SUPPORT
 // ─────────────────────────────────────────────────────────────────────
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -60,18 +55,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final topPad = MediaQuery.viewPaddingOf(context).top;
     final bottomPad = MediaQuery.viewPaddingOf(context).bottom;
 
-    final membership = ref.watch(rayonMembershipProvider);
-    final rayon = ref.watch(rayonSportsDataProvider);
     final profile = ref.watch(profileViewProvider);
     final authState = ref.watch(authProvider);
     final featureFlags = ref.watch(featureFlagsStateProvider);
     final biopayProfile = ref.watch(biopayProfileProvider);
 
-    final mem = membership.valueOrNull ?? rayon.valueOrNull?.membership;
-    final memberId = profile.userId;
-    final tier = mem != null ? mem.tier.name.toUpperCase() : 'GUEST';
-    final tokens = mem?.points ?? 0;
-    final progress = mem?.progressToNextTier ?? 0.0;
     final faceIdEnabled = featureFlags.isBiopayEnabled(
       isAdmin: authState.user?.isAdmin ?? false,
     );
@@ -138,13 +126,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         children: [
                           Text(
                             'SETTINGS',
-                            style: context.coolText.rayonCondensed(
+                            style: context.coolText.displayCondensed(
                               Theme.of(context).textTheme.headlineSmall,
                               fontWeight: FontWeight.w900,
                             ),
                           ),
                           Text(
-                            'FAN IDENTITY',
+                            'IDENTITY',
                             style: context.coolText.mono(
                               Theme.of(context).textTheme.labelSmall,
                               fontWeight: FontWeight.w700,
@@ -160,13 +148,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       width: 44,
                       height: 44,
                       decoration: BoxDecoration(
-                        color: RsColors.rsRed.withValues(alpha: 0.1),
+                        color: colors.accent.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       alignment: Alignment.center,
-                      child: const Icon(
+                      child: Icon(
                         Icons.verified_user_rounded,
-                        color: RsColors.rsRed,
+                        color: colors.accent,
                         size: 22,
                       ),
                     ),
@@ -185,40 +173,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
               sliver: SliverList.list(
                 children: [
-                  // ── 1. Blue Membership Card ───────────────────────
-                  _MembershipCard(
-                    memberId: memberId,
-                    tier: tier,
-                    tokens: tokens,
-                    progress: progress,
-                  ),
                   const SizedBox(height: CoolSpace.x6),
 
                   // ── 2. FAN IDENTITY section ───────────────────────
-                  const _SectionLabel(label: 'FAN IDENTITY'),
+                  const _SectionLabel(label: 'IDENTITY'),
                   const SizedBox(height: CoolSpace.x3),
                   _GlassCard(
                     child: Column(
                       children: [
-                        _SettingsRow(
-                          icon: Icons.emoji_events_outlined,
-                          title: 'FAN REWARDS',
-                          subtitle: 'POINTS, ACTIVITIES & PERKS',
-                          onTap: () => context.push(AppRoutes.rewards),
-                        ),
-                        _SettingsDivider(),
+
                         _SettingsRow(
                           icon: Icons.receipt_long_outlined,
                           title: 'ORDER HISTORY',
                           subtitle: '3 RECENT ORDERS',
                           onTap: () => context.push(AppRoutes.profileOrders),
-                        ),
-                        _SettingsDivider(),
-                        _SettingsRow(
-                          icon: Icons.confirmation_number_outlined,
-                          title: 'MY TICKETS',
-                          subtitle: '2 UPCOMING MATCHES',
-                          onTap: () => context.push(AppRoutes.rayonMyTickets),
                         ),
                       ],
                     ),
@@ -257,7 +225,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         _SettingsRow(
                           icon: Icons.notifications_none_rounded,
                           title: 'NOTIFICATIONS',
-                          subtitle: 'MATCH ALERTS & NEWS',
+                          subtitle: 'ALERTS & NEWS',
                           onTap: () =>
                               context.push(AppRoutes.profileNotifications),
                         ),
@@ -287,7 +255,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         _SettingsDivider(),
                         _SettingsRow(
                           icon: Icons.info_outline_rounded,
-                          title: 'ABOUT RAYON APP',
+                          title: 'ABOUT SUPER APP',
                           subtitle: 'VERSION 2.4.0',
                           onTap: () => context.push(AppRoutes.profileAbout),
                         ),
@@ -307,6 +275,142 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _SectionLabel extends StatelessWidget {
+  const _SectionLabel({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    return Text(
+      label,
+      style: context.coolText.mono(
+        Theme.of(context).textTheme.labelSmall,
+        fontWeight: FontWeight.w700,
+        color: colors.secondaryText,
+        letterSpacing: 2.0,
+      ),
+    );
+  }
+}
+
+class _SettingsRow extends StatelessWidget {
+  const _SettingsRow({
+    required this.icon,
+    required this.title,
+    this.subtitle,
+    this.isDestructive = false,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+  final bool isDestructive;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final textColor = isDestructive
+        ? const Color(0xFFEF5350)
+        : colors.primaryText;
+    final iconColor = isDestructive
+        ? const Color(0xFFEF5350)
+        : colors.primaryText;
+
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: CoolSpace.x4),
+        child: Row(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.05),
+                borderRadius: BorderRadius.circular(CoolRadii.md),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+              ),
+              alignment: Alignment.center,
+              child: Icon(icon, color: iconColor, size: 22),
+            ),
+            const SizedBox(width: CoolSpace.x4),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: context.coolText.mono(
+                      Theme.of(context).textTheme.titleSmall,
+                      fontWeight: FontWeight.w800,
+                      color: textColor,
+                      letterSpacing: 0.8,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (subtitle != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle!,
+                      style: context.coolText.mono(
+                        Theme.of(context).textTheme.labelSmall,
+                        fontWeight: FontWeight.w600,
+                        color: colors.secondaryText,
+                        letterSpacing: 0.8,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            Icon(
+              Icons.chevron_right_rounded,
+              color: colors.secondaryText,
+              size: 20,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SettingsDivider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Divider(height: 1, color: Colors.white.withValues(alpha: 0.06));
+  }
+}
+
+class _GlassCard extends StatelessWidget {
+  const _GlassCard({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: CoolSpace.x5,
+        vertical: CoolSpace.x2,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(CoolRadii.xl),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+      ),
+      child: child,
     );
   }
 }

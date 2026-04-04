@@ -14,7 +14,7 @@ enum CoolEventType {
   matchAttendance, // ticket used at match (scanned)
   initiativeSupport, // initiative contribution confirmed
   clubJoined, // fan club membership created
-  merchandisePurchase, // rayon merchandise bought
+  merchandisePurchase, // partner merchandise bought
   matchPrediction, // match prediction submitted
   inviteQualified, // invitee completed qualifying action
   profileCompleted, // user filled in all profile details

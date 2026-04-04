@@ -40,10 +40,7 @@ const allowedComponents = new Map<string, Set<string>>([
       "momo_sms_ingestion",
     ]),
   ],
-  [
-    "partner_checkout",
-    new Set<string>(["rayon_ticket", "rayon_shop", "rayon_support"]),
-  ],
+
 ]);
 
 const allowedStatuses = new Set<OperationalEventStatus>(["ok", "warn", "error"]);

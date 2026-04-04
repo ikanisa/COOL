@@ -28,7 +28,7 @@ class CoolAchievement extends Equatable {
   final bool isEarned;
   final DateTime? earnedAt;
 
-  /// The feature where this achievement was earned (e.g., 'groups', 'rayon')
+  /// The feature where this achievement was earned (e.g., 'groups', 'partner')
   final String? featureContext;
 
   /// Bonus tokens awarded for unlocking this achievement

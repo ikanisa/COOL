@@ -34,7 +34,7 @@ That covers:
 - `flutter analyze`
 - `flutter test`
 - `dart tool/deep_link_release_assets.dart --check`
-- `deno test supabase/functions/parse-momo-sms/rayon_confirmation_test.ts`
+- `deno test supabase/functions/parse-momo-sms/reconciliation_test.ts`
 
 When release metadata changes, regenerate the committed association files first:
 
@@ -59,23 +59,23 @@ RUN_MIGRATION_APPLY=1 DATABASE_URL="postgresql://..." bash scripts/release_readi
 
 | ID | Scope | Status | Notes |
 |---|---|---|---|
-| QA-01 | Payment confirmation idempotency | Automated | Duplicate Rayon ticket, shop, and support confirmations are covered by `rayon_confirmation_test.ts`. |
-| QA-02 | Auth routing and profile gating | Automated | Redirect rules are covered by `test/core/app_router_redirect_test.dart`. |
-| QA-03 | Rayon flow smoke coverage | Automated + manual | Notifier smoke tests cover membership load, clubs, tickets, shop, and support. Manual UI pass is still required on device. |
+| QA-01 | Payment confirmation idempotency | Automated | Duplicate MoMo confirmations are covered by the `parse-momo-sms` reconciliation tests. |
+| QA-02 | Auth routing and profile gating | Automated | Route gating and redirect preservation are covered by `test/core/app_router_feature_gate_test.dart` and `test/integration_smoke/deep_link_test.dart`. |
+| QA-03 | Critical journey smoke coverage | Automated + manual | Host-side smoke tests cover boot, deep links, and MoMo; a connected-device UI pass is still required. |
 | QA-04 | Release readiness review | Mixed | Automated checks are scripted. Route inventory, screen budget, smoke coverage, and the operations dashboard are PR/release gates. |
 
-## Manual Rayon Smoke Pass
+## Manual Critical Journey Pass
 
 Run these on an Android release build before submission:
 
 1. Sign in from a cold start and confirm splash, onboarding, OTP, and register transitions preserve the intended redirect target.
-2. Open Rayon Sports and verify membership card, profile, and registry load without placeholder or empty-state regressions.
-3. Join a fan club and confirm the success state survives app resume.
-4. Add shop items to cart, start checkout, and confirm the MoMo handoff message shows the expected amount and MTN code.
-5. Open support initiatives, start a contribution, and confirm the MoMo handoff appears with the expected amount.
-6. Buy a ticket, confirm the pending ticket appears, and complete the SMS confirmation flow until the ticket becomes valid.
-7. Open My Tickets and Ticket Confirmation, then verify the QR and status surfaces render without missing data and do not expose deferred wallet actions.
-8. Open Admin > Operations and confirm there are no critical payment sync, Edge Function, or config triage items, and that MoMo parsing is not failing.
+2. Open Home, Contribution Circles, and MoMo statements; verify each surface renders without placeholder or empty-state regressions.
+3. Start a contribution flow and confirm the MoMo handoff displays the expected amount and route details.
+4. Complete the SMS confirmation flow and verify the reconciled transaction appears in statements without duplication.
+5. Open BioPay register, scan, and NFC entry points and verify unsupported-device messaging is graceful where required.
+6. Open Admin > Workspaces and confirm platform and bank access gates only show authorized destinations.
+7. Open at least one bank workspace and verify allocations, group ledgers, and export actions render without missing data.
+8. Open Admin > Operations and confirm there are no critical payment sync, Edge Function, or config triage items.
 
 ## Permission Review
 

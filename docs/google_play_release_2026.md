@@ -29,16 +29,17 @@ the remaining Google Play and Firebase work.
   mints sessions through the app's deterministic internal email identity path.
 - OTP abuse controls are now enforced server-side with per-phone and per-IP
   rate limits plus deterministic auth-user lookup.
-- Cool is implemented as a USSD/SMS reconciliation bridge, not as the general
-  recipient of group or partner funds.
+- Cool is implemented as a USSD/SMS reconciliation bridge for community-group
+  collections, bank-managed custody flows, and BioPay-adjacent settlement
+  verification.
 - Community-group collections already route to recipient data stored on
   `public.groups`:
   - `receiving_momo_code`
   - `receiving_momo_route_type`
   - `momo_number`
-- Partner routing is only partially dynamic today:
-  - Rayon Sports still uses a hardcoded MoMo code in app code: `008000`
-  - Bank/saving group collection routes are not yet modeled in `public.partners`
+- Active mobile flows no longer depend on a hardcoded Rayon-specific MoMo code.
+- Bank workspace allocations and service routing are administered from
+  Supabase-backed config instead of app-side brand-specific constants.
 
 ## Official Requirement Summary
 
@@ -114,13 +115,13 @@ the remaining Google Play and Firebase work.
    - Result: the Play Console Data safety form and Ads / Ad ID declaration
      still need to be completed against the actual release artifact.
 
-5. Partner-routing implementation is not fully aligned with the intended
-   dynamic recipient architecture.
+5. Dynamic recipient-routing still needs production verification across all
+   managed bank workspaces.
    - Community groups already store their own recipient route in Supabase.
-   - Rayon Sports still uses a hardcoded app-side MoMo code.
-   - Bank/saving group collection routes remain static or unmapped in `public.partners`.
-   - Result: if production requires all bank/partner recipients to be managed
-     from Supabase partner records, that implementation remains open.
+   - Active mobile clients no longer hardcode a Rayon-specific route, but
+     historical migrations still carry legacy partner assumptions.
+   - Result: validate that every production bank workspace is backed by the
+     intended Supabase recipient config before the next Play upload.
 
 6. Store listing assets are still incomplete.
    - App icon and in-app branding assets are implemented.

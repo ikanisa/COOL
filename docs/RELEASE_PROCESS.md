@@ -137,11 +137,11 @@ Staff (internal) → Beta (1-2 weeks soak) → Production
 | `STORE_PASSWORD` | Store password |
 | `SUPABASE_URL` | Production Supabase project URL passed via `--dart-define` |
 | `SUPABASE_ANON_KEY` | Production Supabase anon key passed via `--dart-define` |
-| `FIREBASE_ANDROID_PRODUCTION_API_KEY` | Android production Firebase API key |
-| `FIREBASE_ANDROID_PRODUCTION_APP_ID` | Android production Firebase app id |
-| `FIREBASE_ANDROID_PRODUCTION_MESSAGING_SENDER_ID` | Android production Firebase sender id |
-| `FIREBASE_ANDROID_PRODUCTION_PROJECT_ID` | Android production Firebase project id |
-| `FIREBASE_ANDROID_PRODUCTION_STORAGE_BUCKET` | Android production Firebase storage bucket |
+| `FIREBASE_ANDROID_PRODUCTION_API_KEY` | Optional Android production Firebase override; native config ships in `android/app/src/production/google-services.json` |
+| `FIREBASE_ANDROID_PRODUCTION_APP_ID` | Optional Android production Firebase override |
+| `FIREBASE_ANDROID_PRODUCTION_MESSAGING_SENDER_ID` | Optional Android production Firebase override |
+| `FIREBASE_ANDROID_PRODUCTION_PROJECT_ID` | Optional Android production Firebase override |
+| `FIREBASE_ANDROID_PRODUCTION_STORAGE_BUCKET` | Optional Android production Firebase override |
 | `FIREBASE_APP_ID` | Firebase Android app ID |
 | `FIREBASE_SERVICE_ACCOUNT` | Firebase service account JSON |
 | `COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT` | Final Google Play app-signing SHA-256 fingerprint |
@@ -152,7 +152,16 @@ Staff (internal) → Beta (1-2 weeks soak) → Production
 ## Native Release Inputs
 
 Production iOS validation is intentionally fail-fast now. Before cutting a release,
-ensure all of the following are present locally or in CI:
+ensure the checked-in native Firebase configs are present:
+
+- `ios/Runner/GoogleService-Info.plist`
+- `ios/Runner/GoogleService-Info-staging.plist`
+- `android/app/src/production/google-services.json`
+- `android/app/src/staging/google-services.json`
+
+The `FIREBASE_IOS_PRODUCTION_*` values remain optional override inputs; the
+build now falls back to `ios/Runner/GoogleService-Info.plist` when they are
+omitted.
 
 - `FIREBASE_IOS_PRODUCTION_API_KEY`
 - `FIREBASE_IOS_PRODUCTION_APP_ID`

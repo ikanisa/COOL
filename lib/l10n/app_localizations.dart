@@ -2464,11 +2464,11 @@ abstract class AppLocalizations {
   /// **'Fan clubs are now'**
   String get fansScreenClubsUnavailable;
 
-  /// No description provided for @fansScreenRayonDedicatedHub.
+  /// No description provided for @fansScreenPartnerDedicatedHub.
   ///
   /// In en, this message translates to:
-  /// **'Rayon Sports has a'**
-  String get fansScreenRayonDedicatedHub;
+  /// **'Partner Sports has a'**
+  String get fansScreenPartnerDedicatedHub;
 
   /// No description provided for @fansScreenRouteKeptReachable.
   ///
@@ -2482,11 +2482,11 @@ abstract class AppLocalizations {
   /// **'Back to Partners'**
   String get fansScreenBackToPartners;
 
-  /// No description provided for @fansScreenOpenRayon.
+  /// No description provided for @fansScreenOpenPartner.
   ///
   /// In en, this message translates to:
-  /// **'Open Rayon Sports'**
-  String get fansScreenOpenRayon;
+  /// **'Open Partner Sports'**
+  String get fansScreenOpenPartner;
 
   /// No description provided for @ticketWalletInvalidLink.
   ///
@@ -2626,23 +2626,23 @@ abstract class AppLocalizations {
   /// **'Services'**
   String get partnersServicesTab;
 
-  /// No description provided for @partnersRayonWelcomeTitle.
+  /// No description provided for @partnersPartnerWelcomeTitle.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to Rayon Sports!'**
-  String get partnersRayonWelcomeTitle;
+  /// **'Welcome to Partner Sports!'**
+  String get partnersPartnerWelcomeTitle;
 
-  /// No description provided for @partnersRayonWelcomeSubtitle.
+  /// No description provided for @partnersPartnerWelcomeSubtitle.
   ///
   /// In en, this message translates to:
   /// **'Your fan membership has'**
-  String get partnersRayonWelcomeSubtitle;
+  String get partnersPartnerWelcomeSubtitle;
 
-  /// No description provided for @partnersOpenRayonSports.
+  /// No description provided for @partnersOpenPartnerSports.
   ///
   /// In en, this message translates to:
-  /// **'Open Rayon Sports'**
-  String get partnersOpenRayonSports;
+  /// **'Open Partner Sports'**
+  String get partnersOpenPartnerSports;
 
   /// No description provided for @partnersMembershipPerkRegistryAccess.
   ///
@@ -2704,11 +2704,11 @@ abstract class AppLocalizations {
   /// **'{partnerName} is coming soon!'**
   String partnersComingSoonMessage(Object partnerName);
 
-  /// No description provided for @partnersRayonHubBadge.
+  /// No description provided for @partnersPartnerHubBadge.
   ///
   /// In en, this message translates to:
   /// **'Official Fan Hub'**
-  String get partnersRayonHubBadge;
+  String get partnersPartnerHubBadge;
 
   /// No description provided for @partnersGamesMetricLabel.
   ///
@@ -3532,11 +3532,11 @@ abstract class AppLocalizations {
   /// **'Earn 10 points per contribution'**
   String get earn10TokensPer;
 
-  /// No description provided for @becomeARayonFan.
+  /// No description provided for @becomeAPartnerFan.
   ///
   /// In en, this message translates to:
-  /// **'Become a Rayon fan'**
-  String get becomeARayonFan;
+  /// **'Become a Partner fan'**
+  String get becomeAPartnerFan;
 
   /// No description provided for @joinTheClubAnd.
   ///
@@ -4240,11 +4240,11 @@ abstract class AppLocalizations {
   /// **'Bank'**
   String get bank;
 
-  /// No description provided for @rayon.
+  /// No description provided for @partner.
   ///
   /// In en, this message translates to:
-  /// **'Rayon'**
-  String get rayon;
+  /// **'Partner'**
+  String get partner;
 
   /// No description provided for @revoke.
   ///
@@ -4276,11 +4276,11 @@ abstract class AppLocalizations {
   /// **'Partner Admin'**
   String get partnerAdmin;
 
-  /// No description provided for @openRayonSportsAdmin.
+  /// No description provided for @openPartnerSportsAdmin.
   ///
   /// In en, this message translates to:
-  /// **'Open Rayon Sports Admin'**
-  String get openRayonSportsAdmin;
+  /// **'Open Partner Sports Admin'**
+  String get openPartnerSportsAdmin;
 
   /// No description provided for @title.
   ///
@@ -4672,11 +4672,11 @@ abstract class AppLocalizations {
   /// **'Back to admin'**
   String get backToAdmin;
 
-  /// No description provided for @rayonSportsAdmin.
+  /// No description provided for @partnerSportsAdmin.
   ///
   /// In en, this message translates to:
-  /// **'Rayon Sports Admin'**
-  String get rayonSportsAdmin;
+  /// **'Partner Sports Admin'**
+  String get partnerSportsAdmin;
 
   /// No description provided for @recentContributions1.
   ///
@@ -5416,11 +5416,11 @@ abstract class AppLocalizations {
   /// **'Unlocked'**
   String get unlocked;
 
-  /// No description provided for @rayonSports.
+  /// No description provided for @partnerSports.
   ///
   /// In en, this message translates to:
-  /// **'Rayon Sports'**
-  String get rayonSports;
+  /// **'Partner Sports'**
+  String get partnerSports;
 
   /// No description provided for @memberRegistry.
   ///
@@ -5938,11 +5938,11 @@ abstract class AppLocalizations {
   /// **'Finance'**
   String get finance;
 
-  /// No description provided for @manageRayonPaymentRouting.
+  /// No description provided for @managePartnerPaymentRouting.
   ///
   /// In en, this message translates to:
-  /// **'Manage Rayon payment routing'**
-  String get manageRayonPaymentRouting;
+  /// **'Manage Partner payment routing'**
+  String get managePartnerPaymentRouting;
 
   /// No description provided for @newRoute.
   ///
@@ -6160,11 +6160,11 @@ abstract class AppLocalizations {
   /// **'Request a Quote'**
   String get requestAQuote;
 
-  /// No description provided for @openRayonSports.
+  /// No description provided for @openPartnerSports.
   ///
   /// In en, this message translates to:
-  /// **'Open Rayon Sports'**
-  String get openRayonSports;
+  /// **'Open Partner Sports'**
+  String get openPartnerSports;
 
   /// No description provided for @noFootballPartnersYet.
   ///
@@ -7009,13 +7009,13 @@ abstract class AppLocalizations {
   /// No description provided for @adminSupportModeDesc.
   ///
   /// In en, this message translates to:
-  /// **'Open a bank or rayon workspace as support'**
+  /// **'Open a platform or bank workspace as support'**
   String get adminSupportModeDesc;
 
   /// No description provided for @adminSupportModeHint.
   ///
   /// In en, this message translates to:
-  /// **'Navigate into a partner workspace to view and manage it as support.'**
+  /// **'Navigate into a bank workspace or platform control surface to manage it as support.'**
   String get adminSupportModeHint;
 
   /// No description provided for @adminNoPartnersFound.

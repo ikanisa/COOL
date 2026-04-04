@@ -413,8 +413,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     return success;
   }
 
-
-
   Future<bool> updateProfile(UserProfile profile) async {
     state = state.copyWith(isLoading: true, error: null);
 

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'app_theme_components.dart';
@@ -93,6 +94,13 @@ abstract final class AppTheme {
       highlightColor: Colors.transparent,
       splashFactory: NoSplash.splashFactory,
       iconTheme: IconThemeData(color: semanticColors.secondaryText, size: 20),
+
+      // ── Web focus ring (WCAG 2.4.7) ──────────────────────────────────
+      // On web, keyboard Tab-navigation must show a visible focus indicator.
+      // Native platforms use their own focus systems.
+      focusColor: kIsWeb
+          ? semanticColors.accent.withValues(alpha: 0.24)
+          : Colors.transparent,
     );
   }
 }

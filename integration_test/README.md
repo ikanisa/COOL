@@ -30,7 +30,7 @@ flutter test test/integration_smoke
 
 | File | Journey |
 |---|---|
-| `critical_journeys_test.dart` | Signed-out deep links, MoMo deep links, and Rayon tickets |
+| `critical_journeys_test.dart` | Signed-out deep links, group routes, and MoMo entry flows |
 | `momo_sms_inbox_sync_test.dart` | Real Android SMS inbox sync with seeded M-Money rows, sync-state persistence, and manual overlap replay |
 
 These tests intentionally reuse the fake-backed harness from
@@ -42,10 +42,8 @@ real mobile runtime.
 | File | Journey |
 |---|---|
 | `app_boot_test.dart` | Smoke: app boots without crashing |
-| `auth_flow_test.dart` | Onboarding and OTP validation |
 | `deep_link_test.dart` | Redirect preservation for signed-out deep links |
 | `momo_flow_test.dart` | MoMo screen and send validation |
-| `ticket_flow_test.dart` | Rayon tickets hub and purchase sheet |
 
 ## Writing New Tests
 

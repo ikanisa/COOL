@@ -1247,7 +1247,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fansScreenClubsUnavailable => 'Fan clubs are now';
 
   @override
-  String get fansScreenRayonDedicatedHub => 'Rayon Sports has a';
+  String get fansScreenPartnerDedicatedHub => 'Partner Sports has a';
 
   @override
   String get fansScreenRouteKeptReachable => 'Legacy route';
@@ -1256,7 +1256,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fansScreenBackToPartners => 'Back to Partners';
 
   @override
-  String get fansScreenOpenRayon => 'Open Rayon Sports';
+  String get fansScreenOpenPartner => 'Open Partner Sports';
 
   @override
   String get ticketWalletInvalidLink => 'Invalid Google Wallet link.';
@@ -1330,13 +1330,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get partnersServicesTab => 'Services';
 
   @override
-  String get partnersRayonWelcomeTitle => 'Welcome to Rayon Sports!';
+  String get partnersPartnerWelcomeTitle => 'Welcome to Partner Sports!';
 
   @override
-  String get partnersRayonWelcomeSubtitle => 'Your fan membership has';
+  String get partnersPartnerWelcomeSubtitle => 'Your fan membership has';
 
   @override
-  String get partnersOpenRayonSports => 'Open Rayon Sports';
+  String get partnersOpenPartnerSports => 'Open Partner Sports';
 
   @override
   String get partnersMembershipPerkRegistryAccess => 'Fan registry access';
@@ -1371,7 +1371,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get partnersRayonHubBadge => 'Official Fan Hub';
+  String get partnersPartnerHubBadge => 'Official Fan Hub';
 
   @override
   String get partnersGamesMetricLabel => 'Games';
@@ -1809,7 +1809,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get earn10TokensPer => 'Earn 10 points per contribution';
 
   @override
-  String get becomeARayonFan => 'Become a Rayon fan';
+  String get becomeAPartnerFan => 'Become a Partner fan';
 
   @override
   String get joinTheClubAnd => 'Join the club and earn rewards';
@@ -2165,7 +2165,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bank => 'Bank';
 
   @override
-  String get rayon => 'Rayon';
+  String get partner => 'Partner';
 
   @override
   String get revoke => 'Revoke';
@@ -2183,7 +2183,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get partnerAdmin => 'Partner Admin';
 
   @override
-  String get openRayonSportsAdmin => 'Open Rayon Sports Admin';
+  String get openPartnerSportsAdmin => 'Open Partner Sports Admin';
 
   @override
   String get title => 'Title';
@@ -2381,7 +2381,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backToAdmin => 'Back to admin';
 
   @override
-  String get rayonSportsAdmin => 'Rayon Sports Admin';
+  String get partnerSportsAdmin => 'Partner Sports Admin';
 
   @override
   String get recentContributions1 => 'Recent contributions';
@@ -2754,7 +2754,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unlocked => 'Unlocked';
 
   @override
-  String get rayonSports => 'Rayon Sports';
+  String get partnerSports => 'Partner Sports';
 
   @override
   String get memberRegistry => 'Member Registry';
@@ -3018,7 +3018,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get finance => 'Finance';
 
   @override
-  String get manageRayonPaymentRouting => 'Manage Rayon payment routing';
+  String get managePartnerPaymentRouting => 'Manage Partner payment routing';
 
   @override
   String get newRoute => 'New route';
@@ -3129,7 +3129,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get requestAQuote => 'Request a Quote';
 
   @override
-  String get openRayonSports => 'Open Rayon Sports';
+  String get openPartnerSports => 'Open Partner Sports';
 
   @override
   String get noFootballPartnersYet => 'No football partners yet';
@@ -3572,11 +3572,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminSupportModeDesc =>
-      'Open a bank or rayon workspace as support';
+      'Open a platform or bank workspace as support';
 
   @override
   String get adminSupportModeHint =>
-      'Navigate into a partner workspace to view and manage it as support.';
+      'Navigate into a bank workspace or platform control surface to manage it as support.';
 
   @override
   String get adminNoPartnersFound => 'No partners found';

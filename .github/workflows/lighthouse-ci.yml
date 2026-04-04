@@ -1,0 +1,95 @@
+name: Lighthouse CI
+
+on:
+  # Run after successful deployment or manual trigger
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'URL to audit (e.g., https://cool.app or staging URL)'
+        required: true
+        default: 'https://cool.app'
+  schedule:
+    # Monthly CWV monitoring — 1st of every month at 06:00 UTC
+    - cron: '0 6 1 * *'
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse:
+    name: Lighthouse PWA Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set audit URL
+        id: url
+        run: |
+          URL="${{ github.event.inputs.url }}"
+          if [ -z "$URL" ]; then
+            URL="https://cool.app"
+          fi
+          echo "target=$URL" >> "$GITHUB_OUTPUT"
+          echo "🔍 Auditing: $URL"
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v12
+        id: lighthouse
+        with:
+          urls: ${{ steps.url.outputs.target }}
+          temporaryPublicStorage: true
+          uploadArtifacts: true
+          configJson: |
+            {
+              "ci": {
+                "collect": {
+                  "numberOfRuns": 3,
+                  "settings": {
+                    "preset": "desktop",
+                    "onlyCategories": ["performance", "accessibility", "best-practices", "seo", "pwa"],
+                    "formFactor": "mobile",
+                    "screenEmulation": {
+                      "mobile": true,
+                      "width": 375,
+                      "height": 812,
+                      "deviceScaleFactor": 3,
+                      "disabled": false
+                    },
+                    "throttling": {
+                      "rttMs": 40,
+                      "throughputKbps": 10240,
+                      "cpuSlowdownMultiplier": 1,
+                      "requestLatencyMs": 0,
+                      "downloadThroughputKbps": 0,
+                      "uploadThroughputKbps": 0
+                    }
+                  }
+                },
+                "assert": {
+                  "assertions": {
+                    "categories:performance": ["warn", {"minScore": 0.70}],
+                    "categories:accessibility": ["error", {"minScore": 0.90}],
+                    "categories:best-practices": ["warn", {"minScore": 0.90}],
+                    "categories:seo": ["warn", {"minScore": 0.80}],
+                    "categories:pwa": ["warn", {"minScore": 0.80}]
+                  }
+                }
+              }
+            }
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## 🔦 Lighthouse Results" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Category | Score |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Performance | ${{ fromJson(steps.lighthouse.outputs.manifest)[0].summary.performance }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Accessibility | ${{ fromJson(steps.lighthouse.outputs.manifest)[0].summary.accessibility }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Best Practices | ${{ fromJson(steps.lighthouse.outputs.manifest)[0].summary['best-practices'] }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| SEO | ${{ fromJson(steps.lighthouse.outputs.manifest)[0].summary.seo }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| PWA | ${{ fromJson(steps.lighthouse.outputs.manifest)[0].summary.pwa }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "📊 [Full Report](${{ fromJson(steps.lighthouse.outputs.links)[steps.url.outputs.target] }})" >> "$GITHUB_STEP_SUMMARY"

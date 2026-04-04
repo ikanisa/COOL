@@ -48,41 +48,41 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
   });
 
   static const CoolSemanticColors dark = CoolSemanticColors(
-    // ── ROUGEBLACK — Deep Navy background system ────────────────────
-    appBackground: Color(0xFF0A0F2C), // deep navy
-    elevatedBackground: Color(0xFF0D1333), // midnight
-    cardSurface: Color(0xFF131845), // indigo wash
-    cardSurfaceStrong: Color(0xFF1A2055), // soft navy
+    // ── PAYLEDGER — Sovereign Architect background system ─────────────
+    appBackground: Color(0xFF0D0A27), // deep void
+    elevatedBackground: Color(0xFF120F2F), // dark base
+    cardSurface: Color(0xFF1E1A41), // raised command surface
+    cardSurfaceStrong: Color(0xFF241F50), // elevated navy
     glassSurface: Color(0x0FFFFFFF), // white/6 + backdrop-blur
-    overlaySurface: Color(0xFF0D1333), // midnight (modals)
+    overlaySurface: Color(0xFF120F2F), // modals
     // ── Text ─────────────────────────────────────────────────────────
     primaryText: Color(0xFFF7F9FC), // snow white
-    secondaryText: Color(0xFF8892A4), // steel gray
-    tertiaryText: Color(0xFF5A6478), // muted steel
-    // ── Accent — shared blue primary action system ───────────────────
-    accent: Color(0xFF0047AB),
-    accentStrong: Color(0xFF0C64D9),
-    accentForeground: Color(0xFFF7F9FC),
-    accentGold: Color(0xFFD4A017), // trophy gold
-    // ── Borders & dividers ──────────────────────────────────────────
-    divider: Color(0x0FFFFFFF), // white/6
-    border: Color(0x26FFFFFF), // white/15
-    borderStrong: Color(0x33FFFFFF), // white/20 — hover/focus
+    secondaryText: Color(0xFF8B8A9E), // muted lavender-grey
+    tertiaryText: Color(0xFF5E5C77), // dark muted steel
+    // ── Accent — Sovereign Architect shared glow system ──────────────
+    accent: Color(0xFF6C63FF), // neon violet
+    accentStrong: Color(0xFF8982FF), // intense neon 
+    accentForeground: Color(0xFFFFFFFF),
+    accentGold: Color(0xFFFACC15), // bright gold (status)
+    // ── Borders (No-Line Rule) ──────────────────────────────────────
+    divider: Color(0x08FFFFFF), // ultra-subtle highlight
+    border: Color(0x0AFFFFFF), // white/4 specular
+    borderStrong: Color(0x14FFFFFF), // white/8 glow
     // ── Status ───────────────────────────────────────────────────────
-    success: Color(0xFF00D4AA), // electric mint
-    warning: Color(0xFFFF6B35), // energy orange
-    danger: Color(0xFFE01535), // bright red
-    info: Color(0xFF6B8FD4), // soft blue
-    neutral: Color(0xFF8892A4), // steel gray
+    success: Color(0xFF10B981), // pure emerald
+    warning: Color(0xFFF59E0B), // vivid amber
+    danger: Color(0xFFEF4444), // stark crimson
+    info: Color(0xFF3B82F6), // crisp azure
+    neutral: Color(0xFF8B8A9E), // lavender-grey
     // ── Chips & buttons ─────────────────────────────────────────────
-    chipBackground: Color(0xFF131845), // indigo wash
-    chipSelectedBackground: Color(0xFF0047AB),
-    buttonPrimaryBackground: Color(0xFF0047AB),
-    buttonSecondaryBackground: Color(0x1AFFFFFF), // white/10
-    inputSurface: Color(0x0FFFFFFF), // white/6
+    chipBackground: Color(0xFF1E1A41), // raised command surface 
+    chipSelectedBackground: Color(0xFF6C63FF),
+    buttonPrimaryBackground: Color(0xFF6C63FF),
+    buttonSecondaryBackground: Color(0x14FFFFFF), // white/8
+    inputSurface: Color(0x0AFFFFFF), // white/4
     // ── Shadow & highlight ──────────────────────────────────────────
-    shadowColor: Color(0xFF050820), // deep ink
-    highlightColor: Color(0xFFF7F9FC), // snow white
+    shadowColor: Color(0xFF050314), // ink void
+    highlightColor: Color(0x14FFFFFF), // subtle specular rim
   );
 
   static const CoolSemanticColors light = CoolSemanticColors(
@@ -348,8 +348,8 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
 // Typography Helpers
 // ──────────────────────────────────────────────────────────────────────────────
 
-/// Typography helpers anchored to [TextTheme] with DM Mono and
-/// Barlow Condensed overrides for values and headings.
+/// Typography helpers anchored to [TextTheme] with Space Mono, Syne, and DM Sans 
+/// for values and headings.
 @immutable
 class CoolTextStyles {
   const CoolTextStyles._({
@@ -363,7 +363,7 @@ class CoolTextStyles {
 
   TextTheme get theme => _textTheme;
 
-  /// Monospace text — DM Mono for values, IDs, labels.
+  /// Monospace text — Space Mono for values, IDs, labels.
   TextStyle mono(
     TextStyle? base, {
     Color? color,
@@ -375,7 +375,7 @@ class CoolTextStyles {
         base ??
         _textTheme.bodyLarge ??
         const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
-    return GoogleFonts.dmMono(
+    return GoogleFonts.spaceMono(
       textStyle: resolvedBase.copyWith(
         color: color ?? resolvedBase.color ?? _defaultColor,
         fontWeight: fontWeight ?? resolvedBase.fontWeight,
@@ -385,10 +385,10 @@ class CoolTextStyles {
     );
   }
 
-  /// mobi-label: 10px, DM Mono, uppercase, wide tracking.
+  /// mobi-label: 10px, Space Mono, uppercase, wide tracking.
   TextStyle mobiLabel({Color? color}) {
     final labelColor = _textTheme.labelSmall?.color ?? _defaultColor;
-    return GoogleFonts.dmMono(
+    return GoogleFonts.spaceMono(
       textStyle: TextStyle(
         fontSize: 10,
         fontWeight: FontWeight.w600,
@@ -399,14 +399,14 @@ class CoolTextStyles {
     );
   }
 
-  /// mobi-value: 14px, DM Mono, tight tracking.
+  /// mobi-value: 14px, Space Mono, standard tracking.
   TextStyle mobiValue({Color? color}) {
-    return GoogleFonts.dmMono(
+    return GoogleFonts.spaceMono(
       textStyle: TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w500,
         color: color ?? _defaultColor,
-        letterSpacing: -0.28,
+        letterSpacing: 0.0,
         height: 1.3,
       ),
     );
@@ -414,21 +414,21 @@ class CoolTextStyles {
 
   /// Large hero number for financial dashboards (MoMo balance, group totals).
   ///
-  /// BarlowCondensed 48px, w900, tight height for stamp-like impact.
+  /// Syne 48px, Black 900, tight height for stamp-like impact.
   TextStyle heroNumber({Color? color}) {
-    return GoogleFonts.barlowCondensed(
+    return GoogleFonts.syne(
       textStyle: TextStyle(
         fontSize: 48,
         fontWeight: FontWeight.w900,
         color: color ?? _defaultColor,
-        letterSpacing: -2.0,
+        letterSpacing: -1.5,
         height: 0.9,
       ),
     );
   }
 
-  /// Barlow body text for branded partner contexts.
-  TextStyle rayon(
+  /// DM Sans text for standard UI bindings.
+  TextStyle display(
     TextStyle? base, {
     Color? color,
     FontWeight? fontWeight,
@@ -438,19 +438,19 @@ class CoolTextStyles {
     final resolvedBase =
         base ??
         _textTheme.bodyLarge ??
-        const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
-    return GoogleFonts.barlow(
+        const TextStyle(fontSize: 18, fontWeight: FontWeight.w600);
+    return GoogleFonts.dmSans(
       textStyle: resolvedBase.copyWith(
         color: color ?? resolvedBase.color ?? _defaultColor,
-        fontWeight: fontWeight ?? resolvedBase.fontWeight,
+        fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w600,
         letterSpacing: letterSpacing ?? resolvedBase.letterSpacing,
         height: height ?? resolvedBase.height,
       ),
     );
   }
 
-  /// Barlow Condensed for uppercase headings.
-  TextStyle rayonCondensed(
+  /// Syne for uppercase bold headers.
+  TextStyle displayCondensed(
     TextStyle? base, {
     Color? color,
     FontWeight? fontWeight,
@@ -461,10 +461,10 @@ class CoolTextStyles {
         base ??
         _textTheme.titleLarge ??
         const TextStyle(fontSize: 24, fontWeight: FontWeight.w800);
-    return GoogleFonts.barlowCondensed(
+    return GoogleFonts.syne(
       textStyle: resolvedBase.copyWith(
         color: color ?? resolvedBase.color ?? _defaultColor,
-        fontWeight: fontWeight ?? resolvedBase.fontWeight,
+        fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w900,
         letterSpacing: letterSpacing ?? resolvedBase.letterSpacing,
         height: height ?? resolvedBase.height,
       ),
@@ -677,20 +677,26 @@ abstract final class CoolResponsive {
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
-// Shadows — simple, no claymorphism
+// No-Line Rule Shadows (Specular Highlights)
 // ──────────────────────────────────────────────────────────────────────────────
 
-/// Shadow recipes — ROUGEBLACK system.
+/// Shadow recipes — PAYLEDGER system.
 abstract final class CoolShadows {
-  /// Standard card shadow.
+  /// Specular highlight standard (no strong drop shadows, mainly inner borders/specular).
   static List<BoxShadow> standard(
     Brightness? brightness, {
     double strength = 1,
   }) {
     return <BoxShadow>[
       BoxShadow(
-        color: Colors.black.withValues(alpha: 0.50 * strength),
-        blurRadius: 25,
+        color: Colors.white.withValues(alpha: 0.05 * strength),
+        blurRadius: 1,
+        spreadRadius: 0,
+        offset: const Offset(0, 1),
+      ),
+      BoxShadow(
+        color: Colors.black.withValues(alpha: 0.20 * strength),
+        blurRadius: 20,
         offset: const Offset(0, 10),
       ),
     ];
@@ -703,77 +709,72 @@ abstract final class CoolShadows {
   }) {
     return <BoxShadow>[
       BoxShadow(
-        color: Colors.black.withValues(alpha: 0.50 * strength),
+        color: Colors.white.withValues(alpha: 0.08 * strength),
+        blurRadius: 1,
+        offset: const Offset(0, 1),
+      ),
+      BoxShadow(
+        color: Colors.black.withValues(alpha: 0.30 * strength),
         blurRadius: 40,
         offset: const Offset(0, 15),
       ),
     ];
   }
 
-  /// Primary CTA glow shadow (Rayon Red).
+  /// Primary specular glow.
   static List<BoxShadow> primary({double strength = 1}) {
     return <BoxShadow>[
       BoxShadow(
-        color: const Color(0xFFC8102E).withValues(alpha: 0.35 * strength),
+        color: const Color(0xFF6C63FF).withValues(alpha: 0.25 * strength),
         blurRadius: 20,
         offset: const Offset(0, 8),
+      ),
+      BoxShadow(
+        color: Colors.white.withValues(alpha: 0.15 * strength),
+        blurRadius: 1,
+        offset: const Offset(0, 1), // Top specular rim
       ),
     ];
   }
 
-  /// Gold accent glow shadow.
   static List<BoxShadow> gold({double strength = 1}) {
     return <BoxShadow>[
       BoxShadow(
-        color: const Color(0xFFD4A017).withValues(alpha: 0.25 * strength),
+        color: const Color(0xFFFACC15).withValues(alpha: 0.25 * strength),
         blurRadius: 20,
         offset: const Offset(0, 8),
       ),
     ];
   }
 
-  /// Claymorphic shadow — dual inner-shadow technique.
-  ///
-  /// Creates a 3D tactile "pressed" feel with:
-  /// - Deep outer shadow (down-right, dark)
-  /// - Light inner highlight (up-left, subtle white)
-  /// - Colored accent glow (optional)
+  /// Removes outdated claymorphic, aliases to deep specular.
   static List<BoxShadow> clay({Color? accentColor, double strength = 1}) {
-    final accent = accentColor ?? const Color(0xFFC8102E);
+    final accent = accentColor ?? const Color(0xFF6C63FF);
     return <BoxShadow>[
-      // Outer depth shadow
       BoxShadow(
-        color: Colors.black.withValues(alpha: 0.35 * strength),
-        blurRadius: 8,
-        offset: const Offset(3, 4),
-      ),
-      // Inner highlight (up-left catch light)
-      BoxShadow(
-        color: Colors.white.withValues(alpha: 0.08 * strength),
-        blurRadius: 6,
-        offset: const Offset(-2, -2),
-      ),
-      // Accent glow halo
-      BoxShadow(
-        color: accent.withValues(alpha: 0.20 * strength),
-        blurRadius: 20,
+        color: Colors.black.withValues(alpha: 0.40 * strength),
+        blurRadius: 16,
         offset: const Offset(0, 8),
+      ),
+      BoxShadow(
+        color: Colors.white.withValues(alpha: 0.10 * strength),
+        blurRadius: 1,
+        offset: const Offset(0, 1),
+      ),
+      BoxShadow(
+        color: accent.withValues(alpha: 0.15 * strength),
+        blurRadius: 30,
+        offset: const Offset(0, 0), // Ambient glow
       ),
     ];
   }
 
-  /// Rayon Red CTA glow — strong red halo for primary actions.
   static List<BoxShadow> redGlow({double strength = 1}) {
     return <BoxShadow>[
       BoxShadow(
-        color: const Color(0xFFC8102E).withValues(alpha: 0.45 * strength),
+        color: const Color(0xFFEF4444).withValues(alpha: 0.25 * strength),
         blurRadius: 24,
         offset: const Offset(0, 8),
-      ),
-      BoxShadow(
-        color: const Color(0xFFC8102E).withValues(alpha: 0.15 * strength),
-        blurRadius: 60,
-        offset: const Offset(0, 16),
       ),
     ];
   }
@@ -781,6 +782,11 @@ abstract final class CoolShadows {
   /// Frosted glass overlay shadow.
   static List<BoxShadow> glass({double strength = 1}) {
     return <BoxShadow>[
+      BoxShadow(
+        color: Colors.white.withValues(alpha: 0.05 * strength),
+        blurRadius: 1,
+        offset: const Offset(0, 1),
+      ),
       BoxShadow(
         color: Colors.black.withValues(alpha: 0.40 * strength),
         blurRadius: 32,

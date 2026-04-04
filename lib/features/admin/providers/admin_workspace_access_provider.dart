@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 
 import '../../auth/providers/auth_provider.dart';
-import '../../partners/models/partner.dart';
-import '../../partners/providers/partner_provider.dart';
+
 import '../models/admin_workspace_access.dart';
 import '../repositories/admin_role_repository.dart';
 
@@ -54,46 +53,6 @@ final adminWorkspaceAccessProvider = Provider<AdminWorkspaceAccess>((ref) {
       return AdminWorkspaceAccess.fromAuthState(authState);
     },
   );
-});
-
-final adminPartnerWorkspacesProvider = FutureProvider<List<Partner>>((
-  ref,
-) async {
-  final access = ref.watch(adminWorkspaceAccessProvider);
-  if (!access.hasPartnerAdminAccess) {
-    return const <Partner>[];
-  }
-
-  final repository = ref.read(partnerRepositoryProvider);
-  final partners = await repository.fetchAll();
-  return partners
-      .where((partner) {
-        if (partner.isBank) {
-          return false;
-        }
-        return access.hasPlatformAccess ||
-            access.hasGlobalPartnerAccess ||
-            access.canAccessPartnerId(partner.id);
-      })
-      .toList(growable: false);
-});
-
-final adminBankWorkspacesProvider = FutureProvider<List<Partner>>((ref) async {
-  final access = ref.watch(adminWorkspaceAccessProvider);
-  if (!access.hasBankAdminAccess) {
-    return const <Partner>[];
-  }
-
-  final repository = ref.read(partnerRepositoryProvider);
-  final partners = await repository.fetchAll();
-  return partners
-      .where((partner) {
-        if (!partner.isBank) {
-          return false;
-        }
-        return access.hasPlatformAccess || access.canAccessBankId(partner.id);
-      })
-      .toList(growable: false);
 });
 
 // ═══════════════════════════════════════════════════════════════

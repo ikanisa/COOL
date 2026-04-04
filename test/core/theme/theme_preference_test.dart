@@ -106,7 +106,10 @@ void main() {
         ],
       );
 
-      expect(container.read(themePreferenceProvider), AppThemePreference.system);
+      expect(
+        container.read(themePreferenceProvider),
+        AppThemePreference.system,
+      );
 
       await container
           .read(themePreferenceProvider.notifier)

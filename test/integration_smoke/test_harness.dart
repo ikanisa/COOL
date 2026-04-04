@@ -20,8 +20,6 @@ import 'package:cool_app/features/auth/providers/auth_provider.dart';
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
 import 'package:cool_app/features/momo/providers/momo_sms_sync_providers.dart';
 import 'package:cool_app/features/momo/providers/momo_statement_providers.dart';
-import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
-import 'package:cool_app/features/rayon/models/rs_models.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,21 +43,6 @@ class _FakeFirebaseBootstrapService extends FirebaseBootstrapService {
 
   @override
   bool get isAvailable => false;
-}
-
-RayonSportsData _defaultRayonData() {
-  return const RayonSportsData(
-    partnerId: '',
-    membership: null,
-    joinedClubIds: <String>{},
-    registryMembers: <RsRegistryMember>[],
-    achievements: <RsAchievement>[],
-    clubs: <RsFanClub>[],
-    products: <RsProduct>[],
-    initiatives: <RsInitiative>[],
-    matches: <RsMatch>[],
-    tickets: <RsTicket>[],
-  );
 }
 
 SupabaseClient _buildTestSupabaseClient() {
@@ -208,7 +191,6 @@ _buildTestContainer({
   final countriesRepository = MockSupportedCountriesRepository();
   final resolvedCountries = countries ?? CoolCountryCatalog.all;
   final supabaseClient = _buildTestSupabaseClient();
-  final defaultRayonData = _defaultRayonData();
 
   when(() => authRepository.currentSession).thenReturn(session);
   when(() => authRepository.currentUserId).thenReturn(session?.user.id);
@@ -264,16 +246,6 @@ _buildTestContainer({
         preference: AppThemePreference.system,
         updatedAt: null,
       )),
-      rayonSportsDataProvider.overrideWith(
-        (ref) => AsyncValue<RayonSportsData>.data(defaultRayonData),
-      ),
-      rayonMembershipProvider.overrideWith(
-        (ref) => const AsyncValue<RsFanMembership?>.data(null),
-      ),
-      rayonNextMatchProvider.overrideWith(
-        (ref) => const AsyncValue<RsMatch?>.data(null),
-      ),
-      rayonActionLoadingProvider.overrideWith((ref) => false),
       momoStatementBundleProvider.overrideWith(
         (ref, query) async => const MomoStatementBundle(),
       ),

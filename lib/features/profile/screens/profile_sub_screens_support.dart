@@ -91,27 +91,27 @@ class OrderHistoryScreen extends StatelessWidget {
                 width: 72,
                 height: 72,
                 decoration: BoxDecoration(
-                  color: RsColors.rsRed.withValues(alpha: 0.1),
+                  color: colors.success.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 alignment: Alignment.center,
-                child: const Icon(
+                child: Icon(
                   Icons.shopping_bag_outlined,
-                  color: RsColors.rsRed,
+                  color: colors.success,
                   size: 32,
                 ),
               ),
               const SizedBox(height: CoolSpace.x4),
               Text(
                 'NO ORDERS YET',
-                style: context.coolText.rayonCondensed(
+                style: context.coolText.displayCondensed(
                   Theme.of(context).textTheme.titleLarge,
                   fontWeight: FontWeight.w900,
                 ),
               ),
               const SizedBox(height: CoolSpace.x2),
               Text(
-                'Your purchase history will appear here after your first order from the Rayon Sports shop.',
+                'Your purchase history will appear here after your first order from the shop.',
                 textAlign: TextAlign.center,
                 style: context.coolText.mono(
                   Theme.of(context).textTheme.bodySmall,
@@ -124,10 +124,10 @@ class OrderHistoryScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => context.push(AppRoutes.rayonShop),
+                  onPressed: () => context.push(AppRoutes.splash),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: RsColors.rsRed,
-                    foregroundColor: Colors.white,
+                    backgroundColor: colors.accent,
+                    foregroundColor: colors.accentForeground,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(CoolRadii.lg),
@@ -203,9 +203,9 @@ class HelpCenterScreen extends StatelessWidget {
               _SettingsActionRow(
                 icon: Icons.email_outlined,
                 title: 'EMAIL SUPPORT',
-                subtitle: 'support@rayonsports.rw',
+                subtitle: 'support@partnersports.rw',
                 onTap: () async {
-                  final uri = Uri.parse('mailto:support@rayonsports.rw');
+                  final uri = Uri.parse('mailto:support@partnersports.rw');
                   if (await canLaunchUrl(uri)) {
                     await launchUrl(uri, mode: LaunchMode.externalApplication);
                   } else if (context.mounted) {

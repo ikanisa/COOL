@@ -85,7 +85,8 @@ class _BiopayScannerShellState extends State<BiopayScannerShell>
     }
 
     // Manage pulse — only pulse when searching or ready
-    final shouldPulse = widget.tone == BiopayScannerTone.searching ||
+    final shouldPulse =
+        widget.tone == BiopayScannerTone.searching ||
         widget.tone == BiopayScannerTone.ready;
     if (shouldPulse && !_pulseController.isAnimating) {
       _pulseController.repeat(reverse: true);
@@ -129,10 +130,7 @@ class _BiopayScannerShellState extends State<BiopayScannerShell>
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [
-                        colors.cardSurfaceStrong,
-                        colors.appBackground,
-                      ],
+                      colors: [colors.cardSurfaceStrong, colors.appBackground],
                     ),
                   ),
                 ),
@@ -283,13 +281,8 @@ class _FloatingStatusChip extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: Colors.black.withValues(alpha: 0.72),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(CoolRadii.pill),
-          ),
-          border: Border.all(
-            color: color.withValues(alpha: 0.35),
-            width: 1.5,
-          ),
+          borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.pill)),
+          border: Border.all(color: color.withValues(alpha: 0.35), width: 1.5),
           boxShadow: [
             BoxShadow(
               color: color.withValues(alpha: 0.15),
@@ -309,10 +302,7 @@ class _FloatingStatusChip extends StatelessWidget {
                 color: color,
                 shape: BoxShape.circle,
                 boxShadow: [
-                  BoxShadow(
-                    color: color.withValues(alpha: 0.5),
-                    blurRadius: 6,
-                  ),
+                  BoxShadow(color: color.withValues(alpha: 0.5), blurRadius: 6),
                 ],
               ),
             ),
@@ -399,14 +389,14 @@ class _CapturedDot extends StatelessWidget {
         color: isFilled
             ? colors.success.withValues(alpha: 0.2)
             : (isCurrent
-                ? color.withValues(alpha: 0.15)
-                : Colors.white.withValues(alpha: 0.06)),
+                  ? color.withValues(alpha: 0.15)
+                  : Colors.white.withValues(alpha: 0.06)),
         border: Border.all(
           color: isFilled
               ? colors.success
               : (isCurrent
-                  ? color.withValues(alpha: 0.6)
-                  : Colors.white.withValues(alpha: 0.15)),
+                    ? color.withValues(alpha: 0.6)
+                    : Colors.white.withValues(alpha: 0.15)),
           width: isCurrent ? 2 : 1.5,
         ),
         boxShadow: isFilled
@@ -419,31 +409,27 @@ class _CapturedDot extends StatelessWidget {
             : null,
       ),
       child: isFilled
-          ? Icon(
-              Icons.check_rounded,
-              size: 14,
-              color: colors.success,
-            )
-              .animate()
-              .scale(
-                begin: const Offset(0, 0),
-                end: const Offset(1, 1),
-                duration: 300.ms,
-                curve: Curves.elasticOut,
-              )
-              .fadeIn(duration: 150.ms)
-          : (isCurrent
-              ? Center(
-                  child: Container(
-                    width: 6,
-                    height: 6,
-                    decoration: BoxDecoration(
-                      color: color.withValues(alpha: 0.5),
-                      shape: BoxShape.circle,
-                    ),
-                  ),
+          ? Icon(Icons.check_rounded, size: 14, color: colors.success)
+                .animate()
+                .scale(
+                  begin: const Offset(0, 0),
+                  end: const Offset(1, 1),
+                  duration: 300.ms,
+                  curve: Curves.elasticOut,
                 )
-              : null),
+                .fadeIn(duration: 150.ms)
+          : (isCurrent
+                ? Center(
+                    child: Container(
+                      width: 6,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: color.withValues(alpha: 0.5),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  )
+                : null),
     );
   }
 }
@@ -464,12 +450,8 @@ class _PrivacyBadge extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.06),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(CoolRadii.pill),
-        ),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.08),
-        ),
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.pill)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -533,7 +515,10 @@ class _BiometricRingPainter extends CustomPainter {
     final fullRect = Path()..addRect(Offset.zero & size);
     final ovalPath = Path()..addOval(ovalRect);
     final mask = Path.combine(PathOperation.difference, fullRect, ovalPath);
-    canvas.drawPath(mask, Paint()..color = Colors.black.withValues(alpha: 0.45));
+    canvas.drawPath(
+      mask,
+      Paint()..color = Colors.black.withValues(alpha: 0.45),
+    );
 
     // ── Pulsing glow ──────────────────────────────────────────
     final glowAlpha = 0.08 + (pulseValue * 0.12);
@@ -571,8 +556,8 @@ class _BiometricRingPainter extends CustomPainter {
       final segColor = isFilled
           ? const Color(0xFF00FF00) // neon green for captured
           : (isCurrent
-              ? color // current state color (amber when searching)
-              : Colors.white.withValues(alpha: 0.15));
+                ? color // current state color (amber when searching)
+                : Colors.white.withValues(alpha: 0.15));
 
       final strokeWidth = isCurrent ? 4.5 : (isFilled ? 4.0 : 2.5);
 

@@ -6,16 +6,16 @@ import '../../auth/providers/auth_provider.dart';
 import '../../momo/models/momo_statement.dart';
 import '../../momo/providers/momo_statement_providers.dart';
 import '../../momo/services/momo_statement_export_service.dart';
-import '../../partners/providers/partner_provider.dart';
+
 import '../models/bank_admin_models.dart';
 import '../providers/bank_admin_providers.dart';
 
 enum _BankWorkspaceTab { overview, allocations, ledgers }
 
 class BankAdminWorkspaceScreen extends ConsumerStatefulWidget {
-  const BankAdminWorkspaceScreen({required this.partnerId, super.key});
+  const BankAdminWorkspaceScreen({required this.bankId, super.key});
 
-  final String partnerId;
+  final String bankId;
 
   @override
   ConsumerState<BankAdminWorkspaceScreen> createState() =>
@@ -33,20 +33,9 @@ class _BankAdminWorkspaceScreenState
 
   @override
   Widget build(BuildContext context) {
-    final workspaceAsync = ref.watch(
-      bankAdminWorkspaceProvider(widget.partnerId),
-    );
-    final partnerAsync = ref.watch(partnerByIdProvider(widget.partnerId));
-
+    final workspaceAsync = ref.watch(bankAdminWorkspaceProvider(widget.bankId));
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          partnerAsync.maybeWhen(
-            data: (partner) => '${partner?.name ?? 'Bank'} Terminal',
-            orElse: () => 'Bank Terminal',
-          ),
-        ),
-      ),
+      appBar: AppBar(title: const Text('Bank Terminal')),
       body: workspaceAsync.when(
         data: (snapshot) {
           final selectedGroup = snapshot.groups.entries
@@ -174,7 +163,7 @@ class _BankAdminWorkspaceScreenState
               onPressed: () async {
                 final repository = ref.read(bankAdminRepositoryProvider);
                 await repository.allocateManualReviewToGroupContribution(
-                  partnerId: widget.partnerId,
+                  bankId: widget.bankId,
                   reviewId: item.reviewId,
                   groupId: item.groupId,
                   memberUserId: member.userId,
@@ -208,7 +197,7 @@ class _BankAdminWorkspaceScreenState
               onPressed: () async {
                 final repository = ref.read(bankAdminRepositoryProvider);
                 await repository.rejectManualReviewAllocation(
-                  partnerId: widget.partnerId,
+                  bankId: widget.bankId,
                   reviewId: item.reviewId,
                 );
                 if (!context.mounted) {

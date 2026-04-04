@@ -3,22 +3,17 @@
  *
  * Delegates to focused reconciler modules:
  * - group_reconciler.ts: group contribution + payee route matching
- * - rayon_reconciler.ts: Rayon Sports reference matching
  * - reconciliation_utils.ts: shared types, utilities, and scoring
  *
  * Re-exports public API consumed by index.ts.
  */
 
-import {
-  confirmRayonReferenceMatch as confirmSharedRayonReferenceMatch,
-} from "../_shared/rayon_payments.ts";
 import { createAdminClient } from "../_shared/supabase.ts";
 import { type ParsedSms, type RawSmsRecord } from "./ai_parser.ts";
 import {
   findGroupContributionCandidate,
   reconcileByPayeeRoute,
 } from "./group_reconciler.ts";
-import { findRayonReferenceCandidate } from "./rayon_reconciler.ts";
 import {
   asString,
   type AutoReconciliationResult,
@@ -54,7 +49,7 @@ export async function reconcileParsedSms(
     .maybeSingle();
 
   const receiverType = receiverResult.data?.receiver_type;
-  const isDedicated = receiverType === "bank_custody" || receiverType === "rayon_shop" || receiverType === "agent_till";
+  const isDedicated = receiverType === "bank_custody" || receiverType === "agent_till";
 
   // 0.5) Try matching generic pending payment_intents first
   const intentResult = await adminClient
@@ -162,50 +157,7 @@ export async function reconcileParsedSms(
     };
   }
 
-  // 3) Try Rayon reference candidate.
-  const {
-    candidate: rayonCandidate,
-    score: rayonScore,
-    ambiguous: rayonAmbiguous,
-  } = await findRayonReferenceCandidate(adminClient, rawSms, parsed);
-
-  if (rayonAmbiguous) {
-    return buildManualReviewResult(
-      "Parsed SMS matched multiple Rayon Sports payment candidates and needs review.",
-      {
-        reason: "ambiguous_rayon_match",
-        candidate_score: rayonScore,
-      },
-    );
-  }
-
-  if (rayonCandidate) {
-    return await confirmSharedRayonReferenceMatch(adminClient, {
-      reference: rayonCandidate.reference,
-      user_id: rawSms.user_id,
-    }, {
-      source: "parse-momo-sms",
-      timestamp,
-      provider: normalizeProviderId(rawSms.provider),
-      amount: parsed.amount,
-      transactionId: parsed.momo_tx_id ?? rawSms.detected_tx_id,
-      payeeNumberOrCode: parsed.payee_number_or_code,
-      merchantCode: parsed.merchant_code,
-      candidateScore: rayonScore,
-      confidence: parsed.confidence,
-      rawSmsId: rawSms.id,
-      parsedSmsId,
-      sender: rawSms.sender,
-      country: rawSms.country,
-      extraPayload: {
-        sms_received_at: rawSms.sms_received_at,
-        tx_type: parsed.tx_type,
-        tx_direction: parsed.tx_direction,
-      },
-    });
-  }
-
-  // 4) Fall back to partner route match.
+  // 3) Fall back to partner route match.
   if (groupRouteMatch) {
     return groupRouteMatch;
   }
@@ -220,10 +172,8 @@ export async function reconcileParsedSms(
     return partnerRouteMatch;
   }
 
-  // 5) Safe fallback to wallet if not dedicated receiver
+  // 4) Safe fallback to wallet if not dedicated receiver
   if (!isDedicated) {
-    // Attempt matched identity heuristics before falling back.
-    // (In future we could refine this further with payment_identities)
     return {
       matchType: "personal_wallet_fallback",
       matchStatus: "matched",

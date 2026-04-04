@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../router/app_routes.dart';
 import '../models/cool_status.dart';
-import '../../../features/rayon/models/rs_models.dart';
 
 /// A suggested "next best action" for the user.
 class CoolQuest {
@@ -38,7 +37,7 @@ class QuestEngine {
   /// Generate quests from current user state. Returns at most [maxQuests].
   static List<CoolQuest> generate({
     required CoolStatus status,
-    FanMembership? membership,
+    dynamic membership,
     int groupCount = 0,
     int activeGroupGoalPercent = 0,
     int matchTicketsThisMonth = 0,
@@ -50,7 +49,7 @@ class QuestEngine {
     final quests = <CoolQuest>[];
 
     // ─── 1. Near next tier ──────────────────────────────────
-    if (status.tier != FanTier.platinum && status.pointsToNextTier <= 50) {
+    if (status.tier != CoolTier.platinum && status.pointsToNextTier <= 50) {
       final nextTier = _nextTierLabel(status.tier);
       quests.add(
         CoolQuest(
@@ -85,8 +84,8 @@ class QuestEngine {
           id: 'match_attend',
           icon: Icons.sports_soccer_rounded,
           title: 'Attend a match!',
-          subtitle: 'Earn 20 points for supporting Rayon Sports in person.',
-          route: AppRoutes.rayonTickets,
+          subtitle: 'Earn 20 points for supporting your team in person.',
+          route: AppRoutes.splash,
           priority: 70,
         ),
       );
@@ -126,9 +125,9 @@ class QuestEngine {
         const CoolQuest(
           id: 'join_club',
           icon: Icons.stadium_rounded,
-          title: 'Become a Rayon fan',
+          title: 'Become a fan',
           subtitle: 'Join the club and earn rewards.',
-          route: AppRoutes.rayonHome,
+          route: AppRoutes.splash,
           priority: 50,
         ),
       );
@@ -153,10 +152,10 @@ class QuestEngine {
     return quests.take(maxQuests).toList(growable: false);
   }
 
-  static String _nextTierLabel(FanTier tier) => switch (tier) {
-    FanTier.fan => 'Silver',
-    FanTier.bronze => 'Gold',
-    FanTier.gold => 'Platinum',
-    FanTier.platinum => 'Max',
+  static String _nextTierLabel(CoolTier tier) => switch (tier) {
+    CoolTier.member => 'Silver',
+    CoolTier.silver => 'Gold',
+    CoolTier.gold => 'Platinum',
+    CoolTier.platinum => 'Platinum',
   };
 }

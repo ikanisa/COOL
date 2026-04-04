@@ -67,7 +67,10 @@ OutlineInputBorder _adminRoleInputBorder(
 
 Color _adminRoleColor(BuildContext context, AdminRole role) {
   final colors = context.coolSemanticColors;
-  return colors.success;
+  return switch (role) {
+    AdminRole.admin => colors.success,
+    AdminRole.bank => colors.accent,
+  };
 }
 
 InputDecoration _roleInputDecoration(
@@ -104,10 +107,12 @@ class _SummaryCard extends StatelessWidget {
   const _SummaryCard({
     required this.totalAssignments,
     required this.adminCount,
+    required this.bankCount,
   });
 
   final int totalAssignments;
   final int adminCount;
+  final int bankCount;
 
   @override
   Widget build(BuildContext context) {
@@ -140,6 +145,11 @@ class _SummaryCard extends StatelessWidget {
                 label: context.l10n.admin,
                 value: adminCount.toString(),
                 color: colors.success,
+              ),
+              _MetricChip(
+                label: 'Bank',
+                value: bankCount.toString(),
+                color: colors.accent,
               ),
             ],
           ),
@@ -226,7 +236,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
         ),
         content: Text(
           'Remove ${widget.assignment.role.label}'
-          '${widget.assignment.partnerName != null ? ' for ${widget.assignment.partnerName}' : ''}?'
+          '${widget.assignment.bankName != null ? ' for ${widget.assignment.bankName}' : ''}?'
           ' This user can be assigned again later.',
           style: theme.textTheme.bodyMedium?.copyWith(
             color: colors.secondaryText,
@@ -334,11 +344,11 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
             ],
           ),
           const SizedBox(height: 10),
-          if (assignment.partnerName != null)
+          if (assignment.bankName != null)
             Padding(
               padding: _adminRoleScopePadding(),
               child: Text(
-                'Scope: ${assignment.partnerName}',
+                '${assignment.role == AdminRole.bank ? 'Bank' : 'Scope'}: ${assignment.bankName}',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: colors.secondaryText,
                   fontWeight: FontWeight.w700,
@@ -406,7 +416,7 @@ class _AssignRoleSheet extends ConsumerStatefulWidget {
 class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
   final _userIdController = TextEditingController();
   AdminRole _selectedRole = AdminRole.admin;
-  String? _selectedPartnerScopeId;
+  String? _selectedBankScopeId;
   bool _isSubmitting = false;
 
   @override
@@ -428,11 +438,11 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
     }
   }
 
-  bool get _requiresPartnerScope => _selectedRole != AdminRole.admin;
+  bool get _requiresBankScope => _selectedRole == AdminRole.bank;
 
   bool get _canSubmit =>
       _userIdController.text.trim().isNotEmpty &&
-      (!_requiresPartnerScope || _selectedPartnerScopeId != null);
+      (!_requiresBankScope || _selectedBankScopeId != null);
 
   void _selectRole(AdminRole role) {
     if (_selectedRole == role) {
@@ -441,7 +451,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
 
     setState(() {
       _selectedRole = role;
-      _selectedPartnerScopeId = null;
+      _selectedBankScopeId = null;
     });
   }
 
@@ -451,8 +461,8 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
       CoolToast.error(context, 'Enter a user ID.');
       return;
     }
-    if (_requiresPartnerScope && _selectedPartnerScopeId == null) {
-      CoolToast.error(context, 'Select a partner scope.');
+    if (_requiresBankScope && _selectedBankScopeId == null) {
+      CoolToast.error(context, 'Select a bank scope.');
       return;
     }
 
@@ -462,7 +472,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
       await repo.assignRole(
         targetUserId: userId,
         role: _selectedRole,
-        partnerScopeId: _selectedPartnerScopeId,
+        bankId: _selectedBankScopeId,
       );
       ref.invalidate(adminRoleAssignmentsProvider);
       if (!mounted) return;
@@ -484,7 +494,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
     final theme = Theme.of(context);
     final partnersAsync = ref.watch(adminPartnersProvider);
 
-    List<Map<String, dynamic>> scopeOptions(
+    List<Map<String, dynamic>> bankScopeOptions(
       List<Map<String, dynamic>> partners,
     ) {
       return partners
@@ -493,7 +503,6 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
             return switch (_selectedRole) {
               AdminRole.admin => false,
               AdminRole.bank => category == 'bank',
-              AdminRole.rayonSport => category == 'football',
             };
           })
           .toList(growable: false);
@@ -579,16 +588,16 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                       ),
                   ],
                 ),
-                if (_requiresPartnerScope) ...[
+                if (_requiresBankScope) ...[
                   const SizedBox(height: CoolSpace.x4),
                   partnersAsync.when(
                     data: (partners) {
-                      final options = scopeOptions(partners);
+                      final options = bankScopeOptions(partners);
                       return DropdownButtonFormField<String>(
-                        initialValue: _selectedPartnerScopeId,
+                        initialValue: _selectedBankScopeId,
                         decoration: _roleInputDecoration(
                           context,
-                          label: 'Partner Scope',
+                          label: 'Bank Scope',
                         ),
                         items: [
                           for (final partner in options)
@@ -598,7 +607,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                             ),
                         ],
                         onChanged: (value) {
-                          setState(() => _selectedPartnerScopeId = value);
+                          setState(() => _selectedBankScopeId = value);
                         },
                       );
                     },
@@ -607,7 +616,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                       child: LinearProgressIndicator(minHeight: 2),
                     ),
                     error: (error, stackTrace) => Text(
-                      'Failed to load partner scopes.',
+                      'Failed to load bank scopes.',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colors.danger,
                         fontWeight: FontWeight.w600,

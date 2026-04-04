@@ -1,10 +1,56 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../features/rayon/models/rs_models.dart';
+import 'package:flutter/material.dart'; // For colors in extension
+
+/// The generic progression tier system for COOL applications.
+enum CoolTier {
+  member,
+  silver,
+  gold,
+  platinum;
+
+  String get value => name;
+
+  String get label => switch (this) {
+    CoolTier.member => 'Member',
+    CoolTier.silver => 'Silver',
+    CoolTier.gold => 'Gold',
+    CoolTier.platinum => 'Platinum',
+  };
+
+  int get minPoints => switch (this) {
+    CoolTier.member => 0,
+    CoolTier.silver => 100,
+    CoolTier.gold => 300,
+    CoolTier.platinum => 500,
+  };
+
+  Color get color => switch (this) {
+    CoolTier.member => const Color(0xFF6B7280),
+    CoolTier.silver => const Color(0xFF9CA3AF),
+    CoolTier.gold => const Color(0xFFFBBF24),
+    CoolTier.platinum => const Color(0xFFE5E7EB),
+  };
+}
+
+extension CoolTierX on CoolTier {
+  static CoolTier fromValue(String? value) {
+    if (value == null) return CoolTier.member;
+    return CoolTier.values.firstWhere(
+      (e) => e.value.toLowerCase() == value.toLowerCase(),
+      orElse: () => CoolTier.member,
+    );
+  }
+
+  static CoolTier fromPoints(int points) {
+    if (points >= CoolTier.platinum.minPoints) return CoolTier.platinum;
+    if (points >= CoolTier.gold.minPoints) return CoolTier.gold;
+    if (points >= CoolTier.silver.minPoints) return CoolTier.silver;
+    return CoolTier.member;
+  }
+}
 
 /// Unified cross-app status for a user.
-///
-/// Reuses [FanTier] from the Rayon model so there is a single tier system.
 class CoolStatus extends Equatable {
   const CoolStatus({
     required this.id,
@@ -23,7 +69,7 @@ class CoolStatus extends Equatable {
   final String id;
   final String userId;
   final int totalPoints;
-  final FanTier tier;
+  final CoolTier tier;
   final int currentStreak;
   final int longestStreak;
   final int streakGraceRemaining;
@@ -35,19 +81,19 @@ class CoolStatus extends Equatable {
   // ─── Progress helpers ───────────────────────────────────────────
 
   int get nextTierPoints => switch (tier) {
-    FanTier.fan => 100,
-    FanTier.bronze => 300,
-    FanTier.gold => 500,
-    FanTier.platinum => totalPoints,
+    CoolTier.member => CoolTier.silver.minPoints,
+    CoolTier.silver => CoolTier.gold.minPoints,
+    CoolTier.gold => CoolTier.platinum.minPoints,
+    CoolTier.platinum => totalPoints,
   };
 
   int get pointsToNextTier => switch (tier) {
-    FanTier.platinum => 0,
+    CoolTier.platinum => 0,
     _ => (nextTierPoints - totalPoints).clamp(0, nextTierPoints),
   };
 
   double get progressToNextTier {
-    if (tier == FanTier.platinum) return 1;
+    if (tier == CoolTier.platinum) return 1;
     final floor = tier.minPoints;
     final span = nextTierPoints - floor;
     if (span <= 0) return 1;
@@ -61,8 +107,8 @@ class CoolStatus extends Equatable {
   factory CoolStatus.fromJson(Map<String, dynamic> json) {
     final points = _asInt(json['total_points']);
     final tier = json['tier'] == null
-        ? FanTierX.fromPoints(points)
-        : FanTierX.fromValue(json['tier']?.toString());
+        ? CoolTierX.fromPoints(points)
+        : CoolTierX.fromValue(json['tier']?.toString());
 
     return CoolStatus(
       id: (json['id'] ?? '').toString(),
@@ -99,7 +145,7 @@ class CoolStatus extends Equatable {
     id: '',
     userId: userId,
     totalPoints: 0,
-    tier: FanTier.fan,
+    tier: CoolTier.member,
     currentStreak: 0,
     longestStreak: 0,
     streakGraceRemaining: 1,

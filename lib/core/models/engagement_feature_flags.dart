@@ -96,7 +96,7 @@ class EngagementFeatureFlags {
     required this.engagementEnabled,
     required this.shareTrackingEnabled,
     required this.groupCaptainEnabled,
-    required this.rayonChapterEnabled,
+    required this.partnerChapterEnabled,
     required this.biopayEnabled,
     required this.momo,
     required this.ticketPurchase,
@@ -108,7 +108,7 @@ class EngagementFeatureFlags {
       engagementEnabled: true,
       shareTrackingEnabled: true,
       groupCaptainEnabled: false,
-      rayonChapterEnabled: false,
+      partnerChapterEnabled: false,
       biopayEnabled: true,
       momo: ManagedFeatureRollout(key: 'momo'),
       ticketPurchase: ManagedFeatureRollout(key: 'ticket_purchase'),
@@ -131,9 +131,9 @@ class EngagementFeatureFlags {
         values['engagement_group_captain_enabled'],
         fallback: defaults.groupCaptainEnabled,
       ),
-      rayonChapterEnabled: _coerceBool(
-        values['engagement_rayon_chapter_enabled'],
-        fallback: defaults.rayonChapterEnabled,
+      partnerChapterEnabled: _coerceBool(
+        values['engagement_partner_chapter_enabled'],
+        fallback: defaults.partnerChapterEnabled,
       ),
       biopayEnabled: _coerceBool(
         values['feature_biopay_enabled'],
@@ -163,7 +163,7 @@ class EngagementFeatureFlags {
   final bool engagementEnabled;
   final bool shareTrackingEnabled;
   final bool groupCaptainEnabled;
-  final bool rayonChapterEnabled;
+  final bool partnerChapterEnabled;
   final bool biopayEnabled;
   final ManagedFeatureRollout momo;
   final ManagedFeatureRollout ticketPurchase;
@@ -197,15 +197,13 @@ class EngagementFeatureFlags {
       'engagement_enabled': engagementEnabled,
       'engagement_share_tracking_enabled': shareTrackingEnabled,
       'engagement_group_captain_enabled': groupCaptainEnabled,
-      'engagement_rayon_chapter_enabled': rayonChapterEnabled,
+      'engagement_partner_chapter_enabled': partnerChapterEnabled,
       'feature_biopay_enabled': biopayEnabled,
       ...momo.toRemoteConfigDefaults(killSwitchKey: 'kill_momo_payments'),
       ...ticketPurchase.toRemoteConfigDefaults(
         killSwitchKey: 'kill_ticket_purchase',
       ),
-      ...credit.toRemoteConfigDefaults(
-        killSwitchKey: 'kill_credit_features',
-      ),
+      ...credit.toRemoteConfigDefaults(killSwitchKey: 'kill_credit_features'),
     };
   }
 }

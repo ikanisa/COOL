@@ -1,4 +1,3 @@
-
 import 'package:cool_app/shared/widgets/admin_dense_row_tile.dart';
 import 'package:cool_app/shared/widgets/admin_detail_scaffold.dart';
 import 'package:cool_app/shared/widgets/admin_filter_rail.dart';
@@ -44,9 +43,7 @@ void main() {
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [
-          ...overrides,
-        ],
+        overrides: [...overrides],
         child: MaterialApp(
           theme: ThemeData(brightness: Brightness.dark, useMaterial3: true),
           home: MediaQuery(
@@ -213,7 +210,6 @@ void main() {
       await expectGolden(tester, 'cool_search_field_empty');
     });
   });
-
 
   group('CoolAdminInlineField', () {
     testWidgets('with label and actions', (tester) async {

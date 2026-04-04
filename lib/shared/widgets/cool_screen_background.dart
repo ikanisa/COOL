@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/brand/app_brand.dart';
 import '../../core/theme/cool_foundations.dart';
 import 'atmospheric_background.dart';
 
@@ -32,14 +31,7 @@ class CoolScreenBackground extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.coolSemanticColors;
-    final brand = () {
-      try {
-        return ref.watch(appBrandProvider);
-      } on StateError {
-        return const AppBranding.rayon();
-      }
-    }();
-
+    
     if (!showGlow) {
       return DecoratedBox(
         decoration: BoxDecoration(color: colors.appBackground),
@@ -47,12 +39,8 @@ class CoolScreenBackground extends ConsumerWidget {
       );
     }
 
-    final effectivePrimary =
-        primaryColor ??
-        (brand.isRayonDominant ? brand.primaryColor : colors.accent);
-    final effectiveSecondary =
-        secondaryColor ??
-        (brand.isRayonDominant ? brand.secondaryColor : colors.info);
+    final effectivePrimary = primaryColor ?? colors.accent;
+    final effectiveSecondary = secondaryColor ?? colors.info;
 
     final accentGlow = effectivePrimary.withValues(alpha: 0.14);
     final secondaryGlow = effectiveSecondary.withValues(alpha: 0.10);

@@ -142,7 +142,9 @@ class CoolCountry {
       ussdCode = ussdCode.replaceAll('{amount}', amount.toString());
     } else {
       // Remove the expected literal '*{amount}' or just '{amount}'
-      ussdCode = ussdCode.replaceAll('*{amount}', '').replaceAll('{amount}', '');
+      ussdCode = ussdCode
+          .replaceAll('*{amount}', '')
+          .replaceAll('{amount}', '');
     }
 
     final routeRegex = switch (recipientType) {

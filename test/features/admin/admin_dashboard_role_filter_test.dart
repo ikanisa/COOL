@@ -21,9 +21,8 @@ void main() {
       // Platform admin should see all cards including restricted ones
       expect(find.text('Admin Panel'), findsOneWidget);
       expect(find.text('Users'), findsOneWidget);
-      expect(find.text('Partners'), findsOneWidget);
-      expect(find.text('Rayon Sports'), findsOneWidget);
-      expect(find.text('Special Products'), findsOneWidget);
+      expect(find.text('App Config'), findsOneWidget);
+      expect(find.text('Operations'), findsOneWidget);
       expect(find.text('Admin Roles'), findsOneWidget);
       expect(find.text('System Analytics'), findsOneWidget);
       expect(find.text('Audit Log'), findsOneWidget);
@@ -45,8 +44,8 @@ void main() {
       // Non-admin should see dashboard title but no cards
       expect(find.text('Admin Panel'), findsOneWidget);
       expect(find.text('Users'), findsNothing);
-      expect(find.text('Partners'), findsNothing);
-      expect(find.text('Rayon Sports'), findsNothing);
+      expect(find.text('App Config'), findsNothing);
+      expect(find.text('Operations'), findsNothing);
     });
   });
 }

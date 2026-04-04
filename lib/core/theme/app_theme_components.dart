@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'app_theme_text.dart';
 import 'cool_foundations.dart';
 
-/// Component-level [ThemeData] overrides — Mobi × Rayon system.
+/// Component-level [ThemeData] overrides — Mobi × Partner system.
 abstract final class AppThemeComponents {
   static AppBarTheme appBar(
     CoolSemanticColors colors,

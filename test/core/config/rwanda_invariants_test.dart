@@ -139,18 +139,22 @@ void main() {
     expect(content, contains("'en'"), reason: 'AppMarket must reference en');
   });
 
-  test('prismaValues does not contain Multilingual', () {
-    final file = File(
-      'lib/features/partners/widgets/prisma_partner_config.dart',
-    );
-    if (!file.existsSync()) {
-      fail('prisma_partner_config.dart not found');
-    }
-    final content = file.readAsStringSync();
+  test('consumer source does not contain Multilingual', () {
+    final violations = dartFiles
+        .where(
+          (file) =>
+              !allowlistedPaths.any((allowed) => file.path.contains(allowed)),
+        )
+        .where((file) => file.readAsStringSync().contains('Multilingual'))
+        .map((file) => file.path)
+        .toList(growable: false);
+
     expect(
-      content.contains('Multilingual'),
-      isFalse,
-      reason: 'PRISMA values must not reference Multilingual (English-only)',
+      violations,
+      isEmpty,
+      reason:
+          'Consumer-facing source must remain English-only. '
+          'Found unexpected Multilingual references in: ${violations.join(', ')}',
     );
   });
 

@@ -9,18 +9,18 @@ final bankAdminRepositoryProvider = Provider<BankAdminRepository>((ref) {
 });
 
 final bankAdminWorkspaceProvider = FutureProvider.autoDispose
-    .family<BankAdminWorkspaceSnapshot, String>((ref, partnerId) async {
-      if (partnerId.trim().isEmpty) {
+    .family<BankAdminWorkspaceSnapshot, String>((ref, bankId) async {
+      if (bankId.trim().isEmpty) {
         return const BankAdminWorkspaceSnapshot();
       }
 
       final repository = ref.read(bankAdminRepositoryProvider);
-      return repository.loadWorkspaceSnapshot(partnerId);
+      return repository.loadWorkspaceSnapshot(bankId);
     });
 
 /// Analytics summary for a bank partner.
 final bankAnalyticsProvider = FutureProvider.autoDispose
-    .family<Map<String, dynamic>, String>((ref, partnerId) async {
+    .family<Map<String, dynamic>, String>((ref, bankId) async {
       final repo = ref.read(bankAdminRepositoryProvider);
-      return repo.fetchBankAnalytics(partnerId);
+      return repo.fetchBankAnalytics(bankId);
     });

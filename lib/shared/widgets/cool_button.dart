@@ -6,7 +6,7 @@ import '../../core/theme/cool_foundations.dart';
 
 /// Button variants — ROUGEBLACK system.
 enum CoolButtonVariant {
-  /// Rayon Red background, white text, red glow shadow.
+  /// Partner Red background, white text, red glow shadow.
   primary,
 
   /// white/10 background, white text.
@@ -21,7 +21,7 @@ enum CoolButtonVariant {
   /// Gold background, black text, gold glow shadow.
   accent,
 
-  /// Claymorphic Rayon Red — dual inner-shadow 3D technique.
+  /// Claymorphic Partner Red — dual inner-shadow 3D technique.
   /// Use for hero CTAs that need tactile emphasis.
   clay,
 }

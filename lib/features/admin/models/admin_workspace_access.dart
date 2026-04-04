@@ -6,10 +6,7 @@ enum AdminRole {
   admin,
 
   /// Scoped access to bank workspaces.
-  bank,
-
-  /// Rayon Sports partner administration.
-  rayonSport;
+  bank;
 
   static AdminRole? fromString(String? value) {
     if (value == null) {
@@ -21,9 +18,6 @@ enum AdminRole {
         return AdminRole.admin;
       case 'bank':
         return AdminRole.bank;
-      case 'rayon_sport':
-      case 'rayon-sport':
-        return AdminRole.rayonSport;
       default:
         return null;
     }
@@ -32,13 +26,11 @@ enum AdminRole {
   String get label => switch (this) {
     AdminRole.admin => 'Platform Admin',
     AdminRole.bank => 'Bank Admin',
-    AdminRole.rayonSport => 'Rayon Sport Admin',
   };
 
   String get dbValue => switch (this) {
     AdminRole.admin => 'admin',
     AdminRole.bank => 'bank',
-    AdminRole.rayonSport => 'rayon_sport',
   };
 }
 
@@ -48,8 +40,8 @@ class AdminRoleAssignment {
     required this.id,
     required this.userId,
     required this.role,
-    this.partnerScopeId,
-    this.partnerName,
+    this.bankId,
+    this.bankName,
     this.userName,
     this.userPhone,
     this.grantedBy,
@@ -62,8 +54,8 @@ class AdminRoleAssignment {
   final String id;
   final String userId;
   final AdminRole role;
-  final String? partnerScopeId;
-  final String? partnerName;
+  final String? bankId;
+  final String? bankName;
   final String? userName;
   final String? userPhone;
   final String? grantedBy;
@@ -77,8 +69,9 @@ class AdminRoleAssignment {
       id: json['id']?.toString() ?? '',
       userId: json['user_id']?.toString() ?? '',
       role: AdminRole.fromString(json['role']?.toString()) ?? AdminRole.admin,
-      partnerScopeId: json['partner_scope_id']?.toString(),
-      partnerName: json['partner_name']?.toString(),
+      // Older RPCs still emit partner_* keys for bank-scoped assignments.
+      bankId: (json['bank_id'] ?? json['partner_scope_id'])?.toString(),
+      bankName: (json['bank_name'] ?? json['partner_name'])?.toString(),
       userName: json['user_name']?.toString(),
       userPhone: json['user_phone']?.toString(),
       grantedBy: json['granted_by']?.toString(),
@@ -98,17 +91,13 @@ class AdminWorkspaceAccess {
   const AdminWorkspaceAccess({
     this.hasPlatformAccess = false,
     this.hasBankAccess = false,
-    this.hasGlobalPartnerAccess = false,
     this.bankAdminIds = const <String>{},
-    this.partnerAdminIds = const <String>{},
     this.roleAssignments = const <AdminRoleAssignment>[],
   });
 
   final bool hasPlatformAccess;
   final bool hasBankAccess;
-  final bool hasGlobalPartnerAccess;
   final Set<String> bankAdminIds;
-  final Set<String> partnerAdminIds;
 
   /// All active role assignments for this user (from DB).
   final List<AdminRoleAssignment> roleAssignments;
@@ -119,16 +108,7 @@ class AdminWorkspaceAccess {
       bankAdminIds.isNotEmpty ||
       roleAssignments.any((assignment) => assignment.role == AdminRole.bank);
 
-  bool get hasPartnerAdminAccess =>
-      hasPlatformAccess ||
-      hasGlobalPartnerAccess ||
-      partnerAdminIds.isNotEmpty ||
-      roleAssignments.any(
-        (assignment) => assignment.role == AdminRole.rayonSport,
-      );
-
-  bool get hasAnyAdminAccess =>
-      hasPlatformAccess || hasBankAdminAccess || hasPartnerAdminAccess;
+  bool get hasAnyAdminAccess => hasPlatformAccess || hasBankAdminAccess;
 
   /// The set of distinct roles this user has.
   Set<AdminRole> get activeRoles =>
@@ -143,17 +123,6 @@ class AdminWorkspaceAccess {
       return true;
     }
     return bankAdminIds.contains(normalized);
-  }
-
-  bool canAccessPartnerId(String partnerId) {
-    final normalized = partnerId.trim();
-    if (normalized.isEmpty) {
-      return false;
-    }
-    if (hasPlatformAccess || hasGlobalPartnerAccess) {
-      return true;
-    }
-    return partnerAdminIds.contains(normalized);
   }
 
   /// Parse the RPC response from `get_admin_access_for_user`.
@@ -173,9 +142,7 @@ class AdminWorkspaceAccess {
     return AdminWorkspaceAccess(
       hasPlatformAccess: json['has_platform_access'] as bool? ?? false,
       hasBankAccess: json['has_bank_access'] as bool? ?? false,
-      hasGlobalPartnerAccess: json['has_rayon_access'] as bool? ?? false,
       bankAdminIds: _stringSet(json['bank_partner_ids']),
-      partnerAdminIds: _stringSet(json['partner_admin_ids']),
       roleAssignments: assignments,
     );
   }
@@ -190,19 +157,17 @@ class AdminWorkspaceAccess {
               metadata['is_admin'] ??
               metadata['admin'],
         );
-    final hasBankAccess = _boolValue(metadata['has_bank_access']);
-    final hasGlobalPartnerAccess = _boolValue(metadata['has_rayon_access']);
+    final hasBankAccess = _boolValue(
+      metadata['has_bank_access'] ?? metadata['is_bank_admin'],
+    );
     final bankAdminIds = _stringSet(
       metadata['bank_partner_ids'] ?? metadata['bank_admin_ids'],
     );
-    final partnerAdminIds = _stringSet(metadata['partner_admin_ids']);
 
     return AdminWorkspaceAccess(
       hasPlatformAccess: hasPlatformAccess,
       hasBankAccess: hasBankAccess,
-      hasGlobalPartnerAccess: hasGlobalPartnerAccess,
       bankAdminIds: bankAdminIds,
-      partnerAdminIds: partnerAdminIds,
     );
   }
 

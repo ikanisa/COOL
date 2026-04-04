@@ -4,25 +4,15 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/rs_colors.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
-import '../../rayon/providers/rayon_sports_provider.dart';
-import '../../rayon/models/rs_models.dart';
 
 import '../providers/home_dashboard_provider.dart';
-import '../widgets/home_community_cards.dart';
-import '../widgets/home_fan_savings_card.dart';
-import '../widgets/home_hero_carousel.dart';
-import '../widgets/home_membership_strip.dart';
 import '../widgets/home_quick_services.dart';
 import '../widgets/home_shared.dart';
 
 // ─────────────────────────────────────────────────────────────────────
-// HomeScreen — exact replica of the design screenshots
-// Sections: Hero Carousel → Membership → Fan Savings → Quick Services →
-//   Official Network → Global Fan Network → Fan Missions →
-//   Club & Community → Partner Network → Community Impact →
-//   Stadium Lighting
+// HomeScreen — COOL dashboard (post-RS purge)
+// Sections: App Bar → Welcome → Dashboard Stats → Quick Services
 // ─────────────────────────────────────────────────────────────────────
 
 class HomeScreen extends StatelessWidget {
@@ -38,46 +28,7 @@ class HomeScreen extends StatelessWidget {
       body: CoolScreenBackground(
         child: Consumer(
           builder: (context, ref, _) {
-            final rayon = ref.watch(rayonSportsDataProvider);
-            final membership = ref.watch(rayonMembershipProvider);
-            final nextMatch = ref.watch(rayonNextMatchProvider);
-            final isRecovering = ref.watch(rayonActionLoadingProvider);
             final dashboard = ref.watch(homeDashboardProvider).asData?.value;
-
-            final mem = membership.valueOrNull ?? rayon.valueOrNull?.membership;
-            final match = nextMatch.valueOrNull;
-            final data = rayon.valueOrNull;
-            final activeInitiatives =
-                data?.initiatives
-                    .where((initiative) => initiative.isActive)
-                    .toList(growable: false) ??
-                const <RsInitiative>[];
-            final hasInitiativeData = activeInitiatives.isNotEmpty;
-            final totalInitiativeRaised = hasInitiativeData
-                ? activeInitiatives.fold<int>(
-                    0,
-                    (sum, initiative) => sum + initiative.raisedAmount,
-                  )
-                : null;
-            final totalInitiativeTarget = hasInitiativeData
-                ? activeInitiatives.fold<int>(
-                    0,
-                    (sum, initiative) => sum + initiative.targetAmount,
-                  )
-                : null;
-            final totalInitiativeSupporters = hasInitiativeData
-                ? activeInitiatives.fold<int>(
-                    0,
-                    (sum, initiative) => sum + initiative.supporterCount,
-                  )
-                : null;
-            RsInitiative? stadiumInitiative;
-            for (final initiative in activeInitiatives) {
-              if (initiative.category == InitiativeCategory.stadium) {
-                stadiumInitiative = initiative;
-                break;
-              }
-            }
 
             return CustomScrollView(
               slivers: [
@@ -96,16 +47,16 @@ class HomeScreen extends StatelessWidget {
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: RsColors.rsRed.withValues(alpha: 0.15),
+                          color: colors.accent.withValues(alpha: 0.15),
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: RsColors.rsRed.withValues(alpha: 0.3),
+                            color: colors.accent.withValues(alpha: 0.3),
                             width: 1.5,
                           ),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.person_outline_rounded,
-                          color: RsColors.rsRed,
+                          color: colors.accent,
                           size: 24,
                         ),
                       ),
@@ -115,16 +66,7 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'ID NUMBER',
-                        style: context.coolText.mono(
-                          Theme.of(context).textTheme.labelSmall,
-                          fontWeight: FontWeight.w700,
-                          color: colors.secondaryText,
-                          letterSpacing: 1.0,
-                        ),
-                      ),
-                      Text(
-                        mem?.membershipNumber ?? '—',
+                        'COOL',
                         style: context.coolText.mono(
                           Theme.of(context).textTheme.titleMedium,
                           fontWeight: FontWeight.w800,
@@ -132,14 +74,6 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
-                ),
-
-                // ── 1. Hero Carousel (Match + Banners) ────────────────
-                SliverToBoxAdapter(
-                  child: HomeHeroCarousel(
-                    match: match,
-                    banners: data?.banners ?? const [],
                   ),
                 ),
 
@@ -153,76 +87,147 @@ class HomeScreen extends StatelessWidget {
                   ),
                   sliver: SliverList.list(
                     children: [
-                      // ── 2. Membership Strip ──────────────────────
-                      HomeMembershipStrip(
-                        membership: mem,
-                        isRecovering: isRecovering,
-                        onRecover: () => ensureHomeMembership(context, ref),
-                      ),
-                      const SizedBox(height: CoolSpace.x5),
+                      // ── Dashboard Balance ──────────────────────
+                      if (dashboard != null) ...[
+                        HomeGlassCard(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'TOTAL BALANCE',
+                                style: context.coolText.mono(
+                                  Theme.of(context).textTheme.labelSmall,
+                                  fontWeight: FontWeight.w700,
+                                  color: colors.secondaryText,
+                                  letterSpacing: 1.0,
+                                ),
+                              ),
+                              const SizedBox(height: CoolSpace.x2),
+                              Text(
+                                '${fmtAmt(dashboard.totalBalance)} RWF',
+                                style: context.coolText.heroNumber(
+                                  color: colors.primaryText,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: CoolSpace.x5),
+                      ],
 
-                      // ── 3. Fan Savings Plan ──────────────────────
-                      HomeFanSavingsPlanCard(
-                        balance: dashboard?.totalBalance,
-                        monthlyNetChange: dashboard?.monthlyNetChange,
-                      ),
-                      const SizedBox(height: CoolSpace.x5),
-
-                      // ── 4. Quick Services ────────────────────────
+                      // ── Quick Services ────────────────────────
                       const HomeQuickServices(),
                       const SizedBox(height: CoolSpace.x5),
 
-                      // ── 5. Official Network Strip ────────────────
-                      const HomeOfficialNetworkStrip(),
-                      const SizedBox(height: CoolSpace.x5),
-
-                      // ── 6. Global Fan Network ────────────────────
-                      HomeGlobalFanNetworkCard(
-                        fanCount: data?.registryMembers.length,
-                        clubCount: data?.clubs.length,
-                        onTap: () => context.push(AppRoutes.rayonRegistry),
-                      ),
-                      const SizedBox(height: CoolSpace.x5),
-
-                      // ── 7. Fan Missions ──────────────────────────
-                      HomeFanMissionsCard(
-                        tokens: mem?.points,
-                        progress: mem?.progressToNextTier,
-                      ),
-                      const SizedBox(height: CoolSpace.x5),
-
-                      // ── 8. Club & Community ──────────────────────
-                      HomeClubCommunityCard(
-                        raisedAmount: totalInitiativeRaised,
-                        targetAmount: totalInitiativeTarget,
-                        supporterCount: totalInitiativeSupporters,
-                      ),
-                      const SizedBox(height: CoolSpace.x5),
-
-                      // ── 9. Partner Network ───────────────────────
-                      HomePartnerNetworkCard(
-                        onTap: () => context.push(AppRoutes.partners),
-                      ),
-                      const SizedBox(height: CoolSpace.x5),
-
-                      // ── 10. Community Impact header ──────────────
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: CoolSpace.x4),
-                        child: Text(
-                          'COMMUNITY IMPACT',
-                          style: context.coolText.mono(
-                            Theme.of(context).textTheme.labelSmall,
-                            fontWeight: FontWeight.w700,
-                            color: colors.secondaryText,
-                            letterSpacing: 1.0,
-                          ),
+                      // ── Groups CTA ────────────────────────────
+                      HomeGlassCard(
+                        onTap: () => context.push(AppRoutes.groups),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 48,
+                              height: 48,
+                              decoration: BoxDecoration(
+                                color: colors.success.withValues(alpha: 0.15),
+                                borderRadius:
+                                    BorderRadius.circular(CoolRadii.sm),
+                              ),
+                              alignment: Alignment.center,
+                              child: Icon(
+                                Icons.groups_rounded,
+                                color: colors.success,
+                                size: 28,
+                              ),
+                            ),
+                            const SizedBox(width: CoolSpace.x4),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'CONTRIBUTION GROUPS',
+                                    style: context.coolText.mono(
+                                      Theme.of(context).textTheme.labelSmall,
+                                      fontWeight: FontWeight.w700,
+                                      color: colors.secondaryText,
+                                      letterSpacing: 1.0,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    'Save together',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                          color: colors.tertiaryText,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Icon(
+                              Icons.chevron_right_rounded,
+                              color: colors.secondaryText,
+                            ),
+                          ],
                         ),
                       ),
+                      const SizedBox(height: CoolSpace.x5),
 
-                      // ── 11. Stadium Lighting ─────────────────────
-                      HomeStadiumLightingCard(
-                        raisedAmount: stadiumInitiative?.raisedAmount,
-                        targetAmount: stadiumInitiative?.targetAmount,
+                      // ── MoMo CTA ─────────────────────────────
+                      HomeGlassCard(
+                        onTap: () => context.push(AppRoutes.momo),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 48,
+                              height: 48,
+                              decoration: BoxDecoration(
+                                color: colors.warning.withValues(alpha: 0.15),
+                                borderRadius:
+                                    BorderRadius.circular(CoolRadii.sm),
+                              ),
+                              alignment: Alignment.center,
+                              child: Icon(
+                                Icons.phone_android_rounded,
+                                color: colors.warning,
+                                size: 28,
+                              ),
+                            ),
+                            const SizedBox(width: CoolSpace.x4),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'MOMO SMS PARSER',
+                                    style: context.coolText.mono(
+                                      Theme.of(context).textTheme.labelSmall,
+                                      fontWeight: FontWeight.w700,
+                                      color: colors.secondaryText,
+                                      letterSpacing: 1.0,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    'Smart payment tracking',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                          color: colors.tertiaryText,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Icon(
+                              Icons.chevron_right_rounded,
+                              color: colors.secondaryText,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

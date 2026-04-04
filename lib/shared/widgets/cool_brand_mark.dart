@@ -13,9 +13,7 @@ class CoolBrandMark extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final brand = ref.watch(appBrandProvider);
     return Semantics(
-      label: brand.isRayonDominant
-          ? brand.logoSemanticLabel
-          : context.l10n.coolAppLogo,
+      label: context.l10n.coolAppLogo,
       image: true,
       excludeSemantics: true,
       child: SizedBox(

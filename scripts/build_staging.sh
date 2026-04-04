@@ -29,11 +29,15 @@ _load_release_env
 : "${SUPABASE_URL:?CRITICAL BLOCKER — Set SUPABASE_URL before building ANY APK or AAB. The app will crash or show a config error screen without it.}"
 : "${SUPABASE_ANON_KEY:?CRITICAL BLOCKER — Set SUPABASE_ANON_KEY before building ANY APK or AAB. The app will crash or show a config error screen without it.}"
 
-: "${FIREBASE_ANDROID_STAGING_API_KEY:?Set FIREBASE_ANDROID_STAGING_API_KEY before building the staging APK.}"
-: "${FIREBASE_ANDROID_STAGING_APP_ID:?Set FIREBASE_ANDROID_STAGING_APP_ID before building the staging APK.}"
-: "${FIREBASE_ANDROID_STAGING_MESSAGING_SENDER_ID:?Set FIREBASE_ANDROID_STAGING_MESSAGING_SENDER_ID before building the staging APK.}"
-: "${FIREBASE_ANDROID_STAGING_PROJECT_ID:?Set FIREBASE_ANDROID_STAGING_PROJECT_ID before building the staging APK.}"
-: "${FIREBASE_ANDROID_STAGING_STORAGE_BUCKET:?Set FIREBASE_ANDROID_STAGING_STORAGE_BUCKET before building the staging APK.}"
+native_firebase_config="$ROOT_DIR/android/app/src/staging/google-services.json"
+if [[ ! -f "$native_firebase_config" ]]; then
+  echo "CRITICAL BLOCKER — Missing Firebase Android config at $native_firebase_config." >&2
+  exit 1
+fi
+
+if [[ -z "${FIREBASE_ANDROID_STAGING_API_KEY:-}" ]]; then
+  echo "⚠️  FIREBASE_ANDROID_STAGING_* overrides not set; Firebase will use $native_firebase_config." >&2
+fi
 
 # Stale daemons from earlier builds can keep the workspace locked or starve memory.
 if [[ -x "$ROOT_DIR/android/gradlew" ]]; then

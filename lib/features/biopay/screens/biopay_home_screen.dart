@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/rs_colors.dart';
 import '../../../shared/widgets/atmospheric_background.dart';
 
 /// BioPay Hub screen — 3 full-width payment method cards stacked vertically.
@@ -97,7 +96,7 @@ class BiopayHomeScreen extends StatelessWidget {
                     // ── Hero text ──
                     Text(
                       'HOW DO YOU',
-                      style: context.coolText.rayonCondensed(
+                      style: context.coolText.displayCondensed(
                         theme.textTheme.displayMedium,
                         fontWeight: FontWeight.w900,
                         letterSpacing: -0.5,
@@ -106,10 +105,10 @@ class BiopayHomeScreen extends StatelessWidget {
                     ),
                     Text(
                       'WANT TO PAY?',
-                      style: context.coolText.rayonCondensed(
+                      style: context.coolText.displayCondensed(
                         theme.textTheme.displayMedium,
                         fontWeight: FontWeight.w900,
-                        color: RsColors.rsRed,
+                        color: colors.accent,
                         letterSpacing: -0.5,
                         height: 1.0,
                       ),
@@ -122,7 +121,7 @@ class BiopayHomeScreen extends StatelessWidget {
                       icon: Icons.face_retouching_natural_rounded,
                       title: 'FACE\nSCAN',
                       subtitle: 'SCAN FACE TO\nPAY',
-                      accentColor: RsColors.rsRed,
+                      accentColor: colors.accent,
                       onTap: () => context.push(
                         AppRoutes.biopayScanLocation(mode: 'pay'),
                       ),
@@ -135,7 +134,7 @@ class BiopayHomeScreen extends StatelessWidget {
                       icon: Icons.nfc_rounded,
                       title: 'NFC\nSCAN',
                       subtitle: 'PHONE TO\nPHONE',
-                      accentColor: RsColors.rsGold,
+                      accentColor: colors.accentGold,
                       hasGoldGradient: true,
                       onTap: () => context.push(AppRoutes.biopayNfc),
                     ),
@@ -147,7 +146,7 @@ class BiopayHomeScreen extends StatelessWidget {
                       icon: Icons.qr_code_scanner_rounded,
                       title: 'QR\nSCAN',
                       subtitle: 'SCAN TO PAY',
-                      accentColor: RsColors.rsRed,
+                      accentColor: colors.accent,
                       onTap: () =>
                           context.push('${AppRoutes.scanner}?mode=momo'),
                     ),
@@ -204,8 +203,8 @@ class _BioPayMethodCard extends StatelessWidget {
                     end: Alignment.bottomRight,
                     colors: [
                       Colors.white.withValues(alpha: 0.06),
-                      RsColors.rsGold.withValues(alpha: 0.08),
-                      RsColors.rsGold.withValues(alpha: 0.12),
+                      colors.accentGold.withValues(alpha: 0.08),
+                      colors.accentGold.withValues(alpha: 0.12),
                     ],
                   )
                 : null,
@@ -215,7 +214,7 @@ class _BioPayMethodCard extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xl)),
             border: Border.all(
               color: hasGoldGradient
-                  ? RsColors.rsGold.withValues(alpha: 0.15)
+                  ? colors.accentGold.withValues(alpha: 0.15)
                   : Colors.white.withValues(alpha: 0.10),
             ),
           ),
@@ -247,7 +246,7 @@ class _BioPayMethodCard extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: context.coolText.rayonCondensed(
+                      style: context.coolText.displayCondensed(
                         theme.textTheme.headlineMedium,
                         fontWeight: FontWeight.w800,
                         height: 0.95,
