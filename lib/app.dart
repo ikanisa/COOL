@@ -9,6 +9,7 @@ import 'core/theme/theme_preference.dart';
 import 'core/theme/theme_preference_provider.dart';
 import 'core/theme/theme_system_chrome.dart';
 import 'l10n/app_localizations.dart';
+import 'shared/widgets/pwa_experience_overlay.dart';
 
 /// Root application widget.
 ///
@@ -34,7 +35,11 @@ class CoolApp extends ConsumerWidget {
       darkTheme: AppTheme.dark,
       themeMode: themePreference.themeMode,
       builder: (context, child) =>
-          ThemeSystemChrome(child: child ?? const SizedBox.shrink()),
+          ThemeSystemChrome(
+            child: PwaExperienceOverlay(
+              child: child ?? const SizedBox.shrink(),
+            ),
+          ),
       routerConfig: router,
       locale: const Locale('en'),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
