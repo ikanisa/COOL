@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="description" content="COOL PWA offline fallback page.">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F3F0EA">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D110E">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="COOL">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Offline — COOL PWA">
+    <meta property="og:description" content="Custom offline fallback for cached routes, queued actions, and local resilience in COOL.">
+    <meta property="og:url" content="https://pwa.cool.app/offline/">
+    <meta property="og:image" content="https://pwa.cool.app/assets/screenshots/home.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Offline — COOL PWA">
+    <meta name="twitter:description" content="A branded offline fallback that keeps cached routes and queued work available.">
+    <meta name="twitter:image" content="https://pwa.cool.app/assets/screenshots/home.png">
+    <link rel="canonical" href="https://pwa.cool.app/offline/">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" href="/assets/icons/Icon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="/assets/icons/Icon-192.png">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <title>Offline — COOL PWA</title>
+  </head>
+  <body data-route="offline">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="shell">
+      <main id="main">
+        <section class="hero">
+          <article class="hero-card">
+            <span class="eyebrow">Offline fallback</span>
+            <h1>You are still inside COOL.</h1>
+            <p class="lede">This page replaces the browser’s generic offline error. Cached routes, local drafts, and your queued actions stay available until connectivity returns.</p>
+            <div class="hero-actions">
+              <a class="button" href="/home/">Try cached home</a>
+              <a class="secondary-button" href="/groups/">Open cached groups</a>
+            </div>
+          </article>
+          <article class="hero-card">
+            <div class="list">
+              <div class="list-item"><strong>Queued actions stay safe</strong><p>Background sync and replay-safe persistence prevent silent data loss.</p></div>
+              <div class="list-item"><strong>Cached content stays readable</strong><p>Statements, dashboards, and route shells remain accessible from cache.</p></div>
+              <div class="list-item"><strong>Reconnect and continue</strong><p>The app flushes queued mutations automatically once the network returns.</p></div>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/assets/js/app.js"></script>
+  </body>
+</html>

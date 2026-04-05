@@ -1,0 +1,39 @@
+{
+  "metrics": {
+    "membersOnline": "842",
+    "queuedActions": "14",
+    "cwvStatus": "Green"
+  },
+  "activity": [
+    {
+      "title": "App shell cached",
+      "description": "The full shell is available offline after the first successful visit.",
+      "status": "Ready",
+      "tone": "online",
+      "meta": "Precache + runtime cache"
+    },
+    {
+      "title": "Install funnel armed",
+      "description": "Install prompt waits for a success moment rather than firing on first paint.",
+      "status": "Contextual",
+      "tone": "install",
+      "meta": "beforeinstallprompt deferred"
+    },
+    {
+      "title": "Vitals observed",
+      "description": "LCP, INP, CLS, FCP, and TTFB are stored locally and can be sent to a RUM endpoint.",
+      "status": "Tracked",
+      "tone": "syncing",
+      "meta": "PerformanceObserver"
+    }
+  ],
+  "queue": [
+    {
+      "title": "Contribution pledge draft",
+      "description": "Saved offline and ready for sync when connectivity returns.",
+      "status": "Pending sync",
+      "tone": "offline",
+      "meta": "Queue via IndexedDB"
+    }
+  ]
+}

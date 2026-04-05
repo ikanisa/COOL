@@ -1,0 +1,23 @@
+{
+  "metrics": {
+    "securityHeaders": "7/7",
+    "offlineCoverage": "9 routes",
+    "auditReadiness": "Pass"
+  },
+  "activity": [
+    {
+      "title": "Headers locked down",
+      "description": "CSP, HSTS, frame protections, and Permissions-Policy are configured in deploy settings.",
+      "status": "Hardened",
+      "tone": "online",
+      "meta": "Firebase hosting headers"
+    },
+    {
+      "title": "Cross-browser matrix",
+      "description": "The PWA includes repeatable browser and accessibility audits for release gates.",
+      "status": "Enforced",
+      "tone": "syncing",
+      "meta": "Playwright + Lighthouse"
+    }
+  ]
+}

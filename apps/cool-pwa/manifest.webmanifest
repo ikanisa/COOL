@@ -1,0 +1,161 @@
+{
+  "id": "/",
+  "name": "COOL Progressive Web App",
+  "short_name": "COOL",
+  "description": "Offline-first community finance, group coordination, MoMo workflows, profile security, and admin readiness in a world-class PWA.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ],
+  "orientation": "portrait-primary",
+  "background_color": "#F3F0EA",
+  "theme_color": "#0D110E",
+  "categories": [
+    "finance",
+    "productivity",
+    "business"
+  ],
+  "prefer_related_applications": false,
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "share_target": {
+    "action": "/share/",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+cool",
+      "url": "/home/?intent=%s"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Home dashboard",
+      "short_name": "Home",
+      "description": "Open the COOL home dashboard.",
+      "url": "/home/",
+      "icons": [
+        {
+          "src": "/assets/icons/Icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Groups",
+      "short_name": "Groups",
+      "description": "Open group savings and contribution flows.",
+      "url": "/groups/",
+      "icons": [
+        {
+          "src": "/assets/icons/Icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "MoMo",
+      "short_name": "MoMo",
+      "description": "Open Mobile Money activity and export workflows.",
+      "url": "/momo/",
+      "icons": [
+        {
+          "src": "/assets/icons/Icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Alerts",
+      "short_name": "Alerts",
+      "description": "Open notifications and re-engagement controls.",
+      "url": "/notifications/",
+      "icons": [
+        {
+          "src": "/assets/icons/Icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/screenshots/home.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "COOL home dashboard"
+    },
+    {
+      "src": "/assets/screenshots/shop.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "COOL commerce and routing surfaces"
+    },
+    {
+      "src": "/assets/screenshots/settings.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "COOL profile and settings view"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/assets/icons/Icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/Icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/Icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/Icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/Icon-1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/Icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/Icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -83,6 +83,7 @@ output/play_store/play-store-sa-key.json
 analysis_output*.txt
 update_profile.dart
 package-lock.json
+node_modules/
 .firebase/
 .agent/
 
@@ -109,3 +110,5 @@ third_party/**/example/
 
 # Gradle build caches (third-party modules)
 **/.gradle/
+
+!apps/cool-pwa/package-lock.json

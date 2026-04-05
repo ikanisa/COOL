@@ -1,0 +1,42 @@
+name: COOL PWA CI
+
+on:
+  pull_request:
+    paths:
+      - "apps/cool-pwa/**"
+      - "firebase.pwa.json"
+      - ".github/workflows/cool-pwa-ci.yml"
+  push:
+    branches: ["main"]
+    paths:
+      - "apps/cool-pwa/**"
+      - "firebase.pwa.json"
+
+jobs:
+  pwa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install PWA dependencies
+        working-directory: apps/cool-pwa
+        run: npm ci
+
+      - name: Install Chromium for Playwright
+        working-directory: apps/cool-pwa
+        run: npx playwright install --with-deps chromium
+
+      - name: Run contract and browser tests
+        working-directory: apps/cool-pwa
+        run: npm test
+
+      - name: Run Lighthouse audit
+        working-directory: apps/cool-pwa
+        run: npm run audit:lighthouse

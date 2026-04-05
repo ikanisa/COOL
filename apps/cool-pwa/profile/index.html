@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="COOL profile settings with theme continuity, passkey setup, install status, and browser capability checks.">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F3F0EA">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D110E">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="COOL">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Profile — COOL PWA">
+    <meta property="og:description" content="Profile settings and passkey-ready browser security in COOL PWA.">
+    <meta property="og:url" content="https://pwa.cool.app/profile/">
+    <meta property="og:image" content="https://pwa.cool.app/assets/screenshots/settings.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Profile — COOL PWA">
+    <meta name="twitter:description" content="Persisted profile settings, passkeys, and install-state continuity in COOL.">
+    <meta name="twitter:image" content="https://pwa.cool.app/assets/screenshots/settings.png">
+    <link rel="canonical" href="https://pwa.cool.app/profile/">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" href="/assets/icons/Icon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="/assets/icons/Icon-192.png">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <title>Profile — COOL PWA</title>
+  </head>
+  <body data-route="profile">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="shell">
+      <header class="topbar">
+        <a class="brand-link" href="/"><img src="/assets/img/cool_logo_mark.png" alt=""><span class="brand-copy"><span class="brand-kicker">Profile</span><span class="brand-title">COOL</span></span></a>
+        <div class="toolbar"><span class="status-pill online" data-online-indicator>Online</span><button class="chip-button" type="button" data-theme-toggle>Theme</button><span class="status-pill install" data-notification-status>Not enabled</span></div>
+      </header>
+      <nav class="shell-nav" aria-label="Primary">
+        <a href="/" data-route-link>Overview</a>
+        <a href="/home/" data-route-link>Home</a>
+        <a href="/groups/" data-route-link>Groups</a>
+        <a href="/momo/" data-route-link>MoMo</a>
+        <a href="/profile/" data-route-link>Profile</a>
+        <a href="/notifications/" data-route-link>Alerts</a>
+      </nav>
+      <main id="main">
+        <section class="section-header"><div><h1 class="page-title">Persisted profile controls</h1><p class="section-caption">State continuity matters on the web: preferences, form progress, passkey status, and install state should survive sessions.</p></div></section>
+        <section class="stat-grid">
+          <article class="metric-card card"><span class="metric-label">Security level</span><div class="metric-value" data-metric="metrics.securityLevel">High</div><div class="metric-meta">Hosting headers and passkey-ready UX raise the floor.</div></article>
+          <article class="metric-card card"><span class="metric-label">Trusted devices</span><div class="metric-value mono" data-metric="metrics.devicesTrusted">3</div><div class="metric-meta">Installed PWAs feel closer to native session continuity.</div></article>
+          <article class="metric-card card"><span class="metric-label">Install rate</span><div class="metric-value" data-metric="metrics.installRate">68%</div><div class="metric-meta">The funnel is tracked from impression to success.</div></article>
+        </section>
+        <section class="detail-grid">
+          <article class="detail-card card"><div class="list-item-header"><strong>Profile feed</strong><span class="status-pill online">Persistent</span></div><ul class="list" id="activity-feed"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul></article>
+          <article class="detail-card card"><div class="list-item-header"><strong>Passkeys</strong><span class="status-pill install">WebAuthn</span></div><div class="stack"><div class="field"><label for="passkey-name">Display name</label><input id="passkey-name" class="field" data-passkey-name type="text" autocomplete="name" value="COOL Member"></div><div class="button-row"><button class="button" type="button" data-passkey-register>Register passkey</button><button class="secondary-button" type="button" data-passkey-auth>Verify passkey</button></div><p class="meta" data-passkey-status>No passkey interaction yet.</p></div></article>
+        </section>
+        <section class="section-header"><div><h2>Save browser preferences</h2><p class="section-caption">Small settings changes should be offline-safe and survive reloads without requiring backend round trips.</p></div></section>
+        <article class="surface-panel">
+          <form id="profile-settings-form" class="form-grid" data-queue-form data-queue-type="profile_settings">
+            <div class="field"><label for="display-name">Display name</label><input id="display-name" name="display_name" type="text" autocomplete="name" required></div>
+            <div class="field"><label for="language">Language</label><select id="language" name="language"><option>English</option></select></div>
+            <div class="field full"><label for="profile-note">Offline continuity note</label><textarea id="profile-note" name="note">Keep settings safe even when the signal drops.</textarea></div>
+            <div class="button-row"><button class="button" type="submit">Save settings</button><button class="secondary-button" type="button" data-install-action><span data-install-cta-label>Install COOL</span></button></div>
+          </form>
+        </article>
+      </main>
+      <footer class="footer"><span>Passkey controls are exposed only when the browser supports WebAuthn.</span><div class="footer-links"><a href="/notifications/">Alerts</a><a href="/install/">Install</a></div></footer>
+    </div>
+    <section class="banner" data-install-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Install COOL once settings feel useful</strong><span>The install prompt stays contextual.</span></div><div class="button-row"><button class="button" type="button" data-install-action><span data-install-cta-label>Install COOL</span></button><button class="secondary-button" type="button" data-install-dismiss>Later</button></div></div></section>
+    <section class="banner" data-update-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Profile shell updated</strong><span>Refresh to use the latest cached bundle.</span></div><div class="button-row"><button class="button" type="button" data-update-action>Refresh</button></div></div></section>
+    <div class="toast-stack" data-toast-stack aria-live="polite"></div>
+    <dialog class="surface-panel" data-ios-sheet><strong class="banner-title">Add COOL to Home Screen</strong><p class="section-caption">Use Safari’s Share menu for manual install.</p><form method="dialog"><button class="button" type="submit">Close</button></form></dialog>
+    <script type="module" src="/assets/js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "metrics": {
+    "activeGroups": "26",
+    "draftsReady": "7",
+    "coverage": "91%"
+  },
+  "activity": [
+    {
+      "title": "Market women savings circle",
+      "description": "Weekly pledge target is on track with optimistic updates enabled.",
+      "status": "Healthy",
+      "tone": "online",
+      "meta": "RWF 1.9M committed"
+    },
+    {
+      "title": "Diaspora tuition pool",
+      "description": "Two offline drafts are waiting for background sync replay.",
+      "status": "Buffered",
+      "tone": "offline",
+      "meta": "2 queued pledges"
+    }
+  ],
+  "queue": [
+    {
+      "title": "Receipt upload",
+      "description": "Prepared for background sync and replay-safe retries.",
+      "status": "Queued",
+      "tone": "syncing",
+      "meta": "No data loss"
+    }
+  ]
+}

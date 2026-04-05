@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="COOL home dashboard with cached summaries, offline-safe actions, and install/update controls.">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F3F0EA">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D110E">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="COOL">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Home — COOL PWA">
+    <meta property="og:description" content="Cached dashboard metrics and app-shell controls for the COOL PWA.">
+    <meta property="og:url" content="https://pwa.cool.app/home/">
+    <meta property="og:image" content="https://pwa.cool.app/assets/screenshots/home.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Home — COOL PWA">
+    <meta name="twitter:description" content="Dashboard metrics, cached activity, and installable app-shell behavior.">
+    <meta name="twitter:image" content="https://pwa.cool.app/assets/screenshots/home.png">
+    <link rel="canonical" href="https://pwa.cool.app/home/">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" href="/assets/icons/Icon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="/assets/icons/Icon-192.png">
+    <link rel="preload" href="/assets/fonts/Manrope-Regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="/assets/fonts/Barlow-ExtraBold.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <title>Home — COOL PWA</title>
+  </head>
+  <body data-route="home">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="shell">
+      <header class="topbar">
+        <a class="brand-link" href="/"><img src="/assets/img/cool_logo_mark.png" alt=""><span class="brand-copy"><span class="brand-kicker">Dashboard</span><span class="brand-title">COOL</span></span></a>
+        <div class="toolbar">
+          <span class="status-pill online" data-online-indicator>Online</span>
+          <button class="chip-button" type="button" data-theme-toggle>Theme</button>
+          <button class="chip-button" type="button" data-download-offline>Offline pack</button>
+        </div>
+      </header>
+      <nav class="shell-nav" aria-label="Primary">
+        <a href="/" data-route-link>Overview</a>
+        <a href="/home/" data-route-link>Home</a>
+        <a href="/groups/" data-route-link>Groups</a>
+        <a href="/momo/" data-route-link>MoMo</a>
+        <a href="/profile/" data-route-link>Profile</a>
+        <a href="/notifications/" data-route-link>Alerts</a>
+      </nav>
+      <main id="main">
+        <section class="section-header">
+          <div>
+            <h1 class="page-title">Cached dashboard</h1>
+            <p class="section-caption">The home route remains a lightweight landing space with metrics, activity, and queue awareness even when the device falls offline.</p>
+          </div>
+          <div class="button-row">
+            <button class="button" type="button" data-share-button data-share-title="COOL dashboard" data-share-text="Open the COOL dashboard in the installable PWA." data-share-url="/home/">Share dashboard</button>
+            <button class="secondary-button" type="button" data-install-action><span data-install-cta-label>Install COOL</span></button>
+          </div>
+        </section>
+
+        <section class="stat-grid">
+          <article class="metric-card card"><span class="metric-label">Members online</span><div class="metric-value mono" data-metric="metrics.membersOnline">842</div><div class="metric-meta">Realtime-like summary cached in the shell.</div></article>
+          <article class="metric-card card"><span class="metric-label">Queued actions</span><div class="metric-value mono" data-metric="metrics.queuedActions">14</div><div class="metric-meta">Background sync retries dropped work safely.</div></article>
+          <article class="metric-card card"><span class="metric-label">CWV status</span><div class="metric-value" data-metric="metrics.cwvStatus">Green</div><div class="metric-meta">Vitals are tracked locally and can be beaconed to RUM.</div></article>
+        </section>
+
+        <section class="detail-grid">
+          <article class="detail-card card">
+            <div class="list-item-header">
+              <strong>Primary feed</strong>
+              <span class="status-pill online">Cached</span>
+            </div>
+            <ul class="list" id="activity-feed">
+              <li class="skeleton line long"></li>
+              <li class="skeleton line medium"></li>
+            </ul>
+          </article>
+          <article class="detail-card card">
+            <div class="list-item-header">
+              <strong>Quick route actions</strong>
+              <span class="status-pill install">Intentional</span>
+            </div>
+            <div class="stack">
+              <button class="ghost-button" type="button" data-success-moment="dashboard_success">Count this as a success moment</button>
+              <a class="secondary-button" href="/groups/">Open group workflows</a>
+              <a class="secondary-button" href="/momo/">Open MoMo workspace</a>
+            </div>
+          </article>
+        </section>
+
+        <section class="section-header">
+          <div>
+            <h2>Save a quick field note</h2>
+            <p class="section-caption">This form queues locally and flushes later if connectivity disappears.</p>
+          </div>
+        </section>
+        <article class="surface-panel">
+          <form id="home-note-form" class="form-grid" data-queue-form data-queue-type="dashboard_note">
+            <div class="field">
+              <label for="note-title">Title</label>
+              <input id="note-title" name="title" type="text" autocomplete="off" required>
+            </div>
+            <div class="field">
+              <label for="note-owner">Owner</label>
+              <input id="note-owner" name="owner" type="text" autocomplete="name" required>
+            </div>
+            <div class="field full">
+              <label for="note-body">Note</label>
+              <textarea id="note-body" name="note" autocomplete="off" required></textarea>
+            </div>
+            <div class="button-row">
+              <button class="button" type="submit">Queue note</button>
+              <small class="meta">Optimistic UI updates instantly, then sync replays later.</small>
+            </div>
+          </form>
+        </article>
+      </main>
+      <footer class="footer"><span>Path-based URLs and cached route shells avoid hash-routing penalties.</span><div class="footer-links"><a href="/install/">Install</a><a href="/offline/">Offline</a></div></footer>
+    </div>
+    <section class="banner" data-install-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Install COOL</strong><span>Install once you’ve seen value in the dashboard.</span></div><div class="button-row"><button class="button" type="button" data-install-action><span data-install-cta-label>Install COOL</span></button><button class="secondary-button" type="button" data-install-dismiss>Later</button></div></div></section>
+    <section class="banner" data-update-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Update ready</strong><span>Refresh to swap in the latest app shell.</span></div><div class="button-row"><button class="button" type="button" data-update-action>Refresh</button></div></div></section>
+    <div class="toast-stack" data-toast-stack aria-live="polite"></div>
+    <dialog class="surface-panel" data-ios-sheet><strong class="banner-title">Add COOL to Home Screen</strong><p class="section-caption">Use Safari’s Share menu, then “Add to Home Screen”.</p><form method="dialog"><button class="button" type="submit">Close</button></form></dialog>
+    <script type="module" src="/assets/js/app.js"></script>
+  </body>
+</html>
