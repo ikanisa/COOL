@@ -8,6 +8,7 @@ readonly FLUTTER_BIN="${FLUTTER_BIN:-$ROOT_DIR/scripts/flutterw}"
 readonly LOCAL_BUILD_ROOT="${COOL_LOCAL_BUILD_ROOT:-/tmp/cool-build}"
 # shellcheck source=scripts/_android_release_build.sh
 source "$ROOT_DIR/scripts/_android_release_build.sh"
+source "$ROOT_DIR/scripts/_backend_env.sh"
 
 echo "══════════════════════════════════════════════════════"
 echo "  Building STAGING APK"
@@ -24,10 +25,9 @@ if [[ ! -L "$ROOT_DIR/build" || "$(readlink "$ROOT_DIR/build" 2>/dev/null || tru
 fi
 
 _load_release_env
+resolve_supabase_client_env staging
 
-# ── CRITICAL BLOCKER: Supabase env vars are mandatory for ANY Android build ──
-: "${SUPABASE_URL:?CRITICAL BLOCKER — Set SUPABASE_URL before building ANY APK or AAB. The app will crash or show a config error screen without it.}"
-: "${SUPABASE_ANON_KEY:?CRITICAL BLOCKER — Set SUPABASE_ANON_KEY before building ANY APK or AAB. The app will crash or show a config error screen without it.}"
+require_resolved_supabase_client_env staging
 
 native_firebase_config="$ROOT_DIR/android/app/src/staging/google-services.json"
 if [[ ! -f "$native_firebase_config" ]]; then
@@ -48,8 +48,10 @@ fi
   --debug \
   --flavor staging \
   --dart-define=FLAVOR=staging \
-  --dart-define=SUPABASE_URL="${SUPABASE_URL}" \
-  --dart-define=SUPABASE_ANON_KEY="${SUPABASE_ANON_KEY}" \
+  --dart-define=SUPABASE_URL="${RESOLVED_SUPABASE_URL}" \
+  --dart-define=SUPABASE_ANON_KEY="${RESOLVED_SUPABASE_ANON_KEY}" \
+  --dart-define=SUPABASE_PROJECT_REF="${RESOLVED_SUPABASE_PROJECT_REF}" \
+  --dart-define=BACKEND_ENVIRONMENT="${RESOLVED_BACKEND_ENVIRONMENT}" \
   --dart-define=COOL_DEEP_LINK_HOST="${COOL_DEEP_LINK_HOST:-cool.app}" \
   --dart-define=FIREBASE_ANDROID_STAGING_API_KEY="${FIREBASE_ANDROID_STAGING_API_KEY}" \
   --dart-define=FIREBASE_ANDROID_STAGING_APP_ID="${FIREBASE_ANDROID_STAGING_APP_ID}" \

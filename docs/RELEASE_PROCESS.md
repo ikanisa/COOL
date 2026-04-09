@@ -28,8 +28,10 @@ feature branch → main → tag v*.*.* → CI release → Firebase App Distribut
    - `momo-sms-device-integration.yml` runs nightly and on demand to verify the real Android SMS inbox sync path on an emulator
 4. **CI pipeline**:
    - Reads Flutter version from `.fvmrc`
+   - Syncs hosted Supabase Edge Function secrets when `SUPABASE_PROJECT_REF` and `SUPABASE_ACCESS_TOKEN` are configured
    - Runs `bash scripts/release_readiness.sh`
    - This includes Flutter analysis/tests, deep-link asset validation, Deno checks, and flavor verification
+   - When `SUPABASE_PROJECT_REF` and `SUPABASE_ACCESS_TOKEN` are configured in CI, it also runs the hosted Supabase contract smoke against the production project
    - When optional `SUPABASE_DB_URL` is configured in CI, it also runs `scripts/verify_momo_sms_supabase_rollout.sh` with `TRIGGER_MIGRATION_CHECK=1` against the target Supabase environment
    - Decodes signing keystore from secrets
    - Builds signed release APK
@@ -44,8 +46,10 @@ feature branch → main → tag v*.*.* → CI release → Firebase App Distribut
 
 | Variable | Purpose | Enforcement |
 |---|---|---|
-| `SUPABASE_URL` | Production Supabase project URL baked into the binary via `--dart-define` | Shell scripts abort with `:?` check; Dart runtime shows config error screen |
-| `SUPABASE_ANON_KEY` | Production Supabase anon key baked into the binary via `--dart-define` | Shell scripts abort with `:?` check; Dart runtime shows config error screen |
+| `SUPABASE_PRODUCTION_URL` | Production Supabase project URL baked into the binary via `--dart-define` | Shell scripts abort with contract validation; Dart runtime validates the derived project ref |
+| `SUPABASE_PRODUCTION_ANON_KEY` | Production Supabase anon key baked into the binary via `--dart-define` | Shell scripts abort with contract validation; Dart runtime validates startup config |
+| `SUPABASE_STAGING_URL` | Staging Supabase project URL for QA/debug flavor builds | Shell scripts abort with contract validation for staging builds |
+| `SUPABASE_STAGING_ANON_KEY` | Staging Supabase anon key for QA/debug flavor builds | Shell scripts abort with contract validation for staging builds |
 
 **Why this is critical:**
 - These values are compiled into the Flutter binary at build time via `--dart-define`.
@@ -55,10 +59,16 @@ feature branch → main → tag v*.*.* → CI release → Firebase App Distribut
 - This applies to **all build methods**: local scripts, CI/CD, manual `flutter build`.
 
 **How to provide them:**
-1. Export: `export SUPABASE_URL=https://... SUPABASE_ANON_KEY=...`
+1. Export the flavor-specific pair:
+   `export SUPABASE_PRODUCTION_URL=https://... SUPABASE_PRODUCTION_ANON_KEY=...`
+   for production, or the `SUPABASE_STAGING_*` pair for staging
 2. `.env` file at repo root (auto-loaded by build scripts)
 3. `.env.json` with `--dart-define-from-file=.env.json`
-4. CI secrets (GitHub Actions `release.yml` uses `secrets.SUPABASE_URL` and `secrets.SUPABASE_ANON_KEY`)
+4. CI secrets (GitHub Actions `release.yml` prefers
+   `secrets.SUPABASE_PRODUCTION_URL` and
+   `secrets.SUPABASE_PRODUCTION_ANON_KEY`)
+5. Legacy `SUPABASE_URL` / `SUPABASE_ANON_KEY` remain as a transitional fallback
+   only and should mirror production until removed
 
 
 ## Versioning
@@ -135,15 +145,23 @@ Staff (internal) → Beta (1-2 weeks soak) → Production
 | `KEY_ALIAS` | Keystore alias |
 | `KEY_PASSWORD` | Key password |
 | `STORE_PASSWORD` | Store password |
-| `SUPABASE_URL` | Production Supabase project URL passed via `--dart-define` |
-| `SUPABASE_ANON_KEY` | Production Supabase anon key passed via `--dart-define` |
+| `SUPABASE_PRODUCTION_URL` | Preferred production Supabase project URL passed via `--dart-define` |
+| `SUPABASE_PRODUCTION_ANON_KEY` | Preferred production Supabase anon key passed via `--dart-define` |
+| `SUPABASE_STAGING_URL` | Preferred staging Supabase project URL for QA builds |
+| `SUPABASE_STAGING_ANON_KEY` | Preferred staging Supabase anon key for QA builds |
+| `SUPABASE_URL` | Deprecated fallback production Supabase URL |
+| `SUPABASE_ANON_KEY` | Deprecated fallback production Supabase anon key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase Edge Function secret sync and hosted smoke |
+| `SUPABASE_ACCESS_TOKEN` | GitHub Actions access token used to sync hosted Supabase function secrets |
+| `SUPABASE_PROJECT_REF` | Hosted Supabase project ref used for secret sync and remote smoke |
 | `FIREBASE_ANDROID_PRODUCTION_API_KEY` | Optional Android production Firebase override; native config ships in `android/app/src/production/google-services.json` |
 | `FIREBASE_ANDROID_PRODUCTION_APP_ID` | Optional Android production Firebase override |
 | `FIREBASE_ANDROID_PRODUCTION_MESSAGING_SENDER_ID` | Optional Android production Firebase override |
 | `FIREBASE_ANDROID_PRODUCTION_PROJECT_ID` | Optional Android production Firebase override |
 | `FIREBASE_ANDROID_PRODUCTION_STORAGE_BUCKET` | Optional Android production Firebase override |
 | `FIREBASE_APP_ID` | Firebase Android app ID |
-| `FIREBASE_SERVICE_ACCOUNT` | Firebase service account JSON |
+| `FIREBASE_SERVICE_ACCOUNT` | Firebase service account JSON reused for App Distribution and Supabase function sync when `FIREBASE_SERVICE_ACCOUNT_JSON` is unset |
+| `FIREBASE_SERVICE_ACCOUNT_JSON` | Preferred explicit Supabase/App Check Firebase service account JSON |
 | `COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT` | Final Google Play app-signing SHA-256 fingerprint |
 | `COOL_IOS_TEAM_ID` | Apple Developer Team ID for the production bundle |
 | `COOL_IOS_APP_STORE_ID` | Production App Store listing ID |

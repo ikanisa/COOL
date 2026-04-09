@@ -25,6 +25,15 @@ class EnvConfig {
 
   static const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
+  static const supabaseProjectRef = String.fromEnvironment(
+    'SUPABASE_PROJECT_REF',
+  );
+
+  static const backendEnvironment = String.fromEnvironment(
+    'BACKEND_ENVIRONMENT',
+    defaultValue: flavor,
+  );
+
   static const googleMapsAndroidApiKey = String.fromEnvironment(
     'GOOGLE_MAPS_ANDROID_API_KEY',
   );
@@ -83,14 +92,30 @@ class EnvConfig {
 
   static String? get criticalConfigurationError =>
       describeCriticalConfigurationError(
+        flavor: flavor,
         supabaseUrl: supabaseUrl,
         supabaseAnonKey: supabaseAnonKey,
+        supabaseProjectRef: supabaseProjectRef,
+        backendEnvironment: backendEnvironment,
       );
 
   static String? describeCriticalConfigurationError({
+    String flavor = 'staging',
     required String supabaseUrl,
     required String supabaseAnonKey,
+    String supabaseProjectRef = '',
+    String backendEnvironment = '',
   }) {
+    final normalizedFlavor = flavor.trim().toLowerCase();
+    final normalizedBackendEnvironment =
+        backendEnvironment.trim().toLowerCase();
+    if (normalizedBackendEnvironment.isNotEmpty &&
+        normalizedBackendEnvironment != normalizedFlavor) {
+      return 'BACKEND_ENVIRONMENT ("$normalizedBackendEnvironment") does not '
+          'match FLAVOR ("$normalizedFlavor"). Rebuild the app with '
+          'flavor-specific backend values.';
+    }
+
     final normalizedUrl = supabaseUrl.trim();
     if (normalizedUrl.isEmpty) {
       return 'SUPABASE_URL is not set. $_envDefineHelp';
@@ -113,6 +138,16 @@ class EnvConfig {
     if (uri.scheme != 'https' && uri.scheme != 'http') {
       return 'SUPABASE_URL must start with http:// or https://. '
           'Current value: "$normalizedUrl". $_envDefineHelp';
+    }
+
+    final normalizedProjectRef = supabaseProjectRef.trim();
+    if (normalizedProjectRef.isNotEmpty) {
+      final expectedHost = '$normalizedProjectRef.supabase.co';
+      if (uri.host != expectedHost) {
+        return 'SUPABASE_URL host "${uri.host}" does not match '
+            'SUPABASE_PROJECT_REF "$normalizedProjectRef". Rebuild the app '
+            'with a consistent backend contract.';
+      }
     }
 
     final normalizedAnonKey = supabaseAnonKey.trim();
@@ -152,6 +187,12 @@ class EnvConfig {
   /// Whether critical env vars are present.
   static bool get isConfigured => criticalConfigurationError == null;
 
+  /// Project ref derived from the explicit define or from the Supabase URL.
+  static String get effectiveSupabaseProjectRef =>
+      supabaseProjectRef.isNotEmpty
+          ? supabaseProjectRef
+          : _deriveProjectRefFromSupabaseUrl(supabaseUrl);
+
   /// Logs validation warnings at startup.
   /// In release mode, throws if critical vars (Supabase) are missing.
   static void logWarnings() {
@@ -171,8 +212,21 @@ class EnvConfig {
     }
 
     if (warnings.isEmpty) {
-      debugPrint('[EnvConfig] ✅ All environment variables OK');
+      debugPrint(
+        '[EnvConfig] ✅ All environment variables OK '
+        '(flavor=$flavor backend=$backendEnvironment '
+        'project=$effectiveSupabaseProjectRef)',
+      );
     }
+  }
+
+  static String _deriveProjectRefFromSupabaseUrl(String url) {
+    final host = Uri.tryParse(url)?.host ?? '';
+    final parts = host.split('.');
+    if (parts.length >= 3 && parts[1] == 'supabase' && parts[2] == 'co') {
+      return parts.first;
+    }
+    return 'unknown';
   }
 
   static bool _looksLikePlaceholderValue({

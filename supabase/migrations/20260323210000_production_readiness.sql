@@ -6,18 +6,24 @@
 -- ─── 1. RLS POLICY GAPS ─────────────────────────────────────────
 -- biopay_embeddings: backend-only table (service_role via edge functions)
 -- RLS is ON but zero policies → fully locked. Add explicit deny for safety docs.
+DROP POLICY IF EXISTS "biopay_embeddings_deny_anon" ON public.biopay_embeddings;
 CREATE POLICY "biopay_embeddings_deny_anon"
   ON public.biopay_embeddings FOR ALL TO anon USING (false);
+DROP POLICY IF EXISTS "biopay_embeddings_deny_authenticated" ON public.biopay_embeddings;
 CREATE POLICY "biopay_embeddings_deny_authenticated"
   ON public.biopay_embeddings FOR ALL TO authenticated USING (false);
+DROP POLICY IF EXISTS "biopay_embeddings_service_role" ON public.biopay_embeddings;
 CREATE POLICY "biopay_embeddings_service_role"
   ON public.biopay_embeddings FOR ALL TO service_role USING (true) WITH CHECK (true);
 
 -- biopay_match_rate_events: backend-only rate limit tracking
+DROP POLICY IF EXISTS "biopay_match_rate_events_deny_anon" ON public.biopay_match_rate_events;
 CREATE POLICY "biopay_match_rate_events_deny_anon"
   ON public.biopay_match_rate_events FOR ALL TO anon USING (false);
+DROP POLICY IF EXISTS "biopay_match_rate_events_deny_authenticated" ON public.biopay_match_rate_events;
 CREATE POLICY "biopay_match_rate_events_deny_authenticated"
   ON public.biopay_match_rate_events FOR ALL TO authenticated USING (false);
+DROP POLICY IF EXISTS "biopay_match_rate_events_service_role" ON public.biopay_match_rate_events;
 CREATE POLICY "biopay_match_rate_events_service_role"
   ON public.biopay_match_rate_events FOR ALL TO service_role USING (true) WITH CHECK (true);
 
@@ -31,6 +37,7 @@ DROP TRIGGER IF EXISTS audit_partners ON public.partners;
 DROP TRIGGER IF EXISTS audit_quick_actions ON public.quick_actions;
 
 -- Replace the missing audit trigger on admin_role_assignments with log_admin_mutation
+DROP TRIGGER IF EXISTS trg_audit_admin_role_assignments ON public.admin_role_assignments;
 CREATE TRIGGER trg_audit_admin_role_assignments
   AFTER INSERT OR UPDATE OR DELETE ON public.admin_role_assignments
   FOR EACH ROW EXECUTE FUNCTION log_admin_mutation();
@@ -42,38 +49,47 @@ DROP FUNCTION IF EXISTS public.trigger_admin_audit_log() CASCADE;
 -- ─── 3. MISSING updated_at TRIGGERS ─────────────────────────────
 -- All use the existing set_updated_at() function
 
+DROP TRIGGER IF EXISTS trg_ai_content_generation_config_set_updated_at ON public.ai_content_generation_config;
 CREATE TRIGGER trg_ai_content_generation_config_set_updated_at
   BEFORE UPDATE ON public.ai_content_generation_config
   FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
+DROP TRIGGER IF EXISTS trg_bank_baskets_set_updated_at ON public.bank_baskets;
 CREATE TRIGGER trg_bank_baskets_set_updated_at
   BEFORE UPDATE ON public.bank_baskets
   FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
+DROP TRIGGER IF EXISTS trg_bank_loans_set_updated_at ON public.bank_loans;
 CREATE TRIGGER trg_bank_loans_set_updated_at
   BEFORE UPDATE ON public.bank_loans
   FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
+DROP TRIGGER IF EXISTS trg_cool_activities_set_updated_at ON public.cool_activities;
 CREATE TRIGGER trg_cool_activities_set_updated_at
   BEFORE UPDATE ON public.cool_activities
   FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
+DROP TRIGGER IF EXISTS trg_cool_mission_progress_set_updated_at ON public.cool_mission_progress;
 CREATE TRIGGER trg_cool_mission_progress_set_updated_at
   BEFORE UPDATE ON public.cool_mission_progress
   FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
+DROP TRIGGER IF EXISTS trg_cool_status_set_updated_at ON public.cool_status;
 CREATE TRIGGER trg_cool_status_set_updated_at
   BEFORE UPDATE ON public.cool_status
   FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
+DROP TRIGGER IF EXISTS trg_nexus_opportunities_set_updated_at ON public.nexus_opportunities;
 CREATE TRIGGER trg_nexus_opportunities_set_updated_at
   BEFORE UPDATE ON public.nexus_opportunities
   FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
+DROP TRIGGER IF EXISTS trg_special_products_set_updated_at ON public.special_products;
 CREATE TRIGGER trg_special_products_set_updated_at
   BEFORE UPDATE ON public.special_products
   FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
+DROP TRIGGER IF EXISTS trg_user_fcm_tokens_set_updated_at ON public.user_fcm_tokens;
 CREATE TRIGGER trg_user_fcm_tokens_set_updated_at
   BEFORE UPDATE ON public.user_fcm_tokens
   FOR EACH ROW EXECUTE FUNCTION set_updated_at();

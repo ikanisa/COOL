@@ -2,6 +2,9 @@
 -- Cool App - MoMo SMS sync audit trail and contribution status alignment
 -- ============================================================================
 
+alter table public.group_contributions
+  add column if not exists updated_at timestamptz not null default now();
+
 update public.group_contributions
    set status = 'confirmed',
        updated_at = now()

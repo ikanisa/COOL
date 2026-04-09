@@ -144,7 +144,7 @@ the remaining Google Play and Firebase work.
 - Added an in-app delete-account flow in Profile and a matching authenticated
   `delete-account` Supabase Edge Function.
 - Deployed `send-otp`, `verify-otp`, and `delete-account` to the linked
-  Supabase project `mmpbzcdhfvplxplnfucy`.
+  Supabase project `lhbowpbcpwoiparwnwgt`.
 - Published live legal pages on Firebase Hosting:
   - `https://cool.ikanisa.com/privacy`
   - `https://cool.ikanisa.com/terms`
@@ -207,13 +207,16 @@ the remaining Google Play and Firebase work.
 
 ## Local Build Command
 
-> **⛔ CRITICAL BLOCKER — `SUPABASE_URL` and `SUPABASE_ANON_KEY` MUST be set.**
-> Without them the APK/AAB will crash at startup or show a config error screen.
-> The build script will abort immediately if either is missing.
+> **⛔ CRITICAL BLOCKER — production Supabase config MUST be set.**
+> `SUPABASE_PRODUCTION_URL` and `SUPABASE_PRODUCTION_ANON_KEY` are the
+> preferred release inputs. Legacy `SUPABASE_URL` and `SUPABASE_ANON_KEY`
+> still work as a fallback, but should not be the primary production path.
+> Without a valid production backend contract the APK/AAB will crash at
+> startup or show a config error screen, and the build script will abort.
 
 ```bash
-SUPABASE_URL="https://..." \
-SUPABASE_ANON_KEY="..." \
+SUPABASE_PRODUCTION_URL="https://your-project.supabase.co" \
+SUPABASE_PRODUCTION_ANON_KEY="your-anon-key" \
 bash scripts/build_play_release.sh
 ```
 

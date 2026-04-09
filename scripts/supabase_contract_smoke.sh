@@ -16,16 +16,19 @@ require_command jq
 require_command python3
 require_command supabase
 
-PROJECT_REF_FILE="$ROOT_DIR/supabase/.temp/project-ref"
-if [[ ! -f "$PROJECT_REF_FILE" ]]; then
-  echo "Missing linked project ref at $PROJECT_REF_FILE" >&2
-  exit 1
-fi
-
-PROJECT_REF="$(tr -d '\r\n' < "$PROJECT_REF_FILE")"
+PROJECT_REF="${PROJECT_REF:-}"
 if [[ -z "$PROJECT_REF" ]]; then
-  echo "Linked project ref is empty." >&2
-  exit 1
+  PROJECT_REF_FILE="$ROOT_DIR/supabase/.temp/project-ref"
+  if [[ ! -f "$PROJECT_REF_FILE" ]]; then
+    echo "Missing linked project ref at $PROJECT_REF_FILE and PROJECT_REF is unset." >&2
+    exit 1
+  fi
+
+  PROJECT_REF="$(tr -d '\r\n' < "$PROJECT_REF_FILE")"
+  if [[ -z "$PROJECT_REF" ]]; then
+    echo "Linked project ref is empty." >&2
+    exit 1
+  fi
 fi
 
 SUPABASE_URL="https://${PROJECT_REF}.supabase.co"
@@ -72,6 +75,18 @@ required_secret_bundles_for() {
     allocate-contributions)
       echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY"
       ;;
+    biopay-create-payment-intent)
+      echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY FIREBASE_SERVICE_ACCOUNT_JSON"
+      ;;
+    biopay-enroll)
+      echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY FIREBASE_SERVICE_ACCOUNT_JSON"
+      ;;
+    biopay-match)
+      echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY FIREBASE_SERVICE_ACCOUNT_JSON"
+      ;;
+    biopay-revoke)
+      echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY FIREBASE_SERVICE_ACCOUNT_JSON"
+      ;;
     evaluate-transfer-risk)
       echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY GEMINI_API_KEY"
       ;;
@@ -89,6 +104,9 @@ required_secret_bundles_for() {
       ;;
     delete-account)
       echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY"
+      ;;
+    generate-ai-content)
+      echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY GEMINI_API_KEY GENERATE_AI_CONTENT_CRON_SECRET|CRON_JOB_SECRET"
       ;;
     maps-gateway)
       echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY GOOGLE_MAPS_SERVER_API_KEY|GEMINI_API_KEY"
@@ -115,12 +133,17 @@ required_secret_bundles_for() {
 smoke_body_for() {
   case "$1" in
     allocate-contributions) echo '{"partner_id":"00000000-0000-0000-0000-000000000000"}' ;;
+    biopay-create-payment-intent) echo '{}' ;;
+    biopay-enroll) echo '{}' ;;
+    biopay-match) echo '{}' ;;
+    biopay-revoke) echo '{}' ;;
     evaluate-transfer-risk) echo '{}' ;;
     record-operational-health) echo '{"service":"sms_ingest","component":"android_sms_autoread","message":"smoke"}' ;;
     send-otp) echo '{}' ;;
     sms-ingest) echo '{}' ;;
     verify-otp) echo '{}' ;;
     delete-account) echo '{"confirm":true}' ;;
+    generate-ai-content) echo '{}' ;;
     maps-gateway) echo '{}' ;;
     parse-momo-sms) echo '{"rawSmsId":"00000000-0000-0000-0000-000000000000"}' ;;
     rs-scan-ticket) echo '{"qrData":"smoke"}' ;;
@@ -134,12 +157,17 @@ smoke_body_for() {
 allowed_statuses_for() {
   case "$1" in
     allocate-contributions) echo "401" ;;
+    biopay-create-payment-intent) echo "401" ;;
+    biopay-enroll) echo "401" ;;
+    biopay-match) echo "401" ;;
+    biopay-revoke) echo "401" ;;
     evaluate-transfer-risk) echo "401" ;;
     record-operational-health) echo "401" ;;
     send-otp) echo "400" ;;
     sms-ingest) echo "401" ;;
     verify-otp) echo "400" ;;
     delete-account) echo "401" ;;
+    generate-ai-content) echo "401" ;;
     maps-gateway) echo "401" ;;
     parse-momo-sms) echo "401" ;;
     rs-scan-ticket) echo "401" ;;

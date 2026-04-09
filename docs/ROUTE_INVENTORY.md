@@ -4,9 +4,9 @@ Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router
 
 Current router shape:
 
-- `33` `GoRoute` declarations
+- `39` `GoRoute` declarations
 - `3` shell branches
-- `29` screen files under `lib/features/**/screens/*.dart`
+- `31` screen files under `lib/features/**/screens/*.dart`
 
 Change policy:
 
@@ -26,6 +26,10 @@ Change policy:
 
 | Path | Target | Shell |
 |---|---|---|
+| `/groups` | Redirect | No |
+| `/groups/:id` | Redirect | No |
+| `/groups/:id/ledger` | Redirect | No |
+| `/groups/create` | [`GroupCreateScreen`](../lib/features/groups/screens/group_create_screen.dart) | No |
 | `/home` | [`HomeScreen`](../lib/features/home/screens/home_screen.dart) | Home |
 | `/profile` | [`ProfileScreen`](../lib/features/profile/screens/profile_screen.dart) | Settings |
 | `/profile/about` | [`AboutAppScreen`](../lib/features/profile/screens/profile_sub_screens_about.dart) | Settings |
@@ -41,6 +45,7 @@ Change policy:
 | Path | Target | Shell |
 |---|---|---|
 | `/contribution-circles` | [`GroupsScreen`](../lib/features/groups/screens/groups_screen.dart) | No |
+| `/contribution-circles/:groupId` | [`GroupDetailScreen`](../lib/features/groups/screens/group_detail_screen.dart) | No |
 | `/momo` | [`MomoScreen`](../lib/features/momo/screens/momo_screen.dart) | No |
 | `/momo/biopay` | [`BiopayHomeScreen`](../lib/features/biopay/screens/biopay_home_screen.dart) | No |
 | `/momo/biopay` | [`BiopayHomeScreen`](../lib/features/biopay/screens/biopay_home_screen.dart) | No |
@@ -51,6 +56,7 @@ Change policy:
 | `/momo/biopay/scan` | [`BiopayScanScreen`](../lib/features/biopay/screens/biopay_scan_screen.dart) | No |
 | `/momo/biopay/scan` | [`BiopayScanScreen`](../lib/features/biopay/screens/biopay_scan_screen.dart) | No |
 | `/momo/statements` | [`MomoStatementsScreen`](../lib/features/momo/screens/momo_statements_screen.dart) | No |
+| `/referral` | [`ReferralScreen`](../lib/core/status/screens/referral_screen.dart) | No |
 
 ## Admin Routes
 

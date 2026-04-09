@@ -356,8 +356,10 @@ Copy [.env.example](/Volumes/PRO-G40/COOL/.env.example) for local reference.
 
 Expected client-safe values:
 
-- `SUPABASE_URL`
-- `SUPABASE_ANON_KEY`
+- `SUPABASE_STAGING_URL`
+- `SUPABASE_STAGING_ANON_KEY`
+- `SUPABASE_PRODUCTION_URL`
+- `SUPABASE_PRODUCTION_ANON_KEY`
 - `ENABLE_ANDROID_MOMO_SMS_AUTOREAD`
 - `COOL_PRIVACY_POLICY_URL`
 - `COOL_TERMS_OF_SERVICE_URL`
@@ -375,6 +377,8 @@ Example:
 flutter run \
   --dart-define=SUPABASE_URL=https://your-project.supabase.co \
   --dart-define=SUPABASE_ANON_KEY=your-anon-key \
+  --dart-define=SUPABASE_PROJECT_REF=your-project \
+  --dart-define=BACKEND_ENVIRONMENT=production \
   --dart-define=ENABLE_ANDROID_MOMO_SMS_AUTOREAD=true \
   --dart-define=COOL_PRIVACY_POLICY_URL=https://cool.ikanisa.com/privacy \
   --dart-define=COOL_TERMS_OF_SERVICE_URL=https://cool.ikanisa.com/terms \
@@ -571,18 +575,22 @@ Governance references:
 
 ## Build Commands
 
-> **⛔ CRITICAL BLOCKER — Supabase env vars are MANDATORY for every APK and AAB build**
+> **⛔ CRITICAL BLOCKER — Flavor-specific Supabase env vars are MANDATORY for every APK and AAB build**
 >
 > Every Android build — staging, production, QA, Play release — **MUST** have
-> `SUPABASE_URL` and `SUPABASE_ANON_KEY` set before building. Without them, the
+> the correct Supabase URL/key pair set before building. Without them, the
 > app will crash at startup or display a configuration error screen. The build
 > scripts enforce this with a hard `set -euo pipefail` check, and the Dart
 > runtime (`lib/core/config/env_config.dart`) validates them at app launch.
 >
 > **How to provide them:**
-> - Export in your shell: `export SUPABASE_URL=https://... SUPABASE_ANON_KEY=...`
+> - Export in your shell:
+>   `export SUPABASE_PRODUCTION_URL=https://... SUPABASE_PRODUCTION_ANON_KEY=...`
+>   for production builds, and the `SUPABASE_STAGING_*` pair for staging
 > - Or use `--dart-define-from-file=.env.json`
-> - Or set them in `.env` (auto-loaded by build scripts)
+> - Or set them in `.env` / `.env.json` (auto-loaded by build scripts)
+> - Legacy `SUPABASE_URL` / `SUPABASE_ANON_KEY` still work as a fallback, but
+>   they are deprecated because they make staging/production drift too easy
 >
 > **This rule applies to:**
 > - `scripts/build_production.sh` (APK)
@@ -590,7 +598,8 @@ Governance references:
 > - `scripts/build_qa_apk.sh` (QA APK)
 > - `scripts/build_staging.sh` (Staging APK)
 > - `scripts/build_ios_production.sh` and `scripts/build_ios_staging.sh`
-> - GitHub Actions `release.yml` (uses `secrets.SUPABASE_URL` and `secrets.SUPABASE_ANON_KEY`)
+> - GitHub Actions `release.yml` (prefers `secrets.SUPABASE_PRODUCTION_URL` and
+>   `secrets.SUPABASE_PRODUCTION_ANON_KEY`, then falls back to the legacy pair)
 > - Any manual `flutter build apk` or `flutter build appbundle` command
 
 
@@ -715,8 +724,8 @@ The app is written against a normalized `users` profile model, but the repositor
 
 ```bash
 # 1. Rebuild signed AAB
-SUPABASE_URL="https://..." \
-SUPABASE_ANON_KEY="..." \
+SUPABASE_PRODUCTION_URL="https://your-project.supabase.co" \
+SUPABASE_PRODUCTION_ANON_KEY="your-anon-key" \
 bash scripts/build_play_release.sh
 
 # 2. Upload to Play Console → Production track

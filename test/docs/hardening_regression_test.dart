@@ -6,15 +6,6 @@ import '../../tool/governance_docs.dart';
 
 const _migratedRedesignFiles = <String>[
   'lib/features/admin/widgets/manage_app_config_sections.dart',
-  'lib/shared/widgets/rs_shop_item.dart',
-  'lib/features/partner/widgets/support_detail_parts.dart',
-  'lib/features/partner/widgets/shop_checkout_parts.dart',
-  'lib/features/partner/widgets/tickets_screen_parts.dart',
-  'lib/features/partner/widgets/fan_profile_parts.dart',
-  'lib/features/partner/widgets/member_registry_parts.dart',
-  'lib/features/partner/widgets/rs_admin_finance_parts.dart',
-  'lib/features/admin/widgets/manage_services_parts.dart',
-  'lib/features/admin/widgets/manage_ai_content_parts.dart',
   'lib/features/admin/widgets/manage_users_parts.dart',
   'lib/features/admin/widgets/manage_admin_roles_parts.dart',
   'lib/features/groups/screens/groups_screen.dart',

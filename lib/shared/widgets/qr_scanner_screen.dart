@@ -6,7 +6,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/models/momo_qr_payload.dart';
 import '../../core/providers/app_access_provider.dart';
-import '../../core/providers/supabase_client_provider.dart';
 import '../../core/services/app_access_service.dart';
 import '../../core/theme/cool_foundations.dart';
 import '../../features/momo/providers/momo_service_provider.dart';

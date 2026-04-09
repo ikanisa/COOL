@@ -48,6 +48,11 @@ create table if not exists public.pending_transactions (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+alter table public.pending_transactions
+  add column if not exists group_id uuid references public.groups(id) on delete set null,
+  add column if not exists group_contribution_id uuid references public.group_contributions(id) on delete set null;
+create unique index if not exists idx_pending_transactions_reference
+  on public.pending_transactions (reference);
 create index if not exists idx_pending_transactions_user
   on public.pending_transactions (user_id);
 create index if not exists idx_pending_transactions_group

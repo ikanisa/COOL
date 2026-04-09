@@ -12,6 +12,7 @@ import java.io.FileInputStream
 import java.io.File
 import java.util.Properties
 import java.util.Base64
+import org.gradle.api.GradleException
 
 val keystoreProperties = Properties()
 val keystoreFile = rootProject.file("key.properties")
@@ -56,6 +57,37 @@ fun buildConfigValue(name: String): String {
         ?: ""
 }
 
+fun requestedFlutterFlavor(): String {
+    val explicitFlavor = buildConfigValue("FLAVOR").trim().lowercase()
+    if (explicitFlavor == "production" || explicitFlavor == "staging") {
+        return explicitFlavor
+    }
+
+    val requestedTasks = gradle.startParameter.taskNames.joinToString(" ").lowercase()
+    return when {
+        requestedTasks.contains("production") -> "production"
+        requestedTasks.contains("staging") -> "staging"
+        else -> "staging"
+    }
+}
+
+fun resolveSupabaseValue(flavor: String, suffix: String): Pair<String, Boolean> {
+    val specificName = "SUPABASE_${flavor.uppercase()}_$suffix"
+    val specificValue = buildConfigValue(specificName)
+    if (specificValue.isNotBlank()) {
+        return specificValue to false
+    }
+
+    val legacyName = "SUPABASE_$suffix"
+    val legacyValue = buildConfigValue(legacyName)
+    return legacyValue to legacyValue.isNotBlank()
+}
+
+fun deriveSupabaseProjectRef(url: String): String {
+    val match = Regex("""https?://([^.]+)\.supabase\.co/?""").find(url.trim())
+    return match?.groupValues?.getOrNull(1) ?: ""
+}
+
 fun encodeDartDefines(defines: Map<String, String>): String {
     return defines.entries.joinToString(",") { (key, value) ->
         Base64.getEncoder().encodeToString("$key=$value".toByteArray(Charsets.UTF_8))
@@ -63,16 +95,40 @@ fun encodeDartDefines(defines: Map<String, String>): String {
 }
 
 if (!project.hasProperty("dart-defines")) {
+    val inferredFlavor = requestedFlutterFlavor()
     val localFlutterDartDefines = linkedMapOf<String, String>()
-    listOf(
-        "SUPABASE_URL",
-        "SUPABASE_ANON_KEY",
-        "FLAVOR",
-    ).forEach { key ->
-        val value = buildConfigValue(key)
-        if (value.isNotBlank()) {
-            localFlutterDartDefines[key] = value
-        }
+
+    val (resolvedSupabaseUrl, usedLegacySupabaseUrl) =
+        resolveSupabaseValue(inferredFlavor, "URL")
+    val (resolvedSupabaseAnonKey, usedLegacySupabaseAnonKey) =
+        resolveSupabaseValue(inferredFlavor, "ANON_KEY")
+
+    if (resolvedSupabaseUrl.isNotBlank()) {
+        localFlutterDartDefines["SUPABASE_URL"] = resolvedSupabaseUrl
+    }
+    if (resolvedSupabaseAnonKey.isNotBlank()) {
+        localFlutterDartDefines["SUPABASE_ANON_KEY"] = resolvedSupabaseAnonKey
+    }
+
+    localFlutterDartDefines["FLAVOR"] = inferredFlavor
+    localFlutterDartDefines["BACKEND_ENVIRONMENT"] = inferredFlavor
+
+    val projectRef = deriveSupabaseProjectRef(resolvedSupabaseUrl)
+    if (projectRef.isNotBlank()) {
+        localFlutterDartDefines["SUPABASE_PROJECT_REF"] = projectRef
+    }
+
+    val requestedTasks = gradle.startParameter.taskNames.joinToString(" ").lowercase()
+    val isReleaseTask = requestedTasks.contains("release")
+    if (isReleaseTask &&
+        (resolvedSupabaseUrl.isBlank() || resolvedSupabaseAnonKey.isBlank())
+    ) {
+        throw GradleException(
+            "Release build requires explicit Supabase configuration. " +
+                "Set SUPABASE_${inferredFlavor.uppercase()}_URL and " +
+                "SUPABASE_${inferredFlavor.uppercase()}_ANON_KEY, or pass " +
+                "--dart-define values explicitly."
+        )
     }
 
     if (localFlutterDartDefines.isNotEmpty()) {
@@ -81,6 +137,12 @@ if (!project.hasProperty("dart-defines")) {
             buildConfigValue("COOL_DEEP_LINK_HOST").ifBlank { "cool.app" }
         )
         extra["dart-defines"] = encodeDartDefines(localFlutterDartDefines)
+        if (usedLegacySupabaseUrl || usedLegacySupabaseAnonKey) {
+            logger.warn(
+                "Using legacy SUPABASE_URL / SUPABASE_ANON_KEY fallback for " +
+                    "$inferredFlavor. Prefer SUPABASE_${inferredFlavor.uppercase()}_*."
+            )
+        }
         logger.lifecycle(
             "Using local Dart defines from environment/.env for Android build because none were provided explicitly."
         )
@@ -148,8 +210,12 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
-            isMinifyEnabled = true
-            isShrinkResources = true
+            // The current minified release crashes in Flutter engine startup on
+            // physical Android 13 hardware. Keep the release build signed and
+            // optimized by the compiler, but disable R8/resource shrinking until
+            // the shrinker regression is isolated.
+            isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

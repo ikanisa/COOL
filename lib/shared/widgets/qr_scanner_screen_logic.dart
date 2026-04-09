@@ -17,31 +17,11 @@ extension _QrScannerScreenStateLogic on _QrScannerScreenState {
   }
 
   Future<TicketScannerAvailability> _fetchTicketScannerAvailability() async {
-    try {
-      final SupabaseClient client =
-          widget.client ?? ref.read(supabaseClientProvider);
-      final response = await client.functions.invoke(
-        'rs-scan-ticket',
-        body: const <String, dynamic>{'action': 'health'},
-      );
-      final data = _asMap(response.data);
-      final ready = data['ready'] == true;
-      final message = data['message']?.toString();
-      if (ready && response.status < 400) {
-        return TicketScannerAvailability(isReady: true, message: message);
-      }
-      return TicketScannerAvailability(
-        isReady: false,
-        message:
-            message ??
-            'Ticket scanner is temporarily unavailable. Try again later.',
-      );
-    } catch (_) {
-      return const TicketScannerAvailability(
-        isReady: false,
-        message: 'Ticket scanner is temporarily unavailable. Try again later.',
-      );
-    }
+    return const TicketScannerAvailability(
+      isReady: false,
+      message:
+          'Ticket scanning is no longer available in COOL. Use MoMo QR instead.',
+    );
   }
 
   Future<void> _enableCameraAccess() async {
@@ -102,33 +82,11 @@ extension _QrScannerScreenStateLogic on _QrScannerScreenState {
   }
 
   Future<_TicketScanResult> _verifyTicketWithBackend(String qrData) async {
-    try {
-      final SupabaseClient client =
-          widget.client ?? ref.read(supabaseClientProvider);
-      final response = await client.functions.invoke(
-        'rs-scan-ticket',
-        body: <String, dynamic>{'qrData': qrData},
-      );
-      final data = _asMap(response.data);
-
-      return _TicketScanResult(
-        isValid: (data['status']?.toString() ?? '') == 'ok',
-        status: data['status']?.toString() ?? 'invalid',
-        message: data['message']?.toString(),
-        ticketId: data['ticketId']?.toString(),
-        matchTitle: data['matchTitle']?.toString(),
-        seatType: data['seatType']?.toString(),
-        pointsAwarded: data['pointsAwarded'] is num
-            ? (data['pointsAwarded'] as num).toInt()
-            : null,
-      );
-    } catch (_) {
-      return const _TicketScanResult(
-        isValid: false,
-        status: 'error',
-        message: 'verify this ticket failed',
-      );
-    }
+    return const _TicketScanResult(
+      isValid: false,
+      status: 'unavailable',
+      message: 'Ticket scanning is no longer available in COOL.',
+    );
   }
 
   Future<void> _handleMomoScan(String qrData) async {
@@ -247,16 +205,6 @@ extension _QrScannerScreenStateLogic on _QrScannerScreenState {
   }
 }
 
-Map<String, dynamic> _asMap(dynamic value) {
-  if (value is Map<Object?, Object?>) {
-    return value.map((key, entry) => MapEntry('$key', entry));
-  }
-  if (value is Map<String, dynamic>) {
-    return value;
-  }
-  return const <String, dynamic>{};
-}
-
 class TicketScannerAvailability {
   const TicketScannerAvailability({required this.isReady, this.message});
 
@@ -269,17 +217,9 @@ class _TicketScanResult {
     required this.isValid,
     required this.status,
     this.message,
-    this.ticketId,
-    this.matchTitle,
-    this.seatType,
-    this.pointsAwarded,
   });
 
   final bool isValid;
   final String status;
   final String? message;
-  final String? ticketId;
-  final String? matchTitle;
-  final String? seatType;
-  final int? pointsAwarded;
 }

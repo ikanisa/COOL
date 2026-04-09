@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -187,6 +188,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = state.copyWith(isLoading: true, error: null);
     _performance.startTrace('auth_sign_in_anonymous');
     _crashlytics.log('auth: signing in anonymously');
+    debugPrint('[Auth] ➜ Anonymous sign-in');
 
     final result = await AsyncValue.guard(
       () => _repository.signInAnonymously(),
@@ -194,6 +196,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
     await result.when(
       data: (session) async {
+        debugPrint('[Auth] ✓ Anonymous sign-in succeeded: ${session.user.id}');
         // Try to load an existing profile first.
         final profileResult = await AsyncValue.guard(
           () => _repository.getProfile(session.user.id),
@@ -244,7 +247,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
           stackTrace: stack,
           reason: 'auth_sign_in_anonymous',
         );
-        state = state.copyWith(isLoading: false, error: _errorMessage(error));
+        debugPrint('[Auth] ❌ Anonymous sign-in failed: $error\n$stack');
+        state = state.copyWith(
+          isLoading: false,
+          profileRestoreState: AuthProfileRestoreState.failed,
+          error: _errorMessage(error),
+        );
       },
       loading: () async {},
     );
@@ -552,6 +560,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   String _errorMessage(Object error) {
     final raw = error.toString();
+    if (raw.contains('signup_disabled')) {
+      return 'Anonymous sign-in is disabled for this Supabase project. '
+          'Enable anonymous users or provide an alternate login flow.';
+    }
+
     if (raw.contains('No host specified') && raw.contains('/functions/')) {
       return EnvConfig.criticalConfigurationError ??
           'This build is missing a valid Supabase backend configuration. '

@@ -76,6 +76,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   void _attemptAnonymousSignIn() {
     if (_signInAttempted) return;
     _signInAttempted = true;
+    debugPrint('[Splash] ➜ Attempting anonymous sign-in');
 
     final authState = ref.read(authProvider);
     if (authState.session == null) {
@@ -98,11 +99,25 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     final showRestoreFailure =
         authState.session != null &&
         authState.profileRestoreState == AuthProfileRestoreState.failed;
+    final showStartupFailure =
+        authState.session == null && authState.error != null;
+    final shouldAutoSignIn =
+        authState.session == null &&
+        !authState.isLoading &&
+        !_signInAttempted;
+
+    debugPrint(
+      '[Splash] build '
+      'session=${authState.session != null} '
+      'loading=${authState.isLoading} '
+      'restore=${authState.profileRestoreState} '
+      'error=${authState.error != null} '
+      'attempted=$_signInAttempted '
+      'auto=$shouldAutoSignIn',
+    );
 
     // Auto sign-in after first frame.
-    if (authState.session == null &&
-        !authState.isLoading &&
-        !_signInAttempted) {
+    if (shouldAutoSignIn) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) _attemptAnonymousSignIn();
       });
@@ -189,7 +204,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
                   AnimatedSwitcher(
                     duration: CoolMotion.medium,
-                    child: !showRestoreFailure
+                    child: !(showRestoreFailure || showStartupFailure)
                         ? const SizedBox.shrink()
                         : Padding(
                             padding: EdgeInsets.only(top: space.x7),

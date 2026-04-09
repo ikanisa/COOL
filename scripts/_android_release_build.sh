@@ -6,6 +6,7 @@ if [[ -z "${ROOT_DIR:-}" ]]; then
   ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 fi
 readonly ROOT_DIR
+source "$ROOT_DIR/scripts/_backend_env.sh"
 
 readonly BUILD_PRIVACY_POLICY_URL_DEFAULT="https://cool.ikanisa.com/privacy"
 readonly BUILD_TERMS_OF_SERVICE_URL_DEFAULT="https://cool.ikanisa.com/terms"
@@ -15,13 +16,16 @@ readonly BUILD_FLUTTER_BIN="${FLUTTER_BIN:-$ROOT_DIR/scripts/flutterw}"
 build_android_release() {
   local artifact_type="${1:?Pass apk or appbundle.}"
   _load_release_env
+  resolve_supabase_client_env production
   local build_args=(
     --release
     --flavor
     production
     "--dart-define=FLAVOR=production"
-    "--dart-define=SUPABASE_URL=${SUPABASE_URL}"
-    "--dart-define=SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}"
+    "--dart-define=SUPABASE_URL=${RESOLVED_SUPABASE_URL}"
+    "--dart-define=SUPABASE_ANON_KEY=${RESOLVED_SUPABASE_ANON_KEY}"
+    "--dart-define=SUPABASE_PROJECT_REF=${RESOLVED_SUPABASE_PROJECT_REF}"
+    "--dart-define=BACKEND_ENVIRONMENT=${RESOLVED_BACKEND_ENVIRONMENT}"
     "--dart-define=ENABLE_ANDROID_MOMO_SMS_AUTOREAD=${ENABLE_ANDROID_MOMO_SMS_AUTOREAD:-true}"
     "--dart-define=COOL_DEEP_LINK_HOST=${COOL_DEEP_LINK_HOST:-cool.app}"
     "--dart-define=COOL_PRIVACY_POLICY_URL=${COOL_PRIVACY_POLICY_URL:-$BUILD_PRIVACY_POLICY_URL_DEFAULT}"
@@ -53,9 +57,7 @@ build_android_release() {
 }
 
 _require_build_env() {
-  # ── CRITICAL BLOCKER: Supabase env vars are mandatory for ANY Android build ──
-  : "${SUPABASE_URL:?CRITICAL BLOCKER — Set SUPABASE_URL before building ANY APK or AAB. The app will crash or show a config error screen without it.}"
-  : "${SUPABASE_ANON_KEY:?CRITICAL BLOCKER — Set SUPABASE_ANON_KEY before building ANY APK or AAB. The app will crash or show a config error screen without it.}"
+  require_resolved_supabase_client_env production
   local native_firebase_config="$ROOT_DIR/android/app/src/production/google-services.json"
   if [[ ! -f "$native_firebase_config" ]]; then
     echo "CRITICAL BLOCKER — Missing Firebase Android config at $native_firebase_config." >&2
@@ -68,44 +70,28 @@ _require_build_env() {
 }
 
 _load_release_env() {
-  if [[ -f "$ROOT_DIR/.env" ]]; then
-    set -a
-    # shellcheck source=/dev/null
-    source "$ROOT_DIR/.env"
-    set +a
-  fi
-
-  if [[ -f "$ROOT_DIR/.env.json" ]]; then
-    local json_key
-    for json_key in \
-      SUPABASE_URL \
-      SUPABASE_ANON_KEY \
-      COOL_DEEP_LINK_HOST \
-      COOL_PRIVACY_POLICY_URL \
-      COOL_TERMS_OF_SERVICE_URL \
-      COOL_ACCOUNT_DELETION_URL \
-      ENABLE_ANDROID_MOMO_SMS_AUTOREAD \
-      FIREBASE_ANDROID_STAGING_API_KEY \
-      FIREBASE_ANDROID_STAGING_APP_ID \
-      FIREBASE_ANDROID_STAGING_MESSAGING_SENDER_ID \
-      FIREBASE_ANDROID_STAGING_PROJECT_ID \
-      FIREBASE_ANDROID_STAGING_STORAGE_BUCKET \
-      FIREBASE_ANDROID_PRODUCTION_API_KEY \
-      FIREBASE_ANDROID_PRODUCTION_APP_ID \
-      FIREBASE_ANDROID_PRODUCTION_MESSAGING_SENDER_ID \
-      FIREBASE_ANDROID_PRODUCTION_PROJECT_ID \
-      FIREBASE_ANDROID_PRODUCTION_STORAGE_BUCKET; do
-      if [[ -z "${!json_key:-}" ]]; then
-        local json_value
-        json_value="$(
-          jq -r --arg key "$json_key" '.[$key] // empty' "$ROOT_DIR/.env.json"
-        )"
-        if [[ -n "$json_value" ]]; then
-          export "$json_key=$json_value"
-        fi
-      fi
-    done
-  fi
+  load_client_env_files "$ROOT_DIR" \
+    SUPABASE_URL \
+    SUPABASE_ANON_KEY \
+    SUPABASE_STAGING_URL \
+    SUPABASE_STAGING_ANON_KEY \
+    SUPABASE_PRODUCTION_URL \
+    SUPABASE_PRODUCTION_ANON_KEY \
+    COOL_DEEP_LINK_HOST \
+    COOL_PRIVACY_POLICY_URL \
+    COOL_TERMS_OF_SERVICE_URL \
+    COOL_ACCOUNT_DELETION_URL \
+    ENABLE_ANDROID_MOMO_SMS_AUTOREAD \
+    FIREBASE_ANDROID_STAGING_API_KEY \
+    FIREBASE_ANDROID_STAGING_APP_ID \
+    FIREBASE_ANDROID_STAGING_MESSAGING_SENDER_ID \
+    FIREBASE_ANDROID_STAGING_PROJECT_ID \
+    FIREBASE_ANDROID_STAGING_STORAGE_BUCKET \
+    FIREBASE_ANDROID_PRODUCTION_API_KEY \
+    FIREBASE_ANDROID_PRODUCTION_APP_ID \
+    FIREBASE_ANDROID_PRODUCTION_MESSAGING_SENDER_ID \
+    FIREBASE_ANDROID_PRODUCTION_PROJECT_ID \
+    FIREBASE_ANDROID_PRODUCTION_STORAGE_BUCKET
 }
 
 _assert_pinned_flutter_version() {

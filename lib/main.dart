@@ -126,6 +126,12 @@ class _AppBootstrapState extends State<_AppBootstrap> {
     );
 
     await _runOptionalBootStep(
+      'Recording runtime backend contract',
+      _recordRuntimeConfiguration,
+      timeout: const Duration(seconds: 4),
+    );
+
+    await _runOptionalBootStep(
       'Activating device attestation',
       AppCheckService.initialize,
       timeout: const Duration(seconds: 8),
@@ -186,10 +192,14 @@ class _AppBootstrapState extends State<_AppBootstrap> {
         ) ??
         (preference: _defaultThemePreference, updatedAt: null);
 
-    try {
-      await coldStartTrace?.stop();
-    } catch (_) {
-      // Best-effort performance tracing only.
+    if (coldStartTrace != null) {
+      unawaited(
+        coldStartTrace.stop().catchError((error, stack) {
+          debugPrint(
+            '[Bootstrap] ⚠️ Cold-start trace stop failed: $error\n$stack',
+          );
+        }),
+      );
     }
 
     return _AppBootstrapResult(
@@ -197,6 +207,39 @@ class _AppBootstrapState extends State<_AppBootstrap> {
       initialPreference: initialPreference,
       configError: configError,
     );
+  }
+
+  Future<void> _recordRuntimeConfiguration() async {
+    final firebaseProjectId =
+        Firebase.apps.isNotEmpty ? Firebase.app().options.projectId : 'none';
+    final summary =
+        '[RuntimeConfig] flavor=${EnvConfig.flavor} '
+        'backend=${EnvConfig.backendEnvironment} '
+        'supabase=${EnvConfig.effectiveSupabaseProjectRef} '
+        'firebase=$firebaseProjectId';
+    debugPrint(summary);
+
+    if (Firebase.apps.isEmpty) {
+      return;
+    }
+
+    await FirebaseCrashlytics.instance.setCustomKey(
+      'app_flavor',
+      EnvConfig.flavor,
+    );
+    await FirebaseCrashlytics.instance.setCustomKey(
+      'backend_environment',
+      EnvConfig.backendEnvironment,
+    );
+    await FirebaseCrashlytics.instance.setCustomKey(
+      'supabase_project_ref',
+      EnvConfig.effectiveSupabaseProjectRef,
+    );
+    await FirebaseCrashlytics.instance.setCustomKey(
+      'firebase_project_id',
+      firebaseProjectId,
+    );
+    FirebaseCrashlytics.instance.log(summary);
   }
 
   Future<T?> _runOptionalBootStep<T>(

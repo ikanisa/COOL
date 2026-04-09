@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 readonly FLUTTER_BIN="${FLUTTER_BIN:-$ROOT_DIR/scripts/flutterw}"
+source "$ROOT_DIR/scripts/_backend_env.sh"
 
 require_command() {
   if ! command -v "$1" >/dev/null 2>&1; then
@@ -23,6 +24,17 @@ DEVICE="${DEVICE:-}"
 TARGET="${TARGET:-integration_test/momo_sms_inbox_sync_test.dart}"
 DRIVER="${DRIVER:-test_driver/integration_test.dart}"
 ARTIFACT_DIR="${ARTIFACT_DIR:-build/momo_sms_device_integration}"
+
+load_client_env_files "$ROOT_DIR" \
+  SUPABASE_URL \
+  SUPABASE_ANON_KEY \
+  SUPABASE_STAGING_URL \
+  SUPABASE_STAGING_ANON_KEY \
+  SUPABASE_PRODUCTION_URL \
+  SUPABASE_PRODUCTION_ANON_KEY \
+  COOL_DEEP_LINK_HOST
+resolve_supabase_client_env "$FLAVOR"
+require_resolved_supabase_client_env "$FLAVOR"
 
 device_args=()
 if [[ -n "$DEVICE" ]]; then
@@ -70,7 +82,12 @@ echo "==> build device integration apk"
   --debug \
   "--flavor=$FLAVOR" \
   "--target=$TARGET" \
-  "--dart-define=FLAVOR=$FLAVOR"
+  "--dart-define=FLAVOR=$FLAVOR" \
+  "--dart-define=SUPABASE_URL=${RESOLVED_SUPABASE_URL}" \
+  "--dart-define=SUPABASE_ANON_KEY=${RESOLVED_SUPABASE_ANON_KEY}" \
+  "--dart-define=SUPABASE_PROJECT_REF=${RESOLVED_SUPABASE_PROJECT_REF}" \
+  "--dart-define=BACKEND_ENVIRONMENT=${RESOLVED_BACKEND_ENVIRONMENT}" \
+  "--dart-define=COOL_DEEP_LINK_HOST=${COOL_DEEP_LINK_HOST:-cool.app}"
 
 echo "==> install apk"
 adb "${device_args[@]}" install -r "$apk_path"
@@ -91,6 +108,11 @@ drive_cmd=(
   "--use-application-binary=$apk_path"
   "--flavor=$FLAVOR"
   "--dart-define=FLAVOR=$FLAVOR"
+  "--dart-define=SUPABASE_URL=${RESOLVED_SUPABASE_URL}"
+  "--dart-define=SUPABASE_ANON_KEY=${RESOLVED_SUPABASE_ANON_KEY}"
+  "--dart-define=SUPABASE_PROJECT_REF=${RESOLVED_SUPABASE_PROJECT_REF}"
+  "--dart-define=BACKEND_ENVIRONMENT=${RESOLVED_BACKEND_ENVIRONMENT}"
+  "--dart-define=COOL_DEEP_LINK_HOST=${COOL_DEEP_LINK_HOST:-cool.app}"
 )
 
 if [[ -n "$DEVICE" ]]; then

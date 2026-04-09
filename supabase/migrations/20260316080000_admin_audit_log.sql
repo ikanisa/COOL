@@ -82,6 +82,7 @@ $$;
 
 -- ── RPC to query audit log with pagination + filters ──────────────────
 
+DROP FUNCTION IF EXISTS public.get_admin_audit_log(integer, integer, text, uuid);
 CREATE OR REPLACE FUNCTION public.get_admin_audit_log(
   p_limit   integer DEFAULT 50,
   p_offset  integer DEFAULT 0,

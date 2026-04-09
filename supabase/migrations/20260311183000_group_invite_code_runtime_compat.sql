@@ -162,4 +162,4 @@ exception
       'message', sqlerrm
     );
 end;
-$$;;
+$$;

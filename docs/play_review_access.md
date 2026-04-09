@@ -62,7 +62,7 @@ The secrets are already set on the active Supabase project:
 supabase secrets set \
   OTP_TEST_PHONE=+250788767816 \
   OTP_TEST_CODE=123456 \
-  --project-ref mmpbzcdhfvplxplnfucy
+  --project-ref lhbowpbcpwoiparwnwgt
 ```
 
 `send-otp` and `verify-otp` are already deployed with the review-bypass code

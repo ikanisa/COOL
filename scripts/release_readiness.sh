@@ -8,6 +8,9 @@ readonly FLUTTER_BIN="${FLUTTER_BIN:-$ROOT_DIR/scripts/flutterw}"
 echo "==> flutter analyze"
 "$FLUTTER_BIN" analyze --fatal-infos
 
+echo "==> backend config contract"
+bash "$ROOT_DIR/scripts/validate_backend_config.sh"
+
 echo "==> flutter test (unit + widget)"
 "$FLUTTER_BIN" test --concurrency=4 --exclude-tags=integration
 

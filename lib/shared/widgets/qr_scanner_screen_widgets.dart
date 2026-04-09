@@ -131,7 +131,6 @@ class _TicketResultSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final textTheme = Theme.of(context).textTheme;
-    final text = context.coolText;
     final space = context.coolSpace;
     final radii = context.coolRadii;
     return Container(
@@ -172,65 +171,6 @@ class _TicketResultSheet extends StatelessWidget {
               result.message!,
               textAlign: TextAlign.center,
               style: textTheme.bodySmall?.copyWith(color: colors.secondaryText),
-            ),
-          ],
-          if (result.matchTitle != null ||
-              result.seatType != null ||
-              result.ticketId != null) ...[
-            SizedBox(height: space.x4),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(space.x3 + 2),
-              decoration: BoxDecoration(
-                color: colors.inputSurface,
-                borderRadius: BorderRadius.circular(radii.sm),
-                border: Border.all(color: colors.border),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (result.matchTitle != null)
-                    Text(
-                      result.matchTitle!,
-                      style: textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: colors.primaryText,
-                      ),
-                    ),
-                  if (result.seatType != null) ...[
-                    SizedBox(height: space.x1),
-                    Text(
-                      result.seatType!.toUpperCase(),
-                      style: text.mono(
-                        textTheme.labelSmall,
-                        fontWeight: FontWeight.w700,
-                        color: colors.accent,
-                      ),
-                    ),
-                  ],
-                  if (result.ticketId != null) ...[
-                    SizedBox(height: space.x1),
-                    Text(
-                      'Ticket: ${result.ticketId}',
-                      style: text.mono(
-                        textTheme.labelSmall,
-                        fontWeight: FontWeight.w600,
-                        color: colors.tertiaryText,
-                      ),
-                    ),
-                  ],
-                  if ((result.pointsAwarded ?? 0) > 0) ...[
-                    SizedBox(height: space.x1),
-                    Text(
-                      '+${result.pointsAwarded} attendance points',
-                      style: textTheme.labelSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: colors.accent,
-                      ),
-                    ),
-                  ],
-                ],
-              ),
             ),
           ],
           SizedBox(height: space.x5),

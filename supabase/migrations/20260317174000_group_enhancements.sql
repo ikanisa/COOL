@@ -157,4 +157,4 @@ BEGIN
 
   RETURN jsonb_build_object('status', 'success', 'group_id', v_group_id);
 END;
-$$;;
+$$;

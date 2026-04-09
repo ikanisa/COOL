@@ -28,9 +28,9 @@ Why this exists:
 
 ## Current Snapshot
 
-- `29` screen files measured
-- `3` review-range screens
-- `3` debt screens
+- `31` screen files measured
+- `4` review-range screens
+- `4` debt screens
 - `0` hotspot screens
 
 ## Measured Screens
@@ -39,8 +39,10 @@ Why this exists:
 |---|---|---|
 | [`operational_dashboard_parts.dart`](../lib/features/admin/screens/operational_dashboard_parts.dart) | `914` | Debt |
 | [`biopay_scan_screen.dart`](../lib/features/biopay/screens/biopay_scan_screen.dart) | `879` | Debt |
+| [`groups_screen.dart`](../lib/features/groups/screens/groups_screen.dart) | `819` | Debt |
 | [`operational_dashboard_screen.dart`](../lib/features/admin/screens/operational_dashboard_screen.dart) | `772` | Debt |
 | [`biopay_register_screen.dart`](../lib/features/biopay/screens/biopay_register_screen.dart) | `451` | Review |
+| [`group_detail_screen.dart`](../lib/features/groups/screens/group_detail_screen.dart) | `436` | Review |
 | [`bank_admin_workspace_screen.dart`](../lib/features/admin/screens/bank_admin_workspace_screen.dart) | `419` | Review |
 | [`profile_screen.dart`](../lib/features/profile/screens/profile_screen.dart) | `417` | Review |
 | [`momo_screen.dart`](../lib/features/momo/screens/momo_screen.dart) | `399` | Target |
@@ -48,7 +50,7 @@ Why this exists:
 | [`profile_sub_screens_about.dart`](../lib/features/profile/screens/profile_sub_screens_about.dart) | `383` | Target |
 | [`system_analytics_screen.dart`](../lib/features/admin/screens/system_analytics_screen.dart) | `378` | Target |
 | [`audit_log_screen.dart`](../lib/features/admin/screens/audit_log_screen.dart) | `371` | Target |
-| [`groups_screen.dart`](../lib/features/groups/screens/groups_screen.dart) | `350` | Target |
+| [`group_create_screen.dart`](../lib/features/groups/screens/group_create_screen.dart) | `341` | Target |
 | [`admin_workspaces_screen.dart`](../lib/features/admin/screens/admin_workspaces_screen.dart) | `313` | Target |
 | [`biopay_nfc_screen.dart`](../lib/features/biopay/screens/biopay_nfc_screen.dart) | `305` | Target |
 | [`biopay_home_screen.dart`](../lib/features/biopay/screens/biopay_home_screen.dart) | `283` | Target |

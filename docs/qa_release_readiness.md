@@ -11,7 +11,8 @@ No build is release-candidate quality unless every gate below is green.
 
 | Gate | Requirement | Source of truth |
 |---|---|---|
-| **Supabase env vars** | **`SUPABASE_URL` and `SUPABASE_ANON_KEY` MUST be set** before building any APK or AAB. Build scripts abort without them; Dart runtime shows config error screen if empty. | `scripts/_android_release_build.sh`, `scripts/build_staging.sh`, `lib/core/config/env_config.dart` |
+| **Supabase backend contract** | **The correct flavor-specific Supabase URL/key pair MUST be set** before building any APK or AAB. Build scripts validate `SUPABASE_STAGING_*` / `SUPABASE_PRODUCTION_*`, fall back to the legacy generic pair only as a warning, and Dart runtime validates the baked project ref. | `scripts/validate_backend_config.sh`, `scripts/_android_release_build.sh`, `scripts/build_staging.sh`, `lib/core/config/env_config.dart` |
+| Hosted function secrets | Hosted Supabase function secrets are synced from CI before the release gate runs, and the hosted smoke must pass when `SUPABASE_PROJECT_REF` + `SUPABASE_ACCESS_TOKEN` are configured | `scripts/sync_supabase_function_secrets.sh`, `.github/workflows/release.yml`, `scripts/supabase_contract_smoke.sh` |
 | Static analysis | `flutter analyze` passes with zero issues | `scripts/release_readiness.sh` |
 | Flutter tests | `flutter test` passes with zero failures | `scripts/release_readiness.sh` |
 | Deep-link assets | `dart tool/deep_link_release_assets.dart --check` passes against `deeplinks/release_metadata.json`, with populated AASA details and no placeholder store metadata | `scripts/release_readiness.sh` and hosted `.well-known` files |
@@ -32,6 +33,7 @@ bash scripts/release_readiness.sh
 That covers:
 
 - `flutter analyze`
+- `bash scripts/validate_backend_config.sh`
 - `flutter test`
 - `dart tool/deep_link_release_assets.dart --check`
 - `deno test supabase/functions/parse-momo-sms/reconciliation_test.ts`

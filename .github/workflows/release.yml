@@ -47,18 +47,63 @@ jobs:
           deno-version-file: .dvmrc
           cache: true
 
+      - name: Set up Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Install PostgreSQL client
+        if: ${{ secrets.SUPABASE_DB_URL != '' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
       - name: Install dependencies
         run: flutter pub get
 
       - name: Generate l10n
         run: flutter gen-l10n
 
+      - name: Sync hosted Supabase function secrets
+        if: ${{ secrets.SUPABASE_PROJECT_REF != '' && secrets.SUPABASE_ACCESS_TOKEN != '' }}
+        env:
+          PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_PRODUCTION_URL: ${{ secrets.SUPABASE_PRODUCTION_URL || secrets.SUPABASE_URL }}
+          SUPABASE_PRODUCTION_ANON_KEY: ${{ secrets.SUPABASE_PRODUCTION_ANON_KEY || secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON || secrets.FIREBASE_SERVICE_ACCOUNT }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_ANDROID_PRODUCTION_PROJECT_ID }}
+          WHATSAPP_PHONE_NUMBER_ID: ${{ secrets.WHATSAPP_PHONE_NUMBER_ID }}
+          WHATSAPP_ACCESS_TOKEN: ${{ secrets.WHATSAPP_ACCESS_TOKEN }}
+          OTP_CODE_HASH_SECRET: ${{ secrets.OTP_CODE_HASH_SECRET }}
+          AUTH_PHONE_PASSWORD_SECRET: ${{ secrets.AUTH_PHONE_PASSWORD_SECRET }}
+          AI_SMS_PARSE_PROVIDER: ${{ secrets.AI_SMS_PARSE_PROVIDER }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_SMS_PARSE_MODEL: ${{ secrets.OPENAI_SMS_PARSE_MODEL }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_SMS_PARSE_MODEL: ${{ secrets.GEMINI_SMS_PARSE_MODEL }}
+          GOOGLE_MAPS_SERVER_API_KEY: ${{ secrets.GOOGLE_MAPS_SERVER_API_KEY }}
+          GOOGLE_TRANSLATE_API_KEY: ${{ secrets.GOOGLE_TRANSLATE_API_KEY }}
+          TICKET_QR_HMAC_SECRET: ${{ secrets.TICKET_QR_HMAC_SECRET }}
+          GENERATE_AI_CONTENT_CRON_SECRET: ${{ secrets.GENERATE_AI_CONTENT_CRON_SECRET || secrets.CRON_JOB_SECRET }}
+          CRON_JOB_SECRET: ${{ secrets.CRON_JOB_SECRET || secrets.GENERATE_AI_CONTENT_CRON_SECRET }}
+          GOOGLE_WALLET_ISSUER_ID: ${{ secrets.GOOGLE_WALLET_ISSUER_ID }}
+          GOOGLE_WALLET_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_WALLET_SERVICE_ACCOUNT_JSON }}
+          GOOGLE_WALLET_ISSUER_NAME: ${{ secrets.GOOGLE_WALLET_ISSUER_NAME }}
+          GOOGLE_WALLET_ALLOWED_ORIGINS: ${{ secrets.GOOGLE_WALLET_ALLOWED_ORIGINS }}
+          COOL_PUBLIC_APP_BASE_URL: ${{ secrets.COOL_PUBLIC_APP_BASE_URL }}
+          STRICT_CORE: '1'
+        run: bash scripts/sync_supabase_function_secrets.sh
+
       # ── Gate: release readiness must pass ──────────────────
       - name: Run release readiness checks
         env:
           SKIP_ANDROID_FLAVOR_BUILDS: '1'
           RUN_MOMO_SMS_ROLLOUT_VERIFY: ${{ secrets.SUPABASE_DB_URL != '' && '1' || '0' }}
-          TRIGGER_MIGRATION_CHECK: ${{ secrets.SUPABASE_DB_URL != '' && '1' || '0' }}
+          RUN_REMOTE_SMOKE: ${{ secrets.SUPABASE_PROJECT_REF != '' && secrets.SUPABASE_ACCESS_TOKEN != '' && '1' || '0' }}
+          PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
           COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT: ${{ secrets.COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT }}
           COOL_IOS_TEAM_ID: ${{ secrets.COOL_IOS_TEAM_ID }}
@@ -88,8 +133,8 @@ jobs:
       # ── Build signed APK ───────────────────────────────────
       - name: Build release APK
         env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_PRODUCTION_URL: ${{ secrets.SUPABASE_PRODUCTION_URL || secrets.SUPABASE_URL }}
+          SUPABASE_PRODUCTION_ANON_KEY: ${{ secrets.SUPABASE_PRODUCTION_ANON_KEY || secrets.SUPABASE_ANON_KEY }}
           FIREBASE_ANDROID_PRODUCTION_API_KEY: ${{ secrets.FIREBASE_ANDROID_PRODUCTION_API_KEY }}
           FIREBASE_ANDROID_PRODUCTION_APP_ID: ${{ secrets.FIREBASE_ANDROID_PRODUCTION_APP_ID }}
           FIREBASE_ANDROID_PRODUCTION_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_ANDROID_PRODUCTION_MESSAGING_SENDER_ID }}

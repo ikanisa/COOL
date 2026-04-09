@@ -6,8 +6,12 @@
 #   ./scripts/build_qa_apk.sh
 #
 # Required environment variables (pass via export or .env):
-#   SUPABASE_URL          — e.g. https://xxxx.supabase.co
-#   SUPABASE_ANON_KEY     — project anon key
+#   SUPABASE_PRODUCTION_URL       — preferred release backend URL
+#   SUPABASE_PRODUCTION_ANON_KEY  — preferred release anon key
+#
+# Legacy fallback still works if needed:
+#   SUPABASE_URL
+#   SUPABASE_ANON_KEY
 #
 # Optional (defaults apply):
 #   COOL_DEEP_LINK_HOST   — Deep link host (defaults to cool.app)

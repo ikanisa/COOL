@@ -376,4 +376,4 @@ exception
       'message', sqlerrm
     );
 end;
-$$;;
+$$;

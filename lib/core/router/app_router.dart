@@ -17,10 +17,13 @@ import '../../features/biopay/screens/biopay_register_screen.dart';
 import '../../features/biopay/screens/biopay_scan_screen.dart';
 import '../../features/momo/screens/momo_screen.dart';
 import '../../features/momo/screens/momo_statements_screen.dart';
+import '../../features/groups/screens/group_create_screen.dart';
+import '../../features/groups/screens/group_detail_screen.dart';
 import '../../features/groups/screens/groups_screen.dart';
 import '../../features/profile/screens/profile_detail_screens.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import '../../features/profile/screens/profile_sub_screens.dart';
+import '../status/screens/referral_screen.dart';
 import '../../shared/widgets/qr_scanner_screen.dart';
 import '../../shared/widgets/kill_switch_gate.dart';
 import '../../shared/widgets/secure_screen_wrapper.dart';
@@ -338,6 +341,35 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
       // ── Group savings & contribution routes ────────────────────
       GoRoute(
+        path: AppRoutes.groups,
+        redirect: (context, state) {
+          return Uri(
+            path: AppRoutes.contributionCircles,
+            queryParameters: state.uri.queryParameters.isEmpty
+                ? null
+                : state.uri.queryParameters,
+          ).toString();
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.groupCreate,
+        pageBuilder: (context, state) => coolPageTransition(
+          context: context,
+          state: state,
+          child: const SecureScreenWrapper(child: GroupCreateScreen()),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.groupDetail,
+        redirect: (context, state) {
+          final groupId = state.pathParameters['id']?.trim();
+          if (groupId == null || groupId.isEmpty) {
+            return AppRoutes.contributionCircles;
+          }
+          return AppRoutes.contributionCircleDetailLocation(groupId);
+        },
+      ),
+      GoRoute(
         path: AppRoutes.groupInvite,
         redirect: (context, state) {
           final inviteCode = state.pathParameters['code']?.trim().toUpperCase();
@@ -355,7 +387,42 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         pageBuilder: (context, state) => coolPageTransition(
           context: context,
           state: state,
-          child: const GroupsScreen(),
+          child: SecureScreenWrapper(
+            child: GroupsScreen(
+              inviteCode: state.uri.queryParameters['invite_code'],
+            ),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.contributionCircleDetail,
+        pageBuilder: (context, state) {
+          final groupId = state.pathParameters['groupId']?.trim() ?? '';
+          return coolPageTransition(
+            context: context,
+            state: state,
+            child: SecureScreenWrapper(
+              child: GroupDetailScreen(groupId: groupId),
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.groupLedger,
+        redirect: (context, state) {
+          final groupId = state.pathParameters['id']?.trim();
+          if (groupId == null || groupId.isEmpty) {
+            return AppRoutes.contributionCircles;
+          }
+          return AppRoutes.contributionCircleDetailLocation(groupId);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.referral,
+        pageBuilder: (context, state) => coolPageTransition(
+          context: context,
+          state: state,
+          child: const SecureScreenWrapper(child: ReferralScreen()),
         ),
       ),
       adminRoutes(),
@@ -423,6 +490,7 @@ String _routeTitleFor(String? path) {
     '/home': 'Home — COOL',
     '/groups': 'Groups — COOL',
     '/contribution-circles': 'Contribution Circles — COOL',
+    '/referral': 'Referrals — COOL',
     '/momo': 'MoMo — COOL',
     '/momo/statements': 'MoMo Statements — COOL',
     '/momo/biopay': 'BioPay — COOL',
