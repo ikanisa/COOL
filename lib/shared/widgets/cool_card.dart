@@ -149,9 +149,7 @@ class CoolCard extends StatelessWidget {
             color: colors.glassSurface,
             borderRadius: BorderRadius.circular(radius),
             border: Border.all(
-              color: Colors.white.withValues(
-                alpha: 0.10,
-              ),
+              color: borderCol,
               width: 1,
             ),
           ),
@@ -185,11 +183,9 @@ class CoolCard extends StatelessWidget {
   };
 
   Color _variantBorder(CoolSemanticColors colors) => switch (variant) {
-    CoolCardVariant.default_ => Colors.white.withValues(alpha: 0.05),
-    CoolCardVariant.glass => Colors.white.withValues(
-      alpha: 0.10,
-    ),
-    CoolCardVariant.outline => Colors.white.withValues(alpha: 0.10),
+    CoolCardVariant.default_ => colors.border,
+    CoolCardVariant.glass => colors.borderStrong,
+    CoolCardVariant.outline => colors.borderStrong,
     CoolCardVariant.accent => colors.accent.withValues(alpha: 0.20),
   };
 }

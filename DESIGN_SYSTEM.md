@@ -34,20 +34,20 @@ Two migration notes matter:
 - `MoMo` is a pushed standalone route, not a shell branch.
 - Payment verification is Android SMS-based. Permission, blocked, offline,
   pending, and failure states must be visually honest.
-- The current visual direction is not neon black fintech. It is warm,
-  institutional, tactile, and restrained.
+- The current visual direction is a dark violet/navy fintech system with
+  restrained glass overlays, strong contrast, and compact editorial type.
 
 ## 3. Visual Direction
 
-The live theme is a premium olive-and-stone system with strong typography,
-rounded geometry, clay-like inline surfaces, and restrained glass overlays.
+The live theme is a premium dark violet/navy system with strong typography,
+rounded geometry, compact surfaces, and restrained glass overlays.
 
 The intended feel is:
 
 - calm, not flashy
-- tactile, not glossy
 - premium, not decorative
 - explicit about trust, state, and money
+- cinematic where the workflow benefits from it
 
 This means:
 
@@ -55,6 +55,7 @@ This means:
 - large, heavy type
 - rounded but not bubbly geometry
 - semantic color usage instead of brand-color spraying
+- feature dialects are allowed only when they are documented variants
 
 ## 4. Color System
 
@@ -66,26 +67,26 @@ the documented fixed-color exceptions.
 
 | Token | Light | Dark | Role |
 | --- | --- | --- | --- |
-| `appBackground` | `#F3F0EA` | `#070B09` | Root app background |
-| `elevatedBackground` | `#FCFAF6` | `#0D110E` | Raised shell/sheet backdrop |
-| `cardSurface` | `#F7F2EA` | `#141A16` | Default inline card surface |
-| `cardSurfaceStrong` | `#FFFDF9` | `#1B221D` | Higher-emphasis card surface |
-| `glassSurface` | `#FFFCF7 @ 84%` | `#111713 @ 82%` | Blur-backed overlay surface |
-| `overlaySurface` | `#FBF8F2` | `#111713` | Solid overlay/sheet fallback |
-| `primaryText` | `#0B0F0D` | `#F4F1E9` | Primary text |
-| `secondaryText` | `#465147` | `#C4CBC2` | Secondary text |
-| `tertiaryText` | `#6D776E` | `#909B91` | Muted/disabled text |
-| `accent` | `#2F7252` | `#3A8A5E` | Primary action color |
-| `accentStrong` | `#103322` | `#173726` | Deep accent anchor |
-| `accentForeground` | `#F8F5EE` | `#F7F3EA` | Text/icons on accent surfaces |
-| `divider` | `#0B0F0D @ 8%` | `#FFFFFF @ 8%` | Hairline dividers |
-| `border` | `#0B0F0D @ 12%` | `#FFFFFF @ 12%` | Standard borders |
-| `borderStrong` | `#0B0F0D @ 18%` | `#FFFFFF @ 20%` | Strong borders |
-| `success` | `#2F7252` | `#58A67B` | Positive state |
-| `warning` | `#A86F26` | `#D09A4D` | Warning state |
-| `danger` | `#A24C54` | `#D0727A` | Error/destructive state |
-| `info` | `#4C6886` | `#7E9CBC` | Informational state |
-| `neutral` | `#737B74` | `#98A199` | Neutral supporting state |
+| `appBackground` | `#F4F7FB` | `#0D0A27` | Root app background |
+| `elevatedBackground` | `#FFFFFF` | `#120F2F` | Raised shell/sheet backdrop |
+| `cardSurface` | `#F8FAFD` | `#1E1A41` | Default inline card surface |
+| `cardSurfaceStrong` | `#FFFFFF` | `#241F50` | Higher-emphasis card surface |
+| `glassSurface` | `#FFFFFF @ 90%` | `#FFFFFF @ 6%` | Blur-backed overlay surface |
+| `overlaySurface` | `#FFFFFF` | `#120F2F` | Solid overlay/sheet fallback |
+| `primaryText` | `#0B1220` | `#F7F9FC` | Primary text |
+| `secondaryText` | `#475467` | `#8B8A9E` | Secondary text |
+| `tertiaryText` | `#667085` | `#5E5C77` | Muted/disabled text |
+| `accent` | `#0047AB` | `#6C63FF` | Primary action color |
+| `accentStrong` | `#0C64D9` | `#8982FF` | Deep accent anchor |
+| `accentForeground` | `#FFFFFF` | `#FFFFFF` | Text/icons on accent surfaces |
+| `divider` | `#0B1220 @ 8%` | `#FFFFFF @ 8%` | Hairline dividers |
+| `border` | `#0B1220 @ 12%` | `#FFFFFF @ 10%` | Standard borders |
+| `borderStrong` | `#0B1220 @ 20%` | `#FFFFFF @ 14%` | Strong borders |
+| `success` | `#0E9F6E` | `#10B981` | Positive state |
+| `warning` | `#C97A00` | `#F59E0B` | Warning state |
+| `danger` | `#D92D20` | `#EF4444` | Error/destructive state |
+| `info` | `#2E90FA` | `#3B82F6` | Informational state |
+| `neutral` | `#98A2B3` | `#8B8A9E` | Neutral supporting state |
 
 ### 4.2 Specialized Surfaces
 
@@ -93,30 +94,30 @@ These exist to support domain-aware cards without inventing one-off palettes:
 
 | Token | Light | Dark | Use |
 | --- | --- | --- | --- |
-| `operationalSurface` | `#EEF2F0` | `#0F1814` | Admin/ops surfaces |
-| `financialSurface` | `#EDF4EF` | `#0E1712` | Finance summaries |
-| `analyticsSurface` | `#EEF1F5` | `#101721` | Charts/analytics |
-| `teamSurface` | `#F1EEF6` | `#151320` | Team/community context |
-| `commerceSurface` | `#F5F0E8` | `#1A1713` | Commerce/checkout context |
-| `routeSurface` | `#F1ECE4` | `#121814` | Route/context surface |
-| `proximitySurface` | `#E7F0EA` | `#0E1813` | Nearby/location context |
-| `contactSurface` | `#EAF3ED` | `#10201A` | Contact/member context |
+| `operationalSurface` | `#F4F6FA` | `#121212` | Admin/ops surfaces |
+| `financialSurface` | `#F1F6FF` | `#11141A` | Finance summaries |
+| `analyticsSurface` | `#F1F7F8` | `#11161A` | Charts/analytics |
+| `teamSurface` | `#F7F3FF` | `#141219` | Team/community context |
+| `commerceSurface` | `#FFF6EF` | `#15120F` | Commerce/checkout context |
+| `routeSurface` | `#F0F5FF` | `#10151A` | Route/context surface |
+| `proximitySurface` | `#F2FAF7` | `#0F1517` | Nearby/location context |
+| `contactSurface` | `#FFF9F0` | `#141411` | Contact/member context |
 
 ### 4.3 Interaction and Background Tokens
 
 | Token | Light | Dark | Use |
 | --- | --- | --- | --- |
-| `chipBackground` | `#F1ECE3` | `#171E19` | Inactive pills/chips |
-| `chipSelectedBackground` | `#E2F0E8` | `#1D3629` | Selected pills/chips |
-| `buttonPrimaryBackground` | `#2F7252` | `#3A8A5E` | Primary button base |
-| `buttonSecondaryBackground` | `#FCFAF6` | `#141A16` | Secondary button base |
-| `inputSurface` | `#FEFBF8` | `#121814` | Text field fill |
-| `shellGradientTop` | `#FAF7F2` | `#141915` | Background atmosphere |
-| `shellGradientBottom` | `#ECE5DA` | `#060806` | Background atmosphere |
-| `surfaceGradientTop` | `#FFFDF9` | `#1A211C` | Card gradient top |
-| `surfaceGradientBottom` | `#F2ECE3` | `#0E120F` | Card gradient bottom |
-| `accentGradientStart` | `#2F7252` | `#3A8A5E` | Primary CTA gradient |
-| `accentGradientEnd` | `#103322` | `#173726` | Primary CTA gradient |
+| `chipBackground` | `#E9EEF5` | `#1E1A41` | Inactive pills/chips |
+| `chipSelectedBackground` | `#DDE8FF` | `#6C63FF` | Selected pills/chips |
+| `buttonPrimaryBackground` | `#0047AB` | `#6C63FF` | Primary button base |
+| `buttonSecondaryBackground` | `#120B1220` | `#14FFFFFF` | Secondary button base |
+| `inputSurface` | `#F1F5F9` | `#0AFFFFFF` | Text field fill |
+| `shellGradientTop` | `#FFFFFF` | `#120F2F` | Background atmosphere |
+| `shellGradientBottom` | `#F4F7FB` | `#0D0A27` | Background atmosphere |
+| `surfaceGradientTop` | `#FFFFFF` | `#241F50` | Card gradient top |
+| `surfaceGradientBottom` | `#F8FAFD` | `#1E1A41` | Card gradient bottom |
+| `accentGradientStart` | `#0C64D9` | `#8982FF` | Primary CTA gradient |
+| `accentGradientEnd` | `#0047AB` | `#6C63FF` | Primary CTA gradient |
 
 ### 4.4 Color Rules
 
@@ -124,8 +125,8 @@ These exist to support domain-aware cards without inventing one-off palettes:
 - Status must never rely on color alone; pair it with iconography, wording, or
   shape.
 - Inline cards use semantic surfaces, not arbitrary gradients.
-- Unsupported legacy colors from old docs such as bright teal `#00D4AA` or
-  flat black `#0A0A0F` are not the current app palette.
+- Unsupported legacy colors from old docs such as bright teal `#00D4AA` are
+  not part of the current app palette.
 
 ### 4.5 Fixed-Color Exceptions
 
@@ -139,11 +140,11 @@ These remain intentionally hardcoded:
 
 ### 5.1 Families
 
-- Default UI family: `Manrope`
+- Default UI family: `Inter`
+- Display/headline family: `Barlow Condensed`
 - Numeric/financial/ID family: `DM Mono` via `context.coolText.mono(...)`
-- Rayon partner brand helpers:
-  - `context.coolText.rayon(...)`
-  - `context.coolText.rayonCondensed(...)`
+- `context.coolText.displayCondensed(...)` uses the display family for
+  uppercase headlines and hero labels
 
 ### 5.2 Type Scale
 
@@ -490,12 +491,10 @@ design language.
 The system allows bounded brand exceptions where there is a real product or
 partner requirement.
 
-Rayon partner surfaces:
-
-- may use `Barlow Condensed` for high-emphasis headings
-- may use `Barlow` helpers through `context.coolText.rayon(...)`
-- may introduce Rayon blue/gold atmosphere through `RsColors`
-- still reuse shared structure, spacing, and navigation logic where possible
+Historical partner-brand references may still appear in old screens or docs, but
+the active runtime contract is the shared COOL system above. Any new partner
+surface should still reuse shared structure, spacing, and navigation logic
+instead of inventing a separate shell.
 
 WhatsApp actions:
 
@@ -875,7 +874,7 @@ Expected bridge files that may remain temporarily:
 
 Highest-value migration targets:
 
-- Rayon consumer and Rayon admin surfaces
+- legacy partner-branded consumer and admin surfaces
 - profile/settings widgets and sheets
 - credit score and readiness surfaces
 - remaining core status legacy screens
@@ -908,7 +907,7 @@ Use the smallest shared primitive that honestly fits the job.
 | If you need | Prefer | Avoid by default |
 | --- | --- | --- |
 | Root consumer route with shared shell styling | `CoolScreenScaffold` | Ad hoc scaffold + background duplication |
-| Root Rayon partner route | `RayonScreenScaffold` | Rebuilding a custom partner shell from scratch |
+| Partner-branded route | `CoolScreenScaffold` | Rebuilding a custom partner shell from scratch |
 | Standard inline content block | `CoolCard` | Raw `Container` with custom border/shadow recipe |
 | Overlay or premium modal surface | `CoolBottomSheet` or `CoolGlassCard` | Inline glass cards for ordinary list content |
 | Primary or secondary action | `CoolButton` | One-off button styling in feature code |
@@ -972,11 +971,11 @@ Section 13.
 | `/momo`, `/momo/statements` | `Secure transaction hub` | Standalone financial route with explicit exit path |
 | `/credit`, `/credit/readiness`, `/missions`, `/referral`, `/tokens`, `/seasons` | `Detail and drill-in` | Supporting program routes with focused state or progression |
 | `/partners`, `/partners/:id`, `/partners/:id/onboarding/:type` | `Partner discovery and onboarding` | Trusted partner browse, compare, and handoff |
-| `/partners/rayon-sports`, `/partners/rayon-sports/*` | `Partner-branded experience` | Rayon-specific shell and brand bending over shared structure |
+| `/partners/rayon-sports`, `/partners/rayon-sports/*` | `Partner-branded experience` | Legacy partner-specific shell and brand bending over shared structure |
 | `/admin` | `Admin workspace selector` | Role-aware landing into operational surfaces |
 | `/admin/operations` | `Operational/admin dashboard` | Metrics, queues, and release truth |
 | `/admin/*` except `/admin/operations` and `/admin/rayon*` | `Detail and drill-in` | Task-specific admin routes under the same operational discipline |
-| `/admin/rayon*` | `Partner-branded experience` | Rayon brand system applied to admin workspaces |
+| `/admin/rayon*` | `Partner-branded experience` | Legacy partner brand system applied to admin workspaces |
 
 ## 17. Appendix B: Fast Decisions
 

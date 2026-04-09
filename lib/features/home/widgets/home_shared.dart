@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_card.dart';
 
 String fmtAmt(int v) {
   final s = v.toString();
@@ -26,13 +27,14 @@ class HomeProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return LayoutBuilder(
       builder: (context, constraints) {
         return Container(
           height: barHeight,
           width: constraints.maxWidth,
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.1),
+            color: colors.border,
             borderRadius: BorderRadius.circular(barHeight / 2),
           ),
           child: Align(
@@ -65,27 +67,16 @@ class HomeGlassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final card = Container(
+    final colors = context.coolSemanticColors;
+    return CoolCard(
+      variant: CoolCardVariant.glass,
+      cardPadding: CoolCardPadding.none,
       padding: const EdgeInsets.all(CoolSpace.x5),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(CoolRadii.xl),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
-      ),
+      backgroundColor: colors.glassSurface,
+      borderColor: colors.border,
+      onTap: onTap,
       child: child,
     );
-
-    if (onTap != null) {
-      return Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(CoolRadii.xl),
-          onTap: onTap,
-          child: card,
-        ),
-      );
-    }
-    return card;
   }
 }
 

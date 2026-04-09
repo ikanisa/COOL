@@ -187,18 +187,12 @@ class _GlassPill extends StatelessWidget {
         ),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            // bg-white/5
-            color: Colors.white.withValues(alpha: 0.05),
+            color: colors.glassSurface,
             borderRadius: BorderRadius.circular(CoolRadii.pill),
-            // border: white/10, 1px
-            border: Border.all(
-              color: Colors.white.withValues(alpha: 0.10),
-              width: 1,
-            ),
-            // shadow-2xl shadow-black/50
+            border: Border.all(color: colors.border, width: 1),
             boxShadow: <BoxShadow>[
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.50),
+                color: colors.shadowColor.withValues(alpha: 0.45),
                 blurRadius: 40,
                 offset: const Offset(0, 15),
               ),
@@ -246,8 +240,8 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const activeIconColor = Colors.white;
-    final inactiveIconColor = colors.secondaryText.withValues(alpha: 0.40);
+    final activeIconColor = colors.accentForeground;
+    final inactiveIconColor = colors.secondaryText.withValues(alpha: 0.55);
     final displayLabel = preserveCase ? label : label.toUpperCase();
 
     return Material(
@@ -271,7 +265,7 @@ class _NavItem extends StatelessWidget {
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? Colors.white.withValues(alpha: 0.10)
+                      ? colors.accent.withValues(alpha: 0.12)
                       : Colors.transparent,
                   shape: BoxShape.circle,
                 ),
@@ -295,12 +289,14 @@ class _NavItem extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: context.coolText
                     .mobiLabel(
-                      color: isSelected ? Colors.white : inactiveIconColor,
+                      color: isSelected
+                          ? colors.primaryText
+                          : inactiveIconColor,
                     )
                     .copyWith(
-                      fontSize: 8,
+                      fontSize: 10,
                       fontWeight: FontWeight.w700,
-                      letterSpacing: 1.0, // ~0.1em at 8px
+                      letterSpacing: 0.8,
                     ),
               ),
               const SizedBox(height: 1),

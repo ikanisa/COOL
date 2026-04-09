@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/providers/engagement_providers.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -104,10 +105,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.05),
+                          color: colors.cardSurfaceStrong,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.10),
+                            color: colors.border,
                           ),
                         ),
                         alignment: Alignment.center,
@@ -148,7 +149,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       width: 44,
                       height: 44,
                       decoration: BoxDecoration(
-                        color: colors.accent.withValues(alpha: 0.1),
+                        color: colors.accent.withValues(alpha: 0.12),
                         shape: BoxShape.circle,
                       ),
                       alignment: Alignment.center,
@@ -334,9 +335,9 @@ class _SettingsRow extends StatelessWidget {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.05),
+                color: colors.cardSurfaceStrong,
                 borderRadius: BorderRadius.circular(CoolRadii.md),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+                border: Border.all(color: colors.border),
               ),
               alignment: Alignment.center,
               child: Icon(icon, color: iconColor, size: 22),
@@ -389,7 +390,7 @@ class _SettingsRow extends StatelessWidget {
 class _SettingsDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Divider(height: 1, color: Colors.white.withValues(alpha: 0.06));
+    return Divider(height: 1, color: context.coolSemanticColors.divider);
   }
 }
 
@@ -400,17 +401,17 @@ class _GlassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: CoolSpace.x5,
-        vertical: CoolSpace.x2,
+    final colors = context.coolSemanticColors;
+    return CoolCard(
+      backgroundColor: colors.cardSurfaceStrong,
+      borderColor: colors.border,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: CoolSpace.x5,
+          vertical: CoolSpace.x2,
+        ),
+        child: child,
       ),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(CoolRadii.xl),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
-      ),
-      child: child,
     );
   }
 }

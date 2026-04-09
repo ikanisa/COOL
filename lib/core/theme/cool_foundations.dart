@@ -348,8 +348,8 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
 // Typography Helpers
 // ──────────────────────────────────────────────────────────────────────────────
 
-/// Typography helpers anchored to [TextTheme] with Space Mono, Syne, and DM Sans 
-/// for values and headings.
+/// Typography helpers anchored to [TextTheme] with Inter, Barlow Condensed,
+/// and DM Mono.
 @immutable
 class CoolTextStyles {
   const CoolTextStyles._({
@@ -363,7 +363,7 @@ class CoolTextStyles {
 
   TextTheme get theme => _textTheme;
 
-  /// Monospace text — Space Mono for values, IDs, labels.
+  /// Monospace text — DM Mono for values, IDs, labels.
   TextStyle mono(
     TextStyle? base, {
     Color? color,
@@ -375,7 +375,7 @@ class CoolTextStyles {
         base ??
         _textTheme.bodyLarge ??
         const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
-    return GoogleFonts.spaceMono(
+    return GoogleFonts.dmMono(
       textStyle: resolvedBase.copyWith(
         color: color ?? resolvedBase.color ?? _defaultColor,
         fontWeight: fontWeight ?? resolvedBase.fontWeight,
@@ -385,10 +385,10 @@ class CoolTextStyles {
     );
   }
 
-  /// mobi-label: 10px, Space Mono, uppercase, wide tracking.
+  /// mobi-label: 10px, DM Mono, uppercase, wide tracking.
   TextStyle mobiLabel({Color? color}) {
     final labelColor = _textTheme.labelSmall?.color ?? _defaultColor;
-    return GoogleFonts.spaceMono(
+    return GoogleFonts.dmMono(
       textStyle: TextStyle(
         fontSize: 10,
         fontWeight: FontWeight.w600,
@@ -399,9 +399,9 @@ class CoolTextStyles {
     );
   }
 
-  /// mobi-value: 14px, Space Mono, standard tracking.
+  /// mobi-value: 14px, DM Mono, standard tracking.
   TextStyle mobiValue({Color? color}) {
-    return GoogleFonts.spaceMono(
+    return GoogleFonts.dmMono(
       textStyle: TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w500,
@@ -414,9 +414,9 @@ class CoolTextStyles {
 
   /// Large hero number for financial dashboards (MoMo balance, group totals).
   ///
-  /// Syne 48px, Black 900, tight height for stamp-like impact.
+  /// DM Mono 48px, Black 900, tight height for stamp-like impact.
   TextStyle heroNumber({Color? color}) {
-    return GoogleFonts.syne(
+    return GoogleFonts.dmMono(
       textStyle: TextStyle(
         fontSize: 48,
         fontWeight: FontWeight.w900,
@@ -427,7 +427,7 @@ class CoolTextStyles {
     );
   }
 
-  /// DM Sans text for standard UI bindings.
+  /// Inter text for standard UI bindings.
   TextStyle display(
     TextStyle? base, {
     Color? color,
@@ -439,7 +439,7 @@ class CoolTextStyles {
         base ??
         _textTheme.bodyLarge ??
         const TextStyle(fontSize: 18, fontWeight: FontWeight.w600);
-    return GoogleFonts.dmSans(
+    return GoogleFonts.inter(
       textStyle: resolvedBase.copyWith(
         color: color ?? resolvedBase.color ?? _defaultColor,
         fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w600,
@@ -449,7 +449,7 @@ class CoolTextStyles {
     );
   }
 
-  /// Syne for uppercase bold headers.
+  /// Barlow Condensed for uppercase bold headers.
   TextStyle displayCondensed(
     TextStyle? base, {
     Color? color,
@@ -461,7 +461,7 @@ class CoolTextStyles {
         base ??
         _textTheme.titleLarge ??
         const TextStyle(fontSize: 24, fontWeight: FontWeight.w800);
-    return GoogleFonts.syne(
+    return GoogleFonts.barlowCondensed(
       textStyle: resolvedBase.copyWith(
         color: color ?? resolvedBase.color ?? _defaultColor,
         fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w900,

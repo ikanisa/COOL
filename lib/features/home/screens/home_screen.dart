@@ -47,11 +47,11 @@ class HomeScreen extends StatelessWidget {
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: colors.accent.withValues(alpha: 0.15),
+                          color: colors.cardSurfaceStrong,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: colors.accent.withValues(alpha: 0.3),
-                            width: 1.5,
+                            color: colors.border,
+                            width: 1,
                           ),
                         ),
                         child: Icon(
@@ -128,9 +128,10 @@ class HomeScreen extends StatelessWidget {
                               width: 48,
                               height: 48,
                               decoration: BoxDecoration(
-                                color: colors.success.withValues(alpha: 0.15),
+                                color: colors.teamSurface,
                                 borderRadius:
                                     BorderRadius.circular(CoolRadii.sm),
+                                border: Border.all(color: colors.border),
                               ),
                               alignment: Alignment.center,
                               child: Icon(
@@ -184,9 +185,10 @@ class HomeScreen extends StatelessWidget {
                               width: 48,
                               height: 48,
                               decoration: BoxDecoration(
-                                color: colors.warning.withValues(alpha: 0.15),
+                                color: colors.financialSurface,
                                 borderRadius:
                                     BorderRadius.circular(CoolRadii.sm),
+                                border: Border.all(color: colors.border),
                               ),
                               alignment: Alignment.center,
                               child: Icon(

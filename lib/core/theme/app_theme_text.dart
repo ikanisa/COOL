@@ -7,7 +7,7 @@ import 'cool_foundations.dart';
 /// Font stack:
 /// - **Barlow Condensed** — Display/Headline (uppercase, w800–w900, condensed impact)
 /// - **Inter** — Title/Body/Label (readable, w400–w700)
-/// - **JetBrains Mono** — Values, IDs, aliases (via CoolTextStyles.mono/mobiLabel/mobiValue)
+/// - **DM Mono** — Values, IDs, aliases (via CoolTextStyles.mono/mobiLabel/mobiValue)
 abstract final class AppThemeText {
   // ── Weight aliases ──────────────────────────────────────────────────
   static const black = FontWeight.w900;

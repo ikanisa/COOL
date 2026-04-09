@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_card.dart';
 
 // ═════════════════════════════════════════════════════════════════════
 // QUICK ACTIONS  (4-icon row)
@@ -58,21 +59,21 @@ class HomeQuickServices extends StatelessWidget {
                     onTap: () => openQuickActionRoute(context, item.route),
                     child: Column(
                       children: [
-                        Container(
-                          width: double.infinity,
-                          height: 64,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.05),
-                            borderRadius: BorderRadius.circular(CoolRadii.lg),
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.10),
+                        CoolCard(
+                          cardPadding: CoolCardPadding.none,
+                          backgroundColor: colors.cardSurfaceStrong,
+                          borderColor: colors.border,
+                          borderRadius: CoolRadii.lg,
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 64,
+                            child: Center(
+                              child: Icon(
+                                item.icon,
+                                color: colors.primaryText,
+                                size: 28,
+                              ),
                             ),
-                          ),
-                          alignment: Alignment.center,
-                          child: Icon(
-                            item.icon,
-                            color: colors.primaryText,
-                            size: 28,
                           ),
                         ),
                         const SizedBox(height: CoolSpace.x2),

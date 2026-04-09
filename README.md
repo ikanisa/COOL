@@ -93,8 +93,8 @@ Authoritative payment design notes:
 
 - Dual-theme UI with semantic tokens in
   [`lib/core/theme/cool_foundations.dart`](/Volumes/PRO-G40/COOL/lib/core/theme/cool_foundations.dart)
-- `Manrope` is the default interface font; `DM Mono` is the monospace accent
-  and not the base system
+- `Inter` is the default interface font; `Barlow Condensed` is the display and
+  headline voice; `DM Mono` is the monospace accent
 - One authoritative redesign guide:
   [`DESIGN_SYSTEM.md`](/Volumes/PRO-G40/COOL/DESIGN_SYSTEM.md)
 - Riverpod `StateNotifierProvider` pattern per feature
@@ -315,7 +315,7 @@ Use that document instead of duplicating route lists in feature PRs.
 
 ## Design System
 
-The app now has one active redesign source of truth:
+The app has one active redesign source of truth:
 
 - [DESIGN_SYSTEM.md](/Volumes/PRO-G40/COOL/DESIGN_SYSTEM.md)
 
@@ -333,17 +333,12 @@ Theme implementation is grounded in:
 - [cool_foundations.dart](/Volumes/PRO-G40/COOL/lib/core/theme/cool_foundations.dart)
 - [app_theme_text.dart](/Volumes/PRO-G40/COOL/lib/core/theme/app_theme_text.dart)
 - [app_theme_components.dart](/Volumes/PRO-G40/COOL/lib/core/theme/app_theme_components.dart)
-The complete design system lives in
-[DESIGN_SYSTEM.md](/Volumes/PRO-G40/COOL/DESIGN_SYSTEM.md). That document is
-the sole authority for color tokens, typography, spacing, surface language,
-components, screen composition rules, simplification standards, motion,
-accessibility, trust design, module-specific UX, partner sub-brand rules,
-and migration planning.
 
 Quick reference:
 
-- Colors: `AppColors.bg`, `surface`, `surface2`, `surface3`, `accent`, `blue`, `orange`, `purple`
-- Font: Manrope (UI), DM Mono (financial values)
+- Colors: semantic tokens from `cool_foundations.dart`
+- Font stack: `Inter` (UI), `Barlow Condensed` (display), `DM Mono`
+  (numeric/ID)
 - Shared widgets: [lib/shared/widgets](/Volumes/PRO-G40/COOL/lib/shared/widgets)
   — `CoolButton`, `CoolCard`, `StatusBadge`, `SectionTitle`, `TabPill`,
   `CoolTextField`, `BalanceCard`, `QrShareSheet`, and others
@@ -712,7 +707,7 @@ The app is written against a normalized `users` profile model, but the repositor
     roles, gamification, MoMo dedup, rate limiting)
   - Groups refactoring (extracted contribute sheet, settings sheet, helpers)
   - SMS sync improvements (manual sync, onboarding CTA, dedup guards)
-  - Visual audit and dark-mode fixes for Rayon Sport screens
+  - Visual audit and dark-mode fixes for legacy partner-branded screens
   - Localization error fixes across multiple features
   - Micro-frontend ADK integration in portal
   - Test suite: 767 passing, 49 pre-existing failures (governance sync,
@@ -735,7 +730,7 @@ bash scripts/build_play_release.sh
 
 ## Recommended Next Steps
 
-- Finish retiring obsolete Rayon-specific release notes and historical migration assumptions
+- Finish retiring obsolete partner-specific release notes and historical migration assumptions
 - Move Android signing keys (`upload-keystore.jks`, `key.properties`) to CI vault
 - Clean up root-level utility scripts (`auto_l10n.dart`, `fix_errors.dart`, `update_profile.dart`)
 - Expand device-backed integration suite beyond current critical journeys

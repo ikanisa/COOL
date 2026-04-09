@@ -27,9 +27,9 @@ class AppBranding {
         splashTitle: 'Cool',
         logoAssetPath: 'assets/images/cool_logo_mark.png',
         logoSemanticLabel: 'Cool app logo',
-        primaryColor: const Color(0xFF0047AB),
-        secondaryColor: const Color(0xFF89AFFF),
-        navSelectedColor: const Color(0xFF0047AB),
+        primaryColor: const Color(0xFF6C63FF),
+        secondaryColor: const Color(0xFF8982FF),
+        navSelectedColor: const Color(0xFF6C63FF),
       );
 
   final AppBrand brand;
