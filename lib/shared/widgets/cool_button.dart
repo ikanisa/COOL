@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 import '../../core/theme/cool_foundations.dart';
 
-/// Button variants — ROUGEBLACK system.
+/// Button variants — Tactile Monolith system.
 enum CoolButtonVariant {
   /// Partner Red background, white text, red glow shadow.
   primary,
@@ -55,7 +55,7 @@ enum CoolButtonSize {
   };
 }
 
-/// A styled button — ROUGEBLACK system.
+/// A styled button — Tactile Monolith system.
 ///
 /// 6 variants, 4 sizes, press feedback (scale 0.95), JetBrains Mono uppercase.
 class CoolButton extends StatefulWidget {
@@ -211,7 +211,7 @@ class _CoolButtonState extends State<CoolButton>
       );
     }
 
-    final textStyle = GoogleFonts.inter(
+    final textStyle = TextStyle(
       color: fg,
       fontSize: widget.size.fontSize,
       fontWeight: FontWeight.w700,

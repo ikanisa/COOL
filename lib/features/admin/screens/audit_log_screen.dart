@@ -113,9 +113,7 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
                           ? colors.accentStrong
                           : colors.secondaryText,
                     ),
-                    side: BorderSide(
-                      color: isSelected ? colors.accent : colors.border,
-                    ),
+                    side: BorderSide.none,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(CoolRadii.pill),
@@ -288,9 +286,8 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
               ],
             ),
             if (_expanded) ...[
-              const SizedBox(height: CoolSpace.x3),
-              Divider(height: 1, color: colors.divider),
-              const SizedBox(height: CoolSpace.x3),
+              // No-Line Rule: spacing instead of divider
+              const SizedBox(height: CoolSpace.x4),
               if (e['old_data'] != null) ...[
                 Text(
                   'Previous',
@@ -354,7 +351,7 @@ class _JsonPreview extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.inputSurface,
         borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xs)),
-        border: Border.all(color: colors.border),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
       ),
       child: Text(
         text,

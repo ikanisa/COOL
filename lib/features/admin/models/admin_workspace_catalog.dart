@@ -71,6 +71,13 @@ List<AdminWorkspaceDestination> buildPlatformAdminDestinations(
       route: AppRoutes.adminAuditLog,
       icon: Icons.history_rounded,
     ),
+    const AdminWorkspaceDestination(
+      kind: AdminWorkspaceKind.platform,
+      title: 'Groups',
+      subtitle: 'View contribution groups, members, and wallet routing.',
+      route: AppRoutes.adminGroups,
+      icon: Icons.groups_rounded,
+    ),
   ];
 }
 

@@ -46,6 +46,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final authState = ref.watch(authProvider);
     final user = authState.user;
     final profile = ref.watch(biopayProfileProvider).valueOrNull;
@@ -95,15 +96,17 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                   ? _codeController
                   : _numberController,
               keyboardType: TextInputType.number,
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                color: BiopaySurfaceColors.text,
+              style: context.coolText.headline(
+                Theme.of(context).textTheme.displaySmall,
+                color: colors.primaryText,
                 fontWeight: FontWeight.w900,
                 letterSpacing: -1.4,
               ),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 isCollapsed: true,
                 border: InputBorder.none,
                 hintText: '',
+                hintStyle: TextStyle(color: colors.tertiaryText),
               ),
             ),
           ),
@@ -117,8 +120,9 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
               children: [
                 Text(
                   '${country.currencyCode} ',
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: BiopaySurfaceColors.surfaceStrong,
+                  style: context.coolText.headline(
+                    Theme.of(context).textTheme.headlineMedium,
+                    color: colors.tertiaryText,
                     fontWeight: FontWeight.w900,
                     letterSpacing: -1.0,
                   ),
@@ -127,15 +131,17 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                   child: TextField(
                     controller: _amountController,
                     keyboardType: TextInputType.number,
-                    style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                      color: BiopaySurfaceColors.text,
+                    style: context.coolText.headline(
+                      Theme.of(context).textTheme.displaySmall,
+                      color: colors.primaryText,
                       fontWeight: FontWeight.w900,
                       letterSpacing: -1.4,
                     ),
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       isCollapsed: true,
                       border: InputBorder.none,
                       hintText: '0',
+                      hintStyle: TextStyle(color: colors.tertiaryText),
                     ),
                   ),
                 ),
@@ -146,7 +152,6 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
           BiopayPrimaryButton(
             label: 'Generate QR Code',
             icon: Icons.qr_code_2_rounded,
-            backgroundColor: BiopaySurfaceColors.deep,
             onTap: () => _showQrPreview(context, country),
           ),
         ],
@@ -224,6 +229,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
             countryCode: country.isoCode,
           );
 
+    final colors = context.coolSemanticColors;
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
@@ -232,16 +238,18 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
           margin: const EdgeInsets.all(CoolSpace.x4),
           padding: const EdgeInsets.all(CoolSpace.x5),
           decoration: BoxDecoration(
-            color: BiopaySurfaceColors.surface,
-            borderRadius: BorderRadius.circular(32),
+            color: colors.cardSurfaceStrong,
+            borderRadius: BorderRadius.circular(CoolRadii.xl),
+            boxShadow: CoolShadows.ambientFloat(strength: 0.6),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 'BioPay QR Ready',
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: BiopaySurfaceColors.text,
+                style: context.coolText.headline(
+                  Theme.of(context).textTheme.headlineSmall,
+                  color: colors.primaryText,
                   fontWeight: FontWeight.w800,
                 ),
               ),
@@ -249,8 +257,9 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
               Container(
                 padding: const EdgeInsets.all(CoolSpace.x4),
                 decoration: BoxDecoration(
+                  // QR codes must be black-on-white for scanners to read
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(28),
+                  borderRadius: BorderRadius.circular(CoolRadii.lg),
                 ),
                 child: QrImageView(
                   data: payload.toQrData(country),
@@ -272,8 +281,9 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                 _selectedType == MomoRecipientType.code
                     ? _codeController.text.trim()
                     : _numberController.text.trim(),
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: BiopaySurfaceColors.text,
+                style: context.coolText.headline(
+                  Theme.of(context).textTheme.titleLarge,
+                  color: colors.primaryText,
                   fontWeight: FontWeight.w800,
                 ),
               ),
@@ -281,8 +291,9 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                 const SizedBox(height: CoolSpace.x2),
                 Text(
                   '${country.currencyCode} ${_formatAmount(amount)}',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: BiopaySurfaceColors.primary,
+                  style: context.coolText.headline(
+                    Theme.of(context).textTheme.titleMedium,
+                    color: colors.accent,
                     fontWeight: FontWeight.w800,
                   ),
                 ),

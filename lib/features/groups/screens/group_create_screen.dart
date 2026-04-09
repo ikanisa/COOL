@@ -6,6 +6,7 @@ import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_text_field.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/models/user_profile.dart';
@@ -90,11 +91,12 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
     final user = ref.watch(authProvider).user;
     final routeLabel = _walletRouteLabel(user);
 
-    return Scaffold(
-      backgroundColor: colors.appBackground,
-      appBar: AppBar(
-        backgroundColor: colors.appBackground,
-        elevation: 0,
+    return CoolScreenBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         title: Text(context.l10n.groupsCreateNewTitle),
       ),
       body: SafeArea(
@@ -176,7 +178,7 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
                   decoration: BoxDecoration(
                     color: colors.cardSurface,
                     borderRadius: BorderRadius.circular(CoolRadii.md),
-                    border: Border.all(color: colors.border),
+                    boxShadow: CoolShadows.ambientFloat(strength: 0.15),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,6 +216,7 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
             ),
           ),
         ),
+      ),
       ),
     );
   }
@@ -323,9 +326,7 @@ class _OptionChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: selected ? colors.accent : colors.cardSurface,
           borderRadius: BorderRadius.circular(CoolRadii.md),
-          border: Border.all(
-            color: selected ? colors.accent : colors.border,
-          ),
+          boxShadow: selected ? null : CoolShadows.ambientFloat(strength: 0.2),
         ),
         alignment: Alignment.center,
         child: Text(

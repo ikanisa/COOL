@@ -12,7 +12,7 @@ import '../theme/cool_foundations.dart';
 
 /// The main scaffold that wraps all bottom-nav routes.
 ///
-/// Mobi × Partner: 3-item floating glass pill, max 320px, gold active dot.
+/// Tactile Monolith: 3-item floating glass pill, max 320px, accent active dot.
 class AppShell extends ConsumerStatefulWidget {
   const AppShell({
     required this.navigationShell,
@@ -29,9 +29,9 @@ class AppShell extends ConsumerStatefulWidget {
 
 class _AppShellState extends ConsumerState<AppShell>
     with SingleTickerProviderStateMixin {
-  // Fine-tuned nav surface: deep-frosted chrome palette
-  static const _navSurfaceTop = Color(0xFF1E2330);
-  static const _navSurfaceBottom = Color(0xFF12151E);
+  // Tactile Monolith nav surface: frosted violet chrome
+  static const _navSurfaceTop = Color(0xFF1A1640);   // Layer 1
+  static const _navSurfaceBottom = Color(0xFF110E2D); // surface_dim
 
   late final AnimationController _entryController;
   late final Animation<Offset> _slideAnimation;
@@ -98,28 +98,20 @@ class _AppShellState extends ConsumerState<AppShell>
     final textScale = MediaQuery.textScalerOf(context).scale(1);
     final safeAreaBottom = MediaQuery.viewPaddingOf(context).bottom;
     final pillHeight = (66 + ((textScale - 1) * 12)).clamp(66, 78).toDouble();
-    final navigationChromeInset = widget.showNavigationChrome
-        ? pillHeight + CoolSpace.x6 + safeAreaBottom
-        : 0.0;
-
     return Scaffold(
       extendBody: true,
-      body: Padding(
-        padding: EdgeInsets.only(bottom: navigationChromeInset),
-        child: widget.navigationShell,
-      ),
-      bottomNavigationBar: widget.showNavigationChrome
-          ? SlideTransition(
-              position: _slideAnimation,
-              child: FadeTransition(
-                opacity: _fadeAnimation,
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                    CoolSpace.x4,
-                    0,
-                    CoolSpace.x4,
-                    CoolSpace.x4 + safeAreaBottom,
-                  ),
+      body: Stack(
+        children: [
+          Positioned.fill(child: widget.navigationShell),
+          if (widget.showNavigationChrome)
+            Positioned(
+              left: CoolSpace.x4,
+              right: CoolSpace.x4,
+              bottom: CoolSpace.x4 + safeAreaBottom,
+              child: SlideTransition(
+                position: _slideAnimation,
+                child: FadeTransition(
+                  opacity: _fadeAnimation,
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: ConstrainedBox(
@@ -155,8 +147,9 @@ class _AppShellState extends ConsumerState<AppShell>
                   ),
                 ),
               ),
-            )
-          : null,
+            ),
+        ],
+      ),
     );
   }
 }
@@ -181,8 +174,11 @@ class _GlassPill extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(CoolRadii.pill),
       child: BackdropFilter(
-        // Higher sigma: crisper frosted-glass depth
-        filter: ImageFilter.blur(sigmaX: 28, sigmaY: 28),
+        // Tactile Monolith glass: heavy blur for floating elements
+        filter: ImageFilter.blur(
+          sigmaX: CoolBlur.glass,
+          sigmaY: CoolBlur.glass,
+        ),
         child: DecoratedBox(
           decoration: BoxDecoration(
             gradient: const LinearGradient(
@@ -194,29 +190,12 @@ class _GlassPill extends StatelessWidget {
               ],
             ),
             borderRadius: BorderRadius.circular(CoolRadii.pill),
-            border: Border.all(
-              // Ghost border — bright but thin
-              color: Colors.white.withValues(alpha: 0.14),
-              width: 1.0,
-            ),
-            boxShadow: <BoxShadow>[
-              // Top-edge specular
-              BoxShadow(
-                color: Colors.white.withValues(alpha: 0.08),
-                blurRadius: 1,
-                offset: const Offset(0, 1),
-              ),
-              // Ambient depth
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.50),
-                blurRadius: 40,
-                offset: const Offset(0, 18),
-              ),
-            ],
+            // No-Line Rule: no border, depth via ambient shadow
+            boxShadow: CoolShadows.ambientFloat(strength: 1.0),
           ),
           child: Stack(
             children: [
-              // Inner top-edge highlight strip
+              // Inner top-edge: violet-tinted highlight
               Positioned(
                 top: 0,
                 left: 0,
@@ -231,7 +210,7 @@ class _GlassPill extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: <Color>[
-                        Colors.white.withValues(alpha: 0.10),
+                        const Color(0xFFC4C0FF).withValues(alpha: 0.06),
                         Colors.transparent,
                       ],
                     ),
@@ -303,14 +282,11 @@ class _NavItem extends StatelessWidget {
                 curve: CoolMotion.enterCurve,
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  // Filled pill for selected — stronger visual anchor
+                  // Surface-shift for selected: no border
                   color: isSelected
                       ? activeColor.withValues(alpha: 0.18)
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(CoolRadii.md),
-                  border: isSelected
-                      ? Border.all(color: activeColor.withValues(alpha: 0.28))
-                      : null,
                 ),
                 child: AnimatedScale(
                   scale: isSelected ? 1.06 : 1.0,

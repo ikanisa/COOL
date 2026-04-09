@@ -27,17 +27,6 @@ void main() {
       );
     });
 
-    test('builds a prefilled MoMo contribution route', () {
-      final uri = Uri.parse(buildGroupContributionLocation(group));
-
-      expect(uri.path, '/momo');
-      expect(uri.queryParameters['action'], 'qr_pay');
-      expect(uri.queryParameters['recipient'], '0788123456');
-      expect(uri.queryParameters['recipient_type'], 'phone_number');
-      expect(uri.queryParameters['country'], 'RW');
-      expect(uri.queryParameters['reference'], 'group-123');
-      expect(uri.queryParameters['amount'], '5000');
-    });
 
     test('builds a shareable invite link from the group invite code', () {
       expect(buildGroupInviteUrl(group), 'https://cool.app/invite/JOIN1234');

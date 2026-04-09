@@ -74,6 +74,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final authState = ref.watch(authProvider);
     final user = authState.user;
     final profile = ref.watch(biopayProfileProvider).valueOrNull;
@@ -123,15 +124,17 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                   ? _codeController
                   : _numberController,
               keyboardType: TextInputType.number,
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                color: BiopaySurfaceColors.text,
+              style: context.coolText.headline(
+                Theme.of(context).textTheme.displaySmall,
+                color: colors.primaryText,
                 fontWeight: FontWeight.w900,
                 letterSpacing: -1.4,
               ),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 isCollapsed: true,
                 border: InputBorder.none,
                 hintText: '',
+                hintStyle: TextStyle(color: colors.tertiaryText),
               ),
             ),
           ),
@@ -144,8 +147,9 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
               children: [
                 Text(
                   '${country.currencyCode} ',
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: BiopaySurfaceColors.surfaceStrong,
+                  style: context.coolText.headline(
+                    Theme.of(context).textTheme.headlineMedium,
+                    color: colors.tertiaryText,
                     fontWeight: FontWeight.w900,
                     letterSpacing: -1.0,
                   ),
@@ -154,15 +158,17 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                   child: TextField(
                     controller: _amountController,
                     keyboardType: TextInputType.number,
-                    style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                      color: BiopaySurfaceColors.text,
+                    style: context.coolText.headline(
+                      Theme.of(context).textTheme.displaySmall,
+                      color: colors.primaryText,
                       fontWeight: FontWeight.w900,
                       letterSpacing: -1.4,
                     ),
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       isCollapsed: true,
                       border: InputBorder.none,
                       hintText: '0',
+                      hintStyle: TextStyle(color: colors.tertiaryText),
                     ),
                   ),
                 ),
@@ -178,14 +184,14 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                   ? 'Turn on NFC in system settings to continue.'
                   : 'NFC is not available on this device.',
               color: _nfcAccess!.kind == AppAccessStateKind.notAvailable
-                  ? Colors.redAccent
-                  : BiopaySurfaceColors.orange,
+                  ? colors.danger
+                  : colors.warning,
             ),
           ] else if (_isReceiveModeActive) ...[
             const SizedBox(height: CoolSpace.x4),
-            const _NfcStatusBanner(
+            _NfcStatusBanner(
               text: 'NFC is active and ready for the next tap.',
-              color: BiopaySurfaceColors.success,
+              color: colors.success,
             ),
           ],
           const SizedBox(height: CoolSpace.x7),
@@ -201,8 +207,9 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
               onPressed: _isActivating ? null : _deactivateNfc,
               child: Text(
                 'Stop NFC',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: BiopaySurfaceColors.mutedText,
+                style: context.coolText.headline(
+                  Theme.of(context).textTheme.titleLarge,
+                  color: colors.secondaryText,
                   fontWeight: FontWeight.w800,
                 ),
               ),
@@ -415,15 +422,14 @@ class _NfcStatusBanner extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: color.withValues(alpha: 0.18)),
+        borderRadius: BorderRadius.circular(CoolRadii.sm),
       ),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+        style: context.coolText.mono(
+          Theme.of(context).textTheme.bodyMedium,
           color: color,
           fontWeight: FontWeight.w700,
-          height: 1.45,
         ),
       ),
     );

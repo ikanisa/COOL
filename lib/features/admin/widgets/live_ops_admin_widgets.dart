@@ -265,7 +265,7 @@ class LiveOpsMetricPill extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.analyticsSurface,
         borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
-        border: Border.all(color: colors.border),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

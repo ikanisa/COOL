@@ -48,7 +48,7 @@ StatefulShellBranch buildBiopayShellBranch({
           child: KillSwitchGate(
             enabled: readIsBiopayEnabled(),
             featureName: 'BioPay',
-            child: const SecureScreenWrapper(child: BiopayHomeScreen()),
+            child: const BiopayHomeScreen(),
           ),
         ),
         routes: [
@@ -171,21 +171,18 @@ StatefulShellBranch buildProfileShellBranch({
             builder: (context, state) => const NotificationsSettingsScreen(),
           ),
           GoRoute(
-            path: 'privacy',
-            builder: (context, state) => const PrivacySecurityScreen(),
+            path: 'access',
+            builder: (context, state) => const ProfileAccessScreen(),
           ),
           GoRoute(
-            path: 'orders',
-            builder: (context, state) => const OrderHistoryScreen(),
+            path: 'privacy',
+            builder: (context, state) => const PrivacySecurityScreen(),
           ),
           GoRoute(
             path: 'help',
             builder: (context, state) => const HelpCenterScreen(),
           ),
-          GoRoute(
-            path: 'about',
-            builder: (context, state) => const AboutAppScreen(),
-          ),
+
         ],
       ),
     ],

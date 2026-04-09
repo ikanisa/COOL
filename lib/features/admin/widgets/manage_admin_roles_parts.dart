@@ -178,7 +178,7 @@ class _MetricChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.inputSurface,
         borderRadius: _adminRoleFieldRadius,
-        border: Border.all(color: colors.border),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
       ),
       child: Padding(
         padding: _adminRoleMetricPadding(),
@@ -328,7 +328,6 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
                 decoration: BoxDecoration(
                   color: _roleColor.withValues(alpha: 0.14),
                   borderRadius: _adminRoleBadgeRadius,
-                  border: Border.all(color: _roleColor.withValues(alpha: 0.24)),
                 ),
                 child: Padding(
                   padding: _adminRoleBadgePadding(),

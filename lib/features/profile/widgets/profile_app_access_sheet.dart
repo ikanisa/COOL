@@ -18,7 +18,7 @@ import '../../../shared/widgets/cool_bottom_sheet.dart';
 part 'profile_app_access_sheet_cards.dart';
 part 'profile_app_access_sheet_support.dart';
 
-class ProfileAppAccessSheet extends ConsumerStatefulWidget {
+class ProfileAppAccessSheet extends StatelessWidget {
   const ProfileAppAccessSheet({super.key});
 
   static Future<void> show(BuildContext context) {
@@ -32,11 +32,46 @@ class ProfileAppAccessSheet extends ConsumerStatefulWidget {
   }
 
   @override
-  ConsumerState<ProfileAppAccessSheet> createState() =>
-      _ProfileAppAccessSheetState();
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.overlaySurface,
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(CoolRadii.xxl),
+        ),
+      ),
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+            18,
+            12,
+            18,
+            24 + MediaQuery.viewInsetsOf(context).bottom,
+          ),
+          child: const ProfileAppAccessPanel(),
+        ),
+      ),
+    );
+  }
 }
 
-class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
+class ProfileAppAccessPanel extends ConsumerStatefulWidget {
+  const ProfileAppAccessPanel({
+    super.key,
+    this.embedded = false,
+  });
+
+  final bool embedded;
+
+  @override
+  ConsumerState<ProfileAppAccessPanel> createState() =>
+      _ProfileAppAccessPanelState();
+}
+
+class _ProfileAppAccessPanelState extends ConsumerState<ProfileAppAccessPanel>
     with WidgetsBindingObserver {
   static const _permissions = <AppAccessPermission>[
     AppAccessPermission.sms,
@@ -189,10 +224,41 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
     }
   }
 
+  Widget _buildAccessList(NotificationSettingsState notificationSettings) {
+    return Column(
+      children: [
+        _NotificationAccessCard(
+          settings: notificationSettings,
+          onChanged: _toggleNotifications,
+          onOpenSettings: _openNotificationSettings,
+        ),
+        const SizedBox(height: CoolSpace.x3),
+        if (_isLoading)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 48),
+            child: CoolSkeletonList(itemCount: 3),
+          )
+        else
+          for (final permission in _permissions) ...[
+            _PermissionAccessCard(
+              metadata: _metadataFor(permission),
+              snapshot: _snapshots[permission]!,
+              isBusy: _busy.contains(permission),
+              onChanged: (enabled) => _togglePermission(permission, enabled),
+              onOpenSettings: () => _openSettings(permission),
+            ),
+            if (permission != _permissions.last)
+              const SizedBox(height: CoolSpace.x3),
+          ],
+        const SizedBox(height: CoolSpace.x3),
+        const _SmsPolicyNotice(),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = context.coolSemanticColors;
     final notificationSettings = ref.watch(notificationSettingsProvider);
     final readyCount =
         _snapshots.values.where((snapshot) => snapshot.isReady).length +
@@ -201,95 +267,67 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
             ? 1
             : 0);
     final totalCount = _permissions.length + 1;
+    final listContent = _buildAccessList(notificationSettings);
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.overlaySurface,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(CoolRadii.xxl),
-        ),
-      ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(
-            18,
-            12,
-            18,
-            24 + MediaQuery.viewInsetsOf(context).bottom,
+    if (widget.embedded) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Manage every permission-gated surface from one place. Review what each feature uses before enabling it.',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              height: 1.45,
+            ),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: colors.borderStrong,
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 18),
-              Text(
-                'App access',
-                style: theme.textTheme.headlineSmall?.copyWith(
-                  color: colors.primaryText,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              const SizedBox(height: CoolSpace.x2),
-              Text(
-                'Toggle feature access',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colors.secondaryText,
-                  fontWeight: FontWeight.w600,
-                  height: 1.45,
-                ),
-              ),
-              const SizedBox(height: 14),
-              _SummaryBanner(readyCount: readyCount, totalCount: totalCount),
-              const SizedBox(height: CoolSpace.x4),
-              Flexible(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      _NotificationAccessCard(
-                        settings: notificationSettings,
-                        onChanged: _toggleNotifications,
-                        onOpenSettings: _openNotificationSettings,
-                      ),
-                      const SizedBox(height: CoolSpace.x3),
-                      if (_isLoading)
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 48),
-                          child: CoolSkeletonList(itemCount: 3),
-                        )
-                      else
-                        for (final permission in _permissions) ...[
-                          _PermissionAccessCard(
-                            metadata: _metadataFor(permission),
-                            snapshot: _snapshots[permission]!,
-                            isBusy: _busy.contains(permission),
-                            onChanged: (enabled) =>
-                                _togglePermission(permission, enabled),
-                            onOpenSettings: () => _openSettings(permission),
-                          ),
-                          if (permission != _permissions.last)
-                            const SizedBox(height: CoolSpace.x3),
-                        ],
-                      const SizedBox(height: CoolSpace.x3),
-                      const _SmsPolicyNotice(),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+          const SizedBox(height: CoolSpace.x4),
+          _SummaryBanner(readyCount: readyCount, totalCount: totalCount),
+          const SizedBox(height: CoolSpace.x4),
+          listContent,
+        ],
+      );
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Center(
+          child: Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: context.coolSemanticColors.borderStrong,
+              borderRadius: BorderRadius.circular(CoolRadii.pill),
+            ),
           ),
         ),
-      ),
+        const SizedBox(height: 18),
+        Text(
+          'App access',
+          style: theme.textTheme.headlineSmall?.copyWith(
+            color: context.coolSemanticColors.primaryText,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+        const SizedBox(height: CoolSpace.x2),
+        Text(
+          'Toggle feature access',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: context.coolSemanticColors.secondaryText,
+            fontWeight: FontWeight.w600,
+            height: 1.45,
+          ),
+        ),
+        const SizedBox(height: 14),
+        _SummaryBanner(readyCount: readyCount, totalCount: totalCount),
+        const SizedBox(height: CoolSpace.x4),
+        Flexible(
+          child: SingleChildScrollView(
+            child: listContent,
+          ),
+        ),
+      ],
     );
   }
 }

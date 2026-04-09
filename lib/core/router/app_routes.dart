@@ -13,8 +13,9 @@ abstract final class AppRoutes {
   static const groupInvite = '/invite/:code';
 
   // ── MoMo ────────────────────────────────────────────────────────
+  /// @deprecated — standalone MoMo screen removed; kept for deep-link compat.
   static const momo = '/momo';
-  static const momoStatements = '/momo/statements';
+
 
   // ── BioPay ──────────────────────────────────────────────────────
   static const biopayHome = '/momo/biopay';
@@ -28,6 +29,8 @@ abstract final class AppRoutes {
   // ── Contribution Circles ────────────────────────────────────────
   static const contributionCircles = '/contribution-circles';
   static const contributionCircleDetail = '/contribution-circles/:groupId';
+  static const contributionCircleStatements =
+      '/contribution-circles/:groupId/statements';
 
   // ── Rewards / Engagement ────────────────────────────────────────
   static const referral = '/referral';
@@ -37,18 +40,16 @@ abstract final class AppRoutes {
   static const profileWallet = '/profile/wallet';
   static const profileAccount = '/profile/account';
   static const profileNotifications = '/profile/notifications';
+  static const profileAccess = '/profile/access';
   static const profilePrivacy = '/profile/privacy';
-  static const profileOrders = '/profile/orders';
   static const profileHelp = '/profile/help';
-  static const profileAbout = '/profile/about';
   static const settings = profile;
   static const settingsWallet = profileWallet;
   static const settingsAccount = profileAccount;
   static const settingsNotifications = profileNotifications;
+  static const settingsAccess = profileAccess;
   static const settingsPrivacy = profilePrivacy;
-  static const settingsOrders = profileOrders;
   static const settingsHelp = profileHelp;
-  static const settingsAbout = profileAbout;
 
   // ── Utilities ───────────────────────────────────────────────────
   static const scanner = '/scanner';
@@ -64,6 +65,7 @@ abstract final class AppRoutes {
   static const adminRoles = '/admin/roles';
   static const adminAnalytics = '/admin/analytics';
   static const adminAuditLog = '/admin/audit-log';
+  static const adminGroups = '/admin/groups';
 
   // ── Location builders ─────────────────────────────────────────
 
@@ -85,6 +87,10 @@ abstract final class AppRoutes {
 
   static String contributionCircleDetailLocation(String groupId) {
     return '/contribution-circles/$groupId';
+  }
+
+  static String contributionCircleStatementsLocation(String groupId) {
+    return '/contribution-circles/$groupId/statements';
   }
 
   static String adminBankWorkspaceLocation(String bankId) {
@@ -133,8 +139,6 @@ abstract final class AppRoutes {
 
 const appShellRootLocations = {
   AppRoutes.home,
-  AppRoutes.groups,
-  AppRoutes.contributionCircles,
   AppRoutes.biopayHome,
   AppRoutes.profile,
 };

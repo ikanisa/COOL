@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 
 import '../../features/admin/screens/admin_dashboard_screen.dart';
+import '../../features/admin/screens/admin_groups_screen.dart';
 import '../../features/admin/screens/admin_workspaces_screen.dart';
 import '../../features/admin/screens/audit_log_screen.dart';
 import '../../features/admin/screens/bank_admin_workspace_screen.dart';
@@ -63,6 +64,11 @@ GoRoute adminRoutes() {
         path: 'audit-log',
         builder: (context, state) =>
             const PlatformAdminGate(child: AuditLogScreen()),
+      ),
+      GoRoute(
+        path: 'groups',
+        builder: (context, state) =>
+            const PlatformAdminGate(child: AdminGroupsScreen()),
       ),
     ],
   );

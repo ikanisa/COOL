@@ -128,3 +128,9 @@ final adminAuditLogProvider =
           .read(adminRepositoryProvider)
           .fetchAuditLog(action: actionFilter);
     });
+
+final adminGroupsSummaryProvider = FutureProvider<Map<String, dynamic>>((
+  ref,
+) async {
+  return ref.read(adminRepositoryProvider).fetchGroupsSummary();
+});

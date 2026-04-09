@@ -13,6 +13,7 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
     required this.secondaryText,
     required this.tertiaryText,
     required this.accent,
+    required this.accentDeep,
     required this.accentStrong,
     required this.accentForeground,
     required this.accentGold,
@@ -34,34 +35,46 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
   });
 
   static const CoolSemanticColors dark = CoolSemanticColors(
-    appBackground: Color(0xFF0D0A27),
-    elevatedBackground: Color(0xFF120F2F),
-    cardSurface: Color(0xFF1E1A41),
-    cardSurfaceStrong: Color(0xFF241F50),
-    glassSurface: Color(0x0FFFFFFF),
-    overlaySurface: Color(0xFF120F2F),
+    // ── Surface hierarchy (violet monolith) ────────────────────────────
+    appBackground: Color(0xFF0D0A27),        // Layer 0: infinite void
+    elevatedBackground: Color(0xFF110E2D),   // surface_dim
+    cardSurface: Color(0xFF1A1640),          // Layer 1: structural sections
+    cardSurfaceStrong: Color(0xFF252054),     // Layer 2: interactive cards/hover
+    glassSurface: Color(0x992A2555),          // 60% of surface_bright — frosted violet
+    overlaySurface: Color(0xFF1A1640),        // Match Layer 1 for sheets/dialogs
+
+    // ── Typography ─────────────────────────────────────────────────────
     primaryText: Color(0xFFF7F9FC),
     secondaryText: Color(0xFF8B8A9E),
     tertiaryText: Color(0xFF5E5C77),
-    accent: Color(0xFF6C63FF),
-    accentStrong: Color(0xFF8982FF),
+
+    // ── Accent (primary as light source) ───────────────────────────────
+    accent: Color(0xFF8781FF),               // primary_container
+    accentDeep: Color(0xFF6C63FF),           // electric violet — hero gradients
+    accentStrong: Color(0xFFC4C0FF),         // primary — the light source
     accentForeground: Color(0xFFFFFFFF),
     accentGold: Color(0xFFFACC15),
-    divider: Color(0x08FFFFFF),
-    border: Color(0x0AFFFFFF),
-    borderStrong: Color(0x14FFFFFF),
+
+    // ── Boundaries (No-Line Rule) ──────────────────────────────────────
+    divider: Color(0x00FFFFFF),              // Invisible — no divider lines
+    border: Color(0x00FFFFFF),               // Invisible — no 1px borders
+    borderStrong: Color(0x268781FF),          // Ghost border: violet at 15%
+
+    // ── Semantic status ────────────────────────────────────────────────
     success: Color(0xFF10B981),
     warning: Color(0xFFF59E0B),
     danger: Color(0xFFEF4444),
     info: Color(0xFF3B82F6),
     neutral: Color(0xFF8B8A9E),
-    chipBackground: Color(0xFF1E1A41),
-    chipSelectedBackground: Color(0xFF6C63FF),
-    buttonPrimaryBackground: Color(0xFF6C63FF),
-    buttonSecondaryBackground: Color(0x14FFFFFF),
-    inputSurface: Color(0x0AFFFFFF),
-    shadowColor: Color(0xFF050314),
-    highlightColor: Color(0x14FFFFFF),
+
+    // ── Component tokens ───────────────────────────────────────────────
+    chipBackground: Color(0xFF252054),       // secondary_container — pebble
+    chipSelectedBackground: Color(0xFF8781FF),
+    buttonPrimaryBackground: Color(0xFF8781FF), // primary_container — clay CTA
+    buttonSecondaryBackground: Color(0x332A2555), // glass secondary
+    inputSurface: Color(0xFF0D0A27),         // Sunken into surface_container_lowest
+    shadowColor: Color(0xFF0D0A27),          // Desaturated void — never pure black
+    highlightColor: Color(0x14C4C0FF),       // Primary highlight tint
   );
 
   static const CoolSemanticColors light = CoolSemanticColors(
@@ -75,6 +88,7 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
     secondaryText: Color(0xFF475467),
     tertiaryText: Color(0xFF667085),
     accent: Color(0xFF0047AB),
+    accentDeep: Color(0xFF003D96),
     accentStrong: Color(0xFF0C64D9),
     accentForeground: Color(0xFFFFFFFF),
     accentGold: Color(0xFFFFD700),
@@ -105,6 +119,7 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
   final Color secondaryText;
   final Color tertiaryText;
   final Color accent;
+  final Color accentDeep;
   final Color accentStrong;
   final Color accentForeground;
   final Color accentGold;
@@ -143,21 +158,21 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
   bool get _isDarkVariant => appBackground.computeLuminance() < 0.15;
 
   Color get operationalSurface =>
-      _isDarkVariant ? const Color(0xFF121212) : const Color(0xFFF4F6FA);
+      _isDarkVariant ? const Color(0xFF110E2D) : const Color(0xFFF4F6FA);
   Color get financialSurface =>
-      _isDarkVariant ? const Color(0xFF11141A) : const Color(0xFFF1F6FF);
+      _isDarkVariant ? const Color(0xFF130F30) : const Color(0xFFF1F6FF);
   Color get analyticsSurface =>
-      _isDarkVariant ? const Color(0xFF11161A) : const Color(0xFFF1F7F8);
+      _isDarkVariant ? const Color(0xFF131035) : const Color(0xFFF1F7F8);
   Color get teamSurface =>
-      _isDarkVariant ? const Color(0xFF141219) : const Color(0xFFF7F3FF);
+      _isDarkVariant ? const Color(0xFF150F30) : const Color(0xFFF7F3FF);
   Color get commerceSurface =>
-      _isDarkVariant ? const Color(0xFF15120F) : const Color(0xFFFFF6EF);
+      _isDarkVariant ? const Color(0xFF16102A) : const Color(0xFFFFF6EF);
   Color get routeSurface =>
-      _isDarkVariant ? const Color(0xFF10151A) : const Color(0xFFF0F5FF);
+      _isDarkVariant ? const Color(0xFF120E30) : const Color(0xFFF0F5FF);
   Color get proximitySurface =>
-      _isDarkVariant ? const Color(0xFF0F1517) : const Color(0xFFF2FAF7);
+      _isDarkVariant ? const Color(0xFF100E2D) : const Color(0xFFF2FAF7);
   Color get contactSurface =>
-      _isDarkVariant ? const Color(0xFF141411) : const Color(0xFFFFF9F0);
+      _isDarkVariant ? const Color(0xFF150F2A) : const Color(0xFFFFF9F0);
 
   Color get demandHigh => danger;
   Color get demandMedium => warning;
@@ -169,6 +184,15 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
   Color get surfaceGradientBottom => cardSurface;
   Color get accentGradientStart => accentStrong;
   Color get accentGradientEnd => accent;
+
+  /// The Tactile Monolith hero gradient — 4-stop claymorphic gradient
+  /// anchored on the token surface hierarchy and accent pair.
+  LinearGradient get heroGradient => LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: <Color>[cardSurface, accent, accentDeep, cardSurfaceStrong],
+    stops: const <double>[0.0, 0.35, 0.70, 1.0],
+  );
 
   LinearGradient get shellGradient => LinearGradient(
     begin: Alignment.topCenter,
@@ -200,6 +224,7 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
     Color? secondaryText,
     Color? tertiaryText,
     Color? accent,
+    Color? accentDeep,
     Color? accentStrong,
     Color? accentForeground,
     Color? accentGold,
@@ -230,6 +255,7 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
       secondaryText: secondaryText ?? this.secondaryText,
       tertiaryText: tertiaryText ?? this.tertiaryText,
       accent: accent ?? this.accent,
+      accentDeep: accentDeep ?? this.accentDeep,
       accentStrong: accentStrong ?? this.accentStrong,
       accentForeground: accentForeground ?? this.accentForeground,
       accentGold: accentGold ?? this.accentGold,
@@ -277,6 +303,7 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
       secondaryText: Color.lerp(secondaryText, other.secondaryText, t)!,
       tertiaryText: Color.lerp(tertiaryText, other.tertiaryText, t)!,
       accent: Color.lerp(accent, other.accent, t)!,
+      accentDeep: Color.lerp(accentDeep, other.accentDeep, t)!,
       accentStrong: Color.lerp(accentStrong, other.accentStrong, t)!,
       accentForeground: Color.lerp(
         accentForeground,

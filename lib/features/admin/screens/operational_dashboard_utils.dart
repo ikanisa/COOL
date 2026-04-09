@@ -15,7 +15,7 @@ class _MetricChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.inputSurface,
         borderRadius: _operationalPillRadius,
-        border: Border.all(color: colors.border),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
       ),
       child: Text(
         '$label: $value',
@@ -77,7 +77,6 @@ class _Badge extends StatelessWidget {
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.16),
         borderRadius: _operationalPillRadius,
-        border: Border.all(color: color.withValues(alpha: 0.35)),
       ),
       child: Text(
         label,

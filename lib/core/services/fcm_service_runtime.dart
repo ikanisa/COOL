@@ -229,8 +229,7 @@ extension _FcmServiceRuntime on FcmService {
 
   bool _replacesCurrentRoute(String route) {
     return route == AppRoutes.home ||
-        route == AppRoutes.profile ||
-        route == AppRoutes.momo;
+        route == AppRoutes.profile;
   }
 
   String? _resolveRoute(RemoteMessage message) {

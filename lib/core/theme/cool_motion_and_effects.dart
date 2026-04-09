@@ -5,6 +5,7 @@ abstract final class CoolBlur {
   static const double standard = 24.0;
   static const double overlay = 32.0;
   static const double heavy = overlay;
+  static const double glass = 40.0;       // Tactile Monolith: 20–40px glass blur
   static const double atmospheric = 120.0;
 }
 
@@ -46,7 +47,14 @@ abstract final class CoolResponsive {
   }
 }
 
+/// Tactile Monolith shadow system.
+///
+/// Rule: shadows are NEVER pure black — always desaturated violet (#0D0A27)
+/// to maintain tonal depth across the nocturnal palette.
 abstract final class CoolShadows {
+  // The void color — used as the shadow base throughout.
+  static const _void = Color(0xFF0D0A27);
+
   static List<BoxShadow> standard(
     Brightness? brightness, {
     double strength = 1,
@@ -59,7 +67,7 @@ abstract final class CoolShadows {
         offset: const Offset(0, 1),
       ),
       BoxShadow(
-        color: Colors.black.withValues(alpha: 0.20 * strength),
+        color: _void.withValues(alpha: 0.30 * strength),
         blurRadius: 20,
         offset: const Offset(0, 10),
       ),
@@ -77,7 +85,7 @@ abstract final class CoolShadows {
         offset: const Offset(0, 1),
       ),
       BoxShadow(
-        color: Colors.black.withValues(alpha: 0.30 * strength),
+        color: _void.withValues(alpha: 0.40 * strength),
         blurRadius: 40,
         offset: const Offset(0, 15),
       ),
@@ -87,12 +95,12 @@ abstract final class CoolShadows {
   static List<BoxShadow> primary({double strength = 1}) {
     return <BoxShadow>[
       BoxShadow(
-        color: const Color(0xFF6C63FF).withValues(alpha: 0.25 * strength),
+        color: const Color(0xFF8781FF).withValues(alpha: 0.25 * strength),
         blurRadius: 20,
         offset: const Offset(0, 8),
       ),
       BoxShadow(
-        color: Colors.white.withValues(alpha: 0.15 * strength),
+        color: Colors.white.withValues(alpha: 0.12 * strength),
         blurRadius: 1,
         offset: const Offset(0, 1),
       ),
@@ -110,10 +118,10 @@ abstract final class CoolShadows {
   }
 
   static List<BoxShadow> clay({Color? accentColor, double strength = 1}) {
-    final accent = accentColor ?? const Color(0xFF6C63FF);
+    final accent = accentColor ?? const Color(0xFF8781FF);
     return <BoxShadow>[
       BoxShadow(
-        color: Colors.black.withValues(alpha: 0.40 * strength),
+        color: _void.withValues(alpha: 0.50 * strength),
         blurRadius: 16,
         offset: const Offset(0, 8),
       ),
@@ -148,15 +156,28 @@ abstract final class CoolShadows {
         offset: const Offset(0, 1),
       ),
       BoxShadow(
-        color: Colors.black.withValues(alpha: 0.44 * strength),
-        blurRadius: 36,
-        offset: const Offset(0, 14),
+        color: _void.withValues(alpha: 0.50 * strength),
+        blurRadius: 40,
+        offset: const Offset(0, 16),
       ),
     ];
   }
 
-  /// Claymorphic outer shadow: deep ambient + topline highlight.
-  /// Apply alongside an inner-gradient overlay for the full clay effect.
+  /// Tactile Monolith ambient float shadow.
+  /// Ultra-diffused, spec: `0 20px 80px -10px rgba(13,10,39,0.4)`.
+  static List<BoxShadow> ambientFloat({double strength = 1}) {
+    return <BoxShadow>[
+      BoxShadow(
+        color: _void.withValues(alpha: 0.40 * strength),
+        blurRadius: 80,
+        spreadRadius: -10,
+        offset: const Offset(0, 20),
+      ),
+    ];
+  }
+
+  /// Claymorphic outer shadow: deep ambient + topline highlight + glow bloom.
+  /// Apply alongside inner-gradient overlays for the full clay effect.
   static List<BoxShadow> claymorphicCard({
     Color? glowColor,
     double strength = 1,
@@ -164,32 +185,33 @@ abstract final class CoolShadows {
     return <BoxShadow>[
       // Top-edge specular (simulates inner top highlight)
       BoxShadow(
-        color: Colors.white.withValues(alpha: 0.14 * strength),
+        color: Colors.white.withValues(alpha: 0.12 * strength),
         blurRadius: 1,
         spreadRadius: 0,
         offset: const Offset(0, 1),
       ),
-      // Ambient depth
+      // Ambient depth — desaturated void
       BoxShadow(
-        color: Colors.black.withValues(alpha: 0.38 * strength),
-        blurRadius: 24,
+        color: _void.withValues(alpha: 0.50 * strength),
+        blurRadius: 28,
         spreadRadius: -2,
-        offset: const Offset(0, 12),
+        offset: const Offset(0, 14),
       ),
       // Colored glow bloom
       if (glowColor != null)
         BoxShadow(
           color: glowColor.withValues(alpha: 0.20 * strength),
-          blurRadius: 40,
-          spreadRadius: -4,
-          offset: const Offset(0, 20),
+          blurRadius: 50,
+          spreadRadius: -6,
+          offset: const Offset(0, 24),
         ),
     ];
   }
 }
 
 abstract final class CoolGlassOpacity {
-  static double glassBackground(Brightness brightness) => 0.05;
-  static double glassBorderWhite(Brightness brightness) => 0.10;
+  /// Tactile Monolith: glassmorphic background at 60% of surface_bright.
+  static double glassBackground(Brightness brightness) => 0.60;
+  static double glassBorderWhite(Brightness brightness) => 0.15;
   static double glassGradientWhite(Brightness brightness) => 0.05;
 }

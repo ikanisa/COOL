@@ -25,6 +25,7 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final authState = ref.watch(authProvider);
     final user = authState.user;
     final profileAsync = ref.watch(biopayProfileProvider);
@@ -93,8 +94,9 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
                       profile: profile,
                       country: country,
                     ),
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: BiopaySurfaceColors.text,
+                    style: context.coolText.headline(
+                      Theme.of(context).textTheme.headlineMedium,
+                      color: colors.primaryText,
                       fontWeight: FontWeight.w900,
                       letterSpacing: -1.0,
                     ),
@@ -112,9 +114,9 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
               Text(
                 'Complete Face ID enrollment to pay with BioPay.',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: BiopaySurfaceColors.mutedText,
-                  height: 1.5,
+                style: context.coolText.mono(
+                  Theme.of(context).textTheme.bodyMedium,
+                  color: colors.secondaryText,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -128,22 +130,30 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
           children: [
             const BiopayTopBar(title: 'Profile'),
             const SizedBox(height: CoolSpace.x8),
-            Text(
-              'Profile unavailable',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: BiopaySurfaceColors.text,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            const SizedBox(height: CoolSpace.x3),
-            Text(
-              'BioPay could not load your linked details right now.',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: BiopaySurfaceColors.mutedText,
-                height: 1.5,
-              ),
-            ),
+            Builder(builder: (context) {
+              final colors = context.coolSemanticColors;
+              return Column(
+                children: [
+                  Text(
+                    'Profile unavailable',
+                    style: context.coolText.headline(
+                      Theme.of(context).textTheme.headlineSmall,
+                      color: colors.primaryText,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: CoolSpace.x3),
+                  Text(
+                    'BioPay could not load your linked details right now.',
+                    textAlign: TextAlign.center,
+                    style: context.coolText.mono(
+                      Theme.of(context).textTheme.bodyMedium,
+                      color: colors.secondaryText,
+                    ),
+                  ),
+                ],
+              );
+            }),
             const SizedBox(height: CoolSpace.x6),
             BiopayPrimaryButton(
               label: 'Try Again',
@@ -230,27 +240,22 @@ class _ProfileIdentityHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return Column(
       children: [
         Container(
           width: 128,
           height: 128,
           decoration: BoxDecoration(
-            color: BiopaySurfaceColors.surfaceMuted,
-            borderRadius: BorderRadius.circular(36),
-            boxShadow: const [
-              BoxShadow(
-                color: BiopaySurfaceColors.shadow,
-                blurRadius: 26,
-                offset: Offset(0, 14),
-              ),
-            ],
+            color: colors.cardSurface,
+            borderRadius: BorderRadius.circular(CoolRadii.xl),
+            boxShadow: CoolShadows.ambientFloat(strength: 0.3),
           ),
           alignment: Alignment.center,
-          child: const Icon(
+          child: Icon(
             Icons.person_outline_rounded,
             size: 66,
-            color: BiopaySurfaceColors.mutedText,
+            color: colors.secondaryText,
           ),
         ),
         const SizedBox(height: CoolSpace.x5),
@@ -258,8 +263,9 @@ class _ProfileIdentityHeader extends StatelessWidget {
           profile?.publicId.trim().isNotEmpty == true
               ? profile!.publicId
               : '--',
-          style: Theme.of(context).textTheme.displaySmall?.copyWith(
-            color: BiopaySurfaceColors.text,
+          style: context.coolText.headline(
+            Theme.of(context).textTheme.displaySmall,
+            color: colors.primaryText,
             fontWeight: FontWeight.w900,
             letterSpacing: -1.4,
           ),
@@ -267,8 +273,9 @@ class _ProfileIdentityHeader extends StatelessWidget {
         const SizedBox(height: CoolSpace.x1),
         Text(
           'BIOPAY ID',
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: BiopaySurfaceColors.mutedText,
+          style: context.coolText.mono(
+            Theme.of(context).textTheme.labelLarge,
+            color: colors.secondaryText,
             fontWeight: FontWeight.w800,
             letterSpacing: 2.4,
           ),
@@ -286,11 +293,12 @@ class _FaceIdCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(CoolRadii.lg),
         child: BiopaySectionCard(
           height: 120,
           child: Row(
@@ -302,30 +310,29 @@ class _FaceIdCard extends StatelessWidget {
                   children: [
                     Text(
                       'Face ID',
-                      style: Theme.of(context).textTheme.headlineSmall
-                          ?.copyWith(
-                            color: BiopaySurfaceColors.text,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: -0.8,
-                          ),
+                      style: context.coolText.headline(
+                        Theme.of(context).textTheme.headlineSmall,
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -0.8,
+                      ),
                     ),
                     const SizedBox(height: CoolSpace.x1),
                     Text(
                       isReady ? 'Ready' : 'Not set up',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: isReady
-                            ? BiopaySurfaceColors.success
-                            : BiopaySurfaceColors.mutedText,
+                      style: context.coolText.mono(
+                        Theme.of(context).textTheme.titleMedium,
+                        color: isReady ? colors.success : colors.secondaryText,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
                   ],
                 ),
               ),
-              const Icon(
+              Icon(
                 Icons.center_focus_strong_rounded,
                 size: 34,
-                color: BiopaySurfaceColors.text,
+                color: colors.primaryText,
               ),
             ],
           ),
@@ -340,11 +347,12 @@ class _BiopayProfileLoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const BiopayLightScaffold(
+    final colors = context.coolSemanticColors;
+    return BiopayLightScaffold(
       child: Center(
         child: Padding(
-          padding: EdgeInsets.only(top: 120),
-          child: CircularProgressIndicator(color: BiopaySurfaceColors.primary),
+          padding: const EdgeInsets.only(top: 120),
+          child: CircularProgressIndicator(color: colors.accent),
         ),
       ),
     );

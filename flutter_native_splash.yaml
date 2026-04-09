@@ -1,0 +1,8 @@
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/images/cool_logo_mark.png
+  android_12:
+    image: assets/images/cool_logo_mark.png
+    icon_background_color: "#FFFFFF"
+  ios: true
+  android: true

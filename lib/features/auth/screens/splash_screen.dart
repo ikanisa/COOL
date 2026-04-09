@@ -146,16 +146,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                             width: 120,
                             height: 120,
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.06),
+                              color: colors.cardSurface,
                               borderRadius: BorderRadius.circular(radii.xl),
-                              border: Border.all(
-                                color: Colors.white.withValues(alpha: 0.12),
-                                width: 1,
+                              boxShadow: CoolShadows.claymorphicCard(
+                                glowColor: colors.accent,
                               ),
-                              boxShadow: CoolShadows.glass(),
                             ),
                             padding: EdgeInsets.all(space.x4),
-                            child: const Center(child: CoolBrandMark(size: 72)),
+                            child: const Center(child: CoolBrandMark(size: 52)),
                           ),
                           SizedBox(height: space.x4),
 

@@ -113,6 +113,15 @@ class AdminRepository with AdminRepositoryHelpers {
     return asListOfMaps(data);
   }
 
+  // ── Groups Admin Overview ─────────────────────────────────────────────
+
+  Future<Map<String, dynamic>> fetchGroupsSummary() async {
+    final data = await _client.rpc('get_admin_groups_summary');
+    if (data is Map<String, dynamic>) return data;
+    if (data is Map) return Map<String, dynamic>.from(data);
+    throw StateError('Expected get_admin_groups_summary to return JSON.');
+  }
+
   // ── Private helpers ───────────────────────────────────────────────────
 
   /// Admin consumers should never receive off-market or non-English user

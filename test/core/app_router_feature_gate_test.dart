@@ -97,37 +97,6 @@ void main() {
       expect(find.text('Face Scan'), findsOneWidget);
     });
 
-    testWidgets(
-      'managed app config also blocks MoMo statements for standard users',
-      (tester) async {
-        final featureFlagsService = await _buildFeatureFlagsService(
-          appConfigOverrides: const <String, Object?>{
-            'feature_momo_stage': 'internal',
-            'feature_momo_admin_only': 'true',
-          },
-        );
-
-        final app = await pumpRouterApp(
-          tester,
-          initialLocation: AppRoutes.momoStatements,
-          session: fakeSession(),
-          user: fakeUser(),
-          overrides: <Override>[
-            featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
-          ],
-        );
-
-        expect(
-          app.router.routeInformationProvider.value.uri.path,
-          AppRoutes.momoStatements,
-        );
-        expect(find.text('Temporarily Unavailable'), findsOneWidget);
-        expect(
-          find.textContaining('Payments is temporarily unavailable.'),
-          findsOneWidget,
-        );
-      },
-    );
 
     testWidgets(
       'direct BioPay routes remain available even if the legacy BioPay flag is false',
@@ -184,5 +153,26 @@ void main() {
         expect(find.text('Face Scan'), findsOneWidget);
       },
     );
+
+    testWidgets('profile access route remains reachable inside the shell', (
+      tester,
+    ) async {
+      final app = await pumpRouterApp(
+        tester,
+        initialLocation: AppRoutes.profileAccess,
+        session: fakeSession(),
+        user: fakeUser(),
+      );
+
+      expect(
+        app.router.routeInformationProvider.value.uri.path,
+        AppRoutes.profileAccess,
+      );
+      expect(find.text('APP ACCESS'), findsAtLeastNWidgets(1));
+      expect(
+        find.textContaining('Manage every permission-gated surface'),
+        findsOneWidget,
+      );
+    });
   });
 }

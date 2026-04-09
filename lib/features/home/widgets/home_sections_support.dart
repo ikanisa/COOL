@@ -8,6 +8,7 @@ class _ProfileAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final imageUrl = avatarUrl?.trim() ?? '';
 
     return Container(
@@ -15,14 +16,8 @@ class _ProfileAvatar extends StatelessWidget {
       height: 54,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(color: HomeVisualPalette.outlineStrong),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.30),
-            blurRadius: 18,
-            offset: const Offset(0, 8),
-          ),
-        ],
+        border: Border.all(color: colors.borderStrong),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.4),
       ),
       child: ClipOval(
         child: imageUrl.isEmpty
@@ -45,12 +40,13 @@ class _AvatarFallback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return DecoratedBox(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: <Color>[Color(0xFF20242B), Color(0xFF0E1014)],
+          colors: <Color>[colors.cardSurface, colors.appBackground],
         ),
       ),
       child: Center(
@@ -58,7 +54,7 @@ class _AvatarFallback extends StatelessWidget {
           initials,
           style: context.coolText.mono(
             Theme.of(context).textTheme.labelMedium,
-            color: HomeVisualPalette.textPrimary,
+            color: colors.primaryText,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -75,6 +71,7 @@ class _HomeIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -84,11 +81,10 @@ class _HomeIconButton extends StatelessWidget {
           width: 54,
           height: 54,
           decoration: BoxDecoration(
-            color: HomeVisualPalette.surfaceMuted,
+            color: colors.appBackground,
             borderRadius: BorderRadius.circular(CoolRadii.md),
-            border: Border.all(color: HomeVisualPalette.outline),
           ),
-          child: Icon(icon, size: 24, color: HomeVisualPalette.textPrimary),
+          child: Icon(icon, size: 24, color: colors.primaryText),
         ),
       ),
     );
@@ -102,13 +98,14 @@ class _MonthlyMovementPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final amount = monthlyNetChange ?? 0;
     final isPositive = amount >= 0;
     final accent = amount == 0
-        ? Colors.white.withValues(alpha: 0.74)
+        ? colors.secondaryText
         : isPositive
-        ? const Color(0xFFD7FFEA)
-        : const Color(0xFFFFDFE3);
+        ? colors.success
+        : colors.danger;
 
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -116,9 +113,8 @@ class _MonthlyMovementPill extends StatelessWidget {
         vertical: CoolSpace.x3,
       ),
       decoration: BoxDecoration(
-        color: Colors.black.withValues(alpha: 0.22),
+        color: colors.shadowColor.withValues(alpha: 0.22),
         borderRadius: BorderRadius.circular(CoolRadii.pill),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.14)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

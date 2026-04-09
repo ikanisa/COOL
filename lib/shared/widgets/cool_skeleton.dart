@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 
-/// A shimmer-effect skeleton placeholder — Mobi × Partner system.
+/// A shimmer-effect skeleton placeholder — Tactile Monolith system.
 ///
 /// Tight radii, dark-only colors. Respects reduced-motion preference.
 class CoolSkeleton extends StatefulWidget {

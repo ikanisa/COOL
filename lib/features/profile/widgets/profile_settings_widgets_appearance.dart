@@ -97,7 +97,7 @@ class _ProfileAppearanceOption extends StatelessWidget {
                 height: 42,
                 decoration: BoxDecoration(
                   color: colors.cardSurface,
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(CoolRadii.xs),
                 ),
                 alignment: Alignment.center,
                 child: Icon(_icon(), size: 20, color: colors.secondaryText),

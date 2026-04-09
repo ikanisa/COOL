@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'app_theme_text.dart';
 import 'cool_foundations.dart';
 
-/// Component-level [ThemeData] overrides — Mobi × Partner system.
+/// Component-level [ThemeData] overrides — Tactile Monolith system.
 abstract final class AppThemeComponents {
   static AppBarTheme appBar(
     CoolSemanticColors colors,
@@ -94,9 +94,10 @@ abstract final class AppThemeComponents {
       elevation: 0,
       shadowColor: Colors.transparent,
       margin: EdgeInsets.zero,
+      // No-Line Rule: no border on cards. Depth via surface shifts.
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(CoolRadii.lg),
-        side: BorderSide(color: colors.border),
+        borderRadius: BorderRadius.circular(CoolRadii.xl),
+        side: BorderSide.none,
       ),
     );
   }
@@ -109,11 +110,11 @@ abstract final class AppThemeComponents {
       backgroundColor: colors.overlaySurface,
       modalBackgroundColor: colors.overlaySurface,
       surfaceTintColor: Colors.transparent,
-      shadowColor: Colors.black.withValues(alpha: 0.50),
+      shadowColor: colors.shadowColor.withValues(alpha: 0.50),
       elevation: CoolElevation.overlay,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(CoolRadii.xxl),
+          top: Radius.circular(CoolRadii.xl),
         ),
       ),
     );
@@ -123,16 +124,16 @@ abstract final class AppThemeComponents {
     return DialogThemeData(
       backgroundColor: colors.overlaySurface,
       surfaceTintColor: Colors.transparent,
-      shadowColor: Colors.black.withValues(alpha: 0.50),
+      shadowColor: colors.shadowColor.withValues(alpha: 0.50),
       elevation: 12,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(CoolRadii.lg),
+        borderRadius: BorderRadius.circular(CoolRadii.xl),
       ),
       titleTextStyle: TextStyle(
         fontSize: AppThemeText.headlineSmall,
         fontWeight: AppThemeText.extraBold,
         color: colors.primaryText,
-        letterSpacing: -0.4,
+        letterSpacing: -0.96,
       ),
       contentTextStyle: TextStyle(
         fontSize: AppThemeText.bodyMedium,
@@ -144,9 +145,10 @@ abstract final class AppThemeComponents {
   }
 
   static InputDecorationTheme inputDecoration(CoolSemanticColors colors) {
+    // Sunken input: no visible border at rest. Ghost border on focus.
     final border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(CoolRadii.md),
-      borderSide: BorderSide(color: colors.borderStrong),
+      borderSide: BorderSide.none,
     );
     return InputDecorationTheme(
       filled: true,
@@ -182,14 +184,24 @@ abstract final class AppThemeComponents {
       border: border,
       enabledBorder: border,
       disabledBorder: border,
-      focusedBorder: border.copyWith(
-        borderSide: BorderSide(color: colors.accent.withValues(alpha: 0.50)),
+      // Ghost border on focus: electric violet (#6C63FF) at 40%
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(CoolRadii.md),
+        borderSide: BorderSide(
+          color: const Color(0xFF6C63FF).withValues(alpha: 0.40),
+        ),
       ),
-      errorBorder: border.copyWith(
-        borderSide: BorderSide(color: colors.danger.withValues(alpha: 0.45)),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(CoolRadii.md),
+        borderSide: BorderSide(
+          color: colors.danger.withValues(alpha: 0.35),
+        ),
       ),
-      focusedErrorBorder: border.copyWith(
-        borderSide: BorderSide(color: colors.danger.withValues(alpha: 0.55)),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(CoolRadii.md),
+        borderSide: BorderSide(
+          color: colors.danger.withValues(alpha: 0.50),
+        ),
       ),
     );
   }
@@ -202,11 +214,12 @@ abstract final class AppThemeComponents {
         disabledBackgroundColor: colors.cardSurfaceStrong,
         disabledForegroundColor: colors.tertiaryText,
         elevation: 0,
-        minimumSize: const Size(double.infinity, 44),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        minimumSize: const Size(double.infinity, 52),
+        // High-gloss clay CTA: pill rounding, generous padding
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
         side: BorderSide.none,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(CoolRadii.sm),
+          borderRadius: BorderRadius.circular(CoolRadii.pill),
         ),
         textStyle: const TextStyle(
           fontSize: AppThemeText.labelMedium,
@@ -222,13 +235,14 @@ abstract final class AppThemeComponents {
     return OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: colors.primaryText,
-        backgroundColor: Colors.transparent,
-        side: BorderSide(color: colors.borderStrong),
+        // Glassmorphic secondary: translucent, no hard border
+        backgroundColor: colors.buttonSecondaryBackground,
+        side: BorderSide.none,
         elevation: 0,
-        minimumSize: const Size(double.infinity, 44),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        minimumSize: const Size(double.infinity, 52),
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(CoolRadii.sm),
+          borderRadius: BorderRadius.circular(CoolRadii.pill),
         ),
         textStyle: const TextStyle(
           fontSize: AppThemeText.labelMedium,
@@ -243,7 +257,8 @@ abstract final class AppThemeComponents {
   static TextButtonThemeData textButton(CoolSemanticColors colors) {
     return TextButtonThemeData(
       style: TextButton.styleFrom(
-        foregroundColor: colors.accent,
+        // Tertiary: no container, primary light source color
+        foregroundColor: colors.accentStrong,
         textStyle: const TextStyle(
           fontSize: AppThemeText.labelMedium,
           fontWeight: AppThemeText.semibold,
@@ -267,7 +282,12 @@ abstract final class AppThemeComponents {
   }
 
   static DividerThemeData divider(CoolSemanticColors colors) {
-    return DividerThemeData(color: colors.divider, thickness: 0.5, space: 0);
+    // No-Line Rule: dividers are invisible. Use whitespace/surface shifts.
+    return const DividerThemeData(
+      color: Colors.transparent,
+      thickness: 0,
+      space: 0,
+    );
   }
 
   static ChipThemeData chip(CoolSemanticColors colors, bool isDark) {
@@ -296,7 +316,7 @@ abstract final class AppThemeComponents {
         color: colors.primaryText,
       ),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(CoolRadii.sm),
+        borderRadius: BorderRadius.circular(CoolRadii.lg),
       ),
       behavior: SnackBarBehavior.floating,
     );

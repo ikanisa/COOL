@@ -159,9 +159,11 @@ void main() {
   });
 
   test('verify-otp stamps auth metadata to Rwanda English defaults', () {
-    final file = File('supabase/functions/verify-otp/index.ts');
+    // The market defaults are stamped by the auth-user provisioning helper,
+    // not by the HTTP handler entrypoint itself.
+    final file = File('supabase/functions/verify-otp/verify_otp_helpers.ts');
     if (!file.existsSync()) {
-      fail('verify-otp/index.ts not found');
+      fail('verify-otp/verify_otp_helpers.ts not found');
     }
     final content = file.readAsStringSync();
     expect(

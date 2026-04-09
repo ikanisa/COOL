@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import 'atmospheric_background.dart';
 
-/// Universal screen background for the ROUGEBLACK design system.
+/// Universal screen background for the Tactile Monolith design system.
 ///
 /// Renders the atmospheric blurred-blob layer + mobi-grid (24px crosshatch
 /// at white/8%) behind all content, then applies brand-aware radial glows.
@@ -39,99 +38,59 @@ class CoolScreenBackground extends ConsumerWidget {
       );
     }
 
-    final effectivePrimary = primaryColor ?? colors.accent;
-    final effectiveSecondary = secondaryColor ?? colors.info;
-
-    final accentGlow = effectivePrimary.withValues(alpha: 0.14);
-    final secondaryGlow = effectiveSecondary.withValues(alpha: 0.10);
-    const topWash = Colors.transparent;
-    final bottomShade = colors.shadowColor.withValues(alpha: 0.16);
-
     return Stack(
       fit: StackFit.expand,
       children: [
-        // ── Base gradient ────────────────────────────────────────
+        // ── Base color ──────────────────────────────────────────
         DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: <Color>[
-                topWash,
-                colors.shellGradientTop,
-                colors.shellGradientBottom,
-                bottomShade,
-              ],
-              stops: const [0.0, 0.18, 0.88, 1.0],
+          decoration: BoxDecoration(color: colors.appBackground),
+        ),
+        
+        // ── Top linear shadow fade ──────────────────────────────
+        IgnorePointer(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[
+                  colors.shadowColor,
+                  colors.appBackground,
+                  colors.appBackground,
+                ],
+                stops: const <double>[0.0, 0.32, 1.0],
+              ),
             ),
           ),
         ),
 
-        // ── Atmospheric blobs + mobi-grid (same as home screen) ─
-        const AtmosphericBackground(showGrid: true),
-
-        // ── Brand accent glow (top-left) ────────────────────────
-        DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: RadialGradient(
-              center: const Alignment(-0.95, -1.1),
-              radius: 1.0,
-              colors: <Color>[accentGlow, Colors.transparent],
-              stops: const [0.0, 1.0],
-            ),
-          ),
-        ),
-        // ── Secondary glow (top-right) ──────────────────────────
-        DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: RadialGradient(
-              center: const Alignment(1.05, -0.8),
-              radius: 1.15,
-              colors: <Color>[secondaryGlow, Colors.transparent],
-              stops: const [0.0, 1.0],
-            ),
-          ),
-        ),
-        // ── Center wash ─────────────────────────────────────────
-        DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: RadialGradient(
-              center: const Alignment(0.0, -0.2),
-              radius: 1.4,
-              colors: <Color>[
-                effectivePrimary.withValues(alpha: 0.10),
-                Colors.transparent,
-              ],
-              stops: const [0.0, 1.0],
-            ),
-          ),
-        ),
-
-        // ── Bottom fade ─────────────────────────────────────────
-        DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: <Color>[
-                Colors.transparent,
-                colors.appBackground.withValues(alpha: 0.18),
-              ],
-            ),
-          ),
-        ),
-        // ── Bottom shadow vignette ──────────────────────────────
+        // ── Primary glow (top-left) ─────────────────────────────
         IgnorePointer(
           child: DecoratedBox(
             decoration: BoxDecoration(
               gradient: RadialGradient(
-                center: const Alignment(0.0, 0.95),
-                radius: 1.1,
+                center: const Alignment(-0.15, -0.9),
+                radius: 0.95,
                 colors: <Color>[
-                  colors.shadowColor.withValues(alpha: 0.45),
+                  (primaryColor ?? colors.accentStrong).withValues(alpha: 0.26),
                   Colors.transparent,
                 ],
-                stops: const [0.0, 1.0],
+              ),
+            ),
+          ),
+        ),
+
+        // ── Secondary glow (top-right) ──────────────────────────
+        IgnorePointer(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: RadialGradient(
+                center: const Alignment(1.15, -0.4),
+                radius: 0.9,
+                colors: <Color>[
+                  (secondaryColor ?? colors.accent).withValues(alpha: 0.10),
+                  Colors.transparent,
+                ],
               ),
             ),
           ),

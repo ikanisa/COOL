@@ -198,7 +198,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
                 height: 4,
                 decoration: BoxDecoration(
                   color: colors.borderStrong,
-                  borderRadius: BorderRadius.circular(999),
+                  borderRadius: BorderRadius.circular(CoolRadii.pill),
                 ),
               ),
             ),
@@ -207,7 +207,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
 
           Text(
             l10n.profileEditMomoInfo,
-            style: GoogleFonts.dmSans(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: colors.primaryText,
@@ -217,7 +217,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
 
           Text(
             l10n.momoNumberLabel.toUpperCase(),
-            style: GoogleFonts.dmSans(
+            style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w700,
               color: colors.tertiaryText,
@@ -232,29 +232,29 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
             child: TextField(
               controller: _numberController,
               keyboardType: TextInputType.phone,
-              style: GoogleFonts.dmSans(
+              style: TextStyle(
                 fontSize: 15,
                 color: colors.primaryText,
               ),
               cursorColor: colors.accent,
               decoration: InputDecoration(
                 hintText: country.phoneExampleHint(),
-                hintStyle: GoogleFonts.dmSans(
+                hintStyle: TextStyle(
                   fontSize: 15,
                   color: colors.tertiaryText.withValues(alpha: 0.5),
                 ),
                 filled: true,
                 fillColor: colors.inputSurface,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: colors.border),
+                  borderRadius: BorderRadius.circular(CoolRadii.xs),
+                  borderSide: BorderSide.none,
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: colors.border),
+                  borderRadius: BorderRadius.circular(CoolRadii.xs),
+                  borderSide: BorderSide.none,
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(CoolRadii.xs),
                   borderSide: BorderSide(color: colors.accent),
                 ),
                 errorText: _numberError,
@@ -269,11 +269,11 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
                 color: colors.contactSurface,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(CoolRadii.xs),
               ),
               child: Text(
                 _detectedProvider!,
-                style: GoogleFonts.dmSans(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: colors.accent,
@@ -286,7 +286,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
             const SizedBox(height: CoolSpace.x5),
             Text(
               l10n.profileMomoCodeOptional,
-              style: GoogleFonts.dmSans(
+              style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
                 color: colors.tertiaryText,
@@ -301,29 +301,29 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
               child: TextField(
                 controller: _codeController,
                 keyboardType: TextInputType.number,
-                style: GoogleFonts.dmSans(
+                style: TextStyle(
                   fontSize: 15,
                   color: colors.primaryText,
                 ),
                 cursorColor: colors.accent,
                 decoration: InputDecoration(
                   hintText: country.momoCodeExample ?? '12345',
-                  hintStyle: GoogleFonts.dmSans(
+                  hintStyle: TextStyle(
                     fontSize: 15,
                     color: colors.tertiaryText.withValues(alpha: 0.5),
                   ),
                   filled: true,
                   fillColor: colors.inputSurface,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: colors.border),
+                    borderRadius: BorderRadius.circular(CoolRadii.xs),
+                    borderSide: BorderSide.none,
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: colors.border),
+                    borderRadius: BorderRadius.circular(CoolRadii.xs),
+                    borderSide: BorderSide.none,
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(CoolRadii.xs),
                     borderSide: BorderSide(color: colors.accent),
                   ),
                   errorText: _codeError,
@@ -333,7 +333,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
             const SizedBox(height: CoolSpace.x5),
             Text(
               'DEFAULT RECEIVE ROUTE',
-              style: GoogleFonts.dmSans(
+              style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
                 color: colors.tertiaryText,
@@ -363,7 +363,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
                 backgroundColor: colors.buttonPrimaryBackground,
                 foregroundColor: colors.accentForeground,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(CoolRadii.xs),
                 ),
               ),
               child: _isSubmitting
@@ -374,7 +374,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
                     )
                   : Text(
                       l10n.save,
-                      style: GoogleFonts.dmSans(
+                      style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                       ),
@@ -392,7 +392,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.overlaySurface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(CoolRadii.lg)),
       ),
       child: SafeArea(top: false, child: content),
     );

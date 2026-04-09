@@ -38,7 +38,7 @@ class AccountDetailsScreen extends ConsumerWidget {
                       style: context.coolText.displayCondensed(
                         Theme.of(context).textTheme.headlineMedium,
                         fontWeight: FontWeight.w900,
-                        color: Colors.white,
+                        color: colors.accentForeground,
                       ),
                     ),
                   ),

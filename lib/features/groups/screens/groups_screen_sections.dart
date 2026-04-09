@@ -35,7 +35,6 @@ class _GroupLedgerCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.cardSurface,
         borderRadius: BorderRadius.circular(CoolRadii.lg),
-        border: Border.all(color: colors.border),
         boxShadow: CoolShadows.standard(Theme.of(context).brightness),
       ),
       child: Column(
@@ -73,11 +72,6 @@ class _GroupLedgerCard extends StatelessWidget {
                       ? colors.info.withValues(alpha: 0.15)
                       : colors.warning.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(CoolRadii.sm),
-                  border: Border.all(
-                    color: isPublic
-                        ? colors.info.withValues(alpha: 0.3)
-                        : colors.warning.withValues(alpha: 0.3),
-                  ),
                 ),
                 child: Text(
                   isPublic ? 'PUBLIC' : 'PRIVATE',
@@ -106,7 +100,6 @@ class _GroupLedgerCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: colors.elevatedBackground,
               borderRadius: BorderRadius.circular(CoolRadii.md),
-              border: Border.all(color: colors.divider),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -259,7 +252,7 @@ class _InviteBanner extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.cardSurfaceStrong,
         borderRadius: BorderRadius.circular(CoolRadii.lg),
-        border: Border.all(color: colors.accent.withValues(alpha: 0.4)),
+        boxShadow: CoolShadows.clay(accentColor: colors.accent),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -317,7 +310,7 @@ class _InviteBannerLoading extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.cardSurface,
         borderRadius: BorderRadius.circular(CoolRadii.lg),
-        border: Border.all(color: colors.border),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
       ),
       child: const Center(child: CircularProgressIndicator()),
     );
@@ -411,7 +404,7 @@ class _DataPulseBadgeState extends State<_DataPulseBadge>
       decoration: BoxDecoration(
         color: colors.appBackground,
         borderRadius: BorderRadius.circular(CoolRadii.pill),
-        border: Border.all(color: colors.border),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

@@ -77,10 +77,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             error: (err, st) => 'SCAN YOUR FACE TO PAY',
           );
 
-    return Scaffold(
-      backgroundColor: colors.appBackground,
-      body: CoolScreenBackground(
-        child: CustomScrollView(
+    return CoolScreenBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: CustomScrollView(
           slivers: [
             // ── Header ───────────────────────────────────────────────
             SliverToBoxAdapter(
@@ -93,34 +93,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 ),
                 child: Row(
                   children: [
-                    // Back button
-                    InkWell(
-                      borderRadius: BorderRadius.circular(CoolRadii.pill),
-                      onTap: () {
-                        if (context.canPop()) {
-                          context.pop();
-                        }
-                      },
-                      child: Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          color: colors.cardSurfaceStrong,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: colors.border,
-                          ),
-                        ),
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.arrow_back_rounded,
-                          color: colors.primaryText,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: CoolSpace.x3),
-                    // Title
+                    // Title (no back button — this is a shell tab root)
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,23 +149,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 children: [
                   const SizedBox(height: CoolSpace.x6),
 
-                  // ── 2. FAN IDENTITY section ───────────────────────
-                  const _SectionLabel(label: 'IDENTITY'),
-                  const SizedBox(height: CoolSpace.x3),
-                  _GlassCard(
-                    child: Column(
-                      children: [
-
-                        _SettingsRow(
-                          icon: Icons.receipt_long_outlined,
-                          title: 'ORDER HISTORY',
-                          subtitle: '3 RECENT ORDERS',
-                          onTap: () => context.push(AppRoutes.profileOrders),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: CoolSpace.x6),
 
                   // ── 3. APP SETTINGS section ───────────────────────
                   const _SectionLabel(label: 'APP SETTINGS'),
@@ -232,6 +188,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         ),
                         _SettingsDivider(),
                         _SettingsRow(
+                          icon: Icons.admin_panel_settings_outlined,
+                          title: 'APP ACCESS',
+                          subtitle: 'PERMISSIONS & SERVICES',
+                          onTap: () => context.push(AppRoutes.profileAccess),
+                        ),
+                        _SettingsDivider(),
+                        _SettingsRow(
                           icon: Icons.lock_outline_rounded,
                           title: 'PRIVACY & SECURITY',
                           subtitle: 'BIOMETRICS & PIN',
@@ -248,17 +211,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   _GlassCard(
                     child: Column(
                       children: [
+                        if (authState.user?.isAdmin ?? false) ...[
+                          _SettingsRow(
+                            icon: Icons.admin_panel_settings_rounded,
+                            title: 'ADMIN WORKSPACE',
+                            subtitle: 'SYSTEM MANAGEMENT',
+                            onTap: () => context.push(AppRoutes.admin),
+                          ),
+                          _SettingsDivider(),
+                        ],
                         _SettingsRow(
                           icon: Icons.help_outline_rounded,
                           title: 'HELP CENTER',
                           onTap: () => context.push(AppRoutes.profileHelp),
-                        ),
-                        _SettingsDivider(),
-                        _SettingsRow(
-                          icon: Icons.info_outline_rounded,
-                          title: 'ABOUT SUPER APP',
-                          subtitle: 'VERSION 2.4.0',
-                          onTap: () => context.push(AppRoutes.profileAbout),
                         ),
                         _SettingsDivider(),
                         _SettingsRow(
@@ -319,10 +284,10 @@ class _SettingsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final textColor = isDestructive
-        ? const Color(0xFFEF5350)
+        ? colors.danger
         : colors.primaryText;
     final iconColor = isDestructive
-        ? const Color(0xFFEF5350)
+        ? colors.danger
         : colors.primaryText;
 
     return InkWell(
@@ -337,7 +302,7 @@ class _SettingsRow extends StatelessWidget {
               decoration: BoxDecoration(
                 color: colors.cardSurfaceStrong,
                 borderRadius: BorderRadius.circular(CoolRadii.md),
-                border: Border.all(color: colors.border),
+                boxShadow: CoolShadows.ambientFloat(strength: 0.3),
               ),
               alignment: Alignment.center,
               child: Icon(icon, color: iconColor, size: 22),
@@ -390,7 +355,8 @@ class _SettingsRow extends StatelessWidget {
 class _SettingsDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Divider(height: 1, color: context.coolSemanticColors.divider);
+    // No-Line Rule: use whitespace instead of visible dividers
+    return const SizedBox(height: CoolSpace.x1);
   }
 }
 
@@ -404,7 +370,6 @@ class _GlassCard extends StatelessWidget {
     final colors = context.coolSemanticColors;
     return CoolCard(
       backgroundColor: colors.cardSurfaceStrong,
-      borderColor: colors.border,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: CoolSpace.x5,

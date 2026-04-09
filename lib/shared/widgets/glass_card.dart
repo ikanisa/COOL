@@ -5,25 +5,20 @@ import 'package:flutter/material.dart';
 import '../../core/theme/cool_foundations.dart';
 
 
-/// A frosted glass surface — ROUGEBLACK design system.
+/// A frosted glass surface — Tactile Monolith design system.
 ///
 /// Renders a [BackdropFilter]-based glassmorphic card with configurable
 /// blur, opacity, border, and optional gradient accent. Designed to sit
-/// over deep navy or gradient backgrounds — never on white/light surfaces.
+/// over deep violet backgrounds — never on white/light surfaces.
 ///
-/// ```dart
-/// GlassCard(
-///   child: Text('Content'),
-///   gradientAccent: Colors.red,
-/// )
-/// ```
+/// Default: 60% opacity, 40px blur, violet ghost border at 15%.
 class GlassCard extends StatelessWidget {
   const GlassCard({
     required this.child,
-    this.blur = 12.0,
-    this.opacity = 0.06,
-    this.borderOpacity = 0.10,
-    this.borderRadius = CoolRadii.lg,
+    this.blur = CoolBlur.glass,
+    this.opacity = 0.60,
+    this.borderOpacity = 0.15,
+    this.borderRadius = CoolRadii.xl,
     this.gradientAccent,
     this.padding,
     this.margin,
@@ -35,16 +30,16 @@ class GlassCard extends StatelessWidget {
   /// The content inside the glass surface.
   final Widget child;
 
-  /// Backdrop blur sigma. Default 12.
+  /// Backdrop blur sigma. Default [CoolBlur.glass] = 40.
   final double blur;
 
-  /// Background white opacity (0–1). Default 0.06.
+  /// Background opacity (0–1). Default 0.60 per Tactile Monolith.
   final double opacity;
 
-  /// Border white opacity (0–1). Default 0.15.
+  /// Ghost border opacity (0–1). Default 0.15.
   final double borderOpacity;
 
-  /// Corner radius. Default 28.
+  /// Corner radius. Default 48 (xl — molded clay).
   final double borderRadius;
 
   /// Optional accent color for a subtle top-left gradient wash.
@@ -67,7 +62,6 @@ class GlassCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final br = BorderRadius.circular(borderRadius);
     final glassBg = Colors.white.withValues(alpha: opacity);
-    final glassBorder = Colors.white.withValues(alpha: borderOpacity);
 
     // Optionally add a subtle gradient wash from the accent color.
     final gradient = gradientAccent != null
@@ -109,7 +103,11 @@ class GlassCard extends StatelessWidget {
             color: glassBg,
             gradient: gradient,
             borderRadius: br,
-            border: Border.all(color: glassBorder, width: 1),
+            // Ghost border: violet-tinted, not white
+            border: Border.all(
+              color: const Color(0xFF8781FF).withValues(alpha: borderOpacity),
+              width: 1,
+            ),
           ),
           child: content,
         ),

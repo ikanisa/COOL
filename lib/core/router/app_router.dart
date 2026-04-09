@@ -7,14 +7,14 @@ import '../../features/auth/providers/auth_provider.dart';
 import '../../features/auth/screens/splash_screen.dart';
 import 'app_redirects.dart';
 
-import '../../features/momo/screens/momo_screen.dart';
-import '../../features/momo/screens/momo_statements_screen.dart';
+
 import '../../features/groups/screens/group_create_screen.dart';
 import '../../features/groups/screens/group_detail_screen.dart';
+import '../../features/groups/screens/group_statements_screen.dart';
 import '../../features/groups/screens/groups_screen.dart';
 import '../status/screens/referral_screen.dart';
 import '../../shared/widgets/qr_scanner_screen.dart';
-import '../../shared/widgets/kill_switch_gate.dart';
+
 import '../../shared/widgets/secure_screen_wrapper.dart';
 import '../../features/admin/models/admin_workspace_access.dart';
 import '../../features/admin/providers/admin_workspace_access_provider.dart';
@@ -135,36 +135,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         ],
       ),
 
-      // ── MoMo routes ───────────────────────────────────────────
+      // ── MoMo legacy redirect ─────────────────────────────────────
       GoRoute(
         path: AppRoutes.momo,
-        redirect: (context, state) {
-          if (_hasIncomingMomoLaunch(state.uri)) {
-            return null;
-          }
-          return AppRoutes.biopayHome;
-        },
-        builder: (context, state) {
-          final authSnapshot = readAuthSnapshot();
-          final featureFlags = ref.read(featureFlagsStateProvider);
-          return KillSwitchGate(
-            enabled: featureFlags.isMomoEnabled(isAdmin: authSnapshot.isAdmin),
-            featureName: 'Payments',
-            child: SecureScreenWrapper(child: MomoScreen(launchUri: state.uri)),
-          );
-        },
-      ),
-      GoRoute(
-        path: AppRoutes.momoStatements,
-        builder: (context, state) {
-          final authSnapshot = readAuthSnapshot();
-          final featureFlags = ref.read(featureFlagsStateProvider);
-          return KillSwitchGate(
-            enabled: featureFlags.isMomoEnabled(isAdmin: authSnapshot.isAdmin),
-            featureName: 'Payments',
-            child: const SecureScreenWrapper(child: MomoStatementsScreen()),
-          );
-        },
+        redirect: (context, state) => AppRoutes.biopayHome,
       ),
 
       // ── Group savings & contribution routes ────────────────────
@@ -236,6 +210,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(
+        path: AppRoutes.contributionCircleStatements,
+        pageBuilder: (context, state) {
+          final groupId = state.pathParameters['groupId']?.trim() ?? '';
+          return coolPageTransition(
+            context: context,
+            state: state,
+            child: SecureScreenWrapper(
+              child: GroupStatementsScreen(groupId: groupId),
+            ),
+          );
+        },
+      ),
+      GoRoute(
         path: AppRoutes.groupLedger,
         redirect: (context, state) {
           final groupId = state.pathParameters['id']?.trim();
@@ -259,15 +246,3 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   ref.onDispose(router.dispose);
   return router;
 });
-
-bool _hasIncomingMomoLaunch(Uri uri) {
-  const incomingKeys = <String>{
-    'action',
-    'recipient',
-    'amount',
-    'recipient_type',
-    'country',
-    'reference',
-  };
-  return uri.queryParameters.keys.any(incomingKeys.contains);
-}

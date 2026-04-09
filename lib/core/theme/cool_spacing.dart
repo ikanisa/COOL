@@ -89,11 +89,11 @@ abstract final class CoolSpace {
 }
 
 abstract final class CoolRadii {
-  static const double xs = 12.0;
-  static const double sm = 16.0;
-  static const double md = 22.0;
-  static const double lg = 28.0;
-  static const double xl = 32.0;
-  static const double xxl = 36.0;
+  static const double xs = 16.0;    // minimum softness
+  static const double sm = 20.0;    // slightly soft
+  static const double md = 24.0;    // 1.5rem — Monolith minimum
+  static const double lg = 32.0;    // 2rem — containers
+  static const double xl = 48.0;    // 3rem — THE molded card radius
+  static const double xxl = 48.0;   // aligned with xl for sheets/dialogs
   static const double pill = 999.0;
 }

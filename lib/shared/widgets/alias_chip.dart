@@ -5,7 +5,7 @@ import '../../core/theme/cool_foundations.dart';
 
 /// Displays a 6-digit fan alias in JetBrains Mono on a glass chip.
 ///
-/// ROUGEBLACK design system component for anonymous identity display.
+/// Tactile Monolith design system component for anonymous identity display.
 /// Uses the [CoolTextStyles.mono] helper for consistent monospace rendering.
 ///
 /// ```dart

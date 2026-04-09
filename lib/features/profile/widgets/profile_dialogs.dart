@@ -19,8 +19,8 @@ class ProfileSignOutDialog extends StatelessWidget {
     return AlertDialog(
       backgroundColor: colors.overlaySurface,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: colors.border),
+        borderRadius: BorderRadius.circular(CoolRadii.lg),
+        side: BorderSide.none,
       ),
       title: Text(
         l10n.signOutAction,
@@ -77,7 +77,7 @@ class ProfileDeleteAccountDialog extends StatelessWidget {
     final theme = Theme.of(context);
     return AlertDialog(
       backgroundColor: colors.cardSurface,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(CoolRadii.lg)),
       title: Text(
         l10n.deleteAccountQuestion,
         style: theme.textTheme.titleLarge?.copyWith(
@@ -134,7 +134,7 @@ class ProfileBlockingProgressDialog extends StatelessWidget {
     final theme = Theme.of(context);
     return AlertDialog(
       backgroundColor: colors.cardSurface,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(CoolRadii.lg)),
       content: Row(
         children: [
           const SizedBox(

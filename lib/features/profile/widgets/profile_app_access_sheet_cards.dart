@@ -16,7 +16,7 @@ class _SummaryBanner extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.cardSurfaceStrong,
         borderRadius: BorderRadius.circular(CoolRadii.xl),
-        border: Border.all(color: colors.border),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
       ),
       child: Row(
         children: [
@@ -218,7 +218,7 @@ class _AccessCardShell extends StatelessWidget {
           decoration: BoxDecoration(
             color: colors.cardSurfaceStrong,
             borderRadius: BorderRadius.circular(CoolRadii.xl),
-            border: Border.all(color: colors.border),
+            boxShadow: CoolShadows.ambientFloat(strength: 0.15),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -310,8 +310,8 @@ class _AccessCardShell extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           color: colors.chipBackground,
-                          borderRadius: BorderRadius.circular(999),
-                          border: Border.all(color: colors.border),
+                          borderRadius: BorderRadius.circular(CoolRadii.pill),
+                          boxShadow: CoolShadows.ambientFloat(strength: 0.15),
                         ),
                         child: Text(
                           feature,

@@ -4,16 +4,16 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/providers/notification_settings_provider.dart';
-import '../../../core/router/app_routes.dart';
+
 import '../../../core/services/fcm_service.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/profile_view_provider.dart';
+import '../widgets/profile_app_access_sheet.dart';
 
 part 'profile_sub_screens_account.dart';
 part 'profile_sub_screens_support.dart';
-part 'profile_sub_screens_about.dart';
 
 // ═════════════════════════════════════════════════════════════════════
 // REUSABLE SCAFFOLD (shared across all profile sub-screens)
@@ -63,11 +63,9 @@ class _ProfileSubScaffold extends StatelessWidget {
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.05),
+                          color: colors.cardSurface,
                           shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.10),
-                          ),
+                          boxShadow: CoolShadows.ambientFloat(strength: 0.3),
                         ),
                         alignment: Alignment.center,
                         child: Icon(
@@ -162,6 +160,7 @@ class _GlassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(
@@ -169,9 +168,9 @@ class _GlassCard extends StatelessWidget {
         vertical: CoolSpace.x4,
       ),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.05),
+        color: colors.cardSurface,
         borderRadius: BorderRadius.circular(CoolRadii.xl),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.2),
       ),
       child: child,
     );
@@ -202,9 +201,9 @@ class _InfoRow extends StatelessWidget {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.05),
+              color: colors.cardSurface,
               borderRadius: BorderRadius.circular(CoolRadii.md),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+              boxShadow: CoolShadows.ambientFloat(strength: 0.2),
             ),
             alignment: Alignment.center,
             child: Icon(icon, color: colors.primaryText, size: 20),
@@ -249,6 +248,251 @@ class _RowDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Divider(height: 1, color: Colors.white.withValues(alpha: 0.06));
+    // No-Line Rule: separate rows with whitespace, not lines
+    return const SizedBox(height: CoolSpace.x1);
+  }
+}
+
+class _ToggleRow extends StatelessWidget {
+  const _ToggleRow({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.value,
+    required this.isLoading,
+    this.onChanged,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final bool value;
+  final bool isLoading;
+  final ValueChanged<bool>? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: CoolSpace.x3),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: colors.cardSurface,
+              borderRadius: BorderRadius.circular(CoolRadii.md),
+              boxShadow: CoolShadows.ambientFloat(strength: 0.2),
+            ),
+            alignment: Alignment.center,
+            child: Icon(icon, color: colors.primaryText, size: 20),
+          ),
+          const SizedBox(width: CoolSpace.x4),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: context.coolText.mono(
+                    Theme.of(context).textTheme.titleSmall,
+                    fontWeight: FontWeight.w800,
+                    color: colors.primaryText,
+                    letterSpacing: 0.8,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: context.coolText.mono(
+                    Theme.of(context).textTheme.labelSmall,
+                    fontWeight: FontWeight.w600,
+                    color: colors.secondaryText,
+                    letterSpacing: 0.8,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (isLoading)
+            const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          else
+            Switch.adaptive(
+              value: value,
+              onChanged: onChanged,
+              activeTrackColor: colors.accent,
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SettingsActionRow extends StatelessWidget {
+  const _SettingsActionRow({
+    required this.icon,
+    required this.title,
+    this.subtitle,
+    this.onTap,
+  });
+
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: CoolSpace.x3),
+        child: Row(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: colors.cardSurface,
+                borderRadius: BorderRadius.circular(CoolRadii.md),
+                boxShadow: CoolShadows.ambientFloat(strength: 0.2),
+              ),
+              alignment: Alignment.center,
+              child: Icon(icon, color: colors.primaryText, size: 20),
+            ),
+            const SizedBox(width: CoolSpace.x4),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: context.coolText.mono(
+                      Theme.of(context).textTheme.titleSmall,
+                      fontWeight: FontWeight.w800,
+                      color: colors.primaryText,
+                      letterSpacing: 0.8,
+                    ),
+                  ),
+                  if (subtitle != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle!,
+                      style: context.coolText.mono(
+                        Theme.of(context).textTheme.labelSmall,
+                        fontWeight: FontWeight.w600,
+                        color: colors.secondaryText,
+                        letterSpacing: 0.8,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            if (onTap != null)
+              Icon(
+                Icons.chevron_right_rounded,
+                color: colors.secondaryText,
+                size: 20,
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _FaqItem extends StatefulWidget {
+  const _FaqItem({required this.question, required this.answer});
+
+  final String question;
+  final String answer;
+
+  @override
+  State<_FaqItem> createState() => _FaqItemState();
+}
+
+class _FaqItemState extends State<_FaqItem> {
+  bool _expanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+
+    return InkWell(
+      onTap: () => setState(() => _expanded = !_expanded),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: CoolSpace.x3),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: colors.cardSurface,
+                    borderRadius: BorderRadius.circular(CoolRadii.md),
+                    boxShadow: CoolShadows.ambientFloat(strength: 0.2),
+                  ),
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.help_outline_rounded,
+                    color: colors.info,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: CoolSpace.x4),
+                Expanded(
+                  child: Text(
+                    widget.question,
+                    style: context.coolText.mono(
+                      Theme.of(context).textTheme.titleSmall,
+                      fontWeight: FontWeight.w800,
+                      color: colors.primaryText,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
+                Icon(
+                  _expanded
+                      ? Icons.keyboard_arrow_up_rounded
+                      : Icons.keyboard_arrow_down_rounded,
+                  color: colors.secondaryText,
+                  size: 22,
+                ),
+              ],
+            ),
+            AnimatedCrossFade(
+              firstChild: const SizedBox.shrink(),
+              secondChild: Padding(
+                padding: const EdgeInsets.only(left: 60, top: CoolSpace.x3),
+                child: Text(
+                  widget.answer,
+                  style: context.coolText.mono(
+                    Theme.of(context).textTheme.bodySmall,
+                    fontWeight: FontWeight.w600,
+                    color: colors.secondaryText,
+                    height: 1.6,
+                  ),
+                ),
+              ),
+              crossFadeState: _expanded
+                  ? CrossFadeState.showSecond
+                  : CrossFadeState.showFirst,
+              duration: const Duration(milliseconds: 200),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

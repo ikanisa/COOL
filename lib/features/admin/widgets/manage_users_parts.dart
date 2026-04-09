@@ -96,7 +96,7 @@ class _UserTile extends ConsumerWidget {
           decoration: BoxDecoration(
             color: colors.operationalSurface,
             borderRadius: _manageUsersCardRadius,
-            border: Border.all(color: colors.border),
+            boxShadow: CoolShadows.ambientFloat(strength: 0.15),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

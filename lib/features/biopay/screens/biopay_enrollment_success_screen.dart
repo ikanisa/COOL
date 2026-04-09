@@ -12,6 +12,7 @@ class BiopayEnrollmentSuccessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final id = publicId?.trim().isNotEmpty == true ? publicId!.trim() : '--';
 
     return BiopayLightScaffold(
@@ -33,8 +34,8 @@ class BiopayEnrollmentSuccessScreen extends StatelessWidget {
             child: Container(
               width: 164,
               height: 164,
-              decoration: const BoxDecoration(
-                color: Color(0xFFD7F7DE),
+              decoration: BoxDecoration(
+                color: colors.success.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
               alignment: Alignment.center,
@@ -43,16 +44,18 @@ class BiopayEnrollmentSuccessScreen extends StatelessWidget {
                 height: 84,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
+                  // No-Line Rule exception: success ring is a visual indicator,
+                  // not a container boundary.
                   border: Border.all(
-                    color: BiopaySurfaceColors.success,
+                    color: colors.success,
                     width: 5,
                   ),
                 ),
                 alignment: Alignment.center,
-                child: const Icon(
+                child: Icon(
                   Icons.check_rounded,
                   size: 48,
-                  color: BiopaySurfaceColors.success,
+                  color: colors.success,
                 ),
               ),
             ),
@@ -61,8 +64,9 @@ class BiopayEnrollmentSuccessScreen extends StatelessWidget {
           Text(
             'ENROLLMENT SUCCESS',
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: BiopaySurfaceColors.mutedText,
+            style: context.coolText.mono(
+              Theme.of(context).textTheme.labelLarge,
+              color: colors.secondaryText,
               fontWeight: FontWeight.w800,
               letterSpacing: 2.6,
             ),
@@ -71,8 +75,9 @@ class BiopayEnrollmentSuccessScreen extends StatelessWidget {
           Text(
             'Face ID Ready',
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.displaySmall?.copyWith(
-              color: BiopaySurfaceColors.text,
+            style: context.coolText.headline(
+              Theme.of(context).textTheme.displaySmall,
+              color: colors.primaryText,
               fontWeight: FontWeight.w900,
               letterSpacing: -1.8,
             ),
@@ -81,8 +86,9 @@ class BiopayEnrollmentSuccessScreen extends StatelessWidget {
           Text(
             'BioPay ID: $id',
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: BiopaySurfaceColors.mutedText,
+            style: context.coolText.headline(
+              Theme.of(context).textTheme.headlineSmall,
+              color: colors.secondaryText,
               fontWeight: FontWeight.w800,
               letterSpacing: -0.6,
             ),
@@ -97,8 +103,9 @@ class BiopayEnrollmentSuccessScreen extends StatelessWidget {
             onPressed: () => context.go(AppRoutes.biopayProfile),
             child: Text(
               'Go to Profile',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: BiopaySurfaceColors.mutedText,
+              style: context.coolText.headline(
+                Theme.of(context).textTheme.headlineSmall,
+                color: colors.secondaryText,
                 fontWeight: FontWeight.w800,
                 letterSpacing: -0.8,
               ),

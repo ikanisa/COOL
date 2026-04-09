@@ -14,7 +14,8 @@ class HomeOperationsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final content = _buildContent(context);
+    final colors = context.coolSemanticColors;
+    final content = _buildContent(context, colors);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,7 +24,7 @@ class HomeOperationsSection extends StatelessWidget {
           title: 'Operations',
           trailing: Icon(
             Icons.history_toggle_off_rounded,
-            color: HomeVisualPalette.textSecondary.withValues(alpha: 0.76),
+            color: colors.secondaryText.withValues(alpha: 0.76),
           ),
         ),
         const SizedBox(height: CoolSpace.x4),
@@ -32,7 +33,7 @@ class HomeOperationsSection extends StatelessWidget {
     );
   }
 
-  Widget _buildContent(BuildContext context) {
+  Widget _buildContent(BuildContext context, CoolSemanticColors colors) {
     if (isLoading && transactions.isEmpty) {
       return const Column(
         children: [
@@ -81,7 +82,8 @@ class _OperationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final accent = operationAccentFor(transaction);
+    final colors = context.coolSemanticColors;
+    final accent = operationAccentFor(transaction, colors);
     final icon = operationIconFor(transaction);
     final amount = transaction.signedAmount;
 
@@ -91,17 +93,15 @@ class _OperationCard extends StatelessWidget {
         vertical: CoolSpace.x4,
       ),
       decoration: BoxDecoration(
-        // Slightly richer surface with directional gradient
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: <Color>[
-            Color(0xFF141720),
-            HomeVisualPalette.surface,
+            colors.cardSurface,
+            colors.elevatedBackground,
           ],
         ),
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+        borderRadius: BorderRadius.circular(CoolRadii.lg),
       ),
       child: Row(
         children: [
@@ -111,7 +111,6 @@ class _OperationCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: accent.withValues(alpha: 0.14),
               borderRadius: BorderRadius.circular(CoolRadii.md),
-              border: Border.all(color: accent.withValues(alpha: 0.20)),
             ),
             alignment: Alignment.center,
             child: Icon(icon, color: accent, size: 22),
@@ -127,10 +126,9 @@ class _OperationCard extends StatelessWidget {
                       : transaction.title.trim(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  // Space Grotesk — transaction name hierarchy
                   style: context.coolText.headline(
                     theme.textTheme.titleMedium,
-                    color: HomeVisualPalette.textPrimary,
+                    color: colors.primaryText,
                     fontWeight: FontWeight.w700,
                     letterSpacing: -0.4,
                   ),
@@ -142,7 +140,7 @@ class _OperationCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: context.coolText.mono(
                     theme.textTheme.labelSmall,
-                    color: HomeVisualPalette.textSecondary,
+                    color: colors.secondaryText,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.7,
                   ),
@@ -156,8 +154,8 @@ class _OperationCard extends StatelessWidget {
             style: context.coolText.display(
               theme.textTheme.titleLarge,
               color: amount >= 0
-                  ? HomeVisualPalette.success
-                  : HomeVisualPalette.textPrimary,
+                  ? colors.success
+                  : colors.primaryText,
               fontWeight: FontWeight.w900,
               letterSpacing: -0.7,
             ),
@@ -173,15 +171,15 @@ class _OperationSkeletonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: CoolSpace.x5,
         vertical: CoolSpace.x4,
       ),
       decoration: BoxDecoration(
-        color: HomeVisualPalette.surface,
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: HomeVisualPalette.outline),
+        color: colors.elevatedBackground,
+        borderRadius: BorderRadius.circular(CoolRadii.lg),
       ),
       child: const Row(
         children: [

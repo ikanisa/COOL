@@ -59,7 +59,7 @@ class _SummaryCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.operationalSurface,
         borderRadius: _manageUsersCardRadius,
-        border: Border.all(color: colors.border),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,7 +172,7 @@ class _MetricChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.inputSurface,
         borderRadius: _manageUsersElementRadius,
-        border: Border.all(color: colors.border),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
       ),
       child: RichText(
         text: TextSpan(

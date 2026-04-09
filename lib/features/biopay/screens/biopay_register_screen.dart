@@ -60,6 +60,7 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final authState = ref.watch(authProvider);
     final user = authState.user;
     final activeProfile = ref.watch(biopayProfileProvider);
@@ -88,8 +89,9 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
           const SizedBox(height: CoolSpace.x6),
           Text(
             'Link your face\nto your MoMo.',
-            style: Theme.of(context).textTheme.displayMedium?.copyWith(
-              color: BiopaySurfaceColors.text,
+            style: context.coolText.headline(
+              Theme.of(context).textTheme.displayMedium,
+              color: colors.primaryText,
               fontWeight: FontWeight.w900,
               letterSpacing: -2.2,
               height: 0.98,
@@ -97,14 +99,14 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
           ),
           if (hasActiveEnrollment) ...[
             const SizedBox(height: CoolSpace.x4),
-            const _InlineNotice(
-              color: BiopaySurfaceColors.success,
+            _InlineNotice(
+              color: colors.success,
               text: 'Face ID already linked. A new scan will replace it.',
             ),
           ],
           if (modelIssue != null) ...[
             const SizedBox(height: CoolSpace.x4),
-            _InlineNotice(color: Colors.redAccent, text: modelIssue),
+            _InlineNotice(color: colors.danger, text: modelIssue),
           ],
           const SizedBox(height: CoolSpace.x6),
           if (supportsCode) ...[
@@ -331,6 +333,7 @@ class _BiopayInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -345,15 +348,17 @@ class _BiopayInputField extends StatelessWidget {
                 controller: controller,
                 keyboardType: keyboardType,
                 onChanged: (_) => onChanged(),
-                style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                  color: BiopaySurfaceColors.text,
+                style: context.coolText.headline(
+                  Theme.of(context).textTheme.displaySmall,
+                  color: colors.primaryText,
                   fontWeight: FontWeight.w900,
                   letterSpacing: -1.4,
                 ),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   isCollapsed: true,
                   border: InputBorder.none,
                   hintText: '',
+                  hintStyle: TextStyle(color: colors.tertiaryText),
                 ),
               ),
             ],
@@ -363,8 +368,9 @@ class _BiopayInputField extends StatelessWidget {
           const SizedBox(height: CoolSpace.x2),
           Text(
             errorText!,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.redAccent,
+            style: context.coolText.mono(
+              Theme.of(context).textTheme.bodyMedium,
+              color: colors.danger,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -390,15 +396,14 @@ class _InlineNotice extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color.withValues(alpha: 0.18)),
+        borderRadius: BorderRadius.circular(CoolRadii.sm),
       ),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+        style: context.coolText.mono(
+          Theme.of(context).textTheme.bodyMedium,
           color: color,
           fontWeight: FontWeight.w700,
-          height: 1.4,
         ),
       ),
     );

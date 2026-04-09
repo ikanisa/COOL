@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 
-/// Badge variants — Mobi × Partner system.
+/// Badge variants — Tactile Monolith system.
 enum CoolBadgeVariant {
   primary,
   secondary,
@@ -29,7 +29,7 @@ enum CoolBadgeSize {
   };
 }
 
-/// A pill-shaped badge — Mobi × Partner system.
+/// A pill-shaped badge — Tactile Monolith system.
 ///
 /// JetBrains Mono, bold, uppercase, widest tracking.
 class CoolBadge extends StatelessWidget {

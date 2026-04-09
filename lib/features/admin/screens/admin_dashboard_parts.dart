@@ -46,7 +46,6 @@ class _RoleBadge extends StatelessWidget {
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.15),
         borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
-        border: Border.all(color: color.withValues(alpha: 0.2), width: 1),
       ),
       child: Text(
         label.toUpperCase(),
@@ -88,7 +87,7 @@ class _AdminCard extends StatelessWidget {
               borderRadius: const BorderRadius.all(
                 Radius.circular(CoolRadii.md),
               ),
-              border: Border.all(color: colors.border),
+              boxShadow: CoolShadows.ambientFloat(strength: 0.15),
             ),
             child: Icon(section.icon, size: 22, color: colors.primaryText),
           ),

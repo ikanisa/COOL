@@ -1,5 +1,23 @@
 part of 'profile_sub_screens.dart';
 
+class ProfileAccessScreen extends StatelessWidget {
+  const ProfileAccessScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _ProfileSubScaffold(
+      title: 'APP ACCESS',
+      subtitle: 'PERMISSIONS & SERVICES',
+      icon: Icons.admin_panel_settings_outlined,
+      slivers: [
+        const _SectionLabel(label: 'ACCESS OVERVIEW'),
+        const SizedBox(height: CoolSpace.x3),
+        const ProfileAppAccessPanel(embedded: true),
+      ],
+    );
+  }
+}
+
 class PrivacySecurityScreen extends StatelessWidget {
   const PrivacySecurityScreen({super.key});
 
@@ -69,89 +87,6 @@ class PrivacySecurityScreen extends StatelessWidget {
   }
 }
 
-class OrderHistoryScreen extends StatelessWidget {
-  const OrderHistoryScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-
-    return _ProfileSubScaffold(
-      title: 'ORDERS',
-      subtitle: 'PURCHASE HISTORY',
-      icon: Icons.receipt_long_outlined,
-      slivers: [
-        const _SectionLabel(label: 'RECENT ORDERS'),
-        const SizedBox(height: CoolSpace.x3),
-        _GlassCard(
-          child: Column(
-            children: [
-              const SizedBox(height: CoolSpace.x4),
-              Container(
-                width: 72,
-                height: 72,
-                decoration: BoxDecoration(
-                  color: colors.success.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
-                ),
-                alignment: Alignment.center,
-                child: Icon(
-                  Icons.shopping_bag_outlined,
-                  color: colors.success,
-                  size: 32,
-                ),
-              ),
-              const SizedBox(height: CoolSpace.x4),
-              Text(
-                'NO ORDERS YET',
-                style: context.coolText.displayCondensed(
-                  Theme.of(context).textTheme.titleLarge,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              const SizedBox(height: CoolSpace.x2),
-              Text(
-                'Your purchase history will appear here after your first order from the shop.',
-                textAlign: TextAlign.center,
-                style: context.coolText.mono(
-                  Theme.of(context).textTheme.bodySmall,
-                  fontWeight: FontWeight.w600,
-                  color: colors.secondaryText,
-                  height: 1.5,
-                ),
-              ),
-              const SizedBox(height: CoolSpace.x5),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => context.push(AppRoutes.splash),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: colors.accent,
-                    foregroundColor: colors.accentForeground,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(CoolRadii.lg),
-                    ),
-                  ),
-                  child: Text(
-                    'VISIT SHOP',
-                    style: context.coolText.mono(
-                      Theme.of(context).textTheme.labelLarge,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                      letterSpacing: 1.0,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: CoolSpace.x3),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 class HelpCenterScreen extends StatelessWidget {
   const HelpCenterScreen({super.key});

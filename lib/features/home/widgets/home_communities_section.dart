@@ -97,6 +97,7 @@ class _CommunityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     final canQuickContribute = groupHasContributionRoute(group);
 
     return SizedBox(
@@ -104,27 +105,22 @@ class _CommunityCard extends StatelessWidget {
       child: GestureDetector(
         onTap: onOpen,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(36),
+          borderRadius: BorderRadius.circular(CoolRadii.xl),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              // Claymorphic surface: layered dark gradient with soft tint
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: <Color>[
-                  Color(0xFF181C26),
-                  HomeVisualPalette.surface,
-                  Color(0xFF101420),
+                  colors.cardSurface,
+                  colors.elevatedBackground,
+                  colors.appBackground,
                 ],
-                stops: <double>[0.0, 0.55, 1.0],
+                stops: const <double>[0.0, 0.55, 1.0],
               ),
-              borderRadius: BorderRadius.circular(36),
-              border: Border.all(
-                color: Colors.white.withValues(alpha: 0.16),
-                width: 1.0,
-              ),
+              borderRadius: BorderRadius.circular(CoolRadii.xl),
               boxShadow: CoolShadows.claymorphicCard(
-                glowColor: HomeVisualPalette.active,
+                glowColor: colors.accent,
                 strength: 0.9,
               ),
             ),
@@ -139,13 +135,13 @@ class _CommunityCard extends StatelessWidget {
                     height: 56,
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(36),
+                        top: Radius.circular(CoolRadii.xl),
                       ),
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: <Color>[
-                          Colors.white.withValues(alpha: 0.10),
+                          colors.highlightColor,
                           Colors.transparent,
                         ],
                       ),
@@ -163,16 +159,13 @@ class _CommunityCard extends StatelessWidget {
                             width: 50,
                             height: 50,
                             decoration: BoxDecoration(
-                              color: HomeVisualPalette.active.withValues(alpha: 0.12),
+                              color: colors.accent.withValues(alpha: 0.12),
                               borderRadius: BorderRadius.circular(CoolRadii.md),
-                              border: Border.all(
-                                color: HomeVisualPalette.active.withValues(alpha: 0.20),
-                              ),
                             ),
                             alignment: Alignment.center,
-                            child: const Icon(
+                            child: Icon(
                               Icons.groups_2_outlined,
-                              color: HomeVisualPalette.active,
+                              color: colors.accent,
                             ),
                           ),
                           const Spacer(),
@@ -182,17 +175,14 @@ class _CommunityCard extends StatelessWidget {
                               vertical: CoolSpace.x2,
                             ),
                             decoration: BoxDecoration(
-                              color: HomeVisualPalette.active.withValues(alpha: 0.10),
+                              color: colors.accent.withValues(alpha: 0.10),
                               borderRadius: BorderRadius.circular(CoolRadii.pill),
-                              border: Border.all(
-                                color: HomeVisualPalette.active.withValues(alpha: 0.18),
-                              ),
                             ),
                             child: Text(
                               memberCountLabel(group.memberCount),
                               style: context.coolText.mono(
                                 theme.textTheme.labelSmall,
-                                color: HomeVisualPalette.active,
+                                color: colors.accent,
                                 fontWeight: FontWeight.w800,
                                 letterSpacing: 0.6,
                               ),
@@ -201,14 +191,13 @@ class _CommunityCard extends StatelessWidget {
                         ],
                       ),
                       const Spacer(),
-                      // Space Grotesk — group names get headline authority
                       Text(
                         group.name.trim().isEmpty ? 'Community' : group.name.trim(),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: context.coolText.headline(
                           theme.textTheme.headlineSmall,
-                          color: HomeVisualPalette.textPrimary,
+                          color: colors.primaryText,
                           fontWeight: FontWeight.w800,
                           letterSpacing: -0.7,
                           height: 1.0,
@@ -219,7 +208,7 @@ class _CommunityCard extends StatelessWidget {
                         'TOTAL',
                         style: context.coolText.mono(
                           theme.textTheme.labelSmall,
-                          color: HomeVisualPalette.textSecondary,
+                          color: colors.secondaryText,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 0.9,
                         ),
@@ -234,7 +223,7 @@ class _CommunityCard extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: context.coolText.display(
                                 theme.textTheme.titleLarge,
-                                color: HomeVisualPalette.textPrimary,
+                                color: colors.primaryText,
                                 fontWeight: FontWeight.w900,
                                 letterSpacing: -0.8,
                               ),
@@ -272,6 +261,7 @@ class _CircleActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -281,11 +271,10 @@ class _CircleActionButton extends StatelessWidget {
           width: 54,
           height: 54,
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.08),
+            color: colors.cardSurfaceStrong,
             shape: BoxShape.circle,
-            border: Border.all(color: HomeVisualPalette.outlineStrong),
           ),
-          child: Icon(icon, color: HomeVisualPalette.textPrimary, size: 24),
+          child: Icon(icon, color: colors.primaryText, size: 24),
         ),
       ),
     );
@@ -303,8 +292,9 @@ void openCommunityGroup(BuildContext context, Group group) {
 }
 
 void openCommunityContribution(BuildContext context, Group group) {
-  final location = groupHasContributionRoute(group)
-      ? buildGroupContributionLocation(group)
-      : AppRoutes.contributionCircles;
-  openQuickActionRoute(context, location);
+  if (!groupHasContributionRoute(group)) {
+    openCommunityGroup(context, group);
+    return;
+  }
+  launchGroupContribution(context, group: group);
 }

@@ -44,6 +44,8 @@ bash "$ROOT_DIR/scripts/verify_ios_flavors.sh"
 
 echo "==> deno test (edge functions)"
 deno test \
+  supabase/functions/verify-otp/index_test.ts \
+  supabase/functions/verify-otp/verify_otp_helpers_test.ts \
   supabase/functions/parse-momo-sms/ai_parser_test.ts \
   supabase/functions/parse-momo-sms/rayon_confirmation_test.ts
 

@@ -6,7 +6,7 @@ import '../../core/theme/cool_foundations.dart';
 
 import 'cool_press_feedback.dart';
 
-/// Card variants — ROUGEBLACK design system.
+/// Card variants — Tactile Monolith design system.
 enum CoolCardVariant {
   /// Default: solid surface with subtle border.
   default_,
@@ -36,7 +36,7 @@ enum CoolCardPadding {
   };
 }
 
-/// A shared card surface — ROUGEBLACK system.
+/// A shared card surface — Tactile Monolith system.
 ///
 /// Flat borders (white/5), no claymorphism. 4 variants.
 class CoolCard extends StatelessWidget {
@@ -51,7 +51,7 @@ class CoolCard extends StatelessWidget {
     this.borderRadius,
     this.gradient,
     this.useGradient = false,
-    this.blur = CoolBlur.subtle, // ROUGEBLACK default is 12.0
+    this.blur = CoolBlur.subtle, // Tactile Monolith default is 12.0
     this.semanticsLabel,
     super.key,
   });
@@ -72,7 +72,7 @@ class CoolCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final radius = borderRadius ?? CoolRadii.lg; // 16px default
+    final radius = borderRadius ?? CoolRadii.xl; // 48px molded card radius
 
     // Resolve decoration based on variant.
     final resolvedBg = backgroundColor ?? _variantBg(colors);
@@ -82,7 +82,10 @@ class CoolCard extends StatelessWidget {
 
     final shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radius),
-      side: BorderSide(color: resolvedBorder, width: 1),
+      // No-Line Rule: no default border, depth via surface hierarchy
+      side: borderColor != null
+          ? BorderSide(color: resolvedBorder, width: 1)
+          : BorderSide.none,
     );
 
     final Widget content = Padding(
@@ -99,7 +102,10 @@ class CoolCard extends StatelessWidget {
       color: resolvedGradient == null ? resolvedBg : null,
       gradient: resolvedGradient,
       borderRadius: BorderRadius.circular(radius),
-      border: Border.all(color: resolvedBorder, width: 1),
+      // No-Line Rule: border only if explicitly specified
+      border: borderColor != null
+          ? Border.all(color: resolvedBorder, width: 1)
+          : null,
     );
 
     final card = Material(
@@ -138,7 +144,7 @@ class CoolCard extends StatelessWidget {
     double radius,
     Color borderCol,
   ) {
-    // Glass variant specifically uses the ROUGEBLACK specs
+    // Glass variant specifically uses the Tactile Monolith specs
     // Opacity: 0.06 (via colors.glassSurface), Blur: 12, Border: 0.15.
     final glass = ClipRRect(
       borderRadius: BorderRadius.circular(radius),
@@ -148,10 +154,10 @@ class CoolCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: colors.glassSurface,
             borderRadius: BorderRadius.circular(radius),
-            border: Border.all(
-              color: borderCol,
-              width: 1,
-            ),
+            // No-Line Rule: transparent border unless explicit
+            border: borderCol.a > 0
+                ? Border.all(color: borderCol, width: 1)
+                : null,
           ),
           child: Material(
             color: Colors.transparent,
@@ -183,8 +189,8 @@ class CoolCard extends StatelessWidget {
   };
 
   Color _variantBorder(CoolSemanticColors colors) => switch (variant) {
-    CoolCardVariant.default_ => colors.border,
-    CoolCardVariant.glass => colors.borderStrong,
+    CoolCardVariant.default_ => Colors.transparent,
+    CoolCardVariant.glass => Colors.transparent,
     CoolCardVariant.outline => colors.borderStrong,
     CoolCardVariant.accent => colors.accent.withValues(alpha: 0.20),
   };

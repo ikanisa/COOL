@@ -191,12 +191,12 @@ class _IntroCard extends StatelessWidget {
             runSpacing: CoolSpace.x2,
             children: [
               if (hasPlatformAccess)
-                const _RoleChip(
+                _RoleChip(
                   label: 'Platform Admin',
-                  color: Color(0xFF2ECC71),
+                  color: colors.success,
                 ),
               if (hasBankAccess)
-                const _RoleChip(label: 'Bank Admin', color: Color(0xFF2D7FF9)),
+                _RoleChip(label: 'Bank Admin', color: colors.info),
             ],
           ),
         ],
@@ -218,7 +218,7 @@ class _RoleChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(CoolRadii.sm),
-        border: Border.all(color: color.withValues(alpha: 0.28)),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.2),
       ),
       child: Text(
         label,
@@ -259,9 +259,9 @@ class _WorkspaceCard extends StatelessWidget {
             width: 52,
             height: 52,
             decoration: BoxDecoration(
-              color: colors.highlightColor.withValues(alpha: 0.04),
+              color: colors.cardSurfaceStrong,
               borderRadius: _adminWorkspaceIconRadius,
-              border: Border.all(color: colors.border),
+              boxShadow: CoolShadows.ambientFloat(strength: 0.2),
             ),
             alignment: Alignment.center,
             child: Icon(icon, color: colors.primaryText, size: 24),
@@ -294,9 +294,9 @@ class _WorkspaceCard extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: colors.highlightColor.withValues(alpha: 0.04),
+              color: colors.cardSurfaceStrong,
               borderRadius: BorderRadius.circular(CoolRadii.sm),
-              border: Border.all(color: colors.border),
+              boxShadow: CoolShadows.ambientFloat(strength: 0.2),
             ),
             alignment: Alignment.center,
             child: Icon(

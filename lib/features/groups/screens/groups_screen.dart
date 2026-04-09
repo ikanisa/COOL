@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_search_field.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/qr_share_sheet.dart';
@@ -64,7 +65,14 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
       _openGroup(group);
       return;
     }
-    context.push(buildGroupContributionLocation(group));
+    launchGroupContribution(context, group: group).then((ok) {
+      if (!ok && mounted) {
+        CoolToast.error(
+          context,
+          'Could not launch MoMo USSD. Try dialing manually.',
+        );
+      }
+    });
   }
 
   Future<void> _inviteMembers(Group group) async {
@@ -185,8 +193,9 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
         ? null
         : ref.watch(groupInvitePreviewProvider(inviteCode));
 
-    return Scaffold(
-      backgroundColor: colors.appBackground,
+    return CoolScreenBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
       floatingActionButton: _showMine
           ? FloatingActionButton.extended(
               onPressed: _openCreateGroup,
@@ -370,6 +379,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
             ),
           ],
         ),
+      ),
       ),
     );
   }

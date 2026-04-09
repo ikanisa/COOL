@@ -6,6 +6,7 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/share_card.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -70,8 +71,10 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
     final groupAsync = ref.watch(groupDetailProvider(widget.groupId));
     final myGroupIds = ref.watch(myGroupIdsProvider);
 
-    return Scaffold(
-      body: groupAsync.when(
+    return CoolScreenBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: groupAsync.when(
         data: (group) {
           if (group == null) {
             return _MissingGroupState(message: context.l10n.groupNotFound);
@@ -113,7 +116,14 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
                       );
                       return;
                     }
-                    context.push(buildGroupContributionLocation(group));
+                    launchGroupContribution(context, group: group).then((ok) {
+                      if (!ok && context.mounted) {
+                        CoolToast.error(
+                          context,
+                          'Could not launch MoMo USSD. Try dialing manually.',
+                        );
+                      }
+                    });
                   }
                 : null,
           );
@@ -121,6 +131,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => _MissingGroupState(message: error.toString()),
       ),
+    ),
     );
   }
 }
@@ -153,9 +164,9 @@ class _GroupDetailBody extends StatelessWidget {
     final space = context.coolSpace;
 
     return Scaffold(
-      backgroundColor: colors.appBackground,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: colors.appBackground,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           onPressed: onBack,
@@ -199,7 +210,7 @@ class _GroupDetailBody extends StatelessWidget {
             decoration: BoxDecoration(
               color: colors.cardSurface,
               borderRadius: BorderRadius.circular(CoolRadii.lg),
-              border: Border.all(color: colors.border),
+              boxShadow: CoolShadows.ambientFloat(strength: 0.3),
             ),
             child: Column(
               children: [
@@ -249,7 +260,7 @@ class _GroupDetailBody extends StatelessWidget {
               decoration: BoxDecoration(
                 color: colors.cardSurface,
                 borderRadius: BorderRadius.circular(CoolRadii.md),
-                border: Border.all(color: colors.border),
+                boxShadow: CoolShadows.ambientFloat(strength: 0.3),
               ),
               child: Text(
                 'This group is invite-only.',
@@ -285,7 +296,7 @@ class _GroupDetailBody extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: colors.cardSurface,
                       borderRadius: BorderRadius.circular(CoolRadii.md),
-                      border: Border.all(color: colors.border),
+                      boxShadow: CoolShadows.ambientFloat(strength: 0.3),
                     ),
                     child: Text(
                       'No posted contributions yet.',
@@ -301,6 +312,35 @@ class _GroupDetailBody extends StatelessWidget {
                         padding: EdgeInsets.only(bottom: space.x2),
                         child: _LedgerTile(entry: entry),
                       ),
+                    SizedBox(height: space.x3),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        onPressed: () => context.push(
+                          AppRoutes.contributionCircleStatementsLocation(
+                            group.id ?? '',
+                          ),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: colors.accent,
+                          side: BorderSide(color: colors.border),
+                          padding: EdgeInsets.symmetric(vertical: space.x3),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(CoolRadii.lg),
+                          ),
+                        ),
+                        child: Text(
+                          'VIEW ALL STATEMENTS',
+                          style: text.mono(
+                            null,
+                            color: colors.accent,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.8,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 );
               },
@@ -310,7 +350,7 @@ class _GroupDetailBody extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: colors.cardSurface,
                   borderRadius: BorderRadius.circular(CoolRadii.md),
-                  border: Border.all(color: colors.border),
+                  boxShadow: CoolShadows.ambientFloat(strength: 0.3),
                 ),
                 child: Text(
                   'Could not load the ledger.',
@@ -338,7 +378,7 @@ class _MetaPill extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.cardSurface,
         borderRadius: BorderRadius.circular(CoolRadii.pill),
-        border: Border.all(color: colors.border),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.2),
       ),
       child: Text(
         label,
@@ -385,7 +425,7 @@ class _LedgerTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.cardSurface,
         borderRadius: BorderRadius.circular(CoolRadii.md),
-        border: Border.all(color: colors.border),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.3),
       ),
       child: Row(
         children: [
@@ -426,9 +466,8 @@ class _MissingGroupState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
     return Scaffold(
-      backgroundColor: colors.appBackground,
+      backgroundColor: Colors.transparent,
       body: Center(child: Text(message)),
     );
   }

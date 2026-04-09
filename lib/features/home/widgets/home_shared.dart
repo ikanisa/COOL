@@ -5,23 +5,6 @@ import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../models/home_dashboard_data.dart';
 
-abstract final class HomeVisualPalette {
-  static const Color background = Color(0xFF050608);
-  static const Color surface = Color(0xFF111317);
-  static const Color surfaceStrong = Color(0xFF161A20);
-  static const Color surfaceMuted = Color(0xFF0E1116);
-  static const Color outline = Color(0x1FFFFFFF);
-  static const Color outlineStrong = Color(0x26FFFFFF);
-  static const Color textPrimary = Color(0xFFF7F7F7);
-  static const Color textSecondary = Color(0xFF8E939F);
-  static const Color heroStart = Color(0xFF5785F6);
-  static const Color heroEnd = Color(0xFF3C69E8);
-  static const Color heroGlow = Color(0xFF6EA0FF);
-  static const Color active = Color(0xFF4B7AFF);
-  static const Color success = Color(0xFF17C678);
-  static const Color danger = Color(0xFFFF5D73);
-  static const Color warning = Color(0xFFFFA33D);
-}
 
 String fmtAmt(int v) {
   final s = v.toString();
@@ -85,19 +68,22 @@ IconData operationIconFor(HomeDashboardTransaction transaction) {
   return Icons.sync_alt_rounded;
 }
 
-Color operationAccentFor(HomeDashboardTransaction transaction) {
+Color operationAccentFor(
+  HomeDashboardTransaction transaction,
+  CoolSemanticColors colors,
+) {
   final title = transaction.title.toLowerCase();
   final type = transaction.type.toLowerCase();
   if (title.contains('contribution') || transaction.groupName != null) {
-    return HomeVisualPalette.active;
+    return colors.accent;
   }
   if (type.contains('debit')) {
-    return HomeVisualPalette.danger;
+    return colors.danger;
   }
   if (type.contains('credit') || transaction.isPositive) {
-    return HomeVisualPalette.success;
+    return colors.success;
   }
-  return HomeVisualPalette.warning;
+  return colors.warning;
 }
 
 String resolveDisplayName(String? officialName, String? fullName) {
@@ -180,7 +166,8 @@ class HomeProgressBar extends StatelessWidget {
           height: barHeight,
           width: constraints.maxWidth,
           decoration: BoxDecoration(
-            color: colors.border,
+            // Surface shift instead of border
+            color: colors.cardSurface,
             borderRadius: BorderRadius.circular(barHeight / 2),
           ),
           child: Align(
@@ -219,7 +206,8 @@ class HomeGlassCard extends StatelessWidget {
       cardPadding: CoolCardPadding.none,
       padding: const EdgeInsets.all(CoolSpace.x5),
       backgroundColor: colors.glassSurface,
-      borderColor: colors.border,
+      // No border per No-Line Rule
+      borderColor: Colors.transparent,
       onTap: onTap,
       child: child,
     );
@@ -238,7 +226,7 @@ class HomeAccentTag extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.accent.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(CoolRadii.sm),
-        border: Border.all(color: colors.accent.withValues(alpha: 0.3)),
+        // No border per No-Line Rule
       ),
       child: Text(
         label,

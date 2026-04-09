@@ -13,8 +13,7 @@ class _StatusPill extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: color.withValues(alpha: 0.18)),
+        borderRadius: BorderRadius.circular(CoolRadii.pill),
       ),
       child: Text(
         label,
@@ -72,7 +71,7 @@ class _SmsPolicyNotice extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.cardSurfaceStrong,
         borderRadius: BorderRadius.circular(CoolRadii.xl),
-        border: Border.all(color: colors.border),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

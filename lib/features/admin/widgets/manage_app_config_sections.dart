@@ -87,7 +87,7 @@ class EmptyConfigCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.cardSurfaceStrong,
         borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
-        border: Border.all(color: colors.border),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
       ),
       child: Text(
         message,
@@ -118,7 +118,7 @@ class ConfigTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.cardSurfaceStrong,
         borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
-        border: Border.all(color: colors.border),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
       ),
       child: ListTile(
         title: Text(
@@ -180,7 +180,7 @@ class RolloutCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.cardSurfaceStrong,
         borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
-        border: Border.all(color: colors.border),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -310,7 +310,7 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.cardSurfaceStrong,
         borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
-        border: Border.all(color: colors.border),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
       ),
       child: ListTile(
         title: Text(

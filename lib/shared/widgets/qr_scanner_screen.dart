@@ -9,8 +9,9 @@ import '../../core/providers/app_access_provider.dart';
 import '../../core/services/app_access_service.dart';
 import '../../core/theme/cool_foundations.dart';
 import '../../features/momo/providers/momo_service_provider.dart';
-import 'cool_skeleton.dart';
 import 'cool_button.dart';
+import 'cool_screen_background.dart';
+import 'cool_skeleton.dart';
 import 'cool_toast.dart';
 import '../../core/l10n/l10n.dart';
 
@@ -99,8 +100,9 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
     final textTheme = Theme.of(context).textTheme;
     final space = context.coolSpace;
     if (widget.mode == QrScanMode.ticket && !widget.ticketScanningEnabled) {
-      return Scaffold(
-        backgroundColor: colors.appBackground,
+      return CoolScreenBackground(
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: Text(context.l10n.scanTicket),
           backgroundColor: colors.appBackground,
@@ -134,6 +136,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
             ),
           ),
         ),
+      ),
       );
     }
 
@@ -152,8 +155,9 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
     if (widget.mode == QrScanMode.ticket &&
         scannerAvailability != null &&
         !scannerAvailability.isReady) {
-      return Scaffold(
-        backgroundColor: colors.appBackground,
+      return CoolScreenBackground(
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: Text(context.l10n.scanTicket),
           backgroundColor: colors.appBackground,
@@ -198,6 +202,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
             ),
           ),
         ),
+      ),
       );
     }
 
@@ -239,8 +244,9 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
         ),
       };
 
-      return Scaffold(
-        backgroundColor: colors.appBackground,
+      return CoolScreenBackground(
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: Text(
             widget.mode == QrScanMode.ticket ? 'Scan Ticket' : 'Scan MoMo QR',
@@ -283,6 +289,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
             ),
           ),
         ),
+      ),
       );
     }
 

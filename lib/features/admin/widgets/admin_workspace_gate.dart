@@ -176,7 +176,7 @@ class _AdminStateScaffold extends StatelessWidget {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 720),
               child: SingleChildScrollView(
-                padding: CoolSpace.pagePadding,
+                padding: CoolSpace.scaffoldPadding,
                 child: child,
               ),
             ),
