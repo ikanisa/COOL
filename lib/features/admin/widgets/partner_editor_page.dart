@@ -8,6 +8,8 @@ import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
 
+part 'partner_editor_page_fields.dart';
+
 const _categories = ['football', 'bank', 'organization'];
 EdgeInsets _partnerEditorActionPadding() => CoolSpace.sectionPadding.copyWith(
   left: 0,
@@ -247,22 +249,42 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
             // ════════════════════════════════════════════
             // SECTION: Identity
             // ════════════════════════════════════════════
-            _sectionHeader('Identity'),
-            _textField('Name *', _nameCtl, required_: true),
+            const _PartnerEditorSectionHeader(title: 'Identity'),
+            _PartnerEditorTextField(
+              label: 'Name *',
+              controller: _nameCtl,
+              required_: true,
+            ),
             Row(
               children: [
                 Expanded(
-                  child: _textField('Slug *', _slugCtl, required_: true),
+                  child: _PartnerEditorTextField(
+                    label: 'Slug *',
+                    controller: _slugCtl,
+                    required_: true,
+                  ),
                 ),
                 const SizedBox(width: 12),
-                SizedBox(width: 80, child: _textField('Emoji', _emojiCtl)),
+                SizedBox(
+                  width: 80,
+                  child: _PartnerEditorTextField(
+                    label: 'Emoji',
+                    controller: _emojiCtl,
+                  ),
+                ),
               ],
             ),
-            _categoryDropdown(),
-            _textField('Subtitle', _subtitleCtl),
-            _textField(
-              'Description',
-              _descriptionCtl,
+            _PartnerEditorCategoryField(
+              category: _category,
+              onChanged: (value) => setState(() => _category = value),
+            ),
+            _PartnerEditorTextField(
+              label: 'Subtitle',
+              controller: _subtitleCtl,
+            ),
+            _PartnerEditorTextField(
+              label: 'Description',
+              controller: _descriptionCtl,
               maxLines: 3,
               hint: 'Short description of the partner',
             ),
@@ -272,21 +294,21 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
             // ════════════════════════════════════════════
             // SECTION: Contact & Payments
             // ════════════════════════════════════════════
-            _sectionHeader('Contact & Payments'),
-            _textField(
-              'WhatsApp Number',
-              _whatsappCtl,
+            const _PartnerEditorSectionHeader(title: 'Contact & Payments'),
+            _PartnerEditorTextField(
+              label: 'WhatsApp Number',
+              controller: _whatsappCtl,
               hint: '+250788000000',
               keyboard: TextInputType.phone,
             ),
-            _textField(
-              'MoMo Code',
-              _momoCodeCtl,
+            _PartnerEditorTextField(
+              label: 'MoMo Code',
+              controller: _momoCodeCtl,
               hint: 'e.g. *182*8*1*123456#',
             ),
-            _textField(
-              'Website URL',
-              _websiteCtl,
+            _PartnerEditorTextField(
+              label: 'Website URL',
+              controller: _websiteCtl,
               hint: 'https://...',
               keyboard: TextInputType.url,
             ),
@@ -296,33 +318,33 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
             // ════════════════════════════════════════════
             // SECTION: Branding
             // ════════════════════════════════════════════
-            _sectionHeader('Branding'),
-            _textField(
-              'Logo URL',
-              _logoUrlCtl,
+            const _PartnerEditorSectionHeader(title: 'Branding'),
+            _PartnerEditorTextField(
+              label: 'Logo URL',
+              controller: _logoUrlCtl,
               hint: 'https://... (square image)',
               keyboard: TextInputType.url,
             ),
-            _textField(
-              'Banner URL',
-              _bannerUrlCtl,
+            _PartnerEditorTextField(
+              label: 'Banner URL',
+              controller: _bannerUrlCtl,
               hint: 'https://... (wide banner)',
               keyboard: TextInputType.url,
             ),
             Row(
               children: [
                 Expanded(
-                  child: _textField(
-                    'Primary Color',
-                    _primaryColorCtl,
+                  child: _PartnerEditorTextField(
+                    label: 'Primary Color',
+                    controller: _primaryColorCtl,
                     hint: '#FF5733',
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: _textField(
-                    'Secondary Color',
-                    _secondaryColorCtl,
+                  child: _PartnerEditorTextField(
+                    label: 'Secondary Color',
+                    controller: _secondaryColorCtl,
                     hint: '#333333',
                   ),
                 ),
@@ -334,17 +356,19 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
             // ════════════════════════════════════════════
             // SECTION: Settings
             // ════════════════════════════════════════════
-            _sectionHeader('Settings'),
-            _marketField(),
-            _textField(
-              'Sort Order',
-              _sortOrderCtl,
+            const _PartnerEditorSectionHeader(title: 'Settings'),
+            const _PartnerEditorMarketField(),
+            _PartnerEditorTextField(
+              label: 'Sort Order',
+              controller: _sortOrderCtl,
               hint: '0',
               keyboard: TextInputType.number,
             ),
-            _switchTile('Active', _isActive, (v) {
-              setState(() => _isActive = v);
-            }),
+            _PartnerEditorSwitchTile(
+              label: 'Active',
+              value: _isActive,
+              onChanged: (value) => setState(() => _isActive = value),
+            ),
 
             const SizedBox(height: CoolSpace.x7),
 
@@ -359,189 +383,6 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
           ],
         ),
       ),
-    );
-  }
-
-  // ── Builders ──
-
-  Widget _sectionHeader(String title) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return Padding(
-      padding: _partnerEditorFieldPadding(),
-      child: Text(
-        title,
-        style: theme.textTheme.titleMedium?.copyWith(
-          color: colors.primaryText,
-          fontWeight: FontWeight.w800,
-        ),
-      ),
-    );
-  }
-
-  Widget _textField(
-    String label,
-    TextEditingController ctl, {
-    int maxLines = 1,
-    String? hint,
-    TextInputType? keyboard,
-    bool required_ = false,
-  }) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return Padding(
-      padding: _partnerEditorFieldPadding(),
-      child: Semantics(
-        textField: true,
-        label: label,
-        child: TextFormField(
-          controller: ctl,
-          maxLines: maxLines,
-          keyboardType: keyboard,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: colors.primaryText,
-            fontWeight: FontWeight.w700,
-          ),
-          validator: required_
-              ? (v) => (v == null || v.trim().isEmpty) ? 'Required' : null
-              : null,
-          decoration: InputDecoration(
-            labelText: label,
-            hintText: hint,
-            labelStyle: theme.textTheme.labelMedium?.copyWith(
-              color: colors.secondaryText,
-              fontWeight: FontWeight.w700,
-            ),
-            hintStyle: theme.textTheme.bodySmall?.copyWith(
-              color: colors.tertiaryText,
-              fontWeight: FontWeight.w600,
-            ),
-            filled: true,
-            fillColor: colors.inputSurface,
-            border: _inputBorder(colors),
-            enabledBorder: _inputBorder(colors),
-            focusedBorder: _inputBorder(colors, borderColor: colors.accent),
-            disabledBorder: _inputBorder(
-              colors,
-              borderColor: colors.border.withValues(alpha: 0.65),
-            ),
-            contentPadding: _partnerEditorInputPadding(),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _categoryDropdown() {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return Padding(
-      padding: _partnerEditorFieldPadding(),
-      child: DropdownButtonFormField<String>(
-        initialValue: _categories.contains(_category) ? _category : null,
-        onChanged: (v) {
-          if (v != null) setState(() => _category = v);
-        },
-        style: theme.textTheme.bodyMedium?.copyWith(
-          color: colors.primaryText,
-          fontWeight: FontWeight.w700,
-        ),
-        dropdownColor: colors.cardSurfaceStrong,
-        decoration: InputDecoration(
-          labelText: 'Category *',
-          labelStyle: theme.textTheme.labelMedium?.copyWith(
-            color: colors.secondaryText,
-            fontWeight: FontWeight.w700,
-          ),
-          filled: true,
-          fillColor: colors.inputSurface,
-          border: _inputBorder(colors),
-          enabledBorder: _inputBorder(colors),
-          focusedBorder: _inputBorder(colors, borderColor: colors.accent),
-          contentPadding: _partnerEditorInputPadding(),
-        ),
-        items: _categories
-            .map(
-              (c) => DropdownMenuItem(
-                value: c,
-                child: Text(
-                  c[0].toUpperCase() + c.substring(1),
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colors.primaryText,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            )
-            .toList(),
-      ),
-    );
-  }
-
-  Widget _marketField() {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return Padding(
-      padding: _partnerEditorFieldPadding(),
-      child: TextFormField(
-        initialValue: AppMarket.country.name,
-        enabled: false,
-        style: theme.textTheme.bodyMedium?.copyWith(
-          color: colors.primaryText,
-          fontWeight: FontWeight.w700,
-        ),
-        decoration: InputDecoration(
-          labelText: 'Market (auto)',
-          labelStyle: theme.textTheme.labelMedium?.copyWith(
-            color: colors.secondaryText,
-            fontWeight: FontWeight.w700,
-          ),
-          filled: true,
-          fillColor: colors.buttonSecondaryBackground,
-          border: _inputBorder(colors),
-          enabledBorder: _inputBorder(colors),
-          disabledBorder: _inputBorder(
-            colors,
-            borderColor: colors.border.withValues(alpha: 0.65),
-          ),
-          contentPadding: _partnerEditorInputPadding(),
-        ),
-      ),
-    );
-  }
-
-  Widget _switchTile(String label, bool value, ValueChanged<bool> onChanged) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return Semantics(
-      label: label,
-      toggled: value,
-      child: SwitchListTile(
-        title: Text(
-          label,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: colors.primaryText,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        value: value,
-        activeThumbColor: Theme.of(context).colorScheme.onPrimary,
-        activeTrackColor: colors.accent,
-        inactiveThumbColor: colors.secondaryText,
-        inactiveTrackColor: colors.borderStrong,
-        contentPadding: _partnerEditorZeroPadding(),
-        onChanged: onChanged,
-      ),
-    );
-  }
-
-  OutlineInputBorder _inputBorder(
-    CoolSemanticColors colors, {
-    Color? borderColor,
-  }) {
-    return OutlineInputBorder(
-      borderRadius: _partnerEditorInputRadius,
-      borderSide: BorderSide(color: borderColor ?? colors.border, width: 1.2),
     );
   }
 }

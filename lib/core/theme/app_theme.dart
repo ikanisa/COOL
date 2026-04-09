@@ -44,7 +44,7 @@ abstract final class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: brightness,
-      fontFamily: GoogleFonts.inter().fontFamily,
+      fontFamily: GoogleFonts.spaceGrotesk().fontFamily,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       visualDensity: VisualDensity.standard,
       scaffoldBackgroundColor: semanticColors.appBackground,

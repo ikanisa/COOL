@@ -81,6 +81,7 @@ output/play_store/play-store-sa-key.json
 
 # Scratch / analysis output
 analysis_output*.txt
+analyze_out.txt
 update_profile.dart
 package-lock.json
 node_modules/
@@ -99,6 +100,7 @@ android/.kotlin/errors/
 # Design tool exports & operator output
 stitch_exports/
 stitch.json
+test/shared/failures/
 test/features/partners/failures/
 
 # Local release output

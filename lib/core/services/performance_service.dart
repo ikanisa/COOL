@@ -38,7 +38,6 @@ class PerformanceService {
   /// Common trace names for this app:
   /// - `auth_cold_start`
   /// - `momo_ussd_to_confirmation`
-  /// - `ticket_purchase`
   /// - `group_contribution`
   void startTrace(String name) {
     if (_performance == null) {

@@ -1,7 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../models/home_dashboard_data.dart';
+
+abstract final class HomeVisualPalette {
+  static const Color background = Color(0xFF050608);
+  static const Color surface = Color(0xFF111317);
+  static const Color surfaceStrong = Color(0xFF161A20);
+  static const Color surfaceMuted = Color(0xFF0E1116);
+  static const Color outline = Color(0x1FFFFFFF);
+  static const Color outlineStrong = Color(0x26FFFFFF);
+  static const Color textPrimary = Color(0xFFF7F7F7);
+  static const Color textSecondary = Color(0xFF8E939F);
+  static const Color heroStart = Color(0xFF5785F6);
+  static const Color heroEnd = Color(0xFF3C69E8);
+  static const Color heroGlow = Color(0xFF6EA0FF);
+  static const Color active = Color(0xFF4B7AFF);
+  static const Color success = Color(0xFF17C678);
+  static const Color danger = Color(0xFFFF5D73);
+  static const Color warning = Color(0xFFFFA33D);
+}
 
 String fmtAmt(int v) {
   final s = v.toString();
@@ -11,6 +31,132 @@ String fmtAmt(int v) {
     b.write(s[i]);
   }
   return b.toString();
+}
+
+String fmtSignedAmt(int v) {
+  if (v == 0) {
+    return '0';
+  }
+  return '${v > 0 ? '+' : '-'}${fmtAmt(v.abs())}';
+}
+
+String formatOperationMeta(DateTime recordedAt, String type) {
+  final now = DateTime.now();
+  final today = DateUtils.dateOnly(now);
+  final date = DateUtils.dateOnly(recordedAt);
+  final normalizedType = _normalizeOperationType(type);
+  final timeLabel = DateFormat('h:mm a').format(recordedAt).toUpperCase();
+
+  if (date == today) {
+    return 'TODAY, $timeLabel • $normalizedType';
+  }
+
+  if (date == today.subtract(const Duration(days: 1))) {
+    return 'YESTERDAY, $timeLabel • $normalizedType';
+  }
+
+  final dateLabel = DateFormat('MMM d').format(recordedAt).toUpperCase();
+  return '$dateLabel, $timeLabel • $normalizedType';
+}
+
+String summarizeMonthlyMovement(int amount) {
+  if (amount == 0) {
+    return 'NO CHANGE THIS MONTH';
+  }
+  return 'THIS MONTH ${fmtSignedAmt(amount)} RWF';
+}
+
+IconData operationIconFor(HomeDashboardTransaction transaction) {
+  final title = transaction.title.toLowerCase();
+  final type = transaction.type.toLowerCase();
+
+  if (title.contains('contribution') || transaction.groupName != null) {
+    return Icons.groups_rounded;
+  }
+  if (type.contains('debit')) {
+    return Icons.north_east_rounded;
+  }
+  if (type.contains('credit') || transaction.isPositive) {
+    return Icons.south_west_rounded;
+  }
+  if (type.contains('interest')) {
+    return Icons.savings_rounded;
+  }
+  return Icons.sync_alt_rounded;
+}
+
+Color operationAccentFor(HomeDashboardTransaction transaction) {
+  final title = transaction.title.toLowerCase();
+  final type = transaction.type.toLowerCase();
+  if (title.contains('contribution') || transaction.groupName != null) {
+    return HomeVisualPalette.active;
+  }
+  if (type.contains('debit')) {
+    return HomeVisualPalette.danger;
+  }
+  if (type.contains('credit') || transaction.isPositive) {
+    return HomeVisualPalette.success;
+  }
+  return HomeVisualPalette.warning;
+}
+
+String resolveDisplayName(String? officialName, String? fullName) {
+  final official = officialName?.trim() ?? '';
+  if (official.isNotEmpty) {
+    return official;
+  }
+
+  final full = fullName?.trim() ?? '';
+  if (full.isNotEmpty) {
+    return full;
+  }
+
+  return 'COOL Member';
+}
+
+String initialsForName(String name) {
+  final compact = name.trim();
+  if (compact.isEmpty) {
+    return 'CM';
+  }
+
+  final parts = compact.split(RegExp(r'\s+')).where((part) => part.isNotEmpty);
+  final list = parts.toList(growable: false);
+  if (list.isEmpty) {
+    return 'CM';
+  }
+  if (list.length == 1) {
+    return list.first.characters.take(2).toString().toUpperCase();
+  }
+  return '${list.first.characters.first}${list.last.characters.first}'
+      .toUpperCase();
+}
+
+String memberCountLabel(int count) {
+  if (count == 1) {
+    return '1 MEMBER';
+  }
+  return '$count MEMBERS';
+}
+
+String _normalizeOperationType(String type) {
+  final normalized = type.trim().toLowerCase();
+  if (normalized.contains('debit')) {
+    return 'TRANSFER';
+  }
+  if (normalized.contains('credit')) {
+    return 'RECEIVED';
+  }
+  if (normalized.contains('deposit')) {
+    return 'SAVING';
+  }
+  if (normalized.contains('interest')) {
+    return 'INTEREST';
+  }
+  if (normalized.contains('payout')) {
+    return 'PAYOUT';
+  }
+  return normalized.isEmpty ? 'ACTIVITY' : normalized.toUpperCase();
 }
 
 class HomeProgressBar extends StatelessWidget {

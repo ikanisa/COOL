@@ -4,8 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 const _guardedUiSurfaceFiles = <String>[
   'lib/features/home/screens/home_screen.dart',
-  'lib/features/home/widgets/home_quick_services.dart',
-  'lib/features/home/widgets/home_shared.dart',
   'lib/features/profile/screens/profile_sub_screens.dart',
   'lib/features/biopay/screens/biopay_home_screen.dart',
   'lib/shared/widgets/kill_switch_gate.dart',

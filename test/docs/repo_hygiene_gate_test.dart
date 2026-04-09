@@ -40,4 +40,20 @@ void main() {
           'Remove them before committing.\n\n$stdout',
     );
   });
+
+  test('repo hygiene gate ignores nested node_modules trees', () {
+    final ProcessResult result = Process.runSync('dart', <String>[
+      'tool/repo_hygiene_gate.dart',
+    ], workingDirectory: Directory.current.path);
+
+    final String stdout = result.stdout?.toString() ?? '';
+
+    expect(
+      stdout.contains('apps/cool-pwa/node_modules'),
+      isFalse,
+      reason:
+          'Nested node_modules trees should be excluded from first-party '
+          'repo hygiene reporting.\n\n$stdout',
+    );
+  });
 }

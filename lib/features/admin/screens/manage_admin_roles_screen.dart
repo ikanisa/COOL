@@ -18,6 +18,7 @@ import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 
 part '../widgets/manage_admin_roles_parts.dart';
+part '../widgets/manage_admin_roles_assignment_sheet.dart';
 
 /// Super admin screen for managing admin role assignments.
 /// Allows viewing, assigning, and revoking admin/bank roles.

@@ -19,6 +19,7 @@ import '../../../shared/widgets/cool_screen_background.dart';
 part '../controllers/manage_app_config_view_model.dart';
 part '../widgets/manage_app_config_sections.dart';
 part '../widgets/manage_app_config_sheets.dart';
+part '../widgets/manage_app_config_edit_sheets.dart';
 
 EdgeInsets _appConfigListPadding() => CoolSpace.scaffoldPadding;
 

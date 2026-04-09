@@ -6,15 +6,24 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   late Directory tempRepo;
   late String toolSource;
+  late String toolSupportSource;
 
   setUp(() async {
     toolSource = File(
       '${Directory.current.path}/tool/deep_link_release_assets.dart',
     ).readAsStringSync();
+    toolSupportSource = File(
+      '${Directory.current.path}/tool/deep_link_release_assets_support.dart',
+    ).readAsStringSync();
     tempRepo = await Directory.systemTemp.createTemp(
       'cool_deep_link_release_assets_test_',
     );
     _writeFile(tempRepo, 'tool/deep_link_release_assets.dart', toolSource);
+    _writeFile(
+      tempRepo,
+      'tool/deep_link_release_assets_support.dart',
+      toolSupportSource,
+    );
   });
 
   tearDown(() async {

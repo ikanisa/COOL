@@ -25,45 +25,19 @@ import type {
   BiopayMatchProtectionConfig,
   BiopayMatchRateOutcome,
 } from "../_shared/biopay_match_abuse.ts";
-
-type AdminClientLike = unknown;
-type UserClientLike = {
-  auth: {
-    getUser(): Promise<{
-      data: { user: { id: string } | null };
-      error: unknown;
-    }>;
-  };
-};
-
-type MatchRequest = {
-  embedding?: unknown;
-  liveness?: unknown;
-};
-
-type BiopayMatchRow = Record<string, unknown> & {
-  profile_id?: unknown;
-  score?: unknown;
-  route_type?: unknown;
-  public_id?: unknown;
-  user_id?: unknown;
-  display_name?: unknown;
-  recipient_value?: unknown;
-  country_code?: unknown;
-  consent_version?: unknown;
-  consent_at?: unknown;
-  created_at?: unknown;
-  updated_at?: unknown;
-};
-
-type MatchEventInsert = {
-  requesterUserId: string;
-  matchedProfileId: string | null;
-  matched: boolean;
-  score: number;
-  thresholdUsed: number;
-  metadata: Record<string, unknown>;
-};
+import {
+  type AdminClientLike,
+  type BiopayMatchRow,
+  BiopayValidationError,
+  createDefaultBiopayMatchDependencies,
+  isoAfter,
+  isoBefore,
+  type MatchEventInsert,
+  type MatchRequest,
+  sanitizeHeaderValue,
+  secondsUntil,
+  type UserClientLike,
+} from "./biopay_match_helpers.ts";
 
 export type BiopayMatchHandlerDependencies = {
   createAdminClient: () => AdminClientLike;
@@ -118,108 +92,17 @@ export type BiopayMatchHandlerDependencies = {
     event: MatchEventInsert,
   ) => Promise<void>;
 };
-
-class BiopayValidationError extends Error {}
-
-function sanitizeHeaderValue(
-  value: string | null,
-  maxLength = 180,
-): string | null {
-  const trimmed = value?.trim();
-  if (!trimmed) {
-    return null;
-  }
-
-  return trimmed.slice(0, maxLength);
-}
-
-function isoBefore(now: Date, seconds: number) {
-  return new Date(now.getTime() - seconds * 1000).toISOString();
-}
-
-function isoAfter(startIso: string, seconds: number) {
-  return new Date(Date.parse(startIso) + seconds * 1000).toISOString();
-}
-
-function secondsUntil(targetIso: string, now: Date) {
-  return Math.max(1, Math.ceil((Date.parse(targetIso) - now.getTime()) / 1000));
-}
-
-async function runMatchRpc(
-  adminClient: AdminClientLike,
-  embedding: number[],
-) {
-  const { data, error } = await (adminClient as ReturnType<
-    typeof createAdminClient
-  >).rpc("match_biopay_profile", {
-    p_embedding: embedding,
-  });
-
-  if (error) {
-    throw error;
-  }
-
-  const row = Array.isArray(data) ? data[0] : data;
-  return row ? row as BiopayMatchRow : null;
-}
-
-async function insertMatchEvent(
-  adminClient: AdminClientLike,
-  event: MatchEventInsert,
-) {
-  const { error } = await (adminClient as ReturnType<
-    typeof createAdminClient
-  >).from("biopay_match_events").insert({
-    requester_user_id: event.requesterUserId,
-    matched_profile_id: event.matchedProfileId,
-    matched: event.matched,
-    score: event.score,
-    threshold_used: event.thresholdUsed,
-    metadata: event.metadata,
-  });
-
-  if (error) {
-    throw error;
-  }
-}
-
-const defaultDependencies: BiopayMatchHandlerDependencies = {
+const defaultDependencies = createDefaultBiopayMatchDependencies({
   createAdminClient,
   createUserClient,
   requireAppCheckToken,
-  now: () => new Date(),
-  getProtectionConfig: (adminClient) =>
-    getBiopayMatchProtectionConfig(
-      adminClient as ReturnType<typeof createAdminClient>,
-    ),
-  countRecentRateEvents: (adminClient, options) =>
-    countRecentBiopayMatchRateEvents(
-      adminClient as ReturnType<typeof createAdminClient>,
-      options,
-    ),
-  getLatestRateEventAt: (adminClient, options) =>
-    getLatestBiopayMatchRateEventAt(
-      adminClient as ReturnType<typeof createAdminClient>,
-      options,
-    ),
-  recordRateEvent: (adminClient, event) =>
-    recordBiopayMatchRateEvent(
-      adminClient as ReturnType<typeof createAdminClient>,
-      event,
-    ),
-  recordOperationalHealthEvent: (adminClient, event) =>
-    recordOperationalHealthEvent(
-      adminClient as ReturnType<typeof createAdminClient>,
-      event,
-    ),
-  recordEdgeFunctionFailure: (adminClient, options) =>
-    recordEdgeFunctionFailure(
-      adminClient as ReturnType<typeof createAdminClient>,
-      options,
-    ),
-  runMatchRpc,
-  insertMatchEvent,
-};
+  getProtectionConfig: getBiopayMatchProtectionConfig,
+  countRecentRateEvents: countRecentBiopayMatchRateEvents,
+  getLatestRateEventAt: getLatestBiopayMatchRateEventAt,
+  recordRateEvent: recordBiopayMatchRateEvent,
+  recordOperationalHealthEvent,
+  recordEdgeFunctionFailure,
+});
 
 export function createBiopayMatchHandler(
   dependencies: Partial<BiopayMatchHandlerDependencies> = {},

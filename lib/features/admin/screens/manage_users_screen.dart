@@ -19,6 +19,7 @@ import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 
 part '../widgets/manage_users_parts.dart';
+part '../widgets/manage_users_summary_parts.dart';
 
 /// Admin screen for inspecting user profiles, toggling admin status, editing
 /// user fields, and cleaning demo data.

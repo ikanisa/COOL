@@ -5,7 +5,7 @@ import 'cool_foundations.dart';
 /// Typography constants and [TextTheme] builder — ROUGEBLACK system.
 ///
 /// Font stack:
-/// - **Barlow Condensed** — Display/Headline (uppercase, w800–w900, condensed impact)
+/// - **Space Grotesk** — Display/Headline (bold geometric, w700–w900, unmistakable hierarchy)
 /// - **Inter** — Title/Body/Label (readable, w400–w700)
 /// - **DM Mono** — Values, IDs, aliases (via CoolTextStyles.mono/mobiLabel/mobiValue)
 abstract final class AppThemeText {
@@ -17,13 +17,13 @@ abstract final class AppThemeText {
   static const medium = FontWeight.w600;
   static const regular = FontWeight.w400;
 
-  // ── Named sizes (Mobi × Partner scale) ────────────────────────────────
-  static const displayLarge = 56.0;
-  static const displayMedium = 48.0;
-  static const displaySmall = 40.0;
-  static const headlineLarge = 36.0;
-  static const headlineMedium = 30.0;
-  static const headlineSmall = 20.0;
+  // ── Named sizes (Space Grotesk × Inter scale) ──────────────────────────
+  static const displayLarge = 60.0;   // Space Grotesk
+  static const displayMedium = 52.0;  // Space Grotesk
+  static const displaySmall = 44.0;   // Space Grotesk
+  static const headlineLarge = 38.0;
+  static const headlineMedium = 32.0;
+  static const headlineSmall = 24.0;
   static const titleLarge = 18.0;
   static const titleMedium = 16.0;
   static const titleSmall = 14.0;
@@ -34,7 +34,7 @@ abstract final class AppThemeText {
   static const labelMedium = 14.0;
   static const labelSmall = 14.0;
 
-  /// Display/Headline → Barlow Condensed (w800, uppercase intent)
+  /// Display/Headline → Space Grotesk (w700–w900, bold geometric authority)
   /// Title → Inter (w500–w600, structural)
   /// Body → Inter (w400–w500, readable)
   /// Label → Inter (w500–w600, compact)
@@ -43,54 +43,54 @@ abstract final class AppThemeText {
     required CoolSemanticColors semanticColors,
   }) {
     final base = ThemeData(brightness: brightness);
-    final condensedText = GoogleFonts.barlowCondensedTextTheme(base.textTheme);
+    final groteskText = GoogleFonts.spaceGroteskTextTheme(base.textTheme);
     final interText = GoogleFonts.interTextTheme(base.textTheme);
 
     return interText.copyWith(
-      // ── Display (Barlow Condensed — uppercase hero impact) ───────────
-      displayLarge: condensedText.displayLarge?.copyWith(
+      // ── Display (Space Grotesk — bold geometric hero) ───────────────
+      displayLarge: groteskText.displayLarge?.copyWith(
         fontSize: AppThemeText.displayLarge,
+        fontWeight: black,
+        color: semanticColors.primaryText,
+        letterSpacing: -2.5,
+        height: 0.96,
+      ),
+      displayMedium: groteskText.displayMedium?.copyWith(
+        fontSize: AppThemeText.displayMedium,
         fontWeight: black,
         color: semanticColors.primaryText,
         letterSpacing: -2.0,
         height: 1.0,
       ),
-      displayMedium: condensedText.displayMedium?.copyWith(
-        fontSize: AppThemeText.displayMedium,
+      displaySmall: groteskText.displaySmall?.copyWith(
+        fontSize: AppThemeText.displaySmall,
         fontWeight: extraBold,
         color: semanticColors.primaryText,
         letterSpacing: -1.6,
         height: 1.05,
       ),
-      displaySmall: condensedText.displaySmall?.copyWith(
-        fontSize: AppThemeText.displaySmall,
-        fontWeight: extraBold,
-        color: semanticColors.primaryText,
-        letterSpacing: -1.2,
-        height: 1.1,
-      ),
 
-      // ── Headline (Barlow Condensed — section authority) ──────────────
-      headlineLarge: condensedText.headlineLarge?.copyWith(
+      // ── Headline (Space Grotesk — section authority) ─────────────────
+      headlineLarge: groteskText.headlineLarge?.copyWith(
         fontSize: AppThemeText.headlineLarge,
         fontWeight: extraBold,
         color: semanticColors.primaryText,
-        letterSpacing: -0.6,
-        height: 1.1,
+        letterSpacing: -1.0,
+        height: 1.08,
       ),
-      headlineMedium: condensedText.headlineMedium?.copyWith(
+      headlineMedium: groteskText.headlineMedium?.copyWith(
         fontSize: AppThemeText.headlineMedium,
         fontWeight: extraBold,
         color: semanticColors.primaryText,
-        letterSpacing: -0.48,
-        height: 1.15,
+        letterSpacing: -0.8,
+        height: 1.1,
       ),
-      headlineSmall: condensedText.headlineSmall?.copyWith(
+      headlineSmall: groteskText.headlineSmall?.copyWith(
         fontSize: AppThemeText.headlineSmall,
         fontWeight: bold,
         color: semanticColors.primaryText,
-        letterSpacing: -0.4,
-        height: 1.2,
+        letterSpacing: -0.6,
+        height: 1.15,
       ),
 
       // ── Title (Inter — structural hierarchy) ────────────────────────

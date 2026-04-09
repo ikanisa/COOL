@@ -1,10 +1,10 @@
 # Route Inventory
 
-Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router.dart).
+Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router.dart) and related router helpers.
 
 Current router shape:
 
-- `39` `GoRoute` declarations
+- `35` `GoRoute` declarations
 - `3` shell branches
 - `31` screen files under `lib/features/**/screens/*.dart`
 
@@ -31,6 +31,10 @@ Change policy:
 | `/groups/:id/ledger` | Redirect | No |
 | `/groups/create` | [`GroupCreateScreen`](../lib/features/groups/screens/group_create_screen.dart) | No |
 | `/home` | [`HomeScreen`](../lib/features/home/screens/home_screen.dart) | Home |
+| `/momo/biopay` | [`BiopayHomeScreen`](../lib/features/biopay/screens/biopay_home_screen.dart) | BioPay |
+| `/momo/biopay/nfc` | [`BiopayNfcScreen`](../lib/features/biopay/screens/biopay_nfc_screen.dart) | BioPay |
+| `/momo/biopay/register` | [`BiopayRegisterScreen`](../lib/features/biopay/screens/biopay_register_screen.dart) | BioPay |
+| `/momo/biopay/scan` | [`BiopayScanScreen`](../lib/features/biopay/screens/biopay_scan_screen.dart) | BioPay |
 | `/profile` | [`ProfileScreen`](../lib/features/profile/screens/profile_screen.dart) | Settings |
 | `/profile/about` | [`AboutAppScreen`](../lib/features/profile/screens/profile_sub_screens_about.dart) | Settings |
 | `/profile/account` | [`AccountDetailsScreen`](../lib/features/profile/screens/profile_sub_screens_account.dart) | Settings |
@@ -47,14 +51,6 @@ Change policy:
 | `/contribution-circles` | [`GroupsScreen`](../lib/features/groups/screens/groups_screen.dart) | No |
 | `/contribution-circles/:groupId` | [`GroupDetailScreen`](../lib/features/groups/screens/group_detail_screen.dart) | No |
 | `/momo` | [`MomoScreen`](../lib/features/momo/screens/momo_screen.dart) | No |
-| `/momo/biopay` | [`BiopayHomeScreen`](../lib/features/biopay/screens/biopay_home_screen.dart) | No |
-| `/momo/biopay` | [`BiopayHomeScreen`](../lib/features/biopay/screens/biopay_home_screen.dart) | No |
-| `/momo/biopay/nfc` | [`BiopayNfcScreen`](../lib/features/biopay/screens/biopay_nfc_screen.dart) | No |
-| `/momo/biopay/nfc` | [`BiopayNfcScreen`](../lib/features/biopay/screens/biopay_nfc_screen.dart) | No |
-| `/momo/biopay/register` | [`BiopayRegisterScreen`](../lib/features/biopay/screens/biopay_register_screen.dart) | No |
-| `/momo/biopay/register` | [`BiopayRegisterScreen`](../lib/features/biopay/screens/biopay_register_screen.dart) | No |
-| `/momo/biopay/scan` | [`BiopayScanScreen`](../lib/features/biopay/screens/biopay_scan_screen.dart) | No |
-| `/momo/biopay/scan` | [`BiopayScanScreen`](../lib/features/biopay/screens/biopay_scan_screen.dart) | No |
 | `/momo/statements` | [`MomoStatementsScreen`](../lib/features/momo/screens/momo_statements_screen.dart) | No |
 | `/referral` | [`ReferralScreen`](../lib/core/status/screens/referral_screen.dart) | No |
 

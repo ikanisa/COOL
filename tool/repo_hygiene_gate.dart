@@ -157,13 +157,12 @@ List<HygieneViolation> scanForViolations(
   for (final FileSystemEntity entity in repoRoot.listSync(recursive: true)) {
     if (entity is! File) continue;
 
-    final String relativePath = entity.path.replaceFirst(rootPath, '');
+    final String relativePath = _normalizeRelativePath(
+      entity.path.replaceFirst(rootPath, ''),
+    );
 
     // Skip exempt directories.
-    if (_exemptDirs.any(
-      (dir) =>
-          relativePath.startsWith('$dir/') || relativePath.startsWith('$dir\\'),
-    )) {
+    if (_isWithinExemptDir(relativePath)) {
       continue;
     }
 
@@ -232,7 +231,9 @@ List<PatchMarkerViolation> scanMigrationsForPatchMarkers(Directory repoRoot) {
     if (entity is! File) continue;
     if (!entity.path.endsWith('.sql')) continue;
 
-    final String relativePath = entity.path.replaceFirst(rootPath, '');
+    final String relativePath = _normalizeRelativePath(
+      entity.path.replaceFirst(rootPath, ''),
+    );
 
     try {
       final List<String> lines = entity.readAsLinesSync();
@@ -256,6 +257,40 @@ List<PatchMarkerViolation> scanMigrationsForPatchMarkers(Directory repoRoot) {
   }
 
   return violations;
+}
+
+String _normalizeRelativePath(String path) {
+  return path.replaceAll('\\', '/');
+}
+
+bool _isWithinExemptDir(String relativePath) {
+  final segments = _normalizeRelativePath(relativePath).split('/');
+
+  for (final dir in _exemptDirs) {
+    final dirSegments = _normalizeRelativePath(dir).split('/');
+    if (dirSegments.length > segments.length) {
+      continue;
+    }
+
+    for (
+      int start = 0;
+      start <= segments.length - dirSegments.length;
+      start++
+    ) {
+      var matches = true;
+      for (int offset = 0; offset < dirSegments.length; offset++) {
+        if (segments[start + offset] != dirSegments[offset]) {
+          matches = false;
+          break;
+        }
+      }
+      if (matches) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
 
 // ── Helpers ───────────────────────────────────────────────────

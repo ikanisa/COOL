@@ -1,3 +1,5 @@
+import { parsedSmsJsonSchema } from "./parsed_sms_schema.ts";
+
 export type AiProvider = "openai" | "gemini";
 
 export type RawSmsRecord = {
@@ -54,89 +56,6 @@ type AiCallOptions = {
   fetchFn?: typeof fetch;
 };
 
-export const parsedSmsJsonSchema = {
-  type: "object",
-  additionalProperties: false,
-  properties: {
-    parse_status: {
-      type: "string",
-      enum: ["parsed", "needs_review", "failed"],
-    },
-    confidence: {
-      type: "number",
-      minimum: 0,
-      maximum: 1,
-    },
-    tx_direction: {
-      type: "string",
-      enum: ["credit", "debit", "unknown"],
-    },
-    tx_type: { type: "string" },
-    tx_category: { type: "string" },
-    cashflow_bucket: {
-      type: "string",
-      enum: [
-        "income",
-        "expense",
-        "savings",
-        "transfer",
-        "loan",
-        "fees",
-        "unknown",
-      ],
-    },
-    momo_tx_id: { type: ["string", "null"] },
-    amount: { type: ["integer", "null"] },
-    currency: { type: "string" },
-    tx_date: { type: ["string", "null"] },
-    tx_time: { type: ["string", "null"] },
-    tx_datetime_iso: { type: ["string", "null"] },
-    payer_name: { type: ["string", "null"] },
-    payer_number_last3: { type: ["string", "null"] },
-    payer_number_full: { type: ["string", "null"] },
-    payee_name: { type: ["string", "null"] },
-    payee_number_or_code: { type: ["string", "null"] },
-    merchant_code: { type: ["string", "null"] },
-    fee_amount: { type: ["integer", "null"] },
-    balance_after: { type: ["integer", "null"] },
-    counterparty_name: { type: ["string", "null"] },
-    ai_summary: { type: ["string", "null"] },
-    recurring_pattern_hint: {
-      type: "string",
-      enum: ["recurring", "seasonal", "one_off", "unknown"],
-    },
-    narrative: { type: ["string", "null"] },
-    notes: { type: ["string", "null"] },
-  },
-  required: [
-    "parse_status",
-    "confidence",
-    "tx_direction",
-    "tx_type",
-    "tx_category",
-    "cashflow_bucket",
-    "momo_tx_id",
-    "amount",
-    "currency",
-    "tx_date",
-    "tx_time",
-    "tx_datetime_iso",
-    "payer_name",
-    "payer_number_last3",
-    "payer_number_full",
-    "payee_name",
-    "payee_number_or_code",
-    "merchant_code",
-    "fee_amount",
-    "balance_after",
-    "counterparty_name",
-    "ai_summary",
-    "recurring_pattern_hint",
-    "narrative",
-    "notes",
-  ],
-};
-
 function requireEnv(name: string): string {
   const value = Deno.env.get(name);
   if (!value) {
@@ -181,7 +100,10 @@ export function getModel(provider: AiProvider): string {
   return Deno.env.get("OPENAI_SMS_PARSE_MODEL") ?? "gpt-4o-mini";
 }
 
-export function buildPrompt(record: RawSmsRecord, lessons: string[] = []): string {
+export function buildPrompt(
+  record: RawSmsRecord,
+  lessons: string[] = [],
+): string {
   return [
     "You are an expert financial analyst parsing Mobile Money SMS into normalized records.",
     "Your goal is 100% accuracy for lending risk assessment.",
@@ -240,14 +162,13 @@ export async function callOpenAi(
   };
 
   const response = await fetchFn("https://api.openai.com/v1/responses", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify(requestPayload),
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
     },
-  );
+    body: JSON.stringify(requestPayload),
+  });
 
   const responseBody = await response.json();
   if (!response.ok) {
@@ -400,7 +321,7 @@ export function normalizeParsedSms(
     ["credit", "debit", "unknown"],
     "unknown",
   ) as ParsedSms["tx_direction"];
-  
+
   const amount = asNullableInt(payload["amount"]);
   const feeAmount = asNullableInt(payload["fee_amount"]);
   const balanceAfter = asNullableInt(payload["balance_after"]);

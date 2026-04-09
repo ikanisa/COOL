@@ -274,9 +274,9 @@ Important files:
 
 ### Partners
 
-- Partner dashboards
-- Fan/ticket/shop surfaces
-- Partner discovery and service detail routes
+- Bank-partner routing and custody surfaces
+- Admin-managed payment-route configuration
+- Compatibility shims for historical shared-receiver flows
 
 ### Banking Partner Services Guardrail
 
@@ -688,7 +688,7 @@ The app is written against a normalized `users` profile model, but the repositor
 - **Date:** March 2026
 - **Status:** ✅ Published on Google Play
 - **Key features:** Auth (WhatsApp OTP), MoMo payments (USSD + SMS verification),
-  Groups (savings, community funds), partner-integrated services, Profile
+  Groups (savings, community funds), bank-partner routing, Profile
   (delete account), and Admin workspaces
 - **Permissions:** `READ_SMS`, `RECEIVE_SMS`, `CAMERA`, `NFC`,
   `ACCESS_FINE_LOCATION`, `ACCESS_COARSE_LOCATION`, `READ_CONTACTS`,

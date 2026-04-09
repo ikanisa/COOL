@@ -10,7 +10,7 @@ The gateway must do four things reliably:
 
 1. Capture and normalize valid M-Money confirmation SMS.
 2. Separate app-linked payments from non-app wallet activity.
-3. Allocate app-linked payments to the correct user, group, order, subscription, or partner flow.
+3. Allocate app-linked payments to the correct user, group, order, subscription, or managed collection flow.
 4. Keep raw SMS, parsed payment events, allocations, ledgers, and domain balances in sync.
 
 ## Parties
@@ -18,7 +18,7 @@ The gateway must do four things reliably:
 - `Payer`: the person who sends money through USSD.
 - `Payee`: the owner of the receiving MoMo line or receiving MoMo code that gets the payment and receives the SMS.
 - `Cool app`: captures SMS, parses payment evidence, matches it to app activity, and updates records.
-- `Rayon Sport`: partner flow with dedicated receiving code(s) for support, shop, or ticketing.
+- `Partner service`: shared-receiver flow with dedicated receiving code(s) for support, orders, or other managed collections.
 - `Bank`: custody flow with dedicated receiving code(s) for savings collections and manual allocation.
 
 In user-to-user group examples, the payer is often `User A` and the payee/admin who receives the confirmation SMS is `User B`.
@@ -55,8 +55,8 @@ Recommended receiver purposes:
 
 - `personal_wallet_or_user_groups`
 - `bank_group_savings`
-- `rayon_support`
-- `rayon_shop`
+- `partner_support`
+- `partner_order`
 - `cool_subscription`
 
 This is the rule that makes the rest of the gateway safe:
@@ -103,7 +103,7 @@ This is statement recording only.
 - If a payment lands on a personal user receiver account and no safe app-linked target exists, classify it as `wallet_transaction`.
 - Record it for statements.
 - Do not use it to compute an app-maintained wallet balance.
-- Do not let it affect group, subscription, or partner ledgers.
+- Do not let it affect group, subscription, or managed-collection ledgers.
 
 ### 2. User-Created Groups and Community Groups
 
@@ -130,21 +130,21 @@ This is a shared receiving code flow.
 - Use registered group member payment identities to match payer name, number, amount, and receiving code.
 - Post unmatched items to an unallocated bank receipt state and expose them in admin allocation tools.
 
-### 4. Rayon Sport Support
+### 4. Partner Support
 
-If Rayon support uses a dedicated MoMo code:
+If partner support uses a dedicated MoMo code:
 
 - Route by that dedicated receiver account.
 - Match to a pending support intent when one exists.
-- If support can be paid without a pre-created intent, still keep unmatched receipts under Rayon support exceptions, not wallet.
+- If support can be paid without a pre-created intent, still keep unmatched receipts under partner-support exceptions, not wallet.
 
-### 5. Rayon Shop Orders
+### 5. Partner Orders
 
 This should be intent-driven.
 
 1. User places order in the app.
 2. App creates a pending order payment intent.
-3. User pays to the Rayon shop receiver code.
+3. User pays to the partner-order receiver code.
 4. Parsed payment event is matched to exactly one pending order.
 5. Order becomes paid and ready for dispatch.
 
@@ -196,7 +196,7 @@ Use the current MoMo pipeline as the base and tighten the role of each table.
 `payment_intents`
 
 - one row per app-initiated payable item
-- example types: `group_contribution`, `bank_group_saving`, `rayon_support`, `rayon_shop_order`, `subscription`
+- example types: `group_contribution`, `bank_group_saving`, `partner_support`, `partner_order`, `subscription`
 - holds expected amount, currency, receiver account, payer, domain record, and lifecycle status
 
 `payment_exceptions`
@@ -302,7 +302,7 @@ The current pipeline already has raw capture, parsing, reconciliation, and manua
 ## Immediate Implementation Priorities
 
 1. Add `payment_receiver_accounts` and route matching off the receiving account first.
-2. Add a unified `payment_intents` layer for group contributions, bank savings, shop orders, partner support, and subscriptions.
+2. Add a unified `payment_intents` layer for group contributions, bank savings, partner orders, partner support, and subscriptions.
 3. Restrict user-visible ledger or statement summaries to posted results, and keep wallet as statement-only.
 4. Generalize bank manual allocation into a generic positive allocation workflow for all shared receiver accounts.
 5. Tighten auto-match rules so `name + masked digits` is never the sole auto-allocation key.
@@ -326,8 +326,12 @@ That model is the safest way to support:
 - user-created group contributions
 - community group collections
 - bank custody savings allocations
-- Rayon support
-- Rayon shop orders
+- partner support
+- partner orders
+
+Historical migrations may still carry retired partner-specific values such as
+`rayon_support` and `rayon_shop_order`. New work should use partner-generic
+names unless a compatibility bridge is explicitly required.
 - Cool subscriptions
 
 without introducing MoMo APIs or server-side payment webhooks.

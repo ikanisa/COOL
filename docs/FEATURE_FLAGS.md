@@ -27,7 +27,7 @@ Kill-switches **immediately disable** a feature for all users (including admins)
 | Key | Feature | Owner | Default |
 |-----|---------|-------|---------|
 | `kill_momo_payments` | MoMo send/receive/QR/NFC | Platform | `false` |
-| `kill_ticket_purchase` | Rayon Sport ticket buy | Platform | `false` |
+| `kill_ticket_purchase` | Legacy checkout compatibility | Platform | `false` |
 | `kill_credit_features` | Credit/loan features | Platform | `false` |
 
 ### How to Activate a Kill-Switch
@@ -59,7 +59,7 @@ Each managed feature has a `stage` controlling visibility:
 | Feature | Stage Key | Admin-Only Key |
 |---------|-----------|----------------|
 | MoMo | `feature_momo_stage` | `feature_momo_admin_only` |
-| Tickets | `feature_ticket_purchase_stage` | `feature_ticket_purchase_admin_only` |
+| Legacy checkout compatibility | `feature_ticket_purchase_stage` | `feature_ticket_purchase_admin_only` |
 
 ---
 
@@ -70,7 +70,7 @@ Each managed feature has a `stage` controlling visibility:
 | `engagement_enabled` | Master engagement system toggle | `true` |
 | `engagement_share_tracking_enabled` | Track share events for XP | `true` |
 | `engagement_group_captain_enabled` | Group captain badge system | `false` |
-| `engagement_rayon_chapter_enabled` | Rayon Sport chapter system | `false` |
+| `engagement_rayon_chapter_enabled` | Retired partner-chapter compatibility flag | `false` |
 
 ---
 

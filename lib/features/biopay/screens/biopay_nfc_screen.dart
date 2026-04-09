@@ -1,23 +1,25 @@
-import 'dart:async';
+import 'dart:io' show Platform;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/config/app_market.dart';
+import '../../../core/config/country_catalog.dart';
+import '../../../core/providers/app_access_provider.dart';
 import '../../../core/router/app_routes.dart';
+import '../../../core/services/app_access_service.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../shared/widgets/atmospheric_background.dart';
-import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_toast.dart';
-import '../../momo/providers/momo_service_provider.dart';
+import '../../auth/models/user_profile.dart';
+import '../../auth/providers/auth_provider.dart';
+import '../../momo/services/nfc_hce_service.dart';
 import '../../momo/services/nfc_service.dart';
+import '../models/biopay_profile.dart';
+import '../providers/biopay_providers.dart';
+import '../widgets/biopay_surface.dart';
 
-/// Fullscreen NFC scan screen with gold accent and pulse animation.
-///
-/// Shows an animated NFC icon with status text while the device searches
-/// for a nearby NFC-enabled phone. Reads COOL NDEF payloads and hands off
-/// to the MoMo USSD dialer. Falls back to "not available" state
-/// on devices without NFC capability.
 class BiopayNfcScreen extends ConsumerStatefulWidget {
   const BiopayNfcScreen({super.key});
 
@@ -26,277 +28,402 @@ class BiopayNfcScreen extends ConsumerStatefulWidget {
 }
 
 class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _pulseController;
-  late final Animation<double> _pulseAnimation;
+    with WidgetsBindingObserver {
+  late final AppAccessService _appAccessService = ref.read(
+    appAccessServiceProvider,
+  );
+  final _nfcHceService = NfcHceService.instance;
+  late final TextEditingController _numberController;
+  late final TextEditingController _codeController;
+  late final TextEditingController _amountController;
 
-  String _statusText = 'SEARCHING FOR DEVICE...';
-  String? _detailText;
-  bool _isError = false;
-  bool _isProcessing = false;
-  bool _isClosing = false;
+  AppAccessSnapshot? _nfcAccess;
+  bool _refreshOnResume = false;
+  bool _isActivating = false;
+  bool _supportsPhoneTap = false;
+  bool _isReceiveModeActive = false;
+  MomoRecipientType _selectedType = MomoRecipientType.phoneNumber;
 
   @override
   void initState() {
     super.initState();
-    _pulseController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1600),
-    )..repeat(reverse: true);
-    _pulseAnimation = Tween<double>(begin: 0.85, end: 1.15).animate(
-      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
-    );
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _startNfcSession();
-    });
+    WidgetsBinding.instance.addObserver(this);
+    _numberController = TextEditingController();
+    _codeController = TextEditingController();
+    _amountController = TextEditingController(text: '0');
+    _refreshNfcAccess();
   }
 
   @override
   void dispose() {
-    unawaited(NfcService.cancelSession(reason: 'BioPay NFC scan closed'));
-    _pulseController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+    _numberController.dispose();
+    _codeController.dispose();
+    _amountController.dispose();
     super.dispose();
   }
 
-  Future<void> _closeScreen() async {
-    if (_isClosing) {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed || !_refreshOnResume) {
       return;
     }
-    _isClosing = true;
-    unawaited(NfcService.cancelSession(reason: 'BioPay NFC scan closed'));
-    if (!mounted) {
-      return;
-    }
-    context.go(AppRoutes.biopayHome);
-  }
-
-  Future<void> _startNfcSession() async {
-    if (!mounted) return;
-    setState(() {
-      _statusText = 'SEARCHING FOR DEVICE...';
-      _detailText = null;
-      _isError = false;
-      _isProcessing = false;
-    });
-    if (!_pulseController.isAnimating) {
-      _pulseController.repeat(reverse: true);
-    }
-
-    try {
-      final status = await NfcService.checkAvailability();
-      if (!mounted) return;
-
-      if (status != NfcStatus.available) {
-        _handleError(
-          statusText: 'NFC NOT AVAILABLE',
-          detailText: 'Turn on NFC or use another device.',
-        );
-        return;
-      }
-
-      final result = await NfcService.readTag();
-      if (!mounted) return;
-
-      if (!result.hasPaymentData) {
-        _handleError(
-          statusText: 'INVALID TAG',
-          detailText: 'Use a valid BioPay or MoMo tap target.',
-        );
-        return;
-      }
-
-      setState(() {
-        _statusText = 'HANDING OFF...';
-        _detailText = null;
-        _isProcessing = true;
-      });
-
-      await ref
-          .read(momoServiceProvider)
-          .initiatePayment(
-            recipientMomo: result.recipientValue!,
-            amount: int.tryParse(result.amount!) ?? 0,
-            reference: 'NFC-${DateTime.now().millisecondsSinceEpoch}',
-            recipientType: result.recipientType,
-            countryCode: result.countryCode,
-          );
-
-      if (!mounted) return;
-      CoolToast.success(context, 'Launching MoMo payment USSD.');
-      if (context.canPop()) {
-        context.pop();
-      }
-    } catch (e) {
-      if (!mounted) return;
-      _handleError(
-        statusText: 'NFC READ FAILED',
-        detailText: 'Keep both phones in contact and try again.',
-      );
-    }
-  }
-
-  void _handleError({required String statusText, String? detailText}) {
-    _pulseController.stop();
-    setState(() {
-      _isError = true;
-      _isProcessing = false;
-      _statusText = statusText;
-      _detailText = detailText;
-    });
+    _refreshOnResume = false;
+    _refreshNfcAccess();
   }
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final topPad = MediaQuery.viewPaddingOf(context).top;
+    final authState = ref.watch(authProvider);
+    final user = authState.user;
+    final profile = ref.watch(biopayProfileProvider).valueOrNull;
+    final country = _resolveCountry(user, profile);
+    final supportsCode = country.supportsMomoCode;
 
-    return PopScope<void>(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        if (!didPop) {
-          _closeScreen();
-        }
-      },
-      child: Scaffold(
-        backgroundColor: colors.appBackground,
-        body: Stack(
-          children: [
-            const AtmosphericBackground(showGrid: true),
-            Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ScaleTransition(
-                    scale: _pulseAnimation,
-                    child: Container(
-                      width: 140,
-                      height: 140,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: RadialGradient(
-                          colors: [
-                            colors.accentGold.withValues(alpha: 0.25),
-                            colors.accentGold.withValues(alpha: 0.08),
-                            Colors.transparent,
-                          ],
-                          stops: const [0.0, 0.5, 1.0],
-                        ),
-                      ),
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: 88,
-                        height: 88,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _isError
-                              ? colors.danger.withValues(alpha: 0.12)
-                              : colors.accentGold.withValues(alpha: 0.12),
-                          border: Border.all(
-                            color: _isError
-                                ? colors.danger.withValues(alpha: 0.3)
-                                : colors.accentGold.withValues(alpha: 0.3),
-                            width: 2,
-                          ),
-                        ),
-                        alignment: Alignment.center,
-                        child: Icon(
-                          _isError
-                              ? Icons.error_outline_rounded
-                              : _isProcessing
-                              ? Icons.check_circle_outline_rounded
-                              : Icons.nfc_rounded,
-                          size: 42,
-                          color: _isError ? colors.danger : colors.accentGold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                  Text(
-                    _statusText,
-                    style: context.coolText.mono(
-                      Theme.of(context).textTheme.titleSmall,
-                      fontWeight: FontWeight.w800,
-                      color: _isError ? colors.danger : colors.secondaryText,
-                      letterSpacing: 1.4,
-                    ),
-                  ),
-                  if (_detailText != null) ...[
-                    const SizedBox(height: 20),
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 52),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 14,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.05),
-                        borderRadius: BorderRadius.circular(CoolRadii.lg),
-                        border: Border.all(
-                          color: _isError
-                              ? colors.danger.withValues(alpha: 0.15)
-                              : colors.accentGold.withValues(alpha: 0.15),
-                        ),
-                      ),
-                      child: Text(
-                        _detailText!,
-                        textAlign: TextAlign.center,
-                        style: context.coolText.mono(
-                          Theme.of(context).textTheme.labelSmall,
-                          fontWeight: FontWeight.w600,
-                          color: colors.secondaryText,
-                          height: 1.45,
-                        ),
-                      ),
-                    ),
-                  ],
-                  if (_isError) ...[
-                    const SizedBox(height: 20),
-                    CoolButton(label: 'Try Again', onTap: _startNfcSession),
-                  ],
-                ],
+    _seedControllers(user: user, profile: profile, country: country);
+
+    return BiopayLightScaffold(
+      topPadding: CoolSpace.x2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          BiopayTopBar(
+            title: 'NFC Payment',
+            onBack: () {
+              if (context.canPop()) {
+                context.pop();
+                return;
+              }
+              context.go(AppRoutes.biopayHome);
+            },
+          ),
+          const SizedBox(height: CoolSpace.x6),
+          if (supportsCode) ...[
+            BiopaySegmentedControl(
+              labels: const ['Number', 'Code'],
+              selectedIndex: _selectedType == MomoRecipientType.phoneNumber
+                  ? 0
+                  : 1,
+              onSelected: (index) {
+                setState(() {
+                  _selectedType = index == 0
+                      ? MomoRecipientType.phoneNumber
+                      : MomoRecipientType.code;
+                });
+              },
+            ),
+            const SizedBox(height: CoolSpace.x4),
+          ],
+          _NfcInputCard(
+            label: _selectedType == MomoRecipientType.code
+                ? 'Merchant Code'
+                : 'MoMo Number',
+            child: TextField(
+              controller: _selectedType == MomoRecipientType.code
+                  ? _codeController
+                  : _numberController,
+              keyboardType: TextInputType.number,
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                color: BiopaySurfaceColors.text,
+                fontWeight: FontWeight.w900,
+                letterSpacing: -1.4,
+              ),
+              decoration: const InputDecoration(
+                isCollapsed: true,
+                border: InputBorder.none,
+                hintText: '',
               ),
             ),
-            Positioned(
-              top: topPad + 12,
-              left: 16,
-              right: 16,
-              child: Row(
-                children: [
-                  Semantics(
-                    button: true,
-                    label: 'Close NFC scan',
-                    child: Material(
-                      color: Colors.white.withValues(alpha: 0.08),
-                      shape: const CircleBorder(),
-                      child: IconButton(
-                        onPressed: _closeScreen,
-                        tooltip: 'Close NFC scan',
-                        icon: Icon(
-                          Icons.close_rounded,
-                          color: colors.primaryText,
-                          size: 22,
-                        ),
-                      ),
+          ),
+          const SizedBox(height: CoolSpace.x5),
+          const BiopayFieldLabel(label: 'Amount (Optional)'),
+          const SizedBox(height: CoolSpace.x3),
+          BiopaySectionCard(
+            height: 178,
+            child: Row(
+              children: [
+                Text(
+                  '${country.currencyCode} ',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: BiopaySurfaceColors.surfaceStrong,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: -1.0,
+                  ),
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: _amountController,
+                    keyboardType: TextInputType.number,
+                    style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                      color: BiopaySurfaceColors.text,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: -1.4,
+                    ),
+                    decoration: const InputDecoration(
+                      isCollapsed: true,
+                      border: InputBorder.none,
+                      hintText: '0',
                     ),
                   ),
-                  Expanded(
-                    child: Text(
-                      'NFC SCAN',
-                      textAlign: TextAlign.center,
-                      style: context.coolText.displayCondensed(
-                        Theme.of(context).textTheme.titleLarge,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 48),
-                ],
+                ),
+              ],
+            ),
+          ),
+          if (_nfcAccess != null && !_nfcAccess!.isReady) ...[
+            const SizedBox(height: CoolSpace.x4),
+            _NfcStatusBanner(
+              text: _nfcAccess!.kind == AppAccessStateKind.disabledInApp
+                  ? 'NFC is off in the app. Tap activate and BioPay will request access.'
+                  : _nfcAccess!.kind == AppAccessStateKind.serviceDisabled
+                  ? 'Turn on NFC in system settings to continue.'
+                  : 'NFC is not available on this device.',
+              color: _nfcAccess!.kind == AppAccessStateKind.notAvailable
+                  ? Colors.redAccent
+                  : BiopaySurfaceColors.orange,
+            ),
+          ] else if (_isReceiveModeActive) ...[
+            const SizedBox(height: CoolSpace.x4),
+            const _NfcStatusBanner(
+              text: 'NFC is active and ready for the next tap.',
+              color: BiopaySurfaceColors.success,
+            ),
+          ],
+          const SizedBox(height: CoolSpace.x7),
+          BiopayPrimaryButton(
+            label: 'Activate NFC',
+            icon: Icons.nfc_rounded,
+            isLoading: _isActivating,
+            onTap: () => _activateNfc(country),
+          ),
+          if (_isReceiveModeActive) ...[
+            const SizedBox(height: CoolSpace.x4),
+            TextButton(
+              onPressed: _isActivating ? null : _deactivateNfc,
+              child: Text(
+                'Stop NFC',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: BiopaySurfaceColors.mutedText,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ),
           ],
+        ],
+      ),
+    );
+  }
+
+  Future<void> _refreshNfcAccess() async {
+    final snapshot = await _appAccessService.getSnapshot(
+      AppAccessPermission.nfc,
+    );
+    final supportsPhoneTap = await _nfcHceService.isSupported();
+    final isReceiveModeActive = supportsPhoneTap
+        ? await _nfcHceService.isPaymentRequestActive()
+        : false;
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _nfcAccess = snapshot;
+      _supportsPhoneTap = supportsPhoneTap;
+      _isReceiveModeActive = isReceiveModeActive;
+    });
+  }
+
+  void _seedControllers({
+    required UserProfile? user,
+    required BiopayProfile? profile,
+    required CoolCountry country,
+  }) {
+    if (_numberController.text.trim().isEmpty) {
+      final raw = profile?.routeType == MomoRecipientType.phoneNumber
+          ? profile?.recipientValue
+          : user?.momoNumber;
+      if ((raw ?? '').trim().isNotEmpty) {
+        try {
+          _numberController.text = country.normalizeNationalPhone(raw!);
+        } catch (_) {
+          _numberController.text = raw!;
+        }
+      }
+    }
+    if (_codeController.text.trim().isEmpty) {
+      final raw = profile?.routeType == MomoRecipientType.code
+          ? profile?.recipientValue
+          : user?.momoCode;
+      if ((raw ?? '').trim().isNotEmpty) {
+        _codeController.text = raw!;
+        _selectedType = MomoRecipientType.code;
+      }
+    }
+  }
+
+  CoolCountry _resolveCountry(UserProfile? user, BiopayProfile? profile) {
+    final countryCode =
+        profile?.countryCode.trim() ??
+        user?.country.trim() ??
+        AppMarket.country.isoCode;
+    return CoolCountryCatalog.byIsoCode(countryCode) ?? AppMarket.country;
+  }
+
+  Future<void> _activateNfc(CoolCountry country) async {
+    if (_isActivating) {
+      return;
+    }
+
+    final rawRecipient = _selectedType == MomoRecipientType.code
+        ? _codeController.text.trim()
+        : _numberController.text.trim();
+    if (rawRecipient.isEmpty) {
+      CoolToast.error(
+        context,
+        _selectedType == MomoRecipientType.code
+            ? 'Enter a merchant code'
+            : 'Enter a MoMo number',
+      );
+      return;
+    }
+
+    setState(() => _isActivating = true);
+    try {
+      var snapshot = _nfcAccess;
+      if (snapshot == null || !snapshot.isReady) {
+        snapshot = await _appAccessService.enableAndRequest(
+          AppAccessPermission.nfc,
+        );
+        if (!mounted) {
+          return;
+        }
+        setState(() => _nfcAccess = snapshot);
+      }
+
+      if (snapshot.isReady != true) {
+        if (snapshot.kind == AppAccessStateKind.serviceDisabled) {
+          _refreshOnResume = true;
+          await _appAccessService.openSystemSettings(AppAccessPermission.nfc);
+        }
+        return;
+      }
+
+      final normalizedRecipient = _selectedType == MomoRecipientType.code
+          ? country.normalizeMerchantCode(rawRecipient)
+          : country.normalizeNationalPhone(rawRecipient);
+      final amount = _amountController.text.replaceAll(RegExp(r'[^0-9]'), '');
+      final payload = NfcPaymentPayload(
+        recipientValue: normalizedRecipient,
+        amount: amount.isEmpty ? '0' : amount,
+        recipientType: _selectedType,
+        countryCode: country.isoCode,
+      );
+
+      if (_supportsPhoneTap) {
+        await _nfcHceService.startPaymentRequest(
+          uri: payload.toUssdUri() ?? payload.toDeepLinkUri(),
+        );
+      } else if (!kIsWeb && Platform.isAndroid) {
+        await NfcService.writeTag(
+          recipientValue: normalizedRecipient,
+          amount: payload.amount,
+          recipientType: _selectedType,
+          countryCode: country.isoCode,
+        );
+      } else {
+        throw UnsupportedError('NFC activation is not available here.');
+      }
+
+      if (!mounted) {
+        return;
+      }
+      await _refreshNfcAccess();
+      if (!mounted) {
+        return;
+      }
+      CoolToast.success(context, 'BioPay NFC is ready.');
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      CoolToast.error(context, error.toString());
+    } finally {
+      if (mounted) {
+        setState(() => _isActivating = false);
+      }
+    }
+  }
+
+  Future<void> _deactivateNfc() async {
+    setState(() => _isActivating = true);
+    try {
+      await _nfcHceService.stopPaymentRequest();
+      if (!mounted) {
+        return;
+      }
+      await _refreshNfcAccess();
+      if (!mounted) {
+        return;
+      }
+      CoolToast.success(context, 'BioPay NFC stopped.');
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      CoolToast.error(context, error.toString());
+    } finally {
+      if (mounted) {
+        setState(() => _isActivating = false);
+      }
+    }
+  }
+}
+
+class _NfcInputCard extends StatelessWidget {
+  const _NfcInputCard({required this.label, required this.child});
+
+  final String label;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return BiopaySectionCard(
+      height: 126,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          BiopayFieldLabel(label: label),
+          const Spacer(),
+          child,
+        ],
+      ),
+    );
+  }
+}
+
+class _NfcStatusBanner extends StatelessWidget {
+  const _NfcStatusBanner({required this.text, required this.color});
+
+  final String text;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(
+        horizontal: CoolSpace.x4,
+        vertical: CoolSpace.x3,
+      ),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: color.withValues(alpha: 0.18)),
+      ),
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: color,
+          fontWeight: FontWeight.w700,
+          height: 1.45,
         ),
       ),
     );

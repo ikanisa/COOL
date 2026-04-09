@@ -29,6 +29,10 @@ class AppShell extends ConsumerStatefulWidget {
 
 class _AppShellState extends ConsumerState<AppShell>
     with SingleTickerProviderStateMixin {
+  // Fine-tuned nav surface: deep-frosted chrome palette
+  static const _navSurfaceTop = Color(0xFF1E2330);
+  static const _navSurfaceBottom = Color(0xFF12151E);
+
   late final AnimationController _entryController;
   late final Animation<Offset> _slideAnimation;
   late final Animation<double> _fadeAnimation;
@@ -93,10 +97,9 @@ class _AppShellState extends ConsumerState<AppShell>
     final index = _currentIndex();
     final textScale = MediaQuery.textScalerOf(context).scale(1);
     final safeAreaBottom = MediaQuery.viewPaddingOf(context).bottom;
-    // Pill height: ~60dp base + text scale adjustment
-    final pillHeight = (60 + ((textScale - 1) * 12)).clamp(60, 72).toDouble();
+    final pillHeight = (66 + ((textScale - 1) * 12)).clamp(66, 78).toDouble();
     final navigationChromeInset = widget.showNavigationChrome
-        ? pillHeight + CoolSpace.x8 + safeAreaBottom
+        ? pillHeight + CoolSpace.x6 + safeAreaBottom
         : 0.0;
 
     return Scaffold(
@@ -111,18 +114,16 @@ class _AppShellState extends ConsumerState<AppShell>
               child: FadeTransition(
                 opacity: _fadeAnimation,
                 child: Padding(
-                  // p-8 from screen edge
                   padding: EdgeInsets.fromLTRB(
-                    CoolSpace.x8,
+                    CoolSpace.x4,
                     0,
-                    CoolSpace.x8,
-                    CoolSpace.x8 + safeAreaBottom,
+                    CoolSpace.x4,
+                    CoolSpace.x4 + safeAreaBottom,
                   ),
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: ConstrainedBox(
-                      // max-width: 320px
-                      constraints: const BoxConstraints(maxWidth: 320),
+                      constraints: const BoxConstraints(maxWidth: 380),
                       child: _GlassPill(
                         height: pillHeight,
                         colors: colors,
@@ -136,14 +137,13 @@ class _AppShellState extends ConsumerState<AppShell>
                           ),
                           _NavItem(
                             label: 'BioPay',
-                            icon: Icons.document_scanner_rounded,
+                            icon: Icons.center_focus_strong_rounded,
                             isSelected: index == 1,
                             onTap: () => _onItemTapped(1),
                             colors: colors,
-                            preserveCase: true, // BioPay exception
                           ),
                           _NavItem(
-                            label: context.l10n.navProfile,
+                            label: 'Settings',
                             icon: Icons.settings_rounded,
                             isSelected: index == 2,
                             onTap: () => _onItemTapped(2),
@@ -181,35 +181,76 @@ class _GlassPill extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(CoolRadii.pill),
       child: BackdropFilter(
-        filter: ImageFilter.blur(
-          sigmaX: CoolBlur.heavy,
-          sigmaY: CoolBlur.heavy,
-        ),
+        // Higher sigma: crisper frosted-glass depth
+        filter: ImageFilter.blur(sigmaX: 28, sigmaY: 28),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: colors.glassSurface,
+            gradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: <Color>[
+                _AppShellState._navSurfaceTop,
+                _AppShellState._navSurfaceBottom,
+              ],
+            ),
             borderRadius: BorderRadius.circular(CoolRadii.pill),
-            border: Border.all(color: colors.border, width: 1),
+            border: Border.all(
+              // Ghost border — bright but thin
+              color: Colors.white.withValues(alpha: 0.14),
+              width: 1.0,
+            ),
             boxShadow: <BoxShadow>[
+              // Top-edge specular
               BoxShadow(
-                color: colors.shadowColor.withValues(alpha: 0.45),
+                color: Colors.white.withValues(alpha: 0.08),
+                blurRadius: 1,
+                offset: const Offset(0, 1),
+              ),
+              // Ambient depth
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.50),
                 blurRadius: 40,
-                offset: const Offset(0, 15),
+                offset: const Offset(0, 18),
               ),
             ],
           ),
-          child: SizedBox(
-            height: height,
-            // px-6 py-2
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: CoolSpace.x6,
-                vertical: CoolSpace.x2,
+          child: Stack(
+            children: [
+              // Inner top-edge highlight strip
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: 22,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(CoolRadii.pill),
+                    ),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: <Color>[
+                        Colors.white.withValues(alpha: 0.10),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                ),
               ),
-              child: Row(
-                children: children.map((c) => Expanded(child: c)).toList(),
+              SizedBox(
+                height: height,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: CoolSpace.x4,
+                    vertical: CoolSpace.x1,
+                  ),
+                  child: Row(
+                    children: children.map((c) => Expanded(child: c)).toList(),
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
@@ -228,7 +269,6 @@ class _NavItem extends StatelessWidget {
     required this.isSelected,
     required this.onTap,
     required this.colors,
-    this.preserveCase = false,
   });
 
   final String label;
@@ -236,13 +276,12 @@ class _NavItem extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
   final CoolSemanticColors colors;
-  final bool preserveCase; // BioPay exception
 
   @override
   Widget build(BuildContext context) {
-    final activeIconColor = colors.accentForeground;
-    final inactiveIconColor = colors.secondaryText.withValues(alpha: 0.55);
-    final displayLabel = preserveCase ? label : label.toUpperCase();
+    final activeColor = colors.accentStrong;
+    final inactiveColor = colors.secondaryText.withValues(alpha: 0.70);
+    final displayLabel = label.toUpperCase();
 
     return Material(
       color: Colors.transparent,
@@ -256,67 +295,50 @@ class _NavItem extends StatelessWidget {
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Active: bg-white/10 behind icon, scale 1.1
               AnimatedContainer(
                 duration: CoolMotion.quick,
                 curve: CoolMotion.enterCurve,
-                padding: const EdgeInsets.all(4),
+                padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
+                  // Filled pill for selected — stronger visual anchor
                   color: isSelected
-                      ? colors.accent.withValues(alpha: 0.12)
+                      ? activeColor.withValues(alpha: 0.18)
                       : Colors.transparent,
-                  shape: BoxShape.circle,
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  border: isSelected
+                      ? Border.all(color: activeColor.withValues(alpha: 0.28))
+                      : null,
                 ),
                 child: AnimatedScale(
-                  scale: isSelected ? 1.1 : 1.0,
+                  scale: isSelected ? 1.06 : 1.0,
                   duration: CoolMotion.quick,
                   curve: CoolMotion.enterCurve,
-                  // Icon: 18dp, stroke-width 2 (active: 2.5)
                   child: Icon(
                     icon,
-                    size: 18,
-                    color: isSelected ? activeIconColor : inactiveIconColor,
+                    size: 20,
+                    color: isSelected ? activeColor : inactiveColor,
                   ),
                 ),
               ),
-              const SizedBox(height: 1),
-              // Label: 8px, JetBrains Mono, uppercase, letter-spacing 0.1em
-              Text(
-                displayLabel,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+              const SizedBox(height: 2),
+              AnimatedDefaultTextStyle(
+                duration: CoolMotion.quick,
                 style: context.coolText
                     .mobiLabel(
-                      color: isSelected
-                          ? colors.primaryText
-                          : inactiveIconColor,
+                      color: isSelected ? activeColor : inactiveColor,
                     )
                     .copyWith(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 9,
+                      fontWeight: FontWeight.w800,
                       letterSpacing: 0.8,
                     ),
-              ),
-              const SizedBox(height: 1),
-              // Gold dot indicator below label
-              AnimatedContainer(
-                duration: CoolMotion.quick,
-                curve: CoolMotion.enterCurve,
-                width: isSelected ? 4 : 0,
-                height: isSelected ? 4 : 0,
-                decoration: BoxDecoration(
-                  color: colors.accentGold,
-                  shape: BoxShape.circle,
-                  boxShadow: isSelected
-                      ? <BoxShadow>[
-                          BoxShadow(
-                            color: colors.accentGold.withValues(alpha: 0.50),
-                            blurRadius: 6,
-                          ),
-                        ]
-                      : null,
+                child: Text(
+                  displayLabel,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

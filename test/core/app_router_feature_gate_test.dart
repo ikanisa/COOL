@@ -69,7 +69,7 @@ void main() {
       },
     );
 
-    testWidgets('managed app config still allows admins into BioPay hub', (
+    testWidgets('managed app config still allows admins into the BioPay home', (
       tester,
     ) async {
       final featureFlagsService = await _buildFeatureFlagsService(
@@ -94,7 +94,7 @@ void main() {
         AppRoutes.biopayHome,
       );
       expect(find.text('Temporarily Unavailable'), findsNothing);
-      expect(find.text('BioPay Hub'), findsOneWidget);
+      expect(find.text('Face Scan'), findsOneWidget);
     });
 
     testWidgets(
@@ -153,7 +153,7 @@ void main() {
           AppRoutes.biopayHome,
         );
         expect(find.text('Temporarily Unavailable'), findsNothing);
-        expect(find.text('BioPay Hub'), findsWidgets);
+        expect(find.text('Face Scan'), findsOneWidget);
       },
     );
 
@@ -181,7 +181,7 @@ void main() {
           AppRoutes.biopayHome,
         );
         expect(find.text('Temporarily Unavailable'), findsNothing);
-        expect(find.text('BioPay Hub'), findsWidgets);
+        expect(find.text('Face Scan'), findsOneWidget);
       },
     );
   });

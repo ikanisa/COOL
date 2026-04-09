@@ -55,6 +55,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
 
   bool _hasScanned = false;
   bool _isClosing = false;
+  String _momoStatusLabel = 'Align QR inside frame';
   AppAccessSnapshot? _cameraAccess;
   TicketScannerAvailability? _ticketScannerAvailability;
   bool _refreshOnResume = false;
@@ -310,6 +311,27 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                     scanWindow: scanWindow,
                   ),
                 ),
+                if (widget.mode == QrScanMode.momo)
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: scanWindow.bottom - 26,
+                    child: Column(
+                      children: [
+                        _MomoScannerStatusPill(label: _momoStatusLabel),
+                        const SizedBox(height: CoolSpace.x8),
+                        Text(
+                          'HOLD THE QR WITHIN THE FRAME',
+                          textAlign: TextAlign.center,
+                          style: textTheme.labelLarge?.copyWith(
+                            color: Colors.white.withValues(alpha: 0.48),
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 3.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 Positioned(
                   top: 0,
                   left: 0,
@@ -326,54 +348,54 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                             button: true,
                             label: 'Close scanner',
                             child: Material(
-                              color: Colors.black.withValues(alpha: 0.5),
-                              shape: const CircleBorder(),
+                              color: Colors.black.withValues(alpha: 0.42),
+                              borderRadius: BorderRadius.circular(18),
                               child: IconButton(
                                 onPressed: _closeScanner,
                                 tooltip: context.l10n.closeScanner,
                                 icon: const Icon(
-                                  Icons.close_rounded,
+                                  Icons.arrow_back_ios_new_rounded,
                                   color: Colors.white,
-                                  size: 22,
+                                  size: 20,
                                 ),
                               ),
                             ),
                           ),
-                          const Spacer(),
-                          Text(
-                            widget.mode == QrScanMode.ticket
-                                ? 'Scan Ticket'
-                                : 'Scan MoMo QR',
-                            style: textTheme.labelLarge?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
+                          if (widget.mode == QrScanMode.ticket) ...[
+                            const Spacer(),
+                            Text(
+                              'Scan Ticket',
+                              style: textTheme.labelLarge?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                          const Spacer(),
-                          Semantics(
-                            button: true,
-                            label: 'Toggle flashlight',
-                            child: Material(
-                              color: Colors.black.withValues(alpha: 0.5),
-                              shape: const CircleBorder(),
-                              child: IconButton(
-                                onPressed: () => _controller.toggleTorch(),
-                                tooltip: 'Toggle flashlight',
-                                icon: ValueListenableBuilder(
-                                  valueListenable: _controller,
-                                  builder: (_, state, child) {
-                                    return Icon(
-                                      state.torchState == TorchState.on
-                                          ? Icons.flash_on_rounded
-                                          : Icons.flash_off_rounded,
-                                      color: Colors.white,
-                                      size: 22,
-                                    );
-                                  },
+                            const Spacer(),
+                            Semantics(
+                              button: true,
+                              label: 'Toggle flashlight',
+                              child: Material(
+                                color: Colors.black.withValues(alpha: 0.5),
+                                shape: const CircleBorder(),
+                                child: IconButton(
+                                  onPressed: () => _controller.toggleTorch(),
+                                  tooltip: 'Toggle flashlight',
+                                  icon: ValueListenableBuilder(
+                                    valueListenable: _controller,
+                                    builder: (_, state, child) {
+                                      return Icon(
+                                        state.torchState == TorchState.on
+                                            ? Icons.flash_on_rounded
+                                            : Icons.flash_off_rounded,
+                                        color: Colors.white,
+                                        size: 22,
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                          ],
                         ],
                       ),
                     ),

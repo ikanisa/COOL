@@ -27,12 +27,12 @@
 
 ### Firebase Performance
 - Dashboard: Firebase Console → Performance → Traces
-- Custom traces: `cold_start`, `ticket_purchase`, `momo_send`
+- Custom traces: `cold_start`, `momo_send`, `group_contribution`
 - Network traces: auto-instrumented via Dio interceptor
 
 ### Crashlytics
 - Dashboard: Firebase Console → Crashlytics
-- Breadcrumbs: added for MoMo flow, credit flow, ticket purchase
+- Breadcrumbs: added for MoMo flow, credit flow, and group contribution
 - Non-fatal errors: logged via `FirebaseCrashlytics.instance.recordError()`
 
 ### CI Size Gate

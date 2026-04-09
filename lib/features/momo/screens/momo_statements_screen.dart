@@ -31,6 +31,7 @@ import '../widgets/momo_sms_sync_status_card.dart';
 
 part '../controllers/momo_statements_controller.dart';
 part '../widgets/momo_statements_sections.dart';
+part '../widgets/momo_statements_overview_parts.dart';
 
 class MomoStatementsScreen extends ConsumerStatefulWidget {
   const MomoStatementsScreen({super.key});

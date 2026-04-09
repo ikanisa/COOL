@@ -37,7 +37,7 @@ the remaining Google Play and Firebase work.
   - `receiving_momo_code`
   - `receiving_momo_route_type`
   - `momo_number`
-- Active mobile flows no longer depend on a hardcoded Rayon-specific MoMo code.
+- Active mobile flows no longer depend on a hardcoded partner-specific MoMo code.
 - Bank workspace allocations and service routing are administered from
   Supabase-backed config instead of app-side brand-specific constants.
 
@@ -118,8 +118,8 @@ the remaining Google Play and Firebase work.
 5. Dynamic recipient-routing still needs production verification across all
    managed bank workspaces.
    - Community groups already store their own recipient route in Supabase.
-   - Active mobile clients no longer hardcode a Rayon-specific route, but
-     historical migrations still carry legacy partner assumptions.
+   - Active mobile clients no longer hardcode a partner-specific route, but
+     historical migrations still carry legacy shared-receiver assumptions.
    - Result: validate that every production bank workspace is backed by the
      intended Supabase recipient config before the next Play upload.
 
@@ -196,7 +196,7 @@ the remaining Google Play and Firebase work.
 
 1. Verify the in-app deletion flow end to end on a signed Android build using a
    disposable test account.
-2. Decide whether partner bank/Rayon recipient routing must be fully dynamic
+2. Decide whether bank and shared-receiver recipient routing must be fully dynamic
    from Supabase before release, then implement the required schema/client
    changes if yes.
 3. Validate the review bypass end to end on a signed Android build against the

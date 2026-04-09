@@ -22,15 +22,14 @@ void main() {
     );
     await tester.pump(const Duration(milliseconds: 100));
 
-    expect(find.text('BioPay Hub'), findsOneWidget);
-    expect(find.text('HOW DO YOU'), findsOneWidget);
-    expect(find.text('WANT TO PAY?'), findsOneWidget);
-    expect(find.text('FACE\nSCAN'), findsOneWidget);
-    expect(find.text('NFC\nSCAN'), findsOneWidget);
-    expect(find.text('QR\nSCAN'), findsOneWidget);
+    expect(find.text('Pay & Get Paid\nInstantly'), findsOneWidget);
+    expect(find.text('Face Scan'), findsOneWidget);
+    expect(find.text('NFC Tap'), findsOneWidget);
+    expect(find.text('Get QR'), findsOneWidget);
+    expect(find.text('Scan QR'), findsOneWidget);
   });
 
-  testWidgets('register screen shows model asset warning when unavailable', (
+  testWidgets('register screen shows the current setup copy and model warning', (
     tester,
   ) async {
     final container = createTestContainer(
@@ -58,20 +57,21 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
 
-    expect(find.text('Receive With'), findsOneWidget);
-    expect(find.text('Number'), findsOneWidget);
-    expect(find.text('Code'), findsOneWidget);
-    expect(find.text('MoMo Number'), findsOneWidget);
-    expect(find.text('MoMo Code'), findsNothing);
-    expect(find.text('Face capture unavailable'), findsOneWidget);
+    expect(find.text('Face ID Setup'), findsOneWidget);
+    expect(find.text('Link your face\nto your MoMo.'), findsOneWidget);
+    expect(find.text('NUMBER'), findsOneWidget);
+    expect(find.text('CODE'), findsOneWidget);
+    expect(find.text('MOMO NUMBER'), findsOneWidget);
+    expect(find.text('Merchant Code'), findsNothing);
     expect(
       find.text('BioPay face model is not bundled in this build yet.'),
       findsOneWidget,
     );
+    expect(find.text('Start Enrollment'), findsOneWidget);
     expect(
       find.text(
         'BioPay is scaffolded in the app but currently disabled by app configuration.',
-      ),
+        ),
       findsNothing,
     );
   });

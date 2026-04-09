@@ -18,9 +18,12 @@ abstract final class AppRoutes {
 
   // ── BioPay ──────────────────────────────────────────────────────
   static const biopayHome = '/momo/biopay';
+  static const biopayProfile = '/momo/biopay/profile';
   static const biopayRegister = '/momo/biopay/register';
+  static const biopayQr = '/momo/biopay/qr';
   static const biopayScan = '/momo/biopay/scan';
   static const biopayNfc = '/momo/biopay/nfc';
+  static const biopayEnrollmentSuccess = '/momo/biopay/success';
 
   // ── Contribution Circles ────────────────────────────────────────
   static const contributionCircles = '/contribution-circles';
@@ -91,6 +94,22 @@ abstract final class AppRoutes {
   static String biopayScanLocation({required String mode}) {
     return _location(
       biopayScan,
+      queryParameters: <String, String>{'mode': mode.trim()},
+    );
+  }
+
+  static String biopayEnrollmentSuccessLocation({String? publicId}) {
+    return _location(
+      biopayEnrollmentSuccess,
+      queryParameters: publicId == null || publicId.trim().isEmpty
+          ? null
+          : <String, String>{'id': publicId.trim()},
+    );
+  }
+
+  static String scannerLocation({String mode = 'momo'}) {
+    return _location(
+      scanner,
       queryParameters: <String, String>{'mode': mode.trim()},
     );
   }

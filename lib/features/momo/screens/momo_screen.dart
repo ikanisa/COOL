@@ -191,7 +191,7 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
 
   Future<void> _scanQrCode() async {
     final payload = await context.push<MomoQrPayload>(
-      '${AppRoutes.scanner}?mode=momo',
+      AppRoutes.scannerLocation(),
     );
     if (!mounted || payload == null) return;
     _showSendMoneySheet(

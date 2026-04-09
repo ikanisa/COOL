@@ -1,253 +1,172 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
+import '../widgets/biopay_surface.dart';
 
-/// BioPay Hub screen — 3 full-width payment method cards stacked vertically.
-///
-/// Layout: hero text ("HOW DO YOU / WANT TO PAY?") + 3 cards:
-///   1. Face Scan (blue accent)
-///   2. NFC Scan  (gold accent, gold gradient tint)
-///   3. QR Scan   (blue accent)
 class BiopayHomeScreen extends StatelessWidget {
   const BiopayHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colors = context.coolSemanticColors;
     final space = context.coolSpace;
-    final bottomPadding = MediaQuery.viewPaddingOf(context).bottom;
 
-    return Scaffold(
-      backgroundColor: colors.appBackground,
-      body: CoolScreenBackground(
-        primaryColor: colors.accent,
-        secondaryColor: colors.accentGold,
-        child: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              pinned: true,
-              backgroundColor: Colors.transparent,
-              surfaceTintColor: Colors.transparent,
-              elevation: 0,
-              scrolledUnderElevation: 0,
-              toolbarHeight: CoolSpace.x10,
-              leading: IconButton(
-                onPressed: () {
-                  if (context.canPop()) {
-                    context.pop();
-                    return;
-                  }
-                  context.go(AppRoutes.home);
-                },
-                tooltip: 'Back',
-                icon: Icon(
-                  Icons.arrow_back_rounded,
-                  color: colors.primaryText,
-                ),
-              ),
-              flexibleSpace: ClipRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: CoolBlur.heavy,
-                    sigmaY: CoolBlur.heavy,
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: colors.glassSurface,
-                      border: Border(
-                        bottom: BorderSide(color: colors.border),
-                      ),
-                    ),
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.only(
-                      top: MediaQuery.viewPaddingOf(context).top,
-                    ),
-                    child: Text(
-                      'BioPay Hub',
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        color: colors.primaryText,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: -0.3,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+    return BiopayLightScaffold(
+      topPadding: CoolSpace.x3,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: _ProfileAction(
+              onTap: () => context.push(AppRoutes.biopayProfile),
             ),
-            SliverPadding(
-              padding: EdgeInsets.fromLTRB(
-                space.x5,
-                space.x8,
-                space.x5,
-                space.x8 + bottomPadding,
-              ),
-              sliver: SliverList.list(
-                children: [
-                  Text(
-                    'HOW DO YOU',
-                    style: context.coolText.displayCondensed(
-                      theme.textTheme.displayMedium,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: -0.5,
-                      height: 1.0,
-                    ),
-                  ),
-                  Text(
-                    'WANT TO PAY?',
-                    style: context.coolText.displayCondensed(
-                      theme.textTheme.displayMedium,
-                      fontWeight: FontWeight.w900,
-                      color: colors.accent,
-                      letterSpacing: -0.5,
-                      height: 1.0,
-                    ),
-                  ),
-                  SizedBox(height: space.x8),
-                  _BioPayMethodCard(
-                    icon: Icons.face_retouching_natural_rounded,
-                    title: 'FACE\nSCAN',
-                    subtitle: 'SCAN FACE TO\nPAY',
-                    accentColor: colors.accent,
-                    onTap: () => context.push(
-                      AppRoutes.biopayScanLocation(mode: 'pay'),
-                    ),
-                  ),
-                  const SizedBox(height: CoolSpace.x4),
-                  _BioPayMethodCard(
-                    icon: Icons.nfc_rounded,
-                    title: 'NFC\nSCAN',
-                    subtitle: 'PHONE TO\nPHONE',
-                    accentColor: colors.accentGold,
-                    hasGoldGradient: true,
-                    onTap: () => context.push(AppRoutes.biopayNfc),
-                  ),
-                  const SizedBox(height: CoolSpace.x4),
-                  _BioPayMethodCard(
-                    icon: Icons.qr_code_scanner_rounded,
-                    title: 'QR\nSCAN',
-                    subtitle: 'SCAN TO PAY',
-                    accentColor: colors.accent,
-                    onTap: () =>
-                        context.push('${AppRoutes.scanner}?mode=momo'),
-                  ),
-                ],
-              ),
+          ),
+          SizedBox(height: space.x4),
+          Text(
+            'Pay & Get Paid\nInstantly',
+            style: Theme.of(context).textTheme.displayMedium?.copyWith(
+              color: BiopaySurfaceColors.text,
+              fontWeight: FontWeight.w900,
+              letterSpacing: -2.2,
+              height: 0.98,
             ),
-          ],
+          ),
+          SizedBox(height: space.x7),
+          GridView.count(
+            crossAxisCount: 2,
+            mainAxisSpacing: space.x4,
+            crossAxisSpacing: space.x4,
+            childAspectRatio: 0.94,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              _BiopayActionTile(
+                icon: Icons.center_focus_strong_rounded,
+                iconColor: BiopaySurfaceColors.primary,
+                label: 'Face Scan',
+                onTap: () =>
+                    context.push(AppRoutes.biopayScanLocation(mode: 'pay')),
+              ),
+              _BiopayActionTile(
+                icon: Icons.nfc_rounded,
+                iconColor: BiopaySurfaceColors.purple,
+                label: 'NFC Tap',
+                onTap: () => context.push(AppRoutes.biopayNfc),
+              ),
+              _BiopayActionTile(
+                icon: Icons.qr_code_2_rounded,
+                iconColor: BiopaySurfaceColors.orange,
+                label: 'Get QR',
+                onTap: () => context.push(AppRoutes.biopayQr),
+              ),
+              _BiopayActionTile(
+                icon: Icons.qr_code_scanner_rounded,
+                iconColor: BiopaySurfaceColors.teal,
+                label: 'Scan QR',
+                onTap: () => context.push(AppRoutes.scannerLocation()),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProfileAction extends StatelessWidget {
+  const _ProfileAction({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: BiopaySurfaceColors.surfaceMuted,
+      borderRadius: BorderRadius.circular(22),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(22),
+        child: Container(
+          width: 56,
+          height: 56,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(22),
+            boxShadow: const [
+              BoxShadow(
+                color: BiopaySurfaceColors.shadow,
+                blurRadius: 24,
+                offset: Offset(0, 14),
+              ),
+            ],
+          ),
+          alignment: Alignment.center,
+          child: const Icon(
+            Icons.person_outline_rounded,
+            color: BiopaySurfaceColors.mutedText,
+            size: 28,
+          ),
         ),
       ),
     );
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Full-width payment method card
-// ─────────────────────────────────────────────────────────────────────────────
-
-class _BioPayMethodCard extends StatelessWidget {
-  const _BioPayMethodCard({
+class _BiopayActionTile extends StatelessWidget {
+  const _BiopayActionTile({
     required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.accentColor,
+    required this.iconColor,
+    required this.label,
     required this.onTap,
-    this.hasGoldGradient = false,
   });
 
   final IconData icon;
-  final String title;
-  final String subtitle;
-  final Color accentColor;
+  final Color iconColor;
+  final String label;
   final VoidCallback onTap;
-  final bool hasGoldGradient;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colors = context.coolSemanticColors;
-
     return Material(
-      color: Colors.transparent,
+      color: BiopaySurfaceColors.surfaceMuted,
+      borderRadius: BorderRadius.circular(32),
       child: InkWell(
         onTap: onTap,
-        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xl)),
-        child: AnimatedContainer(
-          duration: CoolMotion.quick,
-          padding: const EdgeInsets.all(CoolSpace.x6),
+        borderRadius: BorderRadius.circular(32),
+        child: Container(
+          padding: const EdgeInsets.all(CoolSpace.x5),
           decoration: BoxDecoration(
-            gradient: hasGoldGradient
-                ? LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      colors.glassSurface,
-                      colors.accentGold.withValues(alpha: 0.08),
-                      colors.accentGold.withValues(alpha: 0.12),
-                    ],
-                  )
-                : null,
-            color: hasGoldGradient ? null : colors.glassSurface,
-            borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xl)),
-            border: Border.all(
-              color: hasGoldGradient
-                  ? colors.accentGold.withValues(alpha: 0.15)
-                  : colors.border,
-            ),
+            borderRadius: BorderRadius.circular(32),
+            boxShadow: const [
+              BoxShadow(
+                color: BiopaySurfaceColors.shadow,
+                blurRadius: 28,
+                offset: Offset(0, 16),
+              ),
+            ],
           ),
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 56,
-                height: 56,
+                width: 72,
+                height: 72,
                 decoration: BoxDecoration(
-                  color: accentColor.withValues(alpha: 0.12),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(CoolRadii.md),
-                  ),
-                  border: Border.all(
-                    color: accentColor.withValues(alpha: 0.25),
-                  ),
+                  color: iconColor.withValues(alpha: 0.10),
+                  borderRadius: BorderRadius.circular(24),
                 ),
                 alignment: Alignment.center,
-                child: Icon(icon, size: 28, color: accentColor),
+                child: Icon(icon, size: 38, color: iconColor),
               ),
-              const SizedBox(width: CoolSpace.x5),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: context.coolText.displayCondensed(
-                        theme.textTheme.headlineMedium,
-                        fontWeight: FontWeight.w800,
-                        height: 0.95,
-                        letterSpacing: 0.4,
-                      ),
-                    ),
-                    const SizedBox(height: CoolSpace.x2),
-                    Text(
-                      subtitle,
-                      style: context.coolText.mono(
-                        theme.textTheme.labelSmall,
-                        fontWeight: FontWeight.w700,
-                        color: colors.secondaryText,
-                        letterSpacing: 1.3,
-                      ),
-                    ),
-                  ],
+              const Spacer(),
+              Text(
+                label,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: BiopaySurfaceColors.text,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.8,
                 ),
-              ),
-              Icon(
-                Icons.chevron_right_rounded,
-                size: 28,
-                color: colors.tertiaryText,
               ),
             ],
           ),

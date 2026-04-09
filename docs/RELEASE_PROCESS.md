@@ -103,7 +103,7 @@ If a shipped feature is causing issues:
 2. Set the relevant kill-switch to `true`:
    - `kill_momo_payments` — disables MoMo payment flows
    - `kill_credit_features` — disables credit/loan features
-   - `kill_ticket_purchase` — disables ticket purchasing
+   - `kill_ticket_purchase` — disables legacy checkout compatibility
 3. Publish changes (takes effect within 4 hours or on next app restart)
 4. Verify: force-close app → reopen → feature shows "temporarily unavailable"
 

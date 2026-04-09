@@ -54,7 +54,12 @@ extension _QrScannerScreenStateLogic on _QrScannerScreenState {
     final rawValue = barcodes.first.rawValue;
     if (rawValue == null || rawValue.isEmpty) return;
 
-    _applyState(() => _hasScanned = true);
+    _applyState(() {
+      _hasScanned = true;
+      if (widget.mode == QrScanMode.momo) {
+        _momoStatusLabel = 'QR Detected';
+      }
+    });
 
     if (widget.mode == QrScanMode.ticket) {
       _handleTicketScan(rawValue);

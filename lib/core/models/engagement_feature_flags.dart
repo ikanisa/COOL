@@ -111,6 +111,7 @@ class EngagementFeatureFlags {
       partnerChapterEnabled: false,
       biopayEnabled: true,
       momo: ManagedFeatureRollout(key: 'momo'),
+      // Retained for remote-config compatibility with legacy checkout paths.
       ticketPurchase: ManagedFeatureRollout(key: 'ticket_purchase'),
       credit: ManagedFeatureRollout(key: 'credit'),
     );

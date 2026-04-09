@@ -1,0 +1,139 @@
+part of 'cool_foundations.dart';
+
+@immutable
+class CoolTextStyles {
+  const CoolTextStyles._({
+    required TextTheme textTheme,
+    required Color defaultColor,
+  }) : _textTheme = textTheme,
+       _defaultColor = defaultColor;
+
+  final TextTheme _textTheme;
+  final Color _defaultColor;
+
+  TextTheme get theme => _textTheme;
+
+  TextStyle mono(
+    TextStyle? base, {
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+    double? height,
+  }) {
+    final resolvedBase =
+        base ??
+        _textTheme.bodyLarge ??
+        const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
+    return GoogleFonts.dmMono(
+      textStyle: resolvedBase.copyWith(
+        color: color ?? resolvedBase.color ?? _defaultColor,
+        fontWeight: fontWeight ?? resolvedBase.fontWeight,
+        letterSpacing: letterSpacing ?? resolvedBase.letterSpacing,
+        height: height ?? resolvedBase.height,
+      ),
+    );
+  }
+
+  TextStyle mobiLabel({Color? color}) {
+    final labelColor = _textTheme.labelSmall?.color ?? _defaultColor;
+    return GoogleFonts.dmMono(
+      textStyle: TextStyle(
+        fontSize: 10,
+        fontWeight: FontWeight.w600,
+        color: color ?? labelColor,
+        letterSpacing: 1.0,
+        height: 1.2,
+      ),
+    );
+  }
+
+  TextStyle mobiValue({Color? color}) {
+    return GoogleFonts.dmMono(
+      textStyle: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        color: color ?? _defaultColor,
+        letterSpacing: 0.0,
+        height: 1.3,
+      ),
+    );
+  }
+
+  TextStyle heroNumber({Color? color}) {
+    return GoogleFonts.dmMono(
+      textStyle: TextStyle(
+        fontSize: 48,
+        fontWeight: FontWeight.w900,
+        color: color ?? _defaultColor,
+        letterSpacing: -1.5,
+        height: 0.9,
+      ),
+    );
+  }
+
+  /// Space Grotesk — headline authority font.
+  /// Use for large-scale labels (w700+) where maximum visual impact is needed.
+  TextStyle headline(
+    TextStyle? base, {
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+    double? height,
+  }) {
+    final resolvedBase =
+        base ??
+        _textTheme.headlineMedium ??
+        const TextStyle(fontSize: 28, fontWeight: FontWeight.w800);
+    return GoogleFonts.spaceGrotesk(
+      textStyle: resolvedBase.copyWith(
+        color: color ?? resolvedBase.color ?? _defaultColor,
+        fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w800,
+        letterSpacing:
+            letterSpacing ?? resolvedBase.letterSpacing ?? -0.5,
+        height: height ?? resolvedBase.height,
+      ),
+    );
+  }
+
+  TextStyle display(
+    TextStyle? base, {
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+    double? height,
+  }) {
+    final resolvedBase =
+        base ??
+        _textTheme.bodyLarge ??
+        const TextStyle(fontSize: 18, fontWeight: FontWeight.w600);
+    return GoogleFonts.inter(
+      textStyle: resolvedBase.copyWith(
+        color: color ?? resolvedBase.color ?? _defaultColor,
+        fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w600,
+        letterSpacing: letterSpacing ?? resolvedBase.letterSpacing,
+        height: height ?? resolvedBase.height,
+      ),
+    );
+  }
+
+  TextStyle displayCondensed(
+    TextStyle? base, {
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+    double? height,
+  }) {
+    final resolvedBase =
+        base ??
+        _textTheme.titleLarge ??
+        const TextStyle(fontSize: 24, fontWeight: FontWeight.w800);
+    return GoogleFonts.barlowCondensed(
+      textStyle: resolvedBase.copyWith(
+        color: color ?? resolvedBase.color ?? _defaultColor,
+        fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w900,
+        letterSpacing: letterSpacing ?? resolvedBase.letterSpacing,
+        height: height ?? resolvedBase.height,
+      ),
+    );
+  }
+}

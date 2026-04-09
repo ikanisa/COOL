@@ -30,13 +30,13 @@ SMS ingest path and the admin operations dashboard.
 - Reconciliation drives pending app payments toward confirmation and surfaces
   manual-review states when automatic matching is not safe.
 
-### Partner checkout
+### Shared-receiver compatibility
 
-- Rayon ticket, shop, and support checkout still open via MoMo/USSD from the
-  mobile client.
-- Checkout creation happens in
-  `lib/features/partners/repositories/rayon_sports_repository.dart`.
-- All partner checkout flows still depend on the downstream SMS parse +
+- The current mobile release surface centers on group contributions, bank
+  custody flows, and admin-managed payment routes.
+- Historical shared-receiver checkout records may still appear in telemetry,
+  admin tooling, or migration history.
+- Any shared-receiver flow still depends on the downstream SMS parse +
   reconciliation pipeline before the backend marks payment-linked records as
   confirmed/paid/valid.
 
@@ -66,7 +66,7 @@ The release-truth cards intentionally track only server-trusted surfaces:
 - Edge Functions
 - Config hygiene
 
-Mobile-reported SMS ingest and partner checkout signals remain visible in the
+Mobile-reported SMS ingest and shared-receiver compatibility signals remain visible in the
 recent-signal feed, but they do not drive release status because they originate
 from authenticated app telemetry rather than server-observed state.
 
@@ -162,9 +162,9 @@ Function and stamped with `ingest_origin = mobile_app`:
   - listener activation
   - inbox recovery success/failure
   - raw SMS capture and parse-queue success/failure
-- Partner checkout
-  - successful ticket/shop/support handoff creation
-  - checkout failures before payment sync starts
+- Shared-receiver compatibility
+  - successful managed handoff creation
+  - handoff failures before payment sync starts
 
 These mobile-origin events are useful for debugging and support triage, but
 they are not treated as release-gating truth.

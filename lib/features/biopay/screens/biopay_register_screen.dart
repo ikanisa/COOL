@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,16 +7,12 @@ import '../../../core/config/country_catalog.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/phone_validator.dart';
-import '../../../shared/widgets/cool_button.dart';
-import '../../../shared/widgets/cool_card.dart';
-import '../../../shared/widgets/cool_screen_scaffold.dart';
-import '../../../shared/widgets/cool_text_field.dart';
 import '../../../shared/widgets/cool_toast.dart';
-import '../../../shared/widgets/momo_route_type_selector.dart';
 import '../../auth/models/user_profile.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/biopay_enrollment_draft.dart';
 import '../providers/biopay_providers.dart';
+import '../widgets/biopay_surface.dart';
 
 class BiopayRegisterScreen extends ConsumerStatefulWidget {
   const BiopayRegisterScreen({super.key});
@@ -65,121 +60,95 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colors = context.coolSemanticColors;
-    final space = context.coolSpace;
     final authState = ref.watch(authProvider);
     final user = authState.user;
     final activeProfile = ref.watch(biopayProfileProvider);
     final modelIssue = ref.watch(biopayModelAssetIssueProvider).valueOrNull;
     final country = _resolveCountry(user);
     final hasActiveEnrollment = activeProfile.valueOrNull?.active ?? false;
+    final supportsCode = country.supportsMomoCode;
     final usesCodeRoute =
-        country.supportsMomoCode &&
-        _selectedRouteType == MomoRecipientType.code;
+        supportsCode && _selectedRouteType == MomoRecipientType.code;
 
-    return CoolScreenScaffold(
+    return BiopayLightScaffold(
+      topPadding: CoolSpace.x2,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          BiopayTopBar(
+            title: 'Face ID Setup',
+            onBack: () {
+              if (context.canPop()) {
+                context.pop();
+                return;
+              }
+              context.go(AppRoutes.biopayHome);
+            },
+          ),
+          const SizedBox(height: CoolSpace.x6),
           Text(
-            'Register My Face',
-            style: theme.textTheme.headlineMedium?.copyWith(
-              color: colors.primaryText,
-              fontWeight: FontWeight.w800,
-              letterSpacing: -0.3,
+            'Link your face\nto your MoMo.',
+            style: Theme.of(context).textTheme.displayMedium?.copyWith(
+              color: BiopaySurfaceColors.text,
+              fontWeight: FontWeight.w900,
+              letterSpacing: -2.2,
+              height: 0.98,
             ),
-          ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.15, end: 0),
+          ),
           if (hasActiveEnrollment) ...[
-            SizedBox(height: space.x4),
-            const _RegisterNoticeCard(
-              icon: Icons.verified_rounded,
-              title: 'Face ID already registered',
-              message: 'Continuing will replace the current face scan.',
+            const SizedBox(height: CoolSpace.x4),
+            const _InlineNotice(
+              color: BiopaySurfaceColors.success,
+              text: 'Face ID already linked. A new scan will replace it.',
             ),
           ],
-          SizedBox(height: space.x5),
-          if (country.supportsMomoCode) ...[
-            const _FieldLabel(label: 'Receive With'),
-            SizedBox(height: space.x3),
-            MomoRouteTypeSelector(
-              value: _selectedRouteType,
-              phoneLabel: 'Number',
-              codeLabel: 'Code',
-              onChanged: (value) {
+          if (modelIssue != null) ...[
+            const SizedBox(height: CoolSpace.x4),
+            _InlineNotice(color: Colors.redAccent, text: modelIssue),
+          ],
+          const SizedBox(height: CoolSpace.x6),
+          if (supportsCode) ...[
+            BiopaySegmentedControl(
+              labels: const ['Number', 'Code'],
+              selectedIndex: _selectedRouteType == MomoRecipientType.phoneNumber
+                  ? 0
+                  : 1,
+              onSelected: (index) {
                 setState(() {
-                  _selectedRouteType = value;
+                  _selectedRouteType = index == 0
+                      ? MomoRecipientType.phoneNumber
+                      : MomoRecipientType.code;
                   _numberError = null;
                   _codeError = null;
                 });
               },
             ),
-            SizedBox(height: space.x5),
+            const SizedBox(height: CoolSpace.x4),
           ],
-          CoolCard(
-            variant: CoolCardVariant.outline,
-            cardPadding: CoolCardPadding.lg,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _FieldLabel(label: usesCodeRoute ? 'MoMo Code' : 'MoMo Number'),
-                SizedBox(height: space.x3),
-                if (usesCodeRoute)
-                  CoolTextField(
-                    hint: country.momoCodeExample ?? '123456',
-                    controller: _momoCodeController,
-                    keyboardType: TextInputType.number,
-                    prefixIcon: Icons.tag_rounded,
-                    textInputAction: TextInputAction.done,
-                    onChanged: (_) {
-                      if (_codeError != null) {
-                        setState(() => _codeError = null);
-                      }
-                    },
-                  )
-                else
-                  CoolTextField(
-                    hint: country.phoneExampleHint(),
-                    controller: _momoNumberController,
-                    keyboardType: TextInputType.phone,
-                    prefixIcon: Icons.phone_iphone_rounded,
-                    textInputAction: TextInputAction.done,
-                    onChanged: (_) {
-                      if (_numberError != null) {
-                        setState(() => _numberError = null);
-                      }
-                    },
-                  ),
-                if (!usesCodeRoute && _numberError != null) ...[
-                  SizedBox(height: space.x2),
-                  _FieldError(message: _numberError!),
-                ],
-                if (usesCodeRoute && _codeError != null) ...[
-                  SizedBox(height: space.x2),
-                  _FieldError(message: _codeError!),
-                ],
-              ],
-            ),
+          _BiopayInputField(
+            label: usesCodeRoute ? 'Merchant Code' : 'MoMo Number',
+            controller: usesCodeRoute
+                ? _momoCodeController
+                : _momoNumberController,
+            keyboardType: TextInputType.number,
+            errorText: usesCodeRoute ? _codeError : _numberError,
+            onChanged: () {
+              if (_numberError != null || _codeError != null) {
+                setState(() {
+                  _numberError = null;
+                  _codeError = null;
+                });
+              }
+            },
           ),
-          if (modelIssue != null) ...[
-            SizedBox(height: space.x4),
-            _RegisterNoticeCard(
-              icon: Icons.warning_amber_rounded,
-              title: 'Face capture unavailable',
-              message: modelIssue,
-              isWarning: true,
-            ),
-          ],
-          SizedBox(height: space.x5),
-          CoolButton(
-                label: hasActiveEnrollment ? 'Update Face Scan' : 'Continue',
-                icon: Icons.arrow_forward_rounded,
-                isLoading: _isSubmitting,
-                onTap: modelIssue != null ? null : _saveRouteAndContinue,
-              )
-              .animate()
-              .fadeIn(delay: 250.ms, duration: 400.ms)
-              .scale(begin: const Offset(0.95, 0.95)),
+          const SizedBox(height: CoolSpace.x8),
+          BiopayPrimaryButton(
+            label: hasActiveEnrollment
+                ? 'Update Enrollment'
+                : 'Start Enrollment',
+            isLoading: _isSubmitting,
+            onTap: modelIssue != null ? null : _saveRouteAndContinue,
+          ),
         ],
       ),
     );
@@ -345,105 +314,92 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
   }
 }
 
-class _FieldLabel extends StatelessWidget {
-  const _FieldLabel({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return Text(
-      label,
-      style: theme.textTheme.labelMedium?.copyWith(
-        color: colors.secondaryText,
-        fontWeight: FontWeight.w700,
-        letterSpacing: 0.2,
-      ),
-    );
-  }
-}
-
-class _RegisterNoticeCard extends StatelessWidget {
-  const _RegisterNoticeCard({
-    required this.icon,
-    required this.title,
-    required this.message,
-    this.isWarning = false,
+class _BiopayInputField extends StatelessWidget {
+  const _BiopayInputField({
+    required this.label,
+    required this.controller,
+    required this.keyboardType,
+    required this.onChanged,
+    this.errorText,
   });
 
-  final IconData icon;
-  final String title;
-  final String message;
-  final bool isWarning;
+  final String label;
+  final TextEditingController controller;
+  final TextInputType keyboardType;
+  final VoidCallback onChanged;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    final tone = isWarning ? colors.warning : colors.accent;
-
-    return CoolCard(
-      variant: CoolCardVariant.outline,
-      borderColor: tone.withValues(alpha: 0.35),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: tone.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(CoolRadii.md),
-            ),
-            alignment: Alignment.center,
-            child: Icon(icon, color: tone, size: 20),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        BiopaySectionCard(
+          height: 128,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              BiopayFieldLabel(label: label),
+              const Spacer(),
+              TextField(
+                controller: controller,
+                keyboardType: keyboardType,
+                onChanged: (_) => onChanged(),
+                style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  color: BiopaySurfaceColors.text,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: -1.4,
+                ),
+                decoration: const InputDecoration(
+                  isCollapsed: true,
+                  border: InputBorder.none,
+                  hintText: '',
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: CoolSpace.x3),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    color: colors.primaryText,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: CoolSpace.x1),
-                Text(
-                  message,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: colors.secondaryText,
-                    height: 1.45,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
+        ),
+        if (errorText != null) ...[
+          const SizedBox(height: CoolSpace.x2),
+          Text(
+            errorText!,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Colors.redAccent,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ],
-      ),
+      ],
     );
   }
 }
 
-class _FieldError extends StatelessWidget {
-  const _FieldError({required this.message});
+class _InlineNotice extends StatelessWidget {
+  const _InlineNotice({required this.color, required this.text});
 
-  final String message;
+  final Color color;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return Text(
-      message,
-      style: theme.textTheme.bodySmall?.copyWith(
-        color: colors.danger,
-        fontWeight: FontWeight.w600,
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(
+        horizontal: CoolSpace.x4,
+        vertical: CoolSpace.x3,
+      ),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: color.withValues(alpha: 0.18)),
+      ),
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: color,
+          fontWeight: FontWeight.w700,
+          height: 1.4,
+        ),
       ),
     );
   }

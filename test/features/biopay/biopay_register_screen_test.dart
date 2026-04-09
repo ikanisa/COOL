@@ -116,7 +116,7 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.enterText(find.byType(EditableText).first, '0788123456');
-    await tester.tap(find.text('Continue'));
+    await tester.tap(find.text('Start Enrollment'));
     await tester.pumpAndSettle();
 
     expect(find.textContaining('scan:BioPay User'), findsOneWidget);
