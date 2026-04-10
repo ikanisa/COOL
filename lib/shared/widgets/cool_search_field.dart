@@ -122,7 +122,7 @@ class _CoolSearchFieldState extends State<CoolSearchField> {
       textField: true,
       label: widget.hint,
       hint: 'Search field. Double tap to edit.',
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           color: colors.inputSurface,
           borderRadius: BorderRadius.circular(fieldRadius),
