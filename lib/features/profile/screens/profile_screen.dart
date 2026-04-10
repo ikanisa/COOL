@@ -77,7 +77,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       isAdmin: authState.user?.isAdmin ?? false,
     );
     final faceIdSubtitle = !faceIdEnabled
-        ? 'TEMPORARILY UNAVAILABLE'
+        ? 'COMING SOON'
         : biopayProfile.when(
             data: (profile) {
               if (profile?.active ?? false) {
