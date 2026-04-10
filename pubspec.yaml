@@ -31,9 +31,6 @@ dependencies:
   # Supabase
   supabase_flutter: ^2.10.2
 
-  # Maps
-  google_maps_flutter: ^2.10.0
-
   # Location & permissions
   geolocator: ^14.0.2
   permission_handler: ^12.0.1
