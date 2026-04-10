@@ -210,10 +210,23 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
-            // The current minified release crashes in Flutter engine startup on
-            // physical Android 13 hardware. Keep the release build signed and
-            // optimized by the compiler, but disable R8/resource shrinking until
-            // the shrinker regression is isolated.
+            // ⛔ FORMAL EXCEPTION — R8 shrinking disabled (tracked: 2026-04-10)
+            //
+            // Root cause: R8/minified release crashes in Flutter engine startup
+            //   on physical Android 13 hardware (Pixel 4a). Crash occurs before
+            //   any Dart code runs, likely a Flutter engine JNI symbol stripping
+            //   issue with the current Flutter SDK (3.38.9) + R8 8.5.x.
+            //
+            // Impact: Release APK is ~30% larger than necessary, code is not
+            //   obfuscated, and unused resources are retained.
+            //
+            // Required follow-up before production go-live:
+            //   1. Test with Flutter 3.39+ which may fix the engine startup crash.
+            //   2. If still reproducing, add targeted ProGuard keep rules for
+            //      Flutter engine JNI symbols and re-enable minification.
+            //   3. File a Flutter issue if the crash persists across SDK versions.
+            //
+            // This exception MUST be revisited for the next Play Store submission.
             isMinifyEnabled = false
             isShrinkResources = false
             proguardFiles(

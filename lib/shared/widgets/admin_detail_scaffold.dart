@@ -18,6 +18,8 @@ class AdminDetailScaffold extends StatelessWidget {
     this.showGlow = false,
     this.backTooltip,
     this.padding,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
     super.key,
   });
 
@@ -37,6 +39,8 @@ class AdminDetailScaffold extends StatelessWidget {
 
   /// Custom padding override. Passed through to [CoreDetailScaffold].
   final EdgeInsets? padding;
+  final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +53,8 @@ class AdminDetailScaffold extends StatelessWidget {
       title: title,
       subtitle: subtitle,
       padding: padding,
+      floatingActionButton: floatingActionButton,
+      floatingActionButtonLocation: floatingActionButtonLocation,
       child: child,
     );
   }

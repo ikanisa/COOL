@@ -15,8 +15,8 @@
     "browser"
   ],
   "orientation": "portrait-primary",
-  "background_color": "#F3F0EA",
-  "theme_color": "#0D110E",
+  "background_color": "#F1EEFF",
+  "theme_color": "#0D0A27",
   "categories": [
     "finance",
     "productivity",

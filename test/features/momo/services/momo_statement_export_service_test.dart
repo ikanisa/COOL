@@ -28,16 +28,16 @@ void main() {
       File('assets/images/cool_logo_mark.png').readAsBytesSync(),
     );
     final regularFontBytes = Uint8List.fromList(
-      File('assets/fonts/Lato-Regular.ttf').readAsBytesSync(),
+      File('google_fonts/Manrope-Regular.ttf').readAsBytesSync(),
     );
     final boldFontBytes = Uint8List.fromList(
-      File('assets/fonts/Lato-Bold.ttf').readAsBytesSync(),
+      File('google_fonts/Manrope-Bold.ttf').readAsBytesSync(),
     );
     service = MomoStatementExportService(
       assets: _TestAssetBundle(<String, Uint8List>{
         'assets/images/cool_logo_mark.png': logoBytes,
-        'assets/fonts/Lato-Regular.ttf': regularFontBytes,
-        'assets/fonts/Lato-Bold.ttf': boldFontBytes,
+        'google_fonts/Manrope-Regular.ttf': regularFontBytes,
+        'google_fonts/Manrope-Bold.ttf': boldFontBytes,
       }),
     );
   });

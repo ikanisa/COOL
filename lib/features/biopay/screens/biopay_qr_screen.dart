@@ -33,7 +33,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
     super.initState();
     _numberController = TextEditingController();
     _codeController = TextEditingController();
-    _amountController = TextEditingController(text: '12,356');
+    _amountController = TextEditingController();
   }
 
   @override
@@ -298,6 +298,31 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                   ),
                 ),
               ],
+              const SizedBox(height: CoolSpace.x5),
+              SizedBox(
+                width: double.infinity,
+                child: TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: TextButton.styleFrom(
+                    foregroundColor: colors.secondaryText,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: CoolSpace.x3,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(CoolRadii.pill),
+                    ),
+                  ),
+                  child: Text(
+                    'DONE',
+                    style: context.coolText.mono(
+                      Theme.of(context).textTheme.labelLarge,
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         );

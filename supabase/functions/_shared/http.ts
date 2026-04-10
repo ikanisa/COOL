@@ -1,5 +1,50 @@
+/**
+ * Allowed origins for CORS.
+ * Mobile Flutter clients don't send an Origin header, so requests without
+ * Origin are accepted. Browser-based callers (PWA) must match this list.
+ */
+const ALLOWED_ORIGINS: string[] = [
+  "https://pwa.cool.app",
+  "https://cool.app",
+  "https://cool.ikanisa.com",
+];
+
+function resolveAllowedOrigin(request: Request): string {
+  const origin = request.headers.get("origin")?.trim();
+  if (!origin) {
+    // Mobile client or server-to-server: no browser Origin header.
+    return ALLOWED_ORIGINS[0];
+  }
+
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    return origin;
+  }
+
+  // Development / local: allow Supabase local dev origins.
+  if (
+    origin.startsWith("http://localhost:") ||
+    origin.startsWith("http://127.0.0.1:")
+  ) {
+    return origin;
+  }
+
+  // Unknown origin — return the first allowed origin (browser will block).
+  return ALLOWED_ORIGINS[0];
+}
+
+export function buildCorsHeaders(request: Request): Record<string, string> {
+  return {
+    "Access-Control-Allow-Origin": resolveAllowedOrigin(request),
+    "Access-Control-Allow-Headers":
+      "authorization, x-client-info, apikey, content-type, x-cron-secret, x-firebase-appcheck",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Vary": "Origin",
+  };
+}
+
+/** @deprecated Use buildCorsHeaders(request) for origin-aware CORS. */
 export const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Origin": ALLOWED_ORIGINS[0],
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type, x-cron-secret, x-firebase-appcheck",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -7,7 +52,7 @@ export const corsHeaders = {
 
 export function handleCors(request: Request): Response | null {
   if (request.method === "OPTIONS") {
-    return new Response("ok", { headers: corsHeaders });
+    return new Response("ok", { headers: buildCorsHeaders(request) });
   }
 
   return null;

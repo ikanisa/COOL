@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_brand_mark.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_error_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
@@ -16,18 +17,15 @@ part 'home_communities_section.dart';
 part 'home_operations_section.dart';
 part 'home_sections_support.dart';
 
-
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
     required this.displayName,
-    required this.initials,
     required this.avatarUrl,
     required this.onNotificationsTap,
     super.key,
   });
 
   final String displayName;
-  final String initials;
   final String? avatarUrl;
   final VoidCallback onNotificationsTap;
 
@@ -41,7 +39,7 @@ class HomeHeader extends StatelessWidget {
         Stack(
           clipBehavior: Clip.none,
           children: [
-            _ProfileAvatar(avatarUrl: avatarUrl, initials: initials),
+            _ProfileAvatar(avatarUrl: avatarUrl),
             Positioned(
               right: -1,
               bottom: 2,
@@ -51,10 +49,13 @@ class HomeHeader extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: colors.success,
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: colors.appBackground,
-                    width: 2,
-                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: colors.shadowColor.withValues(alpha: 0.28),
+                      blurRadius: 10,
+                      spreadRadius: 1,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -76,7 +77,7 @@ class HomeHeader extends StatelessWidget {
         ),
         const SizedBox(width: CoolSpace.x3),
         _HomeIconButton(
-          icon: Icons.notifications_none_rounded,
+          icon: Icons.settings_outlined,
           onTap: onNotificationsTap,
         ),
       ],
@@ -176,14 +177,18 @@ class HomeSavingsHeroCard extends StatelessWidget {
                           vertical: CoolSpace.x2,
                         ),
                         decoration: BoxDecoration(
-                          color: colors.accentForeground.withValues(alpha: 0.14),
+                          color: colors.accentForeground.withValues(
+                            alpha: 0.14,
+                          ),
                           borderRadius: BorderRadius.circular(CoolRadii.pill),
                         ),
                         child: Text(
                           'SAVINGS BALANCE',
                           style: context.coolText.mono(
                             theme.textTheme.labelSmall,
-                            color: colors.accentForeground.withValues(alpha: 0.86),
+                            color: colors.accentForeground.withValues(
+                              alpha: 0.86,
+                            ),
                             fontWeight: FontWeight.w800,
                             letterSpacing: 1.2,
                           ),
@@ -217,11 +222,7 @@ class HomeSavingsHeroCard extends StatelessWidget {
 }
 
 class HomeSectionHeader extends StatelessWidget {
-  const HomeSectionHeader({
-    required this.title,
-    this.trailing,
-    super.key,
-  });
+  const HomeSectionHeader({required this.title, this.trailing, super.key});
 
   final String title;
   final Widget? trailing;

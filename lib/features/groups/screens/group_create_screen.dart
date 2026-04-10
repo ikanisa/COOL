@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_glass_header_surface.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_text_field.dart';
 import '../../../shared/widgets/cool_toast.dart';
-import '../../auth/models/user_profile.dart';
+import '../../../core/utils/user_error.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../auth/widgets/require_verified_user.dart';
 import '../providers/groups_provider.dart';
 
 class GroupCreateScreen extends ConsumerStatefulWidget {
@@ -25,10 +28,14 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _targetAmountController = TextEditingController();
-  final _monthlyContributionController = TextEditingController();
+  final _contributionAmountController = TextEditingController();
+  final _momoNumberController = TextEditingController();
+  final _momoCodeController = TextEditingController();
 
-  String _visibility = 'private';
   String _type = 'saving';
+  String _frequency = 'monthly';
+  bool _useCustomMomo = false;
+  MomoRecipientType _customMomoRouteType = MomoRecipientType.phoneNumber;
   bool _isSubmitting = false;
 
   @override
@@ -36,8 +43,23 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
     _nameController.dispose();
     _descriptionController.dispose();
     _targetAmountController.dispose();
-    _monthlyContributionController.dispose();
+    _contributionAmountController.dispose();
+    _momoNumberController.dispose();
+    _momoCodeController.dispose();
     super.dispose();
+  }
+
+  /// Derive frequency based on type rules:
+  /// - saving: always recurring (daily/weekly/monthly), user must pick one
+  /// - community private: always one_off
+  /// - community public: can be one_off or recurring
+  String get _effectiveFrequency {
+    if (_type == 'saving') {
+      return _frequency; // daily, weekly, or monthly
+    }
+    // community private is always one_off (handled via visibility=private default)
+    // community public can be one_off or recurring
+    return _frequency;
   }
 
   Future<void> _submit() async {
@@ -48,23 +70,57 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
       return;
     }
 
+    // Gate: require verified phone before creating a group.
+    if (!await requireVerifiedUser(context, ref)) {
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+
     final user = ref.read(authProvider).user;
     if (user == null) {
-      CoolToast.error(context, 'Complete your profile first.');
+      CoolToast.error(context, 'Verification completed but profile missing.');
       return;
+    }
+
+    // Determine MoMo route values
+    MomoRecipientType? routeType;
+    String? recipientValue;
+    if (_useCustomMomo) {
+      routeType = _customMomoRouteType;
+      recipientValue = _customMomoRouteType == MomoRecipientType.code
+          ? _momoCodeController.text.trim()
+          : _momoNumberController.text.trim();
+      if (recipientValue.isEmpty) {
+        recipientValue = null;
+      }
+    } else {
+      routeType = user.effectiveMomoRouteType;
+      recipientValue = user.momoRecipientValue.trim();
+      if (recipientValue.isEmpty) {
+        recipientValue = null;
+      }
     }
 
     setState(() => _isSubmitting = true);
     try {
-      final group = await ref.read(groupRepositoryProvider).createGroup(
-        creator: user,
-        name: _nameController.text,
-        visibility: _visibility,
-        type: _type,
-        description: _descriptionController.text,
-        targetAmount: _parseAmount(_targetAmountController.text),
-        monthlyContribution: _parseAmount(_monthlyContributionController.text),
-      );
+      final group = await ref
+          .read(groupRepositoryProvider)
+          .createGroup(
+            creator: user,
+            name: _nameController.text,
+            visibility: 'private',
+            type: _type,
+            description: _descriptionController.text,
+            targetAmount: _parseAmount(_targetAmountController.text),
+            monthlyContribution: _parseAmount(
+              _contributionAmountController.text,
+            ),
+            customMomoRouteType: routeType,
+            customRecipientValue: recipientValue,
+            frequency: _effectiveFrequency,
+          );
       ref.read(groupsRefreshTickProvider.notifier).state++;
       if (!mounted) {
         return;
@@ -75,7 +131,7 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
       if (!mounted) {
         return;
       }
-      CoolToast.error(context, error.toString());
+      CoolToast.error(context, describeUserFacingError(error));
     } finally {
       if (mounted) {
         setState(() => _isSubmitting = false);
@@ -88,8 +144,16 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
     final colors = context.coolSemanticColors;
     final space = context.coolSpace;
     final text = context.coolText;
-    final user = ref.watch(authProvider).user;
-    final routeLabel = _walletRouteLabel(user);
+    final country = AppMarket.country;
+
+    // Frequency: saving = recurring (picker), community = always one_off
+    // (all user-created groups are private; community private = one_off)
+    final showFrequencyPicker = _type == 'saving';
+
+    // Force community to one_off
+    if (_type == 'community' && _frequency != 'one_off') {
+      _frequency = 'one_off';
+    }
 
     return CoolScreenBackground(
       child: Scaffold(
@@ -97,126 +161,132 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-        title: Text(context.l10n.groupsCreateNewTitle),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(space.x4, space.x3, space.x4, space.x6),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  context.l10n.groupsCreateNewSubtitle,
-                  style: text.mobiLabel(color: colors.secondaryText),
-                ),
-                SizedBox(height: space.x4),
-                CoolTextField(
-                  label: context.l10n.groupNameLabel,
-                  hint: context.l10n.groupNameHint,
-                  controller: _nameController,
-                  textInputAction: TextInputAction.next,
-                  validator: (value) {
-                    final trimmed = value?.trim() ?? '';
-                    if (trimmed.isEmpty) {
-                      return 'Enter a group name.';
-                    }
-                    if (trimmed.length < 3) {
-                      return 'Use at least 3 characters.';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: space.x4),
-                CoolTextField(
-                  label: context.l10n.groupDescriptionLabel,
-                  hint: 'What is this group for?',
-                  controller: _descriptionController,
-                  maxLines: 3,
-                ),
-                SizedBox(height: space.x4),
-                const _SectionLabel(label: 'TYPE'),
-                SizedBox(height: space.x2),
-                _OptionRow(
-                  firstLabel: 'Saving',
-                  firstSelected: _type == 'saving',
-                  onFirstTap: () => setState(() => _type = 'saving'),
-                  secondLabel: 'Community',
-                  secondSelected: _type == 'community',
-                  onSecondTap: () => setState(() => _type = 'community'),
-                ),
-                SizedBox(height: space.x4),
-                const _SectionLabel(label: 'VISIBILITY'),
-                SizedBox(height: space.x2),
-                _OptionRow(
-                  firstLabel: 'Private',
-                  firstSelected: _visibility == 'private',
-                  onFirstTap: () => setState(() => _visibility = 'private'),
-                  secondLabel: 'Public',
-                  secondSelected: _visibility == 'public',
-                  onSecondTap: () => setState(() => _visibility = 'public'),
-                ),
-                SizedBox(height: space.x4),
-                CoolTextField(
-                  label: 'Target Amount (RWF)',
-                  hint: 'Optional',
-                  controller: _targetAmountController,
-                  keyboardType: TextInputType.number,
-                ),
-                SizedBox(height: space.x4),
-                CoolTextField(
-                  label: 'Monthly Contribution (RWF)',
-                  hint: 'Optional',
-                  controller: _monthlyContributionController,
-                  keyboardType: TextInputType.number,
-                ),
-                SizedBox(height: space.x4),
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(space.x4),
-                  decoration: BoxDecoration(
-                    color: colors.cardSurface,
-                    borderRadius: BorderRadius.circular(CoolRadii.md),
-                    boxShadow: CoolShadows.ambientFloat(strength: 0.15),
+          toolbarHeight: 84,
+          flexibleSpace: const CoolGlassHeaderSurface(),
+          title: Text(context.l10n.groupsCreateNewTitle),
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(
+              space.x4,
+              space.x3,
+              space.x4,
+              space.x6,
+            ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    context.l10n.groupsCreateNewSubtitle,
+                    style: text.mobiLabel(color: colors.secondaryText),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'PAYMENT ROUTE',
-                        style: text.mobiLabel(color: colors.tertiaryText),
-                      ),
-                      SizedBox(height: space.x1),
-                      Text(
-                        routeLabel,
-                        style: text.display(
-                          null,
-                          color: colors.primaryText,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      SizedBox(height: space.x2),
-                      Text(
-                        user?.hasMomoRecipient == true
-                            ? 'New contributions will point members to this route.'
-                            : 'No wallet route is configured yet. You can still create the group, but members will not get a prefilled payment route until you set up MoMo in Settings.',
-                        style: text.mobiLabel(color: colors.secondaryText),
-                      ),
-                    ],
+                  SizedBox(height: space.x4),
+
+                  // ── Group Name (required) ─────────────────────────────
+                  CoolTextField(
+                    label: context.l10n.groupNameLabel,
+                    hint: context.l10n.groupNameHint,
+                    controller: _nameController,
+                    textInputAction: TextInputAction.next,
+                    validator: (value) {
+                      final trimmed = value?.trim() ?? '';
+                      if (trimmed.isEmpty) {
+                        return 'Enter a group name.';
+                      }
+                      if (trimmed.length < 3) {
+                        return 'Use at least 3 characters.';
+                      }
+                      return null;
+                    },
                   ),
-                ),
-                SizedBox(height: space.x6),
-                CoolButton(
-                  label: 'CREATE GROUP',
-                  onTap: _submit,
-                  isLoading: _isSubmitting,
-                ),
-              ],
+                  SizedBox(height: space.x4),
+
+                  // ── Description (optional) ────────────────────────────
+                  CoolTextField(
+                    label: 'Description (optional)',
+                    hint: 'What is this group for?',
+                    controller: _descriptionController,
+                    maxLines: 3,
+                  ),
+                  SizedBox(height: space.x5),
+
+                  // ── Type ──────────────────────────────────────────────
+                  const _SectionLabel(label: 'TYPE'),
+                  SizedBox(height: space.x2),
+                  _OptionRow(
+                    firstLabel: 'Saving',
+                    firstSelected: _type == 'saving',
+                    onFirstTap: () => setState(() {
+                      _type = 'saving';
+                      _frequency = 'monthly'; // savings default to monthly
+                    }),
+                    secondLabel: 'Community',
+                    secondSelected: _type == 'community',
+                    onSecondTap: () => setState(() {
+                      _type = 'community';
+                      _frequency = 'one_off'; // community defaults to one_off
+                    }),
+                  ),
+                  SizedBox(height: space.x5),
+
+                  // ── Frequency ─────────────────────────────────────────
+                  if (showFrequencyPicker) ...[
+                    const _SectionLabel(label: 'FREQUENCY'),
+                    SizedBox(height: space.x2),
+                    _FrequencyPicker(
+                      options: const ['daily', 'weekly', 'monthly'],
+                      selected: _frequency,
+                      onSelected: (freq) => setState(() => _frequency = freq),
+                    ),
+                    SizedBox(height: space.x5),
+                  ],
+
+                  // ── Target Amount (optional) ──────────────────────────
+                  CoolTextField(
+                    label: 'Target Amount — ${country.currencyCode} (optional)',
+                    hint: 'e.g. 500,000',
+                    controller: _targetAmountController,
+                    keyboardType: TextInputType.number,
+                  ),
+                  SizedBox(height: space.x4),
+
+                  // ── Contribution Amount (optional) ────────────────────
+                  CoolTextField(
+                    label:
+                        'Contribution Amount — ${country.currencyCode} (optional)',
+                    hint: 'e.g. 10,000',
+                    controller: _contributionAmountController,
+                    keyboardType: TextInputType.number,
+                  ),
+                  SizedBox(height: space.x5),
+
+                  // ── MoMo Receive Route ────────────────────────────────
+                  _MomoRouteCard(
+                    useCustom: _useCustomMomo,
+                    routeType: _customMomoRouteType,
+                    momoNumberController: _momoNumberController,
+                    momoCodeController: _momoCodeController,
+                    supportsMomoCode: country.supportsMomoCode,
+                    onToggleCustom: (value) =>
+                        setState(() => _useCustomMomo = value),
+                    onRouteTypeChanged: (type) =>
+                        setState(() => _customMomoRouteType = type),
+                  ),
+                  SizedBox(height: space.x6),
+
+                  // ── Submit ────────────────────────────────────────────
+                  CoolButton(
+                    label: 'CREATE GROUP',
+                    onTap: _submit,
+                    isLoading: _isSubmitting,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -232,18 +302,284 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
     }
     return value;
   }
+}
 
-  String _walletRouteLabel(UserProfile? user) {
-    if (user == null || user.hasMomoRecipient != true) {
-      return 'No route configured';
-    }
+// ═══════════════════════════════════════════════════════════════════════
+// MOMO ROUTE CARD (matches BioPay-style segmented control from screenshot)
+// ═══════════════════════════════════════════════════════════════════════
 
-    final routeType = user.effectiveMomoRouteType == MomoRecipientType.code
-        ? 'Code'
-        : 'Phone';
-    return '$routeType · ${user.momoRecipientValue}';
+class _MomoRouteCard extends StatelessWidget {
+  const _MomoRouteCard({
+    required this.useCustom,
+    required this.routeType,
+    required this.momoNumberController,
+    required this.momoCodeController,
+    required this.supportsMomoCode,
+    required this.onToggleCustom,
+    required this.onRouteTypeChanged,
+  });
+
+  final bool useCustom;
+  final MomoRecipientType routeType;
+  final TextEditingController momoNumberController;
+  final TextEditingController momoCodeController;
+  final bool supportsMomoCode;
+  final ValueChanged<bool> onToggleCustom;
+  final ValueChanged<MomoRecipientType> onRouteTypeChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final text = context.coolText;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Toggle
+        InkWell(
+          onTap: () => onToggleCustom(!useCustom),
+          borderRadius: BorderRadius.circular(CoolRadii.md),
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: space.x2),
+            child: Row(
+              children: [
+                AnimatedContainer(
+                  duration: CoolMotion.quick,
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: useCustom
+                        ? colors.accent.withValues(alpha: 0.86)
+                        : colors.cardSurfaceStrong.withValues(alpha: 0.42),
+                    borderRadius: BorderRadius.circular(CoolRadii.xs),
+                    border: Border.all(
+                      color: useCustom
+                          ? colors.accentStrong.withValues(alpha: 0.75)
+                          : colors.borderStrong.withValues(alpha: 0.75),
+                      width: 1.2,
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: useCustom
+                      ? Icon(
+                          Icons.check_rounded,
+                          size: 16,
+                          color: colors.accentForeground,
+                        )
+                      : null,
+                ),
+                SizedBox(width: space.x3),
+                Expanded(
+                  child: Text(
+                    'USE DIFFERENT MOMO FOR THIS GROUP',
+                    style: text
+                        .mobiLabel(color: colors.primaryText)
+                        .copyWith(
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.5,
+                        ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        if (useCustom) ...[
+          SizedBox(height: space.x3),
+          // Segmented control (NUMBER / CODE) — BioPay-style
+          Container(
+            decoration: BoxDecoration(
+              color: colors.cardSurface,
+              borderRadius: BorderRadius.circular(CoolRadii.sm),
+              boxShadow: CoolShadows.ambientFloat(strength: 0.3),
+            ),
+            padding: const EdgeInsets.all(6),
+            child: Row(
+              children: [
+                Expanded(
+                  child: _SegmentTab(
+                    label: 'NUMBER',
+                    selected: routeType == MomoRecipientType.phoneNumber,
+                    onTap: () =>
+                        onRouteTypeChanged(MomoRecipientType.phoneNumber),
+                  ),
+                ),
+                if (supportsMomoCode)
+                  Expanded(
+                    child: _SegmentTab(
+                      label: 'CODE',
+                      selected: routeType == MomoRecipientType.code,
+                      onTap: () => onRouteTypeChanged(MomoRecipientType.code),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          SizedBox(height: space.x3),
+
+          // Input field card
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(
+              horizontal: space.x5,
+              vertical: space.x4,
+            ),
+            decoration: BoxDecoration(
+              color: colors.cardSurface,
+              borderRadius: BorderRadius.circular(CoolRadii.lg),
+              boxShadow: CoolShadows.ambientFloat(strength: 0.2),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  routeType == MomoRecipientType.code
+                      ? 'MERCHANT CODE'
+                      : 'MOMO NUMBER',
+                  style: text
+                      .mobiLabel(color: colors.tertiaryText)
+                      .copyWith(
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 1.6,
+                        fontSize: 11,
+                      ),
+                ),
+                SizedBox(height: space.x2),
+                TextField(
+                  controller: routeType == MomoRecipientType.code
+                      ? momoCodeController
+                      : momoNumberController,
+                  keyboardType: TextInputType.number,
+                  style: text.display(
+                    Theme.of(context).textTheme.headlineSmall,
+                    color: colors.primaryText,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: -0.5,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: routeType == MomoRecipientType.code
+                        ? '23456'
+                        : '0788123456',
+                    hintStyle: text.display(
+                      Theme.of(context).textTheme.headlineSmall,
+                      color: colors.tertiaryText,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: -0.5,
+                    ),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.zero,
+                    isDense: true,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ],
+    );
   }
 }
+
+// ═══════════════════════════════════════════════════════════════════════
+// SEGMENT TAB (matches BioPay segmented control style)
+// ═══════════════════════════════════════════════════════════════════════
+
+class _SegmentTab extends StatelessWidget {
+  const _SegmentTab({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: AnimatedContainer(
+        duration: CoolMotion.quick,
+        curve: Curves.easeOut,
+        height: 48,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: selected ? colors.cardSurfaceStrong : Colors.transparent,
+          borderRadius: BorderRadius.circular(CoolRadii.xs),
+          boxShadow: selected ? CoolShadows.ambientFloat(strength: 0.4) : null,
+        ),
+        child: Text(
+          label,
+          style: context.coolText.mono(
+            Theme.of(context).textTheme.labelLarge,
+            color: selected ? colors.accent : colors.secondaryText,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 2.2,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// FREQUENCY PICKER (row of chips for daily/weekly/monthly/one_off)
+// ═══════════════════════════════════════════════════════════════════════
+
+class _FrequencyPicker extends StatelessWidget {
+  const _FrequencyPicker({
+    required this.options,
+    required this.selected,
+    required this.onSelected,
+  });
+
+  final List<String> options;
+  final String selected;
+  final ValueChanged<String> onSelected;
+
+  String _label(String value) {
+    return switch (value) {
+      'daily' => 'Daily',
+      'weekly' => 'Weekly',
+      'monthly' => 'Monthly',
+      'one_off' => 'One-Off',
+      _ => value,
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final space = context.coolSpace;
+    return Row(
+      children: options
+          .map((option) {
+            final isSelected = option == selected;
+            return Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  right: option != options.last ? space.x2 : 0,
+                ),
+                child: _OptionChip(
+                  label: _label(option),
+                  selected: isSelected,
+                  onTap: () => onSelected(option),
+                ),
+              ),
+            );
+          })
+          .toList(growable: false),
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// SHARED WIDGETS
+// ═══════════════════════════════════════════════════════════════════════
 
 class _SectionLabel extends StatelessWidget {
   const _SectionLabel({required this.label});
@@ -321,7 +657,8 @@ class _OptionChip extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(CoolRadii.md),
-      child: Container(
+      child: AnimatedContainer(
+        duration: CoolMotion.quick,
         padding: const EdgeInsets.symmetric(vertical: CoolSpace.x3),
         decoration: BoxDecoration(
           color: selected ? colors.accent : colors.cardSurface,
@@ -331,9 +668,11 @@ class _OptionChip extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           label.toUpperCase(),
-          style: text.mobiLabel(
-            color: selected ? colors.accentForeground : colors.primaryText,
-          ).copyWith(fontWeight: FontWeight.w800, letterSpacing: 1.0),
+          style: text
+              .mobiLabel(
+                color: selected ? colors.accentForeground : colors.primaryText,
+              )
+              .copyWith(fontWeight: FontWeight.w800, letterSpacing: 1.0),
         ),
       ),
     );

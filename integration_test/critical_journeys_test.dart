@@ -24,12 +24,9 @@ void main() {
         );
 
         final uri = app.router.routeInformationProvider.value.uri;
-        expect(uri.path, AppRoutes.momo);
+        expect(uri.path, AppRoutes.biopayHome);
         expect(uri.queryParameters['amount'], '5000');
-        expect(
-          find.byKey(const ValueKey<String>('momo-action-statements')),
-          findsOneWidget,
-        );
+        expect(find.text('Face Scan'), findsOneWidget);
       },
     );
 
@@ -47,8 +44,8 @@ void main() {
         app.router.routeInformationProvider.value.uri.path,
         AppRoutes.biopayHome,
       );
-      expect(find.text('BioPay Hub'), findsOneWidget);
+      expect(find.text('Pay & Get Paid\nInstantly'), findsOneWidget);
+      expect(find.text('Face Scan'), findsOneWidget);
     });
-
   });
 }

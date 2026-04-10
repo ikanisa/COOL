@@ -4,10 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/admin_detail_scaffold.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/admin_section_header.dart';
@@ -43,113 +43,90 @@ class _BankAdminWorkspaceScreenState
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     final workspaceAsync = ref.watch(bankAdminWorkspaceProvider(widget.bankId));
 
-    return CoolScreenBackground(
-      showGlow: false,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            tooltip: 'Back',
-            icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
-          ),
+    return AdminDetailScaffold(
+      title: Text(
+        'Bank Terminal',
+        style: theme.textTheme.headlineMedium?.copyWith(
+          fontWeight: FontWeight.w800,
+          height: 1.1,
         ),
-        body: CoolAsyncView<BankAdminWorkspaceSnapshot>(
-          value: workspaceAsync,
-          onRetry: () => ref.invalidate(
-            bankAdminWorkspaceProvider(widget.bankId),
-          ),
-          loadingWidget: const Padding(
-            padding: CoolSpace.scaffoldPadding,
-            child: CoolSkeletonList(itemCount: 5),
-          ),
-          emptyCheck: (_) => false,
-          builder: (snapshot) {
-            final selectedGroup = snapshot.groups.entries
-                .where((group) => group.id == _selectedGroupId)
-                .cast<BankAdminGroupSummary?>()
-                .firstWhere(
-                  (group) => group != null,
-                  orElse: () => snapshot.groups.entries.isEmpty
-                      ? null
-                      : snapshot.groups.entries.first,
+      ),
+      child: CoolAsyncView<BankAdminWorkspaceSnapshot>(
+        value: workspaceAsync,
+        onRetry: () =>
+            ref.invalidate(bankAdminWorkspaceProvider(widget.bankId)),
+        loadingWidget: const Padding(
+          padding: EdgeInsets.only(bottom: CoolSpace.x7),
+          child: CoolSkeletonList(itemCount: 5),
+        ),
+        emptyCheck: (_) => false,
+        builder: (snapshot) {
+          final colors = context.coolSemanticColors;
+          final selectedGroup = snapshot.groups.entries
+              .where((group) => group.id == _selectedGroupId)
+              .cast<BankAdminGroupSummary?>()
+              .firstWhere(
+                (group) => group != null,
+                orElse: () => snapshot.groups.entries.isEmpty
+                    ? null
+                    : snapshot.groups.entries.first,
+              );
+          final resolvedGroupId = selectedGroup?.id ?? '';
+          final ledgerAsync = resolvedGroupId.isEmpty
+              ? const AsyncData(MomoStatementPage<PayeePaymentLedgerEntry>())
+              : ref.watch(
+                  groupPaymentLedgerProvider(
+                    GroupPaymentLedgerQuery(groupId: resolvedGroupId),
+                  ),
                 );
-            final resolvedGroupId = selectedGroup?.id ?? '';
-            final ledgerAsync = resolvedGroupId.isEmpty
-                ? const AsyncData(MomoStatementPage<PayeePaymentLedgerEntry>())
-                : ref.watch(
-                    groupPaymentLedgerProvider(
-                      GroupPaymentLedgerQuery(groupId: resolvedGroupId),
-                    ),
-                  );
 
-            return ListView(
-              padding: CoolSpace.scaffoldPadding.copyWith(
-                top: 0,
-                bottom: CoolSpace.x7,
+          return ListView(
+            padding: const EdgeInsets.only(bottom: CoolSpace.x7),
+            children: [
+              Text(
+                '${snapshot.allocations.totalCount} pending allocation'
+                '${snapshot.allocations.totalCount == 1 ? '' : 's'}',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-              children: [
-                Semantics(
-                  header: true,
-                  child: Text(
-                    'Bank Terminal',
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      height: 1.1,
-                      color: colors.primaryText,
-                    ),
-                  ),
+              const SizedBox(height: CoolSpace.x5),
+              _TabRow(
+                activeTab: _activeTab,
+                onTabChanged: (tab) => setState(() => _activeTab = tab),
+              ),
+              const SizedBox(height: CoolSpace.x5),
+              switch (_activeTab) {
+                _BankWorkspaceTab.overview => _OverviewTab(
+                  snapshot: snapshot,
+                  onViewDetails: (groupId) {
+                    setState(() => _selectedGroupId = groupId);
+                  },
+                  onOpenLedger: (groupId) {
+                    setState(() {
+                      _selectedGroupId = groupId;
+                      _activeTab = _BankWorkspaceTab.ledgers;
+                    });
+                  },
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  '${snapshot.allocations.totalCount} pending allocation'
-                  '${snapshot.allocations.totalCount == 1 ? '' : 's'}',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: colors.secondaryText,
-                    fontWeight: FontWeight.w700,
-                  ),
+                _BankWorkspaceTab.allocations => _AllocationsTab(
+                  snapshot: snapshot,
+                  onAllocate: (item) => _allocateReview(item, snapshot),
+                  onReject: _rejectReview,
                 ),
-                const SizedBox(height: CoolSpace.x5),
-                _TabRow(
-                  activeTab: _activeTab,
-                  onTabChanged: (tab) => setState(() => _activeTab = tab),
+                _BankWorkspaceTab.ledgers => _LedgersTab(
+                  ledgerAsync: ledgerAsync,
+                  onExportExcel: () =>
+                      _exportLedger(resolvedGroupId, ledgerAsync),
                 ),
-                const SizedBox(height: CoolSpace.x5),
-                switch (_activeTab) {
-                  _BankWorkspaceTab.overview => _OverviewTab(
-                      snapshot: snapshot,
-                      onViewDetails: (groupId) {
-                        setState(() => _selectedGroupId = groupId);
-                      },
-                      onOpenLedger: (groupId) {
-                        setState(() {
-                          _selectedGroupId = groupId;
-                          _activeTab = _BankWorkspaceTab.ledgers;
-                        });
-                      },
-                    ),
-                  _BankWorkspaceTab.allocations => _AllocationsTab(
-                      snapshot: snapshot,
-                      onAllocate: (item) => _allocateReview(item, snapshot),
-                      onReject: _rejectReview,
-                    ),
-                  _BankWorkspaceTab.ledgers => _LedgersTab(
-                      ledgerAsync: ledgerAsync,
-                      onExportExcel: () =>
-                          _exportLedger(resolvedGroupId, ledgerAsync),
-                    ),
-                },
-              ],
-            );
-          },
-        ),
+              },
+            ],
+          );
+        },
       ),
     );
   }
@@ -220,15 +197,16 @@ class _BankAdminWorkspaceScreenState
                         ),
                       ),
                       onPressed: () async {
-                        final repository =
-                            ref.read(bankAdminRepositoryProvider);
+                        final repository = ref.read(
+                          bankAdminRepositoryProvider,
+                        );
                         await repository
                             .allocateManualReviewToGroupContribution(
-                          bankId: widget.bankId,
-                          reviewId: item.reviewId,
-                          groupId: item.groupId,
-                          memberUserId: member.userId,
-                        );
+                              bankId: widget.bankId,
+                              reviewId: item.reviewId,
+                              groupId: item.groupId,
+                              memberUserId: member.userId,
+                            );
                         if (!dialogContext.mounted) return;
                         Navigator.of(dialogContext).pop();
                         if (!mounted) return;
@@ -299,8 +277,9 @@ class _BankAdminWorkspaceScreenState
                         ),
                       ),
                       onPressed: () async {
-                        final repository =
-                            ref.read(bankAdminRepositoryProvider);
+                        final repository = ref.read(
+                          bankAdminRepositoryProvider,
+                        );
                         await repository.rejectManualReviewAllocation(
                           bankId: widget.bankId,
                           reviewId: item.reviewId,
@@ -395,9 +374,7 @@ class _TabRow extends StatelessWidget {
               ),
               side: BorderSide.none,
               shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(CoolRadii.pill),
-                ),
+                borderRadius: BorderRadius.all(Radius.circular(CoolRadii.pill)),
               ),
               visualDensity: VisualDensity.compact,
             ),
@@ -485,9 +462,7 @@ class _OverviewTab extends StatelessWidget {
         ),
         if (members.isNotEmpty) ...[
           const SizedBox(height: CoolSpace.x5),
-          const AdminSectionHeader(
-            title: 'Group Members',
-          ),
+          const AdminSectionHeader(title: 'Group Members'),
           const SizedBox(height: CoolSpace.x3),
           for (final member in members) ...[
             CoolCard(

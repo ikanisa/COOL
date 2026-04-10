@@ -1,4 +1,5 @@
 import 'package:cool_app/core/theme/app_theme.dart';
+import 'package:cool_app/core/theme/app_theme_text.dart';
 import 'package:cool_app/core/theme/cool_foundations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -78,6 +79,45 @@ void main() {
       expect(
         semanticColors!.cardSurfaceStrong,
         CoolSemanticColors.light.cardSurfaceStrong,
+      );
+    });
+
+    testWidgets('theme text roles resolve to the canonical font families', (
+      tester,
+    ) async {
+      late ThemeData theme;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark,
+          home: Builder(
+            builder: (context) {
+              theme = Theme.of(context);
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
+      );
+
+      expect(
+        theme.textTheme.displayLarge?.fontFamily,
+        AppThemeText.displayFontFamily,
+      );
+      expect(
+        theme.textTheme.headlineMedium?.fontFamily,
+        AppThemeText.displayFontFamily,
+      );
+      expect(
+        theme.textTheme.titleLarge?.fontFamily,
+        AppThemeText.bodyFontFamily,
+      );
+      expect(
+        theme.textTheme.bodyMedium?.fontFamily,
+        AppThemeText.bodyFontFamily,
+      );
+      expect(
+        theme.textTheme.labelLarge?.fontFamily,
+        AppThemeText.labelFontFamily,
       );
     });
   });

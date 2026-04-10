@@ -10,6 +10,7 @@ import '../../core/services/app_access_service.dart';
 import '../../core/theme/cool_foundations.dart';
 import '../../features/momo/providers/momo_service_provider.dart';
 import 'cool_button.dart';
+import 'cool_glass_header_surface.dart';
 import 'cool_screen_background.dart';
 import 'cool_skeleton.dart';
 import 'cool_toast.dart';
@@ -103,40 +104,42 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
       return CoolScreenBackground(
         child: Scaffold(
           backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: Text(context.l10n.scanTicket),
-          backgroundColor: colors.appBackground,
-        ),
-        body: Center(
-          child: Padding(
-            padding: EdgeInsets.all(space.x6),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.lock_outline_rounded,
-                  size: 42,
-                  color: colors.secondaryText,
-                ),
-                SizedBox(height: space.x4),
-                Text(
-                  'Ticket scanning is limited',
-                  textAlign: TextAlign.center,
-                  style: textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colors.primaryText,
+          appBar: AppBar(
+            title: Text(context.l10n.scanTicket),
+            backgroundColor: Colors.transparent,
+            toolbarHeight: 84,
+            flexibleSpace: const CoolGlassHeaderSurface(),
+          ),
+          body: Center(
+            child: Padding(
+              padding: EdgeInsets.all(space.x6),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.lock_outline_rounded,
+                    size: 42,
+                    color: colors.secondaryText,
                   ),
-                ),
-                SizedBox(height: space.x5),
-                CoolButton(
-                  label: context.l10n.goBack,
-                  onTap: () => Navigator.of(context).pop(),
-                ),
-              ],
+                  SizedBox(height: space.x4),
+                  Text(
+                    'Ticket scanning is limited',
+                    textAlign: TextAlign.center,
+                    style: textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: colors.primaryText,
+                    ),
+                  ),
+                  SizedBox(height: space.x5),
+                  CoolButton(
+                    label: context.l10n.goBack,
+                    onTap: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
       );
     }
 
@@ -158,51 +161,53 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
       return CoolScreenBackground(
         child: Scaffold(
           backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: Text(context.l10n.scanTicket),
-          backgroundColor: colors.appBackground,
-        ),
-        body: Center(
-          child: Padding(
-            padding: EdgeInsets.all(space.x6),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.warning_amber_rounded,
-                  size: 42,
-                  color: colors.warning,
-                ),
-                SizedBox(height: space.x4),
-                Text(
-                  'Ticket scanner unavailable',
-                  textAlign: TextAlign.center,
-                  style: textTheme.labelLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: colors.primaryText,
+          appBar: AppBar(
+            title: Text(context.l10n.scanTicket),
+            backgroundColor: Colors.transparent,
+            toolbarHeight: 84,
+            flexibleSpace: const CoolGlassHeaderSurface(),
+          ),
+          body: Center(
+            child: Padding(
+              padding: EdgeInsets.all(space.x6),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.warning_amber_rounded,
+                    size: 42,
+                    color: colors.warning,
                   ),
-                ),
-                SizedBox(height: space.x2),
-                Text(
-                  scannerAvailability.message ??
-                      'Ticket scanning is temporarily unavailable.',
-                  textAlign: TextAlign.center,
-                  style: textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w500,
-                    color: colors.secondaryText,
-                    height: 1.45,
+                  SizedBox(height: space.x4),
+                  Text(
+                    'Ticket scanner unavailable',
+                    textAlign: TextAlign.center,
+                    style: textTheme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: colors.primaryText,
+                    ),
                   ),
-                ),
-                SizedBox(height: space.x5),
-                CoolButton(
-                  label: context.l10n.goBack,
-                  onTap: () => Navigator.of(context).pop(),
-                ),
-              ],
+                  SizedBox(height: space.x2),
+                  Text(
+                    scannerAvailability.message ??
+                        'Ticket scanning is temporarily unavailable.',
+                    textAlign: TextAlign.center,
+                    style: textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: colors.secondaryText,
+                      height: 1.45,
+                    ),
+                  ),
+                  SizedBox(height: space.x5),
+                  CoolButton(
+                    label: context.l10n.goBack,
+                    onTap: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
       );
     }
 
@@ -247,49 +252,51 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
       return CoolScreenBackground(
         child: Scaffold(
           backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: Text(
-            widget.mode == QrScanMode.ticket ? 'Scan Ticket' : 'Scan MoMo QR',
+          appBar: AppBar(
+            title: Text(
+              widget.mode == QrScanMode.ticket ? 'Scan Ticket' : 'Scan MoMo QR',
+            ),
+            backgroundColor: Colors.transparent,
+            toolbarHeight: 84,
+            flexibleSpace: const CoolGlassHeaderSurface(),
           ),
-          backgroundColor: colors.appBackground,
-        ),
-        body: Center(
-          child: Padding(
-            padding: EdgeInsets.all(space.x6),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.camera_alt_outlined,
-                  size: 42,
-                  color: colors.secondaryText,
-                ),
-                SizedBox(height: space.x4),
-                Text(
-                  gate.title,
-                  textAlign: TextAlign.center,
-                  style: textTheme.labelLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: colors.primaryText,
-                  ),
-                ),
-                SizedBox(height: space.x2),
-                Text(
-                  gate.message,
-                  textAlign: TextAlign.center,
-                  style: textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w500,
+          body: Center(
+            child: Padding(
+              padding: EdgeInsets.all(space.x6),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.camera_alt_outlined,
+                    size: 42,
                     color: colors.secondaryText,
-                    height: 1.45,
                   ),
-                ),
-                SizedBox(height: space.x5),
-                CoolButton(label: gate.actionLabel, onTap: gate.onTap),
-              ],
+                  SizedBox(height: space.x4),
+                  Text(
+                    gate.title,
+                    textAlign: TextAlign.center,
+                    style: textTheme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: colors.primaryText,
+                    ),
+                  ),
+                  SizedBox(height: space.x2),
+                  Text(
+                    gate.message,
+                    textAlign: TextAlign.center,
+                    style: textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: colors.secondaryText,
+                      height: 1.45,
+                    ),
+                  ),
+                  SizedBox(height: space.x5),
+                  CoolButton(label: gate.actionLabel, onTap: gate.onTap),
+                ],
+              ),
             ),
           ),
         ),
-      ),
       );
     }
 

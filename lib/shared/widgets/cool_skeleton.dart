@@ -112,14 +112,13 @@ class CoolSkeletonList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: List.generate(
-        itemCount,
-        (i) => Padding(
-          padding: EdgeInsets.only(bottom: i < itemCount - 1 ? spacing : 0),
-          child: const CoolSkeleton.card(),
-        ),
-      ),
+    return ListView.separated(
+      padding: EdgeInsets.zero,
+      primary: false,
+      shrinkWrap: true,
+      itemCount: itemCount,
+      separatorBuilder: (context, index) => SizedBox(height: spacing),
+      itemBuilder: (context, index) => const CoolSkeleton.card(),
     );
   }
 }

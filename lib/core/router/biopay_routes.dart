@@ -4,7 +4,7 @@ import '../../features/biopay/models/biopay_enrollment_draft.dart';
 import '../../features/biopay/screens/biopay_enrollment_success_screen.dart';
 import '../../features/biopay/screens/biopay_home_screen.dart';
 import '../../features/biopay/screens/biopay_nfc_screen.dart';
-import '../../features/biopay/screens/biopay_profile_screen.dart';
+
 import '../../features/biopay/screens/biopay_qr_screen.dart';
 import '../../features/biopay/screens/biopay_register_screen.dart';
 import '../../features/biopay/screens/biopay_scan_screen.dart';
@@ -34,20 +34,7 @@ List<GoRoute> biopayRoutes({
         );
       },
     ),
-    GoRoute(
-      path: AppRoutes.biopayProfile,
-      pageBuilder: (context, state) {
-        return coolPageTransition(
-          context: context,
-          state: state,
-          child: KillSwitchGate(
-            enabled: readIsBiopayEnabled(),
-            featureName: 'BioPay',
-            child: const SecureScreenWrapper(child: BiopayProfileScreen()),
-          ),
-        );
-      },
-    ),
+
     GoRoute(
       path: AppRoutes.biopayRegister,
       pageBuilder: (context, state) {

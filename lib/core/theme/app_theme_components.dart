@@ -22,6 +22,7 @@ abstract final class AppThemeComponents {
           ? SystemUiOverlayStyle.light
           : SystemUiOverlayStyle.dark,
       titleTextStyle: textTheme.headlineSmall?.copyWith(
+        fontFamily: AppThemeText.displayFontFamily,
         fontWeight: AppThemeText.extraBold,
         letterSpacing: -0.4,
       ),
@@ -49,12 +50,14 @@ abstract final class AppThemeComponents {
       type: BottomNavigationBarType.fixed,
       showSelectedLabels: true,
       showUnselectedLabels: true,
-      selectedLabelStyle: const TextStyle(
+      selectedLabelStyle: TextStyle(
+        fontFamily: AppThemeText.labelFontFamily,
         fontSize: 8,
         fontWeight: AppThemeText.semibold,
         letterSpacing: 1.0,
       ),
-      unselectedLabelStyle: const TextStyle(
+      unselectedLabelStyle: TextStyle(
+        fontFamily: AppThemeText.labelFontFamily,
         fontSize: 8,
         fontWeight: AppThemeText.medium,
         letterSpacing: 1.0,
@@ -71,6 +74,7 @@ abstract final class AppThemeComponents {
       labelTextStyle: WidgetStateProperty.resolveWith((states) {
         final isSelected = states.contains(WidgetState.selected);
         return TextStyle(
+          fontFamily: AppThemeText.labelFontFamily,
           fontSize: 8,
           fontWeight: isSelected ? AppThemeText.semibold : AppThemeText.medium,
           color: isSelected ? colors.primaryText : colors.secondaryText,
@@ -113,9 +117,7 @@ abstract final class AppThemeComponents {
       shadowColor: colors.shadowColor.withValues(alpha: 0.50),
       elevation: CoolElevation.overlay,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(CoolRadii.xl),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(CoolRadii.xl)),
       ),
     );
   }
@@ -130,12 +132,14 @@ abstract final class AppThemeComponents {
         borderRadius: BorderRadius.circular(CoolRadii.xl),
       ),
       titleTextStyle: TextStyle(
+        fontFamily: AppThemeText.displayFontFamily,
         fontSize: AppThemeText.headlineSmall,
         fontWeight: AppThemeText.extraBold,
         color: colors.primaryText,
         letterSpacing: -0.96,
       ),
       contentTextStyle: TextStyle(
+        fontFamily: AppThemeText.bodyFontFamily,
         fontSize: AppThemeText.bodyMedium,
         fontWeight: AppThemeText.regular,
         color: colors.secondaryText,
@@ -155,28 +159,33 @@ abstract final class AppThemeComponents {
       fillColor: colors.inputSurface,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       hintStyle: TextStyle(
+        fontFamily: AppThemeText.bodyFontFamily,
         fontSize: AppThemeText.bodyMedium,
         fontWeight: AppThemeText.regular,
         color: colors.tertiaryText,
       ),
       labelStyle: TextStyle(
+        fontFamily: AppThemeText.labelFontFamily,
         fontSize: AppThemeText.labelSmall,
         fontWeight: AppThemeText.semibold,
         color: colors.secondaryText,
         letterSpacing: 1.0,
       ),
       floatingLabelStyle: TextStyle(
+        fontFamily: AppThemeText.labelFontFamily,
         fontSize: AppThemeText.labelSmall,
         fontWeight: AppThemeText.semibold,
         color: colors.accent,
         letterSpacing: 1.0,
       ),
       helperStyle: TextStyle(
+        fontFamily: AppThemeText.bodyFontFamily,
         fontSize: AppThemeText.labelSmall,
         fontWeight: AppThemeText.medium,
         color: colors.secondaryText,
       ),
       errorStyle: TextStyle(
+        fontFamily: AppThemeText.labelFontFamily,
         fontSize: AppThemeText.labelSmall,
         fontWeight: AppThemeText.bold,
         color: colors.danger,
@@ -193,15 +202,11 @@ abstract final class AppThemeComponents {
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(CoolRadii.md),
-        borderSide: BorderSide(
-          color: colors.danger.withValues(alpha: 0.35),
-        ),
+        borderSide: BorderSide(color: colors.danger.withValues(alpha: 0.35)),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(CoolRadii.md),
-        borderSide: BorderSide(
-          color: colors.danger.withValues(alpha: 0.50),
-        ),
+        borderSide: BorderSide(color: colors.danger.withValues(alpha: 0.50)),
       ),
     );
   }
@@ -221,7 +226,8 @@ abstract final class AppThemeComponents {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(CoolRadii.pill),
         ),
-        textStyle: const TextStyle(
+        textStyle: TextStyle(
+          fontFamily: AppThemeText.labelFontFamily,
           fontSize: AppThemeText.labelMedium,
           fontWeight: AppThemeText.semibold,
           letterSpacing: 2.0,
@@ -244,7 +250,8 @@ abstract final class AppThemeComponents {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(CoolRadii.pill),
         ),
-        textStyle: const TextStyle(
+        textStyle: TextStyle(
+          fontFamily: AppThemeText.labelFontFamily,
           fontSize: AppThemeText.labelMedium,
           fontWeight: AppThemeText.semibold,
           letterSpacing: 2.0,
@@ -259,7 +266,8 @@ abstract final class AppThemeComponents {
       style: TextButton.styleFrom(
         // Tertiary: no container, primary light source color
         foregroundColor: colors.accentStrong,
-        textStyle: const TextStyle(
+        textStyle: TextStyle(
+          fontFamily: AppThemeText.labelFontFamily,
           fontSize: AppThemeText.labelMedium,
           fontWeight: AppThemeText.semibold,
         ),
@@ -299,6 +307,7 @@ abstract final class AppThemeComponents {
       elevation: 0,
       shape: const StadiumBorder(),
       labelStyle: TextStyle(
+        fontFamily: AppThemeText.labelFontFamily,
         fontSize: AppThemeText.labelMedium,
         fontWeight: AppThemeText.semibold,
         color: colors.primaryText,
@@ -311,6 +320,7 @@ abstract final class AppThemeComponents {
     return SnackBarThemeData(
       backgroundColor: colors.cardSurfaceStrong,
       contentTextStyle: TextStyle(
+        fontFamily: AppThemeText.bodyFontFamily,
         fontSize: AppThemeText.bodySmall,
         fontWeight: AppThemeText.medium,
         color: colors.primaryText,
@@ -327,11 +337,13 @@ abstract final class AppThemeComponents {
       labelColor: colors.primaryText,
       unselectedLabelColor: colors.secondaryText,
       indicatorColor: colors.accent,
-      labelStyle: const TextStyle(
+      labelStyle: TextStyle(
+        fontFamily: AppThemeText.labelFontFamily,
         fontSize: AppThemeText.labelMedium,
         fontWeight: AppThemeText.semibold,
       ),
-      unselectedLabelStyle: const TextStyle(
+      unselectedLabelStyle: TextStyle(
+        fontFamily: AppThemeText.labelFontFamily,
         fontSize: AppThemeText.labelMedium,
         fontWeight: AppThemeText.medium,
       ),
@@ -356,6 +368,7 @@ abstract final class AppThemeComponents {
         borderRadius: BorderRadius.circular(CoolRadii.sm),
       ),
       textStyle: TextStyle(
+        fontFamily: AppThemeText.bodyFontFamily,
         fontSize: AppThemeText.labelSmall,
         fontWeight: AppThemeText.medium,
         color: colors.primaryText,

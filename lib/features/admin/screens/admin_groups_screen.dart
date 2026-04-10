@@ -3,17 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/dense_admin_workspace_scaffold.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/cool_search_field.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/admin_section_header.dart';
 
 import '../providers/admin_providers.dart';
 
-EdgeInsets _groupsListPadding() =>
-    CoolSpace.scaffoldPadding.copyWith(top: 0, bottom: CoolSpace.x7);
+EdgeInsets _groupsListPadding() => const EdgeInsets.only(bottom: CoolSpace.x7);
 
 const BorderRadius _groupMetricRadius = BorderRadius.all(
   Radius.circular(CoolRadii.xs),
@@ -39,239 +39,175 @@ class _AdminGroupsScreenState extends ConsumerState<AdminGroupsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     final summaryAsync = ref.watch(adminGroupsSummaryProvider);
+    final filterChips = _statusFilters
+        .map<Widget>((filter) {
+          final colors = context.coolSemanticColors;
+          final isSelected = _statusFilter == filter;
+          final label = filter == null
+              ? 'All'
+              : '${filter[0].toUpperCase()}${filter.substring(1)}';
+          return Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: ChoiceChip(
+              showCheckmark: false,
+              label: Text(label),
+              selected: isSelected,
+              onSelected: (_) {
+                HapticFeedback.selectionClick();
+                setState(() => _statusFilter = filter);
+              },
+              backgroundColor: colors.chipBackground,
+              selectedColor: colors.chipSelectedBackground,
+              labelStyle: theme.textTheme.labelLarge?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: isSelected ? colors.primaryText : colors.secondaryText,
+              ),
+              side: BorderSide.none,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(CoolRadii.pill)),
+              ),
+              visualDensity: VisualDensity.compact,
+            ),
+          );
+        })
+        .toList(growable: false);
 
-    return CoolScreenBackground(
-      showGlow: false,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            tooltip: 'Back',
-            icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
-          ),
+    return DenseAdminWorkspaceScaffold(
+      title: Text(
+        'Contribution Groups',
+        style: theme.textTheme.headlineMedium?.copyWith(
+          fontWeight: FontWeight.w800,
+          height: 1.1,
         ),
-        body: CoolAsyncView<Map<String, dynamic>>(
-          value: summaryAsync,
-          onRetry: () => ref.invalidate(adminGroupsSummaryProvider),
-          loadingWidget: Padding(
+      ),
+      subtitle: Text(
+        'Platform-wide group overview and member counts',
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: context.coolSemanticColors.secondaryText,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      searchBar: CoolSearchField(
+        hint: 'Search groups…',
+        debounce: Duration.zero,
+        onChanged: (v) => setState(() => _search = v),
+      ),
+      filterActions: filterChips,
+      child: CoolAsyncView<Map<String, dynamic>>(
+        value: summaryAsync,
+        onRetry: () => ref.invalidate(adminGroupsSummaryProvider),
+        loadingWidget: Padding(
+          padding: _groupsListPadding(),
+          child: const CoolSkeletonList(itemCount: 6),
+        ),
+        emptyCheck: (data) => data.isEmpty,
+        emptyWidget: const CoolEmptyView(
+          message: 'No group data',
+          icon: Icons.groups_outlined,
+        ),
+        builder: (data) {
+          final colors = context.coolSemanticColors;
+          final totalGroups = _asInt(data['total_groups']);
+          final activeGroups = _asInt(data['active_groups']);
+          final closedGroups = _asInt(data['closed_groups']);
+          final privateGroups = _asInt(data['private_groups']);
+          final totalMembers = _asInt(data['total_members']);
+          final totalWallets = _asInt(data['total_wallets']);
+
+          final groups = _parseGroups(data['groups']);
+          final query = _search.trim().toLowerCase();
+          final filtered = groups.where((g) {
+            final name = (g['name']?.toString() ?? '').toLowerCase();
+            final status = (g['status']?.toString() ?? '').toLowerCase();
+            if (_statusFilter != null && status != _statusFilter) {
+              return false;
+            }
+            if (query.isNotEmpty && !name.contains(query)) {
+              return false;
+            }
+            return true;
+          }).toList();
+
+          return ListView(
             padding: _groupsListPadding(),
-            child: const CoolSkeletonList(itemCount: 6),
-          ),
-          emptyCheck: (data) => data.isEmpty,
-          emptyWidget: const CoolEmptyView(
-            message: 'No group data',
-            icon: Icons.groups_outlined,
-          ),
-          builder: (data) {
-            final totalGroups = _asInt(data['total_groups']);
-            final activeGroups = _asInt(data['active_groups']);
-            final closedGroups = _asInt(data['closed_groups']);
-            final privateGroups = _asInt(data['private_groups']);
-            final totalMembers = _asInt(data['total_members']);
-            final totalWallets = _asInt(data['total_wallets']);
-
-            final groups = _parseGroups(data['groups']);
-            final query = _search.trim().toLowerCase();
-            final filtered = groups.where((g) {
-              final name =
-                  (g['name']?.toString() ?? '').toLowerCase();
-              final status =
-                  (g['status']?.toString() ?? '').toLowerCase();
-              if (_statusFilter != null && status != _statusFilter) {
-                return false;
-              }
-              if (query.isNotEmpty && !name.contains(query)) {
-                return false;
-              }
-              return true;
-            }).toList();
-
-            return ListView(
-              padding: _groupsListPadding(),
-              children: [
-                Semantics(
-                  header: true,
-                  child: Text(
-                    'Contribution Groups',
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      height: 1.1,
-                      color: colors.primaryText,
-                    ),
+            children: [
+              const AdminSectionHeader(title: 'Overview'),
+              const SizedBox(height: CoolSpace.x3),
+              GridView.count(
+                crossAxisCount: 2,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                childAspectRatio: 2.2,
+                children: [
+                  _MetricTile(
+                    label: 'Total Groups',
+                    value: '$totalGroups',
+                    icon: Icons.groups_rounded,
+                    color: colors.info,
                   ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  'Platform-wide group overview and member counts',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: colors.secondaryText,
-                    fontWeight: FontWeight.w700,
+                  _MetricTile(
+                    label: 'Active',
+                    value: '$activeGroups',
+                    icon: Icons.check_circle_rounded,
+                    color: colors.success,
                   ),
-                ),
-                const SizedBox(height: CoolSpace.x6),
-
-                // ── Summary metrics ──
-                const AdminSectionHeader(title: 'Overview'),
-                const SizedBox(height: CoolSpace.x3),
-                GridView.count(
-                  crossAxisCount: 2,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: 2.2,
-                  children: [
-                    _MetricTile(
-                      label: 'Total Groups',
-                      value: '$totalGroups',
-                      icon: Icons.groups_rounded,
-                      color: colors.info,
-                    ),
-                    _MetricTile(
-                      label: 'Active',
-                      value: '$activeGroups',
-                      icon: Icons.check_circle_rounded,
-                      color: colors.success,
-                    ),
-                    _MetricTile(
-                      label: 'Closed',
-                      value: '$closedGroups',
-                      icon: Icons.cancel_rounded,
-                      color: colors.danger,
-                    ),
-                    _MetricTile(
-                      label: 'Members',
-                      value: '$totalMembers',
-                      icon: Icons.person_rounded,
-                      color: colors.accent,
-                    ),
-                    _MetricTile(
-                      label: 'Private',
-                      value: '$privateGroups',
-                      icon: Icons.lock_rounded,
-                      color: colors.warning,
-                    ),
-                    _MetricTile(
-                      label: 'Wallets',
-                      value: '$totalWallets',
-                      icon: Icons.account_balance_wallet_rounded,
-                      color: colors.warning,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: CoolSpace.x6),
-
-                // ── Filters ──
-                const AdminSectionHeader(title: 'Group List'),
-                const SizedBox(height: CoolSpace.x3),
-                SizedBox(
-                  height: 44,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: _statusFilters.length,
-                    separatorBuilder: (_, _) => const SizedBox(width: 8),
-                    itemBuilder: (context, index) {
-                      final filter = _statusFilters[index];
-                      final isSelected = _statusFilter == filter;
-                      final label = filter == null
-                          ? 'All'
-                          : '${filter[0].toUpperCase()}${filter.substring(1)}';
-                      return ChoiceChip(
-                        showCheckmark: false,
-                        label: Text(label),
-                        selected: isSelected,
-                        onSelected: (_) {
-                          HapticFeedback.selectionClick();
-                          setState(() => _statusFilter = filter);
-                        },
-                        backgroundColor: colors.chipBackground,
-                        selectedColor: colors.chipSelectedBackground,
-                        labelStyle: theme.textTheme.labelLarge?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: isSelected
-                              ? colors.accentStrong
-                              : colors.secondaryText,
-                        ),
-                        side: BorderSide.none,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(CoolRadii.pill),
-                          ),
-                        ),
-                        visualDensity: VisualDensity.compact,
-                      );
-                    },
+                  _MetricTile(
+                    label: 'Closed',
+                    value: '$closedGroups',
+                    icon: Icons.cancel_rounded,
+                    color: colors.danger,
                   ),
-                ),
-                const SizedBox(height: CoolSpace.x3),
-
-                // ── Search ──
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: colors.inputSurface,
-                    borderRadius: BorderRadius.circular(CoolRadii.sm),
-                    boxShadow: CoolShadows.ambientFloat(strength: 0.15),
+                  _MetricTile(
+                    label: 'Members',
+                    value: '$totalMembers',
+                    icon: Icons.person_rounded,
+                    color: colors.accent,
                   ),
-                  child: TextField(
-                    onChanged: (v) => setState(() => _search = v),
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: colors.primaryText,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'Search groups…',
-                      hintStyle: theme.textTheme.bodyMedium?.copyWith(
-                        color: colors.tertiaryText,
-                      ),
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 14,
-                      ),
-                      prefixIcon: Icon(
-                        Icons.search_rounded,
-                        color: colors.tertiaryText,
-                        size: 20,
-                      ),
-                    ),
+                  _MetricTile(
+                    label: 'Private',
+                    value: '$privateGroups',
+                    icon: Icons.lock_rounded,
+                    color: colors.warning,
                   ),
-                ),
-
-                if (query.isNotEmpty || _statusFilter != null) ...[
-                  const SizedBox(height: CoolSpace.x2),
-                  Text(
-                    '${filtered.length} result${filtered.length == 1 ? '' : 's'}',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: colors.tertiaryText,
-                    ),
+                  _MetricTile(
+                    label: 'Wallets',
+                    value: '$totalWallets',
+                    icon: Icons.account_balance_wallet_rounded,
+                    color: colors.warning,
                   ),
                 ],
-
-                const SizedBox(height: CoolSpace.x4),
-
-                // ── Group list ──
-                if (filtered.isEmpty)
-                  const CoolEmptyView(
-                    message: 'No groups match your filter',
-                    icon: Icons.search_off_rounded,
-                  )
-                else
-                  for (final group in filtered) ...[
-                    _GroupTile(group: group),
-                    const SizedBox(height: CoolSpace.x3),
-                  ],
+              ),
+              const SizedBox(height: CoolSpace.x6),
+              const AdminSectionHeader(title: 'Group List'),
+              const SizedBox(height: CoolSpace.x3),
+              if (query.isNotEmpty || _statusFilter != null) ...[
+                const SizedBox(height: CoolSpace.x2),
+                Text(
+                  '${filtered.length} result${filtered.length == 1 ? '' : 's'}',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: colors.tertiaryText,
+                  ),
+                ),
               ],
-            );
-          },
-        ),
+              const SizedBox(height: CoolSpace.x4),
+              if (filtered.isEmpty)
+                const CoolEmptyView(
+                  message: 'No groups match your filter',
+                  icon: Icons.search_off_rounded,
+                )
+              else
+                for (final group in filtered) ...[
+                  _GroupTile(group: group),
+                  const SizedBox(height: CoolSpace.x3),
+                ],
+            ],
+          );
+        },
       ),
     );
   }
@@ -394,9 +330,7 @@ class _GroupTile extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Icon(
-                  isActive
-                      ? Icons.groups_rounded
-                      : Icons.group_off_rounded,
+                  isActive ? Icons.groups_rounded : Icons.group_off_rounded,
                   size: 20,
                   color: statusColor,
                 ),

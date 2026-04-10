@@ -189,3 +189,5 @@ migrations:
   20260329213000_contribution_groups_wallet_routing.sql: [schema, fix]
   20260404082430_purge_rayon_sports.sql: [cleanup, schema]
   20260404103000_align_admin_roles_after_rayon_purge.sql: [cleanup, security]
+  20260409224500_fix_manual_review_partner_users_reference.sql: [fix, security]
+  20260409225000_admin_groups_oversight.sql: [schema]

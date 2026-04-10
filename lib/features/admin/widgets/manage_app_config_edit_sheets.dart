@@ -78,39 +78,33 @@ class _EditConfigSheetState extends State<EditConfigSheet> {
   }
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-    decoration: _adminSheetDecoration(context),
-    child: SafeArea(
-      top: false,
-      child: Padding(
-        padding: _adminSheetInsets(context),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _adminSheetHandle(context),
-              const SizedBox(height: CoolSpace.x4),
-              Text(
-                widget.config != null ? 'Edit Config' : 'New Config Entry',
-                style: _adminSheetTitleStyle(context),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: CoolSpace.x4),
-              _field('Key', _keyCtl, enabled: widget.config == null),
-              _field('Value', _valueCtl, maxLines: 4),
-              _field('Description', _descCtl),
-              _marketField(),
-              const SizedBox(height: CoolSpace.x3),
-              _adminSheetPrimaryButton(
-                context,
-                label: 'Save',
-                isLoading: _saving,
-                onPressed: _saving ? null : _save,
-              ),
-            ],
-          ),
+  Widget build(BuildContext context) => _adminSheetFrame(
+    context,
+    child: ListView(
+      padding: EdgeInsets.zero,
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+      children: [
+        _adminSheetHandle(context),
+        const SizedBox(height: CoolSpace.x4),
+        Text(
+          widget.config != null ? 'Edit Config' : 'New Config Entry',
+          style: _adminSheetTitleStyle(context),
+          textAlign: TextAlign.center,
         ),
-      ),
+        const SizedBox(height: CoolSpace.x4),
+        _field('Key', _keyCtl, enabled: widget.config == null),
+        _field('Value', _valueCtl, maxLines: 4),
+        _field('Description', _descCtl),
+        _marketField(),
+        const SizedBox(height: CoolSpace.x3),
+        _adminSheetPrimaryButton(
+          context,
+          label: 'Save',
+          isLoading: _saving,
+          onPressed: _saving ? null : _save,
+        ),
+        const SizedBox(height: CoolSpace.x2),
+      ],
     ),
   );
 
@@ -218,129 +212,122 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
-    return DecoratedBox(
-      decoration: _adminSheetDecoration(context),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: _adminSheetInsets(context),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(child: _adminSheetHandle(context)),
-                const SizedBox(height: CoolSpace.x4),
-                Text(
-                  '${widget.rollout.label} rollout',
-                  style: _adminSheetTitleStyle(context),
-                ),
-                const SizedBox(height: CoolSpace.x1),
-                Text(
-                  widget.rollout.description,
-                  style: _adminSheetMessageStyle(context),
-                ),
-                const SizedBox(height: CoolSpace.x4),
-                DropdownButtonFormField<FeatureRolloutStage>(
-                  initialValue: _stage,
-                  style: _adminSheetFieldStyle(context),
-                  dropdownColor: colors.cardSurfaceStrong,
-                  decoration: _adminSheetInputDecoration(
-                    context,
-                    label: 'Rollout stage',
+    return _adminSheetFrame(
+      context,
+      child: ListView(
+        padding: EdgeInsets.zero,
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        children: [
+          Center(child: _adminSheetHandle(context)),
+          const SizedBox(height: CoolSpace.x4),
+          Text(
+            '${widget.rollout.label} rollout',
+            style: _adminSheetTitleStyle(context),
+          ),
+          const SizedBox(height: CoolSpace.x1),
+          Text(
+            widget.rollout.description,
+            style: _adminSheetMessageStyle(context),
+          ),
+          const SizedBox(height: CoolSpace.x4),
+          DropdownButtonFormField<FeatureRolloutStage>(
+            initialValue: _stage,
+            style: _adminSheetFieldStyle(context),
+            dropdownColor: colors.cardSurfaceStrong,
+            decoration: _adminSheetInputDecoration(
+              context,
+              label: 'Rollout stage',
+            ),
+            items: FeatureRolloutStage.values
+                .map(
+                  (stage) => DropdownMenuItem<FeatureRolloutStage>(
+                    value: stage,
+                    child: Text(stage.remoteConfigValue),
                   ),
-                  items: FeatureRolloutStage.values
-                      .map(
-                        (stage) => DropdownMenuItem<FeatureRolloutStage>(
-                          value: stage,
-                          child: Text(stage.remoteConfigValue),
-                        ),
-                      )
-                      .toList(growable: false),
-                  onChanged: _saving
-                      ? null
-                      : (value) {
-                          if (value != null) {
-                            setState(() => _stage = value);
-                          }
-                        },
-                ),
-                const SizedBox(height: 10),
-                SwitchListTile.adaptive(
-                  value: _killSwitch,
-                  onChanged: _saving
-                      ? null
-                      : (value) => setState(() => _killSwitch = value),
-                  activeThumbColor: theme.colorScheme.onPrimary,
-                  activeTrackColor: colors.accent,
-                  inactiveThumbColor: colors.secondaryText,
-                  inactiveTrackColor: colors.borderStrong,
-                  title: Text(
-                    'Kill switch',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: colors.primaryText,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  subtitle: Text(
-                    'Immediately blocks the feature for Rwanda users.',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: colors.secondaryText,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                SwitchListTile.adaptive(
-                  value: _adminOnly,
-                  onChanged: _saving
-                      ? null
-                      : (value) => setState(() => _adminOnly = value),
-                  activeThumbColor: theme.colorScheme.onPrimary,
-                  activeTrackColor: colors.accent,
-                  inactiveThumbColor: colors.secondaryText,
-                  inactiveTrackColor: colors.borderStrong,
-                  title: Text(
-                    'Admin only',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: colors.primaryText,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  subtitle: Text(
-                    'Requires admin access even after the feature is enabled.',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: colors.secondaryText,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: CoolSpace.x3),
-                Text(
-                  'Market: Rwanda only',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colors.primaryText,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: CoolSpace.x1),
-                Text(
-                  'This app is restricted to the Rwanda market in the current release.',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: colors.secondaryText,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 18),
-                _adminSheetPrimaryButton(
-                  context,
-                  label: 'Save rollout',
-                  isLoading: _saving,
-                  onPressed: _saving ? null : _save,
-                ),
-              ],
+                )
+                .toList(growable: false),
+            onChanged: _saving
+                ? null
+                : (value) {
+                    if (value != null) {
+                      setState(() => _stage = value);
+                    }
+                  },
+          ),
+          const SizedBox(height: 10),
+          SwitchListTile.adaptive(
+            value: _killSwitch,
+            onChanged: _saving
+                ? null
+                : (value) => setState(() => _killSwitch = value),
+            activeThumbColor: theme.colorScheme.onPrimary,
+            activeTrackColor: colors.accent,
+            inactiveThumbColor: colors.secondaryText,
+            inactiveTrackColor: colors.borderStrong,
+            title: Text(
+              'Kill switch',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.primaryText,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            subtitle: Text(
+              'Immediately blocks the feature for Rwanda users.',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colors.secondaryText,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
-        ),
+          SwitchListTile.adaptive(
+            value: _adminOnly,
+            onChanged: _saving
+                ? null
+                : (value) => setState(() => _adminOnly = value),
+            activeThumbColor: theme.colorScheme.onPrimary,
+            activeTrackColor: colors.accent,
+            inactiveThumbColor: colors.secondaryText,
+            inactiveTrackColor: colors.borderStrong,
+            title: Text(
+              'Admin only',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.primaryText,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            subtitle: Text(
+              'Requires admin access even after the feature is enabled.',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colors.secondaryText,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x3),
+          Text(
+            'Market: Rwanda only',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x1),
+          Text(
+            'This app is restricted to the Rwanda market in the current release.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 18),
+          _adminSheetPrimaryButton(
+            context,
+            label: 'Save rollout',
+            isLoading: _saving,
+            onPressed: _saving ? null : _save,
+          ),
+          const SizedBox(height: CoolSpace.x2),
+        ],
       ),
     );
   }

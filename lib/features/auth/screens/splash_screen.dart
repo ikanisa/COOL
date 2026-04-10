@@ -215,12 +215,28 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text(
-                                    'Connection issue',
-                                    style: theme.textTheme.titleSmall?.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      color: colors.primaryText,
-                                    ),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        _isTimeoutError(authState.error)
+                                            ? Icons.wifi_off_rounded
+                                            : Icons.cloud_off_rounded,
+                                        size: 20,
+                                        color: colors.warning,
+                                      ),
+                                      SizedBox(width: space.x2),
+                                      Expanded(
+                                        child: Text(
+                                          _isTimeoutError(authState.error)
+                                              ? 'Network timeout'
+                                              : 'Connection issue',
+                                          style: theme.textTheme.titleSmall?.copyWith(
+                                            fontWeight: FontWeight.w700,
+                                            color: colors.primaryText,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   SizedBox(height: space.x2),
                                   Text(
@@ -255,5 +271,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         ),
       ),
     );
+  }
+
+  static bool _isTimeoutError(String? error) {
+    if (error == null) return false;
+    final lower = error.toLowerCase();
+    return lower.contains('timed out') ||
+        lower.contains('timeout') ||
+        lower.contains('network');
   }
 }

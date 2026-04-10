@@ -20,7 +20,8 @@ void main(List<String> args) {
 
   final errors = <String>[
     ...metadataErrors,
-    if (metadata != null) ..._validateIosAssociation(repoRoot, metadata),
+    if (metadata != null && metadata.shouldValidateIosRelease)
+      ..._validateIosAssociation(repoRoot, metadata),
     if (metadata != null) ..._validateAndroidAssetLinks(repoRoot, metadata),
     if (metadata != null) ..._validateStoreLinkConfig(repoRoot, metadata),
     if (metadata != null) ..._validatePlatformConfig(repoRoot, metadata),
@@ -368,6 +369,9 @@ _Command _parseCommand(List<String> args) {
 }
 
 List<String> _iosMetadataErrors(_ReleaseMetadata metadata) {
+  if (!metadata.shouldValidateIosRelease) {
+    return const <String>[];
+  }
   final errors = <String>[];
   if (!metadata.hasIosAssociationMetadata) {
     errors.add(

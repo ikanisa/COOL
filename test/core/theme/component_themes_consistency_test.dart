@@ -43,9 +43,10 @@ void main() {
       expect(darkTheme.cardTheme.color, semanticColors.cardSurface);
     });
 
-    testWidgets('Divider uses semantic divider color', (tester) async {
+    testWidgets('Divider follows the no-line rule', (tester) async {
       final darkTheme = AppTheme.dark;
-      expect(darkTheme.dividerTheme.color, semanticColors.divider);
+      expect(darkTheme.dividerTheme.color, Colors.transparent);
+      expect(darkTheme.dividerTheme.thickness, 0);
     });
 
     testWidgets('ColorScheme primary matches buttonPrimaryBackground', (

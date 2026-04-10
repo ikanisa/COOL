@@ -34,7 +34,7 @@ class _GroupLedgerCard extends StatelessWidget {
       padding: EdgeInsets.all(space.x4),
       decoration: BoxDecoration(
         color: colors.cardSurface,
-        borderRadius: BorderRadius.circular(CoolRadii.lg),
+        borderRadius: BorderRadius.circular(CoolRadii.xl),
         boxShadow: CoolShadows.standard(Theme.of(context).brightness),
       ),
       child: Column(
@@ -71,7 +71,7 @@ class _GroupLedgerCard extends StatelessWidget {
                   color: isPublic
                       ? colors.info.withValues(alpha: 0.15)
                       : colors.warning.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(CoolRadii.sm),
+                  borderRadius: BorderRadius.circular(CoolRadii.pill),
                 ),
                 child: Text(
                   isPublic ? 'PUBLIC' : 'PRIVATE',
@@ -123,7 +123,7 @@ class _GroupLedgerCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        'MONTHLY',
+                        'CONTRIBUTION',
                         style: textTheme.mobiLabel(color: colors.tertiaryText),
                       ),
                       const SizedBox(height: 2),
@@ -164,10 +164,12 @@ class _GroupLedgerCard extends StatelessWidget {
                 child: OutlinedButton(
                   onPressed: isBusy && canJoin ? null : onOpen,
                   style: OutlinedButton.styleFrom(
+                    foregroundColor: colors.primaryText,
+                    backgroundColor: colors.buttonSecondaryBackground,
                     padding: EdgeInsets.symmetric(vertical: space.x3),
-                    side: BorderSide(color: colors.border),
+                    side: BorderSide.none,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(CoolRadii.md),
+                      borderRadius: BorderRadius.circular(CoolRadii.pill),
                     ),
                   ),
                   child: Text(inviteable ? 'OPEN / INVITE' : 'OPEN'),
@@ -203,15 +205,18 @@ class _GroupLedgerCard extends StatelessWidget {
                         : hasRoute && canContribute
                         ? 'CONTRIBUTE'
                         : 'DETAILS',
-                    style: textTheme.mobiLabel(
-                      color: colors.accentForeground,
-                    ).copyWith(fontWeight: FontWeight.w800, letterSpacing: 1.1),
+                    style: textTheme
+                        .mobiLabel(color: colors.accentForeground)
+                        .copyWith(
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1.1,
+                        ),
                   ),
                   style: TextButton.styleFrom(
                     backgroundColor: colors.accent,
                     padding: EdgeInsets.symmetric(vertical: space.x3),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(CoolRadii.md),
+                      borderRadius: BorderRadius.circular(CoolRadii.pill),
                     ),
                   ),
                 ),
@@ -275,10 +280,7 @@ class _InviteBanner extends StatelessWidget {
               ),
             ],
           ),
-          Text(
-            subtitle,
-            style: text.mobiLabel(color: colors.secondaryText),
-          ),
+          Text(subtitle, style: text.mobiLabel(color: colors.secondaryText)),
           SizedBox(height: space.x3),
           SizedBox(
             width: double.infinity,

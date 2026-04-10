@@ -36,7 +36,31 @@ EdgeInsets _adminSheetInsets(BuildContext context) {
   final space = context.coolSpace;
   return CoolSpace.pagePadding.copyWith(
     top: space.x3,
-    bottom: MediaQuery.of(context).viewInsets.bottom + space.x6,
+    bottom: MediaQuery.of(context).viewInsets.bottom + space.x4,
+  );
+}
+
+Widget _adminSheetFrame(BuildContext context, {required Widget child}) {
+  final size = MediaQuery.sizeOf(context);
+  final constraints = size.width > 720
+      ? const BoxConstraints(maxWidth: 720)
+      : const BoxConstraints();
+  return FractionallySizedBox(
+    alignment: Alignment.bottomCenter,
+    heightFactor: 0.96,
+    child: Align(
+      alignment: Alignment.bottomCenter,
+      child: ConstrainedBox(
+        constraints: constraints,
+        child: DecoratedBox(
+          decoration: _adminSheetDecoration(context),
+          child: SafeArea(
+            top: false,
+            child: Padding(padding: _adminSheetInsets(context), child: child),
+          ),
+        ),
+      ),
+    ),
   );
 }
 
@@ -301,75 +325,70 @@ class _EditPartnerPaymentRouteSheetState
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    return DecoratedBox(
-      decoration: _adminSheetDecoration(context),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: _adminSheetInsets(context),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _adminSheetHandle(context),
-                const SizedBox(height: CoolSpace.x4),
-                Text(
-                  widget.route == null
-                      ? 'Add Partner Payment Route'
-                      : 'Edit Partner Payment Route',
-                  style: _adminSheetTitleStyle(context),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: CoolSpace.x2),
-                Text(
-                  'Manage Rwanda partner checkout routing.',
-                  style: _adminSheetMessageStyle(context),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: CoolSpace.x4),
-                _partnerField(),
-                _marketField(),
-                _field('Provider id', _providerCtl),
-                _field('Merchant code', _recipientCodeCtl),
-                _field('Reconciliation label', _reconciliationCtl),
-                _statusField(),
-                const SizedBox(height: CoolSpace.x3),
-                _adminSheetPrimaryButton(
-                  context,
-                  label: 'Save route',
-                  isLoading: _saving,
-                  onPressed: _saving || _deleting ? null : _save,
-                ),
-                if (widget.route != null) ...[
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 44,
-                    child: OutlinedButton(
-                      onPressed: _saving || _deleting ? null : _delete,
-                      style: _adminSheetOutlineStyle(
-                        context,
-                        foregroundColor: colors.danger,
-                        borderColor: colors.danger,
-                      ),
-                      child: _deleting
-                          ? const SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CupertinoActivityIndicator(radius: 9),
-                            )
-                          : Text(
-                              'Delete route',
-                              style: Theme.of(context).textTheme.labelLarge
-                                  ?.copyWith(fontWeight: FontWeight.w700),
-                            ),
-                    ),
-                  ),
-                ],
-              ],
-            ),
+    return _adminSheetFrame(
+      context,
+      child: ListView(
+        padding: EdgeInsets.zero,
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        children: [
+          _adminSheetHandle(context),
+          const SizedBox(height: CoolSpace.x4),
+          Text(
+            widget.route == null
+                ? 'Add Partner Payment Route'
+                : 'Edit Partner Payment Route',
+            style: _adminSheetTitleStyle(context),
+            textAlign: TextAlign.center,
           ),
-        ),
+          const SizedBox(height: CoolSpace.x2),
+          Text(
+            'Manage Rwanda partner checkout routing.',
+            style: _adminSheetMessageStyle(context),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: CoolSpace.x4),
+          _partnerField(),
+          _marketField(),
+          _field('Provider id', _providerCtl),
+          _field('Merchant code', _recipientCodeCtl),
+          _field('Reconciliation label', _reconciliationCtl),
+          _statusField(),
+          const SizedBox(height: CoolSpace.x3),
+          _adminSheetPrimaryButton(
+            context,
+            label: 'Save route',
+            isLoading: _saving,
+            onPressed: _saving || _deleting ? null : _save,
+          ),
+          if (widget.route != null) ...[
+            const SizedBox(height: 10),
+            SizedBox(
+              width: double.infinity,
+              height: 44,
+              child: OutlinedButton(
+                onPressed: _saving || _deleting ? null : _delete,
+                style: _adminSheetOutlineStyle(
+                  context,
+                  foregroundColor: colors.danger,
+                  borderColor: colors.danger,
+                ),
+                child: _deleting
+                    ? const SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CupertinoActivityIndicator(radius: 9),
+                      )
+                    : Text(
+                        'Delete route',
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+              ),
+            ),
+          ],
+          const SizedBox(height: CoolSpace.x2),
+        ],
       ),
     );
   }

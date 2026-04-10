@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/admin_detail_scaffold.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/admin_section_header.dart';
 import '../providers/admin_providers.dart';
-import '../../../core/l10n/l10n.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
 
 EdgeInsets _systemAnalyticsLoadingPadding() =>
-    CoolSpace.pagePadding.copyWith(top: 0, bottom: CoolSpace.x4);
+    const EdgeInsets.only(bottom: CoolSpace.x4);
 
 EdgeInsets _systemAnalyticsListPadding() =>
-    CoolSpace.pagePadding.copyWith(top: 0, bottom: CoolSpace.x7);
+    const EdgeInsets.only(bottom: CoolSpace.x7);
 
 const BorderRadius _systemAnalyticsMetricRadius = BorderRadius.all(
   Radius.circular(CoolRadii.xs),
@@ -31,179 +30,159 @@ class SystemAnalyticsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     final analyticsAsync = ref.watch(platformAnalyticsProvider);
 
-    return CoolScreenBackground(
-      showGlow: false,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            tooltip: context.l10n.back,
-            icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
-          ),
+    return AdminDetailScaffold(
+      title: Text(
+        'System Analytics',
+        style: theme.textTheme.headlineMedium?.copyWith(
+          fontWeight: FontWeight.w800,
+          height: 1.1,
         ),
-        body: CoolAsyncView<Map<String, dynamic>>(
-          value: analyticsAsync,
-          onRetry: () => ref.invalidate(platformAnalyticsProvider),
-          loadingWidget: Padding(
-            padding: _systemAnalyticsLoadingPadding(),
-            child: const CoolSkeletonList(itemCount: 6),
-          ),
-          emptyCheck: (a) => a.isEmpty,
-          emptyWidget: const CoolEmptyView(
-            message: 'No analytics available yet',
-            icon: Icons.analytics_outlined,
-          ),
-          builder: (data) {
-            return ListView(
-              padding: _systemAnalyticsListPadding(),
-              children: [
-                Semantics(
-                  header: true,
-                  child: Text(
-                    'System Analytics',
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      height: 1.1,
-                      color: colors.primaryText,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  'Platform health, growth, and audit volume',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: colors.secondaryText,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: CoolSpace.x6),
-                const AdminSectionHeader(title: 'Core Counts'),
-                const SizedBox(height: CoolSpace.x3),
-                _MetricGrid(
-                  surfaceColor: colors.analyticsSurface,
-                  metrics: [
-                    _Metric(
-                      'Users',
-                      _fmt(data['total_users']),
-                      Icons.person_rounded,
-                      colors.info,
-                    ),
-                    _Metric(
-                      'Real Users',
-                      _fmt(data['real_users']),
-                      Icons.verified_user_rounded,
-                      colors.success,
-                    ),
-                    _Metric(
-                      'Mock Users',
-                      _fmt(data['mock_users']),
-                      Icons.smart_toy_rounded,
-                      colors.warning,
-                    ),
-                    _Metric(
-                      'Admins',
-                      _fmt(data['total_admins']),
-                      Icons.admin_panel_settings_rounded,
-                      colors.accent,
-                    ),
-                    _Metric(
-                      'Partners',
-                      _fmt(data['total_partners']),
-                      Icons.handshake_rounded,
-                      colors.info,
-                    ),
-                    _Metric(
-                      'Groups',
-                      _fmt(data['total_groups']),
-                      Icons.group_rounded,
-                      colors.info,
-                    ),
-                    _Metric(
-                      'Active Groups',
-                      _fmt(data['active_groups']),
-                      Icons.groups_rounded,
-                      colors.success,
-                    ),
-                    _Metric(
-                      'Tickets',
-                      _fmt(data['total_tickets']),
-                      Icons.confirmation_number_rounded,
-                      colors.warning,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 28),
-                const AdminSectionHeader(title: 'Growth'),
-                const SizedBox(height: CoolSpace.x3),
-                _MetricGrid(
-                  surfaceColor: colors.contactSurface,
-                  metrics: [
-                    _Metric(
-                      'Signups (7d)',
-                      _fmt(data['signups_7d']),
-                      Icons.trending_up_rounded,
-                      colors.success,
-                    ),
-                    _Metric(
-                      'Signups (30d)',
-                      _fmt(data['signups_30d']),
-                      Icons.show_chart_rounded,
-                      colors.info,
-                    ),
-                    _Metric(
-                      'Tickets (7d)',
-                      _fmt(data['tickets_7d']),
-                      Icons.local_activity_rounded,
-                      colors.warning,
-                    ),
-                    _Metric(
-                      'Active Partners',
-                      _fmt(data['active_partners']),
-                      Icons.storefront_rounded,
-                      colors.accent,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 28),
-                const AdminSectionHeader(title: 'Admin Role Distribution'),
-                const SizedBox(height: CoolSpace.x3),
-                _DistributionCard(
-                  data: _asStringIntMap(data['role_distribution']),
-                  emptyLabel: 'No roles assigned yet',
-                ),
-                const SizedBox(height: 28),
-                const AdminSectionHeader(title: 'Event Distribution (30d)'),
-                const SizedBox(height: CoolSpace.x3),
-                _DistributionCard(
-                  data: _asStringIntMap(data['event_distribution']),
-                  emptyLabel: 'No events recorded',
-                ),
-                const SizedBox(height: 28),
-                const AdminSectionHeader(title: 'Audit'),
-                const SizedBox(height: CoolSpace.x3),
-                _MetricGrid(
-                  surfaceColor: colors.operationalSurface,
-                  metrics: [
-                    _Metric(
-                      'Admin Actions (7d)',
-                      _fmt(data['audit_actions_7d']),
-                      Icons.history_rounded,
-                      colors.warning,
-                    ),
-                  ],
-                ),
-              ],
-            );
-          },
+      ),
+      subtitle: Text(
+        'Platform health, growth, and audit volume',
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: context.coolSemanticColors.secondaryText,
+          fontWeight: FontWeight.w700,
         ),
+      ),
+      child: CoolAsyncView<Map<String, dynamic>>(
+        value: analyticsAsync,
+        onRetry: () => ref.invalidate(platformAnalyticsProvider),
+        loadingWidget: Padding(
+          padding: _systemAnalyticsLoadingPadding(),
+          child: const CoolSkeletonList(itemCount: 6),
+        ),
+        emptyCheck: (a) => a.isEmpty,
+        emptyWidget: const CoolEmptyView(
+          message: 'No analytics available yet',
+          icon: Icons.analytics_outlined,
+        ),
+        builder: (data) {
+          final colors = context.coolSemanticColors;
+          return ListView(
+            padding: _systemAnalyticsListPadding(),
+            children: [
+              const AdminSectionHeader(title: 'Core Counts'),
+              const SizedBox(height: CoolSpace.x3),
+              _MetricGrid(
+                surfaceColor: colors.analyticsSurface,
+                metrics: [
+                  _Metric(
+                    'Users',
+                    _fmt(data['total_users']),
+                    Icons.person_rounded,
+                    colors.info,
+                  ),
+                  _Metric(
+                    'Real Users',
+                    _fmt(data['real_users']),
+                    Icons.verified_user_rounded,
+                    colors.success,
+                  ),
+                  _Metric(
+                    'Mock Users',
+                    _fmt(data['mock_users']),
+                    Icons.smart_toy_rounded,
+                    colors.warning,
+                  ),
+                  _Metric(
+                    'Admins',
+                    _fmt(data['total_admins']),
+                    Icons.admin_panel_settings_rounded,
+                    colors.accent,
+                  ),
+                  _Metric(
+                    'Partners',
+                    _fmt(data['total_partners']),
+                    Icons.handshake_rounded,
+                    colors.info,
+                  ),
+                  _Metric(
+                    'Groups',
+                    _fmt(data['total_groups']),
+                    Icons.group_rounded,
+                    colors.info,
+                  ),
+                  _Metric(
+                    'Active Groups',
+                    _fmt(data['active_groups']),
+                    Icons.groups_rounded,
+                    colors.success,
+                  ),
+                  _Metric(
+                    'Tickets',
+                    _fmt(data['total_tickets']),
+                    Icons.confirmation_number_rounded,
+                    colors.warning,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 28),
+              const AdminSectionHeader(title: 'Growth'),
+              const SizedBox(height: CoolSpace.x3),
+              _MetricGrid(
+                surfaceColor: colors.contactSurface,
+                metrics: [
+                  _Metric(
+                    'Signups (7d)',
+                    _fmt(data['signups_7d']),
+                    Icons.trending_up_rounded,
+                    colors.success,
+                  ),
+                  _Metric(
+                    'Signups (30d)',
+                    _fmt(data['signups_30d']),
+                    Icons.show_chart_rounded,
+                    colors.info,
+                  ),
+                  _Metric(
+                    'Tickets (7d)',
+                    _fmt(data['tickets_7d']),
+                    Icons.local_activity_rounded,
+                    colors.warning,
+                  ),
+                  _Metric(
+                    'Active Partners',
+                    _fmt(data['active_partners']),
+                    Icons.storefront_rounded,
+                    colors.accent,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 28),
+              const AdminSectionHeader(title: 'Admin Role Distribution'),
+              const SizedBox(height: CoolSpace.x3),
+              _DistributionCard(
+                data: _asStringIntMap(data['role_distribution']),
+                emptyLabel: 'No roles assigned yet',
+              ),
+              const SizedBox(height: 28),
+              const AdminSectionHeader(title: 'Event Distribution (30d)'),
+              const SizedBox(height: CoolSpace.x3),
+              _DistributionCard(
+                data: _asStringIntMap(data['event_distribution']),
+                emptyLabel: 'No events recorded',
+              ),
+              const SizedBox(height: 28),
+              const AdminSectionHeader(title: 'Audit'),
+              const SizedBox(height: CoolSpace.x3),
+              _MetricGrid(
+                surfaceColor: colors.operationalSurface,
+                metrics: [
+                  _Metric(
+                    'Admin Actions (7d)',
+                    _fmt(data['audit_actions_7d']),
+                    Icons.history_rounded,
+                    colors.warning,
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -246,59 +225,69 @@ class _MetricGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        childAspectRatio: 2.0,
-      ),
-      itemCount: metrics.length,
-      itemBuilder: (context, index) {
-        final m = metrics[index];
-        return CoolCard(
-          backgroundColor: surfaceColor,
-          useGradient: false,
-          child: Row(
-            children: [
-              Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: m.color.withValues(alpha: 0.12),
-                  borderRadius: _systemAnalyticsMetricRadius,
-                ),
-                child: Icon(m.icon, size: 18, color: m.color),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      m.value,
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        color: colors.primaryText,
-                      ),
-                    ),
-                    Text(
-                      m.label,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: colors.tertiaryText,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-            ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth;
+        final crossAxisCount = width >= 1280
+            ? 4
+            : width >= 900
+            ? 3
+            : 2;
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            mainAxisExtent: 92,
           ),
+          itemCount: metrics.length,
+          itemBuilder: (context, index) {
+            final m = metrics[index];
+            return CoolCard(
+              backgroundColor: surfaceColor,
+              useGradient: false,
+              child: Row(
+                children: [
+                  Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: m.color.withValues(alpha: 0.12),
+                      borderRadius: _systemAnalyticsMetricRadius,
+                    ),
+                    child: Icon(m.icon, size: 18, color: m.color),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          m.value,
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            color: colors.primaryText,
+                          ),
+                        ),
+                        Text(
+                          m.label,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: colors.tertiaryText,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         );
       },
     );

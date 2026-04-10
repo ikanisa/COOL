@@ -30,6 +30,12 @@ void main() {
 
     expect(find.text('Invite friends to COOL'), findsOneWidget);
     expect(find.text('Referral rewards'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('Share your referral link'),
+      250,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
     expect(find.text('Share your referral link'), findsOneWidget);
     expect(find.text('Invite code'), findsOneWidget);
     expect(find.text('QR / Share'), findsOneWidget);

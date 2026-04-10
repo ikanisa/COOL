@@ -16,10 +16,8 @@ abstract final class AppRoutes {
   /// @deprecated — standalone MoMo screen removed; kept for deep-link compat.
   static const momo = '/momo';
 
-
   // ── BioPay ──────────────────────────────────────────────────────
   static const biopayHome = '/momo/biopay';
-  static const biopayProfile = '/momo/biopay/profile';
   static const biopayRegister = '/momo/biopay/register';
   static const biopayQr = '/momo/biopay/qr';
   static const biopayScan = '/momo/biopay/scan';
@@ -39,17 +37,9 @@ abstract final class AppRoutes {
   static const profile = '/profile';
   static const profileWallet = '/profile/wallet';
   static const profileAccount = '/profile/account';
-  static const profileNotifications = '/profile/notifications';
-  static const profileAccess = '/profile/access';
-  static const profilePrivacy = '/profile/privacy';
-  static const profileHelp = '/profile/help';
   static const settings = profile;
   static const settingsWallet = profileWallet;
   static const settingsAccount = profileAccount;
-  static const settingsNotifications = profileNotifications;
-  static const settingsAccess = profileAccess;
-  static const settingsPrivacy = profilePrivacy;
-  static const settingsHelp = profileHelp;
 
   // ── Utilities ───────────────────────────────────────────────────
   static const scanner = '/scanner';

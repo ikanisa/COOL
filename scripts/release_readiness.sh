@@ -43,7 +43,7 @@ fi
 bash "$ROOT_DIR/scripts/verify_ios_flavors.sh"
 
 echo "==> deno test (edge functions)"
-deno test \
+deno test --allow-env=SUPABASE_SERVICE_ROLE_KEY,AUTH_PHONE_PASSWORD_SECRET,OTP_CODE_HASH_SECRET,OTP_TEST_PHONE,OTP_TEST_CODE \
   supabase/functions/verify-otp/index_test.ts \
   supabase/functions/verify-otp/verify_otp_helpers_test.ts \
   supabase/functions/parse-momo-sms/ai_parser_test.ts \

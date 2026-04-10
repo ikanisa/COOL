@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -133,7 +135,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
       error: null,
     );
 
-    final result = await AsyncValue.guard(_repository.getCurrentProfile);
+    final result = await AsyncValue.guard(
+      () => _repository.getCurrentProfile().timeout(
+        const Duration(seconds: 15),
+        onTimeout: () => throw TimeoutException(
+          'Profile restore timed out. Check your network and try again.',
+          const Duration(seconds: 15),
+        ),
+      ),
+    );
     result.when(
       data: (user) {
         state = state.copyWith(
@@ -167,7 +177,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
     debugPrint('[Auth] ➜ Anonymous sign-in');
 
     final result = await AsyncValue.guard(
-      () => _repository.signInAnonymously(),
+      () => _repository.signInAnonymously().timeout(
+        const Duration(seconds: 15),
+        onTimeout: () => throw TimeoutException(
+          'Sign-in timed out. Check your network and try again.',
+          const Duration(seconds: 15),
+        ),
+      ),
     );
 
     await result.when(
@@ -232,6 +248,120 @@ class AuthNotifier extends StateNotifier<AuthState> {
       },
       loading: () async {},
     );
+  }
+
+  /// Signs in using the session tokens returned by the `verify-otp` Edge
+  /// Function. This replaces the current anonymous session with a
+  /// phone-verified one.
+  Future<void> signInWithOtpSession({
+    required String accessToken,
+    required String refreshToken,
+  }) async {
+    state = state.copyWith(isLoading: true, error: null);
+    _performance.startTrace('auth_sign_in_otp');
+    _crashlytics.log('auth: signing in with OTP session');
+    debugPrint('[Auth] ➜ OTP session sign-in');
+
+    try {
+      final response = await _repository.setSession(
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      );
+
+      final session = response;
+      if (session == null) {
+        throw StateError('OTP session could not be established.');
+      }
+
+      debugPrint('[Auth] ✓ OTP session established: ${session.user.id}');
+
+      // Load or auto-create a minimal profile.
+      final profileResult = await AsyncValue.guard(
+        () => _repository.getProfile(session.user.id),
+      );
+
+      UserProfile? profile;
+      String? error;
+
+      profileResult.when(
+        data: (value) {
+          profile = value;
+        },
+        error: (err, stack) {
+          error = describeAuthError(err);
+          _crashlytics.recordError(
+            err,
+            stackTrace: stack,
+            reason: 'auth_load_profile_after_otp',
+          );
+        },
+        loading: () {},
+      );
+
+      // Auto-create a minimal profile if none exists but phone is available.
+      if (profile == null && error == null) {
+        final phone = authSessionPhone(session);
+        if (phone != null && phone.isNotEmpty) {
+          final createResult = await AsyncValue.guard(
+            () => _repository.createProfile(
+              UserProfile(
+                id: session.user.id,
+                phone: phone,
+                fullName: '',
+                momoNumber: '',
+                momoProvider: '',
+                country: AppMarket.countryCode,
+                languageCode: AppMarket.languageCode,
+              ),
+            ),
+          );
+          createResult.when(
+            data: (value) {
+              profile = value;
+              _crashlytics.log('auth: auto-created profile after OTP');
+            },
+            error: (err, stack) {
+              // Non-fatal — user verified but profile creation failed.
+              _crashlytics.recordError(
+                err,
+                stackTrace: stack,
+                reason: 'auth_auto_create_profile_after_otp',
+              );
+            },
+            loading: () {},
+          );
+        }
+      }
+
+      _performance.stopTrace('auth_sign_in_otp');
+      // After OTP verification, NEVER set profileRestoreState to 'failed' —
+      // that would trigger the router to redirect to splash, trapping the user.
+      // Use 'available' even if profile is missing; the gate already verified.
+      state = AuthState(
+        user: profile,
+        session: session,
+        profileRestoreState: AuthProfileRestoreState.available,
+        isLoading: false,
+        error: error,
+      );
+    } catch (error, stack) {
+      _performance.stopTrace(
+        'auth_sign_in_otp',
+        attributes: {'error': error.runtimeType.toString()},
+      );
+      _crashlytics.recordError(
+        error,
+        stackTrace: stack,
+        reason: 'auth_sign_in_otp',
+      );
+      debugPrint('[Auth] ❌ OTP sign-in failed: $error\n$stack');
+      // Preserve the previous profileRestoreState — the user still has
+      // their old session and should not be trapped on splash.
+      state = state.copyWith(
+        isLoading: false,
+        error: describeAuthError(error),
+      );
+    }
   }
 
   Future<UserProfile?> createProfile(AuthProfileData data) async {

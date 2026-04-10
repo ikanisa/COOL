@@ -38,7 +38,7 @@ enum CoolCardPadding {
 
 /// A shared card surface — Tactile Monolith system.
 ///
-/// Flat borders (white/5), no claymorphism. 4 variants.
+/// Shared monolith surface primitive with molded, glass, and outline variants.
 class CoolCard extends StatelessWidget {
   const CoolCard({
     required this.child,
@@ -190,7 +190,7 @@ class CoolCard extends StatelessWidget {
 
   Color _variantBorder(CoolSemanticColors colors) => switch (variant) {
     CoolCardVariant.default_ => Colors.transparent,
-    CoolCardVariant.glass => Colors.transparent,
+      CoolCardVariant.glass => colors.borderStrong.withValues(alpha: 0.15),
     CoolCardVariant.outline => colors.borderStrong,
     CoolCardVariant.accent => colors.accent.withValues(alpha: 0.20),
   };

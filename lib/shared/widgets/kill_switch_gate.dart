@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/l10n/l10n.dart';
 import '../../core/theme/cool_foundations.dart';
 import 'cool_button.dart';
+import 'cool_glass_header_surface.dart';
 
 /// A gate widget that blocks access to a feature when its kill-switch is active.
 class KillSwitchGate extends StatelessWidget {
@@ -38,6 +39,8 @@ class KillSwitchGate extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        toolbarHeight: 84,
+        flexibleSpace: const CoolGlassHeaderSurface(),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
           tooltip: MaterialLocalizations.of(context).backButtonTooltip,

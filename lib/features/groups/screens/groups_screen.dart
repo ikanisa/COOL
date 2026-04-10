@@ -6,12 +6,16 @@ import 'package:go_router/go_router.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/user_error.dart';
+import '../../../shared/widgets/cool_glass_header_surface.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_search_field.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/qr_share_sheet.dart';
 import '../../../shared/widgets/tab_pill.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../auth/widgets/require_verified_user.dart';
 import '../group_flow_utils.dart';
 import '../models/group.dart';
 import '../models/group_invite_preview.dart';
@@ -96,18 +100,22 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
     if (_isJoining) {
       return;
     }
+
+    // Gate: require verified phone before joining.
+    if (!await requireVerifiedUser(context, ref)) {
+      return;
+    }
+
     final user = ref.read(authProvider).user;
     if (user == null) {
-      CoolToast.error(context, 'Complete your profile first.');
       return;
     }
 
     setState(() => _isJoining = true);
     try {
-      final result = await ref.read(groupRepositoryProvider).joinPublicGroup(
-        group: group,
-        user: user,
-      );
+      final result = await ref
+          .read(groupRepositoryProvider)
+          .joinPublicGroup(group: group, user: user);
       ref.read(groupsRefreshTickProvider.notifier).state++;
       if (!mounted) {
         return;
@@ -121,7 +129,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
       _openGroup(group);
     } catch (error) {
       if (mounted) {
-        CoolToast.error(context, error.toString());
+        CoolToast.error(context, describeUserFacingError(error));
       }
     } finally {
       if (mounted) {
@@ -144,6 +152,13 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
     }
 
     setState(() => _isJoining = true);
+
+    // Gate: require verified phone before accepting invite.
+    if (!await requireVerifiedUser(context, ref)) {
+      if (mounted) setState(() => _isJoining = false);
+      return;
+    }
+
     try {
       final result = await ref
           .read(groupRepositoryProvider)
@@ -156,12 +171,15 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
       }
 
       ref.read(groupsRefreshTickProvider.notifier).state++;
-      CoolToast.success(context, context.l10n.youJoinedGroup(preview.group.name));
+      CoolToast.success(
+        context,
+        context.l10n.youJoinedGroup(preview.group.name),
+      );
       _dismissInviteBanner(navigate: false);
       _openGroup(preview.group);
     } catch (error) {
       if (mounted) {
-        CoolToast.error(context, error.toString());
+        CoolToast.error(context, describeUserFacingError(error));
       }
     } finally {
       if (mounted) {
@@ -196,190 +214,235 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
     return CoolScreenBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-      floatingActionButton: _showMine
-          ? FloatingActionButton.extended(
-              onPressed: _openCreateGroup,
-              backgroundColor: colors.accent,
-              foregroundColor: colors.accentForeground,
-              icon: const Icon(Icons.add_rounded),
-              label: Text(
-                'CREATE',
-                style: textTheme.mobiLabel(
-                  color: colors.accentForeground,
-                ).copyWith(fontWeight: FontWeight.w800),
-              ),
-            )
-          : null,
-      body: RefreshIndicator(
-        onRefresh: _refreshGroups,
-        child: CustomScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          slivers: [
-            SliverAppBar(
-              backgroundColor: colors.appBackground.withValues(alpha: 0.9),
-              elevation: 0,
-              pinned: true,
-              title: Text(
-                l10n.navGroups.toUpperCase(),
-                style: textTheme.displayCondensed(null, letterSpacing: 1.2),
-              ),
-              actions: [
-                const _DataPulseBadge().animate().fadeIn(),
-                SizedBox(width: space.x4),
-              ],
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: space.x4,
-                  vertical: space.x3,
+        floatingActionButton: _showMine
+            ? FloatingActionButton.extended(
+                onPressed: _openCreateGroup,
+                backgroundColor: colors.accent,
+                foregroundColor: colors.accentForeground,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(CoolRadii.pill),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Create groups, invite members, and collect contributions in one place.',
-                      style: textTheme.mobiLabel(color: colors.secondaryText),
-                    ),
-                    SizedBox(height: space.x3),
-                    AnimatedSwitcher(
-                      duration: CoolMotion.quick,
-                      child: Row(
-                        key: ValueKey<bool>(_showMine),
-                        children: [
-                          Expanded(
-                            child: TabPill(
-                              label: 'My Ledgers',
-                              isActive: _showMine,
-                              onTap: () => setState(() => _showMine = true),
+                icon: const Icon(Icons.add_rounded),
+                label: Text(
+                  'CREATE',
+                  style: textTheme
+                      .mobiLabel(color: colors.accentForeground)
+                      .copyWith(fontWeight: FontWeight.w800),
+                ),
+              )
+            : null,
+        body: RefreshIndicator(
+          onRefresh: _refreshGroups,
+          child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              SliverAppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                pinned: true,
+                toolbarHeight: 84,
+                flexibleSpace: const CoolGlassHeaderSurface(),
+                title: Text(
+                  l10n.navGroups.toUpperCase(),
+                  style: textTheme.displayCondensed(null, letterSpacing: 1.2),
+                ),
+                actions: [
+                  const _DataPulseBadge().animate().fadeIn(),
+                  SizedBox(width: space.x4),
+                ],
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: space.x4,
+                    vertical: space.x3,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Create groups, invite members, and collect contributions in one place.',
+                        style: textTheme.mobiLabel(color: colors.secondaryText),
+                      ),
+                      SizedBox(height: space.x3),
+                      AnimatedSwitcher(
+                        duration: CoolMotion.quick,
+                        child: Row(
+                          key: ValueKey<bool>(_showMine),
+                          children: [
+                            Expanded(
+                              child: TabPill(
+                                label: 'My Ledgers',
+                                isActive: _showMine,
+                                onTap: () => setState(() => _showMine = true),
+                              ),
                             ),
+                            SizedBox(width: space.x2),
+                            Expanded(
+                              child: TabPill(
+                                label: 'Explore',
+                                isActive: !_showMine,
+                                onTap: () => setState(() => _showMine = false),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (!_showMine) ...[
+                        SizedBox(height: space.x3),
+                        CoolSearchField(
+                          hint: l10n.searchGroups,
+                          onChanged: (value) {
+                            setState(() => _publicSearch = value.trim());
+                          },
+                        ),
+                      ],
+                      if (invitePreviewAsync != null) ...[
+                        SizedBox(height: space.x3),
+                        invitePreviewAsync.when(
+                          data: (preview) {
+                            if (preview == null) {
+                              return _InviteBanner(
+                                title: 'Invite not found',
+                                subtitle: 'This invite code is not active.',
+                                actionLabel: 'DISMISS',
+                                onAction: _dismissInviteBanner,
+                                onDismiss: _dismissInviteBanner,
+                              );
+                            }
+                            return _InviteBanner(
+                              title: preview.group.name,
+                              subtitle: preview.isMember
+                                  ? 'You already belong to this group.'
+                                  : '${preview.group.memberCount} members • ${preview.group.visibility.toUpperCase()}',
+                              actionLabel: preview.isMember
+                                  ? 'OPEN'
+                                  : 'JOIN NOW',
+                              onAction: () =>
+                                  _acceptInvite(inviteCode!, preview),
+                              onDismiss: _dismissInviteBanner,
+                              isLoading: _isJoining,
+                            );
+                          },
+                          loading: () => const _InviteBannerLoading(),
+                          error: (error, _) => _InviteBanner(
+                            title: 'Invite could not be loaded',
+                            subtitle: describeUserFacingError(error),
+                            actionLabel: 'DISMISS',
+                            onAction: _dismissInviteBanner,
+                            onDismiss: _dismissInviteBanner,
                           ),
-                          SizedBox(width: space.x2),
-                          Expanded(
-                            child: TabPill(
-                              label: 'Explore',
-                              isActive: !_showMine,
-                              onTap: () => setState(() => _showMine = false),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+              groupsAsync.when(
+                data: (groups) {
+                  if (groups.isEmpty) {
+                    return SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: _EmptyGroupsState(
+                        title: _showMine
+                            ? 'No groups yet'
+                            : l10n.groupsEmptyPublicTitle,
+                        message: _showMine
+                            ? 'Create your first group or join a public one.'
+                            : l10n.groupsEmptyPublicMessage,
+                        actionLabel: _showMine ? 'CREATE GROUP' : null,
+                        onAction: _showMine ? _openCreateGroup : null,
+                      ),
+                    );
+                  }
+
+                  return SliverPadding(
+                    padding: EdgeInsets.symmetric(horizontal: space.x4),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final group = groups[index];
+                        final isMember = myGroupIds.contains(group.id ?? '');
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: space.x3),
+                          child: _GroupLedgerCard(
+                            group: group,
+                            isMember: isMember,
+                            isBusy: _isJoining,
+                            onOpen: () => _openGroup(group),
+                            onInvite: isMember
+                                ? () => _inviteMembers(group)
+                                : null,
+                            onJoin: !isMember && group.visibility == 'public'
+                                ? () => _joinPublicGroup(group)
+                                : null,
+                            onContribute: isMember
+                                ? () => _contributeToGroup(group)
+                                : null,
+                          ),
+                        );
+                      }, childCount: groups.length),
+                    ),
+                  );
+                },
+                loading: () => SliverPadding(
+                  padding: EdgeInsets.symmetric(horizontal: space.x4),
+                  sliver: SliverList.list(
+                    children: List.generate(
+                      3,
+                      (i) => Padding(
+                        padding: EdgeInsets.only(bottom: space.x3),
+                        child: const CoolSkeleton.card(),
+                      ),
+                    ),
+                  ),
+                ),
+                error: (error, _) => SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(space.x4),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.cloud_off_rounded,
+                            size: 40,
+                            color: colors.tertiaryText,
+                          ),
+                          SizedBox(height: space.x3),
+                          Text(
+                            describeUserFacingError(error),
+                            textAlign: TextAlign.center,
+                            style: textTheme.mobiLabel(color: colors.secondaryText),
+                          ),
+                          SizedBox(height: space.x4),
+                          GestureDetector(
+                            onTap: _refreshGroups,
+                            child: Text(
+                              'TAP TO RETRY',
+                              style: textTheme.mono(
+                                null,
+                                color: colors.accent,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 1.2,
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    if (!_showMine) ...[
-                      SizedBox(height: space.x3),
-                      CoolSearchField(
-                        hint: l10n.searchGroups,
-                        onChanged: (value) {
-                          setState(() => _publicSearch = value.trim());
-                        },
-                      ),
-                    ],
-                    if (invitePreviewAsync != null) ...[
-                      SizedBox(height: space.x3),
-                      invitePreviewAsync.when(
-                        data: (preview) {
-                          if (preview == null) {
-                            return _InviteBanner(
-                              title: 'Invite not found',
-                              subtitle: 'This invite code is not active.',
-                              actionLabel: 'DISMISS',
-                              onAction: _dismissInviteBanner,
-                              onDismiss: _dismissInviteBanner,
-                            );
-                          }
-                          return _InviteBanner(
-                            title: preview.group.name,
-                            subtitle: preview.isMember
-                                ? 'You already belong to this group.'
-                                : '${preview.group.memberCount} members • ${preview.group.visibility.toUpperCase()}',
-                            actionLabel: preview.isMember ? 'OPEN' : 'JOIN NOW',
-                            onAction: () => _acceptInvite(inviteCode!, preview),
-                            onDismiss: _dismissInviteBanner,
-                            isLoading: _isJoining,
-                          );
-                        },
-                        loading: () => const _InviteBannerLoading(),
-                        error: (error, _) => _InviteBanner(
-                          title: 'Invite could not be loaded',
-                          subtitle: error.toString(),
-                          actionLabel: 'DISMISS',
-                          onAction: _dismissInviteBanner,
-                          onDismiss: _dismissInviteBanner,
-                        ),
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-            ),
-            groupsAsync.when(
-              data: (groups) {
-                if (groups.isEmpty) {
-                  return SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: _EmptyGroupsState(
-                      title: _showMine
-                          ? 'No groups yet'
-                          : l10n.groupsEmptyPublicTitle,
-                      message: _showMine
-                          ? 'Create your first group or join a public one.'
-                          : l10n.groupsEmptyPublicMessage,
-                      actionLabel: _showMine ? 'CREATE GROUP' : null,
-                      onAction: _showMine ? _openCreateGroup : null,
-                    ),
-                  );
-                }
-
-                return SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: space.x4),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      final group = groups[index];
-                      final isMember = myGroupIds.contains(group.id ?? '');
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: space.x3),
-                        child: _GroupLedgerCard(
-                          group: group,
-                          isMember: isMember,
-                          isBusy: _isJoining,
-                          onOpen: () => _openGroup(group),
-                          onInvite: isMember ? () => _inviteMembers(group) : null,
-                          onJoin: !isMember && group.visibility == 'public'
-                              ? () => _joinPublicGroup(group)
-                              : null,
-                          onContribute: isMember
-                              ? () => _contributeToGroup(group)
-                              : null,
-                        ),
-                      );
-                    }, childCount: groups.length),
-                  ),
-                );
-              },
-              loading: () => const SliverFillRemaining(
-                child: Center(child: CircularProgressIndicator()),
-              ),
-              error: (error, _) => SliverFillRemaining(
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(space.x4),
-                    child: Text(
-                      '${l10n.loadGroupsFailed}: $error',
-                      textAlign: TextAlign.center,
-                      style: textTheme.mobiLabel(color: colors.danger),
-                    ),
                   ),
                 ),
               ),
-            ),
-            SliverPadding(
-              padding: EdgeInsets.only(
-                bottom: MediaQuery.paddingOf(context).bottom + 110,
+              SliverPadding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.paddingOf(context).bottom + 110,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
       ),
     );
   }

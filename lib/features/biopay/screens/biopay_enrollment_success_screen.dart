@@ -100,7 +100,7 @@ class BiopayEnrollmentSuccessScreen extends StatelessWidget {
           ),
           const SizedBox(height: CoolSpace.x7),
           TextButton(
-            onPressed: () => context.go(AppRoutes.biopayProfile),
+            onPressed: () => context.go(AppRoutes.profileAccount),
             child: Text(
               'Go to Profile',
               style: context.coolText.headline(

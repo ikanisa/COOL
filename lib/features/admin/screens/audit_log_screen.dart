@@ -3,19 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/dense_admin_workspace_scaffold.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../providers/admin_providers.dart';
-import '../../../core/l10n/l10n.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
-
-EdgeInsets _auditHorizontalPadding() =>
-    CoolSpace.sectionPadding.copyWith(top: 0, bottom: 0);
 
 EdgeInsets _auditLogListPadding() =>
-    CoolSpace.scaffoldPadding.copyWith(bottom: CoolSpace.x7);
+    const EdgeInsets.only(bottom: CoolSpace.x7);
 
 /// Audit log viewer — shows all admin actions captured by DB triggers.
 class AuditLogScreen extends ConsumerStatefulWidget {
@@ -37,121 +33,84 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     final logsAsync = ref.watch(adminAuditLogProvider(_selectedAction));
 
-    return CoolScreenBackground(
-      showGlow: false,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            tooltip: context.l10n.back,
-            icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
-          ),
+    return DenseAdminWorkspaceScaffold(
+      title: Text(
+        'Audit Log',
+        style: theme.textTheme.headlineMedium?.copyWith(
+          fontWeight: FontWeight.w800,
+          height: 1.1,
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: _auditHorizontalPadding(),
-              child: Semantics(
-                header: true,
-                child: Text(
-                  'Audit Log',
-                  style: theme.textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
-                    height: 1.1,
-                    color: colors.primaryText,
+      ),
+      subtitle: Text(
+        'Who changed what and when',
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: context.coolSemanticColors.secondaryText,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      filterActions: [
+        for (final action in _actionFilters)
+          Builder(
+            builder: (context) {
+              final colors = context.coolSemanticColors;
+              final isSelected = _selectedAction == action;
+              final label = action == null
+                  ? 'All'
+                  : action[0].toUpperCase() + action.substring(1);
+              return Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: ChoiceChip(
+                  showCheckmark: false,
+                  label: Text(label),
+                  selected: isSelected,
+                  onSelected: (_) {
+                    HapticFeedback.selectionClick();
+                    setState(() => _selectedAction = action);
+                  },
+                  backgroundColor: colors.chipBackground,
+                  selectedColor: colors.chipSelectedBackground,
+                  labelStyle: theme.textTheme.labelLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: isSelected
+                        ? colors.primaryText
+                        : colors.secondaryText,
                   ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 6),
-            Padding(
-              padding: _auditHorizontalPadding(),
-              child: Text(
-                'Who changed what and when',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: colors.secondaryText,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            const SizedBox(height: CoolSpace.x4),
-            SizedBox(
-              height: 48,
-              child: ListView.separated(
-                padding: _auditHorizontalPadding(),
-                scrollDirection: Axis.horizontal,
-                itemCount: _actionFilters.length,
-                separatorBuilder: (_, _) => const SizedBox(width: 8),
-                itemBuilder: (context, index) {
-                  final action = _actionFilters[index];
-                  final isSelected = _selectedAction == action;
-                  final label = action == null
-                      ? 'All'
-                      : action[0].toUpperCase() + action.substring(1);
-                  return ChoiceChip(
-                    showCheckmark: false,
-                    label: Text(label),
-                    selected: isSelected,
-                    onSelected: (_) {
-                      HapticFeedback.selectionClick();
-                      setState(() => _selectedAction = action);
-                    },
-                    backgroundColor: colors.chipBackground,
-                    selectedColor: colors.chipSelectedBackground,
-                    labelStyle: theme.textTheme.labelLarge?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: isSelected
-                          ? colors.accentStrong
-                          : colors.secondaryText,
+                  side: BorderSide.none,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(CoolRadii.pill),
                     ),
-                    side: BorderSide.none,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(CoolRadii.pill),
-                      ),
-                    ),
-                    visualDensity: VisualDensity.compact,
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: CoolSpace.x4),
-            Expanded(
-              child: CoolAsyncView<List<Map<String, dynamic>>>(
-                value: logsAsync,
-                onRetry: () =>
-                    ref.invalidate(adminAuditLogProvider(_selectedAction)),
-                loadingWidget: const Padding(
-                  padding: CoolSpace.scaffoldPadding,
-                  child: CoolSkeletonList(itemCount: 6),
+                  ),
+                  visualDensity: VisualDensity.compact,
                 ),
-                emptyCheck: (logs) => logs.isEmpty,
-                emptyWidget: const CoolEmptyView(
-                  message: 'No audit entries yet',
-                  icon: Icons.history_rounded,
-                ),
-                builder: (logs) {
-                  return ListView.separated(
-                    padding: _auditLogListPadding(),
-                    itemCount: logs.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: 10),
-                    itemBuilder: (context, index) =>
-                        _AuditEntryTile(entry: logs[index]),
-                  );
-                },
-              ),
-            ),
-          ],
+              );
+            },
+          ),
+      ],
+      child: CoolAsyncView<List<Map<String, dynamic>>>(
+        value: logsAsync,
+        onRetry: () => ref.invalidate(adminAuditLogProvider(_selectedAction)),
+        loadingWidget: const Padding(
+          padding: EdgeInsets.only(bottom: CoolSpace.x7),
+          child: CoolSkeletonList(itemCount: 6),
         ),
+        emptyCheck: (logs) => logs.isEmpty,
+        emptyWidget: const CoolEmptyView(
+          message: 'No audit entries yet',
+          icon: Icons.history_rounded,
+        ),
+        builder: (logs) {
+          return ListView.separated(
+            padding: _auditLogListPadding(),
+            itemCount: logs.length,
+            separatorBuilder: (_, _) => const SizedBox(height: 10),
+            itemBuilder: (context, index) =>
+                _AuditEntryTile(entry: logs[index]),
+          );
+        },
       ),
     );
   }

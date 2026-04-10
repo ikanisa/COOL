@@ -75,7 +75,7 @@ abstract final class CoolSpace {
   static const double x8 = 40.0;
   static const double x9 = 48.0;
   static const double x10 = 64.0;
-  static const double x12 = x3;
+  static const double x12 = 96.0; // 12 × base-8 = 96
   static const double x16 = 88.0;
 
   static const EdgeInsets pagePadding = EdgeInsets.symmetric(

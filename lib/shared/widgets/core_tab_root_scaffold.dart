@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/cool_layout.dart';
+import 'cool_glass_header_surface.dart';
 import 'cool_screen_background.dart';
 
 /// Standard shell for primary tab-root surfaces (Home, Groups, MoMo, etc).
@@ -98,16 +99,7 @@ class CoreTabRootScaffold extends StatelessWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
           toolbarHeight: 84,
-          flexibleSpace: DecoratedBox(
-            decoration: BoxDecoration(
-              color: context.coolSemanticColors.appBackground.withValues(
-                alpha: 0.88,
-              ),
-              border: Border(
-                bottom: BorderSide(color: context.coolSemanticColors.border),
-              ),
-            ),
-          ),
+          flexibleSpace: const CoolGlassHeaderSurface(),
           actions: actions,
         ),
         body: body,

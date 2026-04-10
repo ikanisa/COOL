@@ -8,20 +8,20 @@ import '../../../core/models/engagement_feature_flags.dart';
 import '../../../core/providers/engagement_providers.dart';
 import '../../../core/providers/supported_countries_provider.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/admin_detail_scaffold.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../models/admin_feature_rollout.dart';
 import '../providers/admin_providers.dart';
 import '../../../core/l10n/l10n.dart';
-import '../../../shared/widgets/cool_bottom_sheet.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
 
 part '../controllers/manage_app_config_view_model.dart';
 part '../widgets/manage_app_config_sections.dart';
 part '../widgets/manage_app_config_sheets.dart';
 part '../widgets/manage_app_config_edit_sheets.dart';
 
-EdgeInsets _appConfigListPadding() => CoolSpace.scaffoldPadding;
+EdgeInsets _appConfigListPadding() =>
+    const EdgeInsets.only(bottom: CoolSpace.x7);
 
 EdgeInsets _appConfigSectionSpacing() => CoolSpace.sectionPadding.copyWith(
   left: 0,
@@ -45,160 +45,164 @@ const BorderRadius _appConfigActionRadius = BorderRadius.all(
 class ManageAppConfigScreen extends ConsumerWidget {
   const ManageAppConfigScreen({super.key});
 
+  Future<T?> _showAdminEditor<T>(BuildContext context, WidgetBuilder builder) {
+    return showGeneralDialog<T>(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: Colors.black54,
+      transitionDuration: Duration.zero,
+      pageBuilder: (dialogContext, _, __) => Material(
+        type: MaterialType.transparency,
+        child: SafeArea(
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: builder(dialogContext),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     final configAsync = ref.watch(adminAppConfigProvider);
     final partnerRoutesAsync = ref.watch(adminPartnerPaymentRoutesProvider);
     final partnersAsync = ref.watch(adminPartnersProvider);
     final countries = ref.watch(supportedCountriesProvider);
 
-    return CoolScreenBackground(
-      showGlow: false,
-
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          automaticallyImplyLeading: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            tooltip: context.l10n.back,
-            icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
-          ),
+    return AdminDetailScaffold(
+      title: Text(
+        'App Config',
+        style: theme.textTheme.displayLarge?.copyWith(
+          fontWeight: FontWeight.w800,
+          height: 1.1,
         ),
-        floatingActionButton: Semantics(
-          button: true,
-          label: context.l10n.addConfigEntry,
-          hint: 'New config',
-          child: FloatingActionButton(
-            backgroundColor: colors.accent,
-            onPressed: () => _showEditSheet(context, ref, null, countries),
-            child: Icon(Icons.add_rounded, color: theme.colorScheme.onPrimary),
-          ),
+      ),
+      subtitle: Text(
+        context.l10n.rolloutGovernance,
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: context.coolSemanticColors.secondaryText,
+          fontWeight: FontWeight.w600,
         ),
-        body: CoolAsyncView<List<Map<String, dynamic>>>(
-          value: configAsync,
-          onRetry: () => ref.invalidate(adminAppConfigProvider),
-          emptyCheck: (_) => false,
-          builder: (configs) {
-            final viewModel = ManageAppConfigViewModel.fromEntries(configs);
-            final partnerRoutes = partnerRoutesAsync.valueOrNull ?? const [];
-            final partners = partnersAsync.valueOrNull ?? const [];
-            return ListView(
-              padding: _appConfigListPadding(),
-              children: [
-                Text(
-                  'App Config',
-                  style: theme.textTheme.displayLarge?.copyWith(
-                    color: colors.primaryText,
-                    fontWeight: FontWeight.w800,
-                    height: 1.1,
+      ),
+      floatingActionButton: Semantics(
+        button: true,
+        label: context.l10n.addConfigEntry,
+        hint: 'New config',
+        child: FloatingActionButton(
+          backgroundColor: context.coolSemanticColors.accent,
+          onPressed: () => _showEditSheet(context, ref, null, countries),
+          child: Icon(Icons.add_rounded, color: theme.colorScheme.onPrimary),
+        ),
+      ),
+      child: CoolAsyncView<List<Map<String, dynamic>>>(
+        value: configAsync,
+        onRetry: () => ref.invalidate(adminAppConfigProvider),
+        emptyCheck: (_) => false,
+        builder: (configs) {
+          final colors = context.coolSemanticColors;
+          final viewModel = ManageAppConfigViewModel.fromEntries(configs);
+          final partnerRoutes = partnerRoutesAsync.valueOrNull ?? const [];
+          final partners = partnersAsync.valueOrNull ?? const [];
+          return ListView(
+            padding: _appConfigListPadding(),
+            children: [
+              const SizedBox(height: CoolSpace.x1),
+              ...viewModel.rollouts.map(
+                (rollout) => Padding(
+                  padding: _appConfigSectionSpacing(),
+                  child: RolloutCard(
+                    rollout: rollout,
+                    onEdit: () =>
+                        _showRolloutSheet(context, ref, rollout, countries),
                   ),
                 ),
-                const SizedBox(height: CoolSpace.x6),
-                AppConfigSectionHeader(
-                  title: context.l10n.rolloutGovernance,
-                  message: 'Manage kill switches rollout',
-                ),
-                const SizedBox(height: CoolSpace.x3),
-                ...viewModel.rollouts.map(
-                  (rollout) => Padding(
-                    padding: _appConfigSectionSpacing(),
-                    child: RolloutCard(
-                      rollout: rollout,
-                      onEdit: () =>
-                          _showRolloutSheet(context, ref, rollout, countries),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: CoolSpace.x3),
-                const AppConfigSectionHeader(
-                  title: 'Partner Payment Routes',
-                  message: 'Manage Rwanda partner checkout',
-                ),
-                const SizedBox(height: CoolSpace.x3),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: OutlinedButton.icon(
-                    onPressed: partners.isEmpty
-                        ? null
-                        : () => _showPartnerPaymentRouteSheet(
-                            context,
-                            ref,
-                            null,
-                            countries,
-                            partners,
-                          ),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: colors.primaryText,
-                      side: BorderSide(color: colors.border),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: _appConfigActionRadius,
-                      ),
-                    ),
-                    icon: const Icon(Icons.add_rounded, size: 18),
-                    label: Text(
-                      'Add route',
-                      style: theme.textTheme.labelLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: CoolSpace.x3),
-                if (partnerRoutesAsync.isLoading && partnerRoutes.isEmpty)
-                  const EmptyConfigCard(
-                    message: 'Loading partner payment routes…',
-                  )
-                else if (partnerRoutesAsync.hasError)
-                  const EmptyConfigCard(message: 'Load partner payment failed')
-                else if (partnerRoutes.isEmpty)
-                  const EmptyConfigCard(message: 'No partner payment routes')
-                else
-                  ...partnerRoutes.map(
-                    (route) => Padding(
-                      padding: _appConfigTileSpacing(),
-                      child: PartnerPaymentRouteConfigTile(
-                        config: route,
-                        countries: countries,
-                        onEdit: () => _showPartnerPaymentRouteSheet(
+              ),
+              const SizedBox(height: CoolSpace.x3),
+              const AppConfigSectionHeader(
+                title: 'Partner Payment Routes',
+                message: 'Manage Rwanda partner checkout',
+              ),
+              const SizedBox(height: CoolSpace.x3),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: OutlinedButton.icon(
+                  onPressed: partners.isEmpty
+                      ? null
+                      : () => _showPartnerPaymentRouteSheet(
                           context,
                           ref,
-                          route,
+                          null,
                           countries,
                           partners,
                         ),
-                      ),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: colors.primaryText,
+                    side: BorderSide.none,
+                    backgroundColor: colors.buttonSecondaryBackground,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: _appConfigActionRadius,
                     ),
                   ),
-                const SizedBox(height: CoolSpace.x3),
-                const AppConfigSectionHeader(
-                  title: 'Additional Config',
-                  message: 'Use the generic config',
+                  icon: const Icon(Icons.add_rounded, size: 18),
+                  label: Text(
+                    'Add route',
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
-                const SizedBox(height: CoolSpace.x3),
-                if (viewModel.genericConfigs.isEmpty)
-                  const EmptyConfigCard(
-                    message: 'No non-rollout config entries',
-                  )
-                else
-                  ...viewModel.genericConfigs.map(
-                    (config) => Padding(
-                      padding: _appConfigTileSpacing(),
-                      child: ConfigTile(
-                        config: config,
-                        onEdit: () =>
-                            _showEditSheet(context, ref, config, countries),
+              ),
+              const SizedBox(height: CoolSpace.x3),
+              if (partnerRoutesAsync.isLoading && partnerRoutes.isEmpty)
+                const EmptyConfigCard(
+                  message: 'Loading partner payment routes…',
+                )
+              else if (partnerRoutesAsync.hasError)
+                const EmptyConfigCard(message: 'Load partner payment failed')
+              else if (partnerRoutes.isEmpty)
+                const EmptyConfigCard(message: 'No partner payment routes')
+              else
+                ...partnerRoutes.map(
+                  (route) => Padding(
+                    padding: _appConfigTileSpacing(),
+                    child: PartnerPaymentRouteConfigTile(
+                      config: route,
+                      countries: countries,
+                      onEdit: () => _showPartnerPaymentRouteSheet(
+                        context,
+                        ref,
+                        route,
+                        countries,
+                        partners,
                       ),
                     ),
                   ),
-              ],
-            );
-          },
-        ),
+                ),
+              const SizedBox(height: CoolSpace.x3),
+              const AppConfigSectionHeader(
+                title: 'Additional Config',
+                message: 'Use the generic config',
+              ),
+              const SizedBox(height: CoolSpace.x3),
+              if (viewModel.genericConfigs.isEmpty)
+                const EmptyConfigCard(message: 'No non-rollout config entries')
+              else
+                ...viewModel.genericConfigs.map(
+                  (config) => Padding(
+                    padding: _appConfigTileSpacing(),
+                    child: ConfigTile(
+                      config: config,
+                      onEdit: () =>
+                          _showEditSheet(context, ref, config, countries),
+                    ),
+                  ),
+                ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -210,11 +214,9 @@ class ManageAppConfigScreen extends ConsumerWidget {
     List<CoolCountry> countries,
     List<Map<String, dynamic>> partners,
   ) {
-    showCoolBottomSheet<void>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (_) => EditPartnerPaymentRouteSheet(
+    _showAdminEditor<void>(
+      context,
+      (_) => EditPartnerPaymentRouteSheet(
         route: route,
         ref: ref,
         countries: countries,
@@ -229,12 +231,9 @@ class ManageAppConfigScreen extends ConsumerWidget {
     Map<String, dynamic>? config,
     List<CoolCountry> countries,
   ) {
-    showCoolBottomSheet<void>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (_) =>
-          EditConfigSheet(config: config, ref: ref, countries: countries),
+    _showAdminEditor<void>(
+      context,
+      (_) => EditConfigSheet(config: config, ref: ref, countries: countries),
     );
   }
 
@@ -244,12 +243,9 @@ class ManageAppConfigScreen extends ConsumerWidget {
     AdminFeatureRolloutConfig rollout,
     List<CoolCountry> countries,
   ) {
-    showCoolBottomSheet<void>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (_) =>
-          EditRolloutSheet(rollout: rollout, ref: ref, countries: countries),
+    _showAdminEditor<void>(
+      context,
+      (_) => EditRolloutSheet(rollout: rollout, ref: ref, countries: countries),
     );
   }
 }

@@ -1,10 +1,9 @@
 part of 'home_sections.dart';
 
 class _ProfileAvatar extends StatelessWidget {
-  const _ProfileAvatar({required this.avatarUrl, required this.initials});
+  const _ProfileAvatar({required this.avatarUrl});
 
   final String? avatarUrl;
-  final String initials;
 
   @override
   Widget build(BuildContext context) {
@@ -16,17 +15,16 @@ class _ProfileAvatar extends StatelessWidget {
       height: 54,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(color: colors.borderStrong),
+        color: colors.cardSurface,
         boxShadow: CoolShadows.ambientFloat(strength: 0.4),
       ),
       child: ClipOval(
         child: imageUrl.isEmpty
-            ? _AvatarFallback(initials: initials)
+            ? const _AvatarFallback()
             : Image.network(
                 imageUrl,
                 fit: BoxFit.cover,
-                errorBuilder: (_, error, stackTrace) =>
-                    _AvatarFallback(initials: initials),
+                errorBuilder: (_, error, stackTrace) => const _AvatarFallback(),
               ),
       ),
     );
@@ -34,9 +32,7 @@ class _ProfileAvatar extends StatelessWidget {
 }
 
 class _AvatarFallback extends StatelessWidget {
-  const _AvatarFallback({required this.initials});
-
-  final String initials;
+  const _AvatarFallback();
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +45,10 @@ class _AvatarFallback extends StatelessWidget {
           colors: <Color>[colors.cardSurface, colors.appBackground],
         ),
       ),
-      child: Center(
-        child: Text(
-          initials,
-          style: context.coolText.mono(
-            Theme.of(context).textTheme.labelMedium,
-            color: colors.primaryText,
-            fontWeight: FontWeight.w700,
-          ),
+      child: const Center(
+        child: Padding(
+          padding: EdgeInsets.all(CoolSpace.x2),
+          child: CoolBrandMark(size: 28),
         ),
       ),
     );

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/cool_foundations.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../core/utils/user_error.dart';
+import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../momo/models/momo_statement.dart';
 import '../../momo/providers/momo_statement_providers.dart';
 import '../providers/groups_provider.dart';
@@ -18,7 +18,6 @@ class GroupStatementsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.coolSemanticColors;
-    final topPad = MediaQuery.viewPaddingOf(context).top;
     final bottomPad = MediaQuery.viewPaddingOf(context).bottom;
     final groupAsync = ref.watch(groupDetailProvider(groupId));
 
@@ -31,123 +30,71 @@ class GroupStatementsScreen extends ConsumerWidget {
       ),
     );
 
-    return Scaffold(
-      backgroundColor: colors.appBackground,
-      body: CoolScreenBackground(
-        child: CustomScrollView(
-          slivers: [
-            // ── Header ────────────────────────────────────────────
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(
-                  CoolSpace.x4,
-                  topPad + CoolSpace.x3,
-                  CoolSpace.x4,
-                  0,
-                ),
-                child: Row(
-                  children: [
-                    InkWell(
-                      borderRadius: BorderRadius.circular(CoolRadii.pill),
-                      onTap: () {
-                        if (context.canPop()) context.pop();
-                      },
-                      child: Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          color: colors.cardSurface,
-                          shape: BoxShape.circle,
-                          boxShadow: CoolShadows.ambientFloat(strength: 0.3),
-                        ),
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.arrow_back_rounded,
-                          color: colors.primaryText,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: CoolSpace.x3),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'STATEMENTS',
-                            style: context.coolText.displayCondensed(
-                              Theme.of(context).textTheme.headlineSmall,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                          Text(
-                            groupAsync.when(
-                              data: (g) =>
-                                  g?.name.toUpperCase() ?? 'GROUP LEDGER',
-                              loading: () => 'LOADING',
-                              error: (_, stackTrace) => 'GROUP LEDGER',
-                            ),
-                            style: context.coolText.mono(
-                              Theme.of(context).textTheme.labelSmall,
-                              fontWeight: FontWeight.w700,
-                              color: colors.secondaryText,
-                              letterSpacing: 1.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: colors.accent.withValues(alpha: 0.1),
-                        shape: BoxShape.circle,
-                      ),
-                      alignment: Alignment.center,
-                      child: Icon(
-                        Icons.receipt_long_rounded,
-                        color: colors.accent,
-                        size: 22,
-                      ),
-                    ),
-                  ],
-                ),
+    return CoreDetailScaffold(
+      title: Text(
+        'STATEMENTS',
+        style: context.coolText.displayCondensed(
+          Theme.of(context).textTheme.headlineSmall,
+          fontWeight: FontWeight.w900,
+        ),
+      ),
+      subtitle: Text(
+        groupAsync.when(
+          data: (g) => g?.name.toUpperCase() ?? 'GROUP LEDGER',
+          loading: () => 'LOADING',
+          error: (_, stackTrace) => 'GROUP LEDGER',
+        ),
+        style: context.coolText.mono(
+          Theme.of(context).textTheme.labelSmall,
+          fontWeight: FontWeight.w700,
+          color: colors.secondaryText,
+          letterSpacing: 1.0,
+        ),
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: CoolSpace.x4),
+          child: IgnorePointer(
+            child: Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: colors.accent.withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: Icon(
+                Icons.receipt_long_rounded,
+                color: colors.accent,
+                size: 22,
               ),
             ),
-
-            // ── Content ───────────────────────────────────────────
-            SliverPadding(
-              padding: EdgeInsets.fromLTRB(
-                CoolSpace.x5,
-                CoolSpace.x5,
-                CoolSpace.x5,
-                CoolSpace.x8 + bottomPad + 80,
-              ),
-              sliver: ledgerAsync.when(
-                data: (page) {
-                  if (page.entries.isEmpty) {
-                    return SliverToBoxAdapter(child: _EmptyState(colors));
-                  }
-                  return SliverList.builder(
-                    itemCount: page.entries.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: CoolSpace.x3),
-                        child: _StatementTile(entry: page.entries[index]),
-                      );
-                    },
-                  );
-                },
-                loading: () => const SliverFillRemaining(
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-                error: (error, _) => SliverToBoxAdapter(
-                  child: _ErrorState(colors: colors, message: error.toString()),
-                ),
-              ),
-            ),
-          ],
+          ),
+        ),
+      ],
+      child: ledgerAsync.when(
+        data: (page) {
+          if (page.entries.isEmpty) {
+            return ListView(
+              padding: EdgeInsets.only(bottom: CoolSpace.x8 + bottomPad),
+              children: [_EmptyState(colors)],
+            );
+          }
+          return ListView.builder(
+            padding: EdgeInsets.only(bottom: CoolSpace.x8 + bottomPad),
+            itemCount: page.entries.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: CoolSpace.x3),
+                child: _StatementTile(entry: page.entries[index]),
+              );
+            },
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, _) => ListView(
+          padding: EdgeInsets.only(bottom: CoolSpace.x8 + bottomPad),
+          children: [_ErrorState(colors: colors, message: describeUserFacingError(error))],
         ),
       ),
     );

@@ -5,7 +5,6 @@ import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../models/home_dashboard_data.dart';
 
-
 String fmtAmt(int v) {
   final s = v.toString();
   final b = StringBuffer();
@@ -97,19 +96,19 @@ String resolveDisplayName(String? officialName, String? fullName) {
     return full;
   }
 
-  return 'COOL Member';
+  return 'Coool';
 }
 
 String initialsForName(String name) {
   final compact = name.trim();
   if (compact.isEmpty) {
-    return 'CM';
+    return 'CO';
   }
 
   final parts = compact.split(RegExp(r'\s+')).where((part) => part.isNotEmpty);
   final list = parts.toList(growable: false);
   if (list.isEmpty) {
-    return 'CM';
+    return 'CO';
   }
   if (list.length == 1) {
     return list.first.characters.take(2).toString().toUpperCase();

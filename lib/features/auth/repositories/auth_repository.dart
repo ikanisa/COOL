@@ -23,6 +23,15 @@ class AuthRepository {
     return session;
   }
 
+  /// Sets a session from access + refresh tokens (e.g. after OTP verification).
+  Future<Session?> setSession({
+    required String accessToken,
+    required String refreshToken,
+  }) async {
+    final response = await _client.auth.setSession(refreshToken);
+    return response.session;
+  }
+
   Future<UserProfile> createProfile(UserProfile profile) async {
     final inserted = await _client
         .from('users')

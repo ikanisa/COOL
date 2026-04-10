@@ -11,6 +11,7 @@ import '../../../core/providers/app_access_provider.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/services/app_access_service.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/models/user_profile.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -82,6 +83,8 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
     final supportsCode = country.supportsMomoCode;
 
     _seedControllers(user: user, profile: profile, country: country);
+    final nfcNotAvailable =
+        _nfcAccess?.kind == AppAccessStateKind.notAvailable;
 
     return BiopayLightScaffold(
       topPadding: CoolSpace.x2,
@@ -196,10 +199,10 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
           ],
           const SizedBox(height: CoolSpace.x7),
           BiopayPrimaryButton(
-            label: 'Activate NFC',
+            label: nfcNotAvailable ? 'NFC Not Available' : 'Activate NFC',
             icon: Icons.nfc_rounded,
             isLoading: _isActivating,
-            onTap: () => _activateNfc(country),
+            onTap: nfcNotAvailable ? null : () => _activateNfc(country),
           ),
           if (_isReceiveModeActive) ...[
             const SizedBox(height: CoolSpace.x4),
@@ -351,7 +354,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
       if (!mounted) {
         return;
       }
-      CoolToast.error(context, error.toString());
+      CoolToast.error(context, describeUserFacingError(error));
     } finally {
       if (mounted) {
         setState(() => _isActivating = false);
@@ -375,7 +378,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
       if (!mounted) {
         return;
       }
-      CoolToast.error(context, error.toString());
+      CoolToast.error(context, describeUserFacingError(error));
     } finally {
       if (mounted) {
         setState(() => _isActivating = false);

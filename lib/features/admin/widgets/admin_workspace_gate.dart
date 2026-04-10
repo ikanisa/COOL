@@ -5,9 +5,9 @@ import 'package:go_router/go_router.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/admin_detail_scaffold.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
 import '../providers/admin_workspace_access_provider.dart';
 
 const BorderRadius _adminWorkspaceGateHeroRadius = BorderRadius.all(
@@ -152,35 +152,19 @@ class _AdminStateScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
-    return CoolScreenBackground(
-      showGlow: false,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          surfaceTintColor: Colors.transparent,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          iconTheme: IconThemeData(color: colors.primaryText),
-          title: Text(
-            title,
-            style: theme.textTheme.titleLarge?.copyWith(
-              color: colors.primaryText,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
+    return AdminDetailScaffold(
+      title: Text(
+        title,
+        style: theme.textTheme.headlineSmall?.copyWith(
+          color: colors.primaryText,
+          fontWeight: FontWeight.w900,
         ),
-        body: SafeArea(
-          top: false,
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 720),
-              child: SingleChildScrollView(
-                padding: CoolSpace.scaffoldPadding,
-                child: child,
-              ),
-            ),
-          ),
+      ),
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 720),
+          child: SingleChildScrollView(child: child),
         ),
       ),
     );

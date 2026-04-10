@@ -249,9 +249,9 @@ Future<void> _handleBiopayEnrollmentEmbedding(
     state._setScannerState(
       tone: BiopayScannerTone.error,
       statusLabel: 'Enrollment failed',
-      helperText: error.toString(),
+      helperText: describeUserFacingError(error),
     );
-    CoolToast.error(state.context, error.toString());
+    CoolToast.error(state.context, describeUserFacingError(error));
   } finally {
     state._isSubmitting = false;
   }
@@ -308,7 +308,44 @@ Future<void> _handleBiopayMatchEmbedding(
     state._setScannerState(
       tone: BiopayScannerTone.ready,
       statusLabel: 'Match confirmed',
-      helperText: 'Preparing secure dialer for handoff...',
+      helperText: 'Review the payee before proceeding.',
+    );
+
+    // ── Payee confirmation gate ──────────────────────────────────
+    // Stop the camera pipeline so the user sees a stable preview
+    // while reviewing the payee confirmation sheet.
+    await state._stopCameraPipeline();
+
+    if (!state.mounted) {
+      return;
+    }
+
+    final confirmed =
+        await BiopayPayeeConfirmationSheet.show(
+      state.context,
+      profile: result.profile!,
+      matchScore: result.score,
+    );
+
+    if (!state.mounted) {
+      return;
+    }
+    if (!confirmed) {
+      // User cancelled — restart the camera pipeline for another scan.
+      state._setScannerState(
+        tone: BiopayScannerTone.searching,
+        statusLabel: 'Point the camera at the payee\'s face',
+        helperText:
+            'Payment cancelled. Scan again or tap ← to exit.',
+      );
+      await state._initializeCamera();
+      return;
+    }
+
+    state._setScannerState(
+      tone: BiopayScannerTone.ready,
+      statusLabel: 'Processing payment...',
+      helperText: 'Creating secure payment intent...',
     );
 
     final intent = await state.ref
@@ -368,9 +405,9 @@ Future<void> _handleBiopayMatchEmbedding(
     state._setScannerState(
       tone: BiopayScannerTone.error,
       statusLabel: 'Match failed',
-      helperText: error.toString(),
+      helperText: describeUserFacingError(error),
     );
-    CoolToast.error(state.context, error.toString());
+    CoolToast.error(state.context, describeUserFacingError(error));
   } finally {
     if (state.mounted) {
       state._updateScannerState(() => state._isSubmitting = false);

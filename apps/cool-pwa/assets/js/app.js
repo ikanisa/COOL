@@ -167,6 +167,8 @@ async function registerServiceWorker() {
   }
 
   try {
+    const hadControllerBeforeRegister = Boolean(navigator.serviceWorker.controller);
+    let handledControllerChange = false;
     const registration = await navigator.serviceWorker.register(
       '/service-worker.js',
     );
@@ -220,6 +222,13 @@ async function registerServiceWorker() {
     });
 
     navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (handledControllerChange) {
+        return;
+      }
+      if (!hadControllerBeforeRegister && !state.updateReady) {
+        return;
+      }
+      handledControllerChange = true;
       state.updateReady = false;
       window.location.reload();
     });

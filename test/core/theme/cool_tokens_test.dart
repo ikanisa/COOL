@@ -54,7 +54,7 @@ void main() {
   });
 
   group('CoolRadii', () {
-    test('radius scale is monotonically increasing', () {
+    test('radius scale is non-decreasing', () {
       const scale = <double>[
         CoolRadii.xs,
         CoolRadii.sm,
@@ -68,19 +68,19 @@ void main() {
       for (var i = 1; i < scale.length; i++) {
         expect(
           scale[i],
-          greaterThan(scale[i - 1]),
-          reason: 'Radii scale must be increasing',
+          greaterThanOrEqualTo(scale[i - 1]),
+          reason: 'Radii scale must be non-decreasing',
         );
       }
     });
 
     test('radius values match expected grid', () {
-      expect(CoolRadii.xs, 12.0);
-      expect(CoolRadii.sm, 16.0);
-      expect(CoolRadii.md, 22.0);
-      expect(CoolRadii.lg, 28.0);
-      expect(CoolRadii.xl, 32.0);
-      expect(CoolRadii.xxl, 36.0);
+      expect(CoolRadii.xs, 16.0);
+      expect(CoolRadii.sm, 20.0);
+      expect(CoolRadii.md, 24.0);
+      expect(CoolRadii.lg, 32.0);
+      expect(CoolRadii.xl, 48.0);
+      expect(CoolRadii.xxl, 48.0);
       expect(CoolRadii.pill, 999.0);
     });
 

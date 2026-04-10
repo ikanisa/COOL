@@ -165,6 +165,7 @@ Staff (internal) → Beta (1-2 weeks soak) → Production
 | `COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT` | Final Google Play app-signing SHA-256 fingerprint |
 | `COOL_IOS_TEAM_ID` | Apple Developer Team ID for the production bundle |
 | `COOL_IOS_APP_STORE_ID` | Production App Store listing ID |
+| `COOL_REQUIRE_IOS_RELEASE_METADATA` | Set to `1` when validating an iOS release so deep-link tooling requires iOS Team/App Store metadata |
 | `SUPABASE_DB_URL` | Optional remote database connection used to enable M-Money SMS Supabase rollout verification during release readiness |
 
 ## Native Release Inputs
@@ -190,6 +191,7 @@ omitted.
 - `COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT`
 - `COOL_IOS_TEAM_ID`
 - `COOL_IOS_APP_STORE_ID`
+- `COOL_REQUIRE_IOS_RELEASE_METADATA`
 
 Client `GOOGLE_MAPS_ANDROID_API_KEY` and `GOOGLE_MAPS_IOS_API_KEY` are optional
 in this repo. If absent, the app still ships, but embedded

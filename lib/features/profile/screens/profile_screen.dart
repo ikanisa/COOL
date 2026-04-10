@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/providers/engagement_providers.dart';
-import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/glass_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -16,8 +17,8 @@ import '../providers/profile_view_provider.dart';
 import '../widgets/profile_dialogs.dart';
 
 // ─────────────────────────────────────────────────────────────────────
-// ProfileScreen
-// Sections: Header → IDENTITY → APP SETTINGS → SUPPORT
+// ProfileScreen (Settings tab root)
+// Sections: Header → APP SETTINGS → SUPPORT
 // ─────────────────────────────────────────────────────────────────────
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -47,7 +48,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       return;
     }
 
-    context.go(AppRoutes.splash);
+    // The router redirect watches authProvider and will auto-navigate to
+    // splash when the session is cleared. No explicit context.go() needed.
+    // This avoids a flash-of-home race if auth state hasn't propagated yet.
+  }
+
+  Future<void> _launchWhatsApp() async {
+    final uri = Uri.parse('https://wa.me/250795588248');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else if (mounted) {
+      CoolToast.error(context, 'Could not open WhatsApp');
+    }
   }
 
   @override
@@ -149,8 +161,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 children: [
                   const SizedBox(height: CoolSpace.x6),
 
-
-                  // ── 3. APP SETTINGS section ───────────────────────
+                  // ── APP SETTINGS section ─────────────────────────
                   const _SectionLabel(label: 'APP SETTINGS'),
                   const SizedBox(height: CoolSpace.x3),
                   _GlassCard(
@@ -178,34 +189,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           subtitle: faceIdSubtitle,
                           onTap: () => context.push(AppRoutes.biopayRegister),
                         ),
-                        _SettingsDivider(),
-                        _SettingsRow(
-                          icon: Icons.notifications_none_rounded,
-                          title: 'NOTIFICATIONS',
-                          subtitle: 'ALERTS & NEWS',
-                          onTap: () =>
-                              context.push(AppRoutes.profileNotifications),
-                        ),
-                        _SettingsDivider(),
-                        _SettingsRow(
-                          icon: Icons.admin_panel_settings_outlined,
-                          title: 'APP ACCESS',
-                          subtitle: 'PERMISSIONS & SERVICES',
-                          onTap: () => context.push(AppRoutes.profileAccess),
-                        ),
-                        _SettingsDivider(),
-                        _SettingsRow(
-                          icon: Icons.lock_outline_rounded,
-                          title: 'PRIVACY & SECURITY',
-                          subtitle: 'BIOMETRICS & PIN',
-                          onTap: () => context.push(AppRoutes.profilePrivacy),
-                        ),
                       ],
                     ),
                   ),
                   const SizedBox(height: CoolSpace.x6),
 
-                  // ── 4. SUPPORT section ────────────────────────────
+                  // ── SUPPORT section ──────────────────────────────
                   const _SectionLabel(label: 'SUPPORT'),
                   const SizedBox(height: CoolSpace.x3),
                   _GlassCard(
@@ -221,9 +210,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           _SettingsDivider(),
                         ],
                         _SettingsRow(
-                          icon: Icons.help_outline_rounded,
-                          title: 'HELP CENTER',
-                          onTap: () => context.push(AppRoutes.profileHelp),
+                          icon: Icons.chat_rounded,
+                          title: 'HELP',
+                          subtitle: 'CHAT ON WHATSAPP',
+                          onTap: _launchWhatsApp,
                         ),
                         _SettingsDivider(),
                         _SettingsRow(
@@ -283,12 +273,8 @@ class _SettingsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final textColor = isDestructive
-        ? colors.danger
-        : colors.primaryText;
-    final iconColor = isDestructive
-        ? colors.danger
-        : colors.primaryText;
+    final textColor = isDestructive ? colors.danger : colors.primaryText;
+    final iconColor = isDestructive ? colors.danger : colors.primaryText;
 
     return InkWell(
       onTap: onTap,
@@ -367,16 +353,12 @@ class _GlassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    return CoolCard(
-      backgroundColor: colors.cardSurfaceStrong,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: CoolSpace.x5,
-          vertical: CoolSpace.x2,
-        ),
-        child: child,
+    return GlassCard(
+      padding: const EdgeInsets.symmetric(
+        horizontal: CoolSpace.x5,
+        vertical: CoolSpace.x2,
       ),
+      child: child,
     );
   }
 }

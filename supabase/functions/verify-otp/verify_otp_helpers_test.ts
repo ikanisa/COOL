@@ -1,5 +1,7 @@
 import { ensureAuthUser } from "./verify_otp_helpers.ts";
 
+Deno.env.set("SUPABASE_SERVICE_ROLE_KEY", "test-service-role-secret");
+
 function assert(condition: boolean, message: string): void {
   if (!condition) {
     throw new Error(message);
@@ -71,7 +73,10 @@ Deno.test("ensureAuthUser stamps Rwanda English defaults when creating users", a
     "user@example.com",
   );
 
-  assert(capturedCreatePayload != null, "createUser payload should be captured");
+  assert(
+    capturedCreatePayload != null,
+    "createUser payload should be captured",
+  );
   assertHasRwandaEnglishDefaults(
     capturedCreatePayload!,
     "createUser payload",
@@ -126,7 +131,10 @@ Deno.test("ensureAuthUser preserves existing metadata and restamps Rwanda Englis
     "user@example.com",
   );
 
-  assert(capturedUpdatePayload != null, "updateUserById payload should be captured");
+  assert(
+    capturedUpdatePayload != null,
+    "updateUserById payload should be captured",
+  );
   assertHasRwandaEnglishDefaults(
     capturedUpdatePayload!,
     "updateUserById payload",
@@ -140,5 +148,9 @@ Deno.test("ensureAuthUser preserves existing metadata and restamps Rwanda Englis
     "keep-me",
     "existing user metadata should be preserved",
   );
-  assertEquals(result.created, false, "existing users should report created=false");
+  assertEquals(
+    result.created,
+    false,
+    "existing users should report created=false",
+  );
 });

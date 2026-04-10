@@ -10,6 +10,7 @@ import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/models/user_profile.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../auth/widgets/require_verified_user.dart';
 import '../models/biopay_enrollment_draft.dart';
 import '../providers/biopay_providers.dart';
 import '../widgets/biopay_surface.dart';
@@ -161,6 +162,17 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
       return;
     }
 
+    // Gate: require verified phone before face registration.
+    final authState = ref.read(authProvider);
+    final allowProfileRestoreFallback =
+        authState.session != null &&
+        authState.user == null &&
+        authState.profileRestoreState == AuthProfileRestoreState.missing;
+    if (!allowProfileRestoreFallback &&
+        !await requireVerifiedUser(context, ref)) {
+      return;
+    }
+
     if (!await _ensureSession()) {
       if (mounted) {
         CoolToast.error(context, 'BioPay could not open a secure session.');
@@ -168,8 +180,8 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
       return;
     }
 
-    final authState = ref.read(authProvider);
-    final user = authState.user;
+    final refreshedAuthState = ref.read(authProvider);
+    final user = refreshedAuthState.user;
     final country = _resolveCountry(user);
     final number = _momoNumberController.text.trim();
     final code = country.supportsMomoCode
@@ -213,7 +225,7 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
       }
 
       final draft = BiopayEnrollmentDraft(
-        displayName: _resolveDisplayName(authState),
+        displayName: _resolveDisplayName(refreshedAuthState),
         routeType: routeType,
         recipientValue: recipientValue,
         countryCode: country.isoCode,
@@ -338,12 +350,13 @@ class _BiopayInputField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         BiopaySectionCard(
-          height: 128,
+          height: 136,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BiopayFieldLabel(label: label),
-              const Spacer(),
+              const SizedBox(height: CoolSpace.x5),
               TextField(
                 controller: controller,
                 keyboardType: keyboardType,

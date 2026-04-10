@@ -13,6 +13,7 @@ import '../../../core/providers/engagement_providers.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/services/app_access_service.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
@@ -26,6 +27,7 @@ import '../services/biopay_embedding_service.dart';
 import '../services/biopay_face_alignment_service.dart';
 import '../services/biopay_face_detection_service.dart';
 import '../services/biopay_liveness_service.dart';
+import '../widgets/biopay_payee_confirmation_sheet.dart';
 import '../widgets/biopay_scanner_shell.dart';
 
 part 'biopay_scan_screen_footer.dart';
@@ -66,10 +68,15 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
   DateTime? _lastEnrollmentCaptureAt;
   DateTime? _lastMatchAttemptAt;
   DateTime? _lastFrameProcessedAt;
+  bool _cameraInitTraceStarted = false;
+  bool _pipelineWarmTraceStarted = false;
+  bool _startupTraceCompleted = false;
+  bool _firstFrameRecorded = false;
 
   @override
   void initState() {
     super.initState();
+    ref.read(performanceServiceProvider).startTrace('biopay_scan_startup');
     _livenessService = BiopayLivenessService(
       mode: widget.mode == BiopayScanMode.enroll
           ? BiopayLivenessMode.enrollment
@@ -80,12 +87,40 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
 
   @override
   void dispose() {
+    _finishStartupTrace(phase: 'dispose');
     _embeddingService.dispose();
     unawaited(_faceDetectionService.close());
     final controller = _controller;
     _controller = null;
     controller?.dispose();
     super.dispose();
+  }
+
+  Future<void> _stopTrace(
+    String name, {
+    Map<String, int>? metrics,
+    Map<String, String>? attributes,
+  }) {
+    return ref
+        .read(performanceServiceProvider)
+        .stopTrace(name, metrics: metrics, attributes: attributes);
+  }
+
+  void _finishStartupTrace({required String phase, String? error}) {
+    if (_startupTraceCompleted) {
+      return;
+    }
+    _startupTraceCompleted = true;
+    unawaited(
+      _stopTrace(
+        'biopay_scan_startup',
+        attributes: <String, String>{
+          'mode': widget.mode.name,
+          'phase': phase,
+          if (error != null && error.isNotEmpty) 'error': error,
+        },
+      ),
+    );
   }
 
   Future<void> _loadCameraState() async {
@@ -130,6 +165,12 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
 
   Future<void> _initializeCamera() async {
     try {
+      if (!_cameraInitTraceStarted) {
+        _cameraInitTraceStarted = true;
+        ref
+            .read(performanceServiceProvider)
+            .startTrace('biopay_camera_initialize');
+      }
       final cameras = await availableCameras();
       if (cameras.isEmpty) {
         throw CameraException(
@@ -173,6 +214,15 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
         _isInitializingCamera = false;
         _cameraError = null;
       });
+      unawaited(
+        _stopTrace(
+          'biopay_camera_initialize',
+          attributes: <String, String>{
+            'mode': widget.mode.name,
+            'lens_direction': camera.lensDirection.name,
+          },
+        ),
+      );
       await _warmPipeline();
     } catch (error) {
       if (!mounted) {
@@ -183,10 +233,26 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
         _cameraError = error.toString();
         _tone = BiopayScannerTone.error;
       });
+      unawaited(
+        _stopTrace(
+          'biopay_camera_initialize',
+          attributes: <String, String>{
+            'mode': widget.mode.name,
+            'status': 'error',
+          },
+        ),
+      );
+      _finishStartupTrace(phase: 'camera_error', error: error.toString());
     }
   }
 
   Future<void> _warmPipeline() async {
+    if (!_pipelineWarmTraceStarted) {
+      _pipelineWarmTraceStarted = true;
+      ref
+          .read(performanceServiceProvider)
+          .startTrace('biopay_embedding_warmup');
+    }
     final ready = await _embeddingService.ensureInitialized();
     if (!mounted) {
       return;
@@ -203,6 +269,23 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
           : 'BioPay is analyzing live frames in memory only. Keep one face centered for a fast match.';
       _tone = BiopayScannerTone.searching;
     });
+    unawaited(
+      _stopTrace(
+        'biopay_embedding_warmup',
+        attributes: <String, String>{
+          'mode': widget.mode.name,
+          'ready': ready ? 'true' : 'false',
+          if (!ready && _embeddingService.initializationError != null)
+            'error': _embeddingService.initializationError!,
+        },
+      ),
+    );
+    if (!ready) {
+      _finishStartupTrace(
+        phase: 'pipeline_error',
+        error: _embeddingService.initializationError,
+      );
+    }
     _livenessService.reset();
 
     final controller = _controller;
@@ -256,6 +339,10 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
         _isSubmitting ||
         _controller == null) {
       return;
+    }
+    if (!_firstFrameRecorded) {
+      _firstFrameRecorded = true;
+      _finishStartupTrace(phase: 'first_frame');
     }
     final now = DateTime.now();
     if (_lastFrameProcessedAt != null &&

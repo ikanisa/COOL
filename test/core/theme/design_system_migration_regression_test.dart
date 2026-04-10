@@ -92,5 +92,68 @@ void main() {
             'Violations:\n${violations.join('\n')}',
       );
     });
+
+    test('admin route screens do not define ad hoc app bars', () {
+      final adminScreensDir = Directory('lib/features/admin/screens');
+      if (!adminScreensDir.existsSync()) return;
+
+      final violations = <String>[];
+      for (final file
+          in adminScreensDir
+              .listSync(recursive: true)
+              .whereType<File>()
+              .where((f) => f.path.endsWith('.dart'))) {
+        final content = file.readAsStringSync();
+        if (content.contains('AppBar(') || content.contains('appBar:')) {
+          violations.add(file.path);
+        }
+      }
+
+      expect(
+        violations,
+        isEmpty,
+        reason:
+            'Admin route screens should inherit shared admin scaffolds '
+            'instead of defining route-level AppBars.\n'
+            'Violations:\n${violations.join('\n')}',
+      );
+    });
+
+    test(
+      'PWA shell no longer references legacy Barlow assets or old theme colors',
+      () {
+        final pwaDir = Directory('apps/cool-pwa');
+        if (!pwaDir.existsSync()) return;
+
+        final violations = <String>[];
+        final bannedPatterns = <Pattern>['Barlow-', '#F3F0EA', '#0D110E'];
+
+        for (final file
+            in pwaDir
+                .listSync(recursive: true)
+                .whereType<File>()
+                .where(
+                  (f) =>
+                      f.path.endsWith('.html') ||
+                      f.path.endsWith('.css') ||
+                      f.path.endsWith('.js') ||
+                      f.path.endsWith('.webmanifest'),
+                )) {
+          final content = file.readAsStringSync();
+          if (bannedPatterns.any(content.contains)) {
+            violations.add(file.path);
+          }
+        }
+
+        expect(
+          violations,
+          isEmpty,
+          reason:
+              'PWA assets should use the monolith font pipeline and theme '
+              'metadata, not legacy Barlow references or old shell colors.\n'
+              'Violations:\n${violations.join('\n')}',
+        );
+      },
+    );
   });
 }

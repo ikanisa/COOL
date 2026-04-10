@@ -93,8 +93,8 @@ Authoritative payment design notes:
 
 - Dual-theme UI with semantic tokens in
   [`lib/core/theme/cool_foundations.dart`](/Volumes/PRO-G40/COOL/lib/core/theme/cool_foundations.dart)
-- `Inter` is the default interface font; `Barlow Condensed` is the display and
-  headline voice; `DM Mono` is the monospace accent
+- Tactile Monolith font stack: `Space Grotesk` (display/headline),
+  `Manrope` (title/body), `Inter` (label/utility), `DM Mono` (mono/IDs)
 - One authoritative redesign guide:
   [`DESIGN_SYSTEM.md`](/Volumes/PRO-G40/COOL/DESIGN_SYSTEM.md)
 - Riverpod `StateNotifierProvider` pattern per feature
@@ -337,8 +337,8 @@ Theme implementation is grounded in:
 Quick reference:
 
 - Colors: semantic tokens from `cool_foundations.dart`
-- Font stack: `Inter` (UI), `Barlow Condensed` (display), `DM Mono`
-  (numeric/ID)
+- Font stack: `Space Grotesk` (display/headline), `Manrope` (title/body),
+  `Inter` (label/utility), `DM Mono` (numeric/ID)
 - Shared widgets: [lib/shared/widgets](/Volumes/PRO-G40/COOL/lib/shared/widgets)
   — `CoolButton`, `CoolCard`, `StatusBadge`, `SectionTitle`, `TabPill`,
   `CoolTextField`, `BalanceCard`, `QrShareSheet`, and others
@@ -661,17 +661,17 @@ The app is written against a normalized `users` profile model, but the repositor
 
 ## Google Play Submission History
 
-> **IMPORTANT FOR AI AGENTS:** This section is the source of truth for what has
-> been submitted and published on Google Play. Do NOT treat this repo as a
-> first-time submission. Check the latest entry below before planning any
-> release work.
+> **IMPORTANT FOR AI AGENTS:** This section is a repo-side release log, not a
+> substitute for the Play Console. Confirm the current live status in Play
+> Console before planning or shipping release work.
 
-### Current Live Version
+### Current Repository Version
 
 | Field | Value |
 |---|---|
+| Pubspec version | `1.2.0+5` |
 | Package ID | `app.cool.mobile` |
-| Play Console status | **Published** |
+| Play Console status | Verify in Play Console before release work |
 | Privacy policy | `https://cool.ikanisa.com/privacy` |
 | Terms of service | `https://cool.ikanisa.com/terms` |
 | Account deletion | `https://cool.ikanisa.com/account-deletion` (in-app + web) |

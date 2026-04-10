@@ -17,6 +17,8 @@ class DenseAdminWorkspaceScaffold extends StatelessWidget {
     this.searchBar,
     this.filterActions,
     this.padding,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
     super.key,
   });
 
@@ -41,6 +43,8 @@ class DenseAdminWorkspaceScaffold extends StatelessWidget {
 
   /// Custom padding override.
   final EdgeInsets? padding;
+  final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +75,8 @@ class DenseAdminWorkspaceScaffold extends StatelessWidget {
       title: title,
       subtitle: subtitle,
       padding: padding,
+      floatingActionButton: floatingActionButton,
+      floatingActionButtonLocation: floatingActionButtonLocation,
       child: body,
     );
   }

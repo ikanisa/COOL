@@ -110,59 +110,100 @@ void main() {
     );
   });
 
-  test('check fails with missing external release identifiers', () async {
-    _writeBaseRepoFiles(
-      tempRepo,
-      metadata: <String, Object?>{
-        'hosts': <String>['cool.app', 'www.cool.app'],
-        'pathPatterns': <String>['/basket'],
-        'android': <String, Object?>{
-          'packageName': 'app.cool.mobile',
-          'uploadSha256CertFingerprints': <String>[
-            '9E:E1:21:72:C7:8A:8A:48:79:06:D9:15:9B:FD:D1:7B:4D:78:AB:A3:54:1F:17:B4:10:65:9E:6D:60:DD:CC:10',
-          ],
-          'playAppSigningSha256CertFingerprint': '',
-        },
-        'ios': <String, Object?>{
-          'bundleId': 'app.cool.mobile',
-          'teamId': '',
-          'appStoreId': '',
-        },
-      },
-      appleAssociation: const <String, Object?>{
-        'applinks': <String, Object?>{
-          'apps': <Object>[],
-          'details': <Object>[],
-        },
-      },
-      assetlinks: <Map<String, Object?>>[
-        <String, Object?>{
-          'relation': <String>['delegate_permission/common.handle_all_urls'],
-          'target': <String, Object?>{
-            'namespace': 'android_app',
-            'package_name': 'app.cool.mobile',
-            'sha256_cert_fingerprints': <String>[
+  test(
+    'Android-only check fails when Play signing fingerprint is missing',
+    () async {
+      _writeBaseRepoFiles(
+        tempRepo,
+        metadata: <String, Object?>{
+          'hosts': <String>['cool.app', 'www.cool.app'],
+          'pathPatterns': <String>['/basket'],
+          'android': <String, Object?>{
+            'packageName': 'app.cool.mobile',
+            'uploadSha256CertFingerprints': <String>[
               '9E:E1:21:72:C7:8A:8A:48:79:06:D9:15:9B:FD:D1:7B:4D:78:AB:A3:54:1F:17:B4:10:65:9E:6D:60:DD:CC:10',
             ],
+            'playAppSigningSha256CertFingerprint': '',
+          },
+          'ios': <String, Object?>{
+            'bundleId': 'app.cool.mobile',
+            'teamId': '',
+            'appStoreId': '',
           },
         },
-      ],
-    );
+        appleAssociation: const <String, Object?>{
+          'applinks': <String, Object?>{
+            'apps': <Object>[],
+            'details': <Object>[],
+          },
+        },
+        assetlinks: <Map<String, Object?>>[
+          <String, Object?>{
+            'relation': <String>['delegate_permission/common.handle_all_urls'],
+            'target': <String, Object?>{
+              'namespace': 'android_app',
+              'package_name': 'app.cool.mobile',
+              'sha256_cert_fingerprints': <String>[
+                '9E:E1:21:72:C7:8A:8A:48:79:06:D9:15:9B:FD:D1:7B:4D:78:AB:A3:54:1F:17:B4:10:65:9E:6D:60:DD:CC:10',
+              ],
+            },
+          },
+        ],
+      );
 
-    final result = await _runTool(tempRepo, <String>[
-      'tool/deep_link_release_assets.dart',
-      '--check',
-    ]);
+      final result = await _runTool(tempRepo, <String>[
+        'tool/deep_link_release_assets.dart',
+        '--check',
+      ]);
 
-    expect(result.exitCode, isNonZero);
-    final stderr = '${result.stderr}';
-    expect(stderr, contains('missing ios.teamId'));
-    expect(stderr, contains('missing ios.appStoreId'));
-    expect(
-      stderr,
-      contains('missing android.playAppSigningSha256CertFingerprint'),
-    );
-  });
+      expect(result.exitCode, isNonZero);
+      final stderr = '${result.stderr}';
+      expect(
+        stderr,
+        contains('missing android.playAppSigningSha256CertFingerprint'),
+      );
+    },
+  );
+
+  test(
+    'Android-only check succeeds when iOS release metadata is omitted',
+    () async {
+      _writeBaseRepoFiles(
+        tempRepo,
+        metadata: <String, Object?>{
+          'hosts': <String>['cool.app', 'www.cool.app'],
+          'pathPatterns': <String>['/basket', '/invite/*'],
+          'android': <String, Object?>{
+            'packageName': 'app.cool.mobile',
+            'uploadSha256CertFingerprints': <String>[
+              '9E:E1:21:72:C7:8A:8A:48:79:06:D9:15:9B:FD:D1:7B:4D:78:AB:A3:54:1F:17:B4:10:65:9E:6D:60:DD:CC:10',
+            ],
+            'playAppSigningSha256CertFingerprint':
+                'AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99',
+          },
+          'ios': <String, Object?>{
+            'bundleId': 'app.cool.mobile',
+            'teamId': '',
+            'appStoreId': '',
+          },
+        },
+        appleAssociation: const <String, Object?>{
+          'applinks': <String, Object?>{
+            'apps': <Object>[],
+            'details': <Object>[],
+          },
+        },
+      );
+
+      final result = await _runTool(tempRepo, <String>[
+        'tool/deep_link_release_assets.dart',
+        '--generate',
+        '--check',
+      ]);
+
+      expect(result.exitCode, 0, reason: '${result.stdout}\n${result.stderr}');
+    },
+  );
 
   test('env overrides satisfy missing release identifiers', () async {
     _writeBaseRepoFiles(
@@ -199,6 +240,7 @@ void main() {
             'AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99',
         'COOL_IOS_TEAM_ID': 'ABCDE12345',
         'COOL_IOS_APP_STORE_ID': '1234567890',
+        'COOL_REQUIRE_IOS_RELEASE_METADATA': '1',
       },
     );
 

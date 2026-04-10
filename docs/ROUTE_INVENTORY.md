@@ -4,9 +4,9 @@ Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router
 
 Current router shape:
 
-- `35` `GoRoute` declarations
+- `33` `GoRoute` declarations
 - `3` shell branches
-- `31` screen files under `lib/features/**/screens/*.dart`
+- `38` screen files under `lib/features/**/screens/*.dart`
 
 Change policy:
 
@@ -33,15 +33,12 @@ Change policy:
 | `/home` | [`HomeScreen`](../lib/features/home/screens/home_screen.dart) | Home |
 | `/momo/biopay` | [`BiopayHomeScreen`](../lib/features/biopay/screens/biopay_home_screen.dart) | BioPay |
 | `/momo/biopay/nfc` | [`BiopayNfcScreen`](../lib/features/biopay/screens/biopay_nfc_screen.dart) | BioPay |
+| `/momo/biopay/qr` | [`BiopayQrScreen`](../lib/features/biopay/screens/biopay_qr_screen.dart) | BioPay |
 | `/momo/biopay/register` | [`BiopayRegisterScreen`](../lib/features/biopay/screens/biopay_register_screen.dart) | BioPay |
 | `/momo/biopay/scan` | [`BiopayScanScreen`](../lib/features/biopay/screens/biopay_scan_screen.dart) | BioPay |
+| `/momo/biopay/success` | [`BiopayEnrollmentSuccessScreen`](../lib/features/biopay/screens/biopay_enrollment_success_screen.dart) | BioPay |
 | `/profile` | [`ProfileScreen`](../lib/features/profile/screens/profile_screen.dart) | Settings |
-| `/profile/about` | [`AboutAppScreen`](../lib/features/profile/screens/profile_sub_screens_about.dart) | Settings |
 | `/profile/account` | [`AccountDetailsScreen`](../lib/features/profile/screens/profile_sub_screens_account.dart) | Settings |
-| `/profile/help` | [`HelpCenterScreen`](../lib/features/profile/screens/profile_sub_screens_support.dart) | Settings |
-| `/profile/notifications` | [`NotificationsSettingsScreen`](../lib/features/profile/screens/profile_sub_screens_account.dart) | Settings |
-| `/profile/orders` | [`OrderHistoryScreen`](../lib/features/profile/screens/profile_sub_screens_support.dart) | Settings |
-| `/profile/privacy` | [`PrivacySecurityScreen`](../lib/features/profile/screens/profile_sub_screens_support.dart) | Settings |
 | `/profile/wallet` | [`ProfileWalletScreen`](../lib/features/profile/screens/profile_detail_screens.dart) | Settings |
 
 ## Standalone Core Routes
@@ -50,8 +47,8 @@ Change policy:
 |---|---|---|
 | `/contribution-circles` | [`GroupsScreen`](../lib/features/groups/screens/groups_screen.dart) | No |
 | `/contribution-circles/:groupId` | [`GroupDetailScreen`](../lib/features/groups/screens/group_detail_screen.dart) | No |
-| `/momo` | [`MomoScreen`](../lib/features/momo/screens/momo_screen.dart) | No |
-| `/momo/statements` | [`MomoStatementsScreen`](../lib/features/momo/screens/momo_statements_screen.dart) | No |
+| `/contribution-circles/:groupId/statements` | [`GroupStatementsScreen`](../lib/features/groups/screens/group_statements_screen.dart) | No |
+| `/momo` | Redirect | No |
 | `/referral` | [`ReferralScreen`](../lib/core/status/screens/referral_screen.dart) | No |
 
 ## Admin Routes
@@ -63,6 +60,7 @@ Change policy:
 | `/admin/app-config` | [`ManageAppConfigScreen`](../lib/features/admin/screens/manage_app_config_screen.dart) | No |
 | `/admin/audit-log` | [`AuditLogScreen`](../lib/features/admin/screens/audit_log_screen.dart) | No |
 | `/admin/banks/:bankId` | [`BankAdminWorkspaceScreen`](../lib/features/admin/screens/bank_admin_workspace_screen.dart) | No |
+| `/admin/groups` | [`AdminGroupsScreen`](../lib/features/admin/screens/admin_groups_screen.dart) | No |
 | `/admin/operations` | [`OperationalDashboardScreen`](../lib/features/admin/screens/operational_dashboard_screen.dart) | No |
 | `/admin/partners` | Redirect | No |
 | `/admin/platform` | [`AdminDashboardScreen`](../lib/features/admin/screens/admin_dashboard_screen.dart) | No |

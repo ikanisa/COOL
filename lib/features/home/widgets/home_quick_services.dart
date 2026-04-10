@@ -28,7 +28,7 @@ class HomeQuickServices extends StatelessWidget {
       ),
       (
         icon: Icons.center_focus_strong_rounded,
-        label: 'BIOPAY',
+        label: 'BioPay',
         route: AppRoutes.biopayScanLocation(mode: 'pay'),
         accent: colors.success,
       ),
@@ -97,10 +97,7 @@ class _HomeQuickActionTile extends StatelessWidget {
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: <Color>[
-                        colors.glassSurface,
-                        colors.cardSurface,
-                      ],
+                      colors: <Color>[colors.glassSurface, colors.cardSurface],
                     ),
                     borderRadius: BorderRadius.circular(CoolRadii.lg),
                     boxShadow: CoolShadows.ambientFloat(strength: 0.5),

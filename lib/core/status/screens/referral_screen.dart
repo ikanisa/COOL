@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../features/auth/models/user_profile.dart';
 import '../../../features/auth/providers/auth_provider.dart';
 import '../../../shared/widgets/cool_card.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../../shared/widgets/share_card.dart';
 import '../../config/deep_link_config.dart';
 import '../../providers/referral_providers.dart';
@@ -23,78 +22,51 @@ class ReferralScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     final user = ref.watch(currentUserProvider);
 
-    return Scaffold(
-      backgroundColor: colors.appBackground,
-      body: CoolScreenBackground(
-        child: SafeArea(
-          bottom: false,
-          child: ListView(
-            padding: EdgeInsets.fromLTRB(
-              space.x5,
-              space.x4,
-              space.x5,
-              space.x8,
-            ),
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      if (context.canPop()) {
-                        context.pop();
-                      }
-                    },
-                    icon: const Icon(Icons.arrow_back_rounded),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Invite friends to COOL',
-                      style: context.coolText.displayCondensed(
-                        theme.textTheme.headlineSmall,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: space.x4),
-              Text(
-                'Share a tracked invite link so friends join with your code and finish their first activity.',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colors.secondaryText,
-                ),
-              ),
-              SizedBox(height: space.x6),
-              if (user == null) ...[
-                CoolCard(
-                  child: Text(
-                    'Sign in to generate a referral invite.',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: colors.primaryText,
-                    ),
-                  ),
-                ),
-              ] else ...[
-                _ReferralRewardCard(user: user),
-                SizedBox(height: space.x4),
-                _ReferralCodeCard(inviteCode: _inviteCodeFor(user)),
-                SizedBox(height: space.x4),
-                ShareCard(
-                  title: 'Share your referral link',
-                  subtitle:
-                      'Your friend earns 50 points after their first qualifying activity. You earn 150.',
-                  shareUrl: _inviteUriFor(user).toString(),
-                  shareText:
-                      'Join COOL with my invite code ${_inviteCodeFor(user)}',
-                  sheetTitle: 'Share your referral invite',
-                  sheetSubtitle: 'Scan the QR code or share your tracked link',
-                  analyticsTargetType: 'referral',
-                  resolveShareUrl: () => _createTrackedInviteUrl(ref, user),
-                ),
-              ],
-            ],
-          ),
+    return CoreDetailScaffold(
+      title: Text(
+        'Invite friends to COOL',
+        style: context.coolText.displayCondensed(
+          theme.textTheme.headlineSmall,
+          fontWeight: FontWeight.w900,
         ),
+      ),
+      subtitle: Text(
+        'Share a tracked invite link so friends join with your code and finish their first activity.',
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: colors.secondaryText,
+        ),
+      ),
+      child: ListView(
+        padding: EdgeInsets.only(bottom: space.x8),
+        children: [
+          if (user == null) ...[
+            CoolCard(
+              child: Text(
+                'Sign in to generate a referral invite.',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colors.primaryText,
+                ),
+              ),
+            ),
+          ] else ...[
+            _ReferralRewardCard(user: user),
+            SizedBox(height: space.x4),
+            _ReferralCodeCard(inviteCode: _inviteCodeFor(user)),
+            SizedBox(height: space.x4),
+            ShareCard(
+              title: 'Share your referral link',
+              subtitle:
+                  'Your friend earns 50 points after their first qualifying activity. You earn 150.',
+              shareUrl: _inviteUriFor(user).toString(),
+              shareText:
+                  'Join COOL with my invite code ${_inviteCodeFor(user)}',
+              sheetTitle: 'Share your referral invite',
+              sheetSubtitle: 'Scan the QR code or share your tracked link',
+              analyticsTargetType: 'referral',
+              resolveShareUrl: () => _createTrackedInviteUrl(ref, user),
+            ),
+          ],
+        ],
       ),
     );
   }

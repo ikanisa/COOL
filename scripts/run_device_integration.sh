@@ -9,6 +9,8 @@ source "$ROOT_DIR/scripts/_backend_env.sh"
 FLAVOR="${FLAVOR:-staging}"
 DEVICE="${DEVICE:-}"
 TARGET="${TARGET:-integration_test/critical_journeys_test.dart}"
+TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-1800}"
+UAT_DIR="${UAT_DIR:-$ROOT_DIR/.uat}"
 
 load_client_env_files "$ROOT_DIR" \
   SUPABASE_URL \
@@ -37,6 +39,57 @@ if [[ -n "$DEVICE" ]]; then
   cmd+=("-d" "$DEVICE")
 fi
 
-printf '==> %q ' "${cmd[@]}"
+mkdir -p "$UAT_DIR"
+
+timeout_prefix=()
+if command -v gtimeout >/dev/null 2>&1; then
+  timeout_prefix=(gtimeout --preserve-status "$TIMEOUT_SECONDS")
+elif command -v timeout >/dev/null 2>&1; then
+  timeout_prefix=(timeout --preserve-status "$TIMEOUT_SECONDS")
+fi
+
+redacted_cmd=("${cmd[@]}")
+for index in "${!redacted_cmd[@]}"; do
+  case "${redacted_cmd[$index]}" in
+    --dart-define=SUPABASE_ANON_KEY=*)
+      redacted_cmd[$index]='--dart-define=SUPABASE_ANON_KEY=[REDACTED]'
+      ;;
+  esac
+done
+
+capture_failure_diagnostics() {
+  local exit_code="$1"
+  if [[ "$exit_code" -eq 0 ]]; then
+    return
+  fi
+
+  echo "==> collecting integration failure diagnostics into $UAT_DIR"
+  if [[ -n "$DEVICE" ]] && command -v adb >/dev/null 2>&1; then
+    local adb_cmd=(adb -s "$DEVICE")
+    "${adb_cmd[@]}" logcat -d -t 300 >"$UAT_DIR/device_integration_logcat.txt" 2>&1 || true
+    "${adb_cmd[@]}" shell dumpsys activity activities >"$UAT_DIR/device_integration_activity.txt" 2>&1 || true
+    if "${adb_cmd[@]}" shell uiautomator dump /sdcard/cool_uat.xml >/dev/null 2>&1; then
+      "${adb_cmd[@]}" pull /sdcard/cool_uat.xml "$UAT_DIR/device_integration_ui.xml" >/dev/null 2>&1 || true
+      "${adb_cmd[@]}" shell rm -f /sdcard/cool_uat.xml >/dev/null 2>&1 || true
+    fi
+  fi
+}
+
+printable_cmd=("${redacted_cmd[@]}")
+if [[ "${#timeout_prefix[@]}" -gt 0 ]]; then
+  printable_cmd=("${timeout_prefix[@]}" "${printable_cmd[@]}")
+fi
+
+printf '==> %q ' "${printable_cmd[@]}"
 printf '\n'
-"${cmd[@]}"
+set +e
+if [[ "${#timeout_prefix[@]}" -gt 0 ]]; then
+  "${timeout_prefix[@]}" "${cmd[@]}"
+else
+  "${cmd[@]}"
+fi
+status=$?
+set -e
+
+capture_failure_diagnostics "$status"
+exit "$status"

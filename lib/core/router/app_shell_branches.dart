@@ -5,7 +5,7 @@ import '../../features/biopay/models/biopay_enrollment_draft.dart';
 import '../../features/biopay/screens/biopay_enrollment_success_screen.dart';
 import '../../features/biopay/screens/biopay_home_screen.dart';
 import '../../features/biopay/screens/biopay_nfc_screen.dart';
-import '../../features/biopay/screens/biopay_profile_screen.dart';
+
 import '../../features/biopay/screens/biopay_qr_screen.dart';
 import '../../features/biopay/screens/biopay_register_screen.dart';
 import '../../features/biopay/screens/biopay_scan_screen.dart';
@@ -52,18 +52,6 @@ StatefulShellBranch buildBiopayShellBranch({
           ),
         ),
         routes: [
-          GoRoute(
-            path: 'profile',
-            pageBuilder: (context, state) => coolPageTransition(
-              context: context,
-              state: state,
-              child: KillSwitchGate(
-                enabled: readIsBiopayEnabled(),
-                featureName: 'BioPay',
-                child: const SecureScreenWrapper(child: BiopayProfileScreen()),
-              ),
-            ),
-          ),
           GoRoute(
             path: 'register',
             pageBuilder: (context, state) => coolPageTransition(
@@ -166,23 +154,6 @@ StatefulShellBranch buildProfileShellBranch({
             path: 'account',
             builder: (context, state) => const AccountDetailsScreen(),
           ),
-          GoRoute(
-            path: 'notifications',
-            builder: (context, state) => const NotificationsSettingsScreen(),
-          ),
-          GoRoute(
-            path: 'access',
-            builder: (context, state) => const ProfileAccessScreen(),
-          ),
-          GoRoute(
-            path: 'privacy',
-            builder: (context, state) => const PrivacySecurityScreen(),
-          ),
-          GoRoute(
-            path: 'help',
-            builder: (context, state) => const HelpCenterScreen(),
-          ),
-
         ],
       ),
     ],

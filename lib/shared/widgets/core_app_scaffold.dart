@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_glass_header_surface.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 
 class CoreAppScaffold extends StatelessWidget {
@@ -33,7 +34,7 @@ class CoreAppScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final chromeColor = colors.accentForeground;
-    
+
     final resolvedActions = <Widget>[...?actions];
     if (showHomeButton) {
       resolvedActions.add(
@@ -54,14 +55,7 @@ class CoreAppScaffold extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: 84,
-        flexibleSpace: DecoratedBox(
-          decoration: BoxDecoration(
-            color: colors.appBackground.withValues(alpha: 0.88),
-            border: Border(
-              bottom: BorderSide(color: colors.border.withValues(alpha: 0.8)),
-            ),
-          ),
-        ),
+        flexibleSpace: const CoolGlassHeaderSurface(),
         leading: showBackButton
             ? IconButton(
                 icon: Icon(Icons.arrow_back_rounded, color: chromeColor),

@@ -6,10 +6,13 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_glass_header_surface.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/share_card.dart';
+import '../../../core/utils/user_error.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../auth/widgets/require_verified_user.dart';
 import '../../momo/models/momo_statement.dart';
 import '../../momo/providers/momo_statement_providers.dart';
 import '../group_flow_utils.dart';
@@ -33,18 +36,21 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
       return;
     }
 
+    // Gate: require verified phone before joining a group.
+    if (!await requireVerifiedUser(context, ref)) {
+      return;
+    }
+
     final user = ref.read(authProvider).user;
     if (user == null) {
-      CoolToast.error(context, 'Complete your profile first.');
       return;
     }
 
     setState(() => _isJoining = true);
     try {
-      final result = await ref.read(groupRepositoryProvider).joinPublicGroup(
-        group: group,
-        user: user,
-      );
+      final result = await ref
+          .read(groupRepositoryProvider)
+          .joinPublicGroup(group: group, user: user);
       ref.read(groupsRefreshTickProvider.notifier).state++;
       if (!mounted) {
         return;
@@ -57,7 +63,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
       );
     } catch (error) {
       if (mounted) {
-        CoolToast.error(context, error.toString());
+        CoolToast.error(context, describeUserFacingError(error));
       }
     } finally {
       if (mounted) {
@@ -75,63 +81,63 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: groupAsync.when(
-        data: (group) {
-          if (group == null) {
-            return _MissingGroupState(message: context.l10n.groupNotFound);
-          }
+          data: (group) {
+            if (group == null) {
+              return _MissingGroupState(message: context.l10n.groupNotFound);
+            }
 
-          final isMember = myGroupIds.contains(group.id);
-          final ledgerAsync = isMember
-              ? ref.watch(
-                  groupPaymentLedgerProvider(
-                    GroupPaymentLedgerQuery(
-                      groupId: group.id ?? '',
-                      statementQuery: const MomoStatementQuery(limit: 10),
+            final isMember = myGroupIds.contains(group.id);
+            final ledgerAsync = isMember
+                ? ref.watch(
+                    groupPaymentLedgerProvider(
+                      GroupPaymentLedgerQuery(
+                        groupId: group.id ?? '',
+                        statementQuery: const MomoStatementQuery(limit: 10),
+                      ),
                     ),
-                  ),
-                )
-              : const AsyncData(MomoStatementPage<PayeePaymentLedgerEntry>());
-          final inviteUrl = buildGroupInviteUrl(group);
+                  )
+                : const AsyncData(MomoStatementPage<PayeePaymentLedgerEntry>());
+            final inviteUrl = buildGroupInviteUrl(group);
 
-          return _GroupDetailBody(
-            group: group,
-            isMember: isMember,
-            isJoining: _isJoining,
-            inviteUrl: inviteUrl,
-            ledgerAsync: ledgerAsync,
-            onBack: () {
-              if (context.canPop()) {
-                context.pop();
-                return;
-              }
-              context.go(AppRoutes.contributionCircles);
-            },
-            onJoin: isMember ? null : () => _joinPublicGroup(group),
-            onContribute: isMember
-                ? () {
-                    if (!groupHasContributionRoute(group)) {
-                      CoolToast.info(
-                        context,
-                        'This group has no payment route configured yet.',
-                      );
-                      return;
-                    }
-                    launchGroupContribution(context, group: group).then((ok) {
-                      if (!ok && context.mounted) {
-                        CoolToast.error(
+            return _GroupDetailBody(
+              group: group,
+              isMember: isMember,
+              isJoining: _isJoining,
+              inviteUrl: inviteUrl,
+              ledgerAsync: ledgerAsync,
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                  return;
+                }
+                context.go(AppRoutes.contributionCircles);
+              },
+              onJoin: isMember ? null : () => _joinPublicGroup(group),
+              onContribute: isMember
+                  ? () {
+                      if (!groupHasContributionRoute(group)) {
+                        CoolToast.info(
                           context,
-                          'Could not launch MoMo USSD. Try dialing manually.',
+                          'This group has no payment route configured yet.',
                         );
+                        return;
                       }
-                    });
-                  }
-                : null,
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => _MissingGroupState(message: error.toString()),
+                      launchGroupContribution(context, group: group).then((ok) {
+                        if (!ok && context.mounted) {
+                          CoolToast.error(
+                            context,
+                            'Could not launch MoMo USSD. Try dialing manually.',
+                          );
+                        }
+                      });
+                    }
+                  : null,
+            );
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, _) => _MissingGroupState(message: describeUserFacingError(error)),
+        ),
       ),
-    ),
     );
   }
 }
@@ -168,6 +174,8 @@ class _GroupDetailBody extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        toolbarHeight: 84,
+        flexibleSpace: const CoolGlassHeaderSurface(),
         leading: IconButton(
           onPressed: onBack,
           icon: const Icon(Icons.arrow_back_rounded),
@@ -194,7 +202,9 @@ class _GroupDetailBody extends StatelessWidget {
               _MetaPill(
                 label: group.type == 'community' ? 'COMMUNITY' : 'SAVING',
               ),
-              _MetaPill(label: '${group.memberCount} ${context.l10n.groupMembers}'),
+              _MetaPill(
+                label: '${group.memberCount} ${context.l10n.groupMembers}',
+              ),
             ],
           ),
           if ((group.description ?? '').trim().isNotEmpty) ...[
@@ -214,21 +224,15 @@ class _GroupDetailBody extends StatelessWidget {
             ),
             child: Column(
               children: [
-                _StatRow(
-                  label: 'Balance',
-                  value: '${group.amount} RWF',
-                ),
+                _StatRow(label: 'Balance', value: '${group.amount} RWF'),
                 if (group.targetAmount > 0) ...[
                   SizedBox(height: space.x2),
-                  _StatRow(
-                    label: 'Target',
-                    value: '${group.targetAmount} RWF',
-                  ),
+                  _StatRow(label: 'Target', value: '${group.targetAmount} RWF'),
                 ],
                 if ((group.monthlyContribution ?? 0) > 0) ...[
                   SizedBox(height: space.x2),
                   _StatRow(
-                    label: 'Monthly',
+                    label: 'Contribution',
                     value: '${group.monthlyContribution} RWF',
                   ),
                 ],
@@ -242,7 +246,7 @@ class _GroupDetailBody extends StatelessWidget {
             CoolButton(
               label: groupHasContributionRoute(group)
                   ? 'CONTRIBUTE WITH MOMO'
-                  : 'GROUP READY, ROUTE MISSING',
+                  : 'CONTRIBUTION ROUTE PENDING',
               onTap: groupHasContributionRoute(group) ? onContribute : null,
               variant: groupHasContributionRoute(group)
                   ? CoolButtonVariant.accent
@@ -273,7 +277,10 @@ class _GroupDetailBody extends StatelessWidget {
               title: context.l10n.inviteToGroup(group.name),
               subtitle: 'Share the invite link with your members.',
               shareUrl: inviteUrl!,
-              shareText: context.l10n.joinGroupShareText(group.name, inviteUrl!),
+              shareText: context.l10n.joinGroupShareText(
+                group.name,
+                inviteUrl!,
+              ),
               analyticsTargetType: 'group_invite',
             ),
           ],
@@ -323,11 +330,11 @@ class _GroupDetailBody extends StatelessWidget {
                         ),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: colors.accent,
-                          side: BorderSide(color: colors.border),
+                          side: BorderSide.none,
+                          backgroundColor: colors.buttonSecondaryBackground,
                           padding: EdgeInsets.symmetric(vertical: space.x3),
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(CoolRadii.lg),
+                            borderRadius: BorderRadius.circular(CoolRadii.lg),
                           ),
                         ),
                         child: Text(
@@ -401,11 +408,11 @@ class _StatRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label.toUpperCase(), style: text.mobiLabel(color: colors.tertiaryText)),
         Text(
-          value,
-          style: text.mono(null, color: colors.primaryText),
+          label.toUpperCase(),
+          style: text.mobiLabel(color: colors.tertiaryText),
         ),
+        Text(value, style: text.mono(null, color: colors.primaryText)),
       ],
     );
   }
@@ -466,9 +473,71 @@ class _MissingGroupState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Center(child: Text(message)),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        toolbarHeight: 84,
+        flexibleSpace: const CoolGlassHeaderSurface(),
+        leading: IconButton(
+          onPressed: () {
+            if (context.canPop()) {
+              context.pop();
+              return;
+            }
+            context.go(AppRoutes.contributionCircles);
+          },
+          icon: const Icon(Icons.arrow_back_rounded),
+        ),
+        title: Text(context.l10n.groupDetailTitle),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: CoolSpace.x7),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 72,
+                height: 72,
+                decoration: BoxDecoration(
+                  color: colors.operationalSurface,
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                ),
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.group_off_rounded,
+                  size: 36,
+                  color: colors.tertiaryText,
+                ),
+              ),
+              const SizedBox(height: CoolSpace.x5),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: colors.secondaryText,
+                  height: 1.5,
+                ),
+              ),
+              const SizedBox(height: CoolSpace.x6),
+              CoolButton(
+                label: context.l10n.goBack,
+                variant: CoolButtonVariant.secondary,
+                onTap: () {
+                  if (context.canPop()) {
+                    context.pop();
+                    return;
+                  }
+                  context.go(AppRoutes.contributionCircles);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

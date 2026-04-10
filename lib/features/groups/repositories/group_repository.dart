@@ -88,14 +88,19 @@ class GroupRepository {
     String? description,
     int? targetAmount,
     int? monthlyContribution,
+    MomoRecipientType? customMomoRouteType,
+    String? customRecipientValue,
+    String? frequency,
   }) async {
     final normalizedName = _trimToNull(name);
     if (normalizedName == null) {
       throw StateError('Group name is required.');
     }
 
-    final routeType = creator.effectiveMomoRouteType;
-    final recipientValue = _trimToNull(creator.momoRecipientValue);
+    // Use custom MoMo values when provided, otherwise fall back to creator
+    final routeType = customMomoRouteType ?? creator.effectiveMomoRouteType;
+    final recipientValue = _trimToNull(customRecipientValue) ??
+        _trimToNull(creator.momoRecipientValue);
     final response = await _client.rpc(
       'create_group_atomic',
       params: <String, dynamic>{
@@ -113,6 +118,7 @@ class GroupRepository {
             ? recipientValue
             : null,
         'p_receiving_momo_route_type': _serializeRecipientType(routeType),
+        if (frequency != null) 'p_frequency': frequency.trim().toLowerCase(),
       },
     );
 

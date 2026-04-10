@@ -68,7 +68,7 @@ class BalanceCard extends StatelessWidget {
           color: colors.financialSurface,
           borderRadius: BorderRadius.circular(radii.lg),
           border: Border.all(
-            color: colors.borderStrong.withValues(alpha: 0.72),
+            color: colors.borderStrong.withValues(alpha: 0.15),
           ),
           boxShadow: CoolShadows.floating(null, strength: 1),
         ),

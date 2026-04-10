@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/config/app_market.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_glass_header_surface.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -79,7 +80,11 @@ class _ProfileDetailScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.coolSemanticColors.appBackground,
-      appBar: AppBar(title: Text(title)),
+      appBar: AppBar(
+        toolbarHeight: 84,
+        flexibleSpace: const CoolGlassHeaderSurface(),
+        title: Text(title),
+      ),
       body: CoolScreenBackground(child: SafeArea(top: false, child: child)),
     );
   }

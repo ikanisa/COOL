@@ -36,30 +36,28 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
 
   static const CoolSemanticColors dark = CoolSemanticColors(
     // ── Surface hierarchy (violet monolith) ────────────────────────────
-    appBackground: Color(0xFF0D0A27),        // Layer 0: infinite void
-    elevatedBackground: Color(0xFF110E2D),   // surface_dim
-    cardSurface: Color(0xFF1A1640),          // Layer 1: structural sections
-    cardSurfaceStrong: Color(0xFF252054),     // Layer 2: interactive cards/hover
-    glassSurface: Color(0x992A2555),          // 60% of surface_bright — frosted violet
-    overlaySurface: Color(0xFF1A1640),        // Match Layer 1 for sheets/dialogs
-
+    appBackground: Color(0xFF0D0A27), // Layer 0: infinite void
+    elevatedBackground: Color(0xFF110E2D), // surface_dim
+    cardSurface: Color(0xFF1A1640), // Layer 1: structural sections
+    cardSurfaceStrong: Color(0xFF252054), // Layer 2: interactive cards/hover
+    glassSurface: Color(0x992A2555), // 60% of surface_bright — frosted violet
+    overlaySurface: Color(0xFF1A1640), // Match Layer 1 for sheets/dialogs
     // ── Typography ─────────────────────────────────────────────────────
     primaryText: Color(0xFFF7F9FC),
     secondaryText: Color(0xFF8B8A9E),
     tertiaryText: Color(0xFF5E5C77),
 
     // ── Accent (primary as light source) ───────────────────────────────
-    accent: Color(0xFF8781FF),               // primary_container
-    accentDeep: Color(0xFF6C63FF),           // electric violet — hero gradients
-    accentStrong: Color(0xFFC4C0FF),         // primary — the light source
+    accent: Color(0xFF8781FF), // primary_container
+    accentDeep: Color(0xFF6C63FF), // electric violet — hero gradients
+    accentStrong: Color(0xFFC4C0FF), // primary — the light source
     accentForeground: Color(0xFFFFFFFF),
     accentGold: Color(0xFFFACC15),
 
     // ── Boundaries (No-Line Rule) ──────────────────────────────────────
-    divider: Color(0x00FFFFFF),              // Invisible — no divider lines
-    border: Color(0x00FFFFFF),               // Invisible — no 1px borders
-    borderStrong: Color(0x268781FF),          // Ghost border: violet at 15%
-
+    divider: Color(0x00FFFFFF), // Invisible — no divider lines
+    border: Color(0x00FFFFFF), // Invisible — no 1px borders
+    borderStrong: Color(0x268781FF), // Ghost border: violet at 15%
     // ── Semantic status ────────────────────────────────────────────────
     success: Color(0xFF10B981),
     warning: Color(0xFFF59E0B),
@@ -68,45 +66,45 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
     neutral: Color(0xFF8B8A9E),
 
     // ── Component tokens ───────────────────────────────────────────────
-    chipBackground: Color(0xFF252054),       // secondary_container — pebble
+    chipBackground: Color(0xFF252054), // secondary_container — pebble
     chipSelectedBackground: Color(0xFF8781FF),
     buttonPrimaryBackground: Color(0xFF8781FF), // primary_container — clay CTA
     buttonSecondaryBackground: Color(0x332A2555), // glass secondary
-    inputSurface: Color(0xFF0D0A27),         // Sunken into surface_container_lowest
-    shadowColor: Color(0xFF0D0A27),          // Desaturated void — never pure black
-    highlightColor: Color(0x14C4C0FF),       // Primary highlight tint
+    inputSurface: Color(0xFF0D0A27), // Sunken into surface_container_lowest
+    shadowColor: Color(0xFF0D0A27), // Desaturated void — never pure black
+    highlightColor: Color(0x14C4C0FF), // Primary highlight tint
   );
 
   static const CoolSemanticColors light = CoolSemanticColors(
-    appBackground: Color(0xFFF4F7FB),
-    elevatedBackground: Color(0xFFFFFFFF),
-    cardSurface: Color(0xFFF8FAFD),
+    appBackground: Color(0xFFF1EEFF),
+    elevatedBackground: Color(0xFFF8F6FF),
+    cardSurface: Color(0xFFEEE8FF),
     cardSurfaceStrong: Color(0xFFFFFFFF),
-    glassSurface: Color(0xE6FFFFFF),
-    overlaySurface: Color(0xFFFFFFFF),
-    primaryText: Color(0xFF0B1220),
-    secondaryText: Color(0xFF475467),
-    tertiaryText: Color(0xFF667085),
-    accent: Color(0xFF0047AB),
-    accentDeep: Color(0xFF003D96),
-    accentStrong: Color(0xFF0C64D9),
+    glassSurface: Color(0xCCFFFFFF),
+    overlaySurface: Color(0xFFF9F7FF),
+    primaryText: Color(0xFF1A1238),
+    secondaryText: Color(0xFF60587F),
+    tertiaryText: Color(0xFF837A9D),
+    accent: Color(0xFF8781FF),
+    accentDeep: Color(0xFF6C63FF),
+    accentStrong: Color(0xFFC4C0FF),
     accentForeground: Color(0xFFFFFFFF),
-    accentGold: Color(0xFFFFD700),
-    divider: Color(0x140B1220),
-    border: Color(0x140B1220),
-    borderStrong: Color(0x330B1220),
-    success: Color(0xFF0E9F6E),
-    warning: Color(0xFFC97A00),
-    danger: Color(0xFFD92D20),
-    info: Color(0xFF2E90FA),
-    neutral: Color(0xFF98A2B3),
-    chipBackground: Color(0xFFE9EEF5),
-    chipSelectedBackground: Color(0xFFDDE8FF),
-    buttonPrimaryBackground: Color(0xFF0047AB),
-    buttonSecondaryBackground: Color(0x120B1220),
-    inputSurface: Color(0xFFF1F5F9),
-    shadowColor: Color(0xFF0B1220),
-    highlightColor: Color(0xFF0B1220),
+    accentGold: Color(0xFFFACC15),
+    divider: Color(0x00000000),
+    border: Color(0x00000000),
+    borderStrong: Color(0x268781FF),
+    success: Color(0xFF10B981),
+    warning: Color(0xFFF59E0B),
+    danger: Color(0xFFEF4444),
+    info: Color(0xFF3B82F6),
+    neutral: Color(0xFF837A9D),
+    chipBackground: Color(0xFFEAE4FF),
+    chipSelectedBackground: Color(0xFFD7D1FF),
+    buttonPrimaryBackground: Color(0xFF8781FF),
+    buttonSecondaryBackground: Color(0x99FFFFFF),
+    inputSurface: Color(0xFFE7E1F8),
+    shadowColor: Color(0xFF0D0A27),
+    highlightColor: Color(0x14C4C0FF),
   );
 
   final Color appBackground;

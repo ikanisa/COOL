@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
 import 'cool_foundations.dart';
@@ -10,6 +11,15 @@ import 'cool_foundations.dart';
 /// - **Inter** — Label (utility clarity, w500–w600)
 /// - **DM Mono** — Values, IDs, aliases (via CoolTextStyles.mono/mobiLabel/mobiValue)
 abstract final class AppThemeText {
+  static final String displayFontFamily =
+      GoogleFonts.spaceGrotesk().fontFamily ?? 'Space Grotesk';
+  static final String bodyFontFamily =
+      GoogleFonts.manrope().fontFamily ?? 'Manrope';
+  static final String labelFontFamily =
+      GoogleFonts.inter().fontFamily ?? 'Inter';
+  static final String monoFontFamily =
+      GoogleFonts.dmMono().fontFamily ?? 'DM Mono';
+
   // ── Weight aliases ──────────────────────────────────────────────────
   static const black = FontWeight.w900;
   static const extraBold = FontWeight.w800;
@@ -19,9 +29,9 @@ abstract final class AppThemeText {
   static const regular = FontWeight.w400;
 
   // ── Named sizes (Space Grotesk × Inter scale) ──────────────────────────
-  static const displayLarge = 60.0;   // Space Grotesk
-  static const displayMedium = 52.0;  // Space Grotesk
-  static const displaySmall = 44.0;   // Space Grotesk
+  static const displayLarge = 60.0; // Space Grotesk
+  static const displayMedium = 52.0; // Space Grotesk
+  static const displaySmall = 44.0; // Space Grotesk
   static const headlineLarge = 38.0;
   static const headlineMedium = 32.0;
   static const headlineSmall = 24.0;
@@ -45,69 +55,72 @@ abstract final class AppThemeText {
   }) {
     final base = ThemeData(brightness: brightness);
     final baseText = base.textTheme;
+    final displayText = GoogleFonts.spaceGroteskTextTheme(baseText);
+    final bodyText = GoogleFonts.manropeTextTheme(baseText);
+    final labelText = GoogleFonts.interTextTheme(baseText);
 
     return baseText.copyWith(
       // ── Display (Space Grotesk — bold geometric hero) ───────────────
-      displayLarge: baseText.displayLarge?.copyWith(
+      displayLarge: displayText.displayLarge?.copyWith(
         fontSize: AppThemeText.displayLarge,
         fontWeight: black,
         color: semanticColors.primaryText,
-        letterSpacing: -2.4,   // -0.04em at 60px
+        letterSpacing: -2.4, // -0.04em at 60px
         height: 0.96,
       ),
-      displayMedium: baseText.displayMedium?.copyWith(
+      displayMedium: displayText.displayMedium?.copyWith(
         fontSize: AppThemeText.displayMedium,
         fontWeight: black,
         color: semanticColors.primaryText,
-        letterSpacing: -2.1,   // -0.04em at 52px
+        letterSpacing: -2.1, // -0.04em at 52px
         height: 1.0,
       ),
-      displaySmall: baseText.displaySmall?.copyWith(
+      displaySmall: displayText.displaySmall?.copyWith(
         fontSize: AppThemeText.displaySmall,
         fontWeight: extraBold,
         color: semanticColors.primaryText,
-        letterSpacing: -1.76,  // -0.04em at 44px
+        letterSpacing: -1.76, // -0.04em at 44px
         height: 1.05,
       ),
 
       // ── Headline (Space Grotesk — section authority) ─────────────────
-      headlineLarge: baseText.headlineLarge?.copyWith(
+      headlineLarge: displayText.headlineLarge?.copyWith(
         fontSize: AppThemeText.headlineLarge,
         fontWeight: extraBold,
         color: semanticColors.primaryText,
-        letterSpacing: -1.52,  // -0.04em at 38px
+        letterSpacing: -1.52, // -0.04em at 38px
         height: 1.08,
       ),
-      headlineMedium: baseText.headlineMedium?.copyWith(
+      headlineMedium: displayText.headlineMedium?.copyWith(
         fontSize: AppThemeText.headlineMedium,
         fontWeight: extraBold,
         color: semanticColors.primaryText,
-        letterSpacing: -1.28,  // -0.04em at 32px
+        letterSpacing: -1.28, // -0.04em at 32px
         height: 1.1,
       ),
-      headlineSmall: baseText.headlineSmall?.copyWith(
+      headlineSmall: displayText.headlineSmall?.copyWith(
         fontSize: AppThemeText.headlineSmall,
         fontWeight: bold,
         color: semanticColors.primaryText,
-        letterSpacing: -1.2,  // -0.05em at 24px
+        letterSpacing: -1.2, // -0.05em at 24px
         height: 1.15,
       ),
 
       // ── Title (Manrope — premium editorial hierarchy) ──────────────
-      titleLarge: baseText.titleLarge?.copyWith(
+      titleLarge: bodyText.titleLarge?.copyWith(
         fontSize: AppThemeText.titleLarge,
         fontWeight: semibold,
         color: semanticColors.primaryText,
         letterSpacing: -0.2,
         height: 1.3,
       ),
-      titleMedium: baseText.titleMedium?.copyWith(
+      titleMedium: bodyText.titleMedium?.copyWith(
         fontSize: AppThemeText.titleMedium,
         fontWeight: semibold,
         color: semanticColors.primaryText,
         height: 1.3,
       ),
-      titleSmall: baseText.titleSmall?.copyWith(
+      titleSmall: bodyText.titleSmall?.copyWith(
         fontSize: AppThemeText.titleSmall,
         fontWeight: medium,
         color: semanticColors.primaryText,
@@ -115,19 +128,19 @@ abstract final class AppThemeText {
       ),
 
       // ── Body (Manrope — readable geometric content) ─────────────────
-      bodyLarge: baseText.bodyLarge?.copyWith(
+      bodyLarge: bodyText.bodyLarge?.copyWith(
         fontSize: AppThemeText.bodyLarge,
         fontWeight: regular,
         color: semanticColors.primaryText,
         height: 1.5,
       ),
-      bodyMedium: baseText.bodyMedium?.copyWith(
+      bodyMedium: bodyText.bodyMedium?.copyWith(
         fontSize: AppThemeText.bodyMedium,
         fontWeight: medium,
         color: semanticColors.primaryText,
         height: 1.5,
       ),
-      bodySmall: baseText.bodySmall?.copyWith(
+      bodySmall: bodyText.bodySmall?.copyWith(
         fontSize: AppThemeText.bodySmall,
         fontWeight: regular,
         color: semanticColors.secondaryText,
@@ -135,19 +148,19 @@ abstract final class AppThemeText {
       ),
 
       // ── Label (Inter — compact metadata) ────────────────────────────
-      labelLarge: baseText.labelLarge?.copyWith(
+      labelLarge: labelText.labelLarge?.copyWith(
         fontSize: AppThemeText.labelLarge,
         fontWeight: semibold,
         color: semanticColors.primaryText,
         height: 1.2,
       ),
-      labelMedium: baseText.labelMedium?.copyWith(
+      labelMedium: labelText.labelMedium?.copyWith(
         fontSize: AppThemeText.labelMedium,
         fontWeight: semibold,
         color: semanticColors.primaryText,
         height: 1.2,
       ),
-      labelSmall: baseText.labelSmall?.copyWith(
+      labelSmall: labelText.labelSmall?.copyWith(
         fontSize: AppThemeText.labelSmall,
         fontWeight: semibold,
         color: semanticColors.secondaryText,

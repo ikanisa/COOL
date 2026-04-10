@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/app_theme_text.dart';
 
 /// Button variants — Tactile Monolith system.
 enum CoolButtonVariant {
@@ -116,15 +117,20 @@ class _CoolButtonState extends State<CoolButton>
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final isIcon = widget.size == CoolButtonSize.icon;
+    final radius = BorderRadius.circular(
+      isIcon ? CoolRadii.md : CoolRadii.pill,
+    );
 
     final bg = _resolvedBg(colors);
     final fg = _resolvedFg(colors);
     final border = _resolvedBorder(colors);
     final shadow = _resolvedShadow(colors);
+    final gradient = _resolvedGradient(colors);
 
     final decoration = BoxDecoration(
-      color: bg,
-      borderRadius: BorderRadius.circular(CoolRadii.sm), // 8px
+      color: gradient == null ? bg : null,
+      gradient: gradient,
+      borderRadius: radius,
       border: border != null ? Border.all(color: border, width: 1) : null,
       boxShadow: _enabled ? shadow : null,
     );
@@ -164,7 +170,7 @@ class _CoolButtonState extends State<CoolButton>
   ) {
     return Material(
       color: Colors.transparent,
-      borderRadius: BorderRadius.circular(CoolRadii.sm),
+      borderRadius: BorderRadius.circular(CoolRadii.pill),
       child: Ink(
         decoration: decoration,
         child: InkWell(
@@ -172,7 +178,7 @@ class _CoolButtonState extends State<CoolButton>
           onTapUp: _enabled ? (_) => _scaleController.reverse() : null,
           onTapCancel: _enabled ? () => _scaleController.reverse() : null,
           onTap: _enabled ? _handleTap : null,
-          borderRadius: BorderRadius.circular(CoolRadii.sm),
+          borderRadius: BorderRadius.circular(CoolRadii.pill),
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           child: Padding(padding: widget.size.padding, child: _buildChild(fg)),
@@ -212,6 +218,7 @@ class _CoolButtonState extends State<CoolButton>
     }
 
     final textStyle = TextStyle(
+      fontFamily: AppThemeText.labelFontFamily,
       color: fg,
       fontSize: widget.size.fontSize,
       fontWeight: FontWeight.w700,
@@ -278,11 +285,11 @@ class _CoolButtonState extends State<CoolButton>
   }
 
   Color? _resolvedBorder(CoolSemanticColors colors) {
-    if (!_enabled) return colors.border;
+    if (!_enabled) return colors.borderStrong.withValues(alpha: 0.15);
     return switch (widget.variant) {
       CoolButtonVariant.primary => null,
       CoolButtonVariant.secondary => null,
-      CoolButtonVariant.outline => Colors.white.withValues(alpha: 0.10),
+      CoolButtonVariant.outline => colors.borderStrong.withValues(alpha: 0.15),
       CoolButtonVariant.ghost => null,
       CoolButtonVariant.accent => null,
       CoolButtonVariant.clay => null,
@@ -294,6 +301,37 @@ class _CoolButtonState extends State<CoolButton>
       CoolButtonVariant.primary => CoolShadows.primary(),
       CoolButtonVariant.accent => CoolShadows.gold(),
       CoolButtonVariant.clay => CoolShadows.clay(),
+      _ => null,
+    };
+  }
+
+  Gradient? _resolvedGradient(CoolSemanticColors colors) {
+    if (!_enabled) {
+      return null;
+    }
+    return switch (widget.variant) {
+      CoolButtonVariant.primary => LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: <Color>[
+          colors.accentStrong.withValues(alpha: 0.92),
+          colors.buttonPrimaryBackground,
+        ],
+      ),
+      CoolButtonVariant.secondary => null,
+      CoolButtonVariant.accent => LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: <Color>[
+          colors.accentGold,
+          colors.accentGold.withValues(alpha: 0.82),
+        ],
+      ),
+      CoolButtonVariant.clay => LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: <Color>[colors.accentStrong, colors.accent, colors.accentDeep],
+      ),
       _ => null,
     };
   }

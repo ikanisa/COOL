@@ -65,12 +65,30 @@ class _CoolTextFieldState extends State<CoolTextField> {
     final space = context.coolSpace;
     final theme = Theme.of(context);
     final colors = context.coolSemanticColors;
-    const fieldRadius = 14.0;
+    const fieldRadius = CoolRadii.md;
     final semanticsLabel = widget.label ?? widget.hint;
     final fieldBackground = _isFocused
         ? colors.cardSurfaceStrong
         : colors.inputSurface;
-    const List<BoxShadow>? fieldShadow = null;
+    // Tactile Monolith: "sunken" input — simulated inner shadows
+    // via close, negative-spread outer shadows + top highlight inversion.
+    final fieldShadow = <BoxShadow>[
+      // Inner depth: dark top edge simulates being recessed
+      BoxShadow(
+        color: colors.shadowColor.withValues(alpha: _isFocused ? 0.38 : 0.24),
+        blurRadius: 6,
+        spreadRadius: -2,
+        offset: const Offset(0, 2),
+      ),
+      // Subtle bottom highlight edge: simulates light hitting the lower lip
+      BoxShadow(
+        color: colors.highlightColor.withValues(
+          alpha: _isFocused ? 0.32 : 0.14,
+        ),
+        blurRadius: 0,
+        offset: const Offset(0, -1),
+      ),
+    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,11 +122,7 @@ class _CoolTextFieldState extends State<CoolTextField> {
               color: fieldBackground,
               borderRadius: BorderRadius.circular(fieldRadius),
               border: _isFocused
-                  ? Border.all(
-                      color: colors.buttonPrimaryBackground.withValues(
-                        alpha: 0.18,
-                      ),
-                    )
+                  ? Border.all(color: colors.accentDeep.withValues(alpha: 0.40))
                   : null,
               boxShadow: fieldShadow,
             ),

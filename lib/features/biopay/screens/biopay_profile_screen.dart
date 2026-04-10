@@ -130,30 +130,32 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
           children: [
             const BiopayTopBar(title: 'Profile'),
             const SizedBox(height: CoolSpace.x8),
-            Builder(builder: (context) {
-              final colors = context.coolSemanticColors;
-              return Column(
-                children: [
-                  Text(
-                    'Profile unavailable',
-                    style: context.coolText.headline(
-                      Theme.of(context).textTheme.headlineSmall,
-                      color: colors.primaryText,
-                      fontWeight: FontWeight.w800,
+            Builder(
+              builder: (context) {
+                final colors = context.coolSemanticColors;
+                return Column(
+                  children: [
+                    Text(
+                      'Profile unavailable',
+                      style: context.coolText.headline(
+                        Theme.of(context).textTheme.headlineSmall,
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: CoolSpace.x3),
-                  Text(
-                    'BioPay could not load your linked details right now.',
-                    textAlign: TextAlign.center,
-                    style: context.coolText.mono(
-                      Theme.of(context).textTheme.bodyMedium,
-                      color: colors.secondaryText,
+                    const SizedBox(height: CoolSpace.x3),
+                    Text(
+                      'BioPay could not load your linked details right now.',
+                      textAlign: TextAlign.center,
+                      style: context.coolText.mono(
+                        Theme.of(context).textTheme.bodyMedium,
+                        color: colors.secondaryText,
+                      ),
                     ),
-                  ),
-                ],
-              );
-            }),
+                  ],
+                );
+              },
+            ),
             const SizedBox(height: CoolSpace.x6),
             BiopayPrimaryButton(
               label: 'Try Again',
@@ -272,7 +274,7 @@ class _ProfileIdentityHeader extends StatelessWidget {
         ),
         const SizedBox(height: CoolSpace.x1),
         Text(
-          'BIOPAY ID',
+          'BioPay ID',
           style: context.coolText.mono(
             Theme.of(context).textTheme.labelLarge,
             color: colors.secondaryText,

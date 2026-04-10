@@ -14,17 +14,11 @@ class BiopayHomeScreen extends StatelessWidget {
     final colors = context.coolSemanticColors;
 
     return BiopayLightScaffold(
-      topPadding: CoolSpace.x3,
+      topPadding: CoolSpace.x2,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: _ProfileAction(
-              onTap: () => context.push(AppRoutes.biopayProfile),
-            ),
-          ),
-          SizedBox(height: space.x4),
+          SizedBox(height: space.x3),
           Text(
             'Pay & Get Paid\nInstantly',
             style: context.coolText.headline(
@@ -35,13 +29,13 @@ class BiopayHomeScreen extends StatelessWidget {
               height: 0.98,
             ),
           ),
-          SizedBox(height: space.x7),
+          SizedBox(height: space.x5),
           LayoutBuilder(
             builder: (context, constraints) {
-              final tileWidth = (constraints.maxWidth - space.x4) / 2;
+              final tileWidth = (constraints.maxWidth - space.x3) / 2;
               return Wrap(
-                spacing: space.x4,
-                runSpacing: space.x4,
+                spacing: space.x3,
+                runSpacing: space.x3,
                 children: [
                   SizedBox(
                     width: tileWidth,
@@ -49,8 +43,9 @@ class BiopayHomeScreen extends StatelessWidget {
                       icon: Icons.center_focus_strong_rounded,
                       iconColor: colors.accent,
                       label: 'Face Scan',
-                      onTap: () =>
-                          context.push(AppRoutes.biopayScanLocation(mode: 'pay')),
+                      onTap: () => context.push(
+                        AppRoutes.biopayScanLocation(mode: 'pay'),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -90,39 +85,6 @@ class BiopayHomeScreen extends StatelessWidget {
   }
 }
 
-class _ProfileAction extends StatelessWidget {
-  const _ProfileAction({required this.onTap});
-
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    return Material(
-      color: colors.cardSurface,
-      borderRadius: BorderRadius.circular(CoolRadii.sm),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(CoolRadii.sm),
-        child: Container(
-          width: 56,
-          height: 56,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(CoolRadii.sm),
-            boxShadow: CoolShadows.ambientFloat(strength: 0.3),
-          ),
-          alignment: Alignment.center,
-          child: Icon(
-            Icons.person_outline_rounded,
-            color: colors.secondaryText,
-            size: 28,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _BiopayActionTile extends StatelessWidget {
   const _BiopayActionTile({
     required this.icon,
@@ -146,8 +108,8 @@ class _BiopayActionTile extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(CoolRadii.xl),
         child: Container(
-          height: 220,
-          padding: const EdgeInsets.all(CoolSpace.x5),
+          height: 200,
+          padding: const EdgeInsets.all(CoolSpace.x4),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(CoolRadii.xl),
             boxShadow: CoolShadows.ambientFloat(strength: 0.3),
@@ -156,14 +118,14 @@ class _BiopayActionTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 72,
-                height: 72,
+                width: 64,
+                height: 64,
                 decoration: BoxDecoration(
                   color: iconColor.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(CoolRadii.md),
                 ),
                 alignment: Alignment.center,
-                child: Icon(icon, size: 38, color: iconColor),
+                child: Icon(icon, size: 34, color: iconColor),
               ),
               const Spacer(),
               Text(

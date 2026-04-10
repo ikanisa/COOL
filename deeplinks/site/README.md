@@ -34,8 +34,8 @@ That check must pass before a release candidate is considered ready.
 Current production blockers:
 
 - populate `android.playAppSigningSha256CertFingerprint` in `deeplinks/release_metadata.json`
-- populate `ios.teamId` in `deeplinks/release_metadata.json`
-- populate `ios.appStoreId` in `deeplinks/release_metadata.json`
+- populate `ios.teamId` in `deeplinks/release_metadata.json` when validating an iOS release
+- populate `ios.appStoreId` in `deeplinks/release_metadata.json` when validating an iOS release
 - rerun `dart tool/deep_link_release_assets.dart --generate`
 
 Current app identifiers already wired in this repo:

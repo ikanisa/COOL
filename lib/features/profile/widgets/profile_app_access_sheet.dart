@@ -59,10 +59,7 @@ class ProfileAppAccessSheet extends StatelessWidget {
 }
 
 class ProfileAppAccessPanel extends ConsumerStatefulWidget {
-  const ProfileAppAccessPanel({
-    super.key,
-    this.embedded = false,
-  });
+  const ProfileAppAccessPanel({super.key, this.embedded = false});
 
   final bool embedded;
 
@@ -273,14 +270,6 @@ class _ProfileAppAccessPanelState extends ConsumerState<ProfileAppAccessPanel>
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Manage every permission-gated surface from one place. Review what each feature uses before enabling it.',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-              height: 1.45,
-            ),
-          ),
-          const SizedBox(height: CoolSpace.x4),
           _SummaryBanner(readyCount: readyCount, totalCount: totalCount),
           const SizedBox(height: CoolSpace.x4),
           listContent,
@@ -322,11 +311,7 @@ class _ProfileAppAccessPanelState extends ConsumerState<ProfileAppAccessPanel>
         const SizedBox(height: 14),
         _SummaryBanner(readyCount: readyCount, totalCount: totalCount),
         const SizedBox(height: CoolSpace.x4),
-        Flexible(
-          child: SingleChildScrollView(
-            child: listContent,
-          ),
-        ),
+        Flexible(child: SingleChildScrollView(child: listContent)),
       ],
     );
   }

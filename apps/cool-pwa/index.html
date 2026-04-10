@@ -5,8 +5,8 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="description" content="COOL PWA delivers installable, offline-first community finance and operations workflows with world-class performance, security, and reliability.">
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F3F0EA">
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D110E">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="COOL">
@@ -24,10 +24,89 @@
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/assets/icons/Icon-192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="/assets/icons/Icon-192.png">
-    <link rel="preload" href="/assets/fonts/Manrope-Regular.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="/assets/fonts/Barlow-ExtraBold.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="/assets/img/hero_match_bg.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="preload" href="/assets/fonts/Manrope-Variable.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="/assets/fonts/SpaceGrotesk-Variable.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="/assets/css/app.css" as="style">
+    <style>
+      :root {
+        color-scheme: dark;
+        --app-background: #0d0a27;
+        --overlay-surface: rgba(42, 37, 85, 0.78);
+        --card-surface: #1a1640;
+        --card-surface-strong: #252054;
+        --primary-text: #f7f9fc;
+        --secondary-text: #b3afcc;
+        --accent-strong: #c4c0ff;
+        --shadow: rgba(13, 10, 39, 0.44);
+        --radius-lg: 32px;
+        --radius-xl: 48px;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Manrope", system-ui, sans-serif;
+        background: var(--app-background);
+        color: var(--primary-text);
+      }
+      .shell {
+        width: min(100%, 1200px);
+        margin: 0 auto;
+        padding: 24px;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px;
+        border-radius: var(--radius-lg);
+        background: var(--overlay-surface);
+        backdrop-filter: blur(32px);
+        box-shadow: 0 20px 80px -10px var(--shadow);
+      }
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.95fr);
+        gap: 24px;
+        align-items: stretch;
+        margin: 24px 0 40px;
+      }
+      .hero-card {
+        border-radius: var(--radius-xl);
+        padding: clamp(1.5rem, 2vw, 2rem);
+        background: linear-gradient(180deg, rgba(37, 32, 84, 0.96), rgba(26, 22, 64, 0.94));
+        box-shadow: 0 20px 80px -10px var(--shadow);
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 12px;
+        border-radius: 999px;
+        background: #9b97d1;
+        color: #0d0a27;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .hero h1 {
+        margin: 16px 0 12px;
+        font-family: "Space Grotesk", system-ui, sans-serif;
+        font-size: clamp(2.2rem, 5vw, 4.2rem);
+        line-height: 0.96;
+        letter-spacing: -0.05em;
+      }
+      .hero .lede {
+        max-width: 34rem;
+        color: var(--secondary-text);
+        line-height: 1.6;
+      }
+      img, picture { display: block; max-width: 100%; }
+    </style>
+    <link rel="stylesheet" href="/assets/css/app.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/assets/css/app.css"></noscript>
     <title>COOL PWA</title>
     <script type="application/ld+json">
       {
@@ -106,7 +185,6 @@
           </article>
           <aside class="hero-card hero-visual" aria-label="COOL product preview">
             <picture>
-              <source srcset="/assets/img/hero_match_bg.webp" type="image/webp">
               <img src="/assets/img/hero_match_bg.png" alt="Layered COOL product artwork">
             </picture>
           </aside>

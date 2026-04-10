@@ -25,6 +25,7 @@ class CoolTextStyles {
         _textTheme.bodyLarge ??
         const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
     return resolvedBase.copyWith(
+      fontFamily: 'Inter',
       color: color ?? resolvedBase.color ?? _defaultColor,
       fontWeight: fontWeight ?? resolvedBase.fontWeight,
       letterSpacing: letterSpacing ?? resolvedBase.letterSpacing,
@@ -35,6 +36,7 @@ class CoolTextStyles {
   TextStyle mobiLabel({Color? color}) {
     final labelColor = _textTheme.labelSmall?.color ?? _defaultColor;
     return TextStyle(
+      fontFamily: 'Inter',
       fontSize: 10,
       fontWeight: FontWeight.w600,
       color: color ?? labelColor,
@@ -45,6 +47,7 @@ class CoolTextStyles {
 
   TextStyle mobiValue({Color? color}) {
     return TextStyle(
+      fontFamily: 'Manrope',
       fontSize: 14,
       fontWeight: FontWeight.w500,
       color: color ?? _defaultColor,
@@ -55,6 +58,7 @@ class CoolTextStyles {
 
   TextStyle heroNumber({Color? color}) {
     return TextStyle(
+      fontFamily: 'Space Grotesk',
       fontSize: 48,
       fontWeight: FontWeight.w900,
       color: color ?? _defaultColor,
@@ -77,6 +81,7 @@ class CoolTextStyles {
         _textTheme.headlineMedium ??
         const TextStyle(fontSize: 28, fontWeight: FontWeight.w800);
     return resolvedBase.copyWith(
+      fontFamily: 'Space Grotesk',
       color: color ?? resolvedBase.color ?? _defaultColor,
       fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w800,
       letterSpacing: letterSpacing ?? resolvedBase.letterSpacing ?? -0.5,
@@ -98,6 +103,7 @@ class CoolTextStyles {
         _textTheme.bodyLarge ??
         const TextStyle(fontSize: 16, fontWeight: FontWeight.w500);
     return resolvedBase.copyWith(
+      fontFamily: 'Manrope',
       color: color ?? resolvedBase.color ?? _defaultColor,
       fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w500,
       letterSpacing: letterSpacing ?? resolvedBase.letterSpacing,
@@ -119,6 +125,7 @@ class CoolTextStyles {
         _textTheme.bodyLarge ??
         const TextStyle(fontSize: 18, fontWeight: FontWeight.w600);
     return resolvedBase.copyWith(
+      fontFamily: 'Space Grotesk',
       color: color ?? resolvedBase.color ?? _defaultColor,
       fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w600,
       letterSpacing: letterSpacing ?? resolvedBase.letterSpacing,
@@ -134,12 +141,11 @@ class CoolTextStyles {
     FontWeight? fontWeight,
     double? letterSpacing,
     double? height,
-  }) =>
-      headline(
-        base,
-        color: color,
-        fontWeight: fontWeight ?? FontWeight.w800,
-        letterSpacing: letterSpacing,
-        height: height,
-      );
+  }) => headline(
+    base,
+    color: color,
+    fontWeight: fontWeight ?? FontWeight.w800,
+    letterSpacing: letterSpacing,
+    height: height,
+  );
 }

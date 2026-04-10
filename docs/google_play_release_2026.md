@@ -12,14 +12,17 @@ the remaining Google Play and Firebase work.
 - The Android app is registered in Firebase for project
   `gen-lang-client-0172279957`, and Android config is checked in at
   `android/app/google-services.json`.
-- The production Android source manifest targets Android API 36 and declares:
+- The production Android release manifest targets Android API 36 and ships:
   - location
   - camera
   - NFC
   - `READ_SMS`
   - `RECEIVE_SMS`
   - `POST_NOTIFICATIONS`
-  - Google/Firebase-added `AD_ID`
+  - `READ_CONTACTS`
+  - `USE_BIOMETRIC`
+  - normal/background platform permissions required by Firebase or platform services (`INTERNET`, `ACCESS_NETWORK_STATE`, `WAKE_LOCK`, `VIBRATE`, `USE_FINGERPRINT`)
+- The release manifest explicitly strips transitive audio, storage, phone-state, install-referrer, and ad-attribution permissions from library manifests.
 - Android M-Money SMS verification remains enabled for production builds.
 - The build flag `ENABLE_ANDROID_MOMO_SMS_AUTOREAD` defaults to `true`, and
   `scripts/build_play_release.sh` also forces it on for release builds.
@@ -66,8 +69,8 @@ the remaining Google Play and Firebase work.
   - The Play Console Data safety form must match actual data collection and all
     included SDK behavior.
 - Ad ID:
-  - The release manifest currently contains `com.google.android.gms.permission.AD_ID`.
-  - The Play Console Ad ID declaration must be consistent with that manifest.
+  - The release manifest is intended to strip `com.google.android.gms.permission.AD_ID`.
+  - If a packaged AAB still contains Ad ID or AdServices permissions, Play declarations must be updated before upload.
 
 ### Firebase App Distribution
 

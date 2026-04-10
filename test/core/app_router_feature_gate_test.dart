@@ -97,7 +97,6 @@ void main() {
       expect(find.text('Face Scan'), findsOneWidget);
     });
 
-
     testWidgets(
       'direct BioPay routes remain available even if the legacy BioPay flag is false',
       (tester) async {
@@ -153,26 +152,5 @@ void main() {
         expect(find.text('Face Scan'), findsOneWidget);
       },
     );
-
-    testWidgets('profile access route remains reachable inside the shell', (
-      tester,
-    ) async {
-      final app = await pumpRouterApp(
-        tester,
-        initialLocation: AppRoutes.profileAccess,
-        session: fakeSession(),
-        user: fakeUser(),
-      );
-
-      expect(
-        app.router.routeInformationProvider.value.uri.path,
-        AppRoutes.profileAccess,
-      );
-      expect(find.text('APP ACCESS'), findsAtLeastNWidgets(1));
-      expect(
-        find.textContaining('Manage every permission-gated surface'),
-        findsOneWidget,
-      );
-    });
   });
 }

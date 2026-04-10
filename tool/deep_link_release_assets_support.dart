@@ -111,6 +111,7 @@ _ReleaseMetadata? _loadReleaseMetadata(
     iosBundleId: bundleId,
     iosTeamId: teamId,
     iosAppStoreId: appStoreId,
+    requireIosReleaseMetadata: overrides.requireIosReleaseMetadata,
   );
 }
 
@@ -134,6 +135,12 @@ _ReleaseMetadataOverrides _loadReleaseMetadataOverrides(Directory repoRoot) {
       'COOL_IOS_APP_STORE_ID',
       'IOS_APP_STORE_ID',
     ]),
+    requireIosReleaseMetadata:
+        _readFirstEnvValue(values, const <String>[
+          'COOL_REQUIRE_IOS_RELEASE_METADATA',
+          'REQUIRE_IOS_RELEASE_METADATA',
+        ]) ==
+        '1',
   );
 }
 
@@ -337,11 +344,13 @@ final class _ReleaseMetadataOverrides {
     required this.androidPlayAppSigningFingerprint,
     required this.iosTeamId,
     required this.iosAppStoreId,
+    required this.requireIosReleaseMetadata,
   });
 
   final String? androidPlayAppSigningFingerprint;
   final String? iosTeamId;
   final String? iosAppStoreId;
+  final bool requireIosReleaseMetadata;
 }
 
 final class _ReleaseMetadata {
@@ -354,6 +363,7 @@ final class _ReleaseMetadata {
     required this.iosBundleId,
     required this.iosTeamId,
     required this.iosAppStoreId,
+    required this.requireIosReleaseMetadata,
   });
 
   final List<String> hosts;
@@ -364,11 +374,16 @@ final class _ReleaseMetadata {
   final String iosBundleId;
   final String? iosTeamId;
   final String? iosAppStoreId;
+  final bool requireIosReleaseMetadata;
 
   bool get hasAndroidPlayAppSigningFingerprint =>
       androidPlayAppSigningFingerprint != null;
   bool get hasIosAssociationMetadata => iosTeamId != null;
   bool get hasIosStoreMetadata => iosAppStoreId != null;
+  bool get shouldValidateIosRelease =>
+      requireIosReleaseMetadata ||
+      hasIosAssociationMetadata ||
+      hasIosStoreMetadata;
   List<String> get androidFingerprints => <String>[
     ...androidUploadFingerprints,
     // ignore: use_null_aware_elements

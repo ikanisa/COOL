@@ -7,7 +7,7 @@ void main() {
   testWidgets('shell quick actions switch branches without pushing', (
     tester,
   ) async {
-    final router = _buildRouter('/groups');
+    final router = _buildRouter(AppRoutes.profile);
     addTearDown(router.dispose);
 
     await tester.pumpWidget(
@@ -21,7 +21,7 @@ void main() {
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Groups'), findsOneWidget);
+    expect(find.text('Profile'), findsOneWidget);
     expect(router.canPop(), isFalse);
   });
 
@@ -67,8 +67,8 @@ GoRouter _buildRouter(String targetRoute) {
           StatefulShellBranch(
             routes: <RouteBase>[
               GoRoute(
-                path: AppRoutes.groups,
-                builder: (context, state) => const _MarkerScreen('Groups'),
+                path: AppRoutes.profile,
+                builder: (context, state) => const _MarkerScreen('Profile'),
               ),
             ],
           ),

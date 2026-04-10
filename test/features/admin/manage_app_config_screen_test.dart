@@ -157,7 +157,11 @@ Finder _dropdownFieldWithLabel(String label) {
 Future<void> _tapPrimaryButton(WidgetTester tester, String label) async {
   final button = find.widgetWithText(ElevatedButton, label);
   await tester.ensureVisible(button);
-  await tester.tap(button);
+  final widget = tester.widget<ElevatedButton>(button);
+  final onPressed = widget.onPressed;
+  expect(onPressed, isNotNull, reason: '$label button should be enabled');
+  onPressed!.call();
+  await tester.pump();
 }
 
 void main() {

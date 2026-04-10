@@ -116,15 +116,13 @@ class _CoolSearchFieldState extends State<CoolSearchField> {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
-    const fieldRadius = 14.0;
+    const fieldRadius = 12.0;
 
     return Semantics(
       textField: true,
       label: widget.hint,
       hint: 'Search field. Double tap to edit.',
-      child: AnimatedContainer(
-        duration: CoolMotion.standard,
-        curve: CoolMotion.enterCurve,
+      child: Container(
         decoration: BoxDecoration(
           color: colors.inputSurface,
           borderRadius: BorderRadius.circular(fieldRadius),

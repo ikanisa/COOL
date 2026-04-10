@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/cool_foundations.dart';
+import 'cool_glass_header_surface.dart';
 import 'cool_screen_background.dart';
 
 class CoolScreenScaffold extends StatelessWidget {
@@ -31,6 +32,8 @@ class CoolScreenScaffold extends StatelessWidget {
           automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           elevation: 0,
+          toolbarHeight: 84,
+          flexibleSpace: const CoolGlassHeaderSurface(),
           leading: showBackButton
               ? IconButton(
                   onPressed: () => context.pop(),

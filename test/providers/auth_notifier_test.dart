@@ -227,6 +227,106 @@ void main() {
     });
   });
 
+  group('AuthNotifier.signInWithOtpSession', () {
+    test('loads an existing profile after OTP session upgrade', () async {
+      final session = _fakeSession();
+      final profile = _sampleUser(officialPhone: '+250781234567');
+
+      when(
+        () => mockRepo.setSession(
+          accessToken: 'access-token',
+          refreshToken: 'refresh-token',
+        ),
+      ).thenAnswer((_) async => session);
+      when(
+        () => mockRepo.getProfile(session.user.id),
+      ).thenAnswer((_) async => profile);
+
+      await notifier.signInWithOtpSession(
+        accessToken: 'access-token',
+        refreshToken: 'refresh-token',
+      );
+
+      expect(notifier.state.session?.user.id, session.user.id);
+      expect(notifier.state.user, profile);
+      expect(
+        notifier.state.profileRestoreState,
+        app_auth.AuthProfileRestoreState.available,
+      );
+      expect(notifier.state.isLoading, isFalse);
+      expect(notifier.state.error, isNull);
+    });
+
+    test(
+      'auto-creates a profile when OTP session has phone but no profile',
+      () async {
+        final session = _fakeSession();
+        final created = _sampleUser(officialPhone: '+250781234567');
+
+        when(
+          () => mockRepo.setSession(
+            accessToken: 'access-token',
+            refreshToken: 'refresh-token',
+          ),
+        ).thenAnswer((_) async => session);
+        when(
+          () => mockRepo.getProfile(session.user.id),
+        ).thenAnswer((_) async => null);
+        when(() => mockRepo.createProfile(any())).thenAnswer((
+          invocation,
+        ) async {
+          final profile = invocation.positionalArguments.single as UserProfile;
+          expect(profile.id, session.user.id);
+          expect(profile.phone, '+250781234567');
+          return created;
+        });
+
+        await notifier.signInWithOtpSession(
+          accessToken: 'access-token',
+          refreshToken: 'refresh-token',
+        );
+
+        verify(() => mockRepo.createProfile(any())).called(1);
+        expect(notifier.state.session?.user.id, session.user.id);
+        expect(notifier.state.user, created);
+        expect(
+          notifier.state.profileRestoreState,
+          app_auth.AuthProfileRestoreState.available,
+        );
+        expect(notifier.state.isLoading, isFalse);
+        expect(notifier.state.error, isNull);
+      },
+    );
+
+    test('preserves restore state when OTP session upgrade fails', () async {
+      notifier.state = app_auth.AuthState(
+        user: _sampleUser(),
+        session: _fakeSession(),
+        profileRestoreState: app_auth.AuthProfileRestoreState.available,
+      );
+      when(
+        () => mockRepo.setSession(
+          accessToken: 'bad-access',
+          refreshToken: 'bad-refresh',
+        ),
+      ).thenThrow(StateError('OTP session failed'));
+
+      await notifier.signInWithOtpSession(
+        accessToken: 'bad-access',
+        refreshToken: 'bad-refresh',
+      );
+
+      expect(
+        notifier.state.profileRestoreState,
+        app_auth.AuthProfileRestoreState.available,
+      );
+      expect(notifier.state.user, isNotNull);
+      expect(notifier.state.session, isNotNull);
+      expect(notifier.state.isLoading, isFalse);
+      expect(notifier.state.error, contains('OTP session failed'));
+    });
+  });
+
   group('AuthNotifier.createProfile', () {
     test('returns null and sets error when no session', () async {
       when(() => mockRepo.currentUserId).thenReturn(null);

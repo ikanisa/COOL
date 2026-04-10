@@ -58,8 +58,8 @@ class MomoStatementExportService {
 
   static const String _brandName = 'COOL APP';
   static const String _logoAssetPath = 'assets/images/cool_logo_mark.png';
-  static const String _baseFontAssetPath = 'assets/fonts/Lato-Regular.ttf';
-  static const String _boldFontAssetPath = 'assets/fonts/Lato-Bold.ttf';
+  static const String _baseFontAssetPath = 'google_fonts/Manrope-Regular.ttf';
+  static const String _boldFontAssetPath = 'google_fonts/Manrope-Bold.ttf';
   static final DateFormat _fileStampFormat = DateFormat('yyyyMMdd_HHmm');
   static final DateFormat _dateTimeFormat = DateFormat('dd MMM yyyy, HH:mm');
   static final NumberFormat _moneyFormat = NumberFormat.decimalPattern('en_US');

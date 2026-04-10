@@ -1,6 +1,6 @@
 'use strict';
 
-const VERSION = 'cool-pwa-v1';
+const VERSION = 'cool-pwa-v2';
 const PRECACHE = `${VERSION}-precache`;
 const RUNTIME = `${VERSION}-runtime`;
 const DATA = `${VERSION}-data`;
@@ -47,10 +47,9 @@ const CORE_ASSETS = [
   '/assets/icons/Icon-maskable-512.png',
   '/assets/img/cool_logo_mark.png',
   '/assets/img/hero_match_bg.png',
-  '/assets/img/hero_match_bg.webp',
-  '/assets/fonts/Manrope-Regular.ttf',
-  '/assets/fonts/Barlow-SemiBold.ttf',
-  '/assets/fonts/Barlow-ExtraBold.ttf',
+  '/assets/fonts/SpaceGrotesk-Variable.ttf',
+  '/assets/fonts/Manrope-Variable.ttf',
+  '/assets/fonts/Inter-Variable.ttf',
   '/assets/fonts/DMMono-Regular.ttf',
   '/assets/screenshots/home.png',
   '/assets/screenshots/shop.png',

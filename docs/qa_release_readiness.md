@@ -15,7 +15,7 @@ No build is release-candidate quality unless every gate below is green.
 | Hosted function secrets | Hosted Supabase function secrets are synced from CI before the release gate runs, and the hosted smoke must pass when `SUPABASE_PROJECT_REF` + `SUPABASE_ACCESS_TOKEN` are configured | `scripts/sync_supabase_function_secrets.sh`, `.github/workflows/release.yml`, `scripts/supabase_contract_smoke.sh` |
 | Static analysis | `flutter analyze` passes with zero issues | `scripts/release_readiness.sh` |
 | Flutter tests | `flutter test` passes with zero failures | `scripts/release_readiness.sh` |
-| Deep-link assets | `dart tool/deep_link_release_assets.dart --check` passes against `deeplinks/release_metadata.json`, with populated AASA details and no placeholder store metadata | `scripts/release_readiness.sh` and hosted `.well-known` files |
+| Deep-link assets | `dart tool/deep_link_release_assets.dart --check` passes against `deeplinks/release_metadata.json`. Android Play-signing metadata is always required; iOS Team/App Store metadata is required only when an iOS release is being validated (`COOL_REQUIRE_IOS_RELEASE_METADATA=1`). | `scripts/release_readiness.sh` and hosted `.well-known` files |
 | Edge-function checks | Deno checks for critical Supabase functions pass | `scripts/release_readiness.sh` plus targeted `deno check` / `deno test` |
 | Operational dashboard | Admin > Operations shows no critical triage issues and no failing server-trusted surfaces | `/admin/operations` and `docs/OPERATIONAL_OBSERVABILITY.md` |
 | Route governance | Any route change updates `docs/ROUTE_INVENTORY.md` | PR review |

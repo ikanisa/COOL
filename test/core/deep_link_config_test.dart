@@ -82,7 +82,7 @@ void main() {
         DeepLinkConfig.routeForUri(
           Uri.parse('cool://momo?action=nfc_pay&recipient=0788&amount=5000'),
         ),
-        '${AppRoutes.momo}?action=nfc_pay&recipient=0788&amount=5000',
+        '${AppRoutes.biopayHome}?action=nfc_pay&recipient=0788&amount=5000',
       );
     });
 

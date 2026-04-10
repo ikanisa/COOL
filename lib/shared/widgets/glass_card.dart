@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 
-
 /// A frosted glass surface — Tactile Monolith design system.
 ///
 /// Renders a [BackdropFilter]-based glassmorphic card with configurable
@@ -61,7 +60,8 @@ class GlassCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final br = BorderRadius.circular(borderRadius);
-    final glassBg = Colors.white.withValues(alpha: opacity);
+    final colors = context.coolSemanticColors;
+    final glassBg = colors.glassSurface.withValues(alpha: opacity);
 
     // Optionally add a subtle gradient wash from the accent color.
     final gradient = gradientAccent != null
@@ -103,10 +103,11 @@ class GlassCard extends StatelessWidget {
             color: glassBg,
             gradient: gradient,
             borderRadius: br,
+            boxShadow: CoolShadows.glass(strength: 0.72),
             // Ghost border: violet-tinted, not white
             border: Border.all(
-              color: const Color(0xFF8781FF).withValues(alpha: borderOpacity),
-              width: 1,
+              color: colors.borderStrong.withValues(alpha: borderOpacity),
+              width: 0.9,
             ),
           ),
           child: content,

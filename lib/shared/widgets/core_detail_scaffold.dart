@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/cool_layout.dart';
+import 'cool_glass_header_surface.dart';
 import 'cool_screen_background.dart';
 
 /// Standard shell for non-tab detail routes.
@@ -26,6 +27,8 @@ class CoreDetailScaffold extends StatelessWidget {
     this.homeTooltip = 'Home',
     this.padding,
     this.bottomClearance = 96.0,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
     super.key,
   });
 
@@ -56,6 +59,8 @@ class CoreDetailScaffold extends StatelessWidget {
 
   /// Bottom clearance added when [title] is non-null. Defaults to 96.
   final double bottomClearance;
+  final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -115,16 +120,7 @@ class CoreDetailScaffold extends StatelessWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
           toolbarHeight: 84,
-          flexibleSpace: DecoratedBox(
-            decoration: BoxDecoration(
-              color: context.coolSemanticColors.appBackground.withValues(
-                alpha: 0.88,
-              ),
-              border: Border(
-                bottom: BorderSide(color: context.coolSemanticColors.border),
-              ),
-            ),
-          ),
+          flexibleSpace: const CoolGlassHeaderSurface(),
           leading: showBackButton
               ? Semantics(
                   button: true,
@@ -139,6 +135,8 @@ class CoreDetailScaffold extends StatelessWidget {
           actions: effectiveActions,
         ),
         body: body,
+        floatingActionButton: floatingActionButton,
+        floatingActionButtonLocation: floatingActionButtonLocation,
       ),
     );
   }

@@ -8,6 +8,8 @@
 | Permission | Why | When Prompted | Fallback if Denied |
 |---|---|---|---|
 | `INTERNET` | Core networking (Supabase, Firebase, APIs) | Never (normal permission) | App cannot function; show offline error |
+| `ACCESS_NETWORK_STATE` | Lets Firebase/network-aware services detect connectivity changes | Never (normal permission) | Networking still works, but telemetry/network-aware features may become less reliable |
+| `WAKE_LOCK` | Lets Firebase messaging/analytics complete short-lived background work reliably | Never (normal permission) | Background delivery may be less reliable under aggressive device sleep states |
 | `POST_NOTIFICATIONS` | Push notifications (order updates, group invites, support alerts) | On first FCM-triggered notification (Android 13+) | Notifications silently dropped; in-app alerts still work |
 | `READ_SMS` | Android-only M-Money payment confirmation verification from approved sender IDs | When the user enables SMS access for Mobile Money verification on Android | Automatic payment verification is unavailable; payment-linked records may remain pending until later reconciliation |
 | `RECEIVE_SMS` | Android-only background receipt of approved M-Money confirmation SMS | Same flow as `READ_SMS`; required for incoming confirmation capture on Android | Automatic payment verification is unavailable; payment-linked records may remain pending until later reconciliation |
@@ -16,6 +18,21 @@
 | `NFC` | MoMo tap-to-pay (NFC tag read) | When user taps "NFC Pay" button | NFC option hidden; USSD fallback available |
 | `READ_CONTACTS` | Invite group members, share via contacts | When user opens contact picker in group invite flow | Contact picker unavailable; manual phone entry available |
 | `CAMERA` | QR code scanning plus BioPay face enrollment and payee matching | When user opens QR scanner or BioPay face capture | QR scanner and BioPay capture disabled; manual entry and non-BioPay flows remain available |
+| `VIBRATE` | Local notification haptics on supported devices | Never (normal permission) | Notifications still appear without haptics |
+| `USE_FINGERPRINT` | Legacy compatibility permission pulled by AndroidX biometric alongside `USE_BIOMETRIC` | Never (normal permission) | Older Android biometric compatibility may degrade |
+
+## Explicitly Removed From The Release Manifest
+
+The production manifest strips several transitive permissions that libraries may request by default but Cool does not ship:
+
+- `RECORD_AUDIO`
+- `READ_EXTERNAL_STORAGE`
+- `WRITE_EXTERNAL_STORAGE`
+- `READ_PHONE_STATE`
+- `com.google.android.gms.permission.AD_ID`
+- `android.permission.ACCESS_ADSERVICES_ATTRIBUTION`
+- `android.permission.ACCESS_ADSERVICES_AD_ID`
+- `com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE`
 
 ## Hardware Features
 
