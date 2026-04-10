@@ -75,6 +75,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final groupAsync = ref.watch(groupDetailProvider(widget.groupId));
+    final accessAsync = ref.watch(groupAccessProvider(widget.groupId));
     final myGroupIds = ref.watch(myGroupIdsProvider);
 
     return CoolScreenBackground(
@@ -86,10 +87,13 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
               return _MissingGroupState(message: context.l10n.groupNotFound);
             }
 
-            final isMember = myGroupIds.contains(group.id);
-            final ledgerAsync = isMember
+            final access = accessAsync.valueOrNull;
+            final isMember = access?.isMember ?? myGroupIds.contains(group.id);
+            final canManageSettings = access?.canManageSettings ?? false;
+            final canViewTransactions = access?.canViewTransactions ?? false;
+            final ledgerAsync = canViewTransactions
                 ? ref.watch(
-                    groupPaymentLedgerProvider(
+                    groupTransactionFeedProvider(
                       GroupPaymentLedgerQuery(
                         groupId: group.id ?? '',
                         statementQuery: const MomoStatementQuery(limit: 10),
@@ -105,6 +109,8 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
               isJoining: _isJoining,
               inviteUrl: inviteUrl,
               ledgerAsync: ledgerAsync,
+              canManageSettings: canManageSettings,
+              canViewTransactions: canViewTransactions,
               onBack: () {
                 if (context.canPop()) {
                   context.pop();
@@ -113,6 +119,13 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
                 context.go(AppRoutes.contributionCircles);
               },
               onJoin: isMember ? null : () => _joinPublicGroup(group),
+              onOpenSettings: canManageSettings
+                  ? () => context.push(
+                      AppRoutes.contributionCircleSettingsLocation(
+                        group.id ?? '',
+                      ),
+                    )
+                  : null,
               onContribute: isMember
                   ? () {
                       if (!groupHasContributionRoute(group)) {
@@ -135,7 +148,8 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, _) => _MissingGroupState(message: describeUserFacingError(error)),
+          error: (error, _) =>
+              _MissingGroupState(message: describeUserFacingError(error)),
         ),
       ),
     );
@@ -149,8 +163,11 @@ class _GroupDetailBody extends StatelessWidget {
     required this.isJoining,
     required this.inviteUrl,
     required this.ledgerAsync,
+    required this.canManageSettings,
+    required this.canViewTransactions,
     required this.onBack,
     required this.onJoin,
+    required this.onOpenSettings,
     required this.onContribute,
   });
 
@@ -159,8 +176,11 @@ class _GroupDetailBody extends StatelessWidget {
   final bool isJoining;
   final String? inviteUrl;
   final AsyncValue<MomoStatementPage<PayeePaymentLedgerEntry>> ledgerAsync;
+  final bool canManageSettings;
+  final bool canViewTransactions;
   final VoidCallback onBack;
   final VoidCallback? onJoin;
+  final VoidCallback? onOpenSettings;
   final VoidCallback? onContribute;
 
   @override
@@ -181,6 +201,15 @@ class _GroupDetailBody extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_rounded),
         ),
         title: Text(context.l10n.groupDetailTitle),
+        actions: canManageSettings
+            ? <Widget>[
+                IconButton(
+                  onPressed: onOpenSettings,
+                  icon: const Icon(Icons.tune_rounded),
+                ),
+                const SizedBox(width: CoolSpace.x2),
+              ]
+            : null,
       ),
       body: ListView(
         padding: EdgeInsets.fromLTRB(space.x4, space.x3, space.x4, space.x6),
@@ -284,7 +313,7 @@ class _GroupDetailBody extends StatelessWidget {
               analyticsTargetType: 'group_invite',
             ),
           ],
-          if (isMember) ...[
+          if (canViewTransactions) ...[
             SizedBox(height: space.x5),
             Text(
               context.l10n.ledgerTitle,
@@ -298,17 +327,23 @@ class _GroupDetailBody extends StatelessWidget {
             ledgerAsync.when(
               data: (page) {
                 if (page.entries.isEmpty) {
-                  return Container(
-                    padding: EdgeInsets.all(space.x4),
-                    decoration: BoxDecoration(
-                      color: colors.cardSurface,
-                      borderRadius: BorderRadius.circular(CoolRadii.md),
-                      boxShadow: CoolShadows.ambientFloat(strength: 0.3),
-                    ),
-                    child: Text(
-                      'No posted contributions yet.',
-                      style: text.mobiLabel(color: colors.secondaryText),
-                    ),
+                  return Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(space.x4),
+                        decoration: BoxDecoration(
+                          color: colors.cardSurface,
+                          borderRadius: BorderRadius.circular(CoolRadii.md),
+                          boxShadow: CoolShadows.ambientFloat(strength: 0.3),
+                        ),
+                        child: Text(
+                          'No posted contributions yet.',
+                          style: text.mobiLabel(color: colors.secondaryText),
+                        ),
+                      ),
+                      SizedBox(height: space.x3),
+                      _StatementsButton(groupId: group.id ?? ''),
+                    ],
                   );
                 }
 
@@ -320,53 +355,72 @@ class _GroupDetailBody extends StatelessWidget {
                         child: _LedgerTile(entry: entry),
                       ),
                     SizedBox(height: space.x3),
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton(
-                        onPressed: () => context.push(
-                          AppRoutes.contributionCircleStatementsLocation(
-                            group.id ?? '',
-                          ),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: colors.accent,
-                          side: BorderSide.none,
-                          backgroundColor: colors.buttonSecondaryBackground,
-                          padding: EdgeInsets.symmetric(vertical: space.x3),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(CoolRadii.lg),
-                          ),
-                        ),
-                        child: Text(
-                          'VIEW ALL STATEMENTS',
-                          style: text.mono(
-                            null,
-                            color: colors.accent,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 0.8,
-                          ),
-                        ),
-                      ),
-                    ),
+                    _StatementsButton(groupId: group.id ?? ''),
                   ],
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, _) => Container(
-                padding: EdgeInsets.all(space.x4),
-                decoration: BoxDecoration(
-                  color: colors.cardSurface,
-                  borderRadius: BorderRadius.circular(CoolRadii.md),
-                  boxShadow: CoolShadows.ambientFloat(strength: 0.3),
-                ),
-                child: Text(
-                  'Could not load the ledger.',
-                  style: text.mobiLabel(color: colors.secondaryText),
-                ),
+              error: (error, _) => Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(space.x4),
+                    decoration: BoxDecoration(
+                      color: colors.cardSurface,
+                      borderRadius: BorderRadius.circular(CoolRadii.md),
+                      boxShadow: CoolShadows.ambientFloat(strength: 0.3),
+                    ),
+                    child: Text(
+                      'Could not load the ledger.',
+                      style: text.mobiLabel(color: colors.secondaryText),
+                    ),
+                  ),
+                  SizedBox(height: space.x3),
+                  _StatementsButton(groupId: group.id ?? ''),
+                ],
               ),
             ),
           ],
         ],
+      ),
+    );
+  }
+}
+
+class _StatementsButton extends StatelessWidget {
+  const _StatementsButton({required this.groupId});
+
+  final String groupId;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton(
+        onPressed: () => context.push(
+          AppRoutes.contributionCircleStatementsLocation(groupId),
+        ),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: colors.accent,
+          side: BorderSide.none,
+          backgroundColor: colors.buttonSecondaryBackground,
+          padding: EdgeInsets.symmetric(vertical: space.x3),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(CoolRadii.lg),
+          ),
+        ),
+        child: Text(
+          'VIEW ALL STATEMENTS',
+          style: text.mono(
+            null,
+            color: colors.accent,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 0.8,
+          ),
+        ),
       ),
     );
   }

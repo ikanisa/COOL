@@ -67,6 +67,27 @@ class MomoStatementRepository {
   }
 
   Future<MomoStatementPage<PayeePaymentLedgerEntry>>
+  loadGroupTransactionFeedEntriesPage(
+    String groupId, {
+    MomoStatementQuery query = const MomoStatementQuery(),
+    String? payerUserId,
+  }) async {
+    final rows = await _loadPayeeLedgerRows(
+      'get_group_transaction_feed_entries',
+      ownerKey: 'p_group_id',
+      ownerId: groupId,
+      query: query,
+      payerUserId: payerUserId,
+    );
+    return MomoStatementPage<PayeePaymentLedgerEntry>(
+      entries: rows
+          .map(PayeePaymentLedgerEntry.fromJson)
+          .toList(growable: false),
+      totalCount: _extractTotalCount(rows, query: query),
+    );
+  }
+
+  Future<MomoStatementPage<PayeePaymentLedgerEntry>>
   loadPartnerPaymentLedgerEntriesPage(
     String partnerId, {
     MomoStatementQuery query = const MomoStatementQuery(),

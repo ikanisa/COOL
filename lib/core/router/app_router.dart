@@ -10,6 +10,7 @@ import 'app_redirects.dart';
 
 import '../../features/groups/screens/group_create_screen.dart';
 import '../../features/groups/screens/group_detail_screen.dart';
+import '../../features/groups/screens/group_settings_screen.dart';
 import '../../features/groups/screens/group_statements_screen.dart';
 import '../../features/groups/screens/groups_screen.dart';
 import '../status/screens/referral_screen.dart';
@@ -98,17 +99,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.scanner,
         pageBuilder: (context, state) {
-          final authSnapshot = readAuthSnapshot();
-          final modeStr = state.uri.queryParameters['mode'] ?? 'momo';
-          final mode = modeStr == 'momo' ? QrScanMode.momo : QrScanMode.ticket;
-          final ticketScanningEnabled = authSnapshot.isAdmin;
           return coolPageTransition(
             context: context,
             state: state,
-            child: QrScannerScreen(
-              mode: mode,
-              ticketScanningEnabled: ticketScanningEnabled,
-            ),
+            child: const QrScannerScreen(mode: QrScanMode.momo),
           );
         },
       ),
@@ -205,6 +199,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             state: state,
             child: SecureScreenWrapper(
               child: GroupDetailScreen(groupId: groupId),
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.contributionCircleSettings,
+        pageBuilder: (context, state) {
+          final groupId = state.pathParameters['groupId']?.trim() ?? '';
+          return coolPageTransition(
+            context: context,
+            state: state,
+            child: SecureScreenWrapper(
+              child: GroupSettingsScreen(groupId: groupId),
             ),
           );
         },

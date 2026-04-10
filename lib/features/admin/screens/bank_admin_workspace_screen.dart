@@ -120,8 +120,16 @@ class _BankAdminWorkspaceScreenState
                 ),
                 _BankWorkspaceTab.ledgers => _LedgersTab(
                   ledgerAsync: ledgerAsync,
-                  onExportExcel: () =>
-                      _exportLedger(resolvedGroupId, ledgerAsync),
+                  onExportPdf: () => _exportLedger(
+                    groupId: resolvedGroupId,
+                    groupName: selectedGroup?.group.name ?? 'Group Payment Ledger',
+                    format: StatementExportFormat.pdf,
+                  ),
+                  onExportExcel: () => _exportLedger(
+                    groupId: resolvedGroupId,
+                    groupName: selectedGroup?.group.name ?? 'Group Payment Ledger',
+                    format: StatementExportFormat.excel,
+                  ),
                 ),
               },
             ],
@@ -301,22 +309,27 @@ class _BankAdminWorkspaceScreenState
     );
   }
 
-  Future<void> _exportLedger(
-    String groupId,
-    AsyncValue<MomoStatementPage<PayeePaymentLedgerEntry>> ledgerAsync,
-  ) async {
-    final page = ledgerAsync.valueOrNull;
-    if (groupId.isEmpty || page == null) return;
+  Future<void> _exportLedger({
+    required String groupId,
+    required String groupName,
+    required StatementExportFormat format,
+  }) async {
+    if (groupId.isEmpty) return;
 
+    final repository = ref.read(momoStatementRepositoryProvider);
     final authState = ref.read(authProvider);
     final exportService = ref.read(momoStatementExportServiceProvider);
     final downloadService = ref.read(momoStatementDownloadServiceProvider);
+    final page = await repository.loadGroupPaymentLedgerEntriesPage(
+      groupId,
+      query: const MomoStatementQuery(limit: 5000),
+    );
 
     final export = await exportService.buildPayeeLedgerExport(
-      format: StatementExportFormat.excel,
+      format: format,
       entries: page.entries,
       metadata: StatementExportMetadata(
-        statementTitle: 'Group Payment Ledger',
+        statementTitle: groupName,
         fileStem: 'cool_group_payment_ledger',
         userName: authState.user?.fullName ?? 'COOL User',
         officialPhone:
@@ -601,9 +614,14 @@ class _AllocationsTab extends StatelessWidget {
 // ═══════════════════════════════════════════════════════════════
 
 class _LedgersTab extends StatelessWidget {
-  const _LedgersTab({required this.ledgerAsync, required this.onExportExcel});
+  const _LedgersTab({
+    required this.ledgerAsync,
+    required this.onExportPdf,
+    required this.onExportExcel,
+  });
 
   final AsyncValue<MomoStatementPage<PayeePaymentLedgerEntry>> ledgerAsync;
+  final Future<void> Function() onExportPdf;
   final Future<void> Function() onExportExcel;
 
   @override
@@ -634,13 +652,26 @@ class _LedgersTab extends StatelessWidget {
                     color: colors.primaryText,
                   ),
                 ),
-                IconButton(
-                  onPressed: onExportExcel,
-                  tooltip: 'Export Excel',
-                  icon: Icon(
-                    Icons.file_download_outlined,
-                    color: colors.primaryText,
-                  ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: onExportPdf,
+                      tooltip: 'Export PDF',
+                      icon: Icon(
+                        Icons.picture_as_pdf_rounded,
+                        color: colors.primaryText,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: onExportExcel,
+                      tooltip: 'Export Excel',
+                      icon: Icon(
+                        Icons.grid_on_rounded,
+                        color: colors.primaryText,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

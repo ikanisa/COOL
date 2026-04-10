@@ -52,6 +52,23 @@ final groupPaymentLedgerProvider = FutureProvider.autoDispose
       );
     });
 
+final groupTransactionFeedProvider = FutureProvider.autoDispose
+    .family<
+      MomoStatementPage<PayeePaymentLedgerEntry>,
+      GroupPaymentLedgerQuery
+    >((ref, request) async {
+      if (request.groupId.trim().isEmpty) {
+        return const MomoStatementPage<PayeePaymentLedgerEntry>();
+      }
+
+      final repository = ref.watch(momoStatementRepositoryProvider);
+      return repository.loadGroupTransactionFeedEntriesPage(
+        request.groupId,
+        query: request.statementQuery,
+        payerUserId: request.payerUserId,
+      );
+    });
+
 final partnerPaymentLedgerProvider = FutureProvider.autoDispose
     .family<
       MomoStatementPage<PayeePaymentLedgerEntry>,

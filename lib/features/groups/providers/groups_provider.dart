@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/providers/supabase_client_provider.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../models/group_access_snapshot.dart';
 import '../models/group.dart';
 import '../models/group_invite_preview.dart';
 import '../repositories/group_repository.dart';
@@ -59,6 +60,13 @@ final groupDetailProvider = FutureProvider.family<Group?, String>((
   final repository = ref.read(groupRepositoryProvider);
   return repository.getGroupById(groupId);
 });
+
+final groupAccessProvider =
+    FutureProvider.family<GroupAccessSnapshot?, String>((ref, groupId) async {
+      ref.watch(groupsRefreshTickProvider);
+      final repository = ref.read(groupRepositoryProvider);
+      return repository.getGroupAccessSnapshot(groupId);
+    });
 
 final groupInvitePreviewProvider =
     FutureProvider.family<GroupInvitePreview?, String>((ref, inviteCode) async {

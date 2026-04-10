@@ -27,6 +27,8 @@ abstract final class AppRoutes {
   // ── Contribution Circles ────────────────────────────────────────
   static const contributionCircles = '/contribution-circles';
   static const contributionCircleDetail = '/contribution-circles/:groupId';
+  static const contributionCircleSettings =
+      '/contribution-circles/:groupId/settings';
   static const contributionCircleStatements =
       '/contribution-circles/:groupId/statements';
 
@@ -81,6 +83,10 @@ abstract final class AppRoutes {
 
   static String contributionCircleStatementsLocation(String groupId) {
     return '/contribution-circles/$groupId/statements';
+  }
+
+  static String contributionCircleSettingsLocation(String groupId) {
+    return '/contribution-circles/$groupId/settings';
   }
 
   static String adminBankWorkspaceLocation(String bankId) {

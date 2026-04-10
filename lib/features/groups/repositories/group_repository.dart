@@ -2,6 +2,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/config/country_catalog.dart';
 import '../../auth/models/user_profile.dart';
+import '../models/group_access_snapshot.dart';
 import '../models/group.dart';
 import '../models/group_invite_preview.dart';
 import '../models/group_join_result.dart';
@@ -80,6 +81,24 @@ class GroupRepository {
     return Group.fromJson(Map<String, dynamic>.from(row));
   }
 
+  Future<GroupAccessSnapshot?> getGroupAccessSnapshot(String groupId) async {
+    final normalizedGroupId = _trimToNull(groupId);
+    if (normalizedGroupId == null) {
+      return null;
+    }
+
+    final rows = _asListOfMaps(
+      await _client.rpc(
+        'get_group_access_snapshot',
+        params: <String, dynamic>{'p_group_id': normalizedGroupId},
+      ),
+    );
+    if (rows.isEmpty) {
+      return null;
+    }
+    return GroupAccessSnapshot.fromJson(rows.first);
+  }
+
   Future<Group> createGroup({
     required UserProfile creator,
     required String name,
@@ -138,6 +157,57 @@ class GroupRepository {
     final group = await getGroupById(groupId);
     if (group == null) {
       throw StateError('Group was created but could not be loaded.');
+    }
+
+    return group;
+  }
+
+  Future<Group> updateGroupSavingsSettings({
+    required String groupId,
+    required String name,
+    String? description,
+    int? targetAmount,
+    int? monthlyContribution,
+    String? frequency,
+    MomoRecipientType? customMomoRouteType,
+    String? customRecipientValue,
+  }) async {
+    final normalizedGroupId = _trimToNull(groupId);
+    final normalizedName = _trimToNull(name);
+    if (normalizedGroupId == null) {
+      throw StateError('Group id is required.');
+    }
+    if (normalizedName == null) {
+      throw StateError('Group name is required.');
+    }
+
+    final response = await _client.rpc(
+      'update_group_savings_settings',
+      params: <String, dynamic>{
+        'p_group_id': normalizedGroupId,
+        'p_name': normalizedName,
+        'p_description': description,
+        'p_target_amount': targetAmount,
+        'p_monthly_contribution': monthlyContribution,
+        'p_frequency': _trimToNull(frequency),
+        'p_receiving_momo_route_type': _serializeRecipientType(
+          customMomoRouteType,
+        ),
+        'p_recipient_value': _trimToNull(customRecipientValue),
+      },
+    );
+
+    final payload = _asMap(response);
+    final status = payload['status']?.toString() ?? 'error';
+    if (status != 'success') {
+      throw StateError(
+        payload['message']?.toString() ?? 'Could not update group settings.',
+      );
+    }
+
+    final group = await getGroupById(normalizedGroupId);
+    if (group == null) {
+      throw StateError('Group settings were saved but the group could not be reloaded.');
     }
 
     return group;

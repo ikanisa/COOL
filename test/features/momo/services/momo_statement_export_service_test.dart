@@ -175,6 +175,44 @@ void main() {
     );
     expect(ascii.decode(export.bytes.sublist(0, 2), allowInvalid: true), 'PK');
   });
+
+  test('payee ledger PDF export returns a branded PDF file', () async {
+    final export = await service.buildPayeeLedgerExport(
+      format: StatementExportFormat.pdf,
+      entries: <PayeePaymentLedgerEntry>[
+        PayeePaymentLedgerEntry(
+          ledgerId: 'ledger-1',
+          payerUserId: 'user-1',
+          payerName: 'Jean Bosco',
+          amount: 32000,
+          currency: 'RWF',
+          occurredAt: DateTime(2026, 3, 10, 12, 45),
+          txCategory: 'group_contribution',
+          cashflowBucket: 'savings',
+          label: 'Weekly savings contribution',
+          targetTable: 'group_contributions',
+          reference: 'MOMO-9001',
+        ),
+      ],
+      metadata: StatementExportMetadata(
+        statementTitle: 'Group Payment Ledger',
+        fileStem: 'cool_group_payment_ledger',
+        userName: 'Jean Bosco',
+        officialPhone: '+250788000111',
+        generatedAt: DateTime(2026, 3, 11, 14, 30),
+        periodLabel: 'All posted entries in view',
+        filterLabel: 'Group payment ledger',
+        sortLabel: 'Newest first',
+      ),
+    );
+
+    expect(export.fileName, endsWith('.pdf'));
+    expect(export.mimeType, 'application/pdf');
+    expect(
+      ascii.decode(export.bytes.sublist(0, 4), allowInvalid: true),
+      '%PDF',
+    );
+  });
 }
 
 class _TestAssetBundle extends CachingAssetBundle {
