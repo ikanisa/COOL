@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
@@ -253,23 +254,28 @@ class _GroupDetailBody extends StatelessWidget {
               borderRadius: BorderRadius.circular(CoolRadii.lg),
               boxShadow: CoolShadows.ambientFloat(strength: 0.3),
             ),
-            child: Column(
-              children: [
-                _StatRow(label: 'Balance', value: '${group.amount} RWF'),
-                if (group.targetAmount > 0) ...[
-                  SizedBox(height: space.x2),
-                  _StatRow(label: 'Target', value: '${group.targetAmount} RWF'),
-                ],
-                if ((group.monthlyContribution ?? 0) > 0) ...[
-                  SizedBox(height: space.x2),
-                  _StatRow(
-                    label: 'Contribution',
-                    value: '${group.monthlyContribution} RWF',
-                  ),
-                ],
-                SizedBox(height: space.x2),
-                _StatRow(label: 'Country', value: group.country),
-              ],
+            child: Builder(
+              builder: (context) {
+                final currency = CoolCountryCatalog.resolve(country: group.country).currencyCode;
+                return Column(
+                  children: [
+                    _StatRow(label: 'Balance', value: '${group.amount} $currency'),
+                    if (group.targetAmount > 0) ...[
+                      SizedBox(height: space.x2),
+                      _StatRow(label: 'Target', value: '${group.targetAmount} $currency'),
+                    ],
+                    if ((group.monthlyContribution ?? 0) > 0) ...[
+                      SizedBox(height: space.x2),
+                      _StatRow(
+                        label: 'Contribution',
+                        value: '${group.monthlyContribution} $currency',
+                      ),
+                    ],
+                    SizedBox(height: space.x2),
+                    _StatRow(label: 'Country', value: group.country),
+                  ],
+                );
+              },
             ),
           ),
           SizedBox(height: space.x5),
@@ -613,7 +619,8 @@ class _MissingGroupState extends StatelessWidget {
               Text(
                 message,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                style: context.coolText.display(
+                  null,
                   color: colors.secondaryText,
                   height: 1.5,
                 ),

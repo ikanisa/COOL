@@ -48,7 +48,8 @@ class AdminDashboardScreen extends ConsumerWidget {
               label: context.l10n.adminPanelTitle,
               child: Text(
                 context.l10n.adminPanelTitle,
-                style: theme.textTheme.displayLarge?.copyWith(
+                style: context.coolText.headline(
+                  theme.textTheme.displayLarge,
                   color: colors.primaryText,
                 ),
               ),
@@ -56,10 +57,9 @@ class AdminDashboardScreen extends ConsumerWidget {
             const SizedBox(height: CoolSpace.x2),
             Text(
               'Platform controls, bank workspaces, and operational oversight in one command surface.',
-              style: theme.textTheme.bodySmall?.copyWith(
+              style: context.coolText.mobiLabel(
                 color: colors.secondaryText,
-                fontWeight: FontWeight.w700,
-              ),
+              ).copyWith(fontWeight: FontWeight.w700),
             ),
             SizedBox(height: space.x6),
             CoolCard(
@@ -69,7 +69,8 @@ class AdminDashboardScreen extends ConsumerWidget {
                 children: [
                   Text(
                     'Admin command',
-                    style: theme.textTheme.titleLarge?.copyWith(
+                    style: context.coolText.display(
+                      theme.textTheme.titleLarge,
                       color: colors.primaryText,
                       fontWeight: FontWeight.w800,
                     ),
@@ -79,8 +80,9 @@ class AdminDashboardScreen extends ConsumerWidget {
                     access.hasPlatformAccess
                         ? 'Full platform visibility with audit, content, and workspace management.'
                         : 'No active platform role. Access denied.',
-                    style: theme.textTheme.bodySmall?.copyWith(
+                    style: context.coolText.mobiLabel(
                       color: colors.secondaryText,
+                    ).copyWith(
                       fontWeight: FontWeight.w700,
                       height: 1.35,
                     ),

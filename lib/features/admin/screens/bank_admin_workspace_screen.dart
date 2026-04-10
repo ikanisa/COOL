@@ -193,7 +193,7 @@ class _BankAdminWorkspaceScreenState
                       onPressed: () => Navigator.of(dialogContext).pop(),
                       child: Text(
                         'Cancel',
-                        style: TextStyle(color: colors.secondaryText),
+                        style: context.coolText.mobiLabel(color: colors.secondaryText),
                       ),
                     ),
                     const SizedBox(width: CoolSpace.x2),
@@ -273,7 +273,7 @@ class _BankAdminWorkspaceScreenState
                       onPressed: () => Navigator.of(dialogContext).pop(),
                       child: Text(
                         'Cancel',
-                        style: TextStyle(color: colors.secondaryText),
+                        style: context.coolText.mobiLabel(color: colors.secondaryText),
                       ),
                     ),
                     const SizedBox(width: CoolSpace.x2),

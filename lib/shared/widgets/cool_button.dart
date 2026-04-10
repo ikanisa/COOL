@@ -279,7 +279,7 @@ class _CoolButtonState extends State<CoolButton>
       CoolButtonVariant.secondary => colors.primaryText,
       CoolButtonVariant.outline => colors.primaryText,
       CoolButtonVariant.ghost => colors.secondaryText,
-      CoolButtonVariant.accent => Colors.black,
+      CoolButtonVariant.accent => colors.appBackground,
       CoolButtonVariant.clay => colors.accentForeground,
     };
   }

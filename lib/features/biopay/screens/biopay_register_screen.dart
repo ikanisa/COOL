@@ -371,7 +371,7 @@ class _BiopayInputField extends StatelessWidget {
                   isCollapsed: true,
                   border: InputBorder.none,
                   hintText: '',
-                  hintStyle: TextStyle(color: colors.tertiaryText),
+                  hintStyle: context.coolText.mobiLabel(color: colors.tertiaryText),
                 ),
               ),
             ],

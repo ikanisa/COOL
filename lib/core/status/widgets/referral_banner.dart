@@ -37,7 +37,7 @@ class ReferralBanner extends ConsumerWidget {
         ),
         child: Row(
           children: [
-            const Text('🎁', style: TextStyle(fontSize: 28)),
+            Text('🎁', style: context.coolText.display(null).copyWith(fontSize: 28)),
             SizedBox(width: space.x4),
             Expanded(
               child: Column(

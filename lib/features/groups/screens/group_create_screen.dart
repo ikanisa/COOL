@@ -15,6 +15,7 @@ import '../../../core/utils/user_error.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../auth/widgets/require_verified_user.dart';
 import '../providers/groups_provider.dart';
+import '../widgets/group_form_widgets.dart';
 
 class GroupCreateScreen extends ConsumerStatefulWidget {
   const GroupCreateScreen({super.key});
@@ -213,9 +214,9 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
                   SizedBox(height: space.x5),
 
                   // ── Type ──────────────────────────────────────────────
-                  const _SectionLabel(label: 'TYPE'),
+                  const GroupSectionLabel(label: 'TYPE'),
                   SizedBox(height: space.x2),
-                  _OptionRow(
+                  GroupOptionRow(
                     firstLabel: 'Saving',
                     firstSelected: _type == 'saving',
                     onFirstTap: () => setState(() {
@@ -233,9 +234,9 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
 
                   // ── Frequency ─────────────────────────────────────────
                   if (showFrequencyPicker) ...[
-                    const _SectionLabel(label: 'FREQUENCY'),
+                    const GroupSectionLabel(label: 'FREQUENCY'),
                     SizedBox(height: space.x2),
-                    _FrequencyPicker(
+                    GroupFrequencyPicker(
                       options: const ['daily', 'weekly', 'monthly'],
                       selected: _frequency,
                       onSelected: (freq) => setState(() => _frequency = freq),
@@ -399,7 +400,7 @@ class _MomoRouteCard extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: _SegmentTab(
+                  child: GroupSegmentTab(
                     label: 'NUMBER',
                     selected: routeType == MomoRecipientType.phoneNumber,
                     onTap: () =>
@@ -408,7 +409,7 @@ class _MomoRouteCard extends StatelessWidget {
                 ),
                 if (supportsMomoCode)
                   Expanded(
-                    child: _SegmentTab(
+                    child: GroupSegmentTab(
                       label: 'CODE',
                       selected: routeType == MomoRecipientType.code,
                       onTap: () => onRouteTypeChanged(MomoRecipientType.code),
@@ -482,199 +483,3 @@ class _MomoRouteCard extends StatelessWidget {
   }
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-// SEGMENT TAB (matches BioPay segmented control style)
-// ═══════════════════════════════════════════════════════════════════════
-
-class _SegmentTab extends StatelessWidget {
-  const _SegmentTab({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: CoolMotion.quick,
-        curve: Curves.easeOut,
-        height: 48,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: selected ? colors.cardSurfaceStrong : Colors.transparent,
-          borderRadius: BorderRadius.circular(CoolRadii.xs),
-          boxShadow: selected ? CoolShadows.ambientFloat(strength: 0.4) : null,
-        ),
-        child: Text(
-          label,
-          style: context.coolText.mono(
-            Theme.of(context).textTheme.labelLarge,
-            color: selected ? colors.accent : colors.secondaryText,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 2.2,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════════════
-// FREQUENCY PICKER (row of chips for daily/weekly/monthly/one_off)
-// ═══════════════════════════════════════════════════════════════════════
-
-class _FrequencyPicker extends StatelessWidget {
-  const _FrequencyPicker({
-    required this.options,
-    required this.selected,
-    required this.onSelected,
-  });
-
-  final List<String> options;
-  final String selected;
-  final ValueChanged<String> onSelected;
-
-  String _label(String value) {
-    return switch (value) {
-      'daily' => 'Daily',
-      'weekly' => 'Weekly',
-      'monthly' => 'Monthly',
-      'one_off' => 'One-Off',
-      _ => value,
-    };
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final space = context.coolSpace;
-    return Row(
-      children: options
-          .map((option) {
-            final isSelected = option == selected;
-            return Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  right: option != options.last ? space.x2 : 0,
-                ),
-                child: _OptionChip(
-                  label: _label(option),
-                  selected: isSelected,
-                  onTap: () => onSelected(option),
-                ),
-              ),
-            );
-          })
-          .toList(growable: false),
-    );
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════════════
-// SHARED WIDGETS
-// ═══════════════════════════════════════════════════════════════════════
-
-class _SectionLabel extends StatelessWidget {
-  const _SectionLabel({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      label,
-      style: context.coolText.mobiLabel(
-        color: context.coolSemanticColors.tertiaryText,
-      ),
-    );
-  }
-}
-
-class _OptionRow extends StatelessWidget {
-  const _OptionRow({
-    required this.firstLabel,
-    required this.firstSelected,
-    required this.onFirstTap,
-    required this.secondLabel,
-    required this.secondSelected,
-    required this.onSecondTap,
-  });
-
-  final String firstLabel;
-  final bool firstSelected;
-  final VoidCallback onFirstTap;
-  final String secondLabel;
-  final bool secondSelected;
-  final VoidCallback onSecondTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final space = context.coolSpace;
-    return Row(
-      children: [
-        Expanded(
-          child: _OptionChip(
-            label: firstLabel,
-            selected: firstSelected,
-            onTap: onFirstTap,
-          ),
-        ),
-        SizedBox(width: space.x2),
-        Expanded(
-          child: _OptionChip(
-            label: secondLabel,
-            selected: secondSelected,
-            onTap: onSecondTap,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _OptionChip extends StatelessWidget {
-  const _OptionChip({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final text = context.coolText;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(CoolRadii.md),
-      child: AnimatedContainer(
-        duration: CoolMotion.quick,
-        padding: const EdgeInsets.symmetric(vertical: CoolSpace.x3),
-        decoration: BoxDecoration(
-          color: selected ? colors.accent : colors.cardSurface,
-          borderRadius: BorderRadius.circular(CoolRadii.md),
-          boxShadow: selected ? null : CoolShadows.ambientFloat(strength: 0.2),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          label.toUpperCase(),
-          style: text
-              .mobiLabel(
-                color: selected ? colors.accentForeground : colors.primaryText,
-              )
-              .copyWith(fontWeight: FontWeight.w800, letterSpacing: 1.0),
-        ),
-      ),
-    );
-  }
-}

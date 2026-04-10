@@ -49,7 +49,8 @@ class _RoleBadge extends StatelessWidget {
       ),
       child: Text(
         label.toUpperCase(),
-        style: theme.textTheme.labelMedium?.copyWith(
+        style: context.coolText.mono(
+          theme.textTheme.labelMedium,
           fontWeight: FontWeight.w800,
           color: color,
           letterSpacing: 0.5,
@@ -96,7 +97,8 @@ class _AdminCard extends StatelessWidget {
             section.title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.titleSmall?.copyWith(
+            style: context.coolText.display(
+              theme.textTheme.titleSmall,
               fontWeight: FontWeight.w800,
               color: colors.primaryText,
             ),
@@ -107,8 +109,9 @@ class _AdminCard extends StatelessWidget {
               section.subtitle,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.bodySmall?.copyWith(
+              style: context.coolText.mobiLabel(
                 color: colors.tertiaryText,
+              ).copyWith(
                 fontWeight: FontWeight.w600,
                 height: 1.35,
               ),

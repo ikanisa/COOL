@@ -159,7 +159,6 @@ class QrShareSheet extends ConsumerWidget {
                 decoration: BoxDecoration(
                   color: colors.cardSurfaceStrong,
                   borderRadius: BorderRadius.all(Radius.circular(radii.md)),
-                  border: Border.all(color: colors.border),
                 ),
                 child: QrImageView(
                   data: inviteUrl,
@@ -185,7 +184,6 @@ class QrShareSheet extends ConsumerWidget {
                 decoration: BoxDecoration(
                   color: colors.cardSurface,
                   borderRadius: BorderRadius.all(Radius.circular(radii.xs)),
-                  border: Border.all(color: colors.border),
                 ),
                 child: Row(
                   children: [

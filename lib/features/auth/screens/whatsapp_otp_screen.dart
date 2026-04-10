@@ -228,7 +228,10 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                 children: [
                   Text(
                     _country.flagEmoji,
-                    style: const TextStyle(fontSize: 20),
+                    style: context.coolText.display(
+                      null,
+                      fontWeight: FontWeight.w400,
+                    ).copyWith(fontSize: 20),
                   ),
                   const SizedBox(width: 6),
                   Text(
@@ -276,7 +279,8 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: '788 123 456',
-                    hintStyle: TextStyle(
+                    hintStyle: context.coolText.mono(
+                      null,
                       color: colors.tertiaryText,
                       letterSpacing: 2.0,
                     ),
@@ -353,7 +357,8 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
               ),
               TextSpan(
                 text: otpState.phone,
-                style: TextStyle(
+                style: context.coolText.mono(
+                  null,
                   color: colors.primaryText,
                   fontWeight: FontWeight.w800,
                 ),

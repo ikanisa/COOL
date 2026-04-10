@@ -207,22 +207,19 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
 
           Text(
             l10n.profileEditMomoInfo,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
+            style: context.coolText.display(
+              null,
               color: colors.primaryText,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: CoolSpace.x5),
 
           Text(
             l10n.momoNumberLabel.toUpperCase(),
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
+            style: context.coolText.mobiLabel(
               color: colors.tertiaryText,
-              letterSpacing: 1.2,
-            ),
+            ).copyWith(fontWeight: FontWeight.w700, letterSpacing: 1.2),
           ),
           const SizedBox(height: CoolSpace.x2),
           Semantics(
@@ -232,15 +229,15 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
             child: TextField(
               controller: _numberController,
               keyboardType: TextInputType.phone,
-              style: TextStyle(
-                fontSize: 15,
+              style: context.coolText.manrope(
+                null,
                 color: colors.primaryText,
               ),
               cursorColor: colors.accent,
               decoration: InputDecoration(
                 hintText: country.phoneExampleHint(),
-                hintStyle: TextStyle(
-                  fontSize: 15,
+                hintStyle: context.coolText.manrope(
+                  null,
                   color: colors.tertiaryText.withValues(alpha: 0.5),
                 ),
                 filled: true,
@@ -273,9 +270,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
               ),
               child: Text(
                 _detectedProvider!,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
+                style: context.coolText.mobiLabel(
                   color: colors.accent,
                 ),
               ),
@@ -286,12 +281,9 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
             const SizedBox(height: CoolSpace.x5),
             Text(
               l10n.profileMomoCodeOptional,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
+              style: context.coolText.mobiLabel(
                 color: colors.tertiaryText,
-                letterSpacing: 1.2,
-              ),
+              ).copyWith(fontWeight: FontWeight.w700, letterSpacing: 1.2),
             ),
             const SizedBox(height: CoolSpace.x2),
             Semantics(
@@ -301,15 +293,15 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
               child: TextField(
                 controller: _codeController,
                 keyboardType: TextInputType.number,
-                style: TextStyle(
-                  fontSize: 15,
+                style: context.coolText.manrope(
+                  null,
                   color: colors.primaryText,
                 ),
                 cursorColor: colors.accent,
                 decoration: InputDecoration(
                   hintText: country.momoCodeExample ?? '12345',
-                  hintStyle: TextStyle(
-                    fontSize: 15,
+                  hintStyle: context.coolText.manrope(
+                    null,
                     color: colors.tertiaryText.withValues(alpha: 0.5),
                   ),
                   filled: true,
@@ -333,12 +325,9 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
             const SizedBox(height: CoolSpace.x5),
             Text(
               'DEFAULT RECEIVE ROUTE',
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
+              style: context.coolText.mobiLabel(
                 color: colors.tertiaryText,
-                letterSpacing: 1.2,
-              ),
+              ).copyWith(fontWeight: FontWeight.w700, letterSpacing: 1.2),
             ),
             const SizedBox(height: CoolSpace.x2),
             MomoRouteTypeSelector(
@@ -374,8 +363,8 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
                     )
                   : Text(
                       l10n.save,
-                      style: const TextStyle(
-                        fontSize: 15,
+                      style: context.coolText.manrope(
+                        null,
                         fontWeight: FontWeight.w700,
                       ),
                     ),

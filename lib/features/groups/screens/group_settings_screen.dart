@@ -11,6 +11,7 @@ import '../../../shared/widgets/cool_text_field.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../models/group.dart';
 import '../providers/groups_provider.dart';
+import '../widgets/group_form_widgets.dart';
 
 class GroupSettingsScreen extends ConsumerStatefulWidget {
   const GroupSettingsScreen({required this.groupId, super.key});
@@ -247,9 +248,9 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                       keyboardType: TextInputType.number,
                     ),
                     const SizedBox(height: CoolSpace.x5),
-                    const _SectionLabel(label: 'FREQUENCY'),
+                    const GroupSectionLabel(label: 'FREQUENCY'),
                     const SizedBox(height: CoolSpace.x2),
-                    _FrequencyPicker(
+                    GroupFrequencyPicker(
                       options: frequencyOptions,
                       selected: _frequency,
                       onSelected: (value) => setState(() => _frequency = value),
@@ -320,7 +321,7 @@ class _RouteCard extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: _SegmentTab(
+                child: GroupSegmentTab(
                   label: 'NUMBER',
                   selected: routeType == MomoRecipientType.phoneNumber,
                   onTap: () => onRouteTypeChanged(MomoRecipientType.phoneNumber),
@@ -328,7 +329,7 @@ class _RouteCard extends StatelessWidget {
               ),
               if (supportsMomoCode)
                 Expanded(
-                  child: _SegmentTab(
+                  child: GroupSegmentTab(
                     label: 'CODE',
                     selected: routeType == MomoRecipientType.code,
                     onTap: () => onRouteTypeChanged(MomoRecipientType.code),
@@ -397,144 +398,3 @@ class _RouteCard extends StatelessWidget {
   }
 }
 
-class _SegmentTab extends StatelessWidget {
-  const _SegmentTab({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: CoolMotion.quick,
-        curve: Curves.easeOut,
-        height: 48,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: selected ? colors.cardSurfaceStrong : Colors.transparent,
-          borderRadius: BorderRadius.circular(CoolRadii.xs),
-          boxShadow: selected ? CoolShadows.ambientFloat(strength: 0.4) : null,
-        ),
-        child: Text(
-          label,
-          style: context.coolText.mono(
-            Theme.of(context).textTheme.labelLarge,
-            color: selected ? colors.accent : colors.secondaryText,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 2.2,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _FrequencyPicker extends StatelessWidget {
-  const _FrequencyPicker({
-    required this.options,
-    required this.selected,
-    required this.onSelected,
-  });
-
-  final List<String> options;
-  final String selected;
-  final ValueChanged<String> onSelected;
-
-  String _label(String value) {
-    return switch (value) {
-      'daily' => 'Daily',
-      'weekly' => 'Weekly',
-      'monthly' => 'Monthly',
-      'one_off' => 'One-Off',
-      _ => value,
-    };
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final space = context.coolSpace;
-    return Row(
-      children: options
-          .map(
-            (option) => Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  right: option != options.last ? space.x2 : 0,
-                ),
-                child: _OptionChip(
-                  label: _label(option),
-                  selected: option == selected,
-                  onTap: () => onSelected(option),
-                ),
-              ),
-            ),
-          )
-          .toList(growable: false),
-    );
-  }
-}
-
-class _SectionLabel extends StatelessWidget {
-  const _SectionLabel({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      label,
-      style: context.coolText.mobiLabel(
-        color: context.coolSemanticColors.tertiaryText,
-      ),
-    );
-  }
-}
-
-class _OptionChip extends StatelessWidget {
-  const _OptionChip({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final text = context.coolText;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(CoolRadii.md),
-      child: AnimatedContainer(
-        duration: CoolMotion.quick,
-        padding: const EdgeInsets.symmetric(vertical: CoolSpace.x3),
-        decoration: BoxDecoration(
-          color: selected ? colors.accent : colors.cardSurface,
-          borderRadius: BorderRadius.circular(CoolRadii.md),
-          boxShadow: selected ? null : CoolShadows.ambientFloat(strength: 0.2),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          label.toUpperCase(),
-          style: text
-              .mobiLabel(
-                color: selected ? colors.accentForeground : colors.primaryText,
-              )
-              .copyWith(fontWeight: FontWeight.w800, letterSpacing: 1.0),
-        ),
-      ),
-    );
-  }
-}

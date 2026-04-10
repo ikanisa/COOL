@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/date_formatters.dart';
 import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../../shared/widgets/cool_toast.dart';
@@ -144,10 +145,10 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
     if (start == null && end == null) {
       return 'All posted entries in view';
     }
-    final startLabel = start == null ? '...' : _exportDateLabel(start);
+    final startLabel = start == null ? '...' : formatExportDateLabel(start);
     final endLabel = end == null
         ? '...'
-        : _exportDateLabel(end);
+        : formatExportDateLabel(end);
     return '$startLabel - $endLabel';
   }
 
@@ -480,7 +481,7 @@ class _StatementTile extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '${entry.payerName} • ${_formatDate(entry.occurredAt)}',
+                      '${entry.payerName} • ${formatTransactionDate(entry.occurredAt)}',
                       style: context.coolText.mono(
                         Theme.of(context).textTheme.labelSmall,
                         fontWeight: FontWeight.w600,
@@ -537,42 +538,3 @@ class _StatementTile extends StatelessWidget {
   }
 }
 
-String _formatDate(DateTime value) {
-  final local = value.toLocal();
-  final month = switch (local.month) {
-    1 => 'Jan',
-    2 => 'Feb',
-    3 => 'Mar',
-    4 => 'Apr',
-    5 => 'May',
-    6 => 'Jun',
-    7 => 'Jul',
-    8 => 'Aug',
-    9 => 'Sep',
-    10 => 'Oct',
-    11 => 'Nov',
-    _ => 'Dec',
-  };
-  final hour = local.hour.toString().padLeft(2, '0');
-  final minute = local.minute.toString().padLeft(2, '0');
-  return '${local.day} $month ${local.year} • $hour:$minute';
-}
-
-String _exportDateLabel(DateTime value) {
-  final local = value.toLocal();
-  final month = switch (local.month) {
-    1 => 'Jan',
-    2 => 'Feb',
-    3 => 'Mar',
-    4 => 'Apr',
-    5 => 'May',
-    6 => 'Jun',
-    7 => 'Jul',
-    8 => 'Aug',
-    9 => 'Sep',
-    10 => 'Oct',
-    11 => 'Nov',
-    _ => 'Dec',
-  };
-  return '${local.day.toString().padLeft(2, '0')} $month ${local.year}';
-}

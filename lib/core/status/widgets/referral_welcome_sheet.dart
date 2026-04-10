@@ -54,7 +54,7 @@ class ReferralWelcomeSheet extends StatelessWidget {
             ),
           ),
           SizedBox(height: space.x8),
-          const Text('🤝', style: TextStyle(fontSize: 64)),
+          Text('🤝', style: context.coolText.display(null).copyWith(fontSize: 64)),
           SizedBox(height: space.x6),
           Text(
             'You\'re Invited!',
@@ -74,7 +74,8 @@ class ReferralWelcomeSheet extends StatelessWidget {
                 TextSpan(text: context.l10n.yourFriend),
                 TextSpan(
                   text: inviterName,
-                  style: TextStyle(
+                  style: context.coolText.manrope(
+                    null,
                     color: colors.accent,
                     fontWeight: FontWeight.w700,
                   ),

@@ -32,9 +32,7 @@ class ReferralScreen extends ConsumerWidget {
       ),
       subtitle: Text(
         'Share a tracked invite link so friends join with your code and finish their first activity.',
-        style: theme.textTheme.bodyMedium?.copyWith(
-          color: colors.secondaryText,
-        ),
+        style: context.coolText.mobiLabel(color: colors.secondaryText),
       ),
       child: ListView(
         padding: EdgeInsets.only(bottom: space.x8),
@@ -43,9 +41,7 @@ class ReferralScreen extends ConsumerWidget {
             CoolCard(
               child: Text(
                 'Sign in to generate a referral invite.',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colors.primaryText,
-                ),
+                style: context.coolText.mobiLabel(color: colors.primaryText),
               ),
             ),
           ] else ...[
@@ -125,17 +121,16 @@ class _ReferralRewardCard extends StatelessWidget {
         children: [
           Text(
             'Referral rewards',
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w800,
+            style: context.coolText.display(
+              theme.textTheme.titleMedium,
               color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: CoolSpace.x3),
           Text(
             '${user.fullName.trim().isEmpty ? 'You' : user.fullName.trim()} can share a tracked invite link. When a friend signs up and completes their first activity, rewards are credited through the referral backend.',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: colors.secondaryText,
-            ),
+            style: context.coolText.mobiLabel(color: colors.secondaryText),
           ),
           const SizedBox(height: CoolSpace.x4),
           const Row(
@@ -167,9 +162,10 @@ class _ReferralCodeCard extends StatelessWidget {
         children: [
           Text(
             'Invite code',
-            style: theme.textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.w800,
+            style: context.coolText.display(
+              theme.textTheme.titleSmall,
               color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: CoolSpace.x2),
@@ -185,9 +181,7 @@ class _ReferralCodeCard extends StatelessWidget {
           const SizedBox(height: CoolSpace.x2),
           Text(
             'Every shared link keeps this invite code and adds referral attribution for tracking.',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: colors.tertiaryText,
-            ),
+            style: context.coolText.mobiLabel(color: colors.tertiaryText),
           ),
         ],
       ),
@@ -212,7 +206,7 @@ class _RewardPill extends StatelessWidget {
         decoration: BoxDecoration(
           color: colors.accent.withValues(alpha: 0.10),
           borderRadius: BorderRadius.circular(CoolRadii.md),
-          border: Border.all(color: colors.accent.withValues(alpha: 0.18)),
+          boxShadow: CoolShadows.ambientFloat(strength: 0.15),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,7 +222,8 @@ class _RewardPill extends StatelessWidget {
             const SizedBox(height: CoolSpace.x1),
             Text(
               value,
-              style: theme.textTheme.titleMedium?.copyWith(
+              style: context.coolText.display(
+                theme.textTheme.titleMedium,
                 fontWeight: FontWeight.w900,
                 color: colors.primaryText,
               ),

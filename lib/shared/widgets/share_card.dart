@@ -110,7 +110,6 @@ class ShareCard extends ConsumerWidget {
       decoration: BoxDecoration(
         color: colors.elevatedBackground,
         borderRadius: BorderRadius.circular(CoolRadii.md),
-        border: Border.all(color: colors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

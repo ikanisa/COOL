@@ -159,7 +159,6 @@ class BalanceCard extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: colors.glassSurface,
                           borderRadius: BorderRadius.circular(radii.sm),
-                          border: Border.all(color: colors.border),
                         ),
                         alignment: Alignment.center,
                         child: Icon(
@@ -225,7 +224,6 @@ class BalanceCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: colors.glassSurface,
                         borderRadius: BorderRadius.circular(radii.md),
-                        border: Border.all(color: colors.border),
                       ),
                       child: Wrap(
                         spacing: space.x3,
@@ -317,9 +315,6 @@ class _BalanceActionButton extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(radii.sm),
-          border: Border.all(
-            color: action.isPrimary ? Colors.transparent : colors.border,
-          ),
         ),
         child: InkWell(
           onTap: action.onTap,

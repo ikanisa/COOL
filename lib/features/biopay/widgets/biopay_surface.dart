@@ -56,7 +56,7 @@ class BiopayTopBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.glassSurface,
         borderRadius: BorderRadius.circular(CoolRadii.lg),
-        border: Border.all(color: colors.borderStrong.withValues(alpha: 0.64)),
+        border: Border.all(color: colors.borderStrong),
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -120,7 +120,7 @@ class BiopayBackButton extends StatelessWidget {
             color: colors.glassSurface,
             borderRadius: BorderRadius.circular(CoolRadii.md),
             border: Border.all(
-              color: colors.borderStrong.withValues(alpha: 0.64),
+              color: colors.borderStrong,
             ),
             boxShadow: CoolShadows.glass(strength: 0.24),
           ),
@@ -157,7 +157,7 @@ class BiopaySegmentedControl extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.glassSurface,
         borderRadius: BorderRadius.circular(CoolRadii.md),
-        border: Border.all(color: colors.borderStrong.withValues(alpha: 0.58)),
+        border: Border.all(color: colors.borderStrong),
         boxShadow: CoolShadows.glass(strength: 0.22),
       ),
       child: Row(
@@ -232,7 +232,7 @@ class BiopaySectionCard extends StatelessWidget {
           ],
         ),
         borderRadius: BorderRadius.circular(CoolRadii.lg),
-        border: Border.all(color: colors.borderStrong.withValues(alpha: 0.56)),
+        border: Border.all(color: colors.borderStrong),
         boxShadow: CoolShadows.glass(strength: 0.26),
       ),
       child: child,

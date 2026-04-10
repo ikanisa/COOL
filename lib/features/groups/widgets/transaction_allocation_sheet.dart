@@ -403,12 +403,9 @@ class _TransactionAllocationSheetState
                               ),
                               child: Text(
                                 'CURRENT',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w700,
+                                style: context.coolText.mobiLabel(
                                   color: colors.success,
-                                  letterSpacing: 0.5,
-                                ),
+                                ).copyWith(letterSpacing: 0.5),
                               ),
                             ),
                         ],

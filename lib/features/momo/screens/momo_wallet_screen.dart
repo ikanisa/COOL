@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/date_formatters.dart';
 import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../../shared/widgets/cool_toast.dart';
@@ -144,8 +145,8 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
     if (start == null && end == null) {
       return 'All transactions in view';
     }
-    final startLabel = start == null ? '...' : _exportDateLabel(start);
-    final endLabel = end == null ? '...' : _exportDateLabel(end);
+    final startLabel = start == null ? '...' : formatExportDateLabel(start);
+    final endLabel = end == null ? '...' : formatExportDateLabel(end);
     return '$startLabel - $endLabel';
   }
 
@@ -386,7 +387,7 @@ class _WalletTransactionTile extends StatelessWidget {
     if (counterparty != null && counterparty.isNotEmpty) {
       parts.add(counterparty);
     }
-    parts.add(_formatDate(entry.occurredAt));
+    parts.add(formatTransactionDate(entry.occurredAt));
     return parts.join(' • ');
   }
 }
@@ -477,46 +478,3 @@ class _ErrorState extends StatelessWidget {
   }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Helpers
-// ═══════════════════════════════════════════════════════════════
-
-String _formatDate(DateTime value) {
-  final local = value.toLocal();
-  final month = switch (local.month) {
-    1 => 'Jan',
-    2 => 'Feb',
-    3 => 'Mar',
-    4 => 'Apr',
-    5 => 'May',
-    6 => 'Jun',
-    7 => 'Jul',
-    8 => 'Aug',
-    9 => 'Sep',
-    10 => 'Oct',
-    11 => 'Nov',
-    _ => 'Dec',
-  };
-  final hour = local.hour.toString().padLeft(2, '0');
-  final minute = local.minute.toString().padLeft(2, '0');
-  return '${local.day} $month ${local.year} • $hour:$minute';
-}
-
-String _exportDateLabel(DateTime value) {
-  final local = value.toLocal();
-  final month = switch (local.month) {
-    1 => 'Jan',
-    2 => 'Feb',
-    3 => 'Mar',
-    4 => 'Apr',
-    5 => 'May',
-    6 => 'Jun',
-    7 => 'Jul',
-    8 => 'Aug',
-    9 => 'Sep',
-    10 => 'Oct',
-    11 => 'Nov',
-    _ => 'Dec',
-  };
-  return '${local.day.toString().padLeft(2, '0')} $month ${local.year}';
-}

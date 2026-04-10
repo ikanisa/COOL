@@ -106,11 +106,9 @@ class ConfigErrorApp extends ConsumerWidget {
           footer: Text(
             'Local runs usually need '
             '--dart-define-from-file=.env.json',
-            style: TextStyle(
+            style: context.coolText.mobiLabel(
               color: context.coolSemanticColors.tertiaryText,
-              fontSize: 13,
-              height: 1.4,
-            ),
+            ).copyWith(height: 1.4),
           ),
         ),
       ),
@@ -163,18 +161,18 @@ class _ErrorCardScaffold extends StatelessWidget {
                       const SizedBox(height: CoolSpace.x4),
                       Text(
                         title,
-                        style: TextStyle(
+                        style: context.coolText.display(
+                          null,
                           color: colors.primaryText,
-                          fontSize: 22,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                       const SizedBox(height: CoolSpace.x3),
                       Text(
                         message,
-                        style: TextStyle(
+                        style: context.coolText.manrope(
+                          null,
                           color: colors.secondaryText,
-                          fontSize: 14,
                           height: 1.45,
                         ),
                       ),

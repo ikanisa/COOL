@@ -191,11 +191,11 @@ class _MetricChip extends StatelessWidget {
             children: [
               TextSpan(
                 text: '$value ',
-                style: TextStyle(color: color),
+                style: context.coolText.mono(null, color: color),
               ),
               TextSpan(
                 text: label,
-                style: TextStyle(color: colors.tertiaryText),
+                style: context.coolText.mobiLabel(color: colors.tertiaryText),
               ),
             ],
           ),

@@ -485,9 +485,9 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
                         SizedBox(height: 20),
                         Text(
                           'Preparing camera…',
-                          style: TextStyle(
+                          style: context.coolText.manrope(
+                            null,
                             color: Colors.white54,
-                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.3,
                           ),

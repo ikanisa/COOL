@@ -33,13 +33,9 @@ class TransactionStatusChip extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             resolved.label,
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.w700,
+            style: context.coolText.mobiLabel(
               color: resolved.color,
-              letterSpacing: 0.5,
-              height: 1.2,
-            ),
+            ).copyWith(letterSpacing: 0.5, height: 1.2),
           ),
         ],
       ),

@@ -51,7 +51,9 @@ class _FactLine extends StatelessWidget {
             children: [
               TextSpan(
                 text: '$label: ',
-                style: const TextStyle(fontWeight: FontWeight.w700),
+                style: context.coolText.mobiLabel(
+                  color: colors.secondaryText,
+                ).copyWith(fontWeight: FontWeight.w700),
               ),
               TextSpan(text: value),
             ],
