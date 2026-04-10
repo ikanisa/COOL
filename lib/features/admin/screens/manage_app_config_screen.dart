@@ -52,7 +52,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       barrierColor: Colors.black54,
       transitionDuration: Duration.zero,
-      pageBuilder: (dialogContext, _, __) => Material(
+      pageBuilder: (dialogContext, _, _) => Material(
         type: MaterialType.transparency,
         child: SafeArea(
           child: Align(
