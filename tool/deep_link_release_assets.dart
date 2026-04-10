@@ -78,8 +78,14 @@ List<String> _generateReleaseAssets(
       _buildExpectedIosAssociation(metadata),
     );
   } else {
+    _writeJsonFile(
+      File(
+        '${repoRoot.path}/deeplinks/site/.well-known/apple-app-site-association',
+      ),
+      _buildDisabledIosAssociation(),
+    );
     warnings.add(
-      'Skipped apple-app-site-association generation because resolved release metadata is missing ios.teamId.',
+      'Generated a disabled apple-app-site-association because resolved release metadata is missing ios.teamId.',
     );
   }
 
@@ -104,6 +110,12 @@ List<String> _validateIosAssociation(
   final applinks = decoded['applinks'];
   if (applinks is! Map<String, dynamic>) {
     errors.add('apple-app-site-association must define an applinks object.');
+    errors.addAll(metadataErrors);
+    return errors;
+  }
+
+  if (!metadata.hasIosAssociationMetadata &&
+      _jsonDeepEquals(decoded, _buildDisabledIosAssociation())) {
     errors.addAll(metadataErrors);
     return errors;
   }

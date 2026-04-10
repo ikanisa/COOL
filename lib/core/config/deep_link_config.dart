@@ -46,30 +46,7 @@ abstract final class DeepLinkConfig {
     return _httpsUri('/groups/$groupId', queryParameters: queryParameters);
   }
 
-  static Uri matchUri(String matchId, {Map<String, String>? queryParameters}) {
-    return _httpsUri('/match/$matchId', queryParameters: queryParameters);
-  }
 
-  static Uri initiativeUri(
-    String initiativeId, {
-    Map<String, String>? queryParameters,
-  }) {
-    return _httpsUri(
-      '/initiative/$initiativeId',
-      queryParameters: queryParameters,
-    );
-  }
-
-  static Uri clubUri(String clubId, {Map<String, String>? queryParameters}) {
-    return _httpsUri('/club/$clubId', queryParameters: queryParameters);
-  }
-
-  static Uri shopProductUri(
-    String productId, {
-    Map<String, String>? queryParameters,
-  }) {
-    return _httpsUri('/shop/$productId', queryParameters: queryParameters);
-  }
 
   static Uri statusUri(String userId, {Map<String, String>? queryParameters}) {
     return _httpsUri('/status/$userId', queryParameters: queryParameters);
@@ -102,10 +79,10 @@ abstract final class DeepLinkConfig {
       'momo' => _momoRouteForSegments(segments, uri),
       'biopay-tab' => AppRoutes.biopayHome,
       'profile' => AppRoutes.profile,
-      'match' => AppRoutes.home,
-      'initiative' => AppRoutes.home,
-      'club' => AppRoutes.home,
-      'shop' => AppRoutes.home,
+      'match' => AppRoutes.home, // legacy deep links redirect to home
+      'initiative' => AppRoutes.home, // legacy deep links redirect to home
+      'club' => AppRoutes.home, // legacy deep links redirect to home
+      'shop' => AppRoutes.home, // legacy deep links redirect to home
       'status' => AppRoutes.profile,
       _ => null,
     };

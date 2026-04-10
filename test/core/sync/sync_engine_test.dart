@@ -32,30 +32,30 @@ void main() {
 
   group('enqueue', () {
     test('stores a pending write', () async {
-      final id = await engine.enqueue('trip', {'from': 'A', 'to': 'B'});
+      final id = await engine.enqueue('contribution', {'from': 'A', 'to': 'B'});
       expect(id, isNotEmpty);
       expect(testBox.containsKey(id), isTrue);
     });
 
     test('accepts a custom id', () async {
-      final id = await engine.enqueue('trip', {'from': 'X'}, id: 'custom-123');
+      final id = await engine.enqueue('contribution', {'from': 'X'}, id: 'custom-123');
       expect(id, 'custom-123');
       expect(testBox.containsKey('custom-123'), isTrue);
     });
 
     test('updates status to hasFailures after enqueue', () async {
-      await engine.enqueue('trip', {'from': 'A'});
+      await engine.enqueue('contribution', {'from': 'A'});
       expect(engine.status.value, SyncEngineStatus.hasFailures);
     });
   });
 
   group('flush', () {
     test('syncs pending writes and removes them', () async {
-      await engine.enqueue('trip', {'from': 'A'}, id: 'write-1');
-      await engine.enqueue('trip', {'from': 'B'}, id: 'write-2');
+      await engine.enqueue('contribution', {'from': 'A'}, id: 'write-1');
+      await engine.enqueue('contribution', {'from': 'B'}, id: 'write-2');
 
       final synced = <String>[];
-      final result = await engine.flush('trip', (id, payload) async {
+      final result = await engine.flush('contribution', (id, payload) async {
         synced.add(id);
       });
 
@@ -67,19 +67,19 @@ void main() {
     });
 
     test('only flushes the requested domain', () async {
-      await engine.enqueue('trip', {'from': 'A'}, id: 'trip-1');
+      await engine.enqueue('contribution', {'from': 'A'}, id: 'contrib-1');
       await engine.enqueue('momo', {'amount': 100}, id: 'momo-1');
 
-      final result = await engine.flush('trip', (id, payload) async {});
+      final result = await engine.flush('contribution', (id, payload) async {});
 
       expect(result.synced, 1);
       expect(testBox.containsKey('momo-1'), isTrue);
     });
 
     test('increments attempts on failure', () async {
-      await engine.enqueue('trip', {'from': 'A'}, id: 'fail-1');
+      await engine.enqueue('contribution', {'from': 'A'}, id: 'fail-1');
 
-      final result = await engine.flush('trip', (id, payload) async {
+      final result = await engine.flush('contribution', (id, payload) async {
         throw Exception('server down');
       });
 
@@ -95,14 +95,14 @@ void main() {
       // Manually insert an entry with maxAttempts already reached.
       final write = PendingWrite(
         id: 'exhausted-1',
-        domain: 'trip',
+        domain: 'contribution',
         payload: {'from': 'Z'},
         createdAt: DateTime.now(),
         attempts: 3, // maxAttempts = 3
       );
       await testBox.put('exhausted-1', write.toMap());
 
-      final result = await engine.flush('trip', (id, payload) async {
+      final result = await engine.flush('contribution', (id, payload) async {
         fail('Should not be called for exhausted entry');
       });
 
@@ -113,13 +113,13 @@ void main() {
     test('discards stale entries', () async {
       final write = PendingWrite(
         id: 'stale-1',
-        domain: 'trip',
+        domain: 'contribution',
         payload: {'from': 'old'},
         createdAt: DateTime.now().subtract(const Duration(hours: 2)),
       );
       await testBox.put('stale-1', write.toMap());
 
-      final result = await engine.flush('trip', (id, payload) async {
+      final result = await engine.flush('contribution', (id, payload) async {
         fail('Should not be called for stale entry');
       });
 
@@ -128,19 +128,19 @@ void main() {
     });
 
     test('updates status to idle when all items flushed', () async {
-      await engine.enqueue('trip', {'from': 'A'}, id: 'write-1');
-      await engine.flush('trip', (id, payload) async {});
+      await engine.enqueue('contribution', {'from': 'A'}, id: 'write-1');
+      await engine.flush('contribution', (id, payload) async {});
       expect(engine.status.value, SyncEngineStatus.idle);
     });
   });
 
   group('pendingCount', () {
     test('returns count for domain', () async {
-      await engine.enqueue('trip', {'a': 1}, id: 't1');
-      await engine.enqueue('trip', {'a': 2}, id: 't2');
+      await engine.enqueue('contribution', {'a': 1}, id: 'c1');
+      await engine.enqueue('contribution', {'a': 2}, id: 'c2');
       await engine.enqueue('momo', {'a': 3}, id: 'm1');
 
-      expect(await engine.pendingCount('trip'), 2);
+      expect(await engine.pendingCount('contribution'), 2);
       expect(await engine.pendingCount('momo'), 1);
       expect(await engine.pendingCount('other'), 0);
     });
@@ -148,11 +148,11 @@ void main() {
 
   group('clearDomain', () {
     test('removes all writes for domain', () async {
-      await engine.enqueue('trip', {'a': 1}, id: 't1');
+      await engine.enqueue('contribution', {'a': 1}, id: 'c1');
       await engine.enqueue('momo', {'a': 2}, id: 'm1');
 
-      await engine.clearDomain('trip');
-      expect(await engine.pendingCount('trip'), 0);
+      await engine.clearDomain('contribution');
+      expect(await engine.pendingCount('contribution'), 0);
       expect(await engine.pendingCount('momo'), 1);
     });
   });
@@ -161,7 +161,7 @@ void main() {
     test('round-trips through toMap/fromMap', () {
       final original = PendingWrite(
         id: 'test-123',
-        domain: 'trip',
+        domain: 'contribution',
         payload: {'from': 'A', 'to': 'B'},
         createdAt: DateTime(2026, 3, 11),
         attempts: 2,

@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 /// off-market or non-RW positioning has been re-introduced.
 ///
 /// Allowlisted paths are explicitly excluded (e.g. country catalog internals,
-/// fan club region names, test fixtures).
+/// test fixtures).
 void main() {
   /// Patterns that must NOT appear in consumer-facing Dart source files.
   /// Each entry is (pattern, reason).

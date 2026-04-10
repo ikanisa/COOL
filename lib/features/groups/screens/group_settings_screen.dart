@@ -184,7 +184,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
               : null,
           child: accessAsync.when(
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (_, __) => Center(
+            error: (_, _) => Center(
               child: Icon(
                 Icons.lock_outline_rounded,
                 size: 40,

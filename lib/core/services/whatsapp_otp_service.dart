@@ -101,7 +101,7 @@ class WhatsAppOtpService {
   /// Sends a 6-digit OTP to the given E.164 phone via WhatsApp Cloud API.
   Future<OtpSendResult> sendOtp(String e164Phone) async {
     try {
-      debugPrint('[OTP] ➜ Sending code to $e164Phone');
+      debugPrint('[OTP] ➜ Sending code to ${_redact(e164Phone)}');
       final response = await _client.functions.invoke(
         'send-otp',
         body: <String, Object?>{
@@ -145,7 +145,7 @@ class WhatsAppOtpService {
   /// Verifies the 6-digit code. On success, returns a verified session.
   Future<OtpVerifyResult> verifyOtp(String e164Phone, String code) async {
     try {
-      debugPrint('[OTP] ➜ Verifying code for $e164Phone');
+      debugPrint('[OTP] ➜ Verifying code for ${_redact(e164Phone)}');
       final response = await _client.functions.invoke(
         'verify-otp',
         body: <String, Object?>{
@@ -208,5 +208,11 @@ class WhatsAppOtpService {
     if (value is num) return value.toInt();
     if (value is String) return int.tryParse(value);
     return null;
+  }
+
+  /// Redacts a phone number for safe debug logging: `+250***1234`.
+  static String _redact(String phone) {
+    if (phone.length <= 4) return '***';
+    return '${phone.substring(0, phone.length > 6 ? 4 : 1)}***${phone.substring(phone.length - 4)}';
   }
 }

@@ -10,7 +10,7 @@ import '../../core/theme/cool_foundations.dart';
 /// and auto-dismiss. Replaces raw `ScaffoldMessenger.showSnackBar` usage.
 ///
 /// ```dart
-/// CoolToast.success(context, 'Trip booked successfully!');
+/// CoolToast.success(context, 'Contribution confirmed!');
 /// CoolToast.error(context, 'Payment failed. Please try again.');
 /// CoolToast.info(context, 'Your profile was updated.');
 /// ```

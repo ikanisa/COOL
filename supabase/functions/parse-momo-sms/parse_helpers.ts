@@ -18,9 +18,6 @@ export function deriveLedgerScope(
     case "group_contributions":
       return "group";
     case "partner_payment_routes":
-    case "rs_tickets":
-    case "rs_shop_orders":
-    case "rs_initiative_contributions":
       return "partner";
     default:
       return "wallet";

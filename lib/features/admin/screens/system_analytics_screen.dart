@@ -112,12 +112,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
                     Icons.groups_rounded,
                     colors.success,
                   ),
-                  _Metric(
-                    'Tickets',
-                    _fmt(data['total_tickets']),
-                    Icons.confirmation_number_rounded,
-                    colors.warning,
-                  ),
+
                 ],
               ),
               const SizedBox(height: 28),
@@ -138,12 +133,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
                     Icons.show_chart_rounded,
                     colors.info,
                   ),
-                  _Metric(
-                    'Tickets (7d)',
-                    _fmt(data['tickets_7d']),
-                    Icons.local_activity_rounded,
-                    colors.warning,
-                  ),
+
                   _Metric(
                     'Active Partners',
                     _fmt(data['active_partners']),

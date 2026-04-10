@@ -27,4 +27,23 @@ npm run audit:lighthouse
 
 ## Deploy
 
-Use the repo-level [`firebase.pwa.json`](/Volumes/PRO-G40/COOL/firebase.pwa.json) config to deploy this app as a dedicated hosting target.
+This app is prepared for the existing Cloudflare Pages project `cool`.
+
+```bash
+cd apps/cool-pwa
+npx wrangler pages deploy
+```
+
+Production domains:
+
+- `https://cool.ikanisa.com/` serves the landing page.
+- `https://acool.ikanisa.com/` uses the same Pages project and rewrites `/` to `/admin/` for the admin PWA entry.
+- `https://cool.ikanisa.com/admin/` remains available for direct QA on the shared project.
+
+Cloudflare-specific files live alongside the app:
+
+- `wrangler.toml`
+- `_headers`
+- `functions/index.js`
+- `landing/index.html`
+- `landing-assets/*`

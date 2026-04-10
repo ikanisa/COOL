@@ -3,4 +3,7 @@
     <string name="cool_default_notification_channel_id">cool_default</string>
     <string name="cool_default_notification_channel_name">Cool Alerts</string>
     <string name="cool_default_notification_channel_description">Payment updates, group activity, and partner announcements.</string>
+    <string name="cool_momo_sms_sync_channel_id">cool_momo_sms_sync</string>
+    <string name="cool_momo_sms_sync_channel_name">M-Money SMS Sync</string>
+    <string name="cool_momo_sms_sync_channel_description">Reliable background delivery for approved M-Money payment confirmations.</string>
 </resources>

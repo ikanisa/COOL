@@ -42,7 +42,7 @@ begin
   insert into public.payment_receiver_accounts (
     code_or_number, receiver_type, owner_id, status, currency
   ) values (
-    '*182*8*1*123456#', 'rayon_shop', v_user_one, 'active', 'RWF'
+    '*182*8*1*123456#', 'merchant', v_user_one, 'active', 'RWF'
   ) returning id into v_receiver_id;
 
   if v_receiver_id is null then
@@ -53,7 +53,7 @@ begin
   insert into public.payment_intents (
     creator_id, expected_amount, currency, status, intent_type, metadata
   ) values (
-    v_user_one, 5000.00, 'RWF', 'pending', 'shop_order', '{"order_id": "123"}'::jsonb
+    v_user_one, 5000.00, 'RWF', 'pending', 'payment', '{"order_id": "123"}'::jsonb
   ) returning id into v_intent_id;
 
   if v_intent_id is null then

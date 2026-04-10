@@ -32,6 +32,23 @@ abstract final class CoolMotion {
   static const Curve enterCurve = Cubic(0.4, 0.0, 0.2, 1.0);
   static const Curve exitCurve = Cubic(0.4, 0.0, 1.0, 1.0);
   static const Curve pressCurve = Curves.easeInOut;
+
+  /// Whether the user has enabled "reduce motion" in system accessibility.
+  static bool isReducedMotion(BuildContext context) {
+    return MediaQuery.disableAnimationsOf(context);
+  }
+
+  /// Returns [duration] when animations are enabled, or [Duration.zero]
+  /// when the user has requested reduced motion.
+  static Duration resolve(BuildContext context, Duration duration) {
+    return isReducedMotion(context) ? Duration.zero : duration;
+  }
+
+  /// Returns [curve] when animations are enabled, or [Curves.linear]
+  /// when the user has requested reduced motion.
+  static Curve resolveCurve(BuildContext context, Curve curve) {
+    return isReducedMotion(context) ? Curves.linear : curve;
+  }
 }
 
 abstract final class CoolResponsive {

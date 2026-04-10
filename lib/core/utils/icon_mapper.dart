@@ -20,7 +20,7 @@ abstract final class IconMapper {
     '🏆' => Icons.emoji_events_rounded,
     '🎯' => Icons.gps_fixed_rounded,
 
-    // ── Vehicles & transit ──────────────────────────────────
+    // ── Transport & logistics ──────────────────────────────
     '🚗' || '🚙' => Icons.directions_car_rounded,
     '🚘' => Icons.directions_car_filled_rounded,
     '🏍️' || '🏍' => Icons.two_wheeler_rounded,

@@ -101,6 +101,8 @@ class _BiopayActionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
+    final textScale = MediaQuery.textScalerOf(context).scale(1);
+    final tileHeight = 200.0 + (textScale > 1 ? (textScale - 1) * 64.0 : 0.0);
     return Material(
       color: colors.cardSurface,
       borderRadius: BorderRadius.circular(CoolRadii.xl),
@@ -108,7 +110,7 @@ class _BiopayActionTile extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(CoolRadii.xl),
         child: Container(
-          height: 200,
+          height: tileHeight,
           padding: const EdgeInsets.all(CoolSpace.x4),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(CoolRadii.xl),

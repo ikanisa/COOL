@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 /// A global achievement in the Cool SuperApp.
 ///
 /// Achievements are earned by completing milestones in various features
-/// (Groups, Shop, Tickets, etc.) and are displayed in the user's profile
+/// (Groups, Savings, MoMo, etc.) and are displayed in the user's profile
 /// and the Cool Tokens hub.
 class CoolAchievement extends Equatable {
   const CoolAchievement({

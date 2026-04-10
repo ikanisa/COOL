@@ -99,7 +99,6 @@ class EngagementFeatureFlags {
     required this.partnerChapterEnabled,
     required this.biopayEnabled,
     required this.momo,
-    required this.ticketPurchase,
     required this.credit,
   });
 
@@ -111,8 +110,6 @@ class EngagementFeatureFlags {
       partnerChapterEnabled: false,
       biopayEnabled: true,
       momo: ManagedFeatureRollout(key: 'momo'),
-      // Retained for remote-config compatibility with legacy checkout paths.
-      ticketPurchase: ManagedFeatureRollout(key: 'ticket_purchase'),
       credit: ManagedFeatureRollout(key: 'credit'),
     );
   }
@@ -146,12 +143,6 @@ class EngagementFeatureFlags {
         values: values,
         fallback: defaults.momo,
       ),
-      ticketPurchase: ManagedFeatureRollout.fromValues(
-        key: 'ticket_purchase',
-        killSwitchKey: 'kill_ticket_purchase',
-        values: values,
-        fallback: defaults.ticketPurchase,
-      ),
       credit: ManagedFeatureRollout.fromValues(
         key: 'credit',
         killSwitchKey: 'kill_credit_features',
@@ -167,16 +158,13 @@ class EngagementFeatureFlags {
   final bool partnerChapterEnabled;
   final bool biopayEnabled;
   final ManagedFeatureRollout momo;
-  final ManagedFeatureRollout ticketPurchase;
   final ManagedFeatureRollout credit;
 
   bool get killMomoPayments => momo.killSwitch;
-  bool get killTicketPurchase => ticketPurchase.killSwitch;
   bool get killCreditFeatures => credit.killSwitch;
 
   bool get momoEnabled => isMomoEnabled();
   bool get biopayAvailable => isBiopayEnabled();
-  bool get ticketEnabled => isTicketPurchaseEnabled();
 
   bool isMomoEnabled({bool isAdmin = false}) {
     return momo.isEnabled(isAdmin: isAdmin);
@@ -189,10 +177,6 @@ class EngagementFeatureFlags {
     return isMomoEnabled(isAdmin: isAdmin);
   }
 
-  bool isTicketPurchaseEnabled({bool isAdmin = false}) {
-    return ticketPurchase.isEnabled(isAdmin: isAdmin);
-  }
-
   Map<String, Object> toRemoteConfigDefaults() {
     return <String, Object>{
       'engagement_enabled': engagementEnabled,
@@ -201,9 +185,6 @@ class EngagementFeatureFlags {
       'engagement_partner_chapter_enabled': partnerChapterEnabled,
       'feature_biopay_enabled': biopayEnabled,
       ...momo.toRemoteConfigDefaults(killSwitchKey: 'kill_momo_payments'),
-      ...ticketPurchase.toRemoteConfigDefaults(
-        killSwitchKey: 'kill_ticket_purchase',
-      ),
       ...credit.toRemoteConfigDefaults(killSwitchKey: 'kill_credit_features'),
     };
   }

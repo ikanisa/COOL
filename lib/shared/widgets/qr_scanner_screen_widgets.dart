@@ -9,9 +9,7 @@ class _ScannerOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final radii = context.coolRadii;
-    final accentColor = mode == QrScanMode.ticket
-        ? Colors.white
-        : const Color(0xFFFFC72C);
+    const accentColor = Color(0xFFFFC72C);
     return Stack(
       children: [
         ColorFiltered(
@@ -51,7 +49,7 @@ class _ScannerOverlay extends StatelessWidget {
                 width: 1.4,
               ),
             ),
-            child: Stack(
+            child: const Stack(
               children: [
                 _CornerMarker(alignment: Alignment.topLeft, color: accentColor),
                 _CornerMarker(
@@ -146,70 +144,6 @@ class _CornerMarker extends StatelessWidget {
                 : BorderSide.none,
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _TicketResultSheet extends StatelessWidget {
-  const _TicketResultSheet({required this.result, required this.onDismiss});
-
-  final _TicketScanResult result;
-  final VoidCallback onDismiss;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final textTheme = Theme.of(context).textTheme;
-    final space = context.coolSpace;
-    final radii = context.coolRadii;
-    return Container(
-      decoration: BoxDecoration(
-        color: colors.elevatedBackground,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radii.lg)),
-      ),
-      padding: EdgeInsets.fromLTRB(
-        space.x5 + 2,
-        space.x4,
-        space.x5 + 2,
-        space.x8,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: colors.borderStrong,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          SizedBox(height: space.x5),
-          Text(result.isValid ? '✅' : '❌', style: textTheme.displaySmall),
-          SizedBox(height: space.x3),
-          Text(
-            result.isValid ? 'Valid Ticket' : 'Invalid Ticket',
-            style: textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: result.isValid ? colors.accent : colors.danger,
-            ),
-          ),
-          if (result.message != null) ...[
-            SizedBox(height: space.x1 + 2),
-            Text(
-              result.message!,
-              textAlign: TextAlign.center,
-              style: textTheme.bodySmall?.copyWith(color: colors.secondaryText),
-            ),
-          ],
-          SizedBox(height: space.x5),
-          CoolButton(
-            label: 'Scan Another',
-            variant: CoolButtonVariant.secondary,
-            onTap: onDismiss,
-          ),
-        ],
       ),
     );
   }

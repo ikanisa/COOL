@@ -9,7 +9,7 @@ import 'admin_user_row_normalizer.dart';
 /// platform analytics, and audit log.
 ///
 /// Content management (partners, services, payment routes, quick actions,
-/// vehicle types, app config) has been extracted to [AdminContentRepository].
+/// content management, app config) has been extracted to [AdminContentRepository].
 ///
 /// MoMo operational views (sender inventory, manual review, health events,
 /// validation issues) have been extracted to [AdminMomoOpsRepository].

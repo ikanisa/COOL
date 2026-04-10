@@ -257,6 +257,12 @@ Map<String, Object> _buildExpectedIosAssociation(_ReleaseMetadata metadata) {
   };
 }
 
+Map<String, Object> _buildDisabledIosAssociation() {
+  return const <String, Object>{
+    'applinks': <String, Object>{'apps': <Object>[], 'details': <Object>[]},
+  };
+}
+
 void _writeJsonFile(File file, Object value) {
   const encoder = JsonEncoder.withIndent('  ');
   file.parent.createSync(recursive: true);

@@ -328,10 +328,6 @@ That model is the safest way to support:
 - bank custody savings allocations
 - partner support
 - partner orders
-
-Historical migrations may still carry retired partner-specific values such as
-`rayon_support` and `rayon_shop_order`. New work should use partner-generic
-names unless a compatibility bridge is explicitly required.
 - Cool subscriptions
 
 without introducing MoMo APIs or server-side payment webhooks.

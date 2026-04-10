@@ -5,11 +5,13 @@ import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../../../shared/widgets/transaction_status_chip.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../momo/models/momo_statement.dart';
 import '../../momo/providers/momo_statement_providers.dart';
 import '../../momo/services/momo_statement_export_service.dart';
 import '../providers/groups_provider.dart';
+import '../widgets/transaction_allocation_sheet.dart';
 
 /// Full-page statements screen filtered to a specific group.
 class GroupStatementsScreen extends ConsumerStatefulWidget {
@@ -181,7 +183,7 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
         groupAsync.when(
           data: (g) => g?.name.toUpperCase() ?? 'GROUP LEDGER',
           loading: () => 'LOADING',
-          error: (_, __) => 'GROUP LEDGER',
+          error: (_, _) => 'GROUP LEDGER',
         ),
         style: context.coolText.mono(
           Theme.of(context).textTheme.labelSmall,
@@ -242,7 +244,7 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
       ],
       child: accessAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, __) => ListView(
+        error: (_, _) => ListView(
           padding: EdgeInsets.only(bottom: CoolSpace.x8 + bottomPad),
           children: [_LockedState(colors)],
         ),
@@ -283,9 +285,14 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
                       ),
                     );
                   }
+                  final isAdmin = accessAsync.valueOrNull?.isPrivilegedAdmin ?? false;
                   return Padding(
                     padding: const EdgeInsets.only(bottom: CoolSpace.x3),
-                    child: _StatementTile(entry: page.entries[index]),
+                    child: _StatementTile(
+                      entry: page.entries[index],
+                      canManageAllocations: isAdmin,
+                      groupId: widget.groupId,
+                    ),
                   );
                 },
               );
@@ -414,13 +421,21 @@ class _ErrorState extends StatelessWidget {
 }
 
 class _StatementTile extends StatelessWidget {
-  const _StatementTile({required this.entry});
+  const _StatementTile({
+    required this.entry,
+    this.canManageAllocations = false,
+    this.groupId = '',
+  });
 
   final PayeePaymentLedgerEntry entry;
+  final bool canManageAllocations;
+  final String groupId;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
+    final isAllocated = entry.payerUserId.trim().isNotEmpty;
+    final statusLabel = isAllocated ? 'confirmed' : 'pending_review';
 
     return Container(
       padding: const EdgeInsets.all(CoolSpace.x4),
@@ -429,61 +444,92 @@ class _StatementTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(CoolRadii.xl),
         boxShadow: CoolShadows.ambientFloat(strength: 0.3),
       ),
-      child: Row(
+      child: Column(
         children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: colors.accent.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(CoolRadii.md),
-            ),
-            alignment: Alignment.center,
-            child: Icon(
-              Icons.arrow_downward_rounded,
-              color: colors.accent,
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: CoolSpace.x4),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  entry.label,
-                  style: context.coolText.mono(
-                    Theme.of(context).textTheme.titleSmall,
-                    fontWeight: FontWeight.w800,
-                    color: colors.primaryText,
-                    letterSpacing: 0.5,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+          Row(
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: colors.accent.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  '${entry.payerName} • ${_formatDate(entry.occurredAt)}',
-                  style: context.coolText.mono(
-                    Theme.of(context).textTheme.labelSmall,
-                    fontWeight: FontWeight.w600,
-                    color: colors.secondaryText,
-                    letterSpacing: 0.5,
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.arrow_downward_rounded,
+                  color: colors.accent,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: CoolSpace.x4),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      entry.label,
+                      style: context.coolText.mono(
+                        Theme.of(context).textTheme.titleSmall,
+                        fontWeight: FontWeight.w800,
+                        color: colors.primaryText,
+                        letterSpacing: 0.5,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      '${entry.payerName} • ${_formatDate(entry.occurredAt)}',
+                      style: context.coolText.mono(
+                        Theme.of(context).textTheme.labelSmall,
+                        fontWeight: FontWeight.w600,
+                        color: colors.secondaryText,
+                        letterSpacing: 0.5,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '${entry.amount} ${entry.currency}',
+                    style: context.coolText.mono(
+                      Theme.of(context).textTheme.titleSmall,
+                      fontWeight: FontWeight.w800,
+                      color: colors.accentGold,
+                      letterSpacing: 0.5,
+                    ),
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                  const SizedBox(height: 4),
+                  TransactionStatusChip(status: statusLabel),
+                ],
+              ),
+              if (canManageAllocations) ...[
+                const SizedBox(width: CoolSpace.x2),
+                SizedBox(
+                  width: 36,
+                  height: 36,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    iconSize: 18,
+                    onPressed: () => TransactionAllocationSheet.show(
+                      context,
+                      entry: entry,
+                      groupId: groupId,
+                    ),
+                    icon: Icon(
+                      Icons.tune_rounded,
+                      color: colors.secondaryText,
+                    ),
+                  ),
                 ),
               ],
-            ),
-          ),
-          Text(
-            '${entry.amount} ${entry.currency}',
-            style: context.coolText.mono(
-              Theme.of(context).textTheme.titleSmall,
-              fontWeight: FontWeight.w800,
-              color: colors.accentGold,
-              letterSpacing: 0.5,
-            ),
+            ],
           ),
         ],
       ),

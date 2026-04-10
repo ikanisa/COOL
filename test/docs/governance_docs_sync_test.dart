@@ -26,6 +26,7 @@ void main() {
     expect(routeInventory, contains('`/profile/account`'));
     expect(routeInventory, contains('`/momo/biopay/register`'));
     expect(routeInventory, contains('`/admin/banks/:bankId`'));
+    // Verify purged legacy routes do not appear.
     expect(routeInventory, isNot(contains('`/partners/rayon-sports`')));
   });
 }

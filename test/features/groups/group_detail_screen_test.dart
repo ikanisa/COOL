@@ -38,10 +38,10 @@ void main() {
             (ref) async => const MomoStatementPage<PayeePaymentLedgerEntry>(),
           ),
         ],
-        child: MaterialApp(
+        child: const MaterialApp(
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
-          home: const GroupDetailScreen(groupId: 'group-1'),
+          home: GroupDetailScreen(groupId: 'group-1'),
         ),
       ),
     );

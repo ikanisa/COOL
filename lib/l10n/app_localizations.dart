@@ -580,210 +580,6 @@ abstract class AppLocalizations {
   /// **'open the USSD failed'**
   String get momoDialerError;
 
-  /// No description provided for @scheduleTripReturnSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Drivers offer discounts on'**
-  String get scheduleTripReturnSubtitle;
-
-  /// No description provided for @scheduleTripReturnFieldsLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Return Date & Time'**
-  String get scheduleTripReturnFieldsLabel;
-
-  /// No description provided for @scheduleTripRecurringTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Recurring Trip'**
-  String get scheduleTripRecurringTitle;
-
-  /// No description provided for @scheduleTripRecurringSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Daily / Weekly repeat'**
-  String get scheduleTripRecurringSubtitle;
-
-  /// No description provided for @scheduleTripRecurringDaysLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Repeat Days'**
-  String get scheduleTripRecurringDaysLabel;
-
-  /// No description provided for @scheduleTripExpiryTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Trip expires automatically'**
-  String get scheduleTripExpiryTitle;
-
-  /// No description provided for @scheduleTripExpirySubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Trips are removed 60'**
-  String get scheduleTripExpirySubtitle;
-
-  /// No description provided for @scheduleTripPostCta.
-  ///
-  /// In en, this message translates to:
-  /// **'Post Trip on Board'**
-  String get scheduleTripPostCta;
-
-  /// No description provided for @scheduleTripPostedSuccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Trip posted successfully.'**
-  String get scheduleTripPostedSuccess;
-
-  /// No description provided for @scheduleTripPostedPendingSync.
-  ///
-  /// In en, this message translates to:
-  /// **'Trip saved offline and'**
-  String get scheduleTripPostedPendingSync;
-
-  /// No description provided for @scheduleTripPostingGuideTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Posting behavior'**
-  String get scheduleTripPostingGuideTitle;
-
-  /// No description provided for @scheduleTripPostingGuideSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Make sure the trip'**
-  String get scheduleTripPostingGuideSubtitle;
-
-  /// No description provided for @scheduleTripPostingVisibilityLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Visible to others'**
-  String get scheduleTripPostingVisibilityLabel;
-
-  /// No description provided for @scheduleTripPostingPrecisionLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Pickup precision'**
-  String get scheduleTripPostingPrecisionLabel;
-
-  /// No description provided for @scheduleTripPostingCoordinationLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'After posting'**
-  String get scheduleTripPostingCoordinationLabel;
-
-  /// No description provided for @scheduleTripPostingOfflineLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Offline fallback'**
-  String get scheduleTripPostingOfflineLabel;
-
-  /// No description provided for @scheduleTripPostingPassengerVisibility.
-  ///
-  /// In en, this message translates to:
-  /// **'Drivers see your route'**
-  String get scheduleTripPostingPassengerVisibility;
-
-  /// No description provided for @scheduleTripPostingDriverVisibility.
-  ///
-  /// In en, this message translates to:
-  /// **'Riders see your route'**
-  String get scheduleTripPostingDriverVisibility;
-
-  /// No description provided for @scheduleTripPostingPrecisionExact.
-  ///
-  /// In en, this message translates to:
-  /// **'Exact pickup and destination'**
-  String get scheduleTripPostingPrecisionExact;
-
-  /// No description provided for @scheduleTripPostingPrecisionPartial.
-  ///
-  /// In en, this message translates to:
-  /// **'One place pin is'**
-  String get scheduleTripPostingPrecisionPartial;
-
-  /// No description provided for @scheduleTripPostingPrecisionTextOnly.
-  ///
-  /// In en, this message translates to:
-  /// **'Text route only Confirm'**
-  String get scheduleTripPostingPrecisionTextOnly;
-
-  /// No description provided for @scheduleTripPostingPassengerCoordination.
-  ///
-  /// In en, this message translates to:
-  /// **'Drivers contact you after'**
-  String get scheduleTripPostingPassengerCoordination;
-
-  /// No description provided for @scheduleTripPostingDriverCoordination.
-  ///
-  /// In en, this message translates to:
-  /// **'Riders contact you after'**
-  String get scheduleTripPostingDriverCoordination;
-
-  /// No description provided for @scheduleTripPostingOfflineBehavior.
-  ///
-  /// In en, this message translates to:
-  /// **'If the network drops'**
-  String get scheduleTripPostingOfflineBehavior;
-
-  /// No description provided for @scheduleTripFromRequired.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter a departure point.'**
-  String get scheduleTripFromRequired;
-
-  /// No description provided for @scheduleTripToRequired.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter a destination.'**
-  String get scheduleTripToRequired;
-
-  /// No description provided for @scheduleTripRouteSameError.
-  ///
-  /// In en, this message translates to:
-  /// **'Departure and destination must'**
-  String get scheduleTripRouteSameError;
-
-  /// No description provided for @scheduleTripReturnInvalidError.
-  ///
-  /// In en, this message translates to:
-  /// **'Return date and time'**
-  String get scheduleTripReturnInvalidError;
-
-  /// No description provided for @scheduleTripRecurringDaysError.
-  ///
-  /// In en, this message translates to:
-  /// **'Pick at least one'**
-  String get scheduleTripRecurringDaysError;
-
-  /// No description provided for @scheduleTripDepartureInPastError.
-  ///
-  /// In en, this message translates to:
-  /// **'Departure time is in the past.'**
-  String get scheduleTripDepartureInPastError;
-
-  /// No description provided for @scheduleTripDateFieldPrefix.
-  ///
-  /// In en, this message translates to:
-  /// **'📅'**
-  String get scheduleTripDateFieldPrefix;
-
-  /// No description provided for @scheduleTripTimeFieldPrefix.
-  ///
-  /// In en, this message translates to:
-  /// **'🕐'**
-  String get scheduleTripTimeFieldPrefix;
-
-  /// No description provided for @driverMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Driver Mode'**
-  String get driverMode;
-
-  /// No description provided for @driverOnlineMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Online now'**
-  String get driverOnlineMessage;
-
   /// No description provided for @online.
   ///
   /// In en, this message translates to:
@@ -838,65 +634,17 @@ abstract class AppLocalizations {
   /// **'Pay via MOMO USSD'**
   String get subscribe;
 
-  /// No description provided for @unlockUnlimitedTrips.
-  ///
-  /// In en, this message translates to:
-  /// **'Unlock Unlimited Trips'**
-  String get unlockUnlimitedTrips;
-
-  /// No description provided for @tripsUsedMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'You have used {used}'**
-  String tripsUsedMessage(Object used);
-
   /// No description provided for @daysRemaining.
   ///
   /// In en, this message translates to:
   /// **'{count} days remaining'**
   String daysRemaining(Object count);
 
-  /// No description provided for @addReturnTrip.
-  ///
-  /// In en, this message translates to:
-  /// **'Add Return Trip'**
-  String get addReturnTrip;
-
-  /// No description provided for @myScheduledTrips.
-  ///
-  /// In en, this message translates to:
-  /// **'My Scheduled Trips'**
-  String get myScheduledTrips;
-
-  /// No description provided for @noScheduledTrips.
-  ///
-  /// In en, this message translates to:
-  /// **'No scheduled trips yet.'**
-  String get noScheduledTrips;
-
   /// No description provided for @perMonth.
   ///
   /// In en, this message translates to:
   /// **'/month'**
   String get perMonth;
-
-  /// No description provided for @vehicleMoto.
-  ///
-  /// In en, this message translates to:
-  /// **'Moto'**
-  String get vehicleMoto;
-
-  /// No description provided for @vehicleCab.
-  ///
-  /// In en, this message translates to:
-  /// **'Cab'**
-  String get vehicleCab;
-
-  /// No description provided for @vehicleAny.
-  ///
-  /// In en, this message translates to:
-  /// **'Any'**
-  String get vehicleAny;
 
   /// No description provided for @weekdayMonShort.
   ///
@@ -970,48 +718,6 @@ abstract class AppLocalizations {
   /// **'Orgs'**
   String get organizations;
 
-  /// No description provided for @ticketsAndShop.
-  ///
-  /// In en, this message translates to:
-  /// **'Tickets & Shop'**
-  String get ticketsAndShop;
-
-  /// No description provided for @upcomingMatches.
-  ///
-  /// In en, this message translates to:
-  /// **'Upcoming Matches'**
-  String get upcomingMatches;
-
-  /// No description provided for @fanRegistry.
-  ///
-  /// In en, this message translates to:
-  /// **'Fan Registry'**
-  String get fanRegistry;
-
-  /// No description provided for @fanClubs.
-  ///
-  /// In en, this message translates to:
-  /// **'Fan Clubs'**
-  String get fanClubs;
-
-  /// No description provided for @ticketing.
-  ///
-  /// In en, this message translates to:
-  /// **'Ticketing'**
-  String get ticketing;
-
-  /// No description provided for @clubShop.
-  ///
-  /// In en, this message translates to:
-  /// **'Club Shop'**
-  String get clubShop;
-
-  /// No description provided for @fansCount.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} fans'**
-  String fansCount(Object count);
-
   /// No description provided for @clubsCount.
   ///
   /// In en, this message translates to:
@@ -1024,12 +730,6 @@ abstract class AppLocalizations {
   /// **'{count} games'**
   String gamesCount(Object count);
 
-  /// No description provided for @fansTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Fans'**
-  String get fansTitle;
-
   /// No description provided for @membership.
   ///
   /// In en, this message translates to:
@@ -1041,12 +741,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Achievements'**
   String get achievements;
-
-  /// No description provided for @fanDirectory.
-  ///
-  /// In en, this message translates to:
-  /// **'Fan Directory'**
-  String get fanDirectory;
 
   /// No description provided for @joinClub.
   ///
@@ -1095,42 +789,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Locked'**
   String get lockedBadge;
-
-  /// No description provided for @ticketingTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Ticketing'**
-  String get ticketingTitle;
-
-  /// No description provided for @tickets.
-  ///
-  /// In en, this message translates to:
-  /// **'Tickets'**
-  String get tickets;
-
-  /// No description provided for @myTickets.
-  ///
-  /// In en, this message translates to:
-  /// **'My Tickets'**
-  String get myTickets;
-
-  /// No description provided for @purchasedTickets.
-  ///
-  /// In en, this message translates to:
-  /// **'Purchased Tickets'**
-  String get purchasedTickets;
-
-  /// No description provided for @buyTicket.
-  ///
-  /// In en, this message translates to:
-  /// **'Buy'**
-  String get buyTicket;
-
-  /// No description provided for @purchaseTicket.
-  ///
-  /// In en, this message translates to:
-  /// **'Purchase Ticket'**
-  String get purchaseTicket;
 
   /// No description provided for @quantity.
   ///
@@ -1186,12 +844,6 @@ abstract class AppLocalizations {
   /// **'WhatsApp confirmation will be'**
   String get whatsappConfirmation;
 
-  /// No description provided for @viewTicket.
-  ///
-  /// In en, this message translates to:
-  /// **'View'**
-  String get viewTicket;
-
   /// No description provided for @showAtGate.
   ///
   /// In en, this message translates to:
@@ -1209,18 +861,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Gold Members get 10'**
   String get goldDiscount;
-
-  /// No description provided for @noTicketsYet.
-  ///
-  /// In en, this message translates to:
-  /// **'No tickets yet'**
-  String get noTicketsYet;
-
-  /// No description provided for @buyTicketsToUpcomingMatches.
-  ///
-  /// In en, this message translates to:
-  /// **'Buy tickets to upcoming'**
-  String get buyTicketsToUpcomingMatches;
 
   /// No description provided for @cartItemCount.
   ///
@@ -1431,12 +1071,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
-
-  /// No description provided for @vehicle.
-  ///
-  /// In en, this message translates to:
-  /// **'Vehicle'**
-  String get vehicle;
 
   /// No description provided for @subscription.
   ///
@@ -1942,12 +1576,6 @@ abstract class AppLocalizations {
   /// **'MoMo'**
   String get homeActionPay;
 
-  /// No description provided for @homeActionTrips.
-  ///
-  /// In en, this message translates to:
-  /// **'Trips'**
-  String get homeActionTrips;
-
   /// No description provided for @homeFallbackGroupsSubtitle.
   ///
   /// In en, this message translates to:
@@ -1965,12 +1593,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Banks and clubs'**
   String get homeFallbackPartnersSubtitle;
-
-  /// No description provided for @homeFallbackTripsSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Ride or drive'**
-  String get homeFallbackTripsSubtitle;
 
   /// No description provided for @homePriorityLabel.
   ///
@@ -2068,12 +1690,6 @@ abstract class AppLocalizations {
   /// **'Not linked'**
   String get profileNotLinked;
 
-  /// No description provided for @profileDriverTools.
-  ///
-  /// In en, this message translates to:
-  /// **'Driver tools'**
-  String get profileDriverTools;
-
   /// No description provided for @profileCoolStatus.
   ///
   /// In en, this message translates to:
@@ -2127,12 +1743,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hide QR driver and'**
   String get profileMoreToolsHideSubtitle;
-
-  /// No description provided for @vehicleLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Vehicle'**
-  String get vehicleLabel;
 
   /// No description provided for @accountActionsTitle.
   ///
@@ -2434,186 +2044,6 @@ abstract class AppLocalizations {
   /// **'Try adjusting your filters'**
   String get momoStatementsSavingsFilteredEmptyMessage;
 
-  /// No description provided for @fansScreenUnavailableTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Fan Hub Moved'**
-  String get fansScreenUnavailableTitle;
-
-  /// No description provided for @fansScreenHeadline.
-  ///
-  /// In en, this message translates to:
-  /// **'Fan Hub'**
-  String get fansScreenHeadline;
-
-  /// No description provided for @fansScreenBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Fan features for {clubName}'**
-  String fansScreenBody(Object clubName);
-
-  /// No description provided for @fansScreenMembershipUnavailable.
-  ///
-  /// In en, this message translates to:
-  /// **'Membership features live inside'**
-  String get fansScreenMembershipUnavailable;
-
-  /// No description provided for @fansScreenClubsUnavailable.
-  ///
-  /// In en, this message translates to:
-  /// **'Fan clubs are now'**
-  String get fansScreenClubsUnavailable;
-
-  /// No description provided for @fansScreenPartnerDedicatedHub.
-  ///
-  /// In en, this message translates to:
-  /// **'Partner Sports has a'**
-  String get fansScreenPartnerDedicatedHub;
-
-  /// No description provided for @fansScreenRouteKeptReachable.
-  ///
-  /// In en, this message translates to:
-  /// **'Legacy route'**
-  String get fansScreenRouteKeptReachable;
-
-  /// No description provided for @fansScreenBackToPartners.
-  ///
-  /// In en, this message translates to:
-  /// **'Back to Partners'**
-  String get fansScreenBackToPartners;
-
-  /// No description provided for @fansScreenOpenPartner.
-  ///
-  /// In en, this message translates to:
-  /// **'Open Partner Sports'**
-  String get fansScreenOpenPartner;
-
-  /// No description provided for @ticketWalletInvalidLink.
-  ///
-  /// In en, this message translates to:
-  /// **'Invalid Google Wallet link.'**
-  String get ticketWalletInvalidLink;
-
-  /// No description provided for @ticketWalletUnavailable.
-  ///
-  /// In en, this message translates to:
-  /// **'Google Wallet is not'**
-  String get ticketWalletUnavailable;
-
-  /// No description provided for @ticketWalletOpenFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Open Google Wallet failed'**
-  String get ticketWalletOpenFailed;
-
-  /// No description provided for @ticketConfirmationScreenTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Ticket'**
-  String get ticketConfirmationScreenTitle;
-
-  /// No description provided for @ticketConfirmationNotFound.
-  ///
-  /// In en, this message translates to:
-  /// **'Ticket not found.'**
-  String get ticketConfirmationNotFound;
-
-  /// No description provided for @ticketAddToGoogleWallet.
-  ///
-  /// In en, this message translates to:
-  /// **'Add to Google Wallet'**
-  String get ticketAddToGoogleWallet;
-
-  /// No description provided for @ticketBackToTickets.
-  ///
-  /// In en, this message translates to:
-  /// **'Back to Tickets'**
-  String get ticketBackToTickets;
-
-  /// No description provided for @ticketShareMatchTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Share Match'**
-  String get ticketShareMatchTitle;
-
-  /// No description provided for @ticketShareMatchText.
-  ///
-  /// In en, this message translates to:
-  /// **'Check out {matchTitle} on!'**
-  String ticketShareMatchText(Object matchTitle);
-
-  /// No description provided for @ticketStatusPendingTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Payment Pending'**
-  String get ticketStatusPendingTitle;
-
-  /// No description provided for @ticketStatusPendingSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Waiting for MoMo confirmation.'**
-  String get ticketStatusPendingSubtitle;
-
-  /// No description provided for @ticketStatusPendingNote.
-  ///
-  /// In en, this message translates to:
-  /// **'Ticket reserved'**
-  String get ticketStatusPendingNote;
-
-  /// No description provided for @ticketStatusValidTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Valid Ticket'**
-  String get ticketStatusValidTitle;
-
-  /// No description provided for @ticketStatusValidSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Show this at the'**
-  String get ticketStatusValidSubtitle;
-
-  /// No description provided for @ticketStatusValidNote.
-  ///
-  /// In en, this message translates to:
-  /// **'Present the QR code'**
-  String get ticketStatusValidNote;
-
-  /// No description provided for @ticketStatusUsedTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Ticket Used'**
-  String get ticketStatusUsedTitle;
-
-  /// No description provided for @ticketStatusUsedSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Ticket already scanned'**
-  String get ticketStatusUsedSubtitle;
-
-  /// No description provided for @ticketStatusUsedNote.
-  ///
-  /// In en, this message translates to:
-  /// **'Ticket already used'**
-  String get ticketStatusUsedNote;
-
-  /// No description provided for @ticketStatusCancelledTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Ticket Cancelled'**
-  String get ticketStatusCancelledTitle;
-
-  /// No description provided for @ticketStatusCancelledSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Ticket invalid'**
-  String get ticketStatusCancelledSubtitle;
-
-  /// No description provided for @ticketStatusCancelledNote.
-  ///
-  /// In en, this message translates to:
-  /// **'Contact support'**
-  String get ticketStatusCancelledNote;
-
   /// No description provided for @partnersHomeTooltip.
   ///
   /// In en, this message translates to:
@@ -2661,18 +2091,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Member queue priority'**
   String get partnersMembershipPerkMemberQueue;
-
-  /// No description provided for @partnersMembershipPerkPriorityTickets.
-  ///
-  /// In en, this message translates to:
-  /// **'Priority ticket access'**
-  String get partnersMembershipPerkPriorityTickets;
-
-  /// No description provided for @partnersMembershipPerkShopDiscount.
-  ///
-  /// In en, this message translates to:
-  /// **'Shop discount'**
-  String get partnersMembershipPerkShopDiscount;
 
   /// No description provided for @partnersMembershipPerkVipQueue.
   ///
@@ -2775,12 +2193,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Partners will appear here'**
   String get partnersEmptyMessage;
-
-  /// No description provided for @partnersClubShopSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Official merchandise'**
-  String get partnersClubShopSubtitle;
 
   /// No description provided for @partnersFootballTab.
   ///
@@ -3484,23 +2896,11 @@ abstract class AppLocalizations {
   /// **'Your group is close!'**
   String get yourGroupIsClose;
 
-  /// No description provided for @attendAMatch.
-  ///
-  /// In en, this message translates to:
-  /// **'Attend a match'**
-  String get attendAMatch;
-
   /// No description provided for @earn10TokensFor.
   ///
   /// In en, this message translates to:
   /// **'Earn 10 points for attending'**
   String get earn10TokensFor;
-
-  /// No description provided for @oneMoreTrip.
-  ///
-  /// In en, this message translates to:
-  /// **'One more trip!'**
-  String get oneMoreTrip;
 
   /// No description provided for @postYourRoute.
   ///
@@ -3531,12 +2931,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Earn 10 points per contribution'**
   String get earn10TokensPer;
-
-  /// No description provided for @becomeAPartnerFan.
-  ///
-  /// In en, this message translates to:
-  /// **'Become a Partner fan'**
-  String get becomeAPartnerFan;
 
   /// No description provided for @joinTheClubAnd.
   ///
@@ -3574,12 +2968,6 @@ abstract class AppLocalizations {
   /// **'MoMo Pay'**
   String get momoPay;
 
-  /// No description provided for @payAtShopsAnd.
-  ///
-  /// In en, this message translates to:
-  /// **'Pay at shops and partners'**
-  String get payAtShopsAnd;
-
   /// No description provided for @amount.
   ///
   /// In en, this message translates to:
@@ -3616,29 +3004,11 @@ abstract class AppLocalizations {
   /// **'Scan QR code'**
   String get scanQrCode;
 
-  /// No description provided for @fans.
-  ///
-  /// In en, this message translates to:
-  /// **'Fans'**
-  String get fans;
-
   /// No description provided for @join.
   ///
   /// In en, this message translates to:
   /// **'Join'**
   String get join;
-
-  /// No description provided for @buyTickets.
-  ///
-  /// In en, this message translates to:
-  /// **'Buy Tickets'**
-  String get buyTickets;
-
-  /// No description provided for @shop.
-  ///
-  /// In en, this message translates to:
-  /// **'Shop'**
-  String get shop;
 
   /// No description provided for @walletCashflow.
   ///
@@ -4024,12 +3394,6 @@ abstract class AppLocalizations {
   /// **'Bank Admin'**
   String get bankAdmin;
 
-  /// No description provided for @addVehicleType.
-  ///
-  /// In en, this message translates to:
-  /// **'Add vehicle type'**
-  String get addVehicleType;
-
   /// No description provided for @adminWorkspaces.
   ///
   /// In en, this message translates to:
@@ -4210,23 +3574,11 @@ abstract class AppLocalizations {
   /// **'Admins'**
   String get admins;
 
-  /// No description provided for @drivers.
-  ///
-  /// In en, this message translates to:
-  /// **'Drivers'**
-  String get drivers;
-
   /// No description provided for @momo.
   ///
   /// In en, this message translates to:
   /// **'MoMo'**
   String get momo;
-
-  /// No description provided for @driver.
-  ///
-  /// In en, this message translates to:
-  /// **'Driver'**
-  String get driver;
 
   /// No description provided for @deleteBatch.
   ///
@@ -5104,18 +4456,6 @@ abstract class AppLocalizations {
   /// **'This month'**
   String get thisMonth;
 
-  /// No description provided for @trips.
-  ///
-  /// In en, this message translates to:
-  /// **'Trips'**
-  String get trips;
-
-  /// No description provided for @addReturnTrip1.
-  ///
-  /// In en, this message translates to:
-  /// **'Add return trip'**
-  String get addReturnTrip1;
-
   /// No description provided for @route.
   ///
   /// In en, this message translates to:
@@ -5169,12 +4509,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Paused'**
   String get paused;
-
-  /// No description provided for @matched.
-  ///
-  /// In en, this message translates to:
-  /// **'Matched'**
-  String get matched;
 
   /// No description provided for @home.
   ///
@@ -5350,47 +4684,17 @@ abstract class AppLocalizations {
   /// **'Excel'**
   String get excel;
 
-  /// No description provided for @fan.
-  ///
-  /// In en, this message translates to:
-  /// **'Fan'**
-  String get fan;
-
   /// No description provided for @standardMembership.
   ///
   /// In en, this message translates to:
   /// **'Standard membership'**
   String get standardMembership;
 
-  /// No description provided for @matches.
-  ///
-  /// In en, this message translates to:
-  /// **'matches'**
-  String get matches;
-
   /// No description provided for @products.
   ///
   /// In en, this message translates to:
   /// **'products'**
   String get products;
-
-  /// No description provided for @ticketRevenue.
-  ///
-  /// In en, this message translates to:
-  /// **'Ticket Revenue'**
-  String get ticketRevenue;
-
-  /// No description provided for @shopRevenue.
-  ///
-  /// In en, this message translates to:
-  /// **'Shop Revenue'**
-  String get shopRevenue;
-
-  /// No description provided for @addMatch.
-  ///
-  /// In en, this message translates to:
-  /// **'Add Match'**
-  String get addMatch;
 
   /// No description provided for @addProduct.
   ///
@@ -5434,12 +4738,6 @@ abstract class AppLocalizations {
   /// **'Support Club'**
   String get supportClub;
 
-  /// No description provided for @nextMatch.
-  ///
-  /// In en, this message translates to:
-  /// **'Next Match'**
-  String get nextMatch;
-
   /// No description provided for @openProfile.
   ///
   /// In en, this message translates to:
@@ -5452,23 +4750,11 @@ abstract class AppLocalizations {
   /// **'View Plans'**
   String get viewPlans;
 
-  /// No description provided for @noMatchOnSale.
-  ///
-  /// In en, this message translates to:
-  /// **'No match on sale'**
-  String get noMatchOnSale;
-
   /// No description provided for @analytics.
   ///
   /// In en, this message translates to:
   /// **'Analytics'**
   String get analytics;
-
-  /// No description provided for @shopProducts.
-  ///
-  /// In en, this message translates to:
-  /// **'Shop Products'**
-  String get shopProducts;
 
   /// No description provided for @keepTheCatalogCurrent.
   ///
@@ -5499,12 +4785,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'low'**
   String get low;
-
-  /// No description provided for @noShopProductsYet.
-  ///
-  /// In en, this message translates to:
-  /// **'No shop products yet'**
-  String get noShopProductsYet;
 
   /// No description provided for @name.
   ///
@@ -5602,18 +4882,6 @@ abstract class AppLocalizations {
   /// **'Search members'**
   String get searchMembers;
 
-  /// No description provided for @noFanMembershipsYet.
-  ///
-  /// In en, this message translates to:
-  /// **'No fan memberships yet'**
-  String get noFanMembershipsYet;
-
-  /// No description provided for @noMembersMatchFilter.
-  ///
-  /// In en, this message translates to:
-  /// **'No members match filter'**
-  String get noMembersMatchFilter;
-
   /// No description provided for @points1.
   ///
   /// In en, this message translates to:
@@ -5626,23 +4894,11 @@ abstract class AppLocalizations {
   /// **'Member CSV copied to clipboard'**
   String get memberCsvCopiedTo;
 
-  /// No description provided for @matches1.
-  ///
-  /// In en, this message translates to:
-  /// **'Matches'**
-  String get matches1;
-
   /// No description provided for @scheduleFixturesAdjustPricing.
   ///
   /// In en, this message translates to:
   /// **'Schedule fixtures adjust pricing'**
   String get scheduleFixturesAdjustPricing;
-
-  /// No description provided for @addMatch1.
-  ///
-  /// In en, this message translates to:
-  /// **'Add match'**
-  String get addMatch1;
 
   /// No description provided for @scheduled.
   ///
@@ -5655,12 +4911,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'on sale'**
   String get onSale;
-
-  /// No description provided for @noMatchesHaveYet.
-  ///
-  /// In en, this message translates to:
-  /// **'No matches have yet'**
-  String get noMatchesHaveYet;
 
   /// No description provided for @homeTeam.
   ///
@@ -5812,41 +5062,11 @@ abstract class AppLocalizations {
   /// **'Refresh payment status'**
   String get refreshPaymentStatus;
 
-  /// No description provided for @fanProfile.
-  ///
-  /// In en, this message translates to:
-  /// **'Fan Profile'**
-  String get fanProfile;
-
-  /// No description provided for @showFanQr.
-  ///
-  /// In en, this message translates to:
-  /// **'Show Fan QR'**
-  String get showFanQr;
-
-  /// No description provided for @priorityTickets.
-  ///
-  /// In en, this message translates to:
-  /// **'Priority Tickets'**
-  String get priorityTickets;
-
-  /// No description provided for @earlyAccessToMatch.
-  ///
-  /// In en, this message translates to:
-  /// **'Early access to match tickets'**
-  String get earlyAccessToMatch;
-
   /// No description provided for @vipEvents.
   ///
   /// In en, this message translates to:
   /// **'VIP Events'**
   String get vipEvents;
-
-  /// No description provided for @exclusiveFanMeetups.
-  ///
-  /// In en, this message translates to:
-  /// **'Exclusive fan meet-ups'**
-  String get exclusiveFanMeetups;
 
   /// No description provided for @freeKit.
   ///
@@ -5859,12 +5079,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Free official kit per season'**
   String get freeOfficialKitPer;
-
-  /// No description provided for @shopOrders.
-  ///
-  /// In en, this message translates to:
-  /// **'Shop Orders'**
-  String get shopOrders;
 
   /// No description provided for @manageFulfilmentQueueAnd.
   ///
@@ -5889,18 +5103,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'revenue'**
   String get revenue;
-
-  /// No description provided for @noShopOrdersYet.
-  ///
-  /// In en, this message translates to:
-  /// **'No shop orders yet'**
-  String get noShopOrdersYet;
-
-  /// No description provided for @noOrdersMatchThis.
-  ///
-  /// In en, this message translates to:
-  /// **'No orders match this filter'**
-  String get noOrdersMatchThis;
 
   /// No description provided for @date.
   ///
@@ -5968,18 +5170,6 @@ abstract class AppLocalizations {
   /// **'used'**
   String get used;
 
-  /// No description provided for @noTicketsFound.
-  ///
-  /// In en, this message translates to:
-  /// **'No tickets found'**
-  String get noTicketsFound;
-
-  /// No description provided for @noTicketsMatchThis.
-  ///
-  /// In en, this message translates to:
-  /// **'No tickets match this filter'**
-  String get noTicketsMatchThis;
-
   /// No description provided for @confirmEntry.
   ///
   /// In en, this message translates to:
@@ -5991,12 +5181,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Refund'**
   String get refund;
-
-  /// No description provided for @ticketMatchFilterCurrent.
-  ///
-  /// In en, this message translates to:
-  /// **'Ticket match filter Current'**
-  String get ticketMatchFilterCurrent;
 
   /// No description provided for @gateCheck.
   ///
@@ -6010,29 +5194,11 @@ abstract class AppLocalizations {
   /// **'e.g. 50,000'**
   String get eg50000;
 
-  /// No description provided for @shareTickets.
-  ///
-  /// In en, this message translates to:
-  /// **'Share tickets'**
-  String get shareTickets;
-
-  /// No description provided for @myTickets1.
-  ///
-  /// In en, this message translates to:
-  /// **'My tickets'**
-  String get myTickets1;
-
   /// No description provided for @inviteSupportersToBuy.
   ///
   /// In en, this message translates to:
   /// **'Invite supporters to buy'**
   String get inviteSupportersToBuy;
-
-  /// No description provided for @browseMatches.
-  ///
-  /// In en, this message translates to:
-  /// **'Browse Matches'**
-  String get browseMatches;
 
   /// No description provided for @paymentPending.
   ///
@@ -6045,18 +5211,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'READY FOR ENTRY'**
   String get readyForEntry;
-
-  /// No description provided for @pastTickets.
-  ///
-  /// In en, this message translates to:
-  /// **'PAST TICKETS'**
-  String get pastTickets;
-
-  /// No description provided for @fanClub.
-  ///
-  /// In en, this message translates to:
-  /// **'Fan Club'**
-  String get fanClub;
 
   /// No description provided for @membersPreview.
   ///
@@ -6118,12 +5272,6 @@ abstract class AppLocalizations {
   /// **'Refresh order status'**
   String get refreshOrderStatus;
 
-  /// No description provided for @backToShop.
-  ///
-  /// In en, this message translates to:
-  /// **'Back to shop'**
-  String get backToShop;
-
   /// No description provided for @viewProfileOrders.
   ///
   /// In en, this message translates to:
@@ -6177,12 +5325,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Featured experiences'**
   String get featuredExperiences;
-
-  /// No description provided for @jerseysFanGearAnd.
-  ///
-  /// In en, this message translates to:
-  /// **'Jerseys fan gear and'**
-  String get jerseysFanGearAnd;
 
   /// No description provided for @noFinancePartnersYet.
   ///
@@ -6310,23 +5452,11 @@ abstract class AppLocalizations {
   /// **'Seat'**
   String get seat;
 
-  /// No description provided for @fanId.
-  ///
-  /// In en, this message translates to:
-  /// **'Fan ID'**
-  String get fanId;
-
   /// No description provided for @price.
   ///
   /// In en, this message translates to:
   /// **'Price'**
   String get price;
-
-  /// No description provided for @tripCard.
-  ///
-  /// In en, this message translates to:
-  /// **'Trip card'**
-  String get tripCard;
 
   /// No description provided for @memberId.
   ///
@@ -6417,12 +5547,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'MOMO'**
   String get momo1;
-
-  /// No description provided for @scanTicket.
-  ///
-  /// In en, this message translates to:
-  /// **'Scan Ticket'**
-  String get scanTicket;
 
   /// No description provided for @goBack.
   ///

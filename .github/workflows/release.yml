@@ -108,6 +108,7 @@ jobs:
           COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT: ${{ secrets.COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT }}
           COOL_IOS_TEAM_ID: ${{ secrets.COOL_IOS_TEAM_ID }}
           COOL_IOS_APP_STORE_ID: ${{ secrets.COOL_IOS_APP_STORE_ID }}
+          COOL_REQUIRE_IOS_RELEASE_METADATA: '1'
         run: bash scripts/release_readiness.sh
 
       # ── Decode signing key ─────────────────────────────────

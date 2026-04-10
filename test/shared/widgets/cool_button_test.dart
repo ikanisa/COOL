@@ -121,5 +121,22 @@ void main() {
       );
       expect(tester.takeException(), isNull);
     });
+
+    testWidgets('exposes the configured semantics label', (tester) async {
+      final semantics = tester.ensureSemantics();
+
+      await tester.pumpWidget(
+        _wrap(
+          CoolButton(
+            label: 'Continue',
+            semanticsLabel: 'Continue securely',
+            onTap: () {},
+          ),
+        ),
+      );
+
+      expect(find.bySemanticsLabel('Continue securely'), findsOneWidget);
+      semantics.dispose();
+    });
   });
 }

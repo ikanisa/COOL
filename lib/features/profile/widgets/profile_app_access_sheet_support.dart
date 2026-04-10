@@ -104,7 +104,7 @@ class _SmsPolicyNotice extends StatelessWidget {
                 ),
                 const SizedBox(height: CoolSpace.x1),
                 Text(
-                  'Reads approved M-Money SMS only. A one-time import can backfill the last year.',
+                  'Android only. COOL checks approved M-Money sender IDs, imports matching confirmations, and ignores other SMS.',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: colors.tertiaryText,
                     fontWeight: FontWeight.w600,
@@ -142,8 +142,9 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
       icon: Icons.sms_outlined,
       title: 'SMS Payment Sync',
       subtitle:
-          'Optional on Android. Imports approved M-Money confirmations '
-          'and auto-verifies supported payment flows.',
+          'Optional on Android. Watches approved M-Money sender IDs, '
+          'imports matching confirmations, and auto-verifies supported '
+          'payment flows.',
       linkedFeatures: ['12-month import', 'MoMo verification'],
       serviceActionLabel: 'Open system settings',
     ),
@@ -158,7 +159,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
       icon: Icons.camera_alt_outlined,
       title: 'Camera',
       subtitle: 'Used for MoMo QR',
-      linkedFeatures: ['MoMo QR scan', 'Ticket scan'],
+      linkedFeatures: ['MoMo QR scan'],
       serviceActionLabel: 'Open system settings',
     ),
     AppAccessPermission.contacts => const _PermissionMetadata(

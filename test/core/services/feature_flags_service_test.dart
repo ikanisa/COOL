@@ -20,18 +20,18 @@ void main() {
         final service = FeatureFlagsService(
           bootstrapService: FakeFirebaseBootstrapService(true),
           loadRemoteConfigValues: (_) async => <String, Object?>{
-            'kill_ticket_purchase': false,
-            'feature_ticket_purchase_stage': 'pilot',
+            'kill_momo_payments': false,
+            'feature_momo_stage': 'pilot',
           },
           loadAppConfigOverrides: (_) async => <String, Object?>{
-            'kill_ticket_purchase': 'true',
+            'kill_momo_payments': 'true',
           },
         );
 
         final flags = await service.initialize();
 
-        expect(flags.killTicketPurchase, isTrue);
-        expect(flags.ticketPurchase.stage, FeatureRolloutStage.pilot);
+        expect(flags.killMomoPayments, isTrue);
+        expect(flags.momo.stage, FeatureRolloutStage.pilot);
       },
     );
 
@@ -43,18 +43,18 @@ void main() {
           loadRemoteConfigValues: (_) async =>
               throw StateError('should not run'),
           loadAppConfigOverrides: (_) async => <String, Object?>{
-            'feature_ticket_purchase_stage': 'internal',
-            'feature_ticket_purchase_admin_only': 'true',
-            'kill_ticket_purchase': 'false',
+            'feature_momo_stage': 'internal',
+            'feature_momo_admin_only': 'true',
+            'kill_momo_payments': 'false',
           },
         );
 
         final flags = await service.initialize();
 
-        expect(flags.ticketPurchase.stage, FeatureRolloutStage.internal);
-        expect(flags.ticketPurchase.adminOnly, isTrue);
-        expect(flags.isTicketPurchaseEnabled(isAdmin: false), isFalse);
-        expect(flags.isTicketPurchaseEnabled(isAdmin: true), isTrue);
+        expect(flags.momo.stage, FeatureRolloutStage.internal);
+        expect(flags.momo.adminOnly, isTrue);
+        expect(flags.isMomoEnabled(isAdmin: false), isFalse);
+        expect(flags.isMomoEnabled(isAdmin: true), isTrue);
       },
     );
   });

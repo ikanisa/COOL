@@ -14,6 +14,7 @@ import '../../features/groups/screens/group_settings_screen.dart';
 import '../../features/groups/screens/group_statements_screen.dart';
 import '../../features/groups/screens/groups_screen.dart';
 import '../status/screens/referral_screen.dart';
+import '../../features/momo/screens/momo_wallet_screen.dart';
 import '../../shared/widgets/qr_scanner_screen.dart';
 
 import '../../shared/widgets/secure_screen_wrapper.dart';
@@ -133,6 +134,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.momo,
         redirect: (context, state) => AppRoutes.biopayHome,
+      ),
+      GoRoute(
+        path: AppRoutes.momoWallet,
+        pageBuilder: (context, state) => coolPageTransition(
+          context: context,
+          state: state,
+          child: const SecureScreenWrapper(child: MomoWalletScreen()),
+        ),
       ),
 
       // ── Group savings & contribution routes ────────────────────

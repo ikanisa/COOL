@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 /// Types of cooperative missions.
 enum CoolMissionType {
   savingsSprint, // group reaches X total contributions
-  supporterSeason, // chapter reaches Y initiative support
-  matchdayMonth, // attend N matches in a month
+  contributionStreak, // maintain contribution streak for N weeks
+  referralChallenge, // invite N new members
 }
 
 extension CoolMissionTypeX on CoolMissionType {
@@ -14,30 +14,31 @@ extension CoolMissionTypeX on CoolMissionType {
     final normalized = (value ?? '').trim();
     return switch (normalized) {
       'savings_sprint' || 'savingsSprint' => CoolMissionType.savingsSprint,
-      'supporter_season' ||
-      'supporterSeason' => CoolMissionType.supporterSeason,
-      'matchday_month' || 'matchdayMonth' => CoolMissionType.matchdayMonth,
+      'contribution_streak' ||
+      'contributionStreak' => CoolMissionType.contributionStreak,
+      'referral_challenge' ||
+      'referralChallenge' => CoolMissionType.referralChallenge,
       _ => CoolMissionType.savingsSprint,
     };
   }
 
   String get displayLabel => switch (this) {
     CoolMissionType.savingsSprint => 'Savings Sprint',
-    CoolMissionType.supporterSeason => 'Supporter Season',
-    CoolMissionType.matchdayMonth => 'Matchday Month',
+    CoolMissionType.contributionStreak => 'Contribution Streak',
+    CoolMissionType.referralChallenge => 'Referral Challenge',
   };
 
   String get defaultEmoji => switch (this) {
     CoolMissionType.savingsSprint => '💰',
-    CoolMissionType.supporterSeason => '🤝',
-    CoolMissionType.matchdayMonth => '⚽',
+    CoolMissionType.contributionStreak => '🔥',
+    CoolMissionType.referralChallenge => '🤝',
   };
 }
 
 /// Scope for mission participation.
 enum MissionScope {
   group, // single group
-  chapter, // fan club chapter
+  partner, // partner-scoped challenge
   global, // everyone
 }
 
@@ -47,7 +48,7 @@ extension MissionScopeX on MissionScope {
   static MissionScope fromValue(String? value) {
     return switch ((value ?? '').trim().toLowerCase()) {
       'group' => MissionScope.group,
-      'chapter' => MissionScope.chapter,
+      'partner' => MissionScope.partner,
       _ => MissionScope.global,
     };
   }
@@ -92,7 +93,7 @@ class CoolMission extends Equatable {
   /// Current user's contribution toward this mission.
   final int? userProgress;
 
-  /// Aggregate progress (all participants) — only available for group/chapter scope.
+  /// Aggregate progress (all participants) — only available for group/partner scope.
   final int? totalProgress;
 
   // ─── Computed helpers ───────────────────────────────────────────

@@ -8,59 +8,59 @@ void main() {
       final rollouts = AdminFeatureRolloutConfig.fromAppConfigEntries(
         <Map<String, dynamic>>[
           <String, dynamic>{
-            'key': 'feature_ticket_purchase_stage',
+            'key': 'feature_momo_stage',
             'value': 'pilot',
             'country': 'RW',
           },
           <String, dynamic>{
-            'key': 'feature_ticket_purchase_admin_only',
+            'key': 'feature_momo_admin_only',
             'value': 'true',
             'country': null,
           },
           <String, dynamic>{
-            'key': 'kill_ticket_purchase',
+            'key': 'kill_momo_payments',
             'value': 'false',
             'country': null,
           },
         ],
       );
 
-      final ticketing = rollouts.firstWhere(
-        (rollout) => rollout.key == 'ticket_purchase',
+      final momo = rollouts.firstWhere(
+        (rollout) => rollout.key == 'momo',
       );
-      expect(ticketing.rollout.stage, FeatureRolloutStage.pilot);
-      expect(ticketing.rollout.adminOnly, isTrue);
-      expect(ticketing.rollout.killSwitch, isFalse);
+      expect(momo.rollout.stage, FeatureRolloutStage.pilot);
+      expect(momo.rollout.adminOnly, isTrue);
+      expect(momo.rollout.killSwitch, isFalse);
     });
 
     test('ignores rollout rows scoped outside Rwanda', () {
       final rollouts = AdminFeatureRolloutConfig.fromAppConfigEntries(
         <Map<String, dynamic>>[
           <String, dynamic>{
-            'key': 'feature_ticket_purchase_stage',
+            'key': 'feature_momo_stage',
             'value': 'internal',
             'country': 'UG',
           },
         ],
       );
 
-      final ticketing = rollouts.firstWhere(
-        (rollout) => rollout.key == 'ticket_purchase',
+      final momo = rollouts.firstWhere(
+        (rollout) => rollout.key == 'momo',
       );
       expect(
-        ticketing.rollout.stage,
-        EngagementFeatureFlags.defaults().ticketPurchase.stage,
+        momo.rollout.stage,
+        EngagementFeatureFlags.defaults().momo.stage,
       );
     });
 
     test('serializes rollout values into app config rows', () {
       const config = AdminFeatureRolloutConfig(
-        key: 'ticket_purchase',
-        label: 'Ticketing',
-        description: 'Ticketing rollout',
-        killSwitchKey: 'kill_ticket_purchase',
+        key: 'momo',
+        label: 'Mobile Money',
+        description: 'MoMo payments rollout',
+        killSwitchKey: 'kill_momo_payments',
         rollout: ManagedFeatureRollout(
-          key: 'ticket_purchase',
+          key: 'momo',
           stage: FeatureRolloutStage.internal,
           killSwitch: true,
           adminOnly: true,
@@ -71,18 +71,18 @@ void main() {
 
       expect(rows, hasLength(3));
       expect(
-        rows.firstWhere((row) => row['key'] == 'kill_ticket_purchase')['value'],
+        rows.firstWhere((row) => row['key'] == 'kill_momo_payments')['value'],
         'true',
       );
       expect(
         rows.firstWhere(
-          (row) => row['key'] == 'feature_ticket_purchase_stage',
+          (row) => row['key'] == 'feature_momo_stage',
         )['value'],
         'internal',
       );
       expect(
         rows.firstWhere(
-          (row) => row['key'] == 'feature_ticket_purchase_admin_only',
+          (row) => row['key'] == 'feature_momo_admin_only',
         )['value'],
         'true',
       );

@@ -12,12 +12,12 @@ import '../../core/l10n/l10n.dart';
 /// across 20+ screens. Supports customizable loading, error, and empty states.
 ///
 /// ```dart
-/// CoolAsyncView<List<Trip>>(
-///   value: ref.watch(tripsProvider),
-///   builder: (trips) => TripList(trips: trips),
-///   emptyCheck: (trips) => trips.isEmpty,
-///   emptyMessage: 'No trips yet',
-///   onRetry: () => ref.invalidate(tripsProvider),
+/// CoolAsyncView<List<Group>>(
+///   value: ref.watch(groupsProvider),
+///   builder: (groups) => GroupList(groups: groups),
+///   emptyCheck: (groups) => groups.isEmpty,
+///   emptyMessage: 'No groups yet',
+///   onRetry: () => ref.invalidate(groupsProvider),
 /// )
 /// ```
 class CoolAsyncView<T> extends StatelessWidget {

@@ -59,8 +59,8 @@ final List<RegExp> _uiLiteralPatterns = <RegExp>[
     dotAll: true,
   ),
   RegExp(
-    '\\b(?:PrismaStatTile|VehicleFilter|_Stat|_StatTile|_SummaryRow|_InfoPill|'
-    '_LedgerPill|_TicketChip|_VehicleInfoTile|_MomoStepRow)\\s*\\('
+    '\\b(?:_Stat|_StatTile|_SummaryRow|_InfoPill|'
+    '_LedgerPill|_MomoStepRow)\\s*\\('
     '(?:[^\\)]*?)(?:label|title|subtitle|text|hint|value)\\s*:'
     "(?:\\s|\\n){0,80}('(?:[^'\\\\]|\\\\.)*'|\"(?:[^\"\\\\]|\\\\.)*\")",
     dotAll: true,

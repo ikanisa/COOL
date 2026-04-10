@@ -39,8 +39,7 @@ async function waitForServer() {
   for (let attempt = 0; attempt < 40; attempt += 1) {
     try {
       const response = await fetch(baseUrl, { cache: 'no-store' });
-      const html = await response.text();
-      if (response.ok && html.includes('COOL PWA')) {
+      if (response.ok) {
         return;
       }
     } catch (_) {
@@ -52,9 +51,14 @@ async function waitForServer() {
 }
 
 function startServer() {
+  const httpServerBin = resolve(
+    root,
+    'node_modules/.bin/http-server' + (process.platform === 'win32' ? '.cmd' : ''),
+  );
+
   return spawn(
-    process.platform === 'win32' ? 'npx.cmd' : 'npx',
-    ['http-server', '.', '-p', String(port), '-c-1', '--silent'],
+    httpServerBin,
+    ['.', '-p', String(port), '-c-1', '--silent'],
     {
       cwd: root,
       stdio: 'ignore',
@@ -75,8 +79,8 @@ try {
   const page = await context.newPage();
   page.setDefaultTimeout(15_000);
 
-  console.log('Step 1: load root and activate service worker');
-  await page.goto(`${baseUrl}/`, { waitUntil: 'networkidle' });
+  console.log('Step 1: load admin entry and activate service worker');
+  await page.goto(`${baseUrl}/admin/`, { waitUntil: 'networkidle' });
   await page.evaluate(() => navigator.serviceWorker?.ready.then(() => true));
   await page.reload({ waitUntil: 'networkidle' });
   await page.waitForFunction(() => Boolean(navigator.serviceWorker?.controller));

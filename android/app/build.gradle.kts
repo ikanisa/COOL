@@ -210,6 +210,10 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
+            val enableReleaseMinify =
+                (findProperty("cool.enableAndroidMinify")?.toString()
+                    ?.toBooleanStrictOrNull() == true) ||
+                (System.getenv("COOL_ENABLE_ANDROID_MINIFY")?.trim() == "1")
             // ⛔ FORMAL EXCEPTION — R8 shrinking disabled (tracked: 2026-04-10)
             //
             // Root cause: R8/minified release crashes in Flutter engine startup
@@ -226,9 +230,13 @@ android {
             //      Flutter engine JNI symbols and re-enable minification.
             //   3. File a Flutter issue if the crash persists across SDK versions.
             //
+            // Temporary repo-side mitigation: allow opt-in minified canary builds
+            //   via COOL_ENABLE_ANDROID_MINIFY=1 to verify the path in CI/device
+            //   loops without changing the default release artifact yet.
+            //
             // This exception MUST be revisited for the next Play Store submission.
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = enableReleaseMinify
+            isShrinkResources = enableReleaseMinify
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -245,4 +253,6 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
     implementation("androidx.activity:activity-ktx:1.9.3")
     implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+    implementation("androidx.work:work-runtime-ktx:2.9.1")
 }

@@ -318,7 +318,7 @@ void main() {
       await tester.enterText(_textFieldWithLabel('Merchant code'), '008000');
       await tester.enterText(
         _textFieldWithLabel('Reconciliation label'),
-        'partner_ticket_checkout',
+        'partner_momo_checkout',
       );
 
       await tester.tap(_dropdownFieldWithLabel('Status'));
@@ -348,7 +348,7 @@ void main() {
       );
       expect(find.textContaining('MTN_RWANDA · code 008000'), findsOneWidget);
       expect(
-        find.textContaining('Reconciliation: partner_ticket_checkout'),
+        find.textContaining('Reconciliation: partner_momo_checkout'),
         findsOneWidget,
       );
     },
@@ -377,7 +377,7 @@ void main() {
 
     expect(_dropdownFieldWithLabel('Country scope'), findsNothing);
     expect(_textFieldWithLabel('Market'), findsOneWidget);
-    await tester.enterText(_textFieldWithLabel('Key'), 'kill_ticket_purchase');
+    await tester.enterText(_textFieldWithLabel('Key'), 'kill_momo_payments');
     await tester.enterText(_textFieldWithLabel('Value'), 'true');
     await _tapPrimaryButton(tester, 'Save');
     await tester.pumpAndSettle();

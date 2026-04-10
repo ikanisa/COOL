@@ -25,8 +25,8 @@ void main() {
               <String, dynamic>{
                 'actor_name': 'Alice',
                 'action': 'create',
-                'target_table': 'tickets',
-                'target_id': 'ticket-1',
+                'target_table': 'app_config',
+                'target_id': 'config-1',
                 'created_at': '2026-03-15T12:00:00Z',
                 'old_data': <String, dynamic>{'status': 'draft'},
                 'new_data': <String, dynamic>{'status': 'confirmed'},

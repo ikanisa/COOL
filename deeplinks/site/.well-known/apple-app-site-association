@@ -1,15 +1,6 @@
 {
   "applinks": {
     "apps": [],
-    "details": [
-      {
-        "appID": "TEAM_ID.app.cool.mobile",
-        "paths": [
-          "/v/*",
-          "/p/*",
-          "/qr/*"
-        ]
-      }
-    ]
+    "details": []
   }
 }

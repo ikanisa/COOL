@@ -258,112 +258,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get momoDialerError => 'open the USSD failed';
 
   @override
-  String get scheduleTripReturnSubtitle => 'Drivers offer discounts on';
-
-  @override
-  String get scheduleTripReturnFieldsLabel => 'Return Date & Time';
-
-  @override
-  String get scheduleTripRecurringTitle => 'Recurring Trip';
-
-  @override
-  String get scheduleTripRecurringSubtitle => 'Daily / Weekly repeat';
-
-  @override
-  String get scheduleTripRecurringDaysLabel => 'Repeat Days';
-
-  @override
-  String get scheduleTripExpiryTitle => 'Trip expires automatically';
-
-  @override
-  String get scheduleTripExpirySubtitle => 'Trips are removed 60';
-
-  @override
-  String get scheduleTripPostCta => 'Post Trip on Board';
-
-  @override
-  String get scheduleTripPostedSuccess => 'Trip posted successfully.';
-
-  @override
-  String get scheduleTripPostedPendingSync => 'Trip saved offline and';
-
-  @override
-  String get scheduleTripPostingGuideTitle => 'Posting behavior';
-
-  @override
-  String get scheduleTripPostingGuideSubtitle => 'Make sure the trip';
-
-  @override
-  String get scheduleTripPostingVisibilityLabel => 'Visible to others';
-
-  @override
-  String get scheduleTripPostingPrecisionLabel => 'Pickup precision';
-
-  @override
-  String get scheduleTripPostingCoordinationLabel => 'After posting';
-
-  @override
-  String get scheduleTripPostingOfflineLabel => 'Offline fallback';
-
-  @override
-  String get scheduleTripPostingPassengerVisibility => 'Drivers see your route';
-
-  @override
-  String get scheduleTripPostingDriverVisibility => 'Riders see your route';
-
-  @override
-  String get scheduleTripPostingPrecisionExact =>
-      'Exact pickup and destination';
-
-  @override
-  String get scheduleTripPostingPrecisionPartial => 'One place pin is';
-
-  @override
-  String get scheduleTripPostingPrecisionTextOnly => 'Text route only Confirm';
-
-  @override
-  String get scheduleTripPostingPassengerCoordination =>
-      'Drivers contact you after';
-
-  @override
-  String get scheduleTripPostingDriverCoordination =>
-      'Riders contact you after';
-
-  @override
-  String get scheduleTripPostingOfflineBehavior => 'If the network drops';
-
-  @override
-  String get scheduleTripFromRequired => 'Enter a departure point.';
-
-  @override
-  String get scheduleTripToRequired => 'Enter a destination.';
-
-  @override
-  String get scheduleTripRouteSameError => 'Departure and destination must';
-
-  @override
-  String get scheduleTripReturnInvalidError => 'Return date and time';
-
-  @override
-  String get scheduleTripRecurringDaysError => 'Pick at least one';
-
-  @override
-  String get scheduleTripDepartureInPastError =>
-      'Departure time is in the past.';
-
-  @override
-  String get scheduleTripDateFieldPrefix => '📅';
-
-  @override
-  String get scheduleTripTimeFieldPrefix => '🕐';
-
-  @override
-  String get driverMode => 'Driver Mode';
-
-  @override
-  String get driverOnlineMessage => 'Online now';
-
-  @override
   String get online => 'Online';
 
   @override
@@ -391,38 +285,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subscribe => 'Pay via MOMO USSD';
 
   @override
-  String get unlockUnlimitedTrips => 'Unlock Unlimited Trips';
-
-  @override
-  String tripsUsedMessage(Object used) {
-    return 'You have used $used';
-  }
-
-  @override
   String daysRemaining(Object count) {
     return '$count days remaining';
   }
 
   @override
-  String get addReturnTrip => 'Add Return Trip';
-
-  @override
-  String get myScheduledTrips => 'My Scheduled Trips';
-
-  @override
-  String get noScheduledTrips => 'No scheduled trips yet.';
-
-  @override
   String get perMonth => '/month';
-
-  @override
-  String get vehicleMoto => 'Moto';
-
-  @override
-  String get vehicleCab => 'Cab';
-
-  @override
-  String get vehicleAny => 'Any';
 
   @override
   String get weekdayMonShort => 'Mon';
@@ -461,29 +329,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get organizations => 'Orgs';
 
   @override
-  String get ticketsAndShop => 'Tickets & Shop';
-
-  @override
-  String get upcomingMatches => 'Upcoming Matches';
-
-  @override
-  String get fanRegistry => 'Fan Registry';
-
-  @override
-  String get fanClubs => 'Fan Clubs';
-
-  @override
-  String get ticketing => 'Ticketing';
-
-  @override
-  String get clubShop => 'Club Shop';
-
-  @override
-  String fansCount(Object count) {
-    return '$count fans';
-  }
-
-  @override
   String clubsCount(Object count) {
     return '$count clubs';
   }
@@ -494,16 +339,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get fansTitle => 'Fans';
-
-  @override
   String get membership => 'Membership';
 
   @override
   String get achievements => 'Achievements';
-
-  @override
-  String get fanDirectory => 'Fan Directory';
 
   @override
   String get joinClub => 'Join';
@@ -528,24 +367,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lockedBadge => 'Locked';
-
-  @override
-  String get ticketingTitle => 'Ticketing';
-
-  @override
-  String get tickets => 'Tickets';
-
-  @override
-  String get myTickets => 'My Tickets';
-
-  @override
-  String get purchasedTickets => 'Purchased Tickets';
-
-  @override
-  String get buyTicket => 'Buy';
-
-  @override
-  String get purchaseTicket => 'Purchase Ticket';
 
   @override
   String get quantity => 'Quantity';
@@ -575,9 +396,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get whatsappConfirmation => 'WhatsApp confirmation will be';
 
   @override
-  String get viewTicket => 'View';
-
-  @override
   String get showAtGate => 'Show this at the';
 
   @override
@@ -585,12 +403,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get goldDiscount => 'Gold Members get 10';
-
-  @override
-  String get noTicketsYet => 'No tickets yet';
-
-  @override
-  String get buyTicketsToUpcomingMatches => 'Buy tickets to upcoming';
 
   @override
   String cartItemCount(Object count) {
@@ -698,9 +510,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancel => 'Cancel';
-
-  @override
-  String get vehicle => 'Vehicle';
 
   @override
   String get subscription => 'Subscription';
@@ -971,9 +780,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeActionPay => 'MoMo';
 
   @override
-  String get homeActionTrips => 'Trips';
-
-  @override
   String get homeFallbackGroupsSubtitle => 'Savings and invites';
 
   @override
@@ -981,9 +787,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeFallbackPartnersSubtitle => 'Banks and clubs';
-
-  @override
-  String get homeFallbackTripsSubtitle => 'Ride or drive';
 
   @override
   String get homePriorityLabel => 'Today';
@@ -1036,9 +839,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileNotLinked => 'Not linked';
 
   @override
-  String get profileDriverTools => 'Driver tools';
-
-  @override
   String get profileCoolStatus => 'COOL status';
 
   @override
@@ -1064,9 +864,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileMoreToolsHideSubtitle => 'Hide QR driver and';
-
-  @override
-  String get vehicleLabel => 'Vehicle';
 
   @override
   String get accountActionsTitle => 'Account actions';
@@ -1229,101 +1026,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Try adjusting your filters';
 
   @override
-  String get fansScreenUnavailableTitle => 'Fan Hub Moved';
-
-  @override
-  String get fansScreenHeadline => 'Fan Hub';
-
-  @override
-  String fansScreenBody(Object clubName) {
-    return 'Fan features for $clubName';
-  }
-
-  @override
-  String get fansScreenMembershipUnavailable =>
-      'Membership features live inside';
-
-  @override
-  String get fansScreenClubsUnavailable => 'Fan clubs are now';
-
-  @override
-  String get fansScreenPartnerDedicatedHub => 'Partner Sports has a';
-
-  @override
-  String get fansScreenRouteKeptReachable => 'Legacy route';
-
-  @override
-  String get fansScreenBackToPartners => 'Back to Partners';
-
-  @override
-  String get fansScreenOpenPartner => 'Open Partner Sports';
-
-  @override
-  String get ticketWalletInvalidLink => 'Invalid Google Wallet link.';
-
-  @override
-  String get ticketWalletUnavailable => 'Google Wallet is not';
-
-  @override
-  String get ticketWalletOpenFailed => 'Open Google Wallet failed';
-
-  @override
-  String get ticketConfirmationScreenTitle => 'Ticket';
-
-  @override
-  String get ticketConfirmationNotFound => 'Ticket not found.';
-
-  @override
-  String get ticketAddToGoogleWallet => 'Add to Google Wallet';
-
-  @override
-  String get ticketBackToTickets => 'Back to Tickets';
-
-  @override
-  String get ticketShareMatchTitle => 'Share Match';
-
-  @override
-  String ticketShareMatchText(Object matchTitle) {
-    return 'Check out $matchTitle on!';
-  }
-
-  @override
-  String get ticketStatusPendingTitle => 'Payment Pending';
-
-  @override
-  String get ticketStatusPendingSubtitle => 'Waiting for MoMo confirmation.';
-
-  @override
-  String get ticketStatusPendingNote => 'Ticket reserved';
-
-  @override
-  String get ticketStatusValidTitle => 'Valid Ticket';
-
-  @override
-  String get ticketStatusValidSubtitle => 'Show this at the';
-
-  @override
-  String get ticketStatusValidNote => 'Present the QR code';
-
-  @override
-  String get ticketStatusUsedTitle => 'Ticket Used';
-
-  @override
-  String get ticketStatusUsedSubtitle => 'Ticket already scanned';
-
-  @override
-  String get ticketStatusUsedNote => 'Ticket already used';
-
-  @override
-  String get ticketStatusCancelledTitle => 'Ticket Cancelled';
-
-  @override
-  String get ticketStatusCancelledSubtitle => 'Ticket invalid';
-
-  @override
-  String get ticketStatusCancelledNote => 'Contact support';
-
-  @override
   String get partnersHomeTooltip => 'Partners Home';
 
   @override
@@ -1346,12 +1048,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get partnersMembershipPerkMemberQueue => 'Member queue priority';
-
-  @override
-  String get partnersMembershipPerkPriorityTickets => 'Priority ticket access';
-
-  @override
-  String get partnersMembershipPerkShopDiscount => 'Shop discount';
 
   @override
   String get partnersMembershipPerkVipQueue => 'VIP queue access';
@@ -1405,9 +1101,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get partnersEmptyMessage => 'Partners will appear here';
-
-  @override
-  String get partnersClubShopSubtitle => 'Official merchandise';
 
   @override
   String get partnersFootballTab => 'Football';
@@ -1785,13 +1478,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get yourGroupIsClose => 'Your group is close!';
 
   @override
-  String get attendAMatch => 'Attend a match';
-
-  @override
   String get earn10TokensFor => 'Earn 10 points for attending';
-
-  @override
-  String get oneMoreTrip => 'One more trip!';
 
   @override
   String get postYourRoute => 'Post your route';
@@ -1807,9 +1494,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get earn10TokensPer => 'Earn 10 points per contribution';
-
-  @override
-  String get becomeAPartnerFan => 'Become a Partner fan';
 
   @override
   String get joinTheClubAnd => 'Join the club and earn rewards';
@@ -1830,9 +1514,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get momoPay => 'MoMo Pay';
 
   @override
-  String get payAtShopsAnd => 'Pay at shops and partners';
-
-  @override
   String get amount => 'Amount';
 
   @override
@@ -1851,16 +1532,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scanQrCode => 'Scan QR code';
 
   @override
-  String get fans => 'Fans';
-
-  @override
   String get join => 'Join';
-
-  @override
-  String get buyTickets => 'Buy Tickets';
-
-  @override
-  String get shop => 'Shop';
 
   @override
   String get walletCashflow => 'Wallet Cashflow';
@@ -2056,9 +1728,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bankAdmin => 'Bank Admin';
 
   @override
-  String get addVehicleType => 'Add vehicle type';
-
-  @override
   String get adminWorkspaces => 'Admin Workspaces';
 
   @override
@@ -2150,13 +1819,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get admins => 'Admins';
 
   @override
-  String get drivers => 'Drivers';
-
-  @override
   String get momo => 'MoMo';
-
-  @override
-  String get driver => 'Driver';
 
   @override
   String get deleteBatch => 'Delete Batch';
@@ -2598,12 +2261,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get thisMonth => 'This month';
 
   @override
-  String get trips => 'Trips';
-
-  @override
-  String get addReturnTrip1 => 'Add return trip';
-
-  @override
   String get route => 'Route';
 
   @override
@@ -2629,9 +2286,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paused => 'Paused';
-
-  @override
-  String get matched => 'Matched';
 
   @override
   String get home => 'Home';
@@ -2721,25 +2375,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get excel => 'Excel';
 
   @override
-  String get fan => 'Fan';
-
-  @override
   String get standardMembership => 'Standard membership';
 
   @override
-  String get matches => 'matches';
-
-  @override
   String get products => 'products';
-
-  @override
-  String get ticketRevenue => 'Ticket Revenue';
-
-  @override
-  String get shopRevenue => 'Shop Revenue';
-
-  @override
-  String get addMatch => 'Add Match';
 
   @override
   String get addProduct => 'Add Product';
@@ -2763,22 +2402,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get supportClub => 'Support Club';
 
   @override
-  String get nextMatch => 'Next Match';
-
-  @override
   String get openProfile => 'Open Profile';
 
   @override
   String get viewPlans => 'View Plans';
 
   @override
-  String get noMatchOnSale => 'No match on sale';
-
-  @override
   String get analytics => 'Analytics';
-
-  @override
-  String get shopProducts => 'Shop Products';
 
   @override
   String get keepTheCatalogCurrent => 'Keep the catalog current';
@@ -2794,9 +2424,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get low => 'low';
-
-  @override
-  String get noShopProductsYet => 'No shop products yet';
 
   @override
   String get name => 'Name';
@@ -2848,35 +2475,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchMembers => 'Search members';
 
   @override
-  String get noFanMembershipsYet => 'No fan memberships yet';
-
-  @override
-  String get noMembersMatchFilter => 'No members match filter';
-
-  @override
   String get points1 => 'Points';
 
   @override
   String get memberCsvCopiedTo => 'Member CSV copied to clipboard';
 
   @override
-  String get matches1 => 'Matches';
-
-  @override
   String get scheduleFixturesAdjustPricing =>
       'Schedule fixtures adjust pricing';
-
-  @override
-  String get addMatch1 => 'Add match';
 
   @override
   String get scheduled => 'scheduled';
 
   @override
   String get onSale => 'on sale';
-
-  @override
-  String get noMatchesHaveYet => 'No matches have yet';
 
   @override
   String get homeTeam => 'Home Team';
@@ -2954,31 +2566,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get refreshPaymentStatus => 'Refresh payment status';
 
   @override
-  String get fanProfile => 'Fan Profile';
-
-  @override
-  String get showFanQr => 'Show Fan QR';
-
-  @override
-  String get priorityTickets => 'Priority Tickets';
-
-  @override
-  String get earlyAccessToMatch => 'Early access to match tickets';
-
-  @override
   String get vipEvents => 'VIP Events';
-
-  @override
-  String get exclusiveFanMeetups => 'Exclusive fan meet-ups';
 
   @override
   String get freeKit => 'Free Kit';
 
   @override
   String get freeOfficialKitPer => 'Free official kit per season';
-
-  @override
-  String get shopOrders => 'Shop Orders';
 
   @override
   String get manageFulfilmentQueueAnd =>
@@ -2992,12 +2586,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get revenue => 'revenue';
-
-  @override
-  String get noShopOrdersYet => 'No shop orders yet';
-
-  @override
-  String get noOrdersMatchThis => 'No orders match this filter';
 
   @override
   String get date => 'Date';
@@ -3033,19 +2621,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get used => 'used';
 
   @override
-  String get noTicketsFound => 'No tickets found';
-
-  @override
-  String get noTicketsMatchThis => 'No tickets match this filter';
-
-  @override
   String get confirmEntry => 'Confirm Entry';
 
   @override
   String get refund => 'Refund';
-
-  @override
-  String get ticketMatchFilterCurrent => 'Ticket match filter Current';
 
   @override
   String get gateCheck => 'Gate Check';
@@ -3054,28 +2633,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get eg50000 => 'e.g. 50,000';
 
   @override
-  String get shareTickets => 'Share tickets';
-
-  @override
-  String get myTickets1 => 'My tickets';
-
-  @override
   String get inviteSupportersToBuy => 'Invite supporters to buy';
-
-  @override
-  String get browseMatches => 'Browse Matches';
 
   @override
   String get paymentPending => 'PAYMENT PENDING';
 
   @override
   String get readyForEntry => 'READY FOR ENTRY';
-
-  @override
-  String get pastTickets => 'PAST TICKETS';
-
-  @override
-  String get fanClub => 'Fan Club';
 
   @override
   String get membersPreview => 'Members preview';
@@ -3108,9 +2672,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get refreshOrderStatus => 'Refresh order status';
 
   @override
-  String get backToShop => 'Back to shop';
-
-  @override
   String get viewProfileOrders => 'View profile orders';
 
   @override
@@ -3136,9 +2697,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get featuredExperiences => 'Featured experiences';
-
-  @override
-  String get jerseysFanGearAnd => 'Jerseys fan gear and';
 
   @override
   String get noFinancePartnersYet => 'No finance partners yet';
@@ -3204,13 +2762,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get seat => 'Seat';
 
   @override
-  String get fanId => 'Fan ID';
-
-  @override
   String get price => 'Price';
-
-  @override
-  String get tripCard => 'Trip card';
 
   @override
   String get memberId => 'Member ID';
@@ -3256,9 +2808,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get momo1 => 'MOMO';
-
-  @override
-  String get scanTicket => 'Scan Ticket';
 
   @override
   String get goBack => 'Go Back';

@@ -22,9 +22,7 @@ migrations:
   20260310160000_momo_reconciliation_indexes.sql: [schema]
   20260310170000_supported_countries_catalog.sql: [schema, seed]
   20260310183000_dynamic_momo_ussd_routes.sql: [schema]
-  20260310200000_rayon_sports_extension.sql: [schema]
-  20260310213000_rayon_sports_reconciliation.sql: [schema]
-  20260310220000_rayon_sports_schema_lock.sql: [schema]
+
   20260310231000_cool_status_foundation.sql: [schema]
   20260310232000_cool_missions.sql: [schema]
   20260310233000_cool_seasons.sql: [schema]
@@ -43,7 +41,7 @@ migrations:
   20260311163500_invite_preview_anon_access.sql: [security]
   20260311170000_user_fcm_tokens.sql: [schema]
   20260311183000_group_invite_code_runtime_compat.sql: [repair]
-  20260311195000_google_wallet_passes.sql: [schema]
+
   20260311203000_partner_mock_seed_batch.sql: [mock]
   20260311214500_demo_users_and_comprehensive_mock_seed.sql: [mock]
   20260311223000_admin_mock_batch_cleanup.sql: [cleanup]
@@ -59,7 +57,7 @@ migrations:
 
   # ── Day 3: Bank partners, credit, statements ──────────────────
   20260312000500_bank_partner_logo_urls.sql: [seed]
-  20260312001500_rayon_member_registry_rpc.sql: [schema]
+
   20260312004000_statement_rpcs_and_credit_score_cron.sql: [schema, observability]
   20260312005500_credit_score_user_refresh_rpc.sql: [schema]
   20260312013000_partner_credit_applications.sql: [schema]
@@ -68,10 +66,9 @@ migrations:
   20260312173000_public_user_ids.sql: [schema]
   20260312173100_public_user_ids_create_group_atomic.sql: [schema]
   20260312173200_public_user_ids_join_group_via_invite.sql: [schema]
-  20260312173300_public_user_ids_get_rayon_member_registry.sql: [schema]
+
   20260312191000_user_profile_wallet_routes.sql: [schema]
-  20260312201500_rayon_kwesa_catalog_contract.sql: [schema]
-  20260312204500_rayon_kwesa_catalog_cleanup.sql: [cleanup]
+
   20260312211000_preserve_user_momo_route_preferences.sql: [schema]
   20260312223000_repair_momo_sms_pipeline.sql: [repair]
   20260313101500_operational_observability.sql: [schema, observability]
@@ -95,7 +92,7 @@ migrations:
   20260315113000_bank_admin_group_savings_access.sql: [security]
   20260315120000_lock_operational_health_rls.sql: [security]
   20260315124500_bank_admin_manual_allocation_actions.sql: [schema]
-  20260315141500_rayon_admin_finance_and_packages.sql: [schema]
+
   20260315153000_group_custodian_partner_link.sql: [schema]
   20260315153100_group_custodian_partner_link_drop_old_create_group_atomic.sql: [cleanup]
   20260315153200_group_custodian_partner_link_create_group_atomic.sql: [schema]
@@ -115,7 +112,7 @@ migrations:
   20260316092400_bank_allocation_ai_support.sql: [schema]
   20260316100000_seed_admin_role_assignments.sql: [seed]
   20260316110000_bank_loans_baskets.sql: [schema]
-  20260316120000_rs_notifications_batch_analytics.sql: [schema, observability]
+
   20260316130000_enforce_data_integrity.sql: [schema, security]
   20260316130001_nexus_opportunities.sql: [schema]
   20260316131500_mock_tracking_enhancements.sql: [mock]
@@ -123,7 +120,7 @@ migrations:
   20260316132501_fix_audit_trigger.sql: [fix]
   20260316133000_app_config_seed.sql: [seed]
   20260316140000_gamification_rpcs.sql: [schema]
-  20260316180000_rayon_sports_audit_fixes.sql: [fix]
+
 
   # ── Day 6+: MoMo hardening, AI content, groups ────────────────
   20260317080000_momo_delete_rls_and_rate_limit.sql: [security]
@@ -183,11 +180,13 @@ migrations:
   20260328000000_admin_readiness_security_hardening.sql: [security]
   20260328103000_biopay_profileless_enrollment.sql: [schema, fix]
   20260329090000_contribution_groups.sql: [schema]
-  20260329120000_fan_engagement_polls_predictions.sql: [schema, security]
   20260329133000_align_admin_policies_and_legacy_banner_routes.sql: [security, fix]
-  20260329134000_align_fan_engagement_poll_admin_policy.sql: [security, fix]
+
   20260329213000_contribution_groups_wallet_routing.sql: [schema, fix]
   20260404082430_purge_rayon_sports.sql: [cleanup, schema]
   20260404103000_align_admin_roles_after_rayon_purge.sql: [cleanup, security]
   20260409224500_fix_manual_review_partner_users_reference.sql: [fix, security]
   20260409225000_admin_groups_oversight.sql: [schema]
+  20260410104900_purge_remaining_rayon_era_tables.sql: [cleanup]
+  20260410143000_group_access_settings_and_member_feed.sql: [schema]
+  20260410170000_momo_sms_sender_allowlist.sql: [schema, seed, security]

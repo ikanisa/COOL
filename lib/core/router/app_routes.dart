@@ -15,6 +15,7 @@ abstract final class AppRoutes {
   // ── MoMo ────────────────────────────────────────────────────────
   /// @deprecated — standalone MoMo screen removed; kept for deep-link compat.
   static const momo = '/momo';
+  static const momoWallet = '/momo/wallet';
 
   // ── BioPay ──────────────────────────────────────────────────────
   static const biopayHome = '/momo/biopay';

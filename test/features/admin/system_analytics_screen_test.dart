@@ -29,10 +29,10 @@ void main() {
               'total_partners': 5,
               'total_groups': 7,
               'active_groups': 6,
-              'total_tickets': 29,
+              'total_contributions': 29,
               'signups_7d': 11,
               'signups_30d': 37,
-              'tickets_7d': 14,
+              'contributions_7d': 14,
               'active_partners': 4,
               'audit_actions_7d': 18,
               'role_distribution': <String, int>{

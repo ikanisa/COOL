@@ -50,10 +50,10 @@ void main() {
             );
           }),
         ],
-        child: MaterialApp(
+        child: const MaterialApp(
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
-          home: const GroupStatementsScreen(groupId: 'group-1'),
+          home: GroupStatementsScreen(groupId: 'group-1'),
         ),
       ),
     );
@@ -98,10 +98,10 @@ void main() {
             ),
           ),
         ],
-        child: MaterialApp(
+        child: const MaterialApp(
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
-          home: const GroupStatementsScreen(groupId: 'group-1'),
+          home: GroupStatementsScreen(groupId: 'group-1'),
         ),
       ),
     );

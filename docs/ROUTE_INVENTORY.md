@@ -4,9 +4,9 @@ Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router
 
 Current router shape:
 
-- `33` `GoRoute` declarations
+- `34` `GoRoute` declarations
 - `3` shell branches
-- `38` screen files under `lib/features/**/screens/*.dart`
+- `39` screen files under `lib/features/**/screens/*.dart`
 
 Change policy:
 
@@ -47,6 +47,7 @@ Change policy:
 |---|---|---|
 | `/contribution-circles` | [`GroupsScreen`](../lib/features/groups/screens/groups_screen.dart) | No |
 | `/contribution-circles/:groupId` | [`GroupDetailScreen`](../lib/features/groups/screens/group_detail_screen.dart) | No |
+| `/contribution-circles/:groupId/settings` | [`GroupSettingsScreen`](../lib/features/groups/screens/group_settings_screen.dart) | No |
 | `/contribution-circles/:groupId/statements` | [`GroupStatementsScreen`](../lib/features/groups/screens/group_statements_screen.dart) | No |
 | `/momo` | Redirect | No |
 | `/referral` | [`ReferralScreen`](../lib/core/status/screens/referral_screen.dart) | No |

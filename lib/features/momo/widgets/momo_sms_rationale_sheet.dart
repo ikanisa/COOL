@@ -99,18 +99,19 @@ class MomoSmsRationaleSheet extends StatelessWidget {
             icon: Icons.history_rounded,
             title: context.l10n.deepHistoricalSync,
             message:
-                'First-time setup imports the past year of approved '
-                'M-Money confirmations once on this device. Other SMS '
-                'is ignored.',
+                'First-time setup scans the past year for M-Money '
+                'confirmations. Only matched payment messages are stored '
+                'and synced.',
           ),
           const SizedBox(height: CoolSpace.x4),
           _RationalePoint(
             icon: Icons.security_rounded,
             title: context.l10n.privacyFocused,
             message:
-                'Cool only reads approved M-Money sender IDs such as '
-                'M-Money and MoMo. Personal conversations and unrelated '
-                'SMS are never uploaded.',
+                'Cool only reacts to approved M-Money sender IDs such '
+                'as M-Money and MoMo. Matching payment confirmations are '
+                'queued locally and synced securely. Other SMS stays on '
+                'your device and is ignored by Cool.',
           ),
           const SizedBox(height: CoolSpace.x4),
           _RationalePoint(

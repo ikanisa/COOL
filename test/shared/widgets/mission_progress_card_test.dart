@@ -11,17 +11,17 @@ CoolMission _fakeMission({
   int totalProgress = 45,
   int targetValue = 100,
   int rewardPoints = 25,
-  String? description = 'Three more supporters unlock the reward.',
+  String? description = 'Keep your streak going to unlock the reward.',
 }) {
   final now = DateTime.now();
   return CoolMission(
     id: 'mission-1',
-    title: 'Supporter Season',
+    title: 'Contribution Streak',
     description: description,
-    missionType: CoolMissionType.supporterSeason,
+    missionType: CoolMissionType.contributionStreak,
     targetValue: targetValue,
     scope: MissionScope.global,
-    emoji: '🤝',
+    emoji: '🔥',
     startsAt: now.subtract(const Duration(days: 1)),
     endsAt: now.add(const Duration(days: 2)),
     rewardPoints: rewardPoints,
@@ -39,9 +39,9 @@ void main() {
         _wrap(MissionProgressCard(mission: _fakeMission())),
       );
 
-      expect(find.text('Supporter Season'), findsOneWidget);
+      expect(find.text('Contribution Streak'), findsOneWidget);
       expect(
-        find.text('Three more supporters unlock the reward.'),
+        find.text('Keep your streak going to unlock the reward.'),
         findsOneWidget,
       );
       expect(find.text('25 Points'), findsOneWidget);

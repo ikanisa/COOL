@@ -312,9 +312,7 @@ String _categoryForPath(String path) {
       path == '/scanner') {
     return 'Auth And Entry';
   }
-  if (path.startsWith('/admin/rayon')) {
-    return 'Rayon Admin Routes';
-  }
+
   if (path.startsWith('/admin')) {
     return 'Admin Routes';
   }
@@ -328,7 +326,7 @@ String _categoryForPath(String path) {
     return 'Shell Branches';
   }
   if (path.startsWith('/partners')) {
-    return 'Partner And Rayon Consumer Routes';
+    return 'Partner Routes';
   }
   return 'Standalone Core Routes';
 }
@@ -383,9 +381,8 @@ String _renderRouteInventory(Directory repoRoot, List<RouteEntry> entries) {
     'Auth And Entry',
     'Shell Branches',
     'Standalone Core Routes',
-    'Partner And Rayon Consumer Routes',
+    'Partner Routes',
     'Admin Routes',
-    'Rayon Admin Routes',
   ]) {
     final categoryRoutes = grouped[category];
     if (categoryRoutes == null || categoryRoutes.isEmpty) {

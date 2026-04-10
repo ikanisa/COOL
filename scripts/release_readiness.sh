@@ -40,10 +40,25 @@ else
   bash "$ROOT_DIR/scripts/verify_android_flavors.sh"
 fi
 
+if [[ "${RUN_ANDROID_MINIFY_CANARY:-0}" == "1" ]]; then
+  echo "==> Android production minify canary"
+  bash "$ROOT_DIR/scripts/build_production_minified_canary.sh"
+else
+  echo "==> skipping Android production minify canary (set RUN_ANDROID_MINIFY_CANARY=1 to enable)"
+fi
+
 bash "$ROOT_DIR/scripts/verify_ios_flavors.sh"
 
 echo "==> deno test (edge functions)"
-deno test --allow-env=SUPABASE_SERVICE_ROLE_KEY,AUTH_PHONE_PASSWORD_SECRET,OTP_CODE_HASH_SECRET,OTP_TEST_PHONE,OTP_TEST_CODE \
+deno test --allow-env=SUPABASE_SERVICE_ROLE_KEY,AUTH_PHONE_PASSWORD_SECRET,OTP_CODE_HASH_SECRET,OTP_TEST_PHONE,OTP_TEST_CODE,GOOGLE_SERVICE_ACCOUNT_EMAIL,GOOGLE_PRIVATE_KEY,AI_AUDIT_SHEET_ID \
+  supabase/functions/_shared/app_check_test.ts \
+  supabase/functions/_shared/google_workspace_test.ts \
+  supabase/functions/biopay-enroll/index_test.ts \
+  supabase/functions/biopay-match/index_test.ts \
+  supabase/functions/biopay-revoke/index_test.ts \
+  supabase/functions/biopay-create-payment-intent/index_test.ts \
+  supabase/functions/biopay-create-payment-intent/payment_intent_test.ts \
+  supabase/functions/record-operational-health/index_test.ts \
   supabase/functions/verify-otp/index_test.ts \
   supabase/functions/verify-otp/verify_otp_helpers_test.ts \
   supabase/functions/parse-momo-sms/ai_parser_test.ts \

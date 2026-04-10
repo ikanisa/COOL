@@ -55,9 +55,9 @@ test('robots and sitemap are configured for discovery', () => {
   const sitemap = read('sitemap.xml');
   assert.match(robots, /Allow:\s+\//);
   assert.match(robots, /Disallow:\s+\/admin\//);
-  assert.match(robots, /Sitemap:\s+https:\/\/pwa\.cool\.app\/sitemap\.xml/);
-  assert.match(sitemap, /https:\/\/pwa\.cool\.app\/home\//);
-  assert.match(sitemap, /https:\/\/pwa\.cool\.app\/notifications\//);
+  assert.match(robots, /Sitemap:\s+https:\/\/cool\.ikanisa\.com\/sitemap\.xml/);
+  assert.match(sitemap, /https:\/\/cool\.ikanisa\.com\/home\//);
+  assert.match(sitemap, /https:\/\/cool\.ikanisa\.com\/notifications\//);
 });
 
 test('utility routes are intentionally crawler-controlled', () => {
@@ -101,4 +101,26 @@ test('landing page carries software application structured data', () => {
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /SoftwareApplication/);
   assert.match(html, /FinanceApplication/);
+  assert.match(html, /https:\/\/cool\.ikanisa\.com\//);
+});
+
+test('cloudflare deployment routing keeps the landing on cool and admin on acool', () => {
+  const wrangler = read('wrangler.toml');
+  const fn = read('functions/index.js');
+  const headers = read('_headers');
+  const admin = read('admin/index.html');
+  const landing = read('landing/index.html');
+
+  assert.match(wrangler, /name\s*=\s*"cool"/);
+  assert.match(wrangler, /pages_build_output_dir\s*=\s*"\."/);
+  assert.match(fn, /acool\.ikanisa\.com/);
+  assert.match(fn, /\/landing\//);
+  assert.match(fn, /\/admin\//);
+  assert.match(headers, /fonts\.googleapis\.com/);
+  assert.match(headers, /\/landing-assets\/\*/);
+  assert.match(headers, /Strict-Transport-Security:/);
+  assert.match(headers, /Content-Security-Policy:/);
+  assert.match(admin, /https:\/\/acool\.ikanisa\.com\//);
+  assert.match(landing, /Community Finance & Mobility for Rwanda/);
+  assert.match(landing, /\/landing-assets\/icon\.png/);
 });

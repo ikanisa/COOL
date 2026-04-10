@@ -184,6 +184,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         ),
                         _SettingsDivider(),
                         _SettingsRow(
+                          icon: Icons.receipt_long_rounded,
+                          title: 'TRANSACTION HISTORY',
+                          subtitle: 'M-MONEY STATEMENTS & LEDGER',
+                          onTap: () => context.push(AppRoutes.momoWallet),
+                        ),
+                        _SettingsDivider(),
+                        _SettingsRow(
                           icon: Icons.face_retouching_natural_rounded,
                           title: 'FACE ID REGISTER',
                           subtitle: faceIdSubtitle,

@@ -72,8 +72,8 @@ typedef SyncHandler =
 /// Usage:
 /// ```dart
 /// final engine = SyncEngine();
-/// await engine.enqueue('trip', tripPayload);
-/// final result = await engine.flush('trip', myTripSyncHandler);
+/// await engine.enqueue('momo_pending', pendingPayload);
+/// final result = await engine.flush('momo_pending', myMomoSyncHandler);
 /// ```
 class SyncEngine {
   /// Creates a SyncEngine.
@@ -111,7 +111,7 @@ class SyncEngine {
 
   /// Add a pending write to the queue.
   ///
-  /// [domain] groups writes by feature (e.g. 'trip', 'momo_pending').
+  /// [domain] groups writes by feature (e.g. 'momo_pending', 'contribution').
   /// [payload] is the data to sync when connectivity returns.
   /// [id] is an optional unique identifier; one is generated if omitted.
   Future<String> enqueue(

@@ -11,16 +11,11 @@ enum CoolEventType {
   groupCreated, // user created a new group
   groupJoined, // user joined an existing group
   groupGoalReached, // group hit its savings target
-  matchAttendance, // ticket used at match (scanned)
   initiativeSupport, // initiative contribution confirmed
-  clubJoined, // fan club membership created
-  merchandisePurchase, // partner merchandise bought
-  matchPrediction, // match prediction submitted
   inviteQualified, // invitee completed qualifying action
   profileCompleted, // user filled in all profile details
   appShared, // user shared the app
   reviewPosted, // user posted an app review
-  shopPurchase, // shop order confirmed
   streakMaintained, // weekly streak check passed
   missionCompleted, // cooperative mission goal met
   dailyLogin, // user opened the app today
@@ -51,16 +46,11 @@ extension CoolEventTypeX on CoolEventType {
     CoolEventType.groupCreated => 'Create a Group',
     CoolEventType.groupJoined => 'Join a Group',
     CoolEventType.groupGoalReached => 'Group Goal Reached',
-    CoolEventType.matchAttendance => 'Match Attendance',
     CoolEventType.initiativeSupport => 'Initiative Support',
-    CoolEventType.clubJoined => 'Join Fan Club',
-    CoolEventType.merchandisePurchase => 'Purchase Merchandise',
-    CoolEventType.matchPrediction => 'Match Prediction',
     CoolEventType.inviteQualified => 'Invite a Friend',
     CoolEventType.profileCompleted => 'Complete Your Profile',
     CoolEventType.appShared => 'Share the App',
     CoolEventType.reviewPosted => 'Post an App Review',
-    CoolEventType.shopPurchase => 'Shop Purchase',
     CoolEventType.streakMaintained => 'Maintain Weekly Streak',
     CoolEventType.missionCompleted => 'Complete a Mission',
     CoolEventType.dailyLogin => 'Daily App Open',
@@ -74,16 +64,11 @@ extension CoolEventTypeX on CoolEventType {
     CoolEventType.groupCreated => '🆕',
     CoolEventType.groupJoined => '🤝',
     CoolEventType.groupGoalReached => '🏁',
-    CoolEventType.matchAttendance => '⚽',
     CoolEventType.initiativeSupport => '🤝',
-    CoolEventType.clubJoined => '🏟️',
-    CoolEventType.merchandisePurchase => '👕',
-    CoolEventType.matchPrediction => '🔮',
     CoolEventType.inviteQualified => '🎉',
     CoolEventType.profileCompleted => '📝',
     CoolEventType.appShared => '📲',
     CoolEventType.reviewPosted => '✍️',
-    CoolEventType.shopPurchase => '🛍️',
     CoolEventType.streakMaintained => '🔥',
     CoolEventType.missionCompleted => '🏆',
     CoolEventType.dailyLogin => '📱',

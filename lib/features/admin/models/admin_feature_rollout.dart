@@ -23,12 +23,6 @@ class AdminFeatureRolloutConfig {
       description: 'Control MoMo payments and',
       killSwitchKey: 'kill_momo_payments',
     ),
-    const _ManagedFeatureSpec(
-      key: 'ticket_purchase',
-      label: 'Ticketing',
-      description: 'Gate Partner ticket',
-      killSwitchKey: 'kill_ticket_purchase',
-    ),
   ];
 
   static final Set<String> managedConfigKeys = <String>{
@@ -123,8 +117,6 @@ class AdminFeatureRolloutConfig {
     switch (key) {
       case 'momo':
         return defaults.momo;
-      case 'ticket_purchase':
-        return defaults.ticketPurchase;
     }
     throw StateError('Unsupported managed feature key: $key');
   }

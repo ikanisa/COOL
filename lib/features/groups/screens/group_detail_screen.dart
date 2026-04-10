@@ -10,6 +10,7 @@ import '../../../shared/widgets/cool_glass_header_surface.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/share_card.dart';
+import '../../../shared/widgets/transaction_status_chip.dart';
 import '../../../core/utils/user_error.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../auth/widgets/require_verified_user.dart';
@@ -18,6 +19,7 @@ import '../../momo/providers/momo_statement_providers.dart';
 import '../group_flow_utils.dart';
 import '../models/group.dart';
 import '../providers/groups_provider.dart';
+import '../widgets/transaction_allocation_sheet.dart';
 
 class GroupDetailScreen extends ConsumerStatefulWidget {
   const GroupDetailScreen({required this.groupId, super.key});
@@ -352,7 +354,11 @@ class _GroupDetailBody extends StatelessWidget {
                     for (final entry in page.entries)
                       Padding(
                         padding: EdgeInsets.only(bottom: space.x2),
-                        child: _LedgerTile(entry: entry),
+                        child: _LedgerTile(
+                          entry: entry,
+                          canManageAllocations: canManageSettings,
+                          groupId: group.id ?? '',
+                        ),
                       ),
                     SizedBox(height: space.x3),
                     _StatementsButton(groupId: group.id ?? ''),
@@ -473,14 +479,23 @@ class _StatRow extends StatelessWidget {
 }
 
 class _LedgerTile extends StatelessWidget {
-  const _LedgerTile({required this.entry});
+  const _LedgerTile({
+    required this.entry,
+    this.canManageAllocations = false,
+    this.groupId = '',
+  });
 
   final PayeePaymentLedgerEntry entry;
+  final bool canManageAllocations;
+  final String groupId;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final text = context.coolText;
+    final isAllocated = entry.payerUserId.trim().isNotEmpty;
+    final statusLabel = isAllocated ? 'confirmed' : 'pending_review';
+
     return Container(
       padding: const EdgeInsets.all(CoolSpace.x4),
       decoration: BoxDecoration(
@@ -507,12 +522,39 @@ class _LedgerTile extends StatelessWidget {
                   '${entry.payerName} • ${entry.occurredAt.toLocal().toString().split('.').first}',
                   style: text.mobiLabel(color: colors.secondaryText),
                 ),
+                const SizedBox(height: 4),
+                TransactionStatusChip(status: statusLabel),
               ],
             ),
           ),
-          Text(
-            '${entry.amount} ${entry.currency}',
-            style: text.mono(null, color: colors.accentGold),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                '${entry.amount} ${entry.currency}',
+                style: text.mono(null, color: colors.accentGold),
+              ),
+              if (canManageAllocations) ...[
+                const SizedBox(height: 4),
+                SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    iconSize: 16,
+                    onPressed: () => TransactionAllocationSheet.show(
+                      context,
+                      entry: entry,
+                      groupId: groupId,
+                    ),
+                    icon: Icon(
+                      Icons.tune_rounded,
+                      color: colors.secondaryText,
+                    ),
+                  ),
+                ),
+              ],
+            ],
           ),
         ],
       ),

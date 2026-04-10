@@ -37,13 +37,9 @@ class QuestEngine {
   /// Generate quests from current user state. Returns at most [maxQuests].
   static List<CoolQuest> generate({
     required CoolStatus status,
-    dynamic membership,
     int groupCount = 0,
     int activeGroupGoalPercent = 0,
-    int matchTicketsThisMonth = 0,
-    int tripStreakCount = 0,
     int pendingMomoCount = 0,
-    bool hasPostedTrip = false,
     int maxQuests = 3,
   }) {
     final quests = <CoolQuest>[];
@@ -77,21 +73,7 @@ class QuestEngine {
       );
     }
 
-    // ─── 3. No match tickets this month ─────────────────────
-    if (matchTicketsThisMonth == 0) {
-      quests.add(
-        const CoolQuest(
-          id: 'match_attend',
-          icon: Icons.sports_soccer_rounded,
-          title: 'Attend a match!',
-          subtitle: 'Earn 20 points for supporting your team in person.',
-          route: AppRoutes.splash,
-          priority: 70,
-        ),
-      );
-    }
-
-    // ─── 4. Pending MoMo confirmations ──────────────────────
+    // ─── 3. Pending MoMo confirmations ──────────────────────
     if (pendingMomoCount > 0) {
       quests.add(
         CoolQuest(
@@ -105,7 +87,7 @@ class QuestEngine {
       );
     }
 
-    // ─── 5. Join a group ────────────────────────────────────
+    // ─── 4. Join a group ────────────────────────────────────
     if (groupCount == 0) {
       quests.add(
         const CoolQuest(
@@ -115,20 +97,6 @@ class QuestEngine {
           subtitle: 'Earn 20 points per week saved.',
           route: AppRoutes.contributionCircles,
           priority: 60,
-        ),
-      );
-    }
-
-    // ─── 6. No fan club ─────────────────────────────────────
-    if (membership == null) {
-      quests.add(
-        const CoolQuest(
-          id: 'join_club',
-          icon: Icons.stadium_rounded,
-          title: 'Become a fan',
-          subtitle: 'Join the club and earn rewards.',
-          route: AppRoutes.splash,
-          priority: 50,
         ),
       );
     }

@@ -8,22 +8,6 @@ extension _QrScannerScreenStateLogic on _QrScannerScreenState {
     _applyState(() => _cameraAccess = snapshot);
   }
 
-  Future<void> _loadTicketScannerAvailability() async {
-    final loader =
-        widget.ticketScannerAvailabilityLoader ??
-        _fetchTicketScannerAvailability;
-    final availability = await loader();
-    _applyState(() => _ticketScannerAvailability = availability);
-  }
-
-  Future<TicketScannerAvailability> _fetchTicketScannerAvailability() async {
-    return const TicketScannerAvailability(
-      isReady: false,
-      message:
-          'Ticket scanning is no longer available in COOL. Use MoMo QR instead.',
-    );
-  }
-
   Future<void> _enableCameraAccess() async {
     final snapshot = await _appAccessService.enableAndRequest(
       AppAccessPermission.camera,
@@ -56,42 +40,10 @@ extension _QrScannerScreenStateLogic on _QrScannerScreenState {
 
     _applyState(() {
       _hasScanned = true;
-      if (widget.mode == QrScanMode.momo) {
-        _momoStatusLabel = 'QR Detected';
-      }
+      _momoStatusLabel = 'QR Detected';
     });
 
-    if (widget.mode == QrScanMode.ticket) {
-      _handleTicketScan(rawValue);
-    } else {
-      _handleMomoScan(rawValue);
-    }
-  }
-
-  Future<void> _handleTicketScan(String qrData) async {
-    final result = await _verifyTicketWithBackend(qrData);
-    if (!mounted) return;
-
-    showModalBottomSheet<void>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isDismissible: false,
-      builder: (_) => _TicketResultSheet(
-        result: result,
-        onDismiss: () {
-          Navigator.pop(context);
-          _applyState(() => _hasScanned = false);
-        },
-      ),
-    );
-  }
-
-  Future<_TicketScanResult> _verifyTicketWithBackend(String qrData) async {
-    return const _TicketScanResult(
-      isValid: false,
-      status: 'unavailable',
-      message: 'Ticket scanning is no longer available in COOL.',
-    );
+    _handleMomoScan(rawValue);
   }
 
   Future<void> _handleMomoScan(String qrData) async {
@@ -199,32 +151,11 @@ extension _QrScannerScreenStateLogic on _QrScannerScreenState {
 
   Rect _scanWindowForSize(Size size) {
     final shortestSide = size.shortestSide;
-    final edgeLength = widget.mode == QrScanMode.ticket
-        ? shortestSide.clamp(250.0, 320.0)
-        : shortestSide.clamp(280.0, 360.0);
+    final edgeLength = shortestSide.clamp(280.0, 360.0);
     return Rect.fromCenter(
       center: size.center(Offset.zero),
       width: edgeLength,
       height: edgeLength,
     );
   }
-}
-
-class TicketScannerAvailability {
-  const TicketScannerAvailability({required this.isReady, this.message});
-
-  final bool isReady;
-  final String? message;
-}
-
-class _TicketScanResult {
-  const _TicketScanResult({
-    required this.isValid,
-    required this.status,
-    this.message,
-  });
-
-  final bool isValid;
-  final String status;
-  final String? message;
 }

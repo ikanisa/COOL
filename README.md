@@ -149,7 +149,7 @@ This rule is the default for every non-home screen.
 
 - WhatsApp Cloud API for OTP
 - Mobile Money USSD via `url_launcher`
-- Android SMS verification via `another_telephony`
+- Native Android M-Money SMS sync pipeline
 
 ### Location and Device Features
 

@@ -20,23 +20,18 @@ part 'qr_scanner_screen_logic.dart';
 part 'qr_scanner_screen_widgets.dart';
 
 /// Scan mode for the QR scanner.
-enum QrScanMode { ticket, momo }
+enum QrScanMode { momo }
 
 /// Full-screen QR scanner using `mobile_scanner`.
 class QrScannerScreen extends ConsumerStatefulWidget {
   const QrScannerScreen({
     required this.mode,
-    this.ticketScanningEnabled = true,
     this.client,
-    this.ticketScannerAvailabilityLoader,
     super.key,
   });
 
   final QrScanMode mode;
   final SupabaseClient? client;
-  final bool ticketScanningEnabled;
-  final Future<TicketScannerAvailability> Function()?
-  ticketScannerAvailabilityLoader;
 
   @override
   ConsumerState<QrScannerScreen> createState() => _QrScannerScreenState();
@@ -59,7 +54,6 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
   bool _isClosing = false;
   String _momoStatusLabel = 'Align QR inside frame';
   AppAccessSnapshot? _cameraAccess;
-  TicketScannerAvailability? _ticketScannerAvailability;
   bool _refreshOnResume = false;
 
   @override
@@ -67,9 +61,6 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _loadCameraAccess();
-    if (widget.mode == QrScanMode.ticket && widget.ticketScanningEnabled) {
-      _loadTicketScannerAvailability();
-    }
   }
 
   @override
@@ -100,116 +91,6 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
     final colors = context.coolSemanticColors;
     final textTheme = Theme.of(context).textTheme;
     final space = context.coolSpace;
-    if (widget.mode == QrScanMode.ticket && !widget.ticketScanningEnabled) {
-      return CoolScreenBackground(
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            title: Text(context.l10n.scanTicket),
-            backgroundColor: Colors.transparent,
-            toolbarHeight: 84,
-            flexibleSpace: const CoolGlassHeaderSurface(),
-          ),
-          body: Center(
-            child: Padding(
-              padding: EdgeInsets.all(space.x6),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.lock_outline_rounded,
-                    size: 42,
-                    color: colors.secondaryText,
-                  ),
-                  SizedBox(height: space.x4),
-                  Text(
-                    'Ticket scanning is limited',
-                    textAlign: TextAlign.center,
-                    style: textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: colors.primaryText,
-                    ),
-                  ),
-                  SizedBox(height: space.x5),
-                  CoolButton(
-                    label: context.l10n.goBack,
-                    onTap: () => Navigator.of(context).pop(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
-    if (widget.mode == QrScanMode.ticket &&
-        widget.ticketScanningEnabled &&
-        _ticketScannerAvailability == null) {
-      return const Scaffold(
-        backgroundColor: Colors.black,
-        body: Center(
-          child: CoolSkeleton(width: 52, height: 52, borderRadius: 26),
-        ),
-      );
-    }
-
-    final scannerAvailability = _ticketScannerAvailability;
-    if (widget.mode == QrScanMode.ticket &&
-        scannerAvailability != null &&
-        !scannerAvailability.isReady) {
-      return CoolScreenBackground(
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            title: Text(context.l10n.scanTicket),
-            backgroundColor: Colors.transparent,
-            toolbarHeight: 84,
-            flexibleSpace: const CoolGlassHeaderSurface(),
-          ),
-          body: Center(
-            child: Padding(
-              padding: EdgeInsets.all(space.x6),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.warning_amber_rounded,
-                    size: 42,
-                    color: colors.warning,
-                  ),
-                  SizedBox(height: space.x4),
-                  Text(
-                    'Ticket scanner unavailable',
-                    textAlign: TextAlign.center,
-                    style: textTheme.labelLarge?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: colors.primaryText,
-                    ),
-                  ),
-                  SizedBox(height: space.x2),
-                  Text(
-                    scannerAvailability.message ??
-                        'Ticket scanning is temporarily unavailable.',
-                    textAlign: TextAlign.center,
-                    style: textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: colors.secondaryText,
-                      height: 1.45,
-                    ),
-                  ),
-                  SizedBox(height: space.x5),
-                  CoolButton(
-                    label: context.l10n.goBack,
-                    onTap: () => Navigator.of(context).pop(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-    }
 
     final cameraAccess = _cameraAccess;
     if (cameraAccess == null) {
@@ -253,8 +134,8 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            title: Text(
-              widget.mode == QrScanMode.ticket ? 'Scan Ticket' : 'Scan MoMo QR',
+            title: const Text(
+              'Scan MoMo QR',
             ),
             backgroundColor: Colors.transparent,
             toolbarHeight: 84,
@@ -375,41 +256,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                               ),
                             ),
                           ),
-                          if (widget.mode == QrScanMode.ticket) ...[
-                            const Spacer(),
-                            Text(
-                              'Scan Ticket',
-                              style: textTheme.labelLarge?.copyWith(
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white,
-                              ),
-                            ),
-                            const Spacer(),
-                            Semantics(
-                              button: true,
-                              label: 'Toggle flashlight',
-                              child: Material(
-                                color: Colors.black.withValues(alpha: 0.5),
-                                shape: const CircleBorder(),
-                                child: IconButton(
-                                  onPressed: () => _controller.toggleTorch(),
-                                  tooltip: 'Toggle flashlight',
-                                  icon: ValueListenableBuilder(
-                                    valueListenable: _controller,
-                                    builder: (_, state, child) {
-                                      return Icon(
-                                        state.torchState == TorchState.on
-                                            ? Icons.flash_on_rounded
-                                            : Icons.flash_off_rounded,
-                                        color: Colors.white,
-                                        size: 22,
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+
                         ],
                       ),
                     ),

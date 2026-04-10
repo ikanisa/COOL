@@ -49,5 +49,42 @@ void main() {
       );
       expect(find.byIcon(Icons.search_rounded), findsOneWidget);
     });
+
+    testWidgets('expands vertically for large text without overflowing', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(textScaler: TextScaler.linear(2)),
+            child: Scaffold(
+              body: Padding(
+                padding: EdgeInsets.all(16),
+                child: SizedBox(
+                  width: 240,
+                  child: CoolTextField(
+                    hint: 'Enter your full mobile money number',
+                    label: 'Mobile Money Number',
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('Mobile Money Number'), findsOneWidget);
+      expect(find.byType(TextFormField), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('maintains an accessible input height', (tester) async {
+      await tester.pumpWidget(
+        _wrap(const CoolTextField(hint: 'Phone number', label: 'Phone')),
+      );
+
+      final size = tester.getSize(find.byType(TextFormField));
+      expect(size.height, greaterThanOrEqualTo(48.0));
+    });
   });
 }
