@@ -10,8 +10,6 @@ enum BiopayScannerTone { searching, ready, blocked, error }
 class BiopayScannerShell extends StatelessWidget {
   const BiopayScannerShell({
     required this.isCameraReady,
-    required this.statusLabel,
-    required this.helperText,
     required this.tone,
     this.controller,
     this.footer,
@@ -23,8 +21,6 @@ class BiopayScannerShell extends StatelessWidget {
 
   final CameraController? controller;
   final bool isCameraReady;
-  final String statusLabel;
-  final String helperText;
   final BiopayScannerTone tone;
   final Widget? footer;
   final int sampleCount;
@@ -72,7 +68,6 @@ class BiopayScannerShell extends StatelessWidget {
                   painter: _BiopayFramePainter(
                     color: toneColor,
                     frameRect: frameRect,
-                    isEnrollMode: isEnrollMode,
                   ),
                 ),
               ),
@@ -83,32 +78,13 @@ class BiopayScannerShell extends StatelessWidget {
               top: frameRect.bottom - 28,
               child: Column(
                 children: [
-                  _BiopayStatusPill(label: statusLabel),
-                  if (isEnrollMode) ...[
-                    const SizedBox(height: CoolSpace.x3),
+                  if (isEnrollMode)
                     _BiopaySampleDots(
                       sampleCount: sampleCount,
                       totalSamples: totalSamples,
                       color: toneColor,
                     ),
-                  ],
                 ],
-              ),
-            ),
-            Positioned(
-              left: space.x5,
-              right: space.x5,
-              bottom: bottomPad + (footer == null ? 52 : 120),
-              child: Text(
-                isEnrollMode
-                    ? 'KEEP YOUR FACE WITHIN THE OVAL'
-                    : 'KEEP THE FACE CENTERED IN THE OVAL',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: Colors.white.withValues(alpha: 0.48),
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 3.0,
-                ),
               ),
             ),
             if (footer != null)

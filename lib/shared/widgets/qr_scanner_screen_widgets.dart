@@ -1,9 +1,8 @@
 part of 'qr_scanner_screen.dart';
 
 class _ScannerOverlay extends StatelessWidget {
-  const _ScannerOverlay({required this.mode, required this.scanWindow});
+  const _ScannerOverlay({required this.scanWindow});
 
-  final QrScanMode mode;
   final Rect scanWindow;
 
   @override
@@ -69,37 +68,6 @@ class _ScannerOverlay extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _MomoScannerStatusPill extends StatelessWidget {
-  const _MomoScannerStatusPill({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(minWidth: 220, maxWidth: 280),
-      padding: const EdgeInsets.symmetric(
-        horizontal: CoolSpace.x5,
-        vertical: CoolSpace.x3,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.black.withValues(alpha: 0.74),
-        borderRadius: BorderRadius.circular(CoolRadii.xl),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
-      ),
-      child: Text(
-        label,
-        textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-          color: Colors.white,
-          fontWeight: FontWeight.w800,
-          letterSpacing: -0.8,
-        ),
-      ),
     );
   }
 }

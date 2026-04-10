@@ -1,8 +1,19 @@
 flutter_native_splash:
-  color: "#FFFFFF"
+  # Tactile Monolith Layer 0 ("infinite void") — matches app background
+  color: "#0D0A27"
+
+  # Logo mark centered on the dark surface
   image: assets/images/cool_logo_mark.png
+
+  # Android 12+ splash screen API
   android_12:
     image: assets/images/cool_logo_mark.png
-    icon_background_color: "#FFFFFF"
+    icon_background_color: "#0D0A27"
+    color: "#0D0A27"
+
+  # Dark mode variants — same, the app is always dark
+  color_dark: "#0D0A27"
+  image_dark: assets/images/cool_logo_mark.png
+
   ios: true
   android: true

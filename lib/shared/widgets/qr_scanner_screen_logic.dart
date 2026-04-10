@@ -40,7 +40,6 @@ extension _QrScannerScreenStateLogic on _QrScannerScreenState {
 
     _applyState(() {
       _hasScanned = true;
-      _momoStatusLabel = 'QR Detected';
     });
 
     _handleMomoScan(rawValue);

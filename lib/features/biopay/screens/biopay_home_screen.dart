@@ -1,9 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../widgets/biopay_surface.dart';
+
+const _biopayNfcSvg = '''
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#000000"
+  stroke-width="2.5"
+  stroke-linecap="round"
+  stroke-linejoin="round">
+  <path d="M6 8.32a7.43 7.43 0 0 1 0 7.36" />
+  <path d="M9.46 6.21a11.76 11.76 0 0 1 0 11.58" />
+  <path d="M12.91 4.1a15.91 15.91 0 0 1 .01 15.8" />
+  <path d="M16.37 2a20.16 20.16 0 0 1 0 20" />
+</svg>
+''';
 
 class BiopayHomeScreen extends StatelessWidget {
   const BiopayHomeScreen({super.key});
@@ -40,7 +59,11 @@ class BiopayHomeScreen extends StatelessWidget {
                   SizedBox(
                     width: tileWidth,
                     child: _BiopayActionTile(
-                      icon: Icons.center_focus_strong_rounded,
+                      icon: Icon(
+                        Icons.center_focus_strong_rounded,
+                        size: 34,
+                        color: colors.accent,
+                      ),
                       iconColor: colors.accent,
                       label: 'Face Scan',
                       onTap: () => context.push(
@@ -51,7 +74,15 @@ class BiopayHomeScreen extends StatelessWidget {
                   SizedBox(
                     width: tileWidth,
                     child: _BiopayActionTile(
-                      icon: Icons.nfc_rounded,
+                      icon: SvgPicture.string(
+                        _biopayNfcSvg,
+                        width: 34,
+                        height: 34,
+                        colorFilter: ColorFilter.mode(
+                          colors.accentDeep,
+                          BlendMode.srcIn,
+                        ),
+                      ),
                       iconColor: colors.accentDeep,
                       label: 'NFC Tap',
                       onTap: () => context.push(AppRoutes.biopayNfc),
@@ -60,7 +91,11 @@ class BiopayHomeScreen extends StatelessWidget {
                   SizedBox(
                     width: tileWidth,
                     child: _BiopayActionTile(
-                      icon: Icons.qr_code_2_rounded,
+                      icon: Icon(
+                        Icons.qr_code_2_rounded,
+                        size: 34,
+                        color: colors.warning,
+                      ),
                       iconColor: colors.warning,
                       label: 'Get QR',
                       onTap: () => context.push(AppRoutes.biopayQr),
@@ -69,7 +104,11 @@ class BiopayHomeScreen extends StatelessWidget {
                   SizedBox(
                     width: tileWidth,
                     child: _BiopayActionTile(
-                      icon: Icons.qr_code_scanner_rounded,
+                      icon: Icon(
+                        Icons.qr_code_scanner_rounded,
+                        size: 34,
+                        color: colors.info,
+                      ),
                       iconColor: colors.info,
                       label: 'Scan QR',
                       onTap: () => context.push(AppRoutes.scannerLocation()),
@@ -93,7 +132,7 @@ class _BiopayActionTile extends StatelessWidget {
     required this.onTap,
   });
 
-  final IconData icon;
+  final Widget icon;
   final Color iconColor;
   final String label;
   final VoidCallback onTap;
@@ -117,7 +156,8 @@ class _BiopayActionTile extends StatelessWidget {
             boxShadow: CoolShadows.ambientFloat(strength: 0.3),
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 width: 64,
@@ -127,11 +167,12 @@ class _BiopayActionTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(CoolRadii.md),
                 ),
                 alignment: Alignment.center,
-                child: Icon(icon, size: 34, color: iconColor),
+                child: icon,
               ),
-              const Spacer(),
+              const SizedBox(height: CoolSpace.x2),
               Text(
                 label,
+                textAlign: TextAlign.center,
                 style: context.coolText.headline(
                   Theme.of(context).textTheme.headlineSmall,
                   color: colors.primaryText,

@@ -432,20 +432,6 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
               ? BiopayScannerTone.blocked
               : BiopayScannerTone.searching);
 
-    final statusLabel = _cameraError != null
-        ? 'Camera unavailable'
-        : isCameraReady
-        ? _statusLabel
-        : (isEnroll
-              ? 'Camera access needed for enrollment'
-              : 'Camera access needed for scanning');
-
-    final helperText = _cameraError != null
-        ? 'BioPay could not start the secure camera shell yet. Check app access and device camera state.'
-        : isCameraReady
-        ? _helperText
-        : 'Enable camera access to continue. BioPay uses the existing Cool app access controls.';
-
     return PopScope<void>(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
@@ -457,23 +443,62 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
         backgroundColor: Colors.black,
         body: Stack(
           children: [
-            Positioned.fill(
-              child: BiopayScannerShell(
-                controller: _controller,
-                isCameraReady: isCameraReady,
-                statusLabel: statusLabel,
-                helperText: helperText,
-                tone: tone,
-                sampleCount: _capturedEnrollmentFrames,
-                totalSamples: 5,
-                isEnrollMode: isEnroll,
-                footer: _buildScannerFooter(
-                  context,
-                  enabled: enabled,
+            // Only show the scanner shell (oval, dots, camera preview)
+            // when the camera is ready or camera access is needed.
+            // During initial loading, show a clean black screen.
+            if (isCameraReady || !_isInitializingCamera)
+              Positioned.fill(
+                child: BiopayScannerShell(
+                  controller: _controller,
                   isCameraReady: isCameraReady,
+                  tone: tone,
+                  sampleCount: _capturedEnrollmentFrames,
+                  totalSamples: 5,
+                  isEnrollMode: isEnroll,
+                  footer: _buildScannerFooter(
+                    context,
+                    enabled: enabled,
+                    isCameraReady: isCameraReady,
+                  ),
                 ),
               ),
-            ),
+
+            // Clean centered loading state during camera initialization
+            if (_isInitializingCamera)
+              const Positioned.fill(
+                child: ColoredBox(
+                  color: Colors.black,
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: 32,
+                          height: 32,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.4,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white54,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Text(
+                          'Preparing camera…',
+                          style: TextStyle(
+                            color: Colors.white54,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.3,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+            // Back button — always visible
             Positioned(
               top: MediaQuery.viewPaddingOf(context).top + CoolSpace.x4,
               left: CoolSpace.x4,
@@ -502,43 +527,6 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
                 ),
               ),
             ),
-            if (_isInitializingCamera)
-              Positioned(
-                top: MediaQuery.viewPaddingOf(context).top + 84,
-                left: 20,
-                right: 20,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.72),
-                    borderRadius: const BorderRadius.all(Radius.circular(24)),
-                    border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.12),
-                    ),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        ),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            'Preparing secure camera...',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
           ],
         ),
       ),

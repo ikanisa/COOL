@@ -6,6 +6,7 @@ import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -78,6 +79,9 @@ class _AppBootstrapState extends State<AppBootstrap> {
       setState(() {
         _errorMessage = _describeBootstrapFailure(error);
       });
+    } finally {
+      // Release the native splash — the Flutter UI is now ready.
+      FlutterNativeSplash.remove();
     }
   }
 
@@ -263,12 +267,7 @@ class _AppBootstrapState extends State<AppBootstrap> {
   }
 
   void _setStep(String step) {
-    if (!mounted) {
-      return;
-    }
-    setState(() {
-      _currentStep = step;
-    });
+    _currentStep = step;
   }
 
   void _configureErrorHandling() {
@@ -359,18 +358,14 @@ class _AppBootstrapState extends State<AppBootstrap> {
       );
     }
 
+    // During bootstrap the native splash covers everything, so this
+    // surface is never visible in normal flow. On error the native
+    // splash has been removed and the error card is shown.
     return BootstrapShell(
       child: _errorMessage == null
-          ? BootstrapMessageCard(
-              title: 'Preparing COOL',
-              message: _currentStep,
-              isBusy: true,
-              onRetry: null,
-            )
-          : BootstrapMessageCard(
-              title: 'Startup blocked',
+          ? const BootstrapHoldScreen()
+          : BootstrapErrorCard(
               message: _errorMessage!,
-              isBusy: false,
               onRetry: _bootstrap,
             ),
     );

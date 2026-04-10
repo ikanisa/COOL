@@ -52,7 +52,6 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
 
   bool _hasScanned = false;
   bool _isClosing = false;
-  String _momoStatusLabel = 'Align QR inside frame';
   AppAccessSnapshot? _cameraAccess;
   bool _refreshOnResume = false;
 
@@ -202,31 +201,9 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                 ),
                 IgnorePointer(
                   child: _ScannerOverlay(
-                    mode: widget.mode,
                     scanWindow: scanWindow,
                   ),
                 ),
-                if (widget.mode == QrScanMode.momo)
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    top: scanWindow.bottom - 26,
-                    child: Column(
-                      children: [
-                        _MomoScannerStatusPill(label: _momoStatusLabel),
-                        const SizedBox(height: CoolSpace.x8),
-                        Text(
-                          'HOLD THE QR WITHIN THE FRAME',
-                          textAlign: TextAlign.center,
-                          style: textTheme.labelLarge?.copyWith(
-                            color: Colors.white.withValues(alpha: 0.48),
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 3.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                 Positioned(
                   top: 0,
                   left: 0,

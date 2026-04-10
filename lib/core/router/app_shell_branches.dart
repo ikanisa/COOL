@@ -86,9 +86,10 @@ StatefulShellBranch buildBiopayShellBranch({
               final draft = state.extra is BiopayEnrollmentDraft
                   ? state.extra! as BiopayEnrollmentDraft
                   : null;
-              return coolPageTransition(
-                context: context,
-                state: state,
+              // Camera screens must be fully opaque from the first frame
+              // to avoid leaking the page underneath during transitions.
+              return MaterialPage(
+                key: state.pageKey,
                 child: KillSwitchGate(
                   enabled: readIsBiopayEnabled(),
                   featureName: 'BioPay',
