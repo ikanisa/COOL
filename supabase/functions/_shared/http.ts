@@ -62,11 +62,13 @@ export function jsonResponse(
   body: unknown,
   status = 200,
   extraHeaders: HeadersInit = {},
+  request?: Request,
 ): Response {
+  const cors = request ? buildCorsHeaders(request) : corsHeaders;
   return new Response(JSON.stringify(body), {
     status,
     headers: {
-      ...corsHeaders,
+      ...cors,
       "Content-Type": "application/json",
       ...extraHeaders,
     },
@@ -77,17 +79,20 @@ export function errorResponse(
   message: string,
   status = 400,
   details?: unknown,
+  request?: Request,
 ): Response {
   return jsonResponse(
     details === undefined
       ? { success: false, message }
       : { success: false, message, details },
     status,
+    {},
+    request,
   );
 }
 
-export function methodNotAllowed(allowed = "POST"): Response {
-  return errorResponse("Method not allowed", 405, { allowed });
+export function methodNotAllowed(allowed = "POST", request?: Request): Response {
+  return errorResponse("Method not allowed", 405, { allowed }, request);
 }
 
 export function isMissingRelationError(error: unknown): boolean {
