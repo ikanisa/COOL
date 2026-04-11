@@ -320,8 +320,7 @@ Future<void> _handleBiopayMatchEmbedding(
       return;
     }
 
-    final confirmed =
-        await BiopayPayeeConfirmationSheet.show(
+    final confirmed = await BiopayPayeeConfirmationSheet.show(
       state.context,
       profile: result.profile!,
       matchScore: result.score,
@@ -335,8 +334,7 @@ Future<void> _handleBiopayMatchEmbedding(
       state._setScannerState(
         tone: BiopayScannerTone.searching,
         statusLabel: 'Point the camera at the payee\'s face',
-        helperText:
-            'Payment cancelled. Scan again or tap ← to exit.',
+        helperText: 'Payment cancelled. Scan again or tap ← to exit.',
       );
       await state._initializeCamera();
       return;

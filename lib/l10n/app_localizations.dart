@@ -7689,6 +7689,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An unexpected error occurred'**
   String get coolErrorUnexpected;
+
+  /// No description provided for @groupSettingsMomoCollectionCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'COLLECTION CODE'**
+  String get groupSettingsMomoCollectionCodeLabel;
+
+  /// No description provided for @groupSettingsMomoSetByAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Set by admin for all savings groups.'**
+  String get groupSettingsMomoSetByAdmin;
 }
 
 class _AppLocalizationsDelegate

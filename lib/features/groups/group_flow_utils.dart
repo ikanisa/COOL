@@ -23,8 +23,8 @@ Future<bool> launchGroupContribution(
     return false;
   }
 
-  final recipientType = (group.momoRouteType?.trim().toLowerCase() ?? '')
-          .contains('code')
+  final recipientType =
+      (group.momoRouteType?.trim().toLowerCase() ?? '').contains('code')
       ? 'code'
       : 'phone_number';
 

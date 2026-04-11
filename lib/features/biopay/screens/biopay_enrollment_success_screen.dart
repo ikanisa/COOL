@@ -46,10 +46,7 @@ class BiopayEnrollmentSuccessScreen extends StatelessWidget {
                   shape: BoxShape.circle,
                   // No-Line Rule exception: success ring is a visual indicator,
                   // not a container boundary.
-                  border: Border.all(
-                    color: colors.success,
-                    width: 5,
-                  ),
+                  border: Border.all(color: colors.success, width: 5),
                 ),
                 alignment: Alignment.center,
                 child: Icon(

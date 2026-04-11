@@ -13,7 +13,8 @@ class BiopayEmbeddingService {
   String? _initializationError;
 
   bool get isReady => false;
-  String? get initializationError => _initializationError ?? _unsupportedMessage;
+  String? get initializationError =>
+      _initializationError ?? _unsupportedMessage;
 
   static const _unsupportedMessage =
       'BioPay on-device face embeddings are not available in the web build yet.';

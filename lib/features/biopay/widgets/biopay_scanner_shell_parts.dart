@@ -41,10 +41,7 @@ class _BiopaySampleDots extends StatelessWidget {
 }
 
 class _BiopayFramePainter extends CustomPainter {
-  const _BiopayFramePainter({
-    required this.color,
-    required this.frameRect,
-  });
+  const _BiopayFramePainter({required this.color, required this.frameRect});
 
   final Color color;
   final Rect frameRect;
@@ -74,7 +71,6 @@ class _BiopayFramePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _BiopayFramePainter oldDelegate) {
-    return oldDelegate.color != color ||
-        oldDelegate.frameRect != frameRect;
+    return oldDelegate.color != color || oldDelegate.frameRect != frameRect;
   }
 }

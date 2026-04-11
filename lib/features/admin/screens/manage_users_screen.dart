@@ -5,12 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/config/app_market.dart';
 import '../../../core/identity/public_user_identity.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/admin_detail_scaffold.dart';
+import '../../../shared/widgets/admin_workspace_kit.dart';
 import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_chip_bar.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_search_field.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
-import '../../../shared/widgets/dense_admin_workspace_scaffold.dart';
 import '../providers/admin_providers.dart';
 import 'package:cool_app/core/l10n/l10n.dart';
 import '../widgets/edit_user_sheet.dart';
@@ -18,6 +20,8 @@ import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 part '../widgets/manage_users_parts.dart';
 part '../widgets/manage_users_summary_parts.dart';
+
+enum _UserInventoryFilter { all, admin, mock, momo }
 
 /// Admin screen for inspecting user profiles, toggling admin status, editing
 /// user fields, and cleaning demo data.
@@ -30,47 +34,50 @@ class ManageUsersScreen extends ConsumerStatefulWidget {
 
 class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
   String _search = '';
+  _UserInventoryFilter _filter = _UserInventoryFilter.all;
 
   @override
   Widget build(BuildContext context) {
     final usersAsync = ref.watch(adminUsersProvider);
 
-    return DenseAdminWorkspaceScaffold(
-      title: Text(
-        'Manage Users',
-        style: Theme.of(
-          context,
-        ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
-      ),
-      searchBar: CoolSearchField(
-        hint: 'Search by name, phone, or ID…',
-        debounce: Duration.zero,
-        onChanged: (v) => setState(() => _search = v),
-      ),
+    return AdminDetailScaffold(
       child: CoolAsyncView<List<Map<String, dynamic>>>(
         value: usersAsync,
         onRetry: () => ref.invalidate(adminUsersProvider),
         loadingWidget: const Padding(
-          padding: EdgeInsets.only(bottom: CoolSpace.x7),
+          padding: EdgeInsets.fromLTRB(
+            CoolSpace.x5,
+            0,
+            CoolSpace.x5,
+            CoolSpace.x7,
+          ),
           child: CoolSkeletonList(itemCount: 5),
         ),
         emptyCheck: (u) => u.isEmpty,
-        emptyWidget: const CoolEmptyView(
-          message: 'No users were returned',
-          icon: Icons.person_outline_rounded,
+        emptyWidget: const Padding(
+          padding: EdgeInsets.all(CoolSpace.x5),
+          child: CoolEmptyView(
+            message: 'No users were returned',
+            icon: Icons.person_outline_rounded,
+          ),
         ),
         builder: (users) {
-          final theme = Theme.of(context);
-          final colors = context.coolSemanticColors;
-          final mockCount = users
-              .where((user) => user['is_mock'] == true)
-              .length;
+          final query = _search.trim().toLowerCase();
+          final filtered = users
+              .where((user) => _matchesFilter(user, _filter))
+              .where((user) => _matchesSearch(user, query))
+              .toList(growable: false);
+
           final adminCount = users
               .where((user) => user['is_admin'] == true)
               .length;
+          final mockCount = users
+              .where((user) => user['is_mock'] == true)
+              .length;
           final momoCount = users
               .where(
-                (user) => (user['momo_number']?.toString() ?? '').isNotEmpty,
+                (user) =>
+                    (user['momo_number']?.toString() ?? '').trim().isNotEmpty,
               )
               .length;
           final mockBatches =
@@ -81,59 +88,282 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
                   .toList(growable: false)
                 ..sort();
 
-          final query = _search.trim().toLowerCase();
-          final filtered = query.isEmpty
-              ? users
-              : users.where((u) {
-                  final name = (u['full_name']?.toString() ?? '').toLowerCase();
-                  final phone = (u['phone']?.toString() ?? '').toLowerCase();
-                  final id = (u['id']?.toString() ?? '').toLowerCase();
-                  return name.contains(query) ||
-                      phone.contains(query) ||
-                      id.contains(query);
-                }).toList();
-
-          return ListView.separated(
-            padding: const EdgeInsets.only(bottom: CoolSpace.x7),
-            itemCount: filtered.length + 1,
-            separatorBuilder: (_, index) => index == 0
-                ? const SizedBox(height: CoolSpace.x4)
-                : const SizedBox(height: CoolSpace.x3),
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _SummaryCard(
-                      totalUsers: users.length,
-                      mockUsers: mockCount,
-                      adminUsers: adminCount,
-                      momoUsers: momoCount,
-                      mockBatches: mockBatches,
-                    ),
-                    if (query.isNotEmpty) ...[
-                      const SizedBox(height: CoolSpace.x2),
-                      Text(
-                        '${filtered.length} result${filtered.length == 1 ? '' : 's'}',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: colors.tertiaryText,
-                        ),
-                      ),
+          return ListView(
+            padding: CoolSpace.scaffoldPadding,
+            children: [
+              AdminPageHeader(
+                eyebrow: 'USER MANAGEMENT',
+                title: 'Manage Users',
+                subtitle:
+                    'Accounts, role signals, payment reachability, and demo cleanup.',
+                badges: [
+                  const AdminStatusChip(
+                    label: 'Live inventory',
+                    tone: AdminTone.info,
+                    icon: Icons.dataset_linked_outlined,
+                  ),
+                  AdminStatusChip(
+                    label: 'Visible',
+                    trailing: '${filtered.length}',
+                    tone: AdminTone.accent,
+                    icon: Icons.visibility_outlined,
+                  ),
+                ],
+              ),
+              const SizedBox(height: CoolSpace.x4),
+              AdminMetricStrip(
+                metrics: [
+                  AdminMetricItem(
+                    label: 'Users',
+                    value: '${users.length}',
+                    hint: 'Total accounts',
+                    icon: Icons.group_outlined,
+                    tone: AdminTone.info,
+                  ),
+                  AdminMetricItem(
+                    label: 'Admins',
+                    value: '$adminCount',
+                    hint: 'Privileged accounts',
+                    icon: Icons.admin_panel_settings_outlined,
+                    tone: AdminTone.success,
+                  ),
+                  AdminMetricItem(
+                    label: 'Mock',
+                    value: '$mockCount',
+                    hint: 'Demo inventory',
+                    icon: Icons.science_outlined,
+                    tone: AdminTone.warning,
+                  ),
+                  AdminMetricItem(
+                    label: 'MoMo',
+                    value: '$momoCount',
+                    hint: 'Payment-linked',
+                    icon: Icons.account_balance_wallet_outlined,
+                    tone: AdminTone.accent,
+                  ),
+                ],
+              ),
+              const SizedBox(height: CoolSpace.x4),
+              AdminToolbar(
+                search: CoolSearchField(
+                  hint: 'Search by name, phone, or ID…',
+                  debounce: Duration.zero,
+                  onChanged: (value) => setState(() => _search = value),
+                ),
+                filters: _buildFilterChips(users),
+              ),
+              const SizedBox(height: CoolSpace.x4),
+              AdminDataTableCard(
+                title: 'User Inventory',
+                subtitle:
+                    'Primary identifiers, status, market scope, and edit access.',
+                emptyLabel: 'No users match the current filters',
+                minWidth: 980,
+                columns: const [
+                  DataColumn(label: Text('User')),
+                  DataColumn(label: Text('Status')),
+                  DataColumn(label: Text('Market')),
+                  DataColumn(label: Text('Batch')),
+                  DataColumn(label: Text('Created')),
+                  DataColumn(label: Text('Action')),
+                ],
+                rows: filtered.map(_buildRow).toList(growable: false),
+                footer: Text(
+                  '${filtered.length} result${filtered.length == 1 ? '' : 's'} shown',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: context.coolSemanticColors.tertiaryText,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              if (mockBatches.isNotEmpty) ...[
+                const SizedBox(height: CoolSpace.x4),
+                AdminSectionCard(
+                  title: 'Batch Cleanup',
+                  subtitle:
+                      'Remove demo inventory without leaving the user table.',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      for (
+                        var index = 0;
+                        index < mockBatches.length;
+                        index++
+                      ) ...[
+                        _BatchCleanupButton(batch: mockBatches[index]),
+                        if (index < mockBatches.length - 1)
+                          const SizedBox(height: CoolSpace.x2),
+                      ],
                     ],
-                  ],
-                );
-              }
-
-              return _UserTile(
-                user: filtered[index - 1],
-                onEdit: () => _openEditSheet(context, filtered[index - 1]),
-              );
-            },
+                  ),
+                ),
+              ],
+            ],
           );
         },
       ),
     );
+  }
+
+  List<Widget> _buildFilterChips(List<Map<String, dynamic>> users) {
+    final counts = <_UserInventoryFilter, int>{
+      _UserInventoryFilter.all: users.length,
+      _UserInventoryFilter.admin: users
+          .where((user) => user['is_admin'] == true)
+          .length,
+      _UserInventoryFilter.mock: users
+          .where((user) => user['is_mock'] == true)
+          .length,
+      _UserInventoryFilter.momo: users
+          .where(
+            (user) => (user['momo_number']?.toString() ?? '').trim().isNotEmpty,
+          )
+          .length,
+    };
+
+    return [
+      CoolChipBar(
+        scrollable: true,
+        expand: false,
+        items: _UserInventoryFilter.values
+            .map(
+              (filter) => CoolChipItem(
+                label: _labelForFilter(filter),
+                count: counts[filter],
+                isActive: _filter == filter,
+                onTap: () => setState(() => _filter = filter),
+              ),
+            )
+            .toList(growable: false),
+      ),
+    ];
+  }
+
+  DataRow _buildRow(Map<String, dynamic> user) {
+    final publicUserId = PublicUserIdentity.resolve(
+      publicUserId: user['public_user_id']?.toString(),
+      userId: user['id']?.toString(),
+      phone: user['phone']?.toString(),
+    );
+    final phone = user['phone']?.toString().trim() ?? 'No phone';
+    final provider = user['momo_provider']?.toString().trim();
+    final marketLine =
+        '${AppMarket.country.name} · ${AppMarket.languageCode.toUpperCase()} · '
+        '${provider == null || provider.isEmpty ? 'momo' : provider}';
+    final batch = user['mock_batch']?.toString().trim();
+    final createdAt = _compactDate(user['created_at']?.toString());
+
+    return DataRow(
+      cells: [
+        DataCell(
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                publicUserId,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  color: context.coolSemanticColors.primaryText,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                phone,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: context.coolSemanticColors.tertiaryText,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+        ),
+        DataCell(
+          Wrap(
+            spacing: CoolSpace.x1,
+            runSpacing: CoolSpace.x1,
+            children: _userChips(user),
+          ),
+        ),
+        DataCell(
+          Text(
+            marketLine,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: context.coolSemanticColors.secondaryText,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        DataCell(
+          Text(
+            batch?.isNotEmpty == true ? batch! : '—',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: context.coolSemanticColors.primaryText,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        DataCell(
+          Text(
+            createdAt,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: context.coolSemanticColors.secondaryText,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        DataCell(
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton(
+              onPressed: () => _openEditSheet(context, user),
+              child: const Text('Edit'),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<Widget> _userChips(Map<String, dynamic> user) {
+    final chips = <Widget>[];
+    if (user['is_admin'] == true) {
+      chips.add(
+        const AdminStatusChip(
+          label: 'Admin',
+          tone: AdminTone.success,
+          icon: Icons.shield_outlined,
+        ),
+      );
+    }
+    if (user['is_mock'] == true) {
+      chips.add(
+        const AdminStatusChip(
+          label: 'Mock',
+          tone: AdminTone.warning,
+          icon: Icons.science_outlined,
+        ),
+      );
+    }
+    if ((user['momo_number']?.toString() ?? '').trim().isNotEmpty) {
+      chips.add(
+        const AdminStatusChip(
+          label: 'MoMo',
+          tone: AdminTone.accent,
+          icon: Icons.phone_android_outlined,
+        ),
+      );
+    }
+    if (chips.isEmpty) {
+      chips.add(
+        const AdminStatusChip(
+          label: 'Standard',
+          tone: AdminTone.neutral,
+          icon: Icons.person_outline_rounded,
+        ),
+      );
+    }
+    return chips;
   }
 
   void _openEditSheet(BuildContext context, Map<String, dynamic> user) {
@@ -147,4 +377,47 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
       ),
     );
   }
+}
+
+bool _matchesFilter(Map<String, dynamic> user, _UserInventoryFilter filter) {
+  return switch (filter) {
+    _UserInventoryFilter.all => true,
+    _UserInventoryFilter.admin => user['is_admin'] == true,
+    _UserInventoryFilter.mock => user['is_mock'] == true,
+    _UserInventoryFilter.momo =>
+      (user['momo_number']?.toString() ?? '').trim().isNotEmpty,
+  };
+}
+
+bool _matchesSearch(Map<String, dynamic> user, String query) {
+  if (query.isEmpty) {
+    return true;
+  }
+  final name = (user['full_name']?.toString() ?? '').toLowerCase();
+  final phone = (user['phone']?.toString() ?? '').toLowerCase();
+  final id = (user['id']?.toString() ?? '').toLowerCase();
+  final publicId = (user['public_user_id']?.toString() ?? '').toLowerCase();
+  return name.contains(query) ||
+      phone.contains(query) ||
+      id.contains(query) ||
+      publicId.contains(query);
+}
+
+String _labelForFilter(_UserInventoryFilter filter) {
+  return switch (filter) {
+    _UserInventoryFilter.all => 'All',
+    _UserInventoryFilter.admin => 'Admins',
+    _UserInventoryFilter.mock => 'Mock',
+    _UserInventoryFilter.momo => 'MoMo',
+  };
+}
+
+String _compactDate(String? raw) {
+  final parsed = DateTime.tryParse(raw ?? '')?.toLocal();
+  if (parsed == null) {
+    return '—';
+  }
+  final month = parsed.month.toString().padLeft(2, '0');
+  final day = parsed.day.toString().padLeft(2, '0');
+  return '${parsed.year}-$month-$day';
 }

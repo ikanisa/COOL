@@ -32,4 +32,3 @@ class CoolBrandMark extends ConsumerWidget {
     );
   }
 }
-

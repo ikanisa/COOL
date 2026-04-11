@@ -109,17 +109,6 @@ Color _statusColor(BuildContext context, String status) {
   }
 }
 
-Color _severityColor(BuildContext context, String severity) {
-  final colors = context.coolSemanticColors;
-  switch (severity) {
-    case 'critical':
-      return colors.danger;
-    case 'warning':
-      return colors.warning;
-    default:
-      return colors.neutral;
-  }
-}
 
 Color _senderApprovalColor(BuildContext context, String approvalStatus) {
   final colors = context.coolSemanticColors;

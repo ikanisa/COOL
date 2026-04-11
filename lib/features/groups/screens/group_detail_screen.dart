@@ -6,11 +6,16 @@ import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_icons.dart';
 import '../../../core/utils/money_formatters.dart';
 import '../../../shared/widgets/cool_button.dart';
-import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_icon_box.dart';
+import '../../../shared/widgets/cool_list_tile.dart';
+import '../../../shared/widgets/cool_metric_row.dart';
+import '../../../shared/widgets/cool_section_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../../shared/widgets/share_card.dart';
 import '../../../shared/widgets/status_badge.dart';
 import '../../../shared/widgets/transaction_status_chip.dart';
@@ -203,19 +208,16 @@ class _GroupDetailBody extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Wrap(
-            spacing: space.x2,
-            runSpacing: space.x2,
+          // Compact meta — type + member count only (visibility is redundant)
+          Row(
             children: [
-              _MetaBadge(label: group.visibility.toUpperCase()),
-              _MetaBadge(
+              StatusBadge(
                 label: group.type == 'community'
                     ? context.l10n.community.toUpperCase()
                     : context.l10n.saving.toUpperCase(),
               ),
-              _MetaBadge(
-                label: '${group.memberCount} ${context.l10n.groupMembers}',
-              ),
+              SizedBox(width: space.x2),
+              StatusBadge(label: '${group.memberCount}', emoji: '👥'),
             ],
           ),
           if ((group.description ?? '').trim().isNotEmpty) ...[
@@ -233,7 +235,7 @@ class _GroupDetailBody extends StatelessWidget {
           ? <Widget>[
               IconButton(
                 onPressed: onOpenSettings,
-                icon: const Icon(Icons.tune_rounded),
+                icon: const Icon(CoolIcons.settings),
               ),
               const SizedBox(width: CoolSpace.x2),
             ]
@@ -241,39 +243,31 @@ class _GroupDetailBody extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.only(bottom: CoolSpace.x7),
         children: [
-          CoolCard(
-            borderRadius: CoolRadii.xl,
-            child: Column(
-              children: [
-                _StatRow(
-                  label: context.l10n.balance,
-                  value: '${formatWholeMoneyAmount(group.amount)} $currency',
+          // ── Stats card — compact metrics ──────────────────────
+          CoolSectionCard(
+            children: [
+              CoolMetricRow.mono(
+                label: context.l10n.balance,
+                value: '${formatWholeMoneyAmount(group.amount)} $currency',
+              ),
+              if (group.targetAmount > 0)
+                CoolMetricRow.mono(
+                  label: context.l10n.target,
+                  value:
+                      '${formatWholeMoneyAmount(group.targetAmount)} $currency',
                 ),
-                if (group.targetAmount > 0) ...[
-                  SizedBox(height: space.x2),
-                  _StatRow(
-                    label: context.l10n.target,
-                    value:
-                        '${formatWholeMoneyAmount(group.targetAmount)} $currency',
-                  ),
-                ],
-                if ((group.monthlyContribution ?? 0) > 0) ...[
-                  SizedBox(height: space.x2),
-                  _StatRow(
-                    label: context.l10n.contribution,
-                    value:
-                        '${formatWholeMoneyAmount(group.monthlyContribution ?? 0)} $currency',
-                  ),
-                ],
-                SizedBox(height: space.x2),
-                _StatRow(
-                  label: context.l10n.countryLabel,
-                  value: group.country,
+              if ((group.monthlyContribution ?? 0) > 0)
+                CoolMetricRow.mono(
+                  label: context.l10n.contribution,
+                  value:
+                      '${formatWholeMoneyAmount(group.monthlyContribution ?? 0)} $currency',
                 ),
-              ],
-            ),
+            ],
           ),
+
           SizedBox(height: space.x5),
+
+          // ── CTA ──────────────────────────────────────────────
           if (isMember)
             CoolButton(
               label: routeReady
@@ -291,7 +285,18 @@ class _GroupDetailBody extends StatelessWidget {
               isLoading: isJoining,
             )
           else
-            _DetailNoticeCard(message: context.l10n.groupsInviteOnlyMessage),
+            CoolCard(
+              backgroundColor: colors.cardSurfaceStrong,
+              borderRadius: CoolRadii.xl,
+              child: Text(
+                context.l10n.groupsInviteOnlyMessage,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colors.secondaryText,
+                ),
+              ),
+            ),
+
+          // ── Share card ───────────────────────────────────────
           if (inviteUrl != null && isMember) ...[
             SizedBox(height: space.x5),
             ShareCard(
@@ -305,6 +310,8 @@ class _GroupDetailBody extends StatelessWidget {
               analyticsTargetType: 'group_invite',
             ),
           ],
+
+          // ── Ledger section ───────────────────────────────────
           if (canViewTransactions) ...[
             SizedBox(height: space.x5),
             Text(
@@ -321,8 +328,15 @@ class _GroupDetailBody extends StatelessWidget {
                 if (page.entries.isEmpty) {
                   return Column(
                     children: [
-                      _DetailNoticeCard(
-                        message: context.l10n.groupsNoPostedContributionsYet,
+                      CoolCard(
+                        backgroundColor: colors.cardSurfaceStrong,
+                        borderRadius: CoolRadii.xl,
+                        child: Text(
+                          context.l10n.groupsNoPostedContributionsYet,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: colors.secondaryText,
+                          ),
+                        ),
                       ),
                       SizedBox(height: space.x3),
                       _StatementsButton(groupId: group.id ?? ''),
@@ -330,18 +344,19 @@ class _GroupDetailBody extends StatelessWidget {
                   );
                 }
 
-                return Column(
+                return CoolSectionCard(
+                  cardPadding: const EdgeInsets.symmetric(
+                    horizontal: CoolSpace.x4,
+                    vertical: CoolSpace.x2,
+                  ),
                   children: [
                     for (final entry in page.entries)
-                      Padding(
-                        padding: EdgeInsets.only(bottom: space.x2),
-                        child: _LedgerTile(
-                          entry: entry,
-                          canManageAllocations: canManageSettings,
-                          groupId: group.id ?? '',
-                        ),
+                      _LedgerTile(
+                        entry: entry,
+                        canManageAllocations: canManageSettings,
+                        groupId: group.id ?? '',
                       ),
-                    SizedBox(height: space.x3),
+                    SizedBox(height: space.x2),
                     _StatementsButton(groupId: group.id ?? ''),
                   ],
                 );
@@ -349,8 +364,15 @@ class _GroupDetailBody extends StatelessWidget {
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, _) => Column(
                 children: [
-                  _DetailNoticeCard(
-                    message: context.l10n.groupsCouldNotLoadLedger,
+                  CoolCard(
+                    backgroundColor: colors.cardSurfaceStrong,
+                    borderRadius: CoolRadii.xl,
+                    child: Text(
+                      context.l10n.groupsCouldNotLoadLedger,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colors.secondaryText,
+                      ),
+                    ),
                   ),
                   SizedBox(height: space.x3),
                   _StatementsButton(groupId: group.id ?? ''),
@@ -384,66 +406,7 @@ class _StatementsButton extends StatelessWidget {
   }
 }
 
-class _MetaBadge extends StatelessWidget {
-  const _MetaBadge({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    return StatusBadge(
-      label: label,
-      bgColor: colors.cardSurfaceStrong,
-      textColor: colors.secondaryText,
-    );
-  }
-}
-
-class _DetailNoticeCard extends StatelessWidget {
-  const _DetailNoticeCard({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    return CoolCard(
-      backgroundColor: colors.cardSurfaceStrong,
-      borderRadius: CoolRadii.xl,
-      child: Text(
-        message,
-        style: Theme.of(
-          context,
-        ).textTheme.bodyMedium?.copyWith(color: colors.secondaryText),
-      ),
-    );
-  }
-}
-
-class _StatRow extends StatelessWidget {
-  const _StatRow({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final text = context.coolText;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          label.toUpperCase(),
-          style: text.mobiLabel(color: colors.tertiaryText),
-        ),
-        Text(value, style: text.mono(null, color: colors.primaryText)),
-      ],
-    );
-  }
-}
-
+/// Ledger tile — refactored to use CoolListTile + CoolIconBox.
 class _LedgerTile extends StatelessWidget {
   const _LedgerTile({
     required this.entry,
@@ -462,64 +425,38 @@ class _LedgerTile extends StatelessWidget {
     final isAllocated = entry.payerUserId.trim().isNotEmpty;
     final statusLabel = isAllocated ? 'confirmed' : 'pending_review';
 
-    return CoolCard(
-      borderRadius: CoolRadii.xl,
-      child: Row(
+    return CoolListTile(
+      leading: const CoolIconBox(icon: CoolIcons.payment),
+      title: entry.label,
+      subtitle:
+          '${entry.payerName} • ${entry.occurredAt.toLocal().toString().split('.').first}',
+      trailing: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: colors.cardSurfaceStrong,
-              borderRadius: BorderRadius.circular(CoolRadii.md),
-            ),
-            alignment: Alignment.center,
-            child: Icon(Icons.payments_rounded, color: colors.accent, size: 20),
+          Text(
+            '${formatWholeMoneyAmount(entry.amount)} ${entry.currency}',
+            style: text.mono(null, color: colors.accentGold),
           ),
-          const SizedBox(width: CoolSpace.x4),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  entry.label,
-                  style: text.display(
-                    null,
-                    color: colors.primaryText,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: CoolSpace.x1),
-                Text(
-                  '${entry.payerName} • ${entry.occurredAt.toLocal().toString().split('.').first}',
-                  style: text.mobiLabel(color: colors.secondaryText),
-                ),
-                const SizedBox(height: 4),
-                TransactionStatusChip(status: statusLabel),
-              ],
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          const SizedBox(height: 4),
+          Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                '${formatWholeMoneyAmount(entry.amount)} ${entry.currency}',
-                style: text.mono(null, color: colors.accentGold),
-              ),
+              TransactionStatusChip(status: statusLabel),
               if (canManageAllocations) ...[
-                const SizedBox(height: 4),
+                const SizedBox(width: 4),
                 SizedBox(
-                  width: 32,
-                  height: 32,
+                  width: 28,
+                  height: 28,
                   child: IconButton(
                     padding: EdgeInsets.zero,
-                    iconSize: 16,
+                    iconSize: 14,
                     onPressed: () => TransactionAllocationSheet.show(
                       context,
                       entry: entry,
                       groupId: groupId,
                     ),
-                    icon: Icon(Icons.tune_rounded, color: colors.secondaryText),
+                    icon: Icon(CoolIcons.settings, color: colors.secondaryText),
                   ),
                 ),
               ],
@@ -527,6 +464,8 @@ class _LedgerTile extends StatelessWidget {
           ),
         ],
       ),
+      showChevron: false,
+      dense: true,
     );
   }
 }
@@ -562,19 +501,10 @@ class _MissingGroupState extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  width: 72,
-                  height: 72,
-                  decoration: BoxDecoration(
-                    color: colors.operationalSurface,
-                    borderRadius: BorderRadius.circular(CoolRadii.md),
-                  ),
-                  alignment: Alignment.center,
-                  child: Icon(
-                    Icons.group_off_rounded,
-                    size: 36,
-                    color: colors.tertiaryText,
-                  ),
+                const CoolIconBox(
+                  icon: CoolIcons.groupOff,
+                  size: CoolIconBoxSize.lg,
+                  variant: CoolIconBoxVariant.solid,
                 ),
                 const SizedBox(height: CoolSpace.x5),
                 Text(

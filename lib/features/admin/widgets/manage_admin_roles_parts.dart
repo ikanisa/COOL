@@ -7,12 +7,6 @@ EdgeInsets _adminRoleInputPadding() => CoolSpace.sectionPadding.copyWith(
   bottom: CoolSpace.x3,
 );
 
-EdgeInsets _adminRoleMetricPadding() => CoolSpace.sectionPadding.copyWith(
-  left: CoolSpace.x3,
-  right: CoolSpace.x3,
-  top: CoolSpace.x2,
-  bottom: CoolSpace.x2,
-);
 
 EdgeInsets _adminRoleBadgePadding() => CoolSpace.sectionPadding.copyWith(
   left: CoolSpace.x2,
@@ -103,107 +97,7 @@ InputDecoration _roleInputDecoration(
   );
 }
 
-class _SummaryCard extends StatelessWidget {
-  const _SummaryCard({
-    required this.totalAssignments,
-    required this.adminCount,
-    required this.bankCount,
-  });
 
-  final int totalAssignments;
-  final int adminCount;
-  final int bankCount;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return CoolCard(
-      backgroundColor: colors.operationalSurface,
-      useGradient: false,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Role Summary',
-            style: theme.textTheme.titleLarge?.copyWith(
-              color: colors.primaryText,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          const SizedBox(height: CoolSpace.x3),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _MetricChip(
-                label: context.l10n.total,
-                value: totalAssignments.toString(),
-                color: colors.primaryText,
-              ),
-              _MetricChip(
-                label: context.l10n.admin,
-                value: adminCount.toString(),
-                color: colors.success,
-              ),
-              _MetricChip(
-                label: 'Bank',
-                value: bankCount.toString(),
-                color: colors.accent,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _MetricChip extends StatelessWidget {
-  const _MetricChip({
-    required this.label,
-    required this.value,
-    required this.color,
-  });
-
-  final String label;
-  final String value;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.inputSurface,
-        borderRadius: _adminRoleFieldRadius,
-        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
-      ),
-      child: Padding(
-        padding: _adminRoleMetricPadding(),
-        child: RichText(
-          text: TextSpan(
-            style: theme.textTheme.labelLarge?.copyWith(
-              color: colors.primaryText,
-              fontWeight: FontWeight.w700,
-            ),
-            children: [
-              TextSpan(
-                text: '$value ',
-                style: context.coolText.mono(null, color: color),
-              ),
-              TextSpan(
-                text: label,
-                style: context.coolText.mobiLabel(color: colors.tertiaryText),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class _RoleAssignmentTile extends ConsumerStatefulWidget {
   const _RoleAssignmentTile({required this.assignment});
@@ -377,10 +271,10 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
             child: OutlinedButton.icon(
               onPressed: _isRevoking ? null : _revoke,
               icon: _isRevoking
-                  ? const SizedBox(
+                  ? SizedBox(
                       width: 14,
                       height: 14,
-                      child: CupertinoActivityIndicator(radius: 7),
+                      child: const CupertinoActivityIndicator(radius: 7),
                     )
                   : const Icon(Icons.remove_circle_outline_rounded, size: 16),
               style: OutlinedButton.styleFrom(

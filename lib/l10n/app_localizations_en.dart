@@ -3987,4 +3987,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get coolErrorUnexpected => 'An unexpected error occurred';
+
+  @override
+  String get groupSettingsMomoCollectionCodeLabel => 'COLLECTION CODE';
+
+  @override
+  String get groupSettingsMomoSetByAdmin =>
+      'Set by admin for all savings groups.';
 }

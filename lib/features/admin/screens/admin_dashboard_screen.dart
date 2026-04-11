@@ -4,112 +4,98 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/l10n.dart';
-
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/cool_layout.dart';
 import '../../../shared/widgets/admin_detail_scaffold.dart';
-import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/admin_workspace_kit.dart';
 import '../models/admin_workspace_access.dart';
 import '../models/admin_workspace_catalog.dart';
 import '../providers/admin_workspace_access_provider.dart';
 
 part 'admin_dashboard_parts.dart';
 
-EdgeInsets _adminDashboardListPadding() =>
-    CoolSpace.pagePadding.copyWith(top: 0, bottom: CoolLayout.gutter);
-
-/// Admin Dashboard — role-filtered card grid for admin management screens.
-///
-/// Platform admins see every card. Bank admins see only bank-related cards.
+/// Admin Dashboard — role-filtered grouped module launcher.
 class AdminDashboardScreen extends ConsumerWidget {
   const AdminDashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    final space = context.coolSpace;
     final access = ref.watch(adminWorkspaceAccessProvider);
-
-    // All sections are visible to platform admins.
-    final sections = access.hasPlatformAccess
+    final destinations = access.hasPlatformAccess
         ? buildPlatformAdminDestinations(context)
         : const <AdminWorkspaceDestination>[];
+    final groups = _groupDestinations(destinations);
 
     return AdminDetailScaffold(
       backTooltip: context.l10n.back,
       onBack: () => context.pop(),
-      child: SafeArea(
-        child: ListView(
-          padding: _adminDashboardListPadding(),
-          children: [
-            Semantics(
-              header: true,
-              label: context.l10n.adminPanelTitle,
-              child: Text(
-                context.l10n.adminPanelTitle,
-                style: context.coolText.headline(
-                  theme.textTheme.displayLarge,
-                  color: colors.primaryText,
-                ),
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(CoolSpace.x5, 0, CoolSpace.x5, 104),
+        children: [
+          AdminPageHeader(
+            eyebrow: 'PLATFORM CONTROL',
+            title: context.l10n.adminPanelTitle,
+            subtitle:
+                'Operational modules, oversight surfaces, and release controls.',
+            badges: _buildAccessBadges(access),
+          ),
+          const SizedBox(height: CoolSpace.x4),
+          AdminMetricStrip(
+            metrics: [
+              AdminMetricItem(
+                label: 'Modules',
+                value: '${destinations.length}',
+                hint: 'Platform surfaces',
+                icon: Icons.dashboard_customize_outlined,
+                tone: AdminTone.info,
               ),
-            ),
-            const SizedBox(height: CoolSpace.x2),
-            Text(
-              'Platform controls, bank workspaces, and operational oversight in one command surface.',
-              style: context.coolText.mobiLabel(
-                color: colors.secondaryText,
-              ).copyWith(fontWeight: FontWeight.w700),
-            ),
-            SizedBox(height: space.x6),
-            CoolCard(
-              backgroundColor: colors.operationalSurface,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Admin command',
-                    style: context.coolText.display(
-                      theme.textTheme.titleLarge,
-                      color: colors.primaryText,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  const SizedBox(height: CoolSpace.x2),
-                  Text(
-                    access.hasPlatformAccess
-                        ? 'Full platform visibility with audit, content, and workspace management.'
-                        : 'No active platform role. Access denied.',
-                    style: context.coolText.mobiLabel(
-                      color: colors.secondaryText,
-                    ).copyWith(
-                      fontWeight: FontWeight.w700,
-                      height: 1.35,
-                    ),
-                  ),
-                  const SizedBox(height: CoolSpace.x3),
-                  _RoleBadgeRow(access: access),
-                ],
+              AdminMetricItem(
+                label: 'Priority',
+                value: '${groups.priority.length}',
+                hint: 'Daily-use modules',
+                icon: Icons.flash_on_outlined,
+                tone: AdminTone.warning,
               ),
-            ),
-            SizedBox(height: space.x6),
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 14,
-                crossAxisSpacing: 14,
-                childAspectRatio: 1.02,
+              AdminMetricItem(
+                label: 'Oversight',
+                value: '${groups.oversight.length}',
+                hint: 'Monitoring surfaces',
+                icon: Icons.monitor_outlined,
+                tone: AdminTone.accent,
               ),
-              itemCount: sections.length,
-              itemBuilder: (context, index) {
-                final section = sections[index];
-                return _AdminCard(section: section);
-              },
+              AdminMetricItem(
+                label: 'Config',
+                value: '${groups.configuration.length}',
+                hint: 'System controls',
+                icon: Icons.settings_outlined,
+                tone: AdminTone.success,
+              ),
+            ],
+          ),
+          if (groups.priority.isNotEmpty) ...[
+            const SizedBox(height: CoolSpace.x4),
+            _DashboardSection(
+              title: 'Priority',
+              subtitle: 'Users, operations, and access changes first.',
+              destinations: groups.priority,
             ),
           ],
-        ),
+          if (groups.oversight.isNotEmpty) ...[
+            const SizedBox(height: CoolSpace.x4),
+            _DashboardSection(
+              title: 'Oversight',
+              subtitle: 'Platform metrics, history, and operational context.',
+              destinations: groups.oversight,
+            ),
+          ],
+          if (groups.configuration.isNotEmpty) ...[
+            const SizedBox(height: CoolSpace.x4),
+            _DashboardSection(
+              title: 'Configuration',
+              subtitle: 'Core settings and structural management surfaces.',
+              destinations: groups.configuration,
+            ),
+          ],
+        ],
       ),
     );
   }

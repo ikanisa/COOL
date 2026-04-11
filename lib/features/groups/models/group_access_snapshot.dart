@@ -19,8 +19,7 @@ class GroupAccessSnapshot {
   final bool canManageSettings;
   final bool canExportLedger;
 
-  bool get isPrivilegedAdmin =>
-      isCreator || isGroupAdmin || isBankCustodyAdmin;
+  bool get isPrivilegedAdmin => isCreator || isGroupAdmin || isBankCustodyAdmin;
 
   factory GroupAccessSnapshot.fromJson(Map<String, dynamic> json) {
     return GroupAccessSnapshot(

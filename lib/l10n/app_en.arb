@@ -1503,5 +1503,7 @@
   "iosInstallGotIt": "Got it",
   "coolStateLoadingTitle": "Loading",
   "coolStateLoadingMessage": "Please wait while this section loads.",
-  "coolErrorUnexpected": "An unexpected error occurred"
+  "coolErrorUnexpected": "An unexpected error occurred",
+  "groupSettingsMomoCollectionCodeLabel": "COLLECTION CODE",
+  "groupSettingsMomoSetByAdmin": "Set by admin for all savings groups."
 }

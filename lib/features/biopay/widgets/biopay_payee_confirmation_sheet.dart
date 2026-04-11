@@ -72,9 +72,7 @@ class BiopayPayeeConfirmationSheet extends StatelessWidget {
               width: 72,
               height: 72,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [colors.accent, colors.info],
-                ),
+                gradient: LinearGradient(colors: [colors.accent, colors.info]),
                 borderRadius: BorderRadius.circular(CoolRadii.lg),
               ),
               alignment: Alignment.center,

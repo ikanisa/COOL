@@ -1,121 +1,152 @@
 part of 'admin_dashboard_screen.dart';
 
-EdgeInsets _adminRoleBadgePadding() => CoolSpace.denseSectionPadding.copyWith(
-  left: CoolSpace.x3,
-  right: CoolSpace.x3,
-  top: CoolSpace.x2,
-  bottom: CoolSpace.x2,
-);
+class _DashboardGroups {
+  const _DashboardGroups({
+    required this.priority,
+    required this.oversight,
+    required this.configuration,
+  });
 
-class _RoleBadgeRow extends StatelessWidget {
-  const _RoleBadgeRow({required this.access});
+  final List<AdminWorkspaceDestination> priority;
+  final List<AdminWorkspaceDestination> oversight;
+  final List<AdminWorkspaceDestination> configuration;
+}
 
-  final AdminWorkspaceAccess access;
+_DashboardGroups _groupDestinations(List<AdminWorkspaceDestination> items) {
+  final priority = <AdminWorkspaceDestination>[];
+  final oversight = <AdminWorkspaceDestination>[];
+  final configuration = <AdminWorkspaceDestination>[];
 
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final badges = <_RoleBadge>[
-      if (access.hasPlatformAccess)
-        _RoleBadge(context.l10n.platformAdmin, colors.success),
-    ];
-
-    if (badges.isEmpty) {
-      return const SizedBox.shrink();
+  for (final item in items) {
+    if (item.route == '/admin/users' ||
+        item.route == '/admin/operations' ||
+        item.route == '/admin/roles') {
+      priority.add(item);
+    } else if (item.route == '/admin/analytics' ||
+        item.route == '/admin/audit-log') {
+      oversight.add(item);
+    } else {
+      configuration.add(item);
     }
-
-    return Wrap(
-      spacing: CoolSpace.x3,
-      runSpacing: CoolSpace.x2,
-      children: badges,
-    );
   }
+
+  return _DashboardGroups(
+    priority: priority,
+    oversight: oversight,
+    configuration: configuration,
+  );
 }
 
-class _RoleBadge extends StatelessWidget {
-  const _RoleBadge(this.label, this.color);
+List<Widget> _buildAccessBadges(AdminWorkspaceAccess access) {
+  final badges = <Widget>[];
+  if (access.hasPlatformAccess) {
+    badges.add(
+      const AdminStatusChip(
+        label: 'Platform Admin',
+        tone: AdminTone.success,
+        icon: Icons.verified_user_outlined,
+      ),
+    );
+  }
+  if (!access.hasPlatformAccess) {
+    badges.add(
+      const AdminStatusChip(
+        label: 'Restricted',
+        tone: AdminTone.warning,
+        icon: Icons.lock_outline_rounded,
+      ),
+    );
+  }
+  return badges;
+}
 
-  final String label;
-  final Color color;
+class _DashboardSection extends StatelessWidget {
+  const _DashboardSection({
+    required this.title,
+    required this.subtitle,
+    required this.destinations,
+  });
+
+  final String title;
+  final String subtitle;
+  final List<AdminWorkspaceDestination> destinations;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      padding: _adminRoleBadgePadding(),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.15),
-        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
-      ),
-      child: Text(
-        label.toUpperCase(),
-        style: context.coolText.mono(
-          theme.textTheme.labelMedium,
-          fontWeight: FontWeight.w800,
-          color: color,
-          letterSpacing: 0.5,
-        ),
+    return AdminSectionCard(
+      title: title,
+      subtitle: subtitle,
+      child: Column(
+        children: [
+          for (var index = 0; index < destinations.length; index++) ...[
+            _DashboardModuleTile(destination: destinations[index]),
+            if (index < destinations.length - 1)
+              const SizedBox(height: CoolSpace.x2),
+          ],
+        ],
       ),
     );
   }
 }
 
-class _AdminCard extends StatelessWidget {
-  const _AdminCard({required this.section});
+class _DashboardModuleTile extends StatelessWidget {
+  const _DashboardModuleTile({required this.destination});
 
-  final AdminWorkspaceDestination section;
+  final AdminWorkspaceDestination destination;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
-    return CoolCard(
-      padding: CoolSpace.sectionPadding,
-      backgroundColor: colors.cardSurfaceStrong,
+
+    return AdminPanelSurface(
+      backgroundColor: colors.inputSurface,
+      padding: const EdgeInsets.all(CoolSpace.x4),
       onTap: () {
         HapticFeedback.selectionClick();
-        context.push(section.route);
+        context.push(destination.route);
       },
-      semanticsLabel: '${section.title}. ${section.subtitle}',
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      radius: CoolRadii.md,
+      child: Row(
         children: [
           Container(
-            width: 48,
-            height: 48,
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
-              color: colors.operationalSurface,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(CoolRadii.md),
-              ),
-              boxShadow: CoolShadows.ambientFloat(strength: 0.15),
+              color: colors.cardSurfaceStrong,
+              borderRadius: BorderRadius.circular(CoolRadii.sm),
             ),
-            child: Icon(section.icon, size: 22, color: colors.primaryText),
+            alignment: Alignment.center,
+            child: Icon(destination.icon, size: 20, color: colors.primaryText),
           ),
-          const SizedBox(height: CoolSpace.x3),
-          Text(
-            section.title,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: context.coolText.display(
-              theme.textTheme.titleSmall,
-              fontWeight: FontWeight.w800,
-              color: colors.primaryText,
-            ),
-          ),
-          const SizedBox(height: CoolSpace.x2),
+          const SizedBox(width: CoolSpace.x3),
           Expanded(
-            child: Text(
-              section.subtitle,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: context.coolText.mobiLabel(
-                color: colors.tertiaryText,
-              ).copyWith(
-                fontWeight: FontWeight.w500,
-                height: 1.35,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  destination.title,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: colors.primaryText,
+                  ),
+                ),
+                const SizedBox(height: CoolSpace.x1),
+                Text(
+                  destination.subtitle,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: colors.secondaryText,
+                    height: 1.35,
+                  ),
+                ),
+              ],
             ),
+          ),
+          Icon(
+            Icons.arrow_forward_rounded,
+            size: 18,
+            color: colors.tertiaryText,
           ),
         ],
       ),

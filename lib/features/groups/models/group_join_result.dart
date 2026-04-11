@@ -1,9 +1,5 @@
 class GroupJoinResult {
-  const GroupJoinResult({
-    required this.status,
-    this.groupId,
-    this.message,
-  });
+  const GroupJoinResult({required this.status, this.groupId, this.message});
 
   final String status;
   final String? groupId;

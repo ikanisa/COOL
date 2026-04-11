@@ -5,10 +5,12 @@ import 'package:go_router/go_router.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_icons.dart';
 import '../../../core/utils/money_formatters.dart';
 import '../../../core/utils/user_error.dart';
+import '../../../shared/widgets/cool_metric_row.dart';
+import '../../../shared/widgets/cool_section_card.dart';
 import '../../../shared/widgets/core_detail_scaffold.dart';
-import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/cool_text_field.dart';
 import '../models/group.dart';
@@ -183,7 +185,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                             height: 20,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Icon(Icons.check_rounded),
+                        : const Icon(CoolIcons.check),
                   ),
                   const SizedBox(width: CoolSpace.x2),
                 ]
@@ -229,7 +231,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: CoolSpace.x4),
+                    const SizedBox(height: CoolSpace.x3),
                     CoolTextField(
                       label: context.l10n.groupDescriptionOptionalLabel,
                       hint: context.l10n.groupDescriptionHint,
@@ -247,7 +249,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                       keyboardType: TextInputType.number,
                       inputFormatters: const [GroupedThousandsInputFormatter()],
                     ),
-                    const SizedBox(height: CoolSpace.x4),
+                    const SizedBox(height: CoolSpace.x3),
                     CoolTextField(
                       label: context.l10n
                           .groupSettingsContributionAmountOptionalLabel(
@@ -272,9 +274,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                     if (group.type == 'saving') ...[
                       // Savings groups use a centralized MoMo code.
                       // Show read-only — managed by admin via app_config.
-                      _CentralizedMomoNotice(
-                        momoCode: group.momoNumber ?? '',
-                      ),
+                      _CentralizedMomoNotice(momoCode: group.momoNumber ?? ''),
                     ] else
                       GroupMomoRouteSection(
                         routeType: _routeType,
@@ -307,40 +307,22 @@ class _CentralizedMomoNotice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final text = context.coolText;
-    final theme = Theme.of(context);
+    final l10n = context.l10n;
 
-    return CoolCard(
-      borderRadius: CoolRadii.xl,
-      backgroundColor: colors.cardSurfaceStrong,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'COLLECTION CODE',
-            style: theme.textTheme.labelSmall?.copyWith(
-              color: colors.tertiaryText,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: CoolSpace.x2),
-          Text(
-            momoCode.isNotEmpty ? momoCode : '—',
-            style: text.mono(
-              theme.textTheme.headlineSmall,
-              color: colors.primaryText,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          const SizedBox(height: CoolSpace.x2),
-          Text(
-            'Set by admin for all savings groups.',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: colors.tertiaryText,
-            ),
-          ),
-        ],
-      ),
+    return CoolSectionCard(
+      sectionLabel: l10n.groupSettingsMomoCollectionCodeLabel,
+      children: [
+        CoolMetricRow.mono(
+          label: l10n.momoCode,
+          value: momoCode.isNotEmpty ? momoCode : '—',
+        ),
+        Text(
+          l10n.groupSettingsMomoSetByAdmin,
+          style: Theme.of(
+            context,
+          ).textTheme.bodySmall?.copyWith(color: colors.tertiaryText),
+        ),
+      ],
     );
   }
 }

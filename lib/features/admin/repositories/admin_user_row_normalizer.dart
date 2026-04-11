@@ -7,6 +7,7 @@ Map<String, dynamic> normalizeAdminUserRowForAppMarket(
   normalized['country'] = AppMarket.countryCode;
   normalized['language_code'] = AppMarket.languageCode;
   normalized['momo_provider'] = _trimmed(row['momo_provider'])?.toLowerCase();
+  normalized['momo_number'] = _trimmed(row['momo_number']);
   normalized['full_name'] = _trimmed(row['full_name']);
   normalized['phone'] = _trimmed(row['phone']);
   normalized['public_user_id'] = _trimmed(row['public_user_id']);

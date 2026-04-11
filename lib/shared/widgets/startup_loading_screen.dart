@@ -81,4 +81,3 @@ class StartupLoadingScreen extends ConsumerWidget {
     );
   }
 }
-

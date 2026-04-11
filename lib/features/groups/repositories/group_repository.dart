@@ -118,7 +118,8 @@ class GroupRepository {
 
     // Use custom MoMo values when provided, otherwise fall back to creator
     final routeType = customMomoRouteType ?? creator.effectiveMomoRouteType;
-    final recipientValue = _trimToNull(customRecipientValue) ??
+    final recipientValue =
+        _trimToNull(customRecipientValue) ??
         _trimToNull(creator.momoRecipientValue);
     final response = await _client.rpc(
       'create_group_atomic',
@@ -207,7 +208,9 @@ class GroupRepository {
 
     final group = await getGroupById(normalizedGroupId);
     if (group == null) {
-      throw StateError('Group settings were saved but the group could not be reloaded.');
+      throw StateError(
+        'Group settings were saved but the group could not be reloaded.',
+      );
     }
 
     return group;
@@ -259,10 +262,7 @@ class GroupRepository {
         .eq('user_id', user.id)
         .maybeSingle();
     if (existing != null) {
-      return GroupJoinResult(
-        status: 'already_member',
-        groupId: groupId,
-      );
+      return GroupJoinResult(status: 'already_member', groupId: groupId);
     }
 
     await _client.from('group_members').insert(<String, dynamic>{

@@ -31,25 +31,24 @@ final myGroupIdsProvider = Provider<Set<String>>((ref) {
       .toSet();
 });
 
-final publicGroupsSearchProvider =
-    FutureProvider.family<List<Group>, String>((ref, searchQuery) async {
-      ref.watch(groupsRefreshTickProvider);
-      final authState = ref.watch(authProvider);
-      final repository = ref.read(groupRepositoryProvider);
-      return repository.getPublicGroups(
-        searchQuery,
-        country: authState.user?.country,
-      );
-    });
+final publicGroupsSearchProvider = FutureProvider.family<List<Group>, String>((
+  ref,
+  searchQuery,
+) async {
+  ref.watch(groupsRefreshTickProvider);
+  final authState = ref.watch(authProvider);
+  final repository = ref.read(groupRepositoryProvider);
+  return repository.getPublicGroups(
+    searchQuery,
+    country: authState.user?.country,
+  );
+});
 
 final publicGroupsProvider = FutureProvider<List<Group>>((ref) async {
   ref.watch(groupsRefreshTickProvider);
   final authState = ref.watch(authProvider);
   final repository = ref.read(groupRepositoryProvider);
-  return repository.getPublicGroups(
-    '',
-    country: authState.user?.country,
-  );
+  return repository.getPublicGroups('', country: authState.user?.country);
 });
 
 final groupDetailProvider = FutureProvider.family<Group?, String>((
@@ -61,12 +60,13 @@ final groupDetailProvider = FutureProvider.family<Group?, String>((
   return repository.getGroupById(groupId);
 });
 
-final groupAccessProvider =
-    FutureProvider.family<GroupAccessSnapshot?, String>((ref, groupId) async {
-      ref.watch(groupsRefreshTickProvider);
-      final repository = ref.read(groupRepositoryProvider);
-      return repository.getGroupAccessSnapshot(groupId);
-    });
+final groupAccessProvider = FutureProvider.family<GroupAccessSnapshot?, String>(
+  (ref, groupId) async {
+    ref.watch(groupsRefreshTickProvider);
+    final repository = ref.read(groupRepositoryProvider);
+    return repository.getGroupAccessSnapshot(groupId);
+  },
+);
 
 final groupInvitePreviewProvider =
     FutureProvider.family<GroupInvitePreview?, String>((ref, inviteCode) async {
