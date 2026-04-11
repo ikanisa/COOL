@@ -30,18 +30,28 @@ BEGIN
   END IF;
 END $$;
 
--- Drop policies before tables.
-DROP POLICY IF EXISTS "group_messages_select_member" ON group_messages;
-DROP POLICY IF EXISTS "group_messages_insert_member" ON group_messages;
-DROP TABLE IF EXISTS group_messages CASCADE;
+-- Drop policies before tables (idempotent — tables may already be gone).
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'group_messages') THEN
+    DROP POLICY IF EXISTS "group_messages_select_member" ON public.group_messages;
+    DROP POLICY IF EXISTS "group_messages_insert_member" ON public.group_messages;
+  END IF;
+END $$;
+DROP TABLE IF EXISTS public.group_messages CASCADE;
 
 -- contribution_groups was the old groups table before schema convergence.
 -- RPCs were already fixed in 20260410181000. Safe to drop.
-DROP POLICY IF EXISTS "contribution_groups_select_public" ON contribution_groups;
-DROP POLICY IF EXISTS "contribution_groups_select_member" ON contribution_groups;
-DROP POLICY IF EXISTS "contribution_groups_insert_auth" ON contribution_groups;
-DROP POLICY IF EXISTS "contribution_groups_update_creator" ON contribution_groups;
-DROP TABLE IF EXISTS contribution_groups CASCADE;
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'contribution_groups') THEN
+    DROP POLICY IF EXISTS "contribution_groups_select_public" ON public.contribution_groups;
+    DROP POLICY IF EXISTS "contribution_groups_select_member" ON public.contribution_groups;
+    DROP POLICY IF EXISTS "contribution_groups_insert_auth" ON public.contribution_groups;
+    DROP POLICY IF EXISTS "contribution_groups_update_creator" ON public.contribution_groups;
+  END IF;
+END $$;
+DROP TABLE IF EXISTS public.contribution_groups CASCADE;
 
 -- ═══════════════════════════════════════════════════════════════════════
 -- 2. NOTIFY: Group Member Joined
