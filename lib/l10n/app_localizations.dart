@@ -736,12 +736,6 @@ abstract class AppLocalizations {
   /// **'Membership'**
   String get membership;
 
-  /// No description provided for @achievements.
-  ///
-  /// In en, this message translates to:
-  /// **'Achievements'**
-  String get achievements;
-
   /// No description provided for @joinClub.
   ///
   /// In en, this message translates to:
@@ -759,36 +753,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Leave'**
   String get leaveClub;
-
-  /// No description provided for @goldMember.
-  ///
-  /// In en, this message translates to:
-  /// **'GOLD MEMBER'**
-  String get goldMember;
-
-  /// No description provided for @silverMember.
-  ///
-  /// In en, this message translates to:
-  /// **'SILVER MEMBER'**
-  String get silverMember;
-
-  /// No description provided for @bronzeMember.
-  ///
-  /// In en, this message translates to:
-  /// **'BRONZE MEMBER'**
-  String get bronzeMember;
-
-  /// No description provided for @earnedBadge.
-  ///
-  /// In en, this message translates to:
-  /// **'Earned'**
-  String get earnedBadge;
-
-  /// No description provided for @lockedBadge.
-  ///
-  /// In en, this message translates to:
-  /// **'Locked'**
-  String get lockedBadge;
 
   /// No description provided for @quantity.
   ///
@@ -1558,12 +1522,6 @@ abstract class AppLocalizations {
   /// **'Privacy Policy'**
   String get privacyPolicyLabel;
 
-  /// No description provided for @homeMissionsTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Missions'**
-  String get homeMissionsTitle;
-
   /// No description provided for @homeMonthlyNet.
   ///
   /// In en, this message translates to:
@@ -1689,12 +1647,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not linked'**
   String get profileNotLinked;
-
-  /// No description provided for @profileCoolStatus.
-  ///
-  /// In en, this message translates to:
-  /// **'COOL status'**
-  String get profileCoolStatus;
 
   /// No description provided for @profileAdminPanel.
   ///
@@ -1947,12 +1899,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{shown}/{total} shown'**
   String savingsStatementSubtitle(Object shown, Object total);
-
-  /// No description provided for @coolMemberFallback.
-  ///
-  /// In en, this message translates to:
-  /// **'COOL member'**
-  String get coolMemberFallback;
 
   /// No description provided for @momoStatementsPeriodDay.
   ///
@@ -2626,30 +2572,6 @@ abstract class AppLocalizations {
   /// **'Something went wrong'**
   String get groupsLoadErrorTitle;
 
-  /// No description provided for @profileTierBlue.
-  ///
-  /// In en, this message translates to:
-  /// **'Blue'**
-  String get profileTierBlue;
-
-  /// No description provided for @profileTierSilver.
-  ///
-  /// In en, this message translates to:
-  /// **'Silver'**
-  String get profileTierSilver;
-
-  /// No description provided for @profileTierGold.
-  ///
-  /// In en, this message translates to:
-  /// **'Gold'**
-  String get profileTierGold;
-
-  /// No description provided for @profileTierPlatinum.
-  ///
-  /// In en, this message translates to:
-  /// **'Platinum'**
-  String get profileTierPlatinum;
-
   /// No description provided for @profileSavingIdentity.
   ///
   /// In en, this message translates to:
@@ -2679,12 +2601,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Manage'**
   String get profileManageAction;
-
-  /// No description provided for @profileCoolStatusValue.
-  ///
-  /// In en, this message translates to:
-  /// **'{tier} · {points} Points'**
-  String profileCoolStatusValue(Object points, Object tier);
 
   /// No description provided for @profileUserIdLabel.
   ///
@@ -2800,12 +2716,6 @@ abstract class AppLocalizations {
   /// **'Back Home'**
   String get basketScreenBackHome;
 
-  /// No description provided for @activeMissions.
-  ///
-  /// In en, this message translates to:
-  /// **'Active Reward Activities'**
-  String get activeMissions;
-
   /// No description provided for @comingSoon.
   ///
   /// In en, this message translates to:
@@ -2842,48 +2752,6 @@ abstract class AppLocalizations {
   /// **'Send Invite'**
   String get sendInvite;
 
-  /// No description provided for @friendJoins.
-  ///
-  /// In en, this message translates to:
-  /// **'Friend Joins'**
-  String get friendJoins;
-
-  /// No description provided for @earnTokens.
-  ///
-  /// In en, this message translates to:
-  /// **'Earn Points'**
-  String get earnTokens;
-
-  /// No description provided for @waysToEarn.
-  ///
-  /// In en, this message translates to:
-  /// **'Ways to Earn'**
-  String get waysToEarn;
-
-  /// No description provided for @rewardsMarketplace.
-  ///
-  /// In en, this message translates to:
-  /// **'Rewards Marketplace'**
-  String get rewardsMarketplace;
-
-  /// No description provided for @topEarners.
-  ///
-  /// In en, this message translates to:
-  /// **'Top Earners'**
-  String get topEarners;
-
-  /// No description provided for @currentStreak.
-  ///
-  /// In en, this message translates to:
-  /// **'Current Streak'**
-  String get currentStreak;
-
-  /// No description provided for @bestStreak.
-  ///
-  /// In en, this message translates to:
-  /// **'Best Streak'**
-  String get bestStreak;
-
   /// No description provided for @grace.
   ///
   /// In en, this message translates to:
@@ -2895,72 +2763,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your group is close!'**
   String get yourGroupIsClose;
-
-  /// No description provided for @earn10TokensFor.
-  ///
-  /// In en, this message translates to:
-  /// **'Earn 10 points for attending'**
-  String get earn10TokensFor;
-
-  /// No description provided for @postYourRoute.
-  ///
-  /// In en, this message translates to:
-  /// **'Post your route'**
-  String get postYourRoute;
-
-  /// No description provided for @helpOthersFindA.
-  ///
-  /// In en, this message translates to:
-  /// **'Help others find a ride'**
-  String get helpOthersFindA;
-
-  /// No description provided for @confirmTransaction.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm transaction'**
-  String get confirmTransaction;
-
-  /// No description provided for @joinASavingsGroup.
-  ///
-  /// In en, this message translates to:
-  /// **'Join a savings group'**
-  String get joinASavingsGroup;
-
-  /// No description provided for @earn10TokensPer.
-  ///
-  /// In en, this message translates to:
-  /// **'Earn 10 points per contribution'**
-  String get earn10TokensPer;
-
-  /// No description provided for @joinTheClubAnd.
-  ///
-  /// In en, this message translates to:
-  /// **'Join the club and earn rewards'**
-  String get joinTheClubAnd;
-
-  /// No description provided for @streakAtRisk.
-  ///
-  /// In en, this message translates to:
-  /// **'Streak at risk!'**
-  String get streakAtRisk;
-
-  /// No description provided for @doAnActionToday.
-  ///
-  /// In en, this message translates to:
-  /// **'Do an action today'**
-  String get doAnActionToday;
-
-  /// No description provided for @yourFriend.
-  ///
-  /// In en, this message translates to:
-  /// **'Your friend '**
-  String get yourFriend;
-
-  /// No description provided for @invitedYouToJoin.
-  ///
-  /// In en, this message translates to:
-  /// **' invited you to join Cool.'**
-  String get invitedYouToJoin;
 
   /// No description provided for @momoPay.
   ///
@@ -3664,12 +3466,6 @@ abstract class AppLocalizations {
   /// **'Ends'**
   String get ends;
 
-  /// No description provided for @rewardsDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Rewards Description'**
-  String get rewardsDescription;
-
   /// No description provided for @all.
   ///
   /// In en, this message translates to:
@@ -3724,12 +3520,6 @@ abstract class AppLocalizations {
   /// **'Description'**
   String get description;
 
-  /// No description provided for @missionType.
-  ///
-  /// In en, this message translates to:
-  /// **'Mission Type'**
-  String get missionType;
-
   /// No description provided for @targetValue.
   ///
   /// In en, this message translates to:
@@ -3741,18 +3531,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Scope'**
   String get scope;
-
-  /// No description provided for @rewardPoints.
-  ///
-  /// In en, this message translates to:
-  /// **'Reward Points'**
-  String get rewardPoints;
-
-  /// No description provided for @rewardDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Reward Description'**
-  String get rewardDescription;
 
   /// No description provided for @addService.
   ///
@@ -4155,12 +3933,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Wallet'**
   String get wallet;
-
-  /// No description provided for @coolTokens.
-  ///
-  /// In en, this message translates to:
-  /// **'Fan Rewards'**
-  String get coolTokens;
 
   /// No description provided for @inviteFriends.
   ///
@@ -4869,12 +4641,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'expired'**
   String get expired1;
-
-  /// No description provided for @points.
-  ///
-  /// In en, this message translates to:
-  /// **'tokens'**
-  String get points;
 
   /// No description provided for @searchMembers.
   ///
@@ -5703,12 +5469,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No seasons or activities yet'**
   String get seasonsEmptyTitle;
-
-  /// No description provided for @earnTokensLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Earn Points'**
-  String get earnTokensLabel;
 
   /// No description provided for @groupDetailTitle.
   ///

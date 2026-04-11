@@ -46,7 +46,6 @@ String routeTitleFor(String? path) {
     '/home': 'Home — COOL',
     '/groups': 'Groups — COOL',
     '/contribution-circles': 'Contribution Circles — COOL',
-    '/referral': 'Referrals — COOL',
     '/momo': 'MoMo — COOL',
     '/momo/statements': 'MoMo Statements — COOL',
     '/momo/biopay': 'BioPay — COOL',

@@ -47,12 +47,6 @@ final appSessionCoordinatorProvider = Provider<AppSessionCoordinator>((ref) {
 final deepLinkCoordinatorProvider = Provider<DeepLinkCoordinator>((ref) {
   final coordinator = DeepLinkCoordinator(
     readRouter: () => ref.read(appRouterProvider),
-    captureReferralAttribution: (uri, {required route}) {
-      // Referral system removed — no-op.
-    },
-    markReferralInviteOpenedIfNeeded: () async {
-      // Referral system removed — no-op.
-    },
     trackDeepLinkOpened: (uri, route) {
       return ref
           .read(engagementTrackerProvider)
@@ -62,6 +56,7 @@ final deepLinkCoordinatorProvider = Provider<DeepLinkCoordinator>((ref) {
   ref.onDispose(coordinator.dispose);
   return coordinator;
 });
+
 
 final appLifecycleCoordinatorProvider = Provider<AppLifecycleCoordinator>((
   ref,

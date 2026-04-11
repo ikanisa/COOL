@@ -35,12 +35,12 @@ const CONTENT_TEMPLATES = [
     cta_label: "View Groups",
   },
   {
-    area: "tokens",
+    area: "biopay",
     prompt:
-      "Generate a short, motivating message about earning rewards through daily app engagement. Mention specific activities like scheduling rides, joining groups, or checking statements.",
-    icon: "🪙",
-    cta_action: "/tokens",
-    cta_label: "Earn Tokens",
+      "Generate a short, motivating message about using BioPay for contactless payments — QR codes or NFC tap-to-pay with friends and merchants. Keep it practical for Rwanda.",
+    icon: "💳",
+    cta_action: "/momo/biopay",
+    cta_label: "Open BioPay",
   },
 
   {

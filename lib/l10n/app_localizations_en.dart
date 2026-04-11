@@ -342,9 +342,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get membership => 'Membership';
 
   @override
-  String get achievements => 'Achievements';
-
-  @override
   String get joinClub => 'Join';
 
   @override
@@ -352,21 +349,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get leaveClub => 'Leave';
-
-  @override
-  String get goldMember => 'GOLD MEMBER';
-
-  @override
-  String get silverMember => 'SILVER MEMBER';
-
-  @override
-  String get bronzeMember => 'BRONZE MEMBER';
-
-  @override
-  String get earnedBadge => 'Earned';
-
-  @override
-  String get lockedBadge => 'Locked';
 
   @override
   String get quantity => 'Quantity';
@@ -771,9 +753,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get privacyPolicyLabel => 'Privacy Policy';
 
   @override
-  String get homeMissionsTitle => 'Missions';
-
-  @override
   String get homeMonthlyNet => 'Monthly net';
 
   @override
@@ -837,9 +816,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileNotLinked => 'Not linked';
-
-  @override
-  String get profileCoolStatus => 'COOL status';
 
   @override
   String get profileAdminPanel => 'Admin panel';
@@ -972,9 +948,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String savingsStatementSubtitle(Object shown, Object total) {
     return '$shown/$total shown';
   }
-
-  @override
-  String get coolMemberFallback => 'COOL member';
 
   @override
   String get momoStatementsPeriodDay => 'Day';
@@ -1339,18 +1312,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get groupsLoadErrorTitle => 'Something went wrong';
 
   @override
-  String get profileTierBlue => 'Blue';
-
-  @override
-  String get profileTierSilver => 'Silver';
-
-  @override
-  String get profileTierGold => 'Gold';
-
-  @override
-  String get profileTierPlatinum => 'Platinum';
-
-  @override
   String get profileSavingIdentity => 'Saving identity details...';
 
   @override
@@ -1364,11 +1325,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileManageAction => 'Manage';
-
-  @override
-  String profileCoolStatusValue(Object points, Object tier) {
-    return '$tier · $points Points';
-  }
 
   @override
   String get profileUserIdLabel => 'User ID';
@@ -1430,9 +1386,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get basketScreenBackHome => 'Back Home';
 
   @override
-  String get activeMissions => 'Active Reward Activities';
-
-  @override
   String get comingSoon => 'Coming Soon';
 
   @override
@@ -1451,64 +1404,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sendInvite => 'Send Invite';
 
   @override
-  String get friendJoins => 'Friend Joins';
-
-  @override
-  String get earnTokens => 'Earn Points';
-
-  @override
-  String get waysToEarn => 'Ways to Earn';
-
-  @override
-  String get rewardsMarketplace => 'Rewards Marketplace';
-
-  @override
-  String get topEarners => 'Top Earners';
-
-  @override
-  String get currentStreak => 'Current Streak';
-
-  @override
-  String get bestStreak => 'Best Streak';
-
-  @override
   String get grace => 'Grace';
 
   @override
   String get yourGroupIsClose => 'Your group is close!';
-
-  @override
-  String get earn10TokensFor => 'Earn 10 points for attending';
-
-  @override
-  String get postYourRoute => 'Post your route';
-
-  @override
-  String get helpOthersFindA => 'Help others find a ride';
-
-  @override
-  String get confirmTransaction => 'Confirm transaction';
-
-  @override
-  String get joinASavingsGroup => 'Join a savings group';
-
-  @override
-  String get earn10TokensPer => 'Earn 10 points per contribution';
-
-  @override
-  String get joinTheClubAnd => 'Join the club and earn rewards';
-
-  @override
-  String get streakAtRisk => 'Streak at risk!';
-
-  @override
-  String get doAnActionToday => 'Do an action today';
-
-  @override
-  String get yourFriend => 'Your friend ';
-
-  @override
-  String get invitedYouToJoin => ' invited you to join Cool.';
 
   @override
   String get momoPay => 'MoMo Pay';
@@ -1864,9 +1763,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ends => 'Ends';
 
   @override
-  String get rewardsDescription => 'Rewards Description';
-
-  @override
   String get all => 'All';
 
   @override
@@ -1894,19 +1790,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get description => 'Description';
 
   @override
-  String get missionType => 'Mission Type';
-
-  @override
   String get targetValue => 'Target Value';
 
   @override
   String get scope => 'Scope';
-
-  @override
-  String get rewardPoints => 'Reward Points';
-
-  @override
-  String get rewardDescription => 'Reward Description';
 
   @override
   String get addService => 'Add service';
@@ -2108,9 +1995,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get wallet => 'Wallet';
-
-  @override
-  String get coolTokens => 'Fan Rewards';
 
   @override
   String get inviteFriends => 'Invite Friends';
@@ -2467,9 +2351,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get expired1 => 'expired';
-
-  @override
-  String get points => 'tokens';
 
   @override
   String get searchMembers => 'Search members';
@@ -2888,9 +2769,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get seasonsEmptyTitle => 'No seasons or activities yet';
-
-  @override
-  String get earnTokensLabel => 'Earn Points';
 
   @override
   String get groupDetailTitle => 'Group Detail';

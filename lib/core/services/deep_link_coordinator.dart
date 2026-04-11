@@ -10,21 +10,13 @@ class DeepLinkCoordinator {
   DeepLinkCoordinator({
     AppLinks? appLinks,
     required GoRouter Function() readRouter,
-    required void Function(Uri uri, {required String route})
-    captureReferralAttribution,
-    required Future<void> Function() markReferralInviteOpenedIfNeeded,
     required Future<void> Function(Uri uri, String route) trackDeepLinkOpened,
   }) : _appLinks = appLinks ?? AppLinks(),
        _readRouter = readRouter,
-       _captureReferralAttribution = captureReferralAttribution,
-       _markReferralInviteOpenedIfNeeded = markReferralInviteOpenedIfNeeded,
        _trackDeepLinkOpened = trackDeepLinkOpened;
 
   final AppLinks _appLinks;
   final GoRouter Function() _readRouter;
-  final void Function(Uri uri, {required String route})
-  _captureReferralAttribution;
-  final Future<void> Function() _markReferralInviteOpenedIfNeeded;
   final Future<void> Function(Uri uri, String route) _trackDeepLinkOpened;
 
   StreamSubscription<Uri>? _deepLinkSubscription;
@@ -61,8 +53,6 @@ class DeepLinkCoordinator {
       return;
     }
 
-    _captureReferralAttribution(uri, route: route);
-    await _markReferralInviteOpenedIfNeeded();
     await _trackDeepLinkOpened(uri, route);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
