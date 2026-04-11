@@ -46,7 +46,7 @@ class _ContactTile extends StatelessWidget {
               child: Text(
                 contact.initials,
                 style: textTheme.labelMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                   color: isSelected ? colors.accent : colors.secondaryText,
                 ),
               ),
@@ -59,7 +59,7 @@ class _ContactTile extends StatelessWidget {
                   Text(
                     contact.displayName,
                     style: textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w500,
                       color: colors.primaryText,
                     ),
                     maxLines: 1,
@@ -70,7 +70,7 @@ class _ContactTile extends StatelessWidget {
                     contact.phones.first,
                     style: text.mono(
                       textTheme.labelSmall,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w500,
                       color: colors.tertiaryText,
                     ),
                   ),
@@ -145,7 +145,7 @@ class _PermissionState extends StatelessWidget {
           Text(
             title,
             style: textTheme.labelLarge?.copyWith(
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
               color: colors.primaryText,
             ),
           ),
@@ -154,7 +154,7 @@ class _PermissionState extends StatelessWidget {
             message,
             textAlign: TextAlign.center,
             style: textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
               color: colors.tertiaryText,
               height: 1.5,
             ),
@@ -174,7 +174,7 @@ class _PermissionState extends StatelessWidget {
               child: Text(
                 actionLabel,
                 style: textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                   color: colors.accentForeground,
                 ),
               ),
@@ -207,9 +207,9 @@ class _DoneButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(radii.pill),
         ),
         child: Text(
-          'Done ($count)',
+          context.l10n.contactPickerDoneCount(count),
           style: textTheme.labelMedium?.copyWith(
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
             color: colors.accentForeground,
           ),
         ),

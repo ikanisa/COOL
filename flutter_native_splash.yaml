@@ -3,17 +3,17 @@ flutter_native_splash:
   color: "#0D0A27"
 
   # Logo mark (transparent bg) centered on the dark surface
-  image: assets/images/cool_logo_mark_transparent.png
+  image: assets/images/cool_logo_mark_splash_transparent.png
 
   # Android 12+ splash screen API
   android_12:
-    image: assets/images/cool_logo_mark_transparent.png
+    image: assets/images/cool_logo_mark_splash_transparent.png
     icon_background_color: "#0D0A27"
     color: "#0D0A27"
 
   # Dark mode variants — same, the app is always dark
   color_dark: "#0D0A27"
-  image_dark: assets/images/cool_logo_mark_transparent.png
+  image_dark: assets/images/cool_logo_mark_splash_transparent.png
 
   ios: true
   android: true

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/l10n/l10n.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/money_formatters.dart';
@@ -82,7 +83,8 @@ class _TransactionAllocationSheetState
           .map(
             (row) => _GroupMemberOption(
               userId: row['user_id']?.toString() ?? '',
-              displayName: row['display_name']?.toString() ?? 'Member',
+              displayName:
+                  row['display_name']?.toString() ?? context.l10n.members2,
             ),
           )
           .where((m) => m.userId.isNotEmpty)
@@ -104,6 +106,7 @@ class _TransactionAllocationSheetState
 
     setState(() => _isSubmitting = true);
     try {
+      final l10n = context.l10n;
       final client = ref.read(supabaseClientProvider);
       await client.rpc(
         'allocate_transaction_to_member',
@@ -116,10 +119,10 @@ class _TransactionAllocationSheetState
 
       if (!mounted) return;
       Navigator.of(context).pop();
-      CoolToast.success(context, 'Transaction allocated');
+      CoolToast.success(context, l10n.transactionAllocated);
     } catch (error) {
       if (mounted) {
-        CoolToast.error(context, 'Allocation failed');
+        CoolToast.error(context, context.l10n.allocationFailed);
         setState(() => _isSubmitting = false);
       }
     }
@@ -130,6 +133,7 @@ class _TransactionAllocationSheetState
 
     setState(() => _isSubmitting = true);
     try {
+      final l10n = context.l10n;
       final client = ref.read(supabaseClientProvider);
       await client.rpc(
         'unallocate_transaction',
@@ -141,10 +145,10 @@ class _TransactionAllocationSheetState
 
       if (!mounted) return;
       Navigator.of(context).pop();
-      CoolToast.success(context, 'Transaction unallocated');
+      CoolToast.success(context, l10n.transactionUnallocated);
     } catch (error) {
       if (mounted) {
-        CoolToast.error(context, 'Unallocation failed');
+        CoolToast.error(context, context.l10n.unallocationFailed);
         setState(() => _isSubmitting = false);
       }
     }
@@ -155,6 +159,7 @@ class _TransactionAllocationSheetState
     final colors = context.coolSemanticColors;
     final text = context.coolText;
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     final entry = widget.entry;
     final isCurrentlyAllocated = entry.payerUserId.trim().isNotEmpty;
 
@@ -177,7 +182,7 @@ class _TransactionAllocationSheetState
 
         // ── Title ────────────────────────────────────────────
         Text(
-          'TRANSACTION ALLOCATION',
+          l10n.transactionAllocationUpper,
           style: text.displayCondensed(
             theme.textTheme.titleLarge,
             fontWeight: FontWeight.w800,
@@ -185,7 +190,7 @@ class _TransactionAllocationSheetState
         ),
         const SizedBox(height: CoolSpace.x1),
         Text(
-          'Manage group member assignment',
+          l10n.manageGroupMemberAssignment,
           style: text.mono(
             theme.textTheme.labelSmall,
             fontWeight: FontWeight.w500,
@@ -263,7 +268,7 @@ class _TransactionAllocationSheetState
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      'Not yet allocated',
+                      l10n.notYetAllocated,
                       style: text.mono(
                         theme.textTheme.labelSmall,
                         fontWeight: FontWeight.w700,
@@ -283,14 +288,14 @@ class _TransactionAllocationSheetState
         // ── Actions ──────────────────────────────────────────
         if (isCurrentlyAllocated) ...[
           CoolButton(
-            label: 'UNALLOCATE',
+            label: l10n.unallocateUpper,
             variant: CoolButtonVariant.secondary,
             isLoading: _isSubmitting,
             onTap: _isSubmitting ? null : _unallocate,
           ),
           const SizedBox(height: CoolSpace.x3),
           Text(
-            'OR REALLOCATE TO ANOTHER MEMBER',
+            l10n.orReallocateToAnotherMember,
             style: text.mono(
               theme.textTheme.labelSmall,
               fontWeight: FontWeight.w700,
@@ -311,7 +316,7 @@ class _TransactionAllocationSheetState
           Padding(
             padding: const EdgeInsets.symmetric(vertical: CoolSpace.x4),
             child: Text(
-              'No group members found.',
+              l10n.noGroupMembersFound,
               style: text.mono(
                 theme.textTheme.bodySmall,
                 fontWeight: FontWeight.w500,
@@ -321,7 +326,9 @@ class _TransactionAllocationSheetState
           )
         else ...[
           Text(
-            isCurrentlyAllocated ? 'Select member:' : 'ALLOCATE TO MEMBER',
+            isCurrentlyAllocated
+                ? l10n.selectMember
+                : l10n.allocateToMemberUpper,
             style: text.mono(
               theme.textTheme.labelSmall,
               fontWeight: FontWeight.w700,
@@ -407,7 +414,7 @@ class _TransactionAllocationSheetState
                                 ),
                               ),
                               child: Text(
-                                'CURRENT',
+                                l10n.currentUpper,
                                 style: context.coolText
                                     .mobiLabel(color: colors.success)
                                     .copyWith(letterSpacing: 0.5),
@@ -424,8 +431,8 @@ class _TransactionAllocationSheetState
           const SizedBox(height: CoolSpace.x4),
           CoolButton(
             label: isCurrentlyAllocated
-                ? 'CONFIRM REALLOCATION'
-                : 'CONFIRM ALLOCATION',
+                ? l10n.confirmReallocationUpper
+                : l10n.confirmAllocationUpper,
             onTap: _selectedMemberId == null || _isSubmitting
                 ? null
                 : _allocate,

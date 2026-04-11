@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/l10n/l10n.dart';
 import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/cool_layout.dart';
 import 'cool_floating_header_sliver.dart';
@@ -27,7 +28,7 @@ class CoreDetailScaffold extends StatelessWidget {
     this.primaryColor,
     this.secondaryColor,
     this.backTooltip,
-    this.homeTooltip = 'Home',
+    this.homeTooltip,
     this.padding,
     this.bottomClearance = 96.0,
     this.floatingActionButton,
@@ -53,7 +54,7 @@ class CoreDetailScaffold extends StatelessWidget {
   final Color? primaryColor;
   final Color? secondaryColor;
   final String? backTooltip;
-  final String homeTooltip;
+  final String? homeTooltip;
 
   /// Custom padding override. When null, defaults to
   /// [CoolSpace.scaffoldPadding] if [title] is non-null, otherwise no
@@ -75,14 +76,15 @@ class CoreDetailScaffold extends StatelessWidget {
             : null);
     final resolvedBackTooltip =
         backTooltip ?? MaterialLocalizations.of(context).backButtonTooltip;
+    final resolvedHomeTooltip = homeTooltip ?? context.l10n.home;
     final resolvedActions = <Widget>[
       if (showHomeButton)
         Semantics(
           button: true,
-          label: homeTooltip,
+          label: resolvedHomeTooltip,
           child: IconButton(
             onPressed: onHome,
-            tooltip: homeTooltip,
+            tooltip: resolvedHomeTooltip,
             icon: const Icon(Icons.home_rounded),
           ),
         ),

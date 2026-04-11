@@ -1,0 +1,997 @@
+lib/bootstrap/app_bootstrap.dart:362:                  Text(
+lib/bootstrap/app_bootstrap.dart:372:                  Text(
+lib/shared/widgets/pwa_experience_overlay.dart:159:          Text(
+lib/shared/widgets/pwa_experience_overlay.dart:167:          Text(
+lib/shared/widgets/pwa_experience_overlay.dart:189:                  label: 'Later',
+lib/shared/widgets/pwa_experience_overlay.dart:223:          Text(
+lib/shared/widgets/pwa_experience_overlay.dart:231:          Text(
+lib/shared/widgets/pwa_experience_overlay.dart:244:                  label: 'Refresh',
+lib/shared/widgets/pwa_experience_overlay.dart:253:                  label: 'Later',
+lib/shared/widgets/cool_state_view.dart:176:          Text(
+lib/shared/widgets/cool_state_view.dart:189:          Text(
+lib/shared/widgets/cool_state_view.dart:221:    return Semantics(
+lib/shared/widgets/cool_state_view.dart:222:      label: '$title. $message',
+lib/shared/widgets/qr_share_sheet.dart:81:      CoolToast.error(context, 'WhatsApp is not available');
+lib/shared/widgets/qr_share_sheet.dart:140:              Text(
+lib/shared/widgets/qr_share_sheet.dart:149:              Text(
+lib/shared/widgets/qr_share_sheet.dart:191:                      child: Text(
+lib/shared/widgets/qr_share_sheet.dart:203:                    Semantics(
+lib/shared/widgets/qr_share_sheet.dart:230:                          CoolToast.success(context, 'Link copied!');
+lib/shared/widgets/qr_share_sheet.dart:252:                              Text(
+lib/shared/widgets/admin_filter_rail.dart:40:              label: Text(
+lib/features/momo/widgets/momo_sms_rationale_sheet.dart:77:                child: Text(
+lib/features/momo/widgets/momo_sms_rationale_sheet.dart:89:          Text(
+lib/features/momo/widgets/momo_sms_rationale_sheet.dart:180:              Text(
+lib/features/momo/widgets/momo_sms_rationale_sheet.dart:188:              Text(
+lib/shared/widgets/core_detail_scaffold.dart:80:        Semantics(
+lib/shared/widgets/core_detail_scaffold.dart:106:                  ? Semantics(
+lib/shared/widgets/cool_error_view.dart:40:    return Semantics(
+lib/shared/widgets/cool_error_view.dart:41:      label: 'Error: $_effectiveMessage',
+lib/shared/widgets/cool_error_view.dart:52:              ExcludeSemantics(
+lib/shared/widgets/cool_error_view.dart:67:              Text(
+lib/shared/widgets/admin_dense_row_tile.dart:61:                    Text(
+lib/shared/widgets/admin_dense_row_tile.dart:72:                      Text(
+lib/bootstrap/bootstrap_ui.dart:23:      title: 'COOL',
+lib/bootstrap/bootstrap_ui.dart:70:      title: 'Startup blocked',
+lib/bootstrap/bootstrap_ui.dart:74:        child: const Text('Retry startup'),
+lib/bootstrap/bootstrap_ui.dart:94:      title: 'COOL',
+lib/bootstrap/bootstrap_ui.dart:104:          title: 'Backend configuration required',
+lib/bootstrap/bootstrap_ui.dart:106:          footer: Text(
+lib/bootstrap/bootstrap_ui.dart:162:                      Text(
+lib/bootstrap/bootstrap_ui.dart:171:                      Text(
+lib/shared/widgets/contact_picker_sheet.dart:318:                          Text(
+lib/shared/widgets/contact_picker_sheet.dart:330:                            Text(
+lib/shared/widgets/contact_picker_sheet.dart:352:                  Semantics(
+lib/shared/widgets/contact_picker_sheet.dart:355:                    hint: 'Search name or phone',
+lib/shared/widgets/contact_picker_sheet.dart:418:        title: 'Contacts access denied',
+lib/shared/widgets/contact_picker_sheet.dart:419:        message: 'You\'ve permanently denied contacts',
+lib/shared/widgets/contact_picker_sheet.dart:428:        title: 'Contacts are off in',
+lib/shared/widgets/contact_picker_sheet.dart:429:        message: 'Contacts access is currently',
+lib/shared/widgets/contact_picker_sheet.dart:439:        title: 'Contacts access needed',
+lib/shared/widgets/contact_picker_sheet.dart:440:        message: 'Cool needs access to',
+lib/shared/widgets/contact_picker_sheet.dart:450:        title: 'Something went wrong',
+lib/shared/widgets/contact_picker_sheet.dart:463:          child: Text(
+lib/shared/widgets/qr_scanner_screen.dart:103:          title: 'Camera is off',
+lib/shared/widgets/qr_scanner_screen.dart:104:          message: 'Enable camera access to scan.',
+lib/shared/widgets/qr_scanner_screen.dart:109:          title: 'Camera is blocked',
+lib/shared/widgets/qr_scanner_screen.dart:110:          message: 'Open system settings.',
+lib/shared/widgets/qr_scanner_screen.dart:115:          title: 'Camera unavailable',
+lib/shared/widgets/qr_scanner_screen.dart:116:          message: 'This device cannot scan.',
+lib/shared/widgets/qr_scanner_screen.dart:121:          title: 'Allow camera access',
+lib/shared/widgets/qr_scanner_screen.dart:122:          message: 'Camera access is required.',
+lib/shared/widgets/qr_scanner_screen.dart:144:                title: const Text('Scan MoMo QR'),
+lib/shared/widgets/qr_scanner_screen.dart:160:                        Text(
+lib/shared/widgets/qr_scanner_screen.dart:169:                        Text(
+lib/shared/widgets/qr_scanner_screen.dart:223:                          Semantics(
+lib/shared/widgets/qr_scanner_screen.dart:225:                            label: 'Close scanner',
+lib/shared/widgets/contact_picker_sheet_parts.dart:46:              child: Text(
+lib/shared/widgets/contact_picker_sheet_parts.dart:59:                  Text(
+lib/shared/widgets/contact_picker_sheet_parts.dart:69:                  Text(
+lib/shared/widgets/contact_picker_sheet_parts.dart:145:          Text(
+lib/shared/widgets/contact_picker_sheet_parts.dart:153:          Text(
+lib/shared/widgets/contact_picker_sheet_parts.dart:174:              child: Text(
+lib/shared/widgets/contact_picker_sheet_parts.dart:209:        child: Text(
+lib/shared/widgets/share_card.dart:93:      title: 'Share via Contact',
+lib/shared/widgets/share_card.dart:94:      message: 'Select a contact to share with',
+lib/shared/widgets/share_card.dart:125:                    Text(
+lib/shared/widgets/share_card.dart:134:                      Text(
+lib/shared/widgets/share_card.dart:154:                  label: 'QR / Share',
+lib/shared/widgets/share_card.dart:166:                  label: 'Share',
+lib/shared/widgets/share_card.dart:178:                  label: 'Contacts',
+lib/shared/widgets/share_card.dart:207:    return Semantics(
+lib/shared/widgets/share_card.dart:234:                    child: Text(
+lib/shared/widgets/cool_button.dart:142:        child: Semantics(
+lib/shared/widgets/cool_button.dart:228:    final textWidget = Text(
+lib/shared/widgets/status_badge.dart:34:        label: 'Saving',
+lib/shared/widgets/status_badge.dart:46:        label: 'Community',
+lib/shared/widgets/status_badge.dart:58:        label: 'Public',
+lib/shared/widgets/status_badge.dart:70:        label: 'Private',
+lib/shared/widgets/status_badge.dart:82:        label: 'Online',
+lib/shared/widgets/status_badge.dart:94:        label: 'Offline',
+lib/shared/widgets/status_badge.dart:118:    return Semantics(
+lib/shared/widgets/status_badge.dart:119:      label: 'Status: $label',
+lib/shared/widgets/status_badge.dart:135:              ExcludeSemantics(
+lib/shared/widgets/status_badge.dart:136:                child: Text(
+lib/shared/widgets/status_badge.dart:143:            Text(
+lib/shared/widgets/group_card.dart:47:    return Semantics(
+lib/shared/widgets/group_card.dart:82:              Text(
+lib/shared/widgets/group_card.dart:92:              Text(
+lib/shared/widgets/group_card.dart:113:              Text(
+lib/shared/widgets/group_card.dart:173:                    child: Text(
+lib/shared/widgets/group_card.dart:188:            Text(
+lib/shared/widgets/core_app_scaffold.dart:81:                    Text(
+lib/shared/widgets/startup_loading_screen.dart:57:                    Semantics(
+lib/shared/widgets/startup_loading_screen.dart:59:                      child: Text(
+lib/shared/widgets/tab_pill.dart:23:    return Semantics(
+lib/shared/widgets/tab_pill.dart:48:            child: Text(
+lib/shared/widgets/kill_switch_gate.dart:54:              child: Semantics(
+lib/shared/widgets/kill_switch_gate.dart:81:                        Text(
+lib/shared/widgets/kill_switch_gate.dart:91:                        Text(
+lib/shared/widgets/cool_error_boundary.dart:146:            Text(
+lib/shared/widgets/cool_error_boundary.dart:154:            Text(
+lib/shared/widgets/cool_error_boundary.dart:167:                label: Text(
+lib/shared/widgets/cool_search_field.dart:121:    return Semantics(
+lib/shared/widgets/cool_search_field.dart:124:      hint: 'Search field. Double tap to edit.',
+lib/shared/widgets/cool_search_field.dart:167:                    tooltip: 'Clear search',
+lib/shared/widgets/cool_text_field.dart:103:          Semantics(
+lib/shared/widgets/cool_text_field.dart:104:            label: '${widget.label!} field label',
+lib/shared/widgets/cool_text_field.dart:105:            child: Text(
+lib/shared/widgets/cool_text_field.dart:117:        Semantics(
+lib/shared/widgets/cool_text_field.dart:195:                          child: Text(
+lib/shared/widgets/member_row.dart:46:      child: Semantics(
+lib/shared/widgets/member_row.dart:61:                      child: Text(
+lib/shared/widgets/member_row.dart:90:                        child: Text(
+lib/shared/widgets/member_row.dart:103:              Text(
+lib/shared/widgets/member_row.dart:146:      child: Text(
+lib/shared/widgets/transaction_status_chip.dart:34:          Text(
+lib/shared/widgets/transaction_status_chip.dart:48:        label: 'POSTED',
+lib/shared/widgets/transaction_status_chip.dart:53:        label: 'CONFIRMED',
+lib/shared/widgets/transaction_status_chip.dart:58:        label: 'DRAFT',
+lib/shared/widgets/transaction_status_chip.dart:63:        label: 'REVIEW',
+lib/shared/widgets/transaction_status_chip.dart:68:        label: 'MANUAL',
+lib/shared/widgets/transaction_status_chip.dart:73:        label: 'SUGGESTED',
+lib/shared/widgets/transaction_status_chip.dart:78:        label: 'REJECTED',
+lib/shared/widgets/cool_screen_scaffold.dart:66:                            Semantics(
+lib/shared/widgets/cool_screen_scaffold.dart:68:                              child: Text(
+lib/shared/widgets/balance_card.dart:65:    return Semantics(
+lib/shared/widgets/balance_card.dart:66:      label: '$title. ${formatWholeMoneyAmount(amount)} $currency.',
+lib/shared/widgets/balance_card.dart:136:                            Text(
+lib/shared/widgets/balance_card.dart:145:                            Text(
+lib/shared/widgets/balance_card.dart:174:                  Text(
+lib/shared/widgets/balance_card.dart:183:                  Text(
+lib/shared/widgets/balance_card.dart:214:                        label: 'Protected',
+lib/shared/widgets/balance_card.dart:323:                    child: Text(
+lib/shared/widgets/balance_card.dart:361:          Text(
+lib/shared/widgets/balance_card.dart:370:          Text(
+lib/shared/widgets/balance_card.dart:414:          Text(
+lib/shared/widgets/cool_brand_mark.dart:19:    return Semantics(
+lib/shared/widgets/cool_admin_inline_field.dart:84:        Semantics(
+lib/shared/widgets/cool_admin_inline_field.dart:85:          label: '${widget.label} field label',
+lib/shared/widgets/cool_admin_inline_field.dart:86:          child: Text(
+lib/shared/widgets/cool_admin_inline_field.dart:101:              child: Semantics(
+lib/shared/widgets/cool_admin_inline_field.dart:151:                tooltip: 'Save',
+lib/shared/widgets/cool_admin_inline_field.dart:159:                tooltip: 'Cancel',
+lib/shared/widgets/alias_chip.dart:66:        child: Text(displayText, style: style, maxLines: 1),
+lib/shared/widgets/alias_chip.dart:74:    ScaffoldMessenger.of(context).showSnackBar(
+lib/shared/widgets/alias_chip.dart:75:      SnackBar(
+lib/shared/widgets/alias_chip.dart:76:        content: Text('Alias #$alias copied'),
+lib/shared/widgets/cool_toast.dart:13:/// CoolToast.success(context, 'Contribution confirmed!');
+lib/shared/widgets/cool_toast.dart:14:/// CoolToast.error(context, 'Payment failed. Please try again.');
+lib/shared/widgets/cool_toast.dart:15:/// CoolToast.info(context, 'Your profile was updated.');
+lib/shared/widgets/cool_toast.dart:39:    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+lib/shared/widgets/cool_toast.dart:55:    ScaffoldMessenger.of(context).showSnackBar(
+lib/shared/widgets/cool_toast.dart:56:      SnackBar(
+lib/shared/widgets/cool_toast.dart:57:        content: Semantics(
+lib/shared/widgets/cool_toast.dart:61:          child: ExcludeSemantics(
+lib/shared/widgets/cool_toast.dart:67:                  child: Text(
+lib/shared/widgets/cool_skeleton.dart:67:      return ExcludeSemantics(
+lib/shared/widgets/cool_skeleton.dart:79:    return ExcludeSemantics(
+lib/shared/widgets/cool_empty_view.dart:42:    return Semantics(
+lib/shared/widgets/cool_empty_view.dart:44:      label: '${title ?? ''} $_effectiveMessage',
+lib/shared/widgets/cool_empty_view.dart:56:                ExcludeSemantics(
+lib/shared/widgets/cool_empty_view.dart:99:                  Text(
+lib/shared/widgets/cool_empty_view.dart:110:                Text(
+lib/features/momo/screens/momo_wallet_screen.dart:124:        CoolToast.success(context, 'Statement exported');
+lib/features/momo/screens/momo_wallet_screen.dart:128:        CoolToast.error(context, describeUserFacingError(error));
+lib/features/momo/screens/momo_wallet_screen.dart:161:      title: Text(
+lib/features/momo/screens/momo_wallet_screen.dart:168:      subtitle: Text(
+lib/features/momo/screens/momo_wallet_screen.dart:315:                Text(
+lib/features/momo/screens/momo_wallet_screen.dart:327:                Text(
+lib/features/momo/screens/momo_wallet_screen.dart:340:                  Text(
+lib/features/momo/screens/momo_wallet_screen.dart:361:              Text(
+lib/features/momo/screens/momo_wallet_screen.dart:425:          Text(
+lib/features/momo/screens/momo_wallet_screen.dart:433:          Text(
+lib/features/momo/screens/momo_wallet_screen.dart:464:      child: Text(
+lib/shared/widgets/glass_card.dart:123:      return Semantics(
+lib/shared/widgets/cool_async_view.dart:74:        loading: () => Semantics(
+lib/shared/widgets/cool_badge.dart:70:          Text(
+lib/shared/widgets/section_title.dart:25:    return Semantics(
+lib/shared/widgets/section_title.dart:30:          Text(
+lib/shared/widgets/section_title.dart:46:              child: Text(
+lib/shared/widgets/cool_floating_header_sliver.dart:21:    return SliverAppBar(
+lib/shared/widgets/wa_button.dart:47:    return Semantics(
+lib/shared/widgets/wa_button.dart:85:                        child: Text(
+lib/shared/widgets/admin_summary_metric_grid.dart:92:                child: Text(
+lib/shared/widgets/admin_summary_metric_grid.dart:108:                child: Text(
+lib/shared/widgets/admin_summary_metric_grid.dart:117:                Text(
+lib/shared/widgets/cool_card.dart:130:      return Semantics(
+lib/shared/widgets/whatsapp_hint_chip.dart:16:    return Semantics(
+lib/shared/widgets/whatsapp_hint_chip.dart:32:              Text(
+lib/shared/widgets/ios_install_prompt.dart:39:    return showModalBottomSheet(
+lib/shared/widgets/ios_install_prompt.dart:104:            Text(
+lib/shared/widgets/ios_install_prompt.dart:114:            Text(
+lib/shared/widgets/ios_install_prompt.dart:162:                child: Text(
+lib/shared/widgets/ios_install_prompt.dart:206:          child: Text(
+lib/shared/widgets/ios_install_prompt.dart:220:          child: Text(
+lib/shared/widgets/admin_section_header.dart:39:              Text(
+lib/shared/widgets/admin_section_header.dart:48:                Text(
+lib/features/groups/widgets/transaction_allocation_sheet.dart:119:      CoolToast.success(context, 'Transaction allocated');
+lib/features/groups/widgets/transaction_allocation_sheet.dart:122:        CoolToast.error(context, 'Allocation failed');
+lib/features/groups/widgets/transaction_allocation_sheet.dart:144:      CoolToast.success(context, 'Transaction unallocated');
+lib/features/groups/widgets/transaction_allocation_sheet.dart:147:        CoolToast.error(context, 'Unallocation failed');
+lib/features/groups/widgets/transaction_allocation_sheet.dart:179:        Text(
+lib/features/groups/widgets/transaction_allocation_sheet.dart:187:        Text(
+lib/features/groups/widgets/transaction_allocation_sheet.dart:214:                    child: Text(
+lib/features/groups/widgets/transaction_allocation_sheet.dart:226:                  Text(
+lib/features/groups/widgets/transaction_allocation_sheet.dart:243:                    Text(
+lib/features/groups/widgets/transaction_allocation_sheet.dart:265:                    Text(
+lib/features/groups/widgets/transaction_allocation_sheet.dart:286:            label: 'UNALLOCATE',
+lib/features/groups/widgets/transaction_allocation_sheet.dart:292:          Text(
+lib/features/groups/widgets/transaction_allocation_sheet.dart:313:            child: Text(
+lib/features/groups/widgets/transaction_allocation_sheet.dart:323:          Text(
+lib/features/groups/widgets/transaction_allocation_sheet.dart:386:                            child: Text(
+lib/features/groups/widgets/transaction_allocation_sheet.dart:409:                              child: Text(
+lib/shared/widgets/qr_scanner_screen_logic.dart:28:      CoolToast.error(context, 'Could not open camera settings');
+lib/shared/widgets/qr_scanner_screen_logic.dart:60:        CoolToast.error(context, 'Not a valid MoMo QR code');
+lib/shared/widgets/qr_scanner_screen_logic.dart:99:      CoolToast.error(context, 'Could not open the USSD dialer.');
+lib/shared/widgets/qr_scanner_screen_logic.dart:104:    CoolToast.success(context, 'Launching MoMo payment USSD.');
+lib/shared/widgets/qr_scanner_screen_logic.dart:124:      CoolToast.success(context, 'Launching MoMo payment USSD.');
+lib/shared/widgets/qr_scanner_screen_logic.dart:130:      CoolToast.error(context, 'Could not launch the MoMo payment flow.');
+lib/shared/widgets/momo_route_type_selector.dart:62:    return Semantics(
+lib/shared/widgets/momo_route_type_selector.dart:79:          child: Text(
+lib/features/groups/widgets/group_form_widgets.dart:20:    return Text(
+lib/features/groups/widgets/group_form_widgets.dart:102:        child: Text(
+lib/features/groups/widgets/group_form_widgets.dart:192:        child: Text(
+lib/features/groups/widgets/group_form_widgets.dart:271:                      child: Text(
+lib/features/groups/widgets/group_form_widgets.dart:285:            const GroupSectionLabel(label: 'RECEIVE PAYMENTS VIA'),
+lib/features/groups/widgets/group_form_widgets.dart:295:                      label: 'NUMBER',
+lib/features/groups/widgets/group_form_widgets.dart:304:                        label: 'CODE',
+lib/features/groups/widgets/group_form_widgets.dart:319:                  Text(
+lib/features/momo/services/momo_statement_export_wallet.dart:31:                  label: 'Incoming',
+lib/features/momo/services/momo_statement_export_wallet.dart:39:                  label: 'Outgoing',
+lib/features/momo/services/momo_statement_export_wallet.dart:47:                  label: 'Entries',
+lib/features/momo/services/momo_statement_export_wallet.dart:138:                  label: 'Posted',
+lib/features/momo/services/momo_statement_export_wallet.dart:146:                  label: 'Payers',
+lib/features/momo/services/momo_statement_export_wallet.dart:154:                  label: 'Entries',
+lib/features/momo/services/momo_statement_export_wallet.dart:392:      cell.setText(headers[i]);
+lib/features/momo/services/momo_statement_export_wallet.dart:405:          .setText(MomoStatementExportService._dateTimeFormat.format(entry.occurredAt));
+lib/features/momo/services/momo_statement_export_wallet.dart:408:          .setText(entry.isCredit ? 'Incoming' : 'Outgoing');
+lib/features/momo/services/momo_statement_export_wallet.dart:409:      sheet.getRangeByIndex(row, 3).setText(_titleize(entry.txCategory));
+lib/features/momo/services/momo_statement_export_wallet.dart:410:      sheet.getRangeByIndex(row, 4).setText(_titleize(entry.cashflowBucket));
+lib/features/momo/services/momo_statement_export_wallet.dart:411:      sheet.getRangeByIndex(row, 5).setText(entry.counterpartyName ?? '-');
+lib/features/momo/services/momo_statement_export_wallet.dart:412:      sheet.getRangeByIndex(row, 6).setText(entry.label);
+lib/features/momo/services/momo_statement_export_wallet.dart:415:      sheet.getRangeByIndex(row, 8).setText(entry.currency);
+lib/features/momo/services/momo_statement_export_wallet.dart:416:      sheet.getRangeByIndex(row, 9).setText(_titleize(entry.ledgerStatus));
+lib/features/momo/services/momo_statement_export_wallet.dart:417:      sheet.getRangeByIndex(row, 10).setText(entry.reference ?? '-');
+lib/features/momo/services/momo_statement_export_wallet.dart:447:      cell.setText(headers[i]);
+lib/features/momo/services/momo_statement_export_wallet.dart:460:          .setText(MomoStatementExportService._dateTimeFormat.format(entry.occurredAt));
+lib/features/momo/services/momo_statement_export_wallet.dart:461:      sheet.getRangeByIndex(row, 2).setText(entry.payerName);
+lib/features/momo/services/momo_statement_export_wallet.dart:462:      sheet.getRangeByIndex(row, 3).setText(entry.payerPhone ?? '-');
+lib/features/momo/services/momo_statement_export_wallet.dart:463:      sheet.getRangeByIndex(row, 4).setText(_titleize(entry.txCategory));
+lib/features/momo/services/momo_statement_export_wallet.dart:464:      sheet.getRangeByIndex(row, 5).setText(_titleize(entry.cashflowBucket));
+lib/features/momo/services/momo_statement_export_wallet.dart:465:      sheet.getRangeByIndex(row, 6).setText(entry.label);
+lib/features/momo/services/momo_statement_export_wallet.dart:468:      sheet.getRangeByIndex(row, 8).setText(entry.currency);
+lib/features/momo/services/momo_statement_export_wallet.dart:469:      sheet.getRangeByIndex(row, 9).setText(_titleize(entry.targetTable));
+lib/features/momo/services/momo_statement_export_wallet.dart:470:      sheet.getRangeByIndex(row, 10).setText(entry.reference ?? '-');
+lib/features/groups/screens/groups_screen_sections.dart:40:                  child: Text(
+lib/features/groups/screens/groups_screen_sections.dart:51:                Text(
+lib/features/groups/screens/groups_screen_sections.dart:69:                Text(
+lib/features/groups/screens/groups_screen_sections.dart:76:                    label: 'JOIN',
+lib/features/groups/screens/groups_screen_sections.dart:124:                child: Text(
+lib/features/groups/screens/groups_screen_sections.dart:139:          Text(
+lib/features/groups/screens/groups_screen_sections.dart:197:              Text(
+lib/features/groups/screens/groups_screen_sections.dart:206:              Text(
+lib/features/groups/screens/groups_screen_sections.dart:232:      label: 'LIVE',
+lib/features/profile/screens/profile_detail_screens.dart:56:            CoolToast.success(context, context.l10n.profileMomoUpdated);
+lib/features/profile/screens/profile_detail_screens.dart:64:            CoolToast.error(context, context.l10n.profileMomoUpdateFailed);
+lib/features/profile/screens/profile_detail_screens.dart:95:              title: Text(
+lib/features/profile/widgets/profile_settings_widgets_appearance.dart:21:        Text(
+lib/features/profile/widgets/profile_settings_widgets_appearance.dart:83:    return Semantics(
+lib/features/profile/widgets/profile_settings_widgets_appearance.dart:107:                child: Text(
+lib/features/profile/widgets/profile_settings_widgets_appearance.dart:138:    return Semantics(
+lib/features/profile/widgets/profile_settings_widgets_appearance.dart:141:      hint: 'Complete your profile',
+lib/features/profile/widgets/profile_settings_widgets_appearance.dart:144:        child: ExcludeSemantics(
+lib/features/profile/widgets/profile_settings_widgets_appearance.dart:170:                    child: Text(
+lib/features/profile/screens/profile_screen.dart:47:      CoolToast.error(context, error);
+lib/features/profile/screens/profile_screen.dart:59:      CoolToast.error(context, 'Could not open WhatsApp');
+lib/features/profile/screens/profile_screen.dart:111:                          Text(
+lib/features/profile/screens/profile_screen.dart:118:                          Text(
+lib/features/profile/screens/profile_screen.dart:163:                  const _SectionLabel(label: 'APP SETTINGS'),
+lib/features/profile/screens/profile_screen.dart:170:                          title: 'ACCOUNT DETAILS',
+lib/features/profile/screens/profile_screen.dart:171:                          subtitle: 'PERSONAL INFORMATION',
+lib/features/profile/screens/profile_screen.dart:177:                          title: 'WALLET & MOMO',
+lib/features/profile/screens/profile_screen.dart:186:                          title: 'TRANSACTION HISTORY',
+lib/features/profile/screens/profile_screen.dart:187:                          subtitle: 'M-MONEY STATEMENTS & LEDGER',
+lib/features/profile/screens/profile_screen.dart:193:                          title: 'FACE ID REGISTER',
+lib/features/profile/screens/profile_screen.dart:203:                  const _SectionLabel(label: 'SUPPORT'),
+lib/features/profile/screens/profile_screen.dart:211:                            title: 'ADMIN WORKSPACE',
+lib/features/profile/screens/profile_screen.dart:212:                            subtitle: 'SYSTEM MANAGEMENT',
+lib/features/profile/screens/profile_screen.dart:219:                          title: 'HELP',
+lib/features/profile/screens/profile_screen.dart:220:                          subtitle: 'CHAT ON WHATSAPP',
+lib/features/profile/screens/profile_screen.dart:226:                          title: 'LOGOUT',
+lib/features/profile/screens/profile_screen.dart:251:    return Text(
+lib/features/profile/screens/profile_screen.dart:306:                  Text(
+lib/features/profile/screens/profile_screen.dart:319:                    Text(
+lib/features/profile/widgets/profile_momo_edit_sheet.dart:208:          Text(
+lib/features/profile/widgets/profile_momo_edit_sheet.dart:218:          Text(
+lib/features/profile/widgets/profile_momo_edit_sheet.dart:225:          Semantics(
+lib/features/profile/widgets/profile_momo_edit_sheet.dart:228:            hint: 'Enter MoMo number',
+lib/features/profile/widgets/profile_momo_edit_sheet.dart:271:              child: Text(
+lib/features/profile/widgets/profile_momo_edit_sheet.dart:282:            Text(
+lib/features/profile/widgets/profile_momo_edit_sheet.dart:289:            Semantics(
+lib/features/profile/widgets/profile_momo_edit_sheet.dart:292:              hint: 'Enter merchant code',
+lib/features/profile/widgets/profile_momo_edit_sheet.dart:326:            Text(
+lib/features/profile/widgets/profile_momo_edit_sheet.dart:364:                  : Text(
+lib/features/momo/services/momo_statement_export_shared.dart:11:    titleRange.setText(MomoStatementExportService._brandName);
+lib/features/momo/services/momo_statement_export_shared.dart:20:    subtitleRange.setText(metadata.statementTitle);
+lib/features/momo/services/momo_statement_export_shared.dart:43:      label.setText(meta.$1);
+lib/features/momo/services/momo_statement_export_shared.dart:50:      value.setText(meta.$2.isEmpty ? '-' : meta.$2);
+lib/features/momo/services/momo_statement_export_shared.dart:113:                        child: pw.Text(
+lib/features/momo/services/momo_statement_export_shared.dart:126:                        pw.Text(
+lib/features/momo/services/momo_statement_export_shared.dart:134:                        pw.Text(
+lib/features/momo/services/momo_statement_export_shared.dart:148:                pw.Text(
+lib/features/momo/services/momo_statement_export_shared.dart:157:                pw.Text(
+lib/features/momo/services/momo_statement_export_shared.dart:194:      child: pw.Text(
+lib/features/momo/services/momo_statement_export_shared.dart:219:          pw.Text(
+lib/features/momo/services/momo_statement_export_shared.dart:227:          pw.Text(
+lib/features/momo/services/momo_statement_export_shared.dart:246:          pw.Text(
+lib/features/momo/services/momo_statement_export_shared.dart:255:            child: pw.Text(
+lib/features/groups/screens/groups_screen.dart:61:      CoolToast.error(context, context.l10n.groupNotFound);
+lib/features/groups/screens/groups_screen.dart:69:      CoolToast.info(
+lib/features/groups/screens/groups_screen.dart:78:        CoolToast.error(
+lib/features/groups/screens/groups_screen.dart:89:      CoolToast.info(context, context.l10n.noInviteCodeYet);
+lib/features/groups/screens/groups_screen.dart:98:      shareText: context.l10n.joinGroupShareText(group.name, inviteUrl),
+lib/features/groups/screens/groups_screen.dart:130:      CoolToast.success(
+lib/features/groups/screens/groups_screen.dart:139:        CoolToast.error(context, describeUserFacingError(error));
+lib/features/groups/screens/groups_screen.dart:184:      CoolToast.success(
+lib/features/groups/screens/groups_screen.dart:192:        CoolToast.error(context, describeUserFacingError(error));
+lib/features/groups/screens/groups_screen.dart:237:                label: Text(
+lib/features/groups/screens/groups_screen.dart:253:                  tooltip: 'Back',
+lib/features/groups/screens/groups_screen.dart:256:                title: Text(
+lib/features/groups/screens/groups_screen.dart:278:                              label: 'My Ledgers',
+lib/features/groups/screens/groups_screen.dart:286:                              label: 'Explore',
+lib/features/groups/screens/groups_screen.dart:308:                                title: 'Invite not found',
+lib/features/groups/screens/groups_screen.dart:309:                                subtitle: 'This invite code is not active.',
+lib/features/groups/screens/groups_screen.dart:331:                            title: 'Invite error',
+lib/features/groups/screens/groups_screen.dart:415:                          Text(
+lib/features/groups/screens/groups_screen.dart:426:                              label: 'TAP TO RETRY',
+lib/features/profile/screens/profile_sub_screens.dart:36:      title: Text(
+lib/features/profile/screens/profile_sub_screens.dart:43:      subtitle: Text(
+lib/features/profile/screens/profile_sub_screens.dart:88:    return Text(
+lib/features/profile/screens/profile_sub_screens.dart:152:                Text(
+lib/features/profile/screens/profile_sub_screens.dart:162:                Text(
+lib/features/profile/screens/profile_sub_screens_account.dart:13:      title: 'ACCOUNT',
+lib/features/profile/screens/profile_sub_screens_account.dart:14:      subtitle: 'PERSONAL INFORMATION',
+lib/features/profile/screens/profile_sub_screens_account.dart:18:        const _SectionLabel(label: 'IDENTITY'),
+lib/features/profile/screens/profile_sub_screens_account.dart:35:                    child: Text(
+lib/features/profile/screens/profile_sub_screens_account.dart:46:                    child: Text(
+lib/features/profile/screens/profile_sub_screens_account.dart:64:                title: 'MEMBER ID',
+lib/features/profile/screens/profile_sub_screens_account.dart:70:                title: 'PHONE',
+lib/features/profile/screens/profile_sub_screens_account.dart:76:                title: 'COUNTRY',
+lib/features/profile/screens/profile_sub_screens_account.dart:85:        const _SectionLabel(label: 'BIOPAY'),
+lib/features/profile/screens/profile_sub_screens_account.dart:93:                  title: 'BIOPAY ID',
+lib/features/profile/screens/profile_sub_screens_account.dart:104:                  title: 'FACE ID',
+lib/features/profile/screens/profile_sub_screens_account.dart:113:                  title: 'RECEIVE ROUTE',
+lib/features/profile/screens/profile_sub_screens_account.dart:140:              title: 'BIOPAY',
+lib/features/groups/screens/group_statements_screen.dart:125:        CoolToast.success(context, 'Ledger exported');
+lib/features/groups/screens/group_statements_screen.dart:129:        CoolToast.error(context, describeUserFacingError(error));
+lib/features/groups/screens/group_statements_screen.dart:176:      title: Text(
+lib/features/groups/screens/group_statements_screen.dart:183:      subtitle: Text(
+lib/features/groups/screens/group_statements_screen.dart:340:            Text(
+lib/features/groups/screens/group_statements_screen.dart:348:            Text(
+lib/features/groups/screens/group_statements_screen.dart:395:      child: Text(
+lib/features/groups/screens/group_statements_screen.dart:447:                    Text(
+lib/features/groups/screens/group_statements_screen.dart:459:                    Text(
+lib/features/groups/screens/group_statements_screen.dart:476:                  Text(
+lib/features/profile/widgets/profile_dialogs.dart:25:      title: Text(
+lib/features/profile/widgets/profile_dialogs.dart:32:      content: Text(
+lib/features/profile/widgets/profile_dialogs.dart:43:          child: Text(
+lib/features/profile/widgets/profile_dialogs.dart:53:          child: Text(
+lib/features/profile/widgets/profile_dialogs.dart:81:      title: Text(
+lib/features/profile/widgets/profile_dialogs.dart:88:      content: Text(
+lib/features/profile/widgets/profile_dialogs.dart:99:          child: Text(
+lib/features/profile/widgets/profile_dialogs.dart:109:          child: Text(
+lib/features/profile/widgets/profile_dialogs.dart:147:            child: Text(
+lib/features/groups/screens/group_create_screen.dart:87:      CoolToast.error(context, 'Verification completed but profile missing.');
+lib/features/groups/screens/group_create_screen.dart:132:      CoolToast.success(context, context.l10n.groupCreated);
+lib/features/groups/screens/group_create_screen.dart:138:      CoolToast.error(context, describeUserFacingError(error));
+lib/features/groups/screens/group_create_screen.dart:159:      title: Text(
+lib/features/groups/screens/group_create_screen.dart:188:                label: 'Description',
+lib/features/groups/screens/group_create_screen.dart:189:                hint: 'What is this group for?',
+lib/features/groups/screens/group_create_screen.dart:195:              const GroupSectionLabel(label: 'TYPE'),
+lib/features/groups/screens/group_create_screen.dart:214:                const GroupSectionLabel(label: 'FREQUENCY'),
+lib/features/groups/screens/group_create_screen.dart:225:                label: 'Target ($cur)',
+lib/features/groups/screens/group_create_screen.dart:226:                hint: '500,000',
+lib/features/groups/screens/group_create_screen.dart:234:                label: 'Contribution ($cur)',
+lib/features/groups/screens/group_create_screen.dart:235:                hint: '10,000',
+lib/features/groups/screens/group_create_screen.dart:256:                label: 'CREATE GROUP',
+lib/features/admin/widgets/admin_workspace_gate.dart:53:            Text(
+lib/features/admin/widgets/admin_workspace_gate.dart:61:            Text(
+lib/features/admin/widgets/admin_workspace_gate.dart:117:            Text(
+lib/features/admin/widgets/admin_workspace_gate.dart:125:            Text(
+lib/features/admin/widgets/admin_workspace_gate.dart:156:      title: Text(
+lib/features/admin/widgets/admin_workspace_gate.dart:187:      message: 'This workspace is reserved for platform administrators.',
+lib/features/admin/widgets/admin_workspace_gate.dart:209:      title: 'Bank Workspace',
+lib/features/admin/widgets/admin_workspace_gate.dart:210:      message: 'This bank workspace is outside your assigned scope.',
+lib/features/groups/screens/group_detail_screen.dart:66:      CoolToast.success(
+lib/features/groups/screens/group_detail_screen.dart:74:        CoolToast.error(context, describeUserFacingError(error));
+lib/features/groups/screens/group_detail_screen.dart:85:      CoolToast.info(
+lib/features/groups/screens/group_detail_screen.dart:94:      CoolToast.error(
+lib/features/groups/screens/group_detail_screen.dart:202:      title: Text(
+lib/features/groups/screens/group_detail_screen.dart:221:                label: '${group.memberCount} ${context.l10n.groupMembers}',
+lib/features/groups/screens/group_detail_screen.dart:227:            Text(
+lib/features/groups/screens/group_detail_screen.dart:253:                  label: 'Balance',
+lib/features/groups/screens/group_detail_screen.dart:259:                    label: 'Target',
+lib/features/groups/screens/group_detail_screen.dart:267:                    label: 'Contribution',
+lib/features/groups/screens/group_detail_screen.dart:273:                _StatRow(label: 'Country', value: group.country),
+lib/features/groups/screens/group_detail_screen.dart:290:              label: 'JOIN GROUP',
+lib/features/groups/screens/group_detail_screen.dart:295:            const _DetailNoticeCard(message: 'This group is invite-only.'),
+lib/features/groups/screens/group_detail_screen.dart:300:              subtitle: 'Share the invite link with your members.',
+lib/features/groups/screens/group_detail_screen.dart:302:              shareText: context.l10n.joinGroupShareText(
+lib/features/groups/screens/group_detail_screen.dart:311:            Text(
+lib/features/groups/screens/group_detail_screen.dart:326:                        message: 'No posted contributions yet.',
+lib/features/groups/screens/group_detail_screen.dart:354:                    message: 'Could not load the ledger.',
+lib/features/groups/screens/group_detail_screen.dart:378:        label: 'VIEW ALL STATEMENTS',
+lib/features/groups/screens/group_detail_screen.dart:415:      child: Text(
+lib/features/groups/screens/group_detail_screen.dart:438:        Text(
+lib/features/groups/screens/group_detail_screen.dart:442:        Text(value, style: text.mono(null, color: colors.primaryText)),
+lib/features/groups/screens/group_detail_screen.dart:485:                Text(
+lib/features/groups/screens/group_detail_screen.dart:494:                Text(
+lib/features/groups/screens/group_detail_screen.dart:506:              Text(
+lib/features/groups/screens/group_detail_screen.dart:551:      title: Text(
+lib/features/groups/screens/group_detail_screen.dart:581:                Text(
+lib/features/profile/widgets/profile_settings_widgets.dart:38:          child: Semantics(
+lib/features/profile/widgets/profile_settings_widgets.dart:40:            child: Text(
+lib/features/profile/widgets/profile_settings_widgets.dart:140:    return Semantics(
+lib/features/profile/widgets/profile_settings_widgets.dart:141:      label: '${item.label}: ${item.value}',
+lib/features/profile/widgets/profile_settings_widgets.dart:142:      child: ExcludeSemantics(
+lib/features/profile/widgets/profile_settings_widgets.dart:146:            Text(
+lib/features/profile/widgets/profile_settings_widgets.dart:154:            Text(
+lib/features/profile/widgets/profile_settings_widgets.dart:236:                          Text(
+lib/features/profile/widgets/profile_settings_widgets.dart:245:                          Text(
+lib/features/profile/widgets/profile_settings_widgets.dart:258:                    : Text(
+lib/features/profile/widgets/profile_settings_widgets.dart:271:                  child: Text(
+lib/features/profile/widgets/profile_settings_widgets.dart:302:      return Semantics(label: semanticsLabel, child: content);
+lib/features/profile/widgets/profile_settings_widgets.dart:305:    return Semantics(
+lib/features/profile/widgets/profile_settings_widgets.dart:308:      hint: 'Open $label',
+lib/features/profile/widgets/profile_app_access_sheet.dart:197:      CoolToast.error(context, 'Settings unavailable');
+lib/features/profile/widgets/profile_app_access_sheet.dart:209:      CoolToast.error(context, 'Settings unavailable');
+lib/features/profile/widgets/profile_app_access_sheet.dart:220:      CoolToast.error(context, error);
+lib/features/profile/widgets/profile_app_access_sheet.dart:295:        Text(
+lib/features/profile/widgets/profile_app_access_sheet.dart:303:        Text(
+lib/features/groups/screens/group_settings_screen.dart:115:      CoolToast.error(context, describeUserFacingError(error));
+lib/features/groups/screens/group_settings_screen.dart:168:          title: Text(
+lib/features/groups/screens/group_settings_screen.dart:233:                      label: 'Description (optional)',
+lib/features/groups/screens/group_settings_screen.dart:234:                      hint: 'What is this group for?',
+lib/features/groups/screens/group_settings_screen.dart:242:                      hint: 'e.g. 500,000',
+lib/features/groups/screens/group_settings_screen.dart:251:                      hint: 'e.g. 10,000',
+lib/features/groups/screens/group_settings_screen.dart:257:                    const GroupSectionLabel(label: 'FREQUENCY'),
+lib/features/admin/widgets/manage_app_config_sections.dart:56:        Text(
+lib/features/admin/widgets/manage_app_config_sections.dart:64:        Text(
+lib/features/admin/widgets/manage_app_config_sections.dart:92:      child: Text(
+lib/features/admin/widgets/manage_app_config_sections.dart:124:        title: Text(
+lib/features/admin/widgets/manage_app_config_sections.dart:132:        subtitle: Text(
+lib/features/admin/widgets/manage_app_config_sections.dart:141:        trailing: Semantics(
+lib/features/admin/widgets/manage_app_config_sections.dart:143:          label: 'Edit ${config['key'] ?? 'config'}',
+lib/features/admin/widgets/manage_app_config_sections.dart:146:            tooltip: 'Edit ${config['key'] ?? 'config'}',
+lib/features/admin/widgets/manage_app_config_sections.dart:194:                    Text(
+lib/features/admin/widgets/manage_app_config_sections.dart:202:                    Text(
+lib/features/admin/widgets/manage_app_config_sections.dart:270:      child: Text(
+lib/features/admin/widgets/manage_app_config_sections.dart:316:        title: Text(
+lib/features/admin/widgets/manage_app_config_sections.dart:328:              Text(
+lib/features/admin/widgets/manage_app_config_sections.dart:336:              Text(
+lib/features/admin/widgets/manage_app_config_sections.dart:355:            Semantics(
+lib/features/momo/services/momo_statement_export_group_ledger.dart:34:                label: 'Total',
+lib/features/momo/services/momo_statement_export_group_ledger.dart:42:                label: 'Contributors',
+lib/features/momo/services/momo_statement_export_group_ledger.dart:50:                label: 'Entries',
+lib/features/momo/services/momo_statement_export_group_ledger.dart:134:    sheet.getRangeByIndex(startRow, index + 1).setText(headers[index]);
+lib/features/momo/services/momo_statement_export_group_ledger.dart:147:        .setText(
+lib/features/momo/services/momo_statement_export_group_ledger.dart:156:        .setText(entry.contributorName ?? entry.userId);
+lib/features/momo/services/momo_statement_export_group_ledger.dart:159:    sheet.getRangeByIndex(row, 4).setText('RWF');
+lib/features/momo/services/momo_statement_export_group_ledger.dart:160:    sheet.getRangeByIndex(row, 5).setText(service._titleize(entry.status));
+lib/features/profile/widgets/profile_settings_widgets_extras.dart:20:    return Semantics(
+lib/features/profile/widgets/profile_settings_widgets_extras.dart:22:      label: '$title. $subtitle. ${isExpanded ? 'Expanded' : 'Collapsed'}',
+lib/features/profile/widgets/profile_settings_widgets_extras.dart:24:      child: ExcludeSemantics(
+lib/features/profile/widgets/profile_settings_widgets_extras.dart:34:                    Text(
+lib/features/profile/widgets/profile_settings_widgets_extras.dart:39:                    Text(
+lib/features/profile/widgets/profile_settings_widgets_extras.dart:114:    return Semantics(
+lib/features/profile/services/momo_setup_guard.dart:36:  CoolToast.info(context, intent.missingProfileMessage);
+lib/features/profile/widgets/profile_app_access_sheet_cards.dart:40:                Text(
+lib/features/profile/widgets/profile_app_access_sheet_cards.dart:48:                Text(
+lib/features/profile/widgets/profile_app_access_sheet_cards.dart:179:      helperText: _helperText(snapshot),
+lib/features/profile/widgets/profile_app_access_sheet_cards.dart:245:                          Text(
+lib/features/profile/widgets/profile_app_access_sheet_cards.dart:270:                                child: Text(
+lib/features/profile/widgets/profile_app_access_sheet_cards.dart:286:                        Text(
+lib/features/profile/widgets/profile_app_access_sheet_cards.dart:316:                        child: Text(
+lib/features/profile/widgets/profile_app_access_sheet_cards.dart:328:              Text(
+lib/features/admin/widgets/manage_admin_roles_parts.dart:127:          Text(
+lib/features/admin/widgets/manage_admin_roles_parts.dart:150:                label: 'Bank',
+lib/features/admin/widgets/manage_admin_roles_parts.dart:185:        child: RichText(
+lib/features/admin/widgets/manage_admin_roles_parts.dart:230:        title: Text(
+lib/features/admin/widgets/manage_admin_roles_parts.dart:237:        content: Text(
+lib/features/admin/widgets/manage_admin_roles_parts.dart:249:            child: Text(context.l10n.cancel),
+lib/features/admin/widgets/manage_admin_roles_parts.dart:257:            child: Text(context.l10n.revoke),
+lib/features/admin/widgets/manage_admin_roles_parts.dart:271:      CoolToast.success(context, 'Role revoked.');
+lib/features/admin/widgets/manage_admin_roles_parts.dart:274:      CoolToast.error(context, 'Failed: $error');
+lib/features/admin/widgets/manage_admin_roles_parts.dart:306:                    Text(
+lib/features/admin/widgets/manage_admin_roles_parts.dart:316:                      Text(
+lib/features/admin/widgets/manage_admin_roles_parts.dart:334:                  child: Text(
+lib/features/admin/widgets/manage_admin_roles_parts.dart:349:              child: Text(
+lib/features/admin/widgets/manage_admin_roles_parts.dart:357:          Text(
+lib/features/admin/widgets/manage_admin_roles_parts.dart:366:            Text(
+lib/features/admin/widgets/manage_admin_roles_parts.dart:392:              label: Text(
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:18:      child: Text(
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:50:      child: Text(
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:98:                Text(
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:106:                Text(
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:143:      title: 'SMS Payment Sync',
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:153:      title: 'Location',
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:154:      subtitle: 'Used for nearby services and place-aware flows',
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:160:      title: 'Camera',
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:161:      subtitle: 'Used for MoMo QR',
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:167:      title: 'Contacts',
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:168:      subtitle: 'Used when inviting group',
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:174:      title: 'NFC',
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:175:      subtitle: 'Controls NFC receive/read flows',
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:181:      title: 'Photos & Media',
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:182:      subtitle: 'Choose profile photos and upload documents from gallery.',
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:195:    AppAccessStateKind.ready => (label: 'Ready', color: colors.accent),
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:197:      label: 'Off in COOL',
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:201:      label: 'Needs Android access',
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:205:      label: 'Blocked in system',
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:209:      label: 'Device setting off',
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:213:      label: 'Not available',
+lib/features/profile/widgets/profile_app_access_sheet_support.dart:219:String _helperText(AppAccessSnapshot snapshot) {
+lib/features/admin/widgets/ai_content_edit_sheet.dart:144:                  child: Text(
+lib/features/admin/widgets/ai_content_edit_sheet.dart:190:                  label: 'Content Type',
+lib/features/admin/widgets/ai_content_edit_sheet.dart:198:                  label: 'Status',
+lib/features/admin/widgets/ai_content_edit_sheet.dart:206:                  label: 'Country',
+lib/features/admin/widgets/ai_content_edit_sheet.dart:295:                (e) => DropdownMenuItem<T>(value: e, child: Text(itemLabel(e))),
+lib/features/admin/widgets/ai_content_edit_sheet.dart:307:      CoolToast.error(context, 'Title is required');
+lib/features/admin/widgets/manage_users_parts.dart:22:        title: Text(
+lib/features/admin/widgets/manage_users_parts.dart:29:        content: Text(
+lib/features/admin/widgets/manage_users_parts.dart:38:            child: Text(context.l10n.cancel),
+lib/features/admin/widgets/manage_users_parts.dart:42:            child: Text(action),
+lib/features/admin/widgets/manage_users_parts.dart:56:        CoolToast.success(
+lib/features/admin/widgets/manage_users_parts.dart:63:        CoolToast.error(context, 'Failed: $e');
+lib/features/admin/widgets/manage_users_parts.dart:84:    return Semantics(
+lib/features/admin/widgets/manage_users_parts.dart:111:                        Text(
+lib/features/admin/widgets/manage_users_parts.dart:120:                          Text(
+lib/features/admin/widgets/manage_users_parts.dart:135:                        _MarkerChip(label: 'Mock', color: colors.warning),
+lib/features/admin/widgets/manage_users_parts.dart:138:                        _MarkerChip(label: 'Admin', color: colors.success),
+lib/features/admin/widgets/manage_users_parts.dart:142:                        _MarkerChip(label: 'MoMo', color: colors.info),
+lib/features/admin/widgets/manage_users_parts.dart:149:              Text(
+lib/features/admin/widgets/manage_users_parts.dart:159:                Text(
+lib/features/admin/widgets/manage_users_parts.dart:169:                Text(
+lib/features/admin/widgets/manage_users_parts.dart:193:                    child: Text(isAdmin ? 'Remove Admin' : 'Make Admin'),
+lib/features/admin/widgets/manage_users_parts.dart:205:                    child: const Text('Edit'),
+lib/features/admin/widgets/live_ops_admin_widgets.dart:64:      child: Text(
+lib/features/admin/widgets/live_ops_admin_widgets.dart:153:                child: Text(_formatOptionLabel(item)),
+lib/features/admin/widgets/live_ops_admin_widgets.dart:224:            Text(
+lib/features/admin/widgets/live_ops_admin_widgets.dart:232:            Text(
+lib/features/admin/widgets/live_ops_admin_widgets.dart:273:          Text(
+lib/features/admin/widgets/live_ops_admin_widgets.dart:281:          Text(
+lib/features/admin/widgets/manage_admin_roles_assignment_sheet.dart:57:      CoolToast.error(context, 'Enter a user ID.');
+lib/features/admin/widgets/manage_admin_roles_assignment_sheet.dart:61:      CoolToast.error(context, 'Select a bank scope.');
+lib/features/admin/widgets/manage_admin_roles_assignment_sheet.dart:75:      CoolToast.success(context, '${_selectedRole.label} assigned.');
+lib/features/admin/widgets/manage_admin_roles_assignment_sheet.dart:79:      CoolToast.error(context, 'Failed: $error');
+lib/features/admin/widgets/manage_admin_roles_assignment_sheet.dart:132:                Text(
+lib/features/admin/widgets/manage_admin_roles_assignment_sheet.dart:148:                    label: 'User ID',
+lib/features/admin/widgets/manage_admin_roles_assignment_sheet.dart:151:                      tooltip: 'Paste user ID',
+lib/features/admin/widgets/manage_admin_roles_assignment_sheet.dart:167:                Text(
+lib/features/admin/widgets/manage_admin_roles_assignment_sheet.dart:181:                        label: Text(role.label),
+lib/features/admin/widgets/manage_admin_roles_assignment_sheet.dart:196:                          label: 'Bank Scope',
+lib/features/admin/widgets/manage_admin_roles_assignment_sheet.dart:202:                              child: Text(partner['name']?.toString() ?? ''),
+lib/features/admin/widgets/manage_admin_roles_assignment_sheet.dart:214:                    error: (error, stackTrace) => Text(
+lib/features/admin/widgets/manage_admin_roles_assignment_sheet.dart:227:                    label: 'Assign Role',
+lib/features/admin/widgets/manage_app_config_sheets.dart:168:          : Text(
+lib/features/admin/widgets/manage_app_config_sheets.dart:239:      CoolToast.error(context, 'Select a partner.');
+lib/features/admin/widgets/manage_app_config_sheets.dart:243:      CoolToast.error(context, 'Enter a provider id such as mtn_rwanda.');
+lib/features/admin/widgets/manage_app_config_sheets.dart:247:      CoolToast.error(context, 'Enter a reconciliation label.');
+lib/features/admin/widgets/manage_app_config_sheets.dart:253:      CoolToast.error(
+lib/features/admin/widgets/manage_app_config_sheets.dart:260:      CoolToast.error(context, 'Active routes require a merchant code.');
+lib/features/admin/widgets/manage_app_config_sheets.dart:265:      CoolToast.error(
+lib/features/admin/widgets/manage_app_config_sheets.dart:291:        CoolToast.error(context, 'Error: $error');
+lib/features/admin/widgets/manage_app_config_sheets.dart:316:        CoolToast.error(context, 'Error: $error');
+lib/features/admin/widgets/manage_app_config_sheets.dart:336:          Text(
+lib/features/admin/widgets/manage_app_config_sheets.dart:344:          Text(
+lib/features/admin/widgets/manage_app_config_sheets.dart:359:            label: 'Save route',
+lib/features/admin/widgets/manage_app_config_sheets.dart:381:                    : Text(
+lib/features/admin/widgets/manage_app_config_sheets.dart:398:    child: Semantics(
+lib/features/admin/widgets/manage_app_config_sheets.dart:401:      hint: 'Enter $label',
+lib/features/admin/widgets/manage_app_config_sheets.dart:413:    child: Semantics(
+lib/features/admin/widgets/manage_app_config_sheets.dart:415:      hint: 'Choose partner',
+lib/features/admin/widgets/manage_app_config_sheets.dart:420:        decoration: _adminSheetInputDecoration(context, label: 'Partner'),
+lib/features/admin/widgets/manage_app_config_sheets.dart:425:                child: Text(partner['name']?.toString() ?? 'Partner'),
+lib/features/admin/widgets/manage_app_config_sheets.dart:444:        label: 'Market',
+lib/features/admin/widgets/manage_app_config_sheets.dart:452:    child: Semantics(
+lib/features/admin/widgets/manage_app_config_sheets.dart:454:      hint: 'Choose route status',
+lib/features/admin/widgets/manage_app_config_sheets.dart:459:        decoration: _adminSheetInputDecoration(context, label: 'Status'),
+lib/features/admin/widgets/manage_app_config_sheets.dart:461:          DropdownMenuItem<String>(value: 'draft', child: Text('Draft')),
+lib/features/admin/widgets/manage_app_config_sheets.dart:462:          DropdownMenuItem<String>(value: 'active', child: Text('Active')),
+lib/features/admin/widgets/manage_app_config_sheets.dart:463:          DropdownMenuItem<String>(value: 'inactive', child: Text('Inactive')),
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:48:      CoolToast.error(
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:71:        CoolToast.error(context, 'Error: $error');
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:89:        Text(
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:102:          label: 'Save',
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:118:    child: Semantics(
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:145:        label: 'Market',
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:202:        CoolToast.error(context, 'Error: $error');
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:223:          Text(
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:228:          Text(
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:239:              label: 'Rollout stage',
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:245:                    child: Text(stage.remoteConfigValue),
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:267:            title: Text(
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:274:            subtitle: Text(
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:291:            title: Text(
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:298:            subtitle: Text(
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:307:          Text(
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:315:          Text(
+lib/features/admin/widgets/manage_app_config_edit_sheets.dart:325:            label: 'Save rollout',
+lib/features/home/widgets/home_shared.dart:218:      child: Text(
+lib/features/auth/screens/whatsapp_otp_screen.dart:70:      CoolToast.error(context, validationError);
+lib/features/auth/screens/whatsapp_otp_screen.dart:84:      CoolToast.error(context, 'Enter all 6 digits');
+lib/features/auth/screens/whatsapp_otp_screen.dart:112:          CoolToast.error(
+lib/features/auth/screens/whatsapp_otp_screen.dart:120:        CoolToast.success(context, 'Phone verified!');
+lib/features/auth/screens/whatsapp_otp_screen.dart:149:        CoolToast.error(context, next.error!);
+lib/features/auth/screens/whatsapp_otp_screen.dart:209:        Text(
+lib/features/auth/screens/whatsapp_otp_screen.dart:222:        Text(
+lib/features/auth/screens/whatsapp_otp_screen.dart:252:                  Text(
+lib/features/auth/screens/whatsapp_otp_screen.dart:259:                  Text(
+lib/features/auth/screens/whatsapp_otp_screen.dart:326:          label: 'SEND CODE',
+lib/features/auth/screens/whatsapp_otp_screen.dart:356:        Text(
+lib/features/auth/screens/whatsapp_otp_screen.dart:369:        RichText(
+lib/features/auth/screens/whatsapp_otp_screen.dart:458:          label: 'VERIFY',
+lib/features/admin/screens/operational_dashboard_utils.dart:20:      child: Text(
+lib/features/admin/screens/operational_dashboard_utils.dart:44:        RichText(
+lib/features/admin/screens/operational_dashboard_utils.dart:53:                text: '$label: ',
+lib/features/admin/screens/operational_dashboard_utils.dart:83:      child: Text(
+lib/features/admin/widgets/manage_users_summary_parts.dart:67:          Text(
+lib/features/admin/widgets/manage_users_summary_parts.dart:75:          Text(
+lib/features/admin/widgets/manage_users_summary_parts.dart:89:                      label: 'Total',
+lib/features/admin/widgets/manage_users_summary_parts.dart:96:                      label: 'Mock',
+lib/features/admin/widgets/manage_users_summary_parts.dart:107:                      label: 'Admins',
+lib/features/admin/widgets/manage_users_summary_parts.dart:114:                      label: 'Batches',
+lib/features/admin/widgets/manage_users_summary_parts.dart:126:                    label: 'MoMo',
+lib/features/admin/widgets/manage_users_summary_parts.dart:135:            Text(
+lib/features/admin/widgets/manage_users_summary_parts.dart:177:      child: RichText(
+lib/features/admin/widgets/manage_users_summary_parts.dart:215:      child: Text(
+lib/features/admin/widgets/manage_users_summary_parts.dart:247:          title: Text(
+lib/features/admin/widgets/manage_users_summary_parts.dart:254:          content: Text(
+lib/features/admin/widgets/manage_users_summary_parts.dart:265:              child: Text(context.l10n.cancel),
+lib/features/admin/widgets/manage_users_summary_parts.dart:273:              child: Text(context.l10n.deleteBatch),
+lib/features/admin/widgets/manage_users_summary_parts.dart:310:      CoolToast.success(
+lib/features/admin/widgets/manage_users_summary_parts.dart:320:      CoolToast.error(context, 'Cleanup failed: $error');
+lib/features/admin/widgets/manage_users_summary_parts.dart:347:      label: Text(
+lib/features/admin/widgets/edit_user_sheet.dart:100:        CoolToast.success(context, 'User updated');
+lib/features/admin/widgets/edit_user_sheet.dart:103:      if (mounted) CoolToast.error(context, 'Failed: $e');
+lib/features/admin/widgets/edit_user_sheet.dart:140:              Text(
+lib/features/admin/widgets/edit_user_sheet.dart:148:              Text(
+lib/features/admin/widgets/edit_user_sheet.dart:163:                    child: Text(
+lib/features/admin/widgets/edit_user_sheet.dart:180:                label: 'Save User',
+lib/features/admin/widgets/edit_user_sheet.dart:200:    return Text(
+lib/features/home/widgets/home_communities_section.dart:29:          title: 'Communities',
+lib/features/home/widgets/home_communities_section.dart:30:          trailing: HomeSectionActionPill(label: 'VIEW ALL', onTap: onViewAll),
+lib/features/home/widgets/home_communities_section.dart:48:          subtitle: 'Communities failed to load.',
+lib/features/home/widgets/home_communities_section.dart:58:          title: 'No communities yet',
+lib/features/home/widgets/home_communities_section.dart:59:          subtitle: 'Your savings circles will appear here.',
+lib/features/home/widgets/home_communities_section.dart:181:                            child: Text(
+lib/features/home/widgets/home_communities_section.dart:194:                      Text(
+lib/features/home/widgets/home_communities_section.dart:207:                      Text(
+lib/features/home/widgets/home_communities_section.dart:220:                            child: Text(
+lib/features/biopay/widgets/biopay_payee_confirmation_sheet.dart:81:              child: Text(
+lib/features/biopay/widgets/biopay_payee_confirmation_sheet.dart:93:            Text(
+lib/features/biopay/widgets/biopay_payee_confirmation_sheet.dart:106:            Text(
+lib/features/biopay/widgets/biopay_payee_confirmation_sheet.dart:127:              child: Text(
+lib/features/biopay/widgets/biopay_payee_confirmation_sheet.dart:141:              label: 'PAY THIS PERSON',
+lib/features/biopay/widgets/biopay_payee_confirmation_sheet.dart:146:              label: 'CANCEL',
+lib/features/admin/screens/operational_dashboard_release_cards.dart:28:                child: Text(
+lib/features/admin/screens/operational_dashboard_release_cards.dart:47:                  Expanded(child: _MetricChip(label: 'OK', value: '$okCount')),
+lib/features/admin/screens/operational_dashboard_release_cards.dart:50:                    child: _MetricChip(label: 'Warn', value: '$warnCount'),
+lib/features/admin/screens/operational_dashboard_release_cards.dart:58:                    child: _MetricChip(label: 'Error', value: '$errorCount'),
+lib/features/admin/screens/operational_dashboard_release_cards.dart:62:                    child: _MetricChip(label: 'Issues', value: '$issueCount'),
+lib/features/admin/screens/operational_dashboard_release_cards.dart:69:          Text(
+lib/features/admin/screens/operational_dashboard_release_cards.dart:78:          Text(
+lib/features/admin/screens/operational_dashboard_release_cards.dart:116:                child: Text(
+lib/features/admin/screens/operational_dashboard_release_cards.dart:153:          Text(
+lib/features/admin/screens/operational_dashboard_release_cards.dart:162:          _FactLine(label: 'Source', value: _metricSource(metricKey)),
+lib/features/admin/screens/operational_dashboard_release_cards.dart:164:          Text(
+lib/features/admin/screens/operational_dashboard_release_cards.dart:201:                child: Text(
+lib/features/admin/screens/operational_dashboard_release_cards.dart:216:          Text(
+lib/features/admin/screens/operational_dashboard_release_cards.dart:229:                label: 'Service',
+lib/features/admin/screens/operational_dashboard_release_cards.dart:233:                _FactLine(label: 'Reference', value: reference),
+lib/features/admin/screens/operational_dashboard_release_cards.dart:235:                _FactLine(label: 'Table', value: subjectTable),
+lib/features/admin/screens/operational_dashboard_release_cards.dart:237:                _FactLine(label: 'Record', value: subjectId),
+lib/features/admin/screens/operational_dashboard_release_cards.dart:241:          Text(
+lib/features/admin/screens/operational_dashboard_release_cards.dart:281:                child: Text(
+lib/features/admin/screens/operational_dashboard_release_cards.dart:289:              Text(
+lib/features/admin/screens/operational_dashboard_release_cards.dart:299:          Text(
+lib/features/admin/screens/operational_dashboard_release_cards.dart:312:                label: 'Component',
+lib/features/admin/screens/operational_dashboard_release_cards.dart:316:                _FactLine(label: 'Function', value: functionName),
+lib/features/admin/screens/operational_dashboard_release_cards.dart:318:                _FactLine(label: 'Code', value: issueCode),
+lib/features/home/widgets/home_sections_support.dart:112:            child: Text(
+lib/features/home/widgets/home_quick_services.dart:19:        label: 'SAVE',
+lib/features/home/widgets/home_quick_services.dart:25:        label: 'SCAN',
+lib/features/home/widgets/home_quick_services.dart:31:        label: 'BioPay',
+lib/features/home/widgets/home_quick_services.dart:37:        label: 'NFC',
+lib/features/home/widgets/home_quick_services.dart:80:    return Semantics(
+lib/features/home/widgets/home_quick_services.dart:152:            Text(
+lib/features/home/widgets/home_sections.dart:66:          child: Text(
+lib/features/home/widgets/home_sections.dart:185:                        child: Text(
+lib/features/home/widgets/home_sections.dart:198:                      Text(
+lib/features/home/widgets/home_sections.dart:236:          child: Text(
+lib/features/home/widgets/home_sections.dart:279:          child: Text(
+lib/features/admin/screens/admin_groups_screen.dart:55:              label: Text(label),
+lib/features/admin/screens/admin_groups_screen.dart:78:      title: Text(
+lib/features/admin/screens/admin_groups_screen.dart:85:      subtitle: Text(
+lib/features/admin/screens/admin_groups_screen.dart:93:        hint: 'Search groups…',
+lib/features/admin/screens/admin_groups_screen.dart:107:          message: 'No group data',
+lib/features/admin/screens/admin_groups_screen.dart:136:              const AdminSectionHeader(title: 'Overview'),
+lib/features/admin/screens/admin_groups_screen.dart:147:                    label: 'Total Groups',
+lib/features/admin/screens/admin_groups_screen.dart:153:                    label: 'Active',
+lib/features/admin/screens/admin_groups_screen.dart:159:                    label: 'Closed',
+lib/features/admin/screens/admin_groups_screen.dart:165:                    label: 'Members',
+lib/features/admin/screens/admin_groups_screen.dart:171:                    label: 'Private',
+lib/features/admin/screens/admin_groups_screen.dart:177:                    label: 'Wallets',
+lib/features/admin/screens/admin_groups_screen.dart:185:              const AdminSectionHeader(title: 'Group List'),
+lib/features/admin/screens/admin_groups_screen.dart:189:                Text(
+lib/features/admin/screens/admin_groups_screen.dart:200:                  message: 'No groups match your filter',
+lib/features/admin/screens/admin_groups_screen.dart:273:                Text(
+lib/features/admin/screens/admin_groups_screen.dart:280:                Text(
+lib/features/admin/screens/admin_groups_screen.dart:343:                    Text(
+lib/features/admin/screens/admin_groups_screen.dart:351:                    Text(
+lib/features/admin/screens/admin_groups_screen.dart:374:                child: Text(
+lib/features/admin/screens/admin_groups_screen.dart:393:                label: '$memberCount member${memberCount == 1 ? '' : 's'}',
+lib/features/admin/screens/admin_groups_screen.dart:398:                  label: '$walletCount wallet${walletCount == 1 ? '' : 's'}',
+lib/features/admin/screens/admin_groups_screen.dart:429:        Text(
+lib/features/home/widgets/home_operations_section.dart:24:          title: 'Operations',
+lib/features/home/widgets/home_operations_section.dart:52:        subtitle: 'Operations failed to load.',
+lib/features/home/widgets/home_operations_section.dart:59:        title: 'No operations yet',
+lib/features/home/widgets/home_operations_section.dart:60:        subtitle: 'Incoming and outgoing transactions will appear here.',
+lib/features/home/widgets/home_operations_section.dart:123:                Text(
+lib/features/home/widgets/home_operations_section.dart:137:                Text(
+lib/features/home/widgets/home_operations_section.dart:152:          Text(
+lib/features/biopay/widgets/biopay_surface.dart:81:                child: Text(
+lib/features/biopay/widgets/biopay_surface.dart:191:                child: Text(
+lib/features/biopay/widgets/biopay_surface.dart:304:                          child: Text(
+lib/features/biopay/widgets/biopay_surface.dart:333:    return Text(
+lib/features/admin/screens/admin_dashboard_screen.dart:46:            Semantics(
+lib/features/admin/screens/admin_dashboard_screen.dart:49:              child: Text(
+lib/features/admin/screens/admin_dashboard_screen.dart:58:            Text(
+lib/features/admin/screens/admin_dashboard_screen.dart:70:                  Text(
+lib/features/admin/screens/admin_dashboard_screen.dart:79:                  Text(
+lib/features/admin/screens/operational_dashboard_manual_review.dart:41:        title: Text(
+lib/features/admin/screens/operational_dashboard_manual_review.dart:48:        content: Text(
+lib/features/admin/screens/operational_dashboard_manual_review.dart:58:            child: Text(context.l10n.cancel),
+lib/features/admin/screens/operational_dashboard_manual_review.dart:66:            child: const Text('Close review'),
+lib/features/admin/screens/operational_dashboard_manual_review.dart:83:        CoolToast.success(context, 'Manual review closed.');
+lib/features/admin/screens/operational_dashboard_manual_review.dart:87:        CoolToast.error(context, 'Could not close this review right now.');
+lib/features/admin/screens/operational_dashboard_manual_review.dart:107:        title: Text(
+lib/features/admin/screens/operational_dashboard_manual_review.dart:114:        content: Text(
+lib/features/admin/screens/operational_dashboard_manual_review.dart:124:            child: Text(context.l10n.cancel),
+lib/features/admin/screens/operational_dashboard_manual_review.dart:132:            child: const Text('Close visible'),
+lib/features/admin/screens/operational_dashboard_manual_review.dart:157:        CoolToast.success(
+lib/features/admin/screens/operational_dashboard_manual_review.dart:166:        CoolToast.error(context, 'Could not close the visible reviews.');
+lib/features/admin/screens/operational_dashboard_manual_review.dart:186:        message: 'No generic M-Money SMS manual reviews are open.',
+lib/features/admin/screens/operational_dashboard_manual_review.dart:210:                    label: Text('$label${count > 0 ? ' ($count)' : ''}'),
+lib/features/admin/screens/operational_dashboard_manual_review.dart:246:                  label: Text(
+lib/features/admin/screens/operational_dashboard_manual_review.dart:279:                        Text(
+lib/features/biopay/screens/biopay_home_screen.dart:41:          Text(
+lib/features/biopay/screens/biopay_home_screen.dart:68:                      label: 'Face Scan',
+lib/features/biopay/screens/biopay_home_screen.dart:87:                      label: 'NFC Tap',
+lib/features/biopay/screens/biopay_home_screen.dart:100:                      label: 'Get QR',
+lib/features/biopay/screens/biopay_home_screen.dart:113:                      label: 'Scan QR',
+lib/features/biopay/screens/biopay_home_screen.dart:173:              Text(
+lib/features/biopay/screens/biopay_nfc_tap_screen.dart:63:                  title: 'NFC Payment',
+lib/features/biopay/screens/biopay_nfc_tap_screen.dart:116:                      Text(
+lib/features/biopay/screens/biopay_nfc_tap_screen.dart:130:                        child: Text(
+lib/features/biopay/screens/biopay_nfc_tap_screen.dart:183:                              : Text(
+lib/features/admin/screens/admin_workspaces_screen.dart:37:        message: 'This account does not have admin workspace access.',
+lib/features/admin/screens/admin_workspaces_screen.dart:48:          Text(
+lib/features/admin/screens/admin_workspaces_screen.dart:57:          Text(
+lib/features/admin/screens/admin_workspaces_screen.dart:75:              message: 'Global app operations and release controls.',
+lib/features/admin/screens/admin_workspaces_screen.dart:79:              title: 'Platform Admin',
+lib/features/admin/screens/admin_workspaces_screen.dart:80:              subtitle: 'Users, services, content, roles, and operations.',
+lib/features/admin/screens/admin_workspaces_screen.dart:89:              title: 'Bank Workspaces',
+lib/features/admin/screens/admin_workspaces_screen.dart:90:              message: 'Allocation review, custody, and ledger exports.',
+lib/features/admin/screens/admin_workspaces_screen.dart:101:                    message: 'No bank workspace is assigned yet.',
+lib/features/admin/screens/admin_workspaces_screen.dart:124:                message: 'Bank workspaces failed to load.',
+lib/features/admin/screens/admin_workspaces_screen.dart:144:      child: Text(
+lib/features/admin/screens/admin_workspaces_screen.dart:172:          Text(
+lib/features/admin/screens/admin_workspaces_screen.dart:180:          Text(
+lib/features/admin/screens/admin_workspaces_screen.dart:195:                  label: 'Platform Admin',
+lib/features/admin/screens/admin_workspaces_screen.dart:199:                _RoleChip(label: 'Bank Admin', color: colors.info),
+lib/features/admin/screens/admin_workspaces_screen.dart:223:      child: Text(
+lib/features/admin/screens/admin_workspaces_screen.dart:274:                Text(
+lib/features/admin/screens/admin_workspaces_screen.dart:282:                Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:46:      title: Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:85:              Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:171:                Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:179:                Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:192:                      child: Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:221:                        CoolToast.success(context, 'Payment allocated');
+lib/features/admin/screens/bank_admin_workspace_screen.dart:223:                      child: const Text('Allocate'),
+lib/features/admin/screens/bank_admin_workspace_screen.dart:253:                Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:261:                Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:274:                      child: Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:300:                        CoolToast.success(context, 'Allocation rejected');
+lib/features/admin/screens/bank_admin_workspace_screen.dart:302:                      child: const Text('Reject'),
+lib/features/admin/screens/bank_admin_workspace_screen.dart:348:      CoolToast.success(context, 'Ledger exported');
+lib/features/admin/screens/bank_admin_workspace_screen.dart:376:              label: Text(tab.name.toUpperCase()),
+lib/features/admin/screens/bank_admin_workspace_screen.dart:427:        message: 'No linked groups.',
+lib/features/admin/screens/bank_admin_workspace_screen.dart:444:              Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:452:              Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:463:                    label: 'View details',
+lib/features/admin/screens/bank_admin_workspace_screen.dart:469:                    label: 'Open ledger',
+lib/features/admin/screens/bank_admin_workspace_screen.dart:480:          const AdminSectionHeader(title: 'Group Members'),
+lib/features/admin/screens/bank_admin_workspace_screen.dart:503:                    child: Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:544:        message: 'No manual review items.',
+lib/features/admin/screens/bank_admin_workspace_screen.dart:577:                      child: Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:591:                      label: 'Allocate',
+lib/features/admin/screens/bank_admin_workspace_screen.dart:597:                      label: 'Reject',
+lib/features/admin/screens/bank_admin_workspace_screen.dart:640:        message: 'No posted payment ledger entries.',
+lib/features/admin/screens/bank_admin_workspace_screen.dart:650:                Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:662:                      tooltip: 'Export PDF',
+lib/features/admin/screens/bank_admin_workspace_screen.dart:670:                      tooltip: 'Export Excel',
+lib/features/admin/screens/bank_admin_workspace_screen.dart:689:                          Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:697:                          Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:707:                    Text(
+lib/features/admin/screens/bank_admin_workspace_screen.dart:766:              Text(
+lib/features/admin/screens/system_analytics_screen.dart:37:      title: Text(
+lib/features/admin/screens/system_analytics_screen.dart:44:      subtitle: Text(
+lib/features/admin/screens/system_analytics_screen.dart:60:          message: 'No analytics available yet',
+lib/features/admin/screens/system_analytics_screen.dart:68:              const AdminSectionHeader(title: 'Core Counts'),
+lib/features/admin/screens/system_analytics_screen.dart:119:              const AdminSectionHeader(title: 'Growth'),
+lib/features/admin/screens/system_analytics_screen.dart:146:              const AdminSectionHeader(title: 'Admin Role Distribution'),
+lib/features/admin/screens/system_analytics_screen.dart:153:              const AdminSectionHeader(title: 'Event Distribution (30d)'),
+lib/features/admin/screens/system_analytics_screen.dart:160:              const AdminSectionHeader(title: 'Audit'),
+lib/features/admin/screens/system_analytics_screen.dart:258:                        Text(
+lib/features/admin/screens/system_analytics_screen.dart:265:                        Text(
+lib/features/admin/screens/system_analytics_screen.dart:300:        child: Text(
+lib/features/admin/screens/system_analytics_screen.dart:323:                  child: Text(
+lib/features/admin/screens/system_analytics_screen.dart:331:                Text(
+lib/features/biopay/screens/biopay_nfc_screen.dart:97:            title: 'NFC Payment',
+lib/features/biopay/screens/biopay_nfc_screen.dart:149:          const BiopayFieldLabel(label: 'Amount (Optional)'),
+lib/features/biopay/screens/biopay_nfc_screen.dart:155:                Text(
+lib/features/biopay/screens/biopay_nfc_screen.dart:218:              child: Text(
+lib/features/biopay/screens/biopay_nfc_screen.dart:296:      CoolToast.error(
+lib/features/biopay/screens/biopay_nfc_screen.dart:365:      CoolToast.error(context, describeUserFacingError(error));
+lib/features/biopay/screens/biopay_nfc_screen.dart:384:      CoolToast.success(context, 'BioPay NFC stopped.');
+lib/features/biopay/screens/biopay_nfc_screen.dart:389:      CoolToast.error(context, describeUserFacingError(error));
+lib/features/biopay/screens/biopay_nfc_screen.dart:438:      child: Text(
+lib/features/biopay/screens/biopay_qr_screen.dart:65:            title: 'Get QR Code',
+lib/features/biopay/screens/biopay_qr_screen.dart:117:          const BiopayFieldLabel(label: 'Amount (Optional)'),
+lib/features/biopay/screens/biopay_qr_screen.dart:124:                Text(
+lib/features/biopay/screens/biopay_qr_screen.dart:159:            label: 'Generate QR Code',
+lib/features/biopay/screens/biopay_qr_screen.dart:209:      CoolToast.error(
+lib/features/biopay/screens/biopay_qr_screen.dart:254:              Text(
+lib/features/biopay/screens/biopay_qr_screen.dart:286:              Text(
+lib/features/biopay/screens/biopay_qr_screen.dart:298:                Text(
+lib/features/biopay/screens/biopay_qr_screen.dart:319:                  child: Text(
+lib/features/admin/screens/audit_log_screen.dart:40:      title: Text(
+lib/features/admin/screens/audit_log_screen.dart:47:      subtitle: Text(
+lib/features/admin/screens/audit_log_screen.dart:67:                  label: Text(label),
+lib/features/admin/screens/audit_log_screen.dart:102:          message: 'No audit entries yet',
+lib/features/admin/screens/audit_log_screen.dart:211:                      Text(
+lib/features/admin/screens/audit_log_screen.dart:218:                      Text(
+lib/features/admin/screens/audit_log_screen.dart:230:                Text(
+lib/features/admin/screens/audit_log_screen.dart:251:                Text(
+lib/features/admin/screens/audit_log_screen.dart:263:                Text(
+lib/features/admin/screens/audit_log_screen.dart:315:      child: Text(
+lib/features/admin/screens/operational_dashboard_cards.dart:40:                child: Text(
+lib/features/admin/screens/operational_dashboard_cards.dart:55:          Text(
+lib/features/admin/screens/operational_dashboard_cards.dart:65:          Text(
+lib/features/admin/screens/operational_dashboard_cards.dart:74:          _FactLine(label: 'Type', value: _text(row['tx_type']) ?? 'unknown'),
+lib/features/admin/screens/operational_dashboard_cards.dart:76:            label: 'Category',
+lib/features/admin/screens/operational_dashboard_cards.dart:80:            _FactLine(label: 'Counterparty', value: counterparty),
+lib/features/admin/screens/operational_dashboard_cards.dart:82:            _FactLine(label: 'Tx ID', value: momoTxId),
+lib/features/admin/screens/operational_dashboard_cards.dart:84:            label: 'Received',
+lib/features/admin/screens/operational_dashboard_cards.dart:89:            Text(
+lib/features/admin/screens/operational_dashboard_cards.dart:117:              label: Text(isBusy ? 'Closing...' : 'Close review'),
+lib/features/admin/screens/operational_dashboard_cards.dart:167:                    Text(
+lib/features/admin/screens/operational_dashboard_cards.dart:175:                    Text(
+lib/features/admin/screens/operational_dashboard_cards.dart:211:              _MetricChip(label: 'Raw', value: '${_count(row['raw_count'])}'),
+lib/features/admin/screens/operational_dashboard_cards.dart:213:                label: 'Users',
+lib/features/admin/screens/operational_dashboard_cards.dart:217:                label: 'Pending Raw',
+lib/features/admin/screens/operational_dashboard_cards.dart:221:                label: 'Parsed',
+lib/features/admin/screens/operational_dashboard_cards.dart:225:                label: 'Open Review',
+lib/features/admin/screens/operational_dashboard_cards.dart:229:                label: 'Rejected',
+lib/features/admin/screens/operational_dashboard_cards.dart:234:                  label: 'Matched',
+lib/features/admin/screens/operational_dashboard_cards.dart:240:          _FactLine(label: 'Latest parse', value: latestParseStatus),
+lib/features/admin/screens/operational_dashboard_cards.dart:241:          _FactLine(label: 'Latest reconcile', value: latestMatchStatus),
+lib/features/admin/screens/operational_dashboard_cards.dart:242:          _FactLine(label: 'Source', value: ingestionSource),
+lib/features/admin/screens/operational_dashboard_cards.dart:245:              label: 'Resolution',
+lib/features/admin/screens/operational_dashboard_cards.dart:249:            label: 'First seen',
+lib/features/admin/screens/operational_dashboard_cards.dart:253:            label: 'Last seen',
+lib/features/admin/screens/operational_dashboard_cards.dart:257:            _FactLine(label: 'Resolved', value: _formatTimestamp(resolvedAt)),
+lib/features/admin/screens/operational_dashboard_cards.dart:260:            Text(
+lib/features/admin/screens/operational_dashboard_cards.dart:287:                label: Text(isBusy ? 'Saving...' : 'Acknowledge legacy'),
+lib/features/admin/screens/manage_admin_roles_screen.dart:34:      title: Text(
+lib/features/admin/screens/manage_admin_roles_screen.dart:41:      subtitle: Text(
+lib/features/admin/screens/manage_admin_roles_screen.dart:48:      floatingActionButton: Semantics(
+lib/features/admin/screens/manage_admin_roles_screen.dart:50:        label: 'Assign admin role',
+lib/features/admin/screens/manage_admin_roles_screen.dart:51:        hint: 'Open role assignment form',
+lib/features/admin/screens/manage_admin_roles_screen.dart:71:          message: 'No admin roles yet',
+lib/features/biopay/repositories/biopay_repository.dart:84:        message: 'BioPay enrollment failed.',
+lib/features/biopay/repositories/biopay_repository.dart:121:        message: 'BioPay matching failed.',
+lib/features/biopay/repositories/biopay_repository.dart:148:        message: 'BioPay revocation failed.',
+lib/features/biopay/repositories/biopay_repository.dart:187:        message: 'Payment intent creation failed.',
+lib/features/biopay/screens/biopay_profile_screen.dart:51:              title: 'Profile',
+lib/features/biopay/screens/biopay_profile_screen.dart:90:                  Text(
+lib/features/biopay/screens/biopay_profile_screen.dart:114:              Text(
+lib/features/biopay/screens/biopay_profile_screen.dart:131:            const BiopayTopBar(title: 'Profile'),
+lib/features/biopay/screens/biopay_profile_screen.dart:138:                    Text(
+lib/features/biopay/screens/biopay_profile_screen.dart:147:                    Text(
+lib/features/biopay/screens/biopay_profile_screen.dart:161:              label: 'Try Again',
+lib/features/biopay/screens/biopay_profile_screen.dart:264:        Text(
+lib/features/biopay/screens/biopay_profile_screen.dart:276:        Text(
+lib/features/biopay/screens/biopay_profile_screen.dart:313:                    Text(
+lib/features/biopay/screens/biopay_profile_screen.dart:323:                    Text(
+lib/features/biopay/screens/biopay_scan_screen_footer.dart:52:      child: Text(
+lib/features/biopay/screens/biopay_scan_screen_footer.dart:70:          CoolButton(label: 'Enable Camera', onTap: state._requestCameraAccess),
+lib/features/biopay/screens/biopay_scan_screen_footer.dart:73:            label: 'Manage Access',
+lib/features/biopay/screens/biopay_scan_screen_footer.dart:79:            Text(
+lib/features/biopay/screens/biopay_scan_screen_footer.dart:97:      child: Text(
+lib/features/admin/screens/admin_dashboard_parts.dart:50:      child: Text(
+lib/features/admin/screens/admin_dashboard_parts.dart:96:          Text(
+lib/features/admin/screens/admin_dashboard_parts.dart:108:            child: Text(
+lib/features/admin/screens/manage_users_screen.dart:40:      title: Text(
+lib/features/admin/screens/manage_users_screen.dart:47:        hint: 'Search by name, phone, or ID…',
+lib/features/admin/screens/manage_users_screen.dart:60:          message: 'No users were returned',
+lib/features/admin/screens/manage_users_screen.dart:117:                      Text(
+lib/features/biopay/screens/biopay_register_screen.dart:81:            title: 'Face ID Setup',
+lib/features/biopay/screens/biopay_register_screen.dart:91:          Text(
+lib/features/biopay/screens/biopay_register_screen.dart:182:        CoolToast.error(context, 'BioPay could not open a secure session.');
+lib/features/biopay/screens/biopay_register_screen.dart:388:          Text(
+lib/features/biopay/screens/biopay_register_screen.dart:420:      child: Text(
+lib/features/biopay/screens/biopay_scan_screen.dart:526:                        Text(
+lib/features/admin/screens/operational_dashboard_screen.dart:81:            Text(
+lib/features/admin/screens/operational_dashboard_screen.dart:92:              message: 'Live health by monitored',
+lib/features/admin/screens/operational_dashboard_screen.dart:101:                message: 'No operational dashboard yet',
+lib/features/admin/screens/operational_dashboard_screen.dart:113:              title: 'Triage Queue',
+lib/features/admin/screens/operational_dashboard_screen.dart:114:              message: 'Focused on failed payment',
+lib/features/admin/screens/operational_dashboard_screen.dart:123:                message: 'No release-blocking operational issues',
+lib/features/admin/screens/operational_dashboard_screen.dart:136:              title: 'M-Money SMS',
+lib/features/admin/screens/operational_dashboard_screen.dart:147:                message: 'No M-Money SMS operational summary',
+lib/features/admin/screens/operational_dashboard_screen.dart:160:              title: 'Sender Inventory Audit',
+lib/features/admin/screens/operational_dashboard_screen.dart:161:              message: 'Unsupported or alias sender drift detected.',
+lib/features/admin/screens/operational_dashboard_screen.dart:167:              title: 'Generic Manual Review',
+lib/features/admin/screens/operational_dashboard_screen.dart:168:              message: 'SMS that could not be app-linked.',
+lib/features/admin/screens/operational_dashboard_screen.dart:174:              title: 'Recent Activity',
+lib/features/admin/screens/operational_dashboard_screen.dart:175:              message: 'Operational health stream',
+lib/features/admin/screens/operational_dashboard_screen.dart:184:                message: 'No recent operational events',
+lib/features/biopay/screens/biopay_enrollment_success_screen.dart:64:          Text(
+lib/features/biopay/screens/biopay_enrollment_success_screen.dart:75:          Text(
+lib/features/biopay/screens/biopay_enrollment_success_screen.dart:86:          Text(
+lib/features/biopay/screens/biopay_enrollment_success_screen.dart:98:            label: 'Done',
+lib/features/biopay/screens/biopay_enrollment_success_screen.dart:104:            child: Text(
+lib/features/admin/screens/manage_app_config_screen.dart:76:      title: Text(
+lib/features/admin/screens/manage_app_config_screen.dart:83:      subtitle: Text(
+lib/features/admin/screens/manage_app_config_screen.dart:90:      floatingActionButton: Semantics(
+lib/features/admin/screens/manage_app_config_screen.dart:93:        hint: 'New config',
+lib/features/admin/screens/manage_app_config_screen.dart:125:                title: 'Partner Payment Routes',
+lib/features/admin/screens/manage_app_config_screen.dart:126:                message: 'Manage Rwanda partner checkout',
+lib/features/admin/screens/manage_app_config_screen.dart:150:                  label: Text(
+lib/features/admin/screens/manage_app_config_screen.dart:161:                  message: 'Loading partner payment routes…',
+lib/features/admin/screens/manage_app_config_screen.dart:164:                const EmptyConfigCard(message: 'Load partner payment failed')
+lib/features/admin/screens/manage_app_config_screen.dart:166:                const EmptyConfigCard(message: 'No partner payment routes')
+lib/features/admin/screens/manage_app_config_screen.dart:186:                title: 'Additional Config',
+lib/features/admin/screens/manage_app_config_screen.dart:187:                message: 'Use the generic config',
+lib/features/admin/screens/manage_app_config_screen.dart:191:                const EmptyConfigCard(message: 'No non-rollout config entries')
+lib/features/biopay/screens/biopay_scan_screen_processing.dart:223:      CoolToast.error(state.context, authResult.message);
+lib/features/biopay/screens/biopay_scan_screen_processing.dart:238:    CoolToast.success(
+lib/features/biopay/screens/biopay_scan_screen_processing.dart:254:    CoolToast.error(state.context, describeUserFacingError(error));
+lib/features/biopay/screens/biopay_scan_screen_processing.dart:396:    CoolToast.success(
+lib/features/biopay/screens/biopay_scan_screen_processing.dart:410:    CoolToast.error(state.context, describeUserFacingError(error));
+lib/features/admin/screens/operational_dashboard_sender_inventory.dart:42:        title: Text(
+lib/features/admin/screens/operational_dashboard_sender_inventory.dart:49:        content: Text(
+lib/features/admin/screens/operational_dashboard_sender_inventory.dart:59:            child: Text(context.l10n.cancel),
+lib/features/admin/screens/operational_dashboard_sender_inventory.dart:67:            child: const Text('Acknowledge'),
+lib/features/admin/screens/operational_dashboard_sender_inventory.dart:84:        CoolToast.success(context, 'Legacy sender acknowledged.');
+lib/features/admin/screens/operational_dashboard_sender_inventory.dart:88:        CoolToast.error(
+lib/features/admin/screens/operational_dashboard_sender_inventory.dart:111:        title: Text(
+lib/features/admin/screens/operational_dashboard_sender_inventory.dart:118:        content: Text(
+lib/features/admin/screens/operational_dashboard_sender_inventory.dart:128:            child: Text(context.l10n.cancel),
+lib/features/admin/screens/operational_dashboard_sender_inventory.dart:136:            child: const Text('Acknowledge visible'),
+lib/features/admin/screens/operational_dashboard_sender_inventory.dart:161:        CoolToast.success(
+lib/features/admin/screens/operational_dashboard_sender_inventory.dart:170:        CoolToast.error(
+lib/features/admin/screens/operational_dashboard_sender_inventory.dart:193:        message: 'No unsupported M-Money SMS senders are currently stored.',
+lib/features/admin/screens/operational_dashboard_sender_inventory.dart:217:                    label: Text('$label${count > 0 ? ' ($count)' : ''}'),
+lib/features/admin/screens/operational_dashboard_sender_inventory.dart:253:                  label: Text(
+lib/features/admin/models/admin_workspace_catalog.dart:76:      title: 'Groups',
+lib/features/admin/models/admin_workspace_catalog.dart:77:      subtitle: 'View contribution groups, members, and wallet routing.',
+lib/features/admin/models/admin_workspace_catalog.dart:107:          subtitle: 'Manual review, ledgers, and custody operations.',
+lib/features/admin/models/admin_workspace_catalog.dart:129:          title: 'Bank $bankId',
+lib/features/admin/models/admin_workspace_catalog.dart:130:          subtitle: 'Manual review, ledgers, and custody operations.',
+lib/features/admin/models/admin_feature_rollout.dart:22:      label: 'Mobile Money',
+lib/features/biopay/services/biopay_auth_gate_service.dart:17:    : this._(status: BiopayAuthGateStatus.authorized, message: '');

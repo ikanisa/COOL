@@ -105,7 +105,7 @@ void main() {
                         '12,500 RWF',
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w800,
                           color: Colors.green[700],
                         ),
                       ),

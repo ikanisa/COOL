@@ -193,14 +193,14 @@ class _AppShellState extends ConsumerState<AppShell>
                                   colors: colors,
                                 ),
                                 _NavItem(
-                                  label: 'BioPay',
+                                  label: context.l10n.navBiopay,
                                   icon: Icons.center_focus_strong_rounded,
                                   isSelected: index == 1,
                                   onTap: () => _onItemTapped(1),
                                   colors: colors,
                                 ),
                                 _NavItem(
-                                  label: 'Settings',
+                                  label: context.l10n.navProfile,
                                   icon: Icons.settings_rounded,
                                   isSelected: index == 2,
                                   onTap: () => _onItemTapped(2),

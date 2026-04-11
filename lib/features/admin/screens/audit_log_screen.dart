@@ -40,7 +40,7 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
       title: Text(
         'Audit Log',
         style: theme.textTheme.headlineMedium?.copyWith(
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
           height: 1.1,
         ),
       ),
@@ -48,7 +48,7 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
         'Who changed what and when',
         style: theme.textTheme.bodySmall?.copyWith(
           color: context.coolSemanticColors.secondaryText,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
         ),
       ),
       filterActions: [
@@ -73,7 +73,7 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
                   backgroundColor: colors.chipBackground,
                   selectedColor: colors.chipSelectedBackground,
                   labelStyle: theme.textTheme.labelLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                     color: isSelected
                         ? colors.primaryText
                         : colors.secondaryText,
@@ -211,7 +211,7 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
                       Text(
                         '$displayActor · ${action.toUpperCase()}',
                         style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w800,
                           color: colors.primaryText,
                         ),
                       ),
@@ -219,7 +219,7 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
                         '$targetTable${targetId.isNotEmpty ? ' · $targetId' : ''}',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: colors.tertiaryText,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w500,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -231,7 +231,7 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
                   createdAt,
                   style: theme.textTheme.labelSmall?.copyWith(
                     color: colors.tertiaryText,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(width: 4),
@@ -252,7 +252,7 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
                   'Previous',
                   style: theme.textTheme.labelLarge?.copyWith(
                     color: colors.danger,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x1),
@@ -264,7 +264,7 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
                   'New',
                   style: theme.textTheme.labelLarge?.copyWith(
                     color: colors.success,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x1),

@@ -7,7 +7,7 @@ void main() {
   group('resolveAppRedirect', () {
     // ── No session ────────────────────────────────────────────────────
     group('no session', () {
-      test('on splash → stays on splash', () {
+      test('on root → stays on root', () {
         final result = resolveAppRedirect(
           location: AppRoutes.splash,
           hasSession: false,
@@ -16,41 +16,38 @@ void main() {
         expect(result, isNull);
       });
 
-      test('on home → redirects to splash with pending redirect', () {
+      test('on home → stays on home while auth re-establishes', () {
         final result = resolveAppRedirect(
           location: AppRoutes.home,
           hasSession: false,
           hasProfile: false,
         );
-        expect(result, isNotNull);
-        expect(result, contains(AppRoutes.splash));
+        expect(result, isNull);
       });
 
-      test('on admin → redirects to splash', () {
+      test('on admin → redirects to home', () {
         final result = resolveAppRedirect(
           location: AppRoutes.admin,
           hasSession: false,
           hasProfile: false,
         );
-        expect(result, isNotNull);
-        expect(result, contains(AppRoutes.splash));
+        expect(result, AppRoutes.home);
       });
     });
 
     // ── Session with pending profile restore ──────────────────────────
     group('session with pending profile restore', () {
-      test('on home → redirects to splash', () {
+      test('on home → stays on current route', () {
         final result = resolveAppRedirect(
           location: AppRoutes.home,
           hasSession: true,
           hasProfile: false,
           profileRestoreState: AuthProfileRestoreState.pending,
         );
-        expect(result, isNotNull);
-        expect(result, contains(AppRoutes.splash));
+        expect(result, isNull);
       });
 
-      test('on splash → stays on splash', () {
+      test('on root → stays on root', () {
         final result = resolveAppRedirect(
           location: AppRoutes.splash,
           hasSession: true,
@@ -63,15 +60,14 @@ void main() {
 
     // ── Session with failed profile restore ───────────────────────────
     group('session with failed profile restore', () {
-      test('on home → redirects to splash', () {
+      test('on home → stays on current route', () {
         final result = resolveAppRedirect(
           location: AppRoutes.home,
           hasSession: true,
           hasProfile: false,
           profileRestoreState: AuthProfileRestoreState.failed,
         );
-        expect(result, isNotNull);
-        expect(result, contains(AppRoutes.splash));
+        expect(result, isNull);
       });
     });
 

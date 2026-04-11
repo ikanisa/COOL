@@ -42,7 +42,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final groups = groupsAsync.valueOrNull ?? const [];
     final topPadding = MediaQuery.paddingOf(context).top;
     final bottomPadding = MediaQuery.viewPaddingOf(context).bottom;
-    final displayName = resolveDisplayName(user?.officialName, user?.fullName);
+    final displayName = resolveDisplayName(
+      context,
+      user?.officialName,
+      user?.fullName,
+    );
     final colors = context.coolSemanticColors;
 
     return CoolScreenBackground(
@@ -71,8 +75,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     HomeHeader(
                       displayName: displayName,
                       avatarUrl: user?.avatarUrl,
-                      onNotificationsTap: () =>
-                          context.push(AppRoutes.profile),
+                      onNotificationsTap: () => context.push(AppRoutes.profile),
                     ),
                     const SizedBox(height: CoolSpace.x7),
                     HomeSavingsHeroCard(

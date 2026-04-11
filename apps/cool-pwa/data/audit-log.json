@@ -1,0 +1,32 @@
+{
+  "metrics": {
+    "actions24h": "48",
+    "updates": "29",
+    "deletes": "3"
+  },
+  "activity": [
+    {
+      "title": "Config mutation recorded",
+      "description": "A rollout policy edit was captured with actor, timestamp, and target scope.",
+      "status": "Recorded",
+      "tone": "online",
+      "meta": "update · app_config"
+    },
+    {
+      "title": "User recovery review recorded",
+      "description": "An admin queued an access repair and linked the action to an explicit rationale.",
+      "status": "Recorded",
+      "tone": "syncing",
+      "meta": "update · users"
+    }
+  ],
+  "queue": [
+    {
+      "title": "Pending audit export",
+      "description": "Queued evidence bundle is waiting for online sync before external review.",
+      "status": "Pending",
+      "tone": "offline",
+      "meta": "Audit evidence"
+    }
+  ]
+}

@@ -62,7 +62,7 @@ body {
   background: rgba(102, 242, 198, 0.12);
   color: var(--accent);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -117,7 +117,7 @@ nav {
   border-radius: 999px;
   border: 1px solid rgba(102, 242, 198, 0.22);
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .button {
@@ -143,7 +143,7 @@ nav {
 
 .warning {
   color: var(--danger);
-  font-weight: 700;
+  font-weight: 800;
 }
 
 ul {

@@ -118,6 +118,12 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get navProfile;
 
+  /// No description provided for @navBiopay.
+  ///
+  /// In en, this message translates to:
+  /// **'BioPay'**
+  String get navBiopay;
+
   /// No description provided for @welcomeTitle.
   ///
   /// In en, this message translates to:
@@ -129,6 +135,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Community savings group funds'**
   String get welcomeSubtitle;
+
+  /// No description provided for @homeCommunitiesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Communities'**
+  String get homeCommunitiesTitle;
+
+  /// No description provided for @homeCommunitiesLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Communities failed to load.'**
+  String get homeCommunitiesLoadFailed;
+
+  /// No description provided for @homeNoCommunitiesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No communities yet'**
+  String get homeNoCommunitiesYet;
+
+  /// No description provided for @homeCommunitiesEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your savings circles will appear here.'**
+  String get homeCommunitiesEmptySubtitle;
+
+  /// No description provided for @homeCommunityFallbackName.
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get homeCommunityFallbackName;
+
+  /// No description provided for @homeSavingsBalanceUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVINGS BALANCE'**
+  String get homeSavingsBalanceUpper;
+
+  /// No description provided for @homeQuickScanUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'SCAN'**
+  String get homeQuickScanUpper;
+
+  /// No description provided for @homeQuickBiopayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'BioPay'**
+  String get homeQuickBiopayLabel;
+
+  /// No description provided for @homeOperationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Operations'**
+  String get homeOperationsTitle;
+
+  /// No description provided for @homeOperationsLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Operations failed to load.'**
+  String get homeOperationsLoadFailed;
+
+  /// No description provided for @homeNoOperationsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No operations yet'**
+  String get homeNoOperationsYet;
+
+  /// No description provided for @homeOperationsEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming and outgoing transactions will appear here.'**
+  String get homeOperationsEmptySubtitle;
+
+  /// No description provided for @homeTransactionFallbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction'**
+  String get homeTransactionFallbackTitle;
+
+  /// No description provided for @homeOperationMetaToday.
+  ///
+  /// In en, this message translates to:
+  /// **'TODAY, {time} • {type}'**
+  String homeOperationMetaToday(String time, String type);
+
+  /// No description provided for @homeOperationMetaYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'YESTERDAY, {time} • {type}'**
+  String homeOperationMetaYesterday(String time, String type);
+
+  /// No description provided for @homeOperationMetaDate.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}, {time} • {type}'**
+  String homeOperationMetaDate(String date, String time, String type);
+
+  /// No description provided for @homeNoChangeThisMonthUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'NO CHANGE THIS MONTH'**
+  String get homeNoChangeThisMonthUpper;
+
+  /// No description provided for @homeThisMonthAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'THIS MONTH {amount} RWF'**
+  String homeThisMonthAmount(String amount);
+
+  /// No description provided for @homeMemberCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 MEMBER} other{{count} MEMBERS}}'**
+  String homeMemberCount(int count);
+
+  /// No description provided for @homeOperationTransferUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'TRANSFER'**
+  String get homeOperationTransferUpper;
+
+  /// No description provided for @homeOperationReceivedUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'RECEIVED'**
+  String get homeOperationReceivedUpper;
+
+  /// No description provided for @homeOperationSavingUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVING'**
+  String get homeOperationSavingUpper;
+
+  /// No description provided for @homeOperationInterestUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'INTEREST'**
+  String get homeOperationInterestUpper;
+
+  /// No description provided for @homeOperationPayoutUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'PAYOUT'**
+  String get homeOperationPayoutUpper;
+
+  /// No description provided for @homeOperationActivityUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'ACTIVITY'**
+  String get homeOperationActivityUpper;
 
   /// No description provided for @getStarted.
   ///
@@ -1215,6 +1371,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Daily'**
   String get daily;
+
+  /// No description provided for @weekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get weekly;
 
   /// No description provided for @expiresSoon.
   ///
@@ -2638,6 +2800,84 @@ abstract class AppLocalizations {
   /// **'MoMo code not set'**
   String get profileMomoCodeNotSet;
 
+  /// No description provided for @profileSettingsUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings unavailable'**
+  String get profileSettingsUnavailable;
+
+  /// No description provided for @profileAppAccessToggleFeatureAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle feature access'**
+  String get profileAppAccessToggleFeatureAccess;
+
+  /// No description provided for @profileOpenLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Open {label}'**
+  String profileOpenLabel(String label);
+
+  /// No description provided for @profileSectionExpanded.
+  ///
+  /// In en, this message translates to:
+  /// **'Expanded'**
+  String get profileSectionExpanded;
+
+  /// No description provided for @profileSectionCollapsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapsed'**
+  String get profileSectionCollapsed;
+
+  /// No description provided for @profileCollapseSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse section'**
+  String get profileCollapseSection;
+
+  /// No description provided for @profileExpandSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand section'**
+  String get profileExpandSection;
+
+  /// No description provided for @profileMomoNumberRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo number required'**
+  String get profileMomoNumberRequired;
+
+  /// No description provided for @profileMomoNumberIsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo number is required'**
+  String get profileMomoNumberIsRequired;
+
+  /// No description provided for @profileMomoCodeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo code required'**
+  String get profileMomoCodeRequired;
+
+  /// No description provided for @profileEnterMomoNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter MoMo number'**
+  String get profileEnterMomoNumber;
+
+  /// No description provided for @profileEnterMerchantCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter merchant code'**
+  String get profileEnterMerchantCode;
+
+  /// No description provided for @profileDefaultReceiveRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'DEFAULT RECEIVE ROUTE'**
+  String get profileDefaultReceiveRoute;
+
   /// No description provided for @momoSendMoneyOpensUssd.
   ///
   /// In en, this message translates to:
@@ -3142,6 +3382,12 @@ abstract class AppLocalizations {
   /// **'Clear'**
   String get clear;
 
+  /// No description provided for @statusBadgeSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'Status: {label}'**
+  String statusBadgeSemantics(String label);
+
   /// No description provided for @str07xxxxxxxx.
   ///
   /// In en, this message translates to:
@@ -3153,6 +3399,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Allocate to member'**
   String get allocateToMember;
+
+  /// No description provided for @allocateToMemberUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'ALLOCATE TO MEMBER'**
+  String get allocateToMemberUpper;
+
+  /// No description provided for @transactionAllocated.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction allocated'**
+  String get transactionAllocated;
+
+  /// No description provided for @allocationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Allocation failed'**
+  String get allocationFailed;
+
+  /// No description provided for @transactionUnallocated.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction unallocated'**
+  String get transactionUnallocated;
+
+  /// No description provided for @unallocationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unallocation failed'**
+  String get unallocationFailed;
+
+  /// No description provided for @transactionAllocationUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'TRANSACTION ALLOCATION'**
+  String get transactionAllocationUpper;
+
+  /// No description provided for @manageGroupMemberAssignment.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage group member assignment'**
+  String get manageGroupMemberAssignment;
+
+  /// No description provided for @notYetAllocated.
+  ///
+  /// In en, this message translates to:
+  /// **'Not yet allocated'**
+  String get notYetAllocated;
+
+  /// No description provided for @unallocateUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'UNALLOCATE'**
+  String get unallocateUpper;
+
+  /// No description provided for @orReallocateToAnotherMember.
+  ///
+  /// In en, this message translates to:
+  /// **'OR REALLOCATE TO ANOTHER MEMBER'**
+  String get orReallocateToAnotherMember;
+
+  /// No description provided for @noGroupMembersFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No group members found.'**
+  String get noGroupMembersFound;
+
+  /// No description provided for @selectMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Select member:'**
+  String get selectMember;
+
+  /// No description provided for @currentUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'CURRENT'**
+  String get currentUpper;
+
+  /// No description provided for @confirmReallocationUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'CONFIRM REALLOCATION'**
+  String get confirmReallocationUpper;
+
+  /// No description provided for @confirmAllocationUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'CONFIRM ALLOCATION'**
+  String get confirmAllocationUpper;
+
+  /// No description provided for @shareQrButton.
+  ///
+  /// In en, this message translates to:
+  /// **'QR / Share'**
+  String get shareQrButton;
+
+  /// No description provided for @selectAContactToShareWith.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a contact to share with'**
+  String get selectAContactToShareWith;
+
+  /// No description provided for @postedUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'POSTED'**
+  String get postedUpper;
+
+  /// No description provided for @confirmedUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'CONFIRMED'**
+  String get confirmedUpper;
+
+  /// No description provided for @draftUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'DRAFT'**
+  String get draftUpper;
+
+  /// No description provided for @reviewUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'REVIEW'**
+  String get reviewUpper;
+
+  /// No description provided for @manualUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'MANUAL'**
+  String get manualUpper;
+
+  /// No description provided for @suggestedUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'SUGGESTED'**
+  String get suggestedUpper;
+
+  /// No description provided for @rejectedUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'REJECTED'**
+  String get rejectedUpper;
 
   /// No description provided for @groups1.
   ///
@@ -4150,6 +4540,12 @@ abstract class AppLocalizations {
   /// **'Ready'**
   String get ready;
 
+  /// No description provided for @disabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled'**
+  String get disabled;
+
   /// No description provided for @offInCool.
   ///
   /// In en, this message translates to:
@@ -4179,6 +4575,198 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not available'**
   String get notAvailable;
+
+  /// No description provided for @profileSmsSyncOptIn.
+  ///
+  /// In en, this message translates to:
+  /// **'SMS sync opt-in'**
+  String get profileSmsSyncOptIn;
+
+  /// No description provided for @profileSmsSyncOptInMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Android only. COOL checks approved M-Money sender IDs, imports matching confirmations, and ignores other SMS.'**
+  String get profileSmsSyncOptInMessage;
+
+  /// No description provided for @profileSmsPaymentSyncTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SMS Payment Sync'**
+  String get profileSmsPaymentSyncTitle;
+
+  /// No description provided for @profileSmsPaymentSyncSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional on Android. Watches approved M-Money sender IDs, imports matching confirmations, and auto-verifies supported payment flows.'**
+  String get profileSmsPaymentSyncSubtitle;
+
+  /// No description provided for @profileAccessFeature12MonthImport.
+  ///
+  /// In en, this message translates to:
+  /// **'12-month import'**
+  String get profileAccessFeature12MonthImport;
+
+  /// No description provided for @profileAccessFeatureMomoVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo verification'**
+  String get profileAccessFeatureMomoVerification;
+
+  /// No description provided for @profileLocationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Used for nearby services and place-aware flows'**
+  String get profileLocationSubtitle;
+
+  /// No description provided for @profileAccessFeatureNearbyServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby services'**
+  String get profileAccessFeatureNearbyServices;
+
+  /// No description provided for @profileAccessFeaturePartnerDiscovery.
+  ///
+  /// In en, this message translates to:
+  /// **'Partner discovery'**
+  String get profileAccessFeaturePartnerDiscovery;
+
+  /// No description provided for @profileAccessFeatureMapContext.
+  ///
+  /// In en, this message translates to:
+  /// **'Map context'**
+  String get profileAccessFeatureMapContext;
+
+  /// No description provided for @profileCameraSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Used for MoMo QR'**
+  String get profileCameraSubtitle;
+
+  /// No description provided for @profileAccessFeatureMomoQrScan.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo QR scan'**
+  String get profileAccessFeatureMomoQrScan;
+
+  /// No description provided for @profileContactsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Used when inviting group'**
+  String get profileContactsSubtitle;
+
+  /// No description provided for @profileAccessFeatureGroupInvites.
+  ///
+  /// In en, this message translates to:
+  /// **'Group invites'**
+  String get profileAccessFeatureGroupInvites;
+
+  /// No description provided for @profileAccessFeatureShareViaContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Share via contacts'**
+  String get profileAccessFeatureShareViaContacts;
+
+  /// No description provided for @profileNotificationsNeedsSystemAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs system access'**
+  String get profileNotificationsNeedsSystemAccess;
+
+  /// No description provided for @profileAccessFeatureMomoUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo updates'**
+  String get profileAccessFeatureMomoUpdates;
+
+  /// No description provided for @profileAccessFeatureGroupsActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Groups activity'**
+  String get profileAccessFeatureGroupsActivity;
+
+  /// No description provided for @profileAccessFeatureServiceUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Service updates'**
+  String get profileAccessFeatureServiceUpdates;
+
+  /// No description provided for @profileAccessFeaturePartnerAnnouncements.
+  ///
+  /// In en, this message translates to:
+  /// **'Partner announcements'**
+  String get profileAccessFeaturePartnerAnnouncements;
+
+  /// No description provided for @profileOpenLocationSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open location settings'**
+  String get profileOpenLocationSettings;
+
+  /// No description provided for @profileNfcSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Controls NFC receive/read flows'**
+  String get profileNfcSubtitle;
+
+  /// No description provided for @profileAccessFeatureMomoReceiveTap.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo receive tap'**
+  String get profileAccessFeatureMomoReceiveTap;
+
+  /// No description provided for @profileAccessFeatureNfcPaymentTags.
+  ///
+  /// In en, this message translates to:
+  /// **'NFC payment tags'**
+  String get profileAccessFeatureNfcPaymentTags;
+
+  /// No description provided for @profileOpenNfcSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open NFC settings'**
+  String get profileOpenNfcSettings;
+
+  /// No description provided for @profilePhotosMediaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos & Media'**
+  String get profilePhotosMediaTitle;
+
+  /// No description provided for @profilePhotosMediaSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose profile photos and upload documents from gallery.'**
+  String get profilePhotosMediaSubtitle;
+
+  /// No description provided for @profileAccessFeatureProfilePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile photo'**
+  String get profileAccessFeatureProfilePhoto;
+
+  /// No description provided for @profileAccessFeatureDocumentUpload.
+  ///
+  /// In en, this message translates to:
+  /// **'Document upload'**
+  String get profileAccessFeatureDocumentUpload;
+
+  /// No description provided for @profileServiceOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Service off'**
+  String get profileServiceOff;
+
+  /// No description provided for @profileAppAccessReadyCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{readyCount}/{totalCount} ready'**
+  String profileAppAccessReadyCount(int readyCount, int totalCount);
+
+  /// No description provided for @profileAppAccessAllControls.
+  ///
+  /// In en, this message translates to:
+  /// **'All access controls'**
+  String get profileAppAccessAllControls;
 
   /// No description provided for @legalNameForReports.
   ///
@@ -5266,6 +5854,24 @@ abstract class AppLocalizations {
   /// **'Search by name or'**
   String get searchByNameOr;
 
+  /// No description provided for @contactPickerInviteFromContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite from Contacts'**
+  String get contactPickerInviteFromContacts;
+
+  /// No description provided for @contactPickerSearchNameOrPhoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search name or phone'**
+  String get contactPickerSearchNameOrPhoneHint;
+
+  /// No description provided for @contactPickerSearchByNameOrPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name or phone'**
+  String get contactPickerSearchByNameOrPhone;
+
   /// No description provided for @contactsAccessDenied.
   ///
   /// In en, this message translates to:
@@ -5289,6 +5895,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong'**
   String get somethingWentWrong;
+
+  /// No description provided for @contactPickerCouldNotLoadContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load contacts.'**
+  String get contactPickerCouldNotLoadContacts;
+
+  /// No description provided for @contactPickerCouldNotOpenContactsSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open contacts settings.'**
+  String get contactPickerCouldNotOpenContactsSettings;
+
+  /// No description provided for @contactPickerDeniedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve permanently denied contacts'**
+  String get contactPickerDeniedMessage;
+
+  /// No description provided for @contactPickerAccessCurrentlyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts access is currently'**
+  String get contactPickerAccessCurrentlyMessage;
+
+  /// No description provided for @contactPickerEnableContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Contacts'**
+  String get contactPickerEnableContacts;
+
+  /// No description provided for @contactPickerNeedsAccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Cool needs access to'**
+  String get contactPickerNeedsAccessMessage;
+
+  /// No description provided for @contactPickerNoContactsMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No contacts match \"{query}\"'**
+  String contactPickerNoContactsMatch(String query);
+
+  /// No description provided for @contactPickerNoContactsWithPhones.
+  ///
+  /// In en, this message translates to:
+  /// **'No contacts with phone numbers found.'**
+  String get contactPickerNoContactsWithPhones;
+
+  /// No description provided for @contactPickerDoneCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Done ({count})'**
+  String contactPickerDoneCount(int count);
 
   /// No description provided for @eventsValue.
   ///
@@ -5973,6 +6633,1062 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No orders yet'**
   String get rsAdminNoOrders;
+
+  /// No description provided for @profileWhatsAppLaunchError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open WhatsApp'**
+  String get profileWhatsAppLaunchError;
+
+  /// No description provided for @profileFaceIdComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'COMING SOON'**
+  String get profileFaceIdComingSoon;
+
+  /// No description provided for @profileFaceIdRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'REGISTERED - {value}'**
+  String profileFaceIdRegistered(String value);
+
+  /// No description provided for @profileFaceIdScanToPay.
+  ///
+  /// In en, this message translates to:
+  /// **'SCAN YOUR FACE TO PAY'**
+  String get profileFaceIdScanToPay;
+
+  /// No description provided for @profileFaceIdCheckingStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'CHECKING FACE ID STATUS'**
+  String get profileFaceIdCheckingStatus;
+
+  /// No description provided for @profileIdentityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'IDENTITY'**
+  String get profileIdentityTitle;
+
+  /// No description provided for @profileAppSettingsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'APP SETTINGS'**
+  String get profileAppSettingsSection;
+
+  /// No description provided for @profileAccountDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ACCOUNT DETAILS'**
+  String get profileAccountDetailsTitle;
+
+  /// No description provided for @profilePersonalInformationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'PERSONAL INFORMATION'**
+  String get profilePersonalInformationSubtitle;
+
+  /// No description provided for @profileWalletMomoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'WALLET & MOMO'**
+  String get profileWalletMomoTitle;
+
+  /// No description provided for @profileSetupDefaultMomoSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SET UP YOUR DEFAULT MOMO'**
+  String get profileSetupDefaultMomoSubtitle;
+
+  /// No description provided for @profileTransactionHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'TRANSACTION HISTORY'**
+  String get profileTransactionHistoryTitle;
+
+  /// No description provided for @profileStatementsLedgerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'M-MONEY STATEMENTS & LEDGER'**
+  String get profileStatementsLedgerSubtitle;
+
+  /// No description provided for @profileFaceIdRegisterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FACE ID REGISTER'**
+  String get profileFaceIdRegisterTitle;
+
+  /// No description provided for @profileSupportSection.
+  ///
+  /// In en, this message translates to:
+  /// **'SUPPORT'**
+  String get profileSupportSection;
+
+  /// No description provided for @profileAdminWorkspaceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ADMIN WORKSPACE'**
+  String get profileAdminWorkspaceTitle;
+
+  /// No description provided for @profileSystemManagementSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SYSTEM MANAGEMENT'**
+  String get profileSystemManagementSubtitle;
+
+  /// No description provided for @profileHelpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'HELP'**
+  String get profileHelpTitle;
+
+  /// No description provided for @profileChatOnWhatsAppSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CHAT ON WHATSAPP'**
+  String get profileChatOnWhatsAppSubtitle;
+
+  /// No description provided for @profileLogoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'LOGOUT'**
+  String get profileLogoutTitle;
+
+  /// No description provided for @otpEnterAllDigits.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter all 6 digits'**
+  String get otpEnterAllDigits;
+
+  /// No description provided for @otpSessionOpenFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone was verified, but the app could not open your session.'**
+  String get otpSessionOpenFailed;
+
+  /// No description provided for @otpPhoneVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone verified!'**
+  String get otpPhoneVerified;
+
+  /// No description provided for @otpEnterWhatsappNumberTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter WhatsApp\nNumber'**
+  String get otpEnterWhatsappNumberTitle;
+
+  /// No description provided for @otpEnterWhatsappNumberSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter WhatsApp number to receive OTP'**
+  String get otpEnterWhatsappNumberSubtitle;
+
+  /// No description provided for @otpPhoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'788 123 456'**
+  String get otpPhoneHint;
+
+  /// No description provided for @otpSendCodeUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'SEND CODE'**
+  String get otpSendCodeUpper;
+
+  /// No description provided for @otpVerifyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify OTP'**
+  String get otpVerifyTitle;
+
+  /// No description provided for @otpVerifySubtitlePrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a 6-digit OTP to your WhatsApp at '**
+  String get otpVerifySubtitlePrefix;
+
+  /// No description provided for @otpVerifyButtonUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'VERIFY'**
+  String get otpVerifyButtonUpper;
+
+  /// No description provided for @biopayHomeHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay & Get Paid\nInstantly'**
+  String get biopayHomeHeadline;
+
+  /// No description provided for @biopayFaceScanLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Face Scan'**
+  String get biopayFaceScanLabel;
+
+  /// No description provided for @biopayNfcTapLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'NFC Tap'**
+  String get biopayNfcTapLabel;
+
+  /// No description provided for @biopayTabNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Number'**
+  String get biopayTabNumber;
+
+  /// No description provided for @biopayTabCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Code'**
+  String get biopayTabCode;
+
+  /// No description provided for @biopayMomoNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo Number'**
+  String get biopayMomoNumberLabel;
+
+  /// No description provided for @biopayAmountOptionalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount (Optional)'**
+  String get biopayAmountOptionalLabel;
+
+  /// No description provided for @biopayZeroAmountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'0'**
+  String get biopayZeroAmountHint;
+
+  /// No description provided for @biopayEnterMerchantCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a merchant code'**
+  String get biopayEnterMerchantCode;
+
+  /// No description provided for @biopayEnterMomoNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a MoMo number'**
+  String get biopayEnterMomoNumber;
+
+  /// No description provided for @biopayProfileUnavailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile unavailable'**
+  String get biopayProfileUnavailableTitle;
+
+  /// No description provided for @biopayProfileUnavailableMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'BioPay could not load your linked details right now.'**
+  String get biopayProfileUnavailableMessage;
+
+  /// No description provided for @biopayTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get biopayTryAgain;
+
+  /// No description provided for @biopayCompleteEnrollmentMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete Face ID enrollment from Settings to pay with BioPay.'**
+  String get biopayCompleteEnrollmentMessage;
+
+  /// No description provided for @biopayNotLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Linked'**
+  String get biopayNotLinked;
+
+  /// No description provided for @biopayNotAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Added'**
+  String get biopayNotAdded;
+
+  /// No description provided for @biopayIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'BioPay ID'**
+  String get biopayIdLabel;
+
+  /// No description provided for @biopayFaceIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Face ID'**
+  String get biopayFaceIdLabel;
+
+  /// No description provided for @biopayFaceIdNotSetUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set up'**
+  String get biopayFaceIdNotSetUp;
+
+  /// No description provided for @biopayFaceIdSetupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Face ID Setup'**
+  String get biopayFaceIdSetupTitle;
+
+  /// No description provided for @biopayRegisterHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Link your face\nto your MoMo.'**
+  String get biopayRegisterHeadline;
+
+  /// No description provided for @biopayFaceIdAlreadyLinkedNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Face ID already linked. A new scan will replace it.'**
+  String get biopayFaceIdAlreadyLinkedNotice;
+
+  /// No description provided for @biopayUpdateEnrollment.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Enrollment'**
+  String get biopayUpdateEnrollment;
+
+  /// No description provided for @biopayStartEnrollment.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Enrollment'**
+  String get biopayStartEnrollment;
+
+  /// No description provided for @biopaySecureSessionError.
+  ///
+  /// In en, this message translates to:
+  /// **'BioPay could not open a secure session.'**
+  String get biopaySecureSessionError;
+
+  /// No description provided for @biopayUserDisplayName.
+  ///
+  /// In en, this message translates to:
+  /// **'BioPay User'**
+  String get biopayUserDisplayName;
+
+  /// No description provided for @biopayGetQrCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get QR Code'**
+  String get biopayGetQrCodeTitle;
+
+  /// No description provided for @biopayGenerateQrCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate QR Code'**
+  String get biopayGenerateQrCode;
+
+  /// No description provided for @biopayQrReadyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'BioPay QR Ready'**
+  String get biopayQrReadyTitle;
+
+  /// No description provided for @doneUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'DONE'**
+  String get doneUpper;
+
+  /// No description provided for @biopayNfcPaymentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'NFC Payment'**
+  String get biopayNfcPaymentTitle;
+
+  /// No description provided for @biopayNfcOffInApp.
+  ///
+  /// In en, this message translates to:
+  /// **'NFC is off in the app. Tap activate and BioPay will request access.'**
+  String get biopayNfcOffInApp;
+
+  /// No description provided for @biopayTurnOnNfcInSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on NFC in system settings to continue.'**
+  String get biopayTurnOnNfcInSettings;
+
+  /// No description provided for @biopayNfcUnavailableOnDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'NFC is not available on this device.'**
+  String get biopayNfcUnavailableOnDevice;
+
+  /// No description provided for @biopayNfcReadyForNextTap.
+  ///
+  /// In en, this message translates to:
+  /// **'NFC is active and ready for the next tap.'**
+  String get biopayNfcReadyForNextTap;
+
+  /// No description provided for @biopayNfcNotAvailableButton.
+  ///
+  /// In en, this message translates to:
+  /// **'NFC Not Available'**
+  String get biopayNfcNotAvailableButton;
+
+  /// No description provided for @biopayActivateNfc.
+  ///
+  /// In en, this message translates to:
+  /// **'Activate NFC'**
+  String get biopayActivateNfc;
+
+  /// No description provided for @biopayStopNfc.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop NFC'**
+  String get biopayStopNfc;
+
+  /// No description provided for @biopayNfcStopped.
+  ///
+  /// In en, this message translates to:
+  /// **'BioPay NFC stopped.'**
+  String get biopayNfcStopped;
+
+  /// No description provided for @biopayNfcActivationUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'NFC activation is not available here.'**
+  String get biopayNfcActivationUnavailable;
+
+  /// No description provided for @groupCreateProfileMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification completed but profile missing.'**
+  String get groupCreateProfileMissing;
+
+  /// No description provided for @groupNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a group name.'**
+  String get groupNameRequired;
+
+  /// No description provided for @groupNameTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 3 characters.'**
+  String get groupNameTooShort;
+
+  /// No description provided for @groupNameMinimumThreeCharacters.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at least 3 characters.'**
+  String get groupNameMinimumThreeCharacters;
+
+  /// No description provided for @groupDescriptionOptionalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Description (optional)'**
+  String get groupDescriptionOptionalLabel;
+
+  /// No description provided for @groupDescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What is this group for?'**
+  String get groupDescriptionHint;
+
+  /// No description provided for @groupTypeSection.
+  ///
+  /// In en, this message translates to:
+  /// **'TYPE'**
+  String get groupTypeSection;
+
+  /// No description provided for @groupFrequencySection.
+  ///
+  /// In en, this message translates to:
+  /// **'FREQUENCY'**
+  String get groupFrequencySection;
+
+  /// No description provided for @groupDailyLower.
+  ///
+  /// In en, this message translates to:
+  /// **'daily'**
+  String get groupDailyLower;
+
+  /// No description provided for @groupWeeklyLower.
+  ///
+  /// In en, this message translates to:
+  /// **'weekly'**
+  String get groupWeeklyLower;
+
+  /// No description provided for @groupMonthlyLower.
+  ///
+  /// In en, this message translates to:
+  /// **'monthly'**
+  String get groupMonthlyLower;
+
+  /// No description provided for @oneOff.
+  ///
+  /// In en, this message translates to:
+  /// **'One-Off'**
+  String get oneOff;
+
+  /// No description provided for @groupTargetLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Target ({currency})'**
+  String groupTargetLabel(String currency);
+
+  /// No description provided for @groupSettingsTargetAmountOptionalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Target Amount — {currency} (optional)'**
+  String groupSettingsTargetAmountOptionalLabel(String currency);
+
+  /// No description provided for @groupContributionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Contribution ({currency})'**
+  String groupContributionLabel(String currency);
+
+  /// No description provided for @groupSettingsContributionAmountOptionalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Contribution Amount — {currency} (optional)'**
+  String groupSettingsContributionAmountOptionalLabel(String currency);
+
+  /// No description provided for @groupTargetHint.
+  ///
+  /// In en, this message translates to:
+  /// **'500,000'**
+  String get groupTargetHint;
+
+  /// No description provided for @groupSettingsTargetAmountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 500,000'**
+  String get groupSettingsTargetAmountHint;
+
+  /// No description provided for @groupContributionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'10,000'**
+  String get groupContributionHint;
+
+  /// No description provided for @groupSettingsContributionAmountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 10,000'**
+  String get groupSettingsContributionAmountHint;
+
+  /// No description provided for @groupCreateGroupUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'CREATE GROUP'**
+  String get groupCreateGroupUpper;
+
+  /// No description provided for @groupsPaymentRoutePendingInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'This group has no payment route configured yet.'**
+  String get groupsPaymentRoutePendingInfo;
+
+  /// No description provided for @groupsLaunchMomoUssdError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not launch MoMo USSD. Try dialing manually.'**
+  String get groupsLaunchMomoUssdError;
+
+  /// No description provided for @groupsCreateUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'CREATE'**
+  String get groupsCreateUpper;
+
+  /// No description provided for @groupsMyLedgers.
+  ///
+  /// In en, this message translates to:
+  /// **'My Ledgers'**
+  String get groupsMyLedgers;
+
+  /// No description provided for @groupsExplore.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get groupsExplore;
+
+  /// No description provided for @groupsInviteNotFoundTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite not found'**
+  String get groupsInviteNotFoundTitle;
+
+  /// No description provided for @groupsInviteNotFoundMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This invite code is not active.'**
+  String get groupsInviteNotFoundMessage;
+
+  /// No description provided for @groupsAlreadyMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Already a member.'**
+  String get groupsAlreadyMember;
+
+  /// No description provided for @groupsDismissUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'DISMISS'**
+  String get groupsDismissUpper;
+
+  /// No description provided for @groupsOpenUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'OPEN'**
+  String get groupsOpenUpper;
+
+  /// No description provided for @groupsJoinNowUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'JOIN NOW'**
+  String get groupsJoinNowUpper;
+
+  /// No description provided for @groupsInviteErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite error'**
+  String get groupsInviteErrorTitle;
+
+  /// No description provided for @groupsNoGroupsYetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No groups yet'**
+  String get groupsNoGroupsYetTitle;
+
+  /// No description provided for @groupsNoGroupsYetMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your first group or join a public one.'**
+  String get groupsNoGroupsYetMessage;
+
+  /// No description provided for @groupsTapToRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'TAP TO RETRY'**
+  String get groupsTapToRetry;
+
+  /// No description provided for @groupsJoinUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'JOIN'**
+  String get groupsJoinUpper;
+
+  /// No description provided for @groupsLiveUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'LIVE'**
+  String get groupsLiveUpper;
+
+  /// No description provided for @groupsViewAllStatementsUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'VIEW ALL STATEMENTS'**
+  String get groupsViewAllStatementsUpper;
+
+  /// No description provided for @groupsContributeWithMomoUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTRIBUTE WITH MOMO'**
+  String get groupsContributeWithMomoUpper;
+
+  /// No description provided for @groupsContributionRoutePendingUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTRIBUTION ROUTE PENDING'**
+  String get groupsContributionRoutePendingUpper;
+
+  /// No description provided for @groupsJoinGroupUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'JOIN GROUP'**
+  String get groupsJoinGroupUpper;
+
+  /// No description provided for @groupsInviteOnlyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This group is invite-only.'**
+  String get groupsInviteOnlyMessage;
+
+  /// No description provided for @groupsInviteShareSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share the invite link with your members.'**
+  String get groupsInviteShareSubtitle;
+
+  /// No description provided for @groupsNoPostedContributionsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No posted contributions yet.'**
+  String get groupsNoPostedContributionsYet;
+
+  /// No description provided for @groupsCouldNotLoadLedger.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the ledger.'**
+  String get groupsCouldNotLoadLedger;
+
+  /// No description provided for @groupPaymentLedgerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Group Payment Ledger'**
+  String get groupPaymentLedgerTitle;
+
+  /// No description provided for @groupPaymentLedgerFileStem.
+  ///
+  /// In en, this message translates to:
+  /// **'cool_group_payment_ledger'**
+  String get groupPaymentLedgerFileStem;
+
+  /// No description provided for @groupStatementsCoolUser.
+  ///
+  /// In en, this message translates to:
+  /// **'COOL User'**
+  String get groupStatementsCoolUser;
+
+  /// No description provided for @groupStatementsAllPostedEntriesInView.
+  ///
+  /// In en, this message translates to:
+  /// **'All posted entries in view'**
+  String get groupStatementsAllPostedEntriesInView;
+
+  /// No description provided for @groupStatementsTitleUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'STATEMENTS'**
+  String get groupStatementsTitleUpper;
+
+  /// No description provided for @groupStatementsGroupLedgerUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'GROUP LEDGER'**
+  String get groupStatementsGroupLedgerUpper;
+
+  /// No description provided for @groupStatementsLoadingUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'LOADING'**
+  String get groupStatementsLoadingUpper;
+
+  /// No description provided for @groupStatementsLedgerExported.
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger exported'**
+  String get groupStatementsLedgerExported;
+
+  /// No description provided for @groupStatementsNoTransactionsYetUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'NO TRANSACTIONS YET'**
+  String get groupStatementsNoTransactionsYetUpper;
+
+  /// No description provided for @groupStatementsEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Contributions will appear here as members make payments to this group.'**
+  String get groupStatementsEmptyMessage;
+
+  /// No description provided for @qrShareSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan QR or share the link'**
+  String get qrShareSheetSubtitle;
+
+  /// No description provided for @whatsappNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp is not available'**
+  String get whatsappNotAvailable;
+
+  /// No description provided for @scanMomoQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan MoMo QR'**
+  String get scanMomoQr;
+
+  /// No description provided for @cameraIsOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera is off'**
+  String get cameraIsOff;
+
+  /// No description provided for @enableCameraAccessToScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable camera access to scan.'**
+  String get enableCameraAccessToScan;
+
+  /// No description provided for @enableCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Camera'**
+  String get enableCamera;
+
+  /// No description provided for @cameraIsBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera is blocked'**
+  String get cameraIsBlocked;
+
+  /// No description provided for @openSystemSettingsPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Open system settings.'**
+  String get openSystemSettingsPeriod;
+
+  /// No description provided for @openSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get openSettings;
+
+  /// No description provided for @cameraUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera unavailable'**
+  String get cameraUnavailable;
+
+  /// No description provided for @deviceCannotScan.
+  ///
+  /// In en, this message translates to:
+  /// **'This device cannot scan.'**
+  String get deviceCannotScan;
+
+  /// No description provided for @cameraAccessRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera access is required.'**
+  String get cameraAccessRequired;
+
+  /// No description provided for @allowCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow Camera'**
+  String get allowCamera;
+
+  /// No description provided for @bootstrapCoolTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'COOL'**
+  String get bootstrapCoolTitle;
+
+  /// No description provided for @bootstrapStartupBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Startup blocked'**
+  String get bootstrapStartupBlocked;
+
+  /// No description provided for @bootstrapRetryStartup.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry startup'**
+  String get bootstrapRetryStartup;
+
+  /// No description provided for @bootstrapBackendConfigurationRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Backend configuration required'**
+  String get bootstrapBackendConfigurationRequired;
+
+  /// No description provided for @bootstrapLocalRunsNeedEnv.
+  ///
+  /// In en, this message translates to:
+  /// **'Local runs usually need --dart-define-from-file=.env.json'**
+  String get bootstrapLocalRunsNeedEnv;
+
+  /// No description provided for @bootstrapStartingApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting app'**
+  String get bootstrapStartingApp;
+
+  /// No description provided for @bootstrapInitializingFirebase.
+  ///
+  /// In en, this message translates to:
+  /// **'Initializing Firebase'**
+  String get bootstrapInitializingFirebase;
+
+  /// No description provided for @bootstrapRecordingRuntimeBackendContract.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording runtime backend contract'**
+  String get bootstrapRecordingRuntimeBackendContract;
+
+  /// No description provided for @bootstrapActivatingDeviceAttestation.
+  ///
+  /// In en, this message translates to:
+  /// **'Activating device attestation'**
+  String get bootstrapActivatingDeviceAttestation;
+
+  /// No description provided for @bootstrapStartingColdStartTrace.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting cold-start trace'**
+  String get bootstrapStartingColdStartTrace;
+
+  /// No description provided for @bootstrapApplyingDeviceOrientation.
+  ///
+  /// In en, this message translates to:
+  /// **'Applying device orientation'**
+  String get bootstrapApplyingDeviceOrientation;
+
+  /// No description provided for @bootstrapConnectingBackend.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting backend'**
+  String get bootstrapConnectingBackend;
+
+  /// No description provided for @bootstrapPreparingLocalStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing local storage'**
+  String get bootstrapPreparingLocalStorage;
+
+  /// No description provided for @bootstrapLoadingThemePreference.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading theme preference'**
+  String get bootstrapLoadingThemePreference;
+
+  /// No description provided for @bootstrapPreparingYourAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing your account'**
+  String get bootstrapPreparingYourAccount;
+
+  /// No description provided for @bootstrapNeverReachedFirstFrame.
+  ///
+  /// In en, this message translates to:
+  /// **'The app never reached the first frame.'**
+  String get bootstrapNeverReachedFirstFrame;
+
+  /// No description provided for @bootstrapSomethingWentWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get bootstrapSomethingWentWrong;
+
+  /// No description provided for @bootstrapPleaseRestartApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Please restart the app.'**
+  String get bootstrapPleaseRestartApp;
+
+  /// No description provided for @bootstrapFailedWhile.
+  ///
+  /// In en, this message translates to:
+  /// **'Startup failed while {step}. Restart the app and try again.'**
+  String bootstrapFailedWhile(String step);
+
+  /// No description provided for @bootstrapTimedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} timed out after {seconds}s. The app never reached the first frame.'**
+  String bootstrapTimedOut(String label, int seconds);
+
+  /// No description provided for @bootstrapStepFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} failed: {error}'**
+  String bootstrapStepFailed(String label, String error);
+
+  /// No description provided for @later.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get later;
+
+  /// No description provided for @pwaInstallCool.
+  ///
+  /// In en, this message translates to:
+  /// **'Install COOL'**
+  String get pwaInstallCool;
+
+  /// No description provided for @pwaAddToHomeScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Add COOL to Home Screen'**
+  String get pwaAddToHomeScreen;
+
+  /// No description provided for @pwaInstallStandaloneMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Install the app for faster admin access and standalone launch.'**
+  String get pwaInstallStandaloneMessage;
+
+  /// No description provided for @pwaSafariInstallMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Safari share actions to install the admin PWA on iPhone or iPad.'**
+  String get pwaSafariInstallMessage;
+
+  /// No description provided for @pwaHowToInstall.
+  ///
+  /// In en, this message translates to:
+  /// **'How to install'**
+  String get pwaHowToInstall;
+
+  /// No description provided for @pwaUpdateReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Update ready'**
+  String get pwaUpdateReady;
+
+  /// No description provided for @pwaUpdateReadyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh to load the latest admin workspace and app assets.'**
+  String get pwaUpdateReadyMessage;
+
+  /// No description provided for @iosInstallSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get the full app experience with quick access from your home screen.'**
+  String get iosInstallSubtitle;
+
+  /// No description provided for @iosInstallStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the Share button in Safari'**
+  String get iosInstallStep1;
+
+  /// No description provided for @iosInstallStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Scroll down and tap \"Add to Home Screen\"'**
+  String get iosInstallStep2;
+
+  /// No description provided for @iosInstallStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap \"Add\" to confirm'**
+  String get iosInstallStep3;
+
+  /// No description provided for @iosInstallGotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get iosInstallGotIt;
+
+  /// No description provided for @coolStateLoadingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading'**
+  String get coolStateLoadingTitle;
+
+  /// No description provided for @coolStateLoadingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait while this section loads.'**
+  String get coolStateLoadingMessage;
+
+  /// No description provided for @coolErrorUnexpected.
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error occurred'**
+  String get coolErrorUnexpected;
 }
 
 class _AppLocalizationsDelegate

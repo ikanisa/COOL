@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/date_formatters.dart';
 import '../../../core/utils/money_formatters.dart';
@@ -77,6 +78,8 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
     required String groupName,
   }) async {
     final isPdf = format == StatementExportFormat.pdf;
+    final l10n = context.l10n;
+    final periodLabel = _periodLabel();
     if (isPdf ? _isExportingPdf : _isExportingExcel) {
       return;
     }
@@ -108,21 +111,21 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
         format: format,
         entries: page.entries,
         metadata: StatementExportMetadata(
-          statementTitle: 'Group Payment Ledger',
-          fileStem: 'cool_group_payment_ledger',
-          userName: authState.user?.fullName ?? 'COOL User',
+          statementTitle: l10n.groupPaymentLedgerTitle,
+          fileStem: l10n.groupPaymentLedgerFileStem,
+          userName: authState.user?.fullName ?? l10n.groupStatementsCoolUser,
           officialPhone:
               authState.user?.officialPhone ?? authState.user?.phone ?? '',
           generatedAt: DateTime.now(),
-          periodLabel: _periodLabel(),
+          periodLabel: periodLabel,
           filterLabel: groupName,
-          sortLabel: 'Newest first',
+          sortLabel: l10n.newestFirst,
         ),
       );
 
       await downloadService.saveExport(export);
       if (mounted) {
-        CoolToast.success(context, 'Ledger exported');
+        CoolToast.success(context, l10n.groupStatementsLedgerExported);
       }
     } catch (error) {
       if (mounted) {
@@ -145,7 +148,7 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
     final start = _query.startDate;
     final end = _query.endDate;
     if (start == null && end == null) {
-      return 'All posted entries in view';
+      return context.l10n.groupStatementsAllPostedEntriesInView;
     }
     final startLabel = start == null ? '...' : formatExportDateLabel(start);
     final endLabel = end == null ? '...' : formatExportDateLabel(end);
@@ -170,11 +173,13 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
     final access = accessAsync.valueOrNull;
     final canViewTransactions = access?.canViewTransactions ?? false;
     final canExportLedger = access?.canExportLedger ?? false;
-    final groupName = groupAsync.valueOrNull?.name ?? 'GROUP LEDGER';
+    final groupName =
+        groupAsync.valueOrNull?.name ??
+        context.l10n.groupStatementsGroupLedgerUpper;
 
     return CoreDetailScaffold(
       title: Text(
-        'STATEMENTS',
+        context.l10n.groupStatementsTitleUpper,
         style: context.coolText.displayCondensed(
           Theme.of(context).textTheme.headlineSmall,
           fontWeight: FontWeight.w800,
@@ -182,9 +187,11 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
       ),
       subtitle: Text(
         groupAsync.when(
-          data: (g) => g?.name.toUpperCase() ?? 'GROUP LEDGER',
-          loading: () => 'LOADING',
-          error: (_, _) => 'GROUP LEDGER',
+          data: (g) =>
+              g?.name.toUpperCase() ??
+              context.l10n.groupStatementsGroupLedgerUpper,
+          loading: () => context.l10n.groupStatementsLoadingUpper,
+          error: (_, _) => context.l10n.groupStatementsGroupLedgerUpper,
         ),
         style: context.coolText.mono(
           Theme.of(context).textTheme.labelSmall,
@@ -317,44 +324,42 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: CoolCard(
-        borderRadius: CoolRadii.xl,
-        child: Column(
-          children: [
-            Container(
-              width: 72,
-              height: 72,
-              decoration: BoxDecoration(
-                color: colors.cardSurfaceStrong,
-                shape: BoxShape.circle,
-              ),
-              alignment: Alignment.center,
-              child: Icon(
-                Icons.receipt_long_rounded,
-                color: colors.accent,
-                size: 32,
-              ),
+    return CoolCard(
+      borderRadius: CoolRadii.xl,
+      child: Column(
+        children: [
+          Container(
+            width: 72,
+            height: 72,
+            decoration: BoxDecoration(
+              color: colors.cardSurfaceStrong,
+              shape: BoxShape.circle,
             ),
-            const SizedBox(height: CoolSpace.x4),
-            Text(
-              'NO TRANSACTIONS YET',
-              style: context.coolText.displayCondensed(
-                Theme.of(context).textTheme.titleLarge,
-                fontWeight: FontWeight.w800,
-              ),
+            alignment: Alignment.center,
+            child: Icon(
+              Icons.receipt_long_rounded,
+              color: colors.accent,
+              size: 32,
             ),
-            const SizedBox(height: CoolSpace.x2),
-            Text(
-              'Contributions will appear here as members make payments to this group.',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: colors.secondaryText,
-                height: 1.5,
-              ),
+          ),
+          const SizedBox(height: CoolSpace.x4),
+          Text(
+            context.l10n.groupStatementsNoTransactionsYetUpper,
+            style: context.coolText.displayCondensed(
+              Theme.of(context).textTheme.titleLarge,
+              fontWeight: FontWeight.w800,
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: CoolSpace.x2),
+          Text(
+            context.l10n.groupStatementsEmptyMessage,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: colors.secondaryText,
+              height: 1.5,
+            ),
+          ),
+        ],
       ),
     );
   }

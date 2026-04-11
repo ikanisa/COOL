@@ -27,13 +27,11 @@
 		<key>FirebaseAppDelegateProxyEnabled</key>
 		<true/>
 		<key>NSCameraUsageDescription</key>
-		<string>Cool uses the camera to scan QR codes, capture BioPay face enrollments, and match payees for BioPay payments.</string>
-		<key>NSFaceIDUsageDescription</key>
-		<string>Cool uses Face ID to confirm BioPay enrollments, revocations, and payment handoffs.</string>
-		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>Cool uses your location for nearby services and location-aware discovery.</string>
-		<key>NFCReaderUsageDescription</key>
-		<string>Cool uses NFC for phone-to-phone sharing and MoMo tap experiences.</string>
+			<string>Cool uses the camera to scan QR codes, capture BioPay face enrollments, and match payees for BioPay payments.</string>
+			<key>NSFaceIDUsageDescription</key>
+			<string>Cool uses Face ID to confirm BioPay enrollments, revocations, and payment handoffs.</string>
+			<key>NFCReaderUsageDescription</key>
+			<string>Cool uses NFC for phone-to-phone sharing and MoMo tap experiences.</string>
 		<key>NSContactsUsageDescription</key>
 		<string>Cool uses contacts to help you invite friends to groups and share content.</string>
 		<key>NSPhotoLibraryUsageDescription</key>

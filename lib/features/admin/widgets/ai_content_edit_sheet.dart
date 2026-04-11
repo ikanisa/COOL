@@ -144,7 +144,7 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
                   child: Text(
                     isCreate ? 'New AI Content' : 'Edit AI Content',
                     style: theme.textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                       color: colors.primaryText,
                     ),
                   ),
@@ -237,13 +237,13 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
       keyboardType: keyboardType,
       style: theme.textTheme.bodyMedium?.copyWith(
         color: colors.primaryText,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w500,
       ),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: theme.textTheme.bodySmall?.copyWith(
           color: colors.tertiaryText,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
         ),
         filled: true,
         fillColor: colors.inputSurface,
@@ -273,7 +273,7 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
         labelText: label,
         labelStyle: theme.textTheme.bodySmall?.copyWith(
           color: colors.tertiaryText,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
         ),
         filled: true,
         fillColor: colors.inputSurface,
@@ -288,7 +288,7 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
           dropdownColor: colors.overlaySurface,
           style: theme.textTheme.bodyMedium?.copyWith(
             color: colors.primaryText,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
           ),
           items: items
               .map(

@@ -19,8 +19,11 @@ class ProfileSectionToggleCard extends StatelessWidget {
     final colors = context.coolSemanticColors;
     return Semantics(
       button: true,
-      label: '$title. $subtitle. ${isExpanded ? 'Expanded' : 'Collapsed'}',
-      hint: isExpanded ? 'Collapse section' : 'Expand section',
+      label:
+          '$title. $subtitle. ${isExpanded ? context.l10n.profileSectionExpanded : context.l10n.profileSectionCollapsed}',
+      hint: isExpanded
+          ? context.l10n.profileCollapseSection
+          : context.l10n.profileExpandSection,
       child: ExcludeSemantics(
         child: CoolCard(
           backgroundColor: colors.cardSurface,

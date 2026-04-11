@@ -2,11 +2,8 @@ import 'dart:io';
 
 import 'package:cool_app/core/services/app_access_service.dart';
 import 'package:cool_app/core/services/device_settings_service.dart';
-import 'package:cool_app/core/services/location_service.dart';
 import 'package:cool_app/features/momo/services/nfc_hce_service.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() {
@@ -34,7 +31,6 @@ void main() {
   test('emits change notifications when access changes in app', () async {
     final service = AppAccessService(
       openBox: Hive.openBox<bool>,
-      locationService: _FakeLocationService(),
       deviceSettingsService: _FakeDeviceSettingsService(),
       nfcHceService: _FakeNfcHceService(supported: true),
     );
@@ -53,7 +49,6 @@ void main() {
     final nfcHceService = _FakeNfcHceService(active: true);
     final service = AppAccessService(
       openBox: Hive.openBox<bool>,
-      locationService: _FakeLocationService(),
       deviceSettingsService: _FakeDeviceSettingsService(),
       nfcHceService: nfcHceService,
     );
@@ -68,7 +63,6 @@ void main() {
   test('sms access defaults off inside COOL until the user opts in', () async {
     final service = AppAccessService(
       openBox: Hive.openBox<bool>,
-      locationService: _FakeLocationService(),
       deviceSettingsService: _FakeDeviceSettingsService(),
       nfcHceService: _FakeNfcHceService(supported: true),
     );
@@ -100,54 +94,4 @@ class _FakeNfcHceService extends NfcHceService {
     stopCalls++;
     active = false;
   }
-}
-
-class _FakeLocationService implements LocationService {
-  @override
-  Future<LocationPermission> checkPermission() async =>
-      LocationPermission.denied;
-
-  @override
-  double calculateDistance(double lat1, double lng1, double lat2, double lng2) {
-    return 0;
-  }
-
-  @override
-  Future<Position> getCurrentLocation({
-    LocationAccuracy accuracy = LocationAccuracy.high,
-    Duration? timeLimit,
-  }) async {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<LocationAccuracyStatus> getLocationAccuracy() async =>
-      LocationAccuracyStatus.precise;
-
-  @override
-  Future<Position?> getLastKnownLocation() async => null;
-
-  @override
-  Future<bool> isLocationServiceEnabled() async => true;
-
-  @override
-  bool isWithin10km(Position userPos, double targetLat, double targetLng) {
-    return true;
-  }
-
-  @override
-  Future<bool> openAppSettings() async => true;
-
-  @override
-  Future<bool> openLocationSettings() async => true;
-
-  @override
-  Future<LocationPermission> requestPermission() async =>
-      LocationPermission.denied;
-
-  @override
-  Future<void> startLocationUpdates(ValueChanged<Position> onUpdate) async {}
-
-  @override
-  Future<void> stopLocationUpdates() async {}
 }

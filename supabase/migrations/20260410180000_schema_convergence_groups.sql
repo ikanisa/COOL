@@ -17,8 +17,47 @@ drop policy if exists "Creator can read own groups" on public.contribution_group
 drop policy if exists "Authenticated users can create groups" on public.contribution_groups;
 drop policy if exists "Creator can update own groups" on public.contribution_groups;
 
--- 2. Rename the table
-alter table if exists public.contribution_groups rename to groups;
+-- 2. Rename the table when needed.
+-- If both tables exist, only skip the rename when the legacy table is empty.
+do $$
+declare
+  legacy_exists boolean;
+  canonical_exists boolean;
+  legacy_row_count bigint;
+begin
+  select exists (
+    select 1
+    from information_schema.tables
+    where table_schema = 'public'
+      and table_name = 'contribution_groups'
+  ) into legacy_exists;
+
+  select exists (
+    select 1
+    from information_schema.tables
+    where table_schema = 'public'
+      and table_name = 'groups'
+  ) into canonical_exists;
+
+  if not legacy_exists then
+    return;
+  end if;
+
+  if canonical_exists then
+    execute 'select count(*) from public.contribution_groups'
+      into legacy_row_count;
+
+    if legacy_row_count > 0 then
+      raise exception
+        'Schema convergence blocked: both public.groups and public.contribution_groups exist, and contribution_groups still has % rows.',
+        legacy_row_count;
+    end if;
+
+    return;
+  end if;
+
+  alter table public.contribution_groups rename to groups;
+end $$;
 
 -- 3. Ensure canonical columns exist (from initial_schema + later ALTER TABLEs)
 --    Using ADD COLUMN IF NOT EXISTS so this is idempotent.

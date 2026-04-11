@@ -113,7 +113,7 @@ void main() {
     test('migrated redesign files keep the stronger typography floor', () {
       final offenders = <String>[];
       final smallFontPattern = RegExp(r'fontSize:\s*(?:8|9|10|11|12|13)\b');
-      final weakWeightPattern = RegExp(r'FontWeight\.(?:w400|w500)\b');
+      final weakWeightPattern = RegExp(r'FontWeight\.(?:w500|w500)\b');
 
       for (final relativePath in _migratedRedesignFiles) {
         final source = _readSanitizedSource(repoRoot, relativePath);

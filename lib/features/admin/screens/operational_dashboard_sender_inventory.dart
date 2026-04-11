@@ -43,14 +43,14 @@ class _SenderInventorySectionState
           'Acknowledge legacy sender?',
           style: theme.textTheme.titleLarge?.copyWith(
             color: colors.primaryText,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w800,
           ),
         ),
         content: Text(
           'This keeps the raw SMS history unchanged, but marks $senderDisplay as reviewed legacy unsupported sender history.',
           style: theme.textTheme.bodyMedium?.copyWith(
             color: colors.secondaryText,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
           ),
         ),
         actions: [
@@ -112,14 +112,14 @@ class _SenderInventorySectionState
           'Acknowledge ${rows.length} senders?',
           style: theme.textTheme.titleLarge?.copyWith(
             color: colors.primaryText,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w800,
           ),
         ),
         content: Text(
           'This records the visible unsupported senders as reviewed legacy history without altering raw SMS records.',
           style: theme.textTheme.bodyMedium?.copyWith(
             color: colors.secondaryText,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
           ),
         ),
         actions: [
@@ -218,7 +218,7 @@ class _SenderInventorySectionState
                     selected: selected,
                     labelStyle: theme.textTheme.labelMedium?.copyWith(
                       color: selected ? colors.accent : colors.secondaryText,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
                     ),
                     side: BorderSide(
                       color: selected ? colors.accent : colors.border,

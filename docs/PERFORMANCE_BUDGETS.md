@@ -12,7 +12,6 @@
 | Jank rate (P90) | < 5% slow frames | Firebase Performance `_fr_perc` | > 8% |
 | Crash-free sessions | > 99.5% | Crashlytics | < 99% |
 | ANR rate | < 0.5% | Play Console | > 1% |
-| Network TTFB (P90) | < 500 ms | Dio `PerformanceInterceptor` | > 800 ms |
 
 ## Build Budgets
 
@@ -28,7 +27,7 @@
 ### Firebase Performance
 - Dashboard: Firebase Console → Performance → Traces
 - Custom traces: `cold_start`, `momo_send`, `group_contribution`
-- Network traces: auto-instrumented via Dio interceptor
+- Network-sensitive flows should be instrumented with explicit trace names at the service/repository boundary
 
 ### Crashlytics
 - Dashboard: Firebase Console → Crashlytics

@@ -1,16 +1,14 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../features/momo/services/nfc_hce_service.dart';
 import '../../features/momo/services/nfc_service.dart';
 import 'hive_runtime.dart';
 import 'device_settings_service.dart';
-import 'location_service.dart';
 
-enum AppAccessPermission { contacts, camera, location, nfc, sms, photos }
+enum AppAccessPermission { contacts, camera, nfc, sms, photos }
 
 enum AppAccessStateKind {
   ready,
@@ -46,11 +44,9 @@ class AppAccessSnapshot {
 class AppAccessService {
   AppAccessService({
     required OpenHiveBox<bool> openBox,
-    LocationService? locationService,
     DeviceSettingsService? deviceSettingsService,
     NfcHceService? nfcHceService,
   }) : _openBox = openBox,
-       _locationService = locationService ?? DeviceLocationService.instance,
        _deviceSettingsService =
            deviceSettingsService ?? DeviceSettingsService.instance,
        _nfcHceService = nfcHceService ?? NfcHceService.instance;
@@ -59,7 +55,6 @@ class AppAccessService {
   static const _onboardingKey = 'permission_onboarding_complete';
 
   final OpenHiveBox<bool> _openBox;
-  final LocationService _locationService;
   final DeviceSettingsService _deviceSettingsService;
   final NfcHceService _nfcHceService;
   final ValueNotifier<int> _changeRevision = ValueNotifier<int>(0);
@@ -127,7 +122,6 @@ class AppAccessService {
         permission: permission,
         status: await Permission.camera.status,
       ),
-      AppAccessPermission.location => _locationSnapshot(permission),
       AppAccessPermission.nfc => _nfcSnapshot(permission),
       AppAccessPermission.sms => _smsSnapshot(permission),
       AppAccessPermission.photos => _permissionSnapshot(
@@ -154,11 +148,6 @@ class AppAccessService {
       case AppAccessPermission.camera:
         await Permission.camera.request();
         break;
-      case AppAccessPermission.location:
-        if (await _locationService.isLocationServiceEnabled()) {
-          await _locationService.requestPermission();
-        }
-        break;
       case AppAccessPermission.nfc:
         break;
       case AppAccessPermission.sms:
@@ -183,12 +172,6 @@ class AppAccessService {
 
   Future<bool> openSystemSettings(AppAccessPermission permission) async {
     switch (permission) {
-      case AppAccessPermission.location:
-        final snapshot = await getSnapshot(permission);
-        if (snapshot.kind == AppAccessStateKind.serviceDisabled) {
-          return _locationService.openLocationSettings();
-        }
-        return openAppSettings();
       case AppAccessPermission.nfc:
         return _deviceSettingsService.openNfcSettings();
       case AppAccessPermission.contacts:
@@ -242,50 +225,6 @@ class AppAccessService {
       enabledInApp: true,
       supportedOnDevice: true,
     );
-  }
-
-  Future<AppAccessSnapshot> _locationSnapshot(
-    AppAccessPermission permission,
-  ) async {
-    final servicesEnabled = await _locationService.isLocationServiceEnabled();
-    if (!servicesEnabled) {
-      return AppAccessSnapshot(
-        permission: permission,
-        kind: AppAccessStateKind.serviceDisabled,
-        enabledInApp: true,
-        supportedOnDevice: true,
-      );
-    }
-
-    final status = await _locationService.checkPermission();
-    return switch (status) {
-      LocationPermission.always ||
-      LocationPermission.whileInUse => AppAccessSnapshot(
-        permission: permission,
-        kind: AppAccessStateKind.ready,
-        enabledInApp: true,
-        supportedOnDevice: true,
-        systemGranted: true,
-      ),
-      LocationPermission.denied => AppAccessSnapshot(
-        permission: permission,
-        kind: AppAccessStateKind.needsSystemPermission,
-        enabledInApp: true,
-        supportedOnDevice: true,
-      ),
-      LocationPermission.deniedForever => AppAccessSnapshot(
-        permission: permission,
-        kind: AppAccessStateKind.blockedInSystem,
-        enabledInApp: true,
-        supportedOnDevice: true,
-      ),
-      LocationPermission.unableToDetermine => AppAccessSnapshot(
-        permission: permission,
-        kind: AppAccessStateKind.needsSystemPermission,
-        enabledInApp: true,
-        supportedOnDevice: true,
-      ),
-    };
   }
 
   Future<AppAccessSnapshot> _nfcSnapshot(AppAccessPermission permission) async {

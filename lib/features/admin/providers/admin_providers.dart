@@ -4,6 +4,7 @@ import '../../../core/providers/supabase_client_provider.dart';
 import '../repositories/admin_content_repository.dart';
 import '../repositories/admin_momo_ops_repository.dart';
 import '../repositories/admin_repository.dart';
+import '../repositories/admin_savings_repository.dart';
 import '../repositories/admin_users_repository.dart';
 
 // ── Core admin repository (users, countries, dashboard, analytics) ──────
@@ -133,4 +134,16 @@ final adminGroupsSummaryProvider = FutureProvider<Map<String, dynamic>>((
   ref,
 ) async {
   return ref.read(adminRepositoryProvider).fetchGroupsSummary();
+});
+
+// ── Savings group management ────────────────────────────────────────────
+
+final adminSavingsRepositoryProvider = Provider<AdminSavingsRepository>((ref) {
+  return AdminSavingsRepository(client: ref.read(supabaseClientProvider));
+});
+
+final adminSavingsGroupsDetailProvider = FutureProvider<Map<String, dynamic>>((
+  ref,
+) async {
+  return ref.read(adminSavingsRepositoryProvider).fetchSavingsGroupsDetail();
 });

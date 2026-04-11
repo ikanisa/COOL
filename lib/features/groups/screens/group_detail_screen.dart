@@ -41,8 +41,11 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
       return;
     }
 
-    // Gate: require verified phone before joining a group.
-    if (!await requireVerifiedUser(context, ref)) {
+    if (!await requireVerifiedUser(
+      context,
+      ref,
+      feature: WhatsAppProtectedFeature.groupJoin,
+    )) {
       return;
     }
 
@@ -78,24 +81,14 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
   }
 
   Future<void> _contributeToGroup(Group group) async {
-    if (!await requireVerifiedUser(context, ref)) {
-      return;
-    }
-
     if (!groupHasContributionRoute(group)) {
-      CoolToast.info(
-        context,
-        'This group has no payment route configured yet.',
-      );
+      CoolToast.info(context, context.l10n.groupsPaymentRoutePendingInfo);
       return;
     }
 
     final launched = await launchGroupContribution(context, group: group);
     if (!launched && mounted) {
-      CoolToast.error(
-        context,
-        'Could not launch MoMo USSD. Try dialing manually.',
-      );
+      CoolToast.error(context, context.l10n.groupsLaunchMomoUssdError);
     }
   }
 
@@ -216,7 +209,9 @@ class _GroupDetailBody extends StatelessWidget {
             children: [
               _MetaBadge(label: group.visibility.toUpperCase()),
               _MetaBadge(
-                label: group.type == 'community' ? 'COMMUNITY' : 'SAVING',
+                label: group.type == 'community'
+                    ? context.l10n.community.toUpperCase()
+                    : context.l10n.saving.toUpperCase(),
               ),
               _MetaBadge(
                 label: '${group.memberCount} ${context.l10n.groupMembers}',
@@ -251,13 +246,13 @@ class _GroupDetailBody extends StatelessWidget {
             child: Column(
               children: [
                 _StatRow(
-                  label: 'Balance',
+                  label: context.l10n.balance,
                   value: '${formatWholeMoneyAmount(group.amount)} $currency',
                 ),
                 if (group.targetAmount > 0) ...[
                   SizedBox(height: space.x2),
                   _StatRow(
-                    label: 'Target',
+                    label: context.l10n.target,
                     value:
                         '${formatWholeMoneyAmount(group.targetAmount)} $currency',
                   ),
@@ -265,13 +260,16 @@ class _GroupDetailBody extends StatelessWidget {
                 if ((group.monthlyContribution ?? 0) > 0) ...[
                   SizedBox(height: space.x2),
                   _StatRow(
-                    label: 'Contribution',
+                    label: context.l10n.contribution,
                     value:
                         '${formatWholeMoneyAmount(group.monthlyContribution ?? 0)} $currency',
                   ),
                 ],
                 SizedBox(height: space.x2),
-                _StatRow(label: 'Country', value: group.country),
+                _StatRow(
+                  label: context.l10n.countryLabel,
+                  value: group.country,
+                ),
               ],
             ),
           ),
@@ -279,8 +277,8 @@ class _GroupDetailBody extends StatelessWidget {
           if (isMember)
             CoolButton(
               label: routeReady
-                  ? 'CONTRIBUTE WITH MOMO'
-                  : 'CONTRIBUTION ROUTE PENDING',
+                  ? context.l10n.groupsContributeWithMomoUpper
+                  : context.l10n.groupsContributionRoutePendingUpper,
               onTap: routeReady ? onContribute : null,
               variant: routeReady
                   ? CoolButtonVariant.accent
@@ -288,17 +286,17 @@ class _GroupDetailBody extends StatelessWidget {
             )
           else if (group.visibility == 'public')
             CoolButton(
-              label: 'JOIN GROUP',
+              label: context.l10n.groupsJoinGroupUpper,
               onTap: isJoining ? null : onJoin,
               isLoading: isJoining,
             )
           else
-            const _DetailNoticeCard(message: 'This group is invite-only.'),
+            _DetailNoticeCard(message: context.l10n.groupsInviteOnlyMessage),
           if (inviteUrl != null && isMember) ...[
             SizedBox(height: space.x5),
             ShareCard(
               title: context.l10n.inviteToGroup(group.name),
-              subtitle: 'Share the invite link with your members.',
+              subtitle: context.l10n.groupsInviteShareSubtitle,
               shareUrl: inviteUrl!,
               shareText: context.l10n.joinGroupShareText(
                 group.name,
@@ -323,8 +321,8 @@ class _GroupDetailBody extends StatelessWidget {
                 if (page.entries.isEmpty) {
                   return Column(
                     children: [
-                      const _DetailNoticeCard(
-                        message: 'No posted contributions yet.',
+                      _DetailNoticeCard(
+                        message: context.l10n.groupsNoPostedContributionsYet,
                       ),
                       SizedBox(height: space.x3),
                       _StatementsButton(groupId: group.id ?? ''),
@@ -351,8 +349,8 @@ class _GroupDetailBody extends StatelessWidget {
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, _) => Column(
                 children: [
-                  const _DetailNoticeCard(
-                    message: 'Could not load the ledger.',
+                  _DetailNoticeCard(
+                    message: context.l10n.groupsCouldNotLoadLedger,
                   ),
                   SizedBox(height: space.x3),
                   _StatementsButton(groupId: group.id ?? ''),
@@ -376,7 +374,7 @@ class _StatementsButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: CoolButton(
-        label: 'VIEW ALL STATEMENTS',
+        label: context.l10n.groupsViewAllStatementsUpper,
         onTap: () => context.push(
           AppRoutes.contributionCircleStatementsLocation(groupId),
         ),

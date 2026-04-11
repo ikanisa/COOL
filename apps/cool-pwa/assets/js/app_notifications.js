@@ -37,15 +37,15 @@ export function initializeNotificationControls({
   document.querySelectorAll('[data-demo-notification]').forEach((button) => {
     button.addEventListener('click', async () => {
       const notification = {
-        title: 'COOL sync completed',
-        body: 'Your queued finance updates are now secure and current.',
+        title: 'COOL admin sync completed',
+        body: 'Queued admin actions are now secure and current.',
         tag: 'cool-demo-sync',
         icon: '/assets/icons/Icon-192.png',
         badge: '/assets/icons/Icon-192.png',
-        data: { route: '/notifications/' },
+        data: { route: '/admin/operations/' },
         actions: [
-          { action: 'open-notifications', title: 'View alerts' },
-          { action: 'open-home', title: 'Go home' },
+          { action: 'open-operations', title: 'View ops' },
+          { action: 'open-command', title: 'Open command' },
         ],
       };
 
@@ -83,7 +83,7 @@ export function initializeNotificationControls({
     });
   });
 
-  if (window.location.pathname.startsWith('/notifications')) {
+  if (window.location.pathname.startsWith('/admin/operations')) {
     void markNotificationsRead({ dbGetAll, dbPutRecord });
   }
 

@@ -83,7 +83,7 @@ class KillSwitchGate extends StatelessWidget {
                           style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(
                                 color: colors.primaryText,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                               ),
                           textAlign: TextAlign.center,
                         ),

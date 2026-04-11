@@ -25,6 +25,10 @@ type AdminClientLike = {
       };
     };
   };
+  rpc(
+    fn: string,
+    params?: Record<string, unknown>,
+  ): Promise<{ data: unknown; error: unknown }>;
 };
 
 export class HttpError extends Error {
@@ -153,6 +157,30 @@ export async function requireAdminCaller(
       ...caller,
       isAdmin: true,
     };
+  }
+
+  // Third fallback: check role assignments via the RPC.
+  // This covers users granted platform access through admin_role_assignments
+  // without the legacy users.is_admin flag.
+  try {
+    const { data: rpcData, error: rpcError } = await adminClient.rpc(
+      "get_admin_access_for_user",
+      { p_user_id: caller.userId },
+    );
+
+    if (
+      !rpcError &&
+      rpcData &&
+      typeof rpcData === "object" &&
+      (rpcData as Record<string, unknown>)["has_platform_access"] === true
+    ) {
+      return {
+        ...caller,
+        isAdmin: true,
+      };
+    }
+  } catch {
+    // RPC not deployed or other transient error — fall through to rejection.
   }
 
   throw new HttpError(403, "Admin access required.");

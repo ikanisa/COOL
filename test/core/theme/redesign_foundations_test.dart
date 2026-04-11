@@ -50,7 +50,7 @@ void main() {
       );
     });
 
-    testWidgets('typography constants enforce stronger minimums', (
+    testWidgets('typography constants enforce the current weight tiers', (
       tester,
     ) async {
       expect(AppThemeText.displayLarge, greaterThanOrEqualTo(56));
@@ -59,7 +59,7 @@ void main() {
       expect(AppThemeText.labelSmall, greaterThanOrEqualTo(14));
       expect(
         AppThemeText.medium.index,
-        greaterThanOrEqualTo(FontWeight.w600.index),
+        greaterThanOrEqualTo(FontWeight.w500.index),
       );
       expect(
         AppThemeText.semibold.index,

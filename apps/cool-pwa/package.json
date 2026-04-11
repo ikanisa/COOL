@@ -4,15 +4,19 @@
   "type": "module",
   "scripts": {
     "serve": "http-server . -p 4173 -c-1 --silent",
+    "dev": "npx wrangler pages dev . --port 4173",
     "test:contracts": "node --test scripts/pwa-contracts.test.mjs",
     "test:browser": "node scripts/verify-browser.mjs",
-    "test": "npm run test:contracts && npm run test:browser",
-    "audit:lighthouse": "node scripts/run-lighthouse.mjs"
+    "test:integration": "node --test scripts/integration-test.mjs",
+    "test": "npm run test:contracts && npm run test:browser && npm run test:integration",
+    "audit:lighthouse": "node scripts/run-lighthouse.mjs",
+    "smoke": "node scripts/post-deploy-smoke.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
     "http-server": "^14.1.1",
     "lighthouse": "^12.4.0",
-    "playwright": "^1.54.2"
+    "playwright": "^1.54.2",
+    "wrangler": "^4.14.0"
   }
 }

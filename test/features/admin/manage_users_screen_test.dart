@@ -87,7 +87,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Rwanda · EN · airtel'), findsOneWidget);
-      expect(find.text('Make Admin'), findsOneWidget);
+      expect(find.text('Make Admin'), findsNothing);
+      expect(find.text('Remove Admin'), findsNothing);
       expect(find.textContaining('FR'), findsNothing);
     },
   );
@@ -137,10 +138,10 @@ void main() {
 
     expect(repository.updatedUsers, hasLength(1));
     expect(repository.updatedUsers.single['id'], 'user-1');
-    expect(
-      (repository.updatedUsers.single['fields']
-          as Map<String, dynamic>)['full_name'],
-      'Alice Updated',
-    );
+    final savedFields =
+        repository.updatedUsers.single['fields'] as Map<String, dynamic>;
+    expect(savedFields['full_name'], 'Alice Updated');
+    // P1 RBAC alignment: is_admin must never be written from the edit sheet.
+    expect(savedFields.containsKey('is_admin'), isFalse);
   });
 }

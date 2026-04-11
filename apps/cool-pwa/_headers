@@ -11,52 +11,16 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-/landing-assets/*
-  Cache-Control: public, max-age=31536000, immutable
-
-/styles.css
-  Cache-Control: public, max-age=31536000, immutable
-
 /
-  Cache-Control: public, max-age=300, must-revalidate
-
-/landing/
-  Cache-Control: public, max-age=300, must-revalidate
-
-/home/
-  Cache-Control: public, max-age=300, must-revalidate
-
-/groups/
-  Cache-Control: public, max-age=300, must-revalidate
-
-/momo/
-  Cache-Control: public, max-age=300, must-revalidate
-
-/profile/
-  Cache-Control: public, max-age=300, must-revalidate
-
-/notifications/
-  Cache-Control: public, max-age=300, must-revalidate
-
-/install/
   Cache-Control: public, max-age=300, must-revalidate
 
 /admin/
   Cache-Control: public, max-age=300, must-revalidate
 
-/share/
+/admin/*
   Cache-Control: public, max-age=300, must-revalidate
 
-/offline/
-  Cache-Control: public, max-age=300, must-revalidate
-
-/privacy*
-  Cache-Control: public, max-age=300, must-revalidate
-
-/terms*
-  Cache-Control: public, max-age=300, must-revalidate
-
-/account-deletion*
+/admin/offline/
   Cache-Control: public, max-age=300, must-revalidate
 
 /manifest.webmanifest

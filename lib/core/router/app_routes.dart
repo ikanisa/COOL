@@ -57,6 +57,8 @@ abstract final class AppRoutes {
   static const adminAnalytics = '/admin/analytics';
   static const adminAuditLog = '/admin/audit-log';
   static const adminGroups = '/admin/groups';
+  static const adminSavings = '/admin/savings';
+  static const adminSavingsDetail = '/admin/savings/:groupId';
 
   // ── Location builders ─────────────────────────────────────────
 
@@ -90,6 +92,10 @@ abstract final class AppRoutes {
 
   static String adminBankWorkspaceLocation(String bankId) {
     return '/admin/banks/${bankId.trim()}';
+  }
+
+  static String adminSavingsGroupDetail(String groupId) {
+    return '/admin/savings/${groupId.trim()}';
   }
 
   static String biopayScanLocation({required String mode}) {

@@ -133,8 +133,8 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
       numErr = PhoneValidator.validateMomoNumberForCountry(number, country);
     } else if (selectedRouteType == MomoRecipientType.phoneNumber) {
       numErr = country.supportsMomoCode
-          ? 'MoMo number required'
-          : 'MoMo number is required';
+          ? context.l10n.profileMomoNumberRequired
+          : context.l10n.profileMomoNumberIsRequired;
     }
 
     String? codeErr;
@@ -142,7 +142,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
       codeErr = PhoneValidator.validateMomoCode(code, country: country);
     } else if (country.supportsMomoCode &&
         selectedRouteType == MomoRecipientType.code) {
-      codeErr = 'MoMo code required';
+      codeErr = context.l10n.profileMomoCodeRequired;
     }
 
     setState(() {
@@ -210,29 +210,26 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
             style: context.coolText.display(
               null,
               color: colors.primaryText,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: CoolSpace.x5),
 
           Text(
             l10n.momoNumberLabel.toUpperCase(),
-            style: context.coolText.mobiLabel(
-              color: colors.tertiaryText,
-            ).copyWith(fontWeight: FontWeight.w600, letterSpacing: 1.2),
+            style: context.coolText
+                .mobiLabel(color: colors.tertiaryText)
+                .copyWith(fontWeight: FontWeight.w700, letterSpacing: 1.2),
           ),
           const SizedBox(height: CoolSpace.x2),
           Semantics(
             textField: true,
             label: l10n.momoNumberLabel,
-            hint: 'Enter MoMo number',
+            hint: l10n.profileEnterMomoNumber,
             child: TextField(
               controller: _numberController,
               keyboardType: TextInputType.phone,
-              style: context.coolText.manrope(
-                null,
-                color: colors.primaryText,
-              ),
+              style: context.coolText.manrope(null, color: colors.primaryText),
               cursorColor: colors.accent,
               decoration: InputDecoration(
                 hintText: country.phoneExampleHint(),
@@ -270,9 +267,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
               ),
               child: Text(
                 _detectedProvider!,
-                style: context.coolText.mobiLabel(
-                  color: colors.accent,
-                ),
+                style: context.coolText.mobiLabel(color: colors.accent),
               ),
             ),
           ],
@@ -281,15 +276,15 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
             const SizedBox(height: CoolSpace.x5),
             Text(
               l10n.profileMomoCodeOptional,
-              style: context.coolText.mobiLabel(
-                color: colors.tertiaryText,
-              ).copyWith(fontWeight: FontWeight.w600, letterSpacing: 1.2),
+              style: context.coolText
+                  .mobiLabel(color: colors.tertiaryText)
+                  .copyWith(fontWeight: FontWeight.w700, letterSpacing: 1.2),
             ),
             const SizedBox(height: CoolSpace.x2),
             Semantics(
               textField: true,
               label: l10n.profileMomoCodeOptional,
-              hint: 'Enter merchant code',
+              hint: l10n.profileEnterMerchantCode,
               child: TextField(
                 controller: _codeController,
                 keyboardType: TextInputType.number,
@@ -324,10 +319,10 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
             ),
             const SizedBox(height: CoolSpace.x5),
             Text(
-              'DEFAULT RECEIVE ROUTE',
-              style: context.coolText.mobiLabel(
-                color: colors.tertiaryText,
-              ).copyWith(fontWeight: FontWeight.w600, letterSpacing: 1.2),
+              l10n.profileDefaultReceiveRoute,
+              style: context.coolText
+                  .mobiLabel(color: colors.tertiaryText)
+                  .copyWith(fontWeight: FontWeight.w700, letterSpacing: 1.2),
             ),
             const SizedBox(height: CoolSpace.x2),
             MomoRouteTypeSelector(
@@ -365,7 +360,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
                       l10n.save,
                       style: context.coolText.manrope(
                         null,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
             ),
@@ -381,7 +376,9 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.overlaySurface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(CoolRadii.lg)),
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(CoolRadii.lg),
+        ),
       ),
       child: SafeArea(top: false, child: content),
     );

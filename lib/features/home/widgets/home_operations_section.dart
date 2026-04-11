@@ -14,6 +14,7 @@ class HomeOperationsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final colors = context.coolSemanticColors;
     final content = _buildContent(context, colors);
 
@@ -21,7 +22,7 @@ class HomeOperationsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         HomeSectionHeader(
-          title: 'Operations',
+          title: l10n.homeOperationsTitle,
           trailing: Icon(
             Icons.history_toggle_off_rounded,
             color: colors.secondaryText.withValues(alpha: 0.76),
@@ -47,17 +48,17 @@ class HomeOperationsSection extends StatelessWidget {
     }
 
     if (error != null && transactions.isEmpty) {
-      return const CoolErrorView(
+      return CoolErrorView(
         compact: true,
-        subtitle: 'Operations failed to load.',
+        subtitle: context.l10n.homeOperationsLoadFailed,
       );
     }
 
     if (transactions.isEmpty) {
-      return const CoolEmptyView(
+      return CoolEmptyView(
         compact: true,
-        title: 'No operations yet',
-        subtitle: 'Incoming and outgoing transactions will appear here.',
+        title: context.l10n.homeNoOperationsYet,
+        subtitle: context.l10n.homeOperationsEmptySubtitle,
         icon: Icons.receipt_long_outlined,
       );
     }
@@ -96,10 +97,7 @@ class _OperationCard extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: <Color>[
-            colors.cardSurface,
-            colors.elevatedBackground,
-          ],
+          colors: <Color>[colors.cardSurface, colors.elevatedBackground],
         ),
         borderRadius: BorderRadius.circular(CoolRadii.lg),
       ),
@@ -122,26 +120,30 @@ class _OperationCard extends StatelessWidget {
               children: [
                 Text(
                   transaction.title.trim().isEmpty
-                      ? 'Transaction'
+                      ? context.l10n.homeTransactionFallbackTitle
                       : transaction.title.trim(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: context.coolText.headline(
                     theme.textTheme.titleMedium,
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                     letterSpacing: -0.4,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  formatOperationMeta(transaction.recordedAt, transaction.type),
+                  formatOperationMeta(
+                    context,
+                    transaction.recordedAt,
+                    transaction.type,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: context.coolText.mono(
                     theme.textTheme.labelSmall,
                     color: colors.secondaryText,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                     letterSpacing: 0.7,
                   ),
                 ),
@@ -153,10 +155,8 @@ class _OperationCard extends StatelessWidget {
             fmtSignedAmt(amount),
             style: context.coolText.display(
               theme.textTheme.titleLarge,
-              color: amount >= 0
-                  ? colors.success
-                  : colors.primaryText,
-              fontWeight: FontWeight.w700,
+              color: amount >= 0 ? colors.success : colors.primaryText,
+              fontWeight: FontWeight.w800,
               letterSpacing: -0.7,
             ),
           ),

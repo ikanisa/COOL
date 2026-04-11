@@ -72,30 +72,21 @@ export async function hashOtpCode(
   phone: string,
   code: string,
 ): Promise<string> {
-  const secret = requireSecret(
-    "OTP_CODE_HASH_SECRET",
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY"),
-  );
+  const secret = requireSecret("OTP_CODE_HASH_SECRET");
 
   const signature = await hmacSha256(secret, `${phone}:${code}`);
   return bytesToHex(signature);
 }
 
 export async function derivePhonePassword(phone: string): Promise<string> {
-  const secret = requireSecret(
-    "AUTH_PHONE_PASSWORD_SECRET",
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY"),
-  );
+  const secret = requireSecret("AUTH_PHONE_PASSWORD_SECRET");
 
   const signature = await hmacSha256(secret, `cool-auth:${phone}`);
   return `Cool!${bytesToHex(signature)}`;
 }
 
 export async function derivePhoneEmail(phone: string): Promise<string> {
-  const secret = requireSecret(
-    "AUTH_PHONE_PASSWORD_SECRET",
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY"),
-  );
+  const secret = requireSecret("AUTH_PHONE_PASSWORD_SECRET");
 
   const signature = await hmacSha256(secret, `cool-email:${phone}`);
   return `wa-${bytesToHex(signature).slice(0, 32)}@auth.cool.local`;

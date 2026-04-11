@@ -59,7 +59,7 @@ class AdminDashboardScreen extends ConsumerWidget {
               'Platform controls, bank workspaces, and operational oversight in one command surface.',
               style: context.coolText.mobiLabel(
                 color: colors.secondaryText,
-              ).copyWith(fontWeight: FontWeight.w600),
+              ).copyWith(fontWeight: FontWeight.w700),
             ),
             SizedBox(height: space.x6),
             CoolCard(
@@ -72,7 +72,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                     style: context.coolText.display(
                       theme.textTheme.titleLarge,
                       color: colors.primaryText,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                   const SizedBox(height: CoolSpace.x2),
@@ -83,7 +83,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                     style: context.coolText.mobiLabel(
                       color: colors.secondaryText,
                     ).copyWith(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
                       height: 1.35,
                     ),
                   ),

@@ -161,7 +161,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
     } catch (e) {
       setState(() {
         _isLoading = false;
-        _error = 'Could not load contacts.';
+        _error = context.l10n.contactPickerCouldNotLoadContacts;
       });
     }
   }
@@ -220,7 +220,9 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
     }
     if (!opened) {
       _refreshOnResume = false;
-      setState(() => _error = 'Could not open contacts settings.');
+      setState(
+        () => _error = context.l10n.contactPickerCouldNotOpenContactsSettings,
+      );
     }
   }
 
@@ -318,10 +320,12 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                           Text(
                             widget.title ??
                                 (widget.multiSelect
-                                    ? 'Invite from Contacts'
-                                    : 'Share via Contact'),
+                                    ? context
+                                          .l10n
+                                          .contactPickerInviteFromContacts
+                                    : context.l10n.shareViaContact),
                             style: textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w700,
                               color: colors.primaryText,
                             ),
                           ),
@@ -330,7 +334,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                             Text(
                               effectiveSubtitle,
                               style: textTheme.labelSmall?.copyWith(
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w500,
                                 color: colors.tertiaryText,
                               ),
                             ),
@@ -352,7 +356,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                   Semantics(
                     textField: true,
                     label: context.l10n.searchContacts,
-                    hint: 'Search name or phone',
+                    hint: context.l10n.contactPickerSearchNameOrPhoneHint,
                     child: TextField(
                       controller: _searchController,
                       onChanged: _onSearch,
@@ -361,7 +365,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                       ),
                       cursorColor: colors.accent,
                       decoration: InputDecoration(
-                        hintText: 'Search by name or phone',
+                        hintText: context.l10n.contactPickerSearchByNameOrPhone,
                         hintStyle: textTheme.bodySmall?.copyWith(
                           color: colors.tertiaryText,
                         ),
@@ -415,9 +419,9 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
     if (_permanentlyDenied) {
       return _PermissionState(
         icon: Icons.lock_rounded,
-        title: 'Contacts access denied',
-        message: 'You\'ve permanently denied contacts',
-        actionLabel: 'Open Settings',
+        title: context.l10n.contactsAccessDenied,
+        message: context.l10n.contactPickerDeniedMessage,
+        actionLabel: context.l10n.openSettings,
         action: _openContactsSettings,
       );
     }
@@ -425,9 +429,9 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
     if (_accessDisabledInApp) {
       return _PermissionState(
         icon: Icons.admin_panel_settings_outlined,
-        title: 'Contacts are off in',
-        message: 'Contacts access is currently',
-        actionLabel: 'Enable Contacts',
+        title: context.l10n.contactsAreOffIn,
+        message: context.l10n.contactPickerAccessCurrentlyMessage,
+        actionLabel: context.l10n.contactPickerEnableContacts,
         action: _enableContactsAccess,
       );
     }
@@ -436,9 +440,9 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
     if (_permissionDenied) {
       return _PermissionState(
         icon: Icons.contacts_rounded,
-        title: 'Contacts access needed',
-        message: 'Cool needs access to',
-        actionLabel: 'Allow Access',
+        title: context.l10n.contactsAccessNeeded,
+        message: context.l10n.contactPickerNeedsAccessMessage,
+        actionLabel: context.l10n.allowAccess,
         action: _requestContactsPermission,
       );
     }
@@ -447,9 +451,9 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
     if (_error != null) {
       return _PermissionState(
         icon: Icons.warning_amber_rounded,
-        title: 'Something went wrong',
+        title: context.l10n.somethingWentWrong,
         message: _error!,
-        actionLabel: 'Retry',
+        actionLabel: context.l10n.retry,
         action: _loadContacts,
       );
     }
@@ -462,8 +466,10 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
         child: Center(
           child: Text(
             isSearching
-                ? 'No contacts match "${_searchController.text.trim()}"'
-                : 'No contacts with phone numbers found.',
+                ? context.l10n.contactPickerNoContactsMatch(
+                    _searchController.text.trim(),
+                  )
+                : context.l10n.contactPickerNoContactsWithPhones,
             textAlign: TextAlign.center,
             style: textTheme.bodySmall?.copyWith(color: colors.tertiaryText),
           ),

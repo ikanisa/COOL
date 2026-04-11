@@ -13,6 +13,7 @@ class AppBranding {
     required this.splashTitle,
     required this.logoAssetPath,
     required this.logoTransparentAssetPath,
+    required this.logoDarkAssetPath,
     required this.logoSemanticLabel,
     required this.primaryColor,
     required this.secondaryColor,
@@ -28,6 +29,7 @@ class AppBranding {
         splashTitle: 'Cool',
         logoAssetPath: 'assets/images/cool_logo_mark.png',
         logoTransparentAssetPath: 'assets/images/cool_logo_mark_transparent.png',
+        logoDarkAssetPath: 'assets/images/cool_logo_mark_dark.png',
         logoSemanticLabel: 'Cool app logo',
         primaryColor: const Color(0xFF6C63FF),
         secondaryColor: const Color(0xFF8982FF),
@@ -40,8 +42,10 @@ class AppBranding {
   final String welcomeSubtitle;
   final String splashTitle;
   final String logoAssetPath;
-  /// Logo on transparent background — for in-app dark surfaces.
+  /// Logo on transparent background — for compositing.
   final String logoTransparentAssetPath;
+  /// Logo on dark void background (#0D0A27) — for in-app dark surfaces.
+  final String logoDarkAssetPath;
   final String logoSemanticLabel;
   final Color primaryColor;
   final Color secondaryColor;

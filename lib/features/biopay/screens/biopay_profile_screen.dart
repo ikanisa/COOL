@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
+import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../auth/models/user_profile.dart';
@@ -25,6 +26,7 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final colors = context.coolSemanticColors;
     final authState = ref.watch(authProvider);
     final user = authState.user;
@@ -48,7 +50,7 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
         child: Column(
           children: [
             BiopayTopBar(
-              title: 'Profile',
+              title: l10n.profile,
               onBack: () {
                 if (context.canPop()) {
                   context.pop();
@@ -65,8 +67,8 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
                 labels: availableTypes
                     .map(
                       (type) => type == MomoRecipientType.phoneNumber
-                          ? 'Number'
-                          : 'Code',
+                          ? l10n.biopayTabNumber
+                          : l10n.biopayTabCode,
                     )
                     .toList(growable: false),
                 selectedIndex: availableTypes.indexOf(selectedType),
@@ -83,8 +85,8 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
                 children: [
                   BiopayFieldLabel(
                     label: selectedType == MomoRecipientType.code
-                        ? 'Merchant Code'
-                        : 'MoMo Number',
+                        ? l10n.merchantCode
+                        : l10n.biopayMomoNumberLabel,
                   ),
                   const Spacer(),
                   Text(
@@ -97,7 +99,7 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
                     style: context.coolText.headline(
                       Theme.of(context).textTheme.headlineMedium,
                       color: colors.primaryText,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                       letterSpacing: -1.0,
                     ),
                   ),
@@ -107,17 +109,17 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
             const SizedBox(height: CoolSpace.x4),
             _FaceIdCard(
               isReady: profile?.active ?? false,
-              onTap: () => context.push(AppRoutes.biopayRegister),
+              onTap: () => context.go(AppRoutes.profile),
             ),
             if (profile == null) ...[
               const SizedBox(height: CoolSpace.x5),
               Text(
-                'Complete Face ID enrollment to pay with BioPay.',
+                l10n.biopayCompleteEnrollmentMessage,
                 textAlign: TextAlign.center,
                 style: context.coolText.mono(
                   Theme.of(context).textTheme.bodyMedium,
                   color: colors.secondaryText,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],
@@ -128,7 +130,7 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
       error: (error, stackTrace) => BiopayLightScaffold(
         child: Column(
           children: [
-            const BiopayTopBar(title: 'Profile'),
+            BiopayTopBar(title: l10n.profile),
             const SizedBox(height: CoolSpace.x8),
             Builder(
               builder: (context) {
@@ -136,16 +138,16 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
                 return Column(
                   children: [
                     Text(
-                      'Profile unavailable',
+                      l10n.biopayProfileUnavailableTitle,
                       style: context.coolText.headline(
                         Theme.of(context).textTheme.headlineSmall,
                         color: colors.primaryText,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     const SizedBox(height: CoolSpace.x3),
                     Text(
-                      'BioPay could not load your linked details right now.',
+                      l10n.biopayProfileUnavailableMessage,
                       textAlign: TextAlign.center,
                       style: context.coolText.mono(
                         Theme.of(context).textTheme.bodyMedium,
@@ -158,7 +160,7 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
             ),
             const SizedBox(height: CoolSpace.x6),
             BiopayPrimaryButton(
-              label: 'Try Again',
+              label: l10n.biopayTryAgain,
               onTap: () => ref.invalidate(biopayProfileProvider),
             ),
           ],
@@ -221,8 +223,8 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
     final trimmed = raw?.trim() ?? '';
     if (trimmed.isEmpty) {
       return selectedType == MomoRecipientType.code
-          ? 'Not Linked'
-          : 'Not Added';
+          ? context.l10n.biopayNotLinked
+          : context.l10n.biopayNotAdded;
     }
     if (selectedType == MomoRecipientType.code) {
       return trimmed;
@@ -268,17 +270,17 @@ class _ProfileIdentityHeader extends StatelessWidget {
           style: context.coolText.headline(
             Theme.of(context).textTheme.displaySmall,
             color: colors.primaryText,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w800,
             letterSpacing: -1.4,
           ),
         ),
         const SizedBox(height: CoolSpace.x1),
         Text(
-          'BioPay ID',
+          context.l10n.biopayIdLabel,
           style: context.coolText.mono(
             Theme.of(context).textTheme.labelLarge,
             color: colors.secondaryText,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w800,
             letterSpacing: 2.4,
           ),
         ),
@@ -311,21 +313,23 @@ class _FaceIdCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Face ID',
+                      context.l10n.biopayFaceIdLabel,
                       style: context.coolText.headline(
                         Theme.of(context).textTheme.headlineSmall,
                         color: colors.primaryText,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                         letterSpacing: -0.8,
                       ),
                     ),
                     const SizedBox(height: CoolSpace.x1),
                     Text(
-                      isReady ? 'Ready' : 'Not set up',
+                      isReady
+                          ? context.l10n.ready
+                          : context.l10n.biopayFaceIdNotSetUp,
                       style: context.coolText.mono(
                         Theme.of(context).textTheme.titleMedium,
                         color: isReady ? colors.success : colors.secondaryText,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                   ],

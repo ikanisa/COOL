@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../core/l10n/l10n.dart';
 import '../../core/providers/app_access_provider.dart';
 import '../../core/theme/cool_foundations.dart';
 import 'contact_picker_sheet.dart';
@@ -66,6 +67,7 @@ class ShareCard extends ConsumerWidget {
     if (!context.mounted) {
       return;
     }
+    final l10n = context.l10n;
 
     await QrShareSheet.show(
       context,
@@ -73,7 +75,7 @@ class ShareCard extends ConsumerWidget {
       inviteUrl: resolvedUrl,
       sheetTitle: sheetTitle,
       sheetSubtitle:
-          sheetSubtitle ?? _effectiveSubtitle ?? 'Scan QR or share the link',
+          sheetSubtitle ?? _effectiveSubtitle ?? l10n.qrShareSheetSubtitle,
       shareText: '${shareText ?? title}\n$resolvedUrl',
       analyticsTargetType: analyticsTargetType,
     );
@@ -86,12 +88,13 @@ class ShareCard extends ConsumerWidget {
   }
 
   Future<void> _shareViaContacts(BuildContext context, WidgetRef ref) async {
+    final l10n = context.l10n;
     final contacts = await ContactPickerSheet.show(
       context,
       appAccessService: ref.read(appAccessServiceProvider),
       multiSelect: false,
-      title: 'Share via Contact',
-      message: 'Select a contact to share with',
+      title: l10n.shareViaContact,
+      message: l10n.selectAContactToShareWith,
     );
 
     if (contacts.isEmpty) return;
@@ -103,6 +106,7 @@ class ShareCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     return Container(
@@ -125,7 +129,7 @@ class ShareCard extends ConsumerWidget {
                     Text(
                       title,
                       style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                         color: colors.primaryText,
                       ),
                     ),
@@ -134,7 +138,7 @@ class ShareCard extends ConsumerWidget {
                       Text(
                         _effectiveSubtitle!,
                         style: theme.textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w500,
                           color: colors.tertiaryText,
                         ),
                       ),
@@ -151,7 +155,7 @@ class ShareCard extends ConsumerWidget {
               Expanded(
                 child: _ShareButton(
                   icon: Icons.qr_code_rounded,
-                  label: 'QR / Share',
+                  label: l10n.shareQrButton,
                   colors: colors,
                   onTap: () {
                     _openQrSheet(context);
@@ -163,7 +167,7 @@ class ShareCard extends ConsumerWidget {
               Expanded(
                 child: _ShareButton(
                   icon: Icons.share_rounded,
-                  label: 'Share',
+                  label: l10n.share,
                   colors: colors,
                   onTap: () {
                     _shareLink();
@@ -175,7 +179,7 @@ class ShareCard extends ConsumerWidget {
               Expanded(
                 child: _ShareButton(
                   icon: Icons.contacts_rounded,
-                  label: 'Contacts',
+                  label: l10n.contacts,
                   colors: colors,
                   onTap: () => _shareViaContacts(context, ref),
                 ),
@@ -237,7 +241,7 @@ class _ShareButton extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
                       style: theme.textTheme.labelSmall?.copyWith(
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         color: colors.accent,
                       ),
                     ),

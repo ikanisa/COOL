@@ -9,7 +9,7 @@ import { setTimeout as delay } from 'node:timers/promises';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const port = await findAvailablePort();
 const baseUrl = `http://127.0.0.1:${port}`;
-const auditUrl = `${baseUrl}/index.html`;
+const auditUrl = `${baseUrl}/admin/`;
 
 async function findAvailablePort() {
   return await new Promise((resolve, reject) => {
@@ -39,7 +39,7 @@ async function waitForServer() {
     try {
       const response = await fetch(baseUrl, { cache: 'no-store' });
       const html = await response.text();
-      if (response.ok && html.includes('COOL PWA')) {
+      if (response.ok && html.includes('COOL Admin')) {
         return;
       }
     } catch (_) {
@@ -62,7 +62,7 @@ function startServer() {
 }
 
 const outputDir = resolve(root, '../../output/lighthouse');
-const reportBase = resolve(outputDir, 'cool-pwa-home');
+const reportBase = resolve(outputDir, 'cool-pwa-admin');
 const reportPath = `${reportBase}.report.json`;
 mkdirSync(outputDir, { recursive: true });
 
@@ -78,7 +78,7 @@ try {
         'lighthouse',
         auditUrl,
         '--chrome-flags=--headless=new --no-sandbox',
-        '--only-categories=performance,accessibility,best-practices,seo',
+        '--only-categories=performance,accessibility,best-practices',
         '--output=json',
         '--output=html',
         `--output-path=${reportBase}`,
@@ -114,7 +114,6 @@ try {
   assert.ok(categories.performance.score >= 0.85, `Performance score too low: ${categories.performance.score}`);
   assert.ok(categories.accessibility.score >= 0.9, `Accessibility score too low: ${categories.accessibility.score}`);
   assert.ok(categories['best-practices'].score >= 0.9, `Best practices score too low: ${categories['best-practices'].score}`);
-  assert.ok(categories.seo.score >= 0.9, `SEO score too low: ${categories.seo.score}`);
 } finally {
   server.kill('SIGTERM');
 }

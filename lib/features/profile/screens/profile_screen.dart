@@ -5,12 +5,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/config/app_config_provider.dart';
 import '../../../core/providers/engagement_providers.dart';
 import '../../../shared/widgets/glass_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../../admin/providers/admin_workspace_access_provider.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../biopay/providers/biopay_providers.dart';
 import '../providers/profile_view_provider.dart';
@@ -48,45 +51,85 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       return;
     }
 
-    // The router redirect watches authProvider and will auto-navigate to
-    // splash when the session is cleared. No explicit context.go() needed.
-    // This avoids a flash-of-home race if auth state hasn't propagated yet.
+    context.go(AppRoutes.home);
+  }
+
+  // ── Delete account (Play Store Data Deletion compliance) ──────────
+
+  Future<void> _confirmDeleteAccount() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (_) => const ProfileDeleteAccountDialog(),
+    );
+
+    if (confirmed != true || !mounted) return;
+
+    // Show a blocking progress indicator.
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => ProfileBlockingProgressDialog(
+        message: context.l10n.deleteAccountAction,
+      ),
+    );
+
+    await ref.read(authProvider.notifier).deleteAccount();
+    if (!mounted) return;
+
+    // Dismiss the progress dialog.
+    Navigator.of(context, rootNavigator: true).pop();
+
+    final error = ref.read(authProvider).error;
+    if (error != null && error.isNotEmpty) {
+      CoolToast.error(context, error);
+      return;
+    }
+
+    CoolToast.success(context, context.l10n.deleteAccountAction);
+    context.go(AppRoutes.home);
   }
 
   Future<void> _launchWhatsApp() async {
-    final uri = Uri.parse('https://wa.me/250795588248');
+    final whatsapp = await ref
+        .read(appConfigRepositoryProvider)
+        .getSupportWhatsApp();
+    final uri = Uri.parse('https://wa.me/$whatsapp');
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else if (mounted) {
-      CoolToast.error(context, 'Could not open WhatsApp');
+      CoolToast.error(context, context.l10n.profileWhatsAppLaunchError);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final colors = context.coolSemanticColors;
     final topPad = MediaQuery.viewPaddingOf(context).top;
     final bottomPad = MediaQuery.viewPaddingOf(context).bottom;
 
     final profile = ref.watch(profileViewProvider);
-    final authState = ref.watch(authProvider);
     final featureFlags = ref.watch(featureFlagsStateProvider);
     final biopayProfile = ref.watch(biopayProfileProvider);
 
+    final adminAccess = ref.watch(adminWorkspaceAccessProvider);
+
     final faceIdEnabled = featureFlags.isBiopayEnabled(
-      isAdmin: authState.user?.isAdmin ?? false,
+      isAdmin: adminAccess.hasPlatformAccess,
     );
     final faceIdSubtitle = !faceIdEnabled
-        ? 'COMING SOON'
+        ? l10n.profileFaceIdComingSoon
         : biopayProfile.when(
             data: (profile) {
               if (profile?.active ?? false) {
-                return 'REGISTERED - ${profile!.maskedRecipientValue}';
+                return l10n.profileFaceIdRegistered(
+                  profile!.maskedRecipientValue,
+                );
               }
-              return 'SCAN YOUR FACE TO PAY';
+              return l10n.profileFaceIdScanToPay;
             },
-            loading: () => 'CHECKING FACE ID STATUS',
-            error: (err, st) => 'SCAN YOUR FACE TO PAY',
+            loading: () => l10n.profileFaceIdCheckingStatus,
+            error: (err, st) => l10n.profileFaceIdScanToPay,
           );
 
     return CoolScreenBackground(
@@ -111,17 +154,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'SETTINGS',
+                            l10n.settings.toUpperCase(),
                             style: context.coolText.displayCondensed(
                               Theme.of(context).textTheme.headlineSmall,
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
                           Text(
-                            'IDENTITY',
+                            l10n.profileIdentityTitle,
                             style: context.coolText.mono(
                               Theme.of(context).textTheme.labelSmall,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w700,
                               color: colors.secondaryText,
                               letterSpacing: 1.0,
                             ),
@@ -162,37 +205,37 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   const SizedBox(height: CoolSpace.x6),
 
                   // ── APP SETTINGS section ─────────────────────────
-                  const _SectionLabel(label: 'APP SETTINGS'),
+                  _SectionLabel(label: l10n.profileAppSettingsSection),
                   const SizedBox(height: CoolSpace.x3),
                   _GlassCard(
                     child: Column(
                       children: [
                         _SettingsRow(
                           icon: Icons.person_outline_rounded,
-                          title: 'ACCOUNT DETAILS',
-                          subtitle: 'PERSONAL INFORMATION',
+                          title: l10n.profileAccountDetailsTitle,
+                          subtitle: l10n.profilePersonalInformationSubtitle,
                           onTap: () => context.push(AppRoutes.profileAccount),
                         ),
                         _SettingsDivider(),
                         _SettingsRow(
                           icon: Icons.account_balance_wallet_outlined,
-                          title: 'WALLET & MOMO',
+                          title: l10n.profileWalletMomoTitle,
                           subtitle: profile.momoLinked
                               ? profile.momoDisplayLabel
-                              : 'SET UP YOUR DEFAULT MOMO',
+                              : l10n.profileSetupDefaultMomoSubtitle,
                           onTap: () => context.push(AppRoutes.settingsWallet),
                         ),
                         _SettingsDivider(),
                         _SettingsRow(
                           icon: Icons.receipt_long_rounded,
-                          title: 'TRANSACTION HISTORY',
-                          subtitle: 'M-MONEY STATEMENTS & LEDGER',
+                          title: l10n.profileTransactionHistoryTitle,
+                          subtitle: l10n.profileStatementsLedgerSubtitle,
                           onTap: () => context.push(AppRoutes.momoWallet),
                         ),
                         _SettingsDivider(),
                         _SettingsRow(
                           icon: Icons.face_retouching_natural_rounded,
-                          title: 'FACE ID REGISTER',
+                          title: l10n.profileFaceIdRegisterTitle,
                           subtitle: faceIdSubtitle,
                           onTap: () => context.push(AppRoutes.biopayRegister),
                         ),
@@ -202,32 +245,39 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   const SizedBox(height: CoolSpace.x6),
 
                   // ── SUPPORT section ──────────────────────────────
-                  const _SectionLabel(label: 'SUPPORT'),
+                  _SectionLabel(label: l10n.profileSupportSection),
                   const SizedBox(height: CoolSpace.x3),
                   _GlassCard(
                     child: Column(
                       children: [
-                        if (authState.user?.isAdmin ?? false) ...[
+                        if (adminAccess.hasAnyAdminAccess) ...[
                           _SettingsRow(
                             icon: Icons.admin_panel_settings_rounded,
-                            title: 'ADMIN WORKSPACE',
-                            subtitle: 'SYSTEM MANAGEMENT',
+                            title: l10n.profileAdminWorkspaceTitle,
+                            subtitle: l10n.profileSystemManagementSubtitle,
                             onTap: () => context.push(AppRoutes.admin),
                           ),
                           _SettingsDivider(),
                         ],
                         _SettingsRow(
                           icon: Icons.chat_rounded,
-                          title: 'HELP',
-                          subtitle: 'CHAT ON WHATSAPP',
+                          title: l10n.profileHelpTitle,
+                          subtitle: l10n.profileChatOnWhatsAppSubtitle,
                           onTap: _launchWhatsApp,
                         ),
                         _SettingsDivider(),
                         _SettingsRow(
                           icon: Icons.logout_rounded,
-                          title: 'LOGOUT',
+                          title: l10n.profileLogoutTitle,
                           isDestructive: true,
                           onTap: _confirmSignOut,
+                        ),
+                        _SettingsDivider(),
+                        _SettingsRow(
+                          icon: Icons.delete_outline_rounded,
+                          title: l10n.deleteAccountAction,
+                          isDestructive: true,
+                          onTap: _confirmDeleteAccount,
                         ),
                       ],
                     ),
@@ -254,7 +304,7 @@ class _SectionLabel extends StatelessWidget {
       label,
       style: context.coolText.mono(
         Theme.of(context).textTheme.labelSmall,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
         color: colors.secondaryText,
         letterSpacing: 2.0,
       ),
@@ -283,62 +333,66 @@ class _SettingsRow extends StatelessWidget {
     final textColor = isDestructive ? colors.danger : colors.primaryText;
     final iconColor = isDestructive ? colors.danger : colors.primaryText;
 
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: CoolSpace.x4),
-        child: Row(
-          children: [
-            Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: colors.cardSurfaceStrong,
-                borderRadius: BorderRadius.circular(CoolRadii.md),
-                boxShadow: CoolShadows.ambientFloat(strength: 0.3),
+    return Semantics(
+      button: true,
+      label: subtitle != null ? '$title. $subtitle' : title,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: CoolSpace.x4),
+          child: Row(
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: colors.cardSurfaceStrong,
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  boxShadow: CoolShadows.ambientFloat(strength: 0.3),
+                ),
+                alignment: Alignment.center,
+                child: Icon(icon, color: iconColor, size: 22),
               ),
-              alignment: Alignment.center,
-              child: Icon(icon, color: iconColor, size: 22),
-            ),
-            const SizedBox(width: CoolSpace.x4),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: context.coolText.mono(
-                      Theme.of(context).textTheme.titleSmall,
-                      fontWeight: FontWeight.w700,
-                      color: textColor,
-                      letterSpacing: 0.8,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  if (subtitle != null) ...[
-                    const SizedBox(height: 2),
+              const SizedBox(width: CoolSpace.x4),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     Text(
-                      subtitle!,
+                      title,
                       style: context.coolText.mono(
-                        Theme.of(context).textTheme.labelSmall,
-                        fontWeight: FontWeight.w400,
-                        color: colors.secondaryText,
+                        Theme.of(context).textTheme.titleSmall,
+                        fontWeight: FontWeight.w800,
+                        color: textColor,
                         letterSpacing: 0.8,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
+                    if (subtitle != null) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle!,
+                        style: context.coolText.mono(
+                          Theme.of(context).textTheme.labelSmall,
+                          fontWeight: FontWeight.w500,
+                          color: colors.secondaryText,
+                          letterSpacing: 0.8,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
-            ),
-            Icon(
-              Icons.chevron_right_rounded,
-              color: colors.secondaryText,
-              size: 20,
-            ),
-          ],
+              Icon(
+                Icons.chevron_right_rounded,
+                color: colors.secondaryText,
+                size: 20,
+              ),
+            ],
+          ),
         ),
       ),
     );

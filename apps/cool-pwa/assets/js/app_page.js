@@ -113,23 +113,36 @@ export function initializeRouteNavigation() {
   });
 }
 
-export async function populatePageData({ routeData, showToast }) {
-  const route = document.body.dataset.route ?? 'index';
+export async function fetchStaticRouteData({ routeData, route = document.body.dataset.route ?? 'index' }) {
   const dataUrl = routeData[route];
   if (!dataUrl) {
+    return null;
+  }
+
+  const response = await fetch(dataUrl, { cache: 'no-store' });
+  return await response.json();
+}
+
+export function applyPageData(data) {
+  if (!data || typeof data !== 'object') {
     return;
   }
 
+  bindMetricValues(data);
+  bindCollection('activity-feed', data.activity ?? []);
+  bindCollection('queue-feed', data.queue ?? []);
+  bindCollection('notification-feed', data.notifications ?? []);
+}
+
+export async function populatePageData({ routeData, route, showToast }) {
   try {
-    const response = await fetch(dataUrl, { cache: 'no-store' });
-    const data = await response.json();
-    bindMetricValues(data);
-    bindCollection('activity-feed', data.activity ?? []);
-    bindCollection('queue-feed', data.queue ?? []);
-    bindCollection('notification-feed', data.notifications ?? []);
+    const data = await fetchStaticRouteData({ routeData, route });
+    applyPageData(data);
+    return data;
   } catch (error) {
     console.error('Route data load failed.', error);
     showToast('Offline data is being used.');
+    return null;
   }
 }
 

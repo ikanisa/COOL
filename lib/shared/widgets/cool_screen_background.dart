@@ -47,50 +47,56 @@ class CoolScreenBackground extends ConsumerWidget {
         ),
         
         // ── Top linear shadow fade ──────────────────────────────
-        IgnorePointer(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[
-                  colors.shadowColor,
-                  colors.appBackground,
-                  colors.appBackground,
-                ],
-                stops: const <double>[0.0, 0.32, 1.0],
+        ExcludeSemantics(
+          child: IgnorePointer(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[
+                    colors.shadowColor,
+                    colors.appBackground,
+                    colors.appBackground,
+                  ],
+                  stops: const <double>[0.0, 0.32, 1.0],
+                ),
               ),
             ),
           ),
         ),
 
         // ── Primary glow (top-left) ─────────────────────────────
-        IgnorePointer(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: RadialGradient(
-                center: const Alignment(-0.15, -0.9),
-                radius: 0.95,
-                colors: <Color>[
-                  (primaryColor ?? colors.accentStrong).withValues(alpha: 0.26),
-                  Colors.transparent,
-                ],
+        ExcludeSemantics(
+          child: IgnorePointer(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: RadialGradient(
+                  center: const Alignment(-0.15, -0.9),
+                  radius: 0.95,
+                  colors: <Color>[
+                    (primaryColor ?? colors.accentStrong).withValues(alpha: 0.26),
+                    Colors.transparent,
+                  ],
+                ),
               ),
             ),
           ),
         ),
 
         // ── Secondary glow (top-right) ──────────────────────────
-        IgnorePointer(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: RadialGradient(
-                center: const Alignment(1.15, -0.4),
-                radius: 0.9,
-                colors: <Color>[
-                  (secondaryColor ?? colors.accent).withValues(alpha: 0.10),
-                  Colors.transparent,
-                ],
+        ExcludeSemantics(
+          child: IgnorePointer(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: RadialGradient(
+                  center: const Alignment(1.15, -0.4),
+                  radius: 0.9,
+                  colors: <Color>[
+                    (secondaryColor ?? colors.accent).withValues(alpha: 0.10),
+                    Colors.transparent,
+                  ],
+                ),
               ),
             ),
           ),

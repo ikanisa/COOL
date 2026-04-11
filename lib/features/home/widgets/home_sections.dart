@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_brand_mark.dart';
@@ -70,15 +71,19 @@ class HomeHeader extends StatelessWidget {
             style: context.coolText.headline(
               theme.textTheme.headlineMedium,
               color: colors.primaryText,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
               letterSpacing: -0.8,
             ),
           ),
         ),
         const SizedBox(width: CoolSpace.x3),
-        _HomeIconButton(
-          icon: Icons.settings_outlined,
-          onTap: onNotificationsTap,
+        Semantics(
+          button: true,
+          label: context.l10n.settings,
+          child: _HomeIconButton(
+            icon: Icons.settings_outlined,
+            onTap: onNotificationsTap,
+          ),
         ),
       ],
     );
@@ -102,11 +107,17 @@ class HomeSavingsHeroCard extends StatelessWidget {
     final theme = Theme.of(context);
     final colors = context.coolSemanticColors;
 
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(CoolRadii.xl),
-        onTap: onOpenWallet,
+    final balanceLabel =
+        '${context.l10n.homeSavingsBalanceUpper}: ${fmtAmt(totalSavingsRwf)} RWF';
+
+    return Semantics(
+      label: balanceLabel,
+      button: true,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(CoolRadii.xl),
+          onTap: onOpenWallet,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(CoolRadii.xl),
           child: DecoratedBox(
@@ -183,13 +194,13 @@ class HomeSavingsHeroCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(CoolRadii.pill),
                         ),
                         child: Text(
-                          'SAVINGS BALANCE',
+                          context.l10n.homeSavingsBalanceUpper,
                           style: context.coolText.mono(
                             theme.textTheme.labelSmall,
                             color: colors.accentForeground.withValues(
                               alpha: 0.86,
                             ),
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w800,
                             letterSpacing: 1.2,
                           ),
                         ),
@@ -202,7 +213,7 @@ class HomeSavingsHeroCard extends StatelessWidget {
                         style: context.coolText.headline(
                           theme.textTheme.displaySmall,
                           color: colors.accentForeground,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w800,
                           letterSpacing: -1.8,
                           height: 0.92,
                         ),
@@ -215,6 +226,7 @@ class HomeSavingsHeroCard extends StatelessWidget {
               ],
             ),
           ),
+        ),
         ),
       ),
     );
@@ -238,7 +250,7 @@ class HomeSectionHeader extends StatelessWidget {
             style: context.coolText.headline(
               Theme.of(context).textTheme.headlineSmall,
               color: colors.primaryText,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
               letterSpacing: -0.6,
             ),
           ),
@@ -281,7 +293,7 @@ class HomeSectionActionPill extends StatelessWidget {
             style: context.coolText.mono(
               Theme.of(context).textTheme.labelSmall,
               color: colors.accent,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
               letterSpacing: 0.9,
             ),
           ),

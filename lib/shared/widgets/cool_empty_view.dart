@@ -100,7 +100,7 @@ class CoolEmptyView extends StatelessWidget {
                         title!,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headlineSmall
-                            ?.copyWith(fontWeight: FontWeight.w700),
+                            ?.copyWith(fontWeight: FontWeight.w800),
                       )
                       .animate()
                       .fadeIn(delay: 100.ms, duration: 400.ms)
@@ -112,7 +112,7 @@ class CoolEmptyView extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: colors.tertiaryText,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         height: 1.6,
                       ),
                     )

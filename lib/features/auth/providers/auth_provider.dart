@@ -28,17 +28,22 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepository(client: ref.read(supabaseClientProvider));
 });
 
+final initialAuthStateProvider = Provider<AuthState?>((ref) => null);
+
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   final repository = ref.watch(authRepositoryProvider);
   final crashlytics = ref.read(crashlyticsServiceProvider);
   final performance = ref.read(performanceServiceProvider);
   final momoService = ref.read(momoServiceProvider);
+  final initialState = ref.watch(initialAuthStateProvider);
   return AuthNotifier(
     repository: repository,
     crashlytics: crashlytics,
     performance: performance,
     momoService: momoService,
     clearSensitiveData: () => ref.read(biopayCacheServiceProvider).clear(),
+    initialState: initialState,
+    autoBootstrapOnInit: initialState == null,
   );
 });
 
@@ -92,21 +97,24 @@ class AuthNotifier extends StateNotifier<AuthState> {
     required PerformanceService performance,
     required MomoService momoService,
     Future<void> Function()? clearSensitiveData,
+    AuthState? initialState,
+    bool autoBootstrapOnInit = false,
   }) : _repository = repository,
        _crashlytics = crashlytics,
        _performance = performance,
        _momoService = momoService,
        _clearSensitiveData = clearSensitiveData,
        super(
-         AuthState(
-           session: repository.currentSession,
-           profileRestoreState: repository.currentSession == null
-               ? AuthProfileRestoreState.available
-               : AuthProfileRestoreState.pending,
-         ),
+         initialState ??
+             AuthState(
+               session: repository.currentSession,
+               profileRestoreState: repository.currentSession == null
+                   ? AuthProfileRestoreState.available
+                   : AuthProfileRestoreState.pending,
+             ),
        ) {
-    if (_repository.currentSession != null) {
-      Future<void>.microtask(restoreCurrentUser);
+    if (autoBootstrapOnInit) {
+      Future<void>.microtask(ensureReadyForAppStart);
     }
   }
 
@@ -115,6 +123,29 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final PerformanceService _performance;
   final MomoService _momoService;
   final Future<void> Function()? _clearSensitiveData;
+
+  AuthState get snapshot => state;
+
+  Future<void> ensureReadyForAppStart() async {
+    if (_repository.currentSession != null) {
+      await restoreCurrentUser();
+      if (state.session == null) {
+        throw StateError(state.error ?? 'Could not restore your session.');
+      }
+      if (state.profileRestoreState == AuthProfileRestoreState.failed) {
+        throw StateError(state.error ?? 'Could not restore your account.');
+      }
+      return;
+    }
+
+    await signInAnonymously();
+    if (state.session == null) {
+      throw StateError(state.error ?? 'Could not establish a startup session.');
+    }
+    if (state.profileRestoreState == AuthProfileRestoreState.failed) {
+      throw StateError(state.error ?? 'Could not finish startup.');
+    }
+  }
 
   Future<void> restoreCurrentUser() async {
     final session = _repository.currentSession;
@@ -253,7 +284,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   /// Signs in using the session tokens returned by the `verify-otp` Edge
   /// Function. This replaces the current anonymous session with a
   /// phone-verified one.
-  Future<void> signInWithOtpSession({
+  Future<bool> signInWithOtpSession({
     required String accessToken,
     required String refreshToken,
   }) async {
@@ -344,6 +375,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         isLoading: false,
         error: error,
       );
+      return true;
     } catch (error, stack) {
       _performance.stopTrace(
         'auth_sign_in_otp',
@@ -357,10 +389,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       debugPrint('[Auth] ❌ OTP sign-in failed: $error\n$stack');
       // Preserve the previous profileRestoreState — the user still has
       // their old session and should not be trapped on splash.
-      state = state.copyWith(
-        isLoading: false,
-        error: describeAuthError(error),
-      );
+      state = state.copyWith(isLoading: false, error: describeAuthError(error));
+      return false;
     }
   }
 
@@ -573,11 +603,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
       await _clearSensitiveData?.call();
     });
 
-    result.when(
-      data: (_) {
-        state = const AuthState(
-          profileRestoreState: AuthProfileRestoreState.available,
-        );
+    await result.when(
+      data: (_) async {
+        await signInAnonymously();
       },
       error: (error, _) {
         state = state.copyWith(
@@ -597,11 +625,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
       await _clearSensitiveData?.call();
     });
 
-    result.when(
-      data: (_) {
-        state = const AuthState(
-          profileRestoreState: AuthProfileRestoreState.available,
-        );
+    await result.when(
+      data: (_) async {
+        await signInAnonymously();
       },
       error: (error, _) {
         state = state.copyWith(

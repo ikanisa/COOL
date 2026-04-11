@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/money_formatters.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -10,30 +11,38 @@ String fmtAmt(int v) => formatWholeMoneyAmount(v);
 
 String fmtSignedAmt(int v) => formatSignedWholeMoneyAmount(v);
 
-String formatOperationMeta(DateTime recordedAt, String type) {
+String formatOperationMeta(
+  BuildContext context,
+  DateTime recordedAt,
+  String type,
+) {
   final now = DateTime.now();
   final today = DateUtils.dateOnly(now);
   final date = DateUtils.dateOnly(recordedAt);
-  final normalizedType = _normalizeOperationType(type);
+  final normalizedType = _normalizeOperationType(context, type);
   final timeLabel = DateFormat('h:mm a').format(recordedAt).toUpperCase();
 
   if (date == today) {
-    return 'TODAY, $timeLabel • $normalizedType';
+    return context.l10n.homeOperationMetaToday(timeLabel, normalizedType);
   }
 
   if (date == today.subtract(const Duration(days: 1))) {
-    return 'YESTERDAY, $timeLabel • $normalizedType';
+    return context.l10n.homeOperationMetaYesterday(timeLabel, normalizedType);
   }
 
   final dateLabel = DateFormat('MMM d').format(recordedAt).toUpperCase();
-  return '$dateLabel, $timeLabel • $normalizedType';
+  return context.l10n.homeOperationMetaDate(
+    dateLabel,
+    timeLabel,
+    normalizedType,
+  );
 }
 
-String summarizeMonthlyMovement(int amount) {
+String summarizeMonthlyMovement(BuildContext context, int amount) {
   if (amount == 0) {
-    return 'NO CHANGE THIS MONTH';
+    return context.l10n.homeNoChangeThisMonthUpper;
   }
-  return 'THIS MONTH ${fmtSignedAmt(amount)} RWF';
+  return context.l10n.homeThisMonthAmount(fmtSignedAmt(amount));
 }
 
 IconData operationIconFor(HomeDashboardTransaction transaction) {
@@ -73,7 +82,11 @@ Color operationAccentFor(
   return colors.warning;
 }
 
-String resolveDisplayName(String? officialName, String? fullName) {
+String resolveDisplayName(
+  BuildContext context,
+  String? officialName,
+  String? fullName,
+) {
   final official = officialName?.trim() ?? '';
   if (official.isNotEmpty) {
     return official;
@@ -84,7 +97,7 @@ String resolveDisplayName(String? officialName, String? fullName) {
     return full;
   }
 
-  return 'Cool';
+  return context.l10n.cool;
 }
 
 String initialsForName(String name) {
@@ -105,31 +118,30 @@ String initialsForName(String name) {
       .toUpperCase();
 }
 
-String memberCountLabel(int count) {
-  if (count == 1) {
-    return '1 MEMBER';
-  }
-  return '$count MEMBERS';
+String memberCountLabel(BuildContext context, int count) {
+  return context.l10n.homeMemberCount(count);
 }
 
-String _normalizeOperationType(String type) {
+String _normalizeOperationType(BuildContext context, String type) {
   final normalized = type.trim().toLowerCase();
   if (normalized.contains('debit')) {
-    return 'TRANSFER';
+    return context.l10n.homeOperationTransferUpper;
   }
   if (normalized.contains('credit')) {
-    return 'RECEIVED';
+    return context.l10n.homeOperationReceivedUpper;
   }
   if (normalized.contains('deposit')) {
-    return 'SAVING';
+    return context.l10n.homeOperationSavingUpper;
   }
   if (normalized.contains('interest')) {
-    return 'INTEREST';
+    return context.l10n.homeOperationInterestUpper;
   }
   if (normalized.contains('payout')) {
-    return 'PAYOUT';
+    return context.l10n.homeOperationPayoutUpper;
   }
-  return normalized.isEmpty ? 'ACTIVITY' : normalized.toUpperCase();
+  return normalized.isEmpty
+      ? context.l10n.homeOperationActivityUpper
+      : normalized.toUpperCase();
 }
 
 class HomeProgressBar extends StatelessWidget {

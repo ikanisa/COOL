@@ -28,8 +28,6 @@ bool _isPlatformAdminRoute(String location) {
   return _platformAdminRoutes.contains(_locationPath(location));
 }
 
-
-
 bool _isBankWorkspaceRoute(String location) {
   final path = _locationPath(location);
   return path == _adminBanksRoutePrefix ||
@@ -60,8 +58,8 @@ String? _sanitizeRedirectTarget(String? location) {
 
 /// Resolves where the user should be redirected based on auth and role state.
 ///
-/// With anonymous auth, the splash screen handles sign-in. Once a session
-/// exists, the user goes to `/home`. Admin route guards remain unchanged.
+/// App bootstrap establishes the startup session before the router is shown.
+/// Redirects here only handle runtime auth edge cases and admin guards.
 String? resolveAppRedirect({
   required String location,
   String? requestedLocation,
@@ -86,20 +84,18 @@ String? resolveAppRedirect({
       _sanitizeRedirectTarget(requestedLocation) ??
       _sanitizeRedirectTarget(location);
 
-  // While restoring profile, keep user on splash.
+  // While restoring profile, keep the user on their current location.
   if (hasSession && isProfileRestoreBlocked) {
-    if (location == AppRoutes.splash) {
-      return null;
-    }
-    return AppRoutes.splashLocation(redirect: redirectTarget);
+    return null;
   }
 
-  // No session → stay on splash (it will auto-sign-in anonymously).
+  // No session → send the user to home while auth re-establishes a guest
+  // session. This should be rare because cold start is handled in bootstrap.
   if (!hasSession) {
-    if (location == AppRoutes.splash) {
+    if (location == AppRoutes.home || location == AppRoutes.splash) {
       return null;
     }
-    return AppRoutes.splashLocation(redirect: redirectTarget);
+    return AppRoutes.home;
   }
 
   // Session exists — admin route guards.
@@ -112,8 +108,6 @@ String? resolveAppRedirect({
     if (_isPlatformAdminRoute(path) && !adminScope.hasPlatformAccess) {
       return AppRoutes.admin;
     }
-
-
 
     if (_isBankWorkspaceRoute(path)) {
       final bankId = _scopedWorkspaceId(path);
@@ -130,7 +124,7 @@ String? resolveAppRedirect({
     }
   }
 
-  // Session exists, on splash → go to home.
+  // Session exists, on root → go to home or a validated pending redirect.
   if (location == AppRoutes.splash) {
     return redirectTarget ?? AppRoutes.home;
   }

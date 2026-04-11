@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/l10n/l10n.dart';
 import '../core/theme/app_theme.dart';
 import '../core/theme/cool_foundations.dart';
 import '../core/theme/theme_preference.dart';
 import '../core/theme/theme_preference_provider.dart';
 import '../core/theme/theme_system_chrome.dart';
+import '../l10n/app_localizations.dart';
+import '../shared/widgets/startup_loading_screen.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // BootstrapShell — minimal MaterialApp used before ProviderScope is ready.
@@ -18,9 +21,14 @@ class BootstrapShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appTitle = lookupAppLocalizations(
+      const Locale('en'),
+    ).bootstrapCoolTitle;
     return MaterialApp(
-      title: 'COOL',
+      title: appTitle,
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
@@ -32,19 +40,18 @@ class BootstrapShell extends StatelessWidget {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// BootstrapHoldScreen — opaque dark screen shown while the native splash
-// covers bootstrap. Never visible to the user in the normal flow.
+// BootstrapHoldScreen — visible startup surface shown while bootstrap runs.
+// It matches the launch splash so startup reads as one continuous screen.
 // ─────────────────────────────────────────────────────────────────────────────
 
 class BootstrapHoldScreen extends StatelessWidget {
-  const BootstrapHoldScreen({super.key});
+  const BootstrapHoldScreen({required this.statusLabel, super.key});
+
+  final String statusLabel;
 
   @override
   Widget build(BuildContext context) {
-    // Match the native splash background (#0D0A27) exactly so there
-    // is zero visual discontinuity if the native splash is removed
-    // before the CoolApp is ready (edge case on very fast devices).
-    return const ColoredBox(color: Color(0xFF0D0A27));
+    return StartupLoadingScreen(statusLabel: statusLabel);
   }
 }
 
@@ -67,11 +74,11 @@ class BootstrapErrorCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return _ErrorCardScaffold(
       icon: Icons.warning_amber_rounded,
-      title: 'Startup blocked',
+      title: context.l10n.bootstrapStartupBlocked,
       message: message,
       footer: FilledButton(
         onPressed: onRetry,
-        child: const Text('Retry startup'),
+        child: Text(context.l10n.bootstrapRetryStartup),
       ),
     );
   }
@@ -89,10 +96,15 @@ class ConfigErrorApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themePreference = ref.watch(themePreferenceProvider);
+    final appTitle = lookupAppLocalizations(
+      const Locale('en'),
+    ).bootstrapCoolTitle;
 
     return MaterialApp(
-      title: 'COOL',
+      title: appTitle,
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: themePreference.themeMode,
@@ -101,14 +113,13 @@ class ConfigErrorApp extends ConsumerWidget {
       home: Builder(
         builder: (context) => _ErrorCardScaffold(
           icon: Icons.settings_rounded,
-          title: 'Backend configuration required',
+          title: context.l10n.bootstrapBackendConfigurationRequired,
           message: message,
           footer: Text(
-            'Local runs usually need '
-            '--dart-define-from-file=.env.json',
-            style: context.coolText.mobiLabel(
-              color: context.coolSemanticColors.tertiaryText,
-            ).copyWith(height: 1.4),
+            context.l10n.bootstrapLocalRunsNeedEnv,
+            style: context.coolText
+                .mobiLabel(color: context.coolSemanticColors.tertiaryText)
+                .copyWith(height: 1.4),
           ),
         ),
       ),
@@ -164,7 +175,7 @@ class _ErrorCardScaffold extends StatelessWidget {
                         style: context.coolText.display(
                           null,
                           color: colors.primaryText,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       const SizedBox(height: CoolSpace.x3),

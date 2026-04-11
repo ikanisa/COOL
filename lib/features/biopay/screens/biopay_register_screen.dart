@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
+import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/phone_validator.dart';
@@ -61,6 +62,7 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final colors = context.coolSemanticColors;
     final authState = ref.watch(authProvider);
     final user = authState.user;
@@ -78,7 +80,7 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           BiopayTopBar(
-            title: 'Face ID Setup',
+            title: l10n.biopayFaceIdSetupTitle,
             onBack: () {
               if (context.canPop()) {
                 context.pop();
@@ -89,11 +91,11 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
           ),
           const SizedBox(height: CoolSpace.x6),
           Text(
-            'Link your face\nto your MoMo.',
+            l10n.biopayRegisterHeadline,
             style: context.coolText.headline(
               Theme.of(context).textTheme.displayMedium,
               color: colors.primaryText,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
               letterSpacing: -2.2,
               height: 0.98,
             ),
@@ -102,7 +104,7 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
             const SizedBox(height: CoolSpace.x4),
             _InlineNotice(
               color: colors.success,
-              text: 'Face ID already linked. A new scan will replace it.',
+              text: l10n.biopayFaceIdAlreadyLinkedNotice,
             ),
           ],
           if (modelIssue != null) ...[
@@ -112,7 +114,7 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
           const SizedBox(height: CoolSpace.x6),
           if (supportsCode) ...[
             BiopaySegmentedControl(
-              labels: const ['Number', 'Code'],
+              labels: [l10n.biopayTabNumber, l10n.biopayTabCode],
               selectedIndex: _selectedRouteType == MomoRecipientType.phoneNumber
                   ? 0
                   : 1,
@@ -129,7 +131,9 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
             const SizedBox(height: CoolSpace.x4),
           ],
           _BiopayInputField(
-            label: usesCodeRoute ? 'Merchant Code' : 'MoMo Number',
+            label: usesCodeRoute
+                ? l10n.merchantCode
+                : l10n.biopayMomoNumberLabel,
             controller: usesCodeRoute
                 ? _momoCodeController
                 : _momoNumberController,
@@ -147,8 +151,8 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
           const SizedBox(height: CoolSpace.x8),
           BiopayPrimaryButton(
             label: hasActiveEnrollment
-                ? 'Update Enrollment'
-                : 'Start Enrollment',
+                ? l10n.biopayUpdateEnrollment
+                : l10n.biopayStartEnrollment,
             isLoading: _isSubmitting,
             onTap: modelIssue != null ? null : _saveRouteAndContinue,
           ),
@@ -162,20 +166,24 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
       return;
     }
 
-    // Gate: require verified phone before face registration.
+    // Face registration is one of the few flows that requires WhatsApp auth.
     final authState = ref.read(authProvider);
     final allowProfileRestoreFallback =
         authState.session != null &&
         authState.user == null &&
         authState.profileRestoreState == AuthProfileRestoreState.missing;
     if (!allowProfileRestoreFallback &&
-        !await requireVerifiedUser(context, ref)) {
+        !await requireVerifiedUser(
+          context,
+          ref,
+          feature: WhatsAppProtectedFeature.faceRegistration,
+        )) {
       return;
     }
 
     if (!await _ensureSession()) {
       if (mounted) {
-        CoolToast.error(context, 'BioPay could not open a secure session.');
+        CoolToast.error(context, context.l10n.biopaySecureSessionError);
       }
       return;
     }
@@ -324,7 +332,7 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
         return trimmed;
       }
     }
-    return 'BioPay User';
+    return context.l10n.biopayUserDisplayName;
   }
 }
 
@@ -364,14 +372,16 @@ class _BiopayInputField extends StatelessWidget {
                 style: context.coolText.headline(
                   Theme.of(context).textTheme.displaySmall,
                   color: colors.primaryText,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w800,
                   letterSpacing: -1.4,
                 ),
                 decoration: InputDecoration(
                   isCollapsed: true,
                   border: InputBorder.none,
                   hintText: '',
-                  hintStyle: context.coolText.mobiLabel(color: colors.tertiaryText),
+                  hintStyle: context.coolText.mobiLabel(
+                    color: colors.tertiaryText,
+                  ),
                 ),
               ),
             ],
@@ -384,7 +394,7 @@ class _BiopayInputField extends StatelessWidget {
             style: context.coolText.mono(
               Theme.of(context).textTheme.bodyMedium,
               color: colors.danger,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ],
@@ -416,7 +426,7 @@ class _InlineNotice extends StatelessWidget {
         style: context.coolText.mono(
           Theme.of(context).textTheme.bodyMedium,
           color: color,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );

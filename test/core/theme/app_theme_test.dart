@@ -146,8 +146,8 @@ void main() {
       expect(labelStyle.fontFamily, AppThemeText.labelFontFamily);
       expect(labelStyle.fontSize, greaterThanOrEqualTo(14));
       expect(
-        labelStyle.fontWeight?.index ?? FontWeight.w400.index,
-        greaterThanOrEqualTo(FontWeight.w400.index),
+        labelStyle.fontWeight?.index ?? FontWeight.w500.index,
+        greaterThanOrEqualTo(FontWeight.w500.index),
       );
     });
   });

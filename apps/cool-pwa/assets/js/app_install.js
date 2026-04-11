@@ -19,7 +19,7 @@ export function initializeInstallPromptCapture({
     await dbSet('settings', settings.installDismissedAt, null);
     window.localStorage.removeItem(settings.installDismissedAt);
     await trackEvent('install_success');
-    showToast('COOL is installed and ready offline.');
+    showToast('COOL Admin is installed and ready offline.');
     updateShellState();
   });
 }
@@ -100,7 +100,7 @@ export function updateShellState({ state, settings, dbSet, trackEvent }) {
   }
 
   document.querySelectorAll('[data-install-cta-label]').forEach((node) => {
-    node.textContent = state.deferredPrompt ? 'Install COOL' : 'How to install';
+    node.textContent = state.deferredPrompt ? 'Install COOL Admin' : 'How to install';
   });
 
   document.querySelectorAll('[data-install-platform]').forEach((node) => {

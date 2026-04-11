@@ -57,7 +57,7 @@ class AppConfigSectionHeader extends StatelessWidget {
           title,
           style: theme.textTheme.titleMedium?.copyWith(
             color: colors.primaryText,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w800,
           ),
         ),
         const SizedBox(height: CoolSpace.x1),
@@ -65,7 +65,7 @@ class AppConfigSectionHeader extends StatelessWidget {
           message,
           style: theme.textTheme.bodyMedium?.copyWith(
             color: colors.secondaryText,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ],
@@ -93,7 +93,7 @@ class EmptyConfigCard extends StatelessWidget {
         message,
         style: theme.textTheme.bodyMedium?.copyWith(
           color: colors.secondaryText,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );
@@ -125,7 +125,7 @@ class ConfigTile extends StatelessWidget {
           config['key']?.toString() ?? '',
           style: theme.textTheme.titleMedium?.copyWith(
             color: colors.primaryText,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
             fontFeatures: const [FontFeature.tabularFigures()],
           ),
         ),
@@ -133,7 +133,7 @@ class ConfigTile extends StatelessWidget {
           '$preview ${config['description'] ?? ''} ($scopeLabel)',
           style: theme.textTheme.bodySmall?.copyWith(
             color: colors.tertiaryText,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
           ),
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
@@ -195,7 +195,7 @@ class RolloutCard extends StatelessWidget {
                       rollout.label,
                       style: theme.textTheme.titleSmall?.copyWith(
                         color: colors.primaryText,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     const SizedBox(height: CoolSpace.x1),
@@ -203,7 +203,7 @@ class RolloutCard extends StatelessWidget {
                       rollout.description,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: colors.secondaryText,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
@@ -270,7 +270,7 @@ class StatusPill extends StatelessWidget {
       child: Text(
         label,
         style: theme.textTheme.labelMedium?.copyWith(
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
           color: foreground,
         ),
       ),
@@ -317,7 +317,7 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
           '$partnerName · Rwanda',
           style: theme.textTheme.titleMedium?.copyWith(
             color: colors.primaryText,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
           ),
         ),
         subtitle: Padding(
@@ -329,7 +329,7 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
                 '${provider.toUpperCase()} · code $recipientCode',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: colors.secondaryText,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(height: CoolSpace.x1),
@@ -337,7 +337,7 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
                 'Reconciliation: $reconciliationLabel',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: colors.tertiaryText,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],

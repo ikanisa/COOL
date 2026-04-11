@@ -31,10 +31,10 @@ Both platforms must resolve to identical token values.
 
 | Role | Font Family | Weight Range | Flutter Access | PWA |
 |------|------------|-------------|---------------|-----|
-| Display / Headline | Space Grotesk | w700–w900 | `GoogleFonts.spaceGroteskTextTheme()` | `font-family: "Space Grotesk"` |
-| Title / Body | Manrope | w400–w700 | `GoogleFonts.manropeTextTheme()` | `font-family: "Manrope"` |
-| Label / Utility | Inter | w500–w600 | `GoogleFonts.interTextTheme()` | `font-family: "Inter"` |
-| Mono / IDs / Values | DM Mono | w400–w700 | `AppThemeText.monoFontFamily` | `font-family: "DM Mono"` |
+| Display / Headline | Space Grotesk | w800–w900 | `GoogleFonts.spaceGroteskTextTheme()` | `font-family: "Space Grotesk"` |
+| Title / Body | Manrope | w500–w800 | `GoogleFonts.manropeTextTheme()` | `font-family: "Manrope"` |
+| Label / Utility | Inter | w500–w700 | `GoogleFonts.interTextTheme()` | `font-family: "Inter"` |
+| Mono / IDs / Values | DM Mono | w500–w800 | `AppThemeText.monoFontFamily` | `font-family: "DM Mono"` |
 
 ## Radii
 
@@ -85,7 +85,7 @@ Both platforms must resolve to identical token values.
 - Primary: gradient (`accentStrong` → `accent`), pill shape, clay shadow
 - Secondary: glass tonal, pill shape, ghost border at 8%
 - Ghost: transparent, no border, text only
-- Font: **Inter** (label family), w700, letter-spacing 1.2
+- Font: **Inter** (label family), w800, letter-spacing 1.2
 
 ### Inputs
 - Background: `inputSurface` (sunken into void)

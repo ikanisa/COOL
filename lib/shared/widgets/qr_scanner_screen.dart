@@ -83,6 +83,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final colors = context.coolSemanticColors;
     final textTheme = Theme.of(context).textTheme;
     final space = context.coolSpace;
@@ -100,27 +101,27 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
     if (!cameraAccess.isReady) {
       final gate = switch (cameraAccess.kind) {
         AppAccessStateKind.disabledInApp => (
-          title: 'Camera is off',
-          message: 'Enable camera access to scan.',
-          actionLabel: 'Enable Camera',
+          title: l10n.cameraIsOff,
+          message: l10n.enableCameraAccessToScan,
+          actionLabel: l10n.enableCamera,
           onTap: _enableCameraAccess,
         ),
         AppAccessStateKind.blockedInSystem => (
-          title: 'Camera is blocked',
-          message: 'Open system settings.',
-          actionLabel: 'Open Settings',
+          title: l10n.cameraIsBlocked,
+          message: l10n.openSystemSettingsPeriod,
+          actionLabel: l10n.openSettings,
           onTap: _openCameraSettings,
         ),
         AppAccessStateKind.notAvailable => (
-          title: 'Camera unavailable',
-          message: 'This device cannot scan.',
-          actionLabel: 'Go Back',
+          title: l10n.cameraUnavailable,
+          message: l10n.deviceCannotScan,
+          actionLabel: l10n.goBack,
           onTap: () => Navigator.of(context).pop(),
         ),
         _ => (
-          title: 'Allow camera access',
-          message: 'Camera access is required.',
-          actionLabel: 'Allow Camera',
+          title: l10n.allowCameraAccess,
+          message: l10n.cameraAccessRequired,
+          actionLabel: l10n.allowCamera,
           onTap: _enableCameraAccess,
         ),
       };
@@ -141,7 +142,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                     color: colors.primaryText,
                   ),
                 ),
-                title: const Text('Scan MoMo QR'),
+                title: Text(l10n.scanMomoQr),
               ),
               SliverFillRemaining(
                 hasScrollBody: false,
@@ -222,7 +223,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                         children: [
                           Semantics(
                             button: true,
-                            label: 'Close scanner',
+                            label: l10n.closeScanner,
                             child: Material(
                               color: Colors.black.withValues(alpha: 0.42),
                               borderRadius: BorderRadius.circular(18),

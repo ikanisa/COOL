@@ -1,23 +1,32 @@
 {
   "metrics": {
-    "securityHeaders": "7/7",
-    "offlineCoverage": "9 routes",
-    "auditReadiness": "Pass"
+    "workspaceCoverage": "8",
+    "bankWorkspaces": "3",
+    "releaseWindow": "Open"
   },
   "activity": [
     {
-      "title": "Headers locked down",
-      "description": "CSP, HSTS, frame protections, and Permissions-Policy are configured in deploy settings.",
-      "status": "Hardened",
+      "title": "Platform workspace",
+      "description": "Users, app config, operations, analytics, and audit remain available under one admin shell.",
+      "status": "Ready",
       "tone": "online",
-      "meta": "Firebase hosting headers"
+      "meta": "Global control plane"
     },
     {
-      "title": "Cross-browser matrix",
-      "description": "The PWA includes repeatable browser and accessibility audits for release gates.",
-      "status": "Enforced",
+      "title": "Bank workspace coverage",
+      "description": "Bank-facing custody and review work remains represented without keeping any client-facing PWA routes alive.",
+      "status": "Scoped",
       "tone": "syncing",
-      "meta": "Playwright + Lighthouse"
+      "meta": "Partner operations"
+    }
+  ],
+  "queue": [
+    {
+      "title": "Queued admin mutation",
+      "description": "Replay-safe admin changes remain available for sync when the device reconnects.",
+      "status": "Pending",
+      "tone": "offline",
+      "meta": "Offline governance"
     }
   ]
 }

@@ -107,7 +107,7 @@ class _ProfileAppearanceOption extends StatelessWidget {
                 child: Text(
                   _label(context),
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                     color: colors.primaryText,
                   ),
                 ),
@@ -138,7 +138,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
     return Semantics(
       button: true,
       label: l10n.completeProfileTitle,
-      hint: 'Complete your profile',
+      hint: l10n.completeProfileTitle,
       child: GestureDetector(
         onTap: () => context.push(AppRoutes.profile),
         child: ExcludeSemantics(
@@ -171,7 +171,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
                       l10n.completeProfileTitle,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         color: colors.primaryText,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                   ),

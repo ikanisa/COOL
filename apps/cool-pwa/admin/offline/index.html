@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="description" content="Offline fallback for the COOL Admin console.">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="COOL Admin">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Offline — COOL Admin">
+    <meta property="og:description" content="Offline fallback for queued admin work.">
+    <meta property="og:url" content="https://cool.ikanisa.com/admin/offline/">
+    <meta property="og:image" content="https://cool.ikanisa.com/assets/screenshots/home.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Offline — COOL Admin">
+    <meta name="twitter:description" content="You are still inside the COOL admin console.">
+    <meta name="twitter:image" content="https://cool.ikanisa.com/assets/screenshots/home.png">
+    <link rel="canonical" href="https://cool.ikanisa.com/admin/offline/">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" href="/assets/icons/Icon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="/assets/icons/Icon-192.png">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <title>Offline — COOL Admin</title>
+  </head>
+  <body data-route="admin">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="shell">
+      <header class="topbar">
+        <a class="brand-link" href="/admin/"><img src="/assets/img/cool_logo_mark.webp" alt="" width="44" height="44" decoding="async"><span class="brand-copy"><span class="brand-kicker">Offline</span><span class="brand-title">COOL</span></span></a>
+      </header>
+      <main id="main">
+        <section class="section-header"><div><h1 class="page-title">Offline</h1><p class="section-caption">You are still inside the COOL admin console. Cached routes and queued actions remain available until connectivity returns.</p></div></section>
+        <div class="button-row"><a class="button" href="/admin/">Open cached workspaces</a><a class="secondary-button" href="/admin/operations/">Open cached operations</a></div>
+      </main>
+      <footer class="footer"><span>Queued admin mutations will replay automatically when the network returns.</span></footer>
+    </div>
+    <div class="toast-stack" data-toast-stack aria-live="polite"></div>
+    <script type="module" src="/assets/js/app.js"></script>
+  </body>
+</html>

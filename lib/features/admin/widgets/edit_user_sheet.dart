@@ -56,7 +56,6 @@ class EditUserSheet extends ConsumerStatefulWidget {
 
 class _EditUserSheetState extends ConsumerState<EditUserSheet> {
   late final TextEditingController _nameController;
-  late bool _isAdmin;
   bool _isSaving = false;
 
   @override
@@ -65,7 +64,6 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
     _nameController = TextEditingController(
       text: widget.user['full_name']?.toString() ?? '',
     );
-    _isAdmin = widget.user['is_admin'] == true;
   }
 
   @override
@@ -87,7 +85,6 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
     try {
       final fields = <String, dynamic>{
         'full_name': _nameController.text.trim(),
-        'is_admin': _isAdmin,
       };
 
       await ref
@@ -140,7 +137,7 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
               Text(
                 'Edit User',
                 style: theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w800,
                   color: colors.primaryText,
                 ),
               ),
@@ -149,32 +146,13 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
                 '$phone · ${userId.substring(0, 8.clamp(0, userId.length))}',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: colors.tertiaryText,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(height: CoolSpace.x5),
               const _FieldLabel('Full name'),
               const SizedBox(height: 6),
               _EditInput(controller: _nameController),
-              const SizedBox(height: CoolSpace.x4),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Platform Admin',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: colors.warning,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Switch.adaptive(
-                    value: _isAdmin,
-                    onChanged: (v) => setState(() => _isAdmin = v),
-                    activeTrackColor: colors.warning,
-                  ),
-                ],
-              ),
               const SizedBox(height: CoolSpace.x6),
               CoolButton(
                 label: 'Save User',
@@ -200,7 +178,7 @@ class _FieldLabel extends StatelessWidget {
     return Text(
       text,
       style: theme.textTheme.labelMedium?.copyWith(
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
         color: colors.tertiaryText,
         letterSpacing: 0.4,
       ),
@@ -220,7 +198,7 @@ class _EditInput extends StatelessWidget {
       controller: controller,
       style: theme.textTheme.bodyMedium?.copyWith(
         color: colors.primaryText,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w500,
       ),
       decoration: InputDecoration(
         filled: true,

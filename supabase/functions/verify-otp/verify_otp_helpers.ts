@@ -12,6 +12,15 @@ export type VerifyOtpFailureDependencies = {
   recordEdgeFunctionFailure: typeof recordEdgeFunctionFailure;
 };
 
+type AuthUserLike = {
+  id: string;
+  email?: string | null;
+  phone?: string | null;
+  created_at?: string | null;
+  phone_change?: string | null;
+  user_metadata?: Record<string, unknown> | null;
+};
+
 export function isRecoverableSignInError(error: unknown): boolean {
   if (!error) {
     return false;
@@ -62,6 +71,9 @@ async function findAuthUserByPhone(
   });
 
   if (result.error) {
+    if (isMissingAuthLookupFunctionError(result.error)) {
+      return findAuthUserByAdminList(adminClient, phone, email);
+    }
     throw result.error;
   }
 
@@ -77,6 +89,98 @@ async function findAuthUserByPhone(
   }
 
   return userResult.data.user;
+}
+
+function isMissingAuthLookupFunctionError(error: unknown): boolean {
+  if (!error) {
+    return false;
+  }
+
+  const message = error instanceof Error
+    ? error.message
+    : JSON.stringify(error);
+  const normalized = message.toLowerCase();
+
+  return normalized.includes("find_auth_user_by_phone_or_email") &&
+    (normalized.includes("does not exist") ||
+      normalized.includes("could not find") ||
+      normalized.includes("schema cache") ||
+      normalized.includes("pgrst"));
+}
+
+function authUserMetadataPhone(user: AuthUserLike): string {
+  const metadata = user.user_metadata ?? {};
+  const metadataPhone = metadata["phone"];
+  return typeof metadataPhone == "string" ? metadataPhone.trim() : "";
+}
+
+function authUserMatchPriority(
+  user: AuthUserLike,
+  phone: string,
+  email: string,
+): number {
+  if ((user.email ?? "").trim() == email) {
+    return 0;
+  }
+  if ((user.phone ?? "").trim() == phone) {
+    return 1;
+  }
+  if ((user.phone_change ?? "").trim() == phone) {
+    return 2;
+  }
+  if (authUserMetadataPhone(user) == phone) {
+    return 3;
+  }
+  return 9;
+}
+
+function authUserMatches(user: AuthUserLike, phone: string, email: string) {
+  return authUserMatchPriority(user, phone, email) < 9;
+}
+
+async function findAuthUserByAdminList(
+  adminClient: AdminClient,
+  phone: string,
+  email: string,
+) {
+  const perPage = 200;
+  let page = 1;
+
+  while (true) {
+    const result = await adminClient.auth.admin.listUsers({ page, perPage });
+    if (result.error) {
+      throw result.error;
+    }
+
+    const users = Array.isArray(result.data?.users) ? result.data.users : [];
+    if (users.length == 0) {
+      return null;
+    }
+
+    const normalizedUsers = users as AuthUserLike[];
+    normalizedUsers.sort((a, b) => {
+      const priorityCompare = authUserMatchPriority(a, phone, email) -
+        authUserMatchPriority(b, phone, email);
+      if (priorityCompare != 0) {
+        return priorityCompare;
+      }
+
+      const aCreatedAt = Date.parse(a.created_at ?? "") || 0;
+      const bCreatedAt = Date.parse(b.created_at ?? "") || 0;
+      return aCreatedAt - bCreatedAt;
+    });
+
+    for (const user of normalizedUsers) {
+      if (authUserMatches(user, phone, email)) {
+        return user;
+      }
+    }
+
+    if (users.length < perPage) {
+      return null;
+    }
+    page += 1;
+  }
 }
 
 export async function ensureAuthUser(

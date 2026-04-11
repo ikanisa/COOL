@@ -41,17 +41,20 @@ class AdminUsersRepository with AdminRepositoryHelpers {
     throw StateError('Expected purge_mock_batch to return a JSON object.');
   }
 
-  Future<void> toggleUserAdmin(String userId, bool isAdmin) async {
-    await _client
-        .from('users')
-        .update(<String, dynamic>{'is_admin': isAdmin})
-        .eq('id', userId);
-  }
-
+  /// Update user profile fields (admin-safe: strips privileged columns).
+  ///
+  /// The backend protects `is_admin` from non-service-role writes
+  /// (see migration 20260311113000). Role grants go through the
+  /// `assign_admin_role` / `revoke_admin_role` RPCs instead.
   Future<void> updateUserFields(
     String userId,
     Map<String, dynamic> fields,
   ) async {
-    await _client.from('users').update(fields).eq('id', userId);
+    final safeFields = Map<String, dynamic>.from(fields)
+      ..remove('is_admin')
+      ..remove('id')
+      ..remove('created_at');
+    if (safeFields.isEmpty) return;
+    await _client.from('users').update(safeFields).eq('id', userId);
   }
 }

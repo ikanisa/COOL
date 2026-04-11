@@ -67,7 +67,7 @@ class _SummaryCard extends StatelessWidget {
           Text(
             'User Inventory',
             style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
               color: colors.primaryText,
             ),
           ),
@@ -75,7 +75,7 @@ class _SummaryCard extends StatelessWidget {
           Text(
             'Demo users are tagged',
             style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
               color: colors.tertiaryText,
             ),
           ),
@@ -135,7 +135,7 @@ class _SummaryCard extends StatelessWidget {
             Text(
               'Cleanup',
               style: theme.textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
                 color: colors.primaryText,
               ),
             ),
@@ -182,13 +182,13 @@ class _MetricChip extends StatelessWidget {
           children: [
             TextSpan(
               text: '$value ',
-              style: context.coolText.mono(null, fontWeight: FontWeight.w600),
+              style: context.coolText.mono(null, fontWeight: FontWeight.w700),
             ),
             TextSpan(
               text: label,
               style: context.coolText.mobiLabel(
                 color: colors.tertiaryText,
-              ).copyWith(fontWeight: FontWeight.w600),
+              ).copyWith(fontWeight: FontWeight.w700),
             ),
           ],
         ),
@@ -215,7 +215,7 @@ class _MarkerChip extends StatelessWidget {
       child: Text(
         label,
         style: theme.textTheme.labelSmall?.copyWith(
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
           color: color,
         ),
       ),
@@ -247,7 +247,7 @@ class _BatchCleanupButtonState extends ConsumerState<_BatchCleanupButton> {
           title: Text(
             'Remove Mock Batch?',
             style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
               color: colors.primaryText,
             ),
           ),
@@ -255,7 +255,7 @@ class _BatchCleanupButtonState extends ConsumerState<_BatchCleanupButton> {
             'This deletes all rows in the batch. If your current admin account '
             'belongs to it, you may lose access immediately after cleanup.',
             style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
               color: colors.tertiaryText,
             ),
           ),
@@ -347,7 +347,7 @@ class _BatchCleanupButtonState extends ConsumerState<_BatchCleanupButton> {
       label: Text(
         widget.batch,
         style: theme.textTheme.labelLarge?.copyWith(
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );

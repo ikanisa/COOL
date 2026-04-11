@@ -32,7 +32,7 @@ export async function onRequest(context) {
   const url = new URL(context.request.url);
 
   if (url.pathname === '/' || url.pathname === '') {
-    url.pathname = url.hostname === 'acool.ikanisa.com' ? '/admin/' : '/landing/';
+    url.pathname = '/admin/';
   }
 
   const assetRequest =

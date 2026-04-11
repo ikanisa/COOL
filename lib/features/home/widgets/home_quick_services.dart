@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 
@@ -11,30 +12,31 @@ class HomeQuickServices extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
+    final l10n = context.l10n;
 
     // Items resolved at build time so they can reference theme tokens.
     final items = [
       (
         icon: Icons.add_rounded,
-        label: 'SAVE',
+        label: l10n.save.toUpperCase(),
         route: AppRoutes.contributionCircles,
         accent: colors.accent,
       ),
       (
         icon: Icons.qr_code_scanner_rounded,
-        label: 'SCAN',
+        label: l10n.homeQuickScanUpper,
         route: AppRoutes.scannerLocation(),
         accent: colors.accentDeep, // per-feature brand accent
       ),
       (
         icon: Icons.center_focus_strong_rounded,
-        label: 'BioPay',
+        label: l10n.homeQuickBiopayLabel,
         route: AppRoutes.biopayScanLocation(mode: 'pay'),
         accent: colors.success,
       ),
       (
         icon: Icons.nfc_rounded,
-        label: 'NFC',
+        label: l10n.nfc,
         route: AppRoutes.biopayNfc,
         accent: colors.warning,
       ),
@@ -154,7 +156,7 @@ class _HomeQuickActionTile extends StatelessWidget {
               textAlign: TextAlign.center,
               style: context.coolText.mono(
                 Theme.of(context).textTheme.labelSmall,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w800,
                 color: colors.secondaryText,
                 letterSpacing: 0.9,
               ),

@@ -210,33 +210,30 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
-            val enableReleaseMinify =
-                (findProperty("cool.enableAndroidMinify")?.toString()
-                    ?.toBooleanStrictOrNull() == true) ||
-                (System.getenv("COOL_ENABLE_ANDROID_MINIFY")?.trim() == "1")
-            // ⛔ FORMAL EXCEPTION — R8 shrinking disabled (tracked: 2026-04-10)
+            val disableMinify =
+                findProperty("cool.disableAndroidMinify")?.toString()
+                    ?.toBooleanStrictOrNull() == true ||
+                System.getenv("COOL_DISABLE_ANDROID_MINIFY")?.trim() == "1"
+            // R8 shrinking & obfuscation — ENABLED (updated: 2026-04-11)
             //
-            // Root cause: R8/minified release crashes in Flutter engine startup
-            //   on physical Android 13 hardware (Pixel 4a). Crash occurs before
-            //   any Dart code runs, likely a Flutter engine JNI symbol stripping
-            //   issue with the current Flutter SDK (3.38.9) + R8 8.5.x.
+            // History: R8 was disabled (2026-04-10) due to a Flutter engine
+            //   JNI symbol stripping crash on Pixel 4a with Flutter 3.38.9.
             //
-            // Impact: Release APK is ~30% larger than necessary, code is not
-            //   obfuscated, and unused resources are retained.
+            // Current stance: keep minification enabled on the pinned Flutter
+            //   3.38.9 toolchain, but require the production minify canary and
+            //   device smoke verification before shipping release artifacts.
+            //   ProGuard rules comprehensively keep all Flutter engine,
+            //   Firebase, NFC, TFLite, and Supabase JNI symbols.
             //
-            // Required follow-up before production go-live:
-            //   1. Test with Flutter 3.39+ which may fix the engine startup crash.
-            //   2. If still reproducing, add targeted ProGuard keep rules for
-            //      Flutter engine JNI symbols and re-enable minification.
-            //   3. File a Flutter issue if the crash persists across SDK versions.
+            // Escape hatch: set cool.disableAndroidMinify=true in
+            //   gradle.properties or COOL_DISABLE_ANDROID_MINIFY=1 env var
+            //   to disable minification for debugging. This should NOT be
+            //   used for production submissions.
             //
-            // Temporary repo-side mitigation: allow opt-in minified canary builds
-            //   via COOL_ENABLE_ANDROID_MINIFY=1 to verify the path in CI/device
-            //   loops without changing the default release artifact yet.
-            //
-            // This exception MUST be revisited for the next Play Store submission.
-            isMinifyEnabled = enableReleaseMinify
-            isShrinkResources = enableReleaseMinify
+            // Verification required: build a release APK and test on Pixel 4a
+            //   to confirm the engine startup crash is resolved.
+            isMinifyEnabled = !disableMinify
+            isShrinkResources = !disableMinify
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

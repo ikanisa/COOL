@@ -5,6 +5,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
+import '../../../core/l10n/l10n.dart';
 import '../../../core/models/momo_qr_payload.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
@@ -12,7 +13,6 @@ import '../../../core/utils/money_formatters.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/models/user_profile.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../../auth/widgets/require_verified_user.dart';
 import '../models/biopay_profile.dart';
 import '../providers/biopay_providers.dart';
 import '../widgets/biopay_surface.dart';
@@ -29,7 +29,6 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
   late final TextEditingController _codeController;
   late final TextEditingController _amountController;
   MomoRecipientType _selectedType = MomoRecipientType.phoneNumber;
-  bool _didRequestVerification = false;
 
   @override
   void initState() {
@@ -37,9 +36,6 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
     _numberController = TextEditingController();
     _codeController = TextEditingController();
     _amountController = TextEditingController();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _ensureVerifiedAccess();
-    });
   }
 
   @override
@@ -52,6 +48,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final colors = context.coolSemanticColors;
     final authState = ref.watch(authProvider);
     final user = authState.user;
@@ -67,7 +64,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           BiopayTopBar(
-            title: 'Get QR Code',
+            title: l10n.biopayGetQrCodeTitle,
             onBack: () {
               if (context.canPop()) {
                 context.pop();
@@ -79,7 +76,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
           const SizedBox(height: CoolSpace.x6),
           if (supportsCode) ...[
             BiopaySegmentedControl(
-              labels: const ['Number', 'Code'],
+              labels: [l10n.biopayTabNumber, l10n.biopayTabCode],
               selectedIndex: _selectedType == MomoRecipientType.phoneNumber
                   ? 0
                   : 1,
@@ -95,8 +92,8 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
           ],
           _InputCard(
             label: _selectedType == MomoRecipientType.code
-                ? 'Merchant Code'
-                : 'MoMo Number',
+                ? l10n.merchantCode
+                : l10n.biopayMomoNumberLabel,
             child: TextField(
               controller: _selectedType == MomoRecipientType.code
                   ? _codeController
@@ -119,7 +116,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
             ),
           ),
           const SizedBox(height: CoolSpace.x5),
-          const BiopayFieldLabel(label: 'Amount (Optional)'),
+          BiopayFieldLabel(label: l10n.biopayAmountOptionalLabel),
           const SizedBox(height: CoolSpace.x3),
           BiopaySectionCard(
             height: 178,
@@ -149,7 +146,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                     decoration: InputDecoration(
                       isCollapsed: true,
                       border: InputBorder.none,
-                      hintText: '0',
+                      hintText: l10n.biopayZeroAmountHint,
                       hintStyle: context.coolText.mobiLabel(
                         color: colors.tertiaryText,
                       ),
@@ -161,7 +158,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
           ),
           const SizedBox(height: CoolSpace.x7),
           BiopayPrimaryButton(
-            label: 'Generate QR Code',
+            label: l10n.biopayGenerateQrCode,
             icon: Icons.qr_code_2_rounded,
             onTap: () => _showQrPreview(context, country),
           ),
@@ -206,24 +203,6 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
     return CoolCountryCatalog.byIsoCode(countryCode) ?? AppMarket.country;
   }
 
-  Future<void> _ensureVerifiedAccess() async {
-    if (_didRequestVerification || !mounted) {
-      return;
-    }
-    _didRequestVerification = true;
-
-    final allowed = await requireVerifiedUser(context, ref);
-    if (!mounted || allowed) {
-      return;
-    }
-
-    if (context.canPop()) {
-      context.pop();
-      return;
-    }
-    context.go(AppRoutes.biopayHome);
-  }
-
   void _showQrPreview(BuildContext context, CoolCountry country) {
     final rawRecipient = _selectedType == MomoRecipientType.code
         ? _codeController.text.trim()
@@ -232,8 +211,8 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
       CoolToast.error(
         context,
         _selectedType == MomoRecipientType.code
-            ? 'Enter a merchant code'
-            : 'Enter a MoMo number',
+            ? context.l10n.biopayEnterMerchantCode
+            : context.l10n.biopayEnterMomoNumber,
       );
       return;
     }
@@ -275,7 +254,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'BioPay QR Ready',
+                context.l10n.biopayQrReadyTitle,
                 style: context.coolText.headline(
                   Theme.of(context).textTheme.headlineSmall,
                   color: colors.primaryText,
@@ -340,7 +319,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                     ),
                   ),
                   child: Text(
-                    'DONE',
+                    context.l10n.doneUpper,
                     style: context.coolText.mono(
                       Theme.of(context).textTheme.labelLarge,
                       color: colors.secondaryText,

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
+import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_button.dart';
@@ -37,6 +38,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
   final _phoneController = TextEditingController();
   final _otpControllers = List.generate(6, (_) => TextEditingController());
   final _otpFocusNodes = List.generate(6, (_) => FocusNode());
+  bool _isVerifyingCode = false;
 
   @override
   void initState() {
@@ -74,31 +76,52 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
   }
 
   Future<void> _verifyCode() async {
-    final code = _otpControllers.map((c) => c.text.trim()).join();
-    if (code.length != 6) {
-      CoolToast.error(context, 'Enter all 6 digits');
+    if (_isVerifyingCode || ref.read(whatsAppOtpStateProvider).isLoading) {
       return;
     }
 
-    final result = await ref
-        .read(whatsAppOtpStateProvider.notifier)
-        .verifyCode(code);
+    final code = _otpControllers.map((c) => c.text.trim()).join();
+    if (code.length != 6) {
+      CoolToast.error(context, context.l10n.otpEnterAllDigits);
+      return;
+    }
 
-    if (!mounted) return;
+    _isVerifyingCode = true;
+    try {
+      final result = await ref
+          .read(whatsAppOtpStateProvider.notifier)
+          .verifyCode(code);
 
-    if (result.isVerified) {
-      // Establish the session in AuthNotifier.
-      await ref
-          .read(authProvider.notifier)
-          .signInWithOtpSession(
-            accessToken: result.accessToken!,
-            refreshToken: result.refreshToken!,
+      if (!mounted) {
+        return;
+      }
+
+      if (result.isVerified) {
+        // Establish the session in AuthNotifier.
+        final signedIn = await ref
+            .read(authProvider.notifier)
+            .signInWithOtpSession(
+              accessToken: result.accessToken!,
+              refreshToken: result.refreshToken!,
+            );
+
+        if (!mounted) {
+          return;
+        }
+
+        if (!signedIn) {
+          CoolToast.error(
+            context,
+            ref.read(authProvider).error ?? context.l10n.otpSessionOpenFailed,
           );
+          return;
+        }
 
-      if (mounted) {
-        CoolToast.success(context, 'Phone verified!');
+        CoolToast.success(context, context.l10n.otpPhoneVerified);
         Navigator.of(context, rootNavigator: true).pop(true);
       }
+    } finally {
+      _isVerifyingCode = false;
     }
   }
 
@@ -145,6 +168,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
   // ── Step 1: Enter Phone ────────────────────────────────────────────
 
   Widget _buildPhoneStep(WhatsAppOtpState otpState, CoolSemanticColors colors) {
+    final l10n = context.l10n;
     return Column(
       children: [
         // Back button row.
@@ -184,11 +208,11 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
 
         // Title.
         Text(
-          'Enter WhatsApp\nNumber',
+          l10n.otpEnterWhatsappNumberTitle,
           textAlign: TextAlign.center,
           style: context.coolText.displayCondensed(
             Theme.of(context).textTheme.headlineMedium,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w800,
             color: colors.primaryText,
             letterSpacing: -0.5,
           ),
@@ -197,12 +221,12 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
         const SizedBox(height: CoolSpace.x3),
 
         Text(
-          'Enter WhatsApp number to receive OTP',
+          l10n.otpEnterWhatsappNumberSubtitle,
           textAlign: TextAlign.center,
           style: context.coolText.mono(
             Theme.of(context).textTheme.bodySmall,
             color: colors.accent,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
           ),
         ),
 
@@ -228,10 +252,9 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                 children: [
                   Text(
                     _country.flagEmoji,
-                    style: context.coolText.display(
-                      null,
-                      fontWeight: FontWeight.w400,
-                    ).copyWith(fontSize: 20),
+                    style: context.coolText
+                        .display(null, fontWeight: FontWeight.w500)
+                        .copyWith(fontSize: 20),
                   ),
                   const SizedBox(width: 6),
                   Text(
@@ -239,7 +262,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                     style: context.coolText.mono(
                       Theme.of(context).textTheme.bodyLarge,
                       color: colors.primaryText,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   const SizedBox(width: 4),
@@ -273,12 +296,12 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                   style: context.coolText.mono(
                     Theme.of(context).textTheme.bodyLarge,
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                     letterSpacing: 2.0,
                   ),
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: '788 123 456',
+                    hintText: l10n.otpPhoneHint,
                     hintStyle: context.coolText.mono(
                       null,
                       color: colors.tertiaryText,
@@ -301,7 +324,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
 
         // Send button.
         CoolButton(
-          label: 'SEND CODE',
+          label: l10n.otpSendCodeUpper,
           variant: CoolButtonVariant.accent,
           size: CoolButtonSize.lg,
           isLoading: otpState.isLoading,
@@ -319,6 +342,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
     WhatsAppOtpState otpState,
     CoolSemanticColors colors,
   ) {
+    final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -332,10 +356,10 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
 
         // Title.
         Text(
-          'Verify OTP',
+          l10n.otpVerifyTitle,
           style: context.coolText.displayCondensed(
             Theme.of(context).textTheme.headlineMedium,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w800,
             color: colors.primaryText,
             letterSpacing: -0.5,
           ),
@@ -349,18 +373,16 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
             style: context.coolText.mono(
               Theme.of(context).textTheme.bodySmall,
               color: colors.accent,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
             ),
             children: [
-              const TextSpan(
-                text: 'We sent a 6-digit OTP to your WhatsApp at ',
-              ),
+              TextSpan(text: l10n.otpVerifySubtitlePrefix),
               TextSpan(
                 text: otpState.phone,
                 style: context.coolText.mono(
                   null,
                   color: colors.primaryText,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               const TextSpan(text: '.'),
@@ -397,7 +419,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                   maxLength: 1,
                   style: context.coolText.displayCondensed(
                     Theme.of(context).textTheme.headlineSmall,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                     color: colors.primaryText,
                   ),
                   decoration: const InputDecoration(
@@ -433,7 +455,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
 
         // Verify button.
         CoolButton(
-          label: 'VERIFY',
+          label: l10n.otpVerifyButtonUpper,
           variant: CoolButtonVariant.accent,
           size: CoolButtonSize.lg,
           isLoading: otpState.isLoading,

@@ -19,7 +19,7 @@ class _StatusPill extends StatelessWidget {
         label,
         style: theme.textTheme.labelSmall?.copyWith(
           color: color,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
         ),
       ),
     );
@@ -51,7 +51,7 @@ class _InlineActionButton extends StatelessWidget {
         label,
         style: theme.textTheme.labelLarge?.copyWith(
           color: colors.accent,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
         ),
       ),
     );
@@ -96,18 +96,18 @@ class _SmsPolicyNotice extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'SMS sync opt-in',
+                  context.l10n.profileSmsSyncOptIn,
                   style: theme.textTheme.titleSmall?.copyWith(
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x1),
                 Text(
-                  'Android only. COOL checks approved M-Money sender IDs, imports matching confirmations, and ignores other SMS.',
+                  context.l10n.profileSmsSyncOptInMessage,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: colors.tertiaryText,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                     height: 1.45,
                   ),
                 ),
@@ -136,52 +136,58 @@ class _PermissionMetadata {
   final String serviceActionLabel;
 }
 
-_PermissionMetadata _metadataFor(AppAccessPermission permission) {
+_PermissionMetadata _metadataFor(
+  BuildContext context,
+  AppAccessPermission permission,
+) {
+  final l10n = context.l10n;
   return switch (permission) {
-    AppAccessPermission.sms => const _PermissionMetadata(
+    AppAccessPermission.sms => _PermissionMetadata(
       icon: Icons.sms_outlined,
-      title: 'SMS Payment Sync',
-      subtitle:
-          'Optional on Android. Watches approved M-Money sender IDs, '
-          'imports matching confirmations, and auto-verifies supported '
-          'payment flows.',
-      linkedFeatures: ['12-month import', 'MoMo verification'],
-      serviceActionLabel: 'Open system settings',
+      title: l10n.profileSmsPaymentSyncTitle,
+      subtitle: l10n.profileSmsPaymentSyncSubtitle,
+      linkedFeatures: [
+        l10n.profileAccessFeature12MonthImport,
+        l10n.profileAccessFeatureMomoVerification,
+      ],
+      serviceActionLabel: l10n.openSystemSettings,
     ),
-    AppAccessPermission.location => const _PermissionMetadata(
-      icon: Icons.location_on_outlined,
-      title: 'Location',
-      subtitle: 'Used for nearby services and place-aware flows',
-      linkedFeatures: ['Nearby services', 'Partner discovery', 'Map context'],
-      serviceActionLabel: 'Open location settings',
-    ),
-    AppAccessPermission.camera => const _PermissionMetadata(
+    AppAccessPermission.camera => _PermissionMetadata(
       icon: Icons.camera_alt_outlined,
-      title: 'Camera',
-      subtitle: 'Used for MoMo QR',
-      linkedFeatures: ['MoMo QR scan'],
-      serviceActionLabel: 'Open system settings',
+      title: l10n.camera,
+      subtitle: l10n.profileCameraSubtitle,
+      linkedFeatures: [l10n.profileAccessFeatureMomoQrScan],
+      serviceActionLabel: l10n.openSystemSettings,
     ),
-    AppAccessPermission.contacts => const _PermissionMetadata(
+    AppAccessPermission.contacts => _PermissionMetadata(
       icon: Icons.contacts_outlined,
-      title: 'Contacts',
-      subtitle: 'Used when inviting group',
-      linkedFeatures: ['Group invites', 'Share via contacts'],
-      serviceActionLabel: 'Open system settings',
+      title: l10n.contacts,
+      subtitle: l10n.profileContactsSubtitle,
+      linkedFeatures: [
+        l10n.profileAccessFeatureGroupInvites,
+        l10n.profileAccessFeatureShareViaContacts,
+      ],
+      serviceActionLabel: l10n.openSystemSettings,
     ),
-    AppAccessPermission.nfc => const _PermissionMetadata(
+    AppAccessPermission.nfc => _PermissionMetadata(
       icon: Icons.nfc_outlined,
-      title: 'NFC',
-      subtitle: 'Controls NFC receive/read flows',
-      linkedFeatures: ['MoMo receive tap', 'NFC payment tags'],
-      serviceActionLabel: 'Open NFC settings',
+      title: l10n.nfc,
+      subtitle: l10n.profileNfcSubtitle,
+      linkedFeatures: [
+        l10n.profileAccessFeatureMomoReceiveTap,
+        l10n.profileAccessFeatureNfcPaymentTags,
+      ],
+      serviceActionLabel: l10n.profileOpenNfcSettings,
     ),
-    AppAccessPermission.photos => const _PermissionMetadata(
+    AppAccessPermission.photos => _PermissionMetadata(
       icon: Icons.photo_library_outlined,
-      title: 'Photos & Media',
-      subtitle: 'Choose profile photos and upload documents from gallery.',
-      linkedFeatures: ['Profile photo', 'Document upload'],
-      serviceActionLabel: 'Open system settings',
+      title: l10n.profilePhotosMediaTitle,
+      subtitle: l10n.profilePhotosMediaSubtitle,
+      linkedFeatures: [
+        l10n.profileAccessFeatureProfilePhoto,
+        l10n.profileAccessFeatureDocumentUpload,
+      ],
+      serviceActionLabel: l10n.openSystemSettings,
     ),
   };
 }
@@ -192,37 +198,40 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
 ) {
   final colors = context.coolSemanticColors;
   return switch (snapshot.kind) {
-    AppAccessStateKind.ready => (label: 'Ready', color: colors.accent),
+    AppAccessStateKind.ready => (
+      label: context.l10n.ready,
+      color: colors.accent,
+    ),
     AppAccessStateKind.disabledInApp => (
-      label: 'Off in COOL',
+      label: context.l10n.offInCool,
       color: colors.secondaryText,
     ),
     AppAccessStateKind.needsSystemPermission => (
-      label: 'Needs Android access',
+      label: context.l10n.needsAndroidAccess,
       color: colors.warning,
     ),
     AppAccessStateKind.blockedInSystem => (
-      label: 'Blocked in system',
+      label: context.l10n.blockedInSystem,
       color: colors.danger,
     ),
     AppAccessStateKind.serviceDisabled => (
-      label: 'Device setting off',
+      label: context.l10n.deviceSettingOff,
       color: colors.warning,
     ),
     AppAccessStateKind.notAvailable => (
-      label: 'Not available',
+      label: context.l10n.notAvailable,
       color: colors.tertiaryText,
     ),
   };
 }
 
-String _helperText(AppAccessSnapshot snapshot) {
+String _helperText(BuildContext context, AppAccessSnapshot snapshot) {
   return switch (snapshot.kind) {
-    AppAccessStateKind.ready => 'Ready',
-    AppAccessStateKind.disabledInApp => 'Off in COOL',
-    AppAccessStateKind.needsSystemPermission => 'Needs Android access',
-    AppAccessStateKind.blockedInSystem => 'Blocked in system',
-    AppAccessStateKind.serviceDisabled => 'Service off',
-    AppAccessStateKind.notAvailable => 'Not available',
+    AppAccessStateKind.ready => context.l10n.ready,
+    AppAccessStateKind.disabledInApp => context.l10n.offInCool,
+    AppAccessStateKind.needsSystemPermission => context.l10n.needsAndroidAccess,
+    AppAccessStateKind.blockedInSystem => context.l10n.blockedInSystem,
+    AppAccessStateKind.serviceDisabled => context.l10n.profileServiceOff,
+    AppAccessStateKind.notAvailable => context.l10n.notAvailable,
   };
 }

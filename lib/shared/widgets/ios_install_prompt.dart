@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/l10n/l10n.dart';
 import '../../core/theme/cool_foundations.dart';
 
 /// iOS Add-to-Home-Screen guided onboarding prompt.
@@ -102,9 +103,9 @@ class IosInstallPrompt extends StatelessWidget {
 
             // ── Title ────────────────────────────────────────────────
             Text(
-              'Install COOL',
+              context.l10n.pwaInstallCool,
               style: textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w800,
                 color: colors.primaryText,
               ),
             ),
@@ -112,7 +113,7 @@ class IosInstallPrompt extends StatelessWidget {
 
             // ── Subtitle ─────────────────────────────────────────────
             Text(
-              'Get the full app experience with quick access from your home screen.',
+              context.l10n.iosInstallSubtitle,
               textAlign: TextAlign.center,
               style: textTheme.bodyMedium?.copyWith(
                 color: colors.secondaryText,
@@ -125,7 +126,7 @@ class IosInstallPrompt extends StatelessWidget {
             _InstructionStep(
               step: '1',
               icon: Icons.ios_share_rounded,
-              text: 'Tap the Share button in Safari',
+              text: context.l10n.iosInstallStep1,
               colors: colors,
               textTheme: textTheme,
             ),
@@ -135,7 +136,7 @@ class IosInstallPrompt extends StatelessWidget {
             _InstructionStep(
               step: '2',
               icon: Icons.add_box_outlined,
-              text: 'Scroll down and tap "Add to Home Screen"',
+              text: context.l10n.iosInstallStep2,
               colors: colors,
               textTheme: textTheme,
             ),
@@ -145,7 +146,7 @@ class IosInstallPrompt extends StatelessWidget {
             _InstructionStep(
               step: '3',
               icon: Icons.check_circle_outline_rounded,
-              text: 'Tap "Add" to confirm',
+              text: context.l10n.iosInstallStep3,
               colors: colors,
               textTheme: textTheme,
             ),
@@ -160,10 +161,10 @@ class IosInstallPrompt extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: space.x4),
                 ),
                 child: Text(
-                  'Got it',
+                  context.l10n.iosInstallGotIt,
                   style: textTheme.labelLarge?.copyWith(
                     color: colors.accent,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
@@ -207,7 +208,7 @@ class _InstructionStep extends StatelessWidget {
             step,
             style: textTheme.labelSmall?.copyWith(
               color: colors.accent,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
             ),
           ),
         ),
@@ -221,7 +222,7 @@ class _InstructionStep extends StatelessWidget {
             text,
             style: textTheme.bodyMedium?.copyWith(
               color: colors.primaryText,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),

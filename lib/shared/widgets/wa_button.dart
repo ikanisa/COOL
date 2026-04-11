@@ -87,7 +87,7 @@ class WaButton extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: theme.textTheme.labelLarge?.copyWith(
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w800,
                             color: foregroundColor,
                           ),
                         ),

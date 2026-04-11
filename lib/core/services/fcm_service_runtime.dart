@@ -309,7 +309,7 @@ extension _FcmServiceRuntime on FcmService {
               title,
               style: const TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
                 fontSize: 14,
               ),
             ),
@@ -334,7 +334,7 @@ extension _FcmServiceRuntime on FcmService {
               route != null ? 'VIEW' : 'DISMISS',
               style: const TextStyle(
                 color: Color(0xFF6C63FF),
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),

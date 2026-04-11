@@ -1,0 +1,509 @@
+web/offline.html:6:  <title>COOL — Offline</title>
+web/offline.html:112:    <h1>You're offline</h1>
+web/sitemap.xml:5:    <loc>https://cool.ikanisa.com/</loc>
+web/sitemap.xml:6:    <changefreq>monthly</changefreq>
+web/sitemap.xml:10:    <loc>https://cool.ikanisa.com/privacy</loc>
+web/sitemap.xml:11:    <changefreq>yearly</changefreq>
+web/sitemap.xml:15:    <loc>https://cool.ikanisa.com/terms</loc>
+web/sitemap.xml:16:    <changefreq>yearly</changefreq>
+web/sitemap.xml:20:    <loc>https://cool.ikanisa.com/account-deletion</loc>
+web/sitemap.xml:21:    <changefreq>yearly</changefreq>
+web/custom-sw.js:51:          '<html><body><h1>Offline</h1><p>Please check your connection.</p></body></html>',
+apps/cool-pwa/share/index.html:28:    <title>Shared content — COOL PWA</title>
+apps/cool-pwa/share/index.html:31:    <a class="skip-link" href="#main">Skip to content</a>
+apps/cool-pwa/share/index.html:34:        <a class="brand-link" href="/"><img src="/assets/img/cool_logo_mark.png" alt=""><span class="brand-copy"><span class="brand-kicker">Share target</span><span class="brand-title">COOL</span></span></a>
+apps/cool-pwa/share/index.html:35:        <div class="toolbar"><span class="status-pill online" data-online-indicator>Online</span></div>
+apps/cool-pwa/share/index.html:38:        <section class="section-header"><div><h1 class="page-title">Shared content received</h1><p class="section-caption">The manifest share target routes URLs and notes into this view so the PWA can capture them without leaving the system share sheet flow.</p></div></section>
+apps/cool-pwa/share/index.html:42:              <strong>No shared payload yet.</strong>
+apps/cool-pwa/share/index.html:43:              <p>Share a URL or text into COOL to see it captured here.</p>
+apps/cool-pwa/share/index.html:48:      <footer class="footer"><span>Share target support is declared in the web app manifest.</span><div class="footer-links"><a href="/home/">Home</a><a href="/install/">Install</a></div></footer>
+web/index.html:53:  <title>COOL</title>
+apps/cool-pwa/offline/index.html:28:    <title>Offline — COOL PWA</title>
+apps/cool-pwa/offline/index.html:31:    <a class="skip-link" href="#main">Skip to content</a>
+apps/cool-pwa/offline/index.html:36:            <span class="eyebrow">Offline fallback</span>
+apps/cool-pwa/offline/index.html:37:            <h1>You are still inside COOL.</h1>
+apps/cool-pwa/offline/index.html:38:            <p class="lede">This page replaces the browser’s generic offline error. Cached routes, local drafts, and your queued actions stay available until connectivity returns.</p>
+apps/cool-pwa/offline/index.html:40:              <a class="button" href="/home/">Try cached home</a>
+apps/cool-pwa/offline/index.html:41:              <a class="secondary-button" href="/groups/">Open cached groups</a>
+apps/cool-pwa/offline/index.html:46:              <div class="list-item"><strong>Queued actions stay safe</strong><p>Background sync and replay-safe persistence prevent silent data loss.</p></div>
+apps/cool-pwa/offline/index.html:47:              <div class="list-item"><strong>Cached content stays readable</strong><p>Statements, dashboards, and route shells remain accessible from cache.</p></div>
+apps/cool-pwa/offline/index.html:48:              <div class="list-item"><strong>Reconnect and continue</strong><p>The app flushes queued mutations automatically once the network returns.</p></div>
+apps/cool-pwa/profile/index.html:27:    <title>Profile — COOL PWA</title>
+apps/cool-pwa/profile/index.html:30:    <a class="skip-link" href="#main">Skip to content</a>
+apps/cool-pwa/profile/index.html:33:        <a class="brand-link" href="/"><img src="/assets/img/cool_logo_mark.png" alt=""><span class="brand-copy"><span class="brand-kicker">Profile</span><span class="brand-title">COOL</span></span></a>
+apps/cool-pwa/profile/index.html:34:        <div class="toolbar"><span class="status-pill online" data-online-indicator>Online</span><button class="chip-button" type="button" data-theme-toggle>Theme</button><span class="status-pill install" data-notification-status>Not enabled</span></div>
+apps/cool-pwa/profile/index.html:37:        <a href="/" data-route-link>Overview</a>
+apps/cool-pwa/profile/index.html:38:        <a href="/home/" data-route-link>Home</a>
+apps/cool-pwa/profile/index.html:39:        <a href="/groups/" data-route-link>Groups</a>
+apps/cool-pwa/profile/index.html:40:        <a href="/momo/" data-route-link>MoMo</a>
+apps/cool-pwa/profile/index.html:41:        <a href="/profile/" data-route-link>Profile</a>
+apps/cool-pwa/profile/index.html:42:        <a href="/notifications/" data-route-link>Alerts</a>
+apps/cool-pwa/profile/index.html:45:        <section class="section-header"><div><h1 class="page-title">Persisted profile controls</h1><p class="section-caption">State continuity matters on the web: preferences, form progress, passkey status, and install state should survive sessions.</p></div></section>
+apps/cool-pwa/profile/index.html:47:          <article class="metric-card card"><span class="metric-label">Security level</span><div class="metric-value" data-metric="metrics.securityLevel">High</div><div class="metric-meta">Hosting headers and passkey-ready UX raise the floor.</div></article>
+apps/cool-pwa/profile/index.html:48:          <article class="metric-card card"><span class="metric-label">Trusted devices</span><div class="metric-value mono" data-metric="metrics.devicesTrusted">3</div><div class="metric-meta">Installed PWAs feel closer to native session continuity.</div></article>
+apps/cool-pwa/profile/index.html:49:          <article class="metric-card card"><span class="metric-label">Install rate</span><div class="metric-value" data-metric="metrics.installRate">68%</div><div class="metric-meta">The funnel is tracked from impression to success.</div></article>
+apps/cool-pwa/profile/index.html:52:          <article class="detail-card card"><div class="list-item-header"><strong>Profile feed</strong><span class="status-pill online">Persistent</span></div><ul class="list" id="activity-feed"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul></article>
+apps/cool-pwa/profile/index.html:53:          <article class="detail-card card"><div class="list-item-header"><strong>Passkeys</strong><span class="status-pill install">WebAuthn</span></div><div class="stack"><div class="field"><label for="passkey-name">Display name</label><input id="passkey-name" class="field" data-passkey-name type="text" autocomplete="name" value="COOL Member"></div><div class="button-row"><button class="button" type="button" data-passkey-register>Register passkey</button><button class="secondary-button" type="button" data-passkey-auth>Verify passkey</button></div><p class="meta" data-passkey-status>No passkey interaction yet.</p></div></article>
+apps/cool-pwa/profile/index.html:55:        <section class="section-header"><div><h2>Save browser preferences</h2><p class="section-caption">Small settings changes should be offline-safe and survive reloads without requiring backend round trips.</p></div></section>
+apps/cool-pwa/profile/index.html:58:            <div class="field"><label for="display-name">Display name</label><input id="display-name" name="display_name" type="text" autocomplete="name" required></div>
+apps/cool-pwa/profile/index.html:59:            <div class="field"><label for="language">Language</label><select id="language" name="language"><option>English</option></select></div>
+apps/cool-pwa/profile/index.html:60:            <div class="field full"><label for="profile-note">Offline continuity note</label><textarea id="profile-note" name="note">Keep settings safe even when the signal drops.</textarea></div>
+apps/cool-pwa/profile/index.html:61:            <div class="button-row"><button class="button" type="submit">Save settings</button><button class="secondary-button" type="button" data-install-action><span data-install-cta-label>Install COOL</span></button></div>
+apps/cool-pwa/profile/index.html:65:      <footer class="footer"><span>Passkey controls are exposed only when the browser supports WebAuthn.</span><div class="footer-links"><a href="/notifications/">Alerts</a><a href="/install/">Install</a></div></footer>
+apps/cool-pwa/profile/index.html:67:    <section class="banner" data-install-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Install COOL once settings feel useful</strong><span>The install prompt stays contextual.</span></div><div class="button-row"><button class="button" type="button" data-install-action><span data-install-cta-label>Install COOL</span></button><button class="secondary-button" type="button" data-install-dismiss>Later</button></div></div></section>
+apps/cool-pwa/profile/index.html:68:    <section class="banner" data-update-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Profile shell updated</strong><span>Refresh to use the latest cached bundle.</span></div><div class="button-row"><button class="button" type="button" data-update-action>Refresh</button></div></div></section>
+apps/cool-pwa/profile/index.html:70:    <dialog class="surface-panel" data-ios-sheet><strong class="banner-title">Add COOL to Home Screen</strong><p class="section-caption">Use Safari’s Share menu for manual install.</p><form method="dialog"><button class="button" type="submit">Close</button></form></dialog>
+apps/cool-pwa/service-worker.js:24:  '/notifications/',
+apps/cool-pwa/service-worker.js:25:  '/notifications/index.html',
+apps/cool-pwa/service-worker.js:62:  '/data/notifications.json',
+apps/cool-pwa/service-worker.js:144:      route: payload.route || '/notifications/',
+apps/cool-pwa/service-worker.js:147:      { action: 'open-home', title: 'Open home' },
+apps/cool-pwa/service-worker.js:148:      { action: 'open-notifications', title: 'Open alerts' },
+apps/cool-pwa/service-worker.js:152:  event.waitUntil(self.registration.showNotification(title, options));
+apps/cool-pwa/service-worker.js:155:self.addEventListener('notificationclick', (event) => {
+apps/cool-pwa/service-worker.js:156:  event.notification.close();
+apps/cool-pwa/service-worker.js:159:    : event.action === 'open-notifications'
+apps/cool-pwa/service-worker.js:160:      ? '/notifications/'
+apps/cool-pwa/service-worker.js:161:      : event.notification.data?.route || '/notifications/';
+apps/cool-pwa/install/index.html:27:    <title>Install — COOL PWA</title>
+apps/cool-pwa/install/index.html:30:    <a class="skip-link" href="#main">Skip to content</a>
+apps/cool-pwa/install/index.html:33:        <a class="brand-link" href="/"><img src="/assets/img/cool_logo_mark.png" alt=""><span class="brand-copy"><span class="brand-kicker">Install</span><span class="brand-title">COOL</span></span></a>
+apps/cool-pwa/install/index.html:34:        <div class="toolbar"><span class="status-pill online" data-online-indicator>Online</span><button class="chip-button" type="button" data-theme-toggle>Theme</button></div>
+apps/cool-pwa/install/index.html:37:        <a href="/" data-route-link>Overview</a>
+apps/cool-pwa/install/index.html:38:        <a href="/home/" data-route-link>Home</a>
+apps/cool-pwa/install/index.html:39:        <a href="/groups/" data-route-link>Groups</a>
+apps/cool-pwa/install/index.html:40:        <a href="/momo/" data-route-link>MoMo</a>
+apps/cool-pwa/install/index.html:41:        <a href="/profile/" data-route-link>Profile</a>
+apps/cool-pwa/install/index.html:42:        <a href="/notifications/" data-route-link>Alerts</a>
+apps/cool-pwa/install/index.html:45:        <section class="section-header"><div><h1 class="page-title">Install and distribution readiness</h1><p class="section-caption">The manifest includes shortcuts, screenshots, maskable icons, a share target, and standalone launch behavior. This page explains how that maps to browsers and store packaging.</p></div></section>
+apps/cool-pwa/install/index.html:48:            <div class="list-item-header"><strong>Chromium browsers</strong><span class="status-pill install">Deferred prompt</span></div>
+apps/cool-pwa/install/index.html:50:              <li class="list-item">Install prompt appears only after engagement proves value.</li>
+apps/cool-pwa/install/index.html:51:              <li class="list-item">Maskable icons and screenshots improve install UI quality.</li>
+apps/cool-pwa/install/index.html:52:              <li class="list-item">App shortcuts expose Home, Groups, MoMo, and Alerts.</li>
+apps/cool-pwa/install/index.html:54:            <div class="button-row"><button class="button" type="button" data-install-action><span data-install-cta-label>Install COOL</span></button></div>
+apps/cool-pwa/install/index.html:57:            <div class="list-item-header"><strong>iOS Safari</strong><span class="status-pill offline">Guided</span></div>
+apps/cool-pwa/install/index.html:59:              <li class="list-item">No automatic install prompt exists.</li>
+apps/cool-pwa/install/index.html:60:              <li class="list-item">The PWA guides users through Share → Add to Home Screen.</li>
+apps/cool-pwa/install/index.html:61:              <li class="list-item">Installed iOS PWAs can participate in push flows on modern Safari.</li>
+apps/cool-pwa/install/index.html:65:        <section class="section-header"><div><h2>Distribution checklist</h2><p class="section-caption">The app is structured for Firebase Hosting deployment and store packaging via PWABuilder or a Trusted Web Activity pipeline.</p></div></section>
+apps/cool-pwa/install/index.html:67:          <article class="feature-card card"><strong>Manifest completeness</strong><p>Icons, screenshots, shortcuts, share target, theme colors, and standalone display are declared.</p></article>
+apps/cool-pwa/install/index.html:68:          <article class="feature-card card"><strong>Store packaging</strong><p>Dedicated deploy config and static clean URLs are ready for TWA or PWABuilder packaging.</p></article>
+apps/cool-pwa/install/index.html:69:          <article class="feature-card card"><strong>Install funnel</strong><p>Impression, click, and success stages are all tracked for optimization.</p></article>
+apps/cool-pwa/install/index.html:72:      <footer class="footer"><span>Install flows differ by browser, so the app keeps both deferred and guided patterns.</span><div class="footer-links"><a href="/notifications/">Alerts</a><a href="/home/">Home</a></div></footer>
+apps/cool-pwa/install/index.html:74:    <section class="banner" data-install-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Install COOL now</strong><span>Standalone launch, badge support, and app shortcuts improve repeat usage.</span></div><div class="button-row"><button class="button" type="button" data-install-action><span data-install-cta-label>Install COOL</span></button><button class="secondary-button" type="button" data-install-dismiss>Later</button></div></div></section>
+apps/cool-pwa/install/index.html:75:    <section class="banner" data-update-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Install assets updated</strong><span>Reload to refresh the latest manifest-linked shell.</span></div><div class="button-row"><button class="button" type="button" data-update-action>Refresh</button></div></div></section>
+apps/cool-pwa/install/index.html:77:    <dialog class="surface-panel" data-ios-sheet><strong class="banner-title">Add COOL to Home Screen</strong><p class="section-caption">Open the Share menu, then tap Add to Home Screen.</p><form method="dialog"><button class="button" type="submit">Close</button></form></dialog>
+apps/cool-pwa/sitemap.xml:4:    <loc>https://cool.ikanisa.com/</loc>
+apps/cool-pwa/sitemap.xml:5:    <changefreq>weekly</changefreq>
+apps/cool-pwa/sitemap.xml:9:    <loc>https://cool.ikanisa.com/home/</loc>
+apps/cool-pwa/sitemap.xml:10:    <changefreq>weekly</changefreq>
+apps/cool-pwa/sitemap.xml:14:    <loc>https://cool.ikanisa.com/groups/</loc>
+apps/cool-pwa/sitemap.xml:15:    <changefreq>weekly</changefreq>
+apps/cool-pwa/sitemap.xml:19:    <loc>https://cool.ikanisa.com/momo/</loc>
+apps/cool-pwa/sitemap.xml:20:    <changefreq>weekly</changefreq>
+apps/cool-pwa/sitemap.xml:24:    <loc>https://cool.ikanisa.com/profile/</loc>
+apps/cool-pwa/sitemap.xml:25:    <changefreq>weekly</changefreq>
+apps/cool-pwa/sitemap.xml:29:    <loc>https://cool.ikanisa.com/notifications/</loc>
+apps/cool-pwa/sitemap.xml:30:    <changefreq>weekly</changefreq>
+apps/cool-pwa/sitemap.xml:34:    <loc>https://cool.ikanisa.com/install/</loc>
+apps/cool-pwa/sitemap.xml:35:    <changefreq>monthly</changefreq>
+apps/cool-pwa/sitemap.xml:39:    <loc>https://cool.ikanisa.com/share/</loc>
+apps/cool-pwa/sitemap.xml:40:    <changefreq>monthly</changefreq>
+apps/cool-pwa/notifications/index.html:6:    <meta name="description" content="COOL notification controls with contextual permission requests, badge counts, and actionable alerts.">
+apps/cool-pwa/notifications/index.html:15:    <meta property="og:description" content="Contextual permission prompts, actionable notifications, and badge-aware re-engagement.">
+apps/cool-pwa/notifications/index.html:16:    <meta property="og:url" content="https://cool.ikanisa.com/notifications/">
+apps/cool-pwa/notifications/index.html:22:    <link rel="canonical" href="https://cool.ikanisa.com/notifications/">
+apps/cool-pwa/notifications/index.html:27:    <title>Notifications — COOL PWA</title>
+apps/cool-pwa/notifications/index.html:29:  <body data-route="notifications">
+apps/cool-pwa/notifications/index.html:30:    <a class="skip-link" href="#main">Skip to content</a>
+apps/cool-pwa/notifications/index.html:33:        <a class="brand-link" href="/"><img src="/assets/img/cool_logo_mark.png" alt=""><span class="brand-copy"><span class="brand-kicker">Alerts</span><span class="brand-title">COOL</span></span></a>
+apps/cool-pwa/notifications/index.html:34:        <div class="toolbar"><span class="status-pill online" data-online-indicator>Online</span><span class="status-pill install" data-notification-status>Not enabled</span><span class="status-pill online">Badge <span data-badge-count>0</span></span></div>
+apps/cool-pwa/notifications/index.html:37:        <a href="/" data-route-link>Overview</a>
+apps/cool-pwa/notifications/index.html:38:        <a href="/home/" data-route-link>Home</a>
+apps/cool-pwa/notifications/index.html:39:        <a href="/groups/" data-route-link>Groups</a>
+apps/cool-pwa/notifications/index.html:40:        <a href="/momo/" data-route-link>MoMo</a>
+apps/cool-pwa/notifications/index.html:41:        <a href="/profile/" data-route-link>Profile</a>
+apps/cool-pwa/notifications/index.html:42:        <a href="/notifications/" data-route-link>Alerts</a>
+apps/cool-pwa/notifications/index.html:45:        <section class="section-header"><div><h1 class="page-title">Ask only after value is obvious</h1><p class="section-caption">Notification permission is requested here, contextually, after the user has already seen what the app can do.</p></div></section>
+apps/cool-pwa/notifications/index.html:47:          <article class="metric-card card"><span class="metric-label">Subscribers</span><div class="metric-value mono" data-metric="metrics.subscribers">129</div><div class="metric-meta">Store-ready install funnels and re-engagement need measurement.</div></article>
+apps/cool-pwa/notifications/index.html:48:          <article class="metric-card card"><span class="metric-label">Open rate</span><div class="metric-value" data-metric="metrics.openRate">61%</div><div class="metric-meta">Notification quality matters more than volume.</div></article>
+apps/cool-pwa/notifications/index.html:49:          <article class="metric-card card"><span class="metric-label">Badge count</span><div class="metric-value mono" data-metric="metrics.badgeCount">4</div><div class="metric-meta">Badging API updates home-screen state where supported.</div></article>
+apps/cool-pwa/notifications/index.html:53:            <div class="list-item-header"><strong>Notification controls</strong><span class="status-pill install">Contextual</span></div>
+apps/cool-pwa/notifications/index.html:55:              <button class="button" type="button" data-enable-notifications>Enable notifications</button>
+apps/cool-pwa/notifications/index.html:56:              <button class="secondary-button" type="button" data-demo-notification>Show demo notification</button>
+apps/cool-pwa/notifications/index.html:57:              <button class="ghost-button" type="button" data-success-moment="notifications_viewed">Count this as value</button>
+apps/cool-pwa/notifications/index.html:61:            <div class="list-item-header"><strong>Alert feed</strong><span class="status-pill online">Actionable</span></div>
+apps/cool-pwa/notifications/index.html:62:            <ul class="list" id="notification-feed"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul>
+apps/cool-pwa/notifications/index.html:66:      <footer class="footer"><span>Push prompts belong after success, never on first load.</span><div class="footer-links"><a href="/install/">Install</a><a href="/home/">Home</a></div></footer>
+apps/cool-pwa/notifications/index.html:68:    <section class="banner" data-install-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Install COOL for stronger re-engagement</strong><span>Installed PWAs can receive richer standalone alert flows.</span></div><div class="button-row"><button class="button" type="button" data-install-action><span data-install-cta-label>Install COOL</span></button><button class="secondary-button" type="button" data-install-dismiss>Later</button></div></div></section>
+apps/cool-pwa/notifications/index.html:69:    <section class="banner" data-update-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Notification shell updated</strong><span>Refresh to get the newest alert handling logic.</span></div><div class="button-row"><button class="button" type="button" data-update-action>Refresh</button></div></div></section>
+apps/cool-pwa/notifications/index.html:71:    <dialog class="surface-panel" data-ios-sheet><strong class="banner-title">Add COOL to Home Screen</strong><p class="section-caption">Install from Safari’s Share menu to unlock standalone iOS notification support.</p><form method="dialog"><button class="button" type="submit">Close</button></form></dialog>
+apps/cool-pwa/terms/index.html:6:    <title>Cool Terms of Service</title>
+apps/cool-pwa/terms/index.html:12:        <span class="eyebrow">Terms of Service</span>
+apps/cool-pwa/terms/index.html:13:        <h1>Rules for using the Cool mobile app.</h1>
+apps/cool-pwa/terms/index.html:19:          <a class="button" href="/">Legal Center</a>
+apps/cool-pwa/terms/index.html:20:          <a class="chip" href="/privacy">Privacy Policy</a>
+apps/cool-pwa/terms/index.html:21:          <a class="chip" href="/account-deletion">Account Deletion</a>
+apps/cool-pwa/terms/index.html:26:        <h2>1. Service scope</h2>
+apps/cool-pwa/terms/index.html:35:        <h2>2. Eligibility and account use</h2>
+apps/cool-pwa/terms/index.html:42:        <h2>3. Payments and partner flows</h2>
+apps/cool-pwa/terms/index.html:50:        <h2>4. User responsibilities</h2>
+apps/cool-pwa/terms/index.html:52:          <li>Do not misuse the app for fraud, harassment, impersonation, or unlawful activity.</li>
+apps/cool-pwa/terms/index.html:53:          <li>Do not upload false member, payment, or identity information.</li>
+apps/cool-pwa/terms/index.html:54:          <li>Use only MoMo routes, groups, and partner flows you are authorized to use.</li>
+apps/cool-pwa/terms/index.html:57:        <h2>5. Third-party services</h2>
+apps/cool-pwa/terms/index.html:64:        <h2>6. Suspension and termination</h2>
+apps/cool-pwa/terms/index.html:71:        <h2>7. Disclaimers</h2>
+apps/cool-pwa/terms/index.html:78:        <h2>8. Liability</h2>
+apps/cool-pwa/terms/index.html:85:        <h2>9. Changes</h2>
+apps/cool-pwa/terms/index.html:93:          <a href="mailto:info@ikanisa.com">info@ikanisa.com</a>
+apps/cool-pwa/home/index.html:29:    <title>Home — COOL PWA</title>
+apps/cool-pwa/home/index.html:32:    <a class="skip-link" href="#main">Skip to content</a>
+apps/cool-pwa/home/index.html:35:        <a class="brand-link" href="/"><img src="/assets/img/cool_logo_mark.png" alt=""><span class="brand-copy"><span class="brand-kicker">Dashboard</span><span class="brand-title">COOL</span></span></a>
+apps/cool-pwa/home/index.html:37:          <span class="status-pill online" data-online-indicator>Online</span>
+apps/cool-pwa/home/index.html:38:          <button class="chip-button" type="button" data-theme-toggle>Theme</button>
+apps/cool-pwa/home/index.html:39:          <button class="chip-button" type="button" data-download-offline>Offline pack</button>
+apps/cool-pwa/home/index.html:43:        <a href="/" data-route-link>Overview</a>
+apps/cool-pwa/home/index.html:44:        <a href="/home/" data-route-link>Home</a>
+apps/cool-pwa/home/index.html:45:        <a href="/groups/" data-route-link>Groups</a>
+apps/cool-pwa/home/index.html:46:        <a href="/momo/" data-route-link>MoMo</a>
+apps/cool-pwa/home/index.html:47:        <a href="/profile/" data-route-link>Profile</a>
+apps/cool-pwa/home/index.html:48:        <a href="/notifications/" data-route-link>Alerts</a>
+apps/cool-pwa/home/index.html:53:            <h1 class="page-title">Cached dashboard</h1>
+apps/cool-pwa/home/index.html:54:            <p class="section-caption">The home route remains a lightweight landing space with metrics, activity, and queue awareness even when the device falls offline.</p>
+apps/cool-pwa/home/index.html:57:            <button class="button" type="button" data-share-button data-share-title="COOL dashboard" data-share-text="Open the COOL dashboard in the installable PWA." data-share-url="/home/">Share dashboard</button>
+apps/cool-pwa/home/index.html:58:            <button class="secondary-button" type="button" data-install-action><span data-install-cta-label>Install COOL</span></button>
+apps/cool-pwa/home/index.html:63:          <article class="metric-card card"><span class="metric-label">Members online</span><div class="metric-value mono" data-metric="metrics.membersOnline">842</div><div class="metric-meta">Realtime-like summary cached in the shell.</div></article>
+apps/cool-pwa/home/index.html:64:          <article class="metric-card card"><span class="metric-label">Queued actions</span><div class="metric-value mono" data-metric="metrics.queuedActions">14</div><div class="metric-meta">Background sync retries dropped work safely.</div></article>
+apps/cool-pwa/home/index.html:65:          <article class="metric-card card"><span class="metric-label">CWV status</span><div class="metric-value" data-metric="metrics.cwvStatus">Green</div><div class="metric-meta">Vitals are tracked locally and can be beaconed to RUM.</div></article>
+apps/cool-pwa/home/index.html:71:              <strong>Primary feed</strong>
+apps/cool-pwa/home/index.html:72:              <span class="status-pill online">Cached</span>
+apps/cool-pwa/home/index.html:81:              <strong>Quick route actions</strong>
+apps/cool-pwa/home/index.html:82:              <span class="status-pill install">Intentional</span>
+apps/cool-pwa/home/index.html:85:              <button class="ghost-button" type="button" data-success-moment="dashboard_success">Count this as a success moment</button>
+apps/cool-pwa/home/index.html:86:              <a class="secondary-button" href="/groups/">Open group workflows</a>
+apps/cool-pwa/home/index.html:87:              <a class="secondary-button" href="/momo/">Open MoMo workspace</a>
+apps/cool-pwa/home/index.html:94:            <h2>Save a quick field note</h2>
+apps/cool-pwa/home/index.html:95:            <p class="section-caption">This form queues locally and flushes later if connectivity disappears.</p>
+apps/cool-pwa/home/index.html:101:              <label for="note-title">Title</label>
+apps/cool-pwa/home/index.html:105:              <label for="note-owner">Owner</label>
+apps/cool-pwa/home/index.html:109:              <label for="note-body">Note</label>
+apps/cool-pwa/home/index.html:113:              <button class="button" type="submit">Queue note</button>
+apps/cool-pwa/home/index.html:114:              <small class="meta">Optimistic UI updates instantly, then sync replays later.</small>
+apps/cool-pwa/home/index.html:119:      <footer class="footer"><span>Path-based URLs and cached route shells avoid hash-routing penalties.</span><div class="footer-links"><a href="/install/">Install</a><a href="/offline/">Offline</a></div></footer>
+apps/cool-pwa/home/index.html:121:    <section class="banner" data-install-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Install COOL</strong><span>Install once you’ve seen value in the dashboard.</span></div><div class="button-row"><button class="button" type="button" data-install-action><span data-install-cta-label>Install COOL</span></button><button class="secondary-button" type="button" data-install-dismiss>Later</button></div></div></section>
+apps/cool-pwa/home/index.html:122:    <section class="banner" data-update-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Update ready</strong><span>Refresh to swap in the latest app shell.</span></div><div class="button-row"><button class="button" type="button" data-update-action>Refresh</button></div></div></section>
+apps/cool-pwa/home/index.html:124:    <dialog class="surface-panel" data-ios-sheet><strong class="banner-title">Add COOL to Home Screen</strong><p class="section-caption">Use Safari’s Share menu, then “Add to Home Screen”.</p><form method="dialog"><button class="button" type="submit">Close</button></form></dialog>
+apps/cool-pwa/landing/index.html:6:  <title>Cool — Community Finance & Mobility for Rwanda</title>
+apps/cool-pwa/landing/index.html:322:      <span>Cool</span>
+apps/cool-pwa/landing/index.html:325:      <li><a href="#features">Features</a></li>
+apps/cool-pwa/landing/index.html:326:      <li><a href="/privacy" target="_blank">Privacy</a></li>
+apps/cool-pwa/landing/index.html:327:      <li><a href="/terms" target="_blank">Terms</a></li>
+apps/cool-pwa/landing/index.html:338:    <h1>Community finance,<br><span class="accent">simplified.</span></h1>
+apps/cool-pwa/landing/index.html:339:    <p class="subtitle">Savings groups, MoMo payments, mobility, and partner services for Rwanda — all in one app.</p>
+apps/cool-pwa/landing/index.html:345:      <a href="#features" class="btn btn-ghost">Explore features</a>
+apps/cool-pwa/landing/index.html:351:    <p class="section-eyebrow">Features</p>
+apps/cool-pwa/landing/index.html:352:    <h2 class="section-heading">Everything you need,<br>nothing you don't.</h2>
+apps/cool-pwa/landing/index.html:357:        <h3>Savings Groups</h3>
+apps/cool-pwa/landing/index.html:358:        <p>Create or join groups. Track contributions, set schedules, and manage group finances with full transparency.</p>
+apps/cool-pwa/landing/index.html:362:        <h3>MoMo Payments</h3>
+apps/cool-pwa/landing/index.html:363:        <p>Send money via MTN MoMo USSD. Auto-verify payment confirmations from SMS in real time.</p>
+apps/cool-pwa/landing/index.html:367:        <h3>Mobility</h3>
+apps/cool-pwa/landing/index.html:368:        <p>Find nearby drivers — cab, moto, liffan, or truck. Schedule trips and connect via WhatsApp.</p>
+apps/cool-pwa/landing/index.html:372:        <h3>Partner Services</h3>
+apps/cool-pwa/landing/index.html:373:        <p>Browse partner shops, access club merchandise, and discover local services.</p>
+apps/cool-pwa/landing/index.html:377:        <h3>QR & NFC Payments</h3>
+apps/cool-pwa/landing/index.html:378:        <p>Generate payment QR codes and use NFC for quick contactless transactions.</p>
+apps/cool-pwa/landing/index.html:382:        <h3>Rise Season</h3>
+apps/cool-pwa/landing/index.html:383:        <p>Earn points across groups, trips, and support. Climb the leaderboard each season.</p>
+apps/cool-pwa/landing/index.html:390:    <h2>Ready to get started?</h2>
+apps/cool-pwa/landing/index.html:391:    <p>Download Cool for free on Google Play.</p>
+apps/cool-pwa/landing/index.html:405:            <span>Cool</span>
+apps/cool-pwa/landing/index.html:407:          <p class="footer-tagline">Community finance and mobility platform for Rwanda.</p>
+apps/cool-pwa/landing/index.html:412:            <h4>Product</h4>
+apps/cool-pwa/landing/index.html:414:              <li><a href="#features">Features</a></li>
+apps/cool-pwa/landing/index.html:415:              <li><a href="#download">Download</a></li>
+apps/cool-pwa/landing/index.html:416:              <li><a href="mailto:info@ikanisa.com">Support</a></li>
+apps/cool-pwa/landing/index.html:420:            <h4>Legal</h4>
+apps/cool-pwa/landing/index.html:422:              <li><a href="/privacy" target="_blank">Privacy Policy</a></li>
+apps/cool-pwa/landing/index.html:423:              <li><a href="/terms" target="_blank">Terms of Service</a></li>
+apps/cool-pwa/landing/index.html:424:              <li><a href="/account-deletion" target="_blank">Delete Account</a></li>
+apps/cool-pwa/landing/index.html:428:            <h4>Contact</h4>
+apps/cool-pwa/landing/index.html:430:              <li><a href="mailto:info@ikanisa.com">info@ikanisa.com</a></li>
+apps/cool-pwa/landing/index.html:431:              <li><a href="https://cool.ikanisa.com">cool.ikanisa.com</a></li>
+apps/cool-pwa/landing/index.html:438:        <span class="footer-copy">© 2026 Ikanisa Ltd · Kigali, Rwanda</span>
+apps/cool-pwa/README.md:9:- The PWA ships as static clean-URL pages with a shared app shell, custom service worker, offline queueing, contextual install UX, web-notification flows, and browser-audit scripts.
+apps/cool-pwa/privacy/index.html:6:    <title>Cool Privacy Policy</title>
+apps/cool-pwa/privacy/index.html:12:        <span class="eyebrow">Privacy Policy</span>
+apps/cool-pwa/privacy/index.html:13:        <h1>How Cool processes user data.</h1>
+apps/cool-pwa/privacy/index.html:19:          <a class="button" href="/">Legal Center</a>
+apps/cool-pwa/privacy/index.html:20:          <a class="chip" href="/terms">Terms</a>
+apps/cool-pwa/privacy/index.html:21:          <a class="chip" href="/account-deletion">Account Deletion</a>
+apps/cool-pwa/privacy/index.html:26:        <h2>1. Who operates Cool</h2>
+apps/cool-pwa/privacy/index.html:32:          <a href="mailto:info@ikanisa.com">info@ikanisa.com</a>.
+apps/cool-pwa/privacy/index.html:35:        <h2>2. Data we collect</h2>
+apps/cool-pwa/privacy/index.html:36:        <p>Depending on how you use the app, Cool may process:</p>
+apps/cool-pwa/privacy/index.html:38:          <li>Phone and WhatsApp number for authentication and account recovery. Authentication may use any valid global WhatsApp number.</li>
+apps/cool-pwa/privacy/index.html:39:          <li>Profile details such as full name and preferred payout route metadata.</li>
+apps/cool-pwa/privacy/index.html:40:          <li>Mobile Money routing details you provide, such as MoMo number or MoMo code.</li>
+apps/cool-pwa/privacy/index.html:41:          <li>Community group, contribution, referral, partner, and ticket activity.</li>
+apps/cool-pwa/privacy/index.html:42:          <li>Approximate or precise location when you use nearby-service or location-aware discovery features.</li>
+apps/cool-pwa/privacy/index.html:43:          <li>Camera data when you actively scan QR codes or use BioPay face enrollment and payee-matching flows.</li>
+apps/cool-pwa/privacy/index.html:44:          <li>Biometric face templates, consent records, payout route metadata, and match or revocation audit records if you enroll in BioPay.</li>
+apps/cool-pwa/privacy/index.html:45:          <li>NFC interaction data on supported devices when you initiate NFC flows.</li>
+apps/cool-pwa/privacy/index.html:46:          <li>Push-notification tokens and notification delivery metadata.</li>
+apps/cool-pwa/privacy/index.html:47:          <li>Analytics and feature-flag data through Firebase services.</li>
+apps/cool-pwa/privacy/index.html:50:        <h2>3. Android-only SMS verification</h2>
+apps/cool-pwa/privacy/index.html:63:        <h3>3a. SMS data processing</h3>
+apps/cool-pwa/privacy/index.html:76:          <a href="mailto:info@ikanisa.com">info@ikanisa.com</a>.
+apps/cool-pwa/privacy/index.html:79:        <h2>4. How we use data</h2>
+apps/cool-pwa/privacy/index.html:81:          <li>To authenticate users and secure accounts.</li>
+apps/cool-pwa/privacy/index.html:82:          <li>To route Mobile Money payment handoffs and reconcile confirmations.</li>
+apps/cool-pwa/privacy/index.html:83:          <li>To enroll and match BioPay users against their approved payout routes.</li>
+apps/cool-pwa/privacy/index.html:84:          <li>To operate groups, partner services, tickets, and credit features.</li>
+apps/cool-pwa/privacy/index.html:85:          <li>To provide product analytics, stability monitoring, and feature rollouts.</li>
+apps/cool-pwa/privacy/index.html:86:          <li>To respond to support requests, disputes, and fraud or abuse concerns.</li>
+apps/cool-pwa/privacy/index.html:99:        <h2>5. Sharing</h2>
+apps/cool-pwa/privacy/index.html:108:        <h2>6. Data retention</h2>
+apps/cool-pwa/privacy/index.html:117:        <h2>7. Your choices</h2>
+apps/cool-pwa/privacy/index.html:119:          <li>You can choose whether to enable Android SMS verification.</li>
+apps/cool-pwa/privacy/index.html:120:          <li>You can control some device permissions through Android settings.</li>
+apps/cool-pwa/privacy/index.html:121:          <li>You can revoke an active BioPay enrollment from inside the app.</li>
+apps/cool-pwa/privacy/index.html:122:          <li>You can request support or delete your account from inside the app.</li>
+apps/cool-pwa/privacy/index.html:125:        <h2>8. Account deletion</h2>
+apps/cool-pwa/privacy/index.html:128:          <a href="/account-deletion">Account Deletion</a> for current steps and
+apps/cool-pwa/privacy/index.html:132:        <h2>9. Security</h2>
+apps/cool-pwa/privacy/index.html:139:        <h2>10. Changes</h2>
+apps/cool-pwa/privacy/index.html:147:          <a href="mailto:info@ikanisa.com">info@ikanisa.com</a>
+apps/cool-pwa/index.html:110:    <title>COOL PWA</title>
+apps/cool-pwa/index.html:125:    <a class="skip-link" href="#main">Skip to content</a>
+apps/cool-pwa/index.html:131:            <span class="brand-kicker">World-class PWA</span>
+apps/cool-pwa/index.html:132:            <span class="brand-title">COOL</span>
+apps/cool-pwa/index.html:136:          <span class="status-pill online" data-online-indicator>Online</span>
+apps/cool-pwa/index.html:137:          <button class="chip-button" type="button" data-theme-toggle>Theme</button>
+apps/cool-pwa/index.html:138:          <button class="chip-button" type="button" data-share-button data-share-title="COOL PWA" data-share-text="Install the COOL PWA for fast, offline-first finance workflows." data-share-url="/">Share</button>
+apps/cool-pwa/index.html:139:          <button class="chip-button" type="button" data-download-offline>Offline pack</button>
+apps/cool-pwa/index.html:144:        <a href="/" data-route-link>Overview</a>
+apps/cool-pwa/index.html:145:        <a href="/home/" data-route-link>Home</a>
+apps/cool-pwa/index.html:146:        <a href="/groups/" data-route-link>Groups</a>
+apps/cool-pwa/index.html:147:        <a href="/momo/" data-route-link>MoMo</a>
+apps/cool-pwa/index.html:148:        <a href="/profile/" data-route-link>Profile</a>
+apps/cool-pwa/index.html:149:        <a href="/notifications/" data-route-link>Alerts</a>
+apps/cool-pwa/index.html:155:            <span class="eyebrow">97-item alignment</span>
+apps/cool-pwa/index.html:156:            <h1>Keep the Flutter client. Ship the PWA beside it.</h1>
+apps/cool-pwa/index.html:162:              <a class="button" href="/home/" data-success-moment="open_dashboard">Open dashboard</a>
+apps/cool-pwa/index.html:163:              <a class="secondary-button" href="/install/">Review install flow</a>
+apps/cool-pwa/index.html:165:                <span data-install-cta-label>Install COOL</span>
+apps/cool-pwa/index.html:170:                <span class="metric-label">Visits</span>
+apps/cool-pwa/index.html:172:                <div class="metric-meta">Install prompt arms after meaningful engagement.</div>
+apps/cool-pwa/index.html:175:                <span class="metric-label">Queued actions</span>
+apps/cool-pwa/index.html:177:                <div class="metric-meta">Background sync protects mutations when the network drops.</div>
+apps/cool-pwa/index.html:180:                <span class="metric-label">Unread alerts</span>
+apps/cool-pwa/index.html:181:                <div class="metric-value mono" data-setting="notifications">0</div>
+apps/cool-pwa/index.html:182:                <div class="metric-meta">Badging and notification actions stay tied to user intent.</div>
+apps/cool-pwa/index.html:196:              <h2>Eight pillars, implemented as product behavior</h2>
+apps/cool-pwa/index.html:205:              <strong>Performance</strong>
+apps/cool-pwa/index.html:206:              <p>Static HTML, preloaded local fonts, low-JS pages, and cached data endpoints.</p>
+apps/cool-pwa/index.html:209:              <strong>Installability</strong>
+apps/cool-pwa/index.html:210:              <p>Maskable icons, screenshots, shortcuts, deferred prompts, and iOS coach marks.</p>
+apps/cool-pwa/index.html:213:              <strong>Offline</strong>
+apps/cool-pwa/index.html:214:              <p>Precached shell routes, network-first data, offline fallback, and queued replay.</p>
+apps/cool-pwa/index.html:217:              <strong>Security</strong>
+apps/cool-pwa/index.html:218:              <p>Strict hosting headers, no mixed content, clean routes, and passkey-capable UI.</p>
+apps/cool-pwa/index.html:221:              <strong>Accessibility</strong>
+apps/cool-pwa/index.html:222:              <p>Skip link, keyboard-friendly navigation, touch targets, reduced motion, and dark mode.</p>
+apps/cool-pwa/index.html:225:              <strong>Engagement</strong>
+apps/cool-pwa/index.html:226:              <p>Contextual notification opt-in, Web Share, badge counts, and install funnel tracking.</p>
+apps/cool-pwa/index.html:234:              <h2>Route map</h2>
+apps/cool-pwa/index.html:235:              <p class="section-caption">Every core view gets a clean URL, a static document, and a cacheable shell.</p>
+apps/cool-pwa/index.html:240:              <strong>Home</strong>
+apps/cool-pwa/index.html:241:              <span>Dashboard metrics, cached activity, and app-shell controls.</span>
+apps/cool-pwa/index.html:244:              <strong>Groups</strong>
+apps/cool-pwa/index.html:245:              <span>Contribution drafts, optimistic UI, and offline replay-safe forms.</span>
+apps/cool-pwa/index.html:248:              <strong>MoMo</strong>
+apps/cool-pwa/index.html:249:              <span>Statements, payment requests, and portable offline summaries.</span>
+apps/cool-pwa/index.html:252:              <strong>Profile</strong>
+apps/cool-pwa/index.html:253:              <span>Theme continuity, passkeys, install status, and settings persistence.</span>
+apps/cool-pwa/index.html:255:            <a class="nav-link" href="/notifications/" data-route-link>
+apps/cool-pwa/index.html:256:              <strong>Notifications</strong>
+apps/cool-pwa/index.html:257:              <span>Contextual permission prompts, badges, and actionable alert demos.</span>
+apps/cool-pwa/index.html:260:              <strong>Install</strong>
+apps/cool-pwa/index.html:261:              <span>Browser-specific install guidance and store-readiness details.</span>
+apps/cool-pwa/index.html:269:              <h2>Live implementation signals</h2>
+apps/cool-pwa/index.html:270:              <p class="section-caption">These cards bind to cached JSON data that stays available offline.</p>
+apps/cool-pwa/index.html:276:                <strong>Activity</strong>
+apps/cool-pwa/index.html:277:                <span class="status-pill online">Cached</span>
+apps/cool-pwa/index.html:287:                <strong>Sync queue</strong>
+apps/cool-pwa/index.html:288:                <span class="status-pill syncing">Replay-safe</span>
+apps/cool-pwa/index.html:300:        <span>COOL PWA keeps the browser surface installable, secure, and offline-first.</span>
+apps/cool-pwa/index.html:302:          <a href="/install/">Install</a>
+apps/cool-pwa/index.html:303:          <a href="/offline/">Offline</a>
+apps/cool-pwa/index.html:304:          <a href="/admin/">Admin</a>
+apps/cool-pwa/index.html:312:          <strong class="banner-title">Install COOL after a success moment</strong>
+apps/cool-pwa/index.html:313:          <span>Platform: <span data-install-platform>Chromium install prompt</span></span>
+apps/cool-pwa/index.html:317:            <span data-install-cta-label>Install COOL</span>
+apps/cool-pwa/index.html:319:          <button class="secondary-button" type="button" data-install-dismiss>Later</button>
+apps/cool-pwa/index.html:327:          <strong class="banner-title">A fresh version is ready</strong>
+apps/cool-pwa/index.html:328:          <span>Refresh to load the latest cached shell and data assets.</span>
+apps/cool-pwa/index.html:331:          <button class="button" type="button" data-update-action>Refresh now</button>
+apps/cool-pwa/index.html:339:      <strong class="banner-title">Add COOL to Home Screen</strong>
+apps/cool-pwa/index.html:340:      <p class="section-caption">Safari requires manual install. Use the Share menu, then choose “Add to Home Screen”.</p>
+apps/cool-pwa/index.html:342:        <li class="list-item">Tap the Share button in Safari.</li>
+apps/cool-pwa/index.html:343:        <li class="list-item">Choose “Add to Home Screen”.</li>
+apps/cool-pwa/index.html:344:        <li class="list-item">Confirm with “Add” to launch standalone next time.</li>
+apps/cool-pwa/index.html:347:        <button class="button" type="submit">Got it</button>
+apps/cool-pwa/_headers:38:/notifications/
+apps/cool-pwa/groups/index.html:27:    <title>Groups — COOL PWA</title>
+apps/cool-pwa/groups/index.html:30:    <a class="skip-link" href="#main">Skip to content</a>
+apps/cool-pwa/groups/index.html:33:        <a class="brand-link" href="/"><img src="/assets/img/cool_logo_mark.png" alt=""><span class="brand-copy"><span class="brand-kicker">Groups</span><span class="brand-title">COOL</span></span></a>
+apps/cool-pwa/groups/index.html:34:        <div class="toolbar"><span class="status-pill online" data-online-indicator>Online</span><button class="chip-button" type="button" data-theme-toggle>Theme</button><button class="chip-button" type="button" data-share-button data-share-title="COOL groups" data-share-text="Open COOL group savings workflows." data-share-url="/groups/">Share</button></div>
+apps/cool-pwa/groups/index.html:37:        <a href="/" data-route-link>Overview</a>
+apps/cool-pwa/groups/index.html:38:        <a href="/home/" data-route-link>Home</a>
+apps/cool-pwa/groups/index.html:39:        <a href="/groups/" data-route-link>Groups</a>
+apps/cool-pwa/groups/index.html:40:        <a href="/momo/" data-route-link>MoMo</a>
+apps/cool-pwa/groups/index.html:41:        <a href="/profile/" data-route-link>Profile</a>
+apps/cool-pwa/groups/index.html:42:        <a href="/notifications/" data-route-link>Alerts</a>
+apps/cool-pwa/groups/index.html:45:        <section class="section-header"><div><h1 class="page-title">Group pledges, even with weak connectivity</h1><p class="section-caption">Contribution drafts save locally, update the interface immediately, and replay later through background sync.</p></div></section>
+apps/cool-pwa/groups/index.html:47:          <article class="metric-card card"><span class="metric-label">Active groups</span><div class="metric-value mono" data-metric="metrics.activeGroups">26</div><div class="metric-meta">Clean URLs keep shared group routes bookmarkable.</div></article>
+apps/cool-pwa/groups/index.html:48:          <article class="metric-card card"><span class="metric-label">Drafts ready</span><div class="metric-value mono" data-metric="metrics.draftsReady">7</div><div class="metric-meta">Draft persistence survives tab closes and restarts.</div></article>
+apps/cool-pwa/groups/index.html:49:          <article class="metric-card card"><span class="metric-label">Coverage</span><div class="metric-value" data-metric="metrics.coverage">91%</div><div class="metric-meta">Optimistic UI keeps the contribution arc visible.</div></article>
+apps/cool-pwa/groups/index.html:52:          <article class="detail-card card"><div class="list-item-header"><strong>Group activity</strong><span class="status-pill online">Active</span></div><ul class="list" id="activity-feed"><li class="skeleton line long"></li><li class="skeleton line short"></li></ul></article>
+apps/cool-pwa/groups/index.html:53:          <article class="detail-card card"><div class="list-item-header"><strong>Replay queue</strong><span class="status-pill syncing">Buffered</span></div><ul class="list" id="queue-feed"><li class="skeleton line long"></li></ul></article>
+apps/cool-pwa/groups/index.html:55:        <section class="section-header"><div><h2>Create a pledge draft</h2><p class="section-caption">Correct input types, autocomplete hints, and large touch targets make the form fast on mobile.</p></div></section>
+apps/cool-pwa/groups/index.html:58:            <div class="field"><label for="group-name">Group</label><input id="group-name" name="group" type="text" autocomplete="organization" required></div>
+apps/cool-pwa/groups/index.html:59:            <div class="field"><label for="pledge-amount">Amount (RWF)</label><input id="pledge-amount" name="amount" type="number" inputmode="numeric" min="500" step="500" required></div>
+apps/cool-pwa/groups/index.html:60:            <div class="field"><label for="pledge-phone">Contributor phone</label><input id="pledge-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required></div>
+apps/cool-pwa/groups/index.html:61:            <div class="field"><label for="pledge-date">Contribution date</label><input id="pledge-date" name="date" type="date" required></div>
+apps/cool-pwa/groups/index.html:62:            <div class="field full"><label for="pledge-note">Reason</label><textarea id="pledge-note" name="note" required></textarea></div>
+apps/cool-pwa/groups/index.html:63:            <div class="button-row"><button class="button" type="submit">Save pledge</button><button class="secondary-button" type="button" data-success-moment="group_saved">Mark success moment</button></div>
+apps/cool-pwa/groups/index.html:67:      <footer class="footer"><span>Offline-first forms should never discard user intent.</span><div class="footer-links"><a href="/momo/">MoMo</a><a href="/profile/">Profile</a></div></footer>
+apps/cool-pwa/groups/index.html:69:    <section class="banner" data-install-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Install after you save a pledge</strong><span>Install prompts are timed after value, not before it.</span></div><div class="button-row"><button class="button" type="button" data-install-action><span data-install-cta-label>Install COOL</span></button><button class="secondary-button" type="button" data-install-dismiss>Later</button></div></div></section>
+apps/cool-pwa/groups/index.html:70:    <section class="banner" data-update-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Update ready</strong><span>Reload to get the latest cached group shell.</span></div><div class="button-row"><button class="button" type="button" data-update-action>Refresh</button></div></div></section>
+apps/cool-pwa/groups/index.html:72:    <dialog class="surface-panel" data-ios-sheet><strong class="banner-title">Add COOL to Home Screen</strong><p class="section-caption">Safari uses Share → Add to Home Screen.</p><form method="dialog"><button class="button" type="submit">Close</button></form></dialog>
+apps/cool-pwa/scripts/pwa-contracts.test.mjs:37:    'notifications/index.html',
+apps/cool-pwa/scripts/pwa-contracts.test.mjs:60:  assert.match(sitemap, /https:\/\/cool\.ikanisa\.com\/notifications\//);
+apps/cool-pwa/scripts/pwa-contracts.test.mjs:83:    "addEventListener('notificationclick'",
+apps/cool-pwa/account-deletion/index.html:6:    <title>Cool Account Deletion</title>
+apps/cool-pwa/account-deletion/index.html:12:        <span class="eyebrow">Account Deletion</span>
+apps/cool-pwa/account-deletion/index.html:13:        <h1>How to delete your Cool account.</h1>
+apps/cool-pwa/account-deletion/index.html:18:          <a class="button" href="/">Legal Center</a>
+apps/cool-pwa/account-deletion/index.html:19:          <a class="chip" href="/privacy">Privacy Policy</a>
+apps/cool-pwa/account-deletion/index.html:20:          <a class="chip" href="/terms">Terms of Service</a>
+apps/cool-pwa/account-deletion/index.html:25:        <h2>Delete inside the app</h2>
+apps/cool-pwa/account-deletion/index.html:27:          <li>Open the Cool app and sign in.</li>
+apps/cool-pwa/account-deletion/index.html:28:          <li>Go to <code>Profile</code>.</li>
+apps/cool-pwa/account-deletion/index.html:29:          <li>Select <code>Delete Account</code>.</li>
+apps/cool-pwa/account-deletion/index.html:30:          <li>Confirm the permanent deletion prompt.</li>
+apps/cool-pwa/account-deletion/index.html:33:        <h2>What happens next</h2>
+apps/cool-pwa/account-deletion/index.html:41:        <h2>If you cannot access the app</h2>
+apps/cool-pwa/account-deletion/index.html:43:          Contact <a href="mailto:info@ikanisa.com">info@ikanisa.com</a> from
+apps/cool-pwa/account-deletion/index.html:48:          <li>Your phone or WhatsApp number used in Cool.</li>
+apps/cool-pwa/account-deletion/index.html:49:          <li>Your request to delete the account.</li>
+apps/cool-pwa/account-deletion/index.html:50:          <li>Any details needed to help us identify the correct account.</li>
+apps/cool-pwa/account-deletion/index.html:59:          <a href="mailto:info@ikanisa.com">info@ikanisa.com</a>
+apps/cool-pwa/admin/index.html:28:    <title>Admin — COOL PWA</title>
+apps/cool-pwa/admin/index.html:31:    <a class="skip-link" href="#main">Skip to content</a>
+apps/cool-pwa/admin/index.html:34:        <a class="brand-link" href="/"><img src="/assets/img/cool_logo_mark.png" alt=""><span class="brand-copy"><span class="brand-kicker">Admin</span><span class="brand-title">COOL</span></span></a>
+apps/cool-pwa/admin/index.html:35:        <div class="toolbar"><span class="status-pill online" data-online-indicator>Online</span><button class="chip-button" type="button" data-theme-toggle>Theme</button></div>
+apps/cool-pwa/admin/index.html:38:        <a href="/" data-route-link>Overview</a>
+apps/cool-pwa/admin/index.html:39:        <a href="/home/" data-route-link>Home</a>
+apps/cool-pwa/admin/index.html:40:        <a href="/groups/" data-route-link>Groups</a>
+apps/cool-pwa/admin/index.html:41:        <a href="/momo/" data-route-link>MoMo</a>
+apps/cool-pwa/admin/index.html:42:        <a href="/profile/" data-route-link>Profile</a>
+apps/cool-pwa/admin/index.html:43:        <a href="/notifications/" data-route-link>Alerts</a>
+apps/cool-pwa/admin/index.html:46:        <section class="section-header"><div><h1 class="page-title">Operational hardening</h1><p class="section-caption">The admin route is intentionally non-indexed but still present for manual QA and deployment readiness checks.</p></div></section>
+apps/cool-pwa/admin/index.html:48:          <article class="metric-card card"><span class="metric-label">Security headers</span><div class="metric-value" data-metric="metrics.securityHeaders">7/7</div><div class="metric-meta">Strict transport, CSP, anti-clickjacking, and permissions restrictions.</div></article>
+apps/cool-pwa/admin/index.html:49:          <article class="metric-card card"><span class="metric-label">Offline coverage</span><div class="metric-value mono" data-metric="metrics.offlineCoverage">9 routes</div><div class="metric-meta">No browser-generated offline error page should appear.</div></article>
+apps/cool-pwa/admin/index.html:50:          <article class="metric-card card"><span class="metric-label">Audit readiness</span><div class="metric-value" data-metric="metrics.auditReadiness">Pass</div><div class="metric-meta">Source contracts and browser checks are scripted.</div></article>
+apps/cool-pwa/admin/index.html:53:          <article class="detail-card card"><div class="list-item-header"><strong>Signals</strong><span class="status-pill online">Hardened</span></div><ul class="list" id="activity-feed"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul></article>
+apps/cool-pwa/admin/index.html:54:          <article class="detail-card card"><div class="list-item-header"><strong>Admin note queue</strong><span class="status-pill syncing">Replay-safe</span></div><form id="admin-note-form" class="form-grid" data-queue-form data-queue-type="admin_note"><div class="field"><label for="incident-id">Incident ID</label><input id="incident-id" name="incident_id" type="text" autocomplete="off" required></div><div class="field"><label for="owner-name">Owner</label><input id="owner-name" name="owner" type="text" autocomplete="name" required></div><div class="field full"><label for="incident-note">Remediation note</label><textarea id="incident-note" name="note" required></textarea></div><div class="button-row"><button class="button" type="submit">Queue note</button></div></form></article>
+apps/cool-pwa/admin/index.html:57:      <footer class="footer"><span>Admin routes are blocked from crawlers but remain testable and installable.</span><div class="footer-links"><a href="/install/">Install</a><a href="/notifications/">Alerts</a></div></footer>
+apps/cool-pwa/admin/index.html:59:    <section class="banner" data-install-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Install the admin workspace</strong><span>Use a standalone launch for high-frequency operational access.</span></div><div class="button-row"><button class="button" type="button" data-install-action><span data-install-cta-label>Install COOL</span></button><button class="secondary-button" type="button" data-install-dismiss>Later</button></div></div></section>
+apps/cool-pwa/admin/index.html:60:    <section class="banner" data-update-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">New admin shell available</strong><span>Reload to pick up the updated cached bundle.</span></div><div class="button-row"><button class="button" type="button" data-update-action>Refresh</button></div></div></section>
+apps/cool-pwa/admin/index.html:62:    <dialog class="surface-panel" data-ios-sheet><strong class="banner-title">Install COOL</strong><p class="section-caption">Safari users can add the admin route from the Share menu.</p><form method="dialog"><button class="button" type="submit">Close</button></form></dialog>
+apps/cool-pwa/momo/index.html:27:    <title>MoMo — COOL PWA</title>
+apps/cool-pwa/momo/index.html:30:    <a class="skip-link" href="#main">Skip to content</a>
+apps/cool-pwa/momo/index.html:33:        <a class="brand-link" href="/"><img src="/assets/img/cool_logo_mark.png" alt=""><span class="brand-copy"><span class="brand-kicker">MoMo</span><span class="brand-title">COOL</span></span></a>
+apps/cool-pwa/momo/index.html:34:        <div class="toolbar"><span class="status-pill online" data-online-indicator>Online</span><button class="chip-button" type="button" data-theme-toggle>Theme</button><button class="chip-button" type="button" data-download-offline>Offline pack</button></div>
+apps/cool-pwa/momo/index.html:37:        <a href="/" data-route-link>Overview</a>
+apps/cool-pwa/momo/index.html:38:        <a href="/home/" data-route-link>Home</a>
+apps/cool-pwa/momo/index.html:39:        <a href="/groups/" data-route-link>Groups</a>
+apps/cool-pwa/momo/index.html:40:        <a href="/momo/" data-route-link>MoMo</a>
+apps/cool-pwa/momo/index.html:41:        <a href="/profile/" data-route-link>Profile</a>
+apps/cool-pwa/momo/index.html:42:        <a href="/notifications/" data-route-link>Alerts</a>
+apps/cool-pwa/momo/index.html:45:        <section class="section-header"><div><h1 class="page-title">Offline-ready MoMo review</h1><p class="section-caption">Statements and payment request drafts remain available in poor network conditions, with clear sync and retry states.</p></div></section>
+apps/cool-pwa/momo/index.html:47:          <article class="metric-card card"><span class="metric-label">Statements cached</span><div class="metric-value mono" data-metric="metrics.statementsCached">12</div><div class="metric-meta">Use cache-first assets and network-first statement refresh.</div></article>
+apps/cool-pwa/momo/index.html:48:          <article class="metric-card card"><span class="metric-label">Risk checks</span><div class="metric-value mono" data-metric="metrics.riskChecks">3</div><div class="metric-meta">High-trust flows still surface explicit status and retry paths.</div></article>
+apps/cool-pwa/momo/index.html:49:          <article class="metric-card card"><span class="metric-label">Last sync</span><div class="metric-value" data-metric="metrics.lastSync">2m ago</div><div class="metric-meta">Refresh data in the foreground and with periodic sync where supported.</div></article>
+apps/cool-pwa/momo/index.html:52:          <article class="detail-card card"><div class="list-item-header"><strong>Statement feed</strong><span class="status-pill online">Cached</span></div><ul class="list" id="activity-feed"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul></article>
+apps/cool-pwa/momo/index.html:53:          <article class="detail-card card"><div class="list-item-header"><strong>Quick actions</strong><span class="status-pill install">Action-first</span></div><div class="stack"><button class="ghost-button" type="button" data-success-moment="momo_viewed">Mark MoMo as valuable</button><button class="secondary-button" type="button" data-share-button data-share-title="COOL MoMo workspace" data-share-text="Open the cached COOL MoMo workspace." data-share-url="/momo/">Share workspace</button></div></article>
+apps/cool-pwa/momo/index.html:55:        <section class="section-header"><div><h2>Queue a payment request</h2><p class="section-caption">Requests are stored locally first so no dropped connection can erase them.</p></div></section>
+apps/cool-pwa/momo/index.html:58:            <div class="field"><label for="momo-recipient">Recipient</label><input id="momo-recipient" name="recipient" type="text" autocomplete="name" required></div>
+apps/cool-pwa/momo/index.html:59:            <div class="field"><label for="momo-phone">Phone</label><input id="momo-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required></div>
+apps/cool-pwa/momo/index.html:60:            <div class="field"><label for="momo-amount">Amount (RWF)</label><input id="momo-amount" name="amount" type="number" inputmode="numeric" min="1000" step="500" required></div>
+apps/cool-pwa/momo/index.html:61:            <div class="field"><label for="momo-purpose">Purpose</label><input id="momo-purpose" name="purpose" type="text" autocomplete="off" required></div>
+apps/cool-pwa/momo/index.html:62:            <div class="field full"><label for="momo-notes">Notes</label><textarea id="momo-notes" name="notes"></textarea></div>
+apps/cool-pwa/momo/index.html:63:            <div class="button-row"><button class="button" type="submit">Queue request</button></div>
+apps/cool-pwa/momo/index.html:67:      <footer class="footer"><span>MoMo surfaces should remain honest about sync state and cached evidence.</span><div class="footer-links"><a href="/groups/">Groups</a><a href="/notifications/">Alerts</a></div></footer>
+apps/cool-pwa/momo/index.html:69:    <section class="banner" data-install-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Install COOL for faster MoMo access</strong><span>Installed users get a more native launch surface.</span></div><div class="button-row"><button class="button" type="button" data-install-action><span data-install-cta-label>Install COOL</span></button><button class="secondary-button" type="button" data-install-dismiss>Later</button></div></div></section>
+apps/cool-pwa/momo/index.html:70:    <section class="banner" data-update-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">MoMo assets updated</strong><span>Refresh to swap in the latest cached version.</span></div><div class="button-row"><button class="button" type="button" data-update-action>Refresh</button></div></div></section>
+apps/cool-pwa/momo/index.html:72:    <dialog class="surface-panel" data-ios-sheet><strong class="banner-title">Add COOL to Home Screen</strong><p class="section-caption">Use Share → Add to Home Screen in Safari.</p><form method="dialog"><button class="button" type="submit">Close</button></form></dialog>
+apps/cool-pwa/manifest.webmanifest:88:      "description": "Open notifications and re-engagement controls.",
+apps/cool-pwa/manifest.webmanifest:89:      "url": "/notifications/",
+apps/cool-pwa/scripts/verify-browser.mjs:143:  console.log('Step 5: restore server and verify notifications + theming');
+apps/cool-pwa/scripts/verify-browser.mjs:146:  await context.grantPermissions(['notifications'], { origin: baseUrl });
+apps/cool-pwa/scripts/verify-browser.mjs:147:  await page.goto(`${baseUrl}/notifications/`, { waitUntil: 'networkidle' });
+apps/cool-pwa/scripts/verify-browser.mjs:148:  if (await page.locator('[data-enable-notifications]').isVisible()) {
+apps/cool-pwa/scripts/verify-browser.mjs:149:    await page.click('[data-enable-notifications]');
+apps/cool-pwa/scripts/verify-browser.mjs:151:  const notificationStatus = await page.locator('[data-notification-status]').textContent();
+apps/cool-pwa/scripts/verify-browser.mjs:153:    ['Enabled', 'Blocked', 'Not enabled'].includes(notificationStatus?.trim() ?? ''),
+apps/cool-pwa/scripts/verify-browser.mjs:154:    `Unexpected notification status: ${notificationStatus}`,
+apps/cool-pwa/scripts/verify-browser.mjs:156:  await page.click('[data-demo-notification]');
+apps/cool-pwa/scripts/verify-browser.mjs:164:    const notificationCount = await new Promise((resolve, reject) => {
+apps/cool-pwa/scripts/verify-browser.mjs:165:      const tx = db.transaction('notifications', 'readonly');
+apps/cool-pwa/scripts/verify-browser.mjs:166:      const countRequest = tx.objectStore('notifications').count();
+apps/cool-pwa/scripts/verify-browser.mjs:170:    return badgeCount === '1' && notificationCount >= 1;
+apps/cool-pwa/assets/css/app.css:839:[data-requires-notifications].disabled,
+apps/cool-pwa/data/notifications.json:7:  "notifications": [
+apps/cool-pwa/data/notifications.json:10:      "description": "Use notification permission prompts only after the user sees clear value.",
+apps/cool-pwa/assets/js/idb.js:8:  notifications: { keyPath: 'id' },
+apps/cool-pwa/assets/js/app_notifications.js:10:  document.querySelectorAll('[data-enable-notifications]').forEach((button) => {
+apps/cool-pwa/assets/js/app_notifications.js:13:        showToast('This browser does not support notifications.');
+apps/cool-pwa/assets/js/app_notifications.js:23:      await trackEvent('notification_permission_requested');
+apps/cool-pwa/assets/js/app_notifications.js:25:      await trackEvent('notification_permission_result', { permission });
+apps/cool-pwa/assets/js/app_notifications.js:28:        await recordSuccessMoment('notifications_enabled');
+apps/cool-pwa/assets/js/app_notifications.js:37:  document.querySelectorAll('[data-demo-notification]').forEach((button) => {
+apps/cool-pwa/assets/js/app_notifications.js:39:      const notification = {
+apps/cool-pwa/assets/js/app_notifications.js:40:        title: 'COOL sync completed',
+apps/cool-pwa/assets/js/app_notifications.js:45:        data: { route: '/notifications/' },
+apps/cool-pwa/assets/js/app_notifications.js:47:          { action: 'open-notifications', title: 'View alerts' },
+apps/cool-pwa/assets/js/app_notifications.js:48:          { action: 'open-home', title: 'Go home' },
+apps/cool-pwa/assets/js/app_notifications.js:52:      await dbPutRecord('notifications', {
+apps/cool-pwa/assets/js/app_notifications.js:55:        title: notification.title,
+apps/cool-pwa/assets/js/app_notifications.js:56:        body: notification.body,
+apps/cool-pwa/assets/js/app_notifications.js:63:          await state.registration.showNotification(
+apps/cool-pwa/assets/js/app_notifications.js:64:            notification.title,
+apps/cool-pwa/assets/js/app_notifications.js:65:            notification,
+apps/cool-pwa/assets/js/app_notifications.js:67:          await trackEvent('demo_notification_shown');
+apps/cool-pwa/assets/js/app_notifications.js:70:          await trackEvent('demo_notification_display_failed', {
+apps/cool-pwa/assets/js/app_notifications.js:76:      await trackEvent('demo_notification_saved_in_app', {
+apps/cool-pwa/assets/js/app_notifications.js:82:      showToast('Alert saved in-app. Enable notifications for system delivery.');
+apps/cool-pwa/assets/js/app_notifications.js:86:  if (window.location.pathname.startsWith('/notifications')) {
+apps/cool-pwa/assets/js/app_notifications.js:95:    (await dbGetAll('notifications')).filter((entry) => entry.unread).length;
+apps/cool-pwa/assets/js/app_notifications.js:111:  document.querySelectorAll('[data-notification-status]').forEach((node) => {
+apps/cool-pwa/assets/js/app_notifications.js:135:  const notifications = await dbGetAll('notifications');
+apps/cool-pwa/assets/js/app_notifications.js:136:  const unread = notifications.filter((entry) => entry.unread);
+apps/cool-pwa/assets/js/app_notifications.js:139:      dbPutRecord('notifications', { ...entry, unread: false })
+apps/cool-pwa/assets/js/app_page.js:66:          <strong>${escapeHtml(title || 'Shared content')}</strong>
+apps/cool-pwa/assets/js/app_page.js:67:          <span class="status-pill online">Saved</span>
+apps/cool-pwa/assets/js/app_page.js:69:        <p>${escapeHtml(text || 'No text shared.')}</p>
+apps/cool-pwa/assets/js/app_page.js:72:        ? `<a class="action-link" href="${escapeAttribute(url)}">${escapeHtml(url)}</a>`
+apps/cool-pwa/assets/js/app_page.js:129:    bindCollection('notification-feed', data.notifications ?? []);
+apps/cool-pwa/assets/js/app_page.js:241:        <strong>${escapeHtml(item.title ?? 'Untitled')}</strong>
+apps/cool-pwa/assets/js/app_page.js:242:        <span class="status-pill ${escapeAttribute(item.tone ?? 'online')}">${escapeHtml(item.status ?? 'Ready')}</span>
+apps/cool-pwa/assets/js/app_page.js:244:      <p>${escapeHtml(item.description ?? '')}</p>
+apps/cool-pwa/assets/js/app_page.js:245:      ${item.meta ? `<span class="meta mono">${escapeHtml(item.meta)}</span>` : ''}
+apps/cool-pwa/assets/js/app.js:17:} from './app_notifications.js';
+apps/cool-pwa/assets/js/app.js:49:  notifications: '/data/notifications.json',
+apps/cool-pwa/assets/js/app.js:381:  const unreadNotifications = (await dbGetAll('notifications')).filter(
+apps/cool-pwa/assets/js/app.js:397:  document.querySelectorAll('[data-setting="notifications"]').forEach((node) => {

@@ -45,7 +45,7 @@ class AliasChip extends StatelessWidget {
     final displayText = showHash ? '#$alias' : alias;
 
     final style = text.mono(
-      TextStyle(fontSize: size.fontSize, fontWeight: FontWeight.w400),
+      TextStyle(fontSize: size.fontSize, fontWeight: FontWeight.w500),
       color: colors.primaryText,
       letterSpacing: 2.0,
     );

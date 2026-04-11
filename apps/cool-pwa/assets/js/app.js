@@ -15,8 +15,8 @@ import {
   initializeNotificationControls,
   updateBadge,
 } from './app_notifications.js';
-import { initializePasskeyControls } from './app_passkeys.js';
 import {
+  applyPageData,
   initializeQuickActions,
   initializeRouteNavigation,
   initializeScrollPersistence,
@@ -26,6 +26,23 @@ import {
   populatePageData,
   showToast,
 } from './app_page.js';
+import {
+  clearAdminSession,
+  fetchAdminRouteData,
+  getAdminSessionState,
+  mutateAdmin,
+  sendAdminOtp,
+  verifyAdminOtp,
+} from './admin_api.js';
+import {
+  clearRouteRestriction,
+  renderAppConfigPanel,
+  renderAuthGate,
+  renderRolesPanel,
+  renderRouteRestriction,
+  renderSessionToolbar,
+  renderUsersPanel,
+} from './admin_views.js';
 
 const SETTINGS = {
   theme: 'theme',
@@ -36,17 +53,30 @@ const SETTINGS = {
   scrollPrefix: 'scroll:',
   lastOnlineAt: 'last_online_at',
   badgeClearedAt: 'badge_cleared_at',
-  passkeyLastVerifiedAt: 'passkey_last_verified_at',
 };
 
+// Only these routes support live interactive mutations.
+// Other routes render as read-only preview with a banner.
+const MVP_LIVE_ROUTES = new Set([
+  'index',
+  'admin',
+  'platform',
+  'users',
+  'app-config',
+  'roles',
+]);
+
 const ROUTE_DATA = {
-  index: '/data/home.json',
-  home: '/data/home.json',
+  index: '/data/admin.json',
   groups: '/data/groups.json',
-  momo: '/data/momo.json',
-  profile: '/data/profile.json',
   admin: '/data/admin.json',
-  notifications: '/data/notifications.json',
+  platform: '/data/platform.json',
+  users: '/data/users.json',
+  'app-config': '/data/app-config.json',
+  operations: '/data/operations.json',
+  roles: '/data/roles.json',
+  analytics: '/data/analytics.json',
+  'audit-log': '/data/audit-log.json',
 };
 
 const state = {
@@ -64,6 +94,21 @@ const state = {
       !/CriOS|FxiOS|EdgiOS|Chrome|Android/i.test(window.navigator.userAgent)
     : false,
   installImpressionTracked: false,
+  admin: {
+    live: false,
+    authenticated: false,
+    authorized: false,
+    user: null,
+    access: null,
+  },
+  authFlow: {
+    step: 'phone',
+    phone: '',
+    isLoading: false,
+    error: null,
+    errorCode: null,
+  },
+  routeData: null,
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -71,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function initializeApp() {
+  const route = document.body.dataset.route ?? 'index';
   await recordVisit();
   await initializeTheme();
   initializeInstallPromptCapture({
@@ -102,14 +148,6 @@ async function initializeApp() {
     refreshDerivedUi,
     showToast,
   });
-  initializePasskeyControls({
-    settings: SETTINGS,
-    dbGetAll,
-    dbPutRecord,
-    dbSet,
-    trackEvent,
-    recordSuccessMoment,
-  });
   initializeShareTargetView({ dbPutRecord, trackEvent });
   initializeQuickActions({
     recordSuccessMoment,
@@ -118,10 +156,284 @@ async function initializeApp() {
   });
   initializeScrollPersistence(SETTINGS);
   initializeRouteNavigation();
-  await populatePageData({ routeData: ROUTE_DATA, showToast });
+  await initializeAdminExperience(route);
   await refreshDerivedUi();
   observeWebVitals(trackEvent);
   refreshInstallShell();
+}
+
+async function initializeAdminExperience(route) {
+  state.admin = await getAdminSessionState();
+  renderAdminShell();
+
+  // Static local preview — show demo data
+  if (!state.admin.live) {
+    state.routeData = await populatePageData({ routeData: ROUTE_DATA, route, showToast });
+    bindRouteEnhancements(route, state.routeData, { interactive: false });
+    return;
+  }
+
+  if (!state.admin.authorized) {
+    state.routeData = null;
+    clearRouteRestriction();
+    bindRouteEnhancements(route, null, { interactive: false });
+    return;
+  }
+
+  // Determine if this route supports live mutations
+  const isLiveRoute = MVP_LIVE_ROUTES.has(route);
+
+  let liveData;
+  try {
+    liveData = await fetchAdminRouteData(route);
+  } catch (err) {
+    console.error('Live admin route load failed.', err);
+    // In production: show explicit error state instead of falling back to demo data
+    renderMaintenanceState(
+      'COOL Admin is experiencing an issue.',
+      'The admin API did not respond. Retry shortly or contact the platform team.',
+    );
+    await trackEvent('admin_route_load_error', { route, message: String(err) });
+    return;
+  }
+
+  if (!liveData || liveData?.unavailable) {
+    renderMaintenanceState(
+      'Admin data unavailable.',
+      'The admin API for this route is not responding. Data may be stale.',
+    );
+    await trackEvent('admin_route_unavailable', { route });
+    return;
+  }
+
+  if (liveData?.unauthorized) {
+    await handleAdminSignOut({
+      preservePhone: state.authFlow.phone,
+      suppressReload: true,
+    });
+    return;
+  }
+
+  if (liveData?.forbidden) {
+    state.routeData = null;
+    renderRouteRestriction(liveData.message);
+    bindRouteEnhancements(route, null, { interactive: false });
+    return;
+  }
+
+  clearRouteRestriction();
+  applyPageData(liveData);
+  state.routeData = liveData;
+
+  if (!isLiveRoute) {
+    renderReadOnlyBanner();
+  }
+
+  bindRouteEnhancements(route, liveData, { interactive: isLiveRoute });
+}
+
+function renderMaintenanceState(title, message) {
+  const main = document.getElementById('main');
+  if (!main) {
+    return;
+  }
+  const banner = document.createElement('section');
+  banner.className = 'section-header';
+  banner.innerHTML = `
+    <div class="metric-card card" style="border-left:4px solid var(--accent-error,#ef4444)">
+      <span class="metric-label">${title}</span>
+      <div class="metric-meta">${message}</div>
+      <div class="button-row" style="margin-top:var(--space-3,12px)">
+        <button class="button" type="button" onclick="window.location.reload()">Retry</button>
+      </div>
+    </div>`;
+  main.prepend(banner);
+}
+
+function renderReadOnlyBanner() {
+  const main = document.getElementById('main');
+  if (!main) {
+    return;
+  }
+  const banner = document.createElement('div');
+  banner.className = 'metric-card card';
+  banner.style.cssText = 'border-left:4px solid var(--accent-warning,#f59e0b);margin-bottom:var(--space-4,16px)';
+  banner.innerHTML = `
+    <span class="metric-label">Read-only preview</span>
+    <div class="metric-meta">This route shows live data but does not support mutations in the current MVP. Interactive controls are disabled.</div>`;
+  main.prepend(banner);
+}
+
+function renderAdminShell() {
+  renderSessionToolbar({
+    authState: state.admin,
+    onSignOut: handleAdminSignOut,
+  });
+  renderAuthGate({
+    authState: state.admin,
+    otpState: state.authFlow,
+    onSendCode: handleAdminSendCode,
+    onVerifyCode: handleAdminVerifyCode,
+    onSignOut: handleAdminSignOut,
+  });
+}
+
+async function handleAdminSendCode(phone) {
+  state.authFlow = {
+    step: 'phone',
+    phone,
+    isLoading: true,
+    error: null,
+  };
+  renderAdminShell();
+
+  try {
+    await sendAdminOtp(phone);
+    state.authFlow = {
+      step: 'code',
+      phone,
+      isLoading: false,
+      error: null,
+      errorCode: null,
+    };
+    showToast('If the number is authorized, a verification code will arrive shortly.');
+  } catch (error) {
+    const message = String(error?.message || error);
+    let errorCode = null;
+    try {
+      if (error?.code) {
+        errorCode = error.code;
+      }
+    } catch (_) {}
+
+    state.authFlow = {
+      step: 'phone',
+      phone,
+      isLoading: false,
+      error: message,
+      errorCode,
+    };
+  }
+
+  renderAdminShell();
+}
+
+async function handleAdminVerifyCode(code) {
+  state.authFlow = {
+    ...state.authFlow,
+    isLoading: true,
+    error: null,
+  };
+  renderAdminShell();
+
+  try {
+    await verifyAdminOtp(state.authFlow.phone, code);
+    state.authFlow = {
+      step: 'phone',
+      phone: state.authFlow.phone,
+      isLoading: false,
+      error: null,
+    };
+    await initializeAdminExperience(document.body.dataset.route ?? 'index');
+    showToast('COOL Admin is live with your authenticated session.');
+  } catch (error) {
+    state.authFlow = {
+      ...state.authFlow,
+      isLoading: false,
+      error: String(error?.message || error),
+      errorCode: error?.code || null,
+    };
+    renderAdminShell();
+  }
+}
+
+async function handleAdminSignOut({ preservePhone = false, suppressReload = false } = {}) {
+  const phone = preservePhone && typeof preservePhone === 'string'
+    ? preservePhone
+    : preservePhone
+      ? state.authFlow.phone
+      : '';
+
+  await clearAdminSession();
+  state.authFlow = {
+    step: 'phone',
+    phone,
+    isLoading: false,
+    error: null,
+    errorCode: null,
+  };
+
+  if (!suppressReload) {
+    window.location.reload();
+    return;
+  }
+
+  state.admin = await getAdminSessionState();
+  renderAdminShell();
+}
+
+function bindRouteEnhancements(route, data, { interactive } = { interactive: false }) {
+  switch (route) {
+    case 'users':
+      renderUsersPanel({
+        data,
+        onTogglePlatformAccess: interactive
+          ? async (user) => {
+          await mutateAdmin('toggle_user_platform_access', {
+            userId: user.id,
+            enabled: !user.has_platform_access,
+            assignmentId: user.platform_assignment_id,
+            notes: user.has_platform_access
+              ? 'Revoked from COOL Admin PWA.'
+              : 'Granted from COOL Admin PWA.',
+          });
+          await initializeAdminExperience(route);
+          showToast(
+            user.has_platform_access
+              ? 'Platform access revoked.'
+              : 'Platform access granted.',
+          );
+        }
+          : null,
+      });
+      break;
+    case 'app-config':
+      renderAppConfigPanel({
+        data,
+        onSaveConfig: interactive
+          ? async (payload) => {
+          await mutateAdmin('upsert_app_config', payload);
+          await initializeAdminExperience(route);
+          showToast(`Saved config key ${payload.key}.`);
+        }
+          : null,
+      });
+      break;
+    case 'roles':
+      renderRolesPanel({
+        data,
+        onAssignRole: interactive
+          ? async (payload) => {
+          await mutateAdmin('assign_role', payload);
+          await initializeAdminExperience(route);
+          showToast(`Assigned ${payload.role} access.`);
+        }
+          : null,
+        onRevokeRole: interactive
+          ? async ({ assignmentId }) => {
+          await mutateAdmin('revoke_role', {
+            assignmentId,
+            notes: 'Revoked from COOL Admin PWA.',
+          });
+          await initializeAdminExperience(route);
+          showToast('Role assignment revoked.');
+        }
+          : null,
+      });
+      break;
+    default:
+      break;
+  }
 }
 
 function refreshInstallShell() {
@@ -209,11 +521,11 @@ async function registerServiceWorker() {
 
       if (data.type === 'SYNC_COMPLETE') {
         await trackEvent('sync_complete', data.detail ?? {});
-        showToast('Queued work synced successfully.');
+      showToast('Queued admin work synced successfully.');
       }
 
       if (data.type === 'SHARE_TARGET_RECEIVED') {
-        showToast('Shared content saved to COOL.');
+        showToast('Shared content saved to the admin console.');
       }
 
       if (data.type === 'QUEUE_COUNT') {
@@ -292,7 +604,7 @@ function initializeQueueForms() {
         }
       }
 
-      showToast('Action saved. COOL will sync it safely.');
+      showToast('Action saved. COOL Admin will sync it safely.');
       form.reset();
       await flushQueuedActions('foreground');
       await refreshDerivedUi();
@@ -341,15 +653,19 @@ async function flushQueuedActions(reason) {
 
   for (const item of pending) {
     try {
-      if (!item.endpoint.startsWith('demo://')) {
-        const response = await fetch(item.endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(item.payload),
-        });
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
-        }
+      if (item.endpoint.startsWith('demo://')) {
+        // Skip demo endpoints — do not auto-mark as synced in production
+        continue;
+      }
+
+      const response = await fetch(item.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify(item.payload),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
       }
 
       item.status = 'synced';
@@ -413,6 +729,10 @@ async function recordSuccessMoment(reason) {
 }
 
 async function trackEvent(name, detail = {}) {
+  const appVersion = document
+    .querySelector('meta[name="app-version"]')
+    ?.content?.trim() || 'unknown';
+
   const payload = {
     id: crypto.randomUUID(),
     name,
@@ -420,6 +740,7 @@ async function trackEvent(name, detail = {}) {
     path: window.location.pathname,
     online: navigator.onLine,
     ts: new Date().toISOString(),
+    version: appVersion,
   };
 
   window.dataLayer = window.dataLayer || [];
@@ -428,8 +749,24 @@ async function trackEvent(name, detail = {}) {
 
   const analyticsEndpoint = document
     .querySelector('meta[name="analytics-endpoint"]')
-    ?.content?.trim();
+    ?.content?.trim() || '/api/admin/telemetry';
   if (analyticsEndpoint && navigator.sendBeacon) {
     navigator.sendBeacon(analyticsEndpoint, JSON.stringify(payload));
   }
 }
+
+// ── Browser error reporting ──────────────────────────────────
+window.addEventListener('error', (event) => {
+  void trackEvent('browser_error', {
+    message: event.message,
+    filename: event.filename,
+    lineno: event.lineno,
+    colno: event.colno,
+  });
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+  void trackEvent('unhandled_rejection', {
+    reason: String(event.reason),
+  });
+});

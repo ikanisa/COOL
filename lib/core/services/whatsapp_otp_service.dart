@@ -18,18 +18,17 @@ class OtpSendResult {
     this.retryAfterSeconds,
   });
 
-  const OtpSendResult.sent()
-      : this._(status: OtpSendStatus.sent);
+  const OtpSendResult.sent() : this._(status: OtpSendStatus.sent);
 
   const OtpSendResult.rateLimited(String message, {int? retryAfterSeconds})
-      : this._(
-          status: OtpSendStatus.rateLimited,
-          message: message,
-          retryAfterSeconds: retryAfterSeconds,
-        );
+    : this._(
+        status: OtpSendStatus.rateLimited,
+        message: message,
+        retryAfterSeconds: retryAfterSeconds,
+      );
 
   const OtpSendResult.error(String message)
-      : this._(status: OtpSendStatus.error, message: message);
+    : this._(status: OtpSendStatus.error, message: message);
 
   final OtpSendStatus status;
   final String? message;
@@ -57,28 +56,28 @@ class OtpVerifyResult {
     required String userId,
     required bool isNewUser,
   }) : this._(
-          status: OtpVerifyStatus.verified,
-          accessToken: accessToken,
-          refreshToken: refreshToken,
-          userId: userId,
-          isNewUser: isNewUser,
-        );
+         status: OtpVerifyStatus.verified,
+         accessToken: accessToken,
+         refreshToken: refreshToken,
+         userId: userId,
+         isNewUser: isNewUser,
+       );
 
   const OtpVerifyResult.invalidCode(String message, {int? attemptsRemaining})
-      : this._(
-          status: OtpVerifyStatus.invalidCode,
-          message: message,
-          attemptsRemaining: attemptsRemaining,
-        );
+    : this._(
+        status: OtpVerifyStatus.invalidCode,
+        message: message,
+        attemptsRemaining: attemptsRemaining,
+      );
 
   const OtpVerifyResult.expired(String message)
-      : this._(status: OtpVerifyStatus.expired, message: message);
+    : this._(status: OtpVerifyStatus.expired, message: message);
 
   const OtpVerifyResult.rateLimited(String message)
-      : this._(status: OtpVerifyStatus.rateLimited, message: message);
+    : this._(status: OtpVerifyStatus.rateLimited, message: message);
 
   const OtpVerifyResult.error(String message)
-      : this._(status: OtpVerifyStatus.error, message: message);
+    : this._(status: OtpVerifyStatus.error, message: message);
 
   final OtpVerifyStatus status;
   final String? message;
@@ -104,10 +103,7 @@ class WhatsAppOtpService {
       debugPrint('[OTP] ➜ Sending code to ${_redact(e164Phone)}');
       final response = await _client.functions.invoke(
         'send-otp',
-        body: <String, Object?>{
-          'phone': e164Phone,
-          'language': 'en',
-        },
+        body: <String, Object?>{'phone': e164Phone, 'language': 'en'},
       );
 
       final data = _asMap(response.data);
@@ -116,23 +112,28 @@ class WhatsAppOtpService {
         return const OtpSendResult.sent();
       }
 
-      final message = data['error']?.toString() ?? 'Failed to send OTP';
+      final message = _resolveMessage(data, fallback: 'Failed to send OTP');
       final status = response.status;
       if (status == 429) {
-        final retryAfter = _asInt(data['retryAfterSeconds']);
-        return OtpSendResult.rateLimited(message,
-            retryAfterSeconds: retryAfter);
+        final retryAfter = _resolveRetryAfterSeconds(data);
+        return OtpSendResult.rateLimited(
+          message,
+          retryAfterSeconds: retryAfter,
+        );
       }
       return OtpSendResult.error(message);
     } on FunctionException catch (e) {
       final data = _asMap(e.details);
-      final message = data['error']?.toString() ??
-          e.reasonPhrase ??
-          'Failed to send OTP';
+      final message = _resolveMessage(
+        data,
+        fallback: e.reasonPhrase ?? 'Failed to send OTP',
+      );
       if (e.status == 429) {
-        final retryAfter = _asInt(data['retryAfterSeconds']);
-        return OtpSendResult.rateLimited(message,
-            retryAfterSeconds: retryAfter);
+        final retryAfter = _resolveRetryAfterSeconds(data);
+        return OtpSendResult.rateLimited(
+          message,
+          retryAfterSeconds: retryAfter,
+        );
       }
       debugPrint('[OTP] ❌ FunctionException: $message');
       return OtpSendResult.error(message);
@@ -148,46 +149,69 @@ class WhatsAppOtpService {
       debugPrint('[OTP] ➜ Verifying code for ${_redact(e164Phone)}');
       final response = await _client.functions.invoke(
         'verify-otp',
-        body: <String, Object?>{
-          'phone': e164Phone,
-          'code': code.trim(),
-        },
+        body: <String, Object?>{'phone': e164Phone, 'code': code.trim()},
       );
 
       final data = _asMap(response.data);
       if (data['success'] == true) {
+        final session = _asMap(data['session']);
+        final accessToken =
+            data['access_token']?.toString() ??
+            session['access_token']?.toString() ??
+            '';
+        final refreshToken =
+            data['refresh_token']?.toString() ??
+            session['refresh_token']?.toString() ??
+            '';
+        final userId =
+            data['userId']?.toString() ??
+            _asMap(session['user'])['id']?.toString() ??
+            '';
+        if (accessToken.isEmpty || refreshToken.isEmpty || userId.isEmpty) {
+          debugPrint(
+            '[OTP] ❌ Verified response missing session tokens or user id',
+          );
+          return const OtpVerifyResult.error(
+            'Verification succeeded but session setup data was incomplete.',
+          );
+        }
         debugPrint('[OTP] ✓ Code verified');
         return OtpVerifyResult.verified(
-          accessToken: data['access_token']?.toString() ?? '',
-          refreshToken: data['refresh_token']?.toString() ?? '',
-          userId: data['userId']?.toString() ?? '',
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          userId: userId,
           isNewUser: data['isNewUser'] == true,
         );
       }
 
-      final message = data['error']?.toString() ?? 'Verification failed';
+      final message = _resolveMessage(data, fallback: 'Verification failed');
       final status = response.status;
       if (status == 429) {
         return OtpVerifyResult.rateLimited(message);
       }
-      final attemptsRemaining = _asInt(data['attemptsRemaining']);
-      return OtpVerifyResult.invalidCode(message,
-          attemptsRemaining: attemptsRemaining);
+      final attemptsRemaining = _resolveAttemptsRemaining(data);
+      return OtpVerifyResult.invalidCode(
+        message,
+        attemptsRemaining: attemptsRemaining,
+      );
     } on FunctionException catch (e) {
       final data = _asMap(e.details);
-      final message = data['error']?.toString() ??
-          e.reasonPhrase ??
-          'Verification failed';
+      final message = _resolveMessage(
+        data,
+        fallback: e.reasonPhrase ?? 'Verification failed',
+      );
       if (e.status == 429) {
         return OtpVerifyResult.rateLimited(message);
       }
       if (e.status == 400) {
-        final attemptsRemaining = _asInt(data['attemptsRemaining']);
+        final attemptsRemaining = _resolveAttemptsRemaining(data);
         if (message.toLowerCase().contains('expired')) {
           return OtpVerifyResult.expired(message);
         }
-        return OtpVerifyResult.invalidCode(message,
-            attemptsRemaining: attemptsRemaining);
+        return OtpVerifyResult.invalidCode(
+          message,
+          attemptsRemaining: attemptsRemaining,
+        );
       }
       debugPrint('[OTP] ❌ FunctionException: $message');
       return OtpVerifyResult.error(message);
@@ -208,6 +232,43 @@ class WhatsAppOtpService {
     if (value is num) return value.toInt();
     if (value is String) return int.tryParse(value);
     return null;
+  }
+
+  static String _resolveMessage(
+    Map<String, dynamic> data, {
+    required String fallback,
+  }) {
+    final details = _asMap(data['details']);
+    final message = data['message']?.toString().trim();
+    final error = data['error']?.toString().trim();
+    final detailsMessage = details['message']?.toString().trim();
+    final detailsError = details['error']?.toString().trim();
+
+    for (final candidate in <String?>[
+      error,
+      message,
+      detailsError,
+      detailsMessage,
+      fallback,
+    ]) {
+      if (candidate != null && candidate.isNotEmpty) {
+        return candidate;
+      }
+    }
+
+    return fallback;
+  }
+
+  static int? _resolveRetryAfterSeconds(Map<String, dynamic> data) {
+    final details = _asMap(data['details']);
+    return _asInt(data['retryAfterSeconds']) ??
+        _asInt(details['retryAfterSeconds']);
+  }
+
+  static int? _resolveAttemptsRemaining(Map<String, dynamic> data) {
+    final details = _asMap(data['details']);
+    return _asInt(data['attemptsRemaining']) ??
+        _asInt(details['attemptsRemaining']);
   }
 
   /// Redacts a phone number for safe debug logging: `+250***1234`.

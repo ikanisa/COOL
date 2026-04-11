@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="description" content="Platform command dashboard for COOL Admin, spanning frontend releases, backend readiness, app UX controls, and recovery workflows.">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="COOL Admin">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Platform Command — COOL Admin">
+    <meta property="og:description" content="Release control, frontend governance, backend readiness, and operating priorities in one admin dashboard.">
+    <meta property="og:url" content="https://cool.ikanisa.com/admin/platform/">
+    <meta property="og:image" content="https://cool.ikanisa.com/assets/screenshots/shop.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Platform Command — COOL Admin">
+    <meta name="twitter:description" content="One command surface for mobile releases, admin functions, backend services, and recovery posture.">
+    <meta name="twitter:image" content="https://cool.ikanisa.com/assets/screenshots/shop.png">
+    <link rel="canonical" href="https://cool.ikanisa.com/admin/platform/">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" href="/assets/icons/Icon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="/assets/icons/Icon-192.png">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <title>Platform Command — COOL Admin</title>
+  </head>
+  <body data-route="platform">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="shell">
+      <header class="topbar">
+        <a class="brand-link" href="/admin/"><img src="/assets/img/cool_logo_mark.webp" alt="" width="44" height="44" decoding="async"><span class="brand-copy"><span class="brand-kicker">Command</span><span class="brand-title">COOL</span></span></a>
+        <div class="toolbar"><span class="status-pill online" data-online-indicator>Online</span><button class="chip-button" type="button" data-theme-toggle>Theme</button><button class="chip-button" type="button" data-download-offline>Offline pack</button></div>
+      </header>
+      <nav class="shell-nav" aria-label="Admin">
+        <a href="/admin/" data-route-link>Workspaces</a><a href="/admin/platform/" data-route-link>Command</a><a href="/admin/users/" data-route-link>Users</a><a href="/admin/app-config/" data-route-link>Config</a><a href="/admin/operations/" data-route-link>Ops</a><a href="/admin/roles/" data-route-link>Roles</a><a href="/admin/analytics/" data-route-link>Analytics</a><a href="/admin/audit-log/" data-route-link>Audit</a><a href="/admin/groups/" data-route-link>Groups</a>
+      </nav>
+      <main id="main">
+        <section class="section-header"><div><h1 class="page-title">Platform Command</h1><p class="section-caption">Single surface for app UI governance, backend service readiness, release controls, and escalation routing.</p></div><div class="button-row"><a class="button" href="/admin/operations/">Open operations</a><a class="secondary-button" href="/admin/app-config/">Open app config</a></div></section>
+        <section class="stat-grid">
+          <article class="metric-card card"><span class="metric-label">Release services</span><div class="metric-value" data-metric="metrics.frontendSurfaces">18</div><div class="metric-meta">Operational lanes surfaced from the release dashboard RPC.</div></article>
+          <article class="metric-card card"><span class="metric-label">Open incidents</span><div class="metric-value" data-metric="metrics.backendServices">9</div><div class="metric-meta">Triage items currently affecting the app stack.</div></article>
+          <article class="metric-card card"><span class="metric-label">Release posture</span><div class="metric-value" data-metric="metrics.releasePosture">Guarded</div><div class="metric-meta">No admin workflow should bypass evidence, audit, or rollback context.</div></article>
+        </section>
+        <section class="detail-grid">
+          <article class="detail-card card"><div class="list-item-header"><strong>Priority lanes</strong><span class="status-pill online">Live</span></div><ul class="list" id="activity-feed"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul></article>
+          <article class="detail-card card"><div class="list-item-header"><strong>Recent queued changes</strong><span class="status-pill syncing">Tracked</span></div><ul class="list" id="queue-feed"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul></article>
+        </section>
+      </main>
+      <footer class="footer"><span>Platform command owns both frontend change safety and backend operational control.</span><div class="footer-links"><a href="/admin/users/">Users</a><a href="/admin/operations/">Operations</a></div></footer>
+    </div>
+    <section class="banner" data-install-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Install the admin workspace</strong><span>Pin platform command to the home screen for faster operations.</span></div><div class="button-row"><button class="button" type="button" data-install-action><span data-install-cta-label>Install COOL Admin</span></button><button class="secondary-button" type="button" data-install-dismiss>Later</button></div></div></section>
+    <section class="banner" data-update-banner hidden><div class="banner-row"><div class="banner-copy"><strong class="banner-title">Updated control plane ready</strong><span>Refresh to swap in the latest admin bundle.</span></div><div class="button-row"><button class="button" type="button" data-update-action>Refresh</button></div></div></section>
+    <div class="toast-stack" data-toast-stack aria-live="polite"></div>
+    <dialog class="surface-panel" data-ios-sheet><strong class="banner-title">Install COOL Admin</strong><p class="section-caption">Safari users can add this command center from the Share menu.</p><form method="dialog"><button class="button" type="submit">Close</button></form></dialog>
+    <script type="module" src="/assets/js/app.js"></script>
+  </body>
+</html>

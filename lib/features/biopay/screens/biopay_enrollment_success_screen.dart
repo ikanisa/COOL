@@ -67,7 +67,7 @@ class BiopayEnrollmentSuccessScreen extends StatelessWidget {
             style: context.coolText.mono(
               Theme.of(context).textTheme.labelLarge,
               color: colors.secondaryText,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
               letterSpacing: 2.6,
             ),
           ),
@@ -78,7 +78,7 @@ class BiopayEnrollmentSuccessScreen extends StatelessWidget {
             style: context.coolText.headline(
               Theme.of(context).textTheme.displaySmall,
               color: colors.primaryText,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
               letterSpacing: -1.8,
             ),
           ),
@@ -89,7 +89,7 @@ class BiopayEnrollmentSuccessScreen extends StatelessWidget {
             style: context.coolText.headline(
               Theme.of(context).textTheme.headlineSmall,
               color: colors.secondaryText,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
               letterSpacing: -0.6,
             ),
           ),
@@ -106,7 +106,7 @@ class BiopayEnrollmentSuccessScreen extends StatelessWidget {
               style: context.coolText.headline(
                 Theme.of(context).textTheme.headlineSmall,
                 color: colors.secondaryText,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w800,
                 letterSpacing: -0.8,
               ),
             ),

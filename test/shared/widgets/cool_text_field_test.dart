@@ -73,7 +73,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           theme: AppTheme.light,
-          home: MediaQuery(
+          home: const MediaQuery(
             data: MediaQueryData(textScaler: TextScaler.linear(2)),
             child: Scaffold(
               body: Padding(

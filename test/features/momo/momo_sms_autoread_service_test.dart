@@ -61,7 +61,6 @@ void main() {
     test('refresh stops when platform is not Android (web)', () async {
       final appAccessService = AppAccessService(
         openBox: Hive.openBox<bool>,
-        locationService: FakeSmsAutoreadLocationService(),
         deviceSettingsService: FakeSmsAutoreadDeviceSettingsService(),
         nfcHceService: FakeSmsAutoreadNfcHceService(),
       );
@@ -77,7 +76,6 @@ void main() {
     test('syncInbox throws when SMS is not enabled in app', () async {
       final appAccessService = AppAccessService(
         openBox: Hive.openBox<bool>,
-        locationService: FakeSmsAutoreadLocationService(),
         deviceSettingsService: FakeSmsAutoreadDeviceSettingsService(),
         nfcHceService: FakeSmsAutoreadNfcHceService(),
       );
@@ -110,7 +108,6 @@ void main() {
     test('stop is safe to call multiple times', () async {
       final appAccessService = AppAccessService(
         openBox: Hive.openBox<bool>,
-        locationService: FakeSmsAutoreadLocationService(),
         deviceSettingsService: FakeSmsAutoreadDeviceSettingsService(),
         nfcHceService: FakeSmsAutoreadNfcHceService(),
       );
@@ -148,52 +145,49 @@ void main() {
       when(() => mockClient.auth).thenReturn(mockAuth);
     });
 
-    test(
-      'initial sync via native bridge returns expected results',
-      () async {
-        final session = smsAutoreadSessionFor('user-initial');
-        when(() => mockAuth.currentSession).thenReturn(session);
+    test('initial sync via native bridge returns expected results', () async {
+      final session = smsAutoreadSessionFor('user-initial');
+      when(() => mockAuth.currentSession).thenReturn(session);
 
-        nativeBridgeChannel.syncInboxResult = <String, dynamic>{
-          'scannedMessages': 1,
-          'uploadedMessages': 1,
-          'duplicateMessages': 0,
-          'queuedMessages': 1,
-          'oldestMessageAt': '2026-03-22T09:30:00.000Z',
-          'newestMessageAt': '2026-03-22T09:30:00.000Z',
-          'rateLimited': false,
-        };
+      nativeBridgeChannel.syncInboxResult = <String, dynamic>{
+        'scannedMessages': 1,
+        'uploadedMessages': 1,
+        'duplicateMessages': 0,
+        'queuedMessages': 1,
+        'oldestMessageAt': '2026-03-22T09:30:00.000Z',
+        'newestMessageAt': '2026-03-22T09:30:00.000Z',
+        'rateLimited': false,
+      };
 
-        final nativeBridge = MomoSmsNativeBridge(
-          channel: nativeBridgeChannel.channel,
-        );
-        final service = MomoSmsAutoreadService(
-          client: mockClient,
-          appAccessService: appAccessService,
-          nativeBridge: nativeBridge,
-          syncStateStore: syncStateStore,
-          syncRunAuditWriter: MomoSmsSyncRunAuditWriter(
-            insert: (row) async =>
-                recordedSyncRuns.add(Map<String, dynamic>.from(row)),
-            crashlytics: crashlytics,
-          ),
-          supportsSmsAutoread: () => true,
-          smsPermissionStatus: () async => PermissionStatus.granted,
-          requestSmsPermission: () async => PermissionStatus.granted,
-        );
+      final nativeBridge = MomoSmsNativeBridge(
+        channel: nativeBridgeChannel.channel,
+      );
+      final service = MomoSmsAutoreadService(
+        client: mockClient,
+        appAccessService: appAccessService,
+        nativeBridge: nativeBridge,
+        syncStateStore: syncStateStore,
+        syncRunAuditWriter: MomoSmsSyncRunAuditWriter(
+          insert: (row) async =>
+              recordedSyncRuns.add(Map<String, dynamic>.from(row)),
+          crashlytics: crashlytics,
+        ),
+        supportsSmsAutoread: () => true,
+        smsPermissionStatus: () async => PermissionStatus.granted,
+        requestSmsPermission: () async => PermissionStatus.granted,
+      );
 
-        final result = await service.syncInbox(
-          trigger: MomoInboxSyncTrigger.initialPermissionGrant,
-        );
+      final result = await service.syncInbox(
+        trigger: MomoInboxSyncTrigger.initialPermissionGrant,
+      );
 
-        expect(result.scannedMessages, 1);
-        expect(result.uploadedMessages, 1);
-        expect(result.duplicateMessages, 0);
+      expect(result.scannedMessages, 1);
+      expect(result.uploadedMessages, 1);
+      expect(result.duplicateMessages, 0);
 
-        final syncState = await syncStateStore.read(session.user.id);
-        expect(syncState.hasInitialBackfill, isTrue);
-      },
-    );
+      final syncState = await syncStateStore.read(session.user.id);
+      expect(syncState.hasInitialBackfill, isTrue);
+    });
 
     test(
       'manual sync preserves backfill marker and records duplicates',
@@ -205,8 +199,7 @@ void main() {
         await syncStateStore.write(
           session.user.id,
           MomoSmsSyncState(
-            initialBackfillCompletedAt:
-                DateTime.parse(priorBackfillAt).toUtc(),
+            initialBackfillCompletedAt: DateTime.parse(priorBackfillAt).toUtc(),
             lastSuccessfulSyncAt: DateTime.utc(2026, 3, 22, 6, 15),
             latestKnownMessageAt: DateTime.utc(2026, 3, 22, 6, 0),
           ),
@@ -271,8 +264,10 @@ void main() {
           ),
         );
 
-        nativeBridgeChannel.syncInboxError =
-            PlatformException(code: 'SYNC_ERROR', message: 'telephony down');
+        nativeBridgeChannel.syncInboxError = PlatformException(
+          code: 'SYNC_ERROR',
+          message: 'telephony down',
+        );
 
         final nativeBridge = MomoSmsNativeBridge(
           channel: nativeBridgeChannel.channel,

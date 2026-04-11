@@ -36,22 +36,7 @@ class _AvatarFallback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: <Color>[colors.cardSurface, colors.appBackground],
-        ),
-      ),
-      child: const Center(
-        child: Padding(
-          padding: EdgeInsets.all(CoolSpace.x2),
-          child: CoolBrandMark(size: 28),
-        ),
-      ),
-    );
+    return const Center(child: CoolBrandMark(size: 28));
   }
 }
 
@@ -123,11 +108,11 @@ class _MonthlyMovementPill extends StatelessWidget {
           const SizedBox(width: CoolSpace.x2),
           Flexible(
             child: Text(
-              summarizeMonthlyMovement(amount),
+              summarizeMonthlyMovement(context, amount),
               style: context.coolText.mono(
                 Theme.of(context).textTheme.labelSmall,
                 color: accent,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w800,
                 letterSpacing: 0.85,
               ),
             ),

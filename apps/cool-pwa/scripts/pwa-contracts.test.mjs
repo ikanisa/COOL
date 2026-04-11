@@ -13,10 +13,10 @@ function read(path) {
 test('manifest is installable and rich', () => {
   const manifest = JSON.parse(read('manifest.webmanifest'));
   assert.equal(manifest.display, 'standalone');
-  assert.equal(manifest.start_url, '/?source=pwa');
-  assert.ok(Array.isArray(manifest.shortcuts) && manifest.shortcuts.length === 4);
+  assert.equal(manifest.start_url, '/admin/?source=pwa');
+  assert.equal(manifest.scope, '/admin/');
+  assert.ok(Array.isArray(manifest.shortcuts) && manifest.shortcuts.length === 5);
   assert.ok(Array.isArray(manifest.screenshots) && manifest.screenshots.length >= 2);
-  assert.ok(manifest.share_target);
   assert.ok(
     manifest.icons.some((icon) => icon.purpose === 'maskable'),
     'maskable icon required',
@@ -27,18 +27,21 @@ test('manifest is installable and rich', () => {
   );
 });
 
-test('core pages expose metadata and manifest wiring', () => {
+test('admin pages expose metadata and manifest wiring', () => {
   for (const page of [
-    'index.html',
-    'home/index.html',
-    'groups/index.html',
-    'momo/index.html',
-    'profile/index.html',
-    'notifications/index.html',
-    'install/index.html',
+    'admin/index.html',
+    'admin/platform/index.html',
+    'admin/users/index.html',
+    'admin/app-config/index.html',
+    'admin/operations/index.html',
+    'admin/roles/index.html',
+    'admin/analytics/index.html',
+    'admin/audit-log/index.html',
+    'admin/groups/index.html',
   ]) {
     const html = read(page);
     assert.match(html, /<title>.+<\/title>/);
+    assert.match(html, /meta name="robots" content="noindex,nofollow"/);
     assert.match(html, /meta name="description"/);
     assert.match(html, /meta name="theme-color"/);
     assert.match(html, /apple-mobile-web-app-capable/);
@@ -50,25 +53,24 @@ test('core pages expose metadata and manifest wiring', () => {
   }
 });
 
-test('robots and sitemap are configured for discovery', () => {
+test('robots and sitemap describe the admin-only route tree', () => {
   const robots = read('robots.txt');
   const sitemap = read('sitemap.xml');
-  assert.match(robots, /Allow:\s+\//);
-  assert.match(robots, /Disallow:\s+\/admin\//);
+  assert.match(robots, /Disallow:\s+\//);
   assert.match(robots, /Sitemap:\s+https:\/\/cool\.ikanisa\.com\/sitemap\.xml/);
-  assert.match(sitemap, /https:\/\/cool\.ikanisa\.com\/home\//);
-  assert.match(sitemap, /https:\/\/cool\.ikanisa\.com\/notifications\//);
+  assert.match(sitemap, /https:\/\/cool\.ikanisa\.com\/admin\/platform\//);
+  assert.match(sitemap, /https:\/\/cool\.ikanisa\.com\/admin\/operations\//);
 });
 
-test('utility routes are intentionally crawler-controlled', () => {
+test('offline and admin routes are intentionally crawler-controlled', () => {
   const admin = read('admin/index.html');
-  const share = read('share/index.html');
-  const offline = read('offline/index.html');
+  const command = read('admin/platform/index.html');
+  const offline = read('admin/offline/index.html');
 
   assert.match(admin, /meta name="robots" content="noindex,nofollow"/);
-  assert.match(share, /meta name="robots" content="noindex,nofollow"/);
+  assert.match(command, /meta name="robots" content="noindex,nofollow"/);
   assert.match(offline, /meta name="robots" content="noindex,nofollow"/);
-  assert.match(offline, /You are still inside COOL/);
+  assert.match(offline, /You are still inside the COOL admin console/);
 });
 
 test('service worker covers offline, sync, periodic refresh, and push', () => {
@@ -96,31 +98,24 @@ test('styles enforce accessibility and PWA polish', () => {
   assert.match(css, /@view-transition/);
 });
 
-test('landing page carries software application structured data', () => {
+test('root route redirects to the admin workspace', () => {
   const html = read('index.html');
-  assert.match(html, /application\/ld\+json/);
-  assert.match(html, /SoftwareApplication/);
-  assert.match(html, /FinanceApplication/);
-  assert.match(html, /https:\/\/cool\.ikanisa\.com\//);
+  assert.match(html, /http-equiv="refresh"/);
+  assert.match(html, /url=\/admin\//);
 });
 
-test('cloudflare deployment routing keeps the landing on cool and admin on acool', () => {
+test('cloudflare deployment routing keeps the app admin-only', () => {
   const wrangler = read('wrangler.toml');
   const fn = read('functions/index.js');
   const headers = read('_headers');
   const admin = read('admin/index.html');
-  const landing = read('landing/index.html');
 
   assert.match(wrangler, /name\s*=\s*"cool"/);
   assert.match(wrangler, /pages_build_output_dir\s*=\s*"\."/);
-  assert.match(fn, /acool\.ikanisa\.com/);
-  assert.match(fn, /\/landing\//);
   assert.match(fn, /\/admin\//);
-  assert.match(headers, /fonts\.googleapis\.com/);
-  assert.match(headers, /\/landing-assets\/\*/);
+  assert.doesNotMatch(fn, /\/landing\//);
+  assert.match(headers, /\/admin\/\*/);
   assert.match(headers, /Strict-Transport-Security:/);
   assert.match(headers, /Content-Security-Policy:/);
-  assert.match(admin, /https:\/\/acool\.ikanisa\.com\//);
-  assert.match(landing, /Community Finance & Mobility for Rwanda/);
-  assert.match(landing, /\/landing-assets\/icon\.png/);
+  assert.match(admin, /https:\/\/cool\.ikanisa\.com\/admin\//);
 });

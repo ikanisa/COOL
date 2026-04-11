@@ -1,12 +1,12 @@
 {
-  "id": "/",
-  "name": "COOL Progressive Web App",
-  "short_name": "COOL",
-  "description": "Offline-first community finance, group coordination, MoMo workflows, profile security, and admin readiness in a world-class PWA.",
+  "id": "/admin/",
+  "name": "COOL Admin Console",
+  "short_name": "COOL Admin",
+  "description": "Installable admin workspace for COOL platform operations, release control, user management, app configuration, analytics, audit, and backend recovery.",
   "lang": "en",
   "dir": "ltr",
-  "start_url": "/?source=pwa",
-  "scope": "/",
+  "start_url": "/admin/?source=pwa",
+  "scope": "/admin/",
   "display": "standalone",
   "display_override": [
     "window-controls-overlay",
@@ -18,36 +18,24 @@
   "background_color": "#F1EEFF",
   "theme_color": "#0D0A27",
   "categories": [
-    "finance",
-    "productivity",
     "business"
   ],
   "prefer_related_applications": false,
   "launch_handler": {
     "client_mode": "navigate-existing"
   },
-  "share_target": {
-    "action": "/share/",
-    "method": "GET",
-    "enctype": "application/x-www-form-urlencoded",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
-  },
   "protocol_handlers": [
     {
-      "protocol": "web+cool",
-      "url": "/home/?intent=%s"
+      "protocol": "web+cool-admin",
+      "url": "/admin/platform/?intent=%s"
     }
   ],
   "shortcuts": [
     {
-      "name": "Home dashboard",
-      "short_name": "Home",
-      "description": "Open the COOL home dashboard.",
-      "url": "/home/",
+      "name": "Platform Command",
+      "short_name": "Command",
+      "description": "Open the admin command dashboard.",
+      "url": "/admin/platform/",
       "icons": [
         {
           "src": "/assets/icons/Icon-192.png",
@@ -57,10 +45,10 @@
       ]
     },
     {
-      "name": "Groups",
-      "short_name": "Groups",
-      "description": "Open group savings and contribution flows.",
-      "url": "/groups/",
+      "name": "Users",
+      "short_name": "Users",
+      "description": "Open user administration and access workflows.",
+      "url": "/admin/users/",
       "icons": [
         {
           "src": "/assets/icons/Icon-192.png",
@@ -70,10 +58,10 @@
       ]
     },
     {
-      "name": "MoMo",
-      "short_name": "MoMo",
-      "description": "Open Mobile Money activity and export workflows.",
-      "url": "/momo/",
+      "name": "Operations",
+      "short_name": "Ops",
+      "description": "Open release health, incident, and alert workflows.",
+      "url": "/admin/operations/",
       "icons": [
         {
           "src": "/assets/icons/Icon-192.png",
@@ -83,10 +71,23 @@
       ]
     },
     {
-      "name": "Alerts",
-      "short_name": "Alerts",
-      "description": "Open notifications and re-engagement controls.",
-      "url": "/notifications/",
+      "name": "App Config",
+      "short_name": "Config",
+      "description": "Open rollout, payment route, and feature controls.",
+      "url": "/admin/app-config/",
+      "icons": [
+        {
+          "src": "/assets/icons/Icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Audit Log",
+      "short_name": "Audit",
+      "description": "Open audit evidence and admin action history.",
+      "url": "/admin/audit-log/",
       "icons": [
         {
           "src": "/assets/icons/Icon-192.png",
@@ -102,21 +103,21 @@
       "sizes": "1080x1920",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "COOL home dashboard"
+      "label": "COOL admin workspace selector"
     },
     {
       "src": "/assets/screenshots/shop.png",
       "sizes": "1080x1920",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "COOL contribution circles and group savings"
+      "label": "COOL platform command dashboard"
     },
     {
       "src": "/assets/screenshots/settings.png",
       "sizes": "1080x1920",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "COOL profile and settings view"
+      "label": "COOL admin configuration and audit tools"
     }
   ],
   "icons": [

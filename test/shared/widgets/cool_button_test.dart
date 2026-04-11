@@ -100,7 +100,7 @@ void main() {
       final text = tester.widget<Text>(find.text('Create Group'));
       expect(text.style?.fontFamily, AppThemeText.labelFontFamily);
       expect(text.style?.fontSize, 14);
-      expect(text.style?.fontWeight, FontWeight.w700);
+      expect(text.style?.fontWeight, FontWeight.w800);
       expect(text.style?.letterSpacing, 1.2);
     });
 

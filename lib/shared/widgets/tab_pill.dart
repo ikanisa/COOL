@@ -49,7 +49,7 @@ class TabPill extends StatelessWidget {
               label,
               textAlign: TextAlign.center,
               style: theme.textTheme.labelLarge?.copyWith(
-                fontWeight: isActive ? FontWeight.w700 : FontWeight.w600,
+                fontWeight: isActive ? FontWeight.w800 : FontWeight.w700,
                 color: isActive ? colors.primaryText : colors.secondaryText,
                 letterSpacing: 0.8,
               ),

@@ -1,37 +1,16 @@
-import 'dart:io';
-
 import 'package:cool_app/core/config/country_catalog.dart';
 import 'package:cool_app/features/biopay/models/biopay_match_result.dart';
 import 'package:cool_app/features/biopay/models/biopay_profile.dart';
 import 'package:cool_app/features/biopay/services/biopay_cache_service.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late Directory hiveDir;
   late BiopayCacheService cacheService;
 
-  setUpAll(() async {
-    hiveDir = await Directory.systemTemp.createTemp('cool_biopay_cache');
-    Hive.init(hiveDir.path);
-  });
-
   setUp(() {
-    cacheService = BiopayCacheService(openBox: Hive.openBox<dynamic>);
-  });
-
-  tearDown(() async {
-    if (Hive.isBoxOpen(BiopayCacheService.boxName)) {
-      await Hive.box<dynamic>(BiopayCacheService.boxName).clear();
-      await Hive.box<dynamic>(BiopayCacheService.boxName).close();
-    }
-    await Hive.deleteBoxFromDisk(BiopayCacheService.boxName);
-  });
-
-  tearDownAll(() async {
-    await hiveDir.delete(recursive: true);
+    cacheService = BiopayCacheService();
   });
 
   group('BiopayCacheService', () {
@@ -122,10 +101,8 @@ void main() {
         ownerUserId: ownerUserId,
         similarityThreshold: 0.80,
       );
-      final box = await Hive.openBox<dynamic>(BiopayCacheService.boxName);
 
       expect(match, isNull);
-      expect(box.isEmpty, isTrue);
     });
 
     test('does not leak cached matches across signed-in users', () async {

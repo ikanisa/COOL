@@ -92,7 +92,7 @@ class _MetricCell extends StatelessWidget {
                 child: Text(
                   metric.label,
                   style: theme.textTheme.labelSmall?.copyWith(
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                     color: colors.secondaryText,
                   ),
                   maxLines: 1,
@@ -108,7 +108,7 @@ class _MetricCell extends StatelessWidget {
                 child: Text(
                   metric.value,
                   style: theme.textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                     color: colors.primaryText,
                   ),
                 ),
@@ -117,7 +117,7 @@ class _MetricCell extends StatelessWidget {
                 Text(
                   metric.trend!,
                   style: theme.textTheme.labelSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                     color: metric.trendIsPositive == true
                         ? colors.success
                         : metric.trendIsPositive == false

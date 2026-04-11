@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/config/country_catalog.dart';
+import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_card.dart';
 
@@ -105,7 +106,7 @@ class GroupOptionChip extends StatelessWidget {
               .mobiLabel(
                 color: selected ? colors.accentForeground : colors.primaryText,
               )
-              .copyWith(fontWeight: FontWeight.w600, letterSpacing: 1.0),
+              .copyWith(fontWeight: FontWeight.w700, letterSpacing: 1.0),
         ),
       ),
     );
@@ -125,12 +126,12 @@ class GroupFrequencyPicker extends StatelessWidget {
   final String selected;
   final ValueChanged<String> onSelected;
 
-  String _label(String value) {
+  String _label(BuildContext context, String value) {
     return switch (value) {
-      'daily' => 'Daily',
-      'weekly' => 'Weekly',
-      'monthly' => 'Monthly',
-      'one_off' => 'One-Off',
+      'daily' => context.l10n.daily,
+      'weekly' => context.l10n.weekly,
+      'monthly' => context.l10n.monthly,
+      'one_off' => context.l10n.oneOff,
       _ => value,
     };
   }
@@ -148,7 +149,7 @@ class GroupFrequencyPicker extends StatelessWidget {
                   right: option != options.last ? space.x2 : 0,
                 ),
                 child: GroupOptionChip(
-                  label: _label(option),
+                  label: _label(context, option),
                   selected: isSelected,
                   onTap: () => onSelected(option),
                 ),
@@ -194,7 +195,7 @@ class GroupSegmentTab extends StatelessWidget {
           style: context.coolText.mono(
             Theme.of(context).textTheme.labelLarge,
             color: selected ? colors.accent : colors.secondaryText,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w800,
             letterSpacing: 2.2,
           ),
         ),
@@ -272,7 +273,7 @@ class GroupMomoRouteSection extends StatelessWidget {
                         'USE DIFFERENT MOMO FOR THIS GROUP',
                         style: theme.textTheme.labelSmall?.copyWith(
                           color: colors.primaryText,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
@@ -322,7 +323,7 @@ class GroupMomoRouteSection extends StatelessWidget {
                         : 'MOMO NUMBER',
                     style: theme.textTheme.labelSmall?.copyWith(
                       color: colors.tertiaryText,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   SizedBox(height: space.x2),
@@ -334,7 +335,7 @@ class GroupMomoRouteSection extends StatelessWidget {
                     style: text.display(
                       theme.textTheme.headlineSmall,
                       color: colors.primaryText,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                       letterSpacing: -0.5,
                     ),
                     decoration: InputDecoration(
@@ -344,7 +345,7 @@ class GroupMomoRouteSection extends StatelessWidget {
                       hintStyle: text.display(
                         theme.textTheme.headlineSmall,
                         color: colors.tertiaryText,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                         letterSpacing: -0.5,
                       ),
                       border: InputBorder.none,

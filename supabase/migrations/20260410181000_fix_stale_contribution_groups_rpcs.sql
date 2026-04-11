@@ -12,6 +12,7 @@
 drop function if exists public.create_group_atomic(
   text, text, text, text, integer, text, integer, text
 );
+--> statement-breakpoint
 
 -- 2. Re-create canonical create_group_atomic (latest local version)
 create or replace function public.create_group_atomic(
@@ -147,6 +148,7 @@ exception
     );
 end;
 $$;
+--> statement-breakpoint
 
 -- 3. Re-create join_group_via_invite (uses public.groups)
 create or replace function public.join_group_via_invite(
@@ -231,6 +233,7 @@ exception
     );
 end;
 $$;
+--> statement-breakpoint
 
 -- 4. Re-create preview_invite (uses public.groups)
 create or replace function public.preview_invite(
@@ -281,6 +284,7 @@ begin
   );
 end;
 $$;
+--> statement-breakpoint
 
 -- 5. Re-create update_group_totals trigger function
 create or replace function public.update_group_totals()
@@ -302,6 +306,7 @@ begin
   return coalesce(new, old);
 end;
 $$;
+--> statement-breakpoint
 
 -- 6. Re-create update_group_member_count trigger function
 create or replace function public.update_group_member_count()
@@ -322,6 +327,7 @@ begin
   return coalesce(new, old);
 end;
 $$;
+--> statement-breakpoint
 
 -- 7. Re-create populate_group_message_defaults trigger function
 create or replace function public.populate_group_message_defaults()
@@ -335,6 +341,7 @@ begin
   return new;
 end;
 $$;
+--> statement-breakpoint
 
 -- 8. Re-create generate_invite_code (idempotent helper)
 create or replace function public.generate_invite_code()
@@ -359,6 +366,7 @@ begin
   end loop;
 end;
 $$;
+--> statement-breakpoint
 
 -- 9. get_admin_groups_summary was just re-applied in 20260409225000
 --    Let's verify it uses public.groups (it was written locally, should be fine)

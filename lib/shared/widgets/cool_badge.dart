@@ -73,7 +73,7 @@ class CoolBadge extends StatelessWidget {
                 .mobiLabel(color: fg)
                 .copyWith(
                   fontSize: size.fontSize,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                   letterSpacing: 2.0,
                 ),
           ),

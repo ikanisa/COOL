@@ -17,7 +17,8 @@ import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
-import '../../auth/providers/auth_provider.dart';
+import '../../admin/providers/admin_workspace_access_provider.dart';
+import '../../auth/widgets/require_verified_user.dart';
 import '../../profile/widgets/profile_app_access_sheet.dart';
 import '../models/biopay_enrollment_draft.dart';
 import '../models/biopay_face_frame_analysis.dart';
@@ -72,6 +73,7 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
   bool _pipelineWarmTraceStarted = false;
   bool _startupTraceCompleted = false;
   bool _firstFrameRecorded = false;
+  bool _didCheckStartupAccess = false;
 
   @override
   void initState() {
@@ -82,7 +84,9 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
           ? BiopayLivenessMode.enrollment
           : BiopayLivenessMode.payment,
     );
-    unawaited(_loadCameraState());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _prepareStartupAccess();
+    });
   }
 
   @override
@@ -333,6 +337,42 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
     context.go(AppRoutes.biopayHome);
   }
 
+  Future<void> _prepareStartupAccess() async {
+    if (_didCheckStartupAccess || !mounted) {
+      return;
+    }
+    _didCheckStartupAccess = true;
+
+    if (widget.mode != BiopayScanMode.enroll) {
+      unawaited(_loadCameraState());
+      return;
+    }
+
+    final allowed = await requireVerifiedUser(
+      context,
+      ref,
+      feature: WhatsAppProtectedFeature.faceRegistration,
+    );
+    if (!mounted) {
+      return;
+    }
+
+    if (allowed) {
+      unawaited(_loadCameraState());
+      return;
+    }
+
+    await _stopCameraPipeline();
+    if (!mounted) {
+      return;
+    }
+    if (context.canPop()) {
+      context.pop();
+      return;
+    }
+    context.go(AppRoutes.biopayHome);
+  }
+
   void _handleCameraFrame(CameraImage frame) {
     if (!mounted ||
         _isProcessingFrame ||
@@ -408,11 +448,11 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authProvider);
+    final adminAccess = ref.watch(adminWorkspaceAccessProvider);
     final enabled = ref.watch(
       featureFlagsStateProvider.select(
         (flags) =>
-            flags.isBiopayEnabled(isAdmin: authState.user?.isAdmin ?? false),
+            flags.isBiopayEnabled(isAdmin: adminAccess.hasPlatformAccess),
       ),
     );
     final isEnroll = widget.mode == BiopayScanMode.enroll;
@@ -472,7 +512,7 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 32,
                           height: 32,
                           child: CircularProgressIndicator(
@@ -482,13 +522,13 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Text(
                           'Preparing camera…',
                           style: context.coolText.manrope(
                             null,
                             color: Colors.white54,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w500,
                             letterSpacing: 0.3,
                           ),
                         ),

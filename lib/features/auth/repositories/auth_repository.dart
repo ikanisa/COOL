@@ -50,6 +50,10 @@ class AuthRepository {
     final data = _lockProfileMarket(profile.toJson());
     data.remove('id');
     data.remove('created_at');
+    // Defense-in-depth: never write privileged fields from client-side updates.
+    // The backend blocks non-service-role writes to is_admin, but stripping
+    // here prevents drift if toJson() is ever modified.
+    data.remove('is_admin');
 
     final updated = await _client
         .from('users')

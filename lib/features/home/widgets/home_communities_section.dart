@@ -20,14 +20,18 @@ class HomeCommunitiesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final content = _buildContent(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         HomeSectionHeader(
-          title: 'Communities',
-          trailing: HomeSectionActionPill(label: 'VIEW ALL', onTap: onViewAll),
+          title: l10n.homeCommunitiesTitle,
+          trailing: HomeSectionActionPill(
+            label: l10n.viewAll.toUpperCase(),
+            onTap: onViewAll,
+          ),
         ),
         const SizedBox(height: CoolSpace.x4),
         content,
@@ -41,22 +45,22 @@ class HomeCommunitiesSection extends StatelessWidget {
     }
 
     if (error != null && groups.isEmpty) {
-      return const SizedBox(
+      return SizedBox(
         height: 216,
         child: CoolErrorView(
           compact: true,
-          subtitle: 'Communities failed to load.',
+          subtitle: context.l10n.homeCommunitiesLoadFailed,
         ),
       );
     }
 
     if (groups.isEmpty) {
-      return const SizedBox(
+      return SizedBox(
         height: 216,
         child: CoolEmptyView(
           compact: true,
-          title: 'No communities yet',
-          subtitle: 'Your savings circles will appear here.',
+          title: context.l10n.homeNoCommunitiesYet,
+          subtitle: context.l10n.homeCommunitiesEmptySubtitle,
           icon: Icons.groups_outlined,
         ),
       );
@@ -176,14 +180,16 @@ class _CommunityCard extends StatelessWidget {
                             ),
                             decoration: BoxDecoration(
                               color: colors.accent.withValues(alpha: 0.10),
-                              borderRadius: BorderRadius.circular(CoolRadii.pill),
+                              borderRadius: BorderRadius.circular(
+                                CoolRadii.pill,
+                              ),
                             ),
                             child: Text(
-                              memberCountLabel(group.memberCount),
+                              memberCountLabel(context, group.memberCount),
                               style: context.coolText.mono(
                                 theme.textTheme.labelSmall,
                                 color: colors.accent,
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w800,
                                 letterSpacing: 0.6,
                               ),
                             ),
@@ -192,24 +198,26 @@ class _CommunityCard extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        group.name.trim().isEmpty ? 'Community' : group.name.trim(),
+                        group.name.trim().isEmpty
+                            ? context.l10n.homeCommunityFallbackName
+                            : group.name.trim(),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: context.coolText.headline(
                           theme.textTheme.headlineSmall,
                           color: colors.primaryText,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w800,
                           letterSpacing: -0.7,
                           height: 1.0,
                         ),
                       ),
                       const SizedBox(height: CoolSpace.x5),
                       Text(
-                        'TOTAL',
+                        context.l10n.total.toUpperCase(),
                         style: context.coolText.mono(
                           theme.textTheme.labelSmall,
                           color: colors.secondaryText,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w800,
                           letterSpacing: 0.9,
                         ),
                       ),
@@ -224,7 +232,7 @@ class _CommunityCard extends StatelessWidget {
                               style: context.coolText.display(
                                 theme.textTheme.titleLarge,
                                 color: colors.primaryText,
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w800,
                                 letterSpacing: -0.8,
                               ),
                             ),

@@ -6,9 +6,9 @@ import 'cool_foundations.dart';
 /// Typography constants and [TextTheme] builder — Tactile Monolith system.
 ///
 /// Font stack:
-/// - **Space Grotesk** — Display/Headline (bold geometric, w600–w700, stamped authority)
-/// - **Manrope** — Title/Body (premium editorial, geometric, w400–w700)
-/// - **Inter** — Label (utility clarity, w500–w600)
+/// - **Space Grotesk** — Display/Headline (bold geometric, w700–w800, stamped authority)
+/// - **Manrope** — Title/Body (premium editorial, geometric, w500–w800)
+/// - **Inter** — Label (utility clarity, w500–w700)
 /// - **DM Mono** — Values, IDs, aliases (via CoolTextStyles.mono/mobiLabel/mobiValue)
 abstract final class AppThemeText {
   static final String displayFontFamily =
@@ -20,13 +20,13 @@ abstract final class AppThemeText {
   static final String monoFontFamily =
       GoogleFonts.dmMono().fontFamily ?? 'DM Mono';
 
-  // ── Weight aliases (optimised 3-tier: w700/w600/w400) ──────────────
-  static const black = FontWeight.w700; // Capped: max weight is w700 (Bold)
-  static const extraBold = FontWeight.w700;
-  static const bold = FontWeight.w700;
-  static const semibold = FontWeight.w600;
+  // ── Weight aliases (optimised 3-tier: w800/w700/w500) ──────────────
+  static const black = FontWeight.w800; // Capped: max weight is w800 (Bold)
+  static const extraBold = FontWeight.w800;
+  static const bold = FontWeight.w800;
+  static const semibold = FontWeight.w700;
   static const medium = FontWeight.w500;
-  static const regular = FontWeight.w400;
+  static const regular = FontWeight.w500;
 
   // ── Named sizes (Space Grotesk × Inter scale) ──────────────────────────
   static const displayLarge = 60.0; // Space Grotesk
@@ -45,10 +45,10 @@ abstract final class AppThemeText {
   static const labelMedium = 14.0;
   static const labelSmall = 14.0;
 
-  /// Display/Headline → Space Grotesk (w700–w900, bold geometric authority)
-  /// Title → Manrope (w600–w700, premium editorial)
-  /// Body → Manrope (w400–w500, readable geometric)
-  /// Label → Inter (w500–w600, compact utility)
+  /// Display/Headline → Space Grotesk (w800, bold geometric authority)
+  /// Title → Manrope (w500–w700, premium editorial)
+  /// Body → Manrope (w500, readable geometric)
+  /// Label → Inter (w700, compact utility)
   static TextTheme build({
     required Brightness brightness,
     required CoolSemanticColors semanticColors,

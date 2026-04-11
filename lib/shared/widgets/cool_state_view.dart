@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
+import '../../l10n/app_localizations.dart';
 import 'cool_button.dart';
 
 enum CoolStateTone { loading, empty, offline, error, success }
+
+AppLocalizations get _coolStateL10n =>
+    lookupAppLocalizations(const Locale('en'));
 
 class CoolStateView extends StatelessWidget {
   const CoolStateView({
@@ -19,16 +23,16 @@ class CoolStateView extends StatelessWidget {
   });
 
   factory CoolStateView.loading({
-    String title = 'Loading',
-    String message = 'Please wait while this section loads.',
+    String? title,
+    String? message,
     bool compact = false,
     Key? key,
   }) {
     return CoolStateView(
       key: key,
       tone: CoolStateTone.loading,
-      title: title,
-      message: message,
+      title: title ?? _coolStateL10n.coolStateLoadingTitle,
+      message: message ?? _coolStateL10n.coolStateLoadingMessage,
       icon: Icons.hourglass_top_rounded,
       compact: compact,
     );
@@ -162,11 +166,16 @@ class CoolStateView extends StatelessWidget {
       decoration: BoxDecoration(
         color: _backgroundColor(colors),
         borderRadius: BorderRadius.circular(CoolRadii.md),
-        border: Border.all(
-          color: accentColor.withValues(
-            alpha: tone == CoolStateTone.empty ? 0.2 : 0.28,
+        // No-Line Rule: depth via surface shift + ambient shadow instead of border
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: accentColor.withValues(
+              alpha: tone == CoolStateTone.empty ? 0.04 : 0.08,
+            ),
+            blurRadius: 24,
+            spreadRadius: 0,
           ),
-        ),
+        ],
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -181,7 +190,7 @@ class CoolStateView extends StatelessWidget {
                         ? theme.textTheme.titleSmall
                         : theme.textTheme.titleMedium)
                     ?.copyWith(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
                       color: colors.primaryText,
                     ),
           ),
@@ -194,7 +203,7 @@ class CoolStateView extends StatelessWidget {
                         ? theme.textTheme.bodySmall
                         : theme.textTheme.bodyMedium)
                     ?.copyWith(
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w500,
                       color: colors.secondaryText,
                       height: 1.45,
                     ),

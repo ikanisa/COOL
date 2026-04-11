@@ -39,7 +39,7 @@ class AdminSectionHeader extends StatelessWidget {
               Text(
                 title,
                 style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                   color: colors.primaryText,
                 ),
               ),
@@ -48,7 +48,7 @@ class AdminSectionHeader extends StatelessWidget {
                 Text(
                   message!,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                     color: colors.secondaryText,
                     height: 1.4,
                   ),

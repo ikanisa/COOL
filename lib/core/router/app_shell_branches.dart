@@ -5,7 +5,7 @@ import '../../features/biopay/models/biopay_enrollment_draft.dart';
 import '../../features/biopay/screens/biopay_enrollment_success_screen.dart';
 import '../../features/biopay/screens/biopay_home_screen.dart';
 import '../../features/biopay/screens/biopay_nfc_screen.dart';
-
+import '../../features/biopay/screens/biopay_nfc_tap_screen.dart';
 import '../../features/biopay/screens/biopay_qr_screen.dart';
 import '../../features/biopay/screens/biopay_register_screen.dart';
 import '../../features/biopay/screens/biopay_scan_screen.dart';
@@ -123,6 +123,22 @@ StatefulShellBranch buildBiopayShellBranch({
                 child: const SecureScreenWrapper(child: BiopayNfcScreen()),
               ),
             ),
+            routes: [
+              GoRoute(
+                path: 'tap',
+                pageBuilder: (context, state) => coolPageTransition(
+                  context: context,
+                  state: state,
+                  child: KillSwitchGate(
+                    enabled: readIsBiopayEnabled(),
+                    featureName: 'BioPay',
+                    child: const SecureScreenWrapper(
+                      child: BiopayNfcTapScreen(),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           GoRoute(
             path: 'success',

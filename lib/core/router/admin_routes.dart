@@ -2,6 +2,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/admin/screens/admin_dashboard_screen.dart';
 import '../../features/admin/screens/admin_groups_screen.dart';
+import '../../features/admin/screens/admin_savings_screen.dart';
+import '../../features/admin/screens/admin_savings_detail_screen.dart';
 import '../../features/admin/screens/admin_workspaces_screen.dart';
 import '../../features/admin/screens/audit_log_screen.dart';
 import '../../features/admin/screens/bank_admin_workspace_screen.dart';
@@ -70,6 +72,23 @@ GoRoute adminRoutes() {
         builder: (context, state) =>
             const PlatformAdminGate(child: AdminGroupsScreen()),
       ),
+      GoRoute(
+        path: 'savings',
+        builder: (context, state) =>
+            const PlatformAdminGate(child: AdminSavingsScreen()),
+        routes: [
+          GoRoute(
+            path: ':groupId',
+            builder: (context, state) {
+              final groupId = state.pathParameters['groupId']?.trim() ?? '';
+              return PlatformAdminGate(
+                child: AdminSavingsDetailScreen(groupId: groupId),
+              );
+            },
+          ),
+        ],
+      ),
     ],
   );
 }
+

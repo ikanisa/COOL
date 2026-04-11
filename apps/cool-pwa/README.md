@@ -1,49 +1,74 @@
-# COOL PWA
+# COOL Admin PWA
 
-Standalone Progressive Web App for COOL, added alongside the maintained Flutter client.
+Standalone Progressive Web App for COOL admin operations, added alongside the
+maintained Flutter client.
 
 This app is intentionally separate from the Flutter codebase:
 
-- Flutter mobile remains the primary native client.
-- `apps/cool-pwa` is the world-class web/PWA surface aligned to the April 2026 report.
-- The PWA ships as static clean-URL pages with a shared app shell, custom service worker, offline queueing, contextual install UX, web-notification flows, and browser-audit scripts.
+- Flutter mobile remains the primary end-user client.
+- `apps/cool-pwa` is now an admin-only web control plane.
+- The PWA ships as static clean-URL admin pages with a shared app shell,
+  offline queueing, install UX, operational alerts, and browser-audit scripts.
 
 ## Local Run
 
 ```bash
 cd apps/cool-pwa
 npm install
-npm run serve
+npm run serve          # Static preview (no Pages Functions)
 ```
 
-Open `http://127.0.0.1:4173`.
+Open `http://127.0.0.1:4173/admin/`.
+
+For live backend (Pages Functions + Supabase):
+
+```bash
+cd apps/cool-pwa
+npx wrangler pages dev . --port 4173
+```
 
 ## Verification
 
 ```bash
-npm test
-npm run audit:lighthouse
+npm test                    # Contract + browser tests
+npm run audit:lighthouse    # Lighthouse perf/a11y/best-practices
+npm run test:integration    # Pages Functions integration suite (requires wrangler)
 ```
 
 ## Deploy
 
-This app is prepared for the existing Cloudflare Pages project `cool`.
+**Deployment target: Cloudflare Pages** (canonical — no Firebase hosting).
 
 ```bash
 cd apps/cool-pwa
 npx wrangler pages deploy
 ```
 
-Production domains:
+Production domains rewrite `/` to `/admin/` so the admin workspace is
+the only entrypoint.
 
-- `https://cool.ikanisa.com/` serves the landing page.
-- `https://acool.ikanisa.com/` uses the same Pages project and rewrites `/` to `/admin/` for the admin PWA entry.
-- `https://cool.ikanisa.com/admin/` remains available for direct QA on the shared project.
+### Cloudflare-specific files
 
-Cloudflare-specific files live alongside the app:
+| File | Purpose |
+|------|---------|
+| `wrangler.toml` | Pages project config |
+| `_headers` | Security + caching headers |
+| `functions/index.js` | Root redirect + security header injection |
+| `functions/api/auth/` | OTP auth + session cookie management |
+| `functions/api/admin/` | Data, session, and mutation endpoints |
 
-- `wrangler.toml`
-- `_headers`
-- `functions/index.js`
-- `landing/index.html`
-- `landing-assets/*`
+### Environment Variables (Pages Functions)
+
+| Variable | Scope | Required |
+|----------|-------|----------|
+| `COOL_PROJECT_SUPABASE_URL` | Pages Functions | Yes |
+| `COOL_PROJECT_SUPABASE_ANON_KEY` | Pages Functions | Yes |
+| `COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY` | Pages Functions | Yes (admin phone pre-check) |
+
+Set these in the Cloudflare Pages dashboard under **Settings → Environment variables**.
+Both preview and production environments need them.
+
+### Rollback
+
+See [pwa-rollback-runbook.md](../../docs/pwa-rollback-runbook.md) for the
+service-worker-aware rollback and cache-busting procedure.

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/l10n/l10n.dart';
 import '../../core/theme/cool_foundations.dart';
 
 /// Pill-shaped status chip for transaction and ledger entries.
@@ -7,7 +8,7 @@ import '../../core/theme/cool_foundations.dart';
 /// Follows the Tactile Monolith chip rules:
 /// - Pill-shaped (`CoolRadii.pill`)
 /// - Background: semantic color at 12% opacity
-/// - Text: Inter w700 in semantic color
+/// - Text: Inter w800 in semantic color
 /// - No borders (No-Line rule)
 class TransactionStatusChip extends StatelessWidget {
   const TransactionStatusChip({required this.status, super.key});
@@ -18,7 +19,7 @@ class TransactionStatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final resolved = _resolve(status, colors);
+    final resolved = _resolve(context, status, colors);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
@@ -33,49 +34,53 @@ class TransactionStatusChip extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             resolved.label,
-            style: context.coolText.mobiLabel(
-              color: resolved.color,
-            ).copyWith(letterSpacing: 0.5, height: 1.2),
+            style: context.coolText
+                .mobiLabel(color: resolved.color)
+                .copyWith(letterSpacing: 0.5, height: 1.2),
           ),
         ],
       ),
     );
   }
 
-  static _ResolvedStatus _resolve(String status, CoolSemanticColors colors) {
+  static _ResolvedStatus _resolve(
+    BuildContext context,
+    String status,
+    CoolSemanticColors colors,
+  ) {
     return switch (status.toLowerCase().trim()) {
       'posted' || 'completed' => _ResolvedStatus(
-        label: 'POSTED',
+        label: context.l10n.postedUpper,
         color: colors.success,
         icon: Icons.check_circle_rounded,
       ),
       'confirmed' => _ResolvedStatus(
-        label: 'CONFIRMED',
+        label: context.l10n.confirmedUpper,
         color: colors.success,
         icon: Icons.verified_rounded,
       ),
       'draft' => _ResolvedStatus(
-        label: 'DRAFT',
+        label: context.l10n.draftUpper,
         color: colors.neutral,
         icon: Icons.edit_note_rounded,
       ),
       'pending' || 'pending_review' => _ResolvedStatus(
-        label: 'REVIEW',
+        label: context.l10n.reviewUpper,
         color: colors.warning,
         icon: Icons.pending_rounded,
       ),
       'manual_review' => _ResolvedStatus(
-        label: 'MANUAL',
+        label: context.l10n.manualUpper,
         color: colors.warning,
         icon: Icons.pending_actions_rounded,
       ),
       'suggested' => _ResolvedStatus(
-        label: 'SUGGESTED',
+        label: context.l10n.suggestedUpper,
         color: colors.info,
         icon: Icons.auto_fix_high_rounded,
       ),
       'rejected' || 'cancelled' => _ResolvedStatus(
-        label: 'REJECTED',
+        label: context.l10n.rejectedUpper,
         color: colors.danger,
         icon: Icons.cancel_rounded,
       ),

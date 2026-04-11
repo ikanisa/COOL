@@ -8,6 +8,7 @@ import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/money_formatters.dart';
 import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/core_detail_scaffold.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/cool_text_field.dart';
 import '../models/group.dart';
@@ -220,41 +221,47 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                       validator: (value) {
                         final trimmed = value?.trim() ?? '';
                         if (trimmed.isEmpty) {
-                          return 'Enter a group name.';
+                          return context.l10n.groupNameRequired;
                         }
                         if (trimmed.length < 3) {
-                          return 'Use at least 3 characters.';
+                          return context.l10n.groupNameMinimumThreeCharacters;
                         }
                         return null;
                       },
                     ),
                     const SizedBox(height: CoolSpace.x4),
                     CoolTextField(
-                      label: 'Description (optional)',
-                      hint: 'What is this group for?',
+                      label: context.l10n.groupDescriptionOptionalLabel,
+                      hint: context.l10n.groupDescriptionHint,
                       controller: _descriptionController,
                       maxLines: 3,
                     ),
                     const SizedBox(height: CoolSpace.x5),
                     CoolTextField(
-                      label:
-                          'Target Amount — ${country.currencyCode} (optional)',
-                      hint: 'e.g. 500,000',
+                      label: context.l10n
+                          .groupSettingsTargetAmountOptionalLabel(
+                            country.currencyCode,
+                          ),
+                      hint: context.l10n.groupSettingsTargetAmountHint,
                       controller: _targetAmountController,
                       keyboardType: TextInputType.number,
                       inputFormatters: const [GroupedThousandsInputFormatter()],
                     ),
                     const SizedBox(height: CoolSpace.x4),
                     CoolTextField(
-                      label:
-                          'Contribution Amount — ${country.currencyCode} (optional)',
-                      hint: 'e.g. 10,000',
+                      label: context.l10n
+                          .groupSettingsContributionAmountOptionalLabel(
+                            country.currencyCode,
+                          ),
+                      hint: context.l10n.groupSettingsContributionAmountHint,
                       controller: _contributionAmountController,
                       keyboardType: TextInputType.number,
                       inputFormatters: const [GroupedThousandsInputFormatter()],
                     ),
                     const SizedBox(height: CoolSpace.x5),
-                    const GroupSectionLabel(label: 'FREQUENCY'),
+                    GroupSectionLabel(
+                      label: context.l10n.groupFrequencySection,
+                    ),
                     const SizedBox(height: CoolSpace.x2),
                     GroupFrequencyPicker(
                       options: frequencyOptions,
@@ -262,14 +269,21 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                       onSelected: (value) => setState(() => _frequency = value),
                     ),
                     const SizedBox(height: CoolSpace.x5),
-                    GroupMomoRouteSection(
-                      routeType: _routeType,
-                      momoNumberController: _momoNumberController,
-                      momoCodeController: _momoCodeController,
-                      supportsMomoCode: country.supportsMomoCode,
-                      onRouteTypeChanged: (value) =>
-                          setState(() => _routeType = value),
-                    ),
+                    if (group.type == 'saving') ...[
+                      // Savings groups use a centralized MoMo code.
+                      // Show read-only — managed by admin via app_config.
+                      _CentralizedMomoNotice(
+                        momoCode: group.momoNumber ?? '',
+                      ),
+                    ] else
+                      GroupMomoRouteSection(
+                        routeType: _routeType,
+                        momoNumberController: _momoNumberController,
+                        momoCodeController: _momoCodeController,
+                        supportsMomoCode: country.supportsMomoCode,
+                        onRouteTypeChanged: (value) =>
+                            setState(() => _routeType = value),
+                      ),
                   ],
                 ),
               );
@@ -282,5 +296,51 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
 
   int? _parseAmount(String raw) {
     return parseWholeMoneyAmount(raw, allowZero: true);
+  }
+}
+
+class _CentralizedMomoNotice extends StatelessWidget {
+  const _CentralizedMomoNotice({required this.momoCode});
+
+  final String momoCode;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
+
+    return CoolCard(
+      borderRadius: CoolRadii.xl,
+      backgroundColor: colors.cardSurfaceStrong,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'COLLECTION CODE',
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: colors.tertiaryText,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x2),
+          Text(
+            momoCode.isNotEmpty ? momoCode : '—',
+            style: text.mono(
+              theme.textTheme.headlineSmall,
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x2),
+          Text(
+            'Set by admin for all savings groups.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.tertiaryText,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

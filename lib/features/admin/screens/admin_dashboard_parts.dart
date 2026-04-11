@@ -51,7 +51,7 @@ class _RoleBadge extends StatelessWidget {
         label.toUpperCase(),
         style: context.coolText.mono(
           theme.textTheme.labelMedium,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
           color: color,
           letterSpacing: 0.5,
         ),
@@ -99,7 +99,7 @@ class _AdminCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: context.coolText.display(
               theme.textTheme.titleSmall,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
               color: colors.primaryText,
             ),
           ),
@@ -112,7 +112,7 @@ class _AdminCard extends StatelessWidget {
               style: context.coolText.mobiLabel(
                 color: colors.tertiaryText,
               ).copyWith(
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w500,
                 height: 1.35,
               ),
             ),

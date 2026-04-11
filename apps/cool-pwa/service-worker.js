@@ -1,6 +1,9 @@
 'use strict';
 
-const VERSION = 'cool-pwa-v2';
+const VERSION = 'cool-pwa-v5';
+// Cache-busting: bump VERSION whenever the precache manifest changes
+// (added/removed files, route changes). On activate, old caches are deleted.
+// See docs/pwa-rollback-runbook.md for the full rollback procedure.
 const PRECACHE = `${VERSION}-precache`;
 const RUNTIME = `${VERSION}-runtime`;
 const DATA = `${VERSION}-data`;
@@ -11,24 +14,26 @@ const QUEUE_STORE = 'queue';
 const SHELL_ROUTES = [
   '/',
   '/index.html',
-  '/home/',
-  '/home/index.html',
-  '/groups/',
-  '/groups/index.html',
-  '/momo/',
-  '/momo/index.html',
-  '/profile/',
-  '/profile/index.html',
   '/admin/',
   '/admin/index.html',
-  '/notifications/',
-  '/notifications/index.html',
-  '/install/',
-  '/install/index.html',
-  '/share/',
-  '/share/index.html',
-  '/offline/',
-  '/offline/index.html',
+  '/admin/platform/',
+  '/admin/platform/index.html',
+  '/admin/users/',
+  '/admin/users/index.html',
+  '/admin/app-config/',
+  '/admin/app-config/index.html',
+  '/admin/operations/',
+  '/admin/operations/index.html',
+  '/admin/roles/',
+  '/admin/roles/index.html',
+  '/admin/analytics/',
+  '/admin/analytics/index.html',
+  '/admin/audit-log/',
+  '/admin/audit-log/index.html',
+  '/admin/groups/',
+  '/admin/groups/index.html',
+  '/admin/offline/',
+  '/admin/offline/index.html',
 ];
 
 const CORE_ASSETS = [
@@ -37,6 +42,11 @@ const CORE_ASSETS = [
   '/sitemap.xml',
   '/assets/css/app.css',
   '/assets/js/app.js',
+  '/assets/js/app_install.js',
+  '/assets/js/app_notifications.js',
+  '/assets/js/app_page.js',
+  '/assets/js/admin_api.js',
+  '/assets/js/admin_views.js',
   '/assets/js/idb.js',
   '/assets/icons/Icon-192.png',
   '/assets/icons/Icon-256.png',
@@ -45,21 +55,21 @@ const CORE_ASSETS = [
   '/assets/icons/Icon-1024.png',
   '/assets/icons/Icon-maskable-192.png',
   '/assets/icons/Icon-maskable-512.png',
-  '/assets/img/cool_logo_mark.png',
-  '/assets/img/hero_match_bg.png',
-  '/assets/fonts/SpaceGrotesk-Variable.ttf',
-  '/assets/fonts/Manrope-Variable.ttf',
-  '/assets/fonts/Inter-Variable.ttf',
-  '/assets/fonts/DMMono-Regular.ttf',
+  '/assets/img/cool_logo_mark.webp',
+  '/assets/fonts/SpaceGrotesk-Variable.woff2',
+  '/assets/fonts/Manrope-Variable.woff2',
   '/assets/screenshots/home.png',
   '/assets/screenshots/shop.png',
   '/assets/screenshots/settings.png',
-  '/data/home.json',
+  '/data/platform.json',
   '/data/groups.json',
-  '/data/momo.json',
-  '/data/profile.json',
   '/data/admin.json',
-  '/data/notifications.json',
+  '/data/users.json',
+  '/data/app-config.json',
+  '/data/operations.json',
+  '/data/roles.json',
+  '/data/analytics.json',
+  '/data/audit-log.json',
 ];
 
 self.addEventListener('install', (event) => {
@@ -134,18 +144,18 @@ self.addEventListener('periodicsync', (event) => {
 
 self.addEventListener('push', (event) => {
   const payload = safeJson(event.data?.text());
-  const title = payload.title || 'COOL update';
+  const title = payload.title || 'COOL admin update';
   const options = {
-    body: payload.body || 'Fresh activity is ready in your PWA workspace.',
+    body: payload.body || 'Fresh operational activity is ready in the admin console.',
     icon: payload.icon || '/assets/icons/Icon-192.png',
     badge: payload.badge || '/assets/icons/Icon-192.png',
     tag: payload.tag || 'cool-push',
     data: {
-      route: payload.route || '/notifications/',
+      route: payload.route || '/admin/operations/',
     },
     actions: payload.actions || [
-      { action: 'open-home', title: 'Open home' },
-      { action: 'open-notifications', title: 'Open alerts' },
+      { action: 'open-command', title: 'Open command' },
+      { action: 'open-operations', title: 'Open operations' },
     ],
   };
 
@@ -154,11 +164,11 @@ self.addEventListener('push', (event) => {
 
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
-  const route = event.action === 'open-home'
-    ? '/home/'
-    : event.action === 'open-notifications'
-      ? '/notifications/'
-      : event.notification.data?.route || '/notifications/';
+  const route = event.action === 'open-command'
+      ? '/admin/platform/'
+      : event.action === 'open-operations'
+        ? '/admin/operations/'
+        : event.notification.data?.route || '/admin/operations/';
 
   event.waitUntil((async () => {
     const allClients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
@@ -191,7 +201,7 @@ async function handleNavigation(event) {
     }
 
     const path = new URL(event.request.url).pathname;
-    const candidates = [path, `${path.replace(/\/$/, '')}/`, `${path.replace(/\/$/, '')}/index.html`, '/offline/', '/offline/index.html'];
+    const candidates = [path, `${path.replace(/\/$/, '')}/`, `${path.replace(/\/$/, '')}/index.html`, '/admin/offline/', '/admin/offline/index.html'];
     for (const candidate of candidates) {
       const match = await cache.match(candidate);
       if (match) {

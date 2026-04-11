@@ -188,7 +188,9 @@ class UserProfile {
       'momo_provider': normalizedProvider,
       'country': normalizedCountry,
       'language_code': AppMarket.languageCode,
-      'is_admin': isAdmin,
+      // is_admin is intentionally NOT serialized. The backend protects this
+      // column from non-service-role writes (migration 20260311113000).
+      // Role grants go through assign_admin_role / revoke_admin_role RPCs.
       'avatar_url': _asNonEmptyString(avatarUrl),
       'official_name': _asNonEmptyString(officialName),
       'official_phone': _asNonEmptyString(officialPhone),

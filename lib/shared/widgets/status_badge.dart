@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/l10n/l10n.dart';
 import '../../core/theme/cool_foundations.dart';
 
 /// A small pill badge used to indicate status, category, or role.
@@ -31,7 +32,7 @@ class StatusBadge extends StatelessWidget {
   /// Green saving preset.
   const StatusBadge.saving({Key? key})
     : this._(
-        label: 'Saving',
+        label: null,
         bgColor: null,
         textColor: null,
         emoji: null,
@@ -43,7 +44,7 @@ class StatusBadge extends StatelessWidget {
   /// Orange community preset.
   const StatusBadge.community({Key? key})
     : this._(
-        label: 'Community',
+        label: null,
         bgColor: null,
         textColor: null,
         emoji: null,
@@ -55,7 +56,7 @@ class StatusBadge extends StatelessWidget {
   /// Blue public preset.
   const StatusBadge.public({Key? key})
     : this._(
-        label: 'Public',
+        label: null,
         bgColor: null,
         textColor: null,
         emoji: null,
@@ -67,7 +68,7 @@ class StatusBadge extends StatelessWidget {
   /// Muted private preset.
   const StatusBadge.private({Key? key})
     : this._(
-        label: 'Private',
+        label: null,
         bgColor: null,
         textColor: null,
         emoji: null,
@@ -79,7 +80,7 @@ class StatusBadge extends StatelessWidget {
   /// Online with animated pulse dot.
   const StatusBadge.online({Key? key})
     : this._(
-        label: 'Online',
+        label: null,
         bgColor: null,
         textColor: null,
         emoji: null,
@@ -91,7 +92,7 @@ class StatusBadge extends StatelessWidget {
   /// Offline preset.
   const StatusBadge.offline({Key? key})
     : this._(
-        label: 'Offline',
+        label: null,
         bgColor: null,
         textColor: null,
         emoji: null,
@@ -100,7 +101,7 @@ class StatusBadge extends StatelessWidget {
         key: key,
       );
 
-  final String label;
+  final String? label;
   final Color? bgColor;
   final Color? textColor;
   final String? emoji;
@@ -114,9 +115,10 @@ class StatusBadge extends StatelessWidget {
     final defaults = _colorsForTone(colors);
     final bg = bgColor ?? defaults.$1;
     final fg = textColor ?? defaults.$2;
+    final resolvedLabel = _resolvedLabel(context);
 
     return Semantics(
-      label: 'Status: $label',
+      label: context.l10n.statusBadgeSemantics(resolvedLabel),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
         decoration: BoxDecoration(
@@ -141,9 +143,9 @@ class StatusBadge extends StatelessWidget {
               const SizedBox(width: 4),
             ],
             Text(
-              label,
+              resolvedLabel,
               style: theme.textTheme.labelMedium?.copyWith(
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
                 color: fg,
                 height: 1.3,
               ),
@@ -178,6 +180,21 @@ class StatusBadge extends StatelessWidget {
       ),
       _StatusBadgeTone.saving ||
       null => (colors.accent.withValues(alpha: 0.08), colors.accent),
+    };
+  }
+
+  String _resolvedLabel(BuildContext context) {
+    if (label != null) {
+      return label!;
+    }
+
+    return switch (_tone) {
+      _StatusBadgeTone.community => context.l10n.community,
+      _StatusBadgeTone.public => context.l10n.public,
+      _StatusBadgeTone.private => context.l10n.private,
+      _StatusBadgeTone.online => context.l10n.online,
+      _StatusBadgeTone.offline => context.l10n.offline,
+      _StatusBadgeTone.saving || null => context.l10n.saving,
     };
   }
 }

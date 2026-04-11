@@ -26,10 +26,6 @@ Future<ByteData?> _handleMockAssetLoad(ByteData? message) async {
   }
 
   final key = utf8.decode(message.buffer.asUint8List());
-  if (!key.startsWith('google_fonts/')) {
-    return null;
-  }
-
   final file = File(key);
   if (!file.existsSync()) {
     return null;

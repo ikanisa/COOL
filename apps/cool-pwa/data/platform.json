@@ -1,0 +1,32 @@
+{
+  "metrics": {
+    "frontendSurfaces": "18",
+    "backendServices": "9",
+    "releasePosture": "Guarded"
+  },
+  "activity": [
+    {
+      "title": "Frontend release lane",
+      "description": "Mobile shell changes, navigation updates, and UI guardrails are routed through app config and operations together.",
+      "status": "Governed",
+      "tone": "online",
+      "meta": "Flutter UI + rollout policy"
+    },
+    {
+      "title": "Backend readiness lane",
+      "description": "Auth, data, reconciliation, analytics, and notification dependencies remain visible before admin actions are shipped.",
+      "status": "Visible",
+      "tone": "syncing",
+      "meta": "Supabase + release dependencies"
+    }
+  ],
+  "queue": [
+    {
+      "title": "Release note draft",
+      "description": "Queued summary for the next controlled release window.",
+      "status": "Pending",
+      "tone": "offline",
+      "meta": "Replay-safe"
+    }
+  ]
+}

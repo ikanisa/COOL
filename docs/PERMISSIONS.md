@@ -13,8 +13,6 @@
 | `POST_NOTIFICATIONS` | Push notifications (order updates, group invites, support alerts) | On first FCM-triggered notification (Android 13+) | Notifications silently dropped; in-app alerts still work |
 | `READ_SMS` | Android-only M-Money payment confirmation verification from approved sender IDs | When the user enables SMS access for Mobile Money verification on Android | Automatic payment verification is unavailable; payment-linked records may remain pending until later reconciliation |
 | `RECEIVE_SMS` | Android-only background receipt of approved M-Money confirmation SMS | Same flow as `READ_SMS`; required for incoming confirmation capture on Android | Automatic payment verification is unavailable; payment-linked records may remain pending until later reconciliation |
-| `ACCESS_FINE_LOCATION` | Nearby services and location-aware discovery | When the user opens a location-aware surface | Nearby-service features degrade gracefully; show permission rationale dialog |
-| `ACCESS_COARSE_LOCATION` | Fallback location for city-level discovery | Same as FINE_LOCATION (requested together) | Same as FINE_LOCATION |
 | `NFC` | MoMo tap-to-pay (NFC tag read) | When user taps "NFC Pay" button | NFC option hidden; USSD fallback available |
 | `READ_CONTACTS` | Invite group members, share via contacts | When user opens contact picker in group invite flow | Contact picker unavailable; manual phone entry available |
 | `CAMERA` | QR code scanning plus BioPay face enrollment and payee matching | When user opens QR scanner or BioPay face capture | QR scanner and BioPay capture disabled; manual entry and non-BioPay flows remain available |
@@ -33,6 +31,8 @@ The production manifest strips several transitive permissions that libraries may
 - `android.permission.ACCESS_ADSERVICES_ATTRIBUTION`
 - `android.permission.ACCESS_ADSERVICES_AD_ID`
 - `com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE`
+- `ACCESS_FINE_LOCATION`
+- `ACCESS_COARSE_LOCATION`
 
 ## Hardware Features
 
@@ -63,7 +63,6 @@ User triggers feature → Check permission status
 
 | Permission | Data Type | Purpose | Shared | Retained |
 |---|---|---|---|---|
-| Location | Approximate + Precise | App functionality (nearby services and discovery) | No | Until account deletion |
 | Contacts | Contact info | App functionality (invites) | No | Not stored server-side |
 | Camera | Photos/Videos | App functionality (QR scan, BioPay face capture) | No | QR frames are not stored as gallery media; if the user enrolls in BioPay, Cool stores a derived biometric template plus consent and payout-route metadata |
 | Notifications | — | App functionality | No | — |

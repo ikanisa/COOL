@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/config/app_config_provider.dart';
 import '../../../core/config/app_config_repository.dart';
-import '../../../core/providers/hive_providers.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 import '../models/biopay_profile.dart';
 import '../repositories/biopay_repository.dart';
@@ -28,7 +27,7 @@ final biopayAuthGateServiceProvider = Provider<BiopayAuthGateService>((ref) {
 });
 
 final biopayCacheServiceProvider = Provider<BiopayCacheService>((ref) {
-  return BiopayCacheService(openBox: ref.read(hiveOpenBoxProvider));
+  return BiopayCacheService();
 });
 
 final biopayModelAssetIssueProvider = FutureProvider<String?>((ref) async {

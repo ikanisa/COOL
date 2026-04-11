@@ -1,5 +1,4 @@
 User-agent: *
-Allow: /
-Disallow: /admin/
+Disallow: /
 
 Sitemap: https://cool.ikanisa.com/sitemap.xml

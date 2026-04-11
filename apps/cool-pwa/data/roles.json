@@ -1,0 +1,23 @@
+{
+  "metrics": {
+    "platformAdmins": "8",
+    "bankAdmins": "17",
+    "pendingApprovals": "4"
+  },
+  "activity": [
+    {
+      "title": "Platform admin review",
+      "description": "Global role changes require explicit rationale before they reach the queue.",
+      "status": "Review",
+      "tone": "offline",
+      "meta": "Privileged access"
+    },
+    {
+      "title": "Bank scope verification",
+      "description": "Partner-specific access is tied to bank workspace ownership and never treated as generic admin access.",
+      "status": "Scoped",
+      "tone": "online",
+      "meta": "Bank workspaces"
+    }
+  ]
+}

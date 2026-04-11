@@ -4,8 +4,81 @@
   "navHome": "Home",
   "navGroups": "Groups",
   "navProfile": "Settings",
+  "navBiopay": "BioPay",
   "welcomeTitle": "Welcome to Cool",
   "welcomeSubtitle": "Community savings group funds",
+  "homeCommunitiesTitle": "Communities",
+  "homeCommunitiesLoadFailed": "Communities failed to load.",
+  "homeNoCommunitiesYet": "No communities yet",
+  "homeCommunitiesEmptySubtitle": "Your savings circles will appear here.",
+  "homeCommunityFallbackName": "Community",
+  "homeSavingsBalanceUpper": "SAVINGS BALANCE",
+  "homeQuickScanUpper": "SCAN",
+  "homeQuickBiopayLabel": "BioPay",
+  "homeOperationsTitle": "Operations",
+  "homeOperationsLoadFailed": "Operations failed to load.",
+  "homeNoOperationsYet": "No operations yet",
+  "homeOperationsEmptySubtitle": "Incoming and outgoing transactions will appear here.",
+  "homeTransactionFallbackTitle": "Transaction",
+  "homeOperationMetaToday": "TODAY, {time} • {type}",
+  "@homeOperationMetaToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "homeOperationMetaYesterday": "YESTERDAY, {time} • {type}",
+  "@homeOperationMetaYesterday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "homeOperationMetaDate": "{date}, {time} • {type}",
+  "@homeOperationMetaDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "homeNoChangeThisMonthUpper": "NO CHANGE THIS MONTH",
+  "homeThisMonthAmount": "THIS MONTH {amount} RWF",
+  "@homeThisMonthAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "homeMemberCount": "{count, plural, one{1 MEMBER} other{{count} MEMBERS}}",
+  "@homeMemberCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeOperationTransferUpper": "TRANSFER",
+  "homeOperationReceivedUpper": "RECEIVED",
+  "homeOperationSavingUpper": "SAVING",
+  "homeOperationInterestUpper": "INTEREST",
+  "homeOperationPayoutUpper": "PAYOUT",
+  "homeOperationActivityUpper": "ACTIVITY",
   "getStarted": "Get Started",
   "signIn": "Already have an account?",
   "verifyWhatsapp": "Verify via WhatsApp",
@@ -195,6 +268,7 @@
   "admin": "Admin",
   "returnLabel": "Return",
   "daily": "Daily",
+  "weekly": "Weekly",
   "expiresSoon": "Expires soon",
   "departed": "departed",
   "inMinutesShort": "in {count}min",
@@ -432,6 +506,26 @@
   "profilePublicProfileLabel": "Public profile",
   "profileOfficialIdentityLabel": "Official identity",
   "profileMomoCodeNotSet": "MoMo code not set",
+  "profileSettingsUnavailable": "Settings unavailable",
+  "profileAppAccessToggleFeatureAccess": "Toggle feature access",
+  "profileOpenLabel": "Open {label}",
+  "@profileOpenLabel": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "profileSectionExpanded": "Expanded",
+  "profileSectionCollapsed": "Collapsed",
+  "profileCollapseSection": "Collapse section",
+  "profileExpandSection": "Expand section",
+  "profileMomoNumberRequired": "MoMo number required",
+  "profileMomoNumberIsRequired": "MoMo number is required",
+  "profileMomoCodeRequired": "MoMo code required",
+  "profileEnterMomoNumber": "Enter MoMo number",
+  "profileEnterMerchantCode": "Enter merchant code",
+  "profileDefaultReceiveRoute": "DEFAULT RECEIVE ROUTE",
   "momoSendMoneyOpensUssd": "Open {countryName} MoMo USSD",
   "momoMoreToolsSubtitle": "Statements QR and NFC",
   "momoStatementsToolSubtitle": "Review wallet and savings",
@@ -516,8 +610,40 @@
   "thisWillRemoveThe": "This removes the pending allocation.",
   "reject": "Reject",
   "clear": "Clear",
+  "statusBadgeSemantics": "Status: {label}",
+  "@statusBadgeSemantics": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
   "str07xxxxxxxx": "07XXXXXXXX",
   "allocateToMember": "Allocate to member",
+  "allocateToMemberUpper": "ALLOCATE TO MEMBER",
+  "transactionAllocated": "Transaction allocated",
+  "allocationFailed": "Allocation failed",
+  "transactionUnallocated": "Transaction unallocated",
+  "unallocationFailed": "Unallocation failed",
+  "transactionAllocationUpper": "TRANSACTION ALLOCATION",
+  "manageGroupMemberAssignment": "Manage group member assignment",
+  "notYetAllocated": "Not yet allocated",
+  "unallocateUpper": "UNALLOCATE",
+  "orReallocateToAnotherMember": "OR REALLOCATE TO ANOTHER MEMBER",
+  "noGroupMembersFound": "No group members found.",
+  "selectMember": "Select member:",
+  "currentUpper": "CURRENT",
+  "confirmReallocationUpper": "CONFIRM REALLOCATION",
+  "confirmAllocationUpper": "CONFIRM ALLOCATION",
+  "shareQrButton": "QR / Share",
+  "selectAContactToShareWith": "Select a contact to share with",
+  "postedUpper": "POSTED",
+  "confirmedUpper": "CONFIRMED",
+  "draftUpper": "DRAFT",
+  "reviewUpper": "REVIEW",
+  "manualUpper": "MANUAL",
+  "suggestedUpper": "SUGGESTED",
+  "rejectedUpper": "REJECTED",
   "groups1": "GROUPS",
   "members1": "MEMBERS",
   "contributions": "CONTRIBUTIONS",
@@ -684,11 +810,54 @@
   "usedWhenInvitingGroup": "Used when inviting group",
   "nfc": "NFC",
   "ready": "Ready",
+  "disabled": "Disabled",
   "offInCool": "Off in COOL",
   "needsAndroidAccess": "Needs Android access",
   "blockedInSystem": "Blocked in system",
   "deviceSettingOff": "Device setting off",
   "notAvailable": "Not available",
+  "profileSmsSyncOptIn": "SMS sync opt-in",
+  "profileSmsSyncOptInMessage": "Android only. COOL checks approved M-Money sender IDs, imports matching confirmations, and ignores other SMS.",
+  "profileSmsPaymentSyncTitle": "SMS Payment Sync",
+  "profileSmsPaymentSyncSubtitle": "Optional on Android. Watches approved M-Money sender IDs, imports matching confirmations, and auto-verifies supported payment flows.",
+  "profileAccessFeature12MonthImport": "12-month import",
+  "profileAccessFeatureMomoVerification": "MoMo verification",
+  "profileLocationSubtitle": "Used for nearby services and place-aware flows",
+  "profileAccessFeatureNearbyServices": "Nearby services",
+  "profileAccessFeaturePartnerDiscovery": "Partner discovery",
+  "profileAccessFeatureMapContext": "Map context",
+  "profileCameraSubtitle": "Used for MoMo QR",
+  "profileAccessFeatureMomoQrScan": "MoMo QR scan",
+  "profileContactsSubtitle": "Used when inviting group",
+  "profileAccessFeatureGroupInvites": "Group invites",
+  "profileAccessFeatureShareViaContacts": "Share via contacts",
+  "profileNotificationsNeedsSystemAccess": "Needs system access",
+  "profileAccessFeatureMomoUpdates": "MoMo updates",
+  "profileAccessFeatureGroupsActivity": "Groups activity",
+  "profileAccessFeatureServiceUpdates": "Service updates",
+  "profileAccessFeaturePartnerAnnouncements": "Partner announcements",
+  "profileOpenLocationSettings": "Open location settings",
+  "profileNfcSubtitle": "Controls NFC receive/read flows",
+  "profileAccessFeatureMomoReceiveTap": "MoMo receive tap",
+  "profileAccessFeatureNfcPaymentTags": "NFC payment tags",
+  "profileOpenNfcSettings": "Open NFC settings",
+  "profilePhotosMediaTitle": "Photos & Media",
+  "profilePhotosMediaSubtitle": "Choose profile photos and upload documents from gallery.",
+  "profileAccessFeatureProfilePhoto": "Profile photo",
+  "profileAccessFeatureDocumentUpload": "Document upload",
+  "profileServiceOff": "Service off",
+  "profileAppAccessReadyCount": "{readyCount}/{totalCount} ready",
+  "@profileAppAccessReadyCount": {
+    "placeholders": {
+      "readyCount": {
+        "type": "int"
+      },
+      "totalCount": {
+        "type": "int"
+      }
+    }
+  },
+  "profileAppAccessAllControls": "All access controls",
   "legalNameForReports": "Legal name for reports",
   "systemDefault": "System default",
   "lightMode": "Light mode",
@@ -870,10 +1039,36 @@
   "retake": "Retake",
   "searchContacts": "Search contacts",
   "searchByNameOr": "Search by name or",
+  "contactPickerInviteFromContacts": "Invite from Contacts",
+  "contactPickerSearchNameOrPhoneHint": "Search name or phone",
+  "contactPickerSearchByNameOrPhone": "Search by name or phone",
   "contactsAccessDenied": "Contacts access denied",
   "contactsAreOffIn": "Contacts are off in",
   "contactsAccessNeeded": "Contacts access needed",
   "somethingWentWrong": "Something went wrong",
+  "contactPickerCouldNotLoadContacts": "Could not load contacts.",
+  "contactPickerCouldNotOpenContactsSettings": "Could not open contacts settings.",
+  "contactPickerDeniedMessage": "You've permanently denied contacts",
+  "contactPickerAccessCurrentlyMessage": "Contacts access is currently",
+  "contactPickerEnableContacts": "Enable Contacts",
+  "contactPickerNeedsAccessMessage": "Cool needs access to",
+  "contactPickerNoContactsMatch": "No contacts match \"{query}\"",
+  "@contactPickerNoContactsMatch": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "contactPickerNoContactsWithPhones": "No contacts with phone numbers found.",
+  "contactPickerDoneCount": "Done ({count})",
+  "@contactPickerDoneCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "eventsValue": "Events', value: '—",
   "ratingValue": "Rating', value: '—",
   "send": "Send",
@@ -1070,5 +1265,243 @@
   "partnerLabel": "Partner",
   "spreadsheetHeaders": "Spreadsheet with headers",
   "contributorsLabel": "Contributors",
-  "rsAdminNoOrders": "No orders yet"
+  "rsAdminNoOrders": "No orders yet",
+  "profileWhatsAppLaunchError": "Could not open WhatsApp",
+  "profileFaceIdComingSoon": "COMING SOON",
+  "profileFaceIdRegistered": "REGISTERED - {value}",
+  "@profileFaceIdRegistered": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "profileFaceIdScanToPay": "SCAN YOUR FACE TO PAY",
+  "profileFaceIdCheckingStatus": "CHECKING FACE ID STATUS",
+  "profileIdentityTitle": "IDENTITY",
+  "profileAppSettingsSection": "APP SETTINGS",
+  "profileAccountDetailsTitle": "ACCOUNT DETAILS",
+  "profilePersonalInformationSubtitle": "PERSONAL INFORMATION",
+  "profileWalletMomoTitle": "WALLET & MOMO",
+  "profileSetupDefaultMomoSubtitle": "SET UP YOUR DEFAULT MOMO",
+  "profileTransactionHistoryTitle": "TRANSACTION HISTORY",
+  "profileStatementsLedgerSubtitle": "M-MONEY STATEMENTS & LEDGER",
+  "profileFaceIdRegisterTitle": "FACE ID REGISTER",
+  "profileSupportSection": "SUPPORT",
+  "profileAdminWorkspaceTitle": "ADMIN WORKSPACE",
+  "profileSystemManagementSubtitle": "SYSTEM MANAGEMENT",
+  "profileHelpTitle": "HELP",
+  "profileChatOnWhatsAppSubtitle": "CHAT ON WHATSAPP",
+  "profileLogoutTitle": "LOGOUT",
+  "otpEnterAllDigits": "Enter all 6 digits",
+  "otpSessionOpenFailed": "Phone was verified, but the app could not open your session.",
+  "otpPhoneVerified": "Phone verified!",
+  "otpEnterWhatsappNumberTitle": "Enter WhatsApp\nNumber",
+  "otpEnterWhatsappNumberSubtitle": "Enter WhatsApp number to receive OTP",
+  "otpPhoneHint": "788 123 456",
+  "otpSendCodeUpper": "SEND CODE",
+  "otpVerifyTitle": "Verify OTP",
+  "otpVerifySubtitlePrefix": "We sent a 6-digit OTP to your WhatsApp at ",
+  "otpVerifyButtonUpper": "VERIFY",
+  "biopayHomeHeadline": "Pay & Get Paid\nInstantly",
+  "biopayFaceScanLabel": "Face Scan",
+  "biopayNfcTapLabel": "NFC Tap",
+  "biopayTabNumber": "Number",
+  "biopayTabCode": "Code",
+  "biopayMomoNumberLabel": "MoMo Number",
+  "biopayAmountOptionalLabel": "Amount (Optional)",
+  "biopayZeroAmountHint": "0",
+  "biopayEnterMerchantCode": "Enter a merchant code",
+  "biopayEnterMomoNumber": "Enter a MoMo number",
+  "biopayProfileUnavailableTitle": "Profile unavailable",
+  "biopayProfileUnavailableMessage": "BioPay could not load your linked details right now.",
+  "biopayTryAgain": "Try Again",
+  "biopayCompleteEnrollmentMessage": "Complete Face ID enrollment from Settings to pay with BioPay.",
+  "biopayNotLinked": "Not Linked",
+  "biopayNotAdded": "Not Added",
+  "biopayIdLabel": "BioPay ID",
+  "biopayFaceIdLabel": "Face ID",
+  "biopayFaceIdNotSetUp": "Not set up",
+  "biopayFaceIdSetupTitle": "Face ID Setup",
+  "biopayRegisterHeadline": "Link your face\nto your MoMo.",
+  "biopayFaceIdAlreadyLinkedNotice": "Face ID already linked. A new scan will replace it.",
+  "biopayUpdateEnrollment": "Update Enrollment",
+  "biopayStartEnrollment": "Start Enrollment",
+  "biopaySecureSessionError": "BioPay could not open a secure session.",
+  "biopayUserDisplayName": "BioPay User",
+  "biopayGetQrCodeTitle": "Get QR Code",
+  "biopayGenerateQrCode": "Generate QR Code",
+  "biopayQrReadyTitle": "BioPay QR Ready",
+  "doneUpper": "DONE",
+  "biopayNfcPaymentTitle": "NFC Payment",
+  "biopayNfcOffInApp": "NFC is off in the app. Tap activate and BioPay will request access.",
+  "biopayTurnOnNfcInSettings": "Turn on NFC in system settings to continue.",
+  "biopayNfcUnavailableOnDevice": "NFC is not available on this device.",
+  "biopayNfcReadyForNextTap": "NFC is active and ready for the next tap.",
+  "biopayNfcNotAvailableButton": "NFC Not Available",
+  "biopayActivateNfc": "Activate NFC",
+  "biopayStopNfc": "Stop NFC",
+  "biopayNfcStopped": "BioPay NFC stopped.",
+  "biopayNfcActivationUnavailable": "NFC activation is not available here.",
+  "groupCreateProfileMissing": "Verification completed but profile missing.",
+  "groupNameRequired": "Enter a group name.",
+  "groupNameTooShort": "At least 3 characters.",
+  "groupNameMinimumThreeCharacters": "Use at least 3 characters.",
+  "groupDescriptionOptionalLabel": "Description (optional)",
+  "groupDescriptionHint": "What is this group for?",
+  "groupTypeSection": "TYPE",
+  "groupFrequencySection": "FREQUENCY",
+  "groupDailyLower": "daily",
+  "groupWeeklyLower": "weekly",
+  "groupMonthlyLower": "monthly",
+  "oneOff": "One-Off",
+  "groupTargetLabel": "Target ({currency})",
+  "@groupTargetLabel": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "groupSettingsTargetAmountOptionalLabel": "Target Amount — {currency} (optional)",
+  "@groupSettingsTargetAmountOptionalLabel": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "groupContributionLabel": "Contribution ({currency})",
+  "@groupContributionLabel": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "groupSettingsContributionAmountOptionalLabel": "Contribution Amount — {currency} (optional)",
+  "@groupSettingsContributionAmountOptionalLabel": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "groupTargetHint": "500,000",
+  "groupSettingsTargetAmountHint": "e.g. 500,000",
+  "groupContributionHint": "10,000",
+  "groupSettingsContributionAmountHint": "e.g. 10,000",
+  "groupCreateGroupUpper": "CREATE GROUP",
+  "groupsPaymentRoutePendingInfo": "This group has no payment route configured yet.",
+  "groupsLaunchMomoUssdError": "Could not launch MoMo USSD. Try dialing manually.",
+  "groupsCreateUpper": "CREATE",
+  "groupsMyLedgers": "My Ledgers",
+  "groupsExplore": "Explore",
+  "groupsInviteNotFoundTitle": "Invite not found",
+  "groupsInviteNotFoundMessage": "This invite code is not active.",
+  "groupsAlreadyMember": "Already a member.",
+  "groupsDismissUpper": "DISMISS",
+  "groupsOpenUpper": "OPEN",
+  "groupsJoinNowUpper": "JOIN NOW",
+  "groupsInviteErrorTitle": "Invite error",
+  "groupsNoGroupsYetTitle": "No groups yet",
+  "groupsNoGroupsYetMessage": "Create your first group or join a public one.",
+  "groupsTapToRetry": "TAP TO RETRY",
+  "groupsJoinUpper": "JOIN",
+  "groupsLiveUpper": "LIVE",
+  "groupsViewAllStatementsUpper": "VIEW ALL STATEMENTS",
+  "groupsContributeWithMomoUpper": "CONTRIBUTE WITH MOMO",
+  "groupsContributionRoutePendingUpper": "CONTRIBUTION ROUTE PENDING",
+  "groupsJoinGroupUpper": "JOIN GROUP",
+  "groupsInviteOnlyMessage": "This group is invite-only.",
+  "groupsInviteShareSubtitle": "Share the invite link with your members.",
+  "groupsNoPostedContributionsYet": "No posted contributions yet.",
+  "groupsCouldNotLoadLedger": "Could not load the ledger.",
+  "groupPaymentLedgerTitle": "Group Payment Ledger",
+  "groupPaymentLedgerFileStem": "cool_group_payment_ledger",
+  "groupStatementsCoolUser": "COOL User",
+  "groupStatementsAllPostedEntriesInView": "All posted entries in view",
+  "groupStatementsTitleUpper": "STATEMENTS",
+  "groupStatementsGroupLedgerUpper": "GROUP LEDGER",
+  "groupStatementsLoadingUpper": "LOADING",
+  "groupStatementsLedgerExported": "Ledger exported",
+  "groupStatementsNoTransactionsYetUpper": "NO TRANSACTIONS YET",
+  "groupStatementsEmptyMessage": "Contributions will appear here as members make payments to this group.",
+  "qrShareSheetSubtitle": "Scan QR or share the link",
+  "whatsappNotAvailable": "WhatsApp is not available",
+  "scanMomoQr": "Scan MoMo QR",
+  "cameraIsOff": "Camera is off",
+  "enableCameraAccessToScan": "Enable camera access to scan.",
+  "enableCamera": "Enable Camera",
+  "cameraIsBlocked": "Camera is blocked",
+  "openSystemSettingsPeriod": "Open system settings.",
+  "openSettings": "Open Settings",
+  "cameraUnavailable": "Camera unavailable",
+  "deviceCannotScan": "This device cannot scan.",
+  "cameraAccessRequired": "Camera access is required.",
+  "allowCamera": "Allow Camera",
+  "bootstrapCoolTitle": "COOL",
+  "bootstrapStartupBlocked": "Startup blocked",
+  "bootstrapRetryStartup": "Retry startup",
+  "bootstrapBackendConfigurationRequired": "Backend configuration required",
+  "bootstrapLocalRunsNeedEnv": "Local runs usually need --dart-define-from-file=.env.json",
+  "bootstrapStartingApp": "Starting app",
+  "bootstrapInitializingFirebase": "Initializing Firebase",
+  "bootstrapRecordingRuntimeBackendContract": "Recording runtime backend contract",
+  "bootstrapActivatingDeviceAttestation": "Activating device attestation",
+  "bootstrapStartingColdStartTrace": "Starting cold-start trace",
+  "bootstrapApplyingDeviceOrientation": "Applying device orientation",
+  "bootstrapConnectingBackend": "Connecting backend",
+  "bootstrapPreparingLocalStorage": "Preparing local storage",
+  "bootstrapLoadingThemePreference": "Loading theme preference",
+  "bootstrapPreparingYourAccount": "Preparing your account",
+  "bootstrapNeverReachedFirstFrame": "The app never reached the first frame.",
+  "bootstrapSomethingWentWrong": "Something went wrong",
+  "bootstrapPleaseRestartApp": "Please restart the app.",
+  "bootstrapFailedWhile": "Startup failed while {step}. Restart the app and try again.",
+  "@bootstrapFailedWhile": {
+    "placeholders": {
+      "step": {
+        "type": "String"
+      }
+    }
+  },
+  "bootstrapTimedOut": "{label} timed out after {seconds}s. The app never reached the first frame.",
+  "@bootstrapTimedOut": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "bootstrapStepFailed": "{label} failed: {error}",
+  "@bootstrapStepFailed": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "later": "Later",
+  "pwaInstallCool": "Install COOL",
+  "pwaAddToHomeScreen": "Add COOL to Home Screen",
+  "pwaInstallStandaloneMessage": "Install the app for faster admin access and standalone launch.",
+  "pwaSafariInstallMessage": "Use Safari share actions to install the admin PWA on iPhone or iPad.",
+  "pwaHowToInstall": "How to install",
+  "pwaUpdateReady": "Update ready",
+  "pwaUpdateReadyMessage": "Refresh to load the latest admin workspace and app assets.",
+  "iosInstallSubtitle": "Get the full app experience with quick access from your home screen.",
+  "iosInstallStep1": "Tap the Share button in Safari",
+  "iosInstallStep2": "Scroll down and tap \"Add to Home Screen\"",
+  "iosInstallStep3": "Tap \"Add\" to confirm",
+  "iosInstallGotIt": "Got it",
+  "coolStateLoadingTitle": "Loading",
+  "coolStateLoadingMessage": "Please wait while this section loads.",
+  "coolErrorUnexpected": "An unexpected error occurred"
 }

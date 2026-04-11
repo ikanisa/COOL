@@ -84,7 +84,7 @@ try {
   await page.evaluate(() => navigator.serviceWorker?.ready.then(() => true));
   await page.reload({ waitUntil: 'networkidle' });
   await page.waitForFunction(() => Boolean(navigator.serviceWorker?.controller));
-  await page.screenshot({ path: resolve(root, '../../output/playwright/cool-pwa-home.png'), fullPage: true });
+  await page.screenshot({ path: resolve(root, '../../output/playwright/cool-pwa-admin.png'), fullPage: true });
 
   console.log('Step 2: run accessibility audit');
   const a11y = await new AxeBuilder({ page }).withTags([
@@ -99,52 +99,36 @@ try {
     `Accessibility violations:\n${a11y.violations.map((violation) => violation.id).join('\n')}`,
   );
 
-  console.log('Step 3: queue offline-safe group action');
-  await page.goto(`${baseUrl}/groups/`, { waitUntil: 'domcontentloaded' });
-  await page.fill('#group-name', 'Kigali Savings Circle');
-  await page.fill('#pledge-amount', '25000');
-  await page.fill('#pledge-phone', '+250788123456');
-  await page.fill('#pledge-date', '2026-04-05');
-  await page.fill('#pledge-note', 'Monthly contribution queued for offline replay.');
-  await page.click('button[type="submit"]');
+  console.log('Step 3: verify users admin page loads with live panel structure');
+  await page.goto(`${baseUrl}/admin/users/`, { waitUntil: 'domcontentloaded' });
+  await page.waitForSelector('.page-title');
+  const pageTitle = await page.locator('.page-title').textContent();
+  assert.match(pageTitle || '', /Users/, 'Users page should load with title.');
+  const userFilterExists = await page.locator('#user-filter').isVisible();
+  assert.ok(userFilterExists, 'Live user filter input should be present.');
 
-  const queueCount = await page.evaluate(async () => {
-    const request = indexedDB.open('cool-pwa-db');
-    const db = await new Promise((resolve, reject) => {
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-    });
-    return await new Promise((resolve, reject) => {
-      const tx = db.transaction('queue', 'readonly');
-      const countRequest = tx.objectStore('queue').count();
-      countRequest.onsuccess = () => resolve(countRequest.result);
-      countRequest.onerror = () => reject(countRequest.error);
-    });
-  });
-  assert.ok(queueCount >= 1, 'Queued action should be persisted to IndexedDB.');
-
-  console.log('Step 4: prove cached route shells and offline fallback are stored');
-  await page.goto(`${baseUrl}/home/`, { waitUntil: 'networkidle' });
-  await page.waitForSelector('text=Cached dashboard');
+  console.log('Step 4: prove cached admin route shells and offline fallback are stored');
+  await page.goto(`${baseUrl}/admin/platform/`, { waitUntil: 'networkidle' });
+  await page.waitForSelector('text=Platform Command');
 
   server.kill('SIGTERM');
   await delay(500);
   const offlineProof = await page.evaluate(async () => {
-    const home = await caches.match('/home/');
-    const offline = await caches.match('/offline/');
+    const command = await caches.match('/admin/platform/');
+    const offline = await caches.match('/admin/offline/');
     return {
-      homeText: home ? await home.text() : null,
+      commandText: command ? await command.text() : null,
       offlineText: offline ? await offline.text() : null,
     };
   });
-  assert.match(offlineProof.homeText ?? '', /Cached dashboard/, 'Home route shell should be present in cache.');
-  assert.match(offlineProof.offlineText ?? '', /You are still inside COOL/, 'Custom offline fallback should be present in cache.');
+  assert.match(offlineProof.commandText ?? '', /Platform Command/, 'Platform route shell should be present in cache.');
+  assert.match(offlineProof.offlineText ?? '', /You are still inside the COOL admin console/, 'Custom admin offline fallback should be present in cache.');
 
   console.log('Step 5: restore server and verify notifications + theming');
   server = startServer();
   await waitForServer();
   await context.grantPermissions(['notifications'], { origin: baseUrl });
-  await page.goto(`${baseUrl}/notifications/`, { waitUntil: 'networkidle' });
+  await page.goto(`${baseUrl}/admin/operations/`, { waitUntil: 'networkidle' });
   if (await page.locator('[data-enable-notifications]').isVisible()) {
     await page.click('[data-enable-notifications]');
   }
@@ -170,7 +154,6 @@ try {
     return badgeCount === '1' && notificationCount >= 1;
   });
 
-  await page.goto(`${baseUrl}/profile/`, { waitUntil: 'networkidle' });
   await page.click('[data-theme-toggle]');
   const theme = await page.evaluate(() => document.documentElement.dataset.theme);
   assert.ok(theme === 'light' || theme === 'dark', 'Theme toggle should set a valid theme.');

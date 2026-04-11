@@ -128,6 +128,7 @@ Deno.test("requireAdminCaller falls back to public.users.is_admin", async () => 
             }),
           }),
         }),
+        rpc: async () => ({ data: null, error: "unused" }),
       }),
     },
   );
@@ -135,7 +136,57 @@ Deno.test("requireAdminCaller falls back to public.users.is_admin", async () => 
   assert(caller.isAdmin, "db-backed admins should be accepted");
 });
 
-Deno.test("requireAdminCaller rejects non-admin users", async () => {
+Deno.test("requireAdminCaller accepts role-assigned platform admins via RPC", async () => {
+  const caller = await requireAdminCaller(
+    new Request("https://example.com", {
+      headers: { authorization: "Bearer test-token" },
+    }),
+    {
+      createUserClient: () => ({
+        auth: {
+          getUser: async () => ({
+            data: {
+              user: {
+                id: "role-admin-1",
+                app_metadata: {},
+              },
+            },
+            error: null,
+          }),
+        },
+      }),
+      createAdminClient: () => ({
+        from: () => ({
+          select: () => ({
+            eq: () => ({
+              maybeSingle: async () => ({
+                data: { is_admin: false },
+                error: null,
+              }),
+            }),
+          }),
+        }),
+        rpc: async (fn: string, params?: Record<string, unknown>) => {
+          assertEquals(fn, "get_admin_access_for_user", "should call RPC");
+          assertEquals(
+            (params as Record<string, unknown>)?.p_user_id,
+            "role-admin-1",
+            "should pass the user ID",
+          );
+          return {
+            data: { has_platform_access: true, role_assignments: [] },
+            error: null,
+          };
+        },
+      }),
+    },
+  );
+
+  assert(caller.isAdmin, "role-assigned admins should be accepted");
+  assertEquals(caller.userId, "role-admin-1", "should return correct user");
+});
+
+Deno.test("requireAdminCaller rejects non-admin users (including no role assignments)", async () => {
   try {
     await requireAdminCaller(
       new Request("https://example.com", {
@@ -165,6 +216,10 @@ Deno.test("requireAdminCaller rejects non-admin users", async () => {
                 }),
               }),
             }),
+          }),
+          rpc: async () => ({
+            data: { has_platform_access: false, role_assignments: [] },
+            error: null,
           }),
         }),
       },

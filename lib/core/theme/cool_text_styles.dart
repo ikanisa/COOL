@@ -23,7 +23,7 @@ class CoolTextStyles {
     final resolvedBase =
         base ??
         _textTheme.bodyLarge ??
-        const TextStyle(fontSize: 18, fontWeight: FontWeight.w600);
+        const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
     return resolvedBase.copyWith(
       fontFamily: 'DM Mono',
       color: color ?? resolvedBase.color ?? _defaultColor,
@@ -39,15 +39,15 @@ class CoolTextStyles {
         const TextStyle(
           fontFamily: 'Inter',
           fontSize: 14,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           letterSpacing: 1.0,
           height: 1.2,
         );
     final resolvedWeight = resolvedBase.fontWeight;
     final clampedWeight =
-        resolvedWeight != null && resolvedWeight.index >= FontWeight.w400.index
+        resolvedWeight != null && resolvedWeight.index >= FontWeight.w500.index
         ? resolvedWeight
-        : FontWeight.w400;
+        : FontWeight.w500;
     final resolvedSize = resolvedBase.fontSize ?? 14;
     return resolvedBase.copyWith(
       fontSize: resolvedSize < 14 ? 14 : resolvedSize,
@@ -62,7 +62,7 @@ class CoolTextStyles {
     return TextStyle(
       fontFamily: 'Manrope',
       fontSize: 14,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w500,
       color: color ?? _defaultColor,
       letterSpacing: 0.0,
       height: 1.3,
@@ -73,7 +73,7 @@ class CoolTextStyles {
     return TextStyle(
       fontFamily: 'Space Grotesk',
       fontSize: 48,
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w800,
       color: color ?? _defaultColor,
       letterSpacing: -1.5,
       height: 0.9,
@@ -81,7 +81,7 @@ class CoolTextStyles {
   }
 
   /// Space Grotesk — headline authority font.
-  /// Use for large-scale labels (w700+) where maximum visual impact is needed.
+  /// Use for large-scale labels (w800+) where maximum visual impact is needed.
   TextStyle headline(
     TextStyle? base, {
     Color? color,
@@ -92,11 +92,11 @@ class CoolTextStyles {
     final resolvedBase =
         base ??
         _textTheme.headlineMedium ??
-        const TextStyle(fontSize: 28, fontWeight: FontWeight.w700);
+        const TextStyle(fontSize: 28, fontWeight: FontWeight.w800);
     return resolvedBase.copyWith(
       fontFamily: 'Space Grotesk',
       color: color ?? resolvedBase.color ?? _defaultColor,
-      fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w700,
+      fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w800,
       letterSpacing: letterSpacing ?? resolvedBase.letterSpacing ?? -0.5,
       height: height ?? resolvedBase.height,
     );
@@ -114,11 +114,11 @@ class CoolTextStyles {
     final resolvedBase =
         base ??
         _textTheme.bodyLarge ??
-        const TextStyle(fontSize: 16, fontWeight: FontWeight.w400);
+        const TextStyle(fontSize: 16, fontWeight: FontWeight.w500);
     return resolvedBase.copyWith(
       fontFamily: 'Manrope',
       color: color ?? resolvedBase.color ?? _defaultColor,
-      fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w400,
+      fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w500,
       letterSpacing: letterSpacing ?? resolvedBase.letterSpacing,
       height: height ?? resolvedBase.height,
     );
@@ -136,11 +136,11 @@ class CoolTextStyles {
     final resolvedBase =
         base ??
         _textTheme.bodyLarge ??
-        const TextStyle(fontSize: 18, fontWeight: FontWeight.w400);
+        const TextStyle(fontSize: 18, fontWeight: FontWeight.w500);
     return resolvedBase.copyWith(
       fontFamily: 'Space Grotesk',
       color: color ?? resolvedBase.color ?? _defaultColor,
-      fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w400,
+      fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w500,
       letterSpacing: letterSpacing ?? resolvedBase.letterSpacing,
       height: height ?? resolvedBase.height,
     );
@@ -157,7 +157,7 @@ class CoolTextStyles {
   }) => headline(
     base,
     color: color,
-    fontWeight: fontWeight ?? FontWeight.w700,
+    fontWeight: fontWeight ?? FontWeight.w800,
     letterSpacing: letterSpacing,
     height: height,
   );

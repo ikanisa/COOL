@@ -65,24 +65,14 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
   }
 
   Future<void> _contributeToGroup(Group group) async {
-    if (!await requireVerifiedUser(context, ref)) {
-      return;
-    }
-
     if (!groupHasContributionRoute(group)) {
-      CoolToast.info(
-        context,
-        'This group has no payment route configured yet.',
-      );
+      CoolToast.info(context, context.l10n.groupsPaymentRoutePendingInfo);
       _openGroup(group);
       return;
     }
     launchGroupContribution(context, group: group).then((ok) {
       if (!ok && mounted) {
-        CoolToast.error(
-          context,
-          'Could not launch MoMo USSD. Try dialing manually.',
-        );
+        CoolToast.error(context, context.l10n.groupsLaunchMomoUssdError);
       }
     });
   }
@@ -109,8 +99,11 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
       return;
     }
 
-    // Gate: require verified phone before joining.
-    if (!await requireVerifiedUser(context, ref)) {
+    if (!await requireVerifiedUser(
+      context,
+      ref,
+      feature: WhatsAppProtectedFeature.groupJoin,
+    )) {
       return;
     }
 
@@ -161,8 +154,11 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
 
     setState(() => _isJoining = true);
 
-    // Gate: require verified phone before accepting invite.
-    if (!await requireVerifiedUser(context, ref)) {
+    if (!await requireVerifiedUser(
+      context,
+      ref,
+      feature: WhatsAppProtectedFeature.groupJoin,
+    )) {
       if (mounted) setState(() => _isJoining = false);
       return;
     }
@@ -233,7 +229,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                 ),
                 icon: const Icon(Icons.add_rounded),
                 label: Text(
-                  'CREATE',
+                  l10n.groupsCreateUpper,
                   style: textTheme
                       .mobiLabel(color: colors.accentForeground)
                       .copyWith(fontWeight: FontWeight.w800),
@@ -247,8 +243,14 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
             slivers: [
               CoolFloatingHeaderSliver(
                 leading: IconButton(
-                  onPressed: () => context.pop(),
-                  tooltip: 'Back',
+                  onPressed: () {
+                    if (context.canPop()) {
+                      context.pop();
+                    } else {
+                      context.go(AppRoutes.home);
+                    }
+                  },
+                  tooltip: MaterialLocalizations.of(context).backButtonTooltip,
                   icon: const Icon(Icons.arrow_back_rounded),
                 ),
                 title: Text(
@@ -273,7 +275,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                         children: [
                           Expanded(
                             child: TabPill(
-                              label: 'My Ledgers',
+                              label: l10n.groupsMyLedgers,
                               isActive: _showMine,
                               onTap: () => setState(() => _showMine = true),
                             ),
@@ -281,7 +283,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                           SizedBox(width: space.x2),
                           Expanded(
                             child: TabPill(
-                              label: 'Explore',
+                              label: l10n.groupsExplore,
                               isActive: !_showMine,
                               onTap: () => setState(() => _showMine = false),
                             ),
@@ -303,9 +305,9 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                           data: (preview) {
                             if (preview == null) {
                               return _InviteBanner(
-                                title: 'Invite not found',
-                                subtitle: 'This invite code is not active.',
-                                actionLabel: 'DISMISS',
+                                title: l10n.groupsInviteNotFoundTitle,
+                                subtitle: l10n.groupsInviteNotFoundMessage,
+                                actionLabel: l10n.groupsDismissUpper,
                                 onAction: _dismissInviteBanner,
                                 onDismiss: _dismissInviteBanner,
                               );
@@ -313,11 +315,11 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                             return _InviteBanner(
                               title: preview.group.name,
                               subtitle: preview.isMember
-                                  ? 'Already a member.'
-                                  : '${preview.group.memberCount} members',
+                                  ? l10n.groupsAlreadyMember
+                                  : l10n.memberCount(preview.group.memberCount),
                               actionLabel: preview.isMember
-                                  ? 'OPEN'
-                                  : 'JOIN NOW',
+                                  ? l10n.groupsOpenUpper
+                                  : l10n.groupsJoinNowUpper,
                               onAction: () =>
                                   _acceptInvite(inviteCode!, preview),
                               onDismiss: _dismissInviteBanner,
@@ -326,9 +328,9 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                           },
                           loading: () => const _InviteBannerLoading(),
                           error: (error, _) => _InviteBanner(
-                            title: 'Invite error',
+                            title: l10n.groupsInviteErrorTitle,
                             subtitle: describeUserFacingError(error),
-                            actionLabel: 'DISMISS',
+                            actionLabel: l10n.groupsDismissUpper,
                             onAction: _dismissInviteBanner,
                             onDismiss: _dismissInviteBanner,
                           ),
@@ -345,12 +347,14 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                       hasScrollBody: false,
                       child: _EmptyGroupsState(
                         title: _showMine
-                            ? 'No groups yet'
+                            ? l10n.groupsNoGroupsYetTitle
                             : l10n.groupsEmptyPublicTitle,
                         message: _showMine
-                            ? 'Create your first group or join a public one.'
+                            ? l10n.groupsNoGroupsYetMessage
                             : l10n.groupsEmptyPublicMessage,
-                        actionLabel: _showMine ? 'CREATE GROUP' : null,
+                        actionLabel: _showMine
+                            ? l10n.groupCreateGroupUpper
+                            : null,
                         onAction: _showMine ? _openCreateGroup : null,
                       ),
                     );
@@ -421,7 +425,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                           SizedBox(
                             width: 220,
                             child: CoolButton(
-                              label: 'TAP TO RETRY',
+                              label: l10n.groupsTapToRetry,
                               onTap: _refreshGroups,
                               variant: CoolButtonVariant.secondary,
                             ),

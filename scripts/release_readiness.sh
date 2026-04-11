@@ -50,19 +50,18 @@ fi
 bash "$ROOT_DIR/scripts/verify_ios_flavors.sh"
 
 echo "==> deno test (edge functions)"
+deno_test_files=()
+while IFS= read -r file; do
+  deno_test_files+=("$file")
+done < <(find supabase/functions -type f -name '*_test.ts' | sort)
+
+if [[ "${#deno_test_files[@]}" -eq 0 ]]; then
+  echo "ERROR: no Deno test files found under supabase/functions" >&2
+  exit 1
+fi
+
 deno test --allow-env=SUPABASE_SERVICE_ROLE_KEY,AUTH_PHONE_PASSWORD_SECRET,OTP_CODE_HASH_SECRET,OTP_TEST_PHONE,OTP_TEST_CODE,GOOGLE_SERVICE_ACCOUNT_EMAIL,GOOGLE_PRIVATE_KEY,AI_AUDIT_SHEET_ID \
-  supabase/functions/_shared/app_check_test.ts \
-  supabase/functions/_shared/google_workspace_test.ts \
-  supabase/functions/biopay-enroll/index_test.ts \
-  supabase/functions/biopay-match/index_test.ts \
-  supabase/functions/biopay-revoke/index_test.ts \
-  supabase/functions/biopay-create-payment-intent/index_test.ts \
-  supabase/functions/biopay-create-payment-intent/payment_intent_test.ts \
-  supabase/functions/record-operational-health/index_test.ts \
-  supabase/functions/verify-otp/index_test.ts \
-  supabase/functions/verify-otp/verify_otp_helpers_test.ts \
-  supabase/functions/parse-momo-sms/ai_parser_test.ts \
-  supabase/functions/parse-momo-sms/rayon_confirmation_test.ts
+  "${deno_test_files[@]}"
 
 echo "==> deno check (edge functions)"
 deno_files=()

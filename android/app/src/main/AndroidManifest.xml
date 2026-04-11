@@ -13,9 +13,9 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
-    <!-- Location (for nearby services and discovery) -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- Location — NOT used by Cool. Removed to comply with Play Store
+         permission policy. If a location feature is added later, re-enable
+         with a clear purpose string and runtime prompt. -->
 
     <!-- NFC (MOMO tap-to-pay) -->
     <uses-permission android:name="android.permission.NFC" />
@@ -59,6 +59,13 @@
     <uses-permission
         android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"
         tools:node="remove" />
+    <!-- Location removed from Cool — block transitive re-introduction -->
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        tools:node="remove" />
 
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
@@ -70,9 +77,8 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:enableOnBackInvokedCallback="true">
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="${GOOGLE_MAPS_ANDROID_API_KEY}" />
+        <!-- Maps API key removed — no Google Maps features in Cool.
+             Re-add if a map feature is introduced. -->
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"

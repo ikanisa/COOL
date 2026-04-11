@@ -21,10 +21,106 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navProfile => 'Settings';
 
   @override
+  String get navBiopay => 'BioPay';
+
+  @override
   String get welcomeTitle => 'Welcome to Cool';
 
   @override
   String get welcomeSubtitle => 'Community savings group funds';
+
+  @override
+  String get homeCommunitiesTitle => 'Communities';
+
+  @override
+  String get homeCommunitiesLoadFailed => 'Communities failed to load.';
+
+  @override
+  String get homeNoCommunitiesYet => 'No communities yet';
+
+  @override
+  String get homeCommunitiesEmptySubtitle =>
+      'Your savings circles will appear here.';
+
+  @override
+  String get homeCommunityFallbackName => 'Community';
+
+  @override
+  String get homeSavingsBalanceUpper => 'SAVINGS BALANCE';
+
+  @override
+  String get homeQuickScanUpper => 'SCAN';
+
+  @override
+  String get homeQuickBiopayLabel => 'BioPay';
+
+  @override
+  String get homeOperationsTitle => 'Operations';
+
+  @override
+  String get homeOperationsLoadFailed => 'Operations failed to load.';
+
+  @override
+  String get homeNoOperationsYet => 'No operations yet';
+
+  @override
+  String get homeOperationsEmptySubtitle =>
+      'Incoming and outgoing transactions will appear here.';
+
+  @override
+  String get homeTransactionFallbackTitle => 'Transaction';
+
+  @override
+  String homeOperationMetaToday(String time, String type) {
+    return 'TODAY, $time • $type';
+  }
+
+  @override
+  String homeOperationMetaYesterday(String time, String type) {
+    return 'YESTERDAY, $time • $type';
+  }
+
+  @override
+  String homeOperationMetaDate(String date, String time, String type) {
+    return '$date, $time • $type';
+  }
+
+  @override
+  String get homeNoChangeThisMonthUpper => 'NO CHANGE THIS MONTH';
+
+  @override
+  String homeThisMonthAmount(String amount) {
+    return 'THIS MONTH $amount RWF';
+  }
+
+  @override
+  String homeMemberCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count MEMBERS',
+      one: '1 MEMBER',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get homeOperationTransferUpper => 'TRANSFER';
+
+  @override
+  String get homeOperationReceivedUpper => 'RECEIVED';
+
+  @override
+  String get homeOperationSavingUpper => 'SAVING';
+
+  @override
+  String get homeOperationInterestUpper => 'INTEREST';
+
+  @override
+  String get homeOperationPayoutUpper => 'PAYOUT';
+
+  @override
+  String get homeOperationActivityUpper => 'ACTIVITY';
 
   @override
   String get getStarted => 'Get Started';
@@ -590,6 +686,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get daily => 'Daily';
+
+  @override
+  String get weekly => 'Weekly';
 
   @override
   String get expiresSoon => 'Expires soon';
@@ -1345,6 +1444,47 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileMomoCodeNotSet => 'MoMo code not set';
 
   @override
+  String get profileSettingsUnavailable => 'Settings unavailable';
+
+  @override
+  String get profileAppAccessToggleFeatureAccess => 'Toggle feature access';
+
+  @override
+  String profileOpenLabel(String label) {
+    return 'Open $label';
+  }
+
+  @override
+  String get profileSectionExpanded => 'Expanded';
+
+  @override
+  String get profileSectionCollapsed => 'Collapsed';
+
+  @override
+  String get profileCollapseSection => 'Collapse section';
+
+  @override
+  String get profileExpandSection => 'Expand section';
+
+  @override
+  String get profileMomoNumberRequired => 'MoMo number required';
+
+  @override
+  String get profileMomoNumberIsRequired => 'MoMo number is required';
+
+  @override
+  String get profileMomoCodeRequired => 'MoMo code required';
+
+  @override
+  String get profileEnterMomoNumber => 'Enter MoMo number';
+
+  @override
+  String get profileEnterMerchantCode => 'Enter merchant code';
+
+  @override
+  String get profileDefaultReceiveRoute => 'DEFAULT RECEIVE ROUTE';
+
+  @override
   String momoSendMoneyOpensUssd(Object countryName) {
     return 'Open $countryName MoMo USSD';
   }
@@ -1600,10 +1740,87 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clear => 'Clear';
 
   @override
+  String statusBadgeSemantics(String label) {
+    return 'Status: $label';
+  }
+
+  @override
   String get str07xxxxxxxx => '07XXXXXXXX';
 
   @override
   String get allocateToMember => 'Allocate to member';
+
+  @override
+  String get allocateToMemberUpper => 'ALLOCATE TO MEMBER';
+
+  @override
+  String get transactionAllocated => 'Transaction allocated';
+
+  @override
+  String get allocationFailed => 'Allocation failed';
+
+  @override
+  String get transactionUnallocated => 'Transaction unallocated';
+
+  @override
+  String get unallocationFailed => 'Unallocation failed';
+
+  @override
+  String get transactionAllocationUpper => 'TRANSACTION ALLOCATION';
+
+  @override
+  String get manageGroupMemberAssignment => 'Manage group member assignment';
+
+  @override
+  String get notYetAllocated => 'Not yet allocated';
+
+  @override
+  String get unallocateUpper => 'UNALLOCATE';
+
+  @override
+  String get orReallocateToAnotherMember => 'OR REALLOCATE TO ANOTHER MEMBER';
+
+  @override
+  String get noGroupMembersFound => 'No group members found.';
+
+  @override
+  String get selectMember => 'Select member:';
+
+  @override
+  String get currentUpper => 'CURRENT';
+
+  @override
+  String get confirmReallocationUpper => 'CONFIRM REALLOCATION';
+
+  @override
+  String get confirmAllocationUpper => 'CONFIRM ALLOCATION';
+
+  @override
+  String get shareQrButton => 'QR / Share';
+
+  @override
+  String get selectAContactToShareWith => 'Select a contact to share with';
+
+  @override
+  String get postedUpper => 'POSTED';
+
+  @override
+  String get confirmedUpper => 'CONFIRMED';
+
+  @override
+  String get draftUpper => 'DRAFT';
+
+  @override
+  String get reviewUpper => 'REVIEW';
+
+  @override
+  String get manualUpper => 'MANUAL';
+
+  @override
+  String get suggestedUpper => 'SUGGESTED';
+
+  @override
+  String get rejectedUpper => 'REJECTED';
 
   @override
   String get groups1 => 'GROUPS';
@@ -2106,6 +2323,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ready => 'Ready';
 
   @override
+  String get disabled => 'Disabled';
+
+  @override
   String get offInCool => 'Off in COOL';
 
   @override
@@ -2119,6 +2339,109 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notAvailable => 'Not available';
+
+  @override
+  String get profileSmsSyncOptIn => 'SMS sync opt-in';
+
+  @override
+  String get profileSmsSyncOptInMessage =>
+      'Android only. COOL checks approved M-Money sender IDs, imports matching confirmations, and ignores other SMS.';
+
+  @override
+  String get profileSmsPaymentSyncTitle => 'SMS Payment Sync';
+
+  @override
+  String get profileSmsPaymentSyncSubtitle =>
+      'Optional on Android. Watches approved M-Money sender IDs, imports matching confirmations, and auto-verifies supported payment flows.';
+
+  @override
+  String get profileAccessFeature12MonthImport => '12-month import';
+
+  @override
+  String get profileAccessFeatureMomoVerification => 'MoMo verification';
+
+  @override
+  String get profileLocationSubtitle =>
+      'Used for nearby services and place-aware flows';
+
+  @override
+  String get profileAccessFeatureNearbyServices => 'Nearby services';
+
+  @override
+  String get profileAccessFeaturePartnerDiscovery => 'Partner discovery';
+
+  @override
+  String get profileAccessFeatureMapContext => 'Map context';
+
+  @override
+  String get profileCameraSubtitle => 'Used for MoMo QR';
+
+  @override
+  String get profileAccessFeatureMomoQrScan => 'MoMo QR scan';
+
+  @override
+  String get profileContactsSubtitle => 'Used when inviting group';
+
+  @override
+  String get profileAccessFeatureGroupInvites => 'Group invites';
+
+  @override
+  String get profileAccessFeatureShareViaContacts => 'Share via contacts';
+
+  @override
+  String get profileNotificationsNeedsSystemAccess => 'Needs system access';
+
+  @override
+  String get profileAccessFeatureMomoUpdates => 'MoMo updates';
+
+  @override
+  String get profileAccessFeatureGroupsActivity => 'Groups activity';
+
+  @override
+  String get profileAccessFeatureServiceUpdates => 'Service updates';
+
+  @override
+  String get profileAccessFeaturePartnerAnnouncements =>
+      'Partner announcements';
+
+  @override
+  String get profileOpenLocationSettings => 'Open location settings';
+
+  @override
+  String get profileNfcSubtitle => 'Controls NFC receive/read flows';
+
+  @override
+  String get profileAccessFeatureMomoReceiveTap => 'MoMo receive tap';
+
+  @override
+  String get profileAccessFeatureNfcPaymentTags => 'NFC payment tags';
+
+  @override
+  String get profileOpenNfcSettings => 'Open NFC settings';
+
+  @override
+  String get profilePhotosMediaTitle => 'Photos & Media';
+
+  @override
+  String get profilePhotosMediaSubtitle =>
+      'Choose profile photos and upload documents from gallery.';
+
+  @override
+  String get profileAccessFeatureProfilePhoto => 'Profile photo';
+
+  @override
+  String get profileAccessFeatureDocumentUpload => 'Document upload';
+
+  @override
+  String get profileServiceOff => 'Service off';
+
+  @override
+  String profileAppAccessReadyCount(int readyCount, int totalCount) {
+    return '$readyCount/$totalCount ready';
+  }
+
+  @override
+  String get profileAppAccessAllControls => 'All access controls';
 
   @override
   String get legalNameForReports => 'Legal name for reports';
@@ -2667,6 +2990,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchByNameOr => 'Search by name or';
 
   @override
+  String get contactPickerInviteFromContacts => 'Invite from Contacts';
+
+  @override
+  String get contactPickerSearchNameOrPhoneHint => 'Search name or phone';
+
+  @override
+  String get contactPickerSearchByNameOrPhone => 'Search by name or phone';
+
+  @override
   String get contactsAccessDenied => 'Contacts access denied';
 
   @override
@@ -2677,6 +3009,41 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get somethingWentWrong => 'Something went wrong';
+
+  @override
+  String get contactPickerCouldNotLoadContacts => 'Could not load contacts.';
+
+  @override
+  String get contactPickerCouldNotOpenContactsSettings =>
+      'Could not open contacts settings.';
+
+  @override
+  String get contactPickerDeniedMessage =>
+      'You\'ve permanently denied contacts';
+
+  @override
+  String get contactPickerAccessCurrentlyMessage =>
+      'Contacts access is currently';
+
+  @override
+  String get contactPickerEnableContacts => 'Enable Contacts';
+
+  @override
+  String get contactPickerNeedsAccessMessage => 'Cool needs access to';
+
+  @override
+  String contactPickerNoContactsMatch(String query) {
+    return 'No contacts match \"$query\"';
+  }
+
+  @override
+  String get contactPickerNoContactsWithPhones =>
+      'No contacts with phone numbers found.';
+
+  @override
+  String contactPickerDoneCount(int count) {
+    return 'Done ($count)';
+  }
 
   @override
   String get eventsValue => 'Events\', value: \'—';
@@ -3046,4 +3413,578 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rsAdminNoOrders => 'No orders yet';
+
+  @override
+  String get profileWhatsAppLaunchError => 'Could not open WhatsApp';
+
+  @override
+  String get profileFaceIdComingSoon => 'COMING SOON';
+
+  @override
+  String profileFaceIdRegistered(String value) {
+    return 'REGISTERED - $value';
+  }
+
+  @override
+  String get profileFaceIdScanToPay => 'SCAN YOUR FACE TO PAY';
+
+  @override
+  String get profileFaceIdCheckingStatus => 'CHECKING FACE ID STATUS';
+
+  @override
+  String get profileIdentityTitle => 'IDENTITY';
+
+  @override
+  String get profileAppSettingsSection => 'APP SETTINGS';
+
+  @override
+  String get profileAccountDetailsTitle => 'ACCOUNT DETAILS';
+
+  @override
+  String get profilePersonalInformationSubtitle => 'PERSONAL INFORMATION';
+
+  @override
+  String get profileWalletMomoTitle => 'WALLET & MOMO';
+
+  @override
+  String get profileSetupDefaultMomoSubtitle => 'SET UP YOUR DEFAULT MOMO';
+
+  @override
+  String get profileTransactionHistoryTitle => 'TRANSACTION HISTORY';
+
+  @override
+  String get profileStatementsLedgerSubtitle => 'M-MONEY STATEMENTS & LEDGER';
+
+  @override
+  String get profileFaceIdRegisterTitle => 'FACE ID REGISTER';
+
+  @override
+  String get profileSupportSection => 'SUPPORT';
+
+  @override
+  String get profileAdminWorkspaceTitle => 'ADMIN WORKSPACE';
+
+  @override
+  String get profileSystemManagementSubtitle => 'SYSTEM MANAGEMENT';
+
+  @override
+  String get profileHelpTitle => 'HELP';
+
+  @override
+  String get profileChatOnWhatsAppSubtitle => 'CHAT ON WHATSAPP';
+
+  @override
+  String get profileLogoutTitle => 'LOGOUT';
+
+  @override
+  String get otpEnterAllDigits => 'Enter all 6 digits';
+
+  @override
+  String get otpSessionOpenFailed =>
+      'Phone was verified, but the app could not open your session.';
+
+  @override
+  String get otpPhoneVerified => 'Phone verified!';
+
+  @override
+  String get otpEnterWhatsappNumberTitle => 'Enter WhatsApp\nNumber';
+
+  @override
+  String get otpEnterWhatsappNumberSubtitle =>
+      'Enter WhatsApp number to receive OTP';
+
+  @override
+  String get otpPhoneHint => '788 123 456';
+
+  @override
+  String get otpSendCodeUpper => 'SEND CODE';
+
+  @override
+  String get otpVerifyTitle => 'Verify OTP';
+
+  @override
+  String get otpVerifySubtitlePrefix =>
+      'We sent a 6-digit OTP to your WhatsApp at ';
+
+  @override
+  String get otpVerifyButtonUpper => 'VERIFY';
+
+  @override
+  String get biopayHomeHeadline => 'Pay & Get Paid\nInstantly';
+
+  @override
+  String get biopayFaceScanLabel => 'Face Scan';
+
+  @override
+  String get biopayNfcTapLabel => 'NFC Tap';
+
+  @override
+  String get biopayTabNumber => 'Number';
+
+  @override
+  String get biopayTabCode => 'Code';
+
+  @override
+  String get biopayMomoNumberLabel => 'MoMo Number';
+
+  @override
+  String get biopayAmountOptionalLabel => 'Amount (Optional)';
+
+  @override
+  String get biopayZeroAmountHint => '0';
+
+  @override
+  String get biopayEnterMerchantCode => 'Enter a merchant code';
+
+  @override
+  String get biopayEnterMomoNumber => 'Enter a MoMo number';
+
+  @override
+  String get biopayProfileUnavailableTitle => 'Profile unavailable';
+
+  @override
+  String get biopayProfileUnavailableMessage =>
+      'BioPay could not load your linked details right now.';
+
+  @override
+  String get biopayTryAgain => 'Try Again';
+
+  @override
+  String get biopayCompleteEnrollmentMessage =>
+      'Complete Face ID enrollment from Settings to pay with BioPay.';
+
+  @override
+  String get biopayNotLinked => 'Not Linked';
+
+  @override
+  String get biopayNotAdded => 'Not Added';
+
+  @override
+  String get biopayIdLabel => 'BioPay ID';
+
+  @override
+  String get biopayFaceIdLabel => 'Face ID';
+
+  @override
+  String get biopayFaceIdNotSetUp => 'Not set up';
+
+  @override
+  String get biopayFaceIdSetupTitle => 'Face ID Setup';
+
+  @override
+  String get biopayRegisterHeadline => 'Link your face\nto your MoMo.';
+
+  @override
+  String get biopayFaceIdAlreadyLinkedNotice =>
+      'Face ID already linked. A new scan will replace it.';
+
+  @override
+  String get biopayUpdateEnrollment => 'Update Enrollment';
+
+  @override
+  String get biopayStartEnrollment => 'Start Enrollment';
+
+  @override
+  String get biopaySecureSessionError =>
+      'BioPay could not open a secure session.';
+
+  @override
+  String get biopayUserDisplayName => 'BioPay User';
+
+  @override
+  String get biopayGetQrCodeTitle => 'Get QR Code';
+
+  @override
+  String get biopayGenerateQrCode => 'Generate QR Code';
+
+  @override
+  String get biopayQrReadyTitle => 'BioPay QR Ready';
+
+  @override
+  String get doneUpper => 'DONE';
+
+  @override
+  String get biopayNfcPaymentTitle => 'NFC Payment';
+
+  @override
+  String get biopayNfcOffInApp =>
+      'NFC is off in the app. Tap activate and BioPay will request access.';
+
+  @override
+  String get biopayTurnOnNfcInSettings =>
+      'Turn on NFC in system settings to continue.';
+
+  @override
+  String get biopayNfcUnavailableOnDevice =>
+      'NFC is not available on this device.';
+
+  @override
+  String get biopayNfcReadyForNextTap =>
+      'NFC is active and ready for the next tap.';
+
+  @override
+  String get biopayNfcNotAvailableButton => 'NFC Not Available';
+
+  @override
+  String get biopayActivateNfc => 'Activate NFC';
+
+  @override
+  String get biopayStopNfc => 'Stop NFC';
+
+  @override
+  String get biopayNfcStopped => 'BioPay NFC stopped.';
+
+  @override
+  String get biopayNfcActivationUnavailable =>
+      'NFC activation is not available here.';
+
+  @override
+  String get groupCreateProfileMissing =>
+      'Verification completed but profile missing.';
+
+  @override
+  String get groupNameRequired => 'Enter a group name.';
+
+  @override
+  String get groupNameTooShort => 'At least 3 characters.';
+
+  @override
+  String get groupNameMinimumThreeCharacters => 'Use at least 3 characters.';
+
+  @override
+  String get groupDescriptionOptionalLabel => 'Description (optional)';
+
+  @override
+  String get groupDescriptionHint => 'What is this group for?';
+
+  @override
+  String get groupTypeSection => 'TYPE';
+
+  @override
+  String get groupFrequencySection => 'FREQUENCY';
+
+  @override
+  String get groupDailyLower => 'daily';
+
+  @override
+  String get groupWeeklyLower => 'weekly';
+
+  @override
+  String get groupMonthlyLower => 'monthly';
+
+  @override
+  String get oneOff => 'One-Off';
+
+  @override
+  String groupTargetLabel(String currency) {
+    return 'Target ($currency)';
+  }
+
+  @override
+  String groupSettingsTargetAmountOptionalLabel(String currency) {
+    return 'Target Amount — $currency (optional)';
+  }
+
+  @override
+  String groupContributionLabel(String currency) {
+    return 'Contribution ($currency)';
+  }
+
+  @override
+  String groupSettingsContributionAmountOptionalLabel(String currency) {
+    return 'Contribution Amount — $currency (optional)';
+  }
+
+  @override
+  String get groupTargetHint => '500,000';
+
+  @override
+  String get groupSettingsTargetAmountHint => 'e.g. 500,000';
+
+  @override
+  String get groupContributionHint => '10,000';
+
+  @override
+  String get groupSettingsContributionAmountHint => 'e.g. 10,000';
+
+  @override
+  String get groupCreateGroupUpper => 'CREATE GROUP';
+
+  @override
+  String get groupsPaymentRoutePendingInfo =>
+      'This group has no payment route configured yet.';
+
+  @override
+  String get groupsLaunchMomoUssdError =>
+      'Could not launch MoMo USSD. Try dialing manually.';
+
+  @override
+  String get groupsCreateUpper => 'CREATE';
+
+  @override
+  String get groupsMyLedgers => 'My Ledgers';
+
+  @override
+  String get groupsExplore => 'Explore';
+
+  @override
+  String get groupsInviteNotFoundTitle => 'Invite not found';
+
+  @override
+  String get groupsInviteNotFoundMessage => 'This invite code is not active.';
+
+  @override
+  String get groupsAlreadyMember => 'Already a member.';
+
+  @override
+  String get groupsDismissUpper => 'DISMISS';
+
+  @override
+  String get groupsOpenUpper => 'OPEN';
+
+  @override
+  String get groupsJoinNowUpper => 'JOIN NOW';
+
+  @override
+  String get groupsInviteErrorTitle => 'Invite error';
+
+  @override
+  String get groupsNoGroupsYetTitle => 'No groups yet';
+
+  @override
+  String get groupsNoGroupsYetMessage =>
+      'Create your first group or join a public one.';
+
+  @override
+  String get groupsTapToRetry => 'TAP TO RETRY';
+
+  @override
+  String get groupsJoinUpper => 'JOIN';
+
+  @override
+  String get groupsLiveUpper => 'LIVE';
+
+  @override
+  String get groupsViewAllStatementsUpper => 'VIEW ALL STATEMENTS';
+
+  @override
+  String get groupsContributeWithMomoUpper => 'CONTRIBUTE WITH MOMO';
+
+  @override
+  String get groupsContributionRoutePendingUpper =>
+      'CONTRIBUTION ROUTE PENDING';
+
+  @override
+  String get groupsJoinGroupUpper => 'JOIN GROUP';
+
+  @override
+  String get groupsInviteOnlyMessage => 'This group is invite-only.';
+
+  @override
+  String get groupsInviteShareSubtitle =>
+      'Share the invite link with your members.';
+
+  @override
+  String get groupsNoPostedContributionsYet => 'No posted contributions yet.';
+
+  @override
+  String get groupsCouldNotLoadLedger => 'Could not load the ledger.';
+
+  @override
+  String get groupPaymentLedgerTitle => 'Group Payment Ledger';
+
+  @override
+  String get groupPaymentLedgerFileStem => 'cool_group_payment_ledger';
+
+  @override
+  String get groupStatementsCoolUser => 'COOL User';
+
+  @override
+  String get groupStatementsAllPostedEntriesInView =>
+      'All posted entries in view';
+
+  @override
+  String get groupStatementsTitleUpper => 'STATEMENTS';
+
+  @override
+  String get groupStatementsGroupLedgerUpper => 'GROUP LEDGER';
+
+  @override
+  String get groupStatementsLoadingUpper => 'LOADING';
+
+  @override
+  String get groupStatementsLedgerExported => 'Ledger exported';
+
+  @override
+  String get groupStatementsNoTransactionsYetUpper => 'NO TRANSACTIONS YET';
+
+  @override
+  String get groupStatementsEmptyMessage =>
+      'Contributions will appear here as members make payments to this group.';
+
+  @override
+  String get qrShareSheetSubtitle => 'Scan QR or share the link';
+
+  @override
+  String get whatsappNotAvailable => 'WhatsApp is not available';
+
+  @override
+  String get scanMomoQr => 'Scan MoMo QR';
+
+  @override
+  String get cameraIsOff => 'Camera is off';
+
+  @override
+  String get enableCameraAccessToScan => 'Enable camera access to scan.';
+
+  @override
+  String get enableCamera => 'Enable Camera';
+
+  @override
+  String get cameraIsBlocked => 'Camera is blocked';
+
+  @override
+  String get openSystemSettingsPeriod => 'Open system settings.';
+
+  @override
+  String get openSettings => 'Open Settings';
+
+  @override
+  String get cameraUnavailable => 'Camera unavailable';
+
+  @override
+  String get deviceCannotScan => 'This device cannot scan.';
+
+  @override
+  String get cameraAccessRequired => 'Camera access is required.';
+
+  @override
+  String get allowCamera => 'Allow Camera';
+
+  @override
+  String get bootstrapCoolTitle => 'COOL';
+
+  @override
+  String get bootstrapStartupBlocked => 'Startup blocked';
+
+  @override
+  String get bootstrapRetryStartup => 'Retry startup';
+
+  @override
+  String get bootstrapBackendConfigurationRequired =>
+      'Backend configuration required';
+
+  @override
+  String get bootstrapLocalRunsNeedEnv =>
+      'Local runs usually need --dart-define-from-file=.env.json';
+
+  @override
+  String get bootstrapStartingApp => 'Starting app';
+
+  @override
+  String get bootstrapInitializingFirebase => 'Initializing Firebase';
+
+  @override
+  String get bootstrapRecordingRuntimeBackendContract =>
+      'Recording runtime backend contract';
+
+  @override
+  String get bootstrapActivatingDeviceAttestation =>
+      'Activating device attestation';
+
+  @override
+  String get bootstrapStartingColdStartTrace => 'Starting cold-start trace';
+
+  @override
+  String get bootstrapApplyingDeviceOrientation =>
+      'Applying device orientation';
+
+  @override
+  String get bootstrapConnectingBackend => 'Connecting backend';
+
+  @override
+  String get bootstrapPreparingLocalStorage => 'Preparing local storage';
+
+  @override
+  String get bootstrapLoadingThemePreference => 'Loading theme preference';
+
+  @override
+  String get bootstrapPreparingYourAccount => 'Preparing your account';
+
+  @override
+  String get bootstrapNeverReachedFirstFrame =>
+      'The app never reached the first frame.';
+
+  @override
+  String get bootstrapSomethingWentWrong => 'Something went wrong';
+
+  @override
+  String get bootstrapPleaseRestartApp => 'Please restart the app.';
+
+  @override
+  String bootstrapFailedWhile(String step) {
+    return 'Startup failed while $step. Restart the app and try again.';
+  }
+
+  @override
+  String bootstrapTimedOut(String label, int seconds) {
+    return '$label timed out after ${seconds}s. The app never reached the first frame.';
+  }
+
+  @override
+  String bootstrapStepFailed(String label, String error) {
+    return '$label failed: $error';
+  }
+
+  @override
+  String get later => 'Later';
+
+  @override
+  String get pwaInstallCool => 'Install COOL';
+
+  @override
+  String get pwaAddToHomeScreen => 'Add COOL to Home Screen';
+
+  @override
+  String get pwaInstallStandaloneMessage =>
+      'Install the app for faster admin access and standalone launch.';
+
+  @override
+  String get pwaSafariInstallMessage =>
+      'Use Safari share actions to install the admin PWA on iPhone or iPad.';
+
+  @override
+  String get pwaHowToInstall => 'How to install';
+
+  @override
+  String get pwaUpdateReady => 'Update ready';
+
+  @override
+  String get pwaUpdateReadyMessage =>
+      'Refresh to load the latest admin workspace and app assets.';
+
+  @override
+  String get iosInstallSubtitle =>
+      'Get the full app experience with quick access from your home screen.';
+
+  @override
+  String get iosInstallStep1 => 'Tap the Share button in Safari';
+
+  @override
+  String get iosInstallStep2 => 'Scroll down and tap \"Add to Home Screen\"';
+
+  @override
+  String get iosInstallStep3 => 'Tap \"Add\" to confirm';
+
+  @override
+  String get iosInstallGotIt => 'Got it';
+
+  @override
+  String get coolStateLoadingTitle => 'Loading';
+
+  @override
+  String get coolStateLoadingMessage => 'Please wait while this section loads.';
+
+  @override
+  String get coolErrorUnexpected => 'An unexpected error occurred';
 }

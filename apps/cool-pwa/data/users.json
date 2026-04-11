@@ -1,0 +1,23 @@
+{
+  "metrics": {
+    "managedAccounts": "1284",
+    "adminAccounts": "14",
+    "recoveryQueue": "6"
+  },
+  "activity": [
+    {
+      "title": "Access repair pending",
+      "description": "Phone change and OTP recovery cases are visible before role or profile edits are applied.",
+      "status": "Pending",
+      "tone": "offline",
+      "meta": "Identity recovery"
+    },
+    {
+      "title": "Demo data cleanup",
+      "description": "Mock and stale accounts are flagged before they distort analytics or admin role decisions.",
+      "status": "Tracked",
+      "tone": "syncing",
+      "meta": "Profile hygiene"
+    }
+  ]
+}

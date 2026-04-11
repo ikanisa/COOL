@@ -13,8 +13,8 @@ Future<void> main() async {
   runZonedGuarded(
     () async {
       final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-      // Hold the native splash visible during bootstrap so the user
-      // only sees one smooth transition: native splash → Flutter UI.
+      // Hold the generated launch splash until the first Flutter startup
+      // surface is painted, then hand off to the in-app loading screen.
       FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
       if (kIsWeb) {

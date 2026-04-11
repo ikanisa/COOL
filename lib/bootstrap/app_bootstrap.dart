@@ -15,10 +15,16 @@ import '../core/config/env_config.dart';
 import '../core/services/app_check_service.dart';
 import '../core/services/firebase_bootstrap_service.dart';
 import '../core/services/hive_runtime.dart';
+import '../core/services/crashlytics_service.dart';
+import '../core/services/momo_service.dart';
+import '../core/services/performance_service.dart';
 import '../core/theme/cool_foundations.dart';
 import '../core/theme/theme_preference.dart';
 import '../core/theme/theme_preference_provider.dart';
 import '../core/theme/theme_preference_store.dart';
+import '../features/auth/providers/auth_provider.dart' as app_auth;
+import '../features/auth/repositories/auth_repository.dart';
+import '../l10n/app_localizations.dart';
 import 'bootstrap_ui.dart';
 
 class AppBootstrap extends StatefulWidget {
@@ -32,33 +38,43 @@ class _AppBootstrapResult {
   const _AppBootstrapResult({
     required this.themePreferenceStore,
     required this.initialPreference,
+    required this.initialAuthState,
     required this.configError,
   });
 
   final ThemePreferenceStore themePreferenceStore;
   final ({AppThemePreference preference, DateTime? updatedAt})
   initialPreference;
+  final app_auth.AuthState initialAuthState;
   final String? configError;
 }
 
 class _AppBootstrapState extends State<AppBootstrap> {
   static const _defaultThemePreference = AppThemePreference.dark;
 
-  String _currentStep = 'Starting app';
+  String _currentStep = '';
   String? _errorMessage;
   _AppBootstrapResult? _result;
   int _bootstrapGeneration = 0;
+  bool _startupSplashReleased = false;
+
+  AppLocalizations get _bootstrapL10n =>
+      lookupAppLocalizations(const Locale('en'));
 
   @override
   void initState() {
     super.initState();
+    _currentStep = _bootstrapL10n.bootstrapStartingApp;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _releaseStartupSplash();
+    });
     unawaited(_bootstrap());
   }
 
   Future<void> _bootstrap() async {
     final generation = ++_bootstrapGeneration;
     setState(() {
-      _currentStep = 'Starting app';
+      _currentStep = _bootstrapL10n.bootstrapStartingApp;
       _errorMessage = null;
       _result = null;
     });
@@ -79,9 +95,6 @@ class _AppBootstrapState extends State<AppBootstrap> {
       setState(() {
         _errorMessage = _describeBootstrapFailure(error);
       });
-    } finally {
-      // Release the native splash — the Flutter UI is now ready.
-      FlutterNativeSplash.remove();
     }
   }
 
@@ -89,19 +102,19 @@ class _AppBootstrapState extends State<AppBootstrap> {
     EnvConfig.logWarnings();
 
     await _runOptionalBootStep(
-      'Initializing Firebase',
+      _bootstrapL10n.bootstrapInitializingFirebase,
       FirebaseBootstrapService.ensureInitialized,
       timeout: const Duration(seconds: 8),
     );
 
     await _runOptionalBootStep(
-      'Recording runtime backend contract',
+      _bootstrapL10n.bootstrapRecordingRuntimeBackendContract,
       _recordRuntimeConfiguration,
       timeout: const Duration(seconds: 4),
     );
 
     await _runOptionalBootStep(
-      'Activating device attestation',
+      _bootstrapL10n.bootstrapActivatingDeviceAttestation,
       AppCheckService.initialize,
       timeout: const Duration(seconds: 8),
     );
@@ -109,7 +122,7 @@ class _AppBootstrapState extends State<AppBootstrap> {
     Trace? coldStartTrace;
     if (Firebase.apps.isNotEmpty && !kDebugMode) {
       coldStartTrace = await _runOptionalBootStep<Trace>(
-        'Starting cold-start trace',
+        _bootstrapL10n.bootstrapStartingColdStartTrace,
         () async {
           final trace = FirebasePerformance.instance.newTrace('app_cold_start');
           await trace.start();
@@ -122,7 +135,7 @@ class _AppBootstrapState extends State<AppBootstrap> {
     _configureErrorHandling();
 
     await _runOptionalBootStep(
-      'Applying device orientation',
+      _bootstrapL10n.bootstrapApplyingDeviceOrientation,
       () =>
           SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]),
       timeout: const Duration(seconds: 4),
@@ -131,7 +144,7 @@ class _AppBootstrapState extends State<AppBootstrap> {
     final configError = EnvConfig.criticalConfigurationError;
     if (configError == null) {
       await _runRequiredBootStep(
-        'Connecting backend',
+        _bootstrapL10n.bootstrapConnectingBackend,
         () => Supabase.initialize(
           url: EnvConfig.supabaseUrl,
           anonKey: EnvConfig.supabaseAnonKey,
@@ -143,7 +156,7 @@ class _AppBootstrapState extends State<AppBootstrap> {
     }
 
     await _runOptionalBootStep(
-      'Preparing local storage',
+      _bootstrapL10n.bootstrapPreparingLocalStorage,
       initializeHiveRuntime,
       timeout: const Duration(seconds: 6),
     );
@@ -155,11 +168,17 @@ class _AppBootstrapState extends State<AppBootstrap> {
         await _runOptionalBootStep<
           ({AppThemePreference preference, DateTime? updatedAt})
         >(
-          'Loading theme preference',
+          _bootstrapL10n.bootstrapLoadingThemePreference,
           themePreferenceStore.read,
           timeout: const Duration(seconds: 4),
         ) ??
         (preference: _defaultThemePreference, updatedAt: null);
+
+    final initialAuthState = await _runRequiredBootStep<app_auth.AuthState>(
+      _bootstrapL10n.bootstrapPreparingYourAccount,
+      _prepareInitialAuthState,
+      timeout: const Duration(seconds: 20),
+    );
 
     if (coldStartTrace != null) {
       unawaited(
@@ -174,8 +193,33 @@ class _AppBootstrapState extends State<AppBootstrap> {
     return _AppBootstrapResult(
       themePreferenceStore: themePreferenceStore,
       initialPreference: initialPreference,
+      initialAuthState: initialAuthState,
       configError: configError,
     );
+  }
+
+  Future<app_auth.AuthState> _prepareInitialAuthState() async {
+    final crashlytics = CrashlyticsService();
+    await crashlytics.initialize();
+    final performance = PerformanceService();
+    await performance.initialize();
+
+    final momoService = MomoService(client: Supabase.instance.client);
+    momoService.setObservabilityServices(
+      crashlytics: crashlytics,
+      performance: performance,
+    );
+
+    final notifier = app_auth.AuthNotifier(
+      repository: AuthRepository(client: Supabase.instance.client),
+      crashlytics: crashlytics,
+      performance: performance,
+      momoService: momoService,
+      clearSensitiveData: () async {},
+    );
+
+    await notifier.ensureReadyForAppStart();
+    return notifier.snapshot;
   }
 
   Future<void> _recordRuntimeConfiguration() async {
@@ -254,20 +298,34 @@ class _AppBootstrapState extends State<AppBootstrap> {
       return result;
     } on TimeoutException {
       throw StateError(
-        '$label timed out after ${timeout.inSeconds}s. '
-        'The app never reached the first frame.',
+        _bootstrapL10n.bootstrapTimedOut(label, timeout.inSeconds),
       );
     } catch (error, stack) {
       debugPrint(
         '[Bootstrap] failed: $label (${stopwatch.elapsedMilliseconds}ms): '
         '$error\n$stack',
       );
-      throw StateError('$label failed: $error');
+      throw StateError(_bootstrapL10n.bootstrapStepFailed(label, '$error'));
     }
   }
 
   void _setStep(String step) {
-    _currentStep = step;
+    if (!mounted) {
+      _currentStep = step;
+      return;
+    }
+
+    setState(() {
+      _currentStep = step;
+    });
+  }
+
+  void _releaseStartupSplash() {
+    if (_startupSplashReleased) {
+      return;
+    }
+    _startupSplashReleased = true;
+    FlutterNativeSplash.remove();
   }
 
   void _configureErrorHandling() {
@@ -291,33 +349,34 @@ class _AppBootstrapState extends State<AppBootstrap> {
 
     if (!kDebugMode) {
       ErrorWidget.builder = (FlutterErrorDetails details) {
-        return const Material(
-          color: Color(0xFF0A0A0F),
+        final l10n = _bootstrapL10n;
+        return Material(
+          color: const Color(0xFF0A0A0F),
           child: Center(
             child: Padding(
-              padding: EdgeInsets.all(32),
+              padding: const EdgeInsets.all(32),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.warning_amber_rounded,
                     size: 48,
                     color: Color(0xFFFF4D6A),
                   ),
-                  SizedBox(height: CoolSpace.x4),
+                  const SizedBox(height: CoolSpace.x4),
                   Text(
-                    'Something went wrong',
-                    style: TextStyle(
+                    l10n.bootstrapSomethingWentWrong,
+                    style: const TextStyle(
                       color: Color(0xFFF0F0F5),
                       fontSize: 18,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w500,
                       decoration: TextDecoration.none,
                     ),
                   ),
-                  SizedBox(height: CoolSpace.x2),
+                  const SizedBox(height: CoolSpace.x2),
                   Text(
-                    'Please restart the app.',
-                    style: TextStyle(
+                    l10n.bootstrapPleaseRestartApp,
+                    style: const TextStyle(
                       color: Color(0xFF8888A0),
                       fontSize: 14,
                       decoration: TextDecoration.none,
@@ -336,7 +395,7 @@ class _AppBootstrapState extends State<AppBootstrap> {
     if (error is StateError) {
       return error.toString().replaceFirst('Bad state: ', '');
     }
-    return 'Startup failed while $_currentStep. Restart the app and try again.';
+    return _bootstrapL10n.bootstrapFailedWhile(_currentStep);
   }
 
   @override
@@ -351,6 +410,9 @@ class _AppBootstrapState extends State<AppBootstrap> {
           initialThemePreferenceProvider.overrideWithValue(
             result.initialPreference,
           ),
+          app_auth.initialAuthStateProvider.overrideWithValue(
+            result.initialAuthState,
+          ),
         ],
         child: result.configError == null
             ? const CoolApp()
@@ -358,16 +420,10 @@ class _AppBootstrapState extends State<AppBootstrap> {
       );
     }
 
-    // During bootstrap the native splash covers everything, so this
-    // surface is never visible in normal flow. On error the native
-    // splash has been removed and the error card is shown.
     return BootstrapShell(
       child: _errorMessage == null
-          ? const BootstrapHoldScreen()
-          : BootstrapErrorCard(
-              message: _errorMessage!,
-              onRetry: _bootstrap,
-            ),
+          ? BootstrapHoldScreen(statusLabel: _currentStep)
+          : BootstrapErrorCard(message: _errorMessage!, onRetry: _bootstrap),
     );
   }
 }

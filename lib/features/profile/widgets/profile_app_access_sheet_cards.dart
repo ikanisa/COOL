@@ -38,18 +38,21 @@ class _SummaryBanner extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '$readyCount/$totalCount ready',
+                  context.l10n.profileAppAccessReadyCount(
+                    readyCount,
+                    totalCount,
+                  ),
                   style: theme.textTheme.titleSmall?.copyWith(
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x1),
                 Text(
-                  'All access controls',
+                  context.l10n.profileAppAccessAllControls,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: colors.secondaryText,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                     height: 1.4,
                   ),
                 ),
@@ -79,8 +82,12 @@ class _NotificationAccessCard extends StatelessWidget {
     final isBlockedInSystem =
         settings.status.authorizationStatus == FcmAuthorizationStatus.denied;
     final statusLabel = settings.status.preferenceEnabled
-        ? (settings.status.isAuthorized ? 'Ready' : 'Needs system access')
-        : (isBlockedInSystem ? 'Blocked in system' : 'Off in COOL');
+        ? (settings.status.isAuthorized
+              ? context.l10n.ready
+              : context.l10n.profileNotificationsNeedsSystemAccess)
+        : (isBlockedInSystem
+              ? context.l10n.blockedInSystem
+              : context.l10n.offInCool);
     final statusColor =
         settings.status.preferenceEnabled && settings.status.isAuthorized
         ? colors.accent
@@ -97,11 +104,11 @@ class _NotificationAccessCard extends StatelessWidget {
       subtitle: context.l10n.paymentAndActivityAlerts,
       statusLabel: statusLabel,
       statusColor: statusColor,
-      linkedFeatures: const [
-        'MoMo updates',
-        'Groups activity',
-        'Service updates',
-        'Partner announcements',
+      linkedFeatures: [
+        context.l10n.profileAccessFeatureMomoUpdates,
+        context.l10n.profileAccessFeatureGroupsActivity,
+        context.l10n.profileAccessFeatureServiceUpdates,
+        context.l10n.profileAccessFeaturePartnerAnnouncements,
       ],
       trailing: ProfileNotificationToggle(
         value: settings.status.preferenceEnabled,
@@ -115,10 +122,10 @@ class _NotificationAccessCard extends StatelessWidget {
             )
           : null,
       helperText: isBlockedInSystem
-          ? 'Blocked in system'
+          ? context.l10n.blockedInSystem
           : settings.status.preferenceEnabled
-          ? 'Enabled'
-          : 'Disabled',
+          ? context.l10n.enabled
+          : context.l10n.disabled,
     );
   }
 }
@@ -176,7 +183,7 @@ class _PermissionAccessCard extends StatelessWidget {
               activeTrackColor: colors.accent,
             ),
       footerAction: footerAction,
-      helperText: _helperText(snapshot),
+      helperText: _helperText(context, snapshot),
     );
   }
 }
@@ -246,7 +253,7 @@ class _AccessCardShell extends StatelessWidget {
                             title,
                             style: theme.textTheme.titleSmall?.copyWith(
                               color: colors.primaryText,
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
                           const SizedBox(height: CoolSpace.x2),
@@ -271,7 +278,7 @@ class _AccessCardShell extends StatelessWidget {
                                   title,
                                   style: theme.textTheme.titleSmall?.copyWith(
                                     color: colors.primaryText,
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w800,
                                   ),
                                 ),
                               ),
@@ -287,7 +294,7 @@ class _AccessCardShell extends StatelessWidget {
                           subtitle,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: colors.secondaryText,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w500,
                             height: 1.45,
                           ),
                         ),
@@ -317,7 +324,7 @@ class _AccessCardShell extends StatelessWidget {
                           feature,
                           style: theme.textTheme.labelSmall?.copyWith(
                             color: colors.secondaryText,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
@@ -329,7 +336,7 @@ class _AccessCardShell extends StatelessWidget {
                 helperText,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: colors.tertiaryText,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                   height: 1.45,
                 ),
               ),

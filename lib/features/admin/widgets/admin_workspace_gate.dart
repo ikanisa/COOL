@@ -157,7 +157,7 @@ class _AdminStateScaffold extends StatelessWidget {
         title,
         style: theme.textTheme.headlineSmall?.copyWith(
           color: colors.primaryText,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
         ),
       ),
       child: Align(

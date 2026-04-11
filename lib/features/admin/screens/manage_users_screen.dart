@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/config/app_market.dart';
@@ -41,7 +40,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
         'Manage Users',
         style: Theme.of(
           context,
-        ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
+        ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
       ),
       searchBar: CoolSearchField(
         hint: 'Search by name, phone, or ID…',
@@ -117,7 +116,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
                       Text(
                         '${filtered.length} result${filtered.length == 1 ? '' : 's'}',
                         style: theme.textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w500,
                           color: colors.tertiaryText,
                         ),
                       ),

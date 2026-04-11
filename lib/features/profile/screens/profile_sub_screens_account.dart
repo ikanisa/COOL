@@ -36,7 +36,7 @@ class AccountDetailsScreen extends ConsumerWidget {
                       profile.initials,
                       style: context.coolText.displayCondensed(
                         Theme.of(context).textTheme.headlineMedium,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                         color: colors.accentForeground,
                       ),
                     ),
@@ -49,7 +49,7 @@ class AccountDetailsScreen extends ConsumerWidget {
                           : 'ANONYMOUS USER',
                       style: context.coolText.displayCondensed(
                         Theme.of(context).textTheme.titleLarge,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

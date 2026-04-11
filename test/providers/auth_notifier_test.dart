@@ -202,17 +202,26 @@ void main() {
   });
 
   group('AuthNotifier.signOut', () {
-    test('clears user and session on success', () async {
+    test('re-establishes an anonymous session on success', () async {
+      final session = _fakeSession();
       notifier.state = app_auth.AuthState(
         user: _sampleUser(),
         session: _fakeSession(),
       );
       when(() => mockRepo.signOut()).thenAnswer((_) async {});
+      when(() => mockRepo.signInAnonymously()).thenAnswer((_) async => session);
+      when(
+        () => mockRepo.getProfile(session.user.id),
+      ).thenAnswer((_) async => null);
 
       await notifier.signOut();
 
+      expect(notifier.state.session?.user.id, session.user.id);
       expect(notifier.state.user, isNull);
-      expect(notifier.state.session, isNull);
+      expect(
+        notifier.state.profileRestoreState,
+        app_auth.AuthProfileRestoreState.missing,
+      );
       expect(notifier.state.isLoading, false);
       expect(notifier.state.error, isNull);
     });
@@ -242,11 +251,12 @@ void main() {
         () => mockRepo.getProfile(session.user.id),
       ).thenAnswer((_) async => profile);
 
-      await notifier.signInWithOtpSession(
+      final success = await notifier.signInWithOtpSession(
         accessToken: 'access-token',
         refreshToken: 'refresh-token',
       );
 
+      expect(success, isTrue);
       expect(notifier.state.session?.user.id, session.user.id);
       expect(notifier.state.user, profile);
       expect(
@@ -281,11 +291,12 @@ void main() {
           return created;
         });
 
-        await notifier.signInWithOtpSession(
+        final success = await notifier.signInWithOtpSession(
           accessToken: 'access-token',
           refreshToken: 'refresh-token',
         );
 
+        expect(success, isTrue);
         verify(() => mockRepo.createProfile(any())).called(1);
         expect(notifier.state.session?.user.id, session.user.id);
         expect(notifier.state.user, created);
@@ -311,11 +322,12 @@ void main() {
         ),
       ).thenThrow(StateError('OTP session failed'));
 
-      await notifier.signInWithOtpSession(
+      final success = await notifier.signInWithOtpSession(
         accessToken: 'bad-access',
         refreshToken: 'bad-refresh',
       );
 
+      expect(success, isFalse);
       expect(
         notifier.state.profileRestoreState,
         app_auth.AuthProfileRestoreState.available,
@@ -385,6 +397,28 @@ void main() {
       expect(success, false);
       expect(notifier.state.isLoading, false);
       expect(notifier.state.error, contains('Update failed'));
+    });
+
+    test('does not send is_admin in the update payload', () async {
+      final profile = _sampleUser();
+      notifier.state = app_auth.AuthState(
+        user: profile,
+        session: _fakeSession(),
+      );
+      when(
+        () => mockRepo.updateProfile(any()),
+      ).thenAnswer((invocation) async {
+        final updated = invocation.positionalArguments.single as UserProfile;
+        final json = updated.toJson();
+        // P2 RBAC alignment: is_admin must never be serialized back.
+        expect(json.containsKey('is_admin'), isFalse,
+            reason: 'UserProfile.toJson() must not include is_admin');
+        return updated;
+      });
+
+      await notifier.updateProfile(profile);
+
+      verify(() => mockRepo.updateProfile(any())).called(1);
     });
   });
 

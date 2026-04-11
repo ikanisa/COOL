@@ -73,8 +73,7 @@ class _BiopayNfcTapScreenState extends ConsumerState<BiopayNfcTapScreen>
                       AnimatedBuilder(
                         animation: _pulseController,
                         builder: (context, child) {
-                          final scale =
-                              1.0 + (_pulseController.value * 0.06);
+                          final scale = 1.0 + (_pulseController.value * 0.06);
                           final glowOpacity =
                               0.08 + (_pulseController.value * 0.14);
                           return Transform.scale(
@@ -87,8 +86,7 @@ class _BiopayNfcTapScreenState extends ConsumerState<BiopayNfcTapScreen>
                                 color: colors.glassSurface,
                                 border: Border.all(
                                   color: colors.accent.withValues(
-                                    alpha: 0.3 +
-                                        (_pulseController.value * 0.2),
+                                    alpha: 0.3 + (_pulseController.value * 0.2),
                                   ),
                                   width: 2,
                                 ),
@@ -118,7 +116,7 @@ class _BiopayNfcTapScreenState extends ConsumerState<BiopayNfcTapScreen>
                         style: context.coolText.display(
                           Theme.of(context).textTheme.displaySmall,
                           color: colors.primaryText,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w800,
                           letterSpacing: -1.2,
                         ),
                       ),
@@ -163,9 +161,7 @@ class _BiopayNfcTapScreenState extends ConsumerState<BiopayNfcTapScreen>
                         boxShadow: CoolShadows.glass(strength: 0.24),
                       ),
                       child: InkWell(
-                        onTap: _isCancelling
-                            ? null
-                            : () => _cancel(context),
+                        onTap: _isCancelling ? null : () => _cancel(context),
                         borderRadius: BorderRadius.circular(CoolRadii.pill),
                         child: Center(
                           child: _isCancelling
@@ -174,8 +170,7 @@ class _BiopayNfcTapScreenState extends ConsumerState<BiopayNfcTapScreen>
                                   height: 22,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2.2,
-                                    valueColor:
-                                        AlwaysStoppedAnimation<Color>(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
                                       colors.secondaryText,
                                     ),
                                   ),
@@ -183,11 +178,9 @@ class _BiopayNfcTapScreenState extends ConsumerState<BiopayNfcTapScreen>
                               : Text(
                                   'Cancel Payment',
                                   style: context.coolText.headline(
-                                    Theme.of(context)
-                                        .textTheme
-                                        .titleMedium,
+                                    Theme.of(context).textTheme.titleMedium,
                                     color: colors.secondaryText,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
                         ),
@@ -213,7 +206,7 @@ class _BiopayNfcTapScreenState extends ConsumerState<BiopayNfcTapScreen>
       // Best-effort stop
     }
 
-    if (!mounted) return;
+    if (!context.mounted) return;
 
     final nav = GoRouter.of(context);
     if (nav.canPop()) {

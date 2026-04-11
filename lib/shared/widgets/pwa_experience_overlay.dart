@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/l10n.dart';
 import '../../core/providers/pwa_providers.dart';
 import '../../core/pwa/pwa_bridge_service.dart';
 import '../../core/theme/cool_foundations.dart';
@@ -88,7 +89,8 @@ class _PwaExperienceOverlayState extends ConsumerState<PwaExperienceOverlay> {
                               });
                             },
                             onRefresh: () async {
-                              final activated = await pwaBridge.activateUpdate();
+                              final activated = await pwaBridge
+                                  .activateUpdate();
                               if (!activated && mounted) {
                                 setState(() {
                                   _dismissedUpdateCard = true;
@@ -142,12 +144,14 @@ class _PwaInstallCard extends StatelessWidget {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     final title = state.canPromptInstall
-        ? 'Install COOL'
-        : 'Add COOL to Home Screen';
+        ? context.l10n.pwaInstallCool
+        : context.l10n.pwaAddToHomeScreen;
     final message = state.canPromptInstall
-        ? 'Install the app for faster admin access and standalone launch.'
-        : 'Use Safari share actions to install the admin PWA on iPhone or iPad.';
-    final primaryLabel = state.canPromptInstall ? 'Install' : 'How to install';
+        ? context.l10n.pwaInstallStandaloneMessage
+        : context.l10n.pwaSafariInstallMessage;
+    final primaryLabel = state.canPromptInstall
+        ? context.l10n.pwaInstallCool
+        : context.l10n.pwaHowToInstall;
 
     return CoolCard(
       backgroundColor: colors.cardSurfaceStrong,
@@ -160,7 +164,7 @@ class _PwaInstallCard extends StatelessWidget {
             title,
             style: theme.textTheme.titleLarge?.copyWith(
               color: colors.primaryText,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: CoolSpace.x2),
@@ -169,7 +173,7 @@ class _PwaInstallCard extends StatelessWidget {
             style: theme.textTheme.bodySmall?.copyWith(
               color: colors.secondaryText,
               height: 1.45,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
             ),
           ),
           const SizedBox(height: CoolSpace.x4),
@@ -186,7 +190,7 @@ class _PwaInstallCard extends StatelessWidget {
               const SizedBox(width: CoolSpace.x2),
               Expanded(
                 child: CoolButton(
-                  label: 'Later',
+                  label: context.l10n.later,
                   variant: CoolButtonVariant.secondary,
                   onTap: onDismiss,
                 ),
@@ -200,10 +204,7 @@ class _PwaInstallCard extends StatelessWidget {
 }
 
 class _PwaUpdateCard extends StatelessWidget {
-  const _PwaUpdateCard({
-    required this.onRefresh,
-    required this.onDismiss,
-  });
+  const _PwaUpdateCard({required this.onRefresh, required this.onDismiss});
 
   final Future<void> Function() onRefresh;
   final VoidCallback onDismiss;
@@ -221,19 +222,19 @@ class _PwaUpdateCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Update ready',
+            context.l10n.pwaUpdateReady,
             style: theme.textTheme.titleLarge?.copyWith(
               color: colors.primaryText,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: CoolSpace.x2),
           Text(
-            'Refresh to load the latest admin workspace and app assets.',
+            context.l10n.pwaUpdateReadyMessage,
             style: theme.textTheme.bodySmall?.copyWith(
               color: colors.secondaryText,
               height: 1.45,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
             ),
           ),
           const SizedBox(height: CoolSpace.x4),
@@ -241,7 +242,7 @@ class _PwaUpdateCard extends StatelessWidget {
             children: [
               Expanded(
                 child: CoolButton(
-                  label: 'Refresh',
+                  label: context.l10n.refresh,
                   onTap: () {
                     unawaited(onRefresh());
                   },
@@ -250,7 +251,7 @@ class _PwaUpdateCard extends StatelessWidget {
               const SizedBox(width: CoolSpace.x2),
               Expanded(
                 child: CoolButton(
-                  label: 'Later',
+                  label: context.l10n.later,
                   variant: CoolButtonVariant.secondary,
                   onTap: onDismiss,
                 ),

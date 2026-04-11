@@ -71,8 +71,11 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
       return;
     }
 
-    // Gate: require verified phone before creating a group.
-    if (!await requireVerifiedUser(context, ref)) {
+    if (!await requireVerifiedUser(
+      context,
+      ref,
+      feature: WhatsAppProtectedFeature.groupCreate,
+    )) {
       return;
     }
     if (!mounted) {
@@ -81,7 +84,7 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
 
     final user = ref.read(authProvider).user;
     if (user == null) {
-      CoolToast.error(context, 'Verification completed but profile missing.');
+      CoolToast.error(context, context.l10n.groupCreateProfileMissing);
       return;
     }
 
@@ -142,6 +145,7 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final theme = Theme.of(context);
     final space = context.coolSpace;
     final country = AppMarket.country;
@@ -154,7 +158,7 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
 
     return CoreDetailScaffold(
       title: Text(
-        context.l10n.groupsCreateNewTitle,
+        l10n.groupsCreateNewTitle,
         style: context.coolText.displayCondensed(
           theme.textTheme.headlineSmall,
           fontWeight: FontWeight.w800,
@@ -174,31 +178,31 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
                 textInputAction: TextInputAction.next,
                 validator: (value) {
                   final trimmed = value?.trim() ?? '';
-                  if (trimmed.isEmpty) return 'Enter a group name.';
-                  if (trimmed.length < 3) return 'At least 3 characters.';
+                  if (trimmed.isEmpty) return l10n.groupNameRequired;
+                  if (trimmed.length < 3) return l10n.groupNameTooShort;
                   return null;
                 },
               ),
               SizedBox(height: space.x4),
 
               CoolTextField(
-                label: 'Description',
-                hint: 'What is this group for?',
+                label: l10n.groupDescriptionLabel,
+                hint: l10n.groupDescriptionHint,
                 controller: _descriptionController,
                 maxLines: 2,
               ),
               SizedBox(height: space.x4),
 
-              const GroupSectionLabel(label: 'TYPE'),
+              GroupSectionLabel(label: l10n.groupTypeSection),
               SizedBox(height: space.x2),
               GroupOptionRow(
-                firstLabel: 'Saving',
+                firstLabel: l10n.saving,
                 firstSelected: _type == 'saving',
                 onFirstTap: () => setState(() {
                   _type = 'saving';
                   _frequency = 'monthly';
                 }),
-                secondLabel: 'Community',
+                secondLabel: l10n.community,
                 secondSelected: _type == 'community',
                 onSecondTap: () => setState(() {
                   _type = 'community';
@@ -208,10 +212,14 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
 
               if (showFrequencyPicker) ...[
                 SizedBox(height: space.x4),
-                const GroupSectionLabel(label: 'FREQUENCY'),
+                GroupSectionLabel(label: l10n.groupFrequencySection),
                 SizedBox(height: space.x2),
                 GroupFrequencyPicker(
-                  options: const ['daily', 'weekly', 'monthly'],
+                  options: [
+                    l10n.groupDailyLower,
+                    l10n.groupWeeklyLower,
+                    l10n.groupMonthlyLower,
+                  ],
                   selected: _frequency,
                   onSelected: (freq) => setState(() => _frequency = freq),
                 ),
@@ -219,8 +227,8 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
 
               SizedBox(height: space.x4),
               CoolTextField(
-                label: 'Target ($cur)',
-                hint: '500,000',
+                label: l10n.groupTargetLabel(cur),
+                hint: l10n.groupTargetHint,
                 controller: _targetAmountController,
                 keyboardType: TextInputType.number,
                 inputFormatters: const [GroupedThousandsInputFormatter()],
@@ -228,8 +236,8 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
               SizedBox(height: space.x4),
 
               CoolTextField(
-                label: 'Contribution ($cur)',
-                hint: '10,000',
+                label: l10n.groupContributionLabel(cur),
+                hint: l10n.groupContributionHint,
                 controller: _contributionAmountController,
                 keyboardType: TextInputType.number,
                 inputFormatters: const [GroupedThousandsInputFormatter()],
@@ -250,7 +258,7 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
               SizedBox(height: space.x6),
 
               CoolButton(
-                label: 'CREATE GROUP',
+                label: l10n.groupCreateGroupUpper,
                 onTap: _submit,
                 isLoading: _isSubmitting,
               ),

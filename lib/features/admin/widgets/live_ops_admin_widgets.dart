@@ -65,7 +65,7 @@ class LiveOpsStatusBadge extends StatelessWidget {
         label,
         style: theme.textTheme.labelSmall?.copyWith(
           color: color,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
         ),
       ),
     );
@@ -99,13 +99,13 @@ class LiveOpsTextField extends StatelessWidget {
         maxLines: maxLines,
         style: theme.textTheme.bodyMedium?.copyWith(
           color: colors.primaryText,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
         ),
         decoration: InputDecoration(
           labelText: label,
           labelStyle: theme.textTheme.bodySmall?.copyWith(
             color: colors.tertiaryText,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
           ),
           filled: true,
           fillColor: colors.inputSurface,
@@ -162,13 +162,13 @@ class LiveOpsDropdownField extends StatelessWidget {
         dropdownColor: colors.inputSurface,
         style: theme.textTheme.bodyMedium?.copyWith(
           color: colors.primaryText,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
         ),
         decoration: InputDecoration(
           labelText: label,
           labelStyle: theme.textTheme.bodySmall?.copyWith(
             color: colors.tertiaryText,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
           ),
           filled: true,
           fillColor: colors.inputSurface,
@@ -225,7 +225,7 @@ class LiveOpsDateButton extends StatelessWidget {
               label,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: colors.tertiaryText,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
               ),
             ),
             const SizedBox(height: CoolSpace.x1),
@@ -233,7 +233,7 @@ class LiveOpsDateButton extends StatelessWidget {
               value,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colors.primaryText,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ],
@@ -274,7 +274,7 @@ class LiveOpsMetricPill extends StatelessWidget {
             label,
             style: theme.textTheme.labelSmall?.copyWith(
               color: colors.tertiaryText,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: CoolSpace.x1),
@@ -282,7 +282,7 @@ class LiveOpsMetricPill extends StatelessWidget {
             value,
             style: theme.textTheme.titleMedium?.copyWith(
               color: color,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
             ),
           ),
         ],

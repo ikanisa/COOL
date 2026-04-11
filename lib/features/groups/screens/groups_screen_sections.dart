@@ -73,7 +73,7 @@ class _GroupLedgerCard extends StatelessWidget {
                 const Spacer(),
                 if (canJoin)
                   CoolButton(
-                    label: 'JOIN',
+                    label: context.l10n.groupsJoinUpper,
                     onTap: isBusy ? null : onJoin,
                     isLoading: isBusy,
                     variant: CoolButtonVariant.primary,
@@ -229,7 +229,7 @@ class _DataPulseBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     return StatusBadge(
-      label: 'LIVE',
+      label: context.l10n.groupsLiveUpper,
       bgColor: colors.appBackground,
       textColor: colors.success,
     );

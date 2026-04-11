@@ -25,14 +25,14 @@ class ProfileSignOutDialog extends StatelessWidget {
       title: Text(
         l10n.signOutAction,
         style: theme.textTheme.titleLarge?.copyWith(
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           color: colors.primaryText,
         ),
       ),
       content: Text(
         l10n.signOutMessage,
         style: theme.textTheme.bodyMedium?.copyWith(
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
           color: colors.secondaryText,
           height: 1.5,
         ),
@@ -43,7 +43,7 @@ class ProfileSignOutDialog extends StatelessWidget {
           child: Text(
             l10n.cancelAction,
             style: theme.textTheme.labelLarge?.copyWith(
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
               color: colors.secondaryText,
             ),
           ),
@@ -53,7 +53,7 @@ class ProfileSignOutDialog extends StatelessWidget {
           child: Text(
             l10n.signOutAction,
             style: theme.textTheme.labelLarge?.copyWith(
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
               color: colors.danger,
             ),
           ),
@@ -81,14 +81,14 @@ class ProfileDeleteAccountDialog extends StatelessWidget {
       title: Text(
         l10n.deleteAccountQuestion,
         style: theme.textTheme.titleLarge?.copyWith(
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           color: colors.primaryText,
         ),
       ),
       content: Text(
         l10n.deleteAccountMessage,
         style: theme.textTheme.bodyMedium?.copyWith(
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
           color: colors.secondaryText,
           height: 1.45,
         ),
@@ -99,7 +99,7 @@ class ProfileDeleteAccountDialog extends StatelessWidget {
           child: Text(
             l10n.cancelAction,
             style: theme.textTheme.labelLarge?.copyWith(
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
               color: colors.secondaryText,
             ),
           ),
@@ -109,7 +109,7 @@ class ProfileDeleteAccountDialog extends StatelessWidget {
           child: Text(
             l10n.delete,
             style: theme.textTheme.labelLarge?.copyWith(
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
               color: colors.danger,
             ),
           ),
@@ -147,7 +147,7 @@ class ProfileBlockingProgressDialog extends StatelessWidget {
             child: Text(
               message,
               style: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w500,
                 color: colors.primaryText,
               ),
             ),

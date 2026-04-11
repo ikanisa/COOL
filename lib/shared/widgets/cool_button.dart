@@ -221,7 +221,7 @@ class _CoolButtonState extends State<CoolButton>
       fontFamily: AppThemeText.labelFontFamily,
       color: fg,
       fontSize: widget.size.fontSize,
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w800,
       letterSpacing: 1.2,
     );
 

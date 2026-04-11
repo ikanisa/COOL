@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/l10n/l10n.dart';
 import '../../core/theme/cool_foundations.dart';
 
 /// Widget-level error boundary that catches synchronous build errors
@@ -144,15 +145,15 @@ class _BrandedErrorFallback extends StatelessWidget {
             ),
             const SizedBox(height: CoolSpace.x5),
             Text(
-              'Something went wrong',
+              context.l10n.somethingWentWrong,
               style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w500,
                 color: colors.primaryText,
               ),
             ),
             const SizedBox(height: CoolSpace.x2),
             Text(
-              'An unexpected error occurred',
+              context.l10n.coolErrorUnexpected,
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colors.secondaryText,
@@ -165,9 +166,9 @@ class _BrandedErrorFallback extends StatelessWidget {
                 onPressed: onRetry,
                 icon: const Icon(Icons.refresh_rounded, size: 18),
                 label: Text(
-                  'Retry',
+                  context.l10n.retry,
                   style: theme.textTheme.labelLarge?.copyWith(
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 style: TextButton.styleFrom(foregroundColor: colors.accent),

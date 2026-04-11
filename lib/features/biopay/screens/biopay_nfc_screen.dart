@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
+import '../../../core/l10n/l10n.dart';
 import '../../../core/providers/app_access_provider.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/services/app_access_service.dart';
@@ -16,7 +17,6 @@ import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/models/user_profile.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../../auth/widgets/require_verified_user.dart';
 import '../../momo/services/nfc_hce_service.dart';
 import '../../momo/services/nfc_service.dart';
 import '../models/biopay_profile.dart';
@@ -46,7 +46,6 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
   bool _supportsPhoneTap = false;
   bool _isReceiveModeActive = false;
   MomoRecipientType _selectedType = MomoRecipientType.phoneNumber;
-  bool _didRequestVerification = false;
 
   @override
   void initState() {
@@ -56,7 +55,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
     _codeController = TextEditingController();
     _amountController = TextEditingController(text: '0');
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _ensureVerifiedAccess();
+      _refreshNfcAccess();
     });
   }
 
@@ -80,6 +79,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final colors = context.coolSemanticColors;
     final authState = ref.watch(authProvider);
     final user = authState.user;
@@ -96,7 +96,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           BiopayTopBar(
-            title: 'NFC Payment',
+            title: l10n.biopayNfcPaymentTitle,
             onBack: () {
               if (context.canPop()) {
                 context.pop();
@@ -108,7 +108,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
           const SizedBox(height: CoolSpace.x6),
           if (supportsCode) ...[
             BiopaySegmentedControl(
-              labels: const ['Number', 'Code'],
+              labels: [l10n.biopayTabNumber, l10n.biopayTabCode],
               selectedIndex: _selectedType == MomoRecipientType.phoneNumber
                   ? 0
                   : 1,
@@ -124,8 +124,8 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
           ],
           _NfcInputCard(
             label: _selectedType == MomoRecipientType.code
-                ? 'Merchant Code'
-                : 'MoMo Number',
+                ? l10n.merchantCode
+                : l10n.biopayMomoNumberLabel,
             child: TextField(
               controller: _selectedType == MomoRecipientType.code
                   ? _codeController
@@ -148,7 +148,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
             ),
           ),
           const SizedBox(height: CoolSpace.x5),
-          const BiopayFieldLabel(label: 'Amount (Optional)'),
+          BiopayFieldLabel(label: l10n.biopayAmountOptionalLabel),
           const SizedBox(height: CoolSpace.x3),
           BiopaySectionCard(
             height: 178,
@@ -177,7 +177,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                     decoration: InputDecoration(
                       isCollapsed: true,
                       border: InputBorder.none,
-                      hintText: '0',
+                      hintText: l10n.biopayZeroAmountHint,
                       hintStyle: context.coolText.mobiLabel(
                         color: colors.tertiaryText,
                       ),
@@ -191,10 +191,10 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
             const SizedBox(height: CoolSpace.x4),
             _NfcStatusBanner(
               text: _nfcAccess!.kind == AppAccessStateKind.disabledInApp
-                  ? 'NFC is off in the app. Tap activate and BioPay will request access.'
+                  ? l10n.biopayNfcOffInApp
                   : _nfcAccess!.kind == AppAccessStateKind.serviceDisabled
-                  ? 'Turn on NFC in system settings to continue.'
-                  : 'NFC is not available on this device.',
+                  ? l10n.biopayTurnOnNfcInSettings
+                  : l10n.biopayNfcUnavailableOnDevice,
               color: _nfcAccess!.kind == AppAccessStateKind.notAvailable
                   ? colors.danger
                   : colors.warning,
@@ -202,13 +202,15 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
           ] else if (_isReceiveModeActive) ...[
             const SizedBox(height: CoolSpace.x4),
             _NfcStatusBanner(
-              text: 'NFC is active and ready for the next tap.',
+              text: l10n.biopayNfcReadyForNextTap,
               color: colors.success,
             ),
           ],
           const SizedBox(height: CoolSpace.x7),
           BiopayPrimaryButton(
-            label: nfcNotAvailable ? 'NFC Not Available' : 'Activate NFC',
+            label: nfcNotAvailable
+                ? l10n.biopayNfcNotAvailableButton
+                : l10n.biopayActivateNfc,
             icon: Icons.nfc_rounded,
             isLoading: _isActivating,
             onTap: nfcNotAvailable ? null : () => _activateNfc(country),
@@ -218,7 +220,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
             TextButton(
               onPressed: _isActivating ? null : _deactivateNfc,
               child: Text(
-                'Stop NFC',
+                l10n.biopayStopNfc,
                 style: context.coolText.headline(
                   Theme.of(context).textTheme.titleLarge,
                   color: colors.secondaryText,
@@ -286,27 +288,6 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
     return CoolCountryCatalog.byIsoCode(countryCode) ?? AppMarket.country;
   }
 
-  Future<void> _ensureVerifiedAccess() async {
-    if (_didRequestVerification || !mounted) {
-      return;
-    }
-    _didRequestVerification = true;
-
-    final allowed = await requireVerifiedUser(context, ref);
-    if (!mounted || allowed) {
-      if (allowed) {
-        await _refreshNfcAccess();
-      }
-      return;
-    }
-
-    if (context.canPop()) {
-      context.pop();
-      return;
-    }
-    context.go(AppRoutes.biopayHome);
-  }
-
   Future<void> _activateNfc(CoolCountry country) async {
     if (_isActivating) {
       return;
@@ -319,8 +300,8 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
       CoolToast.error(
         context,
         _selectedType == MomoRecipientType.code
-            ? 'Enter a merchant code'
-            : 'Enter a MoMo number',
+            ? context.l10n.biopayEnterMerchantCode
+            : context.l10n.biopayEnterMomoNumber,
       );
       return;
     }
@@ -369,7 +350,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
           countryCode: country.isoCode,
         );
       } else {
-        throw UnsupportedError('NFC activation is not available here.');
+        throw UnsupportedError(context.l10n.biopayNfcActivationUnavailable);
       }
 
       if (!mounted) {
@@ -404,7 +385,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
       if (!mounted) {
         return;
       }
-      CoolToast.success(context, 'BioPay NFC stopped.');
+      CoolToast.success(context, context.l10n.biopayNfcStopped);
     } catch (error) {
       if (!mounted) {
         return;

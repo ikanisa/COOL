@@ -10,7 +10,6 @@ import '../../features/groups/screens/group_create_screen.dart';
 import '../../features/groups/screens/group_detail_screen.dart';
 import '../../features/groups/screens/group_settings_screen.dart';
 import '../../features/groups/screens/group_statements_screen.dart';
-import '../../features/groups/screens/groups_screen.dart';
 import '../../features/momo/screens/momo_wallet_screen.dart';
 import '../../shared/widgets/qr_scanner_screen.dart';
 
@@ -63,7 +62,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     return (
       session: state.session,
       hasProfile: state.user?.isProfileComplete ?? false,
-      isAdmin: state.user?.isAdmin ?? false,
+      isAdmin: adminAccess.hasPlatformAccess,
       profileRestoreState: state.profileRestoreState,
       adminAccess: adminAccess,
     );
@@ -184,18 +183,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ).toString();
         },
       ),
-      GoRoute(
-        path: AppRoutes.contributionCircles,
-        pageBuilder: (context, state) => coolPageTransition(
-          context: context,
-          state: state,
-          child: SecureScreenWrapper(
-            child: GroupsScreen(
-              inviteCode: state.uri.queryParameters['invite_code'],
-            ),
-          ),
-        ),
-      ),
+      // Note: /contribution-circles is registered in buildHomeShellBranch
+      // (app_shell_branches.dart). Do NOT duplicate it here.
       GoRoute(
         path: AppRoutes.contributionCircleDetail,
         pageBuilder: (context, state) {

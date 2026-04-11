@@ -72,7 +72,6 @@ class _ProfileAppAccessPanelState extends ConsumerState<ProfileAppAccessPanel>
     with WidgetsBindingObserver {
   static const _permissions = <AppAccessPermission>[
     AppAccessPermission.sms,
-    AppAccessPermission.location,
     AppAccessPermission.camera,
     AppAccessPermission.contacts,
     AppAccessPermission.photos,
@@ -171,7 +170,6 @@ class _ProfileAppAccessPanelState extends ConsumerState<ProfileAppAccessPanel>
           break;
         case AppAccessPermission.contacts:
         case AppAccessPermission.camera:
-        case AppAccessPermission.location:
         case AppAccessPermission.nfc:
         case AppAccessPermission.photos:
           break;
@@ -194,7 +192,7 @@ class _ProfileAppAccessPanelState extends ConsumerState<ProfileAppAccessPanel>
     }
     setState(() => _busy.remove(permission));
     if (!opened) {
-      CoolToast.error(context, 'Settings unavailable');
+      CoolToast.error(context, context.l10n.profileSettingsUnavailable);
     }
   }
 
@@ -206,7 +204,7 @@ class _ProfileAppAccessPanelState extends ConsumerState<ProfileAppAccessPanel>
     }
     if (!opened) {
       _refreshOnResume = false;
-      CoolToast.error(context, 'Settings unavailable');
+      CoolToast.error(context, context.l10n.profileSettingsUnavailable);
     }
   }
 
@@ -238,7 +236,7 @@ class _ProfileAppAccessPanelState extends ConsumerState<ProfileAppAccessPanel>
         else
           for (final permission in _permissions) ...[
             _PermissionAccessCard(
-              metadata: _metadataFor(permission),
+              metadata: _metadataFor(context, permission),
               snapshot: _snapshots[permission]!,
               isBusy: _busy.contains(permission),
               onChanged: (enabled) => _togglePermission(permission, enabled),
@@ -293,18 +291,18 @@ class _ProfileAppAccessPanelState extends ConsumerState<ProfileAppAccessPanel>
         ),
         const SizedBox(height: 18),
         Text(
-          'App access',
+          context.l10n.profileAppAccess,
           style: theme.textTheme.headlineSmall?.copyWith(
             color: context.coolSemanticColors.primaryText,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w800,
           ),
         ),
         const SizedBox(height: CoolSpace.x2),
         Text(
-          'Toggle feature access',
+          context.l10n.profileAppAccessToggleFeatureAccess,
           style: theme.textTheme.bodyMedium?.copyWith(
             color: context.coolSemanticColors.secondaryText,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
             height: 1.45,
           ),
         ),

@@ -17,7 +17,7 @@ class QrShareSheet extends ConsumerWidget {
     required this.groupName,
     required this.inviteUrl,
     this.sheetTitle,
-    this.sheetSubtitle = 'Scan QR or share the link',
+    this.sheetSubtitle,
     this.shareText,
     this.analyticsTargetType,
     super.key,
@@ -26,7 +26,7 @@ class QrShareSheet extends ConsumerWidget {
   final String groupName;
   final String inviteUrl;
   final String? sheetTitle;
-  final String sheetSubtitle;
+  final String? sheetSubtitle;
   final String? shareText;
   final String? analyticsTargetType;
 
@@ -35,7 +35,7 @@ class QrShareSheet extends ConsumerWidget {
     required String groupName,
     required String inviteUrl,
     String? sheetTitle,
-    String sheetSubtitle = 'Scan QR or share the link',
+    String? sheetSubtitle,
     String? shareText,
     String? analyticsTargetType,
   }) {
@@ -56,7 +56,7 @@ class QrShareSheet extends ConsumerWidget {
 
   Future<void> _shareViaWhatsApp(BuildContext context, WidgetRef ref) async {
     final encodedText = Uri.encodeComponent(
-      shareText ?? 'Join $groupName on Cool: $inviteUrl',
+      shareText ?? context.l10n.joinGroupShareText(groupName, inviteUrl),
     );
     final waUrl = Uri.parse('https://wa.me/?text=$encodedText');
     if (await canLaunchUrl(waUrl)) {
@@ -78,7 +78,7 @@ class QrShareSheet extends ConsumerWidget {
             targetUrl: inviteUrl,
           );
     } else if (context.mounted) {
-      CoolToast.error(context, 'WhatsApp is not available');
+      CoolToast.error(context, context.l10n.whatsappNotAvailable);
     }
 
     if (context.mounted) {
@@ -110,6 +110,8 @@ class QrShareSheet extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
     final space = context.coolSpace;
     final radii = context.coolRadii;
+    final l10n = context.l10n;
+    final resolvedSheetSubtitle = sheetSubtitle ?? l10n.qrShareSheetSubtitle;
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -138,18 +140,18 @@ class QrShareSheet extends ConsumerWidget {
               ),
               SizedBox(height: space.x5),
               Text(
-                sheetTitle ?? 'Invite to $groupName',
+                sheetTitle ?? l10n.inviteToGroup(groupName),
                 textAlign: TextAlign.center,
                 style: textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                   color: colors.primaryText,
                 ),
               ),
               SizedBox(height: space.x1 + 2),
               Text(
-                sheetSubtitle,
+                resolvedSheetSubtitle,
                 style: textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                   color: colors.tertiaryText,
                 ),
               ),
@@ -194,7 +196,7 @@ class QrShareSheet extends ConsumerWidget {
                         overflow: TextOverflow.ellipsis,
                         style: text.mono(
                           textTheme.bodySmall,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w500,
                           color: colors.secondaryText,
                         ),
                       ),
@@ -227,7 +229,7 @@ class QrShareSheet extends ConsumerWidget {
                           if (!context.mounted) {
                             return;
                           }
-                          CoolToast.success(context, 'Link copied!');
+                          CoolToast.success(context, l10n.linkCopied);
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(
@@ -250,9 +252,9 @@ class QrShareSheet extends ConsumerWidget {
                               ),
                               SizedBox(width: space.x1),
                               Text(
-                                'Copy',
+                                l10n.copy,
                                 style: textTheme.labelSmall?.copyWith(
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w700,
                                   color: colors.accent,
                                 ),
                               ),

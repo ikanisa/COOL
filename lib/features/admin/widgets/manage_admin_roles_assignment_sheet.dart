@@ -133,7 +133,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                   'Assign Admin Role',
                   style: theme.textTheme.titleLarge?.copyWith(
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x4),
@@ -141,7 +141,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                   controller: _userIdController,
                   style: theme.textTheme.titleSmall?.copyWith(
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                   ),
                   decoration: _roleInputDecoration(
                     context,
@@ -168,7 +168,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                   'Role',
                   style: theme.textTheme.labelLarge?.copyWith(
                     color: colors.tertiaryText,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x2),
@@ -215,7 +215,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                       'Failed to load bank scopes.',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colors.danger,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
