@@ -45,13 +45,13 @@ class AdminWorkspacesScreen extends ConsumerWidget {
                   const AdminStatusChip(
                     label: 'Platform Admin',
                     tone: AdminTone.success,
-                    icon: Icons.admin_panel_settings_outlined,
+                    icon: CoolIcons.adminPanel,
                   ),
                 if (access.hasBankAdminAccess)
                   const AdminStatusChip(
                     label: 'Bank Admin',
                     tone: AdminTone.accent,
-                    icon: Icons.account_balance_outlined,
+                    icon: CoolIcons.accountBalanceOutlined,
                   ),
               ],
             ),
@@ -64,14 +64,14 @@ class AdminWorkspacesScreen extends ConsumerWidget {
                       ? '${2 + access.bankAdminIds.length}'
                       : '${access.bankAdminIds.length}',
                   hint: 'Operational entry points',
-                  icon: Icons.dashboard_customize_outlined,
+                  icon: CoolIcons.dashboardCustomize,
                   tone: AdminTone.info,
                 ),
                 AdminMetricItem(
                   label: 'Bank scopes',
                   value: '${access.bankAdminIds.length}',
                   hint: 'Scoped institutions',
-                  icon: Icons.account_tree_outlined,
+                  icon: CoolIcons.accountTree,
                   tone: AdminTone.warning,
                 ),
               ],
@@ -88,7 +88,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
                       title: 'Platform Admin',
                       subtitle:
                           'Users, services, content, roles, and operations.',
-                      icon: Icons.admin_panel_settings_outlined,
+                      icon: CoolIcons.adminPanel,
                       onTap: () => context.push(AppRoutes.adminPlatform),
                     ),
                     const SizedBox(height: CoolSpace.x2),
@@ -96,7 +96,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
                       title: 'Savings & Groups',
                       subtitle:
                           'Centralized savings management, community groups, and allocations.',
-                      icon: Icons.savings_outlined,
+                      icon: CoolIcons.savingsOutlined,
                       onTap: () => context.push(AppRoutes.adminSavings),
                     ),
                   ],
@@ -213,7 +213,7 @@ class _WorkspaceTile extends StatelessWidget {
             ),
           ),
           Icon(
-            Icons.arrow_forward_rounded,
+            CoolIcons.arrowForward,
             size: 18,
             color: colors.tertiaryText,
           ),

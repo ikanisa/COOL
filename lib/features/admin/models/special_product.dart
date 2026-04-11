@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/cool_icons.dart';
+
 /// Admin-managed special product (e.g. Burimunci daily savings).
 class SpecialProduct {
   static const String _defaultColorHex = '#C9A84C';
@@ -101,18 +103,18 @@ class SpecialProduct {
 
   IconData get icon {
     const map = <String, IconData>{
-      'directions_car': Icons.directions_car_rounded,
-      'savings': Icons.savings_rounded,
-      'school': Icons.school_rounded,
-      'star': Icons.star_rounded,
-      'home': Icons.home_rounded,
-      'agriculture': Icons.agriculture_rounded,
-      'local_hospital': Icons.local_hospital_rounded,
-      'construction': Icons.construction_rounded,
-      'store': Icons.store_rounded,
-      'electric_bolt': Icons.electric_bolt_rounded,
+      'directions_car': CoolIcons.car,
+      'savings': CoolIcons.savings,
+      'school': CoolIcons.school,
+      'star': CoolIcons.star,
+      'home': CoolIcons.homeRounded,
+      'agriculture': CoolIcons.agriculture,
+      'local_hospital': CoolIcons.hospital,
+      'construction': CoolIcons.construction,
+      'store': CoolIcons.store,
+      'electric_bolt': CoolIcons.electricBolt,
     };
-    return map[iconName] ?? Icons.star_rounded;
+    return map[iconName] ?? CoolIcons.star;
   }
 
   String get formattedAmount {

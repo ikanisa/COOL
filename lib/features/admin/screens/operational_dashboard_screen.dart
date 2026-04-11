@@ -69,7 +69,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
         IconButton(
           tooltip: context.l10n.refresh,
           onPressed: refresh,
-          icon: const Icon(Icons.refresh_rounded),
+          icon: const Icon(CoolIcons.refresh),
           color: colors.primaryText,
         ),
       ],
@@ -88,7 +88,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
                 AdminStatusChip(
                   label: 'Live',
                   tone: AdminTone.success,
-                  icon: Icons.bolt_outlined,
+                  icon: CoolIcons.bolt,
                 ),
               ],
             ),
@@ -99,35 +99,35 @@ class OperationalDashboardScreen extends ConsumerWidget {
                   label: 'Surfaces',
                   value: _asyncCount(dashboardAsync),
                   hint: 'Monitored services',
-                  icon: Icons.monitor_heart_outlined,
+                  icon: CoolIcons.monitorHeart,
                   tone: AdminTone.info,
                 ),
                 AdminMetricItem(
                   label: 'Triage',
                   value: _asyncCount(triageAsync),
                   hint: 'Open blocking issues',
-                  icon: Icons.priority_high_rounded,
+                  icon: CoolIcons.priorityHigh,
                   tone: AdminTone.danger,
                 ),
                 AdminMetricItem(
                   label: 'Senders',
                   value: _asyncCount(senderInventoryAsync),
                   hint: 'Sender audit rows',
-                  icon: Icons.sms_outlined,
+                  icon: CoolIcons.sms,
                   tone: AdminTone.warning,
                 ),
                 AdminMetricItem(
                   label: 'Manual review',
                   value: _asyncCount(manualReviewAsync),
                   hint: 'Open review items',
-                  icon: Icons.rule_folder_outlined,
+                  icon: CoolIcons.ruleFolder,
                   tone: AdminTone.accent,
                 ),
                 AdminMetricItem(
                   label: 'Events',
                   value: _asyncCount(eventsAsync),
                   hint: 'Recent health events',
-                  icon: Icons.timeline_outlined,
+                  icon: CoolIcons.timeline,
                   tone: AdminTone.success,
                 ),
               ],
@@ -140,7 +140,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
               emptyCheck: (rows) => rows.isEmpty,
               emptyWidget: const CoolEmptyView(
                 message: 'No operational dashboard yet',
-                icon: Icons.monitor_heart_outlined,
+                icon: CoolIcons.monitorHeart,
               ),
               builder: (rows) => AdminDataTableCard(
                 title: context.l10n.releaseDashboard,
@@ -207,7 +207,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
               emptyCheck: (rows) => rows.isEmpty,
               emptyWidget: const CoolEmptyView(
                 message: 'No release-blocking operational issues',
-                icon: Icons.fact_check_outlined,
+                icon: CoolIcons.factCheck,
               ),
               builder: (rows) => AdminDataTableCard(
                 title: 'Triage Queue',
@@ -277,7 +277,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
                 emptyCheck: (rows) => rows.isEmpty,
                 emptyWidget: const CoolEmptyView(
                   message: 'No M-Money SMS operational summary',
-                  icon: Icons.sms_outlined,
+                  icon: CoolIcons.sms,
                 ),
                 builder: (rows) => Column(
                   children: _spacedChildren(
@@ -311,7 +311,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
                 emptyCheck: (rows) => rows.isEmpty,
                 emptyWidget: const CoolEmptyView(
                   message: 'No recent operational events',
-                  icon: Icons.history_rounded,
+                  icon: CoolIcons.historyRounded,
                 ),
                 builder: (rows) => Column(
                   children: _spacedChildren(
@@ -343,7 +343,7 @@ class _EventListTile extends StatelessWidget {
       title: _text(row['service']) ?? 'service',
       subtitle: _text(row['message']) ?? 'No message',
       meta: _formatTimestamp(row['occurred_at']),
-      icon: Icons.timeline_outlined,
+      icon: CoolIcons.timeline,
       tone: _toneForStatus(status),
       badges: [
         AdminStatusChip(
@@ -358,7 +358,7 @@ class _EventListTile extends StatelessWidget {
           AdminStatusChip(
             label: functionName,
             tone: AdminTone.info,
-            icon: Icons.functions_outlined,
+            icon: CoolIcons.functions,
           ),
         if (_text(row['issue_code']) case final issueCode?)
           AdminStatusChip(label: issueCode, tone: AdminTone.warning),

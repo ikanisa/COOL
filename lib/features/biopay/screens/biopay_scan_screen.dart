@@ -256,6 +256,20 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
     }
   }
 
+  void _retryPipeline() {
+    setState(() {
+      _pipelineError = null;
+      _cameraError = null;
+      _isEmbeddingReady = false;
+      _pipelineWarmTraceStarted = false;
+      final l10n = context.l10n;
+      _statusLabel = l10n.biopayScanPreparingCamera;
+      _helperText = l10n.biopayScanLoadingServices;
+      _tone = BiopayScannerTone.searching;
+    });
+    _warmPipeline();
+  }
+
   Future<void> _warmPipeline() async {
     if (!_pipelineWarmTraceStarted) {
       _pipelineWarmTraceStarted = true;

@@ -44,7 +44,7 @@ List<Widget> _buildAccessBadges(AdminWorkspaceAccess access) {
       const AdminStatusChip(
         label: 'Platform Admin',
         tone: AdminTone.success,
-        icon: Icons.verified_user_outlined,
+        icon: CoolIcons.verifiedUser,
       ),
     );
   }
@@ -53,7 +53,7 @@ List<Widget> _buildAccessBadges(AdminWorkspaceAccess access) {
       const AdminStatusChip(
         label: 'Restricted',
         tone: AdminTone.warning,
-        icon: Icons.lock_outline_rounded,
+        icon: CoolIcons.lock,
       ),
     );
   }
@@ -144,7 +144,7 @@ class _DashboardModuleTile extends StatelessWidget {
             ),
           ),
           Icon(
-            Icons.arrow_forward_rounded,
+            CoolIcons.arrowForward,
             size: 18,
             color: colors.tertiaryText,
           ),

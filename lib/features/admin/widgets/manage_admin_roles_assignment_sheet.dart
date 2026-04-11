@@ -150,7 +150,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                     suffixIcon: IconButton(
                       tooltip: 'Paste user ID',
                       icon: Icon(
-                        Icons.paste_rounded,
+                        CoolIcons.paste,
                         size: 18,
                         color: colors.tertiaryText,
                       ),

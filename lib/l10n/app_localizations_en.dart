@@ -24,12 +24,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navBiopay => 'BioPay';
 
   @override
-  String get welcomeTitle => 'Welcome to Cool';
-
-  @override
-  String get welcomeSubtitle => 'Community savings group funds';
-
-  @override
   String get homeCommunitiesTitle => 'Communities';
 
   @override
@@ -123,36 +117,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeOperationActivityUpper => 'ACTIVITY';
 
   @override
-  String get getStarted => 'Get Started';
-
-  @override
-  String get signIn => 'Already have an account?';
-
-  @override
-  String get verifyWhatsapp => 'Verify via WhatsApp';
-
-  @override
-  String get verifyWhatsappSubtitle => 'We\'ll send a one-time';
-
-  @override
-  String get phoneLabel => 'Phone Number';
-
-  @override
-  String get phoneHint => '+250 7XX XXX XXX';
-
-  @override
-  String get sendCode => 'Send WhatsApp Code';
-
-  @override
-  String get enterCode => 'Enter Code';
-
-  @override
-  String get enterCodeSubtitle => 'Enter the 6-digit code';
-
-  @override
-  String get verifyButton => 'Verify & Continue';
-
-  @override
   String get resendCode => 'Resend Code';
 
   @override
@@ -161,106 +125,13 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get invalidCode => 'Invalid code Please try';
-
-  @override
-  String get codeSent => 'Code sent to WhatsApp.';
-
-  @override
-  String get setupProfile => 'Setup Profile';
-
-  @override
-  String get createAccount => 'Create Account';
-
-  @override
-  String get nameLabel => 'Full Name';
-
-  @override
-  String get nameHint => 'e.g. Amara Banda';
-
-  @override
-  String get countryLabel => 'Country';
-
-  @override
   String get momoNumberLabel => 'MOMO Number';
-
-  @override
-  String get momoNumberHint => 'e g 0788 123';
-
-  @override
-  String get totalBalance => 'Total Balance';
-
-  @override
-  String get rwf => 'RWF';
-
-  @override
-  String get quickActions => 'Quick Actions';
-
-  @override
-  String get sendMoney => 'Send Money';
-
-  @override
-  String get requestPay => 'Request Pay';
-
-  @override
-  String get payViaMomo => 'Pay via MOMO';
-
-  @override
-  String get recentActivity => 'Recent Activity';
-
-  @override
-  String get noActivity => 'No recent activity to';
 
   @override
   String get viewAll => 'View All';
 
   @override
-  String get sendMoneyTitle => 'Send Money';
-
-  @override
-  String get sendMoneyHint => 'Transfer instantly to a';
-
-  @override
-  String get sendAction => 'Send';
-
-  @override
-  String get recipientLabel => 'Recipient ID';
-
-  @override
-  String get recipientHint => 'Enter member ID';
-
-  @override
-  String get amountLabel => 'Amount (RWF)';
-
-  @override
-  String get amountHint => 'e.g. 5,000';
-
-  @override
-  String get confirmSend => 'Confirm & Send';
-
-  @override
-  String get sendSuccess => 'Transfer initiated via MOMO.';
-
-  @override
-  String get myGroups => 'My Groups';
-
-  @override
-  String get newGroup => 'New Group';
-
-  @override
-  String get createGroup => 'Create Group';
-
-  @override
   String get joinGroup => 'Join Group';
-
-  @override
-  String get leaveGroup => 'Leave Group';
-
-  @override
-  String get groupSaving => 'Group Saving';
-
-  @override
-  String get communityFund => 'Community Fund';
 
   @override
   String get public => 'Public';
@@ -269,36 +140,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get private => 'Private';
 
   @override
-  String get publicGroup => 'Public';
-
-  @override
-  String get privateGroup => 'Private';
-
-  @override
   String get contribute => 'Contribute';
 
   @override
   String get contribution => 'Contribution';
 
   @override
-  String get contributionAmount => 'Contribution Amount';
-
-  @override
-  String get cycleDays => 'Cycle (days)';
-
-  @override
   String memberCount(Object count) {
     return '$count members';
   }
-
-  @override
-  String get groupMembers => 'Members';
-
-  @override
-  String get recentContributions => 'Recent contributions';
-
-  @override
-  String get shareInvite => 'Share / QR';
 
   @override
   String get groupCreated => 'Group created successfully.';
@@ -313,45 +163,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get groupDescriptionLabel => 'Description';
 
   @override
-  String get discoverGroups => 'Discover Groups';
-
-  @override
-  String get noGroupsYet => 'You haven\'t joined any';
-
-  @override
-  String get noPublicGroups => 'No public groups available.';
-
-  @override
-  String get pending => 'Pending';
-
-  @override
   String get confirmed => 'Confirmed';
-
-  @override
-  String get failed => 'Failed';
-
-  @override
-  String get basket => 'Basket';
-
-  @override
-  String get emptyBasket => 'Your basket is empty.';
-
-  @override
-  String get checkout => 'Checkout';
 
   @override
   String totalItems(Object count) {
     return '$count items';
   }
-
-  @override
-  String get momoTitle => 'MOMO Pay';
-
-  @override
-  String get payViaUssd => 'Pay via MOMO USSD';
-
-  @override
-  String get momoDialerError => 'open the USSD failed';
 
   @override
   String get online => 'Online';
@@ -360,33 +177,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get offline => 'Offline';
 
   @override
-  String get statusHealthy => 'Healthy';
-
-  @override
-  String get statusWarning => 'Warning';
-
-  @override
-  String get statusLabel => 'Status';
-
-  @override
-  String get verified => 'Verified';
-
-  @override
-  String get pendingReview => 'Pending Review';
-
-  @override
   String get maintenance => 'Maintenance';
-
-  @override
-  String get subscribe => 'Pay via MOMO USSD';
-
-  @override
-  String daysRemaining(Object count) {
-    return '$count days remaining';
-  }
-
-  @override
-  String get perMonth => '/month';
 
   @override
   String get weekdayMonShort => 'Mon';
@@ -414,9 +205,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get partners => 'Partners';
-
-  @override
-  String get football => 'Football';
 
   @override
   String get banks => 'Banks';
@@ -588,14 +376,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancel => 'Cancel';
-
-  @override
-  String get subscription => 'Subscription';
-
-  @override
-  String expiringInDays(Object count) {
-    return 'Expiring in $count days';
-  }
 
   @override
   String get languageEnglish => 'English';
@@ -1129,9 +909,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get partnersMembershipPerkExclusiveEvents => 'Exclusive events';
-
-  @override
-  String get partnersNoFootballPartners => 'No football partners yet';
 
   @override
   String partnersComingSoonMessage(Object partnerName) {
@@ -1802,16 +1579,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectAContactToShareWith => 'Select a contact to share with';
 
   @override
-  String get postedUpper => 'POSTED';
+  String get postedUpper => 'RECEIVED';
 
   @override
-  String get confirmedUpper => 'CONFIRMED';
+  String get confirmedUpper => 'RECEIVED';
 
   @override
   String get draftUpper => 'DRAFT';
 
   @override
-  String get reviewUpper => 'REVIEW';
+  String get reviewUpper => 'PENDING';
 
   @override
   String get manualUpper => 'MANUAL';
@@ -1820,7 +1597,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get suggestedUpper => 'SUGGESTED';
 
   @override
-  String get rejectedUpper => 'REJECTED';
+  String get rejectedUpper => 'DECLINED';
 
   @override
   String get groups1 => 'GROUPS';
@@ -1986,9 +1763,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteContent => 'Delete content?';
 
   @override
-  String get editChildTextedit => 'edit\', child: Text(\'Edit';
-
-  @override
   String get approve => 'Approve';
 
   @override
@@ -2139,16 +1913,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rwandaOnly => 'Rwanda only';
 
   @override
-  String get editMomoSubscriptionConfig => 'Edit MoMo subscription config';
-
-  @override
   String get editPaymentRouteFor => 'Edit payment route for';
 
   @override
   String get backToAdmin => 'Back to admin';
-
-  @override
-  String get partnerSportsAdmin => 'Partner Sports Admin';
 
   @override
   String get recentContributions1 => 'Recent contributions';
@@ -2173,24 +1941,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get merchantCode => 'Merchant Code';
-
-  @override
-  String get dailyValueDaily => 'Daily\', value: \'daily';
-
-  @override
-  String get weeklyValueWeekly => 'Weekly\', value: \'weekly';
-
-  @override
-  String get monthlyValueMonthly => 'Monthly\', value: \'monthly';
-
-  @override
-  String get discover => 'Discover';
-
-  @override
-  String get peopleOutline => 'People Outline';
-
-  @override
-  String get lockOutline => 'Lock Outline';
 
   @override
   String get loadGroupsFailed => 'Load groups failed';
@@ -2886,27 +2636,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checkoutCart => 'Checkout cart';
-
-  @override
-  String get showAllItems => 'Show all items';
-
-  @override
-  String get requestAQuote => 'Request a Quote';
-
-  @override
-  String get openPartnerSports => 'Open Partner Sports';
-
-  @override
-  String get noFootballPartnersYet => 'No football partners yet';
-
-  @override
-  String get featuredExperiences => 'Featured experiences';
-
-  @override
-  String get noFinancePartnersYet => 'No finance partners yet';
-
-  @override
-  String get openReadinessChecklist => 'Open readiness checklist';
 
   @override
   String get noServicePartnersYet => 'No service partners yet';
@@ -3716,7 +3445,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get groupsLaunchMomoUssdError =>
-      'Could not launch MoMo USSD. Try dialing manually.';
+      'Could not launch MoMo payment. Try dialing *182*8*1# manually to send your contribution.';
 
   @override
   String get groupsCreateUpper => 'CREATE';
@@ -3771,8 +3500,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get groupsContributeWithMomoUpper => 'CONTRIBUTE WITH MOMO';
 
   @override
-  String get groupsContributionRoutePendingUpper =>
-      'CONTRIBUTION ROUTE PENDING';
+  String get groupsContributionRoutePendingUpper => 'PAYMENT SETUP IN PROGRESS';
+
+  @override
+  String get groupsRoutePendingHint =>
+      'The group owner\'s MoMo route is being set up by the admin. You\'ll be able to contribute once it\'s confirmed.';
 
   @override
   String get groupsJoinGroupUpper => 'JOIN GROUP';
@@ -4073,4 +3805,158 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get biopayScanCameraLoading => 'Preparing camera…';
+
+  @override
+  String get biopayUnavailable => 'BioPay unavailable';
+
+  @override
+  String get biopayEnableCamera => 'Enable Camera';
+
+  @override
+  String get biopayManageAccess => 'Manage Access';
+
+  @override
+  String get walletLoadFailed => 'Could not load wallet transactions.';
+
+  @override
+  String get walletRetry => 'Tap to retry';
+
+  @override
+  String get walletLoadMore => 'Load more transactions';
+
+  @override
+  String get homeSavingsBalanceNewUserHint =>
+      'Your balance updates as you join groups and contribute.';
+
+  @override
+  String get biopayTemporarilyUnavailable =>
+      'BioPay is temporarily unavailable. Please try again later.';
+
+  @override
+  String get homeGettingStartedTitle => 'Getting started';
+
+  @override
+  String get homeGettingStartedLinkMomo => 'Link your MoMo number';
+
+  @override
+  String get homeGettingStartedLinkMomoSub =>
+      'Required for payments and groups';
+
+  @override
+  String get homeGettingStartedCreateGroup => 'Create a savings group';
+
+  @override
+  String get homeGettingStartedCreateGroupSub =>
+      'Start saving with your community';
+
+  @override
+  String get homeGettingStartedExploreGroups => 'Explore public groups';
+
+  @override
+  String get homeGettingStartedExploreGroupsSub =>
+      'Join an existing savings circle';
+
+  @override
+  String get groupCreateMomoRequiredTitle => 'MoMo number required';
+
+  @override
+  String get groupCreateMomoRequiredMessage =>
+      'Link a Mobile Money number before creating a group. Contributions are routed through your MoMo.';
+
+  @override
+  String get groupCreateMomoRequiredAction => 'SET UP MOMO';
+
+  @override
+  String get profileCompletionPrompt =>
+      'Complete your profile to unlock all features.';
+
+  @override
+  String get profileCompletionAction => 'Complete profile';
+
+  @override
+  String get adminEyebrowPlatformControl => 'PLATFORM CONTROL';
+
+  @override
+  String get adminSubtitleOperationalModules =>
+      'Operational modules, oversight surfaces, and release controls.';
+
+  @override
+  String get adminMetricModules => 'Modules';
+
+  @override
+  String get adminMetricModulesHint => 'Platform surfaces';
+
+  @override
+  String get adminMetricPriority => 'Priority';
+
+  @override
+  String get adminMetricPriorityHint => 'Daily-use modules';
+
+  @override
+  String get adminMetricOversight => 'Oversight';
+
+  @override
+  String get adminMetricOversightHint => 'Monitoring surfaces';
+
+  @override
+  String get adminMetricConfig => 'Config';
+
+  @override
+  String get adminMetricConfigHint => 'System controls';
+
+  @override
+  String get adminSectionPriority => 'Priority';
+
+  @override
+  String get adminSectionPrioritySub =>
+      'Users, operations, and access changes first.';
+
+  @override
+  String get adminSectionOversight => 'Oversight';
+
+  @override
+  String get adminSectionOversightSub =>
+      'Platform metrics, history, and operational context.';
+
+  @override
+  String get adminSectionConfiguration => 'Configuration';
+
+  @override
+  String get adminSectionConfigurationSub =>
+      'Core settings and structural management surfaces.';
+
+  @override
+  String get groupDescriptionHeader => 'Description';
+
+  @override
+  String get iosPaymentNoticeTitle => 'Automatic verification unavailable';
+
+  @override
+  String get iosPaymentNoticeMessage =>
+      'On iPhone, MoMo payments are launched but cannot be automatically verified. After paying, your contribution will be confirmed by the group admin.';
+
+  @override
+  String get homeHowItWorksTitle => 'How COOL works';
+
+  @override
+  String get homeHowItWorksStep1 => 'Link your MoMo number in Settings';
+
+  @override
+  String get homeHowItWorksStep2 => 'Create or join a savings group';
+
+  @override
+  String get homeHowItWorksStep3 =>
+      'Contribute via MoMo — tracked automatically';
+
+  @override
+  String get offlineBanner =>
+      'You\'re offline. Some features may be unavailable.';
+
+  @override
+  String get featureTemporarilyUnavailable => 'Temporarily Unavailable';
+
+  @override
+  String featureComingSoonMessage(Object featureName) {
+    return '$featureName is coming soon. Stay tuned for updates.';
+  }
 }

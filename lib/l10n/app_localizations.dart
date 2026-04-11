@@ -124,18 +124,6 @@ abstract class AppLocalizations {
   /// **'BioPay'**
   String get navBiopay;
 
-  /// No description provided for @welcomeTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Welcome to Cool'**
-  String get welcomeTitle;
-
-  /// No description provided for @welcomeSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Community savings group funds'**
-  String get welcomeSubtitle;
-
   /// No description provided for @homeCommunitiesTitle.
   ///
   /// In en, this message translates to:
@@ -286,66 +274,6 @@ abstract class AppLocalizations {
   /// **'ACTIVITY'**
   String get homeOperationActivityUpper;
 
-  /// No description provided for @getStarted.
-  ///
-  /// In en, this message translates to:
-  /// **'Get Started'**
-  String get getStarted;
-
-  /// No description provided for @signIn.
-  ///
-  /// In en, this message translates to:
-  /// **'Already have an account?'**
-  String get signIn;
-
-  /// No description provided for @verifyWhatsapp.
-  ///
-  /// In en, this message translates to:
-  /// **'Verify via WhatsApp'**
-  String get verifyWhatsapp;
-
-  /// No description provided for @verifyWhatsappSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'We\'ll send a one-time'**
-  String get verifyWhatsappSubtitle;
-
-  /// No description provided for @phoneLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Phone Number'**
-  String get phoneLabel;
-
-  /// No description provided for @phoneHint.
-  ///
-  /// In en, this message translates to:
-  /// **'+250 7XX XXX XXX'**
-  String get phoneHint;
-
-  /// No description provided for @sendCode.
-  ///
-  /// In en, this message translates to:
-  /// **'Send WhatsApp Code'**
-  String get sendCode;
-
-  /// No description provided for @enterCode.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter Code'**
-  String get enterCode;
-
-  /// No description provided for @enterCodeSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter the 6-digit code'**
-  String get enterCodeSubtitle;
-
-  /// No description provided for @verifyButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Verify & Continue'**
-  String get verifyButton;
-
   /// No description provided for @resendCode.
   ///
   /// In en, this message translates to:
@@ -358,107 +286,11 @@ abstract class AppLocalizations {
   /// **'Resend in {seconds}s'**
   String resendCodeIn(Object seconds);
 
-  /// No description provided for @invalidCode.
-  ///
-  /// In en, this message translates to:
-  /// **'Invalid code Please try'**
-  String get invalidCode;
-
-  /// No description provided for @codeSent.
-  ///
-  /// In en, this message translates to:
-  /// **'Code sent to WhatsApp.'**
-  String get codeSent;
-
-  /// No description provided for @setupProfile.
-  ///
-  /// In en, this message translates to:
-  /// **'Setup Profile'**
-  String get setupProfile;
-
-  /// No description provided for @createAccount.
-  ///
-  /// In en, this message translates to:
-  /// **'Create Account'**
-  String get createAccount;
-
-  /// No description provided for @nameLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Full Name'**
-  String get nameLabel;
-
-  /// No description provided for @nameHint.
-  ///
-  /// In en, this message translates to:
-  /// **'e.g. Amara Banda'**
-  String get nameHint;
-
-  /// No description provided for @countryLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Country'**
-  String get countryLabel;
-
   /// No description provided for @momoNumberLabel.
   ///
   /// In en, this message translates to:
   /// **'MOMO Number'**
   String get momoNumberLabel;
-
-  /// No description provided for @momoNumberHint.
-  ///
-  /// In en, this message translates to:
-  /// **'e g 0788 123'**
-  String get momoNumberHint;
-
-  /// No description provided for @totalBalance.
-  ///
-  /// In en, this message translates to:
-  /// **'Total Balance'**
-  String get totalBalance;
-
-  /// No description provided for @rwf.
-  ///
-  /// In en, this message translates to:
-  /// **'RWF'**
-  String get rwf;
-
-  /// No description provided for @quickActions.
-  ///
-  /// In en, this message translates to:
-  /// **'Quick Actions'**
-  String get quickActions;
-
-  /// No description provided for @sendMoney.
-  ///
-  /// In en, this message translates to:
-  /// **'Send Money'**
-  String get sendMoney;
-
-  /// No description provided for @requestPay.
-  ///
-  /// In en, this message translates to:
-  /// **'Request Pay'**
-  String get requestPay;
-
-  /// No description provided for @payViaMomo.
-  ///
-  /// In en, this message translates to:
-  /// **'Pay via MOMO'**
-  String get payViaMomo;
-
-  /// No description provided for @recentActivity.
-  ///
-  /// In en, this message translates to:
-  /// **'Recent Activity'**
-  String get recentActivity;
-
-  /// No description provided for @noActivity.
-  ///
-  /// In en, this message translates to:
-  /// **'No recent activity to'**
-  String get noActivity;
 
   /// No description provided for @viewAll.
   ///
@@ -466,101 +298,11 @@ abstract class AppLocalizations {
   /// **'View All'**
   String get viewAll;
 
-  /// No description provided for @sendMoneyTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Send Money'**
-  String get sendMoneyTitle;
-
-  /// No description provided for @sendMoneyHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Transfer instantly to a'**
-  String get sendMoneyHint;
-
-  /// No description provided for @sendAction.
-  ///
-  /// In en, this message translates to:
-  /// **'Send'**
-  String get sendAction;
-
-  /// No description provided for @recipientLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Recipient ID'**
-  String get recipientLabel;
-
-  /// No description provided for @recipientHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter member ID'**
-  String get recipientHint;
-
-  /// No description provided for @amountLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Amount (RWF)'**
-  String get amountLabel;
-
-  /// No description provided for @amountHint.
-  ///
-  /// In en, this message translates to:
-  /// **'e.g. 5,000'**
-  String get amountHint;
-
-  /// No description provided for @confirmSend.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm & Send'**
-  String get confirmSend;
-
-  /// No description provided for @sendSuccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Transfer initiated via MOMO.'**
-  String get sendSuccess;
-
-  /// No description provided for @myGroups.
-  ///
-  /// In en, this message translates to:
-  /// **'My Groups'**
-  String get myGroups;
-
-  /// No description provided for @newGroup.
-  ///
-  /// In en, this message translates to:
-  /// **'New Group'**
-  String get newGroup;
-
-  /// No description provided for @createGroup.
-  ///
-  /// In en, this message translates to:
-  /// **'Create Group'**
-  String get createGroup;
-
   /// No description provided for @joinGroup.
   ///
   /// In en, this message translates to:
   /// **'Join Group'**
   String get joinGroup;
-
-  /// No description provided for @leaveGroup.
-  ///
-  /// In en, this message translates to:
-  /// **'Leave Group'**
-  String get leaveGroup;
-
-  /// No description provided for @groupSaving.
-  ///
-  /// In en, this message translates to:
-  /// **'Group Saving'**
-  String get groupSaving;
-
-  /// No description provided for @communityFund.
-  ///
-  /// In en, this message translates to:
-  /// **'Community Fund'**
-  String get communityFund;
 
   /// No description provided for @public.
   ///
@@ -574,18 +316,6 @@ abstract class AppLocalizations {
   /// **'Private'**
   String get private;
 
-  /// No description provided for @publicGroup.
-  ///
-  /// In en, this message translates to:
-  /// **'Public'**
-  String get publicGroup;
-
-  /// No description provided for @privateGroup.
-  ///
-  /// In en, this message translates to:
-  /// **'Private'**
-  String get privateGroup;
-
   /// No description provided for @contribute.
   ///
   /// In en, this message translates to:
@@ -598,41 +328,11 @@ abstract class AppLocalizations {
   /// **'Contribution'**
   String get contribution;
 
-  /// No description provided for @contributionAmount.
-  ///
-  /// In en, this message translates to:
-  /// **'Contribution Amount'**
-  String get contributionAmount;
-
-  /// No description provided for @cycleDays.
-  ///
-  /// In en, this message translates to:
-  /// **'Cycle (days)'**
-  String get cycleDays;
-
   /// No description provided for @memberCount.
   ///
   /// In en, this message translates to:
   /// **'{count} members'**
   String memberCount(Object count);
-
-  /// No description provided for @groupMembers.
-  ///
-  /// In en, this message translates to:
-  /// **'Members'**
-  String get groupMembers;
-
-  /// No description provided for @recentContributions.
-  ///
-  /// In en, this message translates to:
-  /// **'Recent contributions'**
-  String get recentContributions;
-
-  /// No description provided for @shareInvite.
-  ///
-  /// In en, this message translates to:
-  /// **'Share / QR'**
-  String get shareInvite;
 
   /// No description provided for @groupCreated.
   ///
@@ -658,83 +358,17 @@ abstract class AppLocalizations {
   /// **'Description'**
   String get groupDescriptionLabel;
 
-  /// No description provided for @discoverGroups.
-  ///
-  /// In en, this message translates to:
-  /// **'Discover Groups'**
-  String get discoverGroups;
-
-  /// No description provided for @noGroupsYet.
-  ///
-  /// In en, this message translates to:
-  /// **'You haven\'t joined any'**
-  String get noGroupsYet;
-
-  /// No description provided for @noPublicGroups.
-  ///
-  /// In en, this message translates to:
-  /// **'No public groups available.'**
-  String get noPublicGroups;
-
-  /// No description provided for @pending.
-  ///
-  /// In en, this message translates to:
-  /// **'Pending'**
-  String get pending;
-
   /// No description provided for @confirmed.
   ///
   /// In en, this message translates to:
   /// **'Confirmed'**
   String get confirmed;
 
-  /// No description provided for @failed.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed'**
-  String get failed;
-
-  /// No description provided for @basket.
-  ///
-  /// In en, this message translates to:
-  /// **'Basket'**
-  String get basket;
-
-  /// No description provided for @emptyBasket.
-  ///
-  /// In en, this message translates to:
-  /// **'Your basket is empty.'**
-  String get emptyBasket;
-
-  /// No description provided for @checkout.
-  ///
-  /// In en, this message translates to:
-  /// **'Checkout'**
-  String get checkout;
-
   /// No description provided for @totalItems.
   ///
   /// In en, this message translates to:
   /// **'{count} items'**
   String totalItems(Object count);
-
-  /// No description provided for @momoTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'MOMO Pay'**
-  String get momoTitle;
-
-  /// No description provided for @payViaUssd.
-  ///
-  /// In en, this message translates to:
-  /// **'Pay via MOMO USSD'**
-  String get payViaUssd;
-
-  /// No description provided for @momoDialerError.
-  ///
-  /// In en, this message translates to:
-  /// **'open the USSD failed'**
-  String get momoDialerError;
 
   /// No description provided for @online.
   ///
@@ -748,59 +382,11 @@ abstract class AppLocalizations {
   /// **'Offline'**
   String get offline;
 
-  /// No description provided for @statusHealthy.
-  ///
-  /// In en, this message translates to:
-  /// **'Healthy'**
-  String get statusHealthy;
-
-  /// No description provided for @statusWarning.
-  ///
-  /// In en, this message translates to:
-  /// **'Warning'**
-  String get statusWarning;
-
-  /// No description provided for @statusLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Status'**
-  String get statusLabel;
-
-  /// No description provided for @verified.
-  ///
-  /// In en, this message translates to:
-  /// **'Verified'**
-  String get verified;
-
-  /// No description provided for @pendingReview.
-  ///
-  /// In en, this message translates to:
-  /// **'Pending Review'**
-  String get pendingReview;
-
   /// No description provided for @maintenance.
   ///
   /// In en, this message translates to:
   /// **'Maintenance'**
   String get maintenance;
-
-  /// No description provided for @subscribe.
-  ///
-  /// In en, this message translates to:
-  /// **'Pay via MOMO USSD'**
-  String get subscribe;
-
-  /// No description provided for @daysRemaining.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} days remaining'**
-  String daysRemaining(Object count);
-
-  /// No description provided for @perMonth.
-  ///
-  /// In en, this message translates to:
-  /// **'/month'**
-  String get perMonth;
 
   /// No description provided for @weekdayMonShort.
   ///
@@ -855,12 +441,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Partners'**
   String get partners;
-
-  /// No description provided for @football.
-  ///
-  /// In en, this message translates to:
-  /// **'Football'**
-  String get football;
 
   /// No description provided for @banks.
   ///
@@ -1191,18 +771,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
-
-  /// No description provided for @subscription.
-  ///
-  /// In en, this message translates to:
-  /// **'Subscription'**
-  String get subscription;
-
-  /// No description provided for @expiringInDays.
-  ///
-  /// In en, this message translates to:
-  /// **'Expiring in {count} days'**
-  String expiringInDays(Object count);
 
   /// No description provided for @languageEnglish.
   ///
@@ -2217,12 +1785,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Exclusive events'**
   String get partnersMembershipPerkExclusiveEvents;
-
-  /// No description provided for @partnersNoFootballPartners.
-  ///
-  /// In en, this message translates to:
-  /// **'No football partners yet'**
-  String get partnersNoFootballPartners;
 
   /// No description provided for @partnersComingSoonMessage.
   ///
@@ -3505,13 +3067,13 @@ abstract class AppLocalizations {
   /// No description provided for @postedUpper.
   ///
   /// In en, this message translates to:
-  /// **'POSTED'**
+  /// **'RECEIVED'**
   String get postedUpper;
 
   /// No description provided for @confirmedUpper.
   ///
   /// In en, this message translates to:
-  /// **'CONFIRMED'**
+  /// **'RECEIVED'**
   String get confirmedUpper;
 
   /// No description provided for @draftUpper.
@@ -3523,7 +3085,7 @@ abstract class AppLocalizations {
   /// No description provided for @reviewUpper.
   ///
   /// In en, this message translates to:
-  /// **'REVIEW'**
+  /// **'PENDING'**
   String get reviewUpper;
 
   /// No description provided for @manualUpper.
@@ -3541,7 +3103,7 @@ abstract class AppLocalizations {
   /// No description provided for @rejectedUpper.
   ///
   /// In en, this message translates to:
-  /// **'REJECTED'**
+  /// **'DECLINED'**
   String get rejectedUpper;
 
   /// No description provided for @groups1.
@@ -3868,12 +3430,6 @@ abstract class AppLocalizations {
   /// **'Delete content?'**
   String get deleteContent;
 
-  /// No description provided for @editChildTextedit.
-  ///
-  /// In en, this message translates to:
-  /// **'edit\', child: Text(\'Edit'**
-  String get editChildTextedit;
-
   /// No description provided for @approve.
   ///
   /// In en, this message translates to:
@@ -4174,12 +3730,6 @@ abstract class AppLocalizations {
   /// **'Rwanda only'**
   String get rwandaOnly;
 
-  /// No description provided for @editMomoSubscriptionConfig.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit MoMo subscription config'**
-  String get editMomoSubscriptionConfig;
-
   /// No description provided for @editPaymentRouteFor.
   ///
   /// In en, this message translates to:
@@ -4191,12 +3741,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back to admin'**
   String get backToAdmin;
-
-  /// No description provided for @partnerSportsAdmin.
-  ///
-  /// In en, this message translates to:
-  /// **'Partner Sports Admin'**
-  String get partnerSportsAdmin;
 
   /// No description provided for @recentContributions1.
   ///
@@ -4245,42 +3789,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Merchant Code'**
   String get merchantCode;
-
-  /// No description provided for @dailyValueDaily.
-  ///
-  /// In en, this message translates to:
-  /// **'Daily\', value: \'daily'**
-  String get dailyValueDaily;
-
-  /// No description provided for @weeklyValueWeekly.
-  ///
-  /// In en, this message translates to:
-  /// **'Weekly\', value: \'weekly'**
-  String get weeklyValueWeekly;
-
-  /// No description provided for @monthlyValueMonthly.
-  ///
-  /// In en, this message translates to:
-  /// **'Monthly\', value: \'monthly'**
-  String get monthlyValueMonthly;
-
-  /// No description provided for @discover.
-  ///
-  /// In en, this message translates to:
-  /// **'Discover'**
-  String get discover;
-
-  /// No description provided for @peopleOutline.
-  ///
-  /// In en, this message translates to:
-  /// **'People Outline'**
-  String get peopleOutline;
-
-  /// No description provided for @lockOutline.
-  ///
-  /// In en, this message translates to:
-  /// **'Lock Outline'**
-  String get lockOutline;
 
   /// No description provided for @loadGroupsFailed.
   ///
@@ -5649,48 +5157,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Checkout cart'**
   String get checkoutCart;
-
-  /// No description provided for @showAllItems.
-  ///
-  /// In en, this message translates to:
-  /// **'Show all items'**
-  String get showAllItems;
-
-  /// No description provided for @requestAQuote.
-  ///
-  /// In en, this message translates to:
-  /// **'Request a Quote'**
-  String get requestAQuote;
-
-  /// No description provided for @openPartnerSports.
-  ///
-  /// In en, this message translates to:
-  /// **'Open Partner Sports'**
-  String get openPartnerSports;
-
-  /// No description provided for @noFootballPartnersYet.
-  ///
-  /// In en, this message translates to:
-  /// **'No football partners yet'**
-  String get noFootballPartnersYet;
-
-  /// No description provided for @featuredExperiences.
-  ///
-  /// In en, this message translates to:
-  /// **'Featured experiences'**
-  String get featuredExperiences;
-
-  /// No description provided for @noFinancePartnersYet.
-  ///
-  /// In en, this message translates to:
-  /// **'No finance partners yet'**
-  String get noFinancePartnersYet;
-
-  /// No description provided for @openReadinessChecklist.
-  ///
-  /// In en, this message translates to:
-  /// **'Open readiness checklist'**
-  String get openReadinessChecklist;
 
   /// No description provided for @noServicePartnersYet.
   ///
@@ -7189,7 +6655,7 @@ abstract class AppLocalizations {
   /// No description provided for @groupsLaunchMomoUssdError.
   ///
   /// In en, this message translates to:
-  /// **'Could not launch MoMo USSD. Try dialing manually.'**
+  /// **'Could not launch MoMo payment. Try dialing *182*8*1# manually to send your contribution.'**
   String get groupsLaunchMomoUssdError;
 
   /// No description provided for @groupsCreateUpper.
@@ -7297,8 +6763,14 @@ abstract class AppLocalizations {
   /// No description provided for @groupsContributionRoutePendingUpper.
   ///
   /// In en, this message translates to:
-  /// **'CONTRIBUTION ROUTE PENDING'**
+  /// **'PAYMENT SETUP IN PROGRESS'**
   String get groupsContributionRoutePendingUpper;
+
+  /// No description provided for @groupsRoutePendingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The group owner\'s MoMo route is being set up by the admin. You\'ll be able to contribute once it\'s confirmed.'**
+  String get groupsRoutePendingHint;
 
   /// No description provided for @groupsJoinGroupUpper.
   ///
@@ -7839,6 +7311,282 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Preparing camera…'**
   String get biopayScanCameraLoading;
+
+  /// No description provided for @biopayUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'BioPay unavailable'**
+  String get biopayUnavailable;
+
+  /// No description provided for @biopayEnableCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Camera'**
+  String get biopayEnableCamera;
+
+  /// No description provided for @biopayManageAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Access'**
+  String get biopayManageAccess;
+
+  /// No description provided for @walletLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load wallet transactions.'**
+  String get walletLoadFailed;
+
+  /// No description provided for @walletRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to retry'**
+  String get walletRetry;
+
+  /// No description provided for @walletLoadMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Load more transactions'**
+  String get walletLoadMore;
+
+  /// No description provided for @homeSavingsBalanceNewUserHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your balance updates as you join groups and contribute.'**
+  String get homeSavingsBalanceNewUserHint;
+
+  /// No description provided for @biopayTemporarilyUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'BioPay is temporarily unavailable. Please try again later.'**
+  String get biopayTemporarilyUnavailable;
+
+  /// No description provided for @homeGettingStartedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Getting started'**
+  String get homeGettingStartedTitle;
+
+  /// No description provided for @homeGettingStartedLinkMomo.
+  ///
+  /// In en, this message translates to:
+  /// **'Link your MoMo number'**
+  String get homeGettingStartedLinkMomo;
+
+  /// No description provided for @homeGettingStartedLinkMomoSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Required for payments and groups'**
+  String get homeGettingStartedLinkMomoSub;
+
+  /// No description provided for @homeGettingStartedCreateGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a savings group'**
+  String get homeGettingStartedCreateGroup;
+
+  /// No description provided for @homeGettingStartedCreateGroupSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Start saving with your community'**
+  String get homeGettingStartedCreateGroupSub;
+
+  /// No description provided for @homeGettingStartedExploreGroups.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore public groups'**
+  String get homeGettingStartedExploreGroups;
+
+  /// No description provided for @homeGettingStartedExploreGroupsSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Join an existing savings circle'**
+  String get homeGettingStartedExploreGroupsSub;
+
+  /// No description provided for @groupCreateMomoRequiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo number required'**
+  String get groupCreateMomoRequiredTitle;
+
+  /// No description provided for @groupCreateMomoRequiredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Link a Mobile Money number before creating a group. Contributions are routed through your MoMo.'**
+  String get groupCreateMomoRequiredMessage;
+
+  /// No description provided for @groupCreateMomoRequiredAction.
+  ///
+  /// In en, this message translates to:
+  /// **'SET UP MOMO'**
+  String get groupCreateMomoRequiredAction;
+
+  /// No description provided for @profileCompletionPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile to unlock all features.'**
+  String get profileCompletionPrompt;
+
+  /// No description provided for @profileCompletionAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete profile'**
+  String get profileCompletionAction;
+
+  /// No description provided for @adminEyebrowPlatformControl.
+  ///
+  /// In en, this message translates to:
+  /// **'PLATFORM CONTROL'**
+  String get adminEyebrowPlatformControl;
+
+  /// No description provided for @adminSubtitleOperationalModules.
+  ///
+  /// In en, this message translates to:
+  /// **'Operational modules, oversight surfaces, and release controls.'**
+  String get adminSubtitleOperationalModules;
+
+  /// No description provided for @adminMetricModules.
+  ///
+  /// In en, this message translates to:
+  /// **'Modules'**
+  String get adminMetricModules;
+
+  /// No description provided for @adminMetricModulesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform surfaces'**
+  String get adminMetricModulesHint;
+
+  /// No description provided for @adminMetricPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get adminMetricPriority;
+
+  /// No description provided for @adminMetricPriorityHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily-use modules'**
+  String get adminMetricPriorityHint;
+
+  /// No description provided for @adminMetricOversight.
+  ///
+  /// In en, this message translates to:
+  /// **'Oversight'**
+  String get adminMetricOversight;
+
+  /// No description provided for @adminMetricOversightHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Monitoring surfaces'**
+  String get adminMetricOversightHint;
+
+  /// No description provided for @adminMetricConfig.
+  ///
+  /// In en, this message translates to:
+  /// **'Config'**
+  String get adminMetricConfig;
+
+  /// No description provided for @adminMetricConfigHint.
+  ///
+  /// In en, this message translates to:
+  /// **'System controls'**
+  String get adminMetricConfigHint;
+
+  /// No description provided for @adminSectionPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get adminSectionPriority;
+
+  /// No description provided for @adminSectionPrioritySub.
+  ///
+  /// In en, this message translates to:
+  /// **'Users, operations, and access changes first.'**
+  String get adminSectionPrioritySub;
+
+  /// No description provided for @adminSectionOversight.
+  ///
+  /// In en, this message translates to:
+  /// **'Oversight'**
+  String get adminSectionOversight;
+
+  /// No description provided for @adminSectionOversightSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform metrics, history, and operational context.'**
+  String get adminSectionOversightSub;
+
+  /// No description provided for @adminSectionConfiguration.
+  ///
+  /// In en, this message translates to:
+  /// **'Configuration'**
+  String get adminSectionConfiguration;
+
+  /// No description provided for @adminSectionConfigurationSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Core settings and structural management surfaces.'**
+  String get adminSectionConfigurationSub;
+
+  /// No description provided for @groupDescriptionHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get groupDescriptionHeader;
+
+  /// No description provided for @iosPaymentNoticeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic verification unavailable'**
+  String get iosPaymentNoticeTitle;
+
+  /// No description provided for @iosPaymentNoticeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'On iPhone, MoMo payments are launched but cannot be automatically verified. After paying, your contribution will be confirmed by the group admin.'**
+  String get iosPaymentNoticeMessage;
+
+  /// No description provided for @homeHowItWorksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How COOL works'**
+  String get homeHowItWorksTitle;
+
+  /// No description provided for @homeHowItWorksStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Link your MoMo number in Settings'**
+  String get homeHowItWorksStep1;
+
+  /// No description provided for @homeHowItWorksStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Create or join a savings group'**
+  String get homeHowItWorksStep2;
+
+  /// No description provided for @homeHowItWorksStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Contribute via MoMo — tracked automatically'**
+  String get homeHowItWorksStep3;
+
+  /// No description provided for @offlineBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline. Some features may be unavailable.'**
+  String get offlineBanner;
+
+  /// No description provided for @featureTemporarilyUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Temporarily Unavailable'**
+  String get featureTemporarilyUnavailable;
+
+  /// No description provided for @featureComingSoonMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'{featureName} is coming soon. Stay tuned for updates.'**
+  String featureComingSoonMessage(Object featureName);
 }
 
 class _AppLocalizationsDelegate

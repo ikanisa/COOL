@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -231,7 +232,7 @@ class _GroupDetailBody extends StatelessWidget {
           if ((group.description ?? '').trim().isNotEmpty) ...[
             SizedBox(height: space.x2),
             CoolExpandableSection(
-              header: context.l10n.groupDescriptionOptionalLabel.replaceAll(' (optional)', ''),
+              header: context.l10n.groupDescriptionHeader,
               initiallyExpanded: (group.description ?? '').trim().length < 80,
               child: Text(
                 group.description!,
@@ -280,7 +281,7 @@ class _GroupDetailBody extends StatelessWidget {
           SizedBox(height: space.x5),
 
           // ── CTA ──────────────────────────────────────────────
-          if (isMember)
+          if (isMember) ...[
             CoolButton(
               label: routeReady
                   ? context.l10n.groupsContributeWithMomoUpper
@@ -289,7 +290,59 @@ class _GroupDetailBody extends StatelessWidget {
               variant: routeReady
                   ? CoolButtonVariant.accent
                   : CoolButtonVariant.secondary,
-            )
+            ),
+            if (!routeReady) ...[
+              SizedBox(height: space.x2),
+              Text(
+                context.l10n.groupsRoutePendingHint,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.secondaryText,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+            // B3: iOS manual verification notice
+            if (routeReady &&
+                defaultTargetPlatform == TargetPlatform.iOS) ...[
+              SizedBox(height: space.x3),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(CoolSpace.x4),
+                decoration: BoxDecoration(
+                  color: colors.info.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(CoolIcons.info, size: 16, color: colors.info),
+                        const SizedBox(width: CoolSpace.x2),
+                        Expanded(
+                          child: Text(
+                            context.l10n.iosPaymentNoticeTitle,
+                            style: context.coolText.headline(
+                              theme.textTheme.labelMedium,
+                              fontWeight: FontWeight.w700,
+                              color: colors.info,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: CoolSpace.x2),
+                    Text(
+                      context.l10n.iosPaymentNoticeMessage,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.secondaryText,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ]
           else if (group.visibility == 'public')
             CoolButton(
               label: context.l10n.groupsJoinGroupUpper,

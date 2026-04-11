@@ -58,7 +58,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
           padding: EdgeInsets.all(CoolSpace.x5),
           child: CoolEmptyView(
             message: 'No users were returned',
-            icon: Icons.person_outline_rounded,
+            icon: CoolIcons.profile,
           ),
         ),
         builder: (users) {
@@ -100,13 +100,13 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
                   const AdminStatusChip(
                     label: 'Live inventory',
                     tone: AdminTone.info,
-                    icon: Icons.dataset_linked_outlined,
+                    icon: CoolIcons.datasetLinked,
                   ),
                   AdminStatusChip(
                     label: 'Visible',
                     trailing: '${filtered.length}',
                     tone: AdminTone.accent,
-                    icon: Icons.visibility_outlined,
+                    icon: CoolIcons.visibility,
                   ),
                 ],
               ),
@@ -117,28 +117,28 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
                     label: 'Users',
                     value: '${users.length}',
                     hint: 'Total accounts',
-                    icon: Icons.group_outlined,
+                    icon: CoolIcons.groupOutlined,
                     tone: AdminTone.info,
                   ),
                   AdminMetricItem(
                     label: 'Admins',
                     value: '$adminCount',
                     hint: 'Privileged accounts',
-                    icon: Icons.admin_panel_settings_outlined,
+                    icon: CoolIcons.adminPanel,
                     tone: AdminTone.success,
                   ),
                   AdminMetricItem(
                     label: 'Mock',
                     value: '$mockCount',
                     hint: 'Demo inventory',
-                    icon: Icons.science_outlined,
+                    icon: CoolIcons.science,
                     tone: AdminTone.warning,
                   ),
                   AdminMetricItem(
                     label: 'MoMo',
                     value: '$momoCount',
                     hint: 'Payment-linked',
-                    icon: Icons.account_balance_wallet_outlined,
+                    icon: CoolIcons.walletOutlined,
                     tone: AdminTone.accent,
                   ),
                 ],
@@ -332,7 +332,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
         const AdminStatusChip(
           label: 'Admin',
           tone: AdminTone.success,
-          icon: Icons.shield_outlined,
+          icon: CoolIcons.shield,
         ),
       );
     }
@@ -341,7 +341,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
         const AdminStatusChip(
           label: 'Mock',
           tone: AdminTone.warning,
-          icon: Icons.science_outlined,
+          icon: CoolIcons.science,
         ),
       );
     }
@@ -350,7 +350,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
         const AdminStatusChip(
           label: 'MoMo',
           tone: AdminTone.accent,
-          icon: Icons.phone_android_outlined,
+          icon: CoolIcons.phoneAndroidOutlined,
         ),
       );
     }
@@ -359,7 +359,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
         const AdminStatusChip(
           label: 'Standard',
           tone: AdminTone.neutral,
-          icon: Icons.person_outline_rounded,
+          icon: CoolIcons.profile,
         ),
       );
     }

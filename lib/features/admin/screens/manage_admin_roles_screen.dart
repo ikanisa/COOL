@@ -54,7 +54,7 @@ class _ManageAdminRolesScreenState
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(CoolRadii.lg),
           ),
-          child: const Icon(Icons.add_rounded, size: 28),
+          child: const Icon(CoolIcons.add, size: 28),
         ),
       ),
       child: CoolAsyncView<List<AdminRoleAssignment>>(
@@ -74,7 +74,7 @@ class _ManageAdminRolesScreenState
           padding: EdgeInsets.all(CoolSpace.x5),
           child: CoolEmptyView(
             message: 'No admin roles yet',
-            icon: Icons.admin_panel_settings_outlined,
+            icon: CoolIcons.adminPanel,
           ),
         ),
         builder: (assignments) {
@@ -107,7 +107,7 @@ class _ManageAdminRolesScreenState
                 actions: [
                   OutlinedButton.icon(
                     onPressed: () => _showAssignRoleSheet(context, ref),
-                    icon: const Icon(Icons.add_rounded, size: 18),
+                    icon: const Icon(CoolIcons.add, size: 18),
                     label: const Text('Assign'),
                   ),
                 ],
@@ -116,7 +116,7 @@ class _ManageAdminRolesScreenState
                     label: 'Assignments',
                     trailing: '${assignments.length}',
                     tone: AdminTone.accent,
-                    icon: Icons.badge_outlined,
+                    icon: CoolIcons.badge,
                   ),
                 ],
               ),
@@ -127,28 +127,28 @@ class _ManageAdminRolesScreenState
                     label: 'Assignments',
                     value: '${assignments.length}',
                     hint: 'Active grants',
-                    icon: Icons.badge_outlined,
+                    icon: CoolIcons.badge,
                     tone: AdminTone.info,
                   ),
                   AdminMetricItem(
                     label: 'Platform',
                     value: '$platformCount',
                     hint: 'Global access',
-                    icon: Icons.admin_panel_settings_outlined,
+                    icon: CoolIcons.adminPanel,
                     tone: AdminTone.success,
                   ),
                   AdminMetricItem(
                     label: 'Bank',
                     value: '$bankCount',
                     hint: 'Scoped workspaces',
-                    icon: Icons.account_balance_outlined,
+                    icon: CoolIcons.accountBalanceOutlined,
                     tone: AdminTone.accent,
                   ),
                   AdminMetricItem(
                     label: 'Bank scopes',
                     value: '$bankScopes',
                     hint: 'Distinct banks',
-                    icon: Icons.account_tree_outlined,
+                    icon: CoolIcons.accountTree,
                     tone: AdminTone.warning,
                   ),
                 ],
@@ -257,8 +257,8 @@ class _ManageAdminRolesScreenState
                 ? AdminTone.success
                 : AdminTone.accent,
             icon: assignment.role == AdminRole.admin
-                ? Icons.shield_outlined
-                : Icons.account_balance_outlined,
+                ? CoolIcons.shield
+                : CoolIcons.accountBalanceOutlined,
           ),
         ),
         DataCell(
@@ -293,7 +293,7 @@ class _ManageAdminRolesScreenState
         DataCell(
           OutlinedButton.icon(
             onPressed: () => _revokeAssignment(assignment),
-            icon: const Icon(Icons.remove_circle_outline_rounded, size: 16),
+            icon: const Icon(CoolIcons.removeCircle, size: 16),
             label: const Text('Revoke'),
           ),
         ),

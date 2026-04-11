@@ -8,6 +8,7 @@ import '../../../shared/widgets/cool_screen_background.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../groups/providers/groups_provider.dart';
 import '../providers/home_dashboard_provider.dart';
+import '../widgets/home_getting_started_card.dart';
 import '../widgets/home_quick_services.dart';
 import '../widgets/home_sections.dart';
 import '../widgets/home_shared.dart';
@@ -81,11 +82,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     HomeSavingsHeroCard(
                       totalSavingsRwf: dashboard?.totalBalance ?? 0,
                       monthlyNetChange: dashboard?.monthlyNetChange,
+                      isNewUser: groups.isEmpty && (dashboard?.totalBalance ?? 0) == 0,
                       onOpenWallet: () =>
                           context.push(AppRoutes.settingsWallet),
                     ),
                     const SizedBox(height: CoolSpace.x6),
                     const HomeQuickServices(),
+                    const SizedBox(height: CoolSpace.x6),
+                    const HomeGettingStartedCard(),
                     const SizedBox(height: CoolSpace.x6),
                     HomeCommunitiesSection(
                       groups: groups,

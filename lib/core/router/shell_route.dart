@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/momo/providers/momo_sms_rationale_provider.dart';
 import '../../features/momo/widgets/momo_sms_rationale_sheet.dart';
 import '../l10n/l10n.dart';
+import '../providers/connectivity_provider.dart';
 import '../theme/cool_foundations.dart';
 
 /// The main scaffold that wraps all bottom-nav routes.
@@ -98,8 +99,9 @@ class _AppShellState extends ConsumerState<AppShell>
       return false;
     }
 
+    // Always show nav when near the top of the scroll area.
     if (notification.metrics.pixels <=
-        notification.metrics.minScrollExtent + CoolSpace.x1) {
+        notification.metrics.minScrollExtent + CoolSpace.x8) {
       _setNavVisible(true);
       return false;
     }
@@ -110,7 +112,11 @@ class _AppShellState extends ConsumerState<AppShell>
           _setNavVisible(true);
           break;
         case ScrollDirection.reverse:
-          _setNavVisible(false);
+          // Only hide after scrolling past a meaningful threshold to
+          // prevent disorienting flicker on small swipes.
+          if (notification.metrics.pixels > 200) {
+            _setNavVisible(false);
+          }
           break;
         case ScrollDirection.idle:
           break;
@@ -137,7 +143,10 @@ class _AppShellState extends ConsumerState<AppShell>
     final index = _currentIndex();
     final textScale = MediaQuery.textScalerOf(context).scale(1);
     final safeAreaBottom = MediaQuery.viewPaddingOf(context).bottom;
+    final safeAreaTop = MediaQuery.viewPaddingOf(context).top;
     final pillHeight = (62 + ((textScale - 1) * 10)).clamp(62, 74).toDouble();
+    final isOffline = ref.watch(isOfflineProvider).valueOrNull ?? false;
+
     return Scaffold(
       extendBody: true,
       body: Stack(
@@ -148,6 +157,39 @@ class _AppShellState extends ConsumerState<AppShell>
               child: widget.navigationShell,
             ),
           ),
+          // ── M3: Offline banner ─────────────────────────────────
+          if (isOffline)
+            Positioned(
+              top: safeAreaTop,
+              left: 0,
+              right: 0,
+              child: Material(
+                color: colors.warning,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: CoolSpace.x4,
+                    vertical: CoolSpace.x2,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        CoolIcons.warning,
+                        size: 16,
+                        color: colors.accentForeground,
+                      ),
+                      const SizedBox(width: CoolSpace.x2),
+                      Expanded(
+                        child: Text(
+                          context.l10n.offlineBanner,
+                          style: context.coolText
+                              .mobiLabel(color: colors.accentForeground),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           if (widget.showNavigationChrome)
             Positioned(
               left: CoolSpace.x4,

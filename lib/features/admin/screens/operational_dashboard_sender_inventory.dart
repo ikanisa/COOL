@@ -191,7 +191,7 @@ class _SenderInventorySectionState
       emptyCheck: (rows) => rows.isEmpty,
       emptyWidget: const CoolEmptyView(
         message: 'No unsupported M-Money SMS senders are currently stored.',
-        icon: Icons.verified_user_outlined,
+        icon: CoolIcons.verifiedUser,
       ),
       builder: (rows) {
         final visibleRows = _visibleSenderInventoryRows(rows, _filter);
@@ -249,7 +249,7 @@ class _SenderInventorySectionState
                           height: 14,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Icon(Icons.fact_check_outlined, size: 16),
+                      : const Icon(CoolIcons.factCheck, size: 16),
                   label: Text(
                     _isBulkAcknowledging
                         ? 'Saving...'
@@ -263,7 +263,7 @@ class _SenderInventorySectionState
               CoolEmptyView(
                 compact: true,
                 message: _senderInventoryEmptyMessage(rows, _filter),
-                icon: Icons.fact_check_outlined,
+                icon: CoolIcons.factCheck,
               )
             else
               Column(

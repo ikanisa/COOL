@@ -94,7 +94,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
         child: FloatingActionButton(
           backgroundColor: context.coolSemanticColors.accent,
           onPressed: () => _showEditSheet(context, ref, null, countries),
-          child: Icon(Icons.add_rounded, color: theme.colorScheme.onPrimary),
+          child: Icon(CoolIcons.add, color: theme.colorScheme.onPrimary),
         ),
       ),
       child: CoolAsyncView<List<Map<String, dynamic>>>(
@@ -146,7 +146,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
                       borderRadius: _appConfigActionRadius,
                     ),
                   ),
-                  icon: const Icon(Icons.add_rounded, size: 18),
+                  icon: const Icon(CoolIcons.add, size: 18),
                   label: Text(
                     'Add route',
                     style: theme.textTheme.labelLarge?.copyWith(

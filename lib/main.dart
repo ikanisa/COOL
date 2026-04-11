@@ -10,6 +10,11 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'bootstrap/app_bootstrap.dart';
 
 Future<void> main() async {
+  // Release builds should not emit development console logging.
+  if (kReleaseMode) {
+    debugPrint = (String? message, {int? wrapWidth}) {};
+  }
+
   runZonedGuarded(
     () async {
       final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();

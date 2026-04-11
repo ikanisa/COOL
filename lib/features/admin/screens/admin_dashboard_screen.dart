@@ -32,41 +32,40 @@ class AdminDashboardScreen extends ConsumerWidget {
         padding: const EdgeInsets.fromLTRB(CoolSpace.x5, 0, CoolSpace.x5, 104),
         children: [
           AdminPageHeader(
-            eyebrow: 'PLATFORM CONTROL',
+            eyebrow: context.l10n.adminEyebrowPlatformControl,
             title: context.l10n.adminPanelTitle,
-            subtitle:
-                'Operational modules, oversight surfaces, and release controls.',
+            subtitle: context.l10n.adminSubtitleOperationalModules,
             badges: _buildAccessBadges(access),
           ),
           const SizedBox(height: CoolSpace.x4),
           AdminMetricStrip(
             metrics: [
               AdminMetricItem(
-                label: 'Modules',
+                label: context.l10n.adminMetricModules,
                 value: '${destinations.length}',
-                hint: 'Platform surfaces',
-                icon: Icons.dashboard_customize_outlined,
+                hint: context.l10n.adminMetricModulesHint,
+                icon: CoolIcons.dashboardCustomize,
                 tone: AdminTone.info,
               ),
               AdminMetricItem(
-                label: 'Priority',
+                label: context.l10n.adminMetricPriority,
                 value: '${groups.priority.length}',
-                hint: 'Daily-use modules',
-                icon: Icons.flash_on_outlined,
+                hint: context.l10n.adminMetricPriorityHint,
+                icon: CoolIcons.flash,
                 tone: AdminTone.warning,
               ),
               AdminMetricItem(
-                label: 'Oversight',
+                label: context.l10n.adminMetricOversight,
                 value: '${groups.oversight.length}',
-                hint: 'Monitoring surfaces',
-                icon: Icons.monitor_outlined,
+                hint: context.l10n.adminMetricOversightHint,
+                icon: CoolIcons.monitor,
                 tone: AdminTone.accent,
               ),
               AdminMetricItem(
-                label: 'Config',
+                label: context.l10n.adminMetricConfig,
                 value: '${groups.configuration.length}',
-                hint: 'System controls',
-                icon: Icons.settings_outlined,
+                hint: context.l10n.adminMetricConfigHint,
+                icon: CoolIcons.settingsOutlined,
                 tone: AdminTone.success,
               ),
             ],
@@ -74,24 +73,24 @@ class AdminDashboardScreen extends ConsumerWidget {
           if (groups.priority.isNotEmpty) ...[
             const SizedBox(height: CoolSpace.x4),
             _DashboardSection(
-              title: 'Priority',
-              subtitle: 'Users, operations, and access changes first.',
+              title: context.l10n.adminSectionPriority,
+              subtitle: context.l10n.adminSectionPrioritySub,
               destinations: groups.priority,
             ),
           ],
           if (groups.oversight.isNotEmpty) ...[
             const SizedBox(height: CoolSpace.x4),
             _DashboardSection(
-              title: 'Oversight',
-              subtitle: 'Platform metrics, history, and operational context.',
+              title: context.l10n.adminSectionOversight,
+              subtitle: context.l10n.adminSectionOversightSub,
               destinations: groups.oversight,
             ),
           ],
           if (groups.configuration.isNotEmpty) ...[
             const SizedBox(height: CoolSpace.x4),
             _DashboardSection(
-              title: 'Configuration',
-              subtitle: 'Core settings and structural management surfaces.',
+              title: context.l10n.adminSectionConfiguration,
+              subtitle: context.l10n.adminSectionConfigurationSub,
               destinations: groups.configuration,
             ),
           ],

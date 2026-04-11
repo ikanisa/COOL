@@ -123,7 +123,7 @@ class _BatchCleanupButtonState extends ConsumerState<_BatchCleanupButton> {
               height: 14,
               child: CupertinoActivityIndicator(radius: 7),
             )
-          : const Icon(Icons.delete_outline_rounded, size: 16),
+          : const Icon(CoolIcons.delete, size: 16),
       style: OutlinedButton.styleFrom(
         foregroundColor: colors.warning,
         side: BorderSide(color: colors.warning),

@@ -106,12 +106,14 @@ class HomeSavingsHeroCard extends StatelessWidget {
     required this.totalSavingsRwf,
     required this.monthlyNetChange,
     required this.onOpenWallet,
+    this.isNewUser = false,
     super.key,
   });
 
   final int totalSavingsRwf;
   final int? monthlyNetChange;
   final VoidCallback onOpenWallet;
+  final bool isNewUser;
 
   @override
   Widget build(BuildContext context) {
@@ -124,9 +126,16 @@ class HomeSavingsHeroCard extends StatelessWidget {
       child: CoolStatCard.accent(
         kicker: context.l10n.homeSavingsBalanceUpper,
         value: '${fmtAmt(totalSavingsRwf)} RWF',
-        subtitleWidget: _MonthlyMovementPill(
-          monthlyNetChange: monthlyNetChange,
-        ),
+        subtitleWidget: isNewUser
+            ? Text(
+                context.l10n.homeSavingsBalanceNewUserHint,
+                style: context.coolText
+                    .mobiLabel(color: colors.accentForeground)
+                    .copyWith(fontWeight: FontWeight.w500),
+              )
+            : _MonthlyMovementPill(
+                monthlyNetChange: monthlyNetChange,
+              ),
         trailing: Icon(
           CoolIcons.forward,
           size: 18,

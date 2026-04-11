@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
+import '../../../core/theme/cool_icons.dart';
 import 'admin_workspace_access.dart';
 
 enum AdminWorkspaceKind { platform, bank }
@@ -34,49 +35,49 @@ List<AdminWorkspaceDestination> buildPlatformAdminDestinations(
       title: l10n.adminUsers,
       subtitle: l10n.adminUsersDesc,
       route: AppRoutes.adminUsers,
-      icon: Icons.person_rounded,
+      icon: CoolIcons.person,
     ),
     AdminWorkspaceDestination(
       kind: AdminWorkspaceKind.platform,
       title: l10n.adminAppConfig,
       subtitle: l10n.adminAppConfigDesc,
       route: AppRoutes.adminAppConfig,
-      icon: Icons.settings_rounded,
+      icon: CoolIcons.settingsRounded,
     ),
     AdminWorkspaceDestination(
       kind: AdminWorkspaceKind.platform,
       title: l10n.adminOperations,
       subtitle: l10n.adminReleaseDesc,
       route: AppRoutes.adminOperations,
-      icon: Icons.monitor_heart_rounded,
+      icon: CoolIcons.monitorHeartFilled,
     ),
     AdminWorkspaceDestination(
       kind: AdminWorkspaceKind.platform,
       title: l10n.adminAdminRoles,
       subtitle: l10n.adminAdminRolesDesc,
       route: AppRoutes.adminRoles,
-      icon: Icons.admin_panel_settings_rounded,
+      icon: CoolIcons.adminPanelFilled,
     ),
     AdminWorkspaceDestination(
       kind: AdminWorkspaceKind.platform,
       title: l10n.adminSystemAnalytics,
       subtitle: l10n.adminSystemAnalyticsDesc,
       route: AppRoutes.adminAnalytics,
-      icon: Icons.analytics_rounded,
+      icon: CoolIcons.analyticsFilled,
     ),
     AdminWorkspaceDestination(
       kind: AdminWorkspaceKind.platform,
       title: l10n.adminAuditLog,
       subtitle: l10n.adminAuditLogDesc,
       route: AppRoutes.adminAuditLog,
-      icon: Icons.history_rounded,
+      icon: CoolIcons.historyRounded,
     ),
     const AdminWorkspaceDestination(
       kind: AdminWorkspaceKind.platform,
       title: 'Groups',
       subtitle: 'View contribution groups, members, and wallet routing.',
       route: AppRoutes.adminGroups,
-      icon: Icons.groups_rounded,
+      icon: CoolIcons.groupsFilled,
     ),
   ];
 }
@@ -108,7 +109,7 @@ List<AdminWorkspaceDestination> buildBankAdminDestinations({
           route: AppRoutes.adminBankWorkspaceLocation(
             partner['id']!.toString(),
           ),
-          icon: Icons.account_balance_rounded,
+          icon: CoolIcons.accountBalanceFilled,
           scopeId: partner['id']?.toString(),
         ),
       )
@@ -129,7 +130,7 @@ List<AdminWorkspaceDestination> buildBankAdminDestinations({
           title: 'Bank $bankId',
           subtitle: 'Manual review, ledgers, and custody operations.',
           route: AppRoutes.adminBankWorkspaceLocation(bankId),
-          icon: Icons.account_balance_rounded,
+          icon: CoolIcons.accountBalanceFilled,
           scopeId: bankId,
         ),
       );

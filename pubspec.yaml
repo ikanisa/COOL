@@ -81,6 +81,7 @@ dependencies:
   flutter_local_notifications: ^21.0.0
   web: ^1.1.1
   flutter_native_splash: ^2.4.7
+  connectivity_plus: ^7.1.1
 
 dev_dependencies:
   flutter_test:

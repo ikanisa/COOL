@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' show SupabaseClient;
 
+import '../theme/cool_icons.dart';
+
 import '../config/app_market.dart';
 import '../config/deep_link_config.dart';
 import '../router/app_routes.dart';

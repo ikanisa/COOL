@@ -212,7 +212,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
             data: (snapshot) {
               if (snapshot == null || !snapshot.canManageSettings) {
                 return CoolEmptyView(
-                  icon: Icons.lock_outline_rounded,
+                  icon: CoolIcons.lock,
                   title: context.l10n.groupSettings,
                   message:
                       'You do not have permission to change these settings.',

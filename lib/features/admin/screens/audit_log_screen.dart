@@ -50,7 +50,7 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
           padding: EdgeInsets.all(CoolSpace.x5),
           child: CoolEmptyView(
             message: 'No audit entries yet',
-            icon: Icons.history_rounded,
+            icon: CoolIcons.historyRounded,
           ),
         ),
         builder: (logs) {
@@ -76,7 +76,7 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
                     label: 'Visible',
                     trailing: '${logs.length}',
                     tone: AdminTone.accent,
-                    icon: Icons.visibility_outlined,
+                    icon: CoolIcons.visibility,
                   ),
                 ],
               ),
@@ -87,28 +87,28 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
                     label: 'Entries',
                     value: '${logs.length}',
                     hint: 'Current feed',
-                    icon: Icons.receipt_long_outlined,
+                    icon: CoolIcons.receiptOutlined,
                     tone: AdminTone.info,
                   ),
                   AdminMetricItem(
                     label: 'Create',
                     value: '$createCount',
                     hint: 'New records',
-                    icon: Icons.add_circle_outline_rounded,
+                    icon: CoolIcons.addCircle,
                     tone: AdminTone.success,
                   ),
                   AdminMetricItem(
                     label: 'Update',
                     value: '$updateCount',
                     hint: 'Changed records',
-                    icon: Icons.edit_outlined,
+                    icon: CoolIcons.editOutlined,
                     tone: AdminTone.accent,
                   ),
                   AdminMetricItem(
                     label: 'Delete',
                     value: '$deleteCount',
                     hint: 'Removed records',
-                    icon: Icons.delete_outline_rounded,
+                    icon: CoolIcons.delete,
                     tone: AdminTone.danger,
                   ),
                 ],
@@ -203,10 +203,10 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
 
   IconData get _actionIcon {
     return switch (widget.entry['action']?.toString()) {
-      'create' => Icons.add_circle_outline_rounded,
-      'update' => Icons.edit_rounded,
-      'delete' => Icons.delete_outline_rounded,
-      _ => Icons.info_outline_rounded,
+      'create' => CoolIcons.addCircle,
+      'update' => CoolIcons.edit,
+      'delete' => CoolIcons.delete,
+      _ => CoolIcons.info,
     };
   }
 
@@ -245,8 +245,8 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
             label: _expanded ? 'Expanded' : 'Collapsed',
             tone: AdminTone.neutral,
             icon: _expanded
-                ? Icons.expand_less_rounded
-                : Icons.expand_more_rounded,
+                ? CoolIcons.expandLess
+                : CoolIcons.expandMore,
           ),
         ],
         expanded: _expanded,

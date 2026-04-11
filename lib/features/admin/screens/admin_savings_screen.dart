@@ -111,7 +111,7 @@ class _AdminSavingsScreenState extends ConsumerState<AdminSavingsScreen> {
         emptyCheck: (data) => data.isEmpty,
         emptyWidget: const CoolEmptyView(
           message: 'No group data',
-          icon: Icons.groups_outlined,
+          icon: CoolIcons.groupsOutlined,
         ),
         builder: (data) => _buildContent(data),
       ),
@@ -158,7 +158,7 @@ class _AdminSavingsScreenState extends ConsumerState<AdminSavingsScreen> {
                     borderRadius: _metricRadius,
                   ),
                   child: Icon(
-                    Icons.phone_android_rounded,
+                    CoolIcons.phoneAndroid,
                     size: 20,
                     color: colors.info,
                   ),
@@ -188,7 +188,7 @@ class _AdminSavingsScreenState extends ConsumerState<AdminSavingsScreen> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.copy_rounded, color: colors.info, size: 18),
+                  icon: Icon(CoolIcons.copy, color: colors.info, size: 18),
                   tooltip: 'Copy',
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: momoCode));
@@ -214,31 +214,31 @@ class _AdminSavingsScreenState extends ConsumerState<AdminSavingsScreen> {
             _MetricTile(
               label: 'Savings Groups',
               value: '$totalSavings',
-              icon: Icons.savings_rounded,
+              icon: CoolIcons.savings,
               color: colors.accent,
             ),
             _MetricTile(
               label: 'Active',
               value: '$activeSavings',
-              icon: Icons.check_circle_rounded,
+              icon: CoolIcons.checkCircle,
               color: colors.success,
             ),
             _MetricTile(
               label: 'Community',
               value: '$totalCommunity',
-              icon: Icons.groups_rounded,
+              icon: CoolIcons.groupsFilled,
               color: colors.info,
             ),
             _MetricTile(
               label: 'Members',
               value: '$totalMembers',
-              icon: Icons.person_rounded,
+              icon: CoolIcons.person,
               color: colors.warning,
             ),
             _MetricTile(
               label: 'Collected',
               value: formatWholeMoneyAmount(totalCollected),
-              icon: Icons.account_balance_wallet_rounded,
+              icon: CoolIcons.wallet,
               color: colors.success,
             ),
           ],
@@ -266,8 +266,8 @@ class _AdminSavingsScreenState extends ConsumerState<AdminSavingsScreen> {
                   children: [
                     Icon(
                       _showCreateForm
-                          ? Icons.close_rounded
-                          : Icons.add_rounded,
+                          ? CoolIcons.close
+                          : CoolIcons.add,
                       size: 18,
                       color: colors.accent,
                     ),
@@ -321,7 +321,7 @@ class _AdminSavingsScreenState extends ConsumerState<AdminSavingsScreen> {
             message: query.isEmpty
                 ? 'No ${_activeTab == _SavingsTab.savings ? 'savings' : 'community'} groups yet'
                 : 'No groups match your search',
-            icon: Icons.search_off_rounded,
+            icon: CoolIcons.searchOff,
           )
         else
           for (final group in filtered) ...[
@@ -656,7 +656,7 @@ class _SavingsGroupTile extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Icon(
-                  isSavings ? Icons.savings_rounded : Icons.groups_rounded,
+                  isSavings ? CoolIcons.savings : CoolIcons.groupsFilled,
                   size: 20,
                   color: statusColor,
                 ),
@@ -710,7 +710,7 @@ class _SavingsGroupTile extends StatelessWidget {
               if (onTap != null) ...[
                 const SizedBox(width: CoolSpace.x2),
                 Icon(
-                  Icons.chevron_right_rounded,
+                  CoolIcons.chevronRight,
                   color: colors.tertiaryText,
                   size: 20,
                 ),

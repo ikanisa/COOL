@@ -113,7 +113,7 @@ class _ManualReviewCard extends StatelessWidget {
                       height: 14,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : const Icon(Icons.task_alt_outlined, size: 16),
+                  : const Icon(CoolIcons.taskComplete, size: 16),
               label: Text(isBusy ? 'Closing...' : 'Close review'),
             ),
           ),
@@ -283,7 +283,7 @@ class _SenderInventoryCard extends StatelessWidget {
                         height: 14,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : const Icon(Icons.fact_check_outlined, size: 16),
+                    : const Icon(CoolIcons.factCheck, size: 16),
                 label: Text(isBusy ? 'Saving...' : 'Acknowledge legacy'),
               ),
             ),

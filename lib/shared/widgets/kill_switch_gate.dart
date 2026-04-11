@@ -79,7 +79,7 @@ class KillSwitchGate extends StatelessWidget {
                         ),
                         const SizedBox(height: CoolSpace.x6),
                         Text(
-                          'Temporarily Unavailable',
+                          context.l10n.featureTemporarilyUnavailable,
                           style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(
                                 color: colors.primaryText,

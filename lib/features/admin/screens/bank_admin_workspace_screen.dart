@@ -180,7 +180,7 @@ class _BankAdminWorkspaceScreenState
                   'Assign this payment to the matched member.',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: colors.secondaryText,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x5),
@@ -262,7 +262,7 @@ class _BankAdminWorkspaceScreenState
                   'This removes the pending allocation.',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: colors.secondaryText,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x5),
@@ -425,7 +425,7 @@ class _OverviewTab extends StatelessWidget {
     if (group == null) {
       return const CoolEmptyView(
         message: 'No linked groups.',
-        icon: Icons.group_off_rounded,
+        icon: CoolIcons.groupOff,
       );
     }
 
@@ -461,13 +461,13 @@ class _OverviewTab extends StatelessWidget {
                 children: [
                   _ActionChip(
                     label: 'View details',
-                    icon: Icons.visibility_outlined,
+                    icon: CoolIcons.visibility,
                     onTap: () => onViewDetails(group.id),
                   ),
                   const SizedBox(width: CoolSpace.x2),
                   _ActionChip(
                     label: 'Open ledger',
-                    icon: Icons.receipt_long_outlined,
+                    icon: CoolIcons.receiptOutlined,
                     onTap: () => onOpenLedger(group.id),
                   ),
                 ],
@@ -493,7 +493,7 @@ class _OverviewTab extends StatelessWidget {
                       ),
                     ),
                     child: Icon(
-                      Icons.person_rounded,
+                      CoolIcons.person,
                       size: 18,
                       color: colors.info,
                     ),
@@ -542,7 +542,7 @@ class _AllocationsTab extends StatelessWidget {
     if (snapshot.allocations.entries.isEmpty) {
       return const CoolEmptyView(
         message: 'No manual review items.',
-        icon: Icons.check_circle_outline_rounded,
+        icon: CoolIcons.checkCircleOutlined,
       );
     }
 
@@ -567,7 +567,7 @@ class _AllocationsTab extends StatelessWidget {
                         ),
                       ),
                       child: Icon(
-                        Icons.pending_actions_rounded,
+                        CoolIcons.pendingActions,
                         size: 16,
                         color: colors.warning,
                       ),
@@ -589,13 +589,13 @@ class _AllocationsTab extends StatelessWidget {
                   children: [
                     _ActionChip(
                       label: 'Allocate',
-                      icon: Icons.check_rounded,
+                      icon: CoolIcons.check,
                       onTap: () => onAllocate(item),
                     ),
                     const SizedBox(width: CoolSpace.x2),
                     _ActionChip(
                       label: 'Reject',
-                      icon: Icons.close_rounded,
+                      icon: CoolIcons.close,
                       isDestructive: true,
                       onTap: () => onReject(item),
                     ),
@@ -638,7 +638,7 @@ class _LedgersTab extends StatelessWidget {
       emptyCheck: (page) => page.entries.isEmpty,
       emptyWidget: const CoolEmptyView(
         message: 'No posted payment ledger entries.',
-        icon: Icons.receipt_long_outlined,
+        icon: CoolIcons.receiptOutlined,
       ),
       builder: (page) {
         return Column(
@@ -661,7 +661,7 @@ class _LedgersTab extends StatelessWidget {
                       onPressed: onExportPdf,
                       tooltip: 'Export PDF',
                       icon: Icon(
-                        Icons.picture_as_pdf_rounded,
+                        CoolIcons.pdfRounded,
                         color: colors.primaryText,
                       ),
                     ),
@@ -669,7 +669,7 @@ class _LedgersTab extends StatelessWidget {
                       onPressed: onExportExcel,
                       tooltip: 'Export Excel',
                       icon: Icon(
-                        Icons.grid_on_rounded,
+                        CoolIcons.gridOn,
                         color: colors.primaryText,
                       ),
                     ),
@@ -697,7 +697,7 @@ class _LedgersTab extends StatelessWidget {
                           Text(
                             entry.payerName,
                             style: theme.textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               color: colors.tertiaryText,
                             ),
                           ),

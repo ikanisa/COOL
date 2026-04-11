@@ -334,4 +334,225 @@ abstract final class CoolIcons {
   // ── BioPay (additional) ──────────────────────────────────────────
   /// Contactless NFC tap animation.
   static const contactless = Icons.contactless_rounded;
+
+  // ── Admin Module ─────────────────────────────────────────────────
+  /// Admin panel settings (outlined).
+  static const adminPanel = Icons.admin_panel_settings_outlined;
+
+  /// Admin panel settings (filled).
+  static const adminPanelFilled = Icons.admin_panel_settings_rounded;
+
+  /// Dashboard customize.
+  static const dashboardCustomize = Icons.dashboard_customize_outlined;
+
+  /// Account tree / org structure.
+  static const accountTree = Icons.account_tree_outlined;
+
+  /// Dataset linked / data connections.
+  static const datasetLinked = Icons.dataset_linked_outlined;
+
+  /// Fact check / verification.
+  static const factCheck = Icons.fact_check_outlined;
+
+
+  /// Task completed / approved.
+  static const taskComplete = Icons.task_alt_outlined;
+
+  /// Rule folder / policies.
+  static const ruleFolder = Icons.rule_folder_outlined;
+
+  /// Timeline / activity log.
+  static const timeline = Icons.timeline_outlined;
+
+  /// Monitor / health check.
+  static const monitor = Icons.monitor_outlined;
+
+  /// Monitor heart / system health.
+  static const monitorHeart = Icons.monitor_heart_outlined;
+
+  /// Monitor heart (filled).
+  static const monitorHeartFilled = Icons.monitor_heart_rounded;
+
+  /// Analytics (outlined).
+  static const analytics = Icons.analytics_outlined;
+
+  /// Analytics (filled).
+  static const analyticsFilled = Icons.analytics_rounded;
+
+  /// Science / experimental.
+  static const science = Icons.science_outlined;
+
+  /// Flash / quick action.
+  static const flash = Icons.flash_on_outlined;
+
+  /// Bolt / power.
+  static const bolt = Icons.bolt_outlined;
+
+  /// Electric bolt.
+  static const electricBolt = Icons.electric_bolt_rounded;
+
+  /// Functions / formulas.
+  static const functions = Icons.functions_outlined;
+
+  /// Show chart / line chart.
+  static const showChart = Icons.show_chart_rounded;
+
+  /// Star (filled).
+  static const star = Icons.star_rounded;
+
+
+  /// Savings (outlined).
+  static const savingsOutlined = Icons.savings_outlined;
+
+  /// Account balance / bank (outlined).
+  static const accountBalanceOutlined = Icons.account_balance_outlined;
+
+  /// Account balance / bank (filled).
+  static const accountBalanceFilled = Icons.account_balance_rounded;
+
+  /// Account balance wallet (outlined).
+  static const walletOutlined = Icons.account_balance_wallet_outlined;
+
+  /// Payments (outlined).
+  static const payments = Icons.payments_outlined;
+
+  /// Payments (filled).
+  static const paymentsFilled = Icons.payments_rounded;
+
+  /// Verified user (outlined).
+  static const verifiedUser = Icons.verified_user_outlined;
+
+  /// Verified user (filled).
+  static const verifiedUserFilled = Icons.verified_user_rounded;
+
+
+  /// People (outlined).
+  static const people = Icons.people_outline_rounded;
+
+  /// Group (outlined).
+  static const groupOutlined = Icons.group_outlined;
+
+  /// Groups (filled).
+  static const groupsFilled = Icons.groups_rounded;
+
+
+  /// Group work / team.
+  static const groupWork = Icons.group_work_rounded;
+
+  /// Person add.
+  static const personAdd = Icons.person_add_rounded;
+
+  /// Visibility / eye.
+  static const visibility = Icons.visibility_outlined;
+
+
+  /// Edit (outlined).
+  static const editOutlined = Icons.edit_outlined;
+
+
+  /// Remove circle / minus.
+  static const removeCircle = Icons.remove_circle_outline_rounded;
+
+  /// Add circle / plus.
+  static const addCircle = Icons.add_circle_outline_rounded;
+
+
+  /// Check circle (outlined).
+  static const checkCircleOutlined = Icons.check_circle_outline_rounded;
+
+  /// Cancel / dismiss.
+  static const cancel = Icons.cancel_rounded;
+
+  /// History / recent.
+  static const historyRounded = Icons.history_rounded;
+
+
+  /// Priority high / alert.
+  static const priorityHigh = Icons.priority_high_rounded;
+
+  /// Search off / no results.
+  static const searchOff = Icons.search_off_rounded;
+
+  /// Arrow forward / navigate.
+  static const arrowForward = Icons.arrow_forward_rounded;
+
+  /// Chevron right.
+  static const chevronRight = Icons.chevron_right_rounded;
+
+  /// Expand more / dropdown.
+  static const expandMore = Icons.expand_more_rounded;
+
+  /// Expand less / collapse.
+  static const expandLess = Icons.expand_less_rounded;
+
+  /// Unfold more / expand all.
+  static const unfoldMore = Icons.unfold_more_rounded;
+
+
+
+  /// Paste / clipboard.
+  static const paste = Icons.paste_rounded;
+
+  /// Inbox (outlined).
+  static const inbox = Icons.inbox_outlined;
+
+  /// Store / storefront.
+  static const store = Icons.store_rounded;
+
+  /// Storefront.
+  static const storefront = Icons.storefront_rounded;
+
+  /// Smart toy / AI.
+  static const smartToy = Icons.smart_toy_rounded;
+
+  /// Auto awesome / magic.
+  static const autoAwesome = Icons.auto_awesome_rounded;
+
+  /// Construction / under development.
+  static const construction = Icons.construction_rounded;
+
+  /// School / education.
+  static const school = Icons.school_rounded;
+
+  /// Agriculture / farming.
+  static const agriculture = Icons.agriculture_rounded;
+
+  /// Local hospital / health.
+  static const hospital = Icons.local_hospital_rounded;
+
+  /// Directions car / transport.
+  static const car = Icons.directions_car_rounded;
+
+  /// Handshake / partnership.
+  static const handshake = Icons.handshake_rounded;
+
+  /// Grid on / table view.
+  static const gridOn = Icons.grid_on_rounded;
+
+  /// Loop / recurring.
+  static const loop = Icons.loop_rounded;
+
+  /// Tune / fine-tune.
+  static const tune = Icons.tune_rounded;
+
+  /// Phone android (outlined).
+  static const phoneAndroidOutlined = Icons.phone_android_outlined;
+
+  /// Phone android (rounded).
+  static const phoneAndroid = Icons.phone_android_rounded;
+
+  /// QR code (rounded).
+  static const qrCodeRounded = Icons.qr_code_rounded;
+
+  /// Settings (outlined).
+  static const settingsOutlined = Icons.settings_outlined;
+
+  /// Picture as PDF.
+  static const pdfRounded = Icons.picture_as_pdf_rounded;
+
+  /// Sticky note.
+  static const stickyNote = Icons.sticky_note_2_rounded;
+
+  /// Flag (rounded fill).
+  static const flagFilled = Icons.flag_rounded;
 }

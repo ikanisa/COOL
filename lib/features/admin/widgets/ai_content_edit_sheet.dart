@@ -134,7 +134,7 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
                     borderRadius: _aiContentHeroRadius,
                   ),
                   child: Icon(
-                    Icons.auto_awesome_rounded,
+                    CoolIcons.autoAwesome,
                     color: colors.accent,
                     size: 20,
                   ),

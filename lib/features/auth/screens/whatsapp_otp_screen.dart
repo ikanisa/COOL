@@ -335,12 +335,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(width: 4),
-                  Icon(
-                    CoolIcons.dropDown,
-                    color: colors.secondaryText,
-                    size: 18,
-                  ),
+                  // Country is fixed to the app market — no dropdown.
                 ],
               ),
             ),

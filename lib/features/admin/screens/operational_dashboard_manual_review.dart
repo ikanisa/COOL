@@ -184,7 +184,7 @@ class _ManualReviewSectionState extends ConsumerState<_ManualReviewSection> {
       emptyCheck: (rows) => rows.isEmpty,
       emptyWidget: const CoolEmptyView(
         message: 'No generic M-Money SMS manual reviews are open.',
-        icon: Icons.task_alt_outlined,
+        icon: CoolIcons.taskComplete,
       ),
       builder: (rows) {
         final visibleRows = _visibleManualReviews(rows, _filter);
@@ -242,7 +242,7 @@ class _ManualReviewSectionState extends ConsumerState<_ManualReviewSection> {
                           height: 14,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Icon(Icons.task_alt_outlined, size: 16),
+                      : const Icon(CoolIcons.taskComplete, size: 16),
                   label: Text(
                     _isBulkClosing
                         ? 'Closing...'
@@ -257,7 +257,7 @@ class _ManualReviewSectionState extends ConsumerState<_ManualReviewSection> {
                 message: _filter == 'all'
                     ? 'No manual reviews matched the current filter.'
                     : 'No ${_reviewKindLabel(_filter).toLowerCase()} reviews are open.',
-                icon: Icons.inbox_outlined,
+                icon: CoolIcons.inbox,
               )
             else
               Column(

@@ -79,7 +79,7 @@ InputDecoration _roleInputDecoration(
     hintText: hintText,
     labelStyle: theme.textTheme.bodySmall?.copyWith(
       color: colors.tertiaryText,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
     ),
     hintStyle: theme.textTheme.bodySmall?.copyWith(color: colors.tertiaryText),
     filled: true,
@@ -131,7 +131,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
           ' This user can be assigned again later.',
           style: theme.textTheme.bodyMedium?.copyWith(
             color: colors.secondaryText,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
           ),
         ),
         actions: [
@@ -249,7 +249,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
             'Granted: $grantedDate',
             style: theme.textTheme.bodySmall?.copyWith(
               color: colors.tertiaryText,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
             ),
           ),
           if (assignment.notes != null && assignment.notes!.isNotEmpty) ...[
@@ -273,7 +273,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
                       height: 14,
                       child: CupertinoActivityIndicator(radius: 7),
                     )
-                  : const Icon(Icons.remove_circle_outline_rounded, size: 16),
+                  : const Icon(CoolIcons.removeCircle, size: 16),
               style: OutlinedButton.styleFrom(
                 foregroundColor: colors.danger,
                 side: BorderSide(color: colors.danger.withValues(alpha: 0.7)),

@@ -87,7 +87,7 @@ class _AdminSavingsDetailScreenState
           if (group.isEmpty) {
             return const CoolEmptyView(
               message: 'Savings group not found',
-              icon: Icons.error_outline_rounded,
+              icon: CoolIcons.error,
             );
           }
 
@@ -170,19 +170,19 @@ class _AdminSavingsDetailScreenState
                 children: [
                   _InfoChip(
                     label: '${formatWholeMoneyAmount(targetAmount)} target',
-                    icon: Icons.flag_rounded,
+                    icon: CoolIcons.flagFilled,
                   ),
                   _InfoChip(
                     label: '${formatWholeMoneyAmount(monthlyContribution)} / mo',
-                    icon: Icons.calendar_month_rounded,
+                    icon: CoolIcons.calendar,
                   ),
                   _InfoChip(
                     label: '${formatWholeMoneyAmount(totalCollected)} collected',
-                    icon: Icons.account_balance_wallet_rounded,
+                    icon: CoolIcons.wallet,
                   ),
                   _InfoChip(
                     label: frequency.replaceAll('_', ' '),
-                    icon: Icons.loop_rounded,
+                    icon: CoolIcons.loop,
                   ),
                     GestureDetector(
                       onTap: () {
@@ -191,7 +191,7 @@ class _AdminSavingsDetailScreenState
                       },
                       child: _InfoChip(
                         label: inviteCode,
-                        icon: Icons.qr_code_rounded,
+                        icon: CoolIcons.qrCodeRounded,
                       ),
                     ),
                 ],
@@ -202,7 +202,7 @@ class _AdminSavingsDetailScreenState
                   width: double.infinity,
                   child: OutlinedButton.icon(
                     onPressed: () => _handleCloseGroup(group['id']?.toString()),
-                    icon: const Icon(Icons.lock_rounded, size: 16),
+                    icon: const Icon(CoolIcons.lock, size: 16),
                     label: const Text('Close Group'),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: colors.danger,
@@ -305,7 +305,7 @@ class _AdminSavingsDetailScreenState
                         hintText: '+250788…',
                         hintStyle: theme.textTheme.bodyMedium
                             ?.copyWith(color: colors.tertiaryText),
-                        prefixIcon: Icon(Icons.phone_rounded, size: 18,
+                        prefixIcon: Icon(CoolIcons.phone, size: 18,
                             color: colors.tertiaryText),
                         prefixIconConstraints: const BoxConstraints(
                             minWidth: 36),
@@ -335,7 +335,7 @@ class _AdminSavingsDetailScreenState
                         hintText: 'Name',
                         hintStyle: theme.textTheme.bodyMedium
                             ?.copyWith(color: colors.tertiaryText),
-                        prefixIcon: Icon(Icons.person_outline_rounded, size: 18,
+                        prefixIcon: Icon(CoolIcons.profile, size: 18,
                             color: colors.tertiaryText),
                         prefixIconConstraints: const BoxConstraints(
                             minWidth: 36),
@@ -362,7 +362,7 @@ class _AdminSavingsDetailScreenState
                   onPressed: _isAddingMember
                       ? null
                       : () => _handleAddMemberByPhone(groupId),
-                  icon: const Icon(Icons.person_add_rounded, size: 16),
+                  icon: const Icon(CoolIcons.personAdd, size: 16),
                   label: Text(_isAddingMember ? 'Adding…' : 'Add'),
                   style: FilledButton.styleFrom(
                     backgroundColor: colors.accent,
@@ -381,7 +381,7 @@ class _AdminSavingsDetailScreenState
         if (members.isEmpty)
           const CoolEmptyView(
             message: 'No members yet',
-            icon: Icons.people_outline_rounded,
+            icon: CoolIcons.people,
           )
         else
           for (final member in members) ...[
@@ -396,7 +396,7 @@ class _AdminSavingsDetailScreenState
                       borderRadius: _chipRadius,
                     ),
                     child: Icon(
-                      Icons.person_rounded,
+                      CoolIcons.person,
                       size: 18,
                       color: colors.info,
                     ),
@@ -426,7 +426,7 @@ class _AdminSavingsDetailScreenState
                   ),
                   IconButton(
                     icon: Icon(
-                      Icons.remove_circle_outline_rounded,
+                      CoolIcons.removeCircle,
                       color: colors.danger,
                       size: 20,
                     ),
@@ -472,7 +472,7 @@ class _AdminSavingsDetailScreenState
               if (members.isEmpty)
                 const CoolEmptyView(
                   message: 'No members',
-                  icon: Icons.people_outline_rounded,
+                  icon: CoolIcons.people,
                 )
               else
                 Container(
@@ -486,11 +486,11 @@ class _AdminSavingsDetailScreenState
                     isExpanded: true,
                     underline: const SizedBox.shrink(),
                     value: _selectedMemberUserId,
-                    icon: Icon(Icons.unfold_more_rounded,
+                    icon: Icon(CoolIcons.unfoldMore,
                         size: 18, color: colors.tertiaryText),
                     hint: Row(
                       children: [
-                        Icon(Icons.person_rounded, size: 18,
+                        Icon(CoolIcons.person, size: 18,
                             color: colors.tertiaryText),
                         const SizedBox(width: 8),
                         Text(
@@ -531,7 +531,7 @@ class _AdminSavingsDetailScreenState
                   hintText: 'Amount',
                   hintStyle: theme.textTheme.bodyMedium
                       ?.copyWith(color: colors.tertiaryText),
-                  prefixIcon: Icon(Icons.payments_rounded, size: 18,
+                  prefixIcon: Icon(CoolIcons.paymentsFilled, size: 18,
                       color: colors.tertiaryText),
                   prefixIconConstraints: const BoxConstraints(minWidth: 36),
                   suffixText: 'RWF',
@@ -563,7 +563,7 @@ class _AdminSavingsDetailScreenState
                   hintText: 'Note',
                   hintStyle: theme.textTheme.bodyMedium
                       ?.copyWith(color: colors.tertiaryText),
-                  prefixIcon: Icon(Icons.sticky_note_2_outlined, size: 18,
+                  prefixIcon: Icon(CoolIcons.stickyNote, size: 18,
                       color: colors.tertiaryText),
                   prefixIconConstraints: const BoxConstraints(minWidth: 36),
                   filled: true,

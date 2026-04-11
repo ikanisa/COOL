@@ -105,7 +105,7 @@ class _AdminGroupsScreenState extends ConsumerState<AdminGroupsScreen> {
         emptyCheck: (data) => data.isEmpty,
         emptyWidget: const CoolEmptyView(
           message: 'No group data',
-          icon: Icons.groups_outlined,
+          icon: CoolIcons.groupsOutlined,
         ),
         builder: (data) {
           final colors = context.coolSemanticColors;
@@ -146,37 +146,37 @@ class _AdminGroupsScreenState extends ConsumerState<AdminGroupsScreen> {
                   _MetricTile(
                     label: 'Total Groups',
                     value: '$totalGroups',
-                    icon: Icons.groups_rounded,
+                    icon: CoolIcons.groupsFilled,
                     color: colors.info,
                   ),
                   _MetricTile(
                     label: 'Active',
                     value: '$activeGroups',
-                    icon: Icons.check_circle_rounded,
+                    icon: CoolIcons.checkCircle,
                     color: colors.success,
                   ),
                   _MetricTile(
                     label: 'Closed',
                     value: '$closedGroups',
-                    icon: Icons.cancel_rounded,
+                    icon: CoolIcons.cancel,
                     color: colors.danger,
                   ),
                   _MetricTile(
                     label: 'Members',
                     value: '$totalMembers',
-                    icon: Icons.person_rounded,
+                    icon: CoolIcons.person,
                     color: colors.accent,
                   ),
                   _MetricTile(
                     label: 'Private',
                     value: '$privateGroups',
-                    icon: Icons.lock_rounded,
+                    icon: CoolIcons.lock,
                     color: colors.warning,
                   ),
                   _MetricTile(
                     label: 'Wallets',
                     value: '$totalWallets',
-                    icon: Icons.account_balance_wallet_rounded,
+                    icon: CoolIcons.wallet,
                     color: colors.warning,
                   ),
                 ],
@@ -198,7 +198,7 @@ class _AdminGroupsScreenState extends ConsumerState<AdminGroupsScreen> {
               if (filtered.isEmpty)
                 const CoolEmptyView(
                   message: 'No groups match your filter',
-                  icon: Icons.search_off_rounded,
+                  icon: CoolIcons.searchOff,
                 )
               else
                 for (final group in filtered) ...[
@@ -330,7 +330,7 @@ class _GroupTile extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Icon(
-                  isActive ? Icons.groups_rounded : Icons.group_off_rounded,
+                  isActive ? CoolIcons.groupsFilled : CoolIcons.groupOff,
                   size: 20,
                   color: statusColor,
                 ),
@@ -389,12 +389,12 @@ class _GroupTile extends StatelessWidget {
             runSpacing: CoolSpace.x2,
             children: [
               _StatChip(
-                icon: Icons.person_rounded,
+                icon: CoolIcons.person,
                 label: '$memberCount member${memberCount == 1 ? '' : 's'}',
               ),
               if (walletCount > 0)
                 _StatChip(
-                  icon: Icons.account_balance_wallet_rounded,
+                  icon: CoolIcons.wallet,
                   label: '$walletCount wallet${walletCount == 1 ? '' : 's'}',
                 ),
             ],

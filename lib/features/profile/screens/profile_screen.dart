@@ -175,6 +175,47 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
               sliver: SliverList.list(
                 children: [
+                  // ── Profile completion prompt (M5) ─────────────
+                  if (profile.showCompletionBanner) ...[
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(CoolSpace.x4),
+                      decoration: BoxDecoration(
+                        color: context.coolSemanticColors.accent
+                            .withValues(alpha: 0.08),
+                        borderRadius:
+                            BorderRadius.circular(CoolRadii.md),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              l10n.profileCompletionPrompt,
+                              style: context.coolText.mono(
+                                Theme.of(context).textTheme.bodySmall,
+                                color: context.coolSemanticColors.accent,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: CoolSpace.x3),
+                          TextButton(
+                            onPressed: () =>
+                                context.push(AppRoutes.profileAccount),
+                            child: Text(
+                              l10n.profileCompletionAction,
+                              style: context.coolText.mobiLabel(
+                                color:
+                                    context.coolSemanticColors.accent,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: CoolSpace.x4),
+                  ],
+
                   const SizedBox(height: CoolSpace.x4),
 
                   // ── APP SETTINGS ────────────────────────────────

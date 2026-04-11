@@ -42,6 +42,7 @@ Widget? _buildBiopayScannerFooter(
   final theme = Theme.of(context);
   final colors = context.coolSemanticColors;
   final space = context.coolSpace;
+  final l10n = context.l10n;
   final errorMessage = state._cameraError ?? state._pipelineError;
 
   if (!enabled) {
@@ -50,7 +51,7 @@ Widget? _buildBiopayScannerFooter(
       borderColor: Colors.white.withValues(alpha: 0.12),
       useGradient: false,
       child: Text(
-        'BioPay unavailable',
+        l10n.biopayUnavailable,
         style: theme.textTheme.labelLarge?.copyWith(
           color: colors.warning,
           fontWeight: FontWeight.w800,
@@ -67,10 +68,10 @@ Widget? _buildBiopayScannerFooter(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          CoolButton(label: 'Enable Camera', onTap: state._requestCameraAccess),
+          CoolButton(label: l10n.biopayEnableCamera, onTap: state._requestCameraAccess),
           SizedBox(height: space.x2),
           CoolButton(
-            label: 'Manage Access',
+            label: l10n.biopayManageAccess,
             variant: CoolButtonVariant.secondary,
             onTap: () => ProfileAppAccessSheet.show(context),
           ),
@@ -83,6 +84,12 @@ Widget? _buildBiopayScannerFooter(
                 fontWeight: FontWeight.w500,
               ),
             ),
+            SizedBox(height: space.x2),
+            CoolButton(
+              label: l10n.retry,
+              variant: CoolButtonVariant.secondary,
+              onTap: () => state._retryPipeline(),
+            ),
           ],
         ],
       ),
@@ -94,12 +101,22 @@ Widget? _buildBiopayScannerFooter(
       backgroundColor: Colors.black.withValues(alpha: 0.66),
       borderColor: Colors.white.withValues(alpha: 0.12),
       useGradient: false,
-      child: Text(
-        errorMessage,
-        style: theme.textTheme.bodySmall?.copyWith(
-          color: colors.danger,
-          fontWeight: FontWeight.w500,
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            errorMessage,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.danger,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(height: space.x3),
+          CoolButton(
+            label: l10n.retry,
+            onTap: () => state._retryPipeline(),
+          ),
+        ],
       ),
     );
   }

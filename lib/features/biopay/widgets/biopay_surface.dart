@@ -110,7 +110,7 @@ class BiopayBackButton extends StatelessWidget {
           ),
           alignment: Alignment.center,
           child: Icon(
-            Icons.arrow_back_ios_new_rounded,
+            CoolIcons.backIos,
             size: 18,
             color: colors.primaryText,
           ),

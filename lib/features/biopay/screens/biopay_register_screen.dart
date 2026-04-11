@@ -109,7 +109,10 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
           ],
           if (modelIssue != null) ...[
             const SizedBox(height: CoolSpace.x4),
-            _InlineNotice(color: colors.danger, text: modelIssue),
+            _InlineNotice(
+              color: colors.danger,
+              text: l10n.biopayTemporarilyUnavailable,
+            ),
           ],
           const SizedBox(height: CoolSpace.x6),
           if (supportsCode) ...[

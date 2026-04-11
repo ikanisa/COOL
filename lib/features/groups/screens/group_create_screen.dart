@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/money_formatters.dart';
 import '../../../core/utils/phone_validator.dart';
@@ -161,6 +162,11 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
     final country = AppMarket.country;
     final cur = country.currencyCode;
     final showFrequencyPicker = _type == 'saving';
+    final colors = context.coolSemanticColors;
+
+    // B1: Pre-flight check — does the user have a MoMo route configured?
+    final currentUser = ref.watch(currentUserProvider);
+    final hasMomoRoute = currentUser?.hasMomoRecipient ?? false;
 
     // Frequency is enforced at type-change time via setState callbacks below.
 
@@ -179,6 +185,63 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // ── B1: MoMo pre-flight check ──────────────────────
+              if (!hasMomoRoute) ...[
+                Padding(
+                  padding: EdgeInsets.only(bottom: space.x4),
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(CoolSpace.x5),
+                    decoration: BoxDecoration(
+                      color: colors.warning.withValues(alpha: 0.08),
+                      borderRadius: BorderRadius.circular(CoolRadii.md),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              CoolIcons.warning,
+                              size: 20,
+                              color: colors.warning,
+                            ),
+                            const SizedBox(width: CoolSpace.x2),
+                            Expanded(
+                              child: Text(
+                                l10n.groupCreateMomoRequiredTitle,
+                                style: context.coolText.headline(
+                                  theme.textTheme.titleSmall,
+                                  fontWeight: FontWeight.w700,
+                                  color: colors.warning,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: CoolSpace.x2),
+                        Text(
+                          l10n.groupCreateMomoRequiredMessage,
+                          style: context.coolText.mono(
+                            theme.textTheme.bodySmall,
+                            color: colors.secondaryText,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(height: CoolSpace.x3),
+                        CoolButton(
+                          label: l10n.groupCreateMomoRequiredAction,
+                          variant: CoolButtonVariant.secondary,
+                          onTap: () =>
+                              context.push(AppRoutes.settingsWallet),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+
+
               CoolTextField(
                 label: context.l10n.groupNameLabel,
                 hint: context.l10n.groupNameHint,

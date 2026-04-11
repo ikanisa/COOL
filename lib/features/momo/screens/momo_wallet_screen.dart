@@ -230,6 +230,7 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
             _ErrorState(
               colors: colors,
               message: describeUserFacingError(error),
+              onRetry: () => ref.invalidate(momoStatementBundleProvider(_query)),
             ),
           ],
         ),
@@ -251,12 +252,18 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
                 return Padding(
                   padding: const EdgeInsets.only(top: CoolSpace.x2),
                   child: Center(
-                    child: IconButton(
+                    child: TextButton.icon(
                       onPressed: _loadMore,
                       icon: Icon(
                         CoolIcons.expandCircle,
                         color: colors.accent,
-                        size: 28,
+                        size: 20,
+                      ),
+                      label: Text(
+                        context.l10n.walletLoadMore,
+                        style: context.coolText.mobiLabel(
+                          color: colors.accent,
+                        ),
                       ),
                     ),
                   ),
@@ -459,13 +466,19 @@ class _EmptyState extends StatelessWidget {
 }
 
 class _ErrorState extends StatelessWidget {
-  const _ErrorState({required this.colors, required this.message});
+  const _ErrorState({
+    required this.colors,
+    required this.message,
+    this.onRetry,
+  });
 
   final CoolSemanticColors colors;
   final String message;
+  final VoidCallback? onRetry;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Container(
       padding: const EdgeInsets.all(CoolSpace.x5),
       decoration: BoxDecoration(
@@ -473,13 +486,40 @@ class _ErrorState extends StatelessWidget {
         borderRadius: BorderRadius.circular(CoolRadii.xl),
         boxShadow: CoolShadows.ambientFloat(strength: 0.3),
       ),
-      child: Text(
-        message,
-        style: context.coolText.mono(
-          Theme.of(context).textTheme.bodyMedium,
-          fontWeight: FontWeight.w500,
-          color: colors.secondaryText,
-        ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            CoolIcons.error,
+            color: colors.danger,
+            size: 32,
+          ),
+          const SizedBox(height: CoolSpace.x3),
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: context.coolText.mono(
+              Theme.of(context).textTheme.bodyMedium,
+              fontWeight: FontWeight.w500,
+              color: colors.secondaryText,
+            ),
+          ),
+          if (onRetry != null) ...[
+            const SizedBox(height: CoolSpace.x4),
+            TextButton.icon(
+              onPressed: onRetry,
+              icon: Icon(CoolIcons.refresh, size: 16, color: colors.accent),
+              label: Text(
+                l10n.retry,
+                style: context.coolText.headline(
+                  Theme.of(context).textTheme.labelLarge,
+                  fontWeight: FontWeight.w700,
+                  color: colors.accent,
+                ),
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }
