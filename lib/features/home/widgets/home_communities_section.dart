@@ -29,11 +29,11 @@ class HomeCommunitiesSection extends StatelessWidget {
         HomeSectionHeader(
           title: l10n.homeCommunitiesTitle,
           trailing: HomeSectionActionPill(
-            label: l10n.viewAll.toUpperCase(),
+            label: l10n.viewAll,
             onTap: onViewAll,
           ),
         ),
-        const SizedBox(height: CoolSpace.x4),
+        const SizedBox(height: CoolSpace.x3),
         content,
       ],
     );
@@ -41,48 +41,45 @@ class HomeCommunitiesSection extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     if (isLoading && groups.isEmpty) {
-      return const CoolSkeletonRow(itemCount: 2, spacing: CoolSpace.x4);
+      return Column(
+        children: [
+          CoolListTile.skeleton(),
+          const SizedBox(height: CoolSpace.x2),
+          CoolListTile.skeleton(),
+          const SizedBox(height: CoolSpace.x2),
+          CoolListTile.skeleton(),
+        ],
+      );
     }
 
     if (error != null && groups.isEmpty) {
-      return SizedBox(
-        height: 216,
-        child: CoolErrorView(
-          compact: true,
-          subtitle: context.l10n.homeCommunitiesLoadFailed,
-        ),
+      return CoolErrorView(
+        compact: true,
+        subtitle: context.l10n.homeCommunitiesLoadFailed,
       );
     }
 
     if (groups.isEmpty) {
-      return SizedBox(
-        height: 216,
-        child: CoolEmptyView(
-          compact: true,
-          title: context.l10n.homeNoCommunitiesYet,
-          subtitle: context.l10n.homeCommunitiesEmptySubtitle,
-          icon: Icons.groups_outlined,
-        ),
+      return CoolEmptyView(
+        compact: true,
+        title: context.l10n.homeNoCommunitiesYet,
+        subtitle: context.l10n.homeCommunitiesEmptySubtitle,
+        icon: Icons.groups_outlined,
       );
     }
 
-    return SizedBox(
-      height: 230,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.zero,
-        clipBehavior: Clip.none,
-        itemCount: groups.length > 8 ? 8 : groups.length,
-        separatorBuilder: (_, index) => const SizedBox(width: CoolSpace.x4),
-        itemBuilder: (context, index) {
-          final group = groups[index];
-          return _CommunityCard(
+    return Column(
+      children: [
+        for (final (index, group) in groups.take(3).indexed) ...[
+          _CommunityCard(
             group: group,
             onOpen: () => onOpenGroup(group),
             onQuickContribution: () => onQuickContribution(group),
-          );
-        },
-      ),
+          ),
+          if (index < groups.take(3).length - 1)
+            const SizedBox(height: CoolSpace.x2),
+        ],
+      ],
     );
   }
 }
@@ -100,162 +97,47 @@ class _CommunityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final colors = context.coolSemanticColors;
     final canQuickContribute = groupHasContributionRoute(group);
 
-    return SizedBox(
-      width: 290,
-      child: GestureDetector(
-        onTap: onOpen,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(CoolRadii.xl),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: <Color>[
-                  colors.cardSurface,
-                  colors.elevatedBackground,
-                  colors.appBackground,
-                ],
-                stops: const <double>[0.0, 0.55, 1.0],
-              ),
-              borderRadius: BorderRadius.circular(CoolRadii.xl),
-              boxShadow: CoolShadows.claymorphicCard(
-                glowColor: colors.accent,
-                strength: 0.9,
-              ),
-            ),
-            child: Stack(
-              children: [
-                // Inner top-edge highlight
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: 56,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(CoolRadii.xl),
-                      ),
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: <Color>[
-                          colors.highlightColor,
-                          Colors.transparent,
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(CoolSpace.x6),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: colors.accent.withValues(alpha: 0.12),
-                              borderRadius: BorderRadius.circular(CoolRadii.md),
-                            ),
-                            alignment: Alignment.center,
-                            child: Icon(
-                              Icons.groups_2_outlined,
-                              color: colors.accent,
-                            ),
-                          ),
-                          const Spacer(),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: CoolSpace.x3,
-                              vertical: CoolSpace.x2,
-                            ),
-                            decoration: BoxDecoration(
-                              color: colors.accent.withValues(alpha: 0.10),
-                              borderRadius: BorderRadius.circular(
-                                CoolRadii.pill,
-                              ),
-                            ),
-                            child: Text(
-                              memberCountLabel(context, group.memberCount),
-                              style: context.coolText.mono(
-                                theme.textTheme.labelSmall,
-                                color: colors.accent,
-                                fontWeight: FontWeight.w800,
-                                letterSpacing: 0.6,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      Text(
-                        group.name.trim().isEmpty
-                            ? context.l10n.homeCommunityFallbackName
-                            : group.name.trim(),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: context.coolText.headline(
-                          theme.textTheme.headlineSmall,
-                          color: colors.primaryText,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: -0.7,
-                          height: 1.0,
-                        ),
-                      ),
-                      const SizedBox(height: CoolSpace.x5),
-                      Text(
-                        context.l10n.total.toUpperCase(),
-                        style: context.coolText.mono(
-                          theme.textTheme.labelSmall,
-                          color: colors.secondaryText,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 0.9,
-                        ),
-                      ),
-                      const SizedBox(height: CoolSpace.x2),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              '${fmtAmt(group.amount)} RWF',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.coolText.display(
-                                theme.textTheme.titleLarge,
-                                color: colors.primaryText,
-                                fontWeight: FontWeight.w800,
-                                letterSpacing: -0.8,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: CoolSpace.x3),
-                          _CircleActionButton(
-                            icon: canQuickContribute
-                                ? Icons.add_rounded
-                                : Icons.arrow_forward_rounded,
-                            onTap: () {
-                              HapticFeedback.selectionClick();
-                              onQuickContribution();
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+    return CoolCard(
+      onTap: onOpen,
+      cardPadding: CoolCardPadding.none,
+      padding: const EdgeInsets.all(CoolSpace.x4),
+      child: CoolListTile(
+        leading: CoolIconBox(
+          icon: Icons.groups_2_outlined,
+          accent: colors.accent,
         ),
+        title: group.name.trim().isEmpty
+            ? context.l10n.homeCommunityFallbackName
+            : group.name.trim(),
+        subtitle: memberCountLabel(context, group.memberCount),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '${fmtAmt(group.amount)} RWF',
+              style: context.coolText.display(
+                Theme.of(context).textTheme.titleMedium,
+                color: colors.primaryText,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(width: CoolSpace.x2),
+            _CircleActionButton(
+              icon: canQuickContribute
+                  ? Icons.add_rounded
+                  : Icons.arrow_forward_rounded,
+              onTap: () {
+                HapticFeedback.selectionClick();
+                onQuickContribution();
+              },
+            ),
+          ],
+        ),
+        onTap: onOpen,
+        showChevron: false,
       ),
     );
   }
@@ -276,13 +158,14 @@ class _CircleActionButton extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(CoolRadii.pill),
         child: Ink(
-          width: 54,
-          height: 54,
+          width: 36,
+          height: 36,
           decoration: BoxDecoration(
             color: colors.cardSurfaceStrong,
             shape: BoxShape.circle,
+            border: Border.all(color: colors.border),
           ),
-          child: Icon(icon, color: colors.primaryText, size: 24),
+          child: Icon(icon, color: colors.primaryText, size: 18),
         ),
       ),
     );

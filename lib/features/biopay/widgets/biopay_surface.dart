@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 
-/// BioPay scaffold — now fully unified with Tactile Monolith dark theme.
-///
-/// Uses [CoolScreenBackground] + [CoolSemanticColors] instead of the
-/// deleted `BiopaySurfaceColors` light palette.
+/// Shared BioPay scaffold built on the app-wide minimalist system.
 class BiopayLightScaffold extends StatelessWidget {
   const BiopayLightScaffold({
     required this.child,
@@ -51,21 +48,12 @@ class BiopayTopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     return Container(
-      height: 72,
+      height: 60,
       padding: const EdgeInsets.symmetric(horizontal: CoolSpace.x2),
       decoration: BoxDecoration(
-        color: colors.glassSurface,
+        color: colors.cardSurface,
         borderRadius: BorderRadius.circular(CoolRadii.lg),
-        border: Border.all(color: colors.borderStrong),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: <Color>[
-            colors.glassSurface.withValues(alpha: 0.96),
-            colors.cardSurface.withValues(alpha: 0.88),
-          ],
-        ),
-        boxShadow: CoolShadows.glass(strength: 0.42),
+        border: Border.all(color: colors.border),
       ),
       child: Stack(
         alignment: Alignment.center,
@@ -83,10 +71,9 @@ class BiopayTopBar extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: context.coolText.headline(
-                    Theme.of(context).textTheme.headlineSmall,
+                    Theme.of(context).textTheme.titleLarge,
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: -0.6,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -114,20 +101,17 @@ class BiopayBackButton extends StatelessWidget {
         onTap: onTap ?? () => Navigator.of(context).maybePop(),
         borderRadius: BorderRadius.circular(CoolRadii.md),
         child: Container(
-          width: 56,
-          height: 56,
+          width: 40,
+          height: 40,
           decoration: BoxDecoration(
-            color: colors.glassSurface,
+            color: colors.cardSurfaceStrong,
             borderRadius: BorderRadius.circular(CoolRadii.md),
-            border: Border.all(
-              color: colors.borderStrong,
-            ),
-            boxShadow: CoolShadows.glass(strength: 0.24),
+            border: Border.all(color: colors.border),
           ),
           alignment: Alignment.center,
           child: Icon(
             Icons.arrow_back_ios_new_rounded,
-            size: 20,
+            size: 18,
             color: colors.primaryText,
           ),
         ),
@@ -152,13 +136,12 @@ class BiopaySegmentedControl extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     return Container(
-      height: 60,
-      padding: const EdgeInsets.all(6),
+      height: 52,
+      padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: colors.glassSurface,
+        color: colors.cardSurface,
         borderRadius: BorderRadius.circular(CoolRadii.md),
-        border: Border.all(color: colors.borderStrong),
-        boxShadow: CoolShadows.glass(strength: 0.22),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         children: List.generate(labels.length, (index) {
@@ -172,31 +155,15 @@ class BiopaySegmentedControl extends StatelessWidget {
                 curve: Curves.easeOut,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: selected ? colors.accent : Colors.transparent,
-                  gradient: selected
-                      ? LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: <Color>[
-                            colors.accentStrong.withValues(alpha: 0.94),
-                            colors.accent,
-                          ],
-                        )
-                      : null,
+                  color: selected
+                      ? colors.chipSelectedBackground
+                      : Colors.transparent,
                   borderRadius: BorderRadius.circular(CoolRadii.xs),
-                  boxShadow: selected
-                      ? CoolShadows.primary(strength: 0.28)
-                      : null,
                 ),
                 child: Text(
-                  labels[index].toUpperCase(),
-                  style: context.coolText.mono(
-                    Theme.of(context).textTheme.labelLarge,
-                    color: selected
-                        ? colors.accentForeground
-                        : colors.secondaryText,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 2.2,
+                  labels[index],
+                  style: context.coolText.mobiLabel(
+                    color: selected ? colors.primaryText : colors.secondaryText,
                   ),
                 ),
               ),
@@ -223,17 +190,8 @@ class BiopaySectionCard extends StatelessWidget {
       padding: const EdgeInsets.all(CoolSpace.x4),
       decoration: BoxDecoration(
         color: colors.cardSurface,
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: <Color>[
-            colors.glassSurface.withValues(alpha: 0.74),
-            colors.cardSurface,
-          ],
-        ),
         borderRadius: BorderRadius.circular(CoolRadii.lg),
-        border: Border.all(color: colors.borderStrong),
-        boxShadow: CoolShadows.glass(strength: 0.26),
+        border: Border.all(color: colors.border),
       ),
       child: child,
     );

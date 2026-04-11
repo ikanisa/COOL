@@ -75,25 +75,25 @@ abstract final class CoolSpace {
   static const double x8 = 40.0;
   static const double x9 = 48.0;
   static const double x10 = 64.0;
-  static const double x12 = 96.0; // 12 × base-8 = 96
-  static const double x16 = 88.0;
+  static const double x12 = 96.0;
+  static const double x16 = 128.0;
 
   static const EdgeInsets pagePadding = EdgeInsets.symmetric(
-    horizontal: x4,
+    horizontal: x5,
     vertical: x4,
   );
 
   static const EdgeInsets sectionPadding = EdgeInsets.all(x6);
   static const EdgeInsets denseSectionPadding = EdgeInsets.all(x5);
-  static const EdgeInsets scaffoldPadding = EdgeInsets.fromLTRB(x4, 0, x4, 96);
+  static const EdgeInsets scaffoldPadding = EdgeInsets.fromLTRB(x5, 0, x5, 104);
 }
 
 abstract final class CoolRadii {
-  static const double xs = 16.0;    // minimum softness
-  static const double sm = 20.0;    // slightly soft
-  static const double md = 24.0;    // 1.5rem — Monolith minimum
-  static const double lg = 32.0;    // 2rem — containers
-  static const double xl = 48.0;    // 3rem — THE molded card radius
-  static const double xxl = 48.0;   // aligned with xl for sheets/dialogs
+  static const double xs = 10.0;
+  static const double sm = 14.0;
+  static const double md = 18.0;
+  static const double lg = 22.0;
+  static const double xl = 28.0;
+  static const double xxl = 32.0;
   static const double pill = 999.0;
 }

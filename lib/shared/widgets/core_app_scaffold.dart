@@ -80,11 +80,10 @@ class CoreAppScaffold extends StatelessWidget {
                     titleWidget ??
                     Text(
                       title,
-                      style: context.coolText.displayCondensed(
-                        const TextStyle(fontSize: 32),
-                        fontWeight: FontWeight.w800,
+                      style: context.coolText.headline(
+                        Theme.of(context).textTheme.headlineLarge,
+                        fontWeight: FontWeight.w600,
                         color: chromeColor,
-                        letterSpacing: 0.8,
                       ),
                     ),
                 actions: resolvedActions,

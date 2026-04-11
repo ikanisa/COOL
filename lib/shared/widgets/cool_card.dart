@@ -6,20 +6,8 @@ import '../../core/theme/cool_foundations.dart';
 
 import 'cool_press_feedback.dart';
 
-/// Card variants — Tactile Monolith design system.
-enum CoolCardVariant {
-  /// Default: solid surface with subtle border.
-  default_,
-
-  /// Glass: translucent with backdrop blur.
-  glass,
-
-  /// Outline: transparent with visible border.
-  outline,
-
-  /// Accent: primary tinted background with primary border.
-  accent,
-}
+/// Card variants for the shared minimalist surface system.
+enum CoolCardVariant { default_, glass, outline, accent }
 
 /// Card padding presets.
 enum CoolCardPadding {
@@ -36,9 +24,7 @@ enum CoolCardPadding {
   };
 }
 
-/// A shared card surface — Tactile Monolith system.
-///
-/// Shared monolith surface primitive with molded, glass, and outline variants.
+/// A shared card surface used across production screens.
 class CoolCard extends StatelessWidget {
   const CoolCard({
     required this.child,
@@ -51,7 +37,7 @@ class CoolCard extends StatelessWidget {
     this.borderRadius,
     this.gradient,
     this.useGradient = false,
-    this.blur = CoolBlur.subtle, // Tactile Monolith default is 12.0
+    this.blur = CoolBlur.subtle,
     this.semanticsLabel,
     super.key,
   });
@@ -72,9 +58,7 @@ class CoolCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final radius = borderRadius ?? CoolRadii.xl; // 48px molded card radius
-
-    // Resolve decoration based on variant.
+    final radius = borderRadius ?? CoolRadii.xl;
     final resolvedBg = backgroundColor ?? _variantBg(colors);
     final resolvedBorder = borderColor ?? _variantBorder(colors);
     final resolvedGradient =
@@ -82,10 +66,7 @@ class CoolCard extends StatelessWidget {
 
     final shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radius),
-      // No-Line Rule: no default border, depth via surface hierarchy
-      side: borderColor != null
-          ? BorderSide(color: resolvedBorder, width: 1)
-          : BorderSide.none,
+      side: BorderSide(color: resolvedBorder),
     );
 
     final Widget content = Padding(
@@ -102,10 +83,7 @@ class CoolCard extends StatelessWidget {
       color: resolvedGradient == null ? resolvedBg : null,
       gradient: resolvedGradient,
       borderRadius: BorderRadius.circular(radius),
-      // No-Line Rule: border only if explicitly specified
-      border: borderColor != null
-          ? Border.all(color: resolvedBorder, width: 1)
-          : null,
+      border: Border.all(color: resolvedBorder),
     );
 
     final card = Material(
@@ -118,7 +96,7 @@ class CoolCard extends StatelessWidget {
               child: InkWell(
                 onTap: onTap,
                 borderRadius: BorderRadius.circular(radius),
-                splashColor: colors.accent.withValues(alpha: 0.06),
+                splashColor: colors.accent.withValues(alpha: 0.05),
                 highlightColor: Colors.transparent,
                 child: content,
               ),
@@ -144,8 +122,6 @@ class CoolCard extends StatelessWidget {
     double radius,
     Color borderCol,
   ) {
-    // Glass variant specifically uses the Tactile Monolith specs
-    // Opacity: 0.06 (via colors.glassSurface), Blur: 12, Border: 0.15.
     final glass = ClipRRect(
       borderRadius: BorderRadius.circular(radius),
       child: BackdropFilter(
@@ -154,10 +130,7 @@ class CoolCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: colors.glassSurface,
             borderRadius: BorderRadius.circular(radius),
-            // No-Line Rule: transparent border unless explicit
-            border: borderCol.a > 0
-                ? Border.all(color: borderCol, width: 1)
-                : null,
+            border: Border.all(color: borderCol),
           ),
           child: Material(
             color: Colors.transparent,
@@ -185,12 +158,12 @@ class CoolCard extends StatelessWidget {
     CoolCardVariant.default_ => colors.cardSurface,
     CoolCardVariant.glass => colors.glassSurface,
     CoolCardVariant.outline => Colors.transparent,
-    CoolCardVariant.accent => colors.accent.withValues(alpha: 0.05),
+    CoolCardVariant.accent => colors.accent.withValues(alpha: 0.08),
   };
 
   Color _variantBorder(CoolSemanticColors colors) => switch (variant) {
-    CoolCardVariant.default_ => Colors.transparent,
-      CoolCardVariant.glass => colors.borderStrong.withValues(alpha: 0.15),
+    CoolCardVariant.default_ => colors.border,
+    CoolCardVariant.glass => colors.border,
     CoolCardVariant.outline => colors.borderStrong,
     CoolCardVariant.accent => colors.accent.withValues(alpha: 0.20),
   };

@@ -5,8 +5,9 @@ import 'package:go_router/go_router.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_icon_box.dart';
 import '../widgets/biopay_surface.dart';
-
 
 class BiopayHomeScreen extends StatelessWidget {
   const BiopayHomeScreen({super.key});
@@ -24,16 +25,20 @@ class BiopayHomeScreen extends StatelessWidget {
         children: [
           SizedBox(height: space.x3),
           Text(
+            l10n.navBiopay,
+            style: context.coolText.mobiLabel(color: colors.secondaryText),
+          ),
+          SizedBox(height: space.x2),
+          Text(
             l10n.biopayHomeHeadline,
             style: context.coolText.headline(
-              Theme.of(context).textTheme.displayMedium,
+              Theme.of(context).textTheme.displaySmall,
               color: colors.primaryText,
-              fontWeight: FontWeight.w800,
-              letterSpacing: -2.2,
-              height: 0.98,
+              fontWeight: FontWeight.w700,
+              height: 1.0,
             ),
           ),
-          SizedBox(height: space.x5),
+          SizedBox(height: space.x4),
           LayoutBuilder(
             builder: (context, constraints) {
               final tileWidth = (constraints.maxWidth - space.x3) / 2;
@@ -126,50 +131,45 @@ class _BiopayActionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final textScale = MediaQuery.textScalerOf(context).scale(1);
-    final tileHeight = 200.0 + (textScale > 1 ? (textScale - 1) * 64.0 : 0.0);
+    final tileHeight = 146.0 + (textScale > 1 ? (textScale - 1) * 42.0 : 0.0);
     return Semantics(
       button: true,
       label: label,
-      child: Material(
-        color: colors.cardSurface,
-        borderRadius: BorderRadius.circular(CoolRadii.xl),
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(CoolRadii.xl),
-          child: Container(
-            height: tileHeight,
-            padding: const EdgeInsets.all(CoolSpace.x4),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(CoolRadii.xl),
-              boxShadow: CoolShadows.ambientFloat(strength: 0.3),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: 64,
-                  height: 64,
-                  decoration: BoxDecoration(
-                    color: iconColor.withValues(alpha: 0.10),
-                    borderRadius: BorderRadius.circular(CoolRadii.md),
+      child: CoolCard(
+        onTap: onTap,
+        cardPadding: CoolCardPadding.none,
+        padding: const EdgeInsets.all(CoolSpace.x4),
+        child: SizedBox(
+          height: tileHeight,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  CoolIconBox(
+                    icon: Icons.circle,
+                    accent: iconColor,
+                    size: CoolIconBoxSize.lg,
+                    iconWidget: icon,
                   ),
-                  alignment: Alignment.center,
-                  child: icon,
-                ),
-                const SizedBox(height: CoolSpace.x2),
-                Text(
-                  label,
-                  textAlign: TextAlign.center,
-                  style: context.coolText.headline(
-                    Theme.of(context).textTheme.headlineSmall,
-                    color: colors.primaryText,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: -0.8,
+                  const Spacer(),
+                  Icon(
+                    Icons.arrow_forward_rounded,
+                    size: 18,
+                    color: colors.tertiaryText,
                   ),
+                ],
+              ),
+              const Spacer(),
+              Text(
+                label,
+                style: context.coolText.headline(
+                  Theme.of(context).textTheme.titleMedium,
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w600,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

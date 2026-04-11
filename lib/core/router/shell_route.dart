@@ -12,8 +12,6 @@ import '../l10n/l10n.dart';
 import '../theme/cool_foundations.dart';
 
 /// The main scaffold that wraps all bottom-nav routes.
-///
-/// Tactile Monolith: 3-item floating glass pill, max 320px, accent active dot.
 class AppShell extends ConsumerStatefulWidget {
   const AppShell({
     required this.navigationShell,
@@ -30,10 +28,6 @@ class AppShell extends ConsumerStatefulWidget {
 
 class _AppShellState extends ConsumerState<AppShell>
     with SingleTickerProviderStateMixin {
-  // Tactile Monolith nav surface: frosted violet chrome
-  static const _navSurfaceTop = Color(0xFF1A1640); // Layer 1
-  static const _navSurfaceBottom = Color(0xFF110E2D); // surface_dim
-
   late final AnimationController _entryController;
   late final Animation<Offset> _slideAnimation;
   late final Animation<double> _fadeAnimation;
@@ -45,15 +39,11 @@ class _AppShellState extends ConsumerState<AppShell>
     // Spring entry from below: y: 100 → 0
     _entryController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 500),
     );
     _slideAnimation =
-        Tween<Offset>(begin: const Offset(0, 1.5), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _entryController,
-            // Spring-like: damping 20, stiffness 100 → elasticOut approximation
-            curve: const _SpringCurve(damping: 20, stiffness: 100),
-          ),
+        Tween<Offset>(begin: const Offset(0, 0.4), end: Offset.zero).animate(
+          CurvedAnimation(parent: _entryController, curve: Curves.easeOutCubic),
         );
     _fadeAnimation = CurvedAnimation(
       parent: _entryController,
@@ -147,7 +137,7 @@ class _AppShellState extends ConsumerState<AppShell>
     final index = _currentIndex();
     final textScale = MediaQuery.textScalerOf(context).scale(1);
     final safeAreaBottom = MediaQuery.viewPaddingOf(context).bottom;
-    final pillHeight = (66 + ((textScale - 1) * 12)).clamp(66, 78).toDouble();
+    final pillHeight = (62 + ((textScale - 1) * 10)).clamp(62, 74).toDouble();
     return Scaffold(
       extendBody: true,
       body: Stack(
@@ -242,62 +232,28 @@ class _GlassPill extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(CoolRadii.pill),
       child: BackdropFilter(
-        // Tactile Monolith glass: heavy blur for floating elements
         filter: ImageFilter.blur(
-          sigmaX: CoolBlur.glass,
-          sigmaY: CoolBlur.glass,
+          sigmaX: CoolBlur.standard,
+          sigmaY: CoolBlur.standard,
         ),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: <Color>[
-                _AppShellState._navSurfaceTop,
-                _AppShellState._navSurfaceBottom,
-              ],
-            ),
+            color: colors.overlaySurface.withValues(alpha: 0.92),
             borderRadius: BorderRadius.circular(CoolRadii.pill),
-            // No-Line Rule: no border, depth via ambient shadow
-            boxShadow: CoolShadows.ambientFloat(strength: 1.0),
+            border: Border.all(color: colors.border),
+            boxShadow: CoolShadows.floating(null, strength: 0.8),
           ),
-          child: Stack(
-            children: [
-              // Inner top-edge: violet-tinted highlight
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  height: 22,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(CoolRadii.pill),
-                    ),
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: <Color>[
-                        const Color(0xFFC4C0FF).withValues(alpha: 0.06),
-                        Colors.transparent,
-                      ],
-                    ),
-                  ),
-                ),
+          child: SizedBox(
+            height: height,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: CoolSpace.x3,
+                vertical: CoolSpace.x1,
               ),
-              SizedBox(
-                height: height,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: CoolSpace.x4,
-                    vertical: CoolSpace.x1,
-                  ),
-                  child: Row(
-                    children: children.map((c) => Expanded(child: c)).toList(),
-                  ),
-                ),
+              child: Row(
+                children: children.map((c) => Expanded(child: c)).toList(),
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -326,9 +282,8 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final activeColor = colors.accentStrong;
-    final inactiveColor = colors.secondaryText.withValues(alpha: 0.70);
-    final displayLabel = label.toUpperCase();
+    final activeColor = colors.primaryText;
+    final inactiveColor = colors.secondaryText;
 
     return Material(
       color: Colors.transparent,
@@ -348,22 +303,24 @@ class _NavItem extends StatelessWidget {
               AnimatedContainer(
                 duration: CoolMotion.quick,
                 curve: CoolMotion.enterCurve,
-                padding: const EdgeInsets.all(6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: CoolSpace.x3,
+                  vertical: CoolSpace.x2,
+                ),
                 decoration: BoxDecoration(
-                  // Surface-shift for selected: no border
                   color: isSelected
-                      ? activeColor.withValues(alpha: 0.18)
+                      ? colors.accent.withValues(alpha: 0.12)
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(CoolRadii.md),
                 ),
                 child: AnimatedScale(
-                  scale: isSelected ? 1.06 : 1.0,
+                  scale: isSelected ? 1.03 : 1.0,
                   duration: CoolMotion.quick,
                   curve: CoolMotion.enterCurve,
                   child: Icon(
                     icon,
-                    size: 20,
-                    color: isSelected ? activeColor : inactiveColor,
+                    size: 19,
+                    color: isSelected ? colors.accent : inactiveColor,
                   ),
                 ),
               ),
@@ -373,12 +330,13 @@ class _NavItem extends StatelessWidget {
                 style: context.coolText
                     .mobiLabel(color: isSelected ? activeColor : inactiveColor)
                     .copyWith(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 0.8,
+                      fontSize: 12,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w500,
                     ),
                 child: Text(
-                  displayLabel,
+                  label,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -388,36 +346,5 @@ class _NavItem extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Spring Curve (approximation of damping/stiffness spring)
-// ─────────────────────────────────────────────────────────────────────────────
-
-class _SpringCurve extends Curve {
-  const _SpringCurve({required this.damping, required this.stiffness});
-
-  final double damping;
-  final double stiffness;
-
-  @override
-  double transformInternal(double t) {
-    // Critically damped spring (damping=20, stiffness=100, omega=10, zeta=1).
-    // Formula: 1 - (1 + omega*t) * e^(-omega*t)
-    final double result = 1.0 - (1.0 + 10.0 * t) * _expNeg(10.0 * t);
-    return result.clamp(0.0, 1.0);
-  }
-
-  /// Fast e^(-x) for x >= 0
-  static double _expNeg(double x) {
-    if (x > 20) return 0.0;
-    double result = 1.0;
-    double term = 1.0;
-    for (int i = 1; i <= 20; i++) {
-      term *= -x / i;
-      result += term;
-    }
-    return result.clamp(0.0, 1.0);
   }
 }

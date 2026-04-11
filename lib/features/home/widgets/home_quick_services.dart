@@ -1,10 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_icon_box.dart';
 
 class HomeQuickServices extends StatelessWidget {
   const HomeQuickServices({super.key});
@@ -14,11 +14,10 @@ class HomeQuickServices extends StatelessWidget {
     final colors = context.coolSemanticColors;
     final l10n = context.l10n;
 
-    // Items resolved at build time so they can reference theme tokens.
     final items = [
       (
         icon: Icons.add_rounded,
-        label: l10n.save.toUpperCase(),
+        label: l10n.save,
         route: AppRoutes.contributionCircles,
         accent: colors.accent,
       ),
@@ -26,7 +25,7 @@ class HomeQuickServices extends StatelessWidget {
         icon: Icons.qr_code_scanner_rounded,
         label: l10n.homeQuickScanUpper,
         route: AppRoutes.scannerLocation(),
-        accent: colors.accentDeep, // per-feature brand accent
+        accent: colors.info,
       ),
       (
         icon: Icons.center_focus_strong_rounded,
@@ -42,23 +41,26 @@ class HomeQuickServices extends StatelessWidget {
       ),
     ];
 
-    return Row(
-      children: [
-        for (final (index, item) in items.indexed)
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(
-                right: index == items.length - 1 ? 0 : CoolSpace.x3,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final tileWidth = (constraints.maxWidth - CoolSpace.x3) / 2;
+        return Wrap(
+          spacing: CoolSpace.x3,
+          runSpacing: CoolSpace.x3,
+          children: [
+            for (final item in items)
+              SizedBox(
+                width: tileWidth,
+                child: _HomeQuickActionTile(
+                  icon: item.icon,
+                  label: item.label,
+                  accent: item.accent,
+                  onTap: () => openQuickActionRoute(context, item.route),
+                ),
               ),
-              child: _HomeQuickActionTile(
-                icon: item.icon,
-                label: item.label,
-                accent: item.accent,
-                onTap: () => openQuickActionRoute(context, item.route),
-              ),
-            ),
-          ),
-      ],
+          ],
+        );
+      },
     );
   }
 }
@@ -82,83 +84,38 @@ class _HomeQuickActionTile extends StatelessWidget {
     return Semantics(
       button: true,
       label: label,
-      child: GestureDetector(
+      child: CoolCard(
         onTap: onTap,
+        cardPadding: CoolCardPadding.none,
+        padding: const EdgeInsets.all(CoolSpace.x4),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Glassmorphic tile
-            ClipRRect(
-              borderRadius: BorderRadius.circular(CoolRadii.lg),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: CoolBlur.glass,
-                  sigmaY: CoolBlur.glass,
+            Row(
+              children: [
+                CoolIconBox(
+                  icon: icon,
+                  accent: accent,
+                  size: CoolIconBoxSize.md,
                 ),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: <Color>[colors.glassSurface, colors.cardSurface],
-                    ),
-                    borderRadius: BorderRadius.circular(CoolRadii.lg),
-                    boxShadow: CoolShadows.ambientFloat(strength: 0.5),
-                  ),
-                  child: SizedBox(
-                    height: 76,
-                    child: Stack(
-                      children: [
-                        // Inner top-edge specular highlight
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          child: Container(
-                            height: 28,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(CoolRadii.lg),
-                              ),
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: <Color>[
-                                  colors.glassSurface,
-                                  Colors.transparent,
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        // Icon with accent tint background
-                        Center(
-                          child: Container(
-                            width: 44,
-                            height: 44,
-                            decoration: BoxDecoration(
-                              color: accent.withValues(alpha: 0.14),
-                              borderRadius: BorderRadius.circular(CoolRadii.md),
-                            ),
-                            child: Center(
-                              child: Icon(icon, color: accent, size: 22),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                const Spacer(),
+                Icon(
+                  Icons.arrow_forward_rounded,
+                  size: 18,
+                  color: colors.tertiaryText,
                 ),
-              ),
+              ],
             ),
-            const SizedBox(height: CoolSpace.x2),
+            const SizedBox(height: CoolSpace.x4),
             Text(
               label,
-              textAlign: TextAlign.center,
-              style: context.coolText.mono(
-                Theme.of(context).textTheme.labelSmall,
-                fontWeight: FontWeight.w800,
-                color: colors.secondaryText,
-                letterSpacing: 0.9,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: context.coolText.headline(
+                Theme.of(context).textTheme.titleMedium,
+                color: colors.primaryText,
+                fontWeight: FontWeight.w600,
+                height: 1.2,
               ),
             ),
           ],

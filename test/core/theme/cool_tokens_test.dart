@@ -75,12 +75,12 @@ void main() {
     });
 
     test('radius values match expected grid', () {
-      expect(CoolRadii.xs, 16.0);
-      expect(CoolRadii.sm, 20.0);
-      expect(CoolRadii.md, 24.0);
-      expect(CoolRadii.lg, 32.0);
-      expect(CoolRadii.xl, 48.0);
-      expect(CoolRadii.xxl, 48.0);
+      expect(CoolRadii.xs, 10.0);
+      expect(CoolRadii.sm, 14.0);
+      expect(CoolRadii.md, 18.0);
+      expect(CoolRadii.lg, 22.0);
+      expect(CoolRadii.xl, 28.0);
+      expect(CoolRadii.xxl, 32.0);
       expect(CoolRadii.pill, 999.0);
     });
 

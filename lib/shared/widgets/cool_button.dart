@@ -5,29 +5,9 @@ import 'package:flutter/services.dart';
 import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/app_theme_text.dart';
 
-/// Button variants — Tactile Monolith system.
-enum CoolButtonVariant {
-  /// Partner Red background, white text, red glow shadow.
-  primary,
+/// Button variants for the shared minimalist system.
+enum CoolButtonVariant { primary, secondary, outline, ghost, accent, clay }
 
-  /// white/10 background, white text.
-  secondary,
-
-  /// Transparent background, white/10 border, white text.
-  outline,
-
-  /// Transparent, secondary text, no border.
-  ghost,
-
-  /// Gold background, black text, gold glow shadow.
-  accent,
-
-  /// Claymorphic Partner Red — dual inner-shadow 3D technique.
-  /// Use for hero CTAs that need tactile emphasis.
-  clay,
-}
-
-/// Button sizes — matches React UI kit.
 enum CoolButtonSize {
   sm,
   md,
@@ -35,16 +15,16 @@ enum CoolButtonSize {
   icon;
 
   double get height => switch (this) {
-    CoolButtonSize.sm => 32,
+    CoolButtonSize.sm => 36,
     CoolButtonSize.md => 44,
-    CoolButtonSize.lg => 56,
+    CoolButtonSize.lg => 52,
     CoolButtonSize.icon => 40,
   };
 
   EdgeInsets get padding => switch (this) {
     CoolButtonSize.sm => const EdgeInsets.symmetric(horizontal: CoolSpace.x3),
-    CoolButtonSize.md => const EdgeInsets.symmetric(horizontal: CoolSpace.x6),
-    CoolButtonSize.lg => const EdgeInsets.symmetric(horizontal: CoolSpace.x7),
+    CoolButtonSize.md => const EdgeInsets.symmetric(horizontal: CoolSpace.x5),
+    CoolButtonSize.lg => const EdgeInsets.symmetric(horizontal: CoolSpace.x6),
     CoolButtonSize.icon => EdgeInsets.zero,
   };
 
@@ -56,9 +36,7 @@ enum CoolButtonSize {
   };
 }
 
-/// A styled button — Tactile Monolith system.
-///
-/// 6 variants, 4 sizes, press feedback (scale 0.95), JetBrains Mono uppercase.
+/// A shared button with restrained emphasis and compact states.
 class CoolButton extends StatefulWidget {
   const CoolButton({
     required this.label,
@@ -117,9 +95,7 @@ class _CoolButtonState extends State<CoolButton>
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final isIcon = widget.size == CoolButtonSize.icon;
-    final radius = BorderRadius.circular(
-      isIcon ? CoolRadii.md : CoolRadii.pill,
-    );
+    final radius = BorderRadius.circular(isIcon ? CoolRadii.md : CoolRadii.lg);
 
     final bg = _resolvedBg(colors);
     final fg = _resolvedFg(colors);
@@ -170,7 +146,7 @@ class _CoolButtonState extends State<CoolButton>
   ) {
     return Material(
       color: Colors.transparent,
-      borderRadius: BorderRadius.circular(CoolRadii.pill),
+      borderRadius: BorderRadius.circular(CoolRadii.lg),
       child: Ink(
         decoration: decoration,
         child: InkWell(
@@ -178,7 +154,7 @@ class _CoolButtonState extends State<CoolButton>
           onTapUp: _enabled ? (_) => _scaleController.reverse() : null,
           onTapCancel: _enabled ? () => _scaleController.reverse() : null,
           onTap: _enabled ? _handleTap : null,
-          borderRadius: BorderRadius.circular(CoolRadii.pill),
+          borderRadius: BorderRadius.circular(CoolRadii.lg),
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           child: Padding(padding: widget.size.padding, child: _buildChild(fg)),
@@ -221,8 +197,7 @@ class _CoolButtonState extends State<CoolButton>
       fontFamily: AppThemeText.labelFontFamily,
       color: fg,
       fontSize: widget.size.fontSize,
-      fontWeight: FontWeight.w800,
-      letterSpacing: 1.2,
+      fontWeight: FontWeight.w600,
     );
 
     final textWidget = Text(
@@ -279,7 +254,7 @@ class _CoolButtonState extends State<CoolButton>
       CoolButtonVariant.secondary => colors.primaryText,
       CoolButtonVariant.outline => colors.primaryText,
       CoolButtonVariant.ghost => colors.secondaryText,
-      CoolButtonVariant.accent => colors.appBackground,
+      CoolButtonVariant.accent => Colors.white,
       CoolButtonVariant.clay => colors.accentForeground,
     };
   }
@@ -288,8 +263,8 @@ class _CoolButtonState extends State<CoolButton>
     if (!_enabled) return colors.borderStrong.withValues(alpha: 0.15);
     return switch (widget.variant) {
       CoolButtonVariant.primary => null,
-      CoolButtonVariant.secondary => null,
-      CoolButtonVariant.outline => colors.borderStrong.withValues(alpha: 0.15),
+      CoolButtonVariant.secondary => colors.border,
+      CoolButtonVariant.outline => colors.borderStrong,
       CoolButtonVariant.ghost => null,
       CoolButtonVariant.accent => null,
       CoolButtonVariant.clay => null,
@@ -298,9 +273,9 @@ class _CoolButtonState extends State<CoolButton>
 
   List<BoxShadow>? _resolvedShadow(CoolSemanticColors colors) {
     return switch (widget.variant) {
-      CoolButtonVariant.primary => CoolShadows.primary(),
-      CoolButtonVariant.accent => CoolShadows.gold(),
-      CoolButtonVariant.clay => CoolShadows.clay(),
+      CoolButtonVariant.primary => CoolShadows.primary(strength: 0.8),
+      CoolButtonVariant.accent => CoolShadows.gold(strength: 0.7),
+      CoolButtonVariant.clay => CoolShadows.clay(strength: 0.8),
       _ => null,
     };
   }
@@ -310,28 +285,10 @@ class _CoolButtonState extends State<CoolButton>
       return null;
     }
     return switch (widget.variant) {
-      CoolButtonVariant.primary => LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: <Color>[
-          colors.accentStrong.withValues(alpha: 0.92),
-          colors.buttonPrimaryBackground,
-        ],
-      ),
+      CoolButtonVariant.primary => null,
       CoolButtonVariant.secondary => null,
-      CoolButtonVariant.accent => LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: <Color>[
-          colors.accentGold,
-          colors.accentGold.withValues(alpha: 0.82),
-        ],
-      ),
-      CoolButtonVariant.clay => LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: <Color>[colors.accentStrong, colors.accent, colors.accentDeep],
-      ),
+      CoolButtonVariant.accent => null,
+      CoolButtonVariant.clay => null,
       _ => null,
     };
   }

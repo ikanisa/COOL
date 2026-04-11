@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 
-/// Search-specific text field for admin surfaces and list filtering.
-///
-/// Builds on the COOL design system with search icon prefix, clear action,
-/// optional debounce, and compact sizing suitable for dense admin layouts.
+/// Search-specific text field for list filtering and quick find flows.
 class CoolSearchField extends StatefulWidget {
   const CoolSearchField({
     required this.hint,
@@ -116,16 +113,17 @@ class _CoolSearchFieldState extends State<CoolSearchField> {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
-    const fieldRadius = 12.0;
+    final fieldRadius = CoolRadii.lg;
 
     return Semantics(
       textField: true,
       label: widget.hint,
-      hint: 'Search field. Double tap to edit.',
+      hint: widget.hint,
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: colors.inputSurface,
           borderRadius: BorderRadius.circular(fieldRadius),
+          border: Border.all(color: colors.border),
         ),
         child: TextField(
           controller: _controller,
@@ -145,7 +143,7 @@ class _CoolSearchFieldState extends State<CoolSearchField> {
             filled: false,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
-              vertical: 14,
+              vertical: 13,
             ),
             prefixIcon: Padding(
               padding: const EdgeInsets.only(left: 12, right: 8),
@@ -164,7 +162,9 @@ class _CoolSearchFieldState extends State<CoolSearchField> {
                     onPressed: _clear,
                     icon: const Icon(Icons.close_rounded, size: 18),
                     color: colors.tertiaryText,
-                    tooltip: 'Clear search',
+                    tooltip: MaterialLocalizations.of(
+                      context,
+                    ).deleteButtonTooltip,
                   )
                 : null,
             border: InputBorder.none,

@@ -11,12 +11,12 @@ class _ProfileAvatar extends StatelessWidget {
     final imageUrl = avatarUrl?.trim() ?? '';
 
     return Container(
-      width: 54,
-      height: 54,
+      width: 52,
+      height: 52,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: colors.cardSurface,
-        boxShadow: CoolShadows.ambientFloat(strength: 0.4),
+        border: Border.all(color: colors.border),
       ),
       child: ClipOval(
         child: imageUrl.isEmpty
@@ -55,13 +55,14 @@ class _HomeIconButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(CoolRadii.md),
         onTap: onTap,
         child: Ink(
-          width: 54,
-          height: 54,
+          width: 44,
+          height: 44,
           decoration: BoxDecoration(
-            color: colors.appBackground,
+            color: colors.cardSurface,
             borderRadius: BorderRadius.circular(CoolRadii.md),
+            border: Border.all(color: colors.border),
           ),
-          child: Icon(icon, size: 24, color: colors.primaryText),
+          child: Icon(icon, size: 20, color: colors.primaryText),
         ),
       ),
     );
@@ -86,11 +87,11 @@ class _MonthlyMovementPill extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: CoolSpace.x4,
-        vertical: CoolSpace.x3,
+        horizontal: CoolSpace.x3,
+        vertical: CoolSpace.x2,
       ),
       decoration: BoxDecoration(
-        color: colors.shadowColor.withValues(alpha: 0.22),
+        color: colors.accentForeground.withValues(alpha: 0.16),
         borderRadius: BorderRadius.circular(CoolRadii.pill),
       ),
       child: Row(

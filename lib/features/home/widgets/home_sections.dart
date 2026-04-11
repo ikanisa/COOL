@@ -6,9 +6,11 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_brand_mark.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_error_view.dart';
-import '../../../shared/widgets/cool_skeleton.dart';
+import '../../../shared/widgets/cool_icon_box.dart';
+import '../../../shared/widgets/cool_list_tile.dart';
 import '../../groups/group_flow_utils.dart';
 import '../../groups/models/group.dart';
 import '../models/home_dashboard_data.dart';
@@ -32,7 +34,6 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final colors = context.coolSemanticColors;
 
     return Row(
@@ -64,16 +65,25 @@ class HomeHeader extends StatelessWidget {
         ),
         const SizedBox(width: CoolSpace.x4),
         Expanded(
-          child: Text(
-            displayName,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: context.coolText.headline(
-              theme.textTheme.headlineMedium,
-              color: colors.primaryText,
-              fontWeight: FontWeight.w800,
-              letterSpacing: -0.8,
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                context.l10n.home,
+                style: context.coolText.mobiLabel(color: colors.secondaryText),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                displayName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: context.coolText.headline(
+                  Theme.of(context).textTheme.headlineLarge,
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
           ),
         ),
         const SizedBox(width: CoolSpace.x3),
@@ -104,7 +114,6 @@ class HomeSavingsHeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final colors = context.coolSemanticColors;
 
     final balanceLabel =
@@ -113,120 +122,49 @@ class HomeSavingsHeroCard extends StatelessWidget {
     return Semantics(
       label: balanceLabel,
       button: true,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(CoolRadii.xl),
-          onTap: onOpenWallet,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(CoolRadii.xl),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              // Hero gradient from tokens — no hardcoded values
-              gradient: colors.heroGradient,
-              borderRadius: BorderRadius.circular(CoolRadii.xl),
-              boxShadow: CoolShadows.claymorphicCard(
-                glowColor: colors.accentStrong,
-                strength: 1.2,
+      child: CoolCard(
+        variant: CoolCardVariant.accent,
+        useGradient: true,
+        gradient: colors.heroGradient,
+        borderColor: colors.accent.withValues(alpha: 0.18),
+        onTap: onOpenWallet,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              context.l10n.homeSavingsBalanceUpper,
+              style: context.coolText.mobiLabel(
+                color: colors.accentForeground.withValues(alpha: 0.88),
               ),
             ),
-            child: Stack(
+            const SizedBox(height: CoolSpace.x3),
+            Text(
+              '${fmtAmt(totalSavingsRwf)} RWF',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.coolText.headline(
+                Theme.of(context).textTheme.displayMedium,
+                color: colors.accentForeground,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: CoolSpace.x4),
+            Row(
               children: [
-                // Inner top-edge highlight
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(CoolRadii.xl),
-                      ),
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: <Color>[
-                          colors.accentForeground.withValues(alpha: 0.18),
-                          Colors.transparent,
-                        ],
-                      ),
-                    ),
+                Expanded(
+                  child: _MonthlyMovementPill(
+                    monthlyNetChange: monthlyNetChange,
                   ),
                 ),
-                // Bottom inner shadow (depth)
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: 60,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.vertical(
-                        bottom: Radius.circular(CoolRadii.xl),
-                      ),
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: <Color>[
-                          colors.shadowColor.withValues(alpha: 0.28),
-                          Colors.transparent,
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                // Card content
-                Padding(
-                  padding: const EdgeInsets.all(CoolSpace.x6),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: CoolSpace.x4,
-                          vertical: CoolSpace.x2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: colors.accentForeground.withValues(
-                            alpha: 0.14,
-                          ),
-                          borderRadius: BorderRadius.circular(CoolRadii.pill),
-                        ),
-                        child: Text(
-                          context.l10n.homeSavingsBalanceUpper,
-                          style: context.coolText.mono(
-                            theme.textTheme.labelSmall,
-                            color: colors.accentForeground.withValues(
-                              alpha: 0.86,
-                            ),
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 1.2,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: CoolSpace.x5),
-                      Text(
-                        '${fmtAmt(totalSavingsRwf)} RWF',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: context.coolText.headline(
-                          theme.textTheme.displaySmall,
-                          color: colors.accentForeground,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: -1.8,
-                          height: 0.92,
-                        ),
-                      ),
-                      const SizedBox(height: CoolSpace.x5),
-                      _MonthlyMovementPill(monthlyNetChange: monthlyNetChange),
-                    ],
-                  ),
+                const SizedBox(width: CoolSpace.x3),
+                Icon(
+                  Icons.arrow_forward_rounded,
+                  size: 18,
+                  color: colors.accentForeground,
                 ),
               ],
             ),
-          ),
-        ),
+          ],
         ),
       ),
     );
@@ -248,10 +186,9 @@ class HomeSectionHeader extends StatelessWidget {
           child: Text(
             title,
             style: context.coolText.headline(
-              Theme.of(context).textTheme.headlineSmall,
+              Theme.of(context).textTheme.titleLarge,
               color: colors.primaryText,
-              fontWeight: FontWeight.w800,
-              letterSpacing: -0.6,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -281,21 +218,17 @@ class HomeSectionActionPill extends StatelessWidget {
         borderRadius: BorderRadius.circular(CoolRadii.pill),
         child: Ink(
           padding: const EdgeInsets.symmetric(
-            horizontal: CoolSpace.x4,
+            horizontal: CoolSpace.x3,
             vertical: CoolSpace.x2,
           ),
           decoration: BoxDecoration(
-            color: colors.appBackground,
+            color: colors.cardSurface,
             borderRadius: BorderRadius.circular(CoolRadii.pill),
+            border: Border.all(color: colors.border),
           ),
           child: Text(
             label,
-            style: context.coolText.mono(
-              Theme.of(context).textTheme.labelSmall,
-              color: colors.accent,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 0.9,
-            ),
+            style: context.coolText.mobiLabel(color: colors.accent),
           ),
         ),
       ),

@@ -25,7 +25,8 @@ void main() {
       ),
     );
 
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
 
     expect(find.text('Alpha Circle'), findsOneWidget);
     expect(find.byType(CoolCard), findsWidgets);

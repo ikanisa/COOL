@@ -8,9 +8,12 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_icons.dart';
 import '../../../core/config/app_config_provider.dart';
 import '../../../core/providers/engagement_providers.dart';
-import '../../../shared/widgets/glass_card.dart';
+import '../../../shared/widgets/cool_icon_box.dart';
+import '../../../shared/widgets/cool_list_tile.dart';
+import '../../../shared/widgets/cool_section_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../admin/providers/admin_workspace_access_provider.dart';
@@ -21,7 +24,10 @@ import '../widgets/profile_dialogs.dart';
 
 // ─────────────────────────────────────────────────────────────────────
 // ProfileScreen (Settings tab root)
-// Sections: Header → APP SETTINGS → SUPPORT
+// Widget-first minimalist redesign:
+// - CoolSectionCard replaces manual _GlassCard + Column + _SettingsDivider
+// - CoolListTile replaces _SettingsRow
+// - Subtitles removed unless they show data (MoMo number, Face ID status)
 // ─────────────────────────────────────────────────────────────────────
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -117,19 +123,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final faceIdEnabled = featureFlags.isBiopayEnabled(
       isAdmin: adminAccess.hasPlatformAccess,
     );
+    // Only show subtitle when it carries data — not a description.
     final faceIdSubtitle = !faceIdEnabled
         ? l10n.profileFaceIdComingSoon
         : biopayProfile.when(
             data: (profile) {
               if (profile?.active ?? false) {
-                return l10n.profileFaceIdRegistered(
-                  profile!.maskedRecipientValue,
-                );
+                return profile!.maskedRecipientValue;
               }
-              return l10n.profileFaceIdScanToPay;
+              return null; // No subtitle — icon is self-explanatory
             },
-            loading: () => l10n.profileFaceIdCheckingStatus,
-            error: (err, st) => l10n.profileFaceIdScanToPay,
+            loading: () => null,
+            error: (err, st) => null,
           );
 
     return CoolScreenBackground(
@@ -148,44 +153,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 ),
                 child: Row(
                   children: [
-                    // Title (no back button — this is a shell tab root)
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            l10n.settings.toUpperCase(),
-                            style: context.coolText.displayCondensed(
-                              Theme.of(context).textTheme.headlineSmall,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                          Text(
-                            l10n.profileIdentityTitle,
-                            style: context.coolText.mono(
-                              Theme.of(context).textTheme.labelSmall,
-                              fontWeight: FontWeight.w700,
-                              color: colors.secondaryText,
-                              letterSpacing: 1.0,
-                            ),
-                          ),
-                        ],
+                      child: Text(
+                        l10n.settings,
+                        style: context.coolText.headline(
+                          Theme.of(context).textTheme.titleLarge,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
-                    // Shield icon
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: colors.accent.withValues(alpha: 0.12),
-                        shape: BoxShape.circle,
-                      ),
-                      alignment: Alignment.center,
-                      child: Icon(
-                        Icons.verified_user_rounded,
-                        color: colors.accent,
-                        size: 22,
-                      ),
+                    CoolIconBox(
+                      icon: CoolIcons.shield,
+                      accent: colors.accent,
+                      size: CoolIconBoxSize.md,
                     ),
                   ],
                 ),
@@ -202,85 +182,68 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
               sliver: SliverList.list(
                 children: [
-                  const SizedBox(height: CoolSpace.x6),
+                  const SizedBox(height: CoolSpace.x4),
 
-                  // ── APP SETTINGS section ─────────────────────────
-                  _SectionLabel(label: l10n.profileAppSettingsSection),
-                  const SizedBox(height: CoolSpace.x3),
-                  _GlassCard(
-                    child: Column(
-                      children: [
-                        _SettingsRow(
-                          icon: Icons.person_outline_rounded,
-                          title: l10n.profileAccountDetailsTitle,
-                          subtitle: l10n.profilePersonalInformationSubtitle,
-                          onTap: () => context.push(AppRoutes.profileAccount),
-                        ),
-                        _SettingsDivider(),
-                        _SettingsRow(
-                          icon: Icons.account_balance_wallet_outlined,
-                          title: l10n.profileWalletMomoTitle,
-                          subtitle: profile.momoLinked
-                              ? profile.momoDisplayLabel
-                              : l10n.profileSetupDefaultMomoSubtitle,
-                          onTap: () => context.push(AppRoutes.settingsWallet),
-                        ),
-                        _SettingsDivider(),
-                        _SettingsRow(
-                          icon: Icons.receipt_long_rounded,
-                          title: l10n.profileTransactionHistoryTitle,
-                          subtitle: l10n.profileStatementsLedgerSubtitle,
-                          onTap: () => context.push(AppRoutes.momoWallet),
-                        ),
-                        _SettingsDivider(),
-                        _SettingsRow(
-                          icon: Icons.face_retouching_natural_rounded,
-                          title: l10n.profileFaceIdRegisterTitle,
-                          subtitle: faceIdSubtitle,
-                          onTap: () => context.push(AppRoutes.biopayRegister),
-                        ),
-                      ],
-                    ),
+                  // ── APP SETTINGS ────────────────────────────────
+                  CoolSectionCard.glass(
+                    sectionLabel: l10n.profileAppSettingsSection,
+                    children: [
+                      CoolListTile(
+                        leading: const CoolIconBox(icon: CoolIcons.profile),
+                        title: l10n.profileAccountDetailsTitle,
+                        onTap: () => context.push(AppRoutes.profileAccount),
+                      ),
+                      CoolListTile(
+                        leading: const CoolIconBox(icon: CoolIcons.wallet),
+                        title: l10n.profileWalletMomoTitle,
+                        subtitle: profile.momoLinked
+                            ? profile.momoDisplayLabel
+                            : null,
+                        onTap: () => context.push(AppRoutes.settingsWallet),
+                      ),
+                      CoolListTile(
+                        leading: const CoolIconBox(icon: CoolIcons.history),
+                        title: l10n.profileTransactionHistoryTitle,
+                        onTap: () => context.push(AppRoutes.momoWallet),
+                      ),
+                      CoolListTile(
+                        leading: const CoolIconBox(icon: CoolIcons.faceId),
+                        title: l10n.profileFaceIdRegisterTitle,
+                        subtitle: faceIdSubtitle,
+                        onTap: () => context.push(AppRoutes.biopayRegister),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: CoolSpace.x6),
 
-                  // ── SUPPORT section ──────────────────────────────
-                  _SectionLabel(label: l10n.profileSupportSection),
-                  const SizedBox(height: CoolSpace.x3),
-                  _GlassCard(
-                    child: Column(
-                      children: [
-                        if (adminAccess.hasAnyAdminAccess) ...[
-                          _SettingsRow(
-                            icon: Icons.admin_panel_settings_rounded,
-                            title: l10n.profileAdminWorkspaceTitle,
-                            subtitle: l10n.profileSystemManagementSubtitle,
-                            onTap: () => context.push(AppRoutes.admin),
-                          ),
-                          _SettingsDivider(),
-                        ],
-                        _SettingsRow(
-                          icon: Icons.chat_rounded,
-                          title: l10n.profileHelpTitle,
-                          subtitle: l10n.profileChatOnWhatsAppSubtitle,
-                          onTap: _launchWhatsApp,
+                  // ── SUPPORT ────────────────────────────────────
+                  CoolSectionCard.glass(
+                    sectionLabel: l10n.profileSupportSection,
+                    children: [
+                      if (adminAccess.hasAnyAdminAccess)
+                        CoolListTile(
+                          leading: const CoolIconBox(icon: CoolIcons.admin),
+                          title: l10n.profileAdminWorkspaceTitle,
+                          onTap: () => context.push(AppRoutes.admin),
                         ),
-                        _SettingsDivider(),
-                        _SettingsRow(
-                          icon: Icons.logout_rounded,
-                          title: l10n.profileLogoutTitle,
-                          isDestructive: true,
-                          onTap: _confirmSignOut,
-                        ),
-                        _SettingsDivider(),
-                        _SettingsRow(
-                          icon: Icons.delete_outline_rounded,
-                          title: l10n.deleteAccountAction,
-                          isDestructive: true,
-                          onTap: _confirmDeleteAccount,
-                        ),
-                      ],
-                    ),
+                      CoolListTile(
+                        leading: const CoolIconBox(icon: CoolIcons.support),
+                        title: l10n.profileHelpTitle,
+                        onTap: _launchWhatsApp,
+                      ),
+                      CoolListTile(
+                        leading: const CoolIconBox(icon: CoolIcons.logout),
+                        title: l10n.profileLogoutTitle,
+                        isDestructive: true,
+                        onTap: _confirmSignOut,
+                      ),
+                      CoolListTile(
+                        leading: const CoolIconBox(icon: CoolIcons.delete),
+                        title: l10n.deleteAccountAction,
+                        isDestructive: true,
+                        onTap: _confirmDeleteAccount,
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -288,138 +251,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _SectionLabel extends StatelessWidget {
-  const _SectionLabel({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    return Text(
-      label,
-      style: context.coolText.mono(
-        Theme.of(context).textTheme.labelSmall,
-        fontWeight: FontWeight.w700,
-        color: colors.secondaryText,
-        letterSpacing: 2.0,
-      ),
-    );
-  }
-}
-
-class _SettingsRow extends StatelessWidget {
-  const _SettingsRow({
-    required this.icon,
-    required this.title,
-    this.subtitle,
-    this.isDestructive = false,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String title;
-  final String? subtitle;
-  final bool isDestructive;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final textColor = isDestructive ? colors.danger : colors.primaryText;
-    final iconColor = isDestructive ? colors.danger : colors.primaryText;
-
-    return Semantics(
-      button: true,
-      label: subtitle != null ? '$title. $subtitle' : title,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: CoolSpace.x4),
-          child: Row(
-            children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: colors.cardSurfaceStrong,
-                  borderRadius: BorderRadius.circular(CoolRadii.md),
-                  boxShadow: CoolShadows.ambientFloat(strength: 0.3),
-                ),
-                alignment: Alignment.center,
-                child: Icon(icon, color: iconColor, size: 22),
-              ),
-              const SizedBox(width: CoolSpace.x4),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: context.coolText.mono(
-                        Theme.of(context).textTheme.titleSmall,
-                        fontWeight: FontWeight.w800,
-                        color: textColor,
-                        letterSpacing: 0.8,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    if (subtitle != null) ...[
-                      const SizedBox(height: 2),
-                      Text(
-                        subtitle!,
-                        style: context.coolText.mono(
-                          Theme.of(context).textTheme.labelSmall,
-                          fontWeight: FontWeight.w500,
-                          color: colors.secondaryText,
-                          letterSpacing: 0.8,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-              Icon(
-                Icons.chevron_right_rounded,
-                color: colors.secondaryText,
-                size: 20,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _SettingsDivider extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // No-Line Rule: use whitespace instead of visible dividers
-    return const SizedBox(height: CoolSpace.x1);
-  }
-}
-
-class _GlassCard extends StatelessWidget {
-  const _GlassCard({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return GlassCard(
-      padding: const EdgeInsets.symmetric(
-        horizontal: CoolSpace.x5,
-        vertical: CoolSpace.x2,
-      ),
-      child: child,
     );
   }
 }

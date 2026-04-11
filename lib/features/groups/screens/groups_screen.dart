@@ -6,18 +6,22 @@ import 'package:go_router/go_router.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_icons.dart';
 import '../../../core/utils/money_formatters.dart';
 import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_chip_bar.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_floating_header_sliver.dart';
+import '../../../shared/widgets/cool_icon_box.dart';
+import '../../../shared/widgets/cool_list_tile.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_search_field.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/qr_share_sheet.dart';
 import '../../../shared/widgets/status_badge.dart';
-import '../../../shared/widgets/tab_pill.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../auth/widgets/require_verified_user.dart';
 import '../group_flow_utils.dart';
@@ -219,21 +223,15 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         floatingActionButton: _showMine
-            ? FloatingActionButton.extended(
+            ? FloatingActionButton(
                 onPressed: _openCreateGroup,
                 backgroundColor: colors.accent,
                 foregroundColor: colors.accentForeground,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(CoolRadii.pill),
+                  borderRadius: BorderRadius.circular(CoolRadii.lg),
                 ),
-                icon: const Icon(Icons.add_rounded),
-                label: Text(
-                  l10n.groupsCreateUpper,
-                  style: textTheme
-                      .mobiLabel(color: colors.accentForeground)
-                      .copyWith(fontWeight: FontWeight.w800),
-                ),
+                child: const Icon(Icons.add_rounded),
               )
             : null,
         body: RefreshIndicator(
@@ -251,11 +249,14 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                     }
                   },
                   tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-                  icon: const Icon(Icons.arrow_back_rounded),
+                  icon: const Icon(CoolIcons.back),
                 ),
                 title: Text(
-                  l10n.navGroups.toUpperCase(),
-                  style: textTheme.displayCondensed(null, letterSpacing: 1.2),
+                  l10n.navGroups,
+                  style: textTheme.headline(
+                    Theme.of(context).textTheme.titleLarge,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 actions: [
                   const _DataPulseBadge().animate().fadeIn(),
@@ -271,22 +272,17 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TabPill(
-                              label: l10n.groupsMyLedgers,
-                              isActive: _showMine,
-                              onTap: () => setState(() => _showMine = true),
-                            ),
+                      CoolChipBar(
+                        items: [
+                          CoolChipItem(
+                            label: l10n.groupsMyLedgers,
+                            isActive: _showMine,
+                            onTap: () => setState(() => _showMine = true),
                           ),
-                          SizedBox(width: space.x2),
-                          Expanded(
-                            child: TabPill(
-                              label: l10n.groupsExplore,
-                              isActive: !_showMine,
-                              onTap: () => setState(() => _showMine = false),
-                            ),
+                          CoolChipItem(
+                            label: l10n.groupsExplore,
+                            isActive: !_showMine,
+                            onTap: () => setState(() => _showMine = false),
                           ),
                         ],
                       ),
@@ -409,7 +405,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            Icons.cloud_off_rounded,
+                            CoolIcons.cloudOff,
                             size: 40,
                             color: colors.tertiaryText,
                           ),

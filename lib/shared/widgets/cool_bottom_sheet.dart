@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 
-/// A restrained glass bottom sheet wrapper.
+/// A restrained bottom sheet wrapper.
 class CoolBottomSheet extends StatelessWidget {
   const CoolBottomSheet({
     required this.child,
@@ -22,9 +22,8 @@ class CoolBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final bgColor = colors.glassSurface.withValues(alpha: 0.88);
-    final borderCol = colors.borderStrong.withValues(alpha: 0.15);
-    final glowCol = colors.accentStrong.withValues(alpha: 0.10);
+    final bgColor = colors.overlaySurface.withValues(alpha: 0.96);
+    final borderCol = colors.border;
 
     return ClipRRect(
       borderRadius: BorderRadius.vertical(top: Radius.circular(borderRadius)),
@@ -36,18 +35,8 @@ class CoolBottomSheet extends StatelessWidget {
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(borderRadius),
             ),
-            border: Border(top: BorderSide(color: borderCol, width: 0.75)),
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: <Color>[
-                colors.highlightColor.withValues(alpha: 0.42),
-                glowCol,
-                colors.overlaySurface.withValues(alpha: 0.94),
-              ],
-              stops: const <double>[0.0, 0.14, 1.0],
-            ),
-            boxShadow: CoolShadows.glass(),
+            border: Border(top: BorderSide(color: borderCol, width: 0.8)),
+            boxShadow: CoolShadows.floating(null, strength: 0.7),
           ),
           child: SafeArea(
             child: Padding(

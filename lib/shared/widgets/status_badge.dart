@@ -120,11 +120,11 @@ class StatusBadge extends StatelessWidget {
     return Semantics(
       label: context.l10n.statusBadgeSemantics(resolvedLabel),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
           color: bg,
           borderRadius: BorderRadius.circular(CoolRadii.pill),
-          border: Border.all(color: colors.border.withValues(alpha: 0.15)),
+          border: Border.all(color: colors.border),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -145,9 +145,9 @@ class StatusBadge extends StatelessWidget {
             Text(
               resolvedLabel,
               style: theme.textTheme.labelMedium?.copyWith(
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
                 color: fg,
-                height: 1.3,
+                height: 1.2,
               ),
             ),
           ],
@@ -159,11 +159,11 @@ class StatusBadge extends StatelessWidget {
   (Color, Color) _colorsForTone(CoolSemanticColors colors) {
     return switch (_tone) {
       _StatusBadgeTone.community => (
-        colors.warning.withValues(alpha: 0.15),
+        colors.warning.withValues(alpha: 0.12),
         colors.warning,
       ),
       _StatusBadgeTone.public => (
-        colors.info.withValues(alpha: 0.08),
+        colors.info.withValues(alpha: 0.10),
         colors.info,
       ),
       _StatusBadgeTone.private => (
@@ -171,7 +171,7 @@ class StatusBadge extends StatelessWidget {
         colors.secondaryText,
       ),
       _StatusBadgeTone.online => (
-        colors.accent.withValues(alpha: 0.08),
+        colors.accent.withValues(alpha: 0.10),
         colors.accent,
       ),
       _StatusBadgeTone.offline => (

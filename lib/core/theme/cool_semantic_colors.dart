@@ -35,76 +35,67 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
   });
 
   static const CoolSemanticColors dark = CoolSemanticColors(
-    // ── Surface hierarchy (violet monolith) ────────────────────────────
-    appBackground: Color(0xFF0D0A27), // Layer 0: infinite void
-    elevatedBackground: Color(0xFF110E2D), // surface_dim
-    cardSurface: Color(0xFF1A1640), // Layer 1: structural sections
-    cardSurfaceStrong: Color(0xFF252054), // Layer 2: interactive cards/hover
-    glassSurface: Color(0x992A2555), // 60% of surface_bright — frosted violet
-    overlaySurface: Color(0xFF1A1640), // Match Layer 1 for sheets/dialogs
-    // ── Typography ─────────────────────────────────────────────────────
-    primaryText: Color(0xFFF7F9FC),
-    secondaryText: Color(0xFF8B8A9E),
-    tertiaryText: Color(0xFF5E5C77),
-
-    // ── Accent (primary as light source) ───────────────────────────────
-    accent: Color(0xFF8781FF), // primary_container
-    accentDeep: Color(0xFF6C63FF), // electric violet — hero gradients
-    accentStrong: Color(0xFFC4C0FF), // primary — the light source
+    appBackground: Color(0xFF0F141B),
+    elevatedBackground: Color(0xFF131A23),
+    cardSurface: Color(0xFF18212B),
+    cardSurfaceStrong: Color(0xFF202A36),
+    glassSurface: Color(0xD9151D27),
+    overlaySurface: Color(0xFF161E28),
+    primaryText: Color(0xFFF6F8FB),
+    secondaryText: Color(0xFF9BA7B4),
+    tertiaryText: Color(0xFF6D7884),
+    accent: Color(0xFF4D79FF),
+    accentDeep: Color(0xFF305FE8),
+    accentStrong: Color(0xFFDDE6FF),
     accentForeground: Color(0xFFFFFFFF),
-    accentGold: Color(0xFFFACC15),
-
-    // ── Boundaries (No-Line Rule) ──────────────────────────────────────
-    divider: Color(0x00FFFFFF), // Invisible — no divider lines
-    border: Color(0x00FFFFFF), // Invisible — no 1px borders
-    borderStrong: Color(0x268781FF), // Ghost border: violet at 15%
-    // ── Semantic status ────────────────────────────────────────────────
-    success: Color(0xFF10B981),
-    warning: Color(0xFFF59E0B),
-    danger: Color(0xFFEF4444),
-    info: Color(0xFF3B82F6),
-    neutral: Color(0xFF8B8A9E),
-
-    // ── Component tokens ───────────────────────────────────────────────
-    chipBackground: Color(0xFF252054), // secondary_container — pebble
-    chipSelectedBackground: Color(0xFF8781FF),
-    buttonPrimaryBackground: Color(0xFF8781FF), // primary_container — clay CTA
-    buttonSecondaryBackground: Color(0x332A2555), // glass secondary
-    inputSurface: Color(0xFF0D0A27), // Sunken into surface_container_lowest
-    shadowColor: Color(0xFF0D0A27), // Desaturated void — never pure black
-    highlightColor: Color(0x14C4C0FF), // Primary highlight tint
+    accentGold: Color(0xFFE6B353),
+    divider: Color(0x1AFFFFFF),
+    border: Color(0x1FFFFFFF),
+    borderStrong: Color(0x2EFFFFFF),
+    success: Color(0xFF23A26D),
+    warning: Color(0xFFD39A2A),
+    danger: Color(0xFFD95C5C),
+    info: Color(0xFF4D79FF),
+    neutral: Color(0xFF9BA7B4),
+    chipBackground: Color(0xFF1E2732),
+    chipSelectedBackground: Color(0xFF294C9F),
+    buttonPrimaryBackground: Color(0xFF4D79FF),
+    buttonSecondaryBackground: Color(0xFF202A36),
+    inputSurface: Color(0xFF161F29),
+    shadowColor: Color(0xFF09111F),
+    highlightColor: Color(0x144D79FF),
   );
 
   static const CoolSemanticColors light = CoolSemanticColors(
-    appBackground: Color(0xFFF1EEFF),
-    elevatedBackground: Color(0xFFF8F6FF),
-    cardSurface: Color(0xFFEEE8FF),
-    cardSurfaceStrong: Color(0xFFFFFFFF),
-    glassSurface: Color(0xCCFFFFFF),
-    overlaySurface: Color(0xFFF9F7FF),
-    primaryText: Color(0xFF1A1238),
-    secondaryText: Color(0xFF60587F),
-    tertiaryText: Color(0xFF837A9D),
-    accent: Color(0xFF8781FF),
-    accentDeep: Color(0xFF6C63FF),
-    accentStrong: Color(0xFFC4C0FF),
+    appBackground: Color(0xFFF3F5F7),
+    elevatedBackground: Color(0xFFFFFFFF),
+    cardSurface: Color(0xFFFFFFFF),
+    cardSurfaceStrong: Color(0xFFF0F3F6),
+    glassSurface: Color(0xEBFFFFFF),
+    overlaySurface: Color(0xFFFFFFFF),
+    primaryText: Color(0xFF111827),
+    secondaryText: Color(0xFF5E6B7A),
+    tertiaryText: Color(0xFF8A96A3),
+    accent: Color(0xFF315EEA),
+    accentDeep: Color(0xFF2446B9),
+    accentStrong: Color(0xFFE3EBFF),
     accentForeground: Color(0xFFFFFFFF),
-    accentGold: Color(0xFFFACC15),
-    divider: Color(0x00000000),
-    border: Color(0x00000000),
-    borderStrong: Color(0x268781FF),
-    success: Color(0xFF10B981),
-    warning: Color(0xFFF59E0B),
-    danger: Color(0xFFEF4444),
-    info: Color(0xFF3B82F6),
-    neutral: Color(0xFF837A9D),
-    chipBackground: Color(0xFFEAE4FF),
-    chipSelectedBackground: Color(0xFFD7D1FF),
-    buttonPrimaryBackground: Color(0xFF8781FF),
-    buttonSecondaryBackground: Color(0x99FFFFFF),
-    inputSurface: Color(0xFFE7E1F8),
-    shadowColor: Color(0xFF0D0A27),
-    highlightColor: Color(0x14C4C0FF),
+    accentGold: Color(0xFFB37A1A),
+    divider: Color(0x1409111F),
+    border: Color(0x1609111F),
+    borderStrong: Color(0x2409111F),
+    success: Color(0xFF1C8C5D),
+    warning: Color(0xFFC28212),
+    danger: Color(0xFFCC5757),
+    info: Color(0xFF315EEA),
+    neutral: Color(0xFF7B8794),
+    chipBackground: Color(0xFFF0F3F6),
+    chipSelectedBackground: Color(0xFFDDE6FF),
+    buttonPrimaryBackground: Color(0xFF315EEA),
+    buttonSecondaryBackground: Color(0xFFF0F3F6),
+    inputSurface: Color(0xFFF6F8FA),
+    shadowColor: Color(0xFF09111F),
+    highlightColor: Color(0x14315EEA),
   );
 
   final Color appBackground;
@@ -156,21 +147,21 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
   bool get _isDarkVariant => appBackground.computeLuminance() < 0.15;
 
   Color get operationalSurface =>
-      _isDarkVariant ? const Color(0xFF110E2D) : const Color(0xFFF4F6FA);
+      _isDarkVariant ? const Color(0xFF151D26) : const Color(0xFFFFFFFF);
   Color get financialSurface =>
-      _isDarkVariant ? const Color(0xFF130F30) : const Color(0xFFF1F6FF);
+      _isDarkVariant ? const Color(0xFF17202A) : const Color(0xFFF7FAFF);
   Color get analyticsSurface =>
-      _isDarkVariant ? const Color(0xFF131035) : const Color(0xFFF1F7F8);
+      _isDarkVariant ? const Color(0xFF16212B) : const Color(0xFFF6FAFB);
   Color get teamSurface =>
-      _isDarkVariant ? const Color(0xFF150F30) : const Color(0xFFF7F3FF);
+      _isDarkVariant ? const Color(0xFF19222D) : const Color(0xFFF8FAFC);
   Color get commerceSurface =>
-      _isDarkVariant ? const Color(0xFF16102A) : const Color(0xFFFFF6EF);
+      _isDarkVariant ? const Color(0xFF1A232D) : const Color(0xFFFFFAF3);
   Color get routeSurface =>
-      _isDarkVariant ? const Color(0xFF120E30) : const Color(0xFFF0F5FF);
+      _isDarkVariant ? const Color(0xFF16202A) : const Color(0xFFF5F8FF);
   Color get proximitySurface =>
-      _isDarkVariant ? const Color(0xFF100E2D) : const Color(0xFFF2FAF7);
+      _isDarkVariant ? const Color(0xFF16212A) : const Color(0xFFF5FBF8);
   Color get contactSurface =>
-      _isDarkVariant ? const Color(0xFF150F2A) : const Color(0xFFFFF9F0);
+      _isDarkVariant ? const Color(0xFF1A232C) : const Color(0xFFFFFBF6);
 
   Color get demandHigh => danger;
   Color get demandMedium => warning;
@@ -183,13 +174,10 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
   Color get accentGradientStart => accentStrong;
   Color get accentGradientEnd => accent;
 
-  /// The Tactile Monolith hero gradient — 4-stop claymorphic gradient
-  /// anchored on the token surface hierarchy and accent pair.
   LinearGradient get heroGradient => LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: <Color>[cardSurface, accent, accentDeep, cardSurfaceStrong],
-    stops: const <double>[0.0, 0.35, 0.70, 1.0],
+    colors: <Color>[accent, accentDeep],
   );
 
   LinearGradient get shellGradient => LinearGradient(
@@ -199,8 +187,8 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
   );
 
   LinearGradient get surfaceGradient => LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: <Color>[surfaceGradientTop, surfaceGradientBottom],
   );
 

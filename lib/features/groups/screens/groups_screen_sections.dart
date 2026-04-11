@@ -22,70 +22,55 @@ class _GroupLedgerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final textTheme = context.coolText;
-    final space = context.coolSpace;
     final canJoin = onJoin != null;
 
-    return GestureDetector(
+    return CoolCard(
       onTap: onOpen,
-      child: CoolCard(
-        borderRadius: CoolRadii.xl,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      cardPadding: CoolCardPadding.none,
+      padding: const EdgeInsets.all(CoolSpace.x4),
+      child: CoolListTile(
+        leading: CoolIconBox(
+          icon: Icons.groups_2_outlined,
+          accent: colors.accent,
+        ),
+        title: group.name,
+        subtitle: context.l10n.memberCount(group.memberCount),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // ── Name + member count ─────────────────────────
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    group.name,
-                    style: textTheme.display(
-                      Theme.of(context).textTheme.titleLarge,
-                      color: colors.primaryText,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Text(
-                  '${group.memberCount}',
-                  style: textTheme.mono(null, color: colors.tertiaryText),
-                ),
-                const SizedBox(width: 4),
-                Icon(
-                  Icons.people_rounded,
-                  size: 14,
-                  color: colors.tertiaryText,
-                ),
-              ],
+            Text(
+              '${formatWholeMoneyAmount(group.amount)} RWF',
+              style: context.coolText.display(
+                Theme.of(context).textTheme.titleMedium,
+                color: colors.primaryText,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-
-            SizedBox(height: space.x2),
-
-            // ── Balance row ─────────────────────────────────
-            Row(
-              children: [
-                Text(
-                  '${formatWholeMoneyAmount(group.amount)} RWF',
-                  style: textTheme.mono(null, color: colors.accentGold),
+            const SizedBox(width: CoolSpace.x3),
+            if (canJoin)
+              SizedBox(
+                width: 84,
+                child: CoolButton(
+                  label: context.l10n.groupsJoinUpper,
+                  onTap: isBusy ? null : onJoin,
+                  isLoading: isBusy,
+                  fullWidth: false,
+                  size: CoolButtonSize.sm,
+                  variant: CoolButtonVariant.secondary,
                 ),
-                const Spacer(),
-                if (canJoin)
-                  CoolButton(
-                    label: context.l10n.groupsJoinUpper,
-                    onTap: isBusy ? null : onJoin,
-                    isLoading: isBusy,
-                    variant: CoolButtonVariant.primary,
-                  )
-                else
-                  Icon(Icons.chevron_right_rounded, color: colors.tertiaryText),
-              ],
-            ),
+              )
+            else
+              Icon(
+                Icons.chevron_right_rounded,
+                color: colors.tertiaryText,
+                size: 20,
+              ),
           ],
         ),
+        onTap: onOpen,
+        showChevron: false,
       ),
-    ).animate().fadeIn(duration: 300.ms).slideY(begin: 0.05, end: 0.0);
+    ).animate().fadeIn(duration: 220.ms).slideY(begin: 0.03, end: 0.0);
   }
 }
 
@@ -109,8 +94,6 @@ class _InviteBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final text = context.coolText;
-    final space = context.coolSpace;
 
     return CoolCard(
       backgroundColor: colors.cardSurfaceStrong,
@@ -123,10 +106,10 @@ class _InviteBanner extends StatelessWidget {
               Expanded(
                 child: Text(
                   title,
-                  style: text.display(
+                  style: context.coolText.headline(
                     Theme.of(context).textTheme.titleLarge,
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -136,17 +119,22 @@ class _InviteBanner extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: CoolSpace.x1),
           Text(
             subtitle,
             style: Theme.of(
               context,
             ).textTheme.bodyMedium?.copyWith(color: colors.secondaryText),
           ),
-          SizedBox(height: space.x3),
-          CoolButton(
-            label: actionLabel,
-            onTap: isLoading ? null : onAction,
-            isLoading: isLoading,
+          const SizedBox(height: CoolSpace.x3),
+          SizedBox(
+            width: 120,
+            child: CoolButton(
+              label: actionLabel,
+              onTap: isLoading ? null : onAction,
+              isLoading: isLoading,
+              fullWidth: false,
+            ),
           ),
         ],
       ),
@@ -181,41 +169,16 @@ class _EmptyGroupsState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final text = context.coolText;
-    final space = context.coolSpace;
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 420),
-        child: CoolCard(
-          borderRadius: CoolRadii.xl,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.groups_rounded, size: 48, color: colors.secondaryText),
-              SizedBox(height: space.x3),
-              Text(
-                title,
-                style: text.display(
-                  Theme.of(context).textTheme.titleLarge,
-                  color: colors.primaryText,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              SizedBox(height: space.x2),
-              Text(
-                message,
-                textAlign: TextAlign.center,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: colors.secondaryText),
-              ),
-              if (actionLabel != null && onAction != null) ...[
-                SizedBox(height: space.x4),
-                CoolButton(label: actionLabel!, onTap: onAction),
-              ],
-            ],
-          ),
+        child: CoolEmptyView(
+          compact: true,
+          title: title,
+          subtitle: message,
+          icon: Icons.groups_rounded,
+          actionLabel: actionLabel,
+          onAction: onAction,
         ),
       ),
     );
@@ -227,11 +190,6 @@ class _DataPulseBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    return StatusBadge(
-      label: context.l10n.groupsLiveUpper,
-      bgColor: colors.appBackground,
-      textColor: colors.success,
-    );
+    return const StatusBadge.online();
   }
 }

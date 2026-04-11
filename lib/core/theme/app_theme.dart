@@ -30,10 +30,10 @@ abstract final class AppTheme {
         ColorScheme.fromSeed(
           seedColor: semanticColors.buttonPrimaryBackground,
           brightness: brightness,
-          surface: semanticColors.elevatedBackground,
+          surface: semanticColors.cardSurface,
         ).copyWith(
           primary: semanticColors.buttonPrimaryBackground,
-          secondary: semanticColors.accentGold,
+          secondary: semanticColors.accent,
           error: semanticColors.danger,
           onPrimary: semanticColors.accentForeground,
           onSurface: semanticColors.primaryText,
@@ -80,7 +80,6 @@ abstract final class AppTheme {
       checkboxTheme: AppThemeComponents.checkbox(semanticColors),
       radioTheme: AppThemeComponents.radio(semanticColors),
 
-      // ── Branded page transition (Fade + Scale, 300ms) ───────────────
       pageTransitionsTheme: PageTransitionsTheme(
         builders: {
           for (final platform in TargetPlatform.values)
@@ -118,12 +117,7 @@ class _CoolPageTransitionsBuilder extends PageTransitionsBuilder {
   ) {
     return FadeTransition(
       opacity: CurveTween(curve: Curves.easeOut).animate(animation),
-      child: ScaleTransition(
-        scale: Tween<double>(begin: 0.98, end: 1.0).animate(
-          CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
-        ),
-        child: child,
-      ),
+      child: child,
     );
   }
 }

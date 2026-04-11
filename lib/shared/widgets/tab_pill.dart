@@ -32,26 +32,25 @@ class TabPill extends StatelessWidget {
           child: AnimatedContainer(
             duration: CoolMotion.quick,
             curve: CoolMotion.enterCurve,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: isActive ? activeBackground : inactiveBackground,
               borderRadius: BorderRadius.circular(CoolRadii.pill),
-              border: isActive
-                  ? Border.all(
-                      color: colors.borderStrong.withValues(alpha: 0.28),
-                    )
-                  : null,
+              border: Border.all(
+                color: isActive
+                    ? colors.accent.withValues(alpha: 0.24)
+                    : colors.border,
+              ),
               boxShadow: isActive
-                  ? CoolShadows.ambientFloat(strength: 0.18)
+                  ? CoolShadows.primary(strength: 0.4)
                   : const <BoxShadow>[],
             ),
             child: Text(
               label,
               textAlign: TextAlign.center,
               style: theme.textTheme.labelLarge?.copyWith(
-                fontWeight: isActive ? FontWeight.w800 : FontWeight.w700,
+                fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
                 color: isActive ? colors.primaryText : colors.secondaryText,
-                letterSpacing: 0.8,
               ),
             ),
           ),

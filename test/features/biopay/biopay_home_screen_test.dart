@@ -59,10 +59,9 @@ void main() {
 
     expect(find.text('Face ID Setup'), findsOneWidget);
     expect(find.text('Link your face\nto your MoMo.'), findsOneWidget);
-    expect(find.text('NUMBER'), findsOneWidget);
-    expect(find.text('CODE'), findsOneWidget);
-    expect(find.text('MOMO NUMBER'), findsOneWidget);
-    expect(find.text('Merchant Code'), findsNothing);
+    expect(find.text('Number'), findsOneWidget);
+    expect(find.text('Code'), findsOneWidget);
+    expect(find.byType(TextField), findsOneWidget);
     expect(
       find.text('BioPay face model is not bundled in this build yet.'),
       findsOneWidget,

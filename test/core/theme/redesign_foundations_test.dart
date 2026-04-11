@@ -50,21 +50,23 @@ void main() {
       );
     });
 
-    testWidgets('typography constants enforce the current weight tiers', (
+    testWidgets('typography constants enforce the minimalist type scale', (
       tester,
     ) async {
-      expect(AppThemeText.displayLarge, greaterThanOrEqualTo(56));
-      expect(AppThemeText.headlineMedium, greaterThanOrEqualTo(30));
-      expect(AppThemeText.bodySmall, greaterThanOrEqualTo(15));
-      expect(AppThemeText.labelSmall, greaterThanOrEqualTo(14));
+      expect(AppThemeText.displayLarge, 40.0);
+      expect(AppThemeText.headlineMedium, 20.0);
+      expect(AppThemeText.bodySmall, 14.0);
+      expect(AppThemeText.labelSmall, 14.0);
       expect(
         AppThemeText.medium.index,
         greaterThanOrEqualTo(FontWeight.w500.index),
       );
       expect(
         AppThemeText.semibold.index,
-        greaterThanOrEqualTo(FontWeight.w700.index),
+        greaterThanOrEqualTo(FontWeight.w600.index),
       );
+      expect(AppThemeText.bold, FontWeight.w700);
+      expect(AppThemeText.bold.index, lessThanOrEqualTo(FontWeight.w700.index));
     });
   });
 }

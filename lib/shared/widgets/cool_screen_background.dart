@@ -3,10 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/cool_foundations.dart';
 
-/// Universal screen background for the Tactile Monolith design system.
-///
-/// Renders the atmospheric blurred-blob layer + mobi-grid (24px crosshatch
-/// at white/8%) behind all content, then applies brand-aware radial glows.
+/// Universal screen background for the minimalist app surfaces.
 ///
 /// Every screen in the app uses this widget, either directly or via one of the
 /// scaffold wrappers ([CoreTabRootScaffold], [CoreDetailScaffold], etc.).
@@ -30,70 +27,36 @@ class CoolScreenBackground extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.coolSemanticColors;
-    
+    final base = DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: <Color>[colors.elevatedBackground, colors.appBackground],
+        ),
+      ),
+      child: child,
+    );
+
     if (!showGlow) {
-      return DecoratedBox(
-        decoration: BoxDecoration(color: colors.appBackground),
-        child: child,
-      );
+      return base;
     }
 
     return Stack(
       fit: StackFit.expand,
       children: [
-        // ── Base color ──────────────────────────────────────────
-        DecoratedBox(
-          decoration: BoxDecoration(color: colors.appBackground),
-        ),
-        
-        // ── Top linear shadow fade ──────────────────────────────
-        ExcludeSemantics(
-          child: IgnorePointer(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: <Color>[
-                    colors.shadowColor,
-                    colors.appBackground,
-                    colors.appBackground,
-                  ],
-                  stops: const <double>[0.0, 0.32, 1.0],
-                ),
-              ),
-            ),
-          ),
-        ),
-
-        // ── Primary glow (top-left) ─────────────────────────────
+        base,
         ExcludeSemantics(
           child: IgnorePointer(
             child: DecoratedBox(
               decoration: BoxDecoration(
                 gradient: RadialGradient(
-                  center: const Alignment(-0.15, -0.9),
-                  radius: 0.95,
-                  colors: <Color>[
-                    (primaryColor ?? colors.accentStrong).withValues(alpha: 0.26),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-
-        // ── Secondary glow (top-right) ──────────────────────────
-        ExcludeSemantics(
-          child: IgnorePointer(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: RadialGradient(
-                  center: const Alignment(1.15, -0.4),
+                  center: const Alignment(-0.25, -0.95),
                   radius: 0.9,
                   colors: <Color>[
-                    (secondaryColor ?? colors.accent).withValues(alpha: 0.10),
+                    (primaryColor ?? colors.accentStrong).withValues(
+                      alpha: 0.06,
+                    ),
                     Colors.transparent,
                   ],
                 ),
@@ -101,9 +64,22 @@ class CoolScreenBackground extends ConsumerWidget {
             ),
           ),
         ),
-
-        // ── Content ─────────────────────────────────────────────
-        child,
+        ExcludeSemantics(
+          child: IgnorePointer(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: RadialGradient(
+                  center: const Alignment(1.2, -0.8),
+                  radius: 0.75,
+                  colors: <Color>[
+                    (secondaryColor ?? colors.accent).withValues(alpha: 0.04),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

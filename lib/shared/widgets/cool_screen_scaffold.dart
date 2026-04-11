@@ -67,7 +67,7 @@ class CoolScreenScaffold extends StatelessWidget {
                               header: true,
                               child: Text(
                                 title!,
-                                style: theme.textTheme.displayMedium?.copyWith(
+                                style: theme.textTheme.headlineLarge?.copyWith(
                                   color: colors.primaryText,
                                 ),
                               ),

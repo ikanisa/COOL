@@ -22,7 +22,7 @@ class CoolFloatingHeaderSliver extends StatelessWidget {
       automaticallyImplyLeading: automaticallyImplyLeading,
       backgroundColor: Colors.transparent,
       elevation: 0,
-      toolbarHeight: 84,
+      toolbarHeight: 68,
       floating: true,
       snap: true,
       flexibleSpace: const CoolGlassHeaderSurface(),

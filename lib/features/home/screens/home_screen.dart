@@ -77,7 +77,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       avatarUrl: user?.avatarUrl,
                       onNotificationsTap: () => context.push(AppRoutes.profile),
                     ),
-                    const SizedBox(height: CoolSpace.x7),
+                    const SizedBox(height: CoolSpace.x6),
                     HomeSavingsHeroCard(
                       totalSavingsRwf: dashboard?.totalBalance ?? 0,
                       monthlyNetChange: dashboard?.monthlyNetChange,
@@ -86,7 +86,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                     const SizedBox(height: CoolSpace.x6),
                     const HomeQuickServices(),
-                    const SizedBox(height: CoolSpace.x8),
+                    const SizedBox(height: CoolSpace.x6),
                     HomeCommunitiesSection(
                       groups: groups,
                       isLoading: groupsAsync.isLoading,
@@ -98,7 +98,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       onQuickContribution: (group) =>
                           openCommunityContribution(context, group),
                     ),
-                    const SizedBox(height: CoolSpace.x8),
+                    const SizedBox(height: CoolSpace.x6),
                     HomeOperationsSection(
                       transactions: dashboard?.recentTransactions ?? const [],
                       isLoading: dashboardAsync.isLoading,

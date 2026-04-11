@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 
 import 'cool_foundations.dart';
 
-/// Typography constants and [TextTheme] builder — Tactile Monolith system.
+/// Typography constants and [TextTheme] builder for the minimalist mobile UI.
 ///
 /// Font stack:
-/// - **Space Grotesk** — Display/Headline (bold geometric, w700–w800, stamped authority)
-/// - **Manrope** — Title/Body (premium editorial, geometric, w500–w800)
-/// - **Inter** — Label (utility clarity, w500–w700)
-/// - **DM Mono** — Values, IDs, aliases (via CoolTextStyles.mono/mobiLabel/mobiValue)
+/// - **Manrope** — Display, headings, titles, and body copy
+/// - **Inter** — Labels, utility text, and controls
+/// - **DM Mono** — Numeric/technical values when a fixed-width rhythm helps
 abstract final class AppThemeText {
   static final String displayFontFamily =
-      GoogleFonts.spaceGrotesk().fontFamily ?? 'Space Grotesk';
+      GoogleFonts.manrope().fontFamily ?? 'Manrope';
   static final String bodyFontFamily =
       GoogleFonts.manrope().fontFamily ?? 'Manrope';
   static final String labelFontFamily =
@@ -20,99 +19,90 @@ abstract final class AppThemeText {
   static final String monoFontFamily =
       GoogleFonts.dmMono().fontFamily ?? 'DM Mono';
 
-  // ── Weight aliases (optimised 3-tier: w800/w700/w500) ──────────────
-  static const black = FontWeight.w800; // Capped: max weight is w800 (Bold)
-  static const extraBold = FontWeight.w800;
-  static const bold = FontWeight.w800;
-  static const semibold = FontWeight.w700;
+  static const black = FontWeight.w700;
+  static const extraBold = FontWeight.w700;
+  static const bold = FontWeight.w700;
+  static const semibold = FontWeight.w600;
   static const medium = FontWeight.w500;
   static const regular = FontWeight.w500;
 
-  // ── Named sizes (Space Grotesk × Inter scale) ──────────────────────────
-  static const displayLarge = 60.0; // Space Grotesk
-  static const displayMedium = 52.0; // Space Grotesk
-  static const displaySmall = 44.0; // Space Grotesk
-  static const headlineLarge = 38.0;
-  static const headlineMedium = 32.0;
-  static const headlineSmall = 24.0;
+  static const displayLarge = 40.0;
+  static const displayMedium = 34.0;
+  static const displaySmall = 28.0;
+  static const headlineLarge = 24.0;
+  static const headlineMedium = 20.0;
+  static const headlineSmall = 18.0;
   static const titleLarge = 18.0;
   static const titleMedium = 16.0;
   static const titleSmall = 14.0;
   static const bodyLarge = 16.0;
   static const bodyMedium = 14.0;
-  static const bodySmall = 15.0;
+  static const bodySmall = 14.0;
   static const labelLarge = 14.0;
   static const labelMedium = 14.0;
   static const labelSmall = 14.0;
 
-  /// Display/Headline → Space Grotesk (w800, bold geometric authority)
-  /// Title → Manrope (w500–w700, premium editorial)
-  /// Body → Manrope (w500, readable geometric)
-  /// Label → Inter (w700, compact utility)
   static TextTheme build({
     required Brightness brightness,
     required CoolSemanticColors semanticColors,
   }) {
     final base = ThemeData(brightness: brightness);
     final baseText = base.textTheme;
-    final displayText = GoogleFonts.spaceGroteskTextTheme(baseText);
+    final displayText = GoogleFonts.manropeTextTheme(baseText);
     final bodyText = GoogleFonts.manropeTextTheme(baseText);
     final labelText = GoogleFonts.interTextTheme(baseText);
 
     return baseText.copyWith(
-      // ── Display (Space Grotesk — bold geometric hero) ───────────────
       displayLarge: displayText.displayLarge?.copyWith(
         fontSize: AppThemeText.displayLarge,
         fontWeight: extraBold,
         color: semanticColors.primaryText,
-        letterSpacing: -2.4, // -0.04em at 60px
-        height: 0.96,
+        letterSpacing: -1.2,
+        height: 1.0,
       ),
       displayMedium: displayText.displayMedium?.copyWith(
         fontSize: AppThemeText.displayMedium,
         fontWeight: extraBold,
         color: semanticColors.primaryText,
-        letterSpacing: -2.1, // -0.04em at 52px
-        height: 1.0,
+        letterSpacing: -0.9,
+        height: 1.02,
       ),
       displaySmall: displayText.displaySmall?.copyWith(
         fontSize: AppThemeText.displaySmall,
-        fontWeight: extraBold,
+        fontWeight: bold,
         color: semanticColors.primaryText,
-        letterSpacing: -1.76, // -0.04em at 44px
+        letterSpacing: -0.6,
         height: 1.05,
       ),
 
-      // ── Headline (Space Grotesk — section authority) ─────────────────
       headlineLarge: displayText.headlineLarge?.copyWith(
         fontSize: AppThemeText.headlineLarge,
-        fontWeight: extraBold,
+        fontWeight: bold,
         color: semanticColors.primaryText,
-        letterSpacing: -1.52, // -0.04em at 38px
-        height: 1.08,
+        letterSpacing: -0.4,
+        height: 1.12,
       ),
       headlineMedium: displayText.headlineMedium?.copyWith(
         fontSize: AppThemeText.headlineMedium,
-        fontWeight: extraBold,
+        fontWeight: semibold,
         color: semanticColors.primaryText,
-        letterSpacing: -1.28, // -0.04em at 32px
-        height: 1.1,
+        letterSpacing: -0.2,
+        height: 1.2,
       ),
       headlineSmall: displayText.headlineSmall?.copyWith(
         fontSize: AppThemeText.headlineSmall,
-        fontWeight: bold,
+        fontWeight: semibold,
         color: semanticColors.primaryText,
-        letterSpacing: -1.2, // -0.05em at 24px
-        height: 1.15,
+        letterSpacing: -0.1,
+        height: 1.22,
       ),
 
-      // ── Title (Manrope — premium editorial hierarchy) ──────────────
       titleLarge: bodyText.titleLarge?.copyWith(
         fontSize: AppThemeText.titleLarge,
         fontWeight: semibold,
         color: semanticColors.primaryText,
-        letterSpacing: -0.2,
-        height: 1.3,
+        letterSpacing: -0.1,
+        height: 1.28,
       ),
       titleMedium: bodyText.titleMedium?.copyWith(
         fontSize: AppThemeText.titleMedium,
@@ -127,27 +117,25 @@ abstract final class AppThemeText {
         height: 1.3,
       ),
 
-      // ── Body (Manrope — readable geometric content) ─────────────────
       bodyLarge: bodyText.bodyLarge?.copyWith(
         fontSize: AppThemeText.bodyLarge,
         fontWeight: regular,
         color: semanticColors.primaryText,
-        height: 1.5,
+        height: 1.45,
       ),
       bodyMedium: bodyText.bodyMedium?.copyWith(
         fontSize: AppThemeText.bodyMedium,
         fontWeight: medium,
         color: semanticColors.primaryText,
-        height: 1.5,
+        height: 1.45,
       ),
       bodySmall: bodyText.bodySmall?.copyWith(
         fontSize: AppThemeText.bodySmall,
         fontWeight: regular,
         color: semanticColors.secondaryText,
-        height: 1.5,
+        height: 1.4,
       ),
 
-      // ── Label (Inter — compact metadata) ────────────────────────────
       labelLarge: labelText.labelLarge?.copyWith(
         fontSize: AppThemeText.labelLarge,
         fontWeight: semibold,
@@ -162,9 +150,9 @@ abstract final class AppThemeText {
       ),
       labelSmall: labelText.labelSmall?.copyWith(
         fontSize: AppThemeText.labelSmall,
-        fontWeight: semibold,
+        fontWeight: medium,
         color: semanticColors.secondaryText,
-        letterSpacing: 1.0, // wide tracking for mobi-label
+        letterSpacing: 0.0,
         height: 1.2,
       ),
     );
