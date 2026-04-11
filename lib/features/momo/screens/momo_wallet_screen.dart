@@ -161,14 +161,14 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
         'WALLET',
         style: context.coolText.displayCondensed(
           Theme.of(context).textTheme.headlineSmall,
-          fontWeight: FontWeight.w900,
+          fontWeight: FontWeight.w700,
         ),
       ),
       subtitle: Text(
         'M-MONEY HISTORY',
         style: context.coolText.mono(
           Theme.of(context).textTheme.labelSmall,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
           color: colors.secondaryText,
           letterSpacing: 1.0,
         ),
@@ -321,7 +321,7 @@ class _WalletTransactionTile extends StatelessWidget {
                   entry.label,
                   style: context.coolText.mono(
                     Theme.of(context).textTheme.titleSmall,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                     color: colors.primaryText,
                     letterSpacing: 0.5,
                   ),
@@ -333,7 +333,7 @@ class _WalletTransactionTile extends StatelessWidget {
                   _buildSubtitle(),
                   style: context.coolText.mono(
                     Theme.of(context).textTheme.labelSmall,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                     color: colors.secondaryText,
                     letterSpacing: 0.5,
                   ),
@@ -346,7 +346,7 @@ class _WalletTransactionTile extends StatelessWidget {
                     'Ref: ${entry.reference}',
                     style: context.coolText.mono(
                       Theme.of(context).textTheme.labelSmall,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w400,
                       color: colors.tertiaryText,
                       letterSpacing: 0.3,
                     ),
@@ -367,7 +367,7 @@ class _WalletTransactionTile extends StatelessWidget {
                 '$amountPrefix${entry.amount} ${entry.currency}',
                 style: context.coolText.mono(
                   Theme.of(context).textTheme.titleSmall,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w700,
                   color: amountColor,
                   letterSpacing: 0.5,
                 ),
@@ -431,7 +431,7 @@ class _EmptyState extends StatelessWidget {
             'NO TRANSACTIONS YET',
             style: context.coolText.displayCondensed(
               Theme.of(context).textTheme.titleLarge,
-              fontWeight: FontWeight.w900,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: CoolSpace.x2),
@@ -440,7 +440,7 @@ class _EmptyState extends StatelessWidget {
             textAlign: TextAlign.center,
             style: context.coolText.mono(
               Theme.of(context).textTheme.bodySmall,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w400,
               color: colors.secondaryText,
               height: 1.5,
             ),
@@ -470,7 +470,7 @@ class _ErrorState extends StatelessWidget {
         message,
         style: context.coolText.mono(
           Theme.of(context).textTheme.bodyMedium,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w400,
           color: colors.secondaryText,
         ),
       ),

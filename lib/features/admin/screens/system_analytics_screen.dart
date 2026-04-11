@@ -37,7 +37,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
       title: Text(
         'System Analytics',
         style: theme.textTheme.headlineMedium?.copyWith(
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w700,
           height: 1.1,
         ),
       ),
@@ -45,7 +45,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
         'Platform health, growth, and audit volume',
         style: theme.textTheme.bodySmall?.copyWith(
           color: context.coolSemanticColors.secondaryText,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
         ),
       ),
       child: CoolAsyncView<Map<String, dynamic>>(
@@ -258,14 +258,14 @@ class _MetricGrid extends StatelessWidget {
                         Text(
                           m.value,
                           style: theme.textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w700,
                             color: colors.primaryText,
                           ),
                         ),
                         Text(
                           m.label,
                           style: theme.textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w400,
                             color: colors.tertiaryText,
                           ),
                           maxLines: 1,
@@ -301,7 +301,7 @@ class _DistributionCard extends StatelessWidget {
           emptyLabel,
           style: theme.textTheme.bodyMedium?.copyWith(
             color: colors.tertiaryText,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w400,
           ),
         ),
       );
@@ -323,7 +323,7 @@ class _DistributionCard extends StatelessWidget {
                   child: Text(
                     entry.key,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                       color: colors.primaryText,
                     ),
                   ),
@@ -331,7 +331,7 @@ class _DistributionCard extends StatelessWidget {
                 Text(
                   '${entry.value}',
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                     color: colors.primaryText,
                   ),
                 ),

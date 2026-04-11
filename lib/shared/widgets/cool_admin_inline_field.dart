@@ -86,7 +86,7 @@ class _CoolAdminInlineFieldState extends State<CoolAdminInlineField> {
           child: Text(
             widget.label,
             style: theme.textTheme.labelSmall?.copyWith(
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
               color: _isFocused ? colors.accent : colors.secondaryText,
               letterSpacing: 0.3,
             ),
@@ -122,7 +122,7 @@ class _CoolAdminInlineFieldState extends State<CoolAdminInlineField> {
                       maxLines: widget.maxLines,
                       onChanged: widget.onChanged,
                       style: theme.textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w400,
                         color: colors.primaryText,
                       ),
                       cursorColor: colors.accent,

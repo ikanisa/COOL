@@ -34,7 +34,7 @@ class ManageAdminRolesScreen extends ConsumerWidget {
       title: Text(
         'Admin Roles',
         style: theme.textTheme.headlineMedium?.copyWith(
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w700,
           height: 1.1,
         ),
       ),
@@ -42,7 +42,7 @@ class ManageAdminRolesScreen extends ConsumerWidget {
         'Assign and revoke access',
         style: theme.textTheme.bodySmall?.copyWith(
           color: context.coolSemanticColors.tertiaryText,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w400,
         ),
       ),
       floatingActionButton: Semantics(

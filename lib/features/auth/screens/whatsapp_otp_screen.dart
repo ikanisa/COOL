@@ -188,7 +188,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
           textAlign: TextAlign.center,
           style: context.coolText.displayCondensed(
             Theme.of(context).textTheme.headlineMedium,
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.w700,
             color: colors.primaryText,
             letterSpacing: -0.5,
           ),
@@ -202,7 +202,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
           style: context.coolText.mono(
             Theme.of(context).textTheme.bodySmall,
             color: colors.accent,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w400,
           ),
         ),
 
@@ -239,7 +239,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                     style: context.coolText.mono(
                       Theme.of(context).textTheme.bodyLarge,
                       color: colors.primaryText,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(width: 4),
@@ -273,7 +273,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                   style: context.coolText.mono(
                     Theme.of(context).textTheme.bodyLarge,
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     letterSpacing: 2.0,
                   ),
                   decoration: InputDecoration(
@@ -335,7 +335,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
           'Verify OTP',
           style: context.coolText.displayCondensed(
             Theme.of(context).textTheme.headlineMedium,
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.w700,
             color: colors.primaryText,
             letterSpacing: -0.5,
           ),
@@ -349,7 +349,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
             style: context.coolText.mono(
               Theme.of(context).textTheme.bodySmall,
               color: colors.accent,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w400,
             ),
             children: [
               const TextSpan(
@@ -360,7 +360,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                 style: context.coolText.mono(
                   null,
                   color: colors.primaryText,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               const TextSpan(text: '.'),
@@ -397,7 +397,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                   maxLength: 1,
                   style: context.coolText.displayCondensed(
                     Theme.of(context).textTheme.headlineSmall,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w700,
                     color: colors.primaryText,
                   ),
                   decoration: const InputDecoration(

@@ -135,7 +135,7 @@ class BalanceCard extends StatelessWidget {
                             Text(
                               title.toUpperCase(),
                               style: theme.textTheme.labelSmall?.copyWith(
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w600,
                                 letterSpacing: 1.1,
                                 color: colors.secondaryText,
                               ),
@@ -144,7 +144,7 @@ class BalanceCard extends StatelessWidget {
                             Text(
                               subtitle,
                               style: theme.textTheme.bodySmall?.copyWith(
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w600,
                                 color: colors.secondaryText,
                                 height: 1.35,
                               ),
@@ -174,7 +174,7 @@ class BalanceCard extends StatelessWidget {
                     currency,
                     style: text.mono(
                       theme.textTheme.labelSmall,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                       color: colors.tertiaryText,
                     ),
                   ),
@@ -186,7 +186,7 @@ class BalanceCard extends StatelessWidget {
                     style: text.mono(
                       theme.textTheme.headlineMedium,
                       color: colors.primaryText,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w700,
                       height: 1.08,
                     ),
                   ),
@@ -340,7 +340,7 @@ class _BalanceActionButton extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: context.coolText.mono(
                         theme.textTheme.labelSmall,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
                         color: foregroundColor,
                         letterSpacing: 0.8,
                       ),
@@ -375,7 +375,7 @@ class _MetricTile extends StatelessWidget {
           Text(
             metric.label.toUpperCase(),
             style: theme.textTheme.labelSmall?.copyWith(
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
               letterSpacing: 0.9,
               color: colors.secondaryText,
             ),
@@ -385,7 +385,7 @@ class _MetricTile extends StatelessWidget {
             metric.value,
             style: text.mono(
               theme.textTheme.labelLarge,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
               color: accent,
             ),
           ),
@@ -428,7 +428,7 @@ class _TrustPill extends StatelessWidget {
           Text(
             label,
             style: theme.textTheme.labelSmall?.copyWith(
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
               color: foregroundColor,
             ),
           ),

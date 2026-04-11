@@ -136,7 +136,7 @@ class _CoolSearchFieldState extends State<CoolSearchField> {
           onSubmitted: widget.onSubmitted,
           style: theme.textTheme.bodyMedium?.copyWith(
             color: colors.primaryText,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w400,
           ),
           cursorColor: colors.accent,
           decoration: InputDecoration(

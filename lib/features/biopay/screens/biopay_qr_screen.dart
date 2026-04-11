@@ -99,7 +99,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
               style: context.coolText.headline(
                 Theme.of(context).textTheme.displaySmall,
                 color: colors.primaryText,
-                fontWeight: FontWeight.w900,
+                fontWeight: FontWeight.w700,
                 letterSpacing: -1.4,
               ),
               decoration: InputDecoration(
@@ -123,7 +123,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                   style: context.coolText.headline(
                     Theme.of(context).textTheme.headlineMedium,
                     color: colors.tertiaryText,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w700,
                     letterSpacing: -1.0,
                   ),
                 ),
@@ -134,7 +134,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                     style: context.coolText.headline(
                       Theme.of(context).textTheme.displaySmall,
                       color: colors.primaryText,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: -1.4,
                     ),
                     decoration: InputDecoration(
@@ -250,7 +250,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                 style: context.coolText.headline(
                   Theme.of(context).textTheme.headlineSmall,
                   color: colors.primaryText,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               const SizedBox(height: CoolSpace.x4),
@@ -284,7 +284,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                 style: context.coolText.headline(
                   Theme.of(context).textTheme.titleLarge,
                   color: colors.primaryText,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               if (amount != null && amount > 0) ...[
@@ -294,7 +294,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                   style: context.coolText.headline(
                     Theme.of(context).textTheme.titleMedium,
                     color: colors.accent,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ],
@@ -317,7 +317,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                     style: context.coolText.mono(
                       Theme.of(context).textTheme.labelLarge,
                       color: colors.secondaryText,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: 1.5,
                     ),
                   ),

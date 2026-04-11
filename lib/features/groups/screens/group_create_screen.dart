@@ -377,7 +377,7 @@ class _MomoRouteCard extends StatelessWidget {
                     style: text
                         .mobiLabel(color: colors.primaryText)
                         .copyWith(
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w600,
                           letterSpacing: 0.5,
                         ),
                   ),
@@ -442,9 +442,9 @@ class _MomoRouteCard extends StatelessWidget {
                   style: text
                       .mobiLabel(color: colors.tertiaryText)
                       .copyWith(
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                         letterSpacing: 1.6,
-                        fontSize: 11,
+                        fontSize: 14,
                       ),
                 ),
                 SizedBox(height: space.x2),
@@ -456,7 +456,7 @@ class _MomoRouteCard extends StatelessWidget {
                   style: text.display(
                     Theme.of(context).textTheme.headlineSmall,
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w700,
                     letterSpacing: -0.5,
                   ),
                   decoration: InputDecoration(
@@ -466,7 +466,7 @@ class _MomoRouteCard extends StatelessWidget {
                     hintStyle: text.display(
                       Theme.of(context).textTheme.headlineSmall,
                       color: colors.tertiaryText,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: -0.5,
                     ),
                     border: InputBorder.none,

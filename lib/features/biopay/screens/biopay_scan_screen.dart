@@ -465,7 +465,7 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
 
             // Clean centered loading state during camera initialization
             if (_isInitializingCamera)
-              const Positioned.fill(
+              Positioned.fill(
                 child: ColoredBox(
                   color: Colors.black,
                   child: Center(
@@ -488,7 +488,7 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
                           style: context.coolText.manrope(
                             null,
                             color: Colors.white54,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w400,
                             letterSpacing: 0.3,
                           ),
                         ),

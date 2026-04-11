@@ -42,14 +42,14 @@ class _ManualReviewSectionState extends ConsumerState<_ManualReviewSection> {
           'Close manual review?',
           style: theme.textTheme.titleLarge?.copyWith(
             color: colors.primaryText,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w700,
           ),
         ),
         content: Text(
           'This will mark the SMS reconciliation review as not app-linked while keeping the wallet history intact.',
           style: theme.textTheme.bodyMedium?.copyWith(
             color: colors.secondaryText,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w400,
           ),
         ),
         actions: [
@@ -108,14 +108,14 @@ class _ManualReviewSectionState extends ConsumerState<_ManualReviewSection> {
           'Close ${rows.length} reviews?',
           style: theme.textTheme.titleLarge?.copyWith(
             color: colors.primaryText,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w700,
           ),
         ),
         content: Text(
           'This bulk action closes the visible manual reviews as not app-linked. Wallet statements will remain available.',
           style: theme.textTheme.bodyMedium?.copyWith(
             color: colors.secondaryText,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w400,
           ),
         ),
         actions: [
@@ -214,7 +214,7 @@ class _ManualReviewSectionState extends ConsumerState<_ManualReviewSection> {
                     selectedColor: colors.accent.withValues(alpha: 0.16),
                     labelStyle: theme.textTheme.labelLarge?.copyWith(
                       color: selected ? colors.accent : colors.secondaryText,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                     ),
                     side: BorderSide(
                       color: selected ? colors.accent : colors.border,
@@ -279,7 +279,7 @@ class _ManualReviewSectionState extends ConsumerState<_ManualReviewSection> {
                         Text(
                           '${visibleRows.length}/$totalCount shown',
                           style: theme.textTheme.labelSmall?.copyWith(
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w400,
                             color: colors.tertiaryText,
                           ),
                         ),

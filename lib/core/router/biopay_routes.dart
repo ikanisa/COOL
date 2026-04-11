@@ -4,6 +4,7 @@ import '../../features/biopay/models/biopay_enrollment_draft.dart';
 import '../../features/biopay/screens/biopay_enrollment_success_screen.dart';
 import '../../features/biopay/screens/biopay_home_screen.dart';
 import '../../features/biopay/screens/biopay_nfc_screen.dart';
+import '../../features/biopay/screens/biopay_nfc_tap_screen.dart';
 
 import '../../features/biopay/screens/biopay_qr_screen.dart';
 import '../../features/biopay/screens/biopay_register_screen.dart';
@@ -13,7 +14,7 @@ import '../../shared/widgets/secure_screen_wrapper.dart';
 import 'app_routes.dart';
 import 'cool_page_transition.dart';
 
-/// BioPay route list (4 routes: home, register, scan, nfc).
+/// BioPay route list (5 routes: home, register, scan, nfc, nfc-tap).
 /// All routes are gated through the KillSwitchGate feature flag config.
 List<GoRoute> biopayRoutes({
   required CoolPageBuilder coolPageTransition,
@@ -96,6 +97,20 @@ List<GoRoute> biopayRoutes({
             enabled: readIsBiopayEnabled(),
             featureName: 'BioPay',
             child: const SecureScreenWrapper(child: BiopayNfcScreen()),
+          ),
+        );
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.biopayNfcTap,
+      pageBuilder: (context, state) {
+        return coolPageTransition(
+          context: context,
+          state: state,
+          child: KillSwitchGate(
+            enabled: readIsBiopayEnabled(),
+            featureName: 'BioPay',
+            child: const SecureScreenWrapper(child: BiopayNfcTapScreen()),
           ),
         );
       },

@@ -46,7 +46,7 @@ class ReferralBanner extends ConsumerWidget {
                   Text(
                     title,
                     style: theme.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w700,
                       color: colors.primaryText,
                     ),
                   ),

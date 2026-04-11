@@ -177,7 +177,7 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
         'STATEMENTS',
         style: context.coolText.displayCondensed(
           Theme.of(context).textTheme.headlineSmall,
-          fontWeight: FontWeight.w900,
+          fontWeight: FontWeight.w700,
         ),
       ),
       subtitle: Text(
@@ -188,7 +188,7 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
         ),
         style: context.coolText.mono(
           Theme.of(context).textTheme.labelSmall,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
           color: colors.secondaryText,
           letterSpacing: 1.0,
         ),
@@ -350,7 +350,7 @@ class _EmptyState extends StatelessWidget {
             'NO TRANSACTIONS YET',
             style: context.coolText.displayCondensed(
               Theme.of(context).textTheme.titleLarge,
-              fontWeight: FontWeight.w900,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: CoolSpace.x2),
@@ -359,7 +359,7 @@ class _EmptyState extends StatelessWidget {
             textAlign: TextAlign.center,
             style: context.coolText.mono(
               Theme.of(context).textTheme.bodySmall,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w400,
               color: colors.secondaryText,
               height: 1.5,
             ),
@@ -413,7 +413,7 @@ class _ErrorState extends StatelessWidget {
         message,
         style: context.coolText.mono(
           Theme.of(context).textTheme.bodyMedium,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w400,
           color: colors.secondaryText,
         ),
       ),
@@ -472,7 +472,7 @@ class _StatementTile extends StatelessWidget {
                       entry.label,
                       style: context.coolText.mono(
                         Theme.of(context).textTheme.titleSmall,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
                         color: colors.primaryText,
                         letterSpacing: 0.5,
                       ),
@@ -484,7 +484,7 @@ class _StatementTile extends StatelessWidget {
                       '${entry.payerName} • ${formatTransactionDate(entry.occurredAt)}',
                       style: context.coolText.mono(
                         Theme.of(context).textTheme.labelSmall,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w400,
                         color: colors.secondaryText,
                         letterSpacing: 0.5,
                       ),
@@ -501,7 +501,7 @@ class _StatementTile extends StatelessWidget {
                     '${entry.amount} ${entry.currency}',
                     style: context.coolText.mono(
                       Theme.of(context).textTheme.titleSmall,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w700,
                       color: colors.accentGold,
                       letterSpacing: 0.5,
                     ),

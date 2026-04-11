@@ -56,7 +56,7 @@ class MissionProgressCard extends StatelessWidget {
                       Text(
                         mission.title,
                         style: textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w700,
                           color: colors.primaryText,
                         ),
                         maxLines: 1,
@@ -106,7 +106,7 @@ class MissionProgressCard extends StatelessWidget {
                       ? 'Completed'
                       : '${(progress * 100).toStringAsFixed(0)}% complete',
                   style: textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     color: isCompleted ? colors.accent : colors.secondaryText,
                   ),
                 ),
@@ -137,7 +137,7 @@ class MissionProgressCard extends StatelessWidget {
                           Text(
                             '${mission.rewardPoints} Points',
                             style: textTheme.labelSmall?.copyWith(
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w600,
                               color: colors.warning,
                             ),
                           ),
@@ -175,7 +175,7 @@ class _TimePill extends StatelessWidget {
         child: Text(
           label,
           style: textTheme.labelSmall?.copyWith(
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w400,
             color: colors.tertiaryText,
           ),
         ),

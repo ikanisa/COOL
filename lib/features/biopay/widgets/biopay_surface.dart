@@ -85,7 +85,7 @@ class BiopayTopBar extends StatelessWidget {
                   style: context.coolText.headline(
                     Theme.of(context).textTheme.headlineSmall,
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                     letterSpacing: -0.6,
                   ),
                 ),
@@ -195,7 +195,7 @@ class BiopaySegmentedControl extends StatelessWidget {
                     color: selected
                         ? colors.accentForeground
                         : colors.secondaryText,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                     letterSpacing: 2.2,
                   ),
                 ),
@@ -307,7 +307,7 @@ class BiopayPrimaryButton extends StatelessWidget {
                             style: context.coolText.headline(
                               Theme.of(context).textTheme.headlineSmall,
                               color: colors.accentForeground,
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w700,
                               letterSpacing: -0.5,
                             ),
                           ),
@@ -335,7 +335,7 @@ class BiopayFieldLabel extends StatelessWidget {
       style: context.coolText.mono(
         Theme.of(context).textTheme.labelMedium,
         color: colors.secondaryText,
-        fontWeight: FontWeight.w800,
+        fontWeight: FontWeight.w700,
         letterSpacing: 2.0,
       ),
     );

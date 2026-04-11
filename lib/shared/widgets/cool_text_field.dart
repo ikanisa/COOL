@@ -100,7 +100,7 @@ class _CoolTextFieldState extends State<CoolTextField> {
             child: Text(
               widget.label!,
               style: theme.textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w700,
                 color: _isFocused
                     ? colors.buttonPrimaryBackground
                     : colors.secondaryText,
@@ -146,7 +146,7 @@ class _CoolTextFieldState extends State<CoolTextField> {
                 enableSuggestions: widget.enableSuggestions,
                 autocorrect: widget.autocorrect,
                 style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w700,
                   color: colors.primaryText,
                 ),
                 cursorColor: colors.buttonPrimaryBackground,

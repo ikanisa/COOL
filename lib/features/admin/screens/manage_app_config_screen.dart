@@ -76,7 +76,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
       title: Text(
         'App Config',
         style: theme.textTheme.displayLarge?.copyWith(
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w700,
           height: 1.1,
         ),
       ),
@@ -84,7 +84,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
         context.l10n.rolloutGovernance,
         style: theme.textTheme.bodySmall?.copyWith(
           color: context.coolSemanticColors.secondaryText,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w400,
         ),
       ),
       floatingActionButton: Semantics(
@@ -150,7 +150,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
                   label: Text(
                     'Add route',
                     style: theme.textTheme.labelLarge?.copyWith(
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),

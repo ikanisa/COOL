@@ -61,7 +61,7 @@ class _AdminGroupsScreenState extends ConsumerState<AdminGroupsScreen> {
               backgroundColor: colors.chipBackground,
               selectedColor: colors.chipSelectedBackground,
               labelStyle: theme.textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
                 color: isSelected ? colors.primaryText : colors.secondaryText,
               ),
               side: BorderSide.none,
@@ -78,7 +78,7 @@ class _AdminGroupsScreenState extends ConsumerState<AdminGroupsScreen> {
       title: Text(
         'Contribution Groups',
         style: theme.textTheme.headlineMedium?.copyWith(
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w700,
           height: 1.1,
         ),
       ),
@@ -86,7 +86,7 @@ class _AdminGroupsScreenState extends ConsumerState<AdminGroupsScreen> {
         'Platform-wide group overview and member counts',
         style: theme.textTheme.bodySmall?.copyWith(
           color: context.coolSemanticColors.secondaryText,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
         ),
       ),
       searchBar: CoolSearchField(
@@ -189,7 +189,7 @@ class _AdminGroupsScreenState extends ConsumerState<AdminGroupsScreen> {
                 Text(
                   '${filtered.length} result${filtered.length == 1 ? '' : 's'}',
                   style: theme.textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                     color: colors.tertiaryText,
                   ),
                 ),
@@ -273,14 +273,14 @@ class _MetricTile extends StatelessWidget {
                 Text(
                   value,
                   style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                     color: colors.primaryText,
                   ),
                 ),
                 Text(
                   label,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                     color: colors.tertiaryText,
                   ),
                   maxLines: 1,
@@ -343,7 +343,7 @@ class _GroupTile extends StatelessWidget {
                     Text(
                       name,
                       style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
                         color: colors.primaryText,
                       ),
                     ),
@@ -355,7 +355,7 @@ class _GroupTile extends StatelessWidget {
                         if (country.isNotEmpty) country,
                       ].join(' · '),
                       style: theme.textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w400,
                         color: colors.tertiaryText,
                       ),
                     ),
@@ -375,7 +375,7 @@ class _GroupTile extends StatelessWidget {
                   status.toUpperCase(),
                   style: context.coolText.mono(
                     theme.textTheme.labelSmall,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                     color: statusColor,
                     letterSpacing: 0.5,
                   ),
@@ -429,7 +429,7 @@ class _StatChip extends StatelessWidget {
         Text(
           label,
           style: theme.textTheme.bodySmall?.copyWith(
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w400,
             color: colors.tertiaryText,
           ),
         ),

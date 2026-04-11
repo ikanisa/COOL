@@ -321,7 +321,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                                     ? 'Invite from Contacts'
                                     : 'Share via Contact'),
                             style: textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w600,
                               color: colors.primaryText,
                             ),
                           ),
@@ -330,7 +330,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                             Text(
                               effectiveSubtitle,
                               style: textTheme.labelSmall?.copyWith(
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w400,
                                 color: colors.tertiaryText,
                               ),
                             ),

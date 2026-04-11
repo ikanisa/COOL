@@ -52,7 +52,7 @@ class _GroupLedgerCard extends StatelessWidget {
                       style: textTheme.display(
                         null,
                         color: colors.primaryText,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -208,7 +208,7 @@ class _GroupLedgerCard extends StatelessWidget {
                     style: textTheme
                         .mobiLabel(color: colors.accentForeground)
                         .copyWith(
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w700,
                           letterSpacing: 1.1,
                         ),
                   ),
@@ -270,7 +270,7 @@ class _InviteBanner extends StatelessWidget {
                   style: text.display(
                     null,
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -350,7 +350,7 @@ class _EmptyGroupsState extends StatelessWidget {
               style: text.display(
                 null,
                 color: colors.primaryText,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
               ),
             ),
             SizedBox(height: space.x2),

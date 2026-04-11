@@ -93,7 +93,7 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
             style: context.coolText.headline(
               Theme.of(context).textTheme.displayMedium,
               color: colors.primaryText,
-              fontWeight: FontWeight.w900,
+              fontWeight: FontWeight.w700,
               letterSpacing: -2.2,
               height: 0.98,
             ),
@@ -364,7 +364,7 @@ class _BiopayInputField extends StatelessWidget {
                 style: context.coolText.headline(
                   Theme.of(context).textTheme.displaySmall,
                   color: colors.primaryText,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w700,
                   letterSpacing: -1.4,
                 ),
                 decoration: InputDecoration(
@@ -384,7 +384,7 @@ class _BiopayInputField extends StatelessWidget {
             style: context.coolText.mono(
               Theme.of(context).textTheme.bodyMedium,
               color: colors.danger,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],
@@ -416,7 +416,7 @@ class _InlineNotice extends StatelessWidget {
         style: context.coolText.mono(
           Theme.of(context).textTheme.bodyMedium,
           color: color,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );

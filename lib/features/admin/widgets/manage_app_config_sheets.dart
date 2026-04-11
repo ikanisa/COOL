@@ -84,7 +84,7 @@ InputDecoration _adminSheetInputDecoration(
     labelText: label,
     labelStyle: theme.textTheme.labelMedium?.copyWith(
       color: colors.secondaryText,
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w600,
     ),
     filled: true,
     fillColor: enabled ? colors.inputSurface : colors.buttonSecondaryBackground,
@@ -102,7 +102,7 @@ TextStyle? _adminSheetFieldStyle(BuildContext context) {
   final colors = context.coolSemanticColors;
   return Theme.of(context).textTheme.bodyMedium?.copyWith(
     color: colors.primaryText,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w600,
   );
 }
 
@@ -110,7 +110,7 @@ TextStyle? _adminSheetTitleStyle(BuildContext context) {
   final colors = context.coolSemanticColors;
   return Theme.of(context).textTheme.titleLarge?.copyWith(
     color: colors.primaryText,
-    fontWeight: FontWeight.w800,
+    fontWeight: FontWeight.w700,
   );
 }
 
@@ -118,7 +118,7 @@ TextStyle? _adminSheetMessageStyle(BuildContext context) {
   final colors = context.coolSemanticColors;
   return Theme.of(context).textTheme.bodySmall?.copyWith(
     color: colors.secondaryText,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w400,
     height: 1.45,
   );
 }
@@ -168,7 +168,7 @@ Widget _adminSheetPrimaryButton(
           : Text(
               label,
               style: theme.textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w700,
                 color: theme.colorScheme.onPrimary,
               ),
             ),
@@ -381,7 +381,7 @@ class _EditPartnerPaymentRouteSheetState
                     : Text(
                         'Delete route',
                         style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
               ),

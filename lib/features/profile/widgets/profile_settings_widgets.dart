@@ -40,7 +40,7 @@ class ProfileSettingsSection extends StatelessWidget {
             child: Text(
               title,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w700,
                 letterSpacing: 0.6,
                 color: colors.secondaryText,
               ),
@@ -147,7 +147,7 @@ class _ProfileFactTile extends StatelessWidget {
               item.label,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                 color: colors.tertiaryText,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 6),
@@ -157,7 +157,7 @@ class _ProfileFactTile extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                 color: item.valueColor ?? colors.primaryText,
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ],
@@ -237,7 +237,7 @@ class ProfileSettingsRow extends StatelessWidget {
                             label,
                             style: Theme.of(context).textTheme.bodyLarge
                                 ?.copyWith(
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w600,
                                   color: resolvedLabelColor,
                                 ),
                           ),
@@ -248,7 +248,7 @@ class ProfileSettingsRow extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w600,
                                   color: resolvedValueColor,
                                   height: 1.4,
                                 ),
@@ -258,7 +258,7 @@ class ProfileSettingsRow extends StatelessWidget {
                     : Text(
                         label,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w600,
                           color: resolvedLabelColor,
                         ),
                       ),
@@ -274,7 +274,7 @@ class ProfileSettingsRow extends StatelessWidget {
                     textAlign: TextAlign.right,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w400,
                       color: resolvedValueColor,
                     ),
                   ),

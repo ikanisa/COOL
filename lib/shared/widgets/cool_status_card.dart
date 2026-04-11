@@ -53,7 +53,7 @@ class CoolStatusCard extends StatelessWidget {
                       Text(
                         'Cool Rewards',
                         style: theme.textTheme.labelSmall?.copyWith(
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w400,
                           color: colors.tertiaryText,
                           letterSpacing: 1.0,
                         ),
@@ -62,7 +62,7 @@ class CoolStatusCard extends StatelessWidget {
                       Text(
                         '${tier.label} Member',
                         style: theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w700,
                           color: colors.primaryText,
                         ),
                       ),
@@ -84,7 +84,7 @@ class CoolStatusCard extends StatelessWidget {
                     '${status.totalPoints} Points',
                     style: text.mono(
                       theme.textTheme.labelMedium,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                       color: tier.color,
                     ),
                   ),
@@ -112,7 +112,7 @@ class CoolStatusCard extends StatelessWidget {
                   Text(
                     '${status.pointsToNextTier} to ${_nextTierLabel(tier)}',
                     style: theme.textTheme.labelSmall?.copyWith(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w400,
                       color: colors.tertiaryText,
                     ),
                   ),
@@ -212,7 +212,7 @@ class _StatPill extends StatelessWidget {
             label,
             style: text.mono(
               theme.textTheme.labelSmall,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w400,
               color: colors.secondaryText,
             ),
           ),

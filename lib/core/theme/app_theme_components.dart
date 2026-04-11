@@ -52,13 +52,13 @@ abstract final class AppThemeComponents {
       showUnselectedLabels: true,
       selectedLabelStyle: TextStyle(
         fontFamily: AppThemeText.labelFontFamily,
-        fontSize: 8,
+        fontSize: 14,
         fontWeight: AppThemeText.semibold,
         letterSpacing: 1.0,
       ),
       unselectedLabelStyle: TextStyle(
         fontFamily: AppThemeText.labelFontFamily,
-        fontSize: 8,
+        fontSize: 14,
         fontWeight: AppThemeText.medium,
         letterSpacing: 1.0,
       ),
@@ -75,7 +75,7 @@ abstract final class AppThemeComponents {
         final isSelected = states.contains(WidgetState.selected);
         return TextStyle(
           fontFamily: AppThemeText.labelFontFamily,
-          fontSize: 8,
+          fontSize: 14,
           fontWeight: isSelected ? AppThemeText.semibold : AppThemeText.medium,
           color: isSelected ? colors.primaryText : colors.secondaryText,
           letterSpacing: 1.0,

@@ -114,14 +114,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             'SETTINGS',
                             style: context.coolText.displayCondensed(
                               Theme.of(context).textTheme.headlineSmall,
-                              fontWeight: FontWeight.w900,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                           Text(
                             'IDENTITY',
                             style: context.coolText.mono(
                               Theme.of(context).textTheme.labelSmall,
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w600,
                               color: colors.secondaryText,
                               letterSpacing: 1.0,
                             ),
@@ -254,7 +254,7 @@ class _SectionLabel extends StatelessWidget {
       label,
       style: context.coolText.mono(
         Theme.of(context).textTheme.labelSmall,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w600,
         color: colors.secondaryText,
         letterSpacing: 2.0,
       ),
@@ -309,7 +309,7 @@ class _SettingsRow extends StatelessWidget {
                     title,
                     style: context.coolText.mono(
                       Theme.of(context).textTheme.titleSmall,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w700,
                       color: textColor,
                       letterSpacing: 0.8,
                     ),
@@ -322,7 +322,7 @@ class _SettingsRow extends StatelessWidget {
                       subtitle!,
                       style: context.coolText.mono(
                         Theme.of(context).textTheme.labelSmall,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w400,
                         color: colors.secondaryText,
                         letterSpacing: 0.8,
                       ),

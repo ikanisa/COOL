@@ -164,7 +164,7 @@ class _ErrorCardScaffold extends StatelessWidget {
                         style: context.coolText.display(
                           null,
                           color: colors.primaryText,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(height: CoolSpace.x3),

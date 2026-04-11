@@ -40,7 +40,7 @@ class AdminFilterRail extends StatelessWidget {
               label: Text(
                 filters[index],
                 style: theme.textTheme.labelSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w400,
                   color: isSelected ? colors.primaryText : colors.secondaryText,
                 ),
               ),

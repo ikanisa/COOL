@@ -140,7 +140,7 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
               Text(
                 'Edit User',
                 style: theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w700,
                   color: colors.primaryText,
                 ),
               ),
@@ -149,7 +149,7 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
                 '$phone · ${userId.substring(0, 8.clamp(0, userId.length))}',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: colors.tertiaryText,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
               const SizedBox(height: CoolSpace.x5),
@@ -164,7 +164,7 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
                       'Platform Admin',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: colors.warning,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -200,7 +200,7 @@ class _FieldLabel extends StatelessWidget {
     return Text(
       text,
       style: theme.textTheme.labelMedium?.copyWith(
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w600,
         color: colors.tertiaryText,
         letterSpacing: 0.4,
       ),
@@ -220,7 +220,7 @@ class _EditInput extends StatelessWidget {
       controller: controller,
       style: theme.textTheme.bodyMedium?.copyWith(
         color: colors.primaryText,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w400,
       ),
       decoration: InputDecoration(
         filled: true,

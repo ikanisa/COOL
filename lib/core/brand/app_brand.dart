@@ -12,6 +12,7 @@ class AppBranding {
     required this.welcomeSubtitle,
     required this.splashTitle,
     required this.logoAssetPath,
+    required this.logoTransparentAssetPath,
     required this.logoSemanticLabel,
     required this.primaryColor,
     required this.secondaryColor,
@@ -26,6 +27,7 @@ class AppBranding {
         welcomeSubtitle: 'Pay, save, and move.',
         splashTitle: 'Cool',
         logoAssetPath: 'assets/images/cool_logo_mark.png',
+        logoTransparentAssetPath: 'assets/images/cool_logo_mark_transparent.png',
         logoSemanticLabel: 'Cool app logo',
         primaryColor: const Color(0xFF6C63FF),
         secondaryColor: const Color(0xFF8982FF),
@@ -38,6 +40,8 @@ class AppBranding {
   final String welcomeSubtitle;
   final String splashTitle;
   final String logoAssetPath;
+  /// Logo on transparent background — for in-app dark surfaces.
+  final String logoTransparentAssetPath;
   final String logoSemanticLabel;
   final Color primaryColor;
   final Color secondaryColor;

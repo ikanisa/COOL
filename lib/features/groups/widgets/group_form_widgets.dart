@@ -103,7 +103,7 @@ class GroupOptionChip extends StatelessWidget {
               .mobiLabel(
                 color: selected ? colors.accentForeground : colors.primaryText,
               )
-              .copyWith(fontWeight: FontWeight.w800, letterSpacing: 1.0),
+              .copyWith(fontWeight: FontWeight.w700, letterSpacing: 1.0),
         ),
       ),
     );
@@ -192,7 +192,7 @@ class GroupSegmentTab extends StatelessWidget {
           style: context.coolText.mono(
             Theme.of(context).textTheme.labelLarge,
             color: selected ? colors.accent : colors.secondaryText,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w700,
             letterSpacing: 2.2,
           ),
         ),

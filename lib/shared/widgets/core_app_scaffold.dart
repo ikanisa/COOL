@@ -74,7 +74,7 @@ class CoreAppScaffold extends StatelessWidget {
               title,
               style: context.coolText.displayCondensed(
                 const TextStyle(fontSize: 32),
-                fontWeight: FontWeight.w900,
+                fontWeight: FontWeight.w700,
                 color: chromeColor,
                 letterSpacing: 0.8,
               ),

@@ -50,7 +50,7 @@ class _BankAdminWorkspaceScreenState
       title: Text(
         'Bank Terminal',
         style: theme.textTheme.headlineMedium?.copyWith(
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w700,
           height: 1.1,
         ),
       ),
@@ -91,7 +91,7 @@ class _BankAdminWorkspaceScreenState
                 '${snapshot.allocations.totalCount == 1 ? '' : 's'}',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: colors.secondaryText,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: CoolSpace.x5),
@@ -173,7 +173,7 @@ class _BankAdminWorkspaceScreenState
                 Text(
                   'Allocate payment',
                   style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                     color: colors.primaryText,
                   ),
                 ),
@@ -182,7 +182,7 @@ class _BankAdminWorkspaceScreenState
                   'Assign this payment to the matched member.',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: colors.secondaryText,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x5),
@@ -253,7 +253,7 @@ class _BankAdminWorkspaceScreenState
                 Text(
                   'Reject allocation',
                   style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                     color: colors.primaryText,
                   ),
                 ),
@@ -262,7 +262,7 @@ class _BankAdminWorkspaceScreenState
                   'This removes the pending allocation.',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: colors.secondaryText,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x5),
@@ -380,7 +380,7 @@ class _TabRow extends StatelessWidget {
               backgroundColor: colors.chipBackground,
               selectedColor: colors.chipSelectedBackground,
               labelStyle: theme.textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
                 color: activeTab == tab
                     ? colors.accentStrong
                     : colors.secondaryText,
@@ -442,7 +442,7 @@ class _OverviewTab extends StatelessWidget {
               Text(
                 group.group.name,
                 style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w700,
                   color: colors.primaryText,
                 ),
               ),
@@ -450,7 +450,7 @@ class _OverviewTab extends StatelessWidget {
               Text(
                 '${snapshot.allocations.totalCount} manual review',
                 style: theme.textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                   color: colors.secondaryText,
                 ),
               ),
@@ -501,7 +501,7 @@ class _OverviewTab extends StatelessWidget {
                     child: Text(
                       member.displayName,
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                         color: colors.primaryText,
                       ),
                     ),
@@ -575,7 +575,7 @@ class _AllocationsTab extends StatelessWidget {
                       child: Text(
                         item.groupName,
                         style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w700,
                           color: colors.primaryText,
                         ),
                       ),
@@ -648,7 +648,7 @@ class _LedgersTab extends StatelessWidget {
                 Text(
                   'Posted payment ledger',
                   style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     color: colors.primaryText,
                   ),
                 ),
@@ -687,7 +687,7 @@ class _LedgersTab extends StatelessWidget {
                           Text(
                             entry.label,
                             style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w600,
                               color: colors.primaryText,
                             ),
                           ),
@@ -695,7 +695,7 @@ class _LedgersTab extends StatelessWidget {
                           Text(
                             entry.payerName,
                             style: theme.textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w400,
                               color: colors.tertiaryText,
                             ),
                           ),
@@ -706,7 +706,7 @@ class _LedgersTab extends StatelessWidget {
                       '${_BankAdminWorkspaceScreenState._amountFormat.format(entry.amount)} RWF',
                       style: context.coolText.mono(
                         theme.textTheme.titleSmall,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
                         color: colors.success,
                       ),
                     ),
@@ -764,7 +764,7 @@ class _ActionChip extends StatelessWidget {
               Text(
                 label,
                 style: theme.textTheme.labelMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                   color: color,
                 ),
               ),

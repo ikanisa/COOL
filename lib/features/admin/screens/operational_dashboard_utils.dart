@@ -20,7 +20,7 @@ class _MetricChip extends StatelessWidget {
       child: Text(
         '$label: $value',
         style: theme.textTheme.labelSmall?.copyWith(
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w400,
           color: colors.primaryText,
         ),
       ),
@@ -44,7 +44,7 @@ class _FactLine extends StatelessWidget {
         RichText(
           text: TextSpan(
             style: theme.textTheme.labelSmall?.copyWith(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
               color: colors.secondaryText,
               height: 1.4,
             ),
@@ -53,7 +53,7 @@ class _FactLine extends StatelessWidget {
                 text: '$label: ',
                 style: context.coolText.mobiLabel(
                   color: colors.secondaryText,
-                ).copyWith(fontWeight: FontWeight.w700),
+                ).copyWith(fontWeight: FontWeight.w600),
               ),
               TextSpan(text: value),
             ],
@@ -83,7 +83,7 @@ class _Badge extends StatelessWidget {
       child: Text(
         label,
         style: theme.textTheme.labelSmall?.copyWith(
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
           color: color,
         ),
       ),

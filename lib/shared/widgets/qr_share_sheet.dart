@@ -141,7 +141,7 @@ class QrShareSheet extends ConsumerWidget {
                 sheetTitle ?? 'Invite to $groupName',
                 textAlign: TextAlign.center,
                 style: textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                   color: colors.primaryText,
                 ),
               ),
@@ -149,7 +149,7 @@ class QrShareSheet extends ConsumerWidget {
               Text(
                 sheetSubtitle,
                 style: textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w400,
                   color: colors.tertiaryText,
                 ),
               ),
@@ -194,7 +194,7 @@ class QrShareSheet extends ConsumerWidget {
                         overflow: TextOverflow.ellipsis,
                         style: text.mono(
                           textTheme.bodySmall,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w400,
                           color: colors.secondaryText,
                         ),
                       ),
@@ -252,7 +252,7 @@ class QrShareSheet extends ConsumerWidget {
                               Text(
                                 'Copy',
                                 style: textTheme.labelSmall?.copyWith(
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w600,
                                   color: colors.accent,
                                 ),
                               ),

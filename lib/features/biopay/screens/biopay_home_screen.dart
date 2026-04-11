@@ -43,7 +43,7 @@ class BiopayHomeScreen extends StatelessWidget {
             style: context.coolText.headline(
               Theme.of(context).textTheme.displayMedium,
               color: colors.primaryText,
-              fontWeight: FontWeight.w900,
+              fontWeight: FontWeight.w700,
               letterSpacing: -2.2,
               height: 0.98,
             ),
@@ -176,7 +176,7 @@ class _BiopayActionTile extends StatelessWidget {
                 style: context.coolText.headline(
                   Theme.of(context).textTheme.headlineSmall,
                   color: colors.primaryText,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w700,
                   letterSpacing: -0.8,
                 ),
               ),

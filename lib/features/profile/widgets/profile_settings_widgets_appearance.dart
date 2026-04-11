@@ -107,7 +107,7 @@ class _ProfileAppearanceOption extends StatelessWidget {
                 child: Text(
                   _label(context),
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                     color: colors.primaryText,
                   ),
                 ),
@@ -171,7 +171,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
                       l10n.completeProfileTitle,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         color: colors.primaryText,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),

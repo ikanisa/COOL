@@ -19,7 +19,7 @@ class _StatusPill extends StatelessWidget {
         label,
         style: theme.textTheme.labelSmall?.copyWith(
           color: color,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
@@ -51,7 +51,7 @@ class _InlineActionButton extends StatelessWidget {
         label,
         style: theme.textTheme.labelLarge?.copyWith(
           color: colors.accent,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
@@ -99,7 +99,7 @@ class _SmsPolicyNotice extends StatelessWidget {
                   'SMS sync opt-in',
                   style: theme.textTheme.titleSmall?.copyWith(
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x1),
@@ -107,7 +107,7 @@ class _SmsPolicyNotice extends StatelessWidget {
                   'Android only. COOL checks approved M-Money sender IDs, imports matching confirmations, and ignores other SMS.',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: colors.tertiaryText,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                     height: 1.45,
                   ),
                 ),

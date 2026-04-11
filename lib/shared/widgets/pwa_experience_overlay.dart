@@ -160,7 +160,7 @@ class _PwaInstallCard extends StatelessWidget {
             title,
             style: theme.textTheme.titleLarge?.copyWith(
               color: colors.primaryText,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: CoolSpace.x2),
@@ -169,7 +169,7 @@ class _PwaInstallCard extends StatelessWidget {
             style: theme.textTheme.bodySmall?.copyWith(
               color: colors.secondaryText,
               height: 1.45,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w400,
             ),
           ),
           const SizedBox(height: CoolSpace.x4),
@@ -224,7 +224,7 @@ class _PwaUpdateCard extends StatelessWidget {
             'Update ready',
             style: theme.textTheme.titleLarge?.copyWith(
               color: colors.primaryText,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: CoolSpace.x2),
@@ -233,7 +233,7 @@ class _PwaUpdateCard extends StatelessWidget {
             style: theme.textTheme.bodySmall?.copyWith(
               color: colors.secondaryText,
               height: 1.45,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w400,
             ),
           ),
           const SizedBox(height: CoolSpace.x4),

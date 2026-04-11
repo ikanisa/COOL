@@ -6,7 +6,7 @@ import 'cool_foundations.dart';
 /// Typography constants and [TextTheme] builder — Tactile Monolith system.
 ///
 /// Font stack:
-/// - **Space Grotesk** — Display/Headline (bold geometric, w700–w900, stamped authority)
+/// - **Space Grotesk** — Display/Headline (bold geometric, w600–w700, stamped authority)
 /// - **Manrope** — Title/Body (premium editorial, geometric, w400–w700)
 /// - **Inter** — Label (utility clarity, w500–w600)
 /// - **DM Mono** — Values, IDs, aliases (via CoolTextStyles.mono/mobiLabel/mobiValue)
@@ -20,12 +20,12 @@ abstract final class AppThemeText {
   static final String monoFontFamily =
       GoogleFonts.dmMono().fontFamily ?? 'DM Mono';
 
-  // ── Weight aliases ──────────────────────────────────────────────────
-  static const black = FontWeight.w900;
-  static const extraBold = FontWeight.w800;
+  // ── Weight aliases (optimised 3-tier: w700/w600/w400) ──────────────
+  static const black = FontWeight.w700; // Capped: max weight is w700 (Bold)
+  static const extraBold = FontWeight.w700;
   static const bold = FontWeight.w700;
-  static const semibold = FontWeight.w700;
-  static const medium = FontWeight.w600;
+  static const semibold = FontWeight.w600;
+  static const medium = FontWeight.w500;
   static const regular = FontWeight.w400;
 
   // ── Named sizes (Space Grotesk × Inter scale) ──────────────────────────
@@ -63,14 +63,14 @@ abstract final class AppThemeText {
       // ── Display (Space Grotesk — bold geometric hero) ───────────────
       displayLarge: displayText.displayLarge?.copyWith(
         fontSize: AppThemeText.displayLarge,
-        fontWeight: black,
+        fontWeight: extraBold,
         color: semanticColors.primaryText,
         letterSpacing: -2.4, // -0.04em at 60px
         height: 0.96,
       ),
       displayMedium: displayText.displayMedium?.copyWith(
         fontSize: AppThemeText.displayMedium,
-        fontWeight: black,
+        fontWeight: extraBold,
         color: semanticColors.primaryText,
         letterSpacing: -2.1, // -0.04em at 52px
         height: 1.0,

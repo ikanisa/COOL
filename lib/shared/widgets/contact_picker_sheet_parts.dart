@@ -46,7 +46,7 @@ class _ContactTile extends StatelessWidget {
               child: Text(
                 contact.initials,
                 style: textTheme.labelMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                   color: isSelected ? colors.accent : colors.secondaryText,
                 ),
               ),
@@ -59,7 +59,7 @@ class _ContactTile extends StatelessWidget {
                   Text(
                     contact.displayName,
                     style: textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w400,
                       color: colors.primaryText,
                     ),
                     maxLines: 1,
@@ -145,7 +145,7 @@ class _PermissionState extends StatelessWidget {
           Text(
             title,
             style: textTheme.labelLarge?.copyWith(
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
               color: colors.primaryText,
             ),
           ),
@@ -154,7 +154,7 @@ class _PermissionState extends StatelessWidget {
             message,
             textAlign: TextAlign.center,
             style: textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
               color: colors.tertiaryText,
               height: 1.5,
             ),
@@ -174,7 +174,7 @@ class _PermissionState extends StatelessWidget {
               child: Text(
                 actionLabel,
                 style: textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w400,
                   color: colors.accentForeground,
                 ),
               ),
@@ -209,7 +209,7 @@ class _DoneButton extends StatelessWidget {
         child: Text(
           'Done ($count)',
           style: textTheme.labelMedium?.copyWith(
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w400,
             color: colors.accentForeground,
           ),
         ),

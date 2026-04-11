@@ -76,7 +76,7 @@ class KillSwitchGate extends StatelessWidget {
                   'Temporarily Unavailable',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                   ),
                   textAlign: TextAlign.center,
                 ),

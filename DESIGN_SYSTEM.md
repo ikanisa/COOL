@@ -40,7 +40,26 @@ Our palette is rooted in a nocturnal, authoritative foundation. The depth is cre
 
 The typography is our primary tool for "Maximum Authority." We pair the brutalist weight of Space Grotesk with the technical clarity of Manrope and Inter.
 
-*   **Display & Headline (Space Grotesk):** These must be used at "maximum impact." Do not be afraid of `display-lg` (3.5rem). Use tight letter-spacing (-0.04em) and heavy weights to create a "condensed monolith" effect. Headlines should feel like they are "stamped" into the clay surfaces.
+### 3.1 Typography Constraints (Hard Rules)
+
+| Constraint | Value | Rationale |
+| --- | --- | --- |
+| **Maximum font weight** | `w700` (Bold) | w700 provides full authority with optimal stroke clarity on mobile OLED screens. **No w800 or w900 anywhere in UI code.** |
+| **Minimum font size** | `14px` | Accessibility and legibility floor for mobile-first PWA. **No text below 14px anywhere in UI code.** |
+
+### 3.2 Optimised 3-Tier Weight Scale
+
+The system uses exactly 3 weights with a 300-unit spread for maximum visual hierarchy contrast:
+
+| Tier | Weight | Alias | Usage |
+| --- | --- | --- | --- |
+| **Hero** | `w700` (Bold) | `black`, `extraBold`, `bold` | Display titles, CTAs, hero amounts, key actions |
+| **Emphasis** | `w600` (SemiBold) | `semibold` | Section headings, card titles, action labels |
+| **Body** | `w400` (Regular) | `regular` | Labels, metadata, descriptions, utility text |
+
+*Exceptions:* PDF export code (using `pw.FontWeight`) and emoji-only text spans are exempt from these constraints.
+
+*   **Display & Headline (Space Grotesk):** These must be used at "maximum impact." Do not be afraid of `display-lg` (3.5rem). Use tight letter-spacing (-0.04em) and w700 Bold to create a "condensed monolith" effect. Headlines should feel like they are "stamped" into the clay surfaces.
 *   **Title & Body (Manrope):** This provides the premium, editorial feel. Manrope's geometric nature complements the rounded corners of our UI.
 *   **Label (Inter):** Used for micro-copy and functional data. It provides a "utility" contrast to the expressive headlines.
 *   **Hierarchy Note:** Use extreme contrast in size. If a headline is `display-lg`, the subtext should be `body-md`. Avoid "middle-ground" font sizes that dilute the authority of the layout.
@@ -49,10 +68,10 @@ The typography is our primary tool for "Maximum Authority." We pair the brutalis
 
 | Role | Font | Access |
 | --- | --- | --- |
-| Display / Headline | Space Grotesk w700–w900 | `context.coolText.headline(...)` |
-| Title / Body | Manrope w500–w700 | `context.coolText.display(...)` |
-| Label / Utility | Inter w600–w700 | Theme default |
-| Numeric / Mono | DM Mono w700–w800 | `context.coolText.mono(...)` |
+| Display / Headline | Space Grotesk w600–w700 | `context.coolText.headline(...)` |
+| Title / Body | Manrope w400–w600 | `context.coolText.display(...)` |
+| Label / Utility | Inter w400–w600 | Theme default |
+| Numeric / Mono | DM Mono w600–w700 | `context.coolText.mono(...)` |
 
 ## 4. Elevation & Depth
 
@@ -112,6 +131,8 @@ In this system, depth is not an effect—it is the architecture.
 *   **DON'T** use 1px solid borders. Ever.
 *   **DON'T** use flat, opaque backgrounds without depth layering.
 *   **DON'T** use small, timid typography. The hierarchy must be dramatic.
+*   **DON'T** use `FontWeight.w800` or `FontWeight.w900`. Maximum allowed weight is `w700` (Bold).
+*   **DON'T** use font sizes below `14px`. Every text element must be ≥ 14px for mobile legibility.
 *   **DON'T** use black shadows. Use the void color (#0D0A27).
 *   **DON'T** create parallel palette classes. Use `context.coolSemanticColors` only.
 *   **DON'T** reference old design system names (ROUGEBLACK, Mobi × Partner).

@@ -146,7 +146,7 @@ class _BrandedErrorFallback extends StatelessWidget {
             Text(
               'Something went wrong',
               style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w400,
                 color: colors.primaryText,
               ),
             ),
@@ -167,7 +167,7 @@ class _BrandedErrorFallback extends StatelessWidget {
                 label: Text(
                   'Retry',
                   style: theme.textTheme.labelLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
                 style: TextButton.styleFrom(foregroundColor: colors.accent),

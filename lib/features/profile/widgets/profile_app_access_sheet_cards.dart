@@ -41,7 +41,7 @@ class _SummaryBanner extends StatelessWidget {
                   '$readyCount/$totalCount ready',
                   style: theme.textTheme.titleSmall?.copyWith(
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x1),
@@ -49,7 +49,7 @@ class _SummaryBanner extends StatelessWidget {
                   'All access controls',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: colors.secondaryText,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                     height: 1.4,
                   ),
                 ),
@@ -246,7 +246,7 @@ class _AccessCardShell extends StatelessWidget {
                             title,
                             style: theme.textTheme.titleSmall?.copyWith(
                               color: colors.primaryText,
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                           const SizedBox(height: CoolSpace.x2),
@@ -271,7 +271,7 @@ class _AccessCardShell extends StatelessWidget {
                                   title,
                                   style: theme.textTheme.titleSmall?.copyWith(
                                     color: colors.primaryText,
-                                    fontWeight: FontWeight.w800,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
                               ),
@@ -287,7 +287,7 @@ class _AccessCardShell extends StatelessWidget {
                           subtitle,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: colors.secondaryText,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w400,
                             height: 1.45,
                           ),
                         ),
@@ -317,7 +317,7 @@ class _AccessCardShell extends StatelessWidget {
                           feature,
                           style: theme.textTheme.labelSmall?.copyWith(
                             color: colors.secondaryText,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
@@ -329,7 +329,7 @@ class _AccessCardShell extends StatelessWidget {
                 helperText,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: colors.tertiaryText,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w400,
                   height: 1.45,
                 ),
               ),

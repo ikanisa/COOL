@@ -67,7 +67,7 @@ abstract final class CoolToast {
                   child: Text(
                     message,
                     style: theme.textTheme.labelSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                       color: colors.primaryText,
                     ),
                   ),

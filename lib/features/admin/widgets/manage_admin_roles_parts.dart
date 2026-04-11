@@ -86,7 +86,7 @@ InputDecoration _roleInputDecoration(
     hintText: hintText,
     labelStyle: theme.textTheme.bodySmall?.copyWith(
       color: colors.tertiaryText,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w400,
     ),
     hintStyle: theme.textTheme.bodySmall?.copyWith(color: colors.tertiaryText),
     filled: true,
@@ -128,7 +128,7 @@ class _SummaryCard extends StatelessWidget {
             'Role Summary',
             style: theme.textTheme.titleLarge?.copyWith(
               color: colors.primaryText,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: CoolSpace.x3),
@@ -186,7 +186,7 @@ class _MetricChip extends StatelessWidget {
           text: TextSpan(
             style: theme.textTheme.labelLarge?.copyWith(
               color: colors.primaryText,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
             ),
             children: [
               TextSpan(
@@ -231,7 +231,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
           'Revoke Role',
           style: theme.textTheme.titleLarge?.copyWith(
             color: colors.primaryText,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w700,
           ),
         ),
         content: Text(
@@ -240,7 +240,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
           ' This user can be assigned again later.',
           style: theme.textTheme.bodyMedium?.copyWith(
             color: colors.secondaryText,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w400,
           ),
         ),
         actions: [
@@ -307,7 +307,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
                       displayName,
                       style: theme.textTheme.titleSmall?.copyWith(
                         color: colors.primaryText,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                     if (assignment.userPhone != null &&
@@ -317,7 +317,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
                         assignment.userPhone!,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: colors.tertiaryText,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -335,7 +335,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
                     assignment.role.label,
                     style: theme.textTheme.labelLarge?.copyWith(
                       color: _roleColor,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
@@ -350,7 +350,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
                 '${assignment.role == AdminRole.bank ? 'Bank' : 'Scope'}: ${assignment.bankName}',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: colors.secondaryText,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
@@ -358,7 +358,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
             'Granted: $grantedDate',
             style: theme.textTheme.bodySmall?.copyWith(
               color: colors.tertiaryText,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w400,
             ),
           ),
           if (assignment.notes != null && assignment.notes!.isNotEmpty) ...[
@@ -392,7 +392,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
               label: Text(
                 'Revoke',
                 style: theme.textTheme.labelLarge?.copyWith(
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),

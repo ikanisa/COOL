@@ -80,7 +80,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
             Text(
               'Operations',
               style: theme.textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w700,
                 height: 1.1,
                 color: colors.primaryText,
               ),

@@ -181,7 +181,7 @@ class CoolStateView extends StatelessWidget {
                         ? theme.textTheme.titleSmall
                         : theme.textTheme.titleMedium)
                     ?.copyWith(
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                       color: colors.primaryText,
                     ),
           ),
@@ -194,7 +194,7 @@ class CoolStateView extends StatelessWidget {
                         ? theme.textTheme.bodySmall
                         : theme.textTheme.bodyMedium)
                     ?.copyWith(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w400,
                       color: colors.secondaryText,
                       height: 1.45,
                     ),

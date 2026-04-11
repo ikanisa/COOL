@@ -30,7 +30,7 @@ class SectionTitle extends StatelessWidget {
           Text(
             title,
             style: theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
               color: colors.primaryText,
             ),
           ),
@@ -46,7 +46,7 @@ class SectionTitle extends StatelessWidget {
               child: Text(
                 actionLabel!,
                 style: theme.textTheme.labelLarge?.copyWith(
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w700,
                   color: colors.accent,
                 ),
               ),

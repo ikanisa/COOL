@@ -70,7 +70,7 @@ class HomeHeader extends StatelessWidget {
             style: context.coolText.headline(
               theme.textTheme.headlineMedium,
               color: colors.primaryText,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
               letterSpacing: -0.8,
             ),
           ),
@@ -189,7 +189,7 @@ class HomeSavingsHeroCard extends StatelessWidget {
                             color: colors.accentForeground.withValues(
                               alpha: 0.86,
                             ),
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w700,
                             letterSpacing: 1.2,
                           ),
                         ),
@@ -202,7 +202,7 @@ class HomeSavingsHeroCard extends StatelessWidget {
                         style: context.coolText.headline(
                           theme.textTheme.displaySmall,
                           color: colors.accentForeground,
-                          fontWeight: FontWeight.w900,
+                          fontWeight: FontWeight.w700,
                           letterSpacing: -1.8,
                           height: 0.92,
                         ),
@@ -238,7 +238,7 @@ class HomeSectionHeader extends StatelessWidget {
             style: context.coolText.headline(
               Theme.of(context).textTheme.headlineSmall,
               color: colors.primaryText,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
               letterSpacing: -0.6,
             ),
           ),
@@ -281,7 +281,7 @@ class HomeSectionActionPill extends StatelessWidget {
             style: context.coolText.mono(
               Theme.of(context).textTheme.labelSmall,
               color: colors.accent,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
               letterSpacing: 0.9,
             ),
           ),

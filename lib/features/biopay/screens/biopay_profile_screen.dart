@@ -97,7 +97,7 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
                     style: context.coolText.headline(
                       Theme.of(context).textTheme.headlineMedium,
                       color: colors.primaryText,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: -1.0,
                     ),
                   ),
@@ -117,7 +117,7 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
                 style: context.coolText.mono(
                   Theme.of(context).textTheme.bodyMedium,
                   color: colors.secondaryText,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ],
@@ -140,7 +140,7 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
                       style: context.coolText.headline(
                         Theme.of(context).textTheme.headlineSmall,
                         color: colors.primaryText,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                     const SizedBox(height: CoolSpace.x3),
@@ -268,7 +268,7 @@ class _ProfileIdentityHeader extends StatelessWidget {
           style: context.coolText.headline(
             Theme.of(context).textTheme.displaySmall,
             color: colors.primaryText,
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.w700,
             letterSpacing: -1.4,
           ),
         ),
@@ -278,7 +278,7 @@ class _ProfileIdentityHeader extends StatelessWidget {
           style: context.coolText.mono(
             Theme.of(context).textTheme.labelLarge,
             color: colors.secondaryText,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w700,
             letterSpacing: 2.4,
           ),
         ),
@@ -315,7 +315,7 @@ class _FaceIdCard extends StatelessWidget {
                       style: context.coolText.headline(
                         Theme.of(context).textTheme.headlineSmall,
                         color: colors.primaryText,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
                         letterSpacing: -0.8,
                       ),
                     ),
@@ -325,7 +325,7 @@ class _FaceIdCard extends StatelessWidget {
                       style: context.coolText.mono(
                         Theme.of(context).textTheme.titleMedium,
                         color: isReady ? colors.success : colors.secondaryText,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ],

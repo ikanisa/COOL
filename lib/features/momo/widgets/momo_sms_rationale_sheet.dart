@@ -77,7 +77,7 @@ class MomoSmsRationaleSheet extends StatelessWidget {
                 child: Text(
                   'Sync your M-Money statements',
                   style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                     color: colors.primaryText,
                     height: 1.2,
                   ),
@@ -89,7 +89,7 @@ class MomoSmsRationaleSheet extends StatelessWidget {
           Text(
             'If you opt in',
             style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
               color: colors.secondaryText,
               height: 1.5,
             ),
@@ -180,7 +180,7 @@ class _RationalePoint extends StatelessWidget {
               Text(
                 title,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                   color: colors.primaryText,
                 ),
               ),

@@ -231,7 +231,7 @@ class HomeAccentTag extends StatelessWidget {
         label,
         style: context.coolText.mono(
           Theme.of(context).textTheme.labelSmall,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w700,
           color: colors.accent,
           letterSpacing: 1.0,
         ),

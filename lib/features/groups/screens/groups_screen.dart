@@ -228,7 +228,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                   'CREATE',
                   style: textTheme
                       .mobiLabel(color: colors.accentForeground)
-                      .copyWith(fontWeight: FontWeight.w800),
+                      .copyWith(fontWeight: FontWeight.w700),
                 ),
               )
             : null,
@@ -424,7 +424,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                               style: textTheme.mono(
                                 null,
                                 color: colors.accent,
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.w700,
                                 letterSpacing: 1.2,
                               ),
                             ),

@@ -61,7 +61,7 @@ class AdminDenseRowTile extends StatelessWidget {
                     Text(
                       title,
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w400,
                         color: colors.primaryText,
                       ),
                       maxLines: 1,

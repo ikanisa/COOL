@@ -49,9 +49,9 @@ enum CoolButtonSize {
   };
 
   double get fontSize => switch (this) {
-    CoolButtonSize.sm => 10,
-    CoolButtonSize.md => 12,
-    CoolButtonSize.lg => 14,
+    CoolButtonSize.sm => 14,
+    CoolButtonSize.md => 14,
+    CoolButtonSize.lg => 16,
     CoolButtonSize.icon => 0,
   };
 }
@@ -221,7 +221,7 @@ class _CoolButtonState extends State<CoolButton>
       fontFamily: AppThemeText.labelFontFamily,
       color: fg,
       fontSize: widget.size.fontSize,
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w600,
       letterSpacing: 1.2,
     );
 

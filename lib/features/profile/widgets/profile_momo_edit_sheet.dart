@@ -210,7 +210,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
             style: context.coolText.display(
               null,
               color: colors.primaryText,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
             ),
           ),
           const SizedBox(height: CoolSpace.x5),
@@ -219,7 +219,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
             l10n.momoNumberLabel.toUpperCase(),
             style: context.coolText.mobiLabel(
               color: colors.tertiaryText,
-            ).copyWith(fontWeight: FontWeight.w700, letterSpacing: 1.2),
+            ).copyWith(fontWeight: FontWeight.w600, letterSpacing: 1.2),
           ),
           const SizedBox(height: CoolSpace.x2),
           Semantics(
@@ -283,7 +283,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
               l10n.profileMomoCodeOptional,
               style: context.coolText.mobiLabel(
                 color: colors.tertiaryText,
-              ).copyWith(fontWeight: FontWeight.w700, letterSpacing: 1.2),
+              ).copyWith(fontWeight: FontWeight.w600, letterSpacing: 1.2),
             ),
             const SizedBox(height: CoolSpace.x2),
             Semantics(
@@ -327,7 +327,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
               'DEFAULT RECEIVE ROUTE',
               style: context.coolText.mobiLabel(
                 color: colors.tertiaryText,
-              ).copyWith(fontWeight: FontWeight.w700, letterSpacing: 1.2),
+              ).copyWith(fontWeight: FontWeight.w600, letterSpacing: 1.2),
             ),
             const SizedBox(height: CoolSpace.x2),
             MomoRouteTypeSelector(
@@ -365,7 +365,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
                       l10n.save,
                       style: context.coolText.manrope(
                         null,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
             ),

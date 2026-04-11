@@ -20,7 +20,7 @@ class CoolBrandMark extends ConsumerWidget {
         width: size,
         height: size,
         child: Image.asset(
-          brand.logoAssetPath,
+          brand.logoTransparentAssetPath,
           fit: BoxFit.contain,
           filterQuality: FilterQuality.high,
         ),

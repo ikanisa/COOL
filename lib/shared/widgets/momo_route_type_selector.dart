@@ -79,7 +79,7 @@ class _MomoRouteTypeOption extends StatelessWidget {
           child: Text(
             label,
             style: theme.textTheme.labelMedium?.copyWith(
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
               color: isActive ? colors.accent : colors.secondaryText,
             ),
           ),

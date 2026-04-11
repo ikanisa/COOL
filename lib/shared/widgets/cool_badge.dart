@@ -24,8 +24,8 @@ enum CoolBadgeSize {
   };
 
   double get fontSize => switch (this) {
-    CoolBadgeSize.sm => 9,
-    CoolBadgeSize.md => 10,
+    CoolBadgeSize.sm => 14,
+    CoolBadgeSize.md => 16,
   };
 }
 
@@ -73,7 +73,7 @@ class CoolBadge extends StatelessWidget {
                 .mobiLabel(color: fg)
                 .copyWith(
                   fontSize: size.fontSize,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                   letterSpacing: 2.0,
                 ),
           ),

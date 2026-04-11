@@ -154,7 +154,7 @@ class _HomeQuickActionTile extends StatelessWidget {
               textAlign: TextAlign.center,
               style: context.coolText.mono(
                 Theme.of(context).textTheme.labelSmall,
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w700,
                 color: colors.secondaryText,
                 letterSpacing: 0.9,
               ),

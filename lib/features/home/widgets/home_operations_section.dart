@@ -129,7 +129,7 @@ class _OperationCard extends StatelessWidget {
                   style: context.coolText.headline(
                     theme.textTheme.titleMedium,
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     letterSpacing: -0.4,
                   ),
                 ),
@@ -141,7 +141,7 @@ class _OperationCard extends StatelessWidget {
                   style: context.coolText.mono(
                     theme.textTheme.labelSmall,
                     color: colors.secondaryText,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     letterSpacing: 0.7,
                   ),
                 ),
@@ -156,7 +156,7 @@ class _OperationCard extends StatelessWidget {
               color: amount >= 0
                   ? colors.success
                   : colors.primaryText,
-              fontWeight: FontWeight.w900,
+              fontWeight: FontWeight.w700,
               letterSpacing: -0.7,
             ),
           ),

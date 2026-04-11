@@ -45,7 +45,7 @@ class AliasChip extends StatelessWidget {
     final displayText = showHash ? '#$alias' : alias;
 
     final style = text.mono(
-      TextStyle(fontSize: size.fontSize, fontWeight: FontWeight.w500),
+      TextStyle(fontSize: size.fontSize, fontWeight: FontWeight.w400),
       color: colors.primaryText,
       letterSpacing: 2.0,
     );
@@ -88,8 +88,8 @@ enum AliasChipSize {
   lg;
 
   double get fontSize => switch (this) {
-    AliasChipSize.sm => 12,
-    AliasChipSize.md => 14,
+    AliasChipSize.sm => 14,
+    AliasChipSize.md => 16,
     AliasChipSize.lg => 18,
   };
 

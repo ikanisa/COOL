@@ -104,7 +104,7 @@ class IosInstallPrompt extends StatelessWidget {
             Text(
               'Install COOL',
               style: textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w700,
                 color: colors.primaryText,
               ),
             ),
@@ -163,7 +163,7 @@ class IosInstallPrompt extends StatelessWidget {
                   'Got it',
                   style: textTheme.labelLarge?.copyWith(
                     color: colors.accent,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -207,7 +207,7 @@ class _InstructionStep extends StatelessWidget {
             step,
             style: textTheme.labelSmall?.copyWith(
               color: colors.accent,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),
@@ -221,7 +221,7 @@ class _InstructionStep extends StatelessWidget {
             text,
             style: textTheme.bodyMedium?.copyWith(
               color: colors.primaryText,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ),

@@ -22,7 +22,7 @@ class _UserTile extends ConsumerWidget {
         title: Text(
           '$action?',
           style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
             color: colors.primaryText,
           ),
         ),
@@ -111,7 +111,7 @@ class _UserTile extends ConsumerWidget {
                         Text(
                           publicUserId,
                           style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w600,
                             color: colors.primaryText,
                           ),
                         ),
@@ -120,7 +120,7 @@ class _UserTile extends ConsumerWidget {
                           Text(
                             user['phone'].toString(),
                             style: theme.textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w600,
                               color: colors.secondaryText,
                             ),
                           ),
@@ -150,7 +150,7 @@ class _UserTile extends ConsumerWidget {
                 '${AppMarket.country.name} · ${AppMarket.languageCode.toUpperCase()} · '
                 '${momoProvider.isEmpty ? 'momo' : momoProvider}',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                   color: colors.tertiaryText,
                 ),
               ),
@@ -159,7 +159,7 @@ class _UserTile extends ConsumerWidget {
                 Text(
                   'Batch: $mockBatch',
                   style: theme.textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                     color: colors.warning,
                   ),
                 ),
@@ -169,7 +169,7 @@ class _UserTile extends ConsumerWidget {
                 Text(
                   'Created: $createdAt',
                   style: theme.textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                     color: colors.tertiaryText,
                   ),
                 ),
@@ -199,7 +199,7 @@ class _UserTile extends ConsumerWidget {
                       minimumSize: _manageUsersActionMinSize,
                       padding: _manageUsersActionPadding(),
                       textStyle: theme.textTheme.labelLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     child: const Text('Edit'),

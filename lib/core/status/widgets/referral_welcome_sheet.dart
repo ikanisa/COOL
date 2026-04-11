@@ -59,7 +59,7 @@ class ReferralWelcomeSheet extends StatelessWidget {
           Text(
             'You\'re Invited!',
             style: theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
               color: colors.primaryText,
             ),
           ),
@@ -77,7 +77,7 @@ class ReferralWelcomeSheet extends StatelessWidget {
                   style: context.coolText.manrope(
                     null,
                     color: colors.accent,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 TextSpan(text: context.l10n.invitedYouToJoin),
@@ -108,7 +108,7 @@ class ReferralWelcomeSheet extends StatelessWidget {
                       Text(
                         'Bonus Points Waiting',
                         style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w600,
                           color: colors.primaryText,
                         ),
                       ),

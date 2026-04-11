@@ -64,11 +64,11 @@ class MemberRow extends StatelessWidget {
                         style: isAnonymous
                             ? text.mono(
                                 theme.textTheme.bodySmall,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w400,
                                 color: colors.secondaryText,
                               )
                             : theme.textTheme.titleSmall?.copyWith(
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w600,
                                 color: colors.primaryText,
                               ),
                       ),
@@ -89,7 +89,7 @@ class MemberRow extends StatelessWidget {
                         child: Text(
                           'Admin',
                           style: theme.textTheme.labelSmall?.copyWith(
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w600,
                             color: colors.accent,
                           ),
                         ),
@@ -103,7 +103,7 @@ class MemberRow extends StatelessWidget {
                 _formatAmount(contributionAmount),
                 style: text.mono(
                   theme.textTheme.titleSmall,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                   color: colors.accent,
                 ),
               ),
@@ -156,7 +156,7 @@ class _Avatar extends StatelessWidget {
         initials,
         style: text.mono(
           theme.textTheme.labelMedium,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w700,
           color: isAnonymous ? colors.info : colors.accent,
         ),
       ),

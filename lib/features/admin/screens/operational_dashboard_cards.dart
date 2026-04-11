@@ -40,7 +40,7 @@ class _ManualReviewCard extends StatelessWidget {
                 child: Text(
                   sender,
                   style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     color: colors.primaryText,
                   ),
                 ),
@@ -55,7 +55,7 @@ class _ManualReviewCard extends StatelessWidget {
           Text(
             amount > 0 ? '$amount $currency' : 'No parsed amount',
             style: theme.textTheme.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
               color: colors.primaryText,
             ),
           ),
@@ -63,7 +63,7 @@ class _ManualReviewCard extends StatelessWidget {
           Text(
             notes,
             style: theme.textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
               color: colors.secondaryText,
               height: 1.4,
             ),
@@ -89,7 +89,7 @@ class _ManualReviewCard extends StatelessWidget {
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.labelSmall?.copyWith(
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
                 color: colors.tertiaryText,
                 height: 1.45,
               ),
@@ -165,7 +165,7 @@ class _SenderInventoryCard extends StatelessWidget {
                     Text(
                       _text(row['sender']) ?? 'Unknown sender',
                       style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                         color: colors.primaryText,
                       ),
                     ),
@@ -173,7 +173,7 @@ class _SenderInventoryCard extends StatelessWidget {
                     Text(
                       'Normalized as ${_text(row['sender_token']) ?? 'unknown'}',
                       style: theme.textTheme.labelSmall?.copyWith(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                         color: colors.tertiaryText,
                       ),
                     ),
@@ -258,7 +258,7 @@ class _SenderInventoryCard extends StatelessWidget {
             Text(
               resolutionNote,
               style: theme.textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
                 color: colors.secondaryText,
                 height: 1.45,
               ),

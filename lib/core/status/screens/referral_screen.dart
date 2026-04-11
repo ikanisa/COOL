@@ -27,7 +27,7 @@ class ReferralScreen extends ConsumerWidget {
         'Invite friends to COOL',
         style: context.coolText.displayCondensed(
           theme.textTheme.headlineSmall,
-          fontWeight: FontWeight.w900,
+          fontWeight: FontWeight.w700,
         ),
       ),
       subtitle: Text(
@@ -124,7 +124,7 @@ class _ReferralRewardCard extends StatelessWidget {
             style: context.coolText.display(
               theme.textTheme.titleMedium,
               color: colors.primaryText,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: CoolSpace.x3),
@@ -165,7 +165,7 @@ class _ReferralCodeCard extends StatelessWidget {
             style: context.coolText.display(
               theme.textTheme.titleSmall,
               color: colors.primaryText,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: CoolSpace.x2),
@@ -173,7 +173,7 @@ class _ReferralCodeCard extends StatelessWidget {
             inviteCode,
             style: context.coolText.mono(
               theme.textTheme.headlineSmall,
-              fontWeight: FontWeight.w900,
+              fontWeight: FontWeight.w700,
               color: colors.accent,
               letterSpacing: 2,
             ),
@@ -215,7 +215,7 @@ class _RewardPill extends StatelessWidget {
               label,
               style: context.coolText.mono(
                 theme.textTheme.labelSmall,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
                 color: colors.secondaryText,
               ),
             ),
@@ -224,7 +224,7 @@ class _RewardPill extends StatelessWidget {
               value,
               style: context.coolText.display(
                 theme.textTheme.titleMedium,
-                fontWeight: FontWeight.w900,
+                fontWeight: FontWeight.w700,
                 color: colors.primaryText,
               ),
             ),

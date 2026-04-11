@@ -28,7 +28,7 @@ class _DashboardCard extends StatelessWidget {
                 child: Text(
                   _text(row['label']) ?? 'Surface',
                   style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     color: colors.primaryText,
                   ),
                 ),
@@ -69,7 +69,7 @@ class _DashboardCard extends StatelessWidget {
           Text(
             _text(row['summary']) ?? 'No summary available.',
             style: theme.textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
               color: colors.secondaryText,
               height: 1.4,
             ),
@@ -78,7 +78,7 @@ class _DashboardCard extends StatelessWidget {
           Text(
             'Last signal: ${_formatTimestamp(row['last_signal_at'])}',
             style: theme.textTheme.labelSmall?.copyWith(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
               color: colors.tertiaryText,
             ),
           ),
@@ -116,7 +116,7 @@ class _OperationalMetricCard extends StatelessWidget {
                 child: Text(
                   _text(row['label']) ?? 'Metric',
                   style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     color: colors.primaryText,
                   ),
                 ),
@@ -153,7 +153,7 @@ class _OperationalMetricCard extends StatelessWidget {
           Text(
             _text(row['summary']) ?? 'No summary available.',
             style: theme.textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
               color: colors.secondaryText,
               height: 1.4,
             ),
@@ -164,7 +164,7 @@ class _OperationalMetricCard extends StatelessWidget {
           Text(
             'Last signal: ${_formatTimestamp(row['last_signal_at'])}',
             style: theme.textTheme.labelSmall?.copyWith(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
               color: colors.tertiaryText,
             ),
           ),
@@ -201,7 +201,7 @@ class _IssueCard extends StatelessWidget {
                 child: Text(
                   _text(row['title']) ?? 'Issue',
                   style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     color: colors.primaryText,
                   ),
                 ),
@@ -216,7 +216,7 @@ class _IssueCard extends StatelessWidget {
           Text(
             _text(row['detail']) ?? 'No detail available.',
             style: theme.textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
               color: colors.secondaryText,
               height: 1.45,
             ),
@@ -241,7 +241,7 @@ class _IssueCard extends StatelessWidget {
           Text(
             'Seen ${_formatTimestamp(row['first_seen_at'])} • Last signal ${_formatTimestamp(row['last_seen_at'])}',
             style: theme.textTheme.labelSmall?.copyWith(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
               color: colors.tertiaryText,
             ),
           ),
@@ -281,7 +281,7 @@ class _EventTile extends StatelessWidget {
                 child: Text(
                   _text(row['service']) ?? 'service',
                   style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     color: colors.primaryText,
                   ),
                 ),
@@ -289,7 +289,7 @@ class _EventTile extends StatelessWidget {
               Text(
                 _formatTimestamp(row['occurred_at']),
                 style: theme.textTheme.labelSmall?.copyWith(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w400,
                   color: colors.tertiaryText,
                 ),
               ),
@@ -299,7 +299,7 @@ class _EventTile extends StatelessWidget {
           Text(
             _text(row['message']) ?? 'No message',
             style: theme.textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
               color: colors.secondaryText,
               height: 1.4,
             ),

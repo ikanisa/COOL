@@ -53,7 +53,7 @@ Widget? _buildBiopayScannerFooter(
         'BioPay unavailable',
         style: theme.textTheme.labelLarge?.copyWith(
           color: colors.warning,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
@@ -80,7 +80,7 @@ Widget? _buildBiopayScannerFooter(
               errorMessage,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: colors.danger,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ],
@@ -98,7 +98,7 @@ Widget? _buildBiopayScannerFooter(
         errorMessage,
         style: theme.textTheme.bodySmall?.copyWith(
           color: colors.danger,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w400,
         ),
       ),
     );

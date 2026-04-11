@@ -183,7 +183,7 @@ class _CommunityCard extends StatelessWidget {
                               style: context.coolText.mono(
                                 theme.textTheme.labelSmall,
                                 color: colors.accent,
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.w700,
                                 letterSpacing: 0.6,
                               ),
                             ),
@@ -198,7 +198,7 @@ class _CommunityCard extends StatelessWidget {
                         style: context.coolText.headline(
                           theme.textTheme.headlineSmall,
                           color: colors.primaryText,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w700,
                           letterSpacing: -0.7,
                           height: 1.0,
                         ),
@@ -209,7 +209,7 @@ class _CommunityCard extends StatelessWidget {
                         style: context.coolText.mono(
                           theme.textTheme.labelSmall,
                           color: colors.secondaryText,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w700,
                           letterSpacing: 0.9,
                         ),
                       ),
@@ -224,7 +224,7 @@ class _CommunityCard extends StatelessWidget {
                               style: context.coolText.display(
                                 theme.textTheme.titleLarge,
                                 color: colors.primaryText,
-                                fontWeight: FontWeight.w900,
+                                fontWeight: FontWeight.w700,
                                 letterSpacing: -0.8,
                               ),
                             ),

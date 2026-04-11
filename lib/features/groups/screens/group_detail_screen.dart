@@ -222,7 +222,7 @@ class _GroupDetailBody extends StatelessWidget {
             style: text.display(
               null,
               color: colors.primaryText,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
             ),
           ),
           SizedBox(height: space.x2),
@@ -328,7 +328,7 @@ class _GroupDetailBody extends StatelessWidget {
               style: text.display(
                 null,
                 color: colors.primaryText,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
               ),
             ),
             SizedBox(height: space.x3),
@@ -429,7 +429,7 @@ class _StatementsButton extends StatelessWidget {
           style: text.mono(
             null,
             color: colors.accent,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w700,
             letterSpacing: 0.8,
           ),
         ),
@@ -520,7 +520,7 @@ class _LedgerTile extends StatelessWidget {
                   style: text.display(
                     null,
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x1),

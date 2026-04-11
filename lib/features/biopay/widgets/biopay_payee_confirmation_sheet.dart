@@ -82,7 +82,7 @@ class BiopayPayeeConfirmationSheet extends StatelessWidget {
                 _initials(profile.displayName),
                 style: text.displayCondensed(
                   Theme.of(context).textTheme.headlineMedium,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w700,
                   color: colors.accentForeground,
                 ),
               ),
@@ -95,7 +95,7 @@ class BiopayPayeeConfirmationSheet extends StatelessWidget {
               textAlign: TextAlign.center,
               style: text.displayCondensed(
                 Theme.of(context).textTheme.titleLarge,
-                fontWeight: FontWeight.w900,
+                fontWeight: FontWeight.w700,
               ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -108,7 +108,7 @@ class BiopayPayeeConfirmationSheet extends StatelessWidget {
               style: text.mono(
                 Theme.of(context).textTheme.bodyMedium,
                 color: colors.secondaryText,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
                 letterSpacing: 0.5,
               ),
             ),
@@ -129,7 +129,7 @@ class BiopayPayeeConfirmationSheet extends StatelessWidget {
                 style: text.mono(
                   Theme.of(context).textTheme.labelSmall,
                   color: confidenceColor,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w700,
                   letterSpacing: 1.2,
                 ),
               ),

@@ -310,7 +310,7 @@ class _AppBootstrapState extends State<AppBootstrap> {
                     style: TextStyle(
                       color: Color(0xFFF0F0F5),
                       fontSize: 18,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w400,
                       decoration: TextDecoration.none,
                     ),
                   ),

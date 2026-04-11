@@ -268,14 +268,14 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
               'Kill switch',
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colors.primaryText,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
               ),
             ),
             subtitle: Text(
               'Immediately blocks the feature for Rwanda users.',
               style: theme.textTheme.bodySmall?.copyWith(
                 color: colors.secondaryText,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ),
@@ -292,14 +292,14 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
               'Admin only',
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colors.primaryText,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
               ),
             ),
             subtitle: Text(
               'Requires admin access even after the feature is enabled.',
               style: theme.textTheme.bodySmall?.copyWith(
                 color: colors.secondaryText,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ),
@@ -308,7 +308,7 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
             'Market: Rwanda only',
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colors.primaryText,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
             ),
           ),
           const SizedBox(height: CoolSpace.x1),
@@ -316,7 +316,7 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
             'This app is restricted to the Rwanda market in the current release.',
             style: theme.textTheme.bodySmall?.copyWith(
               color: colors.secondaryText,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w400,
             ),
           ),
           const SizedBox(height: 18),

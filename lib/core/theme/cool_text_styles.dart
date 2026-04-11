@@ -23,7 +23,7 @@ class CoolTextStyles {
     final resolvedBase =
         base ??
         _textTheme.bodyLarge ??
-        const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
+        const TextStyle(fontSize: 18, fontWeight: FontWeight.w600);
     return resolvedBase.copyWith(
       fontFamily: 'Inter',
       color: color ?? resolvedBase.color ?? _defaultColor,
@@ -37,8 +37,8 @@ class CoolTextStyles {
     final labelColor = _textTheme.labelSmall?.color ?? _defaultColor;
     return TextStyle(
       fontFamily: 'Inter',
-      fontSize: 10,
-      fontWeight: FontWeight.w600,
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
       color: color ?? labelColor,
       letterSpacing: 1.0,
       height: 1.2,
@@ -49,7 +49,7 @@ class CoolTextStyles {
     return TextStyle(
       fontFamily: 'Manrope',
       fontSize: 14,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w400,
       color: color ?? _defaultColor,
       letterSpacing: 0.0,
       height: 1.3,
@@ -60,7 +60,7 @@ class CoolTextStyles {
     return TextStyle(
       fontFamily: 'Space Grotesk',
       fontSize: 48,
-      fontWeight: FontWeight.w900,
+      fontWeight: FontWeight.w700,
       color: color ?? _defaultColor,
       letterSpacing: -1.5,
       height: 0.9,
@@ -79,11 +79,11 @@ class CoolTextStyles {
     final resolvedBase =
         base ??
         _textTheme.headlineMedium ??
-        const TextStyle(fontSize: 28, fontWeight: FontWeight.w800);
+        const TextStyle(fontSize: 28, fontWeight: FontWeight.w700);
     return resolvedBase.copyWith(
       fontFamily: 'Space Grotesk',
       color: color ?? resolvedBase.color ?? _defaultColor,
-      fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w800,
+      fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w700,
       letterSpacing: letterSpacing ?? resolvedBase.letterSpacing ?? -0.5,
       height: height ?? resolvedBase.height,
     );
@@ -101,11 +101,11 @@ class CoolTextStyles {
     final resolvedBase =
         base ??
         _textTheme.bodyLarge ??
-        const TextStyle(fontSize: 16, fontWeight: FontWeight.w500);
+        const TextStyle(fontSize: 16, fontWeight: FontWeight.w400);
     return resolvedBase.copyWith(
       fontFamily: 'Manrope',
       color: color ?? resolvedBase.color ?? _defaultColor,
-      fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w500,
+      fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w400,
       letterSpacing: letterSpacing ?? resolvedBase.letterSpacing,
       height: height ?? resolvedBase.height,
     );
@@ -123,11 +123,11 @@ class CoolTextStyles {
     final resolvedBase =
         base ??
         _textTheme.bodyLarge ??
-        const TextStyle(fontSize: 18, fontWeight: FontWeight.w600);
+        const TextStyle(fontSize: 18, fontWeight: FontWeight.w400);
     return resolvedBase.copyWith(
       fontFamily: 'Space Grotesk',
       color: color ?? resolvedBase.color ?? _defaultColor,
-      fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w600,
+      fontWeight: fontWeight ?? resolvedBase.fontWeight ?? FontWeight.w400,
       letterSpacing: letterSpacing ?? resolvedBase.letterSpacing,
       height: height ?? resolvedBase.height,
     );
@@ -144,7 +144,7 @@ class CoolTextStyles {
   }) => headline(
     base,
     color: color,
-    fontWeight: fontWeight ?? FontWeight.w800,
+    fontWeight: fontWeight ?? FontWeight.w700,
     letterSpacing: letterSpacing,
     height: height,
   );

@@ -48,7 +48,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
           Text(
             'Admin Workspaces',
             style: theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
               color: colors.primaryText,
               height: 1.1,
             ),
@@ -58,7 +58,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
             'Open the right control surface for platform or bank operations.',
             style: theme.textTheme.bodySmall?.copyWith(
               color: colors.secondaryText,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w400,
               height: 1.5,
             ),
           ),
@@ -145,7 +145,7 @@ class _WorkspaceEmptyState extends StatelessWidget {
         message,
         style: theme.textTheme.bodySmall?.copyWith(
           color: colors.secondaryText,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w400,
         ),
       ),
     );
@@ -172,7 +172,7 @@ class _IntroCard extends StatelessWidget {
           Text(
             'Open the right workspace',
             style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
               color: colors.primaryText,
             ),
           ),
@@ -180,7 +180,7 @@ class _IntroCard extends StatelessWidget {
           Text(
             'Verified access is active for this account.',
             style: theme.textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w400,
               color: colors.secondaryText,
               height: 1.45,
             ),
@@ -224,7 +224,7 @@ class _RoleChip extends StatelessWidget {
         label,
         style: context.coolText.mono(
           Theme.of(context).textTheme.labelSmall,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w700,
           color: color,
           letterSpacing: 0.7,
         ),
@@ -274,7 +274,7 @@ class _WorkspaceCard extends StatelessWidget {
                 Text(
                   title,
                   style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     color: colors.primaryText,
                   ),
                 ),
@@ -282,7 +282,7 @@ class _WorkspaceCard extends StatelessWidget {
                 Text(
                   subtitle,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                     color: colors.secondaryText,
                     height: 1.4,
                   ),

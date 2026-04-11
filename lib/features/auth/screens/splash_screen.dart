@@ -162,7 +162,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                             textAlign: TextAlign.center,
                             style: context.coolText.displayCondensed(
                               theme.textTheme.headlineMedium,
-                              fontWeight: FontWeight.w900,
+                              fontWeight: FontWeight.w700,
                               color: colors.primaryText,
                               letterSpacing: 2.0,
                             ),
@@ -181,7 +181,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                       textAlign: TextAlign.center,
                       style: context.coolText.mono(
                         theme.textTheme.bodySmall,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                         color: colors.secondaryText,
                         letterSpacing: 1.2,
                       ),
@@ -231,7 +231,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                               ? 'Network timeout'
                                               : 'Connection issue',
                                           style: theme.textTheme.titleSmall?.copyWith(
-                                            fontWeight: FontWeight.w700,
+                                            fontWeight: FontWeight.w600,
                                             color: colors.primaryText,
                                           ),
                                         ),

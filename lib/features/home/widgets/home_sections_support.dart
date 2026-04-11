@@ -127,7 +127,7 @@ class _MonthlyMovementPill extends StatelessWidget {
               style: context.coolText.mono(
                 Theme.of(context).textTheme.labelSmall,
                 color: accent,
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w700,
                 letterSpacing: 0.85,
               ),
             ),

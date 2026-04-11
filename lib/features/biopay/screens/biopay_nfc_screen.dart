@@ -130,7 +130,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
               style: context.coolText.headline(
                 Theme.of(context).textTheme.displaySmall,
                 color: colors.primaryText,
-                fontWeight: FontWeight.w900,
+                fontWeight: FontWeight.w700,
                 letterSpacing: -1.4,
               ),
               decoration: InputDecoration(
@@ -153,7 +153,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                   style: context.coolText.headline(
                     Theme.of(context).textTheme.headlineMedium,
                     color: colors.tertiaryText,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w700,
                     letterSpacing: -1.0,
                   ),
                 ),
@@ -164,7 +164,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                     style: context.coolText.headline(
                       Theme.of(context).textTheme.displaySmall,
                       color: colors.primaryText,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: -1.4,
                     ),
                     decoration: InputDecoration(
@@ -213,7 +213,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                 style: context.coolText.headline(
                   Theme.of(context).textTheme.titleLarge,
                   color: colors.secondaryText,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),
@@ -349,7 +349,8 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
       if (!mounted) {
         return;
       }
-      CoolToast.success(context, 'BioPay NFC is ready.');
+      // Navigate to the "Tap to Pay" waiting screen.
+      context.push(AppRoutes.biopayNfcTap);
     } catch (error) {
       if (!mounted) {
         return;
@@ -432,7 +433,7 @@ class _NfcStatusBanner extends StatelessWidget {
         style: context.coolText.mono(
           Theme.of(context).textTheme.bodyMedium,
           color: color,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );

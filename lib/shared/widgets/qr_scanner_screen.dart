@@ -156,7 +156,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                     gate.title,
                     textAlign: TextAlign.center,
                     style: textTheme.labelLarge?.copyWith(
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                       color: colors.primaryText,
                     ),
                   ),
@@ -165,7 +165,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                     gate.message,
                     textAlign: TextAlign.center,
                     style: textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w400,
                       color: colors.secondaryText,
                       height: 1.45,
                     ),

@@ -41,7 +41,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
         'Manage Users',
         style: Theme.of(
           context,
-        ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
+        ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
       ),
       searchBar: CoolSearchField(
         hint: 'Search by name, phone, or ID…',
@@ -117,7 +117,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
                       Text(
                         '${filtered.length} result${filtered.length == 1 ? '' : 's'}',
                         style: theme.textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w400,
                           color: colors.tertiaryText,
                         ),
                       ),

@@ -296,7 +296,7 @@ class _ProfileAppAccessPanelState extends ConsumerState<ProfileAppAccessPanel>
           'App access',
           style: theme.textTheme.headlineSmall?.copyWith(
             color: context.coolSemanticColors.primaryText,
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.w700,
           ),
         ),
         const SizedBox(height: CoolSpace.x2),
@@ -304,7 +304,7 @@ class _ProfileAppAccessPanelState extends ConsumerState<ProfileAppAccessPanel>
           'Toggle feature access',
           style: theme.textTheme.bodyMedium?.copyWith(
             color: context.coolSemanticColors.secondaryText,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w400,
             height: 1.45,
           ),
         ),

@@ -23,6 +23,7 @@ abstract final class AppRoutes {
   static const biopayQr = '/momo/biopay/qr';
   static const biopayScan = '/momo/biopay/scan';
   static const biopayNfc = '/momo/biopay/nfc';
+  static const biopayNfcTap = '/momo/biopay/nfc/tap';
   static const biopayEnrollmentSuccess = '/momo/biopay/success';
 
   // ── Contribution Circles ────────────────────────────────────────

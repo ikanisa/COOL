@@ -176,7 +176,7 @@ class _TransactionAllocationSheetState
           'TRANSACTION ALLOCATION',
           style: text.displayCondensed(
             theme.textTheme.titleLarge,
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.w700,
           ),
         ),
         const SizedBox(height: CoolSpace.x1),
@@ -184,7 +184,7 @@ class _TransactionAllocationSheetState
           'Manage group member assignment',
           style: text.mono(
             theme.textTheme.labelSmall,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w400,
             color: colors.secondaryText,
             letterSpacing: 0.5,
           ),
@@ -211,7 +211,7 @@ class _TransactionAllocationSheetState
                       entry.label,
                       style: text.mono(
                         theme.textTheme.titleSmall,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
                         color: colors.primaryText,
                         letterSpacing: 0.5,
                       ),
@@ -223,7 +223,7 @@ class _TransactionAllocationSheetState
                     '${entry.amount} ${entry.currency}',
                     style: text.mono(
                       theme.textTheme.titleSmall,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w700,
                       color: colors.accentGold,
                       letterSpacing: 0.5,
                     ),
@@ -240,7 +240,7 @@ class _TransactionAllocationSheetState
                       entry.payerName,
                       style: text.mono(
                         theme.textTheme.labelSmall,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                         color: colors.success,
                         letterSpacing: 0.5,
                       ),
@@ -262,7 +262,7 @@ class _TransactionAllocationSheetState
                       'Not yet allocated',
                       style: text.mono(
                         theme.textTheme.labelSmall,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                         color: colors.warning,
                         letterSpacing: 0.5,
                       ),
@@ -289,7 +289,7 @@ class _TransactionAllocationSheetState
             'OR REALLOCATE TO ANOTHER MEMBER',
             style: text.mono(
               theme.textTheme.labelSmall,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
               color: colors.tertiaryText,
               letterSpacing: 1.0,
             ),
@@ -310,7 +310,7 @@ class _TransactionAllocationSheetState
               'No group members found.',
               style: text.mono(
                 theme.textTheme.bodySmall,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w400,
                 color: colors.secondaryText,
               ),
             ),
@@ -320,7 +320,7 @@ class _TransactionAllocationSheetState
             isCurrentlyAllocated ? 'Select member:' : 'ALLOCATE TO MEMBER',
             style: text.mono(
               theme.textTheme.labelSmall,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
               color: colors.secondaryText,
               letterSpacing: 1.0,
             ),
@@ -383,7 +383,7 @@ class _TransactionAllocationSheetState
                               member.displayName,
                               style: text.mono(
                                 theme.textTheme.bodyMedium,
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w600,
                                 color: isSelected
                                     ? colors.accent
                                     : colors.primaryText,

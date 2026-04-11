@@ -307,8 +307,8 @@ class _NavItem extends StatelessWidget {
                       color: isSelected ? activeColor : inactiveColor,
                     )
                     .copyWith(
-                      fontSize: 9,
-                      fontWeight: FontWeight.w800,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: 0.8,
                     ),
                 child: Text(

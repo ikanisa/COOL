@@ -83,7 +83,7 @@ class GroupCard extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                   color: colors.primaryText,
                 ),
               ),
@@ -94,7 +94,7 @@ class GroupCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: text.mono(
                   theme.textTheme.headlineSmall,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w700,
                   color: accent,
                 ),
               ),
@@ -112,7 +112,7 @@ class GroupCard extends StatelessWidget {
               Text(
                 'Target: ${_formatAmount(targetAmount)} RWF',
                 style: theme.textTheme.labelSmall?.copyWith(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w400,
                   color: colors.tertiaryText,
                 ),
               ),
@@ -183,7 +183,7 @@ class _MemberAvatarStack extends StatelessWidget {
                       _initials[i],
                       style: text.mono(
                         theme.textTheme.labelSmall,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                         color: accentColor,
                       ),
                     ),
@@ -197,7 +197,7 @@ class _MemberAvatarStack extends StatelessWidget {
             Text(
               '+$overflow',
               style: theme.textTheme.labelSmall?.copyWith(
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w400,
                 color: colors.tertiaryText,
               ),
             ),
