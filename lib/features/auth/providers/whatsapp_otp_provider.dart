@@ -14,10 +14,9 @@ final whatsAppOtpServiceProvider = Provider<WhatsAppOtpService>((ref) {
 /// Reactive OTP flow state.
 final whatsAppOtpStateProvider =
     StateNotifierProvider.autoDispose<WhatsAppOtpNotifier, WhatsAppOtpState>(
-  (ref) => WhatsAppOtpNotifier(
-    service: ref.read(whatsAppOtpServiceProvider),
-  ),
-);
+      (ref) =>
+          WhatsAppOtpNotifier(service: ref.read(whatsAppOtpServiceProvider)),
+    );
 
 enum WhatsAppOtpStep { enterPhone, verifyCode }
 
@@ -30,6 +29,7 @@ class WhatsAppOtpState {
     this.codeSent = false,
     this.verifyResult,
     this.retryAfterSeconds,
+    this.attemptsRemaining,
   });
 
   final WhatsAppOtpStep step;
@@ -39,6 +39,7 @@ class WhatsAppOtpState {
   final bool codeSent;
   final OtpVerifyResult? verifyResult;
   final int? retryAfterSeconds;
+  final int? attemptsRemaining;
 
   bool get isVerified => verifyResult?.isVerified ?? false;
 
@@ -52,6 +53,8 @@ class WhatsAppOtpState {
     OtpVerifyResult? verifyResult,
     int? retryAfterSeconds,
     bool clearRetryAfter = false,
+    int? attemptsRemaining,
+    bool clearAttemptsRemaining = false,
   }) {
     return WhatsAppOtpState(
       step: step ?? this.step,
@@ -60,16 +63,20 @@ class WhatsAppOtpState {
       error: clearError ? null : (error ?? this.error),
       codeSent: codeSent ?? this.codeSent,
       verifyResult: verifyResult ?? this.verifyResult,
-      retryAfterSeconds:
-          clearRetryAfter ? null : (retryAfterSeconds ?? this.retryAfterSeconds),
+      retryAfterSeconds: clearRetryAfter
+          ? null
+          : (retryAfterSeconds ?? this.retryAfterSeconds),
+      attemptsRemaining: clearAttemptsRemaining
+          ? null
+          : (attemptsRemaining ?? this.attemptsRemaining),
     );
   }
 }
 
 class WhatsAppOtpNotifier extends StateNotifier<WhatsAppOtpState> {
   WhatsAppOtpNotifier({required WhatsAppOtpService service})
-      : _service = service,
-        super(const WhatsAppOtpState());
+    : _service = service,
+      super(const WhatsAppOtpState());
 
   final WhatsAppOtpService _service;
 
@@ -83,6 +90,7 @@ class WhatsAppOtpNotifier extends StateNotifier<WhatsAppOtpState> {
       clearError: true,
       phone: e164Phone,
       clearRetryAfter: true,
+      clearAttemptsRemaining: true,
     );
 
     final result = await _service.sendOtp(e164Phone);
@@ -94,29 +102,40 @@ class WhatsAppOtpNotifier extends StateNotifier<WhatsAppOtpState> {
         isLoading: false,
         codeSent: true,
         step: WhatsAppOtpStep.verifyCode,
+        clearRetryAfter: true,
       );
     } else {
       state = state.copyWith(
         isLoading: false,
         error: result.message ?? 'Failed to send OTP',
         retryAfterSeconds: result.retryAfterSeconds,
+        clearAttemptsRemaining: true,
       );
     }
   }
 
   Future<OtpVerifyResult> verifyCode(String code) async {
-    state = state.copyWith(isLoading: true, clearError: true);
+    state = state.copyWith(
+      isLoading: true,
+      clearError: true,
+      clearAttemptsRemaining: true,
+    );
 
     final result = await _service.verifyOtp(state.phone, code);
 
     if (!mounted) return result;
 
     if (result.isVerified) {
-      state = state.copyWith(isLoading: false, verifyResult: result);
+      state = state.copyWith(
+        isLoading: false,
+        verifyResult: result,
+        clearAttemptsRemaining: true,
+      );
     } else {
       state = state.copyWith(
         isLoading: false,
         error: result.message ?? 'Invalid OTP',
+        attemptsRemaining: result.attemptsRemaining,
       );
     }
 

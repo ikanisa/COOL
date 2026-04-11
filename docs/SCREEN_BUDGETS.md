@@ -29,7 +29,7 @@ Why this exists:
 ## Current Snapshot
 
 - `42` screen files measured
-- `11` review-range screens
+- `13` review-range screens
 - `3` debt screens
 - `0` hotspot screens
 
@@ -37,45 +37,45 @@ Why this exists:
 
 | Screen | LOC | Status |
 |---|---|---|
-| [`admin_savings_detail_screen.dart`](../lib/features/admin/screens/admin_savings_detail_screen.dart) | `849` | Debt |
-| [`admin_savings_screen.dart`](../lib/features/admin/screens/admin_savings_screen.dart) | `807` | Debt |
+| [`admin_savings_detail_screen.dart`](../lib/features/admin/screens/admin_savings_detail_screen.dart) | `816` | Debt |
+| [`admin_savings_screen.dart`](../lib/features/admin/screens/admin_savings_screen.dart) | `792` | Debt |
 | [`bank_admin_workspace_screen.dart`](../lib/features/admin/screens/bank_admin_workspace_screen.dart) | `780` | Debt |
-| [`group_detail_screen.dart`](../lib/features/groups/screens/group_detail_screen.dart) | `608` | Review |
+| [`whatsapp_otp_screen.dart`](../lib/features/auth/screens/whatsapp_otp_screen.dart) | `673` | Review |
 | [`biopay_scan_screen.dart`](../lib/features/biopay/screens/biopay_scan_screen.dart) | `576` | Review |
-| [`group_statements_screen.dart`](../lib/features/groups/screens/group_statements_screen.dart) | `518` | Review |
-| [`whatsapp_otp_screen.dart`](../lib/features/auth/screens/whatsapp_otp_screen.dart) | `501` | Review |
+| [`group_detail_screen.dart`](../lib/features/groups/screens/group_detail_screen.dart) | `556` | Review |
+| [`group_statements_screen.dart`](../lib/features/groups/screens/group_statements_screen.dart) | `519` | Review |
 | [`momo_wallet_screen.dart`](../lib/features/momo/screens/momo_wallet_screen.dart) | `475` | Review |
 | [`biopay_nfc_screen.dart`](../lib/features/biopay/screens/biopay_nfc_screen.dart) | `453` | Review |
-| [`groups_screen.dart`](../lib/features/groups/screens/groups_screen.dart) | `451` | Review |
+| [`groups_screen.dart`](../lib/features/groups/screens/groups_screen.dart) | `447` | Review |
 | [`admin_groups_screen.dart`](../lib/features/admin/screens/admin_groups_screen.dart) | `440` | Review |
 | [`biopay_register_screen.dart`](../lib/features/biopay/screens/biopay_register_screen.dart) | `435` | Review |
-| [`profile_screen.dart`](../lib/features/profile/screens/profile_screen.dart) | `426` | Review |
-| [`biopay_scan_screen_processing.dart`](../lib/features/biopay/screens/biopay_scan_screen_processing.dart) | `417` | Review |
+| [`manage_users_screen.dart`](../lib/features/admin/screens/manage_users_screen.dart) | `424` | Review |
+| [`biopay_scan_screen_processing.dart`](../lib/features/biopay/screens/biopay_scan_screen_processing.dart) | `415` | Review |
+| [`group_settings_screen.dart`](../lib/features/groups/screens/group_settings_screen.dart) | `406` | Review |
+| [`manage_admin_roles_screen.dart`](../lib/features/admin/screens/manage_admin_roles_screen.dart) | `401` | Review |
+| [`operational_dashboard_screen.dart`](../lib/features/admin/screens/operational_dashboard_screen.dart) | `390` | Target |
 | [`biopay_profile_screen.dart`](../lib/features/biopay/screens/biopay_profile_screen.dart) | `367` | Target |
 | [`biopay_qr_screen.dart`](../lib/features/biopay/screens/biopay_qr_screen.dart) | `361` | Target |
-| [`system_analytics_screen.dart`](../lib/features/admin/screens/system_analytics_screen.dart) | `357` | Target |
-| [`audit_log_screen.dart`](../lib/features/admin/screens/audit_log_screen.dart) | `327` | Target |
-| [`operational_dashboard_release_cards.dart`](../lib/features/admin/screens/operational_dashboard_release_cards.dart) | `326` | Target |
-| [`admin_workspaces_screen.dart`](../lib/features/admin/screens/admin_workspaces_screen.dart) | `321` | Target |
+| [`group_create_screen.dart`](../lib/features/groups/screens/group_create_screen.dart) | `351` | Target |
+| [`audit_log_screen.dart`](../lib/features/admin/screens/audit_log_screen.dart) | `328` | Target |
 | [`operational_dashboard_cards.dart`](../lib/features/admin/screens/operational_dashboard_cards.dart) | `296` | Target |
 | [`operational_dashboard_manual_review.dart`](../lib/features/admin/screens/operational_dashboard_manual_review.dart) | `296` | Target |
-| [`operational_dashboard_utils.dart`](../lib/features/admin/screens/operational_dashboard_utils.dart) | `293` | Target |
-| [`group_settings_screen.dart`](../lib/features/groups/screens/group_settings_screen.dart) | `293` | Target |
 | [`operational_dashboard_sender_inventory.dart`](../lib/features/admin/screens/operational_dashboard_sender_inventory.dart) | `285` | Target |
-| [`group_create_screen.dart`](../lib/features/groups/screens/group_create_screen.dart) | `276` | Target |
+| [`operational_dashboard_utils.dart`](../lib/features/admin/screens/operational_dashboard_utils.dart) | `282` | Target |
+| [`profile_screen.dart`](../lib/features/profile/screens/profile_screen.dart) | `259` | Target |
 | [`manage_app_config_screen.dart`](../lib/features/admin/screens/manage_app_config_screen.dart) | `252` | Target |
-| [`groups_screen_sections.dart`](../lib/features/groups/screens/groups_screen_sections.dart) | `238` | Target |
+| [`system_analytics_screen.dart`](../lib/features/admin/screens/system_analytics_screen.dart) | `246` | Target |
+| [`admin_workspaces_screen.dart`](../lib/features/admin/screens/admin_workspaces_screen.dart) | `225` | Target |
 | [`biopay_nfc_tap_screen.dart`](../lib/features/biopay/screens/biopay_nfc_tap_screen.dart) | `219` | Target |
-| [`operational_dashboard_screen.dart`](../lib/features/admin/screens/operational_dashboard_screen.dart) | `201` | Target |
+| [`groups_screen_sections.dart`](../lib/features/groups/screens/groups_screen_sections.dart) | `214` | Target |
 | [`profile_sub_screens.dart`](../lib/features/profile/screens/profile_sub_screens.dart) | `191` | Target |
-| [`biopay_home_screen.dart`](../lib/features/biopay/screens/biopay_home_screen.dart) | `179` | Target |
-| [`manage_users_screen.dart`](../lib/features/admin/screens/manage_users_screen.dart) | `151` | Target |
+| [`admin_dashboard_parts.dart`](../lib/features/admin/screens/admin_dashboard_parts.dart) | `156` | Target |
 | [`profile_sub_screens_account.dart`](../lib/features/profile/screens/profile_sub_screens_account.dart) | `150` | Target |
-| [`admin_dashboard_parts.dart`](../lib/features/admin/screens/admin_dashboard_parts.dart) | `125` | Target |
-| [`biopay_enrollment_success_screen.dart`](../lib/features/biopay/screens/biopay_enrollment_success_screen.dart) | `119` | Target |
 | [`home_screen.dart`](../lib/features/home/screens/home_screen.dart) | `119` | Target |
-| [`admin_dashboard_screen.dart`](../lib/features/admin/screens/admin_dashboard_screen.dart) | `117` | Target |
-| [`manage_admin_roles_screen.dart`](../lib/features/admin/screens/manage_admin_roles_screen.dart) | `117` | Target |
+| [`biopay_enrollment_success_screen.dart`](../lib/features/biopay/screens/biopay_enrollment_success_screen.dart) | `116` | Target |
 | [`biopay_scan_screen_footer.dart`](../lib/features/biopay/screens/biopay_scan_screen_footer.dart) | `109` | Target |
 | [`profile_detail_screens.dart`](../lib/features/profile/screens/profile_detail_screens.dart) | `109` | Target |
+| [`admin_dashboard_screen.dart`](../lib/features/admin/screens/admin_dashboard_screen.dart) | `103` | Target |
+| [`operational_dashboard_release_cards.dart`](../lib/features/admin/screens/operational_dashboard_release_cards.dart) | `91` | Target |
+| [`biopay_home_screen.dart`](../lib/features/biopay/screens/biopay_home_screen.dart) | `86` | Target |
 | [`profile_sub_screens_support.dart`](../lib/features/profile/screens/profile_sub_screens_support.dart) | `7` | Target |

@@ -44,12 +44,17 @@ export async function reconcileParsedSms(
   // 0) Look up receiver account
   const receiverResult = await adminClient
     .from("payment_receiver_accounts")
-    .select("receiver_type, owner_id")
-    .eq("code_or_number", parsed.payee_number_or_code ?? "")
+    .select("id, purpose, owner_user_id, partner_id, is_active")
+    .eq("payee_number_or_code", parsed.payee_number_or_code ?? "")
     .maybeSingle();
 
-  const receiverType = receiverResult.data?.receiver_type;
-  const isDedicated = receiverType === "bank_custody" || receiverType === "agent_till";
+  const receiverPurpose = asString(receiverResult.data?.purpose);
+  const receiverOwnerUserId = asString(receiverResult.data?.owner_user_id);
+  const receiverIsActive = receiverResult.data?.is_active != false;
+  const canFallbackToWallet =
+    receiverPurpose == "personal_wallet" &&
+    receiverIsActive &&
+    (receiverOwnerUserId == null || receiverOwnerUserId == rawSms.user_id);
 
   // 0.5) Try matching generic pending payment_intents first
   const intentResult = await adminClient
@@ -162,18 +167,8 @@ export async function reconcileParsedSms(
     return groupRouteMatch;
   }
 
-  const partnerRouteMatch = await reconcileByPayeeRoute(
-    adminClient,
-    rawSms,
-    parsed,
-    timestamp,
-  );
-  if (partnerRouteMatch) {
-    return partnerRouteMatch;
-  }
-
-  // 4) Safe fallback to wallet if not dedicated receiver
-  if (!isDedicated) {
+  // 4) Safe fallback to wallet only for explicit personal-wallet receivers.
+  if (canFallbackToWallet) {
     return {
       matchType: "personal_wallet_fallback",
       matchStatus: "matched",
@@ -190,10 +185,12 @@ export async function reconcileParsedSms(
   }
 
   return buildManualReviewResult(
-    "No intent matched this dedicated receiver code.",
+    "No payment target matched this parsed SMS.",
     {
-      reason: "unmatched_dedicated_code",
-      receiverType,
+      reason: "no_matching_payment_record",
+      receiver_purpose: receiverPurpose,
+      receiver_owner_user_id: receiverOwnerUserId,
+      receiver_active: receiverIsActive,
       provider: normalizeProviderId(rawSms.provider),
     },
   );

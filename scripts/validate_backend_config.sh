@@ -15,8 +15,11 @@ load_client_env_files "$ROOT_DIR" \
 
 validate_flavor() {
   local flavor="${1:?Pass staging or production.}"
+  local upper_flavor
+  upper_flavor="$(tr '[:lower:]' '[:upper:]' <<<"$flavor")"
   resolve_supabase_client_env "$flavor"
   require_resolved_supabase_client_env "$flavor"
+  printf -v "VALIDATED_${upper_flavor}_REF" '%s' "$RESOLVED_SUPABASE_PROJECT_REF"
   printf '==> %s backend: %s (%s)\n' \
     "$flavor" \
     "$RESOLVED_SUPABASE_PROJECT_REF" \
@@ -38,9 +41,11 @@ if [[ -n "${SUPABASE_ANON_KEY:-}" && -n "${SUPABASE_PRODUCTION_ANON_KEY:-}" && \
   exit 1
 fi
 
-if [[ -n "${SUPABASE_STAGING_URL:-}" && -n "${SUPABASE_PRODUCTION_URL:-}" && \
-      "$SUPABASE_STAGING_URL" == "$SUPABASE_PRODUCTION_URL" ]]; then
-  echo "INFO: staging and production currently share the same Supabase project." >&2
+if [[ -n "${VALIDATED_STAGING_REF:-}" && -n "${VALIDATED_PRODUCTION_REF:-}" && \
+      "$VALIDATED_STAGING_REF" == "$VALIDATED_PRODUCTION_REF" ]]; then
+  echo "CRITICAL BLOCKER — staging and production resolve to the same Supabase project (${VALIDATED_STAGING_REF})." >&2
+  echo "Set distinct SUPABASE_STAGING_* and SUPABASE_PRODUCTION_* values before release validation." >&2
+  exit 1
 fi
 
 echo "==> backend config contract looks consistent"

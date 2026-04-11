@@ -4,7 +4,7 @@ Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router
 
 Current router shape:
 
-- `37` `GoRoute` declarations
+- `38` `GoRoute` declarations
 - `3` shell branches
 - `42` screen files under `lib/features/**/screens/*.dart`
 
@@ -20,6 +20,7 @@ Change policy:
 |---|---|---|
 | `/` | Redirect | No |
 | `/invite/:code` | Redirect | No |
+| `/register` | [`WhatsAppOtpScreen`](../lib/features/auth/screens/whatsapp_otp_screen.dart) | No |
 | `/scanner` | [`QrScannerScreen`](../lib/shared/widgets/qr_scanner_screen.dart) | No |
 
 ## Shell Branches

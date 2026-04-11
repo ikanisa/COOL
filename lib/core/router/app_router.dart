@@ -16,6 +16,7 @@ import '../../shared/widgets/qr_scanner_screen.dart';
 import '../../shared/widgets/secure_screen_wrapper.dart';
 import '../../features/admin/models/admin_workspace_access.dart';
 import '../../features/admin/providers/admin_workspace_access_provider.dart';
+import '../../features/auth/screens/whatsapp_otp_screen.dart';
 import '../providers/engagement_providers.dart';
 import 'admin_routes.dart';
 import 'app_router_refresh_notifier.dart';
@@ -91,6 +92,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     },
     routes: [
       GoRoute(path: '/', redirect: (context, state) => AppRoutes.home),
+      GoRoute(
+        path: AppRoutes.register,
+        pageBuilder: (context, state) => coolPageTransition(
+          context: context,
+          state: state,
+          child: WhatsAppOtpScreen(
+            initialPhone: state.uri.queryParameters['phone'],
+          ),
+        ),
+      ),
 
       // ── QR Scanner (full-screen, no shell) ─────────────────────
       GoRoute(

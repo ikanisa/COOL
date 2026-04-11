@@ -7,6 +7,7 @@ import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/money_formatters.dart';
+import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../../shared/widgets/cool_text_field.dart';
@@ -105,6 +106,15 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
       if (recipientValue.isEmpty) {
         recipientValue = null;
       }
+    }
+
+    final routeValidationError = _validateResolvedRoute(
+      routeType: routeType,
+      recipientValue: recipientValue,
+    );
+    if (routeValidationError != null) {
+      CoolToast.error(context, routeValidationError);
+      return;
     }
 
     setState(() => _isSubmitting = true);
@@ -232,6 +242,7 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
                 controller: _targetAmountController,
                 keyboardType: TextInputType.number,
                 inputFormatters: const [GroupedThousandsInputFormatter()],
+                validator: _validateOptionalAmount,
               ),
               SizedBox(height: space.x4),
 
@@ -241,6 +252,7 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
                 controller: _contributionAmountController,
                 keyboardType: TextInputType.number,
                 inputFormatters: const [GroupedThousandsInputFormatter()],
+                validator: _validateOptionalAmount,
               ),
               SizedBox(height: space.x4),
 
@@ -250,6 +262,8 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
                 momoNumberController: _momoNumberController,
                 momoCodeController: _momoCodeController,
                 supportsMomoCode: country.supportsMomoCode,
+                momoNumberValidator: _validateCustomMomoNumber,
+                momoCodeValidator: _validateCustomMomoCode,
                 onToggleCustom: (value) =>
                     setState(() => _useCustomMomo = value),
                 onRouteTypeChanged: (type) =>
@@ -271,5 +285,66 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
 
   int? _parseAmount(String raw) {
     return parseWholeMoneyAmount(raw);
+  }
+
+  String? _validateOptionalAmount(String? value) {
+    final trimmed = value?.trim() ?? '';
+    if (trimmed.isEmpty) {
+      return null;
+    }
+
+    final amount = _parseAmount(trimmed);
+    if (amount == null) {
+      return 'Enter a valid amount.';
+    }
+    if (amount <= 0) {
+      return 'Amount must be greater than zero.';
+    }
+    return null;
+  }
+
+  String? _validateCustomMomoNumber(String? value) {
+    if (!_useCustomMomo ||
+        _customMomoRouteType != MomoRecipientType.phoneNumber) {
+      return null;
+    }
+    return PhoneValidator.validateMomoNumberForCountry(
+      value ?? '',
+      AppMarket.country,
+    );
+  }
+
+  String? _validateCustomMomoCode(String? value) {
+    if (!_useCustomMomo || _customMomoRouteType != MomoRecipientType.code) {
+      return null;
+    }
+    return PhoneValidator.validateMomoCode(
+      value ?? '',
+      country: AppMarket.country,
+      required: true,
+    );
+  }
+
+  String? _validateResolvedRoute({
+    required MomoRecipientType? routeType,
+    required String? recipientValue,
+  }) {
+    final recipient = recipientValue?.trim() ?? '';
+    if (routeType == null || recipient.isEmpty) {
+      return 'Add a valid MoMo route before creating this group.';
+    }
+
+    return switch (routeType) {
+      MomoRecipientType.phoneNumber =>
+        PhoneValidator.validateMomoNumberForCountry(
+          recipient,
+          AppMarket.country,
+        ),
+      MomoRecipientType.code => PhoneValidator.validateMomoCode(
+        recipient,
+        country: AppMarket.country,
+        required: true,
+      ),
+    };
   }
 }

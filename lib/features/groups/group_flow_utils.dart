@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/config/country_catalog.dart';
 import '../../core/config/deep_link_config.dart';
+import '../momo/providers/momo_service_provider.dart';
 import '../groups/models/group.dart';
 
 bool groupHasContributionRoute(Group group) {
@@ -11,9 +13,9 @@ bool groupHasContributionRoute(Group group) {
 
 /// Launches the MoMo USSD payment flow for contributing to this group.
 ///
-/// For Rwanda: dials *182*8*1*{code}# (merchant code) or
-/// *182*1*1*{phone}*{amount}# (P2P transfer).
-/// Returns true if the USSD was successfully launched.
+/// Uses the central MoMo service so group contributions follow the same
+/// country-aware USSD rules, launch path, and observability as the rest of the
+/// app.
 Future<bool> launchGroupContribution(
   BuildContext context, {
   required Group group,
@@ -25,39 +27,32 @@ Future<bool> launchGroupContribution(
 
   final recipientType =
       (group.momoRouteType?.trim().toLowerCase() ?? '').contains('code')
-      ? 'code'
-      : 'phone_number';
+      ? MomoRecipientType.code
+      : MomoRecipientType.phoneNumber;
 
   final country = group.country.trim().isEmpty ? 'RW' : group.country.trim();
   final amount = (group.monthlyContribution ?? 0) > 0
       ? group.monthlyContribution!
       : null;
 
-  // Build USSD string based on payment route type
-  String ussdCode;
-  if (country == 'RW') {
-    if (recipientType == 'code') {
-      // MTN MoMo merchant payment: *182*8*1*{code}#
-      ussdCode = '*182*8*1*$recipient%23';
-    } else {
-      // MTN MoMo P2P: *182*1*1*{phone}*{amount}#
-      if (amount != null && amount > 0) {
-        ussdCode = '*182*1*1*$recipient*$amount%23';
-      } else {
-        ussdCode = '*182*1*1*$recipient%23';
-      }
-    }
-  } else {
-    // Fallback — just dial the number
-    ussdCode = recipient;
-  }
-
-  final uri = Uri.parse('tel:$ussdCode');
-  if (await canLaunchUrl(uri)) {
-    await launchUrl(uri);
+  try {
+    final momoService = ProviderScope.containerOf(
+      context,
+      listen: false,
+    ).read(momoServiceProvider);
+    await momoService.initiatePaymentUSSD(
+      amount,
+      recipientMomo: recipient,
+      recipientType: recipientType,
+      countryCode: country,
+      reference: group.id == null || group.id!.trim().isEmpty
+          ? 'GROUP-CONTRIBUTION'
+          : 'GROUP-${group.id!.trim()}',
+    );
     return true;
+  } catch (_) {
+    return false;
   }
-  return false;
 }
 
 String? buildGroupInviteUrl(Group group) {

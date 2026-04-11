@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
@@ -212,6 +213,8 @@ class GroupMomoRouteSection extends StatelessWidget {
     required this.momoCodeController,
     required this.supportsMomoCode,
     required this.onRouteTypeChanged,
+    this.momoNumberValidator,
+    this.momoCodeValidator,
     this.useCustom,
     this.onToggleCustom,
     super.key,
@@ -224,6 +227,8 @@ class GroupMomoRouteSection extends StatelessWidget {
   final TextEditingController momoCodeController;
   final bool supportsMomoCode;
   final ValueChanged<MomoRecipientType> onRouteTypeChanged;
+  final FormFieldValidator<String>? momoNumberValidator;
+  final FormFieldValidator<String>? momoCodeValidator;
 
   bool get _showsToggle => useCustom != null && onToggleCustom != null;
   bool get _showsEditor => !_showsToggle || useCustom == true;
@@ -327,11 +332,15 @@ class GroupMomoRouteSection extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: space.x2),
-                  TextField(
+                  TextFormField(
                     controller: routeType == MomoRecipientType.code
                         ? momoCodeController
                         : momoNumberController,
                     keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validator: routeType == MomoRecipientType.code
+                        ? momoCodeValidator
+                        : momoNumberValidator,
                     style: text.display(
                       theme.textTheme.headlineSmall,
                       color: colors.primaryText,

@@ -11,7 +11,7 @@ No build is release-candidate quality unless every gate below is green.
 
 | Gate | Requirement | Source of truth |
 |---|---|---|
-| **Supabase backend contract** | **The correct flavor-specific Supabase URL/key pair MUST be set** before building any APK or AAB. Build scripts validate `SUPABASE_STAGING_*` / `SUPABASE_PRODUCTION_*`, fall back to the legacy generic pair only as a warning, and Dart runtime validates the baked project ref. | `scripts/validate_backend_config.sh`, `scripts/_android_release_build.sh`, `scripts/build_staging.sh`, `lib/core/config/env_config.dart` |
+| **Supabase backend contract** | **The correct flavor-specific Supabase URL/key pair MUST be set** before building any APK or AAB. Staging and production must resolve to different Supabase project refs. Build scripts validate `SUPABASE_STAGING_*` / `SUPABASE_PRODUCTION_*`, fall back to the legacy generic pair only as a warning, and Dart runtime validates the baked project ref. | `scripts/validate_backend_config.sh`, `scripts/_android_release_build.sh`, `scripts/build_staging.sh`, `lib/core/config/env_config.dart` |
 | Hosted function secrets | Hosted Supabase function secrets are synced from CI before the release gate runs, and the hosted smoke must pass when `SUPABASE_PROJECT_REF` + `SUPABASE_ACCESS_TOKEN` are configured | `scripts/sync_supabase_function_secrets.sh`, `.github/workflows/release.yml`, `scripts/supabase_contract_smoke.sh` |
 | Static analysis | `flutter analyze` passes with zero issues | `scripts/release_readiness.sh` |
 | Flutter tests | `flutter test` passes with zero failures | `scripts/release_readiness.sh` |
@@ -32,11 +32,17 @@ bash scripts/release_readiness.sh
 
 That covers:
 
-- `flutter analyze`
+- `flutter analyze --fatal-infos`
 - `bash scripts/validate_backend_config.sh`
-- `flutter test`
-- `dart tool/deep_link_release_assets.dart --check`
-- `deno test supabase/functions/parse-momo-sms/reconciliation_test.ts`
+- `flutter test --exclude-tags=integration`
+- `flutter test test/integration_smoke`
+- `dart tool/deep_link_release_assets.dart --generate --check`
+- `bash scripts/validate_supabase_migrations.sh`
+- `dart tool/biopay_model_contract.dart --check`
+- `dart tool/governance_docs.dart --check`
+- Android and iOS flavor verification builds
+- `deno test` across every `supabase/functions/*_test.ts`
+- `deno check` across every TypeScript edge-function source file
 
 When release metadata changes, regenerate the committed association files first:
 
@@ -57,20 +63,50 @@ Optional migration apply:
 RUN_MIGRATION_APPLY=1 DATABASE_URL="postgresql://..." bash scripts/release_readiness.sh
 ```
 
+Optional but recommended release gates:
+
+```bash
+RUN_ANDROID_MINIFY_CANARY=1 \
+RUN_REMOTE_SMOKE=1 \
+RUN_MOMO_SMS_ROLLOUT_VERIFY=1 \
+bash scripts/release_readiness.sh
+```
+
+These enable the production minify canary, linked-project remote smoke, and
+M-Money rollout verification when the required secrets are available.
+
+For a real Android release-candidate pass, use the stricter wrapper:
+
+```bash
+RUN_ANDROID_MINIFY_CANARY=1 \
+RUN_REMOTE_SMOKE=1 \
+RUN_MOMO_SMS_ROLLOUT_VERIFY=1 \
+bash scripts/run_release_candidate.sh
+```
+
+That command additionally verifies:
+
+- `deeplinks/release_metadata.json` against release signing metadata
+- Firebase App Check provider registration for the Android production app
+- signed Android APK and AAB artifact generation
+
+iOS store release automation is explicitly de-scoped in the current repo. Keep
+`COOL_IOS_RELEASE_ENABLED=0` until a signed TestFlight / App Store lane exists.
+
 ## QA Matrix
 
 | ID | Scope | Status | Notes |
 |---|---|---|---|
 | QA-01 | Payment confirmation idempotency | Automated | Duplicate MoMo confirmations are covered by the `parse-momo-sms` reconciliation tests. |
 | QA-02 | Auth routing and profile gating | Automated | Route gating and redirect preservation are covered by `test/core/app_router_feature_gate_test.dart` and `test/integration_smoke/deep_link_test.dart`. |
-| QA-03 | Critical journey smoke coverage | Automated + manual | Host-side smoke tests cover boot, deep links, and MoMo; a connected-device UI pass is still required. |
+| QA-03 | Critical journey smoke coverage | Automated + manual | Host-side smoke tests cover boot, deep links, and MoMo route smoke; a connected-device UI pass is still required for real payment and SMS behavior. |
 | QA-04 | Release readiness review | Mixed | Automated checks are scripted. Route inventory, screen budget, smoke coverage, and the operations dashboard are PR/release gates. |
 
 ## Manual Critical Journey Pass
 
 Run these on an Android release build before submission:
 
-1. Sign in from a cold start and confirm splash, onboarding, OTP, and register transitions preserve the intended redirect target.
+1. Sign in from a cold start and confirm splash, onboarding, OTP, invite, and register transitions preserve the intended target and prefilled context.
 2. Open Home, Contribution Circles, and MoMo statements; verify each surface renders without placeholder or empty-state regressions.
 3. Start a contribution flow and confirm the MoMo handoff displays the expected amount and route details.
 4. Complete the SMS confirmation flow and verify the reconciled transaction appears in statements without duplication.

@@ -241,6 +241,38 @@ Deno.test("reconcileParsedSms leaves unmatched target records in pending review"
   );
 });
 
+Deno.test("reconcileParsedSms falls back to wallet only for personal receivers", async () => {
+  const tables: TableStore = {
+    payment_receiver_accounts: [
+      {
+        id: "receiver-1",
+        payee_number_or_code: "250788111222",
+        purpose: "personal_wallet",
+        owner_user_id: "user-1",
+        is_active: true,
+      },
+    ],
+    group_contributions: [],
+  };
+
+  const adminClient = new FakeAdminClient(tables);
+  const result = await reconcileParsedSms(
+    adminClient as unknown as ReturnType<typeof createAdminClient>,
+    sampleRawSms,
+    sampleParsedSms,
+    "parsed-sms-wallet-1",
+    "2026-03-11T15:05:00.000Z",
+  );
+
+  assertEquals(
+    result.matchType,
+    "personal_wallet_fallback",
+    "personal receiver accounts may still classify as wallet activity",
+  );
+  assertEquals(result.targetTable, "users", "wallet fallback should target the user");
+  assertEquals(result.targetRecordId, "user-1", "wallet fallback should post to the SMS owner");
+});
+
 Deno.test("reconcileParsedSms allocates partner payments directly from payee routes", async () => {
   const tables: TableStore = {
     pending_transactions: [],
@@ -291,4 +323,3 @@ Deno.test("reconcileParsedSms allocates partner payments directly from payee rou
     "partner id should be captured for downstream ledgers",
   );
 });
-

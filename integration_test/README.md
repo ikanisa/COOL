@@ -43,7 +43,7 @@ real mobile runtime.
 |---|---|
 | `app_boot_test.dart` | Smoke: app boots without crashing |
 | `deep_link_test.dart` | Redirect preservation for signed-out deep links |
-| `momo_flow_test.dart` | MoMo screen and send validation |
+| `momo_flow_test.dart` | Legacy MoMo route redirect and wallet-route reachability |
 
 ## Writing New Tests
 

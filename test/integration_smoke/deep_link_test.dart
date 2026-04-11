@@ -21,16 +21,18 @@ void main() {
       expect(uri.queryParameters['redirect'], isNull);
     });
 
-    testWidgets('Register deep link keeps its phone query during redirect', (
-      tester,
-    ) async {
-      const registerLink = '/register?phone=%2B250788123456';
-      final app = await pumpRouterApp(tester, initialLocation: registerLink);
+    testWidgets(
+      'Register deep link preserves its phone query on the public route',
+      (tester) async {
+        const registerLink = '/register?phone=%2B250788123456';
+        final app = await pumpRouterApp(tester, initialLocation: registerLink);
 
-      final uri = app.router.routeInformationProvider.value.uri;
+        final uri = app.router.routeInformationProvider.value.uri;
 
-      expect(uri.path, AppRoutes.splash);
-      expect(uri.queryParameters['redirect'], registerLink);
-    });
+        expect(uri.path, AppRoutes.register);
+        expect(uri.queryParameters['phone'], '+250788123456');
+        expect(uri.queryParameters['redirect'], isNull);
+      },
+    );
   });
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,14 +20,16 @@ import '../providers/whatsapp_otp_provider.dart';
 /// Returns `true` when the user successfully verifies and logs in.
 /// Returns `false` or `null` when the user dismisses.
 class WhatsAppOtpScreen extends ConsumerStatefulWidget {
-  const WhatsAppOtpScreen({super.key});
+  const WhatsAppOtpScreen({super.key, this.initialPhone});
+
+  final String? initialPhone;
 
   /// Show as a full-screen route pushed on top of current navigator.
-  static Future<bool?> show(BuildContext context) {
+  static Future<bool?> show(BuildContext context, {String? initialPhone}) {
     return Navigator.of(context, rootNavigator: true).push<bool>(
       MaterialPageRoute(
         fullscreenDialog: true,
-        builder: (_) => const WhatsAppOtpScreen(),
+        builder: (_) => WhatsAppOtpScreen(initialPhone: initialPhone),
       ),
     );
   }
@@ -39,18 +43,28 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
   final _otpControllers = List.generate(6, (_) => TextEditingController());
   final _otpFocusNodes = List.generate(6, (_) => FocusNode());
   bool _isVerifyingCode = false;
+  Timer? _retryTimer;
+  int _retryCountdown = 0;
 
   @override
   void initState() {
     super.initState();
     // Reset OTP state on open.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) ref.read(whatsAppOtpStateProvider.notifier).reset();
+      if (!mounted) {
+        return;
+      }
+      ref.read(whatsAppOtpStateProvider.notifier).reset();
+      final initialPhone = _normalizeInitialPhone(widget.initialPhone);
+      if (initialPhone.isNotEmpty) {
+        _phoneController.text = initialPhone;
+      }
     });
   }
 
   @override
   void dispose() {
+    _retryTimer?.cancel();
     _phoneController.dispose();
     for (final c in _otpControllers) {
       c.dispose();
@@ -64,7 +78,59 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
   CoolCountry get _country =>
       CoolCountryCatalog.resolve(country: AppMarket.countryCode);
 
+  String _normalizeInitialPhone(String? phone) {
+    final trimmed = phone?.trim() ?? '';
+    if (trimmed.isEmpty) {
+      return '';
+    }
+
+    if (_country.isoCode == 'RW') {
+      final local = PhoneValidator.toRwandanLocal(trimmed);
+      if (local != null) {
+        return local;
+      }
+    }
+
+    return trimmed.replaceAll(RegExp(r'[^0-9]'), '');
+  }
+
+  void _syncRetryCountdown(int? retryAfterSeconds) {
+    _retryTimer?.cancel();
+    if (!mounted || retryAfterSeconds == null || retryAfterSeconds <= 0) {
+      if (_retryCountdown != 0) {
+        setState(() => _retryCountdown = 0);
+      }
+      return;
+    }
+
+    setState(() => _retryCountdown = retryAfterSeconds);
+    _retryTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+      if (_retryCountdown <= 1) {
+        timer.cancel();
+        setState(() => _retryCountdown = 0);
+        return;
+      }
+      setState(() => _retryCountdown -= 1);
+    });
+  }
+
+  void _clearOtpInputs() {
+    for (final controller in _otpControllers) {
+      controller.clear();
+    }
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   void _sendCode() {
+    if (_retryCountdown > 0) {
+      return;
+    }
     final raw = _phoneController.text.trim();
     final validationError = PhoneValidator.validateOtpPhone(raw, _country);
     if (validationError != null) {
@@ -129,13 +195,18 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
     final otpState = ref.read(whatsAppOtpStateProvider);
     if (otpState.step == WhatsAppOtpStep.verifyCode) {
       ref.read(whatsAppOtpStateProvider.notifier).goBackToPhone();
-      // Clear OTP inputs.
-      for (final c in _otpControllers) {
-        c.clear();
-      }
+      _clearOtpInputs();
     } else {
       Navigator.of(context, rootNavigator: true).pop(false);
     }
+  }
+
+  void _resendCode(WhatsAppOtpState otpState) {
+    if (otpState.phone.isEmpty || otpState.isLoading || _retryCountdown > 0) {
+      return;
+    }
+    _clearOtpInputs();
+    ref.read(whatsAppOtpStateProvider.notifier).sendCode(otpState.phone);
   }
 
   @override
@@ -143,10 +214,9 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
     final otpState = ref.watch(whatsAppOtpStateProvider);
     final colors = context.coolSemanticColors;
 
-    // Show error toast reactively.
     ref.listen<WhatsAppOtpState>(whatsAppOtpStateProvider, (prev, next) {
-      if (next.error != null && next.error != prev?.error) {
-        CoolToast.error(context, next.error!);
+      if (next.retryAfterSeconds != prev?.retryAfterSeconds) {
+        _syncRetryCountdown(next.retryAfterSeconds);
       }
     });
 
@@ -322,14 +392,36 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
 
         const SizedBox(height: CoolSpace.x7),
 
+        if (otpState.error != null || _retryCountdown > 0) ...[
+          _OtpStatusCard(
+            message:
+                otpState.error ?? context.l10n.resendCodeIn(_retryCountdown),
+            accentColor: colors.accent,
+          ),
+          const SizedBox(height: CoolSpace.x4),
+        ],
+
         // Send button.
         CoolButton(
           label: l10n.otpSendCodeUpper,
           variant: CoolButtonVariant.accent,
           size: CoolButtonSize.lg,
           isLoading: otpState.isLoading,
-          onTap: otpState.isLoading ? null : _sendCode,
+          onTap: otpState.isLoading || _retryCountdown > 0 ? null : _sendCode,
         ),
+
+        if (_retryCountdown > 0) ...[
+          const SizedBox(height: CoolSpace.x3),
+          Text(
+            l10n.resendCodeIn(_retryCountdown),
+            textAlign: TextAlign.center,
+            style: context.coolText.mono(
+              Theme.of(context).textTheme.bodySmall,
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
 
         const Spacer(flex: 3),
       ],
@@ -389,6 +481,20 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
             ],
           ),
         ),
+
+        if (otpState.error != null ||
+            otpState.attemptsRemaining != null ||
+            _retryCountdown > 0) ...[
+          const SizedBox(height: CoolSpace.x4),
+          _OtpStatusCard(
+            message:
+                otpState.error ?? context.l10n.resendCodeIn(_retryCountdown),
+            secondaryMessage: otpState.attemptsRemaining == null
+                ? null
+                : 'Attempts remaining: ${otpState.attemptsRemaining}',
+            accentColor: colors.accent,
+          ),
+        ],
 
         const SizedBox(height: CoolSpace.x8),
 
@@ -462,6 +568,21 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
           onTap: otpState.isLoading ? null : _verifyCode,
         ),
 
+        const SizedBox(height: CoolSpace.x3),
+
+        Center(
+          child: TextButton(
+            onPressed: otpState.isLoading || _retryCountdown > 0
+                ? null
+                : () => _resendCode(otpState),
+            child: Text(
+              _retryCountdown > 0
+                  ? l10n.resendCodeIn(_retryCountdown)
+                  : l10n.resendCode,
+            ),
+          ),
+        ),
+
         const SizedBox(height: CoolSpace.x6),
       ],
     );
@@ -494,6 +615,57 @@ class _BackChip extends StatelessWidget {
           color: colors.primaryText,
           size: 28,
         ),
+      ),
+    );
+  }
+}
+
+class _OtpStatusCard extends StatelessWidget {
+  const _OtpStatusCard({
+    required this.message,
+    required this.accentColor,
+    this.secondaryMessage,
+  });
+
+  final String message;
+  final String? secondaryMessage;
+  final Color accentColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(CoolSpace.x4),
+      decoration: BoxDecoration(
+        color: colors.cardSurface,
+        borderRadius: BorderRadius.circular(CoolRadii.md),
+        border: Border.all(color: accentColor.withValues(alpha: 0.35)),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.18),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            message,
+            style: context.coolText.mono(
+              Theme.of(context).textTheme.bodySmall,
+              color: colors.primaryText,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          if (secondaryMessage != null) ...[
+            const SizedBox(height: CoolSpace.x2),
+            Text(
+              secondaryMessage!,
+              style: context.coolText.mono(
+                Theme.of(context).textTheme.bodySmall,
+                color: colors.secondaryText,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }

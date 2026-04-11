@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 abstract final class AppRoutes {
   static const splash = '/';
   static const home = '/home';
+  static const register = '/register';
 
   // ── Contribution groups ─────────────────────────────────────────
   static const groups = '/groups';
@@ -64,6 +65,16 @@ abstract final class AppRoutes {
 
   static String splashLocation({String? redirect}) {
     return _location(splash, redirect: redirect);
+  }
+
+  static String registerLocation({String? phone, String? redirect}) {
+    return _location(
+      register,
+      redirect: redirect,
+      queryParameters: phone == null || phone.trim().isEmpty
+          ? null
+          : <String, String>{'phone': phone.trim()},
+    );
   }
 
   static String profileWalletLocation({String? redirect}) {

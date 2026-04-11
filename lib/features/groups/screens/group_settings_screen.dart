@@ -7,7 +7,9 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/cool_icons.dart';
 import '../../../core/utils/money_formatters.dart';
+import '../../../core/utils/phone_validator.dart';
 import '../../../core/utils/user_error.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_metric_row.dart';
 import '../../../shared/widgets/cool_section_card.dart';
 import '../../../shared/widgets/cool_expandable_section.dart';
@@ -91,6 +93,18 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
     final recipient = _routeType == MomoRecipientType.code
         ? _momoCodeController.text.trim()
         : _momoNumberController.text.trim();
+    final country = CoolCountryCatalog.resolve(country: group.country);
+    final routeValidationError = group.type == 'saving'
+        ? null
+        : _validateRoute(
+            routeType: _routeType,
+            recipientValue: recipient,
+            country: country,
+          );
+    if (routeValidationError != null) {
+      CoolToast.error(context, routeValidationError);
+      return;
+    }
 
     setState(() => _isSaving = true);
     try {
@@ -134,32 +148,29 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
         child: Center(child: CircularProgressIndicator()),
       ),
       error: (error, _) => CoreDetailScaffold(
-        child: Center(
-          child: Icon(
-            CoolIcons.groupOff,
-            size: 40,
-            color: context.coolSemanticColors.tertiaryText,
-          ),
+        child: CoolEmptyView(
+          icon: CoolIcons.groupOff,
+          title: context.l10n.groupSettings,
+          message:
+              'We could not load this group right now. Check your connection and try again.',
         ),
       ),
       data: (group) {
         if (group == null) {
           return CoreDetailScaffold(
-            child: Center(
-              child: Icon(
-                CoolIcons.groupOff,
-                size: 40,
-                color: context.coolSemanticColors.tertiaryText,
-              ),
+            child: CoolEmptyView(
+              icon: CoolIcons.groupOff,
+              title: context.l10n.groupSettings,
+              message: 'This group is no longer available.',
             ),
           );
         }
 
+        final country = CoolCountryCatalog.resolve(country: group.country);
         _seedFromGroup(group);
 
         final access = accessAsync.valueOrNull;
         final canManage = access?.canManageSettings ?? false;
-        final country = CoolCountryCatalog.resolve(country: group.country);
         final frequencyOptions = group.type == 'saving'
             ? const <String>['daily', 'weekly', 'monthly']
             : const <String>['one_off'];
@@ -193,21 +204,19 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
               : null,
           child: accessAsync.when(
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (_, _) => Center(
-              child: Icon(
-                CoolIcons.lock,
-                size: 40,
-                color: context.coolSemanticColors.tertiaryText,
-              ),
+            error: (_, _) => CoolEmptyView(
+              icon: CoolIcons.lock,
+              title: context.l10n.groupSettings,
+              message:
+                  'We could not verify your access to this group. Try again in a moment.',
             ),
             data: (snapshot) {
               if (snapshot == null || !snapshot.canManageSettings) {
-                return Center(
-                  child: Icon(
-                    Icons.lock_outline_rounded,
-                    size: 40,
-                    color: context.coolSemanticColors.tertiaryText,
-                  ),
+                return CoolEmptyView(
+                  icon: Icons.lock_outline_rounded,
+                  title: context.l10n.groupSettings,
+                  message:
+                      'You do not have permission to change these settings.',
                 );
               }
 
@@ -242,7 +251,8 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                     const SizedBox(height: CoolSpace.x5),
                     CoolExpandableSection(
                       header: context.l10n.groupFrequencySection,
-                      initiallyExpanded: group.targetAmount > 0 ||
+                      initiallyExpanded:
+                          group.targetAmount > 0 ||
                           (group.monthlyContribution ?? 0) > 0,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -258,6 +268,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                             inputFormatters: const [
                               GroupedThousandsInputFormatter(),
                             ],
+                            validator: _validateOptionalAmount,
                           ),
                           const SizedBox(height: CoolSpace.x3),
                           CoolTextField(
@@ -265,13 +276,15 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                                 .groupSettingsContributionAmountOptionalLabel(
                                   country.currencyCode,
                                 ),
-                            hint: context.l10n
+                            hint: context
+                                .l10n
                                 .groupSettingsContributionAmountHint,
                             controller: _contributionAmountController,
                             keyboardType: TextInputType.number,
                             inputFormatters: const [
                               GroupedThousandsInputFormatter(),
                             ],
+                            validator: _validateOptionalAmount,
                           ),
                           const SizedBox(height: CoolSpace.x3),
                           GroupFrequencyPicker(
@@ -294,6 +307,25 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                         momoNumberController: _momoNumberController,
                         momoCodeController: _momoCodeController,
                         supportsMomoCode: country.supportsMomoCode,
+                        momoNumberValidator: (value) {
+                          if (_routeType != MomoRecipientType.phoneNumber) {
+                            return null;
+                          }
+                          return PhoneValidator.validateMomoNumberForCountry(
+                            value ?? '',
+                            country,
+                          );
+                        },
+                        momoCodeValidator: (value) {
+                          if (_routeType != MomoRecipientType.code) {
+                            return null;
+                          }
+                          return PhoneValidator.validateMomoCode(
+                            value ?? '',
+                            country: country,
+                            required: true,
+                          );
+                        },
                         onRouteTypeChanged: (value) =>
                             setState(() => _routeType = value),
                       ),
@@ -309,6 +341,38 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
 
   int? _parseAmount(String raw) {
     return parseWholeMoneyAmount(raw, allowZero: true);
+  }
+
+  String? _validateOptionalAmount(String? value) {
+    final trimmed = value?.trim() ?? '';
+    if (trimmed.isEmpty) {
+      return null;
+    }
+
+    final amount = _parseAmount(trimmed);
+    if (amount == null) {
+      return 'Enter a valid amount.';
+    }
+    if (amount < 0) {
+      return 'Amount cannot be negative.';
+    }
+    return null;
+  }
+
+  String? _validateRoute({
+    required MomoRecipientType routeType,
+    required String recipientValue,
+    required CoolCountry country,
+  }) {
+    return switch (routeType) {
+      MomoRecipientType.phoneNumber =>
+        PhoneValidator.validateMomoNumberForCountry(recipientValue, country),
+      MomoRecipientType.code => PhoneValidator.validateMomoCode(
+        recipientValue,
+        country: country,
+        required: true,
+      ),
+    };
   }
 }
 

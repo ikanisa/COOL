@@ -18,6 +18,15 @@ const _platformAdminRoutes = {
   AppRoutes.adminOperations,
 };
 
+bool _isPublicSignedOutRoute(String location) {
+  final path = _locationPath(location);
+  return path == AppRoutes.splash ||
+      path == AppRoutes.home ||
+      path == AppRoutes.register ||
+      path == AppRoutes.contributionCircles ||
+      path.startsWith('/invite/');
+}
+
 String _locationPath(String location) {
   final uri = Uri.tryParse(location);
   final path = uri?.path ?? location;
@@ -92,7 +101,7 @@ String? resolveAppRedirect({
   // No session → send the user to home while auth re-establishes a guest
   // session. This should be rare because cold start is handled in bootstrap.
   if (!hasSession) {
-    if (location == AppRoutes.home || location == AppRoutes.splash) {
+    if (_isPublicSignedOutRoute(location)) {
       return null;
     }
     return AppRoutes.home;

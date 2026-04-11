@@ -12,6 +12,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../app.dart';
 import '../core/config/env_config.dart';
+import '../core/providers/engagement_providers.dart';
 import '../core/services/app_check_service.dart';
 import '../core/services/firebase_bootstrap_service.dart';
 import '../core/services/hive_runtime.dart';
@@ -39,6 +40,8 @@ class _AppBootstrapResult {
     required this.themePreferenceStore,
     required this.initialPreference,
     required this.initialAuthState,
+    required this.crashlytics,
+    required this.performance,
     required this.configError,
   });
 
@@ -46,6 +49,8 @@ class _AppBootstrapResult {
   final ({AppThemePreference preference, DateTime? updatedAt})
   initialPreference;
   final app_auth.AuthState initialAuthState;
+  final CrashlyticsService crashlytics;
+  final PerformanceService performance;
   final String? configError;
 }
 
@@ -174,11 +179,21 @@ class _AppBootstrapState extends State<AppBootstrap> {
         ) ??
         (preference: _defaultThemePreference, updatedAt: null);
 
-    final initialAuthState = await _runRequiredBootStep<app_auth.AuthState>(
-      _bootstrapL10n.bootstrapPreparingYourAccount,
-      _prepareInitialAuthState,
-      timeout: const Duration(seconds: 20),
-    );
+    final crashlytics = CrashlyticsService();
+    final performance = PerformanceService();
+    await crashlytics.initialize();
+    await performance.initialize();
+
+    final initialAuthState = configError == null
+        ? await _runRequiredBootStep<app_auth.AuthState>(
+            _bootstrapL10n.bootstrapPreparingYourAccount,
+            () => _prepareInitialAuthState(
+              crashlytics: crashlytics,
+              performance: performance,
+            ),
+            timeout: const Duration(seconds: 20),
+          )
+        : const app_auth.AuthState();
 
     if (coldStartTrace != null) {
       unawaited(
@@ -194,16 +209,16 @@ class _AppBootstrapState extends State<AppBootstrap> {
       themePreferenceStore: themePreferenceStore,
       initialPreference: initialPreference,
       initialAuthState: initialAuthState,
+      crashlytics: crashlytics,
+      performance: performance,
       configError: configError,
     );
   }
 
-  Future<app_auth.AuthState> _prepareInitialAuthState() async {
-    final crashlytics = CrashlyticsService();
-    await crashlytics.initialize();
-    final performance = PerformanceService();
-    await performance.initialize();
-
+  Future<app_auth.AuthState> _prepareInitialAuthState({
+    required CrashlyticsService crashlytics,
+    required PerformanceService performance,
+  }) async {
     final momoService = MomoService(client: Supabase.instance.client);
     momoService.setObservabilityServices(
       crashlytics: crashlytics,
@@ -404,6 +419,8 @@ class _AppBootstrapState extends State<AppBootstrap> {
     if (result != null) {
       return ProviderScope(
         overrides: [
+          crashlyticsServiceProvider.overrideWithValue(result.crashlytics),
+          performanceServiceProvider.overrideWithValue(result.performance),
           themePreferenceStoreProvider.overrideWithValue(
             result.themePreferenceStore,
           ),
