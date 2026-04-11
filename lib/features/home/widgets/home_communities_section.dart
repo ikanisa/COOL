@@ -102,42 +102,60 @@ class _CommunityCard extends StatelessWidget {
 
     return CoolCard(
       onTap: onOpen,
-      cardPadding: CoolCardPadding.none,
-      padding: const EdgeInsets.all(CoolSpace.x4),
-      child: CoolListTile(
-        leading: CoolIconBox(
-          icon: Icons.groups_2_outlined,
-          accent: colors.accent,
-        ),
-        title: group.name.trim().isEmpty
-            ? context.l10n.homeCommunityFallbackName
-            : group.name.trim(),
-        subtitle: memberCountLabel(context, group.memberCount),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              '${fmtAmt(group.amount)} RWF',
-              style: context.coolText.display(
-                Theme.of(context).textTheme.titleMedium,
-                color: colors.primaryText,
-                fontWeight: FontWeight.w600,
-              ),
+      cardPadding: CoolCardPadding.md,
+      child: Row(
+        children: [
+          CoolIconBox(
+            icon: CoolIcons.groups,
+            accent: colors.accent,
+          ),
+          const SizedBox(width: CoolSpace.x4),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  group.name.trim().isEmpty
+                      ? context.l10n.homeCommunityFallbackName
+                      : group.name.trim(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.coolText.headline(
+                    Theme.of(context).textTheme.titleSmall,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  memberCountLabel(context, group.memberCount),
+                  style: context.coolText
+                      .mobiLabel(color: colors.secondaryText)
+                      .copyWith(fontWeight: FontWeight.w500),
+                ),
+              ],
             ),
-            const SizedBox(width: CoolSpace.x2),
-            _CircleActionButton(
-              icon: canQuickContribute
-                  ? Icons.add_rounded
-                  : Icons.arrow_forward_rounded,
-              onTap: () {
-                HapticFeedback.selectionClick();
-                onQuickContribution();
-              },
+          ),
+          const SizedBox(width: CoolSpace.x3),
+          Text(
+            '${fmtAmt(group.amount)} RWF',
+            style: context.coolText.display(
+              Theme.of(context).textTheme.titleMedium,
+              color: colors.primaryText,
+              fontWeight: FontWeight.w600,
             ),
-          ],
-        ),
-        onTap: onOpen,
-        showChevron: false,
+          ),
+          const SizedBox(width: CoolSpace.x2),
+          _CircleActionButton(
+            icon: canQuickContribute
+                ? CoolIcons.add
+                : CoolIcons.forward,
+            onTap: () {
+              HapticFeedback.selectionClick();
+              onQuickContribution();
+            },
+          ),
+        ],
       ),
     );
   }

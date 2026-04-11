@@ -10,6 +10,7 @@ import '../../../core/utils/money_formatters.dart';
 import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/cool_metric_row.dart';
 import '../../../shared/widgets/cool_section_card.dart';
+import '../../../shared/widgets/cool_expandable_section.dart';
 import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/cool_text_field.dart';
@@ -135,7 +136,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
       error: (error, _) => CoreDetailScaffold(
         child: Center(
           child: Icon(
-            Icons.group_off_rounded,
+            CoolIcons.groupOff,
             size: 40,
             color: context.coolSemanticColors.tertiaryText,
           ),
@@ -146,7 +147,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
           return CoreDetailScaffold(
             child: Center(
               child: Icon(
-                Icons.group_off_rounded,
+                CoolIcons.groupOff,
                 size: 40,
                 color: context.coolSemanticColors.tertiaryText,
               ),
@@ -194,7 +195,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (_, _) => Center(
               child: Icon(
-                Icons.lock_outline_rounded,
+                CoolIcons.lock,
                 size: 40,
                 color: context.coolSemanticColors.tertiaryText,
               ),
@@ -239,36 +240,48 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                       maxLines: 3,
                     ),
                     const SizedBox(height: CoolSpace.x5),
-                    CoolTextField(
-                      label: context.l10n
-                          .groupSettingsTargetAmountOptionalLabel(
-                            country.currencyCode,
+                    CoolExpandableSection(
+                      header: context.l10n.groupFrequencySection,
+                      initiallyExpanded: group.targetAmount > 0 ||
+                          (group.monthlyContribution ?? 0) > 0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CoolTextField(
+                            label: context.l10n
+                                .groupSettingsTargetAmountOptionalLabel(
+                                  country.currencyCode,
+                                ),
+                            hint: context.l10n.groupSettingsTargetAmountHint,
+                            controller: _targetAmountController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: const [
+                              GroupedThousandsInputFormatter(),
+                            ],
                           ),
-                      hint: context.l10n.groupSettingsTargetAmountHint,
-                      controller: _targetAmountController,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: const [GroupedThousandsInputFormatter()],
-                    ),
-                    const SizedBox(height: CoolSpace.x3),
-                    CoolTextField(
-                      label: context.l10n
-                          .groupSettingsContributionAmountOptionalLabel(
-                            country.currencyCode,
+                          const SizedBox(height: CoolSpace.x3),
+                          CoolTextField(
+                            label: context.l10n
+                                .groupSettingsContributionAmountOptionalLabel(
+                                  country.currencyCode,
+                                ),
+                            hint: context.l10n
+                                .groupSettingsContributionAmountHint,
+                            controller: _contributionAmountController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: const [
+                              GroupedThousandsInputFormatter(),
+                            ],
                           ),
-                      hint: context.l10n.groupSettingsContributionAmountHint,
-                      controller: _contributionAmountController,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: const [GroupedThousandsInputFormatter()],
-                    ),
-                    const SizedBox(height: CoolSpace.x5),
-                    GroupSectionLabel(
-                      label: context.l10n.groupFrequencySection,
-                    ),
-                    const SizedBox(height: CoolSpace.x2),
-                    GroupFrequencyPicker(
-                      options: frequencyOptions,
-                      selected: _frequency,
-                      onSelected: (value) => setState(() => _frequency = value),
+                          const SizedBox(height: CoolSpace.x3),
+                          GroupFrequencyPicker(
+                            options: frequencyOptions,
+                            selected: _frequency,
+                            onSelected: (value) =>
+                                setState(() => _frequency = value),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: CoolSpace.x5),
                     if (group.type == 'saving') ...[

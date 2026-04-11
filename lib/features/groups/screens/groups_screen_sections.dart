@@ -26,49 +26,67 @@ class _GroupLedgerCard extends StatelessWidget {
 
     return CoolCard(
       onTap: onOpen,
-      cardPadding: CoolCardPadding.none,
-      padding: const EdgeInsets.all(CoolSpace.x4),
-      child: CoolListTile(
-        leading: CoolIconBox(
-          icon: Icons.groups_2_outlined,
-          accent: colors.accent,
-        ),
-        title: group.name,
-        subtitle: context.l10n.memberCount(group.memberCount),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              '${formatWholeMoneyAmount(group.amount)} RWF',
-              style: context.coolText.display(
-                Theme.of(context).textTheme.titleMedium,
-                color: colors.primaryText,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(width: CoolSpace.x3),
-            if (canJoin)
-              SizedBox(
-                width: 84,
-                child: CoolButton(
-                  label: context.l10n.groupsJoinUpper,
-                  onTap: isBusy ? null : onJoin,
-                  isLoading: isBusy,
-                  fullWidth: false,
-                  size: CoolButtonSize.sm,
-                  variant: CoolButtonVariant.secondary,
+      cardPadding: CoolCardPadding.md,
+      child: Row(
+        children: [
+          CoolIconBox(
+            icon: CoolIcons.groups,
+            accent: colors.accent,
+          ),
+          const SizedBox(width: CoolSpace.x4),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  group.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.coolText.headline(
+                    Theme.of(context).textTheme.titleSmall,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              )
-            else
-              Icon(
-                Icons.chevron_right_rounded,
-                color: colors.tertiaryText,
-                size: 20,
+                const SizedBox(height: 2),
+                Text(
+                  context.l10n.memberCount(group.memberCount),
+                  style: context.coolText
+                      .mobiLabel(color: colors.secondaryText)
+                      .copyWith(fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: CoolSpace.x3),
+          Text(
+            '${formatWholeMoneyAmount(group.amount)} RWF',
+            style: context.coolText.display(
+              Theme.of(context).textTheme.titleMedium,
+              color: colors.primaryText,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(width: CoolSpace.x3),
+          if (canJoin)
+            SizedBox(
+              width: 84,
+              child: CoolButton(
+                label: context.l10n.groupsJoinUpper,
+                onTap: isBusy ? null : onJoin,
+                isLoading: isBusy,
+                fullWidth: false,
+                size: CoolButtonSize.sm,
+                variant: CoolButtonVariant.secondary,
               ),
-          ],
-        ),
-        onTap: onOpen,
-        showChevron: false,
+            )
+          else
+            Icon(
+              CoolIcons.chevron,
+              color: colors.tertiaryText,
+              size: 20,
+            ),
+        ],
       ),
     ).animate().fadeIn(duration: 220.ms).slideY(begin: 0.03, end: 0.0);
   }
@@ -115,7 +133,7 @@ class _InviteBanner extends StatelessWidget {
               ),
               IconButton(
                 onPressed: onDismiss,
-                icon: const Icon(Icons.close_rounded),
+                icon: const Icon(CoolIcons.close),
               ),
             ],
           ),
@@ -176,7 +194,7 @@ class _EmptyGroupsState extends StatelessWidget {
           compact: true,
           title: title,
           subtitle: message,
-          icon: Icons.groups_rounded,
+          icon: CoolIcons.groups,
           actionLabel: actionLabel,
           onAction: onAction,
         ),

@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_icons.dart';
 import '../../../core/utils/money_formatters.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../models/home_dashboard_data.dart';
@@ -50,18 +51,18 @@ IconData operationIconFor(HomeDashboardTransaction transaction) {
   final type = transaction.type.toLowerCase();
 
   if (title.contains('contribution') || transaction.groupName != null) {
-    return Icons.groups_rounded;
+    return CoolIcons.members;
   }
   if (type.contains('debit')) {
-    return Icons.north_east_rounded;
+    return CoolIcons.debit;
   }
   if (type.contains('credit') || transaction.isPositive) {
-    return Icons.south_west_rounded;
+    return CoolIcons.credit;
   }
   if (type.contains('interest')) {
-    return Icons.savings_rounded;
+    return CoolIcons.savings;
   }
-  return Icons.sync_alt_rounded;
+  return CoolIcons.syncAlt;
 }
 
 Color operationAccentFor(

@@ -1,5 +1,10 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
+import { HttpError } from "../_shared/auth.ts";
+import {
+  isAppCheckEnforced,
+  requireAppCheckToken,
+} from "../_shared/app_check.ts";
 import {
   countRecentOtpRateEvents,
   extractClientIp,
@@ -37,6 +42,8 @@ type VerifyOtpRequest = {
 
 export type VerifyOtpHandlerDependencies = {
   createAdminClient: () => AdminClient;
+  isAppCheckEnforced: () => boolean;
+  requireAppCheckToken: (request: Request) => Promise<string>;
   recordEdgeFunctionFailure: typeof recordEdgeFunctionFailure;
 };
 
@@ -47,6 +54,9 @@ const verifyOtpFailureMessage = "Failed to verify OTP";
 
 const defaultVerifyOtpHandlerDependencies: VerifyOtpHandlerDependencies = {
   createAdminClient,
+  isAppCheckEnforced: () =>
+    isAppCheckEnforced(["ENFORCE_OTP_APP_CHECK", "ENFORCE_APP_CHECK"]),
+  requireAppCheckToken,
   recordEdgeFunctionFailure,
 };
 
@@ -60,20 +70,24 @@ export function createVerifyOtpHandler(
     }
 
     if (request.method != "POST") {
-      return methodNotAllowed("POST");
+      return methodNotAllowed("POST", request);
     }
 
     let normalizedPhoneForTelemetry: string | null = null;
     let adminClient: AdminClient | null = null;
 
     try {
+      if (deps.isAppCheckEnforced()) {
+        await deps.requireAppCheckToken(request);
+      }
+
       const body = await request.json() as VerifyOtpRequest;
       const normalizedPhone = normalizePhone(body.phone ?? "");
       normalizedPhoneForTelemetry = normalizedPhone;
       const code = (body.code ?? "").trim();
 
       if (!/^\d{6}$/.test(code)) {
-        return errorResponse("Code must be 6 digits", 400);
+        return errorResponse("Code must be 6 digits", 400, undefined, request);
       }
 
       adminClient = deps.createAdminClient();
@@ -104,6 +118,7 @@ export function createVerifyOtpHandler(
             "Too many verification attempts from this network. Request a new code later.",
             429,
             { retryAfterSeconds: 600 },
+            request,
           );
         }
       }
@@ -124,6 +139,7 @@ export function createVerifyOtpHandler(
           "Too many verification attempts for this phone number. Request a new code later.",
           429,
           { retryAfterSeconds: 600 },
+          request,
         );
       }
       const usingReviewOtp = isReviewOtpMatch(normalizedPhone, code);
@@ -157,7 +173,12 @@ export function createVerifyOtpHandler(
             outcome: "missing_otp",
             phone: normalizedPhone,
           });
-          return errorResponse("No OTP found for this phone number", 404);
+          return errorResponse(
+            "No OTP found for this phone number",
+            404,
+            undefined,
+            request,
+          );
         }
 
         if ((otpRecord.attempts ?? 0) >= 3) {
@@ -167,7 +188,12 @@ export function createVerifyOtpHandler(
             outcome: "blocked_phone_attempts",
             phone: normalizedPhone,
           });
-          return errorResponse("Too many attempts. Request a new code.", 429);
+          return errorResponse(
+            "Too many attempts. Request a new code.",
+            429,
+            undefined,
+            request,
+          );
         }
 
         if (new Date(otpRecord.expires_at).getTime() < Date.now()) {
@@ -177,7 +203,12 @@ export function createVerifyOtpHandler(
             outcome: "expired",
             phone: normalizedPhone,
           });
-          return errorResponse("OTP code has expired", 400);
+          return errorResponse(
+            "OTP code has expired",
+            400,
+            undefined,
+            request,
+          );
         }
 
         const incomingHash = await hashOtpCode(normalizedPhone, code);
@@ -200,9 +231,14 @@ export function createVerifyOtpHandler(
             metadata: { attemptsRemaining: Math.max(0, 3 - nextAttempts) },
           });
 
-          return errorResponse("Invalid OTP code", 400, {
-            attemptsRemaining: Math.max(0, 3 - nextAttempts),
-          });
+          return errorResponse(
+            "Invalid OTP code",
+            400,
+            {
+              attemptsRemaining: Math.max(0, 3 - nextAttempts),
+            },
+            request,
+          );
         }
       }
 
@@ -268,20 +304,28 @@ export function createVerifyOtpHandler(
       });
 
       const session = signInResult.data.session;
-      return jsonResponse({
-        success: true,
-        session,
-        access_token: session.access_token,
-        refresh_token: session.refresh_token,
-        isNewUser: existingAppUserId == null,
-        userId: authUserId,
-      });
+      return jsonResponse(
+        {
+          success: true,
+          session,
+          access_token: session.access_token,
+          refresh_token: session.refresh_token,
+          isNewUser: existingAppUserId == null,
+          userId: authUserId,
+        },
+        200,
+        {},
+        request,
+      );
     } catch (error) {
       if (error instanceof SyntaxError) {
-        return errorResponse("Invalid JSON body", 400);
+        return errorResponse("Invalid JSON body", 400, undefined, request);
       }
       if (error instanceof PhoneValidationError) {
-        return errorResponse(error.message, 400);
+        return errorResponse(error.message, 400, undefined, request);
+      }
+      if (error instanceof HttpError) {
+        return errorResponse(error.message, error.status, undefined, request);
       }
       console.error("verify-otp failed", error);
       await reportVerifyOtpFailure(
@@ -290,7 +334,7 @@ export function createVerifyOtpHandler(
         normalizedPhoneForTelemetry,
         error,
       );
-      return errorResponse(verifyOtpFailureMessage, 500);
+      return errorResponse(verifyOtpFailureMessage, 500, undefined, request);
     }
   };
 }

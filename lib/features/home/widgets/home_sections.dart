@@ -5,12 +5,14 @@ import 'package:go_router/go_router.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_icons.dart';
 import '../../../shared/widgets/cool_brand_mark.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_error_view.dart';
 import '../../../shared/widgets/cool_icon_box.dart';
 import '../../../shared/widgets/cool_list_tile.dart';
+import '../../../shared/widgets/cool_stat_card.dart';
 import '../../groups/group_flow_utils.dart';
 import '../../groups/models/group.dart';
 import '../models/home_dashboard_data.dart';
@@ -91,7 +93,7 @@ class HomeHeader extends StatelessWidget {
           button: true,
           label: context.l10n.settings,
           child: _HomeIconButton(
-            icon: Icons.settings_outlined,
+            icon: CoolIcons.settingsGear,
             onTap: onNotificationsTap,
           ),
         ),
@@ -116,56 +118,22 @@ class HomeSavingsHeroCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
 
-    final balanceLabel =
-        '${context.l10n.homeSavingsBalanceUpper}: ${fmtAmt(totalSavingsRwf)} RWF';
-
     return Semantics(
-      label: balanceLabel,
+      label:
+          '${context.l10n.homeSavingsBalanceUpper}: ${fmtAmt(totalSavingsRwf)} RWF',
       button: true,
-      child: CoolCard(
-        variant: CoolCardVariant.accent,
-        useGradient: true,
-        gradient: colors.heroGradient,
-        borderColor: colors.accent.withValues(alpha: 0.18),
-        onTap: onOpenWallet,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.l10n.homeSavingsBalanceUpper,
-              style: context.coolText.mobiLabel(
-                color: colors.accentForeground.withValues(alpha: 0.88),
-              ),
-            ),
-            const SizedBox(height: CoolSpace.x3),
-            Text(
-              '${fmtAmt(totalSavingsRwf)} RWF',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: context.coolText.headline(
-                Theme.of(context).textTheme.displayMedium,
-                color: colors.accentForeground,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: CoolSpace.x4),
-            Row(
-              children: [
-                Expanded(
-                  child: _MonthlyMovementPill(
-                    monthlyNetChange: monthlyNetChange,
-                  ),
-                ),
-                const SizedBox(width: CoolSpace.x3),
-                Icon(
-                  Icons.arrow_forward_rounded,
-                  size: 18,
-                  color: colors.accentForeground,
-                ),
-              ],
-            ),
-          ],
+      child: CoolStatCard.accent(
+        kicker: context.l10n.homeSavingsBalanceUpper,
+        value: '${fmtAmt(totalSavingsRwf)} RWF',
+        subtitleWidget: _MonthlyMovementPill(
+          monthlyNetChange: monthlyNetChange,
         ),
+        trailing: Icon(
+          CoolIcons.forward,
+          size: 18,
+          color: colors.accentForeground,
+        ),
+        onTap: onOpenWallet,
       ),
     );
   }

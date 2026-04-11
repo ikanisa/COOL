@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_icons.dart';
 import '../../../core/utils/date_formatters.dart';
 import '../../../core/utils/money_formatters.dart';
 import '../../../core/utils/user_error.dart';
@@ -204,7 +205,7 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
         IconButton(
           onPressed: _pickDateRange,
           icon: Icon(
-            Icons.calendar_month_rounded,
+            CoolIcons.calendar,
             color: _query.startDate != null || _query.endDate != null
                 ? colors.accent
                 : colors.primaryText,
@@ -224,7 +225,7 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
                     height: 18,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : Icon(Icons.picture_as_pdf_rounded, color: colors.primaryText),
+                : Icon(CoolIcons.pdf, color: colors.primaryText),
           ),
         if (canExportLedger)
           IconButton(
@@ -240,7 +241,7 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
                     height: 18,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : Icon(Icons.grid_on_rounded, color: colors.primaryText),
+                : Icon(CoolIcons.grid, color: colors.primaryText),
           ),
         const SizedBox(width: CoolSpace.x2),
       ],
@@ -279,7 +280,7 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
                         child: IconButton(
                           onPressed: _loadMore,
                           icon: Icon(
-                            Icons.expand_circle_down_rounded,
+                            CoolIcons.expandCircle,
                             color: colors.accent,
                             size: 28,
                           ),
@@ -337,7 +338,7 @@ class _EmptyState extends StatelessWidget {
             ),
             alignment: Alignment.center,
             child: Icon(
-              Icons.receipt_long_rounded,
+               Icons.receipt_long_rounded,
               color: colors.accent,
               size: 32,
             ),
@@ -377,7 +378,7 @@ class _LockedState extends StatelessWidget {
       borderRadius: CoolRadii.xl,
       child: Center(
         child: Icon(
-          Icons.lock_outline_rounded,
+          CoolIcons.lock,
           color: colors.tertiaryText,
           size: 28,
         ),
@@ -504,7 +505,7 @@ class _StatementTile extends StatelessWidget {
                       entry: entry,
                       groupId: groupId,
                     ),
-                    icon: Icon(Icons.tune_rounded, color: colors.secondaryText),
+                    icon: Icon(CoolIcons.settings, color: colors.secondaryText),
                   ),
                 ),
               ],

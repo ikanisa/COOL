@@ -7,6 +7,8 @@ library;
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'app_check_service.dart';
+
 // ── Result types ────────────────────────────────────────────────────────
 
 enum OtpSendStatus { sent, rateLimited, error }
@@ -93,9 +95,14 @@ class OtpVerifyResult {
 // ── Service ─────────────────────────────────────────────────────────────
 
 class WhatsAppOtpService {
-  WhatsAppOtpService({required SupabaseClient client}) : _client = client;
+  WhatsAppOtpService({
+    required SupabaseClient client,
+    Future<String?> Function()? getAppCheckToken,
+  }) : _client = client,
+       _getAppCheckToken = getAppCheckToken ?? _defaultAppCheckToken;
 
   final SupabaseClient _client;
+  final Future<String?> Function() _getAppCheckToken;
 
   /// Sends a 6-digit OTP to the given E.164 phone via WhatsApp Cloud API.
   Future<OtpSendResult> sendOtp(String e164Phone) async {
@@ -103,6 +110,7 @@ class WhatsAppOtpService {
       debugPrint('[OTP] ➜ Sending code to ${_redact(e164Phone)}');
       final response = await _client.functions.invoke(
         'send-otp',
+        headers: await _functionHeaders(),
         body: <String, Object?>{'phone': e164Phone, 'language': 'en'},
       );
 
@@ -149,6 +157,7 @@ class WhatsAppOtpService {
       debugPrint('[OTP] ➜ Verifying code for ${_redact(e164Phone)}');
       final response = await _client.functions.invoke(
         'verify-otp',
+        headers: await _functionHeaders(),
         body: <String, Object?>{'phone': e164Phone, 'code': code.trim()},
       );
 
@@ -269,6 +278,24 @@ class WhatsAppOtpService {
     final details = _asMap(data['details']);
     return _asInt(data['attemptsRemaining']) ??
         _asInt(details['attemptsRemaining']);
+  }
+
+  Future<Map<String, String>> _functionHeaders() async {
+    final token = await _getAppCheckToken();
+    if (token == null || token.isEmpty) {
+      return const <String, String>{};
+    }
+
+    return <String, String>{'X-Firebase-AppCheck': token};
+  }
+
+  static Future<String?> _defaultAppCheckToken() async {
+    final limitedUseToken = await AppCheckService.getLimitedUseToken();
+    if (limitedUseToken != null && limitedUseToken.isNotEmpty) {
+      return limitedUseToken;
+    }
+
+    return AppCheckService.getToken();
   }
 
   /// Redacts a phone number for safe debug logging: `+250***1234`.

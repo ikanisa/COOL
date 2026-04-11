@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/cool_icons.dart';
 
 /// Compact inline text field for admin management screens.
 ///
@@ -147,7 +148,7 @@ class _CoolAdminInlineFieldState extends State<CoolAdminInlineField> {
               const SizedBox(width: 8),
               IconButton(
                 onPressed: widget.onSave,
-                icon: const Icon(Icons.check_rounded, size: 18),
+                icon: const Icon(CoolIcons.check, size: 18),
                 tooltip: 'Save',
                 color: colors.success,
                 constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
@@ -155,7 +156,7 @@ class _CoolAdminInlineFieldState extends State<CoolAdminInlineField> {
               ),
               IconButton(
                 onPressed: widget.onCancel,
-                icon: const Icon(Icons.close_rounded, size: 18),
+                icon: const Icon(CoolIcons.close, size: 18),
                 tooltip: 'Cancel',
                 color: colors.danger,
                 constraints: const BoxConstraints(minWidth: 32, minHeight: 32),

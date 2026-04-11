@@ -51,8 +51,8 @@ class ProfileSectionToggleCard extends StatelessWidget {
               const SizedBox(width: 12),
               Icon(
                 isExpanded
-                    ? Icons.keyboard_arrow_up_rounded
-                    : Icons.keyboard_arrow_down_rounded,
+                    ? CoolIcons.collapse
+                    : CoolIcons.expand,
                 color: colors.secondaryText,
                 size: 24,
               ),
@@ -82,12 +82,12 @@ class ProfileDangerZone extends StatelessWidget {
       title: l10n.accountActionsTitle,
       rows: [
         ProfileSettingsRow(
-          icon: Icons.logout_rounded,
+          icon: CoolIcons.logout,
           label: l10n.signOutAction,
           onTap: onSignOut,
         ),
         ProfileSettingsRow(
-          icon: Icons.delete_outline_rounded,
+          icon: CoolIcons.delete,
           iconColor: colors.danger,
           label: l10n.deleteAccountAction,
           labelColor: colors.danger,

@@ -28,7 +28,7 @@ class _SummaryBanner extends StatelessWidget {
               borderRadius: BorderRadius.circular(CoolRadii.md),
             ),
             child: Icon(
-              Icons.admin_panel_settings_outlined,
+              CoolIcons.admin,
               color: colors.accent,
             ),
           ),
@@ -99,7 +99,7 @@ class _NotificationAccessCard extends StatelessWidget {
     final canOpenSettings = isBlockedInSystem;
 
     return _AccessCardShell(
-      icon: Icons.notifications_outlined,
+      icon: CoolIcons.notifications,
       title: context.l10n.notifications,
       subtitle: context.l10n.paymentAndActivityAlerts,
       statusLabel: statusLabel,

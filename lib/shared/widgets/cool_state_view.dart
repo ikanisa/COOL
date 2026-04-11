@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/cool_icons.dart';
 import '../../l10n/app_localizations.dart';
 import 'cool_button.dart';
 
@@ -33,7 +34,7 @@ class CoolStateView extends StatelessWidget {
       tone: CoolStateTone.loading,
       title: title ?? _coolStateL10n.coolStateLoadingTitle,
       message: message ?? _coolStateL10n.coolStateLoadingMessage,
-      icon: Icons.hourglass_top_rounded,
+      icon: CoolIcons.loading,
       compact: compact,
     );
   }
@@ -42,7 +43,7 @@ class CoolStateView extends StatelessWidget {
     required String title,
     required String message,
     String? subtitle,
-    IconData icon = Icons.inbox_rounded,
+    IconData icon = CoolIcons.empty,
     String? actionLabel,
     VoidCallback? onAction,
     VoidCallback? action,
@@ -76,7 +77,7 @@ class CoolStateView extends StatelessWidget {
       tone: CoolStateTone.offline,
       title: title,
       message: subtitle ?? message,
-      icon: Icons.wifi_off_rounded,
+      icon: CoolIcons.cloudOff,
       actionLabel: actionLabel,
       onAction: onAction ?? action,
       compact: compact,
@@ -98,7 +99,7 @@ class CoolStateView extends StatelessWidget {
       tone: CoolStateTone.error,
       title: title,
       message: subtitle ?? message,
-      icon: Icons.error_outline_rounded,
+      icon: CoolIcons.error,
       actionLabel: actionLabel,
       onAction: onAction ?? action,
       compact: compact,
@@ -120,7 +121,7 @@ class CoolStateView extends StatelessWidget {
       tone: CoolStateTone.success,
       title: title,
       message: subtitle ?? message,
-      icon: Icons.check_circle_outline_rounded,
+      icon: CoolIcons.checkCircle,
       actionLabel: actionLabel,
       onAction: onAction ?? action,
       compact: compact,

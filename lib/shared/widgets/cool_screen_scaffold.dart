@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/cool_icons.dart';
 import 'cool_floating_header_sliver.dart';
 import 'cool_screen_background.dart';
 
@@ -46,7 +47,7 @@ class CoolScreenScaffold extends StatelessWidget {
                               context,
                             ).backButtonTooltip,
                             icon: Icon(
-                              Icons.arrow_back_rounded,
+                              CoolIcons.back,
                               color: colors.primaryText,
                             ),
                           )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/cool_icons.dart';
 
 class WhatsAppHintChip extends StatelessWidget {
   const WhatsAppHintChip({this.label = 'Chat on WhatsApp', super.key});
@@ -27,7 +28,7 @@ class WhatsAppHintChip extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.chat_bubble_rounded, size: 13, color: _whatsApp),
+              const Icon(CoolIcons.chatBubble, size: 13, color: _whatsApp),
               const SizedBox(width: 6),
               Text(
                 label,

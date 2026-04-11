@@ -19,6 +19,23 @@ const GRANT_TYPE = "urn:ietf:params:oauth:grant-type:jwt-bearer";
 
 let cachedAccessToken: { token: string; expiresAt: number } | null = null;
 
+function parseBooleanEnv(name: string): boolean | null {
+  const raw = Deno.env.get(name)?.trim().toLowerCase();
+  if (!raw) {
+    return null;
+  }
+
+  if (["1", "true", "yes", "on"].includes(raw)) {
+    return true;
+  }
+
+  if (["0", "false", "no", "off"].includes(raw)) {
+    return false;
+  }
+
+  return null;
+}
+
 function base64url(data: Uint8Array): string {
   return btoa(String.fromCharCode(...data))
     .replace(/\+/g, "-")
@@ -82,6 +99,19 @@ function getFirebaseProjectId(): string {
   }
 
   return projectId;
+}
+
+export function isAppCheckEnforced(
+  envNames: string[] = ["ENFORCE_APP_CHECK"],
+): boolean {
+  for (const envName of envNames) {
+    const parsed = parseBooleanEnv(envName);
+    if (parsed != null) {
+      return parsed;
+    }
+  }
+
+  return false;
 }
 
 async function buildJwtAssertion(

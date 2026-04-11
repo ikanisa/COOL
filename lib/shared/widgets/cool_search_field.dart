@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/cool_icons.dart';
 
 /// Search-specific text field for list filtering and quick find flows.
 class CoolSearchField extends StatefulWidget {
@@ -148,7 +149,7 @@ class _CoolSearchFieldState extends State<CoolSearchField> {
             prefixIcon: Padding(
               padding: const EdgeInsets.only(left: 12, right: 8),
               child: Icon(
-                Icons.search_rounded,
+                CoolIcons.search,
                 size: 20,
                 color: colors.secondaryText,
               ),
@@ -160,7 +161,7 @@ class _CoolSearchFieldState extends State<CoolSearchField> {
             suffixIcon: _showClear
                 ? IconButton(
                     onPressed: _clear,
-                    icon: const Icon(Icons.close_rounded, size: 18),
+                    icon: const Icon(CoolIcons.close, size: 18),
                     color: colors.tertiaryText,
                     tooltip: MaterialLocalizations.of(
                       context,

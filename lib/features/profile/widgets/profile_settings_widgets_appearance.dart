@@ -71,8 +71,8 @@ class _ProfileAppearanceOption extends StatelessWidget {
 
   IconData _icon() {
     return switch (preference) {
-      AppThemePreference.system => Icons.brightness_auto_rounded,
-      AppThemePreference.dark => Icons.dark_mode_outlined,
+      AppThemePreference.system => CoolIcons.themeAuto,
+      AppThemePreference.dark => CoolIcons.themeDark,
     };
   }
 
@@ -114,7 +114,7 @@ class _ProfileAppearanceOption extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               Icon(
-                isSelected ? Icons.check_circle_rounded : Icons.circle_outlined,
+                isSelected ? CoolIcons.selected : CoolIcons.unselected,
                 color: isSelected ? colors.accent : colors.tertiaryText,
                 size: 24,
               ),
@@ -161,7 +161,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
                     ),
                     alignment: Alignment.center,
                     child: Icon(
-                      Icons.person_outline_rounded,
+                      CoolIcons.profile,
                       color: colors.accent,
                     ),
                   ),
@@ -177,7 +177,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Icon(
-                    Icons.arrow_forward_ios_rounded,
+                    CoolIcons.chevron,
                     size: 16,
                     color: colors.tertiaryText,
                   ),

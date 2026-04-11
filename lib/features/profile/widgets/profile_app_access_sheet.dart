@@ -8,6 +8,7 @@ import '../../../core/providers/notification_settings_provider.dart';
 import '../../../core/providers/app_lifecycle_providers.dart';
 import '../../../core/services/fcm_service.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_icons.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../core/services/app_access_service.dart';
 import '../../../shared/widgets/cool_toast.dart';

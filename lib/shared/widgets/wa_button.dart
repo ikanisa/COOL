@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/cool_icons.dart';
 
 /// A compact WhatsApp-branded icon button.
 ///
@@ -78,7 +79,7 @@ class WaButton extends StatelessWidget {
                   mainAxisSize: fullWidth ? MainAxisSize.max : MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.chat_rounded, size: 18, color: foregroundColor),
+                    Icon(CoolIcons.support, size: 18, color: foregroundColor),
                     if (!iconOnly) ...[
                       const SizedBox(width: CoolSpace.x2),
                       Flexible(
@@ -96,7 +97,7 @@ class WaButton extends StatelessWidget {
                     if (!iconOnly) ...[
                       const SizedBox(width: CoolSpace.x2),
                       Icon(
-                        Icons.arrow_forward_rounded,
+                        CoolIcons.forward,
                         size: 16,
                         color: isEnabled
                             ? colors.highlightColor.withValues(alpha: 0.9)

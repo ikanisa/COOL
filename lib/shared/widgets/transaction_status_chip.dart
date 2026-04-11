@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/l10n/l10n.dart';
 import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/cool_icons.dart';
 
 /// Pill-shaped status chip for transaction and ledger entries.
 ///
@@ -52,42 +53,42 @@ class TransactionStatusChip extends StatelessWidget {
       'posted' || 'completed' => _ResolvedStatus(
         label: context.l10n.postedUpper,
         color: colors.success,
-        icon: Icons.check_circle_rounded,
+        icon: CoolIcons.selected,
       ),
       'confirmed' => _ResolvedStatus(
         label: context.l10n.confirmedUpper,
         color: colors.success,
-        icon: Icons.verified_rounded,
+        icon: CoolIcons.verified,
       ),
       'draft' => _ResolvedStatus(
         label: context.l10n.draftUpper,
         color: colors.neutral,
-        icon: Icons.edit_note_rounded,
+        icon: CoolIcons.editNote,
       ),
       'pending' || 'pending_review' => _ResolvedStatus(
         label: context.l10n.reviewUpper,
         color: colors.warning,
-        icon: Icons.pending_rounded,
+        icon: CoolIcons.pending,
       ),
       'manual_review' => _ResolvedStatus(
         label: context.l10n.manualUpper,
         color: colors.warning,
-        icon: Icons.pending_actions_rounded,
+        icon: CoolIcons.pendingActions,
       ),
       'suggested' => _ResolvedStatus(
         label: context.l10n.suggestedUpper,
         color: colors.info,
-        icon: Icons.auto_fix_high_rounded,
+        icon: CoolIcons.autoFix,
       ),
       'rejected' || 'cancelled' => _ResolvedStatus(
         label: context.l10n.rejectedUpper,
         color: colors.danger,
-        icon: Icons.cancel_rounded,
+        icon: CoolIcons.cancelled,
       ),
       _ => _ResolvedStatus(
         label: status.toUpperCase(),
         color: colors.neutral,
-        icon: Icons.circle_outlined,
+        icon: CoolIcons.unselected,
       ),
     };
   }

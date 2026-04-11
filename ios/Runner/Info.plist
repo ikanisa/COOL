@@ -36,10 +36,6 @@
 		<string>Cool uses contacts to help you invite friends to groups and share content.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>Cool uses your photo library so you can upload an ID card for identity verification.</string>
-		<key>LSSupportsOpeningDocumentsInPlace</key>
-		<true/>
-		<key>UIFileSharingEnabled</key>
-		<true/>
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>remote-notification</string>

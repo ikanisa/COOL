@@ -15,7 +15,7 @@ import '../../../shared/widgets/cool_chip_bar.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_floating_header_sliver.dart';
 import '../../../shared/widgets/cool_icon_box.dart';
-import '../../../shared/widgets/cool_list_tile.dart';
+
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_search_field.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
@@ -231,7 +231,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(CoolRadii.lg),
                 ),
-                child: const Icon(Icons.add_rounded),
+                child: const Icon(CoolIcons.add),
               )
             : null,
         body: RefreshIndicator(

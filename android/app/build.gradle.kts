@@ -26,6 +26,11 @@ if (localPropertiesFile.exists()) {
     localProperties.load(FileInputStream(localPropertiesFile))
 }
 
+val allowDebugSigningForRelease =
+    findProperty("cool.allowDebugSigningForRelease")?.toString()
+        ?.toBooleanStrictOrNull() == true ||
+    System.getenv("COOL_ALLOW_DEBUG_SIGNING_FOR_RELEASE")?.trim() == "1"
+
 fun loadDotEnv(file: File): Map<String, String> {
     if (!file.exists()) {
         return emptyMap()
@@ -207,8 +212,20 @@ android {
         release {
             signingConfig = if (keystoreFile.exists()) {
                 signingConfigs.getByName("release")
-            } else {
+            } else if (allowDebugSigningForRelease) {
+                logger.warn(
+                    "Release build is using the debug signing key because " +
+                        "COOL_ALLOW_DEBUG_SIGNING_FOR_RELEASE is enabled. " +
+                        "Do not distribute this artifact."
+                )
                 signingConfigs.getByName("debug")
+            } else {
+                throw GradleException(
+                    "Release signing is not configured. Provide android/key.properties " +
+                        "and the release keystore, or set " +
+                        "COOL_ALLOW_DEBUG_SIGNING_FOR_RELEASE=1 only for " +
+                        "non-distribution verification builds."
+                )
             }
             val disableMinify =
                 findProperty("cool.disableAndroidMinify")?.toString()

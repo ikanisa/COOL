@@ -88,27 +88,53 @@ class _OperationCard extends StatelessWidget {
     final amount = transaction.signedAmount;
 
     return CoolCard(
-      cardPadding: CoolCardPadding.none,
-      padding: const EdgeInsets.all(CoolSpace.x4),
-      child: CoolListTile(
-        leading: CoolIconBox(icon: icon, accent: accent),
-        title: transaction.title.trim().isEmpty
-            ? context.l10n.homeTransactionFallbackTitle
-            : transaction.title.trim(),
-        subtitle: formatOperationMeta(
-          context,
-          transaction.recordedAt,
-          transaction.type,
-        ),
-        trailing: Text(
-          fmtSignedAmt(amount),
-          style: context.coolText.display(
-            Theme.of(context).textTheme.titleMedium,
-            color: amount >= 0 ? colors.success : colors.primaryText,
-            fontWeight: FontWeight.w600,
+      cardPadding: CoolCardPadding.md,
+      child: Row(
+        children: [
+          CoolIconBox(icon: icon, accent: accent),
+          const SizedBox(width: CoolSpace.x4),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  transaction.title.trim().isEmpty
+                      ? context.l10n.homeTransactionFallbackTitle
+                      : transaction.title.trim(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.coolText.headline(
+                    Theme.of(context).textTheme.titleSmall,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  formatOperationMeta(
+                    context,
+                    transaction.recordedAt,
+                    transaction.type,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.coolText
+                      .mobiLabel(color: colors.secondaryText)
+                      .copyWith(fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
           ),
-        ),
-        dense: true,
+          const SizedBox(width: CoolSpace.x3),
+          Text(
+            fmtSignedAmt(amount),
+            style: context.coolText.display(
+              Theme.of(context).textTheme.titleMedium,
+              color: amount >= 0 ? colors.success : colors.primaryText,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }

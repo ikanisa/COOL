@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_icons.dart';
 import '../../../core/theme/theme_preference.dart';
 import '../../../shared/widgets/cool_card.dart';
 
@@ -285,7 +286,7 @@ class ProfileSettingsRow extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: shouldStackValue ? 4 : 0),
                   child: Icon(
-                    Icons.chevron_right_rounded,
+                    CoolIcons.chevron,
                     size: 22,
                     color: colors.tertiaryText,
                   ),

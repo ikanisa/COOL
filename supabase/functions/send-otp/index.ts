@@ -1,5 +1,10 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
+import { HttpError } from "../_shared/auth.ts";
+import {
+  isAppCheckEnforced,
+  requireAppCheckToken,
+} from "../_shared/app_check.ts";
 import {
   countRecentOtpRateEvents,
   extractClientIp,
@@ -27,6 +32,8 @@ type SendOtpRequest = {
 
 export type SendOtpHandlerDependencies = {
   createAdminClient: () => AdminClient;
+  isAppCheckEnforced: () => boolean;
+  requireAppCheckToken: (request: Request) => Promise<string>;
   recordEdgeFunctionFailure: typeof recordEdgeFunctionFailure;
   sendOtpTemplate: typeof sendOtpTemplate;
 };
@@ -39,6 +46,9 @@ const sendOtpFailureMessage = "Failed to send OTP";
 
 const defaultSendOtpHandlerDependencies: SendOtpHandlerDependencies = {
   createAdminClient,
+  isAppCheckEnforced: () =>
+    isAppCheckEnforced(["ENFORCE_OTP_APP_CHECK", "ENFORCE_APP_CHECK"]),
+  requireAppCheckToken,
   recordEdgeFunctionFailure,
   sendOtpTemplate,
 };
@@ -75,12 +85,16 @@ export function createSendOtpHandler(
     }
 
     if (request.method != "POST") {
-      return methodNotAllowed("POST");
+      return methodNotAllowed("POST", request);
     }
 
     let supabase: AdminClient | null = null;
 
     try {
+      if (deps.isAppCheckEnforced()) {
+        await deps.requireAppCheckToken(request);
+      }
+
       const body = await request.json() as SendOtpRequest;
       const requestedLanguage = body.language?.trim().toLowerCase() ?? "en";
       if (requestedLanguage != "en") {
@@ -124,6 +138,7 @@ export function createSendOtpHandler(
             "Too many OTP requests from this network. Please try again later.",
             429,
             { retryAfterSeconds: 600 },
+            request,
           );
         }
       }
@@ -145,6 +160,7 @@ export function createSendOtpHandler(
           "Too many OTP requests for this phone number. Please try again later.",
           429,
           { retryAfterSeconds: 600 },
+          request,
         );
       }
 
@@ -194,6 +210,7 @@ export function createSendOtpHandler(
           {
             retryAfterSeconds: otpResendCooldownSeconds - elapsedSeconds,
           },
+          request,
         );
       }
 
@@ -246,17 +263,20 @@ export function createSendOtpHandler(
         phone: normalizedPhone,
       });
 
-      return jsonResponse({ success: true });
+      return jsonResponse({ success: true }, 200, {}, request);
     } catch (error) {
       if (error instanceof SyntaxError) {
-        return errorResponse("Invalid JSON body", 400);
+        return errorResponse("Invalid JSON body", 400, undefined, request);
       }
       if (error instanceof PhoneValidationError) {
-        return errorResponse(error.message, 400);
+        return errorResponse(error.message, 400, undefined, request);
+      }
+      if (error instanceof HttpError) {
+        return errorResponse(error.message, error.status, undefined, request);
       }
       console.error("send-otp failed", error);
       await reportSendOtpFailure(deps, supabase, error);
-      return errorResponse(sendOtpFailureMessage, 500);
+      return errorResponse(sendOtpFailureMessage, 500, undefined, request);
     }
   };
 }

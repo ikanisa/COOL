@@ -10,8 +10,9 @@ import '../../../core/theme/cool_icons.dart';
 import '../../../core/utils/money_formatters.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_expandable_section.dart';
 import '../../../shared/widgets/cool_icon_box.dart';
-import '../../../shared/widgets/cool_list_tile.dart';
+
 import '../../../shared/widgets/cool_metric_row.dart';
 import '../../../shared/widgets/cool_section_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
@@ -221,11 +222,15 @@ class _GroupDetailBody extends StatelessWidget {
             ],
           ),
           if ((group.description ?? '').trim().isNotEmpty) ...[
-            SizedBox(height: space.x3),
-            Text(
-              group.description!,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: colors.secondaryText,
+            SizedBox(height: space.x2),
+            CoolExpandableSection(
+              header: context.l10n.groupDescriptionOptionalLabel.replaceAll(' (optional)', ''),
+              initiallyExpanded: (group.description ?? '').trim().length < 80,
+              child: Text(
+                group.description!,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colors.secondaryText,
+                ),
               ),
             ),
           ],
@@ -406,7 +411,7 @@ class _StatementsButton extends StatelessWidget {
   }
 }
 
-/// Ledger tile — refactored to use CoolListTile + CoolIconBox.
+/// Ledger tile — clean icon-led row with amount + status.
 class _LedgerTile extends StatelessWidget {
   const _LedgerTile({
     required this.entry,
@@ -425,47 +430,60 @@ class _LedgerTile extends StatelessWidget {
     final isAllocated = entry.payerUserId.trim().isNotEmpty;
     final statusLabel = isAllocated ? 'confirmed' : 'pending_review';
 
-    return CoolListTile(
-      leading: const CoolIconBox(icon: CoolIcons.payment),
-      title: entry.label,
-      subtitle:
-          '${entry.payerName} • ${entry.occurredAt.toLocal().toString().split('.').first}',
-      trailing: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
+    return CoolCard(
+      cardPadding: CoolCardPadding.md,
+      onTap: canManageAllocations
+          ? () => TransactionAllocationSheet.show(
+                context,
+                entry: entry,
+                groupId: groupId,
+              )
+          : null,
+      child: Row(
         children: [
-          Text(
-            '${formatWholeMoneyAmount(entry.amount)} ${entry.currency}',
-            style: text.mono(null, color: colors.accentGold),
-          ),
-          const SizedBox(height: 4),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TransactionStatusChip(status: statusLabel),
-              if (canManageAllocations) ...[
-                const SizedBox(width: 4),
-                SizedBox(
-                  width: 28,
-                  height: 28,
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    iconSize: 14,
-                    onPressed: () => TransactionAllocationSheet.show(
-                      context,
-                      entry: entry,
-                      groupId: groupId,
-                    ),
-                    icon: Icon(CoolIcons.settings, color: colors.secondaryText),
+          const CoolIconBox(icon: CoolIcons.payment),
+          const SizedBox(width: CoolSpace.x4),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  entry.label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: text.headline(
+                    Theme.of(context).textTheme.titleSmall,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
+                const SizedBox(height: 2),
+                Text(
+                  '${entry.payerName} • ${entry.occurredAt.toLocal().toString().split('.').first}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: text
+                      .mobiLabel(color: colors.secondaryText)
+                      .copyWith(fontWeight: FontWeight.w500),
+                ),
               ],
+            ),
+          ),
+          const SizedBox(width: CoolSpace.x3),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                '${formatWholeMoneyAmount(entry.amount)} ${entry.currency}',
+                style: text.mono(null, color: colors.accentGold),
+              ),
+              const SizedBox(height: 4),
+              TransactionStatusChip(status: statusLabel),
             ],
           ),
         ],
       ),
-      showChevron: false,
-      dense: true,
     );
   }
 }

@@ -15,7 +15,10 @@ void main() {
   setUp(() {
     client = MockSupabaseClient();
     functionsClient = MockFunctionsClient();
-    service = WhatsAppOtpService(client: client);
+    service = WhatsAppOtpService(
+      client: client,
+      getAppCheckToken: () async => 'app-check-token',
+    );
 
     when(() => client.functions).thenReturn(functionsClient);
   });
@@ -25,7 +28,11 @@ void main() {
       'surfaces structured rate limit details from function exceptions',
       () async {
         when(
-          () => functionsClient.invoke(any(), body: any(named: 'body')),
+          () => functionsClient.invoke(
+            any(),
+            headers: any(named: 'headers'),
+            body: any(named: 'body'),
+          ),
         ).thenThrow(
           const FunctionException(
             status: 429,
@@ -44,12 +51,45 @@ void main() {
         expect(result.retryAfterSeconds, 60);
       },
     );
+
+    test('sends App Check attestation headers to the edge function', () async {
+      when(
+        () => functionsClient.invoke(
+          any(),
+          headers: any(named: 'headers'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer(
+        (_) async => FunctionResponse(
+          status: 200,
+          data: const <String, dynamic>{'success': true},
+        ),
+      );
+
+      await service.sendOtp('+250781234567');
+
+      final capturedHeaders =
+          verify(
+                () => functionsClient.invoke(
+                  'send-otp',
+                  headers: captureAny(named: 'headers'),
+                  body: any(named: 'body'),
+                ),
+              ).captured.single
+              as Map<String, String>;
+
+      expect(capturedHeaders['X-Firebase-AppCheck'], 'app-check-token');
+    });
   });
 
   group('WhatsAppOtpService.verifyOtp', () {
     test('reads session tokens from nested session payloads', () async {
       when(
-        () => functionsClient.invoke(any(), body: any(named: 'body')),
+        () => functionsClient.invoke(
+          any(),
+          headers: any(named: 'headers'),
+          body: any(named: 'body'),
+        ),
       ).thenAnswer(
         (_) async => FunctionResponse(
           status: 200,
@@ -78,7 +118,11 @@ void main() {
       'surfaces attempts remaining from structured verification errors',
       () async {
         when(
-          () => functionsClient.invoke(any(), body: any(named: 'body')),
+          () => functionsClient.invoke(
+            any(),
+            headers: any(named: 'headers'),
+            body: any(named: 'body'),
+          ),
         ).thenThrow(
           const FunctionException(
             status: 400,
@@ -100,7 +144,11 @@ void main() {
 
     test('rejects success payloads without session tokens', () async {
       when(
-        () => functionsClient.invoke(any(), body: any(named: 'body')),
+        () => functionsClient.invoke(
+          any(),
+          headers: any(named: 'headers'),
+          body: any(named: 'body'),
+        ),
       ).thenAnswer(
         (_) async => FunctionResponse(
           status: 200,

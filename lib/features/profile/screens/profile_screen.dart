@@ -110,7 +110,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final colors = context.coolSemanticColors;
     final topPad = MediaQuery.viewPaddingOf(context).top;
     final bottomPad = MediaQuery.viewPaddingOf(context).bottom;
 
@@ -161,11 +160,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                    ),
-                    CoolIconBox(
-                      icon: CoolIcons.shield,
-                      accent: colors.accent,
-                      size: CoolIconBoxSize.md,
                     ),
                   ],
                 ),
@@ -231,6 +225,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         title: l10n.profileHelpTitle,
                         onTap: _launchWhatsApp,
                       ),
+                    ],
+                  ),
+                  const SizedBox(height: CoolSpace.x6),
+
+                  // ── ACCOUNT (destructive) ──────────────────────
+                  CoolSectionCard.glass(
+                    sectionLabel: l10n.profileAccountDetailsTitle.toUpperCase(),
+                    children: [
                       CoolListTile(
                         leading: const CoolIconBox(icon: CoolIcons.logout),
                         title: l10n.profileLogoutTitle,

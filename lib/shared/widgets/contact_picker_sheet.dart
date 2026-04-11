@@ -4,6 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../core/services/app_access_service.dart';
 import '../../core/services/contacts_service.dart';
 import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/cool_icons.dart';
 import 'cool_skeleton.dart';
 import '../../core/l10n/l10n.dart';
 
@@ -308,7 +309,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                 Row(
                   children: [
                     Icon(
-                      Icons.contacts_rounded,
+                      CoolIcons.contacts,
                       size: 22,
                       color: colors.secondaryText,
                     ),
@@ -370,7 +371,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                           color: colors.tertiaryText,
                         ),
                         prefixIcon: Icon(
-                          Icons.search_rounded,
+                          CoolIcons.search,
                           color: colors.tertiaryText,
                           size: 20,
                         ),
@@ -418,7 +419,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
     // Permanently denied
     if (_permanentlyDenied) {
       return _PermissionState(
-        icon: Icons.lock_rounded,
+        icon: CoolIcons.lock,
         title: context.l10n.contactsAccessDenied,
         message: context.l10n.contactPickerDeniedMessage,
         actionLabel: context.l10n.openSettings,
@@ -428,7 +429,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
 
     if (_accessDisabledInApp) {
       return _PermissionState(
-        icon: Icons.admin_panel_settings_outlined,
+        icon: CoolIcons.admin,
         title: context.l10n.contactsAreOffIn,
         message: context.l10n.contactPickerAccessCurrentlyMessage,
         actionLabel: context.l10n.contactPickerEnableContacts,
@@ -439,7 +440,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
     // Denied
     if (_permissionDenied) {
       return _PermissionState(
-        icon: Icons.contacts_rounded,
+        icon: CoolIcons.contacts,
         title: context.l10n.contactsAccessNeeded,
         message: context.l10n.contactPickerNeedsAccessMessage,
         actionLabel: context.l10n.allowAccess,
@@ -450,7 +451,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
     // Error
     if (_error != null) {
       return _PermissionState(
-        icon: Icons.warning_amber_rounded,
+        icon: CoolIcons.warning,
         title: context.l10n.somethingWentWrong,
         message: _error!,
         actionLabel: context.l10n.retry,

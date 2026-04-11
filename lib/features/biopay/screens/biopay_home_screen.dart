@@ -5,8 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../shared/widgets/cool_card.dart';
-import '../../../shared/widgets/cool_icon_box.dart';
+import '../../../shared/widgets/cool_quick_action_grid.dart';
 import '../widgets/biopay_surface.dart';
 
 class BiopayHomeScreen extends StatelessWidget {
@@ -32,81 +31,51 @@ class BiopayHomeScreen extends StatelessWidget {
           Text(
             l10n.biopayHomeHeadline,
             style: context.coolText.headline(
-              Theme.of(context).textTheme.displaySmall,
+              Theme.of(context).textTheme.headlineMedium,
               color: colors.primaryText,
               fontWeight: FontWeight.w700,
               height: 1.0,
             ),
           ),
           SizedBox(height: space.x4),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final tileWidth = (constraints.maxWidth - space.x3) / 2;
-              return Wrap(
-                spacing: space.x3,
-                runSpacing: space.x3,
-                children: [
-                  SizedBox(
-                    width: tileWidth,
-                    child: _BiopayActionTile(
-                      icon: Icon(
-                        Icons.center_focus_strong_rounded,
-                        size: 34,
-                        color: colors.accent,
-                      ),
-                      iconColor: colors.accent,
-                      label: l10n.biopayFaceScanLabel,
-                      onTap: () => context.push(
-                        AppRoutes.biopayScanLocation(mode: 'pay'),
-                      ),
-                    ),
+          CoolQuickActionGrid(
+            actions: [
+              CoolQuickAction(
+                icon: Icons.center_focus_strong_rounded,
+                label: l10n.biopayFaceScanLabel,
+                accent: colors.accent,
+                onTap: () => context.push(
+                  AppRoutes.biopayScanLocation(mode: 'pay'),
+                ),
+              ),
+              CoolQuickAction(
+                icon: Icons.nfc_rounded,
+                label: l10n.biopayNfcTapLabel,
+                accent: colors.accentDeep,
+                iconWidget: SvgPicture.asset(
+                  'assets/icons/biopay_nfc.svg',
+                  width: 22,
+                  height: 22,
+                  colorFilter: ColorFilter.mode(
+                    colors.accentDeep,
+                    BlendMode.srcIn,
                   ),
-                  SizedBox(
-                    width: tileWidth,
-                    child: _BiopayActionTile(
-                      icon: SvgPicture.asset(
-                        'assets/icons/biopay_nfc.svg',
-                        width: 34,
-                        height: 34,
-                        colorFilter: ColorFilter.mode(
-                          colors.accentDeep,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                      iconColor: colors.accentDeep,
-                      label: l10n.biopayNfcTapLabel,
-                      onTap: () => context.push(AppRoutes.biopayNfc),
-                    ),
-                  ),
-                  SizedBox(
-                    width: tileWidth,
-                    child: _BiopayActionTile(
-                      icon: Icon(
-                        Icons.qr_code_2_rounded,
-                        size: 34,
-                        color: colors.warning,
-                      ),
-                      iconColor: colors.warning,
-                      label: l10n.generateQr,
-                      onTap: () => context.push(AppRoutes.biopayQr),
-                    ),
-                  ),
-                  SizedBox(
-                    width: tileWidth,
-                    child: _BiopayActionTile(
-                      icon: Icon(
-                        Icons.qr_code_scanner_rounded,
-                        size: 34,
-                        color: colors.info,
-                      ),
-                      iconColor: colors.info,
-                      label: l10n.scanQr,
-                      onTap: () => context.push(AppRoutes.scannerLocation()),
-                    ),
-                  ),
-                ],
-              );
-            },
+                ),
+                onTap: () => context.push(AppRoutes.biopayNfc),
+              ),
+              CoolQuickAction(
+                icon: Icons.qr_code_2_rounded,
+                label: l10n.generateQr,
+                accent: colors.warning,
+                onTap: () => context.push(AppRoutes.biopayQr),
+              ),
+              CoolQuickAction(
+                icon: Icons.qr_code_scanner_rounded,
+                label: l10n.scanQr,
+                accent: colors.info,
+                onTap: () => context.push(AppRoutes.scannerLocation()),
+              ),
+            ],
           ),
         ],
       ),
@@ -114,65 +83,3 @@ class BiopayHomeScreen extends StatelessWidget {
   }
 }
 
-class _BiopayActionTile extends StatelessWidget {
-  const _BiopayActionTile({
-    required this.icon,
-    required this.iconColor,
-    required this.label,
-    required this.onTap,
-  });
-
-  final Widget icon;
-  final Color iconColor;
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final textScale = MediaQuery.textScalerOf(context).scale(1);
-    final tileHeight = 146.0 + (textScale > 1 ? (textScale - 1) * 42.0 : 0.0);
-    return Semantics(
-      button: true,
-      label: label,
-      child: CoolCard(
-        onTap: onTap,
-        cardPadding: CoolCardPadding.none,
-        padding: const EdgeInsets.all(CoolSpace.x4),
-        child: SizedBox(
-          height: tileHeight,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  CoolIconBox(
-                    icon: Icons.circle,
-                    accent: iconColor,
-                    size: CoolIconBoxSize.lg,
-                    iconWidget: icon,
-                  ),
-                  const Spacer(),
-                  Icon(
-                    Icons.arrow_forward_rounded,
-                    size: 18,
-                    color: colors.tertiaryText,
-                  ),
-                ],
-              ),
-              const Spacer(),
-              Text(
-                label,
-                style: context.coolText.headline(
-                  Theme.of(context).textTheme.titleMedium,
-                  color: colors.primaryText,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
