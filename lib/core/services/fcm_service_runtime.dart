@@ -299,7 +299,7 @@ extension _FcmServiceRuntime on FcmService {
     ScaffoldMessenger.of(context).showMaterialBanner(
       MaterialBanner(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        leading: const Icon(Icons.notifications_rounded, color: Colors.white),
+        leading: const Icon(CoolIcons.notificationsFilled, color: Colors.white),
         backgroundColor: const Color(0xFF1A1A2E),
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

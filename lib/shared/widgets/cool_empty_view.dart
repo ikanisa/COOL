@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/cool_icons.dart';
 import 'cool_button.dart';
 
 /// Standardized empty-state view for screens and lists with no data.

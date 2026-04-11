@@ -7701,6 +7701,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Set by admin for all savings groups.'**
   String get groupSettingsMomoSetByAdmin;
+
+  /// No description provided for @groupValidationMomoRouteRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a valid MoMo route before creating this group.'**
+  String get groupValidationMomoRouteRequired;
+
+  /// No description provided for @groupValidationAmountInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid amount.'**
+  String get groupValidationAmountInvalid;
+
+  /// No description provided for @groupValidationAmountPositive.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount must be greater than zero.'**
+  String get groupValidationAmountPositive;
+
+  /// No description provided for @deleteAccountSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been deleted.'**
+  String get deleteAccountSuccess;
+
+  /// No description provided for @walletScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'WALLET'**
+  String get walletScreenTitle;
+
+  /// No description provided for @walletScreenSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'M-MONEY HISTORY'**
+  String get walletScreenSubtitle;
+
+  /// No description provided for @walletStatementExported.
+  ///
+  /// In en, this message translates to:
+  /// **'Statement exported'**
+  String get walletStatementExported;
+
+  /// No description provided for @walletStatementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet Statement'**
+  String get walletStatementTitle;
+
+  /// No description provided for @walletDefaultUserName.
+  ///
+  /// In en, this message translates to:
+  /// **'COOL User'**
+  String get walletDefaultUserName;
+
+  /// No description provided for @walletAllTransactionsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'All wallet transactions'**
+  String get walletAllTransactionsFilter;
+
+  /// No description provided for @walletNewestFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest first'**
+  String get walletNewestFirst;
+
+  /// No description provided for @walletAllInView.
+  ///
+  /// In en, this message translates to:
+  /// **'All transactions in view'**
+  String get walletAllInView;
+
+  /// No description provided for @walletNoTransactionsYetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'NO TRANSACTIONS YET'**
+  String get walletNoTransactionsYetTitle;
+
+  /// No description provided for @walletNoTransactionsYetMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your M-Money transactions will appear here once SMS sync is enabled and payments are processed.'**
+  String get walletNoTransactionsYetMessage;
+
+  /// No description provided for @walletRefPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Ref: {reference}'**
+  String walletRefPrefix(String reference);
+
+  /// No description provided for @walletExportTruncated.
+  ///
+  /// In en, this message translates to:
+  /// **'Export limited to {count} entries. Narrow the date range for complete data.'**
+  String walletExportTruncated(int count);
+
+  /// No description provided for @biopayScanPreparingCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing secure camera...'**
+  String get biopayScanPreparingCamera;
+
+  /// No description provided for @biopayScanLoadingServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading BioPay camera access and on-device services.'**
+  String get biopayScanLoadingServices;
+
+  /// No description provided for @biopayScanAlignFace.
+  ///
+  /// In en, this message translates to:
+  /// **'Align your face inside the oval'**
+  String get biopayScanAlignFace;
+
+  /// No description provided for @biopayScanPointAtPayee.
+  ///
+  /// In en, this message translates to:
+  /// **'Point the camera at the payee\'s face'**
+  String get biopayScanPointAtPayee;
+
+  /// No description provided for @biopayScanEnrollHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'BioPay is analyzing live frames in memory only. Hold still when the oval turns green.'**
+  String get biopayScanEnrollHelper;
+
+  /// No description provided for @biopayScanPayHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'BioPay is analyzing live frames in memory only. Keep one face centered for a fast match.'**
+  String get biopayScanPayHelper;
+
+  /// No description provided for @biopayScanCameraLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing camera…'**
+  String get biopayScanCameraLoading;
 }
 
 class _AppLocalizationsDelegate

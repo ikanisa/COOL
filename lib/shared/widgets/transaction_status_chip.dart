@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../core/l10n/l10n.dart';
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/cool_icons.dart';
 
 /// Pill-shaped status chip for transaction and ledger entries.
 ///

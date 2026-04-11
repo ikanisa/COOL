@@ -73,7 +73,7 @@ class BootstrapErrorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _ErrorCardScaffold(
-      icon: Icons.warning_amber_rounded,
+      icon: CoolIcons.warning,
       title: context.l10n.bootstrapStartupBlocked,
       message: message,
       footer: FilledButton(
@@ -112,7 +112,7 @@ class ConfigErrorApp extends ConsumerWidget {
           ThemeSystemChrome(child: child ?? const SizedBox.shrink()),
       home: Builder(
         builder: (context) => _ErrorCardScaffold(
-          icon: Icons.settings_rounded,
+          icon: CoolIcons.settingsRounded,
           title: context.l10n.bootstrapBackendConfigurationRequired,
           message: message,
           footer: Text(

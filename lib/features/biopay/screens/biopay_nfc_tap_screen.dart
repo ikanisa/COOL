@@ -102,7 +102,7 @@ class _BiopayNfcTapScreenState extends ConsumerState<BiopayNfcTapScreen>
                                 ],
                               ),
                               child: Icon(
-                                Icons.contactless_rounded,
+                                CoolIcons.contactless,
                                 size: 80,
                                 color: colors.accent,
                               ),

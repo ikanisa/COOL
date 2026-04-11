@@ -237,4 +237,101 @@ abstract final class CoolIcons {
 
   /// Sync / transfer.
   static const syncAlt = Icons.sync_alt_rounded;
+
+  // ── Navigation (additional) ──────────────────────────────────────
+  /// iOS-style back chevron (for scanner overlays).
+  static const backIos = Icons.arrow_back_ios_new_rounded;
+
+  /// Dropdown indicator arrow.
+  static const dropDown = Icons.arrow_drop_down;
+
+  /// Left-facing chevron (previous / back alternative).
+  static const chevronLeft = Icons.chevron_left_rounded;
+
+  // ── Financial Arrows ─────────────────────────────────────────────
+  /// Arrow down (incoming / credit transaction).
+  static const arrowDown = Icons.arrow_downward_rounded;
+
+  /// Arrow up (outgoing / debit transaction).
+  static const arrowUp = Icons.arrow_upward_rounded;
+
+  // ── Profile & Identity (additional) ──────────────────────────────
+  /// Identity badge / display name.
+  static const badge = Icons.badge_outlined;
+
+  /// Phone number.
+  static const phone = Icons.phone_outlined;
+
+  /// Country flag / nationality.
+  static const flag = Icons.flag_outlined;
+
+  /// Fingerprint / biometric local auth.
+  static const fingerprint = Icons.fingerprint_rounded;
+
+  /// Route / journey / MoMo route.
+  static const route = Icons.route_rounded;
+
+  // ── Content & Data (additional) ──────────────────────────────────
+  /// QR code (simple variant, for share action triggers).
+  static const qrCodeSimple = Icons.qr_code_rounded;
+
+  /// Notifications (filled variant for active bell).
+  static const notificationsFilled = Icons.notifications_rounded;
+
+  /// Wallet (filled variant for balance cards).
+  static const walletFilled = Icons.account_balance_wallet_rounded;
+
+  /// Shield (outlined, for insured/protected label).
+  static const shieldOutline = Icons.shield_outlined;
+
+  /// SMS (filled variant for rationale sheets).
+  static const smsFilled = Icons.sms_rounded;
+
+  /// Contacts (filled variant for share actions).
+  static const contactsFilled = Icons.contacts_rounded;
+
+  /// Link / URL reference.
+  static const linkUrl = Icons.link_rounded;
+
+  // ── System & PWA ─────────────────────────────────────────────────
+  /// Install / add to home screen.
+  static const install = Icons.install_mobile_rounded;
+
+  /// iOS share button.
+  static const iosShare = Icons.ios_share_rounded;
+
+  /// Add box (iOS "Add to Home Screen" step).
+  static const addBox = Icons.add_box_outlined;
+
+  /// Maintenance / engineering.
+  static const maintenance = Icons.engineering_rounded;
+
+  /// Settings gear (rounded variant for nav bar).
+  static const settingsRounded = Icons.settings_rounded;
+
+  /// Home (rounded variant, for nav bar).
+  static const homeRounded = Icons.home_rounded;
+
+  // ── Trends & Dashboard ───────────────────────────────────────────
+  /// Trending up (positive net change).
+  static const trendUp = Icons.trending_up_rounded;
+
+  /// Trending down (negative net change).
+  static const trendDown = Icons.trending_down_rounded;
+
+  /// Flat / horizontal rule (zero net change).
+  static const horizontalRule = Icons.horizontal_rule_rounded;
+
+  /// Recent operations / history toggle.
+  static const historyToggle = Icons.history_toggle_off_rounded;
+
+  /// Receipt outlined (empty state variant).
+  static const receiptOutlined = Icons.receipt_long_outlined;
+
+  /// Groups outlined (community section header).
+  static const groupsOutlined = Icons.groups_outlined;
+
+  // ── BioPay (additional) ──────────────────────────────────────────
+  /// Contactless NFC tap animation.
+  static const contactless = Icons.contactless_rounded;
 }

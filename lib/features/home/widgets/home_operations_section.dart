@@ -24,7 +24,7 @@ class HomeOperationsSection extends StatelessWidget {
         HomeSectionHeader(
           title: l10n.homeOperationsTitle,
           trailing: Icon(
-            Icons.history_toggle_off_rounded,
+            CoolIcons.historyToggle,
             color: colors.secondaryText.withValues(alpha: 0.76),
           ),
         ),
@@ -36,12 +36,12 @@ class HomeOperationsSection extends StatelessWidget {
 
   Widget _buildContent(BuildContext context, CoolSemanticColors colors) {
     if (isLoading && transactions.isEmpty) {
-      return Column(
+      return const Column(
         children: [
           _OperationSkeletonCard(),
-          const SizedBox(height: CoolSpace.x2),
+          SizedBox(height: CoolSpace.x2),
           _OperationSkeletonCard(),
-          const SizedBox(height: CoolSpace.x2),
+          SizedBox(height: CoolSpace.x2),
           _OperationSkeletonCard(),
         ],
       );
@@ -59,7 +59,7 @@ class HomeOperationsSection extends StatelessWidget {
         compact: true,
         title: context.l10n.homeNoOperationsYet,
         subtitle: context.l10n.homeOperationsEmptySubtitle,
-        icon: Icons.receipt_long_outlined,
+        icon: CoolIcons.receiptOutlined,
       );
     }
 

@@ -6,7 +6,6 @@ import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/cool_icons.dart';
 import '../../../core/utils/money_formatters.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -66,6 +65,9 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
           .read(groupRepositoryProvider)
           .joinPublicGroup(group: group, user: user);
       ref.read(groupsRefreshTickProvider.notifier).state++;
+      // Invalidate detail + access so the screen refreshes immediately.
+      ref.invalidate(groupDetailProvider(widget.groupId));
+      ref.invalidate(groupAccessProvider(widget.groupId));
       if (!mounted) {
         return;
       }
@@ -103,6 +105,11 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
     final groupAsync = ref.watch(groupDetailProvider(widget.groupId));
     final accessAsync = ref.watch(groupAccessProvider(widget.groupId));
     final myGroupIds = ref.watch(myGroupIdsProvider);
+
+    // Guard against empty groupId propagated from route parameters.
+    if (widget.groupId.trim().isEmpty) {
+      return _MissingGroupState(message: context.l10n.groupNotFound);
+    }
 
     return groupAsync.when(
       data: (group) {

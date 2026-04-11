@@ -243,7 +243,7 @@ class _TransactionAllocationSheetState
               if (isCurrentlyAllocated)
                 Row(
                   children: [
-                    Icon(Icons.person_rounded, size: 14, color: colors.success),
+                    Icon(CoolIcons.person, size: 14, color: colors.success),
                     const SizedBox(width: 6),
                     Text(
                       entry.payerName,
@@ -262,7 +262,7 @@ class _TransactionAllocationSheetState
                 Row(
                   children: [
                     Icon(
-                      Icons.help_outline_rounded,
+                      CoolIcons.help,
                       size: 14,
                       color: colors.warning,
                     ),
@@ -382,7 +382,7 @@ class _TransactionAllocationSheetState
                             ),
                             child: isSelected
                                 ? const Icon(
-                                    Icons.check_rounded,
+                                    CoolIcons.check,
                                     size: 12,
                                     color: Colors.white,
                                   )

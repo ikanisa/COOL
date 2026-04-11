@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/cool_icons.dart';
 import '../../../core/utils/money_formatters.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../core/utils/user_error.dart';

@@ -257,7 +257,7 @@ class _ProfileIdentityHeader extends StatelessWidget {
           ),
           alignment: Alignment.center,
           child: Icon(
-            Icons.person_outline_rounded,
+            CoolIcons.profile,
             size: 66,
             color: colors.secondaryText,
           ),
@@ -336,7 +336,7 @@ class _FaceIdCard extends StatelessWidget {
                 ),
               ),
               Icon(
-                Icons.center_focus_strong_rounded,
+                CoolIcons.faceScan,
                 size: 34,
                 color: colors.primaryText,
               ),

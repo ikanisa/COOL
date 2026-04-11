@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/cool_icons.dart';
 
 class WhatsAppHintChip extends StatelessWidget {
   const WhatsAppHintChip({this.label = 'Chat on WhatsApp', super.key});

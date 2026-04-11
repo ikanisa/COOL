@@ -11,7 +11,7 @@ No build is release-candidate quality unless every gate below is green.
 
 | Gate | Requirement | Source of truth |
 |---|---|---|
-| **Supabase backend contract** | **The correct flavor-specific Supabase URL/key pair MUST be set** before building any APK or AAB. Staging and production must resolve to different Supabase project refs. Build scripts validate `SUPABASE_STAGING_*` / `SUPABASE_PRODUCTION_*`, fall back to the legacy generic pair only as a warning, and Dart runtime validates the baked project ref. | `scripts/validate_backend_config.sh`, `scripts/_android_release_build.sh`, `scripts/build_staging.sh`, `lib/core/config/env_config.dart` |
+| **Supabase backend contract** | **The production Supabase URL/key pair MUST be set** before building any APK or AAB. `SUPABASE_STAGING_*` is optional and only required when you intentionally maintain a separate staging backend. Build scripts validate `SUPABASE_PRODUCTION_*`, optionally validate staging when provided, and Dart runtime validates the baked project ref. | `scripts/validate_backend_config.sh`, `scripts/_android_release_build.sh`, `scripts/build_staging.sh`, `lib/core/config/env_config.dart` |
 | Hosted function secrets | Hosted Supabase function secrets are synced from CI before the release gate runs, and the hosted smoke must pass when `SUPABASE_PROJECT_REF` + `SUPABASE_ACCESS_TOKEN` are configured | `scripts/sync_supabase_function_secrets.sh`, `.github/workflows/release.yml`, `scripts/supabase_contract_smoke.sh` |
 | Static analysis | `flutter analyze` passes with zero issues | `scripts/release_readiness.sh` |
 | Flutter tests | `flutter test` passes with zero failures | `scripts/release_readiness.sh` |
@@ -92,6 +92,14 @@ That command additionally verifies:
 
 iOS store release automation is explicitly de-scoped in the current repo. Keep
 `COOL_IOS_RELEASE_ENABLED=0` until a signed TestFlight / App Store lane exists.
+
+Production-only release mode is supported. If `SUPABASE_STAGING_*` is unset,
+backend validation skips staging and treats production as the only required
+release backend target.
+
+If repo-local env files still define `SUPABASE_STAGING_*`, set
+`COOL_SKIP_STAGING_BACKEND_VALIDATION=1` to force the same production-only
+behavior during release validation.
 
 ## QA Matrix
 

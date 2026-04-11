@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/cool_icons.dart';
 import '../../../core/utils/money_formatters.dart';
 import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/cool_button.dart';

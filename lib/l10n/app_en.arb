@@ -1505,5 +1505,46 @@
   "coolStateLoadingMessage": "Please wait while this section loads.",
   "coolErrorUnexpected": "An unexpected error occurred",
   "groupSettingsMomoCollectionCodeLabel": "COLLECTION CODE",
-  "groupSettingsMomoSetByAdmin": "Set by admin for all savings groups."
+  "groupSettingsMomoSetByAdmin": "Set by admin for all savings groups.",
+
+  "groupValidationMomoRouteRequired": "Add a valid MoMo route before creating this group.",
+  "groupValidationAmountInvalid": "Enter a valid amount.",
+  "groupValidationAmountPositive": "Amount must be greater than zero.",
+  "deleteAccountSuccess": "Your account has been deleted.",
+
+  "walletScreenTitle": "WALLET",
+  "walletScreenSubtitle": "M-MONEY HISTORY",
+  "walletStatementExported": "Statement exported",
+  "walletStatementTitle": "Wallet Statement",
+  "walletDefaultUserName": "COOL User",
+  "walletAllTransactionsFilter": "All wallet transactions",
+  "walletNewestFirst": "Newest first",
+  "walletAllInView": "All transactions in view",
+  "walletNoTransactionsYetTitle": "NO TRANSACTIONS YET",
+  "walletNoTransactionsYetMessage": "Your M-Money transactions will appear here once SMS sync is enabled and payments are processed.",
+  "walletRefPrefix": "Ref: {reference}",
+  "@walletRefPrefix": {
+    "placeholders": {
+      "reference": {
+        "type": "String"
+      }
+    }
+  },
+  "walletExportTruncated": "Export limited to {count} entries. Narrow the date range for complete data.",
+  "@walletExportTruncated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "biopayScanPreparingCamera": "Preparing secure camera...",
+  "biopayScanLoadingServices": "Loading BioPay camera access and on-device services.",
+  "biopayScanAlignFace": "Align your face inside the oval",
+  "biopayScanPointAtPayee": "Point the camera at the payee's face",
+  "biopayScanEnrollHelper": "BioPay is analyzing live frames in memory only. Hold still when the oval turns green.",
+  "biopayScanPayHelper": "BioPay is analyzing live frames in memory only. Keep one face centered for a fast match.",
+  "biopayScanCameraLoading": "Preparing camera…"
 }
+

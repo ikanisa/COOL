@@ -85,7 +85,7 @@ class _SmsPolicyNotice extends StatelessWidget {
             ),
             alignment: Alignment.center,
             child: Icon(
-              Icons.sms_outlined,
+              CoolIcons.sms,
               color: colors.secondaryText,
               size: 20,
             ),
@@ -143,7 +143,7 @@ _PermissionMetadata _metadataFor(
   final l10n = context.l10n;
   return switch (permission) {
     AppAccessPermission.sms => _PermissionMetadata(
-      icon: Icons.sms_outlined,
+      icon: CoolIcons.sms,
       title: l10n.profileSmsPaymentSyncTitle,
       subtitle: l10n.profileSmsPaymentSyncSubtitle,
       linkedFeatures: [
@@ -153,14 +153,14 @@ _PermissionMetadata _metadataFor(
       serviceActionLabel: l10n.openSystemSettings,
     ),
     AppAccessPermission.camera => _PermissionMetadata(
-      icon: Icons.camera_alt_outlined,
+      icon: CoolIcons.camera,
       title: l10n.camera,
       subtitle: l10n.profileCameraSubtitle,
       linkedFeatures: [l10n.profileAccessFeatureMomoQrScan],
       serviceActionLabel: l10n.openSystemSettings,
     ),
     AppAccessPermission.contacts => _PermissionMetadata(
-      icon: Icons.contacts_outlined,
+      icon: CoolIcons.contacts,
       title: l10n.contacts,
       subtitle: l10n.profileContactsSubtitle,
       linkedFeatures: [
@@ -170,7 +170,7 @@ _PermissionMetadata _metadataFor(
       serviceActionLabel: l10n.openSystemSettings,
     ),
     AppAccessPermission.nfc => _PermissionMetadata(
-      icon: Icons.nfc_outlined,
+      icon: CoolIcons.nfc,
       title: l10n.nfc,
       subtitle: l10n.profileNfcSubtitle,
       linkedFeatures: [
@@ -180,7 +180,7 @@ _PermissionMetadata _metadataFor(
       serviceActionLabel: l10n.profileOpenNfcSettings,
     ),
     AppAccessPermission.photos => _PermissionMetadata(
-      icon: Icons.photo_library_outlined,
+      icon: CoolIcons.photos,
       title: l10n.profilePhotosMediaTitle,
       subtitle: l10n.profilePhotosMediaSubtitle,
       linkedFeatures: [

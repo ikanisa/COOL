@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/cool_icons.dart';
 import '../../../core/utils/date_formatters.dart';
 import '../../../core/utils/money_formatters.dart';
 import '../../../core/utils/user_error.dart';
@@ -338,7 +337,7 @@ class _EmptyState extends StatelessWidget {
             ),
             alignment: Alignment.center,
             child: Icon(
-               Icons.receipt_long_rounded,
+               CoolIcons.history,
               color: colors.accent,
               size: 32,
             ),
@@ -440,7 +439,7 @@ class _StatementTile extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Icon(
-                  Icons.arrow_downward_rounded,
+                  CoolIcons.arrowDown,
                   color: colors.accent,
                   size: 20,
                 ),

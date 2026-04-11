@@ -12,7 +12,7 @@ class AccountDetailsScreen extends ConsumerWidget {
     return _ProfileSubScaffold(
       title: 'ACCOUNT',
       subtitle: 'PERSONAL INFORMATION',
-      icon: Icons.person_outline_rounded,
+      icon: CoolIcons.profile,
       slivers: [
         // ── IDENTITY section ───────────────────────────────────────
         const _SectionLabel(label: 'IDENTITY'),
@@ -60,19 +60,19 @@ class AccountDetailsScreen extends ConsumerWidget {
               const SizedBox(height: CoolSpace.x4),
               const _RowDivider(),
               _InfoRow(
-                icon: Icons.badge_outlined,
+                icon: CoolIcons.badge,
                 title: 'MEMBER ID',
                 value: profile.userId.isNotEmpty ? profile.userId : '------',
               ),
               const _RowDivider(),
               _InfoRow(
-                icon: Icons.phone_outlined,
+                icon: CoolIcons.phone,
                 title: 'PHONE',
                 value: profile.phone.isNotEmpty ? profile.phone : 'NOT SET',
               ),
               const _RowDivider(),
               _InfoRow(
-                icon: Icons.flag_outlined,
+                icon: CoolIcons.flag,
                 title: 'COUNTRY',
                 value: profile.country.toUpperCase(),
               ),
@@ -89,7 +89,7 @@ class AccountDetailsScreen extends ConsumerWidget {
             child: Column(
               children: [
                 _InfoRow(
-                  icon: Icons.fingerprint_rounded,
+                  icon: CoolIcons.fingerprint,
                   title: 'BIOPAY ID',
                   value: biopay?.publicId.trim().isNotEmpty == true
                       ? biopay!.publicId
@@ -100,7 +100,7 @@ class AccountDetailsScreen extends ConsumerWidget {
                 ),
                 const _RowDivider(),
                 _InfoRow(
-                  icon: Icons.face_retouching_natural_rounded,
+                  icon: CoolIcons.faceId,
                   title: 'FACE ID',
                   value: (biopay?.active ?? false) ? 'READY' : 'NOT SET UP',
                   valueColor: (biopay?.active ?? false)
@@ -109,7 +109,7 @@ class AccountDetailsScreen extends ConsumerWidget {
                 ),
                 const _RowDivider(),
                 _InfoRow(
-                  icon: Icons.route_rounded,
+                  icon: CoolIcons.route,
                   title: 'RECEIVE ROUTE',
                   value: biopay?.maskedRecipientValue ?? 'NOT LINKED',
                   valueColor: biopay?.maskedRecipientValue != null
@@ -136,7 +136,7 @@ class AccountDetailsScreen extends ConsumerWidget {
           ),
           error: (error, _) => _GlassCard(
             child: _InfoRow(
-              icon: Icons.error_outline_rounded,
+              icon: CoolIcons.error,
               title: 'BIOPAY',
               value: 'UNAVAILABLE',
               valueColor: colors.secondaryText,

@@ -159,7 +159,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
           const SizedBox(height: CoolSpace.x7),
           BiopayPrimaryButton(
             label: l10n.biopayGenerateQrCode,
-            icon: Icons.qr_code_2_rounded,
+            icon: CoolIcons.qrCode,
             onTap: () => _showQrPreview(context, country),
           ),
         ],

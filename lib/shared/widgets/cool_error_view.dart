@@ -13,7 +13,7 @@ class CoolErrorView extends StatelessWidget {
     this.onAction,
     this.action,
     this.actionLabel,
-    this.icon = Icons.error_outline_rounded,
+    this.icon = CoolIcons.error,
     this.compact = false,
     super.key,
   });

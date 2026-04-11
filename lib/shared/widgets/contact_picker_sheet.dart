@@ -4,7 +4,6 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../core/services/app_access_service.dart';
 import '../../core/services/contacts_service.dart';
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/cool_icons.dart';
 import 'cool_skeleton.dart';
 import '../../core/l10n/l10n.dart';
 

@@ -13,6 +13,17 @@ load_client_env_files "$ROOT_DIR" \
   SUPABASE_PRODUCTION_URL \
   SUPABASE_PRODUCTION_ANON_KEY
 
+skip_staging_backend_validation=0
+if [[ "${COOL_SKIP_STAGING_BACKEND_VALIDATION:-0}" == "1" ]]; then
+  skip_staging_backend_validation=1
+fi
+
+has_staging_backend_config=0
+if [[ "$skip_staging_backend_validation" != "1" && \
+      ( -n "${SUPABASE_STAGING_URL:-}" || -n "${SUPABASE_STAGING_ANON_KEY:-}" ) ]]; then
+  has_staging_backend_config=1
+fi
+
 validate_flavor() {
   local flavor="${1:?Pass staging or production.}"
   local upper_flavor
@@ -26,8 +37,15 @@ validate_flavor() {
     "$RESOLVED_SUPABASE_URL"
 }
 
-validate_flavor staging
 validate_flavor production
+
+if [[ "$has_staging_backend_config" == "1" ]]; then
+  validate_flavor staging
+elif [[ "$skip_staging_backend_validation" == "1" ]]; then
+  echo "==> staging backend: skipped (COOL_SKIP_STAGING_BACKEND_VALIDATION=1)"
+else
+  echo "==> staging backend: skipped (production-only release mode)"
+fi
 
 if [[ -n "${SUPABASE_URL:-}" && -n "${SUPABASE_PRODUCTION_URL:-}" && \
       "$SUPABASE_URL" != "$SUPABASE_PRODUCTION_URL" ]]; then
@@ -41,7 +59,8 @@ if [[ -n "${SUPABASE_ANON_KEY:-}" && -n "${SUPABASE_PRODUCTION_ANON_KEY:-}" && \
   exit 1
 fi
 
-if [[ -n "${VALIDATED_STAGING_REF:-}" && -n "${VALIDATED_PRODUCTION_REF:-}" && \
+if [[ "$has_staging_backend_config" == "1" && \
+      -n "${VALIDATED_STAGING_REF:-}" && -n "${VALIDATED_PRODUCTION_REF:-}" && \
       "$VALIDATED_STAGING_REF" == "$VALIDATED_PRODUCTION_REF" ]]; then
   echo "CRITICAL BLOCKER — staging and production resolve to the same Supabase project (${VALIDATED_STAGING_REF})." >&2
   echo "Set distinct SUPABASE_STAGING_* and SUPABASE_PRODUCTION_* values before release validation." >&2

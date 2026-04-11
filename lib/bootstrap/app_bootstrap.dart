@@ -374,7 +374,7 @@ class _AppBootstrapState extends State<AppBootstrap> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Icon(
-                    Icons.warning_amber_rounded,
+                    CoolIcons.warning,
                     size: 48,
                     color: Color(0xFFFF4D6A),
                   ),

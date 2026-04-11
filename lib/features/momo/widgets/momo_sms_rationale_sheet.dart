@@ -70,7 +70,7 @@ class MomoSmsRationaleSheet extends StatelessWidget {
                     Radius.circular(CoolRadii.md),
                   ),
                 ),
-                child: Icon(Icons.sms_rounded, color: colors.accent, size: 28),
+                child: Icon(CoolIcons.smsFilled, color: colors.accent, size: 28),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -96,7 +96,7 @@ class MomoSmsRationaleSheet extends StatelessWidget {
           ),
           const SizedBox(height: CoolSpace.x6),
           _RationalePoint(
-            icon: Icons.history_rounded,
+            icon: CoolIcons.history,
             title: context.l10n.deepHistoricalSync,
             message:
                 'First-time setup scans the past year for M-Money '
@@ -105,7 +105,7 @@ class MomoSmsRationaleSheet extends StatelessWidget {
           ),
           const SizedBox(height: CoolSpace.x4),
           _RationalePoint(
-            icon: Icons.security_rounded,
+            icon: CoolIcons.security,
             title: context.l10n.privacyFocused,
             message:
                 'Cool only reacts to approved M-Money sender IDs such '
@@ -115,7 +115,7 @@ class MomoSmsRationaleSheet extends StatelessWidget {
           ),
           const SizedBox(height: CoolSpace.x4),
           _RationalePoint(
-            icon: Icons.sync_rounded,
+            icon: CoolIcons.sync,
             title: context.l10n.alwaysInSync,
             message:
                 'Approved payment confirmations are stored for ledger '

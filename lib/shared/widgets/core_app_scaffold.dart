@@ -39,7 +39,7 @@ class CoreAppScaffold extends StatelessWidget {
     if (showHomeButton) {
       resolvedActions.add(
         IconButton(
-          icon: Icon(Icons.home_filled, color: chromeColor),
+          icon: Icon(CoolIcons.home, color: chromeColor),
           onPressed: () {
             while (context.canPop()) {
               context.pop();
@@ -64,7 +64,7 @@ class CoreAppScaffold extends StatelessWidget {
                 leading: showBackButton
                     ? IconButton(
                         icon: Icon(
-                          Icons.arrow_back_rounded,
+                          CoolIcons.back,
                           color: chromeColor,
                         ),
                         onPressed: () {

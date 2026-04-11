@@ -162,9 +162,7 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
     final cur = country.currencyCode;
     final showFrequencyPicker = _type == 'saving';
 
-    if (_type == 'community' && _frequency != 'one_off') {
-      _frequency = 'one_off';
-    }
+    // Frequency is enforced at type-change time via setState callbacks below.
 
     return CoreDetailScaffold(
       title: Text(
@@ -293,12 +291,13 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
       return null;
     }
 
+    final l10n = context.l10n;
     final amount = _parseAmount(trimmed);
     if (amount == null) {
-      return 'Enter a valid amount.';
+      return l10n.groupValidationAmountInvalid;
     }
     if (amount <= 0) {
-      return 'Amount must be greater than zero.';
+      return l10n.groupValidationAmountPositive;
     }
     return null;
   }
@@ -331,7 +330,7 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
   }) {
     final recipient = recipientValue?.trim() ?? '';
     if (routeType == null || recipient.isEmpty) {
-      return 'Add a valid MoMo route before creating this group.';
+      return context.l10n.groupValidationMomoRouteRequired;
     }
 
     return switch (routeType) {

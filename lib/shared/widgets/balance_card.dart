@@ -163,7 +163,7 @@ class BalanceCard extends StatelessWidget {
                         ),
                         alignment: Alignment.center,
                         child: Icon(
-                          Icons.account_balance_wallet_rounded,
+                          CoolIcons.walletFilled,
                           color: colors.primaryText,
                           size: 24,
                         ),
@@ -198,8 +198,8 @@ class BalanceCard extends StatelessWidget {
                     children: [
                       _TrustPill(
                         icon: isPositiveChange
-                            ? Icons.arrow_upward_rounded
-                            : Icons.arrow_downward_rounded,
+                            ? CoolIcons.arrowUp
+                            : CoolIcons.arrowDown,
                         label:
                             '${formatSignedWholeMoneyAmount(changeAmount)} $currency net movement',
                         backgroundColor: isPositiveChange
@@ -210,7 +210,7 @@ class BalanceCard extends StatelessWidget {
                             : colors.danger,
                       ),
                       _TrustPill(
-                        icon: Icons.shield_outlined,
+                        icon: CoolIcons.shieldOutline,
                         label: 'Protected',
                         backgroundColor: colors.info.withValues(alpha: 0.12),
                         foregroundColor: colors.primaryText,

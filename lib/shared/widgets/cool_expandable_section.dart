@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/cool_icons.dart';
 
 /// A collapsible section with a compact header and smooth expand/collapse.
 ///

@@ -92,7 +92,7 @@ class _ContactTile extends StatelessWidget {
                 ),
                 child: isSelected
                     ? const Icon(
-                        Icons.check_rounded,
+                        CoolIcons.check,
                         size: 16,
                         color: Colors.white,
                       )
@@ -100,7 +100,7 @@ class _ContactTile extends StatelessWidget {
               )
             else
               Icon(
-                Icons.chevron_right_rounded,
+                CoolIcons.chevron,
                 color: colors.tertiaryText,
                 size: 20,
               ),

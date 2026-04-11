@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/cool_icons.dart';
 
 /// Search-specific text field for list filtering and quick find flows.
 class CoolSearchField extends StatefulWidget {
@@ -114,7 +113,7 @@ class _CoolSearchFieldState extends State<CoolSearchField> {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
-    final fieldRadius = CoolRadii.lg;
+    const fieldRadius = CoolRadii.lg;
 
     return Semantics(
       textField: true,

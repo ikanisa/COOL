@@ -108,7 +108,7 @@ class AdminAccessDeniedScaffold extends StatelessWidget {
               ),
               alignment: Alignment.center,
               child: Icon(
-                Icons.lock_outline_rounded,
+                CoolIcons.lock,
                 size: 34,
                 color: colors.danger,
               ),

@@ -138,7 +138,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                   onPressed: () => Navigator.of(context).maybePop(),
                   tooltip: backTooltip,
                   icon: Icon(
-                    Icons.arrow_back_rounded,
+                    CoolIcons.back,
                     color: colors.primaryText,
                   ),
                 ),
@@ -153,7 +153,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
-                          Icons.camera_alt_outlined,
+                          CoolIcons.camera,
                           size: 42,
                           color: colors.secondaryText,
                         ),
@@ -231,7 +231,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                                 onPressed: _closeScanner,
                                 tooltip: context.l10n.closeScanner,
                                 icon: const Icon(
-                                  Icons.arrow_back_ios_new_rounded,
+                                  CoolIcons.backIos,
                                   color: Colors.white,
                                   size: 20,
                                 ),

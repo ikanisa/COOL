@@ -44,7 +44,7 @@ class KillSwitchGate extends StatelessWidget {
             CoolFloatingHeaderSliver(
               automaticallyImplyLeading: false,
               leading: IconButton(
-                icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
+                icon: Icon(CoolIcons.back, color: colors.primaryText),
                 tooltip: backTooltip,
                 onPressed: onBackPressed ?? () => Navigator.of(context).pop(),
               ),
@@ -72,7 +72,7 @@ class KillSwitchGate extends StatelessWidget {
                             ),
                           ),
                           child: Icon(
-                            Icons.engineering_rounded,
+                            CoolIcons.maintenance,
                             size: 40,
                             color: colors.tertiaryText,
                           ),

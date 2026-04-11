@@ -10,9 +10,9 @@ permissions:
 
 jobs:
   release:
-    name: Build & Distribute
+    name: Release Candidate + Android Artifacts
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
@@ -96,21 +96,6 @@ jobs:
           STRICT_CORE: '1'
         run: bash scripts/sync_supabase_function_secrets.sh
 
-      # ── Gate: release readiness must pass ──────────────────
-      - name: Run release readiness checks
-        env:
-          SKIP_ANDROID_FLAVOR_BUILDS: '1'
-          RUN_MOMO_SMS_ROLLOUT_VERIFY: ${{ secrets.SUPABASE_DB_URL != '' && '1' || '0' }}
-          RUN_REMOTE_SMOKE: ${{ secrets.SUPABASE_PROJECT_REF != '' && secrets.SUPABASE_ACCESS_TOKEN != '' && '1' || '0' }}
-          PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
-          COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT: ${{ secrets.COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT }}
-          COOL_IOS_TEAM_ID: ${{ secrets.COOL_IOS_TEAM_ID }}
-          COOL_IOS_APP_STORE_ID: ${{ secrets.COOL_IOS_APP_STORE_ID }}
-          COOL_REQUIRE_IOS_RELEASE_METADATA: '1'
-        run: bash scripts/release_readiness.sh
-
       # ── Decode signing key ─────────────────────────────────
       - name: Decode keystore
         env:
@@ -131,9 +116,22 @@ jobs:
           storeFile=keystore.jks
           EOF
 
-      # ── Build signed APK ───────────────────────────────────
-      - name: Build release APK
+      # ── Gate: release-candidate pass must pass ─────────────
+      - name: Run release-candidate pass
         env:
+          RUN_ANDROID_MINIFY_CANARY: '1'
+          RUN_REMOTE_SMOKE: '1'
+          RUN_MOMO_SMS_ROLLOUT_VERIFY: '1'
+          COOL_SKIP_STAGING_BACKEND_VALIDATION: '1'
+          PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON || secrets.FIREBASE_SERVICE_ACCOUNT }}
+          COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT: ${{ secrets.COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT }}
+          COOL_IOS_TEAM_ID: ${{ secrets.COOL_IOS_TEAM_ID }}
+          COOL_IOS_APP_STORE_ID: ${{ secrets.COOL_IOS_APP_STORE_ID }}
+          COOL_IOS_RELEASE_ENABLED: '0'
+          COOL_REQUIRE_IOS_RELEASE_METADATA: '0'
           SUPABASE_PRODUCTION_URL: ${{ secrets.SUPABASE_PRODUCTION_URL || secrets.SUPABASE_URL }}
           SUPABASE_PRODUCTION_ANON_KEY: ${{ secrets.SUPABASE_PRODUCTION_ANON_KEY || secrets.SUPABASE_ANON_KEY }}
           FIREBASE_ANDROID_PRODUCTION_API_KEY: ${{ secrets.FIREBASE_ANDROID_PRODUCTION_API_KEY }}
@@ -143,14 +141,14 @@ jobs:
           FIREBASE_ANDROID_PRODUCTION_STORAGE_BUCKET: ${{ secrets.FIREBASE_ANDROID_PRODUCTION_STORAGE_BUCKET }}
           GOOGLE_MAPS_ANDROID_API_KEY: ${{ secrets.GOOGLE_MAPS_ANDROID_API_KEY }}
           GOOGLE_MAPS_ANDROID_MAP_ID: ${{ secrets.GOOGLE_MAPS_ANDROID_MAP_ID }}
-        run: bash scripts/build_production.sh
+        run: bash scripts/run_release_candidate.sh
 
       # ── Upload to Firebase App Distribution ─────────────────
       - name: Upload to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
-          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT || secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
           groups: staff
           file: build/app/outputs/flutter-apk/app-production-release.apk
           releaseNotes: |
@@ -164,3 +162,16 @@ jobs:
           name: release-apk-${{ github.ref_name }}
           path: build/app/outputs/flutter-apk/app-production-release.apk
           retention-days: 30
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aab-${{ github.ref_name }}
+          path: build/app/outputs/bundle/productionRelease/app-production-release.aab
+          retention-days: 30
+
+      - name: Record iOS release scope
+        run: |
+          echo "### iOS release scope" >> "$GITHUB_STEP_SUMMARY"
+          echo "- iOS store release automation is explicitly de-scoped in this workflow." >> "$GITHUB_STEP_SUMMARY"
+          echo "- Enable it only after a signed TestFlight/App Store lane is implemented and verified." >> "$GITHUB_STEP_SUMMARY"

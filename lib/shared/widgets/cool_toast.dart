@@ -3,7 +3,6 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/cool_icons.dart';
 
 /// Standardized toast/snackbar for the Cool app.
 ///

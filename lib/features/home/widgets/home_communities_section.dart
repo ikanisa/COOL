@@ -64,7 +64,7 @@ class HomeCommunitiesSection extends StatelessWidget {
         compact: true,
         title: context.l10n.homeNoCommunitiesYet,
         subtitle: context.l10n.homeCommunitiesEmptySubtitle,
-        icon: Icons.groups_outlined,
+        icon: CoolIcons.groupsOutlined,
       );
     }
 

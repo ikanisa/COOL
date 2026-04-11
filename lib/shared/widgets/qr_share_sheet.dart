@@ -246,7 +246,7 @@ class QrShareSheet extends ConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
-                                Icons.copy_rounded,
+                                CoolIcons.copy,
                                 size: 14,
                                 color: colors.accent,
                               ),

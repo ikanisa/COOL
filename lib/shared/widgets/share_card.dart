@@ -18,7 +18,7 @@ class ShareCard extends ConsumerWidget {
     this.subtitle,
     this.message,
     this.shareText,
-    this.icon = Icons.link_rounded,
+    this.icon = CoolIcons.linkUrl,
     this.sheetTitle,
     this.sheetSubtitle,
     this.analyticsTargetType,
@@ -154,7 +154,7 @@ class ShareCard extends ConsumerWidget {
               // WhatsApp / QR share
               Expanded(
                 child: _ShareButton(
-                  icon: Icons.qr_code_rounded,
+                  icon: CoolIcons.qrCodeSimple,
                   label: l10n.shareQrButton,
                   colors: colors,
                   onTap: () {
@@ -166,7 +166,7 @@ class ShareCard extends ConsumerWidget {
               // Native share
               Expanded(
                 child: _ShareButton(
-                  icon: Icons.share_rounded,
+                  icon: CoolIcons.share,
                   label: l10n.share,
                   colors: colors,
                   onTap: () {
@@ -178,7 +178,7 @@ class ShareCard extends ConsumerWidget {
               // Contacts share
               Expanded(
                 child: _ShareButton(
-                  icon: Icons.contacts_rounded,
+                  icon: CoolIcons.contactsFilled,
                   label: l10n.contacts,
                   colors: colors,
                   onTap: () => _shareViaContacts(context, ref),

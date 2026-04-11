@@ -177,21 +177,21 @@ class _AppShellState extends ConsumerState<AppShell>
                               children: [
                                 _NavItem(
                                   label: context.l10n.navHome,
-                                  icon: Icons.home_rounded,
+                                  icon: CoolIcons.homeRounded,
                                   isSelected: index == 0,
                                   onTap: () => _onItemTapped(0),
                                   colors: colors,
                                 ),
                                 _NavItem(
                                   label: context.l10n.navBiopay,
-                                  icon: Icons.center_focus_strong_rounded,
+                                  icon: CoolIcons.faceScan,
                                   isSelected: index == 1,
                                   onTap: () => _onItemTapped(1),
                                   colors: colors,
                                 ),
                                 _NavItem(
                                   label: context.l10n.navProfile,
-                                  icon: Icons.settings_rounded,
+                                  icon: CoolIcons.settingsRounded,
                                   isSelected: index == 2,
                                   onTap: () => _onItemTapped(2),
                                   colors: colors,

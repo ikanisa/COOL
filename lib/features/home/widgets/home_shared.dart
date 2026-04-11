@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/cool_icons.dart';
 import '../../../core/utils/money_formatters.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../models/home_dashboard_data.dart';

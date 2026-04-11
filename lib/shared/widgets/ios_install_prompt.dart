@@ -94,7 +94,7 @@ class IosInstallPrompt extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
-                Icons.install_mobile_rounded,
+                CoolIcons.install,
                 color: colors.accent,
                 size: 28,
               ),
@@ -125,7 +125,7 @@ class IosInstallPrompt extends StatelessWidget {
             // ── Step 1 ───────────────────────────────────────────────
             _InstructionStep(
               step: '1',
-              icon: Icons.ios_share_rounded,
+              icon: CoolIcons.iosShare,
               text: context.l10n.iosInstallStep1,
               colors: colors,
               textTheme: textTheme,
@@ -135,7 +135,7 @@ class IosInstallPrompt extends StatelessWidget {
             // ── Step 2 ───────────────────────────────────────────────
             _InstructionStep(
               step: '2',
-              icon: Icons.add_box_outlined,
+              icon: CoolIcons.addBox,
               text: context.l10n.iosInstallStep2,
               colors: colors,
               textTheme: textTheme,
@@ -145,7 +145,7 @@ class IosInstallPrompt extends StatelessWidget {
             // ── Step 3 ───────────────────────────────────────────────
             _InstructionStep(
               step: '3',
-              icon: Icons.check_circle_outline_rounded,
+              icon: CoolIcons.checkCircle,
               text: context.l10n.iosInstallStep3,
               colors: colors,
               textTheme: textTheme,

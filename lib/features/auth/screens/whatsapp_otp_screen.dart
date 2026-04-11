@@ -268,7 +268,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
             ],
           ),
           child: Icon(
-            Icons.chat_bubble_rounded,
+            CoolIcons.chatBubble,
             size: 42,
             color: colors.accent,
           ),
@@ -337,7 +337,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                   ),
                   const SizedBox(width: 4),
                   Icon(
-                    Icons.arrow_drop_down,
+                    CoolIcons.dropDown,
                     color: colors.secondaryText,
                     size: 18,
                   ),
@@ -502,55 +502,65 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(6, (index) {
-            return SizedBox(
-              width: 50,
-              height: 64,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: colors.cardSurface,
-                  borderRadius: BorderRadius.circular(CoolRadii.md),
-                  border: Border.all(
-                    color: _otpControllers[index].text.isNotEmpty
-                        ? colors.accentDeep.withValues(alpha: 0.72)
-                        : colors.borderStrong.withValues(alpha: 0.52),
-                    width: _otpControllers[index].text.isNotEmpty ? 1.4 : 0.9,
-                  ),
-                  boxShadow: CoolShadows.ambientFloat(strength: 0.18),
+            return Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: index == 0 ? 0 : 4,
+                  right: index == 5 ? 0 : 4,
                 ),
-                child: TextField(
-                  controller: _otpControllers[index],
-                  focusNode: _otpFocusNodes[index],
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  maxLength: 1,
-                  style: context.coolText.displayCondensed(
-                    Theme.of(context).textTheme.headlineSmall,
-                    fontWeight: FontWeight.w800,
-                    color: colors.primaryText,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 54),
+                  child: AspectRatio(
+                    aspectRatio: 50 / 64,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: colors.cardSurface,
+                        borderRadius: BorderRadius.circular(CoolRadii.md),
+                        border: Border.all(
+                          color: _otpControllers[index].text.isNotEmpty
+                              ? colors.accentDeep.withValues(alpha: 0.72)
+                              : colors.borderStrong.withValues(alpha: 0.52),
+                          width: _otpControllers[index].text.isNotEmpty ? 1.4 : 0.9,
+                        ),
+                        boxShadow: CoolShadows.ambientFloat(strength: 0.18),
+                      ),
+                      child: TextField(
+                        controller: _otpControllers[index],
+                        focusNode: _otpFocusNodes[index],
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        maxLength: 1,
+                        style: context.coolText.displayCondensed(
+                          Theme.of(context).textTheme.headlineSmall,
+                          fontWeight: FontWeight.w800,
+                          color: colors.primaryText,
+                        ),
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          counterText: '',
+                          isCollapsed: true,
+                          contentPadding: EdgeInsets.symmetric(vertical: 16),
+                        ),
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        onChanged: (value) {
+                          setState(() {});
+                          if (value.isNotEmpty && index < 5) {
+                            _otpFocusNodes[index + 1].requestFocus();
+                          }
+                          if (value.isEmpty && index > 0) {
+                            _otpFocusNodes[index - 1].requestFocus();
+                          }
+                          // Auto-verify when all 6 are filled.
+                          final full = _otpControllers.every(
+                            (c) => c.text.trim().isNotEmpty,
+                          );
+                          if (full) {
+                            _verifyCode();
+                          }
+                        },
+                      ),
+                    ),
                   ),
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    counterText: '',
-                    isCollapsed: true,
-                    contentPadding: EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  onChanged: (value) {
-                    setState(() {});
-                    if (value.isNotEmpty && index < 5) {
-                      _otpFocusNodes[index + 1].requestFocus();
-                    }
-                    if (value.isEmpty && index > 0) {
-                      _otpFocusNodes[index - 1].requestFocus();
-                    }
-                    // Auto-verify when all 6 are filled.
-                    final full = _otpControllers.every(
-                      (c) => c.text.trim().isNotEmpty,
-                    );
-                    if (full) {
-                      _verifyCode();
-                    }
-                  },
                 ),
               ),
             );
@@ -611,7 +621,7 @@ class _BackChip extends StatelessWidget {
           boxShadow: CoolShadows.glass(strength: 0.28),
         ),
         child: Icon(
-          Icons.chevron_left_rounded,
+          CoolIcons.chevronLeft,
           color: colors.primaryText,
           size: 28,
         ),

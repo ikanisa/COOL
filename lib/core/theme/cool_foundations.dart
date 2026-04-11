@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+export 'cool_icons.dart';
+
 part 'cool_semantic_colors.dart';
 part 'cool_text_styles.dart';
 part 'cool_spacing.dart';

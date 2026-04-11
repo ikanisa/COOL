@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/l10n/l10n.dart';
+
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/date_formatters.dart';
 import '../../../core/utils/money_formatters.dart';
@@ -89,6 +91,13 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
         return;
       }
 
+      // Capture l10n values before async gap.
+      final l10n = context.l10n;
+      final statementTitle = l10n.walletStatementTitle;
+      final defaultUserName = l10n.walletDefaultUserName;
+      final filterLabel = l10n.walletAllTransactionsFilter;
+      final sortLabel = l10n.walletNewestFirst;
+
       final repository = ref.read(momoStatementRepositoryProvider);
       final exportService = ref.read(momoStatementExportServiceProvider);
       final downloadService = ref.read(momoStatementDownloadServiceProvider);
@@ -107,21 +116,24 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
         format: format,
         entries: page.entries,
         metadata: StatementExportMetadata(
-          statementTitle: 'Wallet Statement',
+          statementTitle: statementTitle,
           fileStem: 'cool_wallet_statement',
-          userName: authState.user?.fullName ?? 'COOL User',
+          userName: authState.user?.fullName ?? defaultUserName,
           officialPhone:
               authState.user?.officialPhone ?? authState.user?.phone ?? '',
           generatedAt: DateTime.now(),
           periodLabel: _periodLabel(),
-          filterLabel: 'All wallet transactions',
-          sortLabel: 'Newest first',
+          filterLabel: filterLabel,
+          sortLabel: sortLabel,
         ),
       );
 
       await downloadService.saveExport(export);
       if (mounted) {
-        CoolToast.success(context, 'Statement exported');
+        CoolToast.success(context, context.l10n.walletStatementExported);
+        if (page.entries.length >= 5000 && mounted) {
+          CoolToast.info(context, context.l10n.walletExportTruncated(5000));
+        }
       }
     } catch (error) {
       if (mounted) {
@@ -144,7 +156,7 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
     final start = _query.startDate;
     final end = _query.endDate;
     if (start == null && end == null) {
-      return 'All transactions in view';
+      return context.l10n.walletAllInView;
     }
     final startLabel = start == null ? '...' : formatExportDateLabel(start);
     final endLabel = end == null ? '...' : formatExportDateLabel(end);
@@ -159,14 +171,14 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
 
     return CoreDetailScaffold(
       title: Text(
-        'WALLET',
+        context.l10n.walletScreenTitle,
         style: context.coolText.displayCondensed(
           Theme.of(context).textTheme.headlineSmall,
           fontWeight: FontWeight.w800,
         ),
       ),
       subtitle: Text(
-        'M-MONEY HISTORY',
+        context.l10n.walletScreenSubtitle,
         style: context.coolText.mono(
           Theme.of(context).textTheme.labelSmall,
           fontWeight: FontWeight.w700,
@@ -178,7 +190,7 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
         IconButton(
           onPressed: _pickDateRange,
           icon: Icon(
-            Icons.calendar_month_rounded,
+            CoolIcons.calendar,
             color: _query.startDate != null || _query.endDate != null
                 ? colors.accent
                 : colors.primaryText,
@@ -194,7 +206,7 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
                   height: 18,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : Icon(Icons.picture_as_pdf_rounded, color: colors.primaryText),
+              : Icon(CoolIcons.pdf, color: colors.primaryText),
         ),
         IconButton(
           onPressed: _isExportingExcel
@@ -206,7 +218,7 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
                   height: 18,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : Icon(Icons.grid_on_rounded, color: colors.primaryText),
+              : Icon(CoolIcons.grid, color: colors.primaryText),
         ),
         const SizedBox(width: CoolSpace.x2),
       ],
@@ -242,7 +254,7 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
                     child: IconButton(
                       onPressed: _loadMore,
                       icon: Icon(
-                        Icons.expand_circle_down_rounded,
+                        CoolIcons.expandCircle,
                         color: colors.accent,
                         size: 28,
                       ),
@@ -299,8 +311,8 @@ class _WalletTransactionTile extends StatelessWidget {
             alignment: Alignment.center,
             child: Icon(
               isCredit
-                  ? Icons.arrow_downward_rounded
-                  : Icons.arrow_upward_rounded,
+                  ? CoolIcons.arrowDown
+                  : CoolIcons.arrowUp,
               color: iconColor,
               size: 20,
             ),
@@ -338,7 +350,7 @@ class _WalletTransactionTile extends StatelessWidget {
                 if (entry.reference != null) ...[
                   const SizedBox(height: 2),
                   Text(
-                    'Ref: ${entry.reference}',
+                    context.l10n.walletRefPrefix(entry.reference!),
                     style: context.coolText.mono(
                       Theme.of(context).textTheme.labelSmall,
                       fontWeight: FontWeight.w500,
@@ -416,14 +428,14 @@ class _EmptyState extends StatelessWidget {
             ),
             alignment: Alignment.center,
             child: Icon(
-              Icons.receipt_long_rounded,
+              CoolIcons.history,
               color: colors.accent,
               size: 32,
             ),
           ),
           const SizedBox(height: CoolSpace.x4),
           Text(
-            'NO TRANSACTIONS YET',
+            context.l10n.walletNoTransactionsYetTitle,
             style: context.coolText.displayCondensed(
               Theme.of(context).textTheme.titleLarge,
               fontWeight: FontWeight.w800,
@@ -431,7 +443,7 @@ class _EmptyState extends StatelessWidget {
           ),
           const SizedBox(height: CoolSpace.x2),
           Text(
-            'Your M-Money transactions will appear here once SMS sync is enabled and payments are processed.',
+            context.l10n.walletNoTransactionsYetMessage,
             textAlign: TextAlign.center,
             style: context.coolText.mono(
               Theme.of(context).textTheme.bodySmall,

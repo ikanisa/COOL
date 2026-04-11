@@ -211,7 +211,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
             label: nfcNotAvailable
                 ? l10n.biopayNfcNotAvailableButton
                 : l10n.biopayActivateNfc,
-            icon: Icons.nfc_rounded,
+            icon: CoolIcons.nfc,
             isLoading: _isActivating,
             onTap: nfcNotAvailable ? null : () => _activateNfc(country),
           ),

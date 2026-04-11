@@ -90,7 +90,7 @@ class _ProfileDetailScaffold extends StatelessWidget {
               leading: IconButton(
                 onPressed: () => Navigator.of(context).maybePop(),
                 tooltip: backTooltip,
-                icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
+                icon: Icon(CoolIcons.back, color: colors.primaryText),
               ),
               title: Text(
                 title,

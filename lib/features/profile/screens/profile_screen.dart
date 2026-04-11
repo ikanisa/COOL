@@ -8,7 +8,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/cool_icons.dart';
 import '../../../core/config/app_config_provider.dart';
 import '../../../core/providers/engagement_providers.dart';
 import '../../../shared/widgets/cool_icon_box.dart';
@@ -91,7 +90,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       return;
     }
 
-    CoolToast.success(context, context.l10n.deleteAccountAction);
+    CoolToast.success(context, context.l10n.deleteAccountSuccess);
     context.go(AppRoutes.home);
   }
 

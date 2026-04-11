@@ -13,7 +13,7 @@
 ## Release Flow
 
 ```
-feature branch → main → tag v*.*.* → CI release → Firebase App Distribution → Play Store
+feature branch → main → tag v*.*.* → release-candidate gate → signed Android APK + AAB → Firebase App Distribution / Play upload
 ```
 
 ### Step-by-step
@@ -29,15 +29,45 @@ feature branch → main → tag v*.*.* → CI release → Firebase App Distribut
 4. **CI pipeline**:
    - Reads Flutter version from `.fvmrc`
    - Syncs hosted Supabase Edge Function secrets when `SUPABASE_PROJECT_REF` and `SUPABASE_ACCESS_TOKEN` are configured
-   - Runs `bash scripts/release_readiness.sh`
-   - This includes Flutter analysis/tests, deep-link asset validation, Deno checks, and flavor verification
-   - When `SUPABASE_PROJECT_REF` and `SUPABASE_ACCESS_TOKEN` are configured in CI, it also runs the hosted Supabase contract smoke against the production project
-   - When optional `SUPABASE_DB_URL` is configured in CI, it also runs `scripts/verify_momo_sms_supabase_rollout.sh` with `TRIGGER_MIGRATION_CHECK=1` against the target Supabase environment
-   - Decodes signing keystore from secrets
-   - Builds signed release APK
+   - Decodes signing keystore from secrets before store-grade artifact builds
+   - Runs `bash scripts/run_release_candidate.sh`
+   - This enforces:
+     - `RUN_ANDROID_MINIFY_CANARY=1`
+     - `RUN_REMOTE_SMOKE=1`
+     - `RUN_MOMO_SMS_ROLLOUT_VERIFY=1`
+   - It also verifies:
+     - deep-link release metadata against the configured signing metadata
+     - Firebase App Check provider registration for the Android production app
+     - hosted Supabase contract smoke against the production project
+     - M-Money rollout verification against the target Supabase database
+   - Builds signed release APK and signed release AAB
    - Uploads to Firebase App Distribution (staff group)
-   - Archives APK as build artifact
-5. **Play Store**: Manual upload from Firebase App Distribution or CI artifact
+   - Archives APK and AAB as build artifacts
+5. **Play Store**: upload the signed AAB artifact from CI to Play Console unless and until direct Play publishing is automated
+
+## Release Candidate Command
+
+Run this before approving any broad Android release:
+
+```bash
+RUN_ANDROID_MINIFY_CANARY=1 \
+RUN_REMOTE_SMOKE=1 \
+RUN_MOMO_SMS_ROLLOUT_VERIFY=1 \
+bash scripts/run_release_candidate.sh
+```
+
+This command is intentionally stricter than `scripts/release_readiness.sh`. It
+adds production-signing metadata validation, Firebase App Check provider
+verification, hosted Supabase smoke, and store-grade Android artifact builds.
+
+## Platform Scope
+
+- Android tagged-release automation is in scope and must produce both a signed
+  APK and a signed AAB.
+- iOS store release automation is explicitly de-scoped in the current repo.
+  The repo supports iOS validation builds, but it does not yet have a signed
+  TestFlight / App Store lane. Do not treat iOS as broad-launch ready until
+  that lane exists and is verified on macOS CI.
 
 ## Critical Build Blockers
 
@@ -48,8 +78,8 @@ feature branch → main → tag v*.*.* → CI release → Firebase App Distribut
 |---|---|---|
 | `SUPABASE_PRODUCTION_URL` | Production Supabase project URL baked into the binary via `--dart-define` | Shell scripts abort with contract validation; Dart runtime validates the derived project ref |
 | `SUPABASE_PRODUCTION_ANON_KEY` | Production Supabase anon key baked into the binary via `--dart-define` | Shell scripts abort with contract validation; Dart runtime validates startup config |
-| `SUPABASE_STAGING_URL` | Staging Supabase project URL for QA/debug flavor builds | Shell scripts abort with contract validation for staging builds |
-| `SUPABASE_STAGING_ANON_KEY` | Staging Supabase anon key for QA/debug flavor builds | Shell scripts abort with contract validation for staging builds |
+| `SUPABASE_STAGING_URL` | Optional staging Supabase project URL for QA/debug flavor builds | Required only when you intentionally maintain a separate staging backend |
+| `SUPABASE_STAGING_ANON_KEY` | Optional staging Supabase anon key for QA/debug flavor builds | Required only when you intentionally maintain a separate staging backend |
 
 **Why this is critical:**
 - These values are compiled into the Flutter binary at build time via `--dart-define`.
@@ -69,6 +99,13 @@ feature branch → main → tag v*.*.* → CI release → Firebase App Distribut
    `secrets.SUPABASE_PRODUCTION_ANON_KEY`)
 5. Legacy `SUPABASE_URL` / `SUPABASE_ANON_KEY` remain as a transitional fallback
    only and should mirror production until removed
+
+Production-only release mode is supported. If `SUPABASE_STAGING_*` is omitted,
+release validation skips staging and treats production as the only required
+backend target.
+
+If repo-local env files still contain `SUPABASE_STAGING_*`, force the same
+production-only behavior with `COOL_SKIP_STAGING_BACKEND_VALIDATION=1`.
 
 
 ## Versioning
@@ -145,8 +182,8 @@ Staff (internal) → Beta (1-2 weeks soak) → Production
 | `STORE_PASSWORD` | Store password |
 | `SUPABASE_PRODUCTION_URL` | Preferred production Supabase project URL passed via `--dart-define` |
 | `SUPABASE_PRODUCTION_ANON_KEY` | Preferred production Supabase anon key passed via `--dart-define` |
-| `SUPABASE_STAGING_URL` | Preferred staging Supabase project URL for QA builds |
-| `SUPABASE_STAGING_ANON_KEY` | Preferred staging Supabase anon key for QA builds |
+| `SUPABASE_STAGING_URL` | Optional staging Supabase project URL for QA/debug builds |
+| `SUPABASE_STAGING_ANON_KEY` | Optional staging Supabase anon key for QA/debug builds |
 | `SUPABASE_URL` | Deprecated fallback production Supabase URL |
 | `SUPABASE_ANON_KEY` | Deprecated fallback production Supabase anon key |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase Edge Function secret sync and hosted smoke |
@@ -164,6 +201,7 @@ Staff (internal) → Beta (1-2 weeks soak) → Production
 | `COOL_IOS_TEAM_ID` | Apple Developer Team ID for the production bundle |
 | `COOL_IOS_APP_STORE_ID` | Production App Store listing ID |
 | `COOL_REQUIRE_IOS_RELEASE_METADATA` | Set to `1` when validating an iOS release so deep-link tooling requires iOS Team/App Store metadata |
+| `COOL_IOS_RELEASE_ENABLED` | Keep `0` while iOS store release automation is de-scoped. Set to `1` only when a signed iOS release lane exists. |
 | `SUPABASE_DB_URL` | Optional remote database connection used to enable M-Money SMS Supabase rollout verification during release readiness |
 
 ## Native Release Inputs

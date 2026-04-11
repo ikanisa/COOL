@@ -16,25 +16,25 @@ class HomeQuickServices extends StatelessWidget {
     return CoolQuickActionGrid(
       actions: [
         CoolQuickAction(
-          icon: Icons.add_rounded,
+          icon: CoolIcons.add,
           label: l10n.save,
           accent: colors.accent,
           onTap: () => openQuickActionRoute(context, AppRoutes.contributionCircles),
         ),
         CoolQuickAction(
-          icon: Icons.qr_code_scanner_rounded,
+          icon: CoolIcons.qrScan,
           label: l10n.homeQuickScanUpper,
           accent: colors.info,
           onTap: () => openQuickActionRoute(context, AppRoutes.scannerLocation()),
         ),
         CoolQuickAction(
-          icon: Icons.center_focus_strong_rounded,
+          icon: CoolIcons.faceScan,
           label: l10n.homeQuickBiopayLabel,
           accent: colors.success,
           onTap: () => openQuickActionRoute(context, AppRoutes.biopayScanLocation(mode: 'pay')),
         ),
         CoolQuickAction(
-          icon: Icons.nfc_rounded,
+          icon: CoolIcons.nfc,
           label: l10n.nfc,
           accent: colors.warning,
           onTap: () => openQuickActionRoute(context, AppRoutes.biopayNfc),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/cool_icons.dart';
 import 'cool_icon_box.dart';
 import 'cool_skeleton.dart';
 

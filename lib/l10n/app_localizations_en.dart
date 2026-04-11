@@ -3994,4 +3994,83 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get groupSettingsMomoSetByAdmin =>
       'Set by admin for all savings groups.';
+
+  @override
+  String get groupValidationMomoRouteRequired =>
+      'Add a valid MoMo route before creating this group.';
+
+  @override
+  String get groupValidationAmountInvalid => 'Enter a valid amount.';
+
+  @override
+  String get groupValidationAmountPositive =>
+      'Amount must be greater than zero.';
+
+  @override
+  String get deleteAccountSuccess => 'Your account has been deleted.';
+
+  @override
+  String get walletScreenTitle => 'WALLET';
+
+  @override
+  String get walletScreenSubtitle => 'M-MONEY HISTORY';
+
+  @override
+  String get walletStatementExported => 'Statement exported';
+
+  @override
+  String get walletStatementTitle => 'Wallet Statement';
+
+  @override
+  String get walletDefaultUserName => 'COOL User';
+
+  @override
+  String get walletAllTransactionsFilter => 'All wallet transactions';
+
+  @override
+  String get walletNewestFirst => 'Newest first';
+
+  @override
+  String get walletAllInView => 'All transactions in view';
+
+  @override
+  String get walletNoTransactionsYetTitle => 'NO TRANSACTIONS YET';
+
+  @override
+  String get walletNoTransactionsYetMessage =>
+      'Your M-Money transactions will appear here once SMS sync is enabled and payments are processed.';
+
+  @override
+  String walletRefPrefix(String reference) {
+    return 'Ref: $reference';
+  }
+
+  @override
+  String walletExportTruncated(int count) {
+    return 'Export limited to $count entries. Narrow the date range for complete data.';
+  }
+
+  @override
+  String get biopayScanPreparingCamera => 'Preparing secure camera...';
+
+  @override
+  String get biopayScanLoadingServices =>
+      'Loading BioPay camera access and on-device services.';
+
+  @override
+  String get biopayScanAlignFace => 'Align your face inside the oval';
+
+  @override
+  String get biopayScanPointAtPayee => 'Point the camera at the payee\'s face';
+
+  @override
+  String get biopayScanEnrollHelper =>
+      'BioPay is analyzing live frames in memory only. Hold still when the oval turns green.';
+
+  @override
+  String get biopayScanPayHelper =>
+      'BioPay is analyzing live frames in memory only. Keep one face centered for a fast match.';
+
+  @override
+  String get biopayScanCameraLoading => 'Preparing camera…';
 }

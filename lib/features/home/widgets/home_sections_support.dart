@@ -99,10 +99,10 @@ class _MonthlyMovementPill extends StatelessWidget {
         children: [
           Icon(
             amount == 0
-                ? Icons.horizontal_rule_rounded
+                ? CoolIcons.horizontalRule
                 : isPositive
-                ? Icons.trending_up_rounded
-                : Icons.trending_down_rounded,
+                ? CoolIcons.trendUp
+                : CoolIcons.trendDown,
             size: 16,
             color: accent,
           ),

@@ -41,7 +41,7 @@ class BiopayHomeScreen extends StatelessWidget {
           CoolQuickActionGrid(
             actions: [
               CoolQuickAction(
-                icon: Icons.center_focus_strong_rounded,
+                icon: CoolIcons.faceScan,
                 label: l10n.biopayFaceScanLabel,
                 accent: colors.accent,
                 onTap: () => context.push(
@@ -49,7 +49,7 @@ class BiopayHomeScreen extends StatelessWidget {
                 ),
               ),
               CoolQuickAction(
-                icon: Icons.nfc_rounded,
+                icon: CoolIcons.nfc,
                 label: l10n.biopayNfcTapLabel,
                 accent: colors.accentDeep,
                 iconWidget: SvgPicture.asset(
@@ -64,13 +64,13 @@ class BiopayHomeScreen extends StatelessWidget {
                 onTap: () => context.push(AppRoutes.biopayNfc),
               ),
               CoolQuickAction(
-                icon: Icons.qr_code_2_rounded,
+                icon: CoolIcons.qrCode,
                 label: l10n.generateQr,
                 accent: colors.warning,
                 onTap: () => context.push(AppRoutes.biopayQr),
               ),
               CoolQuickAction(
-                icon: Icons.qr_code_scanner_rounded,
+                icon: CoolIcons.qrScan,
                 label: l10n.scanQr,
                 accent: colors.info,
                 onTap: () => context.push(AppRoutes.scannerLocation()),

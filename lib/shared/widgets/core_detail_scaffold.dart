@@ -85,7 +85,7 @@ class CoreDetailScaffold extends StatelessWidget {
           child: IconButton(
             onPressed: onHome,
             tooltip: resolvedHomeTooltip,
-            icon: const Icon(Icons.home_rounded),
+            icon: const Icon(CoolIcons.home),
           ),
         ),
       ...?actions,
@@ -112,7 +112,7 @@ class CoreDetailScaffold extends StatelessWidget {
                         onPressed:
                             onBack ?? () => Navigator.of(context).maybePop(),
                         tooltip: resolvedBackTooltip,
-                        icon: const Icon(Icons.arrow_back_rounded),
+                        icon: const Icon(CoolIcons.back),
                       ),
                     )
                   : null,

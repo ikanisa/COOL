@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/cool_icons.dart';
 import '../../l10n/app_localizations.dart';
 import 'cool_button.dart';
 

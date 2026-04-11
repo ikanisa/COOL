@@ -7,7 +7,6 @@ EdgeInsets _adminRoleInputPadding() => CoolSpace.sectionPadding.copyWith(
   bottom: CoolSpace.x3,
 );
 
-
 EdgeInsets _adminRoleBadgePadding() => CoolSpace.sectionPadding.copyWith(
   left: CoolSpace.x2,
   right: CoolSpace.x2,
@@ -96,8 +95,6 @@ InputDecoration _roleInputDecoration(
     ),
   );
 }
-
-
 
 class _RoleAssignmentTile extends ConsumerStatefulWidget {
   const _RoleAssignmentTile({required this.assignment});
@@ -271,10 +268,10 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
             child: OutlinedButton.icon(
               onPressed: _isRevoking ? null : _revoke,
               icon: _isRevoking
-                  ? SizedBox(
+                  ? const SizedBox(
                       width: 14,
                       height: 14,
-                      child: const CupertinoActivityIndicator(radius: 7),
+                      child: CupertinoActivityIndicator(radius: 7),
                     )
                   : const Icon(Icons.remove_circle_outline_rounded, size: 16),
               style: OutlinedButton.styleFrom(

@@ -265,7 +265,7 @@ class GroupMomoRouteSection extends StatelessWidget {
                       ),
                       alignment: Alignment.center,
                       child: Icon(
-                        useCustom! ? Icons.check_rounded : Icons.add_rounded,
+                        useCustom! ? CoolIcons.check : CoolIcons.add,
                         size: 16,
                         color: useCustom!
                             ? colors.accentForeground

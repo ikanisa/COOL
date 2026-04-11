@@ -111,6 +111,9 @@ required_secret_bundles_for() {
     maps-gateway)
       echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY GOOGLE_MAPS_SERVER_API_KEY|GEMINI_API_KEY"
       ;;
+    parse-member-list)
+      echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY GEMINI_API_KEY"
+      ;;
     parse-momo-sms)
       echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY AI_SMS_PARSE_PROVIDER OPENAI_API_KEY|GEMINI_API_KEY"
       ;;
@@ -145,6 +148,7 @@ smoke_body_for() {
     delete-account) echo '{"confirm":true}' ;;
     generate-ai-content) echo '{}' ;;
     maps-gateway) echo '{}' ;;
+    parse-member-list) echo '{}' ;;
     parse-momo-sms) echo '{"rawSmsId":"00000000-0000-0000-0000-000000000000"}' ;;
     rs-scan-ticket) echo '{"qrData":"smoke"}' ;;
     wallet-issuer) echo '{"action":"health"}' ;;
@@ -169,6 +173,7 @@ allowed_statuses_for() {
     delete-account) echo "401" ;;
     generate-ai-content) echo "401" ;;
     maps-gateway) echo "401" ;;
+    parse-member-list) echo "401" ;;
     parse-momo-sms) echo "401" ;;
     rs-scan-ticket) echo "401" ;;
     wallet-issuer) echo "200 401" ;;

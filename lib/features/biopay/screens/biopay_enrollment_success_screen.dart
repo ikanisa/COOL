@@ -50,7 +50,7 @@ class BiopayEnrollmentSuccessScreen extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Icon(
-                  Icons.check_rounded,
+                  CoolIcons.check,
                   size: 48,
                   color: colors.success,
                 ),

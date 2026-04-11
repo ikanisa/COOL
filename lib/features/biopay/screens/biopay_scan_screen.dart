@@ -8,6 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/l10n/l10n.dart';
+
 import '../../../core/providers/app_access_provider.dart';
 import '../../../core/providers/engagement_providers.dart';
 import '../../../core/router/app_routes.dart';
@@ -63,8 +65,8 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
   int _capturedEnrollmentFrames = 0;
   String? _cameraError;
   String? _pipelineError;
-  String _statusLabel = 'Preparing secure camera...';
-  String _helperText = 'Loading BioPay camera access and on-device services.';
+  String _statusLabel = '';
+  String _helperText = '';
   BiopayScannerTone _tone = BiopayScannerTone.searching;
   DateTime? _lastEnrollmentCaptureAt;
   DateTime? _lastMatchAttemptAt;
@@ -85,6 +87,10 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
           : BiopayLivenessMode.payment,
     );
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Initialize localized labels now that context is available.
+      final l10n = context.l10n;
+      _statusLabel = l10n.biopayScanPreparingCamera;
+      _helperText = l10n.biopayScanLoadingServices;
       _prepareStartupAccess();
     });
   }
@@ -265,12 +271,13 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
     setState(() {
       _isEmbeddingReady = ready;
       _pipelineError = ready ? null : _embeddingService.initializationError;
+      final l10n = context.l10n;
       _statusLabel = widget.mode == BiopayScanMode.enroll
-          ? 'Align your face inside the oval'
-          : 'Point the camera at the payee\'s face';
+          ? l10n.biopayScanAlignFace
+          : l10n.biopayScanPointAtPayee;
       _helperText = widget.mode == BiopayScanMode.enroll
-          ? 'BioPay is analyzing live frames in memory only. Hold still when the oval turns green.'
-          : 'BioPay is analyzing live frames in memory only. Keep one face centered for a fast match.';
+          ? l10n.biopayScanEnrollHelper
+          : l10n.biopayScanPayHelper;
       _tone = BiopayScannerTone.searching;
     });
     unawaited(
@@ -524,7 +531,7 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
                         ),
                         const SizedBox(height: 20),
                         Text(
-                          'Preparing camera…',
+                          context.l10n.biopayScanCameraLoading,
                           style: context.coolText.manrope(
                             null,
                             color: Colors.white54,
@@ -559,7 +566,7 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
                     ),
                     alignment: Alignment.center,
                     child: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
+                      CoolIcons.backIos,
                       color: Colors.white,
                       size: 20,
                     ),

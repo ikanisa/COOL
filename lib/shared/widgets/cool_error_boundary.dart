@@ -138,7 +138,7 @@ class _BrandedErrorFallback extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                Icons.warning_amber_rounded,
+                CoolIcons.warning,
                 size: 40,
                 color: colors.danger,
               ),
@@ -164,7 +164,7 @@ class _BrandedErrorFallback extends StatelessWidget {
               const SizedBox(height: CoolSpace.x6),
               TextButton.icon(
                 onPressed: onRetry,
-                icon: const Icon(Icons.refresh_rounded, size: 18),
+                icon: const Icon(CoolIcons.refresh, size: 18),
                 label: Text(
                   context.l10n.retry,
                   style: theme.textTheme.labelLarge?.copyWith(
