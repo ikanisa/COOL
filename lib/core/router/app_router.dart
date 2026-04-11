@@ -13,7 +13,7 @@ import '../../features/groups/screens/group_detail_screen.dart';
 import '../../features/groups/screens/group_settings_screen.dart';
 import '../../features/groups/screens/group_statements_screen.dart';
 import '../../features/groups/screens/groups_screen.dart';
-import '../status/screens/referral_screen.dart';
+
 import '../../features/momo/screens/momo_wallet_screen.dart';
 import '../../shared/widgets/qr_scanner_screen.dart';
 
@@ -248,14 +248,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           return AppRoutes.contributionCircleDetailLocation(groupId);
         },
       ),
-      GoRoute(
-        path: AppRoutes.referral,
-        pageBuilder: (context, state) => coolPageTransition(
-          context: context,
-          state: state,
-          child: const SecureScreenWrapper(child: ReferralScreen()),
-        ),
-      ),
+
       adminRoutes(),
     ],
   );

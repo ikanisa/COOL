@@ -34,8 +34,7 @@ abstract final class AppRoutes {
   static const contributionCircleStatements =
       '/contribution-circles/:groupId/statements';
 
-  // ── Rewards / Engagement ────────────────────────────────────────
-  static const referral = '/referral';
+
 
   // ── Profile ─────────────────────────────────────────────────────
   static const profile = '/profile';

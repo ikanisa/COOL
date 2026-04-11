@@ -1,9 +1,7 @@
 import '../../features/auth/models/user_profile.dart';
 import '../../features/auth/providers/auth_provider.dart';
 import '../../features/momo/services/momo_sms_autoread_service.dart';
-import '../models/referral_attribution.dart';
 import '../providers/notification_settings_provider.dart';
-import '../repositories/referral_repository.dart';
 import '../services/app_access_service.dart';
 import 'crashlytics_service.dart';
 import 'engagement_tracker.dart';
@@ -13,29 +11,17 @@ class AppSessionCoordinator {
     required NotificationSettingsNotifier notificationSettings,
     required EngagementTracker engagementTracker,
     required CrashlyticsService crashlytics,
-    required ReferralRepository referralRepository,
-    required ReferralAttribution? Function() readReferralAttribution,
-    required void Function(String inviteId) markReferralOpened,
-    required Future<void> Function(String inviteId) showReferralHandshake,
     required AppAccessService appAccessService,
     required MomoSmsAutoreadService momoSmsAutoreadService,
   }) : _notificationSettings = notificationSettings,
        _engagementTracker = engagementTracker,
        _crashlytics = crashlytics,
-       _referralRepository = referralRepository,
-       _readReferralAttribution = readReferralAttribution,
-       _markReferralOpened = markReferralOpened,
-       _showReferralHandshake = showReferralHandshake,
        _appAccessService = appAccessService,
        _momoSmsAutoreadService = momoSmsAutoreadService;
 
   final NotificationSettingsNotifier _notificationSettings;
   final EngagementTracker _engagementTracker;
   final CrashlyticsService _crashlytics;
-  final ReferralRepository _referralRepository;
-  final ReferralAttribution? Function() _readReferralAttribution;
-  final void Function(String inviteId) _markReferralOpened;
-  final Future<void> Function(String inviteId) _showReferralHandshake;
   final AppAccessService _appAccessService;
   final MomoSmsAutoreadService _momoSmsAutoreadService;
 
@@ -47,7 +33,6 @@ class AppSessionCoordinator {
       return;
     }
 
-    await markReferralInviteOpenedIfNeeded();
     await _momoSmsAutoreadService.refresh();
     await _notificationSettings.initializeForAuthState(authState);
     await _engagementTracker.trackSessionStarted(
@@ -75,7 +60,6 @@ class AppSessionCoordinator {
     }
 
     if (!hadSession && hasSession) {
-      await markReferralInviteOpenedIfNeeded();
       // Only force-request SMS permission if user has completed onboarding.
       final onboardingComplete = await _appAccessService
           .hasCompletedPermissionOnboarding();
@@ -97,21 +81,6 @@ class AppSessionCoordinator {
       if (previousUserId != null && previousUserId.isNotEmpty) {
         await _notificationSettings.clearSession(userId: previousUserId);
       }
-    }
-  }
-
-  Future<void> markReferralInviteOpenedIfNeeded() async {
-    final attribution = _readReferralAttribution();
-    if (attribution == null || attribution.openedLogged) {
-      return;
-    }
-
-    try {
-      await _referralRepository.markInviteOpened(attribution.inviteId);
-      _markReferralOpened(attribution.inviteId);
-      await _showReferralHandshake(attribution.inviteId);
-    } catch (_) {
-      // Referral tracking is best-effort so deep-link routing remains reliable.
     }
   }
 
