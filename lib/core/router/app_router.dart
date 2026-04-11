@@ -4,16 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../features/auth/providers/auth_provider.dart';
-import '../../features/auth/screens/splash_screen.dart';
 import 'app_redirects.dart';
-
 
 import '../../features/groups/screens/group_create_screen.dart';
 import '../../features/groups/screens/group_detail_screen.dart';
 import '../../features/groups/screens/group_settings_screen.dart';
 import '../../features/groups/screens/group_statements_screen.dart';
 import '../../features/groups/screens/groups_screen.dart';
-
 import '../../features/momo/screens/momo_wallet_screen.dart';
 import '../../shared/widgets/qr_scanner_screen.dart';
 
@@ -74,7 +71,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
   final router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: '/',
+    initialLocation: AppRoutes.home,
     refreshListenable: refreshListenable,
     observers: [PageTitleObserver()],
     redirect: (context, state) {
@@ -94,7 +91,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       );
     },
     routes: [
-      GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
+      GoRoute(path: '/', redirect: (context, state) => AppRoutes.home),
 
       // ── QR Scanner (full-screen, no shell) ─────────────────────
       GoRoute(

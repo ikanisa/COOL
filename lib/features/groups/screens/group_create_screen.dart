@@ -6,6 +6,7 @@ import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/money_formatters.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../../shared/widgets/cool_text_field.dart';
@@ -142,15 +143,11 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = context.coolSemanticColors;
     final space = context.coolSpace;
     final country = AppMarket.country;
-
-    // Frequency: saving = recurring (picker), community = always one_off
-    // (all user-created groups are private; community private = one_off)
+    final cur = country.currencyCode;
     final showFrequencyPicker = _type == 'saving';
 
-    // Force community to one_off
     if (_type == 'community' && _frequency != 'one_off') {
       _frequency = 'one_off';
     }
@@ -160,13 +157,7 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
         context.l10n.groupsCreateNewTitle,
         style: context.coolText.displayCondensed(
           theme.textTheme.headlineSmall,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-      subtitle: Text(
-        context.l10n.groupsCreateNewSubtitle,
-        style: theme.textTheme.bodyMedium?.copyWith(
-          color: colors.secondaryText,
+          fontWeight: FontWeight.w800,
         ),
       ),
       child: SingleChildScrollView(
@@ -176,7 +167,6 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── Group Name (required) ─────────────────────────────
               CoolTextField(
                 label: context.l10n.groupNameLabel,
                 hint: context.l10n.groupNameHint,
@@ -184,27 +174,21 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
                 textInputAction: TextInputAction.next,
                 validator: (value) {
                   final trimmed = value?.trim() ?? '';
-                  if (trimmed.isEmpty) {
-                    return 'Enter a group name.';
-                  }
-                  if (trimmed.length < 3) {
-                    return 'Use at least 3 characters.';
-                  }
+                  if (trimmed.isEmpty) return 'Enter a group name.';
+                  if (trimmed.length < 3) return 'At least 3 characters.';
                   return null;
                 },
               ),
               SizedBox(height: space.x4),
 
-              // ── Description (optional) ────────────────────────────
               CoolTextField(
-                label: 'Description (optional)',
+                label: 'Description',
                 hint: 'What is this group for?',
                 controller: _descriptionController,
-                maxLines: 3,
+                maxLines: 2,
               ),
-              SizedBox(height: space.x5),
+              SizedBox(height: space.x4),
 
-              // ── Type ──────────────────────────────────────────────
               const GroupSectionLabel(label: 'TYPE'),
               SizedBox(height: space.x2),
               GroupOptionRow(
@@ -212,19 +196,18 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
                 firstSelected: _type == 'saving',
                 onFirstTap: () => setState(() {
                   _type = 'saving';
-                  _frequency = 'monthly'; // savings default to monthly
+                  _frequency = 'monthly';
                 }),
                 secondLabel: 'Community',
                 secondSelected: _type == 'community',
                 onSecondTap: () => setState(() {
                   _type = 'community';
-                  _frequency = 'one_off'; // community defaults to one_off
+                  _frequency = 'one_off';
                 }),
               ),
-              SizedBox(height: space.x5),
 
-              // ── Frequency ─────────────────────────────────────────
               if (showFrequencyPicker) ...[
+                SizedBox(height: space.x4),
                 const GroupSectionLabel(label: 'FREQUENCY'),
                 SizedBox(height: space.x2),
                 GroupFrequencyPicker(
@@ -232,29 +215,27 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
                   selected: _frequency,
                   onSelected: (freq) => setState(() => _frequency = freq),
                 ),
-                SizedBox(height: space.x5),
               ],
 
-              // ── Target Amount (optional) ──────────────────────────
+              SizedBox(height: space.x4),
               CoolTextField(
-                label: 'Target Amount — ${country.currencyCode} (optional)',
-                hint: 'e.g. 500,000',
+                label: 'Target ($cur)',
+                hint: '500,000',
                 controller: _targetAmountController,
                 keyboardType: TextInputType.number,
+                inputFormatters: const [GroupedThousandsInputFormatter()],
               ),
               SizedBox(height: space.x4),
 
-              // ── Contribution Amount (optional) ────────────────────
               CoolTextField(
-                label:
-                    'Contribution Amount — ${country.currencyCode} (optional)',
-                hint: 'e.g. 10,000',
+                label: 'Contribution ($cur)',
+                hint: '10,000',
                 controller: _contributionAmountController,
                 keyboardType: TextInputType.number,
+                inputFormatters: const [GroupedThousandsInputFormatter()],
               ),
-              SizedBox(height: space.x5),
+              SizedBox(height: space.x4),
 
-              // ── MoMo Receive Route ────────────────────────────────
               GroupMomoRouteSection(
                 useCustom: _useCustomMomo,
                 routeType: _customMomoRouteType,
@@ -268,7 +249,6 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
               ),
               SizedBox(height: space.x6),
 
-              // ── Submit ────────────────────────────────────────────
               CoolButton(
                 label: 'CREATE GROUP',
                 onTap: _submit,
@@ -282,14 +262,6 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
   }
 
   int? _parseAmount(String raw) {
-    final digits = raw.replaceAll(RegExp(r'[^0-9]'), '');
-    if (digits.isEmpty) {
-      return null;
-    }
-    final value = int.tryParse(digits);
-    if (value == null || value <= 0) {
-      return null;
-    }
-    return value;
+    return parseWholeMoneyAmount(raw);
   }
 }

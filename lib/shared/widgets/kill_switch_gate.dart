@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../core/l10n/l10n.dart';
 import '../../core/theme/cool_foundations.dart';
 import 'cool_button.dart';
-import 'cool_glass_header_surface.dart';
+import 'cool_floating_header_sliver.dart';
+import 'cool_screen_background.dart';
 
 /// A gate widget that blocks access to a feature when its kill-switch is active.
 class KillSwitchGate extends StatelessWidget {
@@ -34,70 +35,83 @@ class KillSwitchGate extends StatelessWidget {
         '${featureName ?? 'This feature'} is temporarily unavailable. '
             'Please try again later.';
 
-    return Scaffold(
-      backgroundColor: colors.appBackground,
-      appBar: AppBar(
+    final backTooltip = MaterialLocalizations.of(context).backButtonTooltip;
+    return CoolScreenBackground(
+      child: Scaffold(
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 84,
-        flexibleSpace: const CoolGlassHeaderSurface(),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
-          tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-          onPressed: onBackPressed ?? () => Navigator.of(context).pop(),
-        ),
-      ),
-      body: Semantics(
-        liveRegion: true,
-        label: displayMessage,
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: CoolSpace.x7),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: colors.operationalSurface,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(CoolRadii.md),
+        body: CustomScrollView(
+          slivers: [
+            CoolFloatingHeaderSliver(
+              automaticallyImplyLeading: false,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
+                tooltip: backTooltip,
+                onPressed: onBackPressed ?? () => Navigator.of(context).pop(),
+              ),
+            ),
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Semantics(
+                liveRegion: true,
+                label: displayMessage,
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: CoolSpace.x7,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: colors.operationalSurface,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(CoolRadii.md),
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.engineering_rounded,
+                            size: 40,
+                            color: colors.tertiaryText,
+                          ),
+                        ),
+                        const SizedBox(height: CoolSpace.x6),
+                        Text(
+                          'Temporarily Unavailable',
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(
+                                color: colors.primaryText,
+                                fontWeight: FontWeight.w500,
+                              ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: CoolSpace.x3),
+                        Text(
+                          displayMessage,
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: colors.tertiaryText,
+                                height: 1.5,
+                              ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: CoolSpace.x7),
+                        CoolButton(
+                          label: context.l10n.goBack,
+                          onTap:
+                              onBackPressed ??
+                              () => Navigator.of(context).pop(),
+                          variant: CoolButtonVariant.secondary,
+                        ),
+                      ],
                     ),
                   ),
-                  child: Icon(
-                    Icons.engineering_rounded,
-                    size: 40,
-                    color: colors.tertiaryText,
-                  ),
                 ),
-                const SizedBox(height: CoolSpace.x6),
-                Text(
-                  'Temporarily Unavailable',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: colors.primaryText,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: CoolSpace.x3),
-                Text(
-                  displayMessage,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: colors.tertiaryText,
-                    height: 1.5,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: CoolSpace.x7),
-                CoolButton(
-                  label: context.l10n.goBack,
-                  onTap: onBackPressed ?? () => Navigator.of(context).pop(),
-                  variant: CoolButtonVariant.secondary,
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

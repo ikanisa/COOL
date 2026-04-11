@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../core/theme/cool_foundations.dart';
 
@@ -21,6 +22,7 @@ class CoolTextField extends StatefulWidget {
     this.autofillHints,
     this.enableSuggestions = true,
     this.autocorrect = true,
+    this.inputFormatters,
     super.key,
   });
 
@@ -52,6 +54,7 @@ class CoolTextField extends StatefulWidget {
 
   /// Whether to enable autocorrect.
   final bool autocorrect;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   State<CoolTextField> createState() => _CoolTextFieldState();
@@ -90,6 +93,8 @@ class _CoolTextFieldState extends State<CoolTextField> {
       ),
     ];
 
+    final text = context.coolText;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -98,12 +103,12 @@ class _CoolTextFieldState extends State<CoolTextField> {
           Semantics(
             label: '${widget.label!} field label',
             child: Text(
-              widget.label!,
-              style: theme.textTheme.labelLarge?.copyWith(
+              widget.label!.toUpperCase(),
+              style: theme.textTheme.labelSmall?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: _isFocused
                     ? colors.buttonPrimaryBackground
-                    : colors.secondaryText,
+                    : colors.tertiaryText,
               ),
             ),
           ),
@@ -145,14 +150,22 @@ class _CoolTextFieldState extends State<CoolTextField> {
                 autofillHints: widget.autofillHints,
                 enableSuggestions: widget.enableSuggestions,
                 autocorrect: widget.autocorrect,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w700,
+                inputFormatters: widget.inputFormatters,
+                style: text.display(
+                  theme.textTheme.headlineSmall,
                   color: colors.primaryText,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.5,
                 ),
                 cursorColor: colors.buttonPrimaryBackground,
                 decoration: InputDecoration(
                   hintText: widget.hint,
-                  hintStyle: theme.inputDecorationTheme.hintStyle,
+                  hintStyle: text.display(
+                    theme.textTheme.headlineSmall,
+                    color: colors.tertiaryText,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -0.5,
+                  ),
                   filled: false,
                   fillColor: Colors.transparent,
                   contentPadding: EdgeInsets.symmetric(

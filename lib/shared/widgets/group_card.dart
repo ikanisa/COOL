@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
+import '../../core/utils/money_formatters.dart';
 import 'cool_card.dart';
 import 'status_badge.dart';
 
@@ -47,7 +48,7 @@ class GroupCard extends StatelessWidget {
       button: true,
       label:
           '$name. ${_isSaving ? 'Saving' : 'Community'} group. '
-          '${GroupCard._formatAmount(amount)} RWF. $memberCount members.',
+          '${formatWholeMoneyAmount(amount)} RWF. $memberCount members.',
       excludeSemantics: true,
       child: ConstrainedBox(
         constraints: const BoxConstraints(minWidth: 200),
@@ -83,18 +84,18 @@ class GroupCard extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                   color: colors.primaryText,
                 ),
               ),
               const SizedBox(height: CoolSpace.x2),
               Text(
-                '${_formatAmount(amount)} RWF',
+                '${formatWholeMoneyAmount(amount)} RWF',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: text.mono(
                   theme.textTheme.headlineSmall,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w800,
                   color: accent,
                 ),
               ),
@@ -110,9 +111,9 @@ class GroupCard extends StatelessWidget {
               ),
               const SizedBox(height: CoolSpace.x1),
               Text(
-                'Target: ${_formatAmount(targetAmount)} RWF',
+                'Target: ${formatWholeMoneyAmount(targetAmount)} RWF',
                 style: theme.textTheme.labelSmall?.copyWith(
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                   color: colors.tertiaryText,
                 ),
               ),
@@ -123,16 +124,6 @@ class GroupCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  static String _formatAmount(int value) {
-    final s = value.toString();
-    final buf = StringBuffer();
-    for (var i = 0; i < s.length; i++) {
-      if (i > 0 && (s.length - i) % 3 == 0) buf.write(',');
-      buf.write(s[i]);
-    }
-    return buf.toString();
   }
 }
 
@@ -183,7 +174,7 @@ class _MemberAvatarStack extends StatelessWidget {
                       _initials[i],
                       style: text.mono(
                         theme.textTheme.labelSmall,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                         color: accentColor,
                       ),
                     ),
@@ -197,7 +188,7 @@ class _MemberAvatarStack extends StatelessWidget {
             Text(
               '+$overflow',
               style: theme.textTheme.labelSmall?.copyWith(
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w500,
                 color: colors.tertiaryText,
               ),
             ),

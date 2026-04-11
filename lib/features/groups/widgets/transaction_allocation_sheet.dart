@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/providers/supabase_client_provider.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/money_formatters.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_toast.dart';
@@ -12,10 +13,7 @@ import '../../momo/models/momo_statement.dart';
 
 /// A simple group member record for allocation selection.
 class _GroupMemberOption {
-  const _GroupMemberOption({
-    required this.userId,
-    required this.displayName,
-  });
+  const _GroupMemberOption({required this.userId, required this.displayName});
 
   final String userId;
   final String displayName;
@@ -44,10 +42,8 @@ class TransactionAllocationSheet extends ConsumerStatefulWidget {
     return showCoolBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      builder: (context) => TransactionAllocationSheet(
-        entry: entry,
-        groupId: groupId,
-      ),
+      builder: (context) =>
+          TransactionAllocationSheet(entry: entry, groupId: groupId),
     );
   }
 
@@ -83,10 +79,12 @@ class _TransactionAllocationSheetState
 
       final members = (rows as List)
           .whereType<Map<dynamic, dynamic>>()
-          .map((row) => _GroupMemberOption(
-                userId: row['user_id']?.toString() ?? '',
-                displayName: row['display_name']?.toString() ?? 'Member',
-              ))
+          .map(
+            (row) => _GroupMemberOption(
+              userId: row['user_id']?.toString() ?? '',
+              displayName: row['display_name']?.toString() ?? 'Member',
+            ),
+          )
           .where((m) => m.userId.isNotEmpty)
           .toList(growable: false);
 
@@ -107,11 +105,14 @@ class _TransactionAllocationSheetState
     setState(() => _isSubmitting = true);
     try {
       final client = ref.read(supabaseClientProvider);
-      await client.rpc('allocate_transaction_to_member', params: {
-        'p_ledger_id': widget.entry.ledgerId,
-        'p_group_id': widget.groupId,
-        'p_member_user_id': _selectedMemberId,
-      });
+      await client.rpc(
+        'allocate_transaction_to_member',
+        params: {
+          'p_ledger_id': widget.entry.ledgerId,
+          'p_group_id': widget.groupId,
+          'p_member_user_id': _selectedMemberId,
+        },
+      );
 
       if (!mounted) return;
       Navigator.of(context).pop();
@@ -130,10 +131,13 @@ class _TransactionAllocationSheetState
     setState(() => _isSubmitting = true);
     try {
       final client = ref.read(supabaseClientProvider);
-      await client.rpc('unallocate_transaction', params: {
-        'p_ledger_id': widget.entry.ledgerId,
-        'p_group_id': widget.groupId,
-      });
+      await client.rpc(
+        'unallocate_transaction',
+        params: {
+          'p_ledger_id': widget.entry.ledgerId,
+          'p_group_id': widget.groupId,
+        },
+      );
 
       if (!mounted) return;
       Navigator.of(context).pop();
@@ -176,7 +180,7 @@ class _TransactionAllocationSheetState
           'TRANSACTION ALLOCATION',
           style: text.displayCondensed(
             theme.textTheme.titleLarge,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w800,
           ),
         ),
         const SizedBox(height: CoolSpace.x1),
@@ -184,7 +188,7 @@ class _TransactionAllocationSheetState
           'Manage group member assignment',
           style: text.mono(
             theme.textTheme.labelSmall,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
             color: colors.secondaryText,
             letterSpacing: 0.5,
           ),
@@ -211,7 +215,7 @@ class _TransactionAllocationSheetState
                       entry.label,
                       style: text.mono(
                         theme.textTheme.titleSmall,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                         color: colors.primaryText,
                         letterSpacing: 0.5,
                       ),
@@ -220,10 +224,10 @@ class _TransactionAllocationSheetState
                     ),
                   ),
                   Text(
-                    '${entry.amount} ${entry.currency}',
+                    '${formatWholeMoneyAmount(entry.amount)} ${entry.currency}',
                     style: text.mono(
                       theme.textTheme.titleSmall,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                       color: colors.accentGold,
                       letterSpacing: 0.5,
                     ),
@@ -240,7 +244,7 @@ class _TransactionAllocationSheetState
                       entry.payerName,
                       style: text.mono(
                         theme.textTheme.labelSmall,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                         color: colors.success,
                         letterSpacing: 0.5,
                       ),
@@ -262,7 +266,7 @@ class _TransactionAllocationSheetState
                       'Not yet allocated',
                       style: text.mono(
                         theme.textTheme.labelSmall,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                         color: colors.warning,
                         letterSpacing: 0.5,
                       ),
@@ -289,7 +293,7 @@ class _TransactionAllocationSheetState
             'OR REALLOCATE TO ANOTHER MEMBER',
             style: text.mono(
               theme.textTheme.labelSmall,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
               color: colors.tertiaryText,
               letterSpacing: 1.0,
             ),
@@ -310,7 +314,7 @@ class _TransactionAllocationSheetState
               'No group members found.',
               style: text.mono(
                 theme.textTheme.bodySmall,
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w500,
                 color: colors.secondaryText,
               ),
             ),
@@ -320,7 +324,7 @@ class _TransactionAllocationSheetState
             isCurrentlyAllocated ? 'Select member:' : 'ALLOCATE TO MEMBER',
             style: text.mono(
               theme.textTheme.labelSmall,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
               color: colors.secondaryText,
               letterSpacing: 1.0,
             ),
@@ -383,7 +387,7 @@ class _TransactionAllocationSheetState
                               member.displayName,
                               style: text.mono(
                                 theme.textTheme.bodyMedium,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w700,
                                 color: isSelected
                                     ? colors.accent
                                     : colors.primaryText,
@@ -398,14 +402,15 @@ class _TransactionAllocationSheetState
                               ),
                               decoration: BoxDecoration(
                                 color: colors.success.withValues(alpha: 0.12),
-                                borderRadius:
-                                    BorderRadius.circular(CoolRadii.pill),
+                                borderRadius: BorderRadius.circular(
+                                  CoolRadii.pill,
+                                ),
                               ),
                               child: Text(
                                 'CURRENT',
-                                style: context.coolText.mobiLabel(
-                                  color: colors.success,
-                                ).copyWith(letterSpacing: 0.5),
+                                style: context.coolText
+                                    .mobiLabel(color: colors.success)
+                                    .copyWith(letterSpacing: 0.5),
                               ),
                             ),
                         ],

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/date_formatters.dart';
+import '../../../core/utils/money_formatters.dart';
 import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -176,7 +177,7 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
         'STATEMENTS',
         style: context.coolText.displayCondensed(
           Theme.of(context).textTheme.headlineSmall,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
         ),
       ),
       subtitle: Text(
@@ -187,7 +188,7 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
         ),
         style: context.coolText.mono(
           Theme.of(context).textTheme.labelSmall,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           color: colors.secondaryText,
           letterSpacing: 1.0,
         ),
@@ -340,7 +341,7 @@ class _EmptyState extends StatelessWidget {
               'NO TRANSACTIONS YET',
               style: context.coolText.displayCondensed(
                 Theme.of(context).textTheme.titleLarge,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w800,
               ),
             ),
             const SizedBox(height: CoolSpace.x2),
@@ -447,7 +448,7 @@ class _StatementTile extends StatelessWidget {
                       entry.label,
                       style: context.coolText.mono(
                         Theme.of(context).textTheme.titleSmall,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                         color: colors.primaryText,
                         letterSpacing: 0.5,
                       ),
@@ -459,7 +460,7 @@ class _StatementTile extends StatelessWidget {
                       '${entry.payerName} • ${formatTransactionDate(entry.occurredAt)}',
                       style: context.coolText.mono(
                         Theme.of(context).textTheme.labelSmall,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         color: colors.secondaryText,
                         letterSpacing: 0.5,
                       ),
@@ -473,10 +474,10 @@ class _StatementTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '${entry.amount} ${entry.currency}',
+                    '${formatWholeMoneyAmount(entry.amount)} ${entry.currency}',
                     style: context.coolText.mono(
                       Theme.of(context).textTheme.titleSmall,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                       color: colors.accentGold,
                       letterSpacing: 0.5,
                     ),

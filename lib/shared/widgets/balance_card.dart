@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
+import '../../core/utils/money_formatters.dart';
 
 class BalanceCardMetric {
   const BalanceCardMetric({
@@ -62,7 +63,7 @@ class BalanceCard extends StatelessWidget {
     final isPositiveChange = changeAmount >= 0;
 
     return Semantics(
-      label: '$title. ${_formatAmount(amount)} $currency.',
+      label: '$title. ${formatWholeMoneyAmount(amount)} $currency.',
       child: Container(
         decoration: BoxDecoration(
           color: colors.financialSurface,
@@ -135,7 +136,7 @@ class BalanceCard extends StatelessWidget {
                             Text(
                               title.toUpperCase(),
                               style: theme.textTheme.labelSmall?.copyWith(
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w700,
                                 letterSpacing: 1.1,
                                 color: colors.secondaryText,
                               ),
@@ -144,7 +145,7 @@ class BalanceCard extends StatelessWidget {
                             Text(
                               subtitle,
                               style: theme.textTheme.bodySmall?.copyWith(
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w700,
                                 color: colors.secondaryText,
                                 height: 1.35,
                               ),
@@ -174,19 +175,19 @@ class BalanceCard extends StatelessWidget {
                     currency,
                     style: text.mono(
                       theme.textTheme.labelSmall,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
                       color: colors.tertiaryText,
                     ),
                   ),
                   SizedBox(height: space.x2),
                   Text(
-                    _formatAmount(amount),
+                    formatWholeMoneyAmount(amount),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: text.mono(
                       theme.textTheme.headlineMedium,
                       color: colors.primaryText,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                       height: 1.08,
                     ),
                   ),
@@ -200,7 +201,7 @@ class BalanceCard extends StatelessWidget {
                             ? Icons.arrow_upward_rounded
                             : Icons.arrow_downward_rounded,
                         label:
-                            '${isPositiveChange ? '+' : '-'}${_formatAmount(changeAmount)} $currency net movement',
+                            '${formatSignedWholeMoneyAmount(changeAmount)} $currency net movement',
                         backgroundColor: isPositiveChange
                             ? colors.chipSelectedBackground
                             : colors.danger.withValues(alpha: 0.16),
@@ -274,21 +275,6 @@ class BalanceCard extends StatelessWidget {
       ),
     );
   }
-
-  static String _formatAmount(int value) {
-    final source = value.abs().toString();
-    final buffer = StringBuffer();
-    if (value < 0) {
-      buffer.write('-');
-    }
-    for (var index = 0; index < source.length; index++) {
-      if (index > 0 && (source.length - index) % 3 == 0) {
-        buffer.write(',');
-      }
-      buffer.write(source[index]);
-    }
-    return buffer.toString();
-  }
 }
 
 class _BalanceActionButton extends StatelessWidget {
@@ -340,7 +326,7 @@ class _BalanceActionButton extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: context.coolText.mono(
                         theme.textTheme.labelSmall,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                         color: foregroundColor,
                         letterSpacing: 0.8,
                       ),
@@ -375,7 +361,7 @@ class _MetricTile extends StatelessWidget {
           Text(
             metric.label.toUpperCase(),
             style: theme.textTheme.labelSmall?.copyWith(
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
               letterSpacing: 0.9,
               color: colors.secondaryText,
             ),
@@ -385,7 +371,7 @@ class _MetricTile extends StatelessWidget {
             metric.value,
             style: text.mono(
               theme.textTheme.labelLarge,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
               color: accent,
             ),
           ),
@@ -428,7 +414,7 @@ class _TrustPill extends StatelessWidget {
           Text(
             label,
             style: theme.textTheme.labelSmall?.copyWith(
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
               color: foregroundColor,
             ),
           ),

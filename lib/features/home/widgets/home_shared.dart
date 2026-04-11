@@ -2,25 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/money_formatters.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../models/home_dashboard_data.dart';
 
-String fmtAmt(int v) {
-  final s = v.toString();
-  final b = StringBuffer();
-  for (var i = 0; i < s.length; i++) {
-    if (i > 0 && (s.length - i) % 3 == 0) b.write(',');
-    b.write(s[i]);
-  }
-  return b.toString();
-}
+String fmtAmt(int v) => formatWholeMoneyAmount(v);
 
-String fmtSignedAmt(int v) {
-  if (v == 0) {
-    return '0';
-  }
-  return '${v > 0 ? '+' : '-'}${fmtAmt(v.abs())}';
-}
+String fmtSignedAmt(int v) => formatSignedWholeMoneyAmount(v);
 
 String formatOperationMeta(DateTime recordedAt, String type) {
   final now = DateTime.now();
@@ -96,7 +84,7 @@ String resolveDisplayName(String? officialName, String? fullName) {
     return full;
   }
 
-  return 'Coool';
+  return 'Cool';
 }
 
 String initialsForName(String name) {
@@ -231,7 +219,7 @@ class HomeAccentTag extends StatelessWidget {
         label,
         style: context.coolText.mono(
           Theme.of(context).textTheme.labelSmall,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
           color: colors.accent,
           letterSpacing: 1.0,
         ),

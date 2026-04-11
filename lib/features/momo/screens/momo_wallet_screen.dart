@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/date_formatters.dart';
+import '../../../core/utils/money_formatters.dart';
 import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../../shared/widgets/cool_toast.dart';
@@ -161,14 +162,14 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
         'WALLET',
         style: context.coolText.displayCondensed(
           Theme.of(context).textTheme.headlineSmall,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
         ),
       ),
       subtitle: Text(
         'M-MONEY HISTORY',
         style: context.coolText.mono(
           Theme.of(context).textTheme.labelSmall,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           color: colors.secondaryText,
           letterSpacing: 1.0,
         ),
@@ -193,10 +194,7 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
                   height: 18,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : Icon(
-                  Icons.picture_as_pdf_rounded,
-                  color: colors.primaryText,
-                ),
+              : Icon(Icons.picture_as_pdf_rounded, color: colors.primaryText),
         ),
         IconButton(
           onPressed: _isExportingExcel
@@ -208,10 +206,7 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
                   height: 18,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : Icon(
-                  Icons.grid_on_rounded,
-                  color: colors.primaryText,
-                ),
+              : Icon(Icons.grid_on_rounded, color: colors.primaryText),
         ),
         const SizedBox(width: CoolSpace.x2),
       ],
@@ -321,7 +316,7 @@ class _WalletTransactionTile extends StatelessWidget {
                   entry.label,
                   style: context.coolText.mono(
                     Theme.of(context).textTheme.titleSmall,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                     color: colors.primaryText,
                     letterSpacing: 0.5,
                   ),
@@ -333,7 +328,7 @@ class _WalletTransactionTile extends StatelessWidget {
                   _buildSubtitle(),
                   style: context.coolText.mono(
                     Theme.of(context).textTheme.labelSmall,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                     color: colors.secondaryText,
                     letterSpacing: 0.5,
                   ),
@@ -346,7 +341,7 @@ class _WalletTransactionTile extends StatelessWidget {
                     'Ref: ${entry.reference}',
                     style: context.coolText.mono(
                       Theme.of(context).textTheme.labelSmall,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w500,
                       color: colors.tertiaryText,
                       letterSpacing: 0.3,
                     ),
@@ -364,10 +359,10 @@ class _WalletTransactionTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '$amountPrefix${entry.amount} ${entry.currency}',
+                '$amountPrefix${formatWholeMoneyAmount(entry.amount)} ${entry.currency}',
                 style: context.coolText.mono(
                   Theme.of(context).textTheme.titleSmall,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w800,
                   color: amountColor,
                   letterSpacing: 0.5,
                 ),
@@ -431,7 +426,7 @@ class _EmptyState extends StatelessWidget {
             'NO TRANSACTIONS YET',
             style: context.coolText.displayCondensed(
               Theme.of(context).textTheme.titleLarge,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: CoolSpace.x2),
@@ -440,7 +435,7 @@ class _EmptyState extends StatelessWidget {
             textAlign: TextAlign.center,
             style: context.coolText.mono(
               Theme.of(context).textTheme.bodySmall,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
               color: colors.secondaryText,
               height: 1.5,
             ),
@@ -470,11 +465,10 @@ class _ErrorState extends StatelessWidget {
         message,
         style: context.coolText.mono(
           Theme.of(context).textTheme.bodyMedium,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
           color: colors.secondaryText,
         ),
       ),
     );
   }
 }
-

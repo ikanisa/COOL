@@ -11,10 +11,12 @@ import '../../../core/providers/app_access_provider.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/services/app_access_service.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/money_formatters.dart';
 import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/models/user_profile.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../auth/widgets/require_verified_user.dart';
 import '../../momo/services/nfc_hce_service.dart';
 import '../../momo/services/nfc_service.dart';
 import '../models/biopay_profile.dart';
@@ -44,6 +46,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
   bool _supportsPhoneTap = false;
   bool _isReceiveModeActive = false;
   MomoRecipientType _selectedType = MomoRecipientType.phoneNumber;
+  bool _didRequestVerification = false;
 
   @override
   void initState() {
@@ -52,7 +55,9 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
     _numberController = TextEditingController();
     _codeController = TextEditingController();
     _amountController = TextEditingController(text: '0');
-    _refreshNfcAccess();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _ensureVerifiedAccess();
+    });
   }
 
   @override
@@ -83,8 +88,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
     final supportsCode = country.supportsMomoCode;
 
     _seedControllers(user: user, profile: profile, country: country);
-    final nfcNotAvailable =
-        _nfcAccess?.kind == AppAccessStateKind.notAvailable;
+    final nfcNotAvailable = _nfcAccess?.kind == AppAccessStateKind.notAvailable;
 
     return BiopayLightScaffold(
       topPadding: CoolSpace.x2,
@@ -130,14 +134,16 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
               style: context.coolText.headline(
                 Theme.of(context).textTheme.displaySmall,
                 color: colors.primaryText,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w800,
                 letterSpacing: -1.4,
               ),
               decoration: InputDecoration(
                 isCollapsed: true,
                 border: InputBorder.none,
                 hintText: '',
-                hintStyle: context.coolText.mobiLabel(color: colors.tertiaryText),
+                hintStyle: context.coolText.mobiLabel(
+                  color: colors.tertiaryText,
+                ),
               ),
             ),
           ),
@@ -153,7 +159,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                   style: context.coolText.headline(
                     Theme.of(context).textTheme.headlineMedium,
                     color: colors.tertiaryText,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                     letterSpacing: -1.0,
                   ),
                 ),
@@ -161,17 +167,20 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                   child: TextField(
                     controller: _amountController,
                     keyboardType: TextInputType.number,
+                    inputFormatters: const [GroupedThousandsInputFormatter()],
                     style: context.coolText.headline(
                       Theme.of(context).textTheme.displaySmall,
                       color: colors.primaryText,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                       letterSpacing: -1.4,
                     ),
                     decoration: InputDecoration(
                       isCollapsed: true,
                       border: InputBorder.none,
                       hintText: '0',
-                      hintStyle: context.coolText.mobiLabel(color: colors.tertiaryText),
+                      hintStyle: context.coolText.mobiLabel(
+                        color: colors.tertiaryText,
+                      ),
                     ),
                   ),
                 ),
@@ -213,7 +222,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                 style: context.coolText.headline(
                   Theme.of(context).textTheme.titleLarge,
                   color: colors.secondaryText,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
             ),
@@ -275,6 +284,27 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
         user?.country.trim() ??
         AppMarket.country.isoCode;
     return CoolCountryCatalog.byIsoCode(countryCode) ?? AppMarket.country;
+  }
+
+  Future<void> _ensureVerifiedAccess() async {
+    if (_didRequestVerification || !mounted) {
+      return;
+    }
+    _didRequestVerification = true;
+
+    final allowed = await requireVerifiedUser(context, ref);
+    if (!mounted || allowed) {
+      if (allowed) {
+        await _refreshNfcAccess();
+      }
+      return;
+    }
+
+    if (context.canPop()) {
+      context.pop();
+      return;
+    }
+    context.go(AppRoutes.biopayHome);
   }
 
   Future<void> _activateNfc(CoolCountry country) async {
@@ -433,7 +463,7 @@ class _NfcStatusBanner extends StatelessWidget {
         style: context.coolText.mono(
           Theme.of(context).textTheme.bodyMedium,
           color: color,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );

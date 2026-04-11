@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/config/app_market.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../shared/widgets/cool_glass_header_surface.dart';
+import '../../../shared/widgets/cool_floating_header_sliver.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -78,14 +78,31 @@ class _ProfileDetailScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.coolSemanticColors.appBackground,
-      appBar: AppBar(
-        toolbarHeight: 84,
-        flexibleSpace: const CoolGlassHeaderSurface(),
-        title: Text(title),
+    final colors = context.coolSemanticColors;
+    final backTooltip = MaterialLocalizations.of(context).backButtonTooltip;
+    return CoolScreenBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            CoolFloatingHeaderSliver(
+              automaticallyImplyLeading: false,
+              leading: IconButton(
+                onPressed: () => Navigator.of(context).maybePop(),
+                tooltip: backTooltip,
+                icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
+              ),
+              title: Text(
+                title,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(color: colors.primaryText),
+              ),
+            ),
+          ],
+          body: SafeArea(top: false, child: child),
+        ),
       ),
-      body: CoolScreenBackground(child: SafeArea(top: false, child: child)),
     );
   }
 }

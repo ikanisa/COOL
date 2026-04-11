@@ -34,8 +34,6 @@ abstract final class AppRoutes {
   static const contributionCircleStatements =
       '/contribution-circles/:groupId/statements';
 
-
-
   // ── Profile ─────────────────────────────────────────────────────
   static const profile = '/profile';
   static const profileWallet = '/profile/wallet';
@@ -136,6 +134,7 @@ abstract final class AppRoutes {
 
 const appShellRootLocations = {
   AppRoutes.home,
+  AppRoutes.contributionCircles,
   AppRoutes.biopayHome,
   AppRoutes.profile,
 };

@@ -6,10 +6,11 @@ import 'package:go_router/go_router.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/money_formatters.dart';
 import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
-import '../../../shared/widgets/cool_glass_header_surface.dart';
+import '../../../shared/widgets/cool_floating_header_sliver.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_search_field.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
@@ -63,7 +64,11 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
     context.push(AppRoutes.contributionCircleDetailLocation(groupId));
   }
 
-  void _contributeToGroup(Group group) {
+  Future<void> _contributeToGroup(Group group) async {
+    if (!await requireVerifiedUser(context, ref)) {
+      return;
+    }
+
     if (!groupHasContributionRoute(group)) {
       CoolToast.info(
         context,
@@ -231,7 +236,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                   'CREATE',
                   style: textTheme
                       .mobiLabel(color: colors.accentForeground)
-                      .copyWith(fontWeight: FontWeight.w700),
+                      .copyWith(fontWeight: FontWeight.w800),
                 ),
               )
             : null,
@@ -240,12 +245,12 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
-              SliverAppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                pinned: true,
-                toolbarHeight: 84,
-                flexibleSpace: const CoolGlassHeaderSurface(),
+              CoolFloatingHeaderSliver(
+                leading: IconButton(
+                  onPressed: () => context.pop(),
+                  tooltip: 'Back',
+                  icon: const Icon(Icons.arrow_back_rounded),
+                ),
                 title: Text(
                   l10n.navGroups.toUpperCase(),
                   style: textTheme.displayCondensed(null, letterSpacing: 1.2),
@@ -259,38 +264,29 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: space.x4,
-                    vertical: space.x3,
+                    vertical: space.x2,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Create groups, invite members, and collect contributions in one place.',
-                        style: textTheme.mobiLabel(color: colors.secondaryText),
-                      ),
-                      SizedBox(height: space.x3),
-                      AnimatedSwitcher(
-                        duration: CoolMotion.quick,
-                        child: Row(
-                          key: ValueKey<bool>(_showMine),
-                          children: [
-                            Expanded(
-                              child: TabPill(
-                                label: 'My Ledgers',
-                                isActive: _showMine,
-                                onTap: () => setState(() => _showMine = true),
-                              ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TabPill(
+                              label: 'My Ledgers',
+                              isActive: _showMine,
+                              onTap: () => setState(() => _showMine = true),
                             ),
-                            SizedBox(width: space.x2),
-                            Expanded(
-                              child: TabPill(
-                                label: 'Explore',
-                                isActive: !_showMine,
-                                onTap: () => setState(() => _showMine = false),
-                              ),
+                          ),
+                          SizedBox(width: space.x2),
+                          Expanded(
+                            child: TabPill(
+                              label: 'Explore',
+                              isActive: !_showMine,
+                              onTap: () => setState(() => _showMine = false),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                       if (!_showMine) ...[
                         SizedBox(height: space.x3),
@@ -317,8 +313,8 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                             return _InviteBanner(
                               title: preview.group.name,
                               subtitle: preview.isMember
-                                  ? 'You already belong to this group.'
-                                  : '${preview.group.memberCount} members • ${preview.group.visibility.toUpperCase()}',
+                                  ? 'Already a member.'
+                                  : '${preview.group.memberCount} members',
                               actionLabel: preview.isMember
                                   ? 'OPEN'
                                   : 'JOIN NOW',
@@ -330,7 +326,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                           },
                           loading: () => const _InviteBannerLoading(),
                           error: (error, _) => _InviteBanner(
-                            title: 'Invite could not be loaded',
+                            title: 'Invite error',
                             subtitle: describeUserFacingError(error),
                             actionLabel: 'DISMISS',
                             onAction: _dismissInviteBanner,

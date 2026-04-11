@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/money_formatters.dart';
 import '../../../shared/widgets/admin_detail_scaffold.dart';
 import '../../../shared/widgets/admin_section_header.dart';
 import '../../../shared/widgets/cool_async_view.dart';
@@ -80,7 +81,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
             Text(
               'Operations',
               style: theme.textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w800,
                 height: 1.1,
                 color: colors.primaryText,
               ),

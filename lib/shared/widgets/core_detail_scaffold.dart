@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/cool_layout.dart';
-import 'cool_glass_header_surface.dart';
+import 'cool_floating_header_sliver.dart';
 import 'cool_screen_background.dart';
 
 /// Standard shell for non-tab detail routes.
+///
+/// The app bar hides on scroll-down and snaps back on scroll-up,
+/// maximising content real-estate on forms and detail screens.
 ///
 /// **Background ownership**: this scaffold is the single owner of
 /// [CoolScreenBackground]. Child content must NOT wrap itself in another
@@ -86,28 +89,6 @@ class CoreDetailScaffold extends StatelessWidget {
       ...?actions,
     ];
     final effectiveActions = resolvedActions.isEmpty ? null : resolvedActions;
-    final body = switch ((hasHeader, resolvedPadding)) {
-      (true, final EdgeInsets bodyPadding) => Padding(
-        padding: bodyPadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ?title,
-            if (subtitle != null) ...[
-              const SizedBox(height: CoolSpace.x2),
-              subtitle!,
-            ],
-            const SizedBox(height: CoolSpace.x6),
-            Expanded(child: child),
-          ],
-        ),
-      ),
-      (false, final EdgeInsets bodyPadding) => Padding(
-        padding: bodyPadding,
-        child: child,
-      ),
-      _ => child,
-    };
 
     return CoolScreenBackground(
       primaryColor: primaryColor,
@@ -115,28 +96,43 @@ class CoreDetailScaffold extends StatelessWidget {
       showGlow: showGlow,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          toolbarHeight: 84,
-          flexibleSpace: const CoolGlassHeaderSurface(),
-          leading: showBackButton
-              ? Semantics(
-                  button: true,
-                  label: resolvedBackTooltip,
-                  child: IconButton(
-                    onPressed: onBack ?? () => Navigator.of(context).maybePop(),
-                    tooltip: resolvedBackTooltip,
-                    icon: const Icon(Icons.arrow_back_rounded),
-                  ),
-                )
-              : null,
-          actions: effectiveActions,
-        ),
-        body: body,
         floatingActionButton: floatingActionButton,
         floatingActionButtonLocation: floatingActionButtonLocation,
+        body: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            CoolFloatingHeaderSliver(
+              automaticallyImplyLeading: false,
+              leading: showBackButton
+                  ? Semantics(
+                      button: true,
+                      label: resolvedBackTooltip,
+                      child: IconButton(
+                        onPressed:
+                            onBack ?? () => Navigator.of(context).maybePop(),
+                        tooltip: resolvedBackTooltip,
+                        icon: const Icon(Icons.arrow_back_rounded),
+                      ),
+                    )
+                  : null,
+              actions: effectiveActions,
+            ),
+          ],
+          body: Padding(
+            padding: resolvedPadding ?? EdgeInsets.zero,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ?title,
+                if (subtitle != null) ...[
+                  const SizedBox(height: CoolSpace.x2),
+                  subtitle!,
+                ],
+                if (hasHeader) const SizedBox(height: CoolSpace.x5),
+                Expanded(child: child),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

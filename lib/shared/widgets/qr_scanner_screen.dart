@@ -10,7 +10,7 @@ import '../../core/services/app_access_service.dart';
 import '../../core/theme/cool_foundations.dart';
 import '../../features/momo/providers/momo_service_provider.dart';
 import 'cool_button.dart';
-import 'cool_glass_header_surface.dart';
+import 'cool_floating_header_sliver.dart';
 import 'cool_screen_background.dart';
 import 'cool_skeleton.dart';
 import 'cool_toast.dart';
@@ -24,11 +24,7 @@ enum QrScanMode { momo }
 
 /// Full-screen QR scanner using `mobile_scanner`.
 class QrScannerScreen extends ConsumerStatefulWidget {
-  const QrScannerScreen({
-    required this.mode,
-    this.client,
-    super.key,
-  });
+  const QrScannerScreen({required this.mode, this.client, super.key});
 
   final QrScanMode mode;
   final SupabaseClient? client;
@@ -129,52 +125,64 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
         ),
       };
 
+      final backTooltip = MaterialLocalizations.of(context).backButtonTooltip;
       return CoolScreenBackground(
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            title: const Text(
-              'Scan MoMo QR',
-            ),
-            backgroundColor: Colors.transparent,
-            toolbarHeight: 84,
-            flexibleSpace: const CoolGlassHeaderSurface(),
-          ),
-          body: Center(
-            child: Padding(
-              padding: EdgeInsets.all(space.x6),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.camera_alt_outlined,
-                    size: 42,
-                    color: colors.secondaryText,
+          body: CustomScrollView(
+            slivers: [
+              CoolFloatingHeaderSliver(
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                  onPressed: () => Navigator.of(context).maybePop(),
+                  tooltip: backTooltip,
+                  icon: Icon(
+                    Icons.arrow_back_rounded,
+                    color: colors.primaryText,
                   ),
-                  SizedBox(height: space.x4),
-                  Text(
-                    gate.title,
-                    textAlign: TextAlign.center,
-                    style: textTheme.labelLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: colors.primaryText,
-                    ),
-                  ),
-                  SizedBox(height: space.x2),
-                  Text(
-                    gate.message,
-                    textAlign: TextAlign.center,
-                    style: textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w400,
-                      color: colors.secondaryText,
-                      height: 1.45,
-                    ),
-                  ),
-                  SizedBox(height: space.x5),
-                  CoolButton(label: gate.actionLabel, onTap: gate.onTap),
-                ],
+                ),
+                title: const Text('Scan MoMo QR'),
               ),
-            ),
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(space.x6),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.camera_alt_outlined,
+                          size: 42,
+                          color: colors.secondaryText,
+                        ),
+                        SizedBox(height: space.x4),
+                        Text(
+                          gate.title,
+                          textAlign: TextAlign.center,
+                          style: textTheme.labelLarge?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: colors.primaryText,
+                          ),
+                        ),
+                        SizedBox(height: space.x2),
+                        Text(
+                          gate.message,
+                          textAlign: TextAlign.center,
+                          style: textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: colors.secondaryText,
+                            height: 1.45,
+                          ),
+                        ),
+                        SizedBox(height: space.x5),
+                        CoolButton(label: gate.actionLabel, onTap: gate.onTap),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       );
@@ -199,11 +207,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                   onDetect: _onDetect,
                   tapToFocus: true,
                 ),
-                IgnorePointer(
-                  child: _ScannerOverlay(
-                    scanWindow: scanWindow,
-                  ),
-                ),
+                IgnorePointer(child: _ScannerOverlay(scanWindow: scanWindow)),
                 Positioned(
                   top: 0,
                   left: 0,
@@ -233,7 +237,6 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                               ),
                             ),
                           ),
-
                         ],
                       ),
                     ),

@@ -9,6 +9,7 @@ import '../../features/biopay/screens/biopay_nfc_screen.dart';
 import '../../features/biopay/screens/biopay_qr_screen.dart';
 import '../../features/biopay/screens/biopay_register_screen.dart';
 import '../../features/biopay/screens/biopay_scan_screen.dart';
+import '../../features/groups/screens/groups_screen.dart';
 import '../../features/home/screens/home_screen.dart';
 import '../../features/profile/screens/profile_detail_screens.dart';
 import '../../features/profile/screens/profile_screen.dart';
@@ -28,6 +29,17 @@ StatefulShellBranch buildHomeShellBranch({
         path: AppRoutes.home,
         pageBuilder: (context, state) =>
             NoTransitionPage(key: state.pageKey, child: const HomeScreen()),
+      ),
+      GoRoute(
+        path: AppRoutes.contributionCircles,
+        pageBuilder: (context, state) => NoTransitionPage(
+          key: state.pageKey,
+          child: SecureScreenWrapper(
+            child: GroupsScreen(
+              inviteCode: state.uri.queryParameters['invite_code'],
+            ),
+          ),
+        ),
       ),
     ],
   );

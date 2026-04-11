@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/money_formatters.dart';
 import '../../../shared/widgets/admin_detail_scaffold.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -34,10 +34,6 @@ class BankAdminWorkspaceScreen extends ConsumerStatefulWidget {
 
 class _BankAdminWorkspaceScreenState
     extends ConsumerState<BankAdminWorkspaceScreen> {
-  static final NumberFormat _amountFormat = NumberFormat.decimalPattern(
-    'en_US',
-  );
-
   _BankWorkspaceTab _activeTab = _BankWorkspaceTab.overview;
   String? _selectedGroupId;
 
@@ -50,7 +46,7 @@ class _BankAdminWorkspaceScreenState
       title: Text(
         'Bank Terminal',
         style: theme.textTheme.headlineMedium?.copyWith(
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
           height: 1.1,
         ),
       ),
@@ -91,7 +87,7 @@ class _BankAdminWorkspaceScreenState
                 '${snapshot.allocations.totalCount == 1 ? '' : 's'}',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: colors.secondaryText,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               const SizedBox(height: CoolSpace.x5),
@@ -122,12 +118,14 @@ class _BankAdminWorkspaceScreenState
                   ledgerAsync: ledgerAsync,
                   onExportPdf: () => _exportLedger(
                     groupId: resolvedGroupId,
-                    groupName: selectedGroup?.group.name ?? 'Group Payment Ledger',
+                    groupName:
+                        selectedGroup?.group.name ?? 'Group Payment Ledger',
                     format: StatementExportFormat.pdf,
                   ),
                   onExportExcel: () => _exportLedger(
                     groupId: resolvedGroupId,
-                    groupName: selectedGroup?.group.name ?? 'Group Payment Ledger',
+                    groupName:
+                        selectedGroup?.group.name ?? 'Group Payment Ledger',
                     format: StatementExportFormat.excel,
                   ),
                 ),
@@ -173,7 +171,7 @@ class _BankAdminWorkspaceScreenState
                 Text(
                   'Allocate payment',
                   style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                     color: colors.primaryText,
                   ),
                 ),
@@ -182,7 +180,7 @@ class _BankAdminWorkspaceScreenState
                   'Assign this payment to the matched member.',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: colors.secondaryText,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x5),
@@ -193,7 +191,9 @@ class _BankAdminWorkspaceScreenState
                       onPressed: () => Navigator.of(dialogContext).pop(),
                       child: Text(
                         'Cancel',
-                        style: context.coolText.mobiLabel(color: colors.secondaryText),
+                        style: context.coolText.mobiLabel(
+                          color: colors.secondaryText,
+                        ),
                       ),
                     ),
                     const SizedBox(width: CoolSpace.x2),
@@ -253,7 +253,7 @@ class _BankAdminWorkspaceScreenState
                 Text(
                   'Reject allocation',
                   style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                     color: colors.primaryText,
                   ),
                 ),
@@ -262,7 +262,7 @@ class _BankAdminWorkspaceScreenState
                   'This removes the pending allocation.',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: colors.secondaryText,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x5),
@@ -273,7 +273,9 @@ class _BankAdminWorkspaceScreenState
                       onPressed: () => Navigator.of(dialogContext).pop(),
                       child: Text(
                         'Cancel',
-                        style: context.coolText.mobiLabel(color: colors.secondaryText),
+                        style: context.coolText.mobiLabel(
+                          color: colors.secondaryText,
+                        ),
                       ),
                     ),
                     const SizedBox(width: CoolSpace.x2),
@@ -380,7 +382,7 @@ class _TabRow extends StatelessWidget {
               backgroundColor: colors.chipBackground,
               selectedColor: colors.chipSelectedBackground,
               labelStyle: theme.textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
                 color: activeTab == tab
                     ? colors.accentStrong
                     : colors.secondaryText,
@@ -442,7 +444,7 @@ class _OverviewTab extends StatelessWidget {
               Text(
                 group.group.name,
                 style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w800,
                   color: colors.primaryText,
                 ),
               ),
@@ -450,7 +452,7 @@ class _OverviewTab extends StatelessWidget {
               Text(
                 '${snapshot.allocations.totalCount} manual review',
                 style: theme.textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                   color: colors.secondaryText,
                 ),
               ),
@@ -501,7 +503,7 @@ class _OverviewTab extends StatelessWidget {
                     child: Text(
                       member.displayName,
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                         color: colors.primaryText,
                       ),
                     ),
@@ -575,7 +577,7 @@ class _AllocationsTab extends StatelessWidget {
                       child: Text(
                         item.groupName,
                         style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w800,
                           color: colors.primaryText,
                         ),
                       ),
@@ -648,7 +650,7 @@ class _LedgersTab extends StatelessWidget {
                 Text(
                   'Posted payment ledger',
                   style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                     color: colors.primaryText,
                   ),
                 ),
@@ -687,7 +689,7 @@ class _LedgersTab extends StatelessWidget {
                           Text(
                             entry.label,
                             style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w700,
                               color: colors.primaryText,
                             ),
                           ),
@@ -695,7 +697,7 @@ class _LedgersTab extends StatelessWidget {
                           Text(
                             entry.payerName,
                             style: theme.textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w500,
                               color: colors.tertiaryText,
                             ),
                           ),
@@ -703,10 +705,10 @@ class _LedgersTab extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${_BankAdminWorkspaceScreenState._amountFormat.format(entry.amount)} RWF',
+                      '${formatWholeMoneyAmount(entry.amount)} RWF',
                       style: context.coolText.mono(
                         theme.textTheme.titleSmall,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                         color: colors.success,
                       ),
                     ),
@@ -764,7 +766,7 @@ class _ActionChip extends StatelessWidget {
               Text(
                 label,
                 style: theme.textTheme.labelMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                   color: color,
                 ),
               ),

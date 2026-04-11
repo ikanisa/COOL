@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/identity/public_user_identity.dart';
 import '../../core/theme/cool_foundations.dart';
+import '../../core/utils/money_formatters.dart';
 
 /// A single-row widget displaying a group member with their avatar,
 /// name / userId, admin badge (if applicable), and contribution amount.
@@ -45,7 +46,7 @@ class MemberRow extends StatelessWidget {
       child: Semantics(
         label:
             '$resolvedIdentity.$roleLabel'
-            '${MemberRow._formatAmount(contributionAmount)} RWF contributed.',
+            '${formatWholeMoneyAmount(contributionAmount)} RWF contributed.',
         excludeSemantics: true,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: CoolSpace.x2),
@@ -64,11 +65,11 @@ class MemberRow extends StatelessWidget {
                         style: isAnonymous
                             ? text.mono(
                                 theme.textTheme.bodySmall,
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w500,
                                 color: colors.secondaryText,
                               )
                             : theme.textTheme.titleSmall?.copyWith(
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w700,
                                 color: colors.primaryText,
                               ),
                       ),
@@ -89,7 +90,7 @@ class MemberRow extends StatelessWidget {
                         child: Text(
                           'Admin',
                           style: theme.textTheme.labelSmall?.copyWith(
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w700,
                             color: colors.accent,
                           ),
                         ),
@@ -100,10 +101,10 @@ class MemberRow extends StatelessWidget {
               ),
               const SizedBox(width: CoolSpace.x3),
               Text(
-                _formatAmount(contributionAmount),
+                formatWholeMoneyAmount(contributionAmount),
                 style: text.mono(
                   theme.textTheme.titleSmall,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                   color: colors.accent,
                 ),
               ),
@@ -112,16 +113,6 @@ class MemberRow extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  static String _formatAmount(int value) {
-    final s = value.toString();
-    final buf = StringBuffer();
-    for (var i = 0; i < s.length; i++) {
-      if (i > 0 && (s.length - i) % 3 == 0) buf.write(',');
-      buf.write(s[i]);
-    }
-    return buf.toString();
   }
 }
 
@@ -156,7 +147,7 @@ class _Avatar extends StatelessWidget {
         initials,
         style: text.mono(
           theme.textTheme.labelMedium,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
           color: isAnonymous ? colors.info : colors.accent,
         ),
       ),

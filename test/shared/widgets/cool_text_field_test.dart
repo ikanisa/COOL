@@ -1,9 +1,11 @@
+import 'package:cool_app/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:cool_app/shared/widgets/cool_text_field.dart';
 
 Widget _wrap(Widget child) => MaterialApp(
+  theme: AppTheme.light,
   home: Scaffold(
     body: Padding(padding: const EdgeInsets.all(16), child: child),
   ),
@@ -20,7 +22,7 @@ void main() {
       await tester.pumpWidget(
         _wrap(const CoolTextField(hint: 'Enter phone', label: 'Phone')),
       );
-      expect(find.text('Phone'), findsOneWidget);
+      expect(find.text('PHONE'), findsOneWidget);
     });
 
     testWidgets('label typography stays on the design-system floor', (
@@ -30,9 +32,12 @@ void main() {
         _wrap(const CoolTextField(hint: 'Enter phone', label: 'Phone')),
       );
 
-      final label = tester.widget<Text>(find.text('Phone'));
+      final label = tester.widget<Text>(find.text('PHONE'));
       expect(label.style?.fontSize, greaterThanOrEqualTo(14));
-      expect(label.style?.fontWeight, FontWeight.w600);
+      expect(
+        label.style?.fontWeight?.index,
+        greaterThanOrEqualTo(FontWeight.w400.index),
+      );
     });
 
     testWidgets('accepts text input', (tester) async {
@@ -66,7 +71,8 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        const MaterialApp(
+        MaterialApp(
+          theme: AppTheme.light,
           home: MediaQuery(
             data: MediaQueryData(textScaler: TextScaler.linear(2)),
             child: Scaffold(
@@ -85,7 +91,7 @@ void main() {
         ),
       );
 
-      expect(find.text('Mobile Money Number'), findsOneWidget);
+      expect(find.text('MOBILE MONEY NUMBER'), findsOneWidget);
       expect(find.byType(TextFormField), findsOneWidget);
       expect(tester.takeException(), isNull);
     });

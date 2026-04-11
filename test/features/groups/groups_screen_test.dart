@@ -2,7 +2,6 @@ import 'package:cool_app/features/groups/models/group.dart';
 import 'package:cool_app/features/groups/providers/groups_provider.dart';
 import 'package:cool_app/features/groups/screens/groups_screen.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
-import 'package:cool_app/shared/widgets/cool_button.dart';
 import 'package:cool_app/shared/widgets/cool_card.dart';
 import 'package:cool_app/shared/widgets/status_badge.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ void main() {
     expect(find.text('Alpha Circle'), findsOneWidget);
     expect(find.byType(CoolCard), findsWidgets);
     expect(find.byType(StatusBadge), findsWidgets);
-    expect(find.byType(CoolButton), findsWidgets);
+    expect(find.byIcon(Icons.chevron_right_rounded), findsWidgets);
   });
 }
 

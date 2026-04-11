@@ -22,192 +22,70 @@ class _GroupLedgerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
     final textTheme = context.coolText;
     final space = context.coolSpace;
-    final isPublic = group.visibility == 'public';
-    final inviteable = onInvite != null;
     final canJoin = onJoin != null;
-    final canContribute = onContribute != null;
-    final hasRoute = groupHasContributionRoute(group);
-    final primaryActionIcon = canJoin
-        ? Icons.person_add_alt_1_rounded
-        : inviteable
-        ? Icons.ios_share_rounded
-        : hasRoute
-        ? Icons.payments_rounded
-        : Icons.arrow_forward_rounded;
-    final primaryActionLabel = canJoin
-        ? 'JOIN'
-        : inviteable
-        ? 'INVITE'
-        : hasRoute && canContribute
-        ? 'CONTRIBUTE'
-        : 'DETAILS';
 
-    return CoolCard(
-      borderRadius: CoolRadii.xl,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            group.name,
-            style: textTheme.display(
-              theme.textTheme.titleLarge,
-              color: colors.primaryText,
-              fontWeight: FontWeight.w700,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          SizedBox(height: space.x2),
-          Wrap(
-            spacing: space.x2,
-            runSpacing: space.x2,
-            children: [
-              if (group.type == 'community')
-                const StatusBadge.community()
-              else
-                const StatusBadge.saving(),
-              if (isPublic)
-                const StatusBadge.public()
-              else
-                const StatusBadge.private(),
-              StatusBadge(
-                label: '${group.memberCount} MEMBERS',
-                bgColor: colors.cardSurfaceStrong,
-                textColor: colors.secondaryText,
-              ),
-            ],
-          ),
-          SizedBox(height: space.x2),
-          Text(
-            '${group.country} • ${group.type == 'community' ? 'Community' : 'Saving'}',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: colors.secondaryText,
-            ),
-          ),
-          if ((group.description ?? '').trim().isNotEmpty) ...[
-            SizedBox(height: space.x3),
-            Text(
-              group.description!,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: colors.secondaryText,
-              ),
-            ),
-          ],
-          SizedBox(height: space.x3),
-          CoolCard(
-            backgroundColor: colors.cardSurfaceStrong,
-            borderRadius: CoolRadii.lg,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return GestureDetector(
+      onTap: onOpen,
+      child: CoolCard(
+        borderRadius: CoolRadii.xl,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // ── Name + member count ─────────────────────────
+            Row(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'BALANCE',
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: colors.tertiaryText,
-                      ),
+                Expanded(
+                  child: Text(
+                    group.name,
+                    style: textTheme.display(
+                      Theme.of(context).textTheme.titleLarge,
+                      color: colors.primaryText,
+                      fontWeight: FontWeight.w700,
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      '${_formatAmount(group.amount)} RWF',
-                      style: textTheme.mono(null, color: colors.accentGold),
-                    ),
-                  ],
-                ),
-                if ((group.monthlyContribution ?? 0) > 0)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        'CONTRIBUTION',
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: colors.tertiaryText,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        '${_formatAmount(group.monthlyContribution ?? 0)} RWF',
-                        style: textTheme.mono(
-                          null,
-                          color: colors.secondaryText,
-                        ),
-                      ),
-                    ],
-                  )
-                else if (group.targetAmount > 0)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        'TARGET',
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: colors.tertiaryText,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        '${_formatAmount(group.targetAmount)} RWF',
-                        style: textTheme.mono(
-                          null,
-                          color: colors.secondaryText,
-                        ),
-                      ),
-                    ],
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
+                ),
+                Text(
+                  '${group.memberCount}',
+                  style: textTheme.mono(null, color: colors.tertiaryText),
+                ),
+                const SizedBox(width: 4),
+                Icon(
+                  Icons.people_rounded,
+                  size: 14,
+                  color: colors.tertiaryText,
+                ),
               ],
             ),
-          ),
-          SizedBox(height: space.x4),
-          Row(
-            children: [
-              Expanded(
-                child: CoolButton(
-                  label: inviteable ? 'OPEN / INVITE' : 'OPEN',
-                  onTap: isBusy && canJoin ? null : onOpen,
-                  variant: CoolButtonVariant.secondary,
-                ),
-              ),
-              SizedBox(width: space.x2),
-              Expanded(
-                child: CoolButton(
-                  label: primaryActionLabel,
-                  icon: primaryActionIcon,
-                  onTap: isBusy
-                      ? null
-                      : canJoin
-                      ? onJoin
-                      : inviteable
-                      ? onInvite
-                      : canContribute
-                      ? onContribute
-                      : onOpen,
-                  variant: CoolButtonVariant.primary,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ).animate().fadeIn(duration: 300.ms).slideY(begin: 0.1, end: 0.0);
-  }
 
-  String _formatAmount(int value) {
-    final s = value.toString();
-    final buf = StringBuffer();
-    for (var i = 0; i < s.length; i++) {
-      if (i > 0 && (s.length - i) % 3 == 0) {
-        buf.write(',');
-      }
-      buf.write(s[i]);
-    }
-    return buf.toString();
+            SizedBox(height: space.x2),
+
+            // ── Balance row ─────────────────────────────────
+            Row(
+              children: [
+                Text(
+                  '${formatWholeMoneyAmount(group.amount)} RWF',
+                  style: textTheme.mono(null, color: colors.accentGold),
+                ),
+                const Spacer(),
+                if (canJoin)
+                  CoolButton(
+                    label: 'JOIN',
+                    onTap: isBusy ? null : onJoin,
+                    isLoading: isBusy,
+                    variant: CoolButtonVariant.primary,
+                  )
+                else
+                  Icon(Icons.chevron_right_rounded, color: colors.tertiaryText),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ).animate().fadeIn(duration: 300.ms).slideY(begin: 0.05, end: 0.0);
   }
 }
 
@@ -248,7 +126,7 @@ class _InviteBanner extends StatelessWidget {
                   style: text.display(
                     Theme.of(context).textTheme.titleLarge,
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ),
@@ -321,7 +199,7 @@ class _EmptyGroupsState extends StatelessWidget {
                 style: text.display(
                   Theme.of(context).textTheme.titleLarge,
                   color: colors.primaryText,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               SizedBox(height: space.x2),

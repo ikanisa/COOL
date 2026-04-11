@@ -8,9 +8,11 @@ import '../../../core/config/country_catalog.dart';
 import '../../../core/models/momo_qr_payload.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/money_formatters.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/models/user_profile.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../auth/widgets/require_verified_user.dart';
 import '../models/biopay_profile.dart';
 import '../providers/biopay_providers.dart';
 import '../widgets/biopay_surface.dart';
@@ -27,6 +29,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
   late final TextEditingController _codeController;
   late final TextEditingController _amountController;
   MomoRecipientType _selectedType = MomoRecipientType.phoneNumber;
+  bool _didRequestVerification = false;
 
   @override
   void initState() {
@@ -34,6 +37,9 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
     _numberController = TextEditingController();
     _codeController = TextEditingController();
     _amountController = TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _ensureVerifiedAccess();
+    });
   }
 
   @override
@@ -99,14 +105,16 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
               style: context.coolText.headline(
                 Theme.of(context).textTheme.displaySmall,
                 color: colors.primaryText,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w800,
                 letterSpacing: -1.4,
               ),
               decoration: InputDecoration(
                 isCollapsed: true,
                 border: InputBorder.none,
                 hintText: '',
-                hintStyle: context.coolText.mobiLabel(color: colors.tertiaryText),
+                hintStyle: context.coolText.mobiLabel(
+                  color: colors.tertiaryText,
+                ),
               ),
             ),
           ),
@@ -123,7 +131,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                   style: context.coolText.headline(
                     Theme.of(context).textTheme.headlineMedium,
                     color: colors.tertiaryText,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                     letterSpacing: -1.0,
                   ),
                 ),
@@ -131,17 +139,20 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                   child: TextField(
                     controller: _amountController,
                     keyboardType: TextInputType.number,
+                    inputFormatters: const [GroupedThousandsInputFormatter()],
                     style: context.coolText.headline(
                       Theme.of(context).textTheme.displaySmall,
                       color: colors.primaryText,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                       letterSpacing: -1.4,
                     ),
                     decoration: InputDecoration(
                       isCollapsed: true,
                       border: InputBorder.none,
                       hintText: '0',
-                      hintStyle: context.coolText.mobiLabel(color: colors.tertiaryText),
+                      hintStyle: context.coolText.mobiLabel(
+                        color: colors.tertiaryText,
+                      ),
                     ),
                   ),
                 ),
@@ -193,6 +204,24 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
         user?.country.trim() ??
         AppMarket.country.isoCode;
     return CoolCountryCatalog.byIsoCode(countryCode) ?? AppMarket.country;
+  }
+
+  Future<void> _ensureVerifiedAccess() async {
+    if (_didRequestVerification || !mounted) {
+      return;
+    }
+    _didRequestVerification = true;
+
+    final allowed = await requireVerifiedUser(context, ref);
+    if (!mounted || allowed) {
+      return;
+    }
+
+    if (context.canPop()) {
+      context.pop();
+      return;
+    }
+    context.go(AppRoutes.biopayHome);
   }
 
   void _showQrPreview(BuildContext context, CoolCountry country) {
@@ -250,7 +279,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                 style: context.coolText.headline(
                   Theme.of(context).textTheme.headlineSmall,
                   color: colors.primaryText,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               const SizedBox(height: CoolSpace.x4),
@@ -284,17 +313,17 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                 style: context.coolText.headline(
                   Theme.of(context).textTheme.titleLarge,
                   color: colors.primaryText,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               if (amount != null && amount > 0) ...[
                 const SizedBox(height: CoolSpace.x2),
                 Text(
-                  '${country.currencyCode} ${_formatAmount(amount)}',
+                  '${country.currencyCode} ${formatWholeMoneyAmount(amount)}',
                   style: context.coolText.headline(
                     Theme.of(context).textTheme.titleMedium,
                     color: colors.accent,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ],
@@ -305,9 +334,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                   onPressed: () => Navigator.of(context).pop(),
                   style: TextButton.styleFrom(
                     foregroundColor: colors.secondaryText,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: CoolSpace.x3,
-                    ),
+                    padding: const EdgeInsets.symmetric(vertical: CoolSpace.x3),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(CoolRadii.pill),
                     ),
@@ -317,7 +344,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                     style: context.coolText.mono(
                       Theme.of(context).textTheme.labelLarge,
                       color: colors.secondaryText,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                       letterSpacing: 1.5,
                     ),
                   ),
@@ -328,19 +355,6 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
         );
       },
     );
-  }
-
-  String _formatAmount(int amount) {
-    final digits = amount.toString();
-    final buffer = StringBuffer();
-    for (int i = 0; i < digits.length; i++) {
-      final reversedIndex = digits.length - i;
-      buffer.write(digits[i]);
-      if (reversedIndex > 1 && reversedIndex % 3 == 1) {
-        buffer.write(',');
-      }
-    }
-    return buffer.toString();
   }
 }
 

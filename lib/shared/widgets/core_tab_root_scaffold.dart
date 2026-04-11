@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/cool_layout.dart';
-import 'cool_glass_header_surface.dart';
+import 'cool_floating_header_sliver.dart';
 import 'cool_screen_background.dart';
 
 /// Standard shell for primary tab-root surfaces (Home, Groups, MoMo, etc).
@@ -94,15 +94,15 @@ class CoreTabRootScaffold extends StatelessWidget {
       showGlow: showGlow,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          toolbarHeight: 84,
-          flexibleSpace: const CoolGlassHeaderSurface(),
-          actions: actions,
+        body: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            CoolFloatingHeaderSliver(
+              automaticallyImplyLeading: false,
+              actions: actions,
+            ),
+          ],
+          body: body,
         ),
-        body: body,
       ),
     );
   }

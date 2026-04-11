@@ -6,6 +6,7 @@ import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/money_formatters.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -76,6 +77,28 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
     }
   }
 
+  Future<void> _contributeToGroup(Group group) async {
+    if (!await requireVerifiedUser(context, ref)) {
+      return;
+    }
+
+    if (!groupHasContributionRoute(group)) {
+      CoolToast.info(
+        context,
+        'This group has no payment route configured yet.',
+      );
+      return;
+    }
+
+    final launched = await launchGroupContribution(context, group: group);
+    if (!launched && mounted) {
+      CoolToast.error(
+        context,
+        'Could not launch MoMo USSD. Try dialing manually.',
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final groupAsync = ref.watch(groupDetailProvider(widget.groupId));
@@ -125,25 +148,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
                   AppRoutes.contributionCircleSettingsLocation(group.id ?? ''),
                 )
               : null,
-          onContribute: isMember
-              ? () {
-                  if (!groupHasContributionRoute(group)) {
-                    CoolToast.info(
-                      context,
-                      'This group has no payment route configured yet.',
-                    );
-                    return;
-                  }
-                  launchGroupContribution(context, group: group).then((ok) {
-                    if (!ok && context.mounted) {
-                      CoolToast.error(
-                        context,
-                        'Could not launch MoMo USSD. Try dialing manually.',
-                      );
-                    }
-                  });
-                }
-              : null,
+          onContribute: isMember ? () => _contributeToGroup(group) : null,
         );
       },
       loading: () => const CoreDetailScaffold(
@@ -199,7 +204,7 @@ class _GroupDetailBody extends StatelessWidget {
         group.name,
         style: text.displayCondensed(
           theme.textTheme.headlineSmall,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
         ),
       ),
       subtitle: Column(
@@ -245,19 +250,24 @@ class _GroupDetailBody extends StatelessWidget {
             borderRadius: CoolRadii.xl,
             child: Column(
               children: [
-                _StatRow(label: 'Balance', value: '${group.amount} $currency'),
+                _StatRow(
+                  label: 'Balance',
+                  value: '${formatWholeMoneyAmount(group.amount)} $currency',
+                ),
                 if (group.targetAmount > 0) ...[
                   SizedBox(height: space.x2),
                   _StatRow(
                     label: 'Target',
-                    value: '${group.targetAmount} $currency',
+                    value:
+                        '${formatWholeMoneyAmount(group.targetAmount)} $currency',
                   ),
                 ],
                 if ((group.monthlyContribution ?? 0) > 0) ...[
                   SizedBox(height: space.x2),
                   _StatRow(
                     label: 'Contribution',
-                    value: '${group.monthlyContribution} $currency',
+                    value:
+                        '${formatWholeMoneyAmount(group.monthlyContribution ?? 0)} $currency',
                   ),
                 ],
                 SizedBox(height: space.x2),
@@ -304,7 +314,7 @@ class _GroupDetailBody extends StatelessWidget {
               style: text.display(
                 theme.textTheme.titleLarge,
                 color: colors.primaryText,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w800,
               ),
             ),
             SizedBox(height: space.x3),
@@ -478,7 +488,7 @@ class _LedgerTile extends StatelessWidget {
                   style: text.display(
                     null,
                     color: colors.primaryText,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x1),
@@ -495,7 +505,7 @@ class _LedgerTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '${entry.amount} ${entry.currency}',
+                '${formatWholeMoneyAmount(entry.amount)} ${entry.currency}',
                 style: text.mono(null, color: colors.accentGold),
               ),
               if (canManageAllocations) ...[
@@ -543,7 +553,7 @@ class _MissingGroupState extends StatelessWidget {
         context.l10n.groupDetailTitle,
         style: context.coolText.displayCondensed(
           Theme.of(context).textTheme.headlineSmall,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
         ),
       ),
       child: Center(

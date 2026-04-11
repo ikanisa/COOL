@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../shared/widgets/cool_glass_header_surface.dart';
+import '../../../shared/widgets/cool_floating_header_sliver.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 
 class CoreAppScaffold extends StatelessWidget {
@@ -14,7 +14,7 @@ class CoreAppScaffold extends StatelessWidget {
     this.actions,
     this.showBackButton = true,
     this.showHomeButton = true,
-    this.fallbackLocation = AppRoutes.splash,
+    this.fallbackLocation = AppRoutes.home,
     this.padding = const EdgeInsets.fromLTRB(18, 18, 18, 96),
     this.scrollable = true,
     super.key,
@@ -44,7 +44,7 @@ class CoreAppScaffold extends StatelessWidget {
             while (context.canPop()) {
               context.pop();
             }
-            context.go(AppRoutes.splash);
+            context.go(AppRoutes.home);
           },
         ),
       );
@@ -52,43 +52,48 @@ class CoreAppScaffold extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: colors.appBackground,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        toolbarHeight: 84,
-        flexibleSpace: const CoolGlassHeaderSurface(),
-        leading: showBackButton
-            ? IconButton(
-                icon: Icon(Icons.arrow_back_rounded, color: chromeColor),
-                onPressed: () {
-                  if (context.canPop()) {
-                    context.pop();
-                  } else {
-                    context.go(fallbackLocation);
-                  }
-                },
-              )
-            : null,
-        title:
-            titleWidget ??
-            Text(
-              title,
-              style: context.coolText.displayCondensed(
-                const TextStyle(fontSize: 32),
-                fontWeight: FontWeight.w700,
-                color: chromeColor,
-                letterSpacing: 0.8,
-              ),
-            ),
-        actions: resolvedActions,
-      ),
       body: CoolScreenBackground(
         primaryColor: colors.accent,
         secondaryColor: colors.accentGold,
         child: SafeArea(
           top: false,
-          child: scrollable
-              ? SingleChildScrollView(padding: padding, child: child)
-              : child,
+          child: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [
+              CoolFloatingHeaderSliver(
+                automaticallyImplyLeading: false,
+                leading: showBackButton
+                    ? IconButton(
+                        icon: Icon(
+                          Icons.arrow_back_rounded,
+                          color: chromeColor,
+                        ),
+                        onPressed: () {
+                          if (context.canPop()) {
+                            context.pop();
+                          } else {
+                            context.go(fallbackLocation);
+                          }
+                        },
+                      )
+                    : null,
+                title:
+                    titleWidget ??
+                    Text(
+                      title,
+                      style: context.coolText.displayCondensed(
+                        const TextStyle(fontSize: 32),
+                        fontWeight: FontWeight.w800,
+                        color: chromeColor,
+                        letterSpacing: 0.8,
+                      ),
+                    ),
+                actions: resolvedActions,
+              ),
+            ],
+            body: scrollable
+                ? SingleChildScrollView(padding: padding, child: child)
+                : child,
+          ),
         ),
       ),
     );

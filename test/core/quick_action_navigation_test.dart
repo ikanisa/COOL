@@ -25,6 +25,25 @@ void main() {
     expect(router.canPop(), isFalse);
   });
 
+  testWidgets('groups quick action stays in shell navigation', (tester) async {
+    final router = _buildRouter(AppRoutes.contributionCircles);
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(
+      MaterialApp.router(
+        routerConfig: router,
+        debugShowCheckedModeBanner: false,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Open'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Groups'), findsOneWidget);
+    expect(router.canPop(), isFalse);
+  });
+
   testWidgets('standalone quick actions push so users can return', (
     tester,
   ) async {
@@ -61,6 +80,10 @@ GoRouter _buildRouter(String targetRoute) {
                 path: AppRoutes.home,
                 builder: (context, state) =>
                     _LauncherScreen(route: targetRoute),
+              ),
+              GoRoute(
+                path: AppRoutes.contributionCircles,
+                builder: (context, state) => const _MarkerScreen('Groups'),
               ),
             ],
           ),

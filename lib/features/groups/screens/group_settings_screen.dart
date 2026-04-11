@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/money_formatters.dart';
 import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../../shared/widgets/cool_toast.dart';
@@ -57,10 +58,10 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
     _nameController.text = group.name;
     _descriptionController.text = group.description ?? '';
     _targetAmountController.text = group.targetAmount > 0
-        ? group.targetAmount.toString()
+        ? formatWholeMoneyAmount(group.targetAmount)
         : '';
     _contributionAmountController.text = (group.monthlyContribution ?? 0) > 0
-        ? (group.monthlyContribution ?? 0).toString()
+        ? formatWholeMoneyAmount(group.monthlyContribution ?? 0)
         : '';
     _frequency = group.frequency?.trim().isNotEmpty == true
         ? group.frequency!.trim().toLowerCase()
@@ -168,7 +169,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
             group.name,
             style: context.coolText.displayCondensed(
               Theme.of(context).textTheme.headlineSmall,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
             ),
           ),
           actions: canManage
@@ -241,6 +242,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                       hint: 'e.g. 500,000',
                       controller: _targetAmountController,
                       keyboardType: TextInputType.number,
+                      inputFormatters: const [GroupedThousandsInputFormatter()],
                     ),
                     const SizedBox(height: CoolSpace.x4),
                     CoolTextField(
@@ -249,6 +251,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                       hint: 'e.g. 10,000',
                       controller: _contributionAmountController,
                       keyboardType: TextInputType.number,
+                      inputFormatters: const [GroupedThousandsInputFormatter()],
                     ),
                     const SizedBox(height: CoolSpace.x5),
                     const GroupSectionLabel(label: 'FREQUENCY'),
@@ -278,14 +281,6 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
   }
 
   int? _parseAmount(String raw) {
-    final digits = raw.replaceAll(RegExp(r'[^0-9]'), '');
-    if (digits.isEmpty) {
-      return null;
-    }
-    final value = int.tryParse(digits);
-    if (value == null || value < 0) {
-      return null;
-    }
-    return value;
+    return parseWholeMoneyAmount(raw, allowZero: true);
   }
 }

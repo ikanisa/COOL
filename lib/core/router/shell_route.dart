@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -30,12 +31,13 @@ class AppShell extends ConsumerStatefulWidget {
 class _AppShellState extends ConsumerState<AppShell>
     with SingleTickerProviderStateMixin {
   // Tactile Monolith nav surface: frosted violet chrome
-  static const _navSurfaceTop = Color(0xFF1A1640);   // Layer 1
+  static const _navSurfaceTop = Color(0xFF1A1640); // Layer 1
   static const _navSurfaceBottom = Color(0xFF110E2D); // surface_dim
 
   late final AnimationController _entryController;
   late final Animation<Offset> _slideAnimation;
   late final Animation<double> _fadeAnimation;
+  bool _navVisible = true;
 
   @override
   void initState() {
@@ -69,6 +71,7 @@ class _AppShellState extends ConsumerState<AppShell>
   int _currentIndex() => widget.navigationShell.currentIndex;
 
   void _onItemTapped(int index) {
+    _setNavVisible(true);
     if (index == 1) {
       HapticFeedback.mediumImpact();
     } else {
@@ -78,6 +81,53 @@ class _AppShellState extends ConsumerState<AppShell>
       index,
       initialLocation: index == widget.navigationShell.currentIndex,
     );
+  }
+
+  @override
+  void didUpdateWidget(covariant AppShell oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!widget.showNavigationChrome ||
+        widget.showNavigationChrome != oldWidget.showNavigationChrome ||
+        widget.navigationShell.currentIndex !=
+            oldWidget.navigationShell.currentIndex) {
+      _setNavVisible(true);
+    }
+  }
+
+  void _setNavVisible(bool visible) {
+    if (_navVisible == visible || !mounted) {
+      return;
+    }
+    setState(() => _navVisible = visible);
+  }
+
+  bool _handleScrollNotification(ScrollNotification notification) {
+    if (!widget.showNavigationChrome ||
+        axisDirectionToAxis(notification.metrics.axisDirection) !=
+            Axis.vertical) {
+      return false;
+    }
+
+    if (notification.metrics.pixels <=
+        notification.metrics.minScrollExtent + CoolSpace.x1) {
+      _setNavVisible(true);
+      return false;
+    }
+
+    if (notification is UserScrollNotification) {
+      switch (notification.direction) {
+        case ScrollDirection.forward:
+          _setNavVisible(true);
+          break;
+        case ScrollDirection.reverse:
+          _setNavVisible(false);
+          break;
+        case ScrollDirection.idle:
+          break;
+      }
+    }
+
+    return false;
   }
 
   @override
@@ -102,7 +152,12 @@ class _AppShellState extends ConsumerState<AppShell>
       extendBody: true,
       body: Stack(
         children: [
-          Positioned.fill(child: widget.navigationShell),
+          Positioned.fill(
+            child: NotificationListener<ScrollNotification>(
+              onNotification: _handleScrollNotification,
+              child: widget.navigationShell,
+            ),
+          ),
           if (widget.showNavigationChrome)
             Positioned(
               left: CoolSpace.x4,
@@ -112,36 +167,49 @@ class _AppShellState extends ConsumerState<AppShell>
                 position: _slideAnimation,
                 child: FadeTransition(
                   opacity: _fadeAnimation,
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 380),
-                      child: _GlassPill(
-                        height: pillHeight,
-                        colors: colors,
-                        children: [
-                          _NavItem(
-                            label: context.l10n.navHome,
-                            icon: Icons.home_rounded,
-                            isSelected: index == 0,
-                            onTap: () => _onItemTapped(0),
-                            colors: colors,
+                  child: IgnorePointer(
+                    ignoring: !_navVisible,
+                    child: AnimatedSlide(
+                      duration: CoolMotion.quick,
+                      curve: Curves.easeOutCubic,
+                      offset: _navVisible ? Offset.zero : const Offset(0, 1.25),
+                      child: AnimatedOpacity(
+                        duration: CoolMotion.quick,
+                        curve: Curves.easeOutCubic,
+                        opacity: _navVisible ? 1 : 0,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 380),
+                            child: _GlassPill(
+                              height: pillHeight,
+                              colors: colors,
+                              children: [
+                                _NavItem(
+                                  label: context.l10n.navHome,
+                                  icon: Icons.home_rounded,
+                                  isSelected: index == 0,
+                                  onTap: () => _onItemTapped(0),
+                                  colors: colors,
+                                ),
+                                _NavItem(
+                                  label: 'BioPay',
+                                  icon: Icons.center_focus_strong_rounded,
+                                  isSelected: index == 1,
+                                  onTap: () => _onItemTapped(1),
+                                  colors: colors,
+                                ),
+                                _NavItem(
+                                  label: 'Settings',
+                                  icon: Icons.settings_rounded,
+                                  isSelected: index == 2,
+                                  onTap: () => _onItemTapped(2),
+                                  colors: colors,
+                                ),
+                              ],
+                            ),
                           ),
-                          _NavItem(
-                            label: 'BioPay',
-                            icon: Icons.center_focus_strong_rounded,
-                            isSelected: index == 1,
-                            onTap: () => _onItemTapped(1),
-                            colors: colors,
-                          ),
-                          _NavItem(
-                            label: 'Settings',
-                            icon: Icons.settings_rounded,
-                            isSelected: index == 2,
-                            onTap: () => _onItemTapped(2),
-                            colors: colors,
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
@@ -303,12 +371,10 @@ class _NavItem extends StatelessWidget {
               AnimatedDefaultTextStyle(
                 duration: CoolMotion.quick,
                 style: context.coolText
-                    .mobiLabel(
-                      color: isSelected ? activeColor : inactiveColor,
-                    )
+                    .mobiLabel(color: isSelected ? activeColor : inactiveColor)
                     .copyWith(
                       fontSize: 14,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                       letterSpacing: 0.8,
                     ),
                 child: Text(
