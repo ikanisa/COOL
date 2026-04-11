@@ -109,7 +109,11 @@ export async function verifyAdminOtp(phone, code) {
   }
 
   if (!result.ok) {
-    throw new Error(result.data?.message || 'Failed to verify the admin sign-in code.');
+    const err = new Error(
+      result.data?.message || 'Failed to verify the admin sign-in code.',
+    );
+    err.code = result.data?.code || null;
+    throw err;
   }
 
   // Server sets HttpOnly cookie — no client-side token storage needed
@@ -199,8 +203,10 @@ export async function getAdminSessionState() {
 }
 
 export async function fetchAdminRouteData(route) {
+  const params = new URLSearchParams(window.location.search);
+  params.set('route', route);
   const result = await requestJson(
-    `/api/admin/data?route=${encodeURIComponent(route)}`,
+    `/api/admin/data?${params.toString()}`,
     {},
     { allowUnavailable: true },
   );
@@ -223,7 +229,7 @@ export async function fetchAdminRouteData(route) {
 
     if (refreshResult.ok) {
       const retryResult = await requestJson(
-        `/api/admin/data?route=${encodeURIComponent(route)}`,
+        `/api/admin/data?${params.toString()}`,
         {},
         { allowUnavailable: true },
       );

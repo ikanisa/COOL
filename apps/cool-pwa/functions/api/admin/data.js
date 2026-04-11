@@ -24,7 +24,7 @@ export async function onRequestGet(context) {
   }
 
   try {
-    const data = await buildRouteData(context, route, admin);
+    const data = await buildRouteData(context, route, admin, url);
     return json({
       success: true,
       live: true,
@@ -41,7 +41,7 @@ export async function onRequestGet(context) {
   }
 }
 
-async function buildRouteData(context, route, admin) {
+async function buildRouteData(context, route, admin, url) {
   switch (route) {
     case 'admin':
     case 'index':
@@ -49,9 +49,9 @@ async function buildRouteData(context, route, admin) {
     case 'platform':
       return await buildPlatformData(context, admin);
     case 'users':
-      return await buildUsersData(context, admin);
+      return await buildUsersData(context, admin, url);
     case 'app-config':
-      return await buildAppConfigData(context, admin);
+      return await buildAppConfigData(context, admin, url);
     case 'operations':
       return await buildOperationsData(context, admin);
     case 'roles':
@@ -59,7 +59,7 @@ async function buildRouteData(context, route, admin) {
     case 'analytics':
       return await buildAnalyticsData(context, admin);
     case 'audit-log':
-      return await buildAuditLogData(context, admin);
+      return await buildAuditLogData(context, admin, url);
     case 'groups':
       return await buildGroupsData(context, admin);
     case 'savings':
@@ -142,17 +142,52 @@ async function buildPlatformData(context, admin) {
   };
 }
 
-async function buildUsersData(context, admin) {
-  const [users, roleAssignments] = await Promise.all([
-    restList(
-      context,
-      admin.accessToken,
-      '/users?select=id,public_user_id,full_name,phone,country,language_code,momo_provider,is_admin,created_at,is_mock,mock_batch&order=is_mock.desc&order=created_at.desc',
-    ),
-    rpcList(context, admin.accessToken, 'list_admin_role_assignments', {
-      p_active_only: true,
-    }),
-  ]);
+async function buildUsersData(context, admin, url) {
+  const q = readTrimmedParam(url, 'q');
+  const page = readPositiveInt(url, 'page', 1, { max: 500 });
+  const limit = readPositiveInt(url, 'limit', 24, { min: 12, max: 50 });
+  const offset = (page - 1) * limit;
+
+  const userParams = new URLSearchParams();
+  userParams.set(
+    'select',
+    'id,public_user_id,full_name,phone,country,language_code,momo_provider,is_admin,created_at,is_mock,mock_batch',
+  );
+  userParams.append('order', 'is_mock.desc');
+  userParams.append('order', 'created_at.desc');
+  userParams.set('limit', String(limit));
+  userParams.set('offset', String(offset));
+
+  const sanitizedQuery = sanitizeSearchTerm(q);
+  if (sanitizedQuery) {
+    userParams.set(
+      'or',
+      `(full_name.ilike.*${sanitizedQuery}*,phone.ilike.*${sanitizedQuery}*,public_user_id.ilike.*${sanitizedQuery}*)`,
+    );
+  }
+
+  const [usersPage, roleAssignments, managedAccounts, recoveryQueueCount, legacyAdmins] =
+    await Promise.all([
+      restListPage(
+        context,
+        admin.accessToken,
+        `/users?${userParams.toString()}`,
+      ),
+      rpcList(context, admin.accessToken, 'list_admin_role_assignments', {
+        p_active_only: true,
+      }),
+      restCount(context, admin.accessToken, '/users?select=id'),
+      restCount(
+        context,
+        admin.accessToken,
+        '/users?select=id&or=(phone.is.null,full_name.is.null)',
+      ),
+      restList(
+        context,
+        admin.accessToken,
+        '/users?select=id&is_admin=eq.true&limit=500',
+      ),
+    ]);
 
   const assignmentsByUser = new Map();
   for (const assignment of roleAssignments) {
@@ -161,7 +196,7 @@ async function buildUsersData(context, admin) {
     assignmentsByUser.set(assignment.user_id, userAssignments);
   }
 
-  const normalizedUsers = users.map((user) => {
+  const normalizedUsers = usersPage.rows.map((user) => {
     const assignments = assignmentsByUser.get(user.id) || [];
     const platformAssignment = assignments.find((assignment) => assignment.role === 'admin');
     const bankAssignments = assignments.filter((assignment) => assignment.role === 'bank');
@@ -177,16 +212,17 @@ async function buildUsersData(context, admin) {
   });
 
   const adminAccounts = new Set(
-    normalizedUsers
-      .filter((user) => user.has_platform_access || user.bank_assignment_count > 0)
-      .map((user) => user.id),
+    [
+      ...roleAssignments.map((assignment) => assignment.user_id),
+      ...legacyAdmins.map((user) => user.id),
+    ].filter(Boolean),
   ).size;
 
   return {
     metrics: {
-      managedAccounts: normalizedUsers.length,
+      managedAccounts,
       adminAccounts,
-      recoveryQueue: normalizedUsers.filter((user) => !user.phone || !user.full_name).length,
+      recoveryQueue: recoveryQueueCount,
     },
     activity: normalizedUsers.slice(0, 8).map((user) => ({
       title: user.display_name,
@@ -210,33 +246,83 @@ async function buildUsersData(context, admin) {
       meta: shortDate(user.created_at),
     })),
     users: normalizedUsers,
+    pagination: buildPagination({
+      page,
+      limit,
+      total: usersPage.total,
+    }),
+    filters: { q: q || '' },
   };
 }
 
-async function buildAppConfigData(context, admin) {
-  const [configs, routes] = await Promise.all([
-    restList(
-      context,
-      admin.accessToken,
-      '/app_config?select=key,value,description,country,created_at,updated_at&order=key.asc',
-    ),
-    restList(
-      context,
-      admin.accessToken,
-      '/partner_payment_routes?select=id,status,updated_at,reconciliation_label&order=updated_at.desc',
-    ),
-  ]);
+async function buildAppConfigData(context, admin, url) {
+  const q = readTrimmedParam(url, 'q');
+  const scope = readTrimmedParam(url, 'scope');
+  const page = readPositiveInt(url, 'page', 1, { max: 500 });
+  const limit = readPositiveInt(url, 'limit', 24, { min: 12, max: 50 });
+  const offset = (page - 1) * limit;
 
-  const updatedRecently = configs.filter((entry) => {
-    const updatedAt = entry.updated_at ? Date.parse(entry.updated_at) : Number.NaN;
-    return Number.isFinite(updatedAt) && updatedAt >= Date.now() - 24 * 60 * 60 * 1000;
-  }).length;
+  const params = new URLSearchParams();
+  params.set('select', 'key,value,description,country,created_at,updated_at');
+  params.append('order', 'updated_at.desc');
+  params.append('order', 'key.asc');
+  params.set('limit', String(limit));
+  params.set('offset', String(offset));
+
+  const sanitizedQuery = sanitizeSearchTerm(q);
+  if (sanitizedQuery) {
+    params.set(
+      'or',
+      `(key.ilike.*${sanitizedQuery}*,description.ilike.*${sanitizedQuery}*,value.ilike.*${sanitizedQuery}*)`,
+    );
+  }
+  if (scope && scope.toLowerCase() !== 'platform') {
+    params.set('country', `eq.${scope.toUpperCase()}`);
+  } else if (scope.toLowerCase() === 'platform') {
+    params.set('country', 'is.null');
+  }
+
+  const nowIso = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const [configsPage, routesCount, rolloutKeys, pendingChanges, configCatalog] =
+    await Promise.all([
+      restListPage(
+        context,
+        admin.accessToken,
+        `/app_config?${params.toString()}`,
+      ),
+      restCount(
+        context,
+        admin.accessToken,
+        '/partner_payment_routes?select=id',
+      ),
+      restCount(context, admin.accessToken, '/app_config?select=key'),
+      restCount(
+        context,
+        admin.accessToken,
+        `/app_config?select=key&updated_at=gte.${encodeURIComponent(nowIso)}`,
+      ),
+      restList(
+        context,
+        admin.accessToken,
+        '/app_config?select=key,country&order=key.asc&limit=200',
+      ),
+    ]);
+
+  const configs = configsPage.rows;
+  const catalogKeys = Array.from(new Set(configCatalog.map((entry) => entry.key).filter(Boolean)));
+  const catalogScopes = Array.from(
+    new Set(
+      configCatalog
+        .map((entry) => (entry.country ? String(entry.country).toUpperCase() : 'platform'))
+        .filter(Boolean),
+    ),
+  ).sort();
 
   return {
     metrics: {
-      rolloutKeys: configs.length,
-      partnerRoutes: routes.length,
-      pendingChanges: updatedRecently,
+      rolloutKeys,
+      partnerRoutes: routesCount,
+      pendingChanges,
     },
     activity: configs.slice(0, 8).map((entry) => ({
       title: entry.key || 'Config entry',
@@ -246,6 +332,19 @@ async function buildAppConfigData(context, admin) {
       meta: shortDate(entry.updated_at || entry.created_at),
     })),
     configEntries: configs,
+    configCatalog: {
+      keys: catalogKeys,
+      scopes: catalogScopes,
+    },
+    pagination: buildPagination({
+      page,
+      limit,
+      total: configsPage.total,
+    }),
+    filters: {
+      q: q || '',
+      scope: scope || '',
+    },
   };
 }
 
@@ -278,9 +377,21 @@ async function buildOperationsData(context, admin) {
 }
 
 async function buildRolesData(context, admin) {
-  const assignments = await rpcList(context, admin.accessToken, 'list_admin_role_assignments', {
-    p_active_only: true,
-  });
+  const [assignments, candidateUsers, bankPartners] = await Promise.all([
+    rpcList(context, admin.accessToken, 'list_admin_role_assignments', {
+      p_active_only: true,
+    }),
+    restList(
+      context,
+      admin.accessToken,
+      '/users?select=id,public_user_id,full_name,phone,is_admin,created_at&order=is_admin.desc&order=created_at.desc&limit=160',
+    ),
+    restList(
+      context,
+      admin.accessToken,
+      '/partners?select=id,name,is_active&is_active=eq.true&order=name.asc&limit=160',
+    ),
+  ]);
 
   const platformAdmins = new Set(
     assignments.filter((assignment) => assignment.role === 'admin').map((assignment) => assignment.user_id),
@@ -305,6 +416,20 @@ async function buildRolesData(context, admin) {
       meta: shortDate(assignment.granted_at),
     })),
     roleAssignments: assignments,
+    assignableUsers: candidateUsers.map((user) => ({
+      id: user.id,
+      display_name: user.full_name || user.phone || user.public_user_id || user.id,
+      phone: user.phone || '',
+      public_user_id: user.public_user_id || '',
+      is_legacy_admin: user.is_admin === true,
+      label: [user.full_name || user.phone || user.public_user_id || user.id, user.phone, user.id]
+        .filter(Boolean)
+        .join(' · '),
+    })),
+    bankPartners: bankPartners.map((partner) => ({
+      id: partner.id,
+      name: partner.name || partner.id,
+    })),
   };
 }
 
@@ -351,22 +476,66 @@ async function buildAnalyticsData(context, admin) {
   };
 }
 
-async function buildAuditLogData(context, admin) {
-  const logEntries = await rpcList(context, admin.accessToken, 'get_admin_audit_log', {
-    p_limit: 30,
-    p_offset: 0,
+async function buildAuditLogData(context, admin, url) {
+  const q = readTrimmedParam(url, 'q');
+  const action = readTrimmedParam(url, 'action');
+  const table = readTrimmedParam(url, 'table');
+  const page = readPositiveInt(url, 'page', 1, { max: 500 });
+  const limit = readPositiveInt(url, 'limit', 20, { min: 10, max: 50 });
+  const offset = (page - 1) * limit;
+
+  const [logRows, actions24h, updates, deletes] = await Promise.all([
+    rpcList(context, admin.accessToken, 'get_admin_audit_log', {
+      p_limit: limit,
+      p_offset: offset,
+      ...(action ? { p_action: action } : {}),
+      ...(q ? { p_query: q } : {}),
+      ...(table ? { p_target_table: table } : {}),
+    }),
+    restCount(
+      context,
+      admin.accessToken,
+      `/admin_audit_log?select=id&created_at=gte.${encodeURIComponent(
+        new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+      )}`,
+    ),
+    restCount(
+      context,
+      admin.accessToken,
+      '/admin_audit_log?select=id&action=eq.update',
+    ),
+    restCount(
+      context,
+      admin.accessToken,
+      '/admin_audit_log?select=id&action=eq.delete',
+    ),
+  ]);
+
+  const totalCount = Number(logRows[0]?.total_count || 0);
+  const logEntries = logRows.map((entry) => {
+    const clone = { ...entry };
+    delete clone.total_count;
+    return clone;
   });
 
-  const actions24h = logEntries.filter((entry) => {
-    const createdAt = entry.created_at ? Date.parse(entry.created_at) : Number.NaN;
-    return Number.isFinite(createdAt) && createdAt >= Date.now() - 24 * 60 * 60 * 1000;
-  }).length;
+  const targetTables = Array.from(
+    new Set(
+      [
+        'app_config',
+        'admin_role_assignments',
+        'partners',
+        'partner_services',
+        'quick_actions',
+        ...logEntries.map((entry) => entry.target_table).filter(Boolean),
+      ],
+    ),
+  ).sort();
 
   return {
     metrics: {
       actions24h,
-      updates: logEntries.filter((entry) => entry.action === 'update').length,
-      deletes: logEntries.filter((entry) => entry.action === 'delete').length,
+      updates,
+      deletes,
     },
     activity: logEntries.slice(0, 12).map((entry) => ({
       title: entry.actor_name || entry.actor_phone || entry.actor_id || 'Admin action',
@@ -378,6 +547,35 @@ async function buildAuditLogData(context, admin) {
         'Tracked admin mutation.',
       meta: shortDate(entry.created_at),
     })),
+    queue: [
+      {
+        title: totalCount ? `Showing ${Math.min(limit, logEntries.length)} of ${totalCount}` : 'No matching audit entries',
+        status: action || table ? 'Filtered' : 'All actions',
+        tone: action || table ? 'syncing' : 'online',
+        description:
+          q || action || table
+            ? `Filters: ${[q && `query "${q}"`, action && `action ${action}`, table && `table ${table}`]
+                .filter(Boolean)
+                .join(' · ')}`
+            : 'Recent admin evidence across config, roles, and platform changes.',
+        meta: `Page ${page}`,
+      },
+    ],
+    auditEntries: logEntries,
+    pagination: buildPagination({
+      page,
+      limit,
+      total: totalCount,
+    }),
+    filters: {
+      q: q || '',
+      action: action || '',
+      table: table || '',
+    },
+    auditCatalog: {
+      actions: ['create', 'update', 'delete', 'login', 'admin_action'],
+      tables: targetTables,
+    },
   };
 }
 
@@ -489,8 +687,77 @@ async function restList(context, accessToken, path) {
   return toArray(result.data);
 }
 
+async function restListPage(context, accessToken, path) {
+  const result = await supabaseFetch(context, `/rest/v1${path}`, {
+    method: 'GET',
+    accessToken,
+    includeJsonContentType: false,
+    extraHeaders: { Prefer: 'count=exact' },
+  });
+
+  if (!result.response.ok) {
+    throw new Error(resolveUpstreamMessage(result, `Failed to load ${path}.`));
+  }
+
+  return {
+    rows: toArray(result.data),
+    total: parseContentRangeTotal(result.response.headers.get('content-range')),
+  };
+}
+
+async function restCount(context, accessToken, path) {
+  const page = await restListPage(
+    context,
+    accessToken,
+    `${path}${path.includes('?') ? '&' : '?'}limit=1&offset=0`,
+  );
+  return page.total;
+}
+
 function resolveUpstreamMessage(result, fallback) {
   const details =
     result?.data && typeof result.data === 'object' ? result.data : {};
   return details.message || details.error || details.error_description || fallback;
+}
+
+function parseContentRangeTotal(contentRange) {
+  const match = /\/(\d+|\*)$/.exec(contentRange || '');
+  if (!match || match[1] === '*') {
+    return 0;
+  }
+  return Number(match[1]) || 0;
+}
+
+function readTrimmedParam(url, key) {
+  return url?.searchParams?.get(key)?.trim() || '';
+}
+
+function readPositiveInt(url, key, fallback, { min = 1, max = 100 } = {}) {
+  const raw = Number.parseInt(url?.searchParams?.get(key) || '', 10);
+  if (!Number.isFinite(raw)) {
+    return fallback;
+  }
+  return Math.min(max, Math.max(min, raw));
+}
+
+function buildPagination({ page, limit, total }) {
+  const resolvedTotal = Math.max(0, Number(total) || 0);
+  const totalPages = Math.max(1, Math.ceil(resolvedTotal / limit) || 1);
+  return {
+    page,
+    limit,
+    total: resolvedTotal,
+    totalPages,
+    hasPreviousPage: page > 1,
+    hasNextPage: page < totalPages,
+  };
+}
+
+function sanitizeSearchTerm(value) {
+  return String(value || '')
+    .replaceAll('*', '')
+    .replaceAll('(', ' ')
+    .replaceAll(')', ' ')
+    .replaceAll(',', ' ')
+    .trim();
 }

@@ -6,6 +6,7 @@ import {
   recordAdminBrowserEvent,
   revokeAdminSessionsForUser,
   supabaseFetch,
+  supabaseServiceFetch,
 } from '../../_shared/supabase.js';
 
 const SUPPORTED_ASSIGNABLE_ROLES = new Set(['admin', 'bank', 'rayon_sport']);
@@ -163,19 +164,94 @@ async function toggleUserPlatformAccess(context, accessToken, body) {
   }
 
   if (!assignmentId) {
-    // TODO(legacy-admin-revocation): Legacy users.is_admin rows predate the
-    // role_assignments table. To revoke these, a backend migration must:
-    //   1. Create a matching row in admin_role_assignments for each legacy admin.
-    //   2. Set users.is_admin = false.
-    //   3. After migration, this code path becomes unreachable.
-    // Tracked as a prerequisite for full browser-based access governance.
-    return error(
-      'This admin account does not have a revocable role assignment. Legacy users.is_admin records still require a backend migration path.',
+    if (!userId) {
+      return error('User ID is required to revoke legacy platform access.', {
+        status: 400,
+        code: 'USER_ID_REQUIRED',
+      });
+    }
+
+    const currentUser = await supabaseServiceFetch(
+      context,
+      `/rest/v1/users?select=id,full_name,phone,is_admin&id=eq.${encodeURIComponent(userId)}&limit=1`,
       {
-        status: 409,
-        code: 'LEGACY_ADMIN_NOT_REVOCABLE',
+        method: 'GET',
+        includeJsonContentType: false,
       },
     );
+
+    if (!currentUser.response.ok) {
+      return mapUpstreamError(currentUser, 'Could not inspect the target admin account.');
+    }
+
+    const beforeState = Array.isArray(currentUser.data) ? currentUser.data[0] : null;
+    if (!beforeState) {
+      return error('Target user not found.', {
+        status: 404,
+        code: 'USER_NOT_FOUND',
+      });
+    }
+
+    if (beforeState.is_admin !== true) {
+      return error('No active platform access exists for this user.', {
+        status: 409,
+        code: 'PLATFORM_ACCESS_NOT_FOUND',
+      });
+    }
+
+    const legacyRevoke = await supabaseServiceFetch(
+      context,
+      `/rest/v1/users?id=eq.${encodeURIComponent(userId)}`,
+      {
+        method: 'PATCH',
+        body: { is_admin: false },
+        extraHeaders: { Prefer: 'return=representation' },
+      },
+    );
+
+    if (!legacyRevoke.response.ok) {
+      return mapUpstreamError(legacyRevoke, 'Could not revoke legacy platform access.');
+    }
+
+    const afterState =
+      Array.isArray(legacyRevoke.data) && legacyRevoke.data.length > 0
+        ? legacyRevoke.data[0]
+        : { ...beforeState, is_admin: false };
+
+    await supabaseFetch(context, '/rest/v1/rpc/record_admin_action', {
+      method: 'POST',
+      accessToken,
+      body: {
+        p_action: 'update',
+        p_target_table: 'users',
+        p_target_id: userId,
+        p_old_data: beforeState,
+        p_new_data: afterState,
+        p_notes:
+          body?.notes?.toString().trim() ||
+          'Revoked legacy platform admin flag from COOL Admin PWA.',
+      },
+    }).catch(() => {});
+
+    await revokeAdminSessionsForUser(context, userId, 'legacy_admin_flag_revoked');
+    await recordAdminBrowserEvent(context, {
+      eventName: 'admin_mutation_revoke_legacy_platform_access',
+      userId,
+      path: new URL(context.request.url).pathname,
+      detail: {
+        used_legacy_flag_path: true,
+      },
+    });
+
+    return json({
+      success: true,
+      action: 'toggle_user_platform_access',
+      result: {
+        status: 'revoked',
+        user_id: userId,
+        legacy_flag_cleared: true,
+      },
+    });
   }
 
   return await revokeRole(context, accessToken, {

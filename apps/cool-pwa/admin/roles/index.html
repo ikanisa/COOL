@@ -48,6 +48,7 @@
           <article class="detail-card card"><div class="list-item-header"><strong>Assignment signals</strong><span class="status-pill online">Governed</span></div><ul class="list" id="activity-feed"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul></article>
           <article class="detail-card card">
             <div class="list-item-header"><strong>Live role inventory</strong><span class="status-pill syncing">Supabase</span></div>
+            <p class="section-caption" data-role-results-summary></p>
             <ul class="list" id="admin-role-list"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul>
           </article>
         </section>
@@ -55,9 +56,10 @@
           <article class="surface-panel card">
             <div class="list-item-header"><strong>Assign role</strong><span class="status-pill online">Live write</span></div>
             <form id="role-assignment-form" class="form-grid">
-              <div class="field"><label for="role-user">User ID</label><input id="role-user" name="user_id" type="text" autocomplete="off" required></div>
-              <div class="field"><label for="role-target">Role</label><input id="role-target" name="role" type="text" autocomplete="off" placeholder="admin or bank" required></div>
-              <div class="field full"><label for="role-scope">Bank partner ID or rationale</label><textarea id="role-scope" name="scope_or_reason" required></textarea><small>Use a partner UUID for bank roles. For platform roles, write the change rationale.</small></div>
+              <div class="field"><label for="role-user-picker">User</label><input id="role-user-picker" name="user_picker" type="text" autocomplete="off" list="role-user-catalog" placeholder="Search from loaded admins/users" required><datalist id="role-user-catalog"></datalist></div>
+              <div class="field"><label for="role-target">Role</label><select id="role-target" name="role" required><option value="admin">Platform admin</option><option value="bank">Bank admin</option></select></div>
+              <div class="field full"><label for="role-bank-scope">Bank partner scope</label><select id="role-bank-scope" name="bank_id"><option value="">Select bank partner</option></select><small>Only required for bank-scoped access.</small></div>
+              <div class="field full"><label for="role-reason">Change reason</label><textarea id="role-reason" name="change_reason" required></textarea><small>Required. The reason is written to the audit trail and shown in review before submission.</small></div>
               <div class="button-row"><button class="button" type="submit">Assign role</button></div>
             </form>
           </article>

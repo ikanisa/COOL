@@ -36,6 +36,7 @@ import {
 } from './admin_api.js';
 import {
   clearRouteRestriction,
+  renderAuditLogPanel,
   renderAppConfigPanel,
   renderAuthGate,
   renderRolesPanel,
@@ -64,6 +65,7 @@ const MVP_LIVE_ROUTES = new Set([
   'users',
   'app-config',
   'roles',
+  'audit-log',
 ]);
 
 const ROUTE_DATA = {
@@ -222,6 +224,10 @@ async function initializeAdminExperience(route) {
   }
 
   clearRouteRestriction();
+  document.querySelector('[data-maintenance-banner]')?.remove();
+  if (isLiveRoute) {
+    document.querySelector('[data-read-only-banner]')?.remove();
+  }
   applyPageData(liveData);
   state.routeData = liveData;
 
@@ -237,8 +243,10 @@ function renderMaintenanceState(title, message) {
   if (!main) {
     return;
   }
+  main.querySelector('[data-maintenance-banner]')?.remove();
   const banner = document.createElement('section');
   banner.className = 'section-header';
+  banner.setAttribute('data-maintenance-banner', '');
   banner.innerHTML = `
     <div class="metric-card card" style="border-left:4px solid var(--accent-error,#ef4444)">
       <span class="metric-label">${title}</span>
@@ -255,8 +263,10 @@ function renderReadOnlyBanner() {
   if (!main) {
     return;
   }
+  main.querySelector('[data-read-only-banner]')?.remove();
   const banner = document.createElement('div');
   banner.className = 'metric-card card';
+  banner.setAttribute('data-read-only-banner', '');
   banner.style.cssText = 'border-left:4px solid var(--accent-warning,#f59e0b);margin-bottom:var(--space-4,16px)';
   banner.innerHTML = `
     <span class="metric-label">Read-only preview</span>
@@ -284,6 +294,7 @@ async function handleAdminSendCode(phone) {
     phone,
     isLoading: true,
     error: null,
+    errorCode: null,
   };
   renderAdminShell();
 
@@ -333,6 +344,7 @@ async function handleAdminVerifyCode(code) {
       phone: state.authFlow.phone,
       isLoading: false,
       error: null,
+      errorCode: null,
     };
     await initializeAdminExperience(document.body.dataset.route ?? 'index');
     showToast('COOL Admin is live with your authenticated session.');
@@ -377,35 +389,53 @@ function bindRouteEnhancements(route, data, { interactive } = { interactive: fal
     case 'users':
       renderUsersPanel({
         data,
+        onFilterChange: (filters) => updateRouteQueryAndReload(route, filters),
+        onPageChange: (page) => updateRouteQueryAndReload(route, { page }),
         onTogglePlatformAccess: interactive
           ? async (user) => {
-          await mutateAdmin('toggle_user_platform_access', {
-            userId: user.id,
-            enabled: !user.has_platform_access,
-            assignmentId: user.platform_assignment_id,
-            notes: user.has_platform_access
-              ? 'Revoked from COOL Admin PWA.'
-              : 'Granted from COOL Admin PWA.',
-          });
-          await initializeAdminExperience(route);
-          showToast(
-            user.has_platform_access
-              ? 'Platform access revoked.'
-              : 'Platform access granted.',
-          );
-        }
+              try {
+                await mutateAdmin('toggle_user_platform_access', {
+                  userId: user.id,
+                  enabled: !user.has_platform_access,
+                  assignmentId: user.platform_assignment_id,
+                  notes: user.has_platform_access
+                    ? 'Revoked from COOL Admin PWA.'
+                    : 'Granted from COOL Admin PWA.',
+                });
+                await initializeAdminExperience(route);
+                showToast(
+                  user.has_platform_access
+                    ? 'Platform access revoked.'
+                    : 'Platform access granted.',
+                );
+              } catch (error) {
+                await handleAdminMutationError('toggle_user_platform_access', error, {
+                  route,
+                  userId: user.id,
+                });
+              }
+            }
           : null,
       });
       break;
     case 'app-config':
       renderAppConfigPanel({
         data,
+        onFilterChange: (filters) => updateRouteQueryAndReload(route, filters),
+        onPageChange: (page) => updateRouteQueryAndReload(route, { page }),
         onSaveConfig: interactive
           ? async (payload) => {
-          await mutateAdmin('upsert_app_config', payload);
-          await initializeAdminExperience(route);
-          showToast(`Saved config key ${payload.key}.`);
-        }
+              try {
+                await mutateAdmin('upsert_app_config', payload);
+                await initializeAdminExperience(route);
+                showToast(`Saved config key ${payload.key}.`);
+              } catch (error) {
+                await handleAdminMutationError('upsert_app_config', error, {
+                  route,
+                  key: payload.key,
+                });
+              }
+            }
           : null,
       });
       break;
@@ -414,26 +444,80 @@ function bindRouteEnhancements(route, data, { interactive } = { interactive: fal
         data,
         onAssignRole: interactive
           ? async (payload) => {
-          await mutateAdmin('assign_role', payload);
-          await initializeAdminExperience(route);
-          showToast(`Assigned ${payload.role} access.`);
-        }
+              try {
+                await mutateAdmin('assign_role', payload);
+                await initializeAdminExperience(route);
+                showToast(`Assigned ${payload.role} access.`);
+              } catch (error) {
+                await handleAdminMutationError('assign_role', error, {
+                  route,
+                  role: payload.role,
+                  targetUserId: payload.targetUserId,
+                });
+              }
+            }
           : null,
         onRevokeRole: interactive
           ? async ({ assignmentId }) => {
-          await mutateAdmin('revoke_role', {
-            assignmentId,
-            notes: 'Revoked from COOL Admin PWA.',
-          });
-          await initializeAdminExperience(route);
-          showToast('Role assignment revoked.');
-        }
+              try {
+                await mutateAdmin('revoke_role', {
+                  assignmentId,
+                  notes: 'Revoked from COOL Admin PWA.',
+                });
+                await initializeAdminExperience(route);
+                showToast('Role assignment revoked.');
+              } catch (error) {
+                await handleAdminMutationError('revoke_role', error, {
+                  route,
+                  assignmentId,
+                });
+              }
+            }
           : null,
+      });
+      break;
+    case 'audit-log':
+      renderAuditLogPanel({
+        data,
+        onFilterChange: (filters) => updateRouteQueryAndReload(route, filters),
+        onPageChange: (page) => updateRouteQueryAndReload(route, { page }),
       });
       break;
     default:
       break;
   }
+}
+
+async function updateRouteQueryAndReload(route, updates = {}) {
+  const params = new URLSearchParams(window.location.search);
+  Object.entries(updates).forEach(([key, value]) => {
+    const normalized = typeof value === 'string' ? value.trim() : value;
+    if (
+      normalized === '' ||
+      normalized === null ||
+      normalized === undefined ||
+      normalized === false
+    ) {
+      params.delete(key);
+      return;
+    }
+    params.set(key, String(normalized));
+  });
+
+  const next = `${window.location.pathname}${params.toString() ? `?${params}` : ''}`;
+  window.history.replaceState({}, '', next);
+  await initializeAdminExperience(route);
+}
+
+async function handleAdminMutationError(action, error, detail = {}) {
+  const message = String(error?.message || error || 'Admin action failed.');
+  showToast(message);
+  await trackEvent('admin_mutation_error', {
+    action,
+    ...detail,
+    message,
+    code: error?.code || null,
+  });
 }
 
 function refreshInstallShell() {

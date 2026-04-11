@@ -48,17 +48,36 @@
           <article class="detail-card card"><div class="list-item-header"><strong>Configuration signals</strong><span class="status-pill online">Governed</span></div><ul class="list" id="activity-feed"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul></article>
           <article class="detail-card card">
             <div class="list-item-header"><strong>Live config inventory</strong><span class="status-pill syncing">Supabase</span></div>
+            <form id="config-filter-form" class="form-grid compact-form">
+              <div class="field">
+                <label for="config-filter">Search config</label>
+                <input id="config-filter" data-config-filter type="search" autocomplete="off" placeholder="Search by key, description, or value">
+              </div>
+              <div class="field">
+                <label for="config-filter-scope">Scope filter</label>
+                <select id="config-filter-scope" data-config-filter-scope>
+                  <option value="">All</option>
+                </select>
+              </div>
+              <div class="button-row">
+                <button class="secondary-button" type="submit">Apply filter</button>
+                <button class="ghost-button" type="button" data-config-filter-reset>Clear</button>
+              </div>
+            </form>
+            <p class="section-caption" data-config-results-summary></p>
             <ul class="list" id="admin-config-list"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul>
+            <div data-config-pagination></div>
           </article>
         </section>
         <section class="detail-grid">
           <article class="surface-panel card">
             <div class="list-item-header"><strong>Save config entry</strong><span class="status-pill online">Live write</span></div>
             <form id="config-change-form" class="form-grid">
-              <div class="field"><label for="config-key">Config key</label><input id="config-key" name="config_key" type="text" autocomplete="off" required></div>
-              <div class="field"><label for="config-scope">Country scope</label><input id="config-scope" name="scope" type="text" autocomplete="off" placeholder="platform or RW"></div>
+              <div class="field"><label for="config-key">Config key</label><input id="config-key" name="config_key" type="text" autocomplete="off" list="config-key-catalog" required><datalist id="config-key-catalog"></datalist></div>
+              <div class="field"><label for="config-scope">Scope</label><select id="config-scope" name="scope"><option value="platform">Platform</option></select></div>
               <div class="field full"><label for="config-value">Value</label><textarea id="config-value" name="requested_value" required></textarea></div>
               <div class="field full"><label for="config-description">Description</label><input id="config-description" name="description" type="text" autocomplete="off" placeholder="Explain what this flag controls"></div>
+              <div class="field full"><label for="config-change-reason">Change reason</label><textarea id="config-change-reason" name="change_reason" required></textarea><small>Required. This reason is written to the admin audit trail.</small></div>
               <div class="button-row"><button class="button" type="submit">Save config entry</button></div>
             </form>
           </article>

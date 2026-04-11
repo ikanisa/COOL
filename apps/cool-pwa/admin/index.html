@@ -67,8 +67,8 @@
 
         <section class="stat-grid">
           <article class="metric-card card"><span class="metric-label">Visits</span><div class="metric-value mono" data-setting="visits">0</div><div class="metric-meta">Operational usage arms install prompts after value is proven.</div></article>
-          <article class="metric-card card"><span class="metric-label">Queued actions</span><div class="metric-value mono" data-setting="queued">0</div><div class="metric-meta">Admin changes stay replay-safe when connectivity drops.</div></article>
-          <article class="metric-card card"><span class="metric-label">Unread alerts</span><div class="metric-value mono" data-setting="notifications">0</div><div class="metric-meta">Release and incident alerts stay attached to the admin shell.</div></article>
+          <article class="metric-card card"><span class="metric-label">Queued actions</span><div class="metric-value mono" data-setting="queued">0</div><div class="metric-meta">Only explicit offline-safe queue items are replayed. Live admin mutations still require connectivity.</div></article>
+          <article class="metric-card card"><span class="metric-label">Unread alerts</span><div class="metric-value mono" data-setting="notifications">0</div><div class="metric-meta">In-app alerts and browser previews stay attached to the admin shell.</div></article>
         </section>
 
         <section class="section-header">
@@ -94,7 +94,7 @@
             <ul class="list" id="activity-feed"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul>
           </article>
           <article class="detail-card card">
-            <div class="list-item-header"><strong>Queued governance</strong><span class="status-pill syncing">Replay-safe</span></div>
+            <div class="list-item-header"><strong>Queued governance</strong><span class="status-pill syncing">Selective</span></div>
             <ul class="list" id="queue-feed"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul>
           </article>
         </section>

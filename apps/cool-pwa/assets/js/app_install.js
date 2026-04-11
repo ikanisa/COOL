@@ -19,7 +19,7 @@ export function initializeInstallPromptCapture({
     await dbSet('settings', settings.installDismissedAt, null);
     window.localStorage.removeItem(settings.installDismissedAt);
     await trackEvent('install_success');
-    showToast('COOL Admin is installed and ready offline.');
+    showToast('COOL Admin is installed with cached shell support.');
     updateShellState();
   });
 }
@@ -70,7 +70,7 @@ export function initializeBannerActions({
     button.addEventListener('click', () => {
       state.registration?.active?.postMessage({ type: 'DOWNLOAD_OFFLINE' });
       void trackEvent('offline_download_requested');
-      showToast('Offline pack requested.');
+      showToast('Cached shell requested. Live admin data still needs connectivity.');
     });
   });
 }

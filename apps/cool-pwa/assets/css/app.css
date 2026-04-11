@@ -289,6 +289,7 @@ button,
 .chip-button,
 .button,
 .secondary-button,
+.danger-button,
 .ghost-button {
   display: inline-flex;
   align-items: center;
@@ -307,6 +308,7 @@ button,
 
 .button,
 .secondary-button,
+.danger-button,
 .ghost-button {
   padding: 0 var(--space-5);
   font-weight: 800;
@@ -324,6 +326,12 @@ button,
   border: 1px solid var(--border);
 }
 
+.danger-button {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--danger) 72%, white), var(--danger));
+  color: #fff;
+  box-shadow: 0 20px 80px -24px color-mix(in srgb, var(--danger) 42%, var(--shadow));
+}
+
 .ghost-button,
 .chip-button {
   background: color-mix(in srgb, var(--card-surface-strong) 54%, transparent);
@@ -333,6 +341,7 @@ button,
 
 .button:hover,
 .secondary-button:hover,
+.danger-button:hover,
 .ghost-button:hover,
 .chip-button:hover,
 .nav-link:hover {
@@ -475,6 +484,11 @@ button,
   font-family: "Space Grotesk", sans-serif;
   font-size: clamp(1.65rem, 3vw, 2.4rem);
   letter-spacing: -0.04em;
+}
+
+.compact-title {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
 }
 
 .section-caption {
@@ -683,6 +697,43 @@ button,
 
 .field small {
   color: var(--tertiary-text);
+}
+
+.compact-form {
+  align-items: end;
+}
+
+.review-block {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--card-surface) 82%, transparent);
+}
+
+.review-code {
+  margin: 0;
+  overflow: auto;
+  white-space: pre-wrap;
+  font-family: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.85rem;
+  color: var(--secondary-text);
+}
+
+.compact-grid {
+  gap: var(--space-3);
+}
+
+.compact-grid > * {
+  grid-column: span 6;
+}
+
+.pagination-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
 }
 
 .stack {
@@ -923,6 +974,7 @@ dialog::backdrop {
   .metric-card,
   .feature-grid > *,
   .detail-grid > *,
+  .compact-grid > *,
   .form-grid > * {
     grid-column: 1 / -1;
   }

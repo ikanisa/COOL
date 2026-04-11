@@ -1,6 +1,6 @@
 'use strict';
 
-const VERSION = 'cool-pwa-v5';
+const VERSION = 'cool-pwa-v6';
 // Cache-busting: bump VERSION whenever the precache manifest changes
 // (added/removed files, route changes). On activate, old caches are deleted.
 // See docs/pwa-rollback-runbook.md for the full rollback procedure.

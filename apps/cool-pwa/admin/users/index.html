@@ -48,8 +48,20 @@
           <article class="detail-card card"><div class="list-item-header"><strong>User signals</strong><span class="status-pill online">Live</span></div><ul class="list" id="activity-feed"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul></article>
           <article class="detail-card card">
             <div class="list-item-header"><strong>Live user inventory</strong><span class="status-pill syncing">Supabase</span></div>
-            <div class="field"><label for="user-filter">Filter users</label><input id="user-filter" data-user-filter type="search" autocomplete="off" placeholder="Search by name, phone, or public user ID"></div>
+            <form id="user-filter-form" class="form-grid compact-form">
+              <div class="field full">
+                <label for="user-filter">Search users</label>
+                <input id="user-filter" data-user-filter type="search" autocomplete="off" placeholder="Search by name, phone, or public user ID">
+                <small>Search runs against the live backend and keeps pagination stable across refreshes.</small>
+              </div>
+              <div class="button-row">
+                <button class="secondary-button" type="submit">Apply filter</button>
+                <button class="ghost-button" type="button" data-user-filter-reset>Clear</button>
+              </div>
+            </form>
+            <p class="section-caption" data-user-results-summary></p>
             <ul class="list" id="admin-users-list"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul>
+            <div data-user-pagination></div>
           </article>
         </section>
       </main>

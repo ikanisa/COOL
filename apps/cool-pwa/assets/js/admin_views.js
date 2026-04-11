@@ -20,6 +20,149 @@ function ensureAuthGate() {
   return gate;
 }
 
+function ensureConfirmDialog() {
+  let dialog = document.querySelector('[data-admin-confirm-dialog]');
+  if (dialog) {
+    return dialog;
+  }
+
+  dialog = document.createElement('dialog');
+  dialog.className = 'surface-panel';
+  dialog.setAttribute('data-admin-confirm-dialog', '');
+  document.body.appendChild(dialog);
+  return dialog;
+}
+
+async function confirmAdminAction({
+  title,
+  eyebrow = 'Review change',
+  description = '',
+  body = '',
+  confirmLabel = 'Confirm',
+  cancelLabel = 'Cancel',
+  danger = false,
+} = {}) {
+  const dialog = ensureConfirmDialog();
+  if (typeof dialog.showModal !== 'function') {
+    return window.confirm([title, description].filter(Boolean).join('\n\n'));
+  }
+
+  return await new Promise((resolve) => {
+    dialog.innerHTML = `
+      <form method="dialog" class="stack">
+        <span class="eyebrow">${escapeHtml(eyebrow)}</span>
+        <div>
+          <h2 class="page-title compact-title">${escapeHtml(title || 'Review admin action')}</h2>
+          ${description ? `<p class="section-caption">${escapeHtml(description)}</p>` : ''}
+        </div>
+        <div class="review-block">
+          ${body}
+        </div>
+        <div class="button-row">
+          <button class="${danger ? 'danger-button' : 'button'}" type="submit" value="confirm">${escapeHtml(confirmLabel)}</button>
+          <button class="secondary-button" type="submit" value="cancel">${escapeHtml(cancelLabel)}</button>
+        </div>
+      </form>
+    `;
+
+    dialog.addEventListener(
+      'close',
+      () => resolve(dialog.returnValue === 'confirm'),
+      { once: true },
+    );
+    dialog.showModal();
+  });
+}
+
+function renderPagination(container, pagination, onPageChange) {
+  if (!container) {
+    return;
+  }
+
+  if (!pagination || pagination.total <= pagination.limit) {
+    container.innerHTML = '';
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="pagination-row">
+      <span class="meta">Page ${escapeHtml(pagination.page)} of ${escapeHtml(pagination.totalPages)} · ${escapeHtml(pagination.total)} total</span>
+      <div class="button-row">
+        <button class="secondary-button" type="button" data-page-nav="prev" ${pagination.hasPreviousPage ? '' : 'disabled'}>Previous</button>
+        <button class="secondary-button" type="button" data-page-nav="next" ${pagination.hasNextPage ? '' : 'disabled'}>Next</button>
+      </div>
+    </div>
+  `;
+
+  container.querySelector('[data-page-nav="prev"]')?.addEventListener('click', () => {
+    if (pagination.hasPreviousPage) {
+      onPageChange?.(pagination.page - 1);
+    }
+  });
+  container.querySelector('[data-page-nav="next"]')?.addEventListener('click', () => {
+    if (pagination.hasNextPage) {
+      onPageChange?.(pagination.page + 1);
+    }
+  });
+}
+
+function setSelectOptions(select, options, { includeBlank = false, selectedValue = '' } = {}) {
+  if (!select) {
+    return;
+  }
+
+  const normalized = Array.isArray(options) ? options : [];
+  const optionHtml = [
+    includeBlank ? '<option value="">All</option>' : '',
+    ...normalized.map((option) => {
+      if (typeof option === 'string') {
+        return `<option value="${escapeHtml(option)}">${escapeHtml(option)}</option>`;
+      }
+      return `<option value="${escapeHtml(option.value)}">${escapeHtml(option.label)}</option>`;
+    }),
+  ].join('');
+
+  select.innerHTML = optionHtml;
+  select.value = selectedValue;
+}
+
+function setDatalistOptions(datalist, options) {
+  if (!datalist) {
+    return;
+  }
+  datalist.innerHTML = (Array.isArray(options) ? options : [])
+    .map((option) => `<option value="${escapeHtml(option)}"></option>`)
+    .join('');
+}
+
+function formatJsonSummary(value) {
+  if (value === undefined || value === null || value === '') {
+    return 'None';
+  }
+  const text =
+    typeof value === 'string' ? value : JSON.stringify(value, null, 2);
+  return text.length > 600 ? `${text.slice(0, 597)}...` : text;
+}
+
+function findUserSelection(rawValue, users) {
+  const value = String(rawValue || '').trim();
+  if (!value) {
+    return null;
+  }
+
+  return (Array.isArray(users) ? users : []).find((user) =>
+    [
+      user.id,
+      user.label,
+      user.display_name,
+      user.phone,
+      user.public_user_id,
+    ]
+      .filter(Boolean)
+      .includes(value),
+  ) || null;
+}
+
 export function renderAuthGate({ authState, otpState, onSendCode, onVerifyCode, onSignOut }) {
   const gate = ensureAuthGate();
 
@@ -64,39 +207,6 @@ export function renderAuthGate({ authState, otpState, onSendCode, onVerifyCode, 
     return;
   }
 
-  // ── Not-admin-phone rejection: show contact card ──────────────
-  const isNotAdminPhone = otpState.errorCode === 'NOT_ADMIN_PHONE';
-  if (isNotAdminPhone) {
-    const whatsappUrl = 'https://wa.me/250795588248?text=' +
-      encodeURIComponent('Hello, I would like to request COOL Admin access. My phone number is ' + (otpState.phone || ''));
-    gate.innerHTML = `
-      <div class="admin-auth-card card">
-        <span class="eyebrow" style="background:color-mix(in srgb, var(--danger) 18%, var(--card-surface));color:var(--danger)">Access Denied</span>
-        <h2>Admin access required</h2>
-        <p class="section-caption">This phone number is not registered as a COOL admin. Contact an existing admin to request access.</p>
-        <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" class="admin-contact-link" style="display:flex;align-items:center;gap:var(--space-3);padding:var(--space-4);border-radius:var(--radius-md);background:color-mix(in srgb, #25D366 12%, var(--card-surface));text-decoration:none;transition:transform var(--transition);">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="#25D366"/>
-            <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.932-1.412A9.953 9.953 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.96 7.96 0 01-4.103-1.132l-.294-.175-3.048.873.814-2.976-.192-.304A7.963 7.963 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z" fill="#25D366"/>
-          </svg>
-          <div style="display:grid;gap:2px">
-            <strong style="color:var(--primary-text);font-size:0.95rem">Request access via WhatsApp</strong>
-            <span style="color:var(--secondary-text);font-size:0.85rem">Message the platform admin directly</span>
-          </div>
-        </a>
-        <div class="button-row">
-          <button class="secondary-button" type="button" data-admin-retry-phone>Try a different number</button>
-        </div>
-      </div>
-    `;
-    gate.querySelector('[data-admin-retry-phone]')?.addEventListener('click', () => {
-      otpState.error = null;
-      otpState.errorCode = null;
-      onSignOut({ preservePhone: false, suppressReload: true });
-    });
-    return;
-  }
-
   const isCodeStep = otpState.step === 'code';
   gate.innerHTML = `
     <div class="admin-auth-card card">
@@ -123,7 +233,7 @@ export function renderAuthGate({ authState, otpState, onSendCode, onVerifyCode, 
               <div class="field full">
                 <label for="admin-phone">WhatsApp phone number</label>
                 <input id="admin-phone" name="phone" type="tel" autocomplete="tel" placeholder="+250788…" value="${escapeHtml(otpState.phone || '')}" required>
-                <small>Only registered admin numbers can sign in. A verification code will be sent via WhatsApp.</small>
+                <small>If the number is authorized, a verification code will be sent via WhatsApp.</small>
               </div>
               <div class="button-row">
                 <button class="button" type="submit">${otpState.isLoading ? 'Sending…' : 'Send verification code'}</button>
@@ -207,34 +317,87 @@ export function clearRouteRestriction() {
   document.querySelector('[data-route-restriction]')?.remove();
 }
 
-export function renderUsersPanel({ data, onTogglePlatformAccess }) {
+export function renderUsersPanel({
+  data,
+  onTogglePlatformAccess,
+  onFilterChange,
+  onPageChange,
+}) {
   const list = document.getElementById('admin-users-list');
+  const form = document.getElementById('user-filter-form');
+  const filterInput = document.querySelector('[data-user-filter]');
+  const summary = document.querySelector('[data-user-results-summary]');
+  const paginationNode = document.querySelector('[data-user-pagination]');
   if (!list) {
     return;
   }
 
-  const filterInput = document.querySelector('[data-user-filter]');
   const users = Array.isArray(data?.users) ? data.users : [];
+  const pagination = data?.pagination || null;
+  const filters = data?.filters || {};
 
-  const render = () => {
-    const query = filterInput?.value?.trim().toLowerCase() || '';
-    const filtered = query
-      ? users.filter((user) => {
-          const haystack = [
-            user.display_name,
-            user.phone,
-            user.public_user_id,
-            user.id,
-          ]
-            .filter(Boolean)
-            .join(' ')
-            .toLowerCase();
-          return haystack.includes(query);
+  if (filterInput) {
+    filterInput.value = filters.q || '';
+  }
+  if (form) {
+    form.onsubmit = (event) => {
+      event.preventDefault();
+      onFilterChange?.({
+        q: filterInput?.value || '',
+        page: 1,
+      });
+    };
+  }
+  const resetUserFilter = form?.querySelector('[data-user-filter-reset]');
+  if (resetUserFilter) {
+    resetUserFilter.onclick = () => {
+      if (filterInput) {
+        filterInput.value = '';
+      }
+      onFilterChange?.({ q: '', page: 1 });
+    };
+  }
+
+  if (summary && pagination) {
+    summary.textContent = pagination.total
+      ? `Showing ${users.length} account${users.length === 1 ? '' : 's'} from ${pagination.total} total.`
+      : 'No accounts match the current filter.';
+  }
+
+  list.innerHTML = users.length
+    ? users
+        .map((user) => {
+          const statusLabel = user.has_platform_access
+            ? user.has_legacy_admin
+              ? 'Legacy admin'
+              : 'Platform admin'
+            : user.bank_assignment_count > 0
+              ? `Bank admin x${user.bank_assignment_count}`
+              : 'User';
+          const buttonLabel = user.has_platform_access
+            ? 'Revoke platform access'
+            : 'Grant platform access';
+
+          return `
+            <li class="list-item">
+              <div class="list-item-header">
+                <strong>${escapeHtml(user.display_name)}</strong>
+                <span class="status-pill ${user.has_platform_access ? 'online' : user.bank_assignment_count > 0 ? 'syncing' : 'offline'}">${escapeHtml(statusLabel)}</span>
+              </div>
+              <p>${escapeHtml(user.phone || 'No phone on file')} · ${escapeHtml(user.public_user_id || user.id)}</p>
+              ${
+                user.has_legacy_admin
+                  ? '<span class="meta">Legacy flag still exists on this account. Revoking from the browser will clear the flag and revoke active sessions.</span>'
+                  : ''
+              }
+              <div class="list-actions">
+                <button class="secondary-button" type="button" data-toggle-user-admin="${escapeHtml(user.id)}" ${typeof onTogglePlatformAccess !== 'function' ? 'disabled' : ''}>${escapeHtml(buttonLabel)}</button>
+              </div>
+            </li>
+          `;
         })
-      : users;
-
-    if (!filtered.length) {
-      list.innerHTML = `
+        .join('')
+    : `
         <li class="list-item">
           <div class="list-item-header">
             <strong>No matching users</strong>
@@ -243,95 +406,152 @@ export function renderUsersPanel({ data, onTogglePlatformAccess }) {
           <p>Try a different name, phone number, or public user ID.</p>
         </li>
       `;
-      return;
-    }
 
-    list.innerHTML = filtered
-      .slice(0, 24)
-      .map((user) => {
-        const statusLabel = user.has_platform_access
-          ? user.has_legacy_admin
-            ? 'Legacy admin'
-            : 'Platform admin'
-          : user.bank_assignment_count > 0
-            ? `Bank admin x${user.bank_assignment_count}`
-            : 'User';
-        const buttonLabel = user.has_platform_access
+  list.querySelectorAll('[data-toggle-user-admin]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      if (typeof onTogglePlatformAccess !== 'function') {
+        return;
+      }
+      const user = users.find((entry) => entry.id === button.getAttribute('data-toggle-user-admin'));
+      if (!user) {
+        return;
+      }
+
+      const confirmed = await confirmAdminAction({
+        title: user.has_platform_access
           ? 'Revoke platform access'
-          : 'Grant platform access';
-        const buttonDisabled = user.has_legacy_admin || typeof onTogglePlatformAccess !== 'function' ? 'disabled' : '';
-
-        return `
-          <li class="list-item">
-            <div class="list-item-header">
+          : 'Grant platform access',
+        description: user.has_platform_access
+          ? 'This will remove privileged access and invalidate active admin sessions for the target user.'
+          : 'This will grant platform-wide admin access to the selected user.',
+        body: `
+          <div class="stack">
+            <div class="list-item">
               <strong>${escapeHtml(user.display_name)}</strong>
-              <span class="status-pill ${user.has_platform_access ? 'online' : user.bank_assignment_count > 0 ? 'syncing' : 'offline'}">${escapeHtml(statusLabel)}</span>
+              <span class="meta">${escapeHtml(user.phone || user.public_user_id || user.id)}</span>
             </div>
-            <p>${escapeHtml(user.phone || 'No phone on file')} · ${escapeHtml(user.public_user_id || user.id)}</p>
-            <div class="list-actions">
-              <button class="secondary-button" type="button" data-toggle-user-admin="${escapeHtml(user.id)}" ${buttonDisabled}>${escapeHtml(buttonLabel)}</button>
-              ${
-                user.has_legacy_admin
-                  ? '<span class="meta">Legacy `users.is_admin` rows are visible here but not revocable from the browser yet.</span>'
-                  : ''
-              }
-            </div>
-          </li>
-        `;
-      })
-      .join('');
-
-    list.querySelectorAll('[data-toggle-user-admin]').forEach((button) => {
-        button.addEventListener('click', async () => {
-        if (typeof onTogglePlatformAccess !== 'function') {
-          return;
-        }
-          const user = users.find((entry) => entry.id === button.getAttribute('data-toggle-user-admin'));
-          if (!user) {
-            return;
-          }
-        button.disabled = true;
-        try {
-          await onTogglePlatformAccess(user);
-        } finally {
-          button.disabled = false;
-        }
+            ${
+              user.has_legacy_admin
+                ? '<p class="meta">Legacy admin flag detected. This revoke path will clear the old flag as well as any role assignment.</p>'
+                : ''
+            }
+          </div>
+        `,
+        confirmLabel: user.has_platform_access ? 'Revoke access' : 'Grant access',
+        danger: user.has_platform_access,
       });
-    });
-  };
 
-  if (filterInput) {
-    filterInput.oninput = render;
-  }
-  render();
+      if (!confirmed) {
+        return;
+      }
+
+      button.disabled = true;
+      try {
+        await onTogglePlatformAccess(user);
+      } finally {
+        button.disabled = false;
+      }
+    });
+  });
+
+  renderPagination(paginationNode, pagination, onPageChange);
 }
 
-export function renderAppConfigPanel({ data, onSaveConfig }) {
+export function renderAppConfigPanel({
+  data,
+  onSaveConfig,
+  onFilterChange,
+  onPageChange,
+}) {
   const list = document.getElementById('admin-config-list');
   const form = document.getElementById('config-change-form');
+  const filterForm = document.getElementById('config-filter-form');
+  const filterInput = document.querySelector('[data-config-filter]');
+  const filterScope = document.querySelector('[data-config-filter-scope]');
+  const summary = document.querySelector('[data-config-results-summary]');
+  const paginationNode = document.querySelector('[data-config-pagination]');
   if (!list || !form) {
     return;
   }
 
   const entries = Array.isArray(data?.configEntries) ? data.configEntries : [];
+  const pagination = data?.pagination || null;
+  const filters = data?.filters || {};
+  const configCatalog = data?.configCatalog || { keys: [], scopes: [] };
+
+  setDatalistOptions(
+    document.getElementById('config-key-catalog'),
+    configCatalog.keys || [],
+  );
+  setSelectOptions(
+    document.getElementById('config-scope'),
+    [{ value: 'platform', label: 'Platform' }].concat(
+      (configCatalog.scopes || [])
+        .filter((scope) => scope && scope.toLowerCase() !== 'platform')
+        .map((scope) => ({ value: scope, label: scope })),
+    ),
+    { selectedValue: form.querySelector('#config-scope')?.value || 'platform' },
+  );
+  setSelectOptions(
+    filterScope,
+    [{ value: 'platform', label: 'Platform' }].concat(
+      (configCatalog.scopes || [])
+        .filter((scope) => scope && scope.toLowerCase() !== 'platform')
+        .map((scope) => ({ value: scope, label: scope })),
+    ),
+    { includeBlank: true, selectedValue: filters.scope || '' },
+  );
+
+  if (filterInput) {
+    filterInput.value = filters.q || '';
+  }
+  if (filterForm) {
+    filterForm.onsubmit = (event) => {
+      event.preventDefault();
+      onFilterChange?.({
+        q: filterInput?.value || '',
+        scope: filterScope?.value || '',
+        page: 1,
+      });
+    };
+  }
+  const resetConfigFilter = filterForm?.querySelector('[data-config-filter-reset]');
+  if (resetConfigFilter) {
+    resetConfigFilter.onclick = () => {
+      if (filterInput) {
+        filterInput.value = '';
+      }
+      if (filterScope) {
+        filterScope.value = '';
+      }
+      onFilterChange?.({ q: '', scope: '', page: 1 });
+    };
+  }
+
+  if (summary && pagination) {
+    summary.textContent = pagination.total
+      ? `Showing ${entries.length} config entr${entries.length === 1 ? 'y' : 'ies'} from ${pagination.total} total.`
+      : 'No config entries match the current filter.';
+  }
+
   list.innerHTML = entries.length
     ? entries
-        .slice(0, 24)
-        .map(
-          (entry) => `
+        .map((entry) => {
+          const loadKey = `${entry.key}::${entry.country || 'platform'}`;
+          return `
             <li class="list-item">
               <div class="list-item-header">
                 <strong>${escapeHtml(entry.key)}</strong>
                 <span class="status-pill ${entry.country ? 'syncing' : 'online'}">${escapeHtml(entry.country || 'Platform')}</span>
               </div>
-              <p>${escapeHtml(entry.description || entry.value || 'No description')}</p>
-              <span class="meta mono">${escapeHtml(entry.value || '')}</span>
+              <p>${escapeHtml(entry.description || 'No description')}</p>
+              <pre class="review-block review-code">${escapeHtml(formatJsonSummary(entry.value || ''))}</pre>
               <div class="list-actions">
-                <button class="secondary-button" type="button" data-load-config="${escapeHtml(entry.key)}">Load into form</button>
+                <button class="secondary-button" type="button" data-load-config="${escapeHtml(loadKey)}">Load into form</button>
               </div>
             </li>
-          `,
-        )
+          `;
+        })
         .join('')
     : `
         <li class="list-item">
@@ -345,8 +565,8 @@ export function renderAppConfigPanel({ data, onSaveConfig }) {
 
   list.querySelectorAll('[data-load-config]').forEach((button) => {
     button.addEventListener('click', () => {
-      const key = button.getAttribute('data-load-config');
-      const entry = entries.find((item) => item.key === key);
+      const [key, rawScope] = (button.getAttribute('data-load-config') || '').split('::');
+      const entry = entries.find((item) => item.key === key && (item.country || 'platform') === rawScope);
       if (!entry) {
         return;
       }
@@ -355,6 +575,7 @@ export function renderAppConfigPanel({ data, onSaveConfig }) {
       form.querySelector('#config-scope').value = entry.country || 'platform';
       form.querySelector('#config-value').value = entry.value || '';
       form.querySelector('#config-description').value = entry.description || '';
+      form.querySelector('#config-change-reason').focus();
     });
   });
 
@@ -368,40 +589,121 @@ export function renderAppConfigPanel({ data, onSaveConfig }) {
     if (typeof onSaveConfig !== 'function') {
       return;
     }
+
     const formData = new FormData(form);
-    const scope = formData.get('scope')?.toString().trim() || '';
+    const scope = formData.get('scope')?.toString().trim() || 'platform';
     const country =
       !scope || scope.toLowerCase() === 'platform' ? null : scope.toUpperCase();
+    const key = formData.get('config_key')?.toString().trim() || '';
+    const payload = {
+      key,
+      value: formData.get('requested_value')?.toString() || '',
+      description: formData.get('description')?.toString().trim() || '',
+      country,
+      changeReason: formData.get('change_reason')?.toString().trim() || '',
+    };
+    const existing = entries.find(
+      (entry) => entry.key === key && (entry.country || null) === (country || null),
+    );
+
+    const confirmed = await confirmAdminAction({
+      title: existing ? 'Review config update' : 'Review new config entry',
+      description: 'Config writes are immediate and should only be made with a clear operational reason.',
+      confirmLabel: existing ? 'Save update' : 'Create entry',
+      body: `
+        <div class="stack">
+          <div class="list-item">
+            <strong>${escapeHtml(payload.key || 'Missing key')}</strong>
+            <span class="meta">${escapeHtml(country || 'Platform')}</span>
+          </div>
+          <div class="detail-grid compact-grid">
+            <div class="list-item">
+              <strong>Current value</strong>
+              <pre class="review-code">${escapeHtml(formatJsonSummary(existing?.value || 'None'))}</pre>
+            </div>
+            <div class="list-item">
+              <strong>Requested value</strong>
+              <pre class="review-code">${escapeHtml(formatJsonSummary(payload.value || 'None'))}</pre>
+            </div>
+          </div>
+          <div class="list-item">
+            <strong>Reason</strong>
+            <span class="meta">${escapeHtml(payload.changeReason || 'None provided')}</span>
+          </div>
+        </div>
+      `,
+    });
+
+    if (!confirmed) {
+      return;
+    }
+
     if (submitButton) {
       submitButton.disabled = true;
     }
-
     try {
-      await onSaveConfig({
-        key: formData.get('config_key')?.toString().trim() || '',
-        value: formData.get('requested_value')?.toString() || '',
-        description: formData.get('description')?.toString().trim() || '',
-        country,
-      });
+      await onSaveConfig(payload);
     } finally {
       if (submitButton) {
         submitButton.disabled = false;
       }
     }
   };
+
+  renderPagination(paginationNode, pagination, onPageChange);
 }
 
 export function renderRolesPanel({ data, onAssignRole, onRevokeRole }) {
   const list = document.getElementById('admin-role-list');
   const form = document.getElementById('role-assignment-form');
+  const summary = document.querySelector('[data-role-results-summary]');
   if (!list || !form) {
     return;
   }
 
   const assignments = Array.isArray(data?.roleAssignments) ? data.roleAssignments : [];
+  const users = Array.isArray(data?.assignableUsers) ? data.assignableUsers : [];
+  const bankPartners = Array.isArray(data?.bankPartners) ? data.bankPartners : [];
+  const userPicker = form.querySelector('#role-user-picker');
+  const bankSelect = form.querySelector('#role-bank-scope');
+  const roleSelect = form.querySelector('#role-target');
+  const reasonField = form.querySelector('#role-reason');
+
+  setDatalistOptions(
+    document.getElementById('role-user-catalog'),
+    users.map((user) => user.label || user.id),
+  );
+  setSelectOptions(
+    bankSelect,
+    bankPartners.map((partner) => ({
+      value: partner.id,
+      label: partner.name,
+    })),
+    { includeBlank: true, selectedValue: bankSelect?.value || '' },
+  );
+
+  const syncRoleFields = () => {
+    const isBankRole = roleSelect?.value === 'bank';
+    if (bankSelect) {
+      bankSelect.disabled = !isBankRole;
+      if (!isBankRole) {
+        bankSelect.value = '';
+      }
+    }
+  };
+  if (roleSelect) {
+    roleSelect.onchange = syncRoleFields;
+  }
+  syncRoleFields();
+
+  if (summary) {
+    summary.textContent = assignments.length
+      ? `${assignments.length} active assignment${assignments.length === 1 ? '' : 's'} loaded.`
+      : 'No active role assignments.';
+  }
+
   list.innerHTML = assignments.length
     ? assignments
-        .slice(0, 24)
         .map(
           (assignment) => `
             <li class="list-item">
@@ -433,10 +735,40 @@ export function renderRolesPanel({ data, onAssignRole, onRevokeRole }) {
       if (typeof onRevokeRole !== 'function') {
         return;
       }
-      const assignmentId = button.getAttribute('data-revoke-role');
+      const assignment = assignments.find(
+        (entry) => entry.id === button.getAttribute('data-revoke-role'),
+      );
+      if (!assignment) {
+        return;
+      }
+
+      const confirmed = await confirmAdminAction({
+        title: 'Review role revocation',
+        description:
+          'Revoking a role immediately removes that workspace from the target user and invalidates live admin sessions.',
+        confirmLabel: 'Revoke role',
+        danger: true,
+        body: `
+          <div class="stack">
+            <div class="list-item">
+              <strong>${escapeHtml(assignment.user_name || assignment.user_phone || assignment.user_id)}</strong>
+              <span class="meta">${escapeHtml(assignment.role)}</span>
+            </div>
+            <div class="list-item">
+              <strong>Scope</strong>
+              <span class="meta">${escapeHtml(assignment.partner_name || 'Platform-wide')}</span>
+            </div>
+          </div>
+        `,
+      });
+
+      if (!confirmed) {
+        return;
+      }
+
       button.disabled = true;
       try {
-        await onRevokeRole({ assignmentId });
+        await onRevokeRole({ assignmentId: assignment.id });
       } finally {
         button.disabled = false;
       }
@@ -453,24 +785,185 @@ export function renderRolesPanel({ data, onAssignRole, onRevokeRole }) {
     if (typeof onAssignRole !== 'function') {
       return;
     }
+
     const formData = new FormData(form);
     const role = formData.get('role')?.toString().trim().toLowerCase() || '';
-    const scopeOrReason = formData.get('scope_or_reason')?.toString().trim() || '';
+    const selectedUser = findUserSelection(
+      formData.get('user_picker')?.toString().trim() || '',
+      users,
+    );
+    const bankId = formData.get('bank_id')?.toString().trim() || '';
+    const notes = formData.get('change_reason')?.toString().trim() || '';
+
+    if (!selectedUser) {
+      userPicker?.focus();
+      return;
+    }
+    if (role === 'bank' && !bankId) {
+      bankSelect?.focus();
+      return;
+    }
+
+    const confirmed = await confirmAdminAction({
+      title: 'Review role assignment',
+      description: 'Admin roles change what this person can see and do immediately after the mutation succeeds.',
+      confirmLabel: 'Assign role',
+      body: `
+        <div class="stack">
+          <div class="list-item">
+            <strong>${escapeHtml(selectedUser.display_name)}</strong>
+            <span class="meta">${escapeHtml(selectedUser.phone || selectedUser.public_user_id || selectedUser.id)}</span>
+          </div>
+          <div class="list-item">
+            <strong>Requested role</strong>
+            <span class="meta">${escapeHtml(role || 'Unknown')}</span>
+          </div>
+          ${
+            role === 'bank'
+              ? `
+                <div class="list-item">
+                  <strong>Bank scope</strong>
+                  <span class="meta">${escapeHtml(bankPartners.find((partner) => partner.id === bankId)?.name || bankId || 'Missing')}</span>
+                </div>
+              `
+              : ''
+          }
+          <div class="list-item">
+            <strong>Reason</strong>
+            <span class="meta">${escapeHtml(notes || 'None provided')}</span>
+          </div>
+        </div>
+      `,
+    });
+
+    if (!confirmed) {
+      return;
+    }
+
     if (submitButton) {
       submitButton.disabled = true;
     }
-
     try {
       await onAssignRole({
-        targetUserId: formData.get('user_id')?.toString().trim() || '',
+        targetUserId: selectedUser.id,
         role,
-        bankId: role === 'bank' ? scopeOrReason : '',
-        notes: role === 'bank' ? '' : scopeOrReason,
+        bankId: role === 'bank' ? bankId : '',
+        notes,
       });
+      form.reset();
+      syncRoleFields();
+      reasonField?.blur();
     } finally {
       if (submitButton) {
         submitButton.disabled = false;
       }
     }
   };
+}
+
+export function renderAuditLogPanel({ data, onFilterChange, onPageChange }) {
+  const list = document.getElementById('audit-log-list');
+  const form = document.getElementById('audit-filter-form');
+  const queryInput = document.getElementById('audit-query');
+  const actionSelect = document.getElementById('audit-action');
+  const tableSelect = document.getElementById('audit-table');
+  const summary = document.querySelector('[data-audit-results-summary]');
+  const paginationNode = document.querySelector('[data-audit-pagination]');
+  if (!list) {
+    return;
+  }
+
+  const entries = Array.isArray(data?.auditEntries) ? data.auditEntries : [];
+  const filters = data?.filters || {};
+  const pagination = data?.pagination || null;
+  const catalog = data?.auditCatalog || {};
+
+  if (queryInput) {
+    queryInput.value = filters.q || '';
+  }
+  setSelectOptions(
+    actionSelect,
+    (catalog.actions || []).map((action) => ({ value: action, label: action })),
+    { includeBlank: true, selectedValue: filters.action || '' },
+  );
+  setSelectOptions(
+    tableSelect,
+    (catalog.tables || []).map((table) => ({ value: table, label: table })),
+    { includeBlank: true, selectedValue: filters.table || '' },
+  );
+
+  if (form) {
+    form.onsubmit = (event) => {
+      event.preventDefault();
+      onFilterChange?.({
+        q: queryInput?.value || '',
+        action: actionSelect?.value || '',
+        table: tableSelect?.value || '',
+        page: 1,
+      });
+    };
+  }
+  const resetAuditFilter = form?.querySelector('[data-audit-filter-reset]');
+  if (resetAuditFilter) {
+    resetAuditFilter.onclick = () => {
+      if (queryInput) {
+        queryInput.value = '';
+      }
+      if (actionSelect) {
+        actionSelect.value = '';
+      }
+      if (tableSelect) {
+        tableSelect.value = '';
+      }
+      onFilterChange?.({ q: '', action: '', table: '', page: 1 });
+    };
+  }
+
+  if (summary && pagination) {
+    summary.textContent = pagination.total
+      ? `Showing ${entries.length} audit entr${entries.length === 1 ? 'y' : 'ies'} from ${pagination.total} total.`
+      : 'No audit evidence matches the current filter.';
+  }
+
+  list.innerHTML = entries.length
+    ? entries
+        .map(
+          (entry) => `
+            <li class="list-item">
+              <div class="list-item-header">
+                <strong>${escapeHtml(entry.actor_name || entry.actor_phone || entry.actor_id || 'Unknown actor')}</strong>
+                <span class="status-pill ${entry.action === 'delete' ? 'error' : entry.action === 'update' ? 'syncing' : 'online'}">${escapeHtml(entry.action || 'action')}</span>
+              </div>
+              <p>${escapeHtml([entry.target_table, entry.target_id].filter(Boolean).join(' · ') || 'Tracked admin mutation')}</p>
+              ${
+                entry.notes
+                  ? `<span class="meta">${escapeHtml(entry.notes)}</span>`
+                  : ''
+              }
+              <div class="detail-grid compact-grid">
+                <div class="list-item">
+                  <strong>Before</strong>
+                  <pre class="review-code">${escapeHtml(formatJsonSummary(entry.old_data))}</pre>
+                </div>
+                <div class="list-item">
+                  <strong>After</strong>
+                  <pre class="review-code">${escapeHtml(formatJsonSummary(entry.new_data))}</pre>
+                </div>
+              </div>
+              <span class="meta">${escapeHtml(entry.created_at || '')}</span>
+            </li>
+          `,
+        )
+        .join('')
+    : `
+        <li class="list-item">
+          <div class="list-item-header">
+            <strong>No audit evidence found</strong>
+            <span class="status-pill offline">Empty</span>
+          </div>
+          <p>Change the filters or widen the time window by clearing search terms.</p>
+        </li>
+      `;
+
+  renderPagination(paginationNode, pagination, onPageChange);
 }

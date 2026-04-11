@@ -8,7 +8,8 @@ This app is intentionally separate from the Flutter codebase:
 - Flutter mobile remains the primary end-user client.
 - `apps/cool-pwa` is now an admin-only web control plane.
 - The PWA ships as static clean-URL admin pages with a shared app shell,
-  offline queueing, install UX, operational alerts, and browser-audit scripts.
+  install UX, browser telemetry, guarded admin mutations, and browser-audit
+  scripts.
 
 ## Local Run
 
@@ -27,12 +28,21 @@ cd apps/cool-pwa
 npx wrangler pages dev . --port 4173
 ```
 
+Important:
+
+- Static preview is UI-only. It does not exercise auth, admin data, or live
+  mutation functions.
+- `wrangler pages dev` on localhost now exercises the real admin auth/session
+  path. There is no hostname-based local bypass anymore.
+- Session cookies are opaque server-side session IDs. Access and refresh tokens
+  are stored in the backend session table, not in browser-readable cookies.
+
 ## Verification
 
 ```bash
-npm test                    # Contract + browser tests
+npm test                    # Contract + browser + integration tests
 npm run audit:lighthouse    # Lighthouse perf/a11y/best-practices
-npm run test:integration    # Pages Functions integration suite (requires wrangler)
+npm run test:integration    # Pages Functions integration suite (allocates a free port automatically)
 ```
 
 ## Deploy
@@ -55,7 +65,7 @@ the only entrypoint.
 | `_headers` | Security + caching headers |
 | `functions/index.js` | Root redirect + security header injection |
 | `functions/api/auth/` | OTP auth + session cookie management |
-| `functions/api/admin/` | Data, session, and mutation endpoints |
+| `functions/api/admin/` | Data, session, mutation, and browser telemetry endpoints |
 
 ### Environment Variables (Pages Functions)
 
@@ -63,7 +73,7 @@ the only entrypoint.
 |----------|-------|----------|
 | `COOL_PROJECT_SUPABASE_URL` | Pages Functions | Yes |
 | `COOL_PROJECT_SUPABASE_ANON_KEY` | Pages Functions | Yes |
-| `COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY` | Pages Functions | Yes (admin phone pre-check) |
+| `COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY` | Pages Functions | Yes (session storage, audit telemetry, admin governance) |
 
 Set these in the Cloudflare Pages dashboard under **Settings → Environment variables**.
 Both preview and production environments need them.

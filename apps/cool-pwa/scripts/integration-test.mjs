@@ -17,12 +17,37 @@
 import { describe, it, before, after } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { spawn } from 'node:child_process';
+import net from 'node:net';
+import { join } from 'node:path';
 
-const PORT = 8799;
-const BASE = `http://127.0.0.1:${PORT}`;
+let PORT = 8799;
+let BASE = `http://localhost:${PORT}`;
 let wranglerProcess = null;
 let wranglerStdout = '';
 let wranglerStderr = '';
+
+function reserveFreePort() {
+  return new Promise((resolve, reject) => {
+    const server = net.createServer();
+    server.unref();
+    server.on('error', reject);
+    server.listen(0, '127.0.0.1', () => {
+      const address = server.address();
+      if (!address || typeof address === 'string') {
+        server.close(() => reject(new Error('Could not resolve a free port.')));
+        return;
+      }
+      const { port } = address;
+      server.close((closeError) => {
+        if (closeError) {
+          reject(closeError);
+          return;
+        }
+        resolve(port);
+      });
+    });
+  });
+}
 
 async function waitForServer(url, maxMs = 15000) {
   const start = Date.now();
@@ -43,8 +68,14 @@ async function waitForServer(url, maxMs = 15000) {
 }
 
 before(async () => {
+  PORT = await reserveFreePort();
+  BASE = `http://localhost:${PORT}`;
   console.log('Starting wrangler pages dev...');
-  wranglerProcess = spawn('npx', ['wrangler', 'pages', 'dev', '.', '--port', String(PORT), '--log-level', 'error'], {
+  const wranglerBin =
+    process.platform === 'win32'
+      ? join(new URL('..', import.meta.url).pathname, 'node_modules', '.bin', 'wrangler.cmd')
+      : join(new URL('..', import.meta.url).pathname, 'node_modules', '.bin', 'wrangler');
+  wranglerProcess = spawn(wranglerBin, ['pages', 'dev', '.', '--port', String(PORT), '--log-level', 'error'], {
     cwd: new URL('..', import.meta.url).pathname,
     stdio: ['ignore', 'pipe', 'pipe'],
     env: {

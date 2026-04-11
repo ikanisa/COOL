@@ -37,8 +37,8 @@ export function initializeNotificationControls({
   document.querySelectorAll('[data-demo-notification]').forEach((button) => {
     button.addEventListener('click', async () => {
       const notification = {
-        title: 'COOL admin sync completed',
-        body: 'Queued admin actions are now secure and current.',
+        title: 'COOL admin alert preview',
+        body: 'This is a local browser preview for the operations surface.',
         tag: 'cool-demo-sync',
         icon: '/assets/icons/Icon-192.png',
         badge: '/assets/icons/Icon-192.png',
@@ -79,7 +79,7 @@ export function initializeNotificationControls({
           : 'unsupported',
         registrationReady: Boolean(state.registration),
       });
-      showToast('Alert saved in-app. Enable notifications for system delivery.');
+      showToast('Local alert preview saved. Real push delivery still depends on backend push plumbing.');
     });
   });
 

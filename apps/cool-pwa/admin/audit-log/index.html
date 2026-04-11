@@ -48,6 +48,36 @@
           <article class="detail-card card"><div class="list-item-header"><strong>Recent evidence</strong><span class="status-pill online">Recorded</span></div><ul class="list" id="activity-feed"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul></article>
           <article class="detail-card card"><div class="list-item-header"><strong>Pending exports</strong><span class="status-pill syncing">Queued</span></div><ul class="list" id="queue-feed"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul></article>
         </section>
+        <section class="detail-grid">
+          <article class="surface-panel card">
+            <div class="list-item-header"><strong>Search audit evidence</strong><span class="status-pill syncing">Live query</span></div>
+            <form id="audit-filter-form" class="form-grid compact-form">
+              <div class="field">
+                <label for="audit-query">Search</label>
+                <input id="audit-query" type="search" autocomplete="off" placeholder="Actor, table, target ID, or notes">
+              </div>
+              <div class="field">
+                <label for="audit-action">Action</label>
+                <select id="audit-action">
+                  <option value="">All</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="audit-table">Target table</label>
+                <select id="audit-table">
+                  <option value="">All</option>
+                </select>
+              </div>
+              <div class="button-row">
+                <button class="secondary-button" type="submit">Apply filter</button>
+                <button class="ghost-button" type="button" data-audit-filter-reset>Clear</button>
+              </div>
+            </form>
+            <p class="section-caption" data-audit-results-summary></p>
+            <ul class="list" id="audit-log-list"><li class="skeleton line long"></li><li class="skeleton line medium"></li></ul>
+            <div data-audit-pagination></div>
+          </article>
+        </section>
       </main>
       <footer class="footer"><span>Audit evidence is a first-class admin function, not a reporting afterthought.</span><div class="footer-links"><a href="/admin/operations/">Operations</a><a href="/admin/roles/">Roles</a></div></footer>
     </div>

@@ -13,7 +13,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Offline — COOL Admin">
-    <meta property="og:description" content="Offline fallback for queued admin work.">
+    <meta property="og:description" content="Offline fallback for the cached COOL Admin shell.">
     <meta property="og:url" content="https://cool.ikanisa.com/admin/offline/">
     <meta property="og:image" content="https://cool.ikanisa.com/assets/screenshots/home.png">
     <meta name="twitter:card" content="summary_large_image">
@@ -34,10 +34,10 @@
         <a class="brand-link" href="/admin/"><img src="/assets/img/cool_logo_mark.webp" alt="" width="44" height="44" decoding="async"><span class="brand-copy"><span class="brand-kicker">Offline</span><span class="brand-title">COOL</span></span></a>
       </header>
       <main id="main">
-        <section class="section-header"><div><h1 class="page-title">Offline</h1><p class="section-caption">You are still inside the COOL admin console. Cached routes and queued actions remain available until connectivity returns.</p></div></section>
+        <section class="section-header"><div><h1 class="page-title">Offline</h1><p class="section-caption">You are still inside the COOL admin console. Cached route shells remain available, but live admin data and mutations resume only after connectivity returns.</p></div></section>
         <div class="button-row"><a class="button" href="/admin/">Open cached workspaces</a><a class="secondary-button" href="/admin/operations/">Open cached operations</a></div>
       </main>
-      <footer class="footer"><span>Queued admin mutations will replay automatically when the network returns.</span></footer>
+      <footer class="footer"><span>Only explicit offline-safe queued actions replay automatically when the network returns. Privileged admin mutations require a live connection.</span></footer>
     </div>
     <div class="toast-stack" data-toast-stack aria-live="polite"></div>
     <script type="module" src="/assets/js/app.js"></script>
