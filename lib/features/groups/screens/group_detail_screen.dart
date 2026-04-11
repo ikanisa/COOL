@@ -7,10 +7,11 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
-import '../../../shared/widgets/cool_glass_header_surface.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/core_detail_scaffold.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/share_card.dart';
+import '../../../shared/widgets/status_badge.dart';
 import '../../../shared/widgets/transaction_status_chip.dart';
 import '../../../core/utils/user_error.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -81,80 +82,75 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
     final accessAsync = ref.watch(groupAccessProvider(widget.groupId));
     final myGroupIds = ref.watch(myGroupIdsProvider);
 
-    return CoolScreenBackground(
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: groupAsync.when(
-          data: (group) {
-            if (group == null) {
-              return _MissingGroupState(message: context.l10n.groupNotFound);
+    return groupAsync.when(
+      data: (group) {
+        if (group == null) {
+          return _MissingGroupState(message: context.l10n.groupNotFound);
+        }
+
+        final access = accessAsync.valueOrNull;
+        final isMember = access?.isMember ?? myGroupIds.contains(group.id);
+        final canManageSettings = access?.canManageSettings ?? false;
+        final canViewTransactions = access?.canViewTransactions ?? false;
+        final ledgerAsync = canViewTransactions
+            ? ref.watch(
+                groupTransactionFeedProvider(
+                  GroupPaymentLedgerQuery(
+                    groupId: group.id ?? '',
+                    statementQuery: const MomoStatementQuery(limit: 10),
+                  ),
+                ),
+              )
+            : const AsyncData(MomoStatementPage<PayeePaymentLedgerEntry>());
+        final inviteUrl = buildGroupInviteUrl(group);
+
+        return _GroupDetailBody(
+          group: group,
+          isMember: isMember,
+          isJoining: _isJoining,
+          inviteUrl: inviteUrl,
+          ledgerAsync: ledgerAsync,
+          canManageSettings: canManageSettings,
+          canViewTransactions: canViewTransactions,
+          onBack: () {
+            if (context.canPop()) {
+              context.pop();
+              return;
             }
-
-            final access = accessAsync.valueOrNull;
-            final isMember = access?.isMember ?? myGroupIds.contains(group.id);
-            final canManageSettings = access?.canManageSettings ?? false;
-            final canViewTransactions = access?.canViewTransactions ?? false;
-            final ledgerAsync = canViewTransactions
-                ? ref.watch(
-                    groupTransactionFeedProvider(
-                      GroupPaymentLedgerQuery(
-                        groupId: group.id ?? '',
-                        statementQuery: const MomoStatementQuery(limit: 10),
-                      ),
-                    ),
-                  )
-                : const AsyncData(MomoStatementPage<PayeePaymentLedgerEntry>());
-            final inviteUrl = buildGroupInviteUrl(group);
-
-            return _GroupDetailBody(
-              group: group,
-              isMember: isMember,
-              isJoining: _isJoining,
-              inviteUrl: inviteUrl,
-              ledgerAsync: ledgerAsync,
-              canManageSettings: canManageSettings,
-              canViewTransactions: canViewTransactions,
-              onBack: () {
-                if (context.canPop()) {
-                  context.pop();
-                  return;
-                }
-                context.go(AppRoutes.contributionCircles);
-              },
-              onJoin: isMember ? null : () => _joinPublicGroup(group),
-              onOpenSettings: canManageSettings
-                  ? () => context.push(
-                      AppRoutes.contributionCircleSettingsLocation(
-                        group.id ?? '',
-                      ),
-                    )
-                  : null,
-              onContribute: isMember
-                  ? () {
-                      if (!groupHasContributionRoute(group)) {
-                        CoolToast.info(
-                          context,
-                          'This group has no payment route configured yet.',
-                        );
-                        return;
-                      }
-                      launchGroupContribution(context, group: group).then((ok) {
-                        if (!ok && context.mounted) {
-                          CoolToast.error(
-                            context,
-                            'Could not launch MoMo USSD. Try dialing manually.',
-                          );
-                        }
-                      });
-                    }
-                  : null,
-            );
+            context.go(AppRoutes.contributionCircles);
           },
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, _) =>
-              _MissingGroupState(message: describeUserFacingError(error)),
-        ),
+          onJoin: isMember ? null : () => _joinPublicGroup(group),
+          onOpenSettings: canManageSettings
+              ? () => context.push(
+                  AppRoutes.contributionCircleSettingsLocation(group.id ?? ''),
+                )
+              : null,
+          onContribute: isMember
+              ? () {
+                  if (!groupHasContributionRoute(group)) {
+                    CoolToast.info(
+                      context,
+                      'This group has no payment route configured yet.',
+                    );
+                    return;
+                  }
+                  launchGroupContribution(context, group: group).then((ok) {
+                    if (!ok && context.mounted) {
+                      CoolToast.error(
+                        context,
+                        'Could not launch MoMo USSD. Try dialing manually.',
+                      );
+                    }
+                  });
+                }
+              : null,
+        );
+      },
+      loading: () => const CoreDetailScaffold(
+        child: Center(child: CircularProgressIndicator()),
       ),
+      error: (error, _) =>
+          _MissingGroupState(message: describeUserFacingError(error)),
     );
   }
 }
@@ -189,103 +185,94 @@ class _GroupDetailBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final text = context.coolText;
     final space = context.coolSpace;
+    final currency = CoolCountryCatalog.resolve(
+      country: group.country,
+    ).currencyCode;
+    final routeReady = groupHasContributionRoute(group);
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 84,
-        flexibleSpace: const CoolGlassHeaderSurface(),
-        leading: IconButton(
-          onPressed: onBack,
-          icon: const Icon(Icons.arrow_back_rounded),
+    return CoreDetailScaffold(
+      onBack: onBack,
+      title: Text(
+        group.name,
+        style: text.displayCondensed(
+          theme.textTheme.headlineSmall,
+          fontWeight: FontWeight.w700,
         ),
-        title: Text(context.l10n.groupDetailTitle),
-        actions: canManageSettings
-            ? <Widget>[
-                IconButton(
-                  onPressed: onOpenSettings,
-                  icon: const Icon(Icons.tune_rounded),
-                ),
-                const SizedBox(width: CoolSpace.x2),
-              ]
-            : null,
       ),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(space.x4, space.x3, space.x4, space.x6),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            group.name,
-            style: text.display(
-              null,
-              color: colors.primaryText,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          SizedBox(height: space.x2),
           Wrap(
             spacing: space.x2,
             runSpacing: space.x2,
             children: [
-              _MetaPill(label: group.visibility.toUpperCase()),
-              _MetaPill(
+              _MetaBadge(label: group.visibility.toUpperCase()),
+              _MetaBadge(
                 label: group.type == 'community' ? 'COMMUNITY' : 'SAVING',
               ),
-              _MetaPill(
+              _MetaBadge(
                 label: '${group.memberCount} ${context.l10n.groupMembers}',
               ),
             ],
           ),
           if ((group.description ?? '').trim().isNotEmpty) ...[
-            SizedBox(height: space.x4),
+            SizedBox(height: space.x3),
             Text(
               group.description!,
-              style: text.mobiLabel(color: colors.secondaryText),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.secondaryText,
+              ),
             ),
           ],
-          SizedBox(height: space.x4),
-          Container(
-            padding: EdgeInsets.all(space.x4),
-            decoration: BoxDecoration(
-              color: colors.cardSurface,
-              borderRadius: BorderRadius.circular(CoolRadii.lg),
-              boxShadow: CoolShadows.ambientFloat(strength: 0.3),
-            ),
-            child: Builder(
-              builder: (context) {
-                final currency = CoolCountryCatalog.resolve(country: group.country).currencyCode;
-                return Column(
-                  children: [
-                    _StatRow(label: 'Balance', value: '${group.amount} $currency'),
-                    if (group.targetAmount > 0) ...[
-                      SizedBox(height: space.x2),
-                      _StatRow(label: 'Target', value: '${group.targetAmount} $currency'),
-                    ],
-                    if ((group.monthlyContribution ?? 0) > 0) ...[
-                      SizedBox(height: space.x2),
-                      _StatRow(
-                        label: 'Contribution',
-                        value: '${group.monthlyContribution} $currency',
-                      ),
-                    ],
-                    SizedBox(height: space.x2),
-                    _StatRow(label: 'Country', value: group.country),
-                  ],
-                );
-              },
+        ],
+      ),
+      actions: canManageSettings
+          ? <Widget>[
+              IconButton(
+                onPressed: onOpenSettings,
+                icon: const Icon(Icons.tune_rounded),
+              ),
+              const SizedBox(width: CoolSpace.x2),
+            ]
+          : null,
+      child: ListView(
+        padding: const EdgeInsets.only(bottom: CoolSpace.x7),
+        children: [
+          CoolCard(
+            borderRadius: CoolRadii.xl,
+            child: Column(
+              children: [
+                _StatRow(label: 'Balance', value: '${group.amount} $currency'),
+                if (group.targetAmount > 0) ...[
+                  SizedBox(height: space.x2),
+                  _StatRow(
+                    label: 'Target',
+                    value: '${group.targetAmount} $currency',
+                  ),
+                ],
+                if ((group.monthlyContribution ?? 0) > 0) ...[
+                  SizedBox(height: space.x2),
+                  _StatRow(
+                    label: 'Contribution',
+                    value: '${group.monthlyContribution} $currency',
+                  ),
+                ],
+                SizedBox(height: space.x2),
+                _StatRow(label: 'Country', value: group.country),
+              ],
             ),
           ),
           SizedBox(height: space.x5),
           if (isMember)
             CoolButton(
-              label: groupHasContributionRoute(group)
+              label: routeReady
                   ? 'CONTRIBUTE WITH MOMO'
                   : 'CONTRIBUTION ROUTE PENDING',
-              onTap: groupHasContributionRoute(group) ? onContribute : null,
-              variant: groupHasContributionRoute(group)
+              onTap: routeReady ? onContribute : null,
+              variant: routeReady
                   ? CoolButtonVariant.accent
                   : CoolButtonVariant.secondary,
             )
@@ -296,18 +283,7 @@ class _GroupDetailBody extends StatelessWidget {
               isLoading: isJoining,
             )
           else
-            Container(
-              padding: EdgeInsets.all(space.x4),
-              decoration: BoxDecoration(
-                color: colors.cardSurface,
-                borderRadius: BorderRadius.circular(CoolRadii.md),
-                boxShadow: CoolShadows.ambientFloat(strength: 0.3),
-              ),
-              child: Text(
-                'This group is invite-only.',
-                style: text.mobiLabel(color: colors.secondaryText),
-              ),
-            ),
+            const _DetailNoticeCard(message: 'This group is invite-only.'),
           if (inviteUrl != null && isMember) ...[
             SizedBox(height: space.x5),
             ShareCard(
@@ -326,9 +302,9 @@ class _GroupDetailBody extends StatelessWidget {
             Text(
               context.l10n.ledgerTitle,
               style: text.display(
-                null,
+                theme.textTheme.titleLarge,
                 color: colors.primaryText,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
               ),
             ),
             SizedBox(height: space.x3),
@@ -337,17 +313,8 @@ class _GroupDetailBody extends StatelessWidget {
                 if (page.entries.isEmpty) {
                   return Column(
                     children: [
-                      Container(
-                        padding: EdgeInsets.all(space.x4),
-                        decoration: BoxDecoration(
-                          color: colors.cardSurface,
-                          borderRadius: BorderRadius.circular(CoolRadii.md),
-                          boxShadow: CoolShadows.ambientFloat(strength: 0.3),
-                        ),
-                        child: Text(
-                          'No posted contributions yet.',
-                          style: text.mobiLabel(color: colors.secondaryText),
-                        ),
+                      const _DetailNoticeCard(
+                        message: 'No posted contributions yet.',
                       ),
                       SizedBox(height: space.x3),
                       _StatementsButton(groupId: group.id ?? ''),
@@ -374,17 +341,8 @@ class _GroupDetailBody extends StatelessWidget {
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, _) => Column(
                 children: [
-                  Container(
-                    padding: EdgeInsets.all(space.x4),
-                    decoration: BoxDecoration(
-                      color: colors.cardSurface,
-                      borderRadius: BorderRadius.circular(CoolRadii.md),
-                      boxShadow: CoolShadows.ambientFloat(strength: 0.3),
-                    ),
-                    child: Text(
-                      'Could not load the ledger.',
-                      style: text.mobiLabel(color: colors.secondaryText),
-                    ),
+                  const _DetailNoticeCard(
+                    message: 'Could not load the ledger.',
                   ),
                   SizedBox(height: space.x3),
                   _StatementsButton(groupId: group.id ?? ''),
@@ -405,57 +363,51 @@ class _StatementsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final text = context.coolText;
-    final space = context.coolSpace;
-
     return SizedBox(
       width: double.infinity,
-      child: OutlinedButton(
-        onPressed: () => context.push(
+      child: CoolButton(
+        label: 'VIEW ALL STATEMENTS',
+        onTap: () => context.push(
           AppRoutes.contributionCircleStatementsLocation(groupId),
         ),
-        style: OutlinedButton.styleFrom(
-          foregroundColor: colors.accent,
-          side: BorderSide.none,
-          backgroundColor: colors.buttonSecondaryBackground,
-          padding: EdgeInsets.symmetric(vertical: space.x3),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(CoolRadii.lg),
-          ),
-        ),
-        child: Text(
-          'VIEW ALL STATEMENTS',
-          style: text.mono(
-            null,
-            color: colors.accent,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 0.8,
-          ),
-        ),
+        variant: CoolButtonVariant.secondary,
       ),
     );
   }
 }
 
-class _MetaPill extends StatelessWidget {
-  const _MetaPill({required this.label});
+class _MetaBadge extends StatelessWidget {
+  const _MetaBadge({required this.label});
 
   final String label;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: colors.cardSurface,
-        borderRadius: BorderRadius.circular(CoolRadii.pill),
-        boxShadow: CoolShadows.ambientFloat(strength: 0.2),
-      ),
+    return StatusBadge(
+      label: label,
+      bgColor: colors.cardSurfaceStrong,
+      textColor: colors.secondaryText,
+    );
+  }
+}
+
+class _DetailNoticeCard extends StatelessWidget {
+  const _DetailNoticeCard({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    return CoolCard(
+      backgroundColor: colors.cardSurfaceStrong,
+      borderRadius: CoolRadii.xl,
       child: Text(
-        label,
-        style: context.coolText.mobiLabel(color: colors.secondaryText),
+        message,
+        style: Theme.of(
+          context,
+        ).textTheme.bodyMedium?.copyWith(color: colors.secondaryText),
       ),
     );
   }
@@ -502,15 +454,21 @@ class _LedgerTile extends StatelessWidget {
     final isAllocated = entry.payerUserId.trim().isNotEmpty;
     final statusLabel = isAllocated ? 'confirmed' : 'pending_review';
 
-    return Container(
-      padding: const EdgeInsets.all(CoolSpace.x4),
-      decoration: BoxDecoration(
-        color: colors.cardSurface,
-        borderRadius: BorderRadius.circular(CoolRadii.md),
-        boxShadow: CoolShadows.ambientFloat(strength: 0.3),
-      ),
+    return CoolCard(
+      borderRadius: CoolRadii.xl,
       child: Row(
         children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: colors.cardSurfaceStrong,
+              borderRadius: BorderRadius.circular(CoolRadii.md),
+            ),
+            alignment: Alignment.center,
+            child: Icon(Icons.payments_rounded, color: colors.accent, size: 20),
+          ),
+          const SizedBox(width: CoolSpace.x4),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -553,10 +511,7 @@ class _LedgerTile extends StatelessWidget {
                       entry: entry,
                       groupId: groupId,
                     ),
-                    icon: Icon(
-                      Icons.tune_rounded,
-                      color: colors.secondaryText,
-                    ),
+                    icon: Icon(Icons.tune_rounded, color: colors.secondaryText),
                   ),
                 ),
               ],
@@ -576,68 +531,66 @@ class _MissingGroupState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 84,
-        flexibleSpace: const CoolGlassHeaderSurface(),
-        leading: IconButton(
-          onPressed: () {
-            if (context.canPop()) {
-              context.pop();
-              return;
-            }
-            context.go(AppRoutes.contributionCircles);
-          },
-          icon: const Icon(Icons.arrow_back_rounded),
+    return CoreDetailScaffold(
+      onBack: () {
+        if (context.canPop()) {
+          context.pop();
+          return;
+        }
+        context.go(AppRoutes.contributionCircles);
+      },
+      title: Text(
+        context.l10n.groupDetailTitle,
+        style: context.coolText.displayCondensed(
+          Theme.of(context).textTheme.headlineSmall,
+          fontWeight: FontWeight.w700,
         ),
-        title: Text(context.l10n.groupDetailTitle),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: CoolSpace.x7),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 72,
-                height: 72,
-                decoration: BoxDecoration(
-                  color: colors.operationalSurface,
-                  borderRadius: BorderRadius.circular(CoolRadii.md),
+      child: Center(
+        child: CoolCard(
+          borderRadius: CoolRadii.xl,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: CoolSpace.x2),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 72,
+                  height: 72,
+                  decoration: BoxDecoration(
+                    color: colors.operationalSurface,
+                    borderRadius: BorderRadius.circular(CoolRadii.md),
+                  ),
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.group_off_rounded,
+                    size: 36,
+                    color: colors.tertiaryText,
+                  ),
                 ),
-                alignment: Alignment.center,
-                child: Icon(
-                  Icons.group_off_rounded,
-                  size: 36,
-                  color: colors.tertiaryText,
+                const SizedBox(height: CoolSpace.x5),
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: colors.secondaryText,
+                    height: 1.5,
+                  ),
                 ),
-              ),
-              const SizedBox(height: CoolSpace.x5),
-              Text(
-                message,
-                textAlign: TextAlign.center,
-                style: context.coolText.display(
-                  null,
-                  color: colors.secondaryText,
-                  height: 1.5,
+                const SizedBox(height: CoolSpace.x6),
+                CoolButton(
+                  label: context.l10n.goBack,
+                  variant: CoolButtonVariant.secondary,
+                  onTap: () {
+                    if (context.canPop()) {
+                      context.pop();
+                      return;
+                    }
+                    context.go(AppRoutes.contributionCircles);
+                  },
                 ),
-              ),
-              const SizedBox(height: CoolSpace.x6),
-              CoolButton(
-                label: context.l10n.goBack,
-                variant: CoolButtonVariant.secondary,
-                onTap: () {
-                  if (context.canPop()) {
-                    context.pop();
-                    return;
-                  }
-                  context.go(AppRoutes.contributionCircles);
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

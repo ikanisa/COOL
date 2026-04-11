@@ -5,6 +5,8 @@ import 'package:cool_app/features/groups/screens/group_statements_screen.dart';
 import 'package:cool_app/features/momo/models/momo_statement.dart';
 import 'package:cool_app/features/momo/providers/momo_statement_providers.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
+import 'package:cool_app/shared/widgets/core_detail_scaffold.dart';
+import 'package:cool_app/shared/widgets/cool_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -60,6 +62,8 @@ void main() {
 
     await tester.pumpAndSettle();
 
+    expect(find.byType(CoreDetailScaffold), findsOneWidget);
+    expect(find.byType(CoolCard), findsWidgets);
     expect(find.byIcon(Icons.picture_as_pdf_rounded), findsNothing);
     expect(find.byIcon(Icons.grid_on_rounded), findsNothing);
     expect(find.text('Weekly contribution'), findsOneWidget);

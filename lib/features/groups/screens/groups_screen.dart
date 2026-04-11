@@ -7,12 +7,15 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/user_error.dart';
+import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_glass_header_surface.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_search_field.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/qr_share_sheet.dart';
+import '../../../shared/widgets/status_badge.dart';
 import '../../../shared/widgets/tab_pill.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../auth/widgets/require_verified_user.dart';
@@ -414,19 +417,17 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                           Text(
                             describeUserFacingError(error),
                             textAlign: TextAlign.center,
-                            style: textTheme.mobiLabel(color: colors.secondaryText),
+                            style: textTheme.mobiLabel(
+                              color: colors.secondaryText,
+                            ),
                           ),
                           SizedBox(height: space.x4),
-                          GestureDetector(
-                            onTap: _refreshGroups,
-                            child: Text(
-                              'TAP TO RETRY',
-                              style: textTheme.mono(
-                                null,
-                                color: colors.accent,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1.2,
-                              ),
+                          SizedBox(
+                            width: 220,
+                            child: CoolButton(
+                              label: 'TAP TO RETRY',
+                              onTap: _refreshGroups,
+                              variant: CoolButtonVariant.secondary,
                             ),
                           ),
                         ],

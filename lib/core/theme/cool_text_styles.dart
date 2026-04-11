@@ -25,7 +25,7 @@ class CoolTextStyles {
         _textTheme.bodyLarge ??
         const TextStyle(fontSize: 18, fontWeight: FontWeight.w600);
     return resolvedBase.copyWith(
-      fontFamily: 'Inter',
+      fontFamily: 'DM Mono',
       color: color ?? resolvedBase.color ?? _defaultColor,
       fontWeight: fontWeight ?? resolvedBase.fontWeight,
       letterSpacing: letterSpacing ?? resolvedBase.letterSpacing,
@@ -34,14 +34,27 @@ class CoolTextStyles {
   }
 
   TextStyle mobiLabel({Color? color}) {
-    final labelColor = _textTheme.labelSmall?.color ?? _defaultColor;
-    return TextStyle(
-      fontFamily: 'Inter',
-      fontSize: 14,
-      fontWeight: FontWeight.w400,
-      color: color ?? labelColor,
-      letterSpacing: 1.0,
-      height: 1.2,
+    final resolvedBase =
+        _textTheme.labelSmall ??
+        const TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 1.0,
+          height: 1.2,
+        );
+    final resolvedWeight = resolvedBase.fontWeight;
+    final clampedWeight =
+        resolvedWeight != null && resolvedWeight.index >= FontWeight.w400.index
+        ? resolvedWeight
+        : FontWeight.w400;
+    final resolvedSize = resolvedBase.fontSize ?? 14;
+    return resolvedBase.copyWith(
+      fontSize: resolvedSize < 14 ? 14 : resolvedSize,
+      fontWeight: clampedWeight,
+      color: color ?? resolvedBase.color ?? _defaultColor,
+      letterSpacing: resolvedBase.letterSpacing ?? 1.0,
+      height: resolvedBase.height ?? 1.2,
     );
   }
 

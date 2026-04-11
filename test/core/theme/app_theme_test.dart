@@ -120,5 +120,35 @@ void main() {
         AppThemeText.labelFontFamily,
       );
     });
+
+    testWidgets('cool text helpers enforce mono family and label minimums', (
+      tester,
+    ) async {
+      late TextStyle monoStyle;
+      late TextStyle labelStyle;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark,
+          home: Builder(
+            builder: (context) {
+              final text = context.coolText;
+              final theme = Theme.of(context);
+              monoStyle = text.mono(theme.textTheme.labelLarge);
+              labelStyle = text.mobiLabel();
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
+      );
+
+      expect(monoStyle.fontFamily, 'DM Mono');
+      expect(labelStyle.fontFamily, AppThemeText.labelFontFamily);
+      expect(labelStyle.fontSize, greaterThanOrEqualTo(14));
+      expect(
+        labelStyle.fontWeight?.index ?? FontWeight.w400.index,
+        greaterThanOrEqualTo(FontWeight.w400.index),
+      );
+    });
   });
 }

@@ -5,6 +5,7 @@ import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/date_formatters.dart';
 import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/core_detail_scaffold.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/transaction_status_chip.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -146,9 +147,7 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
       return 'All posted entries in view';
     }
     final startLabel = start == null ? '...' : formatExportDateLabel(start);
-    final endLabel = end == null
-        ? '...'
-        : formatExportDateLabel(end);
+    final endLabel = end == null ? '...' : formatExportDateLabel(end);
     return '$startLabel - $endLabel';
   }
 
@@ -208,38 +207,32 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
             onPressed: _isExportingPdf
                 ? null
                 : () => _export(
-                      format: StatementExportFormat.pdf,
-                      groupName: groupName,
-                    ),
+                    format: StatementExportFormat.pdf,
+                    groupName: groupName,
+                  ),
             icon: _isExportingPdf
                 ? const SizedBox(
                     width: 18,
                     height: 18,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : Icon(
-                    Icons.picture_as_pdf_rounded,
-                    color: colors.primaryText,
-                  ),
+                : Icon(Icons.picture_as_pdf_rounded, color: colors.primaryText),
           ),
         if (canExportLedger)
           IconButton(
             onPressed: _isExportingExcel
                 ? null
                 : () => _export(
-                      format: StatementExportFormat.excel,
-                      groupName: groupName,
-                    ),
+                    format: StatementExportFormat.excel,
+                    groupName: groupName,
+                  ),
             icon: _isExportingExcel
                 ? const SizedBox(
                     width: 18,
                     height: 18,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : Icon(
-                    Icons.grid_on_rounded,
-                    color: colors.primaryText,
-                  ),
+                : Icon(Icons.grid_on_rounded, color: colors.primaryText),
           ),
         const SizedBox(width: CoolSpace.x2),
       ],
@@ -286,7 +279,8 @@ class _GroupStatementsScreenState extends ConsumerState<GroupStatementsScreen> {
                       ),
                     );
                   }
-                  final isAdmin = accessAsync.valueOrNull?.isPrivilegedAdmin ?? false;
+                  final isAdmin =
+                      accessAsync.valueOrNull?.isPrivilegedAdmin ?? false;
                   return Padding(
                     padding: const EdgeInsets.only(bottom: CoolSpace.x3),
                     child: _StatementTile(
@@ -323,48 +317,43 @@ class _EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(CoolSpace.x6),
-      decoration: BoxDecoration(
-        color: colors.cardSurface,
-        borderRadius: BorderRadius.circular(CoolRadii.xl),
-        boxShadow: CoolShadows.ambientFloat(strength: 0.3),
-      ),
-      child: Column(
-        children: [
-          Container(
-            width: 72,
-            height: 72,
-            decoration: BoxDecoration(
-              color: colors.accent.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
+      child: CoolCard(
+        borderRadius: CoolRadii.xl,
+        child: Column(
+          children: [
+            Container(
+              width: 72,
+              height: 72,
+              decoration: BoxDecoration(
+                color: colors.cardSurfaceStrong,
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: Icon(
+                Icons.receipt_long_rounded,
+                color: colors.accent,
+                size: 32,
+              ),
             ),
-            alignment: Alignment.center,
-            child: Icon(
-              Icons.receipt_long_rounded,
-              color: colors.accent,
-              size: 32,
+            const SizedBox(height: CoolSpace.x4),
+            Text(
+              'NO TRANSACTIONS YET',
+              style: context.coolText.displayCondensed(
+                Theme.of(context).textTheme.titleLarge,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-          ),
-          const SizedBox(height: CoolSpace.x4),
-          Text(
-            'NO TRANSACTIONS YET',
-            style: context.coolText.displayCondensed(
-              Theme.of(context).textTheme.titleLarge,
-              fontWeight: FontWeight.w700,
+            const SizedBox(height: CoolSpace.x2),
+            Text(
+              'Contributions will appear here as members make payments to this group.',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: colors.secondaryText,
+                height: 1.5,
+              ),
             ),
-          ),
-          const SizedBox(height: CoolSpace.x2),
-          Text(
-            'Contributions will appear here as members make payments to this group.',
-            textAlign: TextAlign.center,
-            style: context.coolText.mono(
-              Theme.of(context).textTheme.bodySmall,
-              fontWeight: FontWeight.w400,
-              color: colors.secondaryText,
-              height: 1.5,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -377,18 +366,15 @@ class _LockedState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(CoolSpace.x6),
-      decoration: BoxDecoration(
-        color: colors.cardSurface,
-        borderRadius: BorderRadius.circular(CoolRadii.xl),
-        boxShadow: CoolShadows.ambientFloat(strength: 0.3),
-      ),
-      alignment: Alignment.center,
-      child: Icon(
-        Icons.lock_outline_rounded,
-        color: colors.tertiaryText,
-        size: 28,
+    return CoolCard(
+      backgroundColor: colors.cardSurfaceStrong,
+      borderRadius: CoolRadii.xl,
+      child: Center(
+        child: Icon(
+          Icons.lock_outline_rounded,
+          color: colors.tertiaryText,
+          size: 28,
+        ),
       ),
     );
   }
@@ -402,20 +388,14 @@ class _ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(CoolSpace.x5),
-      decoration: BoxDecoration(
-        color: colors.cardSurface,
-        borderRadius: BorderRadius.circular(CoolRadii.xl),
-        boxShadow: CoolShadows.ambientFloat(strength: 0.3),
-      ),
+    return CoolCard(
+      backgroundColor: colors.cardSurfaceStrong,
+      borderRadius: CoolRadii.xl,
       child: Text(
         message,
-        style: context.coolText.mono(
-          Theme.of(context).textTheme.bodyMedium,
-          fontWeight: FontWeight.w400,
-          color: colors.secondaryText,
-        ),
+        style: Theme.of(
+          context,
+        ).textTheme.bodyMedium?.copyWith(color: colors.secondaryText),
       ),
     );
   }
@@ -438,13 +418,8 @@ class _StatementTile extends StatelessWidget {
     final isAllocated = entry.payerUserId.trim().isNotEmpty;
     final statusLabel = isAllocated ? 'confirmed' : 'pending_review';
 
-    return Container(
-      padding: const EdgeInsets.all(CoolSpace.x4),
-      decoration: BoxDecoration(
-        color: colors.cardSurface,
-        borderRadius: BorderRadius.circular(CoolRadii.xl),
-        boxShadow: CoolShadows.ambientFloat(strength: 0.3),
-      ),
+    return CoolCard(
+      borderRadius: CoolRadii.xl,
       child: Column(
         children: [
           Row(
@@ -523,10 +498,7 @@ class _StatementTile extends StatelessWidget {
                       entry: entry,
                       groupId: groupId,
                     ),
-                    icon: Icon(
-                      Icons.tune_rounded,
-                      color: colors.secondaryText,
-                    ),
+                    icon: Icon(Icons.tune_rounded, color: colors.secondaryText),
                   ),
                 ),
               ],
@@ -537,4 +509,3 @@ class _StatementTile extends StatelessWidget {
     );
   }
 }
-

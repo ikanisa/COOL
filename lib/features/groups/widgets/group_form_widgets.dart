@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/config/country_catalog.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_card.dart';
 
 // ═══════════════════════════════════════════════════════════════════════
 // Shared form widgets used by GroupCreateScreen and GroupSettingsScreen.
@@ -17,7 +19,7 @@ class GroupSectionLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       label,
-      style: context.coolText.mobiLabel(
+      style: Theme.of(context).textTheme.labelSmall?.copyWith(
         color: context.coolSemanticColors.tertiaryText,
       ),
     );
@@ -103,7 +105,7 @@ class GroupOptionChip extends StatelessWidget {
               .mobiLabel(
                 color: selected ? colors.accentForeground : colors.primaryText,
               )
-              .copyWith(fontWeight: FontWeight.w700, letterSpacing: 1.0),
+              .copyWith(fontWeight: FontWeight.w600, letterSpacing: 1.0),
         ),
       ),
     );
@@ -196,6 +198,165 @@ class GroupSegmentTab extends StatelessWidget {
             letterSpacing: 2.2,
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Shared MoMo route editor used by create/settings flows.
+class GroupMomoRouteSection extends StatelessWidget {
+  const GroupMomoRouteSection({
+    required this.routeType,
+    required this.momoNumberController,
+    required this.momoCodeController,
+    required this.supportsMomoCode,
+    required this.onRouteTypeChanged,
+    this.useCustom,
+    this.onToggleCustom,
+    super.key,
+  });
+
+  final bool? useCustom;
+  final ValueChanged<bool>? onToggleCustom;
+  final MomoRecipientType routeType;
+  final TextEditingController momoNumberController;
+  final TextEditingController momoCodeController;
+  final bool supportsMomoCode;
+  final ValueChanged<MomoRecipientType> onRouteTypeChanged;
+
+  bool get _showsToggle => useCustom != null && onToggleCustom != null;
+  bool get _showsEditor => !_showsToggle || useCustom == true;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
+    final text = context.coolText;
+
+    return CoolCard(
+      borderRadius: CoolRadii.xl,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (_showsToggle)
+            InkWell(
+              onTap: () => onToggleCustom!.call(!useCustom!),
+              borderRadius: BorderRadius.circular(CoolRadii.lg),
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: space.x1),
+                child: Row(
+                  children: [
+                    AnimatedContainer(
+                      duration: CoolMotion.quick,
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        color: useCustom!
+                            ? colors.accent
+                            : colors.cardSurfaceStrong,
+                        borderRadius: BorderRadius.circular(CoolRadii.xs),
+                      ),
+                      alignment: Alignment.center,
+                      child: Icon(
+                        useCustom! ? Icons.check_rounded : Icons.add_rounded,
+                        size: 16,
+                        color: useCustom!
+                            ? colors.accentForeground
+                            : colors.secondaryText,
+                      ),
+                    ),
+                    SizedBox(width: space.x3),
+                    Expanded(
+                      child: Text(
+                        'USE DIFFERENT MOMO FOR THIS GROUP',
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: colors.primaryText,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          if (_showsEditor) ...[
+            if (_showsToggle) SizedBox(height: space.x3),
+            const GroupSectionLabel(label: 'RECEIVE PAYMENTS VIA'),
+            SizedBox(height: space.x2),
+            CoolCard(
+              backgroundColor: colors.cardSurfaceStrong,
+              borderRadius: CoolRadii.lg,
+              padding: const EdgeInsets.all(6),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: GroupSegmentTab(
+                      label: 'NUMBER',
+                      selected: routeType == MomoRecipientType.phoneNumber,
+                      onTap: () =>
+                          onRouteTypeChanged(MomoRecipientType.phoneNumber),
+                    ),
+                  ),
+                  if (supportsMomoCode)
+                    Expanded(
+                      child: GroupSegmentTab(
+                        label: 'CODE',
+                        selected: routeType == MomoRecipientType.code,
+                        onTap: () => onRouteTypeChanged(MomoRecipientType.code),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            SizedBox(height: space.x3),
+            CoolCard(
+              backgroundColor: colors.cardSurfaceStrong,
+              borderRadius: CoolRadii.lg,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    routeType == MomoRecipientType.code
+                        ? 'MERCHANT CODE'
+                        : 'MOMO NUMBER',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: colors.tertiaryText,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(height: space.x2),
+                  TextField(
+                    controller: routeType == MomoRecipientType.code
+                        ? momoCodeController
+                        : momoNumberController,
+                    keyboardType: TextInputType.number,
+                    style: text.display(
+                      theme.textTheme.headlineSmall,
+                      color: colors.primaryText,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.5,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: routeType == MomoRecipientType.code
+                          ? '23456'
+                          : '0788123456',
+                      hintStyle: text.display(
+                        theme.textTheme.headlineSmall,
+                        color: colors.tertiaryText,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -0.5,
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.zero,
+                      isDense: true,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }

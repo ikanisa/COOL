@@ -5,6 +5,7 @@ import 'package:cool_app/features/groups/providers/groups_provider.dart';
 import 'package:cool_app/features/groups/repositories/group_repository.dart';
 import 'package:cool_app/features/groups/screens/group_settings_screen.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
+import 'package:cool_app/shared/widgets/core_detail_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -111,6 +112,8 @@ void main() {
     );
 
     await tester.pumpAndSettle();
+
+    expect(find.byType(CoreDetailScaffold), findsOneWidget);
     await tester.tap(find.byIcon(Icons.check_rounded));
     await tester.pumpAndSettle();
 

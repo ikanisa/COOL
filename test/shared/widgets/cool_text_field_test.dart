@@ -23,6 +23,18 @@ void main() {
       expect(find.text('Phone'), findsOneWidget);
     });
 
+    testWidgets('label typography stays on the design-system floor', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _wrap(const CoolTextField(hint: 'Enter phone', label: 'Phone')),
+      );
+
+      final label = tester.widget<Text>(find.text('Phone'));
+      expect(label.style?.fontSize, greaterThanOrEqualTo(14));
+      expect(label.style?.fontWeight, FontWeight.w600);
+    });
+
     testWidgets('accepts text input', (tester) async {
       final controller = TextEditingController();
       await tester.pumpWidget(

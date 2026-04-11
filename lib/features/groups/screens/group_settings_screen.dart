@@ -7,8 +7,8 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/core_detail_scaffold.dart';
-import '../../../shared/widgets/cool_text_field.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../../../shared/widgets/cool_text_field.dart';
 import '../models/group.dart';
 import '../providers/groups_provider.dart';
 import '../widgets/group_form_widgets.dart';
@@ -19,7 +19,8 @@ class GroupSettingsScreen extends ConsumerStatefulWidget {
   final String groupId;
 
   @override
-  ConsumerState<GroupSettingsScreen> createState() => _GroupSettingsScreenState();
+  ConsumerState<GroupSettingsScreen> createState() =>
+      _GroupSettingsScreenState();
 }
 
 class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
@@ -88,7 +89,9 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
 
     setState(() => _isSaving = true);
     try {
-      await ref.read(groupRepositoryProvider).updateGroupSavingsSettings(
+      await ref
+          .read(groupRepositoryProvider)
+          .updateGroupSavingsSettings(
             groupId: group.id ?? '',
             name: _nameController.text,
             description: _descriptionController.text,
@@ -256,7 +259,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                       onSelected: (value) => setState(() => _frequency = value),
                     ),
                     const SizedBox(height: CoolSpace.x5),
-                    _RouteCard(
+                    GroupMomoRouteSection(
                       routeType: _routeType,
                       momoNumberController: _momoNumberController,
                       momoCodeController: _momoCodeController,
@@ -286,115 +289,3 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
     return value;
   }
 }
-
-class _RouteCard extends StatelessWidget {
-  const _RouteCard({
-    required this.routeType,
-    required this.momoNumberController,
-    required this.momoCodeController,
-    required this.supportsMomoCode,
-    required this.onRouteTypeChanged,
-  });
-
-  final MomoRecipientType routeType;
-  final TextEditingController momoNumberController;
-  final TextEditingController momoCodeController;
-  final bool supportsMomoCode;
-  final ValueChanged<MomoRecipientType> onRouteTypeChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final space = context.coolSpace;
-    final text = context.coolText;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: colors.cardSurface,
-            borderRadius: BorderRadius.circular(CoolRadii.sm),
-            boxShadow: CoolShadows.ambientFloat(strength: 0.3),
-          ),
-          padding: const EdgeInsets.all(6),
-          child: Row(
-            children: [
-              Expanded(
-                child: GroupSegmentTab(
-                  label: 'NUMBER',
-                  selected: routeType == MomoRecipientType.phoneNumber,
-                  onTap: () => onRouteTypeChanged(MomoRecipientType.phoneNumber),
-                ),
-              ),
-              if (supportsMomoCode)
-                Expanded(
-                  child: GroupSegmentTab(
-                    label: 'CODE',
-                    selected: routeType == MomoRecipientType.code,
-                    onTap: () => onRouteTypeChanged(MomoRecipientType.code),
-                  ),
-                ),
-            ],
-          ),
-        ),
-        SizedBox(height: space.x3),
-        Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(
-            horizontal: space.x5,
-            vertical: space.x4,
-          ),
-          decoration: BoxDecoration(
-            color: colors.cardSurface,
-            borderRadius: BorderRadius.circular(CoolRadii.lg),
-            boxShadow: CoolShadows.ambientFloat(strength: 0.2),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                routeType == MomoRecipientType.code
-                    ? 'MERCHANT CODE'
-                    : 'MOMO NUMBER',
-                style: text.mobiLabel(color: colors.tertiaryText).copyWith(
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 1.6,
-                  fontSize: 14,
-                ),
-              ),
-              SizedBox(height: space.x2),
-              TextField(
-                controller: routeType == MomoRecipientType.code
-                    ? momoCodeController
-                    : momoNumberController,
-                keyboardType: TextInputType.number,
-                style: text.display(
-                  Theme.of(context).textTheme.headlineSmall,
-                  color: colors.primaryText,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: -0.5,
-                ),
-                decoration: InputDecoration(
-                  hintText: routeType == MomoRecipientType.code
-                      ? '23456'
-                      : '0788123456',
-                  hintStyle: text.display(
-                    Theme.of(context).textTheme.headlineSmall,
-                    color: colors.tertiaryText,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -0.5,
-                  ),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.zero,
-                  isDense: true,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-

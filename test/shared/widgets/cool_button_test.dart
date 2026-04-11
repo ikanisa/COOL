@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:cool_app/core/theme/app_theme_text.dart';
 import 'package:cool_app/shared/widgets/cool_button.dart';
 
 Widget _wrap(Widget child) => MaterialApp(
@@ -89,6 +90,18 @@ void main() {
         ),
       );
       expect(find.text('Cancel'), findsOneWidget);
+    });
+
+    testWidgets('uses design-system CTA typography', (tester) async {
+      await tester.pumpWidget(
+        _wrap(CoolButton(label: 'Create Group', onTap: () {})),
+      );
+
+      final text = tester.widget<Text>(find.text('Create Group'));
+      expect(text.style?.fontFamily, AppThemeText.labelFontFamily);
+      expect(text.style?.fontSize, 14);
+      expect(text.style?.fontWeight, FontWeight.w700);
+      expect(text.style?.letterSpacing, 1.2);
     });
 
     testWidgets('expands vertically for large text without overflowing', (

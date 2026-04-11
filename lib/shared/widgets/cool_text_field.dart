@@ -100,7 +100,7 @@ class _CoolTextFieldState extends State<CoolTextField> {
             child: Text(
               widget.label!,
               style: theme.textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
                 color: _isFocused
                     ? colors.buttonPrimaryBackground
                     : colors.secondaryText,
