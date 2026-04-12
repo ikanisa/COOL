@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,6 +46,13 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
   bool _inviteBannerDismissed = false;
   bool _isJoining = false;
   String _publicSearch = '';
+  Timer? _searchDebounce;
+
+  @override
+  void dispose() {
+    _searchDebounce?.cancel();
+    super.dispose();
+  }
 
   Future<void> _refreshGroups() async {
     ref.read(groupsRefreshTickProvider.notifier).state++;
@@ -290,7 +299,19 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                         CoolSearchField(
                           hint: l10n.searchGroups,
                           onChanged: (value) {
-                            setState(() => _publicSearch = value.trim());
+                            // PF-03: Debounce search input to avoid
+                            // hammering Supabase on every keystroke.
+                            _searchDebounce?.cancel();
+                            _searchDebounce = Timer(
+                              const Duration(milliseconds: 400),
+                              () {
+                                if (mounted) {
+                                  setState(
+                                    () => _publicSearch = value.trim(),
+                                  );
+                                }
+                              },
+                            );
                           },
                         ),
                       ],

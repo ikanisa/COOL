@@ -34,12 +34,20 @@ class CoolApp extends ConsumerWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: themePreference.themeMode,
-      builder: (context, child) =>
-          ThemeSystemChrome(
+      builder: (context, child) {
+        final mediaQuery = MediaQuery.of(context);
+        return MediaQuery(
+          data: mediaQuery.copyWith(
+            textScaler: mediaQuery.textScaler.clamp(minScaleFactor: 1.0, maxScaleFactor: 1.4),
+            accessibleNavigation: true,
+          ),
+          child: ThemeSystemChrome(
             child: PwaExperienceOverlay(
               child: child ?? const SizedBox.shrink(),
             ),
           ),
+        );
+      },
       routerConfig: router,
       locale: const Locale('en'),
       localizationsDelegates: AppLocalizations.localizationsDelegates,

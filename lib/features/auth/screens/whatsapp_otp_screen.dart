@@ -127,8 +127,30 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
     }
   }
 
+  /// Distributes a multi-digit pasted OTP code across the 6 input boxes.
+  void _distributeOtpDigits(String digits) {
+    final chars = digits.replaceAll(RegExp(r'[^0-9]'), '').split('');
+    for (var i = 0; i < 6; i++) {
+      _otpControllers[i].text = i < chars.length ? chars[i] : '';
+    }
+    // Place cursor after the last filled box, or on the last box.
+    final focusIndex = (chars.length - 1).clamp(0, 5);
+    _otpFocusNodes[focusIndex].requestFocus();
+    setState(() {});
+    // Auto-verify when all 6 are filled.
+    final full = _otpControllers.every((c) => c.text.trim().isNotEmpty);
+    if (full) {
+      _verifyCode();
+    }
+  }
+
   void _sendCode() {
+    // FN-01: Guard against double-sends during countdown sync lag.
     if (_retryCountdown > 0) {
+      return;
+    }
+    final otpState = ref.read(whatsAppOtpStateProvider);
+    if (otpState.isLoading) {
       return;
     }
     final raw = _phoneController.text.trim();
@@ -524,7 +546,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                         focusNode: _otpFocusNodes[index],
                         keyboardType: TextInputType.number,
                         textAlign: TextAlign.center,
-                        maxLength: 1,
+                        maxLength: 6, // Allow paste of full code
                         style: context.coolText.displayCondensed(
                           Theme.of(context).textTheme.headlineSmall,
                           fontWeight: FontWeight.w800,
@@ -538,6 +560,13 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                         ),
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         onChanged: (value) {
+                          // ── Paste detection: if multiple digits arrived
+                          // (user pasted a code), distribute across all boxes.
+                          final digits = value.replaceAll(RegExp(r'[^0-9]'), '');
+                          if (digits.length > 1) {
+                            _distributeOtpDigits(digits);
+                            return;
+                          }
                           setState(() {});
                           if (value.isNotEmpty && index < 5) {
                             _otpFocusNodes[index + 1].requestFocus();

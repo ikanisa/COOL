@@ -118,6 +118,12 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
           return _MissingGroupState(message: context.l10n.groupNotFound);
         }
 
+        // Guard against null/empty group ID — would produce broken routes.
+        final groupId = group.id;
+        if (groupId == null || groupId.trim().isEmpty) {
+          return _MissingGroupState(message: context.l10n.groupNotFound);
+        }
+
         final access = accessAsync.valueOrNull;
         final isMember = access?.isMember ?? myGroupIds.contains(group.id);
         final canManageSettings = access?.canManageSettings ?? false;

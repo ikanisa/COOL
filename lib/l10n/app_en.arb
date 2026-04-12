@@ -1517,6 +1517,102 @@
   "offlineBanner": "You're offline. Some features may be unavailable.",
 
   "featureTemporarilyUnavailable": "Temporarily Unavailable",
-  "featureComingSoonMessage": "{featureName} is coming soon. Stay tuned for updates."
+  "featureComingSoonMessage": "{featureName} is coming soon. Stay tuned for updates.",
+
+  "groupSettingsLoadError": "We could not load this group right now. Check your connection and try again.",
+  "groupSettingsGroupUnavailable": "This group is no longer available.",
+  "groupSettingsAccessCheckError": "We could not verify your access to this group. Try again in a moment.",
+  "groupSettingsNoPermission": "You do not have permission to change these settings.",
+  "groupSettingsAmountInvalid": "Enter a valid amount.",
+  "groupSettingsAmountNegative": "Amount cannot be negative.",
+
+  "validationMomoNumberRequired": "MoMo number is required.",
+  "validationMomoNumberInvalid": "Enter a valid {countryName} mobile money number.",
+  "@validationMomoNumberInvalid": {
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      }
+    }
+  },
+  "validationMomoNotConfigured": "Mobile money is not configured for {countryName}.",
+  "@validationMomoNotConfigured": {
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      }
+    }
+  },
+  "validationMomoCodeRequired": "MoMo code is required.",
+  "validationMomoCodeDigits": "MoMo code must be 4–9 digits.",
+  "validationMomoCodeOnlyNumbers": "MoMo code must contain only numbers.",
+  "validationMomoCodeInvalid": "Enter a valid MoMo code.",
+  "validationMomoCodeNotConfigured": "Merchant-code payments are not configured for {countryName}.",
+  "@validationMomoCodeNotConfigured": {
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      }
+    }
+  },
+  "validationPhoneInvalid": "Enter a valid phone number.",
+  "validationEnterPhoneNumber": "Enter your phone number.",
+  "validationRwandanMobilePrefix": "Rwandan mobile numbers start with 07.",
+  "validationUseE164Format": "Use + for full E.164 WhatsApp numbers.",
+
+  "adminSavingsGroupTitle": "Savings Group",
+  "adminSavingsGroupNotFound": "Savings group not found.",
+  "adminSavingsCloseGroup": "Close Group",
+  "adminSavingsClosedStatus": "CLOSED",
+  "adminSavingsActiveStatus": "ACTIVE",
+  "adminSavingsAddingMember": "Adding…",
+  "adminSavingsAddMember": "Add",
+  "adminSavingsAllocating": "Allocating…",
+  "adminSavingsAllocate": "Allocate",
+  "adminSavingsSelectMember": "Select member",
+  "adminSavingsNoMembersYet": "No members yet.",
+  "adminSavingsNoMembers": "No members.",
+  "adminSavingsPhoneRequired": "Phone number is required.",
+  "adminSavingsRemoveMemberTitle": "Remove member",
+  "adminSavingsRemoveMemberMessage": "Remove {name} from this savings group?",
+  "@adminSavingsRemoveMemberMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adminSavingsMemberAdded": "Member added.",
+  "adminSavingsMemberRemoved": "{name} removed.",
+  "@adminSavingsMemberRemoved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adminSavingsCloseGroupTitle": "Close savings group",
+  "adminSavingsCloseGroupMessage": "Members will no longer be able to contribute.",
+  "adminSavingsGroupClosed": "Group closed.",
+  "adminSavingsContributionRecorded": "Contribution of {amount} RWF recorded.",
+  "@adminSavingsContributionRecorded": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "adminSavingsErrorText": "Error: {error}",
+  "@adminSavingsErrorText": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "adminSavingsMembersTab": "Members",
+  "adminSavingsAllocationsTab": "Allocations",
+  "adminSavingsRemoveMemberTooltip": "Remove member",
+  "adminSavingsEnterValidAmount": "Enter a valid amount."
 }
 

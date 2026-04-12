@@ -44,7 +44,9 @@ Future<bool> requireVerifiedUser(
   final authState = ref.read(authProvider);
   final profilePhone = authState.user?.phone.trim() ?? '';
   final sessionPhone = authSessionPhone(authState.session)?.trim() ?? '';
-  if (profilePhone.isNotEmpty || sessionPhone.isNotEmpty) {
+  // Guard: require a phone that actually looks like a real number,
+  // not just a non-empty string (which could be whitespace or metadata junk).
+  if (_isPlausiblePhone(profilePhone) || _isPlausiblePhone(sessionPhone)) {
     return true;
   }
 
@@ -53,10 +55,19 @@ Future<bool> requireVerifiedUser(
   return result == true;
 }
 
+/// A phone string is plausible if it contains at least 4 digit characters.
+/// This rejects empty strings, whitespace-only, and short metadata artefacts
+/// without enforcing a full E.164 validation here (which varies by country).
+bool _isPlausiblePhone(String phone) {
+  if (phone.isEmpty) return false;
+  final digits = phone.replaceAll(RegExp(r'[^0-9]'), '');
+  return digits.length >= 4;
+}
+
 /// Whether the current user is phone-verified.
 bool isUserVerified(WidgetRef ref) {
   final authState = ref.read(authProvider);
   final profilePhone = authState.user?.phone.trim() ?? '';
   final sessionPhone = authSessionPhone(authState.session)?.trim() ?? '';
-  return profilePhone.isNotEmpty || sessionPhone.isNotEmpty;
+  return _isPlausiblePhone(profilePhone) || _isPlausiblePhone(sessionPhone);
 }

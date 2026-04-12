@@ -151,7 +151,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
           icon: CoolIcons.groupOff,
           title: context.l10n.groupSettings,
           message:
-              'We could not load this group right now. Check your connection and try again.',
+              context.l10n.groupSettingsLoadError,
         ),
       ),
       data: (group) {
@@ -160,7 +160,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
             child: CoolEmptyView(
               icon: CoolIcons.groupOff,
               title: context.l10n.groupSettings,
-              message: 'This group is no longer available.',
+              message: context.l10n.groupSettingsGroupUnavailable,
             ),
           );
         }
@@ -207,7 +207,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
               icon: CoolIcons.lock,
               title: context.l10n.groupSettings,
               message:
-                  'We could not verify your access to this group. Try again in a moment.',
+                  context.l10n.groupSettingsAccessCheckError,
             ),
             data: (snapshot) {
               if (snapshot == null || !snapshot.canManageSettings) {
@@ -215,7 +215,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                   icon: CoolIcons.lock,
                   title: context.l10n.groupSettings,
                   message:
-                      'You do not have permission to change these settings.',
+                      context.l10n.groupSettingsNoPermission,
                 );
               }
 
@@ -350,10 +350,10 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
 
     final amount = _parseAmount(trimmed);
     if (amount == null) {
-      return 'Enter a valid amount.';
+      return context.l10n.groupSettingsAmountInvalid;
     }
     if (amount < 0) {
-      return 'Amount cannot be negative.';
+      return context.l10n.groupSettingsAmountNegative;
     }
     return null;
   }

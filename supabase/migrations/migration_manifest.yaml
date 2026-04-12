@@ -190,3 +190,18 @@ migrations:
   20260410104900_purge_remaining_rayon_era_tables.sql: [cleanup]
   20260410143000_group_access_settings_and_member_feed.sql: [schema]
   20260410170000_momo_sms_sender_allowlist.sql: [schema, seed, security]
+
+  # ── Day 15+: Backend Remediation (Gap Analysis Fixes) ──────────
+  20260412010000_lookup_admin_role_types.sql: [schema, seed, security]
+  20260412020000_lookup_partner_categories.sql: [schema, seed, security]
+  20260412030000_supported_languages_table.sql: [schema, seed, cleanup]
+  20260412040000_lookup_transaction_statuses.sql: [schema, seed]
+  20260412050000_dynamic_country_validation.sql: [schema, seed, security]
+  20260412060000_dynamic_normalize_country.sql: [schema]
+  20260412070000_fix_hardcoded_rw_triggers.sql: [schema, fix]
+  20260412080000_config_driven_tier_thresholds.sql: [schema, seed]
+  20260412090000_admin_rpcs.sql: [schema, observability]
+  20260412100000_notification_preferences.sql: [schema, seed, security]
+  20260412110000_group_messages_v2.sql: [schema, security]
+  20260412120000_soft_delete_users.sql: [schema, security]
+  20260412130000_scheduled_cleanup.sql: [schema, observability]

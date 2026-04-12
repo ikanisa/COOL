@@ -102,6 +102,7 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
+    - assets/countries.json
     - assets/images/
     - assets/images/partners/
     - assets/icons/

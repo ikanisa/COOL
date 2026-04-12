@@ -1,0 +1,24 @@
+[
+  {
+    "isoCode": "RW",
+    "dialCode": "+250",
+    "name": "Rwanda",
+    "flagEmoji": "🇷🇼",
+    "currencyCode": "RWF",
+    "currencyName": "Rwandan franc",
+    "momoUssdTemplate": "*182*1*1*{recipient}*{amount}#",
+    "momoCodeUssdTemplate": "*182*8*1*{recipient}*{amount}#",
+    "aliases": ["Rwanda"],
+    "providerAliases": ["mtn_rwanda", "mtn", "mtn rwanda"],
+    "mobileNationalNumberPattern": "^0?7[23589]\\d{7}$",
+    "mobilePossibleLengths": [9, 10],
+    "mobileExampleNational": "0781234567",
+    "mobileExampleE164": "+250781234567",
+    "momoNumberLocalPattern": "^0?7[23589]\\d{7}$",
+    "momoNumberE164Pattern": "^\\+2507[23589]\\d{7}$",
+    "momoCodePattern": "^\\d{4,9}$",
+    "momoCodeMinLength": 4,
+    "momoCodeMaxLength": 9,
+    "momoCodeExample": "123456"
+  }
+]

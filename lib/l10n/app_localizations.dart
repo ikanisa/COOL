@@ -7587,6 +7587,270 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{featureName} is coming soon. Stay tuned for updates.'**
   String featureComingSoonMessage(Object featureName);
+
+  /// No description provided for @groupSettingsLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not load this group right now. Check your connection and try again.'**
+  String get groupSettingsLoadError;
+
+  /// No description provided for @groupSettingsGroupUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This group is no longer available.'**
+  String get groupSettingsGroupUnavailable;
+
+  /// No description provided for @groupSettingsAccessCheckError.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not verify your access to this group. Try again in a moment.'**
+  String get groupSettingsAccessCheckError;
+
+  /// No description provided for @groupSettingsNoPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'You do not have permission to change these settings.'**
+  String get groupSettingsNoPermission;
+
+  /// No description provided for @groupSettingsAmountInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid amount.'**
+  String get groupSettingsAmountInvalid;
+
+  /// No description provided for @groupSettingsAmountNegative.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount cannot be negative.'**
+  String get groupSettingsAmountNegative;
+
+  /// No description provided for @validationMomoNumberRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo number is required.'**
+  String get validationMomoNumberRequired;
+
+  /// No description provided for @validationMomoNumberInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid {countryName} mobile money number.'**
+  String validationMomoNumberInvalid(String countryName);
+
+  /// No description provided for @validationMomoNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile money is not configured for {countryName}.'**
+  String validationMomoNotConfigured(String countryName);
+
+  /// No description provided for @validationMomoCodeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo code is required.'**
+  String get validationMomoCodeRequired;
+
+  /// No description provided for @validationMomoCodeDigits.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo code must be 4–9 digits.'**
+  String get validationMomoCodeDigits;
+
+  /// No description provided for @validationMomoCodeOnlyNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo code must contain only numbers.'**
+  String get validationMomoCodeOnlyNumbers;
+
+  /// No description provided for @validationMomoCodeInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid MoMo code.'**
+  String get validationMomoCodeInvalid;
+
+  /// No description provided for @validationMomoCodeNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Merchant-code payments are not configured for {countryName}.'**
+  String validationMomoCodeNotConfigured(String countryName);
+
+  /// No description provided for @validationPhoneInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid phone number.'**
+  String get validationPhoneInvalid;
+
+  /// No description provided for @validationEnterPhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number.'**
+  String get validationEnterPhoneNumber;
+
+  /// No description provided for @validationRwandanMobilePrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Rwandan mobile numbers start with 07.'**
+  String get validationRwandanMobilePrefix;
+
+  /// No description provided for @validationUseE164Format.
+  ///
+  /// In en, this message translates to:
+  /// **'Use + for full E.164 WhatsApp numbers.'**
+  String get validationUseE164Format;
+
+  /// No description provided for @adminSavingsGroupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings Group'**
+  String get adminSavingsGroupTitle;
+
+  /// No description provided for @adminSavingsGroupNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings group not found.'**
+  String get adminSavingsGroupNotFound;
+
+  /// No description provided for @adminSavingsCloseGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Close Group'**
+  String get adminSavingsCloseGroup;
+
+  /// No description provided for @adminSavingsClosedStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'CLOSED'**
+  String get adminSavingsClosedStatus;
+
+  /// No description provided for @adminSavingsActiveStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'ACTIVE'**
+  String get adminSavingsActiveStatus;
+
+  /// No description provided for @adminSavingsAddingMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding…'**
+  String get adminSavingsAddingMember;
+
+  /// No description provided for @adminSavingsAddMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get adminSavingsAddMember;
+
+  /// No description provided for @adminSavingsAllocating.
+  ///
+  /// In en, this message translates to:
+  /// **'Allocating…'**
+  String get adminSavingsAllocating;
+
+  /// No description provided for @adminSavingsAllocate.
+  ///
+  /// In en, this message translates to:
+  /// **'Allocate'**
+  String get adminSavingsAllocate;
+
+  /// No description provided for @adminSavingsSelectMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Select member'**
+  String get adminSavingsSelectMember;
+
+  /// No description provided for @adminSavingsNoMembersYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No members yet.'**
+  String get adminSavingsNoMembersYet;
+
+  /// No description provided for @adminSavingsNoMembers.
+  ///
+  /// In en, this message translates to:
+  /// **'No members.'**
+  String get adminSavingsNoMembers;
+
+  /// No description provided for @adminSavingsPhoneRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number is required.'**
+  String get adminSavingsPhoneRequired;
+
+  /// No description provided for @adminSavingsRemoveMemberTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove member'**
+  String get adminSavingsRemoveMemberTitle;
+
+  /// No description provided for @adminSavingsRemoveMemberMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {name} from this savings group?'**
+  String adminSavingsRemoveMemberMessage(String name);
+
+  /// No description provided for @adminSavingsMemberAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Member added.'**
+  String get adminSavingsMemberAdded;
+
+  /// No description provided for @adminSavingsMemberRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} removed.'**
+  String adminSavingsMemberRemoved(String name);
+
+  /// No description provided for @adminSavingsCloseGroupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Close savings group'**
+  String get adminSavingsCloseGroupTitle;
+
+  /// No description provided for @adminSavingsCloseGroupMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Members will no longer be able to contribute.'**
+  String get adminSavingsCloseGroupMessage;
+
+  /// No description provided for @adminSavingsGroupClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Group closed.'**
+  String get adminSavingsGroupClosed;
+
+  /// No description provided for @adminSavingsContributionRecorded.
+  ///
+  /// In en, this message translates to:
+  /// **'Contribution of {amount} RWF recorded.'**
+  String adminSavingsContributionRecorded(String amount);
+
+  /// No description provided for @adminSavingsErrorText.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String adminSavingsErrorText(String error);
+
+  /// No description provided for @adminSavingsMembersTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Members'**
+  String get adminSavingsMembersTab;
+
+  /// No description provided for @adminSavingsAllocationsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Allocations'**
+  String get adminSavingsAllocationsTab;
+
+  /// No description provided for @adminSavingsRemoveMemberTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove member'**
+  String get adminSavingsRemoveMemberTooltip;
+
+  /// No description provided for @adminSavingsEnterValidAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid amount.'**
+  String get adminSavingsEnterValidAmount;
 }
 
 class _AppLocalizationsDelegate

@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../app.dart';
+import '../core/config/country_catalog.dart';
 import '../core/config/env_config.dart';
 import '../core/providers/engagement_providers.dart';
 import '../core/services/app_check_service.dart';
@@ -148,14 +149,22 @@ class _AppBootstrapState extends State<AppBootstrap> {
 
     final configError = EnvConfig.criticalConfigurationError;
     if (configError == null) {
-      await _runRequiredBootStep(
-        _bootstrapL10n.bootstrapConnectingBackend,
-        () => Supabase.initialize(
-          url: EnvConfig.supabaseUrl,
-          anonKey: EnvConfig.supabaseAnonKey,
-        ),
-        timeout: const Duration(seconds: 10),
-      );
+      // Guard against duplicate initialization — Supabase.initialize() is not
+      // idempotent.  On a bootstrap retry (e.g. after a transient network
+      // failure in a later step) the client may already be initialized.
+      final alreadyInitialized = _isSupabaseInitialized();
+      if (!alreadyInitialized) {
+        await _runRequiredBootStep(
+          _bootstrapL10n.bootstrapConnectingBackend,
+          () => Supabase.initialize(
+            url: EnvConfig.supabaseUrl,
+            anonKey: EnvConfig.supabaseAnonKey,
+          ),
+          timeout: const Duration(seconds: 10),
+        );
+      } else {
+        debugPrint('[Bootstrap] Supabase already initialized — skipping');
+      }
     } else {
       debugPrint('[EnvConfig] $configError');
     }
@@ -164,6 +173,15 @@ class _AppBootstrapState extends State<AppBootstrap> {
       _bootstrapL10n.bootstrapPreparingLocalStorage,
       initializeHiveRuntime,
       timeout: const Duration(seconds: 6),
+    );
+
+    await _runRequiredBootStep(
+      'Loading regional configuration',
+      () async {
+        final jsonString = await rootBundle.loadString('assets/countries.json');
+        await CoolCountryCatalog.initialize(jsonString);
+      },
+      timeout: const Duration(seconds: 5),
     );
 
     final themePreferenceStore = HiveThemePreferenceStore(
@@ -403,6 +421,20 @@ class _AppBootstrapState extends State<AppBootstrap> {
           ),
         );
       };
+    }
+  }
+
+  /// Returns `true` when [Supabase.instance] is usable.
+  ///
+  /// [Supabase.initialize] is not idempotent — calling it twice throws.
+  /// This helper lets the bootstrap retry path skip re-initialization.
+  bool _isSupabaseInitialized() {
+    try {
+      // Accessing `.client` throws if not yet initialized.
+      final _ = Supabase.instance.client;
+      return true;
+    } catch (_) {
+      return false;
     }
   }
 

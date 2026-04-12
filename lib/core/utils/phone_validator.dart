@@ -25,9 +25,19 @@ enum RwandaProvider { mtn, airtel, unknown }
 
 /// Central phone-number and MoMo validation utility.
 abstract final class PhoneValidator {
-  // ──────────────────────────────────────────────────────────────────────
-  // Rwanda-specific
-  // ──────────────────────────────────────────────────────────────────────
+  // ── Validation error message constants ────────────────────────────
+  // These match the corresponding ARB keys. UI callers with
+  // BuildContext should prefer context.l10n.validation* instead.
+  static const momoNumberRequiredMessage = 'MoMo number is required.';
+  static const momoCodeRequiredMessage = 'MoMo code is required.';
+  static const momoCodeDigitsMessage = 'MoMo code must be 4–9 digits.';
+  static const momoCodeOnlyNumbersMessage = 'MoMo code must contain only numbers.';
+  static const phoneInvalidMessage = 'Enter a valid phone number.';
+  static const enterPhoneMessage = 'Enter your phone number.';
+  static const rwandanMobilePrefixMessage = 'Rwandan mobile numbers start with 07.';
+  static const e164FormatMessage = 'Use + for full E.164 WhatsApp numbers.';
+
+  // ────────────────────────────────────────────────────────────────────
 
   /// Strips a Rwandan phone to its 9-digit local form (e.g. `78XXXXXXX`).
   /// Returns `null` if the input is too short/malformed.
@@ -120,7 +130,7 @@ abstract final class PhoneValidator {
     CoolCountry country,
   ) {
     final trimmed = phone.trim();
-    if (trimmed.isEmpty) return 'MoMo number is required';
+    if (trimmed.isEmpty) return momoNumberRequiredMessage;
 
     try {
       country.buildE164Phone(trimmed);
@@ -147,16 +157,16 @@ abstract final class PhoneValidator {
   }) {
     final trimmed = code.trim();
     if (trimmed.isEmpty) {
-      return required ? 'MoMo code is required' : null;
+      return required ? momoCodeRequiredMessage : null;
     }
 
     if (country == null) {
       final digits = trimmed.replaceAll(RegExp(r'[^0-9]'), '');
       if (digits.length < 4 || digits.length > 9) {
-        return 'MoMo code must be 4-9 digits';
+        return momoCodeDigitsMessage;
       }
       if (digits != trimmed) {
-        return 'MoMo code must contain only numbers';
+        return momoCodeOnlyNumbersMessage;
       }
       return null;
     }
@@ -212,7 +222,7 @@ abstract final class PhoneValidator {
       return null;
     } on FormatException catch (error) {
       final message = error.message.toString().trim();
-      return message.isEmpty ? 'Enter a valid phone number' : message;
+      return message.isEmpty ? phoneInvalidMessage : message;
     }
   }
 
@@ -222,7 +232,7 @@ abstract final class PhoneValidator {
   static String buildOtpE164Phone(String phone, CoolCountry country) {
     final trimmed = phone.trim();
     if (trimmed.isEmpty) {
-      throw const FormatException('Enter your phone number');
+      throw const FormatException(enterPhoneMessage);
     }
 
     final digits = trimmed.replaceAll(RegExp(r'[^0-9]'), '');
@@ -233,7 +243,7 @@ abstract final class PhoneValidator {
           .replaceAll(RegExp(r'(?!^)\+'), '')
           .replaceFirst('+', '');
       if (e164Digits.length < 8 || e164Digits.length > 15) {
-        throw const FormatException('Enter a valid phone number');
+        throw const FormatException(phoneInvalidMessage);
       }
       return '+$e164Digits';
     }
@@ -241,16 +251,16 @@ abstract final class PhoneValidator {
     final local = toRwandanLocal(trimmed);
     if (country.isoCode == 'RW' && local != null) {
       if (!local.startsWith('7')) {
-        throw const FormatException('Rwandan mobile numbers start with 07');
+        throw const FormatException(rwandanMobilePrefixMessage);
       }
       return '${country.dialCode}$local';
     }
 
     if (digits.length < 7) {
-      throw const FormatException('Enter a valid phone number');
+      throw const FormatException(phoneInvalidMessage);
     }
 
-    throw const FormatException('Use + for full E.164 WhatsApp numbers');
+    throw const FormatException(e164FormatMessage);
   }
 
   // ──────────────────────────────────────────────────────────────────────

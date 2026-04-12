@@ -1,30 +1,17 @@
 part of 'country_catalog.dart';
 
 abstract final class CoolCountryCatalog {
-  static const List<CoolCountry> all = <CoolCountry>[
-    CoolCountry(
-      isoCode: 'RW',
-      dialCode: '+250',
-      name: 'Rwanda',
-      flagEmoji: '🇷🇼',
-      currencyCode: 'RWF',
-      currencyName: 'Rwandan franc',
-      momoUssdTemplate: '*182*1*1*{recipient}*{amount}#',
-      momoCodeUssdTemplate: '*182*8*1*{recipient}*{amount}#',
-      aliases: <String>['Rwanda'],
-      providerAliases: <String>['mtn_rwanda', 'mtn', 'mtn rwanda'],
-      mobileNationalNumberPattern: r'^0?7[23589]\d{7}$',
-      mobilePossibleLengths: <int>[9, 10],
-      mobileExampleNational: '0781234567',
-      mobileExampleE164: '+250781234567',
-      momoNumberLocalPattern: r'^0?7[23589]\d{7}$',
-      momoNumberE164Pattern: r'^\+2507[23589]\d{7}$',
-      momoCodePattern: r'^\d{4,9}$',
-      momoCodeMinLength: 4,
-      momoCodeMaxLength: 9,
-      momoCodeExample: '123456',
-    ),
-  ];
+  static List<CoolCountry> all = <CoolCountry>[];
+
+  static Future<void> initialize(String jsonString) async {
+    final List<dynamic> decoded = jsonDecode(jsonString);
+    all = decoded
+        .map((e) => CoolCountry.fromJson(e as Map<String, dynamic>))
+        .toList();
+    if (all.isEmpty) {
+      throw StateError('Country catalog loaded but found no countries.');
+    }
+  }
 
   static CoolCountry get defaultCountry => all.first;
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../core/theme/cool_foundations.dart';
+import '../../l10n/app_localizations.dart';
 import 'cool_button.dart';
 
 /// Standardized error view used throughout the app.
@@ -27,8 +28,12 @@ class CoolErrorView extends StatelessWidget {
   final IconData icon;
   final bool compact;
 
-  String get _effectiveMessage => message ?? subtitle ?? 'An error occurred';
+  String get _effectiveMessage =>
+      message ?? subtitle ?? _errorL10n.coolErrorUnexpected;
   VoidCallback? get _effectiveAction => onRetry ?? onAction ?? action;
+
+  static AppLocalizations get _errorL10n =>
+      lookupAppLocalizations(const Locale('en'));
 
   @override
   Widget build(BuildContext context) {
@@ -75,8 +80,8 @@ class CoolErrorView extends StatelessWidget {
               ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
               if (_effectiveAction != null) ...[
                 SizedBox(height: spacing + 4),
-                CoolButton(
-                      label: actionLabel ?? 'Try Again',
+                  CoolButton(
+                      label: actionLabel ?? _errorL10n.retry,
                       onTap: _effectiveAction!,
                       variant: CoolButtonVariant.secondary,
                       fullWidth: false,

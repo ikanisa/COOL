@@ -170,6 +170,34 @@ Deno.serve(async (request) => {
         return errorResponse("Missing required field: user_id.", 400);
       }
 
+      // Phase 5A: Check notification preferences before sending.
+      // If the user has opted out of this category, skip silently.
+      const category = (body.category as string) ?? "general";
+      const adminClient = createAdminClient();
+      const { data: prefResult } = await adminClient.rpc(
+        "is_notification_enabled",
+        { p_user_id: userId, p_category: category, p_channel: "push" },
+      );
+
+      if (prefResult === false) {
+        const skippedResult = {
+          success: true,
+          sent_count: 0,
+          failed_count: 0,
+          cleaned_tokens: 0,
+          errors: [],
+          skipped: true,
+          reason: "user_opted_out",
+        };
+        await logNotificationEvent({
+          target: { type: "user", userId },
+          notification,
+          data,
+          result: skippedResult,
+        });
+        return jsonResponse(skippedResult, 200);
+      }
+
       const result = await sendToUser(userId, notification, data);
       await logNotificationEvent({
         target: { type: "user", userId },

@@ -3959,4 +3959,158 @@ class AppLocalizationsEn extends AppLocalizations {
   String featureComingSoonMessage(Object featureName) {
     return '$featureName is coming soon. Stay tuned for updates.';
   }
+
+  @override
+  String get groupSettingsLoadError =>
+      'We could not load this group right now. Check your connection and try again.';
+
+  @override
+  String get groupSettingsGroupUnavailable =>
+      'This group is no longer available.';
+
+  @override
+  String get groupSettingsAccessCheckError =>
+      'We could not verify your access to this group. Try again in a moment.';
+
+  @override
+  String get groupSettingsNoPermission =>
+      'You do not have permission to change these settings.';
+
+  @override
+  String get groupSettingsAmountInvalid => 'Enter a valid amount.';
+
+  @override
+  String get groupSettingsAmountNegative => 'Amount cannot be negative.';
+
+  @override
+  String get validationMomoNumberRequired => 'MoMo number is required.';
+
+  @override
+  String validationMomoNumberInvalid(String countryName) {
+    return 'Enter a valid $countryName mobile money number.';
+  }
+
+  @override
+  String validationMomoNotConfigured(String countryName) {
+    return 'Mobile money is not configured for $countryName.';
+  }
+
+  @override
+  String get validationMomoCodeRequired => 'MoMo code is required.';
+
+  @override
+  String get validationMomoCodeDigits => 'MoMo code must be 4–9 digits.';
+
+  @override
+  String get validationMomoCodeOnlyNumbers =>
+      'MoMo code must contain only numbers.';
+
+  @override
+  String get validationMomoCodeInvalid => 'Enter a valid MoMo code.';
+
+  @override
+  String validationMomoCodeNotConfigured(String countryName) {
+    return 'Merchant-code payments are not configured for $countryName.';
+  }
+
+  @override
+  String get validationPhoneInvalid => 'Enter a valid phone number.';
+
+  @override
+  String get validationEnterPhoneNumber => 'Enter your phone number.';
+
+  @override
+  String get validationRwandanMobilePrefix =>
+      'Rwandan mobile numbers start with 07.';
+
+  @override
+  String get validationUseE164Format =>
+      'Use + for full E.164 WhatsApp numbers.';
+
+  @override
+  String get adminSavingsGroupTitle => 'Savings Group';
+
+  @override
+  String get adminSavingsGroupNotFound => 'Savings group not found.';
+
+  @override
+  String get adminSavingsCloseGroup => 'Close Group';
+
+  @override
+  String get adminSavingsClosedStatus => 'CLOSED';
+
+  @override
+  String get adminSavingsActiveStatus => 'ACTIVE';
+
+  @override
+  String get adminSavingsAddingMember => 'Adding…';
+
+  @override
+  String get adminSavingsAddMember => 'Add';
+
+  @override
+  String get adminSavingsAllocating => 'Allocating…';
+
+  @override
+  String get adminSavingsAllocate => 'Allocate';
+
+  @override
+  String get adminSavingsSelectMember => 'Select member';
+
+  @override
+  String get adminSavingsNoMembersYet => 'No members yet.';
+
+  @override
+  String get adminSavingsNoMembers => 'No members.';
+
+  @override
+  String get adminSavingsPhoneRequired => 'Phone number is required.';
+
+  @override
+  String get adminSavingsRemoveMemberTitle => 'Remove member';
+
+  @override
+  String adminSavingsRemoveMemberMessage(String name) {
+    return 'Remove $name from this savings group?';
+  }
+
+  @override
+  String get adminSavingsMemberAdded => 'Member added.';
+
+  @override
+  String adminSavingsMemberRemoved(String name) {
+    return '$name removed.';
+  }
+
+  @override
+  String get adminSavingsCloseGroupTitle => 'Close savings group';
+
+  @override
+  String get adminSavingsCloseGroupMessage =>
+      'Members will no longer be able to contribute.';
+
+  @override
+  String get adminSavingsGroupClosed => 'Group closed.';
+
+  @override
+  String adminSavingsContributionRecorded(String amount) {
+    return 'Contribution of $amount RWF recorded.';
+  }
+
+  @override
+  String adminSavingsErrorText(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get adminSavingsMembersTab => 'Members';
+
+  @override
+  String get adminSavingsAllocationsTab => 'Allocations';
+
+  @override
+  String get adminSavingsRemoveMemberTooltip => 'Remove member';
+
+  @override
+  String get adminSavingsEnterValidAmount => 'Enter a valid amount.';
 }

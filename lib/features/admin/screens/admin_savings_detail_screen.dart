@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/money_formatters.dart';
 import '../../../shared/widgets/admin_detail_scaffold.dart';
@@ -61,7 +62,7 @@ class _AdminSavingsDetailScreenState
 
     return AdminDetailScaffold(
       title: Text(
-        'Savings Group',
+        context.l10n.adminSavingsGroupTitle,
         style: theme.textTheme.headlineMedium?.copyWith(
           fontWeight: FontWeight.w800,
           height: 1.1,
@@ -142,7 +143,7 @@ class _AdminSavingsDetailScreenState
                       borderRadius: BorderRadius.circular(CoolRadii.pill),
                     ),
                     child: Text(
-                      isClosed ? 'CLOSED' : 'ACTIVE',
+                      isClosed ? context.l10n.adminSavingsClosedStatus : context.l10n.adminSavingsActiveStatus,
                       style: context.coolText.mono(
                         theme.textTheme.labelSmall,
                         fontWeight: FontWeight.w800,
@@ -363,7 +364,7 @@ class _AdminSavingsDetailScreenState
                       ? null
                       : () => _handleAddMemberByPhone(groupId),
                   icon: const Icon(CoolIcons.personAdd, size: 16),
-                  label: Text(_isAddingMember ? 'Adding…' : 'Add'),
+                  label: Text(_isAddingMember ? context.l10n.adminSavingsAddingMember : context.l10n.adminSavingsAddMember),
                   style: FilledButton.styleFrom(
                     backgroundColor: colors.accent,
                     shape: RoundedRectangleBorder(
@@ -430,7 +431,7 @@ class _AdminSavingsDetailScreenState
                       color: colors.danger,
                       size: 20,
                     ),
-                    tooltip: 'Remove member',
+                    tooltip: context.l10n.adminSavingsRemoveMemberTooltip,
                     onPressed: () => _handleRemoveMember(
                       groupId,
                       member['user_id']?.toString() ?? '',
@@ -494,7 +495,7 @@ class _AdminSavingsDetailScreenState
                             color: colors.tertiaryText),
                         const SizedBox(width: 8),
                         Text(
-                          'Select member',
+                          context.l10n.adminSavingsSelectMember,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: colors.tertiaryText,
                           ),
@@ -594,7 +595,7 @@ class _AdminSavingsDetailScreenState
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                   child: Text(
-                    _isAllocating ? 'Allocating…' : 'Allocate',
+                    _isAllocating ? context.l10n.adminSavingsAllocating : context.l10n.adminSavingsAllocate,
                     style: theme.textTheme.labelLarge?.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
@@ -615,7 +616,7 @@ class _AdminSavingsDetailScreenState
   Future<void> _handleAddMemberByPhone(String groupId) async {
     final phone = _addMemberPhoneController.text.trim();
     if (phone.isEmpty) {
-      CoolToast.error(context, 'Phone number is required');
+      CoolToast.error(context, context.l10n.adminSavingsPhoneRequired);
       return;
     }
 
@@ -634,7 +635,7 @@ class _AdminSavingsDetailScreenState
       if (!mounted) return;
       _addMemberPhoneController.clear();
       _addMemberNameController.clear();
-      CoolToast.success(context, 'Member added');
+      CoolToast.success(context, context.l10n.adminSavingsMemberAdded);
       ref.invalidate(adminSavingsGroupsDetailProvider);
     } catch (e) {
       if (!mounted) return;
@@ -652,8 +653,8 @@ class _AdminSavingsDetailScreenState
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Remove member'),
-        content: Text('Remove $name from this savings group?'),
+        title: Text(context.l10n.adminSavingsRemoveMemberTitle),
+        content: Text(context.l10n.adminSavingsRemoveMemberMessage(name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
@@ -661,7 +662,7 @@ class _AdminSavingsDetailScreenState
           ),
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Remove'),
+            child: Text(context.l10n.adminSavingsRemoveMemberTitle),
           ),
         ],
       ),
@@ -673,7 +674,7 @@ class _AdminSavingsDetailScreenState
       final repo = ref.read(adminSavingsRepositoryProvider);
       await repo.removeGroupMember(groupId: groupId, userId: userId);
       if (!mounted) return;
-      CoolToast.success(context, '$name removed');
+      CoolToast.success(context, context.l10n.adminSavingsMemberRemoved(name));
       ref.invalidate(adminSavingsGroupsDetailProvider);
     } catch (e) {
       if (!mounted) return;
@@ -684,7 +685,7 @@ class _AdminSavingsDetailScreenState
   Future<void> _handleAllocateContribution(String groupId) async {
     final amount = int.tryParse(_allocationAmountController.text.trim());
     if (amount == null || amount <= 0) {
-      CoolToast.error(context, 'Enter a valid amount');
+      CoolToast.error(context, context.l10n.adminSavingsEnterValidAmount);
       return;
     }
 
@@ -704,7 +705,7 @@ class _AdminSavingsDetailScreenState
       _allocationNoteController.clear();
       CoolToast.success(
         context,
-        'Contribution of ${formatWholeMoneyAmount(amount)} RWF recorded',
+        context.l10n.adminSavingsContributionRecorded(formatWholeMoneyAmount(amount)),
       );
       ref.invalidate(adminSavingsGroupsDetailProvider);
     } catch (e) {
@@ -721,9 +722,9 @@ class _AdminSavingsDetailScreenState
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Close savings group'),
-        content: const Text(
-          'Members will no longer be able to contribute.',
+        title: Text(context.l10n.adminSavingsCloseGroupTitle),
+        content: Text(
+          context.l10n.adminSavingsCloseGroupMessage,
         ),
         actions: [
           TextButton(
@@ -732,7 +733,7 @@ class _AdminSavingsDetailScreenState
           ),
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Close Group'),
+            child: Text(context.l10n.adminSavingsCloseGroup),
           ),
         ],
       ),
@@ -744,7 +745,7 @@ class _AdminSavingsDetailScreenState
       final repo = ref.read(adminSavingsRepositoryProvider);
       await repo.updateSavingsGroup(groupId: groupId, isClosed: true);
       if (!mounted) return;
-      CoolToast.success(context, 'Group closed');
+      CoolToast.success(context, context.l10n.adminSavingsGroupClosed);
       ref.invalidate(adminSavingsGroupsDetailProvider);
     } catch (e) {
       if (!mounted) return;
