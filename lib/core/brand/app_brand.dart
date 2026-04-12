@@ -11,6 +11,7 @@ class AppBranding {
     required this.welcomeTitle,
     required this.welcomeSubtitle,
     required this.splashTitle,
+    required this.splashLogoAssetPath,
     required this.logoAssetPath,
     required this.logoTransparentAssetPath,
     required this.logoDarkAssetPath,
@@ -27,8 +28,11 @@ class AppBranding {
         welcomeTitle: 'Welcome to COOL',
         welcomeSubtitle: 'Pay, save, and move.',
         splashTitle: 'Cool',
+        splashLogoAssetPath:
+            'assets/images/cool_logo_mark_splash_transparent.png',
         logoAssetPath: 'assets/images/cool_logo_mark.png',
-        logoTransparentAssetPath: 'assets/images/cool_logo_mark_transparent.png',
+        logoTransparentAssetPath:
+            'assets/images/cool_logo_mark_transparent.png',
         logoDarkAssetPath: 'assets/images/cool_logo_mark_dark.png',
         logoSemanticLabel: 'Cool app logo',
         primaryColor: const Color(0xFF6C63FF),
@@ -41,9 +45,12 @@ class AppBranding {
   final String welcomeTitle;
   final String welcomeSubtitle;
   final String splashTitle;
+  final String splashLogoAssetPath;
   final String logoAssetPath;
+
   /// Logo on transparent background — for compositing.
   final String logoTransparentAssetPath;
+
   /// Logo on dark void background (#0D0A27) — for in-app dark surfaces.
   final String logoDarkAssetPath;
   final String logoSemanticLabel;
@@ -52,6 +59,4 @@ class AppBranding {
   final Color navSelectedColor;
 }
 
-final appBrandProvider = Provider<AppBranding>(
-  (_) => const AppBranding.cool(),
-);
+final appBrandProvider = Provider<AppBranding>((_) => const AppBranding.cool());

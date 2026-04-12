@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
-import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/money_formatters.dart';
 import '../../../core/utils/phone_validator.dart';
@@ -35,11 +34,21 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
   final _momoNumberController = TextEditingController();
   final _momoCodeController = TextEditingController();
 
-  String _type = 'saving';
-  String _frequency = 'monthly';
-  bool _useCustomMomo = false;
+  String? _type;
+  String? _frequency;
   MomoRecipientType _customMomoRouteType = MomoRecipientType.phoneNumber;
   bool _isSubmitting = false;
+
+  void _setGroupType(String type) {
+    setState(() {
+      _type = type;
+      if (type == 'saving') {
+        _frequency = null;
+      } else {
+        _frequency = null;
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -58,11 +67,10 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
   /// - community public: can be one_off or recurring
   String get _effectiveFrequency {
     if (_type == 'saving') {
-      return _frequency; // daily, weekly, or monthly
+      return _frequency!; // daily, weekly, or monthly
     }
-    // community private is always one_off (handled via visibility=private default)
-    // community public can be one_off or recurring
-    return _frequency;
+    // community private is always one_off
+    return 'one_off';
   }
 
   Future<void> _submit() async {
@@ -72,6 +80,15 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+    if (_type == null) {
+      CoolToast.error(context, context.l10n.groupValidationTypeRequired);
+      return;
+    }
+    if (_type == 'saving' && _frequency == null) {
+      CoolToast.error(context, context.l10n.groupValidationFrequencyRequired);
+      return;
+    }
+    final selectedType = _type!;
 
     if (!await requireVerifiedUser(
       context,
@@ -93,19 +110,22 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
     // Determine MoMo route values
     MomoRecipientType? routeType;
     String? recipientValue;
-    if (_useCustomMomo) {
-      routeType = _customMomoRouteType;
+    if (_type == 'community') {
       recipientValue = _customMomoRouteType == MomoRecipientType.code
           ? _momoCodeController.text.trim()
           : _momoNumberController.text.trim();
       if (recipientValue.isEmpty) {
         recipientValue = null;
+        routeType = null;
+      } else {
+        routeType = _customMomoRouteType;
       }
     } else {
       routeType = user.effectiveMomoRouteType;
       recipientValue = user.momoRecipientValue.trim();
       if (recipientValue.isEmpty) {
         recipientValue = null;
+        routeType = null;
       }
     }
 
@@ -126,7 +146,7 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
             creator: user,
             name: _nameController.text,
             visibility: 'private',
-            type: _type,
+            type: selectedType,
             description: _descriptionController.text,
             targetAmount: _parseAmount(_targetAmountController.text),
             monthlyContribution: _parseAmount(
@@ -162,11 +182,6 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
     final country = AppMarket.country;
     final cur = country.currencyCode;
     final showFrequencyPicker = _type == 'saving';
-    final colors = context.coolSemanticColors;
-
-    // B1: Pre-flight check — does the user have a MoMo route configured?
-    final currentUser = ref.watch(currentUserProvider);
-    final hasMomoRoute = currentUser?.hasMomoRecipient ?? false;
 
     // Frequency is enforced at type-change time via setState callbacks below.
 
@@ -185,63 +200,6 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── B1: MoMo pre-flight check ──────────────────────
-              if (!hasMomoRoute) ...[
-                Padding(
-                  padding: EdgeInsets.only(bottom: space.x4),
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(CoolSpace.x5),
-                    decoration: BoxDecoration(
-                      color: colors.warning.withValues(alpha: 0.08),
-                      borderRadius: BorderRadius.circular(CoolRadii.md),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              CoolIcons.warning,
-                              size: 20,
-                              color: colors.warning,
-                            ),
-                            const SizedBox(width: CoolSpace.x2),
-                            Expanded(
-                              child: Text(
-                                l10n.groupCreateMomoRequiredTitle,
-                                style: context.coolText.headline(
-                                  theme.textTheme.titleSmall,
-                                  fontWeight: FontWeight.w700,
-                                  color: colors.warning,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: CoolSpace.x2),
-                        Text(
-                          l10n.groupCreateMomoRequiredMessage,
-                          style: context.coolText.mono(
-                            theme.textTheme.bodySmall,
-                            color: colors.secondaryText,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(height: CoolSpace.x3),
-                        CoolButton(
-                          label: l10n.groupCreateMomoRequiredAction,
-                          variant: CoolButtonVariant.secondary,
-                          onTap: () =>
-                              context.push(AppRoutes.settingsWallet),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-
-
               CoolTextField(
                 label: context.l10n.groupNameLabel,
                 hint: context.l10n.groupNameHint,
@@ -269,16 +227,10 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
               GroupOptionRow(
                 firstLabel: l10n.saving,
                 firstSelected: _type == 'saving',
-                onFirstTap: () => setState(() {
-                  _type = 'saving';
-                  _frequency = 'monthly';
-                }),
+                onFirstTap: () => _setGroupType('saving'),
                 secondLabel: l10n.community,
                 secondSelected: _type == 'community',
-                onSecondTap: () => setState(() {
-                  _type = 'community';
-                  _frequency = 'one_off';
-                }),
+                onSecondTap: () => _setGroupType('community'),
               ),
 
               if (showFrequencyPicker) ...[
@@ -317,20 +269,20 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
               ),
               SizedBox(height: space.x4),
 
-              GroupMomoRouteSection(
-                useCustom: _useCustomMomo,
-                routeType: _customMomoRouteType,
-                momoNumberController: _momoNumberController,
-                momoCodeController: _momoCodeController,
-                supportsMomoCode: country.supportsMomoCode,
-                momoNumberValidator: _validateCustomMomoNumber,
-                momoCodeValidator: _validateCustomMomoCode,
-                onToggleCustom: (value) =>
-                    setState(() => _useCustomMomo = value),
-                onRouteTypeChanged: (type) =>
-                    setState(() => _customMomoRouteType = type),
-              ),
-              SizedBox(height: space.x6),
+              if (_type == 'community') ...[
+                GroupMomoRouteSection(
+                  routeType: _customMomoRouteType,
+                  momoNumberController: _momoNumberController,
+                  momoCodeController: _momoCodeController,
+                  supportsMomoCode: country.supportsMomoCode,
+                  momoNumberValidator: _validateCustomMomoNumber,
+                  momoCodeValidator: _validateCustomMomoCode,
+                  onRouteTypeChanged: (type) =>
+                      setState(() => _customMomoRouteType = type),
+                ),
+                SizedBox(height: space.x6),
+              ] else
+                SizedBox(height: space.x2),
 
               CoolButton(
                 label: l10n.groupCreateGroupUpper,
@@ -366,8 +318,11 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
   }
 
   String? _validateCustomMomoNumber(String? value) {
-    if (!_useCustomMomo ||
+    if (_type != 'community' ||
         _customMomoRouteType != MomoRecipientType.phoneNumber) {
+      return null;
+    }
+    if ((value?.trim().isEmpty ?? true)) {
       return null;
     }
     return PhoneValidator.validateMomoNumberForCountry(
@@ -377,13 +332,16 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
   }
 
   String? _validateCustomMomoCode(String? value) {
-    if (!_useCustomMomo || _customMomoRouteType != MomoRecipientType.code) {
+    if (_type != 'community' ||
+        _customMomoRouteType != MomoRecipientType.code) {
+      return null;
+    }
+    if ((value?.trim().isEmpty ?? true)) {
       return null;
     }
     return PhoneValidator.validateMomoCode(
       value ?? '',
       country: AppMarket.country,
-      required: true,
     );
   }
 
@@ -392,8 +350,11 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
     required String? recipientValue,
   }) {
     final recipient = recipientValue?.trim() ?? '';
-    if (routeType == null || recipient.isEmpty) {
-      return context.l10n.groupValidationMomoRouteRequired;
+    if (recipient.isEmpty) {
+      return null;
+    }
+    if (routeType == null) {
+      return null;
     }
 
     return switch (routeType) {
@@ -405,7 +366,6 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
       MomoRecipientType.code => PhoneValidator.validateMomoCode(
         recipient,
         country: AppMarket.country,
-        required: true,
       ),
     };
   }

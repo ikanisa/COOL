@@ -384,6 +384,18 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                           borderRadius: BorderRadius.circular(radii.sm),
                           borderSide: BorderSide.none,
                         ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(radii.sm),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(radii.sm),
+                          borderSide: BorderSide.none,
+                        ),
+                        disabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(radii.sm),
+                          borderSide: BorderSide.none,
+                        ),
                       ),
                     ),
                   ),

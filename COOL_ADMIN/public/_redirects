@@ -1,0 +1,3 @@
+# SPA catch-all: serve index.html for all client-side routes
+# https://developers.cloudflare.com/pages/configuration/serving-pages/#single-page-application-spa-rendering
+/*    /index.html   200

@@ -15,8 +15,6 @@ import {
   requireCronSecret,
 } from "../_shared/auth.ts";
 
-const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
-
 const CONTENT_TEMPLATES = [
   {
     area: "mobile_money",
@@ -63,7 +61,9 @@ interface GeneratedContent {
 async function generateWithGemini(
   prompt: string,
 ): Promise<GeneratedContent | null> {
-  if (!GEMINI_API_KEY) {
+  const geminiApiKey = Deno.env.get("GEMINI_API_KEY");
+
+  if (!geminiApiKey) {
     console.error("GEMINI_API_KEY not set");
     return null;
   }
@@ -85,7 +85,7 @@ Rules:
 
   try {
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

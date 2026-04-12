@@ -64,7 +64,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
       return;
     }
 
-    context.push(AppRoutes.contributionCircleDetailLocation(groupId));
+    context.push(AppRoutes.groupDetailLocation(groupId));
   }
 
   void _openGroup(Group group) {
@@ -73,7 +73,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
       CoolToast.error(context, context.l10n.groupNotFound);
       return;
     }
-    context.push(AppRoutes.contributionCircleDetailLocation(groupId));
+    context.push(AppRoutes.groupDetailLocation(groupId));
   }
 
   Future<void> _contributeToGroup(Group group) async {
@@ -207,7 +207,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
   void _dismissInviteBanner({bool navigate = true}) {
     setState(() => _inviteBannerDismissed = true);
     if (navigate) {
-      context.go(AppRoutes.contributionCircles);
+      context.go(AppRoutes.groups);
     }
   }
 
@@ -306,9 +306,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                               const Duration(milliseconds: 400),
                               () {
                                 if (mounted) {
-                                  setState(
-                                    () => _publicSearch = value.trim(),
-                                  );
+                                  setState(() => _publicSearch = value.trim());
                                 }
                               },
                             );

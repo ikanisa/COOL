@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/cool_foundations.dart';
 
@@ -7,7 +6,7 @@ import '../../core/theme/cool_foundations.dart';
 ///
 /// Every screen in the app uses this widget, either directly or via one of the
 /// scaffold wrappers ([CoreTabRootScaffold], [CoreDetailScaffold], etc.).
-class CoolScreenBackground extends ConsumerWidget {
+class CoolScreenBackground extends StatelessWidget {
   const CoolScreenBackground({
     required this.child,
     this.primaryColor,
@@ -25,7 +24,7 @@ class CoolScreenBackground extends ConsumerWidget {
   final bool showGlow;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final base = DecoratedBox(
       decoration: BoxDecoration(

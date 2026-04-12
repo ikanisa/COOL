@@ -158,16 +158,18 @@ class MomoSmsAutoreadService {
     bool resetPermissionPromptState = false,
     bool clearPipelineSession = true,
   }) async {
-    if (clearPipelineSession) {
-      await _nativeBridge.clearSession();
-    } else {
-      await _nativeBridge.configure(
-        const MomoSmsNativePipelineConfig(
-          enabled: false,
-          supabaseUrl: EnvConfig.supabaseUrl,
-          supabaseAnonKey: EnvConfig.supabaseAnonKey,
-        ),
-      );
+    if (_supportsSmsAutoread) {
+      if (clearPipelineSession) {
+        await _nativeBridge.clearSession();
+      } else {
+        await _nativeBridge.configure(
+          const MomoSmsNativePipelineConfig(
+            enabled: false,
+            supabaseUrl: EnvConfig.supabaseUrl,
+            supabaseAnonKey: EnvConfig.supabaseAnonKey,
+          ),
+        );
+      }
     }
     _initialSyncScheduledForUserId = null;
     if (resetPermissionPromptState) {

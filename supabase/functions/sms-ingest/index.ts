@@ -354,7 +354,12 @@ Deno.serve(async (request: Request) => {
     }
 
     const approvedSenderTokens = await loadApprovedMomoSmsSenderTokens(
-      adminClient,
+      async () =>
+        await adminClient
+          .from("momo_sms_sender_allowlist")
+          .select("sender_token, sender_display")
+          .eq("active", true)
+          .order("sort_order", { ascending: true }),
     );
     const appUserResult = await adminClient
       .from("users")

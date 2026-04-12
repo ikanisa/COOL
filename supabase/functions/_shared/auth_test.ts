@@ -90,6 +90,10 @@ Deno.test("requireAdminCaller allows app metadata admins without a profile looku
             }),
           }),
         }),
+        rpc: async () => ({
+          data: { has_platform_access: false, role_assignments: [] },
+          error: null,
+        }),
       }),
     },
   );
@@ -231,13 +235,12 @@ Deno.test("requireAdminCaller rejects non-admin users (including no role assignm
 });
 
 Deno.test("requireCronSecret accepts bearer and x-cron-secret inputs", () => {
-  Deno.env.set("TEST_CRON_SECRET", "secret-123");
-
   requireCronSecret(
     new Request("https://example.com", {
       headers: { authorization: "Bearer secret-123" },
     }),
     ["TEST_CRON_SECRET"],
+    (name) => name === "TEST_CRON_SECRET" ? "secret-123" : undefined,
   );
 
   requireCronSecret(
@@ -245,5 +248,6 @@ Deno.test("requireCronSecret accepts bearer and x-cron-secret inputs", () => {
       headers: { "x-cron-secret": "secret-123" },
     }),
     ["TEST_CRON_SECRET"],
+    (name) => name === "TEST_CRON_SECRET" ? "secret-123" : undefined,
   );
 });

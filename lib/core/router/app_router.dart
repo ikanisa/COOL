@@ -153,10 +153,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
       // ── Group savings & contribution routes ────────────────────
       GoRoute(
-        path: AppRoutes.groups,
+        path: AppRoutes.contributionCircles,
         redirect: (context, state) {
           return Uri(
-            path: AppRoutes.contributionCircles,
+            path: AppRoutes.groups,
             queryParameters: state.uri.queryParameters.isEmpty
                 ? null
                 : state.uri.queryParameters,
@@ -173,33 +173,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.groupDetail,
-        redirect: (context, state) {
-          final groupId = state.pathParameters['id']?.trim();
-          if (groupId == null || groupId.isEmpty) {
-            return AppRoutes.contributionCircles;
-          }
-          return AppRoutes.contributionCircleDetailLocation(groupId);
-        },
-      ),
-      GoRoute(
-        path: AppRoutes.groupInvite,
-        redirect: (context, state) {
-          final inviteCode = state.pathParameters['code']?.trim().toUpperCase();
-          if (inviteCode == null || inviteCode.isEmpty) {
-            return AppRoutes.contributionCircles;
-          }
-          return Uri(
-            path: AppRoutes.contributionCircles,
-            queryParameters: <String, String>{'invite_code': inviteCode},
-          ).toString();
-        },
-      ),
-      // Note: /contribution-circles is registered in buildHomeShellBranch
-      // (app_shell_branches.dart). Do NOT duplicate it here.
-      GoRoute(
-        path: AppRoutes.contributionCircleDetail,
         pageBuilder: (context, state) {
-          final groupId = state.pathParameters['groupId']?.trim() ?? '';
+          final groupId = state.pathParameters['id']?.trim() ?? '';
           return coolPageTransition(
             context: context,
             state: state,
@@ -210,9 +185,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(
-        path: AppRoutes.contributionCircleSettings,
+        path: AppRoutes.groupSettings,
         pageBuilder: (context, state) {
-          final groupId = state.pathParameters['groupId']?.trim() ?? '';
+          final groupId = state.pathParameters['id']?.trim() ?? '';
           return coolPageTransition(
             context: context,
             state: state,
@@ -223,9 +198,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(
-        path: AppRoutes.contributionCircleStatements,
+        path: AppRoutes.groupStatements,
         pageBuilder: (context, state) {
-          final groupId = state.pathParameters['groupId']?.trim() ?? '';
+          final groupId = state.pathParameters['id']?.trim() ?? '';
           return coolPageTransition(
             context: context,
             state: state,
@@ -236,13 +211,73 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(
+        path: AppRoutes.groupInvite,
+        redirect: (context, state) {
+          final inviteCode = state.pathParameters['code']?.trim().toUpperCase();
+          if (inviteCode == null || inviteCode.isEmpty) {
+            return AppRoutes.groups;
+          }
+          return Uri(
+            path: AppRoutes.groups,
+            queryParameters: <String, String>{'invite_code': inviteCode},
+          ).toString();
+        },
+      ),
+      // Note: /groups is registered in buildHomeShellBranch
+      // (app_shell_branches.dart). Do NOT duplicate it here.
+      GoRoute(
+        path: AppRoutes.contributionCircleDetail,
+        redirect: (context, state) {
+          final groupId = state.pathParameters['groupId']?.trim() ?? '';
+          if (groupId.isEmpty) {
+            return AppRoutes.groups;
+          }
+          return Uri(
+            path: AppRoutes.groupDetailLocation(groupId),
+            queryParameters: state.uri.queryParameters.isEmpty
+                ? null
+                : state.uri.queryParameters,
+          ).toString();
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.contributionCircleSettings,
+        redirect: (context, state) {
+          final groupId = state.pathParameters['groupId']?.trim() ?? '';
+          if (groupId.isEmpty) {
+            return AppRoutes.groups;
+          }
+          return Uri(
+            path: AppRoutes.groupSettingsLocation(groupId),
+            queryParameters: state.uri.queryParameters.isEmpty
+                ? null
+                : state.uri.queryParameters,
+          ).toString();
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.contributionCircleStatements,
+        redirect: (context, state) {
+          final groupId = state.pathParameters['groupId']?.trim() ?? '';
+          if (groupId.isEmpty) {
+            return AppRoutes.groups;
+          }
+          return Uri(
+            path: AppRoutes.groupStatementsLocation(groupId),
+            queryParameters: state.uri.queryParameters.isEmpty
+                ? null
+                : state.uri.queryParameters,
+          ).toString();
+        },
+      ),
+      GoRoute(
         path: AppRoutes.groupLedger,
         redirect: (context, state) {
           final groupId = state.pathParameters['id']?.trim();
           if (groupId == null || groupId.isEmpty) {
-            return AppRoutes.contributionCircles;
+            return AppRoutes.groups;
           }
-          return AppRoutes.contributionCircleDetailLocation(groupId);
+          return AppRoutes.groupDetailLocation(groupId);
         },
       ),
 

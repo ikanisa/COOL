@@ -64,9 +64,11 @@ void main() {
         deviceSettingsService: FakeSmsAutoreadDeviceSettingsService(),
         nfcHceService: FakeSmsAutoreadNfcHceService(),
       );
+      final nativeBridgeChannel = _FakeNativeBridgeChannel();
       final service = MomoSmsAutoreadService(
         client: client,
         appAccessService: appAccessService,
+        nativeBridge: MomoSmsNativeBridge(channel: nativeBridgeChannel.channel),
       );
 
       await service.refresh();
@@ -79,9 +81,11 @@ void main() {
         deviceSettingsService: FakeSmsAutoreadDeviceSettingsService(),
         nfcHceService: FakeSmsAutoreadNfcHceService(),
       );
+      final nativeBridgeChannel = _FakeNativeBridgeChannel();
       final service = MomoSmsAutoreadService(
         client: client,
         appAccessService: appAccessService,
+        nativeBridge: MomoSmsNativeBridge(channel: nativeBridgeChannel.channel),
       );
 
       if (Platform.isAndroid) {
@@ -111,9 +115,11 @@ void main() {
         deviceSettingsService: FakeSmsAutoreadDeviceSettingsService(),
         nfcHceService: FakeSmsAutoreadNfcHceService(),
       );
+      final nativeBridgeChannel = _FakeNativeBridgeChannel();
       final service = MomoSmsAutoreadService(
         client: client,
         appAccessService: appAccessService,
+        nativeBridge: MomoSmsNativeBridge(channel: nativeBridgeChannel.channel),
       );
 
       await service.stop();
@@ -175,6 +181,7 @@ void main() {
         supportsSmsAutoread: () => true,
         smsPermissionStatus: () async => PermissionStatus.granted,
         requestSmsPermission: () async => PermissionStatus.granted,
+        approvedSenderLoader: () async => const <String>['MMONEY'],
       );
 
       final result = await service.syncInbox(
@@ -231,6 +238,7 @@ void main() {
           supportsSmsAutoread: () => true,
           smsPermissionStatus: () async => PermissionStatus.granted,
           requestSmsPermission: () async => PermissionStatus.granted,
+          approvedSenderLoader: () async => const <String>['MMONEY'],
         );
 
         final result = await service.syncInbox(
@@ -286,6 +294,7 @@ void main() {
           supportsSmsAutoread: () => true,
           smsPermissionStatus: () async => PermissionStatus.granted,
           requestSmsPermission: () async => PermissionStatus.granted,
+          approvedSenderLoader: () async => const <String>['MMONEY'],
         );
 
         await expectLater(
@@ -295,7 +304,7 @@ void main() {
 
         expect(
           crashlytics.recordedReasons,
-          contains('momo_sms_inbox_sync_failed'),
+          contains('momo_sms_native_inbox_sync_failed'),
         );
       },
     );

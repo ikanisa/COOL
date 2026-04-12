@@ -27,6 +27,22 @@ void main() {
       );
     });
 
+    test('treats merchant-code routes as valid contribution routes', () {
+      const codeGroup = Group(
+        id: 'group-code',
+        creatorId: 'creator-1',
+        name: 'Code Circle',
+        type: 'community',
+        visibility: 'public',
+        amount: 0,
+        targetAmount: 0,
+        country: 'RW',
+        momoNumber: '23456',
+        momoRouteType: 'code',
+      );
+
+      expect(groupHasContributionRoute(codeGroup), isTrue);
+    });
 
     test('builds a shareable invite link from the group invite code', () {
       expect(buildGroupInviteUrl(group), 'https://cool.app/invite/JOIN1234');

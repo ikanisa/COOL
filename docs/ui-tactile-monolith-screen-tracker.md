@@ -10,7 +10,7 @@ Status key: ✅ Compliant | 🟡 Partial | ⚠️ Exception (documented) | ❌ N
 
 | Screen | File | Status | Notes |
 |--------|------|--------|-------|
-| Splash | `lib/features/auth/screens/splash_screen.dart` | ✅ | Cinematic brand hero, correct typography |
+| Splash | `lib/shared/widgets/startup_loading_screen.dart` | ✅ | Cinematic brand hero, correct typography |
 | Home | `lib/features/home/screens/home_screen.dart` | ✅ | Reference implementation — glass nav, quick actions, premium hierarchy |
 | Groups list | `lib/features/groups/screens/groups_screen.dart` | ✅ | Fixed: xl card radius, pill buttons, pill FAB, skeleton loading |
 | Group create | `lib/features/groups/screens/group_create_screen.dart` | 🟡 | Input system now uses sunken shadows; verify form controls |

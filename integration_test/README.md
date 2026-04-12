@@ -13,11 +13,17 @@ To keep CI and local release gates green, the host-only smoke suite lives under
 emulator or live backend services:
 
 ```bash
-# Run the device-backed critical journey suite on the default attached device
+# Run the device-backed smoke journey suite on the default attached device
 bash scripts/run_device_integration.sh
 
-# Pick a device and production flavor explicitly
-DEVICE=emulator-5554 FLAVOR=production bash scripts/run_device_integration.sh
+# Pick a suite and device explicitly
+SUITE=groups DEVICE=emulator-5554 FLAVOR=production \
+  bash scripts/run_device_integration.sh
+
+# Run the full device-backed suite serially
+SUITE=all DEVICE=emulator-5554 FLAVOR=staging \
+  ALLOW_SHARED_SUPABASE_PROJECT=1 \
+  bash scripts/run_device_integration.sh
 
 # Run the Android inbox-sync device test with seeded SMS rows
 DEVICE=emulator-5554 FLAVOR=staging bash scripts/run_momo_sms_device_integration.sh
@@ -31,6 +37,9 @@ flutter test test/integration_smoke
 | File | Journey |
 |---|---|
 | `critical_journeys_test.dart` | Signed-out deep links, group routes, and MoMo entry flows |
+| `auth_review_flow_test.dart` | Review OTP send/verify flow with deterministic session bootstrap |
+| `group_core_journeys_test.dart` | Verified group creation and invite-based group join |
+| `admin_savings_flow_test.dart` | Admin member management, manual allocation, and close-group flow |
 | `momo_sms_inbox_sync_test.dart` | Real Android SMS inbox sync with seeded M-Money rows, sync-state persistence, and manual overlap replay |
 
 These tests intentionally reuse the fake-backed harness from
@@ -51,3 +60,4 @@ real mobile runtime.
 2. Keep host-side smoke tests under `test/integration_smoke/`
 3. Prefer provider overrides and fake repositories over live Supabase/Firebase
 4. Keep tests independent so each file can run in CI without shared state
+5. Use `scripts/run_device_integration.sh` with `SUITE=...` for repeatable device UAT

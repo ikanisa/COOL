@@ -1,7 +1,6 @@
 import '../router/app_routes.dart';
 
 abstract final class DeepLinkConfig {
-
   static const _legacyHosts = <String>{
     'cool.app',
     'www.cool.app',
@@ -46,8 +45,6 @@ abstract final class DeepLinkConfig {
     return _httpsUri('/groups/$groupId', queryParameters: queryParameters);
   }
 
-
-
   static Uri statusUri(String userId, {Map<String, String>? queryParameters}) {
     return _httpsUri('/status/$userId', queryParameters: queryParameters);
   }
@@ -73,8 +70,12 @@ abstract final class DeepLinkConfig {
         segments.length < 2 ? null : '/invite/${segments[1].toUpperCase()}',
       'groups' =>
         segments.length < 2
-            ? AppRoutes.contributionCircles
-            : AppRoutes.contributionCircleDetailLocation(segments[1]),
+            ? AppRoutes.groups
+            : AppRoutes.groupDetailLocation(segments[1]),
+      'contribution-circles' =>
+        segments.length < 2
+            ? AppRoutes.groups
+            : AppRoutes.groupDetailLocation(segments[1]),
       'home' => AppRoutes.home,
       'momo' => _momoRouteForSegments(segments, uri),
       'biopay-tab' => AppRoutes.biopayHome,
@@ -111,7 +112,6 @@ abstract final class DeepLinkConfig {
       _ => AppRoutes.biopayHome,
     };
   }
-
 
   static bool _supportsUri(Uri uri) {
     if (uri.scheme == customScheme) {

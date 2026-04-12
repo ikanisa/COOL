@@ -69,7 +69,10 @@ void main() {
         decoration.color,
         CoolSemanticColors.light.buttonSecondaryBackground,
       );
-      expect(decoration.border, isNull);
+      final border = decoration.border as Border?;
+      expect(border, isNotNull);
+      expect(border!.top.color, CoolSemanticColors.light.border);
+      expect(border.top.width, 1);
     });
 
     testWidgets('CoolScreenScaffold resolves light background token', (

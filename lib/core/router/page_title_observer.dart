@@ -45,7 +45,7 @@ String routeTitleFor(String? path) {
   const titles = <String, String>{
     '/home': 'Home — COOL',
     '/groups': 'Groups — COOL',
-    '/contribution-circles': 'Contribution Circles — COOL',
+    '/contribution-circles': 'Groups — COOL',
     '/momo': 'MoMo — COOL',
     '/momo/statements': 'MoMo Statements — COOL',
     '/momo/biopay': 'BioPay — COOL',
@@ -73,6 +73,9 @@ String routeTitleFor(String? path) {
     return exact;
   }
 
+  if (basePath.startsWith('/groups/')) {
+    return 'Group Details — COOL';
+  }
   if (basePath.startsWith('/contribution-circles/')) {
     return 'Group Details — COOL';
   }

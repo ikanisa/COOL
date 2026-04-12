@@ -7,6 +7,7 @@ const ALLOWED_ORIGINS: string[] = [
   "https://pwa.cool.app",
   "https://cool.app",
   "https://cool.ikanisa.com",
+  "https://acool.ikanisa.com",
 ];
 
 function resolveAllowedOrigin(request: Request): string {

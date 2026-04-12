@@ -87,3 +87,28 @@ require_resolved_supabase_client_env() {
     return 1
   fi
 }
+
+require_distinct_staging_and_production_supabase_projects() {
+  local allow_shared="${ALLOW_SHARED_SUPABASE_PROJECT:-0}"
+  if [[ "$allow_shared" == "1" ]]; then
+    return 0
+  fi
+
+  local staging_url="${SUPABASE_STAGING_URL:-${SUPABASE_URL:-}}"
+  local production_url="${SUPABASE_PRODUCTION_URL:-${SUPABASE_URL:-}}"
+  local staging_ref
+  local production_ref
+  staging_ref="$(supabase_project_ref_from_url "$staging_url")"
+  production_ref="$(supabase_project_ref_from_url "$production_url")"
+
+  if [[ -z "$staging_ref" || -z "$production_ref" ]]; then
+    return 0
+  fi
+
+  if [[ "$staging_ref" == "$production_ref" ]]; then
+    echo "CRITICAL BLOCKER — staging and production point at the same Supabase project ($staging_ref)." >&2
+    echo "Write-heavy UAT is blocked until SUPABASE_STAGING_URL and SUPABASE_PRODUCTION_URL are separated." >&2
+    echo "Set ALLOW_SHARED_SUPABASE_PROJECT=1 only for read-only local verification." >&2
+    return 1
+  fi
+}

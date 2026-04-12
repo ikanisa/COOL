@@ -19,7 +19,7 @@ class ProfileMomoEditResult {
   final String countryCode;
   final String momoNumber;
   final String? momoCode;
-  final MomoRecipientType momoRouteType;
+  final MomoRecipientType? momoRouteType;
 }
 
 /// Bottom sheet for editing MoMo number and code.
@@ -51,7 +51,6 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
   late MomoRecipientType _selectedRouteType;
   String? _numberError;
   String? _codeError;
-  String? _detectedProvider;
   bool _isSubmitting = false;
 
   @override
@@ -78,7 +77,6 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
       number: localNumber,
       code: _codeController.text,
     );
-    _updateProvider(localNumber);
   }
 
   @override
@@ -86,11 +84,6 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
     _numberController.dispose();
     _codeController.dispose();
     super.dispose();
-  }
-
-  void _updateProvider(String value) {
-    final label = PhoneValidator.providerLabel(value, widget.country.isoCode);
-    if (mounted) setState(() => _detectedProvider = label);
   }
 
   MomoRecipientType _resolveRouteType({
@@ -124,39 +117,45 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
     final code = country.supportsMomoCode ? _codeController.text.trim() : '';
     final hasCode = code.isNotEmpty;
     final hasNumber = number.isNotEmpty;
-    final selectedRouteType = country.supportsMomoCode
-        ? _selectedRouteType
-        : MomoRecipientType.phoneNumber;
 
     String? numErr;
     if (hasNumber) {
       numErr = PhoneValidator.validateMomoNumberForCountry(number, country);
-    } else if (selectedRouteType == MomoRecipientType.phoneNumber) {
-      numErr = country.supportsMomoCode
-          ? context.l10n.profileMomoNumberRequired
-          : context.l10n.profileMomoNumberIsRequired;
     }
 
     String? codeErr;
     if (hasCode) {
       codeErr = PhoneValidator.validateMomoCode(code, country: country);
-    } else if (country.supportsMomoCode &&
-        selectedRouteType == MomoRecipientType.code) {
-      codeErr = context.l10n.profileMomoCodeRequired;
     }
 
-    setState(() {
-      _numberError = numErr;
-      _codeError = codeErr;
-    });
+    if (numErr != null || codeErr != null) {
+      setState(() {
+        _numberError = numErr;
+        _codeError = codeErr;
+        if (numErr != null) {
+          _selectedRouteType = MomoRecipientType.phoneNumber;
+        } else if (codeErr != null && country.supportsMomoCode) {
+          _selectedRouteType = MomoRecipientType.code;
+        }
+      });
+      return;
+    }
 
-    if (numErr != null || codeErr != null) return;
+    final selectedRouteType = country.supportsMomoCode
+        ? _selectedRouteType
+        : MomoRecipientType.phoneNumber;
+    final resolvedRouteType = _resolveRouteTypeForSave(
+      country: country,
+      selectedRouteType: selectedRouteType,
+      hasNumber: hasNumber,
+      hasCode: hasCode,
+    );
 
     final result = ProfileMomoEditResult(
       countryCode: country.isoCode,
       momoNumber: number,
       momoCode: code.isEmpty ? null : code,
-      momoRouteType: selectedRouteType,
+      momoRouteType: resolvedRouteType,
     );
 
     if (widget.onSubmitted != null) {
@@ -174,16 +173,58 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
     Navigator.of(context).pop(result);
   }
 
+  MomoRecipientType? _resolveRouteTypeForSave({
+    required CoolCountry country,
+    required MomoRecipientType selectedRouteType,
+    required bool hasNumber,
+    required bool hasCode,
+  }) {
+    if (!country.supportsMomoCode) {
+      return hasNumber ? MomoRecipientType.phoneNumber : null;
+    }
+    if (hasNumber && hasCode) {
+      return selectedRouteType;
+    }
+    if (hasNumber) {
+      return MomoRecipientType.phoneNumber;
+    }
+    if (hasCode) {
+      return MomoRecipientType.code;
+    }
+    return null;
+  }
+
+  bool get _showNumberEntry =>
+      !widget.country.supportsMomoCode ||
+      _selectedRouteType == MomoRecipientType.phoneNumber;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final l10n = context.l10n;
     final country = widget.country;
     final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
+    final showNumberEntry = _showNumberEntry;
+    final activeController = showNumberEntry
+        ? _numberController
+        : _codeController;
+    final activeSemanticLabel = showNumberEntry
+        ? l10n.momoNumberLabel
+        : l10n.merchantCode;
+    final activeSemanticHint = showNumberEntry
+        ? l10n.profileEnterMomoNumber
+        : l10n.profileEnterMerchantCode;
+    final activeHintText = showNumberEntry
+        ? country.phoneExampleHint()
+        : (country.momoCodeExample ?? '12345');
+    final activeKeyboardType = showNumberEntry
+        ? TextInputType.phone
+        : TextInputType.number;
+    final activeError = showNumberEntry ? _numberError : _codeError;
     final content = SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(
         22,
-        widget.showSheetChrome ? 12 : 18,
+        widget.showSheetChrome ? 12 : 16,
         22,
         22 + bottomInset,
       ),
@@ -203,128 +244,18 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
               ),
             ),
             const SizedBox(height: CoolSpace.x5),
-          ],
-
-          Text(
-            l10n.profileEditMomoInfo,
-            style: context.coolText.display(
-              null,
-              color: colors.primaryText,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: CoolSpace.x5),
-
-          Text(
-            l10n.momoNumberLabel.toUpperCase(),
-            style: context.coolText
-                .mobiLabel(color: colors.tertiaryText)
-                .copyWith(fontWeight: FontWeight.w700, letterSpacing: 1.2),
-          ),
-          const SizedBox(height: CoolSpace.x2),
-          Semantics(
-            textField: true,
-            label: l10n.momoNumberLabel,
-            hint: l10n.profileEnterMomoNumber,
-            child: TextField(
-              controller: _numberController,
-              keyboardType: TextInputType.phone,
-              style: context.coolText.manrope(null, color: colors.primaryText),
-              cursorColor: colors.accent,
-              decoration: InputDecoration(
-                hintText: country.phoneExampleHint(),
-                hintStyle: context.coolText.manrope(
-                  null,
-                  color: colors.tertiaryText.withValues(alpha: 0.5),
-                ),
-                filled: true,
-                fillColor: colors.inputSurface,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(CoolRadii.xs),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(CoolRadii.xs),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(CoolRadii.xs),
-                  borderSide: BorderSide(color: colors.accent),
-                ),
-                errorText: _numberError,
-              ),
-              onChanged: _updateProvider,
-            ),
-          ),
-
-          if (_detectedProvider != null) ...[
-            const SizedBox(height: CoolSpace.x2),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: colors.contactSurface,
-                borderRadius: BorderRadius.circular(CoolRadii.xs),
-              ),
-              child: Text(
-                _detectedProvider!,
-                style: context.coolText.mobiLabel(color: colors.accent),
+            Text(
+              l10n.profileEditMomoInfo,
+              style: context.coolText.display(
+                null,
+                color: colors.primaryText,
+                fontWeight: FontWeight.w700,
               ),
             ),
+            const SizedBox(height: CoolSpace.x5),
           ],
 
           if (country.supportsMomoCode) ...[
-            const SizedBox(height: CoolSpace.x5),
-            Text(
-              l10n.profileMomoCodeOptional,
-              style: context.coolText
-                  .mobiLabel(color: colors.tertiaryText)
-                  .copyWith(fontWeight: FontWeight.w700, letterSpacing: 1.2),
-            ),
-            const SizedBox(height: CoolSpace.x2),
-            Semantics(
-              textField: true,
-              label: l10n.profileMomoCodeOptional,
-              hint: l10n.profileEnterMerchantCode,
-              child: TextField(
-                controller: _codeController,
-                keyboardType: TextInputType.number,
-                style: context.coolText.manrope(
-                  null,
-                  color: colors.primaryText,
-                ),
-                cursorColor: colors.accent,
-                decoration: InputDecoration(
-                  hintText: country.momoCodeExample ?? '12345',
-                  hintStyle: context.coolText.manrope(
-                    null,
-                    color: colors.tertiaryText.withValues(alpha: 0.5),
-                  ),
-                  filled: true,
-                  fillColor: colors.inputSurface,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(CoolRadii.xs),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(CoolRadii.xs),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(CoolRadii.xs),
-                    borderSide: BorderSide(color: colors.accent),
-                  ),
-                  errorText: _codeError,
-                ),
-              ),
-            ),
-            const SizedBox(height: CoolSpace.x5),
-            Text(
-              l10n.profileDefaultReceiveRoute,
-              style: context.coolText
-                  .mobiLabel(color: colors.tertiaryText)
-                  .copyWith(fontWeight: FontWeight.w700, letterSpacing: 1.2),
-            ),
-            const SizedBox(height: CoolSpace.x2),
             MomoRouteTypeSelector(
               value: _selectedRouteType,
               onChanged: (value) {
@@ -334,6 +265,55 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
                   _codeError = null;
                 });
               },
+              phoneLabel: l10n.number,
+              codeLabel: l10n.code,
+            ),
+            const SizedBox(height: CoolSpace.x4),
+          ],
+
+          AnimatedSwitcher(
+            duration: CoolMotion.standard,
+            switchInCurve: CoolMotion.enterCurve,
+            switchOutCurve: CoolMotion.exitCurve,
+            transitionBuilder: (child, animation) {
+              final slide = Tween<Offset>(
+                begin: const Offset(0.0, 0.08),
+                end: Offset.zero,
+              ).animate(animation);
+              return FadeTransition(
+                opacity: animation,
+                child: SlideTransition(position: slide, child: child),
+              );
+            },
+            child: _MomoProfileInputCard(
+              key: ValueKey<MomoRecipientType?>(
+                country.supportsMomoCode ? _selectedRouteType : null,
+              ),
+              semanticLabel: activeSemanticLabel,
+              semanticHint: activeSemanticHint,
+              controller: activeController,
+              keyboardType: activeKeyboardType,
+              hintText: activeHintText,
+              onChanged: (value) {
+                setState(() {
+                  if (showNumberEntry) {
+                    _numberError = null;
+                  } else {
+                    _codeError = null;
+                  }
+                });
+              },
+            ),
+          ),
+
+          if (activeError != null) ...[
+            const SizedBox(height: CoolSpace.x2),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: CoolSpace.x2),
+              child: Text(
+                activeError,
+                style: context.coolText.mobiLabel(color: colors.danger),
+              ),
             ),
           ],
 
@@ -381,6 +361,84 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
         ),
       ),
       child: SafeArea(top: false, child: content),
+    );
+  }
+}
+
+class _MomoProfileInputCard extends StatelessWidget {
+  const _MomoProfileInputCard({
+    required this.semanticLabel,
+    required this.semanticHint,
+    required this.controller,
+    required this.keyboardType,
+    required this.hintText,
+    required this.onChanged,
+    super.key,
+  });
+
+  final String semanticLabel;
+  final String semanticHint;
+  final TextEditingController controller;
+  final TextInputType keyboardType;
+  final String hintText;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
+    final isDark = theme.brightness == Brightness.dark;
+
+    return Semantics(
+      textField: true,
+      label: semanticLabel,
+      hint: semanticHint,
+      child: Container(
+        constraints: const BoxConstraints(minHeight: 118),
+        padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: isDark
+                ? <Color>[colors.cardSurfaceStrong, colors.cardSurface]
+                : const <Color>[Color(0xFFFDFEFF), Color(0xFFF6F9FF)],
+          ),
+          borderRadius: BorderRadius.circular(CoolRadii.xxl),
+        ),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: TextField(
+            controller: controller,
+            keyboardType: keyboardType,
+            textInputAction: TextInputAction.done,
+            cursorColor: colors.accent,
+            style: context.coolText
+                .heroNumber(color: colors.primaryText)
+                .copyWith(fontSize: 28, letterSpacing: -0.7, height: 1.0),
+            decoration: InputDecoration(
+              hintText: hintText,
+              hintStyle: context.coolText
+                  .heroNumber(
+                    color: colors.tertiaryText.withValues(alpha: 0.68),
+                  )
+                  .copyWith(fontSize: 28, letterSpacing: -0.7, height: 1.0),
+              isCollapsed: true,
+              isDense: true,
+              filled: false,
+              fillColor: Colors.transparent,
+              contentPadding: EdgeInsets.zero,
+              border: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              disabledBorder: InputBorder.none,
+              errorBorder: InputBorder.none,
+              focusedErrorBorder: InputBorder.none,
+            ),
+            onChanged: onChanged,
+          ),
+        ),
+      ),
     );
   }
 }

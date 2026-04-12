@@ -54,7 +54,14 @@ Future<NormalizedMomoIdentity> normalizeMomoIdentity({
   final trimmedMomoNumber = momoNumber.trim();
   final trimmedMomoCode = momoCode?.trim() ?? '';
   if (trimmedMomoNumber.isEmpty && trimmedMomoCode.isEmpty) {
-    throw const FormatException('Add a MoMo number or code.');
+    final countryCode = (fallbackCountry ?? AppMarket.countryCode).trim();
+    return (
+      momoNumber: '',
+      momoCode: null,
+      momoRouteType: null,
+      momoProvider: '',
+      country: countryCode.isEmpty ? AppMarket.countryCode : countryCode,
+    );
   }
 
   final seedCountry = await momoService.resolveCountry(

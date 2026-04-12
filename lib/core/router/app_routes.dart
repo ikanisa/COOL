@@ -10,6 +10,8 @@ abstract final class AppRoutes {
   static const groups = '/groups';
   static const groupCreate = '/groups/create';
   static const groupDetail = '/groups/:id';
+  static const groupSettings = '/groups/:id/settings';
+  static const groupStatements = '/groups/:id/statements';
   static const groupLedger = '/groups/:id/ledger';
   static const groupInvite = '/invite/:code';
 
@@ -27,7 +29,7 @@ abstract final class AppRoutes {
   static const biopayNfcTap = '/momo/biopay/nfc/tap';
   static const biopayEnrollmentSuccess = '/momo/biopay/success';
 
-  // ── Contribution Circles ────────────────────────────────────────
+  // ── Legacy contribution-circle routes ───────────────────────────
   static const contributionCircles = '/contribution-circles';
   static const contributionCircleDetail = '/contribution-circles/:groupId';
   static const contributionCircleSettings =
@@ -89,16 +91,28 @@ abstract final class AppRoutes {
     return '/invite/${code.trim().toUpperCase()}';
   }
 
+  static String groupDetailLocation(String groupId) {
+    return '/groups/$groupId';
+  }
+
+  static String groupStatementsLocation(String groupId) {
+    return '/groups/$groupId/statements';
+  }
+
+  static String groupSettingsLocation(String groupId) {
+    return '/groups/$groupId/settings';
+  }
+
   static String contributionCircleDetailLocation(String groupId) {
-    return '/contribution-circles/$groupId';
+    return groupDetailLocation(groupId);
   }
 
   static String contributionCircleStatementsLocation(String groupId) {
-    return '/contribution-circles/$groupId/statements';
+    return groupStatementsLocation(groupId);
   }
 
   static String contributionCircleSettingsLocation(String groupId) {
-    return '/contribution-circles/$groupId/settings';
+    return groupSettingsLocation(groupId);
   }
 
   static String adminBankWorkspaceLocation(String bankId) {
@@ -151,6 +165,7 @@ abstract final class AppRoutes {
 
 const appShellRootLocations = {
   AppRoutes.home,
+  AppRoutes.groups,
   AppRoutes.contributionCircles,
   AppRoutes.biopayHome,
   AppRoutes.profile,

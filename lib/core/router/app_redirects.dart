@@ -23,6 +23,7 @@ bool _isPublicSignedOutRoute(String location) {
   return path == AppRoutes.splash ||
       path == AppRoutes.home ||
       path == AppRoutes.register ||
+      path == AppRoutes.groups ||
       path == AppRoutes.contributionCircles ||
       path.startsWith('/invite/');
 }
@@ -85,16 +86,13 @@ String? resolveAppRedirect({
   final adminScope =
       adminAccess ?? AdminWorkspaceAccess(hasPlatformAccess: isAdmin);
   final hasAnyAdminAccess = adminScope.hasAnyAdminAccess;
-  final isProfileRestoreBlocked =
-      profileRestoreState == AuthProfileRestoreState.pending ||
-      profileRestoreState == AuthProfileRestoreState.failed;
   final redirectTarget =
       _sanitizeRedirectTarget(pendingRedirect) ??
       _sanitizeRedirectTarget(requestedLocation) ??
       _sanitizeRedirectTarget(location);
 
   // While restoring profile, keep the user on their current location.
-  if (hasSession && isProfileRestoreBlocked) {
+  if (hasSession && profileRestoreState == AuthProfileRestoreState.pending) {
     return null;
   }
 

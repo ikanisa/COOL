@@ -1,8 +1,36 @@
 import { ensureAuthUser } from "./verify_otp_helpers.ts";
 
+function withEnv(
+  entries: Record<string, string | null>,
+  run: () => void | Promise<void>,
+) {
+  const previous = new Map<string, string | undefined>();
+  for (const [key, value] of Object.entries(entries)) {
+    previous.set(key, Deno.env.get(key));
+    if (value == null) {
+      Deno.env.delete(key);
+    } else {
+      Deno.env.set(key, value);
+    }
+  }
+
+  return Promise.resolve(run()).finally(() => {
+    for (const [key, value] of previous.entries()) {
+      if (value == null) {
+        Deno.env.delete(key);
+      } else {
+        Deno.env.set(key, value);
+      }
+    }
+  });
+}
+
 Deno.test(
   "ensureAuthUser falls back to admin list when auth lookup RPC is missing",
   async () => {
+    await withEnv({
+      AUTH_PHONE_PASSWORD_SECRET: "test-auth-phone-password-secret",
+    }, async () => {
     let listUsersCalls = 0;
     let updateUserCalls = 0;
     let createUserCalls = 0;
@@ -70,5 +98,6 @@ Deno.test(
     if (createUserCalls != 0) {
       throw new Error(`Expected no createUser calls, got ${createUserCalls}`);
     }
+    });
   },
 );

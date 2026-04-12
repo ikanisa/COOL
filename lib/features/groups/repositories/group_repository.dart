@@ -6,6 +6,7 @@ import '../models/group_access_snapshot.dart';
 import '../models/group.dart';
 import '../models/group_invite_preview.dart';
 import '../models/group_join_result.dart';
+import '../models/group_member_preview.dart';
 
 class GroupRepository {
   GroupRepository({required SupabaseClient client}) : _client = client;
@@ -97,6 +98,28 @@ class GroupRepository {
       return null;
     }
     return GroupAccessSnapshot.fromJson(rows.first);
+  }
+
+  Future<List<GroupMemberPreview>> getGroupMemberPreview(
+    String groupId, {
+    int limit = 100,
+  }) async {
+    final normalizedGroupId = _trimToNull(groupId);
+    if (normalizedGroupId == null) {
+      return const <GroupMemberPreview>[];
+    }
+
+    final rows = _asListOfMaps(
+      await _client.rpc(
+        'get_group_members_preview',
+        params: <String, dynamic>{
+          'p_group_id': normalizedGroupId,
+          'p_limit': limit,
+        },
+      ),
+    );
+
+    return rows.map(GroupMemberPreview.fromJson).toList(growable: false);
   }
 
   Future<Group> createGroup({

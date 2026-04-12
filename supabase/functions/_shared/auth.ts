@@ -189,9 +189,10 @@ export async function requireAdminCaller(
 export function requireCronSecret(
   request: Request,
   envNames: string[] = ["CRON_JOB_SECRET"],
+  getEnv: (name: string) => string | undefined = (name) => Deno.env.get(name),
 ): void {
   const configuredSecret = envNames
-    .map((name) => Deno.env.get(name)?.trim())
+    .map((name) => getEnv(name)?.trim())
     .find((value) => value != null && value.length > 0);
 
   if (!configuredSecret) {

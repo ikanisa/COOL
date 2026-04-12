@@ -61,10 +61,10 @@ void main() {
 
     expect(find.text('Face ID Setup'), findsOneWidget);
     expect(find.text('Link your face\nto your MoMo.'), findsOneWidget);
-    expect(find.text('MOMO NUMBER'), findsOneWidget);
+    expect(find.text('MOMO NUMBER'), findsNothing);
     expect(find.text('Start Enrollment'), findsOneWidget);
     expect(
-      find.text('BioPay face model is not bundled in this build yet.'),
+      find.text('BioPay is temporarily unavailable. Please try again later.'),
       findsOneWidget,
     );
     expect(tester.takeException(), isNull);

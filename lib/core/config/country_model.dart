@@ -72,49 +72,96 @@ class CoolCountry {
   bool get supportsMomoCode => (momoCodeUssdTemplate ?? '').trim().isNotEmpty;
 
   factory CoolCountry.fromJson(Map<String, dynamic> json) {
+    Object? read(String snakeCase, [String? camelCase]) =>
+        json[snakeCase] ?? (camelCase == null ? null : json[camelCase]);
+
     return CoolCountry(
-      isoCode: json['iso_code']?.toString() ?? '',
-      dialCode: json['dial_code']?.toString() ?? '',
+      isoCode: read('iso_code', 'isoCode')?.toString() ?? '',
+      dialCode: read('dial_code', 'dialCode')?.toString() ?? '',
       name:
-          json['country_name']?.toString() ??
-          json['name']?.toString() ??
-          json['display_name']?.toString() ??
+          read('country_name', 'countryName')?.toString() ??
+          read('name')?.toString() ??
+          read('display_name', 'displayName')?.toString() ??
           '',
-      flagEmoji: json['flag_emoji']?.toString() ?? '',
-      currencyCode: json['currency_code']?.toString() ?? '',
-      currencyName: json['currency_name']?.toString() ?? '',
+      flagEmoji: read('flag_emoji', 'flagEmoji')?.toString() ?? '',
+      currencyCode: read('currency_code', 'currencyCode')?.toString() ?? '',
+      currencyName: read('currency_name', 'currencyName')?.toString() ?? '',
       providerIdValue:
-          json['momo_provider_id']?.toString() ??
-          json['provider_id']?.toString(),
+          read('momo_provider_id', 'momoProviderId')?.toString() ??
+          read('provider_id', 'providerId')?.toString(),
       momoUssdTemplate:
-          json['momo_number_ussd_template']?.toString() ??
-          json['momo_ussd_template']?.toString() ??
+          read(
+            'momo_number_ussd_template',
+            'momoNumberUssdTemplate',
+          )?.toString() ??
+          read('momo_ussd_template', 'momoUssdTemplate')?.toString() ??
           '',
       momoCodeUssdTemplate:
-          json['momo_code_ussd_template']?.toString().trim().isEmpty ?? true
+          read(
+                'momo_code_ussd_template',
+                'momoCodeUssdTemplate',
+              )?.toString().trim().isEmpty ??
+              true
           ? null
-          : json['momo_code_ussd_template']?.toString(),
-      aliases: _asStringList(json['country_aliases']),
-      providerAliases: _asStringList(json['momo_provider_aliases']),
-      mobileNationalNumberPattern: json['mobile_national_number_pattern']
-          ?.toString(),
-      mobilePossibleLengths: _asIntList(json['mobile_possible_lengths']),
-      mobileExampleNational: json['mobile_example_national']?.toString(),
-      mobileExampleE164: json['mobile_example_e164']?.toString(),
-      momoNumberLocalPattern: json['momo_number_local_pattern']?.toString(),
-      momoNumberE164Pattern: json['momo_number_e164_pattern']?.toString(),
-      momoNumberUssdRegex: json['momo_number_ussd_regex']?.toString(),
-      momoNumberUssdExample: json['momo_number_ussd_example']?.toString(),
-      momoCodeKind: json['momo_code_kind']?.toString(),
-      momoCodePattern: json['momo_code_pattern']?.toString(),
-      momoCodeMinLength: _asIntOrNull(json['momo_code_min_length']),
-      momoCodeMaxLength: _asIntOrNull(json['momo_code_max_length']),
-      momoCodeExample: json['momo_code_example']?.toString(),
-      momoCodeUssdRegex: json['momo_code_ussd_regex']?.toString(),
-      momoCodeUssdExample: json['momo_code_ussd_example']?.toString(),
-      phoneValidationSource: json['phone_validation_source']?.toString(),
-      momoUssdSource: json['momo_ussd_source']?.toString(),
-      validationNotes: json['validation_notes']?.toString(),
+          : read('momo_code_ussd_template', 'momoCodeUssdTemplate')?.toString(),
+      aliases: _asStringList(read('country_aliases', 'aliases')),
+      providerAliases: _asStringList(
+        read('momo_provider_aliases', 'providerAliases'),
+      ),
+      mobileNationalNumberPattern: read(
+        'mobile_national_number_pattern',
+        'mobileNationalNumberPattern',
+      )?.toString(),
+      mobilePossibleLengths: _asIntList(
+        read('mobile_possible_lengths', 'mobilePossibleLengths'),
+      ),
+      mobileExampleNational: read(
+        'mobile_example_national',
+        'mobileExampleNational',
+      )?.toString(),
+      mobileExampleE164: read(
+        'mobile_example_e164',
+        'mobileExampleE164',
+      )?.toString(),
+      momoNumberLocalPattern: read(
+        'momo_number_local_pattern',
+        'momoNumberLocalPattern',
+      )?.toString(),
+      momoNumberE164Pattern: read(
+        'momo_number_e164_pattern',
+        'momoNumberE164Pattern',
+      )?.toString(),
+      momoNumberUssdRegex: read(
+        'momo_number_ussd_regex',
+        'momoNumberUssdRegex',
+      )?.toString(),
+      momoNumberUssdExample: read(
+        'momo_number_ussd_example',
+        'momoNumberUssdExample',
+      )?.toString(),
+      momoCodeKind: read('momo_code_kind', 'momoCodeKind')?.toString(),
+      momoCodePattern: read('momo_code_pattern', 'momoCodePattern')?.toString(),
+      momoCodeMinLength: _asIntOrNull(
+        read('momo_code_min_length', 'momoCodeMinLength'),
+      ),
+      momoCodeMaxLength: _asIntOrNull(
+        read('momo_code_max_length', 'momoCodeMaxLength'),
+      ),
+      momoCodeExample: read('momo_code_example', 'momoCodeExample')?.toString(),
+      momoCodeUssdRegex: read(
+        'momo_code_ussd_regex',
+        'momoCodeUssdRegex',
+      )?.toString(),
+      momoCodeUssdExample: read(
+        'momo_code_ussd_example',
+        'momoCodeUssdExample',
+      )?.toString(),
+      phoneValidationSource: read(
+        'phone_validation_source',
+        'phoneValidationSource',
+      )?.toString(),
+      momoUssdSource: read('momo_ussd_source', 'momoUssdSource')?.toString(),
+      validationNotes: read('validation_notes', 'validationNotes')?.toString(),
     );
   }
 

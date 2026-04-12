@@ -63,7 +63,7 @@ void main() {
     expect(find.text('Code'), findsOneWidget);
     expect(find.byType(TextField), findsOneWidget);
     expect(
-      find.text('BioPay face model is not bundled in this build yet.'),
+      find.text('BioPay is temporarily unavailable. Please try again later.'),
       findsOneWidget,
     );
     expect(find.text('Start Enrollment'), findsOneWidget);

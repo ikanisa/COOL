@@ -17,6 +17,7 @@ import '../../../shared/widgets/cool_metric_row.dart';
 import '../../../shared/widgets/cool_section_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/core_detail_scaffold.dart';
+import '../../../shared/widgets/member_row.dart';
 import '../../../shared/widgets/share_card.dart';
 import '../../../shared/widgets/status_badge.dart';
 import '../../../shared/widgets/transaction_status_chip.dart';
@@ -27,6 +28,7 @@ import '../../momo/models/momo_statement.dart';
 import '../../momo/providers/momo_statement_providers.dart';
 import '../group_flow_utils.dart';
 import '../models/group.dart';
+import '../models/group_member_preview.dart';
 import '../providers/groups_provider.dart';
 import '../widgets/transaction_allocation_sheet.dart';
 
@@ -105,6 +107,9 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
   Widget build(BuildContext context) {
     final groupAsync = ref.watch(groupDetailProvider(widget.groupId));
     final accessAsync = ref.watch(groupAccessProvider(widget.groupId));
+    final memberPreviewAsync = ref.watch(
+      groupMemberPreviewProvider(widget.groupId),
+    );
     final myGroupIds = ref.watch(myGroupIdsProvider);
 
     // Guard against empty groupId propagated from route parameters.
@@ -146,6 +151,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
           isJoining: _isJoining,
           inviteUrl: inviteUrl,
           ledgerAsync: ledgerAsync,
+          memberPreviewAsync: memberPreviewAsync,
           canManageSettings: canManageSettings,
           canViewTransactions: canViewTransactions,
           onBack: () {
@@ -153,12 +159,12 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
               context.pop();
               return;
             }
-            context.go(AppRoutes.contributionCircles);
+            context.go(AppRoutes.groups);
           },
           onJoin: isMember ? null : () => _joinPublicGroup(group),
           onOpenSettings: canManageSettings
               ? () => context.push(
-                  AppRoutes.contributionCircleSettingsLocation(group.id ?? ''),
+                  AppRoutes.groupSettingsLocation(group.id ?? ''),
                 )
               : null,
           onContribute: isMember ? () => _contributeToGroup(group) : null,
@@ -180,6 +186,7 @@ class _GroupDetailBody extends StatelessWidget {
     required this.isJoining,
     required this.inviteUrl,
     required this.ledgerAsync,
+    required this.memberPreviewAsync,
     required this.canManageSettings,
     required this.canViewTransactions,
     required this.onBack,
@@ -193,6 +200,7 @@ class _GroupDetailBody extends StatelessWidget {
   final bool isJoining;
   final String? inviteUrl;
   final AsyncValue<MomoStatementPage<PayeePaymentLedgerEntry>> ledgerAsync;
+  final AsyncValue<List<GroupMemberPreview>> memberPreviewAsync;
   final bool canManageSettings;
   final bool canViewTransactions;
   final VoidCallback onBack;
@@ -284,6 +292,59 @@ class _GroupDetailBody extends StatelessWidget {
             ],
           ),
 
+          if (group.memberCount > 0) ...[
+            SizedBox(height: space.x5),
+            Text(
+              context.l10n.membersPreview,
+              style: text.display(
+                theme.textTheme.titleLarge,
+                color: colors.primaryText,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            SizedBox(height: space.x3),
+            memberPreviewAsync.when(
+              data: (members) {
+                if (members.isEmpty) {
+                  return CoolCard(
+                    backgroundColor: colors.cardSurfaceStrong,
+                    borderRadius: CoolRadii.xl,
+                    child: Text(
+                      context.l10n.groupsNoMembersYet,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colors.secondaryText,
+                      ),
+                    ),
+                  );
+                }
+
+                return CoolSectionCard(
+                  children: [
+                    for (final member in members)
+                      MemberRow(
+                        userId: '',
+                        displayName: member.displayName,
+                        isAdmin: member.isAdmin,
+                        isAnonymous: member.isAnonymous,
+                        showContribution: false,
+                      ),
+                  ],
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, _) => CoolCard(
+                backgroundColor: colors.cardSurfaceStrong,
+                borderRadius: CoolRadii.xl,
+                child: Text(
+                  context.l10n.groupsCouldNotLoadMembers,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colors.secondaryText,
+                  ),
+                ),
+              ),
+            ),
+          ],
+
           SizedBox(height: space.x5),
 
           // ── CTA ──────────────────────────────────────────────
@@ -308,8 +369,7 @@ class _GroupDetailBody extends StatelessWidget {
               ),
             ],
             // B3: iOS manual verification notice
-            if (routeReady &&
-                defaultTargetPlatform == TargetPlatform.iOS) ...[
+            if (routeReady && defaultTargetPlatform == TargetPlatform.iOS) ...[
               SizedBox(height: space.x3),
               Container(
                 width: double.infinity,
@@ -348,8 +408,7 @@ class _GroupDetailBody extends StatelessWidget {
                 ),
               ),
             ],
-          ]
-          else if (group.visibility == 'public')
+          ] else if (group.visibility == 'public')
             CoolButton(
               label: context.l10n.groupsJoinGroupUpper,
               onTap: isJoining ? null : onJoin,
@@ -468,9 +527,7 @@ class _StatementsButton extends StatelessWidget {
       width: double.infinity,
       child: CoolButton(
         label: context.l10n.groupsViewAllStatementsUpper,
-        onTap: () => context.push(
-          AppRoutes.contributionCircleStatementsLocation(groupId),
-        ),
+        onTap: () => context.push(AppRoutes.groupStatementsLocation(groupId)),
         variant: CoolButtonVariant.secondary,
       ),
     );
@@ -500,10 +557,10 @@ class _LedgerTile extends StatelessWidget {
       cardPadding: CoolCardPadding.md,
       onTap: canManageAllocations
           ? () => TransactionAllocationSheet.show(
-                context,
-                entry: entry,
-                groupId: groupId,
-              )
+              context,
+              entry: entry,
+              groupId: groupId,
+            )
           : null,
       child: Row(
         children: [
@@ -568,7 +625,7 @@ class _MissingGroupState extends StatelessWidget {
           context.pop();
           return;
         }
-        context.go(AppRoutes.contributionCircles);
+        context.go(AppRoutes.groups);
       },
       title: Text(
         context.l10n.groupDetailTitle,
@@ -608,7 +665,7 @@ class _MissingGroupState extends StatelessWidget {
                       context.pop();
                       return;
                     }
-                    context.go(AppRoutes.contributionCircles);
+                    context.go(AppRoutes.groups);
                   },
                 ),
               ],

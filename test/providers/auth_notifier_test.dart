@@ -130,6 +130,48 @@ void main() {
     );
   });
 
+  group('AuthNotifier.ensureReadyForAppStart', () {
+    test(
+      'does not block startup when a session exists but profile restore fails',
+      () async {
+        final session = _fakeSession();
+        when(() => mockRepo.currentSession).thenReturn(session);
+        when(
+          () => mockRepo.getCurrentProfile(),
+        ).thenThrow(StateError('temporary profile fetch failure'));
+
+        await notifier.ensureReadyForAppStart();
+
+        expect(notifier.state.session?.user.id, session.user.id);
+        expect(
+          notifier.state.profileRestoreState,
+          app_auth.AuthProfileRestoreState.failed,
+        );
+      },
+    );
+
+    test(
+      'does not block startup when anonymous sign-in succeeds but profile load fails',
+      () async {
+        final session = _fakeSession();
+        when(
+          () => mockRepo.signInAnonymously(),
+        ).thenAnswer((_) async => session);
+        when(
+          () => mockRepo.getProfile(session.user.id),
+        ).thenThrow(StateError('temporary profile fetch failure'));
+
+        await notifier.ensureReadyForAppStart();
+
+        expect(notifier.state.session?.user.id, session.user.id);
+        expect(
+          notifier.state.profileRestoreState,
+          app_auth.AuthProfileRestoreState.failed,
+        );
+      },
+    );
+  });
+
   group('AuthNotifier.signInAnonymously', () {
     test('loads an existing profile on success', () async {
       final session = _fakeSession();
@@ -405,14 +447,15 @@ void main() {
         user: profile,
         session: _fakeSession(),
       );
-      when(
-        () => mockRepo.updateProfile(any()),
-      ).thenAnswer((invocation) async {
+      when(() => mockRepo.updateProfile(any())).thenAnswer((invocation) async {
         final updated = invocation.positionalArguments.single as UserProfile;
         final json = updated.toJson();
         // P2 RBAC alignment: is_admin must never be serialized back.
-        expect(json.containsKey('is_admin'), isFalse,
-            reason: 'UserProfile.toJson() must not include is_admin');
+        expect(
+          json.containsKey('is_admin'),
+          isFalse,
+          reason: 'UserProfile.toJson() must not include is_admin',
+        );
         return updated;
       });
 

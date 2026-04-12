@@ -22,24 +22,32 @@ class MomoRouteTypeSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return Row(
-      children: [
-        Expanded(
-          child: _MomoRouteTypeOption(
-            label: phoneLabel ?? l10n.momoNumber1,
-            isActive: value == MomoRecipientType.phoneNumber,
-            onTap: () => onChanged(MomoRecipientType.phoneNumber),
+    final colors = context.coolSemanticColors;
+    return Container(
+      padding: const EdgeInsets.all(CoolSpace.x1),
+      decoration: BoxDecoration(
+        color: colors.routeSurface,
+        borderRadius: BorderRadius.circular(CoolRadii.xl),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: _MomoRouteTypeOption(
+              label: phoneLabel ?? l10n.momoNumber1,
+              isActive: value == MomoRecipientType.phoneNumber,
+              onTap: () => onChanged(MomoRecipientType.phoneNumber),
+            ),
           ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: _MomoRouteTypeOption(
-            label: codeLabel ?? l10n.momoCode,
-            isActive: value == MomoRecipientType.code,
-            onTap: () => onChanged(MomoRecipientType.code),
+          const SizedBox(width: CoolSpace.x1),
+          Expanded(
+            child: _MomoRouteTypeOption(
+              label: codeLabel ?? l10n.momoCode,
+              isActive: value == MomoRecipientType.code,
+              onTap: () => onChanged(MomoRecipientType.code),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -59,30 +67,40 @@ class _MomoRouteTypeOption extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
-    const radius = BorderRadius.all(Radius.circular(CoolRadii.xs));
+    final brightness = theme.brightness;
+    final radius = BorderRadius.circular(CoolRadii.lg);
+    final activeBackground = brightness == Brightness.dark
+        ? colors.overlaySurface.withValues(alpha: 0.9)
+        : Colors.white;
 
     return Semantics(
+      label: label,
       button: true,
       selected: isActive,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: radius,
-        child: AnimatedContainer(
-          duration: CoolMotion.quick,
-          padding: const EdgeInsets.symmetric(vertical: CoolSpace.x3),
-          decoration: BoxDecoration(
-            color: isActive
-                ? colors.chipSelectedBackground
-                : colors.cardSurface,
-            borderRadius: radius,
-            border: Border.all(color: isActive ? colors.accent : colors.border),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            label,
-            style: theme.textTheme.labelMedium?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: isActive ? colors.accentForeground : colors.secondaryText,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: radius,
+          child: AnimatedContainer(
+            duration: CoolMotion.quick,
+            curve: CoolMotion.enterCurve,
+            padding: const EdgeInsets.symmetric(vertical: CoolSpace.x4),
+            decoration: BoxDecoration(
+              color: isActive ? activeBackground : Colors.transparent,
+              borderRadius: radius,
+              boxShadow: isActive
+                  ? CoolShadows.standard(brightness, strength: 0.32)
+                  : const <BoxShadow>[],
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              label.toUpperCase(),
+              style: theme.textTheme.labelMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1.4,
+                color: isActive ? colors.accent : colors.secondaryText,
+              ),
             ),
           ),
         ),

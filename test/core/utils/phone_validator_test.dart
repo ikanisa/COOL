@@ -259,7 +259,7 @@ void main() {
             isA<FormatException>().having(
               (error) => error.message,
               'message',
-              'Use + for full E.164 WhatsApp numbers',
+              'Use + for full E.164 WhatsApp numbers.',
             ),
           ),
         );

@@ -289,11 +289,7 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
               ),
             ],
           ),
-          child: Icon(
-            CoolIcons.chatBubble,
-            size: 42,
-            color: colors.accent,
-          ),
+          child: Icon(CoolIcons.chatBubble, size: 42, color: colors.accent),
         ),
 
         const SizedBox(height: CoolSpace.x6),
@@ -388,6 +384,13 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                   ),
                   decoration: InputDecoration(
                     border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
+                    filled: false,
+                    fillColor: Colors.transparent,
                     hintText: l10n.otpPhoneHint,
                     hintStyle: context.coolText.mono(
                       null,
@@ -537,7 +540,9 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                           color: _otpControllers[index].text.isNotEmpty
                               ? colors.accentDeep.withValues(alpha: 0.72)
                               : colors.borderStrong.withValues(alpha: 0.52),
-                          width: _otpControllers[index].text.isNotEmpty ? 1.4 : 0.9,
+                          width: _otpControllers[index].text.isNotEmpty
+                              ? 1.4
+                              : 0.9,
                         ),
                         boxShadow: CoolShadows.ambientFloat(strength: 0.18),
                       ),
@@ -554,15 +559,27 @@ class _WhatsAppOtpScreenState extends ConsumerState<WhatsAppOtpScreen> {
                         ),
                         decoration: const InputDecoration(
                           border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          focusedErrorBorder: InputBorder.none,
+                          filled: false,
+                          fillColor: Colors.transparent,
                           counterText: '',
                           isCollapsed: true,
                           contentPadding: EdgeInsets.symmetric(vertical: 16),
                         ),
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
                         onChanged: (value) {
                           // ── Paste detection: if multiple digits arrived
                           // (user pasted a code), distribute across all boxes.
-                          final digits = value.replaceAll(RegExp(r'[^0-9]'), '');
+                          final digits = value.replaceAll(
+                            RegExp(r'[^0-9]'),
+                            '',
+                          );
                           if (digits.length > 1) {
                             _distributeOtpDigits(digits);
                             return;
@@ -644,11 +661,7 @@ class _BackChip extends StatelessWidget {
           border: Border.all(color: colors.borderStrong.withValues(alpha: 0.6)),
           boxShadow: CoolShadows.glass(strength: 0.28),
         ),
-        child: Icon(
-          CoolIcons.chevronLeft,
-          color: colors.primaryText,
-          size: 28,
-        ),
+        child: Icon(CoolIcons.chevronLeft, color: colors.primaryText, size: 28),
       ),
     );
   }

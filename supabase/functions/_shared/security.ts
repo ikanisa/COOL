@@ -1,3 +1,5 @@
+import { normalizePhone } from "./phone.ts";
+
 const encoder = new TextEncoder();
 
 function requireSecret(name: string, fallback?: string): string {
@@ -90,4 +92,51 @@ export async function derivePhoneEmail(phone: string): Promise<string> {
 
   const signature = await hmacSha256(secret, `cool-email:${phone}`);
   return `wa-${bytesToHex(signature).slice(0, 32)}@auth.cool.local`;
+}
+
+type ReviewOtpConfig = {
+  normalizedPhone: string;
+  code: string;
+};
+
+export function getReviewOtpConfig(): ReviewOtpConfig | null {
+  const configuredPhone = Deno.env.get("OTP_TEST_PHONE")?.trim();
+  const configuredCode = Deno.env.get("OTP_TEST_CODE")?.trim();
+  if (!configuredPhone || !configuredCode) {
+    return null;
+  }
+
+  if (!/^\d{6}$/.test(configuredCode)) {
+    console.error("OTP_TEST_CODE must be exactly 6 digits.");
+    return null;
+  }
+
+  try {
+    return {
+      normalizedPhone: normalizePhone(configuredPhone),
+      code: configuredCode,
+    };
+  } catch (error) {
+    console.error("OTP_TEST_PHONE is invalid.", error);
+    return null;
+  }
+}
+
+export function resolveReviewOtp(normalizedPhone: string): string | null {
+  const config = getReviewOtpConfig();
+  if (!config) {
+    return null;
+  }
+  return config.normalizedPhone === normalizedPhone ? config.code : null;
+}
+
+export function isReviewOtpMatch(
+  normalizedPhone: string,
+  code: string,
+): boolean {
+  const config = getReviewOtpConfig();
+  if (!config) {
+    return false;
+  }
+  return config.normalizedPhone === normalizedPhone && config.code === code;
 }

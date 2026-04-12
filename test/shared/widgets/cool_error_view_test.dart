@@ -24,7 +24,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('Try Again'), findsNothing);
+      expect(find.text('Retry'), findsNothing);
     });
 
     testWidgets('shows retry button and calls callback', (tester) async {
@@ -42,8 +42,8 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('Try Again'), findsOneWidget);
-      await tester.tap(find.text('Try Again'));
+      expect(find.text('Retry'), findsOneWidget);
+      await tester.tap(find.text('Retry'));
       expect(retryCount, 1);
     });
 

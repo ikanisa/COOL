@@ -26,7 +26,7 @@ void main() {
   });
 
   testWidgets('groups quick action stays in shell navigation', (tester) async {
-    final router = _buildRouter(AppRoutes.contributionCircles);
+    final router = _buildRouter(AppRoutes.groups);
     addTearDown(router.dispose);
 
     await tester.pumpWidget(
@@ -82,7 +82,7 @@ GoRouter _buildRouter(String targetRoute) {
                     _LauncherScreen(route: targetRoute),
               ),
               GoRoute(
-                path: AppRoutes.contributionCircles,
+                path: AppRoutes.groups,
                 builder: (context, state) => const _MarkerScreen('Groups'),
               ),
             ],

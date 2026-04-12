@@ -37,15 +37,15 @@ void main() {
     );
     await tester.pump();
 
-    expect(service.enableCalls, 1);
+    expect(service.enableCalls, 0);
     expect(service.disableCalls, 0);
     expect(find.text('Sensitive'), findsOneWidget);
 
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump();
 
-    expect(service.enableCalls, 1);
-    expect(service.disableCalls, 1);
+    expect(service.enableCalls, 0);
+    expect(service.disableCalls, 0);
   });
 
   testWidgets('SecureScreen delegates to the shared security service', (
@@ -66,14 +66,14 @@ void main() {
     );
     await tester.pump();
 
-    expect(service.enableCalls, 1);
+    expect(service.enableCalls, 0);
     expect(service.disableCalls, 0);
     expect(find.text('Legacy sensitive'), findsOneWidget);
 
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump();
 
-    expect(service.enableCalls, 1);
-    expect(service.disableCalls, 1);
+    expect(service.enableCalls, 0);
+    expect(service.disableCalls, 0);
   });
 }

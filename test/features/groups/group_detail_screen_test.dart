@@ -1,5 +1,6 @@
 import 'package:cool_app/features/groups/models/group.dart';
 import 'package:cool_app/features/groups/models/group_access_snapshot.dart';
+import 'package:cool_app/features/groups/models/group_member_preview.dart';
 import 'package:cool_app/features/groups/providers/groups_provider.dart';
 import 'package:cool_app/features/groups/screens/group_detail_screen.dart';
 import 'package:cool_app/features/momo/models/momo_statement.dart';
@@ -31,6 +32,9 @@ void main() {
               canExportLedger: true,
             ),
           ),
+          groupMemberPreviewProvider(
+            'group-1',
+          ).overrideWith((ref) async => const <GroupMemberPreview>[]),
           groupTransactionFeedProvider(
             const GroupPaymentLedgerQuery(
               groupId: 'group-1',
@@ -53,15 +57,66 @@ void main() {
     expect(find.byType(CoreDetailScaffold), findsOneWidget);
     expect(find.byType(CoolCard), findsWidgets);
     expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
-    expect(find.text('Alpha Circle'), findsOneWidget);
+    expect(find.text('Alpha Group'), findsOneWidget);
     expect(find.text('JOIN GROUP'), findsNothing);
+  });
+
+  testWidgets('shows members preview for a public group before joining', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: <Override>[
+          groupDetailProvider(
+            'group-1',
+          ).overrideWith((ref) async => _publicGroup),
+          groupAccessProvider('group-1').overrideWith(
+            (ref) async => const GroupAccessSnapshot(
+              groupId: 'group-1',
+              isMember: false,
+              isCreator: false,
+              isGroupAdmin: false,
+              isBankCustodyAdmin: false,
+              canViewTransactions: false,
+              canManageSettings: false,
+              canExportLedger: false,
+            ),
+          ),
+          groupMemberPreviewProvider('group-1').overrideWith(
+            (ref) async => const <GroupMemberPreview>[
+              GroupMemberPreview(
+                displayName: '123456',
+                isAdmin: true,
+                isAnonymous: false,
+              ),
+              GroupMemberPreview(
+                displayName: 'Anonymous member',
+                isAdmin: false,
+                isAnonymous: true,
+              ),
+            ],
+          ),
+        ],
+        child: const MaterialApp(
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: GroupDetailScreen(groupId: 'group-1'),
+        ),
+      ),
+    );
+
+    await tester.pumpAndSettle();
+
+    expect(find.text('Members preview'), findsOneWidget);
+    expect(find.text('123456'), findsOneWidget);
+    expect(find.text('Anonymous member'), findsOneWidget);
   });
 }
 
 const _group = Group(
   id: 'group-1',
   creatorId: 'user-1',
-  name: 'Alpha Circle',
+  name: 'Alpha Group',
   type: 'saving',
   visibility: 'private',
   amount: 120000,
@@ -73,4 +128,17 @@ const _group = Group(
   momoNumber: '0788123456',
   momoRouteType: 'phone_number',
   frequency: 'monthly',
+);
+
+const _publicGroup = Group(
+  id: 'group-1',
+  creatorId: 'user-2',
+  name: 'Open Group',
+  type: 'community',
+  visibility: 'public',
+  amount: 50000,
+  targetAmount: 0,
+  country: 'RW',
+  memberCount: 2,
+  description: 'Public group',
 );

@@ -64,9 +64,11 @@ class HomeGettingStartedCard extends ConsumerWidget {
             Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: () => ref
-                    .read(homeGettingStartedDismissedProvider.notifier)
-                    .state = true,
+                onTap: () =>
+                    ref
+                            .read(homeGettingStartedDismissedProvider.notifier)
+                            .state =
+                        true,
                 borderRadius: BorderRadius.circular(CoolRadii.pill),
                 child: Padding(
                   padding: const EdgeInsets.all(CoolSpace.x2),
@@ -110,7 +112,7 @@ class HomeGettingStartedCard extends ConsumerWidget {
                 ),
                 title: l10n.homeGettingStartedExploreGroups,
                 subtitle: l10n.homeGettingStartedExploreGroupsSub,
-                onTap: () => context.push(AppRoutes.contributionCircles),
+                onTap: () => context.push(AppRoutes.groups),
               ),
             ],
           ],
@@ -165,9 +167,9 @@ class _HowItWorksStep extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: colors.secondaryText,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: colors.secondaryText),
             ),
           ),
         ],

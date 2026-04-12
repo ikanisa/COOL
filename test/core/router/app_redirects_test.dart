@@ -69,6 +69,17 @@ void main() {
         );
         expect(result, isNull);
       });
+
+      test('admin guard still applies when restore has failed', () {
+        final result = resolveAppRedirect(
+          location: AppRoutes.admin,
+          hasSession: true,
+          hasProfile: false,
+          isAdmin: false,
+          profileRestoreState: AuthProfileRestoreState.failed,
+        );
+        expect(result, AppRoutes.home);
+      });
     });
 
     // ── Session available → normal navigation ─────────────────────────
@@ -107,7 +118,7 @@ void main() {
 
       test('on groups → no redirect (stays)', () {
         final result = resolveAppRedirect(
-          location: AppRoutes.contributionCircles,
+          location: AppRoutes.groups,
           hasSession: true,
           hasProfile: true,
           profileRestoreState: AuthProfileRestoreState.available,
@@ -140,21 +151,23 @@ void main() {
         expect(result, isNull);
       });
 
-      test('non-platform admin on platform route → redirects to admin root',
-          () {
-        final result = resolveAppRedirect(
-          location: AppRoutes.adminPlatform,
-          hasSession: true,
-          hasProfile: true,
-          isAdmin: true,
-          adminAccess: const AdminWorkspaceAccess(
-            hasPlatformAccess: false,
-            bankAdminIds: {'bank-1'},
-          ),
-          profileRestoreState: AuthProfileRestoreState.available,
-        );
-        expect(result, AppRoutes.admin);
-      });
+      test(
+        'non-platform admin on platform route → redirects to admin root',
+        () {
+          final result = resolveAppRedirect(
+            location: AppRoutes.adminPlatform,
+            hasSession: true,
+            hasProfile: true,
+            isAdmin: true,
+            adminAccess: const AdminWorkspaceAccess(
+              hasPlatformAccess: false,
+              bankAdminIds: {'bank-1'},
+            ),
+            profileRestoreState: AuthProfileRestoreState.available,
+          );
+          expect(result, AppRoutes.admin);
+        },
+      );
 
       test('platform admin on platform route → no redirect', () {
         final result = resolveAppRedirect(

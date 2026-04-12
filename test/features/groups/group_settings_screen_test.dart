@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cool_app/core/config/country_catalog.dart';
 import 'package:cool_app/features/groups/models/group.dart';
 import 'package:cool_app/features/groups/models/group_access_snapshot.dart';
@@ -63,6 +65,12 @@ class _FakeGroupRepository extends GroupRepository {
 }
 
 void main() {
+  setUpAll(() async {
+    await CoolCountryCatalog.initialize(
+      await File('assets/countries.json').readAsString(),
+    );
+  });
+
   testWidgets('saves seeded group settings through the repository', (
     tester,
   ) async {

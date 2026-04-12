@@ -5,6 +5,7 @@ import '../../auth/providers/auth_provider.dart';
 import '../models/group_access_snapshot.dart';
 import '../models/group.dart';
 import '../models/group_invite_preview.dart';
+import '../models/group_member_preview.dart';
 import '../repositories/group_repository.dart';
 
 final groupRepositoryProvider = Provider<GroupRepository>((ref) {
@@ -67,6 +68,16 @@ final groupAccessProvider = FutureProvider.family<GroupAccessSnapshot?, String>(
     return repository.getGroupAccessSnapshot(groupId);
   },
 );
+
+final groupMemberPreviewProvider =
+    FutureProvider.family<List<GroupMemberPreview>, String>((
+      ref,
+      groupId,
+    ) async {
+      ref.watch(groupsRefreshTickProvider);
+      final repository = ref.read(groupRepositoryProvider);
+      return repository.getGroupMemberPreview(groupId);
+    });
 
 final groupInvitePreviewProvider =
     FutureProvider.family<GroupInvitePreview?, String>((ref, inviteCode) async {

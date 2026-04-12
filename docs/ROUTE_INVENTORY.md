@@ -4,7 +4,7 @@ Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router
 
 Current router shape:
 
-- `38` `GoRoute` declarations
+- `40` `GoRoute` declarations
 - `3` shell branches
 - `42` screen files under `lib/features/**/screens/*.dart`
 
@@ -27,9 +27,11 @@ Change policy:
 
 | Path | Target | Shell |
 |---|---|---|
-| `/groups` | Redirect | No |
-| `/groups/:id` | Redirect | No |
+| `/groups` | [`GroupsScreen`](../lib/features/groups/screens/groups_screen.dart) | Home |
+| `/groups/:id` | [`GroupDetailScreen`](../lib/features/groups/screens/group_detail_screen.dart) | No |
 | `/groups/:id/ledger` | Redirect | No |
+| `/groups/:id/settings` | [`GroupSettingsScreen`](../lib/features/groups/screens/group_settings_screen.dart) | No |
+| `/groups/:id/statements` | [`GroupStatementsScreen`](../lib/features/groups/screens/group_statements_screen.dart) | No |
 | `/groups/create` | [`GroupCreateScreen`](../lib/features/groups/screens/group_create_screen.dart) | No |
 | `/home` | [`HomeScreen`](../lib/features/home/screens/home_screen.dart) | Home |
 | `/momo/biopay` | [`BiopayHomeScreen`](../lib/features/biopay/screens/biopay_home_screen.dart) | BioPay |
@@ -47,10 +49,10 @@ Change policy:
 
 | Path | Target | Shell |
 |---|---|---|
-| `/contribution-circles` | [`GroupsScreen`](../lib/features/groups/screens/groups_screen.dart) | Home |
-| `/contribution-circles/:groupId` | [`GroupDetailScreen`](../lib/features/groups/screens/group_detail_screen.dart) | No |
-| `/contribution-circles/:groupId/settings` | [`GroupSettingsScreen`](../lib/features/groups/screens/group_settings_screen.dart) | No |
-| `/contribution-circles/:groupId/statements` | [`GroupStatementsScreen`](../lib/features/groups/screens/group_statements_screen.dart) | No |
+| `/contribution-circles` | Redirect | No |
+| `/contribution-circles/:groupId` | Redirect | No |
+| `/contribution-circles/:groupId/settings` | Redirect | No |
+| `/contribution-circles/:groupId/statements` | Redirect | No |
 | `/momo` | Redirect | No |
 | `/momo/wallet` | [`MomoWalletScreen`](../lib/features/momo/screens/momo_wallet_screen.dart) | No |
 

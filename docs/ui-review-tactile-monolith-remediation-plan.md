@@ -231,7 +231,7 @@ Migration order:
 #### Wave 1: Brand-defining screens
 
 Targets:
-- [`splash_screen.dart`](/Volumes/PRO-G40/COOL/lib/features/auth/screens/splash_screen.dart)
+- [`startup_loading_screen.dart`](/Volumes/PRO-G40/COOL/lib/shared/widgets/startup_loading_screen.dart)
 - [`home_screen.dart`](/Volumes/PRO-G40/COOL/lib/features/home/screens/home_screen.dart)
 - [`home_quick_services.dart`](/Volumes/PRO-G40/COOL/lib/features/home/widgets/home_quick_services.dart)
 - hero/home supporting widgets under `lib/features/home/widgets/`

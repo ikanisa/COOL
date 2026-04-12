@@ -124,7 +124,7 @@ class GroupFrequencyPicker extends StatelessWidget {
   });
 
   final List<String> options;
-  final String selected;
+  final String? selected;
   final ValueChanged<String> onSelected;
 
   String _label(BuildContext context, String value) {
@@ -316,57 +316,87 @@ class GroupMomoRouteSection extends StatelessWidget {
               ),
             ),
             SizedBox(height: space.x3),
-            CoolCard(
-              backgroundColor: colors.cardSurfaceStrong,
-              borderRadius: CoolRadii.lg,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    routeType == MomoRecipientType.code
-                        ? 'MERCHANT CODE'
-                        : 'MOMO NUMBER',
-                    style: theme.textTheme.labelSmall?.copyWith(
-                      color: colors.tertiaryText,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  SizedBox(height: space.x2),
-                  TextFormField(
-                    controller: routeType == MomoRecipientType.code
-                        ? momoCodeController
-                        : momoNumberController,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    validator: routeType == MomoRecipientType.code
-                        ? momoCodeValidator
-                        : momoNumberValidator,
-                    style: text.display(
-                      theme.textTheme.headlineSmall,
-                      color: colors.primaryText,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -0.5,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: routeType == MomoRecipientType.code
-                          ? '23456'
-                          : '0788123456',
-                      hintStyle: text.display(
-                        theme.textTheme.headlineSmall,
-                        color: colors.tertiaryText,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -0.5,
-                      ),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.zero,
-                      isDense: true,
-                    ),
-                  ),
-                ],
-              ),
+            _GroupMomoInputCard(
+              semanticLabel: routeType == MomoRecipientType.code
+                  ? 'Merchant code'
+                  : 'MoMo number',
+              controller: routeType == MomoRecipientType.code
+                  ? momoCodeController
+                  : momoNumberController,
+              validator: routeType == MomoRecipientType.code
+                  ? momoCodeValidator
+                  : momoNumberValidator,
+              hintText: routeType == MomoRecipientType.code
+                  ? '23456'
+                  : '0788123456',
+              textStyle: text
+                  .heroNumber(color: colors.primaryText)
+                  .copyWith(fontSize: 28, letterSpacing: -0.7, height: 1.0),
+              hintStyle: text
+                  .heroNumber(color: colors.tertiaryText.withValues(alpha: 0.7))
+                  .copyWith(fontSize: 28, letterSpacing: -0.7, height: 1.0),
             ),
           ],
         ],
+      ),
+    );
+  }
+}
+
+class _GroupMomoInputCard extends StatelessWidget {
+  const _GroupMomoInputCard({
+    required this.semanticLabel,
+    required this.controller,
+    required this.validator,
+    required this.hintText,
+    required this.textStyle,
+    required this.hintStyle,
+  });
+
+  final String semanticLabel;
+  final TextEditingController controller;
+  final FormFieldValidator<String>? validator;
+  final String hintText;
+  final TextStyle textStyle;
+  final TextStyle hintStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      textField: true,
+      label: semanticLabel,
+      child: SizedBox(
+        height: 88,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: TextFormField(
+              controller: controller,
+              validator: validator,
+              keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.done,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              style: textStyle,
+              maxLines: 1,
+              textAlignVertical: TextAlignVertical.center,
+              decoration: InputDecoration(
+                isCollapsed: true,
+                contentPadding: EdgeInsets.zero,
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                focusedErrorBorder: InputBorder.none,
+                filled: false,
+                fillColor: Colors.transparent,
+                hintText: hintText,
+                hintStyle: hintStyle,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

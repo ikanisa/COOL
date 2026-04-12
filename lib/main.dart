@@ -18,9 +18,14 @@ Future<void> main() async {
   runZonedGuarded(
     () async {
       final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-      // Hold the generated launch splash until the first Flutter startup
-      // surface is painted, then hand off to the in-app loading screen.
-      FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+      // Android 12+ already keeps the launch splash visible until Flutter
+      // draws its first frame. Preserving it manually on Android can leave
+      // the native splash stuck on top of the in-app bootstrap shell.
+      final shouldPreserveNativeSplash =
+          !kIsWeb && defaultTargetPlatform != TargetPlatform.android;
+      if (shouldPreserveNativeSplash) {
+        FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+      }
 
       if (kIsWeb) {
         usePathUrlStrategy();

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,7 +33,7 @@ class BootstrapShell extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.dark,
       builder: (context, materialChild) =>
           ThemeSystemChrome(child: materialChild ?? const SizedBox.shrink()),
       home: child,
@@ -39,19 +41,158 @@ class BootstrapShell extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// BootstrapHoldScreen — visible startup surface shown while bootstrap runs.
-// It matches the launch splash so startup reads as one continuous screen.
-// ─────────────────────────────────────────────────────────────────────────────
+class BootstrapStageTransition extends StatelessWidget {
+  const BootstrapStageTransition({required this.child, super.key});
 
-class BootstrapHoldScreen extends StatelessWidget {
-  const BootstrapHoldScreen({required this.statusLabel, super.key});
-
-  final String statusLabel;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return StartupLoadingScreen(statusLabel: statusLabel);
+    final duration = CoolMotion.resolve(context, CoolMotion.standard);
+    final enterCurve = CoolMotion.resolveCurve(context, CoolMotion.enterCurve);
+    final exitCurve = CoolMotion.resolveCurve(context, CoolMotion.exitCurve);
+
+    return AnimatedSwitcher(
+      duration: duration,
+      switchInCurve: enterCurve,
+      switchOutCurve: exitCurve,
+      layoutBuilder: (currentChild, previousChildren) => Stack(
+        fit: StackFit.expand,
+        children: [
+          ...previousChildren,
+          ...?(currentChild == null ? null : <Widget>[currentChild]),
+        ],
+      ),
+      transitionBuilder: (child, animation) {
+        final curved = CurvedAnimation(
+          parent: animation,
+          curve: enterCurve,
+          reverseCurve: exitCurve,
+        );
+        return FadeTransition(
+          opacity: curved,
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0, 0.02),
+              end: Offset.zero,
+            ).animate(curved),
+            child: child,
+          ),
+        );
+      },
+      child: child,
+    );
+  }
+}
+
+class BootstrapResultReveal extends StatefulWidget {
+  const BootstrapResultReveal({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  State<BootstrapResultReveal> createState() => _BootstrapResultRevealState();
+}
+
+class _BootstrapResultRevealState extends State<BootstrapResultReveal>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 420),
+  );
+  late final Animation<double> _opacity = CurvedAnimation(
+    parent: _controller,
+    curve: CoolMotion.enterCurve,
+  );
+
+  bool _didStart = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (CoolMotion.isReducedMotion(context)) {
+      _controller.value = 1;
+      return;
+    }
+    if (_didStart) {
+      return;
+    }
+    _didStart = true;
+    unawaited(_controller.forward());
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: StartupLoadingScreen.nativeSplashBackgroundColor,
+      child: FadeTransition(opacity: _opacity, child: widget.child),
+    );
+  }
+}
+
+class BootstrapHoldScreen extends StatefulWidget {
+  const BootstrapHoldScreen({
+    required this.statusLabel,
+    required this.onSurfaceReady,
+    super.key,
+  });
+
+  final String statusLabel;
+  final VoidCallback onSurfaceReady;
+
+  @override
+  State<BootstrapHoldScreen> createState() => _BootstrapHoldScreenState();
+}
+
+class _BootstrapHoldScreenState extends State<BootstrapHoldScreen> {
+  bool _didPrepareSurface = false;
+  bool _didNotifySurfaceReady = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didPrepareSurface) {
+      return;
+    }
+    _didPrepareSurface = true;
+    unawaited(_prepareSurface());
+  }
+
+  Future<void> _prepareSurface() async {
+    try {
+      const imageProvider = AssetImage(
+        'assets/images/cool_logo_mark_splash_transparent.png',
+      );
+      await precacheImage(imageProvider, context);
+    } catch (_) {
+      // If asset precaching fails, still release the native splash after the
+      // first Flutter frame so startup cannot deadlock behind the launch theme.
+    }
+    if (!mounted || _didNotifySurfaceReady) {
+      return;
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _didNotifySurfaceReady) {
+        return;
+      }
+      _didNotifySurfaceReady = true;
+      widget.onSurfaceReady();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return StartupLoadingScreen(
+      statusLabel: widget.statusLabel,
+      matchNativeSplash: true,
+    );
   }
 }
 

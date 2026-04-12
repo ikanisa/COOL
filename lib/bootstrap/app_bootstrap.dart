@@ -18,14 +18,11 @@ import '../core/services/app_check_service.dart';
 import '../core/services/firebase_bootstrap_service.dart';
 import '../core/services/hive_runtime.dart';
 import '../core/services/crashlytics_service.dart';
-import '../core/services/momo_service.dart';
 import '../core/services/performance_service.dart';
 import '../core/theme/cool_foundations.dart';
 import '../core/theme/theme_preference.dart';
 import '../core/theme/theme_preference_provider.dart';
 import '../core/theme/theme_preference_store.dart';
-import '../features/auth/providers/auth_provider.dart' as app_auth;
-import '../features/auth/repositories/auth_repository.dart';
 import '../l10n/app_localizations.dart';
 import 'bootstrap_ui.dart';
 
@@ -40,7 +37,6 @@ class _AppBootstrapResult {
   const _AppBootstrapResult({
     required this.themePreferenceStore,
     required this.initialPreference,
-    required this.initialAuthState,
     required this.crashlytics,
     required this.performance,
     required this.configError,
@@ -49,7 +45,6 @@ class _AppBootstrapResult {
   final ThemePreferenceStore themePreferenceStore;
   final ({AppThemePreference preference, DateTime? updatedAt})
   initialPreference;
-  final app_auth.AuthState initialAuthState;
   final CrashlyticsService crashlytics;
   final PerformanceService performance;
   final String? configError;
@@ -57,12 +52,14 @@ class _AppBootstrapResult {
 
 class _AppBootstrapState extends State<AppBootstrap> {
   static const _defaultThemePreference = AppThemePreference.dark;
+  static const _startupSplashFailsafe = Duration(seconds: 3);
 
   String _currentStep = '';
   String? _errorMessage;
   _AppBootstrapResult? _result;
   int _bootstrapGeneration = 0;
   bool _startupSplashReleased = false;
+  Timer? _startupSplashFailsafeTimer;
 
   AppLocalizations get _bootstrapL10n =>
       lookupAppLocalizations(const Locale('en'));
@@ -71,10 +68,17 @@ class _AppBootstrapState extends State<AppBootstrap> {
   void initState() {
     super.initState();
     _currentStep = _bootstrapL10n.bootstrapStartingApp;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _releaseStartupSplash();
-    });
+    _startupSplashFailsafeTimer = Timer(
+      _startupSplashFailsafe,
+      _releaseStartupSplash,
+    );
     unawaited(_bootstrap());
+  }
+
+  @override
+  void dispose() {
+    _startupSplashFailsafeTimer?.cancel();
+    super.dispose();
   }
 
   Future<void> _bootstrap() async {
@@ -93,6 +97,7 @@ class _AppBootstrapState extends State<AppBootstrap> {
       setState(() {
         _result = result;
       });
+      _scheduleStartupSplashRelease();
     } catch (error, stack) {
       debugPrint('[Bootstrap] Startup failed: $error\n$stack');
       if (!mounted || generation != _bootstrapGeneration) {
@@ -101,6 +106,7 @@ class _AppBootstrapState extends State<AppBootstrap> {
       setState(() {
         _errorMessage = _describeBootstrapFailure(error);
       });
+      _scheduleStartupSplashRelease();
     }
   }
 
@@ -175,14 +181,10 @@ class _AppBootstrapState extends State<AppBootstrap> {
       timeout: const Duration(seconds: 6),
     );
 
-    await _runRequiredBootStep(
-      'Loading regional configuration',
-      () async {
-        final jsonString = await rootBundle.loadString('assets/countries.json');
-        await CoolCountryCatalog.initialize(jsonString);
-      },
-      timeout: const Duration(seconds: 5),
-    );
+    await _runRequiredBootStep('Loading regional configuration', () async {
+      final jsonString = await rootBundle.loadString('assets/countries.json');
+      await CoolCountryCatalog.initialize(jsonString);
+    }, timeout: const Duration(seconds: 5));
 
     final themePreferenceStore = HiveThemePreferenceStore(
       openBox: openHiveBox<String>,
@@ -202,17 +204,6 @@ class _AppBootstrapState extends State<AppBootstrap> {
     await crashlytics.initialize();
     await performance.initialize();
 
-    final initialAuthState = configError == null
-        ? await _runRequiredBootStep<app_auth.AuthState>(
-            _bootstrapL10n.bootstrapPreparingYourAccount,
-            () => _prepareInitialAuthState(
-              crashlytics: crashlytics,
-              performance: performance,
-            ),
-            timeout: const Duration(seconds: 20),
-          )
-        : const app_auth.AuthState();
-
     if (coldStartTrace != null) {
       unawaited(
         coldStartTrace.stop().catchError((error, stack) {
@@ -226,33 +217,10 @@ class _AppBootstrapState extends State<AppBootstrap> {
     return _AppBootstrapResult(
       themePreferenceStore: themePreferenceStore,
       initialPreference: initialPreference,
-      initialAuthState: initialAuthState,
       crashlytics: crashlytics,
       performance: performance,
       configError: configError,
     );
-  }
-
-  Future<app_auth.AuthState> _prepareInitialAuthState({
-    required CrashlyticsService crashlytics,
-    required PerformanceService performance,
-  }) async {
-    final momoService = MomoService(client: Supabase.instance.client);
-    momoService.setObservabilityServices(
-      crashlytics: crashlytics,
-      performance: performance,
-    );
-
-    final notifier = app_auth.AuthNotifier(
-      repository: AuthRepository(client: Supabase.instance.client),
-      crashlytics: crashlytics,
-      performance: performance,
-      momoService: momoService,
-      clearSensitiveData: () async {},
-    );
-
-    await notifier.ensureReadyForAppStart();
-    return notifier.snapshot;
   }
 
   Future<void> _recordRuntimeConfiguration() async {
@@ -358,7 +326,17 @@ class _AppBootstrapState extends State<AppBootstrap> {
       return;
     }
     _startupSplashReleased = true;
+    _startupSplashFailsafeTimer?.cancel();
     FlutterNativeSplash.remove();
+  }
+
+  void _scheduleStartupSplashRelease() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _releaseStartupSplash();
+    });
   }
 
   void _configureErrorHandling() {
@@ -449,30 +427,39 @@ class _AppBootstrapState extends State<AppBootstrap> {
   Widget build(BuildContext context) {
     final result = _result;
     if (result != null) {
-      return ProviderScope(
-        overrides: [
-          crashlyticsServiceProvider.overrideWithValue(result.crashlytics),
-          performanceServiceProvider.overrideWithValue(result.performance),
-          themePreferenceStoreProvider.overrideWithValue(
-            result.themePreferenceStore,
-          ),
-          initialThemePreferenceProvider.overrideWithValue(
-            result.initialPreference,
-          ),
-          app_auth.initialAuthStateProvider.overrideWithValue(
-            result.initialAuthState,
-          ),
-        ],
-        child: result.configError == null
-            ? const CoolApp()
-            : ConfigErrorApp(message: result.configError!),
+      return BootstrapResultReveal(
+        child: ProviderScope(
+          overrides: [
+            crashlyticsServiceProvider.overrideWithValue(result.crashlytics),
+            performanceServiceProvider.overrideWithValue(result.performance),
+            themePreferenceStoreProvider.overrideWithValue(
+              result.themePreferenceStore,
+            ),
+            initialThemePreferenceProvider.overrideWithValue(
+              result.initialPreference,
+            ),
+          ],
+          child: result.configError == null
+              ? const CoolApp()
+              : ConfigErrorApp(message: result.configError!),
+        ),
       );
     }
 
     return BootstrapShell(
-      child: _errorMessage == null
-          ? BootstrapHoldScreen(statusLabel: _currentStep)
-          : BootstrapErrorCard(message: _errorMessage!, onRetry: _bootstrap),
+      child: BootstrapStageTransition(
+        child: _errorMessage == null
+            ? BootstrapHoldScreen(
+                key: const ValueKey('bootstrap-loading'),
+                statusLabel: _currentStep,
+                onSurfaceReady: _scheduleStartupSplashRelease,
+              )
+            : BootstrapErrorCard(
+                key: const ValueKey('bootstrap-error'),
+                message: _errorMessage!,
+                onRetry: _bootstrap,
+              ),
+      ),
     );
   }
 }

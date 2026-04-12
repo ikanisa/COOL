@@ -31,7 +31,7 @@ StatefulShellBranch buildHomeShellBranch({
             NoTransitionPage(key: state.pageKey, child: const HomeScreen()),
       ),
       GoRoute(
-        path: AppRoutes.contributionCircles,
+        path: AppRoutes.groups,
         pageBuilder: (context, state) => NoTransitionPage(
           key: state.pageKey,
           child: SecureScreenWrapper(

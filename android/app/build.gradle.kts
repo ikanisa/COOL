@@ -20,6 +20,17 @@ if (keystoreFile.exists()) {
     keystoreProperties.load(FileInputStream(keystoreFile))
 }
 
+fun resolveReleaseStoreFile(configuredPath: String): File {
+    val normalizedPath = configuredPath.trim()
+    val candidates = listOf(
+        rootProject.file(normalizedPath),
+        rootProject.file(normalizedPath.removePrefix("../")),
+        file(normalizedPath),
+    ).distinctBy { it.absolutePath }
+
+    return candidates.firstOrNull { it.exists() } ?: rootProject.file(normalizedPath)
+}
+
 val localProperties = Properties()
 val localPropertiesFile = rootProject.file("local.properties")
 if (localPropertiesFile.exists()) {
@@ -202,7 +213,9 @@ android {
             if (keystoreFile.exists()) {
                 keyAlias = keystoreProperties["keyAlias"] as String
                 keyPassword = keystoreProperties["keyPassword"] as String
-                storeFile = file(keystoreProperties["storeFile"] as String)
+                storeFile = resolveReleaseStoreFile(
+                    keystoreProperties["storeFile"] as String,
+                )
                 storePassword = keystoreProperties["storePassword"] as String
             }
         }

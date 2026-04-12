@@ -118,7 +118,7 @@ void main() {
     test('catalog fallback produces well-formed country rows', () {
       // Directly invoke the catalog path to ensure it produces rows
       // with the exact shape the admin screen expects.
-      const catalogCountries = CoolCountryCatalog.all;
+      final catalogCountries = CoolCountryCatalog.all;
 
       final rows = catalogCountries
           .map(

@@ -64,7 +64,7 @@ class SavingsStatementEntry {
     return SavingsStatementEntry(
       id: json['id']?.toString() ?? '',
       groupId: json['group_id']?.toString() ?? '',
-      groupName: json['group_name']?.toString() ?? 'Contribution circle',
+      groupName: json['group_name']?.toString() ?? 'Group contribution',
       amount: _asInt(json['amount']),
       status: json['status']?.toString() ?? 'pending',
       createdAt:

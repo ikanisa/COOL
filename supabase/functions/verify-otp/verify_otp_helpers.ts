@@ -1,9 +1,29 @@
+/**
+ * verify-otp helper functions.
+ *
+ * Auth strategy: WhatsApp OTP → deterministic email/password identity → session.
+ *
+ * GoTrue does not natively support "external OTP verified, give me a session",
+ * so we maintain a synthetic `wa-<hash>@auth.cool.local` email identity per
+ * phone number. The password is derived deterministically from a server secret
+ * so it never needs to be stored or communicated.
+ *
+ * Key resilience rules:
+ *  - If the RPC `find_auth_user_by_phone_or_email` is missing, fall back to
+ *    paginated admin list.
+ *  - If GoTrue cannot find a user that postgres says exists (orphaned/seeded
+ *    row), treat it as "no user" and create a fresh one.
+ *  - If `signInWithPassword` fails after user creation, fall back to an
+ *    admin-generated magic link to mint a session server-side.
+ */
+
 import { recordOtpRateEvent } from "../_shared/otp_abuse.ts";
 import { recordEdgeFunctionFailure } from "../_shared/observability.ts";
-import { normalizePhone } from "../_shared/phone.ts";
 import { derivePhonePassword } from "../_shared/security.ts";
 import { createAdminClient, createAnonClient } from "../_shared/supabase.ts";
 import { isMissingRelationError } from "../_shared/http.ts";
+
+// ─── Types ───────────────────────────────────────────────────────────────────
 
 export type AdminClient = ReturnType<typeof createAdminClient>;
 
@@ -21,273 +41,305 @@ type AuthUserLike = {
   user_metadata?: Record<string, unknown> | null;
 };
 
+const AUTH_USER_METADATA = {
+  auth_strategy: "custom_whatsapp_otp",
+  country: "RW",
+  language_code: "en",
+  market: "RW",
+  ui_language: "en",
+} as const;
+
+// ─── Predicates ──────────────────────────────────────────────────────────────
+
+/** Returns true if the sign-in error can be recovered by creating/updating the user. */
 export function isRecoverableSignInError(error: unknown): boolean {
-  if (!error) {
-    return false;
-  }
-
-  const message = error instanceof Error
-    ? error.message.toLowerCase()
-    : JSON.stringify(error).toLowerCase();
-
-  return message.includes("invalid login credentials") ||
-    message.includes("user not found") ||
-    message.includes("email not confirmed") ||
-    message.includes("invalid grant");
+  if (!error) return false;
+  const msg = (error instanceof Error ? error.message : JSON.stringify(error))
+    .toLowerCase();
+  return (
+    msg.includes("invalid login credentials") ||
+    msg.includes("user not found") ||
+    msg.includes("email not confirmed") ||
+    msg.includes("invalid grant")
+  );
 }
 
-export function isReviewOtpMatch(
-  normalizedPhone: string,
-  code: string,
-): boolean {
-  const configuredPhone = Deno.env.get("OTP_TEST_PHONE")?.trim();
-  const configuredCode = Deno.env.get("OTP_TEST_CODE")?.trim();
-  if (!configuredPhone || !configuredCode) {
-    return false;
-  }
+// ─── Auth user lookup ────────────────────────────────────────────────────────
 
-  if (!/^\d{6}$/.test(configuredCode)) {
-    console.error("OTP_TEST_CODE must be exactly 6 digits.");
-    return false;
-  }
-
-  try {
-    return normalizePhone(configuredPhone) == normalizedPhone &&
-      configuredCode == code;
-  } catch (error) {
-    console.error("OTP_TEST_PHONE is invalid.", error);
-    return false;
-  }
-}
-
-async function findAuthUserByPhone(
+/**
+ * Find a GoTrue auth user by phone or derived email.
+ *
+ * Strategy:
+ *  1. Try the `find_auth_user_by_phone_or_email` RPC (fast, indexed).
+ *  2. If the RPC doesn't exist, fall back to paginated admin list.
+ *  3. If the user ID exists in postgres but GoTrue can't find it (orphaned
+ *     seed row), return null so the caller creates a fresh user.
+ */
+async function findAuthUserViaGoTrue(
   adminClient: AdminClient,
   phone: string,
   email: string,
-) {
-  const result = await adminClient.rpc("find_auth_user_by_phone_or_email", {
-    p_phone: phone,
-    p_email: email,
-  });
+): Promise<AuthUserLike | null> {
+  // Step 1 — try RPC
+  const rpcResult = await adminClient.rpc(
+    "find_auth_user_by_phone_or_email",
+    { p_phone: phone, p_email: email },
+  );
 
-  if (result.error) {
-    if (isMissingAuthLookupFunctionError(result.error)) {
+  if (rpcResult.error) {
+    if (isMissingRpcError(rpcResult.error)) {
       return findAuthUserByAdminList(adminClient, phone, email);
     }
-    throw result.error;
+    throw rpcResult.error;
   }
 
-  const rows = Array.isArray(result.data) ? result.data : [];
-  const userId = rows[0]?.user_id?.toString().trim();
-  if (!userId) {
-    return null;
+  const userId = (rpcResult.data as Array<{ user_id: string }> | null)
+    ?.[0]?.user_id?.toString().trim();
+  if (!userId) return null;
+
+  // Step 2 — verify GoTrue can actually see this user
+  const goTrueResult = await adminClient.auth.admin.getUserById(userId);
+  if (goTrueResult.error || !goTrueResult.data.user) {
+    const msg = goTrueResult.error?.message?.toLowerCase() ?? "";
+    if (msg.includes("not found")) {
+      console.warn(`findAuthUserViaGoTrue: orphaned row ${userId}, returning null`);
+      return null;
+    }
+    throw goTrueResult.error ?? new Error("Could not load auth user");
   }
 
-  const userResult = await adminClient.auth.admin.getUserById(userId);
-  if (userResult.error || !userResult.data.user) {
-    throw userResult.error ?? new Error("Could not load auth user");
-  }
-
-  return userResult.data.user;
+  return goTrueResult.data.user;
 }
 
-function isMissingAuthLookupFunctionError(error: unknown): boolean {
-  if (!error) {
-    return false;
-  }
-
-  const message = error instanceof Error
-    ? error.message
-    : JSON.stringify(error);
-  const normalized = message.toLowerCase();
-
-  return normalized.includes("find_auth_user_by_phone_or_email") &&
-    (normalized.includes("does not exist") ||
-      normalized.includes("could not find") ||
-      normalized.includes("schema cache") ||
-      normalized.includes("pgrst"));
+function isMissingRpcError(error: unknown): boolean {
+  if (!error) return false;
+  const msg = (error instanceof Error ? error.message : JSON.stringify(error))
+    .toLowerCase();
+  return (
+    msg.includes("find_auth_user_by_phone_or_email") &&
+    (msg.includes("does not exist") ||
+      msg.includes("could not find") ||
+      msg.includes("schema cache") ||
+      msg.includes("pgrst"))
+  );
 }
 
-function authUserMetadataPhone(user: AuthUserLike): string {
-  const metadata = user.user_metadata ?? {};
-  const metadataPhone = metadata["phone"];
-  return typeof metadataPhone == "string" ? metadataPhone.trim() : "";
-}
-
-function authUserMatchPriority(
-  user: AuthUserLike,
-  phone: string,
-  email: string,
-): number {
-  if ((user.email ?? "").trim() == email) {
-    return 0;
-  }
-  if ((user.phone ?? "").trim() == phone) {
-    return 1;
-  }
-  if ((user.phone_change ?? "").trim() == phone) {
-    return 2;
-  }
-  if (authUserMetadataPhone(user) == phone) {
-    return 3;
-  }
-  return 9;
-}
-
-function authUserMatches(user: AuthUserLike, phone: string, email: string) {
-  return authUserMatchPriority(user, phone, email) < 9;
-}
-
+/** Paginated fallback: scan all GoTrue users to find a match by phone/email. */
 async function findAuthUserByAdminList(
   adminClient: AdminClient,
   phone: string,
   email: string,
-) {
+): Promise<AuthUserLike | null> {
   const perPage = 200;
   let page = 1;
 
   while (true) {
     const result = await adminClient.auth.admin.listUsers({ page, perPage });
-    if (result.error) {
-      throw result.error;
-    }
+    if (result.error) throw result.error;
 
-    const users = Array.isArray(result.data?.users) ? result.data.users : [];
-    if (users.length == 0) {
-      return null;
-    }
+    const users = (result.data?.users ?? []) as AuthUserLike[];
+    if (users.length === 0) return null;
 
-    const normalizedUsers = users as AuthUserLike[];
-    normalizedUsers.sort((a, b) => {
-      const priorityCompare = authUserMatchPriority(a, phone, email) -
-        authUserMatchPriority(b, phone, email);
-      if (priorityCompare != 0) {
-        return priorityCompare;
-      }
-
-      const aCreatedAt = Date.parse(a.created_at ?? "") || 0;
-      const bCreatedAt = Date.parse(b.created_at ?? "") || 0;
-      return aCreatedAt - bCreatedAt;
+    // Sort by match quality then creation date
+    users.sort((a, b) => {
+      const pDiff = matchPriority(a, phone, email) - matchPriority(b, phone, email);
+      if (pDiff !== 0) return pDiff;
+      return (Date.parse(a.created_at ?? "") || 0) - (Date.parse(b.created_at ?? "") || 0);
     });
 
-    for (const user of normalizedUsers) {
-      if (authUserMatches(user, phone, email)) {
-        return user;
-      }
+    for (const u of users) {
+      if (matchPriority(u, phone, email) < 9) return u;
     }
 
-    if (users.length < perPage) {
-      return null;
-    }
+    if (users.length < perPage) return null;
     page += 1;
   }
 }
 
+function matchPriority(user: AuthUserLike, phone: string, email: string): number {
+  if ((user.email ?? "").trim() === email) return 0;
+  if ((user.phone ?? "").trim() === phone) return 1;
+  if ((user.phone_change ?? "").trim() === phone) return 2;
+  const metaPhone = (user.user_metadata?.["phone"] as string | undefined)?.trim();
+  if (metaPhone === phone) return 3;
+  return 9;
+}
+
+// ─── Auth user provisioning ──────────────────────────────────────────────────
+
+/**
+ * Ensure a GoTrue-managed auth user exists for the given phone.
+ *
+ * - If the user exists and GoTrue recognizes it → update credentials.
+ * - If the user is orphaned (GoTrue can't see it) → create fresh.
+ * - If creation collides with a stale row → delete orphan and retry.
+ */
 export async function ensureAuthUser(
   adminClient: AdminClient,
   phone: string,
   email: string,
-) {
+): Promise<{ userId: string; password: string; created: boolean }> {
   const password = await derivePhonePassword(phone);
-  const existingUser = await findAuthUserByPhone(adminClient, phone, email);
+  const metadata = { ...AUTH_USER_METADATA, phone };
 
-  if (existingUser) {
-    const updateResult = await adminClient.auth.admin.updateUserById(
-      existingUser.id,
-      {
-        email,
-        email_confirm: true,
-        password,
-        user_metadata: {
-          ...(existingUser.user_metadata ?? {}),
-          phone,
-          auth_strategy: "custom_whatsapp_otp",
-          country: "RW",
-          language_code: "en",
-          market: "RW",
-          ui_language: "en",
-        },
-      },
-    );
+  const existing = await findAuthUserViaGoTrue(adminClient, phone, email);
 
-    if (updateResult.error) {
-      throw updateResult.error;
+  if (existing) {
+    const update = await adminClient.auth.admin.updateUserById(existing.id, {
+      email,
+      email_confirm: true,
+      password,
+      user_metadata: { ...(existing.user_metadata ?? {}), ...metadata },
+    });
+
+    if (!update.error) {
+      return { userId: existing.id, password, created: false };
     }
 
-    return {
-      userId: existingUser.id,
-      password,
-      created: false,
-    };
+    // GoTrue can't update this user (e.g. orphaned) → fall through to create
+    const msg = update.error.message?.toLowerCase() ?? "";
+    if (!msg.includes("not found")) throw update.error;
+    console.warn(`ensureAuthUser: update failed for ${existing.id}, creating fresh user`);
   }
 
-  const createResult = await adminClient.auth.admin.createUser({
+  return createFreshAuthUser(adminClient, email, password, phone, metadata);
+}
+
+async function createFreshAuthUser(
+  adminClient: AdminClient,
+  email: string,
+  password: string,
+  phone: string,
+  metadata: Record<string, string>,
+): Promise<{ userId: string; password: string; created: boolean }> {
+  const result = await adminClient.auth.admin.createUser({
     email,
     password,
     email_confirm: true,
-    user_metadata: {
-      phone,
-      auth_strategy: "custom_whatsapp_otp",
-      country: "RW",
-      language_code: "en",
-      market: "RW",
-      ui_language: "en",
-    },
+    phone,
+    phone_confirm: true,
+    user_metadata: metadata,
   });
 
-  if (createResult.error || !createResult.data.user) {
-    throw createResult.error ?? new Error("Could not create auth user");
+  if (!result.error && result.data.user) {
+    return { userId: result.data.user.id, password, created: true };
   }
 
-  return {
-    userId: createResult.data.user.id,
-    password,
-    created: true,
-  };
+  // If creation fails due to a collision with an orphaned row, clean up and retry
+  const errMsg = result.error?.message?.toLowerCase() ?? "";
+  if (
+    errMsg.includes("already been registered") ||
+    errMsg.includes("already exists") ||
+    errMsg.includes("unique")
+  ) {
+    console.warn("ensureAuthUser: collision with stale row, cleaning up");
+    // Try to find and delete the conflicting row via direct DB cleanup
+    // (GoTrue deleteUser may also fail for orphans, but worth trying)
+    const rpcResult = await adminClient.rpc(
+      "find_auth_user_by_phone_or_email",
+      { p_phone: phone, p_email: email },
+    );
+    const orphanId = (rpcResult.data as Array<{ user_id: string }> | null)
+      ?.[0]?.user_id?.toString().trim();
+
+    if (orphanId) {
+      await adminClient.auth.admin.deleteUser(orphanId).catch(() => {
+        // If GoTrue can't delete it either, the DB row will need manual cleanup
+        console.error(`Failed to delete orphaned user ${orphanId}`);
+      });
+    }
+
+    const retry = await adminClient.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+      phone,
+      phone_confirm: true,
+      user_metadata: metadata,
+    });
+
+    if (!retry.error && retry.data.user) {
+      return { userId: retry.data.user.id, password, created: true };
+    }
+    throw retry.error ?? new Error("Could not create auth user after cleanup");
+  }
+
+  throw result.error ?? new Error("Could not create auth user");
 }
 
+// ─── Session creation ────────────────────────────────────────────────────────
+
+/**
+ * Sign in via the anon client with derived email + password.
+ * This is the primary way to obtain a session after OTP verification.
+ */
 export async function signInWithDerivedPassword(
   email: string,
   password: string,
 ) {
-  return await createAnonClient().auth.signInWithPassword({
-    email,
-    password,
-  });
+  return await createAnonClient().auth.signInWithPassword({ email, password });
 }
 
+/**
+ * Fallback: mint a session via admin-generated magic link when
+ * signInWithPassword fails (e.g. GoTrue propagation delay).
+ */
+export async function mintSessionViaMagicLink(
+  adminClient: AdminClient,
+  email: string,
+) {
+  const magicResult = await adminClient.auth.admin.generateLink({
+    type: "magiclink",
+    email,
+  });
+  if (magicResult.error || !magicResult.data) {
+    throw magicResult.error ?? new Error("Could not generate magic link");
+  }
+
+  const verifyResult = await createAnonClient().auth.verifyOtp({
+    token_hash: magicResult.data.properties.hashed_token,
+    type: "magiclink",
+  });
+  if (verifyResult.error || !verifyResult.data.session) {
+    throw verifyResult.error ?? new Error("Could not create session via magic link");
+  }
+
+  return verifyResult.data;
+}
+
+// ─── App user lookup ─────────────────────────────────────────────────────────
+
+/** Check if there's already a row in public.users for this phone. */
 export async function findExistingAppUser(
   adminClient: AdminClient,
   phone: string,
-) {
+): Promise<string | null> {
   try {
-    const usersResult = await adminClient
+    const result = await adminClient
       .from("users")
       .select("id")
       .eq("phone", phone)
       .limit(1)
       .maybeSingle();
 
-    if (!usersResult.error && usersResult.data) {
-      return usersResult.data.id?.toString() ?? null;
+    if (!result.error && result.data) {
+      return result.data.id?.toString() ?? null;
     }
-
-    if (usersResult.error && !isMissingRelationError(usersResult.error)) {
-      throw usersResult.error;
+    if (result.error && !isMissingRelationError(result.error)) {
+      throw result.error;
     }
   } catch (error) {
-    if (!isMissingRelationError(error)) {
-      throw error;
-    }
+    if (!isMissingRelationError(error)) throw error;
   }
-
   return null;
 }
+
+// ─── Telemetry ───────────────────────────────────────────────────────────────
 
 export async function reportVerifyOtpFailure(
   deps: VerifyOtpFailureDependencies,
   adminClient: AdminClient | null,
-  normalizedPhoneForTelemetry: string | null,
+  phone: string | null,
   error: unknown,
 ) {
   try {
@@ -297,13 +349,9 @@ export async function reportVerifyOtpFailure(
         functionName: "verify-otp",
         error,
         subjectType: "otp_phone",
-        subjectId: normalizedPhoneForTelemetry,
+        subjectId: phone,
         metadata: {
-          phone_suffix: normalizedPhoneForTelemetry == null
-            ? null
-            : normalizedPhoneForTelemetry.substring(
-              normalizedPhoneForTelemetry.length - 4,
-            ),
+          phone_suffix: phone?.slice(-4) ?? null,
         },
       },
     );

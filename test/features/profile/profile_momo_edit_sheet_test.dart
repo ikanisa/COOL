@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -6,6 +8,12 @@ import 'package:cool_app/features/profile/widgets/profile_momo_edit_sheet.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
 
 void main() {
+  setUpAll(() async {
+    await CoolCountryCatalog.initialize(
+      await File('assets/countries.json').readAsString(),
+    );
+  });
+
   group('ProfileMomoEditSheet', () {
     testWidgets(
       'saves a code-only route without triggering MoMo number validation',
@@ -26,8 +34,9 @@ void main() {
         await tester.tap(find.text('Open'));
         await tester.pumpAndSettle();
 
-        await tester.enterText(find.byType(TextField).at(1), '445566');
-        await tester.tap(find.text('MoMo Code').last);
+        await tester.tap(find.text('CODE'));
+        await tester.pumpAndSettle();
+        await tester.enterText(find.byType(TextField).first, '445566');
         await tester.pumpAndSettle();
 
         await tester.ensureVisible(find.text('Save'));
@@ -42,6 +51,33 @@ void main() {
         expect(result!.momoNumber, isEmpty);
         expect(result!.momoCode, '445566');
         expect(result!.momoRouteType, MomoRecipientType.code);
+      },
+    );
+
+    testWidgets(
+      'renders a single clean active input card without redundant route labels',
+      (tester) async {
+        await tester.pumpWidget(
+          _SheetHarness(
+            onResult: (_) {},
+            child: ProfileMomoEditSheet(
+              currentMomoNumber: '',
+              currentMomoCode: '',
+              currentMomoRouteType: null,
+              country: CoolCountryCatalog.resolve(country: 'RW'),
+            ),
+          ),
+        );
+        await tester.tap(find.text('Open'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('MOMO Number'), findsNothing);
+        expect(find.text('MOMO CODE (OPTIONAL)'), findsNothing);
+        expect(find.text('DEFAULT RECEIVE ROUTE'), findsNothing);
+        expect(find.text('NUMBER'), findsOneWidget);
+        expect(find.text('CODE'), findsOneWidget);
+        expect(find.text('MOMO NUMBER'), findsNothing);
+        expect(find.byType(TextField), findsOneWidget);
       },
     );
 
@@ -65,8 +101,9 @@ void main() {
         await tester.pumpAndSettle();
 
         await tester.enterText(find.byType(TextField).first, '0788000000');
-        await tester.enterText(find.byType(TextField).at(1), '445566');
-        await tester.tap(find.text('MoMo Code').last);
+        await tester.tap(find.text('CODE'));
+        await tester.pumpAndSettle();
+        await tester.enterText(find.byType(TextField).first, '445566');
         await tester.pumpAndSettle();
 
         await tester.ensureVisible(find.text('Save'));
@@ -79,6 +116,38 @@ void main() {
         expect(result!.momoRouteType, MomoRecipientType.code);
       },
     );
+
+    testWidgets('allows clearing all MoMo routing fields', (tester) async {
+      ProfileMomoEditResult? result;
+
+      await tester.pumpWidget(
+        _SheetHarness(
+          onResult: (value) => result = value,
+          child: ProfileMomoEditSheet(
+            currentMomoNumber: '0788000000',
+            currentMomoCode: '445566',
+            currentMomoRouteType: MomoRecipientType.phoneNumber,
+            country: CoolCountryCatalog.resolve(country: 'RW'),
+          ),
+        ),
+      );
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.byType(TextField).first, '');
+      await tester.tap(find.text('CODE'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField).first, '');
+
+      await tester.ensureVisible(find.text('Save'));
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+
+      expect(result, isNotNull);
+      expect(result!.momoNumber, isEmpty);
+      expect(result!.momoCode, isNull);
+      expect(result!.momoRouteType, isNull);
+    });
   });
 }
 

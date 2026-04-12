@@ -33,8 +33,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeNoCommunitiesYet => 'No communities yet';
 
   @override
-  String get homeCommunitiesEmptySubtitle =>
-      'Your savings circles will appear here.';
+  String get homeCommunitiesEmptySubtitle => 'Your groups will appear here.';
 
   @override
   String get homeCommunityFallbackName => 'Community';
@@ -1689,6 +1688,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get function => 'Function';
+
+  @override
+  String get number => 'Number';
 
   @override
   String get code => 'Code';
@@ -3504,7 +3506,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get groupsRoutePendingHint =>
-      'The group owner\'s MoMo route is being set up by the admin. You\'ll be able to contribute once it\'s confirmed.';
+      'The admin is setting up this group\'s MoMo route. Contribute after confirmation.';
 
   @override
   String get groupsJoinGroupUpper => 'JOIN GROUP';
@@ -3518,6 +3520,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get groupsNoPostedContributionsYet => 'No posted contributions yet.';
+
+  @override
+  String get groupsNoMembersYet => 'No members yet.';
+
+  @override
+  String get groupsAnonymousMember => 'Anonymous member';
+
+  @override
+  String get groupsCouldNotLoadMembers => 'Could not load members right now.';
 
   @override
   String get groupsCouldNotLoadLedger => 'Could not load the ledger.';
@@ -3732,6 +3743,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'Add a valid MoMo route before creating this group.';
 
   @override
+  String get groupValidationTypeRequired => 'Select a group type.';
+
+  @override
+  String get groupValidationFrequencyRequired => 'Select a savings frequency.';
+
+  @override
   String get groupValidationAmountInvalid => 'Enter a valid amount.';
 
   @override
@@ -3853,8 +3870,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeGettingStartedExploreGroups => 'Explore public groups';
 
   @override
-  String get homeGettingStartedExploreGroupsSub =>
-      'Join an existing savings circle';
+  String get homeGettingStartedExploreGroupsSub => 'Join an existing group';
 
   @override
   String get groupCreateMomoRequiredTitle => 'MoMo number required';
@@ -3933,7 +3949,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get iosPaymentNoticeMessage =>
-      'On iPhone, MoMo payments are launched but cannot be automatically verified. After paying, your contribution will be confirmed by the group admin.';
+      'On iPhone, payments launch normally, but auto-verification is unavailable. Your group admin confirms payment afterward.';
 
   @override
   String get homeHowItWorksTitle => 'How COOL works';

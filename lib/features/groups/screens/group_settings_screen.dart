@@ -89,14 +89,16 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
       return;
     }
 
-    final recipient = _routeType == MomoRecipientType.code
+    final rawRecipient = _routeType == MomoRecipientType.code
         ? _momoCodeController.text.trim()
         : _momoNumberController.text.trim();
+    final recipient = rawRecipient.isEmpty ? null : rawRecipient;
+    final routeType = recipient == null ? null : _routeType;
     final country = CoolCountryCatalog.resolve(country: group.country);
     final routeValidationError = group.type == 'saving'
         ? null
         : _validateRoute(
-            routeType: _routeType,
+            routeType: routeType,
             recipientValue: recipient,
             country: country,
           );
@@ -117,7 +119,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
             monthlyContribution:
                 _parseAmount(_contributionAmountController.text) ?? 0,
             frequency: _frequency,
-            customMomoRouteType: _routeType,
+            customMomoRouteType: routeType,
             customRecipientValue: recipient,
           );
       ref.read(groupsRefreshTickProvider.notifier).state++;
@@ -150,8 +152,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
         child: CoolEmptyView(
           icon: CoolIcons.groupOff,
           title: context.l10n.groupSettings,
-          message:
-              context.l10n.groupSettingsLoadError,
+          message: context.l10n.groupSettingsLoadError,
         ),
       ),
       data: (group) {
@@ -206,16 +207,14 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
             error: (_, _) => CoolEmptyView(
               icon: CoolIcons.lock,
               title: context.l10n.groupSettings,
-              message:
-                  context.l10n.groupSettingsAccessCheckError,
+              message: context.l10n.groupSettingsAccessCheckError,
             ),
             data: (snapshot) {
               if (snapshot == null || !snapshot.canManageSettings) {
                 return CoolEmptyView(
                   icon: CoolIcons.lock,
                   title: context.l10n.groupSettings,
-                  message:
-                      context.l10n.groupSettingsNoPermission,
+                  message: context.l10n.groupSettingsNoPermission,
                 );
               }
 
@@ -310,6 +309,9 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                           if (_routeType != MomoRecipientType.phoneNumber) {
                             return null;
                           }
+                          if ((value?.trim().isEmpty ?? true)) {
+                            return null;
+                          }
                           return PhoneValidator.validateMomoNumberForCountry(
                             value ?? '',
                             country,
@@ -319,10 +321,12 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
                           if (_routeType != MomoRecipientType.code) {
                             return null;
                           }
+                          if ((value?.trim().isEmpty ?? true)) {
+                            return null;
+                          }
                           return PhoneValidator.validateMomoCode(
                             value ?? '',
                             country: country,
-                            required: true,
                           );
                         },
                         onRouteTypeChanged: (value) =>
@@ -359,17 +363,20 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> {
   }
 
   String? _validateRoute({
-    required MomoRecipientType routeType,
-    required String recipientValue,
+    required MomoRecipientType? routeType,
+    required String? recipientValue,
     required CoolCountry country,
   }) {
+    final recipient = recipientValue?.trim() ?? '';
+    if (recipient.isEmpty || routeType == null) {
+      return null;
+    }
     return switch (routeType) {
       MomoRecipientType.phoneNumber =>
-        PhoneValidator.validateMomoNumberForCountry(recipientValue, country),
+        PhoneValidator.validateMomoNumberForCountry(recipient, country),
       MomoRecipientType.code => PhoneValidator.validateMomoCode(
-        recipientValue,
+        recipient,
         country: country,
-        required: true,
       ),
     };
   }

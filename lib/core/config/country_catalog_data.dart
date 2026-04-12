@@ -4,7 +4,7 @@ abstract final class CoolCountryCatalog {
   static List<CoolCountry> all = <CoolCountry>[];
 
   static Future<void> initialize(String jsonString) async {
-    final List<dynamic> decoded = jsonDecode(jsonString);
+    final decoded = jsonDecode(jsonString) as List<dynamic>;
     all = decoded
         .map((e) => CoolCountry.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -17,13 +17,13 @@ abstract final class CoolCountryCatalog {
 
   static CoolCountry? byIsoCode(
     String? value, {
-    Iterable<CoolCountry> source = all,
+    Iterable<CoolCountry>? source,
   }) {
     final normalized = _normalizeLookup(value);
     if (normalized.isEmpty) {
       return null;
     }
-    for (final country in source) {
+    for (final country in source ?? all) {
       if (country.isoCode.toLowerCase() == normalized) {
         return country;
       }
@@ -38,13 +38,13 @@ abstract final class CoolCountryCatalog {
 
   static CoolCountry? byDialCode(
     String? value, {
-    Iterable<CoolCountry> source = all,
+    Iterable<CoolCountry>? source,
   }) {
     if (value == null || value.trim().isEmpty) {
       return null;
     }
     final digits = value.replaceAll(RegExp(r'[^0-9+]'), '');
-    for (final country in source) {
+    for (final country in source ?? all) {
       if (country.dialCode == digits) {
         return country;
       }
@@ -54,13 +54,13 @@ abstract final class CoolCountryCatalog {
 
   static CoolCountry? byProviderId(
     String? value, {
-    Iterable<CoolCountry> source = all,
+    Iterable<CoolCountry>? source,
   }) {
     final normalized = _normalizeLookup(value);
     if (normalized.isEmpty) {
       return null;
     }
-    for (final country in source) {
+    for (final country in source ?? all) {
       if (_normalizeLookup(country.providerId) == normalized) {
         return country;
       }
@@ -75,7 +75,7 @@ abstract final class CoolCountryCatalog {
 
   static CoolCountry? fromPhoneNumber(
     String? value, {
-    Iterable<CoolCountry> source = all,
+    Iterable<CoolCountry>? source,
   }) {
     if (value == null || value.trim().isEmpty) {
       return null;
@@ -83,7 +83,7 @@ abstract final class CoolCountryCatalog {
     final phone = value.startsWith('+')
         ? value
         : '+${value.replaceAll(RegExp(r'[^0-9]'), '')}';
-    for (final country in source) {
+    for (final country in source ?? all) {
       if (phone.startsWith(country.dialCode)) {
         return country;
       }
@@ -95,12 +95,13 @@ abstract final class CoolCountryCatalog {
     String? country,
     String? phone,
     String? providerId,
-    Iterable<CoolCountry> source = all,
+    Iterable<CoolCountry>? source,
   }) {
+    final lookupSource = source ?? all;
     return byIsoCode(country, source: source) ??
-        byDialCode(country, source: source) ??
-        byProviderId(providerId, source: source) ??
-        fromPhoneNumber(phone, source: source) ??
+        byDialCode(country, source: lookupSource) ??
+        byProviderId(providerId, source: lookupSource) ??
+        fromPhoneNumber(phone, source: lookupSource) ??
         defaultCountry;
   }
 

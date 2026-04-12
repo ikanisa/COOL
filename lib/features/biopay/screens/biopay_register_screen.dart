@@ -134,7 +134,7 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
             const SizedBox(height: CoolSpace.x4),
           ],
           _BiopayInputField(
-            label: usesCodeRoute
+            semanticLabel: usesCodeRoute
                 ? l10n.merchantCode
                 : l10n.biopayMomoNumberLabel,
             controller: usesCodeRoute
@@ -341,14 +341,14 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
 
 class _BiopayInputField extends StatelessWidget {
   const _BiopayInputField({
-    required this.label,
+    required this.semanticLabel,
     required this.controller,
     required this.keyboardType,
     required this.onChanged,
     this.errorText,
   });
 
-  final String label;
+  final String semanticLabel;
   final TextEditingController controller;
   final TextInputType keyboardType;
   final VoidCallback onChanged;
@@ -362,13 +362,12 @@ class _BiopayInputField extends StatelessWidget {
       children: [
         BiopaySectionCard(
           height: 136,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BiopayFieldLabel(label: label),
-              const SizedBox(height: CoolSpace.x5),
-              TextField(
+          child: Semantics(
+            textField: true,
+            label: semanticLabel,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: TextField(
                 controller: controller,
                 keyboardType: keyboardType,
                 onChanged: (_) => onChanged(),
@@ -380,14 +379,23 @@ class _BiopayInputField extends StatelessWidget {
                 ),
                 decoration: InputDecoration(
                   isCollapsed: true,
+                  isDense: true,
+                  filled: false,
+                  fillColor: Colors.transparent,
+                  contentPadding: EdgeInsets.zero,
                   border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  focusedErrorBorder: InputBorder.none,
                   hintText: '',
                   hintStyle: context.coolText.mobiLabel(
                     color: colors.tertiaryText,
                   ),
                 ),
               ),
-            ],
+            ),
           ),
         ),
         if (errorText != null) ...[

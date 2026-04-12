@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -105,14 +107,14 @@ class HomeSavingsHeroCard extends StatelessWidget {
   const HomeSavingsHeroCard({
     required this.totalSavingsRwf,
     required this.monthlyNetChange,
-    required this.onOpenWallet,
+    required this.onOpenSavings,
     this.isNewUser = false,
     super.key,
   });
 
   final int totalSavingsRwf;
   final int? monthlyNetChange;
-  final VoidCallback onOpenWallet;
+  final VoidCallback onOpenSavings;
   final bool isNewUser;
 
   @override
@@ -133,15 +135,13 @@ class HomeSavingsHeroCard extends StatelessWidget {
                     .mobiLabel(color: colors.accentForeground)
                     .copyWith(fontWeight: FontWeight.w500),
               )
-            : _MonthlyMovementPill(
-                monthlyNetChange: monthlyNetChange,
-              ),
+            : _MonthlyMovementPill(monthlyNetChange: monthlyNetChange),
         trailing: Icon(
           CoolIcons.forward,
           size: 18,
           color: colors.accentForeground,
         ),
-        onTap: onOpenWallet,
+        onTap: onOpenSavings,
       ),
     );
   }

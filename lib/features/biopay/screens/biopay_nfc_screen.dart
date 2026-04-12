@@ -123,7 +123,7 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
             const SizedBox(height: CoolSpace.x4),
           ],
           _NfcInputCard(
-            label: _selectedType == MomoRecipientType.code
+            semanticLabel: _selectedType == MomoRecipientType.code
                 ? l10n.merchantCode
                 : l10n.biopayMomoNumberLabel,
             child: TextField(
@@ -139,7 +139,16 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
               ),
               decoration: InputDecoration(
                 isCollapsed: true,
+                isDense: true,
+                filled: false,
+                fillColor: Colors.transparent,
+                contentPadding: EdgeInsets.zero,
                 border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                focusedErrorBorder: InputBorder.none,
                 hintText: '',
                 hintStyle: context.coolText.mobiLabel(
                   color: colors.tertiaryText,
@@ -176,7 +185,16 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
                     ),
                     decoration: InputDecoration(
                       isCollapsed: true,
+                      isDense: true,
+                      filled: false,
+                      fillColor: Colors.transparent,
+                      contentPadding: EdgeInsets.zero,
                       border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      focusedErrorBorder: InputBorder.none,
                       hintText: l10n.biopayZeroAmountHint,
                       hintStyle: context.coolText.mobiLabel(
                         color: colors.tertiaryText,
@@ -400,22 +418,18 @@ class _BiopayNfcScreenState extends ConsumerState<BiopayNfcScreen>
 }
 
 class _NfcInputCard extends StatelessWidget {
-  const _NfcInputCard({required this.label, required this.child});
+  const _NfcInputCard({required this.semanticLabel, required this.child});
 
-  final String label;
+  final String semanticLabel;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return BiopaySectionCard(
       height: 126,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          BiopayFieldLabel(label: label),
-          const Spacer(),
-          child,
-        ],
+      child: Semantics(
+        label: semanticLabel,
+        child: Align(alignment: Alignment.centerLeft, child: child),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/identity/public_user_identity.dart';
+import '../../core/l10n/l10n.dart';
 import '../../core/theme/cool_foundations.dart';
 import '../../core/utils/money_formatters.dart';
 
@@ -9,50 +10,42 @@ import '../../core/utils/money_formatters.dart';
 class MemberRow extends StatelessWidget {
   const MemberRow({
     required this.userId,
-    required this.contributionAmount,
     this.displayName,
+    this.contributionAmount,
+    this.showContribution = true,
     this.isAdmin = false,
     this.isAnonymous = false,
     super.key,
   });
 
   final String userId;
-  final int contributionAmount;
   final String? displayName;
+  final int? contributionAmount;
+  final bool showContribution;
   final bool isAdmin;
   final bool isAnonymous;
-
-  String get _initials {
-    if (isAnonymous) return '?';
-    final identity = PublicUserIdentity.resolve(
-      publicUserId: displayName,
-      userId: userId,
-    );
-    return identity.substring(0, 2);
-  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final text = context.coolText;
     final theme = Theme.of(context);
-    final resolvedIdentity = PublicUserIdentity.resolve(
-      publicUserId: displayName,
-      userId: userId,
-    );
-    final roleLabel = isAdmin ? ' Admin.' : '';
+    final resolvedIdentity = _resolvedIdentity(context);
+    final initials = _initialsFor(resolvedIdentity);
+    final roleLabel = isAdmin ? ' ${context.l10n.admin}.' : '';
+    final contributionLabel = _contributionLabel;
 
     return RepaintBoundary(
       child: Semantics(
-        label:
-            '$resolvedIdentity.$roleLabel'
-            '${formatWholeMoneyAmount(contributionAmount)} RWF contributed.',
+        label: contributionLabel == null
+            ? '$resolvedIdentity.$roleLabel'
+            : '$resolvedIdentity.$roleLabel$contributionLabel',
         excludeSemantics: true,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: CoolSpace.x2),
           child: Row(
             children: [
-              _Avatar(initials: _initials, isAnonymous: isAnonymous),
+              _Avatar(initials: initials, isAnonymous: isAnonymous),
               const SizedBox(width: CoolSpace.x3),
               Expanded(
                 child: Row(
@@ -88,7 +81,7 @@ class MemberRow extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'Admin',
+                          context.l10n.admin,
                           style: theme.textTheme.labelSmall?.copyWith(
                             fontWeight: FontWeight.w700,
                             color: colors.accent,
@@ -99,20 +92,60 @@ class MemberRow extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: CoolSpace.x3),
-              Text(
-                formatWholeMoneyAmount(contributionAmount),
-                style: text.mono(
-                  theme.textTheme.titleSmall,
-                  fontWeight: FontWeight.w700,
-                  color: colors.accent,
+              if (showContribution && contributionAmount != null) ...[
+                const SizedBox(width: CoolSpace.x3),
+                Text(
+                  formatWholeMoneyAmount(contributionAmount!),
+                  style: text.mono(
+                    theme.textTheme.titleSmall,
+                    fontWeight: FontWeight.w700,
+                    color: colors.accent,
+                  ),
                 ),
-              ),
+              ],
             ],
           ),
         ),
       ),
     );
+  }
+
+  String _resolvedIdentity(BuildContext context) {
+    if (isAnonymous) {
+      return context.l10n.groupsAnonymousMember;
+    }
+
+    final explicitLabel = displayName?.trim() ?? '';
+    if (explicitLabel.isNotEmpty) {
+      return explicitLabel;
+    }
+
+    return PublicUserIdentity.resolve(
+      publicUserId: displayName,
+      userId: userId,
+    );
+  }
+
+  String _initialsFor(String value) {
+    if (isAnonymous) {
+      return '?';
+    }
+
+    final compact = value.replaceAll(RegExp(r'\s+'), '');
+    if (compact.isEmpty) {
+      return '??';
+    }
+    if (compact.length == 1) {
+      return compact.toUpperCase();
+    }
+    return compact.substring(0, 2).toUpperCase();
+  }
+
+  String? get _contributionLabel {
+    if (!showContribution || contributionAmount == null) {
+      return null;
+    }
+    return '${formatWholeMoneyAmount(contributionAmount!)} RWF contributed.';
   }
 }
 

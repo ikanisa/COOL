@@ -80,16 +80,13 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
             ],
             BiopaySectionCard(
               height: 126,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  BiopayFieldLabel(
-                    label: selectedType == MomoRecipientType.code
-                        ? l10n.merchantCode
-                        : l10n.biopayMomoNumberLabel,
-                  ),
-                  const Spacer(),
-                  Text(
+              child: Semantics(
+                label: selectedType == MomoRecipientType.code
+                    ? l10n.merchantCode
+                    : l10n.biopayMomoNumberLabel,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
                     _displayRecipient(
                       selectedType: selectedType,
                       user: user,
@@ -103,7 +100,7 @@ class _BiopayProfileScreenState extends ConsumerState<BiopayProfileScreen> {
                       letterSpacing: -1.0,
                     ),
                   ),
-                ],
+                ),
               ),
             ),
             const SizedBox(height: CoolSpace.x4),
@@ -256,11 +253,7 @@ class _ProfileIdentityHeader extends StatelessWidget {
             boxShadow: CoolShadows.ambientFloat(strength: 0.3),
           ),
           alignment: Alignment.center,
-          child: Icon(
-            CoolIcons.profile,
-            size: 66,
-            color: colors.secondaryText,
-          ),
+          child: Icon(CoolIcons.profile, size: 66, color: colors.secondaryText),
         ),
         const SizedBox(height: CoolSpace.x5),
         Text(
@@ -335,11 +328,7 @@ class _FaceIdCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(
-                CoolIcons.faceScan,
-                size: 34,
-                color: colors.primaryText,
-              ),
+              Icon(CoolIcons.faceScan, size: 34, color: colors.primaryText),
             ],
           ),
         ),

@@ -19,7 +19,11 @@ import {
 } from "../_shared/http.ts";
 import { recordEdgeFunctionFailure } from "../_shared/observability.ts";
 import { normalizePhone, PhoneValidationError } from "../_shared/phone.ts";
-import { generateOtpCode, hashOtpCode } from "../_shared/security.ts";
+import {
+  generateOtpCode,
+  hashOtpCode,
+  resolveReviewOtp,
+} from "../_shared/security.ts";
 import { createAdminClient } from "../_shared/supabase.ts";
 import { sendOtpTemplate } from "../_shared/whatsapp.ts";
 
@@ -52,28 +56,6 @@ const defaultSendOtpHandlerDependencies: SendOtpHandlerDependencies = {
   recordEdgeFunctionFailure,
   sendOtpTemplate,
 };
-
-function resolveReviewOtp(normalizedPhone: string): string | null {
-  const configuredPhone = Deno.env.get("OTP_TEST_PHONE")?.trim();
-  const configuredCode = Deno.env.get("OTP_TEST_CODE")?.trim();
-  if (!configuredPhone || !configuredCode) {
-    return null;
-  }
-
-  if (!/^\d{6}$/.test(configuredCode)) {
-    console.error("OTP_TEST_CODE must be exactly 6 digits.");
-    return null;
-  }
-
-  try {
-    return normalizePhone(configuredPhone) == normalizedPhone
-      ? configuredCode
-      : null;
-  } catch (error) {
-    console.error("OTP_TEST_PHONE is invalid.", error);
-    return null;
-  }
-}
 
 export function createSendOtpHandler(
   deps: SendOtpHandlerDependencies = defaultSendOtpHandlerDependencies,

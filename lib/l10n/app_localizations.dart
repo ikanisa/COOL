@@ -145,7 +145,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeCommunitiesEmptySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Your savings circles will appear here.'**
+  /// **'Your groups will appear here.'**
   String get homeCommunitiesEmptySubtitle;
 
   /// No description provided for @homeCommunityFallbackName.
@@ -3285,6 +3285,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Function'**
   String get function;
+
+  /// No description provided for @number.
+  ///
+  /// In en, this message translates to:
+  /// **'Number'**
+  String get number;
 
   /// No description provided for @code.
   ///
@@ -6769,7 +6775,7 @@ abstract class AppLocalizations {
   /// No description provided for @groupsRoutePendingHint.
   ///
   /// In en, this message translates to:
-  /// **'The group owner\'s MoMo route is being set up by the admin. You\'ll be able to contribute once it\'s confirmed.'**
+  /// **'The admin is setting up this group\'s MoMo route. Contribute after confirmation.'**
   String get groupsRoutePendingHint;
 
   /// No description provided for @groupsJoinGroupUpper.
@@ -6795,6 +6801,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No posted contributions yet.'**
   String get groupsNoPostedContributionsYet;
+
+  /// No description provided for @groupsNoMembersYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No members yet.'**
+  String get groupsNoMembersYet;
+
+  /// No description provided for @groupsAnonymousMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous member'**
+  String get groupsAnonymousMember;
+
+  /// No description provided for @groupsCouldNotLoadMembers.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load members right now.'**
+  String get groupsCouldNotLoadMembers;
 
   /// No description provided for @groupsCouldNotLoadLedger.
   ///
@@ -7180,6 +7204,18 @@ abstract class AppLocalizations {
   /// **'Add a valid MoMo route before creating this group.'**
   String get groupValidationMomoRouteRequired;
 
+  /// No description provided for @groupValidationTypeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a group type.'**
+  String get groupValidationTypeRequired;
+
+  /// No description provided for @groupValidationFrequencyRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a savings frequency.'**
+  String get groupValidationFrequencyRequired;
+
   /// No description provided for @groupValidationAmountInvalid.
   ///
   /// In en, this message translates to:
@@ -7399,7 +7435,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeGettingStartedExploreGroupsSub.
   ///
   /// In en, this message translates to:
-  /// **'Join an existing savings circle'**
+  /// **'Join an existing group'**
   String get homeGettingStartedExploreGroupsSub;
 
   /// No description provided for @groupCreateMomoRequiredTitle.
@@ -7543,7 +7579,7 @@ abstract class AppLocalizations {
   /// No description provided for @iosPaymentNoticeMessage.
   ///
   /// In en, this message translates to:
-  /// **'On iPhone, MoMo payments are launched but cannot be automatically verified. After paying, your contribution will be confirmed by the group admin.'**
+  /// **'On iPhone, payments launch normally, but auto-verification is unavailable. Your group admin confirms payment afterward.'**
   String get iosPaymentNoticeMessage;
 
   /// No description provided for @homeHowItWorksTitle.

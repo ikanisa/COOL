@@ -8,7 +8,14 @@ import '../groups/models/group.dart';
 
 bool groupHasContributionRoute(Group group) {
   final recipient = group.momoNumber?.trim() ?? '';
-  return recipient.isNotEmpty;
+  if (recipient.isEmpty) {
+    return false;
+  }
+  final routeType = group.momoRouteType?.trim().toLowerCase() ?? '';
+  if (routeType.isEmpty) {
+    return true;
+  }
+  return routeType.contains('phone') || routeType.contains('code');
 }
 
 /// Launches the MoMo USSD payment flow for contributing to this group.

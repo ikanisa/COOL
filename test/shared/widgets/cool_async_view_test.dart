@@ -153,7 +153,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Try Again'));
+      await tester.tap(find.text('Retry'));
       expect(retried, true);
     });
   });

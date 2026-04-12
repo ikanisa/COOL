@@ -4,6 +4,16 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 readonly FLUTTER_BIN="${FLUTTER_BIN:-$ROOT_DIR/scripts/flutterw}"
+source "$ROOT_DIR/scripts/_backend_env.sh"
+
+load_client_env_files "$ROOT_DIR" \
+  SUPABASE_URL \
+  SUPABASE_ANON_KEY \
+  SUPABASE_STAGING_URL \
+  SUPABASE_STAGING_ANON_KEY \
+  SUPABASE_PRODUCTION_URL \
+  SUPABASE_PRODUCTION_ANON_KEY
+require_distinct_staging_and_production_supabase_projects
 
 echo "==> flutter analyze"
 "$FLUTTER_BIN" analyze --fatal-infos

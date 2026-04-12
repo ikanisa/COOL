@@ -26,6 +26,7 @@ import '../models/biopay_enrollment_draft.dart';
 import '../models/biopay_face_frame_analysis.dart';
 import '../providers/biopay_providers.dart';
 import '../services/biopay_auth_gate_service.dart';
+import '../services/biopay_camera_selection.dart';
 import '../services/biopay_embedding_service.dart';
 import '../services/biopay_face_alignment_service.dart';
 import '../services/biopay_face_detection_service.dart';
@@ -54,7 +55,9 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
   final _embeddingService = BiopayEmbeddingService();
   final List<Float32List> _enrollmentEmbeddings = <Float32List>[];
   late final BiopayLivenessService _livenessService;
+  late CameraLensDirection _selectedLensDirection;
 
+  List<CameraDescription> _availableCameras = const <CameraDescription>[];
   CameraController? _controller;
   AppAccessSnapshot? _cameraSnapshot;
   bool _isInitializingCamera = true;
@@ -85,6 +88,9 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
       mode: widget.mode == BiopayScanMode.enroll
           ? BiopayLivenessMode.enrollment
           : BiopayLivenessMode.payment,
+    );
+    _selectedLensDirection = biopayDefaultLensDirection(
+      isEnrollMode: widget.mode == BiopayScanMode.enroll,
     );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Initialize localized labels now that context is available.
@@ -188,14 +194,13 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
           'No camera was found on this device.',
         );
       }
+      _availableCameras = cameras;
 
-      final preferredLens = widget.mode == BiopayScanMode.enroll
-          ? CameraLensDirection.front
-          : CameraLensDirection.back;
-      final camera = cameras.firstWhere(
-        (candidate) => candidate.lensDirection == preferredLens,
-        orElse: () => cameras.first,
+      final camera = selectBiopayCamera(
+        cameras: cameras,
+        preferredLensDirection: _selectedLensDirection,
       );
+      _selectedLensDirection = camera.lensDirection;
 
       final controller = CameraController(
         camera,
@@ -254,6 +259,56 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
       );
       _finishStartupTrace(phase: 'camera_error', error: error.toString());
     }
+  }
+
+  bool get _canSwitchEnrollmentCamera =>
+      widget.mode == BiopayScanMode.enroll &&
+      biopayEnrollmentSupportsCameraSwitch(_availableCameras);
+
+  String get _cameraSwitchLabel =>
+      _selectedLensDirection == CameraLensDirection.front ? 'Front' : 'Rear';
+
+  String get _cameraSwitchTooltip =>
+      _selectedLensDirection == CameraLensDirection.front
+      ? 'Switch to rear camera'
+      : 'Switch to front camera';
+
+  Future<void> _switchEnrollmentCamera() async {
+    if (!_canSwitchEnrollmentCamera || _isInitializingCamera || _isSubmitting) {
+      return;
+    }
+
+    final nextLensDirection = biopayNextEnrollmentLensDirection(
+      currentLensDirection: _selectedLensDirection,
+      cameras: _availableCameras,
+    );
+    if (nextLensDirection == null) {
+      return;
+    }
+
+    final l10n = context.l10n;
+    setState(() {
+      _selectedLensDirection = nextLensDirection;
+      _isInitializingCamera = true;
+      _isProcessingFrame = false;
+      _isEmbeddingReady = false;
+      _cameraError = null;
+      _pipelineError = null;
+      _tone = BiopayScannerTone.searching;
+      _capturedEnrollmentFrames = 0;
+      _enrollmentEmbeddings.clear();
+      _lastEnrollmentCaptureAt = null;
+      _lastFrameProcessedAt = null;
+      _statusLabel = l10n.biopayScanPreparingCamera;
+      _helperText = l10n.biopayScanLoadingServices;
+    });
+
+    _livenessService.reset();
+    await _stopCameraPipeline();
+    if (!mounted) {
+      return;
+    }
+    await _initializeCamera();
   }
 
   void _retryPipeline() {
@@ -588,6 +643,51 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
                 ),
               ),
             ),
+            if (_canSwitchEnrollmentCamera)
+              Positioned(
+                top: MediaQuery.viewPaddingOf(context).top + CoolSpace.x4,
+                right: CoolSpace.x4,
+                child: Tooltip(
+                  message: _cameraSwitchTooltip,
+                  child: Material(
+                    color: Colors.black.withValues(alpha: 0.42),
+                    borderRadius: BorderRadius.circular(18),
+                    child: InkWell(
+                      onTap: _switchEnrollmentCamera,
+                      borderRadius: BorderRadius.circular(18),
+                      child: Container(
+                        height: 56,
+                        padding: const EdgeInsets.symmetric(horizontal: 14),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.08),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.cameraswitch_rounded,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              _cameraSwitchLabel,
+                              style: context.coolText.manrope(
+                                null,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

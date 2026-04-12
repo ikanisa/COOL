@@ -132,18 +132,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
       if (state.session == null) {
         throw StateError(state.error ?? 'Could not restore your session.');
       }
-      if (state.profileRestoreState == AuthProfileRestoreState.failed) {
-        throw StateError(state.error ?? 'Could not restore your account.');
-      }
       return;
     }
 
     await signInAnonymously();
     if (state.session == null) {
       throw StateError(state.error ?? 'Could not establish a startup session.');
-    }
-    if (state.profileRestoreState == AuthProfileRestoreState.failed) {
-      throw StateError(state.error ?? 'Could not finish startup.');
     }
   }
 

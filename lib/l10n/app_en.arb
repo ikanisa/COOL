@@ -8,7 +8,7 @@
   "homeCommunitiesTitle": "Communities",
   "homeCommunitiesLoadFailed": "Communities failed to load.",
   "homeNoCommunitiesYet": "No communities yet",
-  "homeCommunitiesEmptySubtitle": "Your savings circles will appear here.",
+  "homeCommunitiesEmptySubtitle": "Your groups will appear here.",
   "homeCommunityFallbackName": "Community",
   "homeSavingsBalanceUpper": "SAVINGS BALANCE",
   "homeQuickScanUpper": "SCAN",
@@ -601,6 +601,7 @@
   "record": "Record",
   "component": "Component",
   "function": "Function",
+  "number": "Number",
   "code": "Code",
   "addConfigEntry": "Add config entry",
   "rolloutGovernance": "Rollout Governance",
@@ -1324,11 +1325,14 @@
   "groupsViewAllStatementsUpper": "VIEW ALL STATEMENTS",
   "groupsContributeWithMomoUpper": "CONTRIBUTE WITH MOMO",
   "groupsContributionRoutePendingUpper": "PAYMENT SETUP IN PROGRESS",
-  "groupsRoutePendingHint": "The group owner's MoMo route is being set up by the admin. You'll be able to contribute once it's confirmed.",
+  "groupsRoutePendingHint": "The admin is setting up this group's MoMo route. Contribute after confirmation.",
   "groupsJoinGroupUpper": "JOIN GROUP",
   "groupsInviteOnlyMessage": "This group is invite-only.",
   "groupsInviteShareSubtitle": "Share the invite link with your members.",
   "groupsNoPostedContributionsYet": "No posted contributions yet.",
+  "groupsNoMembersYet": "No members yet.",
+  "groupsAnonymousMember": "Anonymous member",
+  "groupsCouldNotLoadMembers": "Could not load members right now.",
   "groupsCouldNotLoadLedger": "Could not load the ledger.",
   "groupPaymentLedgerTitle": "Group Payment Ledger",
   "groupPaymentLedgerFileStem": "cool_group_payment_ledger",
@@ -1421,6 +1425,8 @@
   "groupSettingsMomoSetByAdmin": "Set by admin for all savings groups.",
 
   "groupValidationMomoRouteRequired": "Add a valid MoMo route before creating this group.",
+  "groupValidationTypeRequired": "Select a group type.",
+  "groupValidationFrequencyRequired": "Select a savings frequency.",
   "groupValidationAmountInvalid": "Enter a valid amount.",
   "groupValidationAmountPositive": "Amount must be greater than zero.",
   "deleteAccountSuccess": "Your account has been deleted.",
@@ -1478,7 +1484,7 @@
   "homeGettingStartedCreateGroup": "Create a savings group",
   "homeGettingStartedCreateGroupSub": "Start saving with your community",
   "homeGettingStartedExploreGroups": "Explore public groups",
-  "homeGettingStartedExploreGroupsSub": "Join an existing savings circle",
+  "homeGettingStartedExploreGroupsSub": "Join an existing group",
 
   "groupCreateMomoRequiredTitle": "MoMo number required",
   "groupCreateMomoRequiredMessage": "Link a Mobile Money number before creating a group. Contributions are routed through your MoMo.",
@@ -1507,7 +1513,7 @@
   "groupDescriptionHeader": "Description",
 
   "iosPaymentNoticeTitle": "Automatic verification unavailable",
-  "iosPaymentNoticeMessage": "On iPhone, MoMo payments are launched but cannot be automatically verified. After paying, your contribution will be confirmed by the group admin.",
+  "iosPaymentNoticeMessage": "On iPhone, payments launch normally, but auto-verification is unavailable. Your group admin confirms payment afterward.",
 
   "homeHowItWorksTitle": "How COOL works",
   "homeHowItWorksStep1": "Link your MoMo number in Settings",
@@ -1615,4 +1621,3 @@
   "adminSavingsRemoveMemberTooltip": "Remove member",
   "adminSavingsEnterValidAmount": "Enter a valid amount."
 }
-
