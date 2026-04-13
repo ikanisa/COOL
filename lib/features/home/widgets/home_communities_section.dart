@@ -100,7 +100,6 @@ class _CommunityCard extends StatelessWidget {
     final canQuickContribute = groupHasContributionRoute(group);
     final tone = _CommunityCardTone.resolve(group);
     final theme = Theme.of(context);
-    final signalIcon = _signalIconForGroup();
     final title = group.name.trim().isEmpty
         ? context.l10n.homeCommunityFallbackName
         : group.name.trim();
@@ -111,21 +110,21 @@ class _CommunityCard extends StatelessWidget {
         ? context.l10n.private.toUpperCase()
         : context.l10n.public.toUpperCase();
     final amountLabel = '${fmtAmt(group.amount)} RWF';
-    final subtitle = _subtitle(context);
+    final subtitle = _subtitle;
 
     return Semantics(
       button: true,
       label:
           '$title. $typeLabel. $visibilityLabel. $amountLabel. ${memberCountLabel(context, group.memberCount)}.',
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(32),
+        borderRadius: BorderRadius.circular(30),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+          filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
           child: Material(
             color: Colors.transparent,
             child: InkWell(
               onTap: onOpen,
-              borderRadius: BorderRadius.circular(32),
+              borderRadius: BorderRadius.circular(30),
               splashColor: Colors.white.withValues(alpha: 0.10),
               highlightColor: Colors.transparent,
               child: Ink(
@@ -134,56 +133,41 @@ class _CommunityCard extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [tone.start, tone.middle, tone.end],
-                    stops: const [0.0, 0.56, 1.0],
+                    stops: const [0.0, 0.58, 1.0],
                   ),
-                  borderRadius: BorderRadius.circular(32),
+                  borderRadius: BorderRadius.circular(30),
                   border: Border.all(color: tone.border),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.white.withValues(alpha: 0.72),
-                      blurRadius: 14,
-                      offset: const Offset(-5, -5),
-                    ),
-                    BoxShadow(
-                      color: tone.shadow.withValues(alpha: 0.22),
-                      blurRadius: 30,
-                      offset: const Offset(0, 18),
-                    ),
-                    BoxShadow(
-                      color: tone.shadow.withValues(alpha: 0.10),
+                      color: Colors.white.withValues(alpha: 0.58),
                       blurRadius: 10,
-                      offset: const Offset(0, 4),
+                      offset: const Offset(-4, -4),
+                    ),
+                    BoxShadow(
+                      color: tone.shadow.withValues(alpha: 0.18),
+                      blurRadius: 26,
+                      offset: const Offset(0, 16),
                     ),
                   ],
                 ),
                 child: SizedBox(
-                  height: 280,
+                  height: 242,
                   child: Stack(
                     children: [
                       Positioned(
-                        top: -42,
-                        right: -10,
-                        child: _GlowOrb(
-                          size: 138,
-                          color: Colors.white.withValues(alpha: 0.42),
+                        top: -28,
+                        right: -24,
+                        child: _CommunityBackdropGlow(
+                          size: 144,
+                          color: Colors.white.withValues(alpha: 0.22),
                         ),
                       ),
                       Positioned(
-                        bottom: -54,
-                        left: -16,
-                        child: _GlowOrb(
-                          size: 156,
-                          color: tone.highlight.withValues(alpha: 0.44),
-                        ),
-                      ),
-                      Positioned(
-                        top: 20,
-                        left: 18,
-                        child: _CommunitySoftBadge(
-                          tone: tone,
-                          icon: group.type == 'saving'
-                              ? CoolIcons.savings
-                              : CoolIcons.groupsFilled,
+                        bottom: -42,
+                        left: -24,
+                        child: _CommunityBackdropGlow(
+                          size: 132,
+                          color: tone.highlight.withValues(alpha: 0.28),
                         ),
                       ),
                       Positioned.fill(
@@ -193,100 +177,99 @@ class _CommunityCard extends StatelessWidget {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomCenter,
                               colors: [
-                                Colors.white.withValues(alpha: 0.44),
-                                Colors.white.withValues(alpha: 0.18),
+                                Colors.white.withValues(alpha: 0.32),
+                                Colors.white.withValues(alpha: 0.12),
                                 Colors.transparent,
                               ],
-                              stops: const [0.0, 0.30, 0.84],
+                              stops: const [0.0, 0.28, 0.84],
                             ),
-                            borderRadius: BorderRadius.circular(32),
+                            borderRadius: BorderRadius.circular(30),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 18, 18, 16),
+                        padding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const SizedBox(width: 54),
+                                _CommunitySoftBadge(
+                                  tone: tone,
+                                  icon: group.type == 'saving'
+                                      ? CoolIcons.savings
+                                      : CoolIcons.groupsFilled,
+                                ),
+                                const SizedBox(width: 12),
                                 Expanded(
-                                  child: Wrap(
-                                    spacing: 8,
-                                    runSpacing: 8,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      _CommunityGlassPill(
-                                        label: typeLabel,
+                                      _CommunityIconPill(
                                         icon: group.type == 'saving'
                                             ? CoolIcons.trendUp
                                             : CoolIcons.groupsFilled,
                                         tone: tone,
+                                        semanticLabel: typeLabel,
                                       ),
-                                      _CommunityGlassPill(
-                                        label: visibilityLabel,
+                                      const SizedBox(width: 8),
+                                      _CommunityIconPill(
                                         icon: group.visibility == 'private'
                                             ? CoolIcons.lock
                                             : CoolIcons.shieldOutline,
                                         tone: tone,
+                                        semanticLabel: visibilityLabel,
                                       ),
                                     ],
                                   ),
-                                ),
-                                const SizedBox(width: CoolSpace.x3),
-                                _CommunitySignalOrb(
-                                  tone: tone,
-                                  icon: signalIcon,
                                 ),
                               ],
                             ),
                             const SizedBox(height: 14),
                             Expanded(
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      title,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: context.coolText.headline(
-                                        theme.textTheme.headlineSmall,
-                                        color: tone.textPrimary,
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    title,
+                                    maxLines: subtitle == null ? 3 : 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: context.coolText.headline(
+                                      theme.textTheme.titleLarge,
+                                      color: tone.textPrimary,
+                                      fontWeight: FontWeight.w700,
                                     ),
-                                    const SizedBox(height: CoolSpace.x2),
+                                  ),
+                                  if (subtitle != null) ...[
+                                    const SizedBox(height: 8),
                                     Text(
                                       subtitle,
-                                      maxLines: 2,
+                                      maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: theme.textTheme.bodyMedium
                                           ?.copyWith(
                                             color: tone.textSecondary,
-                                            height: 1.28,
+                                            height: 1.2,
                                             fontWeight: FontWeight.w500,
                                           ),
                                     ),
                                   ],
-                                ),
+                                  const Spacer(),
+                                  _CommunityInfoPanel(
+                                    tone: tone,
+                                    amountLabel: amountLabel,
+                                    amountStyle: context.coolText.display(
+                                      theme.textTheme.titleLarge,
+                                      color: tone.textPrimary,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    canQuickContribute: canQuickContribute,
+                                    group: group,
+                                    onQuickContribution: onQuickContribution,
+                                  ),
+                                ],
                               ),
-                            ),
-                            const SizedBox(height: 12),
-                            _CommunityInfoPanel(
-                              tone: tone,
-                              amountLabel: amountLabel,
-                              amountStyle: context.coolText.display(
-                                theme.textTheme.headlineSmall,
-                                color: tone.textPrimary,
-                                fontWeight: FontWeight.w700,
-                              ),
-                              canQuickContribute: canQuickContribute,
-                              group: group,
-                              onQuickContribution: onQuickContribution,
                             ),
                           ],
                         ),
@@ -302,32 +285,12 @@ class _CommunityCard extends StatelessWidget {
     );
   }
 
-  String _subtitle(BuildContext context) {
+  String? get _subtitle {
     final trimmedDescription = group.description?.trim() ?? '';
     if (trimmedDescription.isNotEmpty) {
       return trimmedDescription;
     }
-
-    final parts = <String>[memberCountLabel(context, group.memberCount)];
-    if (group.type == 'saving' &&
-        (group.frequency?.trim().isNotEmpty ?? false)) {
-      parts.add(group.frequency!.replaceAll('_', ' ').toUpperCase());
-    } else if (group.visibility == 'private') {
-      parts.add(context.l10n.private);
-    } else {
-      parts.add(context.l10n.public);
-    }
-    return parts.join(' • ');
-  }
-
-  IconData _signalIconForGroup() {
-    if (group.visibility == 'private') {
-      return CoolIcons.lock;
-    }
-    if (group.type == 'saving') {
-      return CoolIcons.trendUp;
-    }
-    return CoolIcons.groupsFilled;
+    return null;
   }
 }
 
@@ -350,8 +313,8 @@ class _CircleActionButton extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(CoolRadii.pill),
         child: Ink(
-          width: 54,
-          height: 54,
+          width: 48,
+          height: 48,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
@@ -373,67 +336,50 @@ class _CircleActionButton extends StatelessWidget {
               ),
             ],
           ),
-          child: Icon(icon, color: Colors.white, size: 22),
+          child: Icon(icon, color: Colors.white, size: 20),
         ),
       ),
     );
   }
 }
 
-class _CommunityGlassPill extends StatelessWidget {
-  const _CommunityGlassPill({
-    required this.label,
+class _CommunityIconPill extends StatelessWidget {
+  const _CommunityIconPill({
     required this.icon,
     required this.tone,
+    required this.semanticLabel,
   });
 
-  final String label;
   final IconData icon;
   final _CommunityCardTone tone;
+  final String semanticLabel;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.white.withValues(alpha: 0.58),
-            tone.panel.withValues(alpha: 0.46),
+    return Semantics(
+      label: semanticLabel,
+      child: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.34),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.42)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.white.withValues(alpha: 0.22),
+              blurRadius: 6,
+              offset: const Offset(-2, -2),
+            ),
+            BoxShadow(
+              color: tone.shadow.withValues(alpha: 0.08),
+              blurRadius: 10,
+              offset: const Offset(0, 6),
+            ),
           ],
         ),
-        borderRadius: BorderRadius.circular(CoolRadii.pill),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.52)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.white.withValues(alpha: 0.28),
-            blurRadius: 8,
-            offset: const Offset(-2, -2),
-          ),
-          BoxShadow(
-            color: tone.shadow.withValues(alpha: 0.08),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: tone.textPrimary),
-          const SizedBox(width: 6),
-          Text(
-            label,
-            style: context.coolText.mono(
-              Theme.of(context).textTheme.labelSmall,
-              color: tone.textPrimary,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.85,
-            ),
-          ),
-        ],
+        alignment: Alignment.center,
+        child: Icon(icon, size: 16, color: tone.textPrimary),
       ),
     );
   }
@@ -441,85 +387,47 @@ class _CommunityGlassPill extends StatelessWidget {
 
 class _CommunityMetricChip extends StatelessWidget {
   const _CommunityMetricChip({
-    required this.label,
+    required this.icon,
     required this.value,
+    required this.semanticLabel,
     required this.tone,
   });
 
-  final String label;
-  final String value;
-  final _CommunityCardTone tone;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      decoration: BoxDecoration(
-        color: tone.panel.withValues(alpha: 0.76),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.50)),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: context.coolText.mono(
-              Theme.of(context).textTheme.labelSmall,
-              color: tone.textSecondary,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.8,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            value,
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: tone.textPrimary,
-              fontWeight: FontWeight.w700,
-              height: 1.1,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _CommunitySignalOrb extends StatelessWidget {
-  const _CommunitySignalOrb({required this.tone, required this.icon});
-
-  final _CommunityCardTone tone;
   final IconData icon;
+  final String value;
+  final String semanticLabel;
+  final _CommunityCardTone tone;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 44,
-      height: 44,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.white, tone.panel.withValues(alpha: 0.92)],
+    return Semantics(
+      label: semanticLabel,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.26),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.36)),
         ),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.54)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.white.withValues(alpha: 0.34),
-            blurRadius: 10,
-            offset: const Offset(-3, -3),
-          ),
-          BoxShadow(
-            color: tone.shadow.withValues(alpha: 0.12),
-            blurRadius: 14,
-            offset: const Offset(0, 8),
-          ),
-        ],
+        child: Row(
+          children: [
+            Icon(icon, size: 16, color: tone.actionStart),
+            const SizedBox(width: 6),
+            Expanded(
+              child: Text(
+                value,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: tone.textPrimary,
+                  fontWeight: FontWeight.w700,
+                  height: 1.0,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-      child: Icon(icon, color: tone.actionStart, size: 20),
     );
   }
 }
@@ -536,26 +444,19 @@ class _CommunitySoftBadge extends StatelessWidget {
       width: 44,
       height: 44,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.white.withValues(alpha: 0.86),
-            tone.panel.withValues(alpha: 0.74),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.60)),
+        color: Colors.white.withValues(alpha: 0.34),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.40)),
         boxShadow: [
           BoxShadow(
-            color: Colors.white.withValues(alpha: 0.44),
-            blurRadius: 10,
-            offset: const Offset(-4, -4),
+            color: Colors.white.withValues(alpha: 0.26),
+            blurRadius: 8,
+            offset: const Offset(-3, -3),
           ),
           BoxShadow(
-            color: tone.shadow.withValues(alpha: 0.14),
-            blurRadius: 14,
-            offset: const Offset(0, 10),
+            color: tone.shadow.withValues(alpha: 0.10),
+            blurRadius: 12,
+            offset: const Offset(0, 8),
           ),
         ],
       ),
@@ -564,8 +465,8 @@ class _CommunitySoftBadge extends StatelessWidget {
   }
 }
 
-class _GlowOrb extends StatelessWidget {
-  const _GlowOrb({required this.size, required this.color});
+class _CommunityBackdropGlow extends StatelessWidget {
+  const _CommunityBackdropGlow({required this.size, required this.color});
 
   final double size;
   final Color color;
@@ -707,80 +608,138 @@ class _CommunityInfoPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final secondaryMetric = _secondaryMetric(context);
+
     return Container(
       padding: const EdgeInsets.fromLTRB(12, 12, 10, 10),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.white.withValues(alpha: 0.86),
-            tone.panel.withValues(alpha: 0.72),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(26),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.58)),
+        color: Colors.white.withValues(alpha: 0.24),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.42)),
         boxShadow: [
           BoxShadow(
-            color: Colors.white.withValues(alpha: 0.36),
-            blurRadius: 12,
-            offset: const Offset(-4, -4),
+            color: Colors.white.withValues(alpha: 0.22),
+            blurRadius: 8,
+            offset: const Offset(-3, -3),
           ),
           BoxShadow(
-            color: tone.shadow.withValues(alpha: 0.12),
-            blurRadius: 18,
-            offset: const Offset(0, 12),
+            color: tone.shadow.withValues(alpha: 0.10),
+            blurRadius: 16,
+            offset: const Offset(0, 10),
           ),
         ],
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Column(
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(amountLabel, style: amountStyle),
-                const SizedBox(height: CoolSpace.x2),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
+          Row(
+            children: [
+              Expanded(
+                child: Row(
                   children: [
-                    _CommunityMetricChip(
-                      label: 'MEMBERS',
-                      value: '${group.memberCount}',
-                      tone: tone,
-                    ),
-                    if (group.targetAmount > 0)
-                      _CommunityMetricChip(
-                        label: 'TARGET',
-                        value: '${fmtAmt(group.targetAmount)} RWF',
-                        tone: tone,
-                      )
-                    else if ((group.monthlyContribution ?? 0) > 0)
-                      _CommunityMetricChip(
-                        label: 'PLAN',
-                        value: '${fmtAmt(group.monthlyContribution ?? 0)} RWF',
-                        tone: tone,
+                    Container(
+                      width: 34,
+                      height: 34,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.28),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.34),
+                        ),
                       ),
+                      alignment: Alignment.center,
+                      child: Icon(
+                        group.type == 'saving'
+                            ? CoolIcons.walletOutlined
+                            : CoolIcons.groupsFilled,
+                        color: tone.actionStart,
+                        size: 16,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        amountLabel,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: amountStyle,
+                      ),
+                    ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(width: 10),
+              _CircleActionButton(
+                icon: canQuickContribute ? CoolIcons.add : CoolIcons.forward,
+                onTap: () {
+                  HapticFeedback.selectionClick();
+                  onQuickContribution();
+                },
+                tone: tone,
+              ),
+            ],
           ),
-          const SizedBox(width: CoolSpace.x3),
-          _CircleActionButton(
-            icon: canQuickContribute ? CoolIcons.add : CoolIcons.forward,
-            onTap: () {
-              HapticFeedback.selectionClick();
-              onQuickContribution();
-            },
-            tone: tone,
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: _CommunityMetricChip(
+                  icon: CoolIcons.members,
+                  value: '${group.memberCount}',
+                  semanticLabel: memberCountLabel(context, group.memberCount),
+                  tone: tone,
+                ),
+              ),
+              if (secondaryMetric != null) ...[
+                const SizedBox(width: 10),
+                Expanded(
+                  child: _CommunityMetricChip(
+                    icon: secondaryMetric.icon,
+                    value: secondaryMetric.value,
+                    semanticLabel: secondaryMetric.semanticLabel,
+                    tone: tone,
+                  ),
+                ),
+              ],
+            ],
           ),
         ],
       ),
     );
   }
+
+  _CommunityMetricSpec? _secondaryMetric(BuildContext context) {
+    if (group.targetAmount > 0) {
+      final value = '${fmtAmt(group.targetAmount)} RWF';
+      return _CommunityMetricSpec(
+        icon: CoolIcons.trendUp,
+        value: value,
+        semanticLabel: 'Target $value',
+      );
+    }
+
+    if ((group.monthlyContribution ?? 0) > 0) {
+      final value = '${fmtAmt(group.monthlyContribution ?? 0)} RWF';
+      return _CommunityMetricSpec(
+        icon: CoolIcons.calendar,
+        value: value,
+        semanticLabel: 'Plan $value',
+      );
+    }
+
+    return null;
+  }
+}
+
+class _CommunityMetricSpec {
+  const _CommunityMetricSpec({
+    required this.icon,
+    required this.value,
+    required this.semanticLabel,
+  });
+
+  final IconData icon;
+  final String value;
+  final String semanticLabel;
 }
 
 void openCommunityGroup(BuildContext context, Group group) {
