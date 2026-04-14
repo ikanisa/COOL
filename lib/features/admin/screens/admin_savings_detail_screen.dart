@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/l10n/l10n.dart';
@@ -13,10 +12,7 @@ import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_toast.dart';
 
 import '../providers/admin_providers.dart';
-
-const BorderRadius _chipRadius = BorderRadius.all(
-  Radius.circular(CoolRadii.xs),
-);
+import 'admin_savings_detail_widgets.dart';
 
 /// Detail screen for a single savings group.
 ///
@@ -36,7 +32,7 @@ class _AdminSavingsDetailScreenState
     extends ConsumerState<AdminSavingsDetailScreen> {
   static const _autoRefreshInterval = Duration(seconds: 15);
 
-  _DetailTab _activeTab = _DetailTab.members;
+  SavingsDetailTab _activeTab = SavingsDetailTab.members;
   Timer? _autoRefreshTimer;
 
   // ── Allocation form controllers ──
@@ -114,9 +110,6 @@ class _AdminSavingsDetailScreenState
   }
 
   Widget _buildGroupDetail(Map<String, dynamic> group) {
-    final theme = Theme.of(context);
-    final colors = context.coolSemanticColors;
-
     final name = group['name']?.toString() ?? 'Unnamed';
     final description = group['description']?.toString();
     final targetAmount = _asInt(group['target_amount']);
@@ -130,165 +123,35 @@ class _AdminSavingsDetailScreenState
     return ListView(
       padding: const EdgeInsets.only(bottom: CoolSpace.x7),
       children: [
-        // ── Group header ──────────────────────────────────
-        CoolCard(
-          backgroundColor: colors.operationalSurface,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      name,
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        color: colors.primaryText,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: (isClosed ? colors.danger : colors.success)
-                          .withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(CoolRadii.pill),
-                    ),
-                    child: Text(
-                      isClosed
-                          ? context.l10n.adminSavingsClosedStatus
-                          : context.l10n.adminSavingsActiveStatus,
-                      style: context.coolText.mono(
-                        theme.textTheme.labelSmall,
-                        fontWeight: FontWeight.w800,
-                        color: isClosed ? colors.danger : colors.success,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              if (description != null && description.isNotEmpty) ...[
-                const SizedBox(height: CoolSpace.x2),
-                Text(
-                  description,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colors.secondaryText,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-              const SizedBox(height: CoolSpace.x4),
-              Wrap(
-                spacing: CoolSpace.x3,
-                runSpacing: CoolSpace.x2,
-                children: [
-                  _InfoChip(
-                    label: '${formatWholeMoneyAmount(targetAmount)} target',
-                    icon: CoolIcons.flagFilled,
-                  ),
-                  _InfoChip(
-                    label:
-                        '${formatWholeMoneyAmount(monthlyContribution)} / mo',
-                    icon: CoolIcons.calendar,
-                  ),
-                  _InfoChip(
-                    label:
-                        '${formatWholeMoneyAmount(totalCollected)} collected',
-                    icon: CoolIcons.wallet,
-                  ),
-                  _InfoChip(
-                    label: frequency.replaceAll('_', ' '),
-                    icon: CoolIcons.loop,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Clipboard.setData(ClipboardData(text: inviteCode));
-                      CoolToast.success(context, 'Copied');
-                    },
-                    child: _InfoChip(
-                      label: inviteCode,
-                      icon: CoolIcons.qrCodeRounded,
-                    ),
-                  ),
-                ],
-              ),
-              if (!isClosed) ...[
-                const SizedBox(height: CoolSpace.x4),
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton.icon(
-                    onPressed: () => _handleCloseGroup(group['id']?.toString()),
-                    icon: const Icon(CoolIcons.lock, size: 16),
-                    label: const Text('Close Group'),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: colors.danger,
-                      side: BorderSide(
-                        color: colors.danger.withValues(alpha: 0.3),
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(CoolRadii.sm),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ],
-          ),
+        SavingsGroupHeaderCard(
+          name: name,
+          description: description,
+          targetAmount: targetAmount,
+          monthlyContribution: monthlyContribution,
+          totalCollected: totalCollected,
+          frequency: frequency,
+          inviteCode: inviteCode,
+          isClosed: isClosed,
+          onCloseGroup:
+              isClosed ? null : () => _handleCloseGroup(group['id']?.toString()),
         ),
         const SizedBox(height: CoolSpace.x5),
 
-        // ── Tabs ──────────────────────────────────────────
-        SizedBox(
-          height: 48,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              for (final tab in _DetailTab.values) ...[
-                ChoiceChip(
-                  showCheckmark: false,
-                  label: Text(tab.label),
-                  selected: _activeTab == tab,
-                  onSelected: (_) {
-                    HapticFeedback.selectionClick();
-                    setState(() => _activeTab = tab);
-                  },
-                  backgroundColor: colors.chipBackground,
-                  selectedColor: colors.chipSelectedBackground,
-                  labelStyle: theme.textTheme.labelLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: _activeTab == tab
-                        ? colors.accentStrong
-                        : colors.secondaryText,
-                  ),
-                  side: BorderSide.none,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(CoolRadii.pill),
-                    ),
-                  ),
-                  visualDensity: VisualDensity.compact,
-                ),
-                const SizedBox(width: 8),
-              ],
-            ],
-          ),
+        SavingsDetailTabBar(
+          activeTab: _activeTab,
+          onTabSelected: (tab) => setState(() => _activeTab = tab),
         ),
         const SizedBox(height: CoolSpace.x4),
 
-        // ── Tab content ───────────────────────────────────
         switch (_activeTab) {
-          _DetailTab.members => _buildMembers(
-            members,
-            group['id']?.toString() ?? '',
-          ),
-          _DetailTab.allocations => _buildAllocations(
-            members,
-            group['id']?.toString() ?? '',
-          ),
+          SavingsDetailTab.members => _buildMembers(
+              members,
+              group['id']?.toString() ?? '',
+            ),
+          SavingsDetailTab.allocations => _buildAllocations(
+              members,
+              group['id']?.toString() ?? '',
+            ),
         },
       ],
     );
@@ -418,55 +281,13 @@ class _AdminSavingsDetailScreenState
           const CoolEmptyView(message: 'No members yet', icon: CoolIcons.people)
         else
           for (final member in members) ...[
-            CoolCard(
-              child: Row(
-                children: [
-                  Container(
-                    width: 36,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      color: colors.info.withValues(alpha: 0.12),
-                      borderRadius: _chipRadius,
-                    ),
-                    child: Icon(CoolIcons.person, size: 18, color: colors.info),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          member['display_name']?.toString() ?? 'Member',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: colors.primaryText,
-                          ),
-                        ),
-                        if (member['phone'] != null)
-                          Text(
-                            member['phone'].toString(),
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              color: colors.tertiaryText,
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      CoolIcons.removeCircle,
-                      color: colors.danger,
-                      size: 20,
-                    ),
-                    tooltip: context.l10n.adminSavingsRemoveMemberTooltip,
-                    onPressed: () => _handleRemoveMember(
-                      groupId,
-                      member['user_id']?.toString() ?? '',
-                      member['display_name']?.toString() ?? 'this member',
-                    ),
-                  ),
-                ],
+            SavingsMemberRow(
+              displayName: member['display_name']?.toString() ?? 'Member',
+              phone: member['phone']?.toString(),
+              onRemove: () => _handleRemoveMember(
+                groupId,
+                member['user_id']?.toString() ?? '',
+                member['display_name']?.toString() ?? 'this member',
               ),
             ),
             const SizedBox(height: CoolSpace.x2),
@@ -807,48 +628,5 @@ class _AdminSavingsDetailScreenState
           .toList(growable: false);
     }
     return const [];
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════
-// Tab enum
-// ═══════════════════════════════════════════════════════════════
-
-enum _DetailTab {
-  members('Members'),
-  allocations('Allocations');
-
-  const _DetailTab(this.label);
-  final String label;
-}
-
-// ═══════════════════════════════════════════════════════════════
-// Sub-widgets
-// ═══════════════════════════════════════════════════════════════
-
-class _InfoChip extends StatelessWidget {
-  const _InfoChip({required this.label, required this.icon});
-
-  final String label;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, size: 14, color: colors.tertiaryText),
-        const SizedBox(width: 4),
-        Text(
-          label,
-          style: theme.textTheme.bodySmall?.copyWith(
-            fontWeight: FontWeight.w500,
-            color: colors.tertiaryText,
-          ),
-        ),
-      ],
-    );
   }
 }

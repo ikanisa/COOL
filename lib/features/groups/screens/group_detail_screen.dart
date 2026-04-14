@@ -11,7 +11,6 @@ import '../../../core/utils/money_formatters.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_expandable_section.dart';
-import '../../../shared/widgets/cool_icon_box.dart';
 
 import '../../../shared/widgets/cool_metric_row.dart';
 import '../../../shared/widgets/cool_section_card.dart';
@@ -20,8 +19,8 @@ import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../../shared/widgets/member_row.dart';
 import '../../../shared/widgets/share_card.dart';
 import '../../../shared/widgets/status_badge.dart';
-import '../../../shared/widgets/transaction_status_chip.dart';
 import '../../../core/utils/user_error.dart';
+import 'group_detail_widgets.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../auth/widgets/require_verified_user.dart';
 import '../../momo/models/momo_statement.dart';
@@ -31,7 +30,6 @@ import '../group_flow_utils.dart';
 import '../models/group.dart';
 import '../models/group_member_preview.dart';
 import '../providers/groups_provider.dart';
-import '../widgets/transaction_allocation_sheet.dart';
 
 class GroupDetailScreen extends ConsumerStatefulWidget {
   const GroupDetailScreen({required this.groupId, this.inviteCode, super.key});
@@ -136,7 +134,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
 
     // Guard against empty groupId propagated from route parameters.
     if (widget.groupId.trim().isEmpty) {
-      return _MissingGroupState(message: context.l10n.groupNotFound);
+      return MissingGroupState(message: context.l10n.groupNotFound);
     }
 
     final invitePreview = invitePreviewAsync.valueOrNull;
@@ -157,18 +155,18 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
     }
 
     if (groupAsync.hasError && resolvedGroup == null) {
-      return _MissingGroupState(
+      return MissingGroupState(
         message: describeUserFacingError(groupAsync.error!),
       );
     }
 
     if (resolvedGroup == null) {
-      return _MissingGroupState(message: context.l10n.groupNotFound);
+      return MissingGroupState(message: context.l10n.groupNotFound);
     }
 
     final groupId = resolvedGroup.id;
     if (groupId == null || groupId.trim().isEmpty) {
-      return _MissingGroupState(message: context.l10n.groupNotFound);
+      return MissingGroupState(message: context.l10n.groupNotFound);
     }
 
     final isMember = access?.isMember ?? myGroupIds.contains(groupId);
@@ -517,7 +515,7 @@ class _GroupDetailBody extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: space.x3),
-                      _StatementsButton(groupId: group.id ?? ''),
+                      GroupStatementsButton(groupId: group.id ?? ''),
                     ],
                   );
                 }
@@ -529,13 +527,13 @@ class _GroupDetailBody extends StatelessWidget {
                   ),
                   children: [
                     for (final entry in page.entries)
-                      _LedgerTile(
+                      GroupLedgerTile(
                         entry: entry,
                         canManageAllocations: canManageSettings,
                         groupId: group.id ?? '',
                       ),
                     SizedBox(height: space.x2),
-                    _StatementsButton(groupId: group.id ?? ''),
+                    GroupStatementsButton(groupId: group.id ?? ''),
                   ],
                 );
               },
@@ -553,7 +551,7 @@ class _GroupDetailBody extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: space.x3),
-                  _StatementsButton(groupId: group.id ?? ''),
+                  GroupStatementsButton(groupId: group.id ?? ''),
                 ],
               ),
             ),
@@ -564,163 +562,3 @@ class _GroupDetailBody extends StatelessWidget {
   }
 }
 
-class _StatementsButton extends StatelessWidget {
-  const _StatementsButton({required this.groupId});
-
-  final String groupId;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: CoolButton(
-        label: context.l10n.groupsViewAllStatementsUpper,
-        onTap: () => context.push(AppRoutes.groupStatementsLocation(groupId)),
-        variant: CoolButtonVariant.secondary,
-      ),
-    );
-  }
-}
-
-/// Ledger tile — clean icon-led row with amount + status.
-class _LedgerTile extends StatelessWidget {
-  const _LedgerTile({
-    required this.entry,
-    this.canManageAllocations = false,
-    this.groupId = '',
-  });
-
-  final PayeePaymentLedgerEntry entry;
-  final bool canManageAllocations;
-  final String groupId;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final text = context.coolText;
-    final isAllocated = entry.payerUserId.trim().isNotEmpty;
-    final statusLabel = isAllocated ? 'confirmed' : 'pending_review';
-
-    return CoolCard(
-      cardPadding: CoolCardPadding.md,
-      onTap: canManageAllocations
-          ? () => TransactionAllocationSheet.show(
-              context,
-              entry: entry,
-              groupId: groupId,
-            )
-          : null,
-      child: Row(
-        children: [
-          const CoolIconBox(icon: CoolIcons.payment),
-          const SizedBox(width: CoolSpace.x4),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  entry.label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: text.headline(
-                    Theme.of(context).textTheme.titleSmall,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  '${entry.payerName} • ${entry.occurredAt.toLocal().toString().split('.').first}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: text
-                      .mobiLabel(color: colors.secondaryText)
-                      .copyWith(fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: CoolSpace.x3),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                '${formatWholeMoneyAmount(entry.amount)} ${entry.currency}',
-                style: text.mono(null, color: colors.accentGold),
-              ),
-              const SizedBox(height: 4),
-              TransactionStatusChip(status: statusLabel),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _MissingGroupState extends StatelessWidget {
-  const _MissingGroupState({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    return CoreDetailScaffold(
-      onBack: () {
-        if (context.canPop()) {
-          context.pop();
-          return;
-        }
-        context.go(AppRoutes.groups);
-      },
-      title: Text(
-        context.l10n.groupDetailTitle,
-        style: context.coolText.displayCondensed(
-          Theme.of(context).textTheme.headlineSmall,
-          fontWeight: FontWeight.w800,
-        ),
-      ),
-      child: Center(
-        child: CoolCard(
-          borderRadius: CoolRadii.xl,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: CoolSpace.x2),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const CoolIconBox(
-                  icon: CoolIcons.groupOff,
-                  size: CoolIconBoxSize.lg,
-                  variant: CoolIconBoxVariant.solid,
-                ),
-                const SizedBox(height: CoolSpace.x5),
-                Text(
-                  message,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: colors.secondaryText,
-                    height: 1.5,
-                  ),
-                ),
-                const SizedBox(height: CoolSpace.x6),
-                CoolButton(
-                  label: context.l10n.goBack,
-                  variant: CoolButtonVariant.secondary,
-                  onTap: () {
-                    if (context.canPop()) {
-                      context.pop();
-                      return;
-                    }
-                    context.go(AppRoutes.groups);
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}

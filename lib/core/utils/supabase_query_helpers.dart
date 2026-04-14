@@ -6,11 +6,17 @@ library;
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 /// Default timeout for standard Supabase queries (select, insert, update).
 const Duration kSupabaseQueryTimeout = Duration(seconds: 15);
 
 /// Timeout for heavier operations (RPCs, multi-step atomic writes).
 const Duration kSupabaseRpcTimeout = Duration(seconds: 20);
+
+/// Maximum retries for rate-limited requests (429).
+const int _kMaxRetries = 2;
 
 /// Executes a Supabase query with a timeout guard.
 ///
@@ -36,6 +42,47 @@ Future<T> guarded<T>(
       timeout,
     ),
   );
+}
+
+/// Like [guarded], but automatically retries on HTTP 429 (rate-limit)
+/// with exponential backoff.
+///
+/// Use this for operations that may hit Supabase rate limits during
+/// burst activity (e.g. rapid group joins, batch contribution inserts).
+///
+/// Falls back to [guarded] behavior if the error is not a 429.
+Future<T> guardedWithRetry<T>(
+  Future<T> Function() query, {
+  Duration timeout = kSupabaseQueryTimeout,
+  String? label,
+  int maxRetries = _kMaxRetries,
+}) async {
+  for (var attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await guarded(query, timeout: timeout, label: label);
+    } on PostgrestException catch (error) {
+      final isRateLimited =
+          error.code == '429' ||
+          error.message.contains('rate') ||
+          error.message.contains('Too Many Requests');
+
+      if (!isRateLimited || attempt >= maxRetries) {
+        rethrow;
+      }
+
+      // Exponential backoff: 1s, 2s
+      final delay = Duration(seconds: 1 << attempt);
+      debugPrint(
+        '[Supabase] ${label ?? 'query'} hit rate limit '
+        '(attempt ${attempt + 1}/$maxRetries). '
+        'Retrying in ${delay.inSeconds}s…',
+      );
+      await Future<void>.delayed(delay);
+    }
+  }
+
+  // Unreachable, but satisfies the type system.
+  return guarded(query, timeout: timeout, label: label);
 }
 
 /// Coerces a Supabase response to a `List<Map<String, dynamic>>`.

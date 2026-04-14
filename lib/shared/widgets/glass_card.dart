@@ -94,25 +94,38 @@ class GlassCard extends StatelessWidget {
       );
     }
 
-    final card = ClipRRect(
-      borderRadius: br,
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: glassBg,
-            gradient: gradient,
-            borderRadius: br,
-            boxShadow: CoolShadows.glass(strength: 0.72),
-            // Ghost border: violet-tinted, not white
-            border: Border.all(
-              color: colors.borderStrong.withValues(alpha: borderOpacity),
-              width: 0.9,
-            ),
-          ),
-          child: content,
+    // Skip expensive BackdropFilter when reduced motion is requested
+    // (accessibility setting) to prevent jank on low-end devices.
+    final mediaQuery = MediaQuery.of(context);
+    final reduceBlur = mediaQuery.disableAnimations ||
+        mediaQuery.accessibleNavigation;
+    final effectiveBlur = reduceBlur ? 0.0 : blur;
+
+    Widget surface = DecoratedBox(
+      decoration: BoxDecoration(
+        color: glassBg,
+        gradient: gradient,
+        borderRadius: br,
+        boxShadow: CoolShadows.glass(strength: 0.72),
+        // Ghost border: violet-tinted, not white
+        border: Border.all(
+          color: colors.borderStrong.withValues(alpha: borderOpacity),
+          width: 0.9,
         ),
       ),
+      child: content,
+    );
+
+    if (effectiveBlur > 0) {
+      surface = BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: effectiveBlur, sigmaY: effectiveBlur),
+        child: surface,
+      );
+    }
+
+    final card = ClipRRect(
+      borderRadius: br,
+      child: surface,
     );
 
     final result = margin != null

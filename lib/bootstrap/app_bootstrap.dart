@@ -181,6 +181,12 @@ class _AppBootstrapState extends State<AppBootstrap> {
       timeout: const Duration(seconds: 6),
     );
 
+    await _runOptionalBootStep(
+      'Verifying local storage schema',
+      ensureHiveSchemaVersion,
+      timeout: const Duration(seconds: 4),
+    );
+
     await _runRequiredBootStep('Loading regional configuration', () async {
       final jsonString = await rootBundle.loadString('assets/countries.json');
       await CoolCountryCatalog.initialize(jsonString);

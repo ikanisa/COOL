@@ -20,6 +20,7 @@ import '../models/home_dashboard_data.dart';
 import 'home_shared.dart';
 
 part 'home_communities_section.dart';
+part 'home_community_card.dart';
 part 'home_operations_section.dart';
 part 'home_sections_support.dart';
 

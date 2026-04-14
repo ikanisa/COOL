@@ -20,25 +20,33 @@ class CoolGlassHeaderSurface extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
+    final mediaQuery = MediaQuery.of(context);
+    final reduceBlur = mediaQuery.disableAnimations ||
+        mediaQuery.accessibleNavigation;
+    final effectiveBlur = reduceBlur ? 0.0 : blur;
+
+    final decoration = BoxDecoration(
+      color: colors.elevatedBackground.withValues(alpha: opacity),
+      border: showBottomGhostEdge
+          ? Border(bottom: BorderSide(color: colors.border, width: 0.8))
+          : null,
+      boxShadow: <BoxShadow>[
+        BoxShadow(
+          color: colors.shadowColor.withValues(alpha: 0.08),
+          blurRadius: 12,
+          offset: const Offset(0, 4),
+        ),
+      ],
+    );
+
+    if (effectiveBlur <= 0) {
+      return DecoratedBox(decoration: decoration);
+    }
 
     return ClipRect(
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: colors.elevatedBackground.withValues(alpha: opacity),
-            border: showBottomGhostEdge
-                ? Border(bottom: BorderSide(color: colors.border, width: 0.8))
-                : null,
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: colors.shadowColor.withValues(alpha: 0.08),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-        ),
+        filter: ImageFilter.blur(sigmaX: effectiveBlur, sigmaY: effectiveBlur),
+        child: DecoratedBox(decoration: decoration),
       ),
     );
   }

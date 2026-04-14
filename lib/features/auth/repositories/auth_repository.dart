@@ -176,6 +176,12 @@ class AuthRepository {
     }
   }
 
+  /// Syncs non-sensitive profile data to Supabase `user_metadata`.
+  ///
+  /// **Security note:** Supabase embeds `user_metadata` in the JWT, so
+  /// avoid storing sensitive financial data (e.g. `momo_code`) or legal
+  /// identity fields (e.g. `official_name`, `official_phone`) here.
+  /// Those remain in the `users` table only and are accessed via RLS.
   Future<void> _persistProfileMetadata(UserProfile profile) async {
     final currentUser = _client.auth.currentUser;
     if (currentUser == null || currentUser.id != profile.id) {
@@ -190,7 +196,8 @@ class AuthRepository {
           'phone': profile.phone,
           'full_name': profile.fullName,
           'momo_number': profile.momoNumber,
-          'momo_code': profile.momoCode,
+          // NOTE: momo_code intentionally excluded — it is a financial
+          // credential and must not appear in JWTs. Read from `users` table.
           'momo_route_type': switch (profile.effectiveMomoRouteType) {
             MomoRecipientType.phoneNumber => 'phone_number',
             MomoRecipientType.code => 'code',
@@ -202,8 +209,8 @@ class AuthRepository {
           'market': AppMarket.countryCode,
           'ui_language': AppMarket.languageCode,
           'avatar_url': profile.avatarUrl,
-          'official_name': profile.officialName,
-          'official_phone': profile.officialPhone,
+          // NOTE: official_name and official_phone intentionally excluded —
+          // legal identity PII must not appear in JWTs.
           'theme_preference': profile.themePreference,
           'theme_preference_updated_at': profile.themePreferenceUpdatedAt
               ?.toIso8601String(),

@@ -62,3 +62,26 @@
 -keep class org.tensorflow.lite.** { *; }
 -dontwarn org.tensorflow.lite.**
 -dontwarn org.tensorflow.lite.gpu.GpuDelegateFactory$Options
+
+# ── AndroidX Security / EncryptedSharedPreferences ───────────
+# security-crypto uses Tink under the hood, which relies on
+# reflection to locate cipher implementations.
+-keep class androidx.security.crypto.** { *; }
+-keep class com.google.crypto.tink.** { *; }
+-dontwarn com.google.crypto.tink.**
+
+# ── AndroidX Work (WorkManager — used by background tasks) ───
+-keep class androidx.work.** { *; }
+-dontwarn androidx.work.**
+
+# ── local_auth (biometric native bridge) ─────────────────────
+-keep class io.flutter.plugins.localauth.** { *; }
+-dontwarn io.flutter.plugins.localauth.**
+
+# ── Flutter engine JNI symbols ───────────────────────────────
+# Prevent R8 from stripping native method declarations that the
+# Flutter engine loads via System.loadLibrary. This rule is a
+# safety net for the Pixel 4a engine startup crash (P2).
+-keepclasseswithmembernames class * {
+    native <methods>;
+}

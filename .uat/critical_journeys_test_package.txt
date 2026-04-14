@@ -1,0 +1,378 @@
+Activity Resolver Table:
+  Full MIME Types:
+      application/vnd.cool.nfc:
+        e68d0f8 app.cool.mobile.staging/app.cool.mobile.MainActivity filter d604a4
+          Action: "android.nfc.action.NDEF_DISCOVERED"
+          Category: "android.intent.category.DEFAULT"
+          StaticType: "application/vnd.cool.nfc"
+
+  Base MIME Types:
+      application:
+        e68d0f8 app.cool.mobile.staging/app.cool.mobile.MainActivity filter d604a4
+          Action: "android.nfc.action.NDEF_DISCOVERED"
+          Category: "android.intent.category.DEFAULT"
+          StaticType: "application/vnd.cool.nfc"
+
+  Schemes:
+      cool:
+        e68d0f8 app.cool.mobile.staging/app.cool.mobile.MainActivity filter 9ae0737
+          Action: "android.intent.action.VIEW"
+          Category: "android.intent.category.DEFAULT"
+          Category: "android.intent.category.BROWSABLE"
+          Scheme: "cool"
+      https:
+        e68d0f8 app.cool.mobile.staging/app.cool.mobile.MainActivity filter 77efc36
+          Action: "android.intent.action.VIEW"
+          Category: "android.intent.category.DEFAULT"
+          Category: "android.intent.category.BROWSABLE"
+          Scheme: "https"
+          Authority: "cool.app": -1
+          Authority: "www.cool.app": -1
+          Authority: "cool.ikanisa.com": -1
+          AutoVerify=true
+
+  Non-Data Actions:
+      android.intent.action.MAIN:
+        e68d0f8 app.cool.mobile.staging/app.cool.mobile.MainActivity filter a1cb9d1
+          Action: "android.intent.action.MAIN"
+          Category: "android.intent.category.LAUNCHER"
+
+  MIME Typed Actions:
+      android.nfc.action.NDEF_DISCOVERED:
+        e68d0f8 app.cool.mobile.staging/app.cool.mobile.MainActivity filter d604a4
+          Action: "android.nfc.action.NDEF_DISCOVERED"
+          Category: "android.intent.category.DEFAULT"
+          StaticType: "application/vnd.cool.nfc"
+
+Receiver Resolver Table:
+  Non-Data Actions:
+      android.intent.action.BATTERY_OKAY:
+        d4b764b app.cool.mobile.staging/androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy filter 2e6828
+          Action: "android.intent.action.BATTERY_OKAY"
+          Action: "android.intent.action.BATTERY_LOW"
+      android.intent.action.ACTION_POWER_DISCONNECTED:
+        8a685c5 app.cool.mobile.staging/androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy filter 7072b1a
+          Action: "android.intent.action.ACTION_POWER_CONNECTED"
+          Action: "android.intent.action.ACTION_POWER_DISCONNECTED"
+      androidx.profileinstaller.action.SAVE_PROFILE:
+        f8d6a35 app.cool.mobile.staging/androidx.profileinstaller.ProfileInstallReceiver filter be02b58
+          Action: "androidx.profileinstaller.action.SAVE_PROFILE"
+      android.intent.action.DEVICE_STORAGE_LOW:
+        e6eb941 app.cool.mobile.staging/androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy filter adcdee6
+          Action: "android.intent.action.DEVICE_STORAGE_LOW"
+          Action: "android.intent.action.DEVICE_STORAGE_OK"
+      android.net.conn.CONNECTIVITY_CHANGE:
+        7d92c27 app.cool.mobile.staging/androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy filter 15ded4
+          Action: "android.net.conn.CONNECTIVITY_CHANGE"
+      android.intent.action.DEVICE_STORAGE_OK:
+        e6eb941 app.cool.mobile.staging/androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy filter adcdee6
+          Action: "android.intent.action.DEVICE_STORAGE_LOW"
+          Action: "android.intent.action.DEVICE_STORAGE_OK"
+      EXTRA_CHOSEN_COMPONENT:
+        91bd209 app.cool.mobile.staging/dev.fluttercommunity.plus.share.SharePlusPendingIntent filter 6cd5c0e
+          Action: "EXTRA_CHOSEN_COMPONENT"
+      androidx.profileinstaller.action.INSTALL_PROFILE:
+        f8d6a35 app.cool.mobile.staging/androidx.profileinstaller.ProfileInstallReceiver filter f908eca
+          Action: "androidx.profileinstaller.action.INSTALL_PROFILE"
+      com.google.android.c2dm.intent.RECEIVE:
+        850a62f app.cool.mobile.staging/io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingReceiver filter 453443c
+          Action: "com.google.android.c2dm.intent.RECEIVE"
+        43d791f app.cool.mobile.staging/com.google.firebase.iid.FirebaseInstanceIdReceiver filter 60e346c
+          Action: "com.google.android.c2dm.intent.RECEIVE"
+      android.intent.action.BATTERY_LOW:
+        d4b764b app.cool.mobile.staging/androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy filter 2e6828
+          Action: "android.intent.action.BATTERY_OKAY"
+          Action: "android.intent.action.BATTERY_LOW"
+      android.intent.action.TIMEZONE_CHANGED:
+        f2ca87d app.cool.mobile.staging/androidx.work.impl.background.systemalarm.RescheduleReceiver filter f080372
+          Action: "android.intent.action.BOOT_COMPLETED"
+          Action: "android.intent.action.TIME_SET"
+          Action: "android.intent.action.TIMEZONE_CHANGED"
+      android.intent.action.TIME_SET:
+        f2ca87d app.cool.mobile.staging/androidx.work.impl.background.systemalarm.RescheduleReceiver filter f080372
+          Action: "android.intent.action.BOOT_COMPLETED"
+          Action: "android.intent.action.TIME_SET"
+          Action: "android.intent.action.TIMEZONE_CHANGED"
+      androidx.profileinstaller.action.SKIP_FILE:
+        f8d6a35 app.cool.mobile.staging/androidx.profileinstaller.ProfileInstallReceiver filter 64a883b
+          Action: "androidx.profileinstaller.action.SKIP_FILE"
+      androidx.profileinstaller.action.BENCHMARK_OPERATION:
+        f8d6a35 app.cool.mobile.staging/androidx.profileinstaller.ProfileInstallReceiver filter 9b774b1
+          Action: "androidx.profileinstaller.action.BENCHMARK_OPERATION"
+      android.intent.action.BOOT_COMPLETED:
+        dd1dfd3 app.cool.mobile.staging/app.cool.mobile.momo_sms.MomoSmsBootReceiver filter 4c0c710
+          Action: "android.intent.action.BOOT_COMPLETED"
+        f2ca87d app.cool.mobile.staging/androidx.work.impl.background.systemalarm.RescheduleReceiver filter f080372
+          Action: "android.intent.action.BOOT_COMPLETED"
+          Action: "android.intent.action.TIME_SET"
+          Action: "android.intent.action.TIMEZONE_CHANGED"
+      android.intent.action.ACTION_POWER_CONNECTED:
+        8a685c5 app.cool.mobile.staging/androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy filter 7072b1a
+          Action: "android.intent.action.ACTION_POWER_CONNECTED"
+          Action: "android.intent.action.ACTION_POWER_DISCONNECTED"
+      android.provider.Telephony.SMS_RECEIVED:
+        b62220d app.cool.mobile.staging/app.cool.mobile.momo_sms.MomoSmsReceiver filter 236a5c2
+          Action: "android.provider.Telephony.SMS_RECEIVED"
+          mPriority=1000, mOrder=0, mHasStaticPartialTypes=false, mHasDynamicPartialTypes=false
+      androidx.work.diagnostics.REQUEST_DIAGNOSTICS:
+        8e04f79 app.cool.mobile.staging/androidx.work.impl.diagnostics.DiagnosticsReceiver filter 4ee4be
+          Action: "androidx.work.diagnostics.REQUEST_DIAGNOSTICS"
+      androidx.work.impl.background.systemalarm.UpdateProxies:
+        3a263c3 app.cool.mobile.staging/androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver filter 25c1440
+          Action: "androidx.work.impl.background.systemalarm.UpdateProxies"
+
+Service Resolver Table:
+  Non-Data Actions:
+      android.nfc.cardemulation.action.HOST_APDU_SERVICE:
+        a90cd96 app.cool.mobile.staging/app.cool.mobile.CoolNfcHostApduService filter 64f6d17 permission android.permission.BIND_NFC_SERVICE
+          Action: "android.nfc.cardemulation.action.HOST_APDU_SERVICE"
+      com.google.firebase.MESSAGING_EVENT:
+        5842d22 app.cool.mobile.staging/io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingService filter 953c3b3
+          Action: "com.google.firebase.MESSAGING_EVENT"
+        dbd0d70 app.cool.mobile.staging/com.google.firebase.messaging.FirebaseMessagingService filter 83708e9
+          Action: "com.google.firebase.MESSAGING_EVENT"
+          mPriority=-500, mOrder=0, mHasStaticPartialTypes=false, mHasDynamicPartialTypes=false
+      com.google.android.gms.metadata.MODULE_DEPENDENCIES:
+        9d8a504 app.cool.mobile.staging/com.google.android.gms.metadata.ModuleDependencies filter 89daaed
+          Action: "com.google.android.gms.metadata.MODULE_DEPENDENCIES"
+
+Domain verification status:
+  app.cool.mobile.staging:
+    ID: c5223732-bbf5-437e-9329-dedde83ea52d
+    Signatures: [5F:22:F9:CE:04:4F:C8:7C:35:46:D7:58:9B:EE:0C:8F:CC:D7:EF:97:20:B7:2B:6A:87:1A:94:CE:E0:C5:CE:88]
+    Domain verification state:
+      cool.ikanisa.com: 1024
+      www.cool.app: 1024
+      cool.app: 1024
+    User all:
+      Verification link handling allowed: true
+      Selection state:
+        Disabled:
+          cool.ikanisa.com
+          www.cool.app
+          cool.app
+
+Permissions:
+  Permission [app.cool.mobile.staging.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION] (22ae37f):
+    sourcePackage=app.cool.mobile.staging
+    uid=10666 gids=[] type=0 prot=signature
+    perm=PermissionInfo{c8d0c5d app.cool.mobile.staging.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION}
+
+Registered ContentProviders:
+  app.cool.mobile.staging/com.google.mlkit.common.internal.MlKitInitProvider:
+    Provider{ec0c9d2 app.cool.mobile.staging/com.google.mlkit.common.internal.MlKitInitProvider}
+  app.cool.mobile.staging/com.google.firebase.provider.FirebaseInitProvider:
+    Provider{1aa3 app.cool.mobile.staging/com.google.firebase.provider.FirebaseInitProvider}
+  app.cool.mobile.staging/androidx.startup.InitializationProvider:
+    Provider{53b31a0 app.cool.mobile.staging/androidx.startup.InitializationProvider}
+  app.cool.mobile.staging/dev.fluttercommunity.plus.share.ShareFileProvider:
+    Provider{5131159 app.cool.mobile.staging/dev.fluttercommunity.plus.share.ShareFileProvider}
+  app.cool.mobile.staging/io.flutter.plugins.imagepicker.ImagePickerFileProvider:
+    Provider{c3db11e app.cool.mobile.staging/io.flutter.plugins.imagepicker.ImagePickerFileProvider}
+  app.cool.mobile.staging/io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingInitProvider:
+    Provider{d6fbdff app.cool.mobile.staging/io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingInitProvider}
+
+ContentProvider Authorities:
+  [app.cool.mobile.staging.flutterfirebasemessaginginitprovider]:
+    Provider{d6fbdff app.cool.mobile.staging/io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingInitProvider}
+      applicationInfo=ApplicationInfo{cdbf4c app.cool.mobile.staging}
+  [app.cool.mobile.staging.androidx-startup]:
+    Provider{53b31a0 app.cool.mobile.staging/androidx.startup.InitializationProvider}
+      applicationInfo=ApplicationInfo{8abcb95 app.cool.mobile.staging}
+  [app.cool.mobile.staging.firebaseinitprovider]:
+    Provider{1aa3 app.cool.mobile.staging/com.google.firebase.provider.FirebaseInitProvider}
+      applicationInfo=ApplicationInfo{36b44aa app.cool.mobile.staging}
+  [app.cool.mobile.staging.flutter.share_provider]:
+    Provider{5131159 app.cool.mobile.staging/dev.fluttercommunity.plus.share.ShareFileProvider}
+      applicationInfo=ApplicationInfo{914389b app.cool.mobile.staging}
+  [app.cool.mobile.staging.mlkitinitprovider]:
+    Provider{ec0c9d2 app.cool.mobile.staging/com.google.mlkit.common.internal.MlKitInitProvider}
+      applicationInfo=ApplicationInfo{9bd8438 app.cool.mobile.staging}
+  [app.cool.mobile.staging.flutter.image_provider]:
+    Provider{c3db11e app.cool.mobile.staging/io.flutter.plugins.imagepicker.ImagePickerFileProvider}
+      applicationInfo=ApplicationInfo{f4a8c11 app.cool.mobile.staging}
+
+Key Set Manager:
+  [app.cool.mobile.staging]
+      Signing KeySets: 587
+
+Packages:
+  Package [app.cool.mobile.staging] (f910176):
+    userId=10666
+    pkg=Package{5296df7 app.cool.mobile.staging}
+    codePath=/data/app/~~yO_h46bjiTfu3muL7LMnIw==/app.cool.mobile.staging--6mZJKeMODwl2rmubniQMw==
+    resourcePath=/data/app/~~yO_h46bjiTfu3muL7LMnIw==/app.cool.mobile.staging--6mZJKeMODwl2rmubniQMw==
+    legacyNativeLibraryDir=/data/app/~~yO_h46bjiTfu3muL7LMnIw==/app.cool.mobile.staging--6mZJKeMODwl2rmubniQMw==/lib
+    extractNativeLibs=false
+    primaryCpuAbi=arm64-v8a
+    secondaryCpuAbi=null
+    cpuAbiOverride=null
+    versionCode=7 minSdk=26 targetSdk=36
+    minExtensionVersions=[]
+    versionName=1.2.0
+    usesNonSdkApi=false
+    splits=[base]
+    apkSigningVersion=2
+    flags=[ DEBUGGABLE HAS_CODE ALLOW_CLEAR_USER_DATA ALLOW_BACKUP ]
+    privateFlags=[ PRIVATE_FLAG_ACTIVITIES_RESIZE_MODE_RESIZEABLE_VIA_SDK_VERSION ALLOW_AUDIO_PLAYBACK_CAPTURE HAS_DOMAIN_URLS PARTIALLY_DIRECT_BOOT_AWARE PRIVATE_FLAG_ALLOW_NATIVE_HEAP_POINTER_TAGGING ]
+    forceQueryable=false
+    queriesIntents=[Intent { act=android.intent.action.PROCESS_TEXT dat=content://*/... typ=text/plain }, Intent { act=android.intent.action.VIEW dat=https:/... }, Intent { act=android.intent.action.VIEW dat=tel:xx }]
+    dataDir=/data/user/0/app.cool.mobile.staging
+    supportsScreens=[small, medium, large, xlarge, resizeable, anyDensity]
+    usesOptionalLibraries:
+      androidx.window.extensions
+      androidx.window.sidecar
+      android.ext.adservices
+    usesOptionalNativeLibraries:
+      libOpenCL.so
+      libOpenCL-car.so
+      libOpenCL-pixel.so
+    usesLibraryFiles:
+      libOpenCL-pixel.so
+    timeStamp=2026-04-14 15:14:31
+    lastUpdateTime=2026-04-14 15:14:35
+    packageSource=0
+    signatures=PackageSignatures{62f4464 version:2, signatures:[b6f23fee], past signatures:[]}
+    installPermissionsFixed=true
+    pkgFlags=[ DEBUGGABLE HAS_CODE ALLOW_CLEAR_USER_DATA ALLOW_BACKUP ]
+    declared permissions:
+      app.cool.mobile.staging.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION: prot=signature, INSTALLED
+    requested permissions:
+      android.permission.INTERNET
+      android.permission.ACCESS_NETWORK_STATE
+      android.permission.POST_NOTIFICATIONS
+      android.permission.READ_SMS
+      android.permission.RECEIVE_SMS
+      android.permission.NFC
+      android.permission.READ_CONTACTS
+      android.permission.CAMERA
+      android.permission.RECEIVE_BOOT_COMPLETED
+      android.permission.USE_BIOMETRIC
+      android.permission.WAKE_LOCK
+      android.permission.VIBRATE
+      android.permission.USE_FINGERPRINT
+      android.permission.FOREGROUND_SERVICE
+      com.google.android.c2dm.permission.RECEIVE
+      app.cool.mobile.staging.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+    install permissions:
+      com.google.android.c2dm.permission.RECEIVE: granted=true
+      android.permission.NFC: granted=true
+      android.permission.FOREGROUND_SERVICE: granted=true
+      android.permission.RECEIVE_BOOT_COMPLETED: granted=true
+      android.permission.INTERNET: granted=true
+      android.permission.ACCESS_NETWORK_STATE: granted=true
+      android.permission.USE_FINGERPRINT: granted=true
+      android.permission.VIBRATE: granted=true
+      android.permission.USE_BIOMETRIC: granted=true
+      android.permission.WAKE_LOCK: granted=true
+      app.cool.mobile.staging.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION: granted=true
+    User 0: ceDataInode=681102 installed=true hidden=false suspended=false distractionFlags=0 stopped=true notLaunched=false enabled=0 instant=false virtual=false
+      installReason=0
+      firstInstallTime=2026-04-14 15:14:35
+      uninstallReason=0
+      overlay paths:
+        /product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk
+        /data/resource-cache/com.android.systemui-neutral-F1f7.frro
+        /data/resource-cache/com.android.systemui-accent-FKOA.frro
+      legacy overlay paths:
+        /product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk
+      gids=[3003]
+      runtime permissions:
+        android.permission.READ_SMS: granted=true, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED|RESTRICTION_INSTALLER_EXEMPT]
+        android.permission.POST_NOTIFICATIONS: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]
+        android.permission.RECEIVE_SMS: granted=true, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED|RESTRICTION_INSTALLER_EXEMPT]
+        android.permission.CAMERA: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]
+        android.permission.READ_CONTACTS: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]
+      enabledComponents:
+        androidx.work.impl.background.systemjob.SystemJobService
+
+Queries:
+  system apps queryable: false
+  queries via forceQueryable:
+  queries via package name:
+  queries via component:
+    com.syz.mprint:
+      app.cool.mobile.staging
+    com.whatsapp.w4b:
+      app.cool.mobile.staging
+    com.facebook.katana:
+      app.cool.mobile.staging
+    com.instagram.android:
+      app.cool.mobile.staging
+    com.google.android.settings.intelligence:
+      app.cool.mobile.staging
+    com.google.android.as:
+      app.cool.mobile.staging
+    com.google.android.apps.messaging:
+      app.cool.mobile.staging
+    com.google.android.apps.diagnosticstool:
+      app.cool.mobile.staging
+    com.whatsapp:
+      app.cool.mobile.staging
+    com.digicel.selfcare.mobile:
+      app.cool.mobile.staging
+    com.fcbMobileBanking:
+      app.cool.mobile.staging
+    com.peacock.flashlight:
+      app.cool.mobile.staging
+    com.united.mobile.android:
+      app.cool.mobile.staging
+    com.camerasideas.instashot:
+      app.cool.mobile.staging
+    com.ml.mobile.mymerrill:
+      app.cool.mobile.staging
+    me.lyft.android:
+      app.cool.mobile.staging
+    com.xe.currency:
+      app.cool.mobile.staging
+    translate.speech.text.translation.voicetranslator:
+      app.cool.mobile.staging
+    app.cool.mobile.staging:
+      com.google.android.apps.translate
+      com.google.android.setupwizard
+      com.google.android.dialer
+      com.google.android.googlequicksearchbox
+      com.android.chrome
+      com.google.android.calendar
+      com.google.android.contacts
+      com.google.android.apps.docs
+      com.ml.mobile.mymerrill
+      com.touchtype.swiftkey
+      translate.speech.text.translation.voicetranslator
+      com.openai.chatgpt
+  queryable via interaction:
+    User 0:
+      [android,com.android.localtransport,com.android.inputdevices,com.android.keychain,com.android.server.telecom,com.android.wallpaperbackup,com.android.settings,com.google.SSRestartDetector,com.android.location.fused,com.android.dynsystem,com.android.providers.settings]:
+        app.cool.mobile.staging
+      [com.google.android.gsf,com.google.android.gms]:
+        app.cool.mobile.staging
+      com.android.vending:
+        app.cool.mobile.staging
+      com.google.android.inputmethod.latin:
+        app.cool.mobile.staging
+      app.cool.mobile.staging:
+        [android,com.android.localtransport,com.android.inputdevices,com.android.keychain,com.android.server.telecom,com.android.wallpaperbackup,com.android.settings,com.google.SSRestartDetector,com.android.location.fused,com.android.dynsystem,com.android.providers.settings]
+  queryable via uses-library:
+
+Dexopt state:
+  [app.cool.mobile.staging]
+    path: /data/app/~~yO_h46bjiTfu3muL7LMnIw==/app.cool.mobile.staging--6mZJKeMODwl2rmubniQMw==/base.apk
+      arm64: [status=run-from-apk] [reason=unknown]
+  BgDexopt state:
+    enabled:true
+    mDexOptThread:null
+    mDexOptCancellingThread:null
+    mFinishedPostBootUpdate:true
+    mLastExecutionStatus:0
+    mLastExecutionStartTimeMs:604982574
+    mLastExecutionDurationIncludingSleepMs:121181
+    mLastExecutionStartUptimeMs:429518179
+    mLastExecutionDurationMs:121182
+    now:614404103
+    mLastCancelledPackages:
+    mFailedPackageNamesPrimary:
+    mFailedPackageNamesSecondary:
+
+Compiler stats:
+  [app.cool.mobile.staging]
+     base.apk - 2349
