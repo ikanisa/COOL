@@ -1,4 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../../core/utils/supabase_query_helpers.dart' as sq;
 import '../models/nexus_recommendation.dart';
 
 /// Data access for the `ai_content` table.
@@ -27,8 +29,13 @@ class NexusRepository {
       query = query.or('country.is.null,country.eq.$country');
     }
 
-    final rows = await query.order('sort_order', ascending: false);
-    return rows.map((r) => NexusRecommendation.fromJson(r)).toList();
+    final rows = sq.asListOfMaps(
+      await sq.guarded(
+        () => query.order('sort_order', ascending: false),
+        label: 'nexusRecommendations',
+      ),
+    );
+    return rows.map(NexusRecommendation.fromJson).toList(growable: false);
   }
 
   // ── Admin ─────────────────────────────────────────────────
@@ -43,8 +50,13 @@ class NexusRepository {
       query = query.eq('status', statusFilter.dbValue);
     }
 
-    final rows = await query.order('created_at', ascending: false);
-    return rows.map((r) => NexusRecommendation.fromJson(r)).toList();
+    final rows = sq.asListOfMaps(
+      await sq.guarded(
+        () => query.order('created_at', ascending: false),
+        label: 'nexusAllContent',
+      ),
+    );
+    return rows.map(NexusRecommendation.fromJson).toList(growable: false);
   }
 
   /// Create or update a content item.
@@ -54,43 +66,61 @@ class NexusRepository {
 
     if (item.id.isEmpty) {
       json.remove('id');
-      await _client.from(_table).insert(json);
+      await sq.guarded(
+        () => _client.from(_table).insert(json),
+        label: 'nexusInsert',
+      );
     } else {
-      await _client.from(_table).update(json).eq('id', item.id);
+      await sq.guarded(
+        () => _client.from(_table).update(json).eq('id', item.id),
+        label: 'nexusUpdate',
+      );
     }
   }
 
   /// Set status to `approved`.
   Future<void> approve(String id) async {
-    await _client
-        .from(_table)
-        .update({
-          'status': AiContentStatus.approved.dbValue,
-          'reviewed_by': _client.auth.currentUser?.id,
-          'reviewed_at': DateTime.now().toUtc().toIso8601String(),
-        })
-        .eq('id', id);
+    await sq.guarded(
+      () => _client
+          .from(_table)
+          .update({
+            'status': AiContentStatus.approved.dbValue,
+            'reviewed_by': _client.auth.currentUser?.id,
+            'reviewed_at': DateTime.now().toUtc().toIso8601String(),
+          })
+          .eq('id', id),
+      label: 'nexusApprove',
+    );
   }
 
   /// Set status to `rejected`.
   Future<void> reject(String id) async {
-    await _client
-        .from(_table)
-        .update({
-          'status': AiContentStatus.rejected.dbValue,
-          'reviewed_by': _client.auth.currentUser?.id,
-          'reviewed_at': DateTime.now().toUtc().toIso8601String(),
-        })
-        .eq('id', id);
+    await sq.guarded(
+      () => _client
+          .from(_table)
+          .update({
+            'status': AiContentStatus.rejected.dbValue,
+            'reviewed_by': _client.auth.currentUser?.id,
+            'reviewed_at': DateTime.now().toUtc().toIso8601String(),
+          })
+          .eq('id', id),
+      label: 'nexusReject',
+    );
   }
 
   /// Toggle `is_active` flag on approved content.
   Future<void> toggleActive(String id, {required bool isActive}) async {
-    await _client.from(_table).update({'is_active': isActive}).eq('id', id);
+    await sq.guarded(
+      () => _client.from(_table).update({'is_active': isActive}).eq('id', id),
+      label: 'nexusToggleActive',
+    );
   }
 
   /// Delete a content item.
   Future<void> delete(String id) async {
-    await _client.from(_table).delete().eq('id', id);
+    await sq.guarded(
+      () => _client.from(_table).delete().eq('id', id),
+      label: 'nexusDelete',
+    );
   }
 }

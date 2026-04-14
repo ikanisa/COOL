@@ -9,8 +9,10 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { DetailSheet, DetailSection, DetailRow } from "@/components/ui/detail-sheet";
 import { supabase } from "@/lib/supabase";
 import { useAsyncData } from "@/lib/hooks";
+import { toast } from "sonner";
 
 interface MemberRow {
   id: string;
@@ -29,6 +31,7 @@ const PAGE_SIZE = 20;
 export function MembersList() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
+  const [selectedMember, setSelectedMember] = useState<MemberRow | null>(null);
 
   const { data, loading, error, refetch } = useAsyncData(async () => {
     const { data: rows, error: queryError, count } = await supabase
@@ -97,7 +100,7 @@ export function MembersList() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
             <Input className="pl-9" placeholder="Search by name, group, or phone..." value={search} onChange={(e) => setSearch(e.target.value)} />
           </div>
-          <Button variant="outline" size="icon"><Filter className="h-4 w-4" /></Button>
+          <Button variant="outline" size="icon" onClick={() => toast.info("Advanced filters coming soon.")}><Filter className="h-4 w-4" /></Button>
         </div>
 
         <Table>
@@ -136,8 +139,8 @@ export function MembersList() {
                     <DropdownMenuContent align="end" className="w-44">
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem><Eye className="mr-2 h-4 w-4" /> View Details</DropdownMenuItem>
-                      <DropdownMenuItem><UsersIcon className="mr-2 h-4 w-4" /> View Group</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setSelectedMember(m)}><Eye className="mr-2 h-4 w-4" /> View Details</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => toast.info("View Group coming soon.")}><UsersIcon className="mr-2 h-4 w-4" /> View Group</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
@@ -154,6 +157,34 @@ export function MembersList() {
           </div>
         </div>
       </Card>
+      {/* Detail Sheet */}
+      <DetailSheet
+        open={!!selectedMember}
+        onClose={() => setSelectedMember(null)}
+        title={selectedMember?.display_name || "Member Details"}
+        subtitle={selectedMember?.user_phone}
+      >
+        {selectedMember && (
+          <>
+            <DetailSection title="Profile">
+              <DetailRow label="Name" value={selectedMember.display_name || "(Unnamed)"} />
+              <DetailRow label="Phone" value={selectedMember.user_phone} mono />
+              <DetailRow label="Role" value={
+                selectedMember.is_admin
+                  ? <Badge variant="default" className="bg-indigo-100 text-indigo-800">Group Admin</Badge>
+                  : <Badge variant="outline">Member</Badge>
+              } />
+            </DetailSection>
+            <DetailSection title="Group & Contribution">
+              <DetailRow label="Group" value={selectedMember.group_name} />
+              <DetailRow label="Contribution" value={`${(selectedMember.contribution_amount ?? 0).toLocaleString()} RWF`} />
+              <DetailRow label="Joined" value={new Date(selectedMember.joined_at).toLocaleString()} />
+              <DetailRow label="Member ID" value={selectedMember.id} mono />
+              <DetailRow label="User ID" value={selectedMember.user_id} mono />
+            </DetailSection>
+          </>
+        )}
+      </DetailSheet>
     </div>
   );
 }

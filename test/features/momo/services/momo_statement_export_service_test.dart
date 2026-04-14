@@ -49,6 +49,7 @@ void main() {
         MomoWalletEntry(
           id: 'wallet-1',
           entryType: 'credit',
+          ledgerScope: 'wallet',
           ledgerStatus: 'posted',
           amount: 250000,
           currency: 'RWF',
@@ -79,6 +80,7 @@ void main() {
         MomoWalletEntry(
           id: 'wallet-2',
           entryType: 'debit',
+          ledgerScope: 'wallet',
           ledgerStatus: 'posted',
           amount: 42000,
           currency: 'RWF',

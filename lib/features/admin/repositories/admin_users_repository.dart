@@ -13,24 +13,31 @@ class AdminUsersRepository with AdminRepositoryHelpers {
   SupabaseClient get client => _client;
 
   Future<List<Map<String, dynamic>>> fetchUsers() async {
-    final data = await _client
-        .from('users')
-        .select(
-          'id, public_user_id, full_name, phone, country, language_code, '
-          'momo_provider, momo_number, is_admin, '
-          'created_at, is_mock, mock_batch',
-        )
-        .order('is_mock', ascending: false)
-        .order('created_at', ascending: false);
+    final data = await guarded(
+      () => _client
+          .from('users')
+          .select(
+            'id, public_user_id, full_name, phone, country, language_code, '
+            'momo_provider, momo_number, is_admin, '
+            'created_at, is_mock, mock_batch',
+          )
+          .order('is_mock', ascending: false)
+          .order('created_at', ascending: false),
+      label: 'adminUsers',
+    );
     return asListOfMaps(
       data,
     ).map(normalizeAdminUserRowForAppMarket).toList(growable: false);
   }
 
   Future<Map<String, dynamic>> purgeMockBatch(String batch) async {
-    final data = await _client.rpc(
-      'purge_mock_batch',
-      params: <String, dynamic>{'p_mock_batch': batch},
+    final data = await guarded(
+      () => _client.rpc(
+        'purge_mock_batch',
+        params: <String, dynamic>{'p_mock_batch': batch},
+      ),
+      timeout: rpcTimeout,
+      label: 'adminPurgeMockBatch',
     );
     if (data is Map<String, dynamic>) {
       return data;
@@ -55,6 +62,9 @@ class AdminUsersRepository with AdminRepositoryHelpers {
       ..remove('id')
       ..remove('created_at');
     if (safeFields.isEmpty) return;
-    await _client.from('users').update(safeFields).eq('id', userId);
+    await guarded(
+      () => _client.from('users').update(safeFields).eq('id', userId),
+      label: 'adminUpdateUser',
+    );
   }
 }

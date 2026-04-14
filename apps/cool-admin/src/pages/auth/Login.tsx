@@ -6,6 +6,7 @@ export function Login() {
   return (
     <div className="bg-surface-low/60 backdrop-blur-[40px] rounded-[3rem] p-10 shadow-[0_20px_80px_-10px_rgba(13,10,39,0.8),inset_1px_1px_2px_rgba(255,255,255,0.05),inset_-1px_-1px_2px_rgba(0,0,0,0.4)] relative">
       <div className="text-center mb-10">
+        <img src="/logo.png" alt="COOL" className="h-16 w-16 mx-auto mb-6 rounded-2xl" />
         <h2 className="text-3xl font-display font-bold text-white tracking-tighter mb-3">Welcome back</h2>
         <p className="text-primary/70 text-base font-sans">Sign in to access the platform</p>
       </div>

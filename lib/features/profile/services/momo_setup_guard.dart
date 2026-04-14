@@ -8,13 +8,16 @@ import '../../auth/providers/auth_provider.dart';
 
 enum MomoSetupIntent {
   contribute,
-  createGroup;
+  createGroup,
+  joinGroup;
 
   String get missingProfileMessage => switch (this) {
     MomoSetupIntent.contribute =>
       'Set up your default MoMo in Settings before contributing.',
     MomoSetupIntent.createGroup =>
       'Set up your default MoMo in Settings before creating a group.',
+    MomoSetupIntent.joinGroup =>
+      'Add your MoMo number to your profile before joining a group.',
   };
 }
 

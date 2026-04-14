@@ -91,8 +91,13 @@ abstract final class AppRoutes {
     return '/invite/${code.trim().toUpperCase()}';
   }
 
-  static String groupDetailLocation(String groupId) {
-    return '/groups/$groupId';
+  static String groupDetailLocation(String groupId, {String? inviteCode}) {
+    return _location(
+      '/groups/$groupId',
+      queryParameters: inviteCode == null || inviteCode.trim().isEmpty
+          ? null
+          : <String, String>{'invite_code': inviteCode.trim().toUpperCase()},
+    );
   }
 
   static String groupStatementsLocation(String groupId) {

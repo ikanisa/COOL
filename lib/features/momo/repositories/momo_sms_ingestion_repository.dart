@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/utils/supabase_query_helpers.dart' as sq;
+
 class MomoSmsCapture {
   const MomoSmsCapture({
     required this.sender,
@@ -247,15 +249,19 @@ class MomoSmsIngestionRepository {
 
     final dynamic response;
     try {
-      response = await _client.functions.invoke(
-        'sms-ingest',
-        body: <String, dynamic>{
-          'sender': capture.sender,
-          'smsBody': capture.body,
-          'smsReceivedAt': capture.receivedAt.toIso8601String(),
-          'deviceMessageKey': capture.deviceMessageKey,
-          'ingestionSource': capture.ingestionSource,
-        },
+      response = await sq.guarded(
+        () => _client.functions.invoke(
+          'sms-ingest',
+          body: <String, dynamic>{
+            'sender': capture.sender,
+            'smsBody': capture.body,
+            'smsReceivedAt': capture.receivedAt.toIso8601String(),
+            'deviceMessageKey': capture.deviceMessageKey,
+            'ingestionSource': capture.ingestionSource,
+          },
+        ),
+        timeout: sq.kSupabaseRpcTimeout,
+        label: 'momoSmsIngest',
       );
     } on FunctionException catch (error) {
       if (_isRateLimitError(error)) {

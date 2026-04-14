@@ -32,7 +32,7 @@ export function Reconciliation() {
     const { data, error } = await supabase.rpc("get_financial_reconciliation_summary");
     if (error) throw new Error(error.message);
     return data as ReconciliationRow[];
-  });
+  }, [], { refreshIntervalMs: 15000 });
 
   if (loading) {
     return <div className="flex h-96 items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-indigo-600" /></div>;

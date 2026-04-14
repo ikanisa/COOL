@@ -175,11 +175,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.groupDetail,
         pageBuilder: (context, state) {
           final groupId = state.pathParameters['id']?.trim() ?? '';
+          final inviteCode = state.uri.queryParameters['invite_code']?.trim();
           return coolPageTransition(
             context: context,
             state: state,
             child: SecureScreenWrapper(
-              child: GroupDetailScreen(groupId: groupId),
+              child: GroupDetailScreen(
+                groupId: groupId,
+                inviteCode: inviteCode,
+              ),
             ),
           );
         },

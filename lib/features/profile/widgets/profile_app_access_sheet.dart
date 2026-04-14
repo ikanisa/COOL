@@ -10,6 +10,7 @@ import '../../../core/services/fcm_service.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../core/services/app_access_service.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import 'profile_settings_widgets.dart';
 import '../../../core/l10n/l10n.dart';
@@ -220,33 +221,30 @@ class _ProfileAppAccessPanelState extends ConsumerState<ProfileAppAccessPanel>
   }
 
   Widget _buildAccessList(NotificationSettingsState notificationSettings) {
-    return Column(
+    final colors = context.coolSemanticColors;
+    if (_isLoading) {
+      return CoolCard(
+        backgroundColor: colors.cardSurfaceStrong,
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+        child: const CoolSkeletonList(itemCount: 5),
+      );
+    }
+
+    return _AccessGroupCard(
       children: [
         _NotificationAccessCard(
           settings: notificationSettings,
           onChanged: _toggleNotifications,
           onOpenSettings: _openNotificationSettings,
         ),
-        const SizedBox(height: CoolSpace.x3),
-        if (_isLoading)
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 48),
-            child: CoolSkeletonList(itemCount: 3),
-          )
-        else
-          for (final permission in _permissions) ...[
-            _PermissionAccessCard(
-              metadata: _metadataFor(context, permission),
-              snapshot: _snapshots[permission]!,
-              isBusy: _busy.contains(permission),
-              onChanged: (enabled) => _togglePermission(permission, enabled),
-              onOpenSettings: () => _openSettings(permission),
-            ),
-            if (permission != _permissions.last)
-              const SizedBox(height: CoolSpace.x3),
-          ],
-        const SizedBox(height: CoolSpace.x3),
-        const _SmsPolicyNotice(),
+        for (final permission in _permissions)
+          _PermissionAccessCard(
+            metadata: _metadataFor(context, permission),
+            snapshot: _snapshots[permission]!,
+            isBusy: _busy.contains(permission),
+            onChanged: (enabled) => _togglePermission(permission, enabled),
+            onOpenSettings: () => _openSettings(permission),
+          ),
       ],
     );
   }
@@ -268,7 +266,7 @@ class _ProfileAppAccessPanelState extends ConsumerState<ProfileAppAccessPanel>
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _SummaryBanner(readyCount: readyCount, totalCount: totalCount),
+          _SummaryCaption(readyCount: readyCount, totalCount: totalCount),
           const SizedBox(height: CoolSpace.x4),
           listContent,
         ],
@@ -297,17 +295,8 @@ class _ProfileAppAccessPanelState extends ConsumerState<ProfileAppAccessPanel>
             fontWeight: FontWeight.w800,
           ),
         ),
-        const SizedBox(height: CoolSpace.x2),
-        Text(
-          context.l10n.profileAppAccessToggleFeatureAccess,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: context.coolSemanticColors.secondaryText,
-            fontWeight: FontWeight.w500,
-            height: 1.45,
-          ),
-        ),
-        const SizedBox(height: 14),
-        _SummaryBanner(readyCount: readyCount, totalCount: totalCount),
+        const SizedBox(height: CoolSpace.x1),
+        _SummaryCaption(readyCount: readyCount, totalCount: totalCount),
         const SizedBox(height: CoolSpace.x4),
         Flexible(child: SingleChildScrollView(child: listContent)),
       ],

@@ -41,9 +41,11 @@
 -dontwarn okio.**
 -keep class okhttp3.** { *; }
 
-# ── Hive (local storage — uses reflection for adapters) ──────
--keep class ** implements com.google.gson.TypeAdapterFactory { *; }
--keep class * extends com.google.gson.TypeAdapter { *; }
+# ── Hive (hive_flutter local storage — reflection is not used, but ─────
+#    keeping the entire io.hive package prevents R8 from stripping
+#    native initializers required by hive_flutter).
+-keep class com.crazecoder.flutter_hive.** { *; }
+-dontwarn com.crazecoder.flutter_hive.**
 
 # ── NFC (flutter_nfc_kit native bridge) ──────────────────────
 -keep class im.nfc.flutter_nfc_kit.** { *; }

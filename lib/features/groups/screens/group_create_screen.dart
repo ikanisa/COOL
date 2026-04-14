@@ -15,6 +15,7 @@ import '../../../shared/widgets/cool_toast.dart';
 import '../../../core/utils/user_error.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../auth/widgets/require_verified_user.dart';
+import '../../profile/services/momo_setup_guard.dart';
 import '../providers/groups_provider.dart';
 import '../widgets/group_form_widgets.dart';
 
@@ -94,6 +95,17 @@ class _GroupCreateScreenState extends ConsumerState<GroupCreateScreen> {
       context,
       ref,
       feature: WhatsAppProtectedFeature.groupCreate,
+    )) {
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+
+    if (!await ensureMomoSetupForAction(
+      context,
+      ref,
+      intent: MomoSetupIntent.createGroup,
     )) {
       return;
     }

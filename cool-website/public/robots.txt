@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cool.ikanisa.com/sitemap.xml

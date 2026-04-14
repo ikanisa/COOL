@@ -7,13 +7,18 @@ interface UseAsyncDataResult<T> {
   refetch: () => Promise<void>;
 }
 
+interface UseAsyncDataOptions {
+  refreshIntervalMs?: number;
+}
+
 /**
  * Generic hook for async data fetching with loading/error/refetch states.
  * Avoids duplicating the same pattern on every page.
  */
 export function useAsyncData<T>(
   fetcher: () => Promise<T>,
-  deps: unknown[] = []
+  deps: unknown[] = [],
+  options: UseAsyncDataOptions = {}
 ): UseAsyncDataResult<T> {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
@@ -36,6 +41,18 @@ export function useAsyncData<T>(
   useEffect(() => {
     fetch();
   }, [fetch]);
+
+  useEffect(() => {
+    if (!options.refreshIntervalMs || options.refreshIntervalMs <= 0) {
+      return;
+    }
+
+    const handle = window.setInterval(() => {
+      void fetch();
+    }, options.refreshIntervalMs);
+
+    return () => window.clearInterval(handle);
+  }, [fetch, options.refreshIntervalMs]);
 
   return { data, loading, error, refetch: fetch };
 }

@@ -5,7 +5,8 @@ class GroupJoinResult {
   final String? groupId;
   final String? message;
 
-  bool get isJoined => status == 'joined' || status == 'already_member';
+  bool get isJoined =>
+      status == 'joined' || status == 'success' || status == 'already_member';
   bool get isAlreadyMember => status == 'already_member';
 
   factory GroupJoinResult.fromJson(Map<String, dynamic> json) {

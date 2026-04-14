@@ -7,7 +7,8 @@ import 'package:cool_app/core/services/performance_service.dart';
 import 'package:cool_app/core/theme/app_theme.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
-import 'package:cool_app/features/auth/providers/auth_provider.dart' as app_auth;
+import 'package:cool_app/features/auth/providers/auth_provider.dart'
+    as app_auth;
 import 'package:cool_app/features/groups/models/group.dart';
 import 'package:cool_app/features/groups/models/group_invite_preview.dart';
 import 'package:cool_app/features/groups/models/group_join_result.dart';
@@ -112,7 +113,9 @@ GoRouter _buildRouter(Widget child, {String path = '/'}) {
           GoRoute(path: 'groups', builder: (context, state) => child),
           GoRoute(
             path: 'groups/:groupId',
-            builder: (context, state) => const SizedBox.shrink(),
+            builder: (context, state) => Text(
+              'group-detail:${state.pathParameters['groupId']}:${state.uri.queryParameters['invite_code'] ?? ''}',
+            ),
           ),
         ],
       ),
@@ -205,7 +208,9 @@ void main() {
     expect(repository.createCalls.single['recipientValue'], '0788123456');
   });
 
-  testWidgets('verified user joins a group via invite banner', (tester) async {
+  testWidgets('invite banner opens a private-group preview route', (
+    tester,
+  ) async {
     _configureTallViewport(tester);
     final repository = _FakeGroupRepository();
 
@@ -221,20 +226,18 @@ void main() {
         myGroupsProvider.overrideWith((ref) async => const <Group>[]),
         myGroupIdsProvider.overrideWith((ref) => <String>{}),
         groupInvitePreviewProvider('JOIN1234').overrideWith(
-          (ref) async => const GroupInvitePreview(
-            group: _inviteGroup,
-            isMember: false,
-          ),
+          (ref) async =>
+              const GroupInvitePreview(group: _inviteGroup, isMember: false),
         ),
       ],
     );
 
     expect(find.text('Invite Circle'), findsOneWidget);
 
-    await tester.tap(find.text('JOIN NOW'));
+    await tester.tap(find.text('OPEN'));
     await tester.pumpAndSettle();
 
-    expect(repository.joinInviteCodes, <String>['JOIN1234']);
+    expect(find.text('group-detail:group-invite-1:JOIN1234'), findsOneWidget);
   });
 }
 
@@ -255,7 +258,7 @@ const Group _inviteGroup = Group(
   creatorId: 'user-2',
   name: 'Invite Circle',
   type: 'community',
-  visibility: 'public',
+  visibility: 'private',
   amount: 0,
   targetAmount: 0,
   country: 'RW',

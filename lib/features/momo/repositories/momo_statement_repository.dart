@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/utils/supabase_query_helpers.dart' as sq;
 import '../models/momo_statement.dart';
 
 class MomoStatementRepository {
@@ -115,9 +116,11 @@ class MomoStatementRepository {
     var request = _client
         .from('momo_ledger_entries')
         .select(
-          'id, entry_type, ledger_status, amount, currency, tx_datetime, '
+          'id, entry_type, ledger_scope, ledger_status, amount, currency, '
+          'tx_datetime, '
           'external_reference, tx_category, cashflow_bucket, '
-          'counterparty_name, statement_label, description, created_at, '
+          'counterparty_name, statement_label, target_table, description, '
+          'created_at, '
           'momo_sms_parsed(momo_tx_id, payer_name, payer_number_full, payer_number_last3)',
         )
         .eq('user_id', userId);
@@ -131,11 +134,14 @@ class MomoStatementRepository {
       request = request.lt('tx_datetime', endBefore.toIso8601String());
     }
 
-    return _asListOfMaps(
-      await request
-          .order('tx_datetime', ascending: false)
-          .order('created_at', ascending: false)
-          .range(query.offset, query.offset + query.limit - 1),
+    return sq.asListOfMaps(
+      await sq.guarded(
+        () => request
+            .order('tx_datetime', ascending: false)
+            .order('created_at', ascending: false)
+            .range(query.offset, query.offset + query.limit - 1),
+        label: 'walletStatement',
+      ),
     );
   }
 
@@ -150,14 +156,18 @@ class MomoStatementRepository {
       return const <Map<String, dynamic>>[];
     }
 
-    return _asListOfMaps(
-      await _client.rpc(
-        rpcName,
-        params: <String, dynamic>{
-          ownerKey: ownerId,
-          ..._statementRpcParams(query),
-          'p_payer_user_id': _trimToNull(payerUserId),
-        },
+    return sq.asListOfMaps(
+      await sq.guarded(
+        () => _client.rpc(
+          rpcName,
+          params: <String, dynamic>{
+            ownerKey: ownerId,
+            ..._statementRpcParams(query),
+            'p_payer_user_id': sq.trimToNull(payerUserId),
+          },
+        ),
+        timeout: sq.kSupabaseRpcTimeout,
+        label: rpcName,
       ),
     );
   }
@@ -172,21 +182,8 @@ Map<String, dynamic> _statementRpcParams(MomoStatementQuery query) {
   };
 }
 
-String? _trimToNull(String? value) {
-  final trimmed = value?.trim() ?? '';
-  return trimmed.isEmpty ? null : trimmed;
-}
-
-List<Map<String, dynamic>> _asListOfMaps(dynamic value) {
-  if (value is! List) {
-    return const <Map<String, dynamic>>[];
-  }
-
-  return value
-      .whereType<Map<dynamic, dynamic>>()
-      .map((row) => Map<String, dynamic>.from(row))
-      .toList(growable: false);
-}
+// Local _asListOfMaps and _trimToNull removed — now using shared `sq.*`
+// functions from core/utils/supabase_query_helpers.dart
 
 int _extractTotalCount(
   List<Map<String, dynamic>> rows, {

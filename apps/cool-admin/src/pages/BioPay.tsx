@@ -9,6 +9,7 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { supabase } from "@/lib/supabase";
 import { useAsyncData } from "@/lib/hooks";
+import { toast } from "sonner";
 
 interface BioPaySummary {
   total_profiles: number;
@@ -108,9 +109,14 @@ export function BioPay() {
           <div className="flex items-center gap-3 w-full sm:w-auto">
             <div className="relative w-full sm:w-80">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
-              <Input className="pl-9" placeholder="Search recent enrollments..." />
+              <Input className="pl-9" placeholder="Search recent enrollments..." onChange={(e) => {
+                // Local filter — future: wire to server
+                const val = e.target.value.toLowerCase();
+                // Placeholder: toast if searching with content
+                if (val.length > 2) toast.info("Server-side search coming soon. Showing cached results.");
+              }} />
             </div>
-            <Button variant="outline" size="icon"><Filter className="h-4 w-4" /></Button>
+            <Button variant="outline" size="icon" onClick={() => toast.info("Advanced filters coming soon.")}><Filter className="h-4 w-4" /></Button>
           </div>
         </div>
 
@@ -141,11 +147,11 @@ export function BioPay() {
                     <DropdownMenuContent align="end" className="w-48">
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem><Eye className="mr-2 h-4 w-4" /> View Profile</DropdownMenuItem>
-                      <DropdownMenuItem><Activity className="mr-2 h-4 w-4" /> Match History</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => toast.info("View Profile coming soon.")}><Eye className="mr-2 h-4 w-4" /> View Profile</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => toast.info("Match History coming soon.")}><Activity className="mr-2 h-4 w-4" /> Match History</DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className="text-amber-600"><RotateCcw className="mr-2 h-4 w-4" /> Reset Biometrics</DropdownMenuItem>
-                      <DropdownMenuItem className="text-rose-600"><Ban className="mr-2 h-4 w-4" /> Revoke Access</DropdownMenuItem>
+                      <DropdownMenuItem className="text-amber-600" onClick={() => toast.info("Reset Biometrics coming soon.")}><RotateCcw className="mr-2 h-4 w-4" /> Reset Biometrics</DropdownMenuItem>
+                      <DropdownMenuItem className="text-rose-600" onClick={() => toast.info("Revoke Access coming soon.")}><Ban className="mr-2 h-4 w-4" /> Revoke Access</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

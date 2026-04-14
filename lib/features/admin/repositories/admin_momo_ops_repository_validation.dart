@@ -111,26 +111,36 @@ extension _AdminMomoOpsValidation on AdminMomoOpsRepository {
 
   Future<List<Map<String, dynamic>>>
   _deriveMomoValidationIssuesLocally() async {
-    final countryData = await _client
-        .from('supported_country_momo_reference')
-        .select()
-        .order('sort_order', ascending: true)
-        .order('country_name', ascending: true);
+    final countryData = await guarded(
+      () => _client
+          .from('supported_country_momo_reference')
+          .select()
+          .order('sort_order', ascending: true)
+          .order('country_name', ascending: true),
+      label: 'adminLocalMomoCountryReference',
+    );
     final activeCountries = asListOfMaps(countryData)
         .where((row) => row['is_active'] == true)
         .map(CoolCountry.fromJson)
         .toList(growable: false);
 
     final users = asListOfMaps(
-      await _client.from('users').select('id, country, momo_number, momo_code'),
+      await guarded(
+        () =>
+            _client.from('users').select('id, country, momo_number, momo_code'),
+        label: 'adminLocalMomoUsers',
+      ),
     );
     final groups = asListOfMaps(
-      await _client
-          .from('groups')
-          .select(
-            'id, type, country, momo_number, receiving_momo_code, '
-            'receiving_momo_route_type',
-          ),
+      await guarded(
+        () => _client
+            .from('groups')
+            .select(
+              'id, type, country, momo_number, receiving_momo_code, '
+              'receiving_momo_route_type',
+            ),
+        label: 'adminLocalMomoGroups',
+      ),
     );
 
     final issues = <Map<String, dynamic>>[];

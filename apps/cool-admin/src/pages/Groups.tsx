@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Search, Filter, Plus, MoreHorizontal, Eye, Edit, Users as UsersIcon, Loader2, RefreshCw, AlertTriangle, FolderOpen } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,8 +9,10 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { DetailSheet, DetailSection, DetailRow } from "@/components/ui/detail-sheet";
 import { supabase } from "@/lib/supabase";
 import { useAsyncData } from "@/lib/hooks";
+import { toast } from "sonner";
 
 interface SavingsGroup {
   id: string;
@@ -39,15 +41,15 @@ interface GroupsData {
 }
 
 export function GroupsList() {
-  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState<"savings" | "community">("savings");
+  const [selectedGroup, setSelectedGroup] = useState<SavingsGroup | null>(null);
 
   const { data, loading, error, refetch } = useAsyncData(async () => {
     const { data, error } = await supabase.rpc("admin_get_savings_groups_detail");
     if (error) throw new Error(error.message);
     return data as GroupsData;
-  });
+  }, [], { refreshIntervalMs: 15000 });
 
   if (loading) {
     return (
@@ -101,7 +103,7 @@ export function GroupsList() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
               <Input placeholder="Search groups..." className="pl-9" value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
-            <Button variant="outline" size="icon"><Filter className="h-4 w-4" /></Button>
+            <Button variant="outline" size="icon" onClick={() => toast.info("Advanced filters coming soon.")}><Filter className="h-4 w-4" /></Button>
           </div>
           <div className="flex items-center gap-2">
             <Badge
@@ -161,9 +163,9 @@ export function GroupsList() {
                     <DropdownMenuContent align="end" className="w-48">
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => navigate(`/groups/create?groupId=${g.id}`)}><Eye className="mr-2 h-4 w-4" /> View Details</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => navigate(`/groups/create?groupId=${g.id}`)}><Edit className="mr-2 h-4 w-4" /> Edit Group</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => navigate(`/members/create?groupId=${g.id}`)}><UsersIcon className="mr-2 h-4 w-4" /> Manage Members</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setSelectedGroup(g)}><Eye className="mr-2 h-4 w-4" /> View Details</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => toast.info("Edit Group coming soon.")}><Edit className="mr-2 h-4 w-4" /> Edit Group</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => toast.info("Manage Members coming soon.")}><UsersIcon className="mr-2 h-4 w-4" /> Manage Members</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
@@ -178,12 +180,41 @@ export function GroupsList() {
                 <TableCell><div className="flex items-center gap-1"><UsersIcon className="h-3.5 w-3.5 text-zinc-400" />{g.member_count}</div></TableCell>
                 <TableCell><Badge variant="success">Active</Badge></TableCell>
                 <TableCell className="text-sm text-zinc-500">{new Date(g.created_at).toLocaleDateString()}</TableCell>
-                <TableCell className="text-right"><Button variant="ghost" size="icon" onClick={() => navigate(`/members/create?groupId=${g.id}`)}><Eye className="h-4 w-4 text-zinc-400" /></Button></TableCell>
+                <TableCell className="text-right"><Button variant="ghost" size="icon"><Eye className="h-4 w-4 text-zinc-400" /></Button></TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </Card>
+      {/* Detail Sheet */}
+      <DetailSheet
+        open={!!selectedGroup}
+        onClose={() => setSelectedGroup(null)}
+        title={selectedGroup?.name || "Group Details"}
+        subtitle={selectedGroup?.description || undefined}
+      >
+        {selectedGroup && (
+          <>
+            <DetailSection title="Savings">
+              <DetailRow label="Target Amount" value={`${(selectedGroup.target_amount ?? 0).toLocaleString()} RWF`} />
+              <DetailRow label="Monthly Contribution" value={`${(selectedGroup.monthly_contribution ?? 0).toLocaleString()} RWF`} />
+              <DetailRow label="Total Collected" value={`${(selectedGroup.total_collected ?? 0).toLocaleString()} RWF`} />
+              <DetailRow label="Frequency" value={selectedGroup.frequency} />
+            </DetailSection>
+            <DetailSection title="Members & Status">
+              <DetailRow label="Member Count" value={selectedGroup.member_count} />
+              <DetailRow label="Invite Code" value={selectedGroup.invite_code} mono />
+              <DetailRow label="Status" value={
+                <Badge variant={selectedGroup.is_closed ? "danger" : selectedGroup.is_active ? "success" : "warning"}>
+                  {selectedGroup.is_closed ? "Closed" : selectedGroup.is_active ? "Active" : "Inactive"}
+                </Badge>
+              } />
+              <DetailRow label="Group ID" value={selectedGroup.id} mono />
+              <DetailRow label="Created" value={new Date(selectedGroup.created_at).toLocaleString()} />
+            </DetailSection>
+          </>
+        )}
+      </DetailSheet>
     </div>
   );
 }

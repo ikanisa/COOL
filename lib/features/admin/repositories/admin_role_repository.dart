@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/utils/supabase_query_helpers.dart' as sq;
 import '../models/admin_workspace_access.dart';
 
 /// Repository for admin role management (assign, revoke, list).
@@ -20,9 +21,10 @@ class AdminRoleRepository {
       if (userId != null) {
         params['p_user_id'] = userId;
       }
-      final result = await _client.rpc(
-        'get_admin_access_for_user',
-        params: params,
+      final result = await sq.guarded(
+        () => _client.rpc('get_admin_access_for_user', params: params),
+        timeout: sq.kSupabaseRpcTimeout,
+        label: 'adminAccessForUser',
       );
       if (result is Map<String, dynamic>) {
         return AdminWorkspaceAccess.fromRpcResponse(result);
@@ -46,18 +48,22 @@ class AdminRoleRepository {
     String? bankId,
     String? notes,
   }) async {
-    final result = await _client.rpc(
-      'assign_admin_role',
-      params: {
-        'p_target_user_id': targetUserId,
-        'p_role': role.dbValue,
-        ...?(bankId == null
-            ? null
-            : <String, dynamic>{'p_partner_scope_id': bankId}),
-        ...?(notes == null ? null : <String, dynamic>{'p_notes': notes}),
-      },
+    final result = await sq.guarded(
+      () => _client.rpc(
+        'assign_admin_role',
+        params: {
+          'p_target_user_id': targetUserId,
+          'p_role': role.dbValue,
+          ...?(bankId == null
+              ? null
+              : <String, dynamic>{'p_partner_scope_id': bankId}),
+          ...?(notes == null ? null : <String, dynamic>{'p_notes': notes}),
+        },
+      ),
+      timeout: sq.kSupabaseRpcTimeout,
+      label: 'assignAdminRole',
     );
-    return result as Map<String, dynamic>;
+    return sq.asMap(result);
   }
 
   /// Revoke an admin role assignment (soft-delete).
@@ -65,14 +71,18 @@ class AdminRoleRepository {
     required String assignmentId,
     String? notes,
   }) async {
-    final result = await _client.rpc(
-      'revoke_admin_role',
-      params: {
-        'p_assignment_id': assignmentId,
-        ...?(notes == null ? null : <String, dynamic>{'p_notes': notes}),
-      },
+    final result = await sq.guarded(
+      () => _client.rpc(
+        'revoke_admin_role',
+        params: {
+          'p_assignment_id': assignmentId,
+          ...?(notes == null ? null : <String, dynamic>{'p_notes': notes}),
+        },
+      ),
+      timeout: sq.kSupabaseRpcTimeout,
+      label: 'revokeAdminRole',
     );
-    return result as Map<String, dynamic>;
+    return sq.asMap(result);
   }
 
   // ═══════════════════════════════════════════════════════════════
@@ -84,19 +94,20 @@ class AdminRoleRepository {
     AdminRole? role,
     bool activeOnly = true,
   }) async {
-    final result = await _client.rpc(
-      'list_admin_role_assignments',
-      params: {
-        if (role != null) 'p_role': role.dbValue,
-        'p_active_only': activeOnly,
-      },
+    final result = await sq.guarded(
+      () => _client.rpc(
+        'list_admin_role_assignments',
+        params: {
+          if (role != null) 'p_role': role.dbValue,
+          'p_active_only': activeOnly,
+        },
+      ),
+      timeout: sq.kSupabaseRpcTimeout,
+      label: 'listAdminRoleAssignments',
     );
-    if (result is List) {
-      return result
-          .cast<Map<String, dynamic>>()
-          .map(AdminRoleAssignment.fromJson)
-          .toList(growable: false);
-    }
-    return const [];
+    return sq
+        .asListOfMaps(result)
+        .map(AdminRoleAssignment.fromJson)
+        .toList(growable: false);
   }
 }

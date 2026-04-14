@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,7 +34,10 @@ class AdminSavingsDetailScreen extends ConsumerStatefulWidget {
 
 class _AdminSavingsDetailScreenState
     extends ConsumerState<AdminSavingsDetailScreen> {
+  static const _autoRefreshInterval = Duration(seconds: 15);
+
   _DetailTab _activeTab = _DetailTab.members;
+  Timer? _autoRefreshTimer;
 
   // ── Allocation form controllers ──
   String? _selectedMemberUserId;
@@ -46,7 +51,19 @@ class _AdminSavingsDetailScreenState
   bool _isAddingMember = false;
 
   @override
+  void initState() {
+    super.initState();
+    _autoRefreshTimer = Timer.periodic(_autoRefreshInterval, (_) {
+      if (!mounted) {
+        return;
+      }
+      ref.invalidate(adminSavingsGroupsDetailProvider);
+    });
+  }
+
+  @override
   void dispose() {
+    _autoRefreshTimer?.cancel();
     _allocationAmountController.dispose();
     _allocationNoteController.dispose();
     _addMemberPhoneController.dispose();
@@ -73,9 +90,7 @@ class _AdminSavingsDetailScreenState
         error: (error, _) => Center(
           child: Text(
             'Error: $error',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: colors.danger,
-            ),
+            style: theme.textTheme.bodyMedium?.copyWith(color: colors.danger),
           ),
         ),
         data: (data) {
@@ -143,7 +158,9 @@ class _AdminSavingsDetailScreenState
                       borderRadius: BorderRadius.circular(CoolRadii.pill),
                     ),
                     child: Text(
-                      isClosed ? context.l10n.adminSavingsClosedStatus : context.l10n.adminSavingsActiveStatus,
+                      isClosed
+                          ? context.l10n.adminSavingsClosedStatus
+                          : context.l10n.adminSavingsActiveStatus,
                       style: context.coolText.mono(
                         theme.textTheme.labelSmall,
                         fontWeight: FontWeight.w800,
@@ -174,27 +191,29 @@ class _AdminSavingsDetailScreenState
                     icon: CoolIcons.flagFilled,
                   ),
                   _InfoChip(
-                    label: '${formatWholeMoneyAmount(monthlyContribution)} / mo',
+                    label:
+                        '${formatWholeMoneyAmount(monthlyContribution)} / mo',
                     icon: CoolIcons.calendar,
                   ),
                   _InfoChip(
-                    label: '${formatWholeMoneyAmount(totalCollected)} collected',
+                    label:
+                        '${formatWholeMoneyAmount(totalCollected)} collected',
                     icon: CoolIcons.wallet,
                   ),
                   _InfoChip(
                     label: frequency.replaceAll('_', ' '),
                     icon: CoolIcons.loop,
                   ),
-                    GestureDetector(
-                      onTap: () {
-                        Clipboard.setData(ClipboardData(text: inviteCode));
-                        CoolToast.success(context, 'Copied');
-                      },
-                      child: _InfoChip(
-                        label: inviteCode,
-                        icon: CoolIcons.qrCodeRounded,
-                      ),
+                  GestureDetector(
+                    onTap: () {
+                      Clipboard.setData(ClipboardData(text: inviteCode));
+                      CoolToast.success(context, 'Copied');
+                    },
+                    child: _InfoChip(
+                      label: inviteCode,
+                      icon: CoolIcons.qrCodeRounded,
                     ),
+                  ),
                 ],
               ),
               if (!isClosed) ...[
@@ -247,8 +266,9 @@ class _AdminSavingsDetailScreenState
                   ),
                   side: BorderSide.none,
                   shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(CoolRadii.pill)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(CoolRadii.pill),
+                    ),
                   ),
                   visualDensity: VisualDensity.compact,
                 ),
@@ -262,9 +282,13 @@ class _AdminSavingsDetailScreenState
         // ── Tab content ───────────────────────────────────
         switch (_activeTab) {
           _DetailTab.members => _buildMembers(
-              members, group['id']?.toString() ?? ''),
+            members,
+            group['id']?.toString() ?? '',
+          ),
           _DetailTab.allocations => _buildAllocations(
-              members, group['id']?.toString() ?? ''),
+            members,
+            group['id']?.toString() ?? '',
+          ),
         },
       ],
     );
@@ -274,10 +298,7 @@ class _AdminSavingsDetailScreenState
   // Members tab
   // ────────────────────────────────────────────────────────────────
 
-  Widget _buildMembers(
-    List<Map<String, dynamic>> members,
-    String groupId,
-  ) {
+  Widget _buildMembers(List<Map<String, dynamic>> members, String groupId) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
 
@@ -304,12 +325,17 @@ class _AdminSavingsDetailScreenState
                       ),
                       decoration: InputDecoration(
                         hintText: '+250788…',
-                        hintStyle: theme.textTheme.bodyMedium
-                            ?.copyWith(color: colors.tertiaryText),
-                        prefixIcon: Icon(CoolIcons.phone, size: 18,
-                            color: colors.tertiaryText),
+                        hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                          color: colors.tertiaryText,
+                        ),
+                        prefixIcon: Icon(
+                          CoolIcons.phone,
+                          size: 18,
+                          color: colors.tertiaryText,
+                        ),
                         prefixIconConstraints: const BoxConstraints(
-                            minWidth: 36),
+                          minWidth: 36,
+                        ),
                         filled: true,
                         fillColor: colors.chipBackground,
                         contentPadding: const EdgeInsets.symmetric(
@@ -334,12 +360,17 @@ class _AdminSavingsDetailScreenState
                       ),
                       decoration: InputDecoration(
                         hintText: 'Name',
-                        hintStyle: theme.textTheme.bodyMedium
-                            ?.copyWith(color: colors.tertiaryText),
-                        prefixIcon: Icon(CoolIcons.profile, size: 18,
-                            color: colors.tertiaryText),
+                        hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                          color: colors.tertiaryText,
+                        ),
+                        prefixIcon: Icon(
+                          CoolIcons.profile,
+                          size: 18,
+                          color: colors.tertiaryText,
+                        ),
                         prefixIconConstraints: const BoxConstraints(
-                            minWidth: 36),
+                          minWidth: 36,
+                        ),
                         filled: true,
                         fillColor: colors.chipBackground,
                         contentPadding: const EdgeInsets.symmetric(
@@ -364,7 +395,11 @@ class _AdminSavingsDetailScreenState
                       ? null
                       : () => _handleAddMemberByPhone(groupId),
                   icon: const Icon(CoolIcons.personAdd, size: 16),
-                  label: Text(_isAddingMember ? context.l10n.adminSavingsAddingMember : context.l10n.adminSavingsAddMember),
+                  label: Text(
+                    _isAddingMember
+                        ? context.l10n.adminSavingsAddingMember
+                        : context.l10n.adminSavingsAddMember,
+                  ),
                   style: FilledButton.styleFrom(
                     backgroundColor: colors.accent,
                     shape: RoundedRectangleBorder(
@@ -380,10 +415,7 @@ class _AdminSavingsDetailScreenState
 
         // ── Member list ──
         if (members.isEmpty)
-          const CoolEmptyView(
-            message: 'No members yet',
-            icon: CoolIcons.people,
-          )
+          const CoolEmptyView(message: 'No members yet', icon: CoolIcons.people)
         else
           for (final member in members) ...[
             CoolCard(
@@ -396,11 +428,7 @@ class _AdminSavingsDetailScreenState
                       color: colors.info.withValues(alpha: 0.12),
                       borderRadius: _chipRadius,
                     ),
-                    child: Icon(
-                      CoolIcons.person,
-                      size: 18,
-                      color: colors.info,
-                    ),
+                    child: Icon(CoolIcons.person, size: 18, color: colors.info),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -451,10 +479,7 @@ class _AdminSavingsDetailScreenState
   // Allocations tab
   // ────────────────────────────────────────────────────────────────
 
-  Widget _buildAllocations(
-    List<Map<String, dynamic>> members,
-    String groupId,
-  ) {
+  Widget _buildAllocations(List<Map<String, dynamic>> members, String groupId) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
 
@@ -468,7 +493,6 @@ class _AdminSavingsDetailScreenState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               // ── Member selector ──
               if (members.isEmpty)
                 const CoolEmptyView(
@@ -477,8 +501,10 @@ class _AdminSavingsDetailScreenState
                 )
               else
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 4,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: colors.chipBackground,
                     borderRadius: BorderRadius.circular(CoolRadii.sm),
@@ -487,12 +513,18 @@ class _AdminSavingsDetailScreenState
                     isExpanded: true,
                     underline: const SizedBox.shrink(),
                     value: _selectedMemberUserId,
-                    icon: Icon(CoolIcons.unfoldMore,
-                        size: 18, color: colors.tertiaryText),
+                    icon: Icon(
+                      CoolIcons.unfoldMore,
+                      size: 18,
+                      color: colors.tertiaryText,
+                    ),
                     hint: Row(
                       children: [
-                        Icon(CoolIcons.person, size: 18,
-                            color: colors.tertiaryText),
+                        Icon(
+                          CoolIcons.person,
+                          size: 18,
+                          color: colors.tertiaryText,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           context.l10n.adminSavingsSelectMember,
@@ -510,13 +542,9 @@ class _AdminSavingsDetailScreenState
                     items: members.map((m) {
                       final userId = m['user_id']?.toString() ?? '';
                       final name = m['display_name']?.toString() ?? 'Member';
-                      return DropdownMenuItem(
-                        value: userId,
-                        child: Text(name),
-                      );
+                      return DropdownMenuItem(value: userId, child: Text(name));
                     }).toList(),
-                    onChanged: (v) =>
-                        setState(() => _selectedMemberUserId = v),
+                    onChanged: (v) => setState(() => _selectedMemberUserId = v),
                   ),
                 ),
 
@@ -530,10 +558,14 @@ class _AdminSavingsDetailScreenState
                 ),
                 decoration: InputDecoration(
                   hintText: 'Amount',
-                  hintStyle: theme.textTheme.bodyMedium
-                      ?.copyWith(color: colors.tertiaryText),
-                  prefixIcon: Icon(CoolIcons.paymentsFilled, size: 18,
-                      color: colors.tertiaryText),
+                  hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                    color: colors.tertiaryText,
+                  ),
+                  prefixIcon: Icon(
+                    CoolIcons.paymentsFilled,
+                    size: 18,
+                    color: colors.tertiaryText,
+                  ),
                   prefixIconConstraints: const BoxConstraints(minWidth: 36),
                   suffixText: 'RWF',
                   suffixStyle: theme.textTheme.labelSmall?.copyWith(
@@ -562,10 +594,14 @@ class _AdminSavingsDetailScreenState
                 ),
                 decoration: InputDecoration(
                   hintText: 'Note',
-                  hintStyle: theme.textTheme.bodyMedium
-                      ?.copyWith(color: colors.tertiaryText),
-                  prefixIcon: Icon(CoolIcons.stickyNote, size: 18,
-                      color: colors.tertiaryText),
+                  hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                    color: colors.tertiaryText,
+                  ),
+                  prefixIcon: Icon(
+                    CoolIcons.stickyNote,
+                    size: 18,
+                    color: colors.tertiaryText,
+                  ),
                   prefixIconConstraints: const BoxConstraints(minWidth: 36),
                   filled: true,
                   fillColor: colors.chipBackground,
@@ -595,7 +631,9 @@ class _AdminSavingsDetailScreenState
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                   child: Text(
-                    _isAllocating ? context.l10n.adminSavingsAllocating : context.l10n.adminSavingsAllocate,
+                    _isAllocating
+                        ? context.l10n.adminSavingsAllocating
+                        : context.l10n.adminSavingsAllocate,
                     style: theme.textTheme.labelLarge?.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
@@ -705,7 +743,9 @@ class _AdminSavingsDetailScreenState
       _allocationNoteController.clear();
       CoolToast.success(
         context,
-        context.l10n.adminSavingsContributionRecorded(formatWholeMoneyAmount(amount)),
+        context.l10n.adminSavingsContributionRecorded(
+          formatWholeMoneyAmount(amount),
+        ),
       );
       ref.invalidate(adminSavingsGroupsDetailProvider);
     } catch (e) {
@@ -723,9 +763,7 @@ class _AdminSavingsDetailScreenState
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(context.l10n.adminSavingsCloseGroupTitle),
-        content: Text(
-          context.l10n.adminSavingsCloseGroupMessage,
-        ),
+        content: Text(context.l10n.adminSavingsCloseGroupMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),

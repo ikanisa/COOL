@@ -1,18 +1,27 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/utils/supabase_query_helpers.dart' as sq;
+
 /// Shared utility mixin for admin repositories providing common data helpers.
 mixin AdminRepositoryHelpers {
   SupabaseClient get client;
 
-  List<Map<String, dynamic>> asListOfMaps(dynamic value) {
-    if (value is! List) {
-      return const <Map<String, dynamic>>[];
-    }
+  Duration get rpcTimeout => sq.kSupabaseRpcTimeout;
 
-    return value
-        .whereType<Map<dynamic, dynamic>>()
-        .map((row) => Map<String, dynamic>.from(row))
-        .toList(growable: false);
+  Future<T> guarded<T>(
+    Future<T> Function() query, {
+    Duration timeout = sq.kSupabaseQueryTimeout,
+    String? label,
+  }) {
+    return sq.guarded(query, timeout: timeout, label: label);
+  }
+
+  List<Map<String, dynamic>> asListOfMaps(dynamic value) {
+    return sq.asListOfMaps(value);
+  }
+
+  Map<String, dynamic> asMap(dynamic value) {
+    return sq.asMap(value);
   }
 
   String? trimmed(dynamic value) {

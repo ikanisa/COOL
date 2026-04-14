@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Search, Filter, Plus, MoreHorizontal, Eye, ShieldCheck, UserCog, Loader2, RefreshCw, AlertTriangle, Users as UsersIcon, Download, FileSpreadsheet } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -9,9 +9,11 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { DetailSheet, DetailSection, DetailRow } from "@/components/ui/detail-sheet";
 import { supabase } from "@/lib/supabase";
 import { useAsyncData } from "@/lib/hooks";
 import { exportToCSV, exportToTSV } from "@/lib/export";
+import { toast } from "sonner";
 
 interface UserRow {
   id: string;
@@ -29,6 +31,16 @@ const PAGE_SIZE = 20;
 export function UsersList() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
+  const [selectedUser, setSelectedUser] = useState<UserRow | null>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  const handleSearch = useCallback((value: string) => {
+    clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      setSearch(value);
+      setPage(0);
+    }, 300);
+  }, []);
 
   const { data, loading, error, refetch } = useAsyncData(async () => {
     let query = supabase
@@ -110,11 +122,11 @@ export function UsersList() {
               <Input
                 placeholder="Search by name or phone..."
                 className="pl-9"
-                value={search}
-                onChange={(e) => { setSearch(e.target.value); setPage(0); }}
+                defaultValue={search}
+                onChange={(e) => handleSearch(e.target.value)}
               />
             </div>
-            <Button variant="outline" size="icon">
+            <Button variant="outline" size="icon" onClick={() => toast.info("Advanced filters coming soon.")}>
               <Filter className="h-4 w-4 text-zinc-500" />
             </Button>
           </div>
@@ -175,9 +187,9 @@ export function UsersList() {
                       <DropdownMenuContent align="end" className="w-48">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem><Eye className="mr-2 h-4 w-4" /> View Details</DropdownMenuItem>
-                        <DropdownMenuItem><UserCog className="mr-2 h-4 w-4" /> Edit User</DropdownMenuItem>
-                        <DropdownMenuItem><ShieldCheck className="mr-2 h-4 w-4" /> Manage Roles</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setSelectedUser(u)}><Eye className="mr-2 h-4 w-4" /> View Details</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => toast.info("Edit User coming soon.")}><UserCog className="mr-2 h-4 w-4" /> Edit User</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => toast.info("Manage Roles coming soon.")}><ShieldCheck className="mr-2 h-4 w-4" /> Manage Roles</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -202,6 +214,34 @@ export function UsersList() {
           </div>
         </div>
       </Card>
+      {/* Detail Sheet */}
+      <DetailSheet
+        open={!!selectedUser}
+        onClose={() => setSelectedUser(null)}
+        title={selectedUser?.full_name || "User Details"}
+        subtitle={selectedUser?.phone}
+      >
+        {selectedUser && (
+          <>
+            <DetailSection title="Profile">
+              <DetailRow label="Full Name" value={selectedUser.full_name || "(Unnamed)"} />
+              <DetailRow label="Phone" value={selectedUser.phone} mono />
+              <DetailRow label="Country" value={selectedUser.country} />
+              <DetailRow label="MoMo Number" value={selectedUser.momo_number} mono />
+            </DetailSection>
+            <DetailSection title="Account">
+              <DetailRow label="Role" value={
+                selectedUser.is_admin
+                  ? <Badge variant="default" className="bg-indigo-100 text-indigo-800">Admin</Badge>
+                  : <Badge variant="outline">Member</Badge>
+              } />
+              <DetailRow label="Mock Account" value={selectedUser.is_mock ? "Yes" : "No"} />
+              <DetailRow label="User ID" value={selectedUser.id} mono />
+              <DetailRow label="Joined" value={new Date(selectedUser.created_at).toLocaleString()} />
+            </DetailSection>
+          </>
+        )}
+      </DetailSheet>
     </div>
   );
 }

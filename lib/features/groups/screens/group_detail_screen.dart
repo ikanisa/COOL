@@ -26,6 +26,7 @@ import '../../auth/providers/auth_provider.dart';
 import '../../auth/widgets/require_verified_user.dart';
 import '../../momo/models/momo_statement.dart';
 import '../../momo/providers/momo_statement_providers.dart';
+import '../../profile/services/momo_setup_guard.dart';
 import '../group_flow_utils.dart';
 import '../models/group.dart';
 import '../models/group_member_preview.dart';
@@ -33,9 +34,10 @@ import '../providers/groups_provider.dart';
 import '../widgets/transaction_allocation_sheet.dart';
 
 class GroupDetailScreen extends ConsumerStatefulWidget {
-  const GroupDetailScreen({required this.groupId, super.key});
+  const GroupDetailScreen({required this.groupId, this.inviteCode, super.key});
 
   final String groupId;
+  final String? inviteCode;
 
   @override
   ConsumerState<GroupDetailScreen> createState() => _GroupDetailScreenState();
@@ -44,7 +46,7 @@ class GroupDetailScreen extends ConsumerStatefulWidget {
 class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
   bool _isJoining = false;
 
-  Future<void> _joinPublicGroup(Group group) async {
+  Future<void> _joinGroup(Group group) async {
     if (_isJoining) {
       return;
     }
@@ -57,6 +59,18 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
       return;
     }
 
+    if (!mounted) {
+      return;
+    }
+
+    if (!await ensureMomoSetupForAction(
+      context,
+      ref,
+      intent: MomoSetupIntent.joinGroup,
+    )) {
+      return;
+    }
+
     final user = ref.read(authProvider).user;
     if (user == null) {
       return;
@@ -64,13 +78,19 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
 
     setState(() => _isJoining = true);
     try {
-      final result = await ref
-          .read(groupRepositoryProvider)
-          .joinPublicGroup(group: group, user: user);
+      final repository = ref.read(groupRepositoryProvider);
+      final result =
+          group.visibility == 'private' &&
+              (widget.inviteCode?.trim().isNotEmpty ?? false)
+          ? await repository.joinGroupViaInvite(widget.inviteCode!.trim())
+          : await repository.joinPublicGroup(group: group, user: user);
       ref.read(groupsRefreshTickProvider.notifier).state++;
       // Invalidate detail + access so the screen refreshes immediately.
       ref.invalidate(groupDetailProvider(widget.groupId));
       ref.invalidate(groupAccessProvider(widget.groupId));
+      if (widget.inviteCode?.trim().isNotEmpty ?? false) {
+        ref.invalidate(groupInvitePreviewProvider(widget.inviteCode!.trim()));
+      }
       if (!mounted) {
         return;
       }
@@ -107,74 +127,93 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> {
   Widget build(BuildContext context) {
     final groupAsync = ref.watch(groupDetailProvider(widget.groupId));
     final accessAsync = ref.watch(groupAccessProvider(widget.groupId));
-    final memberPreviewAsync = ref.watch(
-      groupMemberPreviewProvider(widget.groupId),
-    );
     final myGroupIds = ref.watch(myGroupIdsProvider);
+    final normalizedInviteCode = widget.inviteCode?.trim();
+    final invitePreviewAsync =
+        normalizedInviteCode == null || normalizedInviteCode.isEmpty
+        ? const AsyncData(null)
+        : ref.watch(groupInvitePreviewProvider(normalizedInviteCode));
 
     // Guard against empty groupId propagated from route parameters.
     if (widget.groupId.trim().isEmpty) {
       return _MissingGroupState(message: context.l10n.groupNotFound);
     }
 
-    return groupAsync.when(
-      data: (group) {
-        if (group == null) {
-          return _MissingGroupState(message: context.l10n.groupNotFound);
-        }
+    final invitePreview = invitePreviewAsync.valueOrNull;
+    final inviteGroup = invitePreview?.group;
+    final resolvedGroup =
+        groupAsync.valueOrNull ??
+        ((inviteGroup?.id?.trim() ?? '') == widget.groupId.trim()
+            ? inviteGroup
+            : null);
+    final access = accessAsync.valueOrNull;
+    final isPreviewOnly =
+        groupAsync.valueOrNull == null && resolvedGroup != null;
 
-        // Guard against null/empty group ID — would produce broken routes.
-        final groupId = group.id;
-        if (groupId == null || groupId.trim().isEmpty) {
-          return _MissingGroupState(message: context.l10n.groupNotFound);
-        }
-
-        final access = accessAsync.valueOrNull;
-        final isMember = access?.isMember ?? myGroupIds.contains(group.id);
-        final canManageSettings = access?.canManageSettings ?? false;
-        final canViewTransactions = access?.canViewTransactions ?? false;
-        final ledgerAsync = canViewTransactions
-            ? ref.watch(
-                groupTransactionFeedProvider(
-                  GroupPaymentLedgerQuery(
-                    groupId: group.id ?? '',
-                    statementQuery: const MomoStatementQuery(limit: 10),
-                  ),
-                ),
-              )
-            : const AsyncData(MomoStatementPage<PayeePaymentLedgerEntry>());
-        final inviteUrl = buildGroupInviteUrl(group);
-
-        return _GroupDetailBody(
-          group: group,
-          isMember: isMember,
-          isJoining: _isJoining,
-          inviteUrl: inviteUrl,
-          ledgerAsync: ledgerAsync,
-          memberPreviewAsync: memberPreviewAsync,
-          canManageSettings: canManageSettings,
-          canViewTransactions: canViewTransactions,
-          onBack: () {
-            if (context.canPop()) {
-              context.pop();
-              return;
-            }
-            context.go(AppRoutes.groups);
-          },
-          onJoin: isMember ? null : () => _joinPublicGroup(group),
-          onOpenSettings: canManageSettings
-              ? () => context.push(
-                  AppRoutes.groupSettingsLocation(group.id ?? ''),
-                )
-              : null,
-          onContribute: isMember ? () => _contributeToGroup(group) : null,
-        );
-      },
-      loading: () => const CoreDetailScaffold(
+    if (groupAsync.isLoading && resolvedGroup == null) {
+      return const CoreDetailScaffold(
         child: Center(child: CircularProgressIndicator()),
-      ),
-      error: (error, _) =>
-          _MissingGroupState(message: describeUserFacingError(error)),
+      );
+    }
+
+    if (groupAsync.hasError && resolvedGroup == null) {
+      return _MissingGroupState(
+        message: describeUserFacingError(groupAsync.error!),
+      );
+    }
+
+    if (resolvedGroup == null) {
+      return _MissingGroupState(message: context.l10n.groupNotFound);
+    }
+
+    final groupId = resolvedGroup.id;
+    if (groupId == null || groupId.trim().isEmpty) {
+      return _MissingGroupState(message: context.l10n.groupNotFound);
+    }
+
+    final isMember = access?.isMember ?? myGroupIds.contains(groupId);
+    final canManageSettings = access?.canManageSettings ?? false;
+    final canViewTransactions = access?.canViewTransactions ?? false;
+    final canViewMemberPreview =
+        resolvedGroup.visibility == 'public' || access != null;
+    final memberPreviewAsync = canViewMemberPreview
+        ? ref.watch(groupMemberPreviewProvider(widget.groupId))
+        : const AsyncData(<GroupMemberPreview>[]);
+    final ledgerAsync = canViewTransactions
+        ? ref.watch(
+            groupTransactionFeedProvider(
+              GroupPaymentLedgerQuery(
+                groupId: groupId,
+                statementQuery: const MomoStatementQuery(limit: 10),
+              ),
+            ),
+          )
+        : const AsyncData(MomoStatementPage<PayeePaymentLedgerEntry>());
+    final inviteUrl = buildGroupInviteUrl(resolvedGroup);
+
+    return _GroupDetailBody(
+      group: resolvedGroup,
+      isMember: isMember,
+      isJoining: _isJoining,
+      inviteUrl: inviteUrl,
+      ledgerAsync: ledgerAsync,
+      memberPreviewAsync: memberPreviewAsync,
+      canManageSettings: canManageSettings,
+      canViewTransactions: canViewTransactions,
+      canViewMemberPreview: canViewMemberPreview,
+      isPreviewOnly: isPreviewOnly,
+      onBack: () {
+        if (context.canPop()) {
+          context.pop();
+          return;
+        }
+        context.go(AppRoutes.groups);
+      },
+      onJoin: isMember ? null : () => _joinGroup(resolvedGroup),
+      onOpenSettings: canManageSettings
+          ? () => context.push(AppRoutes.groupSettingsLocation(groupId))
+          : null,
+      onContribute: isMember ? () => _contributeToGroup(resolvedGroup) : null,
     );
   }
 }
@@ -189,6 +228,8 @@ class _GroupDetailBody extends StatelessWidget {
     required this.memberPreviewAsync,
     required this.canManageSettings,
     required this.canViewTransactions,
+    required this.canViewMemberPreview,
+    required this.isPreviewOnly,
     required this.onBack,
     required this.onJoin,
     required this.onOpenSettings,
@@ -203,6 +244,8 @@ class _GroupDetailBody extends StatelessWidget {
   final AsyncValue<List<GroupMemberPreview>> memberPreviewAsync;
   final bool canManageSettings;
   final bool canViewTransactions;
+  final bool canViewMemberPreview;
+  final bool isPreviewOnly;
   final VoidCallback onBack;
   final VoidCallback? onJoin;
   final VoidCallback? onOpenSettings;
@@ -273,6 +316,11 @@ class _GroupDetailBody extends StatelessWidget {
           // ── Stats card — compact metrics ──────────────────────
           CoolSectionCard(
             children: [
+              if (isPreviewOnly)
+                const CoolMetricRow.mono(
+                  label: 'Access',
+                  value: 'INVITE PREVIEW',
+                ),
               CoolMetricRow.mono(
                 label: context.l10n.balance,
                 value: '${formatWholeMoneyAmount(group.amount)} $currency',
@@ -292,7 +340,7 @@ class _GroupDetailBody extends StatelessWidget {
             ],
           ),
 
-          if (group.memberCount > 0) ...[
+          if (canViewMemberPreview && group.memberCount > 0) ...[
             SizedBox(height: space.x5),
             Text(
               context.l10n.membersPreview,

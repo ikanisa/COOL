@@ -1,64 +1,44 @@
 part of 'profile_app_access_sheet.dart';
 
-class _SummaryBanner extends StatelessWidget {
-  const _SummaryBanner({required this.readyCount, required this.totalCount});
+class _SummaryCaption extends StatelessWidget {
+  const _SummaryCaption({required this.readyCount, required this.totalCount});
 
   final int readyCount;
   final int totalCount;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final colors = context.coolSemanticColors;
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: colors.cardSurfaceStrong,
-        borderRadius: BorderRadius.circular(CoolRadii.xl),
-        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
+    return Text(
+      context.l10n.profileAppAccessReadyCount(readyCount, totalCount),
+      style: context.coolText.mono(
+        Theme.of(context).textTheme.labelSmall,
+        color: colors.secondaryText,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0.8,
       ),
-      child: Row(
+    );
+  }
+}
+
+class _AccessGroupCard extends StatelessWidget {
+  const _AccessGroupCard({required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    return CoolCard(
+      backgroundColor: colors.cardSurfaceStrong,
+      padding: EdgeInsets.zero,
+      child: Column(
         children: [
-          Container(
-            width: 42,
-            height: 42,
-            decoration: BoxDecoration(
-              color: colors.chipSelectedBackground,
-              borderRadius: BorderRadius.circular(CoolRadii.md),
-            ),
-            child: Icon(
-              CoolIcons.admin,
-              color: colors.accent,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  context.l10n.profileAppAccessReadyCount(
-                    readyCount,
-                    totalCount,
-                  ),
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    color: colors.primaryText,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: CoolSpace.x1),
-                Text(
-                  context.l10n.profileAppAccessAllControls,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: colors.secondaryText,
-                    fontWeight: FontWeight.w500,
-                    height: 1.4,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          for (var index = 0; index < children.length; index++) ...[
+            children[index],
+            if (index < children.length - 1)
+              const SizedBox(height: CoolSpace.x1),
+          ],
         ],
       ),
     );
@@ -78,38 +58,33 @@ class _NotificationAccessCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
     final isBlockedInSystem =
         settings.status.authorizationStatus == FcmAuthorizationStatus.denied;
-    final statusLabel = settings.status.preferenceEnabled
-        ? (settings.status.isAuthorized
-              ? context.l10n.ready
-              : context.l10n.profileNotificationsNeedsSystemAccess)
-        : (isBlockedInSystem
-              ? context.l10n.blockedInSystem
-              : context.l10n.offInCool);
-    final statusColor =
-        settings.status.preferenceEnabled && settings.status.isAuthorized
-        ? colors.accent
-        : isBlockedInSystem
-        ? colors.danger
-        : settings.status.preferenceEnabled
-        ? colors.warning
-        : colors.secondaryText;
+    final colors = context.coolSemanticColors;
+    final status = (
+      label: settings.status.preferenceEnabled
+          ? (settings.status.isAuthorized
+                ? context.l10n.ready
+                : context.l10n.profileNotificationsNeedsSystemAccess)
+          : (isBlockedInSystem
+                ? context.l10n.blockedInSystem
+                : context.l10n.offInCool),
+      color: settings.status.preferenceEnabled && settings.status.isAuthorized
+          ? colors.accent
+          : isBlockedInSystem
+          ? colors.danger
+          : settings.status.preferenceEnabled
+          ? colors.warning
+          : colors.secondaryText,
+    );
     final canOpenSettings = isBlockedInSystem;
 
-    return _AccessCardShell(
+    return _AccessRowShell(
       icon: CoolIcons.notifications,
       title: context.l10n.notifications,
       subtitle: context.l10n.paymentAndActivityAlerts,
-      statusLabel: statusLabel,
-      statusColor: statusColor,
-      linkedFeatures: [
-        context.l10n.profileAccessFeatureMomoUpdates,
-        context.l10n.profileAccessFeatureGroupsActivity,
-        context.l10n.profileAccessFeatureServiceUpdates,
-        context.l10n.profileAccessFeaturePartnerAnnouncements,
-      ],
+      statusLabel: status.label,
+      statusColor: status.color,
       trailing: ProfileNotificationToggle(
         value: settings.status.preferenceEnabled,
         onChanged: onChanged,
@@ -121,11 +96,6 @@ class _NotificationAccessCard extends StatelessWidget {
               onTap: () => onOpenSettings(),
             )
           : null,
-      helperText: isBlockedInSystem
-          ? context.l10n.blockedInSystem
-          : settings.status.preferenceEnabled
-          ? context.l10n.enabled
-          : context.l10n.disabled,
     );
   }
 }
@@ -162,13 +132,12 @@ class _PermissionAccessCard extends StatelessWidget {
       _ => null,
     };
 
-    return _AccessCardShell(
+    return _AccessRowShell(
       icon: metadata.icon,
       title: metadata.title,
       subtitle: metadata.subtitle,
       statusLabel: status.label,
       statusColor: status.color,
-      linkedFeatures: metadata.linkedFeatures,
       trailing: isBusy
           ? const SizedBox(
               width: 24,
@@ -183,21 +152,18 @@ class _PermissionAccessCard extends StatelessWidget {
               activeTrackColor: colors.accent,
             ),
       footerAction: footerAction,
-      helperText: _helperText(context, snapshot),
     );
   }
 }
 
-class _AccessCardShell extends StatelessWidget {
-  const _AccessCardShell({
+class _AccessRowShell extends StatelessWidget {
+  const _AccessRowShell({
     required this.icon,
     required this.title,
     required this.subtitle,
     required this.statusLabel,
     required this.statusColor,
-    required this.linkedFeatures,
     required this.trailing,
-    required this.helperText,
     this.footerAction,
   });
 
@@ -206,148 +172,107 @@ class _AccessCardShell extends StatelessWidget {
   final String subtitle;
   final String statusLabel;
   final Color statusColor;
-  final List<String> linkedFeatures;
   final Widget trailing;
   final Widget? footerAction;
-  final String helperText;
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final theme = Theme.of(context);
-        final colors = context.coolSemanticColors;
-        final isNarrow = constraints.maxWidth < 380;
-
-        return Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: colors.cardSurfaceStrong,
-            borderRadius: BorderRadius.circular(CoolRadii.xl),
-            boxShadow: CoolShadows.ambientFloat(strength: 0.15),
-          ),
-          child: Column(
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: colors.inputSurface,
-                      borderRadius: BorderRadius.circular(CoolRadii.md),
-                    ),
-                    alignment: Alignment.center,
-                    child: Icon(icon, color: colors.primaryText, size: 22),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (isNarrow) ...[
-                          Text(
-                            title,
-                            style: theme.textTheme.titleSmall?.copyWith(
-                              color: colors.primaryText,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                          const SizedBox(height: CoolSpace.x2),
-                          Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: [
-                              _StatusPill(
-                                label: statusLabel,
-                                color: statusColor,
-                              ),
-                              trailing,
-                            ],
-                          ),
-                        ] else
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  title,
-                                  style: theme.textTheme.titleSmall?.copyWith(
-                                    color: colors.primaryText,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              _StatusPill(
-                                label: statusLabel,
-                                color: statusColor,
-                              ),
-                            ],
-                          ),
-                        const SizedBox(height: 6),
-                        Text(
-                          subtitle,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: colors.secondaryText,
-                            fontWeight: FontWeight.w500,
-                            height: 1.45,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  if (!isNarrow) ...[const SizedBox(width: 12), trailing],
-                ],
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: colors.inputSurface,
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                ),
+                alignment: Alignment.center,
+                child: Icon(icon, color: colors.primaryText, size: 22),
               ),
-              const SizedBox(height: CoolSpace.x3),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: linkedFeatures
-                    .map(
-                      (feature) => Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: colors.chipBackground,
-                          borderRadius: BorderRadius.circular(CoolRadii.pill),
-                          boxShadow: CoolShadows.ambientFloat(strength: 0.15),
-                        ),
-                        child: Text(
-                          feature,
-                          style: theme.textTheme.labelSmall?.copyWith(
-                            color: colors.secondaryText,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w800,
                       ),
-                    )
-                    .toList(),
-              ),
-              const SizedBox(height: CoolSpace.x3),
-              Text(
-                helperText,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: colors.tertiaryText,
-                  fontWeight: FontWeight.w500,
-                  height: 1.45,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.secondaryText,
+                        fontWeight: FontWeight.w500,
+                        height: 1.4,
+                      ),
+                    ),
+                    const SizedBox(height: CoolSpace.x2),
+                    _StatusIndicator(label: statusLabel, color: statusColor),
+                  ],
                 ),
               ),
-              if (footerAction != null) ...[
-                const SizedBox(height: CoolSpace.x3),
-                footerAction!,
-              ],
+              const SizedBox(width: 12),
+              Padding(padding: const EdgeInsets.only(top: 2), child: trailing),
             ],
           ),
-        );
-      },
+          if (footerAction != null) ...[
+            const SizedBox(height: CoolSpace.x3),
+            Padding(
+              padding: const EdgeInsets.only(left: 58),
+              child: footerAction!,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _StatusIndicator extends StatelessWidget {
+  const _StatusIndicator({required this.label, required this.color});
+
+  final String label;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 8,
+          height: 8,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(CoolRadii.pill),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Flexible(
+          child: Text(
+            label,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: color,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -19,6 +19,7 @@ import '../../admin/providers/admin_workspace_access_provider.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../biopay/providers/biopay_providers.dart';
 import '../providers/profile_view_provider.dart';
+import '../widgets/profile_app_access_sheet.dart';
 import '../widgets/profile_dialogs.dart';
 
 // ─────────────────────────────────────────────────────────────────────
@@ -245,6 +246,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         title: l10n.profileFaceIdRegisterTitle,
                         subtitle: faceIdSubtitle,
                         onTap: () => context.push(AppRoutes.biopayRegister),
+                      ),
+                      CoolListTile(
+                        leading: const CoolIconBox(icon: CoolIcons.shield),
+                        title: l10n.profileAppAccess,
+                        subtitle: l10n.profileAppAccessToggleFeatureAccess,
+                        onTap: () => ProfileAppAccessSheet.show(context),
                       ),
                     ],
                   ),

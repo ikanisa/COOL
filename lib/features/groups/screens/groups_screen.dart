@@ -25,9 +25,9 @@ import '../../../shared/widgets/qr_share_sheet.dart';
 import '../../../shared/widgets/status_badge.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../auth/widgets/require_verified_user.dart';
+import '../../profile/services/momo_setup_guard.dart';
 import '../group_flow_utils.dart';
 import '../models/group.dart';
-import '../models/group_invite_preview.dart';
 import '../providers/groups_provider.dart';
 
 part 'groups_screen_sections.dart';
@@ -76,6 +76,17 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
     context.push(AppRoutes.groupDetailLocation(groupId));
   }
 
+  void _openInvitedGroupPreview(Group group, String inviteCode) {
+    final groupId = group.id;
+    if (groupId == null || groupId.isEmpty) {
+      CoolToast.error(context, context.l10n.groupNotFound);
+      return;
+    }
+    context.push(
+      AppRoutes.groupDetailLocation(groupId, inviteCode: inviteCode),
+    );
+  }
+
   Future<void> _contributeToGroup(Group group) async {
     if (!groupHasContributionRoute(group)) {
       CoolToast.info(context, context.l10n.groupsPaymentRoutePendingInfo);
@@ -119,6 +130,22 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
       return;
     }
 
+    if (!mounted) {
+      return;
+    }
+
+    if (!await ensureMomoSetupForAction(
+      context,
+      ref,
+      intent: MomoSetupIntent.joinGroup,
+    )) {
+      return;
+    }
+
+    if (!mounted) {
+      return;
+    }
+
     final user = ref.read(authProvider).user;
     if (user == null) {
       return;
@@ -140,59 +167,6 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
             : context.l10n.youJoinedGroup(group.name),
       );
       _openGroup(group);
-    } catch (error) {
-      if (mounted) {
-        CoolToast.error(context, describeUserFacingError(error));
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _isJoining = false);
-      }
-    }
-  }
-
-  Future<void> _acceptInvite(
-    String inviteCode,
-    GroupInvitePreview preview,
-  ) async {
-    if (_isJoining) {
-      return;
-    }
-    if (preview.isMember) {
-      _dismissInviteBanner(navigate: false);
-      _openGroup(preview.group);
-      return;
-    }
-
-    setState(() => _isJoining = true);
-
-    if (!await requireVerifiedUser(
-      context,
-      ref,
-      feature: WhatsAppProtectedFeature.groupJoin,
-    )) {
-      if (mounted) setState(() => _isJoining = false);
-      return;
-    }
-
-    try {
-      final result = await ref
-          .read(groupRepositoryProvider)
-          .joinGroupViaInvite(inviteCode);
-      if (!mounted) {
-        return;
-      }
-      if (!result.isJoined) {
-        throw StateError(result.message ?? context.l10n.couldNotJoinGroup);
-      }
-
-      ref.read(groupsRefreshTickProvider.notifier).state++;
-      CoolToast.success(
-        context,
-        context.l10n.youJoinedGroup(preview.group.name),
-      );
-      _dismissInviteBanner(navigate: false);
-      _openGroup(preview.group);
     } catch (error) {
       if (mounted) {
         CoolToast.error(context, describeUserFacingError(error));
@@ -331,11 +305,17 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                               subtitle: preview.isMember
                                   ? l10n.groupsAlreadyMember
                                   : l10n.memberCount(preview.group.memberCount),
-                              actionLabel: preview.isMember
-                                  ? l10n.groupsOpenUpper
-                                  : l10n.groupsJoinNowUpper,
-                              onAction: () =>
-                                  _acceptInvite(inviteCode!, preview),
+                              actionLabel: l10n.groupsOpenUpper,
+                              onAction: () {
+                                if (preview.isMember) {
+                                  _openGroup(preview.group);
+                                  return;
+                                }
+                                _openInvitedGroupPreview(
+                                  preview.group,
+                                  inviteCode!,
+                                );
+                              },
                               onDismiss: _dismissInviteBanner,
                               isLoading: _isJoining,
                             );

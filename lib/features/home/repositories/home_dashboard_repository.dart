@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/utils/supabase_query_helpers.dart' as sq;
 import '../models/home_dashboard_data.dart';
 
 class HomeDashboardRepository {
@@ -8,11 +9,14 @@ class HomeDashboardRepository {
   final SupabaseClient _client;
 
   Future<HomeDashboardData> load(String userId) async {
-    final membershipRows = _asListOfMaps(
-      await _client
-          .from('group_members')
-          .select('group_id')
-          .eq('user_id', userId),
+    final membershipRows = sq.asListOfMaps(
+      await sq.guarded(
+        () => _client
+            .from('group_members')
+            .select('group_id')
+            .eq('user_id', userId),
+        label: 'dashboardMemberships',
+      ),
     );
 
     final groupIds = membershipRows
@@ -21,44 +25,56 @@ class HomeDashboardRepository {
         .toSet()
         .toList(growable: false);
 
-    final allUserContributionsFuture = _client
-        .from('group_contributions')
-        .select('amount, status')
-        .eq('user_id', userId)
-        .inFilter('status', ['confirmed', 'completed']);
-    final walletRecentRowsFuture = _client
-        .from('momo_ledger_entries')
-        .select(
-          'entry_type, ledger_status, amount, currency, tx_datetime, '
-          'counterparty_name, statement_label, tx_category, description, '
-          'created_at',
-        )
-        .eq('user_id', userId)
-        .order('tx_datetime', ascending: false)
-        .order('created_at', ascending: false)
-        .limit(8);
+    final allUserContributionsFuture = sq.guarded(
+      () => _client
+          .from('group_contributions')
+          .select('amount, status')
+          .eq('user_id', userId)
+          .inFilter('status', ['confirmed', 'completed']),
+      label: 'dashboardContribTotals',
+    );
+    final walletRecentRowsFuture = sq.guarded(
+      () => _client
+          .from('momo_ledger_entries')
+          .select(
+            'entry_type, ledger_status, amount, currency, tx_datetime, '
+            'counterparty_name, statement_label, tx_category, description, '
+            'created_at',
+          )
+          .eq('user_id', userId)
+          .order('tx_datetime', ascending: false)
+          .order('created_at', ascending: false)
+          .limit(8),
+      label: 'dashboardWalletRecent',
+    );
     final monthStart = DateTime(DateTime.now().year, DateTime.now().month);
-    final walletMonthlyRowsFuture = _client
-        .from('momo_ledger_entries')
-        .select('entry_type, amount, tx_datetime, created_at')
-        .eq('user_id', userId)
-        .gte('tx_datetime', monthStart.toUtc().toIso8601String());
+    final walletMonthlyRowsFuture = sq.guarded(
+      () => _client
+          .from('momo_ledger_entries')
+          .select('entry_type, amount, tx_datetime, created_at')
+          .eq('user_id', userId)
+          .gte('tx_datetime', monthStart.toUtc().toIso8601String()),
+      label: 'dashboardWalletMonthly',
+    );
 
     final contributionRows = groupIds.isEmpty
         ? const <Map<String, dynamic>>[]
-        : _asListOfMaps(
-            await _client
-                .from('group_contributions')
-                .select('group_id, user_id, amount, status, created_at')
-                .inFilter('group_id', groupIds)
-                .order('created_at', ascending: false)
-                .limit(8),
+        : sq.asListOfMaps(
+            await sq.guarded(
+              () => _client
+                  .from('group_contributions')
+                  .select('group_id, user_id, amount, status, created_at')
+                  .inFilter('group_id', groupIds)
+                  .order('created_at', ascending: false)
+                  .limit(8),
+              label: 'dashboardContribRows',
+            ),
           );
-    final allUserContributions = _asListOfMaps(
+    final allUserContributions = sq.asListOfMaps(
       await allUserContributionsFuture,
     );
-    final walletRecentRows = _asListOfMaps(await walletRecentRowsFuture);
-    final walletMonthlyRows = _asListOfMaps(await walletMonthlyRowsFuture);
+    final walletRecentRows = sq.asListOfMaps(await walletRecentRowsFuture);
+    final walletMonthlyRows = sq.asListOfMaps(await walletMonthlyRowsFuture);
 
     final totalBalance = allUserContributions.fold<int>(0, (sum, row) {
       return sum + (_asMoney(row['amount']) ?? 0);
@@ -92,8 +108,11 @@ class HomeDashboardRepository {
       return const <String, String>{};
     }
 
-    final rows = _asListOfMaps(
-      await _client.from('groups').select('id, name').inFilter('id', groupIds),
+    final rows = sq.asListOfMaps(
+      await sq.guarded(
+        () => _client.from('groups').select('id, name').inFilter('id', groupIds),
+        label: 'dashboardGroupNames',
+      ),
     );
 
     return {
@@ -237,16 +256,8 @@ int _walletSignedAmount(Map<String, dynamic> row) {
   return entryType == 'debit' ? -amount.abs() : amount.abs();
 }
 
-List<Map<String, dynamic>> _asListOfMaps(dynamic value) {
-  if (value is! List) {
-    return const <Map<String, dynamic>>[];
-  }
-
-  return value
-      .whereType<Map<dynamic, dynamic>>()
-      .map((row) => Map<String, dynamic>.from(row))
-      .toList(growable: false);
-}
+// Local _asListOfMaps removed — now using shared `sq.asListOfMaps` from
+// core/utils/supabase_query_helpers.dart
 
 int? _asMoney(dynamic value) {
   if (value == null) {

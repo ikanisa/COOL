@@ -1,4 +1,4 @@
-import { Mail, Phone, Shield, Clock, Smartphone, Loader2 } from "lucide-react";
+import { Phone, Shield, Clock, MessageCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
@@ -10,10 +10,11 @@ export function Profile() {
     return <div className="flex h-96 items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-indigo-600" /></div>;
   }
 
-  const fullName = user.user_metadata?.full_name || user.email || user.phone || "Admin";
-  const initials = fullName.split(" ").map((n: string) => n[0]).join("").slice(0, 2).toUpperCase();
   const phone = user.phone || user.user_metadata?.phone || "Not set";
-  const email = user.email || "Not set";
+  const fullName = user.user_metadata?.full_name || phone;
+  const initials = (fullName.startsWith("+") || fullName.startsWith("250"))
+    ? "WA"
+    : fullName.split(" ").map((n: string) => n[0]).join("").slice(0, 2).toUpperCase();
   const roles = adminAccess?.role_assignments ?? [];
 
   return (
@@ -44,20 +45,11 @@ export function Profile() {
 
             <div className="mt-10 space-y-6">
               <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-full bg-zinc-50 flex items-center justify-center shrink-0">
-                  <Mail className="h-5 w-5 text-zinc-400" />
+                <div className="h-12 w-12 rounded-full bg-emerald-50 flex items-center justify-center shrink-0">
+                  <MessageCircle className="h-5 w-5 text-emerald-600" />
                 </div>
                 <div>
-                  <p className="text-xs font-label font-semibold text-zinc-400 uppercase tracking-wider">Email</p>
-                  <p className="text-sm font-sans font-medium text-zinc-900 mt-0.5">{email}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-full bg-zinc-50 flex items-center justify-center shrink-0">
-                  <Phone className="h-5 w-5 text-zinc-400" />
-                </div>
-                <div>
-                  <p className="text-xs font-label font-semibold text-zinc-400 uppercase tracking-wider">Phone</p>
+                  <p className="text-xs font-label font-semibold text-zinc-400 uppercase tracking-wider">WhatsApp</p>
                   <p className="text-sm font-sans font-medium text-zinc-900 mt-0.5">{phone}</p>
                 </div>
               </div>

@@ -1,5 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../utils/supabase_query_helpers.dart' as sq;
+
 abstract final class AppConfigKeys {
   static const biopayEnabled = 'feature_biopay_enabled';
   static const biopayMatchThreshold = 'biopay_match_threshold';
@@ -25,11 +27,13 @@ class AppConfigRepository {
       _cache.remove(key);
     }
 
-    final rows = await _client
-        .from('app_config')
-        .select('value')
-        .eq('key', key)
-        .limit(1);
+    final rows = sq.asListOfMaps(
+      await sq.guarded(
+        () =>
+            _client.from('app_config').select('value').eq('key', key).limit(1),
+        label: 'appConfigValue',
+      ),
+    );
 
     if (rows.isNotEmpty) {
       final value = rows.first['value']?.toString();
@@ -44,7 +48,12 @@ class AppConfigRepository {
 
   /// Fetch all config entries for the fixed Rwanda app shell.
   Future<Map<String, String>> getAll() async {
-    final rows = await _client.from('app_config').select();
+    final rows = sq.asListOfMaps(
+      await sq.guarded(
+        () => _client.from('app_config').select(),
+        label: 'appConfigAll',
+      ),
+    );
     final result = <String, String>{};
 
     for (final row in rows) {

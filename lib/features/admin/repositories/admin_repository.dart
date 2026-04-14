@@ -42,11 +42,14 @@ class AdminRepository with AdminRepositoryHelpers {
 
   Future<List<Map<String, dynamic>>> fetchCountries() async {
     try {
-      final data = await _client
-          .from('supported_country_momo_reference')
-          .select()
-          .order('sort_order', ascending: true)
-          .order('country_name', ascending: true);
+      final data = await guarded(
+        () => _client
+            .from('supported_country_momo_reference')
+            .select()
+            .order('sort_order', ascending: true)
+            .order('country_name', ascending: true),
+        label: 'adminCountryReference',
+      );
       return _normalizeCountryReferenceRows(data);
     } on PostgrestException catch (error) {
       if (!isMissingSchemaObjectError(error)) {
@@ -55,11 +58,14 @@ class AdminRepository with AdminRepositoryHelpers {
     }
 
     try {
-      final data = await _client
-          .from('supported_countries')
-          .select(_countryReferenceSelect)
-          .order('sort_order', ascending: true)
-          .order('country_name', ascending: true);
+      final data = await guarded(
+        () => _client
+            .from('supported_countries')
+            .select(_countryReferenceSelect)
+            .order('sort_order', ascending: true)
+            .order('country_name', ascending: true),
+        label: 'adminLegacyCountries',
+      );
       return _normalizeCountryReferenceRows(data);
     } on PostgrestException catch (error) {
       if (!isMissingSchemaObjectError(error)) {
@@ -75,19 +81,31 @@ class AdminRepository with AdminRepositoryHelpers {
   // ── Operational Dashboard ─────────────────────────────────────────────
 
   Future<List<Map<String, dynamic>>> fetchOperationalReleaseDashboard() async {
-    final data = await _client.rpc('get_operational_release_dashboard');
+    final data = await guarded(
+      () => _client.rpc('get_operational_release_dashboard'),
+      timeout: rpcTimeout,
+      label: 'adminReleaseDashboard',
+    );
     return asListOfMaps(data);
   }
 
   Future<List<Map<String, dynamic>>> fetchOperationalTriageIssues() async {
-    final data = await _client.rpc('get_operational_triage_issues');
+    final data = await guarded(
+      () => _client.rpc('get_operational_triage_issues'),
+      timeout: rpcTimeout,
+      label: 'adminTriageIssues',
+    );
     return asListOfMaps(data);
   }
 
   // ── Platform Analytics ────────────────────────────────────────────────
 
   Future<Map<String, dynamic>> fetchPlatformAnalytics() async {
-    final data = await _client.rpc('get_platform_analytics_summary');
+    final data = await guarded(
+      () => _client.rpc('get_platform_analytics_summary'),
+      timeout: rpcTimeout,
+      label: 'adminPlatformAnalytics',
+    );
     if (data is Map<String, dynamic>) return data;
     if (data is Map) return Map<String, dynamic>.from(data);
     throw StateError('Expected get_platform_analytics_summary to return JSON.');
@@ -101,14 +119,20 @@ class AdminRepository with AdminRepositoryHelpers {
     String? action,
     String? actorId,
   }) async {
-    final data = await _client.rpc(
-      'get_admin_audit_log',
-      params: <String, dynamic>{
-        'p_limit': limit,
-        'p_offset': offset,
-        ...?(action == null ? null : <String, dynamic>{'p_action': action}),
-        ...?(actorId == null ? null : <String, dynamic>{'p_actor_id': actorId}),
-      },
+    final data = await guarded(
+      () => _client.rpc(
+        'get_admin_audit_log',
+        params: <String, dynamic>{
+          'p_limit': limit,
+          'p_offset': offset,
+          ...?(action == null ? null : <String, dynamic>{'p_action': action}),
+          ...?(actorId == null
+              ? null
+              : <String, dynamic>{'p_actor_id': actorId}),
+        },
+      ),
+      timeout: rpcTimeout,
+      label: 'adminAuditLog',
     );
     return asListOfMaps(data);
   }
@@ -116,7 +140,11 @@ class AdminRepository with AdminRepositoryHelpers {
   // ── Groups Admin Overview ─────────────────────────────────────────────
 
   Future<Map<String, dynamic>> fetchGroupsSummary() async {
-    final data = await _client.rpc('get_admin_groups_summary');
+    final data = await guarded(
+      () => _client.rpc('get_admin_groups_summary'),
+      timeout: rpcTimeout,
+      label: 'adminGroupsSummary',
+    );
     if (data is Map<String, dynamic>) return data;
     if (data is Map) return Map<String, dynamic>.from(data);
     throw StateError('Expected get_admin_groups_summary to return JSON.');

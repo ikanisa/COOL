@@ -1,31 +1,5 @@
 part of 'profile_app_access_sheet.dart';
 
-class _StatusPill extends StatelessWidget {
-  const _StatusPill({required this.label, required this.color});
-
-  final String label;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(CoolRadii.pill),
-      ),
-      child: Text(
-        label,
-        style: theme.textTheme.labelSmall?.copyWith(
-          color: color,
-          fontWeight: FontWeight.w800,
-        ),
-      ),
-    );
-  }
-}
-
 class _InlineActionButton extends StatelessWidget {
   const _InlineActionButton({required this.label, required this.onTap});
 
@@ -40,7 +14,7 @@ class _InlineActionButton extends StatelessWidget {
       onPressed: onTap,
       style: TextButton.styleFrom(
         minimumSize: const Size(0, CoolTapTargets.minimum),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         foregroundColor: colors.accent,
         backgroundColor: colors.chipSelectedBackground,
         shape: RoundedRectangleBorder(
@@ -49,72 +23,10 @@ class _InlineActionButton extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: theme.textTheme.labelLarge?.copyWith(
+        style: theme.textTheme.labelMedium?.copyWith(
           color: colors.accent,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w700,
         ),
-      ),
-    );
-  }
-}
-
-class _SmsPolicyNotice extends StatelessWidget {
-  const _SmsPolicyNotice();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colors = context.coolSemanticColors;
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: colors.cardSurfaceStrong,
-        borderRadius: BorderRadius.circular(CoolRadii.xl),
-        boxShadow: CoolShadows.ambientFloat(strength: 0.15),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 38,
-            height: 38,
-            decoration: BoxDecoration(
-              color: colors.inputSurface,
-              borderRadius: BorderRadius.circular(CoolRadii.md),
-            ),
-            alignment: Alignment.center,
-            child: Icon(
-              CoolIcons.sms,
-              color: colors.secondaryText,
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  context.l10n.profileSmsSyncOptIn,
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    color: colors.primaryText,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: CoolSpace.x1),
-                Text(
-                  context.l10n.profileSmsSyncOptInMessage,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: colors.tertiaryText,
-                    fontWeight: FontWeight.w500,
-                    height: 1.45,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -125,14 +37,12 @@ class _PermissionMetadata {
     required this.icon,
     required this.title,
     required this.subtitle,
-    required this.linkedFeatures,
     required this.serviceActionLabel,
   });
 
   final IconData icon;
   final String title;
   final String subtitle;
-  final List<String> linkedFeatures;
   final String serviceActionLabel;
 }
 
@@ -146,47 +56,30 @@ _PermissionMetadata _metadataFor(
       icon: CoolIcons.sms,
       title: l10n.profileSmsPaymentSyncTitle,
       subtitle: l10n.profileSmsPaymentSyncSubtitle,
-      linkedFeatures: [
-        l10n.profileAccessFeature12MonthImport,
-        l10n.profileAccessFeatureMomoVerification,
-      ],
       serviceActionLabel: l10n.openSystemSettings,
     ),
     AppAccessPermission.camera => _PermissionMetadata(
       icon: CoolIcons.camera,
       title: l10n.camera,
       subtitle: l10n.profileCameraSubtitle,
-      linkedFeatures: [l10n.profileAccessFeatureMomoQrScan],
       serviceActionLabel: l10n.openSystemSettings,
     ),
     AppAccessPermission.contacts => _PermissionMetadata(
       icon: CoolIcons.contacts,
       title: l10n.contacts,
       subtitle: l10n.profileContactsSubtitle,
-      linkedFeatures: [
-        l10n.profileAccessFeatureGroupInvites,
-        l10n.profileAccessFeatureShareViaContacts,
-      ],
       serviceActionLabel: l10n.openSystemSettings,
     ),
     AppAccessPermission.nfc => _PermissionMetadata(
       icon: CoolIcons.nfc,
       title: l10n.nfc,
       subtitle: l10n.profileNfcSubtitle,
-      linkedFeatures: [
-        l10n.profileAccessFeatureMomoReceiveTap,
-        l10n.profileAccessFeatureNfcPaymentTags,
-      ],
       serviceActionLabel: l10n.profileOpenNfcSettings,
     ),
     AppAccessPermission.photos => _PermissionMetadata(
       icon: CoolIcons.photos,
       title: l10n.profilePhotosMediaTitle,
       subtitle: l10n.profilePhotosMediaSubtitle,
-      linkedFeatures: [
-        l10n.profileAccessFeatureProfilePhoto,
-        l10n.profileAccessFeatureDocumentUpload,
-      ],
       serviceActionLabel: l10n.openSystemSettings,
     ),
   };
@@ -222,16 +115,5 @@ _PermissionMetadata _metadataFor(
       label: context.l10n.notAvailable,
       color: colors.tertiaryText,
     ),
-  };
-}
-
-String _helperText(BuildContext context, AppAccessSnapshot snapshot) {
-  return switch (snapshot.kind) {
-    AppAccessStateKind.ready => context.l10n.ready,
-    AppAccessStateKind.disabledInApp => context.l10n.offInCool,
-    AppAccessStateKind.needsSystemPermission => context.l10n.needsAndroidAccess,
-    AppAccessStateKind.blockedInSystem => context.l10n.blockedInSystem,
-    AppAccessStateKind.serviceDisabled => context.l10n.profileServiceOff,
-    AppAccessStateKind.notAvailable => context.l10n.notAvailable,
   };
 }

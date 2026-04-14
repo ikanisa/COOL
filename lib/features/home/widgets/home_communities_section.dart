@@ -752,7 +752,17 @@ void openCommunityGroup(BuildContext context, Group group) {
   context.push(AppRoutes.groupDetailLocation(groupId));
 }
 
-void openCommunityContribution(BuildContext context, Group group) {
+void openCommunityContribution(
+  BuildContext context,
+  Group group, {
+  Set<String> memberGroupIds = const <String>{},
+}) {
+  final groupId = group.id?.trim() ?? '';
+  final isMember = groupId.isNotEmpty && memberGroupIds.contains(groupId);
+  if (group.type == 'saving' && !isMember) {
+    openCommunityGroup(context, group);
+    return;
+  }
   if (!groupHasContributionRoute(group)) {
     openCommunityGroup(context, group);
     return;

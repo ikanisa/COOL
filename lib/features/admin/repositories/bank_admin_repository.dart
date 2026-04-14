@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/utils/supabase_query_helpers.dart' as sq;
 import '../models/bank_admin_models.dart';
 
 class BankAdminRepository {
@@ -44,15 +45,19 @@ class BankAdminRepository {
     int limit = 1000,
     int offset = 0,
   }) async {
-    final rows = _asListOfMaps(
-      await _client.rpc(
-        'get_bank_custody_groups',
-        params: <String, dynamic>{
-          'p_partner_id': bankId,
-          'p_search': _trimToNull(search),
-          'p_limit': limit,
-          'p_offset': offset,
-        },
+    final rows = sq.asListOfMaps(
+      await sq.guarded(
+        () => _client.rpc(
+          'get_bank_custody_groups',
+          params: <String, dynamic>{
+            'p_partner_id': bankId,
+            'p_search': sq.trimToNull(search),
+            'p_limit': limit,
+            'p_offset': offset,
+          },
+        ),
+        timeout: sq.kSupabaseRpcTimeout,
+        label: 'bankCustodyGroups',
       ),
     );
     return BankAdminPage<BankAdminGroupSummary>(
@@ -68,16 +73,20 @@ class BankAdminRepository {
     int limit = 1000,
     int offset = 0,
   }) async {
-    final rows = _asListOfMaps(
-      await _client.rpc(
-        'get_bank_custody_group_members',
-        params: <String, dynamic>{
-          'p_partner_id': bankId,
-          'p_group_id': _trimToNull(groupId),
-          'p_search': _trimToNull(search),
-          'p_limit': limit,
-          'p_offset': offset,
-        },
+    final rows = sq.asListOfMaps(
+      await sq.guarded(
+        () => _client.rpc(
+          'get_bank_custody_group_members',
+          params: <String, dynamic>{
+            'p_partner_id': bankId,
+            'p_group_id': sq.trimToNull(groupId),
+            'p_search': sq.trimToNull(search),
+            'p_limit': limit,
+            'p_offset': offset,
+          },
+        ),
+        timeout: sq.kSupabaseRpcTimeout,
+        label: 'bankCustodyMembers',
       ),
     );
     return BankAdminPage<BankAdminMemberRecord>(
@@ -94,16 +103,20 @@ class BankAdminRepository {
     int limit = 1000,
     int offset = 0,
   }) async {
-    final rows = _asListOfMaps(
-      await _client.rpc(
-        'get_bank_custody_contributions',
-        params: <String, dynamic>{
-          'p_partner_id': bankId,
-          'p_group_id': _trimToNull(groupId),
-          'p_status': _trimToNull(status),
-          'p_limit': limit,
-          'p_offset': offset,
-        },
+    final rows = sq.asListOfMaps(
+      await sq.guarded(
+        () => _client.rpc(
+          'get_bank_custody_contributions',
+          params: <String, dynamic>{
+            'p_partner_id': bankId,
+            'p_group_id': sq.trimToNull(groupId),
+            'p_status': sq.trimToNull(status),
+            'p_limit': limit,
+            'p_offset': offset,
+          },
+        ),
+        timeout: sq.kSupabaseRpcTimeout,
+        label: 'bankCustodyContributions',
       ),
     );
     return BankAdminPage<BankAdminContributionRecord>(
@@ -119,14 +132,18 @@ class BankAdminRepository {
     int limit = 1000,
     int offset = 0,
   }) async {
-    final rows = _asListOfMaps(
-      await _client.rpc(
-        'get_bank_manual_review_allocations',
-        params: <String, dynamic>{
-          'p_partner_id': bankId,
-          'p_limit': limit,
-          'p_offset': offset,
-        },
+    final rows = sq.asListOfMaps(
+      await sq.guarded(
+        () => _client.rpc(
+          'get_bank_manual_review_allocations',
+          params: <String, dynamic>{
+            'p_partner_id': bankId,
+            'p_limit': limit,
+            'p_offset': offset,
+          },
+        ),
+        timeout: sq.kSupabaseRpcTimeout,
+        label: 'bankAllocationReview',
       ),
     );
     return BankAdminPage<BankAdminAllocationReviewItem>(
@@ -144,15 +161,19 @@ class BankAdminRepository {
     required String memberUserId,
     String? note,
   }) async {
-    await _client.rpc(
-      'bank_allocate_manual_review_allocation',
-      params: <String, dynamic>{
-        'p_partner_id': bankId,
-        'p_review_id': reviewId,
-        'p_group_id': groupId,
-        'p_member_user_id': memberUserId,
-        'p_note': _trimToNull(note),
-      },
+    await sq.guarded(
+      () => _client.rpc(
+        'bank_allocate_manual_review_allocation',
+        params: <String, dynamic>{
+          'p_partner_id': bankId,
+          'p_review_id': reviewId,
+          'p_group_id': groupId,
+          'p_member_user_id': memberUserId,
+          'p_note': sq.trimToNull(note),
+        },
+      ),
+      timeout: sq.kSupabaseRpcTimeout,
+      label: 'bankAllocateReview',
     );
   }
 
@@ -161,13 +182,17 @@ class BankAdminRepository {
     required String reviewId,
     String? note,
   }) async {
-    await _client.rpc(
-      'bank_reject_manual_review_allocation',
-      params: <String, dynamic>{
-        'p_partner_id': bankId,
-        'p_review_id': reviewId,
-        'p_note': _trimToNull(note),
-      },
+    await sq.guarded(
+      () => _client.rpc(
+        'bank_reject_manual_review_allocation',
+        params: <String, dynamic>{
+          'p_partner_id': bankId,
+          'p_review_id': reviewId,
+          'p_note': sq.trimToNull(note),
+        },
+      ),
+      timeout: sq.kSupabaseRpcTimeout,
+      label: 'bankRejectReview',
     );
   }
 
@@ -176,9 +201,13 @@ class BankAdminRepository {
   // ═══════════════════════════════════════════════════════════════
 
   Future<Map<String, dynamic>> fetchBankAnalytics(String bankId) async {
-    final result = await _client.rpc(
-      'get_bank_analytics_summary',
-      params: {'p_partner_id': bankId},
+    final result = await sq.guarded(
+      () => _client.rpc(
+        'get_bank_analytics_summary',
+        params: {'p_partner_id': bankId},
+      ),
+      timeout: sq.kSupabaseRpcTimeout,
+      label: 'bankAnalytics',
     );
     if (result is Map<String, dynamic>) return result;
     return const <String, dynamic>{};
@@ -195,13 +224,17 @@ class BankAdminRepository {
     required String reviewId,
     String? note,
   }) async {
-    await _client.rpc(
-      'bank_accept_suggested_allocation',
-      params: {
-        'p_partner_id': bankId,
-        'p_review_id': reviewId,
-        'p_note': _trimToNull(note),
-      },
+    await sq.guarded(
+      () => _client.rpc(
+        'bank_accept_suggested_allocation',
+        params: {
+          'p_partner_id': bankId,
+          'p_review_id': reviewId,
+          'p_note': sq.trimToNull(note),
+        },
+      ),
+      timeout: sq.kSupabaseRpcTimeout,
+      label: 'bankAcceptSuggested',
     );
   }
 
@@ -213,16 +246,20 @@ class BankAdminRepository {
     required String phone,
     String? displayName,
   }) async {
-    final result = await _client.rpc(
-      'bank_add_member_to_group',
-      params: {
-        'p_partner_id': bankId,
-        'p_group_id': groupId,
-        'p_phone': phone,
-        'p_display_name': _trimToNull(displayName),
-      },
+    final result = await sq.guarded(
+      () => _client.rpc(
+        'bank_add_member_to_group',
+        params: {
+          'p_partner_id': bankId,
+          'p_group_id': groupId,
+          'p_phone': phone,
+          'p_display_name': sq.trimToNull(displayName),
+        },
+      ),
+      timeout: sq.kSupabaseRpcTimeout,
+      label: 'bankAddMember',
     );
-    final rows = _asListOfMaps(result);
+    final rows = sq.asListOfMaps(result);
     return rows.isNotEmpty ? rows.first : const <String, dynamic>{};
   }
 
@@ -243,22 +280,19 @@ class BankAdminRepository {
 
   /// Triggers the AI allocation Edge Function.
   Future<void> triggerAiAllocation(String bankId) async {
-    await _client.functions.invoke(
-      'allocate-contributions',
-      body: {'partner_id': bankId},
+    await sq.guarded(
+      () => _client.functions.invoke(
+        'allocate-contributions',
+        body: {'partner_id': bankId},
+      ),
+      timeout: sq.kSupabaseRpcTimeout,
+      label: 'bankAiAllocation',
     );
   }
 }
 
-List<Map<String, dynamic>> _asListOfMaps(dynamic value) {
-  if (value is List) {
-    return value
-        .whereType<Map<dynamic, dynamic>>()
-        .map((row) => Map<String, dynamic>.from(row))
-        .toList(growable: false);
-  }
-  return const <Map<String, dynamic>>[];
-}
+// Local _asListOfMaps and _trimToNull removed — now using shared `sq.*`
+// functions from core/utils/supabase_query_helpers.dart
 
 int _extractTotalCount(List<Map<String, dynamic>> rows) {
   if (rows.isEmpty) {
@@ -272,9 +306,4 @@ int _extractTotalCount(List<Map<String, dynamic>> rows) {
     return value.toInt();
   }
   return int.tryParse(value?.toString() ?? '') ?? rows.length;
-}
-
-String? _trimToNull(String? value) {
-  final trimmed = value?.trim() ?? '';
-  return trimmed.isEmpty ? null : trimmed;
 }

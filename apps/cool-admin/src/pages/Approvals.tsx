@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { supabase } from "@/lib/supabase";
 import { useAsyncData } from "@/lib/hooks";
+import { toast } from "sonner";
 
 interface AuditEntry {
   id: string;
@@ -105,9 +106,11 @@ export function Approvals() {
         <div className="p-4 border-b border-zinc-100 flex items-center gap-3">
           <div className="relative w-full max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
-            <Input className="pl-9" placeholder="Search audit log..." />
+            <Input className="pl-9" placeholder="Search audit log..." onChange={(e) => {
+              if (e.target.value.length > 2) toast.info("Server-side search coming soon.");
+            }} />
           </div>
-          <Button variant="outline" size="icon"><Filter className="h-4 w-4" /></Button>
+          <Button variant="outline" size="icon" onClick={() => toast.info("Advanced filters coming soon.")}><Filter className="h-4 w-4" /></Button>
         </div>
 
         <Table>
@@ -142,7 +145,7 @@ export function Approvals() {
                 <TableCell className="text-sm text-zinc-500 max-w-[200px] truncate">{e.notes ?? "—"}</TableCell>
                 <TableCell className="text-sm text-zinc-500">{new Date(e.created_at).toLocaleString()}</TableCell>
                 <TableCell className="text-right">
-                  <Button variant="ghost" size="icon"><Eye className="h-4 w-4 text-zinc-400" /></Button>
+                  <Button variant="ghost" size="icon" onClick={() => toast.info("Audit detail view coming soon.")}><Eye className="h-4 w-4 text-zinc-400" /></Button>
                 </TableCell>
               </TableRow>
             ))}

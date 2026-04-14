@@ -26,10 +26,13 @@ class MomoWalletScreen extends ConsumerStatefulWidget {
   ConsumerState<MomoWalletScreen> createState() => _MomoWalletScreenState();
 }
 
+enum _WalletScopeFilter { all, wallet, groupRelated }
+
 class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
   static const int _baseLimit = 50;
 
   MomoStatementQuery _query = const MomoStatementQuery(limit: _baseLimit);
+  _WalletScopeFilter _scopeFilter = _WalletScopeFilter.all;
   bool _isExportingPdf = false;
   bool _isExportingExcel = false;
 
@@ -230,7 +233,8 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
             _ErrorState(
               colors: colors,
               message: describeUserFacingError(error),
-              onRetry: () => ref.invalidate(momoStatementBundleProvider(_query)),
+              onRetry: () =>
+                  ref.invalidate(momoStatementBundleProvider(_query)),
             ),
           ],
         ),
@@ -243,13 +247,28 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
             );
           }
 
+          final visibleEntries = entries
+              .where(_matchesScopeFilter)
+              .toList(growable: false);
           final canLoadMore = entries.length < bundle.walletTotalCount;
-          return ListView.builder(
+          return ListView(
             padding: EdgeInsets.only(bottom: CoolSpace.x8 + bottomPad),
-            itemCount: entries.length + (canLoadMore ? 1 : 0),
-            itemBuilder: (context, index) {
-              if (index == entries.length) {
-                return Padding(
+            children: [
+              _WalletScopeFilterBar(
+                selected: _scopeFilter,
+                onSelected: (value) => setState(() => _scopeFilter = value),
+              ),
+              const SizedBox(height: CoolSpace.x4),
+              if (visibleEntries.isEmpty && !canLoadMore)
+                _FilteredEmptyState(scopeFilter: _scopeFilter)
+              else
+                for (final entry in visibleEntries)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: CoolSpace.x3),
+                    child: _WalletTransactionTile(entry: entry),
+                  ),
+              if (canLoadMore)
+                Padding(
                   padding: const EdgeInsets.only(top: CoolSpace.x2),
                   child: Center(
                     child: TextButton.icon(
@@ -261,23 +280,27 @@ class _MomoWalletScreenState extends ConsumerState<MomoWalletScreen> {
                       ),
                       label: Text(
                         context.l10n.walletLoadMore,
-                        style: context.coolText.mobiLabel(
-                          color: colors.accent,
-                        ),
+                        style: context.coolText.mobiLabel(color: colors.accent),
                       ),
                     ),
                   ),
-                );
-              }
-              return Padding(
-                padding: const EdgeInsets.only(bottom: CoolSpace.x3),
-                child: _WalletTransactionTile(entry: entries[index]),
-              );
-            },
+                ),
+            ],
           );
         },
       ),
     );
+  }
+
+  bool _matchesScopeFilter(MomoWalletEntry entry) {
+    switch (_scopeFilter) {
+      case _WalletScopeFilter.all:
+        return true;
+      case _WalletScopeFilter.wallet:
+        return entry.isWalletRelated;
+      case _WalletScopeFilter.groupRelated:
+        return entry.isGroupRelated;
+    }
   }
 }
 
@@ -317,9 +340,7 @@ class _WalletTransactionTile extends StatelessWidget {
             ),
             alignment: Alignment.center,
             child: Icon(
-              isCredit
-                  ? CoolIcons.arrowDown
-                  : CoolIcons.arrowUp,
+              isCredit ? CoolIcons.arrowDown : CoolIcons.arrowUp,
               color: iconColor,
               size: 20,
             ),
@@ -354,8 +375,10 @@ class _WalletTransactionTile extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
+                const SizedBox(height: 6),
+                _ClassificationChip(entry: entry),
                 if (entry.reference != null) ...[
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 6),
                   Text(
                     context.l10n.walletRefPrefix(entry.reference!),
                     style: context.coolText.mono(
@@ -406,6 +429,118 @@ class _WalletTransactionTile extends StatelessWidget {
   }
 }
 
+class _ClassificationChip extends StatelessWidget {
+  const _ClassificationChip({required this.entry});
+
+  final MomoWalletEntry entry;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final isGroupRelated = entry.isGroupRelated;
+    final label = isGroupRelated ? 'GROUP RELATED' : 'WALLET';
+    final chipColor = isGroupRelated ? colors.accent : colors.info;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: chipColor.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(CoolRadii.pill),
+      ),
+      child: Text(
+        label,
+        style: context.coolText.mono(
+          Theme.of(context).textTheme.labelSmall,
+          fontWeight: FontWeight.w800,
+          color: chipColor,
+          letterSpacing: 0.6,
+        ),
+      ),
+    );
+  }
+}
+
+class _WalletScopeFilterBar extends StatelessWidget {
+  const _WalletScopeFilterBar({
+    required this.selected,
+    required this.onSelected,
+  });
+
+  final _WalletScopeFilter selected;
+  final ValueChanged<_WalletScopeFilter> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+
+    return Wrap(
+      spacing: CoolSpace.x2,
+      runSpacing: CoolSpace.x2,
+      children: [
+        for (final option in _WalletScopeFilter.values)
+          ChoiceChip(
+            showCheckmark: false,
+            label: Text(_walletScopeFilterLabel(option)),
+            selected: selected == option,
+            onSelected: (_) => onSelected(option),
+            backgroundColor: colors.chipBackground,
+            selectedColor: colors.chipSelectedBackground,
+            labelStyle: context.coolText.mono(
+              Theme.of(context).textTheme.labelLarge,
+              fontWeight: FontWeight.w700,
+              color: selected == option
+                  ? colors.primaryText
+                  : colors.secondaryText,
+            ),
+            side: BorderSide.none,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(CoolRadii.pill),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _FilteredEmptyState extends StatelessWidget {
+  const _FilteredEmptyState({required this.scopeFilter});
+
+  final _WalletScopeFilter scopeFilter;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    return Container(
+      padding: const EdgeInsets.all(CoolSpace.x6),
+      decoration: BoxDecoration(
+        color: colors.cardSurface,
+        borderRadius: BorderRadius.circular(CoolRadii.xl),
+        boxShadow: CoolShadows.ambientFloat(strength: 0.3),
+      ),
+      child: Text(
+        'No ${_walletScopeFilterLabel(scopeFilter).toLowerCase()} transactions in this range.',
+        textAlign: TextAlign.center,
+        style: context.coolText.mono(
+          Theme.of(context).textTheme.bodyMedium,
+          fontWeight: FontWeight.w500,
+          color: colors.secondaryText,
+        ),
+      ),
+    );
+  }
+}
+
+String _walletScopeFilterLabel(_WalletScopeFilter value) {
+  switch (value) {
+    case _WalletScopeFilter.all:
+      return 'ALL';
+    case _WalletScopeFilter.wallet:
+      return 'WALLET';
+    case _WalletScopeFilter.groupRelated:
+      return 'GROUP RELATED';
+  }
+}
+
 // ═══════════════════════════════════════════════════════════════
 // Empty + Error states
 // ═══════════════════════════════════════════════════════════════
@@ -434,11 +569,7 @@ class _EmptyState extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             alignment: Alignment.center,
-            child: Icon(
-              CoolIcons.history,
-              color: colors.accent,
-              size: 32,
-            ),
+            child: Icon(CoolIcons.history, color: colors.accent, size: 32),
           ),
           const SizedBox(height: CoolSpace.x4),
           Text(
@@ -489,11 +620,7 @@ class _ErrorState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            CoolIcons.error,
-            color: colors.danger,
-            size: 32,
-          ),
+          Icon(CoolIcons.error, color: colors.danger, size: 32),
           const SizedBox(height: CoolSpace.x3),
           Text(
             message,

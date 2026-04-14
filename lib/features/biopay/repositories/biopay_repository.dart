@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/services/app_check_service.dart';
 import '../../../core/services/operational_health_service.dart';
 import '../../../core/utils/json_helpers.dart' as jh;
+import '../../../core/utils/supabase_query_helpers.dart' as sq;
 import '../models/biopay_enrollment_draft.dart';
 import '../models/biopay_match_result.dart';
 import '../models/biopay_payment_intent.dart';
@@ -40,14 +41,17 @@ class BiopayRepository {
       return null;
     }
 
-    final row = await _client
-        .from('biopay_profiles')
-        .select()
-        .eq('user_id', userId)
-        .eq('active', true)
-        .order('updated_at', ascending: false)
-        .limit(1)
-        .maybeSingle();
+    final row = await sq.guarded(
+      () => _client
+          .from('biopay_profiles')
+          .select()
+          .eq('user_id', userId)
+          .eq('active', true)
+          .order('updated_at', ascending: false)
+          .limit(1)
+          .maybeSingle(),
+      label: 'biopayProfile',
+    );
 
     if (row == null) {
       return null;
@@ -63,10 +67,14 @@ class BiopayRepository {
   }) async {
     try {
       final headers = await _buildAttestedHeaders();
-      final response = await _client.functions.invoke(
-        'biopay-enroll',
-        body: draft.toPayload(embedding, liveness: liveness),
-        headers: headers,
+      final response = await sq.guarded(
+        () => _client.functions.invoke(
+          'biopay-enroll',
+          body: draft.toPayload(embedding, liveness: liveness),
+          headers: headers,
+        ),
+        timeout: sq.kSupabaseRpcTimeout,
+        label: 'biopayEnroll',
       );
       final payload = jh.asMap(response.data);
       if (payload['success'] != true) {
@@ -95,15 +103,19 @@ class BiopayRepository {
   }) async {
     try {
       final headers = await _buildAttestedHeaders();
-      final response = await _client.functions.invoke(
-        'biopay-match',
-        body: <String, Object?>{
-          'embedding': embedding,
-          ...?(liveness == null
-              ? null
-              : <String, Object?>{'liveness': liveness}),
-        },
-        headers: headers,
+      final response = await sq.guarded(
+        () => _client.functions.invoke(
+          'biopay-match',
+          body: <String, Object?>{
+            'embedding': embedding,
+            ...?(liveness == null
+                ? null
+                : <String, Object?>{'liveness': liveness}),
+          },
+          headers: headers,
+        ),
+        timeout: sq.kSupabaseRpcTimeout,
+        label: 'biopayMatch',
       );
       final payload = jh.asMap(response.data);
       if (payload['success'] != true) {
@@ -129,10 +141,14 @@ class BiopayRepository {
   Future<void> revoke({String? reason}) async {
     try {
       final headers = await _buildAttestedHeaders();
-      final response = await _client.functions.invoke(
-        'biopay-revoke',
-        body: <String, Object?>{'reason': reason},
-        headers: headers,
+      final response = await sq.guarded(
+        () => _client.functions.invoke(
+          'biopay-revoke',
+          body: <String, Object?>{'reason': reason},
+          headers: headers,
+        ),
+        timeout: sq.kSupabaseRpcTimeout,
+        label: 'biopayRevoke',
       );
       final payload = jh.asMap(response.data);
       if (payload['success'] != true) {
@@ -163,13 +179,17 @@ class BiopayRepository {
   }) async {
     try {
       final headers = await _buildAttestedHeaders();
-      final response = await _client.functions.invoke(
-        'biopay-create-payment-intent',
-        body: <String, Object?>{
-          'profile_public_id': profilePublicId,
-          'match_score': matchScore,
-        },
-        headers: headers,
+      final response = await sq.guarded(
+        () => _client.functions.invoke(
+          'biopay-create-payment-intent',
+          body: <String, Object?>{
+            'profile_public_id': profilePublicId,
+            'match_score': matchScore,
+          },
+          headers: headers,
+        ),
+        timeout: sq.kSupabaseRpcTimeout,
+        label: 'biopayPaymentIntent',
       );
       final payload = jh.asMap(response.data);
       if (payload['success'] != true) {
@@ -194,14 +214,17 @@ class BiopayRepository {
 
   /// Mark a pending intent as dialed (one-time use enforcement).
   Future<void> markIntentDialed(String intentId) async {
-    await _client
-        .from('biopay_payment_intents')
-        .update(<String, Object?>{
-          'status': 'dialed',
-          'dialed_at': DateTime.now().toUtc().toIso8601String(),
-        })
-        .eq('id', intentId)
-        .eq('user_id', currentUserId ?? '')
-        .eq('status', 'pending');
+    await sq.guarded(
+      () => _client
+          .from('biopay_payment_intents')
+          .update(<String, Object?>{
+            'status': 'dialed',
+            'dialed_at': DateTime.now().toUtc().toIso8601String(),
+          })
+          .eq('id', intentId)
+          .eq('user_id', currentUserId ?? '')
+          .eq('status', 'pending'),
+      label: 'biopayMarkIntentDialed',
+    );
   }
 }

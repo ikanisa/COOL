@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Save, Loader2, Search } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
 import { useAsyncData } from "@/lib/hooks";
+import { toast } from "sonner";
 
 interface GroupOption {
   id: string;
@@ -14,20 +15,12 @@ interface GroupOption {
 
 export function CreateMember() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const presetGroupId = searchParams.get("groupId") ?? "";
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [userSearch, setUserSearch] = useState("");
   const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedUser, setSelectedUser] = useState<{ id: string; name: string; phone: string } | null>(null);
   const [displayName, setDisplayName] = useState("");
-
-  useEffect(() => {
-    if (presetGroupId) {
-      setSelectedGroup(presetGroupId);
-    }
-  }, [presetGroupId]);
 
   const { data: groups } = useAsyncData(async () => {
     const { data, error } = await supabase.from("groups").select("id, name").eq("type", "saving").order("name");
@@ -63,10 +56,16 @@ export function CreateMember() {
         p_display_name: displayName.trim() || null,
       });
       if (rpcError) throw new Error(rpcError.message);
-      if (data?.status === "success") navigate("/members");
-      else setError("Failed to add member.");
+      if (data?.status === "success") {
+        toast.success("Member added successfully.");
+        navigate("/members");
+      } else {
+        setError("Failed to add member.");
+      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to add member.");
+      const msg = err instanceof Error ? err.message : "Failed to add member.";
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

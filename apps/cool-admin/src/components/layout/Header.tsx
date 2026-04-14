@@ -2,6 +2,7 @@ import { Search, Bell, LogOut, User, Settings } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
+import { toast } from "sonner";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,7 +37,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-6 border-b border-zinc-200 bg-white px-4 sm:px-6 lg:px-8">
       <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-        <form className="flex flex-1" action="#" method="GET">
+        <div className="flex flex-1" role="search">
           <label htmlFor="search-field" className="sr-only">
             Search
           </label>
@@ -47,15 +48,23 @@ export function Header() {
               className="pl-9 bg-zinc-50/50 border-transparent focus-visible:bg-white"
               placeholder="Search users, groups, or transactions..."
               type="search"
-              name="search"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  toast.info("Global search coming soon.");
+                }
+              }}
             />
           </div>
-        </form>
+        </div>
         <div className="flex items-center gap-x-4 lg:gap-x-6">
-          <button type="button" className="-m-2.5 p-2.5 text-zinc-400 hover:text-zinc-500 relative">
+          <button
+            type="button"
+            className="-m-2.5 p-2.5 text-zinc-400 hover:text-zinc-500 relative"
+            onClick={() => toast.info("Notifications coming soon.")}
+          >
             <span className="sr-only">View notifications</span>
             <Bell className="h-5 w-5" aria-hidden="true" />
-            <span className="absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-rose-500 ring-2 ring-white" />
           </button>
 
           {/* Separator */}

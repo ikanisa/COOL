@@ -18,10 +18,16 @@ class AdminSavingsRepository with AdminRepositoryHelpers {
 
   /// Fetches detailed savings + community groups with members and totals.
   Future<Map<String, dynamic>> fetchSavingsGroupsDetail() async {
-    final data = await _client.rpc('admin_get_savings_groups_detail');
+    final data = await guarded(
+      () => _client.rpc('admin_get_savings_groups_detail'),
+      timeout: rpcTimeout,
+      label: 'adminSavingsGroupsDetail',
+    );
     if (data is Map<String, dynamic>) return data;
     if (data is Map) return Map<String, dynamic>.from(data);
-    throw StateError('Expected admin_get_savings_groups_detail to return JSON.');
+    throw StateError(
+      'Expected admin_get_savings_groups_detail to return JSON.',
+    );
   }
 
   // ── Create ───────────────────────────────────────────────────────────
@@ -34,17 +40,21 @@ class AdminSavingsRepository with AdminRepositoryHelpers {
     int? monthlyContribution,
     String? frequency,
   }) async {
-    final data = await _client.rpc(
-      'admin_create_savings_group',
-      params: <String, dynamic>{
-        'p_name': name.trim(),
-        'p_description': description?.trim(),
-        'p_target_amount': targetAmount ?? 0,
-        'p_monthly_contribution': monthlyContribution,
-        'p_frequency': frequency?.trim() ?? 'monthly',
-      },
+    final data = await guarded(
+      () => _client.rpc(
+        'admin_create_savings_group',
+        params: <String, dynamic>{
+          'p_name': name.trim(),
+          'p_description': description?.trim(),
+          'p_target_amount': targetAmount ?? 0,
+          'p_monthly_contribution': monthlyContribution,
+          'p_frequency': frequency?.trim() ?? 'monthly',
+        },
+      ),
+      timeout: rpcTimeout,
+      label: 'adminCreateSavingsGroup',
     );
-    return _asMap(data);
+    return asMap(data);
   }
 
   // ── Update ───────────────────────────────────────────────────────────
@@ -59,19 +69,23 @@ class AdminSavingsRepository with AdminRepositoryHelpers {
     String? frequency,
     bool? isClosed,
   }) async {
-    final data = await _client.rpc(
-      'admin_update_savings_group',
-      params: <String, dynamic>{
-        'p_group_id': groupId.trim(),
-        'p_name': name?.trim(),
-        'p_description': description?.trim(),
-        'p_target_amount': targetAmount,
-        'p_monthly_contribution': monthlyContribution,
-        'p_frequency': frequency?.trim(),
-        'p_is_closed': isClosed,
-      },
+    final data = await guarded(
+      () => _client.rpc(
+        'admin_update_savings_group',
+        params: <String, dynamic>{
+          'p_group_id': groupId.trim(),
+          'p_name': name?.trim(),
+          'p_description': description?.trim(),
+          'p_target_amount': targetAmount,
+          'p_monthly_contribution': monthlyContribution,
+          'p_frequency': frequency?.trim(),
+          'p_is_closed': isClosed,
+        },
+      ),
+      timeout: rpcTimeout,
+      label: 'adminUpdateSavingsGroup',
     );
-    return _asMap(data);
+    return asMap(data);
   }
 
   // ── Member Management ────────────────────────────────────────────────
@@ -82,15 +96,19 @@ class AdminSavingsRepository with AdminRepositoryHelpers {
     required String userId,
     String? displayName,
   }) async {
-    final data = await _client.rpc(
-      'admin_add_group_member',
-      params: <String, dynamic>{
-        'p_group_id': groupId.trim(),
-        'p_user_id': userId.trim(),
-        'p_display_name': displayName?.trim(),
-      },
+    final data = await guarded(
+      () => _client.rpc(
+        'admin_add_group_member',
+        params: <String, dynamic>{
+          'p_group_id': groupId.trim(),
+          'p_user_id': userId.trim(),
+          'p_display_name': displayName?.trim(),
+        },
+      ),
+      timeout: rpcTimeout,
+      label: 'adminAddGroupMember',
     );
-    return _asMap(data);
+    return asMap(data);
   }
 
   /// Removes a member from a group.
@@ -98,14 +116,18 @@ class AdminSavingsRepository with AdminRepositoryHelpers {
     required String groupId,
     required String userId,
   }) async {
-    final data = await _client.rpc(
-      'admin_remove_group_member',
-      params: <String, dynamic>{
-        'p_group_id': groupId.trim(),
-        'p_user_id': userId.trim(),
-      },
+    final data = await guarded(
+      () => _client.rpc(
+        'admin_remove_group_member',
+        params: <String, dynamic>{
+          'p_group_id': groupId.trim(),
+          'p_user_id': userId.trim(),
+        },
+      ),
+      timeout: rpcTimeout,
+      label: 'adminRemoveGroupMember',
     );
-    return _asMap(data);
+    return asMap(data);
   }
 
   /// Bulk-adds members by phone number.
@@ -114,14 +136,18 @@ class AdminSavingsRepository with AdminRepositoryHelpers {
     required String groupId,
     required List<Map<String, String>> members,
   }) async {
-    final data = await _client.rpc(
-      'admin_bulk_add_group_members',
-      params: <String, dynamic>{
-        'p_group_id': groupId.trim(),
-        'p_members': members,
-      },
+    final data = await guarded(
+      () => _client.rpc(
+        'admin_bulk_add_group_members',
+        params: <String, dynamic>{
+          'p_group_id': groupId.trim(),
+          'p_members': members,
+        },
+      ),
+      timeout: rpcTimeout,
+      label: 'adminBulkAddGroupMembers',
     );
-    return _asMap(data);
+    return asMap(data);
   }
 
   // ── Allocations ──────────────────────────────────────────────────────
@@ -134,24 +160,20 @@ class AdminSavingsRepository with AdminRepositoryHelpers {
     String? reference,
     String? note,
   }) async {
-    final data = await _client.rpc(
-      'admin_allocate_savings_contribution',
-      params: <String, dynamic>{
-        'p_group_id': groupId.trim(),
-        'p_member_user_id': memberUserId.trim(),
-        'p_amount': amount,
-        'p_reference': reference?.trim(),
-        'p_note': note?.trim(),
-      },
+    final data = await guarded(
+      () => _client.rpc(
+        'admin_allocate_savings_contribution',
+        params: <String, dynamic>{
+          'p_group_id': groupId.trim(),
+          'p_member_user_id': memberUserId.trim(),
+          'p_amount': amount,
+          'p_reference': reference?.trim(),
+          'p_note': note?.trim(),
+        },
+      ),
+      timeout: rpcTimeout,
+      label: 'adminAllocateSavingsContribution',
     );
-    return _asMap(data);
-  }
-
-  // ── Helpers ──────────────────────────────────────────────────────────
-
-  Map<String, dynamic> _asMap(dynamic value) {
-    if (value is Map<String, dynamic>) return value;
-    if (value is Map) return Map<String, dynamic>.from(value);
-    return const <String, dynamic>{};
+    return asMap(data);
   }
 }

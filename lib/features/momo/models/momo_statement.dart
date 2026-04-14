@@ -258,6 +258,7 @@ class MomoWalletEntry {
   const MomoWalletEntry({
     required this.id,
     required this.entryType,
+    required this.ledgerScope,
     required this.ledgerStatus,
     required this.amount,
     required this.currency,
@@ -265,6 +266,7 @@ class MomoWalletEntry {
     required this.txCategory,
     required this.cashflowBucket,
     required this.label,
+    this.targetTable,
     this.counterpartyName,
     this.reference,
     this.description,
@@ -275,6 +277,7 @@ class MomoWalletEntry {
 
   final String id;
   final String entryType;
+  final String ledgerScope;
   final String ledgerStatus;
   final int amount;
   final String currency;
@@ -282,6 +285,7 @@ class MomoWalletEntry {
   final String txCategory;
   final String cashflowBucket;
   final String label;
+  final String? targetTable;
   final String? counterpartyName;
   final String? reference;
   final String? description;
@@ -291,6 +295,11 @@ class MomoWalletEntry {
 
   bool get isCredit => entryType == 'credit';
   bool get isDebit => entryType == 'debit';
+  bool get isGroupRelated =>
+      ledgerScope == 'group' ||
+      ledgerScope == 'savings' ||
+      targetTable == 'group_contributions';
+  bool get isWalletRelated => !isGroupRelated;
 
   factory MomoWalletEntry.fromJson(Map<String, dynamic> json) {
     // Check if we have the joined momo_sms_parsed data
@@ -301,6 +310,7 @@ class MomoWalletEntry {
     return MomoWalletEntry(
       id: json['id']?.toString() ?? '',
       entryType: json['entry_type']?.toString() ?? 'debit',
+      ledgerScope: json['ledger_scope']?.toString() ?? 'wallet',
       ledgerStatus: json['ledger_status']?.toString() ?? 'draft',
       amount: _asInt(json['amount']),
       currency: json['currency']?.toString() ?? 'RWF',
@@ -316,6 +326,7 @@ class MomoWalletEntry {
           _titleize(
             json['tx_category']?.toString() ?? json['entry_type']?.toString(),
           ),
+      targetTable: _nonEmpty(json['target_table']),
       counterpartyName: _nonEmpty(json['counterparty_name']),
       reference: _nonEmpty(json['external_reference']),
       description: _nonEmpty(json['description']),

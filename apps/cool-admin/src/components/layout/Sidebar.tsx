@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { 
   LayoutDashboard, 
@@ -11,9 +12,12 @@ import {
   Settings,
   LogOut,
   FileText,
-  Fingerprint
+  Fingerprint,
+  Menu,
+  X
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/lib/auth";
 
 const navItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/" },
@@ -22,27 +26,38 @@ const navItems = [
   { icon: Layers, label: "Groups", path: "/groups" },
   { icon: Wallet, label: "Transactions", path: "/transactions" },
   { icon: Banknote, label: "Loans", path: "/loans" },
-  { icon: FileText, label: "Allocation", path: "/reconciliation", badge: "24" },
+  { icon: FileText, label: "Allocation", path: "/reconciliation" },
   { icon: Fingerprint, label: "BioPay", path: "/biopay" },
-  { icon: ShieldAlert, label: "Approvals", path: "/approvals", badge: "12" },
+  { icon: ShieldAlert, label: "Approvals", path: "/approvals" },
   { icon: Activity, label: "System Health", path: "/health" },
+  { icon: User, label: "Profile", path: "/profile" },
   { icon: Settings, label: "Settings", path: "/settings" },
 ];
 
 export function Sidebar() {
   const navigate = useNavigate();
+  const { signOut } = useAuth();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOut();
     navigate("/auth/login");
   };
 
-  return (
-    <aside className="fixed inset-y-0 left-0 z-50 w-64 flex flex-col border-r border-zinc-200 bg-white">
-      <div className="flex h-16 shrink-0 items-center px-6 border-b border-zinc-100">
+  const sidebarContent = (
+    <>
+      <div className="flex h-16 shrink-0 items-center justify-between px-6 border-b border-zinc-100">
         <div className="flex items-center gap-2 font-bold text-xl tracking-tight text-zinc-900">
-          <img src="/icon-192.png" alt="COOL" className="h-8 w-8 rounded-lg" />
+          <img src="/logo.png" alt="COOL" className="h-8 w-8 rounded-lg" />
           COOL Admin
         </div>
+        {/* Close button — mobile only */}
+        <button
+          onClick={() => setMobileOpen(false)}
+          className="lg:hidden -mr-2 p-2 rounded-lg text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600"
+        >
+          <X className="h-5 w-5" />
+        </button>
       </div>
 
       <nav className="flex-1 overflow-y-auto p-4 space-y-1">
@@ -54,6 +69,7 @@ export function Sidebar() {
             key={item.path}
             to={item.path}
             end={item.path === "/"}
+            onClick={() => setMobileOpen(false)}
             className={({ isActive }) =>
               cn(
                 "flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
@@ -67,11 +83,6 @@ export function Sidebar() {
               <item.icon className="h-5 w-5" />
               {item.label}
             </div>
-            {item.badge && (
-              <span className="flex h-5 items-center justify-center rounded-full bg-rose-100 px-2 text-[10px] font-bold text-rose-700">
-                {item.badge}
-              </span>
-            )}
           </NavLink>
         ))}
       </nav>
@@ -85,6 +96,42 @@ export function Sidebar() {
           Sign Out
         </button>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile toggle button — positioned inside header area to avoid overlap */}
+      <button
+        onClick={() => setMobileOpen(true)}
+        aria-label="Open navigation menu"
+        className="fixed top-[1.125rem] left-4 z-[60] lg:hidden p-2 rounded-lg bg-white shadow-md border border-zinc-200 text-zinc-600 hover:bg-zinc-50"
+      >
+        <Menu className="h-5 w-5" />
+      </button>
+
+      {/* Mobile overlay */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 z-[55] bg-black/30 backdrop-blur-sm lg:hidden"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
+      {/* Mobile drawer */}
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-[60] w-64 flex flex-col border-r border-zinc-200 bg-white transition-transform duration-300 lg:hidden",
+          mobileOpen ? "translate-x-0" : "-translate-x-full"
+        )}
+      >
+        {sidebarContent}
+      </aside>
+
+      {/* Desktop sidebar — always visible */}
+      <aside className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:w-64 lg:flex lg:flex-col lg:border-r lg:border-zinc-200 lg:bg-white">
+        {sidebarContent}
+      </aside>
+    </>
   );
 }

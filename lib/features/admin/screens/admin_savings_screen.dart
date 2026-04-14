@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,9 +34,12 @@ class AdminSavingsScreen extends ConsumerStatefulWidget {
 }
 
 class _AdminSavingsScreenState extends ConsumerState<AdminSavingsScreen> {
+  static const _autoRefreshInterval = Duration(seconds: 15);
+
   String _search = '';
   _SavingsTab _activeTab = _SavingsTab.savings;
   bool _showCreateForm = false;
+  Timer? _autoRefreshTimer;
 
   // Create form controllers
   final _nameController = TextEditingController();
@@ -45,7 +50,19 @@ class _AdminSavingsScreenState extends ConsumerState<AdminSavingsScreen> {
   bool _isCreating = false;
 
   @override
+  void initState() {
+    super.initState();
+    _autoRefreshTimer = Timer.periodic(_autoRefreshInterval, (_) {
+      if (!mounted) {
+        return;
+      }
+      ref.invalidate(adminSavingsGroupsDetailProvider);
+    });
+  }
+
+  @override
   void dispose() {
+    _autoRefreshTimer?.cancel();
     _nameController.dispose();
     _descriptionController.dispose();
     _targetAmountController.dispose();
@@ -265,17 +282,13 @@ class _AdminSavingsScreenState extends ConsumerState<AdminSavingsScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      _showCreateForm
-                          ? CoolIcons.close
-                          : CoolIcons.add,
+                      _showCreateForm ? CoolIcons.close : CoolIcons.add,
                       size: 18,
                       color: colors.accent,
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      _showCreateForm
-                          ? 'Cancel'
-                          : 'Create Savings Group',
+                      _showCreateForm ? 'Cancel' : 'Create Savings Group',
                       style: theme.textTheme.labelLarge?.copyWith(
                         fontWeight: FontWeight.w700,
                         color: colors.accent,
@@ -330,10 +343,10 @@ class _AdminSavingsScreenState extends ConsumerState<AdminSavingsScreen> {
               isSavings: _activeTab == _SavingsTab.savings,
               onTap: _activeTab == _SavingsTab.savings
                   ? () => context.push(
-                        AppRoutes.adminSavingsGroupDetail(
-                          group['id']?.toString() ?? '',
-                        ),
-                      )
+                      AppRoutes.adminSavingsGroupDetail(
+                        group['id']?.toString() ?? '',
+                      ),
+                    )
                   : null,
             ),
             const SizedBox(height: CoolSpace.x3),
@@ -358,8 +371,9 @@ class _AdminSavingsScreenState extends ConsumerState<AdminSavingsScreen> {
             ? _descriptionController.text.trim()
             : null,
         targetAmount: int.tryParse(_targetAmountController.text.trim()),
-        monthlyContribution:
-            int.tryParse(_monthlyContributionController.text.trim()),
+        monthlyContribution: int.tryParse(
+          _monthlyContributionController.text.trim(),
+        ),
         frequency: _frequency,
       );
 

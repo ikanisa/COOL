@@ -1,5 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/utils/supabase_query_helpers.dart' as sq;
+
 final class AdminAiContentGenerationConfig {
   const AdminAiContentGenerationConfig({
     required this.isEnabled,
@@ -48,34 +50,41 @@ class AdminAiContentRepository {
   final SupabaseClient _client;
 
   Future<AdminAiContentGenerationConfig?> fetchGenerationConfig() async {
-    final rows = await _client
-        .from('ai_content_generation_config')
-        .select()
-        .limit(1);
+    final rows = sq.asListOfMaps(
+      await sq.guarded(
+        () => _client.from('ai_content_generation_config').select().limit(1),
+        label: 'adminAiGenerationConfig',
+      ),
+    );
     if (rows.isEmpty) {
       return null;
     }
 
-    return AdminAiContentGenerationConfig.fromJson(
-      Map<String, dynamic>.from(rows.first as Map),
-    );
+    return AdminAiContentGenerationConfig.fromJson(rows.first);
   }
 
   Future<void> setGenerationEnabled(bool enabled) async {
-    await _client
-        .from('ai_content_generation_config')
-        .update({
-          'is_enabled': enabled,
-          'updated_at': DateTime.now().toUtc().toIso8601String(),
-          'updated_by': _client.auth.currentUser?.id,
-        })
-        .not('id', 'is', null);
+    await sq.guarded(
+      () => _client
+          .from('ai_content_generation_config')
+          .update({
+            'is_enabled': enabled,
+            'updated_at': DateTime.now().toUtc().toIso8601String(),
+            'updated_by': _client.auth.currentUser?.id,
+          })
+          .not('id', 'is', null),
+      label: 'adminSetAiGenerationEnabled',
+    );
   }
 
   Future<AdminAiContentGenerationResult> triggerManualGeneration() async {
-    final response = await _client.functions.invoke(
-      'generate-ai-content',
-      queryParameters: <String, String>{'manual': 'true'},
+    final response = await sq.guarded(
+      () => _client.functions.invoke(
+        'generate-ai-content',
+        queryParameters: <String, String>{'manual': 'true'},
+      ),
+      timeout: sq.kSupabaseRpcTimeout,
+      label: 'adminTriggerAiGeneration',
     );
     final data = response.data;
     if (data is Map) {

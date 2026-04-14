@@ -22,26 +22,39 @@ class AdminContentRepository with AdminRepositoryHelpers {
     if (normalizedCountry != null) {
       query = query.or('country.is.null,country.eq.$normalizedCountry');
     }
-    final data = await query
-        .order('country', ascending: true)
-        .order('sort_order', ascending: true);
+    final data = await guarded(
+      () => query
+          .order('country', ascending: true)
+          .order('sort_order', ascending: true),
+      label: 'adminPartners',
+    );
     return asListOfMaps(
       data,
     ).map((row) => _coerceBlankCountryToRwanda(row)).toList(growable: false);
   }
 
   Future<void> upsertPartner(Map<String, dynamic> partner) async {
-    await _client
-        .from('partners')
-        .upsert(_withNormalizedCountry(partner, required: true));
+    await guarded(
+      () => _client
+          .from('partners')
+          .upsert(_withNormalizedCountry(partner, required: true)),
+      label: 'adminUpsertPartner',
+    );
   }
 
   Future<void> togglePartnerActive(String id, bool isActive) async {
-    await _client.from('partners').update({'is_active': isActive}).eq('id', id);
+    await guarded(
+      () =>
+          _client.from('partners').update({'is_active': isActive}).eq('id', id),
+      label: 'adminTogglePartner',
+    );
   }
 
   Future<void> deletePartner(String id) async {
-    await _client.from('partners').delete().eq('id', id);
+    await guarded(
+      () => _client.from('partners').delete().eq('id', id),
+      label: 'adminDeletePartner',
+    );
   }
 
   // ── Partner Services ──────────────────────────────────────────────────
@@ -56,9 +69,12 @@ class AdminContentRepository with AdminRepositoryHelpers {
     if (partnerId != null) {
       query = query.eq('partner_id', partnerId);
     }
-    final data = await query
-        .order('sort_order', ascending: true)
-        .order('title', ascending: true);
+    final data = await guarded(
+      () => query
+          .order('sort_order', ascending: true)
+          .order('title', ascending: true),
+      label: 'adminPartnerServices',
+    );
     return asListOfMaps(
       data,
     ).map((row) => _coerceBlankCountryToRwanda(row)).toList(growable: false);
@@ -71,11 +87,17 @@ class AdminContentRepository with AdminRepositoryHelpers {
       throw StateError('Partner selection is required for partner services.');
     }
     normalizedService['partner_id'] = partnerId;
-    await _client.from('partner_services').upsert(normalizedService);
+    await guarded(
+      () => _client.from('partner_services').upsert(normalizedService),
+      label: 'adminUpsertPartnerService',
+    );
   }
 
   Future<void> deletePartnerService(String id) async {
-    await _client.from('partner_services').delete().eq('id', id);
+    await guarded(
+      () => _client.from('partner_services').delete().eq('id', id),
+      label: 'adminDeletePartnerService',
+    );
   }
 
   // ── Partner Payment Routes ───────────────────────────────────────────
@@ -94,9 +116,12 @@ class AdminContentRepository with AdminRepositoryHelpers {
     if (normalizedCountry != null) {
       query = query.or('country.is.null,country.eq.$normalizedCountry');
     }
-    final data = await query
-        .order('country', ascending: true)
-        .order('updated_at', ascending: false);
+    final data = await guarded(
+      () => query
+          .order('country', ascending: true)
+          .order('updated_at', ascending: false),
+      label: 'adminPartnerPaymentRoutes',
+    );
     return asListOfMaps(data)
         .map((row) {
           final normalized = _coerceBlankCountryToRwanda(row);
@@ -138,11 +163,17 @@ class AdminContentRepository with AdminRepositoryHelpers {
     );
     normalized['status'] =
         trimmed(normalized['status'])?.toLowerCase() ?? 'draft';
-    await _client.from('partner_payment_routes').upsert(normalized);
+    await guarded(
+      () => _client.from('partner_payment_routes').upsert(normalized),
+      label: 'adminUpsertPartnerPaymentRoute',
+    );
   }
 
   Future<void> deletePartnerPaymentRoute(String id) async {
-    await _client.from('partner_payment_routes').delete().eq('id', id);
+    await guarded(
+      () => _client.from('partner_payment_routes').delete().eq('id', id),
+      label: 'adminDeletePartnerPaymentRoute',
+    );
   }
 
   // ── Quick Actions ─────────────────────────────────────────────────────
@@ -150,58 +181,85 @@ class AdminContentRepository with AdminRepositoryHelpers {
   Future<List<Map<String, dynamic>>> fetchQuickActions({
     String? country,
   }) async {
-    final data = await _client
-        .from('quick_actions')
-        .select()
-        .order('sort_order', ascending: true);
+    final data = await guarded(
+      () => _client
+          .from('quick_actions')
+          .select()
+          .order('sort_order', ascending: true),
+      label: 'adminQuickActions',
+    );
     return asListOfMaps(
       data,
     ).map((row) => _coerceBlankCountryToRwanda(row)).toList(growable: false);
   }
 
   Future<void> upsertQuickAction(Map<String, dynamic> action) async {
-    await _client
-        .from('quick_actions')
-        .upsert(_lockCountryScopeToRwanda(action));
+    await guarded(
+      () => _client
+          .from('quick_actions')
+          .upsert(_lockCountryScopeToRwanda(action)),
+      label: 'adminUpsertQuickAction',
+    );
   }
 
   Future<void> deleteQuickAction(String id) async {
-    await _client.from('quick_actions').delete().eq('id', id);
+    await guarded(
+      () => _client.from('quick_actions').delete().eq('id', id),
+      label: 'adminDeleteQuickAction',
+    );
   }
 
   Future<void> reorderQuickActions(List<String> orderedIds) async {
     for (var i = 0; i < orderedIds.length; i++) {
-      await _client
-          .from('quick_actions')
-          .update(<String, dynamic>{'sort_order': i})
-          .eq('id', orderedIds[i]);
+      await guarded(
+        () => _client
+            .from('quick_actions')
+            .update(<String, dynamic>{'sort_order': i})
+            .eq('id', orderedIds[i]),
+        label: 'adminReorderQuickActions',
+      );
     }
   }
 
   // ── App Config ────────────────────────────────────────────────────────
 
   Future<List<Map<String, dynamic>>> fetchAppConfig({String? country}) async {
-    final data = await _client.from('app_config').select().order('key');
+    final data = await guarded(
+      () => _client.from('app_config').select().order('key'),
+      label: 'adminAppConfig',
+    );
     return asListOfMaps(
       data,
     ).map((row) => _coerceBlankCountryToRwanda(row)).toList(growable: false);
   }
 
   Future<void> upsertAppConfig(Map<String, dynamic> config) async {
-    await _client.from('app_config').upsert(_lockCountryScopeToRwanda(config));
+    await guarded(
+      () =>
+          _client.from('app_config').upsert(_lockCountryScopeToRwanda(config)),
+      label: 'adminUpsertAppConfig',
+    );
   }
 
   Future<void> upsertAppConfigs(List<Map<String, dynamic>> configs) async {
     if (configs.isEmpty) {
       return;
     }
-    await _client
-        .from('app_config')
-        .upsert(configs.map(_lockCountryScopeToRwanda).toList(growable: false));
+    await guarded(
+      () => _client
+          .from('app_config')
+          .upsert(
+            configs.map(_lockCountryScopeToRwanda).toList(growable: false),
+          ),
+      label: 'adminUpsertAppConfigs',
+    );
   }
 
   Future<void> deleteAppConfig(String key) async {
-    await _client.from('app_config').delete().eq('key', key);
+    await guarded(
+      () => _client.from('app_config').delete().eq('key', key),
+      label: 'adminDeleteAppConfig',
+    );
   }
 
   // ── Private helpers ───────────────────────────────────────────────────

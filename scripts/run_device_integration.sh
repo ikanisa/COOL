@@ -335,7 +335,11 @@ run_target() {
 main() {
   require_command bash
 
-  mapfile -t targets < <(resolve_suite_targets)
+  local targets=()
+  while IFS= read -r target; do
+    [[ -n "$target" ]] || continue
+    targets+=("$target")
+  done < <(resolve_suite_targets)
   if [[ "${#targets[@]}" -eq 0 ]]; then
     echo "No integration targets resolved." >&2
     exit 1

@@ -102,8 +102,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           error: publicGroupsAsync.hasError ? publicGroupsAsync.error : null,
           onViewAll: () => context.push(AppRoutes.groups),
           onOpenGroup: (group) => openCommunityGroup(context, group),
-          onQuickContribution: (group) =>
-              openCommunityContribution(context, group),
+          onQuickContribution: (group) => openCommunityContribution(
+            context,
+            group,
+            memberGroupIds: myGroups
+                .map((item) => item.id ?? '')
+                .where((id) => id.isNotEmpty)
+                .toSet(),
+          ),
         ),
       ]);
     }

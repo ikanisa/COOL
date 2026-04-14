@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/utils/supabase_query_helpers.dart' as sq;
 import '../models/momo_sms_sync_status.dart';
 
 class MomoSmsSyncStatusRepository {
@@ -15,19 +16,22 @@ class MomoSmsSyncStatusRepository {
     }
 
     try {
-      final rows = await _client
-          .from('momo_sms_sync_runs')
-          .select(
-            'id, trigger, status, lookback_days, incremental, scan_started_at, '
-            'scan_completed_at, scanned_messages, uploaded_messages, '
-            'duplicate_messages, oldest_message_at, newest_message_at, '
-            'latest_known_message_at, error_message',
-          )
-          .eq('user_id', userId)
-          .order('created_at', ascending: false)
-          .limit(20);
+      final rows = await sq.guarded(
+        () => _client
+            .from('momo_sms_sync_runs')
+            .select(
+              'id, trigger, status, lookback_days, incremental, scan_started_at, '
+              'scan_completed_at, scanned_messages, uploaded_messages, '
+              'duplicate_messages, oldest_message_at, newest_message_at, '
+              'latest_known_message_at, error_message',
+            )
+            .eq('user_id', userId)
+            .order('created_at', ascending: false)
+            .limit(20),
+        label: 'momoSmsSyncStatus',
+      );
 
-      return MomoSmsSyncStatus.fromRows(_asListOfMaps(rows));
+      return MomoSmsSyncStatus.fromRows(sq.asListOfMaps(rows));
     } catch (error) {
       debugPrint('[MoMo SMS] sync status unavailable: $error');
       return const MomoSmsSyncStatus();
@@ -35,13 +39,5 @@ class MomoSmsSyncStatusRepository {
   }
 }
 
-List<Map<String, dynamic>> _asListOfMaps(dynamic value) {
-  if (value is! List) {
-    return const <Map<String, dynamic>>[];
-  }
-
-  return value
-      .whereType<Map<dynamic, dynamic>>()
-      .map((row) => Map<String, dynamic>.from(row))
-      .toList(growable: false);
-}
+// Local _asListOfMaps removed — now using shared `sq.asListOfMaps` from
+// core/utils/supabase_query_helpers.dart

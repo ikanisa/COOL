@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
+import '../../../core/utils/supabase_query_helpers.dart' as sq;
 import '../models/user_profile.dart';
 
 class AuthRepository {
@@ -15,7 +16,10 @@ class AuthRepository {
 
   /// Signs in anonymously via Supabase. Returns the new session.
   Future<Session> signInAnonymously() async {
-    final response = await _client.auth.signInAnonymously();
+    final response = await sq.guarded(
+      () => _client.auth.signInAnonymously(),
+      label: 'signInAnonymously',
+    );
     final session = response.session;
     if (session == null) {
       throw StateError('Anonymous sign-in did not return a valid session.');
@@ -28,16 +32,26 @@ class AuthRepository {
     required String accessToken,
     required String refreshToken,
   }) async {
-    final response = await _client.auth.setSession(refreshToken);
+    // `supabase_flutter` 2.12 / `gotrue` 2.19 restore sessions from the
+    // refresh token only. The access token is still accepted here because the
+    // OTP verification flow returns both tokens and future SDKs may widen this.
+    final response = await sq.guarded(
+      () => _client.auth.setSession(refreshToken),
+      timeout: sq.kSupabaseRpcTimeout,
+      label: 'setSession',
+    );
     return response.session;
   }
 
   Future<UserProfile> createProfile(UserProfile profile) async {
-    final inserted = await _client
-        .from('users')
-        .insert(_lockProfileMarket(profile.toJson()))
-        .select()
-        .single();
+    final inserted = await sq.guarded(
+      () => _client
+          .from('users')
+          .insert(_lockProfileMarket(profile.toJson()))
+          .select()
+          .single(),
+      label: 'createProfile',
+    );
 
     final created = UserProfile.fromJson(
       _lockProfileMarket(jh.asMap(inserted)),
@@ -55,12 +69,15 @@ class AuthRepository {
     // here prevents drift if toJson() is ever modified.
     data.remove('is_admin');
 
-    final updated = await _client
-        .from('users')
-        .update(data)
-        .eq('id', profile.id)
-        .select()
-        .single();
+    final updated = await sq.guarded(
+      () => _client
+          .from('users')
+          .update(data)
+          .eq('id', profile.id)
+          .select()
+          .single(),
+      label: 'updateProfile',
+    );
 
     final result = UserProfile.fromJson(_lockProfileMarket(jh.asMap(updated)));
     await _persistProfileMetadata(result);
@@ -96,12 +113,15 @@ class AuthRepository {
       'language_code': AppMarket.languageCode,
     };
 
-    final updated = await _client
-        .from('users')
-        .update(patch)
-        .eq('id', userId)
-        .select()
-        .single();
+    final updated = await sq.guarded(
+      () => _client
+          .from('users')
+          .update(patch)
+          .eq('id', userId)
+          .select()
+          .single(),
+      label: 'updateMomoInfo',
+    );
 
     final result = UserProfile.fromJson(_lockProfileMarket(jh.asMap(updated)));
     await _persistProfileMetadata(result);
@@ -109,11 +129,10 @@ class AuthRepository {
   }
 
   Future<UserProfile?> getProfile(String userId) async {
-    final data = await _client
-        .from('users')
-        .select()
-        .eq('id', userId)
-        .maybeSingle();
+    final data = await sq.guarded(
+      () => _client.from('users').select().eq('id', userId).maybeSingle(),
+      label: 'getProfile',
+    );
     if (data != null) {
       return UserProfile.fromJson(_lockProfileMarket(jh.asMap(data)));
     }
@@ -134,9 +153,13 @@ class AuthRepository {
   }
 
   Future<void> deleteAccount() async {
-    final response = await _client.functions.invoke(
-      'delete-account',
-      body: <String, Object?>{'confirm': true},
+    final response = await sq.guarded(
+      () => _client.functions.invoke(
+        'delete-account',
+        body: <String, Object?>{'confirm': true},
+      ),
+      timeout: sq.kSupabaseRpcTimeout,
+      label: 'deleteAccount',
     );
 
     final data = jh.asMap(response.data);

@@ -1,0 +1,104 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   COOL Design Tokens — Mapped 1:1 from Flutter cool_foundations.dart
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Backgrounds ──────────────────────────────────────────────────── */
+  --bg-primary:         #0F141B;
+  --bg-elevated:        #131A23;
+  --bg-card:            #18212B;
+  --bg-card-strong:     #202A36;
+  --bg-glass:           rgba(21, 29, 39, 0.85);
+  --bg-overlay:         #161E28;
+
+  /* ── Text ─────────────────────────────────────────────────────────── */
+  --text-primary:       #F6F8FB;
+  --text-secondary:     #9BA7B4;
+  --text-tertiary:      #8A95A2;
+
+  /* ── Accent / Brand ───────────────────────────────────────────────── */
+  --accent:             #4D79FF;
+  --accent-deep:        #305FE8;
+  --accent-strong:      #DDE6FF;
+  --accent-foreground:  #FFFFFF;
+  --accent-gold:        #E6B353;
+
+  /* ── Status ───────────────────────────────────────────────────────── */
+  --success:            #23A26D;
+  --warning:            #D39A2A;
+  --danger:             #D95C5C;
+  --info:               #4D79FF;
+
+  /* ── Borders & Dividers ───────────────────────────────────────────── */
+  --border:             rgba(255, 255, 255, 0.12);
+  --border-strong:      rgba(255, 255, 255, 0.18);
+  --divider:            rgba(255, 255, 255, 0.10);
+
+  /* ── Shadows ──────────────────────────────────────────────────────── */
+  --shadow-sm:          0 2px 8px rgba(0, 0, 0, 0.22);
+  --shadow-md:          0 8px 28px rgba(0, 0, 0, 0.32);
+  --shadow-lg:          0 24px 64px rgba(0, 0, 0, 0.42);
+  --shadow-glow:        0 0 100px rgba(77, 121, 255, 0.14);
+  --shadow-accent:      0 4px 24px rgba(77, 121, 255, 0.25);
+
+  /* ── Gradients ────────────────────────────────────────────────────── */
+  --gradient-hero:      linear-gradient(135deg, #4D79FF 0%, #305FE8 100%);
+  --gradient-shell:     linear-gradient(180deg, #131A23 0%, #0F141B 100%);
+  --gradient-surface:   linear-gradient(180deg, #202A36 0%, #18212B 100%);
+  --gradient-page:      radial-gradient(ellipse at 20% 0%, rgba(77, 121, 255, 0.10) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 40%, rgba(48, 95, 232, 0.06) 0%, transparent 40%),
+                        linear-gradient(180deg, #0F141B 0%, #090D14 100%);
+  --gradient-trust:     linear-gradient(180deg, #0B1018 0%, #0F141B 100%);
+  --gradient-cta:       linear-gradient(135deg, #4D79FF 0%, #2446B9 50%, #305FE8 100%);
+  --gradient-gold:      linear-gradient(135deg, #E6B353 0%, #D39A2A 100%);
+
+  /* ── Spacing (matches Flutter CoolSpace) ──────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-7:  32px;
+  --space-8:  40px;
+  --space-9:  48px;
+  --space-10: 64px;
+  --space-12: 80px;
+  --space-16: 128px;
+
+  /* ── Radii (matches Flutter) ──────────────────────────────────────── */
+  --radius-xs:  10px;
+  --radius-sm:  14px;
+  --radius-md:  18px;
+  --radius-lg:  22px;
+  --radius-xl:  28px;
+  --radius-xxl: 32px;
+  --radius-pill: 999px;
+
+  /* ── Typography ───────────────────────────────────────────────────── */
+  --font-display: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body:    'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-label:   'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:    'DM Mono', 'SF Mono', Consolas, monospace;
+
+  /* ── Motion ───────────────────────────────────────────────────────── */
+  --ease-out-expo:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart:  cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-spring:     cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast:   150ms;
+  --duration-normal: 300ms;
+  --duration-slow:   500ms;
+  --duration-reveal: 800ms;
+
+  /* ── Layout ───────────────────────────────────────────────────────── */
+  --max-width:       1200px;
+  --nav-height:      72px;
+  --page-gutter:     24px;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --nav-height: 64px;
+    --page-gutter: 16px;
+  }
+}

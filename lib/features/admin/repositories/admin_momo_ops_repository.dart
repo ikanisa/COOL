@@ -18,7 +18,11 @@ class AdminMomoOpsRepository with AdminRepositoryHelpers {
   // ── MoMo SMS Operational Summary ──────────────────────────────────────
 
   Future<List<Map<String, dynamic>>> fetchMomoSmsOperationalSummary() async {
-    final data = await _client.rpc('get_momo_sms_operational_summary');
+    final data = await guarded(
+      () => _client.rpc('get_momo_sms_operational_summary'),
+      timeout: rpcTimeout,
+      label: 'adminMomoSmsOperationalSummary',
+    );
     return asListOfMaps(data);
   }
 
@@ -28,12 +32,16 @@ class AdminMomoOpsRepository with AdminRepositoryHelpers {
     int limit = 20,
     bool includeApproved = false,
   }) async {
-    final data = await _client.rpc(
-      'get_momo_sms_sender_inventory',
-      params: <String, dynamic>{
-        'p_limit': limit,
-        'p_include_approved': includeApproved,
-      },
+    final data = await guarded(
+      () => _client.rpc(
+        'get_momo_sms_sender_inventory',
+        params: <String, dynamic>{
+          'p_limit': limit,
+          'p_include_approved': includeApproved,
+        },
+      ),
+      timeout: rpcTimeout,
+      label: 'adminMomoSmsSenderInventory',
     );
     return asListOfMaps(data);
   }
@@ -42,12 +50,16 @@ class AdminMomoOpsRepository with AdminRepositoryHelpers {
     required String senderToken,
     String? note,
   }) async {
-    await _client.rpc(
-      'admin_acknowledge_momo_sms_sender_inventory',
-      params: <String, dynamic>{
-        'p_sender_token': senderToken,
-        'p_note': trimmed(note),
-      },
+    await guarded(
+      () => _client.rpc(
+        'admin_acknowledge_momo_sms_sender_inventory',
+        params: <String, dynamic>{
+          'p_sender_token': senderToken,
+          'p_note': trimmed(note),
+        },
+      ),
+      timeout: rpcTimeout,
+      label: 'adminAcknowledgeMomoSender',
     );
   }
 
@@ -59,12 +71,16 @@ class AdminMomoOpsRepository with AdminRepositoryHelpers {
       return 0;
     }
 
-    final data = await _client.rpc(
-      'admin_acknowledge_momo_sms_sender_inventory_batch',
-      params: <String, dynamic>{
-        'p_sender_tokens': senderTokens,
-        'p_note': trimmed(note),
-      },
+    final data = await guarded(
+      () => _client.rpc(
+        'admin_acknowledge_momo_sms_sender_inventory_batch',
+        params: <String, dynamic>{
+          'p_sender_tokens': senderTokens,
+          'p_note': trimmed(note),
+        },
+      ),
+      timeout: rpcTimeout,
+      label: 'adminAcknowledgeMomoSenderBatch',
     );
     final rows = asListOfMaps(data);
     if (rows.isEmpty) {
@@ -79,9 +95,13 @@ class AdminMomoOpsRepository with AdminRepositoryHelpers {
     int limit = 50,
     int offset = 0,
   }) async {
-    final data = await _client.rpc(
-      'get_momo_sms_manual_review_queue',
-      params: <String, dynamic>{'p_limit': limit, 'p_offset': offset},
+    final data = await guarded(
+      () => _client.rpc(
+        'get_momo_sms_manual_review_queue',
+        params: <String, dynamic>{'p_limit': limit, 'p_offset': offset},
+      ),
+      timeout: rpcTimeout,
+      label: 'adminMomoManualReviewQueue',
     );
     return asListOfMaps(data);
   }
@@ -90,12 +110,16 @@ class AdminMomoOpsRepository with AdminRepositoryHelpers {
     required String reviewId,
     String? note,
   }) async {
-    await _client.rpc(
-      'admin_reject_momo_sms_manual_review',
-      params: <String, dynamic>{
-        'p_review_id': reviewId,
-        'p_note': trimmed(note),
-      },
+    await guarded(
+      () => _client.rpc(
+        'admin_reject_momo_sms_manual_review',
+        params: <String, dynamic>{
+          'p_review_id': reviewId,
+          'p_note': trimmed(note),
+        },
+      ),
+      timeout: rpcTimeout,
+      label: 'adminRejectMomoReview',
     );
   }
 
@@ -107,12 +131,16 @@ class AdminMomoOpsRepository with AdminRepositoryHelpers {
       return 0;
     }
 
-    final data = await _client.rpc(
-      'admin_reject_momo_sms_manual_review_batch',
-      params: <String, dynamic>{
-        'p_review_ids': reviewIds,
-        'p_note': trimmed(note),
-      },
+    final data = await guarded(
+      () => _client.rpc(
+        'admin_reject_momo_sms_manual_review_batch',
+        params: <String, dynamic>{
+          'p_review_ids': reviewIds,
+          'p_note': trimmed(note),
+        },
+      ),
+      timeout: rpcTimeout,
+      label: 'adminRejectMomoReviewBatch',
     );
     final rows = asListOfMaps(data);
     if (rows.isEmpty) {
@@ -126,9 +154,13 @@ class AdminMomoOpsRepository with AdminRepositoryHelpers {
   Future<List<Map<String, dynamic>>> fetchRecentOperationalHealthEvents({
     int limit = 40,
   }) async {
-    final data = await _client.rpc(
-      'get_recent_operational_health_events',
-      params: <String, dynamic>{'p_limit': limit},
+    final data = await guarded(
+      () => _client.rpc(
+        'get_recent_operational_health_events',
+        params: <String, dynamic>{'p_limit': limit},
+      ),
+      timeout: rpcTimeout,
+      label: 'adminOperationalHealthEvents',
     );
     return asListOfMaps(data);
   }
@@ -137,7 +169,11 @@ class AdminMomoOpsRepository with AdminRepositoryHelpers {
 
   Future<List<Map<String, dynamic>>> fetchMomoValidationIssues() async {
     try {
-      final data = await _client.rpc('get_momo_validation_issues');
+      final data = await guarded(
+        () => _client.rpc('get_momo_validation_issues'),
+        timeout: rpcTimeout,
+        label: 'adminMomoValidationIssues',
+      );
       return _normalizeIssueRows(data);
     } on PostgrestException catch (error) {
       if (!isMissingSchemaObjectError(error)) {
@@ -173,13 +209,17 @@ class AdminMomoOpsRepository with AdminRepositoryHelpers {
   }) async {
     dynamic data;
     try {
-      data = await _client.rpc(
-        'repair_momo_validation_issue',
-        params: <String, dynamic>{
-          'p_record_type': recordType,
-          'p_record_id': recordId,
-          'p_issue_code': issueCode,
-        },
+      data = await guarded(
+        () => _client.rpc(
+          'repair_momo_validation_issue',
+          params: <String, dynamic>{
+            'p_record_type': recordType,
+            'p_record_id': recordId,
+            'p_issue_code': issueCode,
+          },
+        ),
+        timeout: rpcTimeout,
+        label: 'adminRepairMomoValidationIssue',
       );
     } on PostgrestException catch (error) {
       if (!isMissingSchemaObjectError(error)) {
