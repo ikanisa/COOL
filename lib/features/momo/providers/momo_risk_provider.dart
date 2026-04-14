@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 
 class MomoRiskResult {
@@ -38,10 +37,11 @@ class MomoRiskResult {
       actionSuggestion == 'block_high_risk' || riskScore > 0.9;
 }
 
-class MomoRiskNotifier extends StateNotifier<AsyncValue<MomoRiskResult?>> {
-  MomoRiskNotifier(this._client) : super(const AsyncValue.data(null));
-
-  final SupabaseClient _client;
+class MomoRiskNotifier extends Notifier<AsyncValue<MomoRiskResult?>> {
+  @override
+  AsyncValue<MomoRiskResult?> build() {
+    return const AsyncValue.data(null);
+  }
 
   Future<MomoRiskResult?> evaluateRisk({
     required String recipientNumber,
@@ -50,7 +50,8 @@ class MomoRiskNotifier extends StateNotifier<AsyncValue<MomoRiskResult?>> {
   }) async {
     state = const AsyncValue.loading();
     try {
-      final response = await _client.functions.invoke(
+      final client = ref.read(supabaseClientProvider);
+      final response = await client.functions.invoke(
         'evaluate-transfer-risk',
         body: {
           'recipientNumber': recipientNumber,
@@ -75,6 +76,6 @@ class MomoRiskNotifier extends StateNotifier<AsyncValue<MomoRiskResult?>> {
 }
 
 final momoRiskProvider =
-    StateNotifierProvider<MomoRiskNotifier, AsyncValue<MomoRiskResult?>>((ref) {
-      return MomoRiskNotifier(ref.read(supabaseClientProvider));
-    });
+    NotifierProvider<MomoRiskNotifier, AsyncValue<MomoRiskResult?>>(
+      MomoRiskNotifier.new,
+    );

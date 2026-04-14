@@ -29,17 +29,15 @@ final localeStoreProvider = Provider<LocaleStore>((ref) {
 });
 
 /// Provides the current app locale — always `Locale('en')`.
-final localeProvider = StateNotifierProvider<LocaleNotifier, Locale>((ref) {
-  return LocaleNotifier(store: ref.watch(localeStoreProvider));
-});
+final localeProvider = NotifierProvider<LocaleNotifier, Locale>(
+  LocaleNotifier.new,
+);
 
-class LocaleNotifier extends StateNotifier<Locale> {
-  LocaleNotifier({required LocaleStore store})
-    : _store = store,
-      super(const Locale('en'));
-
-  // ignore: unused_field
-  final LocaleStore _store;
+class LocaleNotifier extends Notifier<Locale> {
+  @override
+  Locale build() {
+    return const Locale('en');
+  }
 
   /// No-op — the app is English-only. Kept for API compatibility.
   Future<void> setLocale(String languageCode) async {

@@ -1,8 +1,4 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:hive_flutter/hive_flutter.dart' show Box;
-import 'package:mocktail/mocktail.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
+import 'package:cool_app/core/providers/engagement_providers.dart';
 import 'package:cool_app/core/services/crashlytics_service.dart';
 import 'package:cool_app/core/services/momo_service.dart';
 import 'package:cool_app/core/services/performance_service.dart';
@@ -10,10 +6,24 @@ import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart'
     as app_auth;
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
+import 'package:cool_app/features/biopay/providers/biopay_providers.dart';
+import 'package:cool_app/features/biopay/services/biopay_cache_service.dart';
+import 'package:cool_app/features/momo/providers/momo_service_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:hive_flutter/hive_flutter.dart' show Box;
+import 'package:mocktail/mocktail.dart';
+import 'package:supabase_flutter/supabase_flutter.dart'
+    show FlutterAuthClientOptions, Session, SupabaseClient;
 
 class MockAuthRepository extends Mock implements AuthRepository {}
 
 class MockSupabaseClient extends Mock implements SupabaseClient {}
+
+class _NoOpBiopayCacheService extends BiopayCacheService {
+  @override
+  Future<void> clear({String? ownerUserId}) async {}
+}
 
 Session _fakeSession() {
   return Session.fromJson({
@@ -46,11 +56,34 @@ UserProfile _sampleUser({String? officialName, String? officialPhone}) {
   );
 }
 
+ProviderContainer _buildContainer(MockAuthRepository mockRepo) {
+  final supabaseClient = SupabaseClient(
+    'http://127.0.0.1:54321',
+    'test-anon-key',
+    authOptions: const FlutterAuthClientOptions(autoRefreshToken: false),
+  );
+
+  return ProviderContainer(
+    overrides: <Override>[
+      app_auth.authRepositoryProvider.overrideWithValue(mockRepo),
+      crashlyticsServiceProvider.overrideWithValue(CrashlyticsService()),
+      performanceServiceProvider.overrideWithValue(PerformanceService()),
+      momoServiceProvider.overrideWithValue(
+        MomoService(client: supabaseClient, openBox: _noOpOpenBox),
+      ),
+      biopayCacheServiceProvider.overrideWithValue(_NoOpBiopayCacheService()),
+      // Prevent auto-bootstrap by providing an explicit initial state.
+      app_auth.initialAuthStateProvider.overrideWithValue(
+        const app_auth.AuthState(),
+      ),
+    ],
+  );
+}
+
 void main() {
   late MockAuthRepository mockRepo;
+  late ProviderContainer container;
   late app_auth.AuthNotifier notifier;
-  late CrashlyticsService crashlytics;
-  late PerformanceService performance;
 
   setUpAll(() {
     registerFallbackValue(_sampleUser());
@@ -58,20 +91,13 @@ void main() {
 
   setUp(() {
     mockRepo = MockAuthRepository();
-    crashlytics = CrashlyticsService();
-    performance = PerformanceService();
     when(() => mockRepo.currentSession).thenReturn(null);
     when(() => mockRepo.currentUserId).thenReturn(null);
-    notifier = app_auth.AuthNotifier(
-      repository: mockRepo,
-      crashlytics: crashlytics,
-      performance: performance,
-      momoService: MomoService(
-        client: MockSupabaseClient(),
-        openBox: _noOpOpenBox,
-      ),
-    );
+    container = _buildContainer(mockRepo);
+    notifier = container.read(app_auth.authProvider.notifier);
   });
+
+  tearDown(() => container.dispose());
 
   group('AuthNotifier initial state', () {
     test('starts with no user, no session, not loading, no error', () {
@@ -177,11 +203,10 @@ void main() {
       final session = _fakeSession();
       final profile = _sampleUser();
       final states = <app_auth.AuthState>[];
-      final removeListener = notifier.addListener(
-        states.add,
-        fireImmediately: false,
-      );
-      addTearDown(removeListener);
+      final sub = container.listen(app_auth.authProvider, (prev, next) {
+        states.add(next);
+      });
+      addTearDown(sub.close);
 
       when(() => mockRepo.signInAnonymously()).thenAnswer((_) async => session);
       when(

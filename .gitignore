@@ -93,6 +93,7 @@ node_modules/
 *.bak
 *.old
 *.orig
+*.tar.gz
 
 # Kotlin build error logs
 android/.kotlin/errors/

@@ -1,29 +1,23 @@
 import 'dart:io';
 
 import 'package:cool_app/core/config/country_catalog.dart';
-import 'package:cool_app/core/services/crashlytics_service.dart';
-import 'package:cool_app/core/services/momo_service.dart';
-import 'package:cool_app/core/services/performance_service.dart';
 import 'package:cool_app/core/services/whatsapp_otp_service.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart'
     as app_auth;
 import 'package:cool_app/features/auth/providers/whatsapp_otp_provider.dart';
-import 'package:cool_app/features/auth/repositories/auth_repository.dart';
 import 'package:cool_app/features/auth/screens/whatsapp_otp_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive_flutter/hive_flutter.dart' show Box;
 import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../test/integration_smoke/test_harness.dart';
 
-class _MockSupabaseClient extends Mock implements SupabaseClient {}
 
-class _MockAuthRepository extends Mock implements AuthRepository {}
+class _MockSupabaseClient extends Mock implements SupabaseClient {}
 
 class _FakeWhatsAppOtpService extends WhatsAppOtpService {
   _FakeWhatsAppOtpService({
@@ -50,21 +44,14 @@ class _FakeWhatsAppOtpService extends WhatsAppOtpService {
 }
 
 class _FakeAuthNotifier extends app_auth.AuthNotifier {
-  _FakeAuthNotifier()
-    : super(
-        repository: _MockAuthRepository(),
-        crashlytics: CrashlyticsService(),
-        performance: PerformanceService(),
-        momoService: MomoService(
-          client: _MockSupabaseClient(),
-          openBox: _noOpOpenBox,
-        ),
-        initialState: const app_auth.AuthState(
-          profileRestoreState: app_auth.AuthProfileRestoreState.available,
-        ),
-        autoBootstrapOnInit: false,
-      );
   final List<Map<String, String>> signInCalls = <Map<String, String>>[];
+
+  @override
+  app_auth.AuthState build() {
+    return const app_auth.AuthState(
+      profileRestoreState: app_auth.AuthProfileRestoreState.available,
+    );
+  }
 
   @override
   Future<void> restoreCurrentUser() async {}
@@ -95,8 +82,7 @@ class _FakeAuthNotifier extends app_auth.AuthNotifier {
   }
 }
 
-Future<Box<T>> _noOpOpenBox<T>(String name) =>
-    throw UnimplementedError('Hive disabled in integration tests');
+
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -126,7 +112,7 @@ void main() {
         child: const WhatsAppOtpScreen(initialPhone: '0788767816'),
         overrides: <Override>[
           whatsAppOtpServiceProvider.overrideWithValue(otpService),
-          app_auth.authProvider.overrideWith((ref) => authNotifier),
+          app_auth.authProvider.overrideWith(() => authNotifier),
         ],
       );
 
@@ -167,7 +153,7 @@ void main() {
       child: const WhatsAppOtpScreen(initialPhone: '0788767816'),
       overrides: <Override>[
         whatsAppOtpServiceProvider.overrideWithValue(otpService),
-        app_auth.authProvider.overrideWith((ref) => authNotifier),
+        app_auth.authProvider.overrideWith(() => authNotifier),
       ],
     );
 

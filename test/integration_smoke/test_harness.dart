@@ -12,7 +12,6 @@ import 'package:cool_app/core/services/hive_runtime.dart';
 import 'package:cool_app/core/theme/app_theme.dart';
 import 'package:cool_app/core/theme/theme_preference.dart';
 import 'package:cool_app/core/theme/theme_preference_provider.dart';
-import 'package:cool_app/features/momo/providers/momo_service_provider.dart';
 import 'package:cool_app/features/momo/models/momo_sms_sync_status.dart';
 import 'package:cool_app/features/momo/models/momo_statement.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
@@ -81,23 +80,22 @@ class ScopedTestApp {
 
 class TestAuthNotifier extends AuthNotifier {
   TestAuthNotifier({
-    required super.repository,
-    required super.crashlytics,
-    required super.performance,
-    required super.momoService,
     required Session? session,
     required UserProfile? user,
-  }) {
-    state = AuthState(
-      user: user,
-      session: session,
-      profileRestoreState: session == null
-          ? AuthProfileRestoreState.available
-          : user == null
-          ? AuthProfileRestoreState.missing
-          : AuthProfileRestoreState.available,
-    );
-  }
+  }) : _initialState = AuthState(
+         user: user,
+         session: session,
+         profileRestoreState: session == null
+             ? AuthProfileRestoreState.available
+             : user == null
+             ? AuthProfileRestoreState.missing
+             : AuthProfileRestoreState.available,
+       );
+
+  final AuthState _initialState;
+
+  @override
+  AuthState build() => _initialState;
 
   @override
   Future<void> restoreCurrentUser() async {}
@@ -230,11 +228,7 @@ _buildTestContainer({
       ),
       authRepositoryProvider.overrideWithValue(authRepository),
       authProvider.overrideWith(
-        (ref) => TestAuthNotifier(
-          repository: ref.watch(authRepositoryProvider),
-          crashlytics: ref.read(crashlyticsServiceProvider),
-          performance: ref.read(performanceServiceProvider),
-          momoService: ref.read(momoServiceProvider),
+        () => TestAuthNotifier(
           session: session,
           user: user,
         ),

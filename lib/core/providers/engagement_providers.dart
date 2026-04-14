@@ -39,11 +39,9 @@ final featureFlagsServiceProvider = Provider<FeatureFlagsService>((ref) {
 });
 
 final featureFlagsStateProvider =
-    StateNotifierProvider<FeatureFlagsNotifier, EngagementFeatureFlags>((ref) {
-      return FeatureFlagsNotifier(
-        service: ref.read(featureFlagsServiceProvider),
-      );
-    });
+    NotifierProvider<FeatureFlagsNotifier, EngagementFeatureFlags>(
+      FeatureFlagsNotifier.new,
+    );
 
 final engagementTrackerProvider = Provider<EngagementTracker>((ref) {
   return EngagementTracker(
@@ -79,15 +77,16 @@ final screenSecurityServiceProvider = Provider<ScreenSecurityService>((ref) {
   return ScreenSecurityService();
 });
 
-class FeatureFlagsNotifier extends StateNotifier<EngagementFeatureFlags> {
-  FeatureFlagsNotifier({required FeatureFlagsService service})
-    : _service = service,
-      super(service.current);
-
-  final FeatureFlagsService _service;
+class FeatureFlagsNotifier extends Notifier<EngagementFeatureFlags> {
+  @override
+  EngagementFeatureFlags build() {
+    final service = ref.read(featureFlagsServiceProvider);
+    return service.current;
+  }
 
   Future<EngagementFeatureFlags> refresh() async {
-    final next = await _service.initialize();
+    final service = ref.read(featureFlagsServiceProvider);
+    final next = await service.initialize();
     state = next;
     return next;
   }

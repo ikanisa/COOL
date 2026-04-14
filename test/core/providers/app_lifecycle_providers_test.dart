@@ -1,18 +1,14 @@
 import 'package:cool_app/core/providers/app_lifecycle_providers.dart';
 import 'package:cool_app/core/services/app_lifecycle_coordinator.dart';
-import 'package:cool_app/core/services/crashlytics_service.dart';
-import 'package:cool_app/core/services/performance_service.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart' as auth;
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
-import 'package:cool_app/core/services/momo_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive_flutter/hive_flutter.dart' show Box;
 import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart'
-    show FlutterAuthClientOptions, Session, SupabaseClient;
+    show Session;
 
 class MockAuthRepository extends Mock implements AuthRepository {}
 
@@ -20,15 +16,11 @@ class MockAppLifecycleCoordinator extends Mock
     implements AppLifecycleCoordinator {}
 
 class MutableAuthNotifier extends auth.AuthNotifier {
-  MutableAuthNotifier({
-    required super.repository,
-    required super.crashlytics,
-    required super.performance,
-    required super.momoService,
-    required auth.AuthState initialState,
-  }) {
-    state = initialState;
-  }
+  MutableAuthNotifier(this._initialState);
+  final auth.AuthState _initialState;
+
+  @override
+  auth.AuthState build() => _initialState;
 
   void setAuthState(auth.AuthState value) {
     state = value;
@@ -68,13 +60,7 @@ void main() {
           appLifecycleCoordinatorProvider.overrideWithValue(coordinator),
           auth.authRepositoryProvider.overrideWithValue(authRepository),
           auth.authProvider.overrideWith(
-            (ref) => MutableAuthNotifier(
-              repository: authRepository,
-              crashlytics: CrashlyticsService(),
-              performance: PerformanceService(),
-              momoService: _buildTestMomoService(),
-              initialState: initialState,
-            ),
+            () => MutableAuthNotifier(initialState),
           ),
         ],
       );
@@ -116,19 +102,6 @@ void main() {
   );
 }
 
-MomoService _buildTestMomoService() {
-  return MomoService(
-    client: SupabaseClient(
-      'http://127.0.0.1:54321',
-      'test-anon-key',
-      authOptions: const FlutterAuthClientOptions(autoRefreshToken: false),
-    ),
-    openBox: _noOpOpenBox,
-  );
-}
-
-Future<Box<T>> _noOpOpenBox<T>(String name) =>
-    throw UnimplementedError('Hive disabled in tests');
 
 Session _fakeSession({
   String userId = 'user-1',

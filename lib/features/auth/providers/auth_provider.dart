@@ -30,22 +30,9 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 
 final initialAuthStateProvider = Provider<AuthState?>((ref) => null);
 
-final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
-  final repository = ref.watch(authRepositoryProvider);
-  final crashlytics = ref.read(crashlyticsServiceProvider);
-  final performance = ref.read(performanceServiceProvider);
-  final momoService = ref.read(momoServiceProvider);
-  final initialState = ref.watch(initialAuthStateProvider);
-  return AuthNotifier(
-    repository: repository,
-    crashlytics: crashlytics,
-    performance: performance,
-    momoService: momoService,
-    clearSensitiveData: () => ref.read(biopayCacheServiceProvider).clear(),
-    initialState: initialState,
-    autoBootstrapOnInit: initialState == null,
-  );
-});
+final authProvider = NotifierProvider<AuthNotifier, AuthState>(
+  AuthNotifier.new,
+);
 
 final currentUserProvider = Provider<UserProfile?>((ref) {
   return ref.watch(authProvider).user;
@@ -90,39 +77,38 @@ class AuthState {
   }
 }
 
-class AuthNotifier extends StateNotifier<AuthState> {
-  AuthNotifier({
-    required AuthRepository repository,
-    required CrashlyticsService crashlytics,
-    required PerformanceService performance,
-    required MomoService momoService,
-    Future<void> Function()? clearSensitiveData,
-    AuthState? initialState,
-    bool autoBootstrapOnInit = false,
-  }) : _repository = repository,
-       _crashlytics = crashlytics,
-       _performance = performance,
-       _momoService = momoService,
-       _clearSensitiveData = clearSensitiveData,
-       super(
-         initialState ??
-             AuthState(
-               session: repository.currentSession,
-               profileRestoreState: repository.currentSession == null
-                   ? AuthProfileRestoreState.available
-                   : AuthProfileRestoreState.pending,
-             ),
-       ) {
-    if (autoBootstrapOnInit) {
+class AuthNotifier extends Notifier<AuthState> {
+  late final AuthRepository _repository;
+  late final CrashlyticsService _crashlytics;
+  late final PerformanceService _performance;
+  late final MomoService _momoService;
+  late final Future<void> Function()? _clearSensitiveData;
+
+  @override
+  AuthState build() {
+    _repository = ref.watch(authRepositoryProvider);
+    _crashlytics = ref.read(crashlyticsServiceProvider);
+    _performance = ref.read(performanceServiceProvider);
+    _momoService = ref.read(momoServiceProvider);
+    _clearSensitiveData = () => ref.read(biopayCacheServiceProvider).clear();
+
+    final initialState = ref.read(initialAuthStateProvider);
+    final autoBootstrap = initialState == null;
+
+    final startState = initialState ??
+        AuthState(
+          session: _repository.currentSession,
+          profileRestoreState: _repository.currentSession == null
+              ? AuthProfileRestoreState.available
+              : AuthProfileRestoreState.pending,
+        );
+
+    if (autoBootstrap) {
       Future<void>.microtask(ensureReadyForAppStart);
     }
-  }
 
-  final AuthRepository _repository;
-  final CrashlyticsService _crashlytics;
-  final PerformanceService _performance;
-  final MomoService _momoService;
-  final Future<void> Function()? _clearSensitiveData;
+    return startState;
+  }
 
   AuthState get snapshot => state;
 

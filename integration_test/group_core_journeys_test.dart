@@ -1,14 +1,10 @@
 import 'dart:io';
 
 import 'package:cool_app/core/config/country_catalog.dart';
-import 'package:cool_app/core/services/crashlytics_service.dart';
-import 'package:cool_app/core/services/momo_service.dart';
-import 'package:cool_app/core/services/performance_service.dart';
 import 'package:cool_app/core/theme/app_theme.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart'
     as app_auth;
-import 'package:cool_app/features/auth/repositories/auth_repository.dart';
 import 'package:cool_app/features/groups/models/group.dart';
 import 'package:cool_app/features/groups/models/group_invite_preview.dart';
 import 'package:cool_app/features/groups/models/group_join_result.dart';
@@ -22,28 +18,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_flutter/hive_flutter.dart' show Box;
 import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class _MockSupabaseClient extends Mock implements SupabaseClient {}
 
-class _MockAuthRepository extends Mock implements AuthRepository {}
 
 class _StaticAuthNotifier extends app_auth.AuthNotifier {
-  _StaticAuthNotifier(app_auth.AuthState state)
-    : super(
-        repository: _MockAuthRepository(),
-        crashlytics: CrashlyticsService(),
-        performance: PerformanceService(),
-        momoService: MomoService(
-          client: _MockSupabaseClient(),
-          openBox: _noOpOpenBox,
-        ),
-        initialState: state,
-        autoBootstrapOnInit: false,
-      );
+  _StaticAuthNotifier(this._initialState);
+  final app_auth.AuthState _initialState;
+
+  @override
+  app_auth.AuthState build() => _initialState;
 
   @override
   Future<void> restoreCurrentUser() async {}
@@ -158,8 +145,6 @@ void _configureTallViewport(WidgetTester tester) {
   });
 }
 
-Future<Box<T>> _noOpOpenBox<T>(String name) =>
-    throw UnimplementedError('Hive disabled in integration tests');
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -180,7 +165,7 @@ void main() {
       path: '/create',
       overrides: <Override>[
         app_auth.authProvider.overrideWith(
-          (ref) => _StaticAuthNotifier(_verifiedState),
+          () => _StaticAuthNotifier(_verifiedState),
         ),
         groupRepositoryProvider.overrideWithValue(repository),
       ],
@@ -225,7 +210,7 @@ void main() {
       path: '/groups',
       overrides: <Override>[
         app_auth.authProvider.overrideWith(
-          (ref) => _StaticAuthNotifier(_verifiedState),
+          () => _StaticAuthNotifier(_verifiedState),
         ),
         groupRepositoryProvider.overrideWithValue(repository),
         myGroupsProvider.overrideWith((ref) async => const <Group>[]),

@@ -33,27 +33,21 @@ class NotificationSettingsState {
 }
 
 final notificationSettingsProvider =
-    StateNotifierProvider<
+    NotifierProvider<
       NotificationSettingsNotifier,
       NotificationSettingsState
-    >((ref) {
-      return NotificationSettingsNotifier(
-        ref: ref,
-        service: ref.watch(fcmServiceProvider),
-      );
-    });
+    >(NotificationSettingsNotifier.new);
 
 class NotificationSettingsNotifier
-    extends StateNotifier<NotificationSettingsState> {
-  NotificationSettingsNotifier({required Ref ref, required FcmService service})
-    : _ref = ref,
-      _service = service,
-      super(NotificationSettingsState(status: service.currentStatus)) {
-    Future<void>.microtask(load);
-  }
+    extends Notifier<NotificationSettingsState> {
+  late final FcmService _service;
 
-  final Ref _ref;
-  final FcmService _service;
+  @override
+  NotificationSettingsState build() {
+    _service = ref.watch(fcmServiceProvider);
+    Future<void>.microtask(load);
+    return NotificationSettingsState(status: _service.currentStatus);
+  }
 
   Future<void> load() async {
     final status = await _service.status();
@@ -63,7 +57,7 @@ class NotificationSettingsNotifier
   Future<void> refresh() => load();
 
   Future<void> setEnabled(bool enabled) async {
-    final authState = _ref.read(authProvider);
+    final authState = ref.read(authProvider);
     final userId = authState.user?.id ?? authState.session?.user.id;
 
     if (enabled && (userId == null || userId.isEmpty)) {

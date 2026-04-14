@@ -1,5 +1,6 @@
 import 'package:cool_app/core/services/whatsapp_otp_service.dart';
 import 'package:cool_app/features/auth/providers/whatsapp_otp_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -7,12 +8,20 @@ class MockWhatsAppOtpService extends Mock implements WhatsAppOtpService {}
 
 void main() {
   late MockWhatsAppOtpService service;
+  late ProviderContainer container;
   late WhatsAppOtpNotifier notifier;
 
   setUp(() {
     service = MockWhatsAppOtpService();
-    notifier = WhatsAppOtpNotifier(service: service);
+    container = ProviderContainer(
+      overrides: <Override>[
+        whatsAppOtpServiceProvider.overrideWithValue(service),
+      ],
+    );
+    notifier = container.read(whatsAppOtpStateProvider.notifier);
   });
+
+  tearDown(() => container.dispose());
 
   group('WhatsAppOtpNotifier.sendCode', () {
     test('moves to verify step when send succeeds', () async {

@@ -1,8 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:equatable/equatable.dart';
-
-class GeoPoint extends Equatable {
+class GeoPoint {
   const GeoPoint({required this.latitude, required this.longitude});
 
   final double latitude;
@@ -28,5 +26,12 @@ class GeoPoint extends Equatable {
   }
 
   @override
-  List<Object> get props => <Object>[latitude, longitude];
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GeoPoint &&
+          other.latitude == latitude &&
+          other.longitude == longitude;
+
+  @override
+  int get hashCode => Object.hash(latitude, longitude);
 }

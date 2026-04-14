@@ -7,6 +7,7 @@ library;
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../utils/json_helpers.dart' as jh;
 import 'app_check_service.dart';
 
 // ── Result types ────────────────────────────────────────────────────────
@@ -114,7 +115,7 @@ class WhatsAppOtpService {
         body: <String, Object?>{'phone': e164Phone, 'language': 'en'},
       );
 
-      final data = _asMap(response.data);
+      final data = jh.asMapOrEmpty(response.data);
       if (data['success'] == true) {
         debugPrint('[OTP] ✓ Code sent');
         return const OtpSendResult.sent();
@@ -131,7 +132,7 @@ class WhatsAppOtpService {
       }
       return OtpSendResult.error(message);
     } on FunctionException catch (e) {
-      final data = _asMap(e.details);
+      final data = jh.asMapOrEmpty(e.details);
       final message = _resolveMessage(
         data,
         fallback: e.reasonPhrase ?? 'Failed to send OTP',
@@ -161,9 +162,9 @@ class WhatsAppOtpService {
         body: <String, Object?>{'phone': e164Phone, 'code': code.trim()},
       );
 
-      final data = _asMap(response.data);
+      final data = jh.asMapOrEmpty(response.data);
       if (data['success'] == true) {
-        final session = _asMap(data['session']);
+        final session = jh.asMapOrEmpty(data['session']);
         final accessToken =
             data['access_token']?.toString() ??
             session['access_token']?.toString() ??
@@ -174,7 +175,7 @@ class WhatsAppOtpService {
             '';
         final userId =
             data['userId']?.toString() ??
-            _asMap(session['user'])['id']?.toString() ??
+            jh.asMapOrEmpty(session['user'])['id']?.toString() ??
             '';
         if (accessToken.isEmpty || refreshToken.isEmpty || userId.isEmpty) {
           debugPrint(
@@ -204,7 +205,7 @@ class WhatsAppOtpService {
         attemptsRemaining: attemptsRemaining,
       );
     } on FunctionException catch (e) {
-      final data = _asMap(e.details);
+      final data = jh.asMapOrEmpty(e.details);
       final message = _resolveMessage(
         data,
         fallback: e.reasonPhrase ?? 'Verification failed',
@@ -230,24 +231,14 @@ class WhatsAppOtpService {
     }
   }
 
-  static Map<String, dynamic> _asMap(dynamic value) {
-    if (value is Map<String, dynamic>) return value;
-    if (value is Map) return Map<String, dynamic>.from(value);
-    return const <String, dynamic>{};
-  }
-
-  static int? _asInt(dynamic value) {
-    if (value is int) return value;
-    if (value is num) return value.toInt();
-    if (value is String) return int.tryParse(value);
-    return null;
-  }
+  // Local _asMap and _asInt removed — now using shared `jh.*` functions
+  // from core/utils/json_helpers.dart
 
   static String _resolveMessage(
     Map<String, dynamic> data, {
     required String fallback,
   }) {
-    final details = _asMap(data['details']);
+    final details = jh.asMapOrEmpty(data['details']);
     final message = data['message']?.toString().trim();
     final error = data['error']?.toString().trim();
     final detailsMessage = details['message']?.toString().trim();
@@ -269,15 +260,15 @@ class WhatsAppOtpService {
   }
 
   static int? _resolveRetryAfterSeconds(Map<String, dynamic> data) {
-    final details = _asMap(data['details']);
-    return _asInt(data['retryAfterSeconds']) ??
-        _asInt(details['retryAfterSeconds']);
+    final details = jh.asMapOrEmpty(data['details']);
+    return jh.asInt(data['retryAfterSeconds']) ??
+        jh.asInt(details['retryAfterSeconds']);
   }
 
   static int? _resolveAttemptsRemaining(Map<String, dynamic> data) {
-    final details = _asMap(data['details']);
-    return _asInt(data['attemptsRemaining']) ??
-        _asInt(details['attemptsRemaining']);
+    final details = jh.asMapOrEmpty(data['details']);
+    return jh.asInt(data['attemptsRemaining']) ??
+        jh.asInt(details['attemptsRemaining']);
   }
 
   Future<Map<String, String>> _functionHeaders() async {

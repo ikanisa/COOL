@@ -1,4 +1,3 @@
-import 'package:cool_app/core/providers/engagement_providers.dart';
 import 'package:cool_app/core/router/app_routes.dart';
 import 'package:cool_app/core/theme/app_theme.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
@@ -6,7 +5,6 @@ import 'package:cool_app/features/auth/repositories/auth_repository.dart';
 import 'package:cool_app/features/biopay/models/biopay_enrollment_draft.dart';
 import 'package:cool_app/features/biopay/providers/biopay_providers.dart';
 import 'package:cool_app/features/biopay/screens/biopay_register_screen.dart';
-import 'package:cool_app/features/momo/providers/momo_service_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -19,15 +17,11 @@ import '../../helpers/test_bootstrap.dart';
 class _MockAuthRepository extends Mock implements AuthRepository {}
 
 class _TestRegisterAuthNotifier extends AuthNotifier {
-  _TestRegisterAuthNotifier({
-    required super.repository,
-    required super.crashlytics,
-    required super.performance,
-    required super.momoService,
-    required AuthState initialState,
-  }) {
-    state = initialState;
-  }
+  _TestRegisterAuthNotifier(this._initialState);
+  final AuthState _initialState;
+
+  @override
+  AuthState build() => _initialState;
 
   @override
   Future<void> restoreCurrentUser() async {}
@@ -62,12 +56,8 @@ void main() {
       overrides: [
         authRepositoryProvider.overrideWithValue(repository),
         authProvider.overrideWith(
-          (ref) => _TestRegisterAuthNotifier(
-            repository: repository,
-            crashlytics: ref.read(crashlyticsServiceProvider),
-            performance: ref.read(performanceServiceProvider),
-            momoService: ref.read(momoServiceProvider),
-            initialState: AuthState(
+          () => _TestRegisterAuthNotifier(
+            AuthState(
               session: session,
               profileRestoreState: AuthProfileRestoreState.missing,
             ),

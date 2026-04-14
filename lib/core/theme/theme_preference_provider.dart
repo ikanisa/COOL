@@ -16,41 +16,35 @@ final themePreferenceStoreProvider = Provider<ThemePreferenceStore>((ref) {
 });
 
 final themePreferenceProvider =
-    StateNotifierProvider<ThemePreferenceNotifier, AppThemePreference>((ref) {
-      return ThemePreferenceNotifier(
-        ref: ref,
-        store: ref.watch(themePreferenceStoreProvider),
-        initialPreference: ref.watch(initialThemePreferenceProvider),
-      );
-    });
+    NotifierProvider<ThemePreferenceNotifier, AppThemePreference>(
+      ThemePreferenceNotifier.new,
+    );
 
-class ThemePreferenceNotifier extends StateNotifier<AppThemePreference> {
-  ThemePreferenceNotifier({
-    required Ref ref,
-    required ThemePreferenceStore store,
-    ({AppThemePreference preference, DateTime? updatedAt})? initialPreference,
-  }) : _ref = ref,
-       _store = store,
-       _bootstrapped = initialPreference != null,
-       _updatedAt = initialPreference?.updatedAt,
-       super(initialPreference?.preference ?? AppThemePreference.dark) {
-    if (!_bootstrapped) {
-      Future<void>.microtask(load);
-    }
+class ThemePreferenceNotifier extends Notifier<AppThemePreference> {
+  late final ThemePreferenceStore _store;
+  late final bool _bootstrapped;
+  DateTime? _updatedAt;
+  bool _hasLoaded = false;
 
-    _ref.listen<AuthState>(authProvider, (previous, next) {
+  @override
+  AppThemePreference build() {
+    _store = ref.watch(themePreferenceStoreProvider);
+    final initial = ref.watch(initialThemePreferenceProvider);
+    _bootstrapped = initial != null;
+    _updatedAt = initial?.updatedAt;
+
+    ref.listen<AuthState>(authProvider, (previous, next) {
       if (next.user != null && previous?.user?.id != next.user!.id) {
         _syncWithRemote(next.user!);
       }
     });
-  }
 
-  final Ref _ref;
-  final ThemePreferenceStore _store;
-  final bool _bootstrapped;
-  DateTime? _updatedAt;
-  bool _isDisposed = false;
-  bool _hasLoaded = false;
+    if (!_bootstrapped) {
+      Future<void>.microtask(load);
+    }
+
+    return initial?.preference ?? AppThemePreference.dark;
+  }
 
   Future<void> load() async {
     if (_bootstrapped || _hasLoaded) {
@@ -58,13 +52,10 @@ class ThemePreferenceNotifier extends StateNotifier<AppThemePreference> {
     }
     _hasLoaded = true;
     final result = await _store.read();
-    if (_isDisposed) {
-      return;
-    }
     _updatedAt = result.updatedAt;
     state = result.preference;
 
-    final user = _ref.read(authProvider).user;
+    final user = ref.read(authProvider).user;
     if (user != null) {
       await _syncWithRemote(user);
     }
@@ -79,9 +70,9 @@ class ThemePreferenceNotifier extends StateNotifier<AppThemePreference> {
     _updatedAt = now;
     await _store.write(preference, updatedAt: now);
 
-    final user = _ref.read(authProvider).user;
+    final user = ref.read(authProvider).user;
     if (user != null) {
-      await _ref
+      await ref
           .read(authProvider.notifier)
           .updateProfile(
             user.copyWith(
@@ -110,7 +101,7 @@ class ThemePreferenceNotifier extends StateNotifier<AppThemePreference> {
     } else if (_updatedAt != null &&
         (remoteUpdatedAt == null || _updatedAt!.isAfter(remoteUpdatedAt))) {
       // Local is newer.
-      await _ref
+      await ref
           .read(authProvider.notifier)
           .updateProfile(
             user.copyWith(
@@ -119,11 +110,5 @@ class ThemePreferenceNotifier extends StateNotifier<AppThemePreference> {
             ),
           );
     }
-  }
-
-  @override
-  void dispose() {
-    _isDisposed = true;
-    super.dispose();
   }
 }

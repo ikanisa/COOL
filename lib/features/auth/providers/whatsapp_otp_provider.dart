@@ -13,9 +13,8 @@ final whatsAppOtpServiceProvider = Provider<WhatsAppOtpService>((ref) {
 
 /// Reactive OTP flow state.
 final whatsAppOtpStateProvider =
-    StateNotifierProvider.autoDispose<WhatsAppOtpNotifier, WhatsAppOtpState>(
-      (ref) =>
-          WhatsAppOtpNotifier(service: ref.read(whatsAppOtpServiceProvider)),
+    AutoDisposeNotifierProvider<WhatsAppOtpNotifier, WhatsAppOtpState>(
+      WhatsAppOtpNotifier.new,
     );
 
 enum WhatsAppOtpStep { enterPhone, verifyCode }
@@ -73,12 +72,14 @@ class WhatsAppOtpState {
   }
 }
 
-class WhatsAppOtpNotifier extends StateNotifier<WhatsAppOtpState> {
-  WhatsAppOtpNotifier({required WhatsAppOtpService service})
-    : _service = service,
-      super(const WhatsAppOtpState());
+class WhatsAppOtpNotifier extends AutoDisposeNotifier<WhatsAppOtpState> {
+  late final WhatsAppOtpService _service;
 
-  final WhatsAppOtpService _service;
+  @override
+  WhatsAppOtpState build() {
+    _service = ref.read(whatsAppOtpServiceProvider);
+    return const WhatsAppOtpState();
+  }
 
   void reset() => state = const WhatsAppOtpState();
 
@@ -95,22 +96,25 @@ class WhatsAppOtpNotifier extends StateNotifier<WhatsAppOtpState> {
 
     final result = await _service.sendOtp(e164Phone);
 
-    if (!mounted) return;
-
-    if (result.isSent) {
-      state = state.copyWith(
-        isLoading: false,
-        codeSent: true,
-        step: WhatsAppOtpStep.verifyCode,
-        clearRetryAfter: true,
-      );
-    } else {
-      state = state.copyWith(
-        isLoading: false,
-        error: result.message ?? 'Failed to send OTP',
-        retryAfterSeconds: result.retryAfterSeconds,
-        clearAttemptsRemaining: true,
-      );
+    // Guard against the notifier being disposed during the async gap.
+    try {
+      if (result.isSent) {
+        state = state.copyWith(
+          isLoading: false,
+          codeSent: true,
+          step: WhatsAppOtpStep.verifyCode,
+          clearRetryAfter: true,
+        );
+      } else {
+        state = state.copyWith(
+          isLoading: false,
+          error: result.message ?? 'Failed to send OTP',
+          retryAfterSeconds: result.retryAfterSeconds,
+          clearAttemptsRemaining: true,
+        );
+      }
+    } on StateError catch (_) {
+      // Notifier was disposed — ignore.
     }
   }
 
@@ -123,20 +127,23 @@ class WhatsAppOtpNotifier extends StateNotifier<WhatsAppOtpState> {
 
     final result = await _service.verifyOtp(state.phone, code);
 
-    if (!mounted) return result;
-
-    if (result.isVerified) {
-      state = state.copyWith(
-        isLoading: false,
-        verifyResult: result,
-        clearAttemptsRemaining: true,
-      );
-    } else {
-      state = state.copyWith(
-        isLoading: false,
-        error: result.message ?? 'Invalid OTP',
-        attemptsRemaining: result.attemptsRemaining,
-      );
+    // Guard against the notifier being disposed during the async gap.
+    try {
+      if (result.isVerified) {
+        state = state.copyWith(
+          isLoading: false,
+          verifyResult: result,
+          clearAttemptsRemaining: true,
+        );
+      } else {
+        state = state.copyWith(
+          isLoading: false,
+          error: result.message ?? 'Invalid OTP',
+          attemptsRemaining: result.attemptsRemaining,
+        );
+      }
+    } on StateError catch (_) {
+      // Notifier was disposed — ignore.
     }
 
     return result;
