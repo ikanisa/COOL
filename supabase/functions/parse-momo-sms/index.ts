@@ -19,8 +19,10 @@ import {
   getAiProvider,
   getModel,
   normalizeParsedSms,
+  type ParseProvider,
   type ParsedSms,
   type RawSmsRecord,
+  tryHeuristicParse,
 } from "./ai_parser.ts";
 import {
   asString,
@@ -40,6 +42,8 @@ type ParseRequest = {
 };
 
 const PROMPT_VERSION = "v1";
+const HEURISTIC_PROMPT_VERSION = "heuristic-v1";
+const HEURISTIC_MODEL = "momo-regex-v1";
 
 Deno.serve(async (request: Request) => {
   const corsResponse = handleCors(request);
@@ -98,13 +102,14 @@ Deno.serve(async (request: Request) => {
       });
     }
 
-    const prompt = buildPrompt(rawSms);
-
     await adminClient
       .from("momo_sms_raw")
       .update({ parse_status: "processing" })
       .eq("id", rawSmsId);
-    const runProviderAttempt = async (provider: AiProvider) => {
+    const runProviderAttempt = async (
+      provider: AiProvider,
+      prompt: string,
+    ) => {
       const model = getModel(provider);
       const attemptsResult = await adminClient
         .from("momo_parse_attempts")
@@ -165,26 +170,81 @@ Deno.serve(async (request: Request) => {
       }
     };
 
+    const runHeuristicAttempt = async () => {
+      const heuristic = tryHeuristicParse(rawSms);
+      if (!heuristic) {
+        return null;
+      }
+
+      const attemptsResult = await adminClient
+        .from("momo_parse_attempts")
+        .select("attempt_number")
+        .eq("raw_sms_id", rawSmsId)
+        .eq("provider", "heuristic");
+
+      if (attemptsResult.error) {
+        throw attemptsResult.error;
+      }
+
+      const attemptNumber = (attemptsResult.data?.length ?? 0) + 1;
+      const attemptInsert = await adminClient
+        .from("momo_parse_attempts")
+        .insert({
+          raw_sms_id: rawSmsId,
+          user_id: rawSms.user_id,
+          provider: "heuristic",
+          model: heuristic.model,
+          attempt_number: attemptNumber,
+          status: "success",
+          prompt_version: HEURISTIC_PROMPT_VERSION,
+          request_payload: heuristic.requestPayload,
+          response_payload: heuristic.responsePayload,
+        })
+        .select("id")
+        .single();
+
+      if (attemptInsert.error) {
+        throw attemptInsert.error;
+      }
+
+      return {
+        attemptId: attemptInsert.data.id as string,
+        provider: "heuristic" as ParseProvider,
+        aiResult: {
+          model: heuristic.model,
+          requestPayload: heuristic.requestPayload,
+          responseBody: heuristic.responsePayload,
+        },
+        parsed: heuristic.parsed,
+      };
+    };
+
     let selectedAttemptId: string | null = null;
 
     try {
-      const primaryProvider = getAiProvider(body.provider);
-      const openAiFallbackAvailable = primaryProvider === "gemini" &&
-        (Deno.env.get("OPENAI_API_KEY") ?? "").trim().length > 0;
-
       let selectedAttempt;
-      try {
-        selectedAttempt = await runProviderAttempt(primaryProvider);
-      } catch (primaryError) {
-        if (!openAiFallbackAvailable) {
-          throw primaryError;
-        }
+      const heuristicAttempt = await runHeuristicAttempt();
+      if (heuristicAttempt) {
+        selectedAttempt = heuristicAttempt;
+      } else {
+        const prompt = buildPrompt(rawSms);
+        const primaryProvider = getAiProvider(body.provider);
+        const openAiFallbackAvailable = primaryProvider === "gemini" &&
+          (Deno.env.get("OPENAI_API_KEY") ?? "").trim().length > 0;
 
-        console.error(
-          "parse-momo-sms gemini attempt failed, retrying with OpenAI",
-          primaryError,
-        );
-        selectedAttempt = await runProviderAttempt("openai");
+        try {
+          selectedAttempt = await runProviderAttempt(primaryProvider, prompt);
+        } catch (primaryError) {
+          if (!openAiFallbackAvailable) {
+            throw primaryError;
+          }
+
+          console.error(
+            "parse-momo-sms gemini attempt failed, retrying with OpenAI",
+            primaryError,
+          );
+          selectedAttempt = await runProviderAttempt("openai", prompt);
+        }
       }
 
       selectedAttemptId = selectedAttempt.attemptId;

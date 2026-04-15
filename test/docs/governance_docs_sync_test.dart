@@ -3,12 +3,19 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../tool/governance_docs.dart';
+import '../helpers/dart_sdk.dart';
 
 void main() {
   final repoRoot = Directory.current;
 
+  late String dartBin;
+
+  setUpAll(() {
+    dartBin = resolveDartBinary();
+  });
+
   test('governance docs match generated code inventory', () {
-    final result = Process.runSync('dart', [
+    final result = Process.runSync(dartBin, [
       'tool/governance_docs.dart',
       '--check',
     ], workingDirectory: repoRoot.path);
@@ -30,3 +37,4 @@ void main() {
     expect(routeInventory, isNot(contains('`/partners/rayon-sports`')));
   });
 }
+

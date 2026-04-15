@@ -669,7 +669,7 @@ The app is written against a normalized `users` profile model, but the repositor
 
 | Field | Value |
 |---|---|
-| Pubspec version | `1.2.0+5` |
+| Pubspec version | `1.2.0+7` |
 | Package ID | `app.cool.mobile` |
 | Play Console status | Verify in Play Console before release work |
 | Privacy policy | `https://cool.ikanisa.com/privacy` |

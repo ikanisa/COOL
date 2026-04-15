@@ -2,9 +2,17 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
+import '../helpers/dart_sdk.dart';
+
 void main() {
+  late String dartBin;
+
+  setUpAll(() {
+    dartBin = resolveDartBinary();
+  });
+
   test('repo hygiene gate passes', () {
-    final ProcessResult result = Process.runSync('dart', <String>[
+    final ProcessResult result = Process.runSync(dartBin, <String>[
       'tool/repo_hygiene_gate.dart',
     ], workingDirectory: Directory.current.path);
 
@@ -24,7 +32,7 @@ void main() {
   });
 
   test('no patch markers in migration files', () {
-    final ProcessResult result = Process.runSync('dart', <String>[
+    final ProcessResult result = Process.runSync(dartBin, <String>[
       'tool/repo_hygiene_gate.dart',
     ], workingDirectory: Directory.current.path);
 
@@ -42,7 +50,7 @@ void main() {
   });
 
   test('repo hygiene gate ignores nested node_modules trees', () {
-    final ProcessResult result = Process.runSync('dart', <String>[
+    final ProcessResult result = Process.runSync(dartBin, <String>[
       'tool/repo_hygiene_gate.dart',
     ], workingDirectory: Directory.current.path);
 

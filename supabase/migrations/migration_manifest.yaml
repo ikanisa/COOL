@@ -16,6 +16,7 @@ migrations:
 
   # ── Day 1: Foundation ─────────────────────────────────────────
   20260310120000_initial_schema.sql: [schema]
+  20260310120500_rayon_sports_stub_schema.sql: [schema, repair]
   20260310130000_pending_transactions.sql: [schema]
   20260310133000_mobile_integration_alignment.sql: [schema]
   20260310153000_ai_momo_sms_pipeline.sql: [schema]
@@ -222,3 +223,5 @@ migrations:
   20260412170000_admin_manual_review_group_allocation.sql: [schema, security]
   20260412171000_expand_group_transaction_allocation_to_bank_admins.sql: [schema, security]
   20260412193000_public_group_member_preview.sql: [schema, security]
+  20260414120000_fix_group_join_and_accounting_invariants.sql: [schema, fix]
+  20260415143000_repair_group_rpc_and_momo_validation.sql: [repair, fix, schema]

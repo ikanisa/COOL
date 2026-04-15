@@ -5,6 +5,7 @@ import {
   getAiProvider,
   normalizeParsedSms,
   type RawSmsRecord,
+  tryHeuristicParse,
 } from "./ai_parser.ts";
 
 function assert(condition: boolean, message: string): void {
@@ -236,6 +237,74 @@ Deno.test("normalizeParsedSms sanitizes vendor output into stable parsed records
     parsed.ai_summary,
     "Paid Cool Market for groceries",
     "summary should persist",
+  );
+});
+
+Deno.test("tryHeuristicParse extracts MTN merchant-code payment confirmations", () => {
+  const result = tryHeuristicParse({
+    ...sampleRawSms,
+    sms_body:
+      "TxId: UAT94975501. Payment of 12,000 RWF to merchant code 949755 confirmed on 2025-05-15 09:30:00. Fee: 0 RWF. Balance after payment: 80,000 RWF.",
+    sms_received_at: "2025-05-15T09:30:00.000Z",
+  });
+
+  assert(result !== null, "heuristic parser should match merchant-code payments");
+  assertEquals(
+    result?.parsed.parse_status,
+    "parsed",
+    "merchant-code payment should parse cleanly",
+  );
+  assertEquals(result?.parsed.amount, 12000, "amount should parse");
+  assertEquals(
+    result?.parsed.merchant_code,
+    "949755",
+    "merchant code should be extracted",
+  );
+  assertEquals(
+    result?.parsed.payee_number_or_code,
+    "949755",
+    "payee route should use the merchant code",
+  );
+  assertEquals(
+    result?.parsed.tx_datetime_iso,
+    "2025-05-15T09:30:00.000Z",
+    "body timestamp should become ISO UTC",
+  );
+});
+
+Deno.test("tryHeuristicParse extracts inbound transfer confirmations", () => {
+  const result = tryHeuristicParse({
+    ...sampleRawSms,
+    sms_body:
+      "You have received 50000 RWF from Yvette NYIRAMAHIRWE (*********235) at 2025-11-19 23:12:44 . Balance:633978 RWF. FT Id: 24224946460",
+    sms_received_at: "2025-11-19T23:12:44.000Z",
+  });
+
+  assert(result !== null, "heuristic parser should match inbound transfers");
+  assertEquals(
+    result?.parsed.tx_direction,
+    "credit",
+    "received transfers should be credits",
+  );
+  assertEquals(
+    result?.parsed.tx_category,
+    "transfer_in",
+    "received transfers should use a transfer category",
+  );
+  assertEquals(
+    result?.parsed.payer_name,
+    "Yvette NYIRAMAHIRWE",
+    "payer name should be extracted",
+  );
+  assertEquals(
+    result?.parsed.payer_number_last3,
+    "235",
+    "masked sender should preserve the visible last digits",
+  );
+  assertEquals(
+    result?.parsed.balance_after,
+    633978,
+    "balance should parse from the SMS body",
   );
 });
 

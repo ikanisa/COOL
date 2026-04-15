@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
+import '../helpers/dart_sdk.dart';
+
 void main() {
   late Directory tempRepo;
   late String toolSource;
@@ -345,10 +347,12 @@ Future<ProcessResult> _runTool(
   Directory repo,
   List<String> args, {
   Map<String, String>? environment,
+  String? dartBinary,
 }) {
+  final bin = dartBinary ?? resolveDartBinary();
   return Process.run(
-    '/usr/bin/env',
-    <String>['dart', ...args],
+    bin,
+    args,
     workingDirectory: repo.path,
     environment: environment,
   );
