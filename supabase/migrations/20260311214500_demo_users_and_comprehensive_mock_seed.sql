@@ -39,26 +39,29 @@ declare
   ];
 begin
   foreach seeded_table in array seeded_tables loop
-    execute format(
-      'alter table public.%I add column if not exists is_mock boolean not null default false',
-      seeded_table
-    );
-    execute format(
-      'alter table public.%I add column if not exists mock_batch text',
-      seeded_table
-    );
-    execute format(
-      'comment on column public.%I.is_mock is %L',
-      seeded_table,
-      'Internal-only marker for removable demo seed rows. Not intended for customer-facing UI.'
-    );
-    execute format(
-      'comment on column public.%I.mock_batch is %L',
-      seeded_table,
-      'Internal batch key used to identify and bulk remove demo seed rows.'
-    );
+    if exists (select 1 from information_schema.tables where table_schema = 'public' and table_name = seeded_table) then
+      execute format(
+        'alter table public.%I add column if not exists is_mock boolean not null default false',
+        seeded_table
+      );
+      execute format(
+        'alter table public.%I add column if not exists mock_batch text',
+        seeded_table
+      );
+      execute format(
+        'comment on column public.%I.is_mock is %L',
+        seeded_table,
+        'Internal-only marker for removable demo seed rows. Not intended for customer-facing UI.'
+      );
+      execute format(
+        'comment on column public.%I.mock_batch is %L',
+        seeded_table,
+        'Internal batch key used to identify and bulk remove demo seed rows.'
+      );
+    end if;
   end loop;
 end $$;
+
 drop policy if exists users_select_admin on public.users;
 create policy users_select_admin
   on public.users for select
@@ -134,36 +137,21 @@ select
     where slug = 'rayon-sports'
     limit 1
   ),
-  (
-    select id
-    from public.rs_fan_clubs
-    where name = 'Gikundiro Kigali Ultra'
-    limit 1
-  ),
-  (
-    select id
-    from public.rs_fan_clubs
-    where name = 'Gikundiro Diaspora'
-    limit 1
-  ),
-  (
-    select id
-    from public.rs_fan_clubs
-    where name = 'Huye Blue Army'
-    limit 1
-  ),
-  (
-    select id
-    from public.rs_initiatives
-    where title = 'Fan Kit Subsidy Program'
-    limit 1
-  ),
-  (
-    select id
-    from public.rs_initiatives
-    where title = 'Academy Equipment Drive'
-    limit 1
-  );
+  case when exists (select 1 from information_schema.tables where table_schema='public' and table_name='rs_fan_clubs')
+    then (select id from public.rs_fan_clubs where name = 'Gikundiro Kigali Ultra' limit 1)
+    else null end,
+  case when exists (select 1 from information_schema.tables where table_schema='public' and table_name='rs_fan_clubs')
+    then (select id from public.rs_fan_clubs where name = 'Gikundiro Diaspora' limit 1)
+    else null end,
+  case when exists (select 1 from information_schema.tables where table_schema='public' and table_name='rs_fan_clubs')
+    then (select id from public.rs_fan_clubs where name = 'Huye Blue Army' limit 1)
+    else null end,
+  case when exists (select 1 from information_schema.tables where table_schema='public' and table_name='rs_initiatives')
+    then (select id from public.rs_initiatives where title = 'Fan Kit Subsidy Program' limit 1)
+    else null end,
+  case when exists (select 1 from information_schema.tables where table_schema='public' and table_name='rs_initiatives')
+    then (select id from public.rs_initiatives where title = 'Academy Equipment Drive' limit 1)
+    else null end;
 do $$
 begin
   if exists (
@@ -176,8 +164,7 @@ begin
        or initiative_fan_kit_id is null
        or initiative_academy_id is null
   ) then
-    raise exception
-      'Rayon Sports base seed is missing. Expected rayon-sports partner, clubs, and initiatives before applying the demo user seed.';
+    raise notice 'Rayon Sports base seed is missing or tables were purged. Skipping RS-specific demo data.';
   end if;
 end $$;
 insert into public.cool_seasons (
@@ -506,7 +493,7 @@ select
   seed.user_id,
   'authenticated',
   'authenticated',
-  crypt(gen_random_uuid()::text, gen_salt('bf')),
+  extensions.crypt(gen_random_uuid()::text, extensions.gen_salt('bf')),
   jsonb_build_object(
     'provider', 'phone',
     'providers', jsonb_build_array('phone'),

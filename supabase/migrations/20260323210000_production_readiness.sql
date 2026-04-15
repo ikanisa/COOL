@@ -224,15 +224,27 @@ CREATE INDEX IF NOT EXISTS idx_rs_tickets_referral_invite_id
   ON public.rs_tickets (referral_invite_id);
 
 -- share_artifacts
-CREATE INDEX IF NOT EXISTS idx_share_artifacts_owner_user_id
-  ON public.share_artifacts (owner_user_id);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='share_artifacts') THEN
+    CREATE INDEX IF NOT EXISTS idx_share_artifacts_owner_user_id
+      ON public.share_artifacts (owner_user_id);
+  END IF;
+END $$;
 
 -- wallet_pass_events
-CREATE INDEX IF NOT EXISTS idx_wallet_pass_events_user_id
-  ON public.wallet_pass_events (user_id);
-CREATE INDEX IF NOT EXISTS idx_wallet_pass_events_wallet_pass_id
-  ON public.wallet_pass_events (wallet_pass_id);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='wallet_pass_events') THEN
+    CREATE INDEX IF NOT EXISTS idx_wallet_pass_events_user_id
+      ON public.wallet_pass_events (user_id);
+    CREATE INDEX IF NOT EXISTS idx_wallet_pass_events_wallet_pass_id
+      ON public.wallet_pass_events (wallet_pass_id);
+  END IF;
+END $$;
 
 -- wallet_passes
-CREATE INDEX IF NOT EXISTS idx_wallet_passes_user_id
-  ON public.wallet_passes (user_id);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='wallet_passes') THEN
+    CREATE INDEX IF NOT EXISTS idx_wallet_passes_user_id
+      ON public.wallet_passes (user_id);
+  END IF;
+END $$;

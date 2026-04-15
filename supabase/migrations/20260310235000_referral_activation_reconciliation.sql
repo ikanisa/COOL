@@ -1,18 +1,18 @@
-alter table public.rs_tickets
-  add column if not exists referral_invite_id uuid references public.referral_invites(id) on delete set null;
-alter table public.rs_shop_orders
-  add column if not exists referral_invite_id uuid references public.referral_invites(id) on delete set null;
-alter table public.rs_initiative_contributions
-  add column if not exists referral_invite_id uuid references public.referral_invites(id) on delete set null;
-create index if not exists idx_rs_tickets_referral_invite
-  on public.rs_tickets (referral_invite_id)
-  where referral_invite_id is not null;
-create index if not exists idx_rs_shop_orders_referral_invite
-  on public.rs_shop_orders (referral_invite_id)
-  where referral_invite_id is not null;
-create index if not exists idx_rs_initiative_contributions_referral_invite
-  on public.rs_initiative_contributions (referral_invite_id)
-  where referral_invite_id is not null;
+do $$ begin
+  if exists (select 1 from information_schema.tables where table_schema = 'public' and table_name = 'rs_tickets') then
+    alter table public.rs_tickets add column if not exists referral_invite_id uuid references public.referral_invites(id) on delete set null;
+    create index if not exists idx_rs_tickets_referral_invite on public.rs_tickets (referral_invite_id) where referral_invite_id is not null;
+  end if;
+  if exists (select 1 from information_schema.tables where table_schema = 'public' and table_name = 'rs_shop_orders') then
+    alter table public.rs_shop_orders add column if not exists referral_invite_id uuid references public.referral_invites(id) on delete set null;
+    create index if not exists idx_rs_shop_orders_referral_invite on public.rs_shop_orders (referral_invite_id) where referral_invite_id is not null;
+  end if;
+  if exists (select 1 from information_schema.tables where table_schema = 'public' and table_name = 'rs_initiative_contributions') then
+    alter table public.rs_initiative_contributions add column if not exists referral_invite_id uuid references public.referral_invites(id) on delete set null;
+    create index if not exists idx_rs_initiative_contributions_referral_invite on public.rs_initiative_contributions (referral_invite_id) where referral_invite_id is not null;
+  end if;
+end $$;
+
 create or replace function public.activate_referral_invite_for_user(
   p_referral_invite_id uuid,
   p_invitee_id uuid,

@@ -122,7 +122,7 @@ set
   frequency = coalesce(nullif(frequency, ''), 'monthly'),
   invite_code = coalesce(
     nullif(invite_code, ''),
-    upper(substr(encode(gen_random_bytes(6), 'hex'), 1, 8))
+    upper(substr(replace(gen_random_uuid()::text, '-', ''), 1, 8))
   )
 where true;
 create unique index if not exists idx_groups_invite_code
