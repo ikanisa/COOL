@@ -1,7 +1,7 @@
 # COOL Admin PWA Production Readiness Audit
 
 Date: 2026-04-11
-Scope: full repo review with focus on `apps/cool-pwa/` as the admin control plane, plus relevant Supabase migrations and CI/CD workflows.
+Scope: full repo review with focus on `apps/pwa/` as the admin control plane, plus relevant Supabase migrations and CI/CD workflows.
 
 ## Executive Verdict
 
@@ -29,53 +29,53 @@ The repo is weakest in:
 
 ### Critical
 
-- Local live QA is effectively disabled in normal browser use. `getAdminSessionState()` hard-switches localhost over HTTP into static preview mode, so normal local browser testing never exercises real auth/session/function flows. Evidence: `apps/cool-pwa/assets/js/admin_api.js:10-16`, `apps/cool-pwa/assets/js/admin_api.js:115-122`. This conflicts with the local-run guidance in `apps/cool-pwa/README.md:23-28`.
+- Local live QA is effectively disabled in normal browser use. `getAdminSessionState()` hard-switches localhost over HTTP into static preview mode, so normal local browser testing never exercises real auth/session/function flows. Evidence: `apps/pwa/assets/js/admin_api.js:10-16`, `apps/pwa/assets/js/admin_api.js:115-122`. This conflicts with the local-run guidance in `apps/pwa/README.md:23-28`.
 
-- Offline support is overstated for authenticated admin work. The shell caches routes and static data, but the live admin boot path still depends on live API calls and `requestJson()` has no network-failure guard. Service worker fetch handling does not cover admin API routes. Evidence: `apps/cool-pwa/assets/js/admin_api.js:18-36`, `apps/cool-pwa/assets/js/app.js:164-205`, `apps/cool-pwa/service-worker.js:92-116`, `apps/cool-pwa/service-worker.js:185-213`. Current copy such as “Keep rollout control available even when you are off-network” overpromises this behavior (`apps/cool-pwa/admin/app-config/index.html:69`).
+- Offline support is overstated for authenticated admin work. The shell caches routes and static data, but the live admin boot path still depends on live API calls and `requestJson()` has no network-failure guard. Service worker fetch handling does not cover admin API routes. Evidence: `apps/pwa/assets/js/admin_api.js:18-36`, `apps/pwa/assets/js/app.js:164-205`, `apps/pwa/service-worker.js:92-116`, `apps/pwa/service-worker.js:185-213`. Current copy such as “Keep rollout control available even when you are off-network” overpromises this behavior (`apps/pwa/admin/app-config/index.html:69`).
 
-- Full browser-based access governance is incomplete. Legacy admins backed only by `users.is_admin` cannot be revoked from the PWA. Evidence: `apps/cool-pwa/functions/api/admin/mutate.js:115-128`. For a production admin console, non-revocable privileged accounts are a launch blocker.
+- Full browser-based access governance is incomplete. Legacy admins backed only by `users.is_admin` cannot be revoked from the PWA. Evidence: `apps/pwa/functions/api/admin/mutate.js:115-128`. For a production admin console, non-revocable privileged accounts are a launch blocker.
 
 ### High
 
-- Privileged writes have weak human-factor controls. Role assignment and config mutation are immediate free-text form submissions with no confirmation dialog, no typed validation beyond presence, no diff preview, no second-factor step for critical changes, and no reversible workflow. Evidence: `apps/cool-pwa/admin/roles/index.html:55-63`, `apps/cool-pwa/admin/app-config/index.html:55-63`, `apps/cool-pwa/assets/js/app.js:373-430`. This is below the standard set by mature admin products for destructive or privilege-changing operations.
+- Privileged writes have weak human-factor controls. Role assignment and config mutation are immediate free-text form submissions with no confirmation dialog, no typed validation beyond presence, no diff preview, no second-factor step for critical changes, and no reversible workflow. Evidence: `apps/pwa/admin/roles/index.html:55-63`, `apps/pwa/admin/app-config/index.html:55-63`, `apps/pwa/assets/js/app.js:373-430`. This is below the standard set by mature admin products for destructive or privilege-changing operations.
 
-- The session model is still too brittle for a high-trust admin surface. The cookie stores raw access and refresh tokens together as JSON, refresh still supports a body token fallback, and OTP verification sets the cookie before admin entitlement is re-checked. Evidence: `apps/cool-pwa/functions/_shared/supabase.js:135-157`, `apps/cool-pwa/functions/api/auth/refresh.js:4-10`, `apps/cool-pwa/functions/api/auth/verify-otp.js:24-45`, `apps/cool-pwa/functions/api/admin/session.js:3-14`. This is functional, but it is not a world-class admin-session design.
+- The session model is still too brittle for a high-trust admin surface. The cookie stores raw access and refresh tokens together as JSON, refresh still supports a body token fallback, and OTP verification sets the cookie before admin entitlement is re-checked. Evidence: `apps/pwa/functions/_shared/supabase.js:135-157`, `apps/pwa/functions/api/auth/refresh.js:4-10`, `apps/pwa/functions/api/auth/verify-otp.js:24-45`, `apps/pwa/functions/api/admin/session.js:3-14`. This is functional, but it is not a world-class admin-session design.
 
-- The sign-in flow leaks admin-account existence. The send-OTP endpoint returns a distinct `NOT_ADMIN_PHONE` response and the UI renders a dedicated “request access” state for non-admin phones. Evidence: `apps/cool-pwa/functions/api/auth/send-otp.js:23-33`, `apps/cool-pwa/assets/js/admin_views.js:67-97`. For a privileged entrypoint, this creates avoidable user-enumeration risk.
+- The sign-in flow leaks admin-account existence. The send-OTP endpoint returns a distinct `NOT_ADMIN_PHONE` response and the UI renders a dedicated “request access” state for non-admin phones. Evidence: `apps/pwa/functions/api/auth/send-otp.js:23-33`, `apps/pwa/assets/js/admin_views.js:67-97`. For a privileged entrypoint, this creates avoidable user-enumeration risk.
 
-- Notification and alerting are mostly demo-grade. The frontend requests permission and can show demo notifications, and the service worker can receive `push`, but the repo does not implement push subscription capture, subscription persistence, VAPID config, or delivery plumbing. Evidence: `apps/cool-pwa/assets/js/app_notifications.js:10-83`, `apps/cool-pwa/service-worker.js:145-183`. Operational alerts are therefore not production-complete.
+- Notification and alerting are mostly demo-grade. The frontend requests permission and can show demo notifications, and the service worker can receive `push`, but the repo does not implement push subscription capture, subscription persistence, VAPID config, or delivery plumbing. Evidence: `apps/pwa/assets/js/app_notifications.js:10-83`, `apps/pwa/service-worker.js:145-183`. Operational alerts are therefore not production-complete.
 
-- Browser telemetry is mostly local-only. Events are pushed to `window.dataLayer` and IndexedDB, but the pages do not define the `meta[name="analytics-endpoint"]` or `meta[name="app-version"]` tags required for network export. Evidence: `apps/cool-pwa/assets/js/app.js:729-753`. This means production browser errors, install success, sync results, and admin-route failures are not reliably sent to a central system.
+- Browser telemetry is mostly local-only. Events are pushed to `window.dataLayer` and IndexedDB, but the pages do not define the `meta[name="analytics-endpoint"]` or `meta[name="app-version"]` tags required for network export. Evidence: `apps/pwa/assets/js/app.js:729-753`. This means production browser errors, install success, sync results, and admin-route failures are not reliably sent to a central system.
 
-- Scoped/bank admin access is not a credible product journey yet. The data model and shell imply bank-scoped access, but every meaningful route is platform-only, leaving scoped admins with little more than a summary surface. Evidence: `apps/cool-pwa/functions/_shared/supabase.js:6-15`, `apps/cool-pwa/functions/_shared/supabase.js:350-351`, `apps/cool-pwa/functions/api/admin/data.js:70-111`.
+- Scoped/bank admin access is not a credible product journey yet. The data model and shell imply bank-scoped access, but every meaningful route is platform-only, leaving scoped admins with little more than a summary surface. Evidence: `apps/pwa/functions/_shared/supabase.js:6-15`, `apps/pwa/functions/_shared/supabase.js:350-351`, `apps/pwa/functions/api/admin/data.js:70-111`.
 
-- User management does not scale and exposes more data than needed. The users route fetches the full users dataset into the browser and then filters client-side. Evidence: `apps/cool-pwa/functions/api/admin/data.js:143-211`, `apps/cool-pwa/assets/js/admin_views.js:216-250`. This will degrade badly at scale and unnecessarily widens the data exposed in a single admin browser session.
+- User management does not scale and exposes more data than needed. The users route fetches the full users dataset into the browser and then filters client-side. Evidence: `apps/pwa/functions/api/admin/data.js:143-211`, `apps/pwa/assets/js/admin_views.js:216-250`. This will degrade badly at scale and unnecessarily widens the data exposed in a single admin browser session.
 
-- Audit-log UX is too shallow for enterprise operations. The route loads a fixed page of 30 records and renders a subset of 12 without server-side filtering, export, or investigative search. Evidence: `apps/cool-pwa/functions/api/admin/data.js:352-379`. This is acceptable for a preview, not for production incident review or compliance evidence.
+- Audit-log UX is too shallow for enterprise operations. The route loads a fixed page of 30 records and renders a subset of 12 without server-side filtering, export, or investigative search. Evidence: `apps/pwa/functions/api/admin/data.js:352-379`. This is acceptable for a preview, not for production incident review or compliance evidence.
 
-- CI does not gate the most important integration path. `npm test` omits the integration suite, and both CI workflows only run contract tests, browser checks, and Lighthouse. Evidence: `apps/cool-pwa/package.json:5-12`, `.github/workflows/cool-pwa-ci.yml:34-40`, `.github/workflows/cool-pwa-deploy.yml:36-42`. The integration suite itself is also unreliable in current form (`apps/cool-pwa/scripts/integration-test.mjs:25-57`).
+- CI does not gate the most important integration path. `npm test` omits the integration suite, and both CI workflows only run contract tests, browser checks, and Lighthouse. Evidence: `apps/pwa/package.json:5-12`, `.github/workflows/cool-pwa-ci.yml:34-40`, `.github/workflows/cool-pwa-deploy.yml:36-42`. The integration suite itself is also unreliable in current form (`apps/pwa/scripts/integration-test.mjs:25-57`).
 
 ### Medium
 
-- Logout can race the next session probe in non-reload flows because the cookie-clearing fetch is fire-and-forget. Evidence: `apps/cool-pwa/assets/js/admin_api.js:62-68`, `apps/cool-pwa/assets/js/app.js:349-370`.
+- Logout can race the next session probe in non-reload flows because the cookie-clearing fetch is fire-and-forget. Evidence: `apps/pwa/assets/js/admin_api.js:62-68`, `apps/pwa/assets/js/app.js:349-370`.
 
-- The queueing/offline-mutation framework is underused. The generic queueing path exists, but the active role/config/user admin forms are wired directly to live mutation functions rather than offline-safe queued forms. Evidence: `apps/cool-pwa/assets/js/app.js:572-685`.
+- The queueing/offline-mutation framework is underused. The generic queueing path exists, but the active role/config/user admin forms are wired directly to live mutation functions rather than offline-safe queued forms. Evidence: `apps/pwa/assets/js/app.js:572-685`.
 
-- The PWA shell is visually consistent, but the design system is too monocultural for a complex admin product. The dark-purple palette is the default global visual direction, and route-level information density relies heavily on repeated cards and status pills. Evidence: `apps/cool-pwa/assets/css/app.css:25-63`, `apps/cool-pwa/admin/index.html:55-104`. The result is polished, but not yet optimized for high-frequency operator workflows.
+- The PWA shell is visually consistent, but the design system is too monocultural for a complex admin product. The dark-purple palette is the default global visual direction, and route-level information density relies heavily on repeated cards and status pills. Evidence: `apps/pwa/assets/css/app.css:25-63`, `apps/pwa/admin/index.html:55-104`. The result is polished, but not yet optimized for high-frequency operator workflows.
 
-- Performance quality is good but not fully production-polished. Lighthouse passed with strong top-line scores, but there are still misses for compression, minification, responsive images, and back-forward cache. Verified locally via `apps/cool-pwa/output/lighthouse/cool-pwa-admin.report.json`.
+- Performance quality is good but not fully production-polished. Lighthouse passed with strong top-line scores, but there are still misses for compression, minification, responsive images, and back-forward cache. Verified locally via `apps/pwa/output/lighthouse/cool-pwa-admin.report.json`.
 
 - Documentation currently overstates readiness. The checklist document describes queueing, alerts, and browser-safe admin flows more confidently than the implementation supports. Evidence: `docs/cool-pwa-world-class-checklist.md:45-77`.
 
 ## Strong Areas
 
-- Security headers and CSP are better than average for a static admin PWA. Evidence: `apps/cool-pwa/_headers:1-39`, `apps/cool-pwa/functions/index.js:1-45`.
+- Security headers and CSP are better than average for a static admin PWA. Evidence: `apps/pwa/_headers:1-39`, `apps/pwa/functions/index.js:1-45`.
 
-- The shell has real accessibility work, not just claims. It includes a skip link, `:focus-visible`, 48px interactive targets, and reduced-motion handling. Evidence: `apps/cool-pwa/assets/css/app.css:184-211`, `apps/cool-pwa/assets/css/app.css:943-955`.
+- The shell has real accessibility work, not just claims. It includes a skip link, `:focus-visible`, 48px interactive targets, and reduced-motion handling. Evidence: `apps/pwa/assets/css/app.css:184-211`, `apps/pwa/assets/css/app.css:943-955`.
 
-- Typography and brand assets are deliberate. The product uses self-hosted `Space Grotesk` and `Manrope` rather than default stacks, and the shell is visually cohesive. Evidence: `apps/cool-pwa/assets/css/app.css:5-23`, `apps/cool-pwa/assets/css/app.css:151-160`.
+- Typography and brand assets are deliberate. The product uses self-hosted `Space Grotesk` and `Manrope` rather than default stacks, and the shell is visually cohesive. Evidence: `apps/pwa/assets/css/app.css:5-23`, `apps/pwa/assets/css/app.css:151-160`.
 
-- Responsive behavior exists and is not an afterthought. The shell changes navigation, layout, and toast placement at mobile widths. Evidence: `apps/cool-pwa/assets/css/app.css:900-940`.
+- Responsive behavior exists and is not an afterthought. The shell changes navigation, layout, and toast placement at mobile widths. Evidence: `apps/pwa/assets/css/app.css:900-940`.
 
 - Supabase hardening work is meaningful. There is recent migration work to align `is_admin()` with active role assignments and to harden SECURITY DEFINER functions and audit triggers. Evidence: `supabase/migrations/20260411113000_align_platform_admin_helpers_with_role_assignments.sql:9-178`, `supabase/migrations/20260323210000_production_readiness.sql:6-47`, `supabase/migrations/20260328000000_admin_readiness_security_hardening.sql:6-197`.
 

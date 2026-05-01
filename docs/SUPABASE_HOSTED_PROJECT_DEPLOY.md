@@ -4,9 +4,9 @@ This repo already contains the full COOL backend contract:
 
 - SQL migrations under [`supabase/migrations`](../supabase/migrations)
 - Edge Functions under [`supabase/functions`](../supabase/functions)
-- contract smoke checks under [`scripts/supabase_contract_smoke.sh`](../scripts/supabase_contract_smoke.sh)
+- contract smoke checks under [`scripts/qa/supabase_contract_smoke.sh`](../scripts/qa/supabase_contract_smoke.sh)
 
-Use [`scripts/deploy_supabase_hosted.sh`](../scripts/deploy_supabase_hosted.sh) to
+Use [`scripts/deploy/deploy_supabase_hosted.sh`](../scripts/deploy/deploy_supabase_hosted.sh) to
 bootstrap a fresh hosted Supabase project from this repo.
 
 ## What The Script Does
@@ -14,7 +14,7 @@ bootstrap a fresh hosted Supabase project from this repo.
 1. Validates the local migration tree.
 2. Links the workspace to the target hosted project.
 3. Pushes every migration in `supabase/migrations`.
-4. Optionally includes `supabase/seed.sql`.
+4. Optionally includes `supabase/seed/cool_status.sql`.
 5. Syncs Edge Function secrets from a local ignored `.env` file.
 6. Deploys every Edge Function under `supabase/functions/**/index.ts`.
 7. Optionally runs the remote contract smoke suite.
@@ -42,12 +42,12 @@ PROJECT_REF=your-project-ref \
 SUPABASE_DB_PASSWORD=your-db-password \
 FUNCTIONS_ENV_FILE=supabase/functions/.env \
 RUN_SMOKE=1 \
-bash scripts/deploy_supabase_hosted.sh
+bash scripts/deploy/deploy_supabase_hosted.sh
 ```
 
 ## Optional Flags
 
-- `INCLUDE_SEED=0` skips `seed.sql`
+- `INCLUDE_SEED=0` skips `supabase/seed/cool_status.sql`
 - `SKIP_SECRETS=1` skips `supabase secrets set`
 - `SKIP_FUNCTIONS=1` skips Edge Function deployment
 - `SKIP_DB_PUSH=1` skips migration apply

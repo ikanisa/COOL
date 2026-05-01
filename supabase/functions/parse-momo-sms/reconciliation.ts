@@ -15,6 +15,7 @@ import {
   reconcileByPayeeRoute,
 } from "./group_reconciler.ts";
 import {
+  asRecord,
   asString,
   type AutoReconciliationResult,
   buildManualReviewResult,
@@ -31,7 +32,7 @@ export async function reconcileParsedSms(
   adminClient: ReturnType<typeof createAdminClient>,
   rawSms: RawSmsRecord,
   parsed: ParsedSms,
-  parsedSmsId: string,
+  _parsedSmsId: string,
   timestamp: string,
 ): Promise<AutoReconciliationResult> {
   if (parsed.amount == null || parsed.amount <= 0) {
@@ -51,34 +52,38 @@ export async function reconcileParsedSms(
   const receiverPurpose = asString(receiverResult.data?.purpose);
   const receiverOwnerUserId = asString(receiverResult.data?.owner_user_id);
   const receiverIsActive = receiverResult.data?.is_active != false;
-  const canFallbackToWallet =
-    receiverPurpose == "personal_wallet" &&
+  const canFallbackToWallet = receiverPurpose == "personal_wallet" &&
     receiverIsActive &&
     (receiverOwnerUserId == null || receiverOwnerUserId == rawSms.user_id);
 
   // 0.5) Try matching generic pending payment_intents first
   const intentResult = await adminClient
     .from("payment_intents")
-    .select("id, target_table, target_record_id, intent_type")
-    .eq("creator_id", rawSms.user_id)
+    .select("id, target_table, target_record_id, metadata")
+    .eq("user_id", rawSms.user_id)
     .eq("status", "pending")
     .eq("expected_amount", parsed.amount);
 
   const pendingIntents = intentResult.data ?? [];
   if (pendingIntents.length === 1) {
     const intent = pendingIntents[0];
-    
-    // Update intent to completed
+    const intentMetadata = asRecord(intent.metadata) ?? {};
+    const intentType = asString(intentMetadata.intent_type) ??
+      asString(intentMetadata.type) ??
+      asString(intent.target_table) ??
+      "intent";
+
+    // Mark only after the parsed SMS amount matches the pending intent.
     await adminClient
       .from("payment_intents")
       .update({
-        status: "completed",
+        status: "fulfilled",
         updated_at: timestamp,
       })
       .eq("id", intent.id);
 
     return {
-      matchType: `intent_${intent.intent_type}`,
+      matchType: `intent_${intentType}`,
       matchStatus: "matched",
       ledgerStatus: "posted",
       targetTable: intent.target_table ?? "payment_intents",
@@ -88,13 +93,14 @@ export async function reconcileParsedSms(
       metadata: {
         auto_match: true,
         intent_id: intent.id,
+        intent_type: intentType,
         provider: normalizeProviderId(rawSms.provider),
       },
     };
   } else if (pendingIntents.length > 1) {
     return buildManualReviewResult(
       "Parsed SMS matched multiple pending intents.",
-      { reason: "ambiguous_intents", count: pendingIntents.length }
+      { reason: "ambiguous_intents", count: pendingIntents.length },
     );
   }
 
@@ -176,7 +182,8 @@ export async function reconcileParsedSms(
       targetTable: "users",
       targetRecordId: rawSms.user_id,
       matchedReference: sourceReference(rawSms, parsed),
-      notes: "Parsed SMS was unmatched to any intent, safe fallback to personal wallet.",
+      notes:
+        "Parsed SMS was unmatched to any intent, safe fallback to personal wallet.",
       metadata: {
         auto_match: true,
         provider: normalizeProviderId(rawSms.provider),

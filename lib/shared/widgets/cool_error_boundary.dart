@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 
 import '../../core/l10n/l10n.dart';
 import '../../core/theme/cool_foundations.dart';
+import '../../core/utils/app_logger.dart';
+
+const _log = AppLogger('ErrorBoundary');
 
 /// Widget-level error boundary that catches synchronous build errors
 /// in its subtree and displays a recovery UI instead of the red error screen.
@@ -100,7 +103,7 @@ class _CoolErrorBoundaryState extends State<CoolErrorBoundary> {
         });
         widget.onError?.call(details.exception, details.stack);
         if (kDebugMode) {
-          debugPrint('[CoolErrorBoundary] Caught: ${details.exception}');
+          _log.debug('Caught: ${details.exception}');
         }
       }
     });

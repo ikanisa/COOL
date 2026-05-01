@@ -191,7 +191,7 @@ class AuthRepository {
     await _client.auth.updateUser(
       UserAttributes(
         data: <String, dynamic>{
-          ...jh.asMap(currentUser.userMetadata),
+          ..._sanitizeJwtProfileMetadata(currentUser.userMetadata),
           'public_user_id': profile.displayUserId,
           'phone': profile.phone,
           'full_name': profile.fullName,
@@ -246,14 +246,11 @@ class AuthRepository {
             metadata['name']?.toString() ??
             '',
         'momo_number': metadata['momo_number']?.toString() ?? '',
-        'momo_code': metadata['momo_code']?.toString(),
         'momo_route_type': metadata['momo_route_type']?.toString(),
         'momo_provider': metadata['momo_provider']?.toString() ?? '',
         'country': AppMarket.countryCode,
         'language_code': AppMarket.languageCode,
         'avatar_url': metadata['avatar_url']?.toString(),
-        'official_name': metadata['official_name']?.toString(),
-        'official_phone': metadata['official_phone']?.toString(),
         'theme_preference': metadata['theme_preference'],
         'theme_preference_updated_at': metadata['theme_preference_updated_at'],
       }),
@@ -267,4 +264,14 @@ Map<String, dynamic> _lockProfileMarket(Map<String, dynamic> data) {
     'country': AppMarket.countryCode,
     'language_code': AppMarket.languageCode,
   };
+}
+
+Map<String, dynamic> _sanitizeJwtProfileMetadata(Object? metadata) {
+  return jh.asMap(metadata)
+    ..remove('momo_code')
+    ..remove('official_name')
+    ..remove('official_phone')
+    ..remove('date_of_birth')
+    ..remove('national_id_number')
+    ..remove('identity_data');
 }

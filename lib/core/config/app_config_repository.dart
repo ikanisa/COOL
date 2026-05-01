@@ -9,7 +9,10 @@ abstract final class AppConfigKeys {
   static const biopayStableFrames = 'biopay_stable_frames';
 }
 
-/// Fetches key-value config from the `app_config` Supabase table.
+/// Fetches public-safe runtime config through the `get_public_app_config` RPC.
+///
+/// Direct `app_config` table reads are admin-only because that table can contain
+/// operational values that must not be exposed to every client.
 class AppConfigRepository {
   AppConfigRepository({required SupabaseClient client}) : _client = client;
 
@@ -20,25 +23,35 @@ class AppConfigRepository {
 
   /// Fetch a single config value by key.
   Future<String?> getValue(String key, {bool forceRefresh = false}) async {
-    if (!forceRefresh && _cache.containsKey(key)) {
-      return _cache[key];
+    final normalizedKey = key.trim();
+    if (normalizedKey.isEmpty) {
+      return null;
+    }
+
+    if (!forceRefresh && _cache.containsKey(normalizedKey)) {
+      return _cache[normalizedKey];
     }
     if (forceRefresh) {
-      _cache.remove(key);
+      _cache.remove(normalizedKey);
     }
 
     final rows = sq.asListOfMaps(
       await sq.guarded(
-        () =>
-            _client.from('app_config').select('value').eq('key', key).limit(1),
-        label: 'appConfigValue',
+        () => _client.rpc(
+          'get_public_app_config',
+          params: <String, dynamic>{
+            'p_keys': <String>[normalizedKey],
+          },
+        ),
+        timeout: sq.kSupabaseRpcTimeout,
+        label: 'publicAppConfigValue',
       ),
     );
 
     if (rows.isNotEmpty) {
       final value = rows.first['value']?.toString();
       if (value != null) {
-        _cache[key] = value;
+        _cache[normalizedKey] = value;
         return value;
       }
     }
@@ -46,12 +59,13 @@ class AppConfigRepository {
     return null;
   }
 
-  /// Fetch all config entries for the fixed Rwanda app shell.
+  /// Fetch all public config entries for the fixed Rwanda app shell.
   Future<Map<String, String>> getAll() async {
     final rows = sq.asListOfMaps(
       await sq.guarded(
-        () => _client.from('app_config').select(),
-        label: 'appConfigAll',
+        () => _client.rpc('get_public_app_config'),
+        timeout: sq.kSupabaseRpcTimeout,
+        label: 'publicAppConfigAll',
       ),
     );
     final result = <String, String>{};

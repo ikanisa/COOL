@@ -10,14 +10,19 @@ import '../../helpers/test_bootstrap.dart';
 
 void main() {
   testWidgets('renders the BioPay payment hub', (tester) async {
+    final container = createTestContainer();
+
     await tester.pumpWidget(
-      MaterialApp(
-        theme: AppTheme.dark,
-        builder: (context, widget) => MediaQuery(
-          data: MediaQuery.of(context).copyWith(disableAnimations: true),
-          child: widget!,
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp(
+          theme: AppTheme.dark,
+          builder: (context, widget) => MediaQuery(
+            data: MediaQuery.of(context).copyWith(disableAnimations: true),
+            child: widget!,
+          ),
+          home: const BiopayHomeScreen(),
         ),
-        home: const BiopayHomeScreen(),
       ),
     );
     await tester.pump(const Duration(milliseconds: 100));

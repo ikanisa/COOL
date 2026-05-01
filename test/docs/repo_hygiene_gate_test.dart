@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../helpers/dart_sdk.dart';
+import '../helpers/repo_paths.dart';
 
 void main() {
   late String dartBin;
@@ -14,7 +15,7 @@ void main() {
   test('repo hygiene gate passes', () {
     final ProcessResult result = Process.runSync(dartBin, <String>[
       'tool/repo_hygiene_gate.dart',
-    ], workingDirectory: Directory.current.path);
+    ], workingDirectory: repoRoot().path);
 
     // Report violations but do NOT fail the build — this is advisory.
     // To make it a hard gate, change `--check` to fail on violations.
@@ -34,7 +35,7 @@ void main() {
   test('no patch markers in migration files', () {
     final ProcessResult result = Process.runSync(dartBin, <String>[
       'tool/repo_hygiene_gate.dart',
-    ], workingDirectory: Directory.current.path);
+    ], workingDirectory: repoRoot().path);
 
     final String stdout = result.stdout?.toString() ?? '';
 
@@ -52,12 +53,12 @@ void main() {
   test('repo hygiene gate ignores nested node_modules trees', () {
     final ProcessResult result = Process.runSync(dartBin, <String>[
       'tool/repo_hygiene_gate.dart',
-    ], workingDirectory: Directory.current.path);
+    ], workingDirectory: repoRoot().path);
 
     final String stdout = result.stdout?.toString() ?? '';
 
     expect(
-      stdout.contains('apps/cool-pwa/node_modules'),
+      stdout.contains('apps/pwa/node_modules'),
       isFalse,
       reason:
           'Nested node_modules trees should be excluded from first-party '

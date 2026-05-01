@@ -36,4 +36,4 @@ jobs:
 
       - name: Run M-Money SMS rollout verifier
         if: ${{ env.SUPABASE_DB_URL != '' }}
-        run: bash scripts/verify_momo_sms_supabase_rollout.sh
+        run: bash scripts/qa/verify_momo_sms_supabase_rollout.sh

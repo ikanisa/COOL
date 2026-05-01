@@ -10,6 +10,7 @@ import '../../../core/models/momo_qr_payload.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/money_formatters.dart';
+import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/models/user_profile.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -235,25 +236,45 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
       return;
     }
 
-    final normalizedRecipient = _selectedType == MomoRecipientType.code
-        ? country.normalizeMerchantCode(rawRecipient)
-        : country.buildE164Phone(rawRecipient);
-    final amount = int.tryParse(
-      _amountController.text.replaceAll(RegExp(r'[^0-9]'), ''),
-    );
+    late final String normalizedRecipient;
+    late final String displayRecipient;
+    late final int? amount;
+    late final String qrData;
 
-    final payload = amount != null && amount > 0
-        ? MomoQrPayload.paymentRequest(
-            recipientValue: normalizedRecipient,
-            recipientType: _selectedType,
-            amount: amount,
-            countryCode: country.isoCode,
-          )
-        : MomoQrPayload.profile(
-            recipientValue: normalizedRecipient,
-            recipientType: _selectedType,
-            countryCode: country.isoCode,
-          );
+    try {
+      normalizedRecipient = _selectedType == MomoRecipientType.code
+          ? country.normalizeMerchantCode(rawRecipient)
+          : country.buildE164Phone(rawRecipient);
+      displayRecipient = _selectedType == MomoRecipientType.code
+          ? normalizedRecipient
+          : country.normalizeNationalPhone(normalizedRecipient);
+
+      final amountDigits = _amountController.text.replaceAll(
+        RegExp(r'[^0-9]'),
+        '',
+      );
+      amount = amountDigits.isEmpty ? null : int.tryParse(amountDigits);
+      if (amountDigits.isNotEmpty && amount == null) {
+        throw FormatException(context.l10n.biopayEnterValidAmount);
+      }
+
+      final payload = amount != null && amount > 0
+          ? MomoQrPayload.paymentRequest(
+              recipientValue: normalizedRecipient,
+              recipientType: _selectedType,
+              amount: amount,
+              countryCode: country.isoCode,
+            )
+          : MomoQrPayload.profile(
+              recipientValue: normalizedRecipient,
+              recipientType: _selectedType,
+              countryCode: country.isoCode,
+            );
+      qrData = payload.toQrData(country);
+    } catch (error) {
+      CoolToast.error(context, describeUserFacingError(error));
+      return;
+    }
 
     final colors = context.coolSemanticColors;
     showModalBottomSheet<void>(
@@ -288,7 +309,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
                   borderRadius: BorderRadius.circular(CoolRadii.lg),
                 ),
                 child: QrImageView(
-                  data: payload.toQrData(country),
+                  data: qrData,
                   version: QrVersions.auto,
                   size: 240,
                   backgroundColor: Colors.white,
@@ -304,9 +325,7 @@ class _BiopayQrScreenState extends ConsumerState<BiopayQrScreen> {
               ),
               const SizedBox(height: CoolSpace.x4),
               Text(
-                _selectedType == MomoRecipientType.code
-                    ? _codeController.text.trim()
-                    : _numberController.text.trim(),
+                displayRecipient,
                 style: context.coolText.headline(
                   Theme.of(context).textTheme.titleLarge,
                   color: colors.primaryText,

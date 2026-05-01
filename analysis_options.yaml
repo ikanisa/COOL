@@ -4,6 +4,11 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  exclude:
+    # Vendored fork used by dependency_overrides; it is tracked for build
+    # stability but should not inherit app-level strict lint gates.
+    - apps/mobile/third_party/**
+    - third_party/**
   errors:
     missing_return: error
     missing_required_param: error

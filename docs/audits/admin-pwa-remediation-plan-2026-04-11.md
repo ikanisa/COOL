@@ -115,14 +115,14 @@ Objective: make local and preview testing exercise the real product path.
 
 ### Files likely touched
 
-- `apps/cool-pwa/assets/js/admin_api.js`
-- `apps/cool-pwa/assets/js/app.js`
-- `apps/cool-pwa/README.md`
-- `apps/cool-pwa/scripts/integration-test.mjs`
-- `apps/cool-pwa/package.json`
+- `apps/pwa/assets/js/admin_api.js`
+- `apps/pwa/assets/js/app.js`
+- `apps/pwa/README.md`
+- `apps/pwa/scripts/integration-test.mjs`
+- `apps/pwa/package.json`
 - `.github/workflows/cool-pwa-ci.yml`
 - `.github/workflows/cool-pwa-deploy.yml`
-- new `apps/cool-pwa/functions/api/healthz.js`
+- new `apps/pwa/functions/api/healthz.js`
 
 ### Tests
 
@@ -195,13 +195,13 @@ Objective: move from a workable session model to an admin-safe session model.
 
 ### Files likely touched
 
-- `apps/cool-pwa/functions/_shared/supabase.js`
-- `apps/cool-pwa/functions/api/auth/send-otp.js`
-- `apps/cool-pwa/functions/api/auth/verify-otp.js`
-- `apps/cool-pwa/functions/api/auth/refresh.js`
-- `apps/cool-pwa/functions/api/auth/logout.js`
-- `apps/cool-pwa/functions/api/admin/session.js`
-- `apps/cool-pwa/assets/js/admin_api.js`
+- `apps/pwa/functions/_shared/supabase.js`
+- `apps/pwa/functions/api/auth/send-otp.js`
+- `apps/pwa/functions/api/auth/verify-otp.js`
+- `apps/pwa/functions/api/auth/refresh.js`
+- `apps/pwa/functions/api/auth/logout.js`
+- `apps/pwa/functions/api/admin/session.js`
+- `apps/pwa/assets/js/admin_api.js`
 - new session migrations and server session helpers
 
 ### Database work
@@ -272,9 +272,9 @@ Objective: finish the migration from legacy admin access to explicit role assign
 ### Files likely touched
 
 - `supabase/migrations/*`
-- `apps/cool-pwa/functions/_shared/supabase.js`
-- `apps/cool-pwa/functions/api/admin/data.js`
-- `apps/cool-pwa/functions/api/admin/mutate.js`
+- `apps/pwa/functions/_shared/supabase.js`
+- `apps/pwa/functions/api/admin/data.js`
+- `apps/pwa/functions/api/admin/mutate.js`
 - admin role and session UI surfaces
 
 ### Exit criteria
@@ -334,11 +334,11 @@ Objective: make high-risk actions hard to do accidentally and easy to audit.
 
 ### Files likely touched
 
-- `apps/cool-pwa/admin/roles/index.html`
-- `apps/cool-pwa/admin/app-config/index.html`
-- `apps/cool-pwa/assets/js/admin_views.js`
-- `apps/cool-pwa/assets/js/app.js`
-- `apps/cool-pwa/functions/api/admin/mutate.js`
+- `apps/pwa/admin/roles/index.html`
+- `apps/pwa/admin/app-config/index.html`
+- `apps/pwa/assets/js/admin_views.js`
+- `apps/pwa/assets/js/app.js`
+- `apps/pwa/functions/api/admin/mutate.js`
 - new config schema source
 
 ### Exit criteria
@@ -407,10 +407,10 @@ Objective: make admin operations observable enough for real incident response an
 
 ### Files likely touched
 
-- `apps/cool-pwa/assets/js/app.js`
+- `apps/pwa/assets/js/app.js`
 - admin HTML templates
-- `apps/cool-pwa/functions/api/auth/*`
-- `apps/cool-pwa/functions/api/admin/*`
+- `apps/pwa/functions/api/auth/*`
+- `apps/pwa/functions/api/admin/*`
 - audit-related DB functions/migrations
 - docs: observability and incident runbooks
 
@@ -463,9 +463,9 @@ Objective: move away from “download everything and filter in browser.”
 
 ### Files likely touched
 
-- `apps/cool-pwa/functions/api/admin/data.js`
-- `apps/cool-pwa/assets/js/admin_views.js`
-- `apps/cool-pwa/assets/js/app.js`
+- `apps/pwa/functions/api/admin/data.js`
+- `apps/pwa/assets/js/admin_views.js`
+- `apps/pwa/assets/js/app.js`
 - new DB functions for paginated list endpoints
 
 ### Exit criteria
@@ -514,8 +514,8 @@ Objective: make the offline story truthful, bounded, and useful.
 
 ### Files likely touched
 
-- `apps/cool-pwa/service-worker.js`
-- `apps/cool-pwa/assets/js/app.js`
+- `apps/pwa/service-worker.js`
+- `apps/pwa/assets/js/app.js`
 - route HTML copy
 - `docs/OFFLINE_POLICY.md`
 - `docs/cool-pwa-world-class-checklist.md`
@@ -565,8 +565,8 @@ Objective: turn notifications from demo plumbing into an actual operator channel
 
 ### Files likely touched
 
-- `apps/cool-pwa/assets/js/app_notifications.js`
-- `apps/cool-pwa/service-worker.js`
+- `apps/pwa/assets/js/app_notifications.js`
+- `apps/pwa/service-worker.js`
 - new backend/subscription endpoints
 - migrations for subscriptions and alerts
 
@@ -615,9 +615,9 @@ Objective: preserve polish but adapt the UI for expert operators.
 
 ### Files likely touched
 
-- `apps/cool-pwa/assets/css/app.css`
-- `apps/cool-pwa/assets/js/app.js`
-- `apps/cool-pwa/assets/js/admin_views.js`
+- `apps/pwa/assets/css/app.css`
+- `apps/pwa/assets/js/app.js`
+- `apps/pwa/assets/js/admin_views.js`
 - route HTML pages
 
 ### Exit criteria

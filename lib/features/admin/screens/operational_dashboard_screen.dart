@@ -79,14 +79,13 @@ class OperationalDashboardScreen extends ConsumerWidget {
         child: ListView(
           padding: CoolSpace.scaffoldPadding,
           children: [
-            const AdminPageHeader(
-              eyebrow: 'OPERATIONS',
-              title: 'Operations',
-              subtitle:
-                  'Release health, triage queues, payment telemetry, and review backlogs.',
+            AdminPageHeader(
+              eyebrow: context.l10n.adminOpsEyebrow,
+              title: context.l10n.adminOpsTitle,
+              subtitle: context.l10n.adminOpsSubtitle,
               badges: [
                 AdminStatusChip(
-                  label: 'Live',
+                  label: context.l10n.adminOpsLabelLive,
                   tone: AdminTone.success,
                   icon: CoolIcons.bolt,
                 ),
@@ -96,37 +95,37 @@ class OperationalDashboardScreen extends ConsumerWidget {
             AdminMetricStrip(
               metrics: [
                 AdminMetricItem(
-                  label: 'Surfaces',
+                  label: context.l10n.adminOpsLabelSurfaces,
                   value: _asyncCount(dashboardAsync),
-                  hint: 'Monitored services',
+                  hint: context.l10n.adminOpsHintMonitoredServices,
                   icon: CoolIcons.monitorHeart,
                   tone: AdminTone.info,
                 ),
                 AdminMetricItem(
-                  label: 'Triage',
+                  label: context.l10n.adminOpsLabelTriage,
                   value: _asyncCount(triageAsync),
-                  hint: 'Open blocking issues',
+                  hint: context.l10n.adminOpsHintOpenBlockingIssues,
                   icon: CoolIcons.priorityHigh,
                   tone: AdminTone.danger,
                 ),
                 AdminMetricItem(
-                  label: 'Senders',
+                  label: context.l10n.adminOpsLabelSenders,
                   value: _asyncCount(senderInventoryAsync),
-                  hint: 'Sender audit rows',
+                  hint: context.l10n.adminOpsHintSenderAuditRows,
                   icon: CoolIcons.sms,
                   tone: AdminTone.warning,
                 ),
                 AdminMetricItem(
-                  label: 'Manual review',
+                  label: context.l10n.adminOpsLabelManualReview,
                   value: _asyncCount(manualReviewAsync),
-                  hint: 'Open review items',
+                  hint: context.l10n.adminOpsHintOpenReviewItems,
                   icon: CoolIcons.ruleFolder,
                   tone: AdminTone.accent,
                 ),
                 AdminMetricItem(
-                  label: 'Events',
+                  label: context.l10n.adminOpsLabelEvents,
                   value: _asyncCount(eventsAsync),
-                  hint: 'Recent health events',
+                  hint: context.l10n.adminOpsHintRecentHealthEvents,
                   icon: CoolIcons.timeline,
                   tone: AdminTone.success,
                 ),
@@ -138,22 +137,22 @@ class OperationalDashboardScreen extends ConsumerWidget {
               onRetry: refresh,
               loadingWidget: const CoolSkeletonList(itemCount: 3),
               emptyCheck: (rows) => rows.isEmpty,
-              emptyWidget: const CoolEmptyView(
-                message: 'No operational dashboard yet',
+              emptyWidget: CoolEmptyView(
+                message: context.l10n.adminOpsEmptyDashboard,
                 icon: CoolIcons.monitorHeart,
               ),
               builder: (rows) => AdminDataTableCard(
                 title: context.l10n.releaseDashboard,
-                subtitle: 'Live health by monitored service.',
-                emptyLabel: 'No operational dashboard yet',
+                subtitle: context.l10n.adminOpsHealthSubtitle,
+                emptyLabel: context.l10n.adminOpsEmptyDashboard,
                 minWidth: 980,
-                columns: const [
-                  DataColumn(label: Text('Service')),
-                  DataColumn(label: Text('Status')),
-                  DataColumn(label: Text('24h')),
-                  DataColumn(label: Text('Issues')),
-                  DataColumn(label: Text('Last signal')),
-                  DataColumn(label: Text('Summary')),
+                columns: [
+                  DataColumn(label: Text(context.l10n.adminColumnService)),
+                  DataColumn(label: Text(context.l10n.adminColumnStatus)),
+                  const DataColumn(label: Text('24h')),
+                  DataColumn(label: Text(context.l10n.adminColumnIssues)),
+                  DataColumn(label: Text(context.l10n.adminColumnLastSignal)),
+                  DataColumn(label: Text(context.l10n.adminColumnSummary)),
                 ],
                 rows: rows
                     .map(
@@ -161,7 +160,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
                         cells: [
                           DataCell(
                             Text(
-                              _text(row['label']) ?? 'Surface',
+                              _text(row['label']) ?? context.l10n.adminOpsFallbackSurface,
                               style: Theme.of(context).textTheme.bodyMedium
                                   ?.copyWith(fontWeight: FontWeight.w800),
                             ),
@@ -188,7 +187,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
                           ),
                           DataCell(
                             Text(
-                              _text(row['summary']) ?? 'No summary available.',
+                              _text(row['summary']) ?? context.l10n.adminOpsFallbackSummary,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -205,22 +204,22 @@ class OperationalDashboardScreen extends ConsumerWidget {
               onRetry: refresh,
               loadingWidget: const CoolSkeletonList(itemCount: 3),
               emptyCheck: (rows) => rows.isEmpty,
-              emptyWidget: const CoolEmptyView(
-                message: 'No release-blocking operational issues',
+              emptyWidget: CoolEmptyView(
+                message: context.l10n.adminOpsTriageEmpty,
                 icon: CoolIcons.factCheck,
               ),
               builder: (rows) => AdminDataTableCard(
-                title: 'Triage Queue',
-                subtitle: 'Focused on failed payment and release issues.',
-                emptyLabel: 'No release-blocking operational issues',
+                title: context.l10n.adminOpsTriageTitle,
+                subtitle: context.l10n.adminOpsTriageSubtitle,
+                emptyLabel: context.l10n.adminOpsTriageEmpty,
                 minWidth: 1020,
-                columns: const [
-                  DataColumn(label: Text('Issue')),
-                  DataColumn(label: Text('Severity')),
-                  DataColumn(label: Text('Service')),
-                  DataColumn(label: Text('Reference')),
-                  DataColumn(label: Text('Last seen')),
-                  DataColumn(label: Text('Detail')),
+                columns: [
+                  DataColumn(label: Text(context.l10n.adminColumnIssue)),
+                  DataColumn(label: Text(context.l10n.adminColumnSeverity)),
+                  DataColumn(label: Text(context.l10n.adminColumnService)),
+                  DataColumn(label: Text(context.l10n.adminColumnReference)),
+                  DataColumn(label: Text(context.l10n.adminColumnLastSeen)),
+                  DataColumn(label: Text(context.l10n.adminColumnDetail)),
                 ],
                 rows: rows
                     .map(
@@ -228,7 +227,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
                         cells: [
                           DataCell(
                             Text(
-                              _text(row['title']) ?? 'Issue',
+                              _text(row['title']) ?? context.l10n.adminOpsFallbackIssue,
                               style: Theme.of(context).textTheme.bodyMedium
                                   ?.copyWith(fontWeight: FontWeight.w800),
                             ),
@@ -254,7 +253,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
                           DataCell(Text(_formatTimestamp(row['last_seen_at']))),
                           DataCell(
                             Text(
-                              _text(row['detail']) ?? 'No detail available.',
+                              _text(row['detail']) ?? context.l10n.adminOpsFallbackDetail,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -267,7 +266,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
             ),
             const SizedBox(height: CoolSpace.x4),
             AdminSectionCard(
-              title: 'M-Money SMS',
+              title: context.l10n.adminOpsMMoneyTitle,
               subtitle:
                   'Device sync audits, parser backlog, sender backlog, migration safety, reconciliation pressure, and retention backlog.',
               child: CoolAsyncView<List<Map<String, dynamic>>>(
@@ -275,8 +274,8 @@ class OperationalDashboardScreen extends ConsumerWidget {
                 onRetry: refresh,
                 loadingWidget: const CoolSkeletonList(itemCount: 4),
                 emptyCheck: (rows) => rows.isEmpty,
-                emptyWidget: const CoolEmptyView(
-                  message: 'No M-Money SMS operational summary',
+                emptyWidget: CoolEmptyView(
+                  message: context.l10n.adminOpsMMoneyEmpty,
                   icon: CoolIcons.sms,
                 ),
                 builder: (rows) => Column(
@@ -289,28 +288,28 @@ class OperationalDashboardScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: CoolSpace.x4),
-            const AdminSectionCard(
-              title: 'Sender Inventory Audit',
-              subtitle: 'Unsupported or alias sender drift detected.',
-              child: _SenderInventorySection(),
-            ),
-            const SizedBox(height: CoolSpace.x4),
-            const AdminSectionCard(
-              title: 'Generic Manual Review',
-              subtitle: 'SMS that could not be app-linked.',
-              child: _ManualReviewSection(),
+            AdminSectionCard(
+              title: context.l10n.adminOpsSenderTitle,
+              subtitle: context.l10n.adminOpsSenderSubtitle,
+              child: const _SenderInventorySection(),
             ),
             const SizedBox(height: CoolSpace.x4),
             AdminSectionCard(
-              title: 'Recent Activity',
-              subtitle: 'Operational health stream.',
+              title: context.l10n.adminOpsManualReviewTitle,
+              subtitle: context.l10n.adminOpsManualReviewSubtitle,
+              child: const _ManualReviewSection(),
+            ),
+            const SizedBox(height: CoolSpace.x4),
+            AdminSectionCard(
+              title: context.l10n.adminOpsActivityTitle,
+              subtitle: context.l10n.adminOpsActivitySubtitle,
               child: CoolAsyncView<List<Map<String, dynamic>>>(
                 value: eventsAsync,
                 onRetry: refresh,
                 loadingWidget: const CoolSkeletonList(itemCount: 5),
                 emptyCheck: (rows) => rows.isEmpty,
-                emptyWidget: const CoolEmptyView(
-                  message: 'No recent operational events',
+                emptyWidget: CoolEmptyView(
+                  message: context.l10n.adminOpsActivityEmpty,
                   icon: CoolIcons.historyRounded,
                 ),
                 builder: (rows) => Column(

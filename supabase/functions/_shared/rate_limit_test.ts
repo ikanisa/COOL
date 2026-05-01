@@ -1,6 +1,8 @@
 import { enforceRateLimit } from "./rate_limit.ts";
 import { HttpError } from "./auth.ts";
 
+type RateLimitAdminClient = Parameters<typeof enforceRateLimit>[0];
+
 function assert(condition: boolean, message: string): void {
   if (!condition) {
     throw new Error(message);
@@ -49,7 +51,10 @@ function buildMockAdminClient(recentCount: number) {
     },
   };
 
-  return { client: client as any, getInserts: () => inserts };
+  return {
+    client: client as unknown as RateLimitAdminClient,
+    getInserts: () => inserts,
+  };
 }
 
 Deno.test("enforceRateLimit allows requests under the limit", async () => {
@@ -89,7 +94,7 @@ Deno.test("enforceRateLimit fails open when count query returns zero", async () 
   // When the count returns 0 (e.g. table is empty or query failed upstream),
   // the function should proceed and record the invocation.
   await enforceRateLimit(
-    {} as any,
+    {} as RateLimitAdminClient,
     "user-1",
     "test-fn",
     { maxRequests: 5, windowSeconds: 60 },
@@ -109,7 +114,7 @@ Deno.test("enforceRateLimit uses dependency-injected count", async () => {
   let recordCalls = 0;
 
   await enforceRateLimit(
-    {} as any,
+    {} as RateLimitAdminClient,
     "user-42",
     "fn-test",
     { maxRequests: 5, windowSeconds: 120 },
@@ -132,7 +137,7 @@ Deno.test("enforceRateLimit uses dependency-injected count", async () => {
 Deno.test("enforceRateLimit blocks with injected over-limit count", async () => {
   try {
     await enforceRateLimit(
-      {} as any,
+      {} as RateLimitAdminClient,
       "user-42",
       "fn-test",
       { maxRequests: 5, windowSeconds: 120 },

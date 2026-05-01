@@ -114,4 +114,6 @@ third_party/**/example/
 # Gradle build caches (third-party modules)
 **/.gradle/
 
-!apps/cool-pwa/package-lock.json
+!apps/admin/package-lock.json
+!apps/website/package-lock.json
+!apps/pwa/package-lock.json

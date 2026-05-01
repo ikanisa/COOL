@@ -5,9 +5,12 @@
 /// plugin is unavailable.
 library;
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:no_screenshot/no_screenshot.dart';
+
+import '../utils/app_logger.dart';
+
+const _log = AppLogger('ScreenSecurity');
 
 class ScreenSecurityService {
   ScreenSecurityService({MethodChannel? channel, NoScreenshot? noScreenshot})
@@ -85,6 +88,6 @@ class ScreenSecurityService {
     if (error is MissingPluginException) {
       return;
     }
-    debugPrint('$prefix: $error');
+    _log.warn('$prefix: $error');
   }
 }

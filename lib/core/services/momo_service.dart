@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -9,16 +8,17 @@ import '../config/app_market.dart';
 import '../config/country_catalog.dart';
 import '../models/momo_qr_payload.dart';
 import '../repositories/supported_countries_repository.dart';
+import '../utils/app_logger.dart';
 import 'app_review_service.dart';
 import 'crashlytics_service.dart';
-import 'hive_runtime.dart';
 import 'performance_service.dart';
+
+const _log = AppLogger('MoMo');
 
 /// Mobile Money USSD gateway for bridge-style payments.
 class MomoService {
   MomoService({
     required SupabaseClient client,
-    OpenHiveBox<dynamic>? openBox,
     SupportedCountriesRepository? supportedCountriesRepository,
     AppReviewService? appReviewService,
   }) : _client = client,
@@ -55,8 +55,8 @@ class MomoService {
       throw const MomoConfigurationException('recipient_momo');
     }
 
-    debugPrint(
-      '[MoMo] initiatePayment: amount=$amount, ref=$reference, '
+    _log.debug(
+      'initiatePayment: amount=$amount, ref=$reference, '
       'recipient=$recipientMomo',
     );
 
@@ -86,7 +86,7 @@ class MomoService {
     );
 
     if (!launched) {
-      debugPrint('[MoMo] ❌ Failed to launch USSD dialer for ref=$reference');
+      _log.warn('Failed to launch USSD dialer for ref=$reference');
       _performance?.stopTrace(
         'momo_ussd_payment',
         attributes: {'error': 'dialer_failed'},
@@ -103,7 +103,7 @@ class MomoService {
       attributes: {'country': country.isoCode, 'provider': country.providerId},
     );
     _crashlytics?.log('momo: USSD launched for ref=$reference');
-    debugPrint('[MoMo] ✅ USSD launched for ref=$reference');
+    _log.info('USSD launched for ref=$reference');
 
     // Strong success moment: request app review.
     unawaited(_appReviewService?.requestReview() ?? Future.value());

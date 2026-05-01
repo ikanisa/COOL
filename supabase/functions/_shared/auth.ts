@@ -1,4 +1,5 @@
 import { createAdminClient, createUserClient } from "./supabase.ts";
+import { constantTimeEquals } from "./security.ts";
 
 type AuthUserLike = {
   id: string;
@@ -209,7 +210,9 @@ export function requireCronSecret(
   const providedSecret = bearerToken ??
     request.headers.get("x-cron-secret")?.trim();
 
-  if (!providedSecret || providedSecret !== configuredSecret) {
+  if (
+    !providedSecret || !constantTimeEquals(configuredSecret, providedSecret)
+  ) {
     throw new HttpError(401, "Unauthorized.");
   }
 }

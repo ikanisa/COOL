@@ -47,16 +47,16 @@ Status key: ✅ Compliant | 🟡 Partial | ⚠️ Exception (documented) | ❌ N
 
 | Page | File | Status | Notes |
 |------|------|--------|-------|
-| Overview | `apps/cool-pwa/index.html` | ✅ | Token-aligned palette, local variable-font pipeline, borders normalized |
-| Home | `apps/cool-pwa/home/index.html` | ✅ | Consistent with monolith system and local variable-font pipeline |
-| Groups | `apps/cool-pwa/groups/index.html` | ✅ | Borders normalized to ghost level |
-| MoMo | `apps/cool-pwa/momo/index.html` | ✅ | Operational page, correct tokens |
-| Profile | `apps/cool-pwa/profile/index.html` | ✅ | Clean IA, aligned system |
-| Notifications | `apps/cool-pwa/notifications/index.html` | ✅ | Structured well, correct tokens |
-| Share | `apps/cool-pwa/share/index.html` | ✅ | Utility page, aligned |
-| Install | `apps/cool-pwa/install/index.html` | ✅ | Correct system |
-| Offline | `apps/cool-pwa/offline/index.html` | ✅ | Good fallback UX |
-| Admin | `apps/cool-pwa/admin/index.html` | ✅ | Correct palette and typography |
+| Overview | `apps/pwa/index.html` | ✅ | Token-aligned palette, local variable-font pipeline, borders normalized |
+| Home | `apps/pwa/home/index.html` | ✅ | Consistent with monolith system and local variable-font pipeline |
+| Groups | `apps/pwa/groups/index.html` | ✅ | Borders normalized to ghost level |
+| MoMo | `apps/pwa/momo/index.html` | ✅ | Operational page, correct tokens |
+| Profile | `apps/pwa/profile/index.html` | ✅ | Clean IA, aligned system |
+| Notifications | `apps/pwa/notifications/index.html` | ✅ | Structured well, correct tokens |
+| Share | `apps/pwa/share/index.html` | ✅ | Utility page, aligned |
+| Install | `apps/pwa/install/index.html` | ✅ | Correct system |
+| Offline | `apps/pwa/offline/index.html` | ✅ | Good fallback UX |
+| Admin | `apps/pwa/admin/index.html` | ✅ | Correct palette and typography |
 
 ## Documented Exceptions
 

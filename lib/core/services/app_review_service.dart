@@ -1,10 +1,12 @@
-import 'package:flutter/foundation.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/engagement_event.dart';
 import '../providers/engagement_providers.dart';
+import '../utils/app_logger.dart';
 import 'engagement_tracker.dart';
+
+const _log = AppLogger('AppReview');
 
 final appReviewServiceProvider = Provider<AppReviewService>((ref) {
   return AppReviewService(ref.read(engagementTrackerProvider));
@@ -22,7 +24,7 @@ class AppReviewService {
     try {
       final isAvailable = await _instance.isAvailable();
       if (!isAvailable) {
-        debugPrint('[AppReview] Service not available.');
+        _log.debug('Service not available.');
         return;
       }
 
@@ -31,7 +33,7 @@ class AppReviewService {
         const EngagementEvent(name: EngagementEventName.appReviewRequested),
       );
     } catch (error) {
-      debugPrint('[AppReview] Failed to request review: $error');
+      _log.warn('Failed to request review: $error');
     }
   }
 
@@ -43,7 +45,7 @@ class AppReviewService {
         const EngagementEvent(name: EngagementEventName.appStoreListingOpened),
       );
     } catch (error) {
-      debugPrint('[AppReview] Failed to open store listing: $error');
+      _log.warn('Failed to open store listing: $error');
     }
   }
 }

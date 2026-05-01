@@ -2,6 +2,10 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 
+import '../utils/app_logger.dart';
+
+const _log = AppLogger('AppCheck');
+
 /// Initializes Firebase App Check for request attestation.
 ///
 /// Uses Play Integrity (Android) and App Attest (iOS) in release builds.
@@ -16,7 +20,7 @@ class AppCheckService {
     if (_initialized) return;
 
     if (Firebase.apps.isEmpty) {
-      debugPrint('[AppCheck] ⚠️ Firebase not initialized — skipping');
+      _log.info('Firebase not initialized — skipping');
       return;
     }
 
@@ -30,9 +34,9 @@ class AppCheckService {
             : const AppleAppAttestProvider(),
       );
       _initialized = true;
-      debugPrint('[AppCheck] ✅ Activated');
+      _log.info('Activated');
     } catch (e) {
-      debugPrint('[AppCheck] ⚠️ Activation failed: $e — continuing without');
+      _log.warn('Activation failed: $e — continuing without');
     }
   }
 
@@ -43,7 +47,7 @@ class AppCheckService {
     try {
       return await FirebaseAppCheck.instance.getToken(forceRefresh);
     } catch (e) {
-      debugPrint('[AppCheck] Token fetch failed: $e');
+      _log.warn('Token fetch failed: $e');
       return null;
     }
   }
@@ -55,7 +59,7 @@ class AppCheckService {
     try {
       return await FirebaseAppCheck.instance.getLimitedUseToken();
     } catch (e) {
-      debugPrint('[AppCheck] Limited-use token fetch failed: $e');
+      _log.warn('Limited-use token fetch failed: $e');
       return null;
     }
   }

@@ -4,11 +4,13 @@
 /// - `verifyOtp`: POST to `verify-otp` with `{ phone, code }`
 library;
 
-import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../utils/app_logger.dart';
 import '../utils/json_helpers.dart' as jh;
 import 'app_check_service.dart';
+
+const _log = AppLogger('OTP');
 
 // ── Result types ────────────────────────────────────────────────────────
 
@@ -108,7 +110,7 @@ class WhatsAppOtpService {
   /// Sends a 6-digit OTP to the given E.164 phone via WhatsApp Cloud API.
   Future<OtpSendResult> sendOtp(String e164Phone) async {
     try {
-      debugPrint('[OTP] ➜ Sending code to ${_redact(e164Phone)}');
+      _log.debug('Sending code to ${_redact(e164Phone)}');
       final response = await _client.functions.invoke(
         'send-otp',
         headers: await _functionHeaders(),
@@ -117,7 +119,7 @@ class WhatsAppOtpService {
 
       final data = jh.asMapOrEmpty(response.data);
       if (data['success'] == true) {
-        debugPrint('[OTP] ✓ Code sent');
+        _log.debug('Code sent');
         return const OtpSendResult.sent();
       }
 
@@ -144,10 +146,10 @@ class WhatsAppOtpService {
           retryAfterSeconds: retryAfter,
         );
       }
-      debugPrint('[OTP] ❌ FunctionException: $message');
+      _log.warn('FunctionException: $message');
       return OtpSendResult.error(message);
     } catch (e) {
-      debugPrint('[OTP] ❌ Send error: $e');
+      _log.warn('Send error: $e');
       return OtpSendResult.error(e.toString());
     }
   }
@@ -155,7 +157,7 @@ class WhatsAppOtpService {
   /// Verifies the 6-digit code. On success, returns a verified session.
   Future<OtpVerifyResult> verifyOtp(String e164Phone, String code) async {
     try {
-      debugPrint('[OTP] ➜ Verifying code for ${_redact(e164Phone)}');
+      _log.debug('Verifying code for ${_redact(e164Phone)}');
       final response = await _client.functions.invoke(
         'verify-otp',
         headers: await _functionHeaders(),
@@ -178,14 +180,14 @@ class WhatsAppOtpService {
             jh.asMapOrEmpty(session['user'])['id']?.toString() ??
             '';
         if (accessToken.isEmpty || refreshToken.isEmpty || userId.isEmpty) {
-          debugPrint(
-            '[OTP] ❌ Verified response missing session tokens or user id',
+          _log.warn(
+            'Verified response missing session tokens or user id',
           );
           return const OtpVerifyResult.error(
             'Verification succeeded but session setup data was incomplete.',
           );
         }
-        debugPrint('[OTP] ✓ Code verified');
+        _log.debug('Code verified');
         return OtpVerifyResult.verified(
           accessToken: accessToken,
           refreshToken: refreshToken,
@@ -223,10 +225,10 @@ class WhatsAppOtpService {
           attemptsRemaining: attemptsRemaining,
         );
       }
-      debugPrint('[OTP] ❌ FunctionException: $message');
+      _log.warn('FunctionException: $message');
       return OtpVerifyResult.error(message);
     } catch (e) {
-      debugPrint('[OTP] ❌ Verify error: $e');
+      _log.warn('Verify error: $e');
       return OtpVerifyResult.error(e.toString());
     }
   }

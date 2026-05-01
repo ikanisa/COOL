@@ -1557,6 +1557,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get orReallocateToAnotherMember => 'OR REALLOCATE TO ANOTHER MEMBER';
 
   @override
+  String get groupMembersLoadFailedTitle => 'Could not load members';
+
+  @override
   String get noGroupMembersFound => 'No group members found.';
 
   @override
@@ -1578,10 +1581,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectAContactToShareWith => 'Select a contact to share with';
 
   @override
+  String get instructionUpper => 'INSTRUCTION';
+
+  @override
   String get postedUpper => 'RECEIVED';
 
   @override
   String get confirmedUpper => 'RECEIVED';
+
+  @override
+  String get manualConfirmedUpper => 'MANUAL CONFIRMED';
+
+  @override
+  String get paidUpper => 'PAID';
 
   @override
   String get draftUpper => 'DRAFT';
@@ -1594,6 +1606,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get suggestedUpper => 'SUGGESTED';
+
+  @override
+  String get disputedUpper => 'DISPUTED';
+
+  @override
+  String get refundedUpper => 'REFUNDED';
+
+  @override
+  String get cancelledUpper => 'CANCELLED';
 
   @override
   String get rejectedUpper => 'DECLINED';
@@ -3271,6 +3292,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get biopayEnterMomoNumber => 'Enter a MoMo number';
 
   @override
+  String get biopayEnterValidAmount => 'Enter a valid amount.';
+
+  @override
   String get biopayProfileUnavailableTitle => 'Profile unavailable';
 
   @override
@@ -4047,7 +4071,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminSavingsGroupTitle => 'Savings Group';
 
   @override
-  String get adminSavingsGroupNotFound => 'Savings group not found.';
+  String get adminSavingsGroupNotFound => 'Savings group not found';
 
   @override
   String get adminSavingsCloseGroup => 'Close Group';
@@ -4074,10 +4098,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminSavingsSelectMember => 'Select member';
 
   @override
-  String get adminSavingsNoMembersYet => 'No members yet.';
+  String get adminSavingsNoMembersYet => 'No members yet';
 
   @override
-  String get adminSavingsNoMembers => 'No members.';
+  String get adminSavingsNoMembers => 'No members';
 
   @override
   String get adminSavingsPhoneRequired => 'Phone number is required.';
@@ -4129,4 +4153,977 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminSavingsEnterValidAmount => 'Enter a valid amount.';
+
+  @override
+  String get adminOpsEyebrow => 'OPERATIONS';
+
+  @override
+  String get adminOpsTitle => 'Operations';
+
+  @override
+  String get adminOpsSubtitle =>
+      'Release health, triage queues, payment telemetry, and review backlogs.';
+
+  @override
+  String get adminOpsLabelLive => 'Live';
+
+  @override
+  String get adminOpsLabelSurfaces => 'Surfaces';
+
+  @override
+  String get adminOpsHintMonitoredServices => 'Monitored services';
+
+  @override
+  String get adminOpsLabelTriage => 'Triage';
+
+  @override
+  String get adminOpsHintOpenBlockingIssues => 'Open blocking issues';
+
+  @override
+  String get adminOpsLabelSenders => 'Senders';
+
+  @override
+  String get adminOpsHintSenderAuditRows => 'Sender audit rows';
+
+  @override
+  String get adminOpsLabelManualReview => 'Manual review';
+
+  @override
+  String get adminOpsHintOpenReviewItems => 'Open review items';
+
+  @override
+  String get adminOpsLabelEvents => 'Events';
+
+  @override
+  String get adminOpsHintRecentHealthEvents => 'Recent health events';
+
+  @override
+  String get adminOpsEmptyDashboard => 'No operational dashboard yet';
+
+  @override
+  String get adminOpsHealthSubtitle => 'Live health by monitored service.';
+
+  @override
+  String get adminOpsFallbackSurface => 'Surface';
+
+  @override
+  String get adminOpsFallbackSummary => 'No summary available.';
+
+  @override
+  String get adminOpsTriageTitle => 'Triage Queue';
+
+  @override
+  String get adminOpsTriageSubtitle =>
+      'Focused on failed payment and release issues.';
+
+  @override
+  String get adminOpsTriageEmpty => 'No release-blocking operational issues';
+
+  @override
+  String get adminOpsFallbackIssue => 'Issue';
+
+  @override
+  String get adminOpsFallbackDetail => 'No detail available.';
+
+  @override
+  String get adminOpsMMoneyTitle => 'M-Money SMS';
+
+  @override
+  String get adminOpsMMoneyEmpty => 'No M-Money SMS operational summary';
+
+  @override
+  String get adminOpsSenderTitle => 'Sender Inventory Audit';
+
+  @override
+  String get adminOpsSenderSubtitle =>
+      'Unsupported or alias sender drift detected.';
+
+  @override
+  String get adminColumnService => 'Service';
+
+  @override
+  String get adminColumnStatus => 'Status';
+
+  @override
+  String get adminColumnIssues => 'Issues';
+
+  @override
+  String get adminColumnLastSignal => 'Last signal';
+
+  @override
+  String get adminColumnSummary => 'Summary';
+
+  @override
+  String get adminColumnIssue => 'Issue';
+
+  @override
+  String get adminColumnSeverity => 'Severity';
+
+  @override
+  String get adminColumnReference => 'Reference';
+
+  @override
+  String get adminColumnLastSeen => 'Last seen';
+
+  @override
+  String get adminColumnDetail => 'Detail';
+
+  @override
+  String get adminColumnUser => 'User';
+
+  @override
+  String get adminColumnRole => 'Role';
+
+  @override
+  String get adminColumnScope => 'Scope';
+
+  @override
+  String get adminColumnGranted => 'Granted';
+
+  @override
+  String get adminColumnNotes => 'Notes';
+
+  @override
+  String get adminColumnAction => 'Action';
+
+  @override
+  String get adminColumnMarket => 'Market';
+
+  @override
+  String get adminColumnBatch => 'Batch';
+
+  @override
+  String get adminColumnCreated => 'Created';
+
+  @override
+  String get adminUsersEyebrow => 'USER MANAGEMENT';
+
+  @override
+  String get adminUsersTitle => 'Manage Users';
+
+  @override
+  String get adminUsersSubtitle =>
+      'Accounts, role signals, payment reachability, and demo cleanup.';
+
+  @override
+  String get adminUsersLabelLiveInventory => 'Live inventory';
+
+  @override
+  String get adminUsersLabelVisible => 'Visible';
+
+  @override
+  String get adminUsersLabelUsers => 'Users';
+
+  @override
+  String get adminUsersHintTotalAccounts => 'Total accounts';
+
+  @override
+  String get adminUsersLabelAdmins => 'Admins';
+
+  @override
+  String get adminUsersHintPrivileged => 'Privileged accounts';
+
+  @override
+  String get adminUsersLabelMock => 'Mock';
+
+  @override
+  String get adminUsersHintDemoInventory => 'Demo inventory';
+
+  @override
+  String get adminUsersLabelMoMo => 'MoMo';
+
+  @override
+  String get adminUsersHintPaymentLinked => 'Payment-linked';
+
+  @override
+  String get adminUsersSearchHint => 'Search by name, phone, or ID…';
+
+  @override
+  String get adminUsersInventoryTitle => 'User Inventory';
+
+  @override
+  String get adminUsersInventorySubtitle =>
+      'Primary identifiers, status, market scope, and edit access.';
+
+  @override
+  String get adminUsersEmptyLabel => 'No users match the current filters';
+
+  @override
+  String get adminUsersNoUsersReturned => 'No users were returned';
+
+  @override
+  String get adminUsersBatchCleanupTitle => 'Batch Cleanup';
+
+  @override
+  String get adminUsersBatchCleanupSubtitle =>
+      'Remove demo inventory without leaving the user table.';
+
+  @override
+  String get adminUsersButtonEdit => 'Edit';
+
+  @override
+  String get adminUsersFilterAdmin => 'Admin';
+
+  @override
+  String get adminUsersFilterMock => 'Mock';
+
+  @override
+  String get adminUsersFilterMoMo => 'MoMo';
+
+  @override
+  String get adminUsersFilterStandard => 'Standard';
+
+  @override
+  String get adminUsersFilterAll => 'All';
+
+  @override
+  String get adminUsersFilterAdmins => 'Admins';
+
+  @override
+  String get adminRolesEyebrow => 'ACCESS CONTROL';
+
+  @override
+  String get adminRolesTitle => 'Admin Roles';
+
+  @override
+  String get adminRolesSubtitle =>
+      'Role assignments, scope, grant date, and revoke actions.';
+
+  @override
+  String get adminRolesButtonAssign => 'Assign';
+
+  @override
+  String get adminRolesLabelAssignments => 'Assignments';
+
+  @override
+  String get adminRolesHintActiveGrants => 'Active grants';
+
+  @override
+  String get adminRolesLabelPlatform => 'Platform';
+
+  @override
+  String get adminRolesHintGlobalAccess => 'Global access';
+
+  @override
+  String get adminRolesLabelBank => 'Bank';
+
+  @override
+  String get adminRolesHintScopedWorkspaces => 'Scoped workspaces';
+
+  @override
+  String get adminRolesLabelBankScopes => 'Bank scopes';
+
+  @override
+  String get adminRolesHintDistinctBanks => 'Distinct banks';
+
+  @override
+  String get adminRolesLedgerTitle => 'Role Ledger';
+
+  @override
+  String get adminRolesLedgerSubtitle =>
+      'Grant history kept visible, revoke path kept direct.';
+
+  @override
+  String get adminRolesEmptyLabel => 'No assignments match the current filter';
+
+  @override
+  String get adminRolesScopedBank => 'Scoped bank';
+
+  @override
+  String get adminRolesAllWorkspaces => 'All workspaces';
+
+  @override
+  String get adminRolesButtonRevoke => 'Revoke';
+
+  @override
+  String get adminRolesRevokeTitle => 'Revoke Role';
+
+  @override
+  String get adminRolesRevokeSuccess => 'Role revoked.';
+
+  @override
+  String adminRolesRevokeFailed(String error) {
+    return 'Failed: $error';
+  }
+
+  @override
+  String get adminRolesFilterAll => 'All';
+
+  @override
+  String get adminRolesFilterPlatform => 'Platform';
+
+  @override
+  String get adminRolesFilterBank => 'Bank';
+
+  @override
+  String get adminRolesAssignHint => 'Open role assignment form';
+
+  @override
+  String get adminRolesAssignLabel => 'Assign admin role';
+
+  @override
+  String get adminWorkspacesEyebrow => 'ADMIN ACCESS';
+
+  @override
+  String get adminWorkspacesTitle => 'Admin Workspaces';
+
+  @override
+  String get adminWorkspacesSubtitle =>
+      'Open the right control surface for platform or bank operations.';
+
+  @override
+  String get adminWorkspacesNoAccess =>
+      'This account does not have admin workspace access.';
+
+  @override
+  String get adminWorkspacesLabelPlatformAdmin => 'Platform Admin';
+
+  @override
+  String get adminWorkspacesLabelBankAdmin => 'Bank Admin';
+
+  @override
+  String get adminWorkspacesLabelVisible => 'Visible workspaces';
+
+  @override
+  String get adminWorkspacesHintEntryPoints => 'Operational entry points';
+
+  @override
+  String get adminWorkspacesLabelBankScopes => 'Bank scopes';
+
+  @override
+  String get adminWorkspacesHintScopedInstitutions => 'Scoped institutions';
+
+  @override
+  String get adminWorkspacesPlatformDesc =>
+      'Global app operations, release controls, and oversight.';
+
+  @override
+  String get adminWorkspacesPlatformTitle => 'Platform Admin';
+
+  @override
+  String get adminWorkspacesPlatformSubtitle =>
+      'Users, services, content, roles, and operations.';
+
+  @override
+  String get adminWorkspacesSavingsTitle => 'Savings & Groups';
+
+  @override
+  String get adminWorkspacesSavingsSubtitle =>
+      'Centralized savings management, community groups, and allocations.';
+
+  @override
+  String get adminWorkspacesBankTitle => 'Bank Workspaces';
+
+  @override
+  String get adminWorkspacesBankSubtitle =>
+      'Allocation review, custody, and ledger exports.';
+
+  @override
+  String get adminWorkspacesEmptyBank => 'No bank workspace is assigned yet.';
+
+  @override
+  String get adminWorkspacesBankLoadFailed => 'Bank workspaces failed to load.';
+
+  @override
+  String get adminBankTerminalTitle => 'Bank Terminal';
+
+  @override
+  String get adminBankGroupMembers => 'Group Members';
+
+  @override
+  String get adminBankAllocatePaymentTitle => 'Allocate payment';
+
+  @override
+  String get adminBankAllocatePaymentMessage =>
+      'Assign this payment to the matched member.';
+
+  @override
+  String get adminBankButtonAllocate => 'Allocate';
+
+  @override
+  String get adminBankButtonCancel => 'Cancel';
+
+  @override
+  String get adminBankAllocateSuccess => 'Payment allocated';
+
+  @override
+  String get adminBankRejectTitle => 'Reject allocation';
+
+  @override
+  String get adminBankRejectMessage => 'This removes the pending allocation.';
+
+  @override
+  String get adminBankButtonReject => 'Reject';
+
+  @override
+  String get adminBankRejectSuccess => 'Allocation rejected';
+
+  @override
+  String get adminBankFallbackUser => 'COOL User';
+
+  @override
+  String get adminBankPeriodLabel => 'All posted entries in view';
+
+  @override
+  String get adminBankFilterLabel => 'Group payment ledger';
+
+  @override
+  String get adminBankSortLabel => 'Newest first';
+
+  @override
+  String get adminBankExportSuccess => 'Ledger exported';
+
+  @override
+  String get adminBankNoGroups => 'No linked groups.';
+
+  @override
+  String get adminBankLabelViewDetails => 'View details';
+
+  @override
+  String get adminBankLabelOpenLedger => 'Open ledger';
+
+  @override
+  String get adminBankNoReviewItems => 'No manual review items.';
+
+  @override
+  String get adminBankNoLedgerEntries => 'No posted payment ledger entries.';
+
+  @override
+  String get adminBankPostedLedger => 'Posted payment ledger';
+
+  @override
+  String get adminBankExportPdf => 'Export PDF';
+
+  @override
+  String get adminBankExportExcel => 'Export Excel';
+
+  @override
+  String get adminAuditEyebrow => 'AUDIT TRAIL';
+
+  @override
+  String get adminAuditTitle => 'Audit Log';
+
+  @override
+  String get adminAuditSubtitle =>
+      'Who changed what, when, and on which record.';
+
+  @override
+  String get adminAuditLabelVisible => 'Visible';
+
+  @override
+  String get adminAuditLabelEntries => 'Entries';
+
+  @override
+  String get adminAuditHintCurrentFeed => 'Current feed';
+
+  @override
+  String get adminAuditLabelCreate => 'Create';
+
+  @override
+  String get adminAuditHintNewRecords => 'New records';
+
+  @override
+  String get adminAuditLabelUpdate => 'Update';
+
+  @override
+  String get adminAuditHintChangedRecords => 'Changed records';
+
+  @override
+  String get adminAuditLabelDelete => 'Delete';
+
+  @override
+  String get adminAuditHintRemovedRecords => 'Removed records';
+
+  @override
+  String get adminAuditTimelineTitle => 'Timeline';
+
+  @override
+  String get adminAuditTimelineSubtitle =>
+      'Expand an entry to inspect before and after payloads.';
+
+  @override
+  String get adminAuditEmptyLabel => 'No audit entries yet';
+
+  @override
+  String get adminAuditFilterAll => 'All';
+
+  @override
+  String get adminAuditUnknown => 'Unknown';
+
+  @override
+  String get adminAuditExpanded => 'Expanded';
+
+  @override
+  String get adminAuditCollapsed => 'Collapsed';
+
+  @override
+  String get adminAuditPrevious => 'Previous';
+
+  @override
+  String get adminAuditNew => 'New';
+
+  @override
+  String get adminSenderFilterUnresolved => 'Unresolved';
+
+  @override
+  String get adminSenderFilterAcknowledged => 'Acknowledged';
+
+  @override
+  String get adminSenderFilterAll => 'All';
+
+  @override
+  String get adminSenderAcknowledgeTitle => 'Acknowledge legacy sender?';
+
+  @override
+  String adminSenderAcknowledgeMessage(String sender) {
+    return 'This keeps the raw SMS history unchanged, but marks $sender as reviewed legacy unsupported sender history.';
+  }
+
+  @override
+  String get adminSenderButtonAcknowledge => 'Acknowledge';
+
+  @override
+  String get adminSenderAcknowledgeSuccess => 'Legacy sender acknowledged.';
+
+  @override
+  String get adminSenderAcknowledgeError =>
+      'Could not acknowledge this sender right now.';
+
+  @override
+  String adminSenderBulkTitle(int count) {
+    return 'Acknowledge $count senders?';
+  }
+
+  @override
+  String get adminSenderBulkMessage =>
+      'This records the visible unsupported senders as reviewed legacy history without altering raw SMS records.';
+
+  @override
+  String get adminSenderButtonAcknowledgeVisible => 'Acknowledge visible';
+
+  @override
+  String adminSenderBulkSuccess(int count) {
+    return 'Acknowledged $count sender backlogs.';
+  }
+
+  @override
+  String get adminSenderBulkNone =>
+      'No sender backlogs needed acknowledgement.';
+
+  @override
+  String get adminSenderBulkError =>
+      'Could not acknowledge the visible senders right now.';
+
+  @override
+  String get adminSenderEmptyLabel =>
+      'No unsupported M-Money SMS senders are currently stored.';
+
+  @override
+  String get adminSenderSaving => 'Saving...';
+
+  @override
+  String get adminReviewFilterNeedsReview => 'Needs Review';
+
+  @override
+  String get adminReviewFilterUnmatched => 'Unmatched';
+
+  @override
+  String get adminReviewFilterNonActionable => 'Non-actionable';
+
+  @override
+  String get adminReviewFilterAll => 'All';
+
+  @override
+  String get adminReviewCloseTitle => 'Close manual review?';
+
+  @override
+  String get adminReviewCloseMessage =>
+      'This will mark the SMS reconciliation review as not app-linked while keeping the wallet history intact.';
+
+  @override
+  String get adminReviewButtonClose => 'Close review';
+
+  @override
+  String get adminReviewCloseSuccess => 'Manual review closed.';
+
+  @override
+  String get adminReviewCloseError => 'Could not close this review right now.';
+
+  @override
+  String adminReviewBulkTitle(int count) {
+    return 'Close $count reviews?';
+  }
+
+  @override
+  String get adminReviewBulkMessage =>
+      'This bulk action closes the visible manual reviews as not app-linked. Wallet statements will remain available.';
+
+  @override
+  String get adminReviewButtonCloseVisible => 'Close visible';
+
+  @override
+  String adminReviewBulkSuccess(int count) {
+    return 'Closed $count manual reviews.';
+  }
+
+  @override
+  String get adminReviewBulkNone => 'No eligible manual reviews were closed.';
+
+  @override
+  String get adminReviewBulkError => 'Could not close the visible reviews.';
+
+  @override
+  String get adminReviewEmptyLabel =>
+      'No generic M-Money SMS manual reviews are open.';
+
+  @override
+  String get adminReviewClosing => 'Closing...';
+
+  @override
+  String get adminSavingsHintName => 'Name';
+
+  @override
+  String get adminSavingsHintAmount => 'Amount';
+
+  @override
+  String get adminSavingsHintNote => 'Note';
+
+  @override
+  String get adminSavingsSuffixRwf => 'RWF';
+
+  @override
+  String get adminSavingsEmptyMembers => 'No members';
+
+  @override
+  String get adminSavingsGroupNotFoundMessage => 'Savings group not found';
+
+  @override
+  String get adminDashboardPlatformAdmin => 'Platform Admin';
+
+  @override
+  String get adminDashboardRestricted => 'Restricted';
+
+  @override
+  String get adminGateWorkspaceTitle => 'Bank Workspace';
+
+  @override
+  String get adminConfigAddRoute => 'Add Partner Payment Route';
+
+  @override
+  String get adminConfigEditRoute => 'Edit Partner Payment Route';
+
+  @override
+  String get adminConfigManageRouting =>
+      'Manage Rwanda partner checkout routing.';
+
+  @override
+  String get adminConfigFieldMerchantCode => 'Merchant code';
+
+  @override
+  String get adminConfigFieldReconciliation => 'Reconciliation label';
+
+  @override
+  String get adminConfigSaveRoute => 'Save route';
+
+  @override
+  String get adminConfigDeleteRoute => 'Delete route';
+
+  @override
+  String adminConfigHintEnterLabel(String label) {
+    return 'Enter $label';
+  }
+
+  @override
+  String get adminConfigHintChoosePartner => 'Choose partner';
+
+  @override
+  String get adminConfigLabelPartner => 'Partner';
+
+  @override
+  String get adminConfigDefaultMarket => 'Rwanda';
+
+  @override
+  String get adminConfigLabelMarket => 'Market';
+
+  @override
+  String get adminConfigHintChooseStatus => 'Choose route status';
+
+  @override
+  String get adminConfigLabelStatus => 'Status';
+
+  @override
+  String get adminConfigStatusDraft => 'Draft';
+
+  @override
+  String get adminConfigStatusActive => 'Active';
+
+  @override
+  String get adminConfigSelectPartnerError => 'Select a partner.';
+
+  @override
+  String get adminConfigReconciliationError => 'Enter a reconciliation label.';
+
+  @override
+  String get adminConfigMerchantCodeRequired =>
+      'Active routes require a merchant code.';
+
+  @override
+  String get adminRolesAssignTitle => 'Assign Admin Role';
+
+  @override
+  String get adminRolesAssignUserIdLabel => 'User ID';
+
+  @override
+  String get adminRolesAssignUserIdHint => 'Paste user UUID';
+
+  @override
+  String get adminRolesAssignPasteTooltip => 'Paste user ID';
+
+  @override
+  String get adminRolesAssignRoleLabel => 'Role';
+
+  @override
+  String get adminRolesAssignBankScopeLabel => 'Bank Scope';
+
+  @override
+  String get adminRolesAssignBankScopeError => 'Failed to load bank scopes.';
+
+  @override
+  String get adminRolesAssignButtonLabel => 'Assign Role';
+
+  @override
+  String get adminRolesAssignUserIdError => 'Enter a user ID.';
+
+  @override
+  String get adminRolesAssignBankScopeRequired => 'Select a bank scope.';
+
+  @override
+  String get adminOpsManualReviewTitle => 'Generic Manual Review';
+
+  @override
+  String get adminOpsManualReviewSubtitle =>
+      'SMS that could not be app-linked.';
+
+  @override
+  String get adminOpsActivityTitle => 'Recent Activity';
+
+  @override
+  String get adminOpsActivitySubtitle => 'Operational health stream.';
+
+  @override
+  String get adminOpsActivityEmpty => 'No recent operational events';
+
+  @override
+  String adminBankPendingAllocations(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 's',
+      one: '',
+    );
+    return '$count pending allocation$_temp0';
+  }
+
+  @override
+  String get adminBankCancel => 'Cancel';
+
+  @override
+  String get adminAuditVisible => 'Visible';
+
+  @override
+  String get adminAuditEntries => 'Entries';
+
+  @override
+  String get adminAuditCurrentFeed => 'Current feed';
+
+  @override
+  String get adminAuditCreate => 'Create';
+
+  @override
+  String get adminAuditNewRecords => 'New records';
+
+  @override
+  String get adminAuditUpdate => 'Update';
+
+  @override
+  String get adminAuditChangedRecords => 'Changed records';
+
+  @override
+  String get adminAuditDelete => 'Delete';
+
+  @override
+  String get adminAuditRemovedRecords => 'Removed records';
+
+  @override
+  String get adminAuditTimeline => 'Timeline';
+
+  @override
+  String get adminAuditEmpty => 'No audit entries yet';
+
+  @override
+  String get adminAuditUnknownActor => 'Unknown';
+
+  @override
+  String adminSavingsErrorPrefix(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get adminSavingsCancelAction => 'Cancel';
+
+  @override
+  String get adminSavingsCreateGroup => 'Create Savings Group';
+
+  @override
+  String adminSavingsNoGroupsYet(String type) {
+    return 'No $type groups yet';
+  }
+
+  @override
+  String get adminSavingsNoGroupsMatch => 'No groups match your search';
+
+  @override
+  String get adminSavingsGroupNameRequired => 'Group name is required';
+
+  @override
+  String get adminSavingsGroupCreated => 'Savings group created';
+
+  @override
+  String get adminSavingsCreationFailed => 'Creation failed';
+
+  @override
+  String get adminSavingsCopied => 'Copied';
+
+  @override
+  String get adminSavingsCloseGroupButton => 'Close Group';
+
+  @override
+  String get adminOpsSenderUnresolved => 'Unresolved';
+
+  @override
+  String get adminOpsSenderAcknowledged => 'Acknowledged';
+
+  @override
+  String get adminOpsSenderAcknowledge => 'Acknowledge';
+
+  @override
+  String get adminOpsSenderAcknowledgeVisible => 'Acknowledge visible';
+
+  @override
+  String get adminOpsReviewNeedsReview => 'Needs Review';
+
+  @override
+  String get adminOpsReviewUnmatched => 'Unmatched';
+
+  @override
+  String get adminOpsReviewClose => 'Close review';
+
+  @override
+  String get adminOpsReviewCloseVisible => 'Close visible';
+
+  @override
+  String get adminDashPlatformAdmin => 'Platform Admin';
+
+  @override
+  String get adminDashRestricted => 'Restricted';
+
+  @override
+  String get adminGateLoading => 'Loading workspace';
+
+  @override
+  String get adminGateAccessDenied => 'Access denied';
+
+  @override
+  String get adminGateBankWorkspace => 'Bank Workspace';
+
+  @override
+  String get adminEditUserTitle => 'Edit User';
+
+  @override
+  String get adminEditUserFullName => 'Full name';
+
+  @override
+  String get adminEditUserSave => 'Save User';
+
+  @override
+  String get adminEditUserUpdated => 'User updated';
+
+  @override
+  String get adminRolesAssignUserIdTooltip => 'Paste user ID';
+
+  @override
+  String get adminRolesRevokeButton => 'Revoke';
+
+  @override
+  String adminRolesBankScope(String bankName) {
+    return 'Bank: $bankName';
+  }
+
+  @override
+  String adminRolesOtherScope(String bankName) {
+    return 'Scope: $bankName';
+  }
+
+  @override
+  String get adminConfigEditTitle => 'Edit Config';
+
+  @override
+  String get adminConfigNewTitle => 'New Config Entry';
+
+  @override
+  String get adminConfigFieldValue => 'Value';
+
+  @override
+  String get adminConfigFieldDescription => 'Description';
+
+  @override
+  String get adminConfigFieldMarket => 'Market';
+
+  @override
+  String get adminConfigRolloutStage => 'Rollout stage';
+
+  @override
+  String get adminConfigKillSwitch => 'Kill switch';
+
+  @override
+  String get adminConfigAdminOnly => 'Admin only';
+
+  @override
+  String get adminConfigSaveRollout => 'Save rollout';
+
+  @override
+  String get adminConfigAddPartnerRoute => 'Add Partner Payment Route';
+
+  @override
+  String get adminConfigEditPartnerRoute => 'Edit Partner Payment Route';
+
+  @override
+  String get adminConfigFieldProviderId => 'Provider id';
+
+  @override
+  String get adminConfigChoosePartner => 'Choose partner';
+
+  @override
+  String get adminConfigPartnerLabel => 'Partner';
+
+  @override
+  String get adminConfigPartnerDefault => 'Partner';
+
+  @override
+  String get adminConfigMarketDefault => 'Rwanda';
+
+  @override
+  String get adminConfigStatusLabel => 'Status';
+
+  @override
+  String get adminConfigChooseRouteStatus => 'Choose route status';
+
+  @override
+  String get adminConfigStatusInactive => 'Inactive';
+
+  @override
+  String get adminConfigKilledLabel => 'Killed';
+
+  @override
+  String get adminConfigAdminOnlyLabel => 'Admin only';
 }

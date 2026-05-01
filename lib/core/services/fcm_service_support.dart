@@ -4,7 +4,7 @@ part of 'fcm_service.dart';
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await FirebaseBootstrapService.ensureInitialized();
-  debugPrint('[FCM] Background message: ${message.messageId}');
+  _log.debug('Background message: ${message.messageId}');
 }
 
 enum FcmTopicCategory { matchAlerts, promotions, groupUpdates }

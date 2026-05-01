@@ -30,7 +30,7 @@ feature branch → main → tag v*.*.* → release-candidate gate → signed And
    - Reads Flutter version from `.fvmrc`
    - Syncs hosted Supabase Edge Function secrets when `SUPABASE_PROJECT_REF` and `SUPABASE_ACCESS_TOKEN` are configured
    - Decodes signing keystore from secrets before store-grade artifact builds
-   - Runs `bash scripts/run_release_candidate.sh`
+   - Runs `bash scripts/qa/run_release_candidate.sh`
    - This enforces:
      - `RUN_ANDROID_MINIFY_CANARY=1`
      - `RUN_REMOTE_SMOKE=1`
@@ -53,10 +53,10 @@ Run this before approving any broad Android release:
 RUN_ANDROID_MINIFY_CANARY=1 \
 RUN_REMOTE_SMOKE=1 \
 RUN_MOMO_SMS_ROLLOUT_VERIFY=1 \
-bash scripts/run_release_candidate.sh
+bash scripts/qa/run_release_candidate.sh
 ```
 
-This command is intentionally stricter than `scripts/release_readiness.sh`. It
+This command is intentionally stricter than `scripts/qa/release_readiness.sh`. It
 adds production-signing metadata validation, Firebase App Check provider
 verification, hosted Supabase smoke, and store-grade Android artifact builds.
 

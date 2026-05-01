@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/providers/hive_providers.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 import '../../../core/services/app_review_service.dart';
 import '../../../core/services/momo_service.dart';
@@ -12,7 +11,6 @@ import '../../../core/services/momo_service.dart';
 final momoServiceProvider = Provider<MomoService>((ref) {
   return MomoService(
     client: ref.read(supabaseClientProvider),
-    openBox: ref.read(hiveOpenBoxProvider),
     appReviewService: ref.read(appReviewServiceProvider),
   );
 });

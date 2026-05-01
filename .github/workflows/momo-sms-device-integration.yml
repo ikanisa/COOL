@@ -55,7 +55,7 @@ jobs:
           emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -camera-back none
           disable-animations: true
           script: |
-            bash scripts/run_momo_sms_device_integration.sh
+            bash scripts/qa/run_momo_sms_device_integration.sh
 
       - name: Upload device integration artifacts
         if: always()

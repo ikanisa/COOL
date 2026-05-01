@@ -94,7 +94,7 @@ jobs:
           GOOGLE_WALLET_ALLOWED_ORIGINS: ${{ secrets.GOOGLE_WALLET_ALLOWED_ORIGINS }}
           COOL_PUBLIC_APP_BASE_URL: ${{ secrets.COOL_PUBLIC_APP_BASE_URL }}
           STRICT_CORE: '1'
-        run: bash scripts/sync_supabase_function_secrets.sh
+        run: bash scripts/deploy/sync_supabase_function_secrets.sh
 
       # ── Decode signing key ─────────────────────────────────
       - name: Decode keystore
@@ -141,7 +141,7 @@ jobs:
           FIREBASE_ANDROID_PRODUCTION_STORAGE_BUCKET: ${{ secrets.FIREBASE_ANDROID_PRODUCTION_STORAGE_BUCKET }}
           GOOGLE_MAPS_ANDROID_API_KEY: ${{ secrets.GOOGLE_MAPS_ANDROID_API_KEY }}
           GOOGLE_MAPS_ANDROID_MAP_ID: ${{ secrets.GOOGLE_MAPS_ANDROID_MAP_ID }}
-        run: bash scripts/run_release_candidate.sh
+        run: bash scripts/qa/run_release_candidate.sh
 
       # ── Upload to Firebase App Distribution ─────────────────
       - name: Upload to Firebase App Distribution

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/money_formatters.dart';
@@ -287,7 +288,7 @@ class _AdminSavingsScreenState extends ConsumerState<AdminSavingsScreen> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      _showCreateForm ? 'Cancel' : 'Create Savings Group',
+                      _showCreateForm ? context.l10n.adminSavingsCancelAction : context.l10n.adminSavingsCreateGroup,
                       style: theme.textTheme.labelLarge?.copyWith(
                         fontWeight: FontWeight.w700,
                         color: colors.accent,
@@ -331,8 +332,8 @@ class _AdminSavingsScreenState extends ConsumerState<AdminSavingsScreen> {
         if (filtered.isEmpty)
           CoolEmptyView(
             message: query.isEmpty
-                ? 'No ${_activeTab == _SavingsTab.savings ? 'savings' : 'community'} groups yet'
-                : 'No groups match your search',
+                ? context.l10n.adminSavingsNoGroupsYet(_activeTab == _SavingsTab.savings ? 'savings' : 'community')
+                : context.l10n.adminSavingsNoGroupsMatch,
             icon: CoolIcons.searchOff,
           )
         else
@@ -357,7 +358,7 @@ class _AdminSavingsScreenState extends ConsumerState<AdminSavingsScreen> {
   Future<void> _handleCreateGroup() async {
     final name = _nameController.text.trim();
     if (name.isEmpty) {
-      CoolToast.error(context, 'Group name is required');
+      CoolToast.error(context, context.l10n.adminSavingsGroupNameRequired);
       return;
     }
 
@@ -378,7 +379,7 @@ class _AdminSavingsScreenState extends ConsumerState<AdminSavingsScreen> {
 
       if (!mounted) return;
       if (result['status'] == 'success') {
-        CoolToast.success(context, 'Savings group created');
+        CoolToast.success(context, context.l10n.adminSavingsGroupCreated);
         _nameController.clear();
         _descriptionController.clear();
         _targetAmountController.clear();
@@ -389,7 +390,7 @@ class _AdminSavingsScreenState extends ConsumerState<AdminSavingsScreen> {
         });
         ref.invalidate(adminSavingsGroupsDetailProvider);
       } else {
-        throw StateError(result['message']?.toString() ?? 'Creation failed');
+        throw StateError(result['message']?.toString() ?? context.l10n.adminSavingsCreationFailed);
       }
     } catch (e) {
       if (!mounted) return;

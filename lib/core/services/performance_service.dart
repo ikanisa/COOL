@@ -2,6 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/foundation.dart';
 
+import '../utils/app_logger.dart';
+
+const _log = AppLogger('Perf');
+
 /// Wraps [FirebasePerformance] with named-trace helpers for key flows.
 ///
 /// Call [initialize] once after Firebase is ready. All trace methods
@@ -49,7 +53,7 @@ class PerformanceService {
       trace.start();
       _activeTraces[name] = trace;
     } catch (e) {
-      debugPrint('[Perf] Failed to start trace "$name": $e');
+      _log.warn('Failed to start trace "$name": $e');
     }
   }
 
@@ -72,7 +76,7 @@ class PerformanceService {
       attributes?.forEach((key, value) => trace.putAttribute(key, value));
       await trace.stop();
     } catch (e) {
-      debugPrint('[Perf] Failed to stop trace "$name": $e');
+      _log.warn('Failed to stop trace "$name": $e');
     }
   }
 

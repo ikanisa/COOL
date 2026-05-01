@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
@@ -6,13 +7,17 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_quick_action_grid.dart';
+import '../providers/biopay_embedding_notifier.dart';
 import '../widgets/biopay_surface.dart';
 
-class BiopayHomeScreen extends StatelessWidget {
+class BiopayHomeScreen extends ConsumerWidget {
   const BiopayHomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Pre-load the TFLite embedding model so scan screens open instantly.
+    ref.read(biopayEmbeddingProvider.notifier).warmup();
+
     final l10n = context.l10n;
     final space = context.coolSpace;
     final colors = context.coolSemanticColors;

@@ -45,8 +45,8 @@ currently including:
 
 Sources:
 
-- [momo_sms_ingestion_repository.dart](/Volumes/PRO-G40/COOL/lib/features/momo/repositories/momo_sms_ingestion_repository.dart#L58)
-- [momo_sms_ingestion_repository.dart](/Volumes/PRO-G40/COOL/lib/features/momo/repositories/momo_sms_ingestion_repository.dart#L105)
+- [momo_sms_autoread_service.dart](/Volumes/PRO-G40/COOL/lib/features/momo/services/momo_sms_autoread_service.dart#L62)
+- [sms-ingest rules](/Volumes/PRO-G40/COOL/supabase/functions/sms-ingest/rules.ts#L1)
 
 ### Processing behavior
 
@@ -60,14 +60,14 @@ Sources:
 
 - [momo_sms_autoread_service.dart](/Volumes/PRO-G40/COOL/lib/features/momo/services/momo_sms_autoread_service.dart#L165)
 - [momo_sms_autoread_service.dart](/Volumes/PRO-G40/COOL/lib/features/momo/services/momo_sms_autoread_service.dart#L281)
-- [momo_sms_ingestion_repository.dart](/Volumes/PRO-G40/COOL/lib/features/momo/repositories/momo_sms_ingestion_repository.dart#L115)
+- [sms-ingest Edge Function](/Volumes/PRO-G40/COOL/supabase/functions/sms-ingest/index.ts#L318)
 
 ### User consent and disclosure
 
 The app already includes explicit in-app disclosure before SMS sync is enabled:
 
 - SMS access disclosure in [profile_app_access_sheet.dart](/Volumes/PRO-G40/COOL/lib/features/profile/widgets/profile_app_access_sheet.dart#L712)
-- Mobile Money hub in [momo_screen.dart](/Volumes/PRO-G40/COOL/lib/features/momo/screens/momo_screen.dart#L1)
+- Mobile Money wallet in [momo_wallet_screen.dart](/Volumes/PRO-G40/COOL/lib/features/momo/screens/momo_wallet_screen.dart#L1)
 - privacy policy disclosure at [privacy page](https://cool.ikanisa.com/privacy)
 
 ### Build and manifest

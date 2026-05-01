@@ -54,10 +54,10 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
           child: CoolSkeletonList(itemCount: 5),
         ),
         emptyCheck: (u) => u.isEmpty,
-        emptyWidget: const Padding(
-          padding: EdgeInsets.all(CoolSpace.x5),
+        emptyWidget: Padding(
+          padding: const EdgeInsets.all(CoolSpace.x5),
           child: CoolEmptyView(
-            message: 'No users were returned',
+            message: context.l10n.adminUsersNoUsersReturned,
             icon: CoolIcons.profile,
           ),
         ),
@@ -92,18 +92,17 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
             padding: CoolSpace.scaffoldPadding,
             children: [
               AdminPageHeader(
-                eyebrow: 'USER MANAGEMENT',
-                title: 'Manage Users',
-                subtitle:
-                    'Accounts, role signals, payment reachability, and demo cleanup.',
+                eyebrow: context.l10n.adminUsersEyebrow,
+                title: context.l10n.adminUsersTitle,
+                subtitle: context.l10n.adminUsersSubtitle,
                 badges: [
-                  const AdminStatusChip(
-                    label: 'Live inventory',
+                  AdminStatusChip(
+                    label: context.l10n.adminUsersLabelLiveInventory,
                     tone: AdminTone.info,
                     icon: CoolIcons.datasetLinked,
                   ),
                   AdminStatusChip(
-                    label: 'Visible',
+                    label: context.l10n.adminUsersLabelVisible,
                     trailing: '${filtered.length}',
                     tone: AdminTone.accent,
                     icon: CoolIcons.visibility,
@@ -114,30 +113,30 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
               AdminMetricStrip(
                 metrics: [
                   AdminMetricItem(
-                    label: 'Users',
+                    label: context.l10n.adminUsersLabelUsers,
                     value: '${users.length}',
-                    hint: 'Total accounts',
+                    hint: context.l10n.adminUsersHintTotalAccounts,
                     icon: CoolIcons.groupOutlined,
                     tone: AdminTone.info,
                   ),
                   AdminMetricItem(
-                    label: 'Admins',
+                    label: context.l10n.adminUsersLabelAdmins,
                     value: '$adminCount',
-                    hint: 'Privileged accounts',
+                    hint: context.l10n.adminUsersHintPrivileged,
                     icon: CoolIcons.adminPanel,
                     tone: AdminTone.success,
                   ),
                   AdminMetricItem(
-                    label: 'Mock',
+                    label: context.l10n.adminUsersLabelMock,
                     value: '$mockCount',
-                    hint: 'Demo inventory',
+                    hint: context.l10n.adminUsersHintDemoInventory,
                     icon: CoolIcons.science,
                     tone: AdminTone.warning,
                   ),
                   AdminMetricItem(
-                    label: 'MoMo',
+                    label: context.l10n.adminUsersLabelMoMo,
                     value: '$momoCount',
-                    hint: 'Payment-linked',
+                    hint: context.l10n.adminUsersHintPaymentLinked,
                     icon: CoolIcons.walletOutlined,
                     tone: AdminTone.accent,
                   ),
@@ -146,7 +145,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
               const SizedBox(height: CoolSpace.x4),
               AdminToolbar(
                 search: CoolSearchField(
-                  hint: 'Search by name, phone, or ID…',
+                  hint: context.l10n.adminUsersSearchHint,
                   debounce: Duration.zero,
                   onChanged: (value) => setState(() => _search = value),
                 ),
@@ -154,18 +153,17 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
               ),
               const SizedBox(height: CoolSpace.x4),
               AdminDataTableCard(
-                title: 'User Inventory',
-                subtitle:
-                    'Primary identifiers, status, market scope, and edit access.',
-                emptyLabel: 'No users match the current filters',
+                title: context.l10n.adminUsersInventoryTitle,
+                subtitle: context.l10n.adminUsersInventorySubtitle,
+                emptyLabel: context.l10n.adminUsersEmptyLabel,
                 minWidth: 980,
-                columns: const [
-                  DataColumn(label: Text('User')),
-                  DataColumn(label: Text('Status')),
-                  DataColumn(label: Text('Market')),
-                  DataColumn(label: Text('Batch')),
-                  DataColumn(label: Text('Created')),
-                  DataColumn(label: Text('Action')),
+                columns: [
+                  DataColumn(label: Text(context.l10n.adminColumnUser)),
+                  DataColumn(label: Text(context.l10n.adminColumnStatus)),
+                  DataColumn(label: Text(context.l10n.adminColumnMarket)),
+                  DataColumn(label: Text(context.l10n.adminColumnBatch)),
+                  DataColumn(label: Text(context.l10n.adminColumnCreated)),
+                  DataColumn(label: Text(context.l10n.adminColumnAction)),
                 ],
                 rows: filtered.map(_buildRow).toList(growable: false),
                 footer: Text(
@@ -179,9 +177,8 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
               if (mockBatches.isNotEmpty) ...[
                 const SizedBox(height: CoolSpace.x4),
                 AdminSectionCard(
-                  title: 'Batch Cleanup',
-                  subtitle:
-                      'Remove demo inventory without leaving the user table.',
+                  title: context.l10n.adminUsersBatchCleanupTitle,
+                  subtitle: context.l10n.adminUsersBatchCleanupSubtitle,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -317,7 +314,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
             alignment: Alignment.centerLeft,
             child: TextButton(
               onPressed: () => _openEditSheet(context, user),
-              child: const Text('Edit'),
+              child: Text(context.l10n.adminUsersButtonEdit),
             ),
           ),
         ),
@@ -329,8 +326,8 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
     final chips = <Widget>[];
     if (user['is_admin'] == true) {
       chips.add(
-        const AdminStatusChip(
-          label: 'Admin',
+        AdminStatusChip(
+          label: context.l10n.adminUsersFilterAdmin,
           tone: AdminTone.success,
           icon: CoolIcons.shield,
         ),
@@ -338,8 +335,8 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
     }
     if (user['is_mock'] == true) {
       chips.add(
-        const AdminStatusChip(
-          label: 'Mock',
+        AdminStatusChip(
+          label: context.l10n.adminUsersFilterMock,
           tone: AdminTone.warning,
           icon: CoolIcons.science,
         ),
@@ -347,8 +344,8 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
     }
     if ((user['momo_number']?.toString() ?? '').trim().isNotEmpty) {
       chips.add(
-        const AdminStatusChip(
-          label: 'MoMo',
+        AdminStatusChip(
+          label: context.l10n.adminUsersFilterMoMo,
           tone: AdminTone.accent,
           icon: CoolIcons.phoneAndroidOutlined,
         ),
@@ -356,8 +353,8 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
     }
     if (chips.isEmpty) {
       chips.add(
-        const AdminStatusChip(
-          label: 'Standard',
+        AdminStatusChip(
+          label: context.l10n.adminUsersFilterStandard,
           tone: AdminTone.neutral,
           icon: CoolIcons.profile,
         ),

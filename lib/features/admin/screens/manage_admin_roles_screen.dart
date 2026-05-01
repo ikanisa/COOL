@@ -45,8 +45,8 @@ class _ManageAdminRolesScreenState
     return AdminDetailScaffold(
       floatingActionButton: Semantics(
         button: true,
-        label: 'Assign admin role',
-        hint: 'Open role assignment form',
+        label: context.l10n.adminRolesAssignLabel,
+        hint: context.l10n.adminRolesAssignHint,
         child: FloatingActionButton(
           onPressed: () => _showAssignRoleSheet(context, ref),
           backgroundColor: context.coolSemanticColors.accent,
@@ -70,10 +70,10 @@ class _ManageAdminRolesScreenState
           child: CoolSkeletonList(itemCount: 4),
         ),
         emptyCheck: (items) => items.isEmpty,
-        emptyWidget: const Padding(
-          padding: EdgeInsets.all(CoolSpace.x5),
+        emptyWidget: Padding(
+          padding: const EdgeInsets.all(CoolSpace.x5),
           child: CoolEmptyView(
-            message: 'No admin roles yet',
+            message: context.l10n.adminRolesEmptyLabel,
             icon: CoolIcons.adminPanel,
           ),
         ),
@@ -100,20 +100,19 @@ class _ManageAdminRolesScreenState
             padding: CoolSpace.scaffoldPadding,
             children: [
               AdminPageHeader(
-                eyebrow: 'ACCESS CONTROL',
-                title: 'Admin Roles',
-                subtitle:
-                    'Role assignments, scope, grant date, and revoke actions.',
+                eyebrow: context.l10n.adminRolesEyebrow,
+                title: context.l10n.adminRolesTitle,
+                subtitle: context.l10n.adminRolesSubtitle,
                 actions: [
                   OutlinedButton.icon(
                     onPressed: () => _showAssignRoleSheet(context, ref),
                     icon: const Icon(CoolIcons.add, size: 18),
-                    label: const Text('Assign'),
+                    label: Text(context.l10n.adminRolesButtonAssign),
                   ),
                 ],
                 badges: [
                   AdminStatusChip(
-                    label: 'Assignments',
+                    label: context.l10n.adminRolesLabelAssignments,
                     trailing: '${assignments.length}',
                     tone: AdminTone.accent,
                     icon: CoolIcons.badge,
@@ -124,30 +123,30 @@ class _ManageAdminRolesScreenState
               AdminMetricStrip(
                 metrics: [
                   AdminMetricItem(
-                    label: 'Assignments',
+                    label: context.l10n.adminRolesLabelAssignments,
                     value: '${assignments.length}',
-                    hint: 'Active grants',
+                    hint: context.l10n.adminRolesHintActiveGrants,
                     icon: CoolIcons.badge,
                     tone: AdminTone.info,
                   ),
                   AdminMetricItem(
-                    label: 'Platform',
+                    label: context.l10n.adminRolesLabelPlatform,
                     value: '$platformCount',
-                    hint: 'Global access',
+                    hint: context.l10n.adminRolesHintGlobalAccess,
                     icon: CoolIcons.adminPanel,
                     tone: AdminTone.success,
                   ),
                   AdminMetricItem(
-                    label: 'Bank',
+                    label: context.l10n.adminRolesLabelBank,
                     value: '$bankCount',
-                    hint: 'Scoped workspaces',
+                    hint: context.l10n.adminRolesHintScopedWorkspaces,
                     icon: CoolIcons.accountBalanceOutlined,
                     tone: AdminTone.accent,
                   ),
                   AdminMetricItem(
-                    label: 'Bank scopes',
+                    label: context.l10n.adminRolesLabelBankScopes,
                     value: '$bankScopes',
-                    hint: 'Distinct banks',
+                    hint: context.l10n.adminRolesHintDistinctBanks,
                     icon: CoolIcons.accountTree,
                     tone: AdminTone.warning,
                   ),
@@ -174,18 +173,17 @@ class _ManageAdminRolesScreenState
               ),
               const SizedBox(height: CoolSpace.x4),
               AdminDataTableCard(
-                title: 'Role Ledger',
-                subtitle:
-                    'Grant history kept visible, revoke path kept direct.',
-                emptyLabel: 'No assignments match the current filter',
+                title: context.l10n.adminRolesLedgerTitle,
+                subtitle: context.l10n.adminRolesLedgerSubtitle,
+                emptyLabel: context.l10n.adminRolesEmptyLabel,
                 minWidth: 940,
-                columns: const [
-                  DataColumn(label: Text('User')),
-                  DataColumn(label: Text('Role')),
-                  DataColumn(label: Text('Scope')),
-                  DataColumn(label: Text('Granted')),
-                  DataColumn(label: Text('Notes')),
-                  DataColumn(label: Text('Action')),
+                columns: [
+                  DataColumn(label: Text(context.l10n.adminColumnUser)),
+                  DataColumn(label: Text(context.l10n.adminColumnRole)),
+                  DataColumn(label: Text(context.l10n.adminColumnScope)),
+                  DataColumn(label: Text(context.l10n.adminColumnGranted)),
+                  DataColumn(label: Text(context.l10n.adminColumnNotes)),
+                  DataColumn(label: Text(context.l10n.adminColumnAction)),
                 ],
                 rows: filtered
                     .map(
@@ -220,8 +218,8 @@ class _ManageAdminRolesScreenState
         ? assignment.userPhone!
         : assignment.userId;
     final scope = assignment.role == AdminRole.bank
-        ? assignment.bankName ?? assignment.bankId ?? 'Scoped bank'
-        : 'All workspaces';
+        ? assignment.bankName ?? assignment.bankId ?? context.l10n.adminRolesScopedBank
+        : context.l10n.adminRolesAllWorkspaces;
     final granted =
         '${assignment.grantedAt.year}-${assignment.grantedAt.month.toString().padLeft(2, '0')}-${assignment.grantedAt.day.toString().padLeft(2, '0')}';
 
@@ -294,7 +292,7 @@ class _ManageAdminRolesScreenState
           OutlinedButton.icon(
             onPressed: () => _revokeAssignment(assignment),
             icon: const Icon(CoolIcons.removeCircle, size: 16),
-            label: const Text('Revoke'),
+            label: Text(context.l10n.adminRolesButtonRevoke),
           ),
         ),
       ],
@@ -309,7 +307,7 @@ class _ManageAdminRolesScreenState
       builder: (dialogContext) => AlertDialog(
         backgroundColor: colors.overlaySurface,
         title: Text(
-          'Revoke Role',
+          context.l10n.adminRolesRevokeTitle,
           style: theme.textTheme.titleLarge?.copyWith(
             color: colors.primaryText,
             fontWeight: FontWeight.w800,
@@ -352,12 +350,12 @@ class _ManageAdminRolesScreenState
       if (!mounted) {
         return;
       }
-      CoolToast.success(context, 'Role revoked.');
+      CoolToast.success(context, context.l10n.adminRolesRevokeSuccess);
     } catch (error) {
       if (!mounted) {
         return;
       }
-      CoolToast.error(context, 'Failed: $error');
+      CoolToast.error(context, context.l10n.adminRolesRevokeFailed(error.toString()));
     }
   }
 

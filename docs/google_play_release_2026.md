@@ -25,7 +25,7 @@ the remaining Google Play and Firebase work.
 - The release manifest explicitly strips transitive audio, storage, phone-state, install-referrer, and ad-attribution permissions from library manifests.
 - Android M-Money SMS verification remains enabled for production builds.
 - The build flag `ENABLE_ANDROID_MOMO_SMS_AUTOREAD` defaults to `true`, and
-  `scripts/build_play_release.sh` also forces it on for release builds.
+  `scripts/deploy/build_play_release.sh` also forces it on for release builds.
 - The current on-disk AAB predates this restoration of release SMS permissions,
   so a fresh signed AAB must be rebuilt before upload.
 - Reviewer OTP auth no longer depends on hosted phone login. `verify-otp` now
@@ -176,7 +176,7 @@ the remaining Google Play and Firebase work.
   - SMS boundary tests pass
 - The full repo test suite should be rerun on the stabilized remediation
   branch before upload.
-- Added `scripts/build_play_release.sh` to build a Play-ready AAB with required
+- Added `scripts/deploy/build_play_release.sh` to build a Play-ready AAB with required
   `--dart-define` values.
 
 ## Required Next Actions
@@ -220,7 +220,7 @@ the remaining Google Play and Firebase work.
 ```bash
 SUPABASE_PRODUCTION_URL="https://your-project.supabase.co" \
 SUPABASE_PRODUCTION_ANON_KEY="your-anon-key" \
-bash scripts/build_play_release.sh
+bash scripts/deploy/build_play_release.sh
 ```
 
 Mobility subscription recipient codes are configured in Admin > App Config,

@@ -12,10 +12,11 @@ SMS ingest path and the admin operations dashboard.
 
 - Android SMS autoread is implemented in app code via
   `lib/features/momo/services/momo_sms_autoread_service.dart`.
-- Captured messages are normalized and inserted through
-  `lib/features/momo/repositories/momo_sms_ingestion_repository.dart`.
-- Raw messages land in `public.momo_sms_raw`.
-- The client immediately queues `parse-momo-sms` for server-side parsing.
+- Captured messages are filtered and retried by the native Android bridge,
+  then delivered to `supabase/functions/sms-ingest/index.ts`.
+- `sms-ingest` authenticates the caller, checks App Check when enforced,
+  validates approved sender tokens, inserts raw evidence into
+  `public.momo_sms_raw`, and queues `parse-momo-sms` for server-side parsing.
 - Sensitive retention is now bounded by
   `public.redact_momo_sms_artifacts_due(...)`, which redacts raw SMS bodies
   after successful parse + matched reconciliation and clears stored AI payloads
@@ -92,22 +93,22 @@ migration safety. It runs through Supabase cron, inserts `system`-origin
 database checks.
 
 For repeatable environment verification from the repo, use
-`scripts/verify_momo_sms_supabase_rollout.sh`. It checks the expected M-Money
+`scripts/qa/verify_momo_sms_supabase_rollout.sh`. It checks the expected M-Money
 SMS migrations, cron jobs, legacy contribution-row invariants, summary metrics,
 release-dashboard status, and latest trusted migration-safety event against the
 target database referenced by `DATABASE_URL` or `SUPABASE_DB_URL`.
 
-The same verifier is now wired into `scripts/release_readiness.sh` as an opt-in
+The same verifier is now wired into `scripts/qa/release_readiness.sh` as an opt-in
 remote gate and can run automatically in GitHub Actions when `SUPABASE_DB_URL`
 is configured.
 
-For repo-local regression coverage, `scripts/check_momo_sms_contracts.sh`
+For repo-local regression coverage, `scripts/qa/check_momo_sms_contracts.sh`
 validates the verifier scripts and workflows, then runs the focused Flutter and
 Deno M-Money SMS contract tests. The main CI workflow exposes this as the
 `M-Money SMS Contracts` job.
 
 For mobile-runtime coverage, the repo now also ships
-`scripts/run_momo_sms_device_integration.sh` and the nightly/on-demand GitHub
+`scripts/qa/run_momo_sms_device_integration.sh` and the nightly/on-demand GitHub
 workflow `momo-sms-device-integration.yml`. That lane seeds approved sender SMS
 rows into an Android emulator inbox, grants SMS permissions, runs the real
 `Telephony.getInboxSms()` sync path, and stores logcat plus seeded inbox

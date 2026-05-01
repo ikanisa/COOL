@@ -35,7 +35,9 @@ import '../widgets/biopay_payee_confirmation_sheet.dart';
 import '../widgets/biopay_scanner_shell.dart';
 
 part 'biopay_scan_screen_footer.dart';
+part 'biopay_scan_screen_lifecycle.dart';
 part 'biopay_scan_screen_processing.dart';
+part 'biopay_scan_screen_view.dart';
 
 enum BiopayScanMode { enroll, pay }
 
@@ -52,7 +54,10 @@ class BiopayScanScreen extends ConsumerStatefulWidget {
 class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
   final _faceDetectionService = BiopayFaceDetectionService();
   final _faceAlignmentService = BiopayFaceAlignmentService();
-  final _embeddingService = BiopayEmbeddingService();
+
+  /// Singleton embedding service from the provider (lazy-loaded once, shared).
+  BiopayEmbeddingService get _embeddingService =>
+      ref.read(biopayEmbeddingProvider).requireValue;
   final List<Float32List> _enrollmentEmbeddings = <Float32List>[];
   late final BiopayLivenessService _livenessService;
   late CameraLensDirection _selectedLensDirection;
@@ -104,39 +109,11 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
   @override
   void dispose() {
     _finishStartupTrace(phase: 'dispose');
-    _embeddingService.dispose();
     unawaited(_faceDetectionService.close());
     final controller = _controller;
     _controller = null;
     controller?.dispose();
     super.dispose();
-  }
-
-  Future<void> _stopTrace(
-    String name, {
-    Map<String, int>? metrics,
-    Map<String, String>? attributes,
-  }) {
-    return ref
-        .read(performanceServiceProvider)
-        .stopTrace(name, metrics: metrics, attributes: attributes);
-  }
-
-  void _finishStartupTrace({required String phase, String? error}) {
-    if (_startupTraceCompleted) {
-      return;
-    }
-    _startupTraceCompleted = true;
-    unawaited(
-      _stopTrace(
-        'biopay_scan_startup',
-        attributes: <String, String>{
-          'mode': widget.mode.name,
-          'phase': phase,
-          if (error != null && error.isNotEmpty) 'error': error,
-        },
-      ),
-    );
   }
 
   Future<void> _loadCameraState() async {
@@ -332,14 +309,25 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
           .read(performanceServiceProvider)
           .startTrace('biopay_embedding_warmup');
     }
-    final ready = await _embeddingService.ensureInitialized();
+
+    // Trigger the singleton provider (lazy-load on first access).
+    try {
+      await ref.read(biopayEmbeddingProvider.future);
+    } catch (_) {
+      // Error will be surfaced through the provider's AsyncValue state below.
+    }
+
     if (!mounted) {
       return;
     }
 
+    final embeddingState = ref.read(biopayEmbeddingProvider);
+    final ready = embeddingState.hasValue;
+    final errorMessage = embeddingState.error?.toString();
+
     setState(() {
       _isEmbeddingReady = ready;
-      _pipelineError = ready ? null : _embeddingService.initializationError;
+      _pipelineError = ready ? null : errorMessage;
       final l10n = context.l10n;
       _statusLabel = widget.mode == BiopayScanMode.enroll
           ? l10n.biopayScanAlignFace
@@ -355,16 +343,12 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
         attributes: <String, String>{
           'mode': widget.mode.name,
           'ready': ready ? 'true' : 'false',
-          if (!ready && _embeddingService.initializationError != null)
-            'error': _embeddingService.initializationError!,
+          if (!ready && errorMessage != null) 'error': errorMessage,
         },
       ),
     );
     if (!ready) {
-      _finishStartupTrace(
-        phase: 'pipeline_error',
-        error: _embeddingService.initializationError,
-      );
+      _finishStartupTrace(phase: 'pipeline_error', error: errorMessage);
     }
     _livenessService.reset();
 
@@ -482,215 +466,6 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
     setState(updates);
   }
 
-  Future<void> _processFrame(CameraImage frame) =>
-      _processBiopayFrame(this, frame);
-
-  void _applyAnalysisFeedback(
-    BiopayFaceFrameAnalysis analysis,
-    int stableFramesRequired,
-  ) => _applyBiopayAnalysisFeedback(this, analysis, stableFramesRequired);
-
-  Future<void> _handleEnrollmentEmbedding(Float32List embedding) =>
-      _handleBiopayEnrollmentEmbedding(this, embedding);
-
-  Future<void> _handleMatchEmbedding(Float32List embedding) =>
-      _handleBiopayMatchEmbedding(this, embedding);
-
-  void _setScannerState({
-    required BiopayScannerTone tone,
-    required String statusLabel,
-    required String helperText,
-  }) => _setBiopayScannerState(
-    this,
-    tone: tone,
-    statusLabel: statusLabel,
-    helperText: helperText,
-  );
-
-  BiopayScannerTone _scannerToneForLiveness(
-    BiopayLivenessFeedbackLevel level,
-  ) => _scannerToneForBiopayLiveness(level);
-
-  Widget? _buildScannerFooter(
-    BuildContext context, {
-    required bool enabled,
-    required bool isCameraReady,
-  }) => _buildBiopayScannerFooter(
-    this,
-    context,
-    enabled: enabled,
-    isCameraReady: isCameraReady,
-  );
-
   @override
-  Widget build(BuildContext context) {
-    final adminAccess = ref.watch(adminWorkspaceAccessProvider);
-    final enabled = ref.watch(
-      featureFlagsStateProvider.select(
-        (flags) =>
-            flags.isBiopayEnabled(isAdmin: adminAccess.hasPlatformAccess),
-      ),
-    );
-    final isEnroll = widget.mode == BiopayScanMode.enroll;
-    final snapshot = _cameraSnapshot;
-    final isCameraReady =
-        snapshot?.isReady == true &&
-        _controller != null &&
-        _controller!.value.isInitialized &&
-        !_isInitializingCamera;
-
-    final tone = _cameraError != null
-        ? BiopayScannerTone.error
-        : isCameraReady
-        ? _tone
-        : (snapshot?.kind == AppAccessStateKind.blockedInSystem ||
-                  snapshot?.kind == AppAccessStateKind.disabledInApp
-              ? BiopayScannerTone.blocked
-              : BiopayScannerTone.searching);
-
-    return PopScope<void>(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        if (!didPop) {
-          _closeScanner();
-        }
-      },
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Stack(
-          children: [
-            // Only show the scanner shell (oval, dots, camera preview)
-            // when the camera is ready or camera access is needed.
-            // During initial loading, show a clean black screen.
-            if (isCameraReady || !_isInitializingCamera)
-              Positioned.fill(
-                child: BiopayScannerShell(
-                  controller: _controller,
-                  isCameraReady: isCameraReady,
-                  tone: tone,
-                  sampleCount: _capturedEnrollmentFrames,
-                  totalSamples: 5,
-                  isEnrollMode: isEnroll,
-                  footer: _buildScannerFooter(
-                    context,
-                    enabled: enabled,
-                    isCameraReady: isCameraReady,
-                  ),
-                ),
-              ),
-
-            // Clean centered loading state during camera initialization
-            if (_isInitializingCamera)
-              Positioned.fill(
-                child: ColoredBox(
-                  color: Colors.black,
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const SizedBox(
-                          width: 32,
-                          height: 32,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.4,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.white54,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Text(
-                          context.l10n.biopayScanCameraLoading,
-                          style: context.coolText.manrope(
-                            null,
-                            color: Colors.white54,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 0.3,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-            // Back button — always visible
-            Positioned(
-              top: MediaQuery.viewPaddingOf(context).top + CoolSpace.x4,
-              left: CoolSpace.x4,
-              child: Material(
-                color: Colors.black.withValues(alpha: 0.42),
-                borderRadius: BorderRadius.circular(18),
-                child: InkWell(
-                  onTap: _closeScanner,
-                  borderRadius: BorderRadius.circular(18),
-                  child: Container(
-                    width: 56,
-                    height: 56,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18),
-                      border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.08),
-                      ),
-                    ),
-                    alignment: Alignment.center,
-                    child: const Icon(
-                      CoolIcons.backIos,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            if (_canSwitchEnrollmentCamera)
-              Positioned(
-                top: MediaQuery.viewPaddingOf(context).top + CoolSpace.x4,
-                right: CoolSpace.x4,
-                child: Tooltip(
-                  message: _cameraSwitchTooltip,
-                  child: Material(
-                    color: Colors.black.withValues(alpha: 0.42),
-                    borderRadius: BorderRadius.circular(18),
-                    child: InkWell(
-                      onTap: _switchEnrollmentCamera,
-                      borderRadius: BorderRadius.circular(18),
-                      child: Container(
-                        height: 56,
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(18),
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.08),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
-                              Icons.cameraswitch_rounded,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              _cameraSwitchLabel,
-                              style: context.coolText.manrope(
-                                null,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => _buildScannerView(context);
 }

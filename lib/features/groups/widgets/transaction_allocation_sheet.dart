@@ -3,22 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/l10n/l10n.dart';
-import '../../../core/providers/supabase_client_provider.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/money_formatters.dart';
+import '../../../core/utils/user_error.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_state_view.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/transaction_status_chip.dart';
+import '../models/group_member_allocation_option.dart';
+import '../providers/groups_provider.dart';
 import '../../momo/models/momo_statement.dart';
-
-/// A simple group member record for allocation selection.
-class _GroupMemberOption {
-  const _GroupMemberOption({required this.userId, required this.displayName});
-
-  final String userId;
-  final String displayName;
-}
 
 /// Bottom sheet that allows group admins to view, allocate, unallocate,
 /// or reallocate a transaction to/from a group member.
@@ -55,8 +50,9 @@ class TransactionAllocationSheet extends ConsumerStatefulWidget {
 
 class _TransactionAllocationSheetState
     extends ConsumerState<TransactionAllocationSheet> {
-  List<_GroupMemberOption>? _members;
+  List<GroupMemberAllocationOption>? _members;
   bool _isLoadingMembers = false;
+  String? _memberLoadError;
   String? _selectedMemberId;
   bool _isSubmitting = false;
 
@@ -67,36 +63,30 @@ class _TransactionAllocationSheetState
   }
 
   Future<void> _loadMembers() async {
-    setState(() => _isLoadingMembers = true);
+    setState(() {
+      _isLoadingMembers = true;
+      _memberLoadError = null;
+    });
     try {
-      final client = ref.read(supabaseClientProvider);
-      final rows = await client
-          .from('group_members')
-          .select('user_id, display_name')
-          .eq('group_id', widget.groupId)
-          .order('display_name', ascending: true);
+      final repository = ref.read(groupActionsProvider);
+      final members = await repository.getGroupMemberAllocationOptions(
+        widget.groupId,
+      );
 
       if (!mounted) return;
-
-      final members = (rows as List)
-          .whereType<Map<dynamic, dynamic>>()
-          .map(
-            (row) => _GroupMemberOption(
-              userId: row['user_id']?.toString() ?? '',
-              displayName:
-                  row['display_name']?.toString() ?? context.l10n.members2,
-            ),
-          )
-          .where((m) => m.userId.isNotEmpty)
-          .toList(growable: false);
 
       setState(() {
         _members = members;
         _isLoadingMembers = false;
+        _memberLoadError = null;
       });
-    } catch (_) {
+    } catch (error) {
       if (mounted) {
-        setState(() => _isLoadingMembers = false);
+        setState(() {
+          _members = null;
+          _isLoadingMembers = false;
+          _memberLoadError = describeUserFacingError(error);
+        });
       }
     }
   }
@@ -107,14 +97,11 @@ class _TransactionAllocationSheetState
     setState(() => _isSubmitting = true);
     try {
       final l10n = context.l10n;
-      final client = ref.read(supabaseClientProvider);
-      await client.rpc(
-        'allocate_transaction_to_member',
-        params: {
-          'p_ledger_id': widget.entry.ledgerId,
-          'p_group_id': widget.groupId,
-          'p_member_user_id': _selectedMemberId,
-        },
+      final repository = ref.read(groupActionsProvider);
+      await repository.allocateTransactionToMember(
+        ledgerId: widget.entry.ledgerId,
+        groupId: widget.groupId,
+        memberUserId: _selectedMemberId!,
       );
 
       if (!mounted) return;
@@ -134,13 +121,10 @@ class _TransactionAllocationSheetState
     setState(() => _isSubmitting = true);
     try {
       final l10n = context.l10n;
-      final client = ref.read(supabaseClientProvider);
-      await client.rpc(
-        'unallocate_transaction',
-        params: {
-          'p_ledger_id': widget.entry.ledgerId,
-          'p_group_id': widget.groupId,
-        },
+      final repository = ref.read(groupActionsProvider);
+      await repository.unallocateTransaction(
+        ledgerId: widget.entry.ledgerId,
+        groupId: widget.groupId,
       );
 
       if (!mounted) return;
@@ -261,11 +245,7 @@ class _TransactionAllocationSheetState
               else
                 Row(
                   children: [
-                    Icon(
-                      CoolIcons.help,
-                      size: 14,
-                      color: colors.warning,
-                    ),
+                    Icon(CoolIcons.help, size: 14, color: colors.warning),
                     const SizedBox(width: 6),
                     Text(
                       l10n.notYetAllocated,
@@ -311,6 +291,20 @@ class _TransactionAllocationSheetState
           const Padding(
             padding: EdgeInsets.symmetric(vertical: CoolSpace.x4),
             child: Center(child: CircularProgressIndicator()),
+          )
+        else if (_memberLoadError != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: CoolSpace.x2),
+            child: CoolStateView(
+              tone: CoolStateTone.error,
+              title: l10n.groupMembersLoadFailedTitle,
+              message: _memberLoadError!,
+              icon: CoolIcons.error,
+              actionLabel: l10n.retry,
+              onAction: _isSubmitting ? null : () => _loadMembers(),
+              compact: true,
+              center: false,
+            ),
           )
         else if (_members == null || _members!.isEmpty)
           Padding(

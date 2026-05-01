@@ -130,7 +130,7 @@ class SavingsGroupHeaderCard extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Clipboard.setData(ClipboardData(text: inviteCode));
-                  CoolToast.success(context, 'Copied');
+                  CoolToast.success(context, context.l10n.adminSavingsCopied);
                 },
                 child: SavingsInfoChip(
                   label: inviteCode,
@@ -146,7 +146,7 @@ class SavingsGroupHeaderCard extends StatelessWidget {
               child: OutlinedButton.icon(
                 onPressed: onCloseGroup,
                 icon: const Icon(CoolIcons.lock, size: 16),
-                label: const Text('Close Group'),
+                label: Text(context.l10n.adminSavingsCloseGroupButton),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: colors.danger,
                   side: BorderSide(

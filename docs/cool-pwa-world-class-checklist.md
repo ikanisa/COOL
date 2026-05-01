@@ -1,12 +1,12 @@
 # COOL Admin PWA Checklist Mapping
 
 This document maps the April 2026 PWA hardening work to the admin-only web
-client in `apps/cool-pwa/`.
+client in `apps/pwa/`.
 
 ## Scope
 
 - Flutter mobile remains the primary end-user client.
-- `apps/cool-pwa/` is now admin-only.
+- `apps/pwa/` is now admin-only.
 - All active PWA routes live under `/admin/*`.
 - Public landing, profile, notifications, groups, MoMo, install, share, legal,
   and account-deletion pages were removed from the PWA.
@@ -29,11 +29,11 @@ client in `apps/cool-pwa/`.
 ### Performance
 
 - Static route documents are present for every admin domain.
-- Route-level JSON payloads in `apps/cool-pwa/data/*.json` keep shell delivery
+- Route-level JSON payloads in `apps/pwa/data/*.json` keep shell delivery
   light.
 - Local fonts, static assets, and app-shell CSS remain self-hosted.
 - Browser and Lighthouse verification remain in
-  `apps/cool-pwa/scripts/` and `.github/workflows/cool-pwa-ci.yml`.
+  `apps/pwa/scripts/` and `.github/workflows/cool-pwa-ci.yml`.
 
 ### Installability
 
@@ -91,8 +91,8 @@ client in `apps/cool-pwa/`.
 ## Verification Commands
 
 ```bash
-cd apps/cool-pwa && npm test
-cd apps/cool-pwa && npm run audit:lighthouse
+cd apps/pwa && npm test
+cd apps/pwa && npm run audit:lighthouse
 flutter analyze
 flutter test test/docs/pwa_web_assets_test.dart
 ```

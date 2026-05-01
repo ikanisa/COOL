@@ -23,12 +23,12 @@ Last Updated: 2026-04-10 (post-remediation pass)
 Scope:
 - Flutter mobile app route tree and shared UI primitives under `lib/`
 - Flutter admin route tree and admin-specific surfaces under `lib/features/admin/`
-- PWA/admin panel pages and shared CSS under `apps/cool-pwa/`
+- PWA/admin panel pages and shared CSS under `apps/pwa/`
 
 Method:
 - Static implementation audit of routers, screen files, shared widgets, and page CSS
 - Screen inventory built from the route tree in `lib/core/router/app_router.dart`, `lib/core/router/app_shell_branches.dart`, and `lib/core/router/admin_routes.dart`
-- Page inventory built from `apps/cool-pwa/**/*.html`
+- Page inventory built from `apps/pwa/**/*.html`
 - This is not a runtime screenshot pass, so the review focuses on how the UI is implemented, themed, and composed in code
 
 ## Executive Summary
@@ -39,7 +39,7 @@ The Flutter mobile app contains the strongest expression of the target language,
 
 The Flutter admin area is more fragmented. A few screens use the intended admin scaffolds, but most admin screens fall back to ad hoc `Scaffold + AppBar` implementations, which creates visible inconsistency even before comparing them to the design brief.
 
-The PWA/admin panel under `apps/cool-pwa/` is effectively a separate design system. It uses a different palette, different headline font family, visible borders and divider language, and a lighter editorial tone. It is internally consistent, but it is not "Tactile Monolith."
+The PWA/admin panel under `apps/pwa/` is effectively a separate design system. It uses a different palette, different headline font family, visible borders and divider language, and a lighter editorial tone. It is internally consistent, but it is not "Tactile Monolith."
 
 ## Highest-Severity Findings
 
@@ -103,14 +103,14 @@ Impact:
 The PWA CSS establishes a warm neutral/green system with Barlow headlines, Manrope body, DM Mono utilities, visible borders, and a decorative 1px grid overlay. That directly conflicts with the nocturnal violet, no-line, tactile monolith system.
 
 Evidence:
-- `apps/cool-pwa/assets/css/app.css:5-31`
-- `apps/cool-pwa/assets/css/app.css:33-69`
-- `apps/cool-pwa/assets/css/app.css:135-157`
-- `apps/cool-pwa/assets/css/app.css:272-323`
-- `apps/cool-pwa/assets/css/app.css:333-341`
-- `apps/cool-pwa/assets/css/app.css:362-370`
-- `apps/cool-pwa/assets/css/app.css:469-500`
-- `apps/cool-pwa/assets/css/app.css:541-547`
+- `apps/pwa/assets/css/app.css:5-31`
+- `apps/pwa/assets/css/app.css:33-69`
+- `apps/pwa/assets/css/app.css:135-157`
+- `apps/pwa/assets/css/app.css:272-323`
+- `apps/pwa/assets/css/app.css:333-341`
+- `apps/pwa/assets/css/app.css:362-370`
+- `apps/pwa/assets/css/app.css:469-500`
+- `apps/pwa/assets/css/app.css:541-547`
 
 Direct conflicts with the brief:
 - Barlow instead of Space Grotesk for hero/headline typography
@@ -276,16 +276,16 @@ What fails:
 
 | Page | File | Alignment | Notes |
 | --- | --- | --- | --- |
-| PWA overview | `apps/cool-pwa/index.html` | Weak | Consistent with PWA CSS, but not with Tactile Monolith palette, typography, or line rules. |
-| Home | `apps/cool-pwa/home/index.html` | Weak | Editorial and well-organized, but belongs to the green/cream PWA system. |
-| Groups | `apps/cool-pwa/groups/index.html` | Weak | Same system as above; repeated bordered panels and list items. |
-| MoMo | `apps/cool-pwa/momo/index.html` | Weak | Operational page, but rendered in the alternate PWA design language. |
-| Profile | `apps/cool-pwa/profile/index.html` | Weak | Clean information architecture, weak alignment to the requested brand system. |
-| Notifications | `apps/cool-pwa/notifications/index.html` | Weak | Structured well, but visually outside the target system. |
-| Share | `apps/cool-pwa/share/index.html` | Weak | Utility page, still styled via the alternate PWA system. |
-| Install | `apps/cool-pwa/install/index.html` | Weak | Same issue: cohesive internally, off-brief system-wide. |
-| Offline | `apps/cool-pwa/offline/index.html` | Weak | Good fallback UX, but still not in the target visual language. |
-| Admin | `apps/cool-pwa/admin/index.html` | Weak | The clearest "admin panel" HTML page, but it is not Tactile Monolith in palette, typography, or boundaries. |
+| PWA overview | `apps/pwa/index.html` | Weak | Consistent with PWA CSS, but not with Tactile Monolith palette, typography, or line rules. |
+| Home | `apps/pwa/home/index.html` | Weak | Editorial and well-organized, but belongs to the green/cream PWA system. |
+| Groups | `apps/pwa/groups/index.html` | Weak | Same system as above; repeated bordered panels and list items. |
+| MoMo | `apps/pwa/momo/index.html` | Weak | Operational page, but rendered in the alternate PWA design language. |
+| Profile | `apps/pwa/profile/index.html` | Weak | Clean information architecture, weak alignment to the requested brand system. |
+| Notifications | `apps/pwa/notifications/index.html` | Weak | Structured well, but visually outside the target system. |
+| Share | `apps/pwa/share/index.html` | Weak | Utility page, still styled via the alternate PWA system. |
+| Install | `apps/pwa/install/index.html` | Weak | Same issue: cohesive internally, off-brief system-wide. |
+| Offline | `apps/pwa/offline/index.html` | Weak | Good fallback UX, but still not in the target visual language. |
+| Admin | `apps/pwa/admin/index.html` | Weak | The clearest "admin panel" HTML page, but it is not Tactile Monolith in palette, typography, or boundaries. |
 
 ## Concrete Implementation Notes By Surface
 
@@ -345,10 +345,10 @@ Why it misses:
 Internally consistent, externally off-brief.
 
 Evidence:
-- `apps/cool-pwa/assets/css/app.css:217-227`
-- `apps/cool-pwa/assets/css/app.css:272-323`
-- `apps/cool-pwa/assets/css/app.css:333-341`
-- `apps/cool-pwa/assets/css/app.css:491-517`
+- `apps/pwa/assets/css/app.css:217-227`
+- `apps/pwa/assets/css/app.css:272-323`
+- `apps/pwa/assets/css/app.css:333-341`
+- `apps/pwa/assets/css/app.css:491-517`
 
 Why it misses:
 - Borders are first-class primitives
@@ -392,7 +392,7 @@ Actions:
 Right now it does not.
 
 You need a product decision:
-- Either migrate `apps/cool-pwa/` to the same system
+- Either migrate `apps/pwa/` to the same system
 - Or formally document it as a separate visual language with a separate design brief
 
 Trying to treat it as compliant with the current brief would be misleading.

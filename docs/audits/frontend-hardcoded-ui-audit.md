@@ -7,7 +7,7 @@ Date: 2026-04-11
 This audit covers frontend UI surfaces in:
 
 - Flutter app UI under `lib/bootstrap`, `lib/features`, and `lib/shared/widgets`
-- PWA and web UI under `apps/cool-pwa` and `web`
+- PWA and web UI under `apps/pwa` and `web`
 
 The audit focuses on:
 
@@ -70,7 +70,7 @@ Impact:
 
 ### 3. The PWA is largely static hardcoded content
 
-Most `apps/cool-pwa/*.html` routes are written as static marketing or product pages with inline copy in markup. That includes:
+Most `apps/pwa/*.html` routes are written as static marketing or product pages with inline copy in markup. That includes:
 
 - Overview shell
 - Home
@@ -95,9 +95,9 @@ Impact:
 
 The web/PWA layer contains direct values for colors, sizing, spacing, and typography:
 
-- `apps/cool-pwa/assets/css/app.css`
-- `apps/cool-pwa/styles.css`
-- `apps/cool-pwa/landing/index.html`
+- `apps/pwa/assets/css/app.css`
+- `apps/pwa/styles.css`
+- `apps/pwa/landing/index.html`
 - `web/offline.html`
 
 Impact:
@@ -173,25 +173,25 @@ Top files by hardcoded copy count:
 
 | Surface | File | Count | Notes |
 | --- | --- | ---: | --- |
-| PWA overview shell | `apps/cool-pwa/index.html` | 77 | Main PWA product narrative, route labels, CTAs, install/update banners |
-| Privacy page | `apps/cool-pwa/privacy/index.html` | 42 | Static legal copy |
-| Landing page | `apps/cool-pwa/landing/index.html` | 38 | Marketing hero, features, download CTA |
-| PWA home | `apps/cool-pwa/home/index.html` | 37 | Dashboard route labels, metrics, queued form copy |
-| PWA notifications | `apps/cool-pwa/notifications/index.html` | 29 | Notification permission and feed copy |
-| PWA install | `apps/cool-pwa/install/index.html` | 28 | Browser-specific install guidance |
-| PWA groups | `apps/cool-pwa/groups/index.html` | 27 | Group workflow copy |
-| PWA MoMo | `apps/cool-pwa/momo/index.html` | 27 | Payment request and statement copy |
-| Notifications JS | `apps/cool-pwa/assets/js/app_notifications.js` | 27 | Notification titles, actions, and in-app notices |
-| PWA profile | `apps/cool-pwa/profile/index.html` | 25 | Settings, passkeys, install prompts |
+| PWA overview shell | `apps/pwa/index.html` | 77 | Main PWA product narrative, route labels, CTAs, install/update banners |
+| Privacy page | `apps/pwa/privacy/index.html` | 42 | Static legal copy |
+| Landing page | `apps/pwa/landing/index.html` | 38 | Marketing hero, features, download CTA |
+| PWA home | `apps/pwa/home/index.html` | 37 | Dashboard route labels, metrics, queued form copy |
+| PWA notifications | `apps/pwa/notifications/index.html` | 29 | Notification permission and feed copy |
+| PWA install | `apps/pwa/install/index.html` | 28 | Browser-specific install guidance |
+| PWA groups | `apps/pwa/groups/index.html` | 27 | Group workflow copy |
+| PWA MoMo | `apps/pwa/momo/index.html` | 27 | Payment request and statement copy |
+| Notifications JS | `apps/pwa/assets/js/app_notifications.js` | 27 | Notification titles, actions, and in-app notices |
+| PWA profile | `apps/pwa/profile/index.html` | 25 | Settings, passkeys, install prompts |
 
 Concrete examples:
 
-- [apps/cool-pwa/index.html](/Volumes/PRO-G40/COOL/apps/cool-pwa/index.html:155)
-- [apps/cool-pwa/landing/index.html](/Volumes/PRO-G40/COOL/apps/cool-pwa/landing/index.html:338)
-- [apps/cool-pwa/home/index.html](/Volumes/PRO-G40/COOL/apps/cool-pwa/home/index.html:53)
-- [apps/cool-pwa/momo/index.html](/Volumes/PRO-G40/COOL/apps/cool-pwa/momo/index.html:45)
-- [apps/cool-pwa/profile/index.html](/Volumes/PRO-G40/COOL/apps/cool-pwa/profile/index.html:45)
-- [apps/cool-pwa/assets/js/app_notifications.js](/Volumes/PRO-G40/COOL/apps/cool-pwa/assets/js/app_notifications.js:40)
+- [apps/pwa/index.html](/Volumes/PRO-G40/COOL/apps/pwa/index.html:155)
+- [apps/pwa/landing/index.html](/Volumes/PRO-G40/COOL/apps/pwa/landing/index.html:338)
+- [apps/pwa/home/index.html](/Volumes/PRO-G40/COOL/apps/pwa/home/index.html:53)
+- [apps/pwa/momo/index.html](/Volumes/PRO-G40/COOL/apps/pwa/momo/index.html:45)
+- [apps/pwa/profile/index.html](/Volumes/PRO-G40/COOL/apps/pwa/profile/index.html:45)
+- [apps/pwa/assets/js/app_notifications.js](/Volumes/PRO-G40/COOL/apps/pwa/assets/js/app_notifications.js:40)
 
 ## Visual Literal Inventory
 
@@ -199,16 +199,16 @@ Top files by direct visual literal count:
 
 | File | Count | Examples |
 | --- | ---: | --- |
-| `apps/cool-pwa/assets/css/app.css` | 86 | hex colors, font weights, font sizes, spacing, radii |
-| `apps/cool-pwa/landing/index.html` | 44 | inline presentational values mixed with content markup |
+| `apps/pwa/assets/css/app.css` | 86 | hex colors, font weights, font sizes, spacing, radii |
+| `apps/pwa/landing/index.html` | 44 | inline presentational values mixed with content markup |
 | `web/offline.html` | 27 | inline colors, radii, spacing, font sizes |
-| `apps/cool-pwa/styles.css` | 26 | layout and style literals |
-| `apps/cool-pwa/index.html` | 16 | shell-level presentational values |
+| `apps/pwa/styles.css` | 26 | layout and style literals |
+| `apps/pwa/index.html` | 16 | shell-level presentational values |
 
 Concrete examples:
 
-- [app.css](/Volumes/PRO-G40/COOL/apps/cool-pwa/assets/css/app.css:36)
-- [landing/index.html](/Volumes/PRO-G40/COOL/apps/cool-pwa/landing/index.html:338)
+- [app.css](/Volumes/PRO-G40/COOL/apps/pwa/assets/css/app.css:36)
+- [landing/index.html](/Volumes/PRO-G40/COOL/apps/pwa/landing/index.html:338)
 - [web/offline.html](/Volumes/PRO-G40/COOL/web/offline.html:12)
 
 ## What Is Hardcoded Right Now

@@ -52,7 +52,7 @@ Create a safe non-production path for full mutation UAT and stop relying on a st
 - Provision a dedicated staging Supabase project and update:
   - repo root `.env`
   - mobile flavor resolution
-  - `apps/cool-admin/.env`
+  - `apps/admin/.env`
   - any deployment/run scripts that currently resolve staging and production to the same backend
 - Add a boot-time environment check that logs the resolved project ref for:
   - Flutter app
@@ -63,9 +63,9 @@ Create a safe non-production path for full mutation UAT and stop relying on a st
 ### Files/Surfaces
 
 - `.env`
-- `apps/cool-admin/.env`
-- `scripts/_backend_env.sh`
-- `scripts/run_device_integration.sh`
+- `apps/admin/.env`
+- `scripts/lib/_backend_env.sh`
+- `scripts/qa/run_device_integration.sh`
 - any app bootstrap/config file that resolves Supabase URLs at runtime
 
 ### Acceptance Criteria
@@ -137,9 +137,9 @@ Restore a reliable end-to-end OTP path for both normal users and review/test use
 - `supabase/functions/send-otp/index_test.ts`
 - `supabase/functions/verify-otp/index_test.ts`
 - `supabase/functions/verify-otp/verify_otp_helpers_test.ts`
-- `apps/cool-admin/src/pages/auth/Login.tsx`
-- `apps/cool-admin/src/pages/auth/WhatsAppNumber.tsx`
-- `apps/cool-admin/src/pages/auth/WhatsAppOTP.tsx`
+- `apps/admin/src/pages/auth/Login.tsx`
+- `apps/admin/src/pages/auth/WhatsAppNumber.tsx`
+- `apps/admin/src/pages/auth/WhatsAppOTP.tsx`
 - `test/core/services/whatsapp_otp_service_test.dart`
 - `test/features/auth/whatsapp_otp_provider_test.dart`
 - `docs/play_review_access.md`
@@ -158,7 +158,7 @@ Make real-device Flutter UAT predictable and split it into meaningful suites ins
 
 ### Problems to Fix
 
-- `scripts/run_device_integration.sh` only points at `integration_test/critical_journeys_test.dart`.
+- `scripts/qa/run_device_integration.sh` only points at `integration_test/critical_journeys_test.dart`.
 - That target currently exercises only shallow BioPay/deep-link checks.
 - The attached Android device does not currently end up with `app.cool.mobile.staging` installed during the run.
 - SMS inbox sync can self-skip when `READ_SMS` is not granted, masking coverage gaps.
@@ -199,7 +199,7 @@ Make real-device Flutter UAT predictable and split it into meaningful suites ins
 
 ### Files/Surfaces
 
-- `scripts/run_device_integration.sh`
+- `scripts/qa/run_device_integration.sh`
 - `integration_test/critical_journeys_test.dart`
 - `integration_test/momo_sms_inbox_sync_test.dart`
 - new targeted device integration files
@@ -284,13 +284,13 @@ Convert the React admin panel from a mostly read-only console with placeholder a
 
 ### Files/Surfaces
 
-- `apps/cool-admin/src/pages/CreateUser.tsx`
-- `apps/cool-admin/src/pages/Settings.tsx`
-- `apps/cool-admin/src/pages/Groups.tsx`
-- `apps/cool-admin/src/pages/Transactions.tsx`
+- `apps/admin/src/pages/CreateUser.tsx`
+- `apps/admin/src/pages/Settings.tsx`
+- `apps/admin/src/pages/Groups.tsx`
+- `apps/admin/src/pages/Transactions.tsx`
 - admin routes/router configuration
 - new admin detail pages and test files
-- `apps/cool-admin/package.json`
+- `apps/admin/package.json`
 
 ### Acceptance Criteria
 
@@ -411,7 +411,7 @@ Finish the loans domain so “admin create new loan” and “record repayment /
 
 - `supabase/migrations/20260412142200_create_loans_module.sql`
 - new loan follow-up migration(s)
-- `apps/cool-admin/src/pages/Loans.tsx`
+- `apps/admin/src/pages/Loans.tsx`
 - new loan pages/components/tests
 
 ### Acceptance Criteria

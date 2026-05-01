@@ -5,12 +5,22 @@ import {
   jsonResponse,
   methodNotAllowed,
 } from "../_shared/http.ts";
-import {
+import { createAdminClient, createUserClient } from "../_shared/supabase.ts";
+
+type AdminClient = ReturnType<typeof createAdminClient>;
+type UserClient = ReturnType<typeof createUserClient>;
+
+export interface AllocateContributionsHandlerDependencies {
+  createAdminClient: () => AdminClient;
+  createUserClient: (authorization: string) => UserClient;
+  getGeminiApiKey: () => string;
+}
+
+const defaultDeps: AllocateContributionsHandlerDependencies = {
   createAdminClient,
   createUserClient,
-} from "../_shared/supabase.ts";
-
-const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
+  getGeminiApiKey: () => Deno.env.get("GEMINI_API_KEY") ?? "",
+};
 
 interface ReconRow {
   id: string;
@@ -37,12 +47,9 @@ interface GroupMember {
   contribution_amount: number;
 }
 
-type AuthenticatedCaller = {
-  userId: string;
-  isAppAdmin: boolean;
-  isGlobalBankAdmin: boolean;
-  appMetadata: Record<string, unknown>;
-};
+interface ScopedManualReview {
+  review_id: string;
+}
 
 class HttpError extends Error {
   constructor(public readonly status: number, message: string) {
@@ -50,168 +57,191 @@ class HttpError extends Error {
   }
 }
 
-Deno.serve(async (req: Request) => {
-  const corsResponse = handleCors(req);
-  if (corsResponse) {
-    return corsResponse;
-  }
-
-  if (req.method !== "POST") {
-    return methodNotAllowed("POST");
-  }
-
-  try {
-    const authorization =
-      req.headers.get("authorization")?.trim() ??
-      req.headers.get("Authorization")?.trim();
-    if (!authorization) {
-      return errorResponse("Authentication required", 401);
+export function createAllocateContributionsHandler(
+  deps: AllocateContributionsHandlerDependencies = defaultDeps,
+) {
+  return async (req: Request): Promise<Response> => {
+    const corsResponse = handleCors(req);
+    if (corsResponse) {
+      return corsResponse;
     }
 
-    const caller = await requireCaller(authorization);
-    const { partner_id } = await req.json().catch(() => ({ partner_id: null }));
-    const partnerId = normalizePartnerId(partner_id);
-    if (!partnerId) {
-      return errorResponse("partner_id is required", 400);
-    }
-    if (!hasBankAdminAccess(caller, partnerId)) {
-      return errorResponse(
-        "Not authorized to allocate contributions for this partner.",
-        403,
-      );
+    if (req.method !== "POST") {
+      return methodNotAllowed("POST");
     }
 
-    const supabase = createAdminClient();
+    try {
+      const authorization = req.headers.get("authorization")?.trim() ??
+        req.headers.get("Authorization")?.trim();
+      if (!authorization) {
+        return errorResponse("Authentication required", 401);
+      }
 
-    // 1. Fetch unresolved reconciliations
-    const { data: recons, error: reconErr } = await supabase
-      .from("momo_reconciliations")
-      .select("id, match_status, parsed_sms_id, metadata")
-      .in("match_status", ["pending_review", "manual_review"])
-      .order("created_at", { ascending: false })
-      .limit(50);
+      const userClient = deps.createUserClient(authorization);
+      await requireCaller(userClient);
 
-    if (reconErr) {
-      return jsonResponse({ error: reconErr.message }, 500);
-    }
-
-    if (!recons || recons.length === 0) {
-      return jsonResponse({ message: "No unresolved allocations found.", processed: 0 });
-    }
-
-    // 2. Fetch parsed SMS data for these reconciliations
-    const parsedIds = recons.map((r: ReconRow) => r.parsed_sms_id).filter(Boolean);
-    const { data: parsedList } = await supabase
-      .from("momo_sms_parsed")
-      .select("id, amount, payer_phone, payer_name, momo_tx_id, payee_phone")
-      .in("id", parsedIds);
-
-    const parsedMap = new Map<string, ParsedSms>();
-    for (const p of parsedList ?? []) {
-      parsedMap.set(p.id, p);
-    }
-
-    // 3. Fetch all group members with user phones for matching
-    const membersResult = await supabase.rpc("get_bank_all_group_members_for_matching", {
-      p_partner_id: partnerId,
-    });
-
-    // Fallback: direct query if RPC doesn't exist
-    let memberList: GroupMember[] = membersResult.error
-      ? []
-      : (membersResult.data ?? []);
-    if (memberList.length === 0) {
-      const { data: fallbackMembers } = await supabase
-        .from("group_members")
-        .select(`
-          user_id,
-          display_name,
-          group_id,
-          contribution_amount,
-          users!inner(phone),
-          groups!inner(name)
-        `)
-        .limit(500);
-
-      memberList = (fallbackMembers ?? []).map((m: Record<string, unknown>) => ({
-        user_id: m.user_id as string,
-        display_name: (m.display_name as string) ?? "",
-        phone: ((m as Record<string, Record<string, string>>).users?.phone) ?? "",
-        group_id: m.group_id as string,
-        group_name: ((m as Record<string, Record<string, string>>).groups?.name) ?? "",
-        contribution_amount: (m.contribution_amount as number) ?? 0,
+      const { partner_id } = await req.json().catch(() => ({
+        partner_id: null,
       }));
-    }
+      const partnerId = normalizePartnerId(partner_id);
+      if (!partnerId) {
+        return errorResponse("partner_id is required", 400);
+      }
 
-    let processed = 0;
-    let suggested = 0;
-    let autoAllocated = 0;
+      const adminClient = deps.createAdminClient();
 
-    // 4. Process each unresolved reconciliation
-    for (const recon of recons as ReconRow[]) {
-      const parsed = parsedMap.get(recon.parsed_sms_id);
-      if (!parsed) continue;
+      // 1. Fetch only reviews visible in the caller's bank workspace. This RPC
+      // runs with the user's JWT so auth.uid() and bank custody guards apply.
+      const { data: scopedReviews, error: scopedReviewErr } = await userClient
+        .rpc("get_bank_manual_review_allocations", {
+          p_partner_id: partnerId,
+          p_limit: 50,
+          p_offset: 0,
+        });
 
-      const candidates = scoreCandidates(parsed, memberList, recon);
+      if (scopedReviewErr) {
+        return jsonResponse(
+          { error: scopedReviewErr.message },
+          rpcErrorStatus(scopedReviewErr.message),
+        );
+      }
 
-      if (candidates.length === 0) continue;
+      const reviewIds = ((scopedReviews ?? []) as ScopedManualReview[])
+        .map((review) => review.review_id)
+        .filter(Boolean);
 
-      const best = candidates[0];
+      if (reviewIds.length === 0) {
+        return jsonResponse({
+          message: "No unresolved allocations found.",
+          processed: 0,
+        });
+      }
 
-      if (best.score >= 85) {
-        // High confidence: auto-allocate
-        try {
-          await supabase.rpc("bank_allocate_manual_review_allocation", {
-            p_partner_id: partnerId,
-            p_review_id: recon.id,
-            p_group_id: best.group_id,
-            p_member_user_id: best.user_id,
-            p_note: `AI auto-allocated (${best.score}% confidence). ${best.reasoning}`,
-          });
-          autoAllocated++;
-        } catch {
-          // If auto-allocate fails (e.g., auth issue), fall through to suggestion
-          await writeSuggestion(supabase, recon.id, best);
+      const { data: recons, error: reconErr } = await adminClient
+        .from("momo_reconciliations")
+        .select("id, match_status, parsed_sms_id, metadata")
+        .in("id", reviewIds)
+        .in("match_status", ["pending_review", "manual_review", "suggested"])
+        .order("created_at", { ascending: false })
+        .limit(50);
+
+      if (reconErr) {
+        return jsonResponse({ error: reconErr.message }, 500);
+      }
+
+      if (!recons || recons.length === 0) {
+        return jsonResponse({
+          message: "No unresolved allocations found.",
+          processed: 0,
+        });
+      }
+
+      // 2. Fetch parsed SMS data for these reconciliations
+      const parsedIds = recons.map((r: ReconRow) => r.parsed_sms_id).filter(
+        Boolean,
+      );
+      const { data: parsedList } = await adminClient
+        .from("momo_sms_parsed")
+        .select("id, amount, payer_phone, payer_name, momo_tx_id, payee_phone")
+        .in("id", parsedIds);
+
+      const parsedMap = new Map<string, ParsedSms>();
+      for (const p of parsedList ?? []) {
+        parsedMap.set(p.id, p);
+      }
+
+      // 3. Fetch only members in the same bank workspace. There is no unscoped
+      // direct-query fallback because suggestions contain member identity data.
+      const membersResult = await userClient.rpc(
+        "get_bank_all_group_members_for_matching",
+        {
+          p_partner_id: partnerId,
+        },
+      );
+
+      if (membersResult.error) {
+        return jsonResponse(
+          { error: membersResult.error.message },
+          rpcErrorStatus(membersResult.error.message),
+        );
+      }
+
+      const memberList: GroupMember[] =
+        (membersResult.data ?? []) as GroupMember[];
+
+      let processed = 0;
+      let suggested = 0;
+      let autoAllocated = 0;
+
+      // 4. Process each unresolved reconciliation
+      for (const recon of recons as ReconRow[]) {
+        const parsed = parsedMap.get(recon.parsed_sms_id);
+        if (!parsed) continue;
+
+        const candidates = scoreCandidates(parsed, memberList, recon);
+
+        if (candidates.length === 0) continue;
+
+        const best = candidates[0];
+
+        if (best.score >= 85) {
+          // High confidence: auto-allocate
+          try {
+            const allocationResult = await userClient.rpc(
+              "bank_allocate_manual_review_allocation",
+              {
+                p_partner_id: partnerId,
+                p_review_id: recon.id,
+                p_group_id: best.group_id,
+                p_member_user_id: best.user_id,
+                p_note:
+                  `AI auto-allocated (${best.score}% confidence). ${best.reasoning}`,
+              },
+            );
+            if (allocationResult.error) {
+              throw new Error(allocationResult.error.message);
+            }
+            autoAllocated++;
+          } catch {
+            // If auto-allocate fails (e.g., auth issue), fall through to suggestion
+            await writeSuggestion(userClient, partnerId, recon.id, best);
+            suggested++;
+          }
+        } else if (best.score >= 40) {
+          // Medium confidence: suggest for review
+          await writeSuggestion(userClient, partnerId, recon.id, best);
           suggested++;
         }
-      } else if (best.score >= 40) {
-        // Medium confidence: suggest for review
-        await writeSuggestion(supabase, recon.id, best);
-        suggested++;
+        // Low confidence: leave as manual_review
+
+        processed++;
       }
-      // Low confidence: leave as manual_review
 
-      processed++;
-    }
+      // 5. If Gemini is available, do fuzzy name matching on remaining unresolved
+      if (deps.getGeminiApiKey()) {
+        // Gemini enhancement would go here for truly ambiguous cases
+        // For now, the scoring heuristic handles most cases well
+      }
 
-    // 5. If Gemini is available, do fuzzy name matching on remaining unresolved
-    if (GEMINI_API_KEY) {
-      const unresolved = recons.filter(
-        (r: ReconRow) => !parsedMap.get(r.parsed_sms_id)
-      );
-      // Gemini enhancement would go here for truly ambiguous cases
-      // For now, the scoring heuristic handles most cases well
+      return jsonResponse({
+        message: "AI allocation complete.",
+        processed,
+        suggested,
+        auto_allocated: autoAllocated,
+        total_unresolved: recons.length,
+      });
+    } catch (err) {
+      if (err instanceof HttpError) {
+        return errorResponse(err.message, err.status);
+      }
+      return jsonResponse({ error: (err as Error).message }, 500);
     }
-
-    return jsonResponse({
-      message: "AI allocation complete.",
-      processed,
-      suggested,
-      auto_allocated: autoAllocated,
-      total_unresolved: recons.length,
-    });
-  } catch (err) {
-    if (err instanceof HttpError) {
-      return errorResponse(err.message, err.status);
-    }
-    return jsonResponse({ error: (err as Error).message }, 500);
-  }
-});
+  };
+}
 
 async function requireCaller(
-  authorization: string,
-): Promise<AuthenticatedCaller> {
-  const userClient = createUserClient(authorization);
+  userClient: UserClient,
+): Promise<void> {
   const {
     data: { user },
     error,
@@ -220,14 +250,6 @@ async function requireCaller(
   if (error || !user) {
     throw new HttpError(401, "Authentication required");
   }
-
-  const appMetadata = (user.app_metadata ?? {}) as Record<string, unknown>;
-  return {
-    userId: user.id,
-    isAppAdmin: metadataBool(appMetadata["is_admin"]),
-    isGlobalBankAdmin: metadataBool(appMetadata["is_bank_admin"]),
-    appMetadata,
-  };
 }
 
 function normalizePartnerId(value: unknown): string | null {
@@ -238,42 +260,15 @@ function normalizePartnerId(value: unknown): string | null {
   return trimmed.length > 0 ? trimmed : null;
 }
 
-function hasBankAdminAccess(
-  caller: AuthenticatedCaller,
-  partnerId: string,
-): boolean {
-  if (caller.isAppAdmin || caller.isGlobalBankAdmin) {
-    return true;
+function rpcErrorStatus(message: string): number {
+  const normalized = message.toLowerCase();
+  if (
+    normalized.includes("not authorized") ||
+    normalized.includes("forbidden")
+  ) {
+    return 403;
   }
-
-  const ids = caller.appMetadata["bank_admin_ids"];
-  if (Array.isArray(ids)) {
-    return ids.some((value) => value?.toString().trim() === partnerId);
-  }
-  if (ids && typeof ids === "object") {
-    const entries = ids as Record<string, unknown>;
-    return Object.entries(entries).some(
-      ([key, value]) => key.trim() === partnerId && metadataBool(value),
-    );
-  }
-  if (typeof ids === "string") {
-    return ids.split(",").some((value) => value.trim() === partnerId);
-  }
-  return false;
-}
-
-function metadataBool(value: unknown): boolean {
-  if (typeof value === "boolean") {
-    return value;
-  }
-  if (typeof value === "number") {
-    return value !== 0;
-  }
-  if (typeof value === "string") {
-    const normalized = value.trim().toLowerCase();
-    return normalized === "true" || normalized === "1";
-  }
-  return false;
+  return 500;
 }
 
 // ── Scoring engine ──────────────────────────────────────────────
@@ -298,7 +293,8 @@ function scoreCandidates(
 
   // Check metadata for group hints
   const metaGroupId = recon.metadata?.group_id as string | undefined;
-  const matchingGroupIds = (recon.metadata?.matching_group_ids as string[]) ?? [];
+  const matchingGroupIds = (recon.metadata?.matching_group_ids as string[]) ??
+    [];
 
   for (const member of members) {
     let score = 0;
@@ -309,7 +305,9 @@ function scoreCandidates(
     if (payerPhone && memberPhone && payerPhone === memberPhone) {
       score += 45;
       reasons.push("exact phone match");
-    } else if (payerPhone && memberPhone && payerPhone.endsWith(memberPhone.slice(-6))) {
+    } else if (
+      payerPhone && memberPhone && payerPhone.endsWith(memberPhone.slice(-6))
+    ) {
       score += 25;
       reasons.push("partial phone match (last 6 digits)");
     }
@@ -320,7 +318,9 @@ function scoreCandidates(
       if (payerName === memberName) {
         score += 30;
         reasons.push("exact name match");
-      } else if (payerName.includes(memberName) || memberName.includes(payerName)) {
+      } else if (
+        payerName.includes(memberName) || memberName.includes(payerName)
+      ) {
         score += 15;
         reasons.push("partial name match");
       } else {
@@ -338,7 +338,10 @@ function scoreCandidates(
       if (amount === member.contribution_amount) {
         score += 15;
         reasons.push("exact amount match");
-      } else if (Math.abs(amount - member.contribution_amount) / member.contribution_amount < 0.1) {
+      } else if (
+        Math.abs(amount - member.contribution_amount) /
+            member.contribution_amount < 0.1
+      ) {
         score += 8;
         reasons.push("close amount match");
       }
@@ -386,9 +389,7 @@ function normalizePhone(phone: string): string {
 
 function similarityScore(a: string, b: string): number {
   if (a === b) return 1;
-  const longer = a.length > b.length ? a : b;
-  const shorter = a.length > b.length ? b : a;
-  if (longer.length === 0) return 1;
+  if (a.length === 0 && b.length === 0) return 1;
 
   // Simple bigram overlap
   const bigramsA = new Set<string>();
@@ -407,22 +408,31 @@ function similarityScore(a: string, b: string): number {
 // ── Helpers ──────────────────────────────────────────────────────
 
 async function writeSuggestion(
-  supabase: ReturnType<typeof createAdminClient>,
+  userClient: UserClient,
+  partnerId: string,
   reconId: string,
   candidate: ScoredCandidate,
 ) {
-  await supabase
-    .from("momo_reconciliations")
-    .update({
-      match_status: "suggested",
-      metadata: {
-        suggested_group_id: candidate.group_id,
-        suggested_member_user_id: candidate.user_id,
-        suggested_member_name: candidate.display_name,
-        suggested_confidence: candidate.score,
-        ai_reasoning: candidate.reasoning,
-      },
-      updated_at: new Date().toISOString(),
-    })
-    .eq("id", reconId);
+  const { error } = await userClient.rpc(
+    "bank_write_ai_allocation_suggestion",
+    {
+      p_partner_id: partnerId,
+      p_review_id: reconId,
+      p_group_id: candidate.group_id,
+      p_member_user_id: candidate.user_id,
+      p_confidence: candidate.score,
+      p_reasoning: candidate.reasoning,
+    },
+  );
+
+  if (error) {
+    throw new HttpError(
+      403,
+      `Could not write allocation suggestion: ${error.message}`,
+    );
+  }
+}
+
+if (import.meta.main) {
+  Deno.serve(createAllocateContributionsHandler());
 }

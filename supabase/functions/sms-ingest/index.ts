@@ -6,10 +6,16 @@ import {
   jsonResponse,
   methodNotAllowed,
 } from "../_shared/http.ts";
+import { HttpError } from "../_shared/auth.ts";
+import {
+  isAppCheckEnforced,
+  requireAppCheckToken,
+} from "../_shared/app_check.ts";
 import {
   recordEdgeFunctionFailure,
   recordOperationalHealthEvent,
 } from "../_shared/observability.ts";
+import { enforceRateLimit } from "../_shared/rate_limit.ts";
 import {
   loadApprovedMomoSmsSenderTokens,
 } from "../_shared/momo_sms_sender_allowlist.ts";
@@ -57,6 +63,8 @@ type ProcessMessageResult = {
 
 const parseSkippedStatuses = new Set(["processing", "parsed", "ignored"]);
 const rateLimitPerHour = 5000;
+const maxRequestsPerHour = 120;
+const maxMessagesPerRequest = 250;
 
 function normalizeOptionalPhone(value: unknown): string | null {
   const raw = asString(value);
@@ -314,32 +322,59 @@ Deno.serve(async (request: Request) => {
   }
 
   if (request.method !== "POST") {
-    return methodNotAllowed("POST");
+    return methodNotAllowed("POST", request);
   }
 
   const authorization = request.headers.get("authorization");
   if (!authorization) {
-    return errorResponse("Authentication required", 401);
+    return errorResponse("Authentication required", 401, undefined, request);
   }
 
   const adminClient = createAdminClient();
 
   try {
+    if (
+      isAppCheckEnforced([
+        "ENFORCE_SMS_INGEST_APP_CHECK",
+        "ENFORCE_APP_CHECK",
+      ])
+    ) {
+      await requireAppCheckToken(request);
+    }
+
     const userClient = createUserClient(authorization);
     const {
       data: { user },
       error: userError,
     } = await userClient.auth.getUser();
     if (userError || !user) {
-      return errorResponse("Authentication required", 401);
+      return errorResponse("Authentication required", 401, undefined, request);
     }
+
+    await enforceRateLimit(adminClient, user.id, "sms-ingest", {
+      maxRequests: maxRequestsPerHour,
+      windowSeconds: 60 * 60,
+    });
 
     const requestBody = await request.json() as SmsIngestRequest;
     const requestedMessages = Array.isArray(requestBody.messages)
       ? requestBody.messages
       : [requestBody];
     if (requestedMessages.length === 0) {
-      return errorResponse("At least one message is required", 400);
+      return errorResponse(
+        "At least one message is required",
+        400,
+        undefined,
+        request,
+      );
+    }
+    if (requestedMessages.length > maxMessagesPerRequest) {
+      return errorResponse(
+        `Too many messages in one request. Max ${maxMessagesPerRequest}.`,
+        400,
+        { maxMessagesPerRequest },
+        request,
+      );
     }
     const isBatchRequest = Array.isArray(requestBody.messages);
 
@@ -409,7 +444,12 @@ Deno.serve(async (request: Request) => {
       const first = results[0];
       if (!first.success) {
         const status = first.rateLimited ? 429 : 400;
-        return errorResponse(first.error ?? "Failed to ingest SMS", status);
+        return errorResponse(
+          first.error ?? "Failed to ingest SMS",
+          status,
+          undefined,
+          request,
+        );
       }
       return jsonResponse({
         success: true,
@@ -418,7 +458,7 @@ Deno.serve(async (request: Request) => {
         parseQueued: first.parseQueued,
         otpWhatsAppNumber: first.otpWhatsAppNumber,
         results,
-      });
+      }, 200, {}, request);
     }
 
     return jsonResponse({
@@ -428,8 +468,14 @@ Deno.serve(async (request: Request) => {
       duplicateCount,
       failedCount,
       results,
-    });
+    }, 200, {}, request);
   } catch (error) {
+    if (error instanceof SyntaxError) {
+      return errorResponse("Invalid JSON body", 400, undefined, request);
+    }
+    if (error instanceof HttpError) {
+      return errorResponse(error.message, error.status, undefined, request);
+    }
     console.error("sms-ingest failed", error);
     await recordEdgeFunctionFailure(adminClient, {
       functionName: "sms-ingest",
@@ -439,6 +485,8 @@ Deno.serve(async (request: Request) => {
     return errorResponse(
       error instanceof Error ? error.message : "Failed to ingest SMS",
       500,
+      undefined,
+      request,
     );
   }
 });

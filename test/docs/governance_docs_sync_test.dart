@@ -4,9 +4,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../tool/governance_docs.dart';
 import '../helpers/dart_sdk.dart';
+import '../helpers/repo_paths.dart' as paths;
 
 void main() {
-  final repoRoot = Directory.current;
+  final repoRoot = paths.repoRoot();
 
   late String dartBin;
 
@@ -37,4 +38,3 @@ void main() {
     expect(routeInventory, isNot(contains('`/partners/rayon-sports`')));
   });
 }
-

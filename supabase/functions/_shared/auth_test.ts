@@ -251,3 +251,18 @@ Deno.test("requireCronSecret accepts bearer and x-cron-secret inputs", () => {
     (name) => name === "TEST_CRON_SECRET" ? "secret-123" : undefined,
   );
 });
+
+Deno.test("requireCronSecret rejects partial prefix matches", () => {
+  try {
+    requireCronSecret(
+      new Request("https://example.com", {
+        headers: { authorization: "Bearer secret" },
+      }),
+      ["TEST_CRON_SECRET"],
+      (name) => name === "TEST_CRON_SECRET" ? "secret-123" : undefined,
+    );
+    throw new Error("expected requireCronSecret to throw");
+  } catch (error) {
+    expectHttpError(error, 401, "partial cron secret should fail");
+  }
+});

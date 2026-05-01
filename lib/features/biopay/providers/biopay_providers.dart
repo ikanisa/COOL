@@ -10,6 +10,9 @@ import '../services/biopay_cache_service.dart';
 import '../services/biopay_dialer_service.dart';
 import '../services/biopay_embedding_service.dart';
 
+// Re-export the singleton embedding provider for convenient access.
+export 'biopay_embedding_notifier.dart' show biopayEmbeddingProvider;
+
 final biopayRepositoryProvider = Provider<BiopayRepository>((ref) {
   return BiopayRepository(client: ref.read(supabaseClientProvider));
 });

@@ -21,6 +21,10 @@ const Set<String> _exemptFiles = <String>{
   'lib/firebase_options.dart',
   // Generated route definitions (if auto-generated).
   'lib/core/router/app_router.g.dart',
+  // Drift generated database bindings.
+  'lib/core/database/cool_database.g.dart',
+  // Central design-system icon registry; splitting would weaken discovery.
+  'lib/core/theme/cool_icons.dart',
 };
 
 /// Directories to skip entirely (vendor, build output, generated, third-party).

@@ -1,14 +1,14 @@
 web/manifest.json:9:    "background_color": "#0D0A27",
 web/manifest.json:10:    "theme_color": "#0D0A27",
-apps/cool-pwa/share/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
-apps/cool-pwa/share/index.html:9:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
-apps/cool-pwa/offline/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
-apps/cool-pwa/offline/index.html:9:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
+apps/pwa/share/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
+apps/pwa/share/index.html:9:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
+apps/pwa/offline/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
+apps/pwa/offline/index.html:9:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
 web/index.html:21:  <meta name="theme-color" content="#0D0A27">
 web/index.html:78:      background-color: #0D0A27;
 web/index.html:130:        background-color: #0D0A27;
-apps/cool-pwa/notifications/index.html:7:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
-apps/cool-pwa/notifications/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
+apps/pwa/notifications/index.html:7:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
+apps/pwa/notifications/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
 lib/shared/widgets/alias_chip.dart:13:/// AliasChip(alias: '847291', showHash: true) // → #847291
 web/offline.html:12:      background: #0D0A27;
 web/offline.html:13:      color: #F7F9FC;
@@ -37,194 +37,194 @@ web/offline.html:92:      h1 { color: #0B1220; }
 web/offline.html:93:      p { color: #475467; }
 web/offline.html:94:      .retry-btn { background: #0047AB; }
 web/offline.html:95:      .retry-btn:hover { background: #0C64D9; }
-apps/cool-pwa/manifest.webmanifest:18:  "background_color": "#F1EEFF",
-apps/cool-pwa/manifest.webmanifest:19:  "theme_color": "#0D0A27",
-apps/cool-pwa/install/index.html:7:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
-apps/cool-pwa/install/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
-apps/cool-pwa/profile/index.html:7:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
-apps/cool-pwa/profile/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
-apps/cool-pwa/styles.css:2:  --bg: #090c14;
-apps/cool-pwa/styles.css:5:  --text: #f3f7ff;
-apps/cool-pwa/styles.css:6:  --muted: #b9c6dd;
-apps/cool-pwa/styles.css:7:  --accent: #66f2c6;
-apps/cool-pwa/styles.css:8:  --accent-strong: #1dc997;
-apps/cool-pwa/styles.css:9:  --danger: #ff8b8b;
-apps/cool-pwa/styles.css:21:    linear-gradient(180deg, #0a0f1d 0%, #070a12 100%);
-apps/cool-pwa/styles.css:39:  padding: 32px 0 64px;
-apps/cool-pwa/styles.css:46:  border-radius: 24px;
-apps/cool-pwa/styles.css:52:  padding: 28px;
-apps/cool-pwa/styles.css:60:  padding: 6px 12px;
-apps/cool-pwa/styles.css:61:  border-radius: 999px;
-apps/cool-pwa/styles.css:64:  font-size: 13px;
-apps/cool-pwa/styles.css:65:  font-weight: 800;
-apps/cool-pwa/styles.css:84:  font-size: 24px;
-apps/cool-pwa/styles.css:89:  font-size: 18px;
-apps/cool-pwa/styles.css:96:  font-size: 16px;
-apps/cool-pwa/styles.css:117:  border-radius: 999px;
-apps/cool-pwa/styles.css:120:  font-weight: 800;
-apps/cool-pwa/styles.css:125:  color: #04120d;
-apps/cool-pwa/styles.css:135:  padding: 22px;
-apps/cool-pwa/styles.css:141:  font-size: 14px;
-apps/cool-pwa/styles.css:146:  font-weight: 800;
-apps/cool-pwa/styles.css:156:  font-size: 14px;
-apps/cool-pwa/styles.css:176:    border-radius: 20px;
-apps/cool-pwa/styles.css:180:    padding: 22px;
-apps/cool-pwa/groups/index.html:7:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
-apps/cool-pwa/groups/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
-apps/cool-pwa/momo/index.html:7:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
-apps/cool-pwa/momo/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
-apps/cool-pwa/assets/js/app_page.js:258:    .replaceAll("'", '&#039;');
-apps/cool-pwa/assets/js/app_page.js:262:  return escapeHtml(value).replaceAll('`', '&#096;');
-apps/cool-pwa/landing/index.html:8:  <meta name="theme-color" content="#0a0f0a">
-apps/cool-pwa/landing/index.html:30:      --bg: #060a06;
-apps/cool-pwa/landing/index.html:31:      --surface: #0e150e;
-apps/cool-pwa/landing/index.html:32:      --surface-2: #141e14;
-apps/cool-pwa/landing/index.html:35:      --green: #34d399;
-apps/cool-pwa/landing/index.html:38:      --text: #f0fdf4;
-apps/cool-pwa/landing/index.html:39:      --text-dim: #94a3b8;
-apps/cool-pwa/landing/index.html:40:      --text-muted: #64748b;
-apps/cool-pwa/landing/index.html:72:    .nav-brand img { width: 30px; height: 30px; border-radius: 8px; }
-apps/cool-pwa/landing/index.html:73:    .nav-brand span { font-weight: 700; font-size: 17px; letter-spacing: -0.02em; }
-apps/cool-pwa/landing/index.html:81:      font-size: 13.5px; font-weight: 500; transition: color 0.2s;
-apps/cool-pwa/landing/index.html:87:      padding: 8px 18px; border-radius: 10px;
-apps/cool-pwa/landing/index.html:88:      background: var(--green); color: #060a06;
-apps/cool-pwa/landing/index.html:89:      font-size: 13px; font-weight: 700;
-apps/cool-pwa/landing/index.html:92:    .nav-cta:hover { background: #4ade80; box-shadow: 0 0 20px var(--green-glow); }
-apps/cool-pwa/landing/index.html:99:      text-align: center; padding: 100px 24px 80px;
-apps/cool-pwa/landing/index.html:111:      width: 96px; height: 96px; border-radius: 24px;
-apps/cool-pwa/landing/index.html:123:      font-weight: 800; letter-spacing: -0.035em;
-apps/cool-pwa/landing/index.html:131:      margin: 0 auto 40px; font-weight: 300; line-height: 1.5;
-apps/cool-pwa/landing/index.html:140:      padding: 13px 26px; border-radius: 12px;
-apps/cool-pwa/landing/index.html:141:      font-size: 14.5px; font-weight: 500;
-apps/cool-pwa/landing/index.html:147:    .btn-primary { background: var(--green); color: #060a06; }
-apps/cool-pwa/landing/index.html:149:      background: #4ade80;
-apps/cool-pwa/landing/index.html:169:      padding: 100px 24px; max-width: var(--max-w); margin: 0 auto;
-apps/cool-pwa/landing/index.html:172:      font-size: 12px; font-weight: 700; color: var(--green);
-apps/cool-pwa/landing/index.html:177:      font-weight: 700; letter-spacing: -0.025em; margin-bottom: 52px;
-apps/cool-pwa/landing/index.html:187:      border-radius: var(--radius); padding: 28px 24px;
-apps/cool-pwa/landing/index.html:196:      width: 40px; height: 40px; border-radius: 10px;
-apps/cool-pwa/landing/index.html:199:      margin-bottom: 16px; font-size: 20px;
-apps/cool-pwa/landing/index.html:202:      font-size: 15.5px; font-weight: 700; margin-bottom: 6px;
-apps/cool-pwa/landing/index.html:211:      padding: 100px 24px; text-align: center;
-apps/cool-pwa/landing/index.html:223:      font-weight: 700; letter-spacing: -0.025em;
-apps/cool-pwa/landing/index.html:228:      font-size: 16px; font-weight: 300;
-apps/cool-pwa/landing/index.html:238:      padding: 40px 0 32px;
-apps/cool-pwa/landing/index.html:247:    .footer-brand img { width: 28px; height: 28px; border-radius: 7px; }
-apps/cool-pwa/landing/index.html:248:    .footer-brand span { font-weight: 700; font-size: 16px; }
-apps/cool-pwa/landing/index.html:250:      font-size: 13px; color: var(--text-muted); max-width: 280px; line-height: 1.5;
-apps/cool-pwa/landing/index.html:257:      font-size: 12px; font-weight: 700; color: var(--text-dim);
-apps/cool-pwa/landing/index.html:275:    .footer-copy { font-size: 12px; color: var(--text-muted); }
-apps/cool-pwa/landing/index.html:278:      padding: 8px 18px; border-radius: 10px;
-apps/cool-pwa/landing/index.html:280:      color: var(--text); font-size: 13px; font-weight: 500;
-apps/cool-pwa/landing/index.html:325:      <li><a href="#features">Features</a></li>
-apps/cool-pwa/landing/index.html:345:      <a href="#features" class="btn btn-ghost">Explore features</a>
-apps/cool-pwa/landing/index.html:414:              <li><a href="#features">Features</a></li>
-apps/cool-pwa/admin/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
-apps/cool-pwa/admin/index.html:9:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
-apps/cool-pwa/home/index.html:7:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
-apps/cool-pwa/home/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
-apps/cool-pwa/assets/css/app.css:10:  font-weight: 300 900;
-apps/cool-pwa/assets/css/app.css:18:  font-weight: 200 800;
-apps/cool-pwa/assets/css/app.css:26:  font-weight: 100 900;
-apps/cool-pwa/assets/css/app.css:33:  font-weight: 500;
-apps/cool-pwa/assets/css/app.css:38:  --app-background: #0d0a27;
-apps/cool-pwa/assets/css/app.css:39:  --elevated-background: #110e2d;
-apps/cool-pwa/assets/css/app.css:40:  --card-surface: #1a1640;
-apps/cool-pwa/assets/css/app.css:41:  --card-surface-strong: #252054;
-apps/cool-pwa/assets/css/app.css:43:  --primary-text: #f7f9fc;
-apps/cool-pwa/assets/css/app.css:44:  --secondary-text: #b3afcc;
-apps/cool-pwa/assets/css/app.css:45:  --tertiary-text: #8b8a9e;
-apps/cool-pwa/assets/css/app.css:46:  --accent: #8781ff;
-apps/cool-pwa/assets/css/app.css:47:  --accent-strong: #c4c0ff;
-apps/cool-pwa/assets/css/app.css:48:  --accent-deep: #6c63ff;
-apps/cool-pwa/assets/css/app.css:49:  --accent-foreground: #ffffff;
-apps/cool-pwa/assets/css/app.css:50:  --warning: #f59e0b;
-apps/cool-pwa/assets/css/app.css:51:  --danger: #ef4444;
-apps/cool-pwa/assets/css/app.css:52:  --info: #60a5fa;
-apps/cool-pwa/assets/css/app.css:53:  --success: #10b981;
-apps/cool-pwa/assets/css/app.css:78:  --app-background: #f1eeff;
-apps/cool-pwa/assets/css/app.css:79:  --elevated-background: #f8f6ff;
-apps/cool-pwa/assets/css/app.css:80:  --card-surface: #eee8ff;
-apps/cool-pwa/assets/css/app.css:81:  --card-surface-strong: #ffffff;
-apps/cool-pwa/assets/css/app.css:83:  --primary-text: #1a1238;
-apps/cool-pwa/assets/css/app.css:84:  --secondary-text: #60587f;
-apps/cool-pwa/assets/css/app.css:85:  --tertiary-text: #837a9d;
-apps/cool-pwa/assets/css/app.css:86:  --accent: #8781ff;
-apps/cool-pwa/assets/css/app.css:87:  --accent-strong: #c4c0ff;
-apps/cool-pwa/assets/css/app.css:88:  --accent-deep: #6c63ff;
-apps/cool-pwa/assets/css/app.css:89:  --accent-foreground: #ffffff;
-apps/cool-pwa/assets/css/app.css:90:  --warning: #f59e0b;
-apps/cool-pwa/assets/css/app.css:91:  --danger: #ef4444;
-apps/cool-pwa/assets/css/app.css:92:  --info: #3b82f6;
-apps/cool-pwa/assets/css/app.css:93:  --success: #10b981;
-apps/cool-pwa/assets/css/app.css:103:  --app-background: #0d0a27;
-apps/cool-pwa/assets/css/app.css:104:  --elevated-background: #110e2d;
-apps/cool-pwa/assets/css/app.css:105:  --card-surface: #1a1640;
-apps/cool-pwa/assets/css/app.css:106:  --card-surface-strong: #252054;
-apps/cool-pwa/assets/css/app.css:108:  --primary-text: #f7f9fc;
-apps/cool-pwa/assets/css/app.css:109:  --secondary-text: #b3afcc;
-apps/cool-pwa/assets/css/app.css:110:  --tertiary-text: #8b8a9e;
-apps/cool-pwa/assets/css/app.css:111:  --accent: #8781ff;
-apps/cool-pwa/assets/css/app.css:112:  --accent-strong: #c4c0ff;
-apps/cool-pwa/assets/css/app.css:113:  --accent-deep: #6c63ff;
-apps/cool-pwa/assets/css/app.css:114:  --accent-foreground: #ffffff;
-apps/cool-pwa/assets/css/app.css:115:  --warning: #f59e0b;
-apps/cool-pwa/assets/css/app.css:116:  --danger: #ef4444;
-apps/cool-pwa/assets/css/app.css:117:  --info: #60a5fa;
-apps/cool-pwa/assets/css/app.css:118:  --success: #10b981;
-apps/cool-pwa/assets/css/app.css:128:    --app-background: #0d0a27;
-apps/cool-pwa/assets/css/app.css:129:    --elevated-background: #110e2d;
-apps/cool-pwa/assets/css/app.css:130:    --card-surface: #1a1640;
-apps/cool-pwa/assets/css/app.css:131:    --card-surface-strong: #252054;
-apps/cool-pwa/assets/css/app.css:133:    --primary-text: #f7f9fc;
-apps/cool-pwa/assets/css/app.css:134:    --secondary-text: #b3afcc;
-apps/cool-pwa/assets/css/app.css:135:    --tertiary-text: #8b8a9e;
-apps/cool-pwa/assets/css/app.css:136:    --accent: #8781ff;
-apps/cool-pwa/assets/css/app.css:137:    --accent-strong: #c4c0ff;
-apps/cool-pwa/assets/css/app.css:138:    --accent-deep: #6c63ff;
-apps/cool-pwa/assets/css/app.css:139:    --accent-foreground: #ffffff;
-apps/cool-pwa/assets/css/app.css:140:    --warning: #f59e0b;
-apps/cool-pwa/assets/css/app.css:141:    --danger: #ef4444;
-apps/cool-pwa/assets/css/app.css:142:    --info: #60a5fa;
-apps/cool-pwa/assets/css/app.css:143:    --success: #10b981;
-apps/cool-pwa/assets/css/app.css:221:  border-radius: 999px;
-apps/cool-pwa/assets/css/app.css:268:  border-radius: 20px;
-apps/cool-pwa/assets/css/app.css:274:  padding: 8px;
-apps/cool-pwa/assets/css/app.css:293:  font-weight: 800;
-apps/cool-pwa/assets/css/app.css:313:  border-radius: 999px;
-apps/cool-pwa/assets/css/app.css:328:  font-weight: 800;
-apps/cool-pwa/assets/css/app.css:394:  border-radius: 999px;
-apps/cool-pwa/assets/css/app.css:396:  color: #0d0a27;
-apps/cool-pwa/assets/css/app.css:397:  font-weight: 800;
-apps/cool-pwa/assets/css/app.css:468:  font-weight: 800;
-apps/cool-pwa/assets/css/app.css:538:  border-radius: 999px;
-apps/cool-pwa/assets/css/app.css:554:  border-radius: 999px;
-apps/cool-pwa/assets/css/app.css:557:  font-weight: 800;
-apps/cool-pwa/assets/css/app.css:609:  border-radius: 999px;
-apps/cool-pwa/assets/css/app.css:611:  font-weight: 800;
-apps/cool-pwa/assets/css/app.css:653:  font-weight: 800;
-apps/cool-pwa/assets/css/app.css:661:  font-size: 16px;
-apps/cool-pwa/assets/css/app.css:662:  border-radius: 24px;
-apps/cool-pwa/assets/css/app.css:752:  border-radius: 14px;
-apps/cool-pwa/assets/css/app.css:808:  border-radius: 999px;
-apps/cool-pwa/assets/css/app.css:811:  font-weight: 800;
-apps/cool-pwa/assets/css/app.css:899:    border-radius: 28px;
-apps/cool-pwa/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
-apps/cool-pwa/index.html:9:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
-apps/cool-pwa/index.html:33:        --app-background: #0d0a27;
-apps/cool-pwa/index.html:35:        --card-surface: #1a1640;
-apps/cool-pwa/index.html:36:        --card-surface-strong: #252054;
-apps/cool-pwa/index.html:37:        --primary-text: #f7f9fc;
-apps/cool-pwa/index.html:38:        --secondary-text: #b3afcc;
-apps/cool-pwa/index.html:39:        --accent-strong: #c4c0ff;
-apps/cool-pwa/index.html:55:        padding: 24px;
-apps/cool-pwa/index.html:62:        padding: 16px;
-apps/cool-pwa/index.html:73:        margin: 24px 0 40px;
-apps/cool-pwa/index.html:86:        border-radius: 999px;
-apps/cool-pwa/index.html:87:        background: #9b97d1;
-apps/cool-pwa/index.html:88:        color: #0d0a27;
-apps/cool-pwa/index.html:90:        font-weight: 800;
-apps/cool-pwa/index.html:95:        margin: 16px 0 12px;
+apps/pwa/manifest.webmanifest:18:  "background_color": "#F1EEFF",
+apps/pwa/manifest.webmanifest:19:  "theme_color": "#0D0A27",
+apps/pwa/install/index.html:7:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
+apps/pwa/install/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
+apps/pwa/profile/index.html:7:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
+apps/pwa/profile/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
+apps/pwa/styles.css:2:  --bg: #090c14;
+apps/pwa/styles.css:5:  --text: #f3f7ff;
+apps/pwa/styles.css:6:  --muted: #b9c6dd;
+apps/pwa/styles.css:7:  --accent: #66f2c6;
+apps/pwa/styles.css:8:  --accent-strong: #1dc997;
+apps/pwa/styles.css:9:  --danger: #ff8b8b;
+apps/pwa/styles.css:21:    linear-gradient(180deg, #0a0f1d 0%, #070a12 100%);
+apps/pwa/styles.css:39:  padding: 32px 0 64px;
+apps/pwa/styles.css:46:  border-radius: 24px;
+apps/pwa/styles.css:52:  padding: 28px;
+apps/pwa/styles.css:60:  padding: 6px 12px;
+apps/pwa/styles.css:61:  border-radius: 999px;
+apps/pwa/styles.css:64:  font-size: 13px;
+apps/pwa/styles.css:65:  font-weight: 800;
+apps/pwa/styles.css:84:  font-size: 24px;
+apps/pwa/styles.css:89:  font-size: 18px;
+apps/pwa/styles.css:96:  font-size: 16px;
+apps/pwa/styles.css:117:  border-radius: 999px;
+apps/pwa/styles.css:120:  font-weight: 800;
+apps/pwa/styles.css:125:  color: #04120d;
+apps/pwa/styles.css:135:  padding: 22px;
+apps/pwa/styles.css:141:  font-size: 14px;
+apps/pwa/styles.css:146:  font-weight: 800;
+apps/pwa/styles.css:156:  font-size: 14px;
+apps/pwa/styles.css:176:    border-radius: 20px;
+apps/pwa/styles.css:180:    padding: 22px;
+apps/pwa/groups/index.html:7:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
+apps/pwa/groups/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
+apps/pwa/momo/index.html:7:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
+apps/pwa/momo/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
+apps/pwa/assets/js/app_page.js:258:    .replaceAll("'", '&#039;');
+apps/pwa/assets/js/app_page.js:262:  return escapeHtml(value).replaceAll('`', '&#096;');
+apps/pwa/landing/index.html:8:  <meta name="theme-color" content="#0a0f0a">
+apps/pwa/landing/index.html:30:      --bg: #060a06;
+apps/pwa/landing/index.html:31:      --surface: #0e150e;
+apps/pwa/landing/index.html:32:      --surface-2: #141e14;
+apps/pwa/landing/index.html:35:      --green: #34d399;
+apps/pwa/landing/index.html:38:      --text: #f0fdf4;
+apps/pwa/landing/index.html:39:      --text-dim: #94a3b8;
+apps/pwa/landing/index.html:40:      --text-muted: #64748b;
+apps/pwa/landing/index.html:72:    .nav-brand img { width: 30px; height: 30px; border-radius: 8px; }
+apps/pwa/landing/index.html:73:    .nav-brand span { font-weight: 700; font-size: 17px; letter-spacing: -0.02em; }
+apps/pwa/landing/index.html:81:      font-size: 13.5px; font-weight: 500; transition: color 0.2s;
+apps/pwa/landing/index.html:87:      padding: 8px 18px; border-radius: 10px;
+apps/pwa/landing/index.html:88:      background: var(--green); color: #060a06;
+apps/pwa/landing/index.html:89:      font-size: 13px; font-weight: 700;
+apps/pwa/landing/index.html:92:    .nav-cta:hover { background: #4ade80; box-shadow: 0 0 20px var(--green-glow); }
+apps/pwa/landing/index.html:99:      text-align: center; padding: 100px 24px 80px;
+apps/pwa/landing/index.html:111:      width: 96px; height: 96px; border-radius: 24px;
+apps/pwa/landing/index.html:123:      font-weight: 800; letter-spacing: -0.035em;
+apps/pwa/landing/index.html:131:      margin: 0 auto 40px; font-weight: 300; line-height: 1.5;
+apps/pwa/landing/index.html:140:      padding: 13px 26px; border-radius: 12px;
+apps/pwa/landing/index.html:141:      font-size: 14.5px; font-weight: 500;
+apps/pwa/landing/index.html:147:    .btn-primary { background: var(--green); color: #060a06; }
+apps/pwa/landing/index.html:149:      background: #4ade80;
+apps/pwa/landing/index.html:169:      padding: 100px 24px; max-width: var(--max-w); margin: 0 auto;
+apps/pwa/landing/index.html:172:      font-size: 12px; font-weight: 700; color: var(--green);
+apps/pwa/landing/index.html:177:      font-weight: 700; letter-spacing: -0.025em; margin-bottom: 52px;
+apps/pwa/landing/index.html:187:      border-radius: var(--radius); padding: 28px 24px;
+apps/pwa/landing/index.html:196:      width: 40px; height: 40px; border-radius: 10px;
+apps/pwa/landing/index.html:199:      margin-bottom: 16px; font-size: 20px;
+apps/pwa/landing/index.html:202:      font-size: 15.5px; font-weight: 700; margin-bottom: 6px;
+apps/pwa/landing/index.html:211:      padding: 100px 24px; text-align: center;
+apps/pwa/landing/index.html:223:      font-weight: 700; letter-spacing: -0.025em;
+apps/pwa/landing/index.html:228:      font-size: 16px; font-weight: 300;
+apps/pwa/landing/index.html:238:      padding: 40px 0 32px;
+apps/pwa/landing/index.html:247:    .footer-brand img { width: 28px; height: 28px; border-radius: 7px; }
+apps/pwa/landing/index.html:248:    .footer-brand span { font-weight: 700; font-size: 16px; }
+apps/pwa/landing/index.html:250:      font-size: 13px; color: var(--text-muted); max-width: 280px; line-height: 1.5;
+apps/pwa/landing/index.html:257:      font-size: 12px; font-weight: 700; color: var(--text-dim);
+apps/pwa/landing/index.html:275:    .footer-copy { font-size: 12px; color: var(--text-muted); }
+apps/pwa/landing/index.html:278:      padding: 8px 18px; border-radius: 10px;
+apps/pwa/landing/index.html:280:      color: var(--text); font-size: 13px; font-weight: 500;
+apps/pwa/landing/index.html:325:      <li><a href="#features">Features</a></li>
+apps/pwa/landing/index.html:345:      <a href="#features" class="btn btn-ghost">Explore features</a>
+apps/pwa/landing/index.html:414:              <li><a href="#features">Features</a></li>
+apps/pwa/admin/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
+apps/pwa/admin/index.html:9:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
+apps/pwa/home/index.html:7:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
+apps/pwa/home/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
+apps/pwa/assets/css/app.css:10:  font-weight: 300 900;
+apps/pwa/assets/css/app.css:18:  font-weight: 200 800;
+apps/pwa/assets/css/app.css:26:  font-weight: 100 900;
+apps/pwa/assets/css/app.css:33:  font-weight: 500;
+apps/pwa/assets/css/app.css:38:  --app-background: #0d0a27;
+apps/pwa/assets/css/app.css:39:  --elevated-background: #110e2d;
+apps/pwa/assets/css/app.css:40:  --card-surface: #1a1640;
+apps/pwa/assets/css/app.css:41:  --card-surface-strong: #252054;
+apps/pwa/assets/css/app.css:43:  --primary-text: #f7f9fc;
+apps/pwa/assets/css/app.css:44:  --secondary-text: #b3afcc;
+apps/pwa/assets/css/app.css:45:  --tertiary-text: #8b8a9e;
+apps/pwa/assets/css/app.css:46:  --accent: #8781ff;
+apps/pwa/assets/css/app.css:47:  --accent-strong: #c4c0ff;
+apps/pwa/assets/css/app.css:48:  --accent-deep: #6c63ff;
+apps/pwa/assets/css/app.css:49:  --accent-foreground: #ffffff;
+apps/pwa/assets/css/app.css:50:  --warning: #f59e0b;
+apps/pwa/assets/css/app.css:51:  --danger: #ef4444;
+apps/pwa/assets/css/app.css:52:  --info: #60a5fa;
+apps/pwa/assets/css/app.css:53:  --success: #10b981;
+apps/pwa/assets/css/app.css:78:  --app-background: #f1eeff;
+apps/pwa/assets/css/app.css:79:  --elevated-background: #f8f6ff;
+apps/pwa/assets/css/app.css:80:  --card-surface: #eee8ff;
+apps/pwa/assets/css/app.css:81:  --card-surface-strong: #ffffff;
+apps/pwa/assets/css/app.css:83:  --primary-text: #1a1238;
+apps/pwa/assets/css/app.css:84:  --secondary-text: #60587f;
+apps/pwa/assets/css/app.css:85:  --tertiary-text: #837a9d;
+apps/pwa/assets/css/app.css:86:  --accent: #8781ff;
+apps/pwa/assets/css/app.css:87:  --accent-strong: #c4c0ff;
+apps/pwa/assets/css/app.css:88:  --accent-deep: #6c63ff;
+apps/pwa/assets/css/app.css:89:  --accent-foreground: #ffffff;
+apps/pwa/assets/css/app.css:90:  --warning: #f59e0b;
+apps/pwa/assets/css/app.css:91:  --danger: #ef4444;
+apps/pwa/assets/css/app.css:92:  --info: #3b82f6;
+apps/pwa/assets/css/app.css:93:  --success: #10b981;
+apps/pwa/assets/css/app.css:103:  --app-background: #0d0a27;
+apps/pwa/assets/css/app.css:104:  --elevated-background: #110e2d;
+apps/pwa/assets/css/app.css:105:  --card-surface: #1a1640;
+apps/pwa/assets/css/app.css:106:  --card-surface-strong: #252054;
+apps/pwa/assets/css/app.css:108:  --primary-text: #f7f9fc;
+apps/pwa/assets/css/app.css:109:  --secondary-text: #b3afcc;
+apps/pwa/assets/css/app.css:110:  --tertiary-text: #8b8a9e;
+apps/pwa/assets/css/app.css:111:  --accent: #8781ff;
+apps/pwa/assets/css/app.css:112:  --accent-strong: #c4c0ff;
+apps/pwa/assets/css/app.css:113:  --accent-deep: #6c63ff;
+apps/pwa/assets/css/app.css:114:  --accent-foreground: #ffffff;
+apps/pwa/assets/css/app.css:115:  --warning: #f59e0b;
+apps/pwa/assets/css/app.css:116:  --danger: #ef4444;
+apps/pwa/assets/css/app.css:117:  --info: #60a5fa;
+apps/pwa/assets/css/app.css:118:  --success: #10b981;
+apps/pwa/assets/css/app.css:128:    --app-background: #0d0a27;
+apps/pwa/assets/css/app.css:129:    --elevated-background: #110e2d;
+apps/pwa/assets/css/app.css:130:    --card-surface: #1a1640;
+apps/pwa/assets/css/app.css:131:    --card-surface-strong: #252054;
+apps/pwa/assets/css/app.css:133:    --primary-text: #f7f9fc;
+apps/pwa/assets/css/app.css:134:    --secondary-text: #b3afcc;
+apps/pwa/assets/css/app.css:135:    --tertiary-text: #8b8a9e;
+apps/pwa/assets/css/app.css:136:    --accent: #8781ff;
+apps/pwa/assets/css/app.css:137:    --accent-strong: #c4c0ff;
+apps/pwa/assets/css/app.css:138:    --accent-deep: #6c63ff;
+apps/pwa/assets/css/app.css:139:    --accent-foreground: #ffffff;
+apps/pwa/assets/css/app.css:140:    --warning: #f59e0b;
+apps/pwa/assets/css/app.css:141:    --danger: #ef4444;
+apps/pwa/assets/css/app.css:142:    --info: #60a5fa;
+apps/pwa/assets/css/app.css:143:    --success: #10b981;
+apps/pwa/assets/css/app.css:221:  border-radius: 999px;
+apps/pwa/assets/css/app.css:268:  border-radius: 20px;
+apps/pwa/assets/css/app.css:274:  padding: 8px;
+apps/pwa/assets/css/app.css:293:  font-weight: 800;
+apps/pwa/assets/css/app.css:313:  border-radius: 999px;
+apps/pwa/assets/css/app.css:328:  font-weight: 800;
+apps/pwa/assets/css/app.css:394:  border-radius: 999px;
+apps/pwa/assets/css/app.css:396:  color: #0d0a27;
+apps/pwa/assets/css/app.css:397:  font-weight: 800;
+apps/pwa/assets/css/app.css:468:  font-weight: 800;
+apps/pwa/assets/css/app.css:538:  border-radius: 999px;
+apps/pwa/assets/css/app.css:554:  border-radius: 999px;
+apps/pwa/assets/css/app.css:557:  font-weight: 800;
+apps/pwa/assets/css/app.css:609:  border-radius: 999px;
+apps/pwa/assets/css/app.css:611:  font-weight: 800;
+apps/pwa/assets/css/app.css:653:  font-weight: 800;
+apps/pwa/assets/css/app.css:661:  font-size: 16px;
+apps/pwa/assets/css/app.css:662:  border-radius: 24px;
+apps/pwa/assets/css/app.css:752:  border-radius: 14px;
+apps/pwa/assets/css/app.css:808:  border-radius: 999px;
+apps/pwa/assets/css/app.css:811:  font-weight: 800;
+apps/pwa/assets/css/app.css:899:    border-radius: 28px;
+apps/pwa/index.html:8:    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1EEFF">
+apps/pwa/index.html:9:    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0A27">
+apps/pwa/index.html:33:        --app-background: #0d0a27;
+apps/pwa/index.html:35:        --card-surface: #1a1640;
+apps/pwa/index.html:36:        --card-surface-strong: #252054;
+apps/pwa/index.html:37:        --primary-text: #f7f9fc;
+apps/pwa/index.html:38:        --secondary-text: #b3afcc;
+apps/pwa/index.html:39:        --accent-strong: #c4c0ff;
+apps/pwa/index.html:55:        padding: 24px;
+apps/pwa/index.html:62:        padding: 16px;
+apps/pwa/index.html:73:        margin: 24px 0 40px;
+apps/pwa/index.html:86:        border-radius: 999px;
+apps/pwa/index.html:87:        background: #9b97d1;
+apps/pwa/index.html:88:        color: #0d0a27;
+apps/pwa/index.html:90:        font-weight: 800;
+apps/pwa/index.html:95:        margin: 16px 0 12px;
 lib/features/momo/services/momo_statement_export_wallet.dart:33:                  accent: PdfColor.fromHex('#00E5A0'),
 lib/features/momo/services/momo_statement_export_wallet.dart:41:                  accent: PdfColor.fromHex('#FF6B35'),
 lib/features/momo/services/momo_statement_export_wallet.dart:49:                  accent: PdfColor.fromHex('#4D8EFF'),

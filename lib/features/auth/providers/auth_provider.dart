@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -18,11 +17,17 @@ import '../../../core/providers/supabase_client_provider.dart';
 import '../../../core/services/crashlytics_service.dart';
 import '../../../core/services/momo_service.dart';
 import '../../../core/services/performance_service.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../biopay/providers/biopay_providers.dart';
 import '../../momo/providers/momo_service_provider.dart';
 import '../models/user_profile.dart';
 import '../repositories/auth_repository.dart';
 import 'auth_provider_support.dart';
+
+part 'auth_provider_profile_ops.dart';
+part 'auth_provider_state.dart';
+
+const _log = AppLogger('Auth');
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepository(client: ref.read(supabaseClientProvider));
@@ -38,50 +43,16 @@ final currentUserProvider = Provider<UserProfile?>((ref) {
   return ref.watch(authProvider).user;
 });
 
-enum AuthProfileRestoreState { available, missing, pending, failed }
-
-class AuthState {
-  const AuthState({
-    this.user,
-    this.session,
-    this.profileRestoreState = AuthProfileRestoreState.available,
-    this.isLoading = false,
-    this.error,
-  });
-
-  static const _sentinel = Object();
-
-  final UserProfile? user;
-  final Session? session;
-  final AuthProfileRestoreState profileRestoreState;
-  final bool isLoading;
-  final String? error;
-
-  bool get hasResolvedProfile =>
-      profileRestoreState != AuthProfileRestoreState.pending;
-
-  AuthState copyWith({
-    Object? user = _sentinel,
-    Object? session = _sentinel,
-    AuthProfileRestoreState? profileRestoreState,
-    bool? isLoading,
-    Object? error = _sentinel,
-  }) {
-    return AuthState(
-      user: user == _sentinel ? this.user : user as UserProfile?,
-      session: session == _sentinel ? this.session : session as Session?,
-      profileRestoreState: profileRestoreState ?? this.profileRestoreState,
-      isLoading: isLoading ?? this.isLoading,
-      error: error == _sentinel ? this.error : error as String?,
-    );
-  }
-}
-
-class AuthNotifier extends Notifier<AuthState> {
+class AuthNotifier extends Notifier<AuthState> with _AuthProfileOperations {
+  @override
   late final AuthRepository _repository;
+  @override
   late final CrashlyticsService _crashlytics;
+  @override
   late final PerformanceService _performance;
+  @override
   late final MomoService _momoService;
+  @override
   late final Future<void> Function()? _clearSensitiveData;
 
   @override
@@ -95,7 +66,8 @@ class AuthNotifier extends Notifier<AuthState> {
     final initialState = ref.read(initialAuthStateProvider);
     final autoBootstrap = initialState == null;
 
-    final startState = initialState ??
+    final startState =
+        initialState ??
         AuthState(
           session: _repository.currentSession,
           profileRestoreState: _repository.currentSession == null
@@ -181,11 +153,12 @@ class AuthNotifier extends Notifier<AuthState> {
   }
 
   /// Signs in anonymously and auto-creates a minimal profile.
+  @override
   Future<void> signInAnonymously() async {
     state = state.copyWith(isLoading: true, error: null);
     _performance.startTrace('auth_sign_in_anonymous');
     _crashlytics.log('auth: signing in anonymously');
-    debugPrint('[Auth] ➜ Anonymous sign-in');
+    _log.debug('Anonymous sign-in');
 
     final result = await AsyncValue.guard(
       () => _repository.signInAnonymously().timeout(
@@ -199,7 +172,7 @@ class AuthNotifier extends Notifier<AuthState> {
 
     await result.when(
       data: (session) async {
-        debugPrint('[Auth] ✓ Anonymous sign-in succeeded: ${session.user.id}');
+        _log.info('Anonymous sign-in succeeded: ${session.user.id}');
         // Try to load an existing profile first.
         final profileResult = await AsyncValue.guard(
           () => _repository.getProfile(session.user.id),
@@ -250,7 +223,7 @@ class AuthNotifier extends Notifier<AuthState> {
           stackTrace: stack,
           reason: 'auth_sign_in_anonymous',
         );
-        debugPrint('[Auth] ❌ Anonymous sign-in failed: $error\n$stack');
+        _log.warn('Anonymous sign-in failed: $error\n$stack');
         state = state.copyWith(
           isLoading: false,
           profileRestoreState: AuthProfileRestoreState.failed,
@@ -271,7 +244,7 @@ class AuthNotifier extends Notifier<AuthState> {
     state = state.copyWith(isLoading: true, error: null);
     _performance.startTrace('auth_sign_in_otp');
     _crashlytics.log('auth: signing in with OTP session');
-    debugPrint('[Auth] ➜ OTP session sign-in');
+    _log.debug('OTP session sign-in');
 
     try {
       final response = await _repository.setSession(
@@ -284,7 +257,7 @@ class AuthNotifier extends Notifier<AuthState> {
         throw StateError('OTP session could not be established.');
       }
 
-      debugPrint('[Auth] ✓ OTP session established: ${session.user.id}');
+      _log.info('OTP session established: ${session.user.id}');
 
       // Load or auto-create a minimal profile.
       final profileResult = await AsyncValue.guard(
@@ -366,256 +339,11 @@ class AuthNotifier extends Notifier<AuthState> {
         stackTrace: stack,
         reason: 'auth_sign_in_otp',
       );
-      debugPrint('[Auth] ❌ OTP sign-in failed: $error\n$stack');
+      _log.warn('OTP sign-in failed: $error\n$stack');
       // Preserve the previous profileRestoreState — the user still has
       // their old session and should not be trapped on splash.
       state = state.copyWith(isLoading: false, error: describeAuthError(error));
       return false;
     }
-  }
-
-  Future<UserProfile?> createProfile(AuthProfileData data) async {
-    final session = state.session ?? _repository.currentSession;
-    final userId = _repository.currentUserId ?? session?.user.id;
-    final phone = data.phone ?? state.user?.phone ?? authSessionPhone(session);
-
-    if (userId == null || (phone ?? '').isEmpty) {
-      state = state.copyWith(
-        error: 'A verified session is required before creating a profile.',
-      );
-      return null;
-    }
-
-    ({
-      String momoNumber,
-      String? momoCode,
-      MomoRecipientType? momoRouteType,
-      String momoProvider,
-      String country,
-    })
-    normalizedIdentity;
-    try {
-      normalizedIdentity = await normalizeMomoIdentity(
-        momoService: _momoService,
-        momoNumber: data.momoNumber,
-        momoCode: data.momoCode,
-        preferredRouteType: data.momoRouteType,
-        fallbackCountry: data.country,
-        fallbackProviderId: data.momoProvider,
-      );
-    } catch (error, stack) {
-      _crashlytics.recordError(
-        error,
-        stackTrace: stack,
-        reason: 'auth_normalize_momo_identity',
-      );
-      state = state.copyWith(error: describeAuthError(error));
-      return null;
-    }
-
-    state = state.copyWith(isLoading: true, error: null);
-    _performance.startTrace('auth_create_profile');
-    _crashlytics.log('auth: creating profile for user');
-
-    final result = await AsyncValue.guard(
-      () => _repository.createProfile(
-        UserProfile(
-          id: userId,
-          phone: phone!,
-          fullName: data.fullName,
-          momoNumber: normalizedIdentity.momoNumber,
-          momoCode: normalizedIdentity.momoCode,
-          momoRouteType: normalizedIdentity.momoRouteType,
-          momoProvider: normalizedIdentity.momoProvider,
-          country: AppMarket.countryCode,
-          languageCode: AppMarket.languageCode,
-        ),
-      ),
-    );
-
-    UserProfile? profile;
-
-    result.when(
-      data: (value) {
-        profile = value;
-        _performance.stopTrace('auth_create_profile');
-        _crashlytics.log('auth: profile created successfully');
-        state = AuthState(
-          user: value,
-          session: session,
-          profileRestoreState: AuthProfileRestoreState.available,
-          isLoading: false,
-          error: null,
-        );
-      },
-      error: (error, stack) {
-        _performance.stopTrace(
-          'auth_create_profile',
-          attributes: {'error': error.runtimeType.toString()},
-        );
-        _crashlytics.recordError(
-          error,
-          stackTrace: stack,
-          reason: 'auth_create_profile',
-        );
-        state = state.copyWith(
-          isLoading: false,
-          error: describeAuthError(error),
-        );
-      },
-      loading: () {},
-    );
-
-    return profile;
-  }
-
-  Future<bool> updateMomoInfo({
-    required String momoNumber,
-    String? momoCode,
-    MomoRecipientType? momoRouteType,
-    String? momoProvider,
-    String? country,
-  }) async {
-    final user = state.user;
-    if (user == null) {
-      state = state.copyWith(error: 'No user profile loaded.');
-      return false;
-    }
-
-    ({
-      String momoNumber,
-      String? momoCode,
-      MomoRecipientType? momoRouteType,
-      String momoProvider,
-      String country,
-    })
-    normalizedIdentity;
-    try {
-      normalizedIdentity = await normalizeMomoIdentity(
-        momoService: _momoService,
-        momoNumber: momoNumber,
-        momoCode: momoCode,
-        preferredRouteType: momoRouteType,
-        fallbackCountry: country ?? resolveAuthStateCountryCode(state),
-        fallbackProviderId: momoProvider ?? user.momoProvider,
-      );
-    } catch (error, stack) {
-      _crashlytics.recordError(
-        error,
-        stackTrace: stack,
-        reason: 'normalize_update_momo_info',
-      );
-      state = state.copyWith(error: describeAuthError(error));
-      return false;
-    }
-
-    state = state.copyWith(isLoading: true, error: null);
-
-    final result = await AsyncValue.guard(
-      () => _repository.updateMomoInfo(
-        user.id,
-        momoNumber: normalizedIdentity.momoNumber,
-        momoCode: normalizedIdentity.momoCode,
-        momoRouteType: normalizedIdentity.momoRouteType,
-        momoProvider: normalizedIdentity.momoProvider,
-        country: AppMarket.countryCode,
-      ),
-    );
-
-    bool success = false;
-    result.when(
-      data: (value) {
-        success = true;
-        state = state.copyWith(user: value, isLoading: false, error: null);
-      },
-      error: (error, stack) {
-        _crashlytics.recordError(
-          error,
-          stackTrace: stack,
-          reason: 'update_momo_info',
-        );
-        state = state.copyWith(
-          isLoading: false,
-          error: describeAuthError(error),
-        );
-      },
-      loading: () {},
-    );
-
-    return success;
-  }
-
-  Future<bool> updateProfile(UserProfile profile) async {
-    state = state.copyWith(isLoading: true, error: null);
-
-    final result = await AsyncValue.guard(
-      () => _repository.updateProfile(profile),
-    );
-
-    var success = false;
-    result.when(
-      data: (value) {
-        success = true;
-        state = state.copyWith(user: value, isLoading: false, error: null);
-      },
-      error: (error, stack) {
-        _crashlytics.recordError(
-          error,
-          stackTrace: stack,
-          reason: 'update_profile',
-        );
-        state = state.copyWith(
-          isLoading: false,
-          error: describeAuthError(error),
-        );
-      },
-      loading: () {},
-    );
-
-    return success;
-  }
-
-  Future<void> signOut() async {
-    state = state.copyWith(isLoading: true, error: null);
-
-    final result = await AsyncValue.guard(() async {
-      await _repository.signOut();
-      await _clearSensitiveData?.call();
-    });
-
-    await result.when(
-      data: (_) async {
-        await signInAnonymously();
-      },
-      error: (error, _) {
-        state = state.copyWith(
-          isLoading: false,
-          error: describeAuthError(error),
-        );
-      },
-      loading: () {},
-    );
-  }
-
-  Future<void> deleteAccount() async {
-    state = state.copyWith(isLoading: true, error: null);
-
-    final result = await AsyncValue.guard(() async {
-      await _repository.deleteAccount();
-      await _clearSensitiveData?.call();
-    });
-
-    await result.when(
-      data: (_) async {
-        await signInAnonymously();
-      },
-      error: (error, _) {
-        state = state.copyWith(
-          isLoading: false,
-          error: describeAuthError(error),
-        );
-      },
-      loading: () {},
-    );
   }
 }

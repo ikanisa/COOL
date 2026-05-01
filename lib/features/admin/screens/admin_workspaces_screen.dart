@@ -23,7 +23,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
     if (!access.hasAnyAdminAccess) {
       return AdminAccessDeniedScaffold(
         title: context.l10n.adminWorkspaces,
-        message: 'This account does not have admin workspace access.',
+        message: context.l10n.adminWorkspacesNoAccess,
         fallbackLocation: AppRoutes.home,
       );
     }
@@ -36,20 +36,19 @@ class AdminWorkspacesScreen extends ConsumerWidget {
         child: Column(
           children: [
             AdminPageHeader(
-              eyebrow: 'ADMIN ACCESS',
-              title: 'Admin Workspaces',
-              subtitle:
-                  'Open the right control surface for platform or bank operations.',
+              eyebrow: context.l10n.adminWorkspacesEyebrow,
+              title: context.l10n.adminWorkspacesTitle,
+              subtitle: context.l10n.adminWorkspacesSubtitle,
               badges: [
                 if (access.hasPlatformAccess)
-                  const AdminStatusChip(
-                    label: 'Platform Admin',
+                  AdminStatusChip(
+                    label: context.l10n.adminWorkspacesLabelPlatformAdmin,
                     tone: AdminTone.success,
                     icon: CoolIcons.adminPanel,
                   ),
                 if (access.hasBankAdminAccess)
-                  const AdminStatusChip(
-                    label: 'Bank Admin',
+                  AdminStatusChip(
+                    label: context.l10n.adminWorkspacesLabelBankAdmin,
                     tone: AdminTone.accent,
                     icon: CoolIcons.accountBalanceOutlined,
                   ),
@@ -59,18 +58,18 @@ class AdminWorkspacesScreen extends ConsumerWidget {
             AdminMetricStrip(
               metrics: [
                 AdminMetricItem(
-                  label: 'Visible workspaces',
+                  label: context.l10n.adminWorkspacesLabelVisible,
                   value: access.hasPlatformAccess
                       ? '${2 + access.bankAdminIds.length}'
                       : '${access.bankAdminIds.length}',
-                  hint: 'Operational entry points',
+                  hint: context.l10n.adminWorkspacesHintEntryPoints,
                   icon: CoolIcons.dashboardCustomize,
                   tone: AdminTone.info,
                 ),
                 AdminMetricItem(
-                  label: 'Bank scopes',
+                  label: context.l10n.adminWorkspacesLabelBankScopes,
                   value: '${access.bankAdminIds.length}',
-                  hint: 'Scoped institutions',
+                  hint: context.l10n.adminWorkspacesHintScopedInstitutions,
                   icon: CoolIcons.accountTree,
                   tone: AdminTone.warning,
                 ),
@@ -80,22 +79,19 @@ class AdminWorkspacesScreen extends ConsumerWidget {
               const SizedBox(height: CoolSpace.x4),
               AdminSectionCard(
                 title: context.l10n.platform,
-                subtitle:
-                    'Global app operations, release controls, and oversight.',
+                subtitle: context.l10n.adminWorkspacesPlatformDesc,
                 child: Column(
                   children: [
                     _WorkspaceTile(
-                      title: 'Platform Admin',
-                      subtitle:
-                          'Users, services, content, roles, and operations.',
+                      title: context.l10n.adminWorkspacesPlatformTitle,
+                      subtitle: context.l10n.adminWorkspacesPlatformSubtitle,
                       icon: CoolIcons.adminPanel,
                       onTap: () => context.push(AppRoutes.adminPlatform),
                     ),
                     const SizedBox(height: CoolSpace.x2),
                     _WorkspaceTile(
-                      title: 'Savings & Groups',
-                      subtitle:
-                          'Centralized savings management, community groups, and allocations.',
+                      title: context.l10n.adminWorkspacesSavingsTitle,
+                      subtitle: context.l10n.adminWorkspacesSavingsSubtitle,
                       icon: CoolIcons.savingsOutlined,
                       onTap: () => context.push(AppRoutes.adminSavings),
                     ),
@@ -106,8 +102,8 @@ class AdminWorkspacesScreen extends ConsumerWidget {
             if (access.hasBankAdminAccess) ...[
               const SizedBox(height: CoolSpace.x4),
               AdminSectionCard(
-                title: 'Bank Workspaces',
-                subtitle: 'Allocation review, custody, and ledger exports.',
+                title: context.l10n.adminWorkspacesBankTitle,
+                subtitle: context.l10n.adminWorkspacesBankSubtitle,
                 child: partnersAsync.when(
                   data: (partners) {
                     final workspaces = buildBankAdminDestinations(
@@ -115,7 +111,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
                       partners: partners,
                     );
                     if (workspaces.isEmpty) {
-                      return const Text('No bank workspace is assigned yet.');
+                      return Text(context.l10n.adminWorkspacesEmptyBank);
                     }
 
                     return Column(
@@ -142,7 +138,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
                     child: LinearProgressIndicator(minHeight: 2),
                   ),
                   error: (error, stackTrace) =>
-                      const Text('Bank workspaces failed to load.'),
+                      Text(context.l10n.adminWorkspacesBankLoadFailed),
                 ),
               ),
             ],

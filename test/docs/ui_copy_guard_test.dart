@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../helpers/dart_sdk.dart';
+import '../helpers/repo_paths.dart';
 
 void main() {
-  final Directory repoRoot = Directory.current;
+  final Directory root = repoRoot();
 
   late String dartBin;
 
@@ -16,7 +17,7 @@ void main() {
   test('ui copy stays concise', () {
     final ProcessResult result = Process.runSync(dartBin, <String>[
       'tool/ui_copy_guard.dart',
-    ], workingDirectory: repoRoot.path);
+    ], workingDirectory: root.path);
 
     if (result.exitCode != 0) {
       fail(
@@ -26,4 +27,3 @@ void main() {
     }
   });
 }
-

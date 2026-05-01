@@ -1,0 +1,9 @@
+{
+  "name": "@cool/shared-utils",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    "./admin-search": "./src/admin-search.ts"
+  }
+}

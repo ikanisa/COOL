@@ -1,5 +1,94 @@
 part of 'contact_picker_sheet.dart';
 
+extension _ContactPickerSheetBody on _ContactPickerSheetState {
+  Widget _buildBody() {
+    final colors = context.coolSemanticColors;
+    final textTheme = Theme.of(context).textTheme;
+    final space = context.coolSpace;
+
+    if (_isLoading) {
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: space.x10 - 4),
+        child: const CoolSkeletonList(itemCount: 3),
+      );
+    }
+
+    if (_permanentlyDenied) {
+      return _PermissionState(
+        icon: CoolIcons.lock,
+        title: context.l10n.contactsAccessDenied,
+        message: context.l10n.contactPickerDeniedMessage,
+        actionLabel: context.l10n.openSettings,
+        action: _openContactsSettings,
+      );
+    }
+
+    if (_accessDisabledInApp) {
+      return _PermissionState(
+        icon: CoolIcons.admin,
+        title: context.l10n.contactsAreOffIn,
+        message: context.l10n.contactPickerAccessCurrentlyMessage,
+        actionLabel: context.l10n.contactPickerEnableContacts,
+        action: _enableContactsAccess,
+      );
+    }
+
+    if (_permissionDenied) {
+      return _PermissionState(
+        icon: CoolIcons.contacts,
+        title: context.l10n.contactsAccessNeeded,
+        message: context.l10n.contactPickerNeedsAccessMessage,
+        actionLabel: context.l10n.allowAccess,
+        action: _requestContactsPermission,
+      );
+    }
+
+    if (_error != null) {
+      return _PermissionState(
+        icon: CoolIcons.warning,
+        title: context.l10n.somethingWentWrong,
+        message: _error!,
+        actionLabel: context.l10n.retry,
+        action: _loadContacts,
+      );
+    }
+
+    if (_filtered.isEmpty) {
+      final isSearching = _searchController.text.trim().isNotEmpty;
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: space.x9, horizontal: space.x6),
+        child: Center(
+          child: Text(
+            isSearching
+                ? context.l10n.contactPickerNoContactsMatch(
+                    _searchController.text.trim(),
+                  )
+                : context.l10n.contactPickerNoContactsWithPhones,
+            textAlign: TextAlign.center,
+            style: textTheme.bodySmall?.copyWith(color: colors.tertiaryText),
+          ),
+        ),
+      );
+    }
+
+    return ListView.builder(
+      padding: EdgeInsets.symmetric(horizontal: space.x4),
+      itemCount: _filtered.length,
+      itemBuilder: (context, index) {
+        final contact = _filtered[index];
+        final isSelected = _selected.contains(contact.id);
+
+        return _ContactTile(
+          contact: contact,
+          isSelected: isSelected,
+          showCheckbox: widget.multiSelect,
+          onTap: () => _toggleContact(contact),
+        );
+      },
+    );
+  }
+}
+
 class _ContactTile extends StatelessWidget {
   const _ContactTile({
     required this.contact,
@@ -91,19 +180,11 @@ class _ContactTile extends StatelessWidget {
                   ),
                 ),
                 child: isSelected
-                    ? const Icon(
-                        CoolIcons.check,
-                        size: 16,
-                        color: Colors.white,
-                      )
+                    ? const Icon(CoolIcons.check, size: 16, color: Colors.white)
                     : null,
               )
             else
-              Icon(
-                CoolIcons.chevron,
-                color: colors.tertiaryText,
-                size: 20,
-              ),
+              Icon(CoolIcons.chevron, color: colors.tertiaryText, size: 20),
           ],
         ),
       ),

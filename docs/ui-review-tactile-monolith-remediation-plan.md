@@ -8,7 +8,7 @@ Related audit:
 Scope:
 - Flutter mobile app under `lib/`
 - Flutter admin surfaces under `lib/features/admin/`
-- PWA/admin panel under `apps/cool-pwa/`
+- PWA/admin panel under `apps/pwa/`
 
 Goal:
 - Bring the entire UI implementation into one coherent "Tactile Monolith" system
@@ -90,7 +90,7 @@ Primary targets:
 - [`app_theme_text.dart`](/Volumes/PRO-G40/COOL/lib/core/theme/app_theme_text.dart)
 - [`pubspec.yaml`](/Volumes/PRO-G40/COOL/pubspec.yaml)
 - `assets/fonts/`
-- [`app.css`](/Volumes/PRO-G40/COOL/apps/cool-pwa/assets/css/app.css)
+- [`app.css`](/Volumes/PRO-G40/COOL/apps/pwa/assets/css/app.css)
 
 Actions:
 - Add actual font assets for:
@@ -119,7 +119,7 @@ Problem:
 
 Primary targets:
 - `lib/core/theme/`
-- [`app.css`](/Volumes/PRO-G40/COOL/apps/cool-pwa/assets/css/app.css)
+- [`app.css`](/Volumes/PRO-G40/COOL/apps/pwa/assets/css/app.css)
 
 Actions:
 - Define the monolith palette in one canonical token map:
@@ -171,8 +171,8 @@ Primary Flutter targets:
 - [`shell_route.dart`](/Volumes/PRO-G40/COOL/lib/core/router/shell_route.dart)
 
 Primary PWA targets:
-- [`app.css`](/Volumes/PRO-G40/COOL/apps/cool-pwa/assets/css/app.css)
-- all `apps/cool-pwa/*/index.html` page shells
+- [`app.css`](/Volumes/PRO-G40/COOL/apps/pwa/assets/css/app.css)
+- all `apps/pwa/*/index.html` page shells
 
 Actions:
 - Create a single reusable Glass Header implementation for Flutter:
@@ -197,7 +197,7 @@ Primary targets:
 - [`cool_search_field.dart`](/Volumes/PRO-G40/COOL/lib/shared/widgets/cool_search_field.dart)
 - [`tab_pill.dart`](/Volumes/PRO-G40/COOL/lib/shared/widgets/tab_pill.dart)
 - Flutter input components under shared widgets/theme
-- PWA button/card/list/input CSS in [`app.css`](/Volumes/PRO-G40/COOL/apps/cool-pwa/assets/css/app.css)
+- PWA button/card/list/input CSS in [`app.css`](/Volumes/PRO-G40/COOL/apps/pwa/assets/css/app.css)
 
 Actions:
 - Rework card variants:
@@ -364,17 +364,17 @@ Objective:
 - Bring the web surface into the same system instead of leaving it as an alternate brand
 
 Primary targets:
-- [`app.css`](/Volumes/PRO-G40/COOL/apps/cool-pwa/assets/css/app.css)
-- [`index.html`](/Volumes/PRO-G40/COOL/apps/cool-pwa/index.html)
-- [`home/index.html`](/Volumes/PRO-G40/COOL/apps/cool-pwa/home/index.html)
-- [`groups/index.html`](/Volumes/PRO-G40/COOL/apps/cool-pwa/groups/index.html)
-- [`momo/index.html`](/Volumes/PRO-G40/COOL/apps/cool-pwa/momo/index.html)
-- [`profile/index.html`](/Volumes/PRO-G40/COOL/apps/cool-pwa/profile/index.html)
-- [`notifications/index.html`](/Volumes/PRO-G40/COOL/apps/cool-pwa/notifications/index.html)
-- [`share/index.html`](/Volumes/PRO-G40/COOL/apps/cool-pwa/share/index.html)
-- [`install/index.html`](/Volumes/PRO-G40/COOL/apps/cool-pwa/install/index.html)
-- [`offline/index.html`](/Volumes/PRO-G40/COOL/apps/cool-pwa/offline/index.html)
-- [`admin/index.html`](/Volumes/PRO-G40/COOL/apps/cool-pwa/admin/index.html)
+- [`app.css`](/Volumes/PRO-G40/COOL/apps/pwa/assets/css/app.css)
+- [`index.html`](/Volumes/PRO-G40/COOL/apps/pwa/index.html)
+- [`home/index.html`](/Volumes/PRO-G40/COOL/apps/pwa/home/index.html)
+- [`groups/index.html`](/Volumes/PRO-G40/COOL/apps/pwa/groups/index.html)
+- [`momo/index.html`](/Volumes/PRO-G40/COOL/apps/pwa/momo/index.html)
+- [`profile/index.html`](/Volumes/PRO-G40/COOL/apps/pwa/profile/index.html)
+- [`notifications/index.html`](/Volumes/PRO-G40/COOL/apps/pwa/notifications/index.html)
+- [`share/index.html`](/Volumes/PRO-G40/COOL/apps/pwa/share/index.html)
+- [`install/index.html`](/Volumes/PRO-G40/COOL/apps/pwa/install/index.html)
+- [`offline/index.html`](/Volumes/PRO-G40/COOL/apps/pwa/offline/index.html)
+- [`admin/index.html`](/Volumes/PRO-G40/COOL/apps/pwa/admin/index.html)
 
 Actions:
 - Replace Barlow headline usage with Space Grotesk.
@@ -461,7 +461,7 @@ Recommended owner split:
   - mobile/admin route migration
 
 - PWA UI owner
-  - `apps/cool-pwa/assets/css/`
+  - `apps/pwa/assets/css/`
   - page template migration
   - web visual regressions
 
@@ -518,7 +518,7 @@ The remediation is complete only when all of the following are true:
 - The correct typography stack is live everywhere
 - Shared shells and components enforce the design system by default
 - All routed screens in Flutter have been migrated or explicitly documented as exceptions
-- All `apps/cool-pwa` pages have been migrated or explicitly documented as exceptions
+- All `apps/pwa` pages have been migrated or explicitly documented as exceptions
 - Golden/screenshot regression protection exists for the key surfaces
 - The audit findings in [`ui-review-tactile-monolith-audit.md`](/Volumes/PRO-G40/COOL/docs/ui-review-tactile-monolith-audit.md) can be marked closed one by one
 

@@ -1,6 +1,6 @@
 /**
  * Google Workspace AI Audit Bridge
- * 
+ *
  * Logs critical AI decisions to a Google Sheet for human-in-the-loop governance.
  */
 
@@ -16,7 +16,7 @@ export type AiAuditEvent = {
   model: string;
   confidence: number;
   decision: string; // e.g., "MATCHED", "BLOCKED", "WARN", "EXTRACTED"
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
   latency_ms: number;
 };
 
@@ -83,7 +83,7 @@ export async function logAiAudit(event: AiAuditEvent) {
     // Note: In a production environment, we'd use a JWT library to sign the request.
     // For this implementation, we assume a helper or direct API call with a pre-fetched token
     // or a simplified REST approach if the environment supports it.
-    
+
     void [
       new Date().toISOString(),
       event.function_name,
@@ -104,7 +104,10 @@ export async function logAiAudit(event: AiAuditEvent) {
  * Creates a formal Financial Memo in Google Docs.
  * This document serves as a "Credit Bridge" for partner banks.
  */
-export async function createGoogleDoc(title: string, content: string): Promise<string | null> {
+export async function createGoogleDoc(
+  title: string,
+  content: string,
+): Promise<string | null> {
   const config = readGoogleWorkspaceConfig();
   if (!_hasWorkspaceAuth(config)) {
     console.warn("Google Workspace credentials not configured.");
@@ -131,7 +134,11 @@ export async function createGoogleDoc(title: string, content: string): Promise<s
  * Uploads a file/document to a specific folder in Google Drive.
  * Acts as the user's permanent financial vault.
  */
-export async function uploadToDrive(fileName: string, content: string, folderName: string = "COOL_Wealth_Archive"): Promise<string | null> {
+export async function uploadToDrive(
+  fileName: string,
+  content: string,
+  folderName: string = "COOL_Wealth_Archive",
+): Promise<string | null> {
   const config = readGoogleWorkspaceConfig();
   if (!_hasWorkspaceAuth(config)) return null;
 
@@ -155,7 +162,11 @@ export async function uploadToDrive(fileName: string, content: string, folderNam
  * Sends a professional financial summary via Gmail.
  * Replaces informal chats with official financial correspondence.
  */
-export async function sendGmail(to: string, subject: string, body: string): Promise<boolean> {
+export async function sendGmail(
+  to: string,
+  subject: string,
+  body: string,
+): Promise<boolean> {
   const config = readGoogleWorkspaceConfig();
   if (!_hasWorkspaceAuth(config)) return false;
 

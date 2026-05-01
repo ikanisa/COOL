@@ -2,7 +2,10 @@ import 'package:cool_app/core/config/env_config.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 
+import '../utils/app_logger.dart';
 import '../../firebase_options.dart';
+
+const _log = AppLogger('Firebase');
 
 class FirebaseBootstrapService {
   static FirebaseOptions? currentOptions() {
@@ -23,23 +26,23 @@ class FirebaseBootstrapService {
     if (_supportsNativeBootstrap) {
       try {
         await Firebase.initializeApp();
-        debugPrint('[Firebase] ✅ Initialized from native mobile config.');
+        _log.info('Initialized from native mobile config.');
         return;
       } catch (error) {
-        debugPrint('[Firebase] ⚠️ Native mobile bootstrap unavailable: $error');
+        _log.info('Native mobile bootstrap unavailable: $error');
       }
     }
 
     final options = currentOptions();
     if (options == null) {
-      debugPrint(
-        '[Firebase] ⚠️ Firebase bootstrap skipped: no usable config was found.',
+      _log.info(
+        'Firebase bootstrap skipped: no usable config was found.',
       );
       return;
     }
 
     await Firebase.initializeApp(options: options);
-    debugPrint('[Firebase] ✅ Initialized from explicit Dart options.');
+    _log.info('Initialized from explicit Dart options.');
   }
 
   Future<bool> initialize() async {
@@ -53,7 +56,7 @@ class FirebaseBootstrapService {
       _isAvailable = Firebase.apps.isNotEmpty;
     } catch (error) {
       _isAvailable = false;
-      debugPrint('[Firebase] ❌ Bootstrap failed: $error');
+      _log.error('Bootstrap failed', error: error);
     }
     return _isAvailable;
   }

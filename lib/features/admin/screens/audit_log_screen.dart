@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/admin_detail_scaffold.dart';
 import '../../../shared/widgets/admin_workspace_kit.dart';
@@ -46,10 +47,10 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
           child: CoolSkeletonList(itemCount: 6),
         ),
         emptyCheck: (logs) => logs.isEmpty,
-        emptyWidget: const Padding(
-          padding: EdgeInsets.all(CoolSpace.x5),
+        emptyWidget: Padding(
+          padding: const EdgeInsets.all(CoolSpace.x5),
           child: CoolEmptyView(
-            message: 'No audit entries yet',
+            message: context.l10n.adminAuditEmpty,
             icon: CoolIcons.historyRounded,
           ),
         ),
@@ -68,12 +69,12 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
             padding: CoolSpace.scaffoldPadding,
             children: [
               AdminPageHeader(
-                eyebrow: 'AUDIT TRAIL',
-                title: 'Audit Log',
-                subtitle: 'Who changed what, when, and on which record.',
+                eyebrow: context.l10n.adminAuditEyebrow,
+                title: context.l10n.adminAuditTitle,
+                subtitle: context.l10n.adminAuditSubtitle,
                 badges: [
                   AdminStatusChip(
-                    label: 'Visible',
+                    label: context.l10n.adminAuditVisible,
                     trailing: '${logs.length}',
                     tone: AdminTone.accent,
                     icon: CoolIcons.visibility,
@@ -84,30 +85,30 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
               AdminMetricStrip(
                 metrics: [
                   AdminMetricItem(
-                    label: 'Entries',
+                    label: context.l10n.adminAuditEntries,
                     value: '${logs.length}',
-                    hint: 'Current feed',
+                    hint: context.l10n.adminAuditCurrentFeed,
                     icon: CoolIcons.receiptOutlined,
                     tone: AdminTone.info,
                   ),
                   AdminMetricItem(
-                    label: 'Create',
+                    label: context.l10n.adminAuditCreate,
                     value: '$createCount',
-                    hint: 'New records',
+                    hint: context.l10n.adminAuditNewRecords,
                     icon: CoolIcons.addCircle,
                     tone: AdminTone.success,
                   ),
                   AdminMetricItem(
-                    label: 'Update',
+                    label: context.l10n.adminAuditUpdate,
                     value: '$updateCount',
-                    hint: 'Changed records',
+                    hint: context.l10n.adminAuditChangedRecords,
                     icon: CoolIcons.editOutlined,
                     tone: AdminTone.accent,
                   ),
                   AdminMetricItem(
-                    label: 'Delete',
+                    label: context.l10n.adminAuditDelete,
                     value: '$deleteCount',
-                    hint: 'Removed records',
+                    hint: context.l10n.adminAuditRemovedRecords,
                     icon: CoolIcons.delete,
                     tone: AdminTone.danger,
                   ),
@@ -117,9 +118,8 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
               AdminToolbar(filters: [_buildActionFilterBar(context)]),
               const SizedBox(height: CoolSpace.x4),
               AdminSectionCard(
-                title: 'Timeline',
-                subtitle:
-                    'Expand an entry to inspect before and after payloads.',
+                title: context.l10n.adminAuditTimeline,
+                subtitle: context.l10n.adminAuditTimelineSubtitle,
                 child: Column(
                   children: [
                     for (var index = 0; index < logs.length; index++) ...[
@@ -221,7 +221,7 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
         ? actorName!
         : actorPhone?.isNotEmpty == true
         ? actorPhone!
-        : 'Unknown';
+        : context.l10n.adminAuditUnknownActor;
     final action = e['action']?.toString() ?? '';
     final targetTable = e['target_table']?.toString() ?? '';
     final targetId = e['target_id']?.toString() ?? '';
@@ -242,7 +242,7 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
         badges: [
           AdminStatusChip(label: action.toUpperCase(), tone: _tone),
           AdminStatusChip(
-            label: _expanded ? 'Expanded' : 'Collapsed',
+            label: _expanded ? context.l10n.adminAuditExpanded : context.l10n.adminAuditCollapsed,
             tone: AdminTone.neutral,
             icon: _expanded
                 ? CoolIcons.expandLess
@@ -255,7 +255,7 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
           children: [
             if (e['old_data'] != null) ...[
               Text(
-                'Previous',
+                context.l10n.adminAuditPrevious,
                 style: theme.textTheme.labelLarge?.copyWith(
                   color: colors.danger,
                   fontWeight: FontWeight.w800,
@@ -267,7 +267,7 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
             ],
             if (e['new_data'] != null) ...[
               Text(
-                'New',
+                context.l10n.adminAuditNew,
                 style: theme.textTheme.labelLarge?.copyWith(
                   color: colors.success,
                   fontWeight: FontWeight.w800,

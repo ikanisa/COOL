@@ -5,6 +5,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/services/crashlytics_service.dart';
 import '../../../core/services/hive_runtime.dart';
+import '../../../core/utils/app_logger.dart';
+
+const _log = AppLogger('MoMoSMS');
 
 DateTime? _parseSyncDateTime(dynamic value) {
   if (value is! String || value.trim().isEmpty) {
@@ -74,7 +77,7 @@ class MomoSmsSyncStateStore {
 
       return MomoSmsSyncState.fromJson(Map<String, dynamic>.from(decoded));
     } catch (error) {
-      debugPrint('[MoMo SMS] could not read sync state: $error');
+      _log.warn('Could not read sync state: $error');
       return const MomoSmsSyncState();
     }
   }
@@ -84,7 +87,7 @@ class MomoSmsSyncStateStore {
       final box = await _openBox(boxName);
       await box.put(keyForUser(userId), jsonEncode(state.toJson()));
     } catch (error) {
-      debugPrint('[MoMo SMS] could not persist sync state: $error');
+      _log.warn('Could not persist sync state: $error');
     }
   }
 }
@@ -210,7 +213,7 @@ class MomoSmsSyncRunAuditWriter {
     try {
       await _insert(run.toInsertRow());
     } catch (error, stackTrace) {
-      debugPrint('[MoMo SMS] could not record sync run: $error');
+      _log.warn('Could not record sync run: $error');
       await _crashlytics?.recordError(
         error,
         stackTrace: stackTrace,

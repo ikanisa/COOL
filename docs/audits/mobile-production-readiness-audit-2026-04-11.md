@@ -39,10 +39,10 @@ Implemented:
   - fixed strict `const` hygiene so `flutter analyze --fatal-infos` stays clean
 
 - `docs/qa_release_readiness.md`
-  - updated the release-readiness doc to match the real `scripts/release_readiness.sh` gate, including integration smoke, migration validation, full Deno coverage, and optional canary/remote smoke gates
+  - updated the release-readiness doc to match the real `scripts/qa/release_readiness.sh` gate, including integration smoke, migration validation, full Deno coverage, and optional canary/remote smoke gates
 
 - `.github/workflows/release.yml`
-- `scripts/run_release_candidate.sh`
+- `scripts/qa/run_release_candidate.sh`
 - `scripts/verify_release_metadata.sh`
 - `scripts/verify_firebase_app_check.ts`
 - `docs/RELEASE_PROCESS.md`
@@ -78,14 +78,14 @@ Results:
 
 Production-backed checks executed after the initial audit:
 
-- `bash scripts/release_readiness.sh` with
+- `bash scripts/qa/release_readiness.sh` with
   `RUN_ANDROID_MINIFY_CANARY=1`,
   `RUN_REMOTE_SMOKE=1`,
   `RUN_MOMO_SMS_ROLLOUT_VERIFY=1`
 - `bash scripts/supabase_contract_smoke.sh`
-- `bash scripts/verify_momo_sms_supabase_rollout.sh`
-- `bash scripts/build_production_minified_canary.sh`
-- `bash scripts/build_play_release.sh`
+- `bash scripts/qa/verify_momo_sms_supabase_rollout.sh`
+- `bash scripts/deploy/build_production_minified_canary.sh`
+- `bash scripts/deploy/build_play_release.sh`
 
 Observed results against the linked project:
 
@@ -118,7 +118,7 @@ Observed results against the linked project:
 
 - Project structure is feature-oriented and navigable: `core/`, `features/*`, `shared/`, `bootstrap/`
 - Automated coverage is broad: 229 test files across unit, widget, accessibility, smoke, golden, and edge-function tests
-- Release governance exists in code, not only in tribal knowledge: `scripts/release_readiness.sh`, `docs/qa_release_readiness.md`, route/screen governance docs, and CI gates
+- Release governance exists in code, not only in tribal knowledge: `scripts/qa/release_readiness.sh`, `docs/qa_release_readiness.md`, route/screen governance docs, and CI gates
 - OTP flows are materially hardened with rate limiting, cooldowns, structured error handling, and App Check-aware request headers
 - Android release discipline is better than average due to explicit keystore enforcement and minify commentary/gating
 - iOS permission posture is intentionally narrowed rather than over-declared
@@ -131,7 +131,7 @@ Observed results against the linked project:
 
 Evidence:
 
-- `scripts/release_readiness.sh`
+- `scripts/qa/release_readiness.sh`
 - `docs/qa_release_readiness.md`
 - `android/app/build.gradle.kts`
 
@@ -144,7 +144,7 @@ Why this matters:
 Best practical fix:
 
 - make one signed release-candidate pass mandatory before broad launch
-- run `bash scripts/release_readiness.sh` with `RUN_ANDROID_MINIFY_CANARY=1`, `RUN_REMOTE_SMOKE=1`, and `RUN_MOMO_SMS_ROLLOUT_VERIFY=1`
+- run `bash scripts/qa/release_readiness.sh` with `RUN_ANDROID_MINIFY_CANARY=1`, `RUN_REMOTE_SMOKE=1`, and `RUN_MOMO_SMS_ROLLOUT_VERIFY=1`
 - build the real production artifact, validate on a device matrix, and record results in a release log
 
 ### 2. iOS store release automation is explicitly de-scoped and therefore still blocks a broad iOS launch
@@ -153,7 +153,7 @@ Evidence:
 
 - `.github/workflows/release.yml`
 - `docs/RELEASE_PROCESS.md`
-- `scripts/build_ios_production.sh`
+- `scripts/deploy/build_ios_production.sh`
 
 Why this matters:
 
@@ -173,7 +173,7 @@ Evidence:
 
 - `docs/app_check_enforcement.md`
 - `.github/workflows/release.yml`
-- `scripts/sync_supabase_function_secrets.sh`
+- `scripts/deploy/sync_supabase_function_secrets.sh`
 
 Why this matters:
 
@@ -287,7 +287,7 @@ Best practical fix:
 Evidence:
 
 - `docs/qa_release_readiness.md`
-- `scripts/release_readiness.sh`
+- `scripts/qa/release_readiness.sh`
 
 Why this matters:
 

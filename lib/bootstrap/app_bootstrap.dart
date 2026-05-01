@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -24,7 +25,10 @@ import '../core/theme/theme_preference.dart';
 import '../core/theme/theme_preference_provider.dart';
 import '../core/theme/theme_preference_store.dart';
 import '../l10n/app_localizations.dart';
+import '../core/utils/app_logger.dart';
 import 'bootstrap_ui.dart';
+
+const _log = AppLogger('Bootstrap');
 
 class AppBootstrap extends StatefulWidget {
   const AppBootstrap({super.key});
@@ -99,7 +103,7 @@ class _AppBootstrapState extends State<AppBootstrap> {
       });
       _scheduleStartupSplashRelease();
     } catch (error, stack) {
-      debugPrint('[Bootstrap] Startup failed: $error\n$stack');
+      _log.error('Startup failed', error: error, stack: stack);
       if (!mounted || generation != _bootstrapGeneration) {
         return;
       }
@@ -169,10 +173,10 @@ class _AppBootstrapState extends State<AppBootstrap> {
           timeout: const Duration(seconds: 10),
         );
       } else {
-        debugPrint('[Bootstrap] Supabase already initialized — skipping');
+        _log.debug('Supabase already initialized — skipping');
       }
     } else {
-      debugPrint('[EnvConfig] $configError');
+      _log.warn('EnvConfig: $configError');
     }
 
     await _runOptionalBootStep(
@@ -213,9 +217,7 @@ class _AppBootstrapState extends State<AppBootstrap> {
     if (coldStartTrace != null) {
       unawaited(
         coldStartTrace.stop().catchError((error, stack) {
-          debugPrint(
-            '[Bootstrap] Cold-start trace stop failed: $error\n$stack',
-          );
+          _log.warn('Cold-start trace stop failed', error: error);
         }),
       );
     }
@@ -238,7 +240,7 @@ class _AppBootstrapState extends State<AppBootstrap> {
         'backend=${EnvConfig.backendEnvironment} '
         'supabase=${EnvConfig.effectiveSupabaseProjectRef} '
         'firebase=$firebaseProjectId';
-    debugPrint(summary);
+    _log.info(summary);
 
     if (Firebase.apps.isEmpty) {
       return;
@@ -270,21 +272,19 @@ class _AppBootstrapState extends State<AppBootstrap> {
   }) async {
     _setStep(label);
     final stopwatch = Stopwatch()..start();
-    debugPrint('[Bootstrap] -> $label');
+    _log.debug('-> $label');
 
     try {
       final result = await action().timeout(timeout);
-      debugPrint('[Bootstrap] ok: $label (${stopwatch.elapsedMilliseconds}ms)');
+      _log.debug('ok: $label (${stopwatch.elapsedMilliseconds}ms)');
       return result;
     } on TimeoutException {
-      debugPrint(
-        '[Bootstrap] timeout: $label (${stopwatch.elapsedMilliseconds}ms)',
-      );
+      _log.warn('timeout: $label (${stopwatch.elapsedMilliseconds}ms)');
       return null;
-    } catch (error, stack) {
-      debugPrint(
-        '[Bootstrap] failed: $label (${stopwatch.elapsedMilliseconds}ms): '
-        '$error\n$stack',
+    } catch (error, _) {
+      _log.warn(
+        'failed: $label (${stopwatch.elapsedMilliseconds}ms)',
+        error: error,
       );
       return null;
     }
@@ -297,20 +297,21 @@ class _AppBootstrapState extends State<AppBootstrap> {
   }) async {
     _setStep(label);
     final stopwatch = Stopwatch()..start();
-    debugPrint('[Bootstrap] -> $label');
+    _log.debug('-> $label');
 
     try {
       final result = await action().timeout(timeout);
-      debugPrint('[Bootstrap] ok: $label (${stopwatch.elapsedMilliseconds}ms)');
+      _log.debug('ok: $label (${stopwatch.elapsedMilliseconds}ms)');
       return result;
     } on TimeoutException {
       throw StateError(
         _bootstrapL10n.bootstrapTimedOut(label, timeout.inSeconds),
       );
     } catch (error, stack) {
-      debugPrint(
-        '[Bootstrap] failed: $label (${stopwatch.elapsedMilliseconds}ms): '
-        '$error\n$stack',
+      _log.error(
+        'failed: $label (${stopwatch.elapsedMilliseconds}ms)',
+        error: error,
+        stack: stack,
       );
       throw StateError(_bootstrapL10n.bootstrapStepFailed(label, '$error'));
     }

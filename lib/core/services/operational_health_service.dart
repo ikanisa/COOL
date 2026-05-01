@@ -1,5 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../utils/app_logger.dart';
+
+const _log = AppLogger('OperationalHealth');
 
 enum OperationalHealthStatus { ok, warn, error }
 
@@ -53,7 +56,7 @@ class OperationalHealthService {
         );
       }
     } catch (error) {
-      debugPrint('[OperationalHealth] Failed to record event: $error');
+      _log.warn('Failed to record event: $error');
     }
   }
 

@@ -1,5 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+import '../utils/app_logger.dart';
+
+const _log = AppLogger('Hive');
 
 typedef OpenHiveBox<T> = Future<Box<T>> Function(String name);
 typedef InitializeHive = Future<void> Function();
@@ -38,8 +41,8 @@ Future<void> ensureHiveSchemaVersion() async {
     return;
   }
 
-  debugPrint(
-    '[Hive] Schema version mismatch: stored=$storedVersion, '
+  _log.info(
+    'Schema version mismatch: stored=$storedVersion, '
     'current=$hiveSchemaVersion. Wiping all boxes.',
   );
 
@@ -51,7 +54,7 @@ Future<void> ensureHiveSchemaVersion() async {
   try {
     await Hive.deleteFromDisk();
   } catch (error) {
-    debugPrint('[Hive] deleteFromDisk failed: $error');
+    _log.warn('deleteFromDisk failed: $error');
     // Non-fatal — individual box opens will self-heal via openHiveBox.
   }
 
@@ -63,7 +66,7 @@ Future<void> ensureHiveSchemaVersion() async {
   await freshMetaBox.put(_versionKey, hiveSchemaVersion);
   await freshMetaBox.close();
 
-  debugPrint('[Hive] Schema version set to $hiveSchemaVersion.');
+  _log.info('Schema version set to $hiveSchemaVersion.');
 }
 
 /// Opens a Hive box with corruption recovery.
@@ -78,13 +81,13 @@ Future<Box<T>> openHiveBox<T>(String name) async {
   try {
     return await Hive.openBox<T>(name);
   } catch (error) {
-    debugPrint('[Hive] Box "$name" failed to open: $error');
-    debugPrint('[Hive] Deleting corrupt box "$name" and recreating…');
+    _log.warn('Box "$name" failed to open: $error');
+    _log.info('Deleting corrupt box "$name" and recreating…');
 
     try {
       await Hive.deleteBoxFromDisk(name);
     } catch (deleteError) {
-      debugPrint('[Hive] Could not delete box "$name": $deleteError');
+      _log.warn('Could not delete box "$name": $deleteError');
     }
 
     // Open a fresh box. If this also fails, let it propagate —

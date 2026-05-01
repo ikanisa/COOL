@@ -3022,6 +3022,12 @@ abstract class AppLocalizations {
   /// **'OR REALLOCATE TO ANOTHER MEMBER'**
   String get orReallocateToAnotherMember;
 
+  /// No description provided for @groupMembersLoadFailedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load members'**
+  String get groupMembersLoadFailedTitle;
+
   /// No description provided for @noGroupMembersFound.
   ///
   /// In en, this message translates to:
@@ -3064,6 +3070,12 @@ abstract class AppLocalizations {
   /// **'Select a contact to share with'**
   String get selectAContactToShareWith;
 
+  /// No description provided for @instructionUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'INSTRUCTION'**
+  String get instructionUpper;
+
   /// No description provided for @postedUpper.
   ///
   /// In en, this message translates to:
@@ -3075,6 +3087,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'RECEIVED'**
   String get confirmedUpper;
+
+  /// No description provided for @manualConfirmedUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'MANUAL CONFIRMED'**
+  String get manualConfirmedUpper;
+
+  /// No description provided for @paidUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'PAID'**
+  String get paidUpper;
 
   /// No description provided for @draftUpper.
   ///
@@ -3099,6 +3123,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'SUGGESTED'**
   String get suggestedUpper;
+
+  /// No description provided for @disputedUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'DISPUTED'**
+  String get disputedUpper;
+
+  /// No description provided for @refundedUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'REFUNDED'**
+  String get refundedUpper;
+
+  /// No description provided for @cancelledUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'CANCELLED'**
+  String get cancelledUpper;
 
   /// No description provided for @rejectedUpper.
   ///
@@ -6346,6 +6388,12 @@ abstract class AppLocalizations {
   /// **'Enter a MoMo number'**
   String get biopayEnterMomoNumber;
 
+  /// No description provided for @biopayEnterValidAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid amount.'**
+  String get biopayEnterValidAmount;
+
   /// No description provided for @biopayProfileUnavailableTitle.
   ///
   /// In en, this message translates to:
@@ -7741,7 +7789,7 @@ abstract class AppLocalizations {
   /// No description provided for @adminSavingsGroupNotFound.
   ///
   /// In en, this message translates to:
-  /// **'Savings group not found.'**
+  /// **'Savings group not found'**
   String get adminSavingsGroupNotFound;
 
   /// No description provided for @adminSavingsCloseGroup.
@@ -7795,13 +7843,13 @@ abstract class AppLocalizations {
   /// No description provided for @adminSavingsNoMembersYet.
   ///
   /// In en, this message translates to:
-  /// **'No members yet.'**
+  /// **'No members yet'**
   String get adminSavingsNoMembersYet;
 
   /// No description provided for @adminSavingsNoMembers.
   ///
   /// In en, this message translates to:
-  /// **'No members.'**
+  /// **'No members'**
   String get adminSavingsNoMembers;
 
   /// No description provided for @adminSavingsPhoneRequired.
@@ -7887,6 +7935,1836 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter a valid amount.'**
   String get adminSavingsEnterValidAmount;
+
+  /// No description provided for @adminOpsEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'OPERATIONS'**
+  String get adminOpsEyebrow;
+
+  /// No description provided for @adminOpsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Operations'**
+  String get adminOpsTitle;
+
+  /// No description provided for @adminOpsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Release health, triage queues, payment telemetry, and review backlogs.'**
+  String get adminOpsSubtitle;
+
+  /// No description provided for @adminOpsLabelLive.
+  ///
+  /// In en, this message translates to:
+  /// **'Live'**
+  String get adminOpsLabelLive;
+
+  /// No description provided for @adminOpsLabelSurfaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Surfaces'**
+  String get adminOpsLabelSurfaces;
+
+  /// No description provided for @adminOpsHintMonitoredServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Monitored services'**
+  String get adminOpsHintMonitoredServices;
+
+  /// No description provided for @adminOpsLabelTriage.
+  ///
+  /// In en, this message translates to:
+  /// **'Triage'**
+  String get adminOpsLabelTriage;
+
+  /// No description provided for @adminOpsHintOpenBlockingIssues.
+  ///
+  /// In en, this message translates to:
+  /// **'Open blocking issues'**
+  String get adminOpsHintOpenBlockingIssues;
+
+  /// No description provided for @adminOpsLabelSenders.
+  ///
+  /// In en, this message translates to:
+  /// **'Senders'**
+  String get adminOpsLabelSenders;
+
+  /// No description provided for @adminOpsHintSenderAuditRows.
+  ///
+  /// In en, this message translates to:
+  /// **'Sender audit rows'**
+  String get adminOpsHintSenderAuditRows;
+
+  /// No description provided for @adminOpsLabelManualReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual review'**
+  String get adminOpsLabelManualReview;
+
+  /// No description provided for @adminOpsHintOpenReviewItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Open review items'**
+  String get adminOpsHintOpenReviewItems;
+
+  /// No description provided for @adminOpsLabelEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Events'**
+  String get adminOpsLabelEvents;
+
+  /// No description provided for @adminOpsHintRecentHealthEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent health events'**
+  String get adminOpsHintRecentHealthEvents;
+
+  /// No description provided for @adminOpsEmptyDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'No operational dashboard yet'**
+  String get adminOpsEmptyDashboard;
+
+  /// No description provided for @adminOpsHealthSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Live health by monitored service.'**
+  String get adminOpsHealthSubtitle;
+
+  /// No description provided for @adminOpsFallbackSurface.
+  ///
+  /// In en, this message translates to:
+  /// **'Surface'**
+  String get adminOpsFallbackSurface;
+
+  /// No description provided for @adminOpsFallbackSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'No summary available.'**
+  String get adminOpsFallbackSummary;
+
+  /// No description provided for @adminOpsTriageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Triage Queue'**
+  String get adminOpsTriageTitle;
+
+  /// No description provided for @adminOpsTriageSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Focused on failed payment and release issues.'**
+  String get adminOpsTriageSubtitle;
+
+  /// No description provided for @adminOpsTriageEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No release-blocking operational issues'**
+  String get adminOpsTriageEmpty;
+
+  /// No description provided for @adminOpsFallbackIssue.
+  ///
+  /// In en, this message translates to:
+  /// **'Issue'**
+  String get adminOpsFallbackIssue;
+
+  /// No description provided for @adminOpsFallbackDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'No detail available.'**
+  String get adminOpsFallbackDetail;
+
+  /// No description provided for @adminOpsMMoneyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'M-Money SMS'**
+  String get adminOpsMMoneyTitle;
+
+  /// No description provided for @adminOpsMMoneyEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No M-Money SMS operational summary'**
+  String get adminOpsMMoneyEmpty;
+
+  /// No description provided for @adminOpsSenderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sender Inventory Audit'**
+  String get adminOpsSenderTitle;
+
+  /// No description provided for @adminOpsSenderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsupported or alias sender drift detected.'**
+  String get adminOpsSenderSubtitle;
+
+  /// No description provided for @adminColumnService.
+  ///
+  /// In en, this message translates to:
+  /// **'Service'**
+  String get adminColumnService;
+
+  /// No description provided for @adminColumnStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get adminColumnStatus;
+
+  /// No description provided for @adminColumnIssues.
+  ///
+  /// In en, this message translates to:
+  /// **'Issues'**
+  String get adminColumnIssues;
+
+  /// No description provided for @adminColumnLastSignal.
+  ///
+  /// In en, this message translates to:
+  /// **'Last signal'**
+  String get adminColumnLastSignal;
+
+  /// No description provided for @adminColumnSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get adminColumnSummary;
+
+  /// No description provided for @adminColumnIssue.
+  ///
+  /// In en, this message translates to:
+  /// **'Issue'**
+  String get adminColumnIssue;
+
+  /// No description provided for @adminColumnSeverity.
+  ///
+  /// In en, this message translates to:
+  /// **'Severity'**
+  String get adminColumnSeverity;
+
+  /// No description provided for @adminColumnReference.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference'**
+  String get adminColumnReference;
+
+  /// No description provided for @adminColumnLastSeen.
+  ///
+  /// In en, this message translates to:
+  /// **'Last seen'**
+  String get adminColumnLastSeen;
+
+  /// No description provided for @adminColumnDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Detail'**
+  String get adminColumnDetail;
+
+  /// No description provided for @adminColumnUser.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get adminColumnUser;
+
+  /// No description provided for @adminColumnRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Role'**
+  String get adminColumnRole;
+
+  /// No description provided for @adminColumnScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Scope'**
+  String get adminColumnScope;
+
+  /// No description provided for @adminColumnGranted.
+  ///
+  /// In en, this message translates to:
+  /// **'Granted'**
+  String get adminColumnGranted;
+
+  /// No description provided for @adminColumnNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get adminColumnNotes;
+
+  /// No description provided for @adminColumnAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Action'**
+  String get adminColumnAction;
+
+  /// No description provided for @adminColumnMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Market'**
+  String get adminColumnMarket;
+
+  /// No description provided for @adminColumnBatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Batch'**
+  String get adminColumnBatch;
+
+  /// No description provided for @adminColumnCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get adminColumnCreated;
+
+  /// No description provided for @adminUsersEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'USER MANAGEMENT'**
+  String get adminUsersEyebrow;
+
+  /// No description provided for @adminUsersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Users'**
+  String get adminUsersTitle;
+
+  /// No description provided for @adminUsersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts, role signals, payment reachability, and demo cleanup.'**
+  String get adminUsersSubtitle;
+
+  /// No description provided for @adminUsersLabelLiveInventory.
+  ///
+  /// In en, this message translates to:
+  /// **'Live inventory'**
+  String get adminUsersLabelLiveInventory;
+
+  /// No description provided for @adminUsersLabelVisible.
+  ///
+  /// In en, this message translates to:
+  /// **'Visible'**
+  String get adminUsersLabelVisible;
+
+  /// No description provided for @adminUsersLabelUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'Users'**
+  String get adminUsersLabelUsers;
+
+  /// No description provided for @adminUsersHintTotalAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Total accounts'**
+  String get adminUsersHintTotalAccounts;
+
+  /// No description provided for @adminUsersLabelAdmins.
+  ///
+  /// In en, this message translates to:
+  /// **'Admins'**
+  String get adminUsersLabelAdmins;
+
+  /// No description provided for @adminUsersHintPrivileged.
+  ///
+  /// In en, this message translates to:
+  /// **'Privileged accounts'**
+  String get adminUsersHintPrivileged;
+
+  /// No description provided for @adminUsersLabelMock.
+  ///
+  /// In en, this message translates to:
+  /// **'Mock'**
+  String get adminUsersLabelMock;
+
+  /// No description provided for @adminUsersHintDemoInventory.
+  ///
+  /// In en, this message translates to:
+  /// **'Demo inventory'**
+  String get adminUsersHintDemoInventory;
+
+  /// No description provided for @adminUsersLabelMoMo.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo'**
+  String get adminUsersLabelMoMo;
+
+  /// No description provided for @adminUsersHintPaymentLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment-linked'**
+  String get adminUsersHintPaymentLinked;
+
+  /// No description provided for @adminUsersSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name, phone, or ID…'**
+  String get adminUsersSearchHint;
+
+  /// No description provided for @adminUsersInventoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'User Inventory'**
+  String get adminUsersInventoryTitle;
+
+  /// No description provided for @adminUsersInventorySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Primary identifiers, status, market scope, and edit access.'**
+  String get adminUsersInventorySubtitle;
+
+  /// No description provided for @adminUsersEmptyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'No users match the current filters'**
+  String get adminUsersEmptyLabel;
+
+  /// No description provided for @adminUsersNoUsersReturned.
+  ///
+  /// In en, this message translates to:
+  /// **'No users were returned'**
+  String get adminUsersNoUsersReturned;
+
+  /// No description provided for @adminUsersBatchCleanupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Batch Cleanup'**
+  String get adminUsersBatchCleanupTitle;
+
+  /// No description provided for @adminUsersBatchCleanupSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove demo inventory without leaving the user table.'**
+  String get adminUsersBatchCleanupSubtitle;
+
+  /// No description provided for @adminUsersButtonEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get adminUsersButtonEdit;
+
+  /// No description provided for @adminUsersFilterAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin'**
+  String get adminUsersFilterAdmin;
+
+  /// No description provided for @adminUsersFilterMock.
+  ///
+  /// In en, this message translates to:
+  /// **'Mock'**
+  String get adminUsersFilterMock;
+
+  /// No description provided for @adminUsersFilterMoMo.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo'**
+  String get adminUsersFilterMoMo;
+
+  /// No description provided for @adminUsersFilterStandard.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get adminUsersFilterStandard;
+
+  /// No description provided for @adminUsersFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get adminUsersFilterAll;
+
+  /// No description provided for @adminUsersFilterAdmins.
+  ///
+  /// In en, this message translates to:
+  /// **'Admins'**
+  String get adminUsersFilterAdmins;
+
+  /// No description provided for @adminRolesEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'ACCESS CONTROL'**
+  String get adminRolesEyebrow;
+
+  /// No description provided for @adminRolesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin Roles'**
+  String get adminRolesTitle;
+
+  /// No description provided for @adminRolesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Role assignments, scope, grant date, and revoke actions.'**
+  String get adminRolesSubtitle;
+
+  /// No description provided for @adminRolesButtonAssign.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign'**
+  String get adminRolesButtonAssign;
+
+  /// No description provided for @adminRolesLabelAssignments.
+  ///
+  /// In en, this message translates to:
+  /// **'Assignments'**
+  String get adminRolesLabelAssignments;
+
+  /// No description provided for @adminRolesHintActiveGrants.
+  ///
+  /// In en, this message translates to:
+  /// **'Active grants'**
+  String get adminRolesHintActiveGrants;
+
+  /// No description provided for @adminRolesLabelPlatform.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform'**
+  String get adminRolesLabelPlatform;
+
+  /// No description provided for @adminRolesHintGlobalAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Global access'**
+  String get adminRolesHintGlobalAccess;
+
+  /// No description provided for @adminRolesLabelBank.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank'**
+  String get adminRolesLabelBank;
+
+  /// No description provided for @adminRolesHintScopedWorkspaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Scoped workspaces'**
+  String get adminRolesHintScopedWorkspaces;
+
+  /// No description provided for @adminRolesLabelBankScopes.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank scopes'**
+  String get adminRolesLabelBankScopes;
+
+  /// No description provided for @adminRolesHintDistinctBanks.
+  ///
+  /// In en, this message translates to:
+  /// **'Distinct banks'**
+  String get adminRolesHintDistinctBanks;
+
+  /// No description provided for @adminRolesLedgerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Role Ledger'**
+  String get adminRolesLedgerTitle;
+
+  /// No description provided for @adminRolesLedgerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Grant history kept visible, revoke path kept direct.'**
+  String get adminRolesLedgerSubtitle;
+
+  /// No description provided for @adminRolesEmptyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'No assignments match the current filter'**
+  String get adminRolesEmptyLabel;
+
+  /// No description provided for @adminRolesScopedBank.
+  ///
+  /// In en, this message translates to:
+  /// **'Scoped bank'**
+  String get adminRolesScopedBank;
+
+  /// No description provided for @adminRolesAllWorkspaces.
+  ///
+  /// In en, this message translates to:
+  /// **'All workspaces'**
+  String get adminRolesAllWorkspaces;
+
+  /// No description provided for @adminRolesButtonRevoke.
+  ///
+  /// In en, this message translates to:
+  /// **'Revoke'**
+  String get adminRolesButtonRevoke;
+
+  /// No description provided for @adminRolesRevokeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Revoke Role'**
+  String get adminRolesRevokeTitle;
+
+  /// No description provided for @adminRolesRevokeSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Role revoked.'**
+  String get adminRolesRevokeSuccess;
+
+  /// No description provided for @adminRolesRevokeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed: {error}'**
+  String adminRolesRevokeFailed(String error);
+
+  /// No description provided for @adminRolesFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get adminRolesFilterAll;
+
+  /// No description provided for @adminRolesFilterPlatform.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform'**
+  String get adminRolesFilterPlatform;
+
+  /// No description provided for @adminRolesFilterBank.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank'**
+  String get adminRolesFilterBank;
+
+  /// No description provided for @adminRolesAssignHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Open role assignment form'**
+  String get adminRolesAssignHint;
+
+  /// No description provided for @adminRolesAssignLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign admin role'**
+  String get adminRolesAssignLabel;
+
+  /// No description provided for @adminWorkspacesEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'ADMIN ACCESS'**
+  String get adminWorkspacesEyebrow;
+
+  /// No description provided for @adminWorkspacesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin Workspaces'**
+  String get adminWorkspacesTitle;
+
+  /// No description provided for @adminWorkspacesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the right control surface for platform or bank operations.'**
+  String get adminWorkspacesSubtitle;
+
+  /// No description provided for @adminWorkspacesNoAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'This account does not have admin workspace access.'**
+  String get adminWorkspacesNoAccess;
+
+  /// No description provided for @adminWorkspacesLabelPlatformAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform Admin'**
+  String get adminWorkspacesLabelPlatformAdmin;
+
+  /// No description provided for @adminWorkspacesLabelBankAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank Admin'**
+  String get adminWorkspacesLabelBankAdmin;
+
+  /// No description provided for @adminWorkspacesLabelVisible.
+  ///
+  /// In en, this message translates to:
+  /// **'Visible workspaces'**
+  String get adminWorkspacesLabelVisible;
+
+  /// No description provided for @adminWorkspacesHintEntryPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Operational entry points'**
+  String get adminWorkspacesHintEntryPoints;
+
+  /// No description provided for @adminWorkspacesLabelBankScopes.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank scopes'**
+  String get adminWorkspacesLabelBankScopes;
+
+  /// No description provided for @adminWorkspacesHintScopedInstitutions.
+  ///
+  /// In en, this message translates to:
+  /// **'Scoped institutions'**
+  String get adminWorkspacesHintScopedInstitutions;
+
+  /// No description provided for @adminWorkspacesPlatformDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Global app operations, release controls, and oversight.'**
+  String get adminWorkspacesPlatformDesc;
+
+  /// No description provided for @adminWorkspacesPlatformTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform Admin'**
+  String get adminWorkspacesPlatformTitle;
+
+  /// No description provided for @adminWorkspacesPlatformSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Users, services, content, roles, and operations.'**
+  String get adminWorkspacesPlatformSubtitle;
+
+  /// No description provided for @adminWorkspacesSavingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings & Groups'**
+  String get adminWorkspacesSavingsTitle;
+
+  /// No description provided for @adminWorkspacesSavingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Centralized savings management, community groups, and allocations.'**
+  String get adminWorkspacesSavingsSubtitle;
+
+  /// No description provided for @adminWorkspacesBankTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank Workspaces'**
+  String get adminWorkspacesBankTitle;
+
+  /// No description provided for @adminWorkspacesBankSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Allocation review, custody, and ledger exports.'**
+  String get adminWorkspacesBankSubtitle;
+
+  /// No description provided for @adminWorkspacesEmptyBank.
+  ///
+  /// In en, this message translates to:
+  /// **'No bank workspace is assigned yet.'**
+  String get adminWorkspacesEmptyBank;
+
+  /// No description provided for @adminWorkspacesBankLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank workspaces failed to load.'**
+  String get adminWorkspacesBankLoadFailed;
+
+  /// No description provided for @adminBankTerminalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank Terminal'**
+  String get adminBankTerminalTitle;
+
+  /// No description provided for @adminBankGroupMembers.
+  ///
+  /// In en, this message translates to:
+  /// **'Group Members'**
+  String get adminBankGroupMembers;
+
+  /// No description provided for @adminBankAllocatePaymentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Allocate payment'**
+  String get adminBankAllocatePaymentTitle;
+
+  /// No description provided for @adminBankAllocatePaymentMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign this payment to the matched member.'**
+  String get adminBankAllocatePaymentMessage;
+
+  /// No description provided for @adminBankButtonAllocate.
+  ///
+  /// In en, this message translates to:
+  /// **'Allocate'**
+  String get adminBankButtonAllocate;
+
+  /// No description provided for @adminBankButtonCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get adminBankButtonCancel;
+
+  /// No description provided for @adminBankAllocateSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment allocated'**
+  String get adminBankAllocateSuccess;
+
+  /// No description provided for @adminBankRejectTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject allocation'**
+  String get adminBankRejectTitle;
+
+  /// No description provided for @adminBankRejectMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This removes the pending allocation.'**
+  String get adminBankRejectMessage;
+
+  /// No description provided for @adminBankButtonReject.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get adminBankButtonReject;
+
+  /// No description provided for @adminBankRejectSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Allocation rejected'**
+  String get adminBankRejectSuccess;
+
+  /// No description provided for @adminBankFallbackUser.
+  ///
+  /// In en, this message translates to:
+  /// **'COOL User'**
+  String get adminBankFallbackUser;
+
+  /// No description provided for @adminBankPeriodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'All posted entries in view'**
+  String get adminBankPeriodLabel;
+
+  /// No description provided for @adminBankFilterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Group payment ledger'**
+  String get adminBankFilterLabel;
+
+  /// No description provided for @adminBankSortLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest first'**
+  String get adminBankSortLabel;
+
+  /// No description provided for @adminBankExportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger exported'**
+  String get adminBankExportSuccess;
+
+  /// No description provided for @adminBankNoGroups.
+  ///
+  /// In en, this message translates to:
+  /// **'No linked groups.'**
+  String get adminBankNoGroups;
+
+  /// No description provided for @adminBankLabelViewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'View details'**
+  String get adminBankLabelViewDetails;
+
+  /// No description provided for @adminBankLabelOpenLedger.
+  ///
+  /// In en, this message translates to:
+  /// **'Open ledger'**
+  String get adminBankLabelOpenLedger;
+
+  /// No description provided for @adminBankNoReviewItems.
+  ///
+  /// In en, this message translates to:
+  /// **'No manual review items.'**
+  String get adminBankNoReviewItems;
+
+  /// No description provided for @adminBankNoLedgerEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'No posted payment ledger entries.'**
+  String get adminBankNoLedgerEntries;
+
+  /// No description provided for @adminBankPostedLedger.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted payment ledger'**
+  String get adminBankPostedLedger;
+
+  /// No description provided for @adminBankExportPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Export PDF'**
+  String get adminBankExportPdf;
+
+  /// No description provided for @adminBankExportExcel.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Excel'**
+  String get adminBankExportExcel;
+
+  /// No description provided for @adminAuditEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'AUDIT TRAIL'**
+  String get adminAuditEyebrow;
+
+  /// No description provided for @adminAuditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Audit Log'**
+  String get adminAuditTitle;
+
+  /// No description provided for @adminAuditSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Who changed what, when, and on which record.'**
+  String get adminAuditSubtitle;
+
+  /// No description provided for @adminAuditLabelVisible.
+  ///
+  /// In en, this message translates to:
+  /// **'Visible'**
+  String get adminAuditLabelVisible;
+
+  /// No description provided for @adminAuditLabelEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'Entries'**
+  String get adminAuditLabelEntries;
+
+  /// No description provided for @adminAuditHintCurrentFeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Current feed'**
+  String get adminAuditHintCurrentFeed;
+
+  /// No description provided for @adminAuditLabelCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get adminAuditLabelCreate;
+
+  /// No description provided for @adminAuditHintNewRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'New records'**
+  String get adminAuditHintNewRecords;
+
+  /// No description provided for @adminAuditLabelUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get adminAuditLabelUpdate;
+
+  /// No description provided for @adminAuditHintChangedRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Changed records'**
+  String get adminAuditHintChangedRecords;
+
+  /// No description provided for @adminAuditLabelDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get adminAuditLabelDelete;
+
+  /// No description provided for @adminAuditHintRemovedRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed records'**
+  String get adminAuditHintRemovedRecords;
+
+  /// No description provided for @adminAuditTimelineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline'**
+  String get adminAuditTimelineTitle;
+
+  /// No description provided for @adminAuditTimelineSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand an entry to inspect before and after payloads.'**
+  String get adminAuditTimelineSubtitle;
+
+  /// No description provided for @adminAuditEmptyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'No audit entries yet'**
+  String get adminAuditEmptyLabel;
+
+  /// No description provided for @adminAuditFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get adminAuditFilterAll;
+
+  /// No description provided for @adminAuditUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get adminAuditUnknown;
+
+  /// No description provided for @adminAuditExpanded.
+  ///
+  /// In en, this message translates to:
+  /// **'Expanded'**
+  String get adminAuditExpanded;
+
+  /// No description provided for @adminAuditCollapsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapsed'**
+  String get adminAuditCollapsed;
+
+  /// No description provided for @adminAuditPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get adminAuditPrevious;
+
+  /// No description provided for @adminAuditNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get adminAuditNew;
+
+  /// No description provided for @adminSenderFilterUnresolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Unresolved'**
+  String get adminSenderFilterUnresolved;
+
+  /// No description provided for @adminSenderFilterAcknowledged.
+  ///
+  /// In en, this message translates to:
+  /// **'Acknowledged'**
+  String get adminSenderFilterAcknowledged;
+
+  /// No description provided for @adminSenderFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get adminSenderFilterAll;
+
+  /// No description provided for @adminSenderAcknowledgeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Acknowledge legacy sender?'**
+  String get adminSenderAcknowledgeTitle;
+
+  /// No description provided for @adminSenderAcknowledgeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This keeps the raw SMS history unchanged, but marks {sender} as reviewed legacy unsupported sender history.'**
+  String adminSenderAcknowledgeMessage(String sender);
+
+  /// No description provided for @adminSenderButtonAcknowledge.
+  ///
+  /// In en, this message translates to:
+  /// **'Acknowledge'**
+  String get adminSenderButtonAcknowledge;
+
+  /// No description provided for @adminSenderAcknowledgeSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Legacy sender acknowledged.'**
+  String get adminSenderAcknowledgeSuccess;
+
+  /// No description provided for @adminSenderAcknowledgeError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not acknowledge this sender right now.'**
+  String get adminSenderAcknowledgeError;
+
+  /// No description provided for @adminSenderBulkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Acknowledge {count} senders?'**
+  String adminSenderBulkTitle(int count);
+
+  /// No description provided for @adminSenderBulkMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This records the visible unsupported senders as reviewed legacy history without altering raw SMS records.'**
+  String get adminSenderBulkMessage;
+
+  /// No description provided for @adminSenderButtonAcknowledgeVisible.
+  ///
+  /// In en, this message translates to:
+  /// **'Acknowledge visible'**
+  String get adminSenderButtonAcknowledgeVisible;
+
+  /// No description provided for @adminSenderBulkSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Acknowledged {count} sender backlogs.'**
+  String adminSenderBulkSuccess(int count);
+
+  /// No description provided for @adminSenderBulkNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No sender backlogs needed acknowledgement.'**
+  String get adminSenderBulkNone;
+
+  /// No description provided for @adminSenderBulkError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not acknowledge the visible senders right now.'**
+  String get adminSenderBulkError;
+
+  /// No description provided for @adminSenderEmptyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'No unsupported M-Money SMS senders are currently stored.'**
+  String get adminSenderEmptyLabel;
+
+  /// No description provided for @adminSenderSaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get adminSenderSaving;
+
+  /// No description provided for @adminReviewFilterNeedsReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs Review'**
+  String get adminReviewFilterNeedsReview;
+
+  /// No description provided for @adminReviewFilterUnmatched.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmatched'**
+  String get adminReviewFilterUnmatched;
+
+  /// No description provided for @adminReviewFilterNonActionable.
+  ///
+  /// In en, this message translates to:
+  /// **'Non-actionable'**
+  String get adminReviewFilterNonActionable;
+
+  /// No description provided for @adminReviewFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get adminReviewFilterAll;
+
+  /// No description provided for @adminReviewCloseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Close manual review?'**
+  String get adminReviewCloseTitle;
+
+  /// No description provided for @adminReviewCloseMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will mark the SMS reconciliation review as not app-linked while keeping the wallet history intact.'**
+  String get adminReviewCloseMessage;
+
+  /// No description provided for @adminReviewButtonClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close review'**
+  String get adminReviewButtonClose;
+
+  /// No description provided for @adminReviewCloseSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual review closed.'**
+  String get adminReviewCloseSuccess;
+
+  /// No description provided for @adminReviewCloseError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not close this review right now.'**
+  String get adminReviewCloseError;
+
+  /// No description provided for @adminReviewBulkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Close {count} reviews?'**
+  String adminReviewBulkTitle(int count);
+
+  /// No description provided for @adminReviewBulkMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This bulk action closes the visible manual reviews as not app-linked. Wallet statements will remain available.'**
+  String get adminReviewBulkMessage;
+
+  /// No description provided for @adminReviewButtonCloseVisible.
+  ///
+  /// In en, this message translates to:
+  /// **'Close visible'**
+  String get adminReviewButtonCloseVisible;
+
+  /// No description provided for @adminReviewBulkSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed {count} manual reviews.'**
+  String adminReviewBulkSuccess(int count);
+
+  /// No description provided for @adminReviewBulkNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No eligible manual reviews were closed.'**
+  String get adminReviewBulkNone;
+
+  /// No description provided for @adminReviewBulkError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not close the visible reviews.'**
+  String get adminReviewBulkError;
+
+  /// No description provided for @adminReviewEmptyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'No generic M-Money SMS manual reviews are open.'**
+  String get adminReviewEmptyLabel;
+
+  /// No description provided for @adminReviewClosing.
+  ///
+  /// In en, this message translates to:
+  /// **'Closing...'**
+  String get adminReviewClosing;
+
+  /// No description provided for @adminSavingsHintName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get adminSavingsHintName;
+
+  /// No description provided for @adminSavingsHintAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get adminSavingsHintAmount;
+
+  /// No description provided for @adminSavingsHintNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get adminSavingsHintNote;
+
+  /// No description provided for @adminSavingsSuffixRwf.
+  ///
+  /// In en, this message translates to:
+  /// **'RWF'**
+  String get adminSavingsSuffixRwf;
+
+  /// No description provided for @adminSavingsEmptyMembers.
+  ///
+  /// In en, this message translates to:
+  /// **'No members'**
+  String get adminSavingsEmptyMembers;
+
+  /// No description provided for @adminSavingsGroupNotFoundMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings group not found'**
+  String get adminSavingsGroupNotFoundMessage;
+
+  /// No description provided for @adminDashboardPlatformAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform Admin'**
+  String get adminDashboardPlatformAdmin;
+
+  /// No description provided for @adminDashboardRestricted.
+  ///
+  /// In en, this message translates to:
+  /// **'Restricted'**
+  String get adminDashboardRestricted;
+
+  /// No description provided for @adminGateWorkspaceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank Workspace'**
+  String get adminGateWorkspaceTitle;
+
+  /// No description provided for @adminConfigAddRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Partner Payment Route'**
+  String get adminConfigAddRoute;
+
+  /// No description provided for @adminConfigEditRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Partner Payment Route'**
+  String get adminConfigEditRoute;
+
+  /// No description provided for @adminConfigManageRouting.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Rwanda partner checkout routing.'**
+  String get adminConfigManageRouting;
+
+  /// No description provided for @adminConfigFieldMerchantCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Merchant code'**
+  String get adminConfigFieldMerchantCode;
+
+  /// No description provided for @adminConfigFieldReconciliation.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconciliation label'**
+  String get adminConfigFieldReconciliation;
+
+  /// No description provided for @adminConfigSaveRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'Save route'**
+  String get adminConfigSaveRoute;
+
+  /// No description provided for @adminConfigDeleteRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete route'**
+  String get adminConfigDeleteRoute;
+
+  /// No description provided for @adminConfigHintEnterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter {label}'**
+  String adminConfigHintEnterLabel(String label);
+
+  /// No description provided for @adminConfigHintChoosePartner.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose partner'**
+  String get adminConfigHintChoosePartner;
+
+  /// No description provided for @adminConfigLabelPartner.
+  ///
+  /// In en, this message translates to:
+  /// **'Partner'**
+  String get adminConfigLabelPartner;
+
+  /// No description provided for @adminConfigDefaultMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Rwanda'**
+  String get adminConfigDefaultMarket;
+
+  /// No description provided for @adminConfigLabelMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Market'**
+  String get adminConfigLabelMarket;
+
+  /// No description provided for @adminConfigHintChooseStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose route status'**
+  String get adminConfigHintChooseStatus;
+
+  /// No description provided for @adminConfigLabelStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get adminConfigLabelStatus;
+
+  /// No description provided for @adminConfigStatusDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get adminConfigStatusDraft;
+
+  /// No description provided for @adminConfigStatusActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get adminConfigStatusActive;
+
+  /// No description provided for @adminConfigSelectPartnerError.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a partner.'**
+  String get adminConfigSelectPartnerError;
+
+  /// No description provided for @adminConfigReconciliationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a reconciliation label.'**
+  String get adminConfigReconciliationError;
+
+  /// No description provided for @adminConfigMerchantCodeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Active routes require a merchant code.'**
+  String get adminConfigMerchantCodeRequired;
+
+  /// No description provided for @adminRolesAssignTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign Admin Role'**
+  String get adminRolesAssignTitle;
+
+  /// No description provided for @adminRolesAssignUserIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'User ID'**
+  String get adminRolesAssignUserIdLabel;
+
+  /// No description provided for @adminRolesAssignUserIdHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste user UUID'**
+  String get adminRolesAssignUserIdHint;
+
+  /// No description provided for @adminRolesAssignPasteTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste user ID'**
+  String get adminRolesAssignPasteTooltip;
+
+  /// No description provided for @adminRolesAssignRoleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Role'**
+  String get adminRolesAssignRoleLabel;
+
+  /// No description provided for @adminRolesAssignBankScopeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank Scope'**
+  String get adminRolesAssignBankScopeLabel;
+
+  /// No description provided for @adminRolesAssignBankScopeError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load bank scopes.'**
+  String get adminRolesAssignBankScopeError;
+
+  /// No description provided for @adminRolesAssignButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign Role'**
+  String get adminRolesAssignButtonLabel;
+
+  /// No description provided for @adminRolesAssignUserIdError.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a user ID.'**
+  String get adminRolesAssignUserIdError;
+
+  /// No description provided for @adminRolesAssignBankScopeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a bank scope.'**
+  String get adminRolesAssignBankScopeRequired;
+
+  /// No description provided for @adminOpsManualReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Generic Manual Review'**
+  String get adminOpsManualReviewTitle;
+
+  /// No description provided for @adminOpsManualReviewSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SMS that could not be app-linked.'**
+  String get adminOpsManualReviewSubtitle;
+
+  /// No description provided for @adminOpsActivityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Activity'**
+  String get adminOpsActivityTitle;
+
+  /// No description provided for @adminOpsActivitySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Operational health stream.'**
+  String get adminOpsActivitySubtitle;
+
+  /// No description provided for @adminOpsActivityEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No recent operational events'**
+  String get adminOpsActivityEmpty;
+
+  /// No description provided for @adminBankPendingAllocations.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} pending allocation{count, plural, =1{} other{s}}'**
+  String adminBankPendingAllocations(int count);
+
+  /// No description provided for @adminBankCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get adminBankCancel;
+
+  /// No description provided for @adminAuditVisible.
+  ///
+  /// In en, this message translates to:
+  /// **'Visible'**
+  String get adminAuditVisible;
+
+  /// No description provided for @adminAuditEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'Entries'**
+  String get adminAuditEntries;
+
+  /// No description provided for @adminAuditCurrentFeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Current feed'**
+  String get adminAuditCurrentFeed;
+
+  /// No description provided for @adminAuditCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get adminAuditCreate;
+
+  /// No description provided for @adminAuditNewRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'New records'**
+  String get adminAuditNewRecords;
+
+  /// No description provided for @adminAuditUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get adminAuditUpdate;
+
+  /// No description provided for @adminAuditChangedRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Changed records'**
+  String get adminAuditChangedRecords;
+
+  /// No description provided for @adminAuditDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get adminAuditDelete;
+
+  /// No description provided for @adminAuditRemovedRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed records'**
+  String get adminAuditRemovedRecords;
+
+  /// No description provided for @adminAuditTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline'**
+  String get adminAuditTimeline;
+
+  /// No description provided for @adminAuditEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No audit entries yet'**
+  String get adminAuditEmpty;
+
+  /// No description provided for @adminAuditUnknownActor.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get adminAuditUnknownActor;
+
+  /// No description provided for @adminSavingsErrorPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String adminSavingsErrorPrefix(String error);
+
+  /// No description provided for @adminSavingsCancelAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get adminSavingsCancelAction;
+
+  /// No description provided for @adminSavingsCreateGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Savings Group'**
+  String get adminSavingsCreateGroup;
+
+  /// No description provided for @adminSavingsNoGroupsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No {type} groups yet'**
+  String adminSavingsNoGroupsYet(String type);
+
+  /// No description provided for @adminSavingsNoGroupsMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No groups match your search'**
+  String get adminSavingsNoGroupsMatch;
+
+  /// No description provided for @adminSavingsGroupNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Group name is required'**
+  String get adminSavingsGroupNameRequired;
+
+  /// No description provided for @adminSavingsGroupCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings group created'**
+  String get adminSavingsGroupCreated;
+
+  /// No description provided for @adminSavingsCreationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Creation failed'**
+  String get adminSavingsCreationFailed;
+
+  /// No description provided for @adminSavingsCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get adminSavingsCopied;
+
+  /// No description provided for @adminSavingsCloseGroupButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Close Group'**
+  String get adminSavingsCloseGroupButton;
+
+  /// No description provided for @adminOpsSenderUnresolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Unresolved'**
+  String get adminOpsSenderUnresolved;
+
+  /// No description provided for @adminOpsSenderAcknowledged.
+  ///
+  /// In en, this message translates to:
+  /// **'Acknowledged'**
+  String get adminOpsSenderAcknowledged;
+
+  /// No description provided for @adminOpsSenderAcknowledge.
+  ///
+  /// In en, this message translates to:
+  /// **'Acknowledge'**
+  String get adminOpsSenderAcknowledge;
+
+  /// No description provided for @adminOpsSenderAcknowledgeVisible.
+  ///
+  /// In en, this message translates to:
+  /// **'Acknowledge visible'**
+  String get adminOpsSenderAcknowledgeVisible;
+
+  /// No description provided for @adminOpsReviewNeedsReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs Review'**
+  String get adminOpsReviewNeedsReview;
+
+  /// No description provided for @adminOpsReviewUnmatched.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmatched'**
+  String get adminOpsReviewUnmatched;
+
+  /// No description provided for @adminOpsReviewClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close review'**
+  String get adminOpsReviewClose;
+
+  /// No description provided for @adminOpsReviewCloseVisible.
+  ///
+  /// In en, this message translates to:
+  /// **'Close visible'**
+  String get adminOpsReviewCloseVisible;
+
+  /// No description provided for @adminDashPlatformAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform Admin'**
+  String get adminDashPlatformAdmin;
+
+  /// No description provided for @adminDashRestricted.
+  ///
+  /// In en, this message translates to:
+  /// **'Restricted'**
+  String get adminDashRestricted;
+
+  /// No description provided for @adminGateLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading workspace'**
+  String get adminGateLoading;
+
+  /// No description provided for @adminGateAccessDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Access denied'**
+  String get adminGateAccessDenied;
+
+  /// No description provided for @adminGateBankWorkspace.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank Workspace'**
+  String get adminGateBankWorkspace;
+
+  /// No description provided for @adminEditUserTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit User'**
+  String get adminEditUserTitle;
+
+  /// No description provided for @adminEditUserFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get adminEditUserFullName;
+
+  /// No description provided for @adminEditUserSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save User'**
+  String get adminEditUserSave;
+
+  /// No description provided for @adminEditUserUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'User updated'**
+  String get adminEditUserUpdated;
+
+  /// No description provided for @adminRolesAssignUserIdTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste user ID'**
+  String get adminRolesAssignUserIdTooltip;
+
+  /// No description provided for @adminRolesRevokeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Revoke'**
+  String get adminRolesRevokeButton;
+
+  /// No description provided for @adminRolesBankScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank: {bankName}'**
+  String adminRolesBankScope(String bankName);
+
+  /// No description provided for @adminRolesOtherScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Scope: {bankName}'**
+  String adminRolesOtherScope(String bankName);
+
+  /// No description provided for @adminConfigEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Config'**
+  String get adminConfigEditTitle;
+
+  /// No description provided for @adminConfigNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Config Entry'**
+  String get adminConfigNewTitle;
+
+  /// No description provided for @adminConfigFieldValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get adminConfigFieldValue;
+
+  /// No description provided for @adminConfigFieldDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get adminConfigFieldDescription;
+
+  /// No description provided for @adminConfigFieldMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Market'**
+  String get adminConfigFieldMarket;
+
+  /// No description provided for @adminConfigRolloutStage.
+  ///
+  /// In en, this message translates to:
+  /// **'Rollout stage'**
+  String get adminConfigRolloutStage;
+
+  /// No description provided for @adminConfigKillSwitch.
+  ///
+  /// In en, this message translates to:
+  /// **'Kill switch'**
+  String get adminConfigKillSwitch;
+
+  /// No description provided for @adminConfigAdminOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin only'**
+  String get adminConfigAdminOnly;
+
+  /// No description provided for @adminConfigSaveRollout.
+  ///
+  /// In en, this message translates to:
+  /// **'Save rollout'**
+  String get adminConfigSaveRollout;
+
+  /// No description provided for @adminConfigAddPartnerRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Partner Payment Route'**
+  String get adminConfigAddPartnerRoute;
+
+  /// No description provided for @adminConfigEditPartnerRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Partner Payment Route'**
+  String get adminConfigEditPartnerRoute;
+
+  /// No description provided for @adminConfigFieldProviderId.
+  ///
+  /// In en, this message translates to:
+  /// **'Provider id'**
+  String get adminConfigFieldProviderId;
+
+  /// No description provided for @adminConfigChoosePartner.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose partner'**
+  String get adminConfigChoosePartner;
+
+  /// No description provided for @adminConfigPartnerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Partner'**
+  String get adminConfigPartnerLabel;
+
+  /// No description provided for @adminConfigPartnerDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Partner'**
+  String get adminConfigPartnerDefault;
+
+  /// No description provided for @adminConfigMarketDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Rwanda'**
+  String get adminConfigMarketDefault;
+
+  /// No description provided for @adminConfigStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get adminConfigStatusLabel;
+
+  /// No description provided for @adminConfigChooseRouteStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose route status'**
+  String get adminConfigChooseRouteStatus;
+
+  /// No description provided for @adminConfigStatusInactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
+  String get adminConfigStatusInactive;
+
+  /// No description provided for @adminConfigKilledLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Killed'**
+  String get adminConfigKilledLabel;
+
+  /// No description provided for @adminConfigAdminOnlyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin only'**
+  String get adminConfigAdminOnlyLabel;
 }
 
 class _AppLocalizationsDelegate

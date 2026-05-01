@@ -6,7 +6,7 @@ Date: 2026-04-12
 
 - Flutter mobile app
 - Flutter admin surfaces
-- React admin panel in `apps/cool-admin`
+- React admin panel in `apps/admin`
 - Supabase migrations, RPCs, and Edge Functions
 - User journeys requested for validation:
   - WhatsApp login and OTP
@@ -43,7 +43,7 @@ Date: 2026-04-12
   - `send-otp` returned success
   - `verify-otp` rejected documented review code with `Invalid OTP code`
 - Android device-backed run
-  - `scripts/run_device_integration.sh` for staging remained stuck loading `integration_test/critical_journeys_test.dart`
+  - `scripts/qa/run_device_integration.sh` for staging remained stuck loading `integration_test/critical_journeys_test.dart`
   - Device inspection could not find installed package `app.cool.mobile.staging`
 
 ## Findings
@@ -75,11 +75,11 @@ Date: 2026-04-12
    - Contribution row actions are display-only menu items.
    - Roles page supports revoke only; there is no assign-admin flow in the React admin panel.
    - Evidence:
-     - [Loans.tsx](/Volumes/PRO-G40/COOL/apps/cool-admin/src/pages/Loans.tsx:190)
-     - [Loans.tsx](/Volumes/PRO-G40/COOL/apps/cool-admin/src/pages/Loans.tsx:277)
-     - [Groups.tsx](/Volumes/PRO-G40/COOL/apps/cool-admin/src/pages/Groups.tsx:163)
-     - [Transactions.tsx](/Volumes/PRO-G40/COOL/apps/cool-admin/src/pages/Transactions.tsx:174)
-     - [Settings.tsx](/Volumes/PRO-G40/COOL/apps/cool-admin/src/pages/Settings.tsx:125)
+     - [Loans.tsx](/Volumes/PRO-G40/COOL/apps/admin/src/pages/Loans.tsx:190)
+     - [Loans.tsx](/Volumes/PRO-G40/COOL/apps/admin/src/pages/Loans.tsx:277)
+     - [Groups.tsx](/Volumes/PRO-G40/COOL/apps/admin/src/pages/Groups.tsx:163)
+     - [Transactions.tsx](/Volumes/PRO-G40/COOL/apps/admin/src/pages/Transactions.tsx:174)
+     - [Settings.tsx](/Volumes/PRO-G40/COOL/apps/admin/src/pages/Settings.tsx:125)
    - Impact:
      - Requested flows such as admin add new admin, admin manage members, admin allocate transactions manually, and admin create new loan are not fully testable in this surface because they are not fully implemented there.
 
@@ -89,8 +89,8 @@ Date: 2026-04-12
    - The page inserts directly into `users` and toggles `is_admin` itself.
    - It also exposes `Malta` as a country option even though the codebase is otherwise Rwanda-scoped.
    - Evidence:
-     - [CreateUser.tsx](/Volumes/PRO-G40/COOL/apps/cool-admin/src/pages/CreateUser.tsx:39)
-     - [CreateUser.tsx](/Volumes/PRO-G40/COOL/apps/cool-admin/src/pages/CreateUser.tsx:83)
+     - [CreateUser.tsx](/Volumes/PRO-G40/COOL/apps/admin/src/pages/CreateUser.tsx:39)
+     - [CreateUser.tsx](/Volumes/PRO-G40/COOL/apps/admin/src/pages/CreateUser.tsx:83)
    - Impact:
      - Can drift from `admin_role_assignments`-based access control and regional invariants.
 
@@ -109,8 +109,8 @@ Date: 2026-04-12
    - React admin panel lists loans but does not create or manage them.
    - Migration seeds demo loans inside the schema migration.
    - Evidence:
-     - [Loans.tsx](/Volumes/PRO-G40/COOL/apps/cool-admin/src/pages/Loans.tsx:63)
-     - [Loans.tsx](/Volumes/PRO-G40/COOL/apps/cool-admin/src/pages/Loans.tsx:190)
+     - [Loans.tsx](/Volumes/PRO-G40/COOL/apps/admin/src/pages/Loans.tsx:63)
+     - [Loans.tsx](/Volumes/PRO-G40/COOL/apps/admin/src/pages/Loans.tsx:190)
    - Impact:
      - “Admin create new loan” is not complete as an end-to-end product journey.
 

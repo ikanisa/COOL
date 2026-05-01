@@ -2,7 +2,7 @@ import 'dart:io';
 
 /// Resolves the `dart` binary from FVM or Flutter SDK discovery.
 ///
-/// Mirrors the candidate chain in `scripts/flutterw` so that tests which
+/// Mirrors the candidate chain in `scripts/dev/flutterw` so that tests which
 /// spawned `Process.runSync('dart', ...)` work when `dart` is not on
 /// the global shell PATH.
 String resolveDartBinary() {

@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../helpers/repo_paths.dart';
+
 /// Regression test to ensure no feature code uses the deprecated
 /// `coolPalette` token directly. All feature code should use
 /// `context.coolSemanticColors` instead.
@@ -11,7 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('Migration regression', () {
     test('no feature code references coolPalette', () {
-      final featuresDir = Directory('lib/features');
+      final featuresDir = repoDir('lib/features');
       if (!featuresDir.existsSync()) {
         // Graceful skip if running from a different CWD
         return;
@@ -40,7 +42,7 @@ void main() {
     });
 
     test('no feature code uses raw GoogleFonts.barlow(', () {
-      final featuresDir = Directory('lib/features');
+      final featuresDir = repoDir('lib/features');
       if (!featuresDir.existsSync()) return;
 
       final violations = <String>[];
@@ -66,7 +68,7 @@ void main() {
     });
 
     test('no feature code uses AppColors directly', () {
-      final featuresDir = Directory('lib/features');
+      final featuresDir = repoDir('lib/features');
       if (!featuresDir.existsSync()) return;
 
       final violations = <String>[];
@@ -94,7 +96,7 @@ void main() {
     });
 
     test('admin route screens do not define ad hoc app bars', () {
-      final adminScreensDir = Directory('lib/features/admin/screens');
+      final adminScreensDir = repoDir('lib/features/admin/screens');
       if (!adminScreensDir.existsSync()) return;
 
       final violations = <String>[];
@@ -122,7 +124,7 @@ void main() {
     test(
       'PWA shell no longer references legacy Barlow assets or old theme colors',
       () {
-        final pwaDir = Directory('apps/cool-pwa');
+        final pwaDir = repoDir('apps/pwa');
         if (!pwaDir.existsSync()) return;
 
         final violations = <String>[];

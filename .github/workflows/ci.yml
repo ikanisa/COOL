@@ -59,7 +59,7 @@ jobs:
           echo "✅ No raw patch markers found in committed source"
 
       - name: Supabase migration validation
-        run: bash scripts/validate_supabase_migrations.sh
+        run: bash scripts/migrations/validate_supabase_migrations.sh
 
       - name: Deprecated theme API budget
         run: |
@@ -74,14 +74,14 @@ jobs:
 
       - name: Large file size check
         run: |
-          WARN=800
+          WARN=500
           FAIL=1200
           EXIT_CODE=0
 
           while IFS= read -r file; do
             lines=$(wc -l < "$file" | tr -d ' ')
             case "$file" in
-              lib/l10n/app_localizations.dart|lib/l10n/app_localizations_*.dart)
+              lib/l10n/app_localizations.dart|lib/l10n/app_localizations_*.dart|*.g.dart)
                 continue
                 ;;
             esac
@@ -311,12 +311,17 @@ jobs:
 
       - name: Run edge function tests
         run: |
-          deno test \
-            supabase/functions/_shared/app_check_test.ts \
-            supabase/functions/parse-momo-sms/ai_parser_test.ts \
-            supabase/functions/parse-momo-sms/reconciliation_test.ts \
-            supabase/functions/send-otp/index_test.ts \
-            supabase/functions/verify-otp/index_test.ts
+          deno_tests=()
+          while IFS= read -r file; do
+            deno_tests+=("$file")
+          done < <(find supabase/functions -type f -name '*_test.ts' | sort)
+
+          if [ "${#deno_tests[@]}" -eq 0 ]; then
+            echo "::error::No Deno test files found under supabase/functions."
+            exit 1
+          fi
+
+          deno test --allow-env=SUPABASE_SERVICE_ROLE_KEY,AUTH_PHONE_PASSWORD_SECRET,OTP_CODE_HASH_SECRET,OTP_TEST_PHONE,OTP_TEST_CODE,GOOGLE_SERVICE_ACCOUNT_EMAIL,GOOGLE_PRIVATE_KEY,AI_AUDIT_SHEET_ID "${deno_tests[@]}"
 
       - name: Type-check edge functions
         run: |
@@ -362,7 +367,7 @@ jobs:
       - run: flutter pub get
 
       - name: Run M-Money SMS contract checks
-        run: bash scripts/check_momo_sms_contracts.sh
+        run: bash scripts/qa/check_momo_sms_contracts.sh
 
   # ── 7. APK size gate (slow ~5min, depends on analyze) ──────────────
   apk-size:

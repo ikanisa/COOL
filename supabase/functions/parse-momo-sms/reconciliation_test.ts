@@ -5,7 +5,6 @@ import {
   reconcileParsedSms,
 } from "./reconciliation.ts";
 import {
-  assert,
   assertDeepEquals,
   assertEquals,
   FakeAdminClient,
@@ -152,6 +151,46 @@ Deno.test("reconcileParsedSms confirms a matched group contribution", async () =
   );
 });
 
+Deno.test("reconcileParsedSms fulfills exactly matched generic payment intents", async () => {
+  const tables: TableStore = {
+    payment_intents: [
+      {
+        id: "intent-1",
+        user_id: "user-1",
+        target_table: "group_contributions",
+        target_record_id: "contribution-1",
+        expected_amount: 10000,
+        status: "pending",
+        metadata: {
+          intent_type: "group_contribution",
+        },
+      },
+    ],
+    group_contributions: [],
+  };
+
+  const adminClient = new FakeAdminClient(tables);
+  const result = await reconcileParsedSms(
+    adminClient as unknown as ReturnType<typeof createAdminClient>,
+    sampleRawSms,
+    sampleParsedSms,
+    "parsed-sms-intent-1",
+    "2026-03-11T15:05:00.000Z",
+  );
+
+  assertEquals(
+    result.matchType,
+    "intent_group_contribution",
+    "intent type should come from server-issued metadata",
+  );
+  assertEquals(result.matchStatus, "matched", "matched intent should post");
+  assertEquals(
+    tables.payment_intents[0]?.status,
+    "fulfilled",
+    "payment intent should use the canonical fulfilled status",
+  );
+});
+
 Deno.test("reconcileParsedSms allocates group payments directly from payee routes", async () => {
   const tables: TableStore = {
     pending_transactions: [],
@@ -269,8 +308,16 @@ Deno.test("reconcileParsedSms falls back to wallet only for personal receivers",
     "personal_wallet_fallback",
     "personal receiver accounts may still classify as wallet activity",
   );
-  assertEquals(result.targetTable, "users", "wallet fallback should target the user");
-  assertEquals(result.targetRecordId, "user-1", "wallet fallback should post to the SMS owner");
+  assertEquals(
+    result.targetTable,
+    "users",
+    "wallet fallback should target the user",
+  );
+  assertEquals(
+    result.targetRecordId,
+    "user-1",
+    "wallet fallback should post to the SMS owner",
+  );
 });
 
 Deno.test("reconcileParsedSms allocates partner payments directly from payee routes", async () => {

@@ -1,5 +1,9 @@
 import 'package:flutter/foundation.dart';
 
+import '../utils/app_logger.dart';
+
+const _log = AppLogger('EnvConfig');
+
 /// Validates required environment variables at app startup.
 ///
 /// Critical vars (Supabase URL, anon key) MUST be provided via
@@ -176,8 +180,8 @@ class EnvConfig {
     }
 
     if (deepLinkHost == 'cool.app') {
-      debugPrint(
-        'INFO: COOL_DEEP_LINK_HOST is using default "cool.app" — '
+      _log.info(
+        'COOL_DEEP_LINK_HOST is using default "cool.app" — '
         'set for production domain if deploying',
       );
     }
@@ -198,22 +202,22 @@ class EnvConfig {
   static void logWarnings() {
     final warnings = validate();
     for (final w in warnings) {
-      debugPrint('[EnvConfig] ⚠️ $w');
+      _log.warn(w);
     }
 
     if (kReleaseMode && !isConfigured) {
       // Log the error but do NOT throw — the app handles this gracefully
       // by showing ConfigErrorApp. Throwing here crashes before runApp()
       // and leaves the user stuck on the native splash with zero feedback.
-      debugPrint(
-        'FATAL: ${criticalConfigurationError ?? "Missing critical env vars."} '
+      _log.error(
+        '${criticalConfigurationError ?? "Missing critical env vars."} '
         'Cannot start in release mode without valid Supabase configuration.',
       );
     }
 
     if (warnings.isEmpty) {
-      debugPrint(
-        '[EnvConfig] ✅ All environment variables OK '
+      _log.info(
+        'All environment variables OK '
         '(flavor=$flavor backend=$backendEnvironment '
         'project=$effectiveSupabaseProjectRef)',
       );

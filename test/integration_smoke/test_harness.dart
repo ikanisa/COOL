@@ -12,12 +12,10 @@ import 'package:cool_app/core/services/hive_runtime.dart';
 import 'package:cool_app/core/theme/app_theme.dart';
 import 'package:cool_app/core/theme/theme_preference.dart';
 import 'package:cool_app/core/theme/theme_preference_provider.dart';
-import 'package:cool_app/features/momo/models/momo_sms_sync_status.dart';
 import 'package:cool_app/features/momo/models/momo_statement.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
-import 'package:cool_app/features/momo/providers/momo_sms_sync_providers.dart';
 import 'package:cool_app/features/momo/providers/momo_statement_providers.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -242,9 +240,6 @@ _buildTestContainer({
       )),
       momoStatementBundleProvider.overrideWith(
         (ref, query) async => const MomoStatementBundle(),
-      ),
-      momoSmsSyncStatusProvider.overrideWith(
-        (ref) async => const MomoSmsSyncStatus(),
       ),
       ...overrides,
     ],

@@ -246,6 +246,28 @@ void main() {
         );
         expect(result, AppRoutes.home);
       });
+
+      test('network-path pending redirect is ignored', () {
+        final result = resolveAppRedirect(
+          location: AppRoutes.splash,
+          hasSession: true,
+          hasProfile: true,
+          profileRestoreState: AuthProfileRestoreState.available,
+          pendingRedirect: '//evil.example/groups',
+        );
+        expect(result, AppRoutes.home);
+      });
+
+      test('backslash pending redirect is ignored', () {
+        final result = resolveAppRedirect(
+          location: AppRoutes.splash,
+          hasSession: true,
+          hasProfile: true,
+          profileRestoreState: AuthProfileRestoreState.available,
+          pendingRedirect: '/\\evil.example\\groups',
+        );
+        expect(result, AppRoutes.home);
+      });
     });
   });
 }

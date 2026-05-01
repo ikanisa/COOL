@@ -6,8 +6,11 @@ library;
 
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import 'app_logger.dart';
+
+const _log = AppLogger('Supabase');
 
 /// Default timeout for standard Supabase queries (select, insert, update).
 const Duration kSupabaseQueryTimeout = Duration(seconds: 15);
@@ -72,8 +75,8 @@ Future<T> guardedWithRetry<T>(
 
       // Exponential backoff: 1s, 2s
       final delay = Duration(seconds: 1 << attempt);
-      debugPrint(
-        '[Supabase] ${label ?? 'query'} hit rate limit '
+      _log.warn(
+        '${label ?? 'query'} hit rate limit '
         '(attempt ${attempt + 1}/$maxRetries). '
         'Retrying in ${delay.inSeconds}s…',
       );

@@ -163,7 +163,7 @@ void main() {
     final repository = _FakeAdminSavingsRepository();
     await _pumpScreen(tester, repository);
 
-    await tester.enterText(_textFieldByHint('+250788…'), '+250788111333');
+    await tester.enterText(_textFieldByHint('+250788...'), '+250788111333');
     await tester.enterText(_textFieldByHint('Name'), 'Jeanne');
     await tester.ensureVisible(find.text('Add'));
     await tester.tap(find.text('Add'));

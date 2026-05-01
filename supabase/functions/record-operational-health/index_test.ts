@@ -4,12 +4,6 @@ import {
 } from "./index.ts";
 import type { OperationalHealthEventInput } from "../_shared/observability.ts";
 
-function assert(condition: boolean, message: string): void {
-  if (!condition) {
-    throw new Error(message);
-  }
-}
-
 function assertEquals<T>(actual: T, expected: T, message: string): void {
   if (actual !== expected) {
     throw new Error(`${message}: expected ${expected}, got ${actual}`);

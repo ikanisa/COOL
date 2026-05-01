@@ -11,16 +11,11 @@ import '../providers/supported_countries_provider.dart';
 import '../router/app_router.dart';
 import '../services/app_lifecycle_coordinator.dart';
 import '../services/app_session_coordinator.dart';
-import '../services/app_update_service.dart';
 import '../services/deep_link_coordinator.dart';
 import 'app_access_provider.dart';
 import 'engagement_providers.dart';
 import 'notification_settings_provider.dart';
 import 'supabase_client_provider.dart';
-
-final appUpdateServiceProvider = Provider<AppUpdateService>((ref) {
-  return AppUpdateService(ref.read(engagementTrackerProvider));
-});
 
 final momoSmsAutoreadServiceProvider = Provider<MomoSmsAutoreadService>((ref) {
   final service = MomoSmsAutoreadService(

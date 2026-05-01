@@ -1,4 +1,5 @@
 import {
+  constantTimeEquals,
   getReviewOtpConfig,
   isReviewOtpMatch,
   resolveReviewOtp,
@@ -42,7 +43,9 @@ Deno.test("review OTP helpers normalize configured phone once and match consiste
       }
 
       if (config.normalizedPhone !== "+250788767816") {
-        throw new Error(`Unexpected normalized phone: ${config.normalizedPhone}`);
+        throw new Error(
+          `Unexpected normalized phone: ${config.normalizedPhone}`,
+        );
       }
 
       if (resolveReviewOtp("+250788767816") !== "123456") {
@@ -50,7 +53,9 @@ Deno.test("review OTP helpers normalize configured phone once and match consiste
       }
 
       if (!isReviewOtpMatch("+250788767816", "123456")) {
-        throw new Error("Expected review OTP matcher to accept configured pair.");
+        throw new Error(
+          "Expected review OTP matcher to accept configured pair.",
+        );
       }
 
       if (isReviewOtpMatch("+250788767816", "654321")) {
@@ -78,4 +83,18 @@ Deno.test("review OTP helpers disable themselves on invalid config", async () =>
       }
     },
   );
+});
+
+Deno.test("constantTimeEquals rejects partial and length-mismatched bearer tokens", () => {
+  if (!constantTimeEquals("service-role-secret", "service-role-secret")) {
+    throw new Error("Expected identical strings to match.");
+  }
+
+  if (constantTimeEquals("service-role-secret", "service-role-secrex")) {
+    throw new Error("Expected same-length mismatch to be rejected.");
+  }
+
+  if (constantTimeEquals("service-role-secret", "service-role")) {
+    throw new Error("Expected prefix token to be rejected.");
+  }
 });

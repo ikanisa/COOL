@@ -53,13 +53,22 @@ export async function verifyHmacSha256Hex(options: {
   }
 
   const expected = await hmacSha256Hex(options.secret, options.value);
-  if (provided.length != expected.length) {
-    return false;
-  }
+  return constantTimeEquals(expected, provided);
+}
 
-  let mismatch = 0;
-  for (let i = 0; i < expected.length; i++) {
-    mismatch |= expected.charCodeAt(i) ^ provided.charCodeAt(i);
+export function constantTimeEquals(
+  expected: string,
+  provided: string,
+): boolean {
+  const expectedBytes = encoder.encode(expected);
+  const providedBytes = encoder.encode(provided);
+  const length = Math.max(expectedBytes.length, providedBytes.length);
+  let mismatch = expectedBytes.length ^ providedBytes.length;
+
+  // Always scan the full max length so callers do not accidentally introduce
+  // prefix-based token comparisons for bearer secrets.
+  for (let i = 0; i < length; i++) {
+    mismatch |= (expectedBytes[i] ?? 0) ^ (providedBytes[i] ?? 0);
   }
 
   return mismatch === 0;

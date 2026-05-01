@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import '../utils/app_logger.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -22,6 +24,8 @@ part 'fcm_service_support.dart';
 
 /// Manages Firebase Cloud Messaging: token lifecycle, permission,
 /// topic subscriptions, and foreground/background message handling.
+const _log = AppLogger('FCM');
+
 class FcmService {
   FcmService({
     FcmMessagingClient? messagingClient,
@@ -148,7 +152,7 @@ class FcmService {
         ),
       );
     } catch (error) {
-      debugPrint('[FCM] Init failed: $error');
+      _log.warn('Init failed: $error');
       _isInitialized = false;
       return _setStatus(
         current.copyWith(isInitialized: false, lastError: error.toString()),
@@ -233,7 +237,7 @@ class FcmService {
       try {
         await _client.unsubscribeFromTopic(topic);
       } catch (error) {
-        debugPrint('[FCM] Topic unsubscribe failed: $error');
+        _log.warn('Topic unsubscribe failed: $error');
       }
     }
 
@@ -242,7 +246,7 @@ class FcmService {
       try {
         await _client.subscribeToTopic(topic);
       } catch (error) {
-        debugPrint('[FCM] Topic subscribe failed: $error');
+        _log.warn('Topic subscribe failed: $error');
       }
     }
 

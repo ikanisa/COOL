@@ -8,6 +8,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'bootstrap/app_bootstrap.dart';
+import 'core/utils/app_logger.dart';
 
 Future<void> main() async {
   // Release builds should not emit development console logging.
@@ -34,7 +35,7 @@ Future<void> main() async {
       runApp(const AppBootstrap());
     },
     (error, stack) {
-      debugPrint('[Uncaught] $error\n$stack');
+      const AppLogger('Main').error('Uncaught: $error', error: error, stack: stack);
       if (Firebase.apps.isNotEmpty) {
         FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       }

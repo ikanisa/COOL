@@ -557,6 +557,7 @@
   "notYetAllocated": "Not yet allocated",
   "unallocateUpper": "UNALLOCATE",
   "orReallocateToAnotherMember": "OR REALLOCATE TO ANOTHER MEMBER",
+  "groupMembersLoadFailedTitle": "Could not load members",
   "noGroupMembersFound": "No group members found.",
   "selectMember": "Select member:",
   "currentUpper": "CURRENT",
@@ -564,12 +565,18 @@
   "confirmAllocationUpper": "CONFIRM ALLOCATION",
   "shareQrButton": "QR / Share",
   "selectAContactToShareWith": "Select a contact to share with",
+  "instructionUpper": "INSTRUCTION",
   "postedUpper": "RECEIVED",
   "confirmedUpper": "RECEIVED",
+  "manualConfirmedUpper": "MANUAL CONFIRMED",
+  "paidUpper": "PAID",
   "draftUpper": "DRAFT",
   "reviewUpper": "PENDING",
   "manualUpper": "MANUAL",
   "suggestedUpper": "SUGGESTED",
+  "disputedUpper": "DISPUTED",
+  "refundedUpper": "REFUNDED",
+  "cancelledUpper": "CANCELLED",
   "rejectedUpper": "DECLINED",
   "groups1": "GROUPS",
   "members1": "MEMBERS",
@@ -1226,6 +1233,7 @@
   "biopayZeroAmountHint": "0",
   "biopayEnterMerchantCode": "Enter a merchant code",
   "biopayEnterMomoNumber": "Enter a MoMo number",
+  "biopayEnterValidAmount": "Enter a valid amount.",
   "biopayProfileUnavailableTitle": "Profile unavailable",
   "biopayProfileUnavailableMessage": "BioPay could not load your linked details right now.",
   "biopayTryAgain": "Try Again",
@@ -1619,5 +1627,464 @@
   "adminSavingsMembersTab": "Members",
   "adminSavingsAllocationsTab": "Allocations",
   "adminSavingsRemoveMemberTooltip": "Remove member",
-  "adminSavingsEnterValidAmount": "Enter a valid amount."
+  "adminSavingsEnterValidAmount": "Enter a valid amount.",
+
+  "adminOpsEyebrow": "OPERATIONS",
+  "adminOpsTitle": "Operations",
+  "adminOpsSubtitle": "Release health, triage queues, payment telemetry, and review backlogs.",
+  "adminOpsLabelLive": "Live",
+  "adminOpsLabelSurfaces": "Surfaces",
+  "adminOpsHintMonitoredServices": "Monitored services",
+  "adminOpsLabelTriage": "Triage",
+  "adminOpsHintOpenBlockingIssues": "Open blocking issues",
+  "adminOpsLabelSenders": "Senders",
+  "adminOpsHintSenderAuditRows": "Sender audit rows",
+  "adminOpsLabelManualReview": "Manual review",
+  "adminOpsHintOpenReviewItems": "Open review items",
+  "adminOpsLabelEvents": "Events",
+  "adminOpsHintRecentHealthEvents": "Recent health events",
+  "adminOpsEmptyDashboard": "No operational dashboard yet",
+  "adminOpsHealthSubtitle": "Live health by monitored service.",
+  "adminOpsFallbackSurface": "Surface",
+  "adminOpsFallbackSummary": "No summary available.",
+  "adminOpsTriageTitle": "Triage Queue",
+  "adminOpsTriageSubtitle": "Focused on failed payment and release issues.",
+  "adminOpsTriageEmpty": "No release-blocking operational issues",
+  "adminOpsFallbackIssue": "Issue",
+  "adminOpsFallbackDetail": "No detail available.",
+  "adminOpsMMoneyTitle": "M-Money SMS",
+  "adminOpsMMoneyEmpty": "No M-Money SMS operational summary",
+  "adminOpsSenderTitle": "Sender Inventory Audit",
+  "adminOpsSenderSubtitle": "Unsupported or alias sender drift detected.",
+  "adminColumnService": "Service",
+  "adminColumnStatus": "Status",
+  "adminColumnIssues": "Issues",
+  "adminColumnLastSignal": "Last signal",
+  "adminColumnSummary": "Summary",
+  "adminColumnIssue": "Issue",
+  "adminColumnSeverity": "Severity",
+  "adminColumnReference": "Reference",
+  "adminColumnLastSeen": "Last seen",
+  "adminColumnDetail": "Detail",
+  "adminColumnUser": "User",
+  "adminColumnRole": "Role",
+  "adminColumnScope": "Scope",
+  "adminColumnGranted": "Granted",
+  "adminColumnNotes": "Notes",
+  "adminColumnAction": "Action",
+  "adminColumnMarket": "Market",
+  "adminColumnBatch": "Batch",
+  "adminColumnCreated": "Created",
+
+  "adminUsersEyebrow": "USER MANAGEMENT",
+  "adminUsersTitle": "Manage Users",
+  "adminUsersSubtitle": "Accounts, role signals, payment reachability, and demo cleanup.",
+  "adminUsersLabelLiveInventory": "Live inventory",
+  "adminUsersLabelVisible": "Visible",
+  "adminUsersLabelUsers": "Users",
+  "adminUsersHintTotalAccounts": "Total accounts",
+  "adminUsersLabelAdmins": "Admins",
+  "adminUsersHintPrivileged": "Privileged accounts",
+  "adminUsersLabelMock": "Mock",
+  "adminUsersHintDemoInventory": "Demo inventory",
+  "adminUsersLabelMoMo": "MoMo",
+  "adminUsersHintPaymentLinked": "Payment-linked",
+  "adminUsersSearchHint": "Search by name, phone, or ID…",
+  "adminUsersInventoryTitle": "User Inventory",
+  "adminUsersInventorySubtitle": "Primary identifiers, status, market scope, and edit access.",
+  "adminUsersEmptyLabel": "No users match the current filters",
+  "adminUsersNoUsersReturned": "No users were returned",
+  "adminUsersBatchCleanupTitle": "Batch Cleanup",
+  "adminUsersBatchCleanupSubtitle": "Remove demo inventory without leaving the user table.",
+  "adminUsersButtonEdit": "Edit",
+  "adminUsersFilterAdmin": "Admin",
+  "adminUsersFilterMock": "Mock",
+  "adminUsersFilterMoMo": "MoMo",
+  "adminUsersFilterStandard": "Standard",
+  "adminUsersFilterAll": "All",
+  "adminUsersFilterAdmins": "Admins",
+
+  "adminRolesEyebrow": "ACCESS CONTROL",
+  "adminRolesTitle": "Admin Roles",
+  "adminRolesSubtitle": "Role assignments, scope, grant date, and revoke actions.",
+  "adminRolesButtonAssign": "Assign",
+  "adminRolesLabelAssignments": "Assignments",
+  "adminRolesHintActiveGrants": "Active grants",
+  "adminRolesLabelPlatform": "Platform",
+  "adminRolesHintGlobalAccess": "Global access",
+  "adminRolesLabelBank": "Bank",
+  "adminRolesHintScopedWorkspaces": "Scoped workspaces",
+  "adminRolesLabelBankScopes": "Bank scopes",
+  "adminRolesHintDistinctBanks": "Distinct banks",
+  "adminRolesLedgerTitle": "Role Ledger",
+  "adminRolesLedgerSubtitle": "Grant history kept visible, revoke path kept direct.",
+  "adminRolesEmptyLabel": "No assignments match the current filter",
+  "adminRolesScopedBank": "Scoped bank",
+  "adminRolesAllWorkspaces": "All workspaces",
+  "adminRolesButtonRevoke": "Revoke",
+  "adminRolesRevokeTitle": "Revoke Role",
+  "adminRolesRevokeSuccess": "Role revoked.",
+  "adminRolesRevokeFailed": "Failed: {error}",
+  "@adminRolesRevokeFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "adminRolesFilterAll": "All",
+  "adminRolesFilterPlatform": "Platform",
+  "adminRolesFilterBank": "Bank",
+  "adminRolesAssignHint": "Open role assignment form",
+  "adminRolesAssignLabel": "Assign admin role",
+
+  "adminWorkspacesEyebrow": "ADMIN ACCESS",
+  "adminWorkspacesTitle": "Admin Workspaces",
+  "adminWorkspacesSubtitle": "Open the right control surface for platform or bank operations.",
+  "adminWorkspacesNoAccess": "This account does not have admin workspace access.",
+  "adminWorkspacesLabelPlatformAdmin": "Platform Admin",
+  "adminWorkspacesLabelBankAdmin": "Bank Admin",
+  "adminWorkspacesLabelVisible": "Visible workspaces",
+  "adminWorkspacesHintEntryPoints": "Operational entry points",
+  "adminWorkspacesLabelBankScopes": "Bank scopes",
+  "adminWorkspacesHintScopedInstitutions": "Scoped institutions",
+  "adminWorkspacesPlatformDesc": "Global app operations, release controls, and oversight.",
+  "adminWorkspacesPlatformTitle": "Platform Admin",
+  "adminWorkspacesPlatformSubtitle": "Users, services, content, roles, and operations.",
+  "adminWorkspacesSavingsTitle": "Savings & Groups",
+  "adminWorkspacesSavingsSubtitle": "Centralized savings management, community groups, and allocations.",
+  "adminWorkspacesBankTitle": "Bank Workspaces",
+  "adminWorkspacesBankSubtitle": "Allocation review, custody, and ledger exports.",
+  "adminWorkspacesEmptyBank": "No bank workspace is assigned yet.",
+  "adminWorkspacesBankLoadFailed": "Bank workspaces failed to load.",
+
+  "adminBankTerminalTitle": "Bank Terminal",
+  "adminBankGroupMembers": "Group Members",
+  "adminBankAllocatePaymentTitle": "Allocate payment",
+  "adminBankAllocatePaymentMessage": "Assign this payment to the matched member.",
+  "adminBankButtonAllocate": "Allocate",
+  "adminBankButtonCancel": "Cancel",
+  "adminBankAllocateSuccess": "Payment allocated",
+  "adminBankRejectTitle": "Reject allocation",
+  "adminBankRejectMessage": "This removes the pending allocation.",
+  "adminBankButtonReject": "Reject",
+  "adminBankRejectSuccess": "Allocation rejected",
+  "adminBankFallbackUser": "COOL User",
+  "adminBankPeriodLabel": "All posted entries in view",
+  "adminBankFilterLabel": "Group payment ledger",
+  "adminBankSortLabel": "Newest first",
+  "adminBankExportSuccess": "Ledger exported",
+  "adminBankNoGroups": "No linked groups.",
+  "adminBankLabelViewDetails": "View details",
+  "adminBankLabelOpenLedger": "Open ledger",
+  "adminBankNoReviewItems": "No manual review items.",
+  "adminBankNoLedgerEntries": "No posted payment ledger entries.",
+  "adminBankPostedLedger": "Posted payment ledger",
+  "adminBankExportPdf": "Export PDF",
+  "adminBankExportExcel": "Export Excel",
+
+  "adminAuditEyebrow": "AUDIT TRAIL",
+  "adminAuditTitle": "Audit Log",
+  "adminAuditSubtitle": "Who changed what, when, and on which record.",
+  "adminAuditLabelVisible": "Visible",
+  "adminAuditLabelEntries": "Entries",
+  "adminAuditHintCurrentFeed": "Current feed",
+  "adminAuditLabelCreate": "Create",
+  "adminAuditHintNewRecords": "New records",
+  "adminAuditLabelUpdate": "Update",
+  "adminAuditHintChangedRecords": "Changed records",
+  "adminAuditLabelDelete": "Delete",
+  "adminAuditHintRemovedRecords": "Removed records",
+  "adminAuditTimelineTitle": "Timeline",
+  "adminAuditTimelineSubtitle": "Expand an entry to inspect before and after payloads.",
+  "adminAuditEmptyLabel": "No audit entries yet",
+  "adminAuditFilterAll": "All",
+  "adminAuditUnknown": "Unknown",
+  "adminAuditExpanded": "Expanded",
+  "adminAuditCollapsed": "Collapsed",
+  "adminAuditPrevious": "Previous",
+  "adminAuditNew": "New",
+
+  "adminSenderFilterUnresolved": "Unresolved",
+  "adminSenderFilterAcknowledged": "Acknowledged",
+  "adminSenderFilterAll": "All",
+  "adminSenderAcknowledgeTitle": "Acknowledge legacy sender?",
+  "adminSenderAcknowledgeMessage": "This keeps the raw SMS history unchanged, but marks {sender} as reviewed legacy unsupported sender history.",
+  "@adminSenderAcknowledgeMessage": {
+    "placeholders": {
+      "sender": {
+        "type": "String"
+      }
+    }
+  },
+  "adminSenderButtonAcknowledge": "Acknowledge",
+  "adminSenderAcknowledgeSuccess": "Legacy sender acknowledged.",
+  "adminSenderAcknowledgeError": "Could not acknowledge this sender right now.",
+  "adminSenderBulkTitle": "Acknowledge {count} senders?",
+  "@adminSenderBulkTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminSenderBulkMessage": "This records the visible unsupported senders as reviewed legacy history without altering raw SMS records.",
+  "adminSenderButtonAcknowledgeVisible": "Acknowledge visible",
+  "adminSenderBulkSuccess": "Acknowledged {count} sender backlogs.",
+  "@adminSenderBulkSuccess": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminSenderBulkNone": "No sender backlogs needed acknowledgement.",
+  "adminSenderBulkError": "Could not acknowledge the visible senders right now.",
+  "adminSenderEmptyLabel": "No unsupported M-Money SMS senders are currently stored.",
+  "adminSenderSaving": "Saving...",
+
+  "adminReviewFilterNeedsReview": "Needs Review",
+  "adminReviewFilterUnmatched": "Unmatched",
+  "adminReviewFilterNonActionable": "Non-actionable",
+  "adminReviewFilterAll": "All",
+  "adminReviewCloseTitle": "Close manual review?",
+  "adminReviewCloseMessage": "This will mark the SMS reconciliation review as not app-linked while keeping the wallet history intact.",
+  "adminReviewButtonClose": "Close review",
+  "adminReviewCloseSuccess": "Manual review closed.",
+  "adminReviewCloseError": "Could not close this review right now.",
+  "adminReviewBulkTitle": "Close {count} reviews?",
+  "@adminReviewBulkTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminReviewBulkMessage": "This bulk action closes the visible manual reviews as not app-linked. Wallet statements will remain available.",
+  "adminReviewButtonCloseVisible": "Close visible",
+  "adminReviewBulkSuccess": "Closed {count} manual reviews.",
+  "@adminReviewBulkSuccess": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminReviewBulkNone": "No eligible manual reviews were closed.",
+  "adminReviewBulkError": "Could not close the visible reviews.",
+  "adminReviewEmptyLabel": "No generic M-Money SMS manual reviews are open.",
+  "adminReviewClosing": "Closing...",
+
+  "adminSavingsHintName": "Name",
+  "adminSavingsHintAmount": "Amount",
+  "adminSavingsHintNote": "Note",
+  "adminSavingsSuffixRwf": "RWF",
+  "adminSavingsEmptyMembers": "No members",
+  "adminSavingsGroupNotFoundMessage": "Savings group not found",
+
+  "adminDashboardPlatformAdmin": "Platform Admin",
+  "adminDashboardRestricted": "Restricted",
+
+  "adminGateWorkspaceTitle": "Bank Workspace",
+
+  "adminConfigAddRoute": "Add Partner Payment Route",
+  "adminConfigEditRoute": "Edit Partner Payment Route",
+  "adminConfigManageRouting": "Manage Rwanda partner checkout routing.",
+  "adminConfigFieldMerchantCode": "Merchant code",
+  "adminConfigFieldReconciliation": "Reconciliation label",
+  "adminConfigSaveRoute": "Save route",
+  "adminConfigDeleteRoute": "Delete route",
+  "adminConfigHintEnterLabel": "Enter {label}",
+  "@adminConfigHintEnterLabel": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "adminConfigHintChoosePartner": "Choose partner",
+  "adminConfigLabelPartner": "Partner",
+  "adminConfigDefaultMarket": "Rwanda",
+  "adminConfigLabelMarket": "Market",
+  "adminConfigHintChooseStatus": "Choose route status",
+  "adminConfigLabelStatus": "Status",
+  "adminConfigStatusDraft": "Draft",
+  "adminConfigStatusActive": "Active",
+  "adminConfigSelectPartnerError": "Select a partner.",
+  "adminConfigReconciliationError": "Enter a reconciliation label.",
+  "adminConfigMerchantCodeRequired": "Active routes require a merchant code.",
+
+  "adminRolesAssignTitle": "Assign Admin Role",
+  "adminRolesAssignUserIdLabel": "User ID",
+  "adminRolesAssignUserIdHint": "Paste user UUID",
+  "adminRolesAssignPasteTooltip": "Paste user ID",
+  "adminRolesAssignRoleLabel": "Role",
+  "adminRolesAssignBankScopeLabel": "Bank Scope",
+  "adminRolesAssignBankScopeError": "Failed to load bank scopes.",
+  "adminRolesAssignButtonLabel": "Assign Role",
+  "adminRolesAssignUserIdError": "Enter a user ID.",
+  "adminRolesAssignBankScopeRequired": "Select a bank scope.",
+
+  "adminOpsManualReviewTitle": "Generic Manual Review",
+  "adminOpsManualReviewSubtitle": "SMS that could not be app-linked.",
+  "adminOpsActivityTitle": "Recent Activity",
+  "adminOpsActivitySubtitle": "Operational health stream.",
+  "adminOpsActivityEmpty": "No recent operational events",
+
+  "adminBankTerminalTitle": "Bank Terminal",
+  "adminBankPendingAllocations": "{count} pending allocation{count, plural, =1{} other{s}}",
+  "@adminBankPendingAllocations": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "adminBankCancel": "Cancel",
+
+  "adminAuditEyebrow": "AUDIT TRAIL",
+  "adminAuditTitle": "Audit Log",
+  "adminAuditSubtitle": "Who changed what, when, and on which record.",
+  "adminAuditVisible": "Visible",
+  "adminAuditEntries": "Entries",
+  "adminAuditCurrentFeed": "Current feed",
+  "adminAuditCreate": "Create",
+  "adminAuditNewRecords": "New records",
+  "adminAuditUpdate": "Update",
+  "adminAuditChangedRecords": "Changed records",
+  "adminAuditDelete": "Delete",
+  "adminAuditRemovedRecords": "Removed records",
+  "adminAuditTimeline": "Timeline",
+  "adminAuditTimelineSubtitle": "Expand an entry to inspect before and after payloads.",
+  "adminAuditEmpty": "No audit entries yet",
+  "adminAuditUnknownActor": "Unknown",
+  "adminAuditExpanded": "Expanded",
+  "adminAuditCollapsed": "Collapsed",
+  "adminAuditPrevious": "Previous",
+  "adminAuditNew": "New",
+
+  "adminSavingsGroupNotFound": "Savings group not found",
+  "adminSavingsHintName": "Name",
+  "adminSavingsNoMembersYet": "No members yet",
+  "adminSavingsNoMembers": "No members",
+  "adminSavingsHintAmount": "Amount",
+  "adminSavingsHintNote": "Note",
+  "adminSavingsErrorPrefix": "Error: {error}",
+  "@adminSavingsErrorPrefix": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+
+  "adminSavingsCancelAction": "Cancel",
+  "adminSavingsCreateGroup": "Create Savings Group",
+  "adminSavingsNoGroupsYet": "No {type} groups yet",
+  "@adminSavingsNoGroupsYet": {
+    "placeholders": {
+      "type": {"type": "String"}
+    }
+  },
+  "adminSavingsNoGroupsMatch": "No groups match your search",
+  "adminSavingsGroupNameRequired": "Group name is required",
+  "adminSavingsGroupCreated": "Savings group created",
+  "adminSavingsCreationFailed": "Creation failed",
+
+  "adminSavingsCopied": "Copied",
+  "adminSavingsCloseGroupButton": "Close Group",
+
+  "adminOpsSenderUnresolved": "Unresolved",
+  "adminOpsSenderAcknowledged": "Acknowledged",
+  "adminOpsSenderAcknowledge": "Acknowledge",
+  "adminOpsSenderAcknowledgeVisible": "Acknowledge visible",
+
+  "adminOpsReviewNeedsReview": "Needs Review",
+  "adminOpsReviewUnmatched": "Unmatched",
+  "adminOpsReviewClose": "Close review",
+  "adminOpsReviewCloseVisible": "Close visible",
+
+  "adminDashPlatformAdmin": "Platform Admin",
+  "adminDashRestricted": "Restricted",
+
+  "adminGateLoading": "Loading workspace",
+  "adminGateAccessDenied": "Access denied",
+  "adminGateBankWorkspace": "Bank Workspace",
+
+  "adminEditUserTitle": "Edit User",
+  "adminEditUserFullName": "Full name",
+  "adminEditUserSave": "Save User",
+  "adminEditUserUpdated": "User updated",
+
+  "adminRolesAssignTitle": "Assign Admin Role",
+  "adminRolesAssignUserIdLabel": "User ID",
+  "adminRolesAssignUserIdHint": "Paste user UUID",
+  "adminRolesAssignUserIdTooltip": "Paste user ID",
+  "adminRolesAssignBankScopeLabel": "Bank Scope",
+
+  "adminRolesRevokeTitle": "Revoke Role",
+  "adminRolesRevokeButton": "Revoke",
+  "adminRolesBankScope": "Bank: {bankName}",
+  "@adminRolesBankScope": {
+    "placeholders": {
+      "bankName": {"type": "String"}
+    }
+  },
+  "adminRolesOtherScope": "Scope: {bankName}",
+  "@adminRolesOtherScope": {
+    "placeholders": {
+      "bankName": {"type": "String"}
+    }
+  },
+
+  "adminConfigEditTitle": "Edit Config",
+  "adminConfigNewTitle": "New Config Entry",
+  "adminConfigFieldValue": "Value",
+  "adminConfigFieldDescription": "Description",
+  "adminConfigFieldMarket": "Market",
+  "adminConfigRolloutStage": "Rollout stage",
+  "adminConfigKillSwitch": "Kill switch",
+  "adminConfigAdminOnly": "Admin only",
+  "adminConfigSaveRollout": "Save rollout",
+
+  "adminConfigAddPartnerRoute": "Add Partner Payment Route",
+  "adminConfigEditPartnerRoute": "Edit Partner Payment Route",
+  "adminConfigFieldProviderId": "Provider id",
+  "adminConfigFieldMerchantCode": "Merchant code",
+  "adminConfigFieldReconciliation": "Reconciliation label",
+  "adminConfigSaveRoute": "Save route",
+  "adminConfigDeleteRoute": "Delete route",
+  "adminConfigChoosePartner": "Choose partner",
+  "adminConfigPartnerLabel": "Partner",
+  "adminConfigPartnerDefault": "Partner",
+  "adminConfigMarketDefault": "Rwanda",
+  "adminConfigStatusLabel": "Status",
+  "adminConfigChooseRouteStatus": "Choose route status",
+  "adminConfigStatusDraft": "Draft",
+  "adminConfigStatusActive": "Active",
+  "adminConfigStatusInactive": "Inactive",
+  "adminConfigKilledLabel": "Killed",
+  "adminConfigAdminOnlyLabel": "Admin only",
+
+  "adminSavingsErrorPrefix": "Error: {error}",
+  "@adminSavingsErrorPrefix": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "adminSavingsGroupNotFound": "Savings group not found",
+  "adminSavingsHintName": "Name",
+  "adminSavingsNoMembersYet": "No members yet",
+  "adminSavingsHintAmount": "Amount",
+  "adminSavingsHintNote": "Note",
+  "adminSavingsCancelAction": "Cancel",
+  "adminSavingsCopied": "Copied",
+  "adminSavingsCloseGroupButton": "Close Group",
+  "adminSavingsCreateGroup": "Create Savings Group",
+  "adminSavingsNoGroupsYet": "No {type} groups yet",
+  "@adminSavingsNoGroupsYet": {
+    "placeholders": {
+      "type": { "type": "String" }
+    }
+  },
+  "adminSavingsNoGroupsMatch": "No groups match your search",
+  "adminSavingsGroupNameRequired": "Group name is required",
+  "adminSavingsGroupCreated": "Savings group created",
+  "adminSavingsCreationFailed": "Creation failed"
 }

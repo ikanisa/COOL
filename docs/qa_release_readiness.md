@@ -11,12 +11,12 @@ No build is release-candidate quality unless every gate below is green.
 
 | Gate | Requirement | Source of truth |
 |---|---|---|
-| **Supabase backend contract** | **The production Supabase URL/key pair MUST be set** before building any APK or AAB. `SUPABASE_STAGING_*` is optional and only required when you intentionally maintain a separate staging backend. Build scripts validate `SUPABASE_PRODUCTION_*`, optionally validate staging when provided, and Dart runtime validates the baked project ref. | `scripts/validate_backend_config.sh`, `scripts/_android_release_build.sh`, `scripts/build_staging.sh`, `lib/core/config/env_config.dart` |
-| Hosted function secrets | Hosted Supabase function secrets are synced from CI before the release gate runs, and the hosted smoke must pass when `SUPABASE_PROJECT_REF` + `SUPABASE_ACCESS_TOKEN` are configured | `scripts/sync_supabase_function_secrets.sh`, `.github/workflows/release.yml`, `scripts/supabase_contract_smoke.sh` |
-| Static analysis | `flutter analyze` passes with zero issues | `scripts/release_readiness.sh` |
-| Flutter tests | `flutter test` passes with zero failures | `scripts/release_readiness.sh` |
-| Deep-link assets | `dart tool/deep_link_release_assets.dart --check` passes against `deeplinks/release_metadata.json`. Android Play-signing metadata is always required; iOS Team/App Store metadata is required only when an iOS release is being validated (`COOL_REQUIRE_IOS_RELEASE_METADATA=1`). | `scripts/release_readiness.sh` and hosted `.well-known` files |
-| Edge-function checks | Deno checks for critical Supabase functions pass | `scripts/release_readiness.sh` plus targeted `deno check` / `deno test` |
+| **Supabase backend contract** | **The production Supabase URL/key pair MUST be set** before building any APK or AAB. `SUPABASE_STAGING_*` is optional and only required when you intentionally maintain a separate staging backend. Build scripts validate `SUPABASE_PRODUCTION_*`, optionally validate staging when provided, and Dart runtime validates the baked project ref. | `scripts/qa/validate_backend_config.sh`, `scripts/lib/_android_release_build.sh`, `scripts/deploy/build_staging.sh`, `lib/core/config/env_config.dart` |
+| Hosted function secrets | Hosted Supabase function secrets are synced from CI before the release gate runs, and the hosted smoke must pass when `SUPABASE_PROJECT_REF` + `SUPABASE_ACCESS_TOKEN` are configured | `scripts/deploy/sync_supabase_function_secrets.sh`, `.github/workflows/release.yml`, `scripts/qa/supabase_contract_smoke.sh` |
+| Static analysis | `flutter analyze` passes with zero issues | `scripts/qa/release_readiness.sh` |
+| Flutter tests | `flutter test` passes with zero failures | `scripts/qa/release_readiness.sh` |
+| Deep-link assets | `dart tool/deep_link_release_assets.dart --check` passes against `deeplinks/release_metadata.json`. Android Play-signing metadata is always required; iOS Team/App Store metadata is required only when an iOS release is being validated (`COOL_REQUIRE_IOS_RELEASE_METADATA=1`). | `scripts/qa/release_readiness.sh` and hosted `.well-known` files |
+| Edge-function checks | Deno checks for critical Supabase functions pass | `scripts/qa/release_readiness.sh` plus targeted `deno check` / `deno test` |
 | Operational dashboard | Admin > Operations shows no critical triage issues and no failing server-trusted surfaces | `/admin/operations` and `docs/OPERATIONAL_OBSERVABILITY.md` |
 | Route governance | Any route change updates `docs/ROUTE_INVENTORY.md` | PR review |
 | Screen governance | New routes stay within `docs/SCREEN_BUDGETS.md` budget | PR review |
@@ -27,17 +27,17 @@ No build is release-candidate quality unless every gate below is green.
 Run the consolidated check:
 
 ```bash
-bash scripts/release_readiness.sh
+bash scripts/qa/release_readiness.sh
 ```
 
 That covers:
 
 - `flutter analyze --fatal-infos`
-- `bash scripts/validate_backend_config.sh`
+- `bash scripts/qa/validate_backend_config.sh`
 - `flutter test --exclude-tags=integration`
 - `flutter test test/integration_smoke`
 - `dart tool/deep_link_release_assets.dart --generate --check`
-- `bash scripts/validate_supabase_migrations.sh`
+- `bash scripts/migrations/validate_supabase_migrations.sh`
 - `dart tool/biopay_model_contract.dart --check`
 - `dart tool/governance_docs.dart --check`
 - Android and iOS flavor verification builds
@@ -60,8 +60,21 @@ Supporting governance docs:
 Optional migration apply:
 
 ```bash
-RUN_MIGRATION_APPLY=1 DATABASE_URL="postgresql://..." bash scripts/release_readiness.sh
+RUN_MIGRATION_APPLY=1 DATABASE_URL="postgresql://..." bash scripts/qa/release_readiness.sh
 ```
+
+When `DATABASE_URL` or `SUPABASE_DB_URL` is present, the gate pushes to that
+database URL. Otherwise it falls back to the linked Supabase project.
+
+For a standalone migration apply flow, use:
+
+```bash
+DATABASE_URL="postgresql://..." bash scripts/migrations/apply_supabase_migrations.sh
+APPLY_MIGRATIONS=1 DATABASE_URL="postgresql://..." bash scripts/migrations/apply_supabase_migrations.sh
+```
+
+The standalone script dry-runs by default and never targets the linked project
+implicitly.
 
 Optional but recommended release gates:
 
@@ -69,7 +82,7 @@ Optional but recommended release gates:
 RUN_ANDROID_MINIFY_CANARY=1 \
 RUN_REMOTE_SMOKE=1 \
 RUN_MOMO_SMS_ROLLOUT_VERIFY=1 \
-bash scripts/release_readiness.sh
+bash scripts/qa/release_readiness.sh
 ```
 
 These enable the production minify canary, linked-project remote smoke, and
@@ -81,7 +94,7 @@ For a real Android release-candidate pass, use the stricter wrapper:
 RUN_ANDROID_MINIFY_CANARY=1 \
 RUN_REMOTE_SMOKE=1 \
 RUN_MOMO_SMS_ROLLOUT_VERIFY=1 \
-bash scripts/run_release_candidate.sh
+bash scripts/qa/run_release_candidate.sh
 ```
 
 That command additionally verifies:

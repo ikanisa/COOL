@@ -57,8 +57,16 @@ String? _sanitizeRedirectTarget(String? location) {
     return null;
   }
 
+  if (trimmed.startsWith('//') || trimmed.contains('\\')) {
+    return null;
+  }
+
   final uri = Uri.tryParse(trimmed);
-  final path = uri?.path ?? trimmed;
+  if (uri == null || uri.hasScheme || uri.hasAuthority) {
+    return null;
+  }
+
+  final path = uri.path;
   if (path.trim().isEmpty || path == AppRoutes.splash) {
     return null;
   }

@@ -26,8 +26,13 @@ void main() {
   testWidgets('BioPay home screen remains readable at 2x text scale', (
     tester,
   ) async {
+    final container = createTestContainer();
+
     await tester.pumpWidget(
-      _wrapBiopayScreen(const BiopayHomeScreen(), textScale: 2.0),
+      UncontrolledProviderScope(
+        container: container,
+        child: _wrapBiopayScreen(const BiopayHomeScreen(), textScale: 2.0),
+      ),
     );
     await tester.pumpAndSettle();
 

@@ -21,24 +21,29 @@ class TransactionStatusChip extends StatelessWidget {
     final colors = context.coolSemanticColors;
     final resolved = _resolve(context, status, colors);
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: resolved.color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(CoolRadii.pill),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(resolved.icon, size: 12, color: resolved.color),
-          const SizedBox(width: 4),
-          Text(
-            resolved.label,
-            style: context.coolText
-                .mobiLabel(color: resolved.color)
-                .copyWith(letterSpacing: 0.5, height: 1.2),
+    return Semantics(
+      label: context.l10n.statusBadgeSemantics(resolved.label),
+      child: ExcludeSemantics(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+          decoration: BoxDecoration(
+            color: resolved.color.withValues(alpha: 0.12),
+            borderRadius: BorderRadius.circular(CoolRadii.pill),
           ),
-        ],
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(resolved.icon, size: 12, color: resolved.color),
+              const SizedBox(width: 4),
+              Text(
+                resolved.label,
+                style: context.coolText
+                    .mobiLabel(color: resolved.color)
+                    .copyWith(letterSpacing: 0.5, height: 1.2),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -49,7 +54,45 @@ class TransactionStatusChip extends StatelessWidget {
     CoolSemanticColors colors,
   ) {
     return switch (status.toLowerCase().trim()) {
-      'posted' || 'completed' => _ResolvedStatus(
+      'instruction' ||
+      'instructions' ||
+      'payment_instruction' ||
+      'ussd_instruction' ||
+      'qr_instruction' ||
+      'awaiting_instruction' => _ResolvedStatus(
+        label: context.l10n.instructionUpper,
+        color: colors.info,
+        icon: CoolIcons.info,
+      ),
+      'pending' ||
+      'pending_review' ||
+      'awaiting_confirmation' ||
+      'pending_confirmation' ||
+      'dialed' ||
+      'processing' => _ResolvedStatus(
+        label: context.l10n.reviewUpper,
+        color: colors.warning,
+        icon: CoolIcons.pending,
+      ),
+      'manual_review' || 'needs_manual_review' => _ResolvedStatus(
+        label: context.l10n.manualUpper,
+        color: colors.warning,
+        icon: CoolIcons.pendingActions,
+      ),
+      'manually_confirmed' ||
+      'manual_confirmed' ||
+      'manual_match' ||
+      'manual_allocation_confirmed' => _ResolvedStatus(
+        label: context.l10n.manualConfirmedUpper,
+        color: colors.success,
+        icon: CoolIcons.verified,
+      ),
+      'paid' || 'completed' || 'settled' => _ResolvedStatus(
+        label: context.l10n.paidUpper,
+        color: colors.success,
+        icon: CoolIcons.payment,
+      ),
+      'posted' => _ResolvedStatus(
         label: context.l10n.postedUpper,
         color: colors.success,
         icon: CoolIcons.selected,
@@ -59,27 +102,32 @@ class TransactionStatusChip extends StatelessWidget {
         color: colors.success,
         icon: CoolIcons.verified,
       ),
-      'draft' => _ResolvedStatus(
+      'draft' || 'created' => _ResolvedStatus(
         label: context.l10n.draftUpper,
         color: colors.neutral,
         icon: CoolIcons.editNote,
-      ),
-      'pending' || 'pending_review' => _ResolvedStatus(
-        label: context.l10n.reviewUpper,
-        color: colors.warning,
-        icon: CoolIcons.pending,
-      ),
-      'manual_review' => _ResolvedStatus(
-        label: context.l10n.manualUpper,
-        color: colors.warning,
-        icon: CoolIcons.pendingActions,
       ),
       'suggested' => _ResolvedStatus(
         label: context.l10n.suggestedUpper,
         color: colors.info,
         icon: CoolIcons.autoFix,
       ),
-      'rejected' || 'cancelled' => _ResolvedStatus(
+      'disputed' || 'dispute' || 'chargeback' => _ResolvedStatus(
+        label: context.l10n.disputedUpper,
+        color: colors.danger,
+        icon: CoolIcons.warning,
+      ),
+      'refunded' || 'refund' || 'reversed' => _ResolvedStatus(
+        label: context.l10n.refundedUpper,
+        color: colors.info,
+        icon: CoolIcons.syncAlt,
+      ),
+      'cancelled' || 'canceled' => _ResolvedStatus(
+        label: context.l10n.cancelledUpper,
+        color: colors.danger,
+        icon: CoolIcons.cancelled,
+      ),
+      'rejected' || 'failed' || 'expired' => _ResolvedStatus(
         label: context.l10n.rejectedUpper,
         color: colors.danger,
         icon: CoolIcons.cancelled,

@@ -8,16 +8,71 @@ import {
 } from "../_shared/http.ts";
 import { recordEdgeFunctionFailure } from "../_shared/observability.ts";
 import { createAdminClient } from "../_shared/supabase.ts";
-import {
-  HttpError,
-  requireAdminCaller,
-} from "../_shared/auth.ts";
+import { HttpError, requireAdminCaller } from "../_shared/auth.ts";
 
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
+const MAX_MEMBER_LIST_BYTES = 5 * 1024 * 1024;
+const ALLOWED_MEMBER_LIST_MIME_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "application/pdf",
+]);
 
 interface ParsedMember {
   name: string;
   phone: string;
+}
+
+type ValidatedMemberListUpload = {
+  imageBase64: string;
+  mimeType: string;
+};
+
+function validateMemberListUpload(
+  imageBase64: unknown,
+  mimeType: unknown,
+): ValidatedMemberListUpload {
+  if (typeof imageBase64 !== "string" || imageBase64.trim().length === 0) {
+    throw new HttpError(
+      400,
+      "image_base64 is required (base64-encoded image or PDF).",
+    );
+  }
+
+  const resolvedMimeType =
+    typeof mimeType === "string" && mimeType.trim().length > 0
+      ? mimeType.trim().toLowerCase()
+      : "image/jpeg";
+
+  if (!ALLOWED_MEMBER_LIST_MIME_TYPES.has(resolvedMimeType)) {
+    throw new HttpError(
+      400,
+      "Unsupported member-list file type.",
+    );
+  }
+
+  const base64Payload = imageBase64.includes(",")
+    ? imageBase64.slice(imageBase64.indexOf(",") + 1)
+    : imageBase64;
+  const normalizedBase64 = base64Payload.replace(/\s/g, "");
+
+  if (
+    normalizedBase64.length % 4 === 1 ||
+    !/^[A-Za-z0-9+/]+={0,2}$/.test(normalizedBase64)
+  ) {
+    throw new HttpError(400, "Invalid base64 upload payload.");
+  }
+
+  const estimatedBytes = Math.floor((normalizedBase64.length * 3) / 4);
+  if (estimatedBytes > MAX_MEMBER_LIST_BYTES) {
+    throw new HttpError(413, "Member-list upload exceeds the 5 MiB limit.");
+  }
+
+  return {
+    imageBase64: normalizedBase64,
+    mimeType: resolvedMimeType,
+  };
 }
 
 /**
@@ -32,7 +87,8 @@ async function parseWithGemini(
     throw new Error("GEMINI_API_KEY not configured");
   }
 
-  const systemPrompt = `You are a document parser for a Rwandan fintech app called COOL.
+  const systemPrompt =
+    `You are a document parser for a Rwandan fintech app called COOL.
 You will receive an image of a member list — it may be a handwritten table, a printed sheet, a screenshot, or a PDF page.
 
 Extract ALL members from the document. For each member, extract:
@@ -79,8 +135,8 @@ Example output:
   );
 
   if (!res.ok) {
-    const errorText = await res.text();
-    console.error("Gemini API error:", res.status, errorText);
+    await res.body?.cancel();
+    console.error("Gemini API error:", res.status);
     throw new Error(`Gemini API returned ${res.status}`);
   }
 
@@ -143,21 +199,8 @@ async function handler(request: Request): Promise<Response> {
     const body = await request.json();
     const { image_base64, mime_type } = body;
 
-    if (!image_base64 || typeof image_base64 !== "string") {
-      return errorResponse(
-        "image_base64 is required (base64-encoded image or PDF)",
-        400,
-        undefined,
-        request,
-      );
-    }
-
-    const resolvedMimeType =
-      typeof mime_type === "string" && mime_type.trim()
-        ? mime_type.trim()
-        : "image/jpeg";
-
-    const members = await parseWithGemini(image_base64, resolvedMimeType);
+    const upload = validateMemberListUpload(image_base64, mime_type);
+    const members = await parseWithGemini(upload.imageBase64, upload.mimeType);
 
     return jsonResponse(
       {
@@ -183,7 +226,7 @@ async function handler(request: Request): Promise<Response> {
     });
 
     return errorResponse(
-      error instanceof Error ? error.message : "Failed to parse member list.",
+      "Failed to parse member list.",
       500,
       undefined,
       request,

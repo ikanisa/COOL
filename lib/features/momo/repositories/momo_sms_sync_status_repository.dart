@@ -1,8 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/utils/app_logger.dart';
 import '../../../core/utils/supabase_query_helpers.dart' as sq;
 import '../models/momo_sms_sync_status.dart';
+
+const _log = AppLogger('MoMoSMS');
 
 class MomoSmsSyncStatusRepository {
   MomoSmsSyncStatusRepository({required SupabaseClient client})
@@ -33,7 +35,7 @@ class MomoSmsSyncStatusRepository {
 
       return MomoSmsSyncStatus.fromRows(sq.asListOfMaps(rows));
     } catch (error) {
-      debugPrint('[MoMo SMS] sync status unavailable: $error');
+      _log.warn('Sync status unavailable: $error');
       return const MomoSmsSyncStatus();
     }
   }

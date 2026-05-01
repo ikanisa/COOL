@@ -2,7 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:in_app_update/in_app_update.dart';
 
 import '../models/engagement_event.dart';
+import '../utils/app_logger.dart';
 import 'engagement_tracker.dart';
+
+const _log = AppLogger('AppUpdate');
 
 /// Service for handling in-app updates (Android only).
 class AppUpdateService {
@@ -37,7 +40,7 @@ class AppUpdateService {
         }
       }
     } catch (error) {
-      debugPrint('[AppUpdate] Update check failed: $error');
+      _log.warn('Update check failed: $error');
     }
   }
 }

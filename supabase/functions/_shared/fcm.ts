@@ -135,12 +135,16 @@ export async function getAccessToken(): Promise<string> {
   const response = await fetch(TOKEN_URL, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `grant_type=${encodeURIComponent(GRANT_TYPE)}&assertion=${encodeURIComponent(jwt)}`,
+    body: `grant_type=${encodeURIComponent(GRANT_TYPE)}&assertion=${
+      encodeURIComponent(jwt)
+    }`,
   });
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`OAuth2 token exchange failed: ${response.status} ${errorText}`);
+    throw new Error(
+      `OAuth2 token exchange failed: ${response.status} ${errorText}`,
+    );
   }
 
   const data = await response.json();
@@ -159,7 +163,8 @@ async function sendFcmMessage(
   accessToken: string,
   message: Record<string, unknown>,
 ): Promise<{ ok: boolean; error?: string; errorCode?: string }> {
-  const url = `https://fcm.googleapis.com/v1/projects/${projectId}/messages:send`;
+  const url =
+    `https://fcm.googleapis.com/v1/projects/${projectId}/messages:send`;
 
   const response = await fetch(url, {
     method: "POST",
@@ -187,7 +192,7 @@ async function sendFcmMessage(
 
   return {
     ok: false,
-    error: `${response.status}: ${errorBody}`,
+    error: `${response.status}: ${errorCode}`,
     errorCode,
   };
 }

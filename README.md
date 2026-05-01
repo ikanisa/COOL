@@ -162,6 +162,12 @@ This rule is the default for every non-home screen.
 ## Repository Layout
 
 ```text
+apps/
+  admin/
+  website/
+  pwa/
+  mobile/
+
 lib/
   core/
     config/
@@ -188,10 +194,22 @@ supabase/
   functions/
   migrations/
 
+agents/
 assets/
 docs/
+infra/
+integrations/
+packages/
+scripts/
 test/
 ```
+
+The Flutter mobile app is still rooted at the repository root. The target
+monorepo structure and staged migration rules are documented in
+[`docs/architecture/monorepo-structure.md`](/Volumes/PRO-G40/COOL/docs/architecture/monorepo-structure.md).
+
+Workspace-level verification shortcuts are available through `make`, for
+example `make admin-lint`, `make web-build`, and `make verify-structure`.
 
 ## Key Flutter Entry Points
 
@@ -268,8 +286,8 @@ Important files:
 Important files:
 
 - [momo_service.dart](/Volumes/PRO-G40/COOL/lib/core/services/momo_service.dart)
-- [momo_screen.dart](/Volumes/PRO-G40/COOL/lib/features/momo/screens/momo_screen.dart)
-- [momo_statements_screen.dart](/Volumes/PRO-G40/COOL/lib/features/momo/screens/momo_statements_screen.dart)
+- [momo_wallet_screen.dart](/Volumes/PRO-G40/COOL/lib/features/momo/screens/momo_wallet_screen.dart)
+- [momo_sms_autoread_service.dart](/Volumes/PRO-G40/COOL/lib/features/momo/services/momo_sms_autoread_service.dart)
 - [momo_statement_repository.dart](/Volumes/PRO-G40/COOL/lib/features/momo/repositories/momo_statement_repository.dart)
 
 ### Partners
@@ -478,22 +496,20 @@ Implemented under [supabase/functions](/Volumes/PRO-G40/COOL/supabase/functions)
 |---|---|
 | `send-otp` | Send WhatsApp OTP |
 | `verify-otp` | Verify OTP and return session |
+| `sms-ingest` | Validate and ingest Android M-Money SMS evidence |
 | `parse-momo-sms` | Parse uploaded M-Money confirmation SMS into normalized transaction data |
 | `allocate-contributions` | Match reconciled MoMo transactions into bank-managed allocation queues |
 | `biopay-create-payment-intent` | Create BioPay payment intents for device-side checkout |
-| `maps-gateway` | Proxy Google Places (New), geocoding, and routes access with auth and usage logging |
+| `biopay-enroll`, `biopay-match`, `biopay-revoke` | BioPay enrollment, matching, and revocation |
+| `record-operational-health` | Relay authenticated mobile health events |
+| `send-notification` | Internal FCM push notification sender |
+| `parse-member-list` | Admin-only member list parsing helper |
+| `generate-ai-content` | Admin/cron AI content generation |
 | `delete-account` | Account deletion backend flow |
 
-Critical release note: Google Wallet is deferred. `wallet-issuer` stays
-deployed so the contract surface exists, but pre-production releases must not
-be blocked on `GOOGLE_WALLET_ISSUER_ID` or
-`GOOGLE_WALLET_SERVICE_ACCOUNT_JSON`. Those secrets become mandatory only in
-the production go-live phase when wallet support is actually activated.
-
-`maps-gateway` uses `GOOGLE_MAPS_SERVER_API_KEY` when present and falls back to
-`GEMINI_API_KEY` for place autocomplete, place details, text geocoding, and
-reverse geocoding if that shared Google credential already has the required
-Maps Platform APIs enabled.
+Deferred Google Wallet and maps gateway notes are intentionally not part of the
+current function inventory. Re-introduce them only with deployed function code,
+secrets documentation, and contract smoke coverage.
 
 ## SMS and Permissions
 
@@ -528,22 +544,28 @@ Run tests:
 flutter test
 ```
 
-Run targeted static analysis:
+Run strict static analysis (mandatory before every commit):
 
 ```bash
-dart analyze
-flutter analyze
+flutter analyze --fatal-infos
 ```
+
+> **⚠️ PRE-COMMIT REQUIREMENT** — Always use `--fatal-infos` to catch info-level
+> issues before they accumulate. The pre-commit hook enforces this automatically.
+> Install the hook with:
+> ```bash
+> cp scripts/dev/pre-commit.sh .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+> ```
 
 Run the full release-readiness gate:
 
 ```bash
-bash scripts/release_readiness.sh
+bash scripts/qa/release_readiness.sh
 ```
 
 GitHub Actions runs the same gate on every push and pull request via
 [.github/workflows/ci.yml](/Volumes/PRO-G40/COOL/.github/workflows/ci.yml), so
-keep `scripts/release_readiness.sh` as the single source of truth for CI checks.
+keep `scripts/qa/release_readiness.sh` as the single source of truth for CI checks.
 By default that gate now includes Android staging and production flavor builds.
 Set `SKIP_ANDROID_FLAVOR_BUILDS=1` only when you intentionally need a faster
 local-only run. On macOS it also verifies that the iOS `staging` and
@@ -588,11 +610,11 @@ Governance references:
 >   they are deprecated because they make staging/production drift too easy
 >
 > **This rule applies to:**
-> - `scripts/build_production.sh` (APK)
-> - `scripts/build_play_release.sh` (AAB)
-> - `scripts/build_qa_apk.sh` (QA APK)
-> - `scripts/build_staging.sh` (Staging APK)
-> - `scripts/build_ios_production.sh` and `scripts/build_ios_staging.sh`
+> - `scripts/deploy/build_production.sh` (APK)
+> - `scripts/deploy/build_play_release.sh` (AAB)
+> - `scripts/deploy/build_qa_apk.sh` (QA APK)
+> - `scripts/deploy/build_staging.sh` (Staging APK)
+> - `scripts/deploy/build_ios_production.sh` and `scripts/deploy/build_ios_staging.sh`
 > - GitHub Actions `release.yml` (prefers `secrets.SUPABASE_PRODUCTION_URL` and
 >   `secrets.SUPABASE_PRODUCTION_ANON_KEY`, then falls back to the legacy pair)
 > - Any manual `flutter build apk` or `flutter build appbundle` command
@@ -607,10 +629,10 @@ flutter build apk --debug
 Android staging / production scripts:
 
 ```bash
-bash scripts/build_staging.sh
-bash scripts/build_production.sh
-bash scripts/verify_android_flavors.sh
-bash scripts/verify_ios_flavors.sh
+bash scripts/deploy/build_staging.sh
+bash scripts/deploy/build_production.sh
+bash scripts/qa/verify_android_flavors.sh
+bash scripts/qa/verify_ios_flavors.sh
 ```
 
 iOS simulator build:
@@ -622,15 +644,15 @@ flutter build ios --simulator --no-codesign
 iOS staging / production scripts:
 
 ```bash
-bash scripts/build_ios_staging.sh
-bash scripts/build_ios_production.sh
+bash scripts/deploy/build_ios_staging.sh
+bash scripts/deploy/build_ios_production.sh
 ```
 
 Run the device-backed critical journey suite on a mobile device or emulator:
 
 ```bash
-bash scripts/run_device_integration.sh
-DEVICE=emulator-5554 FLAVOR=production bash scripts/run_device_integration.sh
+bash scripts/qa/run_device_integration.sh
+DEVICE=emulator-5554 FLAVOR=production bash scripts/qa/run_device_integration.sh
 ```
 
 Android flavor-specific Firebase configs live at
@@ -696,10 +718,10 @@ The app is written against a normalized `users` profile model, but the repositor
 - **Play Console items completed:** Store listing, Data Safety, Content Rating,
   SMS restricted-permission declaration, Ad ID, privacy policy, reviewer access
 
-#### v1.1.0+3 — Update (in progress)
+#### v1.1.0+3 — Shipped
 
 - **Date:** March 17, 2026
-- **Status:** ✅ AAB built (`app-production-release.aab`, 74.4MB), ready to upload
+- **Status:** ✅ Published on Google Play
 - **Changes since v1.0.0+2:**
   - Fixed compilation error in admin bank baskets tab (`bank_baskets_tab.dart`)
   - Applied 60 const/final lint fixes across 22 source files
@@ -710,8 +732,31 @@ The app is written against a normalized `users` profile model, but the repositor
   - Visual audit and dark-mode fixes for legacy partner-branded screens
   - Localization error fixes across multiple features
   - Micro-frontend ADK integration in portal
-  - Test suite: 767 passing, 49 pre-existing failures (governance sync,
-    widget copy, smoke test drift)
+- **Play Console updates:** "What's new" release notes. No new permissions,
+  no Data Safety changes, no new SMS scope.
+
+#### v1.2.0+7 — Production Hardening Release (current)
+
+- **Date:** April 30, 2026
+- **Status:** 🚀 Release candidate — CI-green, QA-verified
+- **QA verification results:**
+  - Static analysis: 0 errors (`flutter analyze --fatal-infos`)
+  - Test suite: 690/690 passing (unit + widget + integration smoke)
+  - Supabase migrations: 183 files validated
+  - Route inventory: synced and production-ready
+  - Env config: strict enforcement via `--dart-define` validated
+  - Auth flows: anonymous → OTP → profile restore verified with timeouts and
+    safe redirect guards
+  - Deep-link release assets: validated
+  - Governance docs: synced
+- **Changes since v1.1.0+3:**
+  - Group RPC drift repair and MoMo validation hardening
+  - UAT readiness fixes across auth and journey test harnesses
+  - Production hardening phases 2–5 (backend remediation, dynamic lookup tables,
+    admin RPCs, notification preferences, soft-delete, cleanup functions)
+  - Supabase migration sync and alignment
+  - Pre-commit hook with secret guard and `flutter analyze --fatal-infos` gate
+  - Android versionCode bump to 7 for Play Store release
 - **Play Console updates needed:** "What's new" release notes only. No new
   permissions, no Data Safety changes, no new SMS scope.
 
@@ -721,17 +766,40 @@ The app is written against a normalized `users` profile model, but the repositor
 # 1. Rebuild signed AAB
 SUPABASE_PRODUCTION_URL="https://your-project.supabase.co" \
 SUPABASE_PRODUCTION_ANON_KEY="your-anon-key" \
-bash scripts/build_play_release.sh
+bash scripts/deploy/build_play_release.sh
 
 # 2. Upload to Play Console → Production track
 # 3. Add "What's new" release notes
 # 4. Submit for review
 ```
 
+## Large File Advisory
+
+The following source files exceed 500 lines (excluding auto-generated l10n).
+None are blocking production, but consider splitting if maintenance friction
+increases:
+
+| File | Lines | Recommended action |
+|---|---|---|
+| `bank_admin_workspace_screen.dart` | 779 | Extract tab widgets into separate files |
+| `whatsapp_otp_screen.dart` | 719 | Extract OTP input and timer widgets |
+| `biopay_scan_screen.dart` | 696 | Extract camera overlay and result widgets |
+| `momo_wallet_screen.dart` | 653 | Extract wallet tab and action sheets |
+| `admin_savings_detail_screen.dart` | 632 | Extract detail sections and action dialogs |
+| `auth_provider.dart` | 621 | Extract MoMo normalization into helper |
+| `group_detail_screen.dart` | 564 | Extract contribution and member widgets |
+| `cool_icons.dart` | 558 | Already a data-only constant file (no action) |
+| `momo_sms_autoread_service.dart` | 524 | Extract SMS parser into standalone class |
+| `group_statements_screen.dart` | 517 | Extract filter and export widgets |
+| `contact_picker_sheet.dart` | 509 | Extract search and permission widgets |
+
+These are advisory only. The CI pipeline has a soft-warn budget at 800 lines
+and a hard-fail at 1200 lines per file.
+
 ## Recommended Next Steps
 
-- Finish retiring obsolete partner-specific release notes and historical migration assumptions
 - Move Android signing keys (`upload-keystore.jks`, `key.properties`) to CI vault
 - Clean up root-level utility scripts (`auto_l10n.dart`, `fix_errors.dart`, `update_profile.dart`)
 - Expand device-backed integration suite beyond current critical journeys
-- Keep shrinking historical product drift across release docs, migrations, and legacy partner seeds
+- Upgrade locked dependencies when version constraints allow (56 packages have newer versions)
+- Address large files above when maintenance friction warrants splitting

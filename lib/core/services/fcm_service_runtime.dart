@@ -5,7 +5,7 @@ extension _FcmServiceRuntime on FcmService {
     try {
       return await _preferenceStore.readEnabled();
     } catch (error) {
-      debugPrint('[FCM] Failed to read notification preference: $error');
+      _log.warn('Failed to read notification preference: $error');
       return false;
     }
   }
@@ -14,7 +14,7 @@ extension _FcmServiceRuntime on FcmService {
     try {
       await _preferenceStore.writeEnabled(enabled);
     } catch (error) {
-      debugPrint('[FCM] Failed to persist notification pref: $error');
+      _log.warn('Failed to persist notification pref: $error');
     }
   }
 
@@ -26,7 +26,7 @@ extension _FcmServiceRuntime on FcmService {
         ...stored,
       };
     } catch (error) {
-      debugPrint('[FCM] Failed to read topic preferences: $error');
+      _log.warn('Failed to read topic preferences: $error');
       _topicPreferences = Map<FcmTopicCategory, bool>.of(
         _defaultTopicPreferences,
       );
@@ -40,7 +40,7 @@ extension _FcmServiceRuntime on FcmService {
     try {
       await _topicPreferenceStore.writePreference(category, enabled);
     } catch (error) {
-      debugPrint('[FCM] Failed to persist topic preference: $error');
+      _log.warn('Failed to persist topic preference: $error');
     }
   }
 
@@ -52,7 +52,7 @@ extension _FcmServiceRuntime on FcmService {
     try {
       return await _client.getAuthorizationStatus();
     } catch (error) {
-      debugPrint('[FCM] Failed to read notification settings: $error');
+      _log.warn('Failed to read notification settings: $error');
       return FcmAuthorizationStatus.unknown;
     }
   }
@@ -64,7 +64,7 @@ extension _FcmServiceRuntime on FcmService {
       try {
         return await _client.requestPermission();
       } catch (error) {
-        debugPrint('[FCM] Permission request failed: $error');
+        _log.warn('Permission request failed: $error');
         return FcmAuthorizationStatus.unknown;
       }
     }
@@ -105,7 +105,7 @@ extension _FcmServiceRuntime on FcmService {
         _handleNotificationTap(initialMessage);
       }
     } catch (error) {
-      debugPrint('[FCM] Failed to read initial message: $error');
+      _log.warn('Failed to read initial message: $error');
     }
   }
 
@@ -121,7 +121,7 @@ extension _FcmServiceRuntime on FcmService {
     try {
       _currentToken = await _client.getToken();
     } catch (error) {
-      debugPrint('[FCM] Failed to read token: $error');
+      _log.warn('Failed to read token: $error');
     }
   }
 
@@ -139,7 +139,7 @@ extension _FcmServiceRuntime on FcmService {
         platform: defaultTargetPlatform.name.toLowerCase(),
       );
     } catch (error) {
-      debugPrint('[FCM] Token upsert failed: $error');
+      _log.warn('Token upsert failed: $error');
     }
   }
 
@@ -153,7 +153,7 @@ extension _FcmServiceRuntime on FcmService {
     try {
       await _tokenRepository.deleteToken(userId: effectiveUserId, token: token);
     } catch (error) {
-      debugPrint('[FCM] Token delete failed: $error');
+      _log.warn('Token delete failed (remote): $error');
     }
   }
 
@@ -165,7 +165,7 @@ extension _FcmServiceRuntime on FcmService {
     try {
       await _client.deleteToken();
     } catch (error) {
-      debugPrint('[FCM] Token delete failed: $error');
+      _log.warn('Token delete failed (device): $error');
     } finally {
       _currentToken = null;
     }
@@ -182,7 +182,7 @@ extension _FcmServiceRuntime on FcmService {
       try {
         await _client.unsubscribeFromTopic(activeTopic);
       } catch (error) {
-        debugPrint('[FCM] Topic unsubscribe failed: $error');
+        _log.warn('Topic unsubscribe failed: $error');
       }
     }
     _activeTopicSubscriptions.clear();
@@ -208,7 +208,7 @@ extension _FcmServiceRuntime on FcmService {
         : 'Open Cool to view the latest update.';
     final payload = _notificationPayload(message);
 
-    debugPrint('[FCM] Foreground: $title');
+    _log.debug('Foreground: $title');
     unawaited(
       _showForegroundNotification(title: title, body: body, payload: payload),
     );
@@ -247,7 +247,7 @@ extension _FcmServiceRuntime on FcmService {
       return;
     }
 
-    debugPrint('[FCM] Notification tap → navigating to: $route');
+    _log.debug('Notification tap → navigating to: $route');
 
     final context = rootNavigatorKey.currentContext;
     if (context != null) {
@@ -280,7 +280,7 @@ extension _FcmServiceRuntime on FcmService {
         payload: payload,
       );
     } catch (error) {
-      debugPrint('[FCM] Foreground notification failed: $error');
+      _log.warn('Foreground notification failed: $error');
       _showForegroundBanner(title: title, body: body, payload: payload);
     }
   }
