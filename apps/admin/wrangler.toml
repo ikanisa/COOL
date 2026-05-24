@@ -1,5 +1,0 @@
-# COOL Admin Panel — Cloudflare Pages
-# Deploys to: cool.ikanisa.com, acool.ikanisa.com
-name = "cool"
-pages_build_output_dir = "dist"
-compatibility_date = "2026-03-13"

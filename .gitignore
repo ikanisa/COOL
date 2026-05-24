@@ -87,6 +87,10 @@ package-lock.json
 node_modules/
 .firebase/
 .agent/
+.tools/
+.cache/
+release-evidence/
+evidence-packs/
 
 # ── Production hygiene (NEVER commit) ─────────────────────────
 # Backup / stale suffixes
@@ -113,7 +117,3 @@ third_party/**/example/
 
 # Gradle build caches (third-party modules)
 **/.gradle/
-
-!apps/admin/package-lock.json
-!apps/website/package-lock.json
-!apps/pwa/package-lock.json

@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+supabase_cli() {
+  if [[ -n "${SUPABASE_BIN:-}" ]]; then
+    "$SUPABASE_BIN" "$@"
+  elif command -v supabase >/dev/null 2>&1; then
+    supabase "$@"
+  elif [[ -x /usr/local/bin/supabase ]]; then
+    /usr/local/bin/supabase "$@"
+  elif [[ -x /opt/homebrew/bin/supabase ]]; then
+    /opt/homebrew/bin/supabase "$@"
+  elif command -v npx >/dev/null 2>&1; then
+    npx -y supabase "$@"
+  else
+    printf '[supabase-cli][FAIL] Missing required command: supabase. Install the Supabase CLI or provide SUPABASE_BIN.\n' >&2
+    exit 1
+  fi
+}
+
+psql_cli() {
+  local pgconnect_timeout="${PGCONNECT_TIMEOUT:-15}"
+  if [[ -n "${PSQL_BIN:-}" ]]; then
+    PGCONNECT_TIMEOUT="$pgconnect_timeout" "$PSQL_BIN" "$@"
+  elif command -v psql >/dev/null 2>&1; then
+    PGCONNECT_TIMEOUT="$pgconnect_timeout" psql "$@"
+  elif [[ -x /usr/local/bin/psql ]]; then
+    PGCONNECT_TIMEOUT="$pgconnect_timeout" /usr/local/bin/psql "$@"
+  elif [[ -x /opt/homebrew/bin/psql ]]; then
+    PGCONNECT_TIMEOUT="$pgconnect_timeout" /opt/homebrew/bin/psql "$@"
+  elif [[ -x /Library/PostgreSQL/15/bin/psql ]]; then
+    PGCONNECT_TIMEOUT="$pgconnect_timeout" /Library/PostgreSQL/15/bin/psql "$@"
+  else
+    printf '[supabase-cli][FAIL] Missing required command: psql. Install PostgreSQL client tools or provide PSQL_BIN.\n' >&2
+    exit 1
+  fi
+}

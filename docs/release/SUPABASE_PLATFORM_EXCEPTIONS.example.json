@@ -1,0 +1,37 @@
+{
+  "project_ref": "lhbowpbcpwoiparwnwgt",
+  "exceptions": [
+    {
+      "blocker_key": "supabase_organization_plan",
+      "status": "accepted",
+      "risk_owner": "<release owner name>",
+      "approved_by": "<approver name>",
+      "approved_at": "2026-05-24",
+      "expires_at": "2026-06-24",
+      "rationale": "<why Free-plan project-pause risk is accepted for this release>",
+      "mitigation": "<how the team will monitor and when the plan will be upgraded>",
+      "evidence_reference": "<ticket, signed memo, or release review link>",
+      "accepted_conditions": [
+        "release_owner_accepts_risk",
+        "mitigation_owner_assigned",
+        "expiry_date_set"
+      ]
+    },
+    {
+      "blocker_key": "supabase_pitr",
+      "status": "accepted",
+      "risk_owner": "<release owner name>",
+      "approved_by": "<approver name>",
+      "approved_at": "2026-05-24",
+      "expires_at": "2026-06-24",
+      "rationale": "<why daily backups or logical backup fallback are accepted>",
+      "mitigation": "<backup/export cadence, restore rehearsal owner, and PITR decision date>",
+      "evidence_reference": "<ticket, signed memo, or release review link>",
+      "accepted_conditions": [
+        "release_owner_accepts_risk",
+        "mitigation_owner_assigned",
+        "expiry_date_set"
+      ]
+    }
+  ]
+}

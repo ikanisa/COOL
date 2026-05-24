@@ -1,71 +1,38 @@
-import { createClient } from "npm:@supabase/supabase-js@2";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { requireEnv } from "./cors.ts";
 
-function requireEnv(...names: string[]): string {
-  for (const name of names) {
-    const value = Deno.env.get(name)?.trim();
-    if (value) {
-      return value;
-    }
+export function serviceClient() {
+  return createClient(
+    requireEnv("SUPABASE_URL"),
+    requireEnv("SUPABASE_SERVICE_ROLE_KEY"),
+    { auth: { persistSession: false } },
+  );
+}
+
+export function userClient(authorization: string | null) {
+  return createClient(
+    requireEnv("SUPABASE_URL"),
+    requireEnv("SUPABASE_ANON_KEY"),
+    {
+      global: { headers: { Authorization: authorization ?? "" } },
+      auth: { persistSession: false },
+    },
+  );
+}
+
+export async function requireUser(authorization: string | null) {
+  if (!authorization) throw new Error("Authentication required");
+  const supabase = userClient(authorization);
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) throw new Error("Authentication required");
+  return { supabase, user: data.user };
+}
+
+export function requireInternalRequest(req: Request) {
+  const expected = requireEnv("INTERNAL_FUNCTION_SECRET");
+  const actual = req.headers.get("x-collect-signature") ??
+    req.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
+  if (actual !== expected) {
+    throw new Error("Internal function authorization failed");
   }
-
-  throw new Error(`Missing environment variable: ${names.join(" or ")}`);
-}
-
-function getSupabaseUrl() {
-  return requireEnv("SUPABASE_URL", "COOL_PROJECT_SUPABASE_URL");
-}
-
-function getSupabaseAnonKey() {
-  return requireEnv("SUPABASE_ANON_KEY", "COOL_PROJECT_SUPABASE_ANON_KEY");
-}
-
-function getSupabaseServiceRoleKey() {
-  return requireEnv(
-    "SUPABASE_SERVICE_ROLE_KEY",
-    "COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY",
-  );
-}
-
-export function createAdminClient() {
-  return createClient(
-    getSupabaseUrl(),
-    getSupabaseServiceRoleKey(),
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-    },
-  );
-}
-
-export function createAnonClient() {
-  return createClient(
-    getSupabaseUrl(),
-    getSupabaseAnonKey(),
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-    },
-  );
-}
-
-export function createUserClient(authorization: string) {
-  return createClient(
-    getSupabaseUrl(),
-    getSupabaseAnonKey(),
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-      global: {
-        headers: {
-          Authorization: authorization,
-        },
-      },
-    },
-  );
 }

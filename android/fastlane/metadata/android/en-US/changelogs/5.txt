@@ -1,5 +1,0 @@
-What's new in Cool 1.2.0:
-• Added credit feature kill-switch for safer rollouts
-• Security hardening with FLAG_SECURE on sensitive payment screens
-• Improved feature flag architecture with managed rollout stages
-• Stability and performance improvements

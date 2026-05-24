@@ -1,2 +1,0 @@
-json_key_file("../output/play_store/play-store-sa-key.json")
-package_name("app.cool.mobile")

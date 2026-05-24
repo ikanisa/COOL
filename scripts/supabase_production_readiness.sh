@@ -1,0 +1,764 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+# shellcheck source=scripts/supabase_cli_helpers.sh
+. "$ROOT_DIR/scripts/supabase_cli_helpers.sh"
+
+EXPECTED_FUNCTIONS=(
+  allocate-payment
+  auth-send-whatsapp-otp
+  ingest-payment-sms
+  manual-allocate-payment
+  parse-payment-sms
+  request-public-collection
+  review-public-collection
+)
+
+REQUIRED_SECRETS=(
+  OPENAI_API_KEY
+  OPENAI_MODEL
+  WHATSAPP_CLOUD_API_TOKEN
+  WHATSAPP_PHONE_NUMBER_ID
+  WHATSAPP_AUTH_TEMPLATE_NAME
+  SEND_SMS_HOOK_SECRET
+  INTERNAL_FUNCTION_SECRET
+  SMS_INGEST_HMAC_SECRET
+)
+
+PLATFORM_ISSUES=()
+
+log() {
+  printf '[supabase-ready] %s\n' "$*"
+}
+
+warn() {
+  printf '[supabase-ready][WARN] %s\n' "$*" >&2
+}
+
+platform_issue() {
+  PLATFORM_ISSUES+=("$*")
+  warn "$*"
+}
+
+fail() {
+  printf '[supabase-ready][FAIL] %s\n' "$*" >&2
+  exit 1
+}
+
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1 || fail "Missing required command: $1"
+}
+
+check_strict_platform_issues() {
+  if [[ "${SUPABASE_READY_STRICT_PLATFORM:-0}" == "1" && "${#PLATFORM_ISSUES[@]}" -gt 0 ]]; then
+    printf '[supabase-ready][FAIL] %s release blocker(s) remain:\n' "${#PLATFORM_ISSUES[@]}" >&2
+    local issue
+    for issue in "${PLATFORM_ISSUES[@]}"; do
+      printf '  - %s\n' "$issue" >&2
+    done
+    exit 1
+  fi
+}
+
+load_env() {
+  if [[ -f .env ]]; then
+    set -a
+    # shellcheck disable=SC1091
+    . ./.env
+    set +a
+  fi
+
+  : "${SUPABASE_ACCESS_TOKEN:?SUPABASE_ACCESS_TOKEN is required}"
+  : "${SUPABASE_PROJECT_REF:?SUPABASE_PROJECT_REF is required}"
+  : "${SUPABASE_DB_PASSWORD:?SUPABASE_DB_PASSWORD is required}"
+  : "${DATABASE_URL:?DATABASE_URL is required}"
+  READINESS_DATABASE_URL="${SUPABASE_READINESS_DATABASE_URL:-${DATABASE_POOLER_URL:-$DATABASE_URL}}"
+  export READINESS_DATABASE_URL
+}
+
+db_query_json_rows() {
+  local input
+  input="$(cat)"
+  QUERY_JSON_OUTPUT="$input" ruby -r json <<'RUBY'
+input = ENV.fetch("QUERY_JSON_OUTPUT")
+start = input.index("{")
+abort("linked query did not return JSON") unless start
+
+depth = 0
+in_string = false
+escape = false
+finish = nil
+input.chars.each_with_index do |char, index|
+  next if index < start
+
+  if in_string
+    if escape
+      escape = false
+    elsif char == "\\"
+      escape = true
+    elsif char == '"'
+      in_string = false
+    end
+    next
+  end
+
+  case char
+  when '"'
+    in_string = true
+  when "{"
+    depth += 1
+  when "}"
+    depth -= 1
+    if depth == 0
+      finish = index
+      break
+    end
+  end
+end
+
+abort("linked query JSON was incomplete") unless finish
+
+data = JSON.parse(input[start..finish])
+data.fetch("rows").each do |row|
+  values = row.values
+  puts(values.length == 1 ? values.first.to_s : values.map(&:to_s).join("\t"))
+end
+RUBY
+}
+
+db_query_file() {
+  local query_file="$1"
+  if [[ "${SUPABASE_DB_QUERY_MODE:-linked}" != "direct" ]]; then
+    local output
+    if output="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db query --linked -f "$query_file" -o json --agent=yes 2>&1)"; then
+      db_query_json_rows <<< "$output"
+      return 0
+    fi
+    warn "Linked database query failed; falling back to READINESS_DATABASE_URL."
+  fi
+
+  psql_cli "$READINESS_DATABASE_URL" -v ON_ERROR_STOP=1 -Atq -f "$query_file"
+}
+
+db_query() {
+  local query="$1"
+  local query_file
+  query_file="$(mktemp)"
+  printf '%s\n' "$query" > "$query_file"
+  db_query_file "$query_file"
+  rm -f "$query_file"
+}
+
+check_schema_contract() {
+  log "checking remote public schema contract"
+  local remote
+  remote="$(mktemp)"
+  db_query "
+    select 'table|' || tablename
+      from pg_tables
+      where schemaname = 'public'
+    union all
+    select 'view|' || viewname
+      from pg_views
+      where schemaname = 'public'
+    union all
+    select 'function|' || p.proname
+      from pg_proc p
+      join pg_namespace n on n.oid = p.pronamespace
+      where n.nspname = 'public'
+    union all
+    select 'type|' || t.typname
+      from pg_type t
+      join pg_namespace n on n.oid = t.typnamespace
+      where n.nspname = 'public'
+        and t.typtype = 'e'
+    union all
+    select 'policy|' || tablename || '|' || policyname
+      from pg_policies
+      where schemaname = 'public'
+    order by 1;
+  " > "$remote"
+
+  ruby - "$remote" <<'RUBY'
+remote_path = ARGV.fetch(0)
+expected = []
+Dir["supabase/migrations/*.sql"].sort.each do |path|
+  sql = File.read(path)
+  expected += sql.scan(/^create table(?: if not exists)?\s+([a-zA-Z_][\w.]*)/i).flatten.map { |name| "table|#{name.sub(/^public\./, '')}" }
+  expected += sql.scan(/^create(?: or replace)? view\s+([a-zA-Z_][\w.]*)/i).flatten.map { |name| "view|#{name.sub(/^public\./, '')}" }
+  expected += sql.scan(/^create(?: or replace)? function\s+([a-zA-Z_][\w.]*)/i).flatten.map { |name| "function|#{name.sub(/^public\./, '')}" }
+  expected += sql.scan(/^create type\s+([a-zA-Z_][\w.]*)/i).flatten.map { |name| "type|#{name.sub(/^public\./, '')}" }
+  sql.each_line do |line|
+    case line
+    when /^create policy\s+"?([^"\n]+?)"?\s+on\s+([a-zA-Z_][\w.]*)/i
+      policy = Regexp.last_match(1)
+      table = Regexp.last_match(2).sub(/^public\./, "")
+      expected << "policy|#{table}|#{policy}"
+    when /^drop policy if exists\s+"?([^"\n]+?)"?\s+on\s+([a-zA-Z_][\w.]*)/i
+      policy = Regexp.last_match(1)
+      table = Regexp.last_match(2).sub(/^public\./, "")
+      expected.delete("policy|#{table}|#{policy}")
+    when /^drop view if exists\s+([a-zA-Z_][\w.]*)/i
+      name = Regexp.last_match(1).sub(/^public\./, "")
+      expected.delete("view|#{name}")
+    when /^drop function if exists\s+([a-zA-Z_][\w.]*)/i
+      name = Regexp.last_match(1).sub(/^public\./, "")
+      expected.delete("function|#{name}")
+    end
+  end
+end
+expected = expected.uniq.sort
+remote = File.readlines(remote_path, chomp: true).uniq.sort
+extra = remote - expected
+missing = expected - remote
+puts "schema expected=#{expected.size} remote=#{remote.size} extra=#{extra.size} missing=#{missing.size}"
+unless extra.empty? && missing.empty?
+  puts extra.map { |entry| "EXTRA #{entry}" }
+  puts missing.map { |entry| "MISSING #{entry}" }
+  exit 1
+end
+RUBY
+  rm -f "$remote"
+}
+
+check_rls() {
+  log "checking RLS on public base tables"
+  local result
+  result="$(db_query "
+    select count(*) filter (where c.relrowsecurity) || '/' || count(*)
+      from pg_class c
+      join pg_namespace n on n.oid = c.relnamespace
+      where n.nspname = 'public'
+        and c.relkind = 'r';
+  ")"
+  log "RLS enabled tables: $result"
+  local enabled="${result%%/*}"
+  local total="${result##*/}"
+  [[ "$enabled" == "$total" ]] || fail "Not all public base tables have RLS enabled: $result"
+}
+
+check_app_contract_columns() {
+  log "checking live app contract columns"
+  local missing
+  missing="$(db_query "
+    with expected(table_name, column_name) as (
+      values
+        ('raw_payment_sms', 'collection_id'),
+        ('parsed_payment_events', 'collection_id')
+    )
+    select expected.table_name || '.' || expected.column_name
+    from expected
+    left join information_schema.columns c
+      on c.table_schema = 'public'
+     and c.table_name = expected.table_name
+     and c.column_name = expected.column_name
+    where c.column_name is null
+    order by expected.table_name, expected.column_name;
+  ")"
+  [[ -z "$missing" ]] || fail "Missing app-contract columns: $missing"
+}
+
+check_explicit_indexes() {
+  log "checking explicit migration indexes"
+  local missing
+  local query
+  query="$(mktemp)"
+  ruby > "$query" <<'RUBY'
+sql = Dir["supabase/migrations/*.sql"].sort.map { |path| File.read(path) }.join("\n")
+names = sql.scan(/^create(?: unique)? index(?: if not exists)?\s+([a-zA-Z_][\w.]*)\s+on\s+([a-zA-Z_][\w.]*)/i).map(&:first).uniq
+if names.empty?
+  puts "select null where false;"
+else
+  values = names.map { |name| "('#{name.gsub("'", "''")}')" }.join(",")
+  puts "with expected(indexname) as (values #{values})
+        select expected.indexname
+        from expected
+        left join pg_indexes on pg_indexes.schemaname = 'public'
+          and pg_indexes.indexname = expected.indexname
+        where pg_indexes.indexname is null
+        order by expected.indexname;"
+  end
+RUBY
+  missing="$(db_query_file "$query")"
+  rm -f "$query"
+  [[ -z "$missing" ]] || fail "Missing explicit indexes: $missing"
+}
+
+check_sql_privileges() {
+  log "checking SQL privilege contract"
+  local violations
+  violations="$(db_query "
+    with allowed_table_grants(grantee, table_name, privilege_type) as (
+      values
+        ('anon', 'collection_summary_view', 'SELECT'),
+        ('anon', 'payment_instruction_templates', 'SELECT'),
+        ('anon', 'public_collections_view', 'SELECT'),
+        ('anon', 'public_contributions_view', 'SELECT'),
+        ('anon', 'public_profiles_view', 'SELECT'),
+        ('authenticated', 'collection_receivers', 'SELECT'),
+        ('authenticated', 'collection_summary_view', 'SELECT'),
+        ('authenticated', 'member_collections_view', 'SELECT'),
+        ('authenticated', 'member_collection_summary_view', 'SELECT'),
+        ('authenticated', 'member_contributions_view', 'SELECT'),
+        ('authenticated', 'member_public_collection_requests_view', 'SELECT'),
+        ('authenticated', 'parsed_payment_events_review_view', 'SELECT'),
+        ('authenticated', 'payment_instruction_templates', 'SELECT'),
+        ('authenticated', 'payment_intents', 'SELECT'),
+        ('authenticated', 'public_collections_view', 'SELECT'),
+        ('authenticated', 'public_contributions_view', 'SELECT'),
+        ('authenticated', 'public_profiles_view', 'SELECT')
+    ),
+    actual_table_grants as (
+      select grantee, table_name, privilege_type
+      from information_schema.role_table_grants
+      where table_schema = 'public'
+        and grantee in ('anon', 'authenticated')
+    ),
+    unexpected_table_grants as (
+      select 'unexpected table grant: ' || grantee || ' ' || privilege_type || ' on ' || table_name as issue
+      from actual_table_grants
+      except
+      select 'unexpected table grant: ' || grantee || ' ' || privilege_type || ' on ' || table_name
+      from allowed_table_grants
+    ),
+    missing_table_grants as (
+      select 'missing table grant: ' || grantee || ' ' || privilege_type || ' on ' || table_name as issue
+      from allowed_table_grants
+      except
+      select 'missing table grant: ' || grantee || ' ' || privilege_type || ' on ' || table_name
+      from actual_table_grants
+    ),
+    allowed_function_grants(grantee, routine_name, privilege_type) as (
+      values
+        ('anon', 'user_can_read_collection', 'EXECUTE'),
+        ('anon', 'user_is_collection_admin', 'EXECUTE'),
+        ('authenticated', 'admin_current_user', 'EXECUTE'),
+        ('authenticated', 'admin_get_collection', 'EXECUTE'),
+        ('authenticated', 'admin_get_payment', 'EXECUTE'),
+        ('authenticated', 'admin_get_payment_event', 'EXECUTE'),
+        ('authenticated', 'admin_get_receiver', 'EXECUTE'),
+        ('authenticated', 'admin_get_sms_metadata', 'EXECUTE'),
+        ('authenticated', 'admin_get_user', 'EXECUTE'),
+        ('authenticated', 'admin_list_admin_users', 'EXECUTE'),
+        ('authenticated', 'admin_list_audit_logs', 'EXECUTE'),
+        ('authenticated', 'admin_list_collections', 'EXECUTE'),
+        ('authenticated', 'admin_list_feature_flags', 'EXECUTE'),
+        ('authenticated', 'admin_list_ledger', 'EXECUTE'),
+        ('authenticated', 'admin_list_payment_events', 'EXECUTE'),
+        ('authenticated', 'admin_list_payments', 'EXECUTE'),
+        ('authenticated', 'admin_list_public_requests', 'EXECUTE'),
+        ('authenticated', 'admin_list_receivers', 'EXECUTE'),
+        ('authenticated', 'admin_list_settings', 'EXECUTE'),
+        ('authenticated', 'admin_list_sms_metadata', 'EXECUTE'),
+        ('authenticated', 'admin_list_unallocated', 'EXECUTE'),
+        ('authenticated', 'admin_list_users', 'EXECUTE'),
+        ('authenticated', 'admin_moderate_collection', 'EXECUTE'),
+        ('authenticated', 'admin_manual_allocate_payment', 'EXECUTE'),
+        ('authenticated', 'admin_overview', 'EXECUTE'),
+        ('authenticated', 'admin_reparse_payment_event', 'EXECUTE'),
+        ('authenticated', 'admin_reveal_raw_sms', 'EXECUTE'),
+        ('authenticated', 'admin_review_public_request', 'EXECUTE'),
+        ('authenticated', 'admin_system_health', 'EXECUTE'),
+        ('authenticated', 'create_collection_invite', 'EXECUTE'),
+        ('authenticated', 'create_collection_with_owner', 'EXECUTE'),
+        ('authenticated', 'create_payment_intent', 'EXECUTE'),
+        ('authenticated', 'create_payment_intent_with_instructions', 'EXECUTE'),
+        ('authenticated', 'current_user_is_platform_admin', 'EXECUTE'),
+        ('authenticated', 'get_current_profile', 'EXECUTE'),
+        ('authenticated', 'has_admin_permission', 'EXECUTE'),
+        ('authenticated', 'is_platform_admin', 'EXECUTE'),
+        ('authenticated', 'manual_allocate_parsed_payment_event', 'EXECUTE'),
+        ('authenticated', 'record_receiver_mode_consent', 'EXECUTE'),
+        ('authenticated', 'report_payment_intent_paid', 'EXECUTE'),
+        ('authenticated', 'request_public_collection', 'EXECUTE'),
+        ('authenticated', 'review_public_collection', 'EXECUTE'),
+        ('authenticated', 'user_can_ingest_receiver_sms', 'EXECUTE'),
+        ('authenticated', 'user_can_read_collection', 'EXECUTE'),
+        ('authenticated', 'user_is_collection_admin', 'EXECUTE')
+    ),
+    actual_function_grants as (
+      select grantee, routine_name, privilege_type
+      from information_schema.routine_privileges
+      where specific_schema = 'public'
+        and grantee in ('PUBLIC', 'anon', 'authenticated')
+    ),
+    public_function_grants as (
+      select 'unexpected PUBLIC function grant: ' || routine_name || ' ' || privilege_type as issue
+      from actual_function_grants
+      where grantee = 'PUBLIC'
+    ),
+    unexpected_function_grants as (
+      select 'unexpected function grant: ' || grantee || ' ' || privilege_type || ' on ' || routine_name as issue
+      from actual_function_grants
+      where grantee in ('anon', 'authenticated')
+      except
+      select 'unexpected function grant: ' || grantee || ' ' || privilege_type || ' on ' || routine_name
+      from allowed_function_grants
+    ),
+    missing_function_grants as (
+      select 'missing function grant: ' || grantee || ' ' || privilege_type || ' on ' || routine_name as issue
+      from allowed_function_grants
+      except
+      select 'missing function grant: ' || grantee || ' ' || privilege_type || ' on ' || routine_name
+      from actual_function_grants
+    )
+    select issue from unexpected_table_grants
+    union all select issue from missing_table_grants
+    union all select issue from public_function_grants
+    union all select issue from unexpected_function_grants
+    union all select issue from missing_function_grants
+    order by issue;
+  ")"
+  [[ -z "$violations" ]] || fail "SQL privilege contract violations: $violations"
+
+  local missing_column_grants
+  missing_column_grants="$(db_query "
+    with roles(grantee) as (
+      values ('anon'), ('authenticated')
+    ),
+    expected_column_grants(grantee, table_name, column_name, privilege_type) as (
+      select roles.grantee, expected.table_name, expected.column_name, 'SELECT'
+      from roles
+      cross join (
+        values
+          ('profiles', 'id'),
+          ('profiles', 'public_id'),
+          ('profiles', 'display_name'),
+          ('profiles', 'avatar_url'),
+          ('profiles', 'anonymity_default'),
+          ('profiles', 'created_at'),
+          ('collections', 'id'),
+          ('collections', 'slug'),
+          ('collections', 'creator_user_id'),
+          ('collections', 'title'),
+          ('collections', 'description'),
+          ('collections', 'category'),
+          ('collections', 'cover_image_url'),
+          ('collections', 'currency'),
+          ('collections', 'target_amount_rwf'),
+          ('collections', 'deadline_at'),
+          ('collections', 'visibility'),
+          ('collections', 'public_status'),
+          ('collections', 'is_recurring'),
+          ('collections', 'recurring_rule'),
+          ('collections', 'allow_anonymous'),
+          ('collections', 'contribution_visibility'),
+          ('collections', 'receiver_display_label'),
+          ('collections', 'created_at'),
+          ('collections', 'updated_at'),
+          ('collections', 'archived_at'),
+          ('payments', 'id'),
+          ('payments', 'parsed_event_id'),
+          ('payments', 'payment_intent_id'),
+          ('payments', 'collection_id'),
+          ('payments', 'contributor_user_id'),
+          ('payments', 'contributor_public_id'),
+          ('payments', 'amount_rwf'),
+          ('payments', 'currency'),
+          ('payments', 'transaction_id'),
+          ('payments', 'source'),
+          ('payments', 'status'),
+          ('payments', 'anonymity_choice'),
+          ('payments', 'posted_at'),
+          ('payments', 'created_at'),
+          ('ledger_entries', 'id'),
+          ('ledger_entries', 'payment_id'),
+          ('ledger_entries', 'collection_id'),
+          ('ledger_entries', 'user_id'),
+          ('ledger_entries', 'entry_type'),
+          ('ledger_entries', 'amount_rwf'),
+          ('ledger_entries', 'currency'),
+          ('ledger_entries', 'visibility'),
+          ('ledger_entries', 'created_at')
+      ) as expected(table_name, column_name)
+    ),
+    actual_column_grants as (
+      select grantee, table_name, column_name, privilege_type
+      from information_schema.column_privileges
+      where table_schema = 'public'
+        and grantee in ('anon', 'authenticated')
+        and privilege_type = 'SELECT'
+    )
+    select 'missing column grant: ' || grantee || ' SELECT on ' || table_name || '.' || column_name
+    from expected_column_grants
+    except
+    select 'missing column grant: ' || grantee || ' SELECT on ' || table_name || '.' || column_name
+    from actual_column_grants
+    order by 1;
+  ")"
+  [[ -z "$missing_column_grants" ]] || fail "SQL column privilege contract violations: $missing_column_grants"
+}
+
+check_edge_function_auth_contract() {
+  log "checking Edge Function auth contract"
+  ruby <<'RUBY'
+expected = {
+  "auth-send-whatsapp-otp" => :webhook,
+  "allocate-payment" => :internal,
+  "parse-payment-sms" => :internal,
+  "ingest-payment-sms" => :user,
+  "manual-allocate-payment" => :user,
+  "request-public-collection" => :user,
+  "review-public-collection" => :user,
+}
+
+issues = []
+config = File.read("supabase/config.toml")
+disabled = config.scan(/^\[functions\.([^\]]+)\]\s*\n(?:[^\[]*\n)*?verify_jwt\s*=\s*false/m).flatten.sort
+issues << "JWT verification disabled for unexpected functions: #{(disabled - ["auth-send-whatsapp-otp"]).join(", ")}" unless (disabled - ["auth-send-whatsapp-otp"]).empty?
+issues << "auth-send-whatsapp-otp must have verify_jwt=false for Supabase Auth hook delivery" unless disabled.include?("auth-send-whatsapp-otp")
+
+expected.each do |name, mode|
+  path = "supabase/functions/#{name}/index.ts"
+  source = File.read(path)
+  case mode
+  when :webhook
+    issues << "#{name} must verify SEND_SMS_HOOK_SECRET" unless source.include?("SEND_SMS_HOOK_SECRET")
+    issues << "#{name} must verify Standard Webhooks signatures" unless source.include?("standardwebhooks") && source.include?("Webhook")
+  when :internal
+    issues << "#{name} must call requireInternalRequest" unless source.include?("requireInternalRequest(req)")
+  when :user
+    issues << "#{name} must require an authenticated user" unless source.include?("requireUser(")
+  end
+end
+
+deploy = File.read("scripts/supabase_deploy.sh")
+issues << "deploy script must deploy only auth-send-whatsapp-otp with --no-verify-jwt" unless deploy.include?('if [[ "$function_name" == "auth-send-whatsapp-otp" ]]') && deploy.include?("--no-verify-jwt")
+
+if issues.any?
+  warn issues.join("\n")
+  exit 1
+end
+RUBY
+}
+
+check_functions() {
+  log "checking deployed Edge Function endpoints"
+  local inventory
+  if inventory="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli functions list --project-ref "$SUPABASE_PROJECT_REF" -o json 2>/dev/null)"; then
+    local actual expected
+    actual="$(ruby -r json -e 'puts JSON.parse(STDIN.read).map { |fn| fn["name"] }.compact.sort' <<< "$inventory")"
+    expected="$(printf '%s\n' "${EXPECTED_FUNCTIONS[@]}" | sort)"
+    if [[ "$actual" != "$expected" ]]; then
+      printf 'Expected functions:\n%s\nActual functions:\n%s\n' "$expected" "$actual" >&2
+      fail "Unexpected Edge Function inventory"
+    fi
+  else
+    platform_issue "Supabase Management API denied Edge Function inventory; using endpoint probes instead."
+  fi
+
+  local base_url="https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1"
+  local body_file status
+
+  body_file="$(mktemp)"
+  status="$(curl -sS -o "$body_file" -w '%{http_code}' \
+    -X POST "$base_url/auth-send-whatsapp-otp" \
+    -H 'content-type: application/json' \
+    -H "x-hook-secret: $SEND_SMS_HOOK_SECRET" \
+    --data '{"user":{"phone":"+250788123456"},"sms":{}}')"
+  [[ "$status" == "400" ]] || fail "auth-send-whatsapp-otp probe expected HTTP 400, got $status"
+  grep -q 'Missing phone or OTP' "$body_file" || fail "auth-send-whatsapp-otp probe did not reach hook code"
+
+  status="$(curl -sS -o "$body_file" -w '%{http_code}' \
+    -X POST "$base_url/allocate-payment" \
+    -H 'content-type: application/json' \
+    -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+    -H "x-collect-signature: $INTERNAL_FUNCTION_SECRET" \
+    --data '{"parsed_event_id":"00000000-0000-0000-0000-000000000000"}')"
+  [[ "$status" == "500" ]] || fail "allocate-payment probe expected HTTP 500 for dummy event, got $status"
+  grep -q 'Parsed event not found' "$body_file" || fail "allocate-payment probe did not reach deterministic allocator"
+
+  local fn
+  for fn in ingest-payment-sms parse-payment-sms manual-allocate-payment request-public-collection review-public-collection; do
+    status="$(curl -sS -o "$body_file" -w '%{http_code}' \
+      -X POST "$base_url/$fn" \
+      -H 'content-type: application/json' \
+      --data '{}')"
+    [[ "$status" == "401" ]] || fail "$fn unauthenticated probe expected HTTP 401, got $status"
+  done
+  rm -f "$body_file"
+}
+
+check_secrets() {
+  log "checking Edge Function secret names"
+  local secret_inventory
+  if secret_inventory="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli secrets list --project-ref "$SUPABASE_PROJECT_REF" -o json 2>/dev/null)"; then
+    local missing
+    missing="$(ruby -r json -e '
+        expected = ARGV
+        names = JSON.parse(STDIN.read).map { |item| item["name"] || item["Name"] }.compact
+        puts(expected - names)
+      ' "${REQUIRED_SECRETS[@]}" <<< "$secret_inventory")"
+    [[ -z "$missing" ]] || fail "Missing Edge Function secrets: $missing"
+  else
+    platform_issue "Supabase Management API denied Function Secret inventory; using local env presence plus live function probes."
+    local name
+    for name in "${REQUIRED_SECRETS[@]}" SUPABASE_SERVICE_ROLE_KEY; do
+      [[ -n "${!name:-}" ]] || fail "Required local env var is missing for readiness probe: $name"
+    done
+  fi
+}
+
+check_auth_config() {
+  log "checking Auth production configuration"
+  local auth_config
+  auth_config="$(curl -fsS "https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF/config/auth" \
+    -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN")"
+
+  local issues
+  issues="$(ruby - "$auth_config" <<'RUBY'
+require "json"
+data = JSON.parse(ARGV.fetch(0))
+
+issues = []
+
+site_url = data["site_url"].to_s
+if site_url.empty?
+  issues << "Auth Site URL is not configured."
+elsif site_url.start_with?("http://localhost", "http://127.0.0.1")
+  issues << "Auth Site URL still points to localhost."
+elsif !site_url.start_with?("https://")
+  issues << "Auth Site URL should use HTTPS in production."
+end
+
+uri_allow_list = data["uri_allow_list"].to_s.split(",").map(&:strip).reject(&:empty?)
+localhost_redirects = uri_allow_list.select { |url| url.include?("localhost") || url.include?("127.0.0.1") }
+wildcard_redirects = uri_allow_list.select { |url| url.include?("*") }
+issues << "Auth redirect allowlist includes localhost entries: #{localhost_redirects.join(", ")}" unless localhost_redirects.empty?
+issues << "Auth redirect allowlist includes wildcard entries: #{wildcard_redirects.join(", ")}" unless wildcard_redirects.empty?
+
+jwt_exp = data["jwt_exp"].to_i
+issues << "Auth JWT expiry is missing." if jwt_exp <= 0
+issues << "Auth JWT expiry exceeds 1 hour." if jwt_exp > 3600
+issues << "Refresh token rotation is disabled." if data["refresh_token_rotation_enabled"] == false
+issues << "Anonymous sign-ins are enabled." if data["external_anonymous_users_enabled"] == true
+issues << "Manual account linking is enabled." if data["security_manual_linking_enabled"] == true
+issues << "HIBP leaked-password protection is disabled." if data["password_hibp_enabled"] == false
+
+expected_sms_hook_uri = "#{ENV.fetch("SUPABASE_URL")}/functions/v1/auth-send-whatsapp-otp"
+issues << "Phone auth is disabled; WhatsApp OTP login cannot work." if data["external_phone_enabled"] != true
+issues << "Send SMS Auth hook is disabled; WhatsApp OTP delivery will not use the Collect hook." if data["hook_send_sms_enabled"] != true
+if data["hook_send_sms_uri"].to_s != expected_sms_hook_uri
+  issues << "Send SMS Auth hook URI does not point to the deployed WhatsApp OTP function."
+end
+
+email_auth_enabled = data["external_email_enabled"] == true
+
+if email_auth_enabled
+  issues << "Email auth autoconfirm is enabled; production should require email confirmation unless intentionally disabled." if data["mailer_autoconfirm"] == true
+  issues << "Email auth is enabled but custom SMTP is not configured." if data["smtp_host"].to_s.empty?
+  issues << "Password minimum length is below 8." if data["password_min_length"].to_i < 8
+  issues << "Password updates do not require recent reauthentication." if data["security_update_password_require_reauthentication"] == false
+end
+
+if data["security_captcha_enabled"] == false
+  issues << "CAPTCHA/bot protection is disabled."
+else
+  provider = data["security_captcha_provider"].to_s
+  issues << "CAPTCHA provider is not hcaptcha or turnstile." unless %w[hcaptcha turnstile].include?(provider)
+  env_provider = ENV["AUTH_CAPTCHA_PROVIDER"].to_s
+  if !env_provider.empty? && env_provider != provider
+    issues << "AUTH_CAPTCHA_PROVIDER does not match live Supabase CAPTCHA provider."
+  end
+  issues << "AUTH_CAPTCHA_SITE_KEY is missing for CAPTCHA-enabled client builds." if ENV["AUTH_CAPTCHA_SITE_KEY"].to_s.empty?
+end
+
+if data["mfa_totp_enroll_enabled"] == false && data["mfa_phone_enroll_enabled"] == false && data["mfa_web_authn_enroll_enabled"] == false
+  issues << "User MFA enrollment is disabled for all factors."
+end
+
+puts issues
+RUBY
+)"
+  if [[ -n "$issues" ]]; then
+    while IFS= read -r issue; do
+      platform_issue "$issue"
+    done <<< "$issues"
+  fi
+}
+
+check_platform_settings() {
+  log "checking platform production settings"
+  local project
+  project="$(curl -fsS "https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF" \
+    -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" || true)"
+  local organization_id
+  organization_id="$(ruby -r json -e 'data = JSON.parse(STDIN.read); puts data["organization_id"].to_s' <<< "$project" 2>/dev/null || true)"
+  if [[ -n "$organization_id" ]]; then
+    local organization
+    organization="$(curl -fsS "https://api.supabase.com/v1/organizations/$organization_id" \
+      -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" || true)"
+    local plan
+    plan="$(ruby -r json -e 'data = JSON.parse(STDIN.read); puts data["plan"].to_s' <<< "$organization" 2>/dev/null || true)"
+    if [[ "$plan" == "free" ]]; then
+      platform_issue "Supabase organization is on the Free plan. Upgrade before production go-live or record an accepted project-pause risk exception."
+    elif [[ -z "$plan" ]]; then
+      platform_issue "Supabase organization billing plan could not be verified."
+    fi
+  else
+    platform_issue "Supabase project organization could not be verified."
+  fi
+
+  local ssl_config
+  ssl_config="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli ssl-enforcement get --project-ref "$SUPABASE_PROJECT_REF" --experimental -o json || true)"
+  if [[ "$ssl_config" == *'"database": false'* ]]; then
+    platform_issue "Database SSL enforcement is disabled. Enable before production go-live."
+  fi
+
+  local network_config
+  network_config="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli network-restrictions get --project-ref "$SUPABASE_PROJECT_REF" --experimental -o json || true)"
+  if [[ "$network_config" == *'0.0.0.0/0'* || "$network_config" == *'::/0'* ]]; then
+    platform_issue "Database network restrictions allow public IPv4/IPv6 ranges. Restrict to operator/CI ranges if feasible."
+  fi
+
+  local backups
+  backups="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli backups list --project-ref "$SUPABASE_PROJECT_REF" -o json || true)"
+  if [[ "$backups" == *'"pitr_enabled": false'* ]]; then
+    platform_issue "PITR is disabled. Enable before go-live if low RPO is required."
+  fi
+}
+
+main() {
+  supabase_cli --version >/dev/null
+  if [[ "${SUPABASE_DB_QUERY_MODE:-linked}" == "direct" ]]; then
+    psql_cli --version >/dev/null
+  fi
+  require_cmd ruby
+  load_env
+
+  log "checking linked project $SUPABASE_PROJECT_REF"
+  if ! SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli projects list -o json \
+    | ruby -r json -e 'ref = ENV.fetch("SUPABASE_PROJECT_REF"); project = JSON.parse(STDIN.read).find { |p| [p["id"], p["ref"]].include?(ref) }; abort("project not visible") unless project; puts "project status=#{project["status"]} postgres=#{project.dig("database", "version")} region=#{project["region"]}"'; then
+    platform_issue "Supabase Management API did not list linked project; continuing with linked DB/function probes."
+  fi
+
+  SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db lint --linked --schema public --fail-on error
+  "$ROOT_DIR/scripts/supabase_advisors_gate.sh"
+  "$ROOT_DIR/scripts/supabase_advisors_warning_inventory.sh"
+  local dry_run
+  dry_run="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db push -p "$SUPABASE_DB_PASSWORD" --dry-run)"
+  printf '%s\n' "$dry_run"
+  if [[ "$dry_run" == *"Would push these migrations:"* ]]; then
+    fail "Pending remote migrations detected"
+  fi
+  check_schema_contract
+  check_rls
+  check_app_contract_columns
+  check_explicit_indexes
+  check_sql_privileges
+  "$ROOT_DIR/scripts/collect_linked_uat.sh"
+  "$ROOT_DIR/scripts/collect_admin_security_uat.sh"
+  check_edge_function_auth_contract
+  check_functions
+  check_secrets
+  check_auth_config
+  check_platform_settings
+  check_strict_platform_issues
+
+  log "code-owned Supabase readiness checks passed"
+}
+
+main "$@"

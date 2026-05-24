@@ -1,6 +1,0 @@
-What's new in Cool 1.1.0:
-• Improved place autocomplete for faster location search
-• Schedule trip enhancements with past-date validation and recurring trip fixes
-• Platform admin workspace rights across all partner workspaces
-• Bug fixes for permissions, SMS sync, and contact display
-• Performance and stability improvements

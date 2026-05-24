@@ -1,89 +1,11 @@
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <!-- Network -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <!-- Notifications (required on Android 13+ / API 33+) -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
-    <!-- SMS (core M-Money payment verification and transaction recording) -->
-    <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-
-    <!-- Location — NOT used by Cool. Removed to comply with Play Store
-         permission policy. If a location feature is added later, re-enable
-         with a clear purpose string and runtime prompt. -->
-
-    <!-- NFC (MOMO tap-to-pay) -->
-    <uses-permission android:name="android.permission.NFC" />
-    <uses-feature android:name="android.hardware.nfc" android:required="false" />
-    <uses-feature android:name="android.hardware.nfc.hce" android:required="false" />
-
-    <!-- Contacts (invite group members, share via contacts) -->
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-
-    <!-- Camera (QR scanning and BioPay face capture/matching) -->
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <!-- Boot completed for resilient M-Money SMS sync recovery -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
-    <!-- Device authentication (BioPay step-up auth) -->
-    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
-
-    <!-- Remove permissions pulled in by transitive libraries but not shipped by Cool. -->
-    <uses-permission
-        android:name="android.permission.RECORD_AUDIO"
-        tools:node="remove" />
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        tools:node="remove" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:node="remove" />
-    <uses-permission
-        android:name="android.permission.READ_PHONE_STATE"
-        tools:node="remove" />
-    <uses-permission
-        android:name="com.google.android.gms.permission.AD_ID"
-        tools:node="remove" />
-    <uses-permission
-        android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION"
-        tools:node="remove" />
-    <uses-permission
-        android:name="android.permission.ACCESS_ADSERVICES_AD_ID"
-        tools:node="remove" />
-    <uses-permission
-        android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"
-        tools:node="remove" />
-    <!-- Location removed from Cool — block transitive re-introduction -->
-    <uses-permission
-        android:name="android.permission.ACCESS_FINE_LOCATION"
-        tools:node="remove" />
-    <uses-permission
-        android:name="android.permission.ACCESS_COARSE_LOCATION"
-        tools:node="remove" />
-
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
 
     <application
-        android:label="Cool"
-        android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:icon="@drawable/ic_launcher"
+        android:roundIcon="@drawable/ic_launcher"
         android:enableOnBackInvokedCallback="true">
-
-        <!-- Maps API key removed — no Google Maps features in Cool.
-             Re-add if a map feature is introduced. -->
-
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/cool_default_notification_channel_id" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -93,99 +15,17 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
-
-            <!-- Default launch theme -->
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme" />
-
-            <!-- Default launcher -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <!-- Deep links: cool.app (plus legacy cool.ikanisa.com support) -->
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:scheme="https"
-                    android:host="cool.app" />
-                <data
-                    android:scheme="https"
-                    android:host="www.cool.app" />
-                <data
-                    android:scheme="https"
-                    android:host="cool.ikanisa.com" />
-            </intent-filter>
-
-            <!-- Custom scheme: cool:// -->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="cool" />
-            </intent-filter>
-
-            <!-- NFC intent filter -->
-            <intent-filter>
-                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="application/vnd.cool.nfc" />
-            </intent-filter>
         </activity>
 
-        <!-- Flutter embedding -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-
-        <receiver
-            android:name=".momo_sms.MomoSmsReceiver"
-            android:permission="android.permission.BROADCAST_SMS"
-            android:exported="true">
-            <intent-filter android:priority="1000">
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".momo_sms.MomoSmsBootReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name=".CoolNfcHostApduService"
-            android:exported="true"
-            android:permission="android.permission.BIND_NFC_SERVICE">
-            <intent-filter>
-                <action android:name="android.nfc.cardemulation.action.HOST_APDU_SERVICE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.nfc.cardemulation.host_apdu_service"
-                android:resource="@xml/apduservice" />
-        </service>
     </application>
-
-    <!-- Package visibility for url_launcher, text processing, etc. -->
-    <queries>
-        <intent>
-            <action android:name="android.intent.action.PROCESS_TEXT" />
-            <data android:mimeType="text/plain" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="https" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="tel" />
-        </intent>
-    </queries>
 </manifest>

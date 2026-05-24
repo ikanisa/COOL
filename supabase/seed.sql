@@ -1,0 +1,2 @@
+-- Collect seed data is intentionally empty for the baseline MVP.
+-- Add local-only development seed data after the Collect schema is defined.

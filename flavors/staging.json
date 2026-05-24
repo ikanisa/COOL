@@ -1,9 +1,0 @@
-{
-  "FLAVOR": "staging",
-  "SUPABASE_URL": "https://your-staging-project.supabase.co",
-  "SUPABASE_ANON_KEY": "your-staging-anon-key",
-  "SUPABASE_PROJECT_REF": "your-staging-project",
-  "BACKEND_ENVIRONMENT": "staging",
-  "COOL_DEEP_LINK_HOST": "staging.cool.ikanisa.com",
-  "ENABLE_ANDROID_MOMO_SMS_AUTOREAD": true
-}

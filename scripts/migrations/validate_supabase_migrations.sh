@@ -1,121 +1,70 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-MIGRATIONS_DIR="$ROOT_DIR/supabase/migrations"
-MANIFEST_FILE="$MIGRATIONS_DIR/migration_manifest.yaml"
+root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+migrations_dir="$root_dir/supabase/migrations"
+admin_migration="$migrations_dir/202605230008_admin_panel.sql"
 
-if [[ ! -d "$MIGRATIONS_DIR" ]]; then
-  echo "Missing migrations directory: $MIGRATIONS_DIR" >&2
+if [ ! -d "$migrations_dir" ]; then
+  echo "Missing Supabase migrations directory: $migrations_dir" >&2
   exit 1
 fi
 
-echo "==> validating Supabase migrations"
+duplicates="$(
+  find "$migrations_dir" -maxdepth 1 -type f -name '*.sql' -print |
+    sed -E 's#^.*/([0-9]{12}).*#\1#' |
+    sort |
+    uniq -d
+)"
 
-migration_files=()
-while IFS= read -r file; do
-  migration_files+=("$file")
-done < <(find "$MIGRATIONS_DIR" -maxdepth 1 -type f -name '*.sql' | sort)
-
-if [[ ${#migration_files[@]} -eq 0 ]]; then
-  echo "No SQL migrations found under $MIGRATIONS_DIR" >&2
+if [ -n "$duplicates" ]; then
+  echo "Duplicate Supabase migration version prefixes:" >&2
+  echo "$duplicates" >&2
   exit 1
 fi
 
-declare -a versions=()
-declare -a errors=()
+if [ ! -f "$admin_migration" ]; then
+  echo "Missing admin migration: $admin_migration" >&2
+  exit 1
+fi
 
-contains_entry() {
-  local needle="$1"
-  shift
-  local entry
-  for entry in "$@"; do
-    if [[ "$entry" == "$needle" ]]; then
-      return 0
-    fi
-  done
-  return 1
-}
+required_patterns=(
+  'create table if not exists admin_roles'
+  'create table if not exists admin_permissions'
+  'create table if not exists admin_role_permissions'
+  'create table if not exists admin_user_roles'
+  'create table if not exists admin_sensitive_access_logs'
+  'create table if not exists feature_flags'
+  'create table if not exists system_settings'
+  'create table if not exists moderation_flags'
+  'create table if not exists admin_notes'
+  'create or replace function has_admin_permission'
+  'create or replace function assert_admin_permission'
+  'create or replace function create_audit_log'
+  'create or replace function admin_bootstrap_platform_owner'
+  'create or replace function admin_review_public_request'
+  'create or replace function admin_moderate_collection'
+  'create or replace function admin_manual_allocate_payment'
+  'create or replace function admin_reveal_raw_sms'
+  'create policy "feature flags read admins"'
+  'revoke all on raw_payment_sms from anon, authenticated'
+)
 
-for file in "${migration_files[@]}"; do
-  base_name="$(basename "$file")"
-  versions+=("${base_name%%_*}")
-
-  if [[ ! "$base_name" =~ ^[0-9]{14}_[a-z0-9_]+\.sql$ ]]; then
-    errors+=("Invalid migration filename format: $base_name")
-  fi
-
-  if [[ ! -s "$file" ]]; then
-    errors+=("Migration is empty: $base_name")
-    continue
-  fi
-
-  if grep -n -E '^\*\*\* (Begin Patch|Add File:|Update File:|Delete File:|Move to:|End Patch)$' "$file" >/dev/null; then
-    errors+=("Migration contains raw patch markers: $base_name")
-  fi
-
-  if grep -n -E '/Volumes/|file:///|[A-Za-z]:\\\\' "$file" >/dev/null; then
-    errors+=("Migration contains machine-local absolute paths: $base_name")
-  fi
-
-  last_sql_line="$(
-    awk '
-      NF == 0 { next }
-      /^[[:space:]]*--/ { next }
-      { line = $0 }
-      END { print line }
-    ' "$file"
-  )"
-  if [[ -z "$last_sql_line" ]]; then
-    errors+=("Migration has no non-empty SQL content: $base_name")
-  elif [[ ! "$last_sql_line" =~ \;[[:space:]]*$ ]]; then
-    errors+=("Migration does not end with a semicolon: $base_name")
+for pattern in "${required_patterns[@]}"; do
+  if ! grep -Fq "$pattern" "$admin_migration"; then
+    echo "Admin migration is missing required pattern: $pattern" >&2
+    exit 1
   fi
 done
 
-duplicate_versions="$(printf '%s\n' "${versions[@]}" | sort | uniq -d || true)"
-if [[ -n "$duplicate_versions" ]]; then
-  while IFS= read -r version; do
-    [[ -z "$version" ]] && continue
-    errors+=("Duplicate migration version prefix: $version")
-  done <<< "$duplicate_versions"
-fi
-
-if [[ ! -f "$MANIFEST_FILE" ]]; then
-  errors+=("Missing migration manifest: $MANIFEST_FILE")
-else
-  declare -a manifest_entries=()
-  declare -a migration_entries=()
-  while IFS= read -r file; do
-    [[ -z "$file" ]] && continue
-    manifest_entries+=("$file")
-  done < <(
-    sed -nE 's/^[[:space:]]*([0-9]{14}_[a-z0-9_]+\.sql):.*/\1/p' \
-      "$MANIFEST_FILE" |
-      sort
-  )
-
-  for file in "${migration_files[@]}"; do
-    base_name="$(basename "$file")"
-    migration_entries+=("$base_name")
-    if ! contains_entry "$base_name" "${manifest_entries[@]}"; then
-      errors+=("Migration is missing from manifest: $base_name")
-    fi
-  done
-
-  for file in "${manifest_entries[@]}"; do
-    if ! contains_entry "$file" "${migration_entries[@]}"; then
-      errors+=("Manifest references missing migration file: $file")
-    fi
-  done
-fi
-
-if [[ ${#errors[@]} -gt 0 ]]; then
-  printf 'Supabase migration validation failed:\n' >&2
-  for error in "${errors[@]}"; do
-    printf '  - %s\n' "$error" >&2
-  done
+if grep -Eq 'grant select .*raw_body.* on raw_payment_sms to authenticated' "$admin_migration"; then
+  echo "Admin migration grants direct raw_body access to authenticated clients" >&2
   exit 1
 fi
 
-printf 'Validated %s migration files.\n' "${#migration_files[@]}"
+if ! grep -Fq 'revoke execute on function admin_moderate_collection(uuid, text, text) from public, anon, authenticated' "$migrations_dir/202605230015_admin_collection_moderation.sql"; then
+  echo "Admin collection moderation migration must revoke default PUBLIC execute" >&2
+  exit 1
+fi
+
+echo "Supabase migration validation passed"

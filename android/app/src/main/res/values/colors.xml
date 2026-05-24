@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_launcher_background">#FFFFFF</color>
+    <color name="collect_ink">#101216</color>
+    <color name="collect_mint">#00C48C</color>
+    <color name="collect_paper">#F7F8F6</color>
 </resources>

@@ -1,97 +1,10 @@
 {
-    "id": "/",
-    "name": "COOL",
-    "short_name": "COOL",
-    "start_url": "/",
-    "scope": "/",
-    "display": "standalone",
-    "display_override": ["window-controls-overlay", "standalone", "browser"],
-    "background_color": "#0D0A27",
-    "theme_color": "#0D0A27",
-    "description": "COOL community finance with bank admin workspaces and offline-ready MoMo operations.",
-    "lang": "en",
-    "categories": ["finance", "business", "productivity"],
-    "orientation": "portrait-primary",
-    "launch_handler": {
-        "client_mode": "navigate-existing"
-    },
-    "prefer_related_applications": false,
-    "shortcuts": [
-        {
-            "name": "Home",
-            "short_name": "Home",
-            "description": "Open the community dashboard.",
-            "url": "/home",
-            "icons": [
-                {
-                    "src": "icons/Icon-192.png",
-                    "sizes": "192x192",
-                    "type": "image/png"
-                }
-            ]
-        },
-        {
-            "name": "Admin",
-            "short_name": "Admin",
-            "description": "Open admin workspaces.",
-            "url": "/admin",
-            "icons": [
-                {
-                    "src": "icons/Icon-192.png",
-                    "sizes": "192x192",
-                    "type": "image/png"
-                }
-            ]
-        },
-        {
-            "name": "MoMo",
-            "short_name": "MoMo",
-            "description": "Open MoMo operations.",
-            "url": "/momo",
-            "icons": [
-                {
-                    "src": "icons/Icon-192.png",
-                    "sizes": "192x192",
-                    "type": "image/png"
-                }
-            ]
-        },
-        {
-            "name": "Profile",
-            "short_name": "Profile",
-            "description": "Open account settings.",
-            "url": "/profile",
-            "icons": [
-                {
-                    "src": "icons/Icon-192.png",
-                    "sizes": "192x192",
-                    "type": "image/png"
-                }
-            ]
-        }
-    ],
-    "icons": [
-        {
-            "src": "icons/Icon-192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "icons/Icon-512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        },
-        {
-            "src": "icons/Icon-maskable-192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "maskable"
-        },
-        {
-            "src": "icons/Icon-maskable-512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "maskable"
-        }
-    ]
+  "name": "Collect",
+  "short_name": "Collect",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#F7F8F6",
+  "theme_color": "#101216",
+  "description": "Rwanda community collections app.",
+  "orientation": "portrait-primary"
 }
