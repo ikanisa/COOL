@@ -3,6 +3,7 @@ import 'package:collect_app/features/payments/payment_intent_status_screen.dart'
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collection_card.dart';
+import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,6 +11,11 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('MoMo launcher uses USSD menu, not receiver phone call', () {
     expect(momoUssdUri().toString(), 'tel:*182%23');
+  });
+
+  test('activity labels use compact Collect IDs', () {
+    expect(compactCollectIdLabel('Collect ID 038491'), '#038491');
+    expect(compactCollectIdLabel('Collect member'), 'Collect member');
   });
 
   testWidgets('group card renders SMS-first details', (tester) async {
@@ -36,12 +42,11 @@ void main() {
 
     expect(find.text('Medical support'), findsWidgets);
     expect(find.text('3 members'), findsOneWidget);
-    expect(find.text('SMS auto-match'), findsOneWidget);
+    expect(find.text('Help'), findsNothing);
+    expect(find.text('Auto'), findsNothing);
   });
 
-  testWidgets('payment intent status screen renders receiver details', (
-    tester,
-  ) async {
+  testWidgets('payment status screen renders receiver details', (tester) async {
     final repo = CollectRepository.seeded();
     final intent = await repo.createPaymentIntent(
       const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 5000),
@@ -59,7 +64,7 @@ void main() {
     );
 
     expect(find.text('St Michel treasury'), findsOneWidget);
-    expect(find.text('Waiting for MoMo SMS'), findsOneWidget);
-    expect(find.text('Payment intent'), findsWidgets);
+    expect(find.text('Waiting for MoMo SMS'), findsNothing);
+    expect(find.text('Payment'), findsWidgets);
   });
 }

@@ -24,10 +24,12 @@ class PaymentIntentStatusScreen extends ConsumerStatefulWidget {
 
 class _PaymentIntentStatusScreenState
     extends ConsumerState<PaymentIntentStatusScreen> {
+  bool _refreshing = false;
+  String? _error;
+
   @override
   Widget build(BuildContext context) {
     final repo = ref.read(collectRepositoryProvider.notifier);
-    final profile = ref.watch(collectRepositoryProvider).currentProfile;
     final uiStatus = ref.watch(
       paymentUiStatusProvider(
         PaymentStatusKey(
@@ -40,61 +42,62 @@ class _PaymentIntentStatusScreenState
     final collection = repo.collectionById(widget.collectionId);
 
     return ScreenScaffold(
-      title: 'Payment intent',
+      title: 'Payment',
       subtitle: collection.title,
-      children: [
-        const InsightCard(
-          title: 'Waiting for MoMo SMS',
-          message:
-              'Complete the MoMo payment off app. Confirmation is posted automatically after SMS parsing and allocation.',
-          icon: CollectIcons.momo,
-          tone: CollectStatusTone.info,
+      actions: [
+        IconButton.filledTonal(
+          tooltip: 'Refresh',
+          onPressed: _refreshing ? null : _refreshStatus,
+          icon: Icon(_refreshing ? CollectIcons.pending : CollectIcons.sync),
         ),
+      ],
+      children: [
+        if (_error != null)
+          InfoSecurityBanner(
+            title: 'Refresh failed',
+            message: _error!,
+            tone: CollectStatusTone.warning,
+          ),
         PaymentIntentStatusCard(
           amountRwf: intent.expectedAmountRwf,
           receiverLabel: intent.receiverLabel,
           receiverMomoNumber: intent.receiverMomoNumber,
-          memberLabel: profile?.safeAlias ?? 'Collect ID linked',
-          network: intent.network,
           status: intent.status,
         ),
-        CollectCard(
-          padding: CollectSpacing.cardPaddingComfortable,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'SMS confirmation',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              CollectSpacing.gap8,
-              Text(
-                'Do not paste SMS or payment references. The MoMo SMS is ingested, parsed, and allocated automatically.',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              CollectSpacing.gap16,
-              CollectButton(
-                label: 'Open ledger',
-                icon: CollectIcons.ledger,
-                onPressed: () =>
-                    context.go('/groups/${widget.collectionId}/ledger'),
-                expand: true,
-              ),
-              CollectSpacing.gap12,
-              CollectButton(
-                label: _stateActionLabel(uiStatus),
-                icon: _stateActionIcon(uiStatus),
-                onPressed: () => context.go(
-                  '/groups/${widget.collectionId}/pay/${widget.intentId}/state/${_statePath(uiStatus)}',
-                ),
-                variant: CollectButtonVariant.secondary,
-                expand: true,
-              ),
-            ],
+        CollectButton(
+          label: 'Open ledger',
+          icon: CollectIcons.ledger,
+          onPressed: () => context.go('/groups/${widget.collectionId}/ledger'),
+          expand: true,
+        ),
+        CollectButton(
+          label: _stateActionLabel(uiStatus),
+          icon: _stateActionIcon(uiStatus),
+          onPressed: () => context.go(
+            '/groups/${widget.collectionId}/pay/${widget.intentId}/state/${_statePath(uiStatus)}',
           ),
+          variant: CollectButtonVariant.secondary,
+          expand: true,
         ),
       ],
     );
+  }
+
+  Future<void> _refreshStatus() async {
+    setState(() {
+      _refreshing = true;
+      _error = null;
+    });
+    try {
+      await ref
+          .read(collectRepositoryProvider.notifier)
+          .refreshPaymentIntent(widget.intentId);
+    } catch (error) {
+      if (!mounted) return;
+      setState(() => _error = error.toString());
+    } finally {
+      if (mounted) setState(() => _refreshing = false);
+    }
   }
 }
 

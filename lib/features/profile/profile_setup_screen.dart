@@ -32,15 +32,8 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
     }
     return ScreenScaffold(
       title: 'Profile',
-      subtitle:
-          'Collect ID ${profile == null ? 'created after login' : profile.publicId}',
+      subtitle: profile == null ? null : '#${profile.publicId}',
       children: [
-        const InfoSecurityBanner(
-          title: 'Collect ID only',
-          message:
-              'Collect uses your 6-digit ID for matching. Real names are not requested or shown.',
-          tone: CollectStatusTone.privacy,
-        ),
         CollectCard(
           child: Column(
             children: [
@@ -50,13 +43,11 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                 decoration: collectInputDecoration(
                   context,
                   label: 'MoMo number',
-                  helper:
-                      'Used as the default receiver number for groups you create.',
                 ),
               ),
               CollectSpacing.gap16,
               CollectButton(
-                label: 'Save profile',
+                label: 'Save',
                 icon: CollectIcons.check,
                 onPressed: () async {
                   await ref

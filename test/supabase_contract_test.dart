@@ -1177,6 +1177,16 @@ void main() {
   });
 
   test('mobile production state RPCs stay authenticated and safe', () {
+    final repository = File(
+      'lib/shared/repositories/collect_repository.dart',
+    ).readAsStringSync();
+    expect(repository, contains('supabase == null'));
+    expect(repository, contains('CollectRepository(supabase: supabase)'));
+    expect(
+      repository,
+      isNot(contains('CollectRepository.seeded(\n        supabase:')),
+    );
+
     expect(
       mobileProductionStateSupport,
       contains('create table if not exists mobile_account_deletion_requests'),
@@ -1184,6 +1194,10 @@ void main() {
     expect(
       mobileProductionStateSupport,
       contains('create table if not exists mobile_support_requests'),
+    );
+    expect(
+      mobileProductionStateSupport,
+      contains('create or replace function ensure_current_profile'),
     );
     expect(
       mobileProductionStateSupport,
@@ -1204,6 +1218,12 @@ void main() {
     expect(
       mobileProductionStateSupport,
       contains('create or replace function get_owner_group_health'),
+    );
+    expect(
+      mobileProductionStateSupport,
+      contains(
+        'grant execute on function ensure_current_profile(text) to authenticated',
+      ),
     );
     expect(
       mobileProductionStateSupport,

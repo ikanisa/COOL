@@ -22,6 +22,8 @@ class _CollectionCreateScreenState
   final _description = TextEditingController();
   final _receiver = TextEditingController();
   bool _syncedProfileMomo = false;
+  bool _creating = false;
+  String? _error;
 
   @override
   void dispose() {
@@ -34,10 +36,13 @@ class _CollectionCreateScreenState
   @override
   Widget build(BuildContext context) {
     final profile = ref.watch(collectRepositoryProvider).currentProfile;
+    if (profile == null || profile.momoNumber?.trim().isNotEmpty != true) {
+      return const ProfileReadinessScreen();
+    }
     if (!_syncedProfileMomo &&
         _receiver.text.trim().isEmpty &&
-        profile?.momoNumber?.trim().isNotEmpty == true) {
-      _receiver.text = profile!.momoNumber!;
+        profile.momoNumber?.trim().isNotEmpty == true) {
+      _receiver.text = profile.momoNumber!;
       _syncedProfileMomo = true;
     }
     final canCreate = canCreateGroupsOnThisPlatform();
@@ -46,7 +51,6 @@ class _CollectionCreateScreenState
     }
     return ScreenScaffold(
       title: 'Create group',
-      subtitle: 'Name the group and confirm the receiver MoMo number.',
       children: [
         CollectCard(
           child: Column(
@@ -64,7 +68,7 @@ class _CollectionCreateScreenState
                 maxLines: 3,
                 decoration: collectInputDecoration(
                   context,
-                  label: 'Description, optional',
+                  label: 'Description',
                 ),
               ),
               CollectSpacing.gap12,
@@ -73,16 +77,22 @@ class _CollectionCreateScreenState
                 keyboardType: TextInputType.phone,
                 decoration: collectInputDecoration(
                   context,
-                  label: 'Receiver MoMo number',
-                  helper:
-                      'Synced from your profile. You can edit it for this group.',
+                  label: 'MoMo number',
                 ),
               ),
+              if (_error != null) ...[
+                CollectSpacing.gap12,
+                InfoSecurityBanner(
+                  title: 'Create failed',
+                  message: _error!,
+                  tone: CollectStatusTone.danger,
+                ),
+              ],
               CollectSpacing.gap16,
               CollectButton(
-                label: 'Create group',
+                label: _creating ? 'Creating group' : 'Create group',
                 icon: CollectIcons.check,
-                onPressed: _create,
+                onPressed: _creating ? null : _create,
                 variant: CollectButtonVariant.primary,
                 expand: true,
               ),
@@ -94,26 +104,42 @@ class _CollectionCreateScreenState
   }
 
   Future<void> _create() async {
+    final title = _title.text.trim();
+    final receiver = _receiver.text.trim();
+    if (title.isEmpty || receiver.isEmpty) {
+      setState(() {
+        _error = title.isEmpty ? 'Name required.' : 'Receiver required.';
+      });
+      return;
+    }
+    setState(() {
+      _creating = true;
+      _error = null;
+    });
     final smsAccessGranted = await ref
         .read(collectRepositoryProvider.notifier)
         .setSmsAccess(true);
     if (!smsAccessGranted) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('SMS access is required to create a group.'),
-        ),
-      );
+      context.go('/permissions/sms-denied');
       return;
     }
-    final collection = await ref
-        .read(collectRepositoryProvider.notifier)
-        .createCollection(
-          title: _title.text.isEmpty ? 'Untitled group' : _title.text,
-          description: _description.text,
-          receiverMomoNumber: _receiver.text,
-        );
-    if (!mounted) return;
-    context.go('/groups/${collection.id}/created');
+    try {
+      final collection = await ref
+          .read(collectRepositoryProvider.notifier)
+          .createCollection(
+            title: title,
+            description: _description.text,
+            receiverMomoNumber: receiver,
+          );
+      if (!mounted) return;
+      context.go('/groups/${collection.id}/created');
+    } catch (error) {
+      if (!mounted) return;
+      setState(() {
+        _creating = false;
+        _error = error.toString();
+      });
+    }
   }
 }

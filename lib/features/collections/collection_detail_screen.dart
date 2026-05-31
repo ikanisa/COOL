@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/utils/money_format.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
@@ -17,7 +18,8 @@ class CollectionDetailScreen extends ConsumerWidget {
     final repo = ref.read(collectRepositoryProvider.notifier);
     final collection = repo.collectionById(collectionId);
     final summary = repo.summaryFor(collectionId);
-    final contributions = repo.contributionsFor(collectionId).take(6);
+    final allContributions = repo.contributionsFor(collectionId);
+    final contributions = allContributions.take(6);
     final profile = state.currentProfile;
     final canManage = profile != null && collection.creatorUserId == profile.id;
     return ScreenScaffold(
@@ -37,22 +39,29 @@ class CollectionDetailScreen extends ConsumerWidget {
           ),
       ],
       children: [
-        MoneyHeroCard(
-          amount: summary.amountRaisedRwf,
-          label: 'Raised so far',
-          detail: '${summary.supporterCount} members contributed',
-          chips: [
-            const CollectStatusChip(
-              label: 'Collect ID',
-              tone: CollectStatusTone.privacy,
-            ),
-            const CollectStatusChip(label: 'SMS auto-match'),
-            if (collection.receiverMomoNumber != null)
-              const CollectStatusChip(
-                label: 'MoMo receiver',
-                tone: CollectStatusTone.success,
-              ),
-          ],
+        CollectBentoGrid(
+          primary: BentoMetricCell(
+            label: 'Total',
+            value: formatRwf(summary.amountRaisedRwf),
+            detail: '${summary.supporterCount} members',
+            icon: CollectIcons.money,
+            tone: CollectStatusTone.success,
+            emphasis: true,
+          ),
+          top: BentoMetricCell(
+            label: 'Members',
+            value: '${summary.supporterCount}',
+            detail: 'Active',
+            icon: CollectIcons.people,
+            tone: CollectStatusTone.privacy,
+          ),
+          bottom: BentoMetricCell(
+            label: 'Activity',
+            value: '${allContributions.length}',
+            detail: 'Posted',
+            icon: CollectIcons.check,
+            tone: CollectStatusTone.success,
+          ),
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -61,7 +70,7 @@ class CollectionDetailScreen extends ConsumerWidget {
               QuickActionButton(
                 icon: CollectIcons.momo,
                 label: 'Contribute',
-                detail: 'Direct MOMO',
+                detail: 'MoMo',
                 onTap: () => context.go('/groups/$collectionId/contribute'),
                 tone: CollectStatusTone.info,
               ),
@@ -77,24 +86,19 @@ class CollectionDetailScreen extends ConsumerWidget {
               QuickActionButton(
                 icon: CollectIcons.ledger,
                 label: 'Ledger',
-                detail: 'Verified',
+                detail: 'Activity',
                 onTap: () => context.go('/groups/$collectionId/ledger'),
                 tone: CollectStatusTone.privacy,
               ),
             ],
           ),
         ),
-        const SecurityNotice(
-          title: 'Member privacy',
-          message:
-              'Collect uses 6-digit IDs for matching. Phone numbers, MoMo numbers, real names, and raw SMS stay private.',
-        ),
         const SectionHeader(title: 'Recent support'),
         if (contributions.isEmpty)
           const EmptyIllustrationState(
             icon: CollectIcons.activity,
-            title: 'No support yet',
-            message: 'Confirmed contributions appear after MoMo SMS matching.',
+            title: 'No support',
+            message: '',
           )
         else
           CollectCard(
@@ -102,7 +106,7 @@ class CollectionDetailScreen extends ConsumerWidget {
               children: [
                 for (final contribution in contributions)
                   ActivityFeedItem(
-                    title: contribution.supporterLabel,
+                    title: compactCollectIdLabel(contribution.supporterLabel),
                     amount: contribution.amountRwf,
                     meta: contribution.createdAt
                         .toLocal()

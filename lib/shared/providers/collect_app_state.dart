@@ -50,7 +50,11 @@ final smsPermissionStatusProvider = Provider<SmsPermissionStatus>((ref) {
   final enabled = ref.watch(
     collectRepositoryProvider.select((state) => state.smsAccessEnabled),
   );
+  final denied = ref.watch(
+    collectRepositoryProvider.select((state) => state.smsAccessDenied),
+  );
   if (enabled) return SmsPermissionStatus.granted;
+  if (denied) return SmsPermissionStatus.denied;
   if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
     return SmsPermissionStatus.unavailable;
   }

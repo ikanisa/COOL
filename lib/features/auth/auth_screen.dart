@@ -36,14 +36,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     final env = ref.watch(appEnvProvider);
     return ScreenScaffold(
       title: _otpSent ? 'Enter WhatsApp OTP' : 'Welcome to Collect',
-      subtitle: 'Collect IDs, MoMo intents, and SMS verification.',
       children: [
-        const InfoSecurityBanner(
-          title: 'What Collect does',
-          message:
-              'Collect creates group payment intents and matches receiver MoMo SMS automatically.',
-          tone: CollectStatusTone.info,
-        ),
         CollectCard(
           child: Column(
             children: [
@@ -53,7 +46,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 decoration: collectInputDecoration(
                   context,
                   label: 'WhatsApp phone',
-                  helper: 'Use your full international WhatsApp number.',
+                  helper: 'International format.',
                 ),
               ),
               if (_otpSent) ...[

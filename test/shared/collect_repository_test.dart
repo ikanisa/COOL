@@ -96,6 +96,7 @@ void main() {
 
     expect(await repo.setSmsAccess(true), isFalse);
     expect(repo.state.smsAccessEnabled, isFalse);
+    expect(repo.state.smsAccessDenied, isTrue);
   });
 
   test('local production interfaces expose members and owner health', () async {

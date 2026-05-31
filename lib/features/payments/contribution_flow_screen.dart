@@ -38,28 +38,7 @@ class _ContributionFlowScreenState
       title: 'Contribute',
       subtitle: collection.title,
       children: [
-        MoneyHeroCard(
-          amount: int.tryParse(_amount.text) ?? 0,
-          label: 'Create payment intent',
-          detail:
-              'Collect links this amount to your 6-digit ID before MoMo opens.',
-          chips: const [
-            CollectStatusChip(
-              label: 'Payment intent',
-              tone: CollectStatusTone.info,
-            ),
-            CollectStatusChip(
-              label: 'Collect ID',
-              tone: CollectStatusTone.privacy,
-            ),
-          ],
-        ),
-        const SecurityNotice(
-          title: 'Automated SMS match',
-          message:
-              'After MoMo payment, the MoMo SMS is parsed and matched to this intent automatically.',
-          tone: CollectStatusTone.privacy,
-        ),
+        MoneyHeroCard(amount: int.tryParse(_amount.text) ?? 0, label: ''),
         CollectCard(
           padding: CollectSpacing.cardPaddingComfortable,
           child: Column(
@@ -68,6 +47,22 @@ class _ContributionFlowScreenState
               Text('Amount', style: Theme.of(context).textTheme.titleMedium),
               CollectSpacing.gap12,
               AmountInput(controller: _amount),
+              CollectSpacing.gap12,
+              Wrap(
+                spacing: CollectSpacing.x2,
+                runSpacing: CollectSpacing.x2,
+                children: [
+                  for (final option in const [1000, 5000, 10000, 20000])
+                    ChoiceChip(
+                      label: Text(_quickAmountLabel(option)),
+                      selected: int.tryParse(_amount.text) == option,
+                      onSelected: (_) => setState(() {
+                        _amount.text = option.toString();
+                        _error = null;
+                      }),
+                    ),
+                ],
+              ),
               if (_error != null) ...[
                 CollectSpacing.gap8,
                 Text(
@@ -83,7 +78,7 @@ class _ContributionFlowScreenState
                   final amount = int.tryParse(_amount.text) ?? 0;
                   if (amount <= 0) {
                     setState(() {
-                      _error = 'Contribution amount must be above zero';
+                      _error = 'Enter an amount above zero.';
                     });
                     return;
                   }
@@ -113,3 +108,13 @@ class _ContributionFlowScreenState
 
 @visibleForTesting
 Uri momoUssdUri() => Uri.parse('tel:${Uri.encodeComponent('*182#')}');
+
+String _quickAmountLabel(int amount) {
+  return switch (amount) {
+    1000 => '1k',
+    5000 => '5k',
+    10000 => '10k',
+    20000 => '20k',
+    _ => amount.toString(),
+  };
+}

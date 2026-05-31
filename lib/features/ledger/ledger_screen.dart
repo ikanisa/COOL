@@ -22,34 +22,18 @@ class LedgerScreen extends ConsumerWidget {
 
     return ScreenScaffold(
       title: 'Ledger',
-      subtitle: 'Confirmed support, posted immutably.',
       children: [
         MoneyHeroCard(
           amount: total,
-          label: 'Confirmed total',
-          detail: '${contributions.length} verified contributions',
-          chips: const [
-            CollectStatusChip(
-              label: 'Immutable',
-              tone: CollectStatusTone.success,
-            ),
-            CollectStatusChip(
-              label: 'Private evidence',
-              tone: CollectStatusTone.privacy,
-            ),
-          ],
+          label: '',
+          detail: '${contributions.length} entries',
         ),
-        const SecurityNotice(
-          title: 'Ledger safety',
-          message:
-              'Group activity uses safe labels. Raw SMS and phone fields stay restricted.',
-        ),
-        const SectionHeader(title: 'Confirmed activity'),
+        const SectionHeader(title: 'Activity'),
         if (contributions.isEmpty)
           const EmptyIllustrationState(
             icon: CollectIcons.ledger,
-            title: 'No confirmed contributions',
-            message: 'MOMO evidence will appear here after verification.',
+            title: 'No support',
+            message: '',
           )
         else
           for (final contribution in contributions)

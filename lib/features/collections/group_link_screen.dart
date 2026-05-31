@@ -36,23 +36,32 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
             title: 'Group link',
             subtitle: widget.slug,
             children: [
-              InfoSecurityBanner(
-                title: 'Group not available',
-                message: snapshot.error.toString(),
-                tone: CollectStatusTone.danger,
-              ),
-              CollectButton(
-                label: 'Go to groups',
-                icon: CollectIcons.collections,
-                onPressed: () => context.go('/groups'),
-                expand: true,
-              ),
-              CollectButton(
-                label: 'Link help',
-                icon: CollectIcons.info,
-                onPressed: () => context.go('/c/${widget.slug}/invalid'),
-                variant: CollectButtonVariant.secondary,
-                expand: true,
+              CollectBottomSheet(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    InfoSecurityBanner(
+                      title: 'Link failed',
+                      message: snapshot.error.toString(),
+                      tone: CollectStatusTone.danger,
+                    ),
+                    CollectSpacing.gap16,
+                    CollectButton(
+                      label: 'Groups',
+                      icon: CollectIcons.collections,
+                      onPressed: () => context.go('/groups'),
+                      expand: true,
+                    ),
+                    CollectSpacing.gap12,
+                    CollectButton(
+                      label: 'Link help',
+                      icon: CollectIcons.info,
+                      onPressed: () => context.go('/c/${widget.slug}/invalid'),
+                      variant: CollectButtonVariant.secondary,
+                      expand: true,
+                    ),
+                  ],
+                ),
               ),
             ],
           );
@@ -62,7 +71,7 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
           title: 'Opening group',
           subtitle: widget.slug,
           children: const [
-            CollectCard(
+            CollectBottomSheet(
               child: Center(child: CircularProgressIndicator.adaptive()),
             ),
           ],

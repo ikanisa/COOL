@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -55,14 +57,20 @@ class CollectButton extends StatelessWidget {
       ).copyWith(backgroundColor: WidgetStatePropertyAll(colors.danger)),
     };
     final child = icon == null
-        ? Text(label)
+        ? Text(label, maxLines: 1, overflow: TextOverflow.ellipsis)
         : Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon),
               CollectSpacing.gapW8,
-              Flexible(child: Text(label)),
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ],
           );
     final button = switch (variant) {
@@ -167,6 +175,8 @@ class MoneyCard extends StatelessWidget {
                 child: Text(
                   label,
                   style: Theme.of(context).textTheme.bodySmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
@@ -178,7 +188,12 @@ class MoneyCard extends StatelessWidget {
           ),
           if (detail != null) ...[
             CollectSpacing.gap4,
-            Text(detail!, style: Theme.of(context).textTheme.bodySmall),
+            Text(
+              detail!,
+              style: Theme.of(context).textTheme.bodySmall,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ],
         ],
       ),
@@ -204,15 +219,27 @@ class AmountHero extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: Theme.of(context).textTheme.labelLarge),
-        CollectSpacing.gap8,
+        if (label.trim().isNotEmpty) ...[
+          Text(
+            label,
+            style: Theme.of(context).textTheme.labelLarge,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          CollectSpacing.gap8,
+        ],
         Text(
           formatRwf(amount),
           style: CollectTypography.amountHero(colors.textPrimary),
         ),
         if (detail != null) ...[
           CollectSpacing.gap8,
-          Text(detail!, style: Theme.of(context).textTheme.bodyMedium),
+          Text(
+            detail!,
+            style: Theme.of(context).textTheme.bodyMedium,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ],
       ],
     );
@@ -261,6 +288,8 @@ class CollectStatusChip extends StatelessWidget {
                       color: foreground,
                       fontWeight: FontWeight.w800,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
@@ -293,7 +322,12 @@ class CollectProgressBar extends StatelessWidget {
         ),
         if (label != null) ...[
           CollectSpacing.gap8,
-          Text(label!, style: Theme.of(context).textTheme.bodySmall),
+          Text(
+            label!,
+            style: Theme.of(context).textTheme.bodySmall,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ],
       ],
     );
@@ -388,7 +422,12 @@ class CollectListTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: Theme.of(context).textTheme.titleSmall),
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleSmall,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   if (subtitle != null) ...[
                     CollectSpacing.gap4,
                     Text(
@@ -396,6 +435,8 @@ class CollectListTile extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: colors.textSecondary,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ],
@@ -438,14 +479,26 @@ class ActivityRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: Theme.of(context).textTheme.titleSmall),
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleSmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 CollectSpacing.gap4,
-                Text(meta, style: Theme.of(context).textTheme.bodySmall),
+                Text(
+                  meta,
+                  style: Theme.of(context).textTheme.bodySmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 if (transactionId != null) ...[
                   CollectSpacing.gap4,
                   Text(
                     transactionId!,
                     style: CollectTypography.mono(colors.textMuted),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ],
@@ -604,16 +657,27 @@ class CollectBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.surfaceRaised,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(CollectRadius.bottomSheet),
-        ),
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return ClipRRect(
+      borderRadius: const BorderRadius.vertical(
+        top: Radius.circular(CollectRadius.bottomSheet),
       ),
-      child: Padding(
-        padding: CollectSpacing.cardPaddingComfortable,
-        child: child,
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: colors.surfaceRaised.withValues(alpha: isDark ? 0.82 : 0.76),
+            border: Border.all(color: colors.border.withValues(alpha: 0.64)),
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(CollectRadius.bottomSheet),
+            ),
+            boxShadow: CollectShadows.card(isDark),
+          ),
+          child: Padding(
+            padding: CollectSpacing.cardPaddingComfortable,
+            child: child,
+          ),
+        ),
       ),
     );
   }
@@ -681,9 +745,19 @@ class InfoSecurityBanner extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: Theme.of(context).textTheme.titleSmall),
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleSmall,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 CollectSpacing.gap4,
-                Text(message, style: Theme.of(context).textTheme.bodySmall),
+                Text(
+                  message,
+                  style: Theme.of(context).textTheme.bodySmall,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ),
           ),
@@ -698,8 +772,6 @@ class PaymentIntentStatusCard extends StatelessWidget {
     required this.amountRwf,
     required this.receiverLabel,
     required this.receiverMomoNumber,
-    required this.memberLabel,
-    required this.network,
     required this.status,
     super.key,
   });
@@ -707,8 +779,6 @@ class PaymentIntentStatusCard extends StatelessWidget {
   final int amountRwf;
   final String receiverLabel;
   final String receiverMomoNumber;
-  final String memberLabel;
-  final String network;
   final String status;
 
   @override
@@ -720,11 +790,7 @@ class PaymentIntentStatusCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AmountHero(
-            amount: amountRwf,
-            label: 'Payment intent',
-            detail: 'MoMo dialer opened. Collect waits for SMS confirmation.',
-          ),
+          AmountHero(amount: amountRwf, label: ''),
           CollectSpacing.gap20,
           Wrap(
             spacing: CollectSpacing.x2,
@@ -733,14 +799,6 @@ class PaymentIntentStatusCard extends StatelessWidget {
               CollectStatusChip(
                 label: paymentStatusLabel(status),
                 tone: paymentStatusTone(status),
-              ),
-              CollectStatusChip(
-                label: memberLabel,
-                tone: CollectStatusTone.warning,
-              ),
-              CollectStatusChip(
-                label: network,
-                tone: CollectStatusTone.neutral,
               ),
             ],
           ),
@@ -751,22 +809,336 @@ class PaymentIntentStatusCard extends StatelessWidget {
             receiverMomoNumber,
             style: CollectTypography.amountLarge(colors.textPrimary),
           ),
-          CollectSpacing.gap16,
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const _ToneIcon(
-                icon: CollectIcons.lock,
-                tone: CollectStatusTone.privacy,
+        ],
+      ),
+    );
+  }
+}
+
+class CollectDynamicIsland extends StatelessWidget {
+  const CollectDynamicIsland({this.activeIntent, super.key});
+
+  final PaymentIntentModel? activeIntent;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final intent = activeIntent;
+    final active = intent != null;
+    final foreground = active ? Colors.white : colors.textPrimary;
+    final background = active
+        ? colors.ink.withValues(alpha: 0.94)
+        : colors.surfaceRaised.withValues(alpha: 0.82);
+    final border = active
+        ? Colors.white.withValues(alpha: 0.12)
+        : colors.border.withValues(alpha: 0.72);
+
+    return Semantics(
+      label: active ? 'Live payment status' : 'Collect live status ready',
+      child: ClipRRect(
+        borderRadius: CollectRadius.pillBorder,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: background,
+              borderRadius: CollectRadius.pillBorder,
+              border: Border.all(color: border),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: CollectSpacing.x4,
+                vertical: CollectSpacing.x3,
               ),
-              CollectSpacing.gapW12,
+              child: Row(
+                children: [
+                  Icon(
+                    active ? CollectIcons.momo : CollectIcons.pending,
+                    color: foreground,
+                    size: 18,
+                  ),
+                  CollectSpacing.gapW12,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          active ? 'Payment active' : 'Collect ready',
+                          style: Theme.of(context).textTheme.labelLarge
+                              ?.copyWith(
+                                color: foreground,
+                                fontWeight: FontWeight.w800,
+                              ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        CollectSpacing.gap4,
+                        Text(
+                          active
+                              ? formatRwf(intent.expectedAmountRwf)
+                              : 'Ready',
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: active
+                                    ? Colors.white.withValues(alpha: 0.72)
+                                    : colors.textSecondary,
+                              ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (active) ...[
+                    CollectSpacing.gapW12,
+                    CollectStatusChip(
+                      label: paymentStatusLabel(intent.status),
+                      tone: paymentStatusTone(intent.status),
+                      icon: CollectIcons.pending,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CollectBentoGrid extends StatelessWidget {
+  const CollectBentoGrid({
+    required this.primary,
+    required this.top,
+    required this.bottom,
+    super.key,
+  });
+
+  final Widget primary;
+  final Widget top;
+  final Widget bottom;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 236,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(flex: 6, child: primary),
+          CollectSpacing.gapW12,
+          Expanded(
+            flex: 5,
+            child: Column(
+              children: [
+                Expanded(child: top),
+                CollectSpacing.gap12,
+                Expanded(child: bottom),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BentoMetricCell extends StatelessWidget {
+  const BentoMetricCell({
+    required this.label,
+    required this.value,
+    this.detail,
+    this.icon = CollectIcons.dashboard,
+    this.tone = CollectStatusTone.info,
+    this.emphasis = false,
+    super.key,
+  });
+
+  final String label;
+  final String value;
+  final String? detail;
+  final IconData icon;
+  final CollectStatusTone tone;
+  final bool emphasis;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return CollectCard(
+      emphasis: emphasis ? CollectCardEmphasis.hero : CollectCardEmphasis.flat,
+      padding: EdgeInsets.all(emphasis ? CollectSpacing.x4 : CollectSpacing.x3),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              emphasis
+                  ? _ToneIcon(icon: icon, tone: tone)
+                  : _BentoToneIcon(icon: icon, tone: tone),
+              CollectSpacing.gapW8,
               Expanded(
                 child: Text(
-                  'Complete the MoMo PIN flow outside Collect. Do not paste SMS or payment references; Collect allocates from the receiver MoMo SMS automatically.',
-                  style: Theme.of(context).textTheme.bodySmall,
+                  label,
+                  style: Theme.of(context).textTheme.labelMedium,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  value,
+                  style: emphasis
+                      ? CollectTypography.amountLarge(colors.textPrimary)
+                      : Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w900,
+                        ),
+                ),
+              ),
+              if (detail != null) ...[
+                CollectSpacing.gap4,
+                Text(
+                  detail!,
+                  style: Theme.of(context).textTheme.bodySmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _BentoToneIcon extends StatelessWidget {
+  const _BentoToneIcon({required this.icon, required this.tone});
+
+  final IconData icon;
+  final CollectStatusTone tone;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.statusBackground(tone),
+        borderRadius: CollectRadius.pillBorder,
+      ),
+      child: SizedBox.square(
+        dimension: 30,
+        child: Icon(icon, color: colors.statusForeground(tone), size: 17),
+      ),
+    );
+  }
+}
+
+class PaymentPipelineIndicator extends StatelessWidget {
+  const PaymentPipelineIndicator({required this.status, super.key});
+
+  final String status;
+
+  @override
+  Widget build(BuildContext context) {
+    final activeStep = _pipelineStep(status);
+    const stages = [
+      (label: 'Start', icon: CollectIcons.pending),
+      (label: 'Check', icon: CollectIcons.sms),
+      (label: 'Done', icon: CollectIcons.ledger),
+    ];
+    return CollectCard(
+      emphasis: CollectCardEmphasis.flat,
+      padding: const EdgeInsets.all(CollectSpacing.x4),
+      child: Row(
+        children: [
+          for (var index = 0; index < stages.length; index++) ...[
+            Expanded(
+              child: _PipelineStage(
+                label: stages[index].label,
+                icon: stages[index].icon,
+                complete: activeStep > index,
+                current: activeStep == index,
+              ),
+            ),
+            if (index != stages.length - 1)
+              Expanded(child: _PipelineLine(active: activeStep > index + 1)),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class PaymentVerifiedRing extends StatelessWidget {
+  const PaymentVerifiedRing({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return CollectCard(
+      padding: CollectSpacing.cardPaddingComfortable,
+      child: Column(
+        children: [
+          Container(
+            width: 96,
+            height: 96,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: colors.success, width: 6),
+              color: colors.statusBackground(CollectStatusTone.success),
+            ),
+            child: Icon(CollectIcons.check, color: colors.success, size: 42),
+          ),
+          CollectSpacing.gap20,
+          Text(
+            'Payment recorded',
+            style: Theme.of(context).textTheme.titleLarge,
+            textAlign: TextAlign.center,
+          ),
+          CollectSpacing.gap8,
+          Text(
+            'Ledger updated.',
+            style: Theme.of(context).textTheme.bodyMedium,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CollectIdCard extends StatelessWidget {
+  const CollectIdCard({required this.publicId, super.key});
+
+  final String publicId;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final value = publicId.trim().isEmpty ? '------' : publicId.trim();
+    return CollectCard(
+      emphasis: CollectCardEmphasis.hero,
+      padding: CollectSpacing.cardPaddingComfortable,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              '#$value',
+              style: CollectTypography.amountHero(colors.textPrimary),
+            ),
           ),
         ],
       ),
@@ -827,9 +1199,9 @@ class QRCard extends StatelessWidget {
 
 class LedgerRow extends StatelessWidget {
   LedgerRow.confirmed({required Contribution contribution, super.key})
-    : title = contribution.supporterLabel,
+    : title = compactCollectIdLabel(contribution.supporterLabel),
       amountRwf = contribution.amountRwf,
-      meta = 'Confirmed contribution',
+      meta = contribution.createdAt.toLocal().toString().split('.').first,
       transactionId = contribution.transactionId,
       tone = CollectStatusTone.success,
       action = null;
@@ -899,13 +1271,13 @@ class ReceiverConsentCard extends StatelessWidget {
             runSpacing: CollectSpacing.x2,
             children: [
               CollectStatusChip(
-                label: flagsEnabled ? 'Internal SMS flags on' : 'SMS flags off',
+                label: flagsEnabled ? 'Enabled' : 'Off',
                 tone: flagsEnabled
                     ? CollectStatusTone.success
                     : CollectStatusTone.neutral,
               ),
               CollectStatusChip(
-                label: consented ? 'Consent active' : 'Consent required',
+                label: consented ? 'Active' : 'Required',
                 tone: consented
                     ? CollectStatusTone.success
                     : CollectStatusTone.warning,
@@ -914,9 +1286,8 @@ class ReceiverConsentCard extends StatelessWidget {
           ),
           CollectSpacing.gap16,
           const InfoSecurityBanner(
-            title: 'Receiver consent',
-            message:
-                'Collect can monitor approved receiver notifications only after explicit consent. Raw SMS is never public and is stored securely for audit only.',
+            title: 'Consent',
+            message: 'Owner approval required.',
             tone: CollectStatusTone.privacy,
           ),
           CollectSpacing.gap16,
@@ -934,7 +1305,7 @@ class ReceiverConsentCard extends StatelessWidget {
           ),
           CollectSpacing.gap12,
           CollectButton(
-            label: isSyncing ? 'Syncing...' : 'Sync consented SMS',
+            label: isSyncing ? 'Syncing...' : 'Sync',
             icon: CollectIcons.sync,
             onPressed: flagsEnabled && consented && !isSyncing ? onSync : null,
             variant: CollectButtonVariant.secondary,
@@ -984,6 +1355,8 @@ class AdminReviewCard extends StatelessWidget {
                 child: Text(
                   title,
                   style: Theme.of(context).textTheme.titleMedium,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               CollectStatusChip(
@@ -993,7 +1366,12 @@ class AdminReviewCard extends StatelessWidget {
             ],
           ),
           CollectSpacing.gap8,
-          Text(detail, style: Theme.of(context).textTheme.bodyMedium),
+          Text(
+            detail,
+            style: Theme.of(context).textTheme.bodyMedium,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           if (amountRwf != null || confidence != null) ...[
             CollectSpacing.gap12,
             Wrap(
@@ -1084,13 +1462,15 @@ class MoneyHeroCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  label,
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.78),
+                if (label.trim().isNotEmpty) ...[
+                  Text(
+                    label,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: Colors.white.withValues(alpha: 0.78),
+                    ),
                   ),
-                ),
-                CollectSpacing.gap8,
+                  CollectSpacing.gap8,
+                ],
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.centerLeft,
@@ -1106,6 +1486,8 @@ class MoneyHeroCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Colors.white.withValues(alpha: 0.76),
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
                 if (chips.isNotEmpty) ...[
@@ -1172,10 +1554,20 @@ class QuickActionButton extends StatelessWidget {
               children: [
                 _ToneIcon(icon: icon, tone: tone),
                 CollectSpacing.gap12,
-                Text(label, style: Theme.of(context).textTheme.titleSmall),
+                Text(
+                  label,
+                  style: Theme.of(context).textTheme.titleSmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 if (detail != null) ...[
                   CollectSpacing.gap4,
-                  Text(detail!, style: Theme.of(context).textTheme.bodySmall),
+                  Text(
+                    detail!,
+                    style: Theme.of(context).textTheme.bodySmall,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ],
             ),
@@ -1217,9 +1609,19 @@ class InsightCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: Theme.of(context).textTheme.titleSmall),
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleSmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 CollectSpacing.gap4,
-                Text(message, style: Theme.of(context).textTheme.bodySmall),
+                Text(
+                  message,
+                  style: Theme.of(context).textTheme.bodySmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 if (actionLabel != null) ...[
                   CollectSpacing.gap8,
                   CollectButton(
@@ -1293,13 +1695,19 @@ class EmptyIllustrationState extends StatelessWidget {
             title,
             style: Theme.of(context).textTheme.titleLarge,
             textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-          CollectSpacing.gap8,
-          Text(
-            message,
-            style: Theme.of(context).textTheme.bodyMedium,
-            textAlign: TextAlign.center,
-          ),
+          if (message.trim().isNotEmpty) ...[
+            CollectSpacing.gap8,
+            Text(
+              message,
+              style: Theme.of(context).textTheme.bodyMedium,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
           if (action != null) ...[CollectSpacing.gap20, action!],
         ],
       ),
@@ -1399,14 +1807,26 @@ class ActivityFeedItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: Theme.of(context).textTheme.titleSmall),
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.titleSmall,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     CollectSpacing.gap4,
-                    Text(meta, style: Theme.of(context).textTheme.bodySmall),
+                    Text(
+                      meta,
+                      style: Theme.of(context).textTheme.bodySmall,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     if (transactionId != null) ...[
                       CollectSpacing.gap4,
                       Text(
                         transactionId!,
                         style: CollectTypography.mono(colors.textMuted),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ],
@@ -1426,6 +1846,10 @@ class ActivityFeedItem extends StatelessWidget {
       ),
     );
   }
+}
+
+String compactCollectIdLabel(String label) {
+  return label.replaceFirst(RegExp(r'^Collect ID\s+'), '#');
 }
 
 class GroupCard extends StatelessWidget {
@@ -1465,20 +1889,18 @@ class GroupCard extends StatelessWidget {
                     Text(
                       collection.title,
                       style: Theme.of(context).textTheme.titleLarge,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    if (collection.description.trim().isNotEmpty) ...[
-                      CollectSpacing.gap4,
-                      Text(
-                        collection.description,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
                   ],
                 ),
               ),
-              const CollectStatusChip(
-                label: 'Group',
-                tone: CollectStatusTone.privacy,
+              Semantics(
+                label: 'Private group',
+                child: const _ToneIcon(
+                  icon: CollectIcons.lock,
+                  tone: CollectStatusTone.privacy,
+                ),
               ),
             ],
           ),
@@ -1489,29 +1911,9 @@ class GroupCard extends StatelessWidget {
               Expanded(
                 child: AmountHero(
                   amount: summary.amountRaisedRwf,
-                  label: 'Raised',
+                  label: '',
                   detail: '${summary.supporterCount} members',
                 ),
-              ),
-            ],
-          ),
-          CollectSpacing.gap16,
-          Wrap(
-            spacing: CollectSpacing.x2,
-            runSpacing: CollectSpacing.x2,
-            children: [
-              const CollectStatusChip(
-                label: 'Collect ID',
-                tone: CollectStatusTone.neutral,
-              ),
-              if (collection.receiverMomoNumber != null)
-                const CollectStatusChip(
-                  label: 'MoMo receiver',
-                  tone: CollectStatusTone.success,
-                ),
-              const CollectStatusChip(
-                label: 'SMS auto-match',
-                tone: CollectStatusTone.info,
               ),
             ],
           ),
@@ -1547,6 +1949,7 @@ class PremiumScaffold extends StatelessWidget {
     this.subtitle,
     this.actions = const [],
     this.banner,
+    this.persistentPill,
     super.key,
   });
 
@@ -1554,14 +1957,21 @@ class PremiumScaffold extends StatelessWidget {
   final String? subtitle;
   final List<Widget> actions;
   final Widget? banner;
+  final Widget? persistentPill;
   final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: ListView(
-        padding: CollectSpacing.screenPadding,
+        padding: CollectSpacing.screenPadding.copyWith(
+          bottom: CollectSpacing.screenCompact + 112,
+        ),
         children: [
+          if (persistentPill != null) ...[
+            persistentPill!,
+            CollectSpacing.gap20,
+          ],
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1572,12 +1982,16 @@ class PremiumScaffold extends StatelessWidget {
                     Text(
                       title,
                       style: Theme.of(context).textTheme.headlineMedium,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     if (subtitle != null) ...[
                       CollectSpacing.gap8,
                       Text(
                         subtitle!,
                         style: Theme.of(context).textTheme.bodyMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ],
@@ -1614,6 +2028,7 @@ class ScreenScaffoldLayout extends StatelessWidget {
     this.subtitle,
     this.actions = const [],
     this.banner,
+    this.persistentPill,
     super.key,
   });
 
@@ -1621,6 +2036,7 @@ class ScreenScaffoldLayout extends StatelessWidget {
   final String? subtitle;
   final List<Widget> actions;
   final Widget? banner;
+  final Widget? persistentPill;
   final List<Widget> children;
 
   @override
@@ -1630,6 +2046,7 @@ class ScreenScaffoldLayout extends StatelessWidget {
       subtitle: subtitle,
       actions: actions,
       banner: banner,
+      persistentPill: persistentPill,
       children: children,
     );
   }
@@ -1643,6 +2060,93 @@ CollectStatusTone paymentStatusTone(String status) {
     'pending' => CollectStatusTone.info,
     _ => CollectStatusTone.neutral,
   };
+}
+
+int _pipelineStep(String status) {
+  return switch (status) {
+    'matched' || 'confirmed' || 'paid' => 3,
+    'needs_review' || 'review' => 2,
+    'expired' || 'failed' => 1,
+    _ => 1,
+  };
+}
+
+class _PipelineStage extends StatelessWidget {
+  const _PipelineStage({
+    required this.label,
+    required this.icon,
+    required this.complete,
+    required this.current,
+  });
+
+  final String label;
+  final IconData icon;
+  final bool complete;
+  final bool current;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final tone = complete
+        ? CollectStatusTone.success
+        : current
+        ? CollectStatusTone.info
+        : CollectStatusTone.neutral;
+    final foreground = colors.statusForeground(tone);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        DecoratedBox(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: colors.statusBackground(tone),
+            border: Border.all(color: foreground.withValues(alpha: 0.26)),
+          ),
+          child: SizedBox.square(
+            dimension: 38,
+            child: Icon(
+              complete ? CollectIcons.check : icon,
+              color: foreground,
+            ),
+          ),
+        ),
+        CollectSpacing.gap8,
+        Text(
+          label,
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+            color: foreground,
+            fontWeight: FontWeight.w800,
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+}
+
+class _PipelineLine extends StatelessWidget {
+  const _PipelineLine({required this.active});
+
+  final bool active;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 28),
+      child: Container(
+        height: 3,
+        decoration: BoxDecoration(
+          color: active
+              ? colors.success
+              : colors.border.withValues(alpha: 0.72),
+          borderRadius: CollectRadius.pillBorder,
+        ),
+      ),
+    );
+  }
 }
 
 String paymentStatusLabel(String status) {

@@ -26,34 +26,32 @@ class CollectionManageScreen extends ConsumerWidget {
             children: [
               CollectListTile(
                 leading: CollectIcons.dashboard,
-                title: 'Owner dashboard',
-                subtitle:
-                    'SMS health, receiver settings, members, and sharing.',
+                title: 'Owner',
+                subtitle: 'Health, receiver, members.',
                 onTap: () => context.go('/groups/$collectionId/owner'),
               ),
               CollectListTile(
                 leading: CollectIcons.people,
-                title: 'Share group',
-                subtitle:
-                    'Share by link, QR code, chat app, SMS, or deep link.',
+                title: 'Share',
+                subtitle: 'Link, QR, chat.',
                 onTap: () => context.go('/groups/$collectionId/share'),
               ),
               CollectListTile(
                 leading: CollectIcons.ledger,
                 title: 'Ledger',
-                subtitle: 'Confirmed SMS-matched contributions.',
+                subtitle: 'Activity.',
                 onTap: () => context.go('/groups/$collectionId/ledger'),
               ),
               CollectListTile(
                 leading: CollectIcons.momo,
-                title: 'Receiver MoMo',
-                subtitle: 'Owner-only receiver configuration.',
+                title: 'Receiver',
+                subtitle: 'Owner only.',
                 onTap: () => context.go('/groups/$collectionId/owner/receiver'),
               ),
               CollectListTile(
                 leading: CollectIcons.people,
                 title: 'Members',
-                subtitle: 'Collect ID member list.',
+                subtitle: 'Active.',
                 onTap: () => context.go('/groups/$collectionId/members'),
               ),
             ],

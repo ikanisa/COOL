@@ -21,9 +21,8 @@ class CollectionsScreen extends ConsumerWidget {
     if (collections.isEmpty) {
       return EmptyState(
         icon: CollectIcons.collectionsOutline,
-        title: 'No groups yet',
-        message:
-            'Create a group, confirm the receiver MoMo number, then share it by link or QR code.',
+        title: 'No groups',
+        message: 'Create, confirm, share.',
         action: CollectButton(
           label: 'Create group',
           icon: CollectIcons.add,
@@ -33,7 +32,6 @@ class CollectionsScreen extends ConsumerWidget {
     }
     return ScreenScaffold(
       title: 'Groups',
-      subtitle: 'Shared MoMo groups with SMS-matched contributions.',
       actions: [
         IconButton.filled(
           tooltip: 'New group',
@@ -42,25 +40,6 @@ class CollectionsScreen extends ConsumerWidget {
         ),
       ],
       children: [
-        const SecurityNotice(
-          title: 'Automated allocation',
-          message:
-              'Each contribution creates a payment intent. MoMo SMS confirms and allocates it automatically.',
-        ),
-        Wrap(
-          spacing: CollectSpacing.x2,
-          runSpacing: CollectSpacing.x2,
-          children: [
-            CollectStatusChip(
-              label: '${collections.length} active',
-              tone: CollectStatusTone.info,
-            ),
-            const CollectStatusChip(
-              label: 'SMS parsing',
-              tone: CollectStatusTone.privacy,
-            ),
-          ],
-        ),
         for (final collection in collections)
           GroupCard(
             collection: collection,
@@ -69,7 +48,7 @@ class CollectionsScreen extends ConsumerWidget {
                 const CollectionSummary(amountRaisedRwf: 0, supporterCount: 0),
             onTap: () => context.go('/groups/${collection.id}'),
             primaryAction: CollectButton(
-              label: 'Open group',
+              label: 'Open',
               icon: CollectIcons.arrowForward,
               onPressed: () => context.go('/groups/${collection.id}'),
               expand: true,

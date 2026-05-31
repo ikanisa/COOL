@@ -15,10 +15,11 @@ import '../models/collect_models.dart';
 
 final collectRepositoryProvider =
     StateNotifierProvider<CollectRepository, CollectState>((ref) {
-      final repository = CollectRepository.seeded(
-        supabase: ref.watch(supabaseClientProvider),
-      );
-      unawaited(repository.loadInitial());
+      final supabase = ref.watch(supabaseClientProvider);
+      final repository = supabase == null
+          ? CollectRepository.seeded()
+          : CollectRepository(supabase: supabase);
+      if (supabase != null) unawaited(repository.loadInitial());
       return repository;
     });
 
@@ -94,6 +95,7 @@ class CollectState {
     required this.paymentIntents,
     required this.contributions,
     this.smsAccessEnabled = false,
+    this.smsAccessDenied = false,
     this.isLoading = false,
     this.lastError,
   });
@@ -103,6 +105,7 @@ class CollectState {
   final List<PaymentIntentModel> paymentIntents;
   final List<Contribution> contributions;
   final bool smsAccessEnabled;
+  final bool smsAccessDenied;
   final bool isLoading;
   final String? lastError;
 
@@ -112,6 +115,7 @@ class CollectState {
     List<PaymentIntentModel>? paymentIntents,
     List<Contribution>? contributions,
     bool? smsAccessEnabled,
+    bool? smsAccessDenied,
     bool? isLoading,
     String? lastError,
   }) {
@@ -121,6 +125,7 @@ class CollectState {
       paymentIntents: paymentIntents ?? this.paymentIntents,
       contributions: contributions ?? this.contributions,
       smsAccessEnabled: smsAccessEnabled ?? this.smsAccessEnabled,
+      smsAccessDenied: smsAccessDenied ?? this.smsAccessDenied,
       isLoading: isLoading ?? this.isLoading,
       lastError: lastError,
     );
@@ -252,13 +257,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     final supabase = _supabase;
     final user = supabase?.auth.currentUser;
     if (supabase != null && user != null) {
-      final profile =
-          await _fetchProfile(user.id) ??
-          CollectProfile(
-            id: user.id,
-            publicId: _publicIds.generate({}),
-            whatsappPhone: normalized,
-          );
+      final profile = await _ensureLiveProfile(user.id, normalized);
       state = state.copyWith(currentProfile: profile);
       unawaited(loadInitial());
       return profile;
@@ -501,7 +500,10 @@ class CollectRepository extends StateNotifier<CollectState> {
         },
       );
     }
-    state = state.copyWith(smsAccessEnabled: consentEnabled);
+    state = state.copyWith(
+      smsAccessEnabled: consentEnabled,
+      smsAccessDenied: enabled && !granted,
+    );
     return consentEnabled;
   }
 
@@ -688,6 +690,26 @@ class CollectRepository extends StateNotifier<CollectState> {
     if (currentUser == null || currentUser.id != userId) return null;
     final row = await supabase.rpc<dynamic>('get_current_profile');
     if (row == null) return null;
+    return CollectProfile.fromJson(Map<String, dynamic>.from(row as Map));
+  }
+
+  Future<CollectProfile> _ensureLiveProfile(
+    String userId,
+    String normalizedPhone,
+  ) async {
+    final existing = await _fetchProfile(userId);
+    if (existing != null) return existing;
+    final supabase = _supabase;
+    if (supabase == null || supabase.auth.currentUser == null) {
+      throw StateError('Sign in first');
+    }
+    final row = await supabase.rpc<dynamic>(
+      'ensure_current_profile',
+      params: {'whatsapp_phone': normalizedPhone},
+    );
+    if (row == null) {
+      throw StateError('Collect profile could not be created');
+    }
     return CollectProfile.fromJson(Map<String, dynamic>.from(row as Map));
   }
 

@@ -29,17 +29,12 @@ class ShareScreen extends ConsumerWidget {
     ].where((line) => line.trim().isNotEmpty).join('\n');
 
     return ScreenScaffold(
-      title: 'Share group',
-      subtitle: 'Share by link, QR code, chat app, SMS, or deep link.',
+      title: 'Share',
+      subtitle: 'Link, QR, chat.',
       children: [
-        const InfoSecurityBanner(
-          title: 'Group sharing',
-          message:
-              'The link does not include phone numbers, receiver MoMo numbers, or raw SMS.',
-          tone: CollectStatusTone.privacy,
-        ),
-        CollectCard(
+        CollectBottomSheet(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               CollectButton(
                 label: 'SMS',
@@ -48,6 +43,7 @@ class ShareScreen extends ConsumerWidget {
                   context,
                   Uri(scheme: 'sms', queryParameters: {'body': text}),
                   'SMS sharing is not available on this device.',
+                  'SMS share opened',
                 ),
                 expand: true,
               ),
@@ -59,6 +55,7 @@ class ShareScreen extends ConsumerWidget {
                   context,
                   Uri.https('wa.me', '/', {'text': text}),
                   'WhatsApp sharing is not available on this device.',
+                  'WhatsApp share opened',
                 ),
                 variant: CollectButtonVariant.secondary,
                 expand: true,
@@ -80,13 +77,19 @@ class ShareScreen extends ConsumerWidget {
                 variant: CollectButtonVariant.secondary,
                 expand: true,
               ),
+              CollectSpacing.gap16,
+              SelectableText(
+                link,
+                style: CollectTypography.mono(
+                  context.collectColors.textPrimary,
+                ),
+              ),
             ],
           ),
         ),
         QRCard(
           link: link,
-          caption:
-              'Group link and QR code for chat apps, SMS, or in-person sharing.',
+          caption: 'Share link or QR.',
           onCopy: () => copyToClipboard(
             context,
             text,
@@ -101,9 +104,16 @@ class ShareScreen extends ConsumerWidget {
     BuildContext context,
     Uri uri,
     String failureMessage,
+    String successMessage,
   ) async {
     final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
-    if (launched || !context.mounted) return;
+    if (!context.mounted) return;
+    if (launched) {
+      context.go(
+        '/share/confirmed?message=${Uri.encodeComponent(successMessage)}',
+      );
+      return;
+    }
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(failureMessage)));

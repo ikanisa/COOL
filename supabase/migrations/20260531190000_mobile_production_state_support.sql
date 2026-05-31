@@ -42,6 +42,43 @@ on mobile_account_deletion_requests (user_id, created_at desc);
 create index if not exists mobile_support_requests_user_idx
 on mobile_support_requests (user_id, created_at desc);
 
+create or replace function ensure_current_profile(whatsapp_phone text default null)
+returns profiles
+language plpgsql
+security definer
+set search_path = public, extensions
+as $$
+declare
+  profile_row profiles%rowtype;
+begin
+  if auth.uid() is null then
+    raise exception 'Authentication required';
+  end if;
+
+  select * into profile_row
+  from profiles
+  where id = auth.uid();
+
+  if profile_row.id is null then
+    insert into profiles (id, public_id, whatsapp_phone)
+    values (
+      auth.uid(),
+      generate_public_id(),
+      nullif(trim(whatsapp_phone), '')
+    )
+    returning * into profile_row;
+  elsif nullif(trim(whatsapp_phone), '') is not null
+    and coalesce(profile_row.whatsapp_phone, '') = '' then
+    update profiles
+    set whatsapp_phone = trim(whatsapp_phone)
+    where id = auth.uid()
+    returning * into profile_row;
+  end if;
+
+  return profile_row;
+end;
+$$;
+
 create or replace function request_account_deletion(request_reason text default null)
 returns uuid
 language plpgsql
@@ -233,12 +270,14 @@ as $$
   where user_is_collection_admin(collection, auth.uid());
 $$;
 
+revoke execute on function ensure_current_profile(text) from public, anon, authenticated;
 revoke execute on function request_account_deletion(text) from public, anon, authenticated;
 revoke execute on function create_mobile_support_request(text, text) from public, anon, authenticated;
 revoke execute on function list_collection_collect_ids(uuid) from public, anon, authenticated;
 revoke execute on function update_collection_receiver(uuid, text, text, text) from public, anon, authenticated;
 revoke execute on function get_owner_group_health(uuid) from public, anon, authenticated;
 
+grant execute on function ensure_current_profile(text) to authenticated;
 grant execute on function request_account_deletion(text) to authenticated;
 grant execute on function create_mobile_support_request(text, text) to authenticated;
 grant execute on function list_collection_collect_ids(uuid) to authenticated;

@@ -52,6 +52,7 @@ class CollectComponentTokens {
     return InputDecoration(
       labelText: label,
       helperText: helper,
+      helperMaxLines: 1,
       prefixText: prefix,
       filled: false,
       border: border,

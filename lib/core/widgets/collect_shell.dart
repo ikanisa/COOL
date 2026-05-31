@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,31 +18,46 @@ class CollectShell extends StatelessWidget {
     return Scaffold(
       body: child,
       bottomNavigationBar: showNav
-          ? DecoratedBox(
-              decoration: BoxDecoration(
-                color: colors.surfaceRaised,
-                border: Border(top: BorderSide(color: colors.border)),
-              ),
-              child: NavigationBar(
-                selectedIndex: _selectedIndex(context),
-                onDestinationSelected: (index) => context.go(_paths[index]),
-                destinations: const [
-                  NavigationDestination(
-                    icon: Icon(CollectIcons.homeOutline),
-                    selectedIcon: Icon(CollectIcons.home),
-                    label: 'Home',
+          ? SafeArea(
+              top: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(28),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: colors.surfaceRaised.withValues(alpha: 0.84),
+                        border: Border.all(
+                          color: colors.border.withValues(alpha: 0.72),
+                        ),
+                      ),
+                      child: NavigationBar(
+                        selectedIndex: _selectedIndex(context),
+                        onDestinationSelected: (index) =>
+                            context.go(_paths[index]),
+                        destinations: const [
+                          NavigationDestination(
+                            icon: Icon(CollectIcons.homeOutline),
+                            selectedIcon: Icon(CollectIcons.home),
+                            label: 'Home',
+                          ),
+                          NavigationDestination(
+                            icon: Icon(CollectIcons.collectionsOutline),
+                            selectedIcon: Icon(CollectIcons.collections),
+                            label: 'Groups',
+                          ),
+                          NavigationDestination(
+                            icon: Icon(CollectIcons.settingsOutline),
+                            selectedIcon: Icon(CollectIcons.settings),
+                            label: 'Settings',
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  NavigationDestination(
-                    icon: Icon(CollectIcons.collectionsOutline),
-                    selectedIcon: Icon(CollectIcons.collections),
-                    label: 'Groups',
-                  ),
-                  NavigationDestination(
-                    icon: Icon(CollectIcons.settingsOutline),
-                    selectedIcon: Icon(CollectIcons.settings),
-                    label: 'Settings',
-                  ),
-                ],
+                ),
               ),
             )
           : null,

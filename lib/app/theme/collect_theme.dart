@@ -57,10 +57,10 @@ class CollectTheme {
       ),
       navigationBarTheme: NavigationBarThemeData(
         elevation: 0,
-        backgroundColor: colors.surfaceRaised.withValues(alpha: 0.97),
-        indicatorColor: colors.surfaceMuted,
+        backgroundColor: Colors.transparent,
+        indicatorColor: colors.surfaceMuted.withValues(alpha: 0.9),
         labelTextStyle: WidgetStatePropertyAll(textTheme.labelMedium),
-        height: 68,
+        height: 66,
         iconTheme: WidgetStateProperty.resolveWith((states) {
           final selected = states.contains(WidgetState.selected);
           return IconThemeData(

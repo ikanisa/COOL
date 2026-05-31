@@ -21,7 +21,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
       id: 'demo-contribution',
       collectionId: 'demo',
       amountRwf: 25000,
-      supporterLabel: 'Collect ID 038491',
+      supporterLabel: '#038491',
       createdAt: now,
       transactionId: 'MTN12345',
     );
@@ -29,7 +29,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
       id: 'demo-event',
       amountRwf: 15000,
       transactionId: 'AMB-901',
-      senderLabel: 'MoMo SMS',
+      senderLabel: 'SMS',
       allocationStatus: 'needs_review',
       confidence: .78,
       createdAt: now,
@@ -46,18 +46,8 @@ class DesignSystemCatalogScreen extends StatelessWidget {
         ),
         const MoneyHeroCard(
           amount: 125000,
-          label: 'Raised across Collect',
-          detail: '2 groups · 1 pending intent',
-          chips: [
-            CollectStatusChip(
-              label: 'Direct MOMO',
-              tone: CollectStatusTone.privacy,
-            ),
-            CollectStatusChip(
-              label: 'Verified',
-              tone: CollectStatusTone.success,
-            ),
-          ],
+          label: 'Total',
+          detail: '2 groups',
           primaryAction: CollectButton(
             label: 'Primary action',
             icon: CollectIcons.arrowForward,
@@ -83,7 +73,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
               QuickActionButton(
                 icon: CollectIcons.ledger,
                 label: 'Ledger',
-                detail: 'Verified',
+                detail: 'Activity',
                 tone: CollectStatusTone.success,
               ),
             ],
@@ -130,7 +120,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
           ),
         ),
         const MoneyCard(
-          label: 'Raised',
+          label: 'Total',
           amount: 125000,
           detail: '12 supporters · 50% funded',
         ),
@@ -138,8 +128,6 @@ class DesignSystemCatalogScreen extends StatelessWidget {
           amountRwf: 5000,
           receiverLabel: 'St Michel treasury',
           receiverMomoNumber: '+250788123456',
-          memberLabel: 'Collect ID 038491',
-          network: 'MTN MOMO',
           status: 'pending',
         ),
         ReceiverConsentCard(
@@ -151,9 +139,9 @@ class DesignSystemCatalogScreen extends StatelessWidget {
         ),
         LedgerRow.confirmed(contribution: contribution),
         const ActivityFeedItem(
-          title: 'Collect ID 038491',
+          title: '#038491',
           amount: 25000,
-          meta: 'Verified MOMO contribution',
+          meta: '2026-05-23 10:30:00',
           transactionId: 'MTN12345',
         ),
         const InsightCard(

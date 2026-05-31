@@ -18,6 +18,16 @@ subprojects {
 subprojects {
     project.evaluationDependsOn(":app")
 }
+subprojects {
+    configurations.configureEach {
+        resolutionStrategy.eachDependency {
+            if (requested.group == "androidx.test" && requested.name == "runner") {
+                useVersion("1.6.1")
+                because("Flutter integration_test declares 1.2+, which breaks offline Android builds.")
+            }
+        }
+    }
+}
 
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)

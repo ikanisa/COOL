@@ -48,26 +48,25 @@ void main() {
     );
   });
 
-  testWidgets('payment intent status card keeps SMS-first boundary visible', (
-    tester,
-  ) async {
+  testWidgets('payment status card stays minimal', (tester) async {
     await _pumpCollect(
       tester,
       const PaymentIntentStatusCard(
         amountRwf: 5000,
         receiverLabel: 'St Michel treasury',
         receiverMomoNumber: '+250788123456',
-        memberLabel: 'Collect ID 038491',
-        network: 'MTN MOMO',
         status: 'pending',
       ),
     );
 
     expect(find.text('RWF 5,000'), findsOneWidget);
     expect(find.text('St Michel treasury'), findsOneWidget);
-    expect(find.text('Collect ID 038491'), findsOneWidget);
-    expect(find.textContaining('Collect waits for SMS'), findsOneWidget);
-    expect(find.textContaining('Do not paste SMS'), findsOneWidget);
+    expect(find.text('Payment intent'), findsNothing);
+    expect(find.text('Intent'), findsNothing);
+    expect(find.text('MoMo SMS'), findsNothing);
+    expect(find.text('Recorded'), findsNothing);
+    expect(find.textContaining('Collect waits for SMS'), findsNothing);
+    expect(find.textContaining('Do not paste SMS'), findsNothing);
     expect(find.textContaining('Code'), findsNothing);
   });
 
@@ -85,10 +84,10 @@ void main() {
       ),
     );
 
-    expect(find.text('Receiver consent'), findsOneWidget);
-    expect(find.text('Consent required'), findsOneWidget);
-    expect(find.text('Sync consented SMS'), findsOneWidget);
-    expect(find.textContaining('Raw SMS is never public'), findsOneWidget);
+    expect(find.text('Consent'), findsOneWidget);
+    expect(find.text('Required'), findsOneWidget);
+    expect(find.text('Sync'), findsOneWidget);
+    expect(find.textContaining('Raw SMS is never public'), findsNothing);
   });
 
   testWidgets('ledger row renders tabular transaction details', (tester) async {
@@ -106,7 +105,7 @@ void main() {
       ),
     );
 
-    expect(find.text('Collect ID 038491'), findsOneWidget);
+    expect(find.text('#038491'), findsOneWidget);
     expect(find.text('RWF 15,000'), findsOneWidget);
     expect(find.text('MTN-001'), findsOneWidget);
   });

@@ -3,6 +3,7 @@ import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
+import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/foundation.dart';
@@ -83,10 +84,10 @@ void main() {
     await pumpMainAppAt(tester, '/groups');
 
     expect(find.text('Groups'), findsWidgets);
-    expect(find.text('Automated allocation'), findsOneWidget);
     expect(find.text('St Michel building fund'), findsOneWidget);
+    expect(find.text('Auto allocation'), findsNothing);
+    expect(find.textContaining('SMS matched'), findsNothing);
     expect(find.textContaining('+250788'), findsNothing);
-    expect(find.textContaining('MoMo SMS'), findsOneWidget);
     expectNoGlobalSecrets();
   });
 
@@ -101,49 +102,44 @@ void main() {
     );
 
     expect(find.text('Contribute'), findsWidgets);
-    expect(find.text('Automated SMS match'), findsOneWidget);
-    expect(find.text('Collect ID'), findsOneWidget);
+    expect(find.text('Automated SMS match'), findsNothing);
+    expect(find.text('Collect ID'), findsNothing);
     expect(find.textContaining('manual'), findsNothing);
 
     final intent = await repository.createPaymentIntent(
       const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 5000),
     );
-    final router = GoRouter.of(
-      tester.element(find.text('Automated SMS match').first),
-    );
+    final router = GoRouter.of(tester.element(find.text('Contribute').first));
     router.go('/groups/col-church/pay/${intent.id}');
     await pumpLaunchFrames(tester);
 
-    expect(find.text('Payment intent'), findsWidgets);
-    expect(find.text('Waiting for MoMo SMS'), findsOneWidget);
+    expect(find.text('Waiting for MoMo SMS'), findsNothing);
+    expect(find.text('Payment'), findsWidgets);
     expect(find.text('St Michel treasury'), findsOneWidget);
     expect(find.textContaining('+250788123456'), findsWidgets);
     router.go('/groups/col-church/ledger');
     await pumpLaunchFrames(tester);
 
     expect(find.text('Ledger'), findsOneWidget);
-    expect(find.text('Private evidence'), findsOneWidget);
-    expect(find.text('Ledger safety'), findsOneWidget);
-    expect(find.text('Collect ID 038491'), findsWidgets);
+    expect(find.text('Private'), findsNothing);
+    expect(find.text('Safe ledger'), findsNothing);
+    expect(find.text('#038491'), findsWidgets);
     expectNoGlobalSecrets();
   });
 
   testWidgets('creator share routes preserve group boundaries', (tester) async {
     await pumpMainAppAt(tester, '/groups/col-church/share');
 
-    expect(find.text('Share group'), findsWidgets);
-    expect(find.text('Group sharing'), findsOneWidget);
-    expect(
-      find.textContaining('does not include phone numbers'),
-      findsOneWidget,
-    );
+    expect(find.text('Share'), findsWidgets);
+    expect(find.text('Group sharing'), findsNothing);
+    expect(find.textContaining('does not include phone numbers'), findsNothing);
     expect(find.textContaining('+250788'), findsNothing);
 
-    final router = GoRouter.of(tester.element(find.text('Share group')));
+    final router = GoRouter.of(tester.element(find.text('Share').first));
     router.go('/groups/col-church/invite');
     await pumpLaunchFrames(tester);
 
-    expect(find.text('Share group'), findsWidgets);
+    expect(find.text('Share'), findsWidgets);
     expect(find.text('SMS'), findsWidgets);
     expect(find.text('WhatsApp'), findsWidgets);
     expect(find.text('Copy deep link'), findsWidgets);
@@ -197,6 +193,30 @@ void main() {
         find.text('group creation is available only on Android'),
         findsWidgets,
       );
+      expectNoGlobalSecrets();
+    } finally {
+      debugDefaultTargetPlatformOverride = null;
+    }
+  });
+
+  testWidgets('Android SMS denial routes create group to retry screen', (
+    tester,
+  ) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    try {
+      await pumpMainAppAt(
+        tester,
+        '/groups/create',
+        repository: CollectRepository.seeded(
+          smsAccessChannel: _DenySmsAccessChannel(),
+        ),
+      );
+
+      await tester.enterText(find.byType(TextField).first, 'New parish fund');
+      await tapVisible(tester, find.text('Create group').last);
+
+      expect(find.text('SMS access needed'), findsOneWidget);
+      expect(find.text('Try again'), findsOneWidget);
       expectNoGlobalSecrets();
     } finally {
       debugDefaultTargetPlatformOverride = null;
@@ -355,6 +375,14 @@ const _platformOwnerIdentity = AdminIdentity(
     'system_health.read',
   ],
 );
+
+class _DenySmsAccessChannel extends SmsAccessChannel {
+  @override
+  Future<bool> setEnabled(bool enabled) async => false;
+
+  @override
+  Future<bool> isEnabled() async => false;
+}
 
 class _FakeAdminRepository extends AdminRepository {
   _FakeAdminRepository() : super(null);
