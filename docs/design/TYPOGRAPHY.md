@@ -17,7 +17,9 @@ Collect uses open/system fonts only. The Flutter app defaults to system renderin
 
 ## Numeric Rules
 
-RWF amounts, Collect IDs, contribution codes, transaction IDs, and ledger figures use tabular numerals through centralized text styles. This keeps columns stable and improves scan speed.
+RWF amounts, Collect IDs, contribution codes, provider references, and ledger
+figures use tabular numerals through centralized text styles. This keeps
+columns stable and improves scan speed.
 
 ## Copy Rules
 

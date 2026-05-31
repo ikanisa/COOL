@@ -3,7 +3,9 @@ import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
+import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -75,109 +77,121 @@ void main() {
     expectNoGlobalSecrets();
   });
 
-  testWidgets(
-    'public supporter browses public directory without receiver data leakage',
-    (tester) async {
-      await pumpMainAppAt(tester, '/public');
+  testWidgets('member browses groups without receiver data leakage', (
+    tester,
+  ) async {
+    await pumpMainAppAt(tester, '/groups');
 
-      expect(find.text('Public directory'), findsOneWidget);
-      expect(find.text('Public-safe browsing'), findsOneWidget);
-      expect(find.text('St Michel building fund'), findsOneWidget);
-      expect(find.textContaining('+250788'), findsNothing);
-      expect(find.textContaining('raw SMS'), findsOneWidget);
-      expectNoGlobalSecrets();
-    },
-  );
+    expect(find.text('Groups'), findsWidgets);
+    expect(find.text('Automated allocation'), findsOneWidget);
+    expect(find.text('St Michel building fund'), findsOneWidget);
+    expect(find.textContaining('+250788'), findsNothing);
+    expect(find.textContaining('MoMo SMS'), findsOneWidget);
+    expectNoGlobalSecrets();
+  });
 
-  testWidgets(
-    'contributor creates intent, sees MOMO instructions, and posts ledger entry',
-    (tester) async {
-      final repository = CollectRepository.seeded();
-      await pumpMainAppAt(
-        tester,
-        '/collections/col-church/contribute',
-        repository: repository,
-      );
+  testWidgets('contributor creates intent and waits for SMS allocation', (
+    tester,
+  ) async {
+    final repository = CollectRepository.seeded();
+    await pumpMainAppAt(
+      tester,
+      '/groups/col-church/contribute',
+      repository: repository,
+    );
 
-      expect(find.text('Contribute'), findsOneWidget);
-      expect(find.text('Direct payment'), findsOneWidget);
-      expect(find.text('No money held'), findsOneWidget);
+    expect(find.text('Contribute'), findsWidgets);
+    expect(find.text('Automated SMS match'), findsOneWidget);
+    expect(find.text('Collect ID'), findsOneWidget);
+    expect(find.textContaining('manual'), findsNothing);
+
+    final intent = await repository.createPaymentIntent(
+      const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 5000),
+    );
+    final router = GoRouter.of(
+      tester.element(find.text('Automated SMS match').first),
+    );
+    router.go('/groups/col-church/pay/${intent.id}');
+    await pumpLaunchFrames(tester);
+
+    expect(find.text('Payment intent'), findsWidgets);
+    expect(find.text('Waiting for MoMo SMS'), findsOneWidget);
+    expect(find.text('St Michel treasury'), findsOneWidget);
+    expect(find.textContaining('+250788123456'), findsWidgets);
+    router.go('/groups/col-church/ledger');
+    await pumpLaunchFrames(tester);
+
+    expect(find.text('Ledger'), findsOneWidget);
+    expect(find.text('Private evidence'), findsOneWidget);
+    expect(find.text('Ledger safety'), findsOneWidget);
+    expect(find.text('Collect ID 038491'), findsWidgets);
+    expectNoGlobalSecrets();
+  });
+
+  testWidgets('creator share routes preserve group boundaries', (tester) async {
+    await pumpMainAppAt(tester, '/groups/col-church/share');
+
+    expect(find.text('Share group'), findsWidgets);
+    expect(find.text('Group sharing'), findsOneWidget);
+    expect(
+      find.textContaining('does not include phone numbers'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('+250788'), findsNothing);
+
+    final router = GoRouter.of(tester.element(find.text('Share group')));
+    router.go('/groups/col-church/invite');
+    await pumpLaunchFrames(tester);
+
+    expect(find.text('Share group'), findsWidgets);
+    expect(find.text('SMS'), findsWidgets);
+    expect(find.text('WhatsApp'), findsWidgets);
+    expect(find.text('Copy deep link'), findsWidgets);
+    expect(find.byType(TextField), findsNothing);
+    expect(find.textContaining('/c/'), findsWidgets);
+    expectNoGlobalSecrets();
+  });
+
+  testWidgets('member opens shared group link by slug', (tester) async {
+    await pumpMainAppAt(tester, '/c/st-michel-building-fund');
+    await pumpLaunchFrames(tester);
+
+    expect(find.text('St Michel building fund'), findsWidgets);
+    expect(find.text('Contribute'), findsWidgets);
+    expect(find.textContaining('+250788'), findsNothing);
+    expectNoGlobalSecrets();
+  });
+
+  testWidgets('iPhone create group entry shows Android-only warning', (
+    tester,
+  ) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    try {
+      await pumpMainAppAt(tester, '/home');
+
+      await tapVisible(tester, find.byTooltip('Create group'));
+
       expect(
-        find.text('Used only to improve matching; never public.'),
+        find.text('group creation is available only on Android'),
         findsOneWidget,
       );
-      await tapVisible(tester, find.text('Continue to MOMO instructions'));
-
-      expect(find.text('MOMO instructions'), findsOneWidget);
-      expect(find.text('St Michel treasury'), findsOneWidget);
-      expect(find.textContaining('+250788123456'), findsWidgets);
-      final intent = repository.state.paymentIntents.single;
-      await repository.markIntentPaid(intent.id, transactionId: 'TX-UAT-1');
-      final router = GoRouter.of(
-        tester.element(find.text('MOMO instructions')),
-      );
-      router.go('/collections/col-church/ledger');
-      await pumpLaunchFrames(tester);
-
-      expect(find.text('Ledger'), findsOneWidget);
-      expect(find.text('Private evidence'), findsOneWidget);
-      expect(find.text('Ledger safety'), findsOneWidget);
-      expect(find.text('Anonymous supporter'), findsWidgets);
+      expect(find.text('Create group'), findsNothing);
       expectNoGlobalSecrets();
-    },
-  );
+    } finally {
+      debugDefaultTargetPlatformOverride = null;
+    }
+  });
 
-  testWidgets(
-    'creator share and invite routes preserve public and private boundaries',
-    (tester) async {
-      await pumpMainAppAt(tester, '/collections/col-church/share');
+  testWidgets('settings exposes SMS access without manual paste', (
+    tester,
+  ) async {
+    await pumpMainAppAt(tester, '/settings');
 
-      expect(find.text('Share'), findsOneWidget);
-      expect(find.text('Safe share'), findsOneWidget);
-      expect(
-        find.textContaining('does not include phone numbers'),
-        findsOneWidget,
-      );
-      expect(find.textContaining('+250788'), findsNothing);
-
-      final router = GoRouter.of(tester.element(find.text('Share')));
-      router.go('/collections/col-church/invite');
-      await pumpLaunchFrames(tester);
-
-      expect(find.text('Invite members'), findsOneWidget);
-      expect(find.text('Private invite'), findsOneWidget);
-      final inviteTarget = find.byType(TextField).first;
-      await tester.ensureVisible(inviteTarget);
-      await tester.enterText(inviteTarget, '038491');
-      await tester.pump();
-      await tapVisible(tester, find.text('Generate invite link'));
-
-      expect(find.text('Prepared for User #038491.'), findsOneWidget);
-      expect(find.textContaining('/i/'), findsOneWidget);
-      expectNoGlobalSecrets();
-    },
-  );
-
-  testWidgets(
-    'receiver operator manual SMS ingestion goes to review without public leakage',
-    (tester) async {
-      await pumpMainAppAt(tester, '/receiver/manual');
-
-      expect(find.text('Manual SMS paste'), findsOneWidget);
-      expect(find.text('Restricted SMS handling'), findsOneWidget);
-      expect(find.textContaining('Raw SMS is never public'), findsOneWidget);
-      final fields = find.byType(TextField);
-      await tester.ensureVisible(fields.at(1));
-      await tester.enterText(
-        fields.at(1),
-        'You have received 10,000 RWF from Jane. TxId ABC123. Balance is 500000 RWF.',
-      );
-      await tapVisible(tester, find.text('Ingest SMS'));
-
-      expect(find.text('SMS parsed as needs_review.'), findsOneWidget);
-      expectNoGlobalSecrets();
-    },
-  );
+    expect(find.text('Settings'), findsWidgets);
+    expect(find.text('SMS access'), findsOneWidget);
+    expect(find.textContaining('manual'), findsNothing);
+    expectNoGlobalSecrets();
+  });
 
   testWidgets('admin app opens at login for default non-admin state', (
     tester,
@@ -200,7 +214,7 @@ void main() {
   });
 
   testWidgets(
-    'admin personas review moderation, payment, compliance, audit, and health routes',
+    'admin personas review group operations, payment, compliance, audit, and health routes',
     (tester) async {
       tester.view.physicalSize = const Size(1600, 900);
       tester.view.devicePixelRatio = 1;
@@ -231,25 +245,13 @@ void main() {
       final router = GoRouter.of(
         tester.element(find.text('Operations overview')),
       );
-      router.go('/admin/public-requests');
+      router.go('/admin/groups');
       await pumpLaunchFrames(tester);
-      expect(find.text('Public requests'), findsWidgets);
-      expect(find.text('St Michel public listing'), findsOneWidget);
-      await tapTableAction(tester, 'Approve');
-      await tester.enterText(
-        find.byType(TextField).last,
-        'Public copy reviewed',
-      );
-      await tester.tap(find.widgetWithText(FilledButton, 'Approve'));
-      await pumpLaunchFrames(tester);
-      expect(
-        repository.actions,
-        contains('admin_review_public_request:Public copy reviewed'),
-      );
+      expect(find.text('Groups'), findsWidgets);
 
-      router.go('/admin/unallocated');
+      router.go('/admin/exceptions');
       await pumpLaunchFrames(tester);
-      expect(find.text('Unallocated payments'), findsWidgets);
+      expect(find.text('Exceptions'), findsWidgets);
       expect(find.text('Ambiguous MOMO event'), findsOneWidget);
       await tapTableAction(tester, 'Reparse');
       await tester.enterText(
@@ -306,7 +308,6 @@ const _platformOwnerIdentity = AdminIdentity(
   displayName: 'Collect platform owner',
   roles: ['platform_owner'],
   permissions: [
-    'public_requests.review',
     'payment_events.reparse',
     'sms.reveal_raw',
     'audit_logs.read',
@@ -335,15 +336,6 @@ class _FakeAdminRepository extends AdminRepository {
   }) async {
     return AdminListResult(
       rows: switch (rpcName) {
-        'admin_list_public_requests' => const [
-          AdminTableRowData(
-            id: 'public-request-1',
-            title: 'St Michel public listing',
-            subtitle: 'Public copy waiting for moderator review',
-            status: 'needs_review',
-            amount: '',
-          ),
-        ],
         'admin_list_unallocated' => const [
           AdminTableRowData(
             id: 'event-1',

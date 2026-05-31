@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/security/phone_normalizer.dart';
+import '../../core/supabase/realtime_invalidation.dart';
 import '../../core/supabase/supabase_module.dart';
 import '../shared/components/admin_confirm_dialog.dart';
 import '../shared/components/admin_data_table.dart';
@@ -25,7 +28,25 @@ final adminIdentityProvider = FutureProvider<AdminIdentity?>((ref) {
 });
 
 final _adminOverviewProvider = FutureProvider<List<AdminMetric>>((ref) {
+  ref.watch(adminRealtimeTickProvider);
   return ref.watch(adminRepositoryProvider).overviewMetrics();
+});
+
+final adminRealtimeTickProvider = StateProvider<int>((_) => 0);
+
+final adminRealtimeSubscriptionProvider = Provider.autoDispose<void>((ref) {
+  final client = ref.watch(supabaseClientProvider);
+  if (client == null || client.auth.currentUser == null) return;
+  final subscription = RealtimeInvalidationSubscription(
+    client: client,
+    topic: 'collect:admin:invalidation',
+    areas: collectAdminRealtimeAreas,
+    onInvalidate: () {
+      ref.read(adminRealtimeTickProvider.notifier).state += 1;
+      ref.invalidate(adminIdentityProvider);
+    },
+  )..start();
+  ref.onDispose(() => unawaited(subscription.dispose()));
 });
 
 class AdminRepository extends AdminRepositoryBase {
@@ -35,7 +56,7 @@ class AdminRepository extends AdminRepositoryBase {
 
   Future<void> sendOtp({required String phone}) async {
     await _requireClient().auth.signInWithOtp(
-      phone: PhoneNormalizer.normalizeRwanda(phone),
+      phone: PhoneNormalizer.normalizeInternational(phone),
       channel: OtpChannel.whatsapp,
     );
   }
@@ -45,7 +66,7 @@ class AdminRepository extends AdminRepositoryBase {
     required String otp,
   }) async {
     await _requireClient().auth.verifyOTP(
-      phone: PhoneNormalizer.normalizeRwanda(phone),
+      phone: PhoneNormalizer.normalizeInternational(phone),
       token: otp.trim(),
       type: OtpType.sms,
     );
@@ -130,7 +151,7 @@ class AdminLoginPage extends ConsumerStatefulWidget {
 }
 
 class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
-  final _phone = TextEditingController(text: '+250');
+  final _phone = TextEditingController(text: '+');
   final _otp = TextEditingController();
   var _otpSent = false;
   var _isBusy = false;
@@ -146,63 +167,82 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 420),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'Collect admin login',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    'Sign in with the Rwanda WhatsApp number attached to your admin profile.',
-                  ),
-                  const SizedBox(height: 18),
-                  TextField(
-                    controller: _phone,
-                    keyboardType: TextInputType.phone,
-                    decoration: const InputDecoration(
-                      labelText: 'WhatsApp phone',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  if (_otpSent) ...[
-                    const SizedBox(height: 12),
-                    TextField(
-                      controller: _otp,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        labelText: 'OTP code',
-                        border: OutlineInputBorder(),
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final cardWidth = math.max(
+              0.0,
+              math.min(320.0, constraints.maxWidth - 32),
+            );
+            final isCompact = constraints.maxWidth < 600;
+            return Align(
+              alignment: isCompact ? Alignment.centerLeft : Alignment.center,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: SizedBox(
+                  width: cardWidth,
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            'Collect admin login',
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Sign in with the WhatsApp number attached to your admin profile.',
+                          ),
+                          const SizedBox(height: 18),
+                          TextField(
+                            controller: _phone,
+                            keyboardType: TextInputType.phone,
+                            decoration: const InputDecoration(
+                              labelText: 'WhatsApp phone',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          if (_otpSent) ...[
+                            const SizedBox(height: 12),
+                            TextField(
+                              controller: _otp,
+                              keyboardType: TextInputType.number,
+                              decoration: const InputDecoration(
+                                labelText: 'OTP code',
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                          ],
+                          if (_error != null) ...[
+                            const SizedBox(height: 12),
+                            Text(
+                              _error!,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.error,
+                              ),
+                            ),
+                          ],
+                          const SizedBox(height: 18),
+                          FilledButton.icon(
+                            onPressed: _isBusy ? null : _submit,
+                            icon: Icon(
+                              _otpSent ? Icons.verified_user : Icons.sms,
+                            ),
+                            label: Text(
+                              _otpSent ? 'Verify code' : 'Send WhatsApp OTP',
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                  if (_error != null) ...[
-                    const SizedBox(height: 12),
-                    Text(
-                      _error!,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.error,
-                      ),
-                    ),
-                  ],
-                  const SizedBox(height: 18),
-                  FilledButton.icon(
-                    onPressed: _isBusy ? null : _submit,
-                    icon: Icon(_otpSent ? Icons.verified_user : Icons.sms),
-                    label: Text(_otpSent ? 'Verify code' : 'Send WhatsApp OTP'),
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
+            );
+          },
         ),
       ),
     );
@@ -305,6 +345,7 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   final _search = TextEditingController();
   var _status = '';
   late Future<AdminListResult> _future;
+  var _lastRealtimeTick = 0;
 
   @override
   void initState() {
@@ -320,6 +361,13 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final realtimeTick = ref.watch(adminRealtimeTickProvider);
+    if (_lastRealtimeTick != realtimeTick) {
+      _lastRealtimeTick = realtimeTick;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _refresh();
+      });
+    }
     return AdminPage(
       title: widget.title,
       child: Column(
@@ -402,16 +450,6 @@ class _AdminRowActions extends ConsumerWidget {
     return Wrap(
       spacing: 8,
       children: switch (actionKind) {
-        'public_request_review' => [
-          TextButton(
-            onPressed: () => _review(context, ref, approved: true),
-            child: const Text('Approve'),
-          ),
-          TextButton(
-            onPressed: () => _review(context, ref, approved: false),
-            child: const Text('Reject'),
-          ),
-        ],
         'payment_event_reparse' => [
           TextButton(
             onPressed: () => _reparse(context, ref),
@@ -421,24 +459,6 @@ class _AdminRowActions extends ConsumerWidget {
         _ => const [],
       },
     );
-  }
-
-  Future<void> _review(
-    BuildContext context,
-    WidgetRef ref, {
-    required bool approved,
-  }) async {
-    final reason = await showAdminReasonDialog(
-      context,
-      title: approved ? 'Approve public request' : 'Reject public request',
-      actionLabel: approved ? 'Approve' : 'Reject',
-    );
-    if (reason == null) return;
-    await ref.read(adminRepositoryProvider).action(
-      'admin_review_public_request',
-      {'p_request_id': row.id, 'p_approved': approved, 'p_reason': reason},
-    );
-    onDone();
   }
 
   Future<void> _reparse(BuildContext context, WidgetRef ref) async {
@@ -470,6 +490,7 @@ class AdminDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(adminRealtimeTickProvider);
     return AdminPage(
       title: title,
       child: FutureBuilder<Map<String, dynamic>>(
@@ -497,6 +518,7 @@ class AdminSmsDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(adminRealtimeTickProvider);
     return AdminPage(
       title: 'SMS metadata',
       subtitle:

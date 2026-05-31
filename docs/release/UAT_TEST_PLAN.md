@@ -1,47 +1,52 @@
 # Collect UAT Test Plan
 
-Audit date: 2026-05-24
+Audit date: 2026-05-27
 
-Decision context: **NO-GO**. Execute human UAT only as staging or
-rollback-only release evidence until the latest Supabase release refresh no
-longer reports `database_connectivity`, CAPTCHA/bot protection and HIBP
-leaked-password protection are resolved, and any remaining Free-plan or PITR
-risk is validly accepted where allowed.
+Decision context: **NO-GO pending current SMS-first evidence**.
 
-Current automated evidence to attach before live persona walkthroughs:
+This plan covers the corrected Groups product definition. It excludes old
+goals, campaign/public-directory flows, manual SMS paste, self-reported payment
+IDs, and anonymity choices.
 
-- `.cache/supabase_go_live_evidence/20260524T085150Z`
-- `make supabase-acceptance-matrix-json`: `7` pass / `5` blocked
-- `make supabase-edge-auth-uat`: local Edge Function auth contract pass
-- `flutter test --no-pub --concurrency=1`: `87` tests pass
-- Android emulator integration smoke UAT on `Pixel_5_API_34_Lite`: `2` tests
-  pass
+## Current Automated Evidence To Attach
 
-Evidence must not expose raw SMS, phone/MOMO numbers, tokens, service-role
-keys, OpenAI keys, WhatsApp/SMS hook secrets, CAPTCHA provider secrets, or
-production customer data. Use synthetic users, synthetic Rwanda-format phone
-numbers, sanitized SMS bodies, screenshots with secrets redacted, and
-rollback-only linked database scripts wherever database evidence is needed.
+- `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze`: pass.
+- Full Flutter/release-doc tests: `79` tests pass.
+- `scripts/admin_pwa_release_build.sh`: pass.
+- `scripts/admin_pwa_render_smoke.sh`: pass, evidence at
+  `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`.
+- `scripts/collect_edge_auth_contract_uat.sh`: pass.
+- `./scripts/migrations/validate_supabase_migrations.sh`: pass.
+- `scripts/collect_admin_security_uat.sh`: pass.
+
+Current blocked evidence:
+
+- `scripts/collect_linked_uat.sh`: blocked because linked Supabase is behind the
+  SMS-first group and payment-intent RPC contract.
+- `supabase db push --dry-run`: blocked by database network allowlist from the
+  current operator IP.
+- `scripts/admin_pwa_live_gate.sh --json`: blocked until `ADMIN_PWA_LIVE_URL`
+  is supplied.
+
+## Persona Tests
 
 | ID | Persona | Steps | Expected | Automated evidence | Status |
 | --- | --- | --- | --- | --- | --- |
-| UAT-01 | Contributor | Sign in, open approved public collection, create payment intent, view MOMO/USSD instructions, mark paid with sanitized reference, and verify public identity choice. | Contributor sees manual MOMO instructions only; no payment API; no raw receiver data leak; public identity choice is respected. | `scripts/collect_linked_uat.sh`, repository/widget tests. | Automated partial pass; human signoff pending. |
-| UAT-02 | Creator | Create private collection with receiver MOMO, request public listing, share QR/link, and verify default privacy. | Collection starts private; public listing awaits admin approval; share link/QR exposes no private MOMO/raw SMS data. | `scripts/collect_linked_uat.sh`, repository tests. | Automated partial pass; human signoff pending. |
-| UAT-03 | Recurring group admin | Create recurring collection and inspect period/obligation behavior plus member/admin visibility. | Recurring period exists; visibility is correct for members and admins. | `scripts/collect_linked_uat.sh`. | Automated partial pass; human signoff pending. |
-| UAT-04 | Public supporter | Visit public directory and contribution flow without membership. | Only approved public collections are visible; receiver MOMO details appear only at contribution step. | `scripts/collect_linked_uat.sh`, widget tests. | Automated partial pass; human signoff pending. |
-| UAT-05 | Receiver/SMS operator | Enter sanitized receiver MOMO SMS manually, verify consent-gated handling, parse/review path, and no public raw-SMS exposure. | Raw SMS stays private; parsed event enters review/allocation path; unauthorized receiver submissions fail. | `scripts/collect_linked_uat.sh`, `scripts/collect_admin_security_uat.sh`. | Automated partial pass; trusted DB rerun and human signoff pending. |
-| UAT-06 | Moderator | Review public listing request and moderation queues through permitted admin lane. | Moderator can perform only permitted actions; public approval/rejection creates audit evidence. | `scripts/collect_admin_security_uat.sh`. | Automated partial pass; human signoff pending. |
-| UAT-07 | Payments admin | Review unallocated/ambiguous payment event and perform manual allocation with reason. | Allocation is reason-required, idempotent, audited, and posts the ledger exactly once. | `scripts/collect_admin_security_uat.sh`, `scripts/collect_linked_uat.sh`. | Automated partial pass; trusted DB rerun and human signoff pending. |
-| UAT-08 | Compliance admin | Reveal raw SMS through controlled flow with reason. | Raw SMS is masked by default; reveal is permission-gated, reason-required, and audited. | `scripts/collect_admin_security_uat.sh`, privacy contract tests. | Automated partial pass; human signoff pending. |
-| UAT-09 | Non-admin | Attempt admin routes/functions and protected raw-SMS/payment actions. | Access is denied client-side and server-side without sensitive data leakage. | Android integration smoke UAT, `scripts/collect_admin_security_uat.sh`. | Automated partial pass; human signoff pending. |
-| UAT-10 | Edge-case user | Test duplicate SMS/transaction, invalid amount, non-Rwanda phone, expired intent, ambiguous amount, missing receiver authorization, failed Edge Function auth, and retry/idempotency behavior. | No double-post; invalid inputs fail safely; expired/ambiguous cases remain unallocated; missing receiver auth is denied; failed Edge Function auth returns `401`; retry behavior is idempotent and no raw phone/SMS/provider secret leaks. | `scripts/collect_linked_uat.sh`, `scripts/collect_edge_auth_contract_uat.sh`, `test/core/phone_and_public_id_test.dart`, `test/shared/collect_repository_test.dart`, `test/supabase_contract_test.dart`. | Automation present; trusted DB rerun and human signoff pending. |
+| UAT-01 | Contributor | Open shared group, enter amount, tap Contribute, create intent, launch MoMo USSD. | Intent is linked to group, user id, Collect ID, amount, and receiver; no manual payment report is shown. | Local tests; linked UAT pending migration. | Partial. |
+| UAT-02 | Android creator | Complete profile, create group, grant SMS access, share link/QR/deep link/SMS. | Receiver MoMo syncs from profile and is editable; SMS consent starts automated MoMo SMS capture. | Local tests. | Partial. |
+| UAT-03 | iPhone user | Tap group creation action. | Warning is exactly `group creation is available only on Android`. | Widget tests. | Partial. |
+| UAT-04 | Member | Join/open group through share link and contribute anonymously. | User is identified only by Collect ID. | Local tests. | Partial. |
+| UAT-05 | Android SMS device | Receive MoMo SMS and allow automatic sync. | SMS row reaches Supabase, parser extracts payment fields and Collect ID when present, allocation runs automatically. | Edge/type checks; physical Android UAT pending. | Pending. |
+| UAT-06 | Admin operator | Monitor groups, intents, SMS parsing, allocations, exceptions, ledger, and audit. | Admin sees operational state without raw SMS by default. | Admin PWA local render and linked admin/security UAT. | Partial. |
+| UAT-07 | Payments admin | Handle ambiguous event. | Reparse/review actions are reason-required and audited; no manual ledger posting shortcut. | Linked admin/security UAT. | Partial. |
+| UAT-08 | Compliance admin | Reveal raw SMS through controlled path. | Raw SMS reveal is permission-gated, reason-required, and audited. | Linked admin/security UAT. | Partial. |
+| UAT-09 | Non-admin | Attempt protected admin access. | Access is denied without sensitive data leakage. | Linked admin/security UAT. | Partial. |
+| UAT-10 | Edge case | Invalid amount, expired intent, ambiguous amount, missing receiver authorization, failed Edge auth. | Invalid/ambiguous/expired cases stay unposted or go to exception; auth failures return safe errors. | Unit/contract tests; linked UAT pending migration. | Partial. |
 
-Minimum GO evidence:
+## Minimum GO Evidence
 
-1. `make supabase-ready-strict` passes from trusted linked query mode or an
-   allow-listed database path.
-2. `make supabase-go-live-gate-json` reports `go_live_approved=true`.
-3. `make supabase-go-live-evidence` is regenerated after platform and UAT
-   fixes.
-4. `docs/release/UAT_SIGNOFF_CHECKLIST_2026-05-24.md` records release-owner
-   signoff for all ten personas.
+1. Product definition signoff recorded.
+2. Linked Supabase migration applied and `scripts/collect_linked_uat.sh` passes.
+3. Android SMS access UAT passes with sanitized screenshots/logs.
+4. Admin PWA deployed URL passes live gate.
+5. Release owner approves the current release packet.

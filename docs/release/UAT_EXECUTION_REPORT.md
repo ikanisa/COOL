@@ -1,83 +1,61 @@
 # Collect UAT Execution Report
 
-Audit date: 2026-05-24
+Audit date: 2026-05-27
 
-Status: **AUTOMATED UAT PARTIAL PASS; LIVE SIGNOFF PENDING**
+Status: **AUTOMATED LOCAL PARTIAL PASS; LINKED SMS-FIRST AND LIVE SIGNOFF
+PENDING**
 
-Public launch remains **NO-GO** until Supabase CAPTCHA/bot protection, HIBP
-leaked-password protection, Free-plan project-pause risk, PITR/RPO, current
-trusted database verification, and human persona signoff are handled. Earlier
-linked rollback UAT exists, the original Android launch/admin-boundary smoke
-UAT has pass evidence, and current local Flutter hygiene is green. The Flutter
-integration harness has been expanded for public supporter, contributor,
-creator share/invite, and receiver/manual-SMS smoke paths, but the expanded
-suite is not yet fresh device-green because the Android emulator disappeared
-from Flutter/ADB during rerun and the iOS simulator stalled during boot. The
-latest Supabase evidence bundle cannot refresh code-owned readiness from this
-runner because the database path is blocked by the Supabase tenant allow-list.
-Evidence remains sanitized and must not expose raw SMS, phone/MOMO numbers,
-tokens, service-role keys, provider secrets, or production data.
+Public launch remains **NO-GO** until the linked Supabase project is updated to
+the current SMS-first migration, real Android SMS access UAT is captured,
+Admin PWA live deployment is proven, Android release APK/AAB artifacts are
+rebuilt from current sources, and stakeholder/release-owner signoff is recorded.
 
-## Build And Device Evidence
+## Build And Runtime Evidence
 
 | Surface | Evidence | Result |
 | --- | --- | --- |
-| Flutter hygiene | `dart format --set-exit-if-changed .`, `flutter analyze --no-pub`, `flutter test --no-pub --concurrency=1` | Pass: format clean, analyzer clean, `87` tests passed. |
-| Persona widget smoke UAT | `flutter test --no-pub test/persona_uat_smoke_test.dart` | Pass: 7 repeatable local smoke tests cover public supporter browsing, contributor intent/MOMO instructions/ledger, creator share/invite, receiver manual SMS review, main app launch, admin non-admin denial, and authorized admin moderator/payments/compliance/audit/system-health routes. |
-| Android APK | `JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home /Volumes/PRO-G40/flutter_3_44/bin/flutter build apk --release --flavor production --no-pub` | Pass: `build/app/outputs/flutter-apk/app-production-release.apk`; SHA-256 recorded in `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-24.sha256`. |
-| Android AAB | `JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home /Volumes/PRO-G40/flutter_3_44/bin/flutter build appbundle --release --flavor production --no-pub` | Pass: `build/app/outputs/bundle/productionRelease/app-production-release.aab`; SHA-256 recorded in `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-24.sha256`. |
-| Android launch/admin-boundary smoke UAT | `flutter test --no-pub -d emulator-5554 --flavor production integration_test/app_uat_smoke_test.dart` on `Pixel_5_API_34_Lite` / `emulator-5554` | Prior pass: production debug APK built and installed; 2 integration tests passed after bounding startup frame pumping in the harness. |
-| Expanded persona integration harness | `integration_test/app_uat_smoke_test.dart`; current `flutter devices`/`adb devices` recheck | Implemented and analyzer-clean with the same route/privacy/admin scope as the persona widget smoke UAT. Current device rerun is blocked because Flutter sees only macOS, Chrome, and a wireless iPhone, `adb devices` is empty, and launching `Pixel_5_API_34_Lite` did not attach an Android device. This is not device GO evidence yet. |
-| Other integration targets | `flutter test --no-pub integration_test/app_uat_smoke_test.dart`; `flutter test --no-pub -d macos integration_test/app_uat_smoke_test.dart`; iOS simulator boot | Blocked for non-Android UAT: web integration tests are unsupported, macOS has no desktop project configured, the wireless iPhone path remains device-mode blocked, and the iOS simulator stalled at BackBoard. |
-| Admin web release | `flutter build web --release -t lib/main_admin.dart --no-wasm-dry-run --no-pub` | Pass: `build/web/main.dart.js`; SHA-256 recorded in `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-24.sha256`. |
-| Edge Function auth contract UAT | `make supabase-edge-auth-uat` | Pass: local auth contract passed; remote Edge Function endpoint and secret-name probes remain blocked by current runner `database_connectivity`. |
-| Supabase evidence bundle | `make supabase-go-live-evidence` | Pass: `.cache/supabase_go_live_evidence/20260524T085150Z`; final decision still `NO-GO`, acceptance matrix `7` pass / `5` blocked due current runner `database_connectivity`. |
+| Flutter hygiene | `flutter analyze`; full Flutter/release-doc tests | Pass: analyzer clean; full local suite passed `79` tests. |
+| Mobile route/widget smoke | Focused app shell, widgets, persona, repository, and phone/Public ID tests | Pass: current tests cover Home/Groups/Settings, group contribution copy, international phone normalization, and SMS-first product text. |
+| Admin PWA local release/render | `scripts/admin_pwa_release_build.sh`; `scripts/admin_pwa_render_smoke.sh` | Pass: build, manifest/hosting gates, desktop/mobile screenshots, service-worker runtime, and asset checks passed. |
+| Admin PWA live deployment | `scripts/admin_pwa_live_gate.sh --json` | Blocked: `ADMIN_PWA_LIVE_URL` is required. |
+| Edge Function auth contract | `scripts/collect_edge_auth_contract_uat.sh` | Pass. |
+| Edge Function type-check | `deno check` for parser/ingestion/allocation functions | Pass. |
+| Local Supabase migration validation | `./scripts/migrations/validate_supabase_migrations.sh` | Pass. |
+| Linked admin/security UAT | `scripts/collect_admin_security_uat.sh` | Pass: admin RBAC, raw-SMS reveal audit, reparse permission, and denial paths verified in rollback. |
+| Linked SMS-first contribution UAT | `scripts/collect_linked_uat.sh` | Blocked/fail: linked database is missing `create_group_with_owner`; direct database fallback timed out from the current operator network. |
+| Real Android SMS access flow | Physical Android device with MoMo SMS scenarios | Pending after the refactor. |
+| Android release artifacts | `scripts/flutter_mobile_release_gate.sh --json`; `scripts/release_artifact_manifest.sh --json` | Blocked: current APK/AAB artifacts are stale against refactored Android/mobile sources. |
 
 ## Persona Matrix
 
-| ID | Persona | Required journey | Current automated evidence | Result | Remaining action |
+| ID | Persona | Required journey | Current evidence | Result | Remaining action |
 | --- | --- | --- | --- | --- | --- |
-| UAT-01 | Contributor | Sign in, open approved collection, create intent, follow MOMO/USSD instructions, mark paid with sanitized reference. | `scripts/collect_linked_uat.sh` creates contributor, approved public collection, payment intent with instructions, paid report, matching parsed event, payment, and ledger entry in a rollback transaction. Repository/widget tests cover intent copy and anonymous supporter label. | Automated pass; live signoff pending | Execute the same flow with a release tester after CAPTCHA/Auth hardening and attach sanitized screenshots/logs. |
-| UAT-02 | Creator | Create private collection with receiver MOMO, request public listing, share QR/link. | `scripts/collect_linked_uat.sh` creates private collection, receiver hash, owner membership, public request, and proves requested collection is not public until admin approval. Repository tests prove private default. | Automated pass; live signoff pending | Complete creator walkthrough in the app and capture sanitized evidence, including share link/QR privacy. |
-| UAT-03 | Recurring group admin | Create recurring collection and inspect period/obligation behavior. | `scripts/collect_linked_uat.sh` creates recurring collection with monthly rule and verifies an open recurring period. | Automated partial pass; live signoff pending | Human tester must verify the recurring-management UI and member/admin visibility. |
-| UAT-04 | Public supporter | Visit public directory and contribute without membership. | `scripts/collect_linked_uat.sh` proves only approved collection appears in `public_collections_view`; widget tests show contribution instructions and no money-moving boundary drift. | Automated pass; live signoff pending | Complete public-supporter walkthrough from directory to payment instructions. |
-| UAT-05 | Receiver/SMS operator | Paste sanitized receiver MOMO SMS and review parsed event. | `scripts/collect_linked_uat.sh` verifies receiver SMS authorization, parsed payment event allocation, ambiguous event review, and no auto-post for ambiguous payment. `scripts/collect_admin_security_uat.sh` verifies raw SMS metadata masking. | Automated pass; live signoff pending | Execute controlled receiver/manual SMS flow with sanitized evidence from the app/admin UI. |
-| UAT-06 | Moderator | Review public requests/moderation queues. | `scripts/collect_admin_security_uat.sh` assigns moderation admin and approves a public request with audit-sensitive state in rollback UAT. | Automated pass; live signoff pending | Complete human moderator walkthrough and attach sanitized evidence. |
-| UAT-07 | Payments admin | Allocate unallocated/ambiguous payment with required reason. | `scripts/collect_admin_security_uat.sh` verifies payments-admin allocation and audit log; `scripts/collect_linked_uat.sh` verifies idempotent allocation and manual allocation reason. | Automated pass; live signoff pending | Complete human payments-admin allocation walkthrough and attach sanitized evidence. |
-| UAT-08 | Compliance admin | Reveal raw SMS through controlled path. | `scripts/collect_admin_security_uat.sh` verifies masked metadata, compliance reveal, sensitive-access log, and audit log. | Automated pass; live signoff pending | Complete compliance reveal walkthrough using sanitized data only. |
-| UAT-09 | Non-admin | Attempt admin routes/functions. | Android integration smoke verifies default admin app opens at login, not operations. `scripts/collect_admin_security_uat.sh` verifies support admin cannot reveal raw SMS and read-only admin cannot allocate payments. | Automated pass; live signoff pending | Complete non-admin UI/API denial checks in the release environment. |
-| UAT-10 | Edge-case user | Duplicate SMS/ref, bad amount, non-Rwanda phone, expired intent, ambiguous amount, missing receiver authorization, failed Edge Function auth. | `scripts/collect_linked_uat.sh` now includes rollback assertions for allocation idempotency, duplicate transaction no double-post, expired intent no auto-match, missing receiver authorization, and ambiguous event no auto-post. `scripts/collect_edge_auth_contract_uat.sh` proves the local Edge Function auth contract returns `401` for user/internal auth failures and keeps unauthenticated mode limited to the signed WhatsApp hook. Unit tests prove non-Rwanda phone rejection and bad contribution amount rejection. Parser fallback tests prove no raw phone persistence in parsed JSON. | Automation present; trusted DB rerun pending for linked DB edge cases | Rerun linked rollback UAT from an allow-listed/trusted DB path, then complete edge-case UI/API walkthrough before GO. |
+| UAT-01 | Contributor | Open group, enter amount, create payment intent, launch MoMo USSD, and wait for SMS allocation. | Local repository/widget tests; linked UAT script exists but is blocked by stale remote RPC. | Partial | Apply migration and rerun linked UAT, then run live tester flow. |
+| UAT-02 | Android creator | Create group with profile-synced receiver MoMo and share link/QR/deep link/SMS. | Local UI and contract tests. | Partial | Run Android walkthrough with SMS permission and share evidence. |
+| UAT-03 | iPhone user | Tap inactive group creation action. | Widget tests verify warning copy. | Partial | Verify on iOS release scope if iOS is included. |
+| UAT-04 | Group member | Join/open shared group and contribute using profile Collect ID. | Local tests and repository contract. | Partial | Complete shared-link walkthrough against linked/staging. |
+| UAT-05 | Android SMS device | Grant Android SMS access and allow automatic SMS upload. | Edge/auth contracts pass; linked UAT currently blocked before full SMS-first flow. | Pending | Run physical Android SMS access UAT. |
+| UAT-06 | Admin operator | Monitor SMS parsing, allocations, exceptions, and ledger. | Admin PWA local render and linked admin/security rollback UAT pass. | Partial | Deploy Admin PWA and complete live admin walkthrough. |
+| UAT-07 | Payments admin | Review ambiguous parsed event and request reparse with reason. | Linked admin/security UAT passes. | Partial | Confirm in deployed Admin PWA after live URL exists. |
+| UAT-08 | Compliance admin | Reveal raw SMS through permission-gated audited path. | Linked admin/security UAT passes. | Partial | Confirm in deployed Admin PWA with sanitized data only. |
+| UAT-09 | Non-admin | Attempt protected admin routes/functions. | Linked admin/security UAT covers denial paths. | Partial | Confirm UI denial in live Admin PWA. |
+| UAT-10 | Edge-case user | Invalid amount, expired intent, ambiguous amount, missing receiver authorization, failed auth. | Unit/contract tests and Edge auth UAT pass; linked allocation UAT blocked by remote migration drift. | Partial | Rerun linked UAT after migration and capture edge-case evidence. |
 
-## Test Data Ledger
+## Test Data Policy
 
-All linked database UAT scripts run inside explicit rollback transactions. They
-create synthetic users, synthetic Rwanda-format phone numbers, synthetic
-collection titles, synthetic transaction IDs, and synthetic SMS bodies. No
-production raw SMS or customer phone/MOMO numbers are required for automated
-UAT.
-
-| Data class | Current handling |
-| --- | --- |
-| UAT users | Generated UUIDs and synthetic `+250781...` phone values inside rollback SQL. |
-| Receiver/sender values | Synthetic Rwanda-format numbers hashed before storage checks. |
-| SMS body | Synthetic text; raw reveal tested only through compliance permission and rollback. |
-| Transaction references | Synthetic `UAT-*` and `ADMIN-UAT-*` identifiers, including duplicate-transaction no-double-post checks. |
-| Expired intents | Synthetic expired payment intent stays unposted and moves parsed event to review in rollback UAT. |
-| Missing receiver authorization | Synthetic non-receiver user is denied receiver SMS ingestion in rollback UAT. |
-| Failed Edge Function auth | Local static UAT verifies JWT/auth-hook modes, internal signatures, and `401` error mapping without calling production endpoints. |
-| Persistence | Automated linked UAT scripts end with `rollback;`. |
+Use synthetic users, synthetic MoMo/SMS data, hashed or masked phone values, and
+rollback transactions wherever possible. Evidence must not expose raw SMS,
+MoMo numbers, user phone numbers, service-role keys, OpenAI keys, WhatsApp/SMS
+hook secrets, provider secrets, or production customer data.
 
 ## Remaining Launch Preconditions
 
-- Configure CAPTCHA provider/site key/secret and rerun `make supabase-ready-strict`.
-- Upgrade to a paid Supabase plan, enable HIBP leaked-password protection with
-  `make supabase-auth-harden`, and rerun `make supabase-ready-strict`.
-- Upgrade the Supabase organization plan or record an accepted project-pause
-  risk exception after non-exceptionable blockers are resolved.
-- Enable PITR or record a signed recovery-objective exception after
-  non-exceptionable blockers are resolved.
-- Complete human persona UAT from a trusted operator environment and record
-  sanitized signoff evidence for all ten UAT rows above.
-- Rerun Supabase readiness from trusted linked query mode or an allow-listed
-  Supavisor/direct database path so `database_connectivity` is cleared and
-  platform controls can be rechecked.
+1. Stakeholder signoff on the corrected product definition.
+2. Apply/dry-run the SMS-first migration on the linked Supabase project.
+3. Rerun `scripts/collect_linked_uat.sh` successfully.
+4. Run physical Android SMS access UAT with sanitized evidence.
+5. Deploy Admin PWA and pass the live gate.
+6. Rebuild Android release APK/AAB artifacts from current sources and pass
+   release artifact gates.
+7. Refresh release evidence and release-owner signoff from current commands
+   only.

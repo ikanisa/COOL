@@ -1,138 +1,109 @@
+import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('collection creation defaults to private', () async {
+  test('group creation stores receiver MoMo from profile flow', () async {
     final repo = CollectRepository();
     await repo.signInWithOtp(phone: '+250788123456', otp: '123456');
     final collection = await repo.createCollection(
-      title: 'Wedding support',
-      description: 'Family collection',
-      category: 'Wedding',
-      targetAmountRwf: 100000,
+      title: 'Family group',
+      description: 'Family support',
       receiverMomoNumber: '+250788123456',
     );
 
-    expect(collection.visibility, 'private');
-    expect(collection.publicStatus, 'private');
+    expect(collection.receiverMomoNumber, '+250788123456');
   });
 
-  test(
-    'profile and collection media URLs are stored safely in local mode',
-    () async {
-      final repo = CollectRepository();
-      await repo.signInWithOtp(phone: '+250788123456', otp: '123456');
-      await repo.updateProfile(
-        displayName: 'Jane',
-        momoNumber: '+250788123456',
-        anonymityDefault: 'display_name',
-        avatarUrl: 'https://example.com/avatar.jpg',
-      );
-      final collection = await repo.createCollection(
-        title: 'Medical support',
-        description: 'Help with treatment',
-        category: 'Medical support',
-        targetAmountRwf: 500000,
-        receiverMomoNumber: '+250788123456',
-        coverImageUrl: 'https://example.com/cover.jpg',
-        isRecurring: true,
-      );
-
-      expect(
-        repo.state.currentProfile?.avatarUrl,
-        'https://example.com/avatar.jpg',
-      );
-      expect(collection.coverImageUrl, 'https://example.com/cover.jpg');
-      expect(collection.isRecurring, isTrue);
-      expect(collection.recurringRule?['frequency'], 'monthly');
-    },
-  );
-
-  test('public collection request does not publish in the main app', () async {
+  test('payment intent stays pending for automated SMS allocation', () async {
     final repo = CollectRepository.seeded();
-    final privateCollection = repo.state.collections.firstWhere(
-      (item) => item.publicStatus == 'private',
-    );
-
-    expect(
-      repo.publicCollections.any((item) => item.id == privateCollection.id),
-      isFalse,
-    );
-    await repo.requestPublic(privateCollection.id);
-    expect(
-      repo.publicCollections.any((item) => item.id == privateCollection.id),
-      isFalse,
-    );
-    expect(
-      repo.collectionById(privateCollection.id).publicStatus,
-      'public_requested',
-    );
-  });
-
-  test(
-    'payment intent and confirmation create anonymized contribution',
-    () async {
-      final repo = CollectRepository.seeded();
-      final collection = repo.state.collections.first;
-      final intent = await repo.createPaymentIntent(
-        PaymentIntentDraft(
-          collectionId: collection.id,
-          amountRwf: 5000,
-          anonymityChoice: 'anonymous',
-        ),
-      );
-
-      expect(intent.status, 'pending');
-      expect(intent.contributionCode, hasLength(6));
-      final contribution = await repo.markIntentPaid(
-        intent.id,
-        transactionId: 'TX-100',
-      );
-      expect(contribution?.supporterLabel, 'Anonymous supporter');
-      expect(repo.intentById(intent.id).status, 'matched');
-    },
-  );
-
-  test('payment intent exposes configurable instruction copy', () async {
-    final repo = CollectRepository.seeded();
+    final collection = repo.state.collections.first;
     final intent = await repo.createPaymentIntent(
-      const PaymentIntentDraft(
-        collectionId: 'col-church',
-        amountRwf: 7500,
-        anonymityChoice: 'public_id',
-      ),
+      PaymentIntentDraft(collectionId: collection.id, amountRwf: 5000),
     );
 
-    expect(intent.instructionBody, contains(intent.contributionCode));
-    expect(intent.instructionBody, contains(intent.receiverMomoNumber));
-    expect(intent.receiverLabel, 'St Michel treasury');
+    expect(intent.status, 'pending');
+    expect(intent.contributionCode, hasLength(6));
+    expect(repo.contributionsFor(collection.id), hasLength(2));
   });
 
   test(
-    'collection invite accepts Collect public IDs and returns private token',
+    'payment intent exposes receiver context without manual instructions',
     () async {
       final repo = CollectRepository.seeded();
-      final invite = await repo.createInvite(
-        collectionId: 'col-church',
-        target: '038491',
-        role: 'member',
+      final intent = await repo.createPaymentIntent(
+        const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 7500),
       );
 
-      expect(invite.invitedTarget, 'User #038491');
-      expect(invite.inviteToken, isNotEmpty);
-      expect(invite.role, 'member');
+      expect(intent.contributionCode, hasLength(6));
+      expect(intent.receiverMomoNumber, '+250788123456');
+      expect(intent.receiverLabel, 'St Michel treasury');
     },
   );
 
-  test('manual SMS without deterministic match goes to review', () async {
+  test('shared group link opens by slug', () async {
     final repo = CollectRepository.seeded();
-    final event = await repo.ingestManualSms(
-      'You have received 10,000 RWF from Jane. TxId ABC123. Balance is 500000 RWF.',
+    final collection = await repo.joinGroupBySlug('st-michel-building-fund');
+
+    expect(collection.id, 'col-church');
+    expect(collection.title, 'St Michel building fund');
+  });
+
+  test(
+    'pending Android SMS sync drains only when SMS access is enabled',
+    () async {
+      final channel = _FakeSmsAccessChannel(
+        pending: const [
+          SmsAccessEnvelope(
+            rawSender: 'MTN MOMO',
+            rawBody: 'You have received 5,000 RWF. TxId ABCD1234.',
+            receivedAtDevice: '1',
+          ),
+        ],
+      );
+      final repo = CollectRepository.seeded(smsAccessChannel: channel);
+
+      expect(await repo.syncPendingSmsAccess(), 0);
+      expect(channel.drainCalls, 0);
+
+      await repo.setSmsAccess(true);
+
+      expect(await repo.syncPendingSmsAccess(), 1);
+      expect(channel.drainCalls, 1);
+    },
+  );
+
+  test('SMS access denial keeps group receiver ingestion disabled', () async {
+    final repo = CollectRepository.seeded(
+      smsAccessChannel: _FakeSmsAccessChannel(pending: const [], grant: false),
     );
 
-    expect(event.amountRwf, 10000);
-    expect(event.transactionId, 'ABC123');
-    expect(event.allocationStatus, 'needs_review');
+    expect(await repo.setSmsAccess(true), isFalse);
+    expect(repo.state.smsAccessEnabled, isFalse);
   });
+}
+
+class _FakeSmsAccessChannel extends SmsAccessChannel {
+  _FakeSmsAccessChannel({required this.pending, this.grant = true});
+
+  final List<SmsAccessEnvelope> pending;
+  final bool grant;
+  var enabled = false;
+  var drainCalls = 0;
+
+  @override
+  Future<bool> setEnabled(bool enabled) async {
+    this.enabled = enabled && grant;
+    return this.enabled;
+  }
+
+  @override
+  Future<bool> isEnabled() async => enabled;
+
+  @override
+  Future<List<SmsAccessEnvelope>> drainPendingSms() async {
+    drainCalls += 1;
+    return pending;
+  }
 }

@@ -1,0 +1,112 @@
+{
+  "status": "pending",
+  "staging_only": true,
+  "evidence_root": "docs/release/uat-evidence/2026-05-26",
+  "binary_evidence_sidecar_template": {
+    "path": "docs/release/uat-evidence/2026-05-26/UAT-01.png.sanitized.json",
+    "required_for": "Screenshots, PDFs, archives, and other non-text UAT evidence files.",
+    "sanitized": true,
+    "contains_production_data": false,
+    "reviewed_by": "Release Owner",
+    "reviewed_at": "2026-05-26T00:00:00Z",
+    "sha256": "sha256-of-the-binary-evidence-file"
+  },
+  "release_owner": {
+    "name": "",
+    "decision": "NO-GO",
+    "signed_at": ""
+  },
+  "personas": [
+    {
+      "id": "UAT-01",
+      "persona": "Contributor",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": false,
+      "production_like": false,
+      "evidence_files": []
+    },
+    {
+      "id": "UAT-02",
+      "persona": "Creator",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": false,
+      "production_like": false,
+      "evidence_files": []
+    },
+    {
+      "id": "UAT-03",
+      "persona": "Recurring group admin",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": false,
+      "production_like": false,
+      "evidence_files": []
+    },
+    {
+      "id": "UAT-04",
+      "persona": "Public supporter",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": false,
+      "production_like": false,
+      "evidence_files": []
+    },
+    {
+      "id": "UAT-05",
+      "persona": "Android SMS device",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": false,
+      "production_like": false,
+      "evidence_files": []
+    },
+    {
+      "id": "UAT-06",
+      "persona": "Moderator",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": false,
+      "production_like": false,
+      "evidence_files": []
+    },
+    {
+      "id": "UAT-07",
+      "persona": "Payments admin",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": false,
+      "production_like": false,
+      "evidence_files": []
+    },
+    {
+      "id": "UAT-08",
+      "persona": "Compliance admin",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": false,
+      "production_like": false,
+      "evidence_files": []
+    },
+    {
+      "id": "UAT-09",
+      "persona": "Non-admin",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": false,
+      "production_like": false,
+      "evidence_files": []
+    },
+    {
+      "id": "UAT-10",
+      "persona": "Edge-case user",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": false,
+      "production_like": false,
+      "evidence_files": []
+    }
+  ],
+  "secret_handling": "Copy this file to docs/release/UAT_EVIDENCE_MANIFEST.json for real UAT. Evidence files must be sanitized and must not contain raw SMS, phone/MOMO numbers, tokens, service-role keys, provider secrets, or production customer data. Text evidence is scanned directly. Binary/image evidence must include an adjacent <evidence-file>.sanitized.json sidecar, or an evidence_files object with review_sidecar, containing sanitized=true, contains_production_data=false, reviewed_by, reviewed_at, and the exact SHA-256 of the evidence file."
+}

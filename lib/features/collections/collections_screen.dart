@@ -7,6 +7,7 @@ import '../../shared/models/collect_models.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/empty_state.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import 'group_creation_platform.dart';
 
 class CollectionsScreen extends ConsumerWidget {
   const CollectionsScreen({super.key});
@@ -20,31 +21,31 @@ class CollectionsScreen extends ConsumerWidget {
     if (collections.isEmpty) {
       return EmptyState(
         icon: CollectIcons.collectionsOutline,
-        title: 'No goals yet',
+        title: 'No groups yet',
         message:
-            'Create a private goal, add a receiver MOMO number, then share it when ready.',
+            'Create a group, confirm the receiver MoMo number, then share it by link or QR code.',
         action: CollectButton(
-          label: 'Create collection',
+          label: 'Create group',
           icon: CollectIcons.add,
-          onPressed: () => context.go('/collections/create'),
+          onPressed: () => openGroupCreation(context),
         ),
       );
     }
     return ScreenScaffold(
-      title: 'Goals',
-      subtitle: 'Organize collections like money pots.',
+      title: 'Groups',
+      subtitle: 'Shared MoMo groups with SMS-matched contributions.',
       actions: [
         IconButton.filled(
-          tooltip: 'New collection',
-          onPressed: () => context.go('/collections/create'),
+          tooltip: 'New group',
+          onPressed: () => openGroupCreation(context),
           icon: const Icon(CollectIcons.add),
         ),
       ],
       children: [
         const SecurityNotice(
-          title: 'Private by default',
+          title: 'Automated allocation',
           message:
-              'Goals start private. Public listings require admin approval and safe public copy.',
+              'Each contribution creates a payment intent. MoMo SMS confirms and allocates it automatically.',
         ),
         Wrap(
           spacing: CollectSpacing.x2,
@@ -54,28 +55,23 @@ class CollectionsScreen extends ConsumerWidget {
               label: '${collections.length} active',
               tone: CollectStatusTone.info,
             ),
-            CollectStatusChip(
-              label:
-                  '${collections.where((item) => item.isPublicApproved).length} public',
-              tone: CollectStatusTone.success,
-            ),
             const CollectStatusChip(
-              label: 'MOMO direct',
+              label: 'SMS parsing',
               tone: CollectStatusTone.privacy,
             ),
           ],
         ),
         for (final collection in collections)
-          CollectionGoalCard(
+          GroupCard(
             collection: collection,
             summary:
                 summaries[collection.id] ??
                 const CollectionSummary(amountRaisedRwf: 0, supporterCount: 0),
-            onTap: () => context.go('/collections/${collection.id}'),
+            onTap: () => context.go('/groups/${collection.id}'),
             primaryAction: CollectButton(
-              label: 'Open goal',
+              label: 'Open group',
               icon: CollectIcons.arrowForward,
-              onPressed: () => context.go('/collections/${collection.id}'),
+              onPressed: () => context.go('/groups/${collection.id}'),
               expand: true,
             ),
           ),

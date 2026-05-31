@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Collect Admin</title>
+  <desc id="desc">Collect admin console icon</desc>
+  <rect width="512" height="512" rx="96" fill="#101216"/>
+  <path d="M128 160c0-17.7 14.3-32 32-32h192c17.7 0 32 14.3 32 32v192c0 17.7-14.3 32-32 32H160c-17.7 0-32-14.3-32-32V160z" fill="#f7f8f6"/>
+  <path d="M176 208h160v32H176v-32zm0 64h112v32H176v-32z" fill="#101216"/>
+  <path d="M304 284l28 28 52-64 28 24-76 96-60-60 28-24z" fill="#1f9d68"/>
+</svg>

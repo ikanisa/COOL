@@ -30,17 +30,12 @@ class CollectShell extends StatelessWidget {
             NavigationDestination(
               icon: Icon(CollectIcons.collectionsOutline),
               selectedIcon: Icon(CollectIcons.collections),
-              label: 'Goals',
-            ),
-            NavigationDestination(
-              icon: Icon(CollectIcons.publicOutline),
-              selectedIcon: Icon(CollectIcons.public),
-              label: 'Public',
+              label: 'Groups',
             ),
             NavigationDestination(
               icon: Icon(CollectIcons.settingsOutline),
               selectedIcon: Icon(CollectIcons.settings),
-              label: 'Control',
+              label: 'Settings',
             ),
           ],
         ),
@@ -48,23 +43,15 @@ class CollectShell extends StatelessWidget {
     );
   }
 
-  static const _paths = <String>[
-    '/home',
-    '/collections',
-    '/public',
-    '/settings',
-  ];
+  static const _paths = <String>['/home', '/groups', '/settings'];
 
   int _selectedIndex(BuildContext context) {
     final path = GoRouterState.of(context).uri.path;
-    if (path.startsWith('/collections')) {
+    if (path.startsWith('/groups')) {
       return 1;
     }
-    if (path.startsWith('/public')) {
-      return 2;
-    }
     if (path.startsWith('/settings')) {
-      return 3;
+      return 2;
     }
     return 0;
   }

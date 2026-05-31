@@ -1,43 +1,76 @@
 # Collect
 
-Collect is a Flutter app for Rwanda community collections. It keeps the public
-member app and the platform admin surface separate.
+Collect is a Flutter and Supabase platform for SMS-first MoMo group contributions.
+Members contribute through payment intents created in the app; MoMo SMS
+is ingested, parsed with OpenAI, allocated in Supabase, and posted to the ledger.
 
-## Current App Surface
+## Product Surface
 
-- Flutter app entrypoint: `lib/main.dart`
-- Admin entrypoint: `lib/main_admin.dart`
-- Main app router: `lib/app/router.dart`
+- Mobile app entrypoint: `lib/main.dart`
+- Admin PWA entrypoint: `lib/main_admin.dart`
+- Mobile router: `lib/app/router.dart`
 - Admin router: `lib/admin/admin_router.dart`
-- Shared Collect models and repository: `lib/shared/`
+- Shared models/repository: `lib/shared/`
 - Supabase migrations and Edge Functions: `supabase/`
 
-The main app does not register `/admin`. Admin work starts from the isolated
-admin entrypoint and uses Supabase-authenticated, server-authorized RPCs for
-overview metrics, queues, detail pages, moderation, public-request review,
-manual allocation, feature flags, settings, and audited raw-SMS reveal.
+The mobile bottom navigation is `Home`, `Groups`, and `Settings`.
+
+Mobile app routes:
+
+- `/auth`
+- `/home`
+- `/groups`
+- `/groups/create`
+- `/groups/:collectionId`
+- `/groups/:collectionId/manage`
+- `/groups/:collectionId/contribute`
+- `/groups/:collectionId/pay/:intentId`
+- `/groups/:collectionId/share`
+- `/groups/:collectionId/invite`
+- `/groups/:collectionId/ledger`
+- `/profile/setup`
+- `/settings`
+
+## Core Workflow
+
+1. User signs in with a WhatsApp number and receives a 6-digit Collect ID.
+2. User stores a MoMo number in Settings/Profile.
+3. Android group creator creates a group with name, optional description, and
+   receiver MoMo number synced from profile.
+4. iPhone group creation is blocked with `group creation is available only on Android`.
+5. Members join from a link or QR code shared through chat apps, SMS, or deep link.
+6. Member taps `Contribute`, enters amount, and Supabase creates a pending
+   payment intent linked to group, amount, receiver MoMo, user id, and Collect ID.
+7. The app opens the MoMo dialer with `tel:` and payment is completed off app.
+8. MoMo SMS is uploaded to Supabase, parsed, matched to the pending intent,
+   and posted to the immutable ledger.
+
+There is no manual SMS paste, no reported transaction ID field, no anonymity
+picker, no public directory flow, and no campaign target/category/cover workflow.
 
 ## Admin Boundary
 
-Client-side admin guards are convenience only. Real authorization remains in
-Supabase RLS, security-definer RPCs, role/permission tables, and audit logs.
-Flutter never ships service-role, OpenAI, WhatsApp, or SMS hook secrets.
+The admin PWA is a separate entrypoint. It monitors groups, members, payment
+intents, MoMo SMS rows, parser output, allocation status, ledger entries,
+receivers, audit logs, settings, and exceptions. Client-side admin guards are
+convenience only; Supabase RLS, security-definer RPCs, role tables, and audit
+logs enforce authorization.
 
 Admin routes:
 
 - `/admin/login`
 - `/admin/denied`
 - `/admin`
-- `/admin/collections`
-- `/admin/collections/:id`
-- `/admin/public-requests`
-- `/admin/users`
-- `/admin/users/:id`
-- `/admin/payments`
-- `/admin/payments/:id`
+- `/admin/groups`
+- `/admin/groups/:id`
+- `/admin/members`
+- `/admin/members/:id`
+- `/admin/payment-intents`
+- `/admin/payment-intents/:id`
 - `/admin/payment-events`
 - `/admin/payment-events/:id`
-- `/admin/unallocated`
+- `/admin/allocations`
+- `/admin/exceptions`
 - `/admin/ledger`
 - `/admin/receivers`
 - `/admin/receivers/:id`
@@ -49,45 +82,19 @@ Admin routes:
 - `/admin/system-health`
 - `/admin/admin-users`
 
-Admin architecture, security, and cleanup notes live in `docs/admin/`.
-
-## Environment
-
-Copy `.env.example` for local reference. Flutter-visible configuration is
-client-safe only. Server-side secrets belong in Supabase or CI secret stores,
-not in Flutter env files.
-
-Admin flags:
-
-- `ADMIN_APP_URL=`
-- `ENABLE_ADMIN_PANEL=false`
-- `ENABLE_ADMIN_DEV_TOOLS=false`
-
 ## Commands
 
-The repo is pinned for the local Flutter 3.44 toolchain.
-
 ```sh
-make flutter-clean
 make flutter-pub-get
 make format
 make analyze
 make test
+./scripts/migrations/validate_supabase_migrations.sh
 ```
 
-Equivalent direct validation:
+Pinned Flutter toolchain:
 
 ```sh
-/Volumes/PRO-G40/flutter_3_44/bin/flutter clean
-/Volumes/PRO-G40/flutter_3_44/bin/flutter pub get
-/Volumes/PRO-G40/flutter_3_44/bin/dart format .
 /Volumes/PRO-G40/flutter_3_44/bin/flutter analyze
 /Volumes/PRO-G40/flutter_3_44/bin/flutter test
 ```
-
-## Supabase
-
-The retained backend surface supports Collect collection membership, public
-request submission/review, receiver SMS ingestion/parsing, allocation, manual
-allocation, ledger protections, and audit logging. Applied database cleanup is
-forward-only unless the linked project is explicitly reset.

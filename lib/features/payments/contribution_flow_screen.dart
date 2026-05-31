@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
@@ -21,13 +22,10 @@ class ContributionFlowScreen extends ConsumerStatefulWidget {
 class _ContributionFlowScreenState
     extends ConsumerState<ContributionFlowScreen> {
   final _amount = TextEditingController(text: '5000');
-  final _sender = TextEditingController();
-  String _anonymity = 'anonymous';
 
   @override
   void dispose() {
     _amount.dispose();
-    _sender.dispose();
     super.dispose();
   }
 
@@ -42,23 +40,24 @@ class _ContributionFlowScreenState
       children: [
         MoneyHeroCard(
           amount: int.tryParse(_amount.text) ?? 0,
-          label: 'Prepare direct MOMO',
-          detail: 'You stay in control. Collect only verifies evidence.',
+          label: 'Create payment intent',
+          detail:
+              'Collect links this amount to your 6-digit ID before MoMo opens.',
           chips: const [
             CollectStatusChip(
-              label: 'Step 1 of 2',
+              label: 'Payment intent',
               tone: CollectStatusTone.info,
             ),
             CollectStatusChip(
-              label: 'No money held',
+              label: 'Collect ID',
               tone: CollectStatusTone.privacy,
             ),
           ],
         ),
         const SecurityNotice(
-          title: 'Direct payment',
+          title: 'Automated SMS match',
           message:
-              'Collect does not move money. Pay directly through MOMO, then verification comes from receiver notification.',
+              'After MoMo payment, the MoMo SMS is parsed and matched to this intent automatically.',
           tone: CollectStatusTone.privacy,
         ),
         CollectCard(
@@ -70,34 +69,8 @@ class _ContributionFlowScreenState
               CollectSpacing.gap12,
               AmountInput(controller: _amount),
               CollectSpacing.gap16,
-              Text(
-                'Public identity',
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              CollectSpacing.gap8,
-              PremiumSegmentedFilter<String>(
-                values: const ['anonymous', 'public_id', 'display_name'],
-                selected: _anonymity,
-                labelFor: (value) => switch (value) {
-                  'public_id' => 'User ID',
-                  'display_name' => 'Name',
-                  _ => 'Anonymous',
-                },
-                onChanged: (value) => setState(() => _anonymity = value),
-              ),
-              CollectSpacing.gap12,
-              TextField(
-                controller: _sender,
-                keyboardType: TextInputType.phone,
-                decoration: collectInputDecoration(
-                  context,
-                  label: 'Sender MOMO phone, optional',
-                  helper: 'Used only to improve matching; never public.',
-                ),
-              ),
-              CollectSpacing.gap16,
               CollectButton(
-                label: 'Continue to MOMO instructions',
+                label: 'Contribute',
                 icon: CollectIcons.momo,
                 onPressed: () async {
                   final intent = await ref
@@ -106,14 +79,12 @@ class _ContributionFlowScreenState
                         PaymentIntentDraft(
                           collectionId: widget.collectionId,
                           amountRwf: int.tryParse(_amount.text) ?? 0,
-                          anonymityChoice: _anonymity,
-                          senderPhone: _sender.text,
                         ),
                       );
                   if (!context.mounted) return;
-                  context.go(
-                    '/collections/${widget.collectionId}/pay/${intent.id}',
-                  );
+                  await _launchMomoDialer(context);
+                  if (!context.mounted) return;
+                  context.go('/groups/${widget.collectionId}/pay/${intent.id}');
                 },
                 expand: true,
               ),
@@ -123,4 +94,18 @@ class _ContributionFlowScreenState
       ],
     );
   }
+
+  Future<void> _launchMomoDialer(BuildContext context) async {
+    final launched = await launchUrl(
+      momoUssdUri(),
+      mode: LaunchMode.externalApplication,
+    );
+    if (launched || !context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('MoMo USSD dialer is not available.')),
+    );
+  }
 }
+
+@visibleForTesting
+Uri momoUssdUri() => Uri.parse('tel:${Uri.encodeComponent('*182#')}');

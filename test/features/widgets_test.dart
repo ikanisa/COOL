@@ -1,5 +1,5 @@
-import 'package:collect_app/features/payments/payment_instructions_screen.dart';
-import 'package:collect_app/features/receiver_sms/receiver_screen.dart';
+import 'package:collect_app/features/payments/contribution_flow_screen.dart';
+import 'package:collect_app/features/payments/payment_intent_status_screen.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collection_card.dart';
@@ -8,7 +8,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('collection card renders finance details', (tester) async {
+  test('MoMo launcher uses USSD menu, not receiver phone call', () {
+    expect(momoUssdUri().toString(), 'tel:*182%23');
+  });
+
+  testWidgets('group card renders SMS-first details', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
@@ -19,8 +23,6 @@ void main() {
               creatorUserId: 'u1',
               title: 'Medical support',
               description: 'Help',
-              category: 'Medical support',
-              targetAmountRwf: 100000,
               createdAt: DateTime(2026),
             ),
             summary: const CollectionSummary(
@@ -33,36 +35,22 @@ void main() {
     );
 
     expect(find.text('Medical support'), findsWidgets);
-    expect(find.textContaining('25%'), findsOneWidget);
+    expect(find.text('3 members'), findsOneWidget);
+    expect(find.text('SMS auto-match'), findsOneWidget);
   });
 
-  testWidgets('receiver mode consent screen renders privacy copy', (
-    tester,
-  ) async {
-    await tester.pumpWidget(
-      const ProviderScope(child: MaterialApp(home: ReceiverScreen())),
-    );
-    await tester.pumpAndSettle();
-
-    expect(find.textContaining('Raw SMS is never public'), findsOneWidget);
-  });
-
-  testWidgets('payment instructions screen renders receiver details', (
+  testWidgets('payment intent status screen renders receiver details', (
     tester,
   ) async {
     final repo = CollectRepository.seeded();
     final intent = await repo.createPaymentIntent(
-      const PaymentIntentDraft(
-        collectionId: 'col-church',
-        amountRwf: 5000,
-        anonymityChoice: 'anonymous',
-      ),
+      const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 5000),
     );
     await tester.pumpWidget(
       ProviderScope(
         overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
         child: MaterialApp(
-          home: PaymentInstructionsScreen(
+          home: PaymentIntentStatusScreen(
             collectionId: 'col-church',
             intentId: intent.id,
           ),
@@ -71,7 +59,7 @@ void main() {
     );
 
     expect(find.text('St Michel treasury'), findsOneWidget);
-    expect(find.textContaining('Mobile money USSD'), findsOneWidget);
-    expect(find.textContaining('Collect does not move money'), findsOneWidget);
+    expect(find.text('Waiting for MoMo SMS'), findsOneWidget);
+    expect(find.text('Payment intent'), findsWidgets);
   });
 }

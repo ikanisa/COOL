@@ -18,7 +18,7 @@ class AuthScreen extends ConsumerStatefulWidget {
 }
 
 class _AuthScreenState extends ConsumerState<AuthScreen> {
-  final _phone = TextEditingController(text: '+250788123456');
+  final _phone = TextEditingController(text: '+');
   final _otp = TextEditingController();
   final _captchaToken = TextEditingController();
   bool _otpSent = false;
@@ -36,13 +36,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     final env = ref.watch(appEnvProvider);
     return ScreenScaffold(
       title: _otpSent ? 'Enter WhatsApp OTP' : 'Welcome to Collect',
-      subtitle:
-          'Rwanda-first community collections with private identities, MOMO-first instructions, and transparent verification.',
+      subtitle: 'Collect IDs, MoMo intents, and SMS verification.',
       children: [
         const InfoSecurityBanner(
           title: 'What Collect does',
           message:
-              'Collect helps organize, share, and verify support. It does not move money or expose phone, MOMO, or raw SMS publicly.',
+              'Collect creates group payment intents and matches receiver MoMo SMS automatically.',
           tone: CollectStatusTone.info,
         ),
         CollectCard(
@@ -53,8 +52,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 keyboardType: TextInputType.phone,
                 decoration: collectInputDecoration(
                   context,
-                  label: 'Rwanda WhatsApp phone',
-                  helper: 'Use a +250 number for WhatsApp OTP.',
+                  label: 'WhatsApp phone',
+                  helper: 'Use your full international WhatsApp number.',
                 ),
               ),
               if (_otpSent) ...[
@@ -84,7 +83,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 label: _otpSent ? 'Verify and continue' : 'Send WhatsApp OTP',
                 icon: _otpSent ? CollectIcons.shield : CollectIcons.sms,
                 onPressed: () async {
-                  final phone = PhoneNormalizer.normalizeRwanda(_phone.text);
+                  final phone = PhoneNormalizer.normalizeInternational(
+                    _phone.text,
+                  );
                   final client = ref.read(supabaseClientProvider);
                   final captchaToken = env.authCaptchaEnabled
                       ? _captchaToken.text.trim()

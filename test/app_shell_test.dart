@@ -25,18 +25,16 @@ void main() {
       containsAll(<String>[
         '/auth',
         '/home',
-        '/collections',
-        '/collections/create',
-        '/collections/:collectionId',
-        '/collections/:collectionId/manage',
-        '/collections/:collectionId/contribute',
-        '/collections/:collectionId/pay/:intentId',
-        '/collections/:collectionId/share',
-        '/collections/:collectionId/invite',
-        '/collections/:collectionId/ledger',
-        '/public',
-        '/receiver',
-        '/receiver/manual',
+        '/groups',
+        '/groups/create',
+        '/groups/:collectionId',
+        '/groups/:collectionId/manage',
+        '/groups/:collectionId/contribute',
+        '/groups/:collectionId/pay/:intentId',
+        '/groups/:collectionId/share',
+        '/groups/:collectionId/invite',
+        '/groups/:collectionId/ledger',
+        '/c/:slug',
         '/profile/setup',
         '/settings',
         '/admin',
@@ -78,11 +76,11 @@ void main() {
     expect(duration, Duration.zero);
   });
 
-  test('environment defaults keep receiver SMS disabled', () {
+  test('environment defaults keep Android SMS access disabled', () {
     final env = AppEnv.fromEnvironment();
 
     expect(env.enableSmsReader, isFalse);
-    expect(env.enableInternalReceiverMode, isFalse);
+    expect(env.enableAndroidSmsAccess, isFalse);
     expect(env.enableAdminPanel, isFalse);
     expect(env.enableAdminDevTools, isFalse);
   });

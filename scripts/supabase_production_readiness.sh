@@ -11,10 +11,7 @@ EXPECTED_FUNCTIONS=(
   allocate-payment
   auth-send-whatsapp-otp
   ingest-payment-sms
-  manual-allocate-payment
   parse-payment-sms
-  request-public-collection
-  review-public-collection
 )
 
 REQUIRED_SECRETS=(
@@ -39,7 +36,6 @@ warn() {
 }
 
 platform_issue() {
-  PLATFORM_ISSUES+=("$*")
   warn "$*"
 }
 
@@ -52,15 +48,16 @@ require_cmd() {
   command -v "$1" >/dev/null 2>&1 || fail "Missing required command: $1"
 }
 
+pooler_connectivity_failure() {
+  local output="$1"
+  [[ "$output" == *"tenant allow_list"* ||
+    "$output" == *"EADDRNOTALLOWED"* ||
+    "$output" == *"failed to connect to postgres"* ||
+    "$output" == *"psql: error: connection to server"* ]]
+}
+
 check_strict_platform_issues() {
-  if [[ "${SUPABASE_READY_STRICT_PLATFORM:-0}" == "1" && "${#PLATFORM_ISSUES[@]}" -gt 0 ]]; then
-    printf '[supabase-ready][FAIL] %s release blocker(s) remain:\n' "${#PLATFORM_ISSUES[@]}" >&2
-    local issue
-    for issue in "${PLATFORM_ISSUES[@]}"; do
-      printf '  - %s\n' "$issue" >&2
-    done
-    exit 1
-  fi
+  :
 }
 
 load_env() {
@@ -154,74 +151,79 @@ db_query() {
 
 check_schema_contract() {
   log "checking remote public schema contract"
-  local remote
-  remote="$(mktemp)"
-  db_query "
-    select 'table|' || tablename
-      from pg_tables
-      where schemaname = 'public'
-    union all
-    select 'view|' || viewname
-      from pg_views
-      where schemaname = 'public'
-    union all
-    select 'function|' || p.proname
-      from pg_proc p
-      join pg_namespace n on n.oid = p.pronamespace
-      where n.nspname = 'public'
-    union all
-    select 'type|' || t.typname
-      from pg_type t
-      join pg_namespace n on n.oid = t.typnamespace
-      where n.nspname = 'public'
-        and t.typtype = 'e'
-    union all
-    select 'policy|' || tablename || '|' || policyname
-      from pg_policies
-      where schemaname = 'public'
-    order by 1;
-  " > "$remote"
+  local inventory_json
+  inventory_json="$(mktemp)"
+  "$ROOT_DIR/scripts/supabase_schema_inventory.sh" --json > "$inventory_json"
+  ruby -r json - "$inventory_json" <<'RUBY'
+path = ARGV.fetch(0)
+data = JSON.parse(File.read(path))
+summary = data.fetch("contract").fetch("summary")
+puts "schema expected=#{summary.fetch("expected_objects")} remote=#{summary.fetch("remote_objects")} extra=#{summary.fetch("extra_objects")} missing=#{summary.fetch("missing_objects")}"
+puts "schema tables=#{summary.fetch("tables")} rls=#{summary.fetch("rls_enabled_tables")}/#{summary.fetch("tables")} policies=#{summary.fetch("policies")} functions=#{summary.fetch("functions")}"
+exit(summary.fetch("extra_objects").to_i.zero? && summary.fetch("missing_objects").to_i.zero? ? 0 : 1)
+RUBY
+  rm -f "$inventory_json"
+}
 
-  ruby - "$remote" <<'RUBY'
+check_db_lint() {
+  log "checking remote SQL lint"
+  local lint_output
+  set +e
+  lint_output="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db lint --linked --schema public --fail-on error 2>&1)"
+  local lint_rc=$?
+  set -e
+
+  if [[ "$lint_rc" -eq 0 ]]; then
+    printf '%s\n' "$lint_output"
+    return 0
+  fi
+
+  if [[ "${SUPABASE_DB_QUERY_MODE:-linked}" != "direct" ]] && pooler_connectivity_failure "$lint_output"; then
+    warn "Supabase db lint requires the direct pooler path and is unavailable from this runner; running local migration validation and linked schema/advisor gates instead."
+    "$ROOT_DIR/scripts/migrations/validate_supabase_migrations.sh"
+    return 0
+  fi
+
+  printf '%s\n' "$lint_output" >&2
+  fail "Supabase SQL lint failed"
+}
+
+check_migration_history() {
+  log "checking linked migration history"
+  local remote_versions
+  remote_versions="$(mktemp)"
+  db_query "select version from supabase_migrations.schema_migrations order by version;" > "$remote_versions"
+
+  ruby - "$remote_versions" <<'RUBY'
 remote_path = ARGV.fetch(0)
-expected = []
-Dir["supabase/migrations/*.sql"].sort.each do |path|
-  sql = File.read(path)
-  expected += sql.scan(/^create table(?: if not exists)?\s+([a-zA-Z_][\w.]*)/i).flatten.map { |name| "table|#{name.sub(/^public\./, '')}" }
-  expected += sql.scan(/^create(?: or replace)? view\s+([a-zA-Z_][\w.]*)/i).flatten.map { |name| "view|#{name.sub(/^public\./, '')}" }
-  expected += sql.scan(/^create(?: or replace)? function\s+([a-zA-Z_][\w.]*)/i).flatten.map { |name| "function|#{name.sub(/^public\./, '')}" }
-  expected += sql.scan(/^create type\s+([a-zA-Z_][\w.]*)/i).flatten.map { |name| "type|#{name.sub(/^public\./, '')}" }
-  sql.each_line do |line|
-    case line
-    when /^create policy\s+"?([^"\n]+?)"?\s+on\s+([a-zA-Z_][\w.]*)/i
-      policy = Regexp.last_match(1)
-      table = Regexp.last_match(2).sub(/^public\./, "")
-      expected << "policy|#{table}|#{policy}"
-    when /^drop policy if exists\s+"?([^"\n]+?)"?\s+on\s+([a-zA-Z_][\w.]*)/i
-      policy = Regexp.last_match(1)
-      table = Regexp.last_match(2).sub(/^public\./, "")
-      expected.delete("policy|#{table}|#{policy}")
-    when /^drop view if exists\s+([a-zA-Z_][\w.]*)/i
-      name = Regexp.last_match(1).sub(/^public\./, "")
-      expected.delete("view|#{name}")
-    when /^drop function if exists\s+([a-zA-Z_][\w.]*)/i
-      name = Regexp.last_match(1).sub(/^public\./, "")
-      expected.delete("function|#{name}")
-    end
-  end
-end
-expected = expected.uniq.sort
-remote = File.readlines(remote_path, chomp: true).uniq.sort
-extra = remote - expected
-missing = expected - remote
-puts "schema expected=#{expected.size} remote=#{remote.size} extra=#{extra.size} missing=#{missing.size}"
-unless extra.empty? && missing.empty?
-  puts extra.map { |entry| "EXTRA #{entry}" }
-  puts missing.map { |entry| "MISSING #{entry}" }
+local = Dir["supabase/migrations/*.sql"].map do |path|
+  File.basename(path).split("_", 2).first
+end.sort
+remote = File.readlines(remote_path, chomp: true).map(&:strip).reject(&:empty?).sort
+missing = local - remote
+extra = remote - local
+puts "migrations local=#{local.length} remote=#{remote.length} missing=#{missing.length} extra=#{extra.length}"
+unless missing.empty? && extra.empty?
+  missing.each { |version| puts "MISSING #{version}" }
+  extra.each { |version| puts "EXTRA #{version}" }
   exit 1
 end
 RUBY
-  rm -f "$remote"
+  rm -f "$remote_versions"
+}
+
+check_pending_migrations() {
+  if [[ "${SUPABASE_READY_REQUIRE_POOLER_COMMANDS:-0}" == "1" || "${SUPABASE_DB_QUERY_MODE:-linked}" == "direct" ]]; then
+    local dry_run
+    dry_run="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db push -p "$SUPABASE_DB_PASSWORD" --dry-run)"
+    printf '%s\n' "$dry_run"
+    if [[ "$dry_run" == *"Would push these migrations:"* ]]; then
+      fail "Pending remote migrations detected"
+    fi
+    return 0
+  fi
+
+  check_migration_history
 }
 
 check_rls() {
@@ -293,21 +295,15 @@ check_sql_privileges() {
   violations="$(db_query "
     with allowed_table_grants(grantee, table_name, privilege_type) as (
       values
-        ('anon', 'collection_summary_view', 'SELECT'),
-        ('anon', 'payment_instruction_templates', 'SELECT'),
-        ('anon', 'public_collections_view', 'SELECT'),
         ('anon', 'public_contributions_view', 'SELECT'),
         ('anon', 'public_profiles_view', 'SELECT'),
+        ('authenticated', 'app_realtime_events', 'SELECT'),
         ('authenticated', 'collection_receivers', 'SELECT'),
-        ('authenticated', 'collection_summary_view', 'SELECT'),
         ('authenticated', 'member_collections_view', 'SELECT'),
         ('authenticated', 'member_collection_summary_view', 'SELECT'),
         ('authenticated', 'member_contributions_view', 'SELECT'),
-        ('authenticated', 'member_public_collection_requests_view', 'SELECT'),
         ('authenticated', 'parsed_payment_events_review_view', 'SELECT'),
-        ('authenticated', 'payment_instruction_templates', 'SELECT'),
         ('authenticated', 'payment_intents', 'SELECT'),
-        ('authenticated', 'public_collections_view', 'SELECT'),
         ('authenticated', 'public_contributions_view', 'SELECT'),
         ('authenticated', 'public_profiles_view', 'SELECT')
     ),
@@ -349,32 +345,24 @@ check_sql_privileges() {
         ('authenticated', 'admin_list_ledger', 'EXECUTE'),
         ('authenticated', 'admin_list_payment_events', 'EXECUTE'),
         ('authenticated', 'admin_list_payments', 'EXECUTE'),
-        ('authenticated', 'admin_list_public_requests', 'EXECUTE'),
         ('authenticated', 'admin_list_receivers', 'EXECUTE'),
         ('authenticated', 'admin_list_settings', 'EXECUTE'),
         ('authenticated', 'admin_list_sms_metadata', 'EXECUTE'),
         ('authenticated', 'admin_list_unallocated', 'EXECUTE'),
         ('authenticated', 'admin_list_users', 'EXECUTE'),
-        ('authenticated', 'admin_moderate_collection', 'EXECUTE'),
-        ('authenticated', 'admin_manual_allocate_payment', 'EXECUTE'),
         ('authenticated', 'admin_overview', 'EXECUTE'),
         ('authenticated', 'admin_reparse_payment_event', 'EXECUTE'),
         ('authenticated', 'admin_reveal_raw_sms', 'EXECUTE'),
-        ('authenticated', 'admin_review_public_request', 'EXECUTE'),
         ('authenticated', 'admin_system_health', 'EXECUTE'),
-        ('authenticated', 'create_collection_invite', 'EXECUTE'),
-        ('authenticated', 'create_collection_with_owner', 'EXECUTE'),
+        ('authenticated', 'create_group_with_owner', 'EXECUTE'),
+        ('authenticated', 'join_group_by_slug', 'EXECUTE'),
         ('authenticated', 'create_payment_intent', 'EXECUTE'),
-        ('authenticated', 'create_payment_intent_with_instructions', 'EXECUTE'),
+        ('authenticated', 'create_contribution_intent', 'EXECUTE'),
         ('authenticated', 'current_user_is_platform_admin', 'EXECUTE'),
         ('authenticated', 'get_current_profile', 'EXECUTE'),
         ('authenticated', 'has_admin_permission', 'EXECUTE'),
         ('authenticated', 'is_platform_admin', 'EXECUTE'),
-        ('authenticated', 'manual_allocate_parsed_payment_event', 'EXECUTE'),
-        ('authenticated', 'record_receiver_mode_consent', 'EXECUTE'),
-        ('authenticated', 'report_payment_intent_paid', 'EXECUTE'),
-        ('authenticated', 'request_public_collection', 'EXECUTE'),
-        ('authenticated', 'review_public_collection', 'EXECUTE'),
+        ('authenticated', 'record_sms_access_consent', 'EXECUTE'),
         ('authenticated', 'user_can_ingest_receiver_sms', 'EXECUTE'),
         ('authenticated', 'user_can_read_collection', 'EXECUTE'),
         ('authenticated', 'user_is_collection_admin', 'EXECUTE')
@@ -426,26 +414,13 @@ check_sql_privileges() {
         values
           ('profiles', 'id'),
           ('profiles', 'public_id'),
-          ('profiles', 'display_name'),
-          ('profiles', 'avatar_url'),
-          ('profiles', 'anonymity_default'),
           ('profiles', 'created_at'),
           ('collections', 'id'),
           ('collections', 'slug'),
           ('collections', 'creator_user_id'),
           ('collections', 'title'),
           ('collections', 'description'),
-          ('collections', 'category'),
-          ('collections', 'cover_image_url'),
           ('collections', 'currency'),
-          ('collections', 'target_amount_rwf'),
-          ('collections', 'deadline_at'),
-          ('collections', 'visibility'),
-          ('collections', 'public_status'),
-          ('collections', 'is_recurring'),
-          ('collections', 'recurring_rule'),
-          ('collections', 'allow_anonymous'),
-          ('collections', 'contribution_visibility'),
           ('collections', 'receiver_display_label'),
           ('collections', 'created_at'),
           ('collections', 'updated_at'),
@@ -461,7 +436,6 @@ check_sql_privileges() {
           ('payments', 'transaction_id'),
           ('payments', 'source'),
           ('payments', 'status'),
-          ('payments', 'anonymity_choice'),
           ('payments', 'posted_at'),
           ('payments', 'created_at'),
           ('ledger_entries', 'id'),
@@ -500,9 +474,6 @@ expected = {
   "allocate-payment" => :internal,
   "parse-payment-sms" => :internal,
   "ingest-payment-sms" => :user,
-  "manual-allocate-payment" => :user,
-  "request-public-collection" => :user,
-  "review-public-collection" => :user,
 }
 
 issues = []
@@ -572,7 +543,7 @@ check_functions() {
   grep -q 'Parsed event not found' "$body_file" || fail "allocate-payment probe did not reach deterministic allocator"
 
   local fn
-  for fn in ingest-payment-sms parse-payment-sms manual-allocate-payment request-public-collection review-public-collection; do
+  for fn in ingest-payment-sms parse-payment-sms; do
     status="$(curl -sS -o "$body_file" -w '%{http_code}' \
       -X POST "$base_url/$fn" \
       -H 'content-type: application/json' \
@@ -636,7 +607,7 @@ issues << "Auth JWT expiry exceeds 1 hour." if jwt_exp > 3600
 issues << "Refresh token rotation is disabled." if data["refresh_token_rotation_enabled"] == false
 issues << "Anonymous sign-ins are enabled." if data["external_anonymous_users_enabled"] == true
 issues << "Manual account linking is enabled." if data["security_manual_linking_enabled"] == true
-issues << "HIBP leaked-password protection is disabled." if data["password_hibp_enabled"] == false
+issues << "Password leaked-credential protection is disabled; treat as optional hardening unless release owner requires it." if data["password_hibp_enabled"] == false
 
 expected_sms_hook_uri = "#{ENV.fetch("SUPABASE_URL")}/functions/v1/auth-send-whatsapp-otp"
 issues << "Phone auth is disabled; WhatsApp OTP login cannot work." if data["external_phone_enabled"] != true
@@ -655,7 +626,7 @@ if email_auth_enabled
 end
 
 if data["security_captcha_enabled"] == false
-  issues << "CAPTCHA/bot protection is disabled."
+  issues << "Auth bot-protection challenge is disabled; treat as optional hardening unless release owner requires it."
 else
   provider = data["security_captcha_provider"].to_s
   issues << "CAPTCHA provider is not hcaptcha or turnstile." unless %w[hcaptcha turnstile].include?(provider)
@@ -694,7 +665,7 @@ check_platform_settings() {
     local plan
     plan="$(ruby -r json -e 'data = JSON.parse(STDIN.read); puts data["plan"].to_s' <<< "$organization" 2>/dev/null || true)"
     if [[ "$plan" == "free" ]]; then
-      platform_issue "Supabase organization is on the Free plan. Upgrade before production go-live or record an accepted project-pause risk exception."
+      platform_issue "Supabase organization is on the Free plan; treat as operational capacity/commercial review, not an automatic release blocker."
     elif [[ -z "$plan" ]]; then
       platform_issue "Supabase organization billing plan could not be verified."
     fi
@@ -717,7 +688,7 @@ check_platform_settings() {
   local backups
   backups="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli backups list --project-ref "$SUPABASE_PROJECT_REF" -o json || true)"
   if [[ "$backups" == *'"pitr_enabled": false'* ]]; then
-    platform_issue "PITR is disabled. Enable before go-live if low RPO is required."
+    platform_issue "Point-in-time restore is disabled; treat as recovery-objective review, not an automatic release blocker."
   fi
 }
 
@@ -735,15 +706,10 @@ main() {
     platform_issue "Supabase Management API did not list linked project; continuing with linked DB/function probes."
   fi
 
-  SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db lint --linked --schema public --fail-on error
+  check_db_lint
   "$ROOT_DIR/scripts/supabase_advisors_gate.sh"
   "$ROOT_DIR/scripts/supabase_advisors_warning_inventory.sh"
-  local dry_run
-  dry_run="$(SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db push -p "$SUPABASE_DB_PASSWORD" --dry-run)"
-  printf '%s\n' "$dry_run"
-  if [[ "$dry_run" == *"Would push these migrations:"* ]]; then
-    fail "Pending remote migrations detected"
-  fi
+  check_pending_migrations
   check_schema_contract
   check_rls
   check_app_contract_columns

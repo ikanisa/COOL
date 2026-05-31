@@ -48,27 +48,25 @@ void main() {
     );
   });
 
-  testWidgets('MOMO instruction card keeps payment boundary visible', (
+  testWidgets('payment intent status card keeps SMS-first boundary visible', (
     tester,
   ) async {
     await _pumpCollect(
       tester,
-      const MomoInstructionCard(
+      const PaymentIntentStatusCard(
         amountRwf: 5000,
         receiverLabel: 'St Michel treasury',
         receiverMomoNumber: '+250788123456',
         contributionCode: 'ABC123',
-        instructionTitle: 'Mobile money USSD',
         network: 'MTN MOMO',
-        instructions: 'Dial *182# and send to the receiver.',
         status: 'pending',
       ),
     );
 
     expect(find.text('RWF 5,000'), findsOneWidget);
     expect(find.text('St Michel treasury'), findsOneWidget);
-    expect(find.textContaining('Collect does not move money'), findsOneWidget);
-    expect(find.textContaining('Pay the receiver directly'), findsOneWidget);
+    expect(find.textContaining('Collect waits for SMS'), findsOneWidget);
+    expect(find.textContaining('Do not paste SMS'), findsOneWidget);
   });
 
   testWidgets('receiver consent card shows consent and fallback copy', (
@@ -81,14 +79,13 @@ void main() {
         consented: false,
         isSyncing: false,
         onConsentChanged: (_) {},
-        onManualPaste: () {},
         onSync: () {},
       ),
     );
 
     expect(find.text('Receiver consent'), findsOneWidget);
     expect(find.text('Consent required'), findsOneWidget);
-    expect(find.text('Paste MOMO SMS manually'), findsOneWidget);
+    expect(find.text('Sync consented SMS'), findsOneWidget);
     expect(find.textContaining('Raw SMS is never public'), findsOneWidget);
   });
 
@@ -100,15 +97,14 @@ void main() {
           id: 'con-1',
           collectionId: 'col-1',
           amountRwf: 15000,
-          supporterLabel: 'User #038491',
-          anonymityChoice: 'public_id',
+          supporterLabel: 'Collect ID 038491',
           createdAt: DateTime(2026),
           transactionId: 'MTN-001',
         ),
       ),
     );
 
-    expect(find.text('User #038491'), findsOneWidget);
+    expect(find.text('Collect ID 038491'), findsOneWidget);
     expect(find.text('RWF 15,000'), findsOneWidget);
     expect(find.text('MTN-001'), findsOneWidget);
   });
@@ -121,8 +117,8 @@ void main() {
           Expanded(
             child: CollectEmptyState(
               icon: CollectIcons.collections,
-              title: 'No collections yet',
-              message: 'Create a transparent MOMO-first collection.',
+              title: 'No groups yet',
+              message: 'Create an SMS-first MoMo group.',
             ),
           ),
           Expanded(
@@ -136,7 +132,7 @@ void main() {
       ),
     );
 
-    expect(find.text('No collections yet'), findsOneWidget);
+    expect(find.text('No groups yet'), findsOneWidget);
     expect(find.text('Could not load'), findsOneWidget);
     expect(find.byType(LoadingSkeleton), findsOneWidget);
   });
@@ -146,10 +142,8 @@ void main() {
       collectRoutePaths,
       containsAll(<String>[
         '/home',
-        '/collections/:collectionId/contribute',
-        '/collections/:collectionId/pay/:intentId',
-        '/receiver',
-        '/receiver/manual',
+        '/groups/:collectionId/contribute',
+        '/groups/:collectionId/pay/:intentId',
         '/admin',
         '/dev/design-system',
       ]),

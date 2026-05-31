@@ -42,7 +42,7 @@ class LedgerScreen extends ConsumerWidget {
         const SecurityNotice(
           title: 'Ledger safety',
           message:
-              'Public feeds use safe labels. Raw SMS and phone fields stay restricted.',
+              'Group activity uses safe labels. Raw SMS and phone fields stay restricted.',
         ),
         const SectionHeader(title: 'Confirmed activity'),
         if (contributions.isEmpty)

@@ -11,10 +11,7 @@ EXPECTED_FUNCTIONS=(
   allocate-payment
   auth-send-whatsapp-otp
   ingest-payment-sms
-  manual-allocate-payment
   parse-payment-sms
-  request-public-collection
-  review-public-collection
 )
 
 if [[ -f .env ]]; then

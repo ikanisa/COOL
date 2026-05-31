@@ -114,9 +114,6 @@ delete_members as (
 delete_periods as (
   delete from recurring_periods where collection_id in (select id from target_collections)
 ),
-delete_requests as (
-  delete from public_collection_requests where collection_id in (select id from target_collections)
-),
 delete_reports as (
   delete from collection_reports where collection_id in (select id from target_collections)
 ),
@@ -163,21 +160,17 @@ insert into auth.users (
   updated_at
 )
 values
-  (:'owner_id', 'authenticated', 'authenticated', :'owner_phone', now(), '{}'::jsonb, jsonb_build_object('display_name', :'tag' || ' owner'), now(), now()),
-  (:'contributor_id', 'authenticated', 'authenticated', :'contributor_phone', now(), '{}'::jsonb, jsonb_build_object('display_name', :'tag' || ' contributor'), now(), now());
+  (:'owner_id', 'authenticated', 'authenticated', :'owner_phone', now(), '{}'::jsonb, '{}'::jsonb, now(), now()),
+  (:'contributor_id', 'authenticated', 'authenticated', :'contributor_phone', now(), '{}'::jsonb, '{}'::jsonb, now(), now());
 
 update profiles
-  set display_name = :'tag' || ' owner',
-      momo_number = :'receiver_phone',
-      momo_number_hash = encode(extensions.digest(:'receiver_phone', 'sha256'), 'hex'),
-      anonymity_default = 'public_id'
+  set momo_number = :'receiver_phone',
+      momo_number_hash = encode(extensions.digest(:'receiver_phone', 'sha256'), 'hex')
   where id = :'owner_id';
 
 update profiles
-  set display_name = :'tag' || ' contributor',
-      momo_number = :'contributor_phone',
-      momo_number_hash = encode(extensions.digest(:'contributor_phone', 'sha256'), 'hex'),
-      anonymity_default = 'anonymous'
+  set momo_number = :'contributor_phone',
+      momo_number_hash = encode(extensions.digest(:'contributor_phone', 'sha256'), 'hex')
   where id = :'contributor_id';
 
 insert into collections (
@@ -186,11 +179,7 @@ insert into collections (
   creator_user_id,
   title,
   description,
-  category,
-  target_amount_rwf,
-  receiver_display_label,
-  public_status,
-  visibility
+  receiver_display_label
 )
 values (
   :'collection_id',
@@ -198,11 +187,7 @@ values (
   :'owner_id',
   'Collect live parser UAT',
   'Temporary parser UAT row',
-  'Church',
-  100000,
-  'Parser UAT receiver',
-  'public_approved',
-  'public_approved'
+  'Parser UAT receiver'
 );
 
 insert into collection_members (collection_id, user_id, role, status)
@@ -231,25 +216,23 @@ insert into payment_intents (
   id,
   collection_id,
   contributor_user_id,
+  contributor_public_id,
   contribution_code,
   expected_amount_rwf,
   receiver_momo_number_hash,
   sender_phone_hash,
-  status,
-  anonymity_choice,
-  reported_transaction_id
+  status
 )
 values (
   :'intent_id',
   :'collection_id',
   :'contributor_id',
+  (select public_id from profiles where id = :'contributor_id'),
   :'code',
   :'amount'::bigint,
   encode(extensions.digest(:'receiver_phone', 'sha256'), 'hex'),
   encode(extensions.digest(:'contributor_phone', 'sha256'), 'hex'),
-  'pending',
-  'anonymous',
-  :'txn_id'
+  'pending'
 );
 
 insert into raw_payment_sms (
@@ -336,7 +319,7 @@ required = {
   "payment_count" => "1",
   "ledger_count" => "1",
   "intent_status" => "matched",
-  "anonymous_public_count" => "1"
+  "collect_id_public_count" => "1"
 }
 required.each do |key, expected|
   actual = values[key]
@@ -380,10 +363,12 @@ select 'intent_status=' || status
 from payment_intents
 where id = :'intent_id'
 union all
-select 'anonymous_public_count=' || count(*)
+select 'collect_id_public_count=' || count(*)
 from public_contributions_view
 where collection_id = :'collection_id'
-  and supporter_label = 'Anonymous supporter';
+  and supporter_label = 'Collect ID ' || (
+    select contributor_public_id from payment_intents where id = :'intent_id'
+  );
 SQL
 
 printf '[collect-parser-uat] live parser UAT passed for raw_sms_id=%s collection_id=%s\n' "$raw_sms_id" "$collection_id"

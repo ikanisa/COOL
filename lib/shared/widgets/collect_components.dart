@@ -689,17 +689,14 @@ class InfoSecurityBanner extends StatelessWidget {
   }
 }
 
-class MomoInstructionCard extends StatelessWidget {
-  const MomoInstructionCard({
+class PaymentIntentStatusCard extends StatelessWidget {
+  const PaymentIntentStatusCard({
     required this.amountRwf,
     required this.receiverLabel,
     required this.receiverMomoNumber,
     required this.contributionCode,
-    required this.instructionTitle,
     required this.network,
-    required this.instructions,
     required this.status,
-    this.onCopy,
     super.key,
   });
 
@@ -707,11 +704,8 @@ class MomoInstructionCard extends StatelessWidget {
   final String receiverLabel;
   final String receiverMomoNumber;
   final String contributionCode;
-  final String instructionTitle;
   final String network;
-  final String instructions;
   final String status;
-  final VoidCallback? onCopy;
 
   @override
   Widget build(BuildContext context) {
@@ -724,8 +718,8 @@ class MomoInstructionCard extends StatelessWidget {
         children: [
           AmountHero(
             amount: amountRwf,
-            label: 'Send exactly',
-            detail: 'Direct MOMO/USSD payment. Collect does not move money.',
+            label: 'Payment intent',
+            detail: 'MoMo dialer opened. Collect waits for SMS confirmation.',
           ),
           CollectSpacing.gap20,
           Wrap(
@@ -741,7 +735,7 @@ class MomoInstructionCard extends StatelessWidget {
                 tone: CollectStatusTone.warning,
               ),
               CollectStatusChip(
-                label: '$instructionTitle · $network',
+                label: network,
                 tone: CollectStatusTone.neutral,
               ),
             ],
@@ -754,8 +748,6 @@ class MomoInstructionCard extends StatelessWidget {
             style: CollectTypography.amountLarge(colors.textPrimary),
           ),
           CollectSpacing.gap16,
-          Text(instructions, style: Theme.of(context).textTheme.bodyLarge),
-          CollectSpacing.gap16,
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -766,19 +758,11 @@ class MomoInstructionCard extends StatelessWidget {
               CollectSpacing.gapW12,
               Expanded(
                 child: Text(
-                  'Pay the receiver directly through MOMO. Collect verifies receiver notifications and keeps raw SMS private.',
+                  'Complete the MoMo PIN flow outside Collect. Do not paste SMS or payment references; Collect allocates from the receiver MoMo SMS automatically.',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
             ],
-          ),
-          CollectSpacing.gap16,
-          CollectButton(
-            label: 'Copy number and instructions',
-            icon: CollectIcons.copy,
-            onPressed: onCopy,
-            variant: CollectButtonVariant.secondary,
-            expand: true,
           ),
         ],
       ),
@@ -805,7 +789,7 @@ class QRCard extends StatelessWidget {
       child: Column(
         children: [
           Semantics(
-            label: 'QR code for safe collection link',
+            label: 'QR code for group link',
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: colors.surfaceRaised,
@@ -826,7 +810,7 @@ class QRCard extends StatelessWidget {
           ),
           CollectSpacing.gap16,
           CollectButton(
-            label: 'Copy safe share text',
+            label: 'Copy group share text',
             icon: CollectIcons.copy,
             onPressed: onCopy,
             expand: true,
@@ -890,7 +874,6 @@ class ReceiverConsentCard extends StatelessWidget {
     required this.consented,
     required this.isSyncing,
     required this.onConsentChanged,
-    required this.onManualPaste,
     required this.onSync,
     super.key,
   });
@@ -899,7 +882,6 @@ class ReceiverConsentCard extends StatelessWidget {
   final bool consented;
   final bool isSyncing;
   final ValueChanged<bool>? onConsentChanged;
-  final VoidCallback onManualPaste;
   final VoidCallback? onSync;
 
   @override
@@ -940,20 +922,13 @@ class ReceiverConsentCard extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               value: consented,
               onChanged: flagsEnabled ? onConsentChanged : null,
-              title: const Text('Enable internal receiver mode'),
+              title: const Text('Enable SMS app access'),
               subtitle: const Text(
                 'Approved Android build and consent required.',
               ),
             ),
           ),
           CollectSpacing.gap12,
-          CollectButton(
-            label: 'Paste MOMO SMS manually',
-            icon: CollectIcons.paste,
-            onPressed: onManualPaste,
-            expand: true,
-          ),
-          CollectSpacing.gap8,
           CollectButton(
             label: isSyncing ? 'Syncing...' : 'Sync consented SMS',
             icon: CollectIcons.sync,
@@ -1449,8 +1424,8 @@ class ActivityFeedItem extends StatelessWidget {
   }
 }
 
-class CollectionGoalCard extends StatelessWidget {
-  const CollectionGoalCard({
+class GroupCard extends StatelessWidget {
+  const GroupCard({
     required this.collection,
     required this.summary,
     this.onTap,
@@ -1465,11 +1440,6 @@ class CollectionGoalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final target = collection.targetAmountRwf;
-    final progress = target == null || target == 0
-        ? 0.0
-        : summary.amountRaisedRwf / target;
     return CollectCard(
       onTap: onTap,
       padding: CollectSpacing.cardPaddingComfortable,
@@ -1492,21 +1462,19 @@ class CollectionGoalCard extends StatelessWidget {
                       collection.title,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
-                    CollectSpacing.gap4,
-                    Text(
-                      collection.category,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
+                    if (collection.description.trim().isNotEmpty) ...[
+                      CollectSpacing.gap4,
+                      Text(
+                        collection.description,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
                   ],
                 ),
               ),
-              CollectStatusChip(
-                label: collection.isPublicApproved
-                    ? 'Public'
-                    : collection.visibility.replaceAll('_', ' '),
-                tone: collection.isPublicApproved
-                    ? CollectStatusTone.success
-                    : CollectStatusTone.privacy,
+              const CollectStatusChip(
+                label: 'Group',
+                tone: CollectStatusTone.privacy,
               ),
             ],
           ),
@@ -1518,46 +1486,29 @@ class CollectionGoalCard extends StatelessWidget {
                 child: AmountHero(
                   amount: summary.amountRaisedRwf,
                   label: 'Raised',
-                  detail: '${summary.supporterCount} supporters',
+                  detail: '${summary.supporterCount} members',
                 ),
               ),
-              if (target != null)
-                Text(
-                  'of ${formatRwf(target)}',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: colors.textMuted),
-                ),
             ],
           ),
-          if (target != null) ...[
-            CollectSpacing.gap16,
-            CollectProgressBar(
-              value: progress,
-              label: '${(progress.clamp(0.0, 1.0) * 100).round()}% funded',
-            ),
-          ],
           CollectSpacing.gap16,
           Wrap(
             spacing: CollectSpacing.x2,
             runSpacing: CollectSpacing.x2,
             children: [
-              CollectStatusChip(
-                label: collection.allowAnonymous
-                    ? 'Anonymous OK'
-                    : 'Named support',
+              const CollectStatusChip(
+                label: 'Collect ID',
                 tone: CollectStatusTone.neutral,
               ),
               if (collection.receiverMomoNumber != null)
                 const CollectStatusChip(
-                  label: 'MOMO receiver',
+                  label: 'MoMo receiver',
                   tone: CollectStatusTone.success,
                 ),
-              if (collection.isRecurring)
-                const CollectStatusChip(
-                  label: 'Recurring',
-                  tone: CollectStatusTone.warning,
-                ),
+              const CollectStatusChip(
+                label: 'SMS auto-match',
+                tone: CollectStatusTone.info,
+              ),
             ],
           ),
           if (primaryAction != null) ...[CollectSpacing.gap16, primaryAction!],
@@ -1581,11 +1532,7 @@ class CollectionSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CollectionGoalCard(
-      collection: collection,
-      summary: summary,
-      onTap: onTap,
-    );
+    return GroupCard(collection: collection, summary: summary, onTap: onTap);
   }
 }
 

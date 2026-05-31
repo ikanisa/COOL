@@ -3,8 +3,8 @@
 ## Principles
 
 - Money first: every finance screen starts with the amount, progress, or payment state that matters most.
-- Rwanda-first: copy, examples, and payment flows assume RWF and MOMO/USSD.
-- Privacy by default: public/private, anonymity, and receiver visibility are stated in plain language.
+- MoMo-first: copy, examples, and payment flows assume RWF and MoMo/USSD where relevant.
+- Collect ID only: member identity, receiver visibility, and SMS verification states are stated in plain language.
 - Warm precision: user screens feel human; admin/risk screens stay dense and exact.
 - Token-only implementation: screens compose centralized tokens and shared components rather than raw colors, spacing, radii, or font sizes.
 

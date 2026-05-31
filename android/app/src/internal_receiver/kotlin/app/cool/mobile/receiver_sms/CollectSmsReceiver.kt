@@ -12,8 +12,8 @@ class CollectSmsReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION) return
 
-        val prefs = context.getSharedPreferences(RECEIVER_PREFS, Context.MODE_PRIVATE)
-        if (!prefs.getBoolean(RECEIVER_ENABLED_KEY, false)) return
+        val prefs = context.getSharedPreferences(SMS_ACCESS_PREFS, Context.MODE_PRIVATE)
+        if (!prefs.getBoolean(SMS_ACCESS_ENABLED_KEY, false)) return
 
         val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent)
         val sender = messages.firstOrNull()?.originatingAddress.orEmpty()
@@ -39,12 +39,12 @@ class CollectSmsReceiver : BroadcastReceiver() {
         prefs.edit().putString(PENDING_SMS_KEY, trimmed.toString()).apply()
 
         // Do not log raw SMS body or sender. Flutter foreground code owns upload.
-        Log.i("CollectSmsReceiver", "Consented mobile-money SMS queued for receiver mode")
+        Log.i("CollectSmsReceiver", "Consented mobile-money SMS queued for SMS access")
     }
 
     companion object {
-        private const val RECEIVER_PREFS = "collect_receiver_mode"
-        private const val RECEIVER_ENABLED_KEY = "enabled"
+        private const val SMS_ACCESS_PREFS = "collect_sms_access"
+        private const val SMS_ACCESS_ENABLED_KEY = "enabled"
         private const val PENDING_SMS_KEY = "pending_sms"
         private const val MAX_PENDING_SMS = 25
     }

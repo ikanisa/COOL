@@ -1,37 +1,27 @@
 # Collect Human UAT Signoff Checklist
 
-Prepared: 2026-05-24
+Prepared: 2026-05-27
 
-Purpose: capture the human release-owner and persona acceptance evidence that
-automated rollback UAT cannot prove. Do not record raw SMS, phone/MOMO numbers,
-tokens, provider secrets, service-role keys, or unrestricted production data in
-this checklist.
+Purpose: capture release-owner and persona acceptance evidence for the corrected
+SMS-first Groups platform. Do not record raw SMS, phone/MoMo numbers, tokens,
+provider secrets, service-role keys, OpenAI keys, or production customer data.
 
 Status: **PENDING SIGNOFF**
 
 ## Preconditions
 
-- [ ] CAPTCHA/bot protection is configured or the test is explicitly marked as
-      pre-CAPTCHA staging UAT.
-- [ ] If any row is marked pre-CAPTCHA staging UAT, the release-owner decision
-      remains **NO-GO** until CAPTCHA is configured and the affected persona
-      evidence is rerun or formally accepted as non-production rehearsal only.
-- [ ] HIBP leaked-password protection is enabled after any required Supabase
-      plan upgrade, or this checklist is staging-only and not usable for
-      production GO.
-- [ ] Free-plan project-pause risk and PITR/RPO risk are resolved or validly
-      exceptioned after non-exceptionable blockers are fixed.
-- [ ] Latest `make release-status-json` no longer reports
-      `database_connectivity`, or this checklist is explicitly marked as
-      staging-only and not usable for production GO.
-- [ ] Test users are synthetic or approved release-test accounts.
-- [ ] Test collection, payment, receiver, and SMS data are synthetic.
+- [ ] Corrected product definition is approved.
+- [ ] Linked Supabase SMS-first migration is applied and linked contribution
+      UAT passes.
+- [ ] Android SMS access UAT is complete with sanitized evidence.
+- [ ] Admin PWA deployed URL passes live gate.
+- [ ] Test users, groups, payment intents, receiver values, and SMS data are
+      synthetic or approved release-test data.
 - [ ] Screenshots/logs are sanitized before attaching to the release packet.
+- [ ] `docs/release/UAT_EVIDENCE_MANIFEST.json` exists and
+      `make uat-evidence-gate-json` passes for all ten persona evidence rows.
 - [ ] Current automated evidence is attached:
-  - `.cache/supabase_go_live_evidence/20260524T085150Z`
-  - `build/app/outputs/flutter-apk/app-production-release.apk`
-  - `build/app/outputs/bundle/productionRelease/app-production-release.aab`
-  - `build/web/main.dart.js`
+  - `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`
   - `docs/release/UAT_EXECUTION_REPORT.md`
   - `docs/release/GO_LIVE_COMPLETION_AUDIT_2026-05-24.md`
 
@@ -39,16 +29,16 @@ Status: **PENDING SIGNOFF**
 
 | ID | Persona | Required acceptance evidence | Status | Signoff |
 | --- | --- | --- | --- | --- |
-| UAT-01 | Contributor | Signed-in tester opens approved public collection, creates payment intent, sees MOMO/USSD instructions, marks paid with sanitized reference, and verifies identity choice. | Pending |  |
-| UAT-02 | Creator | Tester creates private collection, adds receiver MOMO, requests public listing, and verifies share/QR link does not expose private receiver data. | Pending |  |
-| UAT-03 | Recurring group admin | Tester creates or reviews recurring collection period behavior and confirms member/admin visibility. | Pending |  |
-| UAT-04 | Public supporter | Tester uses public directory and contribution flow without membership; only approved collections are visible and receiver details appear only at contribution step. | Pending |  |
-| UAT-05 | Receiver/SMS operator | Tester enters sanitized receiver MOMO SMS, verifies parse/review path, and confirms raw SMS is not public. | Pending |  |
-| UAT-06 | Moderator | Tester reviews public-listing request through permitted admin lane and confirms audit trail. | Pending |  |
-| UAT-07 | Payments admin | Tester manually allocates ambiguous/unallocated event with reason and confirms single ledger post and audit log. | Pending |  |
+| UAT-01 | Contributor | Tester opens group, creates payment intent, launches MoMo USSD, and waits for MoMo SMS allocation. | Pending |  |
+| UAT-02 | Android creator | Tester creates group, confirms receiver MoMo sync from profile, grants SMS access, and verifies share/QR/deep link/SMS. | Pending |  |
+| UAT-03 | iPhone user | Tester taps group creation and sees exactly `group creation is available only on Android`. | Pending |  |
+| UAT-04 | Group member | Tester opens shared group and contributes without repeating profile identity/MoMo details. | Pending |  |
+| UAT-05 | Android SMS device | Tester grants Android SMS access, verifies automated parse/allocation path, and confirms raw SMS is not public. | Pending |  |
+| UAT-06 | Admin operator | Tester monitors SMS parsing, allocations, exceptions, and ledger through permitted admin lane. | Pending |  |
+| UAT-07 | Payments admin | Tester requests reparse for ambiguous event with reason and confirms audit log without manual ledger posting. | Pending |  |
 | UAT-08 | Compliance admin | Tester reveals raw SMS through reason-required permissioned flow and confirms sensitive-access/audit records. | Pending |  |
 | UAT-09 | Non-admin | Tester attempts admin UI/API access and confirms denial without sensitive data leakage. | Pending |  |
-| UAT-10 | Edge-case user | Tester verifies duplicate transaction, invalid amount, non-Rwanda phone, expired intent, ambiguous amount, missing receiver authorization, failed Edge Function auth, and retry/idempotency behavior. | Pending |  |
+| UAT-10 | Edge-case user | Tester verifies invalid amount, international WhatsApp phone, expired intent, ambiguous amount, missing receiver authorization, failed Edge Function auth, and retry/idempotency behavior. | Pending |  |
 
 ## Release Owner Decision
 
@@ -68,12 +58,8 @@ Date/time:
 ## Minimum GO Conditions
 
 - [ ] All ten persona rows are signed or formally waived by the release owner.
-- [ ] No persona evidence is staging-only, pre-CAPTCHA-only, or dependent on a
-      runner that still reports `database_connectivity`.
-- [ ] `make supabase-ready-strict` passes.
-- [ ] `make supabase-platform-exception-gate` passes or has no remaining
-      exceptionable blockers to validate.
+- [ ] Product signoff, linked SMS-first UAT, Android SMS UAT, Admin PWA live
+      proof, and release-owner signoff are complete.
+- [ ] `make release-status-json` has no blocker keys.
 - [ ] `make supabase-go-live-gate-json` reports `go_live_approved=true`.
-- [ ] `make supabase-go-live-evidence` is rerun after all platform and UAT
-      changes.
 - [ ] Worktree/release branch is intentionally reviewed before shipping.

@@ -1,6 +1,23 @@
 class PhoneNormalizer {
   const PhoneNormalizer._();
 
+  static String normalizeInternational(String input) {
+    final trimmed = input.trim();
+    if (trimmed.isEmpty) {
+      throw const FormatException('Phone number is required');
+    }
+
+    var digits = trimmed.replaceAll(RegExp(r'[^\d+]'), '');
+    if (digits.startsWith('+')) digits = digits.substring(1);
+    if (digits.startsWith('00')) digits = digits.substring(2);
+
+    if (RegExp(r'^[1-9][0-9]{6,14}$').hasMatch(digits)) {
+      return '+$digits';
+    }
+
+    throw const FormatException('Use a valid WhatsApp phone number.');
+  }
+
   static String normalizeRwanda(String input) {
     final trimmed = input.trim();
     if (trimmed.isEmpty) {

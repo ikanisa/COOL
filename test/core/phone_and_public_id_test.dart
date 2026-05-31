@@ -11,10 +11,21 @@ void main() {
     expect(PhoneNormalizer.normalizeRwanda('+250788123456'), '+250788123456');
   });
 
-  test('rejects non-Rwanda phone numbers', () {
+  test('keeps Rwanda-only normalization for local MoMo helper paths', () {
     expect(
       () => PhoneNormalizer.normalizeRwanda('+14155550100'),
       throwsFormatException,
+    );
+  });
+
+  test('normalizes international WhatsApp phone numbers to E.164', () {
+    expect(
+      PhoneNormalizer.normalizeInternational('+1 (415) 555-0100'),
+      '+14155550100',
+    );
+    expect(
+      PhoneNormalizer.normalizeInternational('00250788123456'),
+      '+250788123456',
     );
   });
 

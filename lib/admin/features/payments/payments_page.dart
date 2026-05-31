@@ -6,5 +6,6 @@ class AdminPaymentsPage extends StatelessWidget {
   const AdminPaymentsPage({super.key});
 
   @override
-  Widget build(BuildContext context) => const AdminPage(title: 'Payments');
+  Widget build(BuildContext context) =>
+      const AdminPage(title: 'Payment intents');
 }

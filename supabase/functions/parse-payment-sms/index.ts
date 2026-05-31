@@ -62,6 +62,13 @@ function parseReferenceCode(body: string): string | null {
   return match?.[1] ? match[1].toUpperCase() : null;
 }
 
+function parseCollectId(body: string): string | null {
+  const match = body.match(
+    /(?:collect\s*id|user\s*id|member\s*id|id)[:\s#-]*([0-9]{6})/i,
+  ) ?? body.match(/\b([0-9]{6})\b/);
+  return match?.[1] ?? null;
+}
+
 function parseFirstRwandaPhone(body: string): string | null {
   const match = body.match(/(?:\+?250|0)?[2378][0-9][0-9\s-]{7,12}/);
   if (!match) return null;
@@ -111,7 +118,7 @@ function fallbackParse(
     message_language: "unknown",
     raw_reference: parseReferenceCode(body),
     detected_collection_code: parseReferenceCode(body),
-    detected_user_public_id: null,
+    detected_user_public_id: parseCollectId(body),
     balance_mentioned: /\b(balance|solde)\b/i.test(body),
     fees_mentioned: /\b(fee|fees|charge|commission)\b/i.test(body),
     confidence: 0.78,
@@ -155,7 +162,7 @@ Deno.serve(async (req) => {
           {
             role: "system",
             content:
-              "Parse Rwanda mobile money notification SMS for Collect. Return only facts present in the SMS. Do not infer missing values. Only classify incoming received money as incoming payment. Ignore promotional, loan, airtime, failed, balance-only, and outgoing messages.",
+              "Parse mobile money notification SMS for Collect. Return only facts present in the SMS. Detect a 6-digit Collect ID only when it is explicitly present as a member/user/reference ID. Do not infer missing values. Only classify incoming received money as incoming payment. Ignore promotional, loan, airtime, failed, balance-only, and outgoing messages.",
           },
           {
             role: "user",

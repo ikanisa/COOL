@@ -16,10 +16,10 @@
 - RWF totals, progress, and payment states are visible first.
 - Privacy and MOMO boundaries appear at relevant action points.
 - Debug-only `/dev/design-system` demonstrates tokens and components.
-- Admin, ledger, receiver, manual SMS, payment, share, invite, and profile screens use consistent state and review surfaces.
+- Admin, ledger, MoMo SMS, payment intent, share, invite, and profile screens use consistent state and review surfaces.
 
 ## Implementation Limitations
 
 - No proprietary reference assets, exact screens, trademarks, or fonts are used.
 - Golden tests are optional and should only be added after the sequential Flutter test runner is stable.
-- This pass does not add new payment execution behavior; it redesigns the manual MOMO instruction and verification experience.
+- This pass keeps payment execution outside the app; it redesigns payment-intent creation, MoMo USSD launch, and automated receiver-SMS verification.

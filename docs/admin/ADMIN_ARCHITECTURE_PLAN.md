@@ -21,11 +21,9 @@ or mutates admin data only through server-authorized RPCs.
 - WhatsApp OTP admin login.
 - Admin identity and permission loading.
 - Overview metrics from `admin_overview`.
-- Collection, user, payment, payment-event, receiver, SMS, audit-log, settings,
-  feature-flag, and admin-user list/detail pages.
-- Public collection request review.
-- Collection moderation actions.
-- Payment-event reparse and manual allocation flows.
+- Group, member, payment-intent, SMS parsing, allocation, exception, receiver,
+  SMS, audit-log, settings, feature-flag, and admin-user list/detail pages.
+- Payment-event reparse and exception investigation flows.
 - Audited raw-SMS reveal through a sensitive-data gate.
 
 ## Route Map
@@ -33,16 +31,16 @@ or mutates admin data only through server-authorized RPCs.
 - `/admin/login`
 - `/admin/denied`
 - `/admin`
-- `/admin/collections`
-- `/admin/collections/:id`
-- `/admin/public-requests`
-- `/admin/users`
-- `/admin/users/:id`
-- `/admin/payments`
-- `/admin/payments/:id`
+- `/admin/groups`
+- `/admin/groups/:id`
+- `/admin/members`
+- `/admin/members/:id`
+- `/admin/payment-intents`
+- `/admin/payment-intents/:id`
 - `/admin/payment-events`
 - `/admin/payment-events/:id`
-- `/admin/unallocated`
+- `/admin/allocations`
+- `/admin/exceptions`
 - `/admin/ledger`
 - `/admin/receivers`
 - `/admin/receivers/:id`
@@ -62,7 +60,8 @@ or mutates admin data only through server-authorized RPCs.
 - Flutter must never ship service-role, OpenAI, WhatsApp, or SMS hook secrets.
 - Raw SMS reveal requires permission, reason, and audit.
 - Payment allocation and ledger-affecting actions must be deterministic,
-  idempotent, and audited server-side.
+  idempotent, automated from MoMo SMS/payment intents, and audited
+  server-side.
 
 ## Remaining Work
 

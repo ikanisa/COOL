@@ -11,9 +11,9 @@ shell.
 ## Kept
 
 - Main Collect customer app remains separate and does not register `/admin`.
-- Receiver SMS ingestion, parser Edge Functions, deterministic allocation,
-  manual allocation, immutable ledger protections, and audit logs remain the
-  backend authority.
+- MoMo SMS ingestion, parser Edge Functions, deterministic payment-intent
+  allocation, immutable ledger protections, and audit logs remain the backend
+  authority.
 - Applied Collect baseline migrations are treated as forward-only linked-project
   history.
 
@@ -35,16 +35,16 @@ shell.
 - `/admin/login`
 - `/admin/denied`
 - `/admin`
-- `/admin/collections`
-- `/admin/collections/:id`
-- `/admin/public-requests`
-- `/admin/users`
-- `/admin/users/:id`
-- `/admin/payments`
-- `/admin/payments/:id`
+- `/admin/groups`
+- `/admin/groups/:id`
+- `/admin/members`
+- `/admin/members/:id`
+- `/admin/payment-intents`
+- `/admin/payment-intents/:id`
 - `/admin/payment-events`
 - `/admin/payment-events/:id`
-- `/admin/unallocated`
+- `/admin/allocations`
+- `/admin/exceptions`
 - `/admin/ledger`
 - `/admin/receivers`
 - `/admin/receivers/:id`

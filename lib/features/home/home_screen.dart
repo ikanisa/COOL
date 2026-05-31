@@ -6,6 +6,7 @@ import '../../shared/repositories/collect_repository.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import '../collections/group_creation_platform.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -16,9 +17,6 @@ class HomeScreen extends ConsumerWidget {
     final collectionCount = ref.watch(
       collectRepositoryProvider.select((state) => state.collections.length),
     );
-    final receiverModeEnabled = ref.watch(
-      collectRepositoryProvider.select((state) => state.receiverModeEnabled),
-    );
     final summaries = ref.watch(collectionSummariesProvider);
     final pendingTotal = ref.watch(pendingPaymentCountProvider);
     final raisedTotal = ref.watch(raisedTotalProvider);
@@ -28,11 +26,11 @@ class HomeScreen extends ConsumerWidget {
 
     return ScreenScaffold(
       title: 'Collect',
-      subtitle: 'Community money, clear and verified.',
+      subtitle: 'Groups verified from MoMo SMS.',
       actions: [
         IconButton.filled(
-          tooltip: 'Create collection',
-          onPressed: () => context.go('/collections/create'),
+          tooltip: 'Create group',
+          onPressed: () => openGroupCreation(context),
           icon: const Icon(CollectIcons.add),
         ),
       ],
@@ -40,15 +38,13 @@ class HomeScreen extends ConsumerWidget {
         MoneyHeroCard(
           amount: raisedTotal,
           label: 'Raised across Collect',
-          detail: '$collectionCount goals · $pendingTotal pending MOMO checks',
-          chips: [
+          detail: '$collectionCount groups · $pendingTotal pending intents',
+          chips: const [
             CollectStatusChip(
-              label: receiverModeEnabled ? 'Receiver mode on' : 'Manual review',
-              tone: receiverModeEnabled
-                  ? CollectStatusTone.success
-                  : CollectStatusTone.neutral,
+              label: 'SMS auto-match',
+              tone: CollectStatusTone.success,
             ),
-            const CollectStatusChip(
+            CollectStatusChip(
               label: 'Direct MOMO',
               tone: CollectStatusTone.privacy,
             ),
@@ -61,47 +57,39 @@ class HomeScreen extends ConsumerWidget {
               QuickActionButton(
                 icon: CollectIcons.add,
                 label: 'Create',
-                detail: 'New goal',
-                onTap: () => context.go('/collections/create'),
+                detail: 'New group',
+                onTap: () => openGroupCreation(context),
                 tone: CollectStatusTone.info,
               ),
               CollectSpacing.gapW12,
               QuickActionButton(
                 icon: CollectIcons.collections,
-                label: 'Goals',
+                label: 'Groups',
                 detail: '$collectionCount active',
-                onTap: () => context.go('/collections'),
+                onTap: () => context.go('/groups'),
                 tone: CollectStatusTone.success,
               ),
               CollectSpacing.gapW12,
               QuickActionButton(
-                icon: CollectIcons.sms,
-                label: 'Verify',
-                detail: receiverModeEnabled ? 'Receiver on' : 'Paste SMS',
-                onTap: () => context.go('/receiver'),
+                icon: CollectIcons.profile,
+                label: 'Profile',
+                detail: 'MoMo number',
+                onTap: () => context.go('/profile/setup'),
                 tone: CollectStatusTone.privacy,
-              ),
-              CollectSpacing.gapW12,
-              QuickActionButton(
-                icon: CollectIcons.public,
-                label: 'Public',
-                detail: 'Browse',
-                onTap: () => context.go('/public'),
-                tone: CollectStatusTone.warning,
               ),
             ],
           ),
         ),
         const SecurityNotice(
-          title: 'MOMO-first safety',
+          title: 'SMS-first verification',
           message:
-              'Contributors pay receivers directly. Collect verifies notifications and keeps raw SMS private.',
+              'Members initiate MoMo from Collect. MoMo SMS is parsed and matched automatically to pending intents.',
         ),
         InsightCard(
-          title: 'Keep trust visible',
+          title: 'Pending allocation',
           message: pendingTotal == 0
-              ? 'No pending payments. Confirmed support is ready in the ledger.'
-              : '$pendingTotal payments need MOMO evidence review.',
+              ? 'No pending intents. Confirmed contributions are in the ledger.'
+              : '$pendingTotal contributions are waiting for MoMo SMS matching.',
           icon: CollectIcons.shield,
           tone: pendingTotal == 0
               ? CollectStatusTone.success
@@ -109,24 +97,24 @@ class HomeScreen extends ConsumerWidget {
           actionLabel: 'Open ledger',
           onAction: collections.isEmpty
               ? null
-              : () => context.go('/collections/${collections.first.id}/ledger'),
+              : () => context.go('/groups/${collections.first.id}/ledger'),
         ),
-        const SectionHeader(title: 'Active goals'),
+        const SectionHeader(title: 'Groups'),
         if (collections.isEmpty)
           EmptyIllustrationState(
             icon: CollectIcons.collectionsOutline,
-            title: 'Start a goal',
+            title: 'Create your first group',
             message:
-                'Create a private collection, set the receiver, then share only when the copy is safe.',
+                'Add a group name, use the MoMo number from your profile, then share the link or QR code.',
             action: CollectButton(
-              label: 'Create collection',
+              label: 'Create group',
               icon: CollectIcons.add,
-              onPressed: () => context.go('/collections/create'),
+              onPressed: () => openGroupCreation(context),
             ),
           )
         else
           for (final collection in collections)
-            CollectionGoalCard(
+            GroupCard(
               collection: collection,
               summary:
                   summaries[collection.id] ??
@@ -134,12 +122,12 @@ class HomeScreen extends ConsumerWidget {
                     amountRaisedRwf: 0,
                     supporterCount: 0,
                   ),
-              onTap: () => context.go('/collections/${collection.id}'),
+              onTap: () => context.go('/groups/${collection.id}'),
               primaryAction: CollectButton(
                 label: 'Contribute',
                 icon: CollectIcons.momo,
                 onPressed: () =>
-                    context.go('/collections/${collection.id}/contribute'),
+                    context.go('/groups/${collection.id}/contribute'),
                 expand: true,
               ),
             ),
@@ -161,16 +149,16 @@ class HomeScreen extends ConsumerWidget {
                     meta: 'Verified MOMO contribution',
                     transactionId: contribution.transactionId,
                     onTap: () => context.go(
-                      '/collections/${contribution.collectionId}/ledger',
+                      '/groups/${contribution.collectionId}/ledger',
                     ),
                   ),
               ],
             ),
           ),
         CollectButton(
-          label: 'Explore public collections',
-          icon: CollectIcons.public,
-          onPressed: () => context.go('/public'),
+          label: 'Open groups',
+          icon: CollectIcons.collections,
+          onPressed: () => context.go('/groups'),
           expand: true,
         ),
       ],

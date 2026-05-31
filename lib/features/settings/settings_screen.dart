@@ -11,13 +11,13 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenScaffold(
-      title: 'Control',
-      subtitle: 'Profile, privacy, receiver mode, and trust settings.',
+      title: 'Settings',
+      subtitle: 'Profile, MoMo number, SMS access, and trust settings.',
       children: [
         const InsightCard(
-          title: 'Collect controls',
+          title: 'Collect settings',
           message:
-              'Your money stays with receivers. Your evidence stays private.',
+              'Your MoMo number and 6-digit Collect ID stay in your profile and sync into group flows.',
           icon: CollectIcons.shield,
           tone: CollectStatusTone.privacy,
         ),
@@ -27,16 +27,14 @@ class SettingsScreen extends StatelessWidget {
             children: [
               CollectListTile(
                 leading: CollectIcons.profile,
-                title: 'Profile and MOMO number',
-                subtitle:
-                    'Public ID, display name, anonymity, receiver number.',
+                title: 'Profile and MoMo number',
+                subtitle: 'Collect ID and default group receiver number.',
                 onTap: () => context.go('/profile/setup'),
               ),
-              CollectListTile(
+              const CollectListTile(
                 leading: CollectIcons.sms,
-                title: 'Receiver mode',
-                subtitle: 'Consent, manual SMS paste, verified sync.',
-                onTap: () => context.go('/receiver'),
+                title: 'SMS access',
+                subtitle: 'Android SMS access for automated MoMo parsing.',
               ),
               const CollectListTile(
                 leading: CollectIcons.lock,
@@ -59,9 +57,9 @@ class SettingsScreen extends StatelessWidget {
           ),
         ),
         const InsightCard(
-          title: 'Clear by design',
+          title: 'Automated by design',
           message:
-              'Every payment action should say who receives money, what Collect verifies, and what stays private.',
+              'Contributions are matched from payment intents and MoMo SMS parsing.',
           icon: CollectIcons.tips,
           tone: CollectStatusTone.success,
         ),

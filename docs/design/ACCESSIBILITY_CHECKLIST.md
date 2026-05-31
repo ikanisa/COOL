@@ -21,8 +21,8 @@
 
 ## Content
 
-- Payment instructions state that Collect does not move money.
-- Public/private/anonymity states are explicit.
+- Payment intent status states that Collect does not move money.
+- Group privacy, Collect ID, and SMS verification states are explicit.
 - Raw SMS, phone numbers, and MOMO numbers are never exposed on public screens.
 - Error states explain the next safe action.
 
@@ -30,4 +30,5 @@
 
 - Run widget tests for labels, status text, and route smoke.
 - Test light and dark theme construction.
-- Manually inspect dynamic text for home, payment, ledger, receiver, and admin screens.
+- Manually inspect dynamic text for Home, Groups, Settings, payment intent,
+  ledger, Android SMS access, and admin screens.

@@ -14,87 +14,45 @@ class ProfileSetupScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
-  final _name = TextEditingController();
   final _momo = TextEditingController(text: '+250788123456');
-  final _avatar = TextEditingController();
-  String _default = 'anonymous';
+  bool _synced = false;
 
   @override
   void dispose() {
-    _name.dispose();
     _momo.dispose();
-    _avatar.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final profile = ref.watch(collectRepositoryProvider).currentProfile;
+    if (!_synced && profile?.momoNumber?.trim().isNotEmpty == true) {
+      _momo.text = profile!.momoNumber!;
+      _synced = true;
+    }
     return ScreenScaffold(
       title: 'Profile',
       subtitle:
-          'Your public ID is ${profile == null ? 'created after login' : profile.publicId}. Phone and MOMO numbers are never shown publicly.',
+          'Collect ID ${profile == null ? 'created after login' : profile.publicId}',
       children: [
         const InfoSecurityBanner(
-          title: 'Public identity',
+          title: 'Collect ID only',
           message:
-              'Choose how your support appears. Anonymous and public ID modes never reveal phone or MOMO numbers.',
+              'Collect uses your 6-digit ID for matching. Real names are not requested or shown.',
           tone: CollectStatusTone.privacy,
         ),
         CollectCard(
           child: Column(
             children: [
               TextField(
-                controller: _name,
-                decoration: collectInputDecoration(
-                  context,
-                  label: 'Display name',
-                ),
-              ),
-              CollectSpacing.gap12,
-              TextField(
                 controller: _momo,
                 keyboardType: TextInputType.phone,
                 decoration: collectInputDecoration(
                   context,
-                  label: 'MOMO number',
-                  helper: 'Stored for receiver matching, never public.',
-                ),
-              ),
-              CollectSpacing.gap12,
-              TextField(
-                controller: _avatar,
-                keyboardType: TextInputType.url,
-                decoration: collectInputDecoration(
-                  context,
-                  label: 'Avatar image URL, optional',
+                  label: 'MoMo number',
                   helper:
-                      'Only shown publicly when your default identity is your display name.',
+                      'Used as the default receiver number for groups you create.',
                 ),
-              ),
-              CollectSpacing.gap12,
-              DropdownButtonFormField<String>(
-                initialValue: _default,
-                decoration: collectInputDecoration(
-                  context,
-                  label: 'Default public identity',
-                ),
-                items: const [
-                  DropdownMenuItem(
-                    value: 'anonymous',
-                    child: Text('Anonymous supporter'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'public_id',
-                    child: Text('User public ID'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'display_name',
-                    child: Text('Display name'),
-                  ),
-                ],
-                onChanged: (value) =>
-                    setState(() => _default = value ?? _default),
               ),
               CollectSpacing.gap16,
               CollectButton(
@@ -103,12 +61,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                 onPressed: () async {
                   await ref
                       .read(collectRepositoryProvider.notifier)
-                      .updateProfile(
-                        displayName: _name.text,
-                        momoNumber: _momo.text,
-                        anonymityDefault: _default,
-                        avatarUrl: _avatar.text,
-                      );
+                      .updateProfile(momoNumber: _momo.text);
                   if (!context.mounted) return;
                   context.go('/home');
                 },

@@ -8,35 +8,33 @@ class AdminScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const ScreenScaffoldLayout(
-      title: 'Admin approval',
-      subtitle:
-          'Dense review for public requests, payment states, and receiver risk.',
+      title: 'Admin operations',
+      subtitle: 'SMS ingestion, payment intents, allocations, and ledger.',
       children: [
         InfoSecurityBanner(
-          title: 'Admin review',
+          title: 'Realtime operations',
           message:
-              'Collect does not move money. Admin review verifies visibility and risk without exposing phone, MOMO, or raw SMS publicly.',
+              'Admin monitors MoMo SMS rows, parser output, pending intents, allocation status, groups, members, and exceptions.',
           tone: CollectStatusTone.privacy,
         ),
-        SectionHeader(title: 'Public directory approval'),
+        SectionHeader(title: 'Payment intent monitoring'),
         AdminReviewCard(
-          title: 'Kigali Lions away kit',
+          title: 'INT-038491-5000',
           status: 'pending',
           detail:
-              'Review public listing only. Receiver phone, MOMO number, raw SMS, and private supporter identity stay hidden from public surfaces.',
-          confidence: .86,
-          primaryLabel: 'Approve',
-          secondaryLabel: 'Reject',
+              'Pending member intent linked to group, receiver MoMo number, amount, and 6-digit Collect ID.',
+          confidence: .92,
+          primaryLabel: 'Open intent',
         ),
-        SectionHeader(title: 'Unallocated MOMO review'),
+        SectionHeader(title: 'Allocation exceptions'),
         AdminReviewCard(
-          title: 'AMB-901',
-          status: 'needs_review',
+          title: 'SMS-AMB-901',
+          status: 'exception',
           detail:
-              'Low-confidence MOMO event. Admin must verify collection, amount, and transaction code before ledger allocation.',
+              'Parser output did not match a pending payment intent. Keep out of ledger until automated allocation is resolved.',
           amountRwf: 15000,
           confidence: .78,
-          primaryLabel: 'Mark reviewed',
+          primaryLabel: 'Open exception',
         ),
       ],
     );

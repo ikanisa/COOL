@@ -226,24 +226,40 @@ inventory = row.fetch("inventory", row)
 expected = []
 Dir["supabase/migrations/*.sql"].sort.each do |path|
   sql = File.read(path)
-  expected += sql.scan(/^create table(?: if not exists)?\s+([a-zA-Z_][\w.]*)/i).flatten.map { |name| "table|#{name.sub(/^public\./, "")}" }
-  expected += sql.scan(/^create(?: or replace)? view\s+([a-zA-Z_][\w.]*)/i).flatten.map { |name| "view|#{name.sub(/^public\./, "")}" }
-  expected += sql.scan(/^create(?: or replace)? function\s+([a-zA-Z_][\w.]*)/i).flatten.map { |name| "function|#{name.sub(/^public\./, "")}" }
-  expected += sql.scan(/^create type\s+([a-zA-Z_][\w.]*)/i).flatten.map { |name| "type|#{name.sub(/^public\./, "")}" }
-  sql.each_line do |line|
-    case line
-    when /^create policy\s+"?([^"\n]+?)"?\s+on\s+([a-zA-Z_][\w.]*)/i
-      policy = Regexp.last_match(1)
-      table = Regexp.last_match(2).sub(/^public\./, "")
-      expected << "policy|#{table}|#{policy}"
-    when /^drop policy if exists\s+"?([^"\n]+?)"?\s+on\s+([a-zA-Z_][\w.]*)/i
-      policy = Regexp.last_match(1)
-      table = Regexp.last_match(2).sub(/^public\./, "")
-      expected.delete("policy|#{table}|#{policy}")
-    when /^drop view if exists\s+([a-zA-Z_][\w.]*)/i
-      expected.delete("view|#{Regexp.last_match(1).sub(/^public\./, "")}")
-    when /^drop function if exists\s+([a-zA-Z_][\w.]*)/i
-      expected.delete("function|#{Regexp.last_match(1).sub(/^public\./, "")}")
+  events = []
+  [
+    [/^create table(?: if not exists)?\s+([a-zA-Z_][\w.]*)/i, "table"],
+    [/^create(?: or replace)? view\s+([a-zA-Z_][\w.]*)/i, "view"],
+    [/^create(?: or replace)? function\s+([a-zA-Z_][\w.]*)/i, "function"],
+    [/^create type\s+([a-zA-Z_][\w.]*)/i, "type"]
+  ].each do |pattern, kind|
+    sql.to_enum(:scan, pattern).each do
+      match = Regexp.last_match
+      events << [match.begin(0), :add, "#{kind}|#{match[1].sub(/^public\./, "")}"]
+    end
+  end
+  [
+    [/^drop view(?: if exists)?\s+([a-zA-Z_][\w.]*)/i, "view"],
+    [/^drop function(?: if exists)?\s+([a-zA-Z_][\w.]*)/i, "function"]
+  ].each do |pattern, kind|
+    sql.to_enum(:scan, pattern).each do
+      match = Regexp.last_match
+      events << [match.begin(0), :delete, "#{kind}|#{match[1].sub(/^public\./, "")}"]
+    end
+  end
+  sql.to_enum(:scan, /^create policy\s+"?([^"\n]+?)"?\s+on\s+([a-zA-Z_][\w.]*)/im).each do
+    match = Regexp.last_match
+    events << [match.begin(0), :add, "policy|#{match[2].sub(/^public\./, "")}|#{match[1]}"]
+  end
+  sql.to_enum(:scan, /^drop policy(?: if exists)?\s+"?([^"\n]+?)"?\s+on\s+([a-zA-Z_][\w.]*)/im).each do
+    match = Regexp.last_match
+    events << [match.begin(0), :delete, "policy|#{match[2].sub(/^public\./, "")}|#{match[1]}"]
+  end
+  events.sort_by(&:first).each do |_position, action, object_key|
+    if action == :add
+      expected << object_key
+    else
+      expected.delete(object_key)
     end
   end
 end

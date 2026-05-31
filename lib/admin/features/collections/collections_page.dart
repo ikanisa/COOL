@@ -6,5 +6,5 @@ class AdminCollectionsPage extends StatelessWidget {
   const AdminCollectionsPage({super.key});
 
   @override
-  Widget build(BuildContext context) => const AdminPage(title: 'Collections');
+  Widget build(BuildContext context) => const AdminPage(title: 'Groups');
 }

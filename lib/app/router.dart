@@ -10,17 +10,15 @@ import '../features/collections/collection_create_screen.dart';
 import '../features/collections/collection_detail_screen.dart';
 import '../features/collections/collection_manage_screen.dart';
 import '../features/collections/collections_screen.dart';
+import '../features/collections/group_link_screen.dart';
 import '../features/collections/invite_screen.dart';
 import '../features/collections/share_screen.dart';
 import '../features/dev/design_system_catalog_screen.dart';
 import '../features/home/home_screen.dart';
 import '../features/ledger/ledger_screen.dart';
 import '../features/payments/contribution_flow_screen.dart';
-import '../features/payments/payment_instructions_screen.dart';
+import '../features/payments/payment_intent_status_screen.dart';
 import '../features/profile/profile_setup_screen.dart';
-import '../features/public_directory/public_directory_screen.dart';
-import '../features/receiver_sms/manual_sms_screen.dart';
-import '../features/receiver_sms/receiver_screen.dart';
 import '../features/settings/settings_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) => createAppRouter());
@@ -28,18 +26,16 @@ final appRouterProvider = Provider<GoRouter>((ref) => createAppRouter());
 const collectRoutePaths = <String>[
   '/auth',
   '/home',
-  '/collections',
-  '/collections/create',
-  '/collections/:collectionId',
-  '/collections/:collectionId/manage',
-  '/collections/:collectionId/contribute',
-  '/collections/:collectionId/pay/:intentId',
-  '/collections/:collectionId/share',
-  '/collections/:collectionId/invite',
-  '/collections/:collectionId/ledger',
-  '/public',
-  '/receiver',
-  '/receiver/manual',
+  '/groups',
+  '/groups/create',
+  '/groups/:collectionId',
+  '/groups/:collectionId/manage',
+  '/groups/:collectionId/contribute',
+  '/groups/:collectionId/pay/:intentId',
+  '/groups/:collectionId/share',
+  '/groups/:collectionId/invite',
+  '/groups/:collectionId/ledger',
+  '/c/:slug',
   '/profile/setup',
   '/settings',
   '/admin',
@@ -72,7 +68,7 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
             builder: (context, state) => const HomeScreen(),
           ),
           GoRoute(
-            path: '/collections',
+            path: '/groups',
             builder: (context, state) => const CollectionsScreen(),
             routes: [
               GoRoute(
@@ -99,7 +95,7 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
                   ),
                   GoRoute(
                     path: 'pay/:intentId',
-                    builder: (context, state) => PaymentInstructionsScreen(
+                    builder: (context, state) => PaymentIntentStatusScreen(
                       collectionId: state.pathParameters['collectionId']!,
                       intentId: state.pathParameters['intentId']!,
                     ),
@@ -127,18 +123,9 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
             ],
           ),
           GoRoute(
-            path: '/public',
-            builder: (context, state) => const PublicDirectoryScreen(),
-          ),
-          GoRoute(
-            path: '/receiver',
-            builder: (context, state) => const ReceiverScreen(),
-            routes: [
-              GoRoute(
-                path: 'manual',
-                builder: (context, state) => const ManualSmsScreen(),
-              ),
-            ],
+            path: '/c/:slug',
+            builder: (context, state) =>
+                GroupLinkScreen(slug: state.pathParameters['slug']!),
           ),
           GoRoute(
             path: '/settings',

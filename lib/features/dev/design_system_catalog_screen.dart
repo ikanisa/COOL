@@ -21,8 +21,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
       id: 'demo-contribution',
       collectionId: 'demo',
       amountRwf: 25000,
-      supporterLabel: 'Anonymous supporter',
-      anonymityChoice: 'anonymous',
+      supporterLabel: 'Collect ID 038491',
       createdAt: now,
       transactionId: 'MTN12345',
     );
@@ -30,7 +29,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
       id: 'demo-event',
       amountRwf: 15000,
       transactionId: 'AMB-901',
-      senderLabel: 'Manual SMS paste',
+      senderLabel: 'MoMo SMS',
       allocationStatus: 'needs_review',
       confidence: .78,
       createdAt: now,
@@ -42,13 +41,13 @@ class DesignSystemCatalogScreen extends StatelessWidget {
         const InfoSecurityBanner(
           title: 'Reference boundary',
           message:
-              'Collect uses original Rwanda-first tokens and components. No reference brand assets, fonts, colors, or screens are copied.',
+              'Collect uses original tokens and components. No reference brand assets, fonts, colors, or screens are copied.',
           tone: CollectStatusTone.info,
         ),
         const MoneyHeroCard(
           amount: 125000,
           label: 'Raised across Collect',
-          detail: '2 goals · 1 pending MOMO check',
+          detail: '2 groups · 1 pending intent',
           chips: [
             CollectStatusChip(
               label: 'Direct MOMO',
@@ -71,7 +70,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
               QuickActionButton(
                 icon: CollectIcons.add,
                 label: 'Create',
-                detail: 'New goal',
+                detail: 'New group',
               ),
               CollectSpacing.gapW12,
               QuickActionButton(
@@ -115,17 +114,13 @@ class DesignSystemCatalogScreen extends StatelessWidget {
             ],
           ),
         ),
-        CollectionGoalCard(
+        GroupCard(
           collection: CollectCollection(
             id: 'demo',
-            slug: 'demo-goal',
+            slug: 'demo-group',
             creatorUserId: 'local-user',
-            title: 'St Michel building fund',
-            description: 'Demo goal card',
-            category: 'Church',
-            targetAmountRwf: 250000,
-            publicStatus: 'public_approved',
-            visibility: 'public_approved',
+            title: 'St Michel group',
+            description: 'Demo group card',
             receiverMomoNumber: '+250788123456',
             createdAt: now,
           ),
@@ -139,29 +134,24 @@ class DesignSystemCatalogScreen extends StatelessWidget {
           amount: 125000,
           detail: '12 supporters · 50% funded',
         ),
-        MomoInstructionCard(
+        const PaymentIntentStatusCard(
           amountRwf: 5000,
           receiverLabel: 'St Michel treasury',
           receiverMomoNumber: '+250788123456',
           contributionCode: 'ABC123',
-          instructionTitle: 'Mobile money USSD',
           network: 'MTN MOMO',
-          instructions:
-              'Dial your MOMO menu, send RWF 5,000 to the receiver, and use ABC123 as the reference when available.',
           status: 'pending',
-          onCopy: () => copyToClipboard(context, 'Demo instructions'),
         ),
         ReceiverConsentCard(
           flagsEnabled: true,
           consented: false,
           isSyncing: false,
           onConsentChanged: (_) {},
-          onManualPaste: () {},
           onSync: () {},
         ),
         LedgerRow.confirmed(contribution: contribution),
         const ActivityFeedItem(
-          title: 'Anonymous supporter',
+          title: 'Collect ID 038491',
           amount: 25000,
           meta: 'Verified MOMO contribution',
           transactionId: 'MTN12345',
@@ -175,7 +165,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
         LedgerRow.review(
           event: event,
           action: const CollectButton(
-            label: 'Manual allocate with reason',
+            label: 'Request reparse',
             icon: CollectIcons.check,
             expand: true,
           ),

@@ -28,16 +28,14 @@ declare
   owner_id uuid := gen_random_uuid();
   contributor_id uuid := gen_random_uuid();
   compliance_admin_id uuid := gen_random_uuid();
-  moderation_admin_id uuid := gen_random_uuid();
   payments_admin_id uuid := gen_random_uuid();
   support_admin_id uuid := gen_random_uuid();
   read_only_admin_id uuid := gen_random_uuid();
   collection_id uuid;
-  public_request_id uuid;
   raw_sms_id uuid;
   payment_intent record;
   parsed_event_id uuid;
-  payment_response jsonb;
+  reparse_response jsonb;
   metadata_response jsonb;
   reveal_response jsonb;
   role_id uuid;
@@ -59,11 +57,10 @@ begin
   values
     (owner_id, 'authenticated', 'authenticated', '+250781100001', now(), '{}'::jsonb, '{"display_name":"Admin UAT Owner"}'::jsonb, now(), now()),
     (contributor_id, 'authenticated', 'authenticated', '+250781100002', now(), '{}'::jsonb, '{"display_name":"Admin UAT Contributor"}'::jsonb, now(), now()),
-    (compliance_admin_id, 'authenticated', 'authenticated', '+250781100003', now(), '{}'::jsonb, '{"display_name":"Compliance Admin"}'::jsonb, now(), now()),
-    (moderation_admin_id, 'authenticated', 'authenticated', '+250781100004', now(), '{}'::jsonb, '{"display_name":"Moderation Admin"}'::jsonb, now(), now()),
-    (payments_admin_id, 'authenticated', 'authenticated', '+250781100005', now(), '{}'::jsonb, '{"display_name":"Payments Admin"}'::jsonb, now(), now()),
-    (support_admin_id, 'authenticated', 'authenticated', '+250781100006', now(), '{}'::jsonb, '{"display_name":"Support Admin"}'::jsonb, now(), now()),
-    (read_only_admin_id, 'authenticated', 'authenticated', '+250781100007', now(), '{}'::jsonb, '{"display_name":"Read Only Admin"}'::jsonb, now(), now());
+    (compliance_admin_id, 'authenticated', 'authenticated', '+250781100003', now(), '{}'::jsonb, '{}'::jsonb, now(), now()),
+    (payments_admin_id, 'authenticated', 'authenticated', '+250781100005', now(), '{}'::jsonb, '{}'::jsonb, now(), now()),
+    (support_admin_id, 'authenticated', 'authenticated', '+250781100006', now(), '{}'::jsonb, '{}'::jsonb, now(), now()),
+    (read_only_admin_id, 'authenticated', 'authenticated', '+250781100007', now(), '{}'::jsonb, '{}'::jsonb, now(), now());
 
   update profiles
     set display_name = 'Admin UAT Owner',
@@ -74,10 +71,6 @@ begin
   for role_id in select id from admin_roles where name = 'compliance_admin' loop
     insert into admin_user_roles (user_id, role_id, granted_by, reason)
     values (compliance_admin_id, role_id, owner_id, 'Rollback UAT compliance role');
-  end loop;
-  for role_id in select id from admin_roles where name = 'moderation_admin' loop
-    insert into admin_user_roles (user_id, role_id, granted_by, reason)
-    values (moderation_admin_id, role_id, owner_id, 'Rollback UAT moderation role');
   end loop;
   for role_id in select id from admin_roles where name = 'payments_admin' loop
     insert into admin_user_roles (user_id, role_id, granted_by, reason)
@@ -93,19 +86,16 @@ begin
   end loop;
 
   perform set_config('request.jwt.claim.sub', owner_id::text, true);
-  collection_id := create_collection_with_owner(
-    'Admin security UAT collection',
+  collection_id := create_group_with_owner(
+    'Admin security UAT group',
     'Rollback-only admin security UAT',
-    'Community event',
-    50000,
     receiver_phone,
     receiver_hash,
-    'Admin UAT receiver',
-    null,
-    false,
-    '{}'::jsonb
+    'Admin UAT receiver'
   );
-  public_request_id := request_public_collection(collection_id);
+
+  insert into collection_members (collection_id, user_id, role, status)
+  values (collection_id, contributor_id, 'member', 'active');
 
   insert into raw_payment_sms (
     collection_id,
@@ -166,20 +156,9 @@ begin
     raise exception 'audit log missing for compliance reveal';
   end if;
 
-  perform set_config('request.jwt.claim.sub', moderation_admin_id::text, true);
-  perform admin_review_public_request(public_request_id, true, 'Rollback UAT moderation approval');
-  if not exists (
-    select 1 from public_collection_requests
-    where id = public_request_id
-      and status = 'approved'
-      and admin_user_id = moderation_admin_id
-  ) then
-    raise exception 'moderation admin did not approve public request';
-  end if;
-
   perform set_config('request.jwt.claim.sub', contributor_id::text, true);
   select * into payment_intent
-  from create_payment_intent_with_instructions(collection_id, 7777, null, 'anonymous');
+  from create_contribution_intent(collection_id, 7777, null);
 
   insert into parsed_payment_events (
     raw_sms_id,
@@ -217,37 +196,33 @@ begin
 
   perform set_config('request.jwt.claim.sub', read_only_admin_id::text, true);
   begin
-    perform admin_manual_allocate_payment(
+    perform admin_reparse_payment_event(
       parsed_event_id,
-      collection_id,
-      payment_intent.id,
-      'Read-only should not allocate'
+      'Read-only should not request reparse'
     );
-    raise exception 'read_only_admin unexpectedly allocated payment';
+    raise exception 'read_only_admin unexpectedly requested reparse';
   exception
     when others then
-      if sqlerrm not like 'Admin permission payments.allocate required%' then
-        raise exception 'unexpected read_only_admin allocation error: %', sqlerrm;
+      if sqlerrm not like 'Admin permission payment_events.reparse required%' then
+        raise exception 'unexpected read_only_admin reparse error: %', sqlerrm;
       end if;
   end;
 
   perform set_config('request.jwt.claim.sub', payments_admin_id::text, true);
-  payment_response := admin_manual_allocate_payment(
+  reparse_response := admin_reparse_payment_event(
     parsed_event_id,
-    collection_id,
-    payment_intent.id,
-    'Rollback UAT payments admin allocation'
+    'Rollback UAT payments admin reparse'
   );
-  if coalesce(payment_response->>'ok', 'false') <> 'true' then
-    raise exception 'payments admin allocation did not return ok response';
+  if coalesce(reparse_response->>'ok', 'false') <> 'true' then
+    raise exception 'payments admin reparse did not return ok response';
   end if;
   if not exists (
     select 1 from audit_logs
     where actor_user_id = payments_admin_id
-      and action = 'payment.allocated.manual'
-      and metadata->>'parsed_event_id' = parsed_event_id::text
+      and action = 'payment_event.reparse.requested'
+      and entity_id = parsed_event_id
   ) then
-    raise exception 'audit log missing for payments admin allocation';
+    raise exception 'audit log missing for payments admin reparse';
   end if;
 
   raise notice 'Collect admin/security rollback UAT passed: collection %, raw_sms %, event %',

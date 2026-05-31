@@ -100,7 +100,7 @@ log "patching live Auth config"
 response_file="$(patch_auth_config "$payload")"
 status="$(cat "$response_file.status")"
 if [[ "$status" == "402" && "$payload" == *'"password_hibp_enabled":true'* ]]; then
-  log "HIBP leaked-password protection requires a paid Supabase plan; applying other Auth hardening without it"
+  log "leaked-password protection may require a paid Supabase plan; applying other Auth hardening without it"
   payload="$(ruby -r json -e 'data = JSON.parse(STDIN.read); data.delete("password_hibp_enabled"); print JSON.generate(data)' <<< "$payload")"
   rm -f "$response_file" "$response_file.status"
   response_file="$(patch_auth_config "$payload")"

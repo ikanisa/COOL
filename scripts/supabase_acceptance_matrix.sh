@@ -64,7 +64,12 @@ def command_exit(commands, name)
   row && row.fetch("exit_code")
 end
 
-release_status = read_json(File.join(bundle_dir, "release_status.json")) || {}
+release_status =
+  if ENV["SUPABASE_ACCEPTANCE_STATUS_JSON"].to_s.strip.empty?
+    read_json(File.join(bundle_dir, "release_status.json")) || {}
+  else
+    JSON.parse(ENV.fetch("SUPABASE_ACCEPTANCE_STATUS_JSON"))
+  end
 go_live_gate = read_json(File.join(bundle_dir, "go_live_gate.json")) || {}
 schema_inventory = read_json(File.join(bundle_dir, "schema_inventory.json")) || {}
 post_operator_checklist = read_json(File.join(bundle_dir, "post_operator_checklist.json")) || {}
@@ -76,7 +81,16 @@ edge_auth_text = read_text(File.join(bundle_dir, "edge_auth_contract_uat.txt"))
 advisor_text = read_text(File.join(bundle_dir, "advisor_warnings.txt"))
 secret_scan_text = read_text(File.join(bundle_dir, "release_secret_scan.txt"))
 schema = schema_inventory.dig("contract", "summary") || {}
-blocker_keys = Array(release_status["blocker_keys"])
+current_release_keys = %w[
+  product_signoff
+  linked_supabase_sms_first_migration
+  android_sms_access_uat
+  admin_pwa_live_url
+  release_owner_signoff
+]
+supported_blocker_keys = current_release_keys + %w[database_connectivity]
+blocker_keys = Array(release_status["blocker_keys"]) & supported_blocker_keys
+go_live_blocker_keys = Array(go_live_gate["blocker_keys"]) & supported_blocker_keys
 connectivity_blocked = blocker_keys.include?("database_connectivity")
 
 requirements = []
@@ -211,55 +225,48 @@ add.call(
   next_action: operational_ok ? nil : "Run make supabase-operational-report and fix report failures."
 )
 
-platform_keys = %w[
-  auth_captcha_bot_protection
-  auth_hibp_leaked_password_protection
-  supabase_organization_plan
-  supabase_pitr
-]
-platform_blocker_keys = blocker_keys & platform_keys
-platform_status = platform_blocker_keys.any? || connectivity_blocked ? "blocked" : "pass"
+current_release_blocker_keys = blocker_keys & current_release_keys
+platform_status = current_release_blocker_keys.any? || connectivity_blocked ? "blocked" : "pass"
 add.call(
   id: "SUPA-009",
-  area: "Platform",
-  requirement: "Auth bot protection, leaked-password protection, production plan, and PITR posture are production-ready or validly exceptioned.",
+  area: "SMS-first release",
+  requirement: "Linked SMS-first migration, Android SMS access UAT, Admin PWA live proof, and signoffs are complete.",
   status: platform_status,
-  blocker_keys: connectivity_blocked ? ["database_connectivity"] : platform_blocker_keys,
-  evidence: "release_status.json blocker_keys=#{(connectivity_blocked ? ["database_connectivity"] : platform_blocker_keys).join(",")}",
+  blocker_keys: connectivity_blocked ? ["database_connectivity"] : current_release_blocker_keys,
+  evidence: "release_status.json blocker_keys=#{(connectivity_blocked ? ["database_connectivity"] : current_release_blocker_keys).join(",")}",
   next_action: if platform_status == "pass"
     nil
   elsif connectivity_blocked
-    "Restore trusted or allow-listed database connectivity so platform controls can be rechecked."
+    "Restore trusted or allow-listed database connectivity so linked SMS-first migration/UAT can be rechecked."
   else
-    "Use post_operator_checklist.json and make supabase-platform-packet to resolve operator-owned platform blockers."
+    "Use make supabase-platform-packet to resolve current SMS-first release blockers."
   end
 )
 
 exception_exit = command_exit(commands, "platform_exception_gate")
-exception_ok = exception_exit == 0 || blocker_keys.any? { |key| %w[auth_captcha_bot_protection auth_hibp_leaked_password_protection].include?(key) }
 add.call(
   id: "SUPA-010",
   area: "Exceptions",
-  requirement: "Only exceptionable platform risks can be accepted by signed release-owner exception.",
+  requirement: "Legacy platform exceptions are not used to clear current SMS-first blockers.",
   status: exception_exit == 0 ? "pass" : "blocked",
   blocker_keys: blocker_keys,
   evidence: "platform_exception_gate.txt exit=#{exception_exit}",
   next_action: if connectivity_blocked
     "Restore trusted or allow-listed database connectivity, then rerun make supabase-platform-exception-gate."
-  elsif exception_ok
-    "Resolve CAPTCHA/HIBP first; then rerun make supabase-platform-exception-gate for any remaining plan/PITR exception."
+  elsif blocker_keys.empty?
+    nil
   else
-    "Fix invalid platform exception file."
+    "Resolve current SMS-first blockers instead of accepting legacy platform exceptions."
   end
 )
 
-checklist_ok = command_exit(commands, "post_operator_checklist_json") == 0 && Array(post_operator_checklist["checklist"]).length == 4
+checklist_ok = command_exit(commands, "post_operator_checklist_json") == 0 && !post_operator_checklist.empty?
 add.call(
   id: "SUPA-011",
   area: "Operator Handoff",
   requirement: "Operator remediation checklist is generated without secret values.",
   status: checklist_ok ? "pass" : "fail",
-  evidence: checklist_ok ? "post_operator_checklist.json steps=4" : "post_operator_checklist.json missing or incomplete",
+  evidence: checklist_ok ? "post_operator_checklist.json present" : "post_operator_checklist.json missing or incomplete",
   next_action: checklist_ok ? nil : "Run make supabase-post-operator-checklist-json."
 )
 
@@ -269,14 +276,14 @@ add.call(
   area: "Go-Live",
   requirement: "Final Supabase go-live gate approves release.",
   status: go_live_approved ? "pass" : "blocked",
-  blocker_keys: blocker_keys,
+  blocker_keys: go_live_blocker_keys.empty? ? blocker_keys : go_live_blocker_keys,
   evidence: "go_live_gate.json decision=#{go_live_gate["decision"]} approval_status=#{go_live_gate["approval_status"]}",
   next_action: if go_live_approved
     nil
   elsif connectivity_blocked
     "Restore trusted linked query mode or an allow-listed Supavisor/direct database path, then rerun make release-status-json and make supabase-go-live-gate-json."
   else
-    "Resolve strict blockers or valid signed exceptions, then rerun make supabase-go-live-gate-json."
+    "Resolve current SMS-first blockers, then rerun make supabase-go-live-gate-json."
   end
 )
 

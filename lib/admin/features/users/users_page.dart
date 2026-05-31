@@ -6,5 +6,5 @@ class AdminUsersPage extends StatelessWidget {
   const AdminUsersPage({super.key});
 
   @override
-  Widget build(BuildContext context) => const AdminPage(title: 'Users');
+  Widget build(BuildContext context) => const AdminPage(title: 'Members');
 }

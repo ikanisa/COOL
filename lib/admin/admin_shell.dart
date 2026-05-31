@@ -18,24 +18,104 @@ class AdminShell extends ConsumerWidget {
     final content = identity.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, _) => AdminPageError(message: error.toString()),
-      data: (value) => value == null
-          ? const AdminDeniedPage()
-          : Column(
-              children: [
-                _AdminTopbar(envName: env.environmentName, identity: value),
-                Expanded(child: child),
-              ],
-            ),
+      data: (value) {
+        if (value == null) return const AdminDeniedPage();
+        ref.watch(adminRealtimeSubscriptionProvider);
+        return Column(
+          children: [
+            _AdminTopbar(envName: env.environmentName, identity: value),
+            Expanded(child: child),
+          ],
+        );
+      },
     );
     return Scaffold(
-      body: Row(
-        children: [
-          _AdminSidebar(location: location),
-          Expanded(child: content),
-        ],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth < 720) {
+            return Column(
+              children: [
+                _AdminMobileNav(location: location),
+                Expanded(child: content),
+              ],
+            );
+          }
+          return Row(
+            children: [
+              _AdminSidebar(location: location),
+              Expanded(child: content),
+            ],
+          );
+        },
       ),
     );
   }
+}
+
+const _adminNavDestinations = <_AdminNavDestination>[
+  _AdminNavDestination('Overview', Icons.dashboard_outlined, '/admin'),
+  _AdminNavDestination('Groups', Icons.folder_copy_outlined, '/admin/groups'),
+  _AdminNavDestination('Members', Icons.people_outline, '/admin/members'),
+  _AdminNavDestination(
+    'Payment intents',
+    Icons.payments_outlined,
+    '/admin/payment-intents',
+  ),
+  _AdminNavDestination(
+    'SMS parsing',
+    Icons.receipt_long_outlined,
+    '/admin/payment-events',
+  ),
+  _AdminNavDestination(
+    'Allocations',
+    Icons.account_tree_outlined,
+    '/admin/allocations',
+  ),
+  _AdminNavDestination(
+    'Exceptions',
+    Icons.call_split_outlined,
+    '/admin/exceptions',
+  ),
+  _AdminNavDestination(
+    'Ledger',
+    Icons.account_balance_outlined,
+    '/admin/ledger',
+  ),
+  _AdminNavDestination(
+    'Receivers',
+    Icons.settings_phone_outlined,
+    '/admin/receivers',
+  ),
+  _AdminNavDestination('SMS', Icons.sms_outlined, '/admin/sms'),
+  _AdminNavDestination(
+    'Audit logs',
+    Icons.policy_outlined,
+    '/admin/audit-logs',
+  ),
+  _AdminNavDestination('Settings', Icons.tune_outlined, '/admin/settings'),
+  _AdminNavDestination(
+    'Feature flags',
+    Icons.flag_outlined,
+    '/admin/feature-flags',
+  ),
+  _AdminNavDestination(
+    'System health',
+    Icons.monitor_heart_outlined,
+    '/admin/system-health',
+  ),
+  _AdminNavDestination(
+    'Admin users',
+    Icons.admin_panel_settings_outlined,
+    '/admin/admin-users',
+  ),
+];
+
+class _AdminNavDestination {
+  const _AdminNavDestination(this.label, this.icon, this.path);
+
+  final String label;
+  final IconData icon;
+  final String path;
 }
 
 class _AdminSidebar extends StatelessWidget {
@@ -61,86 +141,8 @@ class _AdminSidebar extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
-              _NavItem(
-                'Overview',
-                Icons.dashboard_outlined,
-                '/admin',
-                location,
-              ),
-              _NavItem(
-                'Collections',
-                Icons.folder_copy_outlined,
-                '/admin/collections',
-                location,
-              ),
-              _NavItem(
-                'Public requests',
-                Icons.fact_check_outlined,
-                '/admin/public-requests',
-                location,
-              ),
-              _NavItem('Users', Icons.people_outline, '/admin/users', location),
-              _NavItem(
-                'Payments',
-                Icons.payments_outlined,
-                '/admin/payments',
-                location,
-              ),
-              _NavItem(
-                'Payment events',
-                Icons.receipt_long_outlined,
-                '/admin/payment-events',
-                location,
-              ),
-              _NavItem(
-                'Unallocated payments',
-                Icons.call_split_outlined,
-                '/admin/unallocated',
-                location,
-              ),
-              _NavItem(
-                'Ledger',
-                Icons.account_balance_outlined,
-                '/admin/ledger',
-                location,
-              ),
-              _NavItem(
-                'Receivers',
-                Icons.settings_phone_outlined,
-                '/admin/receivers',
-                location,
-              ),
-              _NavItem('SMS', Icons.sms_outlined, '/admin/sms', location),
-              _NavItem(
-                'Audit logs',
-                Icons.policy_outlined,
-                '/admin/audit-logs',
-                location,
-              ),
-              _NavItem(
-                'Settings',
-                Icons.tune_outlined,
-                '/admin/settings',
-                location,
-              ),
-              _NavItem(
-                'Feature flags',
-                Icons.flag_outlined,
-                '/admin/feature-flags',
-                location,
-              ),
-              _NavItem(
-                'System health',
-                Icons.monitor_heart_outlined,
-                '/admin/system-health',
-                location,
-              ),
-              _NavItem(
-                'Admin users',
-                Icons.admin_panel_settings_outlined,
-                '/admin/admin-users',
-                location,
-              ),
+              for (final destination in _adminNavDestinations)
+                _NavItem(destination, location),
             ],
           ),
         ),
@@ -149,28 +151,72 @@ class _AdminSidebar extends StatelessWidget {
   }
 }
 
-class _NavItem extends StatelessWidget {
-  const _NavItem(this.label, this.icon, this.path, this.location);
+class _AdminMobileNav extends StatelessWidget {
+  const _AdminMobileNav({required this.location});
 
-  final String label;
-  final IconData icon;
-  final String path;
   final String location;
 
   @override
   Widget build(BuildContext context) {
-    final selected = path == '/admin'
-        ? location == path
-        : location.startsWith(path);
-    return ListTile(
-      selected: selected,
-      leading: Icon(icon),
-      title: Text(label),
-      dense: true,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      onTap: () => context.go(path),
+    final colorScheme = Theme.of(context).colorScheme;
+    return Material(
+      color: colorScheme.surfaceContainerHighest.withValues(alpha: .45),
+      child: SafeArea(
+        bottom: false,
+        child: SizedBox(
+          height: 56,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            itemCount: _adminNavDestinations.length,
+            separatorBuilder: (_, _) => const SizedBox(width: 8),
+            itemBuilder: (context, index) {
+              final destination = _adminNavDestinations[index];
+              final selected = _isSelected(destination.path, location);
+              return FilledButton.tonalIcon(
+                style: FilledButton.styleFrom(
+                  backgroundColor: selected
+                      ? colorScheme.primaryContainer
+                      : colorScheme.surface,
+                  foregroundColor: selected
+                      ? colorScheme.onPrimaryContainer
+                      : colorScheme.onSurfaceVariant,
+                  visualDensity: VisualDensity.compact,
+                ),
+                onPressed: () => context.go(destination.path),
+                icon: Icon(destination.icon, size: 18),
+                label: Text(destination.label),
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
+}
+
+class _NavItem extends StatelessWidget {
+  const _NavItem(this.destination, this.location);
+
+  final _AdminNavDestination destination;
+  final String location;
+
+  @override
+  Widget build(BuildContext context) {
+    final selected = _isSelected(destination.path, location);
+    return ListTile(
+      selected: selected,
+      leading: Icon(destination.icon),
+      title: Text(destination.label),
+      dense: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      onTap: () => context.go(destination.path),
+    );
+  }
+}
+
+bool _isSelected(String path, String location) {
+  return path == '/admin' ? location == path : location.startsWith(path);
 }
 
 class _AdminTopbar extends StatelessWidget {

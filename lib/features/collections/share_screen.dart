@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../app/env/app_env.dart';
-import '../../core/utils/money_format.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
@@ -24,33 +24,82 @@ class ShareScreen extends ConsumerWidget {
     final text = [
       collection.title,
       collection.description,
-      if (collection.targetAmountRwf != null)
-        'Target: ${formatRwf(collection.targetAmountRwf!)}',
-      'Contribute via MOMO: $link',
-      'Collect does not move money; you pay the receiver directly.',
-    ].join('\n');
+      'Join or contribute: $link',
+    ].where((line) => line.trim().isNotEmpty).join('\n');
 
     return ScreenScaffold(
-      title: 'Share',
-      subtitle:
-          'Share a safe collection link. Receiver MOMO details are shown only in the contribution step.',
+      title: 'Share group',
+      subtitle: 'Share by link, QR code, chat app, SMS, or deep link.',
       children: [
         const InfoSecurityBanner(
-          title: 'Safe share',
+          title: 'Group sharing',
           message:
-              'This link can be public. It does not include phone numbers, receiver MOMO numbers, or raw SMS.',
+              'The link does not include phone numbers, receiver MoMo numbers, or raw SMS.',
           tone: CollectStatusTone.privacy,
+        ),
+        CollectCard(
+          child: Column(
+            children: [
+              CollectButton(
+                label: 'SMS',
+                icon: CollectIcons.sms,
+                onPressed: () => _openShareTarget(
+                  context,
+                  Uri(scheme: 'sms', queryParameters: {'body': text}),
+                  'SMS sharing is not available on this device.',
+                ),
+                expand: true,
+              ),
+              CollectSpacing.gap12,
+              CollectButton(
+                label: 'WhatsApp',
+                icon: CollectIcons.sms,
+                onPressed: () => _openShareTarget(
+                  context,
+                  Uri.https('wa.me', '/', {'text': text}),
+                  'WhatsApp sharing is not available on this device.',
+                ),
+                variant: CollectButtonVariant.secondary,
+                expand: true,
+              ),
+              CollectSpacing.gap12,
+              CollectButton(
+                label: 'Copy deep link',
+                icon: CollectIcons.copy,
+                onPressed: () => copyToClipboard(
+                  context,
+                  link,
+                  message: 'Group deep link copied.',
+                ),
+                variant: CollectButtonVariant.secondary,
+                expand: true,
+              ),
+            ],
+          ),
         ),
         QRCard(
           link: link,
-          caption: 'Safe collection link for WhatsApp, QR, or public posts.',
+          caption:
+              'Group link and QR code for chat apps, SMS, or in-person sharing.',
           onCopy: () => copyToClipboard(
             context,
             text,
-            message: 'WhatsApp share text copied.',
+            message: 'Group share text copied.',
           ),
         ),
       ],
     );
+  }
+
+  Future<void> _openShareTarget(
+    BuildContext context,
+    Uri uri,
+    String failureMessage,
+  ) async {
+    final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (launched || !context.mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(failureMessage)));
   }
 }

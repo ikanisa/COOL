@@ -9,7 +9,7 @@ class AppEnv {
     required this.publicUrl,
     required this.adminAppUrl,
     required this.enableSmsReader,
-    required this.enableInternalReceiverMode,
+    required this.enableAndroidSmsAccess,
     required this.enableAdminPanel,
     required this.enableAdminDevTools,
     required this.authCaptchaEnabled,
@@ -25,9 +25,7 @@ class AppEnv {
       publicUrl: String.fromEnvironment('APP_PUBLIC_URL'),
       adminAppUrl: String.fromEnvironment('ADMIN_APP_URL'),
       enableSmsReader: bool.fromEnvironment('ENABLE_SMS_READER'),
-      enableInternalReceiverMode: bool.fromEnvironment(
-        'ENABLE_INTERNAL_RECEIVER_MODE',
-      ),
+      enableAndroidSmsAccess: bool.fromEnvironment('ENABLE_ANDROID_SMS_ACCESS'),
       enableAdminPanel: bool.fromEnvironment('ENABLE_ADMIN_PANEL'),
       enableAdminDevTools: bool.fromEnvironment('ENABLE_ADMIN_DEV_TOOLS'),
       authCaptchaEnabled: bool.fromEnvironment('AUTH_CAPTCHA_ENABLED'),
@@ -45,7 +43,7 @@ class AppEnv {
   final String publicUrl;
   final String adminAppUrl;
   final bool enableSmsReader;
-  final bool enableInternalReceiverMode;
+  final bool enableAndroidSmsAccess;
   final bool enableAdminPanel;
   final bool enableAdminDevTools;
   final bool authCaptchaEnabled;

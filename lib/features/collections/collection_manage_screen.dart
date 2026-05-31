@@ -17,63 +17,25 @@ class CollectionManageScreen extends ConsumerWidget {
     final collection = repo.collectionById(collectionId);
 
     return ScreenScaffold(
-      title: 'Manage collection',
+      title: 'Manage group',
       subtitle: collection.title,
       children: [
         CollectCard(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Wrap(
-                spacing: CollectSpacing.x2,
-                runSpacing: CollectSpacing.x2,
-                children: [
-                  CollectStatusChip(
-                    label: collection.visibility.replaceAll('_', ' '),
-                    tone: statusToneFromText(collection.visibility),
-                  ),
-                  CollectStatusChip(
-                    label: collection.publicStatus.replaceAll('_', ' '),
-                    tone: statusToneFromText(collection.publicStatus),
-                  ),
-                ],
-              ),
-              CollectSpacing.gap16,
-              CollectListTile(
-                leading: CollectIcons.public,
-                title: 'Request public listing',
-                subtitle:
-                    'Admin approval is required before this appears in Public.',
-                trailing: CollectButton(
-                  label: 'Request',
-                  onPressed: collection.publicStatus == 'private'
-                      ? () async {
-                          await ref
-                              .read(collectRepositoryProvider.notifier)
-                              .requestPublic(collectionId);
-                          if (!context.mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Public listing request sent for admin review.',
-                              ),
-                            ),
-                          );
-                        }
-                      : null,
-                ),
-              ),
               CollectListTile(
                 leading: CollectIcons.people,
-                title: 'Invite members',
-                subtitle: 'Invite by phone number or 6-digit Collect ID.',
-                onTap: () => context.go('/collections/$collectionId/invite'),
+                title: 'Share group',
+                subtitle:
+                    'Share by link, QR code, chat app, SMS, or deep link.',
+                onTap: () => context.go('/groups/$collectionId/share'),
               ),
               CollectListTile(
                 leading: CollectIcons.ledger,
-                title: 'Ledger and review queue',
-                subtitle: 'Confirmed support and ambiguous MOMO events.',
-                onTap: () => context.go('/collections/$collectionId/ledger'),
+                title: 'Ledger',
+                subtitle: 'Confirmed SMS-matched contributions.',
+                onTap: () => context.go('/groups/$collectionId/ledger'),
               ),
             ],
           ),

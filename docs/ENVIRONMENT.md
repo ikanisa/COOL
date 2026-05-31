@@ -21,7 +21,7 @@ Flutter dart defines:
 - `APP_PUBLIC_URL`
 - `APP_ENVIRONMENT`
 - `ENABLE_SMS_READER`
-- `ENABLE_INTERNAL_RECEIVER_MODE`
+- `ENABLE_ANDROID_SMS_ACCESS`
 
 Supabase function secrets:
 
@@ -40,7 +40,7 @@ Supabase function secrets:
 Build flavors:
 
 - `dev`: normal development build without restricted SMS permissions.
-- `internal_receiver`: internal Android build with SMS permissions and receiver-mode flags.
+- `internal_receiver`: internal Android build with SMS permissions and SMS app-access flags.
 - `production`: production app without restricted SMS permissions by default.
 
 Local Supabase notes:

@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
-import '../../shared/widgets/amount_input.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import 'group_creation_platform.dart';
 
 class CollectionCreateScreen extends ConsumerStatefulWidget {
   const CollectionCreateScreen({super.key});
@@ -20,32 +19,35 @@ class _CollectionCreateScreenState
     extends ConsumerState<CollectionCreateScreen> {
   final _title = TextEditingController();
   final _description = TextEditingController();
-  final _target = TextEditingController();
-  final _receiver = TextEditingController(text: '+250788123456');
-  final _cover = TextEditingController();
-  String _category = collectCategories.first;
-  bool _recurring = false;
+  final _receiver = TextEditingController();
+  bool _syncedProfileMomo = false;
 
   @override
   void dispose() {
     _title.dispose();
     _description.dispose();
-    _target.dispose();
     _receiver.dispose();
-    _cover.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final profile = ref.watch(collectRepositoryProvider).currentProfile;
+    if (!_syncedProfileMomo &&
+        _receiver.text.trim().isEmpty &&
+        profile?.momoNumber?.trim().isNotEmpty == true) {
+      _receiver.text = profile!.momoNumber!;
+      _syncedProfileMomo = true;
+    }
+    final canCreate = canCreateGroupsOnThisPlatform();
     return ScreenScaffold(
-      title: 'Create collection',
-      subtitle: 'Set the goal, receiver, and privacy defaults before sharing.',
+      title: 'Create group',
+      subtitle: 'Name the group and confirm the receiver MoMo number.',
       children: [
         const InfoSecurityBanner(
-          title: 'Private until approved',
+          title: 'Android SMS access',
           message:
-              'Collections start private. Public directory listing requires platform approval and never exposes receiver MOMO publicly.',
+              'On Android, creating your first group starts SMS access consent so receiver MoMo notifications can be parsed automatically.',
           tone: CollectStatusTone.privacy,
         ),
         CollectCard(
@@ -53,66 +55,41 @@ class _CollectionCreateScreenState
             children: [
               TextField(
                 controller: _title,
-                decoration: collectInputDecoration(context, label: 'Title'),
+                decoration: collectInputDecoration(
+                  context,
+                  label: 'Group name',
+                ),
               ),
               CollectSpacing.gap12,
               TextField(
                 controller: _description,
-                maxLines: 4,
+                maxLines: 3,
                 decoration: collectInputDecoration(
                   context,
-                  label: 'Story or description',
+                  label: 'Description, optional',
                 ),
               ),
-              CollectSpacing.gap12,
-              DropdownButtonFormField<String>(
-                initialValue: _category,
-                items: [
-                  for (final category in collectCategories)
-                    DropdownMenuItem(value: category, child: Text(category)),
-                ],
-                onChanged: (value) =>
-                    setState(() => _category = value ?? _category),
-                decoration: collectInputDecoration(context, label: 'Category'),
-              ),
-              CollectSpacing.gap12,
-              AmountInput(controller: _target),
               CollectSpacing.gap12,
               TextField(
                 controller: _receiver,
                 keyboardType: TextInputType.phone,
                 decoration: collectInputDecoration(
                   context,
-                  label: 'Receiver MOMO number',
+                  label: 'Receiver MoMo number',
                   helper:
-                      'Used only in contribution instructions and matching.',
-                ),
-              ),
-              CollectSpacing.gap12,
-              TextField(
-                controller: _cover,
-                keyboardType: TextInputType.url,
-                decoration: collectInputDecoration(
-                  context,
-                  label: 'Cover image URL, optional',
-                  helper:
-                      'Public covers are shown only after directory approval.',
-                ),
-              ),
-              CollectSpacing.gap12,
-              SwitchListTile.adaptive(
-                value: _recurring,
-                onChanged: (value) => setState(() => _recurring = value),
-                title: const Text('Recurring collection'),
-                subtitle: const Text(
-                  'Monthly periods and member obligations can be tracked.',
+                      'Synced from your profile. You can edit it for this group.',
                 ),
               ),
               CollectSpacing.gap16,
               CollectButton(
-                label: 'Create private collection',
+                label: 'Create group',
                 icon: CollectIcons.check,
-                onPressed: _create,
+                onPressed: canCreate
+                    ? _create
+                    : () => showAndroidGroupCreationOnlyDialog(context),
+                variant: canCreate
+                    ? CollectButtonVariant.primary
+                    : CollectButtonVariant.secondary,
                 expand: true,
               ),
             ],
@@ -123,18 +100,25 @@ class _CollectionCreateScreenState
   }
 
   Future<void> _create() async {
+    final smsAccessGranted =
+        await ref.read(collectRepositoryProvider.notifier).setSmsAccess(true);
+    if (!smsAccessGranted) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('SMS access is required to create a group.'),
+        ),
+      );
+      return;
+    }
     final collection = await ref
         .read(collectRepositoryProvider.notifier)
         .createCollection(
-          title: _title.text.isEmpty ? 'Untitled collection' : _title.text,
+          title: _title.text.isEmpty ? 'Untitled group' : _title.text,
           description: _description.text,
-          category: _category,
-          targetAmountRwf: int.tryParse(_target.text),
           receiverMomoNumber: _receiver.text,
-          coverImageUrl: _cover.text,
-          isRecurring: _recurring,
         );
     if (!mounted) return;
-    context.go('/collections/${collection.id}');
+    context.go('/groups/${collection.id}');
   }
 }

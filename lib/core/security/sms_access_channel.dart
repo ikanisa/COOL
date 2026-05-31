@@ -1,14 +1,14 @@
 import 'package:flutter/services.dart';
 
-class ReceiverSmsEnvelope {
-  const ReceiverSmsEnvelope({
+class SmsAccessEnvelope {
+  const SmsAccessEnvelope({
     required this.rawSender,
     required this.rawBody,
     required this.receivedAtDevice,
   });
 
-  factory ReceiverSmsEnvelope.fromMap(Map<dynamic, dynamic> map) {
-    return ReceiverSmsEnvelope(
+  factory SmsAccessEnvelope.fromMap(Map<dynamic, dynamic> map) {
+    return SmsAccessEnvelope(
       rawSender: (map['raw_sender'] as String?) ?? 'android_sms',
       rawBody: (map['raw_body'] as String?) ?? '',
       receivedAtDevice: (map['received_at_device'] as String?) ?? '',
@@ -20,16 +20,21 @@ class ReceiverSmsEnvelope {
   final String receivedAtDevice;
 }
 
-class ReceiverModeChannel {
-  const ReceiverModeChannel();
+class SmsAccessChannel {
+  const SmsAccessChannel();
 
-  static const MethodChannel _channel = MethodChannel('collect/receiver_mode');
+  static const MethodChannel _channel = MethodChannel('collect/sms_access');
 
-  Future<void> setEnabled(bool enabled) async {
+  Future<bool> setEnabled(bool enabled) async {
     try {
-      await _channel.invokeMethod<void>('setEnabled', {'enabled': enabled});
+      return await _channel.invokeMethod<bool>('setEnabled', {
+            'enabled': enabled,
+          }) ??
+          false;
     } on MissingPluginException {
-      return;
+      return !enabled;
+    } on PlatformException {
+      return !enabled;
     }
   }
 
@@ -41,7 +46,7 @@ class ReceiverModeChannel {
     }
   }
 
-  Future<List<ReceiverSmsEnvelope>> drainPendingSms() async {
+  Future<List<SmsAccessEnvelope>> drainPendingSms() async {
     try {
       final result = await _channel.invokeListMethod<Object?>(
         'drainPendingSms',
@@ -49,7 +54,7 @@ class ReceiverModeChannel {
       if (result == null) return const [];
       return result
           .whereType<Map<dynamic, dynamic>>()
-          .map(ReceiverSmsEnvelope.fromMap)
+          .map(SmsAccessEnvelope.fromMap)
           .where((item) => item.rawBody.trim().isNotEmpty)
           .toList(growable: false);
     } on MissingPluginException {

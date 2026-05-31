@@ -1,62 +1,80 @@
 # Collect QA Test Report
 
-Audit date: 2026-05-24
+Audit date: 2026-05-27
+
+Scope: SMS-first Groups refactor for the Flutter mobile app, Admin PWA,
+Supabase schema/functions, payment-intent allocation, and release evidence.
+
+## Decision
+
+Current status: **NO-GO for public launch** until the linked Supabase project is
+updated to the current SMS-first migration contract, Android SMS access UAT is
+run with sanitized evidence, Admin PWA live deployment is proven, Android
+release APK/AAB artifacts are rebuilt from current sources, and release owner
+signoff is recorded.
+
+Older Supabase platform blockers from the previous product definition are not
+carried forward in this report. Any platform blocker must be reproduced by a
+fresh readiness run after the SMS-first migration is deployed to the linked
+project.
 
 ## Commands And Results
 
 | Command | Result | Notes |
 | --- | --- | --- |
-| `git status --short` | Dirty | Substantial pre-existing reset/rewrite state; release staging still needs human review. |
-| `git branch --show-current` | Pass | `refactor/collect-repo-reset`. |
-| `/Volumes/PRO-G40/flutter_3_44/bin/flutter --version` | Pass | Flutter `3.44.0`, Dart `3.12.0`. |
-| `/Volumes/PRO-G40/flutter_3_44/bin/dart --version` | Pass | Dart `3.12.0`. |
-| `codex --version` / `codex mcp list` | Pass | Codex `0.130.0`; global `dart` MCP uses `/Volumes/PRO-G40/flutter_3_44/bin/dart mcp-server --force-roots-fallback`. |
-| `/Volumes/PRO-G40/flutter_3_44/bin/flutter clean` | Pass | Clean completed during the SDK upgrade run. |
-| `/Volumes/PRO-G40/flutter_3_44/bin/flutter pub get` | Pass | Dependencies resolved under Dart `3.12.0`. |
-| `/Volumes/PRO-G40/flutter_3_44/bin/flutter pub outdated` | Pass with classified drift | Riverpod/go_router major drift and transitive drift remain for a separate intentional migration. |
-| `/Volumes/PRO-G40/flutter_3_44/bin/dart format --set-exit-if-changed .` | Pass | Final result: `103` files checked, `0` changed. |
-| `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub` | Pass | No issues found. |
-| `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub --concurrency=1` | Pass | `87` tests passed. |
-| `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub -d emulator-5554 --flavor production integration_test/app_uat_smoke_test.dart` | Prior pass; expanded rerun blocked | Earlier `2`-test launch/admin-boundary smoke passed on `Pixel_5_API_34_Lite`. The expanded persona integration harness is implemented and analyzer-clean, but the current device rerun is blocked because the Android emulator disappeared from ADB/Flutter and the iOS simulator stalled at BackBoard. |
-| `make release-secret-scan` | Pass | `gitleaks` is not installed locally, so the command used the no-value-printing tracked/untracked file fallback and passed. |
-| `JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home /Volumes/PRO-G40/flutter_3_44/bin/flutter build apk --release --flavor production --no-pub` | Pass | Produced `build/app/outputs/flutter-apk/app-production-release.apk`; hash recorded in `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-24.sha256`. |
-| `JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home /Volumes/PRO-G40/flutter_3_44/bin/flutter build appbundle --release --flavor production --no-pub` | Pass | Produced `build/app/outputs/bundle/productionRelease/app-production-release.aab`; hash recorded in `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-24.sha256`. |
-| `/Volumes/PRO-G40/flutter_3_44/bin/flutter build web --release -t lib/main_admin.dart --no-wasm-dry-run --no-pub` | Pass | Produced `build/web/main.dart.js`. |
-| `make supabase-ready` | Earlier pass; latest release refresh blocked | Earlier linked code-owned readiness passed project health, migrations, schema, RLS, rollback UAT, Edge Function checks, and readiness probes. Latest release evidence must be rerun from trusted linked query mode or an allow-listed DB path because this runner now reports `database_connectivity`. |
-| `make supabase-advisors` | Pass | Linked security/performance advisors report no error-level findings after public/member views were switched to caller-context `security_invoker=true`, helper function `search_path` settings were pinned, and broad admin write policies were split by action. |
-| `make supabase-advisor-warnings` | Pass | Warning-level performance advisors remain clean, and known warning-level security advisor inventory is capped so new warning debt fails readiness. |
-| `make supabase-operational-report` | Pass | Read-only report returned cache hit ratio, table estimates, index usage, and `pg_stat_statements` slow-query visibility without printing secrets. |
-| `scripts/collect_admin_security_uat.sh` | Pass | Linked rollback UAT proved admin RBAC, raw-SMS reveal audit logging, moderation approval, payments-admin allocation, and support/read-only denial paths. |
-| `make supabase-edge-auth-uat` | Pass | Local Edge Function auth contract passed and is included in `.cache/supabase_go_live_evidence/20260524T085150Z/edge_auth_contract_uat.txt`. |
-| `make release-status-json` | Pass command, NO-GO result | Latest redacted summary reports `database_connectivity`; earlier evidence reports CAPTCHA/bot protection, HIBP leaked-password protection, Free-plan project-pause risk, and PITR as strict blockers with stable blocker keys. |
-| `make supabase-go-live-evidence` | Pass command, NO-GO bundle | Generated `.cache/supabase_go_live_evidence/20260524T085150Z`; acceptance matrix is `7` pass / `5` blocked with blocker key `database_connectivity`. |
-| `make supabase-ready-strict` | Blocked/NO-GO | Latest release verification cannot complete strict Postgres checks from this runner; earlier strict release gate failed on CAPTCHA/bot protection, HIBP leaked-password protection, Free-plan project-pause risk, and PITR. |
+| `git status --short` | Dirty | Large active refactor state. Public release still needs explicit worktree review and staging. |
+| `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze` | Pass | Analyzer clean after the SMS-first app/admin refactor. |
+| Full Flutter/release-doc suite | Pass | `79` tests passed across admin placeholders, app shell, phone/Public ID, widgets, persona smoke, repository, Supabase contract, and release-doc tests. |
+| `scripts/admin_pwa_release_build.sh` | Pass | Built `build/web` for `lib/main_admin.dart` and passed Admin PWA manifest/hosting gates. |
+| `scripts/admin_pwa_render_smoke.sh` | Pass | Runtime/render evidence written to `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`; desktop and mobile screenshots are nonblank and show the Collect admin login. |
+| `scripts/admin_pwa_live_gate.sh --json` | Blocked | `ADMIN_PWA_LIVE_URL` is missing; live deployment is not yet proven. |
+| `scripts/collect_edge_auth_contract_uat.sh` | Pass | Local Edge Function auth contract passed. |
+| `deno check supabase/functions/...` | Pass | `parse-payment-sms`, `ingest-payment-sms`, and `allocate-payment` type-check. |
+| `./scripts/migrations/validate_supabase_migrations.sh` | Pass | Local migration validation passes. |
+| `scripts/collect_admin_security_uat.sh` | Pass | Linked rollback UAT for admin RBAC, raw-SMS reveal audit logging, payment-event reparse permission, and denial paths passed. |
+| `scripts/collect_linked_uat.sh` | Blocked/fail | Linked project is missing the current `create_group_with_owner` RPC. |
+| `supabase db push --dry-run` | Blocked | Direct dry-run failed from this operator network with Supabase tenant database allowlist error `EADDRNOTALLOWED`. |
+| `scripts/flutter_mobile_release_gate.sh --json` | Blocked | Existing production APK/AAB artifacts are stale against current Android/mobile sources; signing review and iOS scope also remain pending. |
+| `scripts/release_artifact_manifest.sh --json` | Blocked | Manifest refuses stale Android APK/AAB artifacts. |
 
 ## QA Findings
 
-- P0: Supabase CAPTCHA/bot protection must be configured before public launch.
-- P0: Supabase HIBP leaked-password protection must be enabled after upgrading to a paid plan.
-- P0: Supabase organization plan must be upgraded, or project-pause risk must be accepted in writing before public launch.
-- P0: Supabase PITR must be enabled, or a signed recovery objective exception must be recorded before public launch.
-- P1: Admin human persona UAT still needs live signoff; linked rollback admin/security UAT now passes.
-- P1: `shared_preferences_android` still emits a transitive Built-in Kotlin warning for future Flutter releases.
-- P2: Dependency drift remains intentionally deferred outside this SDK migration.
-- Supabase SQL lint previously passed cleanly after admin list filters were wired to the shared search/status controls; final release approval still needs a trusted rerun because the latest runner reports `database_connectivity`.
+- P0: Linked Supabase must receive the SMS-first migration, then linked
+  contribution/allocation UAT must pass.
+- P0: Android MoMo SMS consent, ingestion, parse, allocation, exception,
+  and ledger UAT must be executed on a real Android device with sanitized
+  evidence.
+- P0: Admin PWA live URL proof is missing.
+- P0: Stakeholder signoff is required for the corrected Groups product
+  definition.
+- P0: Android release APK/AAB artifacts must be rebuilt from current sources.
+- P1: Worktree/release branch review is required before staging a release.
+- P1: Android release signing and any iOS release-scope decision still need
+  current release-owner evidence.
 
-## Fixes Made During QA
+## Refactor Coverage
 
-- Installed and verified the isolated Flutter `3.44.0` / Dart `3.12.0` SDK.
-- Updated toolchain references, SDK constraints, MCP setup docs, README, environment docs, and release docs.
-- Repaired compile/analyzer drift and added focused release, security, admin, app shell, RWF, repository, and Supabase contract tests.
-- Added no-secret release status commands.
-- Added `make release-secret-scan` with redacted gitleaks support and a no-value-printing fallback scanner.
-- Tightened admin RBAC role permissions and added linked rollback admin/security UAT.
-- Added linked Supabase advisor gate and fixed security-definer view advisor errors with `security_invoker=true` views.
-- Fixed remaining mutable helper function `search_path` warnings reported by Supabase security advisors.
-- Fixed code-owned Supabase performance advisor warnings by splitting broad permissive admin write policies and wrapping auth/helper calls in RLS policies.
-- Removed anonymous direct execute access from `current_user_is_platform_admin()` after linked rollback checks proved anonymous public read surfaces do not require it.
-- Disabled GraphQL introspection for the public schema, removed `graphql_public` from local exposed schemas, and added a warning-level Supabase advisor inventory gate.
-- Added linked Supabase query readiness with direct Postgres/pooler fallback for operator scripts.
-- Added migration `202605230017_admin_list_filter_contracts.sql` so admin list RPC search/status parameters are consumed by the remote schema.
-- Added `make supabase-operational-report` for live read-only database health and performance evidence.
-- Preserved payment, allocation, ledger, RLS, production data, and external integration behavior except where tests/docs were added to prevent exposure or permission regression.
+- Mobile navigation is reduced to `Home`, `Groups`, and `Settings`.
+- Public directory, campaign/category/target/cover flows, manual SMS paste,
+  contributor-reported transaction IDs, and anonymity choices are removed from
+  the current UX.
+- Profile owns MoMo number and the generated 6-digit Collect ID.
+- Group creation uses name, optional description, and profile-synced receiver
+  MoMo with edit support.
+- Group creation is Android-only; iPhone users receive exactly
+  `group creation is available only on Android`.
+- Contributions create Supabase payment intents and launch the MoMo USSD dialer.
+- MoMo SMS is parsed through Edge Functions and allocation is based on
+  payment intent, Collect ID, amount, receiver, and timing.
+- Admin PWA is aligned to Groups, Members, Payment intents, SMS parsing,
+  Allocations, Exceptions, Ledger, Receivers, SMS, Audit logs, Settings,
+  Feature flags, System health, and Admin users.
+
+## Next Verification
+
+1. Apply/dry-run the SMS-first migration from a database-allowed network.
+2. Rerun `scripts/collect_linked_uat.sh`.
+3. Deploy Admin PWA and rerun live gate with `ADMIN_PWA_LIVE_URL`.
+4. Run Android SMS access UAT with real MoMo notification scenarios.
+5. Rebuild Android release APK/AAB artifacts and rerun release artifact gates.
+6. Regenerate release evidence from current commands only.

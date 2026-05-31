@@ -1,47 +1,57 @@
 # Architecture
 
-Collect uses Flutter for the mobile app and Supabase for auth, database, RLS, RPCs, and Edge Functions.
+Collect uses Flutter for the mobile app/Admin PWA and Supabase for Auth,
+Postgres, RLS, RPCs, Realtime, and Edge Functions.
 
 Core boundaries:
 
-- Supabase Auth owns sessions. WhatsApp OTP delivery is implemented through a Supabase hook/Edge Function.
-- Flutter never stores service role, OpenAI, or WhatsApp Cloud API credentials.
-- Payment instructions are manual USSD/MOMO instructions only and are rendered from Supabase instruction templates. There is no card, Stripe, Paystack, or payment gateway integration.
-- SMS parsing is advisory. Deterministic Postgres logic performs allocation and ledger posting.
-- Raw SMS is stored only in protected tables and never appears in public views.
+- Supabase Auth owns sessions. WhatsApp OTP is app-facing and supports valid
+  international WhatsApp numbers.
+- Flutter never stores service role, OpenAI, WhatsApp Cloud API, or SMS gateway
+  secrets.
+- Users are anonymous in product flows. The stable public identifier is the
+  generated 6-digit Collect ID.
+- Contributions start as Supabase payment intents, not as app-entered payment
+  confirmations.
+- Receiver MoMo SMS is ingested automatically, parsed by OpenAI, and allocated
+  to pending payment intents in Postgres.
+- Raw SMS is protected data and is never exposed in member-facing surfaces.
 
 Flutter structure:
 
-- `app/router.dart`: go_router route map.
-- `app/theme`: finance-grade theme tokens.
-- `core/security`: phone normalization, hashing, public ID helpers.
-- `features/auth`: WhatsApp OTP screens.
-- `features/profile`: profile/MOMO setup.
-- `features/collections`: list, create, detail, manage, share, invite.
-- `features/payments`: intent and payment instruction flow.
-- `features/receiver_sms`: consent and manual SMS paste.
-- `features/ledger`: immutable ledger and unallocated review.
-- `features/public_directory`: approved public collections.
-- `admin`: separate Flutter web admin app built from `lib/main_admin.dart`.
+- `app/router.dart`: mobile route map for Home, Groups, Settings.
+- `app/theme`: Collect design tokens.
+- `core/security`: phone normalization, hashing, public ID helpers, Android SMS
+  receiver channel.
+- `features/auth`: WhatsApp OTP.
+- `features/profile`: Collect ID and MoMo number.
+- `features/collections`: Groups list/create/detail/manage/share/invite.
+- `features/payments`: amount entry, payment intent creation, MoMo dialer launch.
+- `features/ledger`: confirmed SMS-matched ledger entries.
+- `admin`: separate Flutter web Admin PWA from `lib/main_admin.dart`.
 
-Admin boundary:
+Mobile workflow:
 
-- The customer router does not expose `/admin`.
-- The admin entrypoint uses Supabase Auth and admin RPCs for overview metrics,
-  queues, detail pages, moderation, public-request review, manual allocation,
-  feature flags, settings, and raw-SMS reveal.
-- Client-side admin guards are convenience only. Server-side RLS,
-  security-definer RPCs, role/permission tables, and audit logs enforce the
-  boundary.
-- Raw-SMS reveal requires an admin permission, a reason, and an audit record.
+1. User signs in and receives a 6-digit Collect ID.
+2. User stores a MoMo number in profile.
+3. Android group creator creates a group; profile MoMo is prefilled as receiver.
+4. iPhone group creation stays unavailable with the exact product warning.
+5. Group is shared by link, QR code, chat app, SMS, or deep link.
+6. Contributor enters amount and taps `Contribute`.
+7. Supabase creates a payment intent linked to group, amount, receiver MoMo,
+   contributor user id, and contributor Collect ID.
+8. App opens the MoMo dialer through `tel:`.
+9. MoMo SMS is uploaded to Supabase.
+10. `parse-payment-sms` extracts structured facts with OpenAI.
+11. `allocate-payment` calls Postgres allocation.
+12. Clear matches post immutable ledger entries and realtime invalidation events.
+13. Ambiguous parser/allocation results stay as admin-visible exceptions, not
+    member-entered fallbacks.
 
-Backend flow:
+Admin workflow:
 
-1. User creates a private collection with receiver MOMO number.
-2. User requests public listing; platform admin approves or rejects.
-3. Members are invited by phone hash or 6-digit Collect public ID through private invite tokens.
-4. Contributor creates `payment_intent`, sees receiver number and configurable USSD instructions.
-5. Receiver pastes SMS or internal Android receiver ingests SMS after consent.
-6. `parse-payment-sms` calls OpenAI structured outputs and stores parsed facts.
-7. `allocate-payment` runs deterministic matching and posts payments/ledger entries only for clear matches.
-8. Ambiguous or low-confidence events stay in review.
+- Admin PWA monitors groups, members, payment intents, raw SMS metadata, parser
+  output, allocations, exceptions, receivers, ledger, audit logs, and settings.
+- Admin routes are operational monitoring routes, not public campaign approval
+  routes.
+- Raw SMS reveal, when enabled, remains permissioned and audited.
