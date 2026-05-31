@@ -85,6 +85,7 @@ sms_first_required_patterns=(
   'revoke all on public_collections_view'
   'revoke all on member_public_collection_requests_view'
   'revoke all on collection_summary_view'
+  'revoke all on parsed_payment_events_review_view'
   'revoke all on payment_instruction_templates'
   'drop function if exists report_payment_intent_paid(uuid, text)'
   'drop function if exists manual_allocate_parsed_payment_event(uuid, uuid, uuid, text)'
@@ -100,9 +101,12 @@ sms_first_required_patterns=(
   'drop view if exists member_public_collection_requests_view'
   'drop view if exists public_collections_view'
   'drop view if exists collection_summary_view'
+  'drop view if exists parsed_payment_events_review_view'
   'drop table if exists payment_instruction_templates'
   'drop table if exists public_collection_requests'
   'create or replace function admin_list_collections'
+  'create or replace function admin_get_payment_event'
+  'set sender_name = null'
   "'Collect ID ' || p.public_id"
   "'payments.allocate'"
   'grant execute on function join_group_by_slug'

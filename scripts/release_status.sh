@@ -40,9 +40,20 @@ if "$ROOT_DIR/scripts/flutter_mobile_release_gate.sh" --json >"$mobile_gate_json
   :
 else
   mobile_gate_exit=$?
-  if [[ "$mobile_gate_exit" -eq 99 ]] &&
-    ruby -r json -e 'data = JSON.parse(File.read(ARGV.fetch(0))); exit(Array(data["blocker_keys"]).include?("android_release_artifacts") ? 0 : 1)' "$mobile_gate_json"; then
-    add_blocker "android_release_artifacts" "Current Android release APK/AAB artifacts are missing or stale."
+  if [[ "$mobile_gate_exit" -eq 99 ]]; then
+    while IFS= read -r key; do
+      case "$key" in
+        android_release_artifacts)
+          add_blocker "android_release_artifacts" "Current Android release APK/AAB artifacts are missing or stale."
+          ;;
+        android_release_signing_review)
+          add_blocker "android_release_signing_review" "Android release signing / Play App Signing review is not approved."
+          ;;
+        ios_release_scope)
+          add_blocker "ios_release_scope" "iOS release scope is not signed off or explicitly marked out of scope."
+          ;;
+      esac
+    done < <(ruby -r json -e 'data = JSON.parse(File.read(ARGV.fetch(0))); Array(data["blocker_keys"]).each { |key| puts key }' "$mobile_gate_json")
   fi
 fi
 
@@ -87,6 +98,8 @@ if [[ "$output_format" == "json" ]]; then
     printf '    "product_signoff": %s,\n' "$(json_escape "${COLLECT_PRODUCT_SIGNOFF_APPROVED:-0}")"
     printf '    "android_sms_uat": %s,\n' "$(json_escape "${COLLECT_ANDROID_SMS_UAT_APPROVED:-0}")"
     printf '    "android_release_artifacts": %s,\n' "$(json_escape "$([[ " ${blocker_keys[*]} " == *" android_release_artifacts "* ]] && printf stale || printf current)")"
+    printf '    "android_release_signing_review": %s,\n' "$(json_escape "$([[ " ${blocker_keys[*]} " == *" android_release_signing_review "* ]] && printf missing || printf current)")"
+    printf '    "ios_release_scope": %s,\n' "$(json_escape "$([[ " ${blocker_keys[*]} " == *" ios_release_scope "* ]] && printf missing || printf current)")"
     printf '    "admin_pwa_live_url": %s,\n' "$(json_escape "${ADMIN_PWA_LIVE_URL:+present}")"
     printf '    "linked_sms_first_uat": %s,\n' "$(json_escape "${COLLECT_LINKED_SMS_FIRST_UAT_PASSED:-0}")"
     printf '    "release_owner_signoff": %s\n' "$(json_escape "${COLLECT_RELEASE_OWNER_SIGNOFF_APPROVED:-0}")"

@@ -26,6 +26,7 @@ class _PaymentIntentStatusScreenState
   @override
   Widget build(BuildContext context) {
     final repo = ref.read(collectRepositoryProvider.notifier);
+    final profile = ref.watch(collectRepositoryProvider).currentProfile;
     final intent = repo.intentById(widget.intentId);
     final collection = repo.collectionById(widget.collectionId);
 
@@ -44,7 +45,7 @@ class _PaymentIntentStatusScreenState
           amountRwf: intent.expectedAmountRwf,
           receiverLabel: intent.receiverLabel,
           receiverMomoNumber: intent.receiverMomoNumber,
-          contributionCode: intent.contributionCode,
+          memberLabel: profile?.safeAlias ?? 'Collect ID linked',
           network: intent.network,
           status: intent.status,
         ),

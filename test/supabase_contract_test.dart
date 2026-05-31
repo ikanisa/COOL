@@ -6,9 +6,6 @@ void main() {
   final migration = File(
     'supabase/migrations/202605230001_collect_baseline.sql',
   ).readAsStringSync();
-  final clientSafeViews = File(
-    'supabase/migrations/202605230009_add_client_safe_views.sql',
-  ).readAsStringSync();
   final adminFilterContracts = File(
     'supabase/migrations/202605230017_admin_list_filter_contracts.sql',
   ).readAsStringSync();
@@ -40,7 +37,26 @@ void main() {
     'scripts/supabase_schema_inventory.sh',
   ).readAsStringSync();
 
+  String migrationSection(String text, String start, String end) {
+    final startIndex = text.indexOf(start);
+    final endIndex = text.indexOf(end, startIndex + start.length);
+    expect(startIndex, isNonNegative, reason: 'missing section start: $start');
+    expect(endIndex, isNonNegative, reason: 'missing section end: $end');
+    return text.substring(startIndex, endIndex);
+  }
+
   test('migration exposes contribution intent RPC without instruction copy', () {
+    final contributionIntentFunction = migrationSection(
+      smsFirstGroupPaymentIntents,
+      'create or replace function create_contribution_intent',
+      'create or replace function join_group_by_slug',
+    );
+    final contributionIntentReturn = migrationSection(
+      contributionIntentFunction,
+      'returns table (',
+      ')\nlanguage plpgsql',
+    );
+
     expect(smsFirstGroupPaymentIntents, contains('create_contribution_intent'));
     expect(smsFirstGroupPaymentIntents, contains('receiver_momo_number text'));
     expect(
@@ -55,8 +71,9 @@ void main() {
         'drop function if exists create_payment_intent_with_instructions(uuid, bigint, text, text)',
       ),
     );
-    expect(smsFirstGroupPaymentIntents, isNot(contains('p_anonymity_choice')));
-    expect(smsFirstGroupPaymentIntents, isNot(contains('anonymity_choice')));
+    expect(contributionIntentFunction, isNot(contains('p_anonymity_choice')));
+    expect(contributionIntentFunction, isNot(contains('anonymity_choice')));
+    expect(contributionIntentReturn, isNot(contains('contribution_code')));
     expect(
       smsFirstGroupPaymentIntents,
       isNot(
@@ -68,6 +85,12 @@ void main() {
   });
 
   test('current group creation RPC does not expose campaign fields', () {
+    final groupCreationFunction = migrationSection(
+      smsFirstGroupPaymentIntents,
+      'create or replace function create_group_with_owner',
+      'create or replace function create_payment_intent',
+    );
+
     expect(
       smsFirstGroupPaymentIntents,
       contains('create or replace function create_group_with_owner'),
@@ -86,8 +109,8 @@ void main() {
       smsFirstGroupPaymentIntents,
       contains('drop function if exists create_collection_with_owner'),
     );
-    expect(smsFirstGroupPaymentIntents, isNot(contains('target_amount_rwf')));
-    expect(smsFirstGroupPaymentIntents, isNot(contains('cover_image_url')));
+    expect(groupCreationFunction, isNot(contains('target_amount_rwf')));
+    expect(groupCreationFunction, isNot(contains('cover_image_url')));
   });
 
   test('public profile and contribution views expose only Collect IDs', () {
@@ -364,14 +387,8 @@ void main() {
       adminRoleTightening,
       isNot(contains("'moderation_admin', 'payment_events.reparse'")),
     );
-    expect(
-      smsFirstGroupPaymentIntents,
-      contains("'payments.allocate'"),
-    );
-    expect(
-      readiness,
-      isNot(contains("'payments.allocate', 'EXECUTE'")),
-    );
+    expect(smsFirstGroupPaymentIntents, contains("'payments.allocate'"));
+    expect(readiness, isNot(contains("'payments.allocate', 'EXECUTE'")));
     expect(
       smsFirstGroupPaymentIntents,
       contains('revoke execute on function admin_review_public_request'),
@@ -410,6 +427,22 @@ void main() {
     );
     expect(smsFirstGroupPaymentIntents, contains("'Pending payment intents'"));
     expect(smsFirstGroupPaymentIntents, contains("'SMS exceptions'"));
+    expect(
+      smsFirstGroupPaymentIntents,
+      contains('create or replace function admin_list_allocations'),
+    );
+    expect(
+      smsFirstGroupPaymentIntents,
+      contains(
+        "return admin_list_payment_events(p_search, coalesce(p_status, 'allocated'))",
+      ),
+    );
+    expect(
+      smsFirstGroupPaymentIntents,
+      contains(
+        "e.allocation_status in ('unallocated', 'ambiguous', 'needs_review')",
+      ),
+    );
     expect(smsFirstGroupPaymentIntents, contains("'public_requests.read'"));
     expect(smsFirstGroupPaymentIntents, contains("name = 'group_ops_admin'"));
     expect(
@@ -443,14 +476,64 @@ void main() {
       'lib/shared/repositories/collect_repository.dart',
     ).readAsStringSync();
 
-    expect(migration, contains('create view public_contributions_view'));
     expect(
-      clientSafeViews,
-      contains('create or replace view member_contributions_view'),
+      smsFirstGroupPaymentIntents,
+      contains('create or replace view public_contributions_view'),
+    );
+    expect(
+      smsFirstGroupPaymentIntents,
+      contains('drop view if exists member_contributions_view'),
+    );
+    expect(
+      smsFirstGroupPaymentIntents,
+      contains('create view member_contributions_view'),
     );
     expect(repository, contains("from('public_contributions_view')"));
     expect(repository, contains("from('member_contributions_view')"));
     expect(repository, isNot(contains("from('payments')")));
+  });
+
+  test('member data views expose SMS-first group fields only', () {
+    final memberSummaryView = migrationSection(
+      smsFirstGroupPaymentIntents,
+      'create view member_collection_summary_view',
+      'create view member_collections_view',
+    );
+    final memberCollectionsView = migrationSection(
+      smsFirstGroupPaymentIntents,
+      'create view member_collections_view',
+      'create view member_contributions_view',
+    );
+    final memberContributionsView = migrationSection(
+      smsFirstGroupPaymentIntents,
+      'create view member_contributions_view',
+      'revoke update (display_name, avatar_url, anonymity_default)',
+    );
+
+    for (final viewSql in [
+      memberSummaryView,
+      memberCollectionsView,
+      memberContributionsView,
+    ]) {
+      expect(viewSql, isNot(contains('category')));
+      expect(viewSql, isNot(contains('cover_image_url')));
+      expect(viewSql, isNot(contains('target_amount_rwf')));
+      expect(viewSql, isNot(contains('public_status')));
+      expect(viewSql, isNot(contains('is_recurring')));
+      expect(viewSql, isNot(contains('recurring_rule')));
+      expect(viewSql, isNot(contains('anonymity_choice')));
+      expect(viewSql, isNot(contains('display_name')));
+      expect(viewSql, isNot(contains('avatar_url')));
+    }
+
+    expect(
+      smsFirstGroupPaymentIntents,
+      contains('revoke select (display_name, avatar_url, anonymity_default)'),
+    );
+    expect(
+      smsFirstGroupPaymentIntents,
+      contains('revoke select (anonymity_choice)'),
+    );
   });
 
   test('Supabase advisor security errors are gated', () {
@@ -494,7 +577,6 @@ void main() {
       'public_profiles_view',
       'public_contributions_view',
       'member_collection_summary_view',
-      'parsed_payment_events_review_view',
       'member_collections_view',
       'member_contributions_view',
     ]) {
@@ -549,7 +631,6 @@ void main() {
     expect(evidenceBundle, contains('database_connectivity'));
     expect(evidenceBundle, contains('go_live_gate.json'));
     expect(evidenceBundle, contains('platform_packet.json'));
-    expect(evidenceBundle, contains('platform_exception_gate.txt'));
     expect(evidenceBundle, contains('post_operator_checklist.json'));
     expect(evidenceBundle, contains('acceptance_matrix.json'));
     expect(evidenceBundle, contains('schema_inventory.json'));
@@ -561,7 +642,6 @@ void main() {
     expect(evidenceBundle, contains('commands.tsv'));
     expect(evidenceBundle, contains('summary.json'));
     expect(evidenceBundle, contains('go_live_gate'));
-    expect(evidenceBundle, contains('platform_exception_gate'));
     expect(evidenceBundle, contains('post_operator_checklist'));
     expect(evidenceBundle, contains('acceptance_matrix'));
     expect(evidenceBundle, contains('.cache/supabase_go_live_evidence'));
@@ -680,8 +760,8 @@ void main() {
     ).readAsStringSync();
 
     expect(
-      clientSafeViews,
-      contains('create or replace view member_collections_view'),
+      smsFirstGroupPaymentIntents,
+      contains('create view member_collections_view'),
     );
     expect(smsFirstGroupPaymentIntents, contains('record_sms_access_consent'));
     expect(repository, contains("from('member_collections_view')"));
@@ -695,6 +775,10 @@ void main() {
     expect(repository, isNot(contains("from('receiver_mode_consents')")));
     expect(readiness, contains("'member_collections_view', 'SELECT'"));
     expect(readiness, contains("'member_contributions_view', 'SELECT'"));
+    expect(
+      readiness,
+      isNot(contains("'parsed_payment_events_review_view', 'SELECT'")),
+    );
     expect(
       readiness,
       isNot(contains("'member_public_collection_requests_view', 'SELECT'")),
@@ -722,6 +806,19 @@ void main() {
       contains('create or replace function allocate_parsed_payment_event'),
     );
     expect(smsFirstGroupPaymentIntents, contains('auto_member_intent'));
+    expect(smsFirstGroupPaymentIntents, isNot(contains('auto_code')));
+    expect(
+      smsFirstGroupPaymentIntents,
+      isNot(contains('detected_collection_code')),
+    );
+    expect(
+      smsFirstGroupPaymentIntents,
+      contains('alter column contribution_code drop not null'),
+    );
+    expect(
+      smsFirstGroupPaymentIntents,
+      isNot(contains('generate_contribution_code()')),
+    );
     expect(
       smsFirstGroupPaymentIntents,
       contains(
@@ -809,17 +906,12 @@ void main() {
       ),
     );
     expect(
-      migration,
-      contains('create view parsed_payment_events_review_view'),
-    );
-    expect(migration, contains('ppe.collection_id = c.id'));
-    expect(
-      migration,
-      contains('ppe.receiver_phone_hash = cr.momo_number_hash'),
+      smsFirstGroupPaymentIntents,
+      contains('drop view if exists parsed_payment_events_review_view'),
     );
     expect(
-      migration,
-      contains('parsed_payment_events_review_view to authenticated'),
+      smsFirstGroupPaymentIntents,
+      contains('revoke all on parsed_payment_events_review_view'),
     );
     expect(
       repository,
@@ -833,17 +925,56 @@ void main() {
     expect(parser, contains('collection_id: rawSms.collection_id'));
   });
 
-  test('member summary view is scoped and public directory summary is removed', () {
+  test('SMS parser and admin queues do not record payer names', () {
+    final parser = File(
+      'supabase/functions/parse-payment-sms/index.ts',
+    ).readAsStringSync();
+    final parserSchema = File(
+      'supabase/functions/_shared/sms_schema.ts',
+    ).readAsStringSync();
+    final models = File(
+      'lib/shared/models/collect_models.dart',
+    ).readAsStringSync();
+
+    expect(parserSchema, isNot(contains('sender_name')));
+    expect(parserSchema, isNot(contains('receiver_name')));
+    expect(parserSchema, isNot(contains('raw_reference')));
+    expect(parserSchema, isNot(contains('explanation')));
+    expect(parser, contains('sender_name: null'));
+    expect(parser, contains('Do not extract payer names'));
     expect(
       smsFirstGroupPaymentIntents,
-      contains('drop view if exists collection_summary_view'),
+      contains('update parsed_payment_events\nset sender_name = null'),
     );
-    expect(migration, contains('create view member_collection_summary_view'));
     expect(
-      migration,
-      contains('where public.user_can_read_collection(c.id, auth.uid())'),
+      smsFirstGroupPaymentIntents,
+      contains("select to_jsonb(e) - 'sender_name'"),
     );
+    expect(
+      smsFirstGroupPaymentIntents,
+      isNot(contains("coalesce(e.sender_name, 'Unknown sender')")),
+    );
+    expect(smsFirstGroupPaymentIntents, isNot(contains('e.sender_name ilike')));
+    expect(models, contains("senderLabel: 'MoMo SMS'"));
   });
+
+  test(
+    'member summary view is scoped and public directory summary is removed',
+    () {
+      expect(
+        smsFirstGroupPaymentIntents,
+        contains('drop view if exists collection_summary_view'),
+      );
+      expect(
+        smsFirstGroupPaymentIntents,
+        contains('create view member_collection_summary_view'),
+      );
+      expect(
+        smsFirstGroupPaymentIntents,
+        contains('where public.user_can_read_collection(c.id, auth.uid())'),
+      );
+    },
+  );
 
   test('collection receiver details are hydrated separately under RLS', () {
     final repository = File(
@@ -886,22 +1017,25 @@ void main() {
     );
   });
 
-  test('SMS parser has conservative fallback for provider throttling', () {
+  test('SMS parser requires OpenAI structured parsing', () {
     final parser = File(
       'supabase/functions/parse-payment-sms/index.ts',
+    ).readAsStringSync();
+    final parserSchema = File(
+      'supabase/functions/_shared/sms_schema.ts',
     ).readAsStringSync();
     final liveParserUat = File(
       'scripts/collect_live_parser_uat.sh',
     ).readAsStringSync();
 
-    expect(
-      parser,
-      contains('fallbackParse(rawSms.raw_sender, rawSms.raw_body)'),
-    );
-    expect(parser, contains('response.status === 429'));
-    expect(parser, contains('collect.local_heuristic.v1'));
+    expect(parser, isNot(contains('fallbackParse')));
+    expect(parser, isNot(contains('collect.local_heuristic.v1')));
+    expect(parser, isNot(contains('detected_collection_code')));
+    expect(parserSchema, isNot(contains('detected_collection_code')));
+    expect(parser, contains('OpenAI parse failed'));
     expect(parser, contains('allocation_status: allocationStatus'));
     expect(liveParserUat, contains('live parser UAT passed'));
+    expect(liveParserUat, contains('OpenAI returned 429'));
     expect(liveParserUat, contains('ledger_count'));
   });
 

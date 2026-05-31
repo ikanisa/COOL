@@ -1,4 +1,0 @@
-{
-  "status": "deprecated",
-  "note": "Legacy Supabase platform exceptions are not used for the current SMS-first Groups release gate. Resolve current release-status blocker keys instead."
-}

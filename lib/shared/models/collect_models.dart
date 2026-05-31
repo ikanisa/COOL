@@ -113,7 +113,6 @@ class PaymentIntentModel {
   const PaymentIntentModel({
     required this.id,
     required this.collectionId,
-    required this.contributionCode,
     required this.expectedAmountRwf,
     required this.receiverMomoNumber,
     this.receiverLabel = 'Primary MOMO receiver',
@@ -125,7 +124,6 @@ class PaymentIntentModel {
 
   final String id;
   final String collectionId;
-  final String contributionCode;
   final int expectedAmountRwf;
   final String receiverMomoNumber;
   final String receiverLabel;
@@ -138,7 +136,6 @@ class PaymentIntentModel {
     return PaymentIntentModel(
       id: json['id'] as String,
       collectionId: json['collection_id'] as String,
-      contributionCode: json['contribution_code'] as String,
       expectedAmountRwf: (json['expected_amount_rwf'] as num?)?.toInt() ?? 0,
       receiverMomoNumber:
           (json['receiver_momo_number'] as String?) ??
@@ -214,7 +211,7 @@ class ParsedPaymentEvent {
       id: json['id'] as String,
       amountRwf: (json['amount_rwf'] as num?)?.toInt() ?? 0,
       transactionId: json['transaction_id'] as String?,
-      senderLabel: (json['sender_name'] as String?) ?? 'Unknown sender',
+      senderLabel: 'MoMo SMS',
       allocationStatus: (json['allocation_status'] as String?) ?? 'unallocated',
       confidence: (json['confidence'] as num?)?.toDouble() ?? 0,
       createdAt: _dateTime(json['created_at']),

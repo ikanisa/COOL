@@ -16,20 +16,22 @@ Core data model:
 - `payment_intents`: pending expected contributions linked to group, amount,
   receiver hash, contributor user id, and contributor 6-digit Collect ID.
 - `raw_payment_sms`: MoMo SMS rows uploaded from Android SMS access.
-- `parsed_payment_events`: OpenAI parser output and allocation status.
+- `parsed_payment_events`: OpenAI parser output and allocation status. Current
+  parser output does not store payer/receiver names or raw payment reason text.
 - `payments`, `payment_allocations`, `ledger_entries`: posted contributions,
   allocation evidence, and immutable ledger.
 - `app_realtime_events`: invalidation stream for mobile/Admin refresh.
 
 Product rules in the database:
 
-- Contribution identity is always anonymous in product flows.
+- Contribution identity uses generated 6-digit Collect IDs only; product flows
+  do not ask for real names or anonymity choices.
 - `payment_intents.contributor_public_id` stores the member Collect ID used for
   SMS allocation.
 - Contributors do not update payment intents with payment references.
 - `allocate_parsed_payment_event` matches parsed MoMo SMS to pending payment
-  intents by receiver, amount, time window, contribution code, and/or explicit
-  6-digit Collect ID.
+  intents by receiver, amount, time window, and explicit 6-digit Collect ID.
+  It does not allocate from member-entered references or contribution codes.
 - Ambiguous or low-confidence results remain exceptions and are not posted to
   the ledger automatically.
 

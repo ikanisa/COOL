@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/widgets/collect_shell.dart';
-import '../features/admin/admin_screen.dart';
 import '../features/auth/auth_screen.dart';
 import '../features/collections/collection_create_screen.dart';
 import '../features/collections/collection_detail_screen.dart';
@@ -36,9 +35,8 @@ const collectRoutePaths = <String>[
   '/groups/:collectionId/invite',
   '/groups/:collectionId/ledger',
   '/c/:slug',
-  '/profile/setup',
   '/settings',
-  '/admin',
+  '/settings/profile',
   if (kDebugMode) '/dev/design-system',
 ];
 
@@ -58,10 +56,6 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
           GoRoute(
             path: '/auth',
             builder: (context, state) => const AuthScreen(),
-          ),
-          GoRoute(
-            path: '/profile/setup',
-            builder: (context, state) => const ProfileSetupScreen(),
           ),
           GoRoute(
             path: '/home',
@@ -132,8 +126,8 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
             builder: (context, state) => const SettingsScreen(),
           ),
           GoRoute(
-            path: '/admin',
-            builder: (context, state) => const AdminScreen(),
+            path: '/settings/profile',
+            builder: (context, state) => const ProfileSetupScreen(),
           ),
           if (kDebugMode)
             GoRoute(

@@ -29,7 +29,7 @@ class SettingsScreen extends StatelessWidget {
                 leading: CollectIcons.profile,
                 title: 'Profile and MoMo number',
                 subtitle: 'Collect ID and default group receiver number.',
-                onTap: () => context.go('/profile/setup'),
+                onTap: () => context.go('/settings/profile'),
               ),
               const CollectListTile(
                 leading: CollectIcons.sms,

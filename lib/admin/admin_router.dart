@@ -110,7 +110,7 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
           _listRoute(
             '/admin/allocations',
             title: 'Allocations',
-            rpcName: 'admin_list_payment_events',
+            rpcName: 'admin_list_allocations',
             detailPathPrefix: '/admin/payment-events',
           ),
           _listRoute(

@@ -37,7 +37,7 @@
     },
     {
       "id": "UAT-03",
-      "persona": "Recurring group admin",
+      "persona": "iPhone member",
       "status": "pending",
       "signoff": "",
       "sanitized": false,
@@ -46,7 +46,7 @@
     },
     {
       "id": "UAT-04",
-      "persona": "Public supporter",
+      "persona": "Group member",
       "status": "pending",
       "signoff": "",
       "sanitized": false,
@@ -64,7 +64,7 @@
     },
     {
       "id": "UAT-06",
-      "persona": "Moderator",
+      "persona": "Admin operator",
       "status": "pending",
       "signoff": "",
       "sanitized": false,

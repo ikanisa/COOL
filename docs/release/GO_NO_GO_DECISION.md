@@ -1,6 +1,6 @@
 # Collect GO/NO-GO Decision
 
-Audit date: 2026-05-27
+Audit date: 2026-05-31
 
 Decision: NO-GO for public production launch until the corrected SMS-first
 Groups product contract is fully validated on mobile, Admin PWA, and linked
@@ -33,7 +33,9 @@ has been superseded. The current source of truth is the Groups workflow:
 | Admin PWA build/render smoke | Pass locally |
 | Admin PWA live deployment proof | Blocked: `ADMIN_PWA_LIVE_URL` missing |
 | Linked Supabase migration/readiness | Blocked: remote project is behind local migration; dry-run blocked by DB allowlist |
-| Android release APK/AAB artifacts | Blocked: current artifacts are stale against refactored sources |
+| Android release APK/AAB artifacts | Pass: current artifacts are fresh and artifact manifest passes |
+| Android signing review | Blocked: signing / Play App Signing review evidence missing |
+| iOS release scope | Blocked: iOS scope not signed off or explicitly out of scope |
 | Linked admin/security rollback UAT | Pass |
 | Android real SMS UAT | Pending |
 | Human stakeholder signoff | Pending |
@@ -44,7 +46,7 @@ has been superseded. The current source of truth is the Groups workflow:
 2. Apply the new Supabase migration to the linked project from an allowed DB network, then rerun linked readiness.
 3. Deploy Admin PWA and rerun `ADMIN_PWA_LIVE_URL=... make admin-pwa-live-gate-json`.
 4. Run Android SMS ingestion/parser/allocation UAT with sanitized evidence.
-5. Rebuild Android release APK/AAB artifacts from current sources and rerun release artifact gates.
+5. Record Android signing review and iOS release scope evidence.
 6. Regenerate the release evidence packet from current validators only.
 
 Older Supabase platform blockers are not repeated here as current blockers

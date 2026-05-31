@@ -83,7 +83,7 @@ void main() {
     expect(find.text('Operations overview'), findsOneWidget);
   });
 
-  testWidgets('placeholders do not show fake admin actions or metrics', (
+  testWidgets('admin shell does not show fake actions or metrics', (
     tester,
   ) async {
     await tester.pumpWidget(

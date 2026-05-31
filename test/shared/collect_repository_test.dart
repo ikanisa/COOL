@@ -16,6 +16,20 @@ void main() {
     expect(collection.receiverMomoNumber, '+250788123456');
   });
 
+  test(
+    'WhatsApp OTP sign-in accepts non-Rwanda international numbers',
+    () async {
+      final repo = CollectRepository();
+      final profile = await repo.signInWithOtp(
+        phone: '+1 (415) 555-0100',
+        otp: '123456',
+      );
+
+      expect(profile.whatsappPhone, '+14155550100');
+      expect(profile.publicId, matches(RegExp(r'^[0-9]{6}$')));
+    },
+  );
+
   test('payment intent stays pending for automated SMS allocation', () async {
     final repo = CollectRepository.seeded();
     final collection = repo.state.collections.first;
@@ -24,7 +38,7 @@ void main() {
     );
 
     expect(intent.status, 'pending');
-    expect(intent.contributionCode, hasLength(6));
+    expect(intent.expectedAmountRwf, 5000);
     expect(repo.contributionsFor(collection.id), hasLength(2));
   });
 
@@ -36,7 +50,7 @@ void main() {
         const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 7500),
       );
 
-      expect(intent.contributionCode, hasLength(6));
+      expect(intent.expectedAmountRwf, 7500);
       expect(intent.receiverMomoNumber, '+250788123456');
       expect(intent.receiverLabel, 'St Michel treasury');
     },

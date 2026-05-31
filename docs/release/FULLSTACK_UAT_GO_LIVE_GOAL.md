@@ -1,11 +1,11 @@
 # Fullstack UAT And Go-Live Goal
 
-Prepared: 2026-05-27
+Prepared: 2026-05-31
 
 ## Goal
 
 Execute and evidence production readiness for the corrected Collect platform:
-an anonymous SMS-first Groups product for MoMo contributions. The work must
+a Collect ID-only SMS-first Groups product for MoMo contributions. The work must
 validate the Flutter mobile app, Admin PWA, Supabase database, Supabase Edge
 Functions, SMS parsing/allocation, ledger behavior, RBAC, release evidence, and
 human operator workflows.
@@ -34,7 +34,7 @@ human operator workflows.
 ## Current Evidence Snapshot
 
 - `flutter analyze`: pass.
-- Full Flutter/release-doc tests: pass with `79` tests.
+- Full Flutter/release-doc tests: pass with `78` tests.
 - `scripts/admin_pwa_release_build.sh`: pass.
 - `scripts/admin_pwa_render_smoke.sh`: pass with evidence at
   `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`.
@@ -48,10 +48,10 @@ human operator workflows.
   current operator IP.
 - `scripts/admin_pwa_live_gate.sh --json`: blocked until `ADMIN_PWA_LIVE_URL`
   is provided.
-- `scripts/flutter_mobile_release_gate.sh --json`: blocked because current
-  Android APK/AAB artifacts are stale against refactored mobile sources.
-- `scripts/release_artifact_manifest.sh --json`: blocked on stale Android
-  release artifacts.
+- `scripts/flutter_mobile_release_gate.sh --json`: blocked on Android release
+  signing review and iOS release scope.
+- `scripts/release_artifact_manifest.sh --json`: pass with current APK/AAB and
+  Admin PWA artifacts.
 
 ## Required UAT
 
@@ -74,8 +74,7 @@ human operator workflows.
 2. Linked Supabase is migrated and `scripts/collect_linked_uat.sh` passes.
 3. Real Android SMS access UAT passes with sanitized evidence.
 4. Admin PWA deployed URL passes live gate.
-5. Android release APK/AAB artifacts are rebuilt from current sources and
-   release artifact gates pass.
+5. Android signing review and iOS release scope evidence pass release gates.
 6. Release owner signs current evidence packet and worktree review.
 
 Until all criteria pass, decision remains **NO-GO**.

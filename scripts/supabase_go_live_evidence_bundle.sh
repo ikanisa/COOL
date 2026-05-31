@@ -50,7 +50,6 @@ if release_status_connectivity_only; then
 fi
 run_capture "go_live_gate_json" "go_live_gate.json" env "SUPABASE_GO_LIVE_STATUS_JSON=$(cat "$bundle_dir/release_status.json")" "$ROOT_DIR/scripts/supabase_go_live_gate.sh" --json
 run_capture "platform_packet_json" "platform_packet.json" env "SUPABASE_PLATFORM_PACKET_STATUS_JSON=$(cat "$bundle_dir/release_status.json")" "$ROOT_DIR/scripts/supabase_platform_go_live_packet.sh" --json
-run_capture "platform_exception_gate" "platform_exception_gate.txt" env "SUPABASE_PLATFORM_EXCEPTION_STATUS_JSON=$(cat "$bundle_dir/release_status.json")" "$ROOT_DIR/scripts/supabase_platform_exception_gate.sh"
 run_capture "post_operator_checklist_json" "post_operator_checklist.json" env "SUPABASE_POST_OPERATOR_STATUS_JSON=$(cat "$bundle_dir/release_status.json")" "$ROOT_DIR/scripts/supabase_post_operator_checklist.sh" --json
 run_capture "schema_inventory_json" "schema_inventory.json" "$ROOT_DIR/scripts/supabase_schema_inventory.sh" --json
 run_capture "advisor_warning_inventory" "advisor_warnings.txt" "$ROOT_DIR/scripts/supabase_advisors_warning_inventory.sh"
@@ -89,7 +88,6 @@ post_operator_checklist = read_json(File.join(bundle_dir, "post_operator_checkli
 operational_report = read_json(File.join(bundle_dir, "operational_report.json")) || {}
 acceptance_matrix = read_json(File.join(bundle_dir, "acceptance_matrix.json")) || {}
 schema_summary = schema_inventory.dig("contract", "summary") || {}
-exception_gate = commands.find { |command| command.fetch(:name) == "platform_exception_gate" }
 
 summary = {
   generated_at: Time.now.utc.iso8601,
@@ -108,11 +106,6 @@ summary = {
     file: "post_operator_checklist.json",
     step_count: Array(post_operator_checklist["checklist"]).length,
     final_verification: post_operator_checklist["final_verification"] || []
-  },
-  platform_exception_gate: {
-    file: "platform_exception_gate.txt",
-    exit_code: exception_gate && exception_gate.fetch(:exit_code),
-    required_before_go_live: true
   },
   acceptance_matrix: {
     file: "acceptance_matrix.json",
@@ -156,7 +149,6 @@ readme = <<~MARKDOWN
   - `release_status.json`: redacted strict status and blocker keys
   - `go_live_gate.json`: final go-live approval decision
   - `platform_packet.json`: redacted operator remediation packet
-  - `platform_exception_gate.txt`: signed platform exception validation result
   - `post_operator_checklist.json`: redacted post-operator remediation verification checklist
   - `acceptance_matrix.json`: requirement-by-requirement acceptance matrix
   - `schema_inventory.json`: live public schema/policy/function inventory
@@ -172,7 +164,6 @@ readme = <<~MARKDOWN
   - Decision: `#{summary[:decision]}`
   - Go-live gate: `#{summary.dig(:go_live_gate, :decision)}`
   - Blocker keys: `#{Array(summary[:blocker_keys]).join(", ")}`
-  - Platform exception gate exit code: `#{summary.dig(:platform_exception_gate, :exit_code)}`
   - Acceptance matrix: `#{summary.dig(:acceptance_matrix, :overall_status)}`
   - Schema contract: expected `#{summary.dig(:schema_contract, :expected_objects)}`, remote `#{summary.dig(:schema_contract, :remote_objects)}`, extra `#{summary.dig(:schema_contract, :extra_objects)}`, missing `#{summary.dig(:schema_contract, :missing_objects)}`
   - RLS: `#{summary.dig(:schema_contract, :rls_enabled_tables)}/#{summary.dig(:schema_contract, :tables)}`

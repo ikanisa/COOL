@@ -1,20 +1,20 @@
 # Collect UAT Execution Report
 
-Audit date: 2026-05-27
+Audit date: 2026-05-31
 
 Status: **AUTOMATED LOCAL PARTIAL PASS; LINKED SMS-FIRST AND LIVE SIGNOFF
 PENDING**
 
 Public launch remains **NO-GO** until the linked Supabase project is updated to
 the current SMS-first migration, real Android SMS access UAT is captured,
-Admin PWA live deployment is proven, Android release APK/AAB artifacts are
-rebuilt from current sources, and stakeholder/release-owner signoff is recorded.
+Admin PWA live deployment is proven, Android signing/iOS scope evidence is
+recorded, and stakeholder/release-owner signoff is recorded.
 
 ## Build And Runtime Evidence
 
 | Surface | Evidence | Result |
 | --- | --- | --- |
-| Flutter hygiene | `flutter analyze`; full Flutter/release-doc tests | Pass: analyzer clean; full local suite passed `79` tests. |
+| Flutter hygiene | `flutter analyze`; full Flutter/release-doc tests | Pass: analyzer clean; full local suite passed `78` tests. |
 | Mobile route/widget smoke | Focused app shell, widgets, persona, repository, and phone/Public ID tests | Pass: current tests cover Home/Groups/Settings, group contribution copy, international phone normalization, and SMS-first product text. |
 | Admin PWA local release/render | `scripts/admin_pwa_release_build.sh`; `scripts/admin_pwa_render_smoke.sh` | Pass: build, manifest/hosting gates, desktop/mobile screenshots, service-worker runtime, and asset checks passed. |
 | Admin PWA live deployment | `scripts/admin_pwa_live_gate.sh --json` | Blocked: `ADMIN_PWA_LIVE_URL` is required. |
@@ -24,7 +24,8 @@ rebuilt from current sources, and stakeholder/release-owner signoff is recorded.
 | Linked admin/security UAT | `scripts/collect_admin_security_uat.sh` | Pass: admin RBAC, raw-SMS reveal audit, reparse permission, and denial paths verified in rollback. |
 | Linked SMS-first contribution UAT | `scripts/collect_linked_uat.sh` | Blocked/fail: linked database is missing `create_group_with_owner`; direct database fallback timed out from the current operator network. |
 | Real Android SMS access flow | Physical Android device with MoMo SMS scenarios | Pending after the refactor. |
-| Android release artifacts | `scripts/flutter_mobile_release_gate.sh --json`; `scripts/release_artifact_manifest.sh --json` | Blocked: current APK/AAB artifacts are stale against refactored Android/mobile sources. |
+| Android release artifacts | `scripts/release_artifact_manifest.sh --json` | Pass: current APK/AAB and Admin PWA artifacts are fresh. |
+| Android signing / iOS scope | `scripts/flutter_mobile_release_gate.sh --json` | Blocked: signing review and iOS release-scope evidence are missing. |
 
 ## Persona Matrix
 
@@ -55,7 +56,6 @@ hook secrets, provider secrets, or production customer data.
 3. Rerun `scripts/collect_linked_uat.sh` successfully.
 4. Run physical Android SMS access UAT with sanitized evidence.
 5. Deploy Admin PWA and pass the live gate.
-6. Rebuild Android release APK/AAB artifacts from current sources and pass
-   release artifact gates.
+6. Record Android signing review and iOS release scope evidence.
 7. Refresh release evidence and release-owner signoff from current commands
    only.

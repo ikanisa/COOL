@@ -35,9 +35,8 @@ void main() {
         '/groups/:collectionId/invite',
         '/groups/:collectionId/ledger',
         '/c/:slug',
-        '/profile/setup',
         '/settings',
-        '/admin',
+        '/settings/profile',
         if (kDebugMode) '/dev/design-system',
       ]),
     );

@@ -1,6 +1,6 @@
 # Collect Go-Live Completion Audit
 
-Audit date: 2026-05-27
+Audit date: 2026-05-31
 
 Decision: **NO-GO**
 
@@ -13,7 +13,7 @@ the old goals/campaign/manual-SMS/anonymity product model.
 | Evidence | Current result |
 | --- | --- |
 | Flutter analyzer | Pass with `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze`. |
-| Flutter tests | Pass: `79` tests in the full Flutter/release-doc suite. |
+| Flutter tests | Pass: `78` tests in the full Flutter/release-doc suite. |
 | Admin PWA local build/render | Pass: release build and render smoke evidence under `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`. |
 | Admin PWA live gate | Blocked: `ADMIN_PWA_LIVE_URL` missing. |
 | Local Supabase migration validation | Pass. |
@@ -22,6 +22,8 @@ the old goals/campaign/manual-SMS/anonymity product model.
 | Linked SMS-first contribution UAT | Blocked/fail because linked RPC is behind the local migration contract. |
 | Database dry-run | Blocked by Supabase tenant database allowlist from the current operator IP. |
 | Real Android SMS access UAT | Pending. |
+| Android release artifacts | Pass. |
+| Android signing / iOS scope | Pending. |
 | Stakeholder/release-owner signoff | Pending. |
 
 ## Requirement Audit
@@ -42,6 +44,8 @@ the old goals/campaign/manual-SMS/anonymity product model.
 - `product_signoff`
 - `linked_supabase_sms_first_migration`
 - `android_sms_access_uat`
+- `android_release_signing_review`
+- `ios_release_scope`
 - `admin_pwa_live_url`
 - `release_owner_signoff`
 
@@ -49,4 +53,4 @@ the old goals/campaign/manual-SMS/anonymity product model.
 
 The objective is not complete. Local code checks are green, but production
 approval must wait for linked migration/UAT, live Admin PWA proof, real Android
-SMS evidence, and release signoff.
+SMS evidence, Android signing/iOS scope evidence, and release signoff.

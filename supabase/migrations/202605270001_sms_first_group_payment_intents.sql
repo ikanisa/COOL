@@ -5,6 +5,9 @@
 alter table payment_intents
   add column if not exists contributor_public_id char(6);
 
+alter table payment_intents
+  alter column contribution_code drop not null;
+
 alter table collections
   alter column category set default 'Other';
 
@@ -35,7 +38,6 @@ alter table payment_allocations
   check (
     allocation_method in (
       'auto_member_intent',
-      'auto_code',
       'auto_unique_amount_time',
       'system_exception'
     )
@@ -157,7 +159,6 @@ begin
     collection_id,
     contributor_user_id,
     contributor_public_id,
-    contribution_code,
     expected_amount_rwf,
     receiver_momo_number_hash,
     sender_phone_hash
@@ -166,7 +167,6 @@ begin
     collection,
     auth.uid(),
     member_public_id,
-    generate_contribution_code(),
     expected_amount_rwf,
     receiver_hash,
     null
@@ -185,7 +185,6 @@ create or replace function create_contribution_intent(
 returns table (
   id uuid,
   collection_id uuid,
-  contribution_code text,
   expected_amount_rwf bigint,
   receiver_momo_number text,
   receiver_momo_number_hash text,
@@ -237,7 +236,6 @@ begin
     collection_id,
     contributor_user_id,
     contributor_public_id,
-    contribution_code,
     expected_amount_rwf,
     receiver_momo_number_hash,
     sender_phone_hash
@@ -246,7 +244,6 @@ begin
     collection,
     auth.uid(),
     member_public_id,
-    generate_contribution_code(),
     p_expected_amount_rwf,
     receiver_row.momo_number_hash,
     null
@@ -256,7 +253,6 @@ begin
   return query select
     intent_row.id,
     intent_row.collection_id,
-    intent_row.contribution_code,
     intent_row.expected_amount_rwf,
     receiver_row.momo_number,
     intent_row.receiver_momo_number_hash,
@@ -370,25 +366,6 @@ begin
     end if;
   end if;
 
-  if event_row.detected_collection_code is not null then
-    select id, collection_id into match_intent_id, match_collection_id
-    from payment_intents
-    where status = 'pending'
-      and contribution_code = upper(event_row.detected_collection_code)
-      and expected_amount_rwf = event_row.amount_rwf
-    limit 1;
-    if match_intent_id is not null then
-      perform post_payment_from_event(
-        event_id,
-        match_intent_id,
-        match_collection_id,
-        'auto_code',
-        'Matched by pending payment intent code and amount'
-      );
-      return 'allocated';
-    end if;
-  end if;
-
   if event_row.receiver_phone_hash is not null then
     select
       count(*),
@@ -467,6 +444,18 @@ revoke all on member_public_collection_requests_view
 revoke all on collection_summary_view
   from public, anon, authenticated;
 
+revoke all on member_collection_summary_view
+  from public, anon, authenticated;
+
+revoke all on member_collections_view
+  from public, anon, authenticated;
+
+revoke all on member_contributions_view
+  from public, anon, authenticated;
+
+revoke all on parsed_payment_events_review_view
+  from public, anon, authenticated;
+
 revoke all on payment_instruction_templates
   from public, anon, authenticated;
 
@@ -481,10 +470,37 @@ drop function if exists request_public_collection(uuid);
 drop function if exists create_collection_invite(uuid, text, text, member_role);
 drop function if exists create_collection_with_owner(text, text, text, bigint, text, text, text, text, boolean, jsonb);
 drop view if exists member_public_collection_requests_view;
+drop view if exists member_contributions_view;
+drop view if exists member_collections_view;
+drop view if exists member_collection_summary_view;
 drop view if exists public_collections_view;
 drop view if exists collection_summary_view;
+drop view if exists parsed_payment_events_review_view;
 drop table if exists payment_instruction_templates;
 drop table if exists public_collection_requests;
+
+update parsed_payment_events
+set sender_name = null
+where sender_name is not null;
+
+revoke select (display_name, avatar_url, anonymity_default)
+  on profiles from anon, authenticated;
+
+revoke select (
+  category,
+  cover_image_url,
+  target_amount_rwf,
+  deadline_at,
+  visibility,
+  public_status,
+  is_recurring,
+  recurring_rule,
+  allow_anonymous,
+  contribution_visibility
+) on collections from anon, authenticated;
+
+revoke select (anonymity_choice)
+  on payments from anon, authenticated;
 
 create or replace function admin_current_user()
 returns jsonb
@@ -783,6 +799,111 @@ begin
 end;
 $$;
 
+create or replace function admin_list_allocations(p_search text default null, p_status text default null)
+returns jsonb
+language plpgsql
+stable
+security definer
+set search_path = public
+as $$
+begin
+  perform assert_admin_permission('payment_events.read');
+  return admin_list_payment_events(p_search, coalesce(p_status, 'allocated'));
+end;
+$$;
+
+create or replace function admin_list_payment_events(p_search text default null, p_status text default null)
+returns jsonb
+language plpgsql
+stable
+security definer
+set search_path = public
+as $$
+begin
+  perform assert_admin_permission('payment_events.read');
+  return jsonb_build_object('rows', coalesce((
+    select jsonb_agg(
+      _admin_row(
+        e.id,
+        coalesce(e.transaction_id, 'Payment event'),
+        'MoMo SMS',
+        e.allocation_status::text,
+        coalesce(e.amount_rwf::text || ' RWF', ''),
+        e.created_at,
+        jsonb_build_object('collection_id', e.collection_id)
+      )
+      order by e.created_at desc
+    )
+    from parsed_payment_events e
+    where (p_status is null or e.allocation_status::text = p_status)
+      and (p_search is null or e.transaction_id ilike '%' || p_search || '%')
+  ), '[]'::jsonb));
+end;
+$$;
+
+create or replace function admin_list_unallocated(p_search text default null, p_status text default null)
+returns jsonb
+language plpgsql
+stable
+security definer
+set search_path = public
+as $$
+begin
+  perform assert_admin_permission('payment_events.read');
+  return jsonb_build_object('rows', coalesce((
+    select jsonb_agg(
+      _admin_row(
+        e.id,
+        coalesce(e.transaction_id, 'Payment event'),
+        'MoMo SMS',
+        e.allocation_status::text,
+        coalesce(e.amount_rwf::text || ' RWF', ''),
+        e.created_at,
+        jsonb_build_object('collection_id', e.collection_id)
+      )
+      order by e.created_at desc
+    )
+    from parsed_payment_events e
+    where (
+      (
+        p_status is null
+        and e.allocation_status in ('unallocated', 'ambiguous', 'needs_review')
+      )
+      or (
+        p_status is not null
+        and e.allocation_status::text = p_status
+      )
+    )
+    and (
+      p_search is null
+      or e.transaction_id ilike '%' || p_search || '%'
+      )
+  ), '[]'::jsonb));
+end;
+$$;
+
+create or replace function admin_get_payment_event(p_id uuid)
+returns jsonb
+language plpgsql
+stable
+security definer
+set search_path = public
+as $$
+begin
+  perform assert_admin_permission('payment_events.read');
+  return coalesce((
+    select to_jsonb(e) - 'sender_name' || jsonb_build_object('sender_label', 'MoMo SMS')
+    from parsed_payment_events e
+    where e.id = p_id
+  ), '{}'::jsonb);
+end;
+$$;
+
+grant execute on function admin_list_payment_events(text, text) to authenticated;
+grant execute on function admin_list_allocations(text, text) to authenticated;
+grant execute on function admin_list_unallocated(text, text) to authenticated;
+grant execute on function admin_get_payment_event(uuid) to authenticated;
+
 create or replace view public_profiles_view
 with (security_invoker = true)
 as
@@ -809,11 +930,130 @@ select
 from payments p
 where p.status = 'posted';
 
+create view member_collection_summary_view
+with (security_invoker = true)
+as
+select
+  c.id as collection_id,
+  c.title,
+  c.creator_user_id,
+  (
+    select coalesce(sum(le.amount_rwf) filter (where le.entry_type = 'collection_credit'), 0)::bigint
+    from ledger_entries le
+    where le.collection_id = c.id
+  ) as amount_raised_rwf,
+  (
+    select count(distinct coalesce(p.contributor_user_id::text, p.contributor_public_id, p.id::text))::bigint
+    from payments p
+    where p.collection_id = c.id
+      and p.status = 'posted'
+  ) as supporter_count,
+  (
+    select count(pi.id)::bigint
+    from payment_intents pi
+    where pi.collection_id = c.id
+      and pi.status = 'pending'
+  ) as pending_intent_count,
+  (
+    select count(distinct ppe.id)::bigint
+    from collection_receivers cr
+    join parsed_payment_events ppe
+      on ppe.receiver_user_id = cr.receiver_user_id
+     and (
+       ppe.collection_id = c.id
+       or (
+         ppe.collection_id is null
+         and ppe.receiver_phone_hash = cr.momo_number_hash
+       )
+     )
+    where cr.collection_id = c.id
+      and ppe.allocation_status in ('unallocated', 'ambiguous', 'needs_review')
+  ) as exception_event_count,
+  c.created_at,
+  c.updated_at
+from collections c
+where public.user_can_read_collection(c.id, auth.uid());
+
+create view member_collections_view
+with (security_invoker = true)
+as
+select
+  c.id,
+  c.slug,
+  c.creator_user_id,
+  c.title,
+  c.description,
+  c.currency,
+  case
+    when public.user_is_collection_admin(c.id, auth.uid())
+      or exists (
+        select 1
+        from collection_receivers receiver_check
+        where receiver_check.collection_id = c.id
+          and receiver_check.receiver_user_id = auth.uid()
+          and receiver_check.is_active
+      )
+      then cr.momo_number
+    else null
+  end as receiver_momo_number,
+  case
+    when public.user_can_read_collection(c.id, auth.uid()) then cr.label
+    else null
+  end as receiver_display_label,
+  cr.network as receiver_network,
+  c.created_at,
+  c.updated_at,
+  c.archived_at
+from collections c
+left join lateral (
+  select
+    collection_receivers.momo_number,
+    collection_receivers.label,
+    collection_receivers.network
+  from collection_receivers
+  where collection_receivers.collection_id = c.id
+    and collection_receivers.is_active
+  order by collection_receivers.created_at asc
+  limit 1
+) cr on true
+where public.user_can_read_collection(c.id, auth.uid());
+
+create view member_contributions_view
+with (security_invoker = true)
+as
+select
+  p.collection_id,
+  p.id as payment_id,
+  p.amount_rwf,
+  p.currency,
+  p.status,
+  p.source,
+  case
+    when p.contributor_user_id = auth.uid()
+      or public.user_is_collection_admin(p.collection_id, auth.uid())
+      then p.transaction_id
+    else null
+  end as transaction_id,
+  p.posted_at,
+  p.created_at,
+  case
+    when p.contributor_user_id = auth.uid() then 'You'
+    when p.contributor_public_id is not null
+      then 'Collect ID ' || p.contributor_public_id
+    else 'Collect member'
+  end as supporter_label
+from payments p
+where p.status = 'posted'
+  and public.user_can_read_collection(p.collection_id, auth.uid());
+
 revoke update (display_name, avatar_url, anonymity_default)
   on profiles from authenticated;
 
 grant select on public_profiles_view, public_contributions_view
   to anon, authenticated;
+
+grant select on member_collection_summary_view, member_collections_view, member_contributions_view
+  to authenticated;
 
 create or replace function record_sms_access_consent(
   enabled boolean,

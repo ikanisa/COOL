@@ -17,6 +17,14 @@ esac
 status_json="$(mktemp)"
 trap 'rm -f "$status_json"' EXIT
 
+project_ref="${SUPABASE_PROJECT_REF:-}"
+if [[ -f "$ROOT_DIR/supabase/.temp/project-ref" ]]; then
+  linked_project_ref="$(tr -d '[:space:]' <"$ROOT_DIR/supabase/.temp/project-ref")"
+  if [[ -n "$linked_project_ref" ]]; then
+    project_ref="$linked_project_ref"
+  fi
+fi
+
 if [[ -n "${SUPABASE_GO_LIVE_STATUS_JSON:-}" ]]; then
   printf '%s\n' "$SUPABASE_GO_LIVE_STATUS_JSON" >"$status_json"
 else
@@ -24,7 +32,7 @@ else
 fi
 
 gate_json="$(
-  ruby -r json - "$status_json" "${SUPABASE_PROJECT_REF:-}" <<'RUBY'
+  ruby -r json - "$status_json" "$project_ref" <<'RUBY'
 status_path, project_ref = ARGV
 status = JSON.parse(File.read(status_path))
 blocker_keys = Array(status["blocker_keys"])
@@ -36,6 +44,8 @@ unless strict_pass
   actions << "Apply the SMS-first migration from an allow-listed database network and rerun scripts/collect_linked_uat.sh." if blocker_keys.include?("linked_supabase_sms_first_migration")
   actions << "Run real Android MoMo SMS ingestion/parser/allocation UAT with sanitized evidence." if blocker_keys.include?("android_sms_access_uat")
   actions << "Rebuild current Android release APK/AAB artifacts and rerun scripts/flutter_mobile_release_gate.sh --json." if blocker_keys.include?("android_release_artifacts")
+  actions << "Record Android release signing / Play App Signing review evidence and rerun scripts/flutter_mobile_release_gate.sh --json." if blocker_keys.include?("android_release_signing_review")
+  actions << "Sign off iOS release scope or mark iOS explicitly out of scope, then rerun scripts/flutter_mobile_release_gate.sh --json." if blocker_keys.include?("ios_release_scope")
   actions << "Deploy Admin PWA and rerun the live gate with ADMIN_PWA_LIVE_URL." if blocker_keys.include?("admin_pwa_live_url")
   actions << "Record release-owner signoff for the current evidence packet." if blocker_keys.include?("release_owner_signoff")
   actions << "Rerun make release-status-json and make supabase-go-live-gate-json." if actions.empty?

@@ -302,7 +302,6 @@ check_sql_privileges() {
         ('authenticated', 'member_collections_view', 'SELECT'),
         ('authenticated', 'member_collection_summary_view', 'SELECT'),
         ('authenticated', 'member_contributions_view', 'SELECT'),
-        ('authenticated', 'parsed_payment_events_review_view', 'SELECT'),
         ('authenticated', 'payment_intents', 'SELECT'),
         ('authenticated', 'public_contributions_view', 'SELECT'),
         ('authenticated', 'public_profiles_view', 'SELECT')

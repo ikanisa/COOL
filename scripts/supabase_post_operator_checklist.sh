@@ -17,13 +17,21 @@ esac
 status_json="$(mktemp)"
 trap 'rm -f "$status_json"' EXIT
 
+project_ref="${SUPABASE_PROJECT_REF:-unknown}"
+if [[ -f "$ROOT_DIR/supabase/.temp/project-ref" ]]; then
+  linked_project_ref="$(tr -d '[:space:]' <"$ROOT_DIR/supabase/.temp/project-ref")"
+  if [[ -n "$linked_project_ref" ]]; then
+    project_ref="$linked_project_ref"
+  fi
+fi
+
 if [[ -n "${SUPABASE_POST_OPERATOR_STATUS_JSON:-}" ]]; then
   printf '%s\n' "$SUPABASE_POST_OPERATOR_STATUS_JSON" >"$status_json"
 else
   "$ROOT_DIR/scripts/release_status.sh" --json >"$status_json"
 fi
 
-ruby -r json -r time - "$output_format" "${SUPABASE_PROJECT_REF:-unknown}" "$status_json" <<'RUBY'
+ruby -r json -r time - "$output_format" "$project_ref" "$status_json" <<'RUBY'
 format, project_ref, path = ARGV
 status = JSON.parse(File.read(path))
 blockers = Array(status["blocker_keys"])
@@ -46,6 +54,18 @@ steps = [
     title: "Run real Android SMS access UAT",
     required_when: blockers.include?("android_sms_access_uat"),
     verify: "Attach sanitized Android SMS UAT evidence"
+  },
+  {
+    key: "android_release_signing_review",
+    title: "Record Android signing review",
+    required_when: blockers.include?("android_release_signing_review"),
+    verify: "ANDROID_RELEASE_SIGNING_REVIEWED=1 ... ./scripts/flutter_mobile_release_gate.sh --json"
+  },
+  {
+    key: "ios_release_scope",
+    title: "Record iOS release scope decision",
+    required_when: blockers.include?("ios_release_scope"),
+    verify: "IOS_RELEASE_OUT_OF_SCOPE=1 ... ./scripts/flutter_mobile_release_gate.sh --json"
   },
   {
     key: "admin_pwa_live_url",

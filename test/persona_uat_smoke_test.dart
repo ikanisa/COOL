@@ -182,6 +182,47 @@ void main() {
     }
   });
 
+  testWidgets('iPhone direct create route does not expose group form', (
+    tester,
+  ) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    try {
+      await pumpMainAppAt(tester, '/groups/create');
+
+      expect(find.text('Create group'), findsWidgets);
+      expect(find.text('Group name'), findsNothing);
+      expect(find.text('Receiver MoMo number'), findsNothing);
+
+      await tapVisible(
+        tester,
+        find.widgetWithText(OutlinedButton, 'Create group'),
+      );
+
+      expect(
+        find.text('group creation is available only on Android'),
+        findsOneWidget,
+      );
+      expectNoGlobalSecrets();
+    } finally {
+      debugDefaultTargetPlatformOverride = null;
+    }
+  });
+
+  testWidgets('new profile does not prefill a sample MoMo number', (
+    tester,
+  ) async {
+    await pumpMainAppAt(
+      tester,
+      '/settings/profile',
+      repository: CollectRepository(),
+    );
+
+    expect(find.text('Profile'), findsWidgets);
+    expect(find.textContaining('+250788123456'), findsNothing);
+    expect(find.text('MoMo number'), findsOneWidget);
+    expectNoGlobalSecrets();
+  });
+
   testWidgets('settings exposes SMS access without manual paste', (
     tester,
   ) async {
@@ -248,6 +289,11 @@ void main() {
       router.go('/admin/groups');
       await pumpLaunchFrames(tester);
       expect(find.text('Groups'), findsWidgets);
+
+      router.go('/admin/allocations');
+      await pumpLaunchFrames(tester);
+      expect(find.text('Allocations'), findsWidgets);
+      expect(find.text('Allocated MOMO event'), findsOneWidget);
 
       router.go('/admin/exceptions');
       await pumpLaunchFrames(tester);
@@ -336,6 +382,15 @@ class _FakeAdminRepository extends AdminRepository {
   }) async {
     return AdminListResult(
       rows: switch (rpcName) {
+        'admin_list_allocations' => const [
+          AdminTableRowData(
+            id: 'event-allocated',
+            title: 'Allocated MOMO event',
+            subtitle: 'Matched to pending intent',
+            status: 'allocated',
+            amount: 'RWF 5,000',
+          ),
+        ],
         'admin_list_unallocated' => const [
           AdminTableRowData(
             id: 'event-1',

@@ -85,6 +85,8 @@ current_release_keys = %w[
   product_signoff
   linked_supabase_sms_first_migration
   android_sms_access_uat
+  android_release_signing_review
+  ios_release_scope
   admin_pwa_live_url
   release_owner_signoff
 ]
@@ -92,6 +94,9 @@ supported_blocker_keys = current_release_keys + %w[database_connectivity]
 blocker_keys = Array(release_status["blocker_keys"]) & supported_blocker_keys
 go_live_blocker_keys = Array(go_live_gate["blocker_keys"]) & supported_blocker_keys
 connectivity_blocked = blocker_keys.include?("database_connectivity")
+linked_migration_blocked =
+  blocker_keys.include?("linked_supabase_sms_first_migration") ||
+  ready_text.include?("MISSING 202605270001")
 
 requirements = []
 add = lambda do |id:, area:, requirement:, status:, evidence:, blocker_keys: [], next_action: nil|
@@ -111,13 +116,28 @@ schema_exact =
   schema["expected_objects"] == schema["remote_objects"] &&
   schema["extra_objects"].to_i == 0 &&
   schema["missing_objects"].to_i == 0
+schema_status =
+  if schema_exact
+    "pass"
+  elsif linked_migration_blocked
+    "blocked"
+  else
+    "fail"
+  end
 add.call(
   id: "SUPA-001",
   area: "Schema",
   requirement: "Remote public schema contains only repo-owned required objects.",
-  status: schema_exact ? "pass" : "fail",
+  status: schema_status,
   evidence: "schema_inventory.json contract.summary expected=#{schema["expected_objects"]} remote=#{schema["remote_objects"]} extra=#{schema["extra_objects"]} missing=#{schema["missing_objects"]}",
-  next_action: schema_exact ? nil : "Run make supabase-schema-inventory and reconcile extra/missing objects."
+  blocker_keys: linked_migration_blocked && !schema_exact ? ["linked_supabase_sms_first_migration"] : [],
+  next_action: if schema_exact
+    nil
+  elsif linked_migration_blocked
+    "Apply the SMS-first migration, rerun linked UAT, then rerun make supabase-schema-inventory."
+  else
+    "Run make supabase-schema-inventory and reconcile extra/missing objects."
+  end
 )
 
 rls_complete = schema["tables"].to_i.positive? && schema["rls_enabled_tables"] == schema["tables"]
@@ -156,6 +176,8 @@ readiness_status =
     "pass"
   elsif connectivity_blocked || ready_text.include?("EADDRNOTALLOWED") || ready_text.include?("tenant allow_list") || ready_text.include?("failed to connect to postgres")
     "blocked"
+  elsif linked_migration_blocked
+    "blocked"
   else
     "fail"
   end
@@ -165,9 +187,17 @@ add.call(
   requirement: "Code-owned linked Supabase readiness passes.",
   status: readiness_status,
   evidence: ready_ok ? "supabase_ready.txt exit=0" : "supabase_ready.txt exit=#{command_exit(commands, "code_owned_readiness")}",
-  blocker_keys: readiness_status == "blocked" ? ["database_connectivity"] : [],
+  blocker_keys: if readiness_status == "blocked" && linked_migration_blocked
+    ["linked_supabase_sms_first_migration"]
+  elsif readiness_status == "blocked"
+    ["database_connectivity"]
+  else
+    []
+  end,
   next_action: if ready_ok
     nil
+  elsif linked_migration_blocked
+    "Apply the SMS-first migration, then rerun code-owned readiness."
   elsif readiness_status == "blocked"
     "Restore trusted or allow-listed database connectivity and rerun code-owned readiness."
   else
@@ -187,17 +217,29 @@ add.call(
   id: "SUPA-006",
   area: "Edge Functions",
   requirement: "Edge Function auth mode, deployment inventory, and secret-name inventory are checked.",
-  status: edge_remote_ready ? "pass" : (connectivity_blocked && edge_auth_contract_ok ? "blocked" : "fail"),
+  status: edge_remote_ready ? "pass" : ((linked_migration_blocked || connectivity_blocked) && edge_auth_contract_ok ? "blocked" : "fail"),
   evidence: if edge_remote_ready
     "supabase_ready.txt includes Edge Function auth, endpoint, and secret-name checks"
+  elsif edge_auth_contract_ok && linked_migration_blocked
+    "edge_auth_contract_uat.txt exit=0; remote Edge Function readiness is blocked until the SMS-first migration is applied"
   elsif edge_auth_contract_ok && connectivity_blocked
     "edge_auth_contract_uat.txt exit=0; remote endpoint and secret-name probes blocked by database connectivity"
   else
     "supabase_ready.txt missing one or more Edge Function readiness checks"
   end,
-  blocker_keys: edge_remote_ready ? [] : (connectivity_blocked ? ["database_connectivity"] : []),
+  blocker_keys: if edge_remote_ready
+    []
+  elsif linked_migration_blocked
+    ["linked_supabase_sms_first_migration"]
+  elsif connectivity_blocked
+    ["database_connectivity"]
+  else
+    []
+  end,
   next_action: if edge_remote_ready
     nil
+  elsif linked_migration_blocked && edge_auth_contract_ok
+    "Apply the SMS-first migration so remote Edge Function deployment and secret-name probes can run."
   elsif connectivity_blocked && edge_auth_contract_ok
     "Restore trusted or allow-listed database connectivity so remote Edge Function deployment and secret-name probes can run."
   else
@@ -230,7 +272,7 @@ platform_status = current_release_blocker_keys.any? || connectivity_blocked ? "b
 add.call(
   id: "SUPA-009",
   area: "SMS-first release",
-  requirement: "Linked SMS-first migration, Android SMS access UAT, Admin PWA live proof, and signoffs are complete.",
+  requirement: "Linked SMS-first migration, Android SMS access UAT, Android signing/iOS scope, Admin PWA live proof, and signoffs are complete.",
   status: platform_status,
   blocker_keys: connectivity_blocked ? ["database_connectivity"] : current_release_blocker_keys,
   evidence: "release_status.json blocker_keys=#{(connectivity_blocked ? ["database_connectivity"] : current_release_blocker_keys).join(",")}",
@@ -243,26 +285,9 @@ add.call(
   end
 )
 
-exception_exit = command_exit(commands, "platform_exception_gate")
-add.call(
-  id: "SUPA-010",
-  area: "Exceptions",
-  requirement: "Legacy platform exceptions are not used to clear current SMS-first blockers.",
-  status: exception_exit == 0 ? "pass" : "blocked",
-  blocker_keys: blocker_keys,
-  evidence: "platform_exception_gate.txt exit=#{exception_exit}",
-  next_action: if connectivity_blocked
-    "Restore trusted or allow-listed database connectivity, then rerun make supabase-platform-exception-gate."
-  elsif blocker_keys.empty?
-    nil
-  else
-    "Resolve current SMS-first blockers instead of accepting legacy platform exceptions."
-  end
-)
-
 checklist_ok = command_exit(commands, "post_operator_checklist_json") == 0 && !post_operator_checklist.empty?
 add.call(
-  id: "SUPA-011",
+  id: "SUPA-010",
   area: "Operator Handoff",
   requirement: "Operator remediation checklist is generated without secret values.",
   status: checklist_ok ? "pass" : "fail",
@@ -272,7 +297,7 @@ add.call(
 
 go_live_approved = go_live_gate["go_live_approved"] == true
 add.call(
-  id: "SUPA-012",
+  id: "SUPA-011",
   area: "Go-Live",
   requirement: "Final Supabase go-live gate approves release.",
   status: go_live_approved ? "pass" : "blocked",

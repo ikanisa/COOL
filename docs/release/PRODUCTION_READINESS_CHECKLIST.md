@@ -1,6 +1,6 @@
 # Collect Production Readiness Checklist
 
-Audit date: 2026-05-27
+Audit date: 2026-05-31
 
 This checklist reflects the corrected SMS-first Groups product definition. It
 does not carry forward previous unverified Supabase platform blockers. Run
@@ -23,21 +23,22 @@ production decision.
 | Admin PWA local render smoke | Pass | `scripts/admin_pwa_render_smoke.sh` passed with evidence at `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`. |
 | Admin PWA live deployment | Blocked | `scripts/admin_pwa_live_gate.sh --json` requires `ADMIN_PWA_LIVE_URL`. |
 | Flutter analyzer | Pass | `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze` completed cleanly. |
-| Flutter tests | Pass | Full Flutter/release-doc suite passed `79` tests. |
+| Flutter tests | Pass | Full Flutter/release-doc suite passed `78` tests. |
 | Local migration validation | Pass | `./scripts/migrations/validate_supabase_migrations.sh` passed. |
 | Edge Function auth contract | Pass | `scripts/collect_edge_auth_contract_uat.sh` passed. |
 | Linked admin/security UAT | Pass | `scripts/collect_admin_security_uat.sh` passed through linked database query mode. |
 | Linked SMS-first contribution UAT | Blocked/fail | Linked database is missing `create_group_with_owner`; migration must be applied. |
 | Linked migration dry-run | Blocked | `supabase db push --dry-run` failed from this network with database allowlist error `EADDRNOTALLOWED`. |
 | Android real SMS UAT | Pending | Fresh MoMo SMS consent/ingestion/parse/allocation/ledger evidence is not yet recorded. |
-| Android release APK/AAB | Blocked | Existing production APK/AAB artifacts are older than current Android/mobile sources; `scripts/flutter_mobile_release_gate.sh --json` reports `android_release_artifacts`. |
+| Android release APK/AAB | Pass | Production APK/AAB artifacts are newer than Android/mobile sources; `scripts/release_artifact_manifest.sh --json` passed and wrote `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-31.sha256`. |
 | Release worktree review | Pending | The worktree is dirty during active refactor. |
-| Android signing and iOS scope | Pending | Current store-release metadata/signoff is not refreshed after this refactor. |
+| Android signing and iOS scope | Blocked | `scripts/flutter_mobile_release_gate.sh --json` reports `android_release_signing_review` and `ios_release_scope`. |
 
 ## Production Blockers
 
 Current release-status blocker keys for release readiness include
-`linked_supabase_sms_first_migration` and `android_release_artifacts`.
+`linked_supabase_sms_first_migration`, `android_release_signing_review`, and
+`ios_release_scope`.
 
 | ID | Blocker | Required action |
 | --- | --- | --- |
@@ -45,14 +46,15 @@ Current release-status blocker keys for release readiness include
 | P0-002 | Linked Supabase is behind the local SMS-first migration contract. | Apply/dry-run migration from an allowed DB network and rerun `scripts/collect_linked_uat.sh`. |
 | P0-003 | Real Android SMS access UAT is missing. | Run controlled Android SMS scenarios and attach sanitized evidence. |
 | P0-004 | Admin PWA live URL proof is missing. | Deploy Admin PWA and rerun `ADMIN_PWA_LIVE_URL=... ./scripts/admin_pwa_live_gate.sh --json`. |
-| P0-005 | Current Android release APK/AAB artifacts are stale. | Rebuild release APK/AAB from current sources and rerun `scripts/flutter_mobile_release_gate.sh --json` plus `scripts/release_artifact_manifest.sh --json`. |
+| P0-005 | Android release signing / Play App Signing review is missing. | Record signing review evidence and rerun `scripts/flutter_mobile_release_gate.sh --json`. |
+| P0-006 | iOS release scope is not signed off. | Sign off iOS contributor-only scope or mark iOS explicitly out of scope, then rerun `scripts/flutter_mobile_release_gate.sh --json`. |
 
 ## Release Commands To Rerun
 
 ```sh
 /Volumes/PRO-G40/flutter_3_44/bin/flutter analyze
 TMPDIR=/Volumes/PRO-G40/tmp/cool-flutter-test /Volumes/PRO-G40/flutter_3_44/bin/flutter test \
-  test/admin_placeholder_test.dart \
+  test/admin_pwa_test.dart \
   test/app_shell_test.dart \
   test/core/phone_and_public_id_test.dart \
   test/features/design_system_components_test.dart \

@@ -373,11 +373,9 @@ class CollectRepository extends StateNotifier<CollectState> {
 
     final receiver = collection.receiverMomoNumber;
     if (receiver == null) throw StateError('Group has no MOMO receiver');
-    final code = _shortCode();
     final intent = PaymentIntentModel(
       id: _uuid.v4(),
       collectionId: collection.id,
-      contributionCode: code,
       expectedAmountRwf: draft.amountRwf,
       receiverMomoNumber: receiver,
       receiverLabel: collection.receiverDisplayLabel,
@@ -676,11 +674,6 @@ class CollectRepository extends StateNotifier<CollectState> {
         .replaceAll(RegExp(r'[^a-z0-9]+'), '-')
         .replaceAll(RegExp(r'^-|-$'), '');
     return slug.isEmpty ? 'group' : slug;
-  }
-
-  static String _shortCode() {
-    final source = _uuid.v4().replaceAll('-', '').toUpperCase();
-    return source.substring(0, 6);
   }
 
   static Map<String, dynamic> _singleRpcRow(dynamic response) {

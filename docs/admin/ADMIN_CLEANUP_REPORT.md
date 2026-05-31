@@ -1,12 +1,12 @@
 # Collect Admin Runtime Report
 
-Date: 2026-05-23
+Date: 2026-05-31
 
 ## Scope
 
-The admin surface is now a separate Flutter web runtime backed by Supabase Auth,
-RLS, and security-definer admin RPCs. It is no longer a title-only placeholder
-shell.
+The admin surface is a separate Flutter web runtime backed by Supabase Auth,
+RLS, and security-definer admin RPCs. The member Flutter app does not register
+`/admin`, and disconnected title-only admin feature files have been removed.
 
 ## Kept
 
@@ -29,6 +29,7 @@ shell.
   and raw-SMS reveal through an audited sensitive-data gate.
 - `lib/admin/shared/components/` contains real metric, table, and sensitive-data
   components used by the runtime.
+- Removed old disconnected `lib/admin/features/*` title-only page files.
 
 ## Routes
 
@@ -61,8 +62,6 @@ shell.
 - Live platform-admin, reviewer, and non-admin UAT against the linked Supabase
   project.
 - Production admin operational runbook and evidence capture.
-- Follow-up cleanup of unused old admin feature-folder files if they remain
-  disconnected from the active router.
 
 ## Validation
 

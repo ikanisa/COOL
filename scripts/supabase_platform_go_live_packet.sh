@@ -17,13 +17,21 @@ esac
 status_json="$(mktemp)"
 trap 'rm -f "$status_json"' EXIT
 
+project_ref="${SUPABASE_PROJECT_REF:-unknown}"
+if [[ -f "$ROOT_DIR/supabase/.temp/project-ref" ]]; then
+  linked_project_ref="$(tr -d '[:space:]' <"$ROOT_DIR/supabase/.temp/project-ref")"
+  if [[ -n "$linked_project_ref" ]]; then
+    project_ref="$linked_project_ref"
+  fi
+fi
+
 if [[ -n "${SUPABASE_PLATFORM_PACKET_STATUS_JSON:-}" ]]; then
   printf '%s\n' "$SUPABASE_PLATFORM_PACKET_STATUS_JSON" >"$status_json"
 else
   "$ROOT_DIR/scripts/release_status.sh" --json >"$status_json"
 fi
 
-ruby -r json -r time - "$output_format" "${SUPABASE_PROJECT_REF:-unknown}" "$status_json" <<'RUBY'
+ruby -r json -r time - "$output_format" "$project_ref" "$status_json" <<'RUBY'
 format, project_ref, path = ARGV
 status = JSON.parse(File.read(path))
 blocker_keys = Array(status["blocker_keys"])
@@ -42,6 +50,20 @@ catalog = {
     "owner" => "mobile/release",
     "required_action" => "Run real Android MoMo SMS consent, ingestion, parse, allocation, exception, and ledger scenarios with sanitized evidence.",
     "verify_command" => "Manual Android UAT plus sanitized evidence manifest"
+  },
+  "android_release_signing_review" => {
+    "title" => "Android release signing review",
+    "severity" => "P0",
+    "owner" => "mobile/release",
+    "required_action" => "Record Android release signing / Play App Signing review evidence for the current APK/AAB outputs.",
+    "verify_command" => "ANDROID_RELEASE_SIGNING_REVIEWED=1 ... ./scripts/flutter_mobile_release_gate.sh --json"
+  },
+  "ios_release_scope" => {
+    "title" => "iOS release scope",
+    "severity" => "P0",
+    "owner" => "mobile/release",
+    "required_action" => "Sign off iOS contributor-only scope or mark iOS explicitly out of scope.",
+    "verify_command" => "IOS_RELEASE_OUT_OF_SCOPE=1 ... ./scripts/flutter_mobile_release_gate.sh --json"
   },
   "admin_pwa_live_url" => {
     "title" => "Admin PWA live deployment",

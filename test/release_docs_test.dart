@@ -42,7 +42,7 @@ void main() {
     expect(docs['blockers'], contains('P0-003'));
     expect(docs['blockers'], contains('create_group_with_owner'));
     expect(docs['checklist'], contains('linked_supabase_sms_first_migration'));
-    expect(docs['qa'], contains('79'));
+    expect(docs['qa'], contains('83'));
     expect(docs['packet'], contains('Final GO Criteria'));
   });
 
@@ -57,7 +57,8 @@ void main() {
       containsAll(<String>[
         'product_signoff',
         'android_sms_access_uat',
-        'android_release_artifacts',
+        'android_release_signing_review',
+        'ios_release_scope',
         'admin_pwa_live_url',
         'linked_supabase_sms_first_migration',
         'release_owner_signoff',
@@ -73,7 +74,8 @@ void main() {
       'status': 'blocked',
       'blocker_keys': [
         'linked_supabase_sms_first_migration',
-        'android_release_artifacts',
+        'android_release_signing_review',
+        'ios_release_scope',
         'admin_pwa_live_url',
       ],
     });
@@ -96,7 +98,13 @@ void main() {
     expect(
       decoded['required_next_actions'],
       contains(
-        'Rebuild current Android release APK/AAB artifacts and rerun scripts/flutter_mobile_release_gate.sh --json.',
+        'Record Android release signing / Play App Signing review evidence and rerun scripts/flutter_mobile_release_gate.sh --json.',
+      ),
+    );
+    expect(
+      decoded['required_next_actions'],
+      contains(
+        'Sign off iOS release scope or mark iOS explicitly out of scope, then rerun scripts/flutter_mobile_release_gate.sh --json.',
       ),
     );
   });
@@ -119,24 +127,5 @@ void main() {
     expect(jsonEncode(decoded), contains('Android SMS access UAT'));
     expect(jsonEncode(decoded), isNot(contains('AUTH_CAPTCHA_SECRET')));
     expect(jsonEncode(decoded), isNot(contains('HIBP')));
-  });
-
-  test('legacy platform exception gate cannot clear current blockers', () {
-    final status = jsonEncode({
-      'decision': 'NO-GO',
-      'status': 'blocked',
-      'blocker_keys': ['product_signoff'],
-    });
-    final result = Process.runSync(
-      './scripts/supabase_platform_exception_gate.sh',
-      const [],
-      environment: {'SUPABASE_PLATFORM_EXCEPTION_STATUS_JSON': status},
-    );
-
-    expect(result.exitCode, 1);
-    expect(
-      result.stderr as String,
-      contains('Current release blockers cannot be cleared'),
-    );
   });
 }

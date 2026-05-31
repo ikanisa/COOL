@@ -128,7 +128,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                         otp: _otp.text.isEmpty ? '000000' : _otp.text,
                       );
                   if (!context.mounted) return;
-                  context.go('/profile/setup');
+                  context.go('/settings/profile');
                 },
                 expand: true,
               ),

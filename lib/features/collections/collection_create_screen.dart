@@ -40,16 +40,26 @@ class _CollectionCreateScreenState
       _syncedProfileMomo = true;
     }
     final canCreate = canCreateGroupsOnThisPlatform();
+    if (!canCreate) {
+      return ScreenScaffold(
+        title: 'Create group',
+        children: [
+          CollectCard(
+            child: CollectButton(
+              label: 'Create group',
+              icon: CollectIcons.add,
+              onPressed: () => showAndroidGroupCreationOnlyDialog(context),
+              variant: CollectButtonVariant.secondary,
+              expand: true,
+            ),
+          ),
+        ],
+      );
+    }
     return ScreenScaffold(
       title: 'Create group',
       subtitle: 'Name the group and confirm the receiver MoMo number.',
       children: [
-        const InfoSecurityBanner(
-          title: 'Android SMS access',
-          message:
-              'On Android, creating your first group starts SMS access consent so receiver MoMo notifications can be parsed automatically.',
-          tone: CollectStatusTone.privacy,
-        ),
         CollectCard(
           child: Column(
             children: [
@@ -84,12 +94,8 @@ class _CollectionCreateScreenState
               CollectButton(
                 label: 'Create group',
                 icon: CollectIcons.check,
-                onPressed: canCreate
-                    ? _create
-                    : () => showAndroidGroupCreationOnlyDialog(context),
-                variant: canCreate
-                    ? CollectButtonVariant.primary
-                    : CollectButtonVariant.secondary,
+                onPressed: _create,
+                variant: CollectButtonVariant.primary,
                 expand: true,
               ),
             ],
@@ -100,8 +106,9 @@ class _CollectionCreateScreenState
   }
 
   Future<void> _create() async {
-    final smsAccessGranted =
-        await ref.read(collectRepositoryProvider.notifier).setSmsAccess(true);
+    final smsAccessGranted = await ref
+        .read(collectRepositoryProvider.notifier)
+        .setSmsAccess(true);
     if (!smsAccessGranted) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

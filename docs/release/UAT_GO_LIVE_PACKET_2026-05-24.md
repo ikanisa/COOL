@@ -1,12 +1,12 @@
 # Collect UAT And Go-Live Packet
 
-Prepared: 2026-05-27
+Prepared: 2026-05-31
 
 Decision: **NO-GO**
 
 ## Scope
 
-This packet covers the corrected Collect product: anonymous SMS-first Groups
+This packet covers the corrected Collect product: Collect ID-only SMS-first Groups
 for MoMo contributions, Flutter mobile app, Flutter Admin PWA, Supabase schema
 and Edge Functions, payment-intent allocation, release evidence, and operator
 UAT.
@@ -34,7 +34,7 @@ UAT.
 | Area | Command | Result |
 | --- | --- | --- |
 | Analyze | `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze` | Pass. |
-| Flutter tests | Full Flutter/release-doc suite | Pass: `79` tests. |
+| Flutter tests | Full Flutter/release-doc suite | Pass: `78` tests. |
 | Admin PWA build | `scripts/admin_pwa_release_build.sh` | Pass. |
 | Admin PWA render | `scripts/admin_pwa_render_smoke.sh` | Pass; evidence at `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`. |
 | Admin PWA live | `scripts/admin_pwa_live_gate.sh --json` | Blocked: `ADMIN_PWA_LIVE_URL` missing. |
@@ -44,8 +44,8 @@ UAT.
 | Admin/security UAT | `scripts/collect_admin_security_uat.sh` | Pass through linked database query mode. |
 | Linked contribution UAT | `scripts/collect_linked_uat.sh` | Blocked/fail: linked database is missing `create_group_with_owner`. |
 | Migration dry-run | `supabase db push --dry-run` | Blocked by database allowlist from current operator IP. |
-| Android release gate | `scripts/flutter_mobile_release_gate.sh --json` | Blocked: stale Android APK/AAB artifacts, signing review, and iOS release scope. |
-| Release artifact manifest | `scripts/release_artifact_manifest.sh --json` | Blocked: existing Android APK/AAB artifacts are older than current mobile sources. |
+| Android release gate | `scripts/flutter_mobile_release_gate.sh --json` | Blocked: signing review and iOS release scope. |
+| Release artifact manifest | `scripts/release_artifact_manifest.sh --json` | Pass: current APK/AAB and Admin PWA artifacts are fresh; manifest written for 2026-05-31. |
 
 ## Device And Browser Matrix
 
@@ -55,7 +55,7 @@ UAT.
 | Admin PWA local Chrome render | Pass | Desktop and mobile screenshots are nonblank and show Collect admin login. |
 | Admin PWA live URL | Blocked | Must be deployed and checked with `ADMIN_PWA_LIVE_URL`. |
 | Android SMS access device | Pending | Real SMS access, ingestion, parse, allocation, and ledger evidence is required. |
-| Android release APK/AAB | Blocked | Release artifacts must be rebuilt from current sources after this refactor. |
+| Android release APK/AAB | Pass | Release artifacts are current; signing and iOS scope evidence remain blocked. |
 | iOS release scope | Pending | Since group creation is Android-only, iOS must either be scoped out for creator flows or separately signed off for contributor-only use. |
 
 ## Test Data Ledger
@@ -71,7 +71,7 @@ secrets, provider secrets, or production customer data.
 | Linked Supabase behind local migration | Open P0 | Apply/dry-run migration from allowed DB network and rerun linked UAT. |
 | Android MoMo SMS not freshly evidenced | Open P0 | Run controlled physical Android UAT. |
 | Admin PWA not proven live | Open P0 | Deploy and pass live gate. |
-| Android release APK/AAB stale | Open P0 | Rebuild current release artifacts and rerun release gates. |
+| Android release signing / iOS scope | Open P0 | Record signing review and iOS scope evidence, then rerun release gates. |
 | Product signoff missing | Open P0 | Approve corrected product definition. |
 | Dirty worktree | Open P1 | Review/stage intended changes only. |
 
@@ -81,7 +81,7 @@ secrets, provider secrets, or production customer data.
 2. Linked SMS-first migration is applied and linked contribution UAT passes.
 3. Physical Android SMS access UAT passes with sanitized evidence.
 4. Admin PWA deployed URL passes live gate.
-5. Android release APK/AAB artifacts are rebuilt from current sources and release artifact gates pass.
+5. Android signing review and iOS release scope evidence pass release gates.
 6. Release owner approves current packet and worktree/release branch.
 
 Older evidence that refers to public campaigns, active goals, manual SMS paste,

@@ -74,7 +74,7 @@ class HomeScreen extends ConsumerWidget {
                 icon: CollectIcons.profile,
                 label: 'Profile',
                 detail: 'MoMo number',
-                onTap: () => context.go('/profile/setup'),
+                onTap: () => context.go('/settings/profile'),
                 tone: CollectStatusTone.privacy,
               ),
             ],

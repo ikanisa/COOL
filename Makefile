@@ -2,7 +2,7 @@ SHELL := /bin/bash
 FLUTTER ?= /Volumes/PRO-G40/flutter_3_44/bin/flutter
 DART ?= /Volumes/PRO-G40/flutter_3_44/bin/dart
 
-.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke android-device-uat flutter-mobile-release-gate flutter-mobile-release-gate-json uat-evidence-gate uat-evidence-gate-json uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-evidence-index release-evidence-index-json release-worktree-review release-worktree-review-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-platform-exception-gate supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
+.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke android-device-uat flutter-mobile-release-gate flutter-mobile-release-gate-json uat-evidence-gate uat-evidence-gate-json uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-evidence-index release-evidence-index-json release-worktree-review release-worktree-review-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
 
 help:
 	@echo "Collect workspace commands"
@@ -30,7 +30,6 @@ help:
 	@echo "  make release-secret-scan Run redacted release secret scan"
 	@echo "  make supabase-go-live-gate Final Supabase go-live approval gate"
 	@echo "  make supabase-platform-packet Print current SMS-first release blocker handoff"
-	@echo "  make supabase-platform-exception-gate Confirm legacy platform exceptions are not clearing current blockers"
 	@echo "  make supabase-post-operator-checklist Print current SMS-first post-remediation checklist"
 	@echo "  make supabase-acceptance-matrix Print evidence-backed Supabase acceptance matrix"
 	@echo "  make supabase-schema-inventory Print live public schema contract inventory"
@@ -152,9 +151,6 @@ supabase-platform-packet:
 
 supabase-platform-packet-json:
 	@./scripts/supabase_platform_go_live_packet.sh --json
-
-supabase-platform-exception-gate:
-	@./scripts/supabase_platform_exception_gate.sh
 
 supabase-post-operator-checklist:
 	@./scripts/supabase_post_operator_checklist.sh

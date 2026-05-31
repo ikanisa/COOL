@@ -14,7 +14,7 @@ class ProfileSetupScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
-  final _momo = TextEditingController(text: '+250788123456');
+  final _momo = TextEditingController();
   bool _synced = false;
 
   @override

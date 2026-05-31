@@ -26,7 +26,7 @@ There must be no manual SMS paste workflow, no manual MoMo instruction screen, n
 
 Collect helps people create and contribute to groups where the group owner receives MoMo payments directly. The app records contributions automatically by reading MoMo SMS notifications on the Android device that owns the group receiver number.
 
-Collect does not ask users for real names. Every user receives an automatically generated 6-digit Collect ID. Public and member-facing identity is always anonymous by default and represented by the Collect ID where needed.
+Collect does not ask users for real names. Every user receives an automatically generated 6-digit Collect ID. Member-facing identity is Collect ID-only; there is no name-based or user-selected anonymity mode.
 
 The app is not a general wallet and does not custody money. Payment happens through the phone's MoMo USSD flow. Collection evidence is created after the group owner receives an official MoMo SMS and the backend parses and allocates it.
 
@@ -34,7 +34,7 @@ The app is not a general wallet and does not custody money. Payment happens thro
 
 - Identity: no real name collection, no display-name requirement, no user-selected anonymity setting.
 - User ID: every user has an auto-generated 6-digit Collect ID.
-- Privacy: users are anonymous by default; do not expose full phone or MoMo numbers in normal group views.
+- Privacy: users are represented by Collect ID only; do not expose full phone or MoMo numbers in normal group views.
 - Profile: MoMo number is managed once in profile/settings and reused across group creation and contribution.
 - Group language: use `Groups`, not `Active goals`.
 - Navigation: only three bottom tabs: `Home`, `Groups`, and `Settings`.
@@ -57,7 +57,7 @@ Any signed-in person. A user can:
 - Add or update their MoMo number in profile.
 - Join groups.
 - Contribute to groups through MoMo USSD.
-- See their groups and contribution status through anonymous/ID-based records.
+- See their groups and contribution status through Collect ID-based records.
 
 ### Group Owner
 
@@ -244,11 +244,12 @@ This mirrors PayLedger's Android gateway pattern.
    - amount;
    - currency;
    - transaction reference;
-   - payer phone/identifier if present;
+   - payer phone/identifier only for protected hashing if present;
    - transaction timestamp;
    - network;
    - direction;
    - confidence.
+   It does not extract payer names, receiver names, payment reasons, or raw reference text.
 6. Backend validates the parser output.
 7. Valid inbound payment SMS creates a transaction row.
 8. Supabase attempts to match the transaction to a pending payment intent for the same group/receiver/amount/member context.
@@ -296,7 +297,7 @@ Admin PWA must explain and operate the same automated workflow:
    - amount;
    - network;
    - direction;
-   - reference;
+   - provider transaction ID;
    - confidence;
    - linked payment intent;
    - allocation status.
@@ -417,7 +418,7 @@ Admin must not present fake metrics, demo operational content, or manual user fa
 ## Decisions Still To Confirm Before Implementation
 
 1. Exact USSD template per MoMo provider and whether amount/receiver can be prefilled reliably through `tel:`.
-2. Whether the MoMo USSD reference field can include the member's 6-digit Collect ID or payment intent code on supported flows.
+2. Whether the MoMo USSD reference field can include the member's 6-digit Collect ID on supported flows without requiring manual fallback entry.
 3. Whether groups support invite-only links, public share links, or both.
 4. Final QR/deep-link URL format for group sharing.
 

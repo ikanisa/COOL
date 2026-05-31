@@ -57,7 +57,7 @@ void main() {
         amountRwf: 5000,
         receiverLabel: 'St Michel treasury',
         receiverMomoNumber: '+250788123456',
-        contributionCode: 'ABC123',
+        memberLabel: 'Collect ID 038491',
         network: 'MTN MOMO',
         status: 'pending',
       ),
@@ -65,11 +65,13 @@ void main() {
 
     expect(find.text('RWF 5,000'), findsOneWidget);
     expect(find.text('St Michel treasury'), findsOneWidget);
+    expect(find.text('Collect ID 038491'), findsOneWidget);
     expect(find.textContaining('Collect waits for SMS'), findsOneWidget);
     expect(find.textContaining('Do not paste SMS'), findsOneWidget);
+    expect(find.textContaining('Code'), findsNothing);
   });
 
-  testWidgets('receiver consent card shows consent and fallback copy', (
+  testWidgets('receiver consent card shows SMS access privacy copy', (
     tester,
   ) async {
     await _pumpCollect(
@@ -137,17 +139,17 @@ void main() {
     expect(find.byType(LoadingSkeleton), findsOneWidget);
   });
 
-  test('primary route smoke list includes admin and payment flows', () {
+  test('primary route smoke list keeps admin out of member app', () {
     expect(
       collectRoutePaths,
       containsAll(<String>[
         '/home',
         '/groups/:collectionId/contribute',
         '/groups/:collectionId/pay/:intentId',
-        '/admin',
         '/dev/design-system',
       ]),
     );
+    expect(collectRoutePaths, isNot(contains('/admin')));
   });
 }
 

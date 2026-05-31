@@ -138,7 +138,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
           amountRwf: 5000,
           receiverLabel: 'St Michel treasury',
           receiverMomoNumber: '+250788123456',
-          contributionCode: 'ABC123',
+          memberLabel: 'Collect ID 038491',
           network: 'MTN MOMO',
           status: 'pending',
         ),

@@ -694,7 +694,7 @@ class PaymentIntentStatusCard extends StatelessWidget {
     required this.amountRwf,
     required this.receiverLabel,
     required this.receiverMomoNumber,
-    required this.contributionCode,
+    required this.memberLabel,
     required this.network,
     required this.status,
     super.key,
@@ -703,7 +703,7 @@ class PaymentIntentStatusCard extends StatelessWidget {
   final int amountRwf;
   final String receiverLabel;
   final String receiverMomoNumber;
-  final String contributionCode;
+  final String memberLabel;
   final String network;
   final String status;
 
@@ -731,7 +731,7 @@ class PaymentIntentStatusCard extends StatelessWidget {
                 tone: paymentStatusTone(status),
               ),
               CollectStatusChip(
-                label: 'Code $contributionCode',
+                label: memberLabel,
                 tone: CollectStatusTone.warning,
               ),
               CollectStatusChip(
@@ -1670,7 +1670,7 @@ CollectStatusTone statusToneFromText(String status) {
       normalized.contains('expired')) {
     return CollectStatusTone.danger;
   }
-  if (normalized.contains('private') || normalized.contains('anonymous')) {
+  if (normalized.contains('private')) {
     return CollectStatusTone.privacy;
   }
   return CollectStatusTone.neutral;

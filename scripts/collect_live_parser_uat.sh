@@ -31,14 +31,13 @@ require_cmd curl
 require_cmd ruby
 
 tag="collect_live_parser_uat_$(date +%s)_$$"
-code="$(ruby -e 'print "UAT" + rand(1000..9999).to_s')"
-txn_id="TX${code}$(date +%S)"
+txn_id="TX$(ruby -e 'print rand(100000..999999).to_s')$(date +%S)"
 owner_phone="+25079$(ruby -e 'print rand(1000000..9999999).to_s')"
 contributor_phone="+25078$(ruby -e 'print rand(1000000..9999999).to_s')"
 receiver_phone="+250788123456"
 amount="4321"
 
-raw_body="You have received 4,321 RWF from COLLECT UAT (${contributor_phone}) on your MTN MoMo account ${receiver_phone}. Financial Transaction Id: ${txn_id}. Reason/reference: ${code}. New balance is 900,000 RWF."
+raw_body="created in SQL after the contributor Collect ID exists"
 
 owner_id=""
 contributor_id=""
@@ -141,7 +140,6 @@ psql_cli "$DATABASE_URL" -v ON_ERROR_STOP=1 \
   -v intent_id="$intent_id" \
   -v raw_sms_id="$raw_sms_id" \
   -v tag="$tag" \
-  -v code="$code" \
   -v txn_id="$txn_id" \
   -v owner_phone="$owner_phone" \
   -v contributor_phone="$contributor_phone" \
@@ -217,7 +215,6 @@ insert into payment_intents (
   collection_id,
   contributor_user_id,
   contributor_public_id,
-  contribution_code,
   expected_amount_rwf,
   receiver_momo_number_hash,
   sender_phone_hash,
@@ -228,7 +225,6 @@ values (
   :'collection_id',
   :'contributor_id',
   (select public_id from profiles where id = :'contributor_id'),
-  :'code',
   :'amount'::bigint,
   encode(extensions.digest(:'receiver_phone', 'sha256'), 'hex'),
   encode(extensions.digest(:'contributor_phone', 'sha256'), 'hex'),
@@ -251,8 +247,19 @@ values (
   :'collection_id',
   :'owner_id',
   'MTN MOMO',
-  :'raw_body',
-  encode(extensions.digest(:'raw_body', 'sha256'), 'hex'),
+  'You have received 4,321 RWF from COLLECT UAT (' || :'contributor_phone' || ') Collect ID ' ||
+    (select public_id from profiles where id = :'contributor_id') ||
+    ' on your MTN MoMo account ' || :'receiver_phone' ||
+    '. Financial Transaction Id: ' || :'txn_id' ||
+    '. New balance is 900,000 RWF.',
+  encode(extensions.digest(
+    'You have received 4,321 RWF from COLLECT UAT (' || :'contributor_phone' || ') Collect ID ' ||
+      (select public_id from profiles where id = :'contributor_id') ||
+      ' on your MTN MoMo account ' || :'receiver_phone' ||
+      '. Financial Transaction Id: ' || :'txn_id' ||
+      '. New balance is 900,000 RWF.',
+    'sha256'
+  ), 'hex'),
   encode(extensions.digest(:'receiver_phone', 'sha256'), 'hex'),
   now(),
   'pending'
@@ -317,6 +324,7 @@ required = {
   "raw_sender_phone_leaked" => "false",
   "raw_receiver_phone_leaked" => "false",
   "payment_count" => "1",
+  "allocation_method" => "auto_member_intent",
   "ledger_count" => "1",
   "intent_status" => "matched",
   "collect_id_public_count" => "1"
@@ -351,6 +359,11 @@ where p.payment_intent_id = :'intent_id'
   and p.collection_id = :'collection_id'
   and p.amount_rwf = :'amount'::bigint
   and p.status = 'posted'
+union all
+select 'allocation_method=' || allocation_method
+from payment_allocations
+where payment_intent_id = :'intent_id'
+  and collection_id = :'collection_id'
 union all
 select 'ledger_count=' || count(*)
 from ledger_entries le
