@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app/env/app_env.dart';
@@ -66,11 +67,16 @@ class ShareScreen extends ConsumerWidget {
               CollectButton(
                 label: 'Copy deep link',
                 icon: CollectIcons.copy,
-                onPressed: () => copyToClipboard(
-                  context,
-                  link,
-                  message: 'Group deep link copied.',
-                ),
+                onPressed: () {
+                  copyToClipboard(
+                    context,
+                    link,
+                    message: 'Group deep link copied.',
+                  );
+                  context.go(
+                    '/share/confirmed?message=Group%20deep%20link%20copied',
+                  );
+                },
                 variant: CollectButtonVariant.secondary,
                 expand: true,
               ),

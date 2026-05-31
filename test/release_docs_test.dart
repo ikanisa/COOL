@@ -40,8 +40,8 @@ void main() {
       contains('group creation is available only on Android'),
     );
     expect(docs['blockers'], contains('P0-003'));
-    expect(docs['blockers'], contains('create_group_with_owner'));
-    expect(docs['checklist'], contains('linked_supabase_sms_first_migration'));
+    expect(docs['blockers'], contains('ADMIN_PWA_LIVE_URL'));
+    expect(docs['checklist'], contains('release_owner_signoff'));
     expect(docs['qa'], contains('83'));
     expect(docs['packet'], contains('Final GO Criteria'));
   });
@@ -60,7 +60,6 @@ void main() {
         'android_release_signing_review',
         'ios_release_scope',
         'admin_pwa_live_url',
-        'linked_supabase_sms_first_migration',
         'release_owner_signoff',
       ]),
     );

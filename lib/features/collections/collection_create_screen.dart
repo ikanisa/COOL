@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import '../status/production_state_screens.dart';
 import 'group_creation_platform.dart';
 
 class CollectionCreateScreen extends ConsumerStatefulWidget {
@@ -41,20 +42,7 @@ class _CollectionCreateScreenState
     }
     final canCreate = canCreateGroupsOnThisPlatform();
     if (!canCreate) {
-      return ScreenScaffold(
-        title: 'Create group',
-        children: [
-          CollectCard(
-            child: CollectButton(
-              label: 'Create group',
-              icon: CollectIcons.add,
-              onPressed: () => showAndroidGroupCreationOnlyDialog(context),
-              variant: CollectButtonVariant.secondary,
-              expand: true,
-            ),
-          ),
-        ],
-      );
+      return const IphoneCreateUnavailableScreen();
     }
     return ScreenScaffold(
       title: 'Create group',
@@ -126,6 +114,6 @@ class _CollectionCreateScreenState
           receiverMomoNumber: _receiver.text,
         );
     if (!mounted) return;
-    context.go('/groups/${collection.id}');
+    context.go('/groups/${collection.id}/created');
   }
 }

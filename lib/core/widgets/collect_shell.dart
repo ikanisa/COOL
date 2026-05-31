@@ -11,39 +11,49 @@ class CollectShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final path = GoRouterState.of(context).uri.path;
+    final showNav = !_isStandalone(path);
     return Scaffold(
       body: child,
-      bottomNavigationBar: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.surfaceRaised,
-          border: Border(top: BorderSide(color: colors.border)),
-        ),
-        child: NavigationBar(
-          selectedIndex: _selectedIndex(context),
-          onDestinationSelected: (index) => context.go(_paths[index]),
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(CollectIcons.homeOutline),
-              selectedIcon: Icon(CollectIcons.home),
-              label: 'Home',
-            ),
-            NavigationDestination(
-              icon: Icon(CollectIcons.collectionsOutline),
-              selectedIcon: Icon(CollectIcons.collections),
-              label: 'Groups',
-            ),
-            NavigationDestination(
-              icon: Icon(CollectIcons.settingsOutline),
-              selectedIcon: Icon(CollectIcons.settings),
-              label: 'Settings',
-            ),
-          ],
-        ),
-      ),
+      bottomNavigationBar: showNav
+          ? DecoratedBox(
+              decoration: BoxDecoration(
+                color: colors.surfaceRaised,
+                border: Border(top: BorderSide(color: colors.border)),
+              ),
+              child: NavigationBar(
+                selectedIndex: _selectedIndex(context),
+                onDestinationSelected: (index) => context.go(_paths[index]),
+                destinations: const [
+                  NavigationDestination(
+                    icon: Icon(CollectIcons.homeOutline),
+                    selectedIcon: Icon(CollectIcons.home),
+                    label: 'Home',
+                  ),
+                  NavigationDestination(
+                    icon: Icon(CollectIcons.collectionsOutline),
+                    selectedIcon: Icon(CollectIcons.collections),
+                    label: 'Groups',
+                  ),
+                  NavigationDestination(
+                    icon: Icon(CollectIcons.settingsOutline),
+                    selectedIcon: Icon(CollectIcons.settings),
+                    label: 'Settings',
+                  ),
+                ],
+              ),
+            )
+          : null,
     );
   }
 
   static const _paths = <String>['/home', '/groups', '/settings'];
+
+  bool _isStandalone(String path) {
+    return path == '/onboarding' ||
+        path == '/auth' ||
+        path.startsWith('/auth/');
+  }
 
   int _selectedIndex(BuildContext context) {
     final path = GoRouterState.of(context).uri.path;

@@ -83,52 +83,58 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 label: _otpSent ? 'Verify and continue' : 'Send WhatsApp OTP',
                 icon: _otpSent ? CollectIcons.shield : CollectIcons.sms,
                 onPressed: () async {
-                  final phone = PhoneNormalizer.normalizeInternational(
-                    _phone.text,
-                  );
-                  final client = ref.read(supabaseClientProvider);
-                  final captchaToken = env.authCaptchaEnabled
-                      ? _captchaToken.text.trim()
-                      : '';
-                  if (env.authCaptchaEnabled && captchaToken.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Complete CAPTCHA verification first.'),
-                      ),
+                  try {
+                    final phone = PhoneNormalizer.normalizeInternational(
+                      _phone.text,
                     );
-                    return;
-                  }
-                  if (!_otpSent) {
+                    final client = ref.read(supabaseClientProvider);
+                    final captchaToken = env.authCaptchaEnabled
+                        ? _captchaToken.text.trim()
+                        : '';
+                    if (env.authCaptchaEnabled && captchaToken.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Complete CAPTCHA verification first.'),
+                        ),
+                      );
+                      return;
+                    }
+                    if (!_otpSent) {
+                      if (client != null) {
+                        await client.auth.signInWithOtp(
+                          phone: phone,
+                          channel: OtpChannel.whatsapp,
+                          captchaToken: captchaToken.isEmpty
+                              ? null
+                              : captchaToken,
+                        );
+                      }
+                      if (!mounted) return;
+                      setState(() => _otpSent = true);
+                      return;
+                    }
                     if (client != null) {
-                      await client.auth.signInWithOtp(
+                      await client.auth.verifyOTP(
                         phone: phone,
-                        channel: OtpChannel.whatsapp,
+                        token: _otp.text,
+                        type: OtpType.sms,
                         captchaToken: captchaToken.isEmpty
                             ? null
                             : captchaToken,
                       );
                     }
-                    if (!mounted) return;
-                    setState(() => _otpSent = true);
-                    return;
+                    if (!context.mounted) return;
+                    await ref
+                        .read(collectRepositoryProvider.notifier)
+                        .signInWithOtp(
+                          phone: phone,
+                          otp: _otp.text.isEmpty ? '000000' : _otp.text,
+                        );
+                    if (!context.mounted) return;
+                    context.go('/auth/success');
+                  } catch (_) {
+                    if (context.mounted) context.go('/auth/failure');
                   }
-                  if (client != null) {
-                    await client.auth.verifyOTP(
-                      phone: phone,
-                      token: _otp.text,
-                      type: OtpType.sms,
-                      captchaToken: captchaToken.isEmpty ? null : captchaToken,
-                    );
-                  }
-                  if (!context.mounted) return;
-                  await ref
-                      .read(collectRepositoryProvider.notifier)
-                      .signInWithOtp(
-                        phone: phone,
-                        otp: _otp.text.isEmpty ? '000000' : _otp.text,
-                      );
-                  if (!context.mounted) return;
-                  context.go('/settings/profile');
                 },
                 expand: true,
               ),

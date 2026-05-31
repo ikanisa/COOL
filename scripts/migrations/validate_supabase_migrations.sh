@@ -102,6 +102,8 @@ sms_first_required_patterns=(
   'drop view if exists public_collections_view'
   'drop view if exists collection_summary_view'
   'drop view if exists parsed_payment_events_review_view'
+  'drop view if exists public_profiles_view'
+  'drop view if exists public_contributions_view'
   'drop table if exists payment_instruction_templates'
   'drop table if exists public_collection_requests'
   'create or replace function admin_list_collections'
@@ -110,6 +112,8 @@ sms_first_required_patterns=(
   "'Collect ID ' || p.public_id"
   "'payments.allocate'"
   'grant execute on function join_group_by_slug'
+  "'enable_android_sms_access'"
+  "'enable_internal_receiver_mode'"
 )
 
 for pattern in "${sms_first_required_patterns[@]}"; do
@@ -118,5 +122,10 @@ for pattern in "${sms_first_required_patterns[@]}"; do
     exit 1
   fi
 done
+
+if grep -Eq "'ENABLE_(ANDROID_SMS_ACCESS|SMS_READER|INTERNAL_RECEIVER_MODE)'|'ADMIN_PANEL_ENABLED'" "$migrations_dir"/*.sql; then
+  echo "Supabase feature flag keys must be lowercase to satisfy feature_flags_key_check" >&2
+  exit 1
+fi
 
 echo "Supabase migration validation passed"

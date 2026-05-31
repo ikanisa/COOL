@@ -85,6 +85,7 @@ void main() {
 
       expect(await repo.syncPendingSmsAccess(), 1);
       expect(channel.drainCalls, 1);
+      expect(repo.contributionsFor('col-church'), hasLength(2));
     },
   );
 
@@ -95,6 +96,33 @@ void main() {
 
     expect(await repo.setSmsAccess(true), isFalse);
     expect(repo.state.smsAccessEnabled, isFalse);
+  });
+
+  test('local production interfaces expose members and owner health', () async {
+    final repo = CollectRepository.seeded();
+
+    final members = await repo.membersForCollection('col-church');
+    final health = await repo.ownerHealthFor('col-church');
+
+    expect(members.single.safeLabel, 'Collect ID 038491');
+    expect(health.receiverConfigured, isTrue);
+    expect(health.pendingPaymentIntents, 0);
+  });
+
+  test('local receiver update and sign out mutate safe client state', () async {
+    final repo = CollectRepository.seeded();
+
+    final collection = await repo.updateCollectionReceiver(
+      collectionId: 'col-team',
+      receiverMomoNumber: '+250788000111',
+      receiverLabel: 'Team treasurer',
+    );
+    expect(collection.receiverMomoNumber, '+250788000111');
+    expect(collection.receiverDisplayLabel, 'Team treasurer');
+
+    await repo.signOut();
+    expect(repo.state.currentProfile, isNull);
+    expect(repo.state.collections, isEmpty);
   });
 }
 

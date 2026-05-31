@@ -899,12 +899,24 @@ begin
 end;
 $$;
 
+revoke execute on function admin_list_payment_events(text, text)
+  from public, anon;
+revoke execute on function admin_list_allocations(text, text)
+  from public, anon;
+revoke execute on function admin_list_unallocated(text, text)
+  from public, anon;
+revoke execute on function admin_get_payment_event(uuid)
+  from public, anon;
+
 grant execute on function admin_list_payment_events(text, text) to authenticated;
 grant execute on function admin_list_allocations(text, text) to authenticated;
 grant execute on function admin_list_unallocated(text, text) to authenticated;
 grant execute on function admin_get_payment_event(uuid) to authenticated;
 
-create or replace view public_profiles_view
+drop view if exists public_profiles_view;
+drop view if exists public_contributions_view;
+
+create view public_profiles_view
 with (security_invoker = true)
 as
 select
@@ -914,7 +926,7 @@ select
   created_at
 from profiles;
 
-create or replace view public_contributions_view
+create view public_contributions_view
 with (security_invoker = true)
 as
 select
@@ -1119,7 +1131,7 @@ drop function if exists record_receiver_mode_consent(boolean, text, text, text);
 insert into feature_flags (key, enabled, description)
 values
   (
-    'ENABLE_ANDROID_SMS_ACCESS',
+    'enable_android_sms_access',
     false,
     'Android-only SMS app access for consented MoMo SMS ingestion'
   )
@@ -1127,7 +1139,7 @@ on conflict (key) do update
 set description = excluded.description;
 
 delete from feature_flags
-where key = 'ENABLE_INTERNAL_RECEIVER_MODE';
+where key = 'enable_internal_receiver_mode';
 
 insert into system_settings (key, value, description, is_sensitive)
 values
@@ -1142,6 +1154,19 @@ set value = excluded.value,
     description = excluded.description,
     is_sensitive = excluded.is_sensitive,
     updated_at = now();
+
+revoke execute on function create_group_with_owner(text, text, text, text, text)
+  from public, anon;
+revoke execute on function join_group_by_slug(text)
+  from public, anon;
+revoke execute on function create_payment_intent(uuid, bigint, text)
+  from public, anon;
+revoke execute on function create_contribution_intent(uuid, bigint, text)
+  from public, anon;
+revoke execute on function record_sms_access_consent(boolean, text, text, text)
+  from public, anon;
+revoke execute on function allocate_parsed_payment_event(uuid)
+  from public, anon, authenticated;
 
 grant execute on function create_group_with_owner(text, text, text, text, text)
   to authenticated;

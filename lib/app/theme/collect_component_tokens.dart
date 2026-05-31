@@ -15,7 +15,7 @@ class CollectComponentTokens {
         horizontal: CollectSpacing.x5,
         vertical: CollectSpacing.x3,
       ),
-      shape: RoundedRectangleBorder(borderRadius: CollectRadius.pillBorder),
+      shape: RoundedRectangleBorder(borderRadius: CollectRadius.mdBorder),
       backgroundColor: colors.navy,
       foregroundColor: Colors.white,
       disabledBackgroundColor: colors.surfaceMuted,
@@ -32,7 +32,7 @@ class CollectComponentTokens {
         horizontal: CollectSpacing.x5,
         vertical: CollectSpacing.x3,
       ),
-      shape: RoundedRectangleBorder(borderRadius: CollectRadius.pillBorder),
+      shape: RoundedRectangleBorder(borderRadius: CollectRadius.mdBorder),
       foregroundColor: colors.textPrimary,
       side: BorderSide(color: colors.border),
       textStyle: Theme.of(context).textTheme.labelLarge,
@@ -46,20 +46,18 @@ class CollectComponentTokens {
     String? prefix,
   }) {
     final colors = context.collectColors;
-    final border = OutlineInputBorder(
-      borderRadius: CollectRadius.mdBorder,
-      borderSide: BorderSide(color: colors.border),
+    final border = UnderlineInputBorder(
+      borderSide: BorderSide(color: colors.textPrimary),
     );
     return InputDecoration(
       labelText: label,
       helperText: helper,
       prefixText: prefix,
-      filled: true,
-      fillColor: colors.surfaceRaised,
+      filled: false,
       border: border,
       enabledBorder: border,
       focusedBorder: border.copyWith(
-        borderSide: BorderSide(color: colors.blue),
+        borderSide: BorderSide(color: colors.blue, width: 2),
       ),
     );
   }

@@ -7,15 +7,14 @@ Supabase schema/functions, payment-intent allocation, and release evidence.
 
 ## Decision
 
-Current status: **NO-GO for public launch** until the linked Supabase project is
-updated to the current SMS-first migration contract, Android SMS access UAT is
-run with sanitized evidence, Admin PWA live deployment is proven, Android
-signing/iOS scope evidence is recorded, and release owner signoff is recorded.
+Current status: **NO-GO for public launch** until Android SMS access UAT is run
+with sanitized evidence, Admin PWA live deployment is proven, Android
+signing/iOS scope evidence is recorded, product signoff is approved, and
+release owner signoff is recorded.
 
 Older Supabase platform blockers from the previous product definition are not
 carried forward in this report. Any platform blocker must be reproduced by a
-fresh readiness run after the SMS-first migration is deployed to the linked
-project.
+fresh readiness run.
 
 ## Commands And Results
 
@@ -31,15 +30,13 @@ project.
 | `deno check supabase/functions/...` | Pass | `parse-payment-sms`, `ingest-payment-sms`, and `allocate-payment` type-check. |
 | `./scripts/migrations/validate_supabase_migrations.sh` | Pass | Local migration validation passes. |
 | `scripts/collect_admin_security_uat.sh` | Pass | Linked rollback UAT for admin RBAC, raw-SMS reveal audit logging, payment-event reparse permission, and denial paths passed. |
-| `scripts/collect_linked_uat.sh` | Blocked/fail | Linked project is missing the current `create_group_with_owner` RPC. |
-| `supabase db push --dry-run` | Blocked | Direct dry-run failed from this operator network with Supabase tenant database allowlist error `EADDRNOTALLOWED`. |
+| `scripts/collect_linked_uat.sh` | Pass | SMS-first rollback UAT passed via linked database query. |
+| `scripts/supabase_production_readiness.sh` | Pass | Linked migration history, schema inventory, advisors, grants, Edge Function inventory, admin UAT, and SMS-first rollback UAT pass. |
 | `scripts/flutter_mobile_release_gate.sh --json` | Blocked | APK/AAB artifacts are current; signing review and iOS scope remain pending. |
 | `scripts/release_artifact_manifest.sh --json` | Pass | Manifest wrote `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-31.sha256`. |
 
 ## QA Findings
 
-- P0: Linked Supabase must receive the SMS-first migration, then linked
-  contribution/allocation UAT must pass.
 - P0: Android MoMo SMS consent, ingestion, parse, allocation, exception,
   and ledger UAT must be executed on a real Android device with sanitized
   evidence.
@@ -71,9 +68,8 @@ project.
 
 ## Next Verification
 
-1. Apply/dry-run the SMS-first migration from a database-allowed network.
-2. Rerun `scripts/collect_linked_uat.sh`.
-3. Deploy Admin PWA and rerun live gate with `ADMIN_PWA_LIVE_URL`.
-4. Run Android SMS access UAT with real MoMo notification scenarios.
-5. Record Android signing review and iOS scope evidence, then rerun release gates.
-6. Regenerate release evidence from current commands only.
+1. Deploy Admin PWA and rerun live gate with `ADMIN_PWA_LIVE_URL`.
+2. Run Android SMS access UAT with real MoMo notification scenarios.
+3. Record Android signing review and iOS scope evidence, then rerun release gates.
+4. Record product and release-owner signoff.
+5. Regenerate release evidence from current commands only.

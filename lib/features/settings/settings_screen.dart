@@ -31,20 +31,58 @@ class SettingsScreen extends StatelessWidget {
                 subtitle: 'Collect ID and default group receiver number.',
                 onTap: () => context.go('/settings/profile'),
               ),
-              const CollectListTile(
+              CollectListTile(
+                leading: CollectIcons.check,
+                title: 'Profile readiness',
+                subtitle: 'Collect ID, MoMo, and group creation readiness.',
+                onTap: () => context.go('/settings/readiness'),
+              ),
+              CollectListTile(
                 leading: CollectIcons.sms,
                 title: 'SMS access',
                 subtitle: 'Android SMS access for automated MoMo parsing.',
+                onTap: () => context.go('/permissions/sms'),
               ),
-              const CollectListTile(
+              CollectListTile(
+                leading: CollectIcons.tune,
+                title: 'Device permissions',
+                subtitle: 'Notification and SMS readiness.',
+                onTap: () => context.go('/permissions/device'),
+              ),
+              CollectListTile(
                 leading: CollectIcons.lock,
                 title: 'Privacy boundary',
                 subtitle:
                     'Raw SMS, phone numbers, and receiver data stay restricted.',
-                trailing: CollectStatusChip(
+                onTap: () => context.go('/settings/privacy'),
+                trailing: const CollectStatusChip(
                   label: 'Protected',
                   tone: CollectStatusTone.privacy,
                 ),
+              ),
+              CollectListTile(
+                leading: CollectIcons.profile,
+                title: 'Account and session',
+                subtitle: 'Sign out or submit account requests.',
+                onTap: () => context.go('/settings/account'),
+              ),
+              CollectListTile(
+                leading: CollectIcons.support,
+                title: 'Help and support',
+                subtitle: 'Send a support request.',
+                onTap: () => context.go('/settings/help'),
+              ),
+              CollectListTile(
+                leading: CollectIcons.info,
+                title: 'Terms',
+                subtitle: 'Collect product terms.',
+                onTap: () => context.go('/settings/legal/terms'),
+              ),
+              CollectListTile(
+                leading: CollectIcons.privacy,
+                title: 'Privacy policy',
+                subtitle: 'Data and evidence handling.',
+                onTap: () => context.go('/settings/legal/privacy'),
               ),
               if (kDebugMode)
                 CollectListTile(

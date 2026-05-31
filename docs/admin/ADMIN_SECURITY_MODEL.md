@@ -36,8 +36,8 @@ Flutter-visible env remains client-safe:
 - `SUPABASE_ANON_KEY`
 - `APP_PUBLIC_URL`
 - `ADMIN_APP_URL`
-- `ENABLE_SMS_READER`
-- `ENABLE_ANDROID_SMS_ACCESS`
+- `enable_sms_reader`
+- `enable_android_sms_access`
 - `ENABLE_ADMIN_PANEL`
 - `ENABLE_ADMIN_DEV_TOOLS`
 - `APP_ENVIRONMENT`

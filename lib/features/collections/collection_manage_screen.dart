@@ -25,6 +25,13 @@ class CollectionManageScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CollectListTile(
+                leading: CollectIcons.dashboard,
+                title: 'Owner dashboard',
+                subtitle:
+                    'SMS health, receiver settings, members, and sharing.',
+                onTap: () => context.go('/groups/$collectionId/owner'),
+              ),
+              CollectListTile(
                 leading: CollectIcons.people,
                 title: 'Share group',
                 subtitle:
@@ -36,6 +43,18 @@ class CollectionManageScreen extends ConsumerWidget {
                 title: 'Ledger',
                 subtitle: 'Confirmed SMS-matched contributions.',
                 onTap: () => context.go('/groups/$collectionId/ledger'),
+              ),
+              CollectListTile(
+                leading: CollectIcons.momo,
+                title: 'Receiver MoMo',
+                subtitle: 'Owner-only receiver configuration.',
+                onTap: () => context.go('/groups/$collectionId/owner/receiver'),
+              ),
+              CollectListTile(
+                leading: CollectIcons.people,
+                title: 'Members',
+                subtitle: 'Collect ID member list.',
+                onTap: () => context.go('/groups/$collectionId/members'),
               ),
             ],
           ),

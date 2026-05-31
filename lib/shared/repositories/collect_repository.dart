@@ -304,6 +304,41 @@ class CollectRepository extends StateNotifier<CollectState> {
     );
   }
 
+  Future<void> signOut() async {
+    await _supabase?.auth.signOut();
+    state = _emptyState();
+  }
+
+  Future<void> requestAccountDeletion({required String reason}) async {
+    final profile = _requireProfile();
+    final supabase = _supabase;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      await supabase.rpc<void>(
+        'request_account_deletion',
+        params: {'request_reason': reason.trim()},
+      );
+      return;
+    }
+    state = state.copyWith(currentProfile: profile);
+  }
+
+  Future<void> createSupportRequest({
+    required String subject,
+    required String message,
+  }) async {
+    _requireProfile();
+    final supabase = _supabase;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      await supabase.rpc<void>(
+        'create_mobile_support_request',
+        params: {
+          'request_subject': subject.trim(),
+          'request_message': message.trim(),
+        },
+      );
+    }
+  }
+
   Future<CollectCollection> createCollection({
     required String title,
     required String description,
@@ -343,6 +378,46 @@ class CollectRepository extends StateNotifier<CollectState> {
     );
     state = state.copyWith(collections: [...state.collections, collection]);
     return collection;
+  }
+
+  Future<CollectCollection> updateCollectionReceiver({
+    required String collectionId,
+    required String receiverMomoNumber,
+    String receiverLabel = 'Primary MOMO receiver',
+  }) async {
+    final normalizedReceiver = PhoneNormalizer.normalizeRwanda(
+      receiverMomoNumber,
+    );
+    final supabase = _supabase;
+
+    if (supabase != null && supabase.auth.currentUser != null) {
+      await supabase.rpc<void>(
+        'update_collection_receiver',
+        params: {
+          'collection': collectionId,
+          'receiver_momo_number': normalizedReceiver,
+          'receiver_momo_number_hash': HashUtils.phoneHash(normalizedReceiver),
+          'receiver_label': receiverLabel.trim().isEmpty
+              ? 'Primary MOMO receiver'
+              : receiverLabel.trim(),
+        },
+      );
+      final collection = await _fetchCollection(collectionId);
+      await loadInitial();
+      return collection;
+    }
+
+    final collections = [...state.collections];
+    final index = collections.indexWhere((item) => item.id == collectionId);
+    if (index == -1) throw StateError('Group not found');
+    collections[index] = collections[index].copyWith(
+      receiverMomoNumber: normalizedReceiver,
+      receiverDisplayLabel: receiverLabel.trim().isEmpty
+          ? 'Primary MOMO receiver'
+          : receiverLabel.trim(),
+    );
+    state = state.copyWith(collections: collections);
+    return collections[index];
   }
 
   Future<PaymentIntentModel> createPaymentIntent(
@@ -387,7 +462,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     return intent;
   }
 
-  Future<ParsedPaymentEvent> ingestReceiverSms(
+  Future<void> ingestReceiverSms(
     String body, {
     String rawSender = 'android_sms',
     String? receiverMomoNumber,
@@ -404,31 +479,6 @@ class CollectRepository extends StateNotifier<CollectState> {
       );
       await loadInitial();
     }
-
-    final amountMatch = RegExp(
-      r'([0-9][0-9, ]*)\s*RWF',
-      caseSensitive: false,
-    ).firstMatch(body);
-    final txnMatch = RegExp(
-      r'(?:TxId|transaction|ID)[:\s#-]*([A-Z0-9-]{4,})',
-      caseSensitive: false,
-    ).firstMatch(body);
-    final amount = amountMatch == null
-        ? 0
-        : int.tryParse(
-                amountMatch.group(1)!.replaceAll(RegExp(r'[^0-9]'), ''),
-              ) ??
-              0;
-    final event = ParsedPaymentEvent(
-      id: _uuid.v4(),
-      amountRwf: amount,
-      transactionId: txnMatch?.group(1),
-      senderLabel: 'MoMo SMS',
-      allocationStatus: amount > 0 ? 'needs_review' : 'ignored',
-      confidence: amount > 0 ? .74 : .2,
-      createdAt: DateTime.now(),
-    );
-    return event;
   }
 
   Future<bool> setSmsAccess(bool enabled) async {
@@ -512,6 +562,78 @@ class CollectRepository extends StateNotifier<CollectState> {
 
   PaymentIntentModel intentById(String id) =>
       state.paymentIntents.firstWhere((intent) => intent.id == id);
+
+  Future<PaymentIntentModel> refreshPaymentIntent(String id) async {
+    final supabase = _supabase;
+    if (supabase == null || supabase.auth.currentUser == null) {
+      return intentById(id);
+    }
+    final row = await supabase
+        .from('payment_intents')
+        .select()
+        .eq('id', id)
+        .single();
+    final intent = PaymentIntentModel.fromJson(Map<String, dynamic>.from(row));
+    final intents = [...state.paymentIntents];
+    final index = intents.indexWhere((item) => item.id == id);
+    if (index == -1) {
+      intents.insert(0, intent);
+    } else {
+      intents[index] = intent;
+    }
+    state = state.copyWith(paymentIntents: intents);
+    return intent;
+  }
+
+  Future<List<CollectMember>> membersForCollection(String collectionId) async {
+    final collection = collectionById(collectionId);
+    final supabase = _supabase;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      final rows = await supabase.rpc<List<dynamic>>(
+        'list_collection_collect_ids',
+        params: {'collection': collectionId},
+      );
+      return [
+        for (final row in rows)
+          CollectMember.fromJson(Map<String, dynamic>.from(row as Map)),
+      ];
+    }
+    final profile = state.currentProfile;
+    return [
+      if (profile != null)
+        CollectMember(
+          publicId: profile.publicId,
+          role: collection.creatorUserId == profile.id ? 'owner' : 'member',
+          status: 'active',
+          joinedAt: collection.createdAt,
+        ),
+    ];
+  }
+
+  Future<OwnerGroupHealth> ownerHealthFor(String collectionId) async {
+    final collection = collectionById(collectionId);
+    final supabase = _supabase;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      final row = await supabase.rpc<dynamic>(
+        'get_owner_group_health',
+        params: {'collection': collectionId},
+      );
+      return OwnerGroupHealth.fromJson(Map<String, dynamic>.from(row as Map));
+    }
+    return OwnerGroupHealth(
+      collectionId: collectionId,
+      smsAccessEnabled: state.smsAccessEnabled,
+      receiverConfigured: collection.receiverMomoNumber?.isNotEmpty == true,
+      pendingPaymentIntents: state.paymentIntents
+          .where(
+            (item) =>
+                item.collectionId == collectionId && item.status == 'pending',
+          )
+          .length,
+      needsReviewEvents: 0,
+      lastSyncedAt: null,
+    );
+  }
 
   void _ensureRealtimeSync() {
     final supabase = _supabase;

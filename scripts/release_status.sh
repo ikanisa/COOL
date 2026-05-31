@@ -61,7 +61,16 @@ if [[ -z "${ADMIN_PWA_LIVE_URL:-}" ]]; then
   add_blocker "admin_pwa_live_url" "Admin PWA live deployment URL is missing."
 fi
 
-if [[ "${COLLECT_LINKED_SMS_FIRST_UAT_PASSED:-0}" != "1" ]]; then
+linked_sms_first_uat="${COLLECT_LINKED_SMS_FIRST_UAT_PASSED:-}"
+if [[ -z "$linked_sms_first_uat" ]]; then
+  if "$ROOT_DIR/scripts/collect_linked_uat.sh" >/dev/null 2>&1; then
+    linked_sms_first_uat="1"
+  else
+    linked_sms_first_uat="0"
+  fi
+fi
+
+if [[ "$linked_sms_first_uat" != "1" ]]; then
   add_blocker "linked_supabase_sms_first_migration" "Linked Supabase SMS-first payment-intent UAT is not passed."
 fi
 
@@ -101,7 +110,7 @@ if [[ "$output_format" == "json" ]]; then
     printf '    "android_release_signing_review": %s,\n' "$(json_escape "$([[ " ${blocker_keys[*]} " == *" android_release_signing_review "* ]] && printf missing || printf current)")"
     printf '    "ios_release_scope": %s,\n' "$(json_escape "$([[ " ${blocker_keys[*]} " == *" ios_release_scope "* ]] && printf missing || printf current)")"
     printf '    "admin_pwa_live_url": %s,\n' "$(json_escape "${ADMIN_PWA_LIVE_URL:+present}")"
-    printf '    "linked_sms_first_uat": %s,\n' "$(json_escape "${COLLECT_LINKED_SMS_FIRST_UAT_PASSED:-0}")"
+    printf '    "linked_sms_first_uat": %s,\n' "$(json_escape "$linked_sms_first_uat")"
     printf '    "release_owner_signoff": %s\n' "$(json_escape "${COLLECT_RELEASE_OWNER_SIGNOFF_APPROVED:-0}")"
     printf '  }\n'
     printf '}\n'

@@ -1,14 +1,16 @@
 # Supabase Production Readiness Plan
 
-Updated: 2026-05-27
+Updated: 2026-05-31
 
 This plan is aligned to the corrected SMS-first Groups product. It replaces the
 older platform-blocker framing from the previous release packet.
 
 ## Current Decision
 
-Current Supabase status is **NO-GO** because the linked project is not yet on
-the local SMS-first payment-intent allocation contract.
+Current Supabase backend status is **green for code-owned linked readiness**.
+Overall release remains **NO-GO** until Android SMS device UAT, Admin PWA live
+proof, release signing/scope evidence, product signoff, and release-owner
+signoff are complete.
 
 Fresh evidence:
 
@@ -16,25 +18,24 @@ Fresh evidence:
 - Edge Function auth contract passes.
 - Parser, ingestion, and allocation functions type-check.
 - Linked admin/security rollback UAT passes.
-- Linked contribution/allocation UAT fails because the remote database is missing the current `create_group_with_owner` RPC.
-- `supabase db push --dry-run` is blocked from the current operator IP by the
-  Supabase tenant database allowlist.
+- Linked contribution/allocation rollback UAT passes.
+- `scripts/supabase_production_readiness.sh` passes against the linked project.
+- Legacy Edge Functions for manual allocation and public-collection requests
+  were removed from the linked project.
 
 Older CAPTCHA/HIBP/plan/PITR findings are not current release blockers unless a
-fresh readiness run after the SMS-first migration reproduces them.
+fresh readiness run reproduces them.
 
 ## Required Backend Work
 
-1. Apply or dry-run `supabase/migrations/202605270001_sms_first_group_payment_intents.sql`
-   from an allow-listed database network.
-2. Rerun `scripts/collect_linked_uat.sh`.
-3. Rerun `scripts/collect_admin_security_uat.sh`.
-4. Deploy active Edge Functions only:
+1. Keep linked readiness green by rerunning `scripts/supabase_production_readiness.sh`
+   after any database or Edge Function change.
+2. Deploy active Edge Functions only:
    - `auth-send-whatsapp-otp`
    - `ingest-payment-sms`
    - `parse-payment-sms`
    - `allocate-payment`
-5. Run Android SMS access UAT so the backend receives real MoMo SMS rows,
+3. Run Android SMS access UAT so the backend receives real MoMo SMS rows,
    parser output, allocation results, exceptions, and ledger entries.
 
 ## Current Validation Commands
@@ -47,7 +48,7 @@ deno check supabase/functions/parse-payment-sms/index.ts \
   supabase/functions/allocate-payment/index.ts
 ./scripts/collect_admin_security_uat.sh
 ./scripts/collect_linked_uat.sh
-supabase db push --dry-run
+./scripts/supabase_production_readiness.sh
 ```
 
 ## Release Gate Semantics
@@ -55,8 +56,9 @@ supabase db push --dry-run
 Release status now reports only current SMS-first blockers:
 
 - `product_signoff`
-- `linked_supabase_sms_first_migration`
 - `android_sms_access_uat`
+- `android_release_signing_review`
+- `ios_release_scope`
 - `admin_pwa_live_url`
 - `release_owner_signoff`
 

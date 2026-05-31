@@ -4,8 +4,8 @@ Audit date: 2026-05-31
 
 This checklist reflects the corrected SMS-first Groups product definition. It
 does not carry forward previous unverified Supabase platform blockers. Run
-fresh release gates after the linked database is updated before making a final
-production decision.
+fresh release gates after Android SMS UAT, Admin PWA live proof, and release
+signoffs before making a final production decision.
 
 ## Current Readiness
 
@@ -18,17 +18,17 @@ production decision.
 | International WhatsApp login | Pass locally | Phone normalization supports international `+` numbers instead of Rwanda-only assumptions. |
 | Android-only group creation | Pass locally | iPhone group creation warns exactly `group creation is available only on Android`. |
 | Payment intent contribution | Pass locally | Contribution creates a payment intent and launches MoMo USSD via `tel:`. |
-| Automated SMS parsing/allocation | Partially proven | Edge Function type-check and local contracts pass; linked SMS-first UAT is blocked until the migration is deployed. |
+| Automated SMS parsing/allocation | Backend proven; device UAT pending | Edge Function type-check, linked SMS-first rollback UAT, schema inventory, and Supabase readiness pass. Real Android SMS device UAT is still pending. |
 | Admin PWA local build | Pass | `scripts/admin_pwa_release_build.sh` passed. |
 | Admin PWA local render smoke | Pass | `scripts/admin_pwa_render_smoke.sh` passed with evidence at `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`. |
 | Admin PWA live deployment | Blocked | `scripts/admin_pwa_live_gate.sh --json` requires `ADMIN_PWA_LIVE_URL`. |
 | Flutter analyzer | Pass | `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze` completed cleanly. |
-| Flutter tests | Pass | Full Flutter/release-doc suite passed `78` tests. |
+| Flutter tests | Pass | Full Flutter/release-doc suite passed `83` tests. |
 | Local migration validation | Pass | `./scripts/migrations/validate_supabase_migrations.sh` passed. |
 | Edge Function auth contract | Pass | `scripts/collect_edge_auth_contract_uat.sh` passed. |
 | Linked admin/security UAT | Pass | `scripts/collect_admin_security_uat.sh` passed through linked database query mode. |
-| Linked SMS-first contribution UAT | Blocked/fail | Linked database is missing `create_group_with_owner`; migration must be applied. |
-| Linked migration dry-run | Blocked | `supabase db push --dry-run` failed from this network with database allowlist error `EADDRNOTALLOWED`. |
+| Linked SMS-first contribution UAT | Pass | `scripts/collect_linked_uat.sh` passed via linked database query. |
+| Linked Supabase readiness | Pass | `scripts/supabase_production_readiness.sh` passed; direct pooler lint/dry-run remains unavailable from this network but linked schema/advisor/UAT gates are green. |
 | Android real SMS UAT | Pending | Fresh MoMo SMS consent/ingestion/parse/allocation/ledger evidence is not yet recorded. |
 | Android release APK/AAB | Pass | Production APK/AAB artifacts are newer than Android/mobile sources; `scripts/release_artifact_manifest.sh --json` passed and wrote `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-31.sha256`. |
 | Release worktree review | Pending | The worktree is dirty during active refactor. |
@@ -36,18 +36,19 @@ production decision.
 
 ## Production Blockers
 
-Current release-status blocker keys for release readiness include
-`linked_supabase_sms_first_migration`, `android_release_signing_review`, and
-`ios_release_scope`.
+Current release-status blocker keys for release readiness are
+`product_signoff`, `android_sms_access_uat`,
+`android_release_signing_review`, `ios_release_scope`,
+`admin_pwa_live_url`, and `release_owner_signoff`.
 
 | ID | Blocker | Required action |
 | --- | --- | --- |
 | P0-001 | Stakeholder signoff for corrected product definition is missing. | Approve `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md`. |
-| P0-002 | Linked Supabase is behind the local SMS-first migration contract. | Apply/dry-run migration from an allowed DB network and rerun `scripts/collect_linked_uat.sh`. |
-| P0-003 | Real Android SMS access UAT is missing. | Run controlled Android SMS scenarios and attach sanitized evidence. |
-| P0-004 | Admin PWA live URL proof is missing. | Deploy Admin PWA and rerun `ADMIN_PWA_LIVE_URL=... ./scripts/admin_pwa_live_gate.sh --json`. |
-| P0-005 | Android release signing / Play App Signing review is missing. | Record signing review evidence and rerun `scripts/flutter_mobile_release_gate.sh --json`. |
-| P0-006 | iOS release scope is not signed off. | Sign off iOS contributor-only scope or mark iOS explicitly out of scope, then rerun `scripts/flutter_mobile_release_gate.sh --json`. |
+| P0-002 | Real Android SMS access UAT is missing. | Run controlled Android SMS scenarios and attach sanitized evidence. |
+| P0-003 | Admin PWA live URL proof is missing. | Deploy Admin PWA and rerun `ADMIN_PWA_LIVE_URL=... ./scripts/admin_pwa_live_gate.sh --json`. |
+| P0-004 | Android release signing / Play App Signing review is missing. | Record signing review evidence and rerun `scripts/flutter_mobile_release_gate.sh --json`. |
+| P0-005 | iOS release scope is not signed off. | Sign off iOS contributor-only scope or mark iOS explicitly out of scope, then rerun `scripts/flutter_mobile_release_gate.sh --json`. |
+| P0-006 | Release-owner signoff for the current evidence packet is missing. | Review the current evidence packet and record release-owner approval. |
 
 ## Release Commands To Rerun
 
@@ -69,6 +70,7 @@ TMPDIR=/Volumes/PRO-G40/tmp/cool-flutter-test /Volumes/PRO-G40/flutter_3_44/bin/
 ADMIN_PWA_RENDER_EVIDENCE_DIR=.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current ./scripts/admin_pwa_render_smoke.sh
 ./scripts/collect_admin_security_uat.sh
 ./scripts/collect_linked_uat.sh
+./scripts/supabase_production_readiness.sh
 ./scripts/flutter_mobile_release_gate.sh --json
 ./scripts/release_artifact_manifest.sh --json
 ```
@@ -77,7 +79,6 @@ After deployment:
 
 ```sh
 ADMIN_PWA_LIVE_URL="https://<admin-host>" ./scripts/admin_pwa_live_gate.sh --json
-supabase db push --dry-run
 ```
 
 ## Notes

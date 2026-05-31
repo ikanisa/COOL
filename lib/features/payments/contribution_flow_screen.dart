@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
@@ -22,6 +21,7 @@ class ContributionFlowScreen extends ConsumerStatefulWidget {
 class _ContributionFlowScreenState
     extends ConsumerState<ContributionFlowScreen> {
   final _amount = TextEditingController(text: '5000');
+  String? _error;
 
   @override
   void dispose() {
@@ -68,23 +68,38 @@ class _ContributionFlowScreenState
               Text('Amount', style: Theme.of(context).textTheme.titleMedium),
               CollectSpacing.gap12,
               AmountInput(controller: _amount),
+              if (_error != null) ...[
+                CollectSpacing.gap8,
+                Text(
+                  _error!,
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              ],
               CollectSpacing.gap16,
               CollectButton(
                 label: 'Contribute',
                 icon: CollectIcons.momo,
                 onPressed: () async {
+                  final amount = int.tryParse(_amount.text) ?? 0;
+                  if (amount <= 0) {
+                    setState(() {
+                      _error = 'Contribution amount must be above zero';
+                    });
+                    return;
+                  }
+                  setState(() => _error = null);
                   final intent = await ref
                       .read(collectRepositoryProvider.notifier)
                       .createPaymentIntent(
                         PaymentIntentDraft(
                           collectionId: widget.collectionId,
-                          amountRwf: int.tryParse(_amount.text) ?? 0,
+                          amountRwf: amount,
                         ),
                       );
                   if (!context.mounted) return;
-                  await _launchMomoDialer(context);
-                  if (!context.mounted) return;
-                  context.go('/groups/${widget.collectionId}/pay/${intent.id}');
+                  context.go(
+                    '/groups/${widget.collectionId}/pay/${intent.id}/handoff',
+                  );
                 },
                 expand: true,
               ),
@@ -92,17 +107,6 @@ class _ContributionFlowScreenState
           ),
         ),
       ],
-    );
-  }
-
-  Future<void> _launchMomoDialer(BuildContext context) async {
-    final launched = await launchUrl(
-      momoUssdUri(),
-      mode: LaunchMode.externalApplication,
-    );
-    if (launched || !context.mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('MoMo USSD dialer is not available.')),
     );
   }
 }

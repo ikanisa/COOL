@@ -231,6 +231,67 @@ class CollectionSummary {
   final int supporterCount;
 }
 
+@immutable
+class CollectMember {
+  const CollectMember({
+    required this.publicId,
+    required this.role,
+    required this.status,
+    required this.joinedAt,
+  });
+
+  final String publicId;
+  final String role;
+  final String status;
+  final DateTime joinedAt;
+
+  factory CollectMember.fromJson(Map<String, dynamic> json) {
+    return CollectMember(
+      publicId: (json['public_id'] as String?) ?? '000000',
+      role: (json['role'] as String?) ?? 'member',
+      status: (json['status'] as String?) ?? 'active',
+      joinedAt: _dateTime(json['joined_at'] ?? json['created_at']),
+    );
+  }
+
+  String get safeLabel => 'Collect ID $publicId';
+}
+
+@immutable
+class OwnerGroupHealth {
+  const OwnerGroupHealth({
+    required this.collectionId,
+    required this.smsAccessEnabled,
+    required this.receiverConfigured,
+    required this.pendingPaymentIntents,
+    required this.needsReviewEvents,
+    required this.lastSyncedAt,
+  });
+
+  final String collectionId;
+  final bool smsAccessEnabled;
+  final bool receiverConfigured;
+  final int pendingPaymentIntents;
+  final int needsReviewEvents;
+  final DateTime? lastSyncedAt;
+
+  factory OwnerGroupHealth.fromJson(Map<String, dynamic> json) {
+    return OwnerGroupHealth(
+      collectionId: json['collection_id'] as String,
+      smsAccessEnabled: (json['sms_access_enabled'] as bool?) ?? false,
+      receiverConfigured: (json['receiver_configured'] as bool?) ?? false,
+      pendingPaymentIntents:
+          (json['pending_payment_intents'] as num?)?.toInt() ?? 0,
+      needsReviewEvents: (json['needs_review_events'] as num?)?.toInt() ?? 0,
+      lastSyncedAt: json['last_synced_at'] == null
+          ? null
+          : _dateTime(json['last_synced_at']),
+    );
+  }
+
+  bool get ready => smsAccessEnabled && receiverConfigured;
+}
+
 DateTime _dateTime(Object? value) {
   if (value is DateTime) return value;
   if (value is String) return DateTime.parse(value);

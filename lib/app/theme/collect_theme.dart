@@ -16,9 +16,9 @@ class CollectTheme {
   static ThemeData _build(CollectColors colors, Brightness brightness) {
     final scheme = ColorScheme(
       brightness: brightness,
-      primary: colors.navy,
+      primary: colors.blue,
       onPrimary: Colors.white,
-      secondary: colors.aqua,
+      secondary: colors.navy,
       onSecondary: Colors.white,
       error: colors.danger,
       onError: Colors.white,
@@ -52,22 +52,19 @@ class CollectTheme {
       ),
       cardTheme: CardThemeData(
         elevation: 0,
-        color: colors.surfaceRaised,
-        shape: RoundedRectangleBorder(
-          borderRadius: CollectRadius.cardBorder,
-          side: BorderSide(color: colors.border),
-        ),
+        color: colors.surfaceMuted,
+        shape: RoundedRectangleBorder(borderRadius: CollectRadius.cardBorder),
       ),
       navigationBarTheme: NavigationBarThemeData(
         elevation: 0,
         backgroundColor: colors.surfaceRaised.withValues(alpha: 0.97),
-        indicatorColor: colors.statusBackground(CollectStatusTone.info),
+        indicatorColor: colors.surfaceMuted,
         labelTextStyle: WidgetStatePropertyAll(textTheme.labelMedium),
         height: 68,
         iconTheme: WidgetStateProperty.resolveWith((states) {
           final selected = states.contains(WidgetState.selected);
           return IconThemeData(
-            color: selected ? colors.blue : colors.textMuted,
+            color: selected ? colors.textPrimary : colors.textMuted,
           );
         }),
       ),
@@ -77,7 +74,7 @@ class CollectTheme {
             Size(CollectSpacing.target, CollectSpacing.target),
           ),
           shape: WidgetStatePropertyAll(
-            RoundedRectangleBorder(borderRadius: CollectRadius.pillBorder),
+            RoundedRectangleBorder(borderRadius: CollectRadius.mdBorder),
           ),
         ),
       ),
@@ -87,24 +84,20 @@ class CollectTheme {
             Size(CollectSpacing.target, CollectSpacing.target),
           ),
           shape: WidgetStatePropertyAll(
-            RoundedRectangleBorder(borderRadius: CollectRadius.pillBorder),
+            RoundedRectangleBorder(borderRadius: CollectRadius.mdBorder),
           ),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: colors.surfaceRaised,
-        border: OutlineInputBorder(
-          borderRadius: CollectRadius.mdBorder,
-          borderSide: BorderSide(color: colors.border),
+        filled: false,
+        border: UnderlineInputBorder(
+          borderSide: BorderSide(color: colors.textPrimary),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: CollectRadius.mdBorder,
-          borderSide: BorderSide(color: colors.border),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: colors.textPrimary),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: CollectRadius.mdBorder,
-          borderSide: BorderSide(color: colors.blue, width: 1.6),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: colors.blue, width: 2),
         ),
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(

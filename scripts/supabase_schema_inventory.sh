@@ -240,7 +240,8 @@ Dir["supabase/migrations/*.sql"].sort.each do |path|
   end
   [
     [/^drop view(?: if exists)?\s+([a-zA-Z_][\w.]*)/i, "view"],
-    [/^drop function(?: if exists)?\s+([a-zA-Z_][\w.]*)/i, "function"]
+    [/^drop function(?: if exists)?\s+([a-zA-Z_][\w.]*)/i, "function"],
+    [/^drop table(?: if exists)?\s+([a-zA-Z_][\w.]*)/i, "table"]
   ].each do |pattern, kind|
     sql.to_enum(:scan, pattern).each do
       match = Regexp.last_match
@@ -258,6 +259,10 @@ Dir["supabase/migrations/*.sql"].sort.each do |path|
   events.sort_by(&:first).each do |_position, action, object_key|
     if action == :add
       expected << object_key
+    elsif object_key.start_with?("table|")
+      table = object_key.split("|", 2).last
+      expected.delete(object_key)
+      expected.delete_if { |entry| entry.start_with?("policy|#{table}|") }
     else
       expected.delete(object_key)
     end

@@ -48,7 +48,7 @@ class CollectButton extends StatelessWidget {
       CollectButtonVariant.subtle => TextButton.styleFrom(
         minimumSize: const Size(CollectSpacing.target, CollectSpacing.target),
         foregroundColor: colors.textPrimary,
-        shape: RoundedRectangleBorder(borderRadius: CollectRadius.pillBorder),
+        shape: RoundedRectangleBorder(borderRadius: CollectRadius.mdBorder),
       ),
       CollectButtonVariant.danger => CollectComponentTokens.filledButton(
         context,
@@ -111,9 +111,13 @@ class CollectCard extends StatelessWidget {
       duration: CollectMotion.duration(context, CollectMotion.fast),
       curve: CollectMotion.standard,
       decoration: BoxDecoration(
-        color: colors.surfaceRaised,
+        color: emphasis == CollectCardEmphasis.flat
+            ? colors.surface
+            : colors.surfaceMuted,
         borderRadius: radius,
-        border: Border.all(color: colors.border),
+        border: emphasis == CollectCardEmphasis.flat
+            ? null
+            : Border.all(color: colors.border),
         boxShadow: emphasis == CollectCardEmphasis.flat
             ? const []
             : CollectShadows.card(isDark),

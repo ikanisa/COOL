@@ -2,9 +2,9 @@
 
 Audit date: 2026-05-31
 
-Final decision: **NO-GO** until the corrected SMS-first Groups contract is
-validated on the linked Supabase project, Android SMS access UAT, Admin PWA
-live deployment, Android signing/iOS scope evidence, and release-owner signoff.
+Final decision: **NO-GO** until Android SMS access UAT, Admin PWA live
+deployment, Android signing/iOS scope evidence, product signoff, and
+release-owner signoff are complete.
 
 ## Baseline
 
@@ -27,7 +27,7 @@ live deployment, Android signing/iOS scope evidence, and release-owner signoff.
 | Gate | Result | Evidence |
 | --- | --- | --- |
 | Flutter analyzer | Pass | `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze` completed cleanly. |
-| Flutter release tests | Pass | `78` tests passed after the SMS-first refactor. |
+| Flutter release tests | Pass | `83` tests passed after the SMS-first refactor. |
 | Supabase migration validation | Pass | `./scripts/migrations/validate_supabase_migrations.sh` passed locally. |
 | Edge Function auth contract | Pass | `scripts/collect_edge_auth_contract_uat.sh` passed. |
 | Edge Function type-check | Pass | `deno check` passed for parser, ingestion, and allocation functions. |
@@ -35,8 +35,8 @@ live deployment, Android signing/iOS scope evidence, and release-owner signoff.
 | Admin PWA render smoke | Pass | `scripts/admin_pwa_render_smoke.sh` passed with evidence at `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`. |
 | Admin PWA live deployment | Blocked | `scripts/admin_pwa_live_gate.sh --json` requires `ADMIN_PWA_LIVE_URL`. |
 | Linked admin/security UAT | Pass | `scripts/collect_admin_security_uat.sh` passed via linked database query. |
-| Linked SMS-first contribution UAT | Blocked/fail | `scripts/collect_linked_uat.sh` fails because the linked database is missing `create_group_with_owner`. |
-| Linked migration dry-run | Blocked | `supabase db push --dry-run` is blocked from the current operator IP by database allowlist. |
+| Linked SMS-first contribution UAT | Pass | `scripts/collect_linked_uat.sh` passes via linked database query. |
+| Supabase readiness | Pass | `scripts/supabase_production_readiness.sh` passes. |
 | Real Android SMS access UAT | Pending | No fresh physical-device evidence exists for MoMo SMS consent, ingestion, parser, allocation, and ledger after this refactor. |
 | Android release artifacts | Pass | `scripts/release_artifact_manifest.sh --json` passed and wrote `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-31.sha256`. |
 | Android signing / iOS scope | Blocked | `scripts/flutter_mobile_release_gate.sh --json` reports `android_release_signing_review` and `ios_release_scope`. |
@@ -62,19 +62,17 @@ live deployment, Android signing/iOS scope evidence, and release-owner signoff.
 | ID | Area | Severity | Finding | Required action |
 | --- | --- | --- | --- | --- |
 | P0-001 | Product signoff | P0 | Corrected SMS-first Groups product definition still needs stakeholder approval. | Review and approve `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md`. |
-| P0-002 | Linked Supabase | P0 | Linked project is behind the local SMS-first migration contract. | Apply/dry-run migration from an allowed DB network and rerun linked UAT. |
-| P0-003 | Android SMS UAT | P0 | Real MoMo SMS app access and automatic parsing/allocation are not freshly evidenced. | Run physical Android UAT with sanitized MoMo SMS scenarios. |
-| P0-004 | Admin PWA live | P0 | Local Admin PWA proof is green, but no deployed URL proof exists. | Deploy Admin PWA and rerun live gate with `ADMIN_PWA_LIVE_URL`. |
+| P0-002 | Android SMS UAT | P0 | Real MoMo SMS app access and automatic parsing/allocation are not freshly evidenced. | Run physical Android UAT with sanitized MoMo SMS scenarios. |
+| P0-003 | Admin PWA live | P0 | Local Admin PWA proof is green, but no deployed URL proof exists. | Deploy Admin PWA and rerun live gate with `ADMIN_PWA_LIVE_URL`. |
 | P1-001 | Release hygiene | P1 | Worktree is dirty and release branch/staging review is not recorded. | Review and stage only intended changes before release. |
 | P0-005 | Store release | P0 | Android signing review and iOS release scope need current release-owner evidence. | Attach signed release metadata or explicitly scope iOS out. |
 
 ## Decision Basis
 
-NO-GO. Current code-owned local checks are green, and the Admin PWA local build
-and linked admin/security UAT pass. The platform is not production-ready until
-the linked database matches the SMS-first contract and real Android SMS,
-Admin live deployment, Android signing/iOS scope, and stakeholder release
-evidence are complete.
+NO-GO. Current code-owned local checks, linked Supabase readiness, and linked
+admin/security UAT pass. The platform is not production-ready until real
+Android SMS, Admin live deployment, Android signing/iOS scope, and stakeholder
+release evidence are complete.
 
 Older CAPTCHA/HIBP/plan/PITR claims from the previous release packet are not
 treated as current blockers in this audit unless fresh post-refactor readiness

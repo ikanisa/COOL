@@ -268,9 +268,28 @@ check_explicit_indexes() {
   local missing
   local query
   query="$(mktemp)"
-  ruby > "$query" <<'RUBY'
-sql = Dir["supabase/migrations/*.sql"].sort.map { |path| File.read(path) }.join("\n")
-names = sql.scan(/^create(?: unique)? index(?: if not exists)?\s+([a-zA-Z_][\w.]*)\s+on\s+([a-zA-Z_][\w.]*)/i).map(&:first).uniq
+ruby > "$query" <<'RUBY'
+indexes = {}
+Dir["supabase/migrations/*.sql"].sort.each do |path|
+  sql = File.read(path)
+  events = []
+  sql.to_enum(:scan, /^create(?: unique)? index(?: if not exists)?\s+([a-zA-Z_][\w.]*)\s+on\s+([a-zA-Z_][\w.]*)/i).each do
+    match = Regexp.last_match
+    events << [match.begin(0), :add_index, match[1], match[2].sub(/^public\./, "")]
+  end
+  sql.to_enum(:scan, /^drop table(?: if exists)?\s+([a-zA-Z_][\w.]*)/i).each do
+    match = Regexp.last_match
+    events << [match.begin(0), :drop_table, nil, match[1].sub(/^public\./, "")]
+  end
+  events.sort_by(&:first).each do |_position, action, index_name, table_name|
+    if action == :add_index
+      indexes[index_name] = table_name
+    else
+      indexes.delete_if { |_name, indexed_table| indexed_table == table_name }
+    end
+  end
+end
+names = indexes.keys.sort
 if names.empty?
   puts "select null where false;"
 else
@@ -338,6 +357,7 @@ check_sql_privileges() {
         ('authenticated', 'admin_get_sms_metadata', 'EXECUTE'),
         ('authenticated', 'admin_get_user', 'EXECUTE'),
         ('authenticated', 'admin_list_admin_users', 'EXECUTE'),
+        ('authenticated', 'admin_list_allocations', 'EXECUTE'),
         ('authenticated', 'admin_list_audit_logs', 'EXECUTE'),
         ('authenticated', 'admin_list_collections', 'EXECUTE'),
         ('authenticated', 'admin_list_feature_flags', 'EXECUTE'),

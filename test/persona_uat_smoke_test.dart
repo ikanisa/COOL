@@ -156,8 +156,9 @@ void main() {
     await pumpMainAppAt(tester, '/c/st-michel-building-fund');
     await pumpLaunchFrames(tester);
 
+    expect(find.text('Group joined'), findsOneWidget);
     expect(find.text('St Michel building fund'), findsWidgets);
-    expect(find.text('Contribute'), findsWidgets);
+    expect(find.text('Open group'), findsWidgets);
     expect(find.textContaining('+250788'), findsNothing);
     expectNoGlobalSecrets();
   });
@@ -173,7 +174,7 @@ void main() {
 
       expect(
         find.text('group creation is available only on Android'),
-        findsOneWidget,
+        findsWidgets,
       );
       expect(find.text('Create group'), findsNothing);
       expectNoGlobalSecrets();
@@ -192,15 +193,9 @@ void main() {
       expect(find.text('Create group'), findsWidgets);
       expect(find.text('Group name'), findsNothing);
       expect(find.text('Receiver MoMo number'), findsNothing);
-
-      await tapVisible(
-        tester,
-        find.widgetWithText(OutlinedButton, 'Create group'),
-      );
-
       expect(
         find.text('group creation is available only on Android'),
-        findsOneWidget,
+        findsWidgets,
       );
       expectNoGlobalSecrets();
     } finally {

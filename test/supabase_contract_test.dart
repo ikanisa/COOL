@@ -33,6 +33,9 @@ void main() {
   final smsFirstGroupPaymentIntents = File(
     'supabase/migrations/202605270001_sms_first_group_payment_intents.sql',
   ).readAsStringSync();
+  final mobileProductionStateSupport = File(
+    'supabase/migrations/20260531190000_mobile_production_state_support.sql',
+  ).readAsStringSync();
   final schemaInventory = File(
     'scripts/supabase_schema_inventory.sh',
   ).readAsStringSync();
@@ -478,7 +481,11 @@ void main() {
 
     expect(
       smsFirstGroupPaymentIntents,
-      contains('create or replace view public_contributions_view'),
+      contains('drop view if exists public_contributions_view'),
+    );
+    expect(
+      smsFirstGroupPaymentIntents,
+      contains('create view public_contributions_view'),
     );
     expect(
       smsFirstGroupPaymentIntents,
@@ -697,7 +704,7 @@ void main() {
     expect(runbook, contains('Android SMS Access UAT'));
     expect(checklist, contains('Current Readiness'));
     expect(checklist, contains('Production Blockers'));
-    expect(checklist, contains('linked_supabase_sms_first_migration'));
+    expect(checklist, contains('release_owner_signoff'));
     expect(config, contains('schemas = ["public"]'));
     expect(config, isNot(contains('"graphql_public"')));
     expect(
@@ -1167,5 +1174,44 @@ void main() {
     expect(adminRuntime, contains('adminRealtimeSubscriptionProvider'));
     expect(adminRuntime, contains('adminRealtimeTickProvider'));
     expect(adminRuntime, contains('collectAdminRealtimeAreas'));
+  });
+
+  test('mobile production state RPCs stay authenticated and safe', () {
+    expect(
+      mobileProductionStateSupport,
+      contains('create table if not exists mobile_account_deletion_requests'),
+    );
+    expect(
+      mobileProductionStateSupport,
+      contains('create table if not exists mobile_support_requests'),
+    );
+    expect(
+      mobileProductionStateSupport,
+      contains('create or replace function request_account_deletion'),
+    );
+    expect(
+      mobileProductionStateSupport,
+      contains('create or replace function create_mobile_support_request'),
+    );
+    expect(
+      mobileProductionStateSupport,
+      contains('create or replace function list_collection_collect_ids'),
+    );
+    expect(
+      mobileProductionStateSupport,
+      contains('create or replace function update_collection_receiver'),
+    );
+    expect(
+      mobileProductionStateSupport,
+      contains('create or replace function get_owner_group_health'),
+    );
+    expect(
+      mobileProductionStateSupport,
+      contains(
+        'grant execute on function request_account_deletion(text) to authenticated',
+      ),
+    );
+    expect(mobileProductionStateSupport, isNot(contains('raw_body')));
+    expect(mobileProductionStateSupport, isNot(contains('display_name')));
   });
 }

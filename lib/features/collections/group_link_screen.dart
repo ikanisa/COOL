@@ -23,7 +23,7 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
         .read(collectRepositoryProvider.notifier)
         .joinGroupBySlug(widget.slug);
     if (!mounted) return;
-    context.go('/groups/${collection.id}');
+    context.go('/groups/${collection.id}/joined');
   }
 
   @override
@@ -45,6 +45,13 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
                 label: 'Go to groups',
                 icon: CollectIcons.collections,
                 onPressed: () => context.go('/groups'),
+                expand: true,
+              ),
+              CollectButton(
+                label: 'Link help',
+                icon: CollectIcons.info,
+                onPressed: () => context.go('/c/${widget.slug}/invalid'),
+                variant: CollectButtonVariant.secondary,
                 expand: true,
               ),
             ],

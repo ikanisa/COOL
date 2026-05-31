@@ -34,7 +34,7 @@ human operator workflows.
 ## Current Evidence Snapshot
 
 - `flutter analyze`: pass.
-- Full Flutter/release-doc tests: pass with `78` tests.
+- Full Flutter/release-doc tests: pass with `83` tests.
 - `scripts/admin_pwa_release_build.sh`: pass.
 - `scripts/admin_pwa_render_smoke.sh`: pass with evidence at
   `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`.
@@ -42,10 +42,8 @@ human operator workflows.
 - `deno check` for parser/ingestion/allocation functions: pass.
 - `./scripts/migrations/validate_supabase_migrations.sh`: pass.
 - `scripts/collect_admin_security_uat.sh`: pass through linked database query.
-- `scripts/collect_linked_uat.sh`: blocked/fail because linked RPC is behind
-  the local SMS-first contract.
-- `supabase db push --dry-run`: blocked by database network allowlist from the
-  current operator IP.
+- `scripts/collect_linked_uat.sh`: pass through linked database query.
+- `scripts/supabase_production_readiness.sh`: pass.
 - `scripts/admin_pwa_live_gate.sh --json`: blocked until `ADMIN_PWA_LIVE_URL`
   is provided.
 - `scripts/flutter_mobile_release_gate.sh --json`: blocked on Android release
@@ -71,10 +69,9 @@ human operator workflows.
 ## GO Criteria
 
 1. Corrected product definition is signed off.
-2. Linked Supabase is migrated and `scripts/collect_linked_uat.sh` passes.
-3. Real Android SMS access UAT passes with sanitized evidence.
-4. Admin PWA deployed URL passes live gate.
-5. Android signing review and iOS release scope evidence pass release gates.
-6. Release owner signs current evidence packet and worktree review.
+2. Real Android SMS access UAT passes with sanitized evidence.
+3. Admin PWA deployed URL passes live gate.
+4. Android signing review and iOS release scope evidence pass release gates.
+5. Release owner signs current evidence packet and worktree review.
 
 Until all criteria pass, decision remains **NO-GO**.

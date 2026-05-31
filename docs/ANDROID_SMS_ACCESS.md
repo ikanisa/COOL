@@ -2,10 +2,10 @@
 
 SMS app access is Android-only and restricted to the `internal_receiver` flavor.
 
-Feature flags:
+Supabase feature flags:
 
-- `ENABLE_ANDROID_SMS_ACCESS`
-- `ENABLE_SMS_READER`
+- `enable_android_sms_access`
+- `enable_sms_reader`
 
 The production Android manifest does not include `READ_SMS` or `RECEIVE_SMS`. The restricted permissions are contributed only by `android/app/src/internal_receiver/AndroidManifest.xml`.
 

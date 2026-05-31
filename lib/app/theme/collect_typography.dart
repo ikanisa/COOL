@@ -3,30 +3,26 @@ import 'package:flutter/material.dart';
 class CollectTypography {
   const CollectTypography._();
 
-  static const _family = <String>[
-    'Inter',
-    'Plus Jakarta Sans',
-    'Manrope',
-    'Roboto',
-  ];
+  static const _family = <String>['Hanken Grotesk', 'Inter', 'Roboto'];
+  static const _monoFamily = <String>['JetBrains Mono', 'Roboto Mono'];
 
   static const _tabular = <FontFeature>[FontFeature.tabularFigures()];
 
   static TextTheme textTheme(Color textPrimary, Color textSecondary) {
     return TextTheme(
-      displaySmall: _style(42, 1.04, FontWeight.w800, textPrimary),
-      headlineLarge: _style(34, 1.1, FontWeight.w800, textPrimary),
-      headlineMedium: _style(29, 1.14, FontWeight.w800, textPrimary),
-      headlineSmall: _style(24, 1.18, FontWeight.w700, textPrimary),
-      titleLarge: _style(20, 1.24, FontWeight.w700, textPrimary),
-      titleMedium: _style(17, 1.35, FontWeight.w700, textPrimary),
-      titleSmall: _style(15, 1.35, FontWeight.w700, textPrimary),
-      bodyLarge: _style(16, 1.5, FontWeight.w500, textPrimary),
-      bodyMedium: _style(14, 1.48, FontWeight.w500, textSecondary),
-      bodySmall: _style(13, 1.42, FontWeight.w500, textSecondary),
-      labelLarge: _style(14, 1.3, FontWeight.w700, textPrimary),
-      labelMedium: _style(12, 1.25, FontWeight.w700, textSecondary),
-      labelSmall: _style(11, 1.2, FontWeight.w700, textSecondary),
+      displaySmall: _style(48, 1.17, FontWeight.w700, textPrimary),
+      headlineLarge: _style(32, 1.25, FontWeight.w600, textPrimary),
+      headlineMedium: _style(24, 1.33, FontWeight.w600, textPrimary),
+      headlineSmall: _style(20, 1.4, FontWeight.w600, textPrimary),
+      titleLarge: _style(20, 1.4, FontWeight.w600, textPrimary),
+      titleMedium: _style(16, 1.5, FontWeight.w600, textPrimary),
+      titleSmall: _style(14, 1.45, FontWeight.w600, textPrimary),
+      bodyLarge: _style(18, 1.56, FontWeight.w400, textPrimary),
+      bodyMedium: _style(16, 1.5, FontWeight.w400, textSecondary),
+      bodySmall: _style(14, 1.45, FontWeight.w400, textSecondary),
+      labelLarge: _style(14, 1.3, FontWeight.w600, textPrimary),
+      labelMedium: _label(12, 1.33, textSecondary),
+      labelSmall: _label(11, 1.3, textSecondary),
     );
   }
 
@@ -40,7 +36,20 @@ class CollectTypography {
       _style(15, 1.25, FontWeight.w800, color).copyWith(fontFeatures: _tabular);
 
   static TextStyle mono(Color color) =>
-      _style(13, 1.4, FontWeight.w700, color).copyWith(fontFeatures: _tabular);
+      _style(12, 1.33, FontWeight.w500, color).copyWith(
+        fontFamilyFallback: _monoFamily,
+        fontFeatures: _tabular,
+        letterSpacing: 0.6,
+      );
+
+  static TextStyle _label(double size, double height, Color color) {
+    return _style(
+      size,
+      height,
+      FontWeight.w500,
+      color,
+    ).copyWith(fontFamilyFallback: _monoFamily, letterSpacing: 0.6);
+  }
 
   static TextStyle _style(
     double size,
