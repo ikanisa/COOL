@@ -76,6 +76,31 @@ void main() {
     return manifest;
   }
 
+  ({File evidence, File sidecar}) writeBinaryUatEvidence(
+    Directory dir, {
+    required String reviewedBy,
+    required String reviewedAt,
+  }) {
+    final evidence = File('${dir.path}/UAT-01.bin')
+      ..writeAsBytesSync(<int>[1, 2, 3, 4, 5, 6]);
+    final sha = Process.runSync('shasum', [
+      '-a',
+      '256',
+      evidence.path,
+    ]).stdout.toString().split(RegExp(r'\s+')).first;
+    final sidecar = File('${evidence.path}.sanitized.json')
+      ..writeAsStringSync(
+        jsonEncode(<String, dynamic>{
+          'sanitized': true,
+          'contains_production_data': false,
+          'reviewed_by': reviewedBy,
+          'reviewed_at': reviewedAt,
+          'sha256': sha,
+        }),
+      );
+    return (evidence: evidence, sidecar: sidecar);
+  }
+
   test('release docs describe current SMS-first Groups blockers only', () {
     final docs = <String, String>{
       'decision': File('docs/release/GO_NO_GO_DECISION.md').readAsStringSync(),
@@ -573,6 +598,96 @@ void main() {
         ]),
       );
       expect(decoded['release_owner']['signed_at_iso8601_utc'], isFalse);
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
+  test('UAT binary evidence sidecar can pass with strong review metadata', () {
+    Directory('.cache').createSync();
+    final tempDir = Directory(
+      '.cache',
+    ).createTempSync('cool_uat_binary_evidence_');
+    try {
+      final binary = writeBinaryUatEvidence(
+        tempDir,
+        reviewedBy: 'Binary Reviewer Bea',
+        reviewedAt: '2026-06-01T12:00:00Z',
+      );
+      final manifest = signedUatEvidenceManifest();
+      final personas = (manifest['personas'] as List<dynamic>)
+          .cast<Map<String, dynamic>>();
+      final firstPersona = personas.first;
+      firstPersona['evidence_files'] = [
+        <String, dynamic>{
+          'path': binary.evidence.path,
+          'review_sidecar': binary.sidecar.path,
+        },
+      ];
+
+      final manifestFile = File('${tempDir.path}/uat.json')
+        ..writeAsStringSync(jsonEncode(manifest));
+      final result = Process.runSync(
+        './scripts/uat_evidence_gate.sh',
+        ['--json'],
+        environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
+      );
+
+      expect(result.exitCode, 0);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      final binaryItem = (decoded['evidence_items'] as List<dynamic>)
+          .cast<Map<String, dynamic>>()
+          .firstWhere((item) => item['path'] == binary.evidence.path);
+      expect(binaryItem['binary_review'], 'pass');
+      expect(binaryItem['sidecar_reviewed_at_iso8601_utc'], isTrue);
+      expect(binaryItem['sidecar_reviewed_by_placeholder'], isFalse);
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
+  test('UAT binary evidence sidecar rejects weak review metadata', () {
+    Directory('.cache').createSync();
+    final tempDir = Directory(
+      '.cache',
+    ).createTempSync('cool_uat_binary_evidence_');
+    try {
+      final binary = writeBinaryUatEvidence(
+        tempDir,
+        reviewedBy: 'Release Owner',
+        reviewedAt: 'today',
+      );
+      final manifest = signedUatEvidenceManifest();
+      final personas = (manifest['personas'] as List<dynamic>)
+          .cast<Map<String, dynamic>>();
+      final firstPersona = personas.first;
+      firstPersona['evidence_files'] = [
+        <String, dynamic>{
+          'path': binary.evidence.path,
+          'review_sidecar': binary.sidecar.path,
+        },
+      ];
+
+      final manifestFile = File('${tempDir.path}/uat.json')
+        ..writeAsStringSync(jsonEncode(manifest));
+      final result = Process.runSync(
+        './scripts/uat_evidence_gate.sh',
+        ['--json'],
+        environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
+      );
+
+      expect(result.exitCode, 1);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'fail');
+      expect(decoded['failure_keys'], contains('uat_evidence_binary_review'));
+      final binaryItem = (decoded['evidence_items'] as List<dynamic>)
+          .cast<Map<String, dynamic>>()
+          .firstWhere((item) => item['path'] == binary.evidence.path);
+      expect(binaryItem['binary_review'], 'fail');
+      expect(binaryItem['sidecar_reviewed_at_iso8601_utc'], isFalse);
+      expect(binaryItem['sidecar_reviewed_by_placeholder'], isTrue);
     } finally {
       tempDir.deleteSync(recursive: true);
     }

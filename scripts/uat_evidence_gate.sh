@@ -242,7 +242,9 @@ required_ids.each do |id|
             sidecar["sanitized"] == true &&
             sidecar["contains_production_data"] == false &&
             sidecar["reviewed_by"].to_s.strip != "" &&
+            !placeholder_name?(sidecar["reviewed_by"]) &&
             sidecar["reviewed_at"].to_s.strip != "" &&
+            iso8601_utc?(sidecar["reviewed_at"]) &&
             expected_sha == actual_sha
 
           item["binary_review"] = review_ok ? "pass" : "fail"
@@ -251,7 +253,9 @@ required_ids.each do |id|
           item["sidecar_sanitized"] = sidecar["sanitized"] == true
           item["sidecar_contains_production_data"] = sidecar["contains_production_data"]
           item["sidecar_reviewed_by_present"] = sidecar["reviewed_by"].to_s.strip != ""
+          item["sidecar_reviewed_by_placeholder"] = placeholder_name?(sidecar["reviewed_by"])
           item["sidecar_reviewed_at_present"] = sidecar["reviewed_at"].to_s.strip != ""
+          item["sidecar_reviewed_at_iso8601_utc"] = iso8601_utc?(sidecar["reviewed_at"])
           item["sha256"] = actual_sha
           item["sidecar_sha256"] = expected_sha
           item["sha256_match"] = expected_sha == actual_sha
