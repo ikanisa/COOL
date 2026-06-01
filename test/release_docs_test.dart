@@ -588,9 +588,9 @@ checking Edge Function secret names
         );
         File('${tempDir.path}/uat_signoff_gate.json').writeAsStringSync(
           jsonEncode({
-            'status': 'pass',
+            'status': 'blocked',
             'signoff_approved': true,
-            'blocker_keys': <String>[],
+            'blocker_keys': ['human_uat_signoff'],
           }),
         );
         File('${tempDir.path}/mobile_release_gate.json').writeAsStringSync(
@@ -631,9 +631,15 @@ checking Edge Function secret names
         final supabaseCommand = commands.firstWhere(
           (command) => command['name'] == 'supabase_go_live_gate_json',
         );
+        final signoffCommand = commands.firstWhere(
+          (command) => command['name'] == 'uat_signoff_gate',
+        );
         expect(supabaseCommand['exit_code'], 0);
         expect(supabaseCommand['status'], 'blocked');
+        expect(signoffCommand['exit_code'], 0);
+        expect(signoffCommand['status'], 'blocked');
         expect(decoded['section_statuses']['commands'], 'blocked');
+        expect(decoded['section_statuses']['human_uat_signoff'], 'blocked');
         expect(decoded['section_statuses']['supabase_go_live'], 'blocked');
         expect(
           decoded['section_statuses']['supabase_evidence_bundle'],

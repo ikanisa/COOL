@@ -224,6 +224,19 @@ command_items = required_commands.map do |name|
     "fail"
   elsif name == "admin_pwa_live_gate" && admin_live_fixture
     "fail"
+  elsif name == "admin_pwa_live_gate" && admin_live["status"] == "blocked"
+    "blocked"
+  elsif name == "uat_evidence_gate" && uat_evidence["status"] == "blocked"
+    "blocked"
+  elsif name == "uat_signoff_gate" &&
+      (uat_signoff["status"] == "blocked" ||
+        uat_signoff["decision"] == "blocked" ||
+        uat_signoff["blocker_keys"].to_a.include?("human_uat_signoff"))
+    "blocked"
+  elsif name == "flutter_mobile_release_gate" && mobile_release["status"] == "blocked"
+    "blocked"
+  elsif name == "release_worktree_review" && worktree_review["status"] == "blocked"
+    "blocked"
   elsif name == "supabase_go_live_gate_json" && go_live_gate_consistent?(go_live_gate)
     "pass"
   elsif name == "supabase_go_live_gate_json" &&
@@ -494,9 +507,11 @@ admin_live_status =
 
 signoff_status =
   if command_ok?(commands, "uat_signoff_gate") &&
+      uat_signoff["status"] == "pass" &&
       uat_signoff["signoff_approved"] == true
     "pass"
-  elsif command_blocked?(commands, "uat_signoff_gate") &&
+  elsif (command_blocked?(commands, "uat_signoff_gate") ||
+      command_ok?(commands, "uat_signoff_gate")) &&
       (uat_signoff["status"] == "blocked" ||
         uat_signoff["decision"] == "blocked" ||
         uat_signoff["blocker_keys"].to_a.include?("human_uat_signoff"))
