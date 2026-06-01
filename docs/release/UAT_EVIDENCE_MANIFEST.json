@@ -1,0 +1,137 @@
+{
+  "status": "pending-human-signoff",
+  "staging_only": false,
+  "evidence_root": ".cache/repo_wide_qa_uat/20260601T204710Z",
+  "release_owner": {
+    "name": "",
+    "decision": "NO-GO",
+    "signed_at": ""
+  },
+  "personas": [
+    {
+      "id": "UAT-01",
+      "persona": "Contributor",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": true,
+      "production_like": true,
+      "evidence_files": [
+        ".cache/repo_wide_qa_uat/20260601T204710Z/flutter_test.txt",
+        ".cache/repo_wide_qa_uat/20260601T204710Z/android_device_uat.txt",
+        ".cache/repo_wide_qa_uat/20260601T204710Z/supabase/summary.json"
+      ]
+    },
+    {
+      "id": "UAT-02",
+      "persona": "Android creator",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": true,
+      "production_like": true,
+      "evidence_files": [
+        ".cache/repo_wide_qa_uat/20260601T204710Z/flutter_test.txt",
+        ".cache/repo_wide_qa_uat/20260601T204710Z/android_device_uat.txt"
+      ]
+    },
+    {
+      "id": "UAT-03",
+      "persona": "iPhone user",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": true,
+      "production_like": true,
+      "evidence_files": [
+        ".cache/repo_wide_qa_uat/20260601T204710Z/flutter_test.txt",
+        ".cache/repo_wide_qa_uat/20260601T204710Z/evidence_index.json"
+      ]
+    },
+    {
+      "id": "UAT-04",
+      "persona": "Group member",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": true,
+      "production_like": true,
+      "evidence_files": [
+        ".cache/repo_wide_qa_uat/20260601T204710Z/flutter_test.txt",
+        ".cache/repo_wide_qa_uat/20260601T204710Z/android_device_uat.txt"
+      ]
+    },
+    {
+      "id": "UAT-05",
+      "persona": "Android SMS device",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": true,
+      "production_like": true,
+      "evidence_files": [
+        ".cache/repo_wide_qa_uat/20260601T204710Z/android_device_uat.txt",
+        ".cache/repo_wide_qa_uat/20260601T204710Z/supabase/summary.json"
+      ]
+    },
+    {
+      "id": "UAT-06",
+      "persona": "Admin operator",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": true,
+      "production_like": true,
+      "evidence_files": [
+        ".cache/repo_wide_qa_uat/20260601T204710Z/admin_pwa_live_gate.json",
+        ".cache/repo_wide_qa_uat/20260601T204710Z/admin_pwa_render_smoke/summary.json",
+        ".cache/repo_wide_qa_uat/20260601T204710Z/supabase/summary.json"
+      ]
+    },
+    {
+      "id": "UAT-07",
+      "persona": "Payments admin",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": true,
+      "production_like": true,
+      "evidence_files": [
+        ".cache/repo_wide_qa_uat/20260601T204710Z/admin_pwa_live_gate.json",
+        ".cache/repo_wide_qa_uat/20260601T204710Z/supabase/summary.json"
+      ]
+    },
+    {
+      "id": "UAT-08",
+      "persona": "Compliance admin",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": true,
+      "production_like": true,
+      "evidence_files": [
+        ".cache/repo_wide_qa_uat/20260601T204710Z/admin_pwa_live_gate.json",
+        ".cache/repo_wide_qa_uat/20260601T204710Z/supabase/summary.json"
+      ]
+    },
+    {
+      "id": "UAT-09",
+      "persona": "Non-admin",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": true,
+      "production_like": true,
+      "evidence_files": [
+        ".cache/repo_wide_qa_uat/20260601T204710Z/flutter_test.txt",
+        ".cache/repo_wide_qa_uat/20260601T204710Z/android_device_uat.txt",
+        ".cache/repo_wide_qa_uat/20260601T204710Z/admin_pwa_live_gate.json"
+      ]
+    },
+    {
+      "id": "UAT-10",
+      "persona": "Edge-case user",
+      "status": "pending",
+      "signoff": "",
+      "sanitized": true,
+      "production_like": true,
+      "evidence_files": [
+        ".cache/repo_wide_qa_uat/20260601T204710Z/flutter_test.txt",
+        ".cache/repo_wide_qa_uat/20260601T204710Z/supabase/summary.json",
+        ".cache/repo_wide_qa_uat/20260601T204710Z/evidence_index.json"
+      ]
+    }
+  ],
+  "secret_handling": "This manifest records current automated, sanitized evidence only. Persona status and release owner approval remain pending until a human release owner signs the evidence packet. Do not add raw SMS, phone/MOMO numbers, provider secrets, service-role keys, or production customer data."
+}

@@ -105,7 +105,7 @@ required_ids.each do |id|
   signoff = persona["signoff"].to_s.strip
   sanitized = persona["sanitized"] == true
   production_like = persona["production_like"] == true
-  evidence_files = Array(persona["evidence_files"]).filter_map do |entry|
+  evidence_files = Array(persona["evidence_files"]).map do |entry|
     if entry.is_a?(Hash)
       path = entry["path"].to_s.strip
       next if path.empty?
@@ -123,7 +123,7 @@ required_ids.each do |id|
         "review_sidecar" => ""
       }
     end
-  end
+  end.compact
 
   blocked("#{id} status must be signed or waived.", "uat_evidence_persona_status", blockers, blocker_keys) unless allowed_statuses.include?(status)
   blocked("#{id} signoff is missing.", "uat_evidence_persona_signoff", blockers, blocker_keys) if signoff.empty?
