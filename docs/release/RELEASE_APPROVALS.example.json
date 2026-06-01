@@ -1,0 +1,69 @@
+{
+  "status": "approved",
+  "approval_packet": "docs/release/RELEASE_APPROVAL_PACKET.md",
+  "qa_summary": ".cache/repo_wide_qa_uat/20260601T205424Z/summary.json",
+  "approvals": [
+    {
+      "key": "product_signoff",
+      "title": "Product definition approval",
+      "status": "approved",
+      "decision": "GO",
+      "reviewer": "Product Reviewer",
+      "signed_at": "2026-06-01T00:00:00Z",
+      "evidence_reference": "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md",
+      "sanitized_evidence": true,
+      "contains_production_customer_data": false,
+      "notes": "Approved SMS-first Groups product definition."
+    },
+    {
+      "key": "android_sms_access_uat",
+      "title": "Android MoMo SMS UAT approval",
+      "status": "approved",
+      "decision": "GO",
+      "reviewer": "Mobile UAT Reviewer",
+      "signed_at": "2026-06-01T00:00:00Z",
+      "evidence_reference": ".cache/repo_wide_qa_uat/20260601T205424Z/uat_evidence_gate.json",
+      "sanitized_evidence": true,
+      "contains_production_customer_data": false,
+      "notes": "Approved sanitized Android SMS UAT evidence."
+    },
+    {
+      "key": "android_release_signing_review",
+      "title": "Android release signing review",
+      "status": "approved",
+      "decision": "GO",
+      "reviewer": "Android Release Reviewer",
+      "signed_at": "2026-06-01T00:00:00Z",
+      "evidence_reference": "docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-31.sha256",
+      "sanitized_evidence": true,
+      "contains_production_customer_data": false,
+      "signing_keys_exposed": false,
+      "notes": "Approved current APK/AAB and Play App Signing review."
+    },
+    {
+      "key": "ios_release_scope",
+      "title": "iOS release scope decision",
+      "status": "out_of_scope",
+      "decision": "OUT_OF_SCOPE",
+      "reviewer": "Mobile Release Reviewer",
+      "signed_at": "2026-06-01T00:00:00Z",
+      "evidence_reference": "docs/release/RELEASE_APPROVAL_PACKET.md",
+      "sanitized_evidence": true,
+      "contains_production_customer_data": false,
+      "notes": "Approved Android-only scope for this go-live."
+    },
+    {
+      "key": "release_owner_signoff",
+      "title": "Release-owner go/no-go approval",
+      "status": "approved",
+      "decision": "GO",
+      "reviewer": "Release Owner",
+      "signed_at": "2026-06-01T00:00:00Z",
+      "evidence_reference": ".cache/repo_wide_qa_uat/20260601T205424Z/summary.json",
+      "sanitized_evidence": true,
+      "contains_production_customer_data": false,
+      "notes": "Approved after all prerequisite gates were approved."
+    }
+  ],
+  "secret_handling": "Template only. Replace reviewer, timestamps, evidence references, and notes with real signed approval evidence before GO."
+}

@@ -180,10 +180,12 @@ packet = {
   "approval_records" => approval_records,
   "required_final_commands" => [
     "ADMIN_PWA_LIVE_URL=#{admin_pwa_live_url} make release-status-json",
+    "make release-approval-evidence-gate-json",
     "ADMIN_PWA_LIVE_URL=#{admin_pwa_live_url} make supabase-go-live-gate-json",
     "ADMIN_PWA_LIVE_URL=#{admin_pwa_live_url} ./scripts/repo_wide_qa_uat.sh --json"
   ],
   "file_checks" => [
+    file_item(root_dir, "docs/release/RELEASE_APPROVALS.json"),
     file_item(root_dir, "docs/release/UAT_EVIDENCE_MANIFEST.json"),
     file_item(root_dir, "docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-31.sha256"),
     file_item(root_dir, "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md")

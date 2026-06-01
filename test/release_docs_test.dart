@@ -57,6 +57,14 @@ void main() {
     expect(docs['approval'], contains('ios_release_scope'));
     expect(docs['approval'], contains('release_owner_signoff'));
     expect(docs['signoff'], contains('20260601T205424Z'));
+    expect(
+      File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
+      contains('"status": "pending"'),
+    );
+    expect(
+      File('docs/release/RELEASE_APPROVALS.example.json').readAsStringSync(),
+      contains('"status": "approved"'),
+    );
   });
 
   test('release status reports current blocker keys', () {
@@ -184,5 +192,50 @@ void main() {
     expect(jsonEncode(decoded), contains('https://cool-admin-212.pages.dev'));
     expect(jsonEncode(decoded), isNot(contains('SUPABASE_SERVICE_ROLE_KEY')));
     expect(jsonEncode(decoded), isNot(contains('AUTH_CAPTCHA_SECRET')));
+  });
+
+  test('release approval evidence gate fails closed on pending approvals', () {
+    final result = Process.runSync(
+      './scripts/release_approval_evidence_gate.sh',
+      ['--json'],
+    );
+
+    expect(result.exitCode, 99);
+    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
+    expect(decoded['status'], 'blocked');
+    expect(
+      decoded['blocker_keys'],
+      containsAll(<String>[
+        'product_signoff',
+        'android_sms_access_uat',
+        'android_release_signing_review',
+        'ios_release_scope',
+        'release_owner_signoff',
+      ]),
+    );
+  });
+
+  test('approved release manifest can drive final release status', () {
+    final result = Process.runSync(
+      './scripts/release_status.sh',
+      ['--json'],
+      environment: {
+        'RELEASE_APPROVALS_JSON': 'docs/release/RELEASE_APPROVALS.example.json',
+        'ADMIN_PWA_LIVE_URL': 'https://cool-admin-212.pages.dev',
+      },
+    );
+
+    expect(result.exitCode, 0);
+    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
+    expect(decoded['decision'], 'GO');
+    expect(decoded['blocker_keys'], isEmpty);
+    expect(decoded['evidence_flags']['product_signoff'], '1');
+    expect(decoded['evidence_flags']['android_sms_uat'], '1');
+    expect(
+      decoded['evidence_flags']['android_release_signing_review'],
+      'current',
+    );
+    expect(decoded['evidence_flags']['ios_release_scope'], 'current');
+    expect(decoded['evidence_flags']['release_owner_signoff'], '1');
   });
 }

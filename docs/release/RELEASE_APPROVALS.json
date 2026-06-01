@@ -1,0 +1,69 @@
+{
+  "status": "pending",
+  "approval_packet": "docs/release/RELEASE_APPROVAL_PACKET.md",
+  "qa_summary": ".cache/repo_wide_qa_uat/20260601T205424Z/summary.json",
+  "approvals": [
+    {
+      "key": "product_signoff",
+      "title": "Product definition approval",
+      "status": "pending",
+      "decision": "NO-GO",
+      "reviewer": "",
+      "signed_at": "",
+      "evidence_reference": "",
+      "sanitized_evidence": false,
+      "contains_production_customer_data": false,
+      "notes": ""
+    },
+    {
+      "key": "android_sms_access_uat",
+      "title": "Android MoMo SMS UAT approval",
+      "status": "pending",
+      "decision": "NO-GO",
+      "reviewer": "",
+      "signed_at": "",
+      "evidence_reference": "",
+      "sanitized_evidence": false,
+      "contains_production_customer_data": false,
+      "notes": ""
+    },
+    {
+      "key": "android_release_signing_review",
+      "title": "Android release signing review",
+      "status": "pending",
+      "decision": "NO-GO",
+      "reviewer": "",
+      "signed_at": "",
+      "evidence_reference": "",
+      "sanitized_evidence": false,
+      "contains_production_customer_data": false,
+      "signing_keys_exposed": false,
+      "notes": ""
+    },
+    {
+      "key": "ios_release_scope",
+      "title": "iOS release scope decision",
+      "status": "pending",
+      "decision": "NO-GO",
+      "reviewer": "",
+      "signed_at": "",
+      "evidence_reference": "",
+      "sanitized_evidence": false,
+      "contains_production_customer_data": false,
+      "notes": ""
+    },
+    {
+      "key": "release_owner_signoff",
+      "title": "Release-owner go/no-go approval",
+      "status": "pending",
+      "decision": "NO-GO",
+      "reviewer": "",
+      "signed_at": "",
+      "evidence_reference": "",
+      "sanitized_evidence": false,
+      "contains_production_customer_data": false,
+      "notes": ""
+    }
+  ],
+  "secret_handling": "This file is intentionally pending. Do not add secrets, signing keys, raw SMS bodies, phone/MoMo numbers, service-role keys, provider tokens, or production customer data."
+}

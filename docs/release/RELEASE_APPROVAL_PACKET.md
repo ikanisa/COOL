@@ -9,6 +9,11 @@ reviewer, SMS UAT reviewer, and release owner one current evidence packet for
 the remaining approvals. This packet does not approve the release. It records
 what must be reviewed and signed before the release gates can move to GO.
 
+Signed approvals must be recorded in
+`docs/release/RELEASE_APPROVALS.json`. The release remains NO-GO until
+`make release-approval-evidence-gate-json` passes and the final release gates
+consume that approved manifest.
+
 Secret handling: do not paste secrets, signing keys, raw SMS bodies,
 phone/MoMo numbers, service-role keys, provider tokens, or production customer
 data into approval records.
@@ -135,5 +140,6 @@ data into approval records.
 ## Required Final Commands
 
 - `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make release-status-json`
+- `make release-approval-evidence-gate-json`
 - `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make supabase-go-live-gate-json`
 - `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/repo_wide_qa_uat.sh --json`

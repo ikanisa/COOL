@@ -2,7 +2,7 @@ SHELL := /bin/bash
 FLUTTER ?= /Volumes/PRO-G40/flutter_3_44/bin/flutter
 DART ?= /Volumes/PRO-G40/flutter_3_44/bin/dart
 
-.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke android-device-uat flutter-mobile-release-gate flutter-mobile-release-gate-json uat-evidence-gate uat-evidence-gate-json uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-worktree-review release-worktree-review-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
+.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke android-device-uat flutter-mobile-release-gate flutter-mobile-release-gate-json uat-evidence-gate uat-evidence-gate-json uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json release-worktree-review release-worktree-review-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
 
 help:
 	@echo "Collect workspace commands"
@@ -23,6 +23,7 @@ help:
 	@echo "  make release-artifact-manifest Verify release artifacts and write SHA-256 manifest"
 	@echo "  make release-evidence-index Validate release evidence bundle auditability"
 	@echo "  make release-approval-packet Print current pending approval packet"
+	@echo "  make release-approval-evidence-gate Validate signed release approval manifest"
 	@echo "  make release-worktree-review Validate release branch/worktree review status"
 	@echo "  make repo-wide-qa-uat  Run strict repo-wide QA/UAT production-readiness gate"
 	@echo "  make verify            Run format check, analyzer, and tests"
@@ -123,6 +124,12 @@ release-approval-packet:
 
 release-approval-packet-json:
 	@./scripts/release_approval_packet.sh --json
+
+release-approval-evidence-gate:
+	@./scripts/release_approval_evidence_gate.sh
+
+release-approval-evidence-gate-json:
+	@./scripts/release_approval_evidence_gate.sh --json
 
 release-worktree-review:
 	@./scripts/release_worktree_review_gate.sh
