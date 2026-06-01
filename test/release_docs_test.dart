@@ -101,6 +101,71 @@ void main() {
     return (evidence: evidence, sidecar: sidecar);
   }
 
+  String signedUatSignoffChecklist({
+    String releaseOwner = 'Release Owner Eli',
+    String firstSignoff = 'Signed by Contributor reviewer 2026-06-01T12:00:00Z',
+  }) {
+    final rows = <String>[
+      '| UAT-01 | Contributor | Evidence reviewed. | Signed | $firstSignoff |',
+      '| UAT-02 | Android creator | Evidence reviewed. | Signed | Signed by Android creator reviewer 2026-06-01T12:01:00Z |',
+      '| UAT-03 | iPhone user | Evidence reviewed. | Signed | Signed by iPhone user reviewer 2026-06-01T12:02:00Z |',
+      '| UAT-04 | Group member | Evidence reviewed. | Signed | Signed by Group member reviewer 2026-06-01T12:03:00Z |',
+      '| UAT-05 | Android SMS device | Evidence reviewed. | Signed | Signed by Android SMS reviewer 2026-06-01T12:04:00Z |',
+      '| UAT-06 | Admin operator | Evidence reviewed. | Signed | Signed by Admin operator reviewer 2026-06-01T12:05:00Z |',
+      '| UAT-07 | Payments admin | Evidence reviewed. | Signed | Signed by Payments admin reviewer 2026-06-01T12:06:00Z |',
+      '| UAT-08 | Compliance admin | Evidence reviewed. | Signed | Signed by Compliance admin reviewer 2026-06-01T12:07:00Z |',
+      '| UAT-09 | Non-admin | Evidence reviewed. | Signed | Signed by Non-admin reviewer 2026-06-01T12:08:00Z |',
+      '| UAT-10 | Edge-case user | Evidence reviewed. | Signed | Signed by Edge-case reviewer 2026-06-01T12:09:00Z |',
+    ].join('\n');
+    return '''
+# Collect Human UAT Signoff Checklist
+
+Prepared: 2026-06-01
+
+Status: **SIGNED**
+
+## Preconditions
+
+- [x] Corrected product definition is approved.
+- [x] Linked Supabase SMS-first migration is applied and linked contribution UAT passes.
+- [x] Android SMS access UAT is complete with sanitized evidence.
+- [x] Admin PWA deployed URL passes live gate.
+- [x] Test users, groups, payment intents, receiver values, and SMS data are synthetic or approved release-test data.
+- [x] Screenshots/logs are sanitized before attaching to the release packet.
+- [x] `docs/release/UAT_EVIDENCE_MANIFEST.json` exists and `make uat-evidence-gate-json` passes for all ten persona evidence rows.
+- [x] Current automated evidence is attached.
+
+## Persona Signoff Matrix
+
+| ID | Persona | Required acceptance evidence | Status | Signoff |
+| --- | --- | --- | --- | --- |
+$rows
+
+## Release Owner Decision
+
+Release owner: $releaseOwner
+
+Decision:
+
+- [x] GO
+- [ ] NO-GO
+
+Decision rationale: Signed after reviewing sanitized UAT evidence and current release gates.
+
+Evidence location: .cache/repo_wide_qa_uat/20260601T205424Z/summary.json
+
+Date/time: 2026-06-01T12:30:00Z
+
+## Minimum GO Conditions
+
+- [x] All ten persona rows are signed or formally waived by the release owner.
+- [x] Product signoff, linked SMS-first UAT, Android SMS UAT, Admin PWA live proof, and release-owner signoff are complete.
+- [x] `make release-status-json` has no blocker keys.
+- [x] `make supabase-go-live-gate-json` reports `go_live_approved=true`.
+- [x] Worktree/release branch is intentionally reviewed before shipping.
+''';
+  }
+
   test('release docs describe current SMS-first Groups blockers only', () {
     final docs = <String, String>{
       'decision': File('docs/release/GO_NO_GO_DECISION.md').readAsStringSync(),
@@ -688,6 +753,68 @@ void main() {
       expect(binaryItem['binary_review'], 'fail');
       expect(binaryItem['sidecar_reviewed_at_iso8601_utc'], isFalse);
       expect(binaryItem['sidecar_reviewed_by_placeholder'], isTrue);
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
+  test('UAT signoff checklist can pass with strong persona signoffs', () {
+    final tempDir = Directory.systemTemp.createTempSync('cool_uat_signoff_');
+    try {
+      final signoffFile = File('${tempDir.path}/signoff.md')
+        ..writeAsStringSync(signedUatSignoffChecklist());
+      final result = Process.runSync(
+        './scripts/uat_signoff_gate.sh',
+        ['--json'],
+        environment: {'UAT_SIGNOFF_FILE': signoffFile.path},
+      );
+
+      expect(result.exitCode, 0);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['decision'], 'pass');
+      expect(decoded['signoff_approved'], isTrue);
+      expect(decoded['release_owner_placeholder'], isFalse);
+      final firstPersona =
+          (decoded['personas'] as List<dynamic>).first as Map<String, dynamic>;
+      expect(firstPersona['signoff_strong'], isTrue);
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
+  test('UAT signoff checklist rejects placeholder human signoffs', () {
+    final tempDir = Directory.systemTemp.createTempSync('cool_uat_signoff_');
+    try {
+      final signoffFile = File('${tempDir.path}/signoff.md')
+        ..writeAsStringSync(
+          signedUatSignoffChecklist(
+            releaseOwner: 'Release Owner',
+            firstSignoff: 'ok 2026-06-01T12:00:00Z',
+          ),
+        );
+      final result = Process.runSync(
+        './scripts/uat_signoff_gate.sh',
+        ['--json'],
+        environment: {'UAT_SIGNOFF_FILE': signoffFile.path},
+      );
+
+      expect(result.exitCode, 99);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['decision'], 'blocked');
+      expect(decoded['signoff_approved'], isFalse);
+      expect(decoded['release_owner_placeholder'], isTrue);
+      expect(
+        decoded['blockers'],
+        containsAll(<String>[
+          'Release owner is a placeholder.',
+          'Persona signoff incomplete: UAT-01.',
+        ]),
+      );
+      final firstPersona =
+          (decoded['personas'] as List<dynamic>).first as Map<String, dynamic>;
+      expect(firstPersona['signoff_strong'], isFalse);
     } finally {
       tempDir.deleteSync(recursive: true);
     }

@@ -42,6 +42,38 @@ rescue ArgumentError, TypeError
   false
 end
 
+def placeholder_name?(value)
+  placeholders = [
+    "Release Owner",
+    "Reviewer",
+    "Tester",
+    "UAT Reviewer",
+    "QA Reviewer"
+  ]
+  placeholders.include?(value.to_s.strip)
+end
+
+def weak_signoff?(value)
+  text = value.to_s.strip
+  text = text.sub(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/, "").strip
+  generic_values = %w[
+    approved
+    ok
+    pass
+    passed
+    signed
+    waived
+    todo
+    pending
+    n/a
+    na
+  ]
+  text.length < 5 ||
+    generic_values.include?(text.downcase) ||
+    placeholder_name?(text) ||
+    text.match?(/\btemplate\b/i)
+end
+
 def timestamp_from(value)
   value.to_s[/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/]
 end
@@ -101,12 +133,14 @@ else
     signoff = cells[5]
     signoff_timestamp = timestamp_from(signoff)
     signoff_timestamp_valid = !signoff_timestamp.to_s.empty? && iso8601?(signoff_timestamp)
-    approved = status.match?(/\A(signed|waived)\z/i) && !signoff.to_s.strip.empty? && signoff_timestamp_valid
+    signoff_strong = !signoff.to_s.strip.empty? && !weak_signoff?(signoff)
+    approved = status.match?(/\A(signed|waived)\z/i) && signoff_strong && signoff_timestamp_valid
     personas << {
       "id" => id,
       "persona" => persona,
       "status" => status,
       "signoff_present" => !signoff.to_s.strip.empty?,
+      "signoff_strong" => signoff_strong,
       "signoff_timestamp" => signoff_timestamp,
       "signoff_timestamp_valid" => signoff_timestamp_valid,
       "approved" => approved
@@ -143,6 +177,7 @@ elsif minimum_go_checked != minimum_go_total
 end
 
 blockers << "Release owner is missing." if release_owner.to_s.empty?
+blockers << "Release owner is a placeholder." if placeholder_name?(release_owner)
 blockers << "Release owner GO decision is not checked." unless decision_go_checked
 blockers << "Release owner NO-GO decision is checked." if decision_no_go_checked
 blockers << "Release owner decision rationale is missing." if decision_rationale.to_s.length < 12
@@ -168,6 +203,7 @@ puts JSON.pretty_generate(
       "total" => minimum_go_total
     },
     "release_owner_present" => !release_owner.to_s.empty?,
+    "release_owner_placeholder" => placeholder_name?(release_owner),
     "release_owner_go_checked" => decision_go_checked,
     "release_owner_decision" => {
       "rationale_present" => decision_rationale.to_s.length >= 12,
