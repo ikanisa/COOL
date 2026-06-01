@@ -19,11 +19,12 @@ fresh readiness run.
 
 | Command | Result | Notes |
 | --- | --- | --- |
-| `git status --short` | Dirty | Large active refactor state. Public release still needs explicit worktree review and staging. |
+| `scripts/release_worktree_review_gate.sh --json` | Pass | Worktree review gate passed after the release approval evidence gate commit; branch remains ahead of origin until pushed. |
 | `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub` | Pass | Analyzer clean after the Collect mobile UI and SMS-first app/admin refactor. |
 | Full Flutter/release-doc suite | Pass | `101` tests passed across Admin PWA, app shell, phone/Public ID, widgets, persona smoke, repository, Supabase contract, and release-doc tests. |
 | `scripts/admin_pwa_release_build.sh` | Pass | Built `build/web` for `lib/main_admin.dart` and passed Admin PWA manifest/hosting gates in `.cache/repo_wide_qa_uat/20260601T201947Z`. |
 | `scripts/admin_pwa_render_smoke.sh` | Pass | Runtime/render evidence written to `.cache/repo_wide_qa_uat/20260601T201947Z/admin_pwa_render_smoke`; desktop and mobile screenshots are nonblank and show the Collect admin login. |
+| `scripts/mobile_route_render_smoke.sh` | Pass | Flutter mobile web build captured retained 390x844 screenshots and JSON nonblank checks for 21 representative mobile routes at `.cache/mobile_route_render_smoke/20260601T211529Z`. |
 | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` | Pass | Deployed Admin PWA responds over HTTPS with required headers, cache policy, manifest, service worker, and bundle responses. |
 | `scripts/collect_edge_auth_contract_uat.sh` | Pass | Local Edge Function auth contract passed. |
 | `deno check supabase/functions/...` | Pass | `parse-payment-sms`, `ingest-payment-sms`, and `allocate-payment` type-check. |
@@ -43,7 +44,7 @@ fresh readiness run.
 - P0: Stakeholder signoff is required for the corrected Groups product
   definition.
 - P0: Android release signing review and iOS release-scope evidence are missing.
-- P1: Worktree/release branch review is required before staging a release.
+- P1: Release branch remains ahead of origin until pushed/reviewed.
 - P1: Android release signing and any iOS release-scope decision still need
   current release-owner evidence.
 

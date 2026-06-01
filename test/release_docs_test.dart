@@ -56,7 +56,10 @@ void main() {
     expect(docs['approval'], contains('android_release_signing_review'));
     expect(docs['approval'], contains('ios_release_scope'));
     expect(docs['approval'], contains('release_owner_signoff'));
+    expect(docs['approval'], contains('mobile_route_render_smoke'));
     expect(docs['signoff'], contains('20260601T205424Z'));
+    expect(docs['qa'], contains('scripts/mobile_route_render_smoke.sh'));
+    expect(docs['qa'], contains('20260601T211529Z'));
     expect(
       File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
       contains('"status": "pending"'),

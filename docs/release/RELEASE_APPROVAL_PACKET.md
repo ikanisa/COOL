@@ -125,6 +125,7 @@ data into approval records.
   acceptable.
 - Evidence to review:
   - `.cache/repo_wide_qa_uat/20260601T205424Z/summary.json`
+  - `.cache/mobile_route_render_smoke/20260601T211529Z/summary.json`
   - `docs/release/UAT_GO_LIVE_PACKET_2026-05-24.md`
   - `docs/release/GO_NO_GO_DECISION.md`
   - `docs/release/RELEASE_BLOCKERS.md`

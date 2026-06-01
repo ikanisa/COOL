@@ -832,7 +832,7 @@ Known potential blockers:
 | 5.2 Owner/members | P1 | Complete | Owner health dashboard and searchable member list implemented; contribution totals remain intentionally absent until backend supplies per-member totals. |
 | 5.3 Settings/support/privacy/notifications | P1 | Complete | Settings, notification center, privacy/data, help/support, account/session, legal terms/privacy, connection/sync copy, and support submit states implemented and tested. |
 | 6.1 Focused test coverage | P0 | Complete | `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/design_system_components_test.dart test/features/widgets_test.dart test/persona_uat_smoke_test.dart` passed with 36 tests. |
-| 6.2 Manual render verification | P1 | Complete | Compact mobile route render matrix at 390x844 covers representative onboarding, auth, profile, home, group, join, share, contribution, payment, ledger, owner, members, settings, privacy, help, notification, offline, and sync routes with no Flutter layout exceptions. `flutter run --no-pub -d web-server --web-hostname 127.0.0.1 --web-port 53535` served the Flutter HTML bundle; device screenshots were not captured in this pass because the local headless browser path did not emit an image. |
+| 6.2 Manual render verification | P1 | Complete | `scripts/mobile_route_render_smoke.sh` captured retained 390x844 PNG screenshots and JSON nonblank checks for 21 representative routes: onboarding, auth, profile, home, groups, group detail, join, share, contribution, payment handoff/waiting/confirmed, ledger, owner, members, settings, privacy, help, notification, offline, and sync. Evidence: `.cache/mobile_route_render_smoke/20260601T211529Z/summary.json`. |
 
 ## Final Implementation Objective
 

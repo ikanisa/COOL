@@ -2,7 +2,7 @@ SHELL := /bin/bash
 FLUTTER ?= /Volumes/PRO-G40/flutter_3_44/bin/flutter
 DART ?= /Volumes/PRO-G40/flutter_3_44/bin/dart
 
-.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke android-device-uat flutter-mobile-release-gate flutter-mobile-release-gate-json uat-evidence-gate uat-evidence-gate-json uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json release-worktree-review release-worktree-review-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
+.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke android-device-uat flutter-mobile-release-gate flutter-mobile-release-gate-json uat-evidence-gate uat-evidence-gate-json uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json release-worktree-review release-worktree-review-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
 
 help:
 	@echo "Collect workspace commands"
@@ -16,6 +16,7 @@ help:
 	@echo "  make admin-pwa-hosting-gate Validate Admin PWA static hosting headers and robots policy"
 	@echo "  make admin-pwa-live-gate Validate deployed Admin PWA URL headers and PWA files"
 	@echo "  make admin-pwa-render-smoke Capture rendered desktop/mobile Admin PWA evidence"
+	@echo "  make mobile-route-render-smoke Capture representative mobile route screenshots"
 	@echo "  make android-device-uat Run guarded Pixel 4a integration UAT"
 	@echo "  make flutter-mobile-release-gate Validate mobile release metadata, signing review, and iOS scope"
 	@echo "  make uat-evidence-gate Validate sanitized human UAT evidence manifest"
@@ -85,6 +86,9 @@ admin-pwa-live-gate-json:
 
 admin-pwa-render-smoke:
 	@./scripts/admin_pwa_render_smoke.sh
+
+mobile-route-render-smoke:
+	@./scripts/mobile_route_render_smoke.sh
 
 android-device-uat:
 	@./scripts/android_device_uat.sh

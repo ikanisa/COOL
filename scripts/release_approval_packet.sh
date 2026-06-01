@@ -153,6 +153,7 @@ approval_records = [
     "decision_needed" => "Approve the current release evidence packet only after all product, SMS UAT, signing, iOS scope, security, and worktree checks are acceptable.",
     "evidence_to_review" => [
       latest_summary,
+      ".cache/mobile_route_render_smoke/20260601T211529Z/summary.json",
       "docs/release/UAT_GO_LIVE_PACKET_2026-05-24.md",
       "docs/release/GO_NO_GO_DECISION.md",
       "docs/release/RELEASE_BLOCKERS.md",
@@ -187,6 +188,7 @@ packet = {
   "file_checks" => [
     file_item(root_dir, "docs/release/RELEASE_APPROVALS.json"),
     file_item(root_dir, "docs/release/UAT_EVIDENCE_MANIFEST.json"),
+    file_item(root_dir, ".cache/mobile_route_render_smoke/20260601T211529Z/summary.json"),
     file_item(root_dir, "docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-31.sha256"),
     file_item(root_dir, "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md")
   ],
