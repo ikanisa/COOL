@@ -502,7 +502,14 @@ checking Edge Function secret names
 
     final evidenceIndex =
         decoded['release_evidence_index'] as Map<String, dynamic>;
+    final commands = (evidenceIndex['commands'] as List<dynamic>)
+        .cast<Map<String, dynamic>>();
+    final supabaseCommand = commands.firstWhere(
+      (command) => command['name'] == 'supabase_go_live_gate_json',
+    );
     expect(evidenceIndex['status'], isNot('pass'));
+    expect(supabaseCommand['exit_code'], 0);
+    expect(supabaseCommand['status'], 'blocked');
     expect(evidenceIndex['section_statuses']['supabase_go_live'], 'blocked');
     expect(evidenceIndex['supabase']['status'], 'blocked');
     expect(

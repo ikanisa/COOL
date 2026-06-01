@@ -224,6 +224,16 @@ command_items = required_commands.map do |name|
     "fail"
   elsif name == "admin_pwa_live_gate" && admin_live_fixture
     "fail"
+  elsif name == "supabase_go_live_gate_json" && go_live_gate_consistent?(go_live_gate)
+    "pass"
+  elsif name == "supabase_go_live_gate_json" &&
+      (
+        go_live_gate["go_live_approved"] == false ||
+        Array(go_live_gate["blocker_keys"]).any? ||
+        go_live_gate["status"].to_s == "blocked" ||
+        go_live_gate["approval_status"].to_s == "blocked"
+      )
+    "blocked"
   elsif row.fetch("exit_code") == 0
     "pass"
   elsif row.fetch("exit_code") == 99 ||
