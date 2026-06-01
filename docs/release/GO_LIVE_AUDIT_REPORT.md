@@ -3,8 +3,8 @@
 Audit date: 2026-06-01
 
 Final decision: **NO-GO** until Android SMS access UAT approval, Android
-signing/iOS scope evidence, product signoff, and release-owner signoff are
-complete.
+signing/iOS scope evidence, linked sender-hash migration, product signoff, and
+release-owner signoff are complete.
 
 ## Baseline
 
@@ -36,8 +36,8 @@ complete.
 | Admin PWA live deployment | Pass | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` passed. |
 | Mobile route render smoke | Pass | `scripts/mobile_route_render_smoke.sh` captured retained 390x844 screenshots and JSON nonblank checks for 21 representative mobile routes at `.cache/mobile_route_render_smoke/20260601T211529Z`. |
 | Linked admin/security UAT | Pass | `scripts/collect_admin_security_uat.sh` passed via linked database query. |
-| Linked SMS-first contribution UAT | Pass | `scripts/collect_linked_uat.sh` passes via linked database query. |
-| Supabase readiness | Pass | `scripts/supabase_production_readiness.sh` passes. |
+| Linked SMS-first contribution UAT | Blocked | `scripts/collect_linked_uat.sh` fails with `payment intent sender hash was not stored`. |
+| Supabase readiness | Blocked | Linked readiness cannot be green until `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql` is applied. |
 | Real Android SMS access UAT | Pending | No fresh physical-device evidence exists for MoMo SMS consent, ingestion, parser, allocation, and ledger after this refactor. |
 | Android release artifacts | Pass | `scripts/release_artifact_manifest.sh --json` passed and wrote `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-31.sha256`. |
 | Android signing / iOS scope | Blocked | `scripts/flutter_mobile_release_gate.sh --json` reports `android_release_signing_review` and `ios_release_scope`. |
@@ -66,6 +66,7 @@ complete.
 | P0-002 | Android SMS UAT | P0 | Real MoMo SMS app access and automatic parsing/allocation are not freshly evidenced. | Run physical Android UAT with sanitized MoMo SMS scenarios. |
 | P0-003 | Admin PWA live | Resolved | Local Admin PWA proof is green and `https://cool-admin-212.pages.dev` passes the deployed URL live gate. | Rerun live gate after every Admin PWA deployment. |
 | P1-001 | Release hygiene | Resolved locally | Worktree review passes at commit `b216c89`; branch remains ahead of origin until pushed. | Push/review release branch when ready. |
+| P0-004 | Linked Supabase migration | P0 | Linked contribution UAT shows the deployed function still drops contribution intent sender hashes. | Apply `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql` and rerun `scripts/collect_linked_uat.sh`. |
 | P0-005 | Store release | P0 | Android signing review and iOS release scope need current release-owner evidence. | Attach signed release metadata or explicitly scope iOS out. |
 
 ## Decision Basis

@@ -21,7 +21,8 @@ Fresh evidence:
 - Linked contribution/allocation rollback UAT now fails because the linked
   project drops the contribution intent sender hash.
 - `scripts/supabase_production_readiness.sh` cannot be claimed green until
-  linked contribution UAT passes again.
+  `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`
+  is applied and linked contribution UAT passes again.
 - Legacy Edge Functions for manual allocation and public-collection requests
   were removed from the linked project.
 

@@ -41,7 +41,7 @@ catalog = {
     "title" => "Linked Supabase SMS-first migration",
     "severity" => "P0",
     "owner" => "backend/operator",
-    "required_action" => "Apply or dry-run the local migration from an allow-listed database network, then rerun scripts/collect_linked_uat.sh.",
+    "required_action" => "Apply or dry-run supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql from an allow-listed database network, then rerun scripts/collect_linked_uat.sh.",
     "verify_command" => "scripts/collect_linked_uat.sh"
   },
   "android_sms_access_uat" => {

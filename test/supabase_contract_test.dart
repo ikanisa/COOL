@@ -674,6 +674,10 @@ void main() {
     expect(goLiveGate, contains('SUPABASE_GO_LIVE_STATUS_JSON'));
     expect(goLiveGate, contains('linked_supabase_sms_first_migration'));
     expect(
+      goLiveGate,
+      contains('20260601230000_preserve_contribution_sender_hash.sql'),
+    );
+    expect(
       postOperatorChecklist,
       contains('SUPABASE_POST_OPERATOR_STATUS_JSON'),
     );
@@ -681,6 +685,10 @@ void main() {
     expect(
       postOperatorChecklist,
       contains('linked_supabase_sms_first_migration'),
+    );
+    expect(
+      postOperatorChecklist,
+      contains('20260601230000_preserve_contribution_sender_hash.sql'),
     );
     expect(postOperatorChecklist, contains('admin_pwa_live_url'));
     expect(postOperatorChecklist, contains('final_verification'));

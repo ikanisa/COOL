@@ -45,7 +45,7 @@ strict_pass =
 actions = []
 unless strict_pass
   actions << "Sign off the corrected SMS-first Groups product definition." if blocker_keys.include?("product_signoff")
-  actions << "Apply the SMS-first migration from an allow-listed database network and rerun scripts/collect_linked_uat.sh." if blocker_keys.include?("linked_supabase_sms_first_migration")
+  actions << "Apply supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql from an allow-listed database network and rerun scripts/collect_linked_uat.sh." if blocker_keys.include?("linked_supabase_sms_first_migration")
   actions << "Run real Android MoMo SMS ingestion/parser/allocation UAT with sanitized evidence." if blocker_keys.include?("android_sms_access_uat")
   actions << "Rebuild current Android release APK/AAB artifacts and rerun scripts/flutter_mobile_release_gate.sh --json." if blocker_keys.include?("android_release_artifacts")
   actions << "Record Android release signing / Play App Signing review evidence and rerun scripts/flutter_mobile_release_gate.sh --json." if blocker_keys.include?("android_release_signing_review")

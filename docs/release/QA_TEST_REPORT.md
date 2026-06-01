@@ -8,8 +8,9 @@ Supabase schema/functions, payment-intent allocation, and release evidence.
 ## Decision
 
 Current status: **NO-GO for public launch** until Android SMS access UAT is run
-with sanitized evidence, Android signing/iOS scope evidence is recorded,
-product signoff is approved, and release owner signoff is recorded.
+with sanitized evidence, the linked sender-hash migration is applied, Android
+signing/iOS scope evidence is recorded, product signoff is approved, and
+release owner signoff is recorded.
 
 Older Supabase platform blockers from the previous product definition are not
 carried forward in this report. Any platform blocker must be reproduced by a
@@ -30,8 +31,8 @@ fresh readiness run.
 | `deno check supabase/functions/...` | Pass | `parse-payment-sms`, `ingest-payment-sms`, and `allocate-payment` type-check. |
 | `./scripts/migrations/validate_supabase_migrations.sh` | Pass | Local migration validation passes. |
 | `scripts/collect_admin_security_uat.sh` | Pass | Linked rollback UAT for admin RBAC, raw-SMS reveal audit logging, payment-event reparse permission, and denial paths passed. |
-| `scripts/collect_linked_uat.sh` | Pass | SMS-first rollback UAT passed via linked Supabase database query. |
-| `scripts/supabase_production_readiness.sh` | Pass | Linked migration history, schema inventory, advisors, grants, Edge Function inventory, admin UAT, and SMS-first rollback UAT pass. |
+| `scripts/collect_linked_uat.sh` | Blocked | Linked rollback UAT fails with `payment intent sender hash was not stored`; apply `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`. |
+| `scripts/supabase_production_readiness.sh` | Blocked | Linked readiness cannot be green while linked contribution UAT fails. |
 | `scripts/android_device_uat.sh` | Pass | Production-flavor integration smoke passed on device `13111JEC215558`. |
 | `scripts/flutter_mobile_release_gate.sh --json` | Blocked | APK/AAB artifacts are current; signing review and iOS scope remain pending. |
 | `scripts/release_artifact_manifest.sh --json` | Pass | Manifest and checksum evidence were refreshed in `.cache/repo_wide_qa_uat/20260601T205424Z`. |
@@ -41,6 +42,9 @@ fresh readiness run.
 - P0: Android MoMo SMS consent, ingestion, parse, allocation, exception,
   and ledger UAT must be executed on a real Android device with sanitized
   evidence.
+- P0: Linked Supabase must apply
+  `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`
+  and pass `scripts/collect_linked_uat.sh`.
 - P0: Stakeholder signoff is required for the corrected Groups product
   definition.
 - P0: Android release signing review and iOS release-scope evidence are missing.

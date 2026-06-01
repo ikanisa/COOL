@@ -45,8 +45,10 @@ human operator workflows.
 - `deno check` for parser/ingestion/allocation functions: pass.
 - `./scripts/migrations/validate_supabase_migrations.sh`: pass.
 - `scripts/collect_admin_security_uat.sh`: pass through linked database query.
-- `scripts/collect_linked_uat.sh`: pass through linked database query.
-- `scripts/supabase_production_readiness.sh`: pass.
+- `scripts/collect_linked_uat.sh`: blocked until linked Supabase applies
+  `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`.
+- `scripts/supabase_production_readiness.sh`: blocked until linked
+  contribution UAT passes again.
 - `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json`: pass.
 - `scripts/flutter_mobile_release_gate.sh --json`: blocked on Android release
   signing review and iOS release scope.
@@ -72,7 +74,9 @@ human operator workflows.
 
 1. Corrected product definition is signed off.
 2. Real Android SMS access UAT passes with sanitized evidence.
-3. Android signing review and iOS release scope evidence pass release gates.
-4. Release owner signs current evidence packet and worktree review.
+3. Linked Supabase sender-hash migration is applied and
+   `scripts/collect_linked_uat.sh` passes.
+4. Android signing review and iOS release scope evidence pass release gates.
+5. Release owner signs current evidence packet and worktree review.
 
 Until all criteria pass, decision remains **NO-GO**.

@@ -47,7 +47,7 @@ steps = [
     key: "linked_supabase_sms_first_migration",
     title: "Apply linked SMS-first migration and rerun rollback UAT",
     required_when: blockers.include?("linked_supabase_sms_first_migration"),
-    verify: "scripts/collect_linked_uat.sh"
+    verify: "Apply supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql, then scripts/collect_linked_uat.sh"
   },
   {
     key: "android_sms_access_uat",
