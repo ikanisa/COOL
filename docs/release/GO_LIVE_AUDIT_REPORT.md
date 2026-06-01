@@ -1,10 +1,10 @@
 # Collect Go-Live Audit Report
 
-Audit date: 2026-05-31
+Audit date: 2026-06-01
 
-Final decision: **NO-GO** until Android SMS access UAT, Admin PWA live
-deployment, Android signing/iOS scope evidence, product signoff, and
-release-owner signoff are complete.
+Final decision: **NO-GO** until Android SMS access UAT approval, Android
+signing/iOS scope evidence, product signoff, and release-owner signoff are
+complete.
 
 ## Baseline
 
@@ -27,13 +27,13 @@ release-owner signoff are complete.
 | Gate | Result | Evidence |
 | --- | --- | --- |
 | Flutter analyzer | Pass | `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze` completed cleanly. |
-| Flutter release tests | Pass | `83` tests passed after the SMS-first refactor. |
+| Flutter release tests | Pass | `101` tests passed after the SMS-first refactor. |
 | Supabase migration validation | Pass | `./scripts/migrations/validate_supabase_migrations.sh` passed locally. |
 | Edge Function auth contract | Pass | `scripts/collect_edge_auth_contract_uat.sh` passed. |
 | Edge Function type-check | Pass | `deno check` passed for parser, ingestion, and allocation functions. |
 | Admin PWA local build | Pass | `scripts/admin_pwa_release_build.sh` built `build/web` and passed local PWA gates. |
 | Admin PWA render smoke | Pass | `scripts/admin_pwa_render_smoke.sh` passed with evidence at `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`. |
-| Admin PWA live deployment | Blocked | `scripts/admin_pwa_live_gate.sh --json` requires `ADMIN_PWA_LIVE_URL`. |
+| Admin PWA live deployment | Pass | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` passed. |
 | Linked admin/security UAT | Pass | `scripts/collect_admin_security_uat.sh` passed via linked database query. |
 | Linked SMS-first contribution UAT | Pass | `scripts/collect_linked_uat.sh` passes via linked database query. |
 | Supabase readiness | Pass | `scripts/supabase_production_readiness.sh` passes. |
@@ -63,16 +63,16 @@ release-owner signoff are complete.
 | --- | --- | --- | --- | --- |
 | P0-001 | Product signoff | P0 | Corrected SMS-first Groups product definition still needs stakeholder approval. | Review and approve `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md`. |
 | P0-002 | Android SMS UAT | P0 | Real MoMo SMS app access and automatic parsing/allocation are not freshly evidenced. | Run physical Android UAT with sanitized MoMo SMS scenarios. |
-| P0-003 | Admin PWA live | P0 | Local Admin PWA proof is green, but no deployed URL proof exists. | Deploy Admin PWA and rerun live gate with `ADMIN_PWA_LIVE_URL`. |
-| P1-001 | Release hygiene | P1 | Worktree is dirty and release branch/staging review is not recorded. | Review and stage only intended changes before release. |
+| P0-003 | Admin PWA live | Resolved | Local Admin PWA proof is green and `https://cool-admin-212.pages.dev` passes the deployed URL live gate. | Rerun live gate after every Admin PWA deployment. |
+| P1-001 | Release hygiene | Resolved locally | Worktree review passes at commit `5eea474`; branch remains ahead of origin until pushed. | Push/review release branch when ready. |
 | P0-005 | Store release | P0 | Android signing review and iOS release scope need current release-owner evidence. | Attach signed release metadata or explicitly scope iOS out. |
 
 ## Decision Basis
 
 NO-GO. Current code-owned local checks, linked Supabase readiness, and linked
 admin/security UAT pass. The platform is not production-ready until real
-Android SMS, Admin live deployment, Android signing/iOS scope, and stakeholder
-release evidence are complete.
+Android SMS approval, Android signing/iOS scope, and stakeholder release
+evidence are complete.
 
 Older CAPTCHA/HIBP/plan/PITR claims from the previous release packet are not
 treated as current blockers in this audit unless fresh post-refactor readiness

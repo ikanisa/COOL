@@ -1,6 +1,6 @@
 # Fullstack UAT And Go-Live Goal
 
-Prepared: 2026-05-31
+Prepared: 2026-06-01
 
 ## Goal
 
@@ -34,7 +34,7 @@ human operator workflows.
 ## Current Evidence Snapshot
 
 - `flutter analyze`: pass.
-- Full Flutter/release-doc tests: pass with `83` tests.
+- Full Flutter/release-doc tests: pass with `101` tests.
 - `scripts/admin_pwa_release_build.sh`: pass.
 - `scripts/admin_pwa_render_smoke.sh`: pass with evidence at
   `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`.
@@ -44,8 +44,7 @@ human operator workflows.
 - `scripts/collect_admin_security_uat.sh`: pass through linked database query.
 - `scripts/collect_linked_uat.sh`: pass through linked database query.
 - `scripts/supabase_production_readiness.sh`: pass.
-- `scripts/admin_pwa_live_gate.sh --json`: blocked until `ADMIN_PWA_LIVE_URL`
-  is provided.
+- `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json`: pass.
 - `scripts/flutter_mobile_release_gate.sh --json`: blocked on Android release
   signing review and iOS release scope.
 - `scripts/release_artifact_manifest.sh --json`: pass with current APK/AAB and
@@ -70,8 +69,7 @@ human operator workflows.
 
 1. Corrected product definition is signed off.
 2. Real Android SMS access UAT passes with sanitized evidence.
-3. Admin PWA deployed URL passes live gate.
-4. Android signing review and iOS release scope evidence pass release gates.
-5. Release owner signs current evidence packet and worktree review.
+3. Android signing review and iOS release scope evidence pass release gates.
+4. Release owner signs current evidence packet and worktree review.
 
 Until all criteria pass, decision remains **NO-GO**.

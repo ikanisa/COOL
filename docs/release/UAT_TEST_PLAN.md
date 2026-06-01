@@ -11,7 +11,7 @@ IDs, and anonymity choices.
 ## Current Automated Evidence To Attach
 
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze`: pass.
-- Full Flutter/release-doc tests: `83` tests pass.
+- Full Flutter/release-doc tests: `101` tests pass.
 - `scripts/admin_pwa_release_build.sh`: pass.
 - `scripts/admin_pwa_render_smoke.sh`: pass, evidence at
   `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`.
@@ -23,8 +23,7 @@ IDs, and anonymity choices.
 
 Current blocked evidence:
 
-- `scripts/admin_pwa_live_gate.sh --json`: blocked until `ADMIN_PWA_LIVE_URL`
-  is supplied.
+- `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json`: pass.
 - Real Android SMS device UAT is pending.
 - Android release signing, iOS scope, product signoff, and release-owner signoff
   are pending.

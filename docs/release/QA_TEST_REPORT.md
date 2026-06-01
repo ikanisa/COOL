@@ -8,9 +8,8 @@ Supabase schema/functions, payment-intent allocation, and release evidence.
 ## Decision
 
 Current status: **NO-GO for public launch** until Android SMS access UAT is run
-with sanitized evidence, Admin PWA live deployment is proven, Android
-signing/iOS scope evidence is recorded, product signoff is approved, and
-release owner signoff is recorded.
+with sanitized evidence, Android signing/iOS scope evidence is recorded,
+product signoff is approved, and release owner signoff is recorded.
 
 Older Supabase platform blockers from the previous product definition are not
 carried forward in this report. Any platform blocker must be reproduced by a
@@ -25,7 +24,7 @@ fresh readiness run.
 | Full Flutter/release-doc suite | Pass | `101` tests passed across Admin PWA, app shell, phone/Public ID, widgets, persona smoke, repository, Supabase contract, and release-doc tests. |
 | `scripts/admin_pwa_release_build.sh` | Pass | Built `build/web` for `lib/main_admin.dart` and passed Admin PWA manifest/hosting gates in `.cache/repo_wide_qa_uat/20260601T201947Z`. |
 | `scripts/admin_pwa_render_smoke.sh` | Pass | Runtime/render evidence written to `.cache/repo_wide_qa_uat/20260601T201947Z/admin_pwa_render_smoke`; desktop and mobile screenshots are nonblank and show the Collect admin login. |
-| `scripts/admin_pwa_live_gate.sh --json` | Blocked | `ADMIN_PWA_LIVE_URL` is missing; live deployment is not yet proven. |
+| `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` | Pass | Deployed Admin PWA responds over HTTPS with required headers, cache policy, manifest, service worker, and bundle responses. |
 | `scripts/collect_edge_auth_contract_uat.sh` | Pass | Local Edge Function auth contract passed. |
 | `deno check supabase/functions/...` | Pass | `parse-payment-sms`, `ingest-payment-sms`, and `allocate-payment` type-check. |
 | `./scripts/migrations/validate_supabase_migrations.sh` | Pass | Local migration validation passes. |
@@ -41,7 +40,6 @@ fresh readiness run.
 - P0: Android MoMo SMS consent, ingestion, parse, allocation, exception,
   and ledger UAT must be executed on a real Android device with sanitized
   evidence.
-- P0: Admin PWA live URL proof is missing.
 - P0: Stakeholder signoff is required for the corrected Groups product
   definition.
 - P0: Android release signing review and iOS release-scope evidence are missing.
@@ -69,8 +67,7 @@ fresh readiness run.
 
 ## Next Verification
 
-1. Deploy Admin PWA and rerun live gate with `ADMIN_PWA_LIVE_URL`.
-2. Run Android SMS access UAT with real MoMo notification scenarios.
-3. Record Android signing review and iOS scope evidence, then rerun release gates.
-4. Record product and release-owner signoff.
-5. Regenerate release evidence from current commands only.
+1. Run Android SMS access UAT with real MoMo notification scenarios.
+2. Record Android signing review and iOS scope evidence, then rerun release gates.
+3. Record product and release-owner signoff.
+4. Regenerate release evidence from current commands only.

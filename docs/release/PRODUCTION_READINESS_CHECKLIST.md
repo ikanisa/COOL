@@ -1,11 +1,11 @@
 # Collect Production Readiness Checklist
 
-Audit date: 2026-05-31
+Audit date: 2026-06-01
 
 This checklist reflects the corrected SMS-first Groups product definition. It
 does not carry forward previous unverified Supabase platform blockers. Run
-fresh release gates after Android SMS UAT, Admin PWA live proof, and release
-signoffs before making a final production decision.
+fresh release gates after Android SMS UAT and release signoffs before making a
+final production decision.
 
 ## Current Readiness
 
@@ -21,9 +21,9 @@ signoffs before making a final production decision.
 | Automated SMS parsing/allocation | Backend proven; device UAT pending | Edge Function type-check, linked SMS-first rollback UAT, schema inventory, and Supabase readiness pass. Real Android SMS device UAT is still pending. |
 | Admin PWA local build | Pass | `scripts/admin_pwa_release_build.sh` passed. |
 | Admin PWA local render smoke | Pass | `scripts/admin_pwa_render_smoke.sh` passed with evidence at `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`. |
-| Admin PWA live deployment | Blocked | `scripts/admin_pwa_live_gate.sh --json` requires `ADMIN_PWA_LIVE_URL`. |
+| Admin PWA live deployment | Pass | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` passed. |
 | Flutter analyzer | Pass | `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze` completed cleanly. |
-| Flutter tests | Pass | Full Flutter/release-doc suite passed `83` tests. |
+| Flutter tests | Pass | Full Flutter/release-doc suite passed `101` tests. |
 | Local migration validation | Pass | `./scripts/migrations/validate_supabase_migrations.sh` passed. |
 | Edge Function auth contract | Pass | `scripts/collect_edge_auth_contract_uat.sh` passed. |
 | Linked admin/security UAT | Pass | `scripts/collect_admin_security_uat.sh` passed through linked database query mode. |
@@ -31,7 +31,7 @@ signoffs before making a final production decision.
 | Linked Supabase readiness | Pass | `scripts/supabase_production_readiness.sh` passed; direct pooler lint/dry-run remains unavailable from this network but linked schema/advisor/UAT gates are green. |
 | Android real SMS UAT | Pending | Fresh MoMo SMS consent/ingestion/parse/allocation/ledger evidence is not yet recorded. |
 | Android release APK/AAB | Pass | Production APK/AAB artifacts are newer than Android/mobile sources; `scripts/release_artifact_manifest.sh --json` passed and wrote `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-31.sha256`. |
-| Release worktree review | Pending | The worktree is dirty during active refactor. |
+| Release worktree review | Pass | `scripts/release_worktree_review_gate.sh --json` passed at commit `5eea474`. |
 | Android signing and iOS scope | Blocked | `scripts/flutter_mobile_release_gate.sh --json` reports `android_release_signing_review` and `ios_release_scope`. |
 
 ## Production Blockers
@@ -39,16 +39,15 @@ signoffs before making a final production decision.
 Current release-status blocker keys for release readiness are
 `product_signoff`, `android_sms_access_uat`,
 `android_release_signing_review`, `ios_release_scope`,
-`admin_pwa_live_url`, and `release_owner_signoff`.
+and `release_owner_signoff`.
 
 | ID | Blocker | Required action |
 | --- | --- | --- |
 | P0-001 | Stakeholder signoff for corrected product definition is missing. | Approve `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md`. |
 | P0-002 | Real Android SMS access UAT is missing. | Run controlled Android SMS scenarios and attach sanitized evidence. |
-| P0-003 | Admin PWA live URL proof is missing. | Deploy Admin PWA and rerun `ADMIN_PWA_LIVE_URL=... ./scripts/admin_pwa_live_gate.sh --json`. |
-| P0-004 | Android release signing / Play App Signing review is missing. | Record signing review evidence and rerun `scripts/flutter_mobile_release_gate.sh --json`. |
-| P0-005 | iOS release scope is not signed off. | Sign off iOS contributor-only scope or mark iOS explicitly out of scope, then rerun `scripts/flutter_mobile_release_gate.sh --json`. |
-| P0-006 | Release-owner signoff for the current evidence packet is missing. | Review the current evidence packet and record release-owner approval. |
+| P0-003 | Android release signing / Play App Signing review is missing. | Record signing review evidence and rerun `scripts/flutter_mobile_release_gate.sh --json`. |
+| P0-004 | iOS release scope is not signed off. | Sign off iOS contributor-only scope or mark iOS explicitly out of scope, then rerun `scripts/flutter_mobile_release_gate.sh --json`. |
+| P0-005 | Release-owner signoff for the current evidence packet is missing. | Review the current evidence packet and record release-owner approval. |
 
 ## Release Commands To Rerun
 
@@ -78,7 +77,7 @@ ADMIN_PWA_RENDER_EVIDENCE_DIR=.cache/admin_pwa_render_smoke/20260527T041454Z-sms
 After deployment:
 
 ```sh
-ADMIN_PWA_LIVE_URL="https://<admin-host>" ./scripts/admin_pwa_live_gate.sh --json
+ADMIN_PWA_LIVE_URL="https://cool-admin-212.pages.dev" ./scripts/admin_pwa_live_gate.sh --json
 ```
 
 ## Notes

@@ -39,15 +39,19 @@ void main() {
       docs['decision'],
       contains('group creation is available only on Android'),
     );
-    expect(docs['blockers'], contains('P0-003'));
-    expect(docs['blockers'], contains('ADMIN_PWA_LIVE_URL'));
+    expect(docs['blockers'], contains('Android release signing'));
+    expect(docs['blockers'], contains('https://cool-admin-212.pages.dev'));
     expect(docs['checklist'], contains('release_owner_signoff'));
     expect(docs['qa'], contains('101'));
     expect(docs['packet'], contains('Final GO Criteria'));
   });
 
   test('release status reports current blocker keys', () {
-    final result = Process.runSync('./scripts/release_status.sh', ['--json']);
+    final result = Process.runSync(
+      './scripts/release_status.sh',
+      ['--json'],
+      environment: {'ADMIN_PWA_LIVE_URL': 'https://cool-admin-212.pages.dev'},
+    );
     expect(result.exitCode, 0);
 
     final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
@@ -59,10 +63,10 @@ void main() {
         'android_sms_access_uat',
         'android_release_signing_review',
         'ios_release_scope',
-        'admin_pwa_live_url',
         'release_owner_signoff',
       ]),
     );
+    expect(decoded['blocker_keys'], isNot(contains('admin_pwa_live_url')));
     expect(jsonEncode(decoded), isNot(contains('auth_captcha_bot_protection')));
     expect(jsonEncode(decoded), isNot(contains('supabase_pitr')));
   });
@@ -75,7 +79,6 @@ void main() {
         'linked_supabase_sms_first_migration',
         'android_release_signing_review',
         'ios_release_scope',
-        'admin_pwa_live_url',
       ],
     });
     final result = Process.runSync(
@@ -90,8 +93,10 @@ void main() {
     expect(decoded['go_live_approved'], isFalse);
     expect(
       decoded['required_next_actions'],
-      contains(
-        'Deploy Admin PWA and rerun the live gate with ADMIN_PWA_LIVE_URL.',
+      isNot(
+        contains(
+          'Deploy Admin PWA and rerun the live gate with ADMIN_PWA_LIVE_URL.',
+        ),
       ),
     );
     expect(

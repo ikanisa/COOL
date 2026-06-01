@@ -1,6 +1,6 @@
 # Collect GO/NO-GO Decision
 
-Audit date: 2026-05-31
+Audit date: 2026-06-01
 
 Decision: NO-GO for public production launch until the corrected SMS-first
 Groups product contract is fully validated on mobile, Admin PWA, and linked
@@ -31,8 +31,8 @@ has been superseded. The current source of truth is the Groups workflow:
 | Supabase migration validation | Pass |
 | Focused Flutter and release-doc suites | Pass |
 | Admin PWA build/render smoke | Pass locally |
-| Admin PWA live deployment proof | Blocked: `ADMIN_PWA_LIVE_URL` missing |
-| Linked Supabase migration/readiness | Blocked: remote project is behind local migration; dry-run blocked by DB allowlist |
+| Admin PWA live deployment proof | Pass: `https://cool-admin-212.pages.dev` passed `scripts/admin_pwa_live_gate.sh --json` |
+| Linked Supabase migration/readiness | Pass: linked SMS-first UAT and Supabase evidence bundle pass |
 | Android release APK/AAB artifacts | Pass: current artifacts are fresh and artifact manifest passes |
 | Android signing review | Blocked: signing / Play App Signing review evidence missing |
 | iOS release scope | Blocked: iOS scope not signed off or explicitly out of scope |
@@ -43,11 +43,10 @@ has been superseded. The current source of truth is the Groups workflow:
 ## Required Next Actions
 
 1. Review and sign off the corrected SMS-first Groups product definition.
-2. Apply the new Supabase migration to the linked project from an allowed DB network, then rerun linked readiness.
-3. Deploy Admin PWA and rerun `ADMIN_PWA_LIVE_URL=... make admin-pwa-live-gate-json`.
-4. Run Android SMS ingestion/parser/allocation UAT with sanitized evidence.
-5. Record Android signing review and iOS release scope evidence.
-6. Regenerate the release evidence packet from current validators only.
+2. Run Android SMS ingestion/parser/allocation UAT with sanitized evidence.
+3. Record Android signing review and iOS release scope evidence.
+4. Record release-owner signoff for the current evidence packet.
+5. Regenerate the release evidence packet from current validators only.
 
 Older Supabase platform blockers are not repeated here as current blockers
 unless a fresh readiness run after this refactor reproduces them.
