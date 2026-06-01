@@ -14,6 +14,40 @@ void main() {
             as Map<String, dynamic>;
     manifest['secret_handling'] =
         'Signed approval evidence metadata only; no secrets or production customer data.';
+    final approvalFixtures = <String, ({String reviewer, String notes})>{
+      'product_signoff': (
+        reviewer: 'Product Lead Ada',
+        notes:
+            'Signed SMS-first Groups product evidence for release gate test.',
+      ),
+      'android_sms_access_uat': (
+        reviewer: 'Android UAT Lead Ben',
+        notes:
+            'Signed sanitized Android SMS UAT evidence for release gate test.',
+      ),
+      'android_release_signing_review': (
+        reviewer: 'Release Engineer Cy',
+        notes:
+            'Signed APK AAB and Play App Signing evidence for release gate test.',
+      ),
+      'ios_release_scope': (
+        reviewer: 'Mobile Scope Lead Dee',
+        notes: 'Signed Android-only iOS scope decision for release gate test.',
+      ),
+      'release_owner_signoff': (
+        reviewer: 'Release Owner Eli',
+        notes: 'Signed final release packet after prerequisite test approvals.',
+      ),
+    };
+    for (final record
+        in (manifest['approvals'] as List<dynamic>)
+            .cast<Map<String, dynamic>>()) {
+      final fixture = approvalFixtures[record['key']];
+      if (fixture == null) continue;
+      record['reviewer'] = fixture.reviewer;
+      record['signed_at'] = '2026-06-01T12:00:00Z';
+      record['notes'] = fixture.notes;
+    }
     return manifest;
   }
 
@@ -410,6 +444,53 @@ void main() {
       ]),
     );
   });
+
+  test(
+    'copied release approval template content cannot approve production GO',
+    () {
+      final tempDir = Directory.systemTemp.createTempSync(
+        'cool_release_approvals_',
+      );
+      try {
+        final manifest =
+            jsonDecode(
+                  File(
+                    'docs/release/RELEASE_APPROVALS.example.json',
+                  ).readAsStringSync(),
+                )
+                as Map<String, dynamic>;
+        manifest['secret_handling'] =
+            'Signed approval evidence metadata only; no secrets or production customer data.';
+        final manifestFile = File('${tempDir.path}/approvals.json')
+          ..writeAsStringSync(jsonEncode(manifest));
+        final result = Process.runSync(
+          './scripts/release_status.sh',
+          ['--json'],
+          environment: {
+            'RELEASE_APPROVALS_JSON': manifestFile.path,
+            'ADMIN_PWA_LIVE_URL': 'https://cool-admin-212.pages.dev',
+          },
+        );
+
+        expect(result.exitCode, 0);
+        final decoded =
+            jsonDecode(result.stdout as String) as Map<String, dynamic>;
+        expect(decoded['decision'], 'NO-GO');
+        expect(
+          decoded['blocker_keys'],
+          containsAll(<String>[
+            'product_signoff',
+            'android_sms_access_uat',
+            'android_release_signing_review',
+            'ios_release_scope',
+            'release_owner_signoff',
+          ]),
+        );
+      } finally {
+        tempDir.deleteSync(recursive: true);
+      }
+    },
+  );
 
   test('approved release manifest can drive final release status', () {
     final tempDir = Directory.systemTemp.createTempSync(

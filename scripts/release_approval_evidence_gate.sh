@@ -66,6 +66,29 @@ def template_manifest?(manifest_path, manifest)
     manifest["secret_handling"].to_s.match?(/\btemplate only\b/i)
 end
 
+def placeholder_approval_blockers(record)
+  blockers = []
+  placeholder_reviewers = [
+    "Product Reviewer",
+    "Mobile UAT Reviewer",
+    "Android Release Reviewer",
+    "Mobile Release Reviewer",
+    "Release Owner"
+  ]
+  placeholder_notes = [
+    "Approved SMS-first Groups product definition.",
+    "Approved sanitized Android SMS UAT evidence.",
+    "Approved current APK/AAB and Play App Signing review.",
+    "Approved Android-only scope for this go-live.",
+    "Approved after all prerequisite gates were approved."
+  ]
+
+  blockers << "placeholder_reviewer" if placeholder_reviewers.include?(record["reviewer"].to_s.strip)
+  blockers << "placeholder_signed_at" if record["signed_at"].to_s.strip == "2026-06-01T00:00:00Z"
+  blockers << "placeholder_notes" if placeholder_notes.include?(record["notes"].to_s.strip)
+  blockers
+end
+
 failure_keys = []
 blocker_keys = []
 checks = {}
@@ -140,6 +163,7 @@ required_keys.each do |key|
   contains_production_data = record["contains_production_customer_data"] == true
   signing_keys_exposed = record["signing_keys_exposed"] == true
   evidence_reference_valid = evidence_reference_valid?(evidence_reference, root_dir)
+  placeholder_blockers = placeholder_approval_blockers(record)
 
   acceptable_status =
     if key == "ios_release_scope"
@@ -158,6 +182,7 @@ required_keys.each do |key|
   blockers << "sanitized_evidence" unless sanitized
   blockers << "production_customer_data" if contains_production_data
   blockers << "signing_keys_exposed" if key == "android_release_signing_review" && signing_keys_exposed
+  blockers.concat(placeholder_blockers)
 
   approved = blockers.empty?
   blocker_keys << key unless approved

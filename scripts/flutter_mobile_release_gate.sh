@@ -76,6 +76,27 @@ def template_manifest?(manifest_path, manifest)
     manifest["secret_handling"].to_s.match?(/\btemplate only\b/i)
 end
 
+def placeholder_approval_record?(record)
+  placeholder_reviewers = [
+    "Product Reviewer",
+    "Mobile UAT Reviewer",
+    "Android Release Reviewer",
+    "Mobile Release Reviewer",
+    "Release Owner"
+  ]
+  placeholder_notes = [
+    "Approved SMS-first Groups product definition.",
+    "Approved sanitized Android SMS UAT evidence.",
+    "Approved current APK/AAB and Play App Signing review.",
+    "Approved Android-only scope for this go-live.",
+    "Approved after all prerequisite gates were approved."
+  ]
+
+  placeholder_reviewers.include?(record["reviewer"].to_s.strip) ||
+    record["signed_at"].to_s.strip == "2026-06-01T00:00:00Z" ||
+    placeholder_notes.include?(record["notes"].to_s.strip)
+end
+
 def release_approval_records(root_dir)
   path = ENV.fetch("RELEASE_APPROVALS_JSON", File.join(root_dir, "docs/release/RELEASE_APPROVALS.json"))
   data = JSON.parse(File.read(path))
@@ -102,6 +123,7 @@ def release_approval_valid?(records, key, root_dir, allow_out_of_scope: false)
     end
 
   acceptable_status &&
+    !placeholder_approval_record?(record) &&
     record["reviewer"].to_s.strip.length >= 2 &&
     iso8601_utc?(record["signed_at"]) &&
     record["evidence_reference"].to_s.strip.length >= 3 &&
