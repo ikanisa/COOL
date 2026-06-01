@@ -363,6 +363,31 @@ Date/time: 2026-06-01T12:30:00Z
     );
   });
 
+  test('go-live gate rejects inconsistent GO status with blockers', () {
+    final status = jsonEncode({
+      'decision': 'GO',
+      'status': 'blocked',
+      'blocker_keys': ['android_sms_access_uat'],
+    });
+    final result = Process.runSync(
+      './scripts/supabase_go_live_gate.sh',
+      ['--json'],
+      environment: {'SUPABASE_GO_LIVE_STATUS_JSON': status},
+    );
+
+    expect(result.exitCode, 1);
+    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
+    expect(decoded['decision'], 'NO-GO');
+    expect(decoded['go_live_approved'], isFalse);
+    expect(decoded['blocker_keys'], contains('android_sms_access_uat'));
+    expect(
+      decoded['required_next_actions'],
+      contains(
+        'Run real Android MoMo SMS ingestion/parser/allocation UAT with sanitized evidence.',
+      ),
+    );
+  });
+
   test('current platform packet is redacted and SMS-first specific', () {
     final status = jsonEncode({
       'decision': 'NO-GO',

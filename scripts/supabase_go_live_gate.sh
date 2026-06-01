@@ -36,7 +36,11 @@ gate_json="$(
 status_path, project_ref = ARGV
 status = JSON.parse(File.read(status_path))
 blocker_keys = Array(status["blocker_keys"])
-strict_pass = blocker_keys.empty? && %w[pass GO].include?(status["status"].to_s) || status["decision"] == "GO"
+status_value = status["status"].to_s
+strict_pass =
+  blocker_keys.empty? &&
+  status["decision"].to_s == "GO" &&
+  status_value == "pass"
 
 actions = []
 unless strict_pass
