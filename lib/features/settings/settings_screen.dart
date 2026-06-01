@@ -48,6 +48,12 @@ class SettingsScreen extends ConsumerWidget {
                 onTap: () => context.go('/permissions/device'),
               ),
               CollectListTile(
+                leading: CollectIcons.pending,
+                title: 'Notifications',
+                subtitle: 'Payment and group updates.',
+                onTap: () => context.go('/notifications'),
+              ),
+              CollectListTile(
                 leading: CollectIcons.lock,
                 title: 'Privacy',
                 subtitle: 'Data controls.',

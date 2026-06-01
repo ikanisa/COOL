@@ -246,6 +246,530 @@ class AmountHero extends StatelessWidget {
   }
 }
 
+class CollectIdDisplay extends StatelessWidget {
+  const CollectIdDisplay({
+    required this.publicId,
+    this.label = 'Collect ID',
+    this.onCopy,
+    super.key,
+  });
+
+  final String publicId;
+  final String label;
+  final VoidCallback? onCopy;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final value = publicId.trim().isEmpty ? '------' : publicId.trim();
+    return CollectCard(
+      emphasis: CollectCardEmphasis.hero,
+      padding: CollectSpacing.cardPaddingComfortable,
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label.toUpperCase(),
+                  style: CollectTypography.eyebrowLabel(colors.textMuted),
+                ),
+                CollectSpacing.gap8,
+                SelectableText(
+                  value,
+                  style: CollectTypography.collectIdDisplay(colors.textPrimary),
+                ),
+              ],
+            ),
+          ),
+          IconButton.filledTonal(
+            tooltip: 'Copy Collect ID',
+            onPressed: onCopy,
+            icon: const Icon(CollectIcons.copy),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class OtpCodeField extends StatelessWidget {
+  const OtpCodeField({required this.controller, this.length = 6, super.key});
+
+  final TextEditingController controller;
+  final int length;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return TextField(
+      controller: controller,
+      keyboardType: TextInputType.number,
+      textAlign: TextAlign.center,
+      maxLength: length,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(length),
+      ],
+      style: CollectTypography.collectIdDisplay(colors.textPrimary),
+      decoration: collectInputDecoration(
+        context,
+        label: 'Verification code',
+        helper: 'Enter the $length-digit WhatsApp code.',
+      ).copyWith(counterText: ''),
+    );
+  }
+}
+
+class SearchWithClearField extends StatelessWidget {
+  const SearchWithClearField({
+    required this.controller,
+    required this.label,
+    required this.onChanged,
+    super.key,
+  });
+
+  final TextEditingController controller;
+  final String label;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      onChanged: onChanged,
+      decoration: collectInputDecoration(context, label: label).copyWith(
+        prefixIcon: const Icon(CollectIcons.search),
+        suffixIcon: controller.text.isEmpty
+            ? null
+            : IconButton(
+                tooltip: 'Clear search',
+                icon: const Icon(Icons.close_rounded),
+                onPressed: () {
+                  controller.clear();
+                  onChanged('');
+                },
+              ),
+      ),
+    );
+  }
+}
+
+class FinancialListRow extends StatelessWidget {
+  const FinancialListRow({
+    required this.title,
+    required this.meta,
+    this.amountRwf,
+    this.subtitle,
+    this.transactionId,
+    this.leading,
+    this.tone = CollectStatusTone.success,
+    this.onTap,
+    super.key,
+  });
+
+  final String title;
+  final int? amountRwf;
+  final String meta;
+  final String? subtitle;
+  final String? transactionId;
+  final IconData? leading;
+  final CollectStatusTone tone;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: CollectRadius.controlBorder,
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x4),
+          child: Row(
+            children: [
+              _ToneIcon(icon: leading ?? CollectIcons.money, tone: tone),
+              CollectSpacing.gapW12,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.titleSmall,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    if (subtitle != null) ...[
+                      CollectSpacing.gap4,
+                      Text(
+                        subtitle!,
+                        style: Theme.of(context).textTheme.bodySmall,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                    CollectSpacing.gap4,
+                    Text(
+                      meta,
+                      style: CollectTypography.transactionMeta(
+                        colors.textMuted,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    if (transactionId != null) ...[
+                      CollectSpacing.gap4,
+                      SelectableText(
+                        transactionId!,
+                        style: CollectTypography.transactionMeta(
+                          colors.textMuted,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              if (amountRwf != null) ...[
+                CollectSpacing.gapW12,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    formatRwf(amountRwf!),
+                    style: CollectTypography.amountCompact(colors.textPrimary),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AmountEntryPanel extends StatelessWidget {
+  const AmountEntryPanel({
+    required this.controller,
+    required this.amount,
+    required this.quickAmounts,
+    required this.onQuickAmount,
+    this.label = 'Amount to send',
+    this.detail,
+    this.error,
+    super.key,
+  });
+
+  final TextEditingController controller;
+  final int amount;
+  final List<int> quickAmounts;
+  final ValueChanged<int> onQuickAmount;
+  final String label;
+  final String? detail;
+  final String? error;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return CollectCard(
+      emphasis: CollectCardEmphasis.hero,
+      padding: CollectSpacing.cardPaddingComfortable,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label.toUpperCase(),
+            style: CollectTypography.eyebrowLabel(colors.textMuted),
+          ),
+          CollectSpacing.gap12,
+          TextField(
+            controller: controller,
+            keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            decoration: collectInputDecoration(
+              context,
+              label: 'Amount',
+              prefix: 'RWF ',
+            ),
+          ),
+          CollectSpacing.gap12,
+          Text(
+            formatRwf(amount),
+            style: CollectTypography.amountDisplay(colors.textPrimary),
+          ),
+          if (detail != null) ...[
+            CollectSpacing.gap8,
+            Text(detail!, style: Theme.of(context).textTheme.bodyMedium),
+          ],
+          CollectSpacing.gap16,
+          Wrap(
+            spacing: CollectSpacing.x2,
+            runSpacing: CollectSpacing.x2,
+            children: [
+              for (final option in quickAmounts)
+                ChoiceChip(
+                  label: Text(_compactAmount(option)),
+                  selected: amount == option,
+                  onSelected: (_) => onQuickAmount(option),
+                ),
+            ],
+          ),
+          if (error != null) ...[
+            CollectSpacing.gap12,
+            Text(
+              error!,
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: colors.danger),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class BottomActionSurface extends StatelessWidget {
+  const BottomActionSurface({required this.children, super.key});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return CollectCard(
+      emphasis: CollectCardEmphasis.flat,
+      padding: const EdgeInsets.all(CollectSpacing.x4),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (var index = 0; index < children.length; index++) ...[
+            children[index],
+            if (index != children.length - 1) CollectSpacing.gap12,
+          ],
+          Divider(color: colors.border.withValues(alpha: 0)),
+        ],
+      ),
+    );
+  }
+}
+
+class MinimalStatePanel extends StatelessWidget {
+  const MinimalStatePanel({
+    required this.icon,
+    required this.title,
+    required this.message,
+    this.tone = CollectStatusTone.info,
+    this.primaryAction,
+    this.secondaryAction,
+    super.key,
+  });
+
+  final IconData icon;
+  final String title;
+  final String message;
+  final CollectStatusTone tone;
+  final Widget? primaryAction;
+  final Widget? secondaryAction;
+
+  @override
+  Widget build(BuildContext context) {
+    return CollectCard(
+      emphasis: CollectCardEmphasis.hero,
+      padding: CollectSpacing.cardPaddingComfortable,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _ToneIcon(icon: icon, tone: tone, large: true),
+          CollectSpacing.gap20,
+          Text(title, style: Theme.of(context).textTheme.headlineMedium),
+          CollectSpacing.gap8,
+          Text(message, style: Theme.of(context).textTheme.bodyMedium),
+          if (primaryAction != null || secondaryAction != null) ...[
+            CollectSpacing.gap20,
+            ?primaryAction,
+            if (secondaryAction != null) ...[
+              CollectSpacing.gap12,
+              secondaryAction!,
+            ],
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class EmptySearchState extends StatelessWidget {
+  const EmptySearchState({
+    required this.title,
+    required this.message,
+    this.onClear,
+    super.key,
+  });
+
+  final String title;
+  final String message;
+  final VoidCallback? onClear;
+
+  @override
+  Widget build(BuildContext context) {
+    return MinimalStatePanel(
+      icon: CollectIcons.search,
+      title: title,
+      message: message,
+      tone: CollectStatusTone.neutral,
+      primaryAction: onClear == null
+          ? null
+          : CollectButton(
+              label: 'Clear search',
+              icon: CollectIcons.sync,
+              onPressed: onClear,
+              expand: true,
+            ),
+    );
+  }
+}
+
+class NotificationUpdateRow extends StatelessWidget {
+  const NotificationUpdateRow({
+    required this.title,
+    required this.message,
+    required this.meta,
+    this.tone = CollectStatusTone.info,
+    super.key,
+  });
+
+  final String title;
+  final String message;
+  final String meta;
+  final CollectStatusTone tone;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x3),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _ToneIcon(icon: _statusIcon(tone, null), tone: tone),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: Theme.of(context).textTheme.titleSmall),
+                CollectSpacing.gap4,
+                Text(message, style: Theme.of(context).textTheme.bodySmall),
+                CollectSpacing.gap4,
+                Text(
+                  meta,
+                  style: CollectTypography.transactionMeta(colors.textMuted),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PaymentReviewSummary extends StatelessWidget {
+  const PaymentReviewSummary({
+    required this.amountRwf,
+    required this.groupTitle,
+    required this.receiverLabel,
+    required this.receiverMomoNumber,
+    required this.collectId,
+    this.onEdit,
+    super.key,
+  });
+
+  final int amountRwf;
+  final String groupTitle;
+  final String receiverLabel;
+  final String receiverMomoNumber;
+  final String collectId;
+  final VoidCallback? onEdit;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return CollectCard(
+      emphasis: CollectCardEmphasis.hero,
+      padding: CollectSpacing.cardPaddingComfortable,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'Review contribution',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+              if (onEdit != null)
+                CollectButton(
+                  label: 'Edit',
+                  icon: CollectIcons.tune,
+                  onPressed: onEdit,
+                  variant: CollectButtonVariant.subtle,
+                ),
+            ],
+          ),
+          CollectSpacing.gap16,
+          Text(
+            formatRwf(amountRwf),
+            style: CollectTypography.amountDisplay(colors.textPrimary),
+          ),
+          CollectSpacing.gap20,
+          _ReviewLine(label: 'Group', value: groupTitle),
+          _ReviewLine(label: 'Receiver', value: receiverLabel),
+          _ReviewLine(label: 'MoMo', value: receiverMomoNumber),
+          _ReviewLine(label: 'Collect ID', value: collectId),
+        ],
+      ),
+    );
+  }
+}
+
+class _ReviewLine extends StatelessWidget {
+  const _ReviewLine({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x2),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 92,
+            child: Text(
+              label.toUpperCase(),
+              style: CollectTypography.eyebrowLabel(colors.textMuted),
+            ),
+          ),
+          Expanded(
+            child: SelectableText(
+              value,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class CollectStatusChip extends StatelessWidget {
   const CollectStatusChip({
     required this.label,
@@ -1165,7 +1689,7 @@ class QRCard extends StatelessWidget {
       child: Column(
         children: [
           Semantics(
-            label: 'QR code for group link',
+            label: 'QR code',
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: colors.surfaceRaised,
@@ -1186,7 +1710,7 @@ class QRCard extends StatelessWidget {
           ),
           CollectSpacing.gap16,
           CollectButton(
-            label: 'Copy group share text',
+            label: 'Copy',
             icon: CollectIcons.copy,
             onPressed: onCopy,
             expand: true,
@@ -1852,6 +2376,16 @@ String compactCollectIdLabel(String label) {
   return label.replaceFirst(RegExp(r'^Collect ID\s+'), '#');
 }
 
+String _compactAmount(int amount) {
+  if (amount >= 1000000 && amount % 1000000 == 0) {
+    return '${amount ~/ 1000000}M';
+  }
+  if (amount >= 1000 && amount % 1000 == 0) {
+    return '${amount ~/ 1000}k';
+  }
+  return formatRwf(amount);
+}
+
 class GroupCard extends StatelessWidget {
   const GroupCard({
     required this.collection,
@@ -1896,7 +2430,7 @@ class GroupCard extends StatelessWidget {
                 ),
               ),
               Semantics(
-                label: 'Private group',
+                label: 'Private',
                 child: const _ToneIcon(
                   icon: CollectIcons.lock,
                   tone: CollectStatusTone.privacy,

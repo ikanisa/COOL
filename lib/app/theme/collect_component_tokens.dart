@@ -15,8 +15,8 @@ class CollectComponentTokens {
         horizontal: CollectSpacing.x5,
         vertical: CollectSpacing.x3,
       ),
-      shape: RoundedRectangleBorder(borderRadius: CollectRadius.mdBorder),
-      backgroundColor: colors.navy,
+      shape: RoundedRectangleBorder(borderRadius: CollectRadius.controlBorder),
+      backgroundColor: colors.actionCrimson,
       foregroundColor: Colors.white,
       disabledBackgroundColor: colors.surfaceMuted,
       disabledForegroundColor: colors.textMuted,
@@ -32,7 +32,7 @@ class CollectComponentTokens {
         horizontal: CollectSpacing.x5,
         vertical: CollectSpacing.x3,
       ),
-      shape: RoundedRectangleBorder(borderRadius: CollectRadius.mdBorder),
+      shape: RoundedRectangleBorder(borderRadius: CollectRadius.controlBorder),
       foregroundColor: colors.textPrimary,
       side: BorderSide(color: colors.border),
       textStyle: Theme.of(context).textTheme.labelLarge,
@@ -58,7 +58,7 @@ class CollectComponentTokens {
       border: border,
       enabledBorder: border,
       focusedBorder: border.copyWith(
-        borderSide: BorderSide(color: colors.blue, width: 2),
+        borderSide: BorderSide(color: colors.actionCrimson, width: 2),
       ),
     );
   }

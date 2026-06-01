@@ -64,6 +64,13 @@ class _PaymentIntentStatusScreenState
           receiverMomoNumber: intent.receiverMomoNumber,
           status: intent.status,
         ),
+        PaymentPipelineIndicator(status: intent.status),
+        InfoSecurityBanner(
+          title: 'Reference',
+          message:
+              'Payment intent ${intent.id}. Collect posts to the ledger after receiver-side MoMo SMS verification.',
+          tone: CollectStatusTone.privacy,
+        ),
         CollectButton(
           label: 'Open ledger',
           icon: CollectIcons.ledger,

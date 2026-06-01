@@ -192,7 +192,7 @@ class CollectRepository extends StateNotifier<CollectState> {
       creatorUserId: user.id,
       title: 'Kigali Lions away kit',
       description:
-          'Fans are helping the team buy away jerseys and travel supplies for next month.',
+          'Fans are helping the team fund away jerseys and travel supplies for next month.',
       receiverMomoNumber: '+250788123456',
       createdAt: now.subtract(const Duration(days: 1)),
     );

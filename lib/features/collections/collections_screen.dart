@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/widgets/collect_components.dart';
-import '../../shared/widgets/empty_state.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import 'group_creation_platform.dart';
 
@@ -19,15 +18,27 @@ class CollectionsScreen extends ConsumerWidget {
     );
     final summaries = ref.watch(collectionSummariesProvider);
     if (collections.isEmpty) {
-      return EmptyState(
-        icon: CollectIcons.collectionsOutline,
-        title: 'No groups',
-        message: 'Create, confirm, share.',
-        action: CollectButton(
-          label: 'Create group',
-          icon: CollectIcons.add,
-          onPressed: () => openGroupCreation(context),
-        ),
+      return ScreenScaffold(
+        title: 'Groups',
+        children: [
+          EmptyIllustrationState(
+            icon: CollectIcons.collectionsOutline,
+            title: 'No groups yet',
+            message:
+                'Create an Android owner group, or join one from a Collect link, code, or QR.',
+            action: CollectButton(
+              label: 'Join group',
+              icon: CollectIcons.qr,
+              onPressed: () => context.go('/groups/join'),
+            ),
+          ),
+          CollectButton(
+            label: 'Create group',
+            icon: CollectIcons.add,
+            onPressed: () => openGroupCreation(context),
+            expand: true,
+          ),
+        ],
       );
     }
     return ScreenScaffold(
@@ -38,8 +49,19 @@ class CollectionsScreen extends ConsumerWidget {
           onPressed: () => openGroupCreation(context),
           icon: const Icon(CollectIcons.add),
         ),
+        IconButton(
+          tooltip: 'Join group',
+          onPressed: () => context.go('/groups/join'),
+          icon: const Icon(CollectIcons.qr),
+        ),
       ],
       children: [
+        const InfoSecurityBanner(
+          title: 'Group links are safe to share',
+          message:
+              'Join links and QR codes connect members to a group without exposing the receiver MoMo number.',
+          tone: CollectStatusTone.privacy,
+        ),
         for (final collection in collections)
           GroupCard(
             collection: collection,

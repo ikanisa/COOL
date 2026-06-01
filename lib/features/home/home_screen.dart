@@ -24,6 +24,9 @@ class HomeScreen extends ConsumerWidget {
     final contributions = ref.watch(
       collectRepositoryProvider.select((state) => state.contributions),
     );
+    final smsActive = ref.watch(
+      collectRepositoryProvider.select((state) => state.smsAccessEnabled),
+    );
 
     return ScreenScaffold(
       title: 'Collect',
@@ -39,7 +42,7 @@ class HomeScreen extends ConsumerWidget {
           primary: BentoMetricCell(
             label: 'Total',
             value: formatRwf(raisedTotal),
-            detail: '$collectionCount groups',
+            detail: 'Confirmed support',
             icon: CollectIcons.money,
             tone: CollectStatusTone.success,
             emphasis: true,
@@ -54,7 +57,7 @@ class HomeScreen extends ConsumerWidget {
           bottom: BentoMetricCell(
             label: 'Payments',
             value: '$pendingTotal',
-            detail: 'Open',
+            detail: pendingTotal == 0 ? 'Clear' : 'Need SMS',
             icon: CollectIcons.pending,
             tone: pendingTotal == 0
                 ? CollectStatusTone.neutral
@@ -68,7 +71,7 @@ class HomeScreen extends ConsumerWidget {
               QuickActionButton(
                 icon: CollectIcons.add,
                 label: 'Create',
-                detail: 'New group',
+                detail: 'Android owner',
                 onTap: () => openGroupCreation(context),
                 tone: CollectStatusTone.info,
               ),
@@ -84,19 +87,29 @@ class HomeScreen extends ConsumerWidget {
               QuickActionButton(
                 icon: CollectIcons.profile,
                 label: 'Profile',
-                detail: 'MoMo',
+                detail: 'Collect ID',
                 onTap: () => context.go('/settings/profile'),
                 tone: CollectStatusTone.privacy,
               ),
             ],
           ),
         ),
+        InfoSecurityBanner(
+          title: smsActive ? 'System integrity verified' : 'System integrity',
+          message: smsActive
+              ? 'Android SMS access is active for owner-side MoMo ledger automation.'
+              : 'Payments are confirmed only after Collect receives and allocates MoMo SMS evidence.',
+          tone: smsActive
+              ? CollectStatusTone.success
+              : CollectStatusTone.privacy,
+        ),
         const SectionHeader(title: 'Groups'),
         if (collections.isEmpty)
           EmptyIllustrationState(
             icon: CollectIcons.collectionsOutline,
-            title: 'Create group',
-            message: 'Name, receiver, share.',
+            title: 'No groups yet',
+            message:
+                'Create an Android owner group or join with a shared Collect link.',
             action: CollectButton(
               label: 'Create group',
               icon: CollectIcons.add,
@@ -127,7 +140,8 @@ class HomeScreen extends ConsumerWidget {
           const EmptyIllustrationState(
             icon: CollectIcons.activity,
             title: 'No support yet',
-            message: '',
+            message:
+                'Confirmed MoMo contributions will appear here after SMS verification.',
           )
         else
           CollectCard(

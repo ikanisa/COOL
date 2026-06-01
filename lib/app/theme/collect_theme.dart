@@ -16,9 +16,9 @@ class CollectTheme {
   static ThemeData _build(CollectColors colors, Brightness brightness) {
     final scheme = ColorScheme(
       brightness: brightness,
-      primary: colors.blue,
+      primary: colors.actionCrimson,
       onPrimary: Colors.white,
-      secondary: colors.navy,
+      secondary: colors.inkBlack,
       onSecondary: Colors.white,
       error: colors.danger,
       onError: Colors.white,
@@ -28,7 +28,7 @@ class CollectTheme {
       onSurfaceVariant: colors.textSecondary,
       outline: colors.border,
       outlineVariant: colors.border,
-      tertiary: colors.coral,
+      tertiary: colors.success,
       onTertiary: Colors.white,
     );
     final textTheme = CollectTypography.textTheme(
@@ -58,7 +58,7 @@ class CollectTheme {
       navigationBarTheme: NavigationBarThemeData(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        indicatorColor: colors.surfaceMuted.withValues(alpha: 0.9),
+        indicatorColor: colors.actionCrimson.withValues(alpha: 0.12),
         labelTextStyle: WidgetStatePropertyAll(textTheme.labelMedium),
         height: 66,
         iconTheme: WidgetStateProperty.resolveWith((states) {
@@ -74,7 +74,7 @@ class CollectTheme {
             Size(CollectSpacing.target, CollectSpacing.target),
           ),
           shape: WidgetStatePropertyAll(
-            RoundedRectangleBorder(borderRadius: CollectRadius.mdBorder),
+            RoundedRectangleBorder(borderRadius: CollectRadius.controlBorder),
           ),
         ),
       ),
@@ -84,7 +84,7 @@ class CollectTheme {
             Size(CollectSpacing.target, CollectSpacing.target),
           ),
           shape: WidgetStatePropertyAll(
-            RoundedRectangleBorder(borderRadius: CollectRadius.mdBorder),
+            RoundedRectangleBorder(borderRadius: CollectRadius.controlBorder),
           ),
         ),
       ),
@@ -97,11 +97,11 @@ class CollectTheme {
           borderSide: BorderSide(color: colors.textPrimary),
         ),
         focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: colors.blue, width: 2),
+          borderSide: BorderSide(color: colors.actionCrimson, width: 2),
         ),
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: colors.blue,
+        color: colors.actionCrimson,
         linearTrackColor: colors.surfaceMuted,
         borderRadius: CollectRadius.pillBorder,
       ),

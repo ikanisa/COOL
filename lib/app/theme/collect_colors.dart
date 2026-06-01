@@ -42,56 +42,66 @@ class CollectColors extends ThemeExtension<CollectColors> {
   final Color textMuted;
 
   static const light = CollectColors(
-    ink: Color(0xFF0F172A),
-    navy: Color(0xFF111827),
-    blue: Color(0xFF2563EB),
-    aqua: Color(0xFF0F766E),
-    coral: Color(0xFFF97316),
-    lime: Color(0xFF16A34A),
-    purple: Color(0xFF7C3AED),
-    surface: Color(0xFFF8FAFC),
+    ink: Color(0xFF121212),
+    navy: Color(0xFF1B1B1E),
+    blue: Color(0xFFE70054),
+    aqua: Color(0xFF00864E),
+    coral: Color(0xFFFD5F7D),
+    lime: Color(0xFF006A3C),
+    purple: Color(0xFF5D3E42),
+    surface: Color(0xFFFCF9F8),
     surfaceRaised: Color(0xFFFFFFFF),
-    surfaceMuted: Color(0xFFEFF6FF),
-    border: Color(0xFFD8E2F0),
-    success: Color(0xFF059669),
-    warning: Color(0xFFB45309),
-    danger: Color(0xFFDC2626),
-    info: Color(0xFF2563EB),
-    textPrimary: Color(0xFF111827),
-    textSecondary: Color(0xFF475569),
-    textMuted: Color(0xFF64748B),
+    surfaceMuted: Color(0xFFF0EDEC),
+    border: Color(0xFFE5E2E1),
+    success: Color(0xFF006A3C),
+    warning: Color(0xFF8A5A00),
+    danger: Color(0xFFBA1A1A),
+    info: Color(0xFFE70054),
+    textPrimary: Color(0xFF1C1B1B),
+    textSecondary: Color(0xFF5D3E42),
+    textMuted: Color(0xFF926E71),
   );
 
   static const dark = CollectColors(
     ink: Color(0xFFF8FAFC),
-    navy: Color(0xFFE2E8F0),
-    blue: Color(0xFF93C5FD),
-    aqua: Color(0xFF5EEAD4),
-    coral: Color(0xFFFDBA74),
-    lime: Color(0xFF86EFAC),
-    purple: Color(0xFFC4B5FD),
-    surface: Color(0xFF0F172A),
-    surfaceRaised: Color(0xFF172033),
-    surfaceMuted: Color(0xFF1E293B),
-    border: Color(0xFF334155),
-    success: Color(0xFF34D399),
-    warning: Color(0xFFFBBF24),
-    danger: Color(0xFFFCA5A5),
-    info: Color(0xFF93C5FD),
+    navy: Color(0xFFF3F0EF),
+    blue: Color(0xFFFF5F89),
+    aqua: Color(0xFF67DD97),
+    coral: Color(0xFFFFB2BB),
+    lime: Color(0xFF84FAB1),
+    purple: Color(0xFFE7BCC0),
+    surface: Color(0xFF151111),
+    surfaceRaised: Color(0xFF211B1D),
+    surfaceMuted: Color(0xFF312729),
+    border: Color(0xFF5D3E42),
+    success: Color(0xFF84FAB1),
+    warning: Color(0xFFFFC65C),
+    danger: Color(0xFFFFB4AB),
+    info: Color(0xFFFF5F89),
     textPrimary: Color(0xFFF8FAFC),
-    textSecondary: Color(0xFFCBD5E1),
-    textMuted: Color(0xFF94A3B8),
+    textSecondary: Color(0xFFE5E2E1),
+    textMuted: Color(0xFFC8C6C5),
   );
+
+  Color get paper => surface;
+  Color get surfaceLow => surfaceMuted;
+  Color get surfaceHigh => surfaceRaised;
+  Color get inkBlack => ink;
+  Color get actionCrimson => blue;
+  Color get criticalCrimson => info;
+  Color get outlineSoft => border;
+  Color get successInk => success;
+  Color get dangerSoft => danger;
 
   bool get isDark => surface.computeLuminance() < 0.2;
 
   Color statusBackground(CollectStatusTone tone) {
-    final alpha = isDark ? 0.22 : 0.12;
+    final alpha = isDark ? 0.24 : 0.10;
     return switch (tone) {
       CollectStatusTone.success => success.withValues(alpha: alpha),
       CollectStatusTone.warning => warning.withValues(alpha: alpha),
       CollectStatusTone.danger => danger.withValues(alpha: alpha),
-      CollectStatusTone.info => info.withValues(alpha: alpha),
+      CollectStatusTone.info => actionCrimson.withValues(alpha: alpha),
       CollectStatusTone.privacy => purple.withValues(alpha: alpha),
       CollectStatusTone.neutral => surfaceMuted,
     };

@@ -43,7 +43,7 @@ class CollectionDetailScreen extends ConsumerWidget {
           primary: BentoMetricCell(
             label: 'Total',
             value: formatRwf(summary.amountRaisedRwf),
-            detail: '${summary.supporterCount} members',
+            detail: 'Confirmed support',
             icon: CollectIcons.money,
             tone: CollectStatusTone.success,
             emphasis: true,
@@ -51,16 +51,46 @@ class CollectionDetailScreen extends ConsumerWidget {
           top: BentoMetricCell(
             label: 'Members',
             value: '${summary.supporterCount}',
-            detail: 'Active',
+            detail: 'Collect IDs',
             icon: CollectIcons.people,
             tone: CollectStatusTone.privacy,
           ),
           bottom: BentoMetricCell(
             label: 'Activity',
             value: '${allContributions.length}',
-            detail: 'Posted',
+            detail: 'Ledger rows',
             icon: CollectIcons.check,
             tone: CollectStatusTone.success,
+          ),
+        ),
+        InfoSecurityBanner(
+          title: 'Receiver verified',
+          message:
+              '${collection.receiverDisplayLabel} receives MoMo contributions for this group. Public share links do not expose receiver MoMo details.',
+          tone: CollectStatusTone.privacy,
+        ),
+        CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          child: Row(
+            children: [
+              Expanded(
+                child: SelectableText(
+                  'Group code: ${collection.slug}',
+                  style: CollectTypography.transactionMeta(
+                    context.collectColors.textMuted,
+                  ),
+                ),
+              ),
+              IconButton(
+                tooltip: 'Copy group code',
+                onPressed: () => copyToClipboard(
+                  context,
+                  collection.slug,
+                  message: 'Group code copied.',
+                ),
+                icon: const Icon(CollectIcons.copy),
+              ),
+            ],
           ),
         ),
         SingleChildScrollView(
@@ -86,7 +116,7 @@ class CollectionDetailScreen extends ConsumerWidget {
               QuickActionButton(
                 icon: CollectIcons.ledger,
                 label: 'Ledger',
-                detail: 'Activity',
+                detail: 'Confirmed',
                 onTap: () => context.go('/groups/$collectionId/ledger'),
                 tone: CollectStatusTone.privacy,
               ),
@@ -98,7 +128,8 @@ class CollectionDetailScreen extends ConsumerWidget {
           const EmptyIllustrationState(
             icon: CollectIcons.activity,
             title: 'No support',
-            message: '',
+            message:
+                'Confirmed contributions will appear after MoMo SMS verification.',
           )
         else
           CollectCard(
@@ -118,6 +149,12 @@ class CollectionDetailScreen extends ConsumerWidget {
               ],
             ),
           ),
+        CollectButton(
+          label: 'Contribute with MoMo',
+          icon: CollectIcons.momo,
+          onPressed: () => context.go('/groups/$collectionId/contribute'),
+          expand: true,
+        ),
       ],
     );
   }

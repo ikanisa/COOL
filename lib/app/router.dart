@@ -32,11 +32,13 @@ const collectRoutePaths = <String>[
   '/home',
   '/offline',
   '/sync',
+  '/notifications',
   '/permissions/sms',
   '/permissions/sms-denied',
   '/permissions/device',
   '/platform/iphone-create-unavailable',
   '/groups',
+  '/groups/join',
   '/groups/create',
   '/groups/:collectionId',
   '/groups/:collectionId/created',
@@ -112,6 +114,10 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
             builder: (context, state) => const SyncStatusScreen(),
           ),
           GoRoute(
+            path: '/notifications',
+            builder: (context, state) => const NotificationCenterScreen(),
+          ),
+          GoRoute(
             path: '/permissions/sms',
             builder: (context, state) => const SmsPermissionEducationScreen(),
           ),
@@ -131,6 +137,10 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
             path: '/groups',
             builder: (context, state) => const CollectionsScreen(),
             routes: [
+              GoRoute(
+                path: 'join',
+                builder: (context, state) => const JoinGroupPortalScreen(),
+              ),
               GoRoute(
                 path: 'create',
                 builder: (context, state) => const CollectionCreateScreen(),

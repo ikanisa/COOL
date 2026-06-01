@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
-import '../../shared/widgets/amount_input.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
@@ -22,6 +21,8 @@ class _ContributionFlowScreenState
     extends ConsumerState<ContributionFlowScreen> {
   final _amount = TextEditingController(text: '5000');
   String? _error;
+  bool _reviewing = false;
+  bool _creating = false;
 
   @override
   void dispose() {
@@ -34,87 +35,133 @@ class _ContributionFlowScreenState
     final collection = ref
         .read(collectRepositoryProvider.notifier)
         .collectionById(widget.collectionId);
+    final profile = ref.watch(collectRepositoryProvider).currentProfile;
+    final amount = int.tryParse(_amount.text) ?? 0;
+    if (profile == null || profile.momoNumber?.trim().isNotEmpty != true) {
+      return ScreenScaffold(
+        title: 'Profile required',
+        subtitle: collection.title,
+        children: [
+          MinimalStatePanel(
+            icon: CollectIcons.momo,
+            title: 'Link your MoMo number first.',
+            message:
+                'Collect needs your profile MoMo number before creating a payment intent for this group.',
+            tone: CollectStatusTone.warning,
+            primaryAction: CollectButton(
+              label: 'Link MoMo number',
+              icon: CollectIcons.momo,
+              onPressed: () => context.go('/settings/profile'),
+              expand: true,
+            ),
+          ),
+        ],
+      );
+    }
     return ScreenScaffold(
-      title: 'Contribute',
+      title: _reviewing ? 'Review' : 'Contribute',
       subtitle: collection.title,
       children: [
-        MoneyHeroCard(amount: int.tryParse(_amount.text) ?? 0, label: ''),
-        CollectCard(
-          padding: CollectSpacing.cardPaddingComfortable,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Amount', style: Theme.of(context).textTheme.titleMedium),
-              CollectSpacing.gap12,
-              AmountInput(controller: _amount),
-              CollectSpacing.gap12,
-              Wrap(
-                spacing: CollectSpacing.x2,
-                runSpacing: CollectSpacing.x2,
-                children: [
-                  for (final option in const [1000, 5000, 10000, 20000])
-                    ChoiceChip(
-                      label: Text(_quickAmountLabel(option)),
-                      selected: int.tryParse(_amount.text) == option,
-                      onSelected: (_) => setState(() {
-                        _amount.text = option.toString();
-                        _error = null;
-                      }),
-                    ),
-                ],
-              ),
-              if (_error != null) ...[
-                CollectSpacing.gap8,
-                Text(
-                  _error!,
-                  style: TextStyle(color: Theme.of(context).colorScheme.error),
-                ),
-              ],
-              CollectSpacing.gap16,
-              CollectButton(
-                label: 'Contribute',
-                icon: CollectIcons.momo,
-                onPressed: () async {
-                  final amount = int.tryParse(_amount.text) ?? 0;
-                  if (amount <= 0) {
-                    setState(() {
-                      _error = 'Enter an amount above zero.';
-                    });
-                    return;
-                  }
-                  setState(() => _error = null);
-                  final intent = await ref
-                      .read(collectRepositoryProvider.notifier)
-                      .createPaymentIntent(
-                        PaymentIntentDraft(
-                          collectionId: widget.collectionId,
-                          amountRwf: amount,
-                        ),
-                      );
-                  if (!context.mounted) return;
-                  context.go(
-                    '/groups/${widget.collectionId}/pay/${intent.id}/handoff',
-                  );
-                },
-                expand: true,
-              ),
-            ],
+        if (!_reviewing) ...[
+          AmountEntryPanel(
+            controller: _amount,
+            amount: amount,
+            quickAmounts: const [1000, 5000, 10000, 20000],
+            detail:
+                'Payment will continue in MoMo USSD and post to the ledger after SMS verification.',
+            error: _error,
+            onQuickAmount: (value) => setState(() {
+              _amount.text = value.toString();
+              _error = null;
+            }),
           ),
-        ),
+          InfoSecurityBanner(
+            title: 'Target account',
+            message:
+                '${collection.receiverDisplayLabel} receives this group contribution. Receiver MoMo details are checked before handoff.',
+            tone: CollectStatusTone.privacy,
+          ),
+          CollectButton(
+            label: 'Review contribution',
+            icon: CollectIcons.arrowForward,
+            onPressed: () {
+              if (amount <= 0) {
+                setState(() => _error = 'Enter an amount above zero.');
+                return;
+              }
+              setState(() {
+                _reviewing = true;
+                _error = null;
+              });
+            },
+            expand: true,
+          ),
+        ] else ...[
+          PaymentReviewSummary(
+            amountRwf: amount,
+            groupTitle: collection.title,
+            receiverLabel: collection.receiverDisplayLabel,
+            receiverMomoNumber:
+                collection.receiverMomoNumber ?? 'Not configured',
+            collectId: profile.publicId,
+            onEdit: () => setState(() => _reviewing = false),
+          ),
+          const InfoSecurityBanner(
+            title: 'MoMo handoff',
+            message:
+                'The next step opens the system dialer. Confirmation is recorded only after Collect receives and allocates the MoMo SMS.',
+            tone: CollectStatusTone.info,
+          ),
+          CollectButton(
+            label: _creating ? 'Creating intent' : 'Confirm and open MoMo',
+            icon: CollectIcons.momo,
+            onPressed: _creating ? null : _createIntent,
+            expand: true,
+          ),
+          CollectButton(
+            label: 'Edit amount',
+            icon: CollectIcons.tune,
+            onPressed: _creating
+                ? null
+                : () => setState(() => _reviewing = false),
+            variant: CollectButtonVariant.secondary,
+            expand: true,
+          ),
+        ],
       ],
     );
+  }
+
+  Future<void> _createIntent() async {
+    final amount = int.tryParse(_amount.text) ?? 0;
+    if (amount <= 0) {
+      setState(() {
+        _reviewing = false;
+        _error = 'Enter an amount above zero.';
+      });
+      return;
+    }
+    setState(() => _creating = true);
+    try {
+      final intent = await ref
+          .read(collectRepositoryProvider.notifier)
+          .createPaymentIntent(
+            PaymentIntentDraft(
+              collectionId: widget.collectionId,
+              amountRwf: amount,
+            ),
+          );
+      if (!mounted) return;
+      context.go('/groups/${widget.collectionId}/pay/${intent.id}/handoff');
+    } catch (error) {
+      if (!mounted) return;
+      setState(() {
+        _creating = false;
+        _error = error.toString();
+      });
+    }
   }
 }
 
 @visibleForTesting
 Uri momoUssdUri() => Uri.parse('tel:${Uri.encodeComponent('*182#')}');
-
-String _quickAmountLabel(int amount) {
-  return switch (amount) {
-    1000 => '1k',
-    5000 => '5k',
-    10000 => '10k',
-    20000 => '20k',
-    _ => amount.toString(),
-  };
-}

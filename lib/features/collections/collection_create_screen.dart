@@ -52,9 +52,28 @@ class _CollectionCreateScreenState
     return ScreenScaffold(
       title: 'Create group',
       children: [
+        const MinimalStatePanel(
+          icon: CollectIcons.sms,
+          title: 'Android owner setup.',
+          message:
+              'Create a group from the Android owner device that receives MoMo confirmations. Collect uses SMS access to verify payments automatically.',
+          tone: CollectStatusTone.privacy,
+        ),
         CollectCard(
+          padding: CollectSpacing.cardPaddingComfortable,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                'Group profile',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              CollectSpacing.gap8,
+              Text(
+                'Members see the group name, description, and public link. Receiver MoMo details are only shown during contribution review.',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              CollectSpacing.gap16,
               TextField(
                 controller: _title,
                 decoration: collectInputDecoration(
@@ -77,8 +96,17 @@ class _CollectionCreateScreenState
                 keyboardType: TextInputType.phone,
                 decoration: collectInputDecoration(
                   context,
-                  label: 'MoMo number',
+                  label: 'Receiver MoMo number',
+                  helper:
+                      'Synced from your profile. Edit only if this group receives on a different number.',
                 ),
+              ),
+              CollectSpacing.gap12,
+              const InfoSecurityBanner(
+                title: 'SMS permission required',
+                message:
+                    'Collect will ask for Android SMS access so receiver-side MoMo confirmations can update the ledger.',
+                tone: CollectStatusTone.privacy,
               ),
               if (_error != null) ...[
                 CollectSpacing.gap12,
@@ -108,7 +136,7 @@ class _CollectionCreateScreenState
     final receiver = _receiver.text.trim();
     if (title.isEmpty || receiver.isEmpty) {
       setState(() {
-        _error = title.isEmpty ? 'Name required.' : 'Receiver required.';
+        _error = title.isEmpty ? 'Name required.' : 'MoMo number required.';
       });
       return;
     }

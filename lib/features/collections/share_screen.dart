@@ -32,6 +32,12 @@ class ShareScreen extends ConsumerWidget {
       title: 'Share',
       subtitle: 'Link, QR, chat.',
       children: [
+        const InfoSecurityBanner(
+          title: 'Private receiver',
+          message:
+              'This share link lets people join or contribute. It does not expose the receiver MoMo number on the public share surface.',
+          tone: CollectStatusTone.privacy,
+        ),
         CollectBottomSheet(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -65,14 +71,8 @@ class ShareScreen extends ConsumerWidget {
                 label: 'Copy deep link',
                 icon: CollectIcons.copy,
                 onPressed: () {
-                  copyToClipboard(
-                    context,
-                    link,
-                    message: 'Group deep link copied.',
-                  );
-                  context.go(
-                    '/share/confirmed?message=Group%20deep%20link%20copied',
-                  );
+                  copyToClipboard(context, link, message: 'Deep link copied.');
+                  context.go('/share/confirmed?message=Deep%20link%20copied');
                 },
                 variant: CollectButtonVariant.secondary,
                 expand: true,
@@ -89,12 +89,9 @@ class ShareScreen extends ConsumerWidget {
         ),
         QRCard(
           link: link,
-          caption: 'Share link or QR.',
-          onCopy: () => copyToClipboard(
-            context,
-            text,
-            message: 'Group share text copied.',
-          ),
+          caption: 'Scan to join this Collect group.',
+          onCopy: () =>
+              copyToClipboard(context, text, message: 'Share text copied.'),
         ),
       ],
     );

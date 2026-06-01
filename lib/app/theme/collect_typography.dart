@@ -29,6 +29,9 @@ class CollectTypography {
   static TextStyle amountHero(Color color) =>
       _style(42, 1.02, FontWeight.w800, color).copyWith(fontFeatures: _tabular);
 
+  static TextStyle amountDisplay(Color color) =>
+      _style(48, 1.0, FontWeight.w800, color).copyWith(fontFeatures: _tabular);
+
   static TextStyle amountLarge(Color color) =>
       _style(28, 1.08, FontWeight.w800, color).copyWith(fontFeatures: _tabular);
 
@@ -41,6 +44,27 @@ class CollectTypography {
         fontFeatures: _tabular,
         letterSpacing: 0.6,
       );
+
+  static TextStyle collectIdDisplay(Color color) =>
+      _style(28, 1.12, FontWeight.w700, color).copyWith(
+        fontFamilyFallback: _monoFamily,
+        fontFeatures: _tabular,
+        letterSpacing: 2,
+      );
+
+  static TextStyle transactionMeta(Color color) =>
+      _style(12, 1.35, FontWeight.w500, color).copyWith(
+        fontFamilyFallback: _monoFamily,
+        fontFeatures: _tabular,
+        letterSpacing: 0.5,
+      );
+
+  static TextStyle eyebrowLabel(Color color) => _style(
+    11,
+    1.3,
+    FontWeight.w700,
+    color,
+  ).copyWith(fontFamilyFallback: _monoFamily, letterSpacing: 0.8);
 
   static TextStyle _label(double size, double height, Color color) {
     return _style(
