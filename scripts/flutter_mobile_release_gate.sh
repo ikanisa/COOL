@@ -227,36 +227,23 @@ android_signing_record = release_approvals["android_release_signing_review"] || 
 android_signing_reviewed_from_manifest =
   release_approval_valid?(release_approvals, "android_release_signing_review", root_dir)
 
-android_signing_reviewed_from_env =
-  ENV["ANDROID_RELEASE_SIGNING_REVIEWED"] == "1" &&
-  ENV.fetch("ANDROID_RELEASE_SIGNING_NOTE", "").strip.length >= 12 &&
-  ENV.fetch("ANDROID_RELEASE_SIGNING_REVIEWER", "").strip.length >= 2 &&
-  iso8601_utc?(ENV["ANDROID_RELEASE_SIGNING_REVIEWED_AT"]) &&
-  ENV.fetch("ANDROID_RELEASE_SIGNING_EVIDENCE", "").strip.length >= 3
-android_signing_reviewed = android_signing_reviewed_from_env || android_signing_reviewed_from_manifest
+android_signing_reviewed = android_signing_reviewed_from_manifest
 
 checks["android_release_signing_review"] =
   if android_signing_reviewed
     check(
       "pass",
       "Android release signing was explicitly reviewed.",
-      "source" => android_signing_reviewed_from_manifest ? "release_approvals_manifest" : "environment",
-      "review_note" => android_signing_reviewed_from_manifest ? android_signing_record["notes"] : ENV.fetch("ANDROID_RELEASE_SIGNING_NOTE"),
-      "reviewer" => android_signing_reviewed_from_manifest ? android_signing_record["reviewer"] : ENV.fetch("ANDROID_RELEASE_SIGNING_REVIEWER"),
-      "reviewed_at" => android_signing_reviewed_from_manifest ? android_signing_record["signed_at"] : ENV.fetch("ANDROID_RELEASE_SIGNING_REVIEWED_AT"),
-      "evidence_reference" => android_signing_reviewed_from_manifest ? android_signing_record["evidence_reference"] : ENV.fetch("ANDROID_RELEASE_SIGNING_EVIDENCE")
+      "source" => "release_approvals_manifest",
+      "review_note" => android_signing_record["notes"],
+      "reviewer" => android_signing_record["reviewer"],
+      "reviewed_at" => android_signing_record["signed_at"],
+      "evidence_reference" => android_signing_record["evidence_reference"]
     )
   else
     check(
       "blocked",
-      "Android release signing / Play App Signing review must be explicitly recorded.",
-      "required_env" => [
-        "ANDROID_RELEASE_SIGNING_REVIEWED=1",
-        "ANDROID_RELEASE_SIGNING_NOTE",
-        "ANDROID_RELEASE_SIGNING_REVIEWER",
-        "ANDROID_RELEASE_SIGNING_REVIEWED_AT",
-        "ANDROID_RELEASE_SIGNING_EVIDENCE"
-      ]
+      "Android release signing / Play App Signing review must be explicitly recorded in docs/release/RELEASE_APPROVALS.json."
     )
   end
 
@@ -273,16 +260,6 @@ checks["ios_release_files"] = check(
   "files" => ios_files
 )
 
-ios_evidence = {}
-ios_evidence_path = ENV.fetch("IOS_RELEASE_EVIDENCE_JSON", "").strip
-if ios_evidence_path != ""
-  begin
-    ios_evidence = JSON.parse(File.read(ios_evidence_path))
-  rescue JSON::ParserError, Errno::ENOENT => error
-    ios_evidence = {"parse_error" => error.message}
-  end
-end
-
 ios_record = release_approvals["ios_release_scope"] || {}
 ios_approved_from_manifest =
   release_approval_valid?(release_approvals, "ios_release_scope", root_dir) &&
@@ -291,51 +268,36 @@ ios_scoped_out_from_manifest =
   release_approval_valid?(release_approvals, "ios_release_scope", root_dir, allow_out_of_scope: true) &&
   ios_record["status"].to_s.strip == "out_of_scope"
 
-ios_approved =
-  ios_evidence["ios_release_approved"] == true &&
-  ios_evidence["device_uat_signed"] == true &&
-  ios_evidence["testflight_or_archive_reviewed"] == true &&
-  ios_evidence["reviewed_by"].to_s.strip.length >= 2 &&
-  iso8601_utc?(ios_evidence["reviewed_at"]) &&
-  ios_evidence["evidence_reference"].to_s.strip.length >= 3 ||
-  ios_approved_from_manifest
-
-ios_scoped_out =
-  ENV["IOS_RELEASE_OUT_OF_SCOPE"] == "1" &&
-  ENV.fetch("IOS_RELEASE_SCOPE_NOTE", "").strip.length >= 12 &&
-  ENV.fetch("IOS_RELEASE_SCOPE_REVIEWER", "").strip.length >= 2 &&
-  iso8601_utc?(ENV["IOS_RELEASE_SCOPE_REVIEWED_AT"]) &&
-  ENV.fetch("IOS_RELEASE_SCOPE_EVIDENCE", "").strip.length >= 3 ||
-  ios_scoped_out_from_manifest
+ios_approved = ios_approved_from_manifest
+ios_scoped_out = ios_scoped_out_from_manifest
 
 checks["ios_release_scope"] =
   if ios_approved
     check(
       "pass",
       "iOS release evidence is approved.",
-      "source" => ios_approved_from_manifest ? "release_approvals_manifest" : "ios_release_evidence_json",
-      "evidence_path" => ios_evidence_path,
-      "reviewer" => ios_approved_from_manifest ? ios_record["reviewer"] : ios_evidence["reviewed_by"],
-      "reviewed_at" => ios_approved_from_manifest ? ios_record["signed_at"] : ios_evidence["reviewed_at"],
-      "evidence_reference" => ios_approved_from_manifest ? ios_record["evidence_reference"] : ios_evidence["evidence_reference"]
+      "source" => "release_approvals_manifest",
+      "reviewer" => ios_record["reviewer"],
+      "reviewed_at" => ios_record["signed_at"],
+      "evidence_reference" => ios_record["evidence_reference"]
     )
   elsif ios_scoped_out
     check(
       "pass",
       "iOS is explicitly scoped out for this go-live.",
-      "source" => ios_scoped_out_from_manifest ? "release_approvals_manifest" : "environment",
-      "scope_note" => ios_scoped_out_from_manifest ? ios_record["notes"] : ENV.fetch("IOS_RELEASE_SCOPE_NOTE"),
-      "reviewer" => ios_scoped_out_from_manifest ? ios_record["reviewer"] : ENV.fetch("IOS_RELEASE_SCOPE_REVIEWER"),
-      "reviewed_at" => ios_scoped_out_from_manifest ? ios_record["signed_at"] : ENV.fetch("IOS_RELEASE_SCOPE_REVIEWED_AT"),
-      "evidence_reference" => ios_scoped_out_from_manifest ? ios_record["evidence_reference"] : ENV.fetch("IOS_RELEASE_SCOPE_EVIDENCE")
+      "source" => "release_approvals_manifest",
+      "scope_note" => ios_record["notes"],
+      "reviewer" => ios_record["reviewer"],
+      "reviewed_at" => ios_record["signed_at"],
+      "evidence_reference" => ios_record["evidence_reference"]
     )
   else
     check(
       "blocked",
-      "iOS release scope needs signed evidence or an explicit Android-only scope note.",
+      "iOS release scope needs signed evidence or an explicit Android-only scope note in docs/release/RELEASE_APPROVALS.json.",
       "required_evidence" => [
-        "IOS_RELEASE_EVIDENCE_JSON with ios_release_approved/device_uat_signed/testflight_or_archive_reviewed/reviewed_by/reviewed_at/evidence_reference",
-        "or IOS_RELEASE_OUT_OF_SCOPE=1 with IOS_RELEASE_SCOPE_NOTE/IOS_RELEASE_SCOPE_REVIEWER/IOS_RELEASE_SCOPE_REVIEWED_AT/IOS_RELEASE_SCOPE_EVIDENCE"
+        "ios_release_scope status=approved decision=GO with reviewer/signed_at/evidence_reference",
+        "or ios_release_scope status=out_of_scope decision=OUT_OF_SCOPE with reviewer/signed_at/evidence_reference"
       ]
     )
   end

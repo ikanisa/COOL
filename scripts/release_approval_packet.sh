@@ -79,7 +79,7 @@ approval_records = [
       "signed_at ISO-8601 UTC",
       "evidence reference"
     ],
-    "verify_command" => "COLLECT_PRODUCT_SIGNOFF_APPROVED=1 ADMIN_PWA_LIVE_URL=#{admin_pwa_live_url} make release-status-json"
+    "verify_command" => "Record product_signoff in docs/release/RELEASE_APPROVALS.json, then ADMIN_PWA_LIVE_URL=#{admin_pwa_live_url} make release-status-json"
   },
   {
     "key" => "android_sms_access_uat",
@@ -101,7 +101,7 @@ approval_records = [
       "persona UAT rows signed or waived",
       "signed_at ISO-8601 UTC"
     ],
-    "verify_command" => "COLLECT_ANDROID_SMS_UAT_APPROVED=1 make release-status-json"
+    "verify_command" => "Record android_sms_access_uat in docs/release/RELEASE_APPROVALS.json, then ADMIN_PWA_LIVE_URL=#{admin_pwa_live_url} make release-status-json"
   },
   {
     "key" => "android_release_signing_review",
@@ -117,13 +117,13 @@ approval_records = [
       bundle_dir && File.join(bundle_dir, "mobile_release_gate.json")
     ].compact,
     "required_signoff_fields" => [
-      "ANDROID_RELEASE_SIGNING_REVIEWED=1",
-      "ANDROID_RELEASE_SIGNING_NOTE",
-      "ANDROID_RELEASE_SIGNING_REVIEWER",
-      "ANDROID_RELEASE_SIGNING_REVIEWED_AT ISO-8601 UTC",
-      "ANDROID_RELEASE_SIGNING_EVIDENCE"
+      "reviewer",
+      "decision=GO",
+      "signed_at ISO-8601 UTC",
+      "evidence reference",
+      "signing_keys_exposed=false"
     ],
-    "verify_command" => "ANDROID_RELEASE_SIGNING_REVIEWED=1 ... ./scripts/flutter_mobile_release_gate.sh --json"
+    "verify_command" => "Record android_release_signing_review in docs/release/RELEASE_APPROVALS.json, then ./scripts/flutter_mobile_release_gate.sh --json"
   },
   {
     "key" => "ios_release_scope",
@@ -139,10 +139,13 @@ approval_records = [
       bundle_dir && File.join(bundle_dir, "mobile_release_gate.json")
     ].compact,
     "required_signoff_fields" => [
-      "IOS_RELEASE_EVIDENCE_JSON with approved iOS evidence",
-      "or IOS_RELEASE_OUT_OF_SCOPE=1 plus scope note, reviewer, reviewed_at, and evidence reference"
+      "reviewer",
+      "decision=GO or OUT_OF_SCOPE",
+      "signed_at ISO-8601 UTC",
+      "evidence reference",
+      "status=approved or status=out_of_scope"
     ],
-    "verify_command" => "IOS_RELEASE_OUT_OF_SCOPE=1 ... ./scripts/flutter_mobile_release_gate.sh --json"
+    "verify_command" => "Record ios_release_scope in docs/release/RELEASE_APPROVALS.json, then ./scripts/flutter_mobile_release_gate.sh --json"
   },
   {
     "key" => "release_owner_signoff",
@@ -166,7 +169,7 @@ approval_records = [
       "signed_at ISO-8601 UTC",
       "evidence packet reference"
     ],
-    "verify_command" => "COLLECT_RELEASE_OWNER_SIGNOFF_APPROVED=1 ADMIN_PWA_LIVE_URL=#{admin_pwa_live_url} make release-status-json"
+    "verify_command" => "Record release_owner_signoff in docs/release/RELEASE_APPROVALS.json, then ADMIN_PWA_LIVE_URL=#{admin_pwa_live_url} make release-status-json"
   }
 ]
 

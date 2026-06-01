@@ -59,7 +59,8 @@ data into approval records.
   - `decision=GO`
   - signed_at ISO-8601 UTC
   - evidence reference
-- Verify: `COLLECT_PRODUCT_SIGNOFF_APPROVED=1 ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make release-status-json`
+- Verify: record `product_signoff` in `docs/release/RELEASE_APPROVALS.json`,
+  then run `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make release-status-json`.
 
 ### Android MoMo SMS UAT Approval
 
@@ -80,7 +81,9 @@ data into approval records.
   - all SMS evidence sanitized
   - persona UAT rows signed or waived
   - signed_at ISO-8601 UTC
-- Verify: `COLLECT_ANDROID_SMS_UAT_APPROVED=1 ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make release-status-json`
+- Verify: record `android_sms_access_uat` in
+  `docs/release/RELEASE_APPROVALS.json`, then run
+  `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make release-status-json`.
 
 ### Android Release Signing Review
 
@@ -95,12 +98,14 @@ data into approval records.
   - `build/app/outputs/bundle/productionRelease/app-production-release.aab`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/mobile_release_gate.json`
 - Required signoff fields:
-  - `ANDROID_RELEASE_SIGNING_REVIEWED=1`
-  - `ANDROID_RELEASE_SIGNING_NOTE`
-  - `ANDROID_RELEASE_SIGNING_REVIEWER`
-  - `ANDROID_RELEASE_SIGNING_REVIEWED_AT` ISO-8601 UTC
-  - `ANDROID_RELEASE_SIGNING_EVIDENCE`
-- Verify: `ANDROID_RELEASE_SIGNING_REVIEWED=1 ... ./scripts/flutter_mobile_release_gate.sh --json`
+  - reviewer
+  - `decision=GO`
+  - signed_at ISO-8601 UTC
+  - evidence reference
+  - `signing_keys_exposed=false`
+- Verify: record `android_release_signing_review` in
+  `docs/release/RELEASE_APPROVALS.json`, then run
+  `./scripts/flutter_mobile_release_gate.sh --json`.
 
 ### iOS Release Scope Decision
 
@@ -115,9 +120,14 @@ data into approval records.
   - `ios/Flutter/Release-production.xcconfig`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/mobile_release_gate.json`
 - Required signoff fields:
-  - `IOS_RELEASE_EVIDENCE_JSON` with approved iOS evidence
-  - or `IOS_RELEASE_OUT_OF_SCOPE=1` plus scope note, reviewer, reviewed_at, and evidence reference
-- Verify: `IOS_RELEASE_OUT_OF_SCOPE=1 ... ./scripts/flutter_mobile_release_gate.sh --json`
+  - reviewer
+  - `decision=GO` or `decision=OUT_OF_SCOPE`
+  - signed_at ISO-8601 UTC
+  - evidence reference
+  - `status=approved` or `status=out_of_scope`
+- Verify: record `ios_release_scope` in
+  `docs/release/RELEASE_APPROVALS.json`, then run
+  `./scripts/flutter_mobile_release_gate.sh --json`.
 
 ### Release-Owner Go/No-Go Approval
 
@@ -140,7 +150,9 @@ data into approval records.
   - `decision=GO`
   - signed_at ISO-8601 UTC
   - evidence packet reference
-- Verify: `COLLECT_RELEASE_OWNER_SIGNOFF_APPROVED=1 ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make release-status-json`
+- Verify: record `release_owner_signoff` in
+  `docs/release/RELEASE_APPROVALS.json`, then run
+  `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make release-status-json`.
 
 ## Required Final Commands
 

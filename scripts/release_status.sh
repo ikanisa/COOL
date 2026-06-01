@@ -52,20 +52,9 @@ approval_approved() {
   ruby -r json -e 'data = JSON.parse(File.read(ARGV.fetch(0))); puts(data.dig("approvals", ARGV.fetch(1), "approved") == true ? "1" : "0")' "$approval_gate_json" "$1" 2>/dev/null || printf '0\n'
 }
 
-product_signoff_approved="${COLLECT_PRODUCT_SIGNOFF_APPROVED:-}"
-if [[ -z "$product_signoff_approved" ]]; then
-  product_signoff_approved="$(approval_approved product_signoff)"
-fi
-
-android_sms_uat_approved="${COLLECT_ANDROID_SMS_UAT_APPROVED:-}"
-if [[ -z "$android_sms_uat_approved" ]]; then
-  android_sms_uat_approved="$(approval_approved android_sms_access_uat)"
-fi
-
-release_owner_signoff_approved="${COLLECT_RELEASE_OWNER_SIGNOFF_APPROVED:-}"
-if [[ -z "$release_owner_signoff_approved" ]]; then
-  release_owner_signoff_approved="$(approval_approved release_owner_signoff)"
-fi
+product_signoff_approved="$(approval_approved product_signoff)"
+android_sms_uat_approved="$(approval_approved android_sms_access_uat)"
+release_owner_signoff_approved="$(approval_approved release_owner_signoff)"
 
 if [[ "$product_signoff_approved" != "1" ]]; then
   add_blocker "product_signoff" "Corrected SMS-first Groups product definition is not signed off."

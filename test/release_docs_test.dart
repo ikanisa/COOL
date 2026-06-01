@@ -100,6 +100,65 @@ void main() {
     expect(jsonEncode(decoded), isNot(contains('supabase_pitr')));
   });
 
+  test('release status ignores direct approval environment overrides', () {
+    final result = Process.runSync(
+      './scripts/release_status.sh',
+      ['--json'],
+      environment: {
+        'ADMIN_PWA_LIVE_URL': 'https://cool-admin-212.pages.dev',
+        'COLLECT_PRODUCT_SIGNOFF_APPROVED': '1',
+        'COLLECT_ANDROID_SMS_UAT_APPROVED': '1',
+        'COLLECT_RELEASE_OWNER_SIGNOFF_APPROVED': '1',
+      },
+    );
+
+    expect(result.exitCode, 0);
+    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
+    expect(decoded['decision'], 'NO-GO');
+    expect(
+      decoded['blocker_keys'],
+      containsAll(<String>[
+        'product_signoff',
+        'android_sms_access_uat',
+        'release_owner_signoff',
+      ]),
+    );
+    expect(decoded['evidence_flags']['product_signoff'], '0');
+    expect(decoded['evidence_flags']['android_sms_uat'], '0');
+    expect(decoded['evidence_flags']['release_owner_signoff'], '0');
+  });
+
+  test('mobile release gate ignores direct approval environment overrides', () {
+    final result = Process.runSync(
+      './scripts/flutter_mobile_release_gate.sh',
+      ['--json'],
+      environment: {
+        'ANDROID_RELEASE_SIGNING_REVIEWED': '1',
+        'ANDROID_RELEASE_SIGNING_NOTE': 'Current release signing reviewed.',
+        'ANDROID_RELEASE_SIGNING_REVIEWER': 'Release Reviewer',
+        'ANDROID_RELEASE_SIGNING_REVIEWED_AT': '2026-06-01T00:00:00Z',
+        'ANDROID_RELEASE_SIGNING_EVIDENCE':
+            'docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-31.sha256',
+        'IOS_RELEASE_OUT_OF_SCOPE': '1',
+        'IOS_RELEASE_SCOPE_NOTE': 'Android-only scope for this go-live.',
+        'IOS_RELEASE_SCOPE_REVIEWER': 'Release Reviewer',
+        'IOS_RELEASE_SCOPE_REVIEWED_AT': '2026-06-01T00:00:00Z',
+        'IOS_RELEASE_SCOPE_EVIDENCE': 'docs/release/RELEASE_APPROVAL_PACKET.md',
+      },
+    );
+
+    expect(result.exitCode, 99);
+    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
+    expect(decoded['status'], 'blocked');
+    expect(
+      decoded['blocker_keys'],
+      containsAll(<String>[
+        'android_release_signing_review',
+        'ios_release_scope',
+      ]),
+    );
+  });
+
   test('go-live gate blocks on current SMS-first blockers', () {
     final status = jsonEncode({
       'decision': 'NO-GO',

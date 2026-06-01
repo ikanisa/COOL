@@ -56,14 +56,14 @@ catalog = {
     "severity" => "P0",
     "owner" => "mobile/release",
     "required_action" => "Record Android release signing / Play App Signing review evidence for the current APK/AAB outputs.",
-    "verify_command" => "ANDROID_RELEASE_SIGNING_REVIEWED=1 ... ./scripts/flutter_mobile_release_gate.sh --json"
+    "verify_command" => "Record android_release_signing_review in docs/release/RELEASE_APPROVALS.json, then ./scripts/flutter_mobile_release_gate.sh --json"
   },
   "ios_release_scope" => {
     "title" => "iOS release scope",
     "severity" => "P0",
     "owner" => "mobile/release",
     "required_action" => "Sign off iOS contributor-only scope or mark iOS explicitly out of scope.",
-    "verify_command" => "IOS_RELEASE_OUT_OF_SCOPE=1 ... ./scripts/flutter_mobile_release_gate.sh --json"
+    "verify_command" => "Record ios_release_scope in docs/release/RELEASE_APPROVALS.json, then ./scripts/flutter_mobile_release_gate.sh --json"
   },
   "admin_pwa_live_url" => {
     "title" => "Admin PWA live deployment",
@@ -84,7 +84,7 @@ catalog = {
     "severity" => "P0",
     "owner" => "release owner",
     "required_action" => "Approve the current release packet and worktree review.",
-    "verify_command" => "COLLECT_RELEASE_OWNER_SIGNOFF_APPROVED=1 make release-status-json"
+    "verify_command" => "Record release_owner_signoff in docs/release/RELEASE_APPROVALS.json, then make release-status-json"
   }
 }
 

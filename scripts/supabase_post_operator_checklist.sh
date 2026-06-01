@@ -41,7 +41,7 @@ steps = [
     key: "product_signoff",
     title: "Approve corrected product definition",
     required_when: blockers.include?("product_signoff"),
-    verify: "COLLECT_PRODUCT_SIGNOFF_APPROVED=1 make release-status-json"
+    verify: "Record product_signoff in docs/release/RELEASE_APPROVALS.json, then make release-status-json"
   },
   {
     key: "linked_supabase_sms_first_migration",
@@ -59,13 +59,13 @@ steps = [
     key: "android_release_signing_review",
     title: "Record Android signing review",
     required_when: blockers.include?("android_release_signing_review"),
-    verify: "ANDROID_RELEASE_SIGNING_REVIEWED=1 ... ./scripts/flutter_mobile_release_gate.sh --json"
+    verify: "Record android_release_signing_review in docs/release/RELEASE_APPROVALS.json, then ./scripts/flutter_mobile_release_gate.sh --json"
   },
   {
     key: "ios_release_scope",
     title: "Record iOS release scope decision",
     required_when: blockers.include?("ios_release_scope"),
-    verify: "IOS_RELEASE_OUT_OF_SCOPE=1 ... ./scripts/flutter_mobile_release_gate.sh --json"
+    verify: "Record ios_release_scope in docs/release/RELEASE_APPROVALS.json, then ./scripts/flutter_mobile_release_gate.sh --json"
   },
   {
     key: "admin_pwa_live_url",
@@ -77,7 +77,7 @@ steps = [
     key: "release_owner_signoff",
     title: "Approve release packet",
     required_when: blockers.include?("release_owner_signoff"),
-    verify: "COLLECT_RELEASE_OWNER_SIGNOFF_APPROVED=1 make release-status-json"
+    verify: "Record release_owner_signoff in docs/release/RELEASE_APPROVALS.json, then make release-status-json"
   }
 ]
 
