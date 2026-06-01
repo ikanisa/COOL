@@ -518,6 +518,40 @@ checking Edge Function secret names
     );
   });
 
+  test(
+    'Supabase evidence bundle exits blocked for blocked nested evidence',
+    () {
+      final tempDir = Directory.systemTemp.createTempSync(
+        'cool_supabase_evidence_',
+      );
+      try {
+        final result = Process.runSync(
+          './scripts/supabase_go_live_evidence_bundle.sh',
+          const <String>[],
+          environment: {
+            'SUPABASE_EVIDENCE_BUNDLE_DIR': tempDir.path,
+            'SUPABASE_EVIDENCE_BLOCKED_FIXTURE': '1',
+          },
+        );
+
+        expect(result.exitCode, 99);
+        final summary =
+            jsonDecode(File('${tempDir.path}/summary.json').readAsStringSync())
+                as Map<String, dynamic>;
+        expect(summary['status'], 'blocked');
+        expect(summary['blocker_keys'], contains('android_sms_access_uat'));
+        expect(
+          summary['blocked_reasons'],
+          contains('acceptance_matrix_blocked'),
+        );
+        expect(summary['blocked_commands'], contains('acceptance_matrix_json'));
+        expect(summary['acceptance_matrix']['overall_status'], 'blocked');
+      } finally {
+        tempDir.deleteSync(recursive: true);
+      }
+    },
+  );
+
   test('current platform packet is redacted and SMS-first specific', () {
     final status = jsonEncode({
       'decision': 'NO-GO',
