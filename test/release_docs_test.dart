@@ -197,6 +197,24 @@ void main() {
     expect(jsonEncode(decoded), isNot(contains('AUTH_CAPTCHA_SECRET')));
   });
 
+  test('repo-wide evidence indexes mobile route render screenshots', () {
+    final makefile = File('Makefile').readAsStringSync();
+    final repoWide = File('scripts/repo_wide_qa_uat.sh').readAsStringSync();
+    final evidenceIndex = File(
+      'scripts/release_evidence_index.sh',
+    ).readAsStringSync();
+
+    expect(makefile, contains('mobile-route-render-smoke:'));
+    expect(repoWide, contains('mobile_route_render_smoke'));
+    expect(repoWide, contains('MOBILE_ROUTE_RENDER_EVIDENCE_DIR'));
+    expect(repoWide, contains('"mobile_route_render"'));
+    expect(evidenceIndex, contains('mobile_route_render_summary = read_json'));
+    expect(evidenceIndex, contains('required_mobile_routes'));
+    expect(evidenceIndex, contains('/groups/col-church/pay/intent-render'));
+    expect(evidenceIndex, contains('non_background_pixels'));
+    expect(evidenceIndex, contains('"mobile_route_render"'));
+  });
+
   test('release approval evidence gate fails closed on pending approvals', () {
     final result = Process.runSync(
       './scripts/release_approval_evidence_gate.sh',

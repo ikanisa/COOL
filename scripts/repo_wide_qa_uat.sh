@@ -85,7 +85,7 @@ android_device_ready() {
 }
 
 if [[ "${QA_UAT_FIXTURE:-0}" == "1" ]]; then
-  for name in flutter_version dart_version format_check flutter_analyze flutter_test release_secret_scan admin_pwa_build admin_pwa_manifest_gate admin_pwa_hosting_gate admin_pwa_render_smoke; do
+  for name in flutter_version dart_version format_check flutter_analyze flutter_test release_secret_scan admin_pwa_build admin_pwa_manifest_gate admin_pwa_hosting_gate admin_pwa_render_smoke mobile_route_render_smoke; do
     record_fixture "$name" "$name.txt" 0 "[repo-wide-qa-uat][fixture] $name passed"
   done
   cat > "$bundle_dir/admin_pwa_hosting_gate.json" <<'JSON'
@@ -163,6 +163,71 @@ JSON
   "runtime_evidence": "pwa-runtime.json"
 }
 JSON
+  mkdir -p "$bundle_dir/mobile_route_render_smoke"
+  mobile_routes=(
+    "onboarding|/onboarding"
+    "auth|/auth"
+    "profile|/settings/profile"
+    "home|/home"
+    "groups|/groups"
+    "group-detail|/groups/col-church"
+    "join|/groups/join"
+    "share|/groups/col-church/share"
+    "contribution|/groups/col-church/contribute"
+    "payment-handoff|/groups/col-church/pay/intent-render/handoff"
+    "payment-waiting|/groups/col-church/pay/intent-render/waiting"
+    "payment-confirmed|/groups/col-church/pay/intent-render/state/confirmed"
+    "ledger|/groups/col-church/ledger"
+    "owner|/groups/col-church/owner"
+    "members|/groups/col-church/members"
+    "settings|/settings"
+    "privacy|/settings/privacy"
+    "help|/settings/help"
+    "notifications|/notifications"
+    "offline|/offline"
+    "sync|/sync"
+  )
+  : > "$bundle_dir/mobile_route_render_smoke/captures.jsonl"
+  for spec in "${mobile_routes[@]}"; do
+    IFS='|' read -r route_name route_path <<< "$spec"
+    png="$bundle_dir/mobile_route_render_smoke/${route_name}-390x844.png"
+    ruby -e 'path, width, height, size = ARGV; bytes = Array.new(size.to_i, 0); bytes[0, 8] = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]; bytes[8, 4] = [13].pack("N").bytes; bytes[12, 4] = "IHDR".bytes; bytes[16, 4] = [width.to_i].pack("N").bytes; bytes[20, 4] = [height.to_i].pack("N").bytes; bytes[24] = 8; bytes[25] = 2; File.binwrite(path, bytes.pack("C*"))' "$png" 390 844 18000
+    cat > "$png.json" <<JSON
+{
+  "status": "pass",
+  "name": "$route_name",
+  "route": "$route_path",
+  "path": "$(basename "$png")",
+  "width": 390,
+  "height": 844,
+  "bytes": 18000,
+  "sampled_pixels": 20000,
+  "distinct_rgb": 48,
+  "non_background_pixels": 9000
+}
+JSON
+    cat "$png.json" | tr -d '\n' >> "$bundle_dir/mobile_route_render_smoke/captures.jsonl"
+    printf '\n' >> "$bundle_dir/mobile_route_render_smoke/captures.jsonl"
+  done
+  ruby -r json - "$bundle_dir/mobile_route_render_smoke" <<'RUBY'
+dir = ARGV.fetch(0)
+captures = File.readlines(File.join(dir, "captures.jsonl"), chomp: true).map { |line| JSON.parse(line) }
+File.write(
+  File.join(dir, "summary.json"),
+  JSON.pretty_generate(
+    {
+      "status" => "pass",
+      "viewport" => "390x844",
+      "route_count" => captures.length,
+      "routes" => captures.map { |item| item.fetch("route") },
+      "screenshots" => captures.map { |item| item.fetch("path") },
+      "screenshot_checks" => captures.map { |item| "#{item.fetch("path")}.json" },
+      "captures" => captures,
+      "secret_handling" => "Fixture mobile screenshots contain no production data."
+    }
+  ) + "\n"
+)
+RUBY
   cat > "$bundle_dir/worktree_review.json" <<'JSON'
 {
   "status": "blocked",
@@ -291,6 +356,7 @@ else
   run_capture "admin_pwa_hosting_gate" "admin_pwa_hosting_gate.json" "$ROOT_DIR/scripts/admin_pwa_hosting_gate.sh" --json
   run_capture "admin_pwa_live_gate" "admin_pwa_live_gate.json" "$ROOT_DIR/scripts/admin_pwa_live_gate.sh" --json
   run_capture "admin_pwa_render_smoke" "admin_pwa_render_smoke.txt" env ADMIN_PWA_RENDER_EVIDENCE_DIR="$bundle_dir/admin_pwa_render_smoke" "$ROOT_DIR/scripts/admin_pwa_render_smoke.sh"
+  run_capture "mobile_route_render_smoke" "mobile_route_render_smoke.txt" env MOBILE_ROUTE_RENDER_EVIDENCE_DIR="$bundle_dir/mobile_route_render_smoke" "$ROOT_DIR/scripts/mobile_route_render_smoke.sh"
   run_capture "uat_evidence_gate" "uat_evidence_gate.json" "$ROOT_DIR/scripts/uat_evidence_gate.sh" --json
   run_capture "uat_signoff_gate" "uat_signoff_gate.json" "$ROOT_DIR/scripts/uat_signoff_gate.sh" --json
 
@@ -431,6 +497,15 @@ admin_pwa_surface =
     "fail"
   end
 
+mobile_route_render_surface =
+  if command_ok?(commands, "mobile_route_render_smoke")
+    "pass"
+  elsif command_blocked?(commands, "mobile_route_render_smoke")
+    "blocked"
+  else
+    "fail"
+  end
+
 worktree_surface =
   if command_ok?(commands, "release_worktree_review") && worktree_review["status"] == "pass"
     "pass"
@@ -472,6 +547,7 @@ mobile_release_surface =
 surfaces = {
   "flutter_app" => %w[flutter_version dart_version format_check flutter_analyze flutter_test release_secret_scan].all? { |name| command_ok?(commands, name) } ? "pass" : "fail",
   "admin_pwa" => admin_pwa_surface,
+  "mobile_route_render" => mobile_route_render_surface,
   "admin_pwa_live_deployment" => admin_live_surface,
   "worktree_review" => worktree_surface,
   "human_uat_evidence" => human_evidence_surface,
@@ -583,6 +659,7 @@ File.write(
     - `go_live_gate.json`: final go-live approval gate
     - `admin_pwa_hosting_gate.json`: static hosting headers, cache, CSP, and robots gate
     - `admin_pwa_live_gate.json`: deployed Admin PWA URL headers and PWA file gate
+    - `mobile_route_render_smoke/`: representative mobile route screenshots and nonblank PNG checks
     - `worktree_review.json`: release branch/worktree review gate
     - `uat_evidence_gate.json`: sanitized human UAT evidence manifest gate
     - `uat_signoff_gate.json`: human UAT release-owner signoff gate

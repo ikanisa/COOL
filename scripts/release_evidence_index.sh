@@ -148,6 +148,7 @@ worktree_review = read_json(File.join(bundle_dir, "worktree_review.json"))
 mobile_release = read_json(File.join(bundle_dir, "mobile_release_gate.json"))
 admin_runtime = read_json(File.join(bundle_dir, "admin_pwa_render_smoke", "pwa-runtime.json"))
 admin_render_summary = read_json(File.join(bundle_dir, "admin_pwa_render_smoke", "summary.json"))
+mobile_route_render_summary = read_json(File.join(bundle_dir, "mobile_route_render_smoke", "summary.json"))
 admin_hosting = read_json(File.join(bundle_dir, "admin_pwa_hosting_gate.json"))
 admin_live = read_json(File.join(bundle_dir, "admin_pwa_live_gate.json"))
 admin_live_fixture = admin_live["fixture_mode"] == true
@@ -191,6 +192,7 @@ required_commands = %w[
   admin_pwa_hosting_gate
   admin_pwa_live_gate
   admin_pwa_render_smoke
+  mobile_route_render_smoke
   uat_evidence_gate
   uat_signoff_gate
   android_apk_release_build
@@ -358,6 +360,99 @@ admin_runtime_status =
     "fail"
   end
 
+mobile_route_captures = Array(mobile_route_render_summary["captures"])
+mobile_route_items = mobile_route_captures.map do |capture|
+  file_name = capture["path"].to_s
+  png_path = File.join(bundle_dir, "mobile_route_render_smoke", file_name)
+  check_path = "#{png_path}.json"
+  check = read_json(check_path)
+  exists = File.file?(png_path)
+  check_exists = File.file?(check_path)
+  actual_bytes = exists ? File.size(png_path) : nil
+  png = png_header(png_path)
+  declared_bytes = check["bytes"].to_i
+  bytes_match = !actual_bytes.nil? && declared_bytes == actual_bytes
+  status =
+    if exists &&
+        check_exists &&
+        png["valid"] &&
+        check["status"] == "pass" &&
+        check["width"].to_i == 390 &&
+        check["height"].to_i == 844 &&
+        png["width"].to_i == 390 &&
+        png["height"].to_i == 844 &&
+        declared_bytes > 8_000 &&
+        bytes_match &&
+        check["distinct_rgb"].to_i >= 8 &&
+        check["non_background_pixels"].to_i >= 100
+      "pass"
+    else
+      "fail"
+    end
+  {
+    "name" => capture["name"],
+    "route" => capture["route"],
+    "file" => file_name,
+    "path" => png_path,
+    "exists" => exists,
+    "png_valid" => png["valid"],
+    "check_path" => check_path,
+    "check_exists" => check_exists,
+    "width" => check["width"],
+    "height" => check["height"],
+    "actual_width" => png["width"],
+    "actual_height" => png["height"],
+    "bytes" => declared_bytes,
+    "actual_bytes" => actual_bytes,
+    "bytes_match" => bytes_match,
+    "distinct_rgb" => check["distinct_rgb"],
+    "non_background_pixels" => check["non_background_pixels"],
+    "status" => status
+  }
+end
+
+required_mobile_routes = %w[
+  /onboarding
+  /auth
+  /settings/profile
+  /home
+  /groups
+  /groups/col-church
+  /groups/join
+  /groups/col-church/share
+  /groups/col-church/contribute
+  /groups/col-church/pay/intent-render/handoff
+  /groups/col-church/pay/intent-render/waiting
+  /groups/col-church/pay/intent-render/state/confirmed
+  /groups/col-church/ledger
+  /groups/col-church/owner
+  /groups/col-church/members
+  /settings
+  /settings/privacy
+  /settings/help
+  /notifications
+  /offline
+  /sync
+]
+mobile_route_summary_ok =
+  mobile_route_render_summary["status"] == "pass" &&
+  mobile_route_render_summary["viewport"] == "390x844" &&
+  mobile_route_render_summary["route_count"].to_i >= required_mobile_routes.length &&
+  (required_mobile_routes - Array(mobile_route_render_summary["routes"])).empty? &&
+  (Array(mobile_route_render_summary["screenshots"]) - mobile_route_items.map { |item| item.fetch("file") }).empty? &&
+  (Array(mobile_route_render_summary["screenshot_checks"]) - mobile_route_items.map { |item| "#{item.fetch("file")}.json" }).empty?
+mobile_route_render_status =
+  if command_blocked?(commands, "mobile_route_render_smoke")
+    "blocked"
+  elsif command_ok?(commands, "mobile_route_render_smoke") &&
+      mobile_route_summary_ok &&
+      mobile_route_items.length >= required_mobile_routes.length &&
+      mobile_route_items.all? { |item| item.fetch("status") == "pass" }
+    "pass"
+  else
+    "fail"
+  end
+
 admin_hosting_status =
   if command_ok?(commands, "admin_pwa_hosting_gate") && admin_hosting["status"] == "pass"
     "pass"
@@ -441,6 +536,7 @@ bundle_files = [
   file_item(File.join(bundle_dir, "BUILD_ARTIFACT_CHECKSUMS.sha256"), required: false),
   file_item(File.join(bundle_dir, "admin_pwa_render_smoke", "summary.json"), required: false),
   file_item(File.join(bundle_dir, "admin_pwa_render_smoke", "pwa-runtime.json"), required: false),
+  file_item(File.join(bundle_dir, "mobile_route_render_smoke", "summary.json"), required: false),
   file_item(File.join(bundle_dir, "supabase", "summary.json"), required: false)
 ]
 
@@ -451,6 +547,7 @@ section_statuses = {
   "artifacts" => artifact_status,
   "flutter_mobile_release" => mobile_release_status,
   "admin_pwa_runtime" => admin_runtime_status,
+  "mobile_route_render" => mobile_route_render_status,
   "admin_pwa_hosting" => admin_hosting_status,
   "admin_pwa_live_deployment" => admin_live_status,
   "worktree_review" => worktree_status,
@@ -511,6 +608,15 @@ index = {
     "required_cached_urls" => admin_runtime_required_cache,
     "screenshot_summary_ok" => admin_screenshot_summary_ok,
     "screenshot_checks" => admin_screenshot_items
+  },
+  "mobile_route_render" => {
+    "status" => mobile_route_render_status,
+    "summary_path" => File.join(bundle_dir, "mobile_route_render_smoke", "summary.json"),
+    "viewport" => mobile_route_render_summary["viewport"],
+    "route_count" => mobile_route_render_summary["route_count"],
+    "required_routes" => required_mobile_routes,
+    "screenshot_summary_ok" => mobile_route_summary_ok,
+    "screenshot_checks" => mobile_route_items
   },
   "admin_pwa_hosting" => {
     "status" => admin_hosting_status,
