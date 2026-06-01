@@ -19,6 +19,12 @@ void main() {
       'security': File(
         'docs/release/SECURITY_PRIVACY_REVIEW.md',
       ).readAsStringSync(),
+      'approval': File(
+        'docs/release/RELEASE_APPROVAL_PACKET.md',
+      ).readAsStringSync(),
+      'signoff': File(
+        'docs/release/UAT_SIGNOFF_CHECKLIST_2026-05-24.md',
+      ).readAsStringSync(),
     };
 
     for (final text in docs.values) {
@@ -44,6 +50,13 @@ void main() {
     expect(docs['checklist'], contains('release_owner_signoff'));
     expect(docs['qa'], contains('101'));
     expect(docs['packet'], contains('Final GO Criteria'));
+    expect(docs['approval'], contains('20260601T205424Z'));
+    expect(docs['approval'], contains('product_signoff'));
+    expect(docs['approval'], contains('android_sms_access_uat'));
+    expect(docs['approval'], contains('android_release_signing_review'));
+    expect(docs['approval'], contains('ios_release_scope'));
+    expect(docs['approval'], contains('release_owner_signoff'));
+    expect(docs['signoff'], contains('20260601T205424Z'));
   });
 
   test('release status reports current blocker keys', () {
@@ -131,5 +144,45 @@ void main() {
     expect(jsonEncode(decoded), contains('Android SMS access UAT'));
     expect(jsonEncode(decoded), isNot(contains('AUTH_CAPTCHA_SECRET')));
     expect(jsonEncode(decoded), isNot(contains('HIBP')));
+  });
+
+  test('release approval packet enumerates the remaining approval gates', () {
+    final status = jsonEncode({
+      'decision': 'NO-GO',
+      'status': 'blocked',
+      'blocker_keys': [
+        'product_signoff',
+        'android_sms_access_uat',
+        'android_release_signing_review',
+        'ios_release_scope',
+        'release_owner_signoff',
+      ],
+    });
+    final result = Process.runSync(
+      './scripts/release_approval_packet.sh',
+      ['--json'],
+      environment: {
+        'RELEASE_APPROVAL_PACKET_STATUS_JSON': status,
+        'ADMIN_PWA_LIVE_URL': 'https://cool-admin-212.pages.dev',
+      },
+    );
+
+    expect(result.exitCode, 0);
+    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
+    final records = decoded['approval_records'] as List<dynamic>;
+    expect(records, hasLength(5));
+    expect(
+      records.map((record) => (record as Map<String, dynamic>)['key']),
+      containsAll(<String>[
+        'product_signoff',
+        'android_sms_access_uat',
+        'android_release_signing_review',
+        'ios_release_scope',
+        'release_owner_signoff',
+      ]),
+    );
+    expect(jsonEncode(decoded), contains('https://cool-admin-212.pages.dev'));
+    expect(jsonEncode(decoded), isNot(contains('SUPABASE_SERVICE_ROLE_KEY')));
+    expect(jsonEncode(decoded), isNot(contains('AUTH_CAPTCHA_SECRET')));
   });
 }

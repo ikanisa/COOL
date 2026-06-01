@@ -1,6 +1,6 @@
 # Collect Human UAT Signoff Checklist
 
-Prepared: 2026-05-27
+Prepared: 2026-06-01
 
 Purpose: capture release-owner and persona acceptance evidence for the corrected
 SMS-first Groups platform. Do not record raw SMS, phone/MoMo numbers, tokens,
@@ -21,9 +21,14 @@ Status: **PENDING SIGNOFF**
 - [ ] `docs/release/UAT_EVIDENCE_MANIFEST.json` exists and
       `make uat-evidence-gate-json` passes for all ten persona evidence rows.
 - [ ] Current automated evidence is attached:
-  - `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`
+  - `.cache/repo_wide_qa_uat/20260601T205424Z/summary.json`
+  - `.cache/repo_wide_qa_uat/20260601T205424Z/evidence_index.json`
+  - `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_live_gate.json`
+  - `.cache/repo_wide_qa_uat/20260601T205424Z/android_device_uat.txt`
+  - `.cache/repo_wide_qa_uat/20260601T205424Z/supabase/summary.json`
   - `docs/release/UAT_EXECUTION_REPORT.md`
   - `docs/release/GO_LIVE_COMPLETION_AUDIT_2026-05-24.md`
+  - `docs/release/RELEASE_APPROVAL_PACKET.md`
 
 ## Persona Signoff Matrix
 
