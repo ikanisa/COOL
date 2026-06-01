@@ -109,7 +109,7 @@ class ProfileReadiness {
   final bool hasMomoNumber;
   final String? collectId;
 
-  bool get readyForContribution => hasProfile;
+  bool get readyForContribution => hasProfile && hasMomoNumber;
   bool get readyForGroupCreation => hasProfile && hasMomoNumber;
 }
 

@@ -425,7 +425,13 @@ class CollectRepository extends StateNotifier<CollectState> {
     if (draft.amountRwf <= 0) {
       throw const FormatException('Contribution amount must be above zero');
     }
+    final profile = _requireProfile();
+    final contributorMomoNumber = profile.momoNumber?.trim();
+    if (contributorMomoNumber == null || contributorMomoNumber.isEmpty) {
+      throw StateError('Link your MoMo number before contributing.');
+    }
     final collection = collectionById(draft.collectionId);
+    final senderPhoneHash = HashUtils.phoneHash(contributorMomoNumber);
     final supabase = _supabase;
 
     if (supabase != null && supabase.auth.currentUser != null) {
@@ -434,7 +440,7 @@ class CollectRepository extends StateNotifier<CollectState> {
         params: {
           'collection': draft.collectionId,
           'p_expected_amount_rwf': draft.amountRwf,
-          'p_sender_phone_hash': null,
+          'p_sender_phone_hash': senderPhoneHash,
         },
       );
       final row = _singleRpcRow(response);

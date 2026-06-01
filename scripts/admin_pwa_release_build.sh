@@ -10,6 +10,7 @@ BUILD_ARGS="${FLUTTER_ADMIN_WEB_BUILD_ARGS:---release --no-wasm-dry-run --no-pub
 # shellcheck disable=SC2086
 "$FLUTTER" build web -t lib/main_admin.dart $BUILD_ARGS
 
+touch build/web/main.dart.js
 mkdir -p build/web/icons
 cp web/icons/collect-admin.svg build/web/icons/collect-admin.svg
 cp web/_headers build/web/_headers

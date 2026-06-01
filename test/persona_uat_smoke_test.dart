@@ -382,6 +382,32 @@ void main() {
     expectNoGlobalSecrets();
   });
 
+  testWidgets(
+    'contribution attempt without profile MoMo routes to link state',
+    (tester) async {
+      final repository = CollectRepository();
+      await repository.signInWithOtp(phone: '+250788123456', otp: '123456');
+      final collection = await repository.createCollection(
+        title: 'Family group',
+        description: 'Family support',
+        receiverMomoNumber: '+250788123456',
+      );
+
+      await pumpMainAppAt(
+        tester,
+        '/groups/${collection.id}/contribute',
+        repository: repository,
+      );
+
+      expect(find.text('Profile required'), findsOneWidget);
+      expect(find.text('Link your MoMo number first.'), findsOneWidget);
+      expect(find.text('Link MoMo number'), findsOneWidget);
+      expect(find.text('Review contribution'), findsNothing);
+      expect(repository.state.paymentIntents, isEmpty);
+      expectNoGlobalSecrets();
+    },
+  );
+
   testWidgets('ledger filters show confirmed and pending activity safely', (
     tester,
   ) async {

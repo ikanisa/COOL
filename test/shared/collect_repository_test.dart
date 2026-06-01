@@ -1,6 +1,8 @@
 import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
+import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -55,6 +57,47 @@ void main() {
       expect(intent.receiverLabel, 'St Michel treasury');
     },
   );
+
+  test('profile MoMo is required before creating payment intents', () async {
+    final repo = CollectRepository();
+    await repo.signInWithOtp(phone: '+250788123456', otp: '123456');
+    final collection = await repo.createCollection(
+      title: 'Family group',
+      description: 'Family support',
+      receiverMomoNumber: '+250788123456',
+    );
+    final container = ProviderContainer(
+      overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
+    );
+    addTearDown(container.dispose);
+
+    expect(
+      container.read(profileReadinessProvider).readyForContribution,
+      false,
+    );
+    await expectLater(
+      repo.createPaymentIntent(
+        PaymentIntentDraft(collectionId: collection.id, amountRwf: 5000),
+      ),
+      throwsA(
+        isA<StateError>().having(
+          (error) => error.message,
+          'message',
+          'Link your MoMo number before contributing.',
+        ),
+      ),
+    );
+
+    await repo.updateProfile(momoNumber: '+250788123456');
+
+    expect(container.read(profileReadinessProvider).readyForContribution, true);
+    expect(
+      await repo.createPaymentIntent(
+        PaymentIntentDraft(collectionId: collection.id, amountRwf: 5000),
+      ),
+      isA<PaymentIntentModel>(),
+    );
+  });
 
   test('shared group link opens by slug', () async {
     final repo = CollectRepository.seeded();
