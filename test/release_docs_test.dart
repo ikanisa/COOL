@@ -493,10 +493,16 @@ checking Edge Function secret names
     expect(result.exitCode, 1);
     final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
     expect(decoded['surfaces']['supabase_release_gate'], 'blocked');
+    expect(decoded['surfaces']['supabase_evidence_bundle'], 'blocked');
     expect(decoded['go_live_gate']['go_live_approved'], isTrue);
     expect(decoded['go_live_gate']['status'], 'blocked');
     expect(
       decoded['go_live_gate']['blocker_keys'],
+      contains('android_sms_access_uat'),
+    );
+    expect(decoded['supabase_evidence']['status'], 'blocked');
+    expect(
+      decoded['supabase_evidence']['blocker_keys'],
       contains('android_sms_access_uat'),
     );
 

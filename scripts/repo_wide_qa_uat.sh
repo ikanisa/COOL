@@ -354,6 +354,19 @@ JSON
 }
 JSON
     record_fixture "supabase_go_live_gate_json" "go_live_gate.json" 0 "$(cat "$bundle_dir/go_live_gate.json")"
+    mkdir -p "$bundle_dir/supabase"
+    cat > "$bundle_dir/supabase/summary.json" <<'JSON'
+{
+  "status": "blocked",
+  "blocker_keys": ["android_sms_access_uat"],
+  "blocked_reasons": ["acceptance_matrix_blocked"],
+  "blocked_commands": ["acceptance_matrix_json"],
+  "acceptance_matrix": {
+    "overall_status": "blocked"
+  }
+}
+JSON
+    record_fixture "supabase_go_live_evidence" "supabase_go_live_evidence.txt" 0 "$(cat "$bundle_dir/supabase/summary.json")"
   fi
   if [[ "${QA_UAT_JSON_BLOCKED_PROBE:-0}" == "1" ]]; then
     record_blocked "json_blocked_probe" "json_blocked_probe.json" "Fixture mode probes blocked JSON evidence."
@@ -583,6 +596,19 @@ release_evidence_index_surface =
     "fail"
   end
 
+supabase_evidence_bundle_surface =
+  if command_ok?(commands, "supabase_go_live_evidence") && supabase_summary["status"] == "pass"
+    "pass"
+  elsif command_blocked?(commands, "supabase_go_live_evidence") ||
+      supabase_summary["status"] == "blocked" ||
+      Array(supabase_summary["blocker_keys"]).any? ||
+      Array(supabase_summary["blocked_reasons"]).any? ||
+      Array(supabase_summary["blocked_commands"]).any?
+    "blocked"
+  else
+    "fail"
+  end
+
 surfaces = {
   "flutter_app" => %w[flutter_version dart_version format_check flutter_analyze flutter_test release_secret_scan].all? { |name| command_ok?(commands, name) } ? "pass" : "fail",
   "admin_pwa" => admin_pwa_surface,
@@ -597,7 +623,7 @@ surfaces = {
   "release_evidence_index" => release_evidence_index_surface,
   "android_device_uat" => command_ok?(commands, "android_device_uat") ? "pass" : (command_blocked?(commands, "android_device_uat") ? "blocked" : "fail"),
   "supabase_release_gate" => supabase_release_surface,
-  "supabase_evidence_bundle" => command_ok?(commands, "supabase_go_live_evidence") ? "pass" : (command_blocked?(commands, "supabase_go_live_evidence") ? "blocked" : "fail")
+  "supabase_evidence_bundle" => supabase_evidence_bundle_surface
 }
 
 decision =
@@ -666,8 +692,11 @@ summary = {
     "blocker_keys" => go_live_gate["blocker_keys"] || []
   },
   "supabase_evidence" => {
+    "status" => supabase_summary["status"],
     "decision" => supabase_summary["decision"],
     "blocker_keys" => supabase_summary["blocker_keys"] || [],
+    "blocked_reasons" => supabase_summary["blocked_reasons"] || [],
+    "blocked_commands" => supabase_summary["blocked_commands"] || [],
     "acceptance_matrix" => supabase_summary["acceptance_matrix"] || {}
   },
   "release_evidence_index" => evidence_index,
