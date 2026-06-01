@@ -51,6 +51,31 @@ void main() {
     return manifest;
   }
 
+  Map<String, dynamic> signedUatEvidenceManifest() {
+    final manifest =
+        jsonDecode(
+              File(
+                'docs/release/UAT_EVIDENCE_MANIFEST.json',
+              ).readAsStringSync(),
+            )
+            as Map<String, dynamic>;
+    manifest['status'] = 'signed';
+    manifest['release_owner'] = <String, dynamic>{
+      'name': 'Release Owner Eli',
+      'decision': 'GO',
+      'signed_at': '2026-06-01T12:00:00Z',
+    };
+    for (final persona
+        in (manifest['personas'] as List<dynamic>)
+            .cast<Map<String, dynamic>>()) {
+      persona['status'] = 'signed';
+      persona['signoff'] = 'Signed by ${persona['persona']} reviewer';
+      persona['sanitized'] = true;
+      persona['production_like'] = true;
+    }
+    return manifest;
+  }
+
   test('release docs describe current SMS-first Groups blockers only', () {
     final docs = <String, String>{
       'decision': File('docs/release/GO_NO_GO_DECISION.md').readAsStringSync(),
@@ -491,6 +516,67 @@ void main() {
       }
     },
   );
+
+  test('signed UAT evidence manifest can pass with strong signoffs', () {
+    final tempDir = Directory.systemTemp.createTempSync('cool_uat_evidence_');
+    try {
+      final manifestFile = File('${tempDir.path}/uat.json')
+        ..writeAsStringSync(jsonEncode(signedUatEvidenceManifest()));
+      final result = Process.runSync(
+        './scripts/uat_evidence_gate.sh',
+        ['--json'],
+        environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
+      );
+
+      expect(result.exitCode, 0);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'pass');
+      expect(decoded['blocker_keys'], isEmpty);
+      expect(decoded['release_owner']['signed_at_iso8601_utc'], isTrue);
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
+  test('UAT evidence manifest rejects weak human signoffs', () {
+    final tempDir = Directory.systemTemp.createTempSync('cool_uat_evidence_');
+    try {
+      final manifest = signedUatEvidenceManifest();
+      manifest['release_owner'] = <String, dynamic>{
+        'name': 'Release Owner',
+        'decision': 'GO',
+        'signed_at': 'today',
+      };
+      final personas = (manifest['personas'] as List<dynamic>)
+          .cast<Map<String, dynamic>>();
+      personas.first['signoff'] = 'ok';
+
+      final manifestFile = File('${tempDir.path}/uat.json')
+        ..writeAsStringSync(jsonEncode(manifest));
+      final result = Process.runSync(
+        './scripts/uat_evidence_gate.sh',
+        ['--json'],
+        environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
+      );
+
+      expect(result.exitCode, 99);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'blocked');
+      expect(
+        decoded['blocker_keys'],
+        containsAll(<String>[
+          'uat_evidence_release_owner',
+          'uat_evidence_release_owner_signed_at',
+          'uat_evidence_persona_signoff',
+        ]),
+      );
+      expect(decoded['release_owner']['signed_at_iso8601_utc'], isFalse);
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
 
   test('approved release manifest can drive final release status', () {
     final tempDir = Directory.systemTemp.createTempSync(

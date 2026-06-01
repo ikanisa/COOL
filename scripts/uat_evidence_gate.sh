@@ -42,6 +42,44 @@ def blocked(message, key, blockers, blocker_keys)
   blocker_keys << key
 end
 
+def iso8601_utc?(value)
+  Time.iso8601(value.to_s)
+  value.to_s.end_with?("Z")
+rescue ArgumentError, TypeError
+  false
+end
+
+def placeholder_name?(value)
+  placeholders = [
+    "Release Owner",
+    "Reviewer",
+    "Tester",
+    "UAT Reviewer",
+    "QA Reviewer"
+  ]
+  placeholders.include?(value.to_s.strip)
+end
+
+def weak_signoff?(value)
+  text = value.to_s.strip
+  generic_values = %w[
+    approved
+    ok
+    pass
+    passed
+    signed
+    waived
+    todo
+    pending
+    n/a
+    na
+  ]
+  text.length < 5 ||
+    generic_values.include?(text.downcase) ||
+    placeholder_name?(text) ||
+    text.match?(/\btemplate\b/i)
+end
+
 def inside_root?(root, path)
   expanded = File.expand_path(path, root)
   expanded == root || expanded.start_with?(root + File::SEPARATOR)
@@ -83,8 +121,10 @@ owner_name = release_owner["name"].to_s.strip
 owner_decision = release_owner["decision"].to_s.strip.upcase
 owner_signed_at = release_owner["signed_at"].to_s.strip
 blocked("Release owner name is missing in UAT evidence manifest.", "uat_evidence_release_owner", blockers, blocker_keys) if owner_name.empty?
+blocked("Release owner name is a placeholder in UAT evidence manifest.", "uat_evidence_release_owner", blockers, blocker_keys) if placeholder_name?(owner_name)
 blocked("Release owner decision must be GO in UAT evidence manifest.", "uat_evidence_release_owner_decision", blockers, blocker_keys) unless owner_decision == "GO"
 blocked("Release owner signed_at is missing in UAT evidence manifest.", "uat_evidence_release_owner_signed_at", blockers, blocker_keys) if owner_signed_at.empty?
+blocked("Release owner signed_at must be ISO-8601 UTC in UAT evidence manifest.", "uat_evidence_release_owner_signed_at", blockers, blocker_keys) if !owner_signed_at.empty? && !iso8601_utc?(owner_signed_at)
 
 by_id = personas.each_with_object({}) do |persona, memo|
   id = persona.is_a?(Hash) ? persona["id"].to_s.strip : ""
@@ -127,6 +167,7 @@ required_ids.each do |id|
 
   blocked("#{id} status must be signed or waived.", "uat_evidence_persona_status", blockers, blocker_keys) unless allowed_statuses.include?(status)
   blocked("#{id} signoff is missing.", "uat_evidence_persona_signoff", blockers, blocker_keys) if signoff.empty?
+  blocked("#{id} signoff is too generic or placeholder-like.", "uat_evidence_persona_signoff", blockers, blocker_keys) if !signoff.empty? && weak_signoff?(signoff)
   blocked("#{id} sanitized=true is required.", "uat_evidence_sanitization", blockers, blocker_keys) unless sanitized
   blocked("#{id} production_like=true is required for production GO.", "uat_evidence_production_like", blockers, blocker_keys) unless production_like
   blocked("#{id} has no evidence files.", "uat_evidence_files", blockers, blocker_keys) if evidence_files.empty?
@@ -253,7 +294,8 @@ result = {
   "release_owner" => {
     "present" => !owner_name.empty?,
     "decision" => owner_decision,
-    "signed_at_present" => !owner_signed_at.empty?
+    "signed_at_present" => !owner_signed_at.empty?,
+    "signed_at_iso8601_utc" => owner_signed_at.empty? ? false : iso8601_utc?(owner_signed_at)
   },
   "evidence_items" => evidence_items,
   "secret_handling" => "This gate validates sanitized UAT evidence metadata, scans text attachments for obvious secret/raw-data markers, and requires reviewed SHA-256 sidecars for binary/image evidence."
