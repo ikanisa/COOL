@@ -295,15 +295,21 @@ add.call(
   next_action: checklist_ok ? nil : "Run make supabase-post-operator-checklist-json."
 )
 
-go_live_approved = go_live_gate["go_live_approved"] == true
+go_live_gate_status = go_live_gate["status"].to_s
+go_live_gate_consistent =
+  go_live_gate["go_live_approved"] == true &&
+  go_live_gate["decision"].to_s == "GO" &&
+  go_live_gate["approval_status"].to_s == "approved" &&
+  (go_live_gate_status.empty? || go_live_gate_status == "pass") &&
+  go_live_blocker_keys.empty?
 add.call(
   id: "SUPA-011",
   area: "Go-Live",
   requirement: "Final Supabase go-live gate approves release.",
-  status: go_live_approved ? "pass" : "blocked",
+  status: go_live_gate_consistent ? "pass" : "blocked",
   blocker_keys: go_live_blocker_keys.empty? ? blocker_keys : go_live_blocker_keys,
-  evidence: "go_live_gate.json decision=#{go_live_gate["decision"]} approval_status=#{go_live_gate["approval_status"]}",
-  next_action: if go_live_approved
+  evidence: "go_live_gate.json decision=#{go_live_gate["decision"]} approval_status=#{go_live_gate["approval_status"]} go_live_approved=#{go_live_gate["go_live_approved"]} blockers=#{go_live_blocker_keys.join(",")}",
+  next_action: if go_live_gate_consistent
     nil
   elsif connectivity_blocked
     "Restore trusted linked query mode or an allow-listed Supavisor/direct database path, then rerun make release-status-json and make supabase-go-live-gate-json."

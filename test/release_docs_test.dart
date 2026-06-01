@@ -388,6 +388,97 @@ Date/time: 2026-06-01T12:30:00Z
     );
   });
 
+  test('acceptance matrix rejects inconsistent approved go-live evidence', () {
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_supabase_acceptance_',
+    );
+    try {
+      File('${tempDir.path}/release_status.json').writeAsStringSync(
+        jsonEncode({
+          'decision': 'GO',
+          'status': 'pass',
+          'blocker_keys': <String>[],
+        }),
+      );
+      File('${tempDir.path}/go_live_gate.json').writeAsStringSync(
+        jsonEncode({
+          'decision': 'GO',
+          'approval_status': 'approved',
+          'go_live_approved': true,
+          'status': 'blocked',
+          'blocker_keys': ['android_sms_access_uat'],
+        }),
+      );
+      File('${tempDir.path}/schema_inventory.json').writeAsStringSync(
+        jsonEncode({
+          'contract': {
+            'summary': {
+              'expected_objects': 1,
+              'remote_objects': 1,
+              'extra_objects': 0,
+              'missing_objects': 0,
+              'tables': 1,
+              'rls_enabled_tables': 1,
+              'functions': 1,
+              'functions_with_search_path': 1,
+            },
+          },
+        }),
+      );
+      File(
+        '${tempDir.path}/post_operator_checklist.json',
+      ).writeAsStringSync(jsonEncode({'status': 'ready'}));
+      File('${tempDir.path}/operational_report.json').writeAsStringSync(
+        jsonEncode({
+          'tables': ['collections'],
+        }),
+      );
+      File('${tempDir.path}/supabase_ready.txt').writeAsStringSync('''
+checking Edge Function auth contract
+checking deployed Edge Function endpoints
+checking Edge Function secret names
+''');
+      File(
+        '${tempDir.path}/edge_auth_contract_uat.txt',
+      ).writeAsStringSync('Edge Function auth contract UAT passed');
+      File(
+        '${tempDir.path}/release_secret_scan.txt',
+      ).writeAsStringSync('redacted release secret scan passed');
+      File(
+        '${tempDir.path}/advisor_warnings.txt',
+      ).writeAsStringSync('performance warnings=0');
+      File('${tempDir.path}/commands.tsv').writeAsStringSync(
+        [
+          'advisor_warning_inventory\tadvisor_warnings.txt\t0\tstart\tfinish',
+          'code_owned_readiness\tsupabase_ready.txt\t0\tstart\tfinish',
+          'release_secret_scan\trelease_secret_scan.txt\t0\tstart\tfinish',
+          'operational_report_json\toperational_report.json\t0\tstart\tfinish',
+          'post_operator_checklist_json\tpost_operator_checklist.json\t0\tstart\tfinish',
+        ].join('\n'),
+      );
+
+      final result = Process.runSync(
+        './scripts/supabase_acceptance_matrix.sh',
+        ['--json', '--bundle-dir', tempDir.path],
+      );
+
+      expect(result.exitCode, 0);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      final requirements = (decoded['requirements'] as List<dynamic>)
+          .cast<Map<String, dynamic>>();
+      final goLive = requirements.firstWhere(
+        (item) => item['id'] == 'SUPA-011',
+      );
+      expect(decoded['overall_status'], 'blocked');
+      expect(goLive['status'], 'blocked');
+      expect(goLive['blocker_keys'], contains('android_sms_access_uat'));
+      expect(goLive['evidence'], contains('go_live_approved=true'));
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
   test('current platform packet is redacted and SMS-first specific', () {
     final status = jsonEncode({
       'decision': 'NO-GO',
