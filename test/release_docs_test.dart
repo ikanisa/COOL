@@ -479,6 +479,38 @@ checking Edge Function secret names
     }
   });
 
+  test('repo-wide evidence rejects inconsistent approved go-live evidence', () {
+    final result = Process.runSync(
+      './scripts/repo_wide_qa_uat.sh',
+      ['--json'],
+      environment: {
+        'QA_UAT_FIXTURE': '1',
+        'QA_UAT_CONTRADICTORY_FIXTURE': '1',
+        'QA_UAT_ADMIN_LIVE_FIXTURE_PASS': '1',
+      },
+    );
+
+    expect(result.exitCode, 1);
+    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
+    expect(decoded['surfaces']['supabase_release_gate'], 'blocked');
+    expect(decoded['go_live_gate']['go_live_approved'], isTrue);
+    expect(decoded['go_live_gate']['status'], 'blocked');
+    expect(
+      decoded['go_live_gate']['blocker_keys'],
+      contains('android_sms_access_uat'),
+    );
+
+    final evidenceIndex =
+        decoded['release_evidence_index'] as Map<String, dynamic>;
+    expect(evidenceIndex['status'], isNot('pass'));
+    expect(evidenceIndex['section_statuses']['supabase_go_live'], 'blocked');
+    expect(evidenceIndex['supabase']['status'], 'blocked');
+    expect(
+      evidenceIndex['supabase']['blocker_keys'],
+      contains('android_sms_access_uat'),
+    );
+  });
+
   test('current platform packet is redacted and SMS-first specific', () {
     final status = jsonEncode({
       'decision': 'NO-GO',

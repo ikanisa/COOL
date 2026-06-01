@@ -335,8 +335,24 @@ JSON
   record_fixture "supabase_go_live_gate_json" "go_live_gate.json" 1 "$(cat "$bundle_dir/go_live_gate.json")"
   record_blocked "supabase_go_live_evidence" "supabase_go_live_evidence.txt" "Fixture mode leaves Supabase evidence generation blocked."
   if [[ "${QA_UAT_CONTRADICTORY_FIXTURE:-0}" == "1" ]]; then
-    record_fixture "admin_pwa_live_gate" "admin_pwa_live_gate.json" 0 "$(cat "$bundle_dir/admin_pwa_live_gate.json")"
-    record_fixture "uat_signoff_gate" "uat_signoff_gate.json" 0 "$(cat "$bundle_dir/uat_signoff_gate.json")"
+    cat > "$bundle_dir/release_status.json" <<'JSON'
+{
+  "decision": "GO",
+  "status": "pass",
+  "supabase_strict": "pass",
+  "blocker_keys": []
+}
+JSON
+    record_fixture "release_status_json" "release_status.json" 0 "$(cat "$bundle_dir/release_status.json")"
+    cat > "$bundle_dir/go_live_gate.json" <<'JSON'
+{
+  "decision": "GO",
+  "approval_status": "approved",
+  "go_live_approved": true,
+  "status": "blocked",
+  "blocker_keys": ["android_sms_access_uat"]
+}
+JSON
     record_fixture "supabase_go_live_gate_json" "go_live_gate.json" 0 "$(cat "$bundle_dir/go_live_gate.json")"
   fi
   if [[ "${QA_UAT_JSON_BLOCKED_PROBE:-0}" == "1" ]]; then
@@ -433,6 +449,15 @@ def command_exit_code(commands, name)
   row && row.fetch("exit_code")
 end
 
+def go_live_gate_consistent?(gate)
+  status = gate["status"].to_s
+  gate["go_live_approved"] == true &&
+    gate["decision"].to_s == "GO" &&
+    gate["approval_status"].to_s == "approved" &&
+    (status.empty? || status == "pass") &&
+    Array(gate["blocker_keys"]).empty?
+end
+
 def read_json(path)
   JSON.parse(File.read(path))
 rescue JSON::ParserError, Errno::ENOENT
@@ -479,10 +504,15 @@ human_signoff_surface =
   end
 
 supabase_release_surface =
-  if command_ok?(commands, "supabase_go_live_gate_json") && go_live_gate["go_live_approved"] == true
+  if command_ok?(commands, "supabase_go_live_gate_json") && go_live_gate_consistent?(go_live_gate)
     "pass"
-  elsif command_exit_code(commands, "supabase_go_live_gate_json") == 1 &&
+  elsif (
+      command_exit_code(commands, "supabase_go_live_gate_json") == 1 &&
       (go_live_gate["go_live_approved"] == false || go_live_gate["decision"] == "NO-GO")
+    ) ||
+      Array(go_live_gate["blocker_keys"]).any? ||
+      go_live_gate["status"].to_s == "blocked" ||
+      go_live_gate["approval_status"].to_s == "blocked"
     "blocked"
   else
     "fail"
@@ -544,6 +574,15 @@ mobile_release_surface =
     "fail"
   end
 
+release_evidence_index_surface =
+  if command_ok?(commands, "release_evidence_index") && evidence_index["status"] == "pass"
+    "pass"
+  elsif command_blocked?(commands, "release_evidence_index") && evidence_index["status"] == "blocked"
+    "blocked"
+  else
+    "fail"
+  end
+
 surfaces = {
   "flutter_app" => %w[flutter_version dart_version format_check flutter_analyze flutter_test release_secret_scan].all? { |name| command_ok?(commands, name) } ? "pass" : "fail",
   "admin_pwa" => admin_pwa_surface,
@@ -555,7 +594,7 @@ surfaces = {
   "android_release_artifacts" => %w[android_apk_release_build android_aab_release_build].all? { |name| command_ok?(commands, name) } ? "pass" : (%w[android_apk_release_build android_aab_release_build].any? { |name| command_blocked?(commands, name) } ? "blocked" : "fail"),
   "release_artifact_manifest" => artifact_manifest_surface,
   "flutter_mobile_release" => mobile_release_surface,
-  "release_evidence_index" => command_ok?(commands, "release_evidence_index") && evidence_index["status"] == "pass" ? "pass" : "fail",
+  "release_evidence_index" => release_evidence_index_surface,
   "android_device_uat" => command_ok?(commands, "android_device_uat") ? "pass" : (command_blocked?(commands, "android_device_uat") ? "blocked" : "fail"),
   "supabase_release_gate" => supabase_release_surface,
   "supabase_evidence_bundle" => command_ok?(commands, "supabase_go_live_evidence") ? "pass" : (command_blocked?(commands, "supabase_go_live_evidence") ? "blocked" : "fail")
@@ -622,7 +661,9 @@ summary = {
   "go_live_gate" => {
     "decision" => go_live_gate["decision"],
     "approval_status" => go_live_gate["approval_status"],
-    "go_live_approved" => go_live_gate["go_live_approved"]
+    "go_live_approved" => go_live_gate["go_live_approved"],
+    "status" => go_live_gate["status"],
+    "blocker_keys" => go_live_gate["blocker_keys"] || []
   },
   "supabase_evidence" => {
     "decision" => supabase_summary["decision"],

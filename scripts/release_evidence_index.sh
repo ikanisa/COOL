@@ -57,6 +57,15 @@ def command_blocked?(commands, name)
   row && row.fetch("exit_code") == 99
 end
 
+def go_live_gate_consistent?(gate)
+  status = gate["status"].to_s
+  gate["go_live_approved"] == true &&
+    gate["decision"].to_s == "GO" &&
+    gate["approval_status"].to_s == "approved" &&
+    (status.empty? || status == "pass") &&
+    Array(gate["blocker_keys"]).empty?
+end
+
 def command_evidence(row, bundle_dir)
   relative_file = row && row["file"].to_s
   bundle_root = File.expand_path(bundle_dir.to_s)
@@ -496,10 +505,14 @@ uat_evidence_status =
   end
 
 supabase_status =
-  if command_ok?(commands, "supabase_go_live_gate_json") && go_live_gate["go_live_approved"] == true
+  if command_ok?(commands, "supabase_go_live_gate_json") && go_live_gate_consistent?(go_live_gate)
     "pass"
   elsif !command_ok?(commands, "supabase_go_live_gate_json") &&
       go_live_gate["go_live_approved"] == false
+    "blocked"
+  elsif Array(go_live_gate["blocker_keys"]).any? ||
+      go_live_gate["status"].to_s == "blocked" ||
+      go_live_gate["approval_status"].to_s == "blocked"
     "blocked"
   else
     "fail"
@@ -556,9 +569,16 @@ section_statuses = {
   "supabase_go_live" => supabase_status
 }
 
-index_status = section_statuses.value?("fail") ? "fail" : "pass"
 failed_sections = section_statuses.select { |_name, status| status == "fail" }.keys
 blocked_sections = section_statuses.select { |_name, status| status == "blocked" }.keys
+index_status =
+  if failed_sections.any?
+    "fail"
+  elsif blocked_sections.any?
+    "blocked"
+  else
+    "pass"
+  end
 
 admin_live_failure_keys = Array(admin_live["failure_keys"])
 admin_live_failure_keys << "admin_pwa_live_fixture_not_production" if admin_live_fixture
@@ -660,7 +680,9 @@ index = {
     "status" => supabase_status,
     "release_status_decision" => release_status["decision"],
     "go_live_gate_decision" => go_live_gate["decision"],
-    "go_live_approved" => go_live_gate["go_live_approved"]
+    "go_live_approved" => go_live_gate["go_live_approved"],
+    "go_live_gate_status" => go_live_gate["status"],
+    "blocker_keys" => go_live_gate["blocker_keys"] || []
   },
   "bundle_files" => bundle_files,
   "secret_handling" => "Evidence index stores paths, decisions, hashes, and blocker keys only; it must not print .env values or raw customer data."
@@ -676,5 +698,5 @@ else
   end
 end
 
-exit(index_status == "pass" ? 0 : 1)
+exit(index_status == "pass" ? 0 : (index_status == "blocked" ? 99 : 1))
 RUBY
