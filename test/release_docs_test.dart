@@ -598,6 +598,15 @@ checking Edge Function secret names
         ).writeAsStringSync(
           jsonEncode({'status': 'pass', 'manifest_written': true}),
         );
+        Directory('${tempDir.path}/supabase').createSync();
+        File('${tempDir.path}/supabase/summary.json').writeAsStringSync(
+          jsonEncode({
+            'status': 'blocked',
+            'blocker_keys': ['android_sms_access_uat'],
+            'blocked_reasons': ['acceptance_matrix_blocked'],
+            'blocked_commands': ['acceptance_matrix_json'],
+          }),
+        );
         final rows = commandFiles.entries.map(
           (entry) => '${entry.key}\t${entry.value}\t0\tstart\tfinish',
         );
@@ -620,6 +629,14 @@ checking Edge Function secret names
         expect(supabaseCommand['status'], 'blocked');
         expect(decoded['section_statuses']['commands'], 'blocked');
         expect(decoded['section_statuses']['supabase_go_live'], 'blocked');
+        expect(
+          decoded['section_statuses']['supabase_evidence_bundle'],
+          'blocked',
+        );
+        expect(
+          decoded['supabase_evidence_bundle']['blocker_keys'],
+          contains('android_sms_access_uat'),
+        );
       } finally {
         tempDir.deleteSync(recursive: true);
       }

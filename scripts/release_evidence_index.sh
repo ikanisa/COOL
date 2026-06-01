@@ -528,6 +528,19 @@ supabase_status =
     "fail"
   end
 
+supabase_evidence_bundle_status =
+  if command_ok?(commands, "supabase_go_live_evidence") && supabase_summary["status"] == "pass"
+    "pass"
+  elsif command_blocked?(commands, "supabase_go_live_evidence") ||
+      supabase_summary["status"] == "blocked" ||
+      Array(supabase_summary["blocker_keys"]).any? ||
+      Array(supabase_summary["blocked_reasons"]).any? ||
+      Array(supabase_summary["blocked_commands"]).any?
+    "blocked"
+  else
+    "fail"
+  end
+
 worktree_status =
   if command_ok?(commands, "release_worktree_review") && worktree_review["status"] == "pass"
     "pass"
@@ -582,7 +595,8 @@ section_statuses = {
   "worktree_review" => worktree_status,
   "human_uat_evidence" => uat_evidence_status,
   "human_uat_signoff" => signoff_status,
-  "supabase_go_live" => supabase_status
+  "supabase_go_live" => supabase_status,
+  "supabase_evidence_bundle" => supabase_evidence_bundle_status
 }
 
 failed_sections = section_statuses.select { |_name, status| status == "fail" }.keys
@@ -699,6 +713,14 @@ index = {
     "go_live_approved" => go_live_gate["go_live_approved"],
     "go_live_gate_status" => go_live_gate["status"],
     "blocker_keys" => go_live_gate["blocker_keys"] || []
+  },
+  "supabase_evidence_bundle" => {
+    "status" => supabase_evidence_bundle_status,
+    "summary_path" => File.join(bundle_dir, "supabase", "summary.json"),
+    "bundle_status" => supabase_summary["status"],
+    "blocker_keys" => supabase_summary["blocker_keys"] || [],
+    "blocked_reasons" => supabase_summary["blocked_reasons"] || [],
+    "blocked_commands" => supabase_summary["blocked_commands"] || []
   },
   "bundle_files" => bundle_files,
   "secret_handling" => "Evidence index stores paths, decisions, hashes, and blocker keys only; it must not print .env values or raw customer data."
