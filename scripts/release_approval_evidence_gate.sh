@@ -99,6 +99,19 @@ unless extra_keys.empty?
   checks["unexpected_keys"] = check("fail", "Approval manifest contains unexpected approval records.", "extra_keys" => extra_keys)
 end
 
+%w[approval_packet qa_summary].each do |key|
+  reference = manifest[key].to_s.strip
+  if reference.length < 3
+    blocker_keys << "#{key}_reference"
+    checks[key] = check("blocked", "Approval manifest #{key} reference is missing.")
+  elsif evidence_reference_valid?(reference, root_dir)
+    checks[key] = check("pass", "Approval manifest #{key} reference exists.", "reference" => reference)
+  else
+    blocker_keys << "#{key}_reference"
+    checks[key] = check("blocked", "Approval manifest #{key} reference does not resolve to a repo artifact or HTTPS URL.", "reference" => reference)
+  end
+end
+
 approvals = {}
 required_keys.each do |key|
   record = records_by_key[key] || {}

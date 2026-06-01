@@ -289,6 +289,43 @@ void main() {
     },
   );
 
+  test(
+    'release approval evidence gate requires manifest evidence references',
+    () {
+      final tempDir = Directory.systemTemp.createTempSync(
+        'cool_release_approvals_',
+      );
+      try {
+        final manifest =
+            jsonDecode(
+                  File(
+                    'docs/release/RELEASE_APPROVALS.example.json',
+                  ).readAsStringSync(),
+                )
+                as Map<String, dynamic>;
+        manifest['qa_summary'] =
+            '.cache/repo_wide_qa_uat/DOES_NOT_EXIST/summary.json';
+
+        final manifestFile = File('${tempDir.path}/approvals.json')
+          ..writeAsStringSync(jsonEncode(manifest));
+        final result = Process.runSync(
+          './scripts/release_approval_evidence_gate.sh',
+          ['--json'],
+          environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
+        );
+
+        expect(result.exitCode, 99);
+        final decoded =
+            jsonDecode(result.stdout as String) as Map<String, dynamic>;
+        expect(decoded['status'], 'blocked');
+        expect(decoded['blocker_keys'], contains('qa_summary_reference'));
+        expect(decoded['checks']['qa_summary']['status'], 'blocked');
+      } finally {
+        tempDir.deleteSync(recursive: true);
+      }
+    },
+  );
+
   test('approved release manifest can drive final release status', () {
     final result = Process.runSync(
       './scripts/release_status.sh',

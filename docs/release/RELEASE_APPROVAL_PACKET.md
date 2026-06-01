@@ -14,6 +14,10 @@ Signed approvals must be recorded in
 `make release-approval-evidence-gate-json` passes and the final release gates
 consume that approved manifest.
 
+Approval evidence references must resolve to an existing repo artifact or a
+valid HTTPS URL. Placeholder paths, missing files, `file:` URLs, and non-HTTPS
+URLs fail closed.
+
 Secret handling: do not paste secrets, signing keys, raw SMS bodies,
 phone/MoMo numbers, service-role keys, provider tokens, or production customer
 data into approval records.
