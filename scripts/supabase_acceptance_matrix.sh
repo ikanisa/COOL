@@ -327,6 +327,14 @@ overall_status =
   else
     "pass"
   end
+exit_code =
+  if overall_status == "pass"
+    0
+  elsif overall_status == "blocked"
+    99
+  else
+    1
+  end
 
 matrix = {
   "generated_at" => Time.now.utc.iso8601,
@@ -340,7 +348,7 @@ matrix = {
 
 if format == "json"
   puts JSON.pretty_generate(matrix)
-  exit(overall_status == "fail" ? 1 : 0)
+  exit(exit_code)
 end
 
 puts "# Supabase Acceptance Matrix"
@@ -365,5 +373,5 @@ unless blocked.empty?
   end
 end
 
-exit(overall_status == "fail" ? 1 : 0)
+exit(exit_code)
 RUBY

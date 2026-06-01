@@ -462,7 +462,7 @@ checking Edge Function secret names
         ['--json', '--bundle-dir', tempDir.path],
       );
 
-      expect(result.exitCode, 0);
+      expect(result.exitCode, 99);
       final decoded =
           jsonDecode(result.stdout as String) as Map<String, dynamic>;
       final requirements = (decoded['requirements'] as List<dynamic>)
