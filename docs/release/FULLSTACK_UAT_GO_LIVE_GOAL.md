@@ -37,7 +37,10 @@ human operator workflows.
 - Full Flutter/release-doc tests: pass with `101` tests.
 - `scripts/admin_pwa_release_build.sh`: pass.
 - `scripts/admin_pwa_render_smoke.sh`: pass with evidence at
-  `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`.
+  `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke`.
+- `scripts/mobile_route_render_smoke.sh`: pass with retained 390x844
+  screenshots and JSON nonblank checks at
+  `.cache/mobile_route_render_smoke/20260601T211529Z`.
 - `scripts/collect_edge_auth_contract_uat.sh`: pass.
 - `deno check` for parser/ingestion/allocation functions: pass.
 - `./scripts/migrations/validate_supabase_migrations.sh`: pass.

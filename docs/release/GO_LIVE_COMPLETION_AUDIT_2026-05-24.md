@@ -14,7 +14,8 @@ the old goals/campaign/manual-SMS/anonymity product model.
 | --- | --- |
 | Flutter analyzer | Pass with `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze`. |
 | Flutter tests | Pass: `101` tests in the full Flutter/release-doc suite. |
-| Admin PWA local build/render | Pass: release build and render smoke evidence under `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`. |
+| Admin PWA local build/render | Pass: release build and render smoke evidence under `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke`. |
+| Mobile route render evidence | Pass: retained 390x844 screenshots and JSON nonblank checks for 21 representative routes under `.cache/mobile_route_render_smoke/20260601T211529Z`. |
 | Admin PWA live gate | Pass: `https://cool-admin-212.pages.dev` passed `scripts/admin_pwa_live_gate.sh --json`. |
 | Local Supabase migration validation | Pass. |
 | Edge Function auth/type checks | Pass. |
@@ -37,7 +38,7 @@ the old goals/campaign/manual-SMS/anonymity product model.
 | Verify contribution/payment intent/USSD launch | Backend proven | Repository/widget tests and linked rollback UAT pass; physical Android walkthrough remains pending. |
 | Verify MoMo SMS ingestion/parser/allocation | Device UAT pending | Edge contracts and linked allocation UAT pass; physical Android SMS UAT remains pending. |
 | Verify admin monitoring and RBAC | Partial | Local Admin PWA, live Admin PWA gate, and linked admin/security UAT pass; human admin walkthrough/signoff remains. |
-| Verify release evidence quality | Partial | Current release docs have been refreshed; final release packet must be regenerated after device UAT and signoffs pass. |
+| Verify release evidence quality | Partial | Current release docs, approval packet, repo-wide QA index, and mobile render evidence are refreshed; final release packet must still be regenerated after device UAT and signoffs pass. |
 
 ## Current Blocking Keys
 

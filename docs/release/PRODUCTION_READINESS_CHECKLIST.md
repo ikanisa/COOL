@@ -20,8 +20,9 @@ final production decision.
 | Payment intent contribution | Pass locally | Contribution creates a payment intent and launches MoMo USSD via `tel:`. |
 | Automated SMS parsing/allocation | Backend proven; device UAT pending | Edge Function type-check, linked SMS-first rollback UAT, schema inventory, and Supabase readiness pass. Real Android SMS device UAT is still pending. |
 | Admin PWA local build | Pass | `scripts/admin_pwa_release_build.sh` passed. |
-| Admin PWA local render smoke | Pass | `scripts/admin_pwa_render_smoke.sh` passed with evidence at `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`. |
+| Admin PWA local render smoke | Pass | `scripts/admin_pwa_render_smoke.sh` passed inside the current repo-wide QA bundle at `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke`. |
 | Admin PWA live deployment | Pass | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` passed. |
+| Mobile route render smoke | Pass | `scripts/mobile_route_render_smoke.sh` captured retained 390x844 screenshots and JSON nonblank checks for 21 representative mobile routes at `.cache/mobile_route_render_smoke/20260601T211529Z`. |
 | Flutter analyzer | Pass | `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze` completed cleanly. |
 | Flutter tests | Pass | Full Flutter/release-doc suite passed `101` tests. |
 | Local migration validation | Pass | `./scripts/migrations/validate_supabase_migrations.sh` passed. |
@@ -31,7 +32,7 @@ final production decision.
 | Linked Supabase readiness | Pass | `scripts/supabase_production_readiness.sh` passed; direct pooler lint/dry-run remains unavailable from this network but linked schema/advisor/UAT gates are green. |
 | Android real SMS UAT | Pending | Fresh MoMo SMS consent/ingestion/parse/allocation/ledger evidence is not yet recorded. |
 | Android release APK/AAB | Pass | Production APK/AAB artifacts are newer than Android/mobile sources; `scripts/release_artifact_manifest.sh --json` passed and wrote `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-31.sha256`. |
-| Release worktree review | Pass | `scripts/release_worktree_review_gate.sh --json` passed at commit `5eea474`. |
+| Release worktree review | Pass | `scripts/release_worktree_review_gate.sh --json` passed at commit `b216c89`; branch remains ahead of origin until pushed/reviewed. |
 | Android signing and iOS scope | Blocked | `scripts/flutter_mobile_release_gate.sh --json` reports `android_release_signing_review` and `ios_release_scope`. |
 
 ## Production Blockers
@@ -66,7 +67,8 @@ TMPDIR=/Volumes/PRO-G40/tmp/cool-flutter-test /Volumes/PRO-G40/flutter_3_44/bin/
 ./scripts/migrations/validate_supabase_migrations.sh
 ./scripts/collect_edge_auth_contract_uat.sh
 ./scripts/admin_pwa_release_build.sh
-ADMIN_PWA_RENDER_EVIDENCE_DIR=.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current ./scripts/admin_pwa_render_smoke.sh
+ADMIN_PWA_RENDER_EVIDENCE_DIR=.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke ./scripts/admin_pwa_render_smoke.sh
+./scripts/mobile_route_render_smoke.sh
 ./scripts/collect_admin_security_uat.sh
 ./scripts/collect_linked_uat.sh
 ./scripts/supabase_production_readiness.sh

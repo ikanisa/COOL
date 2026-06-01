@@ -35,6 +35,9 @@ void main() {
       expect(text, isNot(contains('supabase_pitr')));
       expect(text, isNot(contains('`113` tests')));
       expect(text, isNot(contains('20260526T042822Z')));
+      expect(text, isNot(contains('20260527T041454Z')));
+      expect(text, isNot(contains('.cache/admin_pwa_render_smoke/')));
+      expect(text, isNot(contains('commit `5eea474`')));
     }
 
     for (final key in ['decision', 'blockers', 'qa', 'uat', 'packet']) {
@@ -60,6 +63,8 @@ void main() {
     expect(docs['signoff'], contains('20260601T205424Z'));
     expect(docs['qa'], contains('scripts/mobile_route_render_smoke.sh'));
     expect(docs['qa'], contains('20260601T211529Z'));
+    expect(docs['checklist'], contains('20260601T205424Z'));
+    expect(docs['checklist'], contains('20260601T211529Z'));
     expect(
       File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
       contains('"status": "pending"'),

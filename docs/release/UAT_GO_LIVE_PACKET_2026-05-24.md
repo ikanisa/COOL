@@ -36,8 +36,9 @@ UAT.
 | Analyze | `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze` | Pass. |
 | Flutter tests | Full Flutter/release-doc suite | Pass: `101` tests. |
 | Admin PWA build | `scripts/admin_pwa_release_build.sh` | Pass. |
-| Admin PWA render | `scripts/admin_pwa_render_smoke.sh` | Pass; evidence at `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`. |
+| Admin PWA render | `scripts/admin_pwa_render_smoke.sh` | Pass; evidence at `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke`. |
 | Admin PWA live | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` | Pass. |
+| Mobile route render | `scripts/mobile_route_render_smoke.sh` | Pass; retained 390x844 screenshots and JSON nonblank checks for 21 representative mobile routes at `.cache/mobile_route_render_smoke/20260601T211529Z`. |
 | Migration validation | `./scripts/migrations/validate_supabase_migrations.sh` | Pass. |
 | Edge auth UAT | `scripts/collect_edge_auth_contract_uat.sh` | Pass. |
 | Edge type-check | `deno check` parser/ingestion/allocation functions | Pass. |
@@ -53,6 +54,7 @@ UAT.
 | --- | --- | --- |
 | Flutter local tests | Pass | Local route, UI, repository, and contract coverage is green. |
 | Admin PWA local Chrome render | Pass | Desktop and mobile screenshots are nonblank and show Collect admin login. |
+| Mobile route Chrome render | Pass | 21 representative mobile routes have retained 390x844 screenshots and JSON nonblank checks. |
 | Admin PWA live URL | Pass | `https://cool-admin-212.pages.dev` passed the live gate. |
 | Android SMS access device | Pending | Real SMS access, ingestion, parse, allocation, and ledger evidence is required. |
 | Android release APK/AAB | Pass | Release artifacts are current; signing and iOS scope evidence remain blocked. |
@@ -73,7 +75,7 @@ secrets, provider secrets, or production customer data.
 | Admin PWA live proof drift | Controlled | Rerun the live gate after every Admin PWA deployment. |
 | Android release signing / iOS scope | Open P0 | Record signing review and iOS scope evidence, then rerun release gates. |
 | Product signoff missing | Open P0 | Approve corrected product definition. |
-| Dirty worktree | Open P1 | Review/stage intended changes only. |
+| Release branch ahead of origin | Open P1 | Push/review the current release branch when ready. |
 
 ## Final GO Criteria
 

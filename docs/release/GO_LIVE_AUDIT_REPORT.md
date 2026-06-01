@@ -32,8 +32,9 @@ complete.
 | Edge Function auth contract | Pass | `scripts/collect_edge_auth_contract_uat.sh` passed. |
 | Edge Function type-check | Pass | `deno check` passed for parser, ingestion, and allocation functions. |
 | Admin PWA local build | Pass | `scripts/admin_pwa_release_build.sh` built `build/web` and passed local PWA gates. |
-| Admin PWA render smoke | Pass | `scripts/admin_pwa_render_smoke.sh` passed with evidence at `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`. |
+| Admin PWA render smoke | Pass | `scripts/admin_pwa_render_smoke.sh` passed with evidence at `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke`. |
 | Admin PWA live deployment | Pass | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` passed. |
+| Mobile route render smoke | Pass | `scripts/mobile_route_render_smoke.sh` captured retained 390x844 screenshots and JSON nonblank checks for 21 representative mobile routes at `.cache/mobile_route_render_smoke/20260601T211529Z`. |
 | Linked admin/security UAT | Pass | `scripts/collect_admin_security_uat.sh` passed via linked database query. |
 | Linked SMS-first contribution UAT | Pass | `scripts/collect_linked_uat.sh` passes via linked database query. |
 | Supabase readiness | Pass | `scripts/supabase_production_readiness.sh` passes. |
@@ -64,7 +65,7 @@ complete.
 | P0-001 | Product signoff | P0 | Corrected SMS-first Groups product definition still needs stakeholder approval. | Review and approve `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md`. |
 | P0-002 | Android SMS UAT | P0 | Real MoMo SMS app access and automatic parsing/allocation are not freshly evidenced. | Run physical Android UAT with sanitized MoMo SMS scenarios. |
 | P0-003 | Admin PWA live | Resolved | Local Admin PWA proof is green and `https://cool-admin-212.pages.dev` passes the deployed URL live gate. | Rerun live gate after every Admin PWA deployment. |
-| P1-001 | Release hygiene | Resolved locally | Worktree review passes at commit `5eea474`; branch remains ahead of origin until pushed. | Push/review release branch when ready. |
+| P1-001 | Release hygiene | Resolved locally | Worktree review passes at commit `b216c89`; branch remains ahead of origin until pushed. | Push/review release branch when ready. |
 | P0-005 | Store release | P0 | Android signing review and iOS release scope need current release-owner evidence. | Attach signed release metadata or explicitly scope iOS out. |
 
 ## Decision Basis
