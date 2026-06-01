@@ -59,6 +59,13 @@ def evidence_reference_valid?(value, root_dir)
   inside_repo && File.exist?(expanded_path)
 end
 
+def template_manifest?(manifest_path, manifest)
+  basename = File.basename(manifest_path).downcase
+  basename.include?("example") ||
+    manifest["template"] == true ||
+    manifest["secret_handling"].to_s.match?(/\btemplate only\b/i)
+end
+
 failure_keys = []
 blocker_keys = []
 checks = {}
@@ -72,6 +79,15 @@ rescue Errno::ENOENT
 rescue JSON::ParserError => error
   failure_keys << "release_approvals_manifest_json"
   checks["manifest"] = check("fail", "Release approvals manifest is not valid JSON.", "error" => error.message)
+end
+
+if manifest.any? && template_manifest?(manifest_path, manifest)
+  failure_keys << "release_approvals_manifest_template"
+  checks["manifest_template"] = check(
+    "fail",
+    "Release approvals manifest is a template/example and cannot approve production GO.",
+    "path" => manifest_path
+  )
 end
 
 records = Array(manifest["approvals"])

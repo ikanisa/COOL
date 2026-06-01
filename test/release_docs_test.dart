@@ -4,6 +4,19 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  Map<String, dynamic> approvedReleaseManifest() {
+    final manifest =
+        jsonDecode(
+              File(
+                'docs/release/RELEASE_APPROVALS.example.json',
+              ).readAsStringSync(),
+            )
+            as Map<String, dynamic>;
+    manifest['secret_handling'] =
+        'Signed approval evidence metadata only; no secrets or production customer data.';
+    return manifest;
+  }
+
   test('release docs describe current SMS-first Groups blockers only', () {
     final docs = <String, String>{
       'decision': File('docs/release/GO_NO_GO_DECISION.md').readAsStringSync(),
@@ -307,13 +320,7 @@ void main() {
         'cool_release_approvals_',
       );
       try {
-        final manifest =
-            jsonDecode(
-                  File(
-                    'docs/release/RELEASE_APPROVALS.example.json',
-                  ).readAsStringSync(),
-                )
-                as Map<String, dynamic>;
+        final manifest = approvedReleaseManifest();
         final approvals = manifest['approvals'] as List<dynamic>;
         final product = approvals.cast<Map<String, dynamic>>().firstWhere(
           (record) => record['key'] == 'product_signoff',
@@ -355,13 +362,7 @@ void main() {
         'cool_release_approvals_',
       );
       try {
-        final manifest =
-            jsonDecode(
-                  File(
-                    'docs/release/RELEASE_APPROVALS.example.json',
-                  ).readAsStringSync(),
-                )
-                as Map<String, dynamic>;
+        final manifest = approvedReleaseManifest();
         manifest['qa_summary'] =
             '.cache/repo_wide_qa_uat/DOES_NOT_EXIST/summary.json';
 
@@ -385,7 +386,7 @@ void main() {
     },
   );
 
-  test('approved release manifest can drive final release status', () {
+  test('release approval example manifest cannot approve production GO', () {
     final result = Process.runSync(
       './scripts/release_status.sh',
       ['--json'],
@@ -397,15 +398,50 @@ void main() {
 
     expect(result.exitCode, 0);
     final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
-    expect(decoded['decision'], 'GO');
-    expect(decoded['blocker_keys'], isEmpty);
-    expect(decoded['evidence_flags']['product_signoff'], '1');
-    expect(decoded['evidence_flags']['android_sms_uat'], '1');
+    expect(decoded['decision'], 'NO-GO');
     expect(
-      decoded['evidence_flags']['android_release_signing_review'],
-      'current',
+      decoded['blocker_keys'],
+      containsAll(<String>[
+        'product_signoff',
+        'android_sms_access_uat',
+        'android_release_signing_review',
+        'ios_release_scope',
+        'release_owner_signoff',
+      ]),
     );
-    expect(decoded['evidence_flags']['ios_release_scope'], 'current');
-    expect(decoded['evidence_flags']['release_owner_signoff'], '1');
+  });
+
+  test('approved release manifest can drive final release status', () {
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_release_approvals_',
+    );
+    try {
+      final manifestFile = File('${tempDir.path}/approvals.json')
+        ..writeAsStringSync(jsonEncode(approvedReleaseManifest()));
+      final result = Process.runSync(
+        './scripts/release_status.sh',
+        ['--json'],
+        environment: {
+          'RELEASE_APPROVALS_JSON': manifestFile.path,
+          'ADMIN_PWA_LIVE_URL': 'https://cool-admin-212.pages.dev',
+        },
+      );
+
+      expect(result.exitCode, 0);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['decision'], 'GO');
+      expect(decoded['blocker_keys'], isEmpty);
+      expect(decoded['evidence_flags']['product_signoff'], '1');
+      expect(decoded['evidence_flags']['android_sms_uat'], '1');
+      expect(
+        decoded['evidence_flags']['android_release_signing_review'],
+        'current',
+      );
+      expect(decoded['evidence_flags']['ios_release_scope'], 'current');
+      expect(decoded['evidence_flags']['release_owner_signoff'], '1');
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
   });
 }

@@ -69,9 +69,18 @@ def evidence_reference_valid?(value, root_dir)
   inside_repo && File.exist?(expanded_path)
 end
 
+def template_manifest?(manifest_path, manifest)
+  basename = File.basename(manifest_path).downcase
+  basename.include?("example") ||
+    manifest["template"] == true ||
+    manifest["secret_handling"].to_s.match?(/\btemplate only\b/i)
+end
+
 def release_approval_records(root_dir)
   path = ENV.fetch("RELEASE_APPROVALS_JSON", File.join(root_dir, "docs/release/RELEASE_APPROVALS.json"))
   data = JSON.parse(File.read(path))
+  return {} if template_manifest?(path, data)
+
   Array(data["approvals"]).each_with_object({}) do |record, memo|
     key = record["key"].to_s.strip
     memo[key] = record if key != ""
