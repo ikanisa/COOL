@@ -7,10 +7,10 @@ older platform-blocker framing from the previous release packet.
 
 ## Current Decision
 
-Current Supabase backend status is **green for code-owned linked readiness**.
-Overall release remains **NO-GO** until Android SMS device UAT, Admin PWA live
-proof, release signing/scope evidence, product signoff, and release-owner
-signoff are complete.
+Current Supabase backend status is **blocked on linked migration drift**.
+Overall release remains **NO-GO** until the contribution-intent sender-hash
+migration is applied, Android SMS device UAT, release signing/scope evidence,
+product signoff, and release-owner signoff are complete.
 
 Fresh evidence:
 
@@ -18,8 +18,10 @@ Fresh evidence:
 - Edge Function auth contract passes.
 - Parser, ingestion, and allocation functions type-check.
 - Linked admin/security rollback UAT passes.
-- Linked contribution/allocation rollback UAT passes.
-- `scripts/supabase_production_readiness.sh` passes against the linked project.
+- Linked contribution/allocation rollback UAT now fails because the linked
+  project drops the contribution intent sender hash.
+- `scripts/supabase_production_readiness.sh` cannot be claimed green until
+  linked contribution UAT passes again.
 - Legacy Edge Functions for manual allocation and public-collection requests
   were removed from the linked project.
 
@@ -28,8 +30,8 @@ fresh readiness run reproduces them.
 
 ## Required Backend Work
 
-1. Keep linked readiness green by rerunning `scripts/supabase_production_readiness.sh`
-   after any database or Edge Function change.
+1. Apply `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`
+   to the linked project, then rerun `scripts/collect_linked_uat.sh`.
 2. Deploy active Edge Functions only:
    - `auth-send-whatsapp-otp`
    - `ingest-payment-sms`
@@ -59,6 +61,7 @@ Release status now reports only current SMS-first blockers:
 - `android_sms_access_uat`
 - `android_release_signing_review`
 - `ios_release_scope`
+- `linked_supabase_sms_first_migration`
 - `admin_pwa_live_url`
 - `release_owner_signoff`
 

@@ -254,6 +254,7 @@ Date/time: 2026-06-01T12:30:00Z
         'android_sms_access_uat',
         'android_release_signing_review',
         'ios_release_scope',
+        'linked_supabase_sms_first_migration',
         'release_owner_signoff',
       ]),
     );
@@ -1159,6 +1160,7 @@ checking Edge Function secret names
         environment: {
           'RELEASE_APPROVALS_JSON': manifestFile.path,
           'ADMIN_PWA_LIVE_URL': 'https://cool-admin-212.pages.dev',
+          'COLLECT_LINKED_SMS_FIRST_UAT_PASSED': '1',
         },
       );
 

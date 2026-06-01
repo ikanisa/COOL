@@ -33,6 +33,9 @@ void main() {
   final smsFirstGroupPaymentIntents = File(
     'supabase/migrations/202605270001_sms_first_group_payment_intents.sql',
   ).readAsStringSync();
+  final contributionIntentSenderHash = File(
+    'supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql',
+  ).readAsStringSync();
   final mobileProductionStateSupport = File(
     'supabase/migrations/20260531190000_mobile_production_state_support.sql',
   ).readAsStringSync();
@@ -53,6 +56,11 @@ void main() {
       smsFirstGroupPaymentIntents,
       'create or replace function create_contribution_intent',
       'create or replace function join_group_by_slug',
+    );
+    final senderHashMigrationFunction = migrationSection(
+      contributionIntentSenderHash,
+      'create or replace function create_contribution_intent',
+      'revoke execute on function create_contribution_intent',
     );
     final contributionIntentReturn = migrationSection(
       contributionIntentFunction,
@@ -76,6 +84,15 @@ void main() {
     );
     expect(contributionIntentFunction, isNot(contains('p_anonymity_choice')));
     expect(contributionIntentFunction, isNot(contains('anonymity_choice')));
+    expect(
+      senderHashMigrationFunction,
+      contains("nullif(trim(p_sender_phone_hash), '')"),
+    );
+    expect(
+      senderHashMigrationFunction,
+      contains('intent_row.sender_phone_hash'),
+    );
+    expect(contributionIntentSenderHash, contains('to authenticated'));
     expect(contributionIntentReturn, isNot(contains('contribution_code')));
     expect(
       smsFirstGroupPaymentIntents,
@@ -887,6 +904,13 @@ void main() {
       contains('missing receiver authorization unexpectedly passed'),
     );
     expect(linkedUat, contains('allocation was not idempotent'));
+    expect(
+      linkedUat,
+      contains(
+        'from create_contribution_intent(uat_group_id, 5000, contributor_hash)',
+      ),
+    );
+    expect(linkedUat, contains('payment intent sender hash was not stored'));
     expect(linkedUat, contains("expires_at = now() - interval '3 hours'"));
     expect(linkedUat, contains('expired intent should not auto-match'));
     expect(linkedUat, contains('ambiguous event was posted automatically'));

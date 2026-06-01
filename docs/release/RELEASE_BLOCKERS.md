@@ -4,7 +4,9 @@ Audit date: 2026-06-01
 
 Decision impact: NO-GO until the SMS-first Groups refactor is signed off,
 validated on a real Android SMS device, and approved for the current
-Android/iOS release scope.
+Android/iOS release scope. A fresh linked UAT also shows the linked database
+has not yet applied the sender-hash preservation migration for contribution
+intents.
 
 This file intentionally does not carry forward older unverified Supabase
 platform blockers from the previous product definition. Platform blockers must
@@ -19,7 +21,8 @@ refactor is deployed or tested against the linked project.
 | P0-002 | Android SMS ingestion UAT | Real Android MoMo SMS consent, foreground/background/killed/offline upload, parser, and allocation flow is not freshly evidenced for the new Groups/payment-intent contract. | Code migration and Edge Function checks pass locally; no fresh physical-device SMS evidence has been produced in this refactor pass. | Run Android device UAT with real MoMo SMS scenarios and store sanitized evidence. |
 | P0-003 | Android release signing | Android release signing / Play App Signing review is not approved for the current APK/AAB outputs. | `scripts/flutter_mobile_release_gate.sh --json` reports blocker key `android_release_signing_review`; APK/AAB artifacts are current. | Record Android release signing review evidence and rerun `scripts/flutter_mobile_release_gate.sh --json`. |
 | P0-004 | iOS release scope | iOS release scope is not signed off or explicitly marked out of scope. | `scripts/flutter_mobile_release_gate.sh --json` reports blocker key `ios_release_scope`. | Sign off iOS contributor-only scope or mark iOS explicitly out of scope, then rerun `scripts/flutter_mobile_release_gate.sh --json`. |
-| P0-005 | Release-owner signoff | Release-owner signoff for the current evidence packet is not approved. | `scripts/release_status.sh --json` reports blocker key `release_owner_signoff`. | Review the refreshed evidence packet and record release-owner approval. |
+| P0-005 | Linked Supabase migration | Linked contribution UAT now verifies the contributor sender hash is stored on payment intents, and the linked project still drops it. | `scripts/collect_linked_uat.sh` fails with `payment intent sender hash was not stored`; `scripts/release_status.sh --json` reports `linked_supabase_sms_first_migration`. | Apply `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`, then rerun `scripts/collect_linked_uat.sh`. |
+| P0-006 | Release-owner signoff | Release-owner signoff for the current evidence packet is not approved. | `scripts/release_status.sh --json` reports blocker key `release_owner_signoff`. | Review the refreshed evidence packet and record release-owner approval. |
 
 ## P1 Items
 
@@ -46,10 +49,10 @@ refactor is deployed or tested against the linked project.
 - `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json`: pass.
 - `scripts/mobile_route_render_smoke.sh`: pass, evidence at `.cache/mobile_route_render_smoke/20260601T211529Z`.
 - `scripts/collect_admin_security_uat.sh`: pass via linked database query.
-- `scripts/collect_linked_uat.sh`: pass via linked database query.
-- `scripts/supabase_production_readiness.sh`: pass; linked migration history,
-  schema inventory, advisors, grants, Edge Function inventory, admin UAT, and
-  SMS-first rollback UAT are current.
+- `scripts/collect_linked_uat.sh`: blocked until the linked project stores the
+  contribution intent sender hash.
+- `scripts/supabase_production_readiness.sh`: blocked by linked SMS-first UAT
+  until the sender-hash migration is applied.
 - `scripts/collect_edge_auth_contract_uat.sh`: pass.
 - `deno check` passed for:
   - `supabase/functions/parse-payment-sms/index.ts`
@@ -64,4 +67,5 @@ refactor is deployed or tested against the linked project.
 - `scripts/flutter_mobile_release_gate.sh --json`: blocked on Android release
   signing review and iOS release scope.
 - `scripts/release_status.sh --json`: blocked on product signoff, Android SMS
-  device UAT, Android signing review, iOS scope, and release-owner signoff.
+  device UAT, Android signing review, iOS scope, linked Supabase migration, and
+  release-owner signoff.

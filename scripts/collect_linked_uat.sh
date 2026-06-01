@@ -72,6 +72,7 @@ declare
   allocation_status text;
   receiver_phone text := '+250788123456';
   receiver_hash text := encode(extensions.digest('+250788123456', 'sha256'), 'hex');
+  contributor_hash text := encode(extensions.digest('+447700900002', 'sha256'), 'hex');
   contributor_collect_id text;
 begin
   insert into auth.users (
@@ -96,7 +97,7 @@ begin
 
   update profiles
     set momo_number = '+447700900002',
-        momo_number_hash = encode(extensions.digest('+447700900002', 'sha256'), 'hex')
+        momo_number_hash = contributor_hash
     where id = contributor_id
     returning public_id::text into contributor_collect_id;
 
@@ -139,13 +140,22 @@ begin
 
   perform set_config('request.jwt.claim.sub', contributor_id::text, true);
   select * into intent_row
-  from create_contribution_intent(uat_group_id, 5000, null);
+  from create_contribution_intent(uat_group_id, 5000, contributor_hash);
 
   if intent_row.status <> 'pending'
      or intent_row.expected_amount_rwf <> 5000
      or intent_row.receiver_momo_number <> receiver_phone
-     or intent_row.contributor_public_id <> contributor_collect_id then
+     or intent_row.contributor_public_id <> contributor_collect_id
+     or intent_row.sender_phone_hash <> contributor_hash then
     raise exception 'payment intent SMS-first contract failed';
+  end if;
+
+  if (
+    select sender_phone_hash
+    from payment_intents
+    where id = intent_row.id
+  ) is distinct from contributor_hash then
+    raise exception 'payment intent sender hash was not stored';
   end if;
 
   insert into parsed_payment_events (
