@@ -1314,7 +1314,7 @@ class PaymentIntentStatusCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AmountHero(amount: amountRwf, label: ''),
+          AmountHero(amount: amountRwf, label: 'Payment amount'),
           CollectSpacing.gap20,
           Wrap(
             spacing: CollectSpacing.x2,
@@ -2445,7 +2445,7 @@ class GroupCard extends StatelessWidget {
               Expanded(
                 child: AmountHero(
                   amount: summary.amountRaisedRwf,
-                  label: '',
+                  label: 'Confirmed total',
                   detail: '${summary.supporterCount} members',
                 ),
               ),

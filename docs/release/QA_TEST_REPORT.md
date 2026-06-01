@@ -1,6 +1,6 @@
 # Collect QA Test Report
 
-Audit date: 2026-05-31
+Audit date: 2026-06-01
 
 Scope: SMS-first Groups refactor for the Flutter mobile app, Admin PWA,
 Supabase schema/functions, payment-intent allocation, and release evidence.
@@ -21,19 +21,20 @@ fresh readiness run.
 | Command | Result | Notes |
 | --- | --- | --- |
 | `git status --short` | Dirty | Large active refactor state. Public release still needs explicit worktree review and staging. |
-| `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze` | Pass | Analyzer clean after the SMS-first app/admin refactor. |
-| Full Flutter/release-doc suite | Pass | `83` tests passed across Admin PWA, app shell, phone/Public ID, widgets, persona smoke, repository, Supabase contract, and release-doc tests. |
-| `scripts/admin_pwa_release_build.sh` | Pass | Built `build/web` for `lib/main_admin.dart` and passed Admin PWA manifest/hosting gates. |
-| `scripts/admin_pwa_render_smoke.sh` | Pass | Runtime/render evidence written to `.cache/admin_pwa_render_smoke/20260527T041454Z-sms-first-current`; desktop and mobile screenshots are nonblank and show the Collect admin login. |
+| `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub` | Pass | Analyzer clean after the Collect mobile UI and SMS-first app/admin refactor. |
+| Full Flutter/release-doc suite | Pass | `101` tests passed across Admin PWA, app shell, phone/Public ID, widgets, persona smoke, repository, Supabase contract, and release-doc tests. |
+| `scripts/admin_pwa_release_build.sh` | Pass | Built `build/web` for `lib/main_admin.dart` and passed Admin PWA manifest/hosting gates in `.cache/repo_wide_qa_uat/20260601T201947Z`. |
+| `scripts/admin_pwa_render_smoke.sh` | Pass | Runtime/render evidence written to `.cache/repo_wide_qa_uat/20260601T201947Z/admin_pwa_render_smoke`; desktop and mobile screenshots are nonblank and show the Collect admin login. |
 | `scripts/admin_pwa_live_gate.sh --json` | Blocked | `ADMIN_PWA_LIVE_URL` is missing; live deployment is not yet proven. |
 | `scripts/collect_edge_auth_contract_uat.sh` | Pass | Local Edge Function auth contract passed. |
 | `deno check supabase/functions/...` | Pass | `parse-payment-sms`, `ingest-payment-sms`, and `allocate-payment` type-check. |
 | `./scripts/migrations/validate_supabase_migrations.sh` | Pass | Local migration validation passes. |
 | `scripts/collect_admin_security_uat.sh` | Pass | Linked rollback UAT for admin RBAC, raw-SMS reveal audit logging, payment-event reparse permission, and denial paths passed. |
-| `scripts/collect_linked_uat.sh` | Pass | SMS-first rollback UAT passed via linked database query. |
+| `scripts/collect_linked_uat.sh` | Pass | SMS-first rollback UAT passed via linked Supabase database query. |
 | `scripts/supabase_production_readiness.sh` | Pass | Linked migration history, schema inventory, advisors, grants, Edge Function inventory, admin UAT, and SMS-first rollback UAT pass. |
+| `scripts/android_device_uat.sh` | Pass | Production-flavor integration smoke passed on device `13111JEC215558`. |
 | `scripts/flutter_mobile_release_gate.sh --json` | Blocked | APK/AAB artifacts are current; signing review and iOS scope remain pending. |
-| `scripts/release_artifact_manifest.sh --json` | Pass | Manifest wrote `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-31.sha256`. |
+| `scripts/release_artifact_manifest.sh --json` | Pass | Manifest and checksum evidence were refreshed in `.cache/repo_wide_qa_uat/20260601T201947Z`. |
 
 ## QA Findings
 

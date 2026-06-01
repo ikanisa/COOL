@@ -121,14 +121,14 @@ def bundle_redaction_scan(bundle_dir)
   findings = files.flat_map do |path|
     relative_path = path.sub(%r{\A#{Regexp.escape(bundle_root)}/?}, "")
     text = File.binread(path).to_s
-    forbidden_patterns.filter_map do |key, pattern|
+    forbidden_patterns.map do |key, pattern|
       next unless text.match?(pattern)
 
       {
         "path" => relative_path,
         "marker" => key
       }
-    end
+    end.compact
   end
 
   {

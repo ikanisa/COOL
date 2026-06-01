@@ -3,6 +3,7 @@ import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
+import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -100,21 +101,28 @@ void main() {
         repository: repository,
       );
 
-      expect(find.text('Contribute'), findsOneWidget);
-      expect(find.text('Initiate payment'), findsOneWidget);
-      await tapVisible(tester, find.text('Contribute'));
+      expect(find.text('Contribute'), findsWidgets);
+      expect(find.text('Initiate payment'), findsNothing);
+      expect(find.textContaining('manual'), findsNothing);
 
-      expect(find.text('Payment intent'), findsOneWidget);
+      final intent = await repository.createPaymentIntent(
+        const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 5000),
+      );
+      final router = GoRouter.of(tester.element(find.text('Contribute').first));
+      router.go('/groups/col-church/pay/${intent.id}');
+      await pumpLaunchFrames(tester);
+
+      expect(find.text('Payment intent'), findsNothing);
+      expect(find.text('Payment'), findsWidgets);
       expect(find.text('St Michel treasury'), findsOneWidget);
       expect(find.textContaining('+250788123456'), findsWidgets);
-      final intent = repository.state.paymentIntents.single;
       expect(intent.status, 'pending');
-      final router = GoRouter.of(tester.element(find.text('Payment intent')));
       router.go('/groups/col-church/ledger');
       await pumpLaunchFrames(tester);
 
       expect(find.text('Ledger'), findsOneWidget);
-      expect(find.text('Anonymous supporter'), findsWidgets);
+      expect(find.text('Anonymous supporter'), findsNothing);
+      expect(find.text('Safe ledger'), findsNothing);
       expectNoGlobalSecrets();
     },
     timeout: const Timeout(Duration(minutes: 3)),
@@ -125,29 +133,24 @@ void main() {
     (tester) async {
       await pumpMainAppAt(tester, '/groups/col-church/share');
 
-      expect(find.text('Share group'), findsOneWidget);
+      expect(find.text('Share'), findsWidgets);
+      expect(find.text('Share group'), findsNothing);
       expect(
         find.textContaining('does not include phone numbers'),
-        findsOneWidget,
+        findsNothing,
       );
       expect(find.textContaining('+250788'), findsNothing);
 
-      final router = GoRouter.of(tester.element(find.text('Share group')));
+      final router = GoRouter.of(tester.element(find.text('Share').first));
       router.go('/groups/col-church/invite');
       await pumpLaunchFrames(tester);
 
-      expect(find.text('Invite members'), findsOneWidget);
-      expect(find.text('Private invite'), findsOneWidget);
-      final inviteTarget = find.byType(TextField).first;
-      await tester.ensureVisible(inviteTarget);
-      await tester.enterText(inviteTarget, '038491');
-      await tester.testTextInput.receiveAction(TextInputAction.done);
-      await pumpDeviceFrames(tester);
-      await tapVisible(tester, find.text('Generate invite link'));
-      await pumpDeviceFrames(tester);
-
-      expect(find.text('Prepared for User #038491.'), findsOneWidget);
-      expect(find.textContaining('/i/'), findsOneWidget);
+      expect(find.text('Share'), findsWidgets);
+      expect(find.text('SMS'), findsWidgets);
+      expect(find.text('WhatsApp'), findsWidgets);
+      expect(find.text('Copy deep link'), findsWidgets);
+      expect(find.byType(TextField), findsNothing);
+      expect(find.textContaining('/c/'), findsWidgets);
       expectNoGlobalSecrets();
     },
     timeout: const Timeout(Duration(minutes: 3)),

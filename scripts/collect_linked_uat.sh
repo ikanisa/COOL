@@ -16,6 +16,40 @@ fi
 
 : "${DATABASE_URL:?DATABASE_URL is required}"
 READINESS_DATABASE_URL="${SUPABASE_READINESS_DATABASE_URL:-${DATABASE_POOLER_URL:-$DATABASE_URL}}"
+SUPABASE_LINKED_QUERY_TIMEOUT_SECONDS="${SUPABASE_LINKED_QUERY_TIMEOUT_SECONDS:-30}"
+
+run_with_timeout() {
+  local timeout_seconds="$1"
+  shift
+
+  if [[ ! "$timeout_seconds" =~ ^[0-9]+$ ]] || [[ "$timeout_seconds" -le 0 ]]; then
+    "$@"
+    return $?
+  fi
+
+  "$@" &
+  local command_pid=$!
+  (
+    sleep "$timeout_seconds"
+    if kill -0 "$command_pid" >/dev/null 2>&1; then
+      kill -TERM "$command_pid" >/dev/null 2>&1 || true
+      sleep 2
+      kill -KILL "$command_pid" >/dev/null 2>&1 || true
+    fi
+  ) &
+  local timer_pid=$!
+
+  local status=0
+  if wait "$command_pid"; then
+    status=0
+  else
+    status=$?
+  fi
+
+  kill "$timer_pid" >/dev/null 2>&1 || true
+  wait "$timer_pid" >/dev/null 2>&1 || true
+  return "$status"
+}
 
 tmp_sql="$(mktemp)"
 trap 'rm -f "$tmp_sql"' EXIT
@@ -275,11 +309,12 @@ rollback;
 SQL
 
 if [[ "${SUPABASE_DB_QUERY_MODE:-linked}" != "direct" ]]; then
-  if SUPABASE_ACCESS_TOKEN="$SUPABASE_ACCESS_TOKEN" supabase_cli db query --linked -f "$tmp_sql" -o json --agent=yes >/dev/null; then
+  export SUPABASE_ACCESS_TOKEN="${SUPABASE_ACCESS_TOKEN:-}"
+  if run_with_timeout "$SUPABASE_LINKED_QUERY_TIMEOUT_SECONDS" supabase_cli db query --linked -f "$tmp_sql" -o json --agent=yes >/dev/null; then
     printf '[collect-linked-uat] SMS-first rollback UAT passed via linked database query\n'
     exit 0
   fi
-  printf '[collect-linked-uat][WARN] Linked database query failed; falling back to READINESS_DATABASE_URL.\n' >&2
+  printf '[collect-linked-uat][WARN] Linked database query failed or timed out after %ss; falling back to READINESS_DATABASE_URL.\n' "$SUPABASE_LINKED_QUERY_TIMEOUT_SECONDS" >&2
 fi
 
 psql_cli "$READINESS_DATABASE_URL" -v ON_ERROR_STOP=1 -f "$tmp_sql"

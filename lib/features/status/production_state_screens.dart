@@ -231,7 +231,8 @@ class GroupCreatedSuccessScreen extends ConsumerWidget {
         _StateHero(
           icon: CollectIcons.check,
           title: collection?.title ?? 'Group ready.',
-          message: '',
+          message:
+              'The group is ready for members. Share the private link or open the group to review receiver and SMS readiness before contributions start.',
           tone: CollectStatusTone.success,
         ),
         CollectButton(
@@ -270,7 +271,8 @@ class JoinGroupConfirmationScreen extends ConsumerWidget {
               _StateHero(
                 icon: CollectIcons.check,
                 title: collection?.title ?? 'Joined.',
-                message: '',
+                message:
+                    'You can review the group and contribute by MoMo. Receiver details stay inside the payment review step.',
                 tone: CollectStatusTone.success,
               ),
               CollectSpacing.gap16,
@@ -1377,7 +1379,8 @@ class ShareConfirmationScreen extends StatelessWidget {
     return _SimpleStateScreen(
       title: 'Share ready',
       heroTitle: message,
-      message: '',
+      message:
+          'The share action is prepared without exposing receiver MoMo details on the public link.',
       icon: CollectIcons.check,
       tone: CollectStatusTone.success,
     );

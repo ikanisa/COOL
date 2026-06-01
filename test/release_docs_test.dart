@@ -42,7 +42,7 @@ void main() {
     expect(docs['blockers'], contains('P0-003'));
     expect(docs['blockers'], contains('ADMIN_PWA_LIVE_URL'));
     expect(docs['checklist'], contains('release_owner_signoff'));
-    expect(docs['qa'], contains('83'));
+    expect(docs['qa'], contains('101'));
     expect(docs['packet'], contains('Final GO Criteria'));
   });
 

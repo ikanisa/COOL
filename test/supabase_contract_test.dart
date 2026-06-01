@@ -890,6 +890,8 @@ void main() {
     expect(linkedUat, contains("expires_at = now() - interval '3 hours'"));
     expect(linkedUat, contains('expired intent should not auto-match'));
     expect(linkedUat, contains('ambiguous event was posted automatically'));
+    expect(linkedUat, contains('SUPABASE_LINKED_QUERY_TIMEOUT_SECONDS'));
+    expect(linkedUat, contains('run_with_timeout'));
   });
 
   test('parsed payment review events are collection-scoped', () {
@@ -926,8 +928,9 @@ void main() {
     );
     expect(
       ledger,
-      contains('contributionsForCollectionProvider(collectionId)'),
+      contains('contributionsForCollectionProvider(widget.collectionId)'),
     );
+    expect(ledger, contains('item.collectionId == widget.collectionId'));
     expect(ingest, contains('collection_id: collectionId'));
     expect(parser, contains('collection_id: rawSms.collection_id'));
   });
