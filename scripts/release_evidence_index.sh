@@ -565,7 +565,13 @@ bundle_files = [
 
 section_statuses = {
   "documents" => doc_items.any? { |item| item.fetch("status") == "fail" } ? "fail" : "pass",
-  "commands" => command_items.any? { |item| item.fetch("status") == "fail" } ? "fail" : "pass",
+  "commands" => if command_items.any? { |item| item.fetch("status") == "fail" }
+    "fail"
+  elsif command_items.any? { |item| item.fetch("status") == "blocked" }
+    "blocked"
+  else
+    "pass"
+  end,
   "bundle_redaction" => bundle_redaction.fetch("status"),
   "artifacts" => artifact_status,
   "flutter_mobile_release" => mobile_release_status,
