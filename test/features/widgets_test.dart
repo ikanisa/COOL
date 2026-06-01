@@ -1,5 +1,6 @@
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/features/payments/payment_intent_status_screen.dart';
+import 'package:collect_app/core/security/hash_utils.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collection_card.dart';
@@ -64,6 +65,10 @@ void main() {
     );
 
     expect(find.text('St Michel treasury'), findsOneWidget);
+    expect(
+      find.textContaining(HashUtils.phoneHash('+250788123456')),
+      findsNothing,
+    );
     expect(find.text('Waiting for MoMo SMS'), findsNothing);
     expect(find.text('Payment'), findsWidgets);
   });

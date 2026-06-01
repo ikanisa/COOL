@@ -117,6 +117,7 @@ class PaymentIntentModel {
     required this.receiverMomoNumber,
     this.receiverLabel = 'Primary MOMO receiver',
     this.network = 'unknown',
+    this.senderPhoneHash,
     required this.status,
     required this.createdAt,
     required this.expiresAt,
@@ -128,6 +129,7 @@ class PaymentIntentModel {
   final String receiverMomoNumber;
   final String receiverLabel;
   final String network;
+  final String? senderPhoneHash;
   final String status;
   final DateTime createdAt;
   final DateTime expiresAt;
@@ -143,6 +145,7 @@ class PaymentIntentModel {
       receiverLabel:
           (json['receiver_label'] as String?) ?? 'Primary MOMO receiver',
       network: (json['network'] as String?) ?? 'unknown',
+      senderPhoneHash: json['sender_phone_hash'] as String?,
       status: (json['status'] as String?) ?? 'pending',
       createdAt: _dateTime(json['created_at']),
       expiresAt: _dateTime(json['expires_at']),

@@ -1,4 +1,5 @@
 import 'package:collect_app/core/security/sms_access_channel.dart';
+import 'package:collect_app/core/security/hash_utils.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
@@ -55,8 +56,26 @@ void main() {
       expect(intent.expectedAmountRwf, 7500);
       expect(intent.receiverMomoNumber, '+250788123456');
       expect(intent.receiverLabel, 'St Michel treasury');
+      expect(intent.senderPhoneHash, HashUtils.phoneHash('+250788123456'));
     },
   );
+
+  test('payment intent model preserves Supabase sender phone hash', () {
+    final intent = PaymentIntentModel.fromJson(const {
+      'id': 'intent-1',
+      'collection_id': 'col-1',
+      'expected_amount_rwf': 5000,
+      'receiver_momo_number': '+250788123456',
+      'receiver_label': 'Treasury',
+      'network': 'mtn_momo',
+      'sender_phone_hash': 'sender-hash',
+      'status': 'pending',
+      'created_at': '2026-06-01T12:00:00Z',
+      'expires_at': '2026-06-02T12:00:00Z',
+    });
+
+    expect(intent.senderPhoneHash, 'sender-hash');
+  });
 
   test('profile MoMo is required before creating payment intents', () async {
     final repo = CollectRepository();

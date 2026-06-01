@@ -459,6 +459,7 @@ class CollectRepository extends StateNotifier<CollectState> {
       expectedAmountRwf: draft.amountRwf,
       receiverMomoNumber: receiver,
       receiverLabel: collection.receiverDisplayLabel,
+      senderPhoneHash: senderPhoneHash,
       status: 'pending',
       createdAt: DateTime.now(),
       expiresAt: DateTime.now().add(const Duration(hours: 24)),
