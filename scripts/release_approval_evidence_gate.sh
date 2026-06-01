@@ -16,9 +16,10 @@ esac
 
 manifest_path="${RELEASE_APPROVALS_JSON:-$ROOT_DIR/docs/release/RELEASE_APPROVALS.json}"
 
-OUTPUT_FORMAT="$output_format" MANIFEST_PATH="$manifest_path" ruby -r json -r time <<'RUBY'
+OUTPUT_FORMAT="$output_format" MANIFEST_PATH="$manifest_path" ROOT_DIR="$ROOT_DIR" ruby -r json -r time -r uri <<'RUBY'
 format = ENV.fetch("OUTPUT_FORMAT")
 manifest_path = ENV.fetch("MANIFEST_PATH")
+root_dir = ENV.fetch("ROOT_DIR")
 
 required_keys = %w[
   product_signoff
@@ -37,6 +38,25 @@ def iso8601_utc?(value)
   value.to_s.end_with?("Z")
 rescue ArgumentError, TypeError
   false
+end
+
+def valid_https_url?(value)
+  uri = URI.parse(value.to_s)
+  uri.is_a?(URI::HTTPS) && uri.host.to_s.strip != ""
+rescue URI::InvalidURIError
+  false
+end
+
+def evidence_reference_valid?(value, root_dir)
+  reference = value.to_s.strip
+  return false if reference == ""
+  return true if valid_https_url?(reference)
+  return false if reference.match?(/\A[a-z][a-z0-9+.-]*:/i)
+
+  expanded_root = File.expand_path(root_dir)
+  expanded_path = File.expand_path(reference, expanded_root)
+  inside_repo = expanded_path == expanded_root || expanded_path.start_with?("#{expanded_root}/")
+  inside_repo && File.exist?(expanded_path)
 end
 
 failure_keys = []
@@ -90,6 +110,7 @@ required_keys.each do |key|
   sanitized = record["sanitized_evidence"] == true
   contains_production_data = record["contains_production_customer_data"] == true
   signing_keys_exposed = record["signing_keys_exposed"] == true
+  evidence_reference_valid = evidence_reference_valid?(evidence_reference, root_dir)
 
   acceptable_status =
     if key == "ios_release_scope"
@@ -104,6 +125,7 @@ required_keys.each do |key|
   blockers << "reviewer" if reviewer.length < 2
   blockers << "signed_at" unless iso8601_utc?(signed_at)
   blockers << "evidence_reference" if evidence_reference.length < 3
+  blockers << "evidence_reference_missing" if evidence_reference.length >= 3 && !evidence_reference_valid
   blockers << "sanitized_evidence" unless sanitized
   blockers << "production_customer_data" if contains_production_data
   blockers << "signing_keys_exposed" if key == "android_release_signing_review" && signing_keys_exposed
@@ -117,6 +139,7 @@ required_keys.each do |key|
     "reviewer" => reviewer == "" ? nil : reviewer,
     "signed_at" => signed_at == "" ? nil : signed_at,
     "evidence_reference" => evidence_reference == "" ? nil : evidence_reference,
+    "evidence_reference_valid" => evidence_reference_valid,
     "blockers" => blockers
   }
 end
@@ -156,7 +179,7 @@ result = {
   "failure_keys" => failure_keys,
   "approvals" => approvals,
   "checks" => checks,
-  "secret_handling" => "This gate validates approval metadata only. Do not include secrets, signing keys, raw SMS bodies, phone/MoMo numbers, service-role keys, provider tokens, or production customer data."
+  "secret_handling" => "This gate validates approval metadata and evidence-reference existence only. Do not include secrets, signing keys, raw SMS bodies, phone/MoMo numbers, service-role keys, provider tokens, or production customer data."
 }
 
 if format == "json"

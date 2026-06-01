@@ -12,7 +12,7 @@ elif [[ "${1:-}" != "" ]]; then
   exit 2
 fi
 
-OUTPUT_FORMAT="$output_format" ROOT_DIR="$ROOT_DIR" ruby -r json -r time <<'RUBY'
+OUTPUT_FORMAT="$output_format" ROOT_DIR="$ROOT_DIR" ruby -r json -r time -r uri <<'RUBY'
 root_dir = ENV.fetch("ROOT_DIR")
 output_format = ENV.fetch("OUTPUT_FORMAT")
 
@@ -50,6 +50,25 @@ rescue ArgumentError, TypeError
   false
 end
 
+def valid_https_url?(value)
+  uri = URI.parse(value.to_s)
+  uri.is_a?(URI::HTTPS) && uri.host.to_s.strip != ""
+rescue URI::InvalidURIError
+  false
+end
+
+def evidence_reference_valid?(value, root_dir)
+  reference = value.to_s.strip
+  return false if reference == ""
+  return true if valid_https_url?(reference)
+  return false if reference.match?(/\A[a-z][a-z0-9+.-]*:/i)
+
+  expanded_root = File.expand_path(root_dir)
+  expanded_path = File.expand_path(reference, expanded_root)
+  inside_repo = expanded_path == expanded_root || expanded_path.start_with?("#{expanded_root}/")
+  inside_repo && File.exist?(expanded_path)
+end
+
 def release_approval_records(root_dir)
   path = ENV.fetch("RELEASE_APPROVALS_JSON", File.join(root_dir, "docs/release/RELEASE_APPROVALS.json"))
   data = JSON.parse(File.read(path))
@@ -61,7 +80,7 @@ rescue JSON::ParserError, Errno::ENOENT
   {}
 end
 
-def release_approval_valid?(records, key, allow_out_of_scope: false)
+def release_approval_valid?(records, key, root_dir, allow_out_of_scope: false)
   record = records[key] || {}
   status = record["status"].to_s.strip
   decision = record["decision"].to_s.strip
@@ -77,6 +96,7 @@ def release_approval_valid?(records, key, allow_out_of_scope: false)
     record["reviewer"].to_s.strip.length >= 2 &&
     iso8601_utc?(record["signed_at"]) &&
     record["evidence_reference"].to_s.strip.length >= 3 &&
+    evidence_reference_valid?(record["evidence_reference"], root_dir) &&
     record["sanitized_evidence"] == true &&
     record["contains_production_customer_data"] != true &&
     (key != "android_release_signing_review" || record["signing_keys_exposed"] != true)
@@ -205,7 +225,7 @@ checks["android_release_artifacts"] =
 
 android_signing_record = release_approvals["android_release_signing_review"] || {}
 android_signing_reviewed_from_manifest =
-  release_approval_valid?(release_approvals, "android_release_signing_review")
+  release_approval_valid?(release_approvals, "android_release_signing_review", root_dir)
 
 android_signing_reviewed_from_env =
   ENV["ANDROID_RELEASE_SIGNING_REVIEWED"] == "1" &&
@@ -265,10 +285,10 @@ end
 
 ios_record = release_approvals["ios_release_scope"] || {}
 ios_approved_from_manifest =
-  release_approval_valid?(release_approvals, "ios_release_scope") &&
+  release_approval_valid?(release_approvals, "ios_release_scope", root_dir) &&
   ios_record["status"].to_s.strip == "approved"
 ios_scoped_out_from_manifest =
-  release_approval_valid?(release_approvals, "ios_release_scope", allow_out_of_scope: true) &&
+  release_approval_valid?(release_approvals, "ios_release_scope", root_dir, allow_out_of_scope: true) &&
   ios_record["status"].to_s.strip == "out_of_scope"
 
 ios_approved =
