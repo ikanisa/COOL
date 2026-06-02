@@ -18,7 +18,7 @@ IDs, and anonymity choices.
 - `scripts/admin_pwa_render_smoke.sh`: pass, evidence at
   `.cache/admin_pwa_render_smoke/20260602T081408Z`.
 - `scripts/mobile_route_render_smoke.sh`: pass, evidence at
-  `.cache/mobile_route_render_smoke/20260602T082935Z`.
+  `.cache/mobile_route_render_smoke/20260602T210133Z`.
 - `scripts/collect_edge_auth_contract_uat.sh`: pass.
 - `./scripts/migrations/validate_supabase_migrations.sh`: pass.
 - `scripts/collect_admin_security_uat.sh`: pass.

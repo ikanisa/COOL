@@ -332,11 +332,11 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['signoff'], contains('human signoff fields'));
     expect(uatManifest, contains('20260601T205424Z'));
     expect(uatManifest, contains('20260602T081408Z'));
-    expect(uatManifest, contains('20260602T082935Z'));
+    expect(uatManifest, contains('20260602T210133Z'));
     expect(uatManifest, contains('20260602T050529Z'));
     expect(uatManifest, isNot(contains('20260601T204710Z')));
     expect(docs['qa'], contains('scripts/mobile_route_render_smoke.sh'));
-    expect(docs['qa'], contains('20260602T082935Z'));
+    expect(docs['qa'], contains('20260602T210133Z'));
     expect(docs['qa'], contains('collect_product_boundary_scan.sh'));
     expect(docs['qa'], contains('zero forbidden'));
     expect(docs['checklist'], contains('Collect product-boundary scan'));
@@ -355,7 +355,7 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['uat_plan'], contains('Android signing review'));
     expect(docs['uat_plan'], contains('iOS release-scope decision'));
     expect(docs['checklist'], contains('20260602T081408Z'));
-    expect(docs['checklist'], contains('20260602T082935Z'));
+    expect(docs['checklist'], contains('20260602T210133Z'));
     expect(
       File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
       contains('"status": "pending"'),
@@ -1134,7 +1134,7 @@ checking Edge Function secret names
     expect(
       releaseOwner['evidence_to_review'],
       contains(
-        '.cache/mobile_route_render_smoke/20260602T082935Z/summary.json',
+        '.cache/mobile_route_render_smoke/20260602T210133Z/summary.json',
       ),
     );
     final fileChecks = (decoded['file_checks'] as List<dynamic>)
@@ -1146,7 +1146,7 @@ checking Edge Function secret names
     expect(
       fileChecks.map((item) => item['path']),
       contains(
-        '.cache/mobile_route_render_smoke/20260602T082935Z/summary.json',
+        '.cache/mobile_route_render_smoke/20260602T210133Z/summary.json',
       ),
     );
     expect(

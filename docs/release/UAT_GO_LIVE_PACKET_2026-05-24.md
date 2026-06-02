@@ -38,7 +38,7 @@ UAT.
 | Admin PWA build | `scripts/admin_pwa_release_build.sh` | Pass. |
 | Admin PWA render | `scripts/admin_pwa_render_smoke.sh` | Pass; evidence at `.cache/admin_pwa_render_smoke/20260602T081408Z`. |
 | Admin PWA live | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` | Pass. |
-| Mobile route render | `scripts/mobile_route_render_smoke.sh` | Pass; viewport-controlled Chrome CDP 390x844 screenshots and JSON nonblank checks for 22 representative mobile routes at `.cache/mobile_route_render_smoke/20260602T082935Z`. |
+| Mobile route render | `scripts/mobile_route_render_smoke.sh` | Pass; viewport-controlled Chrome CDP 390x844 screenshots and JSON nonblank checks for 45 stable mobile routes at `.cache/mobile_route_render_smoke/20260602T210133Z`. |
 | Migration validation | `./scripts/migrations/validate_supabase_migrations.sh` | Pass. |
 | Edge auth UAT | `scripts/collect_edge_auth_contract_uat.sh` | Pass. |
 | Edge type-check | `deno check` parser/ingestion/allocation functions | Pass. |
@@ -55,7 +55,7 @@ UAT.
 | --- | --- | --- |
 | Flutter local tests | Pass | Local route, UI, repository, and contract coverage is green. |
 | Admin PWA local Chrome render | Pass | Desktop and mobile screenshots are nonblank and show Collect admin login. |
-| Mobile route Chrome render | Pass | 22 representative mobile routes have retained 390x844 screenshots and JSON nonblank checks. |
+| Mobile route Chrome render | Pass | 45 stable mobile routes have retained 390x844 screenshots and JSON nonblank checks. |
 | Admin PWA live URL | Pass | `https://cool-admin-212.pages.dev` passed the live gate. |
 | Android SMS access device | Pending | Real SMS access, ingestion, parse, allocation, and ledger evidence is required. |
 | Android release APK/AAB | Pass | Release artifacts are current; signing and iOS scope evidence remain blocked. |
