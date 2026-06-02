@@ -44,7 +44,7 @@ if "$ROOT_DIR/scripts/release_approval_evidence_gate.sh" --json >"$approval_gate
 else
   approval_gate_exit=$?
   if [[ "$approval_gate_exit" -ne 99 ]]; then
-    :
+    add_blocker "release_approval_evidence_gate" "Release approval evidence gate failed; approval metadata must be fixed before GO."
   fi
 fi
 

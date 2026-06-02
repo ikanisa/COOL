@@ -395,6 +395,49 @@ Date/time: 2026-06-01T12:30:00Z
     expect(decoded['evidence_flags']['release_owner_signoff'], '0');
   });
 
+  test('release status surfaces approval evidence gate failures', () {
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_release_approvals_',
+    );
+    try {
+      final manifest = approvedReleaseManifest();
+      final approvals = manifest['approvals'] as List<dynamic>;
+      final sms = approvals.cast<Map<String, dynamic>>().firstWhere(
+        (record) => record['key'] == 'android_sms_access_uat',
+      );
+      sms['notes'] =
+          'Reviewer pasted raw MoMo transaction id 123456 into approval notes.';
+
+      final manifestFile = File('${tempDir.path}/approvals.json')
+        ..writeAsStringSync(jsonEncode(manifest));
+      final result = Process.runSync(
+        './scripts/release_status.sh',
+        ['--json'],
+        environment: {
+          'ADMIN_PWA_LIVE_URL': 'https://cool-admin-212.pages.dev',
+          'RELEASE_APPROVALS_JSON': manifestFile.path,
+        },
+      );
+
+      expect(result.exitCode, 0);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['decision'], 'NO-GO');
+      expect(
+        decoded['blocker_keys'],
+        contains('release_approval_evidence_gate'),
+      );
+      expect(
+        decoded['blockers'],
+        contains(
+          'Release approval evidence gate failed; approval metadata must be fixed before GO.',
+        ),
+      );
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
   test('mobile release gate ignores direct approval environment overrides', () {
     final result = Process.runSync(
       './scripts/flutter_mobile_release_gate.sh',
