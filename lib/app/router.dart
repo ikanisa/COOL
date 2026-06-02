@@ -57,8 +57,8 @@ const collectRoutePaths = <String>[
   '/groups/:collectionId/invite',
   '/groups/:collectionId/ledger',
   '/c/:slug',
-  '/c/:slug/invalid',
-  '/c/:slug/expired',
+  '/share/invalid',
+  '/share/expired',
   '/settings',
   '/settings/profile',
   '/settings/readiness',
@@ -257,19 +257,19 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
             ],
           ),
           GoRoute(
-            path: '/c/:slug',
-            builder: (context, state) =>
-                GroupLinkScreen(slug: state.pathParameters['slug']!),
-          ),
-          GoRoute(
-            path: '/c/:slug/invalid',
+            path: '/share/invalid',
             builder: (context, state) =>
                 const SharedLinkProblemScreen(expired: false),
           ),
           GoRoute(
-            path: '/c/:slug/expired',
+            path: '/share/expired',
             builder: (context, state) =>
                 const SharedLinkProblemScreen(expired: true),
+          ),
+          GoRoute(
+            path: '/c/:slug',
+            builder: (context, state) =>
+                GroupLinkScreen(slug: state.pathParameters['slug']!),
           ),
           GoRoute(
             path: '/settings',

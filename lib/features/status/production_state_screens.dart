@@ -303,13 +303,35 @@ class SharedLinkProblemScreen extends StatelessWidget {
         _StateHero(
           icon: CollectIcons.error,
           title: expired ? 'Link expired.' : 'Link unavailable.',
-          message: 'Ask for a fresh link.',
+          message: expired
+              ? 'This Collect group link is no longer valid. Ask the owner for a fresh private link or enter a different group code.'
+              : 'Collect could not open this group link. Check the code, paste a fresh /c/ link, or ask the group owner to share it again.',
           tone: CollectStatusTone.danger,
+        ),
+        const InfoSecurityBanner(
+          title: 'Receiver privacy',
+          message:
+              'Invalid and expired public links never reveal receiver MoMo details. Receiver information stays inside the contribution review step.',
+          tone: CollectStatusTone.privacy,
+        ),
+        CollectButton(
+          label: 'Try another link',
+          icon: CollectIcons.arrowForward,
+          onPressed: () => context.go('/groups/join'),
+          expand: true,
         ),
         CollectButton(
           label: 'Open groups',
           icon: CollectIcons.collections,
           onPressed: () => context.go('/groups'),
+          variant: CollectButtonVariant.secondary,
+          expand: true,
+        ),
+        CollectButton(
+          label: 'Get help',
+          icon: CollectIcons.support,
+          onPressed: () => context.go('/settings/help'),
+          variant: CollectButtonVariant.subtle,
           expand: true,
         ),
       ],

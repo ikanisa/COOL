@@ -160,7 +160,7 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
                     CollectButton(
                       label: 'Link help',
                       icon: CollectIcons.info,
-                      onPressed: () => context.go('/c/${widget.slug}/invalid'),
+                      onPressed: () => context.go('/share/invalid'),
                       variant: CollectButtonVariant.secondary,
                       expand: true,
                     ),

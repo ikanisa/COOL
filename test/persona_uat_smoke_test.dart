@@ -160,7 +160,11 @@ void main() {
 
     expect(find.text('Share'), findsWidgets);
     expect(find.text('Group sharing'), findsNothing);
-    expect(find.textContaining('does not include phone numbers'), findsNothing);
+    expect(find.text('Private receiver'), findsWidgets);
+    expect(
+      find.textContaining('does not expose the receiver MoMo number'),
+      findsOneWidget,
+    );
     expect(find.textContaining('+250788'), findsNothing);
 
     final router = GoRouter.of(tester.element(find.text('Share').first));
@@ -171,8 +175,41 @@ void main() {
     expect(find.text('SMS'), findsWidgets);
     expect(find.text('WhatsApp'), findsWidgets);
     expect(find.text('Copy deep link'), findsWidgets);
+    expect(find.text('Private receiver'), findsWidgets);
     expect(find.byType(TextField), findsNothing);
     expect(find.textContaining('/c/'), findsWidgets);
+    expectNoGlobalSecrets();
+  });
+
+  testWidgets('invalid shared links offer privacy-safe recovery', (
+    tester,
+  ) async {
+    await pumpMainAppAt(tester, '/share/invalid');
+
+    expect(find.text('Link unavailable'), findsWidgets);
+    expect(find.text('Receiver privacy'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Try another link'));
+    expect(find.text('Try another link'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Open groups'));
+    expect(find.text('Open groups'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Get help'));
+    expect(find.text('Get help'), findsOneWidget);
+    expect(find.textContaining('receiver MoMo details'), findsOneWidget);
+    expect(find.textContaining('+250788'), findsNothing);
+    expectNoGlobalSecrets();
+  });
+
+  testWidgets('expired shared links keep join recovery actionable', (
+    tester,
+  ) async {
+    await pumpMainAppAt(tester, '/share/expired');
+
+    expect(find.text('Link expired'), findsWidgets);
+    expect(find.textContaining('fresh private link'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Try another link'));
+    expect(find.text('Try another link'), findsOneWidget);
+    expect(find.text('Receiver privacy'), findsOneWidget);
+    expect(find.textContaining('+250788'), findsNothing);
     expectNoGlobalSecrets();
   });
 
