@@ -96,8 +96,10 @@ data into approval records.
   - all SMS evidence sanitized
   - persona UAT rows signed or waived
   - signed_at ISO-8601 UTC
-- Verify: record `android_sms_access_uat` in
-  `docs/release/RELEASE_APPROVALS.json`, then run
+- Device evidence recorder:
+  `make record-android-sms-uat-evidence ARGS="--tester '<name>' --tested-at '<ISO-8601 UTC timestamp>' --device-label '<Android UAT device label>' --scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,privacy --evidence-summary '<sanitized scenario summary>' --sanitized-evidence --no-production-customer-data --raw-sms-not-public --no-phone-or-momo --no-transaction-ids"`
+- Verify: record sanitized device evidence, record UAT signoffs, record
+  `android_sms_access_uat` in `docs/release/RELEASE_APPROVALS.json`, then run
   `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make release-status-json`.
 - Recorder:
   `make record-release-approval ARGS="--key android_sms_access_uat --reviewer '<name>' --evidence-reference docs/release/UAT_EVIDENCE_MANIFEST.json --notes '<sanitized real-device SMS UAT review summary>' --sanitized-evidence --no-production-customer-data"`
@@ -168,8 +170,8 @@ data into approval records.
 - Owner: release owner
 - Suggested evidence reference: `docs/release/RELEASE_APPROVAL_PACKET.md`
 - Decision needed: approve the current release evidence packet only after all
-  product, SMS UAT, signing, iOS scope, security, and worktree checks are
-  acceptable.
+  product, SMS UAT, signing, iOS scope, security, and final worktree checks
+  are acceptable.
 - Evidence to review:
   - `.cache/repo_wide_qa_uat/20260601T205424Z/summary.json`
   - `.cache/admin_pwa_render_smoke/20260602T081408Z/summary.json`
@@ -180,7 +182,9 @@ data into approval records.
   - `docs/release/GO_NO_GO_DECISION.md`
   - `docs/release/RELEASE_BLOCKERS.md`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/evidence_index.json`
-  - `.cache/repo_wide_qa_uat/20260601T205424Z/worktree_review.json`
+  - Latest `scripts/release_worktree_review_gate.sh --json` output from the
+    exact final release branch after all recorder/evidence/doc refresh commits
+    are synced.
 - Required signoff fields:
   - release owner name
   - `decision=GO`

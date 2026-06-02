@@ -49,6 +49,22 @@ def record_command(key:, evidence_reference:, notes:, extra_args: "")
   "make record-release-approval ARGS=\"#{args}\""
 end
 
+def android_sms_uat_evidence_command
+  args = [
+    "--tester '<name>'",
+    "--tested-at '<ISO-8601 UTC timestamp>'",
+    "--device-label '<Android UAT device label>'",
+    "--scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,privacy",
+    "--evidence-summary '<sanitized scenario summary>'",
+    "--sanitized-evidence",
+    "--no-production-customer-data",
+    "--raw-sms-not-public",
+    "--no-phone-or-momo",
+    "--no-transaction-ids"
+  ].join(" ")
+  "make record-android-sms-uat-evidence ARGS=\"#{args}\""
+end
+
 catalog = {
   "linked_supabase_sms_first_migration" => {
     "title" => "Linked Supabase SMS-first migration",
@@ -62,12 +78,13 @@ catalog = {
     "severity" => "P0",
     "owner" => "mobile/release",
     "required_action" => "Run real Android MoMo SMS consent, ingestion, parse, allocation, exception, and ledger scenarios with sanitized evidence.",
+    "evidence_record_command" => android_sms_uat_evidence_command,
     "record_command" => record_command(
       key: "android_sms_access_uat",
       evidence_reference: "docs/release/UAT_EVIDENCE_MANIFEST.json",
       notes: "<sanitized real-device SMS UAT review summary>"
     ),
-    "verify_command" => "Manual Android UAT plus sanitized evidence manifest"
+    "verify_command" => "Run evidence_record_command, record UAT signoffs, then run the record_command for android_sms_access_uat"
   },
   "android_release_signing_review" => {
     "title" => "Android release signing review",
@@ -174,6 +191,7 @@ else
     puts "- Key: `#{item.fetch("key")}`"
     puts "- Owner: #{item.fetch("owner")}"
     puts "- Action: #{item.fetch("required_action")}"
+    puts "- Record device evidence: `#{item.fetch("evidence_record_command")}`" if item["evidence_record_command"]
     puts "- Record: `#{item.fetch("record_command")}`" if item["record_command"]
     puts "- Record Android-only scope: `#{item.fetch("record_out_of_scope_command")}`" if item["record_out_of_scope_command"]
     puts "- Verify: `#{item.fetch("verify_command")}`"

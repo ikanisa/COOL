@@ -311,6 +311,8 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['approval'], contains('collect_product_boundary_scan.sh'));
     expect(docs['approval'], contains('collect_product_boundary_scan.json'));
     expect(docs['approval'], contains('android_sms_access_uat'));
+    expect(docs['approval'], contains('record-android-sms-uat-evidence'));
+    expect(docs['approval'], contains('--raw-sms-not-public'));
     expect(docs['approval'], contains('android_release_signing_review'));
     expect(docs['approval'], contains('ios_release_scope'));
     expect(docs['approval'], contains('release_owner_signoff'));
@@ -342,10 +344,11 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['qa'], contains('zero forbidden'));
     expect(docs['checklist'], contains('Collect product-boundary scan'));
     expect(docs['goalbook'], contains('collect_product_boundary_scan.sh'));
-    expect(docs['qa'], contains('ahead=0'));
-    expect(docs['qa'], contains('behind=0'));
-    expect(docs['checklist'], contains('ahead=0'));
-    expect(docs['audit'], contains('ahead=0'));
+    expect(docs['qa'], contains('Re-run on final tree'));
+    expect(docs['qa'], contains('exact final release branch'));
+    expect(docs['checklist'], contains('Re-run on final tree'));
+    expect(docs['audit'], contains('Re-run on final tree'));
+    expect(docs['packet'], contains('exact final release branch'));
     expect(docs['packet'], contains('Release branch sync'));
     expect(docs['uat'], isNot(contains('| Partial |')));
     expect(docs['uat'], contains('Automated/backend pass'));
@@ -589,9 +592,12 @@ Date/time: 2026-06-01T12:30:00Z
     expect(decoded['go_live_approved'], isFalse);
     expect(decoded['blocker_keys'], contains('android_sms_access_uat'));
     final nextActions = jsonEncode(decoded['required_next_actions']);
+    expect(nextActions, contains('record-android-sms-uat-evidence'));
     expect(nextActions, contains('record-uat-evidence-signoff'));
     expect(nextActions, contains('record-release-approval'));
     expect(nextActions, contains('android_sms_access_uat'));
+    expect(nextActions, contains('--raw-sms-not-public'));
+    expect(nextActions, contains('--no-transaction-ids'));
   });
 
   test('acceptance matrix rejects inconsistent approved go-live evidence', () {
@@ -1041,6 +1047,26 @@ checking Edge Function secret names
       );
     }
     expect(jsonEncode(decoded), contains('Android SMS access UAT'));
+    final androidSms = actions.firstWhere(
+      (action) => action['key'] == 'android_sms_access_uat',
+    );
+    expect(
+      androidSms['evidence_record_command'],
+      contains('make record-android-sms-uat-evidence'),
+    );
+    expect(
+      androidSms['evidence_record_command'],
+      contains('--raw-sms-not-public'),
+    );
+    expect(
+      androidSms['evidence_record_command'],
+      contains('--no-phone-or-momo'),
+    );
+    expect(
+      androidSms['evidence_record_command'],
+      contains('--no-transaction-ids'),
+    );
+    expect(androidSms['verify_command'], contains('evidence_record_command'));
     expect(jsonEncode(decoded), isNot(contains('AUTH_CAPTCHA_SECRET')));
     expect(jsonEncode(decoded), isNot(contains('HIBP')));
   });
@@ -1103,6 +1129,26 @@ checking Edge Function secret names
       jsonEncode(productSignoff['evidence_to_review']),
       contains('collect_product_boundary_scan.json'),
     );
+    final androidSms = records.cast<Map<String, dynamic>>().firstWhere(
+      (record) => record['key'] == 'android_sms_access_uat',
+    );
+    expect(
+      androidSms['evidence_record_command'],
+      contains('make record-android-sms-uat-evidence'),
+    );
+    expect(
+      androidSms['evidence_record_command'],
+      contains('--raw-sms-not-public'),
+    );
+    expect(
+      androidSms['evidence_record_command'],
+      contains('--no-phone-or-momo'),
+    );
+    expect(
+      androidSms['evidence_record_command'],
+      contains('--no-transaction-ids'),
+    );
+    expect(androidSms['verify_command'], contains('evidence_record_command'));
     final androidSigning = records.cast<Map<String, dynamic>>().firstWhere(
       (record) => record['key'] == 'android_release_signing_review',
     );

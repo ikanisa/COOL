@@ -66,7 +66,7 @@ complete.
 | P0-001 | Product signoff | P0 | Corrected SMS-first Groups product definition still needs stakeholder approval. | Review and approve `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md`. |
 | P0-002 | Android SMS UAT | P0 | Real MoMo SMS app access and automatic parsing/allocation are not freshly evidenced. | Run physical Android UAT with sanitized MoMo SMS scenarios. |
 | P0-003 | Admin PWA live | Resolved | Local Admin PWA proof is green and `https://cool-admin-212.pages.dev` passes the deployed URL live gate. | Rerun live gate after every Admin PWA deployment. |
-| P1-001 | Release hygiene | Pass locally; owner signoff pending | Worktree review passed on 2026-06-02T09:14:42Z with `main` clean and synced to `origin/main` (`ahead=0`, `behind=0`). | Release owner still needs to review and sign the current packet. |
+| P1-001 | Release hygiene | Re-run on final tree; owner signoff pending | Worktree review must pass on the exact final release branch after any recorder, evidence, or release-doc refresh is committed and synced. | Release owner still needs to review and sign the current packet. |
 | P0-004 | Store release | P0 | Android signing review and iOS release scope need current release-owner evidence. | Attach signed release metadata or explicitly scope iOS out. |
 
 ## Decision Basis

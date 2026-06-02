@@ -82,6 +82,22 @@ def record_command(key:, evidence_reference:, notes:, extra_args: "")
   "make record-release-approval ARGS=\"#{args}\""
 end
 
+def android_sms_uat_evidence_command
+  args = [
+    "--tester '<name>'",
+    "--tested-at '<ISO-8601 UTC timestamp>'",
+    "--device-label '<Android UAT device label>'",
+    "--scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,privacy",
+    "--evidence-summary '<sanitized scenario summary>'",
+    "--sanitized-evidence",
+    "--no-production-customer-data",
+    "--raw-sms-not-public",
+    "--no-phone-or-momo",
+    "--no-transaction-ids"
+  ].join(" ")
+  "make record-android-sms-uat-evidence ARGS=\"#{args}\""
+end
+
 blocker_keys = Array(status["blocker_keys"])
 surfaces = summary.fetch("surfaces", {})
 bundle_dir = rel(root_dir, summary["bundle_dir"])
@@ -180,12 +196,13 @@ approval_records = [
       "android_sms_access_uat",
       "docs/release/UAT_EVIDENCE_MANIFEST.json"
     ),
+    "evidence_record_command" => android_sms_uat_evidence_command,
     "record_command" => record_command(
       key: "android_sms_access_uat",
       evidence_reference: "docs/release/UAT_EVIDENCE_MANIFEST.json",
       notes: "<sanitized real-device SMS UAT review summary>"
     ),
-    "verify_command" => "Run the record_command for android_sms_access_uat, then ADMIN_PWA_LIVE_URL=#{admin_pwa_live_url} make release-status-json"
+    "verify_command" => "Run the evidence_record_command for Android SMS UAT, record UAT signoffs, then run the record_command for android_sms_access_uat and ADMIN_PWA_LIVE_URL=#{admin_pwa_live_url} make release-status-json"
   },
   {
     "key" => "android_release_signing_review",
@@ -368,6 +385,7 @@ approval_records.each do |record|
   puts "- Owner: #{record.fetch("owner")}"
   puts "- Decision needed: #{record.fetch("decision_needed")}"
   puts "- Suggested evidence reference: `#{record.fetch("suggested_evidence_reference")}`" if record["suggested_evidence_reference"]
+  puts "- Record device evidence: `#{record.fetch("evidence_record_command")}`" if record["evidence_record_command"]
   puts "- Record: `#{record.fetch("record_command")}`" if record["record_command"]
   puts "- Record Android-only scope: `#{record.fetch("record_out_of_scope_command")}`" if record["record_out_of_scope_command"]
   puts "- Verify: `#{record.fetch("verify_command")}`"

@@ -49,6 +49,22 @@ def record_command(key:, evidence_reference:, notes:, extra_args: "")
   "make record-release-approval ARGS=\"#{args}\""
 end
 
+def android_sms_uat_evidence_command
+  args = [
+    "--tester '<name>'",
+    "--tested-at '<ISO-8601 UTC timestamp>'",
+    "--device-label '<Android UAT device label>'",
+    "--scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,privacy",
+    "--evidence-summary '<sanitized scenario summary>'",
+    "--sanitized-evidence",
+    "--no-production-customer-data",
+    "--raw-sms-not-public",
+    "--no-phone-or-momo",
+    "--no-transaction-ids"
+  ].join(" ")
+  "make record-android-sms-uat-evidence ARGS=\"#{args}\""
+end
+
 steps = [
   {
     key: "product_signoff",
@@ -71,12 +87,13 @@ steps = [
     key: "android_sms_access_uat",
     title: "Run real Android SMS access UAT",
     required_when: blockers.include?("android_sms_access_uat"),
+    evidence_record_command: android_sms_uat_evidence_command,
     record_command: record_command(
       key: "android_sms_access_uat",
       evidence_reference: "docs/release/UAT_EVIDENCE_MANIFEST.json",
       notes: "<sanitized real-device SMS UAT review summary>"
     ),
-    verify: "Attach sanitized Android SMS UAT evidence"
+    verify: "Run the evidence_record_command for Android SMS UAT, then record UAT signoffs and run the record_command for android_sms_access_uat"
   },
   {
     key: "android_release_signing_review",
@@ -158,6 +175,7 @@ steps.each do |step|
   puts "### #{step.fetch(:title)}"
   puts "- Key: `#{step.fetch(:key)}`"
   puts "- Required now: `#{step.fetch(:required_when)}`"
+  puts "- Record device evidence: `#{step.fetch(:evidence_record_command)}`" if step[:evidence_record_command]
   puts "- Record: `#{step.fetch(:record_command)}`" if step[:record_command]
   puts "- Record Android-only scope: `#{step.fetch(:record_out_of_scope_command)}`" if step[:record_out_of_scope_command]
   puts "- Verify: `#{step.fetch(:verify)}`"

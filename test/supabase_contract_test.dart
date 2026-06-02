@@ -688,6 +688,14 @@ void main() {
       contains('SUPABASE_POST_OPERATOR_STATUS_JSON'),
     );
     expect(postOperatorChecklist, contains('android_sms_access_uat'));
+    expect(postOperatorChecklist, contains('evidence_record_command'));
+    expect(
+      postOperatorChecklist,
+      contains('make record-android-sms-uat-evidence ARGS='),
+    );
+    expect(postOperatorChecklist, contains('--raw-sms-not-public'));
+    expect(postOperatorChecklist, contains('--no-phone-or-momo'));
+    expect(postOperatorChecklist, contains('--no-transaction-ids'));
     expect(postOperatorChecklist, contains('record_command'));
     expect(
       postOperatorChecklist,
