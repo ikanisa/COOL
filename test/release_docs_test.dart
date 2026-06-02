@@ -274,6 +274,8 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['signoff'], contains('20260602T050529Z'));
     expect(docs['signoff'], contains('human signoff fields'));
     expect(uatManifest, contains('20260601T205424Z'));
+    expect(uatManifest, contains('20260602T081408Z'));
+    expect(uatManifest, contains('20260602T082935Z'));
     expect(uatManifest, contains('20260602T050529Z'));
     expect(uatManifest, isNot(contains('20260601T204710Z')));
     expect(docs['qa'], contains('scripts/mobile_route_render_smoke.sh'));
@@ -869,7 +871,9 @@ checking Edge Function secret names
     );
     expect(
       releaseOwner['evidence_to_review'],
-      contains('.cache/mobile_route_render_smoke/20260602T082935Z/summary.json'),
+      contains(
+        '.cache/mobile_route_render_smoke/20260602T082935Z/summary.json',
+      ),
     );
     final fileChecks = (decoded['file_checks'] as List<dynamic>)
         .cast<Map<String, dynamic>>();
@@ -879,7 +883,9 @@ checking Edge Function secret names
     );
     expect(
       fileChecks.map((item) => item['path']),
-      contains('.cache/mobile_route_render_smoke/20260602T082935Z/summary.json'),
+      contains(
+        '.cache/mobile_route_render_smoke/20260602T082935Z/summary.json',
+      ),
     );
     expect(jsonEncode(decoded), contains('https://cool-admin-212.pages.dev'));
     expect(
@@ -1344,6 +1350,94 @@ checking Edge Function secret names
       tempDir.deleteSync(recursive: true);
     }
   });
+
+  test('UAT evidence scan ignores JSON policy-field secret handling text', () {
+    Directory('.cache').createSync();
+    final tempDir = Directory(
+      '.cache',
+    ).createTempSync('cool_uat_text_evidence_');
+    try {
+      final evidence = File('${tempDir.path}/summary.json')
+        ..writeAsStringSync(
+          jsonEncode(<String, dynamic>{
+            'status': 'pass',
+            'secret_handling':
+                'Do not include service-role keys or provider tokens.',
+          }),
+        );
+      final manifest = signedUatEvidenceManifest();
+      final personas = (manifest['personas'] as List<dynamic>)
+          .cast<Map<String, dynamic>>();
+      personas.first['evidence_files'] = [evidence.path];
+      final manifestFile = File('${tempDir.path}/uat.json')
+        ..writeAsStringSync(jsonEncode(manifest));
+      final result = Process.runSync(
+        './scripts/uat_evidence_gate.sh',
+        ['--json'],
+        environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
+      );
+
+      expect(result.exitCode, 0);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      final evidenceItem = (decoded['evidence_items'] as List<dynamic>)
+          .cast<Map<String, dynamic>>()
+          .firstWhere((item) => item['path'] == evidence.path);
+      expect(evidenceItem['sanitization_scan'], 'pass');
+      expect(evidenceItem['forbidden_markers'], isEmpty);
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
+  test(
+    'UAT evidence scan still rejects JSON sensitive markers in data fields',
+    () {
+      Directory('.cache').createSync();
+      final tempDir = Directory(
+        '.cache',
+      ).createTempSync('cool_uat_text_evidence_');
+      try {
+        final evidence = File('${tempDir.path}/summary.json')
+          ..writeAsStringSync(
+            jsonEncode(<String, dynamic>{
+              'status': 'pass',
+              'environment': 'SUPABASE_SERVICE_ROLE=example-sensitive-value',
+            }),
+          );
+        final manifest = signedUatEvidenceManifest();
+        final personas = (manifest['personas'] as List<dynamic>)
+            .cast<Map<String, dynamic>>();
+        personas.first['evidence_files'] = [evidence.path];
+        final manifestFile = File('${tempDir.path}/uat.json')
+          ..writeAsStringSync(jsonEncode(manifest));
+        final result = Process.runSync(
+          './scripts/uat_evidence_gate.sh',
+          ['--json'],
+          environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
+        );
+
+        expect(result.exitCode, 1);
+        final decoded =
+            jsonDecode(result.stdout as String) as Map<String, dynamic>;
+        expect(decoded['status'], 'fail');
+        expect(
+          decoded['failure_keys'],
+          contains('uat_evidence_sanitization_scan'),
+        );
+        final evidenceItem = (decoded['evidence_items'] as List<dynamic>)
+            .cast<Map<String, dynamic>>()
+            .firstWhere((item) => item['path'] == evidence.path);
+        expect(evidenceItem['sanitization_scan'], 'fail');
+        expect(
+          evidenceItem['forbidden_markers'],
+          contains('supabase_service_role'),
+        );
+      } finally {
+        tempDir.deleteSync(recursive: true);
+      }
+    },
+  );
 
   test('UAT evidence manifest rejects weak human signoffs', () {
     final tempDir = Directory.systemTemp.createTempSync('cool_uat_evidence_');

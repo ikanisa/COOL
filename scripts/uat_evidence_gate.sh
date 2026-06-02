@@ -95,6 +95,41 @@ rescue JSON::ParserError => error
   { "_json_error" => error.message }
 end
 
+def redact_json_policy_fields(value)
+  policy_fields = %w[
+    secret_handling
+    safety_notice
+    sanitization_note
+    sanitization_policy
+    privacy_notice
+  ]
+
+  case value
+  when Hash
+    value.each_with_object({}) do |(key, nested_value), memo|
+      if policy_fields.include?(key.to_s)
+        memo[key] = "[redacted policy field]"
+      else
+        memo[key] = redact_json_policy_fields(nested_value)
+      end
+    end
+  when Array
+    value.map { |nested_value| redact_json_policy_fields(nested_value) }
+  else
+    value
+  end
+end
+
+def evidence_text_for_scan(path)
+  text = File.binread(path).to_s
+  return text unless File.extname(path).downcase == ".json"
+
+  parsed = JSON.parse(text)
+  JSON.generate(redact_json_policy_fields(parsed))
+rescue JSON::ParserError
+  text
+end
+
 blockers = []
 blocker_keys = []
 failure_keys = []
@@ -207,7 +242,7 @@ required_ids.each do |id|
     end
 
     if text_extensions.include?(File.extname(absolute_path).downcase)
-      text = File.binread(absolute_path).to_s
+      text = evidence_text_for_scan(absolute_path)
       hits = forbidden_patterns.select { |_name, pattern| text.match?(pattern) }.keys
       item["sanitization_scan"] = hits.empty? ? "pass" : "fail"
       item["forbidden_markers"] = hits
