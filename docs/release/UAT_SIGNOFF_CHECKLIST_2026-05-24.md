@@ -43,6 +43,14 @@ guarded recorder rather than hand-editing JSON when possible:
 make record-uat-evidence-signoff ARGS="--persona-id UAT-01 --status signed --signoff '<reviewer and evidence summary 2026-06-02T12:00:00Z>'"
 ```
 
+Record real Android SMS scenario evidence before signing UAT-05. The recorder
+stores sanitized metadata only, attaches the evidence to UAT-05, and does not
+approve the persona or release:
+
+```bash
+make record-android-sms-uat-evidence ARGS="--tester '<name>' --tested-at '<ISO-8601 UTC timestamp>' --device-label 'Pixel 4a UAT device' --scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,privacy --evidence-summary '<sanitized scenario summary>' --sanitized-evidence --no-production-customer-data --raw-sms-not-public --no-phone-or-momo --no-transaction-ids"
+```
+
 | ID | Persona | Required acceptance evidence | Status | Signoff |
 | --- | --- | --- | --- | --- |
 | UAT-01 | Contributor | Tester opens group, creates payment intent, launches MoMo USSD, and waits for MoMo SMS allocation. | Pending |  |

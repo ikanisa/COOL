@@ -38,6 +38,13 @@ Current blocked evidence:
 - Android release signing, iOS scope, product signoff, and release-owner signoff
   are pending.
 
+Use the guarded Android SMS recorder for real-device scenario evidence before
+requesting UAT-05 signoff:
+
+```bash
+make record-android-sms-uat-evidence ARGS="--tester '<name>' --tested-at '<ISO-8601 UTC timestamp>' --device-label 'Pixel 4a UAT device' --scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,privacy --evidence-summary '<sanitized scenario summary>' --sanitized-evidence --no-production-customer-data --raw-sms-not-public --no-phone-or-momo --no-transaction-ids"
+```
+
 ## Persona Tests
 
 | ID | Persona | Steps | Expected | Automated evidence | Status |

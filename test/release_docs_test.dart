@@ -330,6 +330,7 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['signoff'], contains('20260601T205424Z'));
     expect(docs['signoff'], contains('20260602T050529Z'));
     expect(docs['signoff'], contains('human signoff fields'));
+    expect(docs['signoff'], contains('record-android-sms-uat-evidence'));
     expect(uatManifest, contains('20260601T205424Z'));
     expect(uatManifest, contains('20260602T081408Z'));
     expect(uatManifest, contains('20260602T210133Z'));
@@ -354,6 +355,7 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['uat_plan'], contains('Automated local pass'));
     expect(docs['uat_plan'], contains('Android signing review'));
     expect(docs['uat_plan'], contains('iOS release-scope decision'));
+    expect(docs['uat_plan'], contains('record-android-sms-uat-evidence'));
     expect(docs['checklist'], contains('20260602T081408Z'));
     expect(docs['checklist'], contains('20260602T210133Z'));
     expect(
@@ -2069,6 +2071,139 @@ checking Edge Function secret names
       expect(binaryItem['sidecar_reviewed_by_placeholder'], isTrue);
     } finally {
       tempDir.deleteSync(recursive: true);
+    }
+  });
+
+  test('Android SMS UAT evidence recorder attaches sanitized evidence only', () {
+    Directory('.cache').createSync();
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_android_sms_uat_',
+    );
+    final evidenceDir = Directory(
+      '.cache',
+    ).createTempSync('cool_android_sms_uat_evidence_');
+    try {
+      final manifestFile = File('${tempDir.path}/uat.json')
+        ..writeAsStringSync(
+          File('docs/release/UAT_EVIDENCE_MANIFEST.json').readAsStringSync(),
+        );
+      final result = Process.runSync(
+        './scripts/record_android_sms_uat_evidence.sh',
+        [
+          '--manifest',
+          manifestFile.path,
+          '--output-dir',
+          evidenceDir.path,
+          '--tester',
+          'Android UAT Lead Ben',
+          '--tested-at',
+          '2026-06-02T12:00:00Z',
+          '--device-label',
+          'Pixel 4a UAT device',
+          '--scenarios',
+          'consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,privacy',
+          '--evidence-summary',
+          'Sanitized Android SMS UAT metadata confirms consent, upload, parser, allocation, exception, ledger, retry, and privacy scenarios.',
+          '--sanitized-evidence',
+          '--no-production-customer-data',
+          '--raw-sms-not-public',
+          '--no-phone-or-momo',
+          '--no-transaction-ids',
+        ],
+      );
+
+      expect(result.exitCode, 0);
+      final recorder =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(recorder['status'], 'pass');
+      expect(recorder['persona'], 'UAT-05');
+      expect(recorder['approval_status'], 'not_approved_by_recorder');
+      final evidencePath = recorder['evidence'] as String;
+      expect(File(evidencePath).existsSync(), isTrue);
+      final evidence =
+          jsonDecode(File(evidencePath).readAsStringSync())
+              as Map<String, dynamic>;
+      expect(evidence['status'], 'recorded');
+      expect(evidence['approval_status'], 'not_approved_by_recorder');
+      expect(evidence['scenario_count'], 9);
+      expect(evidence['assertions']['raw_sms_public'], isFalse);
+
+      final manifest =
+          jsonDecode(manifestFile.readAsStringSync()) as Map<String, dynamic>;
+      final smsPersona = (manifest['personas'] as List<dynamic>)
+          .cast<Map<String, dynamic>>()
+          .firstWhere((persona) => persona['id'] == 'UAT-05');
+      expect(smsPersona['status'], 'pending');
+      expect(smsPersona['signoff'], '');
+      expect(smsPersona['evidence_files'], contains(evidencePath));
+
+      final gate = Process.runSync(
+        './scripts/uat_evidence_gate.sh',
+        ['--json'],
+        environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
+      );
+      expect(gate.exitCode, 99);
+      final decoded = jsonDecode(gate.stdout as String) as Map<String, dynamic>;
+      final evidenceItem = (decoded['evidence_items'] as List<dynamic>)
+          .cast<Map<String, dynamic>>()
+          .firstWhere((item) => item['path'] == evidencePath);
+      expect(evidenceItem['sanitization_scan'], 'pass');
+      expect(decoded['blockers'], contains('UAT-05 signoff is missing.'));
+    } finally {
+      tempDir.deleteSync(recursive: true);
+      evidenceDir.deleteSync(recursive: true);
+    }
+  });
+
+  test('Android SMS UAT evidence recorder rejects sensitive metadata', () {
+    Directory('.cache').createSync();
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_android_sms_uat_',
+    );
+    final evidenceDir = Directory(
+      '.cache',
+    ).createTempSync('cool_android_sms_uat_evidence_');
+    try {
+      final manifestFile = File('${tempDir.path}/uat.json')
+        ..writeAsStringSync(
+          File('docs/release/UAT_EVIDENCE_MANIFEST.json').readAsStringSync(),
+        );
+      final before = manifestFile.readAsStringSync();
+      final result = Process.runSync(
+        './scripts/record_android_sms_uat_evidence.sh',
+        [
+          '--manifest',
+          manifestFile.path,
+          '--output-dir',
+          evidenceDir.path,
+          '--tester',
+          'Android UAT Lead Ben',
+          '--tested-at',
+          '2026-06-02T12:00:00Z',
+          '--device-label',
+          'Pixel 4a UAT device',
+          '--scenarios',
+          'consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,privacy',
+          '--evidence-summary',
+          'Reviewer pasted MoMo transaction id 123456 into the evidence.',
+          '--sanitized-evidence',
+          '--no-production-customer-data',
+          '--raw-sms-not-public',
+          '--no-phone-or-momo',
+          '--no-transaction-ids',
+        ],
+      );
+
+      expect(result.exitCode, 1);
+      expect(result.stderr.toString(), contains('sensitive marker'));
+      expect(manifestFile.readAsStringSync(), before);
+      expect(
+        File('${evidenceDir.path}/android_sms_uat_evidence.json').existsSync(),
+        isFalse,
+      );
+    } finally {
+      tempDir.deleteSync(recursive: true);
+      evidenceDir.deleteSync(recursive: true);
     }
   });
 
