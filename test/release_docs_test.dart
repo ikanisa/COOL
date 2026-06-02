@@ -1273,6 +1273,44 @@ checking Edge Function secret names
     }
   });
 
+  test('mobile release gate rejects unrelated signing evidence', () {
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_release_approvals_',
+    );
+    try {
+      final manifest = approvedReleaseManifest();
+      final approvals = manifest['approvals'] as List<dynamic>;
+      final signing = approvals.cast<Map<String, dynamic>>().firstWhere(
+        (record) => record['key'] == 'android_release_signing_review',
+      );
+      signing['evidence_reference'] =
+          'docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md';
+
+      final manifestFile = File('${tempDir.path}/approvals.json')
+        ..writeAsStringSync(jsonEncode(manifest));
+      final result = Process.runSync(
+        './scripts/flutter_mobile_release_gate.sh',
+        ['--json'],
+        environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
+      );
+
+      expect(result.exitCode, 99);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'blocked');
+      expect(
+        decoded['blocker_keys'],
+        contains('android_release_signing_review'),
+      );
+      expect(
+        decoded['checks']['android_release_signing_review']['status'],
+        'blocked',
+      );
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
   test('release approval recorder safely records one valid approval', () {
     final tempDir = Directory.systemTemp.createTempSync(
       'cool_release_approvals_',

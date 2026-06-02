@@ -69,6 +69,32 @@ def evidence_reference_valid?(value, root_dir)
   inside_repo && File.exist?(expanded_path)
 end
 
+MOBILE_APPROVAL_EVIDENCE_PATTERNS = {
+  "android_release_signing_review" => [
+    %r{\Adocs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02\.md\z},
+    %r{\Adocs/release/BUILD_ARTIFACT_CHECKSUMS_[0-9-]+\.sha256\z},
+    %r{\A\.cache/mobile_release_gate/[^/]+/summary\.json\z},
+    %r{\A\.cache/android_install/[^/]+/final_release_summary\.json\z}
+  ],
+  "ios_release_scope" => [
+    %r{\Adocs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02\.md\z},
+    %r{\Adocs/release/RELEASE_APPROVAL_PACKET\.md\z},
+    %r{\A\.cache/mobile_release_gate/[^/]+/summary\.json\z}
+  ]
+}
+
+def evidence_reference_in_scope?(key, value)
+  reference = value.to_s.strip
+  return false if reference == ""
+  return true if valid_https_url?(reference)
+  return false if reference.match?(/\A[a-z][a-z0-9+.-]*:/i)
+
+  normalized = reference.sub(%r{\A\./}, "")
+  MOBILE_APPROVAL_EVIDENCE_PATTERNS.fetch(key, []).any? do |pattern|
+    reference.match?(pattern) || normalized.match?(pattern)
+  end
+end
+
 def executable_file?(path)
   path.to_s.strip != "" && File.file?(path) && File.executable?(path)
 end
@@ -212,6 +238,7 @@ def release_approval_valid?(records, key, root_dir, allow_out_of_scope: false)
     iso8601_utc?(record["signed_at"]) &&
     record["evidence_reference"].to_s.strip.length >= 3 &&
     evidence_reference_valid?(record["evidence_reference"], root_dir) &&
+    evidence_reference_in_scope?(key, record["evidence_reference"]) &&
     record["sanitized_evidence"] == true &&
     record["contains_production_customer_data"] != true &&
     (key != "android_release_signing_review" || record["signing_keys_exposed"] != true)
