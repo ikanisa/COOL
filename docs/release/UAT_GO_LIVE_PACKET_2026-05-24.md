@@ -76,7 +76,7 @@ secrets, provider secrets, or production customer data.
 | Admin PWA live proof drift | Controlled | Rerun the live gate after every Admin PWA deployment. |
 | Android release signing / iOS scope | Open P0 | Record signing review and iOS scope evidence, then rerun release gates. |
 | Product signoff missing | Open P0 | Approve corrected product definition. |
-| Release branch ahead of origin | Open P1 | Push/review the current release branch when ready. |
+| Release branch sync | Controlled | Worktree review passed on 2026-06-02T09:14:42Z with `main` clean and synced to `origin/main`; release-owner review is still required before GO. |
 
 ## Final GO Criteria
 

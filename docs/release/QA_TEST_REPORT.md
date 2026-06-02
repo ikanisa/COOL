@@ -19,7 +19,7 @@ fresh readiness run.
 
 | Command | Result | Notes |
 | --- | --- | --- |
-| `scripts/release_worktree_review_gate.sh --json` | Pass | Worktree review gate passed after the release approval evidence gate commit; branch remains ahead of origin until pushed. |
+| `scripts/release_worktree_review_gate.sh --json` | Pass | Worktree review gate passed on 2026-06-02T09:14:42Z; `main` is clean and synced with `origin/main` (`ahead=0`, `behind=0`). |
 | `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub` | Pass | Analyzer clean after the Collect mobile UI and SMS-first app/admin refactor. |
 | Full Flutter/release-doc suite | Pass | `101` tests passed across Admin PWA, app shell, phone/Public ID, widgets, persona smoke, repository, Supabase contract, and release-doc tests. |
 | `scripts/admin_pwa_release_build.sh` | Pass | Built `build/web` for `lib/main_admin.dart` and passed Admin PWA manifest/hosting gates in `.cache/repo_wide_qa_uat/20260601T205424Z`. |
@@ -45,7 +45,8 @@ fresh readiness run.
 - P0: Stakeholder signoff is required for the corrected Groups product
   definition.
 - P0: Android release signing review and iOS release-scope evidence are missing.
-- P1: Release branch remains ahead of origin until pushed/reviewed.
+- P1: Release-owner review of the current clean, synced worktree still needs
+  human signoff.
 - P1: Android release signing and any iOS release-scope decision still need
   current release-owner evidence.
 

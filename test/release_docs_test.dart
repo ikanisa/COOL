@@ -207,6 +207,7 @@ Date/time: 2026-06-01T12:30:00Z
       'qa': File('docs/release/QA_TEST_REPORT.md').readAsStringSync(),
       'uat': File('docs/release/UAT_EXECUTION_REPORT.md').readAsStringSync(),
       'uat_plan': File('docs/release/UAT_TEST_PLAN.md').readAsStringSync(),
+      'audit': File('docs/release/GO_LIVE_AUDIT_REPORT.md').readAsStringSync(),
       'packet': File(
         'docs/release/UAT_GO_LIVE_PACKET_2026-05-24.md',
       ).readAsStringSync(),
@@ -233,6 +234,9 @@ Date/time: 2026-06-01T12:30:00Z
       expect(text, isNot(contains('`113` tests')));
       expect(text, isNot(contains('20260526T042822Z')));
       expect(text, isNot(contains('20260527T041454Z')));
+      expect(text, isNot(contains('ahead of origin')));
+      expect(text, isNot(contains('Release branch ahead')));
+      expect(text, isNot(contains('Push/review release branch')));
       expect(
         text,
         isNot(
@@ -293,6 +297,11 @@ Date/time: 2026-06-01T12:30:00Z
     expect(uatManifest, isNot(contains('20260601T204710Z')));
     expect(docs['qa'], contains('scripts/mobile_route_render_smoke.sh'));
     expect(docs['qa'], contains('20260602T082935Z'));
+    expect(docs['qa'], contains('ahead=0'));
+    expect(docs['qa'], contains('behind=0'));
+    expect(docs['checklist'], contains('ahead=0'));
+    expect(docs['audit'], contains('ahead=0'));
+    expect(docs['packet'], contains('Release branch sync'));
     expect(docs['uat'], isNot(contains('| Partial |')));
     expect(docs['uat'], contains('Automated/backend pass'));
     expect(docs['uat'], contains('Device scenario approval pending'));
