@@ -852,10 +852,61 @@ class NotificationPermissionScreen extends ConsumerWidget {
               ? CollectStatusTone.success
               : CollectStatusTone.info,
         ),
+        const CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          child: Column(
+            children: [
+              CollectListTile(
+                leading: CollectIcons.check,
+                title: 'Contribution confirmations',
+                subtitle:
+                    'Show when MoMo SMS allocation posts a payment to the ledger.',
+              ),
+              CollectListTile(
+                leading: CollectIcons.pending,
+                title: 'Payment reminders',
+                subtitle:
+                    'Surface pending payment intents that are still waiting for MoMo SMS verification.',
+              ),
+              CollectListTile(
+                leading: CollectIcons.collections,
+                title: 'Group updates',
+                subtitle:
+                    'Keep joins, shares, and group activity visible without exposing receiver MoMo details publicly.',
+              ),
+              CollectListTile(
+                leading: CollectIcons.lock,
+                title: 'Security notices',
+                subtitle:
+                    'Highlight privacy, SMS access, and support-review events using Collect ID-safe copy.',
+              ),
+            ],
+          ),
+        ),
+        const InfoSecurityBanner(
+          title: 'Notification boundary',
+          message:
+              'Notifications summarize payment and group status. They do not include raw SMS text, service secrets, or full receiver evidence.',
+          tone: CollectStatusTone.privacy,
+        ),
         CollectButton(
           label: 'SMS access details',
           icon: CollectIcons.sms,
           onPressed: () => context.go('/permissions/sms'),
+          expand: true,
+        ),
+        CollectButton(
+          label: 'Open updates',
+          icon: CollectIcons.pending,
+          onPressed: () => context.go('/notifications'),
+          variant: CollectButtonVariant.secondary,
+          expand: true,
+        ),
+        CollectButton(
+          label: 'Finish setup',
+          icon: CollectIcons.check,
+          onPressed: () => context.go('/home'),
+          variant: CollectButtonVariant.secondary,
           expand: true,
         ),
       ],

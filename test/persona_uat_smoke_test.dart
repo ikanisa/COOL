@@ -379,6 +379,32 @@ void main() {
     expectNoGlobalSecrets();
   });
 
+  testWidgets('device permissions expose notification readiness rows', (
+    tester,
+  ) async {
+    await pumpMainAppAt(tester, '/permissions/device');
+
+    expect(find.text('Device permissions'), findsWidgets);
+    expect(find.text('Review readiness.'), findsWidgets);
+    expect(find.text('Contribution confirmations'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Payment reminders'));
+    expect(find.text('Payment reminders'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Group updates'));
+    expect(find.text('Group updates'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Security notices'));
+    expect(find.text('Security notices'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Notification boundary'));
+    expect(find.text('Notification boundary'), findsOneWidget);
+    await scrollToVisible(tester, find.text('SMS access details'));
+    expect(find.text('SMS access details'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Open updates'));
+    expect(find.text('Open updates'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Finish setup'));
+    expect(find.text('Finish setup'), findsOneWidget);
+    expect(find.textContaining('raw SMS text'), findsOneWidget);
+    expectNoGlobalSecrets();
+  });
+
   testWidgets('contribution review creates intent before MoMo handoff', (
     tester,
   ) async {
