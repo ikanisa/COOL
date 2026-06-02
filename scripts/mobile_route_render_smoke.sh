@@ -78,13 +78,13 @@ if [[ -z "$PORT" ]]; then
   PORT="$(ruby -rsocket -e 'server = TCPServer.new("127.0.0.1", 0); puts server.addr[1]; server.close')"
 fi
 
-python3 -m http.server "$PORT" --bind "$HOST" --directory "$BUILD_DIR" >"$EVIDENCE_DIR/http.log" 2>&1 &
+"$NODE" "$ROOT_DIR/scripts/static_file_server.mjs" --host "$HOST" --port "$PORT" --dir "$BUILD_DIR" >"$EVIDENCE_DIR/http.log" 2>&1 &
 SERVER_PID=$!
 trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
 
 BASE_URL="http://$HOST:$PORT"
 
-wait_for_http "$BASE_URL/" 60 || fail "HTTP server did not become ready at $BASE_URL/."
+wait_for_http "$BASE_URL/" 120 || fail "HTTP server did not become ready at $BASE_URL/."
 
 curl -fsSI "$BASE_URL/" >"$EVIDENCE_DIR/index.headers" || fail "index.html did not serve over HTTP."
 curl -fsSI "$BASE_URL/main.dart.js" >"$EVIDENCE_DIR/main.headers" || fail "main.dart.js did not serve over HTTP."
@@ -92,12 +92,26 @@ curl -fsSI "$BASE_URL/main.dart.js" >"$EVIDENCE_DIR/main.headers" || fail "main.
 route_specs=(
   "onboarding|/onboarding"
   "auth|/auth"
+  "auth-success|/auth/success"
+  "auth-failure|/auth/failure"
   "profile|/settings/profile"
+  "profile-readiness|/settings/readiness"
+  "sms-permission|/permissions/sms"
+  "sms-denied|/permissions/sms-denied"
+  "device-permission|/permissions/device"
   "home|/home"
   "groups|/groups"
+  "group-create|/groups/create"
+  "iphone-create-unavailable|/platform/iphone-create-unavailable"
   "group-detail|/groups/col-church"
+  "group-created|/groups/col-church/created"
+  "group-joined|/groups/col-church/joined"
   "join|/groups/join"
   "share|/groups/col-church/share"
+  "invite|/groups/col-church/invite"
+  "share-confirmed|/share/confirmed?message=Link%20copied"
+  "share-invalid|/share/invalid"
+  "share-expired|/share/expired"
   "contribution|/groups/col-church/contribute"
   "payment-handoff|/groups/col-church/pay/intent-render/handoff"
   "payment-waiting|/groups/col-church/pay/intent-render/waiting"
@@ -107,10 +121,16 @@ route_specs=(
   "payment-needs-review|/groups/col-church/pay/intent-render/state/needs-review"
   "ledger|/groups/col-church/ledger"
   "owner|/groups/col-church/owner"
+  "owner-sms-health|/groups/col-church/owner/sms-health"
+  "owner-receiver|/groups/col-church/owner/receiver"
   "manage|/groups/col-church/manage"
   "members|/groups/col-church/members"
   "settings|/settings"
+  "account|/settings/account"
+  "account-delete|/settings/account/delete"
   "privacy|/settings/privacy"
+  "legal-privacy|/settings/legal/privacy"
+  "legal-terms|/settings/legal/terms"
   "help|/settings/help"
   "notifications|/notifications"
   "offline|/offline"

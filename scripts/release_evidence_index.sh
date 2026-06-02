@@ -447,12 +447,26 @@ end
 required_mobile_routes = %w[
   /onboarding
   /auth
+  /auth/success
+  /auth/failure
   /settings/profile
+  /settings/readiness
+  /permissions/sms
+  /permissions/sms-denied
+  /permissions/device
   /home
   /groups
+  /groups/create
+  /platform/iphone-create-unavailable
   /groups/col-church
+  /groups/col-church/created
+  /groups/col-church/joined
   /groups/join
   /groups/col-church/share
+  /groups/col-church/invite
+  /share/confirmed?message=Link%20copied
+  /share/invalid
+  /share/expired
   /groups/col-church/contribute
   /groups/col-church/pay/intent-render/handoff
   /groups/col-church/pay/intent-render/waiting
@@ -462,10 +476,16 @@ required_mobile_routes = %w[
   /groups/col-church/pay/intent-render/state/needs-review
   /groups/col-church/ledger
   /groups/col-church/owner
+  /groups/col-church/owner/sms-health
+  /groups/col-church/owner/receiver
   /groups/col-church/manage
   /groups/col-church/members
   /settings
+  /settings/account
+  /settings/account/delete
   /settings/privacy
+  /settings/legal/privacy
+  /settings/legal/terms
   /settings/help
   /notifications
   /offline

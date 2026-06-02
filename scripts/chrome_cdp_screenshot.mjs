@@ -16,6 +16,7 @@ const profile = args.get('--profile');
 const viewport = args.get('--viewport') ?? '390x844';
 const waitMs = Number(args.get('--wait-ms') ?? '9000');
 const devtoolsReadyMs = Number(args.get('--devtools-ready-ms') ?? '30000');
+const commandTimeoutMs = Number(args.get('--command-timeout-ms') ?? '30000');
 
 if (!chrome || !url || !output || !profile) {
   console.error(
@@ -31,6 +32,10 @@ if (!Number.isInteger(width) || !Number.isInteger(height) || width <= 0 || heigh
 }
 if (!Number.isFinite(devtoolsReadyMs) || devtoolsReadyMs <= 0) {
   console.error(`invalid DevTools readiness timeout: ${devtoolsReadyMs}`);
+  process.exit(2);
+}
+if (!Number.isFinite(commandTimeoutMs) || commandTimeoutMs <= 0) {
+  console.error(`invalid CDP command timeout: ${commandTimeoutMs}`);
   process.exit(2);
 }
 
@@ -150,7 +155,20 @@ try {
     new Promise((resolve, reject) => {
       const id = nextId;
       nextId += 1;
-      pending.set(id, { resolve, reject });
+      const timeout = setTimeout(() => {
+        if (!pending.has(id)) return;
+        pending.delete(id);
+        reject(new Error(`${method} timed out after ${commandTimeoutMs}ms`));
+      }, commandTimeoutMs);
+      timeout.unref?.();
+      const settle = (callback) => (value) => {
+        clearTimeout(timeout);
+        callback(value);
+      };
+      pending.set(id, {
+        resolve: settle(resolve),
+        reject: settle(reject),
+      });
       socket.send(JSON.stringify({ id, method, params }));
     });
 
@@ -179,7 +197,10 @@ try {
 } finally {
   if (socket) socket.close();
   chromeProcess.kill('SIGTERM');
-  setTimeout(() => chromeProcess.kill('SIGKILL'), 1000).unref();
+  await delay(1000);
+  if (!chromeExit) {
+    chromeProcess.kill('SIGKILL');
+  }
 }
 
 process.exit(0);
