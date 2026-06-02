@@ -1018,6 +1018,140 @@ checking Edge Function secret names
     }
   });
 
+  test('release approval recorder safely records one valid approval', () {
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_release_approvals_',
+    );
+    try {
+      final manifestFile = File('${tempDir.path}/approvals.json')
+        ..writeAsStringSync(
+          File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
+        );
+      final result = Process.runSync('./scripts/record_release_approval.sh', [
+        '--manifest',
+        manifestFile.path,
+        '--key',
+        'product_signoff',
+        '--reviewer',
+        'Product Lead Ada',
+        '--signed-at',
+        '2026-06-02T12:00:00Z',
+        '--evidence-reference',
+        'docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md',
+        '--notes',
+        'Reviewed the SMS-first Groups product evidence for release.',
+        '--sanitized-evidence',
+        '--no-production-customer-data',
+      ]);
+
+      expect(result.exitCode, 0);
+      final recorder =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(recorder['status'], 'pass');
+      expect(recorder['updated_key'], 'product_signoff');
+
+      final gate = Process.runSync(
+        './scripts/release_approval_evidence_gate.sh',
+        ['--json'],
+        environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
+      );
+      expect(gate.exitCode, 99);
+      final decoded = jsonDecode(gate.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'blocked');
+      expect(decoded['approvals']['product_signoff']['approved'], isTrue);
+      expect(decoded['blocker_keys'], isNot(contains('product_signoff')));
+      expect(
+        decoded['blocker_keys'],
+        containsAll(<String>[
+          'android_sms_access_uat',
+          'android_release_signing_review',
+          'ios_release_scope',
+          'release_owner_signoff',
+        ]),
+      );
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
+  test(
+    'release approval recorder rejects sensitive metadata before writing',
+    () {
+      final tempDir = Directory.systemTemp.createTempSync(
+        'cool_release_approvals_',
+      );
+      try {
+        final manifestFile = File('${tempDir.path}/approvals.json')
+          ..writeAsStringSync(
+            File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
+          );
+        final before = manifestFile.readAsStringSync();
+        final result = Process.runSync('./scripts/record_release_approval.sh', [
+          '--manifest',
+          manifestFile.path,
+          '--key',
+          'android_sms_access_uat',
+          '--reviewer',
+          'Android UAT Lead Ben',
+          '--signed-at',
+          '2026-06-02T12:00:00Z',
+          '--evidence-reference',
+          'docs/release/UAT_EVIDENCE_MANIFEST.json',
+          '--notes',
+          'Reviewer pasted MoMo transaction id 123456 into notes.',
+          '--sanitized-evidence',
+          '--no-production-customer-data',
+        ]);
+
+        expect(result.exitCode, 1);
+        expect(result.stderr.toString(), contains('sensitive marker'));
+        expect(manifestFile.readAsStringSync(), before);
+      } finally {
+        tempDir.deleteSync(recursive: true);
+      }
+    },
+  );
+
+  test(
+    'release approval recorder requires prerequisites for owner signoff',
+    () {
+      final tempDir = Directory.systemTemp.createTempSync(
+        'cool_release_approvals_',
+      );
+      try {
+        final manifestFile = File('${tempDir.path}/approvals.json')
+          ..writeAsStringSync(
+            File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
+          );
+        final result = Process.runSync('./scripts/record_release_approval.sh', [
+          '--manifest',
+          manifestFile.path,
+          '--key',
+          'release_owner_signoff',
+          '--reviewer',
+          'Release Owner Eli',
+          '--signed-at',
+          '2026-06-02T12:00:00Z',
+          '--evidence-reference',
+          'docs/release/RELEASE_APPROVAL_PACKET.md',
+          '--notes',
+          'Reviewed final release packet after prerequisite evidence.',
+          '--sanitized-evidence',
+          '--no-production-customer-data',
+        ]);
+
+        expect(result.exitCode, 1);
+        expect(result.stderr.toString(), contains('prerequisite approvals'));
+        expect(
+          result.stderr.toString(),
+          contains('android_release_signing_review'),
+        );
+      } finally {
+        tempDir.deleteSync(recursive: true);
+      }
+    },
+  );
+
   test('release approval example manifest cannot approve production GO', () {
     final result = Process.runSync(
       './scripts/release_status.sh',

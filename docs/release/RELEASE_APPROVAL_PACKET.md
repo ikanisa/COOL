@@ -10,9 +10,12 @@ the remaining approvals. This packet does not approve the release. It records
 what must be reviewed and signed before the release gates can move to GO.
 
 Signed approvals must be recorded in
-`docs/release/RELEASE_APPROVALS.json`. The release remains NO-GO until
-`make release-approval-evidence-gate-json` passes and the final release gates
-consume that approved manifest.
+`docs/release/RELEASE_APPROVALS.json`. Use
+`make record-release-approval ARGS='...'` rather than hand-editing JSON when
+possible; the recorder validates reviewer metadata, sanitizer assertions,
+evidence references, and release-owner prerequisites before writing. The release
+remains NO-GO until `make release-approval-evidence-gate-json` passes and the
+final release gates consume that approved manifest.
 
 Approval evidence references must resolve to an existing repo artifact or a
 valid HTTPS URL. Placeholder paths, missing files, `file:` URLs, and non-HTTPS
@@ -62,6 +65,8 @@ data into approval records.
   - evidence reference
 - Verify: record `product_signoff` in `docs/release/RELEASE_APPROVALS.json`,
   then run `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make release-status-json`.
+- Recorder:
+  `make record-release-approval ARGS="--key product_signoff --reviewer '<name>' --evidence-reference docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md --notes '<review summary>' --sanitized-evidence --no-production-customer-data"`
 
 ### Android MoMo SMS UAT Approval
 
@@ -89,6 +94,8 @@ data into approval records.
 - Verify: record `android_sms_access_uat` in
   `docs/release/RELEASE_APPROVALS.json`, then run
   `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make release-status-json`.
+- Recorder:
+  `make record-release-approval ARGS="--key android_sms_access_uat --reviewer '<name>' --evidence-reference docs/release/UAT_EVIDENCE_MANIFEST.json --notes '<sanitized real-device SMS UAT review summary>' --sanitized-evidence --no-production-customer-data"`
 
 ### Android Release Signing Review
 
@@ -114,6 +121,8 @@ data into approval records.
 - Verify: record `android_release_signing_review` in
   `docs/release/RELEASE_APPROVALS.json`, then run
   `./scripts/flutter_mobile_release_gate.sh --json`.
+- Recorder:
+  `make record-release-approval ARGS="--key android_release_signing_review --reviewer '<name>' --evidence-reference docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md --notes '<APK/AAB and Play App Signing review summary>' --sanitized-evidence --no-production-customer-data --no-signing-keys-exposed"`
 
 ### iOS Release Scope Decision
 
@@ -138,6 +147,10 @@ data into approval records.
 - Verify: record `ios_release_scope` in
   `docs/release/RELEASE_APPROVALS.json`, then run
   `./scripts/flutter_mobile_release_gate.sh --json`.
+- Recorder for approved iOS scope:
+  `make record-release-approval ARGS="--key ios_release_scope --reviewer '<name>' --evidence-reference docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md --notes '<iOS contributor-scope review summary>' --sanitized-evidence --no-production-customer-data"`
+- Recorder for Android-only scope:
+  `make record-release-approval ARGS="--key ios_release_scope --out-of-scope --reviewer '<name>' --evidence-reference docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md --notes '<Android-only go-live scope rationale>' --sanitized-evidence --no-production-customer-data"`
 
 ### Release-Owner Go/No-Go Approval
 
@@ -165,6 +178,10 @@ data into approval records.
 - Verify: record `release_owner_signoff` in
   `docs/release/RELEASE_APPROVALS.json`, then run
   `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make release-status-json`.
+- Recorder:
+  `make record-release-approval ARGS="--key release_owner_signoff --reviewer '<name>' --evidence-reference docs/release/RELEASE_APPROVAL_PACKET.md --notes '<final release-owner decision summary>' --sanitized-evidence --no-production-customer-data"`
+  The recorder refuses this record until product, Android SMS UAT, Android
+  signing, and iOS scope approvals are already valid.
 
 ## Required Final Commands
 
