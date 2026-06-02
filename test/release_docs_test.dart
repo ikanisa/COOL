@@ -827,6 +827,122 @@ checking Edge Function secret names
     },
   );
 
+  test('release evidence index reports nested UAT evidence failures', () {
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_release_evidence_index_',
+    );
+    try {
+      final commandFiles = <String, String>{
+        'flutter_version': 'flutter_version.txt',
+        'dart_version': 'dart_version.txt',
+        'format_check': 'format_check.txt',
+        'flutter_analyze': 'flutter_analyze.txt',
+        'flutter_test': 'flutter_test.txt',
+        'release_secret_scan': 'release_secret_scan.txt',
+        'collect_product_boundary_scan': 'collect_product_boundary_scan.json',
+        'admin_pwa_build': 'admin_pwa_build.txt',
+        'admin_pwa_manifest_gate': 'admin_pwa_manifest_gate.txt',
+        'admin_pwa_hosting_gate': 'admin_pwa_hosting_gate.json',
+        'admin_pwa_live_gate': 'admin_pwa_live_gate.json',
+        'admin_pwa_render_smoke': 'admin_pwa_render_smoke.txt',
+        'mobile_route_render_smoke': 'mobile_route_render_smoke.txt',
+        'uat_evidence_gate': 'uat_evidence_gate.json',
+        'uat_signoff_gate': 'uat_signoff_gate.json',
+        'android_apk_release_build': 'android_apk_release_build.txt',
+        'android_aab_release_build': 'android_aab_release_build.txt',
+        'release_artifact_manifest': 'release_artifact_manifest.json',
+        'flutter_mobile_release_gate': 'mobile_release_gate.json',
+        'release_worktree_review': 'worktree_review.json',
+        'android_device_uat': 'android_device_uat.txt',
+        'release_status_json': 'release_status.json',
+        'supabase_go_live_gate_json': 'go_live_gate.json',
+        'supabase_go_live_evidence': 'supabase_go_live_evidence.txt',
+      };
+      for (final file in commandFiles.values.toSet()) {
+        File('${tempDir.path}/$file').writeAsStringSync('ok');
+      }
+      File('${tempDir.path}/release_status.json').writeAsStringSync(
+        jsonEncode({
+          'decision': 'GO',
+          'status': 'pass',
+          'supabase_strict': 'pass',
+          'blocker_keys': <String>[],
+        }),
+      );
+      File('${tempDir.path}/go_live_gate.json').writeAsStringSync(
+        jsonEncode({
+          'decision': 'GO',
+          'approval_status': 'approved',
+          'go_live_approved': true,
+          'status': 'pass',
+          'blocker_keys': <String>[],
+        }),
+      );
+      File('${tempDir.path}/admin_pwa_hosting_gate.json').writeAsStringSync(
+        jsonEncode({'status': 'pass', 'failure_keys': <String>[]}),
+      );
+      File('${tempDir.path}/admin_pwa_live_gate.json').writeAsStringSync(
+        jsonEncode({'status': 'pass', 'fixture_mode': false}),
+      );
+      File('${tempDir.path}/uat_evidence_gate.json').writeAsStringSync(
+        jsonEncode({
+          'status': 'fail',
+          'blocker_keys': <String>[],
+          'failure_keys': ['uat_evidence_sanitization_scan'],
+        }),
+      );
+      File('${tempDir.path}/uat_signoff_gate.json').writeAsStringSync(
+        jsonEncode({
+          'status': 'pass',
+          'signoff_approved': true,
+          'blocker_keys': <String>[],
+        }),
+      );
+      File('${tempDir.path}/mobile_release_gate.json').writeAsStringSync(
+        jsonEncode({'status': 'pass', 'blocker_keys': <String>[]}),
+      );
+      File('${tempDir.path}/worktree_review.json').writeAsStringSync(
+        jsonEncode({'status': 'pass', 'blocker_keys': <String>[]}),
+      );
+      File('${tempDir.path}/release_artifact_manifest.json').writeAsStringSync(
+        jsonEncode({'status': 'pass', 'manifest_written': true}),
+      );
+      Directory('${tempDir.path}/supabase').createSync();
+      File('${tempDir.path}/supabase/summary.json').writeAsStringSync(
+        jsonEncode({
+          'status': 'pass',
+          'blocker_keys': <String>[],
+          'blocked_reasons': <String>[],
+          'blocked_commands': <String>[],
+        }),
+      );
+      final rows = commandFiles.entries.map((entry) {
+        final exitCode = entry.key == 'uat_evidence_gate' ? 1 : 0;
+        return '${entry.key}\t${entry.value}\t$exitCode\tstart\tfinish';
+      });
+      File('${tempDir.path}/commands.tsv').writeAsStringSync(rows.join('\n'));
+
+      final result = Process.runSync(
+        './scripts/release_evidence_index.sh',
+        ['--json'],
+        environment: {'RELEASE_EVIDENCE_BUNDLE_DIR': tempDir.path},
+      );
+
+      expect(result.exitCode, 1);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'fail');
+      expect(decoded['section_statuses']['human_uat_evidence'], 'fail');
+      expect(decoded['human_uat_evidence']['status'], 'fail');
+      expect(
+        decoded['blocker_keys'],
+        contains('uat_evidence_sanitization_scan'),
+      );
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
   test(
     'Supabase evidence bundle exits blocked for blocked nested evidence',
     () {

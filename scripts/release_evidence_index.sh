@@ -639,6 +639,7 @@ blocker_keys = (
   Array(mobile_release["blocker_keys"]) +
   Array(mobile_release["failure_keys"]) +
   Array(uat_evidence["blocker_keys"]) +
+  Array(uat_evidence["failure_keys"]) +
   Array(uat_signoff["blocker_keys"]) +
   Array(admin_hosting["blocker_keys"]) +
   Array(admin_hosting["failure_keys"]) +
