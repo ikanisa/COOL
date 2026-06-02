@@ -89,6 +89,26 @@ def placeholder_approval_blockers(record)
   blockers
 end
 
+SENSITIVE_METADATA_PATTERNS = {
+  "supabase_service_role" => /service[_-]?role\b\s*[:=]\s*["']?[A-Za-z0-9._\-]{12,}/i,
+  "openai_api_key" => /sk-[A-Za-z0-9_\-]{20,}/,
+  "generic_secret_assignment" => /\b(?:secret|token|api[_-]?key|password)\b\s*[:=]\s*["']?[A-Za-z0-9._\-]{12,}/i,
+  "rwanda_phone_number" => /\+250\d{9}\b/,
+  "raw_momo_sms" => /\b(?:m-pesa|momo|mobile money|transaction id)\b.*\b(?:\+250\d{9}|\d{6,})/i
+}
+
+def sensitive_metadata_hits(record)
+  scanned_fields = %w[reviewer signed_at evidence_reference notes]
+  scanned_fields.each_with_object([]) do |field, hits|
+    text = record[field].to_s
+    next if text.strip == ""
+
+    SENSITIVE_METADATA_PATTERNS.each do |name, pattern|
+      hits << "#{field}:#{name}" if text.match?(pattern)
+    end
+  end.uniq
+end
+
 failure_keys = []
 blocker_keys = []
 checks = {}
@@ -164,6 +184,7 @@ required_keys.each do |key|
   signing_keys_exposed = record["signing_keys_exposed"] == true
   evidence_reference_valid = evidence_reference_valid?(evidence_reference, root_dir)
   placeholder_blockers = placeholder_approval_blockers(record)
+  sensitive_hits = sensitive_metadata_hits(record)
 
   acceptable_status =
     if key == "ios_release_scope"
@@ -183,6 +204,8 @@ required_keys.each do |key|
   blockers << "production_customer_data" if contains_production_data
   blockers << "signing_keys_exposed" if key == "android_release_signing_review" && signing_keys_exposed
   blockers.concat(placeholder_blockers)
+  blockers << "sensitive_metadata" unless sensitive_hits.empty?
+  failure_keys << "release_approvals_sensitive_metadata" unless sensitive_hits.empty?
 
   approved = blockers.empty?
   blocker_keys << key unless approved
@@ -194,6 +217,7 @@ required_keys.each do |key|
     "signed_at" => signed_at == "" ? nil : signed_at,
     "evidence_reference" => evidence_reference == "" ? nil : evidence_reference,
     "evidence_reference_valid" => evidence_reference_valid,
+    "sensitive_metadata_hits" => sensitive_hits,
     "blockers" => blockers
   }
 end

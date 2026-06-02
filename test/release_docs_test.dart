@@ -937,6 +937,87 @@ checking Edge Function secret names
     },
   );
 
+  test('release approval evidence gate rejects sensitive approval metadata', () {
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_release_approvals_',
+    );
+    try {
+      final manifest = approvedReleaseManifest();
+      final approvals = manifest['approvals'] as List<dynamic>;
+      final sms = approvals.cast<Map<String, dynamic>>().firstWhere(
+        (record) => record['key'] == 'android_sms_access_uat',
+      );
+      sms['notes'] =
+          'Reviewer pasted raw MoMo transaction id 123456 into the approval notes.';
+
+      final manifestFile = File('${tempDir.path}/approvals.json')
+        ..writeAsStringSync(jsonEncode(manifest));
+      final result = Process.runSync(
+        './scripts/release_approval_evidence_gate.sh',
+        ['--json'],
+        environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
+      );
+
+      expect(result.exitCode, 1);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'fail');
+      expect(
+        decoded['failure_keys'],
+        contains('release_approvals_sensitive_metadata'),
+      );
+      expect(decoded['blocker_keys'], contains('android_sms_access_uat'));
+      expect(
+        decoded['approvals']['android_sms_access_uat']['blockers'],
+        contains('sensitive_metadata'),
+      );
+      expect(
+        decoded['approvals']['android_sms_access_uat']['sensitive_metadata_hits'],
+        contains('notes:raw_momo_sms'),
+      );
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
+  test('mobile release gate rejects sensitive signing approval metadata', () {
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_release_approvals_',
+    );
+    try {
+      final manifest = approvedReleaseManifest();
+      final approvals = manifest['approvals'] as List<dynamic>;
+      final signing = approvals.cast<Map<String, dynamic>>().firstWhere(
+        (record) => record['key'] == 'android_release_signing_review',
+      );
+      signing['notes'] =
+          'Reviewer accidentally pasted signing token=abcdefghijklmnopqrstuvwxyz.';
+
+      final manifestFile = File('${tempDir.path}/approvals.json')
+        ..writeAsStringSync(jsonEncode(manifest));
+      final result = Process.runSync(
+        './scripts/flutter_mobile_release_gate.sh',
+        ['--json'],
+        environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
+      );
+
+      expect(result.exitCode, 99);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'blocked');
+      expect(
+        decoded['blocker_keys'],
+        contains('android_release_signing_review'),
+      );
+      expect(
+        decoded['checks']['android_release_signing_review']['status'],
+        'blocked',
+      );
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
   test('release approval example manifest cannot approve production GO', () {
     final result = Process.runSync(
       './scripts/release_status.sh',

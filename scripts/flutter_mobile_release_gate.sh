@@ -163,6 +163,23 @@ def placeholder_approval_record?(record)
     placeholder_notes.include?(record["notes"].to_s.strip)
 end
 
+SENSITIVE_APPROVAL_METADATA_PATTERNS = {
+  "supabase_service_role" => /service[_-]?role\b\s*[:=]\s*["']?[A-Za-z0-9._\-]{12,}/i,
+  "openai_api_key" => /sk-[A-Za-z0-9_\-]{20,}/,
+  "generic_secret_assignment" => /\b(?:secret|token|api[_-]?key|password)\b\s*[:=]\s*["']?[A-Za-z0-9._\-]{12,}/i,
+  "rwanda_phone_number" => /\+250\d{9}\b/,
+  "raw_momo_sms" => /\b(?:m-pesa|momo|mobile money|transaction id)\b.*\b(?:\+250\d{9}|\d{6,})/i
+}
+
+def sensitive_approval_metadata?(record)
+  %w[reviewer signed_at evidence_reference notes].any? do |field|
+    text = record[field].to_s
+    next false if text.strip == ""
+
+    SENSITIVE_APPROVAL_METADATA_PATTERNS.any? { |_name, pattern| text.match?(pattern) }
+  end
+end
+
 def release_approval_records(root_dir)
   path = ENV.fetch("RELEASE_APPROVALS_JSON", File.join(root_dir, "docs/release/RELEASE_APPROVALS.json"))
   data = JSON.parse(File.read(path))
@@ -190,6 +207,7 @@ def release_approval_valid?(records, key, root_dir, allow_out_of_scope: false)
 
   acceptable_status &&
     !placeholder_approval_record?(record) &&
+    !sensitive_approval_metadata?(record) &&
     record["reviewer"].to_s.strip.length >= 2 &&
     iso8601_utc?(record["signed_at"]) &&
     record["evidence_reference"].to_s.strip.length >= 3 &&
