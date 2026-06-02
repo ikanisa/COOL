@@ -130,6 +130,8 @@ approval_records = [
     "evidence_to_review" => [
       "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md",
       "docs/design/COLLECT_ASSET_SCREEN_UI_UX_UPDATE_REPORT_2026-05-31.md",
+      "scripts/collect_product_boundary_scan.sh",
+      bundle_dir && File.join(bundle_dir, "collect_product_boundary_scan.json"),
       latest_summary
     ].compact,
     "required_signoff_fields" => [
@@ -325,7 +327,8 @@ packet = {
     latest_android_install_summary && file_item(root_dir, latest_android_install_summary),
     file_item(root_dir, "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md"),
     file_item(root_dir, "docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256"),
-    file_item(root_dir, "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md")
+    file_item(root_dir, "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md"),
+    file_item(root_dir, "scripts/collect_product_boundary_scan.sh")
   ].compact,
   "secret_handling" => "No secrets, signing keys, raw SMS bodies, phone/MoMo numbers, service-role keys, provider tokens, or production customer data may be pasted into approval records."
 }

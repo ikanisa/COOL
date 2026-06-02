@@ -894,6 +894,17 @@ checking Edge Function secret names
         contains('--no-production-customer-data'),
       );
     }
+    final productSignoff = records.cast<Map<String, dynamic>>().firstWhere(
+      (record) => record['key'] == 'product_signoff',
+    );
+    expect(
+      productSignoff['evidence_to_review'],
+      contains('scripts/collect_product_boundary_scan.sh'),
+    );
+    expect(
+      jsonEncode(productSignoff['evidence_to_review']),
+      contains('collect_product_boundary_scan.json'),
+    );
     final androidSigning = records.cast<Map<String, dynamic>>().firstWhere(
       (record) => record['key'] == 'android_release_signing_review',
     );
@@ -941,6 +952,10 @@ checking Edge Function secret names
       contains(
         '.cache/mobile_route_render_smoke/20260602T082935Z/summary.json',
       ),
+    );
+    expect(
+      fileChecks.map((item) => item['path']),
+      contains('scripts/collect_product_boundary_scan.sh'),
     );
     expect(jsonEncode(decoded), contains('https://cool-admin-212.pages.dev'));
     expect(
