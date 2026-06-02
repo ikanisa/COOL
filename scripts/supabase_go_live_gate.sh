@@ -44,14 +44,14 @@ strict_pass =
 
 actions = []
 unless strict_pass
-  actions << "Sign off the corrected SMS-first Groups product definition." if blocker_keys.include?("product_signoff")
+  actions << "Run make record-release-approval ARGS=\"--key product_signoff ... --sanitized-evidence --no-production-customer-data\", then rerun make release-status-json." if blocker_keys.include?("product_signoff")
   actions << "Apply supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql from an allow-listed database network and rerun scripts/collect_linked_uat.sh." if blocker_keys.include?("linked_supabase_sms_first_migration")
-  actions << "Run real Android MoMo SMS ingestion/parser/allocation UAT with sanitized evidence." if blocker_keys.include?("android_sms_access_uat")
+  actions << "Run real Android MoMo SMS ingestion/parser/allocation UAT, record UAT signoffs with make record-uat-evidence-signoff, then run make record-release-approval ARGS=\"--key android_sms_access_uat ... --sanitized-evidence --no-production-customer-data\"." if blocker_keys.include?("android_sms_access_uat")
   actions << "Rebuild current Android release APK/AAB artifacts and rerun scripts/flutter_mobile_release_gate.sh --json." if blocker_keys.include?("android_release_artifacts")
-  actions << "Record Android release signing / Play App Signing review evidence and rerun scripts/flutter_mobile_release_gate.sh --json." if blocker_keys.include?("android_release_signing_review")
-  actions << "Sign off iOS release scope or mark iOS explicitly out of scope, then rerun scripts/flutter_mobile_release_gate.sh --json." if blocker_keys.include?("ios_release_scope")
+  actions << "Run make record-release-approval ARGS=\"--key android_release_signing_review ... --sanitized-evidence --no-production-customer-data --no-signing-keys-exposed\", then rerun scripts/flutter_mobile_release_gate.sh --json." if blocker_keys.include?("android_release_signing_review")
+  actions << "Run make record-release-approval ARGS=\"--key ios_release_scope ... --sanitized-evidence --no-production-customer-data\" or include --out-of-scope, then rerun scripts/flutter_mobile_release_gate.sh --json." if blocker_keys.include?("ios_release_scope")
   actions << "Deploy Admin PWA and rerun the live gate with ADMIN_PWA_LIVE_URL." if blocker_keys.include?("admin_pwa_live_url")
-  actions << "Record release-owner signoff for the current evidence packet." if blocker_keys.include?("release_owner_signoff")
+  actions << "After prerequisite approvals pass, run make record-release-approval ARGS=\"--key release_owner_signoff ... --sanitized-evidence --no-production-customer-data\"." if blocker_keys.include?("release_owner_signoff")
   actions << "Rerun make release-status-json and make supabase-go-live-gate-json." if actions.empty?
 end
 

@@ -421,16 +421,20 @@ Date/time: 2026-06-01T12:30:00Z
       ),
     );
     expect(
-      decoded['required_next_actions'],
-      contains(
-        'Record Android release signing / Play App Signing review evidence and rerun scripts/flutter_mobile_release_gate.sh --json.',
-      ),
+      jsonEncode(decoded['required_next_actions']),
+      contains('record-release-approval'),
     );
     expect(
-      decoded['required_next_actions'],
-      contains(
-        'Sign off iOS release scope or mark iOS explicitly out of scope, then rerun scripts/flutter_mobile_release_gate.sh --json.',
-      ),
+      jsonEncode(decoded['required_next_actions']),
+      contains('android_release_signing_review'),
+    );
+    expect(
+      jsonEncode(decoded['required_next_actions']),
+      contains('ios_release_scope'),
+    );
+    expect(
+      jsonEncode(decoded['required_next_actions']),
+      contains('--out-of-scope'),
     );
   });
 
@@ -451,12 +455,10 @@ Date/time: 2026-06-01T12:30:00Z
     expect(decoded['decision'], 'NO-GO');
     expect(decoded['go_live_approved'], isFalse);
     expect(decoded['blocker_keys'], contains('android_sms_access_uat'));
-    expect(
-      decoded['required_next_actions'],
-      contains(
-        'Run real Android MoMo SMS ingestion/parser/allocation UAT with sanitized evidence.',
-      ),
-    );
+    final nextActions = jsonEncode(decoded['required_next_actions']);
+    expect(nextActions, contains('record-uat-evidence-signoff'));
+    expect(nextActions, contains('record-release-approval'));
+    expect(nextActions, contains('android_sms_access_uat'));
   });
 
   test('acceptance matrix rejects inconsistent approved go-live evidence', () {

@@ -80,7 +80,7 @@ catalog = {
       notes: "<APK/AAB and Play App Signing review summary>",
       extra_args: "--no-signing-keys-exposed"
     ),
-    "verify_command" => "Record android_release_signing_review in docs/release/RELEASE_APPROVALS.json, then ./scripts/flutter_mobile_release_gate.sh --json"
+    "verify_command" => "Run the record_command for android_release_signing_review, then ./scripts/flutter_mobile_release_gate.sh --json"
   },
   "ios_release_scope" => {
     "title" => "iOS release scope",
@@ -97,7 +97,7 @@ catalog = {
       evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
       notes: "<Android-only go-live scope rationale>"
     ),
-    "verify_command" => "Record ios_release_scope in docs/release/RELEASE_APPROVALS.json, then ./scripts/flutter_mobile_release_gate.sh --json"
+    "verify_command" => "Run record_command or record_out_of_scope_command for ios_release_scope, then ./scripts/flutter_mobile_release_gate.sh --json"
   },
   "admin_pwa_live_url" => {
     "title" => "Admin PWA live deployment",
@@ -116,7 +116,7 @@ catalog = {
       evidence_reference: "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md",
       notes: "<SMS-first Groups product review summary>"
     ),
-    "verify_command" => "Attach signed product approval evidence"
+    "verify_command" => "Run the record_command for product_signoff, then make release-status-json"
   },
   "release_owner_signoff" => {
     "title" => "Release-owner evidence signoff",
@@ -128,7 +128,7 @@ catalog = {
       evidence_reference: "docs/release/RELEASE_APPROVAL_PACKET.md",
       notes: "<final release-owner decision summary>"
     ),
-    "verify_command" => "Record release_owner_signoff in docs/release/RELEASE_APPROVALS.json, then make release-status-json"
+    "verify_command" => "Run the record_command for release_owner_signoff, then make release-status-json"
   }
 }
 
