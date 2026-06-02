@@ -80,6 +80,10 @@ def weak_signoff?(value)
     text.match?(/\btemplate\b/i)
 end
 
+def timestamp_from(value)
+  value.to_s[/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/]
+end
+
 def inside_root?(root, path)
   expanded = File.expand_path(path, root)
   expanded == root || expanded.start_with?(root + File::SEPARATOR)
@@ -178,6 +182,7 @@ required_ids.each do |id|
 
   status = persona["status"].to_s.strip.downcase
   signoff = persona["signoff"].to_s.strip
+  signoff_timestamp = timestamp_from(signoff)
   sanitized = persona["sanitized"] == true
   production_like = persona["production_like"] == true
   evidence_files = Array(persona["evidence_files"]).map do |entry|
@@ -203,6 +208,7 @@ required_ids.each do |id|
   blocked("#{id} status must be signed or waived.", "uat_evidence_persona_status", blockers, blocker_keys) unless allowed_statuses.include?(status)
   blocked("#{id} signoff is missing.", "uat_evidence_persona_signoff", blockers, blocker_keys) if signoff.empty?
   blocked("#{id} signoff is too generic or placeholder-like.", "uat_evidence_persona_signoff", blockers, blocker_keys) if !signoff.empty? && weak_signoff?(signoff)
+  blocked("#{id} signoff must include an ISO-8601 UTC timestamp.", "uat_evidence_persona_signoff_timestamp", blockers, blocker_keys) if !signoff.empty? && (signoff_timestamp.to_s.empty? || !iso8601_utc?(signoff_timestamp))
   blocked("#{id} sanitized=true is required.", "uat_evidence_sanitization", blockers, blocker_keys) unless sanitized
   blocked("#{id} production_like=true is required for production GO.", "uat_evidence_production_like", blockers, blocker_keys) unless production_like
   blocked("#{id} has no evidence files.", "uat_evidence_files", blockers, blocker_keys) if evidence_files.empty?

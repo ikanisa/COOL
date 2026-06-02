@@ -68,8 +68,10 @@ void main() {
     for (final persona
         in (manifest['personas'] as List<dynamic>)
             .cast<Map<String, dynamic>>()) {
+      final index = int.parse((persona['id'] as String).split('-').last) - 1;
       persona['status'] = 'signed';
-      persona['signoff'] = 'Signed by ${persona['persona']} reviewer';
+      persona['signoff'] =
+          'Signed by ${persona['persona']} reviewer 2026-06-01T12:${index.toString().padLeft(2, '0')}:00Z';
       persona['sanitized'] = true;
       persona['production_like'] = true;
     }
@@ -1654,9 +1656,44 @@ checking Edge Function secret names
           'uat_evidence_release_owner',
           'uat_evidence_release_owner_signed_at',
           'uat_evidence_persona_signoff',
+          'uat_evidence_persona_signoff_timestamp',
         ]),
       );
       expect(decoded['release_owner']['signed_at_iso8601_utc'], isFalse);
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
+  test('UAT evidence manifest rejects signoffs without timestamps', () {
+    final tempDir = Directory.systemTemp.createTempSync('cool_uat_evidence_');
+    try {
+      final manifest = signedUatEvidenceManifest();
+      final personas = (manifest['personas'] as List<dynamic>)
+          .cast<Map<String, dynamic>>();
+      personas.first['signoff'] =
+          'Signed by Contributor reviewer after sanitized evidence review';
+
+      final manifestFile = File('${tempDir.path}/uat.json')
+        ..writeAsStringSync(jsonEncode(manifest));
+      final result = Process.runSync(
+        './scripts/uat_evidence_gate.sh',
+        ['--json'],
+        environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
+      );
+
+      expect(result.exitCode, 99);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'blocked');
+      expect(
+        decoded['blocker_keys'],
+        contains('uat_evidence_persona_signoff_timestamp'),
+      );
+      expect(
+        decoded['blockers'],
+        contains('UAT-01 signoff must include an ISO-8601 UTC timestamp.'),
+      );
     } finally {
       tempDir.deleteSync(recursive: true);
     }
