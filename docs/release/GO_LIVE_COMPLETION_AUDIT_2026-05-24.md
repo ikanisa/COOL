@@ -38,8 +38,8 @@ the old goals/campaign/manual-SMS/anonymity product model.
 | Verify Android-only group creation | Proven locally | iPhone warning copy is tested; physical iOS scope still needs release decision if iOS is included. |
 | Verify contribution/payment intent/USSD launch | Backend proven; device UAT pending | Repository/widget tests and linked rollback UAT pass. |
 | Verify MoMo SMS ingestion/parser/allocation | Device UAT pending | Edge contracts and linked allocation UAT pass; physical Android SMS UAT remains pending. |
-| Verify admin monitoring and RBAC | Partial | Local Admin PWA, live Admin PWA gate, and linked admin/security UAT pass; human admin walkthrough/signoff remains. |
-| Verify release evidence quality | Partial | Current release docs, approval packet, repo-wide QA index, and mobile render evidence are refreshed; final release packet must still be regenerated after device UAT and signoffs pass. |
+| Verify admin monitoring and RBAC | Admin proof pass; signoff pending | Local Admin PWA, live Admin PWA gate, and linked admin/security UAT pass; human admin walkthrough/signoff remains. |
+| Verify release evidence quality | Current evidence pass; final refresh pending | Current release docs, approval packet, repo-wide QA index, admin/mobile render evidence, and UAT evidence manifest are refreshed; final release packet must still be regenerated after device UAT and signoffs pass. |
 
 ## Current Blocking Keys
 

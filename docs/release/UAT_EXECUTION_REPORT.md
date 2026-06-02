@@ -1,6 +1,6 @@
 # Collect UAT Execution Report
 
-Audit date: 2026-06-01
+Audit date: 2026-06-02
 
 Status: **AUTOMATED LOCAL, LINKED BACKEND, DEVICE SMOKE, AND ADMIN LIVE GATES
 PASS; HUMAN RELEASE SIGNOFF PENDING**
@@ -32,16 +32,16 @@ signoff is recorded.
 
 | ID | Persona | Required journey | Current evidence | Result | Remaining action |
 | --- | --- | --- | --- | --- | --- |
-| UAT-01 | Contributor | Open group, enter amount, create payment intent, launch MoMo USSD, and wait for SMS allocation. | Local repository/widget tests and linked rollback UAT pass. | Partial | Run live tester flow with real Android SMS evidence. |
-| UAT-02 | Android creator | Create group with profile-synced receiver MoMo and share link/QR/deep link/SMS. | Local UI and contract tests. | Partial | Run Android walkthrough with SMS permission and share evidence. |
-| UAT-03 | iPhone user | Tap inactive group creation action. | Widget tests verify warning copy. | Partial | Verify on iOS release scope if iOS is included. |
-| UAT-04 | Group member | Join/open shared group and contribute using profile Collect ID. | Local tests and repository contract. | Partial | Complete shared-link walkthrough against linked/staging. |
-| UAT-05 | Android SMS device | Grant Android SMS access and allow automatic SMS upload. | Edge/auth contracts and linked rollback UAT pass. | Pending | Run physical Android SMS access UAT. |
-| UAT-06 | Admin operator | Monitor SMS parsing, allocations, exceptions, and ledger. | Admin PWA local render, live gate, and linked admin/security rollback UAT pass. | Partial | Complete human admin walkthrough/signoff. |
-| UAT-07 | Payments admin | Review ambiguous parsed event and request reparse with reason. | Linked admin/security UAT passes and Admin PWA is live. | Partial | Confirm with human payments-admin signoff. |
-| UAT-08 | Compliance admin | Reveal raw SMS through permission-gated audited path. | Linked admin/security UAT passes and Admin PWA is live. | Partial | Confirm with sanitized compliance-admin signoff. |
-| UAT-09 | Non-admin | Attempt protected admin routes/functions. | Linked admin/security UAT covers denial paths. | Partial | Confirm UI denial in live Admin PWA. |
-| UAT-10 | Edge-case user | Invalid amount, expired intent, ambiguous amount, missing receiver authorization, failed auth. | Unit/contract tests, Edge auth UAT, and linked rollback UAT pass. | Partial | Capture physical Android SMS evidence. |
+| UAT-01 | Contributor | Open group, enter amount, create payment intent, launch MoMo USSD, and wait for SMS allocation. | Local repository/widget tests, mobile route render, and linked rollback UAT pass. | Automated/backend pass | Run live tester flow with real Android SMS evidence and approval. |
+| UAT-02 | Android creator | Create group with profile-synced receiver MoMo and share link/QR/deep link/SMS. | Local UI/contract tests and mobile route render pass. | Automated local pass | Run Android walkthrough with SMS permission and share evidence. |
+| UAT-03 | iPhone user | Tap inactive group creation action. | Widget tests verify warning copy; mobile route render covers the restricted creation path. | Automated local pass | Record iOS release-scope decision if iOS is included, or out-of-scope decision if Android-only. |
+| UAT-04 | Group member | Join/open shared group and contribute using profile Collect ID. | Local tests, mobile route render, and repository contract pass. | Automated local pass | Complete shared-link human walkthrough against linked/staging if required by release owner. |
+| UAT-05 | Android SMS device | Grant Android SMS access and allow automatic SMS upload. | Edge/auth contracts and linked rollback UAT pass; production-flavor Pixel smoke passed. | Device scenario approval pending | Run physical Android MoMo SMS access UAT. |
+| UAT-06 | Admin operator | Monitor SMS parsing, allocations, exceptions, and ledger. | Admin PWA local render, live gate, and linked admin/security rollback UAT pass. | Admin proof pass | Complete human admin walkthrough/signoff. |
+| UAT-07 | Payments admin | Review ambiguous parsed event and request reparse with reason. | Linked admin/security UAT passes and Admin PWA is live. | Linked/admin proof pass | Confirm with human payments-admin signoff. |
+| UAT-08 | Compliance admin | Reveal raw SMS through permission-gated audited path. | Linked admin/security UAT passes and Admin PWA is live. | Linked/admin proof pass | Confirm with sanitized compliance-admin signoff. |
+| UAT-09 | Non-admin | Attempt protected admin routes/functions. | Linked admin/security UAT covers denial paths and Admin PWA is live. | Linked/admin proof pass | Confirm UI denial in live Admin PWA if required by release owner. |
+| UAT-10 | Edge-case user | Invalid amount, expired intent, ambiguous amount, missing receiver authorization, failed auth. | Unit/contract tests, mobile route render, Edge auth UAT, and linked rollback UAT pass. | Automated/backend pass | Capture physical Android MoMo SMS edge evidence where device scenarios are required. |
 
 ## Test Data Policy
 

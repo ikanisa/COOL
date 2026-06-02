@@ -206,6 +206,7 @@ Date/time: 2026-06-01T12:30:00Z
       ).readAsStringSync(),
       'qa': File('docs/release/QA_TEST_REPORT.md').readAsStringSync(),
       'uat': File('docs/release/UAT_EXECUTION_REPORT.md').readAsStringSync(),
+      'uat_plan': File('docs/release/UAT_TEST_PLAN.md').readAsStringSync(),
       'packet': File(
         'docs/release/UAT_GO_LIVE_PACKET_2026-05-24.md',
       ).readAsStringSync(),
@@ -243,7 +244,14 @@ Date/time: 2026-06-01T12:30:00Z
       expect(text, isNot(contains('commit `5eea474`')));
     }
 
-    for (final key in ['decision', 'blockers', 'qa', 'uat', 'packet']) {
+    for (final key in [
+      'decision',
+      'blockers',
+      'qa',
+      'uat',
+      'uat_plan',
+      'packet',
+    ]) {
       expect(docs[key], contains('NO-GO'));
     }
 
@@ -280,6 +288,14 @@ Date/time: 2026-06-01T12:30:00Z
     expect(uatManifest, isNot(contains('20260601T204710Z')));
     expect(docs['qa'], contains('scripts/mobile_route_render_smoke.sh'));
     expect(docs['qa'], contains('20260602T082935Z'));
+    expect(docs['uat'], isNot(contains('| Partial |')));
+    expect(docs['uat'], contains('Automated/backend pass'));
+    expect(docs['uat'], contains('Device scenario approval pending'));
+    expect(docs['uat'], contains('Linked/admin proof pass'));
+    expect(docs['uat_plan'], isNot(contains('| Partial. |')));
+    expect(docs['uat_plan'], contains('Automated local pass'));
+    expect(docs['uat_plan'], contains('Android signing review'));
+    expect(docs['uat_plan'], contains('iOS release-scope decision'));
     expect(docs['checklist'], contains('20260602T081408Z'));
     expect(docs['checklist'], contains('20260602T082935Z'));
     expect(
