@@ -5,6 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 SIGNOFF_FILE="${UAT_SIGNOFF_FILE:-docs/release/UAT_SIGNOFF_CHECKLIST_2026-05-24.md}"
+EVIDENCE_MANIFEST="${UAT_EVIDENCE_MANIFEST:-docs/release/UAT_EVIDENCE_MANIFEST.json}"
 output_format="text"
 
 case "${1:-}" in
@@ -20,8 +21,9 @@ case "${1:-}" in
 esac
 
 gate_json="$(
-  ruby -r json -r time - "$SIGNOFF_FILE" <<'RUBY'
+  ruby -r json -r time - "$SIGNOFF_FILE" "$EVIDENCE_MANIFEST" <<'RUBY'
 path = ARGV.fetch(0)
+manifest_path = ARGV.fetch(1)
 blockers = []
 personas = []
 release_owner = nil
@@ -34,6 +36,13 @@ minimum_go_total = 0
 minimum_go_checked = 0
 precondition_total = 0
 precondition_checked = 0
+manifest = nil
+manifest_personas_by_id = {}
+manifest_consistency = {
+  "checked" => false,
+  "manifest" => manifest_path,
+  "mismatches" => []
+}
 
 def iso8601?(value)
   Time.iso8601(value)
@@ -76,6 +85,21 @@ end
 
 def timestamp_from(value)
   value.to_s[/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/]
+end
+
+if File.exist?(manifest_path)
+  begin
+    manifest = JSON.parse(File.read(manifest_path))
+    manifest_consistency["checked"] = true
+    Array(manifest["personas"]).each do |persona|
+      id = persona["id"].to_s.strip
+      manifest_personas_by_id[id] = persona if id != ""
+    end
+  rescue JSON::ParserError => error
+    blockers << "UAT evidence manifest is not valid JSON: #{error.message}"
+  end
+else
+  blockers << "UAT evidence manifest is missing: #{manifest_path}"
 end
 
 unless File.exist?(path)
@@ -140,11 +164,58 @@ else
       "persona" => persona,
       "status" => status,
       "signoff_present" => !signoff.to_s.strip.empty?,
+      "signoff_text" => signoff,
       "signoff_strong" => signoff_strong,
       "signoff_timestamp" => signoff_timestamp,
       "signoff_timestamp_valid" => signoff_timestamp_valid,
       "approved" => approved
     }
+  end
+end
+
+if manifest
+  manifest_ids = manifest_personas_by_id.keys.sort
+  checklist_ids = personas.map { |persona| persona.fetch("id") }.sort
+  missing_in_checklist = manifest_ids - checklist_ids
+  missing_in_manifest = checklist_ids - manifest_ids
+
+  unless missing_in_checklist.empty?
+    manifest_consistency.fetch("mismatches") << "Manifest personas missing from checklist: #{missing_in_checklist.join(", ")}."
+  end
+  unless missing_in_manifest.empty?
+    manifest_consistency.fetch("mismatches") << "Checklist personas missing from manifest: #{missing_in_manifest.join(", ")}."
+  end
+
+  personas.each do |persona|
+    manifest_persona = manifest_personas_by_id[persona.fetch("id")]
+    next unless manifest_persona
+
+    checklist_status = persona.fetch("status").to_s.strip.downcase
+    manifest_status = manifest_persona["status"].to_s.strip.downcase
+    if checklist_status != manifest_status
+      manifest_consistency.fetch("mismatches") << "#{persona.fetch("id")} status differs: checklist=#{checklist_status} manifest=#{manifest_status}."
+    end
+
+    checklist_signoff = persona.fetch("signoff_text").to_s.strip
+    manifest_signoff = manifest_persona["signoff"].to_s.strip
+    if checklist_signoff != manifest_signoff
+      manifest_consistency.fetch("mismatches") << "#{persona.fetch("id")} signoff differs between checklist and manifest."
+    end
+  end
+
+  manifest_owner = manifest["release_owner"].is_a?(Hash) ? manifest["release_owner"] : {}
+  if release_owner.to_s.strip != manifest_owner["name"].to_s.strip
+    manifest_consistency.fetch("mismatches") << "Release owner differs between checklist and manifest."
+  end
+  if decision_datetime.to_s.strip != manifest_owner["signed_at"].to_s.strip
+    manifest_consistency.fetch("mismatches") << "Release owner signed_at differs between checklist and manifest."
+  end
+  if decision_go_checked && manifest_owner["decision"].to_s.strip.upcase != "GO"
+    manifest_consistency.fetch("mismatches") << "Checklist GO decision is checked but manifest release owner decision is not GO."
+  end
+
+  unless manifest_consistency.fetch("mismatches").empty?
+    blockers << "UAT signoff checklist and evidence manifest are inconsistent."
   end
 end
 
@@ -211,6 +282,7 @@ puts JSON.pretty_generate(
       "datetime" => decision_datetime,
       "datetime_valid" => iso8601?(decision_datetime) && decision_datetime.to_s.end_with?("Z")
     },
+    "manifest_consistency" => manifest_consistency,
     "personas" => personas,
     "secret_handling" => "Signoff evidence must remain sanitized; this gate reads checklist status only."
   }

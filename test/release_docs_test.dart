@@ -76,6 +76,37 @@ void main() {
     return manifest;
   }
 
+  Map<String, dynamic> signedUatEvidenceManifestForChecklist({
+    String releaseOwner = 'Release Owner Eli',
+    String firstSignoff = 'Signed by Contributor reviewer 2026-06-01T12:00:00Z',
+  }) {
+    final manifest = signedUatEvidenceManifest();
+    manifest['release_owner'] = <String, dynamic>{
+      'name': releaseOwner,
+      'decision': 'GO',
+      'signed_at': '2026-06-01T12:30:00Z',
+    };
+    final signoffs = <String, String>{
+      'UAT-01': firstSignoff,
+      'UAT-02': 'Signed by Android creator reviewer 2026-06-01T12:01:00Z',
+      'UAT-03': 'Signed by iPhone user reviewer 2026-06-01T12:02:00Z',
+      'UAT-04': 'Signed by Group member reviewer 2026-06-01T12:03:00Z',
+      'UAT-05': 'Signed by Android SMS reviewer 2026-06-01T12:04:00Z',
+      'UAT-06': 'Signed by Admin operator reviewer 2026-06-01T12:05:00Z',
+      'UAT-07': 'Signed by Payments admin reviewer 2026-06-01T12:06:00Z',
+      'UAT-08': 'Signed by Compliance admin reviewer 2026-06-01T12:07:00Z',
+      'UAT-09': 'Signed by Non-admin reviewer 2026-06-01T12:08:00Z',
+      'UAT-10': 'Signed by Edge-case reviewer 2026-06-01T12:09:00Z',
+    };
+    for (final persona
+        in (manifest['personas'] as List<dynamic>)
+            .cast<Map<String, dynamic>>()) {
+      persona['status'] = 'signed';
+      persona['signoff'] = signoffs[persona['id']];
+    }
+    return manifest;
+  }
+
   ({File evidence, File sidecar}) writeBinaryUatEvidence(
     Directory dir, {
     required String reviewedBy,
@@ -1486,10 +1517,16 @@ checking Edge Function secret names
     try {
       final signoffFile = File('${tempDir.path}/signoff.md')
         ..writeAsStringSync(signedUatSignoffChecklist());
+      final manifestFile = File(
+        '${tempDir.path}/uat.json',
+      )..writeAsStringSync(jsonEncode(signedUatEvidenceManifestForChecklist()));
       final result = Process.runSync(
         './scripts/uat_signoff_gate.sh',
         ['--json'],
-        environment: {'UAT_SIGNOFF_FILE': signoffFile.path},
+        environment: {
+          'UAT_SIGNOFF_FILE': signoffFile.path,
+          'UAT_EVIDENCE_MANIFEST': manifestFile.path,
+        },
       );
 
       expect(result.exitCode, 0);
@@ -1498,9 +1535,50 @@ checking Edge Function secret names
       expect(decoded['decision'], 'pass');
       expect(decoded['signoff_approved'], isTrue);
       expect(decoded['release_owner_placeholder'], isFalse);
+      expect(decoded['manifest_consistency']['mismatches'], isEmpty);
       final firstPersona =
           (decoded['personas'] as List<dynamic>).first as Map<String, dynamic>;
       expect(firstPersona['signoff_strong'], isTrue);
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
+  test('UAT signoff checklist rejects manifest drift', () {
+    final tempDir = Directory.systemTemp.createTempSync('cool_uat_signoff_');
+    try {
+      final signoffFile = File('${tempDir.path}/signoff.md')
+        ..writeAsStringSync(signedUatSignoffChecklist());
+      final manifest = signedUatEvidenceManifestForChecklist();
+      final personas = (manifest['personas'] as List<dynamic>)
+          .cast<Map<String, dynamic>>();
+      personas.first['status'] = 'pending';
+      final manifestFile = File('${tempDir.path}/uat.json')
+        ..writeAsStringSync(jsonEncode(manifest));
+
+      final result = Process.runSync(
+        './scripts/uat_signoff_gate.sh',
+        ['--json'],
+        environment: {
+          'UAT_SIGNOFF_FILE': signoffFile.path,
+          'UAT_EVIDENCE_MANIFEST': manifestFile.path,
+        },
+      );
+
+      expect(result.exitCode, 99);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['decision'], 'blocked');
+      expect(
+        decoded['blockers'],
+        contains(
+          'UAT signoff checklist and evidence manifest are inconsistent.',
+        ),
+      );
+      expect(
+        decoded['manifest_consistency']['mismatches'],
+        contains('UAT-01 status differs: checklist=signed manifest=pending.'),
+      );
     } finally {
       tempDir.deleteSync(recursive: true);
     }
