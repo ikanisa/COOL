@@ -1333,6 +1333,13 @@ class PaymentIntentStatusCard extends StatelessWidget {
             receiverMomoNumber,
             style: CollectTypography.amountLarge(colors.textPrimary),
           ),
+          CollectSpacing.gap16,
+          const InfoSecurityBanner(
+            title: 'SMS verification',
+            message:
+                'Collect waits for receiver-side MoMo SMS verification before recording this payment. Do not paste SMS or transaction IDs.',
+            tone: CollectStatusTone.privacy,
+          ),
         ],
       ),
     );
@@ -1811,7 +1818,8 @@ class ReceiverConsentCard extends StatelessWidget {
           CollectSpacing.gap16,
           const InfoSecurityBanner(
             title: 'Consent',
-            message: 'Owner approval required.',
+            message:
+                'Owner approval required. Raw SMS is never public; approved Android SMS access is used only for MoMo confirmation matching.',
             tone: CollectStatusTone.privacy,
           ),
           CollectSpacing.gap16,

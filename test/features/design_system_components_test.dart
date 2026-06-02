@@ -48,7 +48,9 @@ void main() {
     );
   });
 
-  testWidgets('payment status card stays minimal', (tester) async {
+  testWidgets('payment status card carries SMS trust-boundary copy', (
+    tester,
+  ) async {
     await _pumpCollect(
       tester,
       const PaymentIntentStatusCard(
@@ -63,10 +65,10 @@ void main() {
     expect(find.text('St Michel treasury'), findsOneWidget);
     expect(find.text('Payment intent'), findsNothing);
     expect(find.text('Intent'), findsNothing);
-    expect(find.text('MoMo SMS'), findsNothing);
+    expect(find.text('SMS verification'), findsOneWidget);
     expect(find.text('Recorded'), findsNothing);
-    expect(find.textContaining('Collect waits for SMS'), findsNothing);
-    expect(find.textContaining('Do not paste SMS'), findsNothing);
+    expect(find.textContaining('receiver-side MoMo SMS'), findsOneWidget);
+    expect(find.textContaining('Do not paste SMS'), findsOneWidget);
     expect(find.textContaining('Code'), findsNothing);
   });
 
@@ -87,7 +89,8 @@ void main() {
     expect(find.text('Consent'), findsOneWidget);
     expect(find.text('Required'), findsOneWidget);
     expect(find.text('Sync'), findsOneWidget);
-    expect(find.textContaining('Raw SMS is never public'), findsNothing);
+    expect(find.textContaining('Raw SMS is never public'), findsOneWidget);
+    expect(find.textContaining('MoMo confirmation matching'), findsOneWidget);
   });
 
   testWidgets('ledger row renders tabular transaction details', (tester) async {
