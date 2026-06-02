@@ -1375,6 +1375,112 @@ checking Edge Function secret names
     }
   });
 
+  test('UAT evidence recorder safely records one persona signoff', () {
+    final tempDir = Directory.systemTemp.createTempSync('cool_uat_evidence_');
+    try {
+      final manifestFile = File('${tempDir.path}/uat.json')
+        ..writeAsStringSync(
+          File('docs/release/UAT_EVIDENCE_MANIFEST.json').readAsStringSync(),
+        );
+      final result = Process.runSync('./scripts/record_uat_evidence_signoff.sh', [
+        '--manifest',
+        manifestFile.path,
+        '--persona-id',
+        'UAT-01',
+        '--status',
+        'signed',
+        '--signoff',
+        'Signed by Contributor reviewer after sanitized evidence review 2026-06-02T12:00:00Z',
+      ]);
+
+      expect(result.exitCode, 0);
+      final recorder =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(recorder['status'], 'pass');
+      expect(recorder['updated_persona'], 'UAT-01');
+
+      final gate = Process.runSync(
+        './scripts/uat_evidence_gate.sh',
+        ['--json'],
+        environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
+      );
+      expect(gate.exitCode, 99);
+      final decoded = jsonDecode(gate.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'blocked');
+      expect(
+        decoded['blockers'],
+        isNot(contains('UAT-01 status must be signed or waived.')),
+      );
+      expect(
+        decoded['blockers'],
+        isNot(contains('UAT-01 signoff is missing.')),
+      );
+      expect(decoded['failure_keys'], isEmpty);
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
+  test('UAT evidence recorder rejects sensitive signoff metadata', () {
+    final tempDir = Directory.systemTemp.createTempSync('cool_uat_evidence_');
+    try {
+      final manifestFile = File('${tempDir.path}/uat.json')
+        ..writeAsStringSync(
+          File('docs/release/UAT_EVIDENCE_MANIFEST.json').readAsStringSync(),
+        );
+      final before = manifestFile.readAsStringSync();
+      final result = Process.runSync(
+        './scripts/record_uat_evidence_signoff.sh',
+        [
+          '--manifest',
+          manifestFile.path,
+          '--persona-id',
+          'UAT-05',
+          '--status',
+          'signed',
+          '--signoff',
+          'Signed after MoMo transaction id 123456 review 2026-06-02T12:00:00Z',
+        ],
+      );
+
+      expect(result.exitCode, 1);
+      expect(result.stderr.toString(), contains('sensitive marker'));
+      expect(manifestFile.readAsStringSync(), before);
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
+  test(
+    'UAT evidence recorder requires persona signoff before owner decision',
+    () {
+      final tempDir = Directory.systemTemp.createTempSync('cool_uat_evidence_');
+      try {
+        final manifestFile = File('${tempDir.path}/uat.json')
+          ..writeAsStringSync(
+            File('docs/release/UAT_EVIDENCE_MANIFEST.json').readAsStringSync(),
+          );
+        final result =
+            Process.runSync('./scripts/record_uat_evidence_signoff.sh', [
+              '--manifest',
+              manifestFile.path,
+              '--release-owner',
+              'Release Owner Eli',
+              '--decision',
+              'GO',
+              '--signed-at',
+              '2026-06-02T12:00:00Z',
+            ]);
+
+        expect(result.exitCode, 1);
+        expect(result.stderr.toString(), contains('every persona'));
+        expect(result.stderr.toString(), contains('UAT-01'));
+      } finally {
+        tempDir.deleteSync(recursive: true);
+      }
+    },
+  );
+
   test('UAT signoff checklist can pass with strong persona signoffs', () {
     final tempDir = Directory.systemTemp.createTempSync('cool_uat_signoff_');
     try {

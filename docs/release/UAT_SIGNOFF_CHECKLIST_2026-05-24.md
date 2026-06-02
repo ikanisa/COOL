@@ -36,6 +36,13 @@ Status: **PENDING SIGNOFF**
 
 ## Persona Signoff Matrix
 
+Record each persona row in `docs/release/UAT_EVIDENCE_MANIFEST.json` with the
+guarded recorder rather than hand-editing JSON when possible:
+
+```bash
+make record-uat-evidence-signoff ARGS="--persona-id UAT-01 --status signed --signoff '<reviewer and evidence summary 2026-06-02T12:00:00Z>'"
+```
+
 | ID | Persona | Required acceptance evidence | Status | Signoff |
 | --- | --- | --- | --- | --- |
 | UAT-01 | Contributor | Tester opens group, creates payment intent, launches MoMo USSD, and waits for MoMo SMS allocation. | Pending |  |
@@ -63,6 +70,13 @@ Decision rationale:
 Evidence location:
 
 Date/time:
+
+After all ten persona rows are signed or waived, record the release-owner
+decision in the UAT evidence manifest:
+
+```bash
+make record-uat-evidence-signoff ARGS="--release-owner '<name>' --decision GO --signed-at '<ISO-8601 UTC timestamp>'"
+```
 
 ## Minimum GO Conditions
 
