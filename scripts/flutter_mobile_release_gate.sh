@@ -40,6 +40,7 @@ def latest_source_mtime(root_dir, patterns)
   paths = patterns.flat_map { |pattern| Dir.glob(File.join(root_dir, pattern), File::FNM_DOTMATCH) }
     .select { |path| File.file?(path) }
     .reject { |path| path.include?("/build/") || path.include?("/.dart_tool/") || path.include?("/.gradle/") }
+    .reject { |path| File.basename(path) == "GeneratedPluginRegistrant.java" }
   paths.map { |path| File.mtime(path) }.max
 end
 

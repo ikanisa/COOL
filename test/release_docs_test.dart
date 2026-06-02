@@ -12,8 +12,10 @@ void main() {
               ).readAsStringSync(),
             )
             as Map<String, dynamic>;
+    const qaEvidenceDir = '.cache/repo_wide_qa_uat/20260602T211328Z';
     manifest['secret_handling'] =
         'Signed approval evidence metadata only; no secrets or production customer data.';
+    manifest['qa_summary'] = '$qaEvidenceDir/summary.json';
     final approvalFixtures = <String, ({String reviewer, String notes})>{
       'product_signoff': (
         reviewer: 'Product Lead Ada',
@@ -47,6 +49,12 @@ void main() {
       record['reviewer'] = fixture.reviewer;
       record['signed_at'] = '2026-06-01T12:00:00Z';
       record['notes'] = fixture.notes;
+      if (record['key'] == 'android_sms_access_uat') {
+        record['evidence_reference'] = '$qaEvidenceDir/uat_evidence_gate.json';
+      }
+      if (record['key'] == 'release_owner_signoff') {
+        record['evidence_reference'] = '$qaEvidenceDir/summary.json';
+      }
     }
     return manifest;
   }
@@ -107,6 +115,31 @@ void main() {
       persona['signoff'] = signoffs[persona['id']];
     }
     return manifest;
+  }
+
+  Map<File, DateTime> refreshAndroidReleaseArtifactsForTest() {
+    final artifacts = <File>[
+      File('build/app/outputs/flutter-apk/app-production-release.apk'),
+      File(
+        'build/app/outputs/bundle/productionRelease/app-production-release.aab',
+      ),
+    ];
+    final originalModifiedTimes = <File, DateTime>{};
+    for (final artifact in artifacts) {
+      if (!artifact.existsSync()) continue;
+      originalModifiedTimes[artifact] = artifact.lastModifiedSync();
+      artifact.setLastModifiedSync(
+        DateTime.now().toUtc().add(const Duration(minutes: 1)),
+      );
+    }
+    return originalModifiedTimes;
+  }
+
+  void restoreModifiedTimes(Map<File, DateTime> modifiedTimes) {
+    for (final entry in modifiedTimes.entries) {
+      if (!entry.key.existsSync()) continue;
+      entry.key.setLastModifiedSync(entry.value);
+    }
   }
 
   ({File evidence, File sidecar}) writeBinaryUatEvidence(
@@ -2258,6 +2291,7 @@ checking Edge Function secret names
     final tempDir = Directory.systemTemp.createTempSync(
       'cool_release_approvals_',
     );
+    final artifactModifiedTimes = refreshAndroidReleaseArtifactsForTest();
     try {
       final manifestFile = File('${tempDir.path}/approvals.json')
         ..writeAsStringSync(jsonEncode(approvedReleaseManifest()));
@@ -2278,6 +2312,7 @@ checking Edge Function secret names
       expect(decoded['blocker_keys'], isEmpty);
       expect(decoded['evidence_flags']['product_signoff'], '1');
       expect(decoded['evidence_flags']['android_sms_uat'], '1');
+      expect(decoded['evidence_flags']['android_release_artifacts'], 'current');
       expect(
         decoded['evidence_flags']['android_release_signing_review'],
         'current',
@@ -2285,6 +2320,7 @@ checking Edge Function secret names
       expect(decoded['evidence_flags']['ios_release_scope'], 'current');
       expect(decoded['evidence_flags']['release_owner_signoff'], '1');
     } finally {
+      restoreModifiedTimes(artifactModifiedTimes);
       tempDir.deleteSync(recursive: true);
     }
   });

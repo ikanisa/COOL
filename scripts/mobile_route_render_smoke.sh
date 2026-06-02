@@ -12,6 +12,7 @@ HOST="${MOBILE_ROUTE_RENDER_HOST:-127.0.0.1}"
 PORT="${MOBILE_ROUTE_RENDER_PORT:-}"
 BUILD_ARGS="${MOBILE_ROUTE_RENDER_BUILD_ARGS:---release --no-wasm-dry-run --no-pub}"
 VIEWPORT="${MOBILE_ROUTE_RENDER_VIEWPORT:-390x844}"
+RENDER_WAIT_MS="${MOBILE_ROUTE_RENDER_WAIT_MS:-4500}"
 
 mkdir -p "$EVIDENCE_DIR"
 
@@ -44,6 +45,22 @@ find_chrome() {
     printf '%s\n' "$MOBILE_ROUTE_RENDER_CHROME"
     return 0
   fi
+
+  while IFS= read -r candidate; do
+    if [[ -x "$candidate" ]]; then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done < <(
+    find "$HOME/Library/Caches/ms-playwright" "$HOME/.cache/ms-playwright" \
+      -type f \( \
+        -path '*/chrome-mac*/*/Contents/MacOS/*' \
+        -o -name chrome \
+        -o -name chrome-headless-shell \
+        -o -name headless_shell \
+      \) \
+      2>/dev/null | sort -r
+  )
 
   for candidate in \
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
@@ -140,49 +157,76 @@ route_specs=(
 captures_json="$EVIDENCE_DIR/captures.jsonl"
 : >"$captures_json"
 
+routes_json="$(ruby -r json -e 'puts JSON.generate(ARGV.map { |spec| name, route = spec.split("|", 2); { "name" => name, "route" => route } })' "${route_specs[@]}")"
+matrix_capture_status=1
+for attempt in 1 2 3; do
+  rm -rf "$EVIDENCE_DIR/chrome-profile"
+  printf '[route-matrix attempt %s]\n' "$attempt" >>"$EVIDENCE_DIR/capture.stdout"
+  printf '[route-matrix attempt %s]\n' "$attempt" >>"$EVIDENCE_DIR/capture.stderr"
+  set +e
+  "$NODE" "$ROOT_DIR/scripts/chrome_cdp_route_matrix.mjs" \
+    --chrome "$CHROME" \
+    --base-url "$BASE_URL" \
+    --output-dir "$EVIDENCE_DIR" \
+    --profile "$EVIDENCE_DIR/chrome-profile" \
+    --viewport "$VIEWPORT" \
+    --wait-ms "$RENDER_WAIT_MS" \
+    --routes-json "$routes_json" >>"$EVIDENCE_DIR/capture.stdout" 2>>"$EVIDENCE_DIR/capture.stderr"
+  matrix_capture_status=$?
+  set -e
+  [[ "$matrix_capture_status" -eq 0 ]] && break
+  sleep "$attempt"
+done
+if [[ "$matrix_capture_status" -ne 0 ]]; then
+  printf '[mobile-route-render] route matrix capture failed; falling back to per-route capture. See %s\n' "$EVIDENCE_DIR/capture.stderr" >&2
+fi
+
 capture_route() {
   local name="$1"
   local route="$2"
   local url="$BASE_URL/#$route"
   local png="$EVIDENCE_DIR/${name}-${VIEWPORT}.png"
-  local profile="$EVIDENCE_DIR/${name}-profile"
-  local stdout_log="$EVIDENCE_DIR/${name}.stdout"
-  local stderr_log="$EVIDENCE_DIR/${name}.stderr"
 
-  : >"$stdout_log"
-  : >"$stderr_log"
-  local capture_status=1
-  for attempt in 1 2 3 4; do
-    rm -rf "$profile"
-    mkdir -p "$profile"
-    rm -f "$png"
+  if [[ ! -s "$png" ]]; then
+    local profile="$EVIDENCE_DIR/${name}-profile"
+    local stdout_log="$EVIDENCE_DIR/${name}.stdout"
+    local stderr_log="$EVIDENCE_DIR/${name}.stderr"
 
-    printf '[attempt %s]\n' "$attempt" >>"$stdout_log"
-    printf '[attempt %s]\n' "$attempt" >>"$stderr_log"
-    set +e
-    "$NODE" "$ROOT_DIR/scripts/chrome_cdp_screenshot.mjs" \
-      --chrome "$CHROME" \
-      --url "$url" \
-      --output "$png" \
-      --profile "$profile" \
-      --viewport "$VIEWPORT" \
-      --wait-ms 9000 >>"$stdout_log" 2>>"$stderr_log"
-    capture_status=$?
-    set -e
-    if [[ "$capture_status" -eq 0 && -s "$png" ]]; then
-      local png_bytes
-      png_bytes="$(wc -c <"$png" | tr -d ' ')"
-      if [[ "$png_bytes" -gt 8000 ]]; then
-        break
+    : >"$stdout_log"
+    : >"$stderr_log"
+    local route_capture_status=1
+    for attempt in 1 2 3 4; do
+      rm -rf "$profile"
+      mkdir -p "$profile"
+      rm -f "$png"
+
+      printf '[attempt %s]\n' "$attempt" >>"$stdout_log"
+      printf '[attempt %s]\n' "$attempt" >>"$stderr_log"
+      set +e
+      "$NODE" "$ROOT_DIR/scripts/chrome_cdp_screenshot.mjs" \
+        --chrome "$CHROME" \
+        --url "$url" \
+        --output "$png" \
+        --profile "$profile" \
+        --viewport "$VIEWPORT" \
+        --wait-ms "$RENDER_WAIT_MS" >>"$stdout_log" 2>>"$stderr_log"
+      route_capture_status=$?
+      set -e
+      if [[ "$route_capture_status" -eq 0 && -s "$png" ]]; then
+        local png_bytes
+        png_bytes="$(wc -c <"$png" | tr -d ' ')"
+        if [[ "$png_bytes" -gt 8000 ]]; then
+          break
+        fi
+        printf 'screenshot too small on attempt %s: %s bytes\n' "$attempt" "$png_bytes" >>"$stderr_log"
+        route_capture_status=1
       fi
-      printf 'screenshot too small on attempt %s: %s bytes\n' "$attempt" "$png_bytes" >>"$stderr_log"
-      capture_status=1
-    fi
-    sleep "$attempt"
-  done
+      sleep "$attempt"
+    done
 
-  if [[ "$capture_status" -ne 0 ]]; then
-    fail "$name screenshot capture failed after retries. See $stderr_log"
+    if [[ "$route_capture_status" -ne 0 ]]; then
+      fail "$name screenshot capture failed after retries. See $stderr_log"
+    fi
   fi
 
   [[ -s "$png" ]] || fail "$name screenshot was not created."
@@ -234,8 +278,14 @@ def paeth(a, b, c)
 end
 
 previous = Array.new(row_bytes, 0)
-pixels = []
 read_offset = 0
+sample_target = 20_000
+total_pixels = width * height
+stride = [total_pixels / sample_target, 1].max
+distinct_rgb = Set.new
+non_background_pixels = 0
+sampled_pixels = 0
+pixel_index = 0
 height.times do
   filter = inflated.getbyte(read_offset)
   read_offset += 1
@@ -256,26 +306,21 @@ height.times do
     end
     row[i] = (raw[i] + predictor) & 0xff
   end
-  pixels.concat(row.each_slice(channels).map do |parts|
-    case color_type
-    when 0 then [parts[0], parts[0], parts[0], 255]
-    when 2 then [parts[0], parts[1], parts[2], 255]
-    when 6 then [parts[0], parts[1], parts[2], parts[3]]
-    end
-  end)
-  previous = row
-end
 
-sample_target = 20_000
-stride = [pixels.length / sample_target, 1].max
-distinct_rgb = Set.new
-non_background_pixels = 0
-sampled_pixels = 0
-pixels.each_with_index do |(r, g, b, a), index|
-  next unless (index % stride).zero?
-  sampled_pixels += 1
-  distinct_rgb << [r, g, b]
-  non_background_pixels += 1 if a.positive? && !(r > 245 && g > 245 && b > 245)
+  row.each_slice(channels) do |parts|
+    if (pixel_index % stride).zero?
+      r, g, b, a = case color_type
+      when 0 then [parts[0], parts[0], parts[0], 255]
+      when 2 then [parts[0], parts[1], parts[2], 255]
+      when 6 then [parts[0], parts[1], parts[2], parts[3]]
+      end
+      sampled_pixels += 1
+      distinct_rgb << [r, g, b]
+      non_background_pixels += 1 if a.positive? && !(r > 245 && g > 245 && b > 245)
+    end
+    pixel_index += 1
+  end
+  previous = row
 end
 
 abort("screenshot appears blank: #{distinct_rgb.length} distinct sampled colors") unless distinct_rgb.length >= 8
