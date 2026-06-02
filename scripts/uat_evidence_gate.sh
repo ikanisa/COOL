@@ -62,6 +62,7 @@ end
 
 def weak_signoff?(value)
   text = value.to_s.strip
+  text = text.sub(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/, "").strip
   generic_values = %w[
     approved
     ok

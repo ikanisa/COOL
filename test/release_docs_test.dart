@@ -1699,6 +1699,36 @@ checking Edge Function secret names
     }
   });
 
+  test('UAT evidence manifest rejects generic timestamped signoffs', () {
+    final tempDir = Directory.systemTemp.createTempSync('cool_uat_evidence_');
+    try {
+      final manifest = signedUatEvidenceManifest();
+      final personas = (manifest['personas'] as List<dynamic>)
+          .cast<Map<String, dynamic>>();
+      personas.first['signoff'] = 'approved 2026-06-01T12:00:00Z';
+
+      final manifestFile = File('${tempDir.path}/uat.json')
+        ..writeAsStringSync(jsonEncode(manifest));
+      final result = Process.runSync(
+        './scripts/uat_evidence_gate.sh',
+        ['--json'],
+        environment: {'UAT_EVIDENCE_MANIFEST': manifestFile.path},
+      );
+
+      expect(result.exitCode, 99);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'blocked');
+      expect(decoded['blocker_keys'], contains('uat_evidence_persona_signoff'));
+      expect(
+        decoded['blockers'],
+        contains('UAT-01 signoff is too generic or placeholder-like.'),
+      );
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
   test('UAT binary evidence sidecar can pass with strong review metadata', () {
     Directory('.cache').createSync();
     final tempDir = Directory(
