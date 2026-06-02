@@ -70,7 +70,22 @@ record_fixture() {
   local rc="$3"
   local message="$4"
 
-  printf '%s\n' "$message" > "$bundle_dir/$outfile"
+  if [[ "$outfile" == *.json && "${message:0:1}" == "{" ]]; then
+    printf '%s\n' "$message" > "$bundle_dir/$outfile"
+  elif [[ "$outfile" == *.json ]]; then
+    FIXTURE_NAME="$name" FIXTURE_STATUS="$([[ "$rc" == "0" ]] && printf pass || printf fail)" FIXTURE_MESSAGE="$message" ruby -r json <<'RUBY' > "$bundle_dir/$outfile"
+puts JSON.pretty_generate(
+  {
+    "status" => ENV.fetch("FIXTURE_STATUS"),
+    "fixture" => true,
+    "name" => ENV.fetch("FIXTURE_NAME"),
+    "message" => ENV.fetch("FIXTURE_MESSAGE")
+  }
+)
+RUBY
+  else
+    printf '%s\n' "$message" > "$bundle_dir/$outfile"
+  fi
   printf '%s\t%s\t%s\t%s\t%s\n' "$name" "$outfile" "$rc" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$commands_tsv"
 }
 
@@ -85,9 +100,10 @@ android_device_ready() {
 }
 
 if [[ "${QA_UAT_FIXTURE:-0}" == "1" ]]; then
-  for name in flutter_version dart_version format_check flutter_analyze flutter_test release_secret_scan collect_product_boundary_scan admin_pwa_build admin_pwa_manifest_gate admin_pwa_hosting_gate admin_pwa_render_smoke mobile_route_render_smoke; do
+  for name in flutter_version dart_version format_check flutter_analyze flutter_test release_secret_scan admin_pwa_build admin_pwa_manifest_gate admin_pwa_hosting_gate admin_pwa_render_smoke mobile_route_render_smoke; do
     record_fixture "$name" "$name.txt" 0 "[repo-wide-qa-uat][fixture] $name passed"
   done
+  record_fixture "collect_product_boundary_scan" "collect_product_boundary_scan.json" 0 "[repo-wide-qa-uat][fixture] collect_product_boundary_scan passed"
   cat > "$bundle_dir/admin_pwa_hosting_gate.json" <<'JSON'
 {
   "status": "pass",

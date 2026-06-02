@@ -996,6 +996,12 @@ checking Edge Function secret names
     expect(repoWide, contains('mobile_route_render_smoke'));
     expect(repoWide, contains('collect_product_boundary_scan'));
     expect(repoWide, contains('collect_product_boundary_scan.json'));
+    expect(
+      repoWide,
+      contains(
+        'record_fixture "collect_product_boundary_scan" "collect_product_boundary_scan.json"',
+      ),
+    );
     expect(repoWide, contains('MOBILE_ROUTE_RENDER_EVIDENCE_DIR'));
     expect(repoWide, contains('"mobile_route_render"'));
     expect(evidenceIndex, contains('collect_product_boundary_scan'));
