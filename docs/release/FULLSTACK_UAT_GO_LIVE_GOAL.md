@@ -52,8 +52,9 @@ human operator workflows.
 - `scripts/supabase_go_live_gate.sh --json`: blocked on remaining approval,
   device-UAT, and release-scope gates.
 - `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json`: pass.
-- `scripts/flutter_mobile_release_gate.sh --json`: blocked on Android release
-  signing review and iOS release scope.
+- `scripts/flutter_mobile_release_gate.sh --json`: APK/AAB freshness and
+  signature checks pass; blocked on Android release signing review and iOS
+  release scope approval.
 - `scripts/release_artifact_manifest.sh --json`: pass with current APK/AAB and
   Admin PWA artifacts.
 

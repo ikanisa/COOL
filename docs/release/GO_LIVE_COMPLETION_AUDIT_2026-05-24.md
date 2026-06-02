@@ -24,7 +24,7 @@ the old goals/campaign/manual-SMS/anonymity product model.
 | Supabase readiness | Pass. |
 | Supabase release gate | NO-GO on approval, device-UAT, and release-scope blockers. |
 | Real Android SMS access UAT | Pending real MoMo SMS scenario approval; production-flavor Pixel smoke passed at `.cache/android_device_uat/20260602T042542Z/summary.json`. |
-| Android release artifacts | Pass. |
+| Android release artifacts | Pass; APK/AAB signatures verify. |
 | Android signing / iOS scope | Pending. |
 | Stakeholder/release-owner signoff | Pending. |
 

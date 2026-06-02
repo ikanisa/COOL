@@ -221,6 +221,12 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['approval'], contains('android_release_signing_review'));
     expect(docs['approval'], contains('ios_release_scope'));
     expect(docs['approval'], contains('release_owner_signoff'));
+    expect(
+      docs['approval'],
+      contains('ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md'),
+    );
+    expect(docs['approval'], contains('20260602T050529Z'));
+    expect(docs['approval'], contains('final_release_summary.json'));
     expect(docs['approval'], contains('mobile_route_render_smoke'));
     expect(docs['signoff'], contains('20260601T205424Z'));
     expect(docs['qa'], contains('scripts/mobile_route_render_smoke.sh'));
@@ -324,6 +330,27 @@ Date/time: 2026-06-01T12:30:00Z
         'ios_release_scope',
       ]),
     );
+    expect(
+      decoded['blocker_keys'],
+      isNot(contains('android_release_artifact_signatures')),
+    );
+    expect(
+      decoded['checks']['android_release_artifact_signatures']['status'],
+      'pass',
+    );
+    final mobileGate = File(
+      'scripts/flutter_mobile_release_gate.sh',
+    ).readAsStringSync();
+    expect(mobileGate, contains('android_release_artifact_signatures'));
+    expect(mobileGate, contains('apksigner'));
+    expect(mobileGate, contains('jarsigner'));
+
+    final androidGradle = File(
+      'android/app/build.gradle.kts',
+    ).readAsStringSync();
+    expect(androidGradle, contains('val keystoreProperties'));
+    expect(androidGradle, contains('signingConfigs'));
+    expect(androidGradle, contains('signingConfig = signingConfigs'));
   });
 
   test('go-live gate blocks on current SMS-first blockers', () {
@@ -760,6 +787,22 @@ checking Edge Function secret names
         '.cache/supabase_go_live_evidence/20260602T045205Z/summary.json',
       ),
     );
+    expect(
+      jsonEncode(decoded),
+      contains('.cache/mobile_release_gate/20260602T050529Z/summary.json'),
+    );
+    expect(
+      jsonEncode(decoded),
+      contains(
+        '.cache/android_install/20260602T050529Z/final_release_summary.json',
+      ),
+    );
+    expect(
+      jsonEncode(decoded),
+      contains(
+        'docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md',
+      ),
+    );
     expect(jsonEncode(decoded), isNot(contains('SUPABASE_SERVICE_ROLE_KEY')));
     expect(jsonEncode(decoded), isNot(contains('AUTH_CAPTCHA_SECRET')));
 
@@ -768,6 +811,8 @@ checking Edge Function secret names
     ).readAsStringSync();
     expect(approvalPacket, contains('latest_android_device_summary'));
     expect(approvalPacket, contains('latest_supabase_evidence_summary'));
+    expect(approvalPacket, contains('latest_mobile_release_gate_summary'));
+    expect(approvalPacket, contains('latest_android_install_summary'));
     expect(approvalPacket, contains('admin_pwa_live_deployment'));
     expect(approvalPacket, contains('release_evidence_index'));
   });

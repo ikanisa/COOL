@@ -46,7 +46,7 @@ UAT.
 | Linked contribution UAT | `scripts/collect_linked_uat.sh` | Pass after applying `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`. |
 | Supabase readiness | `scripts/supabase_production_readiness.sh` | Pass. |
 | Supabase go-live gate | `scripts/supabase_go_live_gate.sh --json` | Blocked on remaining approval, device-UAT, and release-scope gates. |
-| Android release gate | `scripts/flutter_mobile_release_gate.sh --json` | Blocked: signing review and iOS release scope. |
+| Android release gate | `scripts/flutter_mobile_release_gate.sh --json` | Blocked: APK/AAB signatures verify, but signing review and iOS release scope are not approved. |
 | Release artifact manifest | `scripts/release_artifact_manifest.sh --json` | Pass: current APK/AAB and Admin PWA artifacts are fresh; manifest written for 2026-06-02. |
 
 ## Device And Browser Matrix

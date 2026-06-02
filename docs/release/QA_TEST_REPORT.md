@@ -34,7 +34,7 @@ fresh readiness run.
 | `scripts/supabase_production_readiness.sh` | Pass | Code-owned linked Supabase readiness passed after migration-history repair and mobile-state RLS init-plan hardening. |
 | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/supabase_go_live_gate.sh --json` | Blocked | Supabase go-live remains NO-GO on product signoff, Android SMS UAT, signing/iOS scope, and release-owner signoff. |
 | `scripts/android_device_uat.sh` | Pass | Production-flavor integration smoke passed on device `13111JEC215558`; retained evidence at `.cache/android_device_uat/20260602T042542Z/summary.json`. |
-| `scripts/flutter_mobile_release_gate.sh --json` | Blocked | APK/AAB artifacts are current; signing review and iOS scope remain pending. |
+| `scripts/flutter_mobile_release_gate.sh --json` | Blocked | APK/AAB artifacts are current and signatures verify; signing review and iOS scope remain pending. Evidence: `.cache/mobile_release_gate/20260602T050529Z/summary.json`. |
 | `scripts/release_artifact_manifest.sh --json` | Pass | Current APK/AAB and Admin PWA artifacts are fresh; checksum manifest written to `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`. |
 
 ## QA Findings

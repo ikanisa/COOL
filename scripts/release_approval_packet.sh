@@ -85,6 +85,14 @@ latest_supabase_evidence_summary = Dir[File.join(root_dir, ".cache/supabase_go_l
   .sort
   .last
 latest_supabase_evidence_summary = rel(root_dir, latest_supabase_evidence_summary)
+latest_mobile_release_gate_summary = Dir[File.join(root_dir, ".cache/mobile_release_gate/[0-9]*Z/summary.json")]
+  .sort
+  .last
+latest_mobile_release_gate_summary = rel(root_dir, latest_mobile_release_gate_summary)
+latest_android_install_summary = Dir[File.join(root_dir, ".cache/android_install/[0-9]*Z/final_release_summary.json")]
+  .sort
+  .last
+latest_android_install_summary = rel(root_dir, latest_android_install_summary)
 
 approval_records = [
   {
@@ -140,7 +148,10 @@ approval_records = [
     "owner" => "mobile/release",
     "decision_needed" => "Approve the current production APK/AAB outputs and Play App Signing configuration without exposing signing keys.",
     "evidence_to_review" => [
+      "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
       "docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256",
+      latest_mobile_release_gate_summary,
+      latest_android_install_summary,
       "build/app/outputs/flutter-apk/app-production-release.apk",
       "build/app/outputs/bundle/productionRelease/app-production-release.aab",
       bundle_dir && File.join(bundle_dir, "mobile_release_gate.json")
@@ -162,9 +173,11 @@ approval_records = [
     "owner" => "mobile/release",
     "decision_needed" => "Either approve iOS contributor-only release evidence or explicitly scope iOS out of this go-live.",
     "evidence_to_review" => [
+      "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
       "ios/Runner/Info.plist",
       "ios/Runner.xcodeproj/xcshareddata/xcschemes/production.xcscheme",
       "ios/Flutter/Release-production.xcconfig",
+      latest_mobile_release_gate_summary,
       bundle_dir && File.join(bundle_dir, "mobile_release_gate.json")
     ].compact,
     "required_signoff_fields" => [
@@ -225,6 +238,9 @@ packet = {
     file_item(root_dir, ".cache/mobile_route_render_smoke/20260602T040433Z/summary.json"),
     latest_android_device_summary && file_item(root_dir, latest_android_device_summary),
     latest_supabase_evidence_summary && file_item(root_dir, latest_supabase_evidence_summary),
+    latest_mobile_release_gate_summary && file_item(root_dir, latest_mobile_release_gate_summary),
+    latest_android_install_summary && file_item(root_dir, latest_android_install_summary),
+    file_item(root_dir, "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md"),
     file_item(root_dir, "docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256"),
     file_item(root_dir, "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md")
   ].compact,

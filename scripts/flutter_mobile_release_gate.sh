@@ -12,7 +12,7 @@ elif [[ "${1:-}" != "" ]]; then
   exit 2
 fi
 
-OUTPUT_FORMAT="$output_format" ROOT_DIR="$ROOT_DIR" ruby -r json -r time -r uri <<'RUBY'
+OUTPUT_FORMAT="$output_format" ROOT_DIR="$ROOT_DIR" ruby -r json -r time -r uri -r open3 <<'RUBY'
 root_dir = ENV.fetch("ROOT_DIR")
 output_format = ENV.fetch("OUTPUT_FORMAT")
 
@@ -67,6 +67,72 @@ def evidence_reference_valid?(value, root_dir)
   expanded_path = File.expand_path(reference, expanded_root)
   inside_repo = expanded_path == expanded_root || expanded_path.start_with?("#{expanded_root}/")
   inside_repo && File.exist?(expanded_path)
+end
+
+def executable_file?(path)
+  path.to_s.strip != "" && File.file?(path) && File.executable?(path)
+end
+
+def latest_executable(paths)
+  paths.select { |path| executable_file?(path) }.sort.last
+end
+
+def find_apksigner(root_dir)
+  candidates = [
+    ENV["APKSIGNER_BIN"],
+    *Dir[File.join(ENV["ANDROID_HOME"].to_s, "build-tools/*/apksigner")],
+    *Dir[File.join(ENV["ANDROID_SDK_ROOT"].to_s, "build-tools/*/apksigner")],
+    *Dir[File.join(Dir.home, "Library/Android/sdk/build-tools/*/apksigner")],
+    *Dir[File.join(root_dir, "../AppData/android/sdk/build-tools/*/apksigner")]
+  ].compact
+  latest_executable(candidates)
+end
+
+def find_jarsigner
+  candidates = [
+    ENV["JARSIGNER_BIN"],
+    "/usr/bin/jarsigner",
+    "/usr/libexec/java_home"
+  ].compact
+  direct = latest_executable(candidates.reject { |path| path.end_with?("java_home") })
+  return direct if direct
+
+  java_home = Open3.capture2("/usr/libexec/java_home").then { |stdout, status| status.success? ? stdout.strip : "" } rescue ""
+  candidate = File.join(java_home, "bin/jarsigner")
+  executable_file?(candidate) ? candidate : nil
+end
+
+def apk_signature_check(root_dir, path)
+  apksigner = find_apksigner(root_dir)
+  return check("blocked", "apksigner is required to verify the production APK signature.") unless apksigner
+  return check("blocked", "Production APK is missing.") unless File.file?(path)
+
+  output, status = Open3.capture2e(apksigner, "verify", "--verbose", path)
+  if status.success?
+    check(
+      "pass",
+      "Production APK signature verifies with apksigner.",
+      "tool" => apksigner,
+      "v1" => output.match?(/Verified using v1 scheme.*true/i),
+      "v2" => output.match?(/Verified using v2 scheme.*true/i),
+      "v3" => output.match?(/Verified using v3 scheme.*true/i)
+    )
+  else
+    check("blocked", "Production APK does not verify with apksigner.")
+  end
+end
+
+def aab_signature_check(path)
+  jarsigner = find_jarsigner
+  return check("blocked", "jarsigner is required to verify the production AAB signature.") unless jarsigner
+  return check("blocked", "Production AAB is missing.") unless File.file?(path)
+
+  output, status = Open3.capture2e(jarsigner, "-verify", path)
+  if status.success? && output.match?(/jar verified/i)
+    check("pass", "Production AAB signature verifies with jarsigner.", "tool" => jarsigner)
+  else
+    check("blocked", "Production AAB does not verify with jarsigner.")
+  end
 end
 
 def template_manifest?(manifest_path, manifest)
@@ -251,6 +317,25 @@ checks["android_release_artifacts"] =
       "source_latest_mtime" => android_source_latest_mtime&.utc&.iso8601,
       "stale_artifacts" => stale_android_artifacts,
       "artifacts" => artifacts
+    )
+  end
+
+apk_signature = apk_signature_check(root_dir, artifacts.fetch("android_release_apk").fetch("path"))
+aab_signature = aab_signature_check(artifacts.fetch("android_release_aab").fetch("path"))
+checks["android_release_artifact_signatures"] =
+  if apk_signature.fetch("status") == "pass" && aab_signature.fetch("status") == "pass"
+    check(
+      "pass",
+      "Production APK and AAB signatures verify.",
+      "apk" => apk_signature,
+      "aab" => aab_signature
+    )
+  else
+    check(
+      "blocked",
+      "Production APK and AAB must be signed and signature-verified before release review.",
+      "apk" => apk_signature,
+      "aab" => aab_signature
     )
   end
 

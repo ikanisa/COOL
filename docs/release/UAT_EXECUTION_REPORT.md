@@ -26,7 +26,7 @@ signoff is recorded.
 | Supabase release gate | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/supabase_go_live_gate.sh --json` | NO-GO on product signoff, Android SMS UAT, Android signing review, iOS scope, and release-owner signoff. |
 | Real Android SMS access flow | Physical Android device with MoMo SMS scenarios | Pending real MoMo SMS scenario approval; production-flavor Pixel smoke passed at `.cache/android_device_uat/20260602T042542Z/summary.json`. |
 | Android release artifacts | `scripts/release_artifact_manifest.sh --json` | Pass: current APK/AAB and Admin PWA artifacts are fresh. |
-| Android signing / iOS scope | `scripts/flutter_mobile_release_gate.sh --json` | Blocked: signing review and iOS release-scope evidence are missing. |
+| Android signing / iOS scope | `scripts/flutter_mobile_release_gate.sh --json` | Blocked: APK/AAB signatures verify, but signing review and iOS release-scope approval are missing. |
 
 ## Persona Matrix
 
