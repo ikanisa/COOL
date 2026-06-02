@@ -822,7 +822,7 @@ Known potential blockers:
 | 2.2 WhatsApp/OTP auth | P0 | Complete | Rwanda-first WhatsApp phone entry, OTP field, retry copy, and auth-result states covered by persona tests. |
 | 2.3 Profile wizard | P0 | Complete | Three-step Collect ID, MoMo, and device-readiness wizard plus no-profile gate covered by persona tests. |
 | 3.1 Amount + review contribution | P0 | Complete | Amount entry, review summary, receiver/MoMo/Collect ID check, and intent creation-before-handoff covered by persona tests. |
-| 3.2 MoMo handoff + waiting | P0 | Complete | USSD handoff, waiting state, no-paste-SMS copy, and pipeline indicator are implemented and route-render tested. |
+| 3.2 MoMo handoff + waiting | P0 | Complete | USSD handoff, detailed waiting state with amount/group/reference/timing/recovery actions, no-paste-SMS copy, and pipeline indicator are implemented and route-render tested. |
 | 3.3 Payment states | P0 | Complete | Pending, confirmed, expired, and needs-review member-safe states covered by persona tests. |
 | 4.1 Home/member dashboard | P0 | Complete | Amount-first home overview, pending integrity state, recent activity, and empty states implemented and route-render tested. |
 | 4.2 Group detail | P0 | Complete | Group code, receiver boundary, amount summary, recent activity, and contribute CTA implemented; target remains data-dependent and not promised when unsupported. |
@@ -832,7 +832,7 @@ Known potential blockers:
 | 5.2 Owner/members | P1 | Complete | Owner health dashboard and searchable member list implemented; contribution totals remain intentionally absent until backend supplies per-member totals. |
 | 5.3 Settings/support/privacy/notifications | P1 | Complete | Settings, notification center, privacy/data, help/support, account/session, legal terms/privacy, connection/sync copy, and support submit states implemented and tested. |
 | 6.1 Focused test coverage | P0 | Complete | `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/design_system_components_test.dart test/features/widgets_test.dart test/persona_uat_smoke_test.dart` passed with 36 tests. |
-| 6.2 Manual render verification | P1 | Complete | `scripts/mobile_route_render_smoke.sh` captured viewport-controlled Chrome CDP 390x844 PNG screenshots and JSON nonblank checks for 21 representative routes: onboarding, auth, profile, home, groups, group detail, join, share, contribution, payment handoff/waiting/confirmed, ledger, owner, members, settings, privacy, help, notification, offline, and sync. Evidence: `.cache/mobile_route_render_smoke/20260602T040433Z/summary.json`. |
+| 6.2 Manual render verification | P1 | Complete | `scripts/mobile_route_render_smoke.sh` captured viewport-controlled Chrome CDP 390x844 PNG screenshots and JSON nonblank checks for 21 representative routes: onboarding, auth, profile, home, groups, group detail, join, share, contribution, payment handoff/waiting/confirmed, ledger, owner, members, settings, privacy, help, notification, offline, and sync. Latest waiting-route evidence: `.cache/mobile_route_render_smoke/20260602T061249Z-waiting-detail/summary.json`. |
 
 ## Final Implementation Objective
 

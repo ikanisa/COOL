@@ -382,6 +382,47 @@ void main() {
     expectNoGlobalSecrets();
   });
 
+  testWidgets('waiting for SMS route shows payment detail and recovery paths', (
+    tester,
+  ) async {
+    final repository = CollectRepository.seeded();
+    final intent = await repository.createPaymentIntent(
+      const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 12000),
+    );
+
+    await pumpMainAppAt(
+      tester,
+      '/groups/col-church/pay/${intent.id}/waiting',
+      repository: repository,
+    );
+
+    expect(find.text('Waiting for SMS'), findsOneWidget);
+    expect(find.text('St Michel building fund'), findsWidgets);
+    expect(find.text('RWF 12,000'), findsWidgets);
+    expect(find.text('St Michel treasury'), findsOneWidget);
+    expect(find.text('+250788123456'), findsOneWidget);
+    expect(find.byTooltip('Refresh payment status'), findsOneWidget);
+
+    await scrollToVisible(tester, find.text('Listening for MoMo SMS'));
+    expect(find.text('Listening for MoMo SMS'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Expected timing'));
+    expect(find.text('Expected timing'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Reference'));
+    expect(find.textContaining(intent.id), findsWidgets);
+    await scrollToVisible(tester, find.text('Refresh status'));
+    expect(find.text('Refresh status'), findsOneWidget);
+
+    await scrollToVisible(tester, find.text('View status'));
+    expect(find.text('View status'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Open MoMo again'));
+    expect(find.text('Open MoMo again'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Get help'));
+    expect(find.text('Get help'), findsOneWidget);
+    expect(find.textContaining('raw SMS'), findsNothing);
+    expect(find.textContaining('manual'), findsNothing);
+    expectNoGlobalSecrets();
+  });
+
   testWidgets(
     'contribution attempt without profile MoMo routes to link state',
     (tester) async {

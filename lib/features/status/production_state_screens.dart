@@ -362,7 +362,7 @@ class PaymentHandoffScreen extends StatelessWidget {
   }
 }
 
-class ReturnFromMomoWaitingScreen extends StatelessWidget {
+class ReturnFromMomoWaitingScreen extends ConsumerStatefulWidget {
   const ReturnFromMomoWaitingScreen({
     required this.collectionId,
     required this.intentId,
@@ -373,27 +373,177 @@ class ReturnFromMomoWaitingScreen extends StatelessWidget {
   final String intentId;
 
   @override
+  ConsumerState<ReturnFromMomoWaitingScreen> createState() =>
+      _ReturnFromMomoWaitingScreenState();
+}
+
+class _ReturnFromMomoWaitingScreenState
+    extends ConsumerState<ReturnFromMomoWaitingScreen> {
+  bool _refreshing = false;
+  String? _error;
+
+  @override
   Widget build(BuildContext context) {
+    final repo = ref.read(collectRepositoryProvider.notifier);
+    final collection = repo.collectionById(widget.collectionId);
+    final intent = _safeIntent(repo, widget.intentId);
+
+    if (intent == null) {
+      return ScreenScaffold(
+        title: 'Payment not found',
+        subtitle: collection.title,
+        children: [
+          const MinimalStatePanel(
+            icon: CollectIcons.warning,
+            title: 'Payment reference unavailable.',
+            message:
+                'Collect could not find this payment intent on the current device. Start a fresh contribution or ask support to review the reference.',
+            tone: CollectStatusTone.warning,
+          ),
+          CollectButton(
+            label: 'Contribute again',
+            icon: CollectIcons.momo,
+            onPressed: () =>
+                context.go('/groups/${widget.collectionId}/contribute'),
+            expand: true,
+          ),
+          CollectButton(
+            label: 'Get help',
+            icon: CollectIcons.support,
+            onPressed: () => context.go('/settings/help'),
+            variant: CollectButtonVariant.secondary,
+            expand: true,
+          ),
+        ],
+      );
+    }
+
     return ScreenScaffold(
       title: 'Waiting for SMS',
+      subtitle: collection.title,
+      actions: [
+        IconButton.filledTonal(
+          tooltip: 'Refresh payment status',
+          onPressed: _refreshing ? null : _refreshStatus,
+          icon: Icon(_refreshing ? CollectIcons.pending : CollectIcons.sync),
+        ),
+      ],
       children: [
-        const MinimalStatePanel(
-          icon: CollectIcons.pending,
-          title: 'Listening for MoMo confirmation.',
-          message:
-              'Collect is waiting for the receiver-side MoMo SMS. This usually takes a few seconds after you approve the USSD prompt.',
-          tone: CollectStatusTone.info,
+        if (_error != null)
+          InfoSecurityBanner(
+            title: 'Refresh failed',
+            message: _error!,
+            tone: CollectStatusTone.warning,
+          ),
+        PaymentIntentStatusCard(
+          amountRwf: intent.expectedAmountRwf,
+          receiverLabel: intent.receiverLabel,
+          receiverMomoNumber: intent.receiverMomoNumber,
+          status: intent.status,
         ),
         const PaymentPipelineIndicator(status: 'pending'),
+        InfoSecurityBanner(
+          title: 'Listening for MoMo SMS',
+          message:
+              'Collect is waiting for receiver-side MoMo SMS verification for payment intent ${intent.id}. This usually appears within a few seconds after you approve the USSD prompt.',
+          tone: CollectStatusTone.info,
+        ),
+        InfoSecurityBanner(
+          title: 'Expected timing',
+          message:
+              'Started ${_relativeAge(intent.createdAt)}. This intent expires ${_relativeExpiry(intent.expiresAt)} if no matching SMS is received.',
+          tone: CollectStatusTone.privacy,
+        ),
+        InfoSecurityBanner(
+          title: 'Reference',
+          message:
+              'Group ${collection.title}. Reference ${intent.id}. Collect posts to the ledger automatically after SMS allocation.',
+          tone: CollectStatusTone.privacy,
+        ),
+        CollectButton(
+          label: 'Refresh status',
+          icon: CollectIcons.pending,
+          onPressed: _refreshing ? null : _refreshStatus,
+          expand: true,
+        ),
         CollectButton(
           label: 'View status',
-          icon: CollectIcons.pending,
-          onPressed: () => context.go('/groups/$collectionId/pay/$intentId'),
+          icon: CollectIcons.ledger,
+          onPressed: () => context.go(
+            '/groups/${widget.collectionId}/pay/${widget.intentId}',
+          ),
+          variant: CollectButtonVariant.secondary,
+          expand: true,
+        ),
+        CollectButton(
+          label: 'Open MoMo again',
+          icon: CollectIcons.momo,
+          onPressed: () => context.go(
+            '/groups/${widget.collectionId}/pay/${widget.intentId}/handoff',
+          ),
+          variant: CollectButtonVariant.secondary,
+          expand: true,
+        ),
+        CollectButton(
+          label: 'Get help',
+          icon: CollectIcons.support,
+          onPressed: () => context.go('/settings/help'),
+          variant: CollectButtonVariant.subtle,
           expand: true,
         ),
       ],
     );
   }
+
+  Future<void> _refreshStatus() async {
+    setState(() {
+      _refreshing = true;
+      _error = null;
+    });
+    try {
+      await ref
+          .read(collectRepositoryProvider.notifier)
+          .refreshPaymentIntent(widget.intentId);
+    } catch (error) {
+      if (!mounted) return;
+      setState(() => _error = error.toString());
+    } finally {
+      if (mounted) setState(() => _refreshing = false);
+    }
+  }
+}
+
+PaymentIntentModel? _safeIntent(CollectRepository repo, String intentId) {
+  try {
+    return repo.intentById(intentId);
+  } on StateError {
+    return null;
+  }
+}
+
+String _relativeAge(DateTime startedAt) {
+  final elapsed = DateTime.now().difference(startedAt);
+  if (elapsed.inMinutes < 1) return 'just now';
+  if (elapsed.inHours < 1) {
+    return '${elapsed.inMinutes} minute${elapsed.inMinutes == 1 ? '' : 's'} ago';
+  }
+  if (elapsed.inDays < 1) {
+    return '${elapsed.inHours} hour${elapsed.inHours == 1 ? '' : 's'} ago';
+  }
+  return '${elapsed.inDays} day${elapsed.inDays == 1 ? '' : 's'} ago';
+}
+
+String _relativeExpiry(DateTime expiresAt) {
+  final remaining = expiresAt.difference(DateTime.now());
+  if (remaining.isNegative) return 'now';
+  if (remaining.inMinutes < 1) return 'in less than 1 minute';
+  if (remaining.inHours < 1) {
+    return 'in ${remaining.inMinutes} minute${remaining.inMinutes == 1 ? '' : 's'}';
+  }
+  if (remaining.inDays < 1) {
+    return 'in ${remaining.inHours} hour${remaining.inHours == 1 ? '' : 's'}';
+  }
+  return 'in ${remaining.inDays} day${remaining.inDays == 1 ? '' : 's'}';
 }
 
 class PaymentStateDetailScreen extends StatelessWidget {
