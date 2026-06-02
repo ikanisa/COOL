@@ -59,6 +59,8 @@ data into approval records.
 - Evidence to review:
   - `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md`
   - `docs/design/COLLECT_ASSET_SCREEN_UI_UX_UPDATE_REPORT_2026-05-31.md`
+  - `scripts/collect_product_boundary_scan.sh`
+  - `.cache/repo_wide_qa_uat/20260601T205424Z/collect_product_boundary_scan.json`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/summary.json`
 - Required signoff fields:
   - reviewer

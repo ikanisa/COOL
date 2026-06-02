@@ -273,6 +273,8 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['packet'], contains('Final GO Criteria'));
     expect(docs['approval'], contains('20260601T205424Z'));
     expect(docs['approval'], contains('product_signoff'));
+    expect(docs['approval'], contains('collect_product_boundary_scan.sh'));
+    expect(docs['approval'], contains('collect_product_boundary_scan.json'));
     expect(docs['approval'], contains('android_sms_access_uat'));
     expect(docs['approval'], contains('android_release_signing_review'));
     expect(docs['approval'], contains('ios_release_scope'));
