@@ -621,6 +621,41 @@ void main() {
     expectNoGlobalSecrets();
   });
 
+  testWidgets('manage route keeps unsupported owner actions bounded', (
+    tester,
+  ) async {
+    await pumpMainAppAt(tester, '/groups/col-church/manage');
+
+    expect(find.text('Manage'), findsWidgets);
+    expect(find.text('Owner controls'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Target tracking'));
+    expect(find.text('Target tracking'), findsOneWidget);
+    expect(
+      find.textContaining('Not configured for this model'),
+      findsOneWidget,
+    );
+    expect(find.text('Target amount'), findsNothing);
+    expect(find.textContaining('manual'), findsNothing);
+    expect(find.textContaining('allocation'), findsNothing);
+
+    await scrollToVisible(tester, find.text('Close group'));
+    expect(
+      find.textContaining('Use share, ledger, and support'),
+      findsOneWidget,
+    );
+    await scrollToVisible(tester, find.text('Support'));
+    expect(
+      find.text('Request help with closing or receiver changes.'),
+      findsOneWidget,
+    );
+
+    await tapVisible(tester, find.text('Close group'));
+
+    expect(find.text('Help'), findsOneWidget);
+    expect(find.text('MoMo payments'), findsOneWidget);
+    expectNoGlobalSecrets();
+  });
+
   testWidgets('ledger filters confirmed, pending, review, and mine activity', (
     tester,
   ) async {
@@ -787,6 +822,7 @@ void main() {
         '/groups/col-church/pay/intent-review/state/needs-review',
         '/groups/col-church/ledger',
         '/groups/col-church/owner',
+        '/groups/col-church/manage',
         '/groups/col-church/members',
         '/settings',
         '/settings/privacy',

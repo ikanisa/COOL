@@ -35,6 +35,12 @@ class CollectionManageScreen extends ConsumerWidget {
               '${collection.receiverDisplayLabel} receives this group. Receiver MoMo can be changed from the owner-only MoMo screen.',
           tone: CollectStatusTone.privacy,
         ),
+        const InfoSecurityBanner(
+          title: 'Owner controls',
+          message:
+              'Manage share, receiver, ledger, and support actions from owner-only routes while keeping member payment screens Collect ID-first.',
+          tone: CollectStatusTone.info,
+        ),
         health.when(
           data: (item) => CollectCard(
             emphasis: CollectCardEmphasis.flat,
@@ -73,10 +79,10 @@ class CollectionManageScreen extends ConsumerWidget {
                     : collection.description,
               ),
               CollectListTile(
-                leading: CollectIcons.money,
-                title: 'Target amount',
+                leading: CollectIcons.target,
+                title: 'Target tracking',
                 subtitle:
-                    'Optional target tracking is not enabled for this group model yet. Current raised: ${formatRwf(summary.amountRaisedRwf)}.',
+                    'Not configured for this model. Confirmed total: ${formatRwf(summary.amountRaisedRwf)}.',
               ),
               CollectListTile(
                 leading: CollectIcons.dashboard,
@@ -108,11 +114,18 @@ class CollectionManageScreen extends ConsumerWidget {
                 subtitle: 'Active.',
                 onTap: () => context.go('/groups/$collectionId/members'),
               ),
-              const CollectListTile(
+              CollectListTile(
                 leading: CollectIcons.warning,
                 title: 'Close group',
                 subtitle:
-                    'Closing groups is not enabled in this build. Keep sharing paused manually.',
+                    'Not available in this build. Use share, ledger, and support.',
+                onTap: () => context.go('/settings/help'),
+              ),
+              CollectListTile(
+                leading: CollectIcons.support,
+                title: 'Support',
+                subtitle: 'Request help with closing or receiver changes.',
+                onTap: () => context.go('/settings/help'),
               ),
             ],
           ),
