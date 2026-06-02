@@ -36,11 +36,29 @@ format, project_ref, path = ARGV
 status = JSON.parse(File.read(path))
 blockers = Array(status["blocker_keys"])
 
+def record_command(key:, evidence_reference:, notes:, extra_args: "")
+  args = [
+    "--key #{key}",
+    "--reviewer '<name>'",
+    "--evidence-reference #{evidence_reference}",
+    "--notes '#{notes}'",
+    "--sanitized-evidence",
+    "--no-production-customer-data",
+    extra_args
+  ].reject { |part| part.to_s.strip == "" }.join(" ")
+  "make record-release-approval ARGS=\"#{args}\""
+end
+
 steps = [
   {
     key: "product_signoff",
     title: "Approve corrected product definition",
     required_when: blockers.include?("product_signoff"),
+    record_command: record_command(
+      key: "product_signoff",
+      evidence_reference: "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md",
+      notes: "<SMS-first Groups product review summary>"
+    ),
     verify: "Record product_signoff in docs/release/RELEASE_APPROVALS.json, then make release-status-json"
   },
   {
@@ -53,18 +71,39 @@ steps = [
     key: "android_sms_access_uat",
     title: "Run real Android SMS access UAT",
     required_when: blockers.include?("android_sms_access_uat"),
+    record_command: record_command(
+      key: "android_sms_access_uat",
+      evidence_reference: "docs/release/UAT_EVIDENCE_MANIFEST.json",
+      notes: "<sanitized real-device SMS UAT review summary>"
+    ),
     verify: "Attach sanitized Android SMS UAT evidence"
   },
   {
     key: "android_release_signing_review",
     title: "Record Android signing review",
     required_when: blockers.include?("android_release_signing_review"),
+    record_command: record_command(
+      key: "android_release_signing_review",
+      evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      notes: "<APK/AAB and Play App Signing review summary>",
+      extra_args: "--no-signing-keys-exposed"
+    ),
     verify: "Record android_release_signing_review in docs/release/RELEASE_APPROVALS.json, then ./scripts/flutter_mobile_release_gate.sh --json"
   },
   {
     key: "ios_release_scope",
     title: "Record iOS release scope decision",
     required_when: blockers.include?("ios_release_scope"),
+    record_command: record_command(
+      key: "ios_release_scope",
+      evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      notes: "<iOS contributor-scope review summary>"
+    ),
+    record_out_of_scope_command: record_command(
+      key: "ios_release_scope --out-of-scope",
+      evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      notes: "<Android-only go-live scope rationale>"
+    ),
     verify: "Record ios_release_scope in docs/release/RELEASE_APPROVALS.json, then ./scripts/flutter_mobile_release_gate.sh --json"
   },
   {
@@ -77,6 +116,11 @@ steps = [
     key: "release_owner_signoff",
     title: "Approve release packet",
     required_when: blockers.include?("release_owner_signoff"),
+    record_command: record_command(
+      key: "release_owner_signoff",
+      evidence_reference: "docs/release/RELEASE_APPROVAL_PACKET.md",
+      notes: "<final release-owner decision summary>"
+    ),
     verify: "Record release_owner_signoff in docs/release/RELEASE_APPROVALS.json, then make release-status-json"
   }
 ]
@@ -114,6 +158,8 @@ steps.each do |step|
   puts "### #{step.fetch(:title)}"
   puts "- Key: `#{step.fetch(:key)}`"
   puts "- Required now: `#{step.fetch(:required_when)}`"
+  puts "- Record: `#{step.fetch(:record_command)}`" if step[:record_command]
+  puts "- Record Android-only scope: `#{step.fetch(:record_out_of_scope_command)}`" if step[:record_out_of_scope_command]
   puts "- Verify: `#{step.fetch(:verify)}`"
 end
 puts

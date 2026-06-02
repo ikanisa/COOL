@@ -42,8 +42,9 @@ void main() {
   final mobileProductionStateSupport = File(
     'supabase/migrations/20260531190000_mobile_production_state_support.sql',
   ).readAsStringSync();
-  final readiness = File('scripts/supabase_production_readiness.sh')
-      .readAsStringSync();
+  final readiness = File(
+    'scripts/supabase_production_readiness.sh',
+  ).readAsStringSync();
   final schemaInventory = File(
     'scripts/supabase_schema_inventory.sh',
   ).readAsStringSync();
@@ -687,6 +688,14 @@ void main() {
       contains('SUPABASE_POST_OPERATOR_STATUS_JSON'),
     );
     expect(postOperatorChecklist, contains('android_sms_access_uat'));
+    expect(postOperatorChecklist, contains('record_command'));
+    expect(
+      postOperatorChecklist,
+      contains('make record-release-approval ARGS='),
+    );
+    expect(postOperatorChecklist, contains('--sanitized-evidence'));
+    expect(postOperatorChecklist, contains('--no-production-customer-data'));
+    expect(postOperatorChecklist, contains('record_out_of_scope_command'));
     expect(
       postOperatorChecklist,
       contains('linked_supabase_sms_first_migration'),
@@ -1265,9 +1274,7 @@ void main() {
     );
     expect(
       readiness,
-      contains(
-        "('authenticated', 'create_mobile_support_request', 'EXECUTE')",
-      ),
+      contains("('authenticated', 'create_mobile_support_request', 'EXECUTE')"),
     );
     expect(
       readiness,

@@ -775,6 +775,19 @@ checking Edge Function secret names
     expect(result.exitCode, 0);
     final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
     expect(decoded['operator_actions'], hasLength(2));
+    final actions = (decoded['operator_actions'] as List<dynamic>)
+        .cast<Map<String, dynamic>>();
+    for (final action in actions) {
+      expect(
+        action['record_command'],
+        contains('make record-release-approval'),
+      );
+      expect(action['record_command'], contains('--sanitized-evidence'));
+      expect(
+        action['record_command'],
+        contains('--no-production-customer-data'),
+      );
+    }
     expect(jsonEncode(decoded), contains('Android SMS access UAT'));
     expect(jsonEncode(decoded), isNot(contains('AUTH_CAPTCHA_SECRET')));
     expect(jsonEncode(decoded), isNot(contains('HIBP')));

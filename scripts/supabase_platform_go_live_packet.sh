@@ -36,6 +36,19 @@ format, project_ref, path = ARGV
 status = JSON.parse(File.read(path))
 blocker_keys = Array(status["blocker_keys"])
 
+def record_command(key:, evidence_reference:, notes:, extra_args: "")
+  args = [
+    "--key #{key}",
+    "--reviewer '<name>'",
+    "--evidence-reference #{evidence_reference}",
+    "--notes '#{notes}'",
+    "--sanitized-evidence",
+    "--no-production-customer-data",
+    extra_args
+  ].reject { |part| part.to_s.strip == "" }.join(" ")
+  "make record-release-approval ARGS=\"#{args}\""
+end
+
 catalog = {
   "linked_supabase_sms_first_migration" => {
     "title" => "Linked Supabase SMS-first migration",
@@ -49,6 +62,11 @@ catalog = {
     "severity" => "P0",
     "owner" => "mobile/release",
     "required_action" => "Run real Android MoMo SMS consent, ingestion, parse, allocation, exception, and ledger scenarios with sanitized evidence.",
+    "record_command" => record_command(
+      key: "android_sms_access_uat",
+      evidence_reference: "docs/release/UAT_EVIDENCE_MANIFEST.json",
+      notes: "<sanitized real-device SMS UAT review summary>"
+    ),
     "verify_command" => "Manual Android UAT plus sanitized evidence manifest"
   },
   "android_release_signing_review" => {
@@ -56,6 +74,12 @@ catalog = {
     "severity" => "P0",
     "owner" => "mobile/release",
     "required_action" => "Record Android release signing / Play App Signing review evidence for the current APK/AAB outputs.",
+    "record_command" => record_command(
+      key: "android_release_signing_review",
+      evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      notes: "<APK/AAB and Play App Signing review summary>",
+      extra_args: "--no-signing-keys-exposed"
+    ),
     "verify_command" => "Record android_release_signing_review in docs/release/RELEASE_APPROVALS.json, then ./scripts/flutter_mobile_release_gate.sh --json"
   },
   "ios_release_scope" => {
@@ -63,6 +87,16 @@ catalog = {
     "severity" => "P0",
     "owner" => "mobile/release",
     "required_action" => "Sign off iOS contributor-only scope or mark iOS explicitly out of scope.",
+    "record_command" => record_command(
+      key: "ios_release_scope",
+      evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      notes: "<iOS contributor-scope review summary>"
+    ),
+    "record_out_of_scope_command" => record_command(
+      key: "ios_release_scope --out-of-scope",
+      evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      notes: "<Android-only go-live scope rationale>"
+    ),
     "verify_command" => "Record ios_release_scope in docs/release/RELEASE_APPROVALS.json, then ./scripts/flutter_mobile_release_gate.sh --json"
   },
   "admin_pwa_live_url" => {
@@ -77,6 +111,11 @@ catalog = {
     "severity" => "P0",
     "owner" => "stakeholders",
     "required_action" => "Approve docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md.",
+    "record_command" => record_command(
+      key: "product_signoff",
+      evidence_reference: "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md",
+      notes: "<SMS-first Groups product review summary>"
+    ),
     "verify_command" => "Attach signed product approval evidence"
   },
   "release_owner_signoff" => {
@@ -84,6 +123,11 @@ catalog = {
     "severity" => "P0",
     "owner" => "release owner",
     "required_action" => "Approve the current release packet and worktree review.",
+    "record_command" => record_command(
+      key: "release_owner_signoff",
+      evidence_reference: "docs/release/RELEASE_APPROVAL_PACKET.md",
+      notes: "<final release-owner decision summary>"
+    ),
     "verify_command" => "Record release_owner_signoff in docs/release/RELEASE_APPROVALS.json, then make release-status-json"
   }
 }
@@ -130,6 +174,8 @@ else
     puts "- Key: `#{item.fetch("key")}`"
     puts "- Owner: #{item.fetch("owner")}"
     puts "- Action: #{item.fetch("required_action")}"
+    puts "- Record: `#{item.fetch("record_command")}`" if item["record_command"]
+    puts "- Record Android-only scope: `#{item.fetch("record_out_of_scope_command")}`" if item["record_out_of_scope_command"]
     puts "- Verify: `#{item.fetch("verify_command")}`"
   end
 end
