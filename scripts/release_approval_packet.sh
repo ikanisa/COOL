@@ -69,6 +69,19 @@ def file_item(root_dir, path)
   }
 end
 
+def record_command(key:, evidence_reference:, notes:, extra_args: "")
+  args = [
+    "--key #{key}",
+    "--reviewer '<name>'",
+    "--evidence-reference #{evidence_reference}",
+    "--notes '#{notes}'",
+    "--sanitized-evidence",
+    "--no-production-customer-data",
+    extra_args
+  ].reject { |part| part.to_s.strip == "" }.join(" ")
+  "make record-release-approval ARGS=\"#{args}\""
+end
+
 blocker_keys = Array(status["blocker_keys"])
 surfaces = summary.fetch("surfaces", {})
 bundle_dir = rel(root_dir, summary["bundle_dir"])
@@ -113,6 +126,11 @@ approval_records = [
       "signed_at ISO-8601 UTC",
       "evidence reference"
     ],
+    "record_command" => record_command(
+      key: "product_signoff",
+      evidence_reference: "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md",
+      notes: "<SMS-first Groups product review summary>"
+    ),
     "verify_command" => "Record product_signoff in docs/release/RELEASE_APPROVALS.json, then ADMIN_PWA_LIVE_URL=#{admin_pwa_live_url} make release-status-json"
   },
   {
@@ -138,6 +156,11 @@ approval_records = [
       "persona UAT rows signed or waived",
       "signed_at ISO-8601 UTC"
     ],
+    "record_command" => record_command(
+      key: "android_sms_access_uat",
+      evidence_reference: "docs/release/UAT_EVIDENCE_MANIFEST.json",
+      notes: "<sanitized real-device SMS UAT review summary>"
+    ),
     "verify_command" => "Record android_sms_access_uat in docs/release/RELEASE_APPROVALS.json, then ADMIN_PWA_LIVE_URL=#{admin_pwa_live_url} make release-status-json"
   },
   {
@@ -163,6 +186,12 @@ approval_records = [
       "evidence reference",
       "signing_keys_exposed=false"
     ],
+    "record_command" => record_command(
+      key: "android_release_signing_review",
+      evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      notes: "<APK/AAB and Play App Signing review summary>",
+      extra_args: "--no-signing-keys-exposed"
+    ),
     "verify_command" => "Record android_release_signing_review in docs/release/RELEASE_APPROVALS.json, then ./scripts/flutter_mobile_release_gate.sh --json"
   },
   {
@@ -187,6 +216,16 @@ approval_records = [
       "evidence reference",
       "status=approved or status=out_of_scope"
     ],
+    "record_command" => record_command(
+      key: "ios_release_scope",
+      evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      notes: "<iOS contributor-scope review summary>"
+    ),
+    "record_out_of_scope_command" => record_command(
+      key: "ios_release_scope --out-of-scope",
+      evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
+      notes: "<Android-only go-live scope rationale>"
+    ),
     "verify_command" => "Record ios_release_scope in docs/release/RELEASE_APPROVALS.json, then ./scripts/flutter_mobile_release_gate.sh --json"
   },
   {
@@ -213,6 +252,11 @@ approval_records = [
       "signed_at ISO-8601 UTC",
       "evidence packet reference"
     ],
+    "record_command" => record_command(
+      key: "release_owner_signoff",
+      evidence_reference: "docs/release/RELEASE_APPROVAL_PACKET.md",
+      notes: "<final release-owner decision summary>"
+    ),
     "verify_command" => "Record release_owner_signoff in docs/release/RELEASE_APPROVALS.json, then ADMIN_PWA_LIVE_URL=#{admin_pwa_live_url} make release-status-json"
   }
 ]
@@ -281,6 +325,8 @@ approval_records.each do |record|
   puts "- Required now: `#{record.fetch("required_now")}`"
   puts "- Owner: #{record.fetch("owner")}"
   puts "- Decision needed: #{record.fetch("decision_needed")}"
+  puts "- Record: `#{record.fetch("record_command")}`" if record["record_command"]
+  puts "- Record Android-only scope: `#{record.fetch("record_out_of_scope_command")}`" if record["record_out_of_scope_command"]
   puts "- Verify: `#{record.fetch("verify_command")}`"
   puts "- Evidence to review:"
   record.fetch("evidence_to_review").each { |item| puts "  - `#{item}`" }

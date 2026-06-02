@@ -815,6 +815,28 @@ checking Edge Function secret names
         'release_owner_signoff',
       ]),
     );
+    for (final record in records.cast<Map<String, dynamic>>()) {
+      expect(
+        record['record_command'],
+        contains('make record-release-approval'),
+      );
+      expect(record['record_command'], contains('--sanitized-evidence'));
+      expect(
+        record['record_command'],
+        contains('--no-production-customer-data'),
+      );
+    }
+    final androidSigning = records.cast<Map<String, dynamic>>().firstWhere(
+      (record) => record['key'] == 'android_release_signing_review',
+    );
+    expect(
+      androidSigning['record_command'],
+      contains('--no-signing-keys-exposed'),
+    );
+    final iosScope = records.cast<Map<String, dynamic>>().firstWhere(
+      (record) => record['key'] == 'ios_release_scope',
+    );
+    expect(iosScope['record_out_of_scope_command'], contains('--out-of-scope'));
     expect(jsonEncode(decoded), contains('https://cool-admin-212.pages.dev'));
     expect(
       jsonEncode(decoded),
@@ -854,6 +876,8 @@ checking Edge Function secret names
     expect(approvalPacket, contains('latest_android_install_summary'));
     expect(approvalPacket, contains('admin_pwa_live_deployment'));
     expect(approvalPacket, contains('release_evidence_index'));
+    expect(approvalPacket, contains('record_command'));
+    expect(approvalPacket, contains('record_out_of_scope_command'));
   });
 
   test('repo-wide evidence indexes mobile route render screenshots', () {
