@@ -85,7 +85,7 @@ android_device_ready() {
 }
 
 if [[ "${QA_UAT_FIXTURE:-0}" == "1" ]]; then
-  for name in flutter_version dart_version format_check flutter_analyze flutter_test release_secret_scan admin_pwa_build admin_pwa_manifest_gate admin_pwa_hosting_gate admin_pwa_render_smoke mobile_route_render_smoke; do
+  for name in flutter_version dart_version format_check flutter_analyze flutter_test release_secret_scan collect_product_boundary_scan admin_pwa_build admin_pwa_manifest_gate admin_pwa_hosting_gate admin_pwa_render_smoke mobile_route_render_smoke; do
     record_fixture "$name" "$name.txt" 0 "[repo-wide-qa-uat][fixture] $name passed"
   done
   cat > "$bundle_dir/admin_pwa_hosting_gate.json" <<'JSON'
@@ -380,6 +380,7 @@ else
   run_capture "flutter_analyze" "flutter_analyze.txt" "$FLUTTER" analyze --no-pub
   run_capture "flutter_test" "flutter_test.txt" "$FLUTTER" test --no-pub --concurrency=1
   run_capture "release_secret_scan" "release_secret_scan.txt" "$ROOT_DIR/scripts/release_secret_scan.sh"
+  run_capture "collect_product_boundary_scan" "collect_product_boundary_scan.json" "$ROOT_DIR/scripts/collect_product_boundary_scan.sh" --json
   run_capture "release_worktree_review" "worktree_review.json" "$ROOT_DIR/scripts/release_worktree_review_gate.sh" --json
   run_capture "admin_pwa_build" "admin_pwa_build.txt" "$ROOT_DIR/scripts/admin_pwa_release_build.sh"
   run_capture "admin_pwa_manifest_gate" "admin_pwa_manifest_gate.txt" "$ROOT_DIR/scripts/admin_pwa_manifest_gate.sh"
@@ -611,7 +612,7 @@ supabase_evidence_bundle_surface =
   end
 
 surfaces = {
-  "flutter_app" => %w[flutter_version dart_version format_check flutter_analyze flutter_test release_secret_scan].all? { |name| command_ok?(commands, name) } ? "pass" : "fail",
+  "flutter_app" => %w[flutter_version dart_version format_check flutter_analyze flutter_test release_secret_scan collect_product_boundary_scan].all? { |name| command_ok?(commands, name) } ? "pass" : "fail",
   "admin_pwa" => admin_pwa_surface,
   "mobile_route_render" => mobile_route_render_surface,
   "admin_pwa_live_deployment" => admin_live_surface,
@@ -732,6 +733,7 @@ File.write(
     - `admin_pwa_live_gate.json`: deployed Admin PWA URL headers and PWA file gate
     - `mobile_route_render_smoke/`: representative mobile route screenshots and nonblank PNG checks
     - `worktree_review.json`: release branch/worktree review gate
+    - `collect_product_boundary_scan.json`: Collect app product-boundary scan for forbidden Buro/crypto/trading/legacy navigation concepts
     - `uat_evidence_gate.json`: sanitized human UAT evidence manifest gate
     - `uat_signoff_gate.json`: human UAT release-owner signoff gate
     - `mobile_release_gate.json`: Flutter mobile release metadata, signing-review, and iOS-scope gate

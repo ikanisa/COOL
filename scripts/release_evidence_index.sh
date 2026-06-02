@@ -196,6 +196,7 @@ required_commands = %w[
   flutter_analyze
   flutter_test
   release_secret_scan
+  collect_product_boundary_scan
   admin_pwa_build
   admin_pwa_manifest_gate
   admin_pwa_hosting_gate

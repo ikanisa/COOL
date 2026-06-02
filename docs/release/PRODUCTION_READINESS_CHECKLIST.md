@@ -12,6 +12,7 @@ final production decision.
 | Check | Status | Evidence |
 | --- | --- | --- |
 | Correct product source of truth | Pending signoff | `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md` describes the approved Groups/SMS-first workflow for review. |
+| Collect product-boundary scan | Pass locally | `scripts/collect_product_boundary_scan.sh --json` passed across 80 Flutter source files with zero forbidden Buro/crypto/trading/legacy navigation hits. |
 | Mobile navigation contract | Pass locally | App routes and shell are reduced to `Home`, `Groups`, and `Settings`. |
 | Removed legacy UX | Pass locally | Public directory, active goals, categories, target amounts, cover URL, anonymity picker, manual SMS paste, and contributor-reported transaction IDs are no longer current user journeys. |
 | Profile identity model | Pass locally | Profile owns MoMo and generated 6-digit Collect ID; flows use Collect ID, not real names. |

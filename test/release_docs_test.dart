@@ -204,6 +204,9 @@ Date/time: 2026-06-01T12:30:00Z
       'checklist': File(
         'docs/release/PRODUCTION_READINESS_CHECKLIST.md',
       ).readAsStringSync(),
+      'goalbook': File(
+        'docs/design/COLLECT_UI_IMPLEMENTATION_GOALBOOK_2026-05-31.md',
+      ).readAsStringSync(),
       'qa': File('docs/release/QA_TEST_REPORT.md').readAsStringSync(),
       'uat': File('docs/release/UAT_EXECUTION_REPORT.md').readAsStringSync(),
       'uat_plan': File('docs/release/UAT_TEST_PLAN.md').readAsStringSync(),
@@ -297,6 +300,10 @@ Date/time: 2026-06-01T12:30:00Z
     expect(uatManifest, isNot(contains('20260601T204710Z')));
     expect(docs['qa'], contains('scripts/mobile_route_render_smoke.sh'));
     expect(docs['qa'], contains('20260602T082935Z'));
+    expect(docs['qa'], contains('collect_product_boundary_scan.sh'));
+    expect(docs['qa'], contains('zero forbidden'));
+    expect(docs['checklist'], contains('Collect product-boundary scan'));
+    expect(docs['goalbook'], contains('collect_product_boundary_scan.sh'));
     expect(docs['qa'], contains('ahead=0'));
     expect(docs['qa'], contains('behind=0'));
     expect(docs['checklist'], contains('ahead=0'));
@@ -656,6 +663,7 @@ checking Edge Function secret names
           'flutter_analyze': 'flutter_analyze.txt',
           'flutter_test': 'flutter_test.txt',
           'release_secret_scan': 'release_secret_scan.txt',
+          'collect_product_boundary_scan': 'collect_product_boundary_scan.json',
           'admin_pwa_build': 'admin_pwa_build.txt',
           'admin_pwa_manifest_gate': 'admin_pwa_manifest_gate.txt',
           'admin_pwa_hosting_gate': 'admin_pwa_hosting_gate.json',
@@ -986,8 +994,11 @@ checking Edge Function secret names
 
     expect(makefile, contains('mobile-route-render-smoke:'));
     expect(repoWide, contains('mobile_route_render_smoke'));
+    expect(repoWide, contains('collect_product_boundary_scan'));
+    expect(repoWide, contains('collect_product_boundary_scan.json'));
     expect(repoWide, contains('MOBILE_ROUTE_RENDER_EVIDENCE_DIR'));
     expect(repoWide, contains('"mobile_route_render"'));
+    expect(evidenceIndex, contains('collect_product_boundary_scan'));
     expect(evidenceIndex, contains('mobile_route_render_summary = read_json'));
     expect(evidenceIndex, contains('required_mobile_routes'));
     expect(evidenceIndex, contains('/groups/col-church/pay/intent-render'));

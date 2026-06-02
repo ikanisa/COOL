@@ -814,7 +814,7 @@ Known potential blockers:
 
 | Goal | Priority | Status | Exit evidence |
 | --- | --- | --- | --- |
-| 0.1 Reference scope freeze | P0 | Complete | Report and goalbook present; `rg` boundary scan over `lib` shows no Buro/crypto/trading UI copy, only infrastructure/token false positives. |
+| 0.1 Reference scope freeze | P0 | Complete | Report and goalbook present; `scripts/collect_product_boundary_scan.sh --json` passed across 80 Flutter source files with zero forbidden Buro/crypto/trading/legacy navigation hits. |
 | 1.1 Color token rebuild | P0 | Complete | Crimson/charcoal/off-white token migration implemented; `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub` passed. |
 | 1.2 Typography finalization | P0 | Complete | Amount, Collect ID, transaction metadata, OTP, and eyebrow helpers added; focused tests passed. |
 | 1.3 Shared components | P0 | Complete | Amount entry, Collect ID, OTP, financial row, minimal state, notification, search, filters, bottom action, and review components are used across updated screens. |

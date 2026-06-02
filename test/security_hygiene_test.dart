@@ -69,6 +69,22 @@ void main() {
     }
   });
 
+  test('Collect product boundary scan rejects forbidden app concepts', () {
+    final result = Process.runSync(
+      './scripts/collect_product_boundary_scan.sh',
+      ['--json'],
+    );
+    expect(result.exitCode, 0);
+
+    final output = result.stdout as String;
+    expect(output, contains('"status": "pass"'));
+    expect(output, contains('"hit_count": 0'));
+
+    final makefile = File('Makefile').readAsStringSync();
+    expect(makefile, contains('collect-product-boundary-scan:'));
+    expect(makefile, contains('./scripts/collect_product_boundary_scan.sh'));
+  });
+
   test('local env files stay ignored and Codex env stays placeholder-only', () {
     final trackedEnvFiles = Process.runSync('git', [
       'ls-files',
