@@ -1185,7 +1185,19 @@ checking Edge Function secret names
     expect(evidenceIndex, contains('collect_product_boundary_scan'));
     expect(evidenceIndex, contains('mobile_route_render_summary = read_json'));
     expect(evidenceIndex, contains('required_mobile_routes'));
+    expect(
+      evidenceIndex,
+      contains('/groups/col-church/pay/intent-render/state/pending'),
+    );
     expect(evidenceIndex, contains('/groups/col-church/pay/intent-render'));
+    expect(
+      evidenceIndex,
+      contains('/groups/col-church/pay/intent-render/state/expired'),
+    );
+    expect(
+      evidenceIndex,
+      contains('/groups/col-church/pay/intent-render/state/needs-review'),
+    );
     expect(evidenceIndex, contains('non_background_pixels'));
     expect(evidenceIndex, contains('"mobile_route_render"'));
   });

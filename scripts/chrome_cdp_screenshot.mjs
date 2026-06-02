@@ -15,6 +15,7 @@ const output = args.get('--output');
 const profile = args.get('--profile');
 const viewport = args.get('--viewport') ?? '390x844';
 const waitMs = Number(args.get('--wait-ms') ?? '9000');
+const devtoolsReadyMs = Number(args.get('--devtools-ready-ms') ?? '30000');
 
 if (!chrome || !url || !output || !profile) {
   console.error(
@@ -26,6 +27,10 @@ if (!chrome || !url || !output || !profile) {
 const [width, height] = viewport.split('x').map((value) => Number(value));
 if (!Number.isInteger(width) || !Number.isInteger(height) || width <= 0 || height <= 0) {
   console.error(`invalid viewport: ${viewport}`);
+  process.exit(2);
+}
+if (!Number.isFinite(devtoolsReadyMs) || devtoolsReadyMs <= 0) {
+  console.error(`invalid DevTools readiness timeout: ${devtoolsReadyMs}`);
   process.exit(2);
 }
 
@@ -93,7 +98,8 @@ let socket;
 try {
   const baseUrl = `http://127.0.0.1:${port}`;
   let version;
-  for (let attempt = 0; attempt < 160; attempt += 1) {
+  const devtoolsAttempts = Math.ceil(devtoolsReadyMs / 100);
+  for (let attempt = 0; attempt < devtoolsAttempts; attempt += 1) {
     if (chromeExit) {
       throw new Error(`Chrome exited before DevTools became ready.\n${chromeDiagnostics()}`);
     }

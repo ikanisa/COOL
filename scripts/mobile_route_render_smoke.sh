@@ -101,7 +101,10 @@ route_specs=(
   "contribution|/groups/col-church/contribute"
   "payment-handoff|/groups/col-church/pay/intent-render/handoff"
   "payment-waiting|/groups/col-church/pay/intent-render/waiting"
+  "payment-pending|/groups/col-church/pay/intent-render/state/pending"
   "payment-confirmed|/groups/col-church/pay/intent-render/state/confirmed"
+  "payment-expired|/groups/col-church/pay/intent-render/state/expired"
+  "payment-needs-review|/groups/col-church/pay/intent-render/state/needs-review"
   "ledger|/groups/col-church/ledger"
   "owner|/groups/col-church/owner"
   "manage|/groups/col-church/manage"
@@ -129,7 +132,7 @@ capture_route() {
   : >"$stdout_log"
   : >"$stderr_log"
   local capture_status=1
-  for attempt in 1 2 3; do
+  for attempt in 1 2 3 4; do
     rm -rf "$profile"
     mkdir -p "$profile"
     rm -f "$png"
