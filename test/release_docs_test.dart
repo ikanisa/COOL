@@ -860,6 +860,27 @@ checking Edge Function secret names
       (record) => record['key'] == 'ios_release_scope',
     );
     expect(iosScope['record_out_of_scope_command'], contains('--out-of-scope'));
+    final releaseOwner = records.cast<Map<String, dynamic>>().firstWhere(
+      (record) => record['key'] == 'release_owner_signoff',
+    );
+    expect(
+      releaseOwner['evidence_to_review'],
+      contains('.cache/admin_pwa_render_smoke/20260602T081408Z/summary.json'),
+    );
+    expect(
+      releaseOwner['evidence_to_review'],
+      contains('.cache/mobile_route_render_smoke/20260602T082935Z/summary.json'),
+    );
+    final fileChecks = (decoded['file_checks'] as List<dynamic>)
+        .cast<Map<String, dynamic>>();
+    expect(
+      fileChecks.map((item) => item['path']),
+      contains('.cache/admin_pwa_render_smoke/20260602T081408Z/summary.json'),
+    );
+    expect(
+      fileChecks.map((item) => item['path']),
+      contains('.cache/mobile_route_render_smoke/20260602T082935Z/summary.json'),
+    );
     expect(jsonEncode(decoded), contains('https://cool-admin-212.pages.dev'));
     expect(
       jsonEncode(decoded),
