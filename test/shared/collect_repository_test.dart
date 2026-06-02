@@ -45,6 +45,19 @@ void main() {
     expect(repo.contributionsFor(collection.id), hasLength(2));
   });
 
+  test('seeded state includes payment intent for render evidence routes', () {
+    final repo = CollectRepository.seeded();
+    final intent = repo.intentById('intent-render');
+
+    expect(intent.collectionId, 'col-church');
+    expect(intent.expectedAmountRwf, 15000);
+    expect(intent.receiverLabel, 'St Michel treasury');
+    expect(intent.receiverMomoNumber, '+250788123456');
+    expect(intent.senderPhoneHash, HashUtils.phoneHash('+250788123456'));
+    expect(intent.status, 'pending');
+    expect(intent.expiresAt.isAfter(DateTime.now()), isTrue);
+  });
+
   test(
     'payment intent exposes receiver context without manual instructions',
     () async {
@@ -169,7 +182,7 @@ void main() {
 
     expect(members.single.safeLabel, 'Collect ID 038491');
     expect(health.receiverConfigured, isTrue);
-    expect(health.pendingPaymentIntents, 0);
+    expect(health.pendingPaymentIntents, 1);
   });
 
   test('local receiver update and sign out mutate safe client state', () async {

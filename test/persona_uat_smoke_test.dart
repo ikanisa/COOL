@@ -604,7 +604,7 @@ void main() {
     await pumpMainAppAt(tester, '/groups/col-church/owner');
 
     expect(find.text('Owner dashboard'), findsOneWidget);
-    expect(find.text('Pending'), findsOneWidget);
+    expect(find.text('Pending'), findsWidgets);
     expect(find.text('Review'), findsOneWidget);
     expect(find.text('SMS'), findsWidgets);
 

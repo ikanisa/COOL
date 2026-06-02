@@ -14,6 +14,25 @@ fail() {
   exit 1
 }
 
+wait_for_http() {
+  local url="$1"
+  local attempts="$2"
+  for _ in $(seq 1 "$attempts"); do
+    if curl -fsS "$url" >/dev/null 2>&1; then
+      return 0
+    fi
+    if ! kill -0 "$SERVER_PID" 2>/dev/null; then
+      printf '[admin-pwa-render][FAIL] HTTP server exited before %s was ready.\n' "$url" >&2
+      if [[ -s "$EVIDENCE_DIR/http.log" ]]; then
+        sed -n '1,120p' "$EVIDENCE_DIR/http.log" >&2
+      fi
+      exit 1
+    fi
+    sleep 0.5
+  done
+  return 1
+}
+
 find_chrome() {
   if [[ -n "${ADMIN_PWA_CHROME:-}" ]]; then
     printf '%s\n' "$ADMIN_PWA_CHROME"
@@ -56,12 +75,7 @@ trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
 
 BASE_URL="http://$HOST:$PORT"
 
-for attempt in {1..20}; do
-  if curl -fsS "$BASE_URL/" >/dev/null 2>&1; then
-    break
-  fi
-  sleep 0.25
-done
+wait_for_http "$BASE_URL/" 60 || fail "HTTP server did not become ready at $BASE_URL/."
 
 curl -fsSI "$BASE_URL/" >"$EVIDENCE_DIR/index.headers" || fail "index.html did not serve over HTTP."
 curl -fsSI "$BASE_URL/main.dart.js" >"$EVIDENCE_DIR/main.headers" || fail "main.dart.js did not serve over HTTP."

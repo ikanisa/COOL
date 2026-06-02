@@ -20,6 +20,25 @@ fail() {
   exit 1
 }
 
+wait_for_http() {
+  local url="$1"
+  local attempts="$2"
+  for _ in $(seq 1 "$attempts"); do
+    if curl -fsS "$url" >/dev/null 2>&1; then
+      return 0
+    fi
+    if ! kill -0 "$SERVER_PID" 2>/dev/null; then
+      printf '[mobile-route-render][FAIL] HTTP server exited before %s was ready.\n' "$url" >&2
+      if [[ -s "$EVIDENCE_DIR/http.log" ]]; then
+        sed -n '1,120p' "$EVIDENCE_DIR/http.log" >&2
+      fi
+      exit 1
+    fi
+    sleep 0.5
+  done
+  return 1
+}
+
 find_chrome() {
   if [[ -n "${MOBILE_ROUTE_RENDER_CHROME:-}" ]]; then
     printf '%s\n' "$MOBILE_ROUTE_RENDER_CHROME"
@@ -65,12 +84,7 @@ trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
 
 BASE_URL="http://$HOST:$PORT"
 
-for _ in {1..40}; do
-  if curl -fsS "$BASE_URL/" >/dev/null 2>&1; then
-    break
-  fi
-  sleep 0.25
-done
+wait_for_http "$BASE_URL/" 60 || fail "HTTP server did not become ready at $BASE_URL/."
 
 curl -fsSI "$BASE_URL/" >"$EVIDENCE_DIR/index.headers" || fail "index.html did not serve over HTTP."
 curl -fsSI "$BASE_URL/main.dart.js" >"$EVIDENCE_DIR/main.headers" || fail "main.dart.js did not serve over HTTP."
@@ -108,17 +122,44 @@ capture_route() {
   local url="$BASE_URL/#$route"
   local png="$EVIDENCE_DIR/${name}-${VIEWPORT}.png"
   local profile="$EVIDENCE_DIR/${name}-profile"
+  local stdout_log="$EVIDENCE_DIR/${name}.stdout"
+  local stderr_log="$EVIDENCE_DIR/${name}.stderr"
 
-  rm -rf "$profile"
-  mkdir -p "$profile"
+  : >"$stdout_log"
+  : >"$stderr_log"
+  local capture_status=1
+  for attempt in 1 2 3; do
+    rm -rf "$profile"
+    mkdir -p "$profile"
+    rm -f "$png"
 
-  "$NODE" "$ROOT_DIR/scripts/chrome_cdp_screenshot.mjs" \
-    --chrome "$CHROME" \
-    --url "$url" \
-    --output "$png" \
-    --profile "$profile" \
-    --viewport "$VIEWPORT" \
-    --wait-ms 9000 >"$EVIDENCE_DIR/${name}.stdout" 2>"$EVIDENCE_DIR/${name}.stderr"
+    printf '[attempt %s]\n' "$attempt" >>"$stdout_log"
+    printf '[attempt %s]\n' "$attempt" >>"$stderr_log"
+    set +e
+    "$NODE" "$ROOT_DIR/scripts/chrome_cdp_screenshot.mjs" \
+      --chrome "$CHROME" \
+      --url "$url" \
+      --output "$png" \
+      --profile "$profile" \
+      --viewport "$VIEWPORT" \
+      --wait-ms 9000 >>"$stdout_log" 2>>"$stderr_log"
+    capture_status=$?
+    set -e
+    if [[ "$capture_status" -eq 0 && -s "$png" ]]; then
+      local png_bytes
+      png_bytes="$(wc -c <"$png" | tr -d ' ')"
+      if [[ "$png_bytes" -gt 8000 ]]; then
+        break
+      fi
+      printf 'screenshot too small on attempt %s: %s bytes\n' "$attempt" "$png_bytes" >>"$stderr_log"
+      capture_status=1
+    fi
+    sleep "$attempt"
+  done
+
+  if [[ "$capture_status" -ne 0 ]]; then
+    fail "$name screenshot capture failed after retries. See $stderr_log"
+  fi
 
   [[ -s "$png" ]] || fail "$name screenshot was not created."
 

@@ -199,7 +199,20 @@ class CollectRepository extends StateNotifier<CollectState> {
     return CollectState(
       currentProfile: user,
       collections: [church, team],
-      paymentIntents: const [],
+      paymentIntents: [
+        PaymentIntentModel(
+          id: 'intent-render',
+          collectionId: church.id,
+          expectedAmountRwf: 15000,
+          receiverMomoNumber: church.receiverMomoNumber ?? user.momoNumber!,
+          receiverLabel: church.receiverDisplayLabel,
+          network: 'mtn',
+          senderPhoneHash: HashUtils.phoneHash(user.momoNumber!),
+          status: 'pending',
+          createdAt: now.subtract(const Duration(minutes: 8)),
+          expiresAt: now.add(const Duration(hours: 23)),
+        ),
+      ],
       contributions: [
         Contribution(
           id: 'pay-1',

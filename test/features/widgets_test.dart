@@ -49,27 +49,28 @@ void main() {
 
   testWidgets('payment status screen renders receiver details', (tester) async {
     final repo = CollectRepository.seeded();
-    final intent = await repo.createPaymentIntent(
-      const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 5000),
-    );
     await tester.pumpWidget(
       ProviderScope(
         overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
-        child: MaterialApp(
+        child: const MaterialApp(
           home: PaymentIntentStatusScreen(
             collectionId: 'col-church',
-            intentId: intent.id,
+            intentId: 'intent-render',
           ),
         ),
       ),
     );
 
     expect(find.text('St Michel treasury'), findsOneWidget);
+    expect(find.text('RWF 15,000'), findsWidgets);
+    expect(find.text('Payment'), findsWidgets);
+    await tester.drag(find.byType(ListView).last, const Offset(0, -500));
+    await tester.pump();
+    expect(find.text('View pending details'), findsOneWidget);
     expect(
       find.textContaining(HashUtils.phoneHash('+250788123456')),
       findsNothing,
     );
     expect(find.text('Waiting for MoMo SMS'), findsNothing);
-    expect(find.text('Payment'), findsWidgets);
   });
 }

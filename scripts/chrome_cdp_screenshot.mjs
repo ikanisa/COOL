@@ -34,7 +34,7 @@ mkdirSync(dirname(output), { recursive: true });
 rmSync(profile, { recursive: true, force: true });
 mkdirSync(profile, { recursive: true });
 
-const chromeProcess = spawn(chrome, [
+const chromeArgs = [
   '--headless=new',
   '--force-device-scale-factor=1',
   '--disable-gpu',
@@ -42,22 +42,61 @@ const chromeProcess = spawn(chrome, [
   '--disable-component-update',
   '--disable-sync',
   '--disable-dev-shm-usage',
+  '--disable-extensions',
+  '--disable-crash-reporter',
   '--no-first-run',
   '--no-default-browser-check',
   `--user-data-dir=${profile}`,
   `--window-size=${width},${height}`,
+  '--remote-debugging-address=127.0.0.1',
   `--remote-debugging-port=${port}`,
   '--remote-allow-origins=*',
   'about:blank',
-], {
-  stdio: ['ignore', 'ignore', 'inherit'],
+];
+const chromeProcess = spawn(chrome, chromeArgs, {
+  stdio: ['ignore', 'pipe', 'pipe'],
 });
+
+let chromeStdout = '';
+let chromeStderr = '';
+let chromeExit;
+chromeProcess.stdout.setEncoding('utf8');
+chromeProcess.stderr.setEncoding('utf8');
+chromeProcess.stdout.on('data', (chunk) => {
+  chromeStdout += chunk;
+});
+chromeProcess.stderr.on('data', (chunk) => {
+  chromeStderr += chunk;
+});
+chromeProcess.on('exit', (code, signal) => {
+  chromeExit = { code, signal };
+});
+
+const chromeDiagnostics = () => {
+  const parts = [
+    `Chrome path: ${chrome}`,
+    `Chrome args: ${chromeArgs.join(' ')}`,
+  ];
+  if (chromeExit) {
+    parts.push(`Chrome exit: code=${chromeExit.code ?? 'null'} signal=${chromeExit.signal ?? 'null'}`);
+  }
+  if (chromeStdout.trim()) {
+    parts.push(`Chrome stdout:\n${chromeStdout.trim().slice(-4000)}`);
+  }
+  if (chromeStderr.trim()) {
+    parts.push(`Chrome stderr:\n${chromeStderr.trim().slice(-4000)}`);
+  }
+  return parts.join('\n');
+};
 
 let socket;
 try {
   const baseUrl = `http://127.0.0.1:${port}`;
   let version;
-  for (let attempt = 0; attempt < 80; attempt += 1) {
+  for (let attempt = 0; attempt < 160; attempt += 1) {
+    if (chromeExit) {
+      throw new Error(`Chrome exited before DevTools became ready.\n${chromeDiagnostics()}`);
+    }
     try {
       const response = await fetch(`${baseUrl}/json/version`);
       if (response.ok) {
@@ -70,7 +109,7 @@ try {
     await delay(100);
   }
   if (!version?.webSocketDebuggerUrl) {
-    throw new Error('Chrome DevTools endpoint did not become ready.');
+    throw new Error(`Chrome DevTools endpoint did not become ready.\n${chromeDiagnostics()}`);
   }
 
   const newTarget = await fetch(`${baseUrl}/json/new?${encodeURIComponent('about:blank')}`, {
@@ -136,3 +175,5 @@ try {
   chromeProcess.kill('SIGTERM');
   setTimeout(() => chromeProcess.kill('SIGKILL'), 1000).unref();
 }
+
+process.exit(0);
