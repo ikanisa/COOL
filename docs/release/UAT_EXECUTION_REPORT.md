@@ -23,7 +23,7 @@ is recorded, and stakeholder/release-owner signoff is recorded.
 | Linked admin/security UAT | `scripts/collect_admin_security_uat.sh` | Pass: admin RBAC, raw-SMS reveal audit, reparse permission, and denial paths verified in rollback. |
 | Linked SMS-first contribution UAT | `scripts/collect_linked_uat.sh` | Blocked: linked DB does not store contribution intent sender hash. |
 | Supabase readiness | `scripts/supabase_production_readiness.sh` | Blocked until `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql` is applied and linked contribution UAT passes. |
-| Real Android SMS access flow | Physical Android device with MoMo SMS scenarios | Pending after the refactor. |
+| Real Android SMS access flow | Physical Android device with MoMo SMS scenarios | Pending real MoMo SMS scenario approval; production-flavor Pixel smoke passed at `.cache/android_device_uat/20260602T042542Z/summary.json`. |
 | Android release artifacts | `scripts/release_artifact_manifest.sh --json` | Pass: current APK/AAB and Admin PWA artifacts are fresh. |
 | Android signing / iOS scope | `scripts/flutter_mobile_release_gate.sh --json` | Blocked: signing review and iOS release-scope evidence are missing. |
 

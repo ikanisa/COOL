@@ -38,7 +38,7 @@ release-owner signoff are complete.
 | Linked admin/security UAT | Pass | `scripts/collect_admin_security_uat.sh` passed via linked database query. |
 | Linked SMS-first contribution UAT | Blocked | `scripts/collect_linked_uat.sh` fails with `payment intent sender hash was not stored`. |
 | Supabase readiness | Blocked | Linked readiness cannot be green until `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql` is applied. |
-| Real Android SMS access UAT | Pending | No fresh physical-device evidence exists for MoMo SMS consent, ingestion, parser, allocation, and ledger after this refactor. |
+| Real Android SMS access UAT | Pending | Production-flavor Pixel smoke passed at `.cache/android_device_uat/20260602T042542Z/summary.json`; real MoMo SMS consent, ingestion, parser, allocation, and ledger scenario approval is still missing. |
 | Android release artifacts | Pass | `scripts/release_artifact_manifest.sh --json` passed and wrote `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`. |
 | Android signing / iOS scope | Blocked | `scripts/flutter_mobile_release_gate.sh --json` reports `android_release_signing_review` and `ios_release_scope`. |
 | Stakeholder product signoff | Pending | `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md` is ready for review. |

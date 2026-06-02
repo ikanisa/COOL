@@ -22,7 +22,7 @@ the old goals/campaign/manual-SMS/anonymity product model.
 | Linked admin/security UAT | Pass. |
 | Linked SMS-first contribution UAT | Blocked: linked DB does not store contribution intent sender hash. |
 | Supabase readiness | Blocked until `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql` is applied and linked contribution UAT passes. |
-| Real Android SMS access UAT | Pending. |
+| Real Android SMS access UAT | Pending real MoMo SMS scenario approval; production-flavor Pixel smoke passed at `.cache/android_device_uat/20260602T042542Z/summary.json`. |
 | Android release artifacts | Pass. |
 | Android signing / iOS scope | Pending. |
 | Stakeholder/release-owner signoff | Pending. |

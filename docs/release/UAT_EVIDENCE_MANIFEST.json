@@ -17,7 +17,7 @@
       "production_like": true,
       "evidence_files": [
         ".cache/repo_wide_qa_uat/20260601T204710Z/flutter_test.txt",
-        ".cache/repo_wide_qa_uat/20260601T204710Z/android_device_uat.txt",
+        ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt",
         ".cache/repo_wide_qa_uat/20260601T204710Z/supabase/summary.json"
       ]
     },
@@ -30,7 +30,7 @@
       "production_like": true,
       "evidence_files": [
         ".cache/repo_wide_qa_uat/20260601T204710Z/flutter_test.txt",
-        ".cache/repo_wide_qa_uat/20260601T204710Z/android_device_uat.txt"
+        ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt"
       ]
     },
     {
@@ -54,7 +54,7 @@
       "production_like": true,
       "evidence_files": [
         ".cache/repo_wide_qa_uat/20260601T204710Z/flutter_test.txt",
-        ".cache/repo_wide_qa_uat/20260601T204710Z/android_device_uat.txt"
+        ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt"
       ]
     },
     {
@@ -65,7 +65,7 @@
       "sanitized": true,
       "production_like": true,
       "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T204710Z/android_device_uat.txt",
+        ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt",
         ".cache/repo_wide_qa_uat/20260601T204710Z/supabase/summary.json"
       ]
     },
@@ -115,7 +115,7 @@
       "production_like": true,
       "evidence_files": [
         ".cache/repo_wide_qa_uat/20260601T204710Z/flutter_test.txt",
-        ".cache/repo_wide_qa_uat/20260601T204710Z/android_device_uat.txt",
+        ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt",
         ".cache/repo_wide_qa_uat/20260601T204710Z/admin_pwa_live_gate.json"
       ]
     },

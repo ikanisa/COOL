@@ -16,7 +16,21 @@ esac
 
 summary_path="${QA_UAT_SUMMARY_JSON:-}"
 if [[ -z "$summary_path" ]]; then
-  summary_path="$(find "$ROOT_DIR/.cache/repo_wide_qa_uat" -maxdepth 2 -name summary.json -print 2>/dev/null | sort | tail -1 || true)"
+  summary_path="$(
+    ROOT_DIR="$ROOT_DIR" ruby -r json <<'RUBY'
+root = ENV.fetch("ROOT_DIR")
+paths = Dir[File.join(root, ".cache/repo_wide_qa_uat/*/summary.json")].sort.reverse
+selected = paths.find do |path|
+  data = JSON.parse(File.read(path)) rescue {}
+  surfaces = data["surfaces"].is_a?(Hash) ? data["surfaces"] : {}
+  surfaces["admin_pwa_live_deployment"] == "pass" &&
+    surfaces["release_evidence_index"] == "pass" &&
+    surfaces["android_release_artifacts"] == "pass" &&
+    surfaces["release_artifact_manifest"] == "pass"
+end
+puts(selected || paths.first || "")
+RUBY
+  )"
 fi
 
 status_json="$(mktemp)"
@@ -59,6 +73,14 @@ blocker_keys = Array(status["blocker_keys"])
 surfaces = summary.fetch("surfaces", {})
 bundle_dir = rel(root_dir, summary["bundle_dir"])
 latest_summary = rel(root_dir, summary_path)
+latest_android_device_summary = Dir[File.join(root_dir, ".cache/android_device_uat/*/summary.json")]
+  .sort
+  .last
+latest_android_device_summary = rel(root_dir, latest_android_device_summary)
+latest_android_device_log =
+  if latest_android_device_summary
+    File.join(File.dirname(latest_android_device_summary), "android_device_uat.txt")
+  end
 
 approval_records = [
   {
@@ -91,6 +113,8 @@ approval_records = [
     "evidence_to_review" => [
       "docs/ANDROID_SMS_ACCESS.md",
       "docs/release/UAT_EVIDENCE_MANIFEST.json",
+      latest_android_device_summary,
+      latest_android_device_log,
       bundle_dir && File.join(bundle_dir, "android_device_uat.txt"),
       bundle_dir && File.join(bundle_dir, "uat_evidence_gate.json"),
       bundle_dir && File.join(bundle_dir, "supabase/summary.json")
@@ -157,6 +181,7 @@ approval_records = [
     "evidence_to_review" => [
       latest_summary,
       ".cache/mobile_route_render_smoke/20260602T040433Z/summary.json",
+      latest_android_device_summary,
       "docs/release/UAT_GO_LIVE_PACKET_2026-05-24.md",
       "docs/release/GO_NO_GO_DECISION.md",
       "docs/release/RELEASE_BLOCKERS.md",
@@ -192,9 +217,10 @@ packet = {
     file_item(root_dir, "docs/release/RELEASE_APPROVALS.json"),
     file_item(root_dir, "docs/release/UAT_EVIDENCE_MANIFEST.json"),
     file_item(root_dir, ".cache/mobile_route_render_smoke/20260602T040433Z/summary.json"),
+    latest_android_device_summary && file_item(root_dir, latest_android_device_summary),
     file_item(root_dir, "docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256"),
     file_item(root_dir, "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md")
-  ],
+  ].compact,
   "secret_handling" => "No secrets, signing keys, raw SMS bodies, phone/MoMo numbers, service-role keys, provider tokens, or production customer data may be pasted into approval records."
 }
 

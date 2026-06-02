@@ -24,7 +24,7 @@ Status: **PENDING SIGNOFF**
   - `.cache/repo_wide_qa_uat/20260601T205424Z/summary.json`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/evidence_index.json`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_live_gate.json`
-  - `.cache/repo_wide_qa_uat/20260601T205424Z/android_device_uat.txt`
+  - `.cache/android_device_uat/20260602T042542Z/android_device_uat.txt`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/supabase/summary.json`
   - `docs/release/UAT_EXECUTION_REPORT.md`
   - `docs/release/GO_LIVE_COMPLETION_AUDIT_2026-05-24.md`

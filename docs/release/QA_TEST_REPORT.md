@@ -33,7 +33,7 @@ fresh readiness run.
 | `scripts/collect_admin_security_uat.sh` | Pass | Linked rollback UAT for admin RBAC, raw-SMS reveal audit logging, payment-event reparse permission, and denial paths passed. |
 | `scripts/collect_linked_uat.sh` | Blocked | Linked rollback UAT fails with `payment intent sender hash was not stored`; apply `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`. |
 | `scripts/supabase_production_readiness.sh` | Blocked | Linked readiness cannot be green while linked contribution UAT fails. |
-| `scripts/android_device_uat.sh` | Pass | Production-flavor integration smoke passed on device `13111JEC215558`. |
+| `scripts/android_device_uat.sh` | Pass | Production-flavor integration smoke passed on device `13111JEC215558`; retained evidence at `.cache/android_device_uat/20260602T042542Z/summary.json`. |
 | `scripts/flutter_mobile_release_gate.sh --json` | Blocked | APK/AAB artifacts are current; signing review and iOS scope remain pending. |
 | `scripts/release_artifact_manifest.sh --json` | Pass | Current APK/AAB and Admin PWA artifacts are fresh; checksum manifest written to `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`. |
 

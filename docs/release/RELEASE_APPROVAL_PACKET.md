@@ -36,7 +36,7 @@ data into approval records.
 | Release artifact manifest | Pass |
 | Flutter mobile release | Blocked |
 | Release evidence index | Pass |
-| Android device UAT | Pass |
+| Android device smoke | Pass |
 | Supabase release gate | Blocked |
 | Supabase evidence bundle | Pass |
 
@@ -73,7 +73,8 @@ data into approval records.
 - Evidence to review:
   - `docs/ANDROID_SMS_ACCESS.md`
   - `docs/release/UAT_EVIDENCE_MANIFEST.json`
-  - `.cache/repo_wide_qa_uat/20260601T205424Z/android_device_uat.txt`
+  - `.cache/android_device_uat/20260602T042542Z/summary.json`
+  - `.cache/android_device_uat/20260602T042542Z/android_device_uat.txt`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/uat_evidence_gate.json`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/supabase/summary.json`
 - Required signoff fields:
@@ -140,6 +141,7 @@ data into approval records.
 - Evidence to review:
   - `.cache/repo_wide_qa_uat/20260601T205424Z/summary.json`
   - `.cache/mobile_route_render_smoke/20260602T040433Z/summary.json`
+  - `.cache/android_device_uat/20260602T042542Z/summary.json`
   - `docs/release/UAT_GO_LIVE_PACKET_2026-05-24.md`
   - `docs/release/GO_NO_GO_DECISION.md`
   - `docs/release/RELEASE_BLOCKERS.md`

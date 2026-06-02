@@ -29,7 +29,9 @@ Current blocked evidence:
 
 - `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json`: pass.
 - Linked Supabase sender-hash migration is pending.
-- Real Android SMS device UAT is pending.
+- Production-flavor Pixel smoke passed at
+  `.cache/android_device_uat/20260602T042542Z/summary.json`; real MoMo SMS
+  scenario UAT is still pending.
 - Android release signing, iOS scope, product signoff, and release-owner signoff
   are pending.
 

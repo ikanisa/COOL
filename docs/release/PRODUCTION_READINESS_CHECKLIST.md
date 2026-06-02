@@ -18,7 +18,7 @@ final production decision.
 | International WhatsApp login | Pass locally | Phone normalization supports international `+` numbers instead of Rwanda-only assumptions. |
 | Android-only group creation | Pass locally | iPhone group creation warns exactly `group creation is available only on Android`. |
 | Payment intent contribution | Pass locally | Contribution creates a payment intent and launches MoMo USSD via `tel:`. |
-| Automated SMS parsing/allocation | Backend migration pending; device UAT pending | Edge Function type-check and local contracts pass. Linked SMS-first rollback UAT now fails until the contribution-intent sender-hash migration is applied. Real Android SMS device UAT is still pending. |
+| Automated SMS parsing/allocation | Backend migration pending; real SMS UAT pending | Edge Function type-check and local contracts pass. Linked SMS-first rollback UAT now fails until the contribution-intent sender-hash migration is applied. Production-flavor Pixel smoke passed at `.cache/android_device_uat/20260602T042542Z/summary.json`, but real Android MoMo SMS scenario approval is still pending. |
 | Admin PWA local build | Pass | `scripts/admin_pwa_release_build.sh` passed. |
 | Admin PWA local render smoke | Pass | `scripts/admin_pwa_render_smoke.sh` passed inside the current repo-wide QA bundle at `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke`. |
 | Admin PWA live deployment | Pass | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` passed. |

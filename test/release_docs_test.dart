@@ -746,8 +746,19 @@ checking Edge Function secret names
       ]),
     );
     expect(jsonEncode(decoded), contains('https://cool-admin-212.pages.dev'));
+    expect(
+      jsonEncode(decoded),
+      contains('.cache/android_device_uat/20260602T042542Z/summary.json'),
+    );
     expect(jsonEncode(decoded), isNot(contains('SUPABASE_SERVICE_ROLE_KEY')));
     expect(jsonEncode(decoded), isNot(contains('AUTH_CAPTCHA_SECRET')));
+
+    final approvalPacket = File(
+      'scripts/release_approval_packet.sh',
+    ).readAsStringSync();
+    expect(approvalPacket, contains('latest_android_device_summary'));
+    expect(approvalPacket, contains('admin_pwa_live_deployment'));
+    expect(approvalPacket, contains('release_evidence_index'));
   });
 
   test('repo-wide evidence indexes mobile route render screenshots', () {
