@@ -135,11 +135,43 @@ class SmsPermissionEducationScreen extends ConsumerWidget {
               'Collect reads MoMo confirmation SMS on an approved Android owner device so payments can be matched and posted without manual transaction IDs.',
           tone: CollectStatusTone.privacy,
         ),
+        const CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          child: Column(
+            children: [
+              CollectListTile(
+                leading: CollectIcons.sms,
+                title: 'What Collect reads',
+                subtitle:
+                    'Owner-side MoMo confirmation messages needed for this group ledger.',
+              ),
+              CollectListTile(
+                leading: CollectIcons.check,
+                title: 'What is parsed',
+                subtitle:
+                    'Amount, payment timing, transaction reference, and Collect ID when present.',
+              ),
+              CollectListTile(
+                leading: CollectIcons.sync,
+                title: 'What is synced',
+                subtitle:
+                    'Sanitized payment facts are sent to Supabase for matching, audit, and ledger posting.',
+              ),
+            ],
+          ),
+        ),
         const InfoSecurityBanner(
-          title: 'Privacy boundary',
+          title: 'Owner-only Android capture',
           message:
-              'SMS access is used for MoMo payment confirmations. Raw SMS details are never shown on public group or share screens.',
+              'SMS access is used only by Android group owners for automated MoMo confirmation capture. Members can still join and contribute without SMS access.',
           tone: CollectStatusTone.privacy,
+        ),
+        CollectButton(
+          label: 'Privacy details',
+          icon: CollectIcons.privacy,
+          onPressed: () => context.go('/settings/privacy'),
+          variant: CollectButtonVariant.secondary,
+          expand: true,
         ),
         CollectButton(
           label: 'Enable SMS access',
@@ -743,13 +775,29 @@ class OfflineStateScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _SimpleStateScreen(
+    return ScreenScaffold(
       title: 'Connection issue',
-      heroTitle: 'Connection issue.',
-      message:
-          'Collect could not reach the service. Check the connection, then retry to refresh groups, payment status, and ledger updates.',
-      icon: CollectIcons.warning,
-      tone: CollectStatusTone.warning,
+      children: [
+        const MinimalStatePanel(
+          icon: CollectIcons.warning,
+          title: 'Connection issue.',
+          message:
+              'Collect could not reach the service. Check the connection, then retry to refresh groups, payment status, and ledger updates.',
+          tone: CollectStatusTone.warning,
+        ),
+        const InfoSecurityBanner(
+          title: 'Offline-safe behavior',
+          message:
+              'Existing group, payment, and ledger screens stay visible on this device. New contributions and live SMS verification need a stable connection.',
+          tone: CollectStatusTone.info,
+        ),
+        CollectButton(
+          label: 'Retry sync',
+          icon: CollectIcons.sync,
+          onPressed: () => context.go('/sync'),
+          expand: true,
+        ),
+      ],
     );
   }
 }
@@ -831,9 +879,33 @@ class PrivacyDataScreen extends StatelessWidget {
           tone: CollectStatusTone.privacy,
         ),
         InfoSecurityBanner(
-          title: 'MoMo and SMS boundary',
+          title: 'What SMS messages are read',
           message:
-              'Payment intents, receiver MoMo details, and receiver-side MoMo SMS evidence are used to verify ledger entries. Receiver details stay inside owner and payment flows.',
+              'On approved Android owner devices, Collect reads MoMo confirmation SMS needed to verify group payments.',
+          tone: CollectStatusTone.privacy,
+        ),
+        InfoSecurityBanner(
+          title: 'What is parsed locally',
+          message:
+              'Collect extracts payment amount, timestamp, transaction reference, and Collect ID when present. It does not ask members for transaction IDs.',
+          tone: CollectStatusTone.privacy,
+        ),
+        InfoSecurityBanner(
+          title: 'What is sent to Supabase',
+          message:
+              'Sanitized payment facts, payment intent references, and audit events are synced for matching, exception review, and ledger posting.',
+          tone: CollectStatusTone.info,
+        ),
+        InfoSecurityBanner(
+          title: 'Retention and audit boundary',
+          message:
+              'Receiver MoMo details and SMS evidence stay inside owner, payment, support, and audit flows, not public group or share surfaces.',
+          tone: CollectStatusTone.info,
+        ),
+        InfoSecurityBanner(
+          title: 'Owner-only Android capture',
+          message:
+              'SMS capture is for Android group owners. Members and iPhone users can join and contribute without granting SMS access.',
           tone: CollectStatusTone.privacy,
         ),
         InfoSecurityBanner(

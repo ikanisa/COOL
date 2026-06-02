@@ -575,12 +575,40 @@ void main() {
     await pumpMainAppAt(tester, '/settings/privacy');
 
     expect(find.text('Privacy and data'), findsWidgets);
-    expect(find.text('Collect ID first.'), findsOneWidget);
-    expect(find.text('MoMo and SMS boundary'), findsOneWidget);
-
     final router = GoRouter.of(
       tester.element(find.text('Privacy and data').first),
     );
+    expect(find.text('Collect ID first.'), findsOneWidget);
+    expect(find.text('What SMS messages are read'), findsOneWidget);
+    await scrollToVisible(tester, find.text('What is parsed locally'));
+    expect(find.text('What is parsed locally'), findsOneWidget);
+    await scrollToVisible(tester, find.text('What is sent to Supabase'));
+    expect(find.text('What is sent to Supabase'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Retention and audit boundary'));
+    expect(find.text('Retention and audit boundary'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Owner-only Android capture'));
+    expect(find.text('Owner-only Android capture'), findsOneWidget);
+    await scrollToVisible(
+      tester,
+      find.textContaining('Members and iPhone users can join and contribute'),
+    );
+    expect(
+      find.textContaining('Members and iPhone users can join and contribute'),
+      findsOneWidget,
+    );
+
+    router.go('/permissions/sms');
+    await pumpLaunchFrames(tester);
+
+    expect(find.text('SMS access'), findsWidgets);
+    expect(find.text('What Collect reads'), findsOneWidget);
+    await scrollToVisible(tester, find.text('What is parsed'));
+    expect(find.text('What is parsed'), findsOneWidget);
+    await scrollToVisible(tester, find.text('What is synced'));
+    expect(find.text('What is synced'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Privacy details'));
+    expect(find.text('Privacy details'), findsOneWidget);
+
     router.go('/notifications');
     await pumpLaunchFrames(tester);
 
@@ -595,6 +623,18 @@ void main() {
     expect(find.text('Payment data'), findsOneWidget);
     expect(find.text('SMS evidence'), findsOneWidget);
     expect(find.textContaining('receiver MoMo details'), findsWidgets);
+    expectNoGlobalSecrets();
+  });
+
+  testWidgets('offline route explains safe retry behavior', (tester) async {
+    await pumpMainAppAt(tester, '/offline');
+
+    expect(find.text('Connection issue'), findsWidgets);
+    expect(find.text('Offline-safe behavior'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Retry sync'));
+    expect(find.text('Retry sync'), findsOneWidget);
+    await scrollToVisible(tester, find.textContaining('New contributions'));
+    expect(find.textContaining('New contributions'), findsOneWidget);
     expectNoGlobalSecrets();
   });
 
