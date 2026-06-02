@@ -277,6 +277,11 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['approval'], contains('20260602T050529Z'));
     expect(docs['approval'], contains('final_release_summary.json'));
     expect(docs['approval'], contains('mobile_route_render_smoke'));
+    expect(docs['approval'], contains('Suggested evidence reference'));
+    expect(
+      docs['approval'],
+      contains('docs/release/UAT_EVIDENCE_MANIFEST.json'),
+    );
     expect(docs['blockers'], contains('20260602T081408Z'));
     expect(docs['signoff'], contains('20260601T205424Z'));
     expect(docs['signoff'], contains('20260602T050529Z'));
@@ -861,6 +866,7 @@ checking Edge Function secret names
       ]),
     );
     for (final record in records.cast<Map<String, dynamic>>()) {
+      expect(record['suggested_evidence_reference'], isNotEmpty);
       expect(
         record['record_command'],
         contains('make record-release-approval'),
@@ -875,15 +881,27 @@ checking Edge Function secret names
       (record) => record['key'] == 'android_release_signing_review',
     );
     expect(
+      androidSigning['suggested_evidence_reference'],
+      'docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md',
+    );
+    expect(
       androidSigning['record_command'],
       contains('--no-signing-keys-exposed'),
     );
     final iosScope = records.cast<Map<String, dynamic>>().firstWhere(
       (record) => record['key'] == 'ios_release_scope',
     );
+    expect(
+      iosScope['suggested_evidence_reference'],
+      'docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md',
+    );
     expect(iosScope['record_out_of_scope_command'], contains('--out-of-scope'));
     final releaseOwner = records.cast<Map<String, dynamic>>().firstWhere(
       (record) => record['key'] == 'release_owner_signoff',
+    );
+    expect(
+      releaseOwner['suggested_evidence_reference'],
+      'docs/release/RELEASE_APPROVAL_PACKET.md',
     );
     expect(
       releaseOwner['evidence_to_review'],

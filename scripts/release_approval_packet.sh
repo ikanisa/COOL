@@ -107,6 +107,18 @@ latest_android_install_summary = Dir[File.join(root_dir, ".cache/android_install
   .last
 latest_android_install_summary = rel(root_dir, latest_android_install_summary)
 
+approval_manifest_path = File.join(root_dir, "docs/release/RELEASE_APPROVALS.json")
+approval_manifest = JSON.parse(File.read(approval_manifest_path)) rescue {}
+suggested_evidence_references = Array(approval_manifest["approvals"]).each_with_object({}) do |record, memo|
+  key = record["key"].to_s.strip
+  suggested = record["suggested_evidence_reference"].to_s.strip
+  memo[key] = suggested if key != "" && suggested != ""
+end
+
+def suggested_evidence_reference(suggested_evidence_references, key, fallback)
+  suggested_evidence_references.fetch(key, fallback)
+end
+
 approval_records = [
   {
     "key" => "product_signoff",
@@ -126,6 +138,11 @@ approval_records = [
       "signed_at ISO-8601 UTC",
       "evidence reference"
     ],
+    "suggested_evidence_reference" => suggested_evidence_reference(
+      suggested_evidence_references,
+      "product_signoff",
+      "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md"
+    ),
     "record_command" => record_command(
       key: "product_signoff",
       evidence_reference: "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md",
@@ -156,6 +173,11 @@ approval_records = [
       "persona UAT rows signed or waived",
       "signed_at ISO-8601 UTC"
     ],
+    "suggested_evidence_reference" => suggested_evidence_reference(
+      suggested_evidence_references,
+      "android_sms_access_uat",
+      "docs/release/UAT_EVIDENCE_MANIFEST.json"
+    ),
     "record_command" => record_command(
       key: "android_sms_access_uat",
       evidence_reference: "docs/release/UAT_EVIDENCE_MANIFEST.json",
@@ -186,6 +208,11 @@ approval_records = [
       "evidence reference",
       "signing_keys_exposed=false"
     ],
+    "suggested_evidence_reference" => suggested_evidence_reference(
+      suggested_evidence_references,
+      "android_release_signing_review",
+      "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md"
+    ),
     "record_command" => record_command(
       key: "android_release_signing_review",
       evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
@@ -216,6 +243,11 @@ approval_records = [
       "evidence reference",
       "status=approved or status=out_of_scope"
     ],
+    "suggested_evidence_reference" => suggested_evidence_reference(
+      suggested_evidence_references,
+      "ios_release_scope",
+      "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md"
+    ),
     "record_command" => record_command(
       key: "ios_release_scope",
       evidence_reference: "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
@@ -253,6 +285,11 @@ approval_records = [
       "signed_at ISO-8601 UTC",
       "evidence packet reference"
     ],
+    "suggested_evidence_reference" => suggested_evidence_reference(
+      suggested_evidence_references,
+      "release_owner_signoff",
+      "docs/release/RELEASE_APPROVAL_PACKET.md"
+    ),
     "record_command" => record_command(
       key: "release_owner_signoff",
       evidence_reference: "docs/release/RELEASE_APPROVAL_PACKET.md",
@@ -327,6 +364,7 @@ approval_records.each do |record|
   puts "- Required now: `#{record.fetch("required_now")}`"
   puts "- Owner: #{record.fetch("owner")}"
   puts "- Decision needed: #{record.fetch("decision_needed")}"
+  puts "- Suggested evidence reference: `#{record.fetch("suggested_evidence_reference")}`" if record["suggested_evidence_reference"]
   puts "- Record: `#{record.fetch("record_command")}`" if record["record_command"]
   puts "- Record Android-only scope: `#{record.fetch("record_out_of_scope_command")}`" if record["record_out_of_scope_command"]
   puts "- Verify: `#{record.fetch("verify_command")}`"

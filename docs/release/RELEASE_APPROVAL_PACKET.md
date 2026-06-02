@@ -51,6 +51,8 @@ data into approval records.
 - Key: `product_signoff`
 - Status: pending
 - Owner: product/stakeholder
+- Suggested evidence reference:
+  `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md`
 - Decision needed: approve the SMS-first Groups product definition, including
   Collect ID-only identity, Android-only group creation, and automated MoMo SMS
   allocation.
@@ -73,6 +75,7 @@ data into approval records.
 - Key: `android_sms_access_uat`
 - Status: pending
 - Owner: mobile/release
+- Suggested evidence reference: `docs/release/UAT_EVIDENCE_MANIFEST.json`
 - Decision needed: approve real Android device UAT for SMS consent, MoMo SMS
   ingestion, parser output, allocation, exception handling, offline retry, and
   ledger update.
@@ -102,6 +105,8 @@ data into approval records.
 - Key: `android_release_signing_review`
 - Status: pending
 - Owner: mobile/release
+- Suggested evidence reference:
+  `docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md`
 - Decision needed: approve the current production APK/AAB outputs and Play App
   Signing configuration without exposing signing keys.
 - Evidence to review:
@@ -129,6 +134,8 @@ data into approval records.
 - Key: `ios_release_scope`
 - Status: pending
 - Owner: mobile/release
+- Suggested evidence reference:
+  `docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md`
 - Decision needed: either approve iOS contributor-only release evidence or
   explicitly scope iOS out of this go-live.
 - Evidence to review:
@@ -157,6 +164,7 @@ data into approval records.
 - Key: `release_owner_signoff`
 - Status: pending
 - Owner: release owner
+- Suggested evidence reference: `docs/release/RELEASE_APPROVAL_PACKET.md`
 - Decision needed: approve the current release evidence packet only after all
   product, SMS UAT, signing, iOS scope, security, and worktree checks are
   acceptable.
