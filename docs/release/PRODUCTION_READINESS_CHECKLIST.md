@@ -22,7 +22,7 @@ final production decision.
 | Admin PWA local build | Pass | `scripts/admin_pwa_release_build.sh` passed. |
 | Admin PWA local render smoke | Pass | `scripts/admin_pwa_render_smoke.sh` passed with current standalone evidence at `.cache/admin_pwa_render_smoke/20260602T081408Z`. |
 | Admin PWA live deployment | Pass | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` passed. |
-| Mobile route render smoke | Pass | `scripts/mobile_route_render_smoke.sh` captured viewport-controlled Chrome CDP 390x844 screenshots and JSON nonblank checks for 21 representative mobile routes at `.cache/mobile_route_render_smoke/20260602T080858Z`. |
+| Mobile route render smoke | Pass | `scripts/mobile_route_render_smoke.sh` captured viewport-controlled Chrome CDP 390x844 screenshots and JSON nonblank checks for 22 representative mobile routes at `.cache/mobile_route_render_smoke/20260602T082935Z`. |
 | Flutter analyzer | Pass | `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze` completed cleanly. |
 | Flutter tests | Pass | Full Flutter/release-doc suite passed `101` tests. |
 | Local migration validation | Pass | `./scripts/migrations/validate_supabase_migrations.sh` passed. |

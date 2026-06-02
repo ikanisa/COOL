@@ -40,7 +40,7 @@ human operator workflows.
   `.cache/admin_pwa_render_smoke/20260602T081408Z`.
 - `scripts/mobile_route_render_smoke.sh`: pass with retained 390x844
   screenshots and JSON nonblank checks at
-  `.cache/mobile_route_render_smoke/20260602T080858Z`.
+  `.cache/mobile_route_render_smoke/20260602T082935Z`.
 - `scripts/collect_edge_auth_contract_uat.sh`: pass.
 - `deno check` for parser/ingestion/allocation functions: pass.
 - `./scripts/migrations/validate_supabase_migrations.sh`: pass.

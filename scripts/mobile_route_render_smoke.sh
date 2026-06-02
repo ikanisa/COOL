@@ -104,6 +104,7 @@ route_specs=(
   "payment-confirmed|/groups/col-church/pay/intent-render/state/confirmed"
   "ledger|/groups/col-church/ledger"
   "owner|/groups/col-church/owner"
+  "manage|/groups/col-church/manage"
   "members|/groups/col-church/members"
   "settings|/settings"
   "privacy|/settings/privacy"

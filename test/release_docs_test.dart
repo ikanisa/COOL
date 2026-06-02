@@ -277,9 +277,9 @@ Date/time: 2026-06-01T12:30:00Z
     expect(uatManifest, contains('20260602T050529Z'));
     expect(uatManifest, isNot(contains('20260601T204710Z')));
     expect(docs['qa'], contains('scripts/mobile_route_render_smoke.sh'));
-    expect(docs['qa'], contains('20260602T080858Z'));
+    expect(docs['qa'], contains('20260602T082935Z'));
     expect(docs['checklist'], contains('20260602T081408Z'));
-    expect(docs['checklist'], contains('20260602T080858Z'));
+    expect(docs['checklist'], contains('20260602T082935Z'));
     expect(
       File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
       contains('"status": "pending"'),

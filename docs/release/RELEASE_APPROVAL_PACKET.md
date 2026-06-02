@@ -162,7 +162,7 @@ data into approval records.
   acceptable.
 - Evidence to review:
   - `.cache/repo_wide_qa_uat/20260601T205424Z/summary.json`
-  - `.cache/mobile_route_render_smoke/20260602T080858Z/summary.json`
+  - `.cache/mobile_route_render_smoke/20260602T082935Z/summary.json`
   - `.cache/android_device_uat/20260602T042542Z/summary.json`
   - `.cache/supabase_go_live_evidence/20260602T045205Z/summary.json`
   - `docs/release/UAT_GO_LIVE_PACKET_2026-05-24.md`

@@ -458,6 +458,7 @@ required_mobile_routes = %w[
   /groups/col-church/pay/intent-render/state/confirmed
   /groups/col-church/ledger
   /groups/col-church/owner
+  /groups/col-church/manage
   /groups/col-church/members
   /settings
   /settings/privacy

@@ -24,7 +24,7 @@ fresh readiness run.
 | Full Flutter/release-doc suite | Pass | `101` tests passed across Admin PWA, app shell, phone/Public ID, widgets, persona smoke, repository, Supabase contract, and release-doc tests. |
 | `scripts/admin_pwa_release_build.sh` | Pass | Built `build/web` for `lib/main_admin.dart` and passed Admin PWA manifest/hosting gates in `.cache/repo_wide_qa_uat/20260601T205424Z`. |
 | `scripts/admin_pwa_render_smoke.sh` | Pass | Runtime/render evidence written to `.cache/admin_pwa_render_smoke/20260602T081408Z`; desktop and mobile screenshots are nonblank and show the Collect admin login. |
-| `scripts/mobile_route_render_smoke.sh` | Pass | Flutter mobile web build captured viewport-controlled Chrome CDP 390x844 screenshots and JSON nonblank checks for 21 representative mobile routes at `.cache/mobile_route_render_smoke/20260602T080858Z`. |
+| `scripts/mobile_route_render_smoke.sh` | Pass | Flutter mobile web build captured viewport-controlled Chrome CDP 390x844 screenshots and JSON nonblank checks for 22 representative mobile routes at `.cache/mobile_route_render_smoke/20260602T082935Z`. |
 | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` | Pass | Deployed Admin PWA responds over HTTPS with required headers, cache policy, manifest, service worker, and bundle responses. |
 | `scripts/collect_edge_auth_contract_uat.sh` | Pass | Local Edge Function auth contract passed. |
 | `deno check supabase/functions/...` | Pass | `parse-payment-sms`, `ingest-payment-sms`, and `allocate-payment` type-check. |
