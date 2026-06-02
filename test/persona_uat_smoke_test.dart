@@ -528,18 +528,32 @@ void main() {
     );
 
     expect(find.text('Payment expired'), findsWidgets);
-    await scrollToVisible(tester, find.text('Contribute again'));
-    expect(find.text('Contribute again'), findsOneWidget);
-
     final router = GoRouter.of(
       tester.element(find.text('Payment expired').first),
     );
+    expect(find.text('RWF 5,000'), findsWidgets);
+    expect(find.text('St Michel treasury'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Reference'));
+    expect(find.textContaining(intent.id), findsWidgets);
+    await scrollToVisible(tester, find.text('Contribute again'));
+    expect(find.text('Contribute again'), findsOneWidget);
+
     router.go('/groups/col-church/pay/${intent.id}/state/needs-review');
     await pumpLaunchFrames(tester);
 
+    await scrollToVisible(
+      tester,
+      find.text('Payment needs review'),
+      delta: -240,
+    );
     expect(find.text('Payment needs review'), findsWidgets);
+    expect(find.text('RWF 5,000'), findsWidgets);
+    await scrollToVisible(tester, find.text('Support review'));
+    expect(find.text('Support review'), findsOneWidget);
     await scrollToVisible(tester, find.text('Open ledger'));
     expect(find.text('Open ledger'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Get help'));
+    expect(find.text('Get help'), findsOneWidget);
     expect(find.textContaining('public raw SMS details'), findsOneWidget);
     expectNoGlobalSecrets();
   });
@@ -642,31 +656,60 @@ void main() {
   testWidgets('payment state routes render clear recovery actions', (
     tester,
   ) async {
-    await pumpMainAppAt(tester, '/groups/col-church/pay/test/state/pending');
+    final repository = CollectRepository.seeded();
+    final intent = await repository.createPaymentIntent(
+      const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 9000),
+    );
+    await pumpMainAppAt(
+      tester,
+      '/groups/col-church/pay/${intent.id}/state/pending',
+      repository: repository,
+    );
     expect(find.text('Payment pending'), findsWidgets);
-    await scrollToVisible(tester, find.text('Open ledger'));
-    expect(find.text('Open ledger'), findsOneWidget);
-
     final router = GoRouter.of(
       tester.element(find.text('Payment pending').first),
     );
-    router.go('/groups/col-church/pay/test/state/needs-review');
+    expect(find.text('RWF 9,000'), findsWidgets);
+    await scrollToVisible(tester, find.text('Reference'));
+    expect(find.textContaining(intent.id), findsWidgets);
+    await scrollToVisible(tester, find.text('Open ledger'));
+    expect(find.text('Open ledger'), findsOneWidget);
+    await scrollToVisible(tester, find.text('View status'));
+    expect(find.text('View status'), findsOneWidget);
+
+    router.go('/groups/col-church/pay/${intent.id}/state/needs-review');
     await pumpLaunchFrames(tester);
+    await scrollToVisible(
+      tester,
+      find.text('Payment needs review'),
+      delta: -240,
+    );
     expect(find.text('Payment needs review'), findsWidgets);
+    expect(find.text('RWF 9,000'), findsWidgets);
+    await scrollToVisible(tester, find.text('Support review'));
+    expect(find.text('Support review'), findsOneWidget);
     expect(find.textContaining('public raw SMS'), findsWidgets);
 
-    router.go('/groups/col-church/pay/test/state/expired');
+    router.go('/groups/col-church/pay/${intent.id}/state/expired');
     await pumpLaunchFrames(tester);
+    await scrollToVisible(tester, find.text('Payment expired'), delta: -240);
     expect(find.text('Payment expired'), findsWidgets);
     await scrollToVisible(tester, find.text('Contribute again'));
     expect(find.text('Contribute again'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Get help'));
+    expect(find.text('Get help'), findsOneWidget);
 
-    router.go('/groups/col-church/pay/test/state/confirmed');
+    router.go('/groups/col-church/pay/${intent.id}/state/confirmed');
     await pumpLaunchFrames(tester);
     await scrollToVisible(tester, find.text('Payment confirmed'), delta: -240);
     expect(find.text('Payment confirmed'), findsOneWidget);
+    expect(find.text('RWF 9,000'), findsWidgets);
+    await scrollToVisible(tester, find.text('Ledger updated'));
+    expect(find.text('Ledger updated'), findsOneWidget);
     await scrollToVisible(tester, find.text('Open ledger'));
     expect(find.text('Open ledger'), findsOneWidget);
+    await scrollToVisible(tester, find.text('Open group'));
+    expect(find.text('Open group'), findsOneWidget);
     expectNoGlobalSecrets();
   });
 

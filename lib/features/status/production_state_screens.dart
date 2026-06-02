@@ -568,7 +568,7 @@ String _relativeExpiry(DateTime expiresAt) {
   return 'in ${remaining.inDays} day${remaining.inDays == 1 ? '' : 's'}';
 }
 
-class PaymentStateDetailScreen extends StatelessWidget {
+class PaymentStateDetailScreen extends ConsumerWidget {
   const PaymentStateDetailScreen({
     required this.collectionId,
     required this.intentId,
@@ -581,7 +581,10 @@ class PaymentStateDetailScreen extends StatelessWidget {
   final PaymentUiStatus state;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final repo = ref.read(collectRepositoryProvider.notifier);
+    final collection = _safeCollection(ref, collectionId);
+    final intent = _safeIntent(repo, intentId);
     final (title, message, tone) = switch (state) {
       PaymentUiStatus.confirmed => (
         'Payment confirmed',
@@ -604,21 +607,67 @@ class PaymentStateDetailScreen extends StatelessWidget {
         CollectStatusTone.info,
       ),
     };
-    return ScreenScaffold(
-      title: title,
-      children: [
-        if (state == PaymentUiStatus.confirmed) ...[
-          const PaymentVerifiedRing(),
-          const PaymentPipelineIndicator(status: 'confirmed'),
-        ] else
+
+    if (intent == null) {
+      return ScreenScaffold(
+        title: title,
+        subtitle: collection?.title,
+        children: [
           MinimalStatePanel(
             icon: _iconForTone(tone),
-            title: title,
-            message: message,
+            title: 'Payment reference unavailable.',
+            message:
+                'Collect could not find payment reference $intentId on this device. Open the group ledger, start a fresh contribution, or ask support to review the reference.',
             tone: tone,
           ),
-        if (state != PaymentUiStatus.confirmed)
-          PaymentPipelineIndicator(status: _statusForPipeline(state)),
+          CollectButton(
+            label: state == PaymentUiStatus.expired
+                ? 'Contribute again'
+                : 'Open ledger',
+            icon: state == PaymentUiStatus.expired
+                ? CollectIcons.momo
+                : CollectIcons.ledger,
+            onPressed: () => context.go(
+              state == PaymentUiStatus.expired
+                  ? '/groups/$collectionId/contribute'
+                  : '/groups/$collectionId/ledger',
+            ),
+            expand: true,
+          ),
+          CollectButton(
+            label: 'Get help',
+            icon: CollectIcons.support,
+            onPressed: () => context.go('/settings/help'),
+            variant: CollectButtonVariant.secondary,
+            expand: true,
+          ),
+        ],
+      );
+    }
+
+    return ScreenScaffold(
+      title: title,
+      subtitle: collection?.title,
+      children: [
+        if (state == PaymentUiStatus.confirmed) const PaymentVerifiedRing(),
+        PaymentIntentStatusCard(
+          amountRwf: intent.expectedAmountRwf,
+          receiverLabel: intent.receiverLabel,
+          receiverMomoNumber: intent.receiverMomoNumber,
+          status: _statusForPipeline(state),
+        ),
+        PaymentPipelineIndicator(status: _statusForPipeline(state)),
+        InfoSecurityBanner(
+          title: _stateDetailTitle(state),
+          message: message,
+          tone: tone,
+        ),
+        InfoSecurityBanner(
+          title: 'Reference',
+          message:
+              'Payment intent ${intent.id}. Group ${collection?.title ?? intent.collectionId}. Collect posts confirmed payments to the ledger only after SMS allocation.',
+          tone: CollectStatusTone.privacy,
+        ),
         CollectButton(
           label: state == PaymentUiStatus.expired
               ? 'Contribute again'
@@ -633,8 +682,24 @@ class PaymentStateDetailScreen extends StatelessWidget {
           ),
           expand: true,
         ),
+        CollectButton(
+          label: _secondaryStateActionLabel(state),
+          icon: _secondaryStateActionIcon(state),
+          onPressed: () => context.go(_secondaryStateActionPath(state)),
+          variant: CollectButtonVariant.secondary,
+          expand: true,
+        ),
       ],
     );
+  }
+
+  String _secondaryStateActionPath(PaymentUiStatus state) {
+    return switch (state) {
+      PaymentUiStatus.confirmed => '/groups/$collectionId',
+      PaymentUiStatus.pending => '/groups/$collectionId/pay/$intentId',
+      PaymentUiStatus.expired ||
+      PaymentUiStatus.needsReview => '/settings/help',
+    };
   }
 }
 
@@ -644,6 +709,32 @@ String _statusForPipeline(PaymentUiStatus state) {
     PaymentUiStatus.expired => 'expired',
     PaymentUiStatus.needsReview => 'needs_review',
     PaymentUiStatus.pending => 'pending',
+  };
+}
+
+String _stateDetailTitle(PaymentUiStatus state) {
+  return switch (state) {
+    PaymentUiStatus.confirmed => 'Ledger updated',
+    PaymentUiStatus.expired => 'Intent expired',
+    PaymentUiStatus.needsReview => 'Support review',
+    PaymentUiStatus.pending => 'Waiting for SMS',
+  };
+}
+
+String _secondaryStateActionLabel(PaymentUiStatus state) {
+  return switch (state) {
+    PaymentUiStatus.confirmed => 'Open group',
+    PaymentUiStatus.pending => 'View status',
+    PaymentUiStatus.expired || PaymentUiStatus.needsReview => 'Get help',
+  };
+}
+
+IconData _secondaryStateActionIcon(PaymentUiStatus state) {
+  return switch (state) {
+    PaymentUiStatus.confirmed => CollectIcons.collections,
+    PaymentUiStatus.pending => CollectIcons.pending,
+    PaymentUiStatus.expired ||
+    PaymentUiStatus.needsReview => CollectIcons.support,
   };
 }
 
