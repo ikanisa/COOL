@@ -59,6 +59,47 @@ def evidence_reference_valid?(value, root_dir)
   inside_repo && File.exist?(expanded_path)
 end
 
+APPROVAL_EVIDENCE_PATTERNS = {
+  "product_signoff" => [
+    %r{\Adocs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW\.md\z},
+    %r{\Adocs/release/RELEASE_APPROVAL_PACKET\.md\z}
+  ],
+  "android_sms_access_uat" => [
+    %r{\Adocs/release/UAT_EVIDENCE_MANIFEST\.json\z},
+    %r{\Adocs/ANDROID_SMS_ACCESS\.md\z},
+    %r{\A\.cache/android_device_uat/[^/]+/summary\.json\z},
+    %r{\A\.cache/repo_wide_qa_uat/[^/]+/uat_evidence_gate\.json\z}
+  ],
+  "android_release_signing_review" => [
+    %r{\Adocs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02\.md\z},
+    %r{\Adocs/release/BUILD_ARTIFACT_CHECKSUMS_[0-9-]+\.sha256\z},
+    %r{\A\.cache/mobile_release_gate/[^/]+/summary\.json\z},
+    %r{\A\.cache/android_install/[^/]+/final_release_summary\.json\z}
+  ],
+  "ios_release_scope" => [
+    %r{\Adocs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02\.md\z},
+    %r{\Adocs/release/RELEASE_APPROVAL_PACKET\.md\z},
+    %r{\A\.cache/mobile_release_gate/[^/]+/summary\.json\z}
+  ],
+  "release_owner_signoff" => [
+    %r{\Adocs/release/RELEASE_APPROVAL_PACKET\.md\z},
+    %r{\A\.cache/repo_wide_qa_uat/[^/]+/summary\.json\z},
+    %r{\A\.cache/repo_wide_qa_uat/[^/]+/evidence_index\.json\z}
+  ]
+}
+
+def evidence_reference_in_scope?(key, value)
+  reference = value.to_s.strip
+  return false if reference == ""
+  return true if valid_https_url?(reference)
+  return false if reference.match?(/\A[a-z][a-z0-9+.-]*:/i)
+
+  normalized = reference.sub(%r{\A\./}, "")
+  APPROVAL_EVIDENCE_PATTERNS.fetch(key, []).any? do |pattern|
+    reference.match?(pattern) || normalized.match?(pattern)
+  end
+end
+
 def template_manifest?(manifest_path, manifest)
   basename = File.basename(manifest_path).downcase
   basename.include?("example") ||
@@ -204,6 +245,7 @@ required_keys.each do |key|
   blockers << "signed_at" unless iso8601_utc?(signed_at)
   blockers << "evidence_reference" if evidence_reference.length < 3
   blockers << "evidence_reference_missing" if evidence_reference.length >= 3 && !evidence_reference_valid
+  blockers << "evidence_reference_scope" if evidence_reference_valid && !evidence_reference_in_scope?(key, evidence_reference)
   blockers << "sanitized_evidence" unless sanitized
   blockers << "production_customer_data" if contains_production_data
   blockers << "signing_keys_exposed" if key == "android_release_signing_review" && signing_keys_exposed
@@ -222,6 +264,7 @@ required_keys.each do |key|
     "signed_at" => signed_at == "" ? nil : signed_at,
     "evidence_reference" => evidence_reference == "" ? nil : evidence_reference,
     "evidence_reference_valid" => evidence_reference_valid,
+    "evidence_reference_in_scope" => evidence_reference.length >= 3 ? evidence_reference_in_scope?(key, evidence_reference) : nil,
     "suggested_evidence_reference" => suggested_evidence_reference == "" ? nil : suggested_evidence_reference,
     "suggested_evidence_reference_valid" => suggested_evidence_reference == "" ? nil : suggested_evidence_reference_valid,
     "sensitive_metadata_hits" => sensitive_hits,

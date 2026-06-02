@@ -112,6 +112,47 @@ def evidence_reference_valid?(value, root_dir)
   inside_repo && File.exist?(expanded_path)
 end
 
+approval_evidence_patterns = {
+  "product_signoff" => [
+    %r{\Adocs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW\.md\z},
+    %r{\Adocs/release/RELEASE_APPROVAL_PACKET\.md\z}
+  ],
+  "android_sms_access_uat" => [
+    %r{\Adocs/release/UAT_EVIDENCE_MANIFEST\.json\z},
+    %r{\Adocs/ANDROID_SMS_ACCESS\.md\z},
+    %r{\A\.cache/android_device_uat/[^/]+/summary\.json\z},
+    %r{\A\.cache/repo_wide_qa_uat/[^/]+/uat_evidence_gate\.json\z}
+  ],
+  "android_release_signing_review" => [
+    %r{\Adocs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02\.md\z},
+    %r{\Adocs/release/BUILD_ARTIFACT_CHECKSUMS_[0-9-]+\.sha256\z},
+    %r{\A\.cache/mobile_release_gate/[^/]+/summary\.json\z},
+    %r{\A\.cache/android_install/[^/]+/final_release_summary\.json\z}
+  ],
+  "ios_release_scope" => [
+    %r{\Adocs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02\.md\z},
+    %r{\Adocs/release/RELEASE_APPROVAL_PACKET\.md\z},
+    %r{\A\.cache/mobile_release_gate/[^/]+/summary\.json\z}
+  ],
+  "release_owner_signoff" => [
+    %r{\Adocs/release/RELEASE_APPROVAL_PACKET\.md\z},
+    %r{\A\.cache/repo_wide_qa_uat/[^/]+/summary\.json\z},
+    %r{\A\.cache/repo_wide_qa_uat/[^/]+/evidence_index\.json\z}
+  ]
+}
+
+def evidence_reference_in_scope?(key, value, approval_evidence_patterns)
+  reference = value.to_s.strip
+  return false if reference == ""
+  return true if valid_https_url?(reference)
+  return false if reference.match?(/\A[a-z][a-z0-9+.-]*:/i)
+
+  normalized = reference.sub(%r{\A\./}, "")
+  approval_evidence_patterns.fetch(key, []).any? do |pattern|
+    reference.match?(pattern) || normalized.match?(pattern)
+  end
+end
+
 sensitive_patterns = {
   "supabase_service_role" => /service[_-]?role\b\s*[:=]\s*["']?[A-Za-z0-9._\-]{12,}/i,
   "openai_api_key" => /sk-[A-Za-z0-9_\-]{20,}/,
@@ -211,6 +252,12 @@ end
 
 unless evidence_reference_valid?(options["evidence_reference"], root_dir)
   errors << "--evidence-reference must resolve to an existing repo artifact or HTTPS URL."
+end
+
+if key != "" &&
+    evidence_reference_valid?(options["evidence_reference"], root_dir) &&
+    !evidence_reference_in_scope?(key, options["evidence_reference"], approval_evidence_patterns)
+  errors << "--evidence-reference is not an accepted evidence artifact for #{key}."
 end
 
 record = {

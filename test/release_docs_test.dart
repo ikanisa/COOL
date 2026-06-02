@@ -1117,6 +1117,48 @@ checking Edge Function secret names
     },
   );
 
+  test('release approval evidence gate requires scoped evidence references', () {
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_release_approvals_',
+    );
+    try {
+      final manifest = approvedReleaseManifest();
+      final approvals = manifest['approvals'] as List<dynamic>;
+      final product = approvals.cast<Map<String, dynamic>>().firstWhere(
+        (record) => record['key'] == 'product_signoff',
+      );
+      product['evidence_reference'] = 'docs/release/QA_TEST_REPORT.md';
+
+      final manifestFile = File('${tempDir.path}/approvals.json')
+        ..writeAsStringSync(jsonEncode(manifest));
+      final result = Process.runSync(
+        './scripts/release_approval_evidence_gate.sh',
+        ['--json'],
+        environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
+      );
+
+      expect(result.exitCode, 99);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'blocked');
+      expect(decoded['blocker_keys'], contains('product_signoff'));
+      expect(
+        decoded['approvals']['product_signoff']['blockers'],
+        contains('evidence_reference_scope'),
+      );
+      expect(
+        decoded['approvals']['product_signoff']['evidence_reference_valid'],
+        isTrue,
+      );
+      expect(
+        decoded['approvals']['product_signoff']['evidence_reference_in_scope'],
+        isFalse,
+      );
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
   test(
     'release approval evidence gate requires manifest evidence references',
     () {
@@ -1322,6 +1364,42 @@ checking Edge Function secret names
       }
     },
   );
+
+  test('release approval recorder rejects unrelated local evidence', () {
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_release_approvals_',
+    );
+    try {
+      final manifestFile = File('${tempDir.path}/approvals.json')
+        ..writeAsStringSync(
+          File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
+        );
+      final result = Process.runSync('./scripts/record_release_approval.sh', [
+        '--manifest',
+        manifestFile.path,
+        '--key',
+        'product_signoff',
+        '--reviewer',
+        'Product Lead Ada',
+        '--signed-at',
+        '2026-06-02T12:00:00Z',
+        '--evidence-reference',
+        'docs/release/QA_TEST_REPORT.md',
+        '--notes',
+        'Reviewed the SMS-first Groups product evidence for release.',
+        '--sanitized-evidence',
+        '--no-production-customer-data',
+      ]);
+
+      expect(result.exitCode, 1);
+      expect(
+        result.stderr as String,
+        contains('not an accepted evidence artifact for product_signoff'),
+      );
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
 
   test(
     'release approval recorder requires prerequisites for owner signoff',
