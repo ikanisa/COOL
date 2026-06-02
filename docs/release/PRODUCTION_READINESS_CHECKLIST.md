@@ -18,7 +18,7 @@ final production decision.
 | International WhatsApp login | Pass locally | Phone normalization supports international `+` numbers instead of Rwanda-only assumptions. |
 | Android-only group creation | Pass locally | iPhone group creation warns exactly `group creation is available only on Android`. |
 | Payment intent contribution | Pass locally | Contribution creates a payment intent and launches MoMo USSD via `tel:`. |
-| Automated SMS parsing/allocation | Backend migration pending; real SMS UAT pending | Edge Function type-check and local contracts pass. Linked SMS-first rollback UAT now fails until the contribution-intent sender-hash migration is applied. Production-flavor Pixel smoke passed at `.cache/android_device_uat/20260602T042542Z/summary.json`, but real Android MoMo SMS scenario approval is still pending. |
+| Automated SMS parsing/allocation | Backend linked UAT pass; real SMS UAT pending | Edge Function type-check and local contracts pass. Linked SMS-first rollback UAT passes after applying the contribution-intent sender-hash migration. Production-flavor Pixel smoke passed at `.cache/android_device_uat/20260602T042542Z/summary.json`, but real Android MoMo SMS scenario approval is still pending. |
 | Admin PWA local build | Pass | `scripts/admin_pwa_release_build.sh` passed. |
 | Admin PWA local render smoke | Pass | `scripts/admin_pwa_render_smoke.sh` passed inside the current repo-wide QA bundle at `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke`. |
 | Admin PWA live deployment | Pass | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` passed. |
@@ -28,8 +28,8 @@ final production decision.
 | Local migration validation | Pass | `./scripts/migrations/validate_supabase_migrations.sh` passed. |
 | Edge Function auth contract | Pass | `scripts/collect_edge_auth_contract_uat.sh` passed. |
 | Linked admin/security UAT | Pass | `scripts/collect_admin_security_uat.sh` passed through linked database query mode. |
-| Linked SMS-first contribution UAT | Blocked | `scripts/collect_linked_uat.sh` fails with `payment intent sender hash was not stored` until `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql` is applied. |
-| Linked Supabase readiness | Blocked | Linked readiness cannot be claimed green while linked contribution UAT fails; direct pooler dry-run is also blocked by Supabase tenant allow-listing from this network. |
+| Linked SMS-first contribution UAT | Pass | `scripts/collect_linked_uat.sh` passed via linked database query after applying `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`. |
+| Linked Supabase readiness | Pass | `scripts/supabase_production_readiness.sh` passed. It used linked query/advisor/schema gates because direct pooler lint/dry-run remains unavailable from this network because of Supabase tenant allow-listing. |
 | Android real SMS UAT | Pending | Fresh MoMo SMS consent/ingestion/parse/allocation/ledger evidence is not yet recorded. |
 | Android release APK/AAB | Pass | Production APK/AAB artifacts are newer than Android/mobile sources; `scripts/release_artifact_manifest.sh --json` passed and wrote `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`. |
 | Release worktree review | Pending refresh | Rerun `scripts/release_worktree_review_gate.sh --json` after the current evidence commit is pushed/reviewed. |
@@ -39,8 +39,8 @@ final production decision.
 
 Current release-status blocker keys for release readiness are
 `product_signoff`, `android_sms_access_uat`,
-`android_release_signing_review`, `ios_release_scope`,
-`linked_supabase_sms_first_migration`, and `release_owner_signoff`.
+`android_release_signing_review`, `ios_release_scope`, and
+`release_owner_signoff`.
 
 | ID | Blocker | Required action |
 | --- | --- | --- |
@@ -48,8 +48,7 @@ Current release-status blocker keys for release readiness are
 | P0-002 | Real Android SMS access UAT is missing. | Run controlled Android SMS scenarios and attach sanitized evidence. |
 | P0-003 | Android release signing / Play App Signing review is missing. | Record signing review evidence and rerun `scripts/flutter_mobile_release_gate.sh --json`. |
 | P0-004 | iOS release scope is not signed off. | Sign off iOS contributor-only scope or mark iOS explicitly out of scope, then rerun `scripts/flutter_mobile_release_gate.sh --json`. |
-| P0-005 | Linked Supabase sender-hash migration is not applied. | Apply `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`, then rerun `scripts/collect_linked_uat.sh`. |
-| P0-006 | Release-owner signoff for the current evidence packet is missing. | Review the current evidence packet and record release-owner approval. |
+| P0-005 | Release-owner signoff for the current evidence packet is missing. | Review the current evidence packet and record release-owner approval. |
 
 ## Release Commands To Rerun
 

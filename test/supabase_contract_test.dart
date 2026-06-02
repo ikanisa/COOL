@@ -36,9 +36,14 @@ void main() {
   final contributionIntentSenderHash = File(
     'supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql',
   ).readAsStringSync();
+  final mobileStateRlsInitPlanHardening = File(
+    'supabase/migrations/20260602050000_harden_mobile_state_rls_initplan.sql',
+  ).readAsStringSync();
   final mobileProductionStateSupport = File(
     'supabase/migrations/20260531190000_mobile_production_state_support.sql',
   ).readAsStringSync();
+  final readiness = File('scripts/supabase_production_readiness.sh')
+      .readAsStringSync();
   final schemaInventory = File(
     'scripts/supabase_schema_inventory.sh',
   ).readAsStringSync();
@@ -1253,6 +1258,28 @@ void main() {
     expect(
       mobileProductionStateSupport,
       contains('create or replace function get_owner_group_health'),
+    );
+    expect(
+      readiness,
+      contains("('authenticated', 'ensure_current_profile', 'EXECUTE')"),
+    );
+    expect(
+      readiness,
+      contains(
+        "('authenticated', 'create_mobile_support_request', 'EXECUTE')",
+      ),
+    );
+    expect(
+      readiness,
+      contains("('authenticated', 'get_owner_group_health', 'EXECUTE')"),
+    );
+    expect(
+      mobileStateRlsInitPlanHardening,
+      contains('user_id = (select auth.uid())'),
+    );
+    expect(
+      mobileStateRlsInitPlanHardening,
+      contains('is_platform_admin((select auth.uid()))'),
     );
     expect(
       mobileProductionStateSupport,

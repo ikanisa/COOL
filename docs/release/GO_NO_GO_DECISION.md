@@ -32,7 +32,7 @@ has been superseded. The current source of truth is the Groups workflow:
 | Focused Flutter and release-doc suites | Pass |
 | Admin PWA build/render smoke | Pass locally |
 | Admin PWA live deployment proof | Pass: `https://cool-admin-212.pages.dev` passed `scripts/admin_pwa_live_gate.sh --json` |
-| Linked Supabase migration/readiness | Blocked: linked contribution UAT fails until the sender-hash migration is applied |
+| Linked Supabase contribution/readiness | Pass: linked contribution UAT passes after applying the sender-hash migration |
 | Android release APK/AAB artifacts | Pass: current artifacts are fresh and artifact manifest passes |
 | Android signing review | Blocked: signing / Play App Signing review evidence missing |
 | iOS release scope | Blocked: iOS scope not signed off or explicitly out of scope |
@@ -44,10 +44,9 @@ has been superseded. The current source of truth is the Groups workflow:
 
 1. Review and sign off the corrected SMS-first Groups product definition.
 2. Run Android SMS ingestion/parser/allocation UAT with sanitized evidence.
-3. Apply `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql` and rerun linked contribution UAT.
-4. Record Android signing review and iOS release scope evidence.
-5. Record release-owner signoff for the current evidence packet.
-6. Regenerate the release evidence packet from current validators only.
+3. Record Android signing review and iOS release scope evidence.
+4. Record release-owner signoff for the current evidence packet.
+5. Regenerate the release evidence packet from current validators only.
 
 Older Supabase platform blockers are not repeated here as current blockers
 unless a fresh readiness run after this refactor reproduces them.

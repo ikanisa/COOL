@@ -20,15 +20,16 @@ IDs, and anonymity choices.
 - `scripts/collect_edge_auth_contract_uat.sh`: pass.
 - `./scripts/migrations/validate_supabase_migrations.sh`: pass.
 - `scripts/collect_admin_security_uat.sh`: pass.
-- `scripts/collect_linked_uat.sh`: blocked until the linked database applies
-  `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`.
-- `scripts/supabase_production_readiness.sh`: blocked by linked contribution
-  UAT until the sender-hash migration is applied.
+- `scripts/collect_linked_uat.sh`: pass after applying
+  `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`
+  through the linked Supabase query path.
+- `scripts/supabase_production_readiness.sh`: pass.
+- `scripts/supabase_go_live_gate.sh --json`: NO-GO on remaining approval,
+  device-UAT, and release-scope blockers.
 
 Current blocked evidence:
 
 - `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json`: pass.
-- Linked Supabase sender-hash migration is pending.
 - Production-flavor Pixel smoke passed at
   `.cache/android_device_uat/20260602T042542Z/summary.json`; real MoMo SMS
   scenario UAT is still pending.
@@ -39,7 +40,7 @@ Current blocked evidence:
 
 | ID | Persona | Steps | Expected | Automated evidence | Status |
 | --- | --- | --- | --- | --- | --- |
-| UAT-01 | Contributor | Open shared group, enter amount, tap Contribute, create intent, launch MoMo USSD. | Intent is linked to group, user id, Collect ID, amount, receiver, and contributor sender hash; no manual payment report is shown. | Local tests; linked rollback UAT. | Backend blocked until sender-hash migration is applied; device UAT pending. |
+| UAT-01 | Contributor | Open shared group, enter amount, tap Contribute, create intent, launch MoMo USSD. | Intent is linked to group, user id, Collect ID, amount, receiver, and contributor sender hash; no manual payment report is shown. | Local tests; linked rollback UAT. | Backend pass; device UAT pending. |
 | UAT-02 | Android creator | Complete profile, create group, grant SMS access, share link/QR/deep link/SMS. | Receiver MoMo syncs from profile and is editable; SMS consent starts automated MoMo SMS capture. | Local tests. | Partial. |
 | UAT-03 | iPhone user | Tap group creation action. | Warning is exactly `group creation is available only on Android`. | Widget tests. | Partial. |
 | UAT-04 | Member | Join/open group through share link and contribute with Collect ID-only identity. | User is identified only by Collect ID. | Local tests. | Partial. |
@@ -48,7 +49,7 @@ Current blocked evidence:
 | UAT-07 | Payments admin | Handle ambiguous event. | Reparse/review actions are reason-required and audited; no manual ledger posting shortcut. | Linked admin/security UAT. | Partial. |
 | UAT-08 | Compliance admin | Reveal raw SMS through controlled path. | Raw SMS reveal is permission-gated, reason-required, and audited. | Linked admin/security UAT. | Partial. |
 | UAT-09 | Non-admin | Attempt protected admin access. | Access is denied without sensitive data leakage. | Linked admin/security UAT. | Partial. |
-| UAT-10 | Edge case | Invalid amount, expired intent, ambiguous amount, missing receiver authorization, failed Edge auth. | Invalid/ambiguous/expired cases stay unposted or go to exception; auth failures return safe errors. | Unit/contract tests; linked rollback UAT. | Backend blocked until linked sender-hash migration is applied; device UAT pending. |
+| UAT-10 | Edge case | Invalid amount, expired intent, ambiguous amount, missing receiver authorization, failed Edge auth. | Invalid/ambiguous/expired cases stay unposted or go to exception; auth failures return safe errors. | Unit/contract tests; linked rollback UAT. | Backend pass; device UAT pending. |
 
 ## Minimum GO Evidence
 

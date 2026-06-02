@@ -11,7 +11,7 @@ Status: **PENDING SIGNOFF**
 ## Preconditions
 
 - [ ] Corrected product definition is approved.
-- [ ] Linked Supabase SMS-first migration is applied and linked contribution
+- [x] Linked Supabase SMS-first migration is applied and linked contribution
       UAT passes.
 - [ ] Android SMS access UAT is complete with sanitized evidence.
 - [ ] Admin PWA deployed URL passes live gate.
@@ -25,6 +25,7 @@ Status: **PENDING SIGNOFF**
   - `.cache/repo_wide_qa_uat/20260601T205424Z/evidence_index.json`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_live_gate.json`
   - `.cache/android_device_uat/20260602T042542Z/android_device_uat.txt`
+  - `.cache/supabase_go_live_evidence/20260602T045205Z/summary.json`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/supabase/summary.json`
   - `docs/release/UAT_EXECUTION_REPORT.md`
   - `docs/release/GO_LIVE_COMPLETION_AUDIT_2026-05-24.md`
@@ -63,7 +64,7 @@ Date/time:
 ## Minimum GO Conditions
 
 - [ ] All ten persona rows are signed or formally waived by the release owner.
-- [ ] Product signoff, linked SMS-first UAT, Android SMS UAT, Admin PWA live
+- [ ] Product signoff, Android SMS UAT, Admin PWA live
       proof, and release-owner signoff are complete.
 - [ ] `make release-status-json` has no blocker keys.
 - [ ] `make supabase-go-live-gate-json` reports `go_live_approved=true`.

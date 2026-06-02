@@ -1,16 +1,16 @@
 # Supabase Production Readiness Plan
 
-Updated: 2026-05-31
+Updated: 2026-06-02
 
 This plan is aligned to the corrected SMS-first Groups product. It replaces the
 older platform-blocker framing from the previous release packet.
 
 ## Current Decision
 
-Current Supabase backend status is **blocked on linked migration drift**.
-Overall release remains **NO-GO** until the contribution-intent sender-hash
-migration is applied, Android SMS device UAT, release signing/scope evidence,
-product signoff, and release-owner signoff are complete.
+Current Supabase backend status is **green for linked SMS-first rollback UAT**.
+Overall release remains **NO-GO** until Android SMS device UAT, release
+signing/scope evidence, product signoff, and release-owner signoff are
+complete.
 
 Fresh evidence:
 
@@ -18,11 +18,14 @@ Fresh evidence:
 - Edge Function auth contract passes.
 - Parser, ingestion, and allocation functions type-check.
 - Linked admin/security rollback UAT passes.
-- Linked contribution/allocation rollback UAT now fails because the linked
-  project drops the contribution intent sender hash.
-- `scripts/supabase_production_readiness.sh` cannot be claimed green until
+- Linked contribution/allocation rollback UAT passes after applying
   `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`
-  is applied and linked contribution UAT passes again.
+  through `supabase db query --linked`.
+- `scripts/supabase_production_readiness.sh` passes after applying and
+  recording the linked migration history plus
+  `supabase/migrations/20260602050000_harden_mobile_state_rls_initplan.sql`.
+- `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/release_status.sh --json`
+  now reports `linked_sms_first_uat=1`.
 - Legacy Edge Functions for manual allocation and public-collection requests
   were removed from the linked project.
 
@@ -31,8 +34,8 @@ fresh readiness run reproduces them.
 
 ## Required Backend Work
 
-1. Apply `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`
-   to the linked project, then rerun `scripts/collect_linked_uat.sh`.
+1. Keep linked rollback UAT green after any backend change by rerunning
+   `scripts/collect_linked_uat.sh`.
 2. Deploy active Edge Functions only:
    - `auth-send-whatsapp-otp`
    - `ingest-payment-sms`
@@ -62,7 +65,6 @@ Release status now reports only current SMS-first blockers:
 - `android_sms_access_uat`
 - `android_release_signing_review`
 - `ios_release_scope`
-- `linked_supabase_sms_first_migration`
 - `admin_pwa_live_url`
 - `release_owner_signoff`
 

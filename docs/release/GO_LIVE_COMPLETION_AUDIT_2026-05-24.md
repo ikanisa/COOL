@@ -20,8 +20,9 @@ the old goals/campaign/manual-SMS/anonymity product model.
 | Local Supabase migration validation | Pass. |
 | Edge Function auth/type checks | Pass. |
 | Linked admin/security UAT | Pass. |
-| Linked SMS-first contribution UAT | Blocked: linked DB does not store contribution intent sender hash. |
-| Supabase readiness | Blocked until `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql` is applied and linked contribution UAT passes. |
+| Linked SMS-first contribution UAT | Pass after applying `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`. |
+| Supabase readiness | Pass. |
+| Supabase release gate | NO-GO on approval, device-UAT, and release-scope blockers. |
 | Real Android SMS access UAT | Pending real MoMo SMS scenario approval; production-flavor Pixel smoke passed at `.cache/android_device_uat/20260602T042542Z/summary.json`. |
 | Android release artifacts | Pass. |
 | Android signing / iOS scope | Pending. |
@@ -35,8 +36,8 @@ the old goals/campaign/manual-SMS/anonymity product model.
 | Remove old invented flows | Proven locally | Current app/docs remove public directory, goals, categories, target amounts, cover URL, manual SMS paste, manual payment reports, and anonymity picker from current journeys. |
 | Verify Home/Groups/Settings mobile shell | Proven locally | Focused app shell and widget tests pass. |
 | Verify Android-only group creation | Proven locally | iPhone warning copy is tested; physical iOS scope still needs release decision if iOS is included. |
-| Verify contribution/payment intent/USSD launch | Backend migration pending | Repository/widget tests pass; linked rollback UAT is blocked until the sender-hash migration is applied. |
-| Verify MoMo SMS ingestion/parser/allocation | Device UAT pending | Edge contracts pass; linked allocation UAT is blocked until the sender-hash migration is applied; physical Android SMS UAT remains pending. |
+| Verify contribution/payment intent/USSD launch | Backend proven; device UAT pending | Repository/widget tests and linked rollback UAT pass. |
+| Verify MoMo SMS ingestion/parser/allocation | Device UAT pending | Edge contracts and linked allocation UAT pass; physical Android SMS UAT remains pending. |
 | Verify admin monitoring and RBAC | Partial | Local Admin PWA, live Admin PWA gate, and linked admin/security UAT pass; human admin walkthrough/signoff remains. |
 | Verify release evidence quality | Partial | Current release docs, approval packet, repo-wide QA index, and mobile render evidence are refreshed; final release packet must still be regenerated after device UAT and signoffs pass. |
 
@@ -46,13 +47,11 @@ the old goals/campaign/manual-SMS/anonymity product model.
 - `android_sms_access_uat`
 - `android_release_signing_review`
 - `ios_release_scope`
-- `linked_supabase_sms_first_migration`
 - `release_owner_signoff`
 
 ## Completion Decision
 
 The objective is not complete. Local code checks, Admin PWA live proof, and
-Android device smoke are green, but linked Supabase sender-hash migration and
-production approval must wait for real Android MoMo SMS evidence approval,
-Android
-signing/iOS scope evidence, and release signoff.
+Android device smoke are green, but production approval must wait for real
+Android MoMo SMS evidence approval, Android signing/iOS scope evidence, and
+release signoff.

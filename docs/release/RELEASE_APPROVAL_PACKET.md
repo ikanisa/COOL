@@ -37,8 +37,9 @@ data into approval records.
 | Flutter mobile release | Blocked |
 | Release evidence index | Pass |
 | Android device smoke | Pass |
+| Supabase readiness | Pass |
 | Supabase release gate | Blocked |
-| Supabase evidence bundle | Pass |
+| Supabase linked contribution UAT | Pass |
 
 ## Pending Approval Records
 
@@ -75,6 +76,9 @@ data into approval records.
   - `docs/release/UAT_EVIDENCE_MANIFEST.json`
   - `.cache/android_device_uat/20260602T042542Z/summary.json`
   - `.cache/android_device_uat/20260602T042542Z/android_device_uat.txt`
+  - `scripts/collect_linked_uat.sh` pass after applying
+    `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`
+  - `.cache/supabase_go_live_evidence/20260602T045205Z/summary.json`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/uat_evidence_gate.json`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/supabase/summary.json`
 - Required signoff fields:
@@ -142,6 +146,7 @@ data into approval records.
   - `.cache/repo_wide_qa_uat/20260601T205424Z/summary.json`
   - `.cache/mobile_route_render_smoke/20260602T040433Z/summary.json`
   - `.cache/android_device_uat/20260602T042542Z/summary.json`
+  - `.cache/supabase_go_live_evidence/20260602T045205Z/summary.json`
   - `docs/release/UAT_GO_LIVE_PACKET_2026-05-24.md`
   - `docs/release/GO_NO_GO_DECISION.md`
   - `docs/release/RELEASE_BLOCKERS.md`

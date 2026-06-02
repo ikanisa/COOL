@@ -81,6 +81,10 @@ latest_android_device_log =
   if latest_android_device_summary
     File.join(File.dirname(latest_android_device_summary), "android_device_uat.txt")
   end
+latest_supabase_evidence_summary = Dir[File.join(root_dir, ".cache/supabase_go_live_evidence/[0-9]*Z/summary.json")]
+  .sort
+  .last
+latest_supabase_evidence_summary = rel(root_dir, latest_supabase_evidence_summary)
 
 approval_records = [
   {
@@ -117,6 +121,7 @@ approval_records = [
       latest_android_device_log,
       bundle_dir && File.join(bundle_dir, "android_device_uat.txt"),
       bundle_dir && File.join(bundle_dir, "uat_evidence_gate.json"),
+      latest_supabase_evidence_summary,
       bundle_dir && File.join(bundle_dir, "supabase/summary.json")
     ].compact,
     "required_signoff_fields" => [
@@ -182,6 +187,7 @@ approval_records = [
       latest_summary,
       ".cache/mobile_route_render_smoke/20260602T040433Z/summary.json",
       latest_android_device_summary,
+      latest_supabase_evidence_summary,
       "docs/release/UAT_GO_LIVE_PACKET_2026-05-24.md",
       "docs/release/GO_NO_GO_DECISION.md",
       "docs/release/RELEASE_BLOCKERS.md",
@@ -218,6 +224,7 @@ packet = {
     file_item(root_dir, "docs/release/UAT_EVIDENCE_MANIFEST.json"),
     file_item(root_dir, ".cache/mobile_route_render_smoke/20260602T040433Z/summary.json"),
     latest_android_device_summary && file_item(root_dir, latest_android_device_summary),
+    latest_supabase_evidence_summary && file_item(root_dir, latest_supabase_evidence_summary),
     file_item(root_dir, "docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256"),
     file_item(root_dir, "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md")
   ].compact,

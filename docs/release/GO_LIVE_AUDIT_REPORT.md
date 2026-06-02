@@ -3,8 +3,8 @@
 Audit date: 2026-06-01
 
 Final decision: **NO-GO** until Android SMS access UAT approval, Android
-signing/iOS scope evidence, linked sender-hash migration, product signoff, and
-release-owner signoff are complete.
+signing/iOS scope evidence, product signoff, and release-owner signoff are
+complete.
 
 ## Baseline
 
@@ -36,8 +36,9 @@ release-owner signoff are complete.
 | Admin PWA live deployment | Pass | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` passed. |
 | Mobile route render smoke | Pass | `scripts/mobile_route_render_smoke.sh` captured viewport-controlled Chrome CDP 390x844 screenshots and JSON nonblank checks for 21 representative mobile routes at `.cache/mobile_route_render_smoke/20260602T040433Z`. |
 | Linked admin/security UAT | Pass | `scripts/collect_admin_security_uat.sh` passed via linked database query. |
-| Linked SMS-first contribution UAT | Blocked | `scripts/collect_linked_uat.sh` fails with `payment intent sender hash was not stored`. |
-| Supabase readiness | Blocked | Linked readiness cannot be green until `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql` is applied. |
+| Linked SMS-first contribution UAT | Pass | `scripts/collect_linked_uat.sh` passed via linked database query after the sender-hash migration was applied. |
+| Supabase readiness | Pass | `scripts/supabase_production_readiness.sh` passed after applying linked migration history and mobile-state RLS hardening. |
+| Supabase release gate | Blocked | Supabase go-live remains NO-GO on product signoff, Android SMS UAT, signing/iOS scope, and release-owner signoff. |
 | Real Android SMS access UAT | Pending | Production-flavor Pixel smoke passed at `.cache/android_device_uat/20260602T042542Z/summary.json`; real MoMo SMS consent, ingestion, parser, allocation, and ledger scenario approval is still missing. |
 | Android release artifacts | Pass | `scripts/release_artifact_manifest.sh --json` passed and wrote `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`. |
 | Android signing / iOS scope | Blocked | `scripts/flutter_mobile_release_gate.sh --json` reports `android_release_signing_review` and `ios_release_scope`. |
@@ -66,13 +67,12 @@ release-owner signoff are complete.
 | P0-002 | Android SMS UAT | P0 | Real MoMo SMS app access and automatic parsing/allocation are not freshly evidenced. | Run physical Android UAT with sanitized MoMo SMS scenarios. |
 | P0-003 | Admin PWA live | Resolved | Local Admin PWA proof is green and `https://cool-admin-212.pages.dev` passes the deployed URL live gate. | Rerun live gate after every Admin PWA deployment. |
 | P1-001 | Release hygiene | Pending refresh | Worktree review must be rerun after the current evidence commit is pushed/reviewed. | Push/review release branch when ready. |
-| P0-004 | Linked Supabase migration | P0 | Linked contribution UAT shows the deployed function still drops contribution intent sender hashes. | Apply `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql` and rerun `scripts/collect_linked_uat.sh`. |
-| P0-005 | Store release | P0 | Android signing review and iOS release scope need current release-owner evidence. | Attach signed release metadata or explicitly scope iOS out. |
+| P0-004 | Store release | P0 | Android signing review and iOS release scope need current release-owner evidence. | Attach signed release metadata or explicitly scope iOS out. |
 
 ## Decision Basis
 
-NO-GO. Current code-owned local checks, linked Supabase readiness, and linked
-admin/security UAT pass. The platform is not production-ready until real
+NO-GO. Current code-owned local checks, linked Supabase contribution/admin UAT,
+and Admin PWA live proof pass. The platform is not production-ready until real
 Android SMS approval, Android signing/iOS scope, and stakeholder release
 evidence are complete.
 

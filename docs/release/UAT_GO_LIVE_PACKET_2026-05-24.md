@@ -43,8 +43,9 @@ UAT.
 | Edge auth UAT | `scripts/collect_edge_auth_contract_uat.sh` | Pass. |
 | Edge type-check | `deno check` parser/ingestion/allocation functions | Pass. |
 | Admin/security UAT | `scripts/collect_admin_security_uat.sh` | Pass through linked database query mode. |
-| Linked contribution UAT | `scripts/collect_linked_uat.sh` | Blocked: linked DB does not store contribution intent sender hash. |
-| Supabase readiness | `scripts/supabase_production_readiness.sh` | Blocked until `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql` is applied. |
+| Linked contribution UAT | `scripts/collect_linked_uat.sh` | Pass after applying `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`. |
+| Supabase readiness | `scripts/supabase_production_readiness.sh` | Pass. |
+| Supabase go-live gate | `scripts/supabase_go_live_gate.sh --json` | Blocked on remaining approval, device-UAT, and release-scope gates. |
 | Android release gate | `scripts/flutter_mobile_release_gate.sh --json` | Blocked: signing review and iOS release scope. |
 | Release artifact manifest | `scripts/release_artifact_manifest.sh --json` | Pass: current APK/AAB and Admin PWA artifacts are fresh; manifest written for 2026-06-02. |
 
@@ -70,7 +71,7 @@ secrets, provider secrets, or production customer data.
 
 | Risk | Status | Action |
 | --- | --- | --- |
-| Linked Supabase sender-hash migration | Open P0 | Apply `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql` and rerun linked UAT. |
+| Linked Supabase sender-hash migration | Resolved | Migration was applied through the linked query path and linked UAT passes. |
 | Android MoMo SMS not freshly evidenced | Open P0 | Run controlled physical Android UAT. |
 | Admin PWA live proof drift | Controlled | Rerun the live gate after every Admin PWA deployment. |
 | Android release signing / iOS scope | Open P0 | Record signing review and iOS scope evidence, then rerun release gates. |
@@ -81,9 +82,8 @@ secrets, provider secrets, or production customer data.
 
 1. Stakeholder signs off corrected Groups product definition.
 2. Physical Android SMS access UAT passes with sanitized evidence.
-3. Linked Supabase sender-hash migration is applied and linked UAT passes.
-4. Android signing review and iOS release scope evidence pass release gates.
-5. Release owner approves current packet and worktree/release branch.
+3. Android signing review and iOS release scope evidence pass release gates.
+4. Release owner approves current packet and worktree/release branch.
 
 Older evidence that refers to public campaigns, active goals, manual SMS paste,
 manual transaction reporting, anonymity choices, or previous Supabase platform

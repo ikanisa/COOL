@@ -254,10 +254,14 @@ Date/time: 2026-06-01T12:30:00Z
         'android_sms_access_uat',
         'android_release_signing_review',
         'ios_release_scope',
-        'linked_supabase_sms_first_migration',
         'release_owner_signoff',
       ]),
     );
+    expect(
+      decoded['blocker_keys'],
+      isNot(contains('linked_supabase_sms_first_migration')),
+    );
+    expect(decoded['evidence_flags']['linked_sms_first_uat'], '1');
     expect(decoded['blocker_keys'], isNot(contains('admin_pwa_live_url')));
     expect(jsonEncode(decoded), isNot(contains('auth_captcha_bot_protection')));
     expect(jsonEncode(decoded), isNot(contains('supabase_pitr')));
@@ -750,6 +754,12 @@ checking Edge Function secret names
       jsonEncode(decoded),
       contains('.cache/android_device_uat/20260602T042542Z/summary.json'),
     );
+    expect(
+      jsonEncode(decoded),
+      contains(
+        '.cache/supabase_go_live_evidence/20260602T045205Z/summary.json',
+      ),
+    );
     expect(jsonEncode(decoded), isNot(contains('SUPABASE_SERVICE_ROLE_KEY')));
     expect(jsonEncode(decoded), isNot(contains('AUTH_CAPTCHA_SECRET')));
 
@@ -757,6 +767,7 @@ checking Edge Function secret names
       'scripts/release_approval_packet.sh',
     ).readAsStringSync();
     expect(approvalPacket, contains('latest_android_device_summary'));
+    expect(approvalPacket, contains('latest_supabase_evidence_summary'));
     expect(approvalPacket, contains('admin_pwa_live_deployment'));
     expect(approvalPacket, contains('release_evidence_index'));
   });
