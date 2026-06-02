@@ -93,7 +93,7 @@ data into approval records.
 - Decision needed: approve the current production APK/AAB outputs and Play App
   Signing configuration without exposing signing keys.
 - Evidence to review:
-  - `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-31.sha256`
+  - `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`
   - `build/app/outputs/flutter-apk/app-production-release.apk`
   - `build/app/outputs/bundle/productionRelease/app-production-release.aab`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/mobile_release_gate.json`
@@ -139,7 +139,7 @@ data into approval records.
   acceptable.
 - Evidence to review:
   - `.cache/repo_wide_qa_uat/20260601T205424Z/summary.json`
-  - `.cache/mobile_route_render_smoke/20260601T211529Z/summary.json`
+  - `.cache/mobile_route_render_smoke/20260602T040433Z/summary.json`
   - `docs/release/UAT_GO_LIVE_PACKET_2026-05-24.md`
   - `docs/release/GO_NO_GO_DECISION.md`
   - `docs/release/RELEASE_BLOCKERS.md`

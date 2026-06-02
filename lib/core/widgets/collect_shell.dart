@@ -33,27 +33,10 @@ class CollectShell extends StatelessWidget {
                           color: colors.border.withValues(alpha: 0.72),
                         ),
                       ),
-                      child: NavigationBar(
+                      child: _CollectBottomNav(
                         selectedIndex: _selectedIndex(context),
                         onDestinationSelected: (index) =>
                             context.go(_paths[index]),
-                        destinations: const [
-                          NavigationDestination(
-                            icon: Icon(CollectIcons.homeOutline),
-                            selectedIcon: Icon(CollectIcons.home),
-                            label: 'Home',
-                          ),
-                          NavigationDestination(
-                            icon: Icon(CollectIcons.collectionsOutline),
-                            selectedIcon: Icon(CollectIcons.collections),
-                            label: 'Groups',
-                          ),
-                          NavigationDestination(
-                            icon: Icon(CollectIcons.settingsOutline),
-                            selectedIcon: Icon(CollectIcons.settings),
-                            label: 'Settings',
-                          ),
-                        ],
                       ),
                     ),
                   ),
@@ -82,6 +65,141 @@ class CollectShell extends StatelessWidget {
     }
     return 0;
   }
+}
+
+class _CollectBottomNav extends StatelessWidget {
+  const _CollectBottomNav({
+    required this.selectedIndex,
+    required this.onDestinationSelected,
+  });
+
+  final int selectedIndex;
+  final ValueChanged<int> onDestinationSelected;
+
+  static const _destinations = <_CollectNavDestination>[
+    _CollectNavDestination(
+      label: 'Home',
+      icon: CollectIcons.homeOutline,
+      selectedIcon: CollectIcons.home,
+    ),
+    _CollectNavDestination(
+      label: 'Groups',
+      icon: CollectIcons.collectionsOutline,
+      selectedIcon: CollectIcons.collections,
+    ),
+    _CollectNavDestination(
+      label: 'Settings',
+      icon: CollectIcons.settingsOutline,
+      selectedIcon: CollectIcons.settings,
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      container: true,
+      label: 'Primary navigation',
+      child: SizedBox(
+        height: 66,
+        child: Row(
+          children: [
+            for (var index = 0; index < _destinations.length; index += 1)
+              Expanded(
+                child: _CollectBottomNavItem(
+                  destination: _destinations[index],
+                  selected: selectedIndex == index,
+                  onTap: () => onDestinationSelected(index),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CollectBottomNavItem extends StatelessWidget {
+  const _CollectBottomNavItem({
+    required this.destination,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final _CollectNavDestination destination;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final textTheme = Theme.of(context).textTheme;
+    final foreground = selected ? colors.textPrimary : colors.textMuted;
+    final indicator = colors.actionCrimson.withValues(alpha: 0.18);
+    return Tooltip(
+      message: destination.label,
+      child: Semantics(
+        button: true,
+        selected: selected,
+        label: destination.label,
+        child: InkResponse(
+          onTap: onTap,
+          containedInkWell: true,
+          highlightShape: BoxShape.rectangle,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 7),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: selected ? indicator : Colors.transparent,
+                    borderRadius: BorderRadius.circular(22),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 5,
+                    ),
+                    child: Icon(
+                      selected ? destination.selectedIcon : destination.icon,
+                      size: 22,
+                      color: foreground,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Flexible(
+                  child: Text(
+                    destination.label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: textTheme.labelSmall?.copyWith(
+                      color: foreground,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _CollectNavDestination {
+  const _CollectNavDestination({
+    required this.label,
+    required this.icon,
+    required this.selectedIcon,
+  });
+
+  final String label;
+  final IconData icon;
+  final IconData selectedIcon;
 }
 
 class CollectPlaceholderScreen extends StatelessWidget {

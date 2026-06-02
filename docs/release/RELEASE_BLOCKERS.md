@@ -47,7 +47,7 @@ refactor is deployed or tested against the linked project.
 - `scripts/admin_pwa_release_build.sh`: pass.
 - `scripts/admin_pwa_render_smoke.sh`: pass, evidence at `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke`.
 - `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json`: pass.
-- `scripts/mobile_route_render_smoke.sh`: pass, evidence at `.cache/mobile_route_render_smoke/20260601T211529Z`.
+- `scripts/mobile_route_render_smoke.sh`: pass, evidence at `.cache/mobile_route_render_smoke/20260602T040433Z`.
 - `scripts/collect_admin_security_uat.sh`: pass via linked database query.
 - `scripts/collect_linked_uat.sh`: blocked until the linked project stores the
   contribution intent sender hash.
@@ -60,7 +60,7 @@ refactor is deployed or tested against the linked project.
   - `supabase/functions/allocate-payment/index.ts`
 - `./scripts/migrations/validate_supabase_migrations.sh`: pass.
 - `scripts/release_artifact_manifest.sh --json`: pass and wrote
-  `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-31.sha256`.
+  `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`.
 
 ## Current Blocked Evidence
 

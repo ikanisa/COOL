@@ -5,6 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 FLUTTER="${FLUTTER:-/Volumes/PRO-G40/flutter_3_44/bin/flutter}"
+NODE="${NODE:-node}"
 BUILD_DIR="${MOBILE_ROUTE_RENDER_BUILD_DIR:-$ROOT_DIR/build/mobile_route_render_web}"
 EVIDENCE_DIR="${MOBILE_ROUTE_RENDER_EVIDENCE_DIR:-$ROOT_DIR/.cache/mobile_route_render_smoke/$(date -u +%Y%m%dT%H%M%SZ)}"
 HOST="${MOBILE_ROUTE_RENDER_HOST:-127.0.0.1}"
@@ -45,6 +46,9 @@ find_chrome() {
 CHROME="$(find_chrome || true)"
 if [[ -z "$CHROME" || ! -x "$CHROME" ]]; then
   fail "Chrome/Chromium is required for mobile route render smoke."
+fi
+if ! command -v "$NODE" >/dev/null 2>&1; then
+  fail "Node.js is required for mobile route render smoke viewport capture."
 fi
 
 rm -rf "$BUILD_DIR"
@@ -108,38 +112,13 @@ capture_route() {
   rm -rf "$profile"
   mkdir -p "$profile"
 
-  "$CHROME" \
-    --headless \
-    --force-device-scale-factor=1 \
-    --disable-gpu \
-    --disable-background-networking \
-    --disable-component-update \
-    --disable-sync \
-    --disable-dev-shm-usage \
-    --no-first-run \
-    --no-default-browser-check \
-    --user-data-dir="$profile" \
-    --window-size="$VIEWPORT" \
-    --run-all-compositor-stages-before-draw \
-    --virtual-time-budget=9000 \
-    --screenshot="$png" \
-    "$url" >"$EVIDENCE_DIR/${name}.stdout" 2>"$EVIDENCE_DIR/${name}.stderr" &
-  local chrome_pid=$!
-
-  for _ in {1..18}; do
-    if [[ -s "$png" ]]; then
-      break
-    fi
-    if ! kill -0 "$chrome_pid" 2>/dev/null; then
-      break
-    fi
-    sleep 1
-  done
-
-  if kill -0 "$chrome_pid" 2>/dev/null; then
-    kill "$chrome_pid" 2>/dev/null || true
-  fi
-  wait "$chrome_pid" 2>/dev/null || true
+  "$NODE" "$ROOT_DIR/scripts/chrome_cdp_screenshot.mjs" \
+    --chrome "$CHROME" \
+    --url "$url" \
+    --output "$png" \
+    --profile "$profile" \
+    --viewport "$VIEWPORT" \
+    --wait-ms 9000 >"$EVIDENCE_DIR/${name}.stdout" 2>"$EVIDENCE_DIR/${name}.stderr"
 
   [[ -s "$png" ]] || fail "$name screenshot was not created."
 

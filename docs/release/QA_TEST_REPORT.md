@@ -25,7 +25,7 @@ fresh readiness run.
 | Full Flutter/release-doc suite | Pass | `101` tests passed across Admin PWA, app shell, phone/Public ID, widgets, persona smoke, repository, Supabase contract, and release-doc tests. |
 | `scripts/admin_pwa_release_build.sh` | Pass | Built `build/web` for `lib/main_admin.dart` and passed Admin PWA manifest/hosting gates in `.cache/repo_wide_qa_uat/20260601T205424Z`. |
 | `scripts/admin_pwa_render_smoke.sh` | Pass | Runtime/render evidence written to `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke`; desktop and mobile screenshots are nonblank and show the Collect admin login. |
-| `scripts/mobile_route_render_smoke.sh` | Pass | Flutter mobile web build captured retained 390x844 screenshots and JSON nonblank checks for 21 representative mobile routes at `.cache/mobile_route_render_smoke/20260601T211529Z`. |
+| `scripts/mobile_route_render_smoke.sh` | Pass | Flutter mobile web build captured viewport-controlled Chrome CDP 390x844 screenshots and JSON nonblank checks for 21 representative mobile routes at `.cache/mobile_route_render_smoke/20260602T040433Z`. |
 | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` | Pass | Deployed Admin PWA responds over HTTPS with required headers, cache policy, manifest, service worker, and bundle responses. |
 | `scripts/collect_edge_auth_contract_uat.sh` | Pass | Local Edge Function auth contract passed. |
 | `deno check supabase/functions/...` | Pass | `parse-payment-sms`, `ingest-payment-sms`, and `allocate-payment` type-check. |
@@ -35,7 +35,7 @@ fresh readiness run.
 | `scripts/supabase_production_readiness.sh` | Blocked | Linked readiness cannot be green while linked contribution UAT fails. |
 | `scripts/android_device_uat.sh` | Pass | Production-flavor integration smoke passed on device `13111JEC215558`. |
 | `scripts/flutter_mobile_release_gate.sh --json` | Blocked | APK/AAB artifacts are current; signing review and iOS scope remain pending. |
-| `scripts/release_artifact_manifest.sh --json` | Pass | Manifest and checksum evidence were refreshed in `.cache/repo_wide_qa_uat/20260601T205424Z`. |
+| `scripts/release_artifact_manifest.sh --json` | Pass | Current APK/AAB and Admin PWA artifacts are fresh; checksum manifest written to `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`. |
 
 ## QA Findings
 

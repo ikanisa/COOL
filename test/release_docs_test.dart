@@ -224,9 +224,9 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['approval'], contains('mobile_route_render_smoke'));
     expect(docs['signoff'], contains('20260601T205424Z'));
     expect(docs['qa'], contains('scripts/mobile_route_render_smoke.sh'));
-    expect(docs['qa'], contains('20260601T211529Z'));
+    expect(docs['qa'], contains('20260602T040433Z'));
     expect(docs['checklist'], contains('20260601T205424Z'));
-    expect(docs['checklist'], contains('20260601T211529Z'));
+    expect(docs['checklist'], contains('20260602T040433Z'));
     expect(
       File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
       contains('"status": "pending"'),
@@ -301,7 +301,7 @@ Date/time: 2026-06-01T12:30:00Z
         'ANDROID_RELEASE_SIGNING_REVIEWER': 'Release Reviewer',
         'ANDROID_RELEASE_SIGNING_REVIEWED_AT': '2026-06-01T00:00:00Z',
         'ANDROID_RELEASE_SIGNING_EVIDENCE':
-            'docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-31.sha256',
+            'docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256',
         'IOS_RELEASE_OUT_OF_SCOPE': '1',
         'IOS_RELEASE_SCOPE_NOTE': 'Android-only scope for this go-live.',
         'IOS_RELEASE_SCOPE_REVIEWER': 'Release Reviewer',

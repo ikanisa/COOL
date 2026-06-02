@@ -34,7 +34,7 @@
       "decision": "GO",
       "reviewer": "Android Release Reviewer",
       "signed_at": "2026-06-01T00:00:00Z",
-      "evidence_reference": "docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-05-31.sha256",
+      "evidence_reference": "docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256",
       "sanitized_evidence": true,
       "contains_production_customer_data": false,
       "signing_keys_exposed": false,
