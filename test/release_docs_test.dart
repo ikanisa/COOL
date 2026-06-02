@@ -232,7 +232,14 @@ Date/time: 2026-06-01T12:30:00Z
       expect(text, isNot(contains('`113` tests')));
       expect(text, isNot(contains('20260526T042822Z')));
       expect(text, isNot(contains('20260527T041454Z')));
-      expect(text, isNot(contains('.cache/admin_pwa_render_smoke/')));
+      expect(
+        text,
+        isNot(
+          contains(
+            '.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke',
+          ),
+        ),
+      );
       expect(text, isNot(contains('commit `5eea474`')));
     }
 
@@ -262,6 +269,7 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['approval'], contains('20260602T050529Z'));
     expect(docs['approval'], contains('final_release_summary.json'));
     expect(docs['approval'], contains('mobile_route_render_smoke'));
+    expect(docs['blockers'], contains('20260602T081408Z'));
     expect(docs['signoff'], contains('20260601T205424Z'));
     expect(docs['signoff'], contains('20260602T050529Z'));
     expect(docs['signoff'], contains('human signoff fields'));
@@ -269,9 +277,9 @@ Date/time: 2026-06-01T12:30:00Z
     expect(uatManifest, contains('20260602T050529Z'));
     expect(uatManifest, isNot(contains('20260601T204710Z')));
     expect(docs['qa'], contains('scripts/mobile_route_render_smoke.sh'));
-    expect(docs['qa'], contains('20260602T040433Z'));
-    expect(docs['checklist'], contains('20260601T205424Z'));
-    expect(docs['checklist'], contains('20260602T040433Z'));
+    expect(docs['qa'], contains('20260602T080858Z'));
+    expect(docs['checklist'], contains('20260602T081408Z'));
+    expect(docs['checklist'], contains('20260602T080858Z'));
     expect(
       File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
       contains('"status": "pending"'),

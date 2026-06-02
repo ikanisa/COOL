@@ -44,9 +44,9 @@ refactor is deployed or tested against the linked project.
   - `test/supabase_contract_test.dart`
 - `test/release_docs_test.dart`: pass.
 - `scripts/admin_pwa_release_build.sh`: pass.
-- `scripts/admin_pwa_render_smoke.sh`: pass, evidence at `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke`.
+- `scripts/admin_pwa_render_smoke.sh`: pass, evidence at `.cache/admin_pwa_render_smoke/20260602T081408Z`.
 - `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json`: pass.
-- `scripts/mobile_route_render_smoke.sh`: pass, evidence at `.cache/mobile_route_render_smoke/20260602T040433Z`.
+- `scripts/mobile_route_render_smoke.sh`: pass, evidence at `.cache/mobile_route_render_smoke/20260602T080858Z`.
 - `scripts/android_device_uat.sh`: pass, evidence at `.cache/android_device_uat/20260602T042542Z/summary.json`.
 - `scripts/collect_admin_security_uat.sh`: pass via linked database query.
 - `scripts/collect_linked_uat.sh`: pass via linked database query after

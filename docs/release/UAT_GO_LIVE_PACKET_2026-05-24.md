@@ -36,9 +36,9 @@ UAT.
 | Analyze | `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze` | Pass. |
 | Flutter tests | Full Flutter/release-doc suite | Pass: `101` tests. |
 | Admin PWA build | `scripts/admin_pwa_release_build.sh` | Pass. |
-| Admin PWA render | `scripts/admin_pwa_render_smoke.sh` | Pass; evidence at `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke`. |
+| Admin PWA render | `scripts/admin_pwa_render_smoke.sh` | Pass; evidence at `.cache/admin_pwa_render_smoke/20260602T081408Z`. |
 | Admin PWA live | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` | Pass. |
-| Mobile route render | `scripts/mobile_route_render_smoke.sh` | Pass; viewport-controlled Chrome CDP 390x844 screenshots and JSON nonblank checks for 21 representative mobile routes at `.cache/mobile_route_render_smoke/20260602T040433Z`. |
+| Mobile route render | `scripts/mobile_route_render_smoke.sh` | Pass; viewport-controlled Chrome CDP 390x844 screenshots and JSON nonblank checks for 21 representative mobile routes at `.cache/mobile_route_render_smoke/20260602T080858Z`. |
 | Migration validation | `./scripts/migrations/validate_supabase_migrations.sh` | Pass. |
 | Edge auth UAT | `scripts/collect_edge_auth_contract_uat.sh` | Pass. |
 | Edge type-check | `deno check` parser/ingestion/allocation functions | Pass. |

@@ -20,9 +20,9 @@ final production decision.
 | Payment intent contribution | Pass locally | Contribution creates a payment intent and launches MoMo USSD via `tel:`. |
 | Automated SMS parsing/allocation | Backend linked UAT pass; real SMS UAT pending | Edge Function type-check and local contracts pass. Linked SMS-first rollback UAT passes after applying the contribution-intent sender-hash migration. Production-flavor Pixel smoke passed at `.cache/android_device_uat/20260602T042542Z/summary.json`, but real Android MoMo SMS scenario approval is still pending. |
 | Admin PWA local build | Pass | `scripts/admin_pwa_release_build.sh` passed. |
-| Admin PWA local render smoke | Pass | `scripts/admin_pwa_render_smoke.sh` passed inside the current repo-wide QA bundle at `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke`. |
+| Admin PWA local render smoke | Pass | `scripts/admin_pwa_render_smoke.sh` passed with current standalone evidence at `.cache/admin_pwa_render_smoke/20260602T081408Z`. |
 | Admin PWA live deployment | Pass | `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json` passed. |
-| Mobile route render smoke | Pass | `scripts/mobile_route_render_smoke.sh` captured viewport-controlled Chrome CDP 390x844 screenshots and JSON nonblank checks for 21 representative mobile routes at `.cache/mobile_route_render_smoke/20260602T040433Z`. |
+| Mobile route render smoke | Pass | `scripts/mobile_route_render_smoke.sh` captured viewport-controlled Chrome CDP 390x844 screenshots and JSON nonblank checks for 21 representative mobile routes at `.cache/mobile_route_render_smoke/20260602T080858Z`. |
 | Flutter analyzer | Pass | `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze` completed cleanly. |
 | Flutter tests | Pass | Full Flutter/release-doc suite passed `101` tests. |
 | Local migration validation | Pass | `./scripts/migrations/validate_supabase_migrations.sh` passed. |
@@ -67,7 +67,7 @@ TMPDIR=/Volumes/PRO-G40/tmp/cool-flutter-test /Volumes/PRO-G40/flutter_3_44/bin/
 ./scripts/migrations/validate_supabase_migrations.sh
 ./scripts/collect_edge_auth_contract_uat.sh
 ./scripts/admin_pwa_release_build.sh
-ADMIN_PWA_RENDER_EVIDENCE_DIR=.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke ./scripts/admin_pwa_render_smoke.sh
+ADMIN_PWA_RENDER_EVIDENCE_DIR=.cache/admin_pwa_render_smoke/20260602T081408Z ./scripts/admin_pwa_render_smoke.sh
 ./scripts/mobile_route_render_smoke.sh
 ./scripts/collect_admin_security_uat.sh
 ./scripts/collect_linked_uat.sh

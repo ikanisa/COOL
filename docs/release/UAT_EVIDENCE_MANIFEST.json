@@ -82,7 +82,7 @@
       "production_like": true,
       "evidence_files": [
         ".cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_live_gate.json",
-        ".cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke/summary.json",
+        ".cache/admin_pwa_render_smoke/20260602T081408Z/summary.json",
         ".cache/supabase_go_live_evidence/20260602T045205Z/summary.json"
       ]
     },

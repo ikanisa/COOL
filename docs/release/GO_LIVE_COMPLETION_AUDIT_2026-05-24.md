@@ -14,8 +14,8 @@ the old goals/campaign/manual-SMS/anonymity product model.
 | --- | --- |
 | Flutter analyzer | Pass with `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze`. |
 | Flutter tests | Pass: `101` tests in the full Flutter/release-doc suite. |
-| Admin PWA local build/render | Pass: release build and render smoke evidence under `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke`. |
-| Mobile route render evidence | Pass: retained 390x844 screenshots and JSON nonblank checks for 21 representative routes under `.cache/mobile_route_render_smoke/20260602T040433Z`. |
+| Admin PWA local build/render | Pass: release build and render smoke evidence under `.cache/admin_pwa_render_smoke/20260602T081408Z`. |
+| Mobile route render evidence | Pass: retained 390x844 screenshots and JSON nonblank checks for 21 representative routes under `.cache/mobile_route_render_smoke/20260602T080858Z`. |
 | Admin PWA live gate | Pass: `https://cool-admin-212.pages.dev` passed `scripts/admin_pwa_live_gate.sh --json`. |
 | Local Supabase migration validation | Pass. |
 | Edge Function auth/type checks | Pass. |
