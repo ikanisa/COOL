@@ -121,7 +121,7 @@ sensitive_patterns = {
 }
 
 def sensitive_metadata_hits(record, patterns)
-  %w[reviewer signed_at evidence_reference notes].each_with_object([]) do |field, hits|
+  %w[reviewer signed_at evidence_reference suggested_evidence_reference notes].each_with_object([]) do |field, hits|
     text = record[field].to_s
     next if text.strip == ""
 

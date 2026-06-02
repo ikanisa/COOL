@@ -98,7 +98,7 @@ SENSITIVE_METADATA_PATTERNS = {
 }
 
 def sensitive_metadata_hits(record)
-  scanned_fields = %w[reviewer signed_at evidence_reference notes]
+  scanned_fields = %w[reviewer signed_at evidence_reference suggested_evidence_reference notes]
   scanned_fields.each_with_object([]) do |field, hits|
     text = record[field].to_s
     next if text.strip == ""
@@ -179,10 +179,14 @@ required_keys.each do |key|
   reviewer = record["reviewer"].to_s.strip
   signed_at = record["signed_at"].to_s.strip
   evidence_reference = record["evidence_reference"].to_s.strip
+  suggested_evidence_reference = record["suggested_evidence_reference"].to_s.strip
   sanitized = record["sanitized_evidence"] == true
   contains_production_data = record["contains_production_customer_data"] == true
   signing_keys_exposed = record["signing_keys_exposed"] == true
   evidence_reference_valid = evidence_reference_valid?(evidence_reference, root_dir)
+  suggested_evidence_reference_valid =
+    suggested_evidence_reference.length >= 3 &&
+    evidence_reference_valid?(suggested_evidence_reference, root_dir)
   placeholder_blockers = placeholder_approval_blockers(record)
   sensitive_hits = sensitive_metadata_hits(record)
 
@@ -206,6 +210,7 @@ required_keys.each do |key|
   blockers.concat(placeholder_blockers)
   blockers << "sensitive_metadata" unless sensitive_hits.empty?
   failure_keys << "release_approvals_sensitive_metadata" unless sensitive_hits.empty?
+  failure_keys << "release_approvals_suggested_evidence_reference" if suggested_evidence_reference.length >= 3 && !suggested_evidence_reference_valid
 
   approved = blockers.empty?
   blocker_keys << key unless approved
@@ -217,6 +222,8 @@ required_keys.each do |key|
     "signed_at" => signed_at == "" ? nil : signed_at,
     "evidence_reference" => evidence_reference == "" ? nil : evidence_reference,
     "evidence_reference_valid" => evidence_reference_valid,
+    "suggested_evidence_reference" => suggested_evidence_reference == "" ? nil : suggested_evidence_reference,
+    "suggested_evidence_reference_valid" => suggested_evidence_reference == "" ? nil : suggested_evidence_reference_valid,
     "sensitive_metadata_hits" => sensitive_hits,
     "blockers" => blockers
   }

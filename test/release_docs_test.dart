@@ -303,6 +303,10 @@ Date/time: 2026-06-01T12:30:00Z
       contains('"status": "pending"'),
     );
     expect(
+      File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
+      contains('"suggested_evidence_reference"'),
+    );
+    expect(
       File('docs/release/RELEASE_APPROVALS.example.json').readAsStringSync(),
       contains('"status": "approved"'),
     );
@@ -983,6 +987,31 @@ checking Edge Function secret names
         'release_owner_signoff',
       ]),
     );
+    final approvals = decoded['approvals'] as Map<String, dynamic>;
+    expect(
+      approvals['product_signoff']['suggested_evidence_reference'],
+      'docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md',
+    );
+    expect(
+      approvals['android_sms_access_uat']['suggested_evidence_reference'],
+      'docs/release/UAT_EVIDENCE_MANIFEST.json',
+    );
+    expect(
+      approvals['android_release_signing_review']['suggested_evidence_reference'],
+      'docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md',
+    );
+    expect(
+      approvals['ios_release_scope']['suggested_evidence_reference'],
+      'docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md',
+    );
+    expect(
+      approvals['release_owner_signoff']['suggested_evidence_reference'],
+      'docs/release/RELEASE_APPROVAL_PACKET.md',
+    );
+    for (final approval in approvals.values.cast<Map<String, dynamic>>()) {
+      expect(approval['evidence_reference'], isNull);
+      expect(approval['suggested_evidence_reference_valid'], isTrue);
+    }
   });
 
   test(
