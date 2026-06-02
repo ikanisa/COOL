@@ -19,14 +19,17 @@ Status: **PENDING SIGNOFF**
       synthetic or approved release-test data.
 - [ ] Screenshots/logs are sanitized before attaching to the release packet.
 - [ ] `docs/release/UAT_EVIDENCE_MANIFEST.json` exists and
-      `make uat-evidence-gate-json` passes for all ten persona evidence rows.
+      `make uat-evidence-gate-json` reports no missing, empty, escaped, or
+      unsanitized evidence files. It may remain blocked on human signoff fields
+      until every persona and the release owner signs.
 - [ ] Current automated evidence is attached:
   - `.cache/repo_wide_qa_uat/20260601T205424Z/summary.json`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/evidence_index.json`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_live_gate.json`
   - `.cache/android_device_uat/20260602T042542Z/android_device_uat.txt`
   - `.cache/supabase_go_live_evidence/20260602T045205Z/summary.json`
-  - `.cache/repo_wide_qa_uat/20260601T205424Z/supabase/summary.json`
+  - `.cache/mobile_release_gate/20260602T050529Z/mobile_release_gate.json`
+  - `.cache/android_install/20260602T050529Z/final_release_package.txt`
   - `docs/release/UAT_EXECUTION_REPORT.md`
   - `docs/release/GO_LIVE_COMPLETION_AUDIT_2026-05-24.md`
   - `docs/release/RELEASE_APPROVAL_PACKET.md`

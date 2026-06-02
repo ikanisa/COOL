@@ -188,6 +188,9 @@ Date/time: 2026-06-01T12:30:00Z
         'docs/release/UAT_SIGNOFF_CHECKLIST_2026-05-24.md',
       ).readAsStringSync(),
     };
+    final uatManifest = File(
+      'docs/release/UAT_EVIDENCE_MANIFEST.json',
+    ).readAsStringSync();
 
     for (final text in docs.values) {
       expect(text, contains('SMS-first'));
@@ -229,6 +232,11 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['approval'], contains('final_release_summary.json'));
     expect(docs['approval'], contains('mobile_route_render_smoke'));
     expect(docs['signoff'], contains('20260601T205424Z'));
+    expect(docs['signoff'], contains('20260602T050529Z'));
+    expect(docs['signoff'], contains('human signoff fields'));
+    expect(uatManifest, contains('20260601T205424Z'));
+    expect(uatManifest, contains('20260602T050529Z'));
+    expect(uatManifest, isNot(contains('20260601T204710Z')));
     expect(docs['qa'], contains('scripts/mobile_route_render_smoke.sh'));
     expect(docs['qa'], contains('20260602T040433Z'));
     expect(docs['checklist'], contains('20260601T205424Z'));

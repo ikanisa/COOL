@@ -1,7 +1,7 @@
 {
   "status": "pending-human-signoff",
   "staging_only": false,
-  "evidence_root": ".cache/repo_wide_qa_uat/20260601T204710Z",
+  "evidence_root": ".cache/repo_wide_qa_uat/20260601T205424Z",
   "release_owner": {
     "name": "",
     "decision": "NO-GO",
@@ -16,9 +16,9 @@
       "sanitized": true,
       "production_like": true,
       "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T204710Z/flutter_test.txt",
+        ".cache/repo_wide_qa_uat/20260601T205424Z/flutter_test.txt",
         ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt",
-        ".cache/repo_wide_qa_uat/20260601T204710Z/supabase/summary.json"
+        ".cache/supabase_go_live_evidence/20260602T045205Z/summary.json"
       ]
     },
     {
@@ -29,8 +29,9 @@
       "sanitized": true,
       "production_like": true,
       "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T204710Z/flutter_test.txt",
-        ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt"
+        ".cache/repo_wide_qa_uat/20260601T205424Z/flutter_test.txt",
+        ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt",
+        ".cache/android_install/20260602T050529Z/final_release_package.txt"
       ]
     },
     {
@@ -41,8 +42,9 @@
       "sanitized": true,
       "production_like": true,
       "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T204710Z/flutter_test.txt",
-        ".cache/repo_wide_qa_uat/20260601T204710Z/evidence_index.json"
+        ".cache/repo_wide_qa_uat/20260601T205424Z/flutter_test.txt",
+        ".cache/repo_wide_qa_uat/20260601T205424Z/evidence_index.json",
+        ".cache/mobile_release_gate/20260602T050529Z/mobile_release_gate.json"
       ]
     },
     {
@@ -53,8 +55,9 @@
       "sanitized": true,
       "production_like": true,
       "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T204710Z/flutter_test.txt",
-        ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt"
+        ".cache/repo_wide_qa_uat/20260601T205424Z/flutter_test.txt",
+        ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt",
+        ".cache/supabase_go_live_evidence/20260602T045205Z/summary.json"
       ]
     },
     {
@@ -66,7 +69,8 @@
       "production_like": true,
       "evidence_files": [
         ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt",
-        ".cache/repo_wide_qa_uat/20260601T204710Z/supabase/summary.json"
+        ".cache/supabase_go_live_evidence/20260602T045205Z/summary.json",
+        "docs/ANDROID_SMS_ACCESS.md"
       ]
     },
     {
@@ -77,9 +81,9 @@
       "sanitized": true,
       "production_like": true,
       "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T204710Z/admin_pwa_live_gate.json",
-        ".cache/repo_wide_qa_uat/20260601T204710Z/admin_pwa_render_smoke/summary.json",
-        ".cache/repo_wide_qa_uat/20260601T204710Z/supabase/summary.json"
+        ".cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_live_gate.json",
+        ".cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_render_smoke/summary.json",
+        ".cache/supabase_go_live_evidence/20260602T045205Z/summary.json"
       ]
     },
     {
@@ -90,8 +94,9 @@
       "sanitized": true,
       "production_like": true,
       "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T204710Z/admin_pwa_live_gate.json",
-        ".cache/repo_wide_qa_uat/20260601T204710Z/supabase/summary.json"
+        ".cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_live_gate.json",
+        ".cache/supabase_go_live_evidence/20260602T045205Z/summary.json",
+        ".cache/supabase_go_live_evidence/20260602T045205Z/acceptance_matrix.json"
       ]
     },
     {
@@ -102,8 +107,9 @@
       "sanitized": true,
       "production_like": true,
       "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T204710Z/admin_pwa_live_gate.json",
-        ".cache/repo_wide_qa_uat/20260601T204710Z/supabase/summary.json"
+        ".cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_live_gate.json",
+        ".cache/supabase_go_live_evidence/20260602T045205Z/summary.json",
+        ".cache/supabase_go_live_evidence/20260602T045205Z/go_live_gate.json"
       ]
     },
     {
@@ -114,9 +120,9 @@
       "sanitized": true,
       "production_like": true,
       "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T204710Z/flutter_test.txt",
+        ".cache/repo_wide_qa_uat/20260601T205424Z/flutter_test.txt",
         ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt",
-        ".cache/repo_wide_qa_uat/20260601T204710Z/admin_pwa_live_gate.json"
+        ".cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_live_gate.json"
       ]
     },
     {
@@ -127,11 +133,11 @@
       "sanitized": true,
       "production_like": true,
       "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T204710Z/flutter_test.txt",
-        ".cache/repo_wide_qa_uat/20260601T204710Z/supabase/summary.json",
-        ".cache/repo_wide_qa_uat/20260601T204710Z/evidence_index.json"
+        ".cache/repo_wide_qa_uat/20260601T205424Z/flutter_test.txt",
+        ".cache/supabase_go_live_evidence/20260602T045205Z/summary.json",
+        ".cache/repo_wide_qa_uat/20260601T205424Z/evidence_index.json"
       ]
     }
   ],
-  "secret_handling": "This manifest records current automated, sanitized evidence only. Persona status and release owner approval remain pending until a human release owner signs the evidence packet. Do not add raw SMS, phone/MOMO numbers, provider secrets, service-role keys, or production customer data."
+  "secret_handling": "This manifest records current automated, sanitized evidence only. Persona status and release owner approval remain pending until a human release owner signs the evidence packet. Do not add raw SMS, phone/MOMO numbers, provider secrets, service keys, OpenAI keys, or production customer data."
 }
