@@ -72,6 +72,66 @@ void main() {
     expect(find.textContaining('Code'), findsNothing);
   });
 
+  testWidgets('amount hero scales large RWF values in narrow cards', (
+    tester,
+  ) async {
+    await _pumpCollect(
+      tester,
+      const SizedBox(
+        width: 220,
+        child: AmountHero(
+          amount: 12500000,
+          label: 'Confirmed total',
+          detail: 'SMS verified',
+        ),
+      ),
+    );
+
+    expect(find.text('RWF 12,500,000'), findsOneWidget);
+    expect(find.text('SMS verified'), findsOneWidget);
+  });
+
+  testWidgets('payment pipeline exposes semantic progress state', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await _pumpCollect(
+        tester,
+        const PaymentPipelineIndicator(status: 'pending'),
+      );
+
+      expect(
+        find.bySemanticsLabel('Payment progress: Pending'),
+        findsOneWidget,
+      );
+      expect(find.bySemanticsLabel('Start step complete'), findsOneWidget);
+      expect(find.bySemanticsLabel('Check step current'), findsOneWidget);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('QR card sizes link surface for narrow mobile widths', (
+    tester,
+  ) async {
+    await _pumpCollect(
+      tester,
+      const SizedBox(
+        width: 280,
+        child: QRCard(
+          link:
+              'https://collect.example/c/st-michel-medical-support-private-link',
+          caption: 'Share this private group link.',
+        ),
+      ),
+    );
+
+    expect(find.text('Share this private group link.'), findsOneWidget);
+    expect(find.textContaining('collect.example'), findsOneWidget);
+    expect(find.text('Copy'), findsOneWidget);
+  });
+
   testWidgets('receiver consent card shows SMS access privacy copy', (
     tester,
   ) async {
@@ -139,6 +199,105 @@ void main() {
     expect(find.text('No groups yet'), findsOneWidget);
     expect(find.text('Could not load'), findsOneWidget);
     expect(find.byType(LoadingSkeleton), findsOneWidget);
+  });
+
+  testWidgets('bento metrics adapt for text scaling without losing content', (
+    tester,
+  ) async {
+    await _pumpCollect(
+      tester,
+      const MediaQuery(
+        data: MediaQueryData(
+          size: Size(340, 720),
+          textScaler: TextScaler.linear(1.3),
+        ),
+        child: SizedBox(
+          width: 340,
+          child: CollectBentoGrid(
+            primary: BentoMetricCell(
+              label: 'Total confirmed support',
+              value: 'RWF 1,250,000',
+              detail: 'Confirmed by SMS',
+              emphasis: true,
+            ),
+            top: BentoMetricCell(
+              label: 'Groups',
+              value: '12',
+              detail: 'Active',
+            ),
+            bottom: BentoMetricCell(
+              label: 'Payments',
+              value: '3',
+              detail: 'Need SMS',
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('Total confirmed support'), findsOneWidget);
+    expect(find.text('RWF 1,250,000'), findsOneWidget);
+    expect(find.text('Payments'), findsOneWidget);
+  });
+
+  testWidgets('quick action rail exposes stable premium action semantics', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await _pumpCollect(
+        tester,
+        QuickActionRail(
+          children: [
+            QuickActionButton(
+              icon: CollectIcons.add,
+              label: 'Create',
+              detail: 'Android owner',
+              onTap: () {},
+            ),
+            QuickActionButton(
+              icon: CollectIcons.collections,
+              label: 'Groups',
+              detail: '12 active',
+              onTap: () {},
+            ),
+          ],
+        ),
+      );
+
+      expect(find.bySemanticsLabel('Quick actions'), findsOneWidget);
+      expect(find.bySemanticsLabel('Create, Android owner'), findsOneWidget);
+      expect(find.text('Groups'), findsOneWidget);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('screen header preserves long titles and wraps tight actions', (
+    tester,
+  ) async {
+    await _pumpCollect(
+      tester,
+      const SizedBox(
+        width: 320,
+        child: ScreenHeader(
+          title: 'Collect verified support for St Michel medical group',
+          subtitle: 'SMS-first MoMo evidence and private group links.',
+          actions: [
+            IconButton(onPressed: null, icon: Icon(CollectIcons.share)),
+            IconButton(onPressed: null, icon: Icon(CollectIcons.copy)),
+          ],
+        ),
+      ),
+    );
+
+    expect(
+      find.text('Collect verified support for St Michel medical group'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('SMS-first MoMo'), findsOneWidget);
+    expect(find.byIcon(CollectIcons.share), findsOneWidget);
+    expect(find.byIcon(CollectIcons.copy), findsOneWidget);
   });
 
   test('primary route smoke list keeps admin out of member app', () {

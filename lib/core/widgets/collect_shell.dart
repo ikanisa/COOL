@@ -96,11 +96,14 @@ class _CollectBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textScale = MediaQuery.textScalerOf(context).scale(1);
+    final showLabels = textScale <= 1.35;
+    final height = showLabels ? 66.0 : 58.0;
     return Semantics(
       container: true,
       label: 'Primary navigation',
       child: SizedBox(
-        height: 66,
+        height: height,
         child: Row(
           children: [
             for (var index = 0; index < _destinations.length; index += 1)
@@ -108,6 +111,7 @@ class _CollectBottomNav extends StatelessWidget {
                 child: _CollectBottomNavItem(
                   destination: _destinations[index],
                   selected: selectedIndex == index,
+                  showLabel: showLabels,
                   onTap: () => onDestinationSelected(index),
                 ),
               ),
@@ -122,11 +126,13 @@ class _CollectBottomNavItem extends StatelessWidget {
   const _CollectBottomNavItem({
     required this.destination,
     required this.selected,
+    required this.showLabel,
     required this.onTap,
   });
 
   final _CollectNavDestination destination;
   final bool selected;
+  final bool showLabel;
   final VoidCallback onTap;
 
   @override
@@ -168,19 +174,23 @@ class _CollectBottomNavItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 3),
-                Flexible(
-                  child: Text(
-                    destination.label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: textTheme.labelSmall?.copyWith(
-                      color: foreground,
-                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-                      letterSpacing: 0,
+                if (showLabel) ...[
+                  const SizedBox(height: 3),
+                  Flexible(
+                    child: Text(
+                      destination.label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: textTheme.labelSmall?.copyWith(
+                        color: foreground,
+                        fontWeight: selected
+                            ? FontWeight.w700
+                            : FontWeight.w500,
+                        letterSpacing: 0,
+                      ),
                     ),
                   ),
-                ),
+                ],
               ],
             ),
           ),

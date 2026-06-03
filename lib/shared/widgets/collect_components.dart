@@ -228,9 +228,14 @@ class AmountHero extends StatelessWidget {
           ),
           CollectSpacing.gap8,
         ],
-        Text(
-          formatRwf(amount),
-          style: CollectTypography.amountHero(colors.textPrimary),
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Text(
+            formatRwf(amount),
+            maxLines: 1,
+            style: CollectTypography.amountHero(colors.textPrimary),
+          ),
         ),
         if (detail != null) ...[
           CollectSpacing.gap8,
@@ -1053,9 +1058,15 @@ class SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
-          child: Text(title, style: Theme.of(context).textTheme.titleLarge),
+          child: Text(
+            title,
+            style: Theme.of(context).textTheme.titleLarge,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
         if (actionLabel != null)
           CollectButton(
@@ -1453,25 +1464,42 @@ class CollectBentoGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 236,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(flex: 6, child: primary),
-          CollectSpacing.gapW12,
-          Expanded(
-            flex: 5,
-            child: Column(
-              children: [
-                Expanded(child: top),
-                CollectSpacing.gap12,
-                Expanded(child: bottom),
-              ],
-            ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final textScale = MediaQuery.textScalerOf(context).scale(1);
+        final compact = constraints.maxWidth < 340 || textScale > 1.15;
+        if (compact) {
+          return Column(
+            children: [
+              primary,
+              CollectSpacing.gap12,
+              top,
+              CollectSpacing.gap12,
+              bottom,
+            ],
+          );
+        }
+        return SizedBox(
+          height: 236,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(flex: 6, child: primary),
+              CollectSpacing.gapW12,
+              Expanded(
+                flex: 5,
+                child: Column(
+                  children: [
+                    Expanded(child: top),
+                    CollectSpacing.gap12,
+                    Expanded(child: bottom),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -1587,24 +1615,29 @@ class PaymentPipelineIndicator extends StatelessWidget {
       (label: 'Check', icon: CollectIcons.sms),
       (label: 'Done', icon: CollectIcons.ledger),
     ];
-    return CollectCard(
-      emphasis: CollectCardEmphasis.flat,
-      padding: const EdgeInsets.all(CollectSpacing.x4),
-      child: Row(
-        children: [
-          for (var index = 0; index < stages.length; index++) ...[
-            Expanded(
-              child: _PipelineStage(
-                label: stages[index].label,
-                icon: stages[index].icon,
-                complete: activeStep > index,
-                current: activeStep == index,
+    return Semantics(
+      container: true,
+      explicitChildNodes: true,
+      label: 'Payment progress: ${paymentStatusLabel(status)}',
+      child: CollectCard(
+        emphasis: CollectCardEmphasis.flat,
+        padding: const EdgeInsets.all(CollectSpacing.x4),
+        child: Row(
+          children: [
+            for (var index = 0; index < stages.length; index++) ...[
+              Expanded(
+                child: _PipelineStage(
+                  label: stages[index].label,
+                  icon: stages[index].icon,
+                  complete: activeStep > index,
+                  current: activeStep == index,
+                ),
               ),
-            ),
-            if (index != stages.length - 1)
-              Expanded(child: _PipelineLine(active: activeStep > index + 1)),
+              if (index != stages.length - 1)
+                Expanded(child: _PipelineLine(active: activeStep > index + 1)),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
@@ -1704,16 +1737,29 @@ class QRCard extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(CollectSpacing.x3),
-                child: QrImageView(data: link, size: 208),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final qrSize = (constraints.maxWidth - CollectSpacing.x6)
+                        .clamp(144.0, 208.0)
+                        .toDouble();
+                    return QrImageView(data: link, size: qrSize);
+                  },
+                ),
               ),
             ),
           ),
           CollectSpacing.gap16,
-          Text(caption, style: Theme.of(context).textTheme.bodyMedium),
+          Text(
+            caption,
+            style: Theme.of(context).textTheme.bodyMedium,
+            textAlign: TextAlign.center,
+          ),
           CollectSpacing.gap8,
           SelectableText(
             link,
             style: CollectTypography.mono(colors.textPrimary),
+            textAlign: TextAlign.center,
+            maxLines: 3,
           ),
           CollectSpacing.gap16,
           CollectButton(
@@ -2071,39 +2117,77 @@ class QuickActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return Material(
-      color: colors.surfaceRaised,
-      borderRadius: CollectRadius.cardBorder,
-      child: InkWell(
+    return Semantics(
+      button: true,
+      container: true,
+      explicitChildNodes: true,
+      label: detail == null ? label : '$label, $detail',
+      child: Material(
+        color: colors.surfaceRaised,
         borderRadius: CollectRadius.cardBorder,
-        onTap: onTap,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 92, minWidth: 112),
-          child: Padding(
-            padding: const EdgeInsets.all(CollectSpacing.x4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _ToneIcon(icon: icon, tone: tone),
-                CollectSpacing.gap12,
-                Text(
-                  label,
-                  style: Theme.of(context).textTheme.titleSmall,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                if (detail != null) ...[
-                  CollectSpacing.gap4,
+        child: InkWell(
+          borderRadius: CollectRadius.cardBorder,
+          onTap: onTap,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 128, minWidth: 124),
+            child: Padding(
+              padding: const EdgeInsets.all(CollectSpacing.x4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _ToneIcon(icon: icon, tone: tone),
+                  CollectSpacing.gap12,
                   Text(
-                    detail!,
-                    style: Theme.of(context).textTheme.bodySmall,
+                    label,
+                    style: Theme.of(context).textTheme.titleSmall,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  if (detail != null) ...[
+                    CollectSpacing.gap4,
+                    Text(
+                      detail!,
+                      style: Theme.of(context).textTheme.bodySmall,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class QuickActionRail extends StatelessWidget {
+  const QuickActionRail({
+    required this.children,
+    this.semanticLabel = 'Quick actions',
+    super.key,
+  });
+
+  final List<Widget> children;
+  final String semanticLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    if (children.isEmpty) return const SizedBox.shrink();
+    return Semantics(
+      container: true,
+      label: semanticLabel,
+      child: SizedBox(
+        height: 152,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          clipBehavior: Clip.none,
+          padding: EdgeInsets.zero,
+          itemCount: children.length,
+          separatorBuilder: (_, _) => CollectSpacing.gapW12,
+          itemBuilder: (context, index) =>
+              SizedBox(width: 142, child: children[index]),
         ),
       ),
     );
@@ -2227,7 +2311,7 @@ class EmptyIllustrationState extends StatelessWidget {
             title,
             style: Theme.of(context).textTheme.titleLarge,
             textAlign: TextAlign.center,
-            maxLines: 1,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
           if (message.trim().isNotEmpty) ...[
@@ -2236,7 +2320,7 @@ class EmptyIllustrationState extends StatelessWidget {
               message,
               style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
-              maxLines: 1,
+              maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),
           ],
@@ -2431,17 +2515,20 @@ class GroupCard extends StatelessWidget {
                     Text(
                       collection.title,
                       style: Theme.of(context).textTheme.titleLarge,
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
               ),
-              Semantics(
-                label: 'Private',
-                child: const _ToneIcon(
-                  icon: CollectIcons.lock,
-                  tone: CollectStatusTone.privacy,
+              Tooltip(
+                message: 'Private group link',
+                child: Semantics(
+                  label: 'Private group link',
+                  child: const _ToneIcon(
+                    icon: CollectIcons.lock,
+                    tone: CollectStatusTone.privacy,
+                  ),
                 ),
               ),
             ],
@@ -2484,6 +2571,73 @@ class CollectionSummaryCard extends StatelessWidget {
   }
 }
 
+class ScreenHeader extends StatelessWidget {
+  const ScreenHeader({
+    required this.title,
+    this.subtitle,
+    this.actions = const [],
+    super.key,
+  });
+
+  final String title;
+  final String? subtitle;
+  final List<Widget> actions;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final stackActions = constraints.maxWidth < 360 && actions.isNotEmpty;
+        final titleBlock = Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context).textTheme.headlineMedium,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            if (subtitle != null) ...[
+              CollectSpacing.gap8,
+              Text(
+                subtitle!,
+                style: Theme.of(context).textTheme.bodyMedium,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ],
+        );
+        final actionWrap = Wrap(
+          spacing: CollectSpacing.x2,
+          runSpacing: CollectSpacing.x2,
+          alignment: stackActions ? WrapAlignment.start : WrapAlignment.end,
+          children: actions,
+        );
+        if (stackActions) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [titleBlock, CollectSpacing.gap12, actionWrap],
+          );
+        }
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(child: titleBlock),
+            if (actions.isNotEmpty) ...[
+              CollectSpacing.gapW12,
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 168),
+                child: actionWrap,
+              ),
+            ],
+          ],
+        );
+      },
+    );
+  }
+}
+
 class PremiumScaffold extends StatelessWidget {
   const PremiumScaffold({
     required this.title,
@@ -2514,37 +2668,7 @@ class PremiumScaffold extends StatelessWidget {
             persistentPill!,
             CollectSpacing.gap20,
           ],
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: Theme.of(context).textTheme.headlineMedium,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    if (subtitle != null) ...[
-                      CollectSpacing.gap8,
-                      Text(
-                        subtitle!,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-              if (actions.isNotEmpty) ...[
-                CollectSpacing.gapW12,
-                Wrap(spacing: CollectSpacing.x2, children: actions),
-              ],
-            ],
-          ),
+          ScreenHeader(title: title, subtitle: subtitle, actions: actions),
           if (banner != null) ...[CollectSpacing.gap20, banner!],
           CollectSpacing.gap24,
           ..._withGaps(children),
@@ -2635,35 +2759,45 @@ class _PipelineStage extends StatelessWidget {
         ? CollectStatusTone.info
         : CollectStatusTone.neutral;
     final foreground = colors.statusForeground(tone);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        DecoratedBox(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: colors.statusBackground(tone),
-            border: Border.all(color: foreground.withValues(alpha: 0.26)),
-          ),
-          child: SizedBox.square(
-            dimension: 38,
-            child: Icon(
-              complete ? CollectIcons.check : icon,
-              color: foreground,
+    final stateLabel = complete
+        ? 'complete'
+        : current
+        ? 'current'
+        : 'pending';
+    return Semantics(
+      container: true,
+      explicitChildNodes: true,
+      label: '$label step $stateLabel',
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: colors.statusBackground(tone),
+              border: Border.all(color: foreground.withValues(alpha: 0.26)),
+            ),
+            child: SizedBox.square(
+              dimension: 38,
+              child: Icon(
+                complete ? CollectIcons.check : icon,
+                color: foreground,
+              ),
             ),
           ),
-        ),
-        CollectSpacing.gap8,
-        Text(
-          label,
-          style: Theme.of(context).textTheme.labelSmall?.copyWith(
-            color: foreground,
-            fontWeight: FontWeight.w800,
+          CollectSpacing.gap8,
+          Text(
+            label,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              color: foreground,
+              fontWeight: FontWeight.w800,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
           ),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.center,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

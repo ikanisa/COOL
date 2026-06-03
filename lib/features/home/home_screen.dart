@@ -64,35 +64,30 @@ class HomeScreen extends ConsumerWidget {
                 : CollectStatusTone.warning,
           ),
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              QuickActionButton(
-                icon: CollectIcons.add,
-                label: 'Create',
-                detail: 'Android owner',
-                onTap: () => openGroupCreation(context),
-                tone: CollectStatusTone.info,
-              ),
-              CollectSpacing.gapW12,
-              QuickActionButton(
-                icon: CollectIcons.collections,
-                label: 'Groups',
-                detail: '$collectionCount active',
-                onTap: () => context.go('/groups'),
-                tone: CollectStatusTone.success,
-              ),
-              CollectSpacing.gapW12,
-              QuickActionButton(
-                icon: CollectIcons.profile,
-                label: 'Profile',
-                detail: 'Collect ID',
-                onTap: () => context.go('/settings/profile'),
-                tone: CollectStatusTone.privacy,
-              ),
-            ],
-          ),
+        QuickActionRail(
+          children: [
+            QuickActionButton(
+              icon: CollectIcons.add,
+              label: 'Create',
+              detail: 'Android owner',
+              onTap: () => openGroupCreation(context),
+              tone: CollectStatusTone.info,
+            ),
+            QuickActionButton(
+              icon: CollectIcons.collections,
+              label: 'Groups',
+              detail: '$collectionCount active',
+              onTap: () => context.go('/groups'),
+              tone: CollectStatusTone.success,
+            ),
+            QuickActionButton(
+              icon: CollectIcons.profile,
+              label: 'Profile',
+              detail: 'Collect ID',
+              onTap: () => context.go('/settings/profile'),
+              tone: CollectStatusTone.privacy,
+            ),
+          ],
         ),
         InfoSecurityBanner(
           title: smsActive ? 'System integrity verified' : 'System integrity',

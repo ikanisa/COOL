@@ -47,6 +47,41 @@ void main() {
     expect(find.text('Auto'), findsNothing);
   });
 
+  testWidgets('group card tolerates long names and large verified totals', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: SizedBox(
+            width: 320,
+            child: CollectionCard(
+              collection: CollectCollection(
+                id: 'c-long',
+                slug: 'st-michel-medical-support',
+                creatorUserId: 'u1',
+                title: 'St Michel emergency medical support group',
+                description: 'Private group',
+                createdAt: DateTime(2026),
+              ),
+              summary: const CollectionSummary(
+                amountRaisedRwf: 12500000,
+                supporterCount: 128,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(
+      find.text('St Michel emergency medical support group'),
+      findsOneWidget,
+    );
+    expect(find.text('RWF 12,500,000'), findsOneWidget);
+    expect(find.text('128 members'), findsOneWidget);
+  });
+
   testWidgets('payment status screen renders receiver details', (tester) async {
     final repo = CollectRepository.seeded();
     await tester.pumpWidget(

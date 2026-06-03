@@ -93,35 +93,30 @@ class CollectionDetailScreen extends ConsumerWidget {
             ],
           ),
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              QuickActionButton(
-                icon: CollectIcons.momo,
-                label: 'Contribute',
-                detail: 'MoMo',
-                onTap: () => context.go('/groups/$collectionId/contribute'),
-                tone: CollectStatusTone.info,
-              ),
-              CollectSpacing.gapW12,
-              QuickActionButton(
-                icon: CollectIcons.share,
-                label: 'Share',
-                detail: 'Link or QR',
-                onTap: () => context.go('/groups/$collectionId/share'),
-                tone: CollectStatusTone.success,
-              ),
-              CollectSpacing.gapW12,
-              QuickActionButton(
-                icon: CollectIcons.ledger,
-                label: 'Ledger',
-                detail: 'Confirmed',
-                onTap: () => context.go('/groups/$collectionId/ledger'),
-                tone: CollectStatusTone.privacy,
-              ),
-            ],
-          ),
+        QuickActionRail(
+          children: [
+            QuickActionButton(
+              icon: CollectIcons.momo,
+              label: 'Contribute',
+              detail: 'MoMo',
+              onTap: () => context.go('/groups/$collectionId/contribute'),
+              tone: CollectStatusTone.info,
+            ),
+            QuickActionButton(
+              icon: CollectIcons.share,
+              label: 'Share',
+              detail: 'Link or QR',
+              onTap: () => context.go('/groups/$collectionId/share'),
+              tone: CollectStatusTone.success,
+            ),
+            QuickActionButton(
+              icon: CollectIcons.ledger,
+              label: 'Ledger',
+              detail: 'Confirmed',
+              onTap: () => context.go('/groups/$collectionId/ledger'),
+              tone: CollectStatusTone.privacy,
+            ),
+          ],
         ),
         const SectionHeader(title: 'Recent support'),
         if (contributions.isEmpty)

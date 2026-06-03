@@ -21,6 +21,7 @@ import '../features/profile/profile_setup_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../features/status/production_state_screens.dart';
 import '../shared/providers/collect_app_state.dart';
+import '../shared/widgets/collect_components.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) => createAppRouter());
 
@@ -339,6 +340,23 @@ class _RouteNotFoundScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text('Route not found')));
+    return CollectPlaceholderScreen(
+      title: 'Screen not found',
+      description:
+          'This Collect screen is unavailable. Return to verified groups or the home overview.',
+      actions: [
+        CollectButton(
+          label: 'Home',
+          icon: CollectIcons.home,
+          onPressed: () => context.go('/home'),
+        ),
+        CollectButton(
+          label: 'Groups',
+          icon: CollectIcons.collections,
+          variant: CollectButtonVariant.secondary,
+          onPressed: () => context.go('/groups'),
+        ),
+      ],
+    );
   }
 }

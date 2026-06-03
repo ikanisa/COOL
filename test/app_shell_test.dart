@@ -19,6 +19,21 @@ void main() {
     expect(find.textContaining('wallet'), findsNothing);
   });
 
+  testWidgets('unknown routes render branded recovery actions', (tester) async {
+    final router = createAppRouter(initialLocation: '/missing-route');
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(
+      MaterialApp.router(theme: AppTheme.light(), routerConfig: router),
+    );
+    await tester.pump();
+
+    expect(find.text('Screen not found'), findsOneWidget);
+    expect(find.textContaining('verified groups'), findsOneWidget);
+    expect(find.text('Home'), findsOneWidget);
+    expect(find.text('Groups'), findsOneWidget);
+  });
+
   test('main Collect routes are registered', () {
     expect(
       collectRoutePaths,
