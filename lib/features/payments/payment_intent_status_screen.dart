@@ -51,6 +51,26 @@ class _PaymentIntentStatusScreenState
           icon: Icon(_refreshing ? CollectIcons.pending : CollectIcons.sync),
         ),
       ],
+      bottomAction: BottomActionSurface(
+        children: [
+          CollectButton(
+            label: 'Open ledger',
+            icon: CollectIcons.ledger,
+            onPressed: () =>
+                context.go('/groups/${widget.collectionId}/ledger'),
+            expand: true,
+          ),
+          CollectButton(
+            label: _stateActionLabel(uiStatus),
+            icon: _stateActionIcon(uiStatus),
+            onPressed: () => context.go(
+              '/groups/${widget.collectionId}/pay/${widget.intentId}/state/${_statePath(uiStatus)}',
+            ),
+            variant: CollectButtonVariant.secondary,
+            expand: true,
+          ),
+        ],
+      ),
       children: [
         if (_error != null)
           InfoSecurityBanner(
@@ -70,21 +90,6 @@ class _PaymentIntentStatusScreenState
           message:
               'Payment intent ${intent.id}. Collect posts to the ledger after receiver-side MoMo SMS verification.',
           tone: CollectStatusTone.privacy,
-        ),
-        CollectButton(
-          label: 'Open ledger',
-          icon: CollectIcons.ledger,
-          onPressed: () => context.go('/groups/${widget.collectionId}/ledger'),
-          expand: true,
-        ),
-        CollectButton(
-          label: _stateActionLabel(uiStatus),
-          icon: _stateActionIcon(uiStatus),
-          onPressed: () => context.go(
-            '/groups/${widget.collectionId}/pay/${widget.intentId}/state/${_statePath(uiStatus)}',
-          ),
-          variant: CollectButtonVariant.secondary,
-          expand: true,
         ),
       ],
     );

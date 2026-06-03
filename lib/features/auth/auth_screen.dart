@@ -41,6 +41,34 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       subtitle: _otpSent
           ? 'Enter the code sent to ${_phone.text.trim()}.'
           : 'Sign in with your WhatsApp number.',
+      bottomAction: BottomActionSurface(
+        children: [
+          CollectButton(
+            label: _submitting
+                ? 'Checking'
+                : _otpSent
+                ? 'Verify and continue'
+                : 'Send WhatsApp code',
+            icon: _otpSent ? CollectIcons.shield : CollectIcons.sms,
+            onPressed: _submitting ? null : () => _submit(env),
+            expand: true,
+          ),
+          if (_otpSent)
+            CollectButton(
+              label: 'Use another number',
+              icon: CollectIcons.tune,
+              onPressed: _submitting
+                  ? null
+                  : () => setState(() {
+                      _otpSent = false;
+                      _otp.clear();
+                      _error = null;
+                    }),
+              variant: CollectButtonVariant.secondary,
+              expand: true,
+            ),
+        ],
+      ),
       children: [
         MinimalStatePanel(
           icon: _otpSent ? CollectIcons.shield : CollectIcons.momo,
@@ -52,78 +80,36 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               : 'Collect links your WhatsApp sign-in to a private Collect ID for group contributions.',
           tone: CollectStatusTone.privacy,
         ),
-        CollectCard(
-          padding: CollectSpacing.cardPaddingComfortable,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        FormSectionCard(
+          errorTitle: 'Authentication failed',
+          errorMessage: _error,
+          children: [
+            TextField(
+              controller: _phone,
+              keyboardType: TextInputType.phone,
+              decoration: collectInputDecoration(
+                context,
+                label: 'WhatsApp phone',
+                helper: 'Use international format, for example +250788123456.',
+              ),
+            ),
+            if (_otpSent) ...[
+              OtpCodeField(controller: _otp),
+              Text(
+                'You can request a fresh code after 45 seconds.',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+            if (env.authCaptchaEnabled)
               TextField(
-                controller: _phone,
-                keyboardType: TextInputType.phone,
+                controller: _captchaToken,
                 decoration: collectInputDecoration(
                   context,
-                  label: 'WhatsApp phone',
-                  helper:
-                      'Use international format, for example +250788123456.',
+                  label:
+                      '${env.authCaptchaProvider.isEmpty ? 'CAPTCHA' : env.authCaptchaProvider} verification token',
                 ),
               ),
-              if (_otpSent) ...[
-                CollectSpacing.gap16,
-                OtpCodeField(controller: _otp),
-                CollectSpacing.gap8,
-                Text(
-                  'You can request a fresh code after 45 seconds.',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ],
-              if (env.authCaptchaEnabled) ...[
-                CollectSpacing.gap12,
-                TextField(
-                  controller: _captchaToken,
-                  decoration: collectInputDecoration(
-                    context,
-                    label:
-                        '${env.authCaptchaProvider.isEmpty ? 'CAPTCHA' : env.authCaptchaProvider} verification token',
-                  ),
-                ),
-              ],
-              if (_error != null) ...[
-                CollectSpacing.gap12,
-                InfoSecurityBanner(
-                  title: 'Authentication failed',
-                  message: _error!,
-                  tone: CollectStatusTone.danger,
-                ),
-              ],
-              CollectSpacing.gap16,
-              CollectButton(
-                label: _submitting
-                    ? 'Checking'
-                    : _otpSent
-                    ? 'Verify and continue'
-                    : 'Send WhatsApp code',
-                icon: _otpSent ? CollectIcons.shield : CollectIcons.sms,
-                onPressed: _submitting ? null : () => _submit(env),
-                expand: true,
-              ),
-              if (_otpSent) ...[
-                CollectSpacing.gap12,
-                CollectButton(
-                  label: 'Use another number',
-                  icon: CollectIcons.tune,
-                  onPressed: _submitting
-                      ? null
-                      : () => setState(() {
-                          _otpSent = false;
-                          _otp.clear();
-                          _error = null;
-                        }),
-                  variant: CollectButtonVariant.secondary,
-                  expand: true,
-                ),
-              ],
-            ],
-          ),
+          ],
         ),
       ],
     );

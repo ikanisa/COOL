@@ -331,6 +331,65 @@ void main() {
     expect(find.text('Target account'), findsOneWidget);
   });
 
+  testWidgets('form section card standardizes fields errors and actions', (
+    tester,
+  ) async {
+    await _pumpCollect(
+      tester,
+      FormSectionCard(
+        title: 'Group profile',
+        message: 'Members see the group name and public link.',
+        errorTitle: 'Create failed',
+        errorMessage: 'Name required.',
+        actions: [CollectButton(label: 'Create group', onPressed: () {})],
+        children: const [
+          TextField(decoration: InputDecoration(labelText: 'Group name')),
+        ],
+      ),
+    );
+
+    expect(find.text('Group profile'), findsOneWidget);
+    expect(
+      find.text('Members see the group name and public link.'),
+      findsOneWidget,
+    );
+    expect(find.text('Group name'), findsOneWidget);
+    expect(find.text('Create failed'), findsOneWidget);
+    expect(find.text('Name required.'), findsOneWidget);
+    expect(find.text('Create group'), findsOneWidget);
+  });
+
+  testWidgets('list tile separates static information from actions', (
+    tester,
+  ) async {
+    await _pumpCollect(
+      tester,
+      Column(
+        children: [
+          const CollectListTile(
+            leading: CollectIcons.info,
+            title: 'SMS matching',
+            subtitle:
+                'Receiver-side MoMo confirmations update the ledger without exposing raw SMS bodies publicly.',
+          ),
+          CollectListTile(
+            leading: CollectIcons.profile,
+            title: 'Profile',
+            subtitle: 'Open setup.',
+            onTap: () {},
+          ),
+        ],
+      ),
+    );
+
+    expect(find.byIcon(CollectIcons.chevron), findsOneWidget);
+    expect(find.text('SMS matching'), findsOneWidget);
+    expect(
+      find.textContaining('without exposing raw SMS bodies'),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('screen header preserves long titles and wraps tight actions', (
     tester,
   ) async {

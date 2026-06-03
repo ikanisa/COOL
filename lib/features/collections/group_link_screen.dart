@@ -30,6 +30,26 @@ class _JoinGroupPortalScreenState extends ConsumerState<JoinGroupPortalScreen> {
     return ScreenScaffold(
       title: 'Join group',
       subtitle: 'Code, link, or QR.',
+      bottomAction: BottomActionSurface(
+        children: [
+          CollectButton(
+            label: _joining ? 'Joining' : 'Join group',
+            icon: CollectIcons.arrowForward,
+            onPressed: _joining ? null : _join,
+            expand: true,
+          ),
+          CollectButton(
+            label: 'Scan QR code',
+            icon: CollectIcons.qr,
+            onPressed: () => setState(() {
+              _error =
+                  'QR scanning is not enabled in this build. Use the group link or code.';
+            }),
+            variant: CollectButtonVariant.secondary,
+            expand: true,
+          ),
+        ],
+      ),
       children: [
         const MinimalStatePanel(
           icon: CollectIcons.qr,
@@ -38,47 +58,19 @@ class _JoinGroupPortalScreenState extends ConsumerState<JoinGroupPortalScreen> {
               'Paste a shared Collect link or enter the group code. Receiver MoMo details stay inside the contribution review step.',
           tone: CollectStatusTone.privacy,
         ),
-        CollectCard(
-          padding: CollectSpacing.cardPaddingComfortable,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextField(
-                controller: _code,
-                decoration: collectInputDecoration(
-                  context,
-                  label: 'Group code or link',
-                  helper: 'Example: st-michel-building-fund or a /c/ link.',
-                ),
+        FormSectionCard(
+          errorTitle: 'Could not join',
+          errorMessage: _error,
+          children: [
+            TextField(
+              controller: _code,
+              decoration: collectInputDecoration(
+                context,
+                label: 'Group code or link',
+                helper: 'Example: st-michel-building-fund or a /c/ link.',
               ),
-              if (_error != null) ...[
-                CollectSpacing.gap12,
-                InfoSecurityBanner(
-                  title: 'Could not join',
-                  message: _error!,
-                  tone: CollectStatusTone.danger,
-                ),
-              ],
-              CollectSpacing.gap16,
-              CollectButton(
-                label: _joining ? 'Joining' : 'Join group',
-                icon: CollectIcons.arrowForward,
-                onPressed: _joining ? null : _join,
-                expand: true,
-              ),
-              CollectSpacing.gap12,
-              CollectButton(
-                label: 'Scan QR code',
-                icon: CollectIcons.qr,
-                onPressed: () => setState(() {
-                  _error =
-                      'QR scanning is not enabled in this build. Use the group link or code.';
-                }),
-                variant: CollectButtonVariant.secondary,
-                expand: true,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );

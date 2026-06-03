@@ -51,6 +51,17 @@ class _CollectionCreateScreenState
     }
     return ScreenScaffold(
       title: 'Create group',
+      bottomAction: BottomActionSurface(
+        children: [
+          CollectButton(
+            label: _creating ? 'Creating group' : 'Create group',
+            icon: CollectIcons.check,
+            onPressed: _creating ? null : _create,
+            variant: CollectButtonVariant.primary,
+            expand: true,
+          ),
+        ],
+      ),
       children: [
         const MinimalStatePanel(
           icon: CollectIcons.sms,
@@ -59,73 +70,39 @@ class _CollectionCreateScreenState
               'Create a group from the Android owner device that receives MoMo confirmations. Collect uses SMS access to verify payments automatically.',
           tone: CollectStatusTone.privacy,
         ),
-        CollectCard(
-          padding: CollectSpacing.cardPaddingComfortable,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Group profile',
-                style: Theme.of(context).textTheme.titleLarge,
+        FormSectionCard(
+          title: 'Group profile',
+          message:
+              'Members see the group name, description, and public link. Receiver MoMo details are only shown during contribution review.',
+          errorTitle: 'Create failed',
+          errorMessage: _error,
+          children: [
+            TextField(
+              controller: _title,
+              decoration: collectInputDecoration(context, label: 'Group name'),
+            ),
+            TextField(
+              controller: _description,
+              maxLines: 3,
+              decoration: collectInputDecoration(context, label: 'Description'),
+            ),
+            TextField(
+              controller: _receiver,
+              keyboardType: TextInputType.phone,
+              decoration: collectInputDecoration(
+                context,
+                label: 'Receiver MoMo number',
+                helper:
+                    'Synced from your profile. Edit only if this group receives on a different number.',
               ),
-              CollectSpacing.gap8,
-              Text(
-                'Members see the group name, description, and public link. Receiver MoMo details are only shown during contribution review.',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              CollectSpacing.gap16,
-              TextField(
-                controller: _title,
-                decoration: collectInputDecoration(
-                  context,
-                  label: 'Group name',
-                ),
-              ),
-              CollectSpacing.gap12,
-              TextField(
-                controller: _description,
-                maxLines: 3,
-                decoration: collectInputDecoration(
-                  context,
-                  label: 'Description',
-                ),
-              ),
-              CollectSpacing.gap12,
-              TextField(
-                controller: _receiver,
-                keyboardType: TextInputType.phone,
-                decoration: collectInputDecoration(
-                  context,
-                  label: 'Receiver MoMo number',
-                  helper:
-                      'Synced from your profile. Edit only if this group receives on a different number.',
-                ),
-              ),
-              CollectSpacing.gap12,
-              const InfoSecurityBanner(
-                title: 'SMS permission required',
-                message:
-                    'Collect will ask for Android SMS access so receiver-side MoMo confirmations can update the ledger.',
-                tone: CollectStatusTone.privacy,
-              ),
-              if (_error != null) ...[
-                CollectSpacing.gap12,
-                InfoSecurityBanner(
-                  title: 'Create failed',
-                  message: _error!,
-                  tone: CollectStatusTone.danger,
-                ),
-              ],
-              CollectSpacing.gap16,
-              CollectButton(
-                label: _creating ? 'Creating group' : 'Create group',
-                icon: CollectIcons.check,
-                onPressed: _creating ? null : _create,
-                variant: CollectButtonVariant.primary,
-                expand: true,
-              ),
-            ],
-          ),
+            ),
+            const InfoSecurityBanner(
+              title: 'SMS permission required',
+              message:
+                  'Collect will ask for Android SMS access so receiver-side MoMo confirmations can update the ledger.',
+              tone: CollectStatusTone.privacy,
+            ),
+          ],
         ),
       ],
     );

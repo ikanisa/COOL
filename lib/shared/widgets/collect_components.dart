@@ -645,6 +645,64 @@ class EmptySearchState extends StatelessWidget {
   }
 }
 
+class FormSectionCard extends StatelessWidget {
+  const FormSectionCard({
+    required this.children,
+    this.title,
+    this.message,
+    this.errorTitle,
+    this.errorMessage,
+    this.actions = const [],
+    super.key,
+  });
+
+  final String? title;
+  final String? message;
+  final String? errorTitle;
+  final String? errorMessage;
+  final List<Widget> children;
+  final List<Widget> actions;
+
+  @override
+  Widget build(BuildContext context) {
+    return CollectCard(
+      padding: CollectSpacing.cardPaddingComfortable,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (title != null) ...[
+            Text(title!, style: Theme.of(context).textTheme.titleLarge),
+            if (message != null) CollectSpacing.gap8,
+          ],
+          if (message != null) ...[
+            Text(message!, style: Theme.of(context).textTheme.bodyMedium),
+            if (children.isNotEmpty) CollectSpacing.gap16,
+          ],
+          for (var index = 0; index < children.length; index += 1) ...[
+            children[index],
+            if (index != children.length - 1) CollectSpacing.gap12,
+          ],
+          if (errorMessage != null) ...[
+            CollectSpacing.gap12,
+            InfoSecurityBanner(
+              title: errorTitle ?? 'Action failed',
+              message: errorMessage!,
+              tone: CollectStatusTone.danger,
+            ),
+          ],
+          if (actions.isNotEmpty) ...[
+            CollectSpacing.gap16,
+            for (var index = 0; index < actions.length; index += 1) ...[
+              actions[index],
+              if (index != actions.length - 1) CollectSpacing.gap12,
+            ],
+          ],
+        ],
+      ),
+    );
+  }
+}
+
 class NotificationUpdateRow extends StatelessWidget {
   const NotificationUpdateRow({
     required this.title,
@@ -972,14 +1030,17 @@ class CollectListTile extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: colors.textSecondary,
                       ),
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ],
               ),
             ),
-            trailing ?? Icon(CollectIcons.chevron, color: colors.textMuted),
+            if (trailing != null || onTap != null) ...[
+              CollectSpacing.gapW12,
+              trailing ?? Icon(CollectIcons.chevron, color: colors.textMuted),
+            ],
           ],
         ),
       ),
