@@ -468,7 +468,6 @@ required_mobile_routes = %w[
   /share/invalid
   /share/expired
   /groups/col-church/contribute
-  /groups/col-church/pay/intent-render/handoff
   /groups/col-church/pay/intent-render/waiting
   /groups/col-church/pay/intent-render/state/pending
   /groups/col-church/pay/intent-render/state/confirmed

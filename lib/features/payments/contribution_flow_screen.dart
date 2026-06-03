@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
@@ -65,9 +68,7 @@ class _ContributionFlowScreenState
         children: _reviewing
             ? [
                 CollectButton(
-                  label: _creating
-                      ? 'Creating intent'
-                      : 'Confirm and open MoMo',
+                  label: _creating ? 'Opening MOMO' : 'Pay with MOMO',
                   icon: CollectIcons.momo,
                   onPressed: _creating ? null : _createIntent,
                   expand: true,
@@ -106,19 +107,11 @@ class _ContributionFlowScreenState
             controller: _amount,
             amount: amount,
             quickAmounts: const [1000, 5000, 10000, 20000],
-            detail:
-                'Payment will continue in MoMo USSD and post to the ledger after SMS verification.',
             error: _error,
             onQuickAmount: (value) => setState(() {
               _amount.text = value.toString();
               _error = null;
             }),
-          ),
-          InfoSecurityBanner(
-            title: 'Target account',
-            message:
-                '${collection.receiverDisplayLabel} receives this group contribution. Receiver MoMo details are checked before handoff.',
-            tone: CollectStatusTone.privacy,
           ),
         ] else ...[
           PaymentReviewSummary(
@@ -127,14 +120,7 @@ class _ContributionFlowScreenState
             receiverLabel: collection.receiverDisplayLabel,
             receiverMomoNumber:
                 collection.receiverMomoNumber ?? 'Not configured',
-            collectId: profile.publicId,
             onEdit: () => setState(() => _reviewing = false),
-          ),
-          const InfoSecurityBanner(
-            title: 'MoMo handoff',
-            message:
-                'The next step opens the system dialer. Confirmation is recorded only after Collect receives and allocates the MoMo SMS.',
-            tone: CollectStatusTone.info,
           ),
         ],
       ],
@@ -161,13 +147,24 @@ class _ContributionFlowScreenState
             ),
           );
       if (!mounted) return;
-      context.go('/groups/${widget.collectionId}/pay/${intent.id}/handoff');
+      unawaited(_launchMomoDialer());
+      if (!mounted) return;
+      context.go('/groups/${widget.collectionId}/pay/${intent.id}/waiting');
     } catch (error) {
       if (!mounted) return;
       setState(() {
         _creating = false;
         _error = error.toString();
       });
+    }
+  }
+
+  Future<void> _launchMomoDialer() async {
+    try {
+      await launchUrl(momoUssdUri(), mode: LaunchMode.externalApplication);
+    } catch (_) {
+      // Web and some desktops cannot handle tel: links; the waiting screen
+      // still gives the user a recoverable payment state.
     }
   }
 }

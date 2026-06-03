@@ -134,14 +134,14 @@ void main() {
     );
     await tester.pump();
 
-    expect(find.text('Target account'), findsOneWidget);
+    expect(find.text('Target account'), findsNothing);
     expect(find.text('Review contribution'), findsOneWidget);
 
     await tester.tap(find.text('Review contribution'));
     await tester.pump();
 
     expect(find.text('Review'), findsOneWidget);
-    expect(find.text('Confirm and open MoMo'), findsOneWidget);
+    expect(find.text('Pay with MOMO'), findsOneWidget);
     expect(find.text('Edit amount'), findsWidgets);
   });
 }

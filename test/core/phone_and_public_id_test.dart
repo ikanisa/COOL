@@ -11,6 +11,22 @@ void main() {
     expect(PhoneNormalizer.normalizeRwanda('+250788123456'), '+250788123456');
   });
 
+  test('normalizes MTN MoMo numbers to local Rwanda format', () {
+    expect(
+      PhoneNormalizer.normalizeMtnMomoLocal('+250788123456'),
+      '0788123456',
+    );
+    expect(PhoneNormalizer.normalizeMtnMomoLocal('788123456'), '0788123456');
+    expect(PhoneNormalizer.normalizeMtnMomoLocal('0791234567'), '0791234567');
+  });
+
+  test('rejects non-MTN Rwanda numbers for MoMo profile setup', () {
+    expect(
+      () => PhoneNormalizer.normalizeMtnMomoLocal('0722123456'),
+      throwsFormatException,
+    );
+  });
+
   test('keeps Rwanda-only normalization for local MoMo helper paths', () {
     expect(
       () => PhoneNormalizer.normalizeRwanda('+14155550100'),

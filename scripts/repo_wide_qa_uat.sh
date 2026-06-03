@@ -204,7 +204,6 @@ JSON
     "share-invalid|/share/invalid"
     "share-expired|/share/expired"
     "contribution|/groups/col-church/contribute"
-    "payment-handoff|/groups/col-church/pay/intent-render/handoff"
     "payment-waiting|/groups/col-church/pay/intent-render/waiting"
     "payment-pending|/groups/col-church/pay/intent-render/state/pending"
     "payment-confirmed|/groups/col-church/pay/intent-render/state/confirmed"

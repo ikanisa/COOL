@@ -503,7 +503,7 @@ class AmountEntryPanel extends StatelessWidget {
     required this.amount,
     required this.quickAmounts,
     required this.onQuickAmount,
-    this.label = 'Amount to send',
+    this.label,
     this.detail,
     this.error,
     super.key,
@@ -513,7 +513,7 @@ class AmountEntryPanel extends StatelessWidget {
   final int amount;
   final List<int> quickAmounts;
   final ValueChanged<int> onQuickAmount;
-  final String label;
+  final String? label;
   final String? detail;
   final String? error;
 
@@ -526,11 +526,13 @@ class AmountEntryPanel extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label.toUpperCase(),
-            style: CollectTypography.eyebrowLabel(colors.textMuted),
-          ),
-          CollectSpacing.gap12,
+          if (label != null && label!.trim().isNotEmpty) ...[
+            Text(
+              label!.toUpperCase(),
+              style: CollectTypography.eyebrowLabel(colors.textMuted),
+            ),
+            CollectSpacing.gap12,
+          ],
           TextField(
             controller: controller,
             keyboardType: TextInputType.number,
@@ -796,7 +798,6 @@ class PaymentReviewSummary extends StatelessWidget {
     required this.groupTitle,
     required this.receiverLabel,
     required this.receiverMomoNumber,
-    required this.collectId,
     this.onEdit,
     super.key,
   });
@@ -805,7 +806,6 @@ class PaymentReviewSummary extends StatelessWidget {
   final String groupTitle;
   final String receiverLabel;
   final String receiverMomoNumber;
-  final String collectId;
   final VoidCallback? onEdit;
 
   @override
@@ -843,7 +843,6 @@ class PaymentReviewSummary extends StatelessWidget {
           _ReviewLine(label: 'Group', value: groupTitle),
           _ReviewLine(label: 'Receiver', value: receiverLabel),
           _ReviewLine(label: 'MoMo', value: receiverMomoNumber),
-          _ReviewLine(label: 'Collect ID', value: collectId),
         ],
       ),
     );
@@ -2712,7 +2711,7 @@ class GroupCard extends StatelessWidget {
               Expanded(
                 child: AmountHero(
                   amount: summary.amountRaisedRwf,
-                  label: 'Confirmed total',
+                  label: '',
                   detail: '${summary.supporterCount} members',
                 ),
               ),

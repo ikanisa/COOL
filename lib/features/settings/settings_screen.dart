@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../shared/repositories/collect_repository.dart';
+import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
@@ -65,11 +66,11 @@ class SettingsScreen extends ConsumerWidget {
                 subtitle: 'Session and requests.',
                 onTap: () => context.go('/settings/account'),
               ),
-              CollectListTile(
+              const CollectListTile(
                 leading: CollectIcons.support,
                 title: 'Help',
-                subtitle: 'Support request.',
-                onTap: () => context.go('/settings/help'),
+                subtitle: 'WhatsApp support.',
+                onTap: openCollectWhatsAppSupport,
               ),
               CollectListTile(
                 leading: CollectIcons.info,

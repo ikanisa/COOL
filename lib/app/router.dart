@@ -50,7 +50,6 @@ const collectRoutePaths = <String>[
   '/groups/:collectionId/owner/receiver',
   '/groups/:collectionId/manage',
   '/groups/:collectionId/contribute',
-  '/groups/:collectionId/pay/:intentId/handoff',
   '/groups/:collectionId/pay/:intentId/waiting',
   '/groups/:collectionId/pay/:intentId/state/:state',
   '/groups/:collectionId/pay/:intentId',
@@ -206,10 +205,8 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
                   ),
                   GoRoute(
                     path: 'pay/:intentId/handoff',
-                    builder: (context, state) => PaymentHandoffScreen(
-                      collectionId: state.pathParameters['collectionId']!,
-                      intentId: state.pathParameters['intentId']!,
-                    ),
+                    redirect: (context, state) =>
+                        '/groups/${state.pathParameters['collectionId']}/pay/${state.pathParameters['intentId']}/waiting',
                   ),
                   GoRoute(
                     path: 'pay/:intentId/waiting',

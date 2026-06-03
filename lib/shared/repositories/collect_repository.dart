@@ -173,7 +173,7 @@ class CollectRepository extends StateNotifier<CollectState> {
       id: 'local-user',
       publicId: '038491',
       whatsappPhone: '+250788123456',
-      momoNumber: '+250788123456',
+      momoNumber: '0788123456',
     );
     final church = CollectCollection(
       id: 'col-church',
@@ -285,6 +285,7 @@ class CollectRepository extends StateNotifier<CollectState> {
           id: _uuid.v4(),
           publicId: _publicIds.generate(existingIds),
           whatsappPhone: normalized,
+          momoNumber: PhoneNormalizer.tryNormalizeMtnMomoLocal(normalized),
         );
     state = state.copyWith(currentProfile: profile);
     return profile;
@@ -294,7 +295,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     final profile = _requireProfile();
     final normalizedMomo = momoNumber.trim().isEmpty
         ? null
-        : PhoneNormalizer.normalizeRwanda(momoNumber);
+        : PhoneNormalizer.normalizeMtnMomoLocal(momoNumber);
     final supabase = _supabase;
 
     if (supabase != null && supabase.auth.currentUser != null) {
@@ -718,7 +719,9 @@ class CollectRepository extends StateNotifier<CollectState> {
     String normalizedPhone,
   ) async {
     final existing = await _fetchProfile(userId);
-    if (existing != null) return existing;
+    if (existing != null) {
+      return _applyWhatsappMomoDefault(existing, normalizedPhone);
+    }
     final supabase = _supabase;
     if (supabase == null || supabase.auth.currentUser == null) {
       throw StateError('Sign in first');
@@ -730,7 +733,31 @@ class CollectRepository extends StateNotifier<CollectState> {
     if (row == null) {
       throw StateError('Collect profile could not be created');
     }
-    return CollectProfile.fromJson(Map<String, dynamic>.from(row as Map));
+    return _applyWhatsappMomoDefault(
+      CollectProfile.fromJson(Map<String, dynamic>.from(row as Map)),
+      normalizedPhone,
+    );
+  }
+
+  Future<CollectProfile> _applyWhatsappMomoDefault(
+    CollectProfile profile,
+    String normalizedPhone,
+  ) async {
+    if (profile.momoNumber?.trim().isNotEmpty == true) return profile;
+    final localMomo = PhoneNormalizer.tryNormalizeMtnMomoLocal(normalizedPhone);
+    if (localMomo == null) return profile;
+
+    final supabase = _supabase;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      await supabase
+          .from('profiles')
+          .update({
+            'momo_number': localMomo,
+            'momo_number_hash': HashUtils.phoneHash(localMomo),
+          })
+          .eq('id', profile.id);
+    }
+    return profile.copyWith(momoNumber: localMomo);
   }
 
   Future<List<CollectCollection>> _fetchCollections() async {

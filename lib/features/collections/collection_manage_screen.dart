@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/utils/money_format.dart';
 import '../../shared/providers/collect_app_state.dart';
 import '../../shared/repositories/collect_repository.dart';
+import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
@@ -118,18 +119,18 @@ class CollectionManageScreen extends ConsumerWidget {
                 subtitle: 'Active.',
                 onTap: () => context.go('/groups/$collectionId/members'),
               ),
-              CollectListTile(
+              const CollectListTile(
                 leading: CollectIcons.warning,
                 title: 'Close group',
                 subtitle:
                     'Not available in this build. Use share, ledger, and support.',
-                onTap: () => context.go('/settings/help'),
+                onTap: openCollectWhatsAppSupport,
               ),
-              CollectListTile(
+              const CollectListTile(
                 leading: CollectIcons.support,
                 title: 'Support',
                 subtitle: 'Request help with closing or receiver changes.',
-                onTap: () => context.go('/settings/help'),
+                onTap: openCollectWhatsAppSupport,
               ),
             ],
           ),

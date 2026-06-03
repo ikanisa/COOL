@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/security/phone_normalizer.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -30,7 +31,9 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
   Widget build(BuildContext context) {
     final profile = ref.watch(collectRepositoryProvider).currentProfile;
     if (!_synced && profile?.momoNumber?.trim().isNotEmpty == true) {
-      _momo.text = profile!.momoNumber!;
+      _momo.text =
+          PhoneNormalizer.tryNormalizeMtnMomoLocal(profile!.momoNumber!) ??
+          profile.momoNumber!;
       _synced = true;
     }
     return ScreenScaffold(
@@ -69,17 +72,13 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
           )
         else if (_step == 1)
           FormSectionCard(
-            title: 'Link MoMo number',
-            message:
-                'This number is used to verify contributions and owner receiver setup. It is not exposed on public share links.',
+            title: 'Add MOMO Number/Code',
             errorTitle: 'Profile not saved',
             errorMessage: _error,
             children: [
               CollectTextInput(
                 controller: _momo,
                 label: 'MoMo number',
-                helper:
-                    'Rwanda format, for example 0788123456 or +250788123456.',
                 keyboardType: TextInputType.phone,
                 textInputAction: TextInputAction.done,
                 autofillHints: const [AutofillHints.telephoneNumber],

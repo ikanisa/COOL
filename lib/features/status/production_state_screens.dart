@@ -8,6 +8,7 @@ import '../../core/utils/money_format.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/providers/collect_app_state.dart';
 import '../../shared/repositories/collect_repository.dart';
+import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
@@ -127,52 +128,13 @@ class SmsPermissionEducationScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ScreenScaffold(
       title: 'SMS access',
-      subtitle: 'Android owners only.',
       children: [
         const MinimalStatePanel(
           icon: CollectIcons.sms,
           title: 'Automate your group ledger.',
           message:
-              'Collect reads MoMo confirmation SMS on an approved Android owner device so payments can be matched and posted without manual transaction IDs.',
+              'Collect reads MOMO SMS to automatically record your group ledger.',
           tone: CollectStatusTone.privacy,
-        ),
-        const CollectCard(
-          emphasis: CollectCardEmphasis.flat,
-          child: Column(
-            children: [
-              CollectListTile(
-                leading: CollectIcons.sms,
-                title: 'What Collect reads',
-                subtitle:
-                    'Owner-side MoMo confirmation messages needed for this group ledger.',
-              ),
-              CollectListTile(
-                leading: CollectIcons.check,
-                title: 'What is parsed',
-                subtitle:
-                    'Amount, payment timing, transaction reference, and Collect ID when present.',
-              ),
-              CollectListTile(
-                leading: CollectIcons.sync,
-                title: 'What is synced',
-                subtitle:
-                    'Sanitized payment facts are sent to Supabase for matching, audit, and ledger posting.',
-              ),
-            ],
-          ),
-        ),
-        const InfoSecurityBanner(
-          title: 'Owner-only Android capture',
-          message:
-              'SMS access is used only by Android group owners for automated MoMo confirmation capture. Members can still join and contribute without SMS access.',
-          tone: CollectStatusTone.privacy,
-        ),
-        CollectButton(
-          label: 'Privacy details',
-          icon: CollectIcons.privacy,
-          onPressed: () => context.go('/settings/privacy'),
-          variant: CollectButtonVariant.secondary,
-          expand: true,
         ),
         CollectButton(
           label: 'Enable SMS access',
@@ -360,56 +322,11 @@ class SharedLinkProblemScreen extends StatelessWidget {
           variant: CollectButtonVariant.secondary,
           expand: true,
         ),
-        CollectButton(
+        const CollectButton(
           label: 'Get help',
           icon: CollectIcons.support,
-          onPressed: () => context.go('/settings/help'),
+          onPressed: openCollectWhatsAppSupport,
           variant: CollectButtonVariant.subtle,
-          expand: true,
-        ),
-      ],
-    );
-  }
-}
-
-class PaymentHandoffScreen extends StatelessWidget {
-  const PaymentHandoffScreen({
-    required this.collectionId,
-    required this.intentId,
-    super.key,
-  });
-
-  final String collectionId;
-  final String intentId;
-
-  @override
-  Widget build(BuildContext context) {
-    return ScreenScaffold(
-      title: 'Open MoMo',
-      children: [
-        const MinimalStatePanel(
-          icon: CollectIcons.momo,
-          title: 'Confirm on your phone.',
-          message:
-              'Collect will open the system dialer for MoMo USSD. Enter your MoMo PIN outside Collect, then return here while the receiver SMS is verified.',
-        ),
-        const InfoSecurityBanner(
-          title: 'USSD handoff',
-          message:
-              'This app opens the MoMo dialer through tel:. It does not ask you to paste SMS messages or transaction IDs.',
-          tone: CollectStatusTone.privacy,
-        ),
-        CollectButton(
-          label: 'Open MoMo USSD',
-          icon: CollectIcons.momo,
-          onPressed: () async {
-            await launchUrl(
-              _momoUssdUri(),
-              mode: LaunchMode.externalApplication,
-            );
-            if (!context.mounted) return;
-            context.go('/groups/$collectionId/pay/$intentId/waiting');
-          },
           expand: true,
         ),
       ],
@@ -462,10 +379,10 @@ class _ReturnFromMomoWaitingScreenState
                 context.go('/groups/${widget.collectionId}/contribute'),
             expand: true,
           ),
-          CollectButton(
+          const CollectButton(
             label: 'Get help',
             icon: CollectIcons.support,
-            onPressed: () => context.go('/settings/help'),
+            onPressed: openCollectWhatsAppSupport,
             variant: CollectButtonVariant.secondary,
             expand: true,
           ),
@@ -533,21 +450,27 @@ class _ReturnFromMomoWaitingScreenState
         CollectButton(
           label: 'Open MoMo again',
           icon: CollectIcons.momo,
-          onPressed: () => context.go(
-            '/groups/${widget.collectionId}/pay/${widget.intentId}/handoff',
-          ),
+          onPressed: _openMomoAgain,
           variant: CollectButtonVariant.secondary,
           expand: true,
         ),
-        CollectButton(
+        const CollectButton(
           label: 'Get help',
           icon: CollectIcons.support,
-          onPressed: () => context.go('/settings/help'),
+          onPressed: openCollectWhatsAppSupport,
           variant: CollectButtonVariant.subtle,
           expand: true,
         ),
       ],
     );
+  }
+
+  Future<void> _openMomoAgain() async {
+    try {
+      await launchUrl(_momoUssdUri(), mode: LaunchMode.externalApplication);
+    } catch (_) {
+      // Browser and desktop test shells often cannot handle tel: links.
+    }
   }
 
   Future<void> _refreshStatus() async {
@@ -618,6 +541,9 @@ class PaymentStateDetailScreen extends ConsumerWidget {
     final repo = ref.read(collectRepositoryProvider.notifier);
     final collection = _safeCollection(ref, collectionId);
     final intent = _safeIntent(repo, intentId);
+    final needsSupport =
+        state == PaymentUiStatus.expired ||
+        state == PaymentUiStatus.needsReview;
     final (title, message, tone) = switch (state) {
       PaymentUiStatus.confirmed => (
         'Payment confirmed',
@@ -667,10 +593,10 @@ class PaymentStateDetailScreen extends ConsumerWidget {
             ),
             expand: true,
           ),
-          CollectButton(
+          const CollectButton(
             label: 'Get help',
             icon: CollectIcons.support,
-            onPressed: () => context.go('/settings/help'),
+            onPressed: openCollectWhatsAppSupport,
             variant: CollectButtonVariant.secondary,
             expand: true,
           ),
@@ -718,7 +644,9 @@ class PaymentStateDetailScreen extends ConsumerWidget {
         CollectButton(
           label: _secondaryStateActionLabel(state),
           icon: _secondaryStateActionIcon(state),
-          onPressed: () => context.go(_secondaryStateActionPath(state)),
+          onPressed: needsSupport
+              ? openCollectWhatsAppSupport
+              : () => context.go(_secondaryStateActionPath(state)),
           variant: CollectButtonVariant.secondary,
           expand: true,
         ),
@@ -730,8 +658,7 @@ class PaymentStateDetailScreen extends ConsumerWidget {
     return switch (state) {
       PaymentUiStatus.confirmed => '/groups/$collectionId',
       PaymentUiStatus.pending => '/groups/$collectionId/pay/$intentId',
-      PaymentUiStatus.expired ||
-      PaymentUiStatus.needsReview => '/settings/help',
+      PaymentUiStatus.expired || PaymentUiStatus.needsReview => '/settings',
     };
   }
 }
@@ -927,44 +854,8 @@ class PrivacyDataScreen extends StatelessWidget {
           icon: CollectIcons.privacy,
           title: 'Collect ID first.',
           message:
-              'Collect represents members by a generated 6-digit Collect ID. The mobile app does not ask members for real names, display names, avatars, or anonymity choices.',
+              'Collect represents members by 6-digit Collect ID. No names, no phone numbers.',
           tone: CollectStatusTone.privacy,
-        ),
-        InfoSecurityBanner(
-          title: 'What SMS messages are read',
-          message:
-              'On approved Android owner devices, Collect reads MoMo confirmation SMS needed to verify group payments.',
-          tone: CollectStatusTone.privacy,
-        ),
-        InfoSecurityBanner(
-          title: 'What is parsed locally',
-          message:
-              'Collect extracts payment amount, timestamp, transaction reference, and Collect ID when present. It does not ask members for transaction IDs.',
-          tone: CollectStatusTone.privacy,
-        ),
-        InfoSecurityBanner(
-          title: 'What is sent to Supabase',
-          message:
-              'Sanitized payment facts, payment intent references, and audit events are synced for matching, exception review, and ledger posting.',
-          tone: CollectStatusTone.info,
-        ),
-        InfoSecurityBanner(
-          title: 'Retention and audit boundary',
-          message:
-              'Receiver MoMo details and SMS evidence stay inside owner, payment, support, and audit flows, not public group or share surfaces.',
-          tone: CollectStatusTone.info,
-        ),
-        InfoSecurityBanner(
-          title: 'Owner-only Android capture',
-          message:
-              'SMS capture is for Android group owners. Members and iPhone users can join and contribute without granting SMS access.',
-          tone: CollectStatusTone.privacy,
-        ),
-        InfoSecurityBanner(
-          title: 'Public sharing',
-          message:
-              'Group links and QR codes let members join or contribute without exposing the receiver MoMo number on public share surfaces.',
-          tone: CollectStatusTone.info,
         ),
       ],
     );
@@ -1031,131 +922,26 @@ class NotificationCenterScreen extends ConsumerWidget {
   }
 }
 
-class HelpSupportScreen extends ConsumerStatefulWidget {
+class HelpSupportScreen extends StatelessWidget {
   const HelpSupportScreen({super.key});
 
   @override
-  ConsumerState<HelpSupportScreen> createState() => _HelpSupportScreenState();
-}
-
-class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
-  final _subject = TextEditingController();
-  final _message = TextEditingController();
-  bool _submitted = false;
-  bool _submitting = false;
-  String? _error;
-
-  @override
-  void dispose() {
-    _subject.dispose();
-    _message.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return ScreenScaffold(
-      title: 'Help',
+    return const ScreenScaffold(
+      title: 'WhatsApp support',
       children: [
-        if (_error != null)
-          InfoSecurityBanner(
-            title: 'Request failed',
-            message: _error!,
-            tone: CollectStatusTone.warning,
-          ),
-        if (_submitted)
-          const MinimalStatePanel(
-            icon: CollectIcons.check,
-            title: 'Request saved.',
-            message:
-                'Support can review the request without exposing public raw SMS or receiver MoMo details.',
-            tone: CollectStatusTone.success,
-          )
-        else
-          const CollectCard(
-            emphasis: CollectCardEmphasis.flat,
-            child: Column(
-              children: [
-                CollectListTile(
-                  leading: CollectIcons.momo,
-                  title: 'MoMo payments',
-                  subtitle: 'USSD, pending verification, and retries.',
-                ),
-                CollectListTile(
-                  leading: CollectIcons.sms,
-                  title: 'SMS verification',
-                  subtitle: 'How Collect posts confirmed payments.',
-                ),
-                CollectListTile(
-                  leading: CollectIcons.privacy,
-                  title: 'Privacy and data',
-                  subtitle: 'Collect ID, receiver MoMo, and audit boundaries.',
-                ),
-              ],
-            ),
-          ),
-        if (!_submitted)
-          CollectCard(
-            child: Column(
-              children: [
-                CollectTextInput(
-                  controller: _subject,
-                  label: 'Subject',
-                  textInputAction: TextInputAction.next,
-                  textCapitalization: TextCapitalization.sentences,
-                  autocorrect: true,
-                ),
-                CollectSpacing.gap12,
-                CollectTextInput(
-                  controller: _message,
-                  label: 'Message',
-                  maxLines: 4,
-                  textInputAction: TextInputAction.newline,
-                  textCapitalization: TextCapitalization.sentences,
-                  autocorrect: true,
-                ),
-                CollectSpacing.gap16,
-                CollectButton(
-                  label: _submitting ? 'Sending' : 'Send',
-                  icon: CollectIcons.support,
-                  onPressed: _submitting
-                      ? null
-                      : () async {
-                          final subject = _subject.text.trim();
-                          final message = _message.text.trim();
-                          if (subject.isEmpty || message.isEmpty) {
-                            setState(() {
-                              _error = subject.isEmpty
-                                  ? 'Subject required.'
-                                  : 'Message required.';
-                            });
-                            return;
-                          }
-                          setState(() {
-                            _submitting = true;
-                            _error = null;
-                          });
-                          try {
-                            await ref
-                                .read(collectRepositoryProvider.notifier)
-                                .createSupportRequest(
-                                  subject: subject,
-                                  message: message,
-                                );
-                            if (mounted) setState(() => _submitted = true);
-                          } catch (error) {
-                            if (mounted) {
-                              setState(() => _error = error.toString());
-                            }
-                          } finally {
-                            if (mounted) setState(() => _submitting = false);
-                          }
-                        },
-                  expand: true,
-                ),
-              ],
-            ),
-          ),
+        MinimalStatePanel(
+          icon: CollectIcons.support,
+          title: 'Contact support on WhatsApp.',
+          message: '+250795588248',
+          tone: CollectStatusTone.info,
+        ),
+        CollectButton(
+          label: 'Open WhatsApp',
+          icon: CollectIcons.support,
+          onPressed: openCollectWhatsAppSupport,
+          expand: true,
+        ),
       ],
     );
   }

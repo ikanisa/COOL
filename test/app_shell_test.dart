@@ -13,7 +13,8 @@ void main() {
     await tester.pumpWidget(const ProviderScope(child: CollectApp()));
     await tester.pump();
 
-    expect(find.text('Collect'), findsWidgets);
+    expect(find.text('Good morning'), findsWidgets);
+    expect(find.text('TOTAL COLLECTED'), findsOneWidget);
     expect(find.text('Platform admin'), findsNothing);
     expect(find.textContaining('BioPay'), findsNothing);
     expect(find.textContaining('wallet'), findsNothing);
@@ -60,7 +61,6 @@ void main() {
         '/groups/:collectionId/owner/receiver',
         '/groups/:collectionId/manage',
         '/groups/:collectionId/contribute',
-        '/groups/:collectionId/pay/:intentId/handoff',
         '/groups/:collectionId/pay/:intentId/waiting',
         '/groups/:collectionId/pay/:intentId/state/:state',
         '/groups/:collectionId/pay/:intentId',

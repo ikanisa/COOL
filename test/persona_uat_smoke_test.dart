@@ -113,7 +113,8 @@ void main() {
     await tester.pumpWidget(const ProviderScope(child: CollectApp()));
     await pumpLaunchFrames(tester);
 
-    expect(find.text('Collect'), findsWidgets);
+    expect(find.text('Good morning'), findsWidgets);
+    expect(find.text('TOTAL COLLECTED'), findsOneWidget);
     expect(find.text('Platform admin'), findsNothing);
     expectNoGlobalSecrets();
   });
@@ -264,7 +265,7 @@ void main() {
     try {
       await pumpMainAppAt(tester, '/home');
 
-      await tapVisible(tester, find.byTooltip('Create group'));
+      await tapVisible(tester, find.text('Create').first);
 
       expect(
         find.text('group creation is available only on Android'),
@@ -379,9 +380,10 @@ void main() {
 
     await tapVisible(tester, find.text('Continue'));
 
-    expect(find.text('Link MoMo number'), findsOneWidget);
+    expect(find.text('Add MOMO Number/Code'), findsOneWidget);
     expect(find.text('MoMo number'), findsOneWidget);
-    expect(find.textContaining('public share links'), findsOneWidget);
+    expect(find.textContaining('public share links'), findsNothing);
+    expect(find.textContaining('Rwanda format'), findsNothing);
 
     await tapVisible(tester, find.text('Save MoMo number'));
 
@@ -417,7 +419,7 @@ void main() {
     expectNoGlobalSecrets();
   });
 
-  testWidgets('contribution review creates intent before MoMo handoff', (
+  testWidgets('contribution review creates intent and waits for SMS', (
     tester,
   ) async {
     final repository = CollectRepository.seeded();
@@ -430,7 +432,7 @@ void main() {
     expect(find.text('Contribute'), findsWidgets);
     await tester.drag(find.byType(ListView).last, const Offset(0, -500));
     await pumpLaunchFrames(tester);
-    expect(find.text('Target account'), findsOneWidget);
+    expect(find.text('Target account'), findsNothing);
 
     await tapVisible(
       tester,
@@ -441,19 +443,21 @@ void main() {
     expect(find.text('St Michel building fund'), findsWidgets);
     expect(find.text('St Michel treasury'), findsOneWidget);
     expect(find.text('+250788123456'), findsOneWidget);
-    expect(find.text('038491'), findsOneWidget);
+    expect(find.text('038491'), findsNothing);
 
     await tapVisible(
       tester,
-      find.widgetWithText(FilledButton, 'Confirm and open MoMo'),
+      find.widgetWithText(FilledButton, 'Pay with MOMO'),
     );
+    await pumpLaunchFrames(tester);
 
     expect(repository.state.paymentIntents, isNotEmpty);
-    expect(find.text('Open MoMo'), findsOneWidget);
+    expect(find.text('Waiting for SMS'), findsOneWidget);
     await tester.drag(find.byType(ListView).last, const Offset(0, -500));
     await pumpLaunchFrames(tester);
-    expect(find.text('Open MoMo USSD'), findsOneWidget);
-    expect(find.textContaining('paste SMS'), findsOneWidget);
+    expect(find.text('Listening for MoMo SMS'), findsOneWidget);
+    expect(find.text('Open MoMo'), findsNothing);
+    expect(find.text('Open MoMo USSD'), findsNothing);
     expectNoGlobalSecrets();
   });
 
@@ -502,7 +506,7 @@ void main() {
     'contribution attempt without profile MoMo routes to link state',
     (tester) async {
       final repository = CollectRepository();
-      await repository.signInWithOtp(phone: '+250788123456', otp: '123456');
+      await repository.signInWithOtp(phone: '+250722123456', otp: '123456');
       final collection = await repository.createCollection(
         title: 'Family group',
         description: 'Family support',
@@ -617,35 +621,31 @@ void main() {
       tester.element(find.text('Privacy and data').first),
     );
     expect(find.text('Collect ID first.'), findsOneWidget);
-    expect(find.text('What SMS messages are read'), findsOneWidget);
-    await scrollToVisible(tester, find.text('What is parsed locally'));
-    expect(find.text('What is parsed locally'), findsOneWidget);
-    await scrollToVisible(tester, find.text('What is sent to Supabase'));
-    expect(find.text('What is sent to Supabase'), findsOneWidget);
-    await scrollToVisible(tester, find.text('Retention and audit boundary'));
-    expect(find.text('Retention and audit boundary'), findsOneWidget);
-    await scrollToVisible(tester, find.text('Owner-only Android capture'));
-    expect(find.text('Owner-only Android capture'), findsOneWidget);
-    await scrollToVisible(
-      tester,
-      find.textContaining('Members and iPhone users can join and contribute'),
-    );
     expect(
-      find.textContaining('Members and iPhone users can join and contribute'),
+      find.text(
+        'Collect represents members by 6-digit Collect ID. No names, no phone numbers.',
+      ),
       findsOneWidget,
     );
+    expect(find.text('What SMS messages are read'), findsNothing);
+    expect(find.text('What is parsed locally'), findsNothing);
+    expect(find.text('What is sent to Supabase'), findsNothing);
+    expect(find.text('Retention and audit boundary'), findsNothing);
 
     router.go('/permissions/sms');
     await pumpLaunchFrames(tester);
 
     expect(find.text('SMS access'), findsWidgets);
-    expect(find.text('What Collect reads'), findsOneWidget);
-    await scrollToVisible(tester, find.text('What is parsed'));
-    expect(find.text('What is parsed'), findsOneWidget);
-    await scrollToVisible(tester, find.text('What is synced'));
-    expect(find.text('What is synced'), findsOneWidget);
-    await scrollToVisible(tester, find.text('Privacy details'));
-    expect(find.text('Privacy details'), findsOneWidget);
+    expect(
+      find.text(
+        'Collect reads MOMO SMS to automatically record your group ledger.',
+      ),
+      findsOneWidget,
+    );
+    expect(find.text('What Collect reads'), findsNothing);
+    expect(find.text('What is parsed'), findsNothing);
+    expect(find.text('What is synced'), findsNothing);
+    expect(find.text('Privacy details'), findsNothing);
 
     router.go('/notifications');
     await pumpLaunchFrames(tester);
@@ -726,11 +726,7 @@ void main() {
       find.text('Request help with closing or receiver changes.'),
       findsOneWidget,
     );
-
-    await tapVisible(tester, find.text('Close group'));
-
-    expect(find.text('Help'), findsOneWidget);
-    expect(find.text('MoMo payments'), findsOneWidget);
+    expect(find.text('MoMo payments'), findsNothing);
     expectNoGlobalSecrets();
   });
 
@@ -826,17 +822,15 @@ void main() {
     expectNoGlobalSecrets();
   });
 
-  testWidgets('help center includes support categories and request form', (
-    tester,
-  ) async {
+  testWidgets('help route opens WhatsApp support fallback', (tester) async {
     await pumpMainAppAt(tester, '/settings/help');
 
-    expect(find.text('Help'), findsOneWidget);
-    expect(find.text('MoMo payments'), findsOneWidget);
-    expect(find.text('SMS verification'), findsOneWidget);
-    expect(find.text('Privacy and data'), findsOneWidget);
-    expect(find.text('Subject'), findsOneWidget);
-    expect(find.text('Message'), findsOneWidget);
+    expect(find.text('WhatsApp support'), findsOneWidget);
+    expect(find.text('Contact support on WhatsApp.'), findsOneWidget);
+    expect(find.text('+250795588248'), findsOneWidget);
+    expect(find.text('Open WhatsApp'), findsOneWidget);
+    expect(find.text('Subject'), findsNothing);
+    expect(find.text('Message'), findsNothing);
     expectNoGlobalSecrets();
   });
 
@@ -892,7 +886,6 @@ void main() {
         '/groups/col-church/share',
         '/groups/col-church/invite',
         '/groups/col-church/contribute',
-        '/groups/col-church/pay/intent-pending/handoff',
         '/groups/col-church/pay/intent-pending/waiting',
         '/groups/col-church/pay/intent-pending',
         '/groups/col-church/pay/intent-pending/state/pending',

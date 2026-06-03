@@ -53,7 +53,7 @@ void main() {
     expect(intent.expectedAmountRwf, 15000);
     expect(intent.receiverLabel, 'St Michel treasury');
     expect(intent.receiverMomoNumber, '+250788123456');
-    expect(intent.senderPhoneHash, HashUtils.phoneHash('+250788123456'));
+    expect(intent.senderPhoneHash, HashUtils.phoneHash('0788123456'));
     expect(intent.status, 'pending');
     expect(intent.expiresAt.isAfter(DateTime.now()), isTrue);
   });
@@ -69,7 +69,7 @@ void main() {
       expect(intent.expectedAmountRwf, 7500);
       expect(intent.receiverMomoNumber, '+250788123456');
       expect(intent.receiverLabel, 'St Michel treasury');
-      expect(intent.senderPhoneHash, HashUtils.phoneHash('+250788123456'));
+      expect(intent.senderPhoneHash, HashUtils.phoneHash('0788123456'));
     },
   );
 
@@ -90,7 +90,7 @@ void main() {
     expect(intent.senderPhoneHash, 'sender-hash');
   });
 
-  test('profile MoMo is required before creating payment intents', () async {
+  test('MTN WhatsApp sign-in autofills local profile MoMo', () async {
     final repo = CollectRepository();
     await repo.signInWithOtp(phone: '+250788123456', otp: '123456');
     final collection = await repo.createCollection(
@@ -103,24 +103,11 @@ void main() {
     );
     addTearDown(container.dispose);
 
-    expect(
-      container.read(profileReadinessProvider).readyForContribution,
-      false,
-    );
-    await expectLater(
-      repo.createPaymentIntent(
-        PaymentIntentDraft(collectionId: collection.id, amountRwf: 5000),
-      ),
-      throwsA(
-        isA<StateError>().having(
-          (error) => error.message,
-          'message',
-          'Link your MoMo number before contributing.',
-        ),
-      ),
-    );
+    expect(container.read(profileReadinessProvider).readyForContribution, true);
+    expect(repo.state.currentProfile?.momoNumber, '0788123456');
 
     await repo.updateProfile(momoNumber: '+250788123456');
+    expect(repo.state.currentProfile?.momoNumber, '0788123456');
 
     expect(container.read(profileReadinessProvider).readyForContribution, true);
     expect(
