@@ -150,7 +150,6 @@ Likely files:
 
 - `lib/app/theme/collect_typography.dart`
 - `lib/shared/widgets/collect_components.dart`
-- `lib/shared/widgets/amount_input.dart`
 
 Implementation tasks:
 
@@ -332,7 +331,6 @@ Likely files:
 
 - `lib/features/payments/contribution_flow_screen.dart`
 - `lib/app/router.dart`
-- `lib/shared/widgets/amount_input.dart`
 - `lib/shared/widgets/collect_components.dart`
 
 Implementation tasks:

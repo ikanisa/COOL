@@ -1316,15 +1316,21 @@ class AccountSessionScreen extends ConsumerWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Sign out?'),
-        content: const Text('End this session.'),
+        content: const Text(
+          'End this Collect session on this device. Group ledgers and verified records stay available after you sign in again.',
+        ),
         actions: [
-          TextButton(
+          CollectButton(
+            label: 'Cancel',
+            icon: CollectIcons.chevron,
+            variant: CollectButtonVariant.secondary,
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
           ),
-          FilledButton(
+          CollectButton(
+            label: 'Sign out',
+            icon: CollectIcons.lock,
+            variant: CollectButtonVariant.danger,
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Sign out'),
           ),
         ],
       ),
@@ -1480,7 +1486,11 @@ class OwnerSmsHealthScreen extends ConsumerWidget {
               ),
             ],
           ),
-          loading: () => const LoadingSkeleton(lines: 4),
+          loading: () => const LoadingStatePanel(
+            title: 'Loading group health',
+            message: 'Checking receiver setup, SMS access, and payment review.',
+            lines: 4,
+          ),
           error: (error, _) => CollectErrorState(
             title: 'Could not load health',
             message: error.toString(),
@@ -1648,7 +1658,12 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
               ),
             );
           },
-          loading: () => const LoadingSkeleton(lines: 4),
+          loading: () => const LoadingStatePanel(
+            title: 'Loading members',
+            message: 'Fetching group members and Collect ID roles.',
+            icon: CollectIcons.people,
+            lines: 4,
+          ),
           error: (error, _) => CollectErrorState(
             title: 'Could not load members',
             message: error.toString(),
@@ -1712,7 +1727,12 @@ class GroupOwnerDashboardScreen extends ConsumerWidget {
                   : CollectStatusTone.warning,
             ),
           ),
-          loading: () => const LoadingSkeleton(lines: 3),
+          loading: () => const LoadingStatePanel(
+            title: 'Loading owner dashboard',
+            message: 'Checking SMS health and receiver readiness.',
+            icon: CollectIcons.dashboard,
+            lines: 3,
+          ),
           error: (error, _) => InfoSecurityBanner(
             title: 'Health unavailable',
             message: error.toString(),

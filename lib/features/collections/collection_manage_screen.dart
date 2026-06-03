@@ -60,7 +60,11 @@ class CollectionManageScreen extends ConsumerWidget {
               ],
             ),
           ),
-          loading: () => const LoadingSkeleton(lines: 2),
+          loading: () => const LoadingStatePanel(
+            title: 'Loading group health',
+            message: 'Checking pending payments and review activity.',
+            lines: 2,
+          ),
           error: (error, _) => InfoSecurityBanner(
             title: 'Health unavailable',
             message: error.toString(),

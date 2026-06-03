@@ -1226,28 +1226,103 @@ class CollectErrorState extends StatelessWidget {
 }
 
 class LoadingSkeleton extends StatelessWidget {
-  const LoadingSkeleton({this.lines = 3, super.key});
+  const LoadingSkeleton({
+    this.lines = 3,
+    this.semanticsLabel = 'Loading content',
+    this.showCard = true,
+    super.key,
+  });
 
   final int lines;
+  final String semanticsLabel;
+  final bool showCard;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return CollectCard(
+    final skeleton = Semantics(
+      container: true,
+      liveRegion: true,
+      label: semanticsLabel,
       child: Column(
         children: [
           for (var index = 0; index < lines; index++) ...[
-            Container(
-              height: index == 0 ? 22 : 14,
-              width: double.infinity,
+            DecoratedBox(
               decoration: BoxDecoration(
-                color: colors.surfaceMuted,
+                color: colors.border.withValues(alpha: 0.42),
                 borderRadius: CollectRadius.pillBorder,
+              ),
+              child: SizedBox(
+                height: index == 0 ? 22 : 14,
+                width: double.infinity,
               ),
             ),
             if (index != lines - 1) CollectSpacing.gap12,
           ],
         ],
+      ),
+    );
+    if (!showCard) return skeleton;
+    return CollectCard(child: skeleton);
+  }
+}
+
+class LoadingStatePanel extends StatelessWidget {
+  const LoadingStatePanel({
+    required this.title,
+    required this.message,
+    this.icon = CollectIcons.sync,
+    this.lines = 3,
+    super.key,
+  });
+
+  final String title;
+  final String message;
+  final IconData icon;
+  final int lines;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      container: true,
+      liveRegion: true,
+      label: 'Loading: $title',
+      child: CollectCard(
+        emphasis: CollectCardEmphasis.flat,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _ToneIcon(icon: icon, tone: CollectStatusTone.info),
+                CollectSpacing.gapW12,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                      CollectSpacing.gap4,
+                      Text(
+                        message,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            CollectSpacing.gap16,
+            LoadingSkeleton(
+              lines: lines,
+              semanticsLabel: 'Loading placeholder for $title',
+              showCard: false,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -1305,21 +1380,6 @@ class CollectSearchField extends StatelessWidget {
         context: context,
         label: label,
       ).copyWith(prefixIcon: const Icon(CollectIcons.search)),
-    );
-  }
-}
-
-class CollectFilterBar extends StatelessWidget {
-  const CollectFilterBar({required this.children, super.key});
-
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: CollectSpacing.x2,
-      runSpacing: CollectSpacing.x2,
-      children: children,
     );
   }
 }
@@ -2395,34 +2455,6 @@ class EmptyIllustrationState extends StatelessWidget {
           ],
           if (action != null) ...[CollectSpacing.gap20, action!],
         ],
-      ),
-    );
-  }
-}
-
-class BottomActionBar extends StatelessWidget {
-  const BottomActionBar({required this.children, super.key});
-
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.surfaceRaised,
-        border: Border(top: BorderSide(color: colors.border)),
-      ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.all(CollectSpacing.x4),
-          child: Wrap(
-            spacing: CollectSpacing.x2,
-            runSpacing: CollectSpacing.x2,
-            children: children,
-          ),
-        ),
       ),
     );
   }

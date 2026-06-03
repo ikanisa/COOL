@@ -340,21 +340,28 @@ class _RouteNotFoundScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CollectPlaceholderScreen(
+    return ScreenScaffoldLayout(
       title: 'Screen not found',
-      description:
-          'This Collect screen is unavailable. Return to verified groups or the home overview.',
-      actions: [
+      children: [
+        const MinimalStatePanel(
+          icon: CollectIcons.warning,
+          title: 'This screen is unavailable.',
+          message:
+              'Return to verified groups or the home overview without exposing receiver MoMo details.',
+          tone: CollectStatusTone.warning,
+        ),
         CollectButton(
           label: 'Home',
           icon: CollectIcons.home,
           onPressed: () => context.go('/home'),
+          expand: true,
         ),
         CollectButton(
           label: 'Groups',
           icon: CollectIcons.collections,
           variant: CollectButtonVariant.secondary,
           onPressed: () => context.go('/groups'),
+          expand: true,
         ),
       ],
     );

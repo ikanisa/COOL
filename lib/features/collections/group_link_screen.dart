@@ -168,7 +168,12 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
           subtitle: widget.slug,
           children: const [
             CollectBottomSheet(
-              child: Center(child: CircularProgressIndicator.adaptive()),
+              child: LoadingStatePanel(
+                title: 'Opening group',
+                message: 'Checking the shared link and joining the group.',
+                icon: CollectIcons.qr,
+                lines: 2,
+              ),
             ),
           ],
         );

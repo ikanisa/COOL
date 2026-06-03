@@ -174,31 +174,69 @@ void main() {
   });
 
   testWidgets('empty, error, and loading states render', (tester) async {
-    await _pumpCollect(
-      tester,
-      const Column(
-        children: [
-          Expanded(
-            child: CollectEmptyState(
-              icon: CollectIcons.collections,
-              title: 'No groups yet',
-              message: 'Create an SMS-first MoMo group.',
+    final semantics = tester.ensureSemantics();
+    try {
+      await _pumpCollect(
+        tester,
+        const Column(
+          children: [
+            Expanded(
+              child: CollectEmptyState(
+                icon: CollectIcons.collections,
+                title: 'No groups yet',
+                message: 'Create an SMS-first MoMo group.',
+              ),
             ),
-          ),
-          Expanded(
-            child: CollectErrorState(
-              title: 'Could not load',
-              message: 'Try again when the connection is stable.',
+            Expanded(
+              child: CollectErrorState(
+                title: 'Could not load',
+                message: 'Try again when the connection is stable.',
+              ),
             ),
-          ),
-          LoadingSkeleton(lines: 2),
-        ],
-      ),
-    );
+            LoadingSkeleton(lines: 2, semanticsLabel: 'Loading dashboard'),
+          ],
+        ),
+      );
 
-    expect(find.text('No groups yet'), findsOneWidget);
-    expect(find.text('Could not load'), findsOneWidget);
-    expect(find.byType(LoadingSkeleton), findsOneWidget);
+      expect(find.text('No groups yet'), findsOneWidget);
+      expect(find.text('Could not load'), findsOneWidget);
+      expect(find.byType(LoadingSkeleton), findsWidgets);
+      expect(find.bySemanticsLabel('Loading dashboard'), findsOneWidget);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('loading state panel exposes visible and semantic context', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await _pumpCollect(
+        tester,
+        const SizedBox(
+          width: 360,
+          child: LoadingStatePanel(
+            title: 'Loading members',
+            message: 'Fetching group members and Collect ID roles.',
+            icon: CollectIcons.people,
+            lines: 2,
+          ),
+        ),
+      );
+
+      expect(find.text('Loading members'), findsOneWidget);
+      expect(
+        find.text('Fetching group members and Collect ID roles.'),
+        findsOneWidget,
+      );
+      expect(
+        find.bySemanticsLabel(RegExp('Loading: Loading members')),
+        findsOneWidget,
+      );
+    } finally {
+      semantics.dispose();
+    }
   });
 
   testWidgets('bento metrics adapt for text scaling without losing content', (
