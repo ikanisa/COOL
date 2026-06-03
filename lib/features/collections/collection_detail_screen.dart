@@ -43,38 +43,41 @@ class _CollectionDetailScreenState
             .toList();
 
     return ScreenScaffold(
-      title: isAdmin ? 'Group admin' : 'Group',
-      subtitle: isAdmin ? 'Settings and activity.' : 'Contribute and activity.',
+      title: 'Collect',
+      subtitle: profile == null ? null : '#${profile.publicId}',
       actions: [
-        IconButton.filledTonal(
+        IconButton(
           tooltip: 'Share',
           onPressed: () => context.go('/groups/${widget.collectionId}/share'),
           icon: const Icon(CollectIcons.share),
         ),
         if (isAdmin)
-          IconButton.filledTonal(
+          IconButton(
             tooltip: 'Group settings',
             onPressed: () =>
                 context.go('/groups/${widget.collectionId}/manage'),
             icon: const Icon(CollectIcons.admin),
           ),
       ],
+      bottomAction: isAdmin
+          ? null
+          : CollectButton(
+              label: 'Pay with MOMO',
+              icon: CollectIcons.momo,
+              onPressed: () =>
+                  context.go('/groups/${widget.collectionId}/contribute'),
+              expand: true,
+            ),
       children: [
         _GroupHero(
           collection: collection,
           summary: summary,
           canManage: isAdmin,
-          onShare: () => context.go('/groups/${widget.collectionId}/share'),
-          onManage: () => context.go('/groups/${widget.collectionId}/manage'),
         ),
         _GroupActionStrip(
           collectionId: widget.collectionId,
           canManage: isAdmin,
         ),
-        if (isAdmin)
-          _AdminToolsPanel(collectionId: widget.collectionId)
-        else
-          _MemberSupportPanel(collectionId: widget.collectionId),
         _ContributionSectionHeader(
           mineOnly: _mineOnly,
           onAll: () => setState(() => _mineOnly = false),
@@ -93,16 +96,7 @@ class _CollectionDetailScreenState
             contributions: visibleContributions,
             currentPublicId: profile?.publicId,
           ),
-        CollectButton(
-          label: isAdmin ? 'Open group settings' : 'Contribute with MoMo',
-          icon: isAdmin ? CollectIcons.admin : CollectIcons.momo,
-          onPressed: () => context.go(
-            isAdmin
-                ? '/groups/${widget.collectionId}/manage'
-                : '/groups/${widget.collectionId}/contribute',
-          ),
-          expand: true,
-        ),
+        if (isAdmin) _AdminToolsPanel(collectionId: widget.collectionId),
       ],
     );
   }
@@ -113,15 +107,11 @@ class _GroupHero extends StatelessWidget {
     required this.collection,
     required this.summary,
     required this.canManage,
-    required this.onShare,
-    required this.onManage,
   });
 
   final CollectCollection collection;
   final CollectionSummary summary;
   final bool canManage;
-  final VoidCallback onShare;
-  final VoidCallback onManage;
 
   @override
   Widget build(BuildContext context) {
@@ -129,44 +119,40 @@ class _GroupHero extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
+        CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          padding: EdgeInsets.zero,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    collection.title,
-                    style: Theme.of(context).textTheme.headlineMedium,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                  Expanded(
+                    child: Text(
+                      collection.title,
+                      style: Theme.of(context).textTheme.headlineMedium,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                  CollectSpacing.gap8,
-                  Text(
-                    collection.description,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    maxLines: 4,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  if (canManage) ...[
+                    CollectSpacing.gapW12,
+                    const _RoleChip(label: 'Admin'),
+                  ],
                 ],
               ),
-            ),
-            CollectSpacing.gapW12,
-            IconButton.filledTonal(
-              tooltip: 'Share group',
-              onPressed: onShare,
-              icon: const Icon(CollectIcons.share),
-            ),
-            if (canManage) ...[
-              CollectSpacing.gapW8,
-              IconButton.filledTonal(
-                tooltip: 'Group settings',
-                onPressed: onManage,
-                icon: const Icon(CollectIcons.admin),
+              CollectSpacing.gap8,
+              Text(
+                collection.description,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyLarge?.copyWith(color: colors.textSecondary),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
-          ],
+          ),
         ),
         CollectSpacing.gap20,
         LayoutBuilder(
@@ -186,8 +172,12 @@ class _GroupHero extends StatelessWidget {
               tone: CollectStatusTone.info,
             );
             if (compact) {
-              return Column(
-                children: [totalCard, CollectSpacing.gap12, participantsCard],
+              return Row(
+                children: [
+                  Expanded(child: totalCard),
+                  CollectSpacing.gapW12,
+                  Expanded(child: participantsCard),
+                ],
               );
             }
             return Row(
@@ -199,34 +189,64 @@ class _GroupHero extends StatelessWidget {
             );
           },
         ),
-        CollectSpacing.gap16,
-        CollectCard(
-          emphasis: CollectCardEmphasis.flat,
-          child: Row(
-            children: [
-              Icon(CollectIcons.check, color: colors.success),
-              CollectSpacing.gapW12,
-              Expanded(
-                child: Text(
-                  'Receiver verified: ${collection.receiverDisplayLabel}',
-                  style: Theme.of(context).textTheme.titleSmall,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+        CollectSpacing.gap12,
+        Row(
+          children: [
+            Icon(CollectIcons.check, color: colors.success, size: 20),
+            CollectSpacing.gapW8,
+            Expanded(
+              child: Text(
+                'Receiver verified: ${collection.receiverDisplayLabel}',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: colors.textSecondary,
+                  fontWeight: FontWeight.w800,
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              IconButton(
-                tooltip: 'Copy group code',
-                onPressed: () => copyToClipboard(
-                  context,
-                  collection.slug,
-                  message: 'Group code copied.',
-                ),
-                icon: const Icon(CollectIcons.copy),
+            ),
+            IconButton(
+              tooltip: 'Copy group code',
+              onPressed: () => copyToClipboard(
+                context,
+                collection.slug,
+                message: 'Group code copied.',
               ),
-            ],
-          ),
+              icon: const Icon(CollectIcons.copy),
+            ),
+          ],
         ),
       ],
+    );
+  }
+}
+
+class _RoleChip extends StatelessWidget {
+  const _RoleChip({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.actionCrimson.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: CollectSpacing.x3,
+          vertical: CollectSpacing.x2,
+        ),
+        child: Text(
+          label,
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            color: colors.actionCrimson,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+      ),
     );
   }
 }
@@ -250,7 +270,7 @@ class _GroupStatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     return CollectCard(
-      padding: const EdgeInsets.all(CollectSpacing.x5),
+      padding: const EdgeInsets.all(CollectSpacing.x4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -258,9 +278,13 @@ class _GroupStatCard extends StatelessWidget {
             children: [
               Icon(icon, color: colors.statusForeground(tone)),
               CollectSpacing.gapW8,
-              Text(
-                label.toUpperCase(),
-                style: CollectTypography.eyebrowLabel(colors.textSecondary),
+              Expanded(
+                child: Text(
+                  label.toUpperCase(),
+                  style: CollectTypography.eyebrowLabel(colors.textSecondary),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           ),
@@ -271,8 +295,8 @@ class _GroupStatCard extends StatelessWidget {
             child: Text(
               value,
               style: emphasize
-                  ? CollectTypography.amountDisplay(colors.textPrimary)
-                  : CollectTypography.amountHero(colors.info),
+                  ? CollectTypography.amountHero(colors.textPrimary)
+                  : CollectTypography.amountHero(colors.actionCrimson),
             ),
           ),
         ],
@@ -319,7 +343,7 @@ class _GroupActionStrip extends StatelessWidget {
     ];
 
     return SizedBox(
-      height: 88,
+      height: 76,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         clipBehavior: Clip.none,
@@ -350,16 +374,16 @@ class _GroupActionButton extends StatelessWidget {
     final foreground = highlighted ? Colors.white : colors.textPrimary;
     return Material(
       color: highlighted ? colors.actionCrimson : colors.surfaceRaised,
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(12),
       child: InkWell(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(12),
         onTap: onTap,
         child: SizedBox(
-          width: 126,
+          width: 112,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, color: foreground, size: 28),
+              Icon(icon, color: foreground, size: 24),
               CollectSpacing.gap8,
               Text(
                 label,
@@ -386,28 +410,43 @@ class _AdminToolsPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CollectCard(
+      emphasis: CollectCardEmphasis.flat,
+      padding: EdgeInsets.zero,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Admin tools', style: Theme.of(context).textTheme.titleLarge),
+          Text(
+            'Admin controls',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
           CollectSpacing.gap12,
-          CollectListTile(
-            leading: CollectIcons.admin,
-            title: 'Group settings',
-            subtitle: 'Receiver, members, and owner controls.',
-            onTap: () => context.go('/groups/$collectionId/manage'),
-          ),
-          CollectListTile(
-            leading: CollectIcons.people,
-            title: 'Members',
-            subtitle: 'Collect IDs and roles.',
-            onTap: () => context.go('/groups/$collectionId/members'),
-          ),
-          CollectListTile(
-            leading: CollectIcons.momo,
-            title: 'Receiver',
-            subtitle: 'MoMo account setup.',
-            onTap: () => context.go('/groups/$collectionId/owner/receiver'),
+          Row(
+            children: [
+              Expanded(
+                child: _AdminMiniAction(
+                  icon: CollectIcons.admin,
+                  label: 'Settings',
+                  onTap: () => context.go('/groups/$collectionId/manage'),
+                ),
+              ),
+              CollectSpacing.gapW8,
+              Expanded(
+                child: _AdminMiniAction(
+                  icon: CollectIcons.people,
+                  label: 'Members',
+                  onTap: () => context.go('/groups/$collectionId/members'),
+                ),
+              ),
+              CollectSpacing.gapW8,
+              Expanded(
+                child: _AdminMiniAction(
+                  icon: CollectIcons.momo,
+                  label: 'Receiver',
+                  onTap: () =>
+                      context.go('/groups/$collectionId/owner/receiver'),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -415,18 +454,47 @@ class _AdminToolsPanel extends StatelessWidget {
   }
 }
 
-class _MemberSupportPanel extends StatelessWidget {
-  const _MemberSupportPanel({required this.collectionId});
+class _AdminMiniAction extends StatelessWidget {
+  const _AdminMiniAction({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
 
-  final String collectionId;
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return CollectButton(
-      label: 'Support this group',
-      icon: CollectIcons.momo,
-      onPressed: () => context.go('/groups/$collectionId/contribute'),
-      expand: true,
+    final colors = context.collectColors;
+    return Material(
+      color: colors.surfaceRaised,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: CollectSpacing.x2,
+            vertical: CollectSpacing.x3,
+          ),
+          child: Column(
+            children: [
+              Icon(icon, color: colors.actionCrimson, size: 22),
+              CollectSpacing.gap4,
+              Text(
+                label,
+                style: Theme.of(
+                  context,
+                ).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w800),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -559,19 +627,18 @@ class _TimelineRow extends StatelessWidget {
     final colors = context.collectColors;
     final dotColor = isFirst || isMine ? colors.actionCrimson : colors.border;
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
           width: 54,
           child: Column(
             children: [
-              Expanded(
-                child: Container(
-                  width: 1,
-                  color: isFirst
-                      ? Colors.transparent
-                      : colors.border.withValues(alpha: 0.6),
-                ),
+              Container(
+                width: 1,
+                height: 18,
+                color: isFirst
+                    ? Colors.transparent
+                    : colors.border.withValues(alpha: 0.6),
               ),
               DecoratedBox(
                 decoration: BoxDecoration(
@@ -581,13 +648,12 @@ class _TimelineRow extends StatelessWidget {
                 ),
                 child: const SizedBox(width: 24, height: 24),
               ),
-              Expanded(
-                child: Container(
-                  width: 1,
-                  color: isLast
-                      ? Colors.transparent
-                      : colors.border.withValues(alpha: 0.6),
-                ),
+              Container(
+                width: 1,
+                height: 72,
+                color: isLast
+                    ? Colors.transparent
+                    : colors.border.withValues(alpha: 0.6),
               ),
             ],
           ),
