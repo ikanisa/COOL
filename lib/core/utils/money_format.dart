@@ -1,9 +1,15 @@
-import 'package:intl/intl.dart';
+String formatRwf(int amountRwf) {
+  final sign = amountRwf < 0 ? '-' : '';
+  final digits = amountRwf.abs().toString();
+  final buffer = StringBuffer();
 
-final _rwfFormat = NumberFormat.currency(
-  locale: 'en_RW',
-  symbol: 'RWF ',
-  decimalDigits: 0,
-);
+  for (var index = 0; index < digits.length; index += 1) {
+    final remaining = digits.length - index;
+    buffer.write(digits[index]);
+    if (remaining > 1 && remaining % 3 == 1) {
+      buffer.write(',');
+    }
+  }
 
-String formatRwf(int amountRwf) => _rwfFormat.format(amountRwf);
+  return 'RWF $sign$buffer';
+}

@@ -25,10 +25,6 @@ class HomeScreen extends ConsumerWidget {
     final contributions = ref.watch(
       collectRepositoryProvider.select((state) => state.contributions),
     );
-    final smsActive = ref.watch(
-      collectRepositoryProvider.select((state) => state.smsAccessEnabled),
-    );
-
     return ScreenScaffold(
       title: 'Collect',
       actions: [
@@ -89,15 +85,6 @@ class HomeScreen extends ConsumerWidget {
               tone: CollectStatusTone.privacy,
             ),
           ],
-        ),
-        InfoSecurityBanner(
-          title: smsActive ? 'System integrity verified' : 'System integrity',
-          message: smsActive
-              ? 'Android SMS access is active for owner-side MoMo ledger automation.'
-              : 'Payments are confirmed only after Collect receives and allocates MoMo SMS evidence.',
-          tone: smsActive
-              ? CollectStatusTone.success
-              : CollectStatusTone.privacy,
         ),
         const SectionHeader(title: 'Groups'),
         if (collections.isEmpty)
