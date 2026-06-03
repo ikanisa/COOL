@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/utils/date_format.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -150,11 +151,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
                   FinancialListRow(
                     title: compactCollectIdLabel(contribution.supporterLabel),
                     amountRwf: contribution.amountRwf,
-                    meta: contribution.createdAt
-                        .toLocal()
-                        .toString()
-                        .split('.')
-                        .first,
+                    meta: formatCollectDateTime(contribution.createdAt),
                     transactionId: contribution.transactionId,
                     leading: CollectIcons.ledger,
                   ),

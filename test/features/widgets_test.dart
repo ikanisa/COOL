@@ -2,9 +2,9 @@ import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/features/payments/payment_intent_status_screen.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/core/security/hash_utils.dart';
+import 'package:collect_app/core/utils/date_format.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
-import 'package:collect_app/shared/widgets/collection_card.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,7 +24,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: CollectionCard(
+          body: CollectionSummaryCard(
             collection: CollectCollection(
               id: 'c1',
               slug: 'medical',
@@ -56,7 +56,7 @@ void main() {
         home: Scaffold(
           body: SizedBox(
             width: 320,
-            child: CollectionCard(
+            child: CollectionSummaryCard(
               collection: CollectCollection(
                 id: 'c-long',
                 slug: 'st-michel-medical-support',
@@ -81,6 +81,17 @@ void main() {
     );
     expect(find.text('RWF 12,500,000'), findsOneWidget);
     expect(find.text('128 members'), findsOneWidget);
+  });
+
+  test('Collect date formatter keeps activity timestamps compact', () {
+    expect(
+      formatCollectDateTime(DateTime.utc(2026, 6, 3, 9, 45)),
+      contains('2026'),
+    );
+    expect(
+      formatCollectDateTime(DateTime.utc(2026, 6, 3, 9, 45)),
+      isNot(contains('.')),
+    );
   });
 
   testWidgets('payment status screen renders receiver details', (tester) async {

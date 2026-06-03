@@ -77,24 +77,29 @@ class _CollectionCreateScreenState
           errorTitle: 'Create failed',
           errorMessage: _error,
           children: [
-            TextField(
+            CollectTextInput(
               controller: _title,
-              decoration: collectInputDecoration(context, label: 'Group name'),
+              label: 'Group name',
+              textInputAction: TextInputAction.next,
+              textCapitalization: TextCapitalization.words,
+              autocorrect: true,
             ),
-            TextField(
+            CollectTextInput(
               controller: _description,
+              label: 'Description',
               maxLines: 3,
-              decoration: collectInputDecoration(context, label: 'Description'),
+              textInputAction: TextInputAction.newline,
+              textCapitalization: TextCapitalization.sentences,
+              autocorrect: true,
             ),
-            TextField(
+            CollectTextInput(
               controller: _receiver,
+              label: 'Receiver MoMo number',
+              helper:
+                  'Synced from your profile. Edit only if this group receives on a different number.',
               keyboardType: TextInputType.phone,
-              decoration: collectInputDecoration(
-                context,
-                label: 'Receiver MoMo number',
-                helper:
-                    'Synced from your profile. Edit only if this group receives on a different number.',
-              ),
+              textInputAction: TextInputAction.done,
+              autofillHints: const [AutofillHints.telephoneNumber],
             ),
             const InfoSecurityBanner(
               title: 'SMS permission required',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/utils/date_format.dart';
 import '../../core/utils/money_format.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -134,11 +135,7 @@ class CollectionDetailScreen extends ConsumerWidget {
                   ActivityFeedItem(
                     title: compactCollectIdLabel(contribution.supporterLabel),
                     amount: contribution.amountRwf,
-                    meta: contribution.createdAt
-                        .toLocal()
-                        .toString()
-                        .split('.')
-                        .first,
+                    meta: formatCollectDateTime(contribution.createdAt),
                     transactionId: contribution.transactionId,
                   ),
               ],

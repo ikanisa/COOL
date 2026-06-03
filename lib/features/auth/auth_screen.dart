@@ -84,14 +84,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           errorTitle: 'Authentication failed',
           errorMessage: _error,
           children: [
-            TextField(
+            CollectTextInput(
               controller: _phone,
+              label: 'WhatsApp phone',
+              helper: 'Use international format, for example +250788123456.',
               keyboardType: TextInputType.phone,
-              decoration: collectInputDecoration(
-                context,
-                label: 'WhatsApp phone',
-                helper: 'Use international format, for example +250788123456.',
-              ),
+              textInputAction: TextInputAction.next,
+              autofillHints: const [AutofillHints.telephoneNumber],
             ),
             if (_otpSent) ...[
               OtpCodeField(controller: _otp),
@@ -101,13 +100,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               ),
             ],
             if (env.authCaptchaEnabled)
-              TextField(
+              CollectTextInput(
                 controller: _captchaToken,
-                decoration: collectInputDecoration(
-                  context,
-                  label:
-                      '${env.authCaptchaProvider.isEmpty ? 'CAPTCHA' : env.authCaptchaProvider} verification token',
-                ),
+                label:
+                    '${env.authCaptchaProvider.isEmpty ? 'CAPTCHA' : env.authCaptchaProvider} verification token',
+                textInputAction: TextInputAction.done,
               ),
           ],
         ),

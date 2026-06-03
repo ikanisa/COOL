@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/utils/date_format.dart';
 import '../../core/utils/money_format.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/providers/collect_app_state.dart';
@@ -1004,11 +1005,7 @@ class NotificationCenterScreen extends ConsumerWidget {
                     title: 'Contribution confirmed',
                     message:
                         '${formatRwf(latestContribution.amountRwf)} was recorded on the ledger.',
-                    meta: latestContribution.createdAt
-                        .toLocal()
-                        .toString()
-                        .split('.')
-                        .first,
+                    meta: formatCollectDateTime(latestContribution.createdAt),
                     tone: CollectStatusTone.success,
                   ),
                 if (pendingCount > 0)
@@ -1101,15 +1098,21 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
           CollectCard(
             child: Column(
               children: [
-                TextField(
+                CollectTextInput(
                   controller: _subject,
-                  decoration: collectInputDecoration(context, label: 'Subject'),
+                  label: 'Subject',
+                  textInputAction: TextInputAction.next,
+                  textCapitalization: TextCapitalization.sentences,
+                  autocorrect: true,
                 ),
                 CollectSpacing.gap12,
-                TextField(
+                CollectTextInput(
                   controller: _message,
+                  label: 'Message',
                   maxLines: 4,
-                  decoration: collectInputDecoration(context, label: 'Message'),
+                  textInputAction: TextInputAction.newline,
+                  textCapitalization: TextCapitalization.sentences,
+                  autocorrect: true,
                 ),
                 CollectSpacing.gap16,
                 CollectButton(
@@ -1389,13 +1392,13 @@ class _DeleteAccountRequestScreenState
           CollectCard(
             child: Column(
               children: [
-                TextField(
+                CollectTextInput(
                   controller: _reason,
+                  label: 'Reason, optional',
                   maxLines: 4,
-                  decoration: collectInputDecoration(
-                    context,
-                    label: 'Reason, optional',
-                  ),
+                  textInputAction: TextInputAction.newline,
+                  textCapitalization: TextCapitalization.sentences,
+                  autocorrect: true,
                 ),
                 CollectSpacing.gap16,
                 CollectButton(
@@ -1539,18 +1542,20 @@ class _OwnerReceiverManagementScreenState
         CollectCard(
           child: Column(
             children: [
-              TextField(
+              CollectTextInput(
                 controller: _label,
-                decoration: collectInputDecoration(context, label: 'Name'),
+                label: 'Name',
+                textInputAction: TextInputAction.next,
+                textCapitalization: TextCapitalization.words,
+                autocorrect: true,
               ),
               CollectSpacing.gap12,
-              TextField(
+              CollectTextInput(
                 controller: _receiver,
+                label: 'MoMo number',
                 keyboardType: TextInputType.phone,
-                decoration: collectInputDecoration(
-                  context,
-                  label: 'MoMo number',
-                ),
+                textInputAction: TextInputAction.done,
+                autofillHints: const [AutofillHints.telephoneNumber],
               ),
               CollectSpacing.gap16,
               CollectButton(

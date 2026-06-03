@@ -75,15 +75,14 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
             errorTitle: 'Profile not saved',
             errorMessage: _error,
             children: [
-              TextField(
+              CollectTextInput(
                 controller: _momo,
+                label: 'MoMo number',
+                helper:
+                    'Rwanda format, for example 0788123456 or +250788123456.',
                 keyboardType: TextInputType.phone,
-                decoration: collectInputDecoration(
-                  context,
-                  label: 'MoMo number',
-                  helper:
-                      'Rwanda format, for example 0788123456 or +250788123456.',
-                ),
+                textInputAction: TextInputAction.done,
+                autofillHints: const [AutofillHints.telephoneNumber],
               ),
             ],
           )

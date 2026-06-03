@@ -18,6 +18,7 @@ import '../../app/theme/collect_radius.dart';
 import '../../app/theme/collect_shadows.dart';
 import '../../app/theme/collect_spacing.dart';
 import '../../app/theme/collect_typography.dart';
+import '../../core/utils/date_format.dart';
 import '../../core/utils/money_format.dart';
 import '../models/collect_models.dart';
 
@@ -323,6 +324,47 @@ class OtpCodeField extends StatelessWidget {
         label: 'Verification code',
         helper: 'Enter the $length-digit WhatsApp code.',
       ).copyWith(counterText: ''),
+    );
+  }
+}
+
+class CollectTextInput extends StatelessWidget {
+  const CollectTextInput({
+    required this.controller,
+    required this.label,
+    this.helper,
+    this.keyboardType,
+    this.textInputAction,
+    this.autofillHints,
+    this.maxLines = 1,
+    this.textCapitalization = TextCapitalization.none,
+    this.autocorrect = false,
+    super.key,
+  });
+
+  final TextEditingController controller;
+  final String label;
+  final String? helper;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final Iterable<String>? autofillHints;
+  final int maxLines;
+  final TextCapitalization textCapitalization;
+  final bool autocorrect;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      keyboardType: keyboardType,
+      textInputAction:
+          textInputAction ??
+          (maxLines > 1 ? TextInputAction.newline : TextInputAction.next),
+      autofillHints: autofillHints,
+      maxLines: maxLines,
+      textCapitalization: textCapitalization,
+      autocorrect: autocorrect,
+      decoration: collectInputDecoration(context, label: label, helper: helper),
     );
   }
 }
@@ -1907,7 +1949,7 @@ class LedgerRow extends StatelessWidget {
   LedgerRow.confirmed({required Contribution contribution, super.key})
     : title = compactCollectIdLabel(contribution.supporterLabel),
       amountRwf = contribution.amountRwf,
-      meta = contribution.createdAt.toLocal().toString().split('.').first,
+      meta = formatCollectDateTime(contribution.createdAt),
       transactionId = contribution.transactionId,
       tone = CollectStatusTone.success,
       action = null;

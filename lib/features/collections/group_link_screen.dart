@@ -62,13 +62,13 @@ class _JoinGroupPortalScreenState extends ConsumerState<JoinGroupPortalScreen> {
           errorTitle: 'Could not join',
           errorMessage: _error,
           children: [
-            TextField(
+            CollectTextInput(
               controller: _code,
-              decoration: collectInputDecoration(
-                context,
-                label: 'Group code or link',
-                helper: 'Example: st-michel-building-fund or a /c/ link.',
-              ),
+              label: 'Group code or link',
+              helper: 'Example: st-michel-building-fund or a /c/ link.',
+              keyboardType: TextInputType.url,
+              textInputAction: TextInputAction.done,
+              autofillHints: const [AutofillHints.url],
             ),
           ],
         ),
