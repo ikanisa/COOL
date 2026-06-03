@@ -101,15 +101,11 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
           label: 'Search Collect ID or transaction',
           onChanged: (value) => setState(() => _query = value),
         ),
-        CollectFilterBar(
-          children: [
-            for (final filter in _LedgerFilter.values)
-              ChoiceChip(
-                label: Text(_ledgerFilterLabel(filter)),
-                selected: _filter == filter,
-                onSelected: (_) => setState(() => _filter = filter),
-              ),
-          ],
+        PremiumSegmentedFilter<_LedgerFilter>(
+          values: _LedgerFilter.values,
+          selected: _filter,
+          labelFor: _ledgerFilterLabel,
+          onChanged: (filter) => setState(() => _filter = filter),
         ),
         const SectionHeader(title: 'Activity'),
         if (!hasAnyLedgerActivity)

@@ -544,18 +544,26 @@ class BottomActionSurface extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return CollectCard(
-      emphasis: CollectCardEmphasis.flat,
-      padding: const EdgeInsets.all(CollectSpacing.x4),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          for (var index = 0; index < children.length; index++) ...[
-            children[index],
-            if (index != children.length - 1) CollectSpacing.gap12,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.surfaceRaised.withValues(alpha: 0.94),
+        borderRadius: CollectRadius.cardBorder,
+        border: Border.all(color: colors.border.withValues(alpha: 0.72)),
+        boxShadow: CollectShadows.card(
+          Theme.of(context).brightness == Brightness.dark,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(CollectSpacing.x4),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (var index = 0; index < children.length; index++) ...[
+              children[index],
+              if (index != children.length - 1) CollectSpacing.gap12,
+            ],
           ],
-          Divider(color: colors.border.withValues(alpha: 0)),
-        ],
+        ),
       ),
     );
   }
@@ -2375,14 +2383,43 @@ class PremiumSegmentedFilter<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SegmentedButton<T>(
-      showSelectedIcon: false,
-      segments: [
-        for (final value in values)
-          ButtonSegment<T>(value: value, label: Text(labelFor(value))),
-      ],
-      selected: {selected},
-      onSelectionChanged: (value) => onChanged(value.first),
+    final colors = context.collectColors;
+    return Semantics(
+      container: true,
+      label: 'Filter options',
+      child: Scrollbar(
+        thumbVisibility: false,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 2),
+            child: SegmentedButton<T>(
+              showSelectedIcon: false,
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.resolveWith((states) {
+                  if (states.contains(WidgetState.selected)) {
+                    return colors.actionCrimson.withValues(alpha: 0.12);
+                  }
+                  return colors.surfaceRaised;
+                }),
+              ),
+              segments: [
+                for (final value in values)
+                  ButtonSegment<T>(
+                    value: value,
+                    label: Text(
+                      labelFor(value),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+              ],
+              selected: {selected},
+              onSelectionChanged: (value) => onChanged(value.first),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -2646,6 +2683,7 @@ class PremiumScaffold extends StatelessWidget {
     this.actions = const [],
     this.banner,
     this.persistentPill,
+    this.bottomAction,
     super.key,
   });
 
@@ -2654,24 +2692,38 @@ class PremiumScaffold extends StatelessWidget {
   final List<Widget> actions;
   final Widget? banner;
   final Widget? persistentPill;
+  final Widget? bottomAction;
   final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: ListView(
-        padding: CollectSpacing.screenPadding.copyWith(
-          bottom: CollectSpacing.screenCompact + 112,
-        ),
+      child: Stack(
         children: [
-          if (persistentPill != null) ...[
-            persistentPill!,
-            CollectSpacing.gap20,
-          ],
-          ScreenHeader(title: title, subtitle: subtitle, actions: actions),
-          if (banner != null) ...[CollectSpacing.gap20, banner!],
-          CollectSpacing.gap24,
-          ..._withGaps(children),
+          ListView(
+            padding: CollectSpacing.screenPadding.copyWith(
+              bottom: bottomAction == null
+                  ? CollectSpacing.screenCompact + 112
+                  : CollectSpacing.screenCompact + 196,
+            ),
+            children: [
+              if (persistentPill != null) ...[
+                persistentPill!,
+                CollectSpacing.gap20,
+              ],
+              ScreenHeader(title: title, subtitle: subtitle, actions: actions),
+              if (banner != null) ...[CollectSpacing.gap20, banner!],
+              CollectSpacing.gap24,
+              ..._withGaps(children),
+            ],
+          ),
+          if (bottomAction != null)
+            Positioned(
+              left: CollectSpacing.x4,
+              right: CollectSpacing.x4,
+              bottom: CollectSpacing.x4,
+              child: bottomAction!,
+            ),
         ],
       ),
     );
@@ -2695,6 +2747,7 @@ class ScreenScaffoldLayout extends StatelessWidget {
     this.actions = const [],
     this.banner,
     this.persistentPill,
+    this.bottomAction,
     super.key,
   });
 
@@ -2703,6 +2756,7 @@ class ScreenScaffoldLayout extends StatelessWidget {
   final List<Widget> actions;
   final Widget? banner;
   final Widget? persistentPill;
+  final Widget? bottomAction;
   final List<Widget> children;
 
   @override
@@ -2713,6 +2767,7 @@ class ScreenScaffoldLayout extends StatelessWidget {
       actions: actions,
       banner: banner,
       persistentPill: persistentPill,
+      bottomAction: bottomAction,
       children: children,
     );
   }

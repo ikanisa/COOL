@@ -88,6 +88,18 @@ void main() {
     await tapVisible(tester, find.text(label));
   }
 
+  Finder ledgerFilterLabel(String label) {
+    return find
+        .descendant(
+          of: find.byWidgetPredicate(
+            (widget) =>
+                widget.runtimeType.toString().startsWith('SegmentedButton<'),
+          ),
+          matching: find.text(label),
+        )
+        .first;
+  }
+
   void expectNoGlobalSecrets() {
     expect(find.textContaining('service_role'), findsNothing);
     expect(find.textContaining('OPENAI_API_KEY'), findsNothing);
@@ -530,10 +542,10 @@ void main() {
     expect(find.text('RWF 35,000'), findsOneWidget);
     expect(find.text('MTN12345'), findsOneWidget);
 
-    await tapVisible(tester, find.widgetWithText(ChoiceChip, 'Pending'));
+    await tapVisible(tester, ledgerFilterLabel('Pending'));
 
     expect(find.text('Pending'), findsWidgets);
-    expect(find.text('RWF 7,000'), findsOneWidget);
+    expect(find.text('RWF 7,000'), findsWidgets);
     expect(find.text('Intent ${intent.id}'), findsOneWidget);
     expect(find.text('MTN12345'), findsNothing);
     expect(find.textContaining('raw SMS'), findsNothing);
@@ -736,20 +748,20 @@ void main() {
     expect(find.textContaining('intent-pending'), findsWidgets);
     expect(find.textContaining('intent-review'), findsWidgets);
 
-    await tapVisible(tester, find.widgetWithText(ChoiceChip, 'Pending'));
+    await tapVisible(tester, ledgerFilterLabel('Pending'));
     expect(find.textContaining('intent-pending'), findsWidgets);
     expect(find.textContaining('intent-review'), findsNothing);
     expect(find.textContaining('MTN12345'), findsNothing);
 
-    await tapVisible(tester, find.widgetWithText(ChoiceChip, 'Needs review'));
+    await tapVisible(tester, ledgerFilterLabel('Needs review'));
     expect(find.textContaining('intent-review'), findsWidgets);
     expect(find.textContaining('intent-pending'), findsNothing);
 
-    await tapVisible(tester, find.widgetWithText(ChoiceChip, 'Confirmed'));
+    await tapVisible(tester, ledgerFilterLabel('Confirmed'));
     expect(find.textContaining('MTN12345'), findsWidgets);
     expect(find.textContaining('intent-pending'), findsNothing);
 
-    await tapVisible(tester, find.widgetWithText(ChoiceChip, 'Mine'));
+    await tapVisible(tester, ledgerFilterLabel('Mine'));
     expect(find.text('#038491'), findsWidgets);
     expectNoGlobalSecrets();
   });

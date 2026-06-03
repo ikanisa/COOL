@@ -1,5 +1,6 @@
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/features/payments/payment_intent_status_screen.dart';
+import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/core/security/hash_utils.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
@@ -107,5 +108,29 @@ void main() {
       findsNothing,
     );
     expect(find.text('Waiting for MoMo SMS'), findsNothing);
+  });
+
+  testWidgets('contribution flow keeps primary action pinned', (tester) async {
+    final repo = CollectRepository.seeded();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
+        child: MaterialApp(
+          theme: AppTheme.light(),
+          home: const ContributionFlowScreen(collectionId: 'col-church'),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.text('Target account'), findsOneWidget);
+    expect(find.text('Review contribution'), findsOneWidget);
+
+    await tester.tap(find.text('Review contribution'));
+    await tester.pump();
+
+    expect(find.text('Review'), findsOneWidget);
+    expect(find.text('Confirm and open MoMo'), findsOneWidget);
+    expect(find.text('Edit amount'), findsWidgets);
   });
 }

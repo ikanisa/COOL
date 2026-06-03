@@ -13,12 +13,14 @@ class ScreenScaffold extends ConsumerWidget {
     required this.children,
     this.subtitle,
     this.actions = const [],
+    this.bottomAction,
     super.key,
   });
 
   final String title;
   final String? subtitle;
   final List<Widget> actions;
+  final Widget? bottomAction;
   final List<Widget> children;
 
   @override
@@ -31,6 +33,7 @@ class ScreenScaffold extends ConsumerWidget {
         activeIntent: _activePaymentIntent(ref),
       ),
       banner: _statusBanner(context, ref),
+      bottomAction: bottomAction,
       children: children,
     );
   }

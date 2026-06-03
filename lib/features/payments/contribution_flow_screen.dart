@@ -61,6 +61,45 @@ class _ContributionFlowScreenState
     return ScreenScaffold(
       title: _reviewing ? 'Review' : 'Contribute',
       subtitle: collection.title,
+      bottomAction: BottomActionSurface(
+        children: _reviewing
+            ? [
+                CollectButton(
+                  label: _creating
+                      ? 'Creating intent'
+                      : 'Confirm and open MoMo',
+                  icon: CollectIcons.momo,
+                  onPressed: _creating ? null : _createIntent,
+                  expand: true,
+                ),
+                CollectButton(
+                  label: 'Edit amount',
+                  icon: CollectIcons.tune,
+                  onPressed: _creating
+                      ? null
+                      : () => setState(() => _reviewing = false),
+                  variant: CollectButtonVariant.secondary,
+                  expand: true,
+                ),
+              ]
+            : [
+                CollectButton(
+                  label: 'Review contribution',
+                  icon: CollectIcons.arrowForward,
+                  onPressed: () {
+                    if (amount <= 0) {
+                      setState(() => _error = 'Enter an amount above zero.');
+                      return;
+                    }
+                    setState(() {
+                      _reviewing = true;
+                      _error = null;
+                    });
+                  },
+                  expand: true,
+                ),
+              ],
+      ),
       children: [
         if (!_reviewing) ...[
           AmountEntryPanel(
@@ -81,21 +120,6 @@ class _ContributionFlowScreenState
                 '${collection.receiverDisplayLabel} receives this group contribution. Receiver MoMo details are checked before handoff.',
             tone: CollectStatusTone.privacy,
           ),
-          CollectButton(
-            label: 'Review contribution',
-            icon: CollectIcons.arrowForward,
-            onPressed: () {
-              if (amount <= 0) {
-                setState(() => _error = 'Enter an amount above zero.');
-                return;
-              }
-              setState(() {
-                _reviewing = true;
-                _error = null;
-              });
-            },
-            expand: true,
-          ),
         ] else ...[
           PaymentReviewSummary(
             amountRwf: amount,
@@ -111,21 +135,6 @@ class _ContributionFlowScreenState
             message:
                 'The next step opens the system dialer. Confirmation is recorded only after Collect receives and allocates the MoMo SMS.',
             tone: CollectStatusTone.info,
-          ),
-          CollectButton(
-            label: _creating ? 'Creating intent' : 'Confirm and open MoMo',
-            icon: CollectIcons.momo,
-            onPressed: _creating ? null : _createIntent,
-            expand: true,
-          ),
-          CollectButton(
-            label: 'Edit amount',
-            icon: CollectIcons.tune,
-            onPressed: _creating
-                ? null
-                : () => setState(() => _reviewing = false),
-            variant: CollectButtonVariant.secondary,
-            expand: true,
           ),
         ],
       ],

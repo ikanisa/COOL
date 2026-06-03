@@ -273,6 +273,64 @@ void main() {
     }
   });
 
+  testWidgets('segmented filter exposes premium horizontal controls', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    var selected = 'All';
+    try {
+      await _pumpCollect(
+        tester,
+        StatefulBuilder(
+          builder: (context, setState) {
+            return PremiumSegmentedFilter<String>(
+              values: const ['All', 'Confirmed', 'Pending', 'Needs review'],
+              selected: selected,
+              labelFor: (value) => value,
+              onChanged: (value) => setState(() => selected = value),
+            );
+          },
+        ),
+      );
+
+      expect(find.bySemanticsLabel('Filter options'), findsOneWidget);
+      await tester.tap(find.text('Pending'));
+      await tester.pump();
+      expect(selected, 'Pending');
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('premium scaffold pins bottom action surface', (tester) async {
+    await _pumpCollect(
+      tester,
+      const SizedBox(
+        height: 520,
+        child: PremiumScaffold(
+          title: 'Contribute',
+          bottomAction: BottomActionSurface(
+            children: [CollectButton(label: 'Review contribution')],
+          ),
+          children: [
+            AmountHero(
+              amount: 5000,
+              label: 'Amount',
+              detail: 'SMS verified after MoMo confirmation.',
+            ),
+            InfoSecurityBanner(
+              title: 'Target account',
+              message: 'Receiver details are checked before handoff.',
+            ),
+          ],
+        ),
+      ),
+    );
+
+    expect(find.text('Review contribution'), findsOneWidget);
+    expect(find.text('Target account'), findsOneWidget);
+  });
+
   testWidgets('screen header preserves long titles and wraps tight actions', (
     tester,
   ) async {
