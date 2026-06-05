@@ -43,6 +43,7 @@ class CollectTheme {
       textTheme: textTheme,
       extensions: [colors],
       visualDensity: VisualDensity.standard,
+      splashFactory: InkRipple.splashFactory,
       appBarTheme: AppBarTheme(
         centerTitle: false,
         elevation: 0,

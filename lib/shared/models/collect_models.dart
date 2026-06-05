@@ -44,7 +44,7 @@ class CollectCollection {
     required this.title,
     required this.description,
     this.receiverMomoNumber,
-    this.receiverDisplayLabel = 'Primary MOMO receiver',
+    this.receiverDisplayLabel = 'Primary MoMo receiver',
     required this.createdAt,
   });
 
@@ -75,7 +75,7 @@ class CollectCollection {
       receiverDisplayLabel:
           (receiver?['label'] as String?) ??
           (json['receiver_display_label'] as String?) ??
-          'Primary MOMO receiver',
+          'Primary MoMo receiver',
       createdAt: _dateTime(json['created_at']),
     );
   }
@@ -115,7 +115,7 @@ class PaymentIntentModel {
     required this.collectionId,
     required this.expectedAmountRwf,
     required this.receiverMomoNumber,
-    this.receiverLabel = 'Primary MOMO receiver',
+    this.receiverLabel = 'Primary MoMo receiver',
     this.network = 'unknown',
     this.senderPhoneHash,
     required this.status,
@@ -143,7 +143,7 @@ class PaymentIntentModel {
           (json['receiver_momo_number'] as String?) ??
           (json['receiver_momo_number_hash'] as String? ?? ''),
       receiverLabel:
-          (json['receiver_label'] as String?) ?? 'Primary MOMO receiver',
+          (json['receiver_label'] as String?) ?? 'Primary MoMo receiver',
       network: (json['network'] as String?) ?? 'unknown',
       senderPhoneHash: json['sender_phone_hash'] as String?,
       status: (json['status'] as String?) ?? 'pending',

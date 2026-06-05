@@ -133,7 +133,7 @@ class SmsPermissionEducationScreen extends ConsumerWidget {
           icon: CollectIcons.sms,
           title: 'Automate your group ledger.',
           message:
-              'Collect reads MOMO SMS to automatically record your group ledger.',
+              'Collect reads MoMo SMS to automatically record your group ledger.',
           tone: CollectStatusTone.privacy,
         ),
         CollectButton(

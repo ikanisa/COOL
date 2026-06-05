@@ -7,6 +7,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 export '../../app/theme/collect_colors.dart';
 export '../../app/theme/collect_icons.dart';
+export '../../app/theme/collect_radius.dart';
 export '../../app/theme/collect_spacing.dart';
 export '../../app/theme/collect_typography.dart';
 
@@ -101,6 +102,8 @@ class CollectCard extends StatelessWidget {
     this.onTap,
     this.padding = CollectSpacing.cardPadding,
     this.emphasis = CollectCardEmphasis.normal,
+    this.backgroundGradient,
+    this.accentColor,
     super.key,
   });
 
@@ -108,28 +111,65 @@ class CollectCard extends StatelessWidget {
   final VoidCallback? onTap;
   final EdgeInsetsGeometry padding;
   final CollectCardEmphasis emphasis;
+  final Gradient? backgroundGradient;
+  final Color? accentColor;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final radius = emphasis == CollectCardEmphasis.hero
-        ? CollectRadius.cardLargeBorder
-        : CollectRadius.cardBorder;
+    final radius = switch (emphasis) {
+      CollectCardEmphasis.hero ||
+      CollectCardEmphasis.glow => CollectRadius.cardLargeBorder,
+      CollectCardEmphasis.compact => CollectRadius.mdBorder,
+      _ => CollectRadius.cardBorder,
+    };
+    final background = switch (emphasis) {
+      CollectCardEmphasis.flat => colors.surface,
+      CollectCardEmphasis.outline => colors.surfaceRaised,
+      CollectCardEmphasis.tonal => Color.alphaBlend(
+        (accentColor ?? colors.actionCrimson).withValues(alpha: 0.08),
+        colors.surfaceRaised,
+      ),
+      CollectCardEmphasis.glow => colors.surfaceRaised,
+      CollectCardEmphasis.compact => colors.surfaceRaised,
+      _ => colors.surfaceMuted,
+    };
+    final border = switch (emphasis) {
+      CollectCardEmphasis.flat => null,
+      CollectCardEmphasis.glow => Border.all(
+        color: (accentColor ?? colors.actionCrimson).withValues(alpha: 0.24),
+      ),
+      CollectCardEmphasis.outline => Border.all(color: colors.border),
+      CollectCardEmphasis.compact => Border.all(
+        color: colors.border.withValues(alpha: 0.72),
+      ),
+      _ => Border.all(color: colors.border),
+    };
+    final shadows = switch (emphasis) {
+      CollectCardEmphasis.flat ||
+      CollectCardEmphasis.outline ||
+      CollectCardEmphasis.compact => const <BoxShadow>[],
+      CollectCardEmphasis.glow => [
+        BoxShadow(
+          color: (accentColor ?? colors.actionCrimson).withValues(
+            alpha: isDark ? 0.22 : 0.13,
+          ),
+          blurRadius: 28,
+          offset: const Offset(0, 16),
+        ),
+      ],
+      _ => CollectShadows.card(isDark),
+    };
     final decorated = AnimatedContainer(
       duration: CollectMotion.duration(context, CollectMotion.fast),
       curve: CollectMotion.standard,
       decoration: BoxDecoration(
-        color: emphasis == CollectCardEmphasis.flat
-            ? colors.surface
-            : colors.surfaceMuted,
+        color: backgroundGradient == null ? background : null,
+        gradient: backgroundGradient,
         borderRadius: radius,
-        border: emphasis == CollectCardEmphasis.flat
-            ? null
-            : Border.all(color: colors.border),
-        boxShadow: emphasis == CollectCardEmphasis.flat
-            ? const []
-            : CollectShadows.card(isDark),
+        border: border,
+        boxShadow: shadows,
       ),
       child: Padding(padding: padding, child: child),
     );
@@ -143,7 +183,7 @@ class CollectCard extends StatelessWidget {
   }
 }
 
-enum CollectCardEmphasis { flat, normal, hero }
+enum CollectCardEmphasis { flat, normal, hero, tonal, glow, outline, compact }
 
 class MoneyCard extends StatelessWidget {
   const MoneyCard({
@@ -2655,7 +2695,49 @@ class GroupCard extends StatelessWidget {
     required this.summary,
     this.onTap,
     this.primaryAction,
+    this.variant = GroupCardVariant.owned,
     super.key,
+  });
+
+  final CollectCollection collection;
+  final CollectionSummary summary;
+  final VoidCallback? onTap;
+  final Widget? primaryAction;
+  final GroupCardVariant variant;
+
+  @override
+  Widget build(BuildContext context) {
+    return switch (variant) {
+      GroupCardVariant.publicDiscovery => _PublicDiscoveryGroupCard(
+        collection: collection,
+        summary: summary,
+        onTap: onTap,
+        primaryAction: primaryAction,
+      ),
+      GroupCardVariant.compact => _CompactGroupCard(
+        collection: collection,
+        summary: summary,
+        onTap: onTap,
+        primaryAction: primaryAction,
+      ),
+      GroupCardVariant.owned => _OwnedGroupCard(
+        collection: collection,
+        summary: summary,
+        onTap: onTap,
+        primaryAction: primaryAction,
+      ),
+    };
+  }
+}
+
+enum GroupCardVariant { owned, publicDiscovery, compact }
+
+class _OwnedGroupCard extends StatelessWidget {
+  const _OwnedGroupCard({
+    required this.collection,
+    required this.summary,
+    this.onTap,
+    this.primaryAction,
   });
 
   final CollectCollection collection;
@@ -2665,18 +2747,23 @@ class GroupCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final accent = _groupAccent(context, collection);
     return CollectCard(
       onTap: onTap,
       padding: CollectSpacing.cardPaddingComfortable,
+      emphasis: CollectCardEmphasis.tonal,
+      accentColor: accent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const _ToneIcon(
-                icon: CollectIcons.target,
-                tone: CollectStatusTone.info,
+              _GroupIconBadge(
+                icon: _groupIcon(collection),
+                accent: accent,
+                size: 52,
               ),
               CollectSpacing.gapW12,
               Expanded(
@@ -2689,39 +2776,420 @@ class GroupCard extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
+                    if (collection.description.trim().isNotEmpty) ...[
+                      CollectSpacing.gap4,
+                      Text(
+                        collection.description,
+                        style: Theme.of(context).textTheme.bodySmall,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ],
                 ),
               ),
-              Tooltip(
-                message: 'Private group link',
-                child: Semantics(
-                  label: 'Private group link',
-                  child: const _ToneIcon(
-                    icon: CollectIcons.lock,
-                    tone: CollectStatusTone.privacy,
-                  ),
-                ),
-              ),
+              CollectSpacing.gapW12,
+              _PrivacyGlyph(accent: accent),
             ],
           ),
-          CollectSpacing.gap20,
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Expanded(
-                child: AmountHero(
-                  amount: summary.amountRaisedRwf,
-                  label: '',
-                  detail: '${summary.supporterCount} members',
-                ),
+          CollectSpacing.gap16,
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: colors.surfaceRaised.withValues(alpha: 0.72),
+              borderRadius: CollectRadius.panelBorder,
+              border: Border.all(color: colors.border.withValues(alpha: 0.62)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(CollectSpacing.x3),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: _GroupMetric(
+                      label: 'Collected',
+                      value: formatRwf(summary.amountRaisedRwf),
+                      accent: accent,
+                    ),
+                  ),
+                  Container(
+                    width: 1,
+                    height: 42,
+                    color: colors.border.withValues(alpha: 0.75),
+                  ),
+                  Expanded(
+                    child: _GroupMetric(
+                      label: 'Members',
+                      value: '${summary.supporterCount}',
+                      accent: colors.textSecondary,
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
           if (primaryAction != null) ...[CollectSpacing.gap16, primaryAction!],
         ],
       ),
     );
   }
+}
+
+class _PublicDiscoveryGroupCard extends StatelessWidget {
+  const _PublicDiscoveryGroupCard({
+    required this.collection,
+    required this.summary,
+    this.onTap,
+    this.primaryAction,
+  });
+
+  final CollectCollection collection;
+  final CollectionSummary summary;
+  final VoidCallback? onTap;
+  final Widget? primaryAction;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final accent = _groupAccent(context, collection);
+    return CollectCard(
+      onTap: onTap,
+      padding: EdgeInsets.zero,
+      emphasis: CollectCardEmphasis.glow,
+      accentColor: accent,
+      backgroundGradient: LinearGradient(
+        colors: [
+          Color.alphaBlend(
+            accent.withValues(alpha: 0.13),
+            colors.surfaceRaised,
+          ),
+          colors.surfaceRaised,
+        ],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      child: ClipRRect(
+        borderRadius: CollectRadius.cardLargeBorder,
+        child: Stack(
+          children: [
+            Positioned(
+              right: -34,
+              top: -34,
+              child: _GroupWatermark(
+                icon: _groupIcon(collection),
+                accent: accent,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(CollectSpacing.x4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      _GroupIconBadge(
+                        icon: _groupIcon(collection),
+                        accent: accent,
+                        size: 48,
+                      ),
+                      const Spacer(),
+                      _PrivacyGlyph(accent: accent),
+                    ],
+                  ),
+                  CollectSpacing.gap12,
+                  Text(
+                    collection.title,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  CollectSpacing.gap4,
+                  if (collection.description.trim().isNotEmpty) ...[
+                    Text(
+                      collection.description,
+                      style: Theme.of(context).textTheme.bodySmall,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                  CollectSpacing.gap16,
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: colors.surfaceRaised.withValues(alpha: 0.78),
+                      borderRadius: CollectRadius.panelBorder,
+                      border: Border.all(color: accent.withValues(alpha: 0.16)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: CollectSpacing.x3,
+                        vertical: CollectSpacing.x2,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: _GroupMetric(
+                              label: 'Total collected',
+                              value: formatRwf(summary.amountRaisedRwf),
+                              accent: accent,
+                            ),
+                          ),
+                          CollectSpacing.gapW12,
+                          _MemberPill(count: summary.supporterCount),
+                        ],
+                      ),
+                    ),
+                  ),
+                  if (primaryAction != null) ...[
+                    CollectSpacing.gap8,
+                    SizedBox(height: 44, child: primaryAction!),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CompactGroupCard extends StatelessWidget {
+  const _CompactGroupCard({
+    required this.collection,
+    required this.summary,
+    this.onTap,
+    this.primaryAction,
+  });
+
+  final CollectCollection collection;
+  final CollectionSummary summary;
+  final VoidCallback? onTap;
+  final Widget? primaryAction;
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = _groupAccent(context, collection);
+    return CollectCard(
+      onTap: onTap,
+      emphasis: CollectCardEmphasis.compact,
+      padding: const EdgeInsets.all(CollectSpacing.x3),
+      accentColor: accent,
+      child: Row(
+        children: [
+          _GroupIconBadge(
+            icon: _groupIcon(collection),
+            accent: accent,
+            size: 42,
+          ),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  collection.title,
+                  style: Theme.of(context).textTheme.titleSmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                CollectSpacing.gap4,
+                Text(
+                  '${formatRwf(summary.amountRaisedRwf)} · ${summary.supporterCount} members',
+                  style: Theme.of(context).textTheme.bodySmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          if (primaryAction != null) ...[CollectSpacing.gapW12, primaryAction!],
+        ],
+      ),
+    );
+  }
+}
+
+class _GroupIconBadge extends StatelessWidget {
+  const _GroupIconBadge({
+    required this.icon,
+    required this.accent,
+    required this.size,
+  });
+
+  final IconData icon;
+  final Color accent;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: accent.withValues(alpha: 0.13),
+        borderRadius: BorderRadius.circular(size * 0.28),
+      ),
+      child: SizedBox(
+        width: size,
+        height: size,
+        child: Icon(icon, color: accent, size: size * 0.52),
+      ),
+    );
+  }
+}
+
+class _PrivacyGlyph extends StatelessWidget {
+  const _PrivacyGlyph({required this.accent});
+
+  final Color accent;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: 'Receiver details stay private',
+      child: Semantics(
+        label: 'Receiver details stay private',
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: accent.withValues(alpha: 0.10),
+            shape: BoxShape.circle,
+          ),
+          child: SizedBox(
+            width: 38,
+            height: 38,
+            child: Icon(CollectIcons.lock, color: accent, size: 19),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _GroupWatermark extends StatelessWidget {
+  const _GroupWatermark({required this.icon, required this.accent});
+
+  final IconData icon;
+  final Color accent;
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.rotate(
+      angle: -0.18,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border.all(color: accent.withValues(alpha: 0.10), width: 2),
+          borderRadius: CollectRadius.cardLargeBorder,
+        ),
+        child: SizedBox(
+          width: 116,
+          height: 116,
+          child: Icon(icon, color: accent.withValues(alpha: 0.11), size: 68),
+        ),
+      ),
+    );
+  }
+}
+
+class _GroupMetric extends StatelessWidget {
+  const _GroupMetric({
+    required this.label,
+    required this.value,
+    required this.accent,
+  });
+
+  final String label;
+  final String value;
+  final Color accent;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: Theme.of(context).textTheme.labelSmall,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        CollectSpacing.gap4,
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Text(
+            value,
+            style: CollectTypography.amountCompact(
+              accent,
+            ).copyWith(fontSize: 18),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _MemberPill extends StatelessWidget {
+  const _MemberPill({required this.count});
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.surfaceMuted.withValues(alpha: 0.72),
+        borderRadius: CollectRadius.pillBorder,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: CollectSpacing.x3,
+          vertical: CollectSpacing.x2,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(CollectIcons.people, size: 16, color: colors.textSecondary),
+            CollectSpacing.gapW8,
+            Text('$count', style: Theme.of(context).textTheme.labelLarge),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Color _groupAccent(BuildContext context, CollectCollection collection) {
+  final colors = context.collectColors;
+  final palette = [
+    colors.actionCrimson,
+    colors.success,
+    colors.warning,
+    colors.purple,
+    colors.coral,
+  ];
+  final key = '${collection.id}${collection.title}';
+  final index =
+      key.codeUnits.fold<int>(0, (sum, unit) => sum + unit) % palette.length;
+  return palette[index];
+}
+
+IconData _groupIcon(CollectCollection collection) {
+  final text = '${collection.title} ${collection.description}'.toLowerCase();
+  if (text.contains('church') || text.contains('st michel')) {
+    return Icons.church_rounded;
+  }
+  if (text.contains('football') ||
+      text.contains('lions') ||
+      text.contains('kit')) {
+    return Icons.sports_soccer_rounded;
+  }
+  if (text.contains('medical') || text.contains('health')) {
+    return Icons.medical_services_rounded;
+  }
+  if (text.contains('school') || text.contains('education')) {
+    return Icons.school_rounded;
+  }
+  return CollectIcons.collections;
 }
 
 class CollectionSummaryCard extends StatelessWidget {

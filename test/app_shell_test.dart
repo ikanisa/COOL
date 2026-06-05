@@ -15,6 +15,10 @@ void main() {
 
     expect(find.text('Good morning'), findsWidgets);
     expect(find.text('TOTAL COLLECTED'), findsOneWidget);
+    expect(find.text('Public groups'), findsOneWidget);
+    expect(find.text('CONFIRMED'), findsNothing);
+    expect(find.text('PENDING'), findsNothing);
+    expect(find.text('FAILED'), findsNothing);
     expect(find.text('Platform admin'), findsNothing);
     expect(find.textContaining('BioPay'), findsNothing);
     expect(find.textContaining('wallet'), findsNothing);

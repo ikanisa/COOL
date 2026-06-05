@@ -119,6 +119,27 @@ class DesignSystemCatalogScreen extends StatelessWidget {
             supporterCount: 12,
           ),
         ),
+        GroupCard(
+          collection: CollectCollection(
+            id: 'demo-public',
+            slug: 'kigali-lions-away-kit',
+            creatorUserId: 'local-user',
+            title: 'Kigali Lions away kit',
+            description: 'Fans are helping fund away jerseys and travel.',
+            receiverMomoNumber: '+250788123456',
+            createdAt: now,
+          ),
+          summary: const CollectionSummary(
+            amountRaisedRwf: 275000,
+            supporterCount: 124,
+          ),
+          variant: GroupCardVariant.publicDiscovery,
+          primaryAction: const CollectButton(
+            label: 'Open',
+            icon: CollectIcons.arrowForward,
+            expand: true,
+          ),
+        ),
         const MoneyCard(
           label: 'Total',
           amount: 125000,

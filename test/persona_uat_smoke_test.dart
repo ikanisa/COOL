@@ -115,6 +115,10 @@ void main() {
 
     expect(find.text('Good morning'), findsWidgets);
     expect(find.text('TOTAL COLLECTED'), findsOneWidget);
+    expect(find.text('Public groups'), findsOneWidget);
+    expect(find.text('CONFIRMED'), findsNothing);
+    expect(find.text('PENDING'), findsNothing);
+    expect(find.text('FAILED'), findsNothing);
     expect(find.text('Platform admin'), findsNothing);
     expectNoGlobalSecrets();
   });
@@ -380,7 +384,7 @@ void main() {
 
     await tapVisible(tester, find.text('Continue'));
 
-    expect(find.text('Add MOMO Number/Code'), findsOneWidget);
+    expect(find.text('Add MoMo number'), findsOneWidget);
     expect(find.text('MoMo number'), findsOneWidget);
     expect(find.textContaining('public share links'), findsNothing);
     expect(find.textContaining('Rwanda format'), findsNothing);
@@ -447,7 +451,7 @@ void main() {
 
     await tapVisible(
       tester,
-      find.widgetWithText(FilledButton, 'Pay with MOMO'),
+      find.widgetWithText(FilledButton, 'Pay with MoMo'),
     );
     await pumpLaunchFrames(tester);
 
@@ -638,7 +642,7 @@ void main() {
     expect(find.text('SMS access'), findsWidgets);
     expect(
       find.text(
-        'Collect reads MOMO SMS to automatically record your group ledger.',
+        'Collect reads MoMo SMS to automatically record your group ledger.',
       ),
       findsOneWidget,
     );

@@ -72,7 +72,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
           )
         else if (_step == 1)
           FormSectionCard(
-            title: 'Add MOMO Number/Code',
+            title: 'Add MoMo number',
             errorTitle: 'Profile not saved',
             errorMessage: _error,
             children: [

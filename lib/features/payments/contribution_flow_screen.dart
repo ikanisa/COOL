@@ -68,7 +68,7 @@ class _ContributionFlowScreenState
         children: _reviewing
             ? [
                 CollectButton(
-                  label: _creating ? 'Opening MOMO' : 'Pay with MOMO',
+                  label: _creating ? 'Opening MoMo' : 'Pay with MoMo',
                   icon: CollectIcons.momo,
                   onPressed: _creating ? null : _createIntent,
                   expand: true,

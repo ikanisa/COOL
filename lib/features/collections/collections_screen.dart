@@ -56,11 +56,47 @@ class CollectionsScreen extends ConsumerWidget {
         ),
       ],
       children: [
-        const InfoSecurityBanner(
-          title: 'Group links are safe to share',
-          message:
-              'Join links and QR codes connect members to a group without exposing the receiver MoMo number.',
-          tone: CollectStatusTone.privacy,
+        CollectCard(
+          emphasis: CollectCardEmphasis.glow,
+          accentColor: context.collectColors.actionCrimson,
+          padding: CollectSpacing.cardPaddingComfortable,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: context.collectColors.actionCrimson.withValues(
+                    alpha: 0.12,
+                  ),
+                  borderRadius: CollectRadius.panelBorder,
+                ),
+                child: const SizedBox(
+                  width: 56,
+                  height: 56,
+                  child: Icon(CollectIcons.qr),
+                ),
+              ),
+              CollectSpacing.gapW16,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Group links are safe to share',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    CollectSpacing.gap4,
+                    Text(
+                      'Join links and QR codes connect members without exposing receiver MoMo details.',
+                      style: Theme.of(context).textTheme.bodySmall,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
         for (final collection in collections)
           GroupCard(
@@ -75,6 +111,7 @@ class CollectionsScreen extends ConsumerWidget {
               onPressed: () => context.go('/groups/${collection.id}'),
               expand: true,
             ),
+            variant: GroupCardVariant.owned,
           ),
       ],
     );

@@ -371,7 +371,7 @@ class CollectRepository extends StateNotifier<CollectState> {
           'group_description': description.trim(),
           'receiver_momo_number': normalizedReceiver,
           'receiver_momo_number_hash': HashUtils.phoneHash(normalizedReceiver),
-          'receiver_label': 'Primary MOMO receiver',
+          'receiver_label': 'Primary MoMo receiver',
         },
       );
       final collection = await _fetchCollection(collectionId);
@@ -396,7 +396,7 @@ class CollectRepository extends StateNotifier<CollectState> {
   Future<CollectCollection> updateCollectionReceiver({
     required String collectionId,
     required String receiverMomoNumber,
-    String receiverLabel = 'Primary MOMO receiver',
+    String receiverLabel = 'Primary MoMo receiver',
   }) async {
     final normalizedReceiver = PhoneNormalizer.normalizeRwanda(
       receiverMomoNumber,
@@ -411,7 +411,7 @@ class CollectRepository extends StateNotifier<CollectState> {
           'receiver_momo_number': normalizedReceiver,
           'receiver_momo_number_hash': HashUtils.phoneHash(normalizedReceiver),
           'receiver_label': receiverLabel.trim().isEmpty
-              ? 'Primary MOMO receiver'
+              ? 'Primary MoMo receiver'
               : receiverLabel.trim(),
         },
       );
@@ -426,7 +426,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     collections[index] = collections[index].copyWith(
       receiverMomoNumber: normalizedReceiver,
       receiverDisplayLabel: receiverLabel.trim().isEmpty
-          ? 'Primary MOMO receiver'
+          ? 'Primary MoMo receiver'
           : receiverLabel.trim(),
     );
     state = state.copyWith(collections: collections);
@@ -466,7 +466,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     }
 
     final receiver = collection.receiverMomoNumber;
-    if (receiver == null) throw StateError('Group has no MOMO receiver');
+    if (receiver == null) throw StateError('Group has no MoMo receiver');
     final intent = PaymentIntentModel(
       id: _uuid.v4(),
       collectionId: collection.id,

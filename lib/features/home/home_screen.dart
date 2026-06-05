@@ -30,9 +30,6 @@ class HomeScreen extends ConsumerWidget {
     final contributions = ref.watch(
       collectRepositoryProvider.select((state) => state.contributions),
     );
-    final pendingAmount = paymentIntents
-        .where((intent) => intent.status == 'pending')
-        .fold<int>(0, (sum, intent) => sum + intent.expectedAmountRwf);
     return ScreenScaffold(
       title: 'Good morning',
       subtitle: profile == null ? null : '#${profile.publicId}',
@@ -46,9 +43,7 @@ class HomeScreen extends ConsumerWidget {
       ],
       children: [
         _HomeTotalCollectedCard(
-          confirmedAmount: raisedTotal,
-          pendingAmount: pendingAmount,
-          failedAmount: 0,
+          totalAmount: raisedTotal,
           collectionCount: collectionCount,
         ),
         _HomeActionStrip(
@@ -57,7 +52,7 @@ class HomeScreen extends ConsumerWidget {
               : collections.first.id,
           onCreate: () => openGroupCreation(context),
         ),
-        const _PublicCollectionsSection(),
+        _PublicGroupsSection(collections: collections, summaries: summaries),
         const SectionHeader(title: 'My groups'),
         if (collections.isEmpty)
           EmptyIllustrationState(
@@ -158,25 +153,15 @@ class _NotificationAction extends StatelessWidget {
 
 class _HomeTotalCollectedCard extends StatelessWidget {
   const _HomeTotalCollectedCard({
-    required this.confirmedAmount,
-    required this.pendingAmount,
-    required this.failedAmount,
+    required this.totalAmount,
     required this.collectionCount,
   });
 
-  final int confirmedAmount;
-  final int pendingAmount;
-  final int failedAmount;
+  final int totalAmount;
   final int collectionCount;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final totalAmount = confirmedAmount + pendingAmount + failedAmount;
-    final confirmedPercent = _percent(confirmedAmount, totalAmount);
-    final pendingPercent = _percent(pendingAmount, totalAmount);
-    final failedPercent = _percent(failedAmount, totalAmount);
-
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
@@ -195,201 +180,145 @@ class _HomeTotalCollectedCard extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(18),
-        child: Stack(
-          children: [
-            const Positioned(
-              right: -38,
-              top: -52,
-              child: _HomeHeroOrb(size: 176, alpha: 0.18),
-            ),
-            const Positioned(
-              right: -22,
-              bottom: -46,
-              child: _HomeHeroOrb(size: 122, alpha: 0.10),
-            ),
-            Padding(
-              padding: CollectSpacing.cardPaddingComfortable,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'TOTAL COLLECTED',
-                    style: CollectTypography.eyebrowLabel(
-                      Colors.white.withValues(alpha: 0.82),
-                    ),
-                  ),
-                  CollectSpacing.gap12,
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      formatRwf(totalAmount),
-                      style: CollectTypography.amountDisplay(Colors.white),
-                    ),
-                  ),
-                  CollectSpacing.gap4,
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        const TextSpan(text: 'Across '),
-                        TextSpan(
-                          text: '$collectionCount',
-                          style: const TextStyle(
-                            color: Color(0xFFFF5F89),
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        const TextSpan(text: ' active groups'),
-                      ],
-                    ),
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.white.withValues(alpha: 0.72),
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  CollectSpacing.gap24,
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      final compact = constraints.maxWidth < 500;
-                      final stats = [
-                        _HomeCollectionStat(
-                          label: 'Confirmed',
-                          amount: confirmedAmount,
-                          percent: confirmedPercent,
-                          color: colors.success,
-                        ),
-                        _HomeCollectionStat(
-                          label: 'Pending',
-                          amount: pendingAmount,
-                          percent: pendingPercent,
-                          color: colors.warning,
-                        ),
-                        _HomeCollectionStat(
-                          label: 'Failed',
-                          amount: failedAmount,
-                          percent: failedPercent,
-                          color: colors.textMuted,
-                        ),
-                      ];
-                      if (compact) {
-                        return Column(
-                          children: [
-                            for (var index = 0; index < stats.length; index++)
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  bottom: index == stats.length - 1
-                                      ? 0
-                                      : CollectSpacing.x3,
-                                ),
-                                child: stats[index],
-                              ),
-                          ],
-                        );
-                      }
-                      return Row(
-                        children: [
-                          for (
-                            var index = 0;
-                            index < stats.length;
-                            index++
-                          ) ...[
-                            Expanded(child: stats[index]),
-                            if (index < stats.length - 1)
-                              Container(
-                                width: 1,
-                                height: 58,
-                                margin: const EdgeInsets.symmetric(
-                                  horizontal: CollectSpacing.x4,
-                                ),
-                                color: Colors.white.withValues(alpha: 0.28),
-                              ),
-                          ],
-                        ],
-                      );
-                    },
-                  ),
-                ],
+        child: Padding(
+          padding: CollectSpacing.cardPaddingComfortable,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'TOTAL COLLECTED',
+                style: CollectTypography.eyebrowLabel(
+                  Colors.white.withValues(alpha: 0.82),
+                ),
               ),
-            ),
-          ],
+              CollectSpacing.gap12,
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  formatRwf(totalAmount),
+                  style: CollectTypography.amountDisplay(Colors.white),
+                ),
+              ),
+              CollectSpacing.gap4,
+              Text.rich(
+                TextSpan(
+                  children: [
+                    const TextSpan(text: 'Across '),
+                    TextSpan(
+                      text: '$collectionCount',
+                      style: const TextStyle(
+                        color: Color(0xFFFF5F89),
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    TextSpan(
+                      text: collectionCount == 1
+                          ? ' active group'
+                          : ' active groups',
+                    ),
+                  ],
+                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.white.withValues(alpha: 0.72),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-
-  String _percent(int amount, int total) {
-    if (total <= 0) return '0%';
-    final value = (amount / total) * 100;
-    return value == value.roundToDouble()
-        ? '${value.round()}%'
-        : '${value.toStringAsFixed(1)}%';
-  }
 }
 
-class _HomeHeroOrb extends StatelessWidget {
-  const _HomeHeroOrb({required this.size, required this.alpha});
-
-  final double size;
-  final double alpha;
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: alpha),
-        shape: BoxShape.circle,
-      ),
-      child: SizedBox(width: size, height: size),
-    );
-  }
-}
-
-class _HomeCollectionStat extends StatelessWidget {
-  const _HomeCollectionStat({
-    required this.label,
-    required this.amount,
-    required this.percent,
-    required this.color,
+class _PublicGroupsSection extends StatelessWidget {
+  const _PublicGroupsSection({
+    required this.collections,
+    required this.summaries,
   });
 
-  final String label;
-  final int amount;
-  final String percent;
-  final Color color;
+  final List<CollectCollection> collections;
+  final Map<String, CollectionSummary> summaries;
 
   @override
   Widget build(BuildContext context) {
+    if (collections.isEmpty) {
+      return const EmptyIllustrationState(
+        icon: CollectIcons.collectionsOutline,
+        title: 'No public groups yet',
+        message: 'Groups that are safe to share will appear here.',
+      );
+    }
+
+    final publicGroups = collections.take(4).toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            DecoratedBox(
-              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-              child: const SizedBox(width: 10, height: 10),
-            ),
-            CollectSpacing.gapW8,
-            Text(
-              label.toUpperCase(),
-              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: Colors.white,
-                letterSpacing: 0.6,
+        SectionHeader(
+          title: 'Public groups',
+          actionLabel: 'View all',
+          onAction: () => context.go('/groups'),
+        ),
+        CollectSpacing.gap12,
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final wide = constraints.maxWidth >= 720;
+            if (wide) {
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: publicGroups.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: CollectSpacing.x3,
+                  crossAxisSpacing: CollectSpacing.x3,
+                  childAspectRatio: 1.24,
+                ),
+                itemBuilder: (context, index) {
+                  final collection = publicGroups[index];
+                  return GroupCard(
+                    collection: collection,
+                    summary:
+                        summaries[collection.id] ??
+                        const CollectionSummary(
+                          amountRaisedRwf: 0,
+                          supporterCount: 0,
+                        ),
+                    variant: GroupCardVariant.publicDiscovery,
+                    onTap: () => context.go('/groups/${collection.id}'),
+                  );
+                },
+              );
+            }
+            return SizedBox(
+              height: 276,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                clipBehavior: Clip.none,
+                padding: EdgeInsets.zero,
+                itemCount: publicGroups.length,
+                separatorBuilder: (_, _) => CollectSpacing.gapW12,
+                itemBuilder: (context, index) {
+                  final collection = publicGroups[index];
+                  return SizedBox(
+                    width: 304,
+                    child: GroupCard(
+                      collection: collection,
+                      summary:
+                          summaries[collection.id] ??
+                          const CollectionSummary(
+                            amountRaisedRwf: 0,
+                            supporterCount: 0,
+                          ),
+                      variant: GroupCardVariant.publicDiscovery,
+                      onTap: () => context.go('/groups/${collection.id}'),
+                    ),
+                  );
+                },
               ),
-            ),
-          ],
-        ),
-        CollectSpacing.gap8,
-        Text(
-          formatRwf(amount),
-          style: CollectTypography.amountLarge(Colors.white),
-        ),
-        CollectSpacing.gap4,
-        Text(
-          percent,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: Colors.white.withValues(alpha: 0.66),
-            fontWeight: FontWeight.w600,
-          ),
+            );
+          },
         ),
       ],
     );
@@ -434,16 +363,51 @@ class _HomeActionStrip extends StatelessWidget {
       ),
     ];
 
-    return SizedBox(
-      height: 96,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        clipBehavior: Clip.none,
-        padding: EdgeInsets.zero,
-        itemCount: actions.length,
-        separatorBuilder: (_, _) => CollectSpacing.gapW12,
-        itemBuilder: (context, index) => actions[index],
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 560) {
+          return Column(
+            children: [
+              SizedBox(
+                height: 88,
+                child: Row(
+                  children: [
+                    for (final action in actions.take(3)) ...[
+                      Expanded(child: action),
+                      if (action != actions.take(3).last) CollectSpacing.gapW8,
+                    ],
+                  ],
+                ),
+              ),
+              CollectSpacing.gap8,
+              SizedBox(
+                height: 82,
+                child: Row(
+                  children: [
+                    for (final action in actions.skip(3)) ...[
+                      Expanded(child: action),
+                      if (action != actions.last) CollectSpacing.gapW8,
+                    ],
+                  ],
+                ),
+              ),
+            ],
+          );
+        }
+
+        return SizedBox(
+          height: 96,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            clipBehavior: Clip.none,
+            padding: EdgeInsets.zero,
+            itemCount: actions.length,
+            separatorBuilder: (_, _) => CollectSpacing.gapW12,
+            itemBuilder: (context, index) =>
+                SizedBox(width: 130, child: actions[index]),
+          ),
+        );
+      },
     );
   }
 }
@@ -474,8 +438,7 @@ class _HomeActionItem extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(14),
-          child: SizedBox(
-            width: 130,
+          child: SizedBox.expand(
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: CollectSpacing.x2,
@@ -497,255 +460,6 @@ class _HomeActionItem extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _PublicCollectionsSection extends StatelessWidget {
-  const _PublicCollectionsSection();
-
-  @override
-  Widget build(BuildContext context) {
-    const collections = [
-      _PublicCollection(
-        category: 'Football',
-        title: 'Kigali Lions Away Kit',
-        description: "Help fans support the team's new season kit",
-        raisedRwf: 275000,
-        goalRwf: 500000,
-        supporters: 124,
-        icon: Icons.sports_soccer_rounded,
-        collectionId: 'col-team',
-      ),
-      _PublicCollection(
-        category: 'Church',
-        title: 'St Michel Building Fund',
-        description: 'Building a stronger church for our community',
-        raisedRwf: 350000,
-        goalRwf: 800000,
-        supporters: 198,
-        icon: Icons.church_rounded,
-        collectionId: 'col-church',
-      ),
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SectionHeader(
-          title: 'Public collections',
-          actionLabel: 'View all',
-          onAction: () => context.go('/groups'),
-        ),
-        CollectSpacing.gap12,
-        LayoutBuilder(
-          builder: (context, constraints) {
-            final wide = constraints.maxWidth >= 680;
-            if (wide) {
-              return Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  for (var index = 0; index < collections.length; index++) ...[
-                    Expanded(
-                      child: _PublicCollectionCard(
-                        collection: collections[index],
-                      ),
-                    ),
-                    if (index < collections.length - 1) CollectSpacing.gapW12,
-                  ],
-                ],
-              );
-            }
-            return SizedBox(
-              height: 230,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                clipBehavior: Clip.none,
-                padding: EdgeInsets.zero,
-                itemCount: collections.length,
-                separatorBuilder: (_, _) => CollectSpacing.gapW12,
-                itemBuilder: (context, index) => SizedBox(
-                  width: 320,
-                  child: _PublicCollectionCard(collection: collections[index]),
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class _PublicCollection {
-  const _PublicCollection({
-    required this.category,
-    required this.title,
-    required this.description,
-    required this.raisedRwf,
-    required this.goalRwf,
-    required this.supporters,
-    required this.icon,
-    required this.collectionId,
-  });
-
-  final String category;
-  final String title;
-  final String description;
-  final int raisedRwf;
-  final int goalRwf;
-  final int supporters;
-  final IconData icon;
-  final String collectionId;
-}
-
-class _PublicCollectionCard extends StatelessWidget {
-  const _PublicCollectionCard({required this.collection});
-
-  final _PublicCollection collection;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final progress = collection.goalRwf <= 0
-        ? 0.0
-        : (collection.raisedRwf / collection.goalRwf).clamp(0.0, 1.0);
-    return CollectCard(
-      padding: const EdgeInsets.all(CollectSpacing.x4),
-      onTap: () => context.go('/groups/${collection.collectionId}'),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(child: _PublicChip(label: collection.category)),
-              Icon(CollectIcons.check, color: colors.success, size: 24),
-            ],
-          ),
-          CollectSpacing.gap12,
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  color: colors.info.withValues(alpha: 0.12),
-                  shape: BoxShape.circle,
-                ),
-                child: SizedBox(
-                  width: 58,
-                  height: 58,
-                  child: Icon(collection.icon, color: colors.info, size: 34),
-                ),
-              ),
-              CollectSpacing.gapW12,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      collection.title,
-                      style: Theme.of(context).textTheme.titleLarge,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    CollectSpacing.gap4,
-                    Text(
-                      collection.description,
-                      style: Theme.of(context).textTheme.bodySmall,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          CollectSpacing.gap12,
-          Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: formatRwf(collection.raisedRwf),
-                  style: CollectTypography.amountCompact(colors.textPrimary),
-                ),
-                TextSpan(
-                  text: ' raised',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ],
-            ),
-          ),
-          CollectSpacing.gap4,
-          Text(
-            'Goal ${formatRwf(collection.goalRwf)}',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-          CollectSpacing.gap8,
-          ClipRRect(
-            borderRadius: BorderRadius.circular(999),
-            child: LinearProgressIndicator(
-              minHeight: 6,
-              value: progress,
-              color: colors.actionCrimson,
-              backgroundColor: colors.surfaceMuted,
-            ),
-          ),
-          CollectSpacing.gap12,
-          Row(
-            children: [
-              Icon(CollectIcons.people, size: 18, color: colors.textSecondary),
-              CollectSpacing.gapW8,
-              Expanded(
-                child: Text(
-                  '${collection.supporters} supporters',
-                  style: Theme.of(context).textTheme.bodySmall,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              TextButton(
-                onPressed: () =>
-                    context.go('/groups/${collection.collectionId}/contribute'),
-                child: const Text('Support'),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _PublicChip extends StatelessWidget {
-  const _PublicChip({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.info.withValues(alpha: 0.10),
-          borderRadius: BorderRadius.circular(999),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: CollectSpacing.x3,
-            vertical: CollectSpacing.x1,
-          ),
-          child: Text(
-            label,
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: colors.info,
-              fontWeight: FontWeight.w800,
             ),
           ),
         ),

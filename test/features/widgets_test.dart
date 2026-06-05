@@ -43,8 +43,9 @@ void main() {
     );
 
     expect(find.text('Medical support'), findsWidgets);
-    expect(find.text('3 members'), findsOneWidget);
-    expect(find.text('Help'), findsNothing);
+    expect(find.text('Members'), findsOneWidget);
+    expect(find.text('3'), findsOneWidget);
+    expect(find.text('Help'), findsOneWidget);
     expect(find.text('Auto'), findsNothing);
   });
 
@@ -80,7 +81,8 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('RWF 12,500,000'), findsOneWidget);
-    expect(find.text('128 members'), findsOneWidget);
+    expect(find.text('Members'), findsOneWidget);
+    expect(find.text('128'), findsOneWidget);
   });
 
   test('Collect date formatter keeps activity timestamps compact', () {
@@ -141,7 +143,7 @@ void main() {
     await tester.pump();
 
     expect(find.text('Review'), findsOneWidget);
-    expect(find.text('Pay with MOMO'), findsOneWidget);
+    expect(find.text('Pay with MoMo'), findsOneWidget);
     expect(find.text('Edit amount'), findsWidgets);
   });
 }

@@ -62,7 +62,7 @@ class _CollectionDetailScreenState
       bottomAction: isAdmin
           ? null
           : CollectButton(
-              label: 'Pay with MOMO',
+              label: 'Pay with MoMo',
               icon: CollectIcons.momo,
               onPressed: () =>
                   context.go('/groups/${widget.collectionId}/contribute'),
@@ -116,50 +116,94 @@ class _GroupHero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CollectCard(
-          emphasis: CollectCardEmphasis.flat,
-          padding: EdgeInsets.zero,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+    return CollectCard(
+      emphasis: CollectCardEmphasis.glow,
+      accentColor: colors.actionCrimson,
+      padding: EdgeInsets.zero,
+      backgroundGradient: LinearGradient(
+        colors: [
+          Color.alphaBlend(
+            colors.actionCrimson.withValues(alpha: 0.14),
+            colors.surfaceRaised,
+          ),
+          colors.surfaceRaised,
+        ],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      child: ClipRRect(
+        borderRadius: CollectRadius.cardLargeBorder,
+        child: Stack(
+          children: [
+            Positioned(
+              right: -42,
+              top: -48,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: colors.actionCrimson.withValues(alpha: 0.08),
+                  shape: BoxShape.circle,
+                ),
+                child: const SizedBox(width: 190, height: 190),
+              ),
+            ),
+            Padding(
+              padding: CollectSpacing.cardPaddingComfortable,
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Text(
-                      collection.title,
-                      style: Theme.of(context).textTheme.headlineMedium,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: colors.actionCrimson.withValues(alpha: 0.12),
+                          borderRadius: CollectRadius.panelBorder,
+                        ),
+                        child: const SizedBox(
+                          width: 58,
+                          height: 58,
+                          child: Icon(CollectIcons.collections),
+                        ),
+                      ),
+                      CollectSpacing.gapW16,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              collection.title,
+                              style: Theme.of(context).textTheme.headlineMedium
+                                  ?.copyWith(fontWeight: FontWeight.w800),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            CollectSpacing.gap8,
+                            Text(
+                              collection.description,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (canManage) ...[
+                        CollectSpacing.gapW12,
+                        const _RoleChip(label: 'Admin'),
+                      ],
+                    ],
                   ),
-                  if (canManage) ...[
-                    CollectSpacing.gapW12,
-                    const _RoleChip(label: 'Admin'),
-                  ],
+                  CollectSpacing.gap24,
+                  _GroupStatsCard(
+                    totalRaised: summary.amountRaisedRwf,
+                    participants: summary.supporterCount,
+                  ),
                 ],
               ),
-              CollectSpacing.gap8,
-              Text(
-                collection.description,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyLarge?.copyWith(color: colors.textSecondary),
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-        CollectSpacing.gap20,
-        _GroupStatsCard(
-          totalRaised: summary.amountRaisedRwf,
-          participants: summary.supporterCount,
-        ),
-      ],
+      ),
     );
   }
 }
@@ -206,38 +250,47 @@ class _GroupStatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return CollectCard(
-      padding: const EdgeInsets.all(CollectSpacing.x4),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 3,
-            child: _GroupStatMetric(
-              label: 'Total collected',
-              value: formatRwf(totalRaised),
-              icon: CollectIcons.money,
-              tone: CollectStatusTone.success,
-              primary: true,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.surface.withValues(alpha: 0.72),
+        borderRadius: CollectRadius.panelBorder,
+        border: Border.all(color: colors.border.withValues(alpha: 0.70)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(CollectSpacing.x4),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 3,
+              child: _GroupStatMetric(
+                label: 'Total collected',
+                value: formatRwf(totalRaised),
+                icon: CollectIcons.money,
+                tone: CollectStatusTone.success,
+                primary: true,
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: CollectSpacing.x3),
-            child: Container(
-              width: 1,
-              height: 80,
-              color: colors.border.withValues(alpha: 0.8),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: CollectSpacing.x3,
+              ),
+              child: Container(
+                width: 1,
+                height: 80,
+                color: colors.border.withValues(alpha: 0.8),
+              ),
             ),
-          ),
-          Expanded(
-            flex: 2,
-            child: _GroupStatMetric(
-              label: 'Participants',
-              value: '$participants',
-              icon: CollectIcons.people,
-              tone: CollectStatusTone.info,
+            Expanded(
+              flex: 2,
+              child: _GroupStatMetric(
+                label: 'Participants',
+                value: '$participants',
+                icon: CollectIcons.people,
+                tone: CollectStatusTone.info,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
