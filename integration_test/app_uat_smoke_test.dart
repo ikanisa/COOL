@@ -83,7 +83,7 @@ void main() {
       await pumpLaunchFrames(tester);
       debugPrint('[uat-smoke] main app assertions start');
 
-      expect(find.text('Good morning'), findsWidgets);
+      expect(find.text('038491'), findsWidgets);
       expect(find.text('TOTAL COLLECTED'), findsWidgets);
       expect(find.text('Platform admin'), findsNothing);
       expectNoGlobalSecrets();
