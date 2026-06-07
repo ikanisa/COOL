@@ -16,6 +16,9 @@
 - Full-view comparison evidence: `/Volumes/PRO-G40/COOL/docs/design/brand_qa/collect-wordmark-rule-comparison.png`.
 - Rendered app screenshot: `/Volumes/PRO-G40/COOL/docs/design/brand_qa/home-390x844.png`.
 - Rendered app screenshot: `/Volumes/PRO-G40/COOL/docs/design/brand_qa/group-create-390x844.png`.
+- Physical device home screenshot: `/Volumes/PRO-G40/COOL/docs/design/device_qa/2026-06-07-pixel4a-brand/home-device.png`.
+- Physical device create-group screenshot: `/Volumes/PRO-G40/COOL/docs/design/device_qa/2026-06-07-pixel4a-brand/group-create-device.png`.
+- Physical device icon proof: `/Volumes/PRO-G40/COOL/docs/design/device_qa/2026-06-07-pixel4a-brand/recent-app-icon-device.png`.
 
 **Design QA Notes**
 - Color/token fidelity: official Collect brand colors are represented as stable tokens and integrated through semantic aliases instead of scattered raw colors.
@@ -32,5 +35,6 @@
 - `scripts/collect_product_boundary_scan.sh`: passed, scanned 78 files with 0 hits.
 - `scripts/mobile_route_render_smoke.sh`: web build completed; screenshot phase blocked by local Chrome DevTools startup.
 - Flutter renderer captures for `/home` and `/groups/create`: screenshots written and visually inspected.
+- Physical Pixel 4a production APK install and visual QA: passed for app icon, `/home`, and `/groups/create`.
 
 final result: passed
