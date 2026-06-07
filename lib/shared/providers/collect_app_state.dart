@@ -6,6 +6,8 @@ import '../repositories/collect_repository.dart';
 
 final onboardingCompleteProvider = StateProvider<bool>((ref) => false);
 
+final pendingSharedGroupSlugProvider = StateProvider<String?>((ref) => null);
+
 final profileReadinessProvider = Provider<ProfileReadiness>((ref) {
   final profile = ref.watch(
     collectRepositoryProvider.select((state) => state.currentProfile),

@@ -8,95 +8,58 @@ import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import 'group_share_service.dart';
 
-class CollectionDetailScreen extends ConsumerStatefulWidget {
+class CollectionDetailScreen extends ConsumerWidget {
   const CollectionDetailScreen({required this.collectionId, super.key});
 
   final String collectionId;
 
   @override
-  ConsumerState<CollectionDetailScreen> createState() =>
-      _CollectionDetailScreenState();
-}
-
-class _CollectionDetailScreenState
-    extends ConsumerState<CollectionDetailScreen> {
-  bool _mineOnly = false;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(collectRepositoryProvider);
     final repo = ref.read(collectRepositoryProvider.notifier);
-    final collection = repo.collectionById(widget.collectionId);
-    final summary = repo.summaryFor(widget.collectionId);
-    final allContributions = repo.contributionsFor(widget.collectionId);
+    final collection = repo.collectionById(collectionId);
+    final summary = repo.summaryFor(collectionId);
+    final visibleContributions = repo
+        .contributionsFor(collectionId)
+        .take(8)
+        .toList();
     final profile = state.currentProfile;
     final isAdmin = profile != null && collection.creatorUserId == profile.id;
-    final myLabel = profile == null ? null : 'Collect ID ${profile.publicId}';
-    final visibleContributions =
-        (_mineOnly && myLabel != null
-                ? allContributions.where(
-                    (item) => item.supporterLabel == myLabel,
-                  )
-                : allContributions)
-            .take(8)
-            .toList();
 
     return ScreenScaffold(
       title: 'Collect',
-      subtitle: profile == null ? null : '#${profile.publicId}',
-      actions: [
-        IconButton(
-          tooltip: 'Share',
-          onPressed: () => context.go('/groups/${widget.collectionId}/share'),
-          icon: const Icon(CollectIcons.share),
-        ),
-        if (isAdmin)
-          IconButton(
-            tooltip: 'Group settings',
-            onPressed: () =>
-                context.go('/groups/${widget.collectionId}/manage'),
-            icon: const Icon(CollectIcons.admin),
-          ),
-      ],
+      subtitle: profile?.publicId,
       bottomAction: isAdmin
           ? null
           : CollectButton(
               label: 'Pay with MoMo',
-              icon: CollectIcons.momo,
-              onPressed: () =>
-                  context.go('/groups/${widget.collectionId}/contribute'),
+              icon: CollectIcons.donate,
+              onPressed: () => context.go('/groups/$collectionId/contribute'),
               expand: true,
             ),
       children: [
         _GroupHero(
+          collectionId: collectionId,
           collection: collection,
           summary: summary,
           canManage: isAdmin,
         ),
-        _GroupActionStrip(
-          collectionId: widget.collectionId,
-          canManage: isAdmin,
-        ),
-        _ContributionSectionHeader(
-          mineOnly: _mineOnly,
-          onAll: () => setState(() => _mineOnly = false),
-          onMine: () => setState(() => _mineOnly = true),
-        ),
+        _GroupActionStrip(collectionId: collectionId, collection: collection),
+        const SectionHeader(title: 'Activity'),
         if (visibleContributions.isEmpty)
-          EmptyIllustrationState(
+          const EmptyIllustrationState(
             icon: CollectIcons.activity,
-            title: _mineOnly ? 'No payments from you yet' : 'No support yet',
-            message: _mineOnly
-                ? 'Your confirmed MoMo payments will appear here.'
-                : 'Confirmed contributions will appear after MoMo SMS verification.',
+            title: 'No support yet',
+            message:
+                'Confirmed contributions will appear after MoMo SMS verification.',
           )
         else
           _ContributionTimeline(
             contributions: visibleContributions,
             currentPublicId: profile?.publicId,
           ),
-        if (isAdmin) _AdminToolsPanel(collectionId: widget.collectionId),
       ],
     );
   }
@@ -104,11 +67,13 @@ class _CollectionDetailScreenState
 
 class _GroupHero extends StatelessWidget {
   const _GroupHero({
+    required this.collectionId,
     required this.collection,
     required this.summary,
     required this.canManage,
   });
 
+  final String collectionId;
   final CollectCollection collection;
   final CollectionSummary summary;
   final bool canManage;
@@ -177,24 +142,34 @@ class _GroupHero extends StatelessWidget {
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            CollectSpacing.gap8,
-                            Text(
-                              collection.description,
-                              style: Theme.of(context).textTheme.bodyMedium,
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
                           ],
                         ),
                       ),
                       if (canManage) ...[
                         CollectSpacing.gapW12,
-                        const _RoleChip(label: 'Admin'),
+                        Tooltip(
+                          message: 'Group settings',
+                          child: Material(
+                            color: colors.surfaceRaised.withValues(alpha: 0.9),
+                            borderRadius: CollectRadius.pillBorder,
+                            child: InkWell(
+                              borderRadius: CollectRadius.pillBorder,
+                              onTap: () =>
+                                  context.go('/groups/$collectionId/manage'),
+                              child: const SizedBox(
+                                width: 48,
+                                height: 48,
+                                child: Icon(CollectIcons.settings, size: 24),
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ],
                   ),
                   CollectSpacing.gap24,
                   _GroupStatsCard(
+                    collectionId: collectionId,
                     totalRaised: summary.amountRaisedRwf,
                     participants: summary.supporterCount,
                   ),
@@ -208,89 +183,51 @@ class _GroupHero extends StatelessWidget {
   }
 }
 
-class _RoleChip extends StatelessWidget {
-  const _RoleChip({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.actionCrimson.withValues(alpha: 0.14),
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: CollectSpacing.x3,
-          vertical: CollectSpacing.x2,
-        ),
-        child: Text(
-          label,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: colors.actionCrimson,
-            fontWeight: FontWeight.w900,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _GroupStatsCard extends StatelessWidget {
   const _GroupStatsCard({
+    required this.collectionId,
     required this.totalRaised,
     required this.participants,
   });
 
+  final String collectionId;
   final int totalRaised;
   final int participants;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.surface.withValues(alpha: 0.72),
-        borderRadius: CollectRadius.panelBorder,
-        border: Border.all(color: colors.border.withValues(alpha: 0.70)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(CollectSpacing.x4),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 3,
-              child: _GroupStatMetric(
-                label: 'Total collected',
-                value: formatRwf(totalRaised),
-                icon: CollectIcons.money,
-                tone: CollectStatusTone.success,
-                primary: true,
-              ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x1),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 3,
+            child: _GroupStatMetric(
+              value: formatRwf(totalRaised),
+              icon: CollectIcons.money,
+              tone: CollectStatusTone.success,
+              primary: true,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: CollectSpacing.x3,
-              ),
-              child: Container(
-                width: 1,
-                height: 80,
-                color: colors.border.withValues(alpha: 0.8),
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: CollectSpacing.x3),
+            child: Container(
+              width: 1,
+              height: 72,
+              color: colors.border.withValues(alpha: 0.42),
             ),
-            Expanded(
-              flex: 2,
-              child: _GroupStatMetric(
-                label: 'Participants',
-                value: '$participants',
-                icon: CollectIcons.people,
-                tone: CollectStatusTone.info,
-              ),
+          ),
+          Expanded(
+            flex: 2,
+            child: _GroupStatMetric(
+              value: '$participants',
+              icon: CollectIcons.people,
+              tone: CollectStatusTone.info,
+              onTap: () => context.go('/groups/$collectionId/members'),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -298,43 +235,32 @@ class _GroupStatsCard extends StatelessWidget {
 
 class _GroupStatMetric extends StatelessWidget {
   const _GroupStatMetric({
-    required this.label,
     required this.value,
     required this.icon,
     required this.tone,
     this.primary = false,
+    this.onTap,
   });
 
-  final String label;
   final String value;
   final IconData icon;
   final CollectStatusTone tone;
   final bool primary;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    final metric = Column(
+      crossAxisAlignment: primary
+          ? CrossAxisAlignment.start
+          : CrossAxisAlignment.center,
       children: [
-        Row(
-          children: [
-            Icon(icon, color: colors.statusForeground(tone), size: 22),
-            CollectSpacing.gapW8,
-            Expanded(
-              child: Text(
-                label.toUpperCase(),
-                style: CollectTypography.eyebrowLabel(colors.textSecondary),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
-        ),
-        CollectSpacing.gap16,
+        Icon(icon, color: colors.statusForeground(tone), size: 28),
+        CollectSpacing.gap8,
         FittedBox(
           fit: BoxFit.scaleDown,
-          alignment: Alignment.centerLeft,
+          alignment: primary ? Alignment.centerLeft : Alignment.center,
           child: Text(
             value,
             style: primary
@@ -344,26 +270,38 @@ class _GroupStatMetric extends StatelessWidget {
         ),
       ],
     );
+    if (onTap == null) return metric;
+    return Tooltip(
+      message: 'Open group members',
+      child: Semantics(
+        button: true,
+        label: 'Open group members',
+        child: InkWell(
+          borderRadius: CollectRadius.mdBorder,
+          onTap: onTap,
+          child: metric,
+        ),
+      ),
+    );
   }
 }
 
-class _GroupActionStrip extends StatelessWidget {
+class _GroupActionStrip extends ConsumerWidget {
   const _GroupActionStrip({
     required this.collectionId,
-    required this.canManage,
+    required this.collection,
   });
 
   final String collectionId;
-  final bool canManage;
+  final CollectCollection collection;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final actions = [
       _GroupActionButton(
-        icon: CollectIcons.momo,
+        icon: CollectIcons.donate,
         label: 'Contribute',
         onTap: () => context.go('/groups/$collectionId/contribute'),
-        highlighted: !canManage,
       ),
       _GroupActionButton(
         icon: CollectIcons.ledger,
@@ -371,17 +309,19 @@ class _GroupActionStrip extends StatelessWidget {
         onTap: () => context.go('/groups/$collectionId/ledger'),
       ),
       _GroupActionButton(
-        icon: CollectIcons.share,
-        label: 'Share',
+        icon: CollectIcons.qr,
+        label: 'Group QR',
         onTap: () => context.go('/groups/$collectionId/share'),
       ),
-      if (canManage)
-        _GroupActionButton(
-          icon: CollectIcons.admin,
-          label: 'Settings',
-          onTap: () => context.go('/groups/$collectionId/manage'),
-          highlighted: true,
+      _GroupActionButton(
+        icon: CollectIcons.share,
+        label: 'Share',
+        onTap: () => shareGroupDeepLink(
+          context: context,
+          ref: ref,
+          collection: collection,
         ),
+      ),
     ];
 
     return SizedBox(
@@ -402,214 +342,31 @@ class _GroupActionButton extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.onTap,
-    this.highlighted = false,
   });
 
   final IconData icon;
   final String label;
   final VoidCallback onTap;
-  final bool highlighted;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final foreground = highlighted ? Colors.white : colors.textPrimary;
     return Tooltip(
       message: label,
       child: Semantics(
         label: label,
         button: true,
         child: Material(
-          color: highlighted ? colors.actionCrimson : colors.surfaceRaised,
-          borderRadius: BorderRadius.circular(12),
+          color: colors.surfaceRaised,
+          borderRadius: CollectRadius.pillBorder,
           child: InkWell(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: CollectRadius.pillBorder,
             onTap: onTap,
             child: SizedBox(
               width: 68,
               height: 68,
-              child: Icon(icon, color: foreground, size: 28),
+              child: Icon(icon, color: colors.textPrimary, size: 28),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AdminToolsPanel extends StatelessWidget {
-  const _AdminToolsPanel({required this.collectionId});
-
-  final String collectionId;
-
-  @override
-  Widget build(BuildContext context) {
-    return CollectCard(
-      emphasis: CollectCardEmphasis.flat,
-      padding: EdgeInsets.zero,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Admin controls',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          CollectSpacing.gap12,
-          Row(
-            children: [
-              Expanded(
-                child: _AdminMiniAction(
-                  icon: CollectIcons.admin,
-                  label: 'Settings',
-                  onTap: () => context.go('/groups/$collectionId/manage'),
-                ),
-              ),
-              CollectSpacing.gapW8,
-              Expanded(
-                child: _AdminMiniAction(
-                  icon: CollectIcons.people,
-                  label: 'Members',
-                  onTap: () => context.go('/groups/$collectionId/members'),
-                ),
-              ),
-              CollectSpacing.gapW8,
-              Expanded(
-                child: _AdminMiniAction(
-                  icon: CollectIcons.momo,
-                  label: 'Receiver',
-                  onTap: () =>
-                      context.go('/groups/$collectionId/owner/receiver'),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _AdminMiniAction extends StatelessWidget {
-  const _AdminMiniAction({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Material(
-      color: colors.surfaceRaised,
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: CollectSpacing.x2,
-            vertical: CollectSpacing.x3,
-          ),
-          child: Column(
-            children: [
-              Icon(icon, color: colors.actionCrimson, size: 22),
-              CollectSpacing.gap4,
-              Text(
-                label,
-                style: Theme.of(
-                  context,
-                ).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w800),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ContributionSectionHeader extends StatelessWidget {
-  const _ContributionSectionHeader({
-    required this.mineOnly,
-    required this.onAll,
-    required this.onMine,
-  });
-
-  final bool mineOnly;
-  final VoidCallback onAll;
-  final VoidCallback onMine;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SectionHeader(title: 'Activity'),
-        CollectSpacing.gap12,
-        Row(
-          children: [
-            Expanded(
-              child: _ContributionTab(
-                label: 'All contributions',
-                selected: !mineOnly,
-                onTap: onAll,
-              ),
-            ),
-            CollectSpacing.gapW12,
-            Expanded(
-              child: _ContributionTab(
-                label: 'My payments',
-                selected: mineOnly,
-                onTap: onMine,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _ContributionTab extends StatelessWidget {
-  const _ContributionTab({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Material(
-      color: selected ? colors.textPrimary : colors.surfaceMuted,
-      borderRadius: BorderRadius.circular(999),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(999),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: CollectSpacing.x4,
-            vertical: CollectSpacing.x3,
-          ),
-          child: Text(
-            label,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: selected ? colors.surface : colors.textSecondary,
-              fontWeight: FontWeight.w800,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
           ),
         ),
       ),
@@ -704,31 +461,40 @@ class _TimelineRow extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'ID: ${compactCollectIdLabel(contribution.supporterLabel).replaceFirst('#', '')}',
-                          style: Theme.of(context).textTheme.titleMedium,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        CollectSpacing.gap8,
                         Row(
                           children: [
                             Icon(
-                              CollectIcons.check,
+                              CollectIcons.profile,
                               size: 18,
                               color: colors.textSecondary,
                             ),
                             CollectSpacing.gapW8,
-                            Text(
-                              'CONFIRMED',
-                              style: CollectTypography.eyebrowLabel(
-                                colors.textSecondary,
+                            Expanded(
+                              child: Text(
+                                compactCollectIdLabel(
+                                  contribution.supporterLabel,
+                                ).replaceFirst('#', ''),
+                                style: Theme.of(context).textTheme.titleMedium,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        if (contribution.transactionId != null) ...[
+                          CollectSpacing.gap4,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 26),
+                            child: Text(
+                              contribution.transactionId!,
+                              style: CollectTypography.transactionMeta(
+                                colors.textMuted,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                         CollectSpacing.gap4,
                         Text(
                           formatCollectDateTime(contribution.createdAt),
@@ -757,13 +523,10 @@ class _TimelineRow extends StatelessWidget {
                         ),
                         if (contribution.transactionId != null) ...[
                           CollectSpacing.gap8,
-                          Text(
-                            contribution.transactionId!,
-                            style: CollectTypography.transactionMeta(
-                              colors.textMuted,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                          Icon(
+                            CollectIcons.check,
+                            size: 20,
+                            color: colors.textSecondary,
                           ),
                         ],
                       ],

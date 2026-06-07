@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../providers/collect_app_state.dart';
-import '../models/collect_models.dart';
-import '../repositories/collect_repository.dart';
 import 'collect_components.dart';
 
 class ScreenScaffold extends ConsumerWidget {
@@ -14,6 +12,8 @@ class ScreenScaffold extends ConsumerWidget {
     this.subtitle,
     this.actions = const [],
     this.bottomAction,
+    this.showHeader = true,
+    this.compact = false,
     super.key,
   });
 
@@ -22,6 +22,8 @@ class ScreenScaffold extends ConsumerWidget {
   final List<Widget> actions;
   final Widget? bottomAction;
   final List<Widget> children;
+  final bool showHeader;
+  final bool compact;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,23 +31,12 @@ class ScreenScaffold extends ConsumerWidget {
       title: title,
       subtitle: subtitle,
       actions: actions,
-      persistentPill: CollectDynamicIsland(
-        activeIntent: _activePaymentIntent(ref),
-      ),
       banner: _statusBanner(context, ref),
       bottomAction: bottomAction,
+      showHeader: showHeader,
+      compact: compact,
       children: children,
     );
-  }
-
-  PaymentIntentModel? _activePaymentIntent(WidgetRef ref) {
-    final intents = ref.watch(
-      collectRepositoryProvider.select((state) => state.paymentIntents),
-    );
-    for (final intent in intents.reversed) {
-      if (intent.status == 'pending') return intent;
-    }
-    return null;
   }
 
   Widget? _statusBanner(BuildContext context, WidgetRef ref) {

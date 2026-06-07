@@ -463,8 +463,6 @@ required_mobile_routes = %w[
   /groups/col-church/joined
   /groups/join
   /groups/col-church/share
-  /groups/col-church/invite
-  /share/confirmed?message=Link%20copied
   /share/invalid
   /share/expired
   /groups/col-church/contribute
@@ -474,10 +472,8 @@ required_mobile_routes = %w[
   /groups/col-church/pay/intent-render/state/expired
   /groups/col-church/pay/intent-render/state/needs-review
   /groups/col-church/ledger
-  /groups/col-church/owner
-  /groups/col-church/owner/sms-health
-  /groups/col-church/owner/receiver
   /groups/col-church/manage
+  /groups/col-church/profile
   /groups/col-church/members
   /settings
   /settings/account

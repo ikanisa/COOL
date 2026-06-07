@@ -78,6 +78,30 @@ class _PaymentIntentStatusScreenState
             message: _error!,
             tone: CollectStatusTone.warning,
           ),
+        CollectCard(
+          emphasis: CollectCardEmphasis.glow,
+          accentColor: context.collectColors.statusForeground(
+            paymentStatusTone(intent.status),
+          ),
+          child: Row(
+            children: [
+              CollectStatusChip(
+                label: paymentStatusLabel(intent.status),
+                tone: paymentStatusTone(intent.status),
+                icon: _stateActionIcon(uiStatus),
+              ),
+              CollectSpacing.gapW12,
+              Expanded(
+                child: Text(
+                  _statusMessage(uiStatus),
+                  style: Theme.of(context).textTheme.titleSmall,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
         PaymentIntentStatusCard(
           amountRwf: intent.expectedAmountRwf,
           receiverLabel: intent.receiverLabel,
@@ -85,11 +109,27 @@ class _PaymentIntentStatusScreenState
           status: intent.status,
         ),
         PaymentPipelineIndicator(status: intent.status),
-        InfoSecurityBanner(
-          title: 'Reference',
-          message:
-              'Payment intent ${intent.id}. Collect posts to the ledger after receiver-side MoMo SMS verification.',
-          tone: CollectStatusTone.privacy,
+        const CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          child: Column(
+            children: [
+              CollectListTile(
+                leading: CollectIcons.sms,
+                title: 'MoMo SMS',
+                subtitle: 'Used to confirm payment status.',
+              ),
+              CollectListTile(
+                leading: CollectIcons.ledger,
+                title: 'Ledger',
+                subtitle: 'Updated after verification.',
+              ),
+              CollectListTile(
+                leading: CollectIcons.privacy,
+                title: 'Privacy',
+                subtitle: 'No PINs, OTPs, or raw SMS shown.',
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -124,10 +164,10 @@ String _statePath(PaymentUiStatus status) {
 
 String _stateActionLabel(PaymentUiStatus status) {
   return switch (status) {
-    PaymentUiStatus.confirmed => 'View confirmed state',
-    PaymentUiStatus.expired => 'View retry options',
-    PaymentUiStatus.needsReview => 'View review state',
-    PaymentUiStatus.pending => 'View pending details',
+    PaymentUiStatus.confirmed => 'Confirmed',
+    PaymentUiStatus.expired => 'Retry',
+    PaymentUiStatus.needsReview => 'Review',
+    PaymentUiStatus.pending => 'Status',
   };
 }
 
@@ -137,5 +177,14 @@ IconData _stateActionIcon(PaymentUiStatus status) {
     PaymentUiStatus.expired => CollectIcons.error,
     PaymentUiStatus.needsReview => CollectIcons.warning,
     PaymentUiStatus.pending => CollectIcons.pending,
+  };
+}
+
+String _statusMessage(PaymentUiStatus status) {
+  return switch (status) {
+    PaymentUiStatus.confirmed => 'Recorded on the group ledger.',
+    PaymentUiStatus.expired => 'Start a fresh contribution.',
+    PaymentUiStatus.needsReview => 'Support review is available.',
+    PaymentUiStatus.pending => 'Waiting for MoMo SMS verification.',
   };
 }

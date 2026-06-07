@@ -1,3 +1,6 @@
+import 'package:collect_app/app/env/app_env.dart';
+import 'package:collect_app/features/collections/group_link_screen.dart';
+import 'package:collect_app/features/collections/group_share_service.dart';
 import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/core/security/hash_utils.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
@@ -124,6 +127,39 @@ void main() {
 
     expect(collection.id, 'col-church');
     expect(collection.title, 'St Michel building fund');
+  });
+
+  test('group share links use Collect Ikanisa domain', () {
+    final repo = CollectRepository.seeded();
+    final collection = repo.collectionById('col-church');
+    const env = AppEnv(
+      supabaseUrl: '',
+      supabaseAnonKey: '',
+      publicUrl: '',
+      adminAppUrl: '',
+      enableSmsReader: false,
+      enableAndroidSmsAccess: false,
+      enableAdminPanel: false,
+      enableAdminDevTools: false,
+      authCaptchaEnabled: false,
+      authCaptchaProvider: '',
+      authCaptchaSiteKey: '',
+    );
+
+    expect(
+      groupDeepLinkFor(env, collection),
+      'https://collect.ikanisa.com/c/st-michel-building-fund',
+    );
+    expect(
+      groupShareMessageFor(env, collection),
+      'Join St Michel building fund on Collect: https://collect.ikanisa.com/c/st-michel-building-fund',
+    );
+    expect(
+      collectGroupSlugFromInput(
+        'https://collect.ikanisa.com/c/st-michel-building-fund',
+      ),
+      'st-michel-building-fund',
+    );
   });
 
   test(

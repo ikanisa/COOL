@@ -1274,7 +1274,7 @@ checking Edge Function secret names
     expect(evidenceIndex, contains('/permissions/sms'));
     expect(evidenceIndex, contains('/groups/create'));
     expect(evidenceIndex, contains('/platform/iphone-create-unavailable'));
-    expect(evidenceIndex, contains('/groups/col-church/owner/sms-health'));
+    expect(evidenceIndex, contains('/groups/col-church/profile'));
     expect(
       evidenceIndex,
       contains('/groups/col-church/pay/intent-render/state/pending'),

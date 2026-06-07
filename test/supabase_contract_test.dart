@@ -42,6 +42,9 @@ void main() {
   final mobileProductionStateSupport = File(
     'supabase/migrations/20260531190000_mobile_production_state_support.sql',
   ).readAsStringSync();
+  final updateCollectionProfileRpc = File(
+    'supabase/migrations/20260607130500_update_collection_profile_rpc.sql',
+  ).readAsStringSync();
   final readiness = File(
     'scripts/supabase_production_readiness.sh',
   ).readAsStringSync();
@@ -819,6 +822,7 @@ void main() {
     );
     expect(smsFirstGroupPaymentIntents, contains('record_sms_access_consent'));
     expect(repository, contains("from('member_collections_view')"));
+    expect(repository, contains("'update_collection_profile'"));
     expect(
       repository,
       isNot(contains("from('parsed_payment_events_review_view')")),
@@ -1271,6 +1275,16 @@ void main() {
     expect(
       mobileProductionStateSupport,
       contains('create or replace function update_collection_receiver'),
+    );
+    expect(
+      updateCollectionProfileRpc,
+      contains('create or replace function update_collection_profile'),
+    );
+    expect(
+      updateCollectionProfileRpc,
+      contains(
+        'grant execute on function update_collection_profile(uuid, text, text, text, text, boolean, text)',
+      ),
     );
     expect(
       mobileProductionStateSupport,

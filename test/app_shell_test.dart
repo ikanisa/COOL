@@ -13,7 +13,7 @@ void main() {
     await tester.pumpWidget(const ProviderScope(child: CollectApp()));
     await tester.pump();
 
-    expect(find.text('Good morning'), findsWidgets);
+    expect(find.text('038491'), findsOneWidget);
     expect(find.text('TOTAL COLLECTED'), findsOneWidget);
     expect(find.text('Public groups'), findsOneWidget);
     expect(find.text('CONFIRMED'), findsNothing);
@@ -34,7 +34,8 @@ void main() {
     await tester.pump();
 
     expect(find.text('Screen not found'), findsOneWidget);
-    expect(find.textContaining('verified groups'), findsOneWidget);
+    expect(find.text('This screen is unavailable.'), findsOneWidget);
+    expect(find.textContaining('verified groups'), findsNothing);
     expect(find.text('Home'), findsOneWidget);
     expect(find.text('Groups'), findsOneWidget);
   });
@@ -60,16 +61,13 @@ void main() {
         '/groups/:collectionId/created',
         '/groups/:collectionId/joined',
         '/groups/:collectionId/members',
-        '/groups/:collectionId/owner',
-        '/groups/:collectionId/owner/sms-health',
-        '/groups/:collectionId/owner/receiver',
         '/groups/:collectionId/manage',
+        '/groups/:collectionId/profile',
         '/groups/:collectionId/contribute',
         '/groups/:collectionId/pay/:intentId/waiting',
         '/groups/:collectionId/pay/:intentId/state/:state',
         '/groups/:collectionId/pay/:intentId',
         '/groups/:collectionId/share',
-        '/groups/:collectionId/invite',
         '/groups/:collectionId/ledger',
         '/c/:slug',
         '/share/invalid',
@@ -83,7 +81,6 @@ void main() {
         '/settings/help',
         '/settings/legal/terms',
         '/settings/legal/privacy',
-        '/share/confirmed',
         if (kDebugMode) '/dev/design-system',
       ]),
     );

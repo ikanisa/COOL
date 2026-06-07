@@ -1,0 +1,458 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../../shared/models/collect_models.dart';
+import '../../shared/repositories/collect_repository.dart';
+import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/screen_scaffold.dart';
+
+class GroupProfileScreen extends ConsumerStatefulWidget {
+  const GroupProfileScreen({required this.collectionId, super.key});
+
+  final String collectionId;
+
+  @override
+  ConsumerState<GroupProfileScreen> createState() => _GroupProfileScreenState();
+}
+
+class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
+  final _name = TextEditingController();
+  final _description = TextEditingController();
+  final _receiver = TextEditingController();
+  final _receiverLabel = TextEditingController();
+  final _imagePicker = ImagePicker();
+
+  Uint8List? _imageBytes;
+  String? _imageName;
+  String? _imageMimeType;
+  String _accentColorHex = _profileColorOptions.first.hex;
+  String _cadence = 'monthly';
+  bool _isPublic = false;
+  bool _loaded = false;
+  bool _saving = false;
+  String? _error;
+
+  @override
+  void dispose() {
+    _name.dispose();
+    _description.dispose();
+    _receiver.dispose();
+    _receiverLabel.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final repo = ref.read(collectRepositoryProvider.notifier);
+    final collection = repo.collectionById(widget.collectionId);
+    _loadOnce(collection);
+
+    return ScreenScaffold(
+      title: 'Group profile',
+      subtitle: collection.title,
+      bottomAction: BottomActionSurface(
+        children: [
+          CollectButton(
+            label: _saving ? 'Saving' : 'Save changes',
+            icon: CollectIcons.check,
+            onPressed: _saving ? null : () => _save(collection),
+            expand: true,
+          ),
+        ],
+      ),
+      children: [
+        _GroupProfilePhotoCard(
+          title: _name.text.trim().isEmpty ? collection.title : _name.text,
+          accentColor: _selectedColor,
+          imageBytes: _imageBytes,
+          imageUrl: _imageBytes == null ? collection.imageUrl : null,
+          onPick: _pickImage,
+          onRemove: () => setState(() {
+            _imageBytes = null;
+            _imageName = null;
+            _imageMimeType = null;
+          }),
+        ),
+        FormSectionCard(
+          errorMessage: _error,
+          children: [
+            CollectTextInput(
+              controller: _name,
+              label: 'Group name',
+              textCapitalization: TextCapitalization.words,
+              autocorrect: true,
+            ),
+            CollectTextInput(
+              controller: _description,
+              label: 'Description',
+              maxLines: 3,
+              textCapitalization: TextCapitalization.sentences,
+              autocorrect: true,
+            ),
+            Material(
+              color: Colors.transparent,
+              child: SwitchListTile.adaptive(
+                contentPadding: EdgeInsets.zero,
+                title: const Text('Public group'),
+                subtitle: const Text('Visible in public group discovery.'),
+                value: _isPublic,
+                onChanged: (value) => setState(() => _isPublic = value),
+              ),
+            ),
+            _CadencePicker(
+              selected: _cadence,
+              onChanged: (value) => setState(() => _cadence = value),
+            ),
+            _ProfileColorPalette(
+              selectedHex: _accentColorHex,
+              onChanged: (value) => setState(() => _accentColorHex = value),
+            ),
+          ],
+        ),
+        FormSectionCard(
+          title: 'Receiver MoMo',
+          children: [
+            CollectTextInput(
+              controller: _receiver,
+              label: 'MoMo number',
+              keyboardType: TextInputType.phone,
+              textInputAction: TextInputAction.next,
+              autofillHints: const [AutofillHints.telephoneNumber],
+            ),
+            CollectTextInput(
+              controller: _receiverLabel,
+              label: 'Receiver name',
+              textCapitalization: TextCapitalization.words,
+              autocorrect: true,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Color get _selectedColor {
+    return _profileColorOptions
+        .firstWhere(
+          (option) => option.hex == _accentColorHex,
+          orElse: () => _profileColorOptions.first,
+        )
+        .color;
+  }
+
+  void _loadOnce(CollectCollection collection) {
+    if (_loaded) return;
+    _loaded = true;
+    _name.text = collection.title;
+    _description.text = collection.description;
+    _receiver.text = collection.receiverMomoNumber ?? '';
+    _receiverLabel.text = collection.receiverDisplayLabel;
+    _accentColorHex =
+        collection.accentColorHex ?? _profileColorOptions.first.hex;
+    _cadence = collection.recurringCadence;
+    _isPublic = collection.isPublic;
+  }
+
+  Future<void> _pickImage() async {
+    try {
+      final image = await _imagePicker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 1800,
+        imageQuality: 86,
+      );
+      if (image == null) return;
+      final bytes = await image.readAsBytes();
+      if (!mounted) return;
+      setState(() {
+        _imageBytes = bytes;
+        _imageName = image.name;
+        _imageMimeType = image.mimeType ?? _mimeTypeFromName(image.name);
+        _error = null;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _error = 'Image upload failed.');
+    }
+  }
+
+  Future<void> _save(CollectCollection collection) async {
+    setState(() {
+      _saving = true;
+      _error = null;
+    });
+    try {
+      final imageUrl = _selectedImageDataUri() ?? collection.imageUrl;
+      await ref
+          .read(collectRepositoryProvider.notifier)
+          .updateCollectionProfile(
+            collectionId: collection.id,
+            title: _name.text,
+            description: _description.text,
+            receiverMomoNumber: _receiver.text,
+            receiverLabel: _receiverLabel.text,
+            recurringCadence: _cadence,
+            accentColorHex: _accentColorHex,
+            imageUrl: imageUrl,
+            isPublic: _isPublic,
+          );
+      if (!mounted) return;
+      context.go('/groups/${collection.id}/manage');
+    } catch (error) {
+      if (!mounted) return;
+      setState(() {
+        _saving = false;
+        _error = error.toString();
+      });
+    }
+  }
+
+  String? _selectedImageDataUri() {
+    final bytes = _imageBytes;
+    if (bytes == null || bytes.isEmpty) return null;
+    final mimeType =
+        _imageMimeType ?? _mimeTypeFromName(_imageName ?? '') ?? 'image/jpeg';
+    return 'data:$mimeType;base64,${base64Encode(bytes)}';
+  }
+}
+
+class _GroupProfilePhotoCard extends StatelessWidget {
+  const _GroupProfilePhotoCard({
+    required this.title,
+    required this.accentColor,
+    required this.onPick,
+    required this.onRemove,
+    this.imageBytes,
+    this.imageUrl,
+  });
+
+  final String title;
+  final Color accentColor;
+  final Uint8List? imageBytes;
+  final String? imageUrl;
+  final VoidCallback onPick;
+  final VoidCallback onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return CollectCard(
+      padding: EdgeInsets.zero,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AspectRatio(
+            aspectRatio: 1.9,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        accentColor.withValues(alpha: 0.62),
+                        colors.surfaceRaised,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                ),
+                if (imageBytes != null)
+                  Image.memory(imageBytes!, fit: BoxFit.cover)
+                else if (_imageProviderUrl(imageUrl) case final url?)
+                  Image.network(url, fit: BoxFit.cover),
+                Positioned.fill(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.transparent,
+                          colors.ink.withValues(alpha: 0.78),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: CollectSpacing.x4,
+                  right: CollectSpacing.x4,
+                  bottom: CollectSpacing.x4,
+                  child: Text(
+                    title,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w900,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(CollectSpacing.x3),
+            child: Row(
+              children: [
+                Expanded(
+                  child: CollectButton(
+                    label: 'Upload image',
+                    icon: CollectIcons.photo,
+                    onPressed: onPick,
+                    expand: true,
+                  ),
+                ),
+                CollectSpacing.gapW12,
+                IconButton.filledTonal(
+                  tooltip: 'Remove image',
+                  onPressed: onRemove,
+                  icon: const Icon(Icons.close_rounded),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CadencePicker extends StatelessWidget {
+  const _CadencePicker({required this.selected, required this.onChanged});
+
+  final String selected;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Recurring contribution',
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+        CollectSpacing.gap8,
+        Wrap(
+          spacing: CollectSpacing.x2,
+          runSpacing: CollectSpacing.x2,
+          children:
+              const [
+                    _CadenceOption(value: 'daily', label: 'Daily'),
+                    _CadenceOption(value: 'weekly', label: 'Weekly'),
+                    _CadenceOption(value: 'monthly', label: 'Monthly'),
+                  ]
+                  .map(
+                    (option) => ChoiceChip(
+                      label: Text(option.label),
+                      selected: selected == option.value,
+                      onSelected: (_) => onChanged(option.value),
+                    ),
+                  )
+                  .toList(),
+        ),
+      ],
+    );
+  }
+}
+
+class _ProfileColorPalette extends StatelessWidget {
+  const _ProfileColorPalette({
+    required this.selectedHex,
+    required this.onChanged,
+  });
+
+  final String selectedHex;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Group color', style: Theme.of(context).textTheme.labelLarge),
+        CollectSpacing.gap8,
+        Wrap(
+          spacing: CollectSpacing.x2,
+          runSpacing: CollectSpacing.x2,
+          children: [
+            for (final option in _profileColorOptions)
+              Semantics(
+                button: true,
+                selected: selectedHex == option.hex,
+                label: 'Group color',
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(24),
+                  onTap: () => onChanged(option.hex),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: option.color,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: selectedHex == option.hex
+                            ? Colors.white
+                            : Colors.transparent,
+                        width: 2,
+                      ),
+                    ),
+                    child: SizedBox(
+                      width: 42,
+                      height: 42,
+                      child: selectedHex == option.hex
+                          ? const Icon(Icons.check_rounded)
+                          : null,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _ProfileColorOption {
+  const _ProfileColorOption(this.hex, this.color);
+
+  final String hex;
+  final Color color;
+}
+
+class _CadenceOption {
+  const _CadenceOption({required this.value, required this.label});
+
+  final String value;
+  final String label;
+}
+
+const _profileColorOptions = [
+  _ProfileColorOption('#E9557F', Color(0xFFE9557F)),
+  _ProfileColorOption('#35C48B', Color(0xFF35C48B)),
+  _ProfileColorOption('#F6B84B', Color(0xFFF6B84B)),
+  _ProfileColorOption('#8E6BFF', Color(0xFF8E6BFF)),
+  _ProfileColorOption('#38A3FF', Color(0xFF38A3FF)),
+  _ProfileColorOption('#FF7A59', Color(0xFFFF7A59)),
+];
+
+String? _mimeTypeFromName(String name) {
+  final lower = name.toLowerCase();
+  if (lower.endsWith('.png')) return 'image/png';
+  if (lower.endsWith('.webp')) return 'image/webp';
+  if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) return 'image/jpeg';
+  return null;
+}
+
+String? _imageProviderUrl(String? value) {
+  if (value == null || value.trim().isEmpty || value.startsWith('data:')) {
+    return null;
+  }
+  return value;
+}

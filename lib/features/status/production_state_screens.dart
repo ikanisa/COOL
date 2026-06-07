@@ -11,6 +11,7 @@ import '../../shared/repositories/collect_repository.dart';
 import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import '../collections/group_share_service.dart';
 
 class OnboardingScreen extends ConsumerWidget {
   const OnboardingScreen({super.key});
@@ -98,7 +99,7 @@ class ProfileReadinessScreen extends ConsumerWidget {
             _ReadinessRow(
               label: readiness.collectId == null
                   ? 'Profile'
-                  : '#${readiness.collectId}',
+                  : readiness.collectId!,
               ready: readiness.hasProfile,
             ),
             _ReadinessRow(label: 'MoMo saved', ready: readiness.hasMomoNumber),
@@ -128,25 +129,52 @@ class SmsPermissionEducationScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ScreenScaffold(
       title: 'SMS access',
-      children: [
-        const MinimalStatePanel(
+      bottomAction: CollectButton(
+        label: 'Enable SMS access',
+        icon: CollectIcons.check,
+        onPressed: () async {
+          final granted = await ref
+              .read(collectRepositoryProvider.notifier)
+              .setSmsAccess(true);
+          if (!context.mounted) return;
+          context.go(granted ? '/groups/create' : '/permissions/sms-denied');
+        },
+        expand: true,
+      ),
+      children: const [
+        MinimalStatePanel(
           icon: CollectIcons.sms,
-          title: 'Automate your group ledger.',
-          message:
-              'Collect reads MoMo SMS to automatically record your group ledger.',
+          title: 'Keep MoMo checks on this phone.',
+          message: 'Android owner setup for verified group ledgers.',
           tone: CollectStatusTone.privacy,
         ),
-        CollectButton(
-          label: 'Enable SMS access',
-          icon: CollectIcons.check,
-          onPressed: () async {
-            final granted = await ref
-                .read(collectRepositoryProvider.notifier)
-                .setSmsAccess(true);
-            if (!context.mounted) return;
-            context.go(granted ? '/groups/create' : '/permissions/sms-denied');
-          },
-          expand: true,
+        CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          child: Column(
+            children: [
+              CollectListTile(
+                leading: CollectIcons.sms,
+                title: 'MoMo confirmations',
+                subtitle: 'Matched to group payments on device.',
+              ),
+              CollectListTile(
+                leading: CollectIcons.ledger,
+                title: 'Ledger updates',
+                subtitle: 'Confirmed payments move into the group ledger.',
+              ),
+              CollectListTile(
+                leading: CollectIcons.lock,
+                title: 'Private by default',
+                subtitle: 'PINs, OTPs, and raw message text stay off screen.',
+              ),
+            ],
+          ),
+        ),
+        InfoSecurityBanner(
+          title: 'Android permission',
+          message:
+              'iPhone members can join and contribute. Group owner verification uses Android SMS access.',
+          tone: CollectStatusTone.info,
         ),
       ],
     );
@@ -165,7 +193,7 @@ class SmsPermissionDeniedScreen extends StatelessWidget {
           icon: CollectIcons.warning,
           title: 'SMS access required.',
           message:
-              'Android group owners need SMS access so Collect can verify MoMo payments and keep the ledger current.',
+              'Enable SMS access on Android before creating owner-managed groups.',
           tone: CollectStatusTone.warning,
         ),
         CollectButton(
@@ -189,7 +217,7 @@ class IphoneCreateUnavailableScreen extends StatelessWidget {
       children: [
         const MinimalStatePanel(
           icon: CollectIcons.momo,
-          title: 'group creation is available only on Android',
+          title: 'Group creation is available only on Android',
           message:
               'You can still join groups and contribute from iPhone. Group creation needs Android SMS capture for owner-side MoMo verification.',
           tone: CollectStatusTone.info,
@@ -197,12 +225,12 @@ class IphoneCreateUnavailableScreen extends StatelessWidget {
         CollectButton(
           label: 'Scan QR',
           icon: CollectIcons.qr,
-          onPressed: () => context.go('/groups'),
+          onPressed: () => context.go('/groups/scan'),
           expand: true,
         ),
         CollectButton(
-          label: 'Join with link',
-          icon: CollectIcons.arrowForward,
+          label: 'Groups',
+          icon: CollectIcons.collections,
           onPressed: () => context.go('/groups'),
           variant: CollectButtonVariant.secondary,
           expand: true,
@@ -226,14 +254,18 @@ class GroupCreatedSuccessScreen extends ConsumerWidget {
         _StateHero(
           icon: CollectIcons.check,
           title: collection?.title ?? 'Group ready.',
-          message:
-              'The group is ready for members. Share the private link or open the group to review receiver and SMS readiness before contributions start.',
           tone: CollectStatusTone.success,
         ),
         CollectButton(
           label: 'Share',
           icon: CollectIcons.share,
-          onPressed: () => context.go('/groups/$collectionId/share'),
+          onPressed: collection == null
+              ? null
+              : () => shareGroupDeepLink(
+                  context: context,
+                  ref: ref,
+                  collection: collection,
+                ),
           expand: true,
         ),
         CollectButton(
@@ -266,8 +298,6 @@ class JoinGroupConfirmationScreen extends ConsumerWidget {
               _StateHero(
                 icon: CollectIcons.check,
                 title: collection?.title ?? 'Joined.',
-                message:
-                    'You can review the group and contribute by MoMo. Receiver details stay inside the payment review step.',
                 tone: CollectStatusTone.success,
               ),
               CollectSpacing.gap16,
@@ -298,21 +328,18 @@ class SharedLinkProblemScreen extends StatelessWidget {
         _StateHero(
           icon: CollectIcons.error,
           title: expired ? 'Link expired.' : 'Link unavailable.',
-          message: expired
-              ? 'This Collect group link is no longer valid. Ask the owner for a fresh private link or enter a different group code.'
-              : 'Collect could not open this group link. Check the code, paste a fresh /c/ link, or ask the group owner to share it again.',
           tone: CollectStatusTone.danger,
         ),
         const InfoSecurityBanner(
           title: 'Receiver privacy',
           message:
-              'Invalid and expired public links never reveal receiver MoMo details. Receiver information stays inside the contribution review step.',
+              'Invalid and expired public links never reveal receiver information. Receiver setup stays inside the contribution review step.',
           tone: CollectStatusTone.privacy,
         ),
         CollectButton(
-          label: 'Try another link',
-          icon: CollectIcons.arrowForward,
-          onPressed: () => context.go('/groups/join'),
+          label: 'Scan QR',
+          icon: CollectIcons.qr,
+          onPressed: () => context.go('/groups/scan'),
           expand: true,
         ),
         CollectButton(
@@ -367,9 +394,8 @@ class _ReturnFromMomoWaitingScreenState
         children: [
           const MinimalStatePanel(
             icon: CollectIcons.warning,
-            title: 'Payment reference unavailable.',
-            message:
-                'Collect could not find this payment intent on the current device. Start a fresh contribution or ask support to review the reference.',
+            title: 'Payment not on this device.',
+            message: 'Start a fresh contribution or ask support to review it.',
             tone: CollectStatusTone.warning,
           ),
           CollectButton(
@@ -407,6 +433,12 @@ class _ReturnFromMomoWaitingScreenState
             message: _error!,
             tone: CollectStatusTone.warning,
           ),
+        const _PaymentStatusHero(
+          icon: CollectIcons.sms,
+          title: 'Waiting for MoMo SMS',
+          subtitle: 'Keep this phone online after approving MoMo.',
+          tone: CollectStatusTone.info,
+        ),
         PaymentIntentStatusCard(
           amountRwf: intent.expectedAmountRwf,
           receiverLabel: intent.receiverLabel,
@@ -414,23 +446,27 @@ class _ReturnFromMomoWaitingScreenState
           status: intent.status,
         ),
         const PaymentPipelineIndicator(status: 'pending'),
-        InfoSecurityBanner(
-          title: 'Listening for MoMo SMS',
-          message:
-              'Collect is waiting for receiver-side MoMo SMS verification for payment intent ${intent.id}. This usually appears within a few seconds after you approve the USSD prompt.',
-          tone: CollectStatusTone.info,
-        ),
-        InfoSecurityBanner(
-          title: 'Expected timing',
-          message:
-              'Started ${_relativeAge(intent.createdAt)}. This intent expires ${_relativeExpiry(intent.expiresAt)} if no matching SMS is received.',
-          tone: CollectStatusTone.privacy,
-        ),
-        InfoSecurityBanner(
-          title: 'Reference',
-          message:
-              'Group ${collection.title}. Reference ${intent.id}. Collect posts to the ledger automatically after SMS allocation.',
-          tone: CollectStatusTone.privacy,
+        CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          child: Column(
+            children: [
+              CollectListTile(
+                leading: CollectIcons.pending,
+                title: 'Started',
+                subtitle: _relativeAge(intent.createdAt),
+              ),
+              CollectListTile(
+                leading: CollectIcons.warning,
+                title: 'Expires',
+                subtitle: _relativeExpiry(intent.expiresAt),
+              ),
+              const CollectListTile(
+                leading: CollectIcons.privacy,
+                title: 'Private review',
+                subtitle: 'Support can review without pasted SMS text.',
+              ),
+            ],
+          ),
         ),
         CollectButton(
           label: 'Refresh status',
@@ -547,22 +583,22 @@ class PaymentStateDetailScreen extends ConsumerWidget {
     final (title, message, tone) = switch (state) {
       PaymentUiStatus.confirmed => (
         'Payment confirmed',
-        'The MoMo SMS has been matched and this contribution is now recorded on the group ledger.',
+        'Recorded on the group ledger.',
         CollectStatusTone.success,
       ),
       PaymentUiStatus.expired => (
         'Payment expired',
-        'Collect did not receive a matching MoMo confirmation before this payment intent expired. You can start a fresh contribution.',
+        'Start a fresh contribution.',
         CollectStatusTone.danger,
       ),
       PaymentUiStatus.needsReview => (
         'Payment needs review',
-        'Collect detected a payment signal that could not be matched automatically. Support can review the evidence without exposing public raw SMS details.',
+        'Support can review the payment safely.',
         CollectStatusTone.warning,
       ),
       PaymentUiStatus.pending => (
         'Payment pending',
-        'Collect is still waiting for receiver-side MoMo SMS verification. Refresh the status after returning from USSD.',
+        'Waiting for MoMo SMS verification.',
         CollectStatusTone.info,
       ),
     };
@@ -574,9 +610,9 @@ class PaymentStateDetailScreen extends ConsumerWidget {
         children: [
           MinimalStatePanel(
             icon: _iconForTone(tone),
-            title: 'Payment reference unavailable.',
+            title: 'Payment not on this device.',
             message:
-                'Collect could not find payment reference $intentId on this device. Open the group ledger, start a fresh contribution, or ask support to review the reference.',
+                'Open the ledger, start a fresh contribution, or contact support.',
             tone: tone,
           ),
           CollectButton(
@@ -608,7 +644,15 @@ class PaymentStateDetailScreen extends ConsumerWidget {
       title: title,
       subtitle: collection?.title,
       children: [
-        if (state == PaymentUiStatus.confirmed) const PaymentVerifiedRing(),
+        if (state == PaymentUiStatus.confirmed)
+          const PaymentVerifiedRing()
+        else
+          _PaymentStatusHero(
+            icon: _iconForTone(tone),
+            title: title,
+            subtitle: message,
+            tone: tone,
+          ),
         PaymentIntentStatusCard(
           amountRwf: intent.expectedAmountRwf,
           receiverLabel: intent.receiverLabel,
@@ -616,16 +660,24 @@ class PaymentStateDetailScreen extends ConsumerWidget {
           status: _statusForPipeline(state),
         ),
         PaymentPipelineIndicator(status: _statusForPipeline(state)),
-        InfoSecurityBanner(
-          title: _stateDetailTitle(state),
-          message: message,
-          tone: tone,
-        ),
-        InfoSecurityBanner(
-          title: 'Reference',
-          message:
-              'Payment intent ${intent.id}. Group ${collection?.title ?? intent.collectionId}. Collect posts confirmed payments to the ledger only after SMS allocation.',
-          tone: CollectStatusTone.privacy,
+        CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          child: Column(
+            children: [
+              CollectListTile(
+                leading: _iconForTone(tone),
+                title: _stateDetailTitle(state),
+                subtitle: message,
+              ),
+              CollectListTile(
+                leading: CollectIcons.privacy,
+                title: 'Private review',
+                subtitle: state == PaymentUiStatus.confirmed
+                    ? 'Receiver details stay inside owner and payment screens.'
+                    : 'No pasted SMS text is shown in the group.',
+              ),
+            ],
+          ),
         ),
         CollectButton(
           label: state == PaymentUiStatus.expired
@@ -675,7 +727,7 @@ String _statusForPipeline(PaymentUiStatus state) {
 String _stateDetailTitle(PaymentUiStatus state) {
   return switch (state) {
     PaymentUiStatus.confirmed => 'Ledger updated',
-    PaymentUiStatus.expired => 'Intent expired',
+    PaymentUiStatus.expired => 'Expired',
     PaymentUiStatus.needsReview => 'Support review',
     PaymentUiStatus.pending => 'Waiting for SMS',
   };
@@ -745,9 +797,9 @@ class SyncStatusScreen extends ConsumerWidget {
       title: 'Sync status',
       heroTitle: title,
       message: status == RealtimeSyncStatus.current
-          ? 'Groups, payment intents, and ledger data are current on this device.'
+          ? 'Groups, payments, and ledger data are current on this device.'
           : status == RealtimeSyncStatus.syncing
-          ? 'Collect is refreshing groups, payment intents, and ledger updates.'
+          ? 'Collect is refreshing groups, payments, and ledger updates.'
           : 'Collect could not refresh all live updates. Retry when the connection is stable.',
       icon: status == RealtimeSyncStatus.current
           ? CollectIcons.check
@@ -765,79 +817,151 @@ class NotificationPermissionScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final smsStatus = ref.watch(smsPermissionStatusProvider);
+    final smsGranted = smsStatus == SmsPermissionStatus.granted;
     return ScreenScaffold(
-      title: 'Device permissions',
+      title: 'App permissions',
+      bottomAction: CollectButton(
+        label: 'Finish setup',
+        icon: CollectIcons.check,
+        onPressed: () => context.go('/home'),
+        expand: true,
+      ),
       children: [
-        _StateHero(
-          icon: CollectIcons.tune,
-          title: smsStatus == SmsPermissionStatus.granted
-              ? 'SMS active.'
-              : 'Review readiness.',
-          message: smsStatus == SmsPermissionStatus.granted
-              ? 'SMS access is active for owner-side MoMo ledger automation.'
-              : 'Review SMS and notification readiness for payment progress and ledger updates.',
-          tone: smsStatus == SmsPermissionStatus.granted
-              ? CollectStatusTone.success
-              : CollectStatusTone.info,
+        const MinimalStatePanel(
+          icon: CollectIcons.shield,
+          title: 'Permission use',
+          message: 'Only the access needed for group payment verification.',
+          tone: CollectStatusTone.privacy,
+        ),
+        CollectCard(
+          emphasis: CollectCardEmphasis.glow,
+          accentColor: smsGranted
+              ? context.collectColors.statusForeground(
+                  CollectStatusTone.success,
+                )
+              : context.collectColors.actionCrimson,
+          child: Column(
+            children: [
+              _PermissionSettingRow(
+                icon: CollectIcons.sms,
+                title: 'SMS access',
+                status: smsGranted
+                    ? 'Allowed'
+                    : smsStatus == SmsPermissionStatus.denied
+                    ? 'Denied'
+                    : smsStatus == SmsPermissionStatus.unavailable
+                    ? 'Android only'
+                    : 'Not enabled',
+                active: smsGranted,
+                onTap: () => context.go('/permissions/sms'),
+              ),
+              _PermissionSettingRow(
+                icon: CollectIcons.pending,
+                title: 'Notifications',
+                status: 'Ready',
+                active: true,
+                onTap: () => context.go('/notifications'),
+              ),
+              _PermissionSettingRow(
+                icon: CollectIcons.privacy,
+                title: 'Privacy',
+                status: 'Protected',
+                active: true,
+                onTap: () => context.go('/settings/legal/privacy'),
+              ),
+            ],
+          ),
+        ),
+        const InfoSecurityBanner(
+          title: 'Privacy boundary',
+          message:
+              'Permissions support contribution confirmations, payment reminders, group updates, and security notices.',
+          tone: CollectStatusTone.privacy,
         ),
         const CollectCard(
           emphasis: CollectCardEmphasis.flat,
           child: Column(
             children: [
               CollectListTile(
-                leading: CollectIcons.check,
+                leading: CollectIcons.money,
                 title: 'Contribution confirmations',
-                subtitle:
-                    'Show when MoMo SMS allocation posts a payment to the ledger.',
+                subtitle: 'Notify members when ledger updates land.',
               ),
               CollectListTile(
                 leading: CollectIcons.pending,
                 title: 'Payment reminders',
-                subtitle:
-                    'Surface pending payment intents that are still waiting for MoMo SMS verification.',
+                subtitle: 'Surface pending MoMo checks without exposing proof.',
               ),
               CollectListTile(
-                leading: CollectIcons.collections,
-                title: 'Group updates',
-                subtitle:
-                    'Keep joins, shares, and group activity visible without exposing receiver MoMo details publicly.',
+                leading: CollectIcons.sms,
+                title: 'SMS access details',
+                subtitle: 'Android owner verification only.',
               ),
               CollectListTile(
-                leading: CollectIcons.lock,
+                leading: CollectIcons.warning,
                 title: 'Security notices',
-                subtitle:
-                    'Highlight privacy, SMS access, and support-review events using Collect ID-safe copy.',
+                subtitle: 'Warn when sync, links, or payment review need care.',
               ),
             ],
           ),
         ),
-        const InfoSecurityBanner(
-          title: 'Notification boundary',
-          message:
-              'Notifications summarize payment and group status. They do not include raw SMS text, service secrets, or full receiver evidence.',
-          tone: CollectStatusTone.privacy,
-        ),
-        CollectButton(
-          label: 'SMS access details',
-          icon: CollectIcons.sms,
-          onPressed: () => context.go('/permissions/sms'),
-          expand: true,
-        ),
-        CollectButton(
-          label: 'Open updates',
-          icon: CollectIcons.pending,
-          onPressed: () => context.go('/notifications'),
-          variant: CollectButtonVariant.secondary,
-          expand: true,
-        ),
-        CollectButton(
-          label: 'Finish setup',
-          icon: CollectIcons.check,
-          onPressed: () => context.go('/home'),
-          variant: CollectButtonVariant.secondary,
-          expand: true,
-        ),
       ],
+    );
+  }
+}
+
+class _PermissionSettingRow extends StatelessWidget {
+  const _PermissionSettingRow({
+    required this.icon,
+    required this.title,
+    required this.status,
+    required this.active,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String title;
+  final String status;
+  final bool active;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return InkWell(
+      borderRadius: CollectRadius.cardBorder,
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x3),
+        child: Row(
+          children: [
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: colors.actionCrimson.withValues(alpha: 0.14),
+                shape: BoxShape.circle,
+              ),
+              child: SizedBox(
+                width: 52,
+                height: 52,
+                child: Icon(icon, color: colors.actionCrimson),
+              ),
+            ),
+            CollectSpacing.gapW12,
+            Expanded(
+              child: Text(
+                title,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800),
+              ),
+            ),
+            CollectStatusChip(
+              label: status,
+              tone: active ? CollectStatusTone.success : CollectStatusTone.info,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -847,15 +971,70 @@ class PrivacyDataScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ScreenScaffold(
+    return ScreenScaffold(
       title: 'Privacy and data',
       children: [
-        MinimalStatePanel(
+        const MinimalStatePanel(
           icon: CollectIcons.privacy,
           title: 'Collect ID first.',
           message:
-              'Collect represents members by 6-digit Collect ID. No names, no phone numbers.',
+              'Public group surfaces use Collect IDs, safe amounts, and status labels.',
           tone: CollectStatusTone.privacy,
+        ),
+        CollectCard(
+          emphasis: CollectCardEmphasis.glow,
+          accentColor: context.collectColors.statusForeground(
+            CollectStatusTone.privacy,
+          ),
+          child: const Column(
+            children: [
+              CollectListTile(
+                leading: CollectIcons.public,
+                title: 'Public group links',
+                subtitle: 'Group name, QR, Collect IDs, and safe status only.',
+              ),
+              CollectListTile(
+                leading: CollectIcons.lock,
+                title: 'Private payment data',
+                subtitle: 'Receiver numbers and support evidence stay bounded.',
+              ),
+              CollectListTile(
+                leading: CollectIcons.ledger,
+                title: 'Ledger records',
+                subtitle:
+                    'Retained where audit, dispute, or security needs it.',
+              ),
+            ],
+          ),
+        ),
+        CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          child: Column(
+            children: [
+              const CollectListTile(
+                leading: CollectIcons.profile,
+                title: 'Member identity',
+                subtitle: 'Public group activity uses Collect ID only.',
+              ),
+              const CollectListTile(
+                leading: CollectIcons.momo,
+                title: 'MoMo data',
+                subtitle:
+                    'Receiver numbers stay inside payment and owner flows.',
+              ),
+              const CollectListTile(
+                leading: CollectIcons.sms,
+                title: 'SMS evidence',
+                subtitle: 'Used for payment matching and support review only.',
+              ),
+              CollectListTile(
+                leading: CollectIcons.privacy,
+                title: 'Privacy policy',
+                subtitle: 'Full data handling policy.',
+                onTap: () => context.go('/settings/legal/privacy'),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -874,10 +1053,44 @@ class NotificationCenterScreen extends ConsumerWidget {
     final pendingCount = state.paymentIntents
         .where((item) => item.status == 'pending')
         .length;
+    final reviewCount = state.paymentIntents
+        .where((item) => item.status == 'needs_review')
+        .length;
     return ScreenScaffold(
-      title: 'Updates',
-      subtitle: 'Payments, groups, and security.',
+      title: 'Notifications',
       children: [
+        CollectCard(
+          emphasis: CollectCardEmphasis.glow,
+          accentColor: pendingCount > 0
+              ? context.collectColors.statusForeground(CollectStatusTone.info)
+              : context.collectColors.statusForeground(
+                  CollectStatusTone.success,
+                ),
+          child: Row(
+            children: [
+              CollectStatusChip(
+                label: pendingCount > 0 ? '$pendingCount pending' : 'Current',
+                tone: pendingCount > 0
+                    ? CollectStatusTone.info
+                    : CollectStatusTone.success,
+                icon: pendingCount > 0
+                    ? CollectIcons.pending
+                    : CollectIcons.check,
+              ),
+              CollectSpacing.gapW12,
+              Expanded(
+                child: Text(
+                  reviewCount > 0
+                      ? '$reviewCount payment review item${reviewCount == 1 ? '' : 's'} need attention.'
+                      : 'Group updates and payment alerts are ready.',
+                  style: Theme.of(context).textTheme.titleSmall,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
         if (state.contributions.isEmpty && pendingCount == 0)
           const MinimalStatePanel(
             icon: CollectIcons.pending,
@@ -887,35 +1100,54 @@ class NotificationCenterScreen extends ConsumerWidget {
             tone: CollectStatusTone.neutral,
           )
         else
-          CollectCard(
-            emphasis: CollectCardEmphasis.flat,
-            child: Column(
-              children: [
-                if (latestContribution != null)
-                  NotificationUpdateRow(
-                    title: 'Contribution confirmed',
-                    message:
-                        '${formatRwf(latestContribution.amountRwf)} was recorded on the ledger.',
-                    meta: formatCollectDateTime(latestContribution.createdAt),
-                    tone: CollectStatusTone.success,
-                  ),
-                if (pendingCount > 0)
-                  NotificationUpdateRow(
-                    title: 'Payment verification pending',
-                    message:
-                        '$pendingCount payment intent${pendingCount == 1 ? '' : 's'} waiting for MoMo SMS verification.',
-                    meta: 'Live status',
-                    tone: CollectStatusTone.info,
-                  ),
-                const NotificationUpdateRow(
-                  title: 'Security notice',
-                  message:
-                      'Collect keeps receiver MoMo details inside payment and owner flows, not public share links.',
-                  meta: 'Privacy boundary',
-                  tone: CollectStatusTone.privacy,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SectionHeader(
+                title: 'Today',
+                actionLabel: pendingCount > 0 ? '$pendingCount pending' : null,
+              ),
+              CollectCard(
+                emphasis: CollectCardEmphasis.flat,
+                child: Column(
+                  children: [
+                    if (latestContribution != null)
+                      NotificationUpdateRow(
+                        title: 'Contribution confirmed',
+                        message:
+                            '${formatRwf(latestContribution.amountRwf)} was recorded on the ledger.',
+                        meta: formatCollectDateTime(
+                          latestContribution.createdAt,
+                        ),
+                        tone: CollectStatusTone.success,
+                      ),
+                    if (pendingCount > 0)
+                      NotificationUpdateRow(
+                        title: 'Payment verification pending',
+                        message:
+                            '$pendingCount payment${pendingCount == 1 ? '' : 's'} waiting for MoMo SMS verification.',
+                        meta: 'Now',
+                        tone: CollectStatusTone.info,
+                      ),
+                    if (reviewCount > 0)
+                      NotificationUpdateRow(
+                        title: 'Payment review',
+                        message:
+                            '$reviewCount payment${reviewCount == 1 ? '' : 's'} need support review.',
+                        meta: 'Review',
+                        tone: CollectStatusTone.warning,
+                      ),
+                    const NotificationUpdateRow(
+                      title: 'Security notice',
+                      message:
+                          'Collect keeps receiver information inside payment and owner flows, not public share links.',
+                      meta: 'Protected',
+                      tone: CollectStatusTone.privacy,
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
       ],
     );
@@ -932,7 +1164,7 @@ class HelpSupportScreen extends StatelessWidget {
       children: [
         MinimalStatePanel(
           icon: CollectIcons.support,
-          title: 'Contact support on WhatsApp.',
+          title: 'Support',
           message: '+250795588248',
           tone: CollectStatusTone.info,
         ),
@@ -955,29 +1187,23 @@ class LegalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isPrivacy = kind == 'privacy';
-    final points = isPrivacy ? _privacyPolicyPoints : _termsPoints;
+    final sections = isPrivacy ? _privacyPolicySections : _termsSections;
     return ScreenScaffold(
-      title: isPrivacy ? 'Privacy policy' : 'Terms',
+      title: isPrivacy ? 'Privacy Policy' : 'Terms & Conditions',
       children: [
         MinimalStatePanel(
           icon: isPrivacy ? CollectIcons.privacy : CollectIcons.info,
-          title: isPrivacy ? 'Privacy policy' : 'Collect terms',
+          title: isPrivacy ? 'Collect Privacy Policy' : 'Collect Terms',
           message: isPrivacy
-              ? 'Collect uses Collect IDs, MoMo profile details, payment intents, and SMS verification evidence to operate group ledgers.'
-              : 'Collect supports group contributions through MoMo payment intents and automated SMS verification. Payment completion happens outside Collect in MoMo USSD.',
+              ? 'Effective 6 June 2026. This policy explains how Collect handles profile, group, payment, and permission data.'
+              : 'Effective 6 June 2026. These terms explain how Collect supports group contributions, MoMo verification, and group administration.',
           tone: isPrivacy ? CollectStatusTone.privacy : CollectStatusTone.info,
         ),
         CollectCard(
           emphasis: CollectCardEmphasis.flat,
           child: Column(
-            children: [
-              for (final point in points)
-                CollectListTile(
-                  leading: point.icon,
-                  title: point.title,
-                  subtitle: point.message,
-                ),
-            ],
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [for (final section in sections) _LegalText(section)],
           ),
         ),
         InfoSecurityBanner(
@@ -994,69 +1220,98 @@ class LegalScreen extends StatelessWidget {
   }
 }
 
-class _LegalPoint {
-  const _LegalPoint({
-    required this.icon,
-    required this.title,
-    required this.message,
-  });
+class _LegalSection {
+  const _LegalSection({required this.title, required this.body});
 
-  final IconData icon;
   final String title;
-  final String message;
+  final String body;
 }
 
-const _privacyPolicyPoints = [
-  _LegalPoint(
-    icon: CollectIcons.profile,
-    title: 'Profile data',
-    message:
-        'Collect stores a generated Collect ID, WhatsApp sign-in phone, and optional MoMo number needed for payment readiness.',
+class _LegalText extends StatelessWidget {
+  const _LegalText(this.section);
+
+  final _LegalSection section;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x3),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            section.title,
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900),
+          ),
+          CollectSpacing.gap8,
+          Text(
+            section.body,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+const _privacyPolicySections = [
+  _LegalSection(
+    title: 'Data we collect',
+    body:
+        'Collect stores your Collect ID, WhatsApp sign-in phone, optional MoMo account, group memberships, group profile details, payment requests, contribution records, and permission status. Group owners may allow Collect to process MoMo SMS evidence for payment matching.',
   ),
-  _LegalPoint(
-    icon: CollectIcons.momo,
-    title: 'Payment data',
-    message:
-        'Payment intents include group, amount, receiver label, status, expiry, and references needed to reconcile MoMo confirmations.',
+  _LegalSection(
+    title: 'How we use data',
+    body:
+        'We use this data to create and join groups, verify contributions, keep ledgers accurate, show notifications, prevent misuse, provide support, and maintain audit records for payment disputes.',
   ),
-  _LegalPoint(
-    icon: CollectIcons.sms,
-    title: 'SMS evidence',
-    message:
-        'Owner-side MoMo SMS evidence may be processed for allocation, support review, audit logs, and ledger integrity.',
+  _LegalSection(
+    title: 'What stays private',
+    body:
+        'Receiver MoMo numbers, raw SMS text, sign-in phones, and support evidence are not shown on public group cards or public share links. Member-facing screens use Collect IDs and safe payment status.',
   ),
-  _LegalPoint(
-    icon: CollectIcons.support,
-    title: 'Support review',
-    message:
-        'Support requests can reference payment status and audit evidence without exposing raw SMS content on public member screens.',
+  _LegalSection(
+    title: 'Sharing',
+    body:
+        'We share only what is needed with service providers that operate authentication, hosting, storage, messaging, support, analytics, or payment verification. We do not sell personal data.',
+  ),
+  _LegalSection(
+    title: 'Choices and retention',
+    body:
+        'You can update your MoMo account, request account deletion, leave groups where supported, and contact support for correction requests. Ledger records may be retained where needed for audit, security, dispute, and legal reasons.',
   ),
 ];
 
-const _termsPoints = [
-  _LegalPoint(
-    icon: CollectIcons.momo,
-    title: 'MoMo approval',
-    message:
-        'The contributor approves payment in MoMo USSD. Collect records the contribution only after confirmation evidence is available.',
+const _termsSections = [
+  _LegalSection(
+    title: 'Using Collect',
+    body:
+        'Collect helps groups organize contributions, create payment requests, scan or share group QR codes, and maintain a verified contribution ledger. You must use accurate group, receiver, and payment information.',
   ),
-  _LegalPoint(
-    icon: CollectIcons.ledger,
-    title: 'Ledger status',
-    message:
-        'Confirmed, pending, expired, and review states describe verification progress. Pending or review states are not final ledger entries.',
+  _LegalSection(
+    title: 'MoMo payments',
+    body:
+        'Payments are approved outside Collect through MoMo or the mobile money flow shown on your device. Collect does not ask for your MoMo PIN, OTP, or WhatsApp verification code.',
   ),
-  _LegalPoint(
-    icon: CollectIcons.people,
+  _LegalSection(
     title: 'Group ownership',
-    message:
-        'Group owners are responsible for using the correct receiver account and keeping receiver-side SMS access aligned with local requirements.',
+    body:
+        'Group owners are responsible for group profile details, receiver setup, recurring settings, member management, and permission readiness. Android SMS access may be required for owner-side payment verification.',
   ),
-  _LegalPoint(
-    icon: CollectIcons.support,
+  _LegalSection(
     title: 'Disputes and corrections',
-    message:
-        'If a payment does not match automatically, use support so the issue can be reviewed against available evidence and audit records.',
+    body:
+        'If a payment is missing, duplicated, incorrect, or needs review, contact support. Collect may use payment status, transaction references, SMS evidence, and audit logs to investigate.',
+  ),
+  _LegalSection(
+    title: 'Acceptable use',
+    body:
+        'Do not create misleading groups, impersonate another person, abuse QR links, submit false payment claims, or use Collect to request illegal or unauthorized payments.',
   ),
 ];
 
@@ -1070,7 +1325,7 @@ class AccountSessionScreen extends ConsumerWidget {
     );
     return ScreenScaffold(
       title: 'Account',
-      subtitle: profile == null ? 'No active profile' : '#${profile.publicId}',
+      subtitle: profile == null ? 'No active profile' : profile.publicId,
       children: [
         CollectCard(
           child: Column(
@@ -1078,7 +1333,13 @@ class AccountSessionScreen extends ConsumerWidget {
               CollectListTile(
                 leading: CollectIcons.profile,
                 title: 'Profile',
-                subtitle: profile == null ? null : '#${profile.publicId}',
+                subtitle: profile?.publicId,
+                onTap: () => context.go('/settings/profile'),
+              ),
+              CollectListTile(
+                leading: CollectIcons.momo,
+                title: 'Linked MoMo',
+                subtitle: profile?.momoNumber ?? 'Not linked',
                 onTap: () => context.go('/settings/profile'),
               ),
               CollectListTile(
@@ -1171,7 +1432,6 @@ class _DeleteAccountRequestScreenState
           const _StateHero(
             icon: CollectIcons.check,
             title: 'Request submitted.',
-            message: 'Collect will review it.',
             tone: CollectStatusTone.success,
           )
         else
@@ -1221,153 +1481,6 @@ class _DeleteAccountRequestScreenState
   }
 }
 
-class OwnerSmsHealthScreen extends ConsumerWidget {
-  const OwnerSmsHealthScreen({required this.collectionId, super.key});
-
-  final String collectionId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final health = ref.watch(ownerGroupHealthProvider(collectionId));
-    final repo = ref.read(collectRepositoryProvider.notifier);
-    final collection = _safeCollection(ref, collectionId);
-    final summary = repo.summaryFor(collectionId);
-    return ScreenScaffold(
-      title: 'SMS health',
-      subtitle: collection?.title,
-      children: [
-        MoneyHeroCard(
-          amount: summary.amountRaisedRwf,
-          label: 'Confirmed support',
-          detail: '${summary.supporterCount} ledger entries',
-        ),
-        health.when(
-          data: (item) => Column(
-            children: [
-              _ReadinessRows(
-                rows: [
-                  _ReadinessRow(
-                    label: 'Receiver configured',
-                    ready: item.receiverConfigured,
-                  ),
-                  _ReadinessRow(
-                    label: 'SMS access',
-                    ready: item.smsAccessEnabled,
-                  ),
-                  _ReadinessRow(
-                    label: '${item.pendingPaymentIntents} pending intents',
-                    ready: item.pendingPaymentIntents == 0,
-                  ),
-                  _ReadinessRow(
-                    label: '${item.needsReviewEvents} review events',
-                    ready: item.needsReviewEvents == 0,
-                  ),
-                ],
-              ),
-              InfoSecurityBanner(
-                title: item.ready ? 'Automation ready' : 'Action needed',
-                message: item.ready
-                    ? 'Collect can use receiver-side MoMo SMS evidence to keep this ledger current.'
-                    : 'Enable SMS access and confirm the receiver MoMo setup before relying on automated ledger updates.',
-                tone: item.ready
-                    ? CollectStatusTone.success
-                    : CollectStatusTone.warning,
-              ),
-            ],
-          ),
-          loading: () => const LoadingStatePanel(
-            title: 'Loading group health',
-            message: 'Checking receiver setup, SMS access, and payment review.',
-            lines: 4,
-          ),
-          error: (error, _) => CollectErrorState(
-            title: 'Could not load health',
-            message: error.toString(),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class OwnerReceiverManagementScreen extends ConsumerStatefulWidget {
-  const OwnerReceiverManagementScreen({required this.collectionId, super.key});
-
-  final String collectionId;
-
-  @override
-  ConsumerState<OwnerReceiverManagementScreen> createState() =>
-      _OwnerReceiverManagementScreenState();
-}
-
-class _OwnerReceiverManagementScreenState
-    extends ConsumerState<OwnerReceiverManagementScreen> {
-  final _receiver = TextEditingController();
-  final _label = TextEditingController(text: 'Primary');
-  bool _synced = false;
-
-  @override
-  void dispose() {
-    _receiver.dispose();
-    _label.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final collection = _safeCollection(ref, widget.collectionId);
-    if (!_synced && collection != null) {
-      _receiver.text = collection.receiverMomoNumber ?? '';
-      _label.text = collection.receiverDisplayLabel;
-      _synced = true;
-    }
-    return ScreenScaffold(
-      title: 'MoMo',
-      subtitle: collection?.title,
-      children: [
-        CollectCard(
-          child: Column(
-            children: [
-              CollectTextInput(
-                controller: _label,
-                label: 'Name',
-                textInputAction: TextInputAction.next,
-                textCapitalization: TextCapitalization.words,
-                autocorrect: true,
-              ),
-              CollectSpacing.gap12,
-              CollectTextInput(
-                controller: _receiver,
-                label: 'MoMo number',
-                keyboardType: TextInputType.phone,
-                textInputAction: TextInputAction.done,
-                autofillHints: const [AutofillHints.telephoneNumber],
-              ),
-              CollectSpacing.gap16,
-              CollectButton(
-                label: 'Save',
-                icon: CollectIcons.check,
-                onPressed: () async {
-                  await ref
-                      .read(collectRepositoryProvider.notifier)
-                      .updateCollectionReceiver(
-                        collectionId: widget.collectionId,
-                        receiverMomoNumber: _receiver.text,
-                        receiverLabel: _label.text,
-                      );
-                  if (!context.mounted) return;
-                  context.go('/groups/${widget.collectionId}/manage');
-                },
-                expand: true,
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class GroupMembersScreen extends ConsumerStatefulWidget {
   const GroupMembersScreen({required this.collectionId, super.key});
 
@@ -1380,6 +1493,8 @@ class GroupMembersScreen extends ConsumerStatefulWidget {
 class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
   final _search = TextEditingController();
   String _query = '';
+  _MemberFilter _filter = _MemberFilter.all;
+  _MemberSort _sort = _MemberSort.contribution;
 
   @override
   void dispose() {
@@ -1390,6 +1505,17 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
   @override
   Widget build(BuildContext context) {
     final members = ref.watch(groupMembersProvider(widget.collectionId));
+    final contributions = ref.watch(
+      contributionsForCollectionProvider(widget.collectionId),
+    );
+    final contributionTotals = <String, int>{};
+    for (final contribution in contributions) {
+      contributionTotals.update(
+        contribution.supporterLabel,
+        (amount) => amount + contribution.amountRwf,
+        ifAbsent: () => contribution.amountRwf,
+      );
+    }
     return ScreenScaffold(
       title: 'Members',
       children: [
@@ -1409,15 +1535,26 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
                           item.role.toLowerCase().contains(query))
                         item,
                   ];
+            final filtered =
+                visible.where((item) {
+                  return switch (_filter) {
+                    _MemberFilter.all => true,
+                    _MemberFilter.owner => item.role == 'owner',
+                    _MemberFilter.active => item.status == 'active',
+                  };
+                }).toList()..sort(
+                  (left, right) =>
+                      _compareMembers(left, right, _sort, contributionTotals),
+                );
             if (items.isEmpty) {
               return const EmptyIllustrationState(
                 icon: CollectIcons.people,
                 title: 'No members yet',
                 message:
-                    'Members appear after they join this group with a Collect link, code, or QR.',
+                    'Members appear after they join from a group QR or deep link.',
               );
             }
-            if (visible.isEmpty) {
+            if (filtered.isEmpty) {
               return EmptySearchState(
                 title: 'No members found',
                 message: 'No Collect ID or role matches that search.',
@@ -1427,26 +1564,83 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
                 }),
               );
             }
-            return CollectCard(
-              emphasis: CollectCardEmphasis.flat,
-              child: Column(
-                children: [
-                  for (final member in visible)
-                    FinancialListRow(
-                      title: compactCollectIdLabel(member.safeLabel),
-                      meta: member.joinedAt
-                          .toLocal()
-                          .toString()
-                          .split('.')
-                          .first,
-                      subtitle: '${member.role} · ${member.status}',
-                      leading: CollectIcons.profile,
-                      tone: member.role == 'owner'
-                          ? CollectStatusTone.privacy
-                          : CollectStatusTone.neutral,
-                    ),
-                ],
-              ),
+            final totalRaised = filtered.fold<int>(
+              0,
+              (sum, item) => sum + (contributionTotals[item.safeLabel] ?? 0),
+            );
+            final ownerCount = items
+                .where((item) => item.role == 'owner')
+                .length;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _MemberSummaryStrip(
+                  visibleCount: filtered.length,
+                  totalCount: items.length,
+                  ownerCount: ownerCount,
+                  totalRaised: totalRaised,
+                ),
+                CollectSpacing.gap12,
+                CollectCard(
+                  emphasis: CollectCardEmphasis.compact,
+                  padding: const EdgeInsets.all(CollectSpacing.x4),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'View',
+                              style: Theme.of(context).textTheme.titleSmall,
+                            ),
+                          ),
+                          _MemberSortButton(
+                            label: _memberSortLabel(_sort),
+                            onTap: _showMemberSortSheet,
+                          ),
+                        ],
+                      ),
+                      CollectSpacing.gap12,
+                      Wrap(
+                        spacing: CollectSpacing.x2,
+                        runSpacing: CollectSpacing.x2,
+                        children: [
+                          for (final filter in _MemberFilter.values)
+                            _MemberFilterChip(
+                              label: _memberFilterLabel(filter),
+                              selected: _filter == filter,
+                              onTap: () => setState(() => _filter = filter),
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                CollectSpacing.gap12,
+                SectionHeader(
+                  title: 'Roster',
+                  actionLabel: '${filtered.length}',
+                ),
+                CollectCard(
+                  emphasis: CollectCardEmphasis.flat,
+                  child: Column(
+                    children: [
+                      for (final member in filtered)
+                        FinancialListRow(
+                          title: compactCollectIdLabel(member.safeLabel),
+                          amountRwf: contributionTotals[member.safeLabel] ?? 0,
+                          meta: formatCollectDateTime(member.joinedAt),
+                          subtitle: _memberSubtitle(member),
+                          leading: CollectIcons.profile,
+                          tone: member.role == 'owner'
+                              ? CollectStatusTone.privacy
+                              : CollectStatusTone.success,
+                        ),
+                    ],
+                  ),
+                ),
+              ],
             );
           },
           loading: () => const LoadingStatePanel(
@@ -1463,125 +1657,221 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
       ],
     );
   }
-}
 
-class GroupOwnerDashboardScreen extends ConsumerWidget {
-  const GroupOwnerDashboardScreen({required this.collectionId, super.key});
-
-  final String collectionId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final collection = _safeCollection(ref, collectionId);
-    final repo = ref.read(collectRepositoryProvider.notifier);
-    final summary = repo.summaryFor(collectionId);
-    final health = ref.watch(ownerGroupHealthProvider(collectionId));
-    return ScreenScaffold(
-      title: 'Owner',
-      subtitle: collection?.title,
-      children: [
-        MoneyHeroCard(
-          amount: summary.amountRaisedRwf,
-          label: 'Owner dashboard',
-          detail: '${summary.supporterCount} confirmed ledger entries',
-        ),
-        health.when(
-          data: (item) => CollectBentoGrid(
-            primary: BentoMetricCell(
-              label: 'Pending',
-              value: '${item.pendingPaymentIntents}',
-              detail: 'Payment intents',
-              icon: CollectIcons.pending,
-              tone: item.pendingPaymentIntents == 0
-                  ? CollectStatusTone.neutral
-                  : CollectStatusTone.info,
-              emphasis: true,
-            ),
-            top: BentoMetricCell(
-              label: 'Review',
-              value: '${item.needsReviewEvents}',
-              detail: 'Exceptions',
-              icon: CollectIcons.warning,
-              tone: item.needsReviewEvents == 0
-                  ? CollectStatusTone.neutral
-                  : CollectStatusTone.warning,
-            ),
-            bottom: BentoMetricCell(
-              label: 'SMS',
-              value: item.smsAccessEnabled ? 'On' : 'Off',
-              detail: item.receiverConfigured
-                  ? 'Receiver set'
-                  : 'Receiver missing',
-              icon: CollectIcons.sms,
-              tone: item.ready
-                  ? CollectStatusTone.success
-                  : CollectStatusTone.warning,
-            ),
-          ),
-          loading: () => const LoadingStatePanel(
-            title: 'Loading owner dashboard',
-            message: 'Checking SMS health and receiver readiness.',
-            icon: CollectIcons.dashboard,
-            lines: 3,
-          ),
-          error: (error, _) => InfoSecurityBanner(
-            title: 'Health unavailable',
-            message: error.toString(),
-            tone: CollectStatusTone.warning,
-          ),
-        ),
-        CollectCard(
+  void _showMemberSortSheet() {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return CollectBottomSheet(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CollectListTile(
-                leading: CollectIcons.sms,
-                title: 'SMS health',
-                subtitle: 'Status.',
-                onTap: () =>
-                    context.go('/groups/$collectionId/owner/sms-health'),
+              Text(
+                'Sort members',
+                style: Theme.of(context).textTheme.titleLarge,
               ),
-              CollectListTile(
-                leading: CollectIcons.momo,
-                title: 'MoMo',
-                subtitle: 'Owner only.',
-                onTap: () => context.go('/groups/$collectionId/owner/receiver'),
-              ),
-              CollectListTile(
-                leading: CollectIcons.people,
-                title: 'Members',
-                subtitle: 'Active.',
-                onTap: () => context.go('/groups/$collectionId/members'),
-              ),
-              CollectListTile(
-                leading: CollectIcons.share,
-                title: 'Share',
-                subtitle: 'Link, QR, chat.',
-                onTap: () => context.go('/groups/$collectionId/share'),
-              ),
+              CollectSpacing.gap12,
+              for (final sort in _MemberSort.values)
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Icon(
+                    _sort == sort ? CollectIcons.check : CollectIcons.filter,
+                  ),
+                  title: Text(_memberSortLabel(sort)),
+                  onTap: () {
+                    setState(() => _sort = sort);
+                    Navigator.of(context).pop();
+                  },
+                ),
             ],
           ),
-        ),
-      ],
+        );
+      },
     );
   }
 }
 
-class ShareConfirmationScreen extends StatelessWidget {
-  const ShareConfirmationScreen({required this.message, super.key});
+class _MemberSummaryStrip extends StatelessWidget {
+  const _MemberSummaryStrip({
+    required this.visibleCount,
+    required this.totalCount,
+    required this.ownerCount,
+    required this.totalRaised,
+  });
 
-  final String message;
+  final int visibleCount;
+  final int totalCount;
+  final int ownerCount;
+  final int totalRaised;
 
   @override
   Widget build(BuildContext context) {
-    return _SimpleStateScreen(
-      title: 'Share ready',
-      heroTitle: message,
-      message:
-          'The share action is prepared without exposing receiver MoMo details on the public link.',
-      icon: CollectIcons.check,
-      tone: CollectStatusTone.success,
+    return CollectCard(
+      emphasis: CollectCardEmphasis.glow,
+      accentColor: context.collectColors.statusForeground(
+        CollectStatusTone.success,
+      ),
+      child: Wrap(
+        spacing: CollectSpacing.x2,
+        runSpacing: CollectSpacing.x2,
+        children: [
+          CollectStatusChip(
+            label: '$visibleCount shown',
+            tone: CollectStatusTone.success,
+            icon: CollectIcons.people,
+          ),
+          CollectStatusChip(
+            label: '$totalCount total',
+            tone: CollectStatusTone.info,
+            icon: CollectIcons.collections,
+          ),
+          CollectStatusChip(
+            label: '$ownerCount owner${ownerCount == 1 ? '' : 's'}',
+            tone: CollectStatusTone.privacy,
+            icon: CollectIcons.shield,
+          ),
+          CollectStatusChip(
+            label: formatRwf(totalRaised),
+            tone: CollectStatusTone.success,
+            icon: CollectIcons.money,
+          ),
+        ],
+      ),
     );
   }
+}
+
+class _MemberFilterChip extends StatelessWidget {
+  const _MemberFilterChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: label,
+      child: Material(
+        color: selected ? colors.actionCrimson : colors.surfaceRaised,
+        borderRadius: CollectRadius.pillBorder,
+        child: InkWell(
+          borderRadius: CollectRadius.pillBorder,
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: CollectSpacing.x4,
+              vertical: CollectSpacing.x2,
+            ),
+            child: Center(
+              child: Text(
+                label,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: selected ? Colors.white : colors.textPrimary,
+                  fontWeight: FontWeight.w900,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MemberSortButton extends StatelessWidget {
+  const _MemberSortButton({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Tooltip(
+      message: 'Sort members',
+      child: Material(
+        color: colors.surfaceRaised,
+        borderRadius: CollectRadius.pillBorder,
+        child: InkWell(
+          borderRadius: CollectRadius.pillBorder,
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: CollectSpacing.x3,
+              vertical: CollectSpacing.x2,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(CollectIcons.filter, size: 18),
+                CollectSpacing.gapW8,
+                Text(
+                  label,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+enum _MemberFilter { all, owner, active }
+
+enum _MemberSort { contribution, newest, collectId }
+
+String _memberFilterLabel(_MemberFilter filter) {
+  return switch (filter) {
+    _MemberFilter.all => 'All',
+    _MemberFilter.owner => 'Owner',
+    _MemberFilter.active => 'Active',
+  };
+}
+
+String _memberSortLabel(_MemberSort sort) {
+  return switch (sort) {
+    _MemberSort.contribution => 'Top',
+    _MemberSort.newest => 'Newest',
+    _MemberSort.collectId => 'Collect ID',
+  };
+}
+
+int _compareMembers(
+  CollectMember left,
+  CollectMember right,
+  _MemberSort sort,
+  Map<String, int> totals,
+) {
+  return switch (sort) {
+    _MemberSort.contribution => (totals[right.safeLabel] ?? 0).compareTo(
+      totals[left.safeLabel] ?? 0,
+    ),
+    _MemberSort.newest => right.joinedAt.compareTo(left.joinedAt),
+    _MemberSort.collectId => left.publicId.compareTo(right.publicId),
+  };
+}
+
+String _memberSubtitle(CollectMember member) {
+  final role = member.role == 'owner' ? 'Owner' : 'Member';
+  final status = member.status == 'active' ? 'Active' : member.status;
+  return '$role · $status';
 }
 
 class _SimpleStateScreen extends StatelessWidget {
@@ -1603,9 +1893,7 @@ class _SimpleStateScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenScaffold(
       title: title,
-      children: [
-        _StateHero(icon: icon, title: heroTitle, message: message, tone: tone),
-      ],
+      children: [_StateHero(icon: icon, title: heroTitle, tone: tone)],
     );
   }
 }
@@ -1614,13 +1902,11 @@ class _StateHero extends StatelessWidget {
   const _StateHero({
     required this.icon,
     required this.title,
-    required this.message,
     this.tone = CollectStatusTone.info,
   });
 
   final IconData icon;
   final String title;
-  final String message;
   final CollectStatusTone tone;
 
   @override
@@ -1633,10 +1919,43 @@ class _StateHero extends StatelessWidget {
           CollectStatusChip(label: title, tone: tone, icon: icon),
           CollectSpacing.gap20,
           Text(title, style: Theme.of(context).textTheme.headlineMedium),
-          if (message.trim().isNotEmpty) ...[
-            CollectSpacing.gap8,
-            Text(message, style: Theme.of(context).textTheme.bodyMedium),
-          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _PaymentStatusHero extends StatelessWidget {
+  const _PaymentStatusHero({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.tone,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final CollectStatusTone tone;
+
+  @override
+  Widget build(BuildContext context) {
+    return CollectCard(
+      emphasis: CollectCardEmphasis.glow,
+      accentColor: context.collectColors.statusForeground(tone),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CollectStatusChip(label: title, tone: tone, icon: icon),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Text(
+              subtitle,
+              style: Theme.of(context).textTheme.titleSmall,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
         ],
       ),
     );

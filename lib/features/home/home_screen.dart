@@ -9,6 +9,7 @@ import '../../shared/models/collect_models.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import '../collections/group_creation_platform.dart';
+import '../collections/group_share_service.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -30,27 +31,24 @@ class HomeScreen extends ConsumerWidget {
     final contributions = ref.watch(
       collectRepositoryProvider.select((state) => state.contributions),
     );
+    final showCreate = shouldShowGroupCreationEntryOnThisPlatform();
     return ScreenScaffold(
-      title: 'Good morning',
-      subtitle: profile == null ? null : '#${profile.publicId}',
-      actions: [
-        _NotificationAction(hasUnread: paymentIntents.isNotEmpty),
-        IconButton.filledTonal(
-          tooltip: 'Profile',
-          onPressed: () => context.go('/settings/profile'),
-          icon: const Icon(CollectIcons.profile),
-        ),
-      ],
+      title: 'Home',
+      showHeader: false,
+      compact: true,
       children: [
+        _HomeBrandHeader(
+          publicId: profile?.publicId,
+          hasUnread: paymentIntents.isNotEmpty,
+        ),
         _HomeTotalCollectedCard(
           totalAmount: raisedTotal,
           collectionCount: collectionCount,
         ),
         _HomeActionStrip(
-          primaryCollectionId: collections.isEmpty
-              ? null
-              : collections.first.id,
-          onCreate: () => openGroupCreation(context),
+          primaryCollection: collections.isEmpty ? null : collections.first,
+          showCreate: showCreate,
+          onCreate: () => context.go('/groups/create'),
         ),
         _PublicGroupsSection(collections: collections, summaries: summaries),
         const SectionHeader(title: 'My groups'),
@@ -58,12 +56,18 @@ class HomeScreen extends ConsumerWidget {
           EmptyIllustrationState(
             icon: CollectIcons.collectionsOutline,
             title: 'No groups yet',
-            message: 'Create a group or join with a shared Collect link.',
-            action: CollectButton(
-              label: 'Create group',
-              icon: CollectIcons.add,
-              onPressed: () => openGroupCreation(context),
-            ),
+            message: 'Create a group or scan a group QR.',
+            action: showCreate
+                ? CollectButton(
+                    label: 'Create group',
+                    icon: CollectIcons.add,
+                    onPressed: () => context.go('/groups/create'),
+                  )
+                : CollectButton(
+                    label: 'Join group',
+                    icon: CollectIcons.qr,
+                    onPressed: () => context.go('/groups/scan'),
+                  ),
           )
         else
           for (final collection in collections)
@@ -76,12 +80,12 @@ class HomeScreen extends ConsumerWidget {
                     supporterCount: 0,
                   ),
               onTap: () => context.go('/groups/${collection.id}'),
-              primaryAction: CollectButton(
-                label: 'Contribute',
-                icon: CollectIcons.momo,
+              variant: GroupCardVariant.visual,
+              primaryAction: IconButton.filled(
+                tooltip: 'Contribute',
                 onPressed: () =>
                     context.go('/groups/${collection.id}/contribute'),
-                expand: true,
+                icon: const Icon(CollectIcons.donate),
               ),
             ),
         const SectionHeader(title: 'Activity'),
@@ -108,11 +112,67 @@ class HomeScreen extends ConsumerWidget {
               ],
             ),
           ),
-        CollectButton(
-          label: 'Open groups',
-          icon: CollectIcons.collections,
-          onPressed: () => context.go('/groups'),
-          expand: true,
+      ],
+    );
+  }
+}
+
+class _HomeBrandHeader extends StatelessWidget {
+  const _HomeBrandHeader({required this.hasUnread, this.publicId});
+
+  final String? publicId;
+  final bool hasUnread;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Collect',
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              if (publicId != null) ...[
+                CollectSpacing.gap4,
+                Row(
+                  children: [
+                    Icon(
+                      CollectIcons.profile,
+                      color: colors.textSecondary,
+                      size: 18,
+                    ),
+                    CollectSpacing.gapW8,
+                    Text(
+                      publicId!,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: colors.textSecondary,
+                        fontWeight: FontWeight.w800,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ],
+            ],
+          ),
+        ),
+        _NotificationAction(hasUnread: hasUnread),
+        CollectSpacing.gapW8,
+        IconButton.filled(
+          tooltip: 'Profile',
+          onPressed: () => context.go('/settings/profile'),
+          style: IconButton.styleFrom(
+            backgroundColor: colors.surfaceRaised,
+            foregroundColor: colors.textPrimary,
+          ),
+          icon: const Icon(CollectIcons.profile),
         ),
       ],
     );
@@ -126,12 +186,17 @@ class _NotificationAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.collectColors;
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        IconButton.filledTonal(
+        IconButton.filled(
           tooltip: 'Notifications',
           onPressed: () => context.go('/notifications'),
+          style: IconButton.styleFrom(
+            backgroundColor: colors.surfaceRaised,
+            foregroundColor: colors.textPrimary,
+          ),
           icon: const Icon(CollectIcons.pending),
         ),
         if (hasUnread)
@@ -287,12 +352,23 @@ class _PublicGroupsSection extends StatelessWidget {
                         ),
                     variant: GroupCardVariant.publicDiscovery,
                     onTap: () => context.go('/groups/${collection.id}'),
+                    primaryAction: IconButton.filled(
+                      tooltip: 'Contribute',
+                      style: IconButton.styleFrom(
+                        fixedSize: const Size(42, 42),
+                        minimumSize: const Size(42, 42),
+                        padding: EdgeInsets.zero,
+                      ),
+                      onPressed: () =>
+                          context.go('/groups/${collection.id}/contribute'),
+                      icon: const Icon(CollectIcons.donate),
+                    ),
                   );
                 },
               );
             }
             return SizedBox(
-              height: 276,
+              height: 204,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 clipBehavior: Clip.none,
@@ -302,7 +378,7 @@ class _PublicGroupsSection extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final collection = publicGroups[index];
                   return SizedBox(
-                    width: 304,
+                    width: 274,
                     child: GroupCard(
                       collection: collection,
                       summary:
@@ -313,6 +389,17 @@ class _PublicGroupsSection extends StatelessWidget {
                           ),
                       variant: GroupCardVariant.publicDiscovery,
                       onTap: () => context.go('/groups/${collection.id}'),
+                      primaryAction: IconButton.filled(
+                        tooltip: 'Contribute',
+                        style: IconButton.styleFrom(
+                          fixedSize: const Size(42, 42),
+                          minimumSize: const Size(42, 42),
+                          padding: EdgeInsets.zero,
+                        ),
+                        onPressed: () =>
+                            context.go('/groups/${collection.id}/contribute'),
+                        icon: const Icon(CollectIcons.donate),
+                      ),
                     ),
                   );
                 },
@@ -325,86 +412,77 @@ class _PublicGroupsSection extends StatelessWidget {
   }
 }
 
-class _HomeActionStrip extends StatelessWidget {
-  const _HomeActionStrip({required this.onCreate, this.primaryCollectionId});
+class _HomeActionStrip extends ConsumerWidget {
+  const _HomeActionStrip({
+    required this.onCreate,
+    required this.showCreate,
+    this.primaryCollection,
+  });
 
   final VoidCallback onCreate;
-  final String? primaryCollectionId;
+  final bool showCreate;
+  final CollectCollection? primaryCollection;
 
   @override
-  Widget build(BuildContext context) {
-    final collectionId = primaryCollectionId;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final collection = primaryCollection;
     final actions = [
-      _HomeActionItem(icon: CollectIcons.add, label: 'Create', onTap: onCreate),
+      if (showCreate)
+        _HomeActionItem(
+          icon: CollectIcons.add,
+          label: 'Create',
+          onTap: onCreate,
+        ),
       _HomeActionItem(
         icon: CollectIcons.people,
         label: 'Join',
-        onTap: () => context.go('/groups/join'),
-      ),
-      _HomeActionItem(
-        icon: Icons.volunteer_activism_rounded,
-        label: 'Contribute',
-        highlighted: true,
-        onTap: () => collectionId == null
-            ? context.go('/groups')
-            : context.go('/groups/$collectionId/contribute'),
+        onTap: () => context.go('/groups/scan'),
       ),
       _HomeActionItem(
         icon: CollectIcons.qr,
         label: 'Scan QR',
-        onTap: () => context.go('/groups/join'),
+        onTap: () => context.go('/groups/scan'),
       ),
       _HomeActionItem(
         icon: CollectIcons.share,
         label: 'Share',
-        onTap: () => collectionId == null
+        onTap: () => collection == null
             ? context.go('/groups')
-            : context.go('/groups/$collectionId/share'),
+            : shareGroupDeepLink(
+                context: context,
+                ref: ref,
+                collection: collection,
+              ),
       ),
     ];
 
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth < 560) {
-          return Column(
-            children: [
-              SizedBox(
-                height: 88,
-                child: Row(
-                  children: [
-                    for (final action in actions.take(3)) ...[
-                      Expanded(child: action),
-                      if (action != actions.take(3).last) CollectSpacing.gapW8,
-                    ],
-                  ],
-                ),
-              ),
-              CollectSpacing.gap8,
-              SizedBox(
-                height: 82,
-                child: Row(
-                  children: [
-                    for (final action in actions.skip(3)) ...[
-                      Expanded(child: action),
-                      if (action != actions.last) CollectSpacing.gapW8,
-                    ],
-                  ],
-                ),
-              ),
-            ],
+          return SizedBox(
+            height: 56,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              clipBehavior: Clip.none,
+              padding: EdgeInsets.zero,
+              itemCount: actions.length,
+              separatorBuilder: (_, _) => CollectSpacing.gapW8,
+              itemBuilder: (context, index) =>
+                  SizedBox(width: 96, child: actions[index]),
+            ),
           );
         }
 
         return SizedBox(
-          height: 96,
+          height: 60,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             clipBehavior: Clip.none,
             padding: EdgeInsets.zero,
             itemCount: actions.length,
-            separatorBuilder: (_, _) => CollectSpacing.gapW12,
+            separatorBuilder: (_, _) => CollectSpacing.gapW8,
             itemBuilder: (context, index) =>
-                SizedBox(width: 130, child: actions[index]),
+                SizedBox(width: 112, child: actions[index]),
           ),
         );
       },
@@ -417,46 +495,46 @@ class _HomeActionItem extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.onTap,
-    this.highlighted = false,
   });
 
   final IconData icon;
   final String label;
   final VoidCallback onTap;
-  final bool highlighted;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final foreground = highlighted ? Colors.white : colors.textPrimary;
     return Semantics(
       button: true,
       label: label,
       child: Material(
-        color: highlighted ? colors.actionCrimson : colors.surfaceRaised,
-        borderRadius: BorderRadius.circular(14),
+        color: colors.surfaceRaised,
+        borderRadius: CollectRadius.pillBorder,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: CollectRadius.pillBorder,
           child: SizedBox.expand(
             child: Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: CollectSpacing.x2,
+                horizontal: CollectSpacing.x3,
                 vertical: CollectSpacing.x2,
               ),
-              child: Column(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(icon, color: foreground, size: 30),
-                  CollectSpacing.gap8,
-                  Text(
-                    label,
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: foreground,
-                      fontWeight: FontWeight.w800,
+                  Icon(icon, color: colors.textPrimary, size: 22),
+                  CollectSpacing.gapW8,
+                  Flexible(
+                    child: Text(
+                      label,
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: colors.textPrimary,
+                        fontWeight: FontWeight.w800,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),

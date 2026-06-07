@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/security/phone_normalizer.dart';
 import '../../shared/models/collect_models.dart';
+import '../../shared/providers/collect_app_state.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
@@ -145,7 +146,14 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
         CollectButton(
           label: 'Finish setup',
           icon: CollectIcons.check,
-          onPressed: () => context.go('/home'),
+          onPressed: () {
+            final pendingSlug = ref.read(pendingSharedGroupSlugProvider);
+            if (pendingSlug?.trim().isNotEmpty == true) {
+              context.go('/c/$pendingSlug');
+            } else {
+              context.go('/home');
+            }
+          },
           variant: CollectButtonVariant.secondary,
           expand: true,
         ),

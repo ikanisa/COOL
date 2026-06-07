@@ -1,104 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../shared/providers/collect_app_state.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
-class JoinGroupPortalScreen extends ConsumerStatefulWidget {
+class JoinGroupPortalScreen extends StatelessWidget {
   const JoinGroupPortalScreen({super.key});
-
-  @override
-  ConsumerState<JoinGroupPortalScreen> createState() =>
-      _JoinGroupPortalScreenState();
-}
-
-class _JoinGroupPortalScreenState extends ConsumerState<JoinGroupPortalScreen> {
-  final _code = TextEditingController();
-  String? _error;
-  bool _joining = false;
-
-  @override
-  void dispose() {
-    _code.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return ScreenScaffold(
       title: 'Join group',
-      subtitle: 'Code, link, or QR.',
+      subtitle: 'Scan a group QR code.',
       bottomAction: BottomActionSurface(
         children: [
           CollectButton(
-            label: _joining ? 'Joining' : 'Join group',
-            icon: CollectIcons.arrowForward,
-            onPressed: _joining ? null : _join,
-            expand: true,
-          ),
-          CollectButton(
-            label: 'Scan QR code',
+            label: 'Scan',
             icon: CollectIcons.qr,
-            onPressed: () => setState(() {
-              _error =
-                  'QR scanning is not enabled in this build. Use the group link or code.';
-            }),
-            variant: CollectButtonVariant.secondary,
+            onPressed: () => context.go('/groups/scan'),
             expand: true,
           ),
         ],
       ),
-      children: [
-        const MinimalStatePanel(
+      children: const [
+        MinimalStatePanel(
           icon: CollectIcons.qr,
-          title: 'Enter a Collect group code.',
-          message:
-              'Paste a shared Collect link or enter the group code. Receiver MoMo details stay inside the contribution review step.',
+          title: 'Scan group QR.',
+          message: '',
           tone: CollectStatusTone.privacy,
-        ),
-        FormSectionCard(
-          errorTitle: 'Could not join',
-          errorMessage: _error,
-          children: [
-            CollectTextInput(
-              controller: _code,
-              label: 'Group code or link',
-              helper: 'Example: st-michel-building-fund or a /c/ link.',
-              keyboardType: TextInputType.url,
-              textInputAction: TextInputAction.done,
-              autofillHints: const [AutofillHints.url],
-            ),
-          ],
         ),
       ],
     );
-  }
-
-  Future<void> _join() async {
-    final slug = _slugFromInput(_code.text);
-    if (slug.isEmpty) {
-      setState(() => _error = 'Enter a group code or Collect link.');
-      return;
-    }
-    setState(() {
-      _joining = true;
-      _error = null;
-    });
-    try {
-      final collection = await ref
-          .read(collectRepositoryProvider.notifier)
-          .joinGroupBySlug(slug);
-      if (!mounted) return;
-      context.go('/groups/${collection.id}/joined');
-    } catch (error) {
-      if (!mounted) return;
-      setState(() {
-        _joining = false;
-        _error = error.toString();
-      });
-    }
   }
 }
 
@@ -115,9 +52,24 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
   late final Future<void> _openGroup = _joinAndOpen();
 
   Future<void> _joinAndOpen() async {
+    if (_shouldOpenStoreFallback()) {
+      await launchUrl(
+        _storeFallbackUri(),
+        mode: LaunchMode.externalApplication,
+      );
+      return;
+    }
+    final profile = ref.read(collectRepositoryProvider).currentProfile;
+    if (profile == null) {
+      ref.read(pendingSharedGroupSlugProvider.notifier).state = widget.slug;
+      if (!mounted) return;
+      context.go('/onboarding');
+      return;
+    }
     final collection = await ref
         .read(collectRepositoryProvider.notifier)
         .joinGroupBySlug(widget.slug);
+    ref.read(pendingSharedGroupSlugProvider.notifier).state = null;
     if (!mounted) return;
     context.go('/groups/${collection.id}/joined');
   }
@@ -163,6 +115,39 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
           );
         }
 
+        if (_shouldOpenStoreFallback()) {
+          return ScreenScaffold(
+            title: 'Install Collect',
+            subtitle: widget.slug,
+            children: [
+              CollectBottomSheet(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const MinimalStatePanel(
+                      icon: CollectIcons.download,
+                      title: 'Install Collect to join.',
+                      message:
+                          'After installing, open this group link again to finish onboarding and join.',
+                      tone: CollectStatusTone.info,
+                    ),
+                    CollectSpacing.gap16,
+                    CollectButton(
+                      label: 'Open store',
+                      icon: CollectIcons.download,
+                      onPressed: () => launchUrl(
+                        _storeFallbackUri(),
+                        mode: LaunchMode.externalApplication,
+                      ),
+                      expand: true,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        }
+
         return ScreenScaffold(
           title: 'Opening group',
           subtitle: widget.slug,
@@ -170,9 +155,9 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
             CollectBottomSheet(
               child: LoadingStatePanel(
                 title: 'Opening group',
-                message: 'Checking the shared link and joining the group.',
+                message: 'Joining the group.',
                 icon: CollectIcons.qr,
-                lines: 2,
+                lines: 1,
               ),
             ),
           ],
@@ -182,16 +167,51 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
   }
 }
 
-String _slugFromInput(String input) {
+bool _shouldOpenStoreFallback() {
+  return kIsWeb && Uri.base.host == 'collect.ikanisa.com';
+}
+
+Uri _storeFallbackUri() {
+  if (defaultTargetPlatform == TargetPlatform.iOS) {
+    return Uri.parse('https://apps.apple.com/search?term=Collect%20Ikanisa');
+  }
+  return Uri.parse(
+    'https://play.google.com/store/apps/details?id=app.cool.mobile',
+  );
+}
+
+String collectGroupSlugFromInput(String input) {
   final trimmed = input.trim();
   if (trimmed.isEmpty) return '';
   final uri = Uri.tryParse(trimmed);
   if (uri != null) {
-    final segments = uri.pathSegments;
-    final cIndex = segments.indexOf('c');
-    if (cIndex != -1 && cIndex + 1 < segments.length) {
-      return segments[cIndex + 1];
+    final fragmentUri = Uri.tryParse(uri.fragment);
+    final candidates = [
+      uri.queryParameters['code'],
+      uri.queryParameters['slug'],
+      uri.queryParameters['group'],
+      if (fragmentUri != null) ..._slugSegments(fragmentUri.pathSegments),
+      ..._slugSegments(uri.pathSegments),
+    ];
+    for (final candidate in candidates) {
+      final clean = candidate?.trim();
+      if (clean != null && clean.isNotEmpty) {
+        return Uri.decodeComponent(clean);
+      }
     }
   }
-  return trimmed.replaceFirst(RegExp(r'^/c/'), '').trim();
+  return trimmed
+      .replaceFirst(RegExp(r'^/?c/'), '')
+      .replaceFirst(RegExp(r'^/?groups/'), '')
+      .trim();
+}
+
+List<String?> _slugSegments(List<String> segments) {
+  final cIndex = segments.indexOf('c');
+  final groupIndex = segments.indexOf('groups');
+  return [
+    if (cIndex != -1 && cIndex + 1 < segments.length) segments[cIndex + 1],
+    if (groupIndex != -1 && groupIndex + 1 < segments.length)
+      segments[groupIndex + 1],
+  ];
 }

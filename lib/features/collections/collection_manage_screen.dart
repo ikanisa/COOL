@@ -8,6 +8,7 @@ import '../../shared/repositories/collect_repository.dart';
 import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import 'group_share_service.dart';
 
 class CollectionManageScreen extends ConsumerWidget {
   const CollectionManageScreen({required this.collectionId, super.key});
@@ -16,56 +17,52 @@ class CollectionManageScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(collectRepositoryProvider);
     final repo = ref.read(collectRepositoryProvider.notifier);
     final collection = repo.collectionById(collectionId);
     final summary = repo.summaryFor(collectionId);
     final health = ref.watch(ownerGroupHealthProvider(collectionId));
+    final profile = state.currentProfile;
+    final isOwner = profile != null && collection.creatorUserId == profile.id;
+
+    if (!isOwner) {
+      return ScreenScaffold(
+        title: 'Group settings',
+        subtitle: collection.title,
+        children: [
+          const MinimalStatePanel(
+            icon: CollectIcons.lock,
+            title: 'Owner only.',
+            message:
+                'Group settings are visible only to the group owner. Members can view activity, members, QR, and contribution screens.',
+            tone: CollectStatusTone.privacy,
+          ),
+          CollectButton(
+            label: 'Open group',
+            icon: CollectIcons.collections,
+            onPressed: () => context.go('/groups/$collectionId'),
+            expand: true,
+          ),
+        ],
+      );
+    }
 
     return ScreenScaffold(
-      title: 'Manage',
+      title: 'Group settings',
       subtitle: collection.title,
       children: [
-        MoneyHeroCard(
-          amount: summary.amountRaisedRwf,
-          label: 'Confirmed support',
-          detail: '${summary.supporterCount} ledger entries',
-        ),
-        InfoSecurityBanner(
-          title: 'Receiver',
-          message:
-              '${collection.receiverDisplayLabel} receives this group. Receiver MoMo can be changed from the owner-only MoMo screen.',
-          tone: CollectStatusTone.privacy,
-        ),
-        const InfoSecurityBanner(
-          title: 'Owner controls',
-          message:
-              'Manage share, receiver, ledger, and support actions from owner-only routes while keeping member payment screens Collect ID-first.',
-          tone: CollectStatusTone.info,
-        ),
         health.when(
-          data: (item) => CollectCard(
-            emphasis: CollectCardEmphasis.flat,
-            child: Column(
-              children: [
-                CollectListTile(
-                  leading: item.ready
-                      ? CollectIcons.check
-                      : CollectIcons.warning,
-                  title: item.ready
-                      ? 'Group health ready'
-                      : 'Group needs attention',
-                  subtitle:
-                      '${item.pendingPaymentIntents} pending · ${item.needsReviewEvents} review',
-                  onTap: () => context.go('/groups/$collectionId/owner'),
-                ),
-              ],
-            ),
-          ),
-          loading: () => const LoadingStatePanel(
-            title: 'Loading group health',
-            message: 'Checking pending payments and review activity.',
-            lines: 2,
-          ),
+          data: (item) {
+            if (item.ready) return const SizedBox.shrink();
+            return CollectListTile(
+              leading: CollectIcons.warning,
+              title: 'Group needs attention',
+              subtitle:
+                  '${item.pendingPaymentIntents} pending · ${item.needsReviewEvents} review',
+              onTap: () => context.go('/groups/$collectionId/ledger'),
+            );
+          },
+          loading: () => const SizedBox.shrink(),
           error: (error, _) => InfoSecurityBanner(
             title: 'Health unavailable',
             message: error.toString(),
@@ -73,63 +70,55 @@ class CollectionManageScreen extends ConsumerWidget {
           ),
         ),
         CollectCard(
+          emphasis: CollectCardEmphasis.glow,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CollectListTile(
                 leading: CollectIcons.info,
                 title: 'Group profile',
-                subtitle: collection.description.isEmpty
-                    ? 'No description'
-                    : collection.description,
-              ),
-              CollectListTile(
-                leading: CollectIcons.target,
-                title: 'Target tracking',
                 subtitle:
-                    'Not configured for this model. Confirmed total: ${formatRwf(summary.amountRaisedRwf)}.',
+                    'Name, image, visibility, recurring contribution, MoMo.',
+                onTap: () => context.go('/groups/$collectionId/profile'),
               ),
+            ],
+          ),
+        ),
+        CollectCard(
+          child: Column(
+            children: [
               CollectListTile(
-                leading: CollectIcons.dashboard,
-                title: 'Owner',
-                subtitle: 'Health, MoMo, members.',
-                onTap: () => context.go('/groups/$collectionId/owner'),
-              ),
-              CollectListTile(
-                leading: CollectIcons.people,
-                title: 'Share',
-                subtitle: 'Link, QR, chat.',
+                leading: CollectIcons.qr,
+                title: 'Group QR',
+                subtitle: 'Share or save join QR.',
                 onTap: () => context.go('/groups/$collectionId/share'),
+              ),
+              CollectListTile(
+                leading: CollectIcons.share,
+                title: 'Share group',
+                subtitle: 'Native share with join link.',
+                onTap: () => shareGroupDeepLink(
+                  context: context,
+                  ref: ref,
+                  collection: collection,
+                ),
               ),
               CollectListTile(
                 leading: CollectIcons.ledger,
                 title: 'Ledger',
-                subtitle: 'Activity.',
+                subtitle: '${formatRwf(summary.amountRaisedRwf)} collected.',
                 onTap: () => context.go('/groups/$collectionId/ledger'),
-              ),
-              CollectListTile(
-                leading: CollectIcons.momo,
-                title: 'MoMo',
-                subtitle: collection.receiverDisplayLabel,
-                onTap: () => context.go('/groups/$collectionId/owner/receiver'),
               ),
               CollectListTile(
                 leading: CollectIcons.people,
                 title: 'Members',
-                subtitle: 'Active.',
+                subtitle: '${summary.supporterCount} active.',
                 onTap: () => context.go('/groups/$collectionId/members'),
-              ),
-              const CollectListTile(
-                leading: CollectIcons.warning,
-                title: 'Close group',
-                subtitle:
-                    'Not available in this build. Use share, ledger, and support.',
-                onTap: openCollectWhatsAppSupport,
               ),
               const CollectListTile(
                 leading: CollectIcons.support,
                 title: 'Support',
-                subtitle: 'Request help with closing or receiver changes.',
+                subtitle: 'Receiver changes, closure, or review.',
                 onTap: openCollectWhatsAppSupport,
               ),
             ],

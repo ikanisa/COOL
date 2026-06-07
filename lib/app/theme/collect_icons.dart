@@ -13,6 +13,7 @@ class CollectIcons {
   static const settingsOutline = Icons.settings_outlined;
   static const add = Icons.add_rounded;
   static const money = Icons.payments_rounded;
+  static const donate = Icons.volunteer_activism_rounded;
   static const momo = Icons.phone_android_rounded;
   static const shield = Icons.verified_user_rounded;
   static const privacy = Icons.visibility_off_rounded;
@@ -24,6 +25,8 @@ class CollectIcons {
   static const admin = Icons.admin_panel_settings_rounded;
   static const people = Icons.groups_rounded;
   static const share = Icons.ios_share_rounded;
+  static const download = Icons.download_rounded;
+  static const photo = Icons.add_photo_alternate_rounded;
   static const check = Icons.check_circle_rounded;
   static const warning = Icons.warning_amber_rounded;
   static const error = Icons.error_rounded;

@@ -184,6 +184,7 @@ class CollectRepository extends StateNotifier<CollectState> {
           'Transparent support for materials, labor, and weekly updates from the building committee.',
       receiverMomoNumber: '+250788123456',
       receiverDisplayLabel: 'St Michel treasury',
+      isPublic: true,
       createdAt: now.subtract(const Duration(days: 3)),
     );
     final team = CollectCollection(
@@ -194,6 +195,7 @@ class CollectRepository extends StateNotifier<CollectState> {
       description:
           'Fans are helping the team fund away jerseys and travel supplies for next month.',
       receiverMomoNumber: '+250788123456',
+      isPublic: true,
       createdAt: now.subtract(const Duration(days: 1)),
     );
     return CollectState(
@@ -356,6 +358,8 @@ class CollectRepository extends StateNotifier<CollectState> {
     required String title,
     required String description,
     required String receiverMomoNumber,
+    String? accentColorHex,
+    String? imageUrl,
   }) async {
     final profile = _requireProfile();
     final normalizedReceiver = PhoneNormalizer.normalizeRwanda(
@@ -376,7 +380,10 @@ class CollectRepository extends StateNotifier<CollectState> {
       );
       final collection = await _fetchCollection(collectionId);
       await loadInitial();
-      return collection;
+      return collection.copyWith(
+        accentColorHex: accentColorHex,
+        imageUrl: imageUrl,
+      );
     }
 
     final slug = _slug(title);
@@ -387,6 +394,9 @@ class CollectRepository extends StateNotifier<CollectState> {
       title: title.trim(),
       description: description.trim(),
       receiverMomoNumber: normalizedReceiver,
+      accentColorHex: accentColorHex,
+      imageUrl: imageUrl,
+      isPublic: false,
       createdAt: DateTime.now(),
     );
     state = state.copyWith(collections: [...state.collections, collection]);
@@ -428,6 +438,72 @@ class CollectRepository extends StateNotifier<CollectState> {
       receiverDisplayLabel: receiverLabel.trim().isEmpty
           ? 'Primary MoMo receiver'
           : receiverLabel.trim(),
+    );
+    state = state.copyWith(collections: collections);
+    return collections[index];
+  }
+
+  Future<CollectCollection> updateCollectionProfile({
+    required String collectionId,
+    required String title,
+    required String description,
+    required String receiverMomoNumber,
+    required String receiverLabel,
+    required String recurringCadence,
+    String? accentColorHex,
+    String? imageUrl,
+    required bool isPublic,
+  }) async {
+    final normalizedReceiver = PhoneNormalizer.normalizeRwanda(
+      receiverMomoNumber,
+    );
+    final cleanTitle = title.trim();
+    if (cleanTitle.isEmpty) {
+      throw const FormatException('Group name is required.');
+    }
+    final cleanReceiverLabel = receiverLabel.trim().isEmpty
+        ? 'Primary MoMo receiver'
+        : receiverLabel.trim();
+    final cadence = recurringCadence.trim().isEmpty
+        ? 'monthly'
+        : recurringCadence.trim();
+    final supabase = _supabase;
+
+    if (supabase != null && supabase.auth.currentUser != null) {
+      await supabase.rpc<void>(
+        'update_collection_profile',
+        params: {
+          'collection': collectionId,
+          'group_name': cleanTitle,
+          'group_description': description.trim(),
+          'group_image_url': imageUrl,
+          'group_accent_color_hex': accentColorHex,
+          'group_is_public': isPublic,
+          'group_recurring_cadence': cadence,
+        },
+      );
+      await updateCollectionReceiver(
+        collectionId: collectionId,
+        receiverMomoNumber: normalizedReceiver,
+        receiverLabel: cleanReceiverLabel,
+      );
+      final collection = await _fetchCollection(collectionId);
+      await loadInitial();
+      return collection;
+    }
+
+    final collections = [...state.collections];
+    final index = collections.indexWhere((item) => item.id == collectionId);
+    if (index == -1) throw StateError('Group not found');
+    collections[index] = collections[index].copyWith(
+      title: cleanTitle,
+      description: description.trim(),
+      receiverMomoNumber: normalizedReceiver,
+      receiverDisplayLabel: cleanReceiverLabel,
+      imageUrl: imageUrl,
+      accentColorHex: accentColorHex,
+      isPublic: isPublic,
+      recurringCadence: cadence,
     );
     state = state.copyWith(collections: collections);
     return collections[index];

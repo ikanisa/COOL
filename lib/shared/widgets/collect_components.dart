@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -423,21 +424,46 @@ class SearchWithClearField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      onChanged: onChanged,
-      decoration: collectInputDecoration(context, label: label).copyWith(
-        prefixIcon: const Icon(CollectIcons.search),
-        suffixIcon: controller.text.isEmpty
-            ? null
-            : IconButton(
-                tooltip: 'Clear search',
-                icon: const Icon(Icons.close_rounded),
-                onPressed: () {
-                  controller.clear();
-                  onChanged('');
-                },
-              ),
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.surfaceRaised.withValues(alpha: 0.92),
+        borderRadius: CollectRadius.pillBorder,
+        border: Border.all(color: colors.border),
+        boxShadow: [
+          BoxShadow(
+            color: colors.ink.withValues(alpha: 0.18),
+            blurRadius: 22,
+            offset: const Offset(0, 12),
+          ),
+        ],
+      ),
+      child: TextField(
+        controller: controller,
+        onChanged: onChanged,
+        minLines: 1,
+        textInputAction: TextInputAction.search,
+        decoration: InputDecoration(
+          hintText: label,
+          prefixIcon: Icon(CollectIcons.search, color: colors.textSecondary),
+          suffixIcon: controller.text.isEmpty
+              ? null
+              : IconButton(
+                  tooltip: 'Clear search',
+                  icon: const Icon(Icons.close_rounded),
+                  onPressed: () {
+                    controller.clear();
+                    onChanged('');
+                  },
+                ),
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: CollectSpacing.x4,
+            vertical: CollectSpacing.x4,
+          ),
+        ),
       ),
     );
   }
@@ -483,12 +509,7 @@ class FinancialListRow extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleSmall,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    _IdentityTitle(title: title),
                     if (subtitle != null) ...[
                       CollectSpacing.gap4,
                       Text(
@@ -682,8 +703,6 @@ class MinimalStatePanel extends StatelessWidget {
           _ToneIcon(icon: icon, tone: tone, large: true),
           CollectSpacing.gap20,
           Text(title, style: Theme.of(context).textTheme.headlineMedium),
-          CollectSpacing.gap8,
-          Text(message, style: Theme.of(context).textTheme.bodyMedium),
           if (primaryAction != null || secondaryAction != null) ...[
             CollectSpacing.gap20,
             ?primaryAction,
@@ -756,10 +775,6 @@ class FormSectionCard extends StatelessWidget {
         children: [
           if (title != null) ...[
             Text(title!, style: Theme.of(context).textTheme.titleLarge),
-            if (message != null) CollectSpacing.gap8,
-          ],
-          if (message != null) ...[
-            Text(message!, style: Theme.of(context).textTheme.bodyMedium),
             if (children.isNotEmpty) CollectSpacing.gap16,
           ],
           for (var index = 0; index < children.length; index += 1) ...[
@@ -817,7 +832,14 @@ class NotificationUpdateRow extends StatelessWidget {
               children: [
                 Text(title, style: Theme.of(context).textTheme.titleSmall),
                 CollectSpacing.gap4,
-                Text(message, style: Theme.of(context).textTheme.bodySmall),
+                Text(
+                  message,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 CollectSpacing.gap4,
                 Text(
                   meta,
@@ -1083,6 +1105,7 @@ class CollectListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final visibleSubtitle = _compactDataSubtitle(subtitle);
     return InkWell(
       borderRadius: CollectRadius.mdBorder,
       onTap: onTap,
@@ -1104,14 +1127,14 @@ class CollectListTile extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  if (subtitle != null) ...[
+                  if (visibleSubtitle != null) ...[
                     CollectSpacing.gap4,
                     Text(
-                      subtitle!,
+                      visibleSubtitle,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: colors.textSecondary,
                       ),
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
@@ -1127,6 +1150,19 @@ class CollectListTile extends StatelessWidget {
       ),
     );
   }
+}
+
+String? _compactDataSubtitle(String? value) {
+  final text = value?.trim();
+  if (text == null || text.isEmpty) return null;
+  if (text.length > 28) return null;
+  if (text.startsWith('#') ||
+      text.startsWith('+') ||
+      text.startsWith('RWF') ||
+      text.contains('MoMo')) {
+    return text;
+  }
+  return null;
 }
 
 class ActivityRow extends StatelessWidget {
@@ -1158,12 +1194,7 @@ class ActivityRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.titleSmall,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                _IdentityTitle(title: title),
                 CollectSpacing.gap4,
                 Text(
                   meta,
@@ -1479,8 +1510,13 @@ class InfoSecurityBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final visibleMessage = title == 'Reference' ? message.trim() : '';
     return CollectCard(
       emphasis: CollectCardEmphasis.flat,
+      padding: const EdgeInsets.symmetric(
+        horizontal: CollectSpacing.x3,
+        vertical: CollectSpacing.x2,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1496,13 +1532,15 @@ class InfoSecurityBanner extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                CollectSpacing.gap4,
-                Text(
-                  message,
-                  style: Theme.of(context).textTheme.bodySmall,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                if (visibleMessage.isNotEmpty) ...[
+                  CollectSpacing.gap4,
+                  Text(
+                    visibleMessage,
+                    style: Theme.of(context).textTheme.bodySmall,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ],
             ),
           ),
@@ -1558,7 +1596,7 @@ class PaymentIntentStatusCard extends StatelessWidget {
           const InfoSecurityBanner(
             title: 'SMS verification',
             message:
-                'Collect waits for receiver-side MoMo SMS verification before recording this payment. Do not paste SMS or transaction IDs.',
+                'Collect records the ledger only after MoMo SMS verification. Never share a MoMo PIN, OTP, or WhatsApp code.',
             tone: CollectStatusTone.privacy,
           ),
         ],
@@ -1568,25 +1606,74 @@ class PaymentIntentStatusCard extends StatelessWidget {
 }
 
 class CollectDynamicIsland extends StatelessWidget {
-  const CollectDynamicIsland({this.activeIntent, super.key});
+  const CollectDynamicIsland({
+    required this.activeIntent,
+    required this.minimized,
+    required this.onMinimize,
+    required this.onClose,
+    super.key,
+  });
 
-  final PaymentIntentModel? activeIntent;
+  final PaymentIntentModel activeIntent;
+  final bool minimized;
+  final VoidCallback onMinimize;
+  final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final intent = activeIntent;
-    final active = intent != null;
-    final foreground = active ? Colors.white : colors.textPrimary;
-    final background = active
-        ? colors.ink.withValues(alpha: 0.94)
-        : colors.surfaceRaised.withValues(alpha: 0.82);
-    final border = active
-        ? Colors.white.withValues(alpha: 0.12)
-        : colors.border.withValues(alpha: 0.72);
+    if (minimized) {
+      return Align(
+        alignment: Alignment.centerLeft,
+        child: Tooltip(
+          message: 'Expand payment status',
+          child: Semantics(
+            button: true,
+            label: 'Expand payment status',
+            child: Material(
+              color: colors.ink.withValues(alpha: 0.94),
+              borderRadius: CollectRadius.pillBorder,
+              child: InkWell(
+                onTap: onMinimize,
+                borderRadius: CollectRadius.pillBorder,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: CollectSpacing.x4,
+                    vertical: CollectSpacing.x3,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        CollectIcons.momo,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                      CollectSpacing.gapW8,
+                      Text(
+                        formatRwf(intent.expectedAmountRwf),
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    const foreground = Colors.white;
+    final background = colors.ink.withValues(alpha: 0.94);
+    final border = Colors.white.withValues(alpha: 0.12);
 
     return Semantics(
-      label: active ? 'Live payment status' : 'Collect live status ready',
+      label: 'Live payment status',
       child: ClipRRect(
         borderRadius: CollectRadius.pillBorder,
         child: BackdropFilter(
@@ -1604,11 +1691,7 @@ class CollectDynamicIsland extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(
-                    active ? CollectIcons.momo : CollectIcons.pending,
-                    color: foreground,
-                    size: 18,
-                  ),
+                  const Icon(CollectIcons.momo, color: foreground, size: 18),
                   CollectSpacing.gapW12,
                   Expanded(
                     child: Column(
@@ -1616,7 +1699,7 @@ class CollectDynamicIsland extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          active ? 'Payment active' : 'Collect ready',
+                          'Payment active',
                           style: Theme.of(context).textTheme.labelLarge
                               ?.copyWith(
                                 color: foreground,
@@ -1627,14 +1710,10 @@ class CollectDynamicIsland extends StatelessWidget {
                         ),
                         CollectSpacing.gap4,
                         Text(
-                          active
-                              ? formatRwf(intent.expectedAmountRwf)
-                              : 'Ready',
+                          formatRwf(intent.expectedAmountRwf),
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
-                                color: active
-                                    ? Colors.white.withValues(alpha: 0.72)
-                                    : colors.textSecondary,
+                                color: Colors.white.withValues(alpha: 0.72),
                               ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -1642,14 +1721,27 @@ class CollectDynamicIsland extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (active) ...[
-                    CollectSpacing.gapW12,
-                    CollectStatusChip(
-                      label: paymentStatusLabel(intent.status),
-                      tone: paymentStatusTone(intent.status),
-                      icon: CollectIcons.pending,
-                    ),
-                  ],
+                  CollectSpacing.gapW12,
+                  CollectStatusChip(
+                    label: paymentStatusLabel(intent.status),
+                    tone: paymentStatusTone(intent.status),
+                    icon: CollectIcons.pending,
+                  ),
+                  CollectSpacing.gapW8,
+                  IconButton(
+                    tooltip: 'Minimize payment status',
+                    onPressed: onMinimize,
+                    icon: const Icon(Icons.remove_rounded),
+                    color: foreground,
+                    visualDensity: VisualDensity.compact,
+                  ),
+                  IconButton(
+                    tooltip: 'Close payment status',
+                    onPressed: onClose,
+                    icon: const Icon(Icons.close_rounded),
+                    color: foreground,
+                    visualDensity: VisualDensity.compact,
+                  ),
                 ],
               ),
             ),
@@ -1903,15 +1995,22 @@ class CollectIdCard extends StatelessWidget {
     return CollectCard(
       emphasis: CollectCardEmphasis.hero,
       padding: CollectSpacing.cardPaddingComfortable,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            alignment: Alignment.centerLeft,
-            child: Text(
-              '#$value',
-              style: CollectTypography.amountHero(colors.textPrimary),
+          _GroupIconBadge(
+            icon: CollectIcons.profile,
+            accent: colors.actionCrimson,
+            size: 52,
+          ),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                value,
+                style: CollectTypography.amountHero(colors.textPrimary),
+              ),
             ),
           ),
         ],
@@ -2353,15 +2452,6 @@ class QuickActionButton extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  if (detail != null) ...[
-                    CollectSpacing.gap4,
-                    Text(
-                      detail!,
-                      style: Theme.of(context).textTheme.bodySmall,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
                 ],
               ),
             ),
@@ -2441,13 +2531,6 @@ class InsightCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                CollectSpacing.gap4,
-                Text(
-                  message,
-                  style: Theme.of(context).textTheme.bodySmall,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
                 if (actionLabel != null) ...[
                   CollectSpacing.gap8,
                   CollectButton(
@@ -2524,16 +2607,6 @@ class EmptyIllustrationState extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          if (message.trim().isNotEmpty) ...[
-            CollectSpacing.gap8,
-            Text(
-              message,
-              style: Theme.of(context).textTheme.bodyMedium,
-              textAlign: TextAlign.center,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
           if (action != null) ...[CollectSpacing.gap20, action!],
         ],
       ),
@@ -2634,12 +2707,7 @@ class ActivityFeedItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleSmall,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    _IdentityTitle(title: title),
                     CollectSpacing.gap4,
                     Text(
                       meta,
@@ -2676,7 +2744,49 @@ class ActivityFeedItem extends StatelessWidget {
 }
 
 String compactCollectIdLabel(String label) {
-  return label.replaceFirst(RegExp(r'^Collect ID\s+'), '#');
+  return label
+      .replaceFirst(RegExp(r'^Collect ID\s+'), '')
+      .replaceFirst(RegExp(r'^#'), '');
+}
+
+class _IdentityTitle extends StatelessWidget {
+  const _IdentityTitle({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    final cleaned = compactCollectIdLabel(title);
+    final isIdentity =
+        cleaned != title.replaceFirst(RegExp(r'^#'), '') ||
+        RegExp(r'^\d{4,}$').hasMatch(cleaned);
+    if (!isIdentity) {
+      return Text(
+        title,
+        style: Theme.of(context).textTheme.titleSmall,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      );
+    }
+    return Row(
+      children: [
+        Icon(
+          CollectIcons.profile,
+          size: 18,
+          color: context.collectColors.textSecondary,
+        ),
+        CollectSpacing.gapW8,
+        Expanded(
+          child: Text(
+            cleaned,
+            style: Theme.of(context).textTheme.titleSmall,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 String _compactAmount(int amount) {
@@ -2720,6 +2830,12 @@ class GroupCard extends StatelessWidget {
         onTap: onTap,
         primaryAction: primaryAction,
       ),
+      GroupCardVariant.visual => _VisualGroupCard(
+        collection: collection,
+        summary: summary,
+        onTap: onTap,
+        primaryAction: primaryAction,
+      ),
       GroupCardVariant.owned => _OwnedGroupCard(
         collection: collection,
         summary: summary,
@@ -2730,7 +2846,7 @@ class GroupCard extends StatelessWidget {
   }
 }
 
-enum GroupCardVariant { owned, publicDiscovery, compact }
+enum GroupCardVariant { owned, publicDiscovery, compact, visual }
 
 class _OwnedGroupCard extends StatelessWidget {
   const _OwnedGroupCard({
@@ -2776,15 +2892,6 @@ class _OwnedGroupCard extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    if (collection.description.trim().isNotEmpty) ...[
-                      CollectSpacing.gap4,
-                      Text(
-                        collection.description,
-                        style: Theme.of(context).textTheme.bodySmall,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
                   ],
                 ),
               ),
@@ -2793,40 +2900,29 @@ class _OwnedGroupCard extends StatelessWidget {
             ],
           ),
           CollectSpacing.gap16,
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: colors.surfaceRaised.withValues(alpha: 0.72),
-              borderRadius: CollectRadius.panelBorder,
-              border: Border.all(color: colors.border.withValues(alpha: 0.62)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(CollectSpacing.x3),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: _GroupMetric(
-                      label: 'Collected',
-                      value: formatRwf(summary.amountRaisedRwf),
-                      accent: accent,
-                    ),
-                  ),
-                  Container(
-                    width: 1,
-                    height: 42,
-                    color: colors.border.withValues(alpha: 0.75),
-                  ),
-                  Expanded(
-                    child: _GroupMetric(
-                      label: 'Members',
-                      value: '${summary.supporterCount}',
-                      accent: colors.textSecondary,
-                    ),
-                  ),
-                ],
+          Row(
+            children: [
+              Expanded(
+                child: _GroupIconMetric(
+                  icon: CollectIcons.money,
+                  value: formatRwf(summary.amountRaisedRwf),
+                  semanticLabel:
+                      'Total collected ${formatRwf(summary.amountRaisedRwf)}',
+                  accent: accent,
+                ),
               ),
-            ),
+              Expanded(
+                child: _GroupIconMetric(
+                  icon: CollectIcons.people,
+                  value: '${summary.supporterCount}',
+                  semanticLabel: '${summary.supporterCount} group members',
+                  accent: colors.success,
+                ),
+              ),
+              if (primaryAction != null)
+                Expanded(child: Center(child: primaryAction!)),
+            ],
           ),
-          if (primaryAction != null) ...[CollectSpacing.gap16, primaryAction!],
         ],
       ),
     );
@@ -2868,83 +2964,80 @@ class _PublicDiscoveryGroupCard extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: CollectRadius.cardLargeBorder,
-        child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Positioned(
-              right: -34,
-              top: -34,
-              child: _GroupWatermark(
-                icon: _groupIcon(collection),
-                accent: accent,
+            SizedBox(
+              height: 124,
+              width: double.infinity,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  _GroupCoverMedia(collection: collection, accent: accent),
+                  Positioned.fill(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            colors.surface.withValues(alpha: 0.08),
+                            colors.surface.withValues(alpha: 0.72),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: CollectSpacing.x3,
+                    right: CollectSpacing.x3,
+                    child: _PublicGlyph(accent: accent),
+                  ),
+                  Positioned(
+                    left: CollectSpacing.x3,
+                    right: CollectSpacing.x3,
+                    bottom: CollectSpacing.x3,
+                    child: _GroupCoverTitleOverlay(
+                      collection: collection,
+                      accent: accent,
+                      compact: true,
+                    ),
+                  ),
+                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(CollectSpacing.x4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      _GroupIconBadge(
-                        icon: _groupIcon(collection),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: CollectSpacing.x3,
+                  vertical: CollectSpacing.x2,
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: _GroupIconMetric(
+                        icon: CollectIcons.money,
+                        value: formatRwf(summary.amountRaisedRwf),
+                        semanticLabel:
+                            'Total collected ${formatRwf(summary.amountRaisedRwf)}',
                         accent: accent,
-                        size: 48,
                       ),
-                      const Spacer(),
-                      _PrivacyGlyph(accent: accent),
-                    ],
-                  ),
-                  CollectSpacing.gap12,
-                  Text(
-                    collection.title,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w800,
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  CollectSpacing.gap4,
-                  if (collection.description.trim().isNotEmpty) ...[
-                    Text(
-                      collection.description,
-                      style: Theme.of(context).textTheme.bodySmall,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    Expanded(
+                      child: _GroupIconMetric(
+                        icon: CollectIcons.people,
+                        value: '${summary.supporterCount}',
+                        semanticLabel:
+                            '${summary.supporterCount} group members',
+                        accent: colors.success,
+                      ),
                     ),
+                    if (primaryAction != null)
+                      SizedBox(width: 48, child: Center(child: primaryAction!)),
                   ],
-                  CollectSpacing.gap16,
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: colors.surfaceRaised.withValues(alpha: 0.78),
-                      borderRadius: CollectRadius.panelBorder,
-                      border: Border.all(color: accent.withValues(alpha: 0.16)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: CollectSpacing.x3,
-                        vertical: CollectSpacing.x2,
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: _GroupMetric(
-                              label: 'Total collected',
-                              value: formatRwf(summary.amountRaisedRwf),
-                              accent: accent,
-                            ),
-                          ),
-                          CollectSpacing.gapW12,
-                          _MemberPill(count: summary.supporterCount),
-                        ],
-                      ),
-                    ),
-                  ),
-                  if (primaryAction != null) ...[
-                    CollectSpacing.gap8,
-                    SizedBox(height: 44, child: primaryAction!),
-                  ],
-                ],
+                ),
               ),
             ),
           ],
@@ -3010,6 +3103,265 @@ class _CompactGroupCard extends StatelessWidget {
   }
 }
 
+class _VisualGroupCard extends StatelessWidget {
+  const _VisualGroupCard({
+    required this.collection,
+    required this.summary,
+    this.onTap,
+    this.primaryAction,
+  });
+
+  final CollectCollection collection;
+  final CollectionSummary summary;
+  final VoidCallback? onTap;
+  final Widget? primaryAction;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final accent = _groupAccent(context, collection);
+    return CollectCard(
+      onTap: onTap,
+      padding: EdgeInsets.zero,
+      emphasis: CollectCardEmphasis.glow,
+      accentColor: accent,
+      child: ClipRRect(
+        borderRadius: CollectRadius.cardLargeBorder,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 136,
+              width: double.infinity,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  _GroupCoverMedia(collection: collection, accent: accent),
+                  Positioned.fill(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            colors.surface.withValues(alpha: 0.04),
+                            colors.surface.withValues(alpha: 0.78),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: CollectSpacing.x4,
+                    right: CollectSpacing.x4,
+                    bottom: CollectSpacing.x4,
+                    child: _GroupCoverTitleOverlay(
+                      collection: collection,
+                      accent: accent,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(CollectSpacing.x4),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: _GroupIconMetric(
+                      icon: CollectIcons.money,
+                      value: formatRwf(summary.amountRaisedRwf),
+                      semanticLabel:
+                          'Total collected ${formatRwf(summary.amountRaisedRwf)}',
+                      accent: accent,
+                    ),
+                  ),
+                  Expanded(
+                    child: _GroupIconMetric(
+                      icon: CollectIcons.people,
+                      value: '${summary.supporterCount}',
+                      semanticLabel: '${summary.supporterCount} group members',
+                      accent: colors.success,
+                    ),
+                  ),
+                  if (primaryAction != null)
+                    Expanded(child: Center(child: primaryAction!)),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _GroupIconMetric extends StatelessWidget {
+  const _GroupIconMetric({
+    required this.icon,
+    required this.value,
+    required this.semanticLabel,
+    required this.accent,
+  });
+
+  final IconData icon;
+  final String value;
+  final String semanticLabel;
+  final Color accent;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: semanticLabel,
+      child: ExcludeSemantics(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: accent, size: 22),
+            CollectSpacing.gap4,
+            Text(
+              value,
+              style: Theme.of(
+                context,
+              ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _GroupCoverMedia extends StatelessWidget {
+  const _GroupCoverMedia({required this.collection, required this.accent});
+
+  final CollectCollection collection;
+  final Color accent;
+
+  @override
+  Widget build(BuildContext context) {
+    final imageUrl = collection.imageUrl?.trim();
+    if (imageUrl != null && imageUrl.isNotEmpty) {
+      final dataImageBytes = _decodeDataImage(imageUrl);
+      if (dataImageBytes != null) {
+        return Image.memory(
+          dataImageBytes,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) =>
+              _GeneratedGroupCover(collection: collection, accent: accent),
+        );
+      }
+      return Image.network(
+        imageUrl,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) =>
+            _GeneratedGroupCover(collection: collection, accent: accent),
+      );
+    }
+    return _GeneratedGroupCover(collection: collection, accent: accent);
+  }
+}
+
+Uint8List? _decodeDataImage(String value) {
+  if (!value.startsWith('data:image/')) return null;
+  final comma = value.indexOf(',');
+  if (comma == -1 || comma == value.length - 1) return null;
+  try {
+    return base64Decode(value.substring(comma + 1));
+  } catch (_) {
+    return null;
+  }
+}
+
+class _GroupCoverTitleOverlay extends StatelessWidget {
+  const _GroupCoverTitleOverlay({
+    required this.collection,
+    required this.accent,
+    this.compact = false,
+  });
+
+  final CollectCollection collection;
+  final Color accent;
+  final bool compact;
+
+  @override
+  Widget build(BuildContext context) {
+    final iconSize = compact ? 38.0 : 46.0;
+    return Row(
+      children: [
+        _GroupIconBadge(
+          icon: _groupIcon(collection),
+          accent: accent,
+          size: iconSize,
+        ),
+        CollectSpacing.gapW12,
+        Expanded(
+          child: Text(
+            collection.title,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w800,
+              fontSize: compact ? 18 : null,
+              shadows: [
+                Shadow(
+                  color: Colors.black.withValues(alpha: 0.72),
+                  blurRadius: 12,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _GeneratedGroupCover extends StatelessWidget {
+  const _GeneratedGroupCover({required this.collection, required this.accent});
+
+  final CollectCollection collection;
+  final Color accent;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.alphaBlend(
+                  accent.withValues(alpha: 0.34),
+                  colors.surfaceRaised,
+                ),
+                Color.alphaBlend(
+                  accent.withValues(alpha: 0.08),
+                  colors.surface,
+                ),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        Positioned(
+          right: -22,
+          top: -28,
+          child: _GroupWatermark(icon: _groupIcon(collection), accent: accent),
+        ),
+      ],
+    );
+  }
+}
+
 class _GroupIconBadge extends StatelessWidget {
   const _GroupIconBadge({
     required this.icon,
@@ -3056,7 +3408,34 @@ class _PrivacyGlyph extends StatelessWidget {
           child: SizedBox(
             width: 38,
             height: 38,
-            child: Icon(CollectIcons.lock, color: accent, size: 19),
+            child: Icon(CollectIcons.shield, color: accent, size: 19),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PublicGlyph extends StatelessWidget {
+  const _PublicGlyph({required this.accent});
+
+  final Color accent;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: 'Public group',
+      child: Semantics(
+        label: 'Public group',
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: accent.withValues(alpha: 0.10),
+            shape: BoxShape.circle,
+          ),
+          child: SizedBox(
+            width: 38,
+            height: 38,
+            child: Icon(CollectIcons.public, color: accent, size: 19),
           ),
         ),
       ),
@@ -3089,77 +3468,10 @@ class _GroupWatermark extends StatelessWidget {
   }
 }
 
-class _GroupMetric extends StatelessWidget {
-  const _GroupMetric({
-    required this.label,
-    required this.value,
-    required this.accent,
-  });
-
-  final String label;
-  final String value;
-  final Color accent;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: Theme.of(context).textTheme.labelSmall,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        CollectSpacing.gap4,
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          alignment: Alignment.centerLeft,
-          child: Text(
-            value,
-            style: CollectTypography.amountCompact(
-              accent,
-            ).copyWith(fontSize: 18),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _MemberPill extends StatelessWidget {
-  const _MemberPill({required this.count});
-
-  final int count;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.surfaceMuted.withValues(alpha: 0.72),
-        borderRadius: CollectRadius.pillBorder,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: CollectSpacing.x3,
-          vertical: CollectSpacing.x2,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(CollectIcons.people, size: 16, color: colors.textSecondary),
-            CollectSpacing.gapW8,
-            Text('$count', style: Theme.of(context).textTheme.labelLarge),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 Color _groupAccent(BuildContext context, CollectCollection collection) {
   final colors = context.collectColors;
+  final selectedColor = _colorFromHex(collection.accentColorHex);
+  if (selectedColor != null) return selectedColor;
   final palette = [
     colors.actionCrimson,
     colors.success,
@@ -3171,6 +3483,14 @@ Color _groupAccent(BuildContext context, CollectCollection collection) {
   final index =
       key.codeUnits.fold<int>(0, (sum, unit) => sum + unit) % palette.length;
   return palette[index];
+}
+
+Color? _colorFromHex(String? hex) {
+  final clean = hex?.trim().replaceFirst('#', '');
+  if (clean == null || clean.length != 6) return null;
+  final value = int.tryParse(clean, radix: 16);
+  if (value == null) return null;
+  return Color(0xFF000000 | value);
 }
 
 IconData _groupIcon(CollectCollection collection) {
@@ -3286,6 +3606,8 @@ class PremiumScaffold extends StatelessWidget {
     this.banner,
     this.persistentPill,
     this.bottomAction,
+    this.showHeader = true,
+    this.compact = false,
     super.key,
   });
 
@@ -3296,6 +3618,8 @@ class PremiumScaffold extends StatelessWidget {
   final Widget? persistentPill;
   final Widget? bottomAction;
   final List<Widget> children;
+  final bool showHeader;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
@@ -3311,12 +3635,20 @@ class PremiumScaffold extends StatelessWidget {
             children: [
               if (persistentPill != null) ...[
                 persistentPill!,
-                CollectSpacing.gap20,
+                compact ? CollectSpacing.gap12 : CollectSpacing.gap20,
               ],
-              ScreenHeader(title: title, subtitle: subtitle, actions: actions),
+              if (showHeader)
+                ScreenHeader(
+                  title: title,
+                  subtitle: subtitle,
+                  actions: actions,
+                ),
               if (banner != null) ...[CollectSpacing.gap20, banner!],
-              CollectSpacing.gap24,
-              ..._withGaps(children),
+              compact ? CollectSpacing.gap12 : CollectSpacing.gap24,
+              ..._withGaps(
+                children,
+                gap: compact ? CollectSpacing.gap12 : CollectSpacing.gap16,
+              ),
             ],
           ),
           if (bottomAction != null)
@@ -3331,11 +3663,11 @@ class PremiumScaffold extends StatelessWidget {
     );
   }
 
-  static List<Widget> _withGaps(List<Widget> children) {
+  static List<Widget> _withGaps(List<Widget> children, {required Widget gap}) {
     final spaced = <Widget>[];
     for (var index = 0; index < children.length; index++) {
       spaced.add(children[index]);
-      if (index != children.length - 1) spaced.add(CollectSpacing.gap16);
+      if (index != children.length - 1) spaced.add(gap);
     }
     return spaced;
   }
@@ -3350,6 +3682,8 @@ class ScreenScaffoldLayout extends StatelessWidget {
     this.banner,
     this.persistentPill,
     this.bottomAction,
+    this.showHeader = true,
+    this.compact = false,
     super.key,
   });
 
@@ -3360,6 +3694,8 @@ class ScreenScaffoldLayout extends StatelessWidget {
   final Widget? persistentPill;
   final Widget? bottomAction;
   final List<Widget> children;
+  final bool showHeader;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
@@ -3370,6 +3706,8 @@ class ScreenScaffoldLayout extends StatelessWidget {
       banner: banner,
       persistentPill: persistentPill,
       bottomAction: bottomAction,
+      showHeader: showHeader,
+      compact: compact,
       children: children,
     );
   }

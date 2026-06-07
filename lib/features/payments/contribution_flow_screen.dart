@@ -49,7 +49,7 @@ class _ContributionFlowScreenState
             icon: CollectIcons.momo,
             title: 'Link your MoMo number first.',
             message:
-                'Collect needs your profile MoMo number before creating a payment intent for this group.',
+                'Collect needs your profile MoMo number before starting a group payment.',
             tone: CollectStatusTone.warning,
             primaryAction: CollectButton(
               label: 'Link MoMo number',

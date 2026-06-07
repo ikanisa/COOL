@@ -67,8 +67,8 @@ void main() {
     expect(find.text('Intent'), findsNothing);
     expect(find.text('SMS verification'), findsOneWidget);
     expect(find.text('Recorded'), findsNothing);
-    expect(find.textContaining('receiver-side MoMo SMS'), findsOneWidget);
-    expect(find.textContaining('Do not paste SMS'), findsOneWidget);
+    expect(find.textContaining('receiver-side MoMo SMS'), findsNothing);
+    expect(find.textContaining('Do not paste SMS'), findsNothing);
     expect(find.textContaining('Code'), findsNothing);
   });
 
@@ -149,8 +149,8 @@ void main() {
     expect(find.text('Consent'), findsOneWidget);
     expect(find.text('Required'), findsOneWidget);
     expect(find.text('Sync'), findsOneWidget);
-    expect(find.textContaining('Raw SMS is never public'), findsOneWidget);
-    expect(find.textContaining('MoMo confirmation matching'), findsOneWidget);
+    expect(find.textContaining('Raw SMS is never public'), findsNothing);
+    expect(find.textContaining('MoMo confirmation matching'), findsNothing);
   });
 
   testWidgets('ledger row renders tabular transaction details', (tester) async {
@@ -168,7 +168,7 @@ void main() {
       ),
     );
 
-    expect(find.text('#038491'), findsOneWidget);
+    expect(find.text('038491'), findsOneWidget);
     expect(find.text('RWF 15,000'), findsOneWidget);
     expect(find.text('MTN-001'), findsOneWidget);
   });
@@ -389,11 +389,11 @@ void main() {
     expect(find.text('Group profile'), findsOneWidget);
     expect(
       find.text('Members see the group name and public link.'),
-      findsOneWidget,
+      findsNothing,
     );
     expect(find.text('Group name'), findsOneWidget);
     expect(find.text('Create failed'), findsOneWidget);
-    expect(find.text('Name required.'), findsOneWidget);
+    expect(find.text('Name required.'), findsNothing);
     expect(find.text('Create group'), findsOneWidget);
   });
 
@@ -424,7 +424,7 @@ void main() {
     expect(find.text('SMS matching'), findsOneWidget);
     expect(
       find.textContaining('without exposing raw SMS bodies'),
-      findsOneWidget,
+      findsNothing,
     );
   });
 

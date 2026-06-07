@@ -16,7 +16,7 @@ void main() {
   });
 
   test('activity labels use compact Collect IDs', () {
-    expect(compactCollectIdLabel('Collect ID 038491'), '#038491');
+    expect(compactCollectIdLabel('Collect ID 038491'), '038491');
     expect(compactCollectIdLabel('Collect member'), 'Collect member');
   });
 
@@ -43,9 +43,10 @@ void main() {
     );
 
     expect(find.text('Medical support'), findsWidgets);
-    expect(find.text('Members'), findsOneWidget);
+    expect(find.text('Members'), findsNothing);
+    expect(find.byIcon(CollectIcons.people), findsOneWidget);
     expect(find.text('3'), findsOneWidget);
-    expect(find.text('Help'), findsOneWidget);
+    expect(find.text('Help'), findsNothing);
     expect(find.text('Auto'), findsNothing);
   });
 
@@ -81,8 +82,78 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('RWF 12,500,000'), findsOneWidget);
-    expect(find.text('Members'), findsOneWidget);
+    expect(find.text('Members'), findsNothing);
+    expect(find.byIcon(CollectIcons.people), findsOneWidget);
     expect(find.text('128'), findsOneWidget);
+  });
+
+  testWidgets('public discovery group card uses public icon, not lock', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light(),
+        home: Scaffold(
+          body: SizedBox(
+            width: 284,
+            height: 224,
+            child: GroupCard(
+              collection: CollectCollection(
+                id: 'public-card',
+                slug: 'public-card',
+                creatorUserId: 'u1',
+                title: 'Public building fund',
+                description: 'Public group',
+                createdAt: DateTime(2026),
+              ),
+              summary: const CollectionSummary(
+                amountRaisedRwf: 35000,
+                supporterCount: 2,
+              ),
+              variant: GroupCardVariant.publicDiscovery,
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(find.byIcon(Icons.public_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.lock_rounded), findsNothing);
+    expect(find.text('Total collected'), findsNothing);
+    expect(find.text('RWF 35,000'), findsOneWidget);
+    expect(find.text('Members'), findsNothing);
+  });
+
+  testWidgets('owned group card uses protected shield, not lock', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light(),
+        home: Scaffold(
+          body: SizedBox(
+            width: 320,
+            child: GroupCard(
+              collection: CollectCollection(
+                id: 'owned-card',
+                slug: 'owned-card',
+                creatorUserId: 'u1',
+                title: 'Owned building fund',
+                description: 'Receiver protected',
+                createdAt: DateTime(2026),
+              ),
+              summary: const CollectionSummary(
+                amountRaisedRwf: 35000,
+                supporterCount: 2,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(find.byIcon(Icons.verified_user_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.lock_rounded), findsNothing);
   });
 
   test('Collect date formatter keeps activity timestamps compact', () {
@@ -115,7 +186,7 @@ void main() {
     expect(find.text('Payment'), findsWidgets);
     await tester.drag(find.byType(ListView).last, const Offset(0, -500));
     await tester.pump();
-    expect(find.text('View pending details'), findsOneWidget);
+    expect(find.text('Status'), findsOneWidget);
     expect(
       find.textContaining(HashUtils.phoneHash('+250788123456')),
       findsNothing,

@@ -9,8 +9,9 @@ import '../features/collections/collection_create_screen.dart';
 import '../features/collections/collection_detail_screen.dart';
 import '../features/collections/collection_manage_screen.dart';
 import '../features/collections/collections_screen.dart';
+import '../features/collections/group_profile_screen.dart';
 import '../features/collections/group_link_screen.dart';
-import '../features/collections/invite_screen.dart';
+import '../features/collections/group_qr_scanner_screen.dart';
 import '../features/collections/share_screen.dart';
 import '../features/dev/design_system_catalog_screen.dart';
 import '../features/home/home_screen.dart';
@@ -40,21 +41,19 @@ const collectRoutePaths = <String>[
   '/platform/iphone-create-unavailable',
   '/groups',
   '/groups/join',
+  '/groups/scan',
   '/groups/create',
   '/groups/:collectionId',
   '/groups/:collectionId/created',
   '/groups/:collectionId/joined',
   '/groups/:collectionId/members',
-  '/groups/:collectionId/owner',
-  '/groups/:collectionId/owner/sms-health',
-  '/groups/:collectionId/owner/receiver',
   '/groups/:collectionId/manage',
+  '/groups/:collectionId/profile',
   '/groups/:collectionId/contribute',
   '/groups/:collectionId/pay/:intentId/waiting',
   '/groups/:collectionId/pay/:intentId/state/:state',
   '/groups/:collectionId/pay/:intentId',
   '/groups/:collectionId/share',
-  '/groups/:collectionId/invite',
   '/groups/:collectionId/ledger',
   '/c/:slug',
   '/share/invalid',
@@ -68,7 +67,6 @@ const collectRoutePaths = <String>[
   '/settings/help',
   '/settings/legal/terms',
   '/settings/legal/privacy',
-  '/share/confirmed',
   if (kDebugMode) '/dev/design-system',
 ];
 
@@ -139,7 +137,11 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
             routes: [
               GoRoute(
                 path: 'join',
-                builder: (context, state) => const JoinGroupPortalScreen(),
+                redirect: (context, state) => '/groups/scan',
+              ),
+              GoRoute(
+                path: 'scan',
+                builder: (context, state) => const GroupQrScannerScreen(),
               ),
               GoRoute(
                 path: 'create',
@@ -171,29 +173,29 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
                   ),
                   GoRoute(
                     path: 'owner',
-                    builder: (context, state) => GroupOwnerDashboardScreen(
-                      collectionId: state.pathParameters['collectionId']!,
-                    ),
+                    redirect: (context, state) =>
+                        '/groups/${state.pathParameters['collectionId']}/manage',
                     routes: [
                       GoRoute(
                         path: 'sms-health',
-                        builder: (context, state) => OwnerSmsHealthScreen(
-                          collectionId: state.pathParameters['collectionId']!,
-                        ),
+                        redirect: (context, state) => '/permissions/device',
                       ),
                       GoRoute(
                         path: 'receiver',
-                        builder: (context, state) =>
-                            OwnerReceiverManagementScreen(
-                              collectionId:
-                                  state.pathParameters['collectionId']!,
-                            ),
+                        redirect: (context, state) =>
+                            '/groups/${state.pathParameters['collectionId']}/profile',
                       ),
                     ],
                   ),
                   GoRoute(
                     path: 'manage',
                     builder: (context, state) => CollectionManageScreen(
+                      collectionId: state.pathParameters['collectionId']!,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'profile',
+                    builder: (context, state) => GroupProfileScreen(
                       collectionId: state.pathParameters['collectionId']!,
                     ),
                   ),
@@ -240,9 +242,8 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
                   ),
                   GoRoute(
                     path: 'invite',
-                    builder: (context, state) => InviteScreen(
-                      collectionId: state.pathParameters['collectionId']!,
-                    ),
+                    redirect: (context, state) =>
+                        '/groups/${state.pathParameters['collectionId']}',
                   ),
                   GoRoute(
                     path: 'ledger',
@@ -307,9 +308,7 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
           ),
           GoRoute(
             path: '/share/confirmed',
-            builder: (context, state) => ShareConfirmationScreen(
-              message: state.uri.queryParameters['message'] ?? 'Link copied.',
-            ),
+            redirect: (context, state) => '/home',
           ),
           if (kDebugMode)
             GoRoute(
@@ -344,7 +343,7 @@ class _RouteNotFoundScreen extends StatelessWidget {
           icon: CollectIcons.warning,
           title: 'This screen is unavailable.',
           message:
-              'Return to verified groups or the home overview without exposing receiver MoMo details.',
+              'Return to verified groups or the home overview without exposing receiver information.',
           tone: CollectStatusTone.warning,
         ),
         CollectButton(

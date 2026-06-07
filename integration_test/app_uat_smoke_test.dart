@@ -147,11 +147,12 @@ void main() {
       await pumpLaunchFrames(tester);
 
       expect(find.text('Share'), findsWidgets);
-      expect(find.text('SMS'), findsWidgets);
-      expect(find.text('WhatsApp'), findsWidgets);
-      expect(find.text('Copy deep link'), findsWidgets);
+      expect(find.text('St Michel building fund'), findsOneWidget);
+      expect(find.text('SMS'), findsNothing);
+      expect(find.text('WhatsApp'), findsNothing);
+      expect(find.text('Copy deep link'), findsNothing);
       expect(find.byType(TextField), findsNothing);
-      expect(find.textContaining('/c/'), findsWidgets);
+      expect(find.textContaining('/c/'), findsNothing);
       expectNoGlobalSecrets();
     },
     timeout: const Timeout(Duration(minutes: 3)),

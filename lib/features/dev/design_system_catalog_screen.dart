@@ -21,7 +21,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
       id: 'demo-contribution',
       collectionId: 'demo',
       amountRwf: 25000,
-      supporterLabel: '#038491',
+      supporterLabel: '038491',
       createdAt: now,
       transactionId: 'MTN12345',
     );
@@ -160,7 +160,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
         ),
         LedgerRow.confirmed(contribution: contribution),
         const ActivityFeedItem(
-          title: '#038491',
+          title: '038491',
           amount: 25000,
           meta: '2026-05-23 10:30:00',
           transactionId: 'MTN12345',

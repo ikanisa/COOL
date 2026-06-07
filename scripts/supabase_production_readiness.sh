@@ -387,6 +387,7 @@ check_sql_privileges() {
         ('authenticated', 'list_collection_collect_ids', 'EXECUTE'),
         ('authenticated', 'record_sms_access_consent', 'EXECUTE'),
         ('authenticated', 'request_account_deletion', 'EXECUTE'),
+        ('authenticated', 'update_collection_profile', 'EXECUTE'),
         ('authenticated', 'update_collection_receiver', 'EXECUTE'),
         ('authenticated', 'user_can_ingest_receiver_sms', 'EXECUTE'),
         ('authenticated', 'user_can_read_collection', 'EXECUTE'),

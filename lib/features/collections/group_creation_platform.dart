@@ -5,7 +5,11 @@ import 'package:go_router/go_router.dart';
 import '../../shared/widgets/collect_components.dart';
 
 bool canCreateGroupsOnThisPlatform() {
-  return !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+  return kIsWeb || defaultTargetPlatform == TargetPlatform.android;
+}
+
+bool shouldShowGroupCreationEntryOnThisPlatform() {
+  return kIsWeb || defaultTargetPlatform == TargetPlatform.android;
 }
 
 Future<void> openGroupCreation(BuildContext context) {
@@ -29,7 +33,7 @@ Future<void> showAndroidGroupCreationOnlyDialog(BuildContext context) {
         children: [
           const InfoSecurityBanner(
             title: 'Join options',
-            message: 'group creation is available only on Android',
+            message: 'Group creation is available only on Android',
             tone: CollectStatusTone.info,
           ),
           CollectSpacing.gap16,
@@ -38,14 +42,14 @@ Future<void> showAndroidGroupCreationOnlyDialog(BuildContext context) {
             icon: CollectIcons.qr,
             onPressed: () {
               Navigator.of(context).pop();
-              context.go('/groups');
+              context.go('/groups/scan');
             },
             expand: true,
           ),
           CollectSpacing.gap12,
           CollectButton(
-            label: 'Join with link',
-            icon: CollectIcons.arrowForward,
+            label: 'Groups',
+            icon: CollectIcons.collections,
             onPressed: () {
               Navigator.of(context).pop();
               context.go('/groups');

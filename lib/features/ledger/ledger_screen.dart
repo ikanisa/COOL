@@ -21,6 +21,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
   final _search = TextEditingController();
   String _query = '';
   _LedgerFilter _filter = _LedgerFilter.all;
+  _LedgerSort _sort = _LedgerSort.newest;
 
   @override
   void dispose() {
@@ -58,7 +59,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
       if (query.isEmpty) return true;
       return item.supporterLabel.toLowerCase().contains(query) ||
           (item.transactionId ?? '').toLowerCase().contains(query);
-    }).toList();
+    }).toList()..sort((a, b) => _compareContributions(a, b, _sort));
     final visiblePending =
         pendingIntents.where((item) {
           final query = _query.trim().toLowerCase();
@@ -102,13 +103,15 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
           label: 'Search Collect ID or transaction',
           onChanged: (value) => setState(() => _query = value),
         ),
-        PremiumSegmentedFilter<_LedgerFilter>(
-          values: _LedgerFilter.values,
+        _LedgerFilterRail(
           selected: _filter,
-          labelFor: _ledgerFilterLabel,
           onChanged: (filter) => setState(() => _filter = filter),
         ),
-        const SectionHeader(title: 'Activity'),
+        SectionHeader(
+          title: 'Activity',
+          actionLabel: _ledgerSortLabel(_sort),
+          onAction: _showSortSheet,
+        ),
         if (!hasAnyLedgerActivity)
           EmptyIllustrationState(
             icon: CollectIcons.ledger,
@@ -141,9 +144,8 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
                   FinancialListRow(
                     title: paymentStatusLabel(intent.status),
                     amountRwf: intent.expectedAmountRwf,
-                    meta: 'Intent ${intent.id}',
+                    meta: 'Awaiting MoMo confirmation',
                     subtitle: intent.receiverLabel,
-                    transactionId: intent.id,
                     leading: CollectIcons.pending,
                     tone: paymentStatusTone(intent.status),
                   ),
@@ -161,9 +163,120 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
       ],
     );
   }
+
+  void _showSortSheet() {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return CollectBottomSheet(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Sort activity',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              CollectSpacing.gap12,
+              for (final sort in _LedgerSort.values)
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Icon(
+                    _sort == sort ? CollectIcons.check : CollectIcons.filter,
+                  ),
+                  title: Text(_ledgerSortLabel(sort)),
+                  onTap: () {
+                    setState(() => _sort = sort);
+                    Navigator.of(context).pop();
+                  },
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _LedgerFilterRail extends StatelessWidget {
+  const _LedgerFilterRail({required this.selected, required this.onChanged});
+
+  final _LedgerFilter selected;
+  final ValueChanged<_LedgerFilter> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 44,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        clipBehavior: Clip.none,
+        itemCount: _LedgerFilter.values.length,
+        separatorBuilder: (_, _) => CollectSpacing.gapW8,
+        itemBuilder: (context, index) {
+          final filter = _LedgerFilter.values[index];
+          return _LedgerFilterChip(
+            label: _ledgerFilterLabel(filter),
+            selected: selected == filter,
+            onTap: () => onChanged(filter),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _LedgerFilterChip extends StatelessWidget {
+  const _LedgerFilterChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: label,
+      child: Material(
+        color: selected ? colors.actionCrimson : colors.surfaceRaised,
+        borderRadius: CollectRadius.pillBorder,
+        child: InkWell(
+          borderRadius: CollectRadius.pillBorder,
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: CollectSpacing.x4,
+              vertical: CollectSpacing.x2,
+            ),
+            child: Center(
+              child: Text(
+                label,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: selected ? Colors.white : colors.textPrimary,
+                  fontWeight: FontWeight.w900,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 enum _LedgerFilter { all, confirmed, pending, review, mine }
+
+enum _LedgerSort { newest, oldest, highest, lowest }
 
 bool _isPendingStatus(String status) => status == 'pending';
 
@@ -187,6 +300,28 @@ String _ledgerFilterLabel(_LedgerFilter filter) {
   };
 }
 
+String _ledgerSortLabel(_LedgerSort sort) {
+  return switch (sort) {
+    _LedgerSort.newest => 'Newest',
+    _LedgerSort.oldest => 'Oldest',
+    _LedgerSort.highest => 'Highest',
+    _LedgerSort.lowest => 'Lowest',
+  };
+}
+
+int _compareContributions(
+  Contribution left,
+  Contribution right,
+  _LedgerSort sort,
+) {
+  return switch (sort) {
+    _LedgerSort.newest => right.createdAt.compareTo(left.createdAt),
+    _LedgerSort.oldest => left.createdAt.compareTo(right.createdAt),
+    _LedgerSort.highest => right.amountRwf.compareTo(left.amountRwf),
+    _LedgerSort.lowest => left.amountRwf.compareTo(right.amountRwf),
+  };
+}
+
 String _emptyTitleForFilter(_LedgerFilter filter) {
   return switch (filter) {
     _LedgerFilter.pending => 'No pending payments',
@@ -199,7 +334,7 @@ String _emptyTitleForFilter(_LedgerFilter filter) {
 String _emptyMessageForFilter(_LedgerFilter filter) {
   return switch (filter) {
     _LedgerFilter.pending =>
-      'Payment intents waiting for MoMo SMS verification will appear here.',
+      'Payments waiting for MoMo SMS verification will appear here.',
     _LedgerFilter.review =>
       'Payments that need support review will appear here without exposing public raw SMS details.',
     _LedgerFilter.mine =>

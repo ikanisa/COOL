@@ -45,6 +45,10 @@ class CollectCollection {
     required this.description,
     this.receiverMomoNumber,
     this.receiverDisplayLabel = 'Primary MoMo receiver',
+    this.imageUrl,
+    this.accentColorHex,
+    this.isPublic = false,
+    this.recurringCadence = 'monthly',
     required this.createdAt,
   });
 
@@ -55,6 +59,10 @@ class CollectCollection {
   final String description;
   final String? receiverMomoNumber;
   final String receiverDisplayLabel;
+  final String? imageUrl;
+  final String? accentColorHex;
+  final bool isPublic;
+  final String recurringCadence;
   final DateTime createdAt;
 
   factory CollectCollection.fromJson(Map<String, dynamic> json) {
@@ -76,25 +84,62 @@ class CollectCollection {
           (receiver?['label'] as String?) ??
           (json['receiver_display_label'] as String?) ??
           'Primary MoMo receiver',
+      imageUrl:
+          (json['image_url'] as String?) ??
+          (json['cover_image_url'] as String?) ??
+          (json['photo_url'] as String?),
+      accentColorHex:
+          (json['accent_color_hex'] as String?) ??
+          (json['card_color_hex'] as String?) ??
+          (json['color_hex'] as String?),
+      isPublic: _collectionIsPublic(json),
+      recurringCadence:
+          (json['recurring_cadence'] as String?) ??
+          (json['contribution_frequency'] as String?) ??
+          (json['frequency'] as String?) ??
+          'monthly',
       createdAt: _dateTime(json['created_at']),
     );
   }
 
   CollectCollection copyWith({
+    String? title,
+    String? description,
     String? receiverMomoNumber,
     String? receiverDisplayLabel,
+    String? imageUrl,
+    String? accentColorHex,
+    bool? isPublic,
+    String? recurringCadence,
   }) {
     return CollectCollection(
       id: id,
       slug: slug,
       creatorUserId: creatorUserId,
-      title: title,
-      description: description,
+      title: title ?? this.title,
+      description: description ?? this.description,
       receiverMomoNumber: receiverMomoNumber ?? this.receiverMomoNumber,
       receiverDisplayLabel: receiverDisplayLabel ?? this.receiverDisplayLabel,
+      imageUrl: imageUrl ?? this.imageUrl,
+      accentColorHex: accentColorHex ?? this.accentColorHex,
+      isPublic: isPublic ?? this.isPublic,
+      recurringCadence: recurringCadence ?? this.recurringCadence,
       createdAt: createdAt,
     );
   }
+}
+
+bool _collectionIsPublic(Map<String, dynamic> json) {
+  final explicit =
+      json['is_public'] ??
+      json['public'] ??
+      json['is_publicly_visible'] ??
+      json['listed_publicly'];
+  if (explicit is bool) return explicit;
+  final visibility = (json['public_status'] ?? json['visibility'])
+      ?.toString()
+      .toLowerCase();
+  return visibility == 'public' || visibility == 'public_approved';
 }
 
 @immutable
