@@ -200,9 +200,8 @@ void main() {
     await pumpMainAppAt(tester, '/groups/col-church/share');
 
     expect(find.text('St Michel building fund'), findsOneWidget);
-    expect(find.text('Total collected'), findsWidgets);
-    expect(find.text('Share'), findsNothing);
-    expect(find.text('Save'), findsNothing);
+    expect(find.text('Share'), findsWidgets);
+    expect(find.text('Save'), findsWidgets);
     expect(find.text('Group sharing'), findsNothing);
     expect(find.text('Private receiver'), findsNothing);
     expect(
@@ -215,9 +214,10 @@ void main() {
     router.go('/groups/col-church/invite');
     await pumpLaunchFrames(tester);
 
-    expect(find.text('Share'), findsWidgets);
-    expect(find.text('Save'), findsWidgets);
     expect(find.text('St Michel building fund'), findsOneWidget);
+    expect(find.text('Total Collected'), findsWidgets);
+    expect(find.text('Share'), findsNothing);
+    expect(find.text('Save'), findsNothing);
     expect(find.text('SMS'), findsNothing);
     expect(find.text('WhatsApp'), findsNothing);
     expect(find.text('Copy deep link'), findsNothing);
