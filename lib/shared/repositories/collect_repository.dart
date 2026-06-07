@@ -354,6 +354,115 @@ class CollectRepository extends StateNotifier<CollectState> {
     }
   }
 
+  Future<void> createPaymentSupportReview({
+    required String collectionId,
+    required String intentId,
+    required String issueType,
+    required String note,
+  }) {
+    final collection = collectionById(collectionId);
+    PaymentIntentModel? intent;
+    try {
+      intent = intentById(intentId);
+    } catch (_) {
+      intent = null;
+    }
+    return createSupportRequest(
+      subject: 'Payment review: $issueType',
+      message: [
+        'Group: ${collection.title}',
+        'Intent: ${intent?.id ?? intentId}',
+        if (intent != null) 'Amount: ${intent.expectedAmountRwf}',
+        if (intent != null) 'Status: ${intent.status}',
+        'Note: ${note.trim()}',
+      ].join('\n'),
+    );
+  }
+
+  Future<void> requestFreshGroupLink({
+    required String slug,
+    required String reason,
+  }) async {
+    final supabase = _supabase;
+    if (state.currentProfile == null &&
+        (supabase == null || supabase.auth.currentUser == null)) {
+      return;
+    }
+    return createSupportRequest(
+      subject: 'Fresh group link requested',
+      message: 'Slug: ${slug.trim()}\nReason: ${reason.trim()}',
+    );
+  }
+
+  Future<void> leaveGroup({required String collectionId}) async {
+    _requireProfile();
+    final supabase = _supabase;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      await createSupportRequest(
+        subject: 'Leave group requested',
+        message: 'Collection: $collectionId',
+      );
+      return;
+    }
+    state = state.copyWith(
+      collections: [
+        for (final collection in state.collections)
+          if (collection.id != collectionId) collection,
+      ],
+    );
+  }
+
+  Future<void> closeGroup({
+    required String collectionId,
+    required String reason,
+  }) async {
+    _requireOwner(collectionId);
+    final supabase = _supabase;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      await createSupportRequest(
+        subject: 'Close group requested',
+        message: 'Collection: $collectionId\nReason: ${reason.trim()}',
+      );
+      return;
+    }
+    state = state.copyWith(
+      collections: [
+        for (final collection in state.collections)
+          if (collection.id != collectionId) collection,
+      ],
+    );
+  }
+
+  Future<void> transferGroupOwner({
+    required String collectionId,
+    required String newOwnerCollectId,
+  }) async {
+    _requireOwner(collectionId);
+    if (newOwnerCollectId.trim().isEmpty) {
+      throw const FormatException('Enter the new owner Collect ID.');
+    }
+    await createSupportRequest(
+      subject: 'Transfer group owner requested',
+      message:
+          'Collection: $collectionId\nNew owner Collect ID: ${newOwnerCollectId.trim()}',
+    );
+  }
+
+  Future<void> removeGroupMember({
+    required String collectionId,
+    required String memberCollectId,
+  }) async {
+    _requireOwner(collectionId);
+    if (memberCollectId.trim().isEmpty) {
+      throw const FormatException('Enter a member Collect ID.');
+    }
+    await createSupportRequest(
+      subject: 'Remove group member requested',
+      message:
+          'Collection: $collectionId\nMember Collect ID: ${memberCollectId.trim()}',
+    );
+  }
+
   Future<CollectCollection> createCollection({
     required String title,
     required String description,
@@ -778,6 +887,14 @@ class CollectRepository extends StateNotifier<CollectState> {
     final profile = state.currentProfile;
     if (profile == null) throw StateError('Sign in first');
     return profile;
+  }
+
+  void _requireOwner(String collectionId) {
+    final profile = _requireProfile();
+    final collection = collectionById(collectionId);
+    if (collection.creatorUserId != profile.id) {
+      throw StateError('Only the group owner can do this.');
+    }
   }
 
   Future<CollectProfile?> _fetchProfile(String userId) async {

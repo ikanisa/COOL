@@ -115,11 +115,42 @@ class CollectionManageScreen extends ConsumerWidget {
                 subtitle: '${summary.supporterCount} active.',
                 onTap: () => context.go('/groups/$collectionId/members'),
               ),
+              CollectListTile(
+                leading: CollectIcons.profile,
+                title: 'Transfer owner',
+                subtitle: 'Submit a support-reviewed owner handoff.',
+                onTap: () => context.go('/groups/$collectionId/transfer-owner'),
+              ),
+              CollectListTile(
+                leading: CollectIcons.people,
+                title: 'Remove member',
+                subtitle: 'Use Collect ID only.',
+                onTap: () => context.go('/groups/$collectionId/remove-member'),
+              ),
               const CollectListTile(
                 leading: CollectIcons.support,
                 title: 'Support',
                 subtitle: 'Receiver changes, closure, or review.',
                 onTap: openCollectWhatsAppSupport,
+              ),
+            ],
+          ),
+        ),
+        CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          child: Column(
+            children: [
+              CollectListTile(
+                leading: CollectIcons.error,
+                title: 'Close group',
+                subtitle: 'Auditable owner request.',
+                onTap: () => context.go('/groups/$collectionId/close'),
+              ),
+              CollectListTile(
+                leading: CollectIcons.chevron,
+                title: 'Leave group',
+                subtitle: 'Remove this group from this device.',
+                onTap: () => context.go('/groups/$collectionId/leave'),
               ),
             ],
           ),

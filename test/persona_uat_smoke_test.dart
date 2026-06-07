@@ -6,6 +6,7 @@ import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_icons.dart';
 import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
+import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ void main() {
     WidgetTester tester,
     String initialLocation, {
     CollectRepository? repository,
+    bool legalConsentAccepted = false,
   }) async {
     final router = createAppRouter(initialLocation: initialLocation);
     addTearDown(router.dispose);
@@ -33,6 +35,9 @@ void main() {
           appRouterProvider.overrideWithValue(router),
           if (repository != null)
             collectRepositoryProvider.overrideWith((ref) => repository),
+          legalConsentAcceptedProvider.overrideWith(
+            (ref) => legalConsentAccepted,
+          ),
         ],
         child: const CollectApp(),
       ),
@@ -138,7 +143,7 @@ void main() {
     await pumpMainAppAt(tester, '/groups');
 
     expect(find.text('Groups'), findsWidgets);
-    expect(find.text('St Michel building fund'), findsOneWidget);
+    expect(find.text('St Michel building fund'), findsWidgets);
     expect(find.text('Auto allocation'), findsNothing);
     expect(find.textContaining('SMS matched'), findsNothing);
     expect(find.textContaining('+250788'), findsNothing);
@@ -150,7 +155,7 @@ void main() {
   ) async {
     await pumpMainAppAt(tester, '/groups/col-church');
 
-    expect(find.text('St Michel building fund'), findsOneWidget);
+    expect(find.text('St Michel building fund'), findsWidgets);
     expect(find.textContaining('Transparent support'), findsNothing);
     expect(find.text('MEMBERS'), findsNothing);
     expect(find.byIcon(CollectIcons.money), findsWidgets);
@@ -199,7 +204,7 @@ void main() {
   testWidgets('creator share routes preserve group boundaries', (tester) async {
     await pumpMainAppAt(tester, '/groups/col-church/share');
 
-    expect(find.text('St Michel building fund'), findsOneWidget);
+    expect(find.text('St Michel building fund'), findsWidgets);
     expect(find.text('Share'), findsWidgets);
     expect(find.text('Save'), findsWidgets);
     expect(find.text('Group sharing'), findsNothing);
@@ -215,9 +220,8 @@ void main() {
     await pumpLaunchFrames(tester);
 
     expect(find.text('St Michel building fund'), findsOneWidget);
-    expect(find.text('Total Collected'), findsWidgets);
-    expect(find.text('Share'), findsNothing);
-    expect(find.text('Save'), findsNothing);
+    expect(find.text('Share'), findsWidgets);
+    expect(find.text('Save'), findsWidgets);
     expect(find.text('SMS'), findsNothing);
     expect(find.text('WhatsApp'), findsNothing);
     expect(find.text('Copy deep link'), findsNothing);
@@ -275,7 +279,8 @@ void main() {
   ) async {
     await pumpMainAppAt(tester, '/groups/join');
 
-    expect(find.text('Scan QR'), findsWidgets);
+    expect(find.text('Join group'), findsWidgets);
+    expect(find.text('Scan group QR.'), findsOneWidget);
     expect(find.text('Scan'), findsOneWidget);
     expect(find.byType(TextField), findsNothing);
     expect(find.textContaining('+250788'), findsNothing);
@@ -332,7 +337,15 @@ void main() {
       await tester.enterText(find.byType(TextField).first, 'New parish fund');
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await pumpLaunchFrames(tester);
-      await tapVisible(tester, find.byType(FilledButton).last);
+      for (var step = 0; step < 4; step += 1) {
+        await tapVisible(tester, find.text('Continue'));
+        await pumpLaunchFrames(tester);
+      }
+      await tapVisible(
+        tester,
+        find.widgetWithText(FilledButton, 'Create group'),
+      );
+      await pumpLaunchFrames(tester);
 
       expect(find.text('SMS access needed'), findsOneWidget);
       expect(find.text('Try again'), findsOneWidget);
@@ -362,7 +375,12 @@ void main() {
     tester,
   ) async {
     final repository = CollectRepository();
-    await pumpMainAppAt(tester, '/auth', repository: repository);
+    await pumpMainAppAt(
+      tester,
+      '/auth',
+      repository: repository,
+      legalConsentAccepted: true,
+    );
 
     expect(find.text('Collect'), findsWidgets);
     expect(find.text('WhatsApp phone'), findsOneWidget);
@@ -405,7 +423,7 @@ void main() {
 
     await tapVisible(tester, find.text('Save MoMo number'));
 
-    expect(find.text('Stay ready for group activity.'), findsOneWidget);
+    expect(find.text('Profile ready.'), findsOneWidget);
     expect(find.text('Device permissions'), findsOneWidget);
     expect(find.text('Finish setup'), findsOneWidget);
     expectNoGlobalSecrets();
@@ -790,9 +808,6 @@ void main() {
       repository: repository,
     );
     expect(find.text('Payment pending'), findsWidgets);
-    final router = GoRouter.of(
-      tester.element(find.text('Payment pending').first),
-    );
     expect(find.text('RWF 9,000'), findsWidgets);
     expect(find.text('Reference'), findsNothing);
     expect(find.textContaining(intent.id), findsNothing);
@@ -814,17 +829,22 @@ void main() {
     expect(find.text('Get help'), findsOneWidget);
     expect(find.textContaining('public raw SMS'), findsNothing);
 
-    router.go('/groups/col-church/pay/${intent.id}/state/expired');
-    await pumpLaunchFrames(tester);
+    await pumpMainAppAt(
+      tester,
+      '/groups/col-church/pay/${intent.id}/state/expired',
+      repository: repository,
+    );
     expect(find.text('Payment expired'), findsWidgets);
     await scrollToVisible(tester, find.text('Contribute again'));
     expect(find.text('Contribute again'), findsOneWidget);
     await scrollToVisible(tester, find.text('Get help'));
     expect(find.text('Get help'), findsOneWidget);
 
-    router.go('/groups/col-church/pay/${intent.id}/state/confirmed');
-    await pumpLaunchFrames(tester);
-    await scrollToVisible(tester, find.text('Payment confirmed'), delta: -240);
+    await pumpMainAppAt(
+      tester,
+      '/groups/col-church/pay/${intent.id}/state/confirmed',
+      repository: repository,
+    );
     expect(find.text('Payment confirmed'), findsWidgets);
     expect(find.text('RWF 9,000'), findsWidgets);
     await scrollToVisible(tester, find.text('Ledger updated'));

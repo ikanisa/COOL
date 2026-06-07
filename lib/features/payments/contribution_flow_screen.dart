@@ -40,6 +40,7 @@ class _ContributionFlowScreenState
         .collectionById(widget.collectionId);
     final profile = ref.watch(collectRepositoryProvider).currentProfile;
     final amount = int.tryParse(_amount.text) ?? 0;
+    final activeIntent = _activePendingIntent();
     if (profile == null || profile.momoNumber?.trim().isNotEmpty != true) {
       return ScreenScaffold(
         title: 'Profile required',
@@ -82,8 +83,27 @@ class _ContributionFlowScreenState
                   variant: CollectButtonVariant.secondary,
                   expand: true,
                 ),
+                CollectButton(
+                  label: 'Cancel',
+                  icon: CollectIcons.chevron,
+                  onPressed: _creating
+                      ? null
+                      : () => context.go('/groups/${widget.collectionId}'),
+                  variant: CollectButtonVariant.subtle,
+                  expand: true,
+                ),
               ]
             : [
+                if (activeIntent != null)
+                  CollectButton(
+                    label: 'View pending payment',
+                    icon: CollectIcons.pending,
+                    onPressed: () => context.go(
+                      '/groups/${widget.collectionId}/pay/${activeIntent.id}/waiting',
+                    ),
+                    variant: CollectButtonVariant.secondary,
+                    expand: true,
+                  ),
                 CollectButton(
                   label: 'Review contribution',
                   icon: CollectIcons.arrowForward,
@@ -103,6 +123,13 @@ class _ContributionFlowScreenState
       ),
       children: [
         if (!_reviewing) ...[
+          if (activeIntent != null)
+            const InfoSecurityBanner(
+              title: 'Pending payment',
+              message:
+                  'A MoMo payment is already waiting for SMS verification. Open it before starting another payment.',
+              tone: CollectStatusTone.warning,
+            ),
           AmountEntryPanel(
             controller: _amount,
             amount: amount,
@@ -138,6 +165,14 @@ class _ContributionFlowScreenState
     }
     setState(() => _creating = true);
     try {
+      final activeIntent = _activePendingIntent(amountRwf: amount);
+      if (activeIntent != null) {
+        if (!mounted) return;
+        context.go(
+          '/groups/${widget.collectionId}/pay/${activeIntent.id}/waiting',
+        );
+        return;
+      }
       final intent = await ref
           .read(collectRepositoryProvider.notifier)
           .createPaymentIntent(
@@ -166,6 +201,17 @@ class _ContributionFlowScreenState
       // Web and some desktops cannot handle tel: links; the waiting screen
       // still gives the user a recoverable payment state.
     }
+  }
+
+  PaymentIntentModel? _activePendingIntent({int? amountRwf}) {
+    for (final intent in ref.read(collectRepositoryProvider).paymentIntents) {
+      if (intent.collectionId != widget.collectionId) continue;
+      if (intent.status != 'pending') continue;
+      if (DateTime.now().isAfter(intent.expiresAt)) continue;
+      if (amountRwf != null && intent.expectedAmountRwf != amountRwf) continue;
+      return intent;
+    }
+    return null;
   }
 }
 

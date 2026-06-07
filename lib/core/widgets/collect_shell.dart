@@ -50,7 +50,7 @@ class CollectShell extends StatelessWidget {
   static const _paths = <String>['/home', '/groups', '/settings'];
 
   bool _isStandalone(String path) {
-    return path == '/onboarding' ||
+    return path.startsWith('/onboarding') ||
         path == '/auth' ||
         path.startsWith('/auth/');
   }

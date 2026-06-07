@@ -31,6 +31,7 @@ const collectRoutePaths = <String>[
   '/auth/success',
   '/auth/failure',
   '/onboarding',
+  '/onboarding/legal',
   '/home',
   '/offline',
   '/sync',
@@ -38,6 +39,8 @@ const collectRoutePaths = <String>[
   '/permissions/sms',
   '/permissions/sms-denied',
   '/permissions/device',
+  '/permissions/notifications-denied',
+  '/permissions/camera-denied',
   '/platform/iphone-create-unavailable',
   '/groups',
   '/groups/join',
@@ -49,15 +52,21 @@ const collectRoutePaths = <String>[
   '/groups/:collectionId/members',
   '/groups/:collectionId/manage',
   '/groups/:collectionId/profile',
+  '/groups/:collectionId/leave',
+  '/groups/:collectionId/close',
+  '/groups/:collectionId/transfer-owner',
+  '/groups/:collectionId/remove-member',
   '/groups/:collectionId/contribute',
   '/groups/:collectionId/pay/:intentId/waiting',
   '/groups/:collectionId/pay/:intentId/state/:state',
   '/groups/:collectionId/pay/:intentId',
+  '/groups/:collectionId/support/payment/:intentId',
   '/groups/:collectionId/share',
   '/groups/:collectionId/ledger',
   '/c/:slug',
   '/share/invalid',
   '/share/expired',
+  '/share/expired/request',
   '/settings',
   '/settings/profile',
   '/settings/readiness',
@@ -86,6 +95,10 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
           GoRoute(
             path: '/onboarding',
             builder: (context, state) => const OnboardingScreen(),
+          ),
+          GoRoute(
+            path: '/onboarding/legal',
+            builder: (context, state) => const LegalConsentScreen(),
           ),
           GoRoute(
             path: '/auth',
@@ -128,6 +141,16 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
             builder: (context, state) => const NotificationPermissionScreen(),
           ),
           GoRoute(
+            path: '/permissions/notifications-denied',
+            builder: (context, state) =>
+                const PermissionRecoveryScreen(kind: 'notifications'),
+          ),
+          GoRoute(
+            path: '/permissions/camera-denied',
+            builder: (context, state) =>
+                const PermissionRecoveryScreen(kind: 'camera'),
+          ),
+          GoRoute(
             path: '/platform/iphone-create-unavailable',
             builder: (context, state) => const IphoneCreateUnavailableScreen(),
           ),
@@ -137,7 +160,7 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
             routes: [
               GoRoute(
                 path: 'join',
-                redirect: (context, state) => '/groups/scan',
+                builder: (context, state) => const JoinGroupPortalScreen(),
               ),
               GoRoute(
                 path: 'scan',
@@ -200,6 +223,34 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
                     ),
                   ),
                   GoRoute(
+                    path: 'leave',
+                    builder: (context, state) => OwnerLifecycleActionScreen(
+                      collectionId: state.pathParameters['collectionId']!,
+                      action: OwnerLifecycleAction.leave,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'close',
+                    builder: (context, state) => OwnerLifecycleActionScreen(
+                      collectionId: state.pathParameters['collectionId']!,
+                      action: OwnerLifecycleAction.close,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'transfer-owner',
+                    builder: (context, state) => OwnerLifecycleActionScreen(
+                      collectionId: state.pathParameters['collectionId']!,
+                      action: OwnerLifecycleAction.transferOwner,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'remove-member',
+                    builder: (context, state) => OwnerLifecycleActionScreen(
+                      collectionId: state.pathParameters['collectionId']!,
+                      action: OwnerLifecycleAction.removeMember,
+                    ),
+                  ),
+                  GoRoute(
                     path: 'contribute',
                     builder: (context, state) => ContributionFlowScreen(
                       collectionId: state.pathParameters['collectionId']!,
@@ -235,6 +286,13 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
                     ),
                   ),
                   GoRoute(
+                    path: 'support/payment/:intentId',
+                    builder: (context, state) => PaymentSupportReviewScreen(
+                      collectionId: state.pathParameters['collectionId']!,
+                      intentId: state.pathParameters['intentId']!,
+                    ),
+                  ),
+                  GoRoute(
                     path: 'share',
                     builder: (context, state) => ShareScreen(
                       collectionId: state.pathParameters['collectionId']!,
@@ -243,7 +301,7 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
                   GoRoute(
                     path: 'invite',
                     redirect: (context, state) =>
-                        '/groups/${state.pathParameters['collectionId']}',
+                        '/groups/${state.pathParameters['collectionId']}/share',
                   ),
                   GoRoute(
                     path: 'ledger',
@@ -264,6 +322,12 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
             path: '/share/expired',
             builder: (context, state) =>
                 const SharedLinkProblemScreen(expired: true),
+          ),
+          GoRoute(
+            path: '/share/expired/request',
+            builder: (context, state) => FreshLinkRequestScreen(
+              slug: state.uri.queryParameters['slug'] ?? '',
+            ),
           ),
           GoRoute(
             path: '/c/:slug',

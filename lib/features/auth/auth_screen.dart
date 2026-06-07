@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +8,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../app/env/app_env.dart';
 import '../../core/security/phone_normalizer.dart';
 import '../../core/supabase/supabase_module.dart';
+import '../../shared/providers/collect_app_state.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
@@ -23,6 +26,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   final _captchaToken = TextEditingController();
   bool _otpSent = false;
   bool _submitting = false;
+  Timer? _resendTimer;
+  int _resendRemaining = 0;
   String? _error;
 
   @override
@@ -30,12 +35,14 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     _phone.dispose();
     _otp.dispose();
     _captchaToken.dispose();
+    _resendTimer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final env = ref.watch(appEnvProvider);
+    final legalAccepted = ref.watch(legalConsentAcceptedProvider);
     return ScreenScaffold(
       title: _otpSent ? 'Verify WhatsApp' : 'Collect',
       subtitle: _otpSent
@@ -50,9 +57,19 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 ? 'Verify and continue'
                 : 'Send WhatsApp code',
             icon: _otpSent ? CollectIcons.shield : CollectIcons.sms,
-            onPressed: _submitting ? null : () => _submit(env),
+            onPressed: _submitting || !legalAccepted
+                ? null
+                : () => _submit(env),
             expand: true,
           ),
+          if (!legalAccepted)
+            CollectButton(
+              label: 'Review terms',
+              icon: CollectIcons.info,
+              onPressed: () => context.go('/onboarding/legal'),
+              variant: CollectButtonVariant.secondary,
+              expand: true,
+            ),
           if (_otpSent)
             CollectButton(
               label: 'Use another number',
@@ -60,11 +77,25 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               onPressed: _submitting
                   ? null
                   : () => setState(() {
+                      _resendTimer?.cancel();
                       _otpSent = false;
                       _otp.clear();
+                      _resendRemaining = 0;
                       _error = null;
                     }),
               variant: CollectButtonVariant.secondary,
+              expand: true,
+            ),
+          if (_otpSent)
+            CollectButton(
+              label: _resendRemaining > 0
+                  ? 'Resend in ${_resendRemaining}s'
+                  : 'Resend WhatsApp code',
+              icon: CollectIcons.sync,
+              onPressed: _submitting || _resendRemaining > 0
+                  ? null
+                  : () => _resendCode(env),
+              variant: CollectButtonVariant.subtle,
               expand: true,
             ),
         ],
@@ -80,6 +111,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               : 'Collect links your WhatsApp sign-in to a private Collect ID for group contributions.',
           tone: CollectStatusTone.privacy,
         ),
+        if (!legalAccepted)
+          const InfoSecurityBanner(
+            title: 'Terms required',
+            message:
+                'Accept the Collect terms and privacy policy before WhatsApp sign-in.',
+            tone: CollectStatusTone.warning,
+          ),
         FormSectionCard(
           errorTitle: 'Authentication failed',
           errorMessage: _error,
@@ -95,7 +133,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             if (_otpSent) ...[
               OtpCodeField(controller: _otp),
               Text(
-                'You can request a fresh code after 45 seconds.',
+                _resendRemaining > 0
+                    ? 'You can request a fresh code in $_resendRemaining seconds.'
+                    : 'Request a fresh code if the latest WhatsApp message did not arrive.',
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
@@ -127,18 +167,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         throw const FormatException('Complete CAPTCHA verification first.');
       }
       if (!_otpSent) {
-        if (client != null) {
-          await client.auth.signInWithOtp(
-            phone: phone,
-            channel: OtpChannel.whatsapp,
-            captchaToken: captchaToken.isEmpty ? null : captchaToken,
-          );
-        }
+        await _sendOtp(client, phone, captchaToken);
         if (!mounted) return;
         setState(() {
           _otpSent = true;
           _submitting = false;
         });
+        _startResendCooldown();
         return;
       }
       if (client != null) {
@@ -162,5 +197,62 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         _submitting = false;
       });
     }
+  }
+
+  Future<void> _resendCode(AppEnv env) async {
+    setState(() {
+      _submitting = true;
+      _error = null;
+      _otp.clear();
+    });
+    try {
+      final phone = PhoneNormalizer.normalizeInternational(_phone.text);
+      final captchaToken = env.authCaptchaEnabled
+          ? _captchaToken.text.trim()
+          : '';
+      if (env.authCaptchaEnabled && captchaToken.isEmpty) {
+        throw const FormatException('Complete CAPTCHA verification first.');
+      }
+      await _sendOtp(ref.read(supabaseClientProvider), phone, captchaToken);
+      if (!mounted) return;
+      setState(() => _submitting = false);
+      _startResendCooldown();
+    } catch (error) {
+      if (!mounted) return;
+      setState(() {
+        _error = error.toString();
+        _submitting = false;
+      });
+    }
+  }
+
+  Future<void> _sendOtp(
+    SupabaseClient? client,
+    String phone,
+    String captchaToken,
+  ) async {
+    if (client == null) return;
+    await client.auth.signInWithOtp(
+      phone: phone,
+      channel: OtpChannel.whatsapp,
+      captchaToken: captchaToken.isEmpty ? null : captchaToken,
+    );
+  }
+
+  void _startResendCooldown() {
+    _resendTimer?.cancel();
+    setState(() => _resendRemaining = 45);
+    _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+      if (_resendRemaining <= 1) {
+        timer.cancel();
+        setState(() => _resendRemaining = 0);
+        return;
+      }
+      setState(() => _resendRemaining -= 1);
+    });
   }
 }

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../shared/repositories/collect_repository.dart';
+import '../../shared/providers/collect_app_state.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import 'group_link_screen.dart';
@@ -129,6 +130,8 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
       });
     } catch (error) {
       if (!mounted) return;
+      ref.read(cameraPermissionStatusProvider.notifier).state =
+          CollectDevicePermissionStatus.denied;
       setState(() {
         _starting = false;
         _scanning = false;
@@ -260,10 +263,24 @@ class _ScannerUnavailable extends StatelessWidget {
       child: Center(
         child: Padding(
           padding: const EdgeInsets.all(CollectSpacing.x4),
-          child: InfoSecurityBanner(
-            title: 'Camera unavailable',
-            message: error ?? 'Tap Scan to request camera access.',
-            tone: CollectStatusTone.warning,
+          child: CollectCard(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                InfoSecurityBanner(
+                  title: 'Camera unavailable',
+                  message: error ?? 'Tap Scan to request camera access.',
+                  tone: CollectStatusTone.warning,
+                ),
+                CollectSpacing.gap16,
+                CollectButton(
+                  label: 'Recover camera access',
+                  icon: CollectIcons.qr,
+                  onPressed: () => context.go('/permissions/camera-denied'),
+                  expand: true,
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -69,6 +69,17 @@ class _PaymentIntentStatusScreenState
             variant: CollectButtonVariant.secondary,
             expand: true,
           ),
+          if (uiStatus == PaymentUiStatus.expired ||
+              uiStatus == PaymentUiStatus.needsReview)
+            CollectButton(
+              label: 'Support review',
+              icon: CollectIcons.support,
+              onPressed: () => context.go(
+                '/groups/${widget.collectionId}/support/payment/${widget.intentId}',
+              ),
+              variant: CollectButtonVariant.subtle,
+              expand: true,
+            ),
         ],
       ),
       children: [
@@ -126,7 +137,7 @@ class _PaymentIntentStatusScreenState
               CollectListTile(
                 leading: CollectIcons.privacy,
                 title: 'Privacy',
-                subtitle: 'No PINs, OTPs, or raw SMS shown.',
+                subtitle: 'No private credentials or message bodies shown.',
               ),
             ],
           ),

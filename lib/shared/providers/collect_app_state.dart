@@ -6,7 +6,19 @@ import '../repositories/collect_repository.dart';
 
 final onboardingCompleteProvider = StateProvider<bool>((ref) => false);
 
+final legalConsentAcceptedProvider = StateProvider<bool>((ref) => false);
+
 final pendingSharedGroupSlugProvider = StateProvider<String?>((ref) => null);
+
+final notificationPermissionStatusProvider =
+    StateProvider<CollectDevicePermissionStatus>(
+      (ref) => CollectDevicePermissionStatus.notRequested,
+    );
+
+final cameraPermissionStatusProvider =
+    StateProvider<CollectDevicePermissionStatus>(
+      (ref) => CollectDevicePermissionStatus.notRequested,
+    );
 
 final profileReadinessProvider = Provider<ProfileReadiness>((ref) {
   final profile = ref.watch(
@@ -129,3 +141,5 @@ enum RealtimeSyncStatus { current, syncing, needsAttention }
 enum SmsPermissionStatus { unavailable, notRequested, granted, denied }
 
 enum PaymentUiStatus { pending, confirmed, expired, needsReview }
+
+enum CollectDevicePermissionStatus { notRequested, granted, denied }

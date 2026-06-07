@@ -22,6 +22,8 @@ class CollectionCreateScreen extends ConsumerStatefulWidget {
 
 class _CollectionCreateScreenState
     extends ConsumerState<CollectionCreateScreen> {
+  static const _lastStep = 4;
+
   final _title = TextEditingController();
   final _description = TextEditingController();
   final _receiver = TextEditingController();
@@ -32,6 +34,7 @@ class _CollectionCreateScreenState
   String _accentColorHex = _groupColorOptions.first.hex;
   bool _syncedProfileMomo = false;
   bool _creating = false;
+  int _step = 0;
   String? _error;
 
   @override
@@ -67,67 +70,129 @@ class _CollectionCreateScreenState
     }
     return ScreenScaffold(
       title: 'Create group',
+      subtitle: 'Step ${_step + 1} of ${_lastStep + 1}',
       bottomAction: BottomActionSurface(
         children: [
           CollectButton(
-            label: _creating ? 'Creating group' : 'Create group',
-            icon: CollectIcons.check,
-            onPressed: _creating ? null : _create,
+            label: _creating
+                ? 'Creating group'
+                : _step == _lastStep
+                ? 'Create group'
+                : 'Continue',
+            icon: _step == _lastStep
+                ? CollectIcons.check
+                : CollectIcons.arrowForward,
+            onPressed: _creating ? null : _primaryAction,
             variant: CollectButtonVariant.primary,
             expand: true,
           ),
+          if (_step > 0)
+            CollectButton(
+              label: 'Back',
+              icon: CollectIcons.chevron,
+              onPressed: _creating ? null : () => setState(() => _step -= 1),
+              variant: CollectButtonVariant.secondary,
+              expand: true,
+            ),
         ],
       ),
       children: [
-        _CreateGroupPhotoCard(
-          title: _title.text.trim(),
-          accentColor: _selectedAccentColor,
-          imageBytes: _groupImageBytes,
-          onPick: _pickGroupImage,
-          onRemove: _groupImageBytes == null
-              ? null
-              : () {
-                  setState(() {
-                    _groupImageBytes = null;
-                    _groupImageName = null;
-                    _groupImageMimeType = null;
-                  });
-                },
+        CollectWizardProgress(
+          labels: const ['Basics', 'Receiver', 'Visual', 'SMS', 'Review'],
+          currentStep: _step,
         ),
-        _MobileCreatePanel(
-          error: _error,
-          children: [
-            _MobileInputField(
-              controller: _title,
-              icon: CollectIcons.collections,
-              label: 'Group name',
-              textInputAction: TextInputAction.next,
-              textCapitalization: TextCapitalization.words,
-              autocorrect: true,
-            ),
-            _MobileInputField(
-              controller: _description,
-              icon: CollectIcons.info,
-              label: 'Description',
-              maxLines: 2,
-              textInputAction: TextInputAction.newline,
-              textCapitalization: TextCapitalization.sentences,
-              autocorrect: true,
-            ),
-            _MobileInputField(
-              controller: _receiver,
-              icon: CollectIcons.momo,
-              label: 'Receiver MoMo',
-              keyboardType: TextInputType.phone,
-              textInputAction: TextInputAction.done,
-              autofillHints: const [AutofillHints.telephoneNumber],
-            ),
-            _GroupColorPalette(
-              selectedHex: _accentColorHex,
-              onChanged: (hex) => setState(() => _accentColorHex = hex),
-            ),
-          ],
-        ),
+        if (_step == 0) ...[
+          _MobileCreatePanel(
+            error: _error,
+            children: [
+              _MobileInputField(
+                controller: _title,
+                icon: CollectIcons.collections,
+                label: 'Group name',
+                textInputAction: TextInputAction.next,
+                textCapitalization: TextCapitalization.words,
+                autocorrect: true,
+              ),
+              _MobileInputField(
+                controller: _description,
+                icon: CollectIcons.info,
+                label: 'Description',
+                maxLines: 2,
+                textInputAction: TextInputAction.newline,
+                textCapitalization: TextCapitalization.sentences,
+                autocorrect: true,
+              ),
+            ],
+          ),
+        ] else if (_step == 1) ...[
+          _MobileCreatePanel(
+            error: _error,
+            children: [
+              _MobileInputField(
+                controller: _receiver,
+                icon: CollectIcons.momo,
+                label: 'Receiver MoMo',
+                keyboardType: TextInputType.phone,
+                textInputAction: TextInputAction.done,
+                autofillHints: const [AutofillHints.telephoneNumber],
+              ),
+            ],
+          ),
+          const InfoSecurityBanner(
+            title: 'Receiver privacy',
+            message:
+                'Members see a safe receiver label during payment. Owner confirmation messages and payment credentials stay private.',
+            tone: CollectStatusTone.privacy,
+          ),
+        ] else if (_step == 2) ...[
+          _CreateGroupPhotoCard(
+            title: _title.text.trim(),
+            accentColor: _selectedAccentColor,
+            imageBytes: _groupImageBytes,
+            onPick: _pickGroupImage,
+            onRemove: _groupImageBytes == null
+                ? null
+                : () {
+                    setState(() {
+                      _groupImageBytes = null;
+                      _groupImageName = null;
+                      _groupImageMimeType = null;
+                    });
+                  },
+          ),
+          _MobileCreatePanel(
+            error: _error,
+            children: [
+              _GroupColorPalette(
+                selectedHex: _accentColorHex,
+                onChanged: (hex) => setState(() => _accentColorHex = hex),
+              ),
+            ],
+          ),
+        ] else if (_step == 3) ...[
+          const MinimalStatePanel(
+            icon: CollectIcons.sms,
+            title: 'SMS readiness check.',
+            message:
+                'Collect checks Android owner SMS access before creating the group. Confirmations are used to update the ledger without exposing private message content.',
+            tone: CollectStatusTone.privacy,
+          ),
+          const InfoSecurityBanner(
+            title: 'Permission boundary',
+            message:
+                'If SMS access is denied, Collect sends you to recovery instead of creating a group with incomplete payment verification.',
+            tone: CollectStatusTone.info,
+          ),
+        ] else ...[
+          _CreateGroupReview(
+            title: _title.text.trim(),
+            description: _description.text.trim(),
+            receiver: _receiver.text.trim(),
+            accentColor: _selectedAccentColor,
+            hasPhoto: _groupImageBytes != null,
+            error: _error,
+          ),
+        ],
       ],
     );
   }
@@ -167,6 +232,39 @@ class _CollectionCreateScreenState
         _error = 'Photo upload failed.';
       });
     }
+  }
+
+  void _primaryAction() {
+    if (_step == 0) {
+      if (_title.text.trim().isEmpty) {
+        setState(() => _error = 'Name required.');
+        return;
+      }
+      setState(() {
+        _step = 1;
+        _error = null;
+      });
+      return;
+    }
+    if (_step == 1) {
+      if (_receiver.text.trim().isEmpty) {
+        setState(() => _error = 'MoMo number required.');
+        return;
+      }
+      setState(() {
+        _step = 2;
+        _error = null;
+      });
+      return;
+    }
+    if (_step < _lastStep) {
+      setState(() {
+        _step += 1;
+        _error = null;
+      });
+      return;
+    }
+    _create();
   }
 
   Future<void> _create() async {
@@ -236,6 +334,62 @@ class _GroupColorOption {
 
   final String hex;
   final Color color;
+}
+
+class _CreateGroupReview extends StatelessWidget {
+  const _CreateGroupReview({
+    required this.title,
+    required this.description,
+    required this.receiver,
+    required this.accentColor,
+    required this.hasPhoto,
+    this.error,
+  });
+
+  final String title;
+  final String description;
+  final String receiver;
+  final Color accentColor;
+  final bool hasPhoto;
+  final String? error;
+
+  @override
+  Widget build(BuildContext context) {
+    return CollectCard(
+      emphasis: CollectCardEmphasis.glow,
+      accentColor: accentColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Review group', style: Theme.of(context).textTheme.titleLarge),
+          CollectSpacing.gap12,
+          CollectListTile(
+            leading: CollectIcons.collections,
+            title: title.isEmpty ? 'Group name missing' : title,
+            subtitle: description.isEmpty ? 'No description' : description,
+          ),
+          CollectListTile(
+            leading: CollectIcons.momo,
+            title: receiver.isEmpty ? 'Receiver missing' : receiver,
+            subtitle: 'Checked before MoMo handoff.',
+          ),
+          CollectListTile(
+            leading: CollectIcons.photo,
+            title: hasPhoto ? 'Group photo selected' : 'No group photo',
+            subtitle: 'Members see the safe group profile.',
+          ),
+          if (error != null) ...[
+            CollectSpacing.gap12,
+            InfoSecurityBanner(
+              title: 'Create failed',
+              message: error!,
+              tone: CollectStatusTone.danger,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
 }
 
 class _GroupColorPalette extends StatelessWidget {

@@ -8,6 +8,11 @@ Android/iOS release scope. The linked sender-hash preservation migration has
 now been applied through the linked Supabase query path and linked contribution
 UAT passes.
 
+Update 2026-06-07: mobile screen/popup/wizard completion is now governed by
+`docs/design/COLLECT_MOBILE_100_PERCENT_COMPLETION_GOALBOOK_2026-06-07.md`.
+Any evidence below predates that 100% completion goal unless rerun on the final
+current worktree.
+
 This file intentionally does not carry forward older unverified Supabase
 platform blockers from the previous product definition. Platform blockers must
 come from a fresh `make release-status-json` / Supabase evidence run after this
@@ -74,6 +79,13 @@ refactor is deployed or tested against the linked project.
 
 ## Current Blocked Evidence
 
+- 2026-06-07 mobile completion validation: the 100% completion diff is now
+  proven through the pinned Flutter tool snapshot because the shell wrapper was
+  unreliable on this machine. `analyze --no-pub`, the focused mobile completion
+  tests, shell/design/persona/release docs tests, and the flavored mobile route
+  matrix pass on the current worktree. Production Android APK/AAB artifacts were
+  rebuilt and signature-verified. Remaining release gate blockers are human
+  approvals only: Android release signing review and iOS release scope.
 - `scripts/flutter_mobile_release_gate.sh --json`: blocked on Android release
   signing review and iOS release scope only.
 - `scripts/release_status.sh --json`: blocked on product signoff, Android SMS

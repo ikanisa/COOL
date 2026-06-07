@@ -336,7 +336,7 @@ String _emptyMessageForFilter(_LedgerFilter filter) {
     _LedgerFilter.pending =>
       'Payments waiting for MoMo SMS verification will appear here.',
     _LedgerFilter.review =>
-      'Payments that need support review will appear here without exposing public raw SMS details.',
+      'Payments that need support review will appear here without exposing private confirmation details.',
     _LedgerFilter.mine =>
       'No contribution from your Collect ID matches the current search.',
     _ =>

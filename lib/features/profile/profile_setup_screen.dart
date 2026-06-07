@@ -20,6 +20,8 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
   final _momo = TextEditingController();
   bool _synced = false;
   int _step = 0;
+  bool _saving = false;
+  bool _complete = false;
   String? _error;
 
   @override
@@ -51,6 +53,14 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
             message:
                 'Collect creates your private 6-digit ID after WhatsApp verification.',
             tone: CollectStatusTone.warning,
+          )
+        else if (_complete)
+          const MinimalStatePanel(
+            icon: CollectIcons.check,
+            title: 'Profile ready.',
+            message:
+                'Your Collect ID and MoMo number are ready for group activity.',
+            tone: CollectStatusTone.success,
           )
         else if (_step == 0)
           Column(
@@ -120,6 +130,13 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
             onPressed: () => setState(() => _step = 1),
             expand: true,
           ),
+          CollectButton(
+            label: 'Back to settings',
+            icon: CollectIcons.chevron,
+            onPressed: () => context.go('/settings'),
+            variant: CollectButtonVariant.secondary,
+            expand: true,
+          ),
         ],
       );
     }
@@ -127,9 +144,16 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
       return BottomActionSurface(
         children: [
           CollectButton(
-            label: 'Save MoMo number',
+            label: _saving ? 'Saving' : 'Save MoMo number',
             icon: CollectIcons.check,
-            onPressed: _saveMomoNumber,
+            onPressed: _saving ? null : _saveMomoNumber,
+            expand: true,
+          ),
+          CollectButton(
+            label: 'Back',
+            icon: CollectIcons.chevron,
+            onPressed: _saving ? null : () => setState(() => _step = 0),
+            variant: CollectButtonVariant.secondary,
             expand: true,
           ),
         ],
@@ -157,11 +181,29 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
           variant: CollectButtonVariant.secondary,
           expand: true,
         ),
+        CollectButton(
+          label: 'Back',
+          icon: CollectIcons.chevron,
+          onPressed: () => setState(() {
+            _complete = false;
+            _step = 1;
+          }),
+          variant: CollectButtonVariant.subtle,
+          expand: true,
+        ),
       ],
     );
   }
 
   Future<void> _saveMomoNumber() async {
+    if (_momo.text.trim().isEmpty) {
+      setState(() => _error = 'Enter your MTN MoMo number.');
+      return;
+    }
+    setState(() {
+      _saving = true;
+      _error = null;
+    });
     try {
       await ref
           .read(collectRepositoryProvider.notifier)
@@ -169,10 +211,17 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
       if (!mounted) return;
       setState(() {
         _step = 2;
+        _complete = true;
+        _saving = false;
         _error = null;
       });
     } catch (error) {
-      if (mounted) setState(() => _error = error.toString());
+      if (mounted) {
+        setState(() {
+          _error = error.toString();
+          _saving = false;
+        });
+      }
     }
   }
 }

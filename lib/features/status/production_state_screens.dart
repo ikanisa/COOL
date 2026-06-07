@@ -13,20 +13,91 @@ import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import '../collections/group_share_service.dart';
 
-class OnboardingScreen extends ConsumerWidget {
+class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
+  int _step = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    final accepted = ref.watch(legalConsentAcceptedProvider);
+    const steps = [
+      (
+        icon: CollectIcons.shield,
+        title: 'MoMo groups, verified by SMS.',
+        message:
+            'Create or join a group, contribute through MoMo, and let Collect post confirmed payments to the ledger with your private Collect ID.',
+        tone: CollectStatusTone.privacy,
+      ),
+      (
+        icon: CollectIcons.privacy,
+        title: 'Private by default.',
+        message:
+            'Public screens use Collect IDs, safe amounts, and status labels. Credentials, private message content, and receiver evidence stay off public surfaces.',
+        tone: CollectStatusTone.privacy,
+      ),
+      (
+        icon: CollectIcons.tune,
+        title: 'Set up only what is needed.',
+        message:
+            'WhatsApp sign-in, MoMo profile, and Android owner SMS access are requested only when the flow needs them.',
+        tone: CollectStatusTone.info,
+      ),
+    ];
+    final current = steps[_step];
     return ScreenScaffold(
       title: 'Collect',
+      subtitle: 'Step ${_step + 1} of ${steps.length}',
+      bottomAction: BottomActionSurface(
+        children: [
+          CollectButton(
+            label: _step == steps.length - 1
+                ? accepted
+                      ? 'Get started'
+                      : 'Review terms'
+                : 'Continue',
+            icon: _step == steps.length - 1
+                ? CollectIcons.arrowForward
+                : CollectIcons.check,
+            onPressed: () {
+              if (_step < steps.length - 1) {
+                setState(() => _step += 1);
+                return;
+              }
+              if (!accepted) {
+                context.go('/onboarding/legal');
+                return;
+              }
+              ref.read(onboardingCompleteProvider.notifier).state = true;
+              context.go('/auth');
+            },
+            expand: true,
+          ),
+          if (_step > 0)
+            CollectButton(
+              label: 'Back',
+              icon: CollectIcons.chevron,
+              variant: CollectButtonVariant.secondary,
+              onPressed: () => setState(() => _step -= 1),
+              expand: true,
+            ),
+        ],
+      ),
       children: [
-        const MinimalStatePanel(
-          icon: CollectIcons.shield,
-          title: 'MoMo groups, verified by SMS.',
-          message:
-              'Create or join a group, contribute through MoMo, and let Collect post confirmed payments to the ledger with your private Collect ID.',
-          tone: CollectStatusTone.privacy,
+        CollectWizardProgress(
+          labels: const ['Product', 'Privacy', 'Setup'],
+          currentStep: _step,
+        ),
+        MinimalStatePanel(
+          icon: current.icon,
+          title: current.title,
+          message: current.message,
+          tone: current.tone,
         ),
         const _StepList(
           steps: [
@@ -37,14 +108,60 @@ class OnboardingScreen extends ConsumerWidget {
             'Pay through MoMo USSD',
           ],
         ),
-        CollectButton(
-          label: 'Get started',
-          icon: CollectIcons.arrowForward,
-          onPressed: () {
-            ref.read(onboardingCompleteProvider.notifier).state = true;
-            context.go('/auth');
-          },
-          expand: true,
+        if (!accepted)
+          CollectListTile(
+            leading: CollectIcons.info,
+            title: 'Terms and privacy',
+            subtitle: 'Required before sign-in.',
+            onTap: () => context.go('/onboarding/legal'),
+          ),
+      ],
+    );
+  }
+}
+
+class LegalConsentScreen extends ConsumerWidget {
+  const LegalConsentScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final accepted = ref.watch(legalConsentAcceptedProvider);
+    return ScreenScaffold(
+      title: 'Terms and privacy',
+      bottomAction: BottomActionSurface(
+        children: [
+          CollectButton(
+            label: accepted ? 'Continue' : 'Accept and continue',
+            icon: CollectIcons.check,
+            onPressed: () {
+              ref.read(legalConsentAcceptedProvider.notifier).state = true;
+              ref.read(onboardingCompleteProvider.notifier).state = true;
+              context.go('/auth');
+            },
+            expand: true,
+          ),
+          CollectButton(
+            label: 'Read privacy policy',
+            icon: CollectIcons.privacy,
+            onPressed: () => context.go('/settings/legal/privacy'),
+            variant: CollectButtonVariant.secondary,
+            expand: true,
+          ),
+        ],
+      ),
+      children: const [
+        MinimalStatePanel(
+          icon: CollectIcons.shield,
+          title: 'Accept before using Collect.',
+          message:
+              'Collect supports group contributions, MoMo verification, and privacy-bounded support review. Keep payment credentials and private confirmation messages out of public group spaces.',
+          tone: CollectStatusTone.privacy,
+        ),
+        InfoSecurityBanner(
+          title: 'Required acknowledgement',
+          message:
+              'By continuing you agree to the Collect terms and privacy policy effective 6 June 2026.',
+          tone: CollectStatusTone.info,
         ),
       ],
     );
@@ -165,7 +282,8 @@ class SmsPermissionEducationScreen extends ConsumerWidget {
               CollectListTile(
                 leading: CollectIcons.lock,
                 title: 'Private by default',
-                subtitle: 'PINs, OTPs, and raw message text stay off screen.',
+                subtitle:
+                    'Payment credentials and message bodies stay private.',
               ),
             ],
           ),
@@ -189,17 +307,25 @@ class SmsPermissionDeniedScreen extends StatelessWidget {
     return ScreenScaffold(
       title: 'SMS access needed',
       children: [
-        const MinimalStatePanel(
+        const CollectPermissionRecoveryPanel(
           icon: CollectIcons.warning,
           title: 'SMS access required.',
           message:
               'Enable SMS access on Android before creating owner-managed groups.',
-          tone: CollectStatusTone.warning,
+          settingsMessage:
+              'Open app settings if Android keeps blocking SMS access for Collect.',
         ),
         CollectButton(
           label: 'Try again',
           icon: CollectIcons.sync,
           onPressed: () => context.go('/permissions/sms'),
+          expand: true,
+        ),
+        CollectButton(
+          label: 'App settings',
+          icon: CollectIcons.settings,
+          onPressed: () => context.go('/settings'),
+          variant: CollectButtonVariant.secondary,
           expand: true,
         ),
       ],
@@ -349,6 +475,14 @@ class SharedLinkProblemScreen extends StatelessWidget {
           variant: CollectButtonVariant.secondary,
           expand: true,
         ),
+        if (expired)
+          CollectButton(
+            label: 'Request fresh link',
+            icon: CollectIcons.sync,
+            onPressed: () => context.go('/share/expired/request'),
+            variant: CollectButtonVariant.secondary,
+            expand: true,
+          ),
         const CollectButton(
           label: 'Get help',
           icon: CollectIcons.support,
@@ -405,10 +539,12 @@ class _ReturnFromMomoWaitingScreenState
                 context.go('/groups/${widget.collectionId}/contribute'),
             expand: true,
           ),
-          const CollectButton(
+          CollectButton(
             label: 'Get help',
             icon: CollectIcons.support,
-            onPressed: openCollectWhatsAppSupport,
+            onPressed: () => context.go(
+              '/groups/${widget.collectionId}/support/payment/${widget.intentId}',
+            ),
             variant: CollectButtonVariant.secondary,
             expand: true,
           ),
@@ -697,7 +833,9 @@ class PaymentStateDetailScreen extends ConsumerWidget {
           label: _secondaryStateActionLabel(state),
           icon: _secondaryStateActionIcon(state),
           onPressed: needsSupport
-              ? openCollectWhatsAppSupport
+              ? () => context.go(
+                  '/groups/$collectionId/support/payment/$intentId',
+                )
               : () => context.go(_secondaryStateActionPath(state)),
           variant: CollectButtonVariant.secondary,
           expand: true,
@@ -750,6 +888,564 @@ IconData _secondaryStateActionIcon(PaymentUiStatus state) {
   };
 }
 
+class PaymentSupportReviewScreen extends ConsumerStatefulWidget {
+  const PaymentSupportReviewScreen({
+    required this.collectionId,
+    required this.intentId,
+    super.key,
+  });
+
+  final String collectionId;
+  final String intentId;
+
+  @override
+  ConsumerState<PaymentSupportReviewScreen> createState() =>
+      _PaymentSupportReviewScreenState();
+}
+
+class _PaymentSupportReviewScreenState
+    extends ConsumerState<PaymentSupportReviewScreen> {
+  final _note = TextEditingController();
+  String _issueType = 'Missing confirmation';
+  bool _submitting = false;
+  bool _submitted = false;
+  String? _error;
+
+  @override
+  void dispose() {
+    _note.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final repo = ref.read(collectRepositoryProvider.notifier);
+    final collection = _safeCollection(ref, widget.collectionId);
+    final intent = _safeIntent(repo, widget.intentId);
+    return ScreenScaffold(
+      title: 'Payment review',
+      subtitle: collection?.title,
+      bottomAction: BottomActionSurface(
+        children: [
+          CollectButton(
+            label: _submitted
+                ? 'Open ledger'
+                : _submitting
+                ? 'Submitting'
+                : 'Submit review',
+            icon: _submitted ? CollectIcons.ledger : CollectIcons.support,
+            onPressed: _submitting
+                ? null
+                : _submitted
+                ? () => context.go('/groups/${widget.collectionId}/ledger')
+                : _submit,
+            expand: true,
+          ),
+          CollectButton(
+            label: 'Payment status',
+            icon: CollectIcons.pending,
+            onPressed: () => context.go(
+              '/groups/${widget.collectionId}/pay/${widget.intentId}',
+            ),
+            variant: CollectButtonVariant.secondary,
+            expand: true,
+          ),
+        ],
+      ),
+      children: [
+        if (_submitted)
+          const MinimalStatePanel(
+            icon: CollectIcons.check,
+            title: 'Review submitted.',
+            message:
+                'Support can review the payment without public confirmation text or payment credentials.',
+            tone: CollectStatusTone.success,
+          )
+        else ...[
+          MinimalStatePanel(
+            icon: CollectIcons.support,
+            title: 'Send a privacy-safe review.',
+            message: intent == null
+                ? 'This payment is not on this device. Support can still review the group context.'
+                : 'Amount ${formatRwf(intent.expectedAmountRwf)} is ${paymentStatusLabel(intent.status).toLowerCase()}.',
+            tone: CollectStatusTone.warning,
+          ),
+          CollectCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Issue type',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                CollectSpacing.gap8,
+                Wrap(
+                  spacing: CollectSpacing.x2,
+                  runSpacing: CollectSpacing.x2,
+                  children: [
+                    for (final issue in const [
+                      'Missing confirmation',
+                      'Wrong amount',
+                      'Duplicate payment',
+                      'Other',
+                    ])
+                      ChoiceChip(
+                        label: Text(issue),
+                        selected: _issueType == issue,
+                        onSelected: (_) => setState(() => _issueType = issue),
+                      ),
+                  ],
+                ),
+                CollectSpacing.gap16,
+                CollectTextInput(
+                  controller: _note,
+                  label: 'Safe note',
+                  helper:
+                      'Do not paste payment credentials or full message text.',
+                  maxLines: 4,
+                  textInputAction: TextInputAction.newline,
+                  textCapitalization: TextCapitalization.sentences,
+                  autocorrect: true,
+                ),
+              ],
+            ),
+          ),
+          if (_error != null)
+            InfoSecurityBanner(
+              title: 'Review failed',
+              message: _error!,
+              tone: CollectStatusTone.warning,
+            ),
+        ],
+      ],
+    );
+  }
+
+  Future<void> _submit() async {
+    setState(() {
+      _submitting = true;
+      _error = null;
+    });
+    try {
+      await ref
+          .read(collectRepositoryProvider.notifier)
+          .createPaymentSupportReview(
+            collectionId: widget.collectionId,
+            intentId: widget.intentId,
+            issueType: _issueType,
+            note: _note.text,
+          );
+      if (mounted) setState(() => _submitted = true);
+    } catch (error) {
+      if (mounted) setState(() => _error = error.toString());
+    } finally {
+      if (mounted) setState(() => _submitting = false);
+    }
+  }
+}
+
+class FreshLinkRequestScreen extends ConsumerStatefulWidget {
+  const FreshLinkRequestScreen({required this.slug, super.key});
+
+  final String slug;
+
+  @override
+  ConsumerState<FreshLinkRequestScreen> createState() =>
+      _FreshLinkRequestScreenState();
+}
+
+class _FreshLinkRequestScreenState
+    extends ConsumerState<FreshLinkRequestScreen> {
+  final _reason = TextEditingController();
+  bool _submitting = false;
+  bool _submitted = false;
+  String? _error;
+
+  @override
+  void dispose() {
+    _reason.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScreenScaffold(
+      title: 'Fresh link',
+      bottomAction: BottomActionSurface(
+        children: [
+          CollectButton(
+            label: _submitted
+                ? 'Open groups'
+                : _submitting
+                ? 'Requesting'
+                : 'Request fresh link',
+            icon: _submitted ? CollectIcons.collections : CollectIcons.sync,
+            onPressed: _submitting
+                ? null
+                : _submitted
+                ? () => context.go('/groups')
+                : _submit,
+            expand: true,
+          ),
+          CollectButton(
+            label: 'Scan QR',
+            icon: CollectIcons.qr,
+            onPressed: () => context.go('/groups/scan'),
+            variant: CollectButtonVariant.secondary,
+            expand: true,
+          ),
+        ],
+      ),
+      children: [
+        MinimalStatePanel(
+          icon: _submitted ? CollectIcons.check : CollectIcons.sync,
+          title: _submitted ? 'Request sent.' : 'Ask for a fresh group link.',
+          message: _submitted
+              ? 'Support can help the group owner issue a new privacy-safe link.'
+              : 'Expired links do not reveal receiver information. Ask support or the group owner for a new link.',
+          tone: _submitted ? CollectStatusTone.success : CollectStatusTone.info,
+        ),
+        if (!_submitted)
+          FormSectionCard(
+            errorTitle: 'Request failed',
+            errorMessage: _error,
+            children: [
+              CollectTextInput(
+                controller: _reason,
+                label: 'Reason, optional',
+                maxLines: 3,
+                textInputAction: TextInputAction.newline,
+                textCapitalization: TextCapitalization.sentences,
+                autocorrect: true,
+              ),
+            ],
+          ),
+      ],
+    );
+  }
+
+  Future<void> _submit() async {
+    setState(() {
+      _submitting = true;
+      _error = null;
+    });
+    try {
+      await ref
+          .read(collectRepositoryProvider.notifier)
+          .requestFreshGroupLink(slug: widget.slug, reason: _reason.text);
+      if (mounted) setState(() => _submitted = true);
+    } catch (error) {
+      if (mounted) setState(() => _error = error.toString());
+    } finally {
+      if (mounted) setState(() => _submitting = false);
+    }
+  }
+}
+
+enum OwnerLifecycleAction { leave, close, transferOwner, removeMember }
+
+class OwnerLifecycleActionScreen extends ConsumerStatefulWidget {
+  const OwnerLifecycleActionScreen({
+    required this.collectionId,
+    required this.action,
+    super.key,
+  });
+
+  final String collectionId;
+  final OwnerLifecycleAction action;
+
+  @override
+  ConsumerState<OwnerLifecycleActionScreen> createState() =>
+      _OwnerLifecycleActionScreenState();
+}
+
+class _OwnerLifecycleActionScreenState
+    extends ConsumerState<OwnerLifecycleActionScreen> {
+  final _input = TextEditingController();
+  bool _submitting = false;
+  bool _submitted = false;
+  String? _error;
+
+  @override
+  void dispose() {
+    _input.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final collection = _safeCollection(ref, widget.collectionId);
+    final config = _ownerActionConfig(widget.action);
+    return ScreenScaffold(
+      title: config.title,
+      subtitle: collection?.title,
+      bottomAction: BottomActionSurface(
+        children: [
+          CollectButton(
+            label: _submitted
+                ? widget.action == OwnerLifecycleAction.leave ||
+                          widget.action == OwnerLifecycleAction.close
+                      ? 'Open groups'
+                      : 'Open group'
+                : _submitting
+                ? 'Submitting'
+                : config.submitLabel,
+            icon: _submitted ? CollectIcons.collections : config.icon,
+            variant: config.danger && !_submitted
+                ? CollectButtonVariant.danger
+                : CollectButtonVariant.primary,
+            onPressed: _submitting
+                ? null
+                : _submitted
+                ? () => context.go(
+                    widget.action == OwnerLifecycleAction.leave ||
+                            widget.action == OwnerLifecycleAction.close
+                        ? '/groups'
+                        : '/groups/${widget.collectionId}',
+                  )
+                : _confirmAndSubmit,
+            expand: true,
+          ),
+          CollectButton(
+            label: 'Cancel',
+            icon: CollectIcons.chevron,
+            onPressed: () =>
+                context.go('/groups/${widget.collectionId}/manage'),
+            variant: CollectButtonVariant.secondary,
+            expand: true,
+          ),
+        ],
+      ),
+      children: [
+        MinimalStatePanel(
+          icon: _submitted ? CollectIcons.check : config.icon,
+          title: _submitted ? 'Request completed.' : config.heroTitle,
+          message: _submitted ? config.successMessage : config.message,
+          tone: _submitted
+              ? CollectStatusTone.success
+              : config.danger
+              ? CollectStatusTone.danger
+              : CollectStatusTone.warning,
+        ),
+        if (!_submitted && config.inputLabel != null)
+          FormSectionCard(
+            errorTitle: 'Action failed',
+            errorMessage: _error,
+            children: [
+              CollectTextInput(
+                controller: _input,
+                label: config.inputLabel!,
+                maxLines: config.multiline ? 4 : 1,
+                textInputAction: config.multiline
+                    ? TextInputAction.newline
+                    : TextInputAction.done,
+                textCapitalization: TextCapitalization.sentences,
+                autocorrect: true,
+              ),
+            ],
+          )
+        else if (_error != null)
+          InfoSecurityBanner(
+            title: 'Action failed',
+            message: _error!,
+            tone: CollectStatusTone.warning,
+          ),
+      ],
+    );
+  }
+
+  Future<void> _confirmAndSubmit() async {
+    final config = _ownerActionConfig(widget.action);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => CollectConfirmationDialog(
+        title: config.confirmTitle,
+        message: config.confirmMessage,
+        confirmLabel: config.submitLabel,
+        confirmIcon: config.icon,
+        danger: config.danger,
+      ),
+    );
+    if (confirmed == true) await _submit();
+  }
+
+  Future<void> _submit() async {
+    setState(() {
+      _submitting = true;
+      _error = null;
+    });
+    final repo = ref.read(collectRepositoryProvider.notifier);
+    try {
+      switch (widget.action) {
+        case OwnerLifecycleAction.leave:
+          await repo.leaveGroup(collectionId: widget.collectionId);
+          break;
+        case OwnerLifecycleAction.close:
+          await repo.closeGroup(
+            collectionId: widget.collectionId,
+            reason: _input.text,
+          );
+          break;
+        case OwnerLifecycleAction.transferOwner:
+          await repo.transferGroupOwner(
+            collectionId: widget.collectionId,
+            newOwnerCollectId: _input.text,
+          );
+          break;
+        case OwnerLifecycleAction.removeMember:
+          await repo.removeGroupMember(
+            collectionId: widget.collectionId,
+            memberCollectId: _input.text,
+          );
+          break;
+      }
+      if (mounted) setState(() => _submitted = true);
+    } catch (error) {
+      if (mounted) setState(() => _error = error.toString());
+    } finally {
+      if (mounted) setState(() => _submitting = false);
+    }
+  }
+}
+
+class _OwnerActionConfig {
+  const _OwnerActionConfig({
+    required this.title,
+    required this.heroTitle,
+    required this.message,
+    required this.successMessage,
+    required this.submitLabel,
+    required this.confirmTitle,
+    required this.confirmMessage,
+    required this.icon,
+    required this.danger,
+    this.inputLabel,
+    this.multiline = false,
+  });
+
+  final String title;
+  final String heroTitle;
+  final String message;
+  final String successMessage;
+  final String submitLabel;
+  final String confirmTitle;
+  final String confirmMessage;
+  final IconData icon;
+  final bool danger;
+  final String? inputLabel;
+  final bool multiline;
+}
+
+_OwnerActionConfig _ownerActionConfig(OwnerLifecycleAction action) {
+  return switch (action) {
+    OwnerLifecycleAction.leave => const _OwnerActionConfig(
+      title: 'Leave group',
+      heroTitle: 'Leave this group?',
+      message: 'You can leave the group without exposing receiver details.',
+      successMessage: 'The group was removed from this device.',
+      submitLabel: 'Leave group',
+      confirmTitle: 'Leave group?',
+      confirmMessage: 'Leave this group on this device?',
+      icon: CollectIcons.error,
+      danger: true,
+    ),
+    OwnerLifecycleAction.close => const _OwnerActionConfig(
+      title: 'Close group',
+      heroTitle: 'Request group closure.',
+      message: 'Closure is auditable and may retain ledger records.',
+      successMessage: 'The closure request was recorded.',
+      submitLabel: 'Close group',
+      confirmTitle: 'Close group?',
+      confirmMessage:
+          'This is a destructive owner action. Ledger records may be retained.',
+      icon: CollectIcons.lock,
+      danger: true,
+      inputLabel: 'Closure reason',
+      multiline: true,
+    ),
+    OwnerLifecycleAction.transferOwner => const _OwnerActionConfig(
+      title: 'Transfer owner',
+      heroTitle: 'Transfer ownership safely.',
+      message:
+          'Enter the new owner Collect ID. Support can verify the handoff.',
+      successMessage: 'The transfer request was submitted.',
+      submitLabel: 'Transfer owner',
+      confirmTitle: 'Transfer owner?',
+      confirmMessage: 'Submit this owner transfer request for support review?',
+      icon: CollectIcons.profile,
+      danger: false,
+      inputLabel: 'New owner Collect ID',
+    ),
+    OwnerLifecycleAction.removeMember => const _OwnerActionConfig(
+      title: 'Remove member',
+      heroTitle: 'Remove a member by Collect ID.',
+      message: 'Use Collect ID only. Do not enter phone numbers or MoMo data.',
+      successMessage: 'The member removal request was submitted.',
+      submitLabel: 'Remove member',
+      confirmTitle: 'Remove member?',
+      confirmMessage: 'Submit this member removal request for support review?',
+      icon: CollectIcons.people,
+      danger: true,
+      inputLabel: 'Member Collect ID',
+    ),
+  };
+}
+
+class PermissionRecoveryScreen extends ConsumerWidget {
+  const PermissionRecoveryScreen({required this.kind, super.key});
+
+  final String kind;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isCamera = kind == 'camera';
+    return ScreenScaffold(
+      title: isCamera ? 'Camera access' : 'Notifications',
+      bottomAction: BottomActionSurface(
+        children: [
+          CollectButton(
+            label: isCamera ? 'Try scan again' : 'Enable in Collect',
+            icon: isCamera ? CollectIcons.qr : CollectIcons.pending,
+            onPressed: () {
+              if (isCamera) {
+                ref.read(cameraPermissionStatusProvider.notifier).state =
+                    CollectDevicePermissionStatus.granted;
+                context.go('/groups/scan');
+              } else {
+                ref.read(notificationPermissionStatusProvider.notifier).state =
+                    CollectDevicePermissionStatus.granted;
+                context.go('/permissions/device');
+              }
+            },
+            expand: true,
+          ),
+          CollectButton(
+            label: 'App settings',
+            icon: CollectIcons.settings,
+            onPressed: () => context.go('/settings'),
+            variant: CollectButtonVariant.secondary,
+            expand: true,
+          ),
+        ],
+      ),
+      children: [
+        CollectPermissionRecoveryPanel(
+          icon: isCamera ? CollectIcons.qr : CollectIcons.pending,
+          title: isCamera
+              ? 'Camera permission was blocked.'
+              : 'Notification permission was blocked.',
+          message: isCamera
+              ? 'Allow camera access to scan group QR codes. You can still join by opening a valid group link.'
+              : 'Allow notifications for payment reminders, group updates, and security notices.',
+          settingsMessage: isCamera
+              ? 'Open app settings if the OS keeps blocking camera access.'
+              : 'Open app settings if notification permission remains denied.',
+        ),
+      ],
+    );
+  }
+}
+
 class OfflineStateScreen extends StatelessWidget {
   const OfflineStateScreen({super.key});
 
@@ -768,7 +1464,7 @@ class OfflineStateScreen extends StatelessWidget {
         const InfoSecurityBanner(
           title: 'Offline-safe behavior',
           message:
-              'Existing group, payment, and ledger screens stay visible on this device. New contributions and live SMS verification need a stable connection.',
+              'Existing group, payment, and ledger screens stay visible on this device. Starting contributions and live payment verification need a stable connection.',
           tone: CollectStatusTone.info,
         ),
         CollectButton(
@@ -818,6 +1514,9 @@ class NotificationPermissionScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final smsStatus = ref.watch(smsPermissionStatusProvider);
     final smsGranted = smsStatus == SmsPermissionStatus.granted;
+    final notificationStatus = ref.watch(notificationPermissionStatusProvider);
+    final notificationGranted =
+        notificationStatus == CollectDevicePermissionStatus.granted;
     return ScreenScaffold(
       title: 'App permissions',
       bottomAction: CollectButton(
@@ -858,9 +1557,23 @@ class NotificationPermissionScreen extends ConsumerWidget {
               _PermissionSettingRow(
                 icon: CollectIcons.pending,
                 title: 'Notifications',
-                status: 'Ready',
-                active: true,
-                onTap: () => context.go('/notifications'),
+                status: notificationGranted
+                    ? 'Allowed'
+                    : notificationStatus == CollectDevicePermissionStatus.denied
+                    ? 'Denied'
+                    : 'Not enabled',
+                active: notificationGranted,
+                onTap: () {
+                  if (notificationStatus ==
+                      CollectDevicePermissionStatus.denied) {
+                    context.go('/permissions/notifications-denied');
+                    return;
+                  }
+                  ref
+                          .read(notificationPermissionStatusProvider.notifier)
+                          .state =
+                      CollectDevicePermissionStatus.granted;
+                },
               ),
               _PermissionSettingRow(
                 icon: CollectIcons.privacy,
@@ -1056,9 +1769,33 @@ class NotificationCenterScreen extends ConsumerWidget {
     final reviewCount = state.paymentIntents
         .where((item) => item.status == 'needs_review')
         .length;
+    final permissionStatus = ref.watch(notificationPermissionStatusProvider);
+    final notificationsGranted =
+        permissionStatus == CollectDevicePermissionStatus.granted;
     return ScreenScaffold(
       title: 'Notifications',
       children: [
+        if (!notificationsGranted)
+          CollectCard(
+            emphasis: CollectCardEmphasis.glow,
+            accentColor: context.collectColors.statusForeground(
+              CollectStatusTone.warning,
+            ),
+            child: CollectListTile(
+              leading: CollectIcons.pending,
+              title: 'Notifications not enabled',
+              subtitle:
+                  'Enable payment reminders, group updates, and security notices.',
+              onTap: () {
+                if (permissionStatus == CollectDevicePermissionStatus.denied) {
+                  context.go('/permissions/notifications-denied');
+                  return;
+                }
+                ref.read(notificationPermissionStatusProvider.notifier).state =
+                    CollectDevicePermissionStatus.granted;
+              },
+            ),
+          ),
         CollectCard(
           emphasis: CollectCardEmphasis.glow,
           accentColor: pendingCount > 0
@@ -1209,8 +1946,8 @@ class LegalScreen extends StatelessWidget {
         InfoSecurityBanner(
           title: isPrivacy ? 'Public boundary' : 'Security responsibility',
           message: isPrivacy
-              ? 'Raw SMS, receiver MoMo numbers, and support evidence are not public group content. Public screens use Collect IDs, amounts, group names, and safe status labels.'
-              : 'Confirm the group, receiver label, and amount before approving MoMo. Collect will never ask for a MoMo PIN, OTP, or WhatsApp code inside support messages.',
+              ? 'Private message content, receiver MoMo numbers, and support evidence are not public group content. Public screens use Collect IDs, amounts, group names, and safe status labels.'
+              : 'Confirm the group, receiver label, and amount before approving MoMo. Collect support messages do not request payment credentials or sign-in secrets.',
           tone: isPrivacy
               ? CollectStatusTone.privacy
               : CollectStatusTone.warning,
@@ -1273,7 +2010,7 @@ const _privacyPolicySections = [
   _LegalSection(
     title: 'What stays private',
     body:
-        'Receiver MoMo numbers, raw SMS text, sign-in phones, and support evidence are not shown on public group cards or public share links. Member-facing screens use Collect IDs and safe payment status.',
+        'Receiver MoMo numbers, private confirmation text, sign-in phones, and support evidence are not shown on public group cards or public share links. Member-facing screens use Collect IDs and safe payment status.',
   ),
   _LegalSection(
     title: 'Sharing',
@@ -1296,7 +2033,7 @@ const _termsSections = [
   _LegalSection(
     title: 'MoMo payments',
     body:
-        'Payments are approved outside Collect through MoMo or the mobile money flow shown on your device. Collect does not ask for your MoMo PIN, OTP, or WhatsApp verification code.',
+        'Payments are approved outside Collect through MoMo or the mobile money flow shown on your device. Collect does not ask for payment credentials or sign-in secrets.',
   ),
   _LegalSection(
     title: 'Group ownership',
@@ -1451,26 +2188,7 @@ class _DeleteAccountRequestScreenState
                   label: _submitting ? 'Submitting' : 'Submit',
                   icon: CollectIcons.error,
                   variant: CollectButtonVariant.danger,
-                  onPressed: _submitting
-                      ? null
-                      : () async {
-                          setState(() {
-                            _submitting = true;
-                            _error = null;
-                          });
-                          try {
-                            await ref
-                                .read(collectRepositoryProvider.notifier)
-                                .requestAccountDeletion(reason: _reason.text);
-                            if (mounted) setState(() => _submitted = true);
-                          } catch (error) {
-                            if (mounted) {
-                              setState(() => _error = error.toString());
-                            }
-                          } finally {
-                            if (mounted) setState(() => _submitting = false);
-                          }
-                        },
+                  onPressed: _submitting ? null : _confirmAndSubmit,
                   expand: true,
                 ),
               ],
@@ -1478,6 +2196,47 @@ class _DeleteAccountRequestScreenState
           ),
       ],
     );
+  }
+
+  Future<void> _confirmAndSubmit() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Submit delete request?'),
+        content: const Text(
+          'This creates an auditable data deletion request. Some ledger, security, dispute, and legal records may be retained.',
+        ),
+        actions: [
+          CollectButton(
+            label: 'Cancel',
+            icon: CollectIcons.chevron,
+            variant: CollectButtonVariant.secondary,
+            onPressed: () => Navigator.of(context).pop(false),
+          ),
+          CollectButton(
+            label: 'Submit',
+            icon: CollectIcons.error,
+            variant: CollectButtonVariant.danger,
+            onPressed: () => Navigator.of(context).pop(true),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+    setState(() {
+      _submitting = true;
+      _error = null;
+    });
+    try {
+      await ref
+          .read(collectRepositoryProvider.notifier)
+          .requestAccountDeletion(reason: _reason.text);
+      if (mounted) setState(() => _submitted = true);
+    } catch (error) {
+      if (mounted) setState(() => _error = error.toString());
+    } finally {
+      if (mounted) setState(() => _submitting = false);
+    }
   }
 }
 
@@ -1893,7 +2652,13 @@ class _SimpleStateScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenScaffold(
       title: title,
-      children: [_StateHero(icon: icon, title: heroTitle, tone: tone)],
+      children: [
+        _StateHero(icon: icon, title: heroTitle, tone: tone),
+        CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          child: Text(message, style: Theme.of(context).textTheme.bodyMedium),
+        ),
+      ],
     );
   }
 }

@@ -748,6 +748,50 @@ class EmptySearchState extends StatelessWidget {
   }
 }
 
+class CollectWizardProgress extends StatelessWidget {
+  const CollectWizardProgress({
+    required this.labels,
+    required this.currentStep,
+    super.key,
+  });
+
+  final List<String> labels;
+  final int currentStep;
+
+  @override
+  Widget build(BuildContext context) {
+    if (labels.isEmpty) return const SizedBox.shrink();
+    final safeStep = currentStep.clamp(0, labels.length - 1).toInt();
+    return Semantics(
+      container: true,
+      label: 'Step ${safeStep + 1} of ${labels.length}: ${labels[safeStep]}',
+      child: CollectCard(
+        emphasis: CollectCardEmphasis.compact,
+        child: Wrap(
+          spacing: CollectSpacing.x2,
+          runSpacing: CollectSpacing.x2,
+          children: [
+            for (var index = 0; index < labels.length; index += 1)
+              CollectStatusChip(
+                label: labels[index],
+                icon: index < currentStep
+                    ? CollectIcons.check
+                    : index == currentStep
+                    ? CollectIcons.pending
+                    : CollectIcons.info,
+                tone: index < currentStep
+                    ? CollectStatusTone.success
+                    : index == currentStep
+                    ? CollectStatusTone.info
+                    : CollectStatusTone.neutral,
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class FormSectionCard extends StatelessWidget {
   const FormSectionCard({
     required this.children,
@@ -775,6 +819,10 @@ class FormSectionCard extends StatelessWidget {
         children: [
           if (title != null) ...[
             Text(title!, style: Theme.of(context).textTheme.titleLarge),
+            if (message != null) ...[
+              CollectSpacing.gap4,
+              Text(message!, style: Theme.of(context).textTheme.bodyMedium),
+            ],
             if (children.isNotEmpty) CollectSpacing.gap16,
           ],
           for (var index = 0; index < children.length; index += 1) ...[
@@ -798,6 +846,83 @@ class FormSectionCard extends StatelessWidget {
           ],
         ],
       ),
+    );
+  }
+}
+
+class CollectConfirmationDialog extends StatelessWidget {
+  const CollectConfirmationDialog({
+    required this.title,
+    required this.message,
+    required this.confirmLabel,
+    required this.confirmIcon,
+    this.danger = false,
+    super.key,
+  });
+
+  final String title;
+  final String message;
+  final String confirmLabel;
+  final IconData confirmIcon;
+  final bool danger;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(title),
+      content: Text(message),
+      actions: [
+        CollectButton(
+          label: 'Cancel',
+          icon: CollectIcons.chevron,
+          onPressed: () => Navigator.of(context).pop(false),
+          variant: CollectButtonVariant.secondary,
+        ),
+        CollectButton(
+          label: confirmLabel,
+          icon: confirmIcon,
+          onPressed: () => Navigator.of(context).pop(true),
+          variant: danger
+              ? CollectButtonVariant.danger
+              : CollectButtonVariant.primary,
+        ),
+      ],
+    );
+  }
+}
+
+class CollectPermissionRecoveryPanel extends StatelessWidget {
+  const CollectPermissionRecoveryPanel({
+    required this.icon,
+    required this.title,
+    required this.message,
+    required this.settingsMessage,
+    this.tone = CollectStatusTone.warning,
+    super.key,
+  });
+
+  final IconData icon;
+  final String title;
+  final String message;
+  final String settingsMessage;
+  final CollectStatusTone tone;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        MinimalStatePanel(
+          icon: icon,
+          title: title,
+          message: message,
+          tone: tone,
+        ),
+        InfoSecurityBanner(
+          title: 'Settings recovery',
+          message: settingsMessage,
+          tone: CollectStatusTone.info,
+        ),
+      ],
     );
   }
 }
@@ -1510,7 +1635,7 @@ class InfoSecurityBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final visibleMessage = title == 'Reference' ? message.trim() : '';
+    final visibleMessage = message.trim();
     return CollectCard(
       emphasis: CollectCardEmphasis.flat,
       padding: const EdgeInsets.symmetric(
@@ -1596,7 +1721,7 @@ class PaymentIntentStatusCard extends StatelessWidget {
           const InfoSecurityBanner(
             title: 'SMS verification',
             message:
-                'Collect records the ledger only after MoMo SMS verification. Never share a MoMo PIN, OTP, or WhatsApp code.',
+                'Collect records the ledger only after MoMo SMS verification. Keep payment credentials and sign-in secrets private.',
             tone: CollectStatusTone.privacy,
           ),
         ],
@@ -2174,7 +2299,7 @@ class ReceiverConsentCard extends StatelessWidget {
           const InfoSecurityBanner(
             title: 'Consent',
             message:
-                'Owner approval required. Raw SMS is never public; approved Android SMS access is used only for MoMo confirmation matching.',
+                'Owner approval required. Private confirmation messages are used only for payment matching.',
             tone: CollectStatusTone.privacy,
           ),
           CollectSpacing.gap16,

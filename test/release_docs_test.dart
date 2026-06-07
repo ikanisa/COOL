@@ -1267,6 +1267,9 @@ checking Edge Function secret names
     expect(repoWide, contains('/groups/create'));
     expect(repoWide, contains('/platform/iphone-create-unavailable'));
     expect(repoWide, contains('/settings/legal/privacy'));
+    expect(evidenceIndex, contains('/onboarding/legal'));
+    expect(evidenceIndex, contains('/permissions/notifications-denied'));
+    expect(evidenceIndex, contains('/permissions/camera-denied'));
     expect(evidenceIndex, contains('collect_product_boundary_scan'));
     expect(evidenceIndex, contains('mobile_route_render_summary = read_json'));
     expect(evidenceIndex, contains('required_mobile_routes'));
@@ -1288,6 +1291,15 @@ checking Edge Function secret names
       evidenceIndex,
       contains('/groups/col-church/pay/intent-render/state/needs-review'),
     );
+    expect(
+      evidenceIndex,
+      contains('/groups/col-church/support/payment/intent-render'),
+    );
+    expect(evidenceIndex, contains('/groups/col-church/leave'));
+    expect(evidenceIndex, contains('/groups/col-church/close'));
+    expect(evidenceIndex, contains('/groups/col-church/transfer-owner'));
+    expect(evidenceIndex, contains('/groups/col-church/remove-member'));
+    expect(evidenceIndex, contains('/share/expired/request'));
     expect(evidenceIndex, contains('/settings/account/delete'));
     expect(evidenceIndex, contains('/settings/legal/privacy'));
     expect(evidenceIndex, contains('non_background_pixels'));

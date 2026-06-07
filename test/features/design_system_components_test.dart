@@ -416,12 +416,43 @@ void main() {
     expect(find.text('Group profile'), findsOneWidget);
     expect(
       find.text('Members see the group name and public link.'),
-      findsNothing,
+      findsOneWidget,
     );
     expect(find.text('Group name'), findsOneWidget);
     expect(find.text('Create failed'), findsOneWidget);
-    expect(find.text('Name required.'), findsNothing);
+    expect(find.text('Name required.'), findsOneWidget);
     expect(find.text('Create group'), findsOneWidget);
+  });
+
+  testWidgets('mobile completion components expose reusable semantics', (
+    tester,
+  ) async {
+    await _pumpCollect(
+      tester,
+      const Column(
+        children: [
+          CollectWizardProgress(
+            labels: ['Basics', 'Receiver', 'Review'],
+            currentStep: 1,
+          ),
+          CollectPermissionRecoveryPanel(
+            icon: CollectIcons.warning,
+            title: 'SMS access required.',
+            message: 'Enable SMS access before creating groups.',
+            settingsMessage: 'Open app settings if Android keeps blocking SMS.',
+          ),
+        ],
+      ),
+    );
+
+    expect(find.text('Basics'), findsOneWidget);
+    expect(find.text('Receiver'), findsOneWidget);
+    expect(find.text('Review'), findsOneWidget);
+    expect(find.text('SMS access required.'), findsOneWidget);
+    expect(
+      find.text('Open app settings if Android keeps blocking SMS.'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('list tile separates static information from actions', (

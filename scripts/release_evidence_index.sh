@@ -446,6 +446,7 @@ end
 
 required_mobile_routes = %w[
   /onboarding
+  /onboarding/legal
   /auth
   /auth/success
   /auth/failure
@@ -454,6 +455,8 @@ required_mobile_routes = %w[
   /permissions/sms
   /permissions/sms-denied
   /permissions/device
+  /permissions/notifications-denied
+  /permissions/camera-denied
   /home
   /groups
   /groups/create
@@ -465,15 +468,21 @@ required_mobile_routes = %w[
   /groups/col-church/share
   /share/invalid
   /share/expired
+  /share/expired/request
   /groups/col-church/contribute
   /groups/col-church/pay/intent-render/waiting
   /groups/col-church/pay/intent-render/state/pending
   /groups/col-church/pay/intent-render/state/confirmed
   /groups/col-church/pay/intent-render/state/expired
   /groups/col-church/pay/intent-render/state/needs-review
+  /groups/col-church/support/payment/intent-render
   /groups/col-church/ledger
   /groups/col-church/manage
   /groups/col-church/profile
+  /groups/col-church/leave
+  /groups/col-church/close
+  /groups/col-church/transfer-owner
+  /groups/col-church/remove-member
   /groups/col-church/members
   /settings
   /settings/account
