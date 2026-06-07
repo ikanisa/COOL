@@ -223,12 +223,12 @@ class _CollectionCreateScreenState
 }
 
 const _groupColorOptions = [
-  _GroupColorOption('#E9557F', Color(0xFFE9557F)),
-  _GroupColorOption('#35C48B', Color(0xFF35C48B)),
-  _GroupColorOption('#F6B84B', Color(0xFFF6B84B)),
-  _GroupColorOption('#8E6BFF', Color(0xFF8E6BFF)),
-  _GroupColorOption('#38A3FF', Color(0xFF38A3FF)),
-  _GroupColorOption('#FF7A59', Color(0xFFFF7A59)),
+  _GroupColorOption('#8885F0', Color(0xFF8885F0)),
+  _GroupColorOption('#D38B96', Color(0xFFD38B96)),
+  _GroupColorOption('#FF5E43', Color(0xFFFF5E43)),
+  _GroupColorOption('#3CD070', Color(0xFF3CD070)),
+  _GroupColorOption('#FFD5DE', Color(0xFFFFD5DE)),
+  _GroupColorOption('#DAD7FF', Color(0xFFDAD7FF)),
 ];
 
 class _GroupColorOption {

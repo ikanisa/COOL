@@ -227,11 +227,12 @@ class _HomeTotalCollectedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.collectColors;
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
-        gradient: const LinearGradient(
-          colors: [Color(0xFF6E001D), Color(0xFF270611)],
+        gradient: LinearGradient(
+          colors: [colors.actionCrimson, const Color(0xFF270611)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -272,8 +273,8 @@ class _HomeTotalCollectedCard extends StatelessWidget {
                     const TextSpan(text: 'Across '),
                     TextSpan(
                       text: '$collectionCount',
-                      style: const TextStyle(
-                        color: Color(0xFFFF5F89),
+                      style: TextStyle(
+                        color: colors.brandPrimary,
                         fontWeight: FontWeight.w800,
                       ),
                     ),

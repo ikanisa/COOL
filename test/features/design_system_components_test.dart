@@ -17,6 +17,33 @@ void main() {
     expect(dark!.surface.computeLuminance(), lessThan(0.2));
   });
 
+  test('official Collect brand tokens are source controlled', () {
+    expect(CollectColors.brandPeriwinkle, const Color(0xFF8885F0));
+    expect(CollectColors.brandDustyRose, const Color(0xFFD38B96));
+    expect(CollectColors.brandOrangeRed, const Color(0xFFFF5E43));
+    expect(CollectColors.brandMintGreen, const Color(0xFF3CD070));
+    expect(CollectColors.brandPastelMint, const Color(0xFFD9FBE7));
+    expect(CollectColors.brandPastelPeach, const Color(0xFFFFE0D1));
+    expect(CollectColors.brandPastelCenter, const Color(0xFFFAF8F5));
+    expect(CollectColors.brandPastelBlush, const Color(0xFFFFD5DE));
+    expect(CollectColors.brandPastelPeriwinkle, const Color(0xFFDAD7FF));
+  });
+
+  test('interactive token colors keep accessible contrast', () {
+    final light = AppTheme.light().extension<CollectColors>()!;
+
+    expect(
+      _contrast(light.actionCrimson, Colors.white),
+      greaterThanOrEqualTo(4.5),
+    );
+    expect(_contrast(light.info, Colors.white), greaterThanOrEqualTo(4.5));
+    expect(_contrast(light.success, Colors.white), greaterThanOrEqualTo(4.5));
+    expect(
+      _contrast(CollectColors.brandOrangeRed, Colors.white),
+      lessThan(4.5),
+    );
+  });
+
   test('RWF amount typography uses tabular numerals', () {
     final style = CollectTypography.amountHero(CollectColors.light.textPrimary);
 
@@ -477,4 +504,12 @@ Future<void> _pumpCollect(WidgetTester tester, Widget child) async {
     ),
   );
   await tester.pump();
+}
+
+double _contrast(Color a, Color b) {
+  final aLum = a.computeLuminance();
+  final bLum = b.computeLuminance();
+  final lighter = aLum > bLum ? aLum : bLum;
+  final darker = aLum > bLum ? bLum : aLum;
+  return (lighter + 0.05) / (darker + 0.05);
 }

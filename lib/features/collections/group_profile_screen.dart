@@ -434,12 +434,12 @@ class _CadenceOption {
 }
 
 const _profileColorOptions = [
-  _ProfileColorOption('#E9557F', Color(0xFFE9557F)),
-  _ProfileColorOption('#35C48B', Color(0xFF35C48B)),
-  _ProfileColorOption('#F6B84B', Color(0xFFF6B84B)),
-  _ProfileColorOption('#8E6BFF', Color(0xFF8E6BFF)),
-  _ProfileColorOption('#38A3FF', Color(0xFF38A3FF)),
-  _ProfileColorOption('#FF7A59', Color(0xFFFF7A59)),
+  _ProfileColorOption('#8885F0', Color(0xFF8885F0)),
+  _ProfileColorOption('#D38B96', Color(0xFFD38B96)),
+  _ProfileColorOption('#FF5E43', Color(0xFFFF5E43)),
+  _ProfileColorOption('#3CD070', Color(0xFF3CD070)),
+  _ProfileColorOption('#FFD5DE', Color(0xFFFFD5DE)),
+  _ProfileColorOption('#DAD7FF', Color(0xFFDAD7FF)),
 ];
 
 String? _mimeTypeFromName(String name) {

@@ -41,35 +41,50 @@ class CollectColors extends ThemeExtension<CollectColors> {
   final Color textSecondary;
   final Color textMuted;
 
+  static const brandPeriwinkle = Color(0xFF8885F0);
+  static const brandDustyRose = Color(0xFFD38B96);
+  static const brandOrangeRed = Color(0xFFFF5E43);
+  static const brandMintGreen = Color(0xFF3CD070);
+
+  static const brandPastelMint = Color(0xFFD9FBE7);
+  static const brandPastelPeach = Color(0xFFFFE0D1);
+  static const brandPastelCenter = Color(0xFFFAF8F5);
+  static const brandPastelBlush = Color(0xFFFFD5DE);
+  static const brandPastelPeriwinkle = Color(0xFFDAD7FF);
+
+  static const brandAccessibleOrangeRed = Color(0xFFC42A14);
+  static const brandAccessibleMintGreen = Color(0xFF006A3C);
+  static const brandAccessiblePeriwinkle = Color(0xFF5551C5);
+
   static const light = CollectColors(
     ink: Color(0xFF121212),
     navy: Color(0xFF1B1B1E),
-    blue: Color(0xFFE70054),
-    aqua: Color(0xFF00864E),
-    coral: Color(0xFFFD5F7D),
-    lime: Color(0xFF006A3C),
-    purple: Color(0xFF5D3E42),
-    surface: Color(0xFFFCF9F8),
+    blue: brandAccessibleOrangeRed,
+    aqua: brandMintGreen,
+    coral: brandDustyRose,
+    lime: brandAccessibleMintGreen,
+    purple: brandAccessiblePeriwinkle,
+    surface: brandPastelCenter,
     surfaceRaised: Color(0xFFFFFFFF),
-    surfaceMuted: Color(0xFFF0EDEC),
-    border: Color(0xFFE5E2E1),
-    success: Color(0xFF006A3C),
+    surfaceMuted: Color(0xFFF2EFEE),
+    border: Color(0xFFE7E2E4),
+    success: brandAccessibleMintGreen,
     warning: Color(0xFF8A5A00),
     danger: Color(0xFFBA1A1A),
-    info: Color(0xFFE70054),
+    info: brandAccessiblePeriwinkle,
     textPrimary: Color(0xFF1C1B1B),
     textSecondary: Color(0xFF5D3E42),
-    textMuted: Color(0xFF926E71),
+    textMuted: Color(0xFF8C686D),
   );
 
   static const dark = CollectColors(
     ink: Color(0xFFF8FAFC),
     navy: Color(0xFFF3F0EF),
-    blue: Color(0xFFFF5F89),
-    aqua: Color(0xFF67DD97),
-    coral: Color(0xFFFFB2BB),
+    blue: Color(0xFFFF9D8E),
+    aqua: Color(0xFF72E89C),
+    coral: Color(0xFFE7B3BB),
     lime: Color(0xFF84FAB1),
-    purple: Color(0xFFE7BCC0),
+    purple: Color(0xFFBDBBFF),
     surface: Color(0xFF151111),
     surfaceRaised: Color(0xFF211B1D),
     surfaceMuted: Color(0xFF312729),
@@ -77,7 +92,7 @@ class CollectColors extends ThemeExtension<CollectColors> {
     success: Color(0xFF84FAB1),
     warning: Color(0xFFFFC65C),
     danger: Color(0xFFFFB4AB),
-    info: Color(0xFFFF5F89),
+    info: Color(0xFFBDBBFF),
     textPrimary: Color(0xFFF8FAFC),
     textSecondary: Color(0xFFE5E2E1),
     textMuted: Color(0xFFC8C6C5),
@@ -92,6 +107,10 @@ class CollectColors extends ThemeExtension<CollectColors> {
   Color get outlineSoft => border;
   Color get successInk => success;
   Color get dangerSoft => danger;
+  Color get brandPrimary => brandPeriwinkle;
+  Color get brandSecondary => brandDustyRose;
+  Color get brandAction => brandOrangeRed;
+  Color get brandSuccess => brandMintGreen;
 
   bool get isDark => surface.computeLuminance() < 0.2;
 
