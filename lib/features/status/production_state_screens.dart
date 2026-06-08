@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:permission_handler/permission_handler.dart' as permissions;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/utils/date_format.dart';
@@ -1142,255 +1143,6 @@ class _FreshLinkRequestScreenState
   }
 }
 
-enum OwnerLifecycleAction { leave, close, transferOwner, removeMember }
-
-class OwnerLifecycleActionScreen extends ConsumerStatefulWidget {
-  const OwnerLifecycleActionScreen({
-    required this.collectionId,
-    required this.action,
-    super.key,
-  });
-
-  final String collectionId;
-  final OwnerLifecycleAction action;
-
-  @override
-  ConsumerState<OwnerLifecycleActionScreen> createState() =>
-      _OwnerLifecycleActionScreenState();
-}
-
-class _OwnerLifecycleActionScreenState
-    extends ConsumerState<OwnerLifecycleActionScreen> {
-  final _input = TextEditingController();
-  bool _submitting = false;
-  bool _submitted = false;
-  String? _error;
-
-  @override
-  void dispose() {
-    _input.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final collection = _safeCollection(ref, widget.collectionId);
-    final config = _ownerActionConfig(widget.action);
-    return ScreenScaffold(
-      title: config.title,
-      subtitle: collection?.title,
-      bottomAction: BottomActionSurface(
-        children: [
-          CollectButton(
-            label: _submitted
-                ? widget.action == OwnerLifecycleAction.leave ||
-                          widget.action == OwnerLifecycleAction.close
-                      ? 'Open groups'
-                      : 'Open group'
-                : _submitting
-                ? 'Submitting'
-                : config.submitLabel,
-            icon: _submitted ? CollectIcons.collections : config.icon,
-            variant: config.danger && !_submitted
-                ? CollectButtonVariant.danger
-                : CollectButtonVariant.primary,
-            onPressed: _submitting
-                ? null
-                : _submitted
-                ? () => context.go(
-                    widget.action == OwnerLifecycleAction.leave ||
-                            widget.action == OwnerLifecycleAction.close
-                        ? '/groups'
-                        : '/groups/${widget.collectionId}',
-                  )
-                : _confirmAndSubmit,
-            expand: true,
-          ),
-          CollectButton(
-            label: 'Cancel',
-            icon: CollectIcons.chevron,
-            onPressed: () =>
-                context.go('/groups/${widget.collectionId}/manage'),
-            variant: CollectButtonVariant.secondary,
-            expand: true,
-          ),
-        ],
-      ),
-      children: [
-        MinimalStatePanel(
-          icon: _submitted ? CollectIcons.check : config.icon,
-          title: _submitted ? 'Request completed.' : config.heroTitle,
-          message: _submitted ? config.successMessage : config.message,
-          tone: _submitted
-              ? CollectStatusTone.success
-              : config.danger
-              ? CollectStatusTone.danger
-              : CollectStatusTone.warning,
-        ),
-        if (!_submitted && config.inputLabel != null)
-          FormSectionCard(
-            errorTitle: 'Action failed',
-            errorMessage: _error,
-            children: [
-              CollectTextInput(
-                controller: _input,
-                label: config.inputLabel!,
-                maxLines: config.multiline ? 4 : 1,
-                textInputAction: config.multiline
-                    ? TextInputAction.newline
-                    : TextInputAction.done,
-                textCapitalization: TextCapitalization.sentences,
-                autocorrect: true,
-              ),
-            ],
-          )
-        else if (_error != null)
-          InfoSecurityBanner(
-            title: 'Action failed',
-            message: _error!,
-            tone: CollectStatusTone.warning,
-          ),
-      ],
-    );
-  }
-
-  Future<void> _confirmAndSubmit() async {
-    final config = _ownerActionConfig(widget.action);
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => CollectConfirmationDialog(
-        title: config.confirmTitle,
-        message: config.confirmMessage,
-        confirmLabel: config.submitLabel,
-        confirmIcon: config.icon,
-        danger: config.danger,
-      ),
-    );
-    if (confirmed == true) await _submit();
-  }
-
-  Future<void> _submit() async {
-    setState(() {
-      _submitting = true;
-      _error = null;
-    });
-    final repo = ref.read(collectRepositoryProvider.notifier);
-    try {
-      switch (widget.action) {
-        case OwnerLifecycleAction.leave:
-          await repo.leaveGroup(collectionId: widget.collectionId);
-          break;
-        case OwnerLifecycleAction.close:
-          await repo.closeGroup(
-            collectionId: widget.collectionId,
-            reason: _input.text,
-          );
-          break;
-        case OwnerLifecycleAction.transferOwner:
-          await repo.transferGroupOwner(
-            collectionId: widget.collectionId,
-            newOwnerCollectId: _input.text,
-          );
-          break;
-        case OwnerLifecycleAction.removeMember:
-          await repo.removeGroupMember(
-            collectionId: widget.collectionId,
-            memberCollectId: _input.text,
-          );
-          break;
-      }
-      if (mounted) setState(() => _submitted = true);
-    } catch (error) {
-      if (mounted) setState(() => _error = error.toString());
-    } finally {
-      if (mounted) setState(() => _submitting = false);
-    }
-  }
-}
-
-class _OwnerActionConfig {
-  const _OwnerActionConfig({
-    required this.title,
-    required this.heroTitle,
-    required this.message,
-    required this.successMessage,
-    required this.submitLabel,
-    required this.confirmTitle,
-    required this.confirmMessage,
-    required this.icon,
-    required this.danger,
-    this.inputLabel,
-    this.multiline = false,
-  });
-
-  final String title;
-  final String heroTitle;
-  final String message;
-  final String successMessage;
-  final String submitLabel;
-  final String confirmTitle;
-  final String confirmMessage;
-  final IconData icon;
-  final bool danger;
-  final String? inputLabel;
-  final bool multiline;
-}
-
-_OwnerActionConfig _ownerActionConfig(OwnerLifecycleAction action) {
-  return switch (action) {
-    OwnerLifecycleAction.leave => const _OwnerActionConfig(
-      title: 'Leave group',
-      heroTitle: 'Leave this group?',
-      message: 'You can leave the group without exposing receiver details.',
-      successMessage: 'The group was removed from this device.',
-      submitLabel: 'Leave group',
-      confirmTitle: 'Leave group?',
-      confirmMessage: 'Leave this group on this device?',
-      icon: CollectIcons.error,
-      danger: true,
-    ),
-    OwnerLifecycleAction.close => const _OwnerActionConfig(
-      title: 'Close group',
-      heroTitle: 'Request group closure.',
-      message: 'Closure is auditable and may retain ledger records.',
-      successMessage: 'The closure request was recorded.',
-      submitLabel: 'Close group',
-      confirmTitle: 'Close group?',
-      confirmMessage:
-          'This is a destructive owner action. Ledger records may be retained.',
-      icon: CollectIcons.lock,
-      danger: true,
-      inputLabel: 'Closure reason',
-      multiline: true,
-    ),
-    OwnerLifecycleAction.transferOwner => const _OwnerActionConfig(
-      title: 'Transfer owner',
-      heroTitle: 'Transfer ownership safely.',
-      message:
-          'Enter the new owner Collect ID. Support can verify the handoff.',
-      successMessage: 'The transfer request was submitted.',
-      submitLabel: 'Transfer owner',
-      confirmTitle: 'Transfer owner?',
-      confirmMessage: 'Submit this owner transfer request for support review?',
-      icon: CollectIcons.profile,
-      danger: false,
-      inputLabel: 'New owner Collect ID',
-    ),
-    OwnerLifecycleAction.removeMember => const _OwnerActionConfig(
-      title: 'Remove member',
-      heroTitle: 'Remove a member by Collect ID.',
-      message: 'Use Collect ID only. Do not enter phone numbers or MoMo data.',
-      successMessage: 'The member removal request was submitted.',
-      submitLabel: 'Remove member',
-      confirmTitle: 'Remove member?',
-      confirmMessage: 'Submit this member removal request for support review?',
-      icon: CollectIcons.people,
-      danger: true,
-      inputLabel: 'Member Collect ID',
-    ),
-  };
-}
-
 class PermissionRecoveryScreen extends ConsumerWidget {
   const PermissionRecoveryScreen({required this.kind, super.key});
 
@@ -1518,9 +1270,9 @@ class NotificationPermissionScreen extends ConsumerWidget {
     final notificationGranted =
         notificationStatus == CollectDevicePermissionStatus.granted;
     return ScreenScaffold(
-      title: 'App permissions',
+      title: 'App access',
       bottomAction: CollectButton(
-        label: 'Finish setup',
+        label: 'Done',
         icon: CollectIcons.check,
         onPressed: () => context.go('/home'),
         expand: true,
@@ -1563,16 +1315,23 @@ class NotificationPermissionScreen extends ConsumerWidget {
                     ? 'Denied'
                     : 'Not enabled',
                 active: notificationGranted,
-                onTap: () {
+                onTap: () async {
                   if (notificationStatus ==
                       CollectDevicePermissionStatus.denied) {
                     context.go('/permissions/notifications-denied');
                     return;
                   }
+                  final permission = await permissions.Permission.notification
+                      .request();
+                  final status = _collectPermissionStatus(permission);
+                  if (!context.mounted) return;
                   ref
                           .read(notificationPermissionStatusProvider.notifier)
                           .state =
-                      CollectDevicePermissionStatus.granted;
+                      status;
+                  if (status == CollectDevicePermissionStatus.denied) {
+                    context.go('/permissions/notifications-denied');
+                  }
                 },
               ),
               _PermissionSettingRow(
@@ -1586,7 +1345,7 @@ class NotificationPermissionScreen extends ConsumerWidget {
           ),
         ),
         const InfoSecurityBanner(
-          title: 'Privacy boundary',
+          title: 'Access boundary',
           message:
               'Permissions support contribution confirmations, payment reminders, group updates, and security notices.',
           tone: CollectStatusTone.privacy,
@@ -1604,11 +1363,6 @@ class NotificationPermissionScreen extends ConsumerWidget {
                 leading: CollectIcons.pending,
                 title: 'Payment reminders',
                 subtitle: 'Surface pending MoMo checks without exposing proof.',
-              ),
-              CollectListTile(
-                leading: CollectIcons.sms,
-                title: 'SMS access details',
-                subtitle: 'Android owner verification only.',
               ),
               CollectListTile(
                 leading: CollectIcons.warning,
@@ -1786,13 +1540,20 @@ class NotificationCenterScreen extends ConsumerWidget {
               title: 'Notifications not enabled',
               subtitle:
                   'Enable payment reminders, group updates, and security notices.',
-              onTap: () {
+              onTap: () async {
                 if (permissionStatus == CollectDevicePermissionStatus.denied) {
                   context.go('/permissions/notifications-denied');
                   return;
                 }
+                final permission = await permissions.Permission.notification
+                    .request();
+                final status = _collectPermissionStatus(permission);
+                if (!context.mounted) return;
                 ref.read(notificationPermissionStatusProvider.notifier).state =
-                    CollectDevicePermissionStatus.granted;
+                    status;
+                if (status == CollectDevicePermissionStatus.denied) {
+                  context.go('/permissions/notifications-denied');
+                }
               },
             ),
           ),
@@ -1889,6 +1650,18 @@ class NotificationCenterScreen extends ConsumerWidget {
       ],
     );
   }
+}
+
+CollectDevicePermissionStatus _collectPermissionStatus(
+  permissions.PermissionStatus status,
+) {
+  if (status.isGranted || status.isLimited) {
+    return CollectDevicePermissionStatus.granted;
+  }
+  if (status.isDenied || status.isPermanentlyDenied || status.isRestricted) {
+    return CollectDevicePermissionStatus.denied;
+  }
+  return CollectDevicePermissionStatus.notRequested;
 }
 
 class HelpSupportScreen extends StatelessWidget {
@@ -2340,41 +2113,11 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
                   totalRaised: totalRaised,
                 ),
                 CollectSpacing.gap12,
-                CollectCard(
-                  emphasis: CollectCardEmphasis.compact,
-                  padding: const EdgeInsets.all(CollectSpacing.x4),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'View',
-                              style: Theme.of(context).textTheme.titleSmall,
-                            ),
-                          ),
-                          _MemberSortButton(
-                            label: _memberSortLabel(_sort),
-                            onTap: _showMemberSortSheet,
-                          ),
-                        ],
-                      ),
-                      CollectSpacing.gap12,
-                      Wrap(
-                        spacing: CollectSpacing.x2,
-                        runSpacing: CollectSpacing.x2,
-                        children: [
-                          for (final filter in _MemberFilter.values)
-                            _MemberFilterChip(
-                              label: _memberFilterLabel(filter),
-                              selected: _filter == filter,
-                              onTap: () => setState(() => _filter = filter),
-                            ),
-                        ],
-                      ),
-                    ],
-                  ),
+                _MemberControlDock(
+                  filterLabel: _memberFilterLabel(_filter),
+                  sortLabel: _memberSortLabel(_sort),
+                  onFilterTap: _showMemberFilterSheet,
+                  onSortTap: _showMemberSortSheet,
                 ),
                 CollectSpacing.gap12,
                 SectionHeader(
@@ -2421,30 +2164,40 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (context) {
         return CollectBottomSheet(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Sort members',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              CollectSpacing.gap12,
-              for (final sort in _MemberSort.values)
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(
-                    _sort == sort ? CollectIcons.check : CollectIcons.filter,
-                  ),
-                  title: Text(_memberSortLabel(sort)),
-                  onTap: () {
-                    setState(() => _sort = sort);
-                    Navigator.of(context).pop();
-                  },
-                ),
-            ],
+          child: _MemberOptionSheet<_MemberSort>(
+            title: 'Sort members',
+            values: _MemberSort.values,
+            selected: _sort,
+            labelFor: _memberSortLabel,
+            onSelected: (sort) {
+              setState(() => _sort = sort);
+              Navigator.of(context).pop();
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void _showMemberFilterSheet() {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) {
+        return CollectBottomSheet(
+          child: _MemberOptionSheet<_MemberFilter>(
+            title: 'Filter members',
+            values: _MemberFilter.values,
+            selected: _filter,
+            labelFor: _memberFilterLabel,
+            onSelected: (filter) {
+              setState(() => _filter = filter);
+              Navigator.of(context).pop();
+            },
           ),
         );
       },
@@ -2502,15 +2255,56 @@ class _MemberSummaryStrip extends StatelessWidget {
   }
 }
 
-class _MemberFilterChip extends StatelessWidget {
-  const _MemberFilterChip({
-    required this.label,
-    required this.selected,
+class _MemberControlDock extends StatelessWidget {
+  const _MemberControlDock({
+    required this.filterLabel,
+    required this.sortLabel,
+    required this.onFilterTap,
+    required this.onSortTap,
+  });
+
+  final String filterLabel;
+  final String sortLabel;
+  final VoidCallback onFilterTap;
+  final VoidCallback onSortTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: _MemberControlButton(
+            icon: CollectIcons.people,
+            title: 'Members',
+            value: filterLabel,
+            onTap: onFilterTap,
+          ),
+        ),
+        CollectSpacing.gapW12,
+        Expanded(
+          child: _MemberControlButton(
+            icon: CollectIcons.activity,
+            title: 'Sort',
+            value: sortLabel,
+            onTap: onSortTap,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _MemberControlButton extends StatelessWidget {
+  const _MemberControlButton({
+    required this.icon,
+    required this.title,
+    required this.value,
     required this.onTap,
   });
 
-  final String label;
-  final bool selected;
+  final IconData icon;
+  final String title;
+  final String value;
   final VoidCallback onTap;
 
   @override
@@ -2518,28 +2312,55 @@ class _MemberFilterChip extends StatelessWidget {
     final colors = context.collectColors;
     return Semantics(
       button: true,
-      selected: selected,
-      label: label,
+      label: '$title $value',
       child: Material(
-        color: selected ? colors.actionCrimson : colors.surfaceRaised,
+        color: colors.surfaceRaised.withValues(alpha: 0.92),
         borderRadius: CollectRadius.pillBorder,
-        child: InkWell(
-          borderRadius: CollectRadius.pillBorder,
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: CollectSpacing.x4,
-              vertical: CollectSpacing.x2,
-            ),
-            child: Center(
-              child: Text(
-                label,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: selected ? Colors.white : colors.textPrimary,
-                  fontWeight: FontWeight.w900,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: CollectRadius.pillBorder,
+            border: Border.all(color: colors.border.withValues(alpha: 0.76)),
+          ),
+          child: InkWell(
+            borderRadius: CollectRadius.pillBorder,
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: CollectSpacing.x3,
+                vertical: CollectSpacing.x2,
+              ),
+              child: Row(
+                children: [
+                  Icon(icon, color: colors.actionCrimson, size: 20),
+                  CollectSpacing.gapW8,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          title.toUpperCase(),
+                          style: CollectTypography.eyebrowLabel(
+                            colors.textMuted,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          value,
+                          style: Theme.of(context).textTheme.labelLarge
+                              ?.copyWith(
+                                color: colors.textPrimary,
+                                fontWeight: FontWeight.w900,
+                              ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(CollectIcons.chevron, size: 18),
+                ],
               ),
             ),
           ),
@@ -2549,42 +2370,93 @@ class _MemberFilterChip extends StatelessWidget {
   }
 }
 
-class _MemberSortButton extends StatelessWidget {
-  const _MemberSortButton({required this.label, required this.onTap});
+class _MemberOptionSheet<T> extends StatelessWidget {
+  const _MemberOptionSheet({
+    required this.title,
+    required this.values,
+    required this.selected,
+    required this.labelFor,
+    required this.onSelected,
+  });
 
+  final String title;
+  final List<T> values;
+  final T selected;
+  final String Function(T value) labelFor;
+  final ValueChanged<T> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: Theme.of(context).textTheme.titleLarge),
+          CollectSpacing.gap12,
+          Wrap(
+            spacing: CollectSpacing.x2,
+            runSpacing: CollectSpacing.x2,
+            children: [
+              for (final value in values)
+                _MemberSheetPill<T>(
+                  value: value,
+                  label: labelFor(value),
+                  selected: selected == value,
+                  onSelected: onSelected,
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MemberSheetPill<T> extends StatelessWidget {
+  const _MemberSheetPill({
+    required this.value,
+    required this.label,
+    required this.selected,
+    required this.onSelected,
+  });
+
+  final T value;
   final String label;
-  final VoidCallback onTap;
+  final bool selected;
+  final ValueChanged<T> onSelected;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return Tooltip(
-      message: 'Sort members',
-      child: Material(
-        color: colors.surfaceRaised,
+    return Material(
+      color: selected ? colors.actionCrimson : colors.surface,
+      borderRadius: CollectRadius.pillBorder,
+      child: InkWell(
         borderRadius: CollectRadius.pillBorder,
-        child: InkWell(
-          borderRadius: CollectRadius.pillBorder,
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: CollectSpacing.x3,
-              vertical: CollectSpacing.x2,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(CollectIcons.filter, size: 18),
-                CollectSpacing.gapW8,
-                Text(
-                  label,
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: colors.textPrimary,
-                    fontWeight: FontWeight.w900,
-                  ),
+        onTap: () => onSelected(value),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: CollectSpacing.x3,
+            vertical: CollectSpacing.x2,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                selected ? CollectIcons.check : CollectIcons.filter,
+                size: 18,
+                color: selected ? Colors.white : colors.textSecondary,
+              ),
+              CollectSpacing.gapW8,
+              Text(
+                label,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: selected ? Colors.white : colors.textPrimary,
+                  fontWeight: FontWeight.w900,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -2629,8 +2501,17 @@ int _compareMembers(
 
 String _memberSubtitle(CollectMember member) {
   final role = member.role == 'owner' ? 'Owner' : 'Member';
-  final status = member.status == 'active' ? 'Active' : member.status;
+  final status = _memberStatusLabel(member.status);
   return '$role · $status';
+}
+
+String _memberStatusLabel(String status) {
+  final normalized = status.trim().replaceAll('_', ' ');
+  if (normalized.isEmpty) return 'Unknown';
+  return normalized
+      .split(RegExp(r'\s+'))
+      .map((word) => word[0].toUpperCase() + word.substring(1).toLowerCase())
+      .join(' ');
 }
 
 class _SimpleStateScreen extends StatelessWidget {

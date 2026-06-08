@@ -99,7 +99,6 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
               child: SwitchListTile.adaptive(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Public group'),
-                subtitle: const Text('Visible in public group discovery.'),
                 value: _isPublic,
                 onChanged: (value) => setState(() => _isPublic = value),
               ),

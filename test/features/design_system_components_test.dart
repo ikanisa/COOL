@@ -139,24 +139,17 @@ void main() {
     }
   });
 
-  testWidgets('QR card sizes link surface for narrow mobile widths', (
+  testWidgets('Collect ID card renders identity without hash prefix', (
     tester,
   ) async {
     await _pumpCollect(
       tester,
-      const SizedBox(
-        width: 280,
-        child: QRCard(
-          link:
-              'https://collect.example/c/st-michel-medical-support-private-link',
-          caption: 'Share this private group link.',
-        ),
-      ),
+      const SizedBox(width: 280, child: CollectIdCard(publicId: '038491')),
     );
 
-    expect(find.text('Share this private group link.'), findsOneWidget);
-    expect(find.textContaining('collect.example'), findsOneWidget);
-    expect(find.text('Copy'), findsOneWidget);
+    expect(find.byIcon(CollectIcons.profile), findsOneWidget);
+    expect(find.text('038491'), findsOneWidget);
+    expect(find.textContaining('#'), findsNothing);
   });
 
   testWidgets('receiver consent card shows SMS access privacy copy', (

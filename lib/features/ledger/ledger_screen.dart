@@ -103,15 +103,13 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
           label: 'Search Collect ID or transaction',
           onChanged: (value) => setState(() => _query = value),
         ),
-        _LedgerFilterRail(
-          selected: _filter,
-          onChanged: (filter) => setState(() => _filter = filter),
+        _LedgerControlDock(
+          filterLabel: _ledgerFilterLabel(_filter),
+          sortLabel: _ledgerSortLabel(_sort),
+          onFilterTap: _showFilterSheet,
+          onSortTap: _showSortSheet,
         ),
-        SectionHeader(
-          title: 'Activity',
-          actionLabel: _ledgerSortLabel(_sort),
-          onAction: _showSortSheet,
-        ),
+        const SectionHeader(title: 'Activity'),
         if (!hasAnyLedgerActivity)
           EmptyIllustrationState(
             icon: CollectIcons.ledger,
@@ -164,34 +162,44 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
     );
   }
 
+  void _showFilterSheet() {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) {
+        return CollectBottomSheet(
+          child: _LedgerOptionSheet<_LedgerFilter>(
+            title: 'Filter ledger',
+            values: _LedgerFilter.values,
+            selected: _filter,
+            labelFor: _ledgerFilterLabel,
+            onSelected: (filter) {
+              setState(() => _filter = filter);
+              Navigator.of(context).pop();
+            },
+          ),
+        );
+      },
+    );
+  }
+
   void _showSortSheet() {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (context) {
         return CollectBottomSheet(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Sort activity',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              CollectSpacing.gap12,
-              for (final sort in _LedgerSort.values)
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(
-                    _sort == sort ? CollectIcons.check : CollectIcons.filter,
-                  ),
-                  title: Text(_ledgerSortLabel(sort)),
-                  onTap: () {
-                    setState(() => _sort = sort);
-                    Navigator.of(context).pop();
-                  },
-                ),
-            ],
+          child: _LedgerOptionSheet<_LedgerSort>(
+            title: 'Sort ledger',
+            values: _LedgerSort.values,
+            selected: _sort,
+            labelFor: _ledgerSortLabel,
+            onSelected: (sort) {
+              setState(() => _sort = sort);
+              Navigator.of(context).pop();
+            },
           ),
         );
       },
@@ -199,43 +207,56 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
   }
 }
 
-class _LedgerFilterRail extends StatelessWidget {
-  const _LedgerFilterRail({required this.selected, required this.onChanged});
+class _LedgerControlDock extends StatelessWidget {
+  const _LedgerControlDock({
+    required this.filterLabel,
+    required this.sortLabel,
+    required this.onFilterTap,
+    required this.onSortTap,
+  });
 
-  final _LedgerFilter selected;
-  final ValueChanged<_LedgerFilter> onChanged;
+  final String filterLabel;
+  final String sortLabel;
+  final VoidCallback onFilterTap;
+  final VoidCallback onSortTap;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 44,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        clipBehavior: Clip.none,
-        itemCount: _LedgerFilter.values.length,
-        separatorBuilder: (_, _) => CollectSpacing.gapW8,
-        itemBuilder: (context, index) {
-          final filter = _LedgerFilter.values[index];
-          return _LedgerFilterChip(
-            label: _ledgerFilterLabel(filter),
-            selected: selected == filter,
-            onTap: () => onChanged(filter),
-          );
-        },
-      ),
+    return Row(
+      children: [
+        Expanded(
+          child: _LedgerControlButton(
+            icon: CollectIcons.filter,
+            title: 'Status',
+            value: filterLabel,
+            onTap: onFilterTap,
+          ),
+        ),
+        CollectSpacing.gapW12,
+        Expanded(
+          child: _LedgerControlButton(
+            icon: CollectIcons.activity,
+            title: 'Sort',
+            value: sortLabel,
+            onTap: onSortTap,
+          ),
+        ),
+      ],
     );
   }
 }
 
-class _LedgerFilterChip extends StatelessWidget {
-  const _LedgerFilterChip({
-    required this.label,
-    required this.selected,
+class _LedgerControlButton extends StatelessWidget {
+  const _LedgerControlButton({
+    required this.icon,
+    required this.title,
+    required this.value,
     required this.onTap,
   });
 
-  final String label;
-  final bool selected;
+  final IconData icon;
+  final String title;
+  final String value;
   final VoidCallback onTap;
 
   @override
@@ -243,30 +264,151 @@ class _LedgerFilterChip extends StatelessWidget {
     final colors = context.collectColors;
     return Semantics(
       button: true,
-      selected: selected,
-      label: label,
+      label: '$title $value',
       child: Material(
-        color: selected ? colors.actionCrimson : colors.surfaceRaised,
+        color: colors.surfaceRaised.withValues(alpha: 0.92),
         borderRadius: CollectRadius.pillBorder,
-        child: InkWell(
-          borderRadius: CollectRadius.pillBorder,
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: CollectSpacing.x4,
-              vertical: CollectSpacing.x2,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: CollectRadius.pillBorder,
+            border: Border.all(color: colors.border.withValues(alpha: 0.76)),
+          ),
+          child: InkWell(
+            borderRadius: CollectRadius.pillBorder,
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: CollectSpacing.x3,
+                vertical: CollectSpacing.x2,
+              ),
+              child: Row(
+                children: [
+                  Icon(icon, color: colors.actionCrimson, size: 20),
+                  CollectSpacing.gapW8,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          title.toUpperCase(),
+                          style: CollectTypography.eyebrowLabel(
+                            colors.textMuted,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          value,
+                          style: Theme.of(context).textTheme.labelLarge
+                              ?.copyWith(
+                                color: colors.textPrimary,
+                                fontWeight: FontWeight.w900,
+                              ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(CollectIcons.chevron, size: 18),
+                ],
+              ),
             ),
-            child: Center(
-              child: Text(
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LedgerOptionSheet<T> extends StatelessWidget {
+  const _LedgerOptionSheet({
+    required this.title,
+    required this.values,
+    required this.selected,
+    required this.labelFor,
+    required this.onSelected,
+  });
+
+  final String title;
+  final List<T> values;
+  final T selected;
+  final String Function(T value) labelFor;
+  final ValueChanged<T> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: Theme.of(context).textTheme.titleLarge),
+          CollectSpacing.gap12,
+          Wrap(
+            spacing: CollectSpacing.x2,
+            runSpacing: CollectSpacing.x2,
+            children: [
+              for (final value in values)
+                _LedgerSheetPill<T>(
+                  value: value,
+                  label: labelFor(value),
+                  selected: selected == value,
+                  onSelected: onSelected,
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LedgerSheetPill<T> extends StatelessWidget {
+  const _LedgerSheetPill({
+    required this.value,
+    required this.label,
+    required this.selected,
+    required this.onSelected,
+  });
+
+  final T value;
+  final String label;
+  final bool selected;
+  final ValueChanged<T> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Material(
+      color: selected ? colors.actionCrimson : colors.surface,
+      borderRadius: CollectRadius.pillBorder,
+      child: InkWell(
+        borderRadius: CollectRadius.pillBorder,
+        onTap: () => onSelected(value),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: CollectSpacing.x3,
+            vertical: CollectSpacing.x2,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                selected ? CollectIcons.check : CollectIcons.filter,
+                size: 18,
+                color: selected ? Colors.white : colors.textSecondary,
+              ),
+              CollectSpacing.gapW8,
+              Text(
                 label,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: selected ? Colors.white : colors.textPrimary,
                   fontWeight: FontWeight.w900,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
-            ),
+            ],
           ),
         ),
       ),

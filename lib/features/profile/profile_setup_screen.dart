@@ -19,9 +19,8 @@ class ProfileSetupScreen extends ConsumerStatefulWidget {
 class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
   final _momo = TextEditingController();
   bool _synced = false;
-  int _step = 0;
   bool _saving = false;
-  bool _complete = false;
+  bool _saved = false;
   String? _error;
 
   @override
@@ -41,9 +40,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
     }
     return ScreenScaffold(
       title: 'Profile setup',
-      subtitle: profile == null
-          ? 'Sign in to create a Collect ID.'
-          : 'Step ${_step + 1} of 3',
+      subtitle: profile == null ? 'Sign in to create a Collect ID.' : null,
       bottomAction: _bottomAction(context, profile),
       children: [
         if (profile == null)
@@ -54,36 +51,15 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                 'Collect creates your private 6-digit ID after WhatsApp verification.',
             tone: CollectStatusTone.warning,
           )
-        else if (_complete)
-          const MinimalStatePanel(
-            icon: CollectIcons.check,
-            title: 'Profile ready.',
-            message:
-                'Your Collect ID and MoMo number are ready for group activity.',
-            tone: CollectStatusTone.success,
-          )
-        else if (_step == 0)
-          Column(
-            children: [
-              CollectIdDisplay(
-                publicId: profile.publicId,
-                onCopy: () => copyToClipboard(
-                  context,
-                  profile.publicId,
-                  message: 'Collect ID copied.',
-                ),
-              ),
-              const InfoSecurityBanner(
-                title: 'Private identity',
-                message:
-                    'Use this Collect ID for group contributions. Collect does not ask members for display names or avatars.',
-                tone: CollectStatusTone.privacy,
-              ),
-            ],
-          )
-        else if (_step == 1)
+        else ...[
+          if (_saved)
+            const InfoSecurityBanner(
+              title: 'Profile saved',
+              message: 'Your MoMo account is ready for group activity.',
+              tone: CollectStatusTone.success,
+            ),
           FormSectionCard(
-            title: 'Add MoMo number',
+            title: 'Linked MoMo',
             errorTitle: 'Profile not saved',
             errorMessage: _error,
             children: [
@@ -95,15 +71,16 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                 autofillHints: const [AutofillHints.telephoneNumber],
               ),
             ],
-          )
-        else
-          const MinimalStatePanel(
-            icon: CollectIcons.tune,
-            title: 'Stay ready for group activity.',
-            message:
-                'Notifications and SMS access help Collect show payment progress, confirmations, and owner ledger updates.',
-            tone: CollectStatusTone.info,
           ),
+          CollectIdDisplay(
+            publicId: profile.publicId,
+            onCopy: () => copyToClipboard(
+              context,
+              profile.publicId,
+              message: 'Collect ID copied.',
+            ),
+          ),
+        ],
       ],
     );
   }
@@ -121,73 +98,25 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
         ],
       );
     }
-    if (_step == 0) {
-      return BottomActionSurface(
-        children: [
-          CollectButton(
-            label: 'Continue',
-            icon: CollectIcons.arrowForward,
-            onPressed: () => setState(() => _step = 1),
-            expand: true,
-          ),
-          CollectButton(
-            label: 'Back to settings',
-            icon: CollectIcons.chevron,
-            onPressed: () => context.go('/settings'),
-            variant: CollectButtonVariant.secondary,
-            expand: true,
-          ),
-        ],
-      );
-    }
-    if (_step == 1) {
-      return BottomActionSurface(
-        children: [
-          CollectButton(
-            label: _saving ? 'Saving' : 'Save MoMo number',
-            icon: CollectIcons.check,
-            onPressed: _saving ? null : _saveMomoNumber,
-            expand: true,
-          ),
-          CollectButton(
-            label: 'Back',
-            icon: CollectIcons.chevron,
-            onPressed: _saving ? null : () => setState(() => _step = 0),
-            variant: CollectButtonVariant.secondary,
-            expand: true,
-          ),
-        ],
-      );
-    }
     return BottomActionSurface(
       children: [
+        CollectButton(
+          label: _saving ? 'Saving' : 'Save MoMo number',
+          icon: CollectIcons.check,
+          onPressed: _saving ? null : _saveMomoNumber,
+          expand: true,
+        ),
         CollectButton(
           label: 'Device permissions',
           icon: CollectIcons.tune,
           onPressed: () => context.go('/permissions/device'),
-          expand: true,
-        ),
-        CollectButton(
-          label: 'Finish setup',
-          icon: CollectIcons.check,
-          onPressed: () {
-            final pendingSlug = ref.read(pendingSharedGroupSlugProvider);
-            if (pendingSlug?.trim().isNotEmpty == true) {
-              context.go('/c/$pendingSlug');
-            } else {
-              context.go('/home');
-            }
-          },
           variant: CollectButtonVariant.secondary,
           expand: true,
         ),
         CollectButton(
-          label: 'Back',
+          label: 'Back to settings',
           icon: CollectIcons.chevron,
-          onPressed: () => setState(() {
-            _complete = false;
-            _step = 1;
-          }),
+          onPressed: () => context.go('/settings'),
           variant: CollectButtonVariant.subtle,
           expand: true,
         ),
@@ -205,13 +134,19 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
       _error = null;
     });
     try {
-      await ref
-          .read(collectRepositoryProvider.notifier)
-          .updateProfile(momoNumber: _momo.text);
+      final repository = ref.read(collectRepositoryProvider.notifier);
+      await repository.updateProfile(momoNumber: _momo.text);
       if (!mounted) return;
+      final pendingSlug = ref.read(pendingSharedGroupSlugProvider)?.trim();
+      if (pendingSlug != null && pendingSlug.isNotEmpty) {
+        final collection = await repository.joinGroupBySlug(pendingSlug);
+        ref.read(pendingSharedGroupSlugProvider.notifier).state = null;
+        if (!mounted) return;
+        context.go('/groups/${collection.id}/joined');
+        return;
+      }
       setState(() {
-        _step = 2;
-        _complete = true;
+        _saved = true;
         _saving = false;
         _error = null;
       });

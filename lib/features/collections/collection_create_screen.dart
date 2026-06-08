@@ -145,6 +145,15 @@ class _CollectionCreateScreenState
             tone: CollectStatusTone.privacy,
           ),
         ] else if (_step == 2) ...[
+          _MobileCreatePanel(
+            error: _error,
+            children: [
+              _GroupColorPalette(
+                selectedHex: _accentColorHex,
+                onChanged: (hex) => setState(() => _accentColorHex = hex),
+              ),
+            ],
+          ),
           _CreateGroupPhotoCard(
             title: _title.text.trim(),
             accentColor: _selectedAccentColor,
@@ -159,15 +168,6 @@ class _CollectionCreateScreenState
                       _groupImageMimeType = null;
                     });
                   },
-          ),
-          _MobileCreatePanel(
-            error: _error,
-            children: [
-              _GroupColorPalette(
-                selectedHex: _accentColorHex,
-                onChanged: (hex) => setState(() => _accentColorHex = hex),
-              ),
-            ],
           ),
         ] else if (_step == 3) ...[
           const MinimalStatePanel(

@@ -479,10 +479,6 @@ required_mobile_routes = %w[
   /groups/col-church/ledger
   /groups/col-church/manage
   /groups/col-church/profile
-  /groups/col-church/leave
-  /groups/col-church/close
-  /groups/col-church/transfer-owner
-  /groups/col-church/remove-member
   /groups/col-church/members
   /settings
   /settings/account

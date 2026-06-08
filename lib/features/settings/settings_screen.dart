@@ -47,20 +47,6 @@ class SettingsScreen extends ConsumerWidget {
               onTap: () => context.go('/settings/account'),
             ),
             CollectListTile(
-              leading: CollectIcons.momo,
-              title: 'Linked MoMo',
-              subtitle: profile?.momoNumber ?? 'Not linked',
-              trailing: CollectStatusChip(
-                label: profile?.momoNumber?.trim().isNotEmpty == true
-                    ? 'Ready'
-                    : 'Missing',
-                tone: profile?.momoNumber?.trim().isNotEmpty == true
-                    ? CollectStatusTone.success
-                    : CollectStatusTone.warning,
-              ),
-              onTap: () => context.go('/settings/profile'),
-            ),
-            CollectListTile(
               leading: CollectIcons.check,
               title: 'Readiness',
               subtitle: 'Profile and groups.',

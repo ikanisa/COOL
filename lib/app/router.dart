@@ -52,10 +52,6 @@ const collectRoutePaths = <String>[
   '/groups/:collectionId/members',
   '/groups/:collectionId/manage',
   '/groups/:collectionId/profile',
-  '/groups/:collectionId/leave',
-  '/groups/:collectionId/close',
-  '/groups/:collectionId/transfer-owner',
-  '/groups/:collectionId/remove-member',
   '/groups/:collectionId/contribute',
   '/groups/:collectionId/pay/:intentId/waiting',
   '/groups/:collectionId/pay/:intentId/state/:state',
@@ -223,34 +219,6 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
                     ),
                   ),
                   GoRoute(
-                    path: 'leave',
-                    builder: (context, state) => OwnerLifecycleActionScreen(
-                      collectionId: state.pathParameters['collectionId']!,
-                      action: OwnerLifecycleAction.leave,
-                    ),
-                  ),
-                  GoRoute(
-                    path: 'close',
-                    builder: (context, state) => OwnerLifecycleActionScreen(
-                      collectionId: state.pathParameters['collectionId']!,
-                      action: OwnerLifecycleAction.close,
-                    ),
-                  ),
-                  GoRoute(
-                    path: 'transfer-owner',
-                    builder: (context, state) => OwnerLifecycleActionScreen(
-                      collectionId: state.pathParameters['collectionId']!,
-                      action: OwnerLifecycleAction.transferOwner,
-                    ),
-                  ),
-                  GoRoute(
-                    path: 'remove-member',
-                    builder: (context, state) => OwnerLifecycleActionScreen(
-                      collectionId: state.pathParameters['collectionId']!,
-                      action: OwnerLifecycleAction.removeMember,
-                    ),
-                  ),
-                  GoRoute(
                     path: 'contribute',
                     builder: (context, state) => ContributionFlowScreen(
                       collectionId: state.pathParameters['collectionId']!,
@@ -300,8 +268,9 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
                   ),
                   GoRoute(
                     path: 'invite',
-                    redirect: (context, state) =>
-                        '/groups/${state.pathParameters['collectionId']}/share',
+                    builder: (context, state) => CollectionDetailScreen(
+                      collectionId: state.pathParameters['collectionId']!,
+                    ),
                   ),
                   GoRoute(
                     path: 'ledger',

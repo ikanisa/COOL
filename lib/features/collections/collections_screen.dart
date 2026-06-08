@@ -86,17 +86,11 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           label: 'Search groups',
           onChanged: (value) => setState(() => _query = value),
         ),
-        Row(
-          children: [
-            Expanded(
-              child: _GroupFilterRail(
-                selected: _visibilityFilter,
-                onChanged: (value) => setState(() => _visibilityFilter = value),
-              ),
-            ),
-            CollectSpacing.gapW8,
-            _GroupSortButton(label: _sortLabel(_sort), onTap: _showSortSheet),
-          ],
+        _GroupControlDock(
+          filterLabel: _visibilityFilterLabel(_visibilityFilter),
+          sortLabel: _sortLabel(_sort),
+          onFilterTap: _showFilterSheet,
+          onSortTap: _showSortSheet,
         ),
         if (visibleCollections.isEmpty)
           EmptySearchState(
@@ -152,30 +146,40 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (context) {
         return CollectBottomSheet(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Sort groups',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              CollectSpacing.gap12,
-              for (final sort in _GroupSort.values)
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(
-                    _sort == sort ? CollectIcons.check : CollectIcons.filter,
-                  ),
-                  title: Text(_sortLabel(sort)),
-                  onTap: () {
-                    setState(() => _sort = sort);
-                    Navigator.of(context).pop();
-                  },
-                ),
-            ],
+          child: _GroupOptionSheet<_GroupSort>(
+            title: 'Sort groups',
+            values: _GroupSort.values,
+            selected: _sort,
+            labelFor: _sortLabel,
+            onSelected: (sort) {
+              setState(() => _sort = sort);
+              Navigator.of(context).pop();
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void _showFilterSheet() {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) {
+        return CollectBottomSheet(
+          child: _GroupOptionSheet<_GroupVisibilityFilter>(
+            title: 'Filter groups',
+            values: _GroupVisibilityFilter.values,
+            selected: _visibilityFilter,
+            labelFor: _visibilityFilterLabel,
+            onSelected: (filter) {
+              setState(() => _visibilityFilter = filter);
+              Navigator.of(context).pop();
+            },
           ),
         );
       },
@@ -183,43 +187,56 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
   }
 }
 
-class _GroupFilterRail extends StatelessWidget {
-  const _GroupFilterRail({required this.selected, required this.onChanged});
+class _GroupControlDock extends StatelessWidget {
+  const _GroupControlDock({
+    required this.filterLabel,
+    required this.sortLabel,
+    required this.onFilterTap,
+    required this.onSortTap,
+  });
 
-  final _GroupVisibilityFilter selected;
-  final ValueChanged<_GroupVisibilityFilter> onChanged;
+  final String filterLabel;
+  final String sortLabel;
+  final VoidCallback onFilterTap;
+  final VoidCallback onSortTap;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 44,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        clipBehavior: Clip.none,
-        itemCount: _GroupVisibilityFilter.values.length,
-        separatorBuilder: (_, _) => CollectSpacing.gapW8,
-        itemBuilder: (context, index) {
-          final filter = _GroupVisibilityFilter.values[index];
-          return _GroupFilterPill(
-            label: _visibilityFilterLabel(filter),
-            selected: selected == filter,
-            onTap: () => onChanged(filter),
-          );
-        },
-      ),
+    return Row(
+      children: [
+        Expanded(
+          child: _GroupControlButton(
+            icon: CollectIcons.public,
+            title: 'Visibility',
+            value: filterLabel,
+            onTap: onFilterTap,
+          ),
+        ),
+        CollectSpacing.gapW12,
+        Expanded(
+          child: _GroupControlButton(
+            icon: CollectIcons.activity,
+            title: 'Sort',
+            value: sortLabel,
+            onTap: onSortTap,
+          ),
+        ),
+      ],
     );
   }
 }
 
-class _GroupFilterPill extends StatelessWidget {
-  const _GroupFilterPill({
-    required this.label,
-    required this.selected,
+class _GroupControlButton extends StatelessWidget {
+  const _GroupControlButton({
+    required this.icon,
+    required this.title,
+    required this.value,
     required this.onTap,
   });
 
-  final String label;
-  final bool selected;
+  final IconData icon;
+  final String title;
+  final String value;
   final VoidCallback onTap;
 
   @override
@@ -227,26 +244,55 @@ class _GroupFilterPill extends StatelessWidget {
     final colors = context.collectColors;
     return Semantics(
       button: true,
-      selected: selected,
-      label: label,
+      label: '$title $value',
       child: Material(
-        color: selected ? colors.actionCrimson : colors.surfaceRaised,
+        color: colors.surfaceRaised.withValues(alpha: 0.92),
         borderRadius: CollectRadius.pillBorder,
-        child: InkWell(
-          borderRadius: CollectRadius.pillBorder,
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: CollectSpacing.x4,
-              vertical: CollectSpacing.x2,
-            ),
-            child: Center(
-              child: Text(
-                label,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: selected ? Colors.white : colors.textPrimary,
-                  fontWeight: FontWeight.w900,
-                ),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: CollectRadius.pillBorder,
+            border: Border.all(color: colors.border.withValues(alpha: 0.76)),
+          ),
+          child: InkWell(
+            borderRadius: CollectRadius.pillBorder,
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: CollectSpacing.x3,
+                vertical: CollectSpacing.x2,
+              ),
+              child: Row(
+                children: [
+                  Icon(icon, color: colors.actionCrimson, size: 20),
+                  CollectSpacing.gapW8,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          title.toUpperCase(),
+                          style: CollectTypography.eyebrowLabel(
+                            colors.textMuted,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          value,
+                          style: Theme.of(context).textTheme.labelLarge
+                              ?.copyWith(
+                                color: colors.textPrimary,
+                                fontWeight: FontWeight.w900,
+                              ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(CollectIcons.chevron, size: 18),
+                ],
               ),
             ),
           ),
@@ -256,42 +302,93 @@ class _GroupFilterPill extends StatelessWidget {
   }
 }
 
-class _GroupSortButton extends StatelessWidget {
-  const _GroupSortButton({required this.label, required this.onTap});
+class _GroupOptionSheet<T> extends StatelessWidget {
+  const _GroupOptionSheet({
+    required this.title,
+    required this.values,
+    required this.selected,
+    required this.labelFor,
+    required this.onSelected,
+  });
 
+  final String title;
+  final List<T> values;
+  final T selected;
+  final String Function(T value) labelFor;
+  final ValueChanged<T> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: Theme.of(context).textTheme.titleLarge),
+          CollectSpacing.gap12,
+          Wrap(
+            spacing: CollectSpacing.x2,
+            runSpacing: CollectSpacing.x2,
+            children: [
+              for (final value in values)
+                _GroupSheetPill<T>(
+                  value: value,
+                  label: labelFor(value),
+                  selected: selected == value,
+                  onSelected: onSelected,
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GroupSheetPill<T> extends StatelessWidget {
+  const _GroupSheetPill({
+    required this.value,
+    required this.label,
+    required this.selected,
+    required this.onSelected,
+  });
+
+  final T value;
   final String label;
-  final VoidCallback onTap;
+  final bool selected;
+  final ValueChanged<T> onSelected;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return Tooltip(
-      message: 'Sort groups',
-      child: Material(
-        color: colors.surfaceRaised,
+    return Material(
+      color: selected ? colors.actionCrimson : colors.surface,
+      borderRadius: CollectRadius.pillBorder,
+      child: InkWell(
         borderRadius: CollectRadius.pillBorder,
-        child: InkWell(
-          borderRadius: CollectRadius.pillBorder,
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: CollectSpacing.x3,
-              vertical: CollectSpacing.x2,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(CollectIcons.filter, size: 18),
-                CollectSpacing.gapW8,
-                Text(
-                  label,
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: colors.textPrimary,
-                    fontWeight: FontWeight.w900,
-                  ),
+        onTap: () => onSelected(value),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: CollectSpacing.x3,
+            vertical: CollectSpacing.x2,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                selected ? CollectIcons.check : CollectIcons.filter,
+                size: 18,
+                color: selected ? Colors.white : colors.textSecondary,
+              ),
+              CollectSpacing.gapW8,
+              Text(
+                label,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: selected ? Colors.white : colors.textPrimary,
+                  fontWeight: FontWeight.w900,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

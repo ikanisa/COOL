@@ -46,10 +46,6 @@ void main() {
       '/permissions/camera-denied',
       '/share/expired/request',
       '/groups/col-church/support/payment/intent-render',
-      '/groups/col-church/leave',
-      '/groups/col-church/close',
-      '/groups/col-church/transfer-owner',
-      '/groups/col-church/remove-member',
     ];
 
     for (final route in routes) {
@@ -170,7 +166,8 @@ void main() {
     await tester.pump();
 
     expect(find.text('Profile setup'), findsOneWidget);
-    expect(find.text('Continue'), findsOneWidget);
+    expect(find.text('Save MoMo number'), findsOneWidget);
+    expect(find.text('MoMo number'), findsOneWidget);
   });
 
   testWidgets('completion sheets and dialogs tolerate 200 percent text scale', (
@@ -179,7 +176,8 @@ void main() {
     for (final route in const [
       '/permissions/camera-denied',
       '/groups/col-church/support/payment/intent-render',
-      '/groups/col-church/close',
+      '/groups/col-church/manage',
+      '/groups/col-church/profile',
     ]) {
       await pumpRoute(tester, route, textScale: 2);
       expect(tester.takeException(), isNull, reason: route);
@@ -218,44 +216,6 @@ void main() {
       expect(find.text('Review group'), findsOneWidget);
     } finally {
       debugDefaultTargetPlatformOverride = null;
-    }
-  });
-
-  testWidgets('owner lifecycle actions require confirmation dialogs', (
-    tester,
-  ) async {
-    const cases = [
-      (
-        route: '/groups/col-church/leave',
-        button: 'Leave group',
-        confirmation: 'Leave this group on this device?',
-      ),
-      (
-        route: '/groups/col-church/close',
-        button: 'Close group',
-        confirmation:
-            'This is a destructive owner action. Ledger records may be retained.',
-      ),
-      (
-        route: '/groups/col-church/transfer-owner',
-        button: 'Transfer owner',
-        confirmation: 'Submit this owner transfer request for support review?',
-      ),
-      (
-        route: '/groups/col-church/remove-member',
-        button: 'Remove member',
-        confirmation: 'Submit this member removal request for support review?',
-      ),
-    ];
-
-    for (final item in cases) {
-      await pumpRoute(tester, item.route);
-      await tester.tap(find.widgetWithText(FilledButton, item.button));
-      await tester.pump();
-
-      expect(find.text(item.confirmation), findsOneWidget, reason: item.route);
-      await tester.tap(find.widgetWithText(OutlinedButton, 'Cancel').last);
-      await tester.pump();
     }
   });
 

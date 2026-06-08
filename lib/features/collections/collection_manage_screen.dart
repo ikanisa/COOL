@@ -72,31 +72,23 @@ class CollectionManageScreen extends ConsumerWidget {
         CollectCard(
           emphasis: CollectCardEmphasis.glow,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CollectListTile(
                 leading: CollectIcons.info,
                 title: 'Group profile',
-                subtitle:
-                    'Name, image, visibility, recurring contribution, MoMo.',
+                subtitle: 'Name, image, visibility, recurrence, receiver.',
                 onTap: () => context.go('/groups/$collectionId/profile'),
               ),
-            ],
-          ),
-        ),
-        CollectCard(
-          child: Column(
-            children: [
               CollectListTile(
                 leading: CollectIcons.qr,
                 title: 'Group QR',
-                subtitle: 'Share or save join QR.',
+                subtitle: 'Show, share, or save the QR image.',
                 onTap: () => context.go('/groups/$collectionId/share'),
               ),
               CollectListTile(
                 leading: CollectIcons.share,
                 title: 'Share group',
-                subtitle: 'Native share with join link.',
+                subtitle: 'Native share invite link.',
                 onTap: () => shareGroupDeepLink(
                   context: context,
                   ref: ref,
@@ -106,51 +98,19 @@ class CollectionManageScreen extends ConsumerWidget {
               CollectListTile(
                 leading: CollectIcons.ledger,
                 title: 'Ledger',
-                subtitle: '${formatRwf(summary.amountRaisedRwf)} collected.',
+                subtitle: formatRwf(summary.amountRaisedRwf),
                 onTap: () => context.go('/groups/$collectionId/ledger'),
               ),
               CollectListTile(
                 leading: CollectIcons.people,
                 title: 'Members',
-                subtitle: '${summary.supporterCount} active.',
+                subtitle: '${summary.supporterCount}',
                 onTap: () => context.go('/groups/$collectionId/members'),
-              ),
-              CollectListTile(
-                leading: CollectIcons.profile,
-                title: 'Transfer owner',
-                subtitle: 'Submit a support-reviewed owner handoff.',
-                onTap: () => context.go('/groups/$collectionId/transfer-owner'),
-              ),
-              CollectListTile(
-                leading: CollectIcons.people,
-                title: 'Remove member',
-                subtitle: 'Use Collect ID only.',
-                onTap: () => context.go('/groups/$collectionId/remove-member'),
               ),
               const CollectListTile(
                 leading: CollectIcons.support,
                 title: 'Support',
-                subtitle: 'Receiver changes, closure, or review.',
                 onTap: openCollectWhatsAppSupport,
-              ),
-            ],
-          ),
-        ),
-        CollectCard(
-          emphasis: CollectCardEmphasis.flat,
-          child: Column(
-            children: [
-              CollectListTile(
-                leading: CollectIcons.error,
-                title: 'Close group',
-                subtitle: 'Auditable owner request.',
-                onTap: () => context.go('/groups/$collectionId/close'),
-              ),
-              CollectListTile(
-                leading: CollectIcons.chevron,
-                title: 'Leave group',
-                subtitle: 'Remove this group from this device.',
-                onTap: () => context.go('/groups/$collectionId/leave'),
               ),
             ],
           ),

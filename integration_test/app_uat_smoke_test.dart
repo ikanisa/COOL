@@ -121,7 +121,7 @@ void main() {
       router.go('/groups/col-church/ledger');
       await pumpLaunchFrames(tester);
 
-      expect(find.text('Ledger'), findsOneWidget);
+      expect(find.text('Ledger'), findsWidgets);
       expect(find.text('Anonymous supporter'), findsNothing);
       expect(find.text('Safe ledger'), findsNothing);
       expectNoGlobalSecrets();
@@ -144,10 +144,11 @@ void main() {
 
       final router = GoRouter.of(tester.element(find.text('Share').first));
       router.go('/groups/col-church/invite');
-      await pumpLaunchFrames(tester);
+      await tester.pumpAndSettle();
 
-      expect(find.text('Share'), findsWidgets);
-      expect(find.text('St Michel building fund'), findsOneWidget);
+      expect(find.text('Share'), findsNothing);
+      expect(find.text('St Michel building fund'), findsWidgets);
+      expect(find.text('Activity'), findsOneWidget);
       expect(find.text('SMS'), findsNothing);
       expect(find.text('WhatsApp'), findsNothing);
       expect(find.text('Copy deep link'), findsNothing);

@@ -457,36 +457,16 @@ class _HomeActionStrip extends ConsumerWidget {
       ),
     ];
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth < 560) {
-          return SizedBox(
-            height: 56,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              clipBehavior: Clip.none,
-              padding: EdgeInsets.zero,
-              itemCount: actions.length,
-              separatorBuilder: (_, _) => CollectSpacing.gapW8,
-              itemBuilder: (context, index) =>
-                  SizedBox(width: 96, child: actions[index]),
-            ),
-          );
-        }
-
-        return SizedBox(
-          height: 60,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            clipBehavior: Clip.none,
-            padding: EdgeInsets.zero,
-            itemCount: actions.length,
-            separatorBuilder: (_, _) => CollectSpacing.gapW8,
-            itemBuilder: (context, index) =>
-                SizedBox(width: 112, child: actions[index]),
-          ),
-        );
-      },
+    return SizedBox(
+      height: 58,
+      child: Row(
+        children: [
+          for (var index = 0; index < actions.length; index++) ...[
+            Expanded(child: actions[index]),
+            if (index != actions.length - 1) CollectSpacing.gapW8,
+          ],
+        ],
+      ),
     );
   }
 }
@@ -515,30 +495,42 @@ class _HomeActionItem extends StatelessWidget {
           onTap: onTap,
           borderRadius: CollectRadius.pillBorder,
           child: SizedBox.expand(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: CollectSpacing.x3,
-                vertical: CollectSpacing.x2,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(icon, color: colors.textPrimary, size: 22),
-                  CollectSpacing.gapW8,
-                  Flexible(
-                    child: Text(
-                      label,
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: colors.textPrimary,
-                        fontWeight: FontWeight.w800,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final iconOnly = constraints.maxWidth < 92;
+                final content = iconOnly
+                    ? Icon(icon, color: colors.textPrimary, size: 22)
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(icon, color: colors.textPrimary, size: 20),
+                          CollectSpacing.gapW8,
+                          Flexible(
+                            child: Text(
+                              label,
+                              style: Theme.of(context).textTheme.labelMedium
+                                  ?.copyWith(
+                                    color: colors.textPrimary,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      );
+                return Tooltip(
+                  message: label,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: CollectSpacing.x3,
+                      vertical: CollectSpacing.x2,
                     ),
+                    child: Center(child: content),
                   ),
-                ],
-              ),
+                );
+              },
             ),
           ),
         ),

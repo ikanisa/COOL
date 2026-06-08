@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 export '../../app/theme/collect_colors.dart';
 export '../../app/theme/collect_icons.dart';
@@ -2144,70 +2143,6 @@ class CollectIdCard extends StatelessWidget {
   }
 }
 
-class QRCard extends StatelessWidget {
-  const QRCard({
-    required this.link,
-    required this.caption,
-    this.onCopy,
-    super.key,
-  });
-
-  final String link;
-  final String caption;
-  final VoidCallback? onCopy;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return CollectCard(
-      child: Column(
-        children: [
-          Semantics(
-            label: 'QR code',
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: colors.surfaceRaised,
-                borderRadius: CollectRadius.cardBorder,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(CollectSpacing.x3),
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    final qrSize = (constraints.maxWidth - CollectSpacing.x6)
-                        .clamp(144.0, 208.0)
-                        .toDouble();
-                    return QrImageView(data: link, size: qrSize);
-                  },
-                ),
-              ),
-            ),
-          ),
-          CollectSpacing.gap16,
-          Text(
-            caption,
-            style: Theme.of(context).textTheme.bodyMedium,
-            textAlign: TextAlign.center,
-          ),
-          CollectSpacing.gap8,
-          SelectableText(
-            link,
-            style: CollectTypography.mono(colors.textPrimary),
-            textAlign: TextAlign.center,
-            maxLines: 3,
-          ),
-          CollectSpacing.gap16,
-          CollectButton(
-            label: 'Copy',
-            icon: CollectIcons.copy,
-            onPressed: onCopy,
-            expand: true,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class LedgerRow extends StatelessWidget {
   LedgerRow.confirmed({required Contribution contribution, super.key})
     : title = compactCollectIdLabel(contribution.supporterLabel),
@@ -3104,8 +3039,8 @@ class _PublicDiscoveryGroupCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            colors.surface.withValues(alpha: 0.08),
-                            colors.surface.withValues(alpha: 0.72),
+                            Colors.black.withValues(alpha: 0.08),
+                            Colors.black.withValues(alpha: 0.58),
                           ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
@@ -3267,8 +3202,8 @@ class _VisualGroupCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            colors.surface.withValues(alpha: 0.04),
-                            colors.surface.withValues(alpha: 0.78),
+                            Colors.black.withValues(alpha: 0.06),
+                            Colors.black.withValues(alpha: 0.62),
                           ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
@@ -3415,34 +3350,53 @@ class _GroupCoverTitleOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iconSize = compact ? 38.0 : 46.0;
-    return Row(
-      children: [
-        _GroupIconBadge(
-          icon: _groupIcon(collection),
-          accent: accent,
-          size: iconSize,
-        ),
-        CollectSpacing.gapW12,
-        Expanded(
-          child: Text(
-            collection.title,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w800,
-              fontSize: compact ? 18 : null,
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.72),
-                  blurRadius: 12,
-                  offset: const Offset(0, 2),
+    return ClipRRect(
+      borderRadius: CollectRadius.panelBorder,
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.black.withValues(alpha: 0.56),
+            borderRadius: CollectRadius.panelBorder,
+            border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: compact ? CollectSpacing.x2 : CollectSpacing.x3,
+              vertical: compact ? CollectSpacing.x2 : CollectSpacing.x3,
+            ),
+            child: Row(
+              children: [
+                _GroupIconBadge(
+                  icon: _groupIcon(collection),
+                  accent: accent,
+                  size: iconSize,
+                ),
+                CollectSpacing.gapW8,
+                Expanded(
+                  child: Text(
+                    collection.title,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
+                      fontSize: compact ? 17 : null,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withValues(alpha: 0.42),
+                          blurRadius: 8,
+                          offset: const Offset(0, 1),
+                        ),
+                      ],
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
           ),
         ),
-      ],
+      ),
     );
   }
 }
@@ -3749,38 +3703,43 @@ class PremiumScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Stack(
+      child: Column(
         children: [
-          ListView(
-            padding: CollectSpacing.screenPadding.copyWith(
-              bottom: bottomAction == null
-                  ? CollectSpacing.screenCompact + 112
-                  : CollectSpacing.screenCompact + 196,
-            ),
-            children: [
-              if (persistentPill != null) ...[
-                persistentPill!,
-                compact ? CollectSpacing.gap12 : CollectSpacing.gap20,
-              ],
-              if (showHeader)
-                ScreenHeader(
-                  title: title,
-                  subtitle: subtitle,
-                  actions: actions,
-                ),
-              if (banner != null) ...[CollectSpacing.gap20, banner!],
-              compact ? CollectSpacing.gap12 : CollectSpacing.gap24,
-              ..._withGaps(
-                children,
-                gap: compact ? CollectSpacing.gap12 : CollectSpacing.gap16,
+          Expanded(
+            child: ListView(
+              padding: CollectSpacing.screenPadding.copyWith(
+                bottom: bottomAction == null
+                    ? CollectSpacing.screenCompact + 112
+                    : CollectSpacing.x3,
               ),
-            ],
+              children: [
+                if (persistentPill != null) ...[
+                  persistentPill!,
+                  compact ? CollectSpacing.gap12 : CollectSpacing.gap20,
+                ],
+                if (showHeader)
+                  ScreenHeader(
+                    title: title,
+                    subtitle: subtitle,
+                    actions: actions,
+                  ),
+                if (banner != null) ...[CollectSpacing.gap20, banner!],
+                compact ? CollectSpacing.gap12 : CollectSpacing.gap24,
+                ..._withGaps(
+                  children,
+                  gap: compact ? CollectSpacing.gap12 : CollectSpacing.gap16,
+                ),
+              ],
+            ),
           ),
           if (bottomAction != null)
-            Positioned(
-              left: CollectSpacing.x4,
-              right: CollectSpacing.x4,
-              bottom: CollectSpacing.x4,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                CollectSpacing.x4,
+                CollectSpacing.x2,
+                CollectSpacing.x4,
+                CollectSpacing.x4,
+              ),
               child: bottomAction!,
             ),
         ],

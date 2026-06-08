@@ -1295,10 +1295,8 @@ checking Edge Function secret names
       evidenceIndex,
       contains('/groups/col-church/support/payment/intent-render'),
     );
-    expect(evidenceIndex, contains('/groups/col-church/leave'));
-    expect(evidenceIndex, contains('/groups/col-church/close'));
-    expect(evidenceIndex, contains('/groups/col-church/transfer-owner'));
-    expect(evidenceIndex, contains('/groups/col-church/remove-member'));
+    expect(evidenceIndex, contains('/groups/col-church/manage'));
+    expect(evidenceIndex, contains('/groups/col-church/members'));
     expect(evidenceIndex, contains('/share/expired/request'));
     expect(evidenceIndex, contains('/settings/account/delete'));
     expect(evidenceIndex, contains('/settings/legal/privacy'));
