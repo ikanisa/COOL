@@ -306,7 +306,8 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['checklist'], contains('release_owner_signoff'));
     expect(docs['qa'], contains('101'));
     expect(docs['packet'], contains('Final GO Criteria'));
-    expect(docs['approval'], contains('20260601T205424Z'));
+    expect(docs['approval'], contains('RELEASE_GATE_EVIDENCE_2026-06-07.md'));
+    expect(docs['approval'], contains('20260608T055625Z'));
     expect(docs['approval'], contains('product_signoff'));
     expect(docs['approval'], contains('collect_product_boundary_scan.sh'));
     expect(docs['approval'], contains('collect_product_boundary_scan.json'));
@@ -403,6 +404,19 @@ Date/time: 2026-06-01T12:30:00Z
     expect(decoded['blocker_keys'], isNot(contains('admin_pwa_live_url')));
     expect(jsonEncode(decoded), isNot(contains('auth_captcha_bot_protection')));
     expect(jsonEncode(decoded), isNot(contains('supabase_pitr')));
+  });
+
+  test('release status can read tracked Admin PWA deployment metadata', () {
+    final result = Process.runSync(
+      './scripts/release_status.sh',
+      ['--json'],
+      environment: {'COLLECT_LINKED_SMS_FIRST_UAT_PASSED': '1'},
+    );
+    expect(result.exitCode, 0);
+
+    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
+    expect(decoded['evidence_flags']['admin_pwa_live_url'], 'present');
+    expect(decoded['blocker_keys'], isNot(contains('admin_pwa_live_url')));
   });
 
   test('release status ignores direct approval environment overrides', () {

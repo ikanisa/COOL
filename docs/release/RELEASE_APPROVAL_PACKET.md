@@ -1,8 +1,8 @@
 # Collect Release Approval Packet
 
-Prepared: 2026-06-01  
+Prepared: 2026-06-08
 Decision: **NO-GO**  
-Current QA bundle: `.cache/repo_wide_qa_uat/20260601T205424Z`
+Current release evidence: `docs/release/RELEASE_GATE_EVIDENCE_2026-06-07.md`
 
 Purpose: give the product stakeholder, mobile release reviewer, iOS scope
 reviewer, SMS UAT reviewer, and release owner one current evidence packet for
@@ -60,15 +60,15 @@ data into approval records.
   - `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md`
   - `docs/design/COLLECT_ASSET_SCREEN_UI_UX_UPDATE_REPORT_2026-05-31.md`
   - `scripts/collect_product_boundary_scan.sh`
-  - `.cache/repo_wide_qa_uat/20260601T205424Z/collect_product_boundary_scan.json`
-  - `.cache/repo_wide_qa_uat/20260601T205424Z/summary.json`
+  - `.cache/repo_wide_qa_uat/20260608T055625Z/collect_product_boundary_scan.json`
+  - `docs/release/RELEASE_GATE_EVIDENCE_2026-06-07.md`
 - Required signoff fields:
   - reviewer
   - `decision=GO`
   - signed_at ISO-8601 UTC
   - evidence reference
 - Verify: record `product_signoff` in `docs/release/RELEASE_APPROVALS.json`,
-  then run `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make release-status-json`.
+  then run `make release-status-json`.
 - Recorder:
   `make record-release-approval ARGS="--key product_signoff --reviewer '<name>' --evidence-reference docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md --notes '<review summary>' --sanitized-evidence --no-production-customer-data"`
 
@@ -84,13 +84,12 @@ data into approval records.
 - Evidence to review:
   - `docs/ANDROID_SMS_ACCESS.md`
   - `docs/release/UAT_EVIDENCE_MANIFEST.json`
-  - `.cache/android_device_uat/20260602T042542Z/summary.json`
-  - `.cache/android_device_uat/20260602T042542Z/android_device_uat.txt`
+  - `.cache/android_device_uat/20260607Tpost-patch/android_device_uat.txt`
   - `scripts/collect_linked_uat.sh` pass after applying
     `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`
   - `.cache/supabase_go_live_evidence/20260602T045205Z/summary.json`
-  - `.cache/repo_wide_qa_uat/20260601T205424Z/uat_evidence_gate.json`
-  - `.cache/repo_wide_qa_uat/20260601T205424Z/supabase/summary.json`
+  - `.cache/repo_wide_qa_uat/20260608T055625Z/uat_evidence_gate.json`
+  - `.cache/repo_wide_qa_uat/20260608T055625Z/supabase/summary.json`
 - Required signoff fields:
   - tester/reviewer
   - all SMS evidence sanitized
@@ -100,7 +99,7 @@ data into approval records.
   `make record-android-sms-uat-evidence ARGS="--tester '<name>' --tested-at '<ISO-8601 UTC timestamp>' --device-label '<Android UAT device label>' --scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,privacy --evidence-summary '<sanitized scenario summary>' --sanitized-evidence --no-production-customer-data --raw-sms-not-public --no-phone-or-momo --no-transaction-ids"`
 - Verify: record sanitized device evidence, record UAT signoffs, record
   `android_sms_access_uat` in `docs/release/RELEASE_APPROVALS.json`, then run
-  `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make release-status-json`.
+  `make release-status-json`.
 - Recorder:
   `make record-release-approval ARGS="--key android_sms_access_uat --reviewer '<name>' --evidence-reference docs/release/UAT_EVIDENCE_MANIFEST.json --notes '<sanitized real-device SMS UAT review summary>' --sanitized-evidence --no-production-customer-data"`
 
@@ -115,12 +114,12 @@ data into approval records.
   Signing configuration without exposing signing keys.
 - Evidence to review:
   - `docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md`
-  - `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`
-  - `.cache/mobile_release_gate/20260602T050529Z/summary.json`
+  - `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-08.sha256`
+  - `.cache/release_gate/2026-06-07-brand-device/mobile_release_gate.json`
   - `.cache/android_install/20260602T050529Z/final_release_summary.json`
   - `build/app/outputs/flutter-apk/app-production-release.apk`
   - `build/app/outputs/bundle/productionRelease/app-production-release.aab`
-  - `.cache/repo_wide_qa_uat/20260601T205424Z/mobile_release_gate.json`
+  - `.cache/repo_wide_qa_uat/20260608T055625Z/mobile_release_gate.json`
 - Required signoff fields:
   - reviewer
   - `decision=GO`
@@ -147,8 +146,8 @@ data into approval records.
   - `ios/Runner/Info.plist`
   - `ios/Runner.xcodeproj/xcshareddata/xcschemes/production.xcscheme`
   - `ios/Flutter/Release-production.xcconfig`
-  - `.cache/mobile_release_gate/20260602T050529Z/summary.json`
-  - `.cache/repo_wide_qa_uat/20260601T205424Z/mobile_release_gate.json`
+  - `.cache/release_gate/2026-06-07-brand-device/mobile_release_gate.json`
+  - `.cache/repo_wide_qa_uat/20260608T055625Z/mobile_release_gate.json`
 - Required signoff fields:
   - reviewer
   - `decision=GO` or `decision=OUT_OF_SCOPE`
@@ -173,15 +172,16 @@ data into approval records.
   product, SMS UAT, signing, iOS scope, security, and final worktree checks
   are acceptable.
 - Evidence to review:
-  - `.cache/repo_wide_qa_uat/20260601T205424Z/summary.json`
+  - `docs/release/RELEASE_GATE_EVIDENCE_2026-06-07.md`
+  - `docs/release/LIVE_DEPLOYMENTS.json`
   - `.cache/admin_pwa_render_smoke/20260602T081408Z/summary.json`
   - `.cache/mobile_route_render_smoke/20260602T210133Z/summary.json`
-  - `.cache/android_device_uat/20260602T042542Z/summary.json`
+  - `.cache/android_device_uat/20260607Tpost-patch/android_device_uat.txt`
   - `.cache/supabase_go_live_evidence/20260602T045205Z/summary.json`
   - `docs/release/UAT_GO_LIVE_PACKET_2026-05-24.md`
   - `docs/release/GO_NO_GO_DECISION.md`
   - `docs/release/RELEASE_BLOCKERS.md`
-  - `.cache/repo_wide_qa_uat/20260601T205424Z/evidence_index.json`
+  - `.cache/repo_wide_qa_uat/20260608T055625Z/evidence_index.json`
   - Latest `scripts/release_worktree_review_gate.sh --json` output from the
     exact final release branch after all recorder/evidence/doc refresh commits
     are synced.
@@ -191,8 +191,7 @@ data into approval records.
   - signed_at ISO-8601 UTC
   - evidence packet reference
 - Verify: record `release_owner_signoff` in
-  `docs/release/RELEASE_APPROVALS.json`, then run
-  `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make release-status-json`.
+  `docs/release/RELEASE_APPROVALS.json`, then run `make release-status-json`.
 - Recorder:
   `make record-release-approval ARGS="--key release_owner_signoff --reviewer '<name>' --evidence-reference docs/release/RELEASE_APPROVAL_PACKET.md --notes '<final release-owner decision summary>' --sanitized-evidence --no-production-customer-data"`
   The recorder refuses this record until product, Android SMS UAT, Android
@@ -200,7 +199,7 @@ data into approval records.
 
 ## Required Final Commands
 
-- `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make release-status-json`
+- `make release-status-json`
 - `make release-approval-evidence-gate-json`
-- `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev make supabase-go-live-gate-json`
-- `ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/repo_wide_qa_uat.sh --json`
+- `make supabase-go-live-gate-json`
+- `./scripts/repo_wide_qa_uat.sh --json`

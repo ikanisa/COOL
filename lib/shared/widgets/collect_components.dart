@@ -1719,8 +1719,7 @@ class PaymentIntentStatusCard extends StatelessWidget {
           CollectSpacing.gap16,
           const InfoSecurityBanner(
             title: 'SMS verification',
-            message:
-                'Collect records the ledger only after MoMo SMS verification. Keep payment credentials and sign-in secrets private.',
+            message: 'Ledger updates after SMS.',
             tone: CollectStatusTone.privacy,
           ),
         ],

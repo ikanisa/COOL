@@ -11,7 +11,6 @@ import 'package:share_plus/share_plus.dart';
 import '../../app/env/app_env.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
-import '../../shared/widgets/screen_scaffold.dart';
 import 'group_share_service.dart';
 
 class ShareScreen extends ConsumerWidget {
@@ -21,6 +20,7 @@ class ShareScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.collectColors;
     final env = ref.watch(appEnvProvider);
     final repo = ref.read(collectRepositoryProvider.notifier);
     final collection = repo.collectionById(collectionId);
@@ -28,85 +28,115 @@ class ShareScreen extends ConsumerWidget {
     final filename = '${collection.slug}-qr';
     final shareText = groupShareMessageFor(env, collection);
 
-    return ScreenScaffold(
-      title: 'Group QR',
-      showHeader: false,
-      compact: true,
-      children: [
-        CollectBottomSheet(
+    return SafeArea(
+      child: ColoredBox(
+        color: colors.surface,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            CollectSpacing.x5,
+            CollectSpacing.x4,
+            CollectSpacing.x5,
+            CollectSpacing.x5,
+          ),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                children: [
-                  IconButton(
-                    tooltip: 'Close',
-                    onPressed: () => context.go('/groups/$collectionId'),
-                    icon: const Icon(Icons.close_rounded),
-                  ),
-                  Expanded(
-                    child: Text(
-                      collection.title,
-                      style: Theme.of(context).textTheme.titleLarge,
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  const SizedBox(width: 48),
-                ],
-              ),
-              CollectSpacing.gap20,
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: CollectRadius.cardLargeBorder,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(CollectSpacing.x5),
-                  child: QrImageView(
-                    data: link,
-                    size: 244,
-                    backgroundColor: Colors.white,
-                    eyeStyle: const QrEyeStyle(
-                      eyeShape: QrEyeShape.circle,
-                      color: Color(0xFF171013),
-                    ),
-                    dataModuleStyle: const QrDataModuleStyle(
-                      dataModuleShape: QrDataModuleShape.circle,
-                      color: Color(0xFF171013),
-                    ),
-                  ),
+              Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => context.go('/groups/$collectionId'),
                 ),
               ),
-              CollectSpacing.gap20,
-              Row(
-                children: [
-                  Expanded(
-                    child: CollectButton(
-                      label: 'Share',
-                      icon: CollectIcons.share,
-                      onPressed: () =>
-                          _shareQr(context, link, filename, shareText),
-                      expand: true,
+              CollectBottomSheet(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: colors.border.withValues(alpha: 0.82),
+                        borderRadius: CollectRadius.pillBorder,
+                      ),
+                      child: const SizedBox(width: 44, height: 4),
                     ),
-                  ),
-                  CollectSpacing.gapW12,
-                  Expanded(
-                    child: CollectButton(
-                      label: 'Save',
-                      icon: CollectIcons.download,
-                      onPressed: () => _saveQr(context, link, filename),
-                      variant: CollectButtonVariant.secondary,
-                      expand: true,
+                    CollectSpacing.gap16,
+                    Row(
+                      children: [
+                        IconButton.filledTonal(
+                          tooltip: 'Close',
+                          onPressed: () => context.go('/groups/$collectionId'),
+                          icon: const Icon(Icons.close_rounded),
+                        ),
+                        CollectSpacing.gapW12,
+                        Expanded(
+                          child: Text(
+                            collection.title,
+                            style: Theme.of(context).textTheme.titleLarge,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                    CollectSpacing.gap20,
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: CollectRadius.cardLargeBorder,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.08),
+                            blurRadius: 28,
+                            offset: const Offset(0, 16),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(CollectSpacing.x5),
+                        child: QrImageView(
+                          data: link,
+                          size: 238,
+                          backgroundColor: Colors.white,
+                          eyeStyle: const QrEyeStyle(
+                            eyeShape: QrEyeShape.circle,
+                            color: Color(0xFF171013),
+                          ),
+                          dataModuleStyle: const QrDataModuleStyle(
+                            dataModuleShape: QrDataModuleShape.circle,
+                            color: Color(0xFF171013),
+                          ),
+                        ),
+                      ),
+                    ),
+                    CollectSpacing.gap20,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CollectButton(
+                            label: 'Share',
+                            icon: CollectIcons.share,
+                            onPressed: () =>
+                                _shareQr(context, link, filename, shareText),
+                            expand: true,
+                          ),
+                        ),
+                        CollectSpacing.gapW12,
+                        Expanded(
+                          child: CollectButton(
+                            label: 'Save',
+                            icon: CollectIcons.download,
+                            onPressed: () => _saveQr(context, link, filename),
+                            variant: CollectButtonVariant.secondary,
+                            expand: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
         ),
-      ],
+      ),
     );
   }
 

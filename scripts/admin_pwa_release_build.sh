@@ -12,7 +12,7 @@ BUILD_ARGS="${FLUTTER_ADMIN_WEB_BUILD_ARGS:---release --no-wasm-dry-run --no-pub
 
 touch build/web/main.dart.js
 mkdir -p build/web/icons
-cp web/icons/collect-admin.svg build/web/icons/collect-admin.svg
+cp web/icons/collect-admin.png build/web/icons/collect-admin.png
 cp web/_headers build/web/_headers
 cp web/robots.txt build/web/robots.txt
 
@@ -28,14 +28,14 @@ manifest["short_name"] = "Collect Admin"
 manifest["description"] = "Collect platform operations console."
 manifest["display"] = "standalone"
 manifest["start_url"] = "."
-manifest["background_color"] = "#f7f8f6"
-manifest["theme_color"] = "#101216"
+manifest["background_color"] = "#FAF8F5"
+manifest["theme_color"] = "#8885F0"
 manifest["orientation"] = "any"
 manifest["icons"] = [
   {
-    "src" => "icons/collect-admin.svg",
-    "sizes" => "any",
-    "type" => "image/svg+xml",
+    "src" => "icons/collect-admin.png",
+    "sizes" => "512x512",
+    "type" => "image/png",
     "purpose" => "any maskable"
   }
 ]
@@ -50,7 +50,7 @@ index = index.sub(
 unless index.include?('rel="icon"')
   index = index.sub(
     %r{</head>}m,
-    '  <link rel="icon" href="icons/collect-admin.svg" type="image/svg+xml">' + "\n</head>"
+    '  <link rel="icon" href="icons/collect-admin.png" type="image/png">' + "\n</head>"
   )
 end
 File.write(index_path, index)

@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-06-08T07:01:30Z",
+  "deployments": {
+    "admin_pwa": {
+      "provider": "cloudflare_pages",
+      "project": "cool-admin",
+      "url": "https://cool-admin-212.pages.dev",
+      "deployment_url": "https://e07a5320.cool-admin-212.pages.dev",
+      "branch": "main",
+      "live_gate_status": "pass",
+      "evidence": "ADMIN_PWA_LIVE_URL=https://cool-admin-212.pages.dev ./scripts/admin_pwa_live_gate.sh --json"
+    }
+  },
+  "secret_handling": "Deployment metadata contains public URLs only. Do not add credentials, cookies, API tokens, service-role keys, signing keys, or production customer data."
+}

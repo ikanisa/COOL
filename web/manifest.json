@@ -3,8 +3,16 @@
   "short_name": "Collect",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#F7F8F6",
-  "theme_color": "#101216",
+  "background_color": "#FAF8F5",
+  "theme_color": "#8885F0",
   "description": "SMS-first MoMo group contribution app.",
-  "orientation": "portrait-primary"
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/collect-admin.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }

@@ -14,6 +14,14 @@ case "${1:-}" in
     ;;
 esac
 
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+if [[ -z "${ADMIN_PWA_LIVE_URL:-}" && -f "$ROOT_DIR/docs/release/LIVE_DEPLOYMENTS.json" ]]; then
+  ADMIN_PWA_LIVE_URL="$(
+    ruby -r json -e 'data = JSON.parse(File.read(ARGV.fetch(0))); puts(data.dig("deployments", "admin_pwa", "url").to_s)' \
+      "$ROOT_DIR/docs/release/LIVE_DEPLOYMENTS.json"
+  )"
+fi
+
 ADMIN_PWA_LIVE_URL="${ADMIN_PWA_LIVE_URL:-}" ADMIN_PWA_LIVE_FIXTURE="${ADMIN_PWA_LIVE_FIXTURE:-0}" OUTPUT_FORMAT="$output_format" ruby -r json -r net/http -r uri -r time <<'RUBY'
 target = ENV.fetch("ADMIN_PWA_LIVE_URL", "").strip
 fixture_mode = ENV.fetch("ADMIN_PWA_LIVE_FIXTURE", "0") == "1"
@@ -227,10 +235,10 @@ else
     failures << "manifest #{name} must be #{expected.inspect}." unless manifest[name] == expected
   end
   icons = Array(manifest["icons"])
-  failures << "manifest icons must include icons/collect-admin.svg." unless icons.any? do |icon|
+  failures << "manifest icons must include icons/collect-admin.png." unless icons.any? do |icon|
     icon.is_a?(Hash) &&
-      icon["src"].to_s == "icons/collect-admin.svg" &&
-      icon["type"].to_s == "image/svg+xml"
+      icon["src"].to_s == "icons/collect-admin.png" &&
+      icon["type"].to_s == "image/png"
   end
 end
 service_worker_required = {
@@ -245,7 +253,7 @@ service_worker_required = {
   "Admin PWA bootstrap" => "./flutter_bootstrap.js",
   "Admin PWA bundle" => "./main.dart.js",
   "Admin PWA manifest" => "./manifest.json",
-  "Admin PWA icon" => "./icons/collect-admin.svg"
+  "Admin PWA icon" => "./icons/collect-admin.png"
 }
 service_worker_required.each do |label, marker|
   failures << "custom-sw.js must include #{label}." unless sw_body.include?(marker)

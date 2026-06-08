@@ -130,7 +130,7 @@ JSON
       "./flutter_bootstrap.js": true,
       "./main.dart.js": true,
       "./manifest.json": true,
-      "./icons/collect-admin.svg": true
+      "./icons/collect-admin.png": true
     }
   },
   "console": {

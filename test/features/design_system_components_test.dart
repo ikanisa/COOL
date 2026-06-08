@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/core/utils/money_format.dart';
@@ -28,6 +31,29 @@ void main() {
     expect(CollectColors.brandPastelBlush, const Color(0xFFFFD5DE));
     expect(CollectColors.brandPastelPeriwinkle, const Color(0xFFDAD7FF));
   });
+
+  test(
+    'Collect app icon source is 512 PNG and live SVG assets are removed',
+    () {
+      expect(_pngSize('assets/brand/collect_app_icon_static.png'), (
+        width: 512,
+        height: 512,
+      ));
+      expect(_pngSize('assets/brand/generated/collect_app_icon_rule.png'), (
+        width: 512,
+        height: 512,
+      ));
+      expect(_pngSize('web/icons/collect-admin.png'), (
+        width: 512,
+        height: 512,
+      ));
+      expect(File('web/icons/collect-admin.svg').existsSync(), isFalse);
+      expect(
+        File('android/app/src/main/res/drawable/ic_launcher.xml').existsSync(),
+        isFalse,
+      );
+    },
+  );
 
   test('interactive token colors keep accessible contrast', () {
     final light = AppTheme.light().extension<CollectColors>()!;
@@ -528,6 +554,14 @@ Future<void> _pumpCollect(WidgetTester tester, Widget child) async {
     ),
   );
   await tester.pump();
+}
+
+({int width, int height}) _pngSize(String path) {
+  final bytes = File(path).readAsBytesSync();
+  expect(bytes.length, greaterThanOrEqualTo(24), reason: path);
+  expect(bytes.sublist(0, 8), <int>[137, 80, 78, 71, 13, 10, 26, 10]);
+  final data = ByteData.sublistView(Uint8List.fromList(bytes));
+  return (width: data.getUint32(16), height: data.getUint32(20));
 }
 
 double _contrast(Color a, Color b) {

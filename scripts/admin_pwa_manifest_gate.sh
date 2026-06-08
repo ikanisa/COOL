@@ -57,7 +57,7 @@ end
 
 failures << "index title must identify Collect Admin" unless index.include?("<title>Collect Admin</title>")
 failures << "index description must identify the admin console" unless index.include?("Collect platform operations console.")
-failures << "index must define the Collect Admin favicon" unless index.include?('rel="icon" href="icons/collect-admin.svg"')
+failures << "index must define the Collect Admin favicon" unless index.include?('rel="icon" href="icons/collect-admin.png"')
 failures << "index must load flutter_bootstrap.js" unless index.include?("flutter_bootstrap.js")
 failures << "index must not register the service worker inline under strict CSP" if index.include?("navigator.serviceWorker.register")
 failures << "flutter_bootstrap.js must register the Admin PWA service worker" unless bootstrap.include?("navigator.serviceWorker.register('custom-sw.js?v=collect-admin-")
@@ -81,7 +81,7 @@ service_worker_required = {
   "Admin PWA bootstrap" => "./flutter_bootstrap.js",
   "Admin PWA bundle" => "./main.dart.js",
   "Admin PWA manifest" => "./manifest.json",
-  "Admin PWA icon" => "./icons/collect-admin.svg"
+  "Admin PWA icon" => "./icons/collect-admin.png"
 }
 service_worker_required.each do |label, marker|
   failures << "custom-sw.js must include #{label}" unless service_worker.include?(marker)

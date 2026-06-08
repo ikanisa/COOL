@@ -16,8 +16,8 @@ class CollectTheme {
   static ThemeData _build(CollectColors colors, Brightness brightness) {
     final scheme = ColorScheme(
       brightness: brightness,
-      primary: colors.actionCrimson,
-      onPrimary: Colors.white,
+      primary: colors.brandPrimary,
+      onPrimary: colors.inkBlack,
       secondary: colors.inkBlack,
       onSecondary: Colors.white,
       error: colors.danger,

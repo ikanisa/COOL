@@ -39,6 +39,14 @@ has_blocker() {
   return 1
 }
 
+admin_pwa_live_url="${ADMIN_PWA_LIVE_URL:-}"
+if [[ -z "$admin_pwa_live_url" && -f "$ROOT_DIR/docs/release/LIVE_DEPLOYMENTS.json" ]]; then
+  admin_pwa_live_url="$(
+    ruby -r json -e 'data = JSON.parse(File.read(ARGV.fetch(0))); puts(data.dig("deployments", "admin_pwa", "url").to_s)' \
+      "$ROOT_DIR/docs/release/LIVE_DEPLOYMENTS.json"
+  )"
+fi
+
 if "$ROOT_DIR/scripts/release_approval_evidence_gate.sh" --json >"$approval_gate_json"; then
   :
 else
@@ -85,7 +93,7 @@ else
   fi
 fi
 
-if [[ -z "${ADMIN_PWA_LIVE_URL:-}" ]]; then
+if [[ -z "$admin_pwa_live_url" ]]; then
   add_blocker "admin_pwa_live_url" "Admin PWA live deployment URL is missing."
 fi
 
@@ -137,7 +145,7 @@ if [[ "$output_format" == "json" ]]; then
     printf '    "android_release_artifacts": %s,\n' "$(json_escape "$(has_blocker android_release_artifacts && printf stale || printf current)")"
     printf '    "android_release_signing_review": %s,\n' "$(json_escape "$(has_blocker android_release_signing_review && printf missing || printf current)")"
     printf '    "ios_release_scope": %s,\n' "$(json_escape "$(has_blocker ios_release_scope && printf missing || printf current)")"
-    printf '    "admin_pwa_live_url": %s,\n' "$(json_escape "${ADMIN_PWA_LIVE_URL:+present}")"
+    printf '    "admin_pwa_live_url": %s,\n' "$(json_escape "${admin_pwa_live_url:+present}")"
     printf '    "linked_sms_first_uat": %s,\n' "$(json_escape "$linked_sms_first_uat")"
     printf '    "release_owner_signoff": %s\n' "$(json_escape "$release_owner_signoff_approved")"
     printf '  }\n'

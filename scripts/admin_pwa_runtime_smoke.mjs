@@ -171,7 +171,7 @@ async function evaluateRuntime(cdp) {
         './flutter_bootstrap.js',
         './main.dart.js',
         './manifest.json',
-        './icons/collect-admin.svg',
+        './icons/collect-admin.png',
       ];
       const timeout = (ms, label) => new Promise((resolve) => setTimeout(() => resolve({ __timeout: label }), ms));
       const result = {
