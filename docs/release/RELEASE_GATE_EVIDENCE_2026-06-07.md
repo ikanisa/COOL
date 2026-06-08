@@ -4,7 +4,7 @@
 
 Status: NO-GO for production release.
 
-The code-owned brand, artifact, admin web, and physical Android device checks have been refreshed. Production remains blocked by human approval, live deployment, and platform-scope evidence that cannot be completed by code changes alone.
+The code-owned brand, artifact, admin web, live Admin PWA, and physical Android device checks have been refreshed. Production remains blocked by human approval and platform-scope evidence that cannot be completed by code changes alone.
 
 ## Passed Evidence
 
@@ -13,6 +13,8 @@ The code-owned brand, artifact, admin web, and physical Android device checks ha
 - Device UAT log: `.cache/android_device_uat/20260607Tpost-patch/android_device_uat.txt`.
 - Device UAT result: 5 integration checks passed on the physical device.
 - Admin PWA build, manifest gate, and hosting gate: passed.
+- Admin PWA live gate: passed for `https://cool-admin-212.pages.dev`.
+- Admin PWA live gate log: `.cache/release_gate/2026-06-08-admin-live-gate.json`.
 - Release artifact checksum manifest: `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-07.sha256`.
 - Android release APK: `build/app/outputs/flutter-apk/app-production-release.apk`.
 - Android release APK SHA-256: `12b585bfa74f90c9136b5e30efe585e440523c5d7443d193c1f3afdd346db968`.
@@ -30,10 +32,9 @@ The main app physical-device UAT assertion now checks for the current launch-scr
 - Real Android MoMo SMS ingestion/parser/allocation UAT approval.
 - Android release signing / Play App Signing review approval.
 - iOS release scope signoff or explicit Android-only out-of-scope decision.
-- Admin PWA live deployment URL.
 - Release-owner signoff for the current evidence packet.
 - Human UAT persona signoffs.
 
 ## Current Decision
 
-Keep the release decision at NO-GO until the approval metadata and live deployment evidence above are complete.
+Keep the release decision at NO-GO until the approval metadata above is complete.
