@@ -86,14 +86,14 @@ shared widgets, and screen layouts using every supplied reference.
 ### Palette
 
 The active palette is no longer the downloaded reference palette. The current
-implementation must use only the five Collect primary colors documented in
-`DESIGN.md`, plus the approved pastel washes, neutrals, and semantic
-accessibility/status tokens defined in `CollectColors`.
+implementation must use only the six Collect primary color tokens documented in
+`DESIGN.md`, plus the approved semantic accessibility/status tokens defined in
+`CollectColors`.
 
 Current cleanup rule:
 
 - Keep brand color decisions centralized in `lib/app/theme/collect_colors.dart`.
-- Use `CollectColors.brandPrimaryColors` for color-picking UI.
+- Use `CollectColors.brandPaintOptions` for color-picking UI.
 - Use semantic getters such as `actionColor`, `success`, `warning`, `danger`,
   `info`, `textPrimary`, `textSecondary`, and `textMuted` in screens.
 - Do not introduce feature-level literal colors or older reference palettes.
