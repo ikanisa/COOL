@@ -181,7 +181,7 @@ Future<Uint8List> _qrPngBytes(String link) async {
   );
   final gradientPaint = Paint()
     ..shader = const LinearGradient(
-      colors: CollectColors.brandPrimaryColors,
+      colors: CollectColors.brandPaintColors,
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
     ).createShader(const Rect.fromLTWH(0, 0, size, size));
@@ -264,7 +264,7 @@ class _BrandedQrCard extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: CollectColors.brandPrimaryColors,
+          colors: CollectColors.brandPaintColors,
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -299,7 +299,7 @@ class _BrandedQrCard extends StatelessWidget {
               children: [
                 ShaderMask(
                   shaderCallback: (bounds) => const LinearGradient(
-                    colors: CollectColors.brandPrimaryColors,
+                    colors: CollectColors.brandPaintColors,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ).createShader(bounds),

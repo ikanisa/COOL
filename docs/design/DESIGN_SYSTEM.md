@@ -4,7 +4,7 @@ This file mirrors the enforceable contract in `DESIGN.md` and explains how it ma
 
 ## Design Direction
 
-The 2026-06-08 Revolut screenshots are a reference for mobile fintech quality: gradient page canvases, floating glass controls, compact account/payment hierarchy, rounded bottom navigation, and translucent content panels. Collect applies those principles with its own product model, assets, copy, four primary paint colors, Paper canvas, and selected supporting surface/status tokens.
+The 2026-06-08 Revolut screenshots are a reference for mobile fintech quality: gradient page canvases, floating glass controls, compact account/payment hierarchy, rounded bottom navigation, and translucent content panels. Collect applies those principles with its own product model, assets, copy, six primary color tokens, four visible paint colors, Paper canvas, and selected supporting surface/status tokens.
 
 Collect does not copy Revolut or Monzo visual assets, logos, trademarks, exact colors, fonts, screens, account labels, crypto/invest tabs, or product layouts.
 
@@ -22,12 +22,13 @@ Collect does not copy Revolut or Monzo visual assets, logos, trademarks, exact c
 
 Tokens live in `lib/app/theme/collect_colors.dart`.
 
-- Primary paint palette: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, Orange `#FF5E43`.
-- Canvas: Paper `#FAF8F5`.
+- Primary color tokens: Paper `#FAF8F5`, Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, Orange `#FF5E43`, Transparent `#00000000`.
+- Visible paint palette: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, Orange `#FF5E43`.
+- Canvas/foundation: Paper `#FAF8F5`.
 - Page canvas: `screenBase`, `screenGradient`.
 - Glass surfaces: `glassPanel`, `glassPanelStrong`, `glassControl`, `glassBorder`, `glassPanelGradient`.
 - Runtime contrast: `actionColor`, `success`, `warning`, `danger`, `info`, `textPrimary`, `textSecondary`, `textMuted`.
-- No legacy pastel, neutral, or alternate low-luminance palette is part of the active token contract.
+- No legacy pastel, neutral, alternate low-luminance palette, or route-local color contract is part of the active token system.
 
 Do not add route-level gradients in feature files unless the route is a standalone visual/export surface and still uses Collect tokens.
 

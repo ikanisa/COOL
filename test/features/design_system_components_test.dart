@@ -23,22 +23,36 @@ void main() {
     expect(CollectColors.brandMintGreen, const Color(0xFF3CD070));
     expect(CollectColors.brandDustyRose, const Color(0xFFD38B96));
     expect(CollectColors.brandOrangeRed, const Color(0xFFFF5E43));
-    expect(CollectColors.brandPrimaryColors, const <Color>[
+    expect(CollectColors.brandPaintColors, const <Color>[
       Color(0xFF8885F0),
       Color(0xFF3CD070),
       Color(0xFFD38B96),
       Color(0xFFFF5E43),
     ]);
-    expect(CollectColors.brandPrimaryHexes, const <String>[
+    expect(CollectColors.brandPaintHexes, const <String>[
       '#8885F0',
       '#3CD070',
       '#D38B96',
       '#FF5E43',
     ]);
-    expect(
-      CollectColors.brandPrimaryColors,
-      isNot(contains(CollectColors.brandPaper)),
-    );
+    expect(CollectColors.brandPrimaryColors, const <Color>[
+      Color(0xFFFAF8F5),
+      Color(0xFF8885F0),
+      Color(0xFF3CD070),
+      Color(0xFFD38B96),
+      Color(0xFFFF5E43),
+      Color(0x00000000),
+    ]);
+    expect(CollectColors.brandPrimaryHexes, const <String>[
+      '#FAF8F5',
+      '#8885F0',
+      '#3CD070',
+      '#D38B96',
+      '#FF5E43',
+      '#00000000',
+    ]);
+    expect(CollectColors.brandPrimaryColors, hasLength(6));
+    expect(CollectColors.brandPaintColors, hasLength(4));
   });
 
   test(
@@ -91,7 +105,7 @@ void main() {
   });
 
   test(
-    'interactive token colors use Paper foregrounds and four paint tokens',
+    'interactive token colors use Paper foregrounds and paint tokens',
     () {
       final light = AppTheme.light().extension<CollectColors>()!;
 
@@ -106,7 +120,7 @@ void main() {
           light.info,
           light.success,
           light.danger,
-        }.difference(CollectColors.brandPrimaryColors.toSet()),
+        }.difference(CollectColors.brandPaintColors.toSet()),
         isEmpty,
       );
     },
