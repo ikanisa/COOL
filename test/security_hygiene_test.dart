@@ -23,6 +23,63 @@ void main() {
     );
   });
 
+  test(
+    'native notification runtime is wired without remote-push overclaiming',
+    () {
+      final pubspec = File('pubspec.yaml').readAsStringSync();
+      final service = File(
+        'lib/core/notifications/collect_notification_service.dart',
+      ).readAsStringSync();
+      final notificationScreen = File(
+        'lib/features/status/production_state_screens.dart',
+      ).readAsStringSync();
+      final androidGradle = File(
+        'android/app/build.gradle.kts',
+      ).readAsStringSync();
+      final repository = File(
+        'lib/shared/repositories/collect_repository.dart',
+      ).readAsStringSync();
+      final entitlements = File(
+        'ios/Runner/Runner.entitlements',
+      ).readAsStringSync();
+
+      expect(pubspec, contains('flutter_local_notifications:'));
+      expect(service, contains('FlutterLocalNotificationsPlugin'));
+      expect(service, contains('requestNotificationsPermission'));
+      expect(service, contains('IOSFlutterLocalNotificationsPlugin'));
+      expect(service, contains('registerDevice'));
+      expect(service, contains('showNotification'));
+      expect(notificationScreen, contains('_enableNativeNotifications'));
+      expect(
+        notificationScreen,
+        contains('collectNotificationServiceProvider'),
+      );
+      expect(androidGradle, contains('isCoreLibraryDesugaringEnabled = true'));
+      expect(androidGradle, contains('desugar_jdk_libs:2.1.4'));
+      expect(repository, contains('register_notification_device'));
+      expect(entitlements, isNot(contains('aps-environment')));
+    },
+  );
+
+  test('iOS permission declarations match implemented features only', () {
+    final podfile = File('ios/Podfile').readAsStringSync();
+    final infoPlist = File('ios/Runner/Info.plist').readAsStringSync();
+    final entitlements = File(
+      'ios/Runner/Runner.entitlements',
+    ).readAsStringSync();
+
+    expect(infoPlist, contains('NSCameraUsageDescription'));
+    expect(infoPlist, contains('NSPhotoLibraryUsageDescription'));
+    expect(infoPlist, isNot(contains('NSContactsUsageDescription')));
+    expect(infoPlist, isNot(contains('NSPhotoLibraryAddUsageDescription')));
+    expect(podfile, contains('PERMISSION_CONTACTS=0'));
+    expect(podfile, contains('PERMISSION_NOTIFICATIONS=0'));
+    expect(podfile, contains('PERMISSION_PHOTOS_ADD_ONLY=0'));
+    expect(entitlements, contains('applinks:collect.ikanisa.com'));
+    expect(entitlements, isNot(contains('com.apple.developer.nfc')));
+    expect(entitlements, isNot(contains('aps-environment')));
+  });
+
   test('repository text files do not store obvious live secrets', () {
     final blockedPatterns = <RegExp>[
       RegExp(r'sk-proj-[A-Za-z0-9_-]{20,}'),

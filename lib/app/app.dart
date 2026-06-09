@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/notifications/collect_notification_service.dart';
+import '../shared/providers/collect_app_state.dart';
 import '../shared/repositories/collect_repository.dart';
 import 'router.dart';
 import 'theme/app_theme.dart';
@@ -63,6 +65,15 @@ class _SmsAccessSyncHostState extends ConsumerState<_SmsAccessSyncHost>
 
   Future<void> _syncPendingSmsSafely() async {
     try {
+      final notifications = ref.read(collectNotificationServiceProvider);
+      await notifications.initialize();
+      final notificationsEnabled = await notifications
+          .areNotificationsEnabled();
+      ref
+          .read(notificationPermissionStatusProvider.notifier)
+          .state = notificationsEnabled
+          ? CollectDevicePermissionStatus.granted
+          : CollectDevicePermissionStatus.notRequested;
       await ref.read(collectRepositoryProvider.notifier).syncPendingSmsAccess();
     } catch (_) {
       // SMS queue sync is retried on the next resume/realtime refresh.

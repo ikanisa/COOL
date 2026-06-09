@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart' as permissions;
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/notifications/collect_notification_service.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/utils/money_format.dart';
 import '../../shared/models/collect_models.dart';
@@ -1162,25 +1163,34 @@ class PermissionRecoveryScreen extends ConsumerWidget {
       bottomAction: BottomActionSurface(
         children: [
           CollectButton(
-            label: isCamera ? 'Try scan again' : 'Enable in Collect',
+            label: isCamera ? 'Try scan again' : 'Enable notifications',
             icon: isCamera ? CollectIcons.qr : CollectIcons.pending,
-            onPressed: () {
+            onPressed: () async {
               if (isCamera) {
-                ref.read(cameraPermissionStatusProvider.notifier).state =
-                    CollectDevicePermissionStatus.granted;
+                final opened = await permissions.openAppSettings();
+                if (!opened || !context.mounted) return;
                 context.go('/groups/scan');
               } else {
-                ref.read(notificationPermissionStatusProvider.notifier).state =
-                    CollectDevicePermissionStatus.granted;
-                context.go('/permissions/device');
+                final granted = await _enableNativeNotifications(ref);
+                if (!context.mounted) return;
+                ref
+                    .read(notificationPermissionStatusProvider.notifier)
+                    .state = granted
+                    ? CollectDevicePermissionStatus.granted
+                    : CollectDevicePermissionStatus.denied;
+                context.go(
+                  granted
+                      ? '/permissions/device'
+                      : '/permissions/notifications-denied',
+                );
               }
             },
             expand: true,
           ),
-          CollectButton(
+          const CollectButton(
             label: 'App settings',
             icon: CollectIcons.settings,
-            onPressed: () => context.go('/settings'),
+            onPressed: permissions.openAppSettings,
             variant: CollectButtonVariant.secondary,
             expand: true,
           ),
@@ -1521,9 +1531,10 @@ class NotificationCenterScreen extends ConsumerWidget {
                 await permissions.openAppSettings();
                 return;
               }
-              final permission = await permissions.Permission.notification
-                  .request();
-              final status = _collectPermissionStatus(permission);
+              final granted = await _enableNativeNotifications(ref);
+              final status = granted
+                  ? CollectDevicePermissionStatus.granted
+                  : CollectDevicePermissionStatus.denied;
               if (!context.mounted) return;
               ref.read(notificationPermissionStatusProvider.notifier).state =
                   status;
@@ -1648,6 +1659,21 @@ Future<void> _saveNotificationPreference(
       .updateNotificationPreferences(preferences);
 }
 
+Future<bool> _enableNativeNotifications(WidgetRef ref) async {
+  final service = ref.read(collectNotificationServiceProvider);
+  final granted = await service.requestPermission();
+  if (!granted) return false;
+  final repository = ref.read(collectRepositoryProvider.notifier);
+  await service.registerDevice(repository);
+  await service.showNotification(
+    title: 'Collect notifications enabled',
+    body:
+        'Payment reminders, group updates, and security notices can now appear on this device.',
+    payload: '/notifications',
+  );
+  return true;
+}
+
 class _NotificationPreferenceTile extends StatelessWidget {
   const _NotificationPreferenceTile({
     required this.icon,
@@ -1688,18 +1714,6 @@ class _NotificationPreferenceTile extends StatelessWidget {
       ),
     );
   }
-}
-
-CollectDevicePermissionStatus _collectPermissionStatus(
-  permissions.PermissionStatus status,
-) {
-  if (status.isGranted || status.isLimited) {
-    return CollectDevicePermissionStatus.granted;
-  }
-  if (status.isDenied || status.isPermanentlyDenied || status.isRestricted) {
-    return CollectDevicePermissionStatus.denied;
-  }
-  return CollectDevicePermissionStatus.notRequested;
 }
 
 class HelpSupportScreen extends StatelessWidget {

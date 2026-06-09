@@ -42,6 +42,9 @@ class CollectColors extends ThemeExtension<CollectColors> {
   static const brandMintGreen = Color(0xFF3CD070);
   static const brandDustyRose = Color(0xFFD38B96);
   static const brandOrangeRed = Color(0xFFFF5E43);
+  static const inkPrimary = Color(0xFF252044);
+  static const inkSecondary = Color(0xFF4B4664);
+  static const inkMuted = Color(0xFF5F5A76);
   static const transparentColor = Color(0x00000000);
 
   static const brandPrimaryColors = <Color>[
@@ -71,9 +74,9 @@ class CollectColors extends ThemeExtension<CollectColors> {
     warning: brandOrangeRed,
     danger: brandOrangeRed,
     info: brandPeriwinkle,
-    textPrimary: brandPeriwinkle,
-    textSecondary: brandDustyRose,
-    textMuted: brandMintGreen,
+    textPrimary: inkPrimary,
+    textSecondary: inkSecondary,
+    textMuted: inkMuted,
   );
 
   Color get paper => canvas;
