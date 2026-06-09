@@ -22,7 +22,7 @@ class CollectionCreateScreen extends ConsumerStatefulWidget {
 
 class _CollectionCreateScreenState
     extends ConsumerState<CollectionCreateScreen> {
-  static const _lastStep = 4;
+  static const _lastStep = 3;
 
   final _title = TextEditingController();
   final _description = TextEditingController();
@@ -31,7 +31,7 @@ class _CollectionCreateScreenState
   Uint8List? _groupImageBytes;
   String? _groupImageName;
   String? _groupImageMimeType;
-  String _accentColorHex = _groupColorOptions.first.hex;
+  String _accentColorHex = CollectColors.brandPaintOptions.first.hex;
   bool _syncedProfileMomo = false;
   bool _creating = false;
   int _step = 0;
@@ -98,7 +98,7 @@ class _CollectionCreateScreenState
       ),
       children: [
         CollectWizardProgress(
-          labels: const ['Basics', 'Receiver', 'Visual', 'SMS', 'Review'],
+          labels: const ['Basics', 'Receiver', 'Visual', 'Review'],
           currentStep: _step,
         ),
         if (_step == 0) ...[
@@ -138,12 +138,6 @@ class _CollectionCreateScreenState
               ),
             ],
           ),
-          const InfoSecurityBanner(
-            title: 'Receiver privacy',
-            message:
-                'Members see a safe receiver label during payment. Owner confirmation messages and payment credentials stay private.',
-            tone: CollectStatusTone.privacy,
-          ),
         ] else if (_step == 2) ...[
           _MobileCreatePanel(
             error: _error,
@@ -169,20 +163,6 @@ class _CollectionCreateScreenState
                     });
                   },
           ),
-        ] else if (_step == 3) ...[
-          const MinimalStatePanel(
-            icon: CollectIcons.sms,
-            title: 'SMS readiness check.',
-            message:
-                'Collect checks Android owner SMS access before creating the group. Confirmations are used to update the ledger without exposing private message content.',
-            tone: CollectStatusTone.privacy,
-          ),
-          const InfoSecurityBanner(
-            title: 'Permission boundary',
-            message:
-                'If SMS access is denied, Collect sends you to recovery instead of creating a group with incomplete payment verification.',
-            tone: CollectStatusTone.info,
-          ),
         ] else ...[
           _CreateGroupReview(
             title: _title.text.trim(),
@@ -198,10 +178,10 @@ class _CollectionCreateScreenState
   }
 
   Color get _selectedAccentColor {
-    return _groupColorOptions
+    return CollectColors.brandPaintOptions
         .firstWhere(
           (option) => option.hex == _accentColorHex,
-          orElse: () => _groupColorOptions.first,
+          orElse: () => CollectColors.brandPaintOptions.first,
         )
         .color;
   }
@@ -280,14 +260,6 @@ class _CollectionCreateScreenState
       _creating = true;
       _error = null;
     });
-    final smsAccessGranted = await ref
-        .read(collectRepositoryProvider.notifier)
-        .setSmsAccess(true);
-    if (!smsAccessGranted) {
-      if (!mounted) return;
-      context.go('/permissions/sms-denied');
-      return;
-    }
     try {
       final collection = await ref
           .read(collectRepositoryProvider.notifier)
@@ -320,22 +292,6 @@ class _CollectionCreateScreenState
   }
 }
 
-const _groupColorOptions = [
-  _GroupColorOption('#8885F0', Color(0xFF8885F0)),
-  _GroupColorOption('#D38B96', Color(0xFFD38B96)),
-  _GroupColorOption('#FF5E43', Color(0xFFFF5E43)),
-  _GroupColorOption('#3CD070', Color(0xFF3CD070)),
-  _GroupColorOption('#FFD5DE', Color(0xFFFFD5DE)),
-  _GroupColorOption('#DAD7FF', Color(0xFFDAD7FF)),
-];
-
-class _GroupColorOption {
-  const _GroupColorOption(this.hex, this.color);
-
-  final String hex;
-  final Color color;
-}
-
 class _CreateGroupReview extends StatelessWidget {
   const _CreateGroupReview({
     required this.title,
@@ -366,17 +322,15 @@ class _CreateGroupReview extends StatelessWidget {
           CollectListTile(
             leading: CollectIcons.collections,
             title: title.isEmpty ? 'Group name missing' : title,
-            subtitle: description.isEmpty ? 'No description' : description,
+            subtitle: description,
           ),
           CollectListTile(
             leading: CollectIcons.momo,
             title: receiver.isEmpty ? 'Receiver missing' : receiver,
-            subtitle: 'Checked before MoMo handoff.',
           ),
           CollectListTile(
             leading: CollectIcons.photo,
             title: hasPhoto ? 'Group photo selected' : 'No group photo',
-            subtitle: 'Members see the safe group profile.',
           ),
           if (error != null) ...[
             CollectSpacing.gap12,
@@ -412,7 +366,7 @@ class _GroupColorPalette extends StatelessWidget {
           spacing: CollectSpacing.x2,
           runSpacing: CollectSpacing.x2,
           children: [
-            for (final option in _groupColorOptions)
+            for (final option in CollectColors.brandPaintOptions)
               _ColorSwatchButton(
                 option: option,
                 selected: selectedHex == option.hex,
@@ -463,7 +417,7 @@ class _CreateGroupPhotoCard extends StatelessWidget {
                       colors: [
                         Color.alphaBlend(
                           accentColor.withValues(alpha: 0.34),
-                          colors.surfaceRaised,
+                          colors.glassPanel,
                         ),
                         Color.alphaBlend(
                           accentColor.withValues(alpha: 0.10),
@@ -516,11 +470,9 @@ class _CreateGroupPhotoCard extends StatelessWidget {
                 bottom: CollectSpacing.x4,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: colors.surface.withValues(alpha: 0.76),
+                    color: colors.glassPanel,
                     borderRadius: CollectRadius.panelBorder,
-                    border: Border.all(
-                      color: accentColor.withValues(alpha: 0.22),
-                    ),
+                    border: Border.all(color: colors.glassBorder),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(CollectSpacing.x3),
@@ -629,9 +581,9 @@ class _MobileInputField extends StatelessWidget {
     final colors = context.collectColors;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.surfaceRaised.withValues(alpha: 0.78),
+        color: colors.glassControl,
         borderRadius: CollectRadius.controlBorder,
-        border: Border.all(color: colors.border.withValues(alpha: 0.64)),
+        border: Border.all(color: colors.glassBorder),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -696,13 +648,16 @@ class _ColorSwatchButton extends StatelessWidget {
     required this.onTap,
   });
 
-  final _GroupColorOption option;
+  final CollectPaletteOption option;
   final bool selected;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final selectedForeground = option.color.computeLuminance() > 0.72
+        ? colors.textPrimary
+        : colors.onAccent;
     return Semantics(
       button: true,
       selected: selected,
@@ -717,7 +672,7 @@ class _ColorSwatchButton extends StatelessWidget {
             width: 40,
             height: 40,
             child: selected
-                ? Icon(CollectIcons.check, size: 20, color: colors.surface)
+                ? Icon(CollectIcons.check, size: 20, color: selectedForeground)
                 : null,
           ),
         ),

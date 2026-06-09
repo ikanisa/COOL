@@ -127,91 +127,111 @@ class _HomeBrandHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Collect',
-                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  fontWeight: FontWeight.w900,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const CollectBrandMark(
+                  compact: true,
+                  framed: false,
+                  width: 106,
+                  height: 31,
                 ),
-              ),
-              if (publicId != null) ...[
-                CollectSpacing.gap4,
-                Row(
-                  children: [
-                    Icon(
-                      CollectIcons.profile,
-                      color: colors.textSecondary,
-                      size: 18,
-                    ),
-                    CollectSpacing.gapW8,
-                    Text(
-                      publicId!,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                if (publicId != null) ...[
+                  CollectSpacing.gap8,
+                  Row(
+                    children: [
+                      Icon(
+                        CollectIcons.profile,
                         color: colors.textSecondary,
-                        fontWeight: FontWeight.w800,
+                        size: 18,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
+                      CollectSpacing.gapW8,
+                      Text(
+                        publicId!,
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: colors.textSecondary,
+                          fontWeight: FontWeight.w800,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
         ),
-        _NotificationAction(hasUnread: hasUnread),
+        _HomeHeaderAction(
+          icon: CollectIcons.pending,
+          tooltip: 'Notifications',
+          hasBadge: hasUnread,
+          onPressed: () => context.go('/notifications'),
+        ),
         CollectSpacing.gapW8,
-        IconButton.filled(
+        _HomeHeaderAction(
+          icon: CollectIcons.profile,
           tooltip: 'Profile',
           onPressed: () => context.go('/settings/profile'),
-          style: IconButton.styleFrom(
-            backgroundColor: colors.surfaceRaised,
-            foregroundColor: colors.textPrimary,
-          ),
-          icon: const Icon(CollectIcons.profile),
         ),
       ],
     );
   }
 }
 
-class _NotificationAction extends StatelessWidget {
-  const _NotificationAction({required this.hasUnread});
+class _HomeHeaderAction extends StatelessWidget {
+  const _HomeHeaderAction({
+    required this.icon,
+    required this.tooltip,
+    required this.onPressed,
+    this.hasBadge = false,
+  });
 
-  final bool hasUnread;
+  final IconData icon;
+  final String tooltip;
+  final VoidCallback onPressed;
+  final bool hasBadge;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        IconButton.filled(
-          tooltip: 'Notifications',
-          onPressed: () => context.go('/notifications'),
-          style: IconButton.styleFrom(
-            backgroundColor: colors.surfaceRaised,
-            foregroundColor: colors.textPrimary,
-          ),
-          icon: const Icon(CollectIcons.pending),
-        ),
-        if (hasUnread)
-          Positioned(
-            right: 7,
-            top: 7,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: context.collectColors.info,
-                shape: BoxShape.circle,
+    return Tooltip(
+      message: tooltip,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Material(
+            color: colors.glassControl,
+            shape: const CircleBorder(),
+            child: InkWell(
+              customBorder: const CircleBorder(),
+              onTap: onPressed,
+              child: SizedBox.square(
+                dimension: 48,
+                child: Icon(icon, color: colors.textPrimary, size: 24),
               ),
-              child: const SizedBox(width: 9, height: 9),
             ),
           ),
-      ],
+          if (hasBadge)
+            Positioned(
+              right: 3,
+              top: 3,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: colors.brandAction,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: colors.screenBase, width: 2),
+                ),
+                child: const SizedBox.square(dimension: 11),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -232,13 +252,13 @@ class _HomeTotalCollectedCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
         gradient: LinearGradient(
-          colors: [colors.actionCrimson, const Color(0xFF270611)],
+          colors: [colors.actionColor, colors.periwinklePaint],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.24),
+            color: colors.shadowPaint.withValues(alpha: 0.24),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -254,7 +274,7 @@ class _HomeTotalCollectedCard extends StatelessWidget {
               Text(
                 'TOTAL COLLECTED',
                 style: CollectTypography.eyebrowLabel(
-                  Colors.white.withValues(alpha: 0.82),
+                  colors.onImagePrimary.withValues(alpha: 0.82),
                 ),
               ),
               CollectSpacing.gap12,
@@ -263,7 +283,7 @@ class _HomeTotalCollectedCard extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   formatRwf(totalAmount),
-                  style: CollectTypography.amountDisplay(Colors.white),
+                  style: CollectTypography.amountDisplay(colors.onImagePrimary),
                 ),
               ),
               CollectSpacing.gap4,
@@ -286,7 +306,7 @@ class _HomeTotalCollectedCard extends StatelessWidget {
                   ],
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white.withValues(alpha: 0.72),
+                  color: colors.onImageMuted,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -489,7 +509,7 @@ class _HomeActionItem extends StatelessWidget {
       button: true,
       label: label,
       child: Material(
-        color: colors.surfaceRaised,
+        color: colors.glassControl,
         borderRadius: CollectRadius.pillBorder,
         child: InkWell(
           onTap: onTap,

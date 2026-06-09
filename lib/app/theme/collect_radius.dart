@@ -5,10 +5,10 @@ class CollectRadius {
 
   static const double sm = 4;
   static const double md = 8;
-  static const double control = 8;
-  static const double panel = 16;
-  static const double card = 16;
-  static const double cardLarge = 24;
+  static const double control = 999;
+  static const double panel = 24;
+  static const double card = 24;
+  static const double cardLarge = 28;
   static const double bottomSheet = 28;
   static const double pill = 999;
 

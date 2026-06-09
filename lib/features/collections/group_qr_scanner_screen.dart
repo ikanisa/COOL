@@ -79,7 +79,7 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
                     const _ScannerIdleOverlay(),
                   if (_starting)
                     ColoredBox(
-                      color: Colors.black.withValues(alpha: 0.54),
+                      color: context.collectColors.cameraScrim,
                       child: const Center(
                         child: LoadingStatePanel(
                           title: 'Starting camera',
@@ -91,7 +91,7 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
                     ),
                   if (_joining)
                     ColoredBox(
-                      color: Colors.black.withValues(alpha: 0.54),
+                      color: context.collectColors.cameraScrim,
                       child: const Center(
                         child: LoadingStatePanel(
                           title: 'Opening group',
@@ -186,16 +186,17 @@ class _ScannerIdleOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     return ColoredBox(
-      color: Colors.black.withValues(alpha: 0.68),
+      color: colors.cameraScrimStrong,
       child: Center(
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: colors.surface.withValues(alpha: 0.92),
+            color: colors.glassPanelStrong,
             borderRadius: CollectRadius.panelBorder,
+            border: Border.all(color: colors.glassBorder),
           ),
           child: Padding(
             padding: const EdgeInsets.all(CollectSpacing.x4),
-            child: Icon(CollectIcons.qr, color: colors.actionCrimson, size: 42),
+            child: Icon(CollectIcons.qr, color: colors.actionColor, size: 42),
           ),
         ),
       ),
@@ -215,7 +216,7 @@ class _ScanGuide extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             border: Border.all(
-              color: colors.actionCrimson.withValues(alpha: 0.9),
+              color: colors.actionColor.withValues(alpha: 0.9),
               width: 3,
             ),
             borderRadius: BorderRadius.circular(28),
@@ -226,8 +227,9 @@ class _ScanGuide extends StatelessWidget {
               padding: const EdgeInsets.all(CollectSpacing.x4),
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: colors.surface.withValues(alpha: 0.88),
+                  color: colors.glassPanelStrong,
                   borderRadius: CollectRadius.pillBorder,
+                  border: Border.all(color: colors.glassBorder),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -258,8 +260,9 @@ class _ScannerUnavailable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.collectColors;
     return ColoredBox(
-      color: Colors.black,
+      color: colors.shadowPaint,
       child: Center(
         child: Padding(
           padding: const EdgeInsets.all(CollectSpacing.x4),

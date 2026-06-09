@@ -119,9 +119,50 @@ void main() {
 
     expect(find.byIcon(Icons.public_rounded), findsOneWidget);
     expect(find.byIcon(Icons.lock_rounded), findsNothing);
+    expect(find.byType(BackdropFilter), findsOneWidget);
+    expect(tester.widget<Text>(find.text('Public building fund')).maxLines, 1);
     expect(find.text('Total collected'), findsNothing);
     expect(find.text('RWF 35,000'), findsOneWidget);
     expect(find.text('Members'), findsNothing);
+  });
+
+  testWidgets('visual group card places title directly over cover image', (
+    tester,
+  ) async {
+    const title = 'St Michel building fund with a longer community name';
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light(),
+        home: Scaffold(
+          body: SizedBox(
+            width: 360,
+            height: 260,
+            child: GroupCard(
+              collection: CollectCollection(
+                id: 'visual-card',
+                slug: 'visual-card',
+                creatorUserId: 'u1',
+                title: title,
+                description: 'Owner group',
+                createdAt: DateTime(2026),
+              ),
+              summary: const CollectionSummary(
+                amountRaisedRwf: 35000,
+                supporterCount: 2,
+              ),
+              variant: GroupCardVariant.visual,
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(find.byType(BackdropFilter), findsOneWidget);
+    expect(tester.widget<Text>(find.text(title)).maxLines, 1);
+    expect(
+      tester.widget<Text>(find.text(title)).overflow,
+      TextOverflow.ellipsis,
+    );
   });
 
   testWidgets('owned group card uses protected shield, not lock', (

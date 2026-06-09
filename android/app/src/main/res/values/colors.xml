@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="collect_ink">#101216</color>
     <color name="collect_mint">#3CD070</color>
     <color name="collect_paper">#FAF8F5</color>
     <color name="collect_periwinkle">#8885F0</color>

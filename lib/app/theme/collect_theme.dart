@@ -11,17 +11,15 @@ class CollectTheme {
 
   static ThemeData light() => _build(CollectColors.light, Brightness.light);
 
-  static ThemeData dark() => _build(CollectColors.dark, Brightness.dark);
-
   static ThemeData _build(CollectColors colors, Brightness brightness) {
     final scheme = ColorScheme(
       brightness: brightness,
       primary: colors.brandPrimary,
-      onPrimary: colors.inkBlack,
-      secondary: colors.inkBlack,
-      onSecondary: Colors.white,
+      onPrimary: colors.onAccent,
+      secondary: colors.brandSecondary,
+      onSecondary: colors.onAccent,
       error: colors.danger,
-      onError: Colors.white,
+      onError: colors.onAccent,
       surface: colors.surface,
       onSurface: colors.textPrimary,
       surfaceContainerHighest: colors.surfaceMuted,
@@ -29,7 +27,7 @@ class CollectTheme {
       outline: colors.border,
       outlineVariant: colors.border,
       tertiary: colors.success,
-      onTertiary: Colors.white,
+      onTertiary: colors.onAccent,
     );
     final textTheme = CollectTypography.textTheme(
       colors.textPrimary,
@@ -39,7 +37,7 @@ class CollectTheme {
       useMaterial3: true,
       brightness: brightness,
       colorScheme: scheme,
-      scaffoldBackgroundColor: colors.surface,
+      scaffoldBackgroundColor: colors.screenBase,
       textTheme: textTheme,
       extensions: [colors],
       visualDensity: VisualDensity.standard,
@@ -48,7 +46,7 @@ class CollectTheme {
         centerTitle: false,
         elevation: 0,
         scrolledUnderElevation: 0,
-        backgroundColor: colors.surface,
+        backgroundColor: colors.transparent,
         foregroundColor: colors.textPrimary,
       ),
       cardTheme: CardThemeData(
@@ -58,8 +56,8 @@ class CollectTheme {
       ),
       navigationBarTheme: NavigationBarThemeData(
         elevation: 0,
-        backgroundColor: Colors.transparent,
-        indicatorColor: colors.actionCrimson.withValues(alpha: 0.12),
+        backgroundColor: colors.transparent,
+        indicatorColor: colors.actionColor.withValues(alpha: 0.12),
         labelTextStyle: WidgetStatePropertyAll(textTheme.labelMedium),
         height: 66,
         iconTheme: WidgetStateProperty.resolveWith((states) {
@@ -98,11 +96,11 @@ class CollectTheme {
           borderSide: BorderSide(color: colors.textPrimary),
         ),
         focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: colors.actionCrimson, width: 2),
+          borderSide: BorderSide(color: colors.actionColor, width: 2),
         ),
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: colors.actionCrimson,
+        color: colors.actionColor,
         linearTrackColor: colors.surfaceMuted,
         borderRadius: CollectRadius.pillBorder,
       ),

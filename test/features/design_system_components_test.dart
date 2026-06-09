@@ -10,26 +10,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('light and dark Collect color tokens resolve', () {
+  test('Collect color tokens resolve to the unified Paper canvas', () {
     final light = AppTheme.light().extension<CollectColors>();
-    final dark = AppTheme.dark().extension<CollectColors>();
-
     expect(light, isNotNull);
-    expect(dark, isNotNull);
-    expect(light!.surface.computeLuminance(), greaterThan(0.2));
-    expect(dark!.surface.computeLuminance(), lessThan(0.2));
+    expect(light!.surface, CollectColors.brandPaper);
+    expect(light.screenBase, CollectColors.brandPaper);
   });
 
   test('official Collect brand tokens are source controlled', () {
+    expect(CollectColors.brandPaper, const Color(0xFFFAF8F5));
     expect(CollectColors.brandPeriwinkle, const Color(0xFF8885F0));
+    expect(CollectColors.brandMintGreen, const Color(0xFF3CD070));
     expect(CollectColors.brandDustyRose, const Color(0xFFD38B96));
     expect(CollectColors.brandOrangeRed, const Color(0xFFFF5E43));
-    expect(CollectColors.brandMintGreen, const Color(0xFF3CD070));
-    expect(CollectColors.brandPastelMint, const Color(0xFFD9FBE7));
-    expect(CollectColors.brandPastelPeach, const Color(0xFFFFE0D1));
-    expect(CollectColors.brandPastelCenter, const Color(0xFFFAF8F5));
-    expect(CollectColors.brandPastelBlush, const Color(0xFFFFD5DE));
-    expect(CollectColors.brandPastelPeriwinkle, const Color(0xFFDAD7FF));
+    expect(CollectColors.brandPrimaryColors, const <Color>[
+      Color(0xFF8885F0),
+      Color(0xFF3CD070),
+      Color(0xFFD38B96),
+      Color(0xFFFF5E43),
+    ]);
+    expect(CollectColors.brandPrimaryHexes, const <String>[
+      '#8885F0',
+      '#3CD070',
+      '#D38B96',
+      '#FF5E43',
+    ]);
+    expect(
+      CollectColors.brandPrimaryColors,
+      isNot(contains(CollectColors.brandPaper)),
+    );
   });
 
   test(
@@ -43,6 +52,14 @@ void main() {
         width: 512,
         height: 512,
       ));
+      expect(
+        _pngSize('assets/brand/generated/collect_wordmark_transparent.png'),
+        (width: 1024, height: 299),
+      );
+      expect(
+        File('assets/brand/generated/collect_symbol_compact.png').existsSync(),
+        isFalse,
+      );
       expect(_pngSize('web/icons/collect-admin.png'), (
         width: 512,
         height: 512,
@@ -55,20 +72,45 @@ void main() {
     },
   );
 
-  test('interactive token colors keep accessible contrast', () {
-    final light = AppTheme.light().extension<CollectColors>()!;
+  testWidgets('brand mark uses the bundled Collect logo asset', (tester) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await _pumpCollect(tester, const CollectBrandMark());
 
-    expect(
-      _contrast(light.actionCrimson, Colors.white),
-      greaterThanOrEqualTo(4.5),
-    );
-    expect(_contrast(light.info, Colors.white), greaterThanOrEqualTo(4.5));
-    expect(_contrast(light.success, Colors.white), greaterThanOrEqualTo(4.5));
-    expect(
-      _contrast(CollectColors.brandOrangeRed, Colors.white),
-      lessThan(4.5),
-    );
+      expect(find.bySemanticsLabel('Collect logo'), findsOneWidget);
+      final image = tester.widget<Image>(find.byType(Image));
+      expect(image.image, isA<AssetImage>());
+      expect((image.image as AssetImage).assetName, CollectBrandMark.assetPath);
+      expect(
+        CollectBrandMark.assetPath,
+        contains('collect_wordmark_transparent.png'),
+      );
+    } finally {
+      semantics.dispose();
+    }
   });
+
+  test(
+    'interactive token colors use Paper foregrounds and four paint tokens',
+    () {
+      final light = AppTheme.light().extension<CollectColors>()!;
+
+      expect(light.onAccent, CollectColors.brandPaper);
+      expect(light.actionColor, CollectColors.brandOrangeRed);
+      expect(light.info, CollectColors.brandPeriwinkle);
+      expect(light.success, CollectColors.brandMintGreen);
+      expect(light.danger, CollectColors.brandOrangeRed);
+      expect(
+        <Color>{
+          light.actionColor,
+          light.info,
+          light.success,
+          light.danger,
+        }.difference(CollectColors.brandPrimaryColors.toSet()),
+        isEmpty,
+      );
+    },
+  );
 
   test('RWF amount typography uses tabular numerals', () {
     final style = CollectTypography.amountHero(CollectColors.light.textPrimary);
@@ -532,6 +574,37 @@ void main() {
     expect(find.byIcon(CollectIcons.copy), findsOneWidget);
   });
 
+  testWidgets('top chrome exposes avatar search and circular actions', (
+    tester,
+  ) async {
+    await _pumpCollect(
+      tester,
+      CollectTopChrome(
+        avatarLabel: '038491',
+        hasUnread: true,
+        searchLabel: 'Search groups',
+        onSearchTap: () {},
+        actions: [
+          CollectTopChromeAction(
+            icon: CollectIcons.qr,
+            tooltip: 'Scan QR code',
+            onPressed: () {},
+          ),
+          CollectTopChromeAction(
+            icon: CollectIcons.settings,
+            tooltip: 'Settings',
+            onPressed: () {},
+          ),
+        ],
+      ),
+    );
+
+    expect(find.text('91'), findsOneWidget);
+    expect(find.text('Search groups'), findsOneWidget);
+    expect(find.byIcon(CollectIcons.qr), findsOneWidget);
+    expect(find.byIcon(CollectIcons.settings), findsOneWidget);
+  });
+
   test('primary route smoke list keeps admin out of member app', () {
     expect(
       collectRoutePaths,
@@ -562,12 +635,4 @@ Future<void> _pumpCollect(WidgetTester tester, Widget child) async {
   expect(bytes.sublist(0, 8), <int>[137, 80, 78, 71, 13, 10, 26, 10]);
   final data = ByteData.sublistView(Uint8List.fromList(bytes));
   return (width: data.getUint32(16), height: data.getUint32(20));
-}
-
-double _contrast(Color a, Color b) {
-  final aLum = a.computeLuminance();
-  final bLum = b.computeLuminance();
-  final lighter = aLum > bLum ? aLum : bLum;
-  final darker = aLum > bLum ? bLum : aLum;
-  return (lighter + 0.05) / (darker + 0.05);
 }

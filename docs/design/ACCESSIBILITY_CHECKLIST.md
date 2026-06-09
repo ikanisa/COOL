@@ -2,7 +2,7 @@
 
 ## Visual
 
-- Light and dark themes use contrast-safe text and status colors.
+- The unified theme use contrast-safe text and status colors.
 - Status always includes text and an icon, never color alone.
 - Focus, hover, pressed, and disabled states come from component tokens.
 - Components avoid text overlap at large text sizes.
@@ -29,6 +29,6 @@
 ## Validation
 
 - Run widget tests for labels, status text, and route smoke.
-- Test light and dark theme construction.
+- Test unified theme construction.
 - Manually inspect dynamic text for Home, Groups, Settings, payment intent,
   ledger, Android SMS access, and admin screens.

@@ -16,8 +16,8 @@ class CollectComponentTokens {
         vertical: CollectSpacing.x3,
       ),
       shape: RoundedRectangleBorder(borderRadius: CollectRadius.controlBorder),
-      backgroundColor: colors.actionCrimson,
-      foregroundColor: Colors.white,
+      backgroundColor: colors.actionColor,
+      foregroundColor: colors.onAccent,
       disabledBackgroundColor: colors.surfaceMuted,
       disabledForegroundColor: colors.textMuted,
       textStyle: Theme.of(context).textTheme.labelLarge,
@@ -58,7 +58,7 @@ class CollectComponentTokens {
       border: border,
       enabledBorder: border,
       focusedBorder: border.copyWith(
-        borderSide: BorderSide(color: colors.actionCrimson, width: 2),
+        borderSide: BorderSide(color: colors.actionColor, width: 2),
       ),
     );
   }

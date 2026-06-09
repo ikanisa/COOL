@@ -45,6 +45,19 @@ class _ContributionFlowScreenState
       return ScreenScaffold(
         title: 'Profile required',
         subtitle: collection.title,
+        showHeader: false,
+        persistentPill: CollectTopChrome(
+          avatarLabel: profile?.publicId,
+          searchLabel: collection.title,
+          onAvatarTap: () => context.go('/settings/profile'),
+          actions: [
+            CollectTopChromeAction(
+              icon: CollectIcons.chevron,
+              tooltip: 'Back to group',
+              onPressed: () => context.go('/groups/${widget.collectionId}'),
+            ),
+          ],
+        ),
         children: [
           MinimalStatePanel(
             icon: CollectIcons.momo,
@@ -65,6 +78,28 @@ class _ContributionFlowScreenState
     return ScreenScaffold(
       title: _reviewing ? 'Review' : 'Contribute',
       subtitle: collection.title,
+      showHeader: false,
+      persistentPill: CollectTopChrome(
+        avatarLabel: profile.publicId,
+        searchLabel: collection.title,
+        onAvatarTap: () => context.go('/settings/profile'),
+        actions: [
+          CollectTopChromeAction(
+            icon: CollectIcons.pending,
+            tooltip: 'Pending payment',
+            onPressed: activeIntent == null
+                ? null
+                : () => context.go(
+                    '/groups/${widget.collectionId}/pay/${activeIntent.id}/waiting',
+                  ),
+          ),
+          CollectTopChromeAction(
+            icon: CollectIcons.chevron,
+            tooltip: 'Back to group',
+            onPressed: () => context.go('/groups/${widget.collectionId}'),
+          ),
+        ],
+      ),
       bottomAction: BottomActionSurface(
         children: _reviewing
             ? [

@@ -94,6 +94,7 @@ class CollectState {
     required this.collections,
     required this.paymentIntents,
     required this.contributions,
+    this.notificationPreferences = NotificationPreferences.defaults,
     this.smsAccessEnabled = false,
     this.smsAccessDenied = false,
     this.isLoading = false,
@@ -104,6 +105,7 @@ class CollectState {
   final List<CollectCollection> collections;
   final List<PaymentIntentModel> paymentIntents;
   final List<Contribution> contributions;
+  final NotificationPreferences notificationPreferences;
   final bool smsAccessEnabled;
   final bool smsAccessDenied;
   final bool isLoading;
@@ -114,6 +116,7 @@ class CollectState {
     List<CollectCollection>? collections,
     List<PaymentIntentModel>? paymentIntents,
     List<Contribution>? contributions,
+    NotificationPreferences? notificationPreferences,
     bool? smsAccessEnabled,
     bool? smsAccessDenied,
     bool? isLoading,
@@ -124,6 +127,8 @@ class CollectState {
       collections: collections ?? this.collections,
       paymentIntents: paymentIntents ?? this.paymentIntents,
       contributions: contributions ?? this.contributions,
+      notificationPreferences:
+          notificationPreferences ?? this.notificationPreferences,
       smsAccessEnabled: smsAccessEnabled ?? this.smsAccessEnabled,
       smsAccessDenied: smsAccessDenied ?? this.smsAccessDenied,
       isLoading: isLoading ?? this.isLoading,
@@ -247,11 +252,15 @@ class CollectRepository extends StateNotifier<CollectState> {
       final collections = await _fetchCollections();
       final paymentIntents = await _fetchPaymentIntents();
       final contributions = await _fetchContributions();
+      final notificationPreferences = await _fetchNotificationPreferences(
+        profile,
+      );
       state = state.copyWith(
         currentProfile: profile,
         collections: collections,
         paymentIntents: paymentIntents,
         contributions: contributions,
+        notificationPreferences: notificationPreferences,
         isLoading: false,
       );
       _ensureRealtimeSync();
@@ -335,6 +344,39 @@ class CollectRepository extends StateNotifier<CollectState> {
       return;
     }
     state = state.copyWith(currentProfile: profile);
+  }
+
+  Future<void> updateNotificationPreferences(
+    NotificationPreferences preferences,
+  ) async {
+    final profile = _requireProfile();
+    final supabase = _supabase;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      await supabase.from('notification_preferences').upsert({
+        'user_id': profile.id,
+        ...preferences.toJson(),
+        'updated_at': DateTime.now().toUtc().toIso8601String(),
+      });
+    }
+    state = state.copyWith(notificationPreferences: preferences);
+  }
+
+  Future<void> registerNotificationDevice({
+    required String platform,
+    required String tokenHash,
+    String? tokenLastFour,
+  }) async {
+    _requireProfile();
+    final supabase = _supabase;
+    if (supabase == null || supabase.auth.currentUser == null) return;
+    await supabase.rpc<void>(
+      'register_notification_device',
+      params: {
+        'p_platform': platform,
+        'p_token_hash': tokenHash,
+        'p_token_last_four': tokenLastFour,
+      },
+    );
   }
 
   Future<void> createSupportRequest({
@@ -973,6 +1015,24 @@ class CollectRepository extends StateNotifier<CollectState> {
     final contributions = byId.values.toList()
       ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
     return contributions;
+  }
+
+  Future<NotificationPreferences> _fetchNotificationPreferences(
+    CollectProfile? profile,
+  ) async {
+    final supabase = _supabase;
+    if (supabase == null || profile == null) {
+      return NotificationPreferences.defaults;
+    }
+    final rows = await supabase
+        .from('notification_preferences')
+        .select()
+        .eq('user_id', profile.id)
+        .limit(1);
+    if (rows.isEmpty) return NotificationPreferences.defaults;
+    return NotificationPreferences.fromJson(
+      Map<String, dynamic>.from(rows.first as Map),
+    );
   }
 
   static String _slug(String title) {

@@ -4,6 +4,13 @@ Date: 2026-05-31
 Source asset folder: `/Users/jeanbosco/Downloads/Collect`
 Flutter app reviewed: `/Volumes/PRO-G40/COOL`
 
+Superseded palette note: this report is retained for historical screen-flow and
+interaction-pattern context only. The active color contract is the June 8
+Collect palette in `DESIGN.md`: periwinkle, dusty rose, orange-red, and mint
+green, with documented pastel washes and semantic neutrals/status tokens. Any
+older legacy palette direction from the downloaded
+references is no longer current implementation guidance.
+
 ## Executive Assessment
 
 The downloaded asset folder contains 117 `screen.png` references and matching
@@ -20,10 +27,9 @@ implementation is still a simplified shell compared with the references. Many
 routes exist but are under-designed, use sparse copy, omit expected steps, or
 collapse multi-step financial flows into one card. The largest gaps are:
 
-- The visual identity is inconsistent with the reference system. Current
-  Flutter tokens are blue/navy and rounded-card heavy, while the references
-  establish a white/off-white, black/charcoal, electric crimson `#FF005E`/
-  `#e70054` action system with restrained tonal surfaces.
+- The visual identity was inconsistent with the reference system at the time
+  of this report. That earlier reference palette is now superseded by the
+  Collect four-primary-paint color contract in `DESIGN.md`.
 - Several screens are present only as thin state cards with empty messages,
   which weakens trust in a payment/SMS verification product.
 - The contribution flow lacks the full amount entry, review, USSD/handoff,
@@ -62,7 +68,7 @@ shared widgets, and screen layouts using every supplied reference.
 - `stitch_remix_of_buro_fintech_app 7`: duplicate app state screen set matching
   set 4.
 - `stitch_remix_of_buro_fintech_app 9`: refined Buro system screens using the
-  electric crimson/blue accent variants.
+  older accent variants that are no longer active palette guidance.
 - Root `collect_app_complete_ui.html`: consolidated HTML UI reference.
 
 ### Duplication Notes
@@ -79,34 +85,18 @@ shared widgets, and screen layouts using every supplied reference.
 
 ### Palette
 
-The references consistently point to this direction:
+The active palette is no longer the downloaded reference palette. The current
+implementation must use only the five Collect primary colors documented in
+`DESIGN.md`, plus the approved pastel washes, neutrals, and semantic
+accessibility/status tokens defined in `CollectColors`.
 
-- Primary action/accent: `#FF005E`, `#e70054`, `#bd0044`, `#b90042`.
-- Primary text/structure: near-black `#121212`, `#1b1b1e`, `#1c1b1b`.
-- Surfaces: white and warm off-white `#ffffff`, `#fbf9fc`, `#fcf9f8`,
-  `#f5f3f6`, `#f0edec`.
-- Borders/low-contrast outlines: `#e5e2e1`, `#e7bcc0`, `#dbd9dd`.
-- Success/verification: green family `#006a3c`, `#00864e`, `#67dd97`,
-  `#84fab1`.
-- Danger/error: `#ba1a1a`, `#93000a`, `#ffdad6`.
+Current cleanup rule:
 
-Current app gap:
-
-- `lib/app/theme/collect_colors.dart` currently uses blue `#2563EB`, navy,
-  aqua, coral, lime, purple. This reads more generic SaaS than the supplied
-  fintech references.
-- The app should adopt the reference crimson as the high-intent action/focus
-  color, keep black/charcoal for primary buttons and financial anchors, and
-  reduce broad use of multi-hue status colors.
-
-Required update:
-
-- Re-tokenize `CollectColors.light` around the reference palette.
-- Keep status colors semantic, but make them subdued and avoid competing with
-  the primary crimson action color.
-- Add explicit token names for `actionCrimson`, `criticalCrimson`,
-  `inkBlack`, `paper`, `surfaceLow`, `surfaceHigh`, `outlineSoft`,
-  `successInk`, and `dangerSoft`.
+- Keep brand color decisions centralized in `lib/app/theme/collect_colors.dart`.
+- Use `CollectColors.brandPrimaryColors` for color-picking UI.
+- Use semantic getters such as `actionColor`, `success`, `warning`, `danger`,
+  `info`, `textPrimary`, `textSecondary`, and `textMuted` in screens.
+- Do not introduce feature-level literal colors or older reference palettes.
 
 ### Typography
 
@@ -227,10 +217,10 @@ flows.
 ### P0 - Design Tokens And Shared Components
 
 1. Re-tokenize the app to the reference palette.
-   - Update `CollectColors.light` to use off-white paper, charcoal ink,
-     crimson primary, soft pink/crimson containers, subdued green success, and
+   - Update `CollectColors.light` to use Paper canvas, Periwinkle text,
+     Orange action, soft pink/Orange containers, subdued green success, and
      restrained danger.
-   - Keep dark mode but rebase it separately; do not let dark mode drive the
+   - Keep system appearance but keep it on the unified Paper contract; do not let system appearance drive the
      light product aesthetic.
 
 2. Add missing component primitives.
@@ -546,7 +536,7 @@ Required updates:
   - Payment confirmed ring.
 - Add copied-to-clipboard feedback for Collect IDs, group links, transaction
   IDs, and USSD/reference codes.
-- Add selected/filter states that use crimson sparingly and clearly.
+- Add selected/filter states that use Orange sparingly and clearly.
 - Add skeletons for lists and payment status loads.
 - Ensure bottom nav and persistent payment/live-status pill do not overlap
   bottom CTAs.
@@ -590,9 +580,9 @@ Required updates:
 
 ### Visual Optimization
 
-- Replace broad blue emphasis with crimson/charcoal product identity.
+- Replace broad blue emphasis with Orange/Periwinkle product identity.
 - Use amount-first hierarchy on every financial screen.
-- Keep page backgrounds calm and off-white.
+- Keep page backgrounds calm and Paper.
 - Use cards less often; prefer rows and whitespace where references do.
 - Make primary CTA placement consistent: bottom bar on flow screens, inline on
   list/detail screens only when secondary.
@@ -671,7 +661,7 @@ Required updates:
 
 Highest priority:
 
-1. Token migration to crimson/charcoal/off-white reference design.
+1. Token migration to Orange/Periwinkle/Paper reference design.
 2. Full contribution flow split into amount, confirm, handoff, waiting, status.
 3. Profile/auth wizard with WhatsApp OTP, Collect ID, MoMo link, notifications.
 4. Payment state screens with complete copy and useful next actions.

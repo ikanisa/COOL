@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart' as permissions;
@@ -308,26 +309,31 @@ class SmsPermissionDeniedScreen extends StatelessWidget {
     return ScreenScaffold(
       title: 'SMS access needed',
       children: [
-        const CollectPermissionRecoveryPanel(
-          icon: CollectIcons.warning,
-          title: 'SMS access required.',
-          message:
-              'Enable SMS access on Android before creating owner-managed groups.',
-          settingsMessage:
-              'Open app settings if Android keeps blocking SMS access for Collect.',
-        ),
-        CollectButton(
-          label: 'Try again',
-          icon: CollectIcons.sync,
-          onPressed: () => context.go('/permissions/sms'),
-          expand: true,
-        ),
-        CollectButton(
-          label: 'App settings',
-          icon: CollectIcons.settings,
-          onPressed: () => context.go('/settings'),
-          variant: CollectButtonVariant.secondary,
-          expand: true,
+        CollectBottomSheet(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const _StateHero(
+                icon: CollectIcons.sms,
+                title: 'Enable Android SMS access',
+                tone: CollectStatusTone.warning,
+              ),
+              CollectSpacing.gap16,
+              const CollectButton(
+                label: 'Open app settings',
+                icon: CollectIcons.settings,
+                onPressed: permissions.openAppSettings,
+                expand: true,
+              ),
+              CollectButton(
+                label: 'Try again',
+                icon: CollectIcons.sync,
+                onPressed: () => context.go('/permissions/sms'),
+                variant: CollectButtonVariant.secondary,
+                expand: true,
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -1266,6 +1272,7 @@ class NotificationPermissionScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final smsStatus = ref.watch(smsPermissionStatusProvider);
     final smsGranted = smsStatus == SmsPermissionStatus.granted;
+    final showSmsAccess = _supportsAndroidSmsAccess;
     final notificationStatus = ref.watch(notificationPermissionStatusProvider);
     final notificationGranted =
         notificationStatus == CollectDevicePermissionStatus.granted;
@@ -1290,22 +1297,21 @@ class NotificationPermissionScreen extends ConsumerWidget {
               ? context.collectColors.statusForeground(
                   CollectStatusTone.success,
                 )
-              : context.collectColors.actionCrimson,
+              : context.collectColors.actionColor,
           child: Column(
             children: [
-              _PermissionSettingRow(
-                icon: CollectIcons.sms,
-                title: 'SMS access',
-                status: smsGranted
-                    ? 'Allowed'
-                    : smsStatus == SmsPermissionStatus.denied
-                    ? 'Denied'
-                    : smsStatus == SmsPermissionStatus.unavailable
-                    ? 'Android only'
-                    : 'Not enabled',
-                active: smsGranted,
-                onTap: () => context.go('/permissions/sms'),
-              ),
+              if (showSmsAccess)
+                _PermissionSettingRow(
+                  icon: CollectIcons.sms,
+                  title: 'SMS access',
+                  status: smsGranted
+                      ? 'Allowed'
+                      : smsStatus == SmsPermissionStatus.denied
+                      ? 'Denied'
+                      : 'Not enabled',
+                  active: smsGranted,
+                  onTap: () => context.go('/permissions/sms'),
+                ),
               _PermissionSettingRow(
                 icon: CollectIcons.pending,
                 title: 'Notifications',
@@ -1315,24 +1321,7 @@ class NotificationPermissionScreen extends ConsumerWidget {
                     ? 'Denied'
                     : 'Not enabled',
                 active: notificationGranted,
-                onTap: () async {
-                  if (notificationStatus ==
-                      CollectDevicePermissionStatus.denied) {
-                    context.go('/permissions/notifications-denied');
-                    return;
-                  }
-                  final permission = await permissions.Permission.notification
-                      .request();
-                  final status = _collectPermissionStatus(permission);
-                  if (!context.mounted) return;
-                  ref
-                          .read(notificationPermissionStatusProvider.notifier)
-                          .state =
-                      status;
-                  if (status == CollectDevicePermissionStatus.denied) {
-                    context.go('/permissions/notifications-denied');
-                  }
-                },
+                onTap: () => context.go('/notifications'),
               ),
               _PermissionSettingRow(
                 icon: CollectIcons.privacy,
@@ -1344,37 +1333,13 @@ class NotificationPermissionScreen extends ConsumerWidget {
             ],
           ),
         ),
-        const InfoSecurityBanner(
-          title: 'Access boundary',
-          message:
-              'Permissions support contribution confirmations, payment reminders, group updates, and security notices.',
-          tone: CollectStatusTone.privacy,
-        ),
-        const CollectCard(
-          emphasis: CollectCardEmphasis.flat,
-          child: Column(
-            children: [
-              CollectListTile(
-                leading: CollectIcons.money,
-                title: 'Contribution confirmations',
-                subtitle: 'Notify members when ledger updates land.',
-              ),
-              CollectListTile(
-                leading: CollectIcons.pending,
-                title: 'Payment reminders',
-                subtitle: 'Surface pending MoMo checks without exposing proof.',
-              ),
-              CollectListTile(
-                leading: CollectIcons.warning,
-                title: 'Security notices',
-                subtitle: 'Warn when sync, links, or payment review need care.',
-              ),
-            ],
-          ),
-        ),
       ],
     );
   }
+}
+
+bool get _supportsAndroidSmsAccess {
+  return kIsWeb || defaultTargetPlatform == TargetPlatform.android;
 }
 
 class _PermissionSettingRow extends StatelessWidget {
@@ -1404,13 +1369,13 @@ class _PermissionSettingRow extends StatelessWidget {
           children: [
             DecoratedBox(
               decoration: BoxDecoration(
-                color: colors.actionCrimson.withValues(alpha: 0.14),
+                color: colors.actionColor.withValues(alpha: 0.14),
                 shape: BoxShape.circle,
               ),
               child: SizedBox(
                 width: 52,
                 height: 52,
-                child: Icon(icon, color: colors.actionCrimson),
+                child: Icon(icon, color: colors.actionColor),
               ),
             ),
             CollectSpacing.gapW12,
@@ -1526,64 +1491,86 @@ class NotificationCenterScreen extends ConsumerWidget {
     final permissionStatus = ref.watch(notificationPermissionStatusProvider);
     final notificationsGranted =
         permissionStatus == CollectDevicePermissionStatus.granted;
+    final preferences = state.notificationPreferences;
     return ScreenScaffold(
       title: 'Notifications',
       children: [
-        if (!notificationsGranted)
-          CollectCard(
-            emphasis: CollectCardEmphasis.glow,
-            accentColor: context.collectColors.statusForeground(
-              CollectStatusTone.warning,
-            ),
-            child: CollectListTile(
-              leading: CollectIcons.pending,
-              title: 'Notifications not enabled',
-              subtitle:
-                  'Enable payment reminders, group updates, and security notices.',
-              onTap: () async {
-                if (permissionStatus == CollectDevicePermissionStatus.denied) {
-                  context.go('/permissions/notifications-denied');
-                  return;
-                }
-                final permission = await permissions.Permission.notification
-                    .request();
-                final status = _collectPermissionStatus(permission);
-                if (!context.mounted) return;
-                ref.read(notificationPermissionStatusProvider.notifier).state =
-                    status;
-                if (status == CollectDevicePermissionStatus.denied) {
-                  context.go('/permissions/notifications-denied');
-                }
-              },
-            ),
-          ),
         CollectCard(
           emphasis: CollectCardEmphasis.glow,
-          accentColor: pendingCount > 0
-              ? context.collectColors.statusForeground(CollectStatusTone.info)
-              : context.collectColors.statusForeground(
-                  CollectStatusTone.success,
-                ),
-          child: Row(
+          accentColor: notificationsGranted
+              ? context.collectColors.statusGranted
+              : context.collectColors.statusBlocked,
+          child: CollectListTile(
+            leading: notificationsGranted
+                ? CollectIcons.check
+                : CollectIcons.pending,
+            title: notificationsGranted
+                ? 'Notifications enabled'
+                : 'Notifications not enabled',
+            trailing: CollectStatusChip(
+              label: notificationsGranted ? 'On' : 'Off',
+              tone: notificationsGranted
+                  ? CollectStatusTone.success
+                  : CollectStatusTone.warning,
+              icon: notificationsGranted
+                  ? CollectIcons.check
+                  : CollectIcons.pending,
+            ),
+            onTap: () async {
+              if (permissionStatus == CollectDevicePermissionStatus.denied) {
+                await permissions.openAppSettings();
+                return;
+              }
+              final permission = await permissions.Permission.notification
+                  .request();
+              final status = _collectPermissionStatus(permission);
+              if (!context.mounted) return;
+              ref.read(notificationPermissionStatusProvider.notifier).state =
+                  status;
+              if (status == CollectDevicePermissionStatus.denied) {
+                context.go('/permissions/notifications-denied');
+              }
+            },
+          ),
+        ),
+        CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          child: Column(
             children: [
-              CollectStatusChip(
-                label: pendingCount > 0 ? '$pendingCount pending' : 'Current',
-                tone: pendingCount > 0
-                    ? CollectStatusTone.info
-                    : CollectStatusTone.success,
-                icon: pendingCount > 0
-                    ? CollectIcons.pending
-                    : CollectIcons.check,
+              _NotificationPreferenceTile(
+                icon: CollectIcons.money,
+                title: 'Contribution confirmations',
+                value: preferences.contributionConfirmations,
+                onChanged: (value) => _saveNotificationPreference(
+                  ref,
+                  preferences.copyWith(contributionConfirmations: value),
+                ),
               ),
-              CollectSpacing.gapW12,
-              Expanded(
-                child: Text(
-                  reviewCount > 0
-                      ? '$reviewCount payment review item${reviewCount == 1 ? '' : 's'} need attention.'
-                      : 'Group updates and payment alerts are ready.',
-                  style: Theme.of(context).textTheme.titleSmall,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+              _NotificationPreferenceTile(
+                icon: CollectIcons.pending,
+                title: 'Payment reminders',
+                value: preferences.paymentReminders,
+                onChanged: (value) => _saveNotificationPreference(
+                  ref,
+                  preferences.copyWith(paymentReminders: value),
+                ),
+              ),
+              _NotificationPreferenceTile(
+                icon: CollectIcons.collections,
+                title: 'Group updates',
+                value: preferences.groupUpdates,
+                onChanged: (value) => _saveNotificationPreference(
+                  ref,
+                  preferences.copyWith(groupUpdates: value),
+                ),
+              ),
+              _NotificationPreferenceTile(
+                icon: CollectIcons.warning,
+                title: 'Security notices',
+                value: preferences.securityNotices,
+                onChanged: (value) => _saveNotificationPreference(
+                  ref,
+                  preferences.copyWith(securityNotices: value),
                 ),
               ),
             ],
@@ -1648,6 +1635,57 @@ class NotificationCenterScreen extends ConsumerWidget {
             ],
           ),
       ],
+    );
+  }
+}
+
+Future<void> _saveNotificationPreference(
+  WidgetRef ref,
+  NotificationPreferences preferences,
+) {
+  return ref
+      .read(collectRepositoryProvider.notifier)
+      .updateNotificationPreferences(preferences);
+}
+
+class _NotificationPreferenceTile extends StatelessWidget {
+  const _NotificationPreferenceTile({
+    required this.icon,
+    required this.title,
+    required this.value,
+    required this.onChanged,
+  });
+
+  final IconData icon;
+  final String title;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x2),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            color: value ? colors.statusGranted : colors.textMuted,
+            size: 24,
+          ),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Text(title, style: Theme.of(context).textTheme.titleSmall),
+          ),
+          Switch.adaptive(
+            value: value,
+            activeThumbColor: colors.statusGranted,
+            activeTrackColor: colors.statusGranted.withValues(alpha: 0.32),
+            inactiveThumbColor: colors.textMuted,
+            onChanged: onChanged,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -1842,14 +1880,8 @@ class AccountSessionScreen extends ConsumerWidget {
             children: [
               CollectListTile(
                 leading: CollectIcons.profile,
-                title: 'Profile',
-                subtitle: profile?.publicId,
-                onTap: () => context.go('/settings/profile'),
-              ),
-              CollectListTile(
-                leading: CollectIcons.momo,
-                title: 'Linked MoMo',
-                subtitle: profile?.momoNumber ?? 'Not linked',
+                title: 'Profile and MoMo',
+                subtitle: profile?.momoNumber ?? 'MoMo not linked',
                 onTap: () => context.go('/settings/profile'),
               ),
               CollectListTile(
@@ -1911,16 +1943,16 @@ class DeleteAccountRequestScreen extends ConsumerStatefulWidget {
 
 class _DeleteAccountRequestScreenState
     extends ConsumerState<DeleteAccountRequestScreen> {
-  final _reason = TextEditingController();
+  static const _reasonOptions = [
+    'I no longer use Collect',
+    'I joined by mistake',
+    'I prefer not to keep my data',
+  ];
+
+  final Set<String> _selectedReasons = {};
   bool _submitted = false;
   bool _submitting = false;
   String? _error;
-
-  @override
-  void dispose() {
-    _reason.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -1947,21 +1979,30 @@ class _DeleteAccountRequestScreenState
         else
           CollectCard(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CollectTextInput(
-                  controller: _reason,
-                  label: 'Reason, optional',
-                  maxLines: 4,
-                  textInputAction: TextInputAction.newline,
-                  textCapitalization: TextCapitalization.sentences,
-                  autocorrect: true,
-                ),
+                for (final reason in _reasonOptions)
+                  _DeleteReasonOption(
+                    label: reason,
+                    selected: _selectedReasons.contains(reason),
+                    onTap: () {
+                      setState(() {
+                        if (_selectedReasons.contains(reason)) {
+                          _selectedReasons.remove(reason);
+                        } else {
+                          _selectedReasons.add(reason);
+                        }
+                      });
+                    },
+                  ),
                 CollectSpacing.gap16,
                 CollectButton(
                   label: _submitting ? 'Submitting' : 'Submit',
                   icon: CollectIcons.error,
                   variant: CollectButtonVariant.danger,
-                  onPressed: _submitting ? null : _confirmAndSubmit,
+                  onPressed: _submitting || _selectedReasons.isEmpty
+                      ? null
+                      : _confirmAndSubmit,
                   expand: true,
                 ),
               ],
@@ -2003,13 +2044,69 @@ class _DeleteAccountRequestScreenState
     try {
       await ref
           .read(collectRepositoryProvider.notifier)
-          .requestAccountDeletion(reason: _reason.text);
+          .requestAccountDeletion(reason: _selectedReasons.join('; '));
       if (mounted) setState(() => _submitted = true);
     } catch (error) {
       if (mounted) setState(() => _error = error.toString());
     } finally {
       if (mounted) setState(() => _submitting = false);
     }
+  }
+}
+
+class _DeleteReasonOption extends StatelessWidget {
+  const _DeleteReasonOption({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x2),
+      child: InkWell(
+        borderRadius: CollectRadius.mdBorder,
+        onTap: onTap,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: selected
+                ? colors.statusBlocked.withValues(alpha: 0.14)
+                : colors.glassControl,
+            borderRadius: CollectRadius.mdBorder,
+            border: Border.all(
+              color: selected ? colors.statusBlocked : colors.border,
+              width: selected ? 1.5 : 1,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(CollectSpacing.x3),
+            child: Row(
+              children: [
+                Icon(
+                  selected ? CollectIcons.check : CollectIcons.error,
+                  color: selected ? colors.statusBlocked : colors.textMuted,
+                ),
+                CollectSpacing.gapW12,
+                Expanded(
+                  child: Text(
+                    label,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleSmall?.copyWith(color: colors.textPrimary),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -2163,7 +2260,8 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
   void _showMemberSortSheet() {
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: Colors.transparent,
+      useRootNavigator: true,
+      backgroundColor: context.collectColors.transparent,
       isScrollControlled: true,
       builder: (context) {
         return CollectBottomSheet(
@@ -2185,7 +2283,8 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
   void _showMemberFilterSheet() {
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: Colors.transparent,
+      useRootNavigator: true,
+      backgroundColor: context.collectColors.transparent,
       isScrollControlled: true,
       builder: (context) {
         return CollectBottomSheet(
@@ -2314,12 +2413,12 @@ class _MemberControlButton extends StatelessWidget {
       button: true,
       label: '$title $value',
       child: Material(
-        color: colors.surfaceRaised.withValues(alpha: 0.92),
+        color: colors.glassControl,
         borderRadius: CollectRadius.pillBorder,
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: CollectRadius.pillBorder,
-            border: Border.all(color: colors.border.withValues(alpha: 0.76)),
+            border: Border.all(color: colors.glassBorder),
           ),
           child: InkWell(
             borderRadius: CollectRadius.pillBorder,
@@ -2331,7 +2430,7 @@ class _MemberControlButton extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(icon, color: colors.actionCrimson, size: 20),
+                  Icon(icon, color: colors.actionColor, size: 20),
                   CollectSpacing.gapW8,
                   Expanded(
                     child: Column(
@@ -2429,34 +2528,43 @@ class _MemberSheetPill<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return Material(
-      color: selected ? colors.actionCrimson : colors.surface,
-      borderRadius: CollectRadius.pillBorder,
-      child: InkWell(
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: 'Filter option $label',
+      child: Material(
+        color: selected ? colors.actionColor : colors.glassControl,
         borderRadius: CollectRadius.pillBorder,
-        onTap: () => onSelected(value),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: CollectSpacing.x3,
-            vertical: CollectSpacing.x2,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                selected ? CollectIcons.check : CollectIcons.filter,
-                size: 18,
-                color: selected ? Colors.white : colors.textSecondary,
-              ),
-              CollectSpacing.gapW8,
-              Text(
-                label,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: selected ? Colors.white : colors.textPrimary,
-                  fontWeight: FontWeight.w900,
+        child: InkWell(
+          borderRadius: CollectRadius.pillBorder,
+          onTap: () => onSelected(value),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: CollectSpacing.x3,
+              vertical: CollectSpacing.x2,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  selected ? CollectIcons.check : CollectIcons.filter,
+                  size: 18,
+                  color: selected
+                      ? colors.selectedOnAccent
+                      : colors.textSecondary,
                 ),
-              ),
-            ],
+                CollectSpacing.gapW8,
+                Text(
+                  label,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: selected
+                        ? colors.selectedOnAccent
+                        : colors.textPrimary,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

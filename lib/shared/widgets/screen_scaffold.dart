@@ -11,6 +11,7 @@ class ScreenScaffold extends ConsumerWidget {
     required this.children,
     this.subtitle,
     this.actions = const [],
+    this.persistentPill,
     this.bottomAction,
     this.showHeader = true,
     this.compact = false,
@@ -20,6 +21,7 @@ class ScreenScaffold extends ConsumerWidget {
   final String title;
   final String? subtitle;
   final List<Widget> actions;
+  final Widget? persistentPill;
   final Widget? bottomAction;
   final List<Widget> children;
   final bool showHeader;
@@ -32,6 +34,7 @@ class ScreenScaffold extends ConsumerWidget {
       subtitle: subtitle,
       actions: actions,
       banner: _statusBanner(context, ref),
+      persistentPill: persistentPill,
       bottomAction: bottomAction,
       showHeader: showHeader,
       compact: compact,

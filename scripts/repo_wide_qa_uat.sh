@@ -6,7 +6,29 @@ cd "$ROOT_DIR"
 
 FLUTTER="${FLUTTER:-/Volumes/PRO-G40/flutter_3_44/bin/flutter}"
 DART="${DART:-/Volumes/PRO-G40/flutter_3_44/bin/dart}"
-ADB="${ADB:-adb}"
+resolve_adb() {
+  local candidate
+  if [[ "${ADB:-}" != "" ]]; then
+    printf '%s\n' "$ADB"
+    return 0
+  fi
+  if command -v adb >/dev/null 2>&1; then
+    command -v adb
+    return 0
+  fi
+  for candidate in \
+    "${ANDROID_SDK_ROOT:-}/platform-tools/adb" \
+    "${ANDROID_HOME:-}/platform-tools/adb" \
+    "$ROOT_DIR/../AppData/android/sdk/platform-tools/adb" \
+    "$HOME/Library/Android/sdk/platform-tools/adb"; do
+    if [[ -x "$candidate" ]]; then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done
+  printf 'adb'
+}
+ADB="$(resolve_adb)"
 JAVA_HOME="${JAVA_HOME:-/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home}"
 ANDROID_DEVICE_ID="${ANDROID_UAT_DEVICE_ID:-13111JEC215558}"
 
@@ -94,8 +116,13 @@ command_ok_recorded() {
   awk -F '\t' -v command_name="$name" '$1 == command_name { rc = $3; seen = 1 } END { exit(seen && rc == 0 ? 0 : 1) }' "$commands_tsv"
 }
 
+command_blocked_recorded() {
+  local name="$1"
+  awk -F '\t' -v command_name="$name" '$1 == command_name { rc = $3; seen = 1 } END { exit(seen && rc == 99 ? 0 : 1) }' "$commands_tsv"
+}
+
 android_device_ready() {
-  command -v "$ADB" >/dev/null 2>&1 &&
+  [[ -x "$ADB" || "$(command -v "$ADB" 2>/dev/null || true)" != "" ]] &&
     "$ADB" devices | awk 'NR > 1 && $1 == id && $2 == "device" { found = 1 } END { exit(found ? 0 : 1) }' id="$ANDROID_DEVICE_ID"
 }
 
@@ -263,6 +290,54 @@ File.write(
   ) + "\n"
 )
 RUBY
+  mkdir -p "$bundle_dir/collect_mobile_design_compliance"
+  cat > "$bundle_dir/collect_mobile_design_compliance/summary.json" <<'JSON'
+{
+  "status": "pass",
+  "design_contract": "DESIGN.md",
+  "primary_colors": [
+    "#8885F0",
+    "#3CD070",
+    "#D38B96",
+    "#FF5E43"
+  ],
+  "surface_colors": [
+    "#FAF8F5"
+  ],
+  "route_count": 48,
+  "checks": [
+    {
+      "id": "four_primary_color_contract",
+      "status": "pass"
+    },
+    {
+      "id": "no_raw_ui_colors_outside_tokens",
+      "status": "pass"
+    },
+    {
+      "id": "share_domain_contract",
+      "status": "pass"
+    },
+    {
+      "id": "no_manual_group_url_entry",
+      "status": "pass"
+    },
+    {
+      "id": "group_settings_essential_items",
+      "status": "pass"
+    },
+    {
+      "id": "all_production_routes_rendered",
+      "status": "pass"
+    },
+    {
+      "id": "android_device_uat_evidence",
+      "status": "pass"
+    }
+  ]
+}
+JSON
+  record_fixture "collect_mobile_design_compliance_audit" "collect_mobile_design_compliance.txt" 0 "$(cat "$bundle_dir/collect_mobile_design_compliance/summary.json")"
   cat > "$bundle_dir/worktree_review.json" <<'JSON'
 {
   "status": "blocked",
@@ -443,12 +518,20 @@ else
 
   if [[ "${QA_UAT_REQUIRE_ANDROID_DEVICE:-1}" == "1" ]]; then
     if android_device_ready; then
-      run_capture "android_device_uat" "android_device_uat.txt" "$ROOT_DIR/scripts/android_device_uat.sh"
+      run_capture "android_device_uat" "android_device_uat.txt" env ADB="$ADB" ANDROID_UAT_EVIDENCE_DIR="$bundle_dir/android_device_uat" "$ROOT_DIR/scripts/android_device_uat.sh"
     else
       record_blocked "android_device_uat" "android_device_uat.txt" "Android UAT device $ANDROID_DEVICE_ID is not connected and authorized."
     fi
   else
     record_blocked "android_device_uat" "android_device_uat.txt" "Android device UAT skipped because QA_UAT_REQUIRE_ANDROID_DEVICE is not 1."
+  fi
+
+  if command_ok_recorded "mobile_route_render_smoke" && command_ok_recorded "android_device_uat"; then
+    run_capture "collect_mobile_design_compliance_audit" "collect_mobile_design_compliance.txt" env MOBILE_ROUTE_RENDER_SUMMARY="$bundle_dir/mobile_route_render_smoke/summary.json" ANDROID_DEVICE_UAT_SUMMARY="$bundle_dir/android_device_uat/summary.json" COLLECT_MOBILE_DESIGN_AUDIT_DIR="$bundle_dir/collect_mobile_design_compliance" "$ROOT_DIR/scripts/collect_mobile_design_compliance_audit.sh" --json
+  elif command_blocked_recorded "mobile_route_render_smoke" || command_blocked_recorded "android_device_uat"; then
+    record_blocked "collect_mobile_design_compliance_audit" "collect_mobile_design_compliance.txt" "Collect mobile design compliance audit skipped because route screenshots or Android device UAT are blocked."
+  else
+    run_capture "collect_mobile_design_compliance_audit" "collect_mobile_design_compliance.txt" env MOBILE_ROUTE_RENDER_SUMMARY="$bundle_dir/mobile_route_render_smoke/summary.json" ANDROID_DEVICE_UAT_SUMMARY="$bundle_dir/android_device_uat/summary.json" COLLECT_MOBILE_DESIGN_AUDIT_DIR="$bundle_dir/collect_mobile_design_compliance" "$ROOT_DIR/scripts/collect_mobile_design_compliance_audit.sh" --json
   fi
 
   run_capture "release_status_json" "release_status.json" "$ROOT_DIR/scripts/release_status.sh" --json
@@ -524,6 +607,7 @@ worktree_review = read_json(File.join(bundle_dir, "worktree_review.json"))
 artifact_manifest = read_json(File.join(bundle_dir, "release_artifact_manifest.json"))
 admin_hosting = read_json(File.join(bundle_dir, "admin_pwa_hosting_gate.json"))
 evidence_index = read_json(File.join(bundle_dir, "evidence_index.json"))
+design_compliance = read_json(File.join(bundle_dir, "collect_mobile_design_compliance", "summary.json"))
 
 admin_live_surface =
   if admin_live_gate["fixture_mode"] == true
@@ -580,6 +664,15 @@ mobile_route_render_surface =
   if command_ok?(commands, "mobile_route_render_smoke")
     "pass"
   elsif command_blocked?(commands, "mobile_route_render_smoke")
+    "blocked"
+  else
+    "fail"
+  end
+
+mobile_design_surface =
+  if command_ok?(commands, "collect_mobile_design_compliance_audit") && design_compliance["status"] == "pass"
+    "pass"
+  elsif command_blocked?(commands, "collect_mobile_design_compliance_audit")
     "blocked"
   else
     "fail"
@@ -649,6 +742,7 @@ surfaces = {
   "flutter_app" => %w[flutter_version dart_version format_check flutter_analyze flutter_test release_secret_scan collect_product_boundary_scan].all? { |name| command_ok?(commands, name) } ? "pass" : "fail",
   "admin_pwa" => admin_pwa_surface,
   "mobile_route_render" => mobile_route_render_surface,
+  "mobile_design_compliance" => mobile_design_surface,
   "admin_pwa_live_deployment" => admin_live_surface,
   "worktree_review" => worktree_surface,
   "human_uat_evidence" => human_evidence_surface,
@@ -766,6 +860,7 @@ File.write(
     - `admin_pwa_hosting_gate.json`: static hosting headers, cache, CSP, and robots gate
     - `admin_pwa_live_gate.json`: deployed Admin PWA URL headers and PWA file gate
     - `mobile_route_render_smoke/`: representative mobile route screenshots and nonblank PNG checks
+    - `collect_mobile_design_compliance/`: DESIGN.md four-primary color, route screenshot, product-domain, and Android UAT compliance gate
     - `worktree_review.json`: release branch/worktree review gate
     - `collect_product_boundary_scan.json`: Collect app product-boundary scan for forbidden Buro/crypto/trading/legacy navigation concepts
     - `uat_evidence_gate.json`: sanitized human UAT evidence manifest gate

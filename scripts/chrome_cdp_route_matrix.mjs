@@ -18,6 +18,7 @@ const viewport = args.get('--viewport') ?? '390x844';
 const waitMs = Number(args.get('--wait-ms') ?? '9000');
 const devtoolsReadyMs = Number(args.get('--devtools-ready-ms') ?? '30000');
 const commandTimeoutMs = Number(args.get('--command-timeout-ms') ?? '45000');
+const routeTimeoutMs = Number(args.get('--route-timeout-ms') ?? String(Math.max(commandTimeoutMs + waitMs + 5000, 30000)));
 
 if (!chrome || !baseUrl || !outputDir || !profile || !Array.isArray(routes)) {
   console.error(
@@ -137,9 +138,25 @@ try {
         pending.delete(id);
         reject(new Error(`${method} timed out after ${commandTimeoutMs}ms`));
       }, commandTimeoutMs);
-      timeout.unref?.();
       pending.set(id, { resolve, reject, timeout });
       socket.send(JSON.stringify({ id, method, params }));
+    });
+
+  const withTimeout = (promise, ms, label) =>
+    new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        reject(new Error(`${label} timed out after ${ms}ms`));
+      }, ms);
+      promise.then(
+        (value) => {
+          clearTimeout(timeout);
+          resolve(value);
+        },
+        (error) => {
+          clearTimeout(timeout);
+          reject(error);
+        },
+      );
     });
 
   await command('Page.enable');
@@ -164,13 +181,19 @@ try {
     mkdirSync(dirname(output), { recursive: true });
     for (let attempt = 1; attempt <= 3; attempt += 1) {
       try {
-        await command('Page.navigate', { url });
-        await delay(waitMs);
-        const screenshot = await command('Page.captureScreenshot', {
-          format: 'png',
-          fromSurface: true,
-          captureBeyondViewport: false,
-        });
+        const screenshot = await withTimeout(
+          (async () => {
+            await command('Page.navigate', { url });
+            await delay(waitMs);
+            return command('Page.captureScreenshot', {
+              format: 'png',
+              fromSurface: true,
+              captureBeyondViewport: false,
+            });
+          })(),
+          routeTimeoutMs,
+          `${name} ${route}`,
+        );
         writeFileSync(output, Buffer.from(screenshot.data, 'base64'));
         console.log(`captured ${name} ${route}`);
         break;
@@ -192,3 +215,5 @@ try {
   await delay(1000);
   if (!chromeExit) chromeProcess.kill('SIGKILL');
 }
+
+process.exit(0);

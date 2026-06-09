@@ -30,7 +30,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   Uint8List? _imageBytes;
   String? _imageName;
   String? _imageMimeType;
-  String _accentColorHex = _profileColorOptions.first.hex;
+  String _accentColorHex = CollectColors.brandPaintOptions.first.hex;
   String _cadence = 'monthly';
   bool _isPublic = false;
   bool _loaded = false;
@@ -95,7 +95,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
               autocorrect: true,
             ),
             Material(
-              color: Colors.transparent,
+              color: context.collectColors.transparent,
               child: SwitchListTile.adaptive(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Public group'),
@@ -136,10 +136,10 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   }
 
   Color get _selectedColor {
-    return _profileColorOptions
+    return CollectColors.brandPaintOptions
         .firstWhere(
           (option) => option.hex == _accentColorHex,
-          orElse: () => _profileColorOptions.first,
+          orElse: () => CollectColors.brandPaintOptions.first,
         )
         .color;
   }
@@ -152,7 +152,8 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
     _receiver.text = collection.receiverMomoNumber ?? '';
     _receiverLabel.text = collection.receiverDisplayLabel;
     _accentColorHex =
-        collection.accentColorHex ?? _profileColorOptions.first.hex;
+        collection.accentColorHex ??
+        CollectColors.brandPaintOptions.first.hex;
     _cadence = collection.recurringCadence;
     _isPublic = collection.isPublic;
   }
@@ -254,7 +255,7 @@ class _GroupProfilePhotoCard extends StatelessWidget {
                     gradient: LinearGradient(
                       colors: [
                         accentColor.withValues(alpha: 0.62),
-                        colors.surfaceRaised,
+                        colors.glassPanel,
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -270,8 +271,8 @@ class _GroupProfilePhotoCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          Colors.transparent,
-                          colors.ink.withValues(alpha: 0.78),
+                          colors.transparent,
+                          colors.periwinklePaint.withValues(alpha: 0.78),
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -286,7 +287,7 @@ class _GroupProfilePhotoCard extends StatelessWidget {
                   child: Text(
                     title,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: Colors.white,
+                      color: colors.onImagePrimary,
                       fontWeight: FontWeight.w900,
                     ),
                     maxLines: 1,
@@ -373,6 +374,7 @@ class _ProfileColorPalette extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.collectColors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -382,34 +384,46 @@ class _ProfileColorPalette extends StatelessWidget {
           spacing: CollectSpacing.x2,
           runSpacing: CollectSpacing.x2,
           children: [
-            for (final option in _profileColorOptions)
-              Semantics(
-                button: true,
-                selected: selectedHex == option.hex,
-                label: 'Group color',
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(24),
-                  onTap: () => onChanged(option.hex),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: option.color,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: selectedHex == option.hex
-                            ? Colors.white
-                            : Colors.transparent,
-                        width: 2,
+            for (final option in CollectColors.brandPaintOptions)
+              Builder(
+                builder: (context) {
+                  final selected = selectedHex == option.hex;
+                  final selectedForeground =
+                      option.color.computeLuminance() > 0.72
+                      ? colors.textPrimary
+                      : colors.onAccent;
+                  return Semantics(
+                    button: true,
+                    selected: selected,
+                    label: 'Group color',
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(24),
+                      onTap: () => onChanged(option.hex),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: option.color,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: selected
+                                ? selectedForeground
+                                : colors.transparent,
+                            width: 2,
+                          ),
+                        ),
+                        child: SizedBox(
+                          width: 42,
+                          height: 42,
+                          child: selected
+                              ? Icon(
+                                  Icons.check_rounded,
+                                  color: selectedForeground,
+                                )
+                              : null,
+                        ),
                       ),
                     ),
-                    child: SizedBox(
-                      width: 42,
-                      height: 42,
-                      child: selectedHex == option.hex
-                          ? const Icon(Icons.check_rounded)
-                          : null,
-                    ),
-                  ),
-                ),
+                  );
+                },
               ),
           ],
         ),
@@ -418,28 +432,12 @@ class _ProfileColorPalette extends StatelessWidget {
   }
 }
 
-class _ProfileColorOption {
-  const _ProfileColorOption(this.hex, this.color);
-
-  final String hex;
-  final Color color;
-}
-
 class _CadenceOption {
   const _CadenceOption({required this.value, required this.label});
 
   final String value;
   final String label;
 }
-
-const _profileColorOptions = [
-  _ProfileColorOption('#8885F0', Color(0xFF8885F0)),
-  _ProfileColorOption('#D38B96', Color(0xFFD38B96)),
-  _ProfileColorOption('#FF5E43', Color(0xFFFF5E43)),
-  _ProfileColorOption('#3CD070', Color(0xFF3CD070)),
-  _ProfileColorOption('#FFD5DE', Color(0xFFFFD5DE)),
-  _ProfileColorOption('#DAD7FF', Color(0xFFDAD7FF)),
-];
 
 String? _mimeTypeFromName(String name) {
   final lower = name.toLowerCase();

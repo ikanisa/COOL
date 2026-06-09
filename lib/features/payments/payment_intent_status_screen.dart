@@ -44,13 +44,29 @@ class _PaymentIntentStatusScreenState
     return ScreenScaffold(
       title: 'Payment',
       subtitle: collection.title,
-      actions: [
-        IconButton.filledTonal(
-          tooltip: 'Refresh',
-          onPressed: _refreshing ? null : _refreshStatus,
-          icon: Icon(_refreshing ? CollectIcons.pending : CollectIcons.sync),
+      showHeader: false,
+      persistentPill: CollectTopChrome(
+        avatarLabel: ref.watch(
+          collectRepositoryProvider.select(
+            (state) => state.currentProfile?.publicId,
+          ),
         ),
-      ],
+        searchLabel: collection.title,
+        onAvatarTap: () => context.go('/settings/profile'),
+        actions: [
+          CollectTopChromeAction(
+            icon: _refreshing ? CollectIcons.pending : CollectIcons.sync,
+            tooltip: 'Refresh',
+            onPressed: _refreshing ? null : _refreshStatus,
+          ),
+          CollectTopChromeAction(
+            icon: CollectIcons.ledger,
+            tooltip: 'Open ledger',
+            onPressed: () =>
+                context.go('/groups/${widget.collectionId}/ledger'),
+          ),
+        ],
+      ),
       bottomAction: BottomActionSurface(
         children: [
           CollectButton(

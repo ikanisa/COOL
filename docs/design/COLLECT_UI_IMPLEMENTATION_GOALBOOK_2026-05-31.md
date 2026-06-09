@@ -29,8 +29,8 @@ The implementation must remain Collect-specific:
 
 The UI upgrade is complete only when:
 
-1. The app theme reflects the reference system: off-white/white surfaces,
-   charcoal text, crimson high-intent actions, subdued status colors, and
+1. The app theme reflects the reference system: Paper surfaces,
+   Periwinkle text, Orange high-intent actions, subdued status colors, and
    precision financial typography.
 2. All P0 flows from the report are implemented: design tokens/components,
    auth/onboarding/profile, contribution/payment, home/member dashboard, group
@@ -94,12 +94,12 @@ Validation:
 
 ## Phase 1 - Design System Foundation
 
-### Goal 1.1 - Rebuild Color Tokens Around The Reference Palette
+### Goal 1.1 - Rebuild Color Tokens Around The Current Collect Palette
 
 Objective:
-Move the Flutter UI from generic blue/navy fintech styling to the Collect
-reference system: off-white surfaces, charcoal text, crimson actions, subdued
-status colors.
+Move the Flutter UI from any legacy or generic fintech styling to the current
+Collect-owned four-primary-paint palette documented in `DESIGN.md`, with approved
+pastel washes and semantic secondary tokens.
 
 Likely files:
 
@@ -115,23 +115,20 @@ Implementation tasks:
   - `paper`
   - `surfaceLow`
   - `surfaceHigh`
-  - `inkBlack`
-  - `actionCrimson`
-  - `criticalCrimson`
+  - `textPrimary`
   - `outlineSoft`
   - `successInk`
   - `dangerSoft`
-- Make high-intent primary actions use crimson or charcoal according to
-  component context.
+- Make high-intent primary actions use the approved semantic action token.
 - Keep semantic success/warning/danger states legible but quieter than primary
   CTAs.
-- Rebase dark mode deliberately instead of letting old blue tokens leak into
-  the new light identity.
+- Rebase system appearance deliberately instead of letting old reference palettes leak
+  into the current identity.
 
 Acceptance criteria:
 
-- Primary action/focus color matches the reference crimson family.
-- Page background is calm white/off-white, not blue-tinted.
+- Primary action/focus color maps to the approved Collect palette.
+- Page background uses the approved Collect gradient/surface tokens.
 - Status chips do not visually compete with primary payment actions.
 - Existing widgets compile without raw color regressions.
 
@@ -813,7 +810,7 @@ Known potential blockers:
 | Goal | Priority | Status | Exit evidence |
 | --- | --- | --- | --- |
 | 0.1 Reference scope freeze | P0 | Complete | Report and goalbook present; `scripts/collect_product_boundary_scan.sh --json` passed across 80 Flutter source files with zero forbidden Buro/crypto/trading/legacy navigation hits. |
-| 1.1 Color token rebuild | P0 | Complete | Crimson/charcoal/off-white token migration implemented; `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub` passed. |
+| 1.1 Color token rebuild | P0 | Complete | Four-paint/Paper token migration implemented; `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub` passed. |
 | 1.2 Typography finalization | P0 | Complete | Amount, Collect ID, transaction metadata, OTP, and eyebrow helpers added; focused tests passed. |
 | 1.3 Shared components | P0 | Complete | Amount entry, Collect ID, OTP, financial row, minimal state, notification, search, filters, bottom action, and review components are used across updated screens. |
 | 2.1 First-run onboarding | P0 | Complete | Onboarding renders Collect-first MoMo/SMS loop copy and is covered by compact route render matrix. |

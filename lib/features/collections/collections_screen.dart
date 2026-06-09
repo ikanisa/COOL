@@ -44,6 +44,31 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
     if (collections.isEmpty) {
       return ScreenScaffold(
         title: 'Groups',
+        showHeader: false,
+        persistentPill: CollectTopChrome(
+          avatarLabel: ref.watch(
+            collectRepositoryProvider.select(
+              (state) => state.currentProfile?.publicId,
+            ),
+          ),
+          searchController: _search,
+          searchLabel: 'Search groups',
+          onSearchChanged: (value) => setState(() => _query = value),
+          onAvatarTap: () => context.go('/settings/profile'),
+          actions: [
+            CollectTopChromeAction(
+              icon: CollectIcons.qr,
+              tooltip: 'Scan QR code',
+              onPressed: () => context.go('/groups/scan'),
+            ),
+            if (showCreate)
+              CollectTopChromeAction(
+                icon: CollectIcons.add,
+                tooltip: 'Create group',
+                onPressed: () => context.go('/groups/create'),
+              ),
+          ],
+        ),
         children: [
           EmptyIllustrationState(
             icon: CollectIcons.collectionsOutline,
@@ -67,25 +92,32 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
     }
     return ScreenScaffold(
       title: 'Groups',
-      actions: [
-        if (showCreate)
-          IconButton.filled(
-            tooltip: 'New group',
-            onPressed: () => context.go('/groups/create'),
-            icon: const Icon(CollectIcons.add),
+      showHeader: false,
+      persistentPill: CollectTopChrome(
+        avatarLabel: ref.watch(
+          collectRepositoryProvider.select(
+            (state) => state.currentProfile?.publicId,
           ),
-        IconButton(
-          tooltip: 'Scan QR code',
-          onPressed: () => context.go('/groups/scan'),
-          icon: const Icon(CollectIcons.qr),
         ),
-      ],
+        searchController: _search,
+        searchLabel: 'Search groups',
+        onSearchChanged: (value) => setState(() => _query = value),
+        onAvatarTap: () => context.go('/settings/profile'),
+        actions: [
+          CollectTopChromeAction(
+            icon: CollectIcons.qr,
+            tooltip: 'Scan QR code',
+            onPressed: () => context.go('/groups/scan'),
+          ),
+          if (showCreate)
+            CollectTopChromeAction(
+              icon: CollectIcons.add,
+              tooltip: 'Create group',
+              onPressed: () => context.go('/groups/create'),
+            ),
+        ],
+      ),
       children: [
-        SearchWithClearField(
-          controller: _search,
-          label: 'Search groups',
-          onChanged: (value) => setState(() => _query = value),
-        ),
         _GroupControlDock(
           filterLabel: _visibilityFilterLabel(_visibilityFilter),
           sortLabel: _sortLabel(_sort),
@@ -145,7 +177,8 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
   void _showSortSheet() {
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: Colors.transparent,
+      useRootNavigator: true,
+      backgroundColor: context.collectColors.transparent,
       isScrollControlled: true,
       builder: (context) {
         return CollectBottomSheet(
@@ -167,7 +200,8 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
   void _showFilterSheet() {
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: Colors.transparent,
+      useRootNavigator: true,
+      backgroundColor: context.collectColors.transparent,
       isScrollControlled: true,
       builder: (context) {
         return CollectBottomSheet(
@@ -246,12 +280,12 @@ class _GroupControlButton extends StatelessWidget {
       button: true,
       label: '$title $value',
       child: Material(
-        color: colors.surfaceRaised.withValues(alpha: 0.92),
+        color: colors.glassControl,
         borderRadius: CollectRadius.pillBorder,
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: CollectRadius.pillBorder,
-            border: Border.all(color: colors.border.withValues(alpha: 0.76)),
+            border: Border.all(color: colors.glassBorder),
           ),
           child: InkWell(
             borderRadius: CollectRadius.pillBorder,
@@ -263,7 +297,7 @@ class _GroupControlButton extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(icon, color: colors.actionCrimson, size: 20),
+                  Icon(icon, color: colors.actionColor, size: 20),
                   CollectSpacing.gapW8,
                   Expanded(
                     child: Column(
@@ -361,34 +395,43 @@ class _GroupSheetPill<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return Material(
-      color: selected ? colors.actionCrimson : colors.surface,
-      borderRadius: CollectRadius.pillBorder,
-      child: InkWell(
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: 'Filter option $label',
+      child: Material(
+        color: selected ? colors.actionColor : colors.glassControl,
         borderRadius: CollectRadius.pillBorder,
-        onTap: () => onSelected(value),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: CollectSpacing.x3,
-            vertical: CollectSpacing.x2,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                selected ? CollectIcons.check : CollectIcons.filter,
-                size: 18,
-                color: selected ? Colors.white : colors.textSecondary,
-              ),
-              CollectSpacing.gapW8,
-              Text(
-                label,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: selected ? Colors.white : colors.textPrimary,
-                  fontWeight: FontWeight.w900,
+        child: InkWell(
+          borderRadius: CollectRadius.pillBorder,
+          onTap: () => onSelected(value),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: CollectSpacing.x3,
+              vertical: CollectSpacing.x2,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  selected ? CollectIcons.check : CollectIcons.filter,
+                  size: 18,
+                  color: selected
+                      ? colors.selectedOnAccent
+                      : colors.textSecondary,
                 ),
-              ),
-            ],
+                CollectSpacing.gapW8,
+                Text(
+                  label,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: selected
+                        ? colors.selectedOnAccent
+                        : colors.textPrimary,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

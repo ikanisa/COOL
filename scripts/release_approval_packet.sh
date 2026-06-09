@@ -122,6 +122,10 @@ latest_android_install_summary = Dir[File.join(root_dir, ".cache/android_install
   .sort
   .last
 latest_android_install_summary = rel(root_dir, latest_android_install_summary)
+latest_checksum_manifest = Dir[File.join(root_dir, "docs/release/BUILD_ARTIFACT_CHECKSUMS_*.sha256")]
+  .sort
+  .last
+latest_checksum_manifest = rel(root_dir, latest_checksum_manifest)
 
 approval_manifest_path = File.join(root_dir, "docs/release/RELEASE_APPROVALS.json")
 approval_manifest = JSON.parse(File.read(approval_manifest_path)) rescue {}
@@ -213,7 +217,7 @@ approval_records = [
     "decision_needed" => "Approve the current production APK/AAB outputs and Play App Signing configuration without exposing signing keys.",
     "evidence_to_review" => [
       "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
-      "docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256",
+      latest_checksum_manifest,
       latest_mobile_release_gate_summary,
       latest_android_install_summary,
       "build/app/outputs/flutter-apk/app-production-release.apk",
@@ -343,7 +347,7 @@ packet = {
     latest_mobile_release_gate_summary && file_item(root_dir, latest_mobile_release_gate_summary),
     latest_android_install_summary && file_item(root_dir, latest_android_install_summary),
     file_item(root_dir, "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md"),
-    file_item(root_dir, "docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256"),
+    latest_checksum_manifest && file_item(root_dir, latest_checksum_manifest),
     file_item(root_dir, "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md"),
     file_item(root_dir, "scripts/collect_product_boundary_scan.sh")
   ].compact,

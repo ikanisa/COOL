@@ -280,6 +280,57 @@ class CollectionSummary {
 }
 
 @immutable
+class NotificationPreferences {
+  const NotificationPreferences({
+    this.contributionConfirmations = true,
+    this.paymentReminders = true,
+    this.groupUpdates = true,
+    this.securityNotices = true,
+  });
+
+  final bool contributionConfirmations;
+  final bool paymentReminders;
+  final bool groupUpdates;
+  final bool securityNotices;
+
+  static const defaults = NotificationPreferences();
+
+  factory NotificationPreferences.fromJson(Map<String, dynamic> json) {
+    return NotificationPreferences(
+      contributionConfirmations:
+          (json['contribution_confirmations'] as bool?) ?? true,
+      paymentReminders: (json['payment_reminders'] as bool?) ?? true,
+      groupUpdates: (json['group_updates'] as bool?) ?? true,
+      securityNotices: (json['security_notices'] as bool?) ?? true,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'contribution_confirmations': contributionConfirmations,
+      'payment_reminders': paymentReminders,
+      'group_updates': groupUpdates,
+      'security_notices': securityNotices,
+    };
+  }
+
+  NotificationPreferences copyWith({
+    bool? contributionConfirmations,
+    bool? paymentReminders,
+    bool? groupUpdates,
+    bool? securityNotices,
+  }) {
+    return NotificationPreferences(
+      contributionConfirmations:
+          contributionConfirmations ?? this.contributionConfirmations,
+      paymentReminders: paymentReminders ?? this.paymentReminders,
+      groupUpdates: groupUpdates ?? this.groupUpdates,
+      securityNotices: securityNotices ?? this.securityNotices,
+    );
+  }
+}
+
+@immutable
 class CollectMember {
   const CollectMember({
     required this.publicId,

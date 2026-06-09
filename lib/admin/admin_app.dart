@@ -15,8 +15,7 @@ class CollectAdminApp extends ConsumerWidget {
         title: 'Collect Admin',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light(),
-        darkTheme: AppTheme.dark(),
-        themeMode: ThemeMode.system,
+        themeMode: ThemeMode.light,
         routerConfig: ref.watch(adminRouterProvider),
       ),
     );

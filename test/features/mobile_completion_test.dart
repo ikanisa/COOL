@@ -119,8 +119,8 @@ void main() {
     const cases = [
       (
         route: '/permissions/sms-denied',
-        title: 'SMS access required.',
-        action: 'Try again',
+        title: 'Enable Android SMS access',
+        action: 'Open app settings',
       ),
       (
         route: '/permissions/notifications-denied',
@@ -136,12 +136,7 @@ void main() {
 
     for (final item in cases) {
       await pumpRoute(tester, item.route);
-      expect(find.text(item.title), findsOneWidget, reason: item.route);
-      expect(
-        find.text('Settings recovery'),
-        findsOneWidget,
-        reason: item.route,
-      );
+      expect(find.text(item.title), findsWidgets, reason: item.route);
       expect(find.text(item.action), findsWidgets, reason: item.route);
     }
   });
@@ -192,27 +187,23 @@ void main() {
     try {
       await pumpRoute(tester, '/groups/create');
 
-      expect(find.text('Step 1 of 5'), findsOneWidget);
+      expect(find.text('Step 1 of 4'), findsOneWidget);
       await tester.enterText(find.byType(TextField).first, 'Parish support');
       await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
       await tester.pump();
 
-      expect(find.text('Step 2 of 5'), findsOneWidget);
-      expect(find.text('Receiver privacy'), findsOneWidget);
+      expect(find.text('Step 2 of 4'), findsOneWidget);
+      expect(find.text('Receiver privacy'), findsNothing);
       await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
       await tester.pump();
 
-      expect(find.text('Step 3 of 5'), findsOneWidget);
+      expect(find.text('Step 3 of 4'), findsOneWidget);
       expect(find.text('Group color'), findsOneWidget);
       await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
       await tester.pump();
 
-      expect(find.text('Step 4 of 5'), findsOneWidget);
-      expect(find.text('SMS readiness check.'), findsOneWidget);
-      await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
-      await tester.pump();
-
-      expect(find.text('Step 5 of 5'), findsOneWidget);
+      expect(find.text('Step 4 of 4'), findsOneWidget);
+      expect(find.text('SMS readiness check.'), findsNothing);
       expect(find.text('Review group'), findsOneWidget);
     } finally {
       debugDefaultTargetPlatformOverride = null;

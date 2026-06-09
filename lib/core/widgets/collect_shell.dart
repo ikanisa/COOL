@@ -15,35 +15,37 @@ class CollectShell extends StatelessWidget {
     final colors = context.collectColors;
     final path = GoRouterState.of(context).uri.path;
     final showNav = !_isStandalone(path);
-    return Scaffold(
-      body: child,
-      bottomNavigationBar: showNav
-          ? SafeArea(
-              top: false,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(28),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: colors.surfaceRaised.withValues(alpha: 0.84),
-                        border: Border.all(
-                          color: colors.border.withValues(alpha: 0.72),
+    return CollectGradientBackground(
+      child: Scaffold(
+        backgroundColor: colors.transparent,
+        extendBody: true,
+        body: child,
+        bottomNavigationBar: showNav
+            ? SafeArea(
+                top: false,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(28),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: colors.glassControl,
+                          border: Border.all(color: colors.glassBorder),
                         ),
-                      ),
-                      child: _CollectBottomNav(
-                        selectedIndex: _selectedIndex(context),
-                        onDestinationSelected: (index) =>
-                            context.go(_paths[index]),
+                        child: _CollectBottomNav(
+                          selectedIndex: _selectedIndex(context),
+                          onDestinationSelected: (index) =>
+                              context.go(_paths[index]),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            )
-          : null,
+              )
+            : null,
+      ),
     );
   }
 
@@ -140,7 +142,7 @@ class _CollectBottomNavItem extends StatelessWidget {
     final colors = context.collectColors;
     final textTheme = Theme.of(context).textTheme;
     final foreground = selected ? colors.textPrimary : colors.textMuted;
-    final indicator = colors.actionCrimson.withValues(alpha: 0.18);
+    final indicator = colors.actionColor.withValues(alpha: 0.18);
     return Tooltip(
       message: destination.label,
       child: Semantics(
@@ -159,7 +161,7 @@ class _CollectBottomNavItem extends StatelessWidget {
               children: [
                 DecoratedBox(
                   decoration: BoxDecoration(
-                    color: selected ? indicator : Colors.transparent,
+                    color: selected ? indicator : colors.transparent,
                     borderRadius: BorderRadius.circular(22),
                   ),
                   child: Padding(

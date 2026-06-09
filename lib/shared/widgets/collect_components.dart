@@ -117,7 +117,6 @@ class CollectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     final radius = switch (emphasis) {
       CollectCardEmphasis.hero ||
       CollectCardEmphasis.glow => CollectRadius.cardLargeBorder,
@@ -128,17 +127,26 @@ class CollectCard extends StatelessWidget {
       CollectCardEmphasis.flat => colors.surface,
       CollectCardEmphasis.outline => colors.surfaceRaised,
       CollectCardEmphasis.tonal => Color.alphaBlend(
-        (accentColor ?? colors.actionCrimson).withValues(alpha: 0.08),
+        (accentColor ?? colors.actionColor).withValues(alpha: 0.08),
         colors.surfaceRaised,
       ),
       CollectCardEmphasis.glow => colors.surfaceRaised,
       CollectCardEmphasis.compact => colors.surfaceRaised,
       _ => colors.surfaceMuted,
     };
+    final backgroundOpacity = switch (emphasis) {
+      CollectCardEmphasis.hero => 0.82,
+      CollectCardEmphasis.glow => 0.80,
+      CollectCardEmphasis.tonal => 0.78,
+      CollectCardEmphasis.compact => 0.76,
+      CollectCardEmphasis.flat => 0.70,
+      CollectCardEmphasis.outline => 0.74,
+      CollectCardEmphasis.normal => 0.78,
+    };
     final border = switch (emphasis) {
       CollectCardEmphasis.flat => null,
       CollectCardEmphasis.glow => Border.all(
-        color: (accentColor ?? colors.actionCrimson).withValues(alpha: 0.24),
+        color: (accentColor ?? colors.actionColor).withValues(alpha: 0.24),
       ),
       CollectCardEmphasis.outline => Border.all(color: colors.border),
       CollectCardEmphasis.compact => Border.all(
@@ -152,20 +160,20 @@ class CollectCard extends StatelessWidget {
       CollectCardEmphasis.compact => const <BoxShadow>[],
       CollectCardEmphasis.glow => [
         BoxShadow(
-          color: (accentColor ?? colors.actionCrimson).withValues(
-            alpha: isDark ? 0.22 : 0.13,
-          ),
+          color: (accentColor ?? colors.actionColor).withValues(alpha: 0.13),
           blurRadius: 28,
           offset: const Offset(0, 16),
         ),
       ],
-      _ => CollectShadows.card(isDark),
+      _ => CollectShadows.card(),
     };
     final decorated = AnimatedContainer(
       duration: CollectMotion.duration(context, CollectMotion.fast),
       curve: CollectMotion.standard,
       decoration: BoxDecoration(
-        color: backgroundGradient == null ? background : null,
+        color: backgroundGradient == null
+            ? background.withValues(alpha: backgroundOpacity)
+            : null,
         gradient: backgroundGradient,
         borderRadius: radius,
         border: border,
@@ -174,7 +182,7 @@ class CollectCard extends StatelessWidget {
       child: Padding(padding: padding, child: child),
     );
     return Material(
-      color: Colors.transparent,
+      color: colors.transparent,
       borderRadius: radius,
       child: onTap == null
           ? decorated
@@ -396,7 +404,8 @@ class CollectTextInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
-      keyboardType: keyboardType,
+      keyboardType:
+          keyboardType ?? (maxLines > 1 ? TextInputType.multiline : null),
       textInputAction:
           textInputAction ??
           (maxLines > 1 ? TextInputAction.newline : TextInputAction.next),
@@ -426,12 +435,12 @@ class SearchWithClearField extends StatelessWidget {
     final colors = context.collectColors;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.surfaceRaised.withValues(alpha: 0.92),
+        color: colors.glassControl,
         borderRadius: CollectRadius.pillBorder,
-        border: Border.all(color: colors.border),
+        border: Border.all(color: colors.glassBorder),
         boxShadow: [
           BoxShadow(
-            color: colors.ink.withValues(alpha: 0.18),
+            color: colors.periwinklePaint.withValues(alpha: 0.18),
             blurRadius: 22,
             offset: const Offset(0, 12),
           ),
@@ -468,6 +477,313 @@ class SearchWithClearField extends StatelessWidget {
   }
 }
 
+class CollectTopChromeAction {
+  const CollectTopChromeAction({
+    required this.icon,
+    required this.tooltip,
+    required this.onPressed,
+    this.hasBadge = false,
+  });
+
+  final IconData icon;
+  final String tooltip;
+  final VoidCallback? onPressed;
+  final bool hasBadge;
+}
+
+class CollectTopChrome extends StatelessWidget {
+  const CollectTopChrome({
+    this.avatarLabel,
+    this.onAvatarTap,
+    this.hasUnread = false,
+    this.searchLabel = 'Search',
+    this.searchController,
+    this.onSearchChanged,
+    this.onSearchTap,
+    this.actions = const [],
+    this.showSearch = true,
+    super.key,
+  });
+
+  final String? avatarLabel;
+  final VoidCallback? onAvatarTap;
+  final bool hasUnread;
+  final String searchLabel;
+  final TextEditingController? searchController;
+  final ValueChanged<String>? onSearchChanged;
+  final VoidCallback? onSearchTap;
+  final List<CollectTopChromeAction> actions;
+  final bool showSearch;
+
+  @override
+  Widget build(BuildContext context) {
+    final visibleActions = actions.take(2).toList();
+    return Semantics(
+      container: true,
+      label: 'Primary screen actions',
+      child: SizedBox(
+        height: 60,
+        child: Row(
+          children: [
+            _TopChromeAvatar(
+              label: avatarLabel,
+              hasUnread: hasUnread,
+              onTap: onAvatarTap,
+            ),
+            if (showSearch) ...[
+              CollectSpacing.gapW12,
+              Expanded(
+                child: searchController == null
+                    ? _TopChromeSearchButton(
+                        label: searchLabel,
+                        onTap: onSearchTap,
+                      )
+                    : _TopChromeSearchField(
+                        controller: searchController!,
+                        label: searchLabel,
+                        onChanged: onSearchChanged,
+                      ),
+              ),
+            ] else
+              const Spacer(),
+            if (visibleActions.isNotEmpty) CollectSpacing.gapW12,
+            for (var index = 0; index < visibleActions.length; index += 1) ...[
+              if (index > 0) CollectSpacing.gapW8,
+              _TopChromeActionButton(action: visibleActions[index]),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _TopChromeAvatar extends StatelessWidget {
+  const _TopChromeAvatar({
+    required this.label,
+    required this.hasUnread,
+    this.onTap,
+  });
+
+  final String? label;
+  final bool hasUnread;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final initials = _avatarInitials(label);
+    return Tooltip(
+      message: label == null ? 'Profile' : 'Collect ID $label',
+      child: Semantics(
+        button: onTap != null,
+        label: label == null ? 'Profile' : 'Collect ID $label',
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Material(
+              color: colors.glassControl,
+              shape: const CircleBorder(),
+              child: InkWell(
+                customBorder: const CircleBorder(),
+                onTap: onTap,
+                child: SizedBox.square(
+                  dimension: 52,
+                  child: Center(
+                    child: initials == null
+                        ? Icon(CollectIcons.profile, color: colors.textPrimary)
+                        : Text(
+                            initials,
+                            style: Theme.of(context).textTheme.titleSmall
+                                ?.copyWith(
+                                  color: colors.textPrimary,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                          ),
+                  ),
+                ),
+              ),
+            ),
+            if (hasUnread)
+              Positioned(
+                right: 2,
+                top: 2,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: colors.brandAction,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: colors.screenBase, width: 2),
+                  ),
+                  child: const SizedBox.square(dimension: 11),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _TopChromeSearchButton extends StatelessWidget {
+  const _TopChromeSearchButton({required this.label, this.onTap});
+
+  final String label;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Tooltip(
+      message: label,
+      child: Material(
+        color: colors.glassControl,
+        borderRadius: CollectRadius.pillBorder,
+        child: InkWell(
+          borderRadius: CollectRadius.pillBorder,
+          onTap: onTap,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: CollectRadius.pillBorder,
+              border: Border.all(color: colors.glassBorder),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: CollectSpacing.x4,
+              ),
+              child: Row(
+                children: [
+                  Icon(CollectIcons.search, color: colors.textPrimary),
+                  CollectSpacing.gapW12,
+                  Expanded(
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: colors.textPrimary,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _TopChromeSearchField extends StatelessWidget {
+  const _TopChromeSearchField({
+    required this.controller,
+    required this.label,
+    this.onChanged,
+  });
+
+  final TextEditingController controller;
+  final String label;
+  final ValueChanged<String>? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.glassControl,
+        borderRadius: CollectRadius.pillBorder,
+        border: Border.all(color: colors.glassBorder),
+      ),
+      child: TextField(
+        controller: controller,
+        onChanged: onChanged,
+        minLines: 1,
+        textInputAction: TextInputAction.search,
+        decoration: InputDecoration(
+          hintText: label,
+          prefixIcon: Icon(CollectIcons.search, color: colors.textPrimary),
+          suffixIcon: controller.text.isEmpty
+              ? null
+              : IconButton(
+                  tooltip: 'Clear search',
+                  icon: const Icon(Icons.close_rounded),
+                  onPressed: () {
+                    controller.clear();
+                    onChanged?.call('');
+                  },
+                ),
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: CollectSpacing.x3,
+            vertical: CollectSpacing.x3,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _TopChromeActionButton extends StatelessWidget {
+  const _TopChromeActionButton({required this.action});
+
+  final CollectTopChromeAction action;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Tooltip(
+      message: action.tooltip,
+      child: Semantics(
+        button: true,
+        label: action.tooltip,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Material(
+              color: colors.glassControl,
+              shape: const CircleBorder(),
+              child: InkWell(
+                customBorder: const CircleBorder(),
+                onTap: action.onPressed,
+                child: SizedBox.square(
+                  dimension: 52,
+                  child: Icon(action.icon, color: colors.textPrimary, size: 26),
+                ),
+              ),
+            ),
+            if (action.hasBadge)
+              Positioned(
+                right: 4,
+                top: 4,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: colors.brandAction,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: colors.screenBase, width: 2),
+                  ),
+                  child: const SizedBox.square(dimension: 10),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+String? _avatarInitials(String? value) {
+  final clean = value?.trim();
+  if (clean == null || clean.isEmpty) return null;
+  final digits = clean.replaceAll(RegExp(r'[^0-9A-Za-z]'), '');
+  if (digits.isEmpty) return null;
+  return digits.length <= 2
+      ? digits.toUpperCase()
+      : digits.substring(digits.length - 2).toUpperCase();
+}
+
 class FinancialListRow extends StatelessWidget {
   const FinancialListRow({
     required this.title,
@@ -494,7 +810,7 @@ class FinancialListRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     return Material(
-      color: Colors.transparent,
+      color: colors.transparent,
       child: InkWell(
         borderRadius: CollectRadius.controlBorder,
         onTap: onTap,
@@ -621,6 +937,21 @@ class AmountEntryPanel extends StatelessWidget {
                 ChoiceChip(
                   label: Text(_compactAmount(option)),
                   selected: amount == option,
+                  selectedColor: CollectColors.brandPeriwinkle,
+                  backgroundColor: colors.glassControl,
+                  checkmarkColor: colors.selectedOnAccent,
+                  side: BorderSide(
+                    color: amount == option
+                        ? CollectColors.brandPeriwinkle
+                        : colors.border,
+                    width: amount == option ? 1.5 : 1,
+                  ),
+                  labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: amount == option
+                        ? colors.selectedOnAccent
+                        : colors.textPrimary,
+                    fontWeight: FontWeight.w900,
+                  ),
                   onSelected: (_) => onQuickAmount(option),
                 ),
             ],
@@ -650,12 +981,10 @@ class BottomActionSurface extends StatelessWidget {
     final colors = context.collectColors;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.surfaceRaised.withValues(alpha: 0.94),
+        color: colors.glassPanel,
         borderRadius: CollectRadius.cardBorder,
-        border: Border.all(color: colors.border.withValues(alpha: 0.72)),
-        boxShadow: CollectShadows.card(
-          Theme.of(context).brightness == Brightness.dark,
-        ),
+        border: Border.all(color: colors.glassBorder),
+        boxShadow: CollectShadows.card(),
       ),
       child: Padding(
         padding: const EdgeInsets.all(CollectSpacing.x4),
@@ -1175,7 +1504,7 @@ class CollectAvatar extends StatelessWidget {
     return CircleAvatar(
       radius: size / 2,
       backgroundColor: colors.statusBackground(CollectStatusTone.privacy),
-      foregroundColor: colors.purple,
+      foregroundColor: colors.periwinklePaint,
       backgroundImage: imageUrl == null || imageUrl!.isEmpty
           ? null
           : NetworkImage(imageUrl!),
@@ -1400,34 +1729,36 @@ class CollectEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Center(
-        child: Padding(
-          padding: CollectSpacing.screenPadding,
-          child: CollectCard(
-            emphasis: CollectCardEmphasis.flat,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _ToneIcon(
-                  icon: icon,
-                  tone: CollectStatusTone.info,
-                  large: true,
-                ),
-                CollectSpacing.gap16,
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.titleLarge,
-                  textAlign: TextAlign.center,
-                ),
-                CollectSpacing.gap8,
-                Text(
-                  message,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  textAlign: TextAlign.center,
-                ),
-                if (action != null) ...[CollectSpacing.gap20, action!],
-              ],
+    return CollectGradientBackground(
+      child: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: CollectSpacing.screenPadding,
+            child: CollectCard(
+              emphasis: CollectCardEmphasis.flat,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _ToneIcon(
+                    icon: icon,
+                    tone: CollectStatusTone.info,
+                    large: true,
+                  ),
+                  CollectSpacing.gap16,
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleLarge,
+                    textAlign: TextAlign.center,
+                  ),
+                  CollectSpacing.gap8,
+                  Text(
+                    message,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    textAlign: TextAlign.center,
+                  ),
+                  if (action != null) ...[CollectSpacing.gap20, action!],
+                ],
+              ),
             ),
           ),
         ),
@@ -1572,7 +1903,6 @@ class CollectBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(
         top: Radius.circular(CollectRadius.bottomSheet),
@@ -1581,12 +1911,12 @@ class CollectBottomSheet extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: colors.surfaceRaised.withValues(alpha: isDark ? 0.82 : 0.76),
-            border: Border.all(color: colors.border.withValues(alpha: 0.64)),
+            color: colors.glassPanel,
+            border: Border.all(color: colors.glassBorder),
             borderRadius: const BorderRadius.vertical(
               top: Radius.circular(CollectRadius.bottomSheet),
             ),
-            boxShadow: CollectShadows.card(isDark),
+            boxShadow: CollectShadows.card(),
           ),
           child: Padding(
             padding: CollectSpacing.cardPaddingComfortable,
@@ -1661,7 +1991,7 @@ class InfoSecurityBanner extends StatelessWidget {
                   Text(
                     visibleMessage,
                     style: Theme.of(context).textTheme.bodySmall,
-                    maxLines: 1,
+                    maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
@@ -1755,7 +2085,7 @@ class CollectDynamicIsland extends StatelessWidget {
             button: true,
             label: 'Expand payment status',
             child: Material(
-              color: colors.ink.withValues(alpha: 0.94),
+              color: colors.periwinklePaint.withValues(alpha: 0.94),
               borderRadius: CollectRadius.pillBorder,
               child: InkWell(
                 onTap: onMinimize,
@@ -1768,16 +2098,12 @@ class CollectDynamicIsland extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(
-                        CollectIcons.momo,
-                        color: Colors.white,
-                        size: 18,
-                      ),
+                      Icon(CollectIcons.momo, color: colors.onAccent, size: 18),
                       CollectSpacing.gapW8,
                       Text(
                         formatRwf(intent.expectedAmountRwf),
                         style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: Colors.white,
+                          color: colors.onAccent,
                           fontWeight: FontWeight.w800,
                         ),
                       ),
@@ -1791,9 +2117,9 @@ class CollectDynamicIsland extends StatelessWidget {
       );
     }
 
-    const foreground = Colors.white;
-    final background = colors.ink.withValues(alpha: 0.94);
-    final border = Colors.white.withValues(alpha: 0.12);
+    final foreground = colors.onAccent;
+    final background = colors.periwinklePaint.withValues(alpha: 0.94);
+    final border = colors.onAccent.withValues(alpha: 0.12);
 
     return Semantics(
       label: 'Live payment status',
@@ -1814,7 +2140,7 @@ class CollectDynamicIsland extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(CollectIcons.momo, color: foreground, size: 18),
+                  Icon(CollectIcons.momo, color: foreground, size: 18),
                   CollectSpacing.gapW12,
                   Expanded(
                     child: Column(
@@ -1836,7 +2162,7 @@ class CollectDynamicIsland extends StatelessWidget {
                           formatRwf(intent.expectedAmountRwf),
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
-                                color: Colors.white.withValues(alpha: 0.72),
+                                color: colors.onAccent.withValues(alpha: 0.72),
                               ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -2122,7 +2448,7 @@ class CollectIdCard extends StatelessWidget {
         children: [
           _GroupIconBadge(
             icon: CollectIcons.profile,
-            accent: colors.actionCrimson,
+            accent: colors.actionColor,
             size: 52,
           ),
           CollectSpacing.gapW12,
@@ -2207,6 +2533,7 @@ class ReceiverConsentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.collectColors;
     return CollectCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2238,7 +2565,7 @@ class ReceiverConsentCard extends StatelessWidget {
           ),
           CollectSpacing.gap16,
           Material(
-            color: Colors.transparent,
+            color: colors.transparent,
             child: SwitchListTile.adaptive(
               contentPadding: EdgeInsets.zero,
               value: consented,
@@ -2383,15 +2710,14 @@ class MoneyHeroCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final heroColor = isDark ? const Color(0xFF101827) : colors.navy;
+    final heroColor = colors.periwinklePaint;
     return AnimatedContainer(
       duration: CollectMotion.duration(context, CollectMotion.medium),
       curve: CollectMotion.standard,
       decoration: BoxDecoration(
         color: heroColor,
         borderRadius: CollectRadius.cardLargeBorder,
-        boxShadow: CollectShadows.card(isDark),
+        boxShadow: CollectShadows.card(),
       ),
       child: Stack(
         children: [
@@ -2399,7 +2725,9 @@ class MoneyHeroCard extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: CollectRadius.cardLargeBorder,
-                border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                border: Border.all(
+                  color: colors.onImagePrimary.withValues(alpha: 0.08),
+                ),
               ),
             ),
           ),
@@ -2412,7 +2740,7 @@ class MoneyHeroCard extends StatelessWidget {
                   Text(
                     label,
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: Colors.white.withValues(alpha: 0.78),
+                      color: colors.onImagePrimary.withValues(alpha: 0.78),
                     ),
                   ),
                   CollectSpacing.gap8,
@@ -2422,7 +2750,7 @@ class MoneyHeroCard extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     formatRwf(amount),
-                    style: CollectTypography.amountHero(Colors.white),
+                    style: CollectTypography.amountHero(colors.onImagePrimary),
                   ),
                 ),
                 if (detail != null) ...[
@@ -2430,7 +2758,7 @@ class MoneyHeroCard extends StatelessWidget {
                   Text(
                     detail!,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.white.withValues(alpha: 0.76),
+                      color: colors.onImagePrimary.withValues(alpha: 0.76),
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -2491,7 +2819,7 @@ class QuickActionButton extends StatelessWidget {
       explicitChildNodes: true,
       label: detail == null ? label : '$label, $detail',
       child: Material(
-        color: colors.surfaceRaised,
+        color: colors.glassControl,
         borderRadius: CollectRadius.cardBorder,
         child: InkWell(
           borderRadius: CollectRadius.cardBorder,
@@ -2655,7 +2983,7 @@ class EmptyIllustrationState extends StatelessWidget {
             ),
             child: SizedBox.square(
               dimension: 76,
-              child: Icon(icon, color: colors.blue, size: 34),
+              child: Icon(icon, color: colors.orangePaint, size: 34),
             ),
           ),
           CollectSpacing.gap16,
@@ -2704,7 +3032,7 @@ class PremiumSegmentedFilter<T> extends StatelessWidget {
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.resolveWith((states) {
                   if (states.contains(WidgetState.selected)) {
-                    return colors.actionCrimson.withValues(alpha: 0.12);
+                    return colors.actionColor.withValues(alpha: 0.12);
                   }
                   return colors.surfaceRaised;
                 }),
@@ -2752,7 +3080,7 @@ class ActivityFeedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     return Material(
-      color: Colors.transparent,
+      color: colors.transparent,
       child: InkWell(
         borderRadius: CollectRadius.mdBorder,
         onTap: onTap,
@@ -3005,6 +3333,7 @@ class _PublicDiscoveryGroupCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final accent = _groupAccent(context, collection);
+    const coverHeight = 124.0;
     return CollectCard(
       onTap: onTap,
       padding: EdgeInsets.zero,
@@ -3012,92 +3341,110 @@ class _PublicDiscoveryGroupCard extends StatelessWidget {
       accentColor: accent,
       backgroundGradient: LinearGradient(
         colors: [
-          Color.alphaBlend(
-            accent.withValues(alpha: 0.13),
-            colors.surfaceRaised,
-          ),
-          colors.surfaceRaised,
+          Color.alphaBlend(accent.withValues(alpha: 0.13), colors.glassPanel),
+          colors.glassPanel,
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ),
       child: ClipRRect(
         borderRadius: CollectRadius.cardLargeBorder,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
           children: [
-            SizedBox(
-              height: 124,
-              width: double.infinity,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  _GroupCoverMedia(collection: collection, accent: accent),
-                  Positioned.fill(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.black.withValues(alpha: 0.08),
-                            Colors.black.withValues(alpha: 0.58),
-                          ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: coverHeight,
+                  width: double.infinity,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      _GroupCoverMedia(collection: collection, accent: accent),
+                      Positioned.fill(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                colors.imageScrimSoft,
+                                colors.imageScrimStrong,
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: _GroupImageContentBlend(
+                          accent: accent,
+                          height: 30,
+                        ),
+                      ),
+                      Positioned(
+                        top: CollectSpacing.x3,
+                        right: CollectSpacing.x3,
+                        child: _PublicGlyph(accent: accent),
+                      ),
+                      Positioned(
+                        left: CollectSpacing.x3,
+                        right: CollectSpacing.x3,
+                        bottom: CollectSpacing.x3,
+                        child: _GroupCoverTitleOverlay(
+                          collection: collection,
+                          accent: accent,
+                          compact: true,
+                        ),
+                      ),
+                    ],
                   ),
-                  Positioned(
-                    top: CollectSpacing.x3,
-                    right: CollectSpacing.x3,
-                    child: _PublicGlyph(accent: accent),
-                  ),
-                  Positioned(
-                    left: CollectSpacing.x3,
-                    right: CollectSpacing.x3,
-                    bottom: CollectSpacing.x3,
-                    child: _GroupCoverTitleOverlay(
-                      collection: collection,
-                      accent: accent,
-                      compact: true,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: CollectSpacing.x3,
-                  vertical: CollectSpacing.x2,
                 ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: _GroupIconMetric(
-                        icon: CollectIcons.money,
-                        value: formatRwf(summary.amountRaisedRwf),
-                        semanticLabel:
-                            'Total collected ${formatRwf(summary.amountRaisedRwf)}',
-                        accent: accent,
+                Expanded(
+                  child: DecoratedBox(
+                    decoration: _groupFooterDecoration(context, accent),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                        CollectSpacing.x3,
+                        CollectSpacing.x1,
+                        CollectSpacing.x3,
+                        CollectSpacing.x2,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: _GroupIconMetric(
+                              icon: CollectIcons.money,
+                              value: formatRwf(summary.amountRaisedRwf),
+                              semanticLabel:
+                                  'Total collected ${formatRwf(summary.amountRaisedRwf)}',
+                              accent: accent,
+                            ),
+                          ),
+                          Expanded(
+                            child: _GroupIconMetric(
+                              icon: CollectIcons.people,
+                              value: '${summary.supporterCount}',
+                              semanticLabel:
+                                  '${summary.supporterCount} group members',
+                              accent: colors.success,
+                            ),
+                          ),
+                          if (primaryAction != null)
+                            SizedBox(
+                              width: 48,
+                              child: Center(child: primaryAction!),
+                            ),
+                        ],
                       ),
                     ),
-                    Expanded(
-                      child: _GroupIconMetric(
-                        icon: CollectIcons.people,
-                        value: '${summary.supporterCount}',
-                        semanticLabel:
-                            '${summary.supporterCount} group members',
-                        accent: colors.success,
-                      ),
-                    ),
-                    if (primaryAction != null)
-                      SizedBox(width: 48, child: Center(child: primaryAction!)),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ],
         ),
@@ -3179,6 +3526,7 @@ class _VisualGroupCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final accent = _groupAccent(context, collection);
+    const coverHeight = 136.0;
     return CollectCard(
       onTap: onTap,
       padding: EdgeInsets.zero,
@@ -3186,69 +3534,142 @@ class _VisualGroupCard extends StatelessWidget {
       accentColor: accent,
       child: ClipRRect(
         borderRadius: CollectRadius.cardLargeBorder,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
           children: [
-            SizedBox(
-              height: 136,
-              width: double.infinity,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  _GroupCoverMedia(collection: collection, accent: accent),
-                  Positioned.fill(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.black.withValues(alpha: 0.06),
-                            Colors.black.withValues(alpha: 0.62),
-                          ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: coverHeight,
+                  width: double.infinity,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      _GroupCoverMedia(collection: collection, accent: accent),
+                      Positioned.fill(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                colors.imageScrimSoft.withValues(alpha: 0.75),
+                                colors.imageScrimStrong,
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                          ),
                         ),
                       ),
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: _GroupImageContentBlend(
+                          accent: accent,
+                          height: 34,
+                        ),
+                      ),
+                      Positioned(
+                        left: CollectSpacing.x4,
+                        right: CollectSpacing.x4,
+                        bottom: CollectSpacing.x4,
+                        child: _GroupCoverTitleOverlay(
+                          collection: collection,
+                          accent: accent,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                DecoratedBox(
+                  decoration: _groupFooterDecoration(context, accent),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      CollectSpacing.x4,
+                      CollectSpacing.x2,
+                      CollectSpacing.x4,
+                      CollectSpacing.x4,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: _GroupIconMetric(
+                            icon: CollectIcons.money,
+                            value: formatRwf(summary.amountRaisedRwf),
+                            semanticLabel:
+                                'Total collected ${formatRwf(summary.amountRaisedRwf)}',
+                            accent: accent,
+                          ),
+                        ),
+                        Expanded(
+                          child: _GroupIconMetric(
+                            icon: CollectIcons.people,
+                            value: '${summary.supporterCount}',
+                            semanticLabel:
+                                '${summary.supporterCount} group members',
+                            accent: colors.success,
+                          ),
+                        ),
+                        if (primaryAction != null)
+                          Expanded(child: Center(child: primaryAction!)),
+                      ],
                     ),
                   ),
-                  Positioned(
-                    left: CollectSpacing.x4,
-                    right: CollectSpacing.x4,
-                    bottom: CollectSpacing.x4,
-                    child: _GroupCoverTitleOverlay(
-                      collection: collection,
-                      accent: accent,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(CollectSpacing.x4),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: _GroupIconMetric(
-                      icon: CollectIcons.money,
-                      value: formatRwf(summary.amountRaisedRwf),
-                      semanticLabel:
-                          'Total collected ${formatRwf(summary.amountRaisedRwf)}',
-                      accent: accent,
-                    ),
-                  ),
-                  Expanded(
-                    child: _GroupIconMetric(
-                      icon: CollectIcons.people,
-                      value: '${summary.supporterCount}',
-                      semanticLabel: '${summary.supporterCount} group members',
-                      accent: colors.success,
-                    ),
-                  ),
-                  if (primaryAction != null)
-                    Expanded(child: Center(child: primaryAction!)),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+BoxDecoration _groupFooterDecoration(BuildContext context, Color accent) {
+  final colors = context.collectColors;
+  return BoxDecoration(
+    gradient: LinearGradient(
+      colors: [
+        Color.alphaBlend(accent.withValues(alpha: 0.18), colors.surfaceRaised),
+        colors.surfaceRaised,
+      ],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+    ),
+  );
+}
+
+class _GroupImageContentBlend extends StatelessWidget {
+  const _GroupImageContentBlend({required this.accent, required this.height});
+
+  final Color accent;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return IgnorePointer(
+      child: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  colors.transparent,
+                  Color.alphaBlend(
+                    accent.withValues(alpha: 0.20),
+                    colors.glassPanel,
+                  ).withValues(alpha: 0.78),
+                  colors.glassPanelStrong,
+                ],
+                stops: const [0.0, 0.46, 1.0],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: SizedBox(height: height),
+          ),
         ),
       ),
     );
@@ -3349,53 +3770,35 @@ class _GroupCoverTitleOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iconSize = compact ? 38.0 : 46.0;
-    return ClipRRect(
-      borderRadius: CollectRadius.panelBorder,
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: Colors.black.withValues(alpha: 0.56),
-            borderRadius: CollectRadius.panelBorder,
-            border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: compact ? CollectSpacing.x2 : CollectSpacing.x3,
-              vertical: compact ? CollectSpacing.x2 : CollectSpacing.x3,
-            ),
-            child: Row(
-              children: [
-                _GroupIconBadge(
-                  icon: _groupIcon(collection),
-                  accent: accent,
-                  size: iconSize,
-                ),
-                CollectSpacing.gapW8,
-                Expanded(
-                  child: Text(
-                    collection.title,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w800,
-                      fontSize: compact ? 17 : null,
-                      shadows: [
-                        Shadow(
-                          color: Colors.black.withValues(alpha: 0.42),
-                          blurRadius: 8,
-                          offset: const Offset(0, 1),
-                        ),
-                      ],
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+    final colors = context.collectColors;
+    return Row(
+      children: [
+        _GroupIconBadge(
+          icon: _groupIcon(collection),
+          accent: accent,
+          size: iconSize,
+        ),
+        CollectSpacing.gapW8,
+        Expanded(
+          child: Text(
+            collection.title,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: colors.onImagePrimary,
+              fontWeight: FontWeight.w800,
+              fontSize: compact ? 17 : null,
+              shadows: [
+                Shadow(
+                  color: colors.shadowPaint.withValues(alpha: 0.72),
+                  blurRadius: 14,
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -3546,16 +3949,79 @@ class _GroupWatermark extends StatelessWidget {
   }
 }
 
+class CollectBrandMark extends StatelessWidget {
+  const CollectBrandMark({
+    this.compact = false,
+    this.framed = true,
+    this.width,
+    this.height,
+    this.showWordmark = true,
+    super.key,
+  });
+
+  static const assetPath =
+      'assets/brand/generated/collect_wordmark_transparent.png';
+  static const appIconAssetPath = 'assets/brand/collect_app_icon_static.png';
+
+  final bool compact;
+  final bool framed;
+  final double? width;
+  final double? height;
+  final bool showWordmark;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final markWidth = width ?? (compact ? 108.0 : 132.0);
+    final markHeight = height ?? (compact ? 32.0 : 38.0);
+    final wordmark = Image.asset(
+      assetPath,
+      width: markWidth,
+      height: markHeight,
+      fit: BoxFit.contain,
+      alignment: Alignment.center,
+      filterQuality: FilterQuality.high,
+    );
+    return Semantics(
+      label: 'Collect logo',
+      image: true,
+      child: ExcludeSemantics(
+        child: framed
+            ? DecoratedBox(
+                decoration: BoxDecoration(
+                  color: colors.glassControl,
+                  borderRadius: BorderRadius.circular(markHeight * 0.5),
+                  border: Border.all(color: colors.glassBorder),
+                  boxShadow: CollectShadows.soft(),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(markHeight * 0.46),
+                  child: wordmark,
+                ),
+              )
+            : SizedBox(
+                width: markWidth,
+                height: markHeight,
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  alignment: Alignment.centerLeft,
+                  child: wordmark,
+                ),
+              ),
+      ),
+    );
+  }
+}
+
 Color _groupAccent(BuildContext context, CollectCollection collection) {
   final colors = context.collectColors;
   final selectedColor = _colorFromHex(collection.accentColorHex);
   if (selectedColor != null) return selectedColor;
   final palette = [
-    colors.actionCrimson,
-    colors.success,
-    colors.warning,
-    colors.purple,
-    colors.coral,
+    colors.brandPrimary,
+    colors.brandSecondary,
+    colors.brandAction,
+    colors.brandSuccess,
   ];
   final key = '${collection.id}${collection.title}';
   final index =
@@ -3568,7 +4034,7 @@ Color? _colorFromHex(String? hex) {
   if (clean == null || clean.length != 6) return null;
   final value = int.tryParse(clean, radix: 16);
   if (value == null) return null;
-  return Color(0xFF000000 | value);
+  return Color(int.parse('ff$clean', radix: 16));
 }
 
 IconData _groupIcon(CollectCollection collection) {
@@ -3628,6 +4094,8 @@ class ScreenHeader extends StatelessWidget {
         final titleBlock = Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const CollectBrandMark(compact: true),
+            CollectSpacing.gap12,
             Text(
               title,
               style: Theme.of(context).textTheme.headlineMedium,
@@ -3675,6 +4143,20 @@ class ScreenHeader extends StatelessWidget {
   }
 }
 
+class CollectGradientBackground extends StatelessWidget {
+  const CollectGradientBackground({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(gradient: context.collectColors.screenGradient),
+      child: child,
+    );
+  }
+}
+
 class PremiumScaffold extends StatelessWidget {
   const PremiumScaffold({
     required this.title,
@@ -3701,47 +4183,49 @@ class PremiumScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          Expanded(
-            child: ListView(
-              padding: CollectSpacing.screenPadding.copyWith(
-                bottom: bottomAction == null
-                    ? CollectSpacing.screenCompact + 112
-                    : CollectSpacing.x3,
-              ),
-              children: [
-                if (persistentPill != null) ...[
-                  persistentPill!,
-                  compact ? CollectSpacing.gap12 : CollectSpacing.gap20,
-                ],
-                if (showHeader)
-                  ScreenHeader(
-                    title: title,
-                    subtitle: subtitle,
-                    actions: actions,
-                  ),
-                if (banner != null) ...[CollectSpacing.gap20, banner!],
-                compact ? CollectSpacing.gap12 : CollectSpacing.gap24,
-                ..._withGaps(
-                  children,
-                  gap: compact ? CollectSpacing.gap12 : CollectSpacing.gap16,
+    return CollectGradientBackground(
+      child: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                padding: CollectSpacing.screenPadding.copyWith(
+                  bottom: bottomAction == null
+                      ? CollectSpacing.screenCompact + 112
+                      : CollectSpacing.x3,
                 ),
-              ],
-            ),
-          ),
-          if (bottomAction != null)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                CollectSpacing.x4,
-                CollectSpacing.x2,
-                CollectSpacing.x4,
-                CollectSpacing.x4,
+                children: [
+                  if (persistentPill != null) ...[
+                    persistentPill!,
+                    compact ? CollectSpacing.gap12 : CollectSpacing.gap20,
+                  ],
+                  if (showHeader)
+                    ScreenHeader(
+                      title: title,
+                      subtitle: subtitle,
+                      actions: actions,
+                    ),
+                  if (banner != null) ...[CollectSpacing.gap20, banner!],
+                  compact ? CollectSpacing.gap12 : CollectSpacing.gap24,
+                  ..._withGaps(
+                    children,
+                    gap: compact ? CollectSpacing.gap12 : CollectSpacing.gap16,
+                  ),
+                ],
               ),
-              child: bottomAction!,
             ),
-        ],
+            if (bottomAction != null)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  CollectSpacing.x4,
+                  CollectSpacing.x2,
+                  CollectSpacing.x4,
+                  CollectSpacing.x4,
+                ),
+                child: bottomAction!,
+              ),
+          ],
+        ),
       ),
     );
   }

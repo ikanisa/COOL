@@ -31,6 +31,25 @@ class CollectionDetailScreen extends ConsumerWidget {
     return ScreenScaffold(
       title: 'Collect',
       subtitle: profile?.publicId,
+      showHeader: false,
+      persistentPill: CollectTopChrome(
+        avatarLabel: profile?.publicId,
+        searchLabel: collection.title,
+        onAvatarTap: () => context.go('/settings/profile'),
+        actions: [
+          CollectTopChromeAction(
+            icon: CollectIcons.share,
+            tooltip: 'Share group',
+            onPressed: () => context.go('/groups/$collectionId/share'),
+          ),
+          if (isAdmin)
+            CollectTopChromeAction(
+              icon: CollectIcons.settings,
+              tooltip: 'Group settings',
+              onPressed: () => context.go('/groups/$collectionId/manage'),
+            ),
+        ],
+      ),
       bottomAction: isAdmin
           ? null
           : CollectButton(
@@ -83,15 +102,15 @@ class _GroupHero extends StatelessWidget {
     final colors = context.collectColors;
     return CollectCard(
       emphasis: CollectCardEmphasis.glow,
-      accentColor: colors.actionCrimson,
+      accentColor: colors.actionColor,
       padding: EdgeInsets.zero,
       backgroundGradient: LinearGradient(
         colors: [
           Color.alphaBlend(
-            colors.actionCrimson.withValues(alpha: 0.14),
-            colors.surfaceRaised,
+            colors.actionColor.withValues(alpha: 0.14),
+            colors.glassPanel,
           ),
-          colors.surfaceRaised,
+          colors.glassPanel,
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
@@ -105,7 +124,7 @@ class _GroupHero extends StatelessWidget {
               top: -48,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: colors.actionCrimson.withValues(alpha: 0.08),
+                  color: colors.actionColor.withValues(alpha: 0.08),
                   shape: BoxShape.circle,
                 ),
                 child: const SizedBox(width: 190, height: 190),
@@ -121,7 +140,7 @@ class _GroupHero extends StatelessWidget {
                     children: [
                       DecoratedBox(
                         decoration: BoxDecoration(
-                          color: colors.actionCrimson.withValues(alpha: 0.12),
+                          color: colors.actionColor.withValues(alpha: 0.12),
                           borderRadius: CollectRadius.panelBorder,
                         ),
                         child: const SizedBox(
@@ -150,7 +169,7 @@ class _GroupHero extends StatelessWidget {
                         Tooltip(
                           message: 'Group settings',
                           child: Material(
-                            color: colors.surfaceRaised.withValues(alpha: 0.9),
+                            color: colors.glassControl,
                             borderRadius: CollectRadius.pillBorder,
                             child: InkWell(
                               borderRadius: CollectRadius.pillBorder,
@@ -265,7 +284,7 @@ class _GroupStatMetric extends StatelessWidget {
             value,
             style: primary
                 ? CollectTypography.amountHero(colors.textPrimary)
-                : CollectTypography.amountHero(colors.actionCrimson),
+                : CollectTypography.amountHero(colors.actionColor),
           ),
         ),
       ],
@@ -357,7 +376,7 @@ class _GroupActionButton extends StatelessWidget {
         label: label,
         button: true,
         child: Material(
-          color: colors.surfaceRaised,
+          color: colors.glassControl,
           borderRadius: CollectRadius.pillBorder,
           child: InkWell(
             borderRadius: CollectRadius.pillBorder,
@@ -417,7 +436,7 @@ class _TimelineRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final dotColor = isFirst || isMine ? colors.actionCrimson : colors.border;
+    final dotColor = isFirst || isMine ? colors.actionColor : colors.border;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -429,7 +448,7 @@ class _TimelineRow extends StatelessWidget {
                 width: 1,
                 height: 18,
                 color: isFirst
-                    ? Colors.transparent
+                    ? colors.transparent
                     : colors.border.withValues(alpha: 0.6),
               ),
               DecoratedBox(
@@ -444,7 +463,7 @@ class _TimelineRow extends StatelessWidget {
                 width: 1,
                 height: 72,
                 color: isLast
-                    ? Colors.transparent
+                    ? colors.transparent
                     : colors.border.withValues(alpha: 0.6),
               ),
             ],

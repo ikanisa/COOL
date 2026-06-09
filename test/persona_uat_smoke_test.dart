@@ -115,24 +115,33 @@ void main() {
     await tapVisible(tester, find.text(label));
   }
 
+  Finder findSheetOption(String label) {
+    return find.byWidgetPredicate(
+      (widget) =>
+          widget is Semantics &&
+          widget.properties.label == 'Filter option $label',
+      description: 'sheet option $label',
+    );
+  }
+
   Future<void> selectLedgerFilter(WidgetTester tester, String label) async {
     await tapVisible(tester, find.text('STATUS').first);
     await tester.pumpAndSettle();
-    await tapVisible(tester, find.text(label).last);
+    await tapVisible(tester, findSheetOption(label));
     await tester.pumpAndSettle();
   }
 
   Future<void> selectGroupVisibility(WidgetTester tester, String label) async {
     await tapVisible(tester, find.text('VISIBILITY').first);
     await tester.pumpAndSettle();
-    await tapVisible(tester, find.text(label).last);
+    await tapVisible(tester, findSheetOption(label));
     await tester.pumpAndSettle();
   }
 
   Future<void> selectGroupSort(WidgetTester tester, String label) async {
     await tapVisible(tester, find.text('SORT').first);
     await tester.pumpAndSettle();
-    await tapVisible(tester, find.text(label).last);
+    await tapVisible(tester, findSheetOption(label));
     await tester.pumpAndSettle();
   }
 
@@ -372,33 +381,21 @@ void main() {
     }
   });
 
-  testWidgets('Android SMS denial routes create group to retry screen', (
+  testWidgets('Android SMS denial opens native app access recovery sheet', (
     tester,
   ) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.android;
     try {
       await pumpMainAppAt(
         tester,
-        '/groups/create',
+        '/permissions/sms-denied',
         repository: CollectRepository.seeded(
           smsAccessChannel: _DenySmsAccessChannel(),
         ),
       );
 
-      await tester.enterText(find.byType(TextField).first, 'New parish fund');
-      await tester.testTextInput.receiveAction(TextInputAction.done);
-      await pumpLaunchFrames(tester);
-      for (var step = 0; step < 4; step += 1) {
-        await tapVisible(tester, find.text('Continue'));
-        await pumpLaunchFrames(tester);
-      }
-      await tapVisible(
-        tester,
-        find.widgetWithText(FilledButton, 'Create group'),
-      );
-      await pumpLaunchFrames(tester);
-
-      expect(find.text('SMS access needed'), findsOneWidget);
+      expect(find.text('Enable Android SMS access'), findsWidgets);
+      expect(find.text('Open app settings'), findsOneWidget);
       expect(find.text('Try again'), findsOneWidget);
       expectNoGlobalSecrets();
     } finally {
@@ -509,8 +506,7 @@ void main() {
     expect(find.text('Notifications'), findsWidgets);
     await scrollToVisible(tester, find.text('Privacy'));
     expect(find.text('Privacy'), findsOneWidget);
-    await scrollToVisible(tester, find.text('Access boundary'));
-    expect(find.text('Access boundary'), findsOneWidget);
+    expect(find.text('Access boundary'), findsNothing);
     expect(find.text('SMS access details'), findsNothing);
     await scrollToVisible(tester, find.text('Done'));
     expect(find.text('Done'), findsOneWidget);
@@ -713,8 +709,9 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Account'), findsWidgets);
-    expect(find.text('Linked MoMo'), findsOneWidget);
-    await tapVisible(tester, find.text('Linked MoMo'));
+    expect(find.text('Profile and MoMo'), findsOneWidget);
+    expect(find.text('Linked MoMo'), findsNothing);
+    await tapVisible(tester, find.text('Profile and MoMo'));
     await tester.pumpAndSettle();
 
     expect(find.text('Profile setup'), findsWidgets);
@@ -752,7 +749,7 @@ void main() {
     await pumpLaunchFrames(tester);
 
     expect(find.text('Notifications'), findsWidgets);
-    expect(find.text('Security notice'), findsOneWidget);
+    expect(find.text('Security notices'), findsOneWidget);
 
     router.go('/settings/legal/privacy');
     await pumpLaunchFrames(tester);

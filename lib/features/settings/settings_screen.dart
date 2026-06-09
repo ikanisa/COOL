@@ -18,6 +18,25 @@ class SettingsScreen extends ConsumerWidget {
     );
     return ScreenScaffold(
       title: 'Settings',
+      showHeader: false,
+      persistentPill: CollectTopChrome(
+        avatarLabel: profile?.publicId,
+        searchLabel: 'Settings',
+        showSearch: false,
+        onAvatarTap: () => context.go('/settings/profile'),
+        actions: [
+          CollectTopChromeAction(
+            icon: CollectIcons.profile,
+            tooltip: 'Profile',
+            onPressed: () => context.go('/settings/profile'),
+          ),
+          CollectTopChromeAction(
+            icon: CollectIcons.pending,
+            tooltip: 'Notifications',
+            onPressed: () => context.go('/notifications'),
+          ),
+        ],
+      ),
       children: [
         CollectIdCard(publicId: profile?.publicId ?? ''),
         _SettingsCluster(

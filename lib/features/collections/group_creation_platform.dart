@@ -23,9 +23,10 @@ Future<void> openGroupCreation(BuildContext context) {
 Future<void> showAndroidGroupCreationOnlyDialog(BuildContext context) {
   return showModalBottomSheet<void>(
     context: context,
+    useRootNavigator: true,
     useSafeArea: true,
     isScrollControlled: true,
-    backgroundColor: Colors.transparent,
+    backgroundColor: context.collectColors.transparent,
     builder: (context) => CollectBottomSheet(
       child: Column(
         mainAxisSize: MainAxisSize.min,
