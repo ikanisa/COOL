@@ -104,25 +104,36 @@ flutter_files = all_flutter_files(root)
 route_summary = json_file(route_summary_path)
 android_uat_summary = json_file(android_uat_summary_path)
 
-primary_color_block = design[/primary-paint-colors:\n(.*?)tokens:/m, 1] || ""
-primary_hexes = primary_color_block.scan(/(?:periwinkle|mint-green|dusty-rose|orange-red):\s*'?(#[0-9A-Fa-f]{6})'?/).flatten
-expected_primary_hexes = ["#8885F0", "#3CD070", "#D38B96", "#FF5E43"]
+primary_color_block = design[/primary-colors:\n(.*?)primary-paint-colors:/m, 1] || ""
+paint_color_block = design[/primary-paint-colors:\n(.*?)tokens:/m, 1] || ""
+primary_hexes = primary_color_block.scan(/(?:paper|periwinkle|mint-green|dusty-rose|orange-red|transparent):\s*'?(#[0-9A-Fa-f]{6,8})'?/).flatten
+paint_hexes = paint_color_block.scan(/(?:periwinkle|mint-green|dusty-rose|orange-red):\s*'?(#[0-9A-Fa-f]{6})'?/).flatten
+expected_primary_hexes = ["#FAF8F5", "#8885F0", "#3CD070", "#D38B96", "#FF5E43", "#00000000"]
+expected_paint_hexes = ["#8885F0", "#3CD070", "#D38B96", "#FF5E43"]
 canvas_hex = "#FAF8F5"
+transparent_hex = "#00000000"
 
 checks = []
 
 color_failures = []
-color_failures << "DESIGN.md primary paint colors must be exactly #{expected_primary_hexes.join(", ")}." unless primary_hexes == expected_primary_hexes
-color_failures << "DESIGN.md must define Paper #{canvas_hex} as canvas, not as a primary paint color." unless design.match?(/canvas:\s+paper:\s*'#{Regexp.escape(canvas_hex)}'/m)
+color_failures << "DESIGN.md primary colors must be exactly #{expected_primary_hexes.join(", ")}." unless primary_hexes == expected_primary_hexes
+color_failures << "DESIGN.md primary paint colors must be exactly #{expected_paint_hexes.join(", ")}." unless paint_hexes == expected_paint_hexes
+color_failures << "DESIGN.md must define Paper #{canvas_hex} as canvas/foundation." unless design.match?(/canvas:\s+paper:\s*'#{Regexp.escape(canvas_hex)}'/m)
 expected_primary_hexes.each do |hex|
   color_failures << "CollectColors.brandPrimaryHexes is missing #{hex}." unless colors.include?(hex)
-  dart_hex = "0xFF#{hex.delete_prefix("#")}"
+  dart_hex = hex.length == 9 ? "0x#{hex.delete_prefix("#")}" : "0xFF#{hex.delete_prefix("#")}"
   color_failures << "CollectColors is missing #{dart_hex}." unless colors.include?(dart_hex)
 end
+expected_paint_hexes.each do |hex|
+  color_failures << "CollectColors.brandPaintHexes is missing #{hex}." unless colors.include?(hex)
+end
 color_failures << "CollectColors must keep Paper #{canvas_hex} as brandPaper canvas." unless colors.include?("0xFF#{canvas_hex.delete_prefix("#")}")
-color_failures << "CollectColors.brandPrimaryColors must not include Paper canvas." if colors[/brandPrimaryColors = <Color>\[(.*?)\];/m, 1].to_s.include?("brandPaper")
+color_failures << "CollectColors must keep Transparent #{transparent_hex} as transparentColor." unless colors.include?("0x#{transparent_hex.delete_prefix("#")}")
+brand_paint_block = colors[/brandPaintColors = <Color>\[(.*?)\];/m, 1].to_s
+color_failures << "CollectColors.brandPaintColors must not include Paper canvas." if brand_paint_block.include?("brandPaper")
+color_failures << "CollectColors.brandPaintColors must not include transparent foundation." if brand_paint_block.include?("transparentColor")
 checks << {
-  "id" => "four_primary_paint_color_contract",
+  "id" => "six_primary_color_contract",
   "status" => status_for(color_failures),
   "failures" => color_failures,
   "evidence" => ["DESIGN.md", "lib/app/theme/collect_colors.dart"]
@@ -211,7 +222,7 @@ platform_color_files = [
   "web/index.html"
 ]
 
-allowed_platform_hexes = expected_primary_hexes + [canvas_hex]
+allowed_platform_hexes = expected_primary_hexes + expected_paint_hexes + [canvas_hex]
 platform_color_hits = scan_files(
   root,
   /#[0-9A-Fa-f]{6}\b/,
