@@ -40,7 +40,7 @@ tokens and are not selectable group accent paints.
   image overlays, camera scrims, export canvas/ink, selected chips, shadows, and
   granted/blocked statuses.
 - Replaced duplicated group/profile palette option models with
-  `CollectColors.brandPrimaryOptions`.
+  `CollectColors.brandPaintOptions`.
 - Replaced raw member-facing overlay and selected-state colors with semantic
   `CollectColors` tokens.
 - Converted QR/export rendering to Collect color aliases.
