@@ -14,13 +14,6 @@ brand-assets:
   source-preview: assets/brand/source_variants/collect_logo_preview_checkerboard_1254.png
 canvas:
   paper: '#FAF8F5'
-primary-colors:
-  paper: '#FAF8F5'
-  periwinkle: '#8885F0'
-  mint-green: '#3CD070'
-  dusty-rose: '#D38B96'
-  orange-red: '#FF5E43'
-  transparent: '#00000000'
 primary-paint-colors:
   periwinkle: '#8885F0'
   mint-green: '#3CD070'
@@ -40,9 +33,9 @@ Collect must feel like a modern fintech mobile app while staying fully Collect-o
 
 ## Non-Negotiables
 
-- Every member-facing production route must render on a gradient background derived from Collect's four paint colors over the Paper canvas.
-- Collect keeps exactly six primary color tokens: Paper `#FAF8F5`, Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, Orange `#FF5E43`, and Transparent `#00000000`.
-- The four paint colors are Periwinkle, Mint, Rose, and Orange. Paper and Transparent are foundation tokens, not selectable group accent paints.
+- Every member-facing production route must render on a gradient background derived from Collect's four primary paint colors over the Paper canvas.
+- Collect keeps four primary paint colors from the corrected brand assets: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, and Orange `#FF5E43`.
+- Paper `#FAF8F5` is the canvas/foundation color. It is not counted as a primary paint color.
 - Use Collect brand assets only: `CollectBrandMark` renders `assets/brand/generated/collect_wordmark_transparent.png`; launcher/platform icon use stays on generated PNG icon assets.
 - Route surfaces must use `ScreenScaffold`, `ScreenScaffoldLayout`, `PremiumScaffold`, or `CollectGradientBackground`.
 - Standalone flows that bypass `ScreenScaffold`, such as share/QR export surfaces, must explicitly wrap their page in `CollectGradientBackground`.
@@ -66,14 +59,13 @@ Use the screenshots for these patterns:
 Do not copy these elements:
 
 - Revolut logo, trademarks, iconography, text, tab names, exact colors, exact card order, account names, crypto/invest labels, or screenshots.
-- Any brand palette outside Collect's approved six primary color tokens.
+- Any brand palette outside Collect's approved four paint colors and Paper canvas.
 
 ## Color And Gradient Tokens
 
 `CollectColors` is the source of truth.
 
-- `brandPrimaryColors` and `brandPrimaryHexes` lock the six approved primary color tokens.
-- `brandPaintColors`, `brandPaintHexes`, and `brandPaintOptions` lock the four visible accent/gradient paints in asset-sheet order.
+- `brandPrimaryColors` and `brandPrimaryHexes` lock the four approved primary paint colors in asset-sheet order.
 - `screenBase` and `screenGradient` own the page background.
 - `glassPanel`, `glassPanelStrong`, `glassControl`, `glassBorder`, and `glassPanelGradient` own translucent surfaces and chrome.
 - `actionColor`, `success`, `warning`, `danger`, `info`, and status helpers provide contrast-safe runtime colors.

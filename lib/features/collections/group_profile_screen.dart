@@ -30,7 +30,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   Uint8List? _imageBytes;
   String? _imageName;
   String? _imageMimeType;
-  String _accentColorHex = CollectColors.brandPaintOptions.first.hex;
+  String _accentColorHex = CollectColors.brandPrimaryOptions.first.hex;
   String _cadence = 'monthly';
   bool _isPublic = false;
   bool _loaded = false;
@@ -136,10 +136,10 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   }
 
   Color get _selectedColor {
-    return CollectColors.brandPaintOptions
+    return CollectColors.brandPrimaryOptions
         .firstWhere(
           (option) => option.hex == _accentColorHex,
-          orElse: () => CollectColors.brandPaintOptions.first,
+          orElse: () => CollectColors.brandPrimaryOptions.first,
         )
         .color;
   }
@@ -153,7 +153,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
     _receiverLabel.text = collection.receiverDisplayLabel;
     _accentColorHex =
         collection.accentColorHex ??
-        CollectColors.brandPaintOptions.first.hex;
+        CollectColors.brandPrimaryOptions.first.hex;
     _cadence = collection.recurringCadence;
     _isPublic = collection.isPublic;
   }
@@ -384,7 +384,7 @@ class _ProfileColorPalette extends StatelessWidget {
           spacing: CollectSpacing.x2,
           runSpacing: CollectSpacing.x2,
           children: [
-            for (final option in CollectColors.brandPaintOptions)
+            for (final option in CollectColors.brandPrimaryOptions)
               Builder(
                 builder: (context) {
                   final selected = selectedHex == option.hex;

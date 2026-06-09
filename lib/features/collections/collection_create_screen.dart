@@ -31,7 +31,7 @@ class _CollectionCreateScreenState
   Uint8List? _groupImageBytes;
   String? _groupImageName;
   String? _groupImageMimeType;
-  String _accentColorHex = CollectColors.brandPaintOptions.first.hex;
+  String _accentColorHex = CollectColors.brandPrimaryOptions.first.hex;
   bool _syncedProfileMomo = false;
   bool _creating = false;
   int _step = 0;
@@ -178,10 +178,10 @@ class _CollectionCreateScreenState
   }
 
   Color get _selectedAccentColor {
-    return CollectColors.brandPaintOptions
+    return CollectColors.brandPrimaryOptions
         .firstWhere(
           (option) => option.hex == _accentColorHex,
-          orElse: () => CollectColors.brandPaintOptions.first,
+          orElse: () => CollectColors.brandPrimaryOptions.first,
         )
         .color;
   }
@@ -366,7 +366,7 @@ class _GroupColorPalette extends StatelessWidget {
           spacing: CollectSpacing.x2,
           runSpacing: CollectSpacing.x2,
           children: [
-            for (final option in CollectColors.brandPaintOptions)
+            for (final option in CollectColors.brandPrimaryOptions)
               _ColorSwatchButton(
                 option: option,
                 selected: selectedHex == option.hex,

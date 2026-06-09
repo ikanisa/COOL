@@ -98,8 +98,8 @@ Validation:
 
 Objective:
 Move the Flutter UI from any legacy or generic fintech styling to the current
-Collect-owned six-primary-token palette documented in `DESIGN.md`, with four
-visible paint colors and semantic secondary tokens.
+Collect-owned four-primary-paint palette documented in `DESIGN.md`, with Paper
+canvas and semantic secondary tokens.
 
 Likely files:
 

@@ -44,33 +44,17 @@ class CollectColors extends ThemeExtension<CollectColors> {
   static const brandOrangeRed = Color(0xFFFF5E43);
   static const transparentColor = Color(0x00000000);
 
-  static const brandPaintColors = <Color>[
-    brandPeriwinkle,
-    brandMintGreen,
-    brandDustyRose,
-    brandOrangeRed,
-  ];
-  static const brandPaintHexes = <String>[
-    '#8885F0',
-    '#3CD070',
-    '#D38B96',
-    '#FF5E43',
-  ];
   static const brandPrimaryColors = <Color>[
-    brandPaper,
     brandPeriwinkle,
     brandMintGreen,
     brandDustyRose,
     brandOrangeRed,
-    transparentColor,
   ];
   static const brandPrimaryHexes = <String>[
-    '#FAF8F5',
     '#8885F0',
     '#3CD070',
     '#D38B96',
     '#FF5E43',
-    '#00000000',
   ];
 
   static const light = CollectColors(
@@ -121,15 +105,6 @@ class CollectColors extends ThemeExtension<CollectColors> {
   Color get statusBlocked => danger;
 
   static const brandPrimaryOptions = <CollectPaletteOption>[
-    CollectPaletteOption('#FAF8F5', brandPaper),
-    CollectPaletteOption('#8885F0', brandPeriwinkle),
-    CollectPaletteOption('#3CD070', brandMintGreen),
-    CollectPaletteOption('#D38B96', brandDustyRose),
-    CollectPaletteOption('#FF5E43', brandOrangeRed),
-    CollectPaletteOption('#00000000', transparentColor),
-  ];
-
-  static const brandPaintOptions = <CollectPaletteOption>[
     CollectPaletteOption('#8885F0', brandPeriwinkle),
     CollectPaletteOption('#3CD070', brandMintGreen),
     CollectPaletteOption('#D38B96', brandDustyRose),

@@ -860,7 +860,7 @@ File.write(
     - `admin_pwa_hosting_gate.json`: static hosting headers, cache, CSP, and robots gate
     - `admin_pwa_live_gate.json`: deployed Admin PWA URL headers and PWA file gate
     - `mobile_route_render_smoke/`: representative mobile route screenshots and nonblank PNG checks
-    - `collect_mobile_design_compliance/`: DESIGN.md six-primary color, route screenshot, product-domain, and Android UAT compliance gate
+    - `collect_mobile_design_compliance/`: DESIGN.md four-primary color, route screenshot, product-domain, and Android UAT compliance gate
     - `worktree_review.json`: release branch/worktree review gate
     - `collect_product_boundary_scan.json`: Collect app product-boundary scan for forbidden Buro/crypto/trading/legacy navigation concepts
     - `uat_evidence_gate.json`: sanitized human UAT evidence manifest gate

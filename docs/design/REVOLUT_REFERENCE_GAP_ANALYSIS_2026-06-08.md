@@ -4,14 +4,13 @@ Date: 2026-06-08
 
 ## Scope
 
-This report compares the current Collect mobile design system against the ten supplied Revolut screenshots. The target is reference-compatible fintech quality, not copying Revolut IP. Collect must keep its own product model, copy, brand assets, icon choices, route map, privacy rules, six primary color tokens, and four visible paint colors:
+This report compares the current Collect mobile design system against the ten supplied Revolut screenshots. The target is reference-compatible fintech quality, not copying Revolut IP. Collect must keep its own product model, copy, brand assets, icon choices, route map, privacy rules, four primary paint colors, and Paper canvas:
 
-- Paper canvas `#FAF8F5`
 - Periwinkle `#8885F0`
 - Mint `#3CD070`
 - Rose `#D38B96`
 - Orange `#FF5E43`
-- Transparent foundation `#00000000`
+- Paper canvas `#FAF8F5`
 
 ## Reference Patterns From Screenshots
 
@@ -36,7 +35,7 @@ This score reflects design-system readiness, not complete visual QA on every ren
 
 | Area | Current state | Gap | Priority | Required action |
 | --- | --- | --- | --- | --- |
-| Color contract | Theme and docs previously mixed legacy, five-color, and four-paint language. | Six primary tokens must be explicit while gradients and group accents stay on the four visible paints. | P0 | Done in this pass: the contract now enforces six primary color tokens plus four visible paint swatches. |
+| Color contract | Theme and docs previously mixed legacy and five-color language. | Paper must be treated as canvas, not a primary paint swatch. | P0 | Done in this pass: the contract now enforces four primary paint colors plus Paper canvas. |
 | Canvas | `CollectGradientBackground` exists and shell routes use it. | Some route-local surfaces can still visually dominate the gradient. | P1 | Reduce opaque card use and prefer `glassPanel` / `glassPanelStrong`. |
 | Top chrome | Home has a custom brand header; scaffold headers remain title/action based. | Not yet a universal avatar/search/action cluster like the reference. | P1 | Add a shared `CollectTopChrome` variant and use it on Home, Groups, Settings, and major detail routes. |
 | Bottom navigation | Rounded glass nav exists. | Product tabs are Collect-owned and only three items, but selected treatment can be closer to the reference. | P2 | Keep three tabs, tune selected capsule size, icon weight, and active contrast. |
@@ -50,8 +49,7 @@ This score reflects design-system readiness, not complete visual QA on every ren
 ## Core Plan To Reach 100 Percent Reference Compatibility
 
 1. Token foundation
-   - Keep the six primary color tokens as the only brand color system.
-   - Keep the four paint swatches as the only visible gradient/accent palette.
+   - Keep the four primary paint colors as the only brand paint palette.
    - Keep all page gradients and glass surfaces centralized in `CollectColors`.
    - Keep controls pill-shaped and card radii at 24/28 for member mobile surfaces.
 
@@ -75,10 +73,10 @@ This score reflects design-system readiness, not complete visual QA on every ren
 ## Implementation Completed In This Pass
 
 - Kept Paper `#FAF8F5` in `CollectColors.brandPaper` as the canvas/foundation color.
-- Updated `brandPrimaryColors` and `brandPrimaryHexes` to the six-token contract: Paper, Periwinkle, Mint, Rose, Orange, Transparent.
-- Added `brandPaintColors`, `brandPaintHexes`, and `brandPaintOptions` for QR/export gradients and group color swatches.
+- Updated `brandPrimaryColors`, `brandPrimaryHexes`, and `brandPrimaryOptions` to Periwinkle, Mint, Rose, Orange.
+- Updated QR/export gradients and group color swatches to use the four-paint shared palette.
 - Updated shared radii so CTAs are pill-shaped and mobile cards use larger Revolut-like radii.
-- Updated design docs, legacy design notes, tests, and compliance scripts to the six-primary-token contract.
+- Updated design docs, legacy design notes, tests, and compliance scripts to the four-paint contract.
 
 ## Residual Risk
 

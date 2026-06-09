@@ -6,8 +6,8 @@ Flutter app reviewed: `/Volumes/PRO-G40/COOL`
 
 Superseded palette note: this report is retained for historical screen-flow and
 interaction-pattern context only. The active color contract is the June 8
-Collect palette in `DESIGN.md`: six primary color tokens, four visible paint
-colors, and semantic accessibility/status tokens. Any
+Collect palette in `DESIGN.md`: four primary paint colors, Paper canvas, and
+semantic accessibility/status tokens. Any
 older legacy palette direction from the downloaded
 references is no longer current implementation guidance.
 
@@ -29,7 +29,7 @@ collapse multi-step financial flows into one card. The largest gaps are:
 
 - The visual identity was inconsistent with the reference system at the time
   of this report. That earlier reference palette is now superseded by the
-  Collect six-primary-token color contract in `DESIGN.md`.
+  Collect four-primary-paint color contract in `DESIGN.md`.
 - Several screens are present only as thin state cards with empty messages,
   which weakens trust in a payment/SMS verification product.
 - The contribution flow lacks the full amount entry, review, USSD/handoff,
@@ -86,14 +86,14 @@ shared widgets, and screen layouts using every supplied reference.
 ### Palette
 
 The active palette is no longer the downloaded reference palette. The current
-implementation must use only the six Collect primary color tokens documented in
+implementation must use only the four Collect primary colors documented in
 `DESIGN.md`, plus the approved semantic accessibility/status tokens defined in
 `CollectColors`.
 
 Current cleanup rule:
 
 - Keep brand color decisions centralized in `lib/app/theme/collect_colors.dart`.
-- Use `CollectColors.brandPaintOptions` for color-picking UI.
+- Use `CollectColors.brandPrimaryOptions` for color-picking UI.
 - Use semantic getters such as `actionColor`, `success`, `warning`, `danger`,
   `info`, `textPrimary`, `textSecondary`, and `textMuted` in screens.
 - Do not introduce feature-level literal colors or older reference palettes.
