@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../app/theme/collect_colors.dart';
+import '../../app/theme/collect_radius.dart';
 import '../../core/security/phone_normalizer.dart';
 import '../../core/supabase/realtime_invalidation.dart';
 import '../../core/supabase/supabase_module.dart';
@@ -151,7 +153,7 @@ class AdminLoginPage extends ConsumerStatefulWidget {
 }
 
 class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
-  final _phone = TextEditingController(text: '+');
+  final _phone = TextEditingController(text: '+250 ');
   final _otp = TextEditingController();
   var _otpSent = false;
   var _isBusy = false;
@@ -166,84 +168,156 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final cardWidth = math.max(
-              0.0,
-              math.min(320.0, constraints.maxWidth - 32),
-            );
-            final isCompact = constraints.maxWidth < 600;
-            return Align(
-              alignment: isCompact ? Alignment.centerLeft : Alignment.center,
+      backgroundColor: const Color(0xFFF7F8FA),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final isCompact = constraints.maxWidth < 600;
+          final contentWidth = math.max(
+            0.0,
+            math.min(isCompact ? 430.0 : 460.0, constraints.maxWidth - 32),
+          );
+          return SafeArea(
+            child: Align(
+              alignment: Alignment.center,
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.symmetric(
+                  horizontal: isCompact ? 20 : 32,
+                  vertical: 28,
+                ),
                 child: SizedBox(
-                  width: cardWidth,
-                  child: Card(
+                  width: contentWidth,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(28),
+                      border: Border.all(color: const Color(0xFFE8EAF0)),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x140B1020),
+                          blurRadius: 40,
+                          offset: Offset(0, 22),
+                        ),
+                      ],
+                    ),
                     child: Padding(
-                      padding: const EdgeInsets.all(24),
+                      padding: EdgeInsets.all(isCompact ? 24 : 32),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: 44,
+                                height: 44,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF0D1117),
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                child: const Icon(
+                                  Icons.lock_outline,
+                                  color: Colors.white,
+                                  size: 21,
+                                ),
+                              ),
+                              const Spacer(),
+                              _AdminLoginStatusChip(colors: colors),
+                            ],
+                          ),
+                          const SizedBox(height: 28),
                           Text(
                             'Collect admin login',
-                            style: Theme.of(context).textTheme.headlineSmall,
+                            style: textTheme.headlineSmall?.copyWith(
+                              color: const Color(0xFF101217),
+                              fontWeight: FontWeight.w800,
+                              height: 1.05,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            'Sign in with the WhatsApp number attached to your admin profile.',
+                            style: textTheme.bodyLarge?.copyWith(
+                              color: const Color(0xFF596070),
+                              height: 1.45,
+                            ),
+                          ),
+                          const SizedBox(height: 28),
+                          Text(
+                            'WhatsApp phone',
+                            style: textTheme.labelLarge?.copyWith(
+                              color: const Color(0xFF303541),
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                           const SizedBox(height: 8),
-                          const Text(
-                            'Sign in with the WhatsApp number attached to your admin profile.',
-                          ),
-                          const SizedBox(height: 18),
-                          TextField(
-                            controller: _phone,
-                            keyboardType: TextInputType.phone,
-                            decoration: const InputDecoration(
-                              labelText: 'WhatsApp phone',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
+                          _AdminPhoneInput(controller: _phone),
                           if (_otpSent) ...[
-                            const SizedBox(height: 12),
-                            TextField(
-                              controller: _otp,
-                              keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(
-                                labelText: 'OTP code',
-                                border: OutlineInputBorder(),
+                            const SizedBox(height: 18),
+                            Text(
+                              'OTP code',
+                              style: textTheme.labelLarge?.copyWith(
+                                color: const Color(0xFF303541),
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
+                            const SizedBox(height: 8),
+                            _AdminOtpInput(controller: _otp),
                           ],
                           if (_error != null) ...[
-                            const SizedBox(height: 12),
-                            Text(
-                              _error!,
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.error,
-                              ),
-                            ),
+                            const SizedBox(height: 14),
+                            _AdminLoginError(message: _error!),
                           ],
-                          const SizedBox(height: 18),
+                          const SizedBox(height: 24),
                           FilledButton.icon(
                             onPressed: _isBusy ? null : _submit,
-                            icon: Icon(
-                              _otpSent ? Icons.verified_user : Icons.sms,
+                            style: FilledButton.styleFrom(
+                              minimumSize: const Size.fromHeight(58),
+                              backgroundColor: const Color(0xFF111318),
+                              foregroundColor: Colors.white,
+                              disabledBackgroundColor: const Color(0xFFE4E7EE),
+                              disabledForegroundColor: const Color(0xFF8B93A3),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  CollectRadius.md,
+                                ),
+                              ),
+                              textStyle: textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w800,
+                              ),
                             ),
+                            icon: _isBusy
+                                ? const SizedBox(
+                                    width: 18,
+                                    height: 18,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : Icon(
+                                    _otpSent
+                                        ? Icons.verified_user_outlined
+                                        : Icons.chat_bubble_outline,
+                                    size: 20,
+                                  ),
                             label: Text(
                               _otpSent ? 'Verify code' : 'Send WhatsApp OTP',
                             ),
                           ),
+                          const SizedBox(height: 18),
+                          const _AdminLoginAssuranceRow(),
                         ],
                       ),
                     ),
                   ),
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -276,6 +350,228 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
     } finally {
       if (mounted) setState(() => _isBusy = false);
     }
+  }
+}
+
+class _AdminPhoneInput extends StatelessWidget {
+  const _AdminPhoneInput({required this.controller});
+
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      textField: true,
+      label: 'WhatsApp phone',
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: const Color(0xFFF5F7FA),
+          borderRadius: BorderRadius.circular(CollectRadius.md),
+          border: Border.all(color: const Color(0xFFDDE2EA)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              height: 58,
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              decoration: const BoxDecoration(
+                border: Border(right: BorderSide(color: Color(0xFFDDE2EA))),
+              ),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'RW',
+                    style: TextStyle(
+                      color: Color(0xFF111318),
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                  SizedBox(width: 6),
+                  Icon(
+                    Icons.keyboard_arrow_down,
+                    color: Color(0xFF596070),
+                    size: 18,
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: TextField(
+                controller: controller,
+                keyboardType: TextInputType.phone,
+                textInputAction: TextInputAction.next,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: const Color(0xFF111318),
+                  fontWeight: FontWeight.w700,
+                ),
+                decoration: const InputDecoration(
+                  hintText: '+250 7XX XXX XXX',
+                  border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _AdminOtpInput extends StatelessWidget {
+  const _AdminOtpInput({required this.controller});
+
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      textField: true,
+      label: 'OTP code',
+      child: TextField(
+        controller: controller,
+        keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.done,
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+          color: const Color(0xFF111318),
+          fontWeight: FontWeight.w700,
+        ),
+        decoration: InputDecoration(
+          hintText: '6-digit code',
+          filled: true,
+          fillColor: const Color(0xFFF5F7FA),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 18,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(CollectRadius.md),
+            borderSide: const BorderSide(color: Color(0xFFDDE2EA)),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(CollectRadius.md),
+            borderSide: const BorderSide(color: Color(0xFFDDE2EA)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(CollectRadius.md),
+            borderSide: const BorderSide(color: Color(0xFF111318), width: 2),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AdminLoginStatusChip extends StatelessWidget {
+  const _AdminLoginStatusChip({required this.colors});
+
+  final CollectColors colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: 'Secure admin area',
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.successContainer,
+          borderRadius: CollectRadius.pillBorder,
+          border: Border.all(color: colors.success.withValues(alpha: 0.18)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.shield_outlined, size: 16, color: colors.success),
+              const SizedBox(width: 6),
+              Text(
+                'Secure',
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: colors.success,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AdminLoginAssuranceRow extends StatelessWidget {
+  const _AdminLoginAssuranceRow();
+
+  @override
+  Widget build(BuildContext context) {
+    final style = Theme.of(context).textTheme.bodySmall?.copyWith(
+      color: const Color(0xFF6A7280),
+      height: 1.35,
+    );
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Icon(
+          Icons.verified_user_outlined,
+          size: 18,
+          color: Color(0xFF4F7D5C),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            'Restricted to approved operators. Activity is logged for audit review.',
+            style: style,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _AdminLoginError extends StatelessWidget {
+  const _AdminLoginError({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      liveRegion: true,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFECE8),
+          borderRadius: BorderRadius.circular(CollectRadius.md),
+          border: Border.all(color: const Color(0xFFFFC6BA)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(
+                Icons.error_outline,
+                color: Color(0xFFB3261E),
+                size: 18,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  message,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: const Color(0xFF8F251C),
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
