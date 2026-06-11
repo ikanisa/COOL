@@ -35,7 +35,14 @@ fi
 
 status_json="$(mktemp)"
 trap 'rm -f "$status_json"' EXIT
-admin_pwa_live_url="${ADMIN_PWA_LIVE_URL:-https://cool-admin-212.pages.dev}"
+admin_pwa_live_url="${ADMIN_PWA_LIVE_URL:-}"
+if [[ -z "$admin_pwa_live_url" && -f "$ROOT_DIR/docs/release/LIVE_DEPLOYMENTS.json" ]]; then
+  admin_pwa_live_url="$(
+    ruby -r json -e 'data = JSON.parse(File.read(ARGV.fetch(0))); puts(data.dig("deployments", "admin_pwa", "url").to_s)' \
+      "$ROOT_DIR/docs/release/LIVE_DEPLOYMENTS.json"
+  )"
+fi
+admin_pwa_live_url="${admin_pwa_live_url:-https://cool-admin-212.pages.dev}"
 
 if [[ -n "${RELEASE_APPROVAL_PACKET_STATUS_JSON:-}" ]]; then
   printf '%s\n' "$RELEASE_APPROVAL_PACKET_STATUS_JSON" >"$status_json"

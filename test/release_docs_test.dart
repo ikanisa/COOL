@@ -1146,7 +1146,7 @@ checking Edge Function secret names
       ['--json'],
       environment: {
         'RELEASE_APPROVAL_PACKET_STATUS_JSON': status,
-        'ADMIN_PWA_LIVE_URL': 'https://cool-admin-212.pages.dev',
+        'ADMIN_PWA_LIVE_URL': 'https://collect.ikanisa.com',
       },
     );
 
@@ -1259,7 +1259,7 @@ checking Edge Function secret names
       fileChecks.map((item) => item['path']),
       contains('scripts/collect_product_boundary_scan.sh'),
     );
-    expect(jsonEncode(decoded), contains('https://cool-admin-212.pages.dev'));
+    expect(jsonEncode(decoded), contains('https://collect.ikanisa.com'));
     expect(
       jsonEncode(decoded),
       contains('.cache/android_device_uat/20260611T082249Z/summary.json'),
@@ -1267,7 +1267,7 @@ checking Edge Function secret names
     expect(
       jsonEncode(decoded),
       contains(
-        '.cache/supabase_go_live_evidence/20260602T045205Z/summary.json',
+        '.cache/supabase_go_live_evidence/20260611T124742Z/summary.json',
       ),
     );
     expect(
