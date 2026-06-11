@@ -51,6 +51,9 @@ void main() {
   final adminWhatsappOperatorLogin = File(
     'supabase/migrations/20260611171920_admin_whatsapp_operator_login.sql',
   ).readAsStringSync();
+  final adminWhatsappOperatorPhoneLookup = File(
+    'supabase/migrations/20260611184934_fix_admin_whatsapp_bootstrap_phone_lookup.sql',
+  ).readAsStringSync();
   final hardenedNotificationRlsInitPlan = File(
     'supabase/migrations/20260611113000_harden_notification_rls_initplan.sql',
   ).readAsStringSync();
@@ -299,6 +302,16 @@ void main() {
     );
     expect(adminWhatsappOperatorLogin, contains("'+250788767816'"));
     expect(adminWhatsappOperatorLogin, contains("auth.jwt() ->> 'phone'"));
+    expect(adminWhatsappOperatorPhoneLookup, contains('from auth.users u'));
+    expect(
+      adminWhatsappOperatorPhoneLookup,
+      contains('where u.id = auth.uid()'),
+    );
+    expect(adminWhatsappOperatorPhoneLookup, contains("'250788767816'"));
+    expect(
+      adminWhatsappOperatorPhoneLookup,
+      contains("auth.jwt() ->> 'phone'"),
+    );
     expect(
       adminWhatsappOperatorLogin,
       contains('current_phone <> allowed_phone'),

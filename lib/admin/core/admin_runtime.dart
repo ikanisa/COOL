@@ -373,8 +373,18 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
         message.contains('WhatsApp OTP send failed')) {
       return 'WhatsApp could not send the OTP. Check the approved template and try again.';
     }
+    if (message.contains('Token has expired or is invalid') ||
+        message.contains('expired or is invalid') ||
+        message.contains('Invalid token')) {
+      return 'That code is expired or already used. Request a new WhatsApp OTP.';
+    }
     if (message.contains('registered admin WhatsApp number')) {
       return 'Use the registered admin WhatsApp number.';
+    }
+    if (message.contains('admin_bootstrap_whatsapp_operator') ||
+        message.contains('profile setup') ||
+        message.contains('Platform owner role')) {
+      return 'WhatsApp verified, but admin profile setup failed. Request a new OTP and try again.';
     }
     return 'Admin sign-in failed. Try again.';
   }

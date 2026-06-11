@@ -72,6 +72,11 @@ void main() {
     ).readAsStringSync();
 
     expect(runtime, contains('WhatsApp could not send the OTP.'));
+    expect(runtime, contains('That code is expired or already used.'));
+    expect(
+      runtime,
+      contains('WhatsApp verified, but admin profile setup failed.'),
+    );
     expect(runtime, contains('status code returned from hook'));
     expect(runtime, contains('AuthRetryableFetchException'));
     expect(runtime, isNot(contains('_error = error.toString()')));
