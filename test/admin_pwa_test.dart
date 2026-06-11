@@ -42,6 +42,8 @@ void main() {
     await tester.pumpWidget(const ProviderScope(child: CollectAdminApp()));
     await tester.pumpAndSettle();
     expect(find.text('Collect admin login'), findsOneWidget);
+    final phoneField = tester.widget<TextField>(find.byType(TextField).first);
+    expect(phoneField.controller?.text, '+250788767816');
     expect(find.text('Operations overview'), findsNothing);
   });
 

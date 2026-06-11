@@ -48,6 +48,9 @@ void main() {
   final hardenedMobileProfileRpcs = File(
     'supabase/migrations/20260611111500_harden_mobile_profile_rpcs.sql',
   ).readAsStringSync();
+  final adminWhatsappOperatorLogin = File(
+    'supabase/migrations/20260611171920_admin_whatsapp_operator_login.sql',
+  ).readAsStringSync();
   final hardenedNotificationRlsInitPlan = File(
     'supabase/migrations/20260611113000_harden_notification_rls_initplan.sql',
   ).readAsStringSync();
@@ -272,6 +275,48 @@ void main() {
     expect(
       ingest,
       contains('"x-collect-signature": requireEnv("INTERNAL_FUNCTION_SECRET")'),
+    );
+  });
+
+  test('admin WhatsApp OTP login is restricted to the registered operator', () {
+    final adminRuntime = File(
+      'lib/admin/core/admin_runtime.dart',
+    ).readAsStringSync();
+
+    expect(adminRuntime, contains("'+250788767816'"));
+    expect(adminRuntime, contains('OtpChannel.whatsapp'));
+    expect(adminRuntime, contains('admin_bootstrap_whatsapp_operator'));
+    expect(adminRuntime, contains('Use the registered admin WhatsApp number.'));
+
+    expect(
+      adminWhatsappOperatorLogin,
+      contains(
+        'create or replace function admin_bootstrap_whatsapp_operator()',
+      ),
+    );
+    expect(adminWhatsappOperatorLogin, contains("'+250788767816'"));
+    expect(adminWhatsappOperatorLogin, contains("auth.jwt() ->> 'phone'"));
+    expect(
+      adminWhatsappOperatorLogin,
+      contains('current_phone <> allowed_phone'),
+    );
+    expect(adminWhatsappOperatorLogin, contains('is_platform_admin = true'));
+    expect(adminWhatsappOperatorLogin, contains("'platform_owner'"));
+    expect(
+      adminWhatsappOperatorLogin,
+      contains('Verified admin WhatsApp operator login'),
+    );
+    expect(
+      adminWhatsappOperatorLogin,
+      contains(
+        'revoke execute on function admin_bootstrap_whatsapp_operator()',
+      ),
+    );
+    expect(
+      adminWhatsappOperatorLogin,
+      contains(
+        'grant execute on function admin_bootstrap_whatsapp_operator() to authenticated',
+      ),
     );
   });
 
@@ -664,7 +709,7 @@ void main() {
     expect(warningInventory, contains('pg_graphql_anon_table_exposed'));
     expect(
       warningInventory,
-      contains('"authenticated_security_definer_function_executable" => 45'),
+      contains('"authenticated_security_definer_function_executable" => 46'),
     );
     expect(warningInventory, contains('performance warnings=0'));
     expect(schemaInventory, contains('pg_policies'));

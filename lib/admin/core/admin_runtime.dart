@@ -36,6 +36,8 @@ final _adminOverviewProvider = FutureProvider<List<AdminMetric>>((ref) {
 
 final adminRealtimeTickProvider = StateProvider<int>((_) => 0);
 
+const _collectAdminWhatsAppPhone = '+250788767816';
+
 final adminRealtimeSubscriptionProvider = Provider.autoDispose<void>((ref) {
   final client = ref.watch(supabaseClientProvider);
   if (client == null || client.auth.currentUser == null) return;
@@ -57,8 +59,9 @@ class AdminRepository extends AdminRepositoryBase {
   final SupabaseClient? _supabase;
 
   Future<void> sendOtp({required String phone}) async {
+    final normalizedPhone = _normalizeAdminPhone(phone);
     await _requireClient().auth.signInWithOtp(
-      phone: PhoneNormalizer.normalizeInternational(phone),
+      phone: normalizedPhone,
       channel: OtpChannel.whatsapp,
     );
   }
@@ -67,11 +70,14 @@ class AdminRepository extends AdminRepositoryBase {
     required String phone,
     required String otp,
   }) async {
-    await _requireClient().auth.verifyOTP(
-      phone: PhoneNormalizer.normalizeInternational(phone),
+    final client = _requireClient();
+    final normalizedPhone = _normalizeAdminPhone(phone);
+    await client.auth.verifyOTP(
+      phone: normalizedPhone,
       token: otp.trim(),
       type: OtpType.sms,
     );
+    await client.rpc<dynamic>('admin_bootstrap_whatsapp_operator');
     return currentIdentity();
   }
 
@@ -143,6 +149,14 @@ class AdminRepository extends AdminRepositoryBase {
     }
     return client;
   }
+
+  String _normalizeAdminPhone(String phone) {
+    final normalized = PhoneNormalizer.normalizeInternational(phone);
+    if (normalized != _collectAdminWhatsAppPhone) {
+      throw const FormatException('Use the registered admin WhatsApp number.');
+    }
+    return normalized;
+  }
 }
 
 class AdminLoginPage extends ConsumerStatefulWidget {
@@ -153,7 +167,7 @@ class AdminLoginPage extends ConsumerStatefulWidget {
 }
 
 class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
-  final _phone = TextEditingController(text: '+250 ');
+  final _phone = TextEditingController(text: _collectAdminWhatsAppPhone);
   final _otp = TextEditingController();
   var _otpSent = false;
   var _isBusy = false;
@@ -238,7 +252,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            'Sign in with the WhatsApp number attached to your admin profile.',
+                            'Sign in with the registered admin WhatsApp number.',
                             style: textTheme.bodyLarge?.copyWith(
                               color: const Color(0xFF596070),
                               height: 1.45,
