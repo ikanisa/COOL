@@ -270,6 +270,9 @@ void main() {
     expect(otp, contains('requireEnv("SEND_SMS_HOOK_SECRET")'));
     expect(otp, contains('new Webhook(standardWebhookSecret).verify'));
     expect(otp, contains('payload.sms?.otp'));
+    expect(otp, contains('whatsappAuthTemplateComponents'));
+    expect(otp, contains('sub_type: "url"'));
+    expect(otp, contains('index: "0"'));
     expect(config, contains('[functions.auth-send-whatsapp-otp]'));
     expect(config, contains('verify_jwt = false'));
     expect(

@@ -360,10 +360,23 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
         }
       }
     } catch (error) {
-      if (mounted) setState(() => _error = error.toString());
+      if (mounted) setState(() => _error = _adminLoginErrorMessage(error));
     } finally {
       if (mounted) setState(() => _isBusy = false);
     }
+  }
+
+  String _adminLoginErrorMessage(Object error) {
+    final message = error.toString();
+    if (message.contains('status code returned from hook') ||
+        message.contains('AuthRetryableFetchException') ||
+        message.contains('WhatsApp OTP send failed')) {
+      return 'WhatsApp could not send the OTP. Check the approved template and try again.';
+    }
+    if (message.contains('registered admin WhatsApp number')) {
+      return 'Use the registered admin WhatsApp number.';
+    }
+    return 'Admin sign-in failed. Try again.';
   }
 }
 

@@ -17,6 +17,22 @@ type SmsHookPayload = {
   token?: string;
 };
 
+function whatsappAuthTemplateComponents(otp: string) {
+  const otpText = String(otp);
+  return [
+    {
+      type: "body",
+      parameters: [{ type: "text", text: otpText }],
+    },
+    {
+      type: "button",
+      sub_type: "url",
+      index: "0",
+      parameters: [{ type: "text", text: otpText }],
+    },
+  ];
+}
+
 async function verifyHookPayload(req: Request): Promise<SmsHookPayload> {
   const hookSecret = requireEnv("SEND_SMS_HOOK_SECRET");
   const rawBody = await req.text();
@@ -93,10 +109,7 @@ Deno.serve(async (req) => {
           template: {
             name: template,
             language: { code: "en_US" },
-            components: [{
-              type: "body",
-              parameters: [{ type: "text", text: String(otp) }],
-            }],
+            components: whatsappAuthTemplateComponents(String(otp)),
           },
         }),
       },
@@ -104,6 +117,10 @@ Deno.serve(async (req) => {
 
     if (!response.ok) {
       const safeStatus = response.status;
+      console.error("WhatsApp OTP send failed", {
+        status: safeStatus,
+        phone_hash: phoneHash,
+      });
       return jsonResponse({
         error: "WhatsApp OTP send failed",
         status: safeStatus,

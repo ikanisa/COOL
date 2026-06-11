@@ -66,6 +66,17 @@ void main() {
     expect(find.text('Operations overview'), findsNothing);
   });
 
+  test('admin login does not render raw Supabase hook errors', () {
+    final runtime = File(
+      'lib/admin/core/admin_runtime.dart',
+    ).readAsStringSync();
+
+    expect(runtime, contains('WhatsApp could not send the OTP.'));
+    expect(runtime, contains('status code returned from hook'));
+    expect(runtime, contains('AuthRetryableFetchException'));
+    expect(runtime, isNot(contains('_error = error.toString()')));
+  });
+
   testWidgets('admin app renders shell under explicit admin override', (
     tester,
   ) async {
