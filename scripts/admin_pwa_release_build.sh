@@ -5,10 +5,53 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 FLUTTER="${FLUTTER:-/Volumes/PRO-G40/flutter_3_44/bin/flutter}"
-BUILD_ARGS="${FLUTTER_ADMIN_WEB_BUILD_ARGS:---release --no-wasm-dry-run --no-web-resources-cdn --no-pub}"
 
-# shellcheck disable=SC2086
-"$FLUTTER" build web -t lib/main_admin.dart $BUILD_ARGS
+if [[ -f .env ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  . ./.env
+  set +a
+fi
+
+SUPABASE_PUBLIC_URL="${SUPABASE_PRODUCTION_URL:-${SUPABASE_URL:-}}"
+SUPABASE_PUBLIC_ANON_KEY="${SUPABASE_PRODUCTION_ANON_KEY:-${SUPABASE_ANON_KEY:-}}"
+APP_PUBLIC_URL="${APP_PUBLIC_URL:-https://collect.ikanisa.com}"
+ADMIN_APP_URL="${ADMIN_APP_URL:-https://collect.ikanisa.com}"
+export SUPABASE_PUBLIC_URL SUPABASE_PUBLIC_ANON_KEY APP_PUBLIC_URL ADMIN_APP_URL
+
+if [[ -z "${FLUTTER_ADMIN_WEB_BUILD_ARGS:-}" ]]; then
+  if [[ -z "$SUPABASE_PUBLIC_URL" || -z "$SUPABASE_PUBLIC_ANON_KEY" ]]; then
+    echo "Missing public Supabase build config: SUPABASE_PRODUCTION_URL/SUPABASE_URL and SUPABASE_PRODUCTION_ANON_KEY/SUPABASE_ANON_KEY are required." >&2
+    exit 1
+  fi
+  DART_DEFINES_FILE="$(mktemp)"
+  trap 'rm -f "${DART_DEFINES_FILE:-}"' EXIT
+  DART_DEFINES_FILE="$DART_DEFINES_FILE" ruby -r json <<'RUBY'
+File.write(
+  ENV.fetch("DART_DEFINES_FILE"),
+  JSON.generate({
+    "SUPABASE_URL" => ENV.fetch("SUPABASE_PUBLIC_URL"),
+    "SUPABASE_ANON_KEY" => ENV.fetch("SUPABASE_PUBLIC_ANON_KEY"),
+    "APP_PUBLIC_URL" => ENV.fetch("APP_PUBLIC_URL"),
+    "ADMIN_APP_URL" => ENV.fetch("ADMIN_APP_URL"),
+    "APP_ENVIRONMENT" => "production",
+    "ENABLE_ADMIN_PANEL" => "true"
+  })
+)
+RUBY
+  BUILD_ARGS=(
+    --release
+    --no-wasm-dry-run
+    --no-web-resources-cdn
+    --no-pub
+    "--dart-define-from-file=$DART_DEFINES_FILE"
+  )
+else
+  # shellcheck disable=SC2206
+  BUILD_ARGS=($FLUTTER_ADMIN_WEB_BUILD_ARGS)
+fi
+
+"$FLUTTER" build web -t lib/main_admin.dart "${BUILD_ARGS[@]}"
 
 touch build/web/main.dart.js
 mkdir -p build/web/icons

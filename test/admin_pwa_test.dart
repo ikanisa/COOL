@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:collect_app/admin/admin_app.dart';
 import 'package:collect_app/admin/admin_router.dart';
 import 'package:collect_app/admin/admin_shell.dart';
@@ -36,6 +38,23 @@ void main() {
 
   test('admin routes are exact', () {
     expect(adminRoutePaths, expectedAdminRoutes);
+  });
+
+  test('admin release build injects only public Supabase browser config', () {
+    final script = File(
+      'scripts/admin_pwa_release_build.sh',
+    ).readAsStringSync();
+
+    expect(script, contains('SUPABASE_PRODUCTION_URL'));
+    expect(script, contains('SUPABASE_PRODUCTION_ANON_KEY'));
+    expect(script, contains('--dart-define-from-file='));
+    expect(script, contains('"SUPABASE_URL"'));
+    expect(script, contains('"SUPABASE_ANON_KEY"'));
+    expect(script, contains('"ADMIN_APP_URL"'));
+    expect(script, contains('"APP_ENVIRONMENT" => "production"'));
+    expect(script, isNot(contains('--dart-define=SUPABASE_SERVICE_ROLE_KEY')));
+    expect(script, isNot(contains('--dart-define=WHATSAPP_CLOUD_API_TOKEN')));
+    expect(script, isNot(contains('--dart-define=OPENAI_API_KEY')));
   });
 
   testWidgets('admin app blocks default non-admin state', (tester) async {
