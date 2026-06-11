@@ -306,8 +306,7 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['checklist'], contains('release_owner_signoff'));
     expect(docs['qa'], contains('101'));
     expect(docs['packet'], contains('Final GO Criteria'));
-    expect(docs['approval'], contains('RELEASE_GATE_EVIDENCE_2026-06-07.md'));
-    expect(docs['approval'], contains('20260608T055625Z'));
+    expect(docs['approval'], contains('RELEASE_APPROVAL_PACKET'));
     expect(docs['approval'], contains('product_signoff'));
     expect(docs['approval'], contains('collect_product_boundary_scan.sh'));
     expect(docs['approval'], contains('collect_product_boundary_scan.json'));
@@ -613,6 +612,51 @@ Date/time: 2026-06-01T12:30:00Z
     expect(nextActions, contains('--raw-sms-not-public'));
     expect(nextActions, contains('--no-transaction-ids'));
   });
+
+  test(
+    'go-live gate rejects approved status when Supabase readiness fails',
+    () {
+      final status = jsonEncode({
+        'decision': 'GO',
+        'status': 'pass',
+        'blocker_keys': <String>[],
+      });
+      final readiness = jsonEncode({
+        'status': 'blocked',
+        'blocker_keys': ['linked_supabase_production_readiness'],
+        'message': 'Linked Supabase production readiness checks failed.',
+        'output_tail': 'MISSING 20260607130500\nMISSING 20260608090000',
+      });
+      final result = Process.runSync(
+        './scripts/supabase_go_live_gate.sh',
+        ['--json'],
+        environment: {
+          'SUPABASE_GO_LIVE_STATUS_JSON': status,
+          'SUPABASE_GO_LIVE_READINESS_JSON': readiness,
+        },
+      );
+
+      expect(result.exitCode, 1);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['decision'], 'NO-GO');
+      expect(decoded['go_live_approved'], isFalse);
+      expect(
+        decoded['blocker_keys'],
+        contains('linked_supabase_production_readiness'),
+      );
+      expect(decoded['supabase_readiness']['required'], isTrue);
+      expect(decoded['supabase_readiness']['status'], 'blocked');
+      expect(
+        jsonEncode(decoded['required_next_actions']),
+        contains('supabase_production_readiness.sh'),
+      );
+      expect(
+        jsonEncode(decoded['supabase_readiness']),
+        contains('20260608090000'),
+      );
+    },
+  );
 
   test('acceptance matrix rejects inconsistent approved go-live evidence', () {
     final tempDir = Directory.systemTemp.createTempSync(
@@ -1218,7 +1262,7 @@ checking Edge Function secret names
     expect(jsonEncode(decoded), contains('https://cool-admin-212.pages.dev'));
     expect(
       jsonEncode(decoded),
-      contains('.cache/android_device_uat/20260602T042542Z/summary.json'),
+      contains('.cache/android_device_uat/20260611T082249Z/summary.json'),
     );
     expect(
       jsonEncode(decoded),

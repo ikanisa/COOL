@@ -19,6 +19,8 @@ fi
 : "${SUPABASE_SERVICE_ROLE_KEY:?SUPABASE_SERVICE_ROLE_KEY is required}"
 : "${INTERNAL_FUNCTION_SECRET:?INTERNAL_FUNCTION_SECRET is required}"
 
+PARSER_UAT_DATABASE_URL="${COLLECT_LIVE_PARSER_DATABASE_URL:-${DATABASE_POOLER_URL:-$DATABASE_URL}}"
+
 require_cmd() {
   command -v "$1" >/dev/null 2>&1 || {
     printf '[collect-parser-uat][FAIL] missing command: %s\n' "$1" >&2
@@ -49,7 +51,7 @@ cleanup() {
   if [[ -z "$tag" ]]; then
     return
   fi
-  psql_cli "$DATABASE_URL" -v ON_ERROR_STOP=1 \
+  psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
     -v tag="$tag" \
     -v owner_phone="$owner_phone" \
     -v contributor_phone="$contributor_phone" \
@@ -133,7 +135,7 @@ collection_id="$(ruby -r securerandom -e 'print SecureRandom.uuid')"
 intent_id="$(ruby -r securerandom -e 'print SecureRandom.uuid')"
 raw_sms_id="$(ruby -r securerandom -e 'print SecureRandom.uuid')"
 
-psql_cli "$DATABASE_URL" -v ON_ERROR_STOP=1 \
+psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
   -v owner_id="$owner_id" \
   -v contributor_id="$contributor_id" \
   -v collection_id="$collection_id" \
@@ -307,7 +309,7 @@ ruby -r json -e '
   abort("parse response was not allocated: #{body.inspect}") unless body["allocation_status"] == "allocated"
 ' "$body_file"
 
-psql_cli "$DATABASE_URL" -v ON_ERROR_STOP=1 \
+psql_cli "$PARSER_UAT_DATABASE_URL" -v ON_ERROR_STOP=1 \
   -v collection_id="$collection_id" \
   -v raw_sms_id="$raw_sms_id" \
   -v intent_id="$intent_id" \

@@ -95,27 +95,62 @@ void main() {
     }
   });
 
-  test(
-    'interactive token colors use Paper foregrounds and four primary tokens',
-    () {
-      final light = AppTheme.light().extension<CollectColors>()!;
+  test('secondary color system protects readable semantic roles', () {
+    final light = AppTheme.light().extension<CollectColors>()!;
 
-      expect(light.onAccent, CollectColors.brandPaper);
-      expect(light.actionColor, CollectColors.brandOrangeRed);
-      expect(light.info, CollectColors.brandPeriwinkle);
-      expect(light.success, CollectColors.brandMintGreen);
-      expect(light.danger, CollectColors.brandOrangeRed);
-      expect(
-        <Color>{
-          light.actionColor,
-          light.info,
-          light.success,
-          light.danger,
-        }.difference(CollectColors.brandPrimaryColors.toSet()),
-        isEmpty,
-      );
-    },
-  );
+    expect(light.actionColor, CollectColors.brandOrangeRed);
+    expect(light.onAccent, CollectColors.inkPrimary);
+    expect(light.selectedOnAccent, CollectColors.inkPrimary);
+    expect(light.surfaceReadable, CollectColors.secondarySurfaceReadable);
+    expect(light.surfaceRaised, CollectColors.secondarySurfaceReadable);
+    expect(light.surfaceMuted, CollectColors.secondarySurfaceMuted);
+    expect(light.borderSoft, CollectColors.secondaryBorderSoft);
+    expect(light.borderAccent, CollectColors.secondaryBorderAccent);
+    expect(light.focusRing, CollectColors.secondaryFocusRing);
+    expect(light.info, CollectColors.semanticInfoForeground);
+    expect(light.success, CollectColors.semanticSuccessForeground);
+    expect(light.warning, CollectColors.semanticWarningForeground);
+    expect(light.danger, CollectColors.semanticDangerForeground);
+    expect(light.statusForeground(CollectStatusTone.info), light.info);
+    expect(light.statusForeground(CollectStatusTone.success), light.success);
+    expect(light.statusForeground(CollectStatusTone.warning), light.warning);
+    expect(light.statusForeground(CollectStatusTone.danger), light.danger);
+    expect(light.statusBackground(CollectStatusTone.info), light.infoContainer);
+    expect(
+      light.statusBackground(CollectStatusTone.success),
+      light.successContainer,
+    );
+    expect(
+      light.statusBackground(CollectStatusTone.warning),
+      light.warningContainer,
+    );
+    expect(
+      light.statusBackground(CollectStatusTone.danger),
+      light.dangerContainer,
+    );
+    expect(
+      <Color>{
+        light.info,
+        light.success,
+        light.warning,
+        light.danger,
+      }.intersection(CollectColors.brandPrimaryColors.toSet()),
+      isEmpty,
+    );
+
+    for (final color in <Color>[
+      light.textPrimary,
+      light.textSecondary,
+      light.textMuted,
+      light.info,
+      light.success,
+      light.warning,
+      light.danger,
+      light.onAccent,
+    ]) {
+      expect(_contrastRatio(color, CollectColors.brandPaper), greaterThan(4.5));
+    }
+  });
 
   test('RWF amount typography uses tabular numerals', () {
     final style = CollectTypography.amountHero(CollectColors.light.textPrimary);
@@ -640,4 +675,16 @@ Future<void> _pumpCollect(WidgetTester tester, Widget child) async {
   expect(bytes.sublist(0, 8), <int>[137, 80, 78, 71, 13, 10, 26, 10]);
   final data = ByteData.sublistView(Uint8List.fromList(bytes));
   return (width: data.getUint32(16), height: data.getUint32(20));
+}
+
+double _contrastRatio(Color foreground, Color background) {
+  final foregroundLuminance = foreground.computeLuminance();
+  final backgroundLuminance = background.computeLuminance();
+  final lighter = foregroundLuminance > backgroundLuminance
+      ? foregroundLuminance
+      : backgroundLuminance;
+  final darker = foregroundLuminance > backgroundLuminance
+      ? backgroundLuminance
+      : foregroundLuminance;
+  return (lighter + 0.05) / (darker + 0.05);
 }

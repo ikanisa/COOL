@@ -8,13 +8,26 @@ class CollectColors extends ThemeExtension<CollectColors> {
     required this.orangePaint,
     required this.canvas,
     required this.surface,
+    required this.surfaceReadable,
     required this.surfaceRaised,
     required this.surfaceMuted,
     required this.border,
+    required this.borderSoft,
+    required this.borderAccent,
+    required this.focusRing,
     required this.success,
     required this.warning,
     required this.danger,
     required this.info,
+    required this.successForeground,
+    required this.infoForeground,
+    required this.warningForeground,
+    required this.dangerForeground,
+    required this.successContainer,
+    required this.infoContainer,
+    required this.warningContainer,
+    required this.dangerContainer,
+    required this.neutralContainer,
     required this.textPrimary,
     required this.textSecondary,
     required this.textMuted,
@@ -26,13 +39,26 @@ class CollectColors extends ThemeExtension<CollectColors> {
   final Color orangePaint;
   final Color canvas;
   final Color surface;
+  final Color surfaceReadable;
   final Color surfaceRaised;
   final Color surfaceMuted;
   final Color border;
+  final Color borderSoft;
+  final Color borderAccent;
+  final Color focusRing;
   final Color success;
   final Color warning;
   final Color danger;
   final Color info;
+  final Color successForeground;
+  final Color infoForeground;
+  final Color warningForeground;
+  final Color dangerForeground;
+  final Color successContainer;
+  final Color infoContainer;
+  final Color warningContainer;
+  final Color dangerContainer;
+  final Color neutralContainer;
   final Color textPrimary;
   final Color textSecondary;
   final Color textMuted;
@@ -46,6 +72,20 @@ class CollectColors extends ThemeExtension<CollectColors> {
   static const inkSecondary = Color(0xFF4B4664);
   static const inkMuted = Color(0xFF5F5A76);
   static const transparentColor = Color(0x00000000);
+  static const secondarySurfaceReadable = Color(0xFFFFFDFB);
+  static const secondarySurfaceMuted = Color(0xFFF1ECF7);
+  static const secondaryBorderSoft = Color(0xFFDED8EA);
+  static const secondaryBorderAccent = Color(0xFFCDC7F5);
+  static const secondaryFocusRing = Color(0xFF6F67E8);
+  static const semanticSuccessForeground = Color(0xFF137A3F);
+  static const semanticInfoForeground = Color(0xFF514DD2);
+  static const semanticWarningForeground = Color(0xFFB9472E);
+  static const semanticDangerForeground = Color(0xFFB3261E);
+  static const semanticSuccessContainer = Color(0xFFE7F8ED);
+  static const semanticInfoContainer = Color(0xFFECEBFF);
+  static const semanticWarningContainer = Color(0xFFFFE9E3);
+  static const semanticDangerContainer = Color(0xFFFFE5DF);
+  static const semanticNeutralContainer = Color(0xFFF1ECF7);
 
   static const brandPrimaryColors = <Color>[
     brandPeriwinkle,
@@ -67,13 +107,26 @@ class CollectColors extends ThemeExtension<CollectColors> {
     orangePaint: brandOrangeRed,
     canvas: brandPaper,
     surface: brandPaper,
-    surfaceRaised: brandPaper,
-    surfaceMuted: brandDustyRose,
-    border: brandPeriwinkle,
-    success: brandMintGreen,
-    warning: brandOrangeRed,
-    danger: brandOrangeRed,
-    info: brandPeriwinkle,
+    surfaceReadable: secondarySurfaceReadable,
+    surfaceRaised: secondarySurfaceReadable,
+    surfaceMuted: secondarySurfaceMuted,
+    border: secondaryBorderSoft,
+    borderSoft: secondaryBorderSoft,
+    borderAccent: secondaryBorderAccent,
+    focusRing: secondaryFocusRing,
+    success: semanticSuccessForeground,
+    warning: semanticWarningForeground,
+    danger: semanticDangerForeground,
+    info: semanticInfoForeground,
+    successForeground: semanticSuccessForeground,
+    infoForeground: semanticInfoForeground,
+    warningForeground: semanticWarningForeground,
+    dangerForeground: semanticDangerForeground,
+    successContainer: semanticSuccessContainer,
+    infoContainer: semanticInfoContainer,
+    warningContainer: semanticWarningContainer,
+    dangerContainer: semanticDangerContainer,
+    neutralContainer: semanticNeutralContainer,
     textPrimary: inkPrimary,
     textSecondary: inkSecondary,
     textMuted: inkMuted,
@@ -84,17 +137,17 @@ class CollectColors extends ThemeExtension<CollectColors> {
   Color get surfaceHigh => surfaceRaised;
   Color get actionColor => orangePaint;
   Color get priorityColor => periwinklePaint;
-  Color get outlineSoft => border;
-  Color get successInk => success;
-  Color get dangerSoft => danger;
+  Color get outlineSoft => borderSoft;
+  Color get successInk => successForeground;
+  Color get dangerSoft => dangerForeground;
   Color get brandPrimary => brandPeriwinkle;
   Color get brandFoundation => brandPaper;
   Color get brandSecondary => brandDustyRose;
   Color get brandAction => brandOrangeRed;
   Color get brandSuccess => brandMintGreen;
   Color get transparent => transparentColor;
-  Color get onAccent => brandPaper;
-  Color get selectedOnAccent => brandPaper;
+  Color get onAccent => textPrimary;
+  Color get selectedOnAccent => textPrimary;
   Color get onImagePrimary => brandPaper;
   Color get onImageMuted => brandPaper.withValues(alpha: 0.72);
   Color get exportCanvas => brandPaper;
@@ -104,8 +157,8 @@ class CollectColors extends ThemeExtension<CollectColors> {
   Color get imageScrimStrong => brandPeriwinkle.withValues(alpha: 0.58);
   Color get cameraScrim => brandPeriwinkle.withValues(alpha: 0.54);
   Color get cameraScrimStrong => brandPeriwinkle.withValues(alpha: 0.68);
-  Color get statusGranted => success;
-  Color get statusBlocked => danger;
+  Color get statusGranted => successForeground;
+  Color get statusBlocked => dangerForeground;
 
   static const brandPrimaryOptions = <CollectPaletteOption>[
     CollectPaletteOption('#8885F0', brandPeriwinkle),
@@ -116,15 +169,15 @@ class CollectColors extends ThemeExtension<CollectColors> {
 
   Color get screenBase => brandPaper;
 
-  Color get glassPanel => brandPaper.withValues(alpha: 0.82);
+  Color get glassPanel => surfaceReadable.withValues(alpha: 0.82);
 
-  Color get glassPanelStrong => brandPaper.withValues(alpha: 0.88);
+  Color get glassPanelStrong => surfaceReadable.withValues(alpha: 0.90);
 
-  Color get glassControl => brandPaper.withValues(alpha: 0.78);
+  Color get glassControl => surfaceReadable.withValues(alpha: 0.78);
 
-  Color get glassBorder => brandPeriwinkle.withValues(alpha: 0.42);
+  Color get glassBorder => borderAccent.withValues(alpha: 0.78);
 
-  Color get glassScrim => brandPeriwinkle.withValues(alpha: 0.08);
+  Color get glassScrim => inkPrimary.withValues(alpha: 0.08);
 
   LinearGradient get screenGradient => LinearGradient(
     begin: Alignment.topLeft,
@@ -154,24 +207,23 @@ class CollectColors extends ThemeExtension<CollectColors> {
   );
 
   Color statusBackground(CollectStatusTone tone) {
-    const alpha = 0.10;
     return switch (tone) {
-      CollectStatusTone.success => success.withValues(alpha: alpha),
-      CollectStatusTone.warning => warning.withValues(alpha: alpha),
-      CollectStatusTone.danger => danger.withValues(alpha: alpha),
-      CollectStatusTone.info => actionColor.withValues(alpha: alpha),
-      CollectStatusTone.privacy => periwinklePaint.withValues(alpha: alpha),
-      CollectStatusTone.neutral => surfaceMuted.withValues(alpha: alpha),
+      CollectStatusTone.success => successContainer,
+      CollectStatusTone.warning => warningContainer,
+      CollectStatusTone.danger => dangerContainer,
+      CollectStatusTone.info => infoContainer,
+      CollectStatusTone.privacy => infoContainer,
+      CollectStatusTone.neutral => neutralContainer,
     };
   }
 
   Color statusForeground(CollectStatusTone tone) {
     return switch (tone) {
-      CollectStatusTone.success => success,
-      CollectStatusTone.warning => warning,
-      CollectStatusTone.danger => danger,
-      CollectStatusTone.info => info,
-      CollectStatusTone.privacy => periwinklePaint,
+      CollectStatusTone.success => successForeground,
+      CollectStatusTone.warning => warningForeground,
+      CollectStatusTone.danger => dangerForeground,
+      CollectStatusTone.info => infoForeground,
+      CollectStatusTone.privacy => infoForeground,
       CollectStatusTone.neutral => textSecondary,
     };
   }
@@ -184,13 +236,26 @@ class CollectColors extends ThemeExtension<CollectColors> {
     Color? orangePaint,
     Color? canvas,
     Color? surface,
+    Color? surfaceReadable,
     Color? surfaceRaised,
     Color? surfaceMuted,
     Color? border,
+    Color? borderSoft,
+    Color? borderAccent,
+    Color? focusRing,
     Color? success,
     Color? warning,
     Color? danger,
     Color? info,
+    Color? successForeground,
+    Color? infoForeground,
+    Color? warningForeground,
+    Color? dangerForeground,
+    Color? successContainer,
+    Color? infoContainer,
+    Color? warningContainer,
+    Color? dangerContainer,
+    Color? neutralContainer,
     Color? textPrimary,
     Color? textSecondary,
     Color? textMuted,
@@ -202,13 +267,26 @@ class CollectColors extends ThemeExtension<CollectColors> {
       orangePaint: orangePaint ?? this.orangePaint,
       canvas: canvas ?? this.canvas,
       surface: surface ?? this.surface,
+      surfaceReadable: surfaceReadable ?? this.surfaceReadable,
       surfaceRaised: surfaceRaised ?? this.surfaceRaised,
       surfaceMuted: surfaceMuted ?? this.surfaceMuted,
       border: border ?? this.border,
+      borderSoft: borderSoft ?? this.borderSoft,
+      borderAccent: borderAccent ?? this.borderAccent,
+      focusRing: focusRing ?? this.focusRing,
       success: success ?? this.success,
       warning: warning ?? this.warning,
       danger: danger ?? this.danger,
       info: info ?? this.info,
+      successForeground: successForeground ?? this.successForeground,
+      infoForeground: infoForeground ?? this.infoForeground,
+      warningForeground: warningForeground ?? this.warningForeground,
+      dangerForeground: dangerForeground ?? this.dangerForeground,
+      successContainer: successContainer ?? this.successContainer,
+      infoContainer: infoContainer ?? this.infoContainer,
+      warningContainer: warningContainer ?? this.warningContainer,
+      dangerContainer: dangerContainer ?? this.dangerContainer,
+      neutralContainer: neutralContainer ?? this.neutralContainer,
       textPrimary: textPrimary ?? this.textPrimary,
       textSecondary: textSecondary ?? this.textSecondary,
       textMuted: textMuted ?? this.textMuted,
@@ -225,13 +303,50 @@ class CollectColors extends ThemeExtension<CollectColors> {
       orangePaint: Color.lerp(orangePaint, other.orangePaint, t)!,
       canvas: Color.lerp(canvas, other.canvas, t)!,
       surface: Color.lerp(surface, other.surface, t)!,
+      surfaceReadable: Color.lerp(surfaceReadable, other.surfaceReadable, t)!,
       surfaceRaised: Color.lerp(surfaceRaised, other.surfaceRaised, t)!,
       surfaceMuted: Color.lerp(surfaceMuted, other.surfaceMuted, t)!,
       border: Color.lerp(border, other.border, t)!,
+      borderSoft: Color.lerp(borderSoft, other.borderSoft, t)!,
+      borderAccent: Color.lerp(borderAccent, other.borderAccent, t)!,
+      focusRing: Color.lerp(focusRing, other.focusRing, t)!,
       success: Color.lerp(success, other.success, t)!,
       warning: Color.lerp(warning, other.warning, t)!,
       danger: Color.lerp(danger, other.danger, t)!,
       info: Color.lerp(info, other.info, t)!,
+      successForeground: Color.lerp(
+        successForeground,
+        other.successForeground,
+        t,
+      )!,
+      infoForeground: Color.lerp(infoForeground, other.infoForeground, t)!,
+      warningForeground: Color.lerp(
+        warningForeground,
+        other.warningForeground,
+        t,
+      )!,
+      dangerForeground: Color.lerp(
+        dangerForeground,
+        other.dangerForeground,
+        t,
+      )!,
+      successContainer: Color.lerp(
+        successContainer,
+        other.successContainer,
+        t,
+      )!,
+      infoContainer: Color.lerp(infoContainer, other.infoContainer, t)!,
+      warningContainer: Color.lerp(
+        warningContainer,
+        other.warningContainer,
+        t,
+      )!,
+      dangerContainer: Color.lerp(dangerContainer, other.dangerContainer, t)!,
+      neutralContainer: Color.lerp(
+        neutralContainer,
+        other.neutralContainer,
+        t,
+      )!,
       textPrimary: Color.lerp(textPrimary, other.textPrimary, t)!,
       textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
       textMuted: Color.lerp(textMuted, other.textMuted, t)!,

@@ -18,7 +18,7 @@ class CollectComponentTokens {
       shape: RoundedRectangleBorder(borderRadius: CollectRadius.controlBorder),
       backgroundColor: colors.actionColor,
       foregroundColor: colors.textPrimary,
-      disabledBackgroundColor: colors.surfaceMuted,
+      disabledBackgroundColor: colors.neutralContainer,
       disabledForegroundColor: colors.textMuted,
       textStyle: Theme.of(context).textTheme.labelLarge,
     );
@@ -34,7 +34,7 @@ class CollectComponentTokens {
       ),
       shape: RoundedRectangleBorder(borderRadius: CollectRadius.controlBorder),
       foregroundColor: colors.textPrimary,
-      side: BorderSide(color: colors.border),
+      side: BorderSide(color: colors.borderSoft),
       textStyle: Theme.of(context).textTheme.labelLarge,
     );
   }
@@ -47,7 +47,7 @@ class CollectComponentTokens {
   }) {
     final colors = context.collectColors;
     final border = UnderlineInputBorder(
-      borderSide: BorderSide(color: colors.textPrimary),
+      borderSide: BorderSide(color: colors.borderSoft),
     );
     return InputDecoration(
       labelText: label,
@@ -58,7 +58,7 @@ class CollectComponentTokens {
       border: border,
       enabledBorder: border,
       focusedBorder: border.copyWith(
-        borderSide: BorderSide(color: colors.actionColor, width: 2),
+        borderSide: BorderSide(color: colors.focusRing, width: 2),
       ),
     );
   }

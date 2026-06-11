@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { spawn } from 'node:child_process';
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { createServer } from 'node:net';
 import { dirname } from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
 
@@ -39,7 +40,29 @@ if (!Number.isFinite(commandTimeoutMs) || commandTimeoutMs <= 0) {
   process.exit(2);
 }
 
-const port = 40000 + Math.floor(Math.random() * 10000);
+const reserveFreePort = () =>
+  new Promise((resolve, reject) => {
+    const server = createServer();
+    server.unref();
+    server.on('error', reject);
+    server.listen(0, '127.0.0.1', () => {
+      const address = server.address();
+      const port = typeof address === 'object' && address ? address.port : null;
+      server.close((error) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+        if (!Number.isInteger(port)) {
+          reject(new Error('Unable to reserve a local DevTools port.'));
+          return;
+        }
+        resolve(port);
+      });
+    });
+  });
+
+const port = await reserveFreePort();
 mkdirSync(dirname(output), { recursive: true });
 rmSync(profile, { recursive: true, force: true });
 mkdirSync(profile, { recursive: true });

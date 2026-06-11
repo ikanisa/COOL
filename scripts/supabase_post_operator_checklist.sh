@@ -84,6 +84,12 @@ steps = [
     verify: "Apply supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql, then scripts/collect_linked_uat.sh"
   },
   {
+    key: "linked_supabase_production_readiness",
+    title: "Verify linked Supabase production readiness",
+    required_when: true,
+    verify: "Run scripts/supabase_production_readiness.sh. If it reports missing migrations such as 20260607130500 or 20260608090000, apply them through an approved production-change path, then rerun make supabase-go-live-gate-json."
+  },
+  {
     key: "android_sms_access_uat",
     title: "Run real Android SMS access UAT",
     required_when: blockers.include?("android_sms_access_uat"),

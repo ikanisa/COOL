@@ -10,6 +10,7 @@ expected = {
   "allocate-payment" => :internal,
   "parse-payment-sms" => :internal,
   "ingest-payment-sms" => :user,
+  "send-notification" => :internal,
 }
 
 issues = []

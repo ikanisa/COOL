@@ -45,6 +45,15 @@ void main() {
   final updateCollectionProfileRpc = File(
     'supabase/migrations/20260607130500_update_collection_profile_rpc.sql',
   ).readAsStringSync();
+  final hardenedMobileProfileRpcs = File(
+    'supabase/migrations/20260611111500_harden_mobile_profile_rpcs.sql',
+  ).readAsStringSync();
+  final hardenedNotificationRlsInitPlan = File(
+    'supabase/migrations/20260611113000_harden_notification_rls_initplan.sql',
+  ).readAsStringSync();
+  final tightenedNotificationRpcGrants = File(
+    'supabase/migrations/20260611114500_tighten_notification_rpc_grants.sql',
+  ).readAsStringSync();
   final readiness = File(
     'scripts/supabase_production_readiness.sh',
   ).readAsStringSync();
@@ -640,6 +649,7 @@ void main() {
     expect(readiness, contains('check_migration_history'));
     expect(readiness, contains('SUPABASE_READY_REQUIRE_POOLER_COMMANDS'));
     expect(readiness, contains('scripts/supabase_schema_inventory.sh'));
+    expect(readiness, contains('send-notification'));
     expect(
       readiness,
       contains("('authenticated', 'app_realtime_events', 'SELECT')"),
@@ -652,6 +662,10 @@ void main() {
     expect(advisorGate, contains('SUPABASE_ADVISORS_FAIL_ON:-error'));
     expect(warningInventory, contains('allowed_security_max'));
     expect(warningInventory, contains('pg_graphql_anon_table_exposed'));
+    expect(
+      warningInventory,
+      contains('"authenticated_security_definer_function_executable" => 45'),
+    );
     expect(warningInventory, contains('performance warnings=0'));
     expect(schemaInventory, contains('pg_policies'));
     expect(schemaInventory, contains('information_schema.role_table_grants'));
@@ -679,8 +693,12 @@ void main() {
     expect(evidenceBundle, contains('acceptance_matrix'));
     expect(evidenceBundle, contains('.cache/supabase_go_live_evidence'));
     expect(evidenceBundle, isNot(contains(r'cat .env')));
+    expect(edgeAuthUat, contains('"send-notification" => :internal'));
     expect(goLiveGate, contains('go_live_approved'));
     expect(goLiveGate, contains('SUPABASE_GO_LIVE_STATUS_JSON'));
+    expect(goLiveGate, contains('SUPABASE_GO_LIVE_READINESS_JSON'));
+    expect(goLiveGate, contains('scripts/supabase_production_readiness.sh'));
+    expect(goLiveGate, contains('linked_supabase_production_readiness'));
     expect(goLiveGate, contains('linked_supabase_sms_first_migration'));
     expect(
       goLiveGate,
@@ -1281,11 +1299,55 @@ void main() {
       contains('create or replace function update_collection_profile'),
     );
     expect(
+      hardenedMobileProfileRpcs,
+      contains('create or replace function ensure_current_profile'),
+    );
+    expect(
+      hardenedMobileProfileRpcs,
+      contains('set whatsapp_phone = trim(p_whatsapp_phone)'),
+    );
+    expect(
+      hardenedMobileProfileRpcs,
+      contains('create or replace function update_collection_profile'),
+    );
+    expect(hardenedMobileProfileRpcs, contains('accent_color_hex'));
+    expect(hardenedMobileProfileRpcs, contains('recurring_cadence'));
+    expect(
+      hardenedMobileProfileRpcs,
+      contains('public_status = next_public_status'),
+    );
+    expect(
+      hardenedMobileProfileRpcs,
+      contains('visibility = next_public_status'),
+    );
+    expect(hardenedMobileProfileRpcs, isNot(contains('is_public =')));
+    expect(
       updateCollectionProfileRpc,
       contains(
         'grant execute on function update_collection_profile(uuid, text, text, text, text, boolean, text)',
       ),
     );
+    expect(
+      hardenedNotificationRlsInitPlan,
+      contains('user_id = (select auth.uid())'),
+    );
+    expect(
+      hardenedNotificationRlsInitPlan,
+      isNot(contains('user_id = auth.uid()')),
+    );
+    expect(
+      tightenedNotificationRpcGrants,
+      contains(
+        'revoke execute on function enqueue_notification_event(uuid, text, text, text, uuid, text)',
+      ),
+    );
+    expect(
+      tightenedNotificationRpcGrants,
+      contains(
+        'grant execute on function enqueue_notification_event(uuid, text, text, text, uuid, text)',
+      ),
+    );
+    expect(tightenedNotificationRpcGrants, contains('to service_role'));
     expect(
       mobileProductionStateSupport,
       contains('create or replace function get_owner_group_health'),
@@ -1297,6 +1359,18 @@ void main() {
     expect(
       readiness,
       contains("('authenticated', 'create_mobile_support_request', 'EXECUTE')"),
+    );
+    expect(
+      readiness,
+      contains("('authenticated', 'register_notification_device', 'EXECUTE')"),
+    );
+    expect(
+      readiness,
+      contains("('authenticated', 'mark_notification_event_read', 'EXECUTE')"),
+    );
+    expect(
+      readiness,
+      isNot(contains("('authenticated', 'enqueue_notification_event'")),
     );
     expect(
       readiness,

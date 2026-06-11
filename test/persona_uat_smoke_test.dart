@@ -234,7 +234,7 @@ void main() {
       repository: repository,
     );
 
-    expect(find.text('Contribute'), findsWidgets);
+    expect(find.text('Review contribution'), findsWidgets);
     expect(find.text('Automated SMS match'), findsNothing);
     expect(find.text('Collect ID'), findsNothing);
     expect(find.textContaining('manual'), findsNothing);
@@ -242,12 +242,14 @@ void main() {
     final intent = await repository.createPaymentIntent(
       const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 5000),
     );
-    final router = GoRouter.of(tester.element(find.text('Contribute').first));
+    final router = GoRouter.of(
+      tester.element(find.text('Review contribution').first),
+    );
     router.go('/groups/col-church/pay/${intent.id}');
     await pumpLaunchFrames(tester);
 
     expect(find.text('Waiting for MoMo SMS'), findsNothing);
-    expect(find.text('Payment'), findsWidgets);
+    expect(find.text('Waiting for MoMo SMS verification.'), findsOneWidget);
     expect(find.text('St Michel treasury'), findsOneWidget);
     expect(find.textContaining('+250788123456'), findsWidgets);
     router.go('/groups/col-church/ledger');
@@ -524,7 +526,7 @@ void main() {
       repository: repository,
     );
 
-    expect(find.text('Contribute'), findsWidgets);
+    expect(find.text('Review contribution'), findsWidgets);
     await tester.drag(find.byType(ListView).last, const Offset(0, -500));
     await pumpLaunchFrames(tester);
     expect(find.text('Target account'), findsNothing);
@@ -616,7 +618,6 @@ void main() {
         repository: repository,
       );
 
-      expect(find.text('Profile required'), findsOneWidget);
       expect(find.text('Link your MoMo number first.'), findsOneWidget);
       expect(find.text('Link MoMo number'), findsOneWidget);
       expect(find.text('Review contribution'), findsNothing);

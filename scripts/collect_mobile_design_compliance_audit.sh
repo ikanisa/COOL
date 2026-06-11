@@ -130,6 +130,68 @@ checks << {
   "evidence" => ["DESIGN.md", "lib/app/theme/collect_colors.dart"]
 }
 
+secondary_expectations = {
+  "inkPrimary" => "#252044",
+  "inkSecondary" => "#4B4664",
+  "inkMuted" => "#5F5A76",
+  "secondarySurfaceReadable" => "#FFFDFB",
+  "secondarySurfaceMuted" => "#F1ECF7",
+  "secondaryBorderSoft" => "#DED8EA",
+  "secondaryBorderAccent" => "#CDC7F5",
+  "secondaryFocusRing" => "#6F67E8",
+  "semanticSuccessForeground" => "#137A3F",
+  "semanticInfoForeground" => "#514DD2",
+  "semanticWarningForeground" => "#B9472E",
+  "semanticDangerForeground" => "#B3261E",
+  "semanticSuccessContainer" => "#E7F8ED",
+  "semanticInfoContainer" => "#ECEBFF",
+  "semanticWarningContainer" => "#FFE9E3",
+  "semanticDangerContainer" => "#FFE5DF",
+  "semanticNeutralContainer" => "#F1ECF7"
+}
+secondary_failures = []
+secondary_expectations.each do |token, hex|
+  dart_hex = "0xFF#{hex.delete_prefix("#")}"
+  secondary_failures << "CollectColors is missing #{token} #{dart_hex}." unless colors.include?(token) && colors.include?(dart_hex)
+  secondary_failures << "DESIGN.md is missing secondary/support color #{hex}." unless design.include?(hex)
+  secondary_failures << "DESIGN_SYSTEM.md is missing secondary/support color #{hex}." unless design_system.include?(hex)
+end
+%w[
+  successForeground: semanticSuccessForeground
+  infoForeground: semanticInfoForeground
+  warningForeground: semanticWarningForeground
+  dangerForeground: semanticDangerForeground
+  successContainer: semanticSuccessContainer
+  infoContainer: semanticInfoContainer
+  warningContainer: semanticWarningContainer
+  dangerContainer: semanticDangerContainer
+  neutralContainer: semanticNeutralContainer
+].each do |binding|
+  secondary_failures << "CollectColors.light must bind #{binding}." unless colors.include?(binding)
+end
+[
+  "CollectStatusTone.success => successForeground",
+  "CollectStatusTone.warning => warningForeground",
+  "CollectStatusTone.danger => dangerForeground",
+  "CollectStatusTone.info => infoForeground",
+  "CollectStatusTone.success => successContainer",
+  "CollectStatusTone.warning => warningContainer",
+  "CollectStatusTone.danger => dangerContainer",
+  "CollectStatusTone.info => infoContainer"
+].each do |mapping|
+  secondary_failures << "CollectColors status helpers must use #{mapping}." unless colors.include?(mapping)
+end
+checks << {
+  "id" => "secondary_palette_semantic_contrast_contract",
+  "status" => status_for(secondary_failures),
+  "failures" => secondary_failures,
+  "evidence" => [
+    "DESIGN.md",
+    "docs/design/DESIGN_SYSTEM.md",
+    "lib/app/theme/collect_colors.dart"
+  ]
+}
+
 reference_failures = []
 %w[Revolut gradient glass CollectGradientBackground].each do |term|
   reference_failures << "DESIGN.md must include #{term} reference contract." unless design.include?(term)

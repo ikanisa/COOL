@@ -12,6 +12,7 @@ EXPECTED_FUNCTIONS=(
   auth-send-whatsapp-otp
   ingest-payment-sms
   parse-payment-sms
+  send-notification
 )
 
 if [[ -f .env ]]; then

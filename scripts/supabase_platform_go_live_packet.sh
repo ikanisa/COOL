@@ -73,6 +73,13 @@ catalog = {
     "required_action" => "Apply or dry-run supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql from an allow-listed database network, then rerun scripts/collect_linked_uat.sh.",
     "verify_command" => "scripts/collect_linked_uat.sh"
   },
+  "linked_supabase_production_readiness" => {
+    "title" => "Linked Supabase production readiness",
+    "severity" => "P0",
+    "owner" => "backend/operator",
+    "required_action" => "Run scripts/supabase_production_readiness.sh, apply any missing linked migrations or backend fixes through an approved production-change path, then rerun make supabase-go-live-gate-json.",
+    "verify_command" => "scripts/supabase_production_readiness.sh && make supabase-go-live-gate-json"
+  },
   "android_sms_access_uat" => {
     "title" => "Android SMS access UAT",
     "severity" => "P0",

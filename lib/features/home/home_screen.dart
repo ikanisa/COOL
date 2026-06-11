@@ -83,6 +83,9 @@ class HomeScreen extends ConsumerWidget {
               variant: GroupCardVariant.visual,
               primaryAction: IconButton.filled(
                 tooltip: 'Contribute',
+                style: IconButton.styleFrom(
+                  foregroundColor: context.collectColors.onImagePrimary,
+                ),
                 onPressed: () =>
                     context.go('/groups/${collection.id}/contribute'),
                 icon: const Icon(CollectIcons.donate),
@@ -273,9 +276,7 @@ class _HomeTotalCollectedCard extends StatelessWidget {
             children: [
               Text(
                 'TOTAL COLLECTED',
-                style: CollectTypography.eyebrowLabel(
-                  colors.onImagePrimary.withValues(alpha: 0.82),
-                ),
+                style: CollectTypography.eyebrowLabel(colors.textPrimary),
               ),
               CollectSpacing.gap12,
               FittedBox(
@@ -283,32 +284,29 @@ class _HomeTotalCollectedCard extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   formatRwf(totalAmount),
-                  style: CollectTypography.amountDisplay(colors.onImagePrimary),
+                  style: CollectTypography.amountDisplay(colors.textPrimary),
                 ),
               ),
               CollectSpacing.gap4,
-              Text.rich(
-                TextSpan(
-                  children: [
-                    const TextSpan(text: 'Across '),
-                    TextSpan(
-                      text: '$collectionCount',
-                      style: TextStyle(
-                        color: colors.brandPrimary,
-                        fontWeight: FontWeight.w800,
-                      ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    CollectIcons.collections,
+                    color: colors.textPrimary,
+                    size: 20,
+                  ),
+                  CollectSpacing.gapW8,
+                  Text(
+                    collectionCount == 1
+                        ? '1 group'
+                        : '$collectionCount groups',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: colors.textSecondary,
+                      fontWeight: FontWeight.w700,
                     ),
-                    TextSpan(
-                      text: collectionCount == 1
-                          ? ' active group'
-                          : ' active groups',
-                    ),
-                  ],
-                ),
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: colors.onImageMuted,
-                  fontWeight: FontWeight.w600,
-                ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -376,6 +374,7 @@ class _PublicGroupsSection extends StatelessWidget {
                     primaryAction: IconButton.filled(
                       tooltip: 'Contribute',
                       style: IconButton.styleFrom(
+                        foregroundColor: context.collectColors.onImagePrimary,
                         fixedSize: const Size(42, 42),
                         minimumSize: const Size(42, 42),
                         padding: EdgeInsets.zero,
@@ -413,6 +412,7 @@ class _PublicGroupsSection extends StatelessWidget {
                       primaryAction: IconButton.filled(
                         tooltip: 'Contribute',
                         style: IconButton.styleFrom(
+                          foregroundColor: context.collectColors.onImagePrimary,
                           fixedSize: const Size(42, 42),
                           minimumSize: const Size(42, 42),
                           padding: EdgeInsets.zero,

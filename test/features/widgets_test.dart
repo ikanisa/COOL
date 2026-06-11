@@ -119,14 +119,14 @@ void main() {
 
     expect(find.byIcon(Icons.public_rounded), findsOneWidget);
     expect(find.byIcon(Icons.lock_rounded), findsNothing);
-    expect(find.byType(BackdropFilter), findsOneWidget);
+    expect(find.byType(BackdropFilter), findsNothing);
     expect(tester.widget<Text>(find.text('Public building fund')).maxLines, 1);
     expect(find.text('Total collected'), findsNothing);
     expect(find.text('RWF 35,000'), findsOneWidget);
     expect(find.text('Members'), findsNothing);
   });
 
-  testWidgets('visual group card places title directly over cover image', (
+  testWidgets('visual group card keeps title compact without blur chrome', (
     tester,
   ) async {
     const title = 'St Michel building fund with a longer community name';
@@ -157,7 +157,7 @@ void main() {
       ),
     );
 
-    expect(find.byType(BackdropFilter), findsOneWidget);
+    expect(find.byType(BackdropFilter), findsNothing);
     expect(tester.widget<Text>(find.text(title)).maxLines, 1);
     expect(
       tester.widget<Text>(find.text(title)).overflow,
@@ -224,7 +224,7 @@ void main() {
 
     expect(find.text('St Michel treasury'), findsOneWidget);
     expect(find.text('RWF 15,000'), findsWidgets);
-    expect(find.text('Payment'), findsWidgets);
+    expect(find.text('Waiting for MoMo SMS verification.'), findsOneWidget);
     await tester.drag(find.byType(ListView).last, const Offset(0, -500));
     await tester.pump();
     expect(find.text('Status'), findsOneWidget);
@@ -254,7 +254,7 @@ void main() {
     await tester.tap(find.text('Review contribution'));
     await tester.pump();
 
-    expect(find.text('Review'), findsOneWidget);
+    expect(find.text('Review contribution'), findsOneWidget);
     expect(find.text('Pay with MoMo'), findsOneWidget);
     expect(find.text('Edit amount'), findsWidgets);
   });

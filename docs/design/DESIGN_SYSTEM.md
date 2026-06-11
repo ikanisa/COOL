@@ -26,8 +26,10 @@ Tokens live in `lib/app/theme/collect_colors.dart`.
 - Canvas: Paper `#FAF8F5`.
 - Page canvas: `screenBase`, `screenGradient`.
 - Glass surfaces: `glassPanel`, `glassPanelStrong`, `glassControl`, `glassBorder`, `glassPanelGradient`.
-- Runtime contrast: `actionColor`, `success`, `warning`, `danger`, `info`, `textPrimary`, `textSecondary`, `textMuted`.
-- No legacy pastel, neutral, or alternate low-luminance palette is part of the active token contract.
+- Secondary/support palette: Ink Primary `#252044`, Ink Secondary `#4B4664`, Ink Muted `#5F5A76`, Surface Readable `#FFFDFB`, Surface Muted `#F1ECF7`, Border Soft `#DED8EA`, Border Accent `#CDC7F5`, Focus Ring `#6F67E8`.
+- Semantic palette: Success Foreground `#137A3F` on `#E7F8ED`, Info Foreground `#514DD2` on `#ECEBFF`, Warning Foreground `#B9472E` on `#FFE9E3`, Danger Foreground `#B3261E` on `#FFE5DF`, Neutral Container `#F1ECF7`.
+- Runtime contrast: `actionColor`, `success`, `warning`, `danger`, `info`, `textPrimary`, `textSecondary`, `textMuted`, `statusForeground()`, and `statusBackground()`.
+- No legacy pastel, generic neutral, Material blue, or alternate low-luminance palette is part of the active token contract.
 
 Do not add route-level gradients in feature files unless the route is a standalone visual/export surface and still uses Collect tokens.
 

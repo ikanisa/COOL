@@ -12,6 +12,7 @@ EXPECTED_FUNCTIONS=(
   auth-send-whatsapp-otp
   ingest-payment-sms
   parse-payment-sms
+  send-notification
 )
 
 REQUIRED_SECRETS=(
@@ -385,7 +386,9 @@ check_sql_privileges() {
         ('authenticated', 'has_admin_permission', 'EXECUTE'),
         ('authenticated', 'is_platform_admin', 'EXECUTE'),
         ('authenticated', 'list_collection_collect_ids', 'EXECUTE'),
+        ('authenticated', 'mark_notification_event_read', 'EXECUTE'),
         ('authenticated', 'record_sms_access_consent', 'EXECUTE'),
+        ('authenticated', 'register_notification_device', 'EXECUTE'),
         ('authenticated', 'request_account_deletion', 'EXECUTE'),
         ('authenticated', 'update_collection_profile', 'EXECUTE'),
         ('authenticated', 'update_collection_receiver', 'EXECUTE'),
@@ -500,6 +503,7 @@ expected = {
   "allocate-payment" => :internal,
   "parse-payment-sms" => :internal,
   "ingest-payment-sms" => :user,
+  "send-notification" => :internal,
 }
 
 issues = []

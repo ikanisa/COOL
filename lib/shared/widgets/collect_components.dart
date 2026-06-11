@@ -942,8 +942,8 @@ class AmountEntryPanel extends StatelessWidget {
                   checkmarkColor: colors.selectedOnAccent,
                   side: BorderSide(
                     color: amount == option
-                        ? CollectColors.brandPeriwinkle
-                        : colors.border,
+                        ? colors.borderAccent
+                        : colors.borderSoft,
                     width: amount == option ? 1.5 : 1,
                   ),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
@@ -3257,18 +3257,13 @@ class _OwnedGroupCard extends StatelessWidget {
       padding: CollectSpacing.cardPaddingComfortable,
       emphasis: CollectCardEmphasis.tonal,
       accentColor: accent,
+      backgroundGradient: _groupCardGradient(context, accent),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _GroupIconBadge(
-                icon: _groupIcon(collection),
-                accent: accent,
-                size: 52,
-              ),
-              CollectSpacing.gapW12,
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -3339,14 +3334,7 @@ class _PublicDiscoveryGroupCard extends StatelessWidget {
       padding: EdgeInsets.zero,
       emphasis: CollectCardEmphasis.glow,
       accentColor: accent,
-      backgroundGradient: LinearGradient(
-        colors: [
-          Color.alphaBlend(accent.withValues(alpha: 0.13), colors.glassPanel),
-          colors.glassPanel,
-        ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
+      backgroundGradient: _groupCardGradient(context, accent),
       child: ClipRRect(
         borderRadius: CollectRadius.cardLargeBorder,
         child: Stack(
@@ -3360,30 +3348,7 @@ class _PublicDiscoveryGroupCard extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      _GroupCoverMedia(collection: collection, accent: accent),
-                      Positioned.fill(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                colors.imageScrimSoft,
-                                colors.imageScrimStrong,
-                              ],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        child: _GroupImageContentBlend(
-                          accent: accent,
-                          height: 30,
-                        ),
-                      ),
+                      _GroupCoverMedia(collection: collection),
                       Positioned(
                         top: CollectSpacing.x3,
                         right: CollectSpacing.x3,
@@ -3404,7 +3369,7 @@ class _PublicDiscoveryGroupCard extends StatelessWidget {
                 ),
                 Expanded(
                   child: DecoratedBox(
-                    decoration: _groupFooterDecoration(context, accent),
+                    decoration: _groupFooterDecoration(),
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(
                         CollectSpacing.x3,
@@ -3474,14 +3439,9 @@ class _CompactGroupCard extends StatelessWidget {
       emphasis: CollectCardEmphasis.compact,
       padding: const EdgeInsets.all(CollectSpacing.x3),
       accentColor: accent,
+      backgroundGradient: _groupCardGradient(context, accent),
       child: Row(
         children: [
-          _GroupIconBadge(
-            icon: _groupIcon(collection),
-            accent: accent,
-            size: 42,
-          ),
-          CollectSpacing.gapW12,
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -3532,6 +3492,7 @@ class _VisualGroupCard extends StatelessWidget {
       padding: EdgeInsets.zero,
       emphasis: CollectCardEmphasis.glow,
       accentColor: accent,
+      backgroundGradient: _groupCardGradient(context, accent),
       child: ClipRRect(
         borderRadius: CollectRadius.cardLargeBorder,
         child: Stack(
@@ -3545,30 +3506,7 @@ class _VisualGroupCard extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      _GroupCoverMedia(collection: collection, accent: accent),
-                      Positioned.fill(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                colors.imageScrimSoft.withValues(alpha: 0.75),
-                                colors.imageScrimStrong,
-                              ],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        child: _GroupImageContentBlend(
-                          accent: accent,
-                          height: 34,
-                        ),
-                      ),
+                      _GroupCoverMedia(collection: collection),
                       Positioned(
                         left: CollectSpacing.x4,
                         right: CollectSpacing.x4,
@@ -3582,7 +3520,7 @@ class _VisualGroupCard extends StatelessWidget {
                   ),
                 ),
                 DecoratedBox(
-                  decoration: _groupFooterDecoration(context, accent),
+                  decoration: _groupFooterDecoration(),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(
                       CollectSpacing.x4,
@@ -3625,55 +3563,30 @@ class _VisualGroupCard extends StatelessWidget {
   }
 }
 
-BoxDecoration _groupFooterDecoration(BuildContext context, Color accent) {
+LinearGradient _groupCardGradient(BuildContext context, Color accent) {
   final colors = context.collectColors;
-  return BoxDecoration(
-    gradient: LinearGradient(
-      colors: [
-        Color.alphaBlend(accent.withValues(alpha: 0.18), colors.surfaceRaised),
-        colors.surfaceRaised,
-      ],
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-    ),
+  final lead = Color.alphaBlend(
+    accent.withValues(alpha: 0.24),
+    colors.surfaceRaised,
+  );
+  final middle = Color.alphaBlend(
+    colors.periwinklePaint.withValues(alpha: 0.12),
+    colors.surfaceRaised,
+  );
+  final tail = Color.alphaBlend(
+    colors.rosePaint.withValues(alpha: 0.16),
+    colors.surfaceRaised,
+  );
+  return LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [lead, middle, tail],
+    stops: const [0, 0.55, 1],
   );
 }
 
-class _GroupImageContentBlend extends StatelessWidget {
-  const _GroupImageContentBlend({required this.accent, required this.height});
-
-  final Color accent;
-  final double height;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return IgnorePointer(
-      child: ClipRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  colors.transparent,
-                  Color.alphaBlend(
-                    accent.withValues(alpha: 0.20),
-                    colors.glassPanel,
-                  ).withValues(alpha: 0.78),
-                  colors.glassPanelStrong,
-                ],
-                stops: const [0.0, 0.46, 1.0],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-            child: SizedBox(height: height),
-          ),
-        ),
-      ),
-    );
-  }
+BoxDecoration _groupFooterDecoration() {
+  return const BoxDecoration();
 }
 
 class _GroupIconMetric extends StatelessWidget {
@@ -3716,10 +3629,9 @@ class _GroupIconMetric extends StatelessWidget {
 }
 
 class _GroupCoverMedia extends StatelessWidget {
-  const _GroupCoverMedia({required this.collection, required this.accent});
+  const _GroupCoverMedia({required this.collection});
 
   final CollectCollection collection;
-  final Color accent;
 
   @override
   Widget build(BuildContext context) {
@@ -3731,17 +3643,17 @@ class _GroupCoverMedia extends StatelessWidget {
           dataImageBytes,
           fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) =>
-              _GeneratedGroupCover(collection: collection, accent: accent),
+              const _GeneratedGroupCover(),
         );
       }
       return Image.network(
         imageUrl,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) =>
-            _GeneratedGroupCover(collection: collection, accent: accent),
+            const _GeneratedGroupCover(),
       );
     }
-    return _GeneratedGroupCover(collection: collection, accent: accent);
+    return const _GeneratedGroupCover();
   }
 }
 
@@ -3769,77 +3681,37 @@ class _GroupCoverTitleOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconSize = compact ? 38.0 : 46.0;
     final colors = context.collectColors;
-    return Row(
-      children: [
-        _GroupIconBadge(
-          icon: _groupIcon(collection),
-          accent: accent,
-          size: iconSize,
-        ),
-        CollectSpacing.gapW8,
-        Expanded(
-          child: Text(
-            collection.title,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: colors.onImagePrimary,
-              fontWeight: FontWeight.w800,
-              fontSize: compact ? 17 : null,
-              shadows: [
-                Shadow(
-                  color: colors.shadowPaint.withValues(alpha: 0.72),
-                  blurRadius: 14,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: compact ? CollectSpacing.x1 : 0,
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              collection.title,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: colors.textPrimary,
+                fontWeight: FontWeight.w800,
+                fontSize: compact ? 17 : null,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
 
 class _GeneratedGroupCover extends StatelessWidget {
-  const _GeneratedGroupCover({required this.collection, required this.accent});
-
-  final CollectCollection collection;
-  final Color accent;
+  const _GeneratedGroupCover();
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color.alphaBlend(
-                  accent.withValues(alpha: 0.34),
-                  colors.surfaceRaised,
-                ),
-                Color.alphaBlend(
-                  accent.withValues(alpha: 0.08),
-                  colors.surface,
-                ),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        Positioned(
-          right: -22,
-          top: -28,
-          child: _GroupWatermark(icon: _groupIcon(collection), accent: accent),
-        ),
-      ],
-    );
+    return const SizedBox.expand();
   }
 }
 
@@ -3918,31 +3790,6 @@ class _PublicGlyph extends StatelessWidget {
             height: 38,
             child: Icon(CollectIcons.public, color: accent, size: 19),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _GroupWatermark extends StatelessWidget {
-  const _GroupWatermark({required this.icon, required this.accent});
-
-  final IconData icon;
-  final Color accent;
-
-  @override
-  Widget build(BuildContext context) {
-    return Transform.rotate(
-      angle: -0.18,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          border: Border.all(color: accent.withValues(alpha: 0.10), width: 2),
-          borderRadius: CollectRadius.cardLargeBorder,
-        ),
-        child: SizedBox(
-          width: 116,
-          height: 116,
-          child: Icon(icon, color: accent.withValues(alpha: 0.11), size: 68),
         ),
       ),
     );
@@ -4037,25 +3884,6 @@ Color? _colorFromHex(String? hex) {
   return Color(int.parse('ff$clean', radix: 16));
 }
 
-IconData _groupIcon(CollectCollection collection) {
-  final text = '${collection.title} ${collection.description}'.toLowerCase();
-  if (text.contains('church') || text.contains('st michel')) {
-    return Icons.church_rounded;
-  }
-  if (text.contains('football') ||
-      text.contains('lions') ||
-      text.contains('kit')) {
-    return Icons.sports_soccer_rounded;
-  }
-  if (text.contains('medical') || text.contains('health')) {
-    return Icons.medical_services_rounded;
-  }
-  if (text.contains('school') || text.contains('education')) {
-    return Icons.school_rounded;
-  }
-  return CollectIcons.collections;
-}
-
 class CollectionSummaryCard extends StatelessWidget {
   const CollectionSummaryCard({
     required this.collection,
@@ -4094,7 +3922,7 @@ class ScreenHeader extends StatelessWidget {
         final titleBlock = Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CollectBrandMark(compact: true),
+            const CollectBrandMark(compact: true, framed: false),
             CollectSpacing.gap12,
             Text(
               title,

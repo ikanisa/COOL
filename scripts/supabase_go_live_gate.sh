@@ -15,7 +15,8 @@ case "${1:-}" in
 esac
 
 status_json="$(mktemp)"
-trap 'rm -f "$status_json"' EXIT
+readiness_json="$(mktemp)"
+trap 'rm -f "$status_json" "$readiness_json"' EXIT
 
 project_ref="${SUPABASE_PROJECT_REF:-}"
 if [[ -f "$ROOT_DIR/supabase/.temp/project-ref" ]]; then
@@ -31,16 +32,52 @@ else
   "$ROOT_DIR/scripts/release_status.sh" --json >"$status_json"
 fi
 
+status_candidate_go="$(
+  ruby -r json -e '
+    data = JSON.parse(File.read(ARGV.fetch(0)))
+    status_value = data["status"].to_s
+    puts(Array(data["blocker_keys"]).empty? && data["decision"].to_s == "GO" && status_value == "pass" ? "1" : "0")
+  ' "$status_json"
+)"
+
+if [[ "$status_candidate_go" == "1" ]]; then
+  if [[ -n "${SUPABASE_GO_LIVE_READINESS_JSON:-}" ]]; then
+    printf '%s\n' "$SUPABASE_GO_LIVE_READINESS_JSON" >"$readiness_json"
+  elif "$ROOT_DIR/scripts/supabase_production_readiness.sh" >"$readiness_json" 2>&1; then
+    ruby -r json -e 'puts JSON.pretty_generate({"status" => "pass"})' >"$readiness_json"
+  else
+    readiness_output="$(tail -n 80 "$readiness_json" 2>/dev/null || true)"
+    READINESS_OUTPUT="$readiness_output" ruby -r json <<'RUBY' >"$readiness_json"
+puts JSON.pretty_generate(
+  {
+    "status" => "blocked",
+    "blocker_keys" => ["linked_supabase_production_readiness"],
+    "message" => "Linked Supabase production readiness checks failed.",
+    "output_tail" => ENV.fetch("READINESS_OUTPUT", "")
+  }
+)
+RUBY
+  fi
+else
+  ruby -r json -e 'puts JSON.pretty_generate({"status" => "not_required"})' >"$readiness_json"
+fi
+
 gate_json="$(
-  ruby -r json - "$status_json" "$project_ref" <<'RUBY'
-status_path, project_ref = ARGV
+  ruby -r json - "$status_json" "$project_ref" "$readiness_json" <<'RUBY'
+status_path, project_ref, readiness_path = ARGV
 status = JSON.parse(File.read(status_path))
+readiness = JSON.parse(File.read(readiness_path))
 blocker_keys = Array(status["blocker_keys"])
+readiness_blocker_keys = Array(readiness["blocker_keys"])
 status_value = status["status"].to_s
 strict_pass =
   blocker_keys.empty? &&
   status["decision"].to_s == "GO" &&
   status_value == "pass"
+readiness_required = strict_pass
+readiness_pass = !readiness_required || readiness["status"].to_s == "pass"
+combined_blocker_keys = blocker_keys + (readiness_pass ? [] : readiness_blocker_keys)
+combined_blocker_keys = combined_blocker_keys.uniq
 
 actions = []
 unless strict_pass
@@ -54,17 +91,27 @@ unless strict_pass
   actions << "After prerequisite approvals pass, run make record-release-approval ARGS=\"--key release_owner_signoff ... --sanitized-evidence --no-production-customer-data\"." if blocker_keys.include?("release_owner_signoff")
   actions << "Rerun make release-status-json and make supabase-go-live-gate-json." if actions.empty?
 end
+unless readiness_pass
+  actions << "Run scripts/supabase_production_readiness.sh, apply any missing linked migrations or backend fixes through an approved production-change path, then rerun make supabase-go-live-gate-json."
+end
 
-decision = strict_pass ? "GO" : "NO-GO"
+decision = strict_pass && readiness_pass ? "GO" : "NO-GO"
 puts JSON.pretty_generate(
   {
     decision: decision,
-    approval_status: strict_pass ? "approved" : "blocked",
-    go_live_approved: strict_pass,
+    approval_status: strict_pass && readiness_pass ? "approved" : "blocked",
+    go_live_approved: strict_pass && readiness_pass,
     project_ref: project_ref.empty? ? nil : project_ref,
     status: status["status"] || status["supabase_strict"],
-    blocker_keys: blocker_keys,
-    required_next_actions: actions
+    blocker_keys: combined_blocker_keys,
+    required_next_actions: actions,
+    supabase_readiness: {
+      "required" => readiness_required,
+      "status" => readiness["status"],
+      "blocker_keys" => readiness_blocker_keys,
+      "message" => readiness["message"],
+      "output_tail" => readiness["output_tail"]
+    }.compact
   }
 )
 RUBY

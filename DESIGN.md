@@ -19,6 +19,24 @@ primary-paint-colors:
   mint-green: '#3CD070'
   dusty-rose: '#D38B96'
   orange-red: '#FF5E43'
+secondary-support-colors:
+  ink-primary: '#252044'
+  ink-secondary: '#4B4664'
+  ink-muted: '#5F5A76'
+  surface-readable: '#FFFDFB'
+  surface-muted: '#F1ECF7'
+  border-soft: '#DED8EA'
+  border-accent: '#CDC7F5'
+  focus-ring: '#6F67E8'
+  success-foreground: '#137A3F'
+  info-foreground: '#514DD2'
+  warning-foreground: '#B9472E'
+  danger-foreground: '#B3261E'
+  success-container: '#E7F8ED'
+  info-container: '#ECEBFF'
+  warning-container: '#FFE9E3'
+  danger-container: '#FFE5DF'
+  neutral-container: '#F1ECF7'
 tokens:
   flutter-theme-extension: lib/app/theme/collect_colors.dart
   flutter-theme: lib/app/theme/collect_theme.dart
@@ -36,6 +54,7 @@ Collect must feel like a modern fintech mobile app while staying fully Collect-o
 - Every member-facing production route must render on a gradient background derived from Collect's four primary paint colors over the Paper canvas.
 - Collect keeps four primary paint colors from the corrected brand assets: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, and Orange `#FF5E43`.
 - Paper `#FAF8F5` is the canvas/foundation color. It is not counted as a primary paint color.
+- Secondary/support colors are allowed only as named UI tokens for readable ink, glass surfaces, borders, focus, and semantic status foreground/container roles. They do not replace or expand the four primary paint colors.
 - Use Collect brand assets only: `CollectBrandMark` renders `assets/brand/generated/collect_wordmark_transparent.png`; launcher/platform icon use stays on generated PNG icon assets.
 - Route surfaces must use `ScreenScaffold`, `ScreenScaffoldLayout`, `PremiumScaffold`, or `CollectGradientBackground`.
 - Standalone flows that bypass `ScreenScaffold`, such as share/QR export surfaces, must explicitly wrap their page in `CollectGradientBackground`.
@@ -68,7 +87,8 @@ Do not copy these elements:
 - `brandPrimaryColors` and `brandPrimaryHexes` lock the four approved primary paint colors in asset-sheet order.
 - `screenBase` and `screenGradient` own the page background.
 - `glassPanel`, `glassPanelStrong`, `glassControl`, `glassBorder`, and `glassPanelGradient` own translucent surfaces and chrome.
-- `actionColor`, `success`, `warning`, `danger`, `info`, and status helpers provide contrast-safe runtime colors.
+- `surfaceReadable`, `surfaceMuted`, `borderSoft`, `borderAccent`, `focusRing`, and the `semantic*` token constants provide the secondary/support palette.
+- `actionColor` remains Orange Red for primary action fills; `success`, `warning`, `danger`, `info`, and status helpers resolve to contrast-safe semantic foregrounds and containers.
 
 Screens should not build page gradients locally. Feature-specific gradients are allowed only for cards, QR assets, cover media, and accent treatments, and they must use Collect tokens.
 

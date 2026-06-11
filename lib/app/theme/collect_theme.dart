@@ -19,15 +19,15 @@ class CollectTheme {
       secondary: colors.brandSecondary,
       onSecondary: colors.onAccent,
       error: colors.danger,
-      onError: colors.onAccent,
-      surface: colors.surface,
+      onError: colors.surfaceReadable,
+      surface: colors.surfaceReadable,
       onSurface: colors.textPrimary,
       surfaceContainerHighest: colors.surfaceMuted,
       onSurfaceVariant: colors.textSecondary,
-      outline: colors.border,
-      outlineVariant: colors.border,
+      outline: colors.borderSoft,
+      outlineVariant: colors.borderAccent,
       tertiary: colors.success,
-      onTertiary: colors.onAccent,
+      onTertiary: colors.surfaceReadable,
     );
     final textTheme = CollectTypography.textTheme(
       colors.textPrimary,
@@ -51,7 +51,7 @@ class CollectTheme {
       ),
       cardTheme: CardThemeData(
         elevation: 0,
-        color: colors.surfaceMuted,
+        color: colors.surfaceRaised,
         shape: RoundedRectangleBorder(borderRadius: CollectRadius.cardBorder),
       ),
       navigationBarTheme: NavigationBarThemeData(
@@ -90,18 +90,18 @@ class CollectTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: false,
         border: UnderlineInputBorder(
-          borderSide: BorderSide(color: colors.textPrimary),
+          borderSide: BorderSide(color: colors.borderSoft),
         ),
         enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: colors.textPrimary),
+          borderSide: BorderSide(color: colors.borderSoft),
         ),
         focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: colors.actionColor, width: 2),
+          borderSide: BorderSide(color: colors.focusRing, width: 2),
         ),
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(
         color: colors.actionColor,
-        linearTrackColor: colors.surfaceMuted,
+        linearTrackColor: colors.neutralContainer,
         borderRadius: CollectRadius.pillBorder,
       ),
     );
