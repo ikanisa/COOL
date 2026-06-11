@@ -16,5 +16,9 @@ Future<SupabaseClient?> createSupabaseClientFromEnvironment() async {
   if (!env.hasSupabaseConfig) {
     return null;
   }
-  return SupabaseClient(env.supabaseUrl, env.supabaseAnonKey);
+  final supabase = await Supabase.initialize(
+    url: env.supabaseUrl,
+    anonKey: env.supabaseAnonKey,
+  );
+  return supabase.client;
 }

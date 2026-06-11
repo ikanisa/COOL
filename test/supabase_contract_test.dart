@@ -279,6 +279,14 @@ void main() {
     expect(config, contains('[functions.auth-send-whatsapp-otp]'));
     expect(config, contains('verify_jwt = false'));
     expect(
+      File('scripts/supabase_apply_auth_hardening.sh').readAsStringSync(),
+      contains('sms_otp_exp: 600'),
+    );
+    expect(
+      File('scripts/supabase_production_readiness.sh').readAsStringSync(),
+      contains('Phone OTP expiry must be 600 seconds'),
+    );
+    expect(
       ingest,
       contains('"x-collect-signature": requireEnv("INTERNAL_FUNCTION_SECRET")'),
     );

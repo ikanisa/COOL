@@ -19,6 +19,7 @@ import '../shared/components/admin_filter_bar.dart';
 import '../shared/components/admin_metric_card.dart';
 import '../shared/components/admin_page.dart';
 import '../shared/components/admin_sensitive_data_gate.dart';
+import 'admin_auth_guard.dart';
 import 'admin_repository_base.dart';
 
 final adminRepositoryProvider = Provider<AdminRepository>((ref) {
@@ -72,11 +73,16 @@ class AdminRepository extends AdminRepositoryBase {
   }) async {
     final client = _requireClient();
     final normalizedPhone = _normalizeAdminPhone(phone);
-    await client.auth.verifyOTP(
+    final response = await client.auth.verifyOTP(
       phone: normalizedPhone,
       token: otp.trim(),
       type: OtpType.sms,
     );
+    if (response.session == null) {
+      throw const AuthException(
+        'Admin OTP verification did not create a session.',
+      );
+    }
     await client.rpc<dynamic>('admin_bootstrap_whatsapp_operator');
     return currentIdentity();
   }
@@ -85,8 +91,8 @@ class AdminRepository extends AdminRepositoryBase {
 
   Future<AdminIdentity?> currentIdentity() async {
     final client = _supabase;
-    if (client?.auth.currentUser == null) return null;
-    final row = await client!.rpc<dynamic>('admin_current_user');
+    if (client == null) return null;
+    final row = await client.rpc<dynamic>('admin_current_user');
     if (row == null) return null;
     final data = Map<String, dynamic>.from(row as Map);
     if (data.isEmpty) return null;
@@ -351,6 +357,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
           phone: _phone.text,
           otp: _otp.text,
         );
+        ref.invalidate(adminAuthGuardProvider);
         ref.invalidate(adminIdentityProvider);
         if (!mounted) return;
         if (identity == null) {

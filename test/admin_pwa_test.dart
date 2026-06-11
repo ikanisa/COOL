@@ -82,6 +82,26 @@ void main() {
     expect(runtime, isNot(contains('_error = error.toString()')));
   });
 
+  test('admin OTP login uses persistent session state', () {
+    final runtime = File(
+      'lib/admin/core/admin_runtime.dart',
+    ).readAsStringSync();
+    final guard = File(
+      'lib/admin/core/admin_auth_guard.dart',
+    ).readAsStringSync();
+    final module = File(
+      'lib/core/supabase/supabase_module.dart',
+    ).readAsStringSync();
+
+    expect(module, contains('Supabase.initialize'));
+    expect(guard, contains('auth.currentSession != null'));
+    expect(runtime, contains('final response = await client.auth.verifyOTP'));
+    expect(runtime, contains('response.session == null'));
+    expect(runtime, contains('admin_bootstrap_whatsapp_operator'));
+    expect(runtime, contains('ref.invalidate(adminAuthGuardProvider)'));
+    expect(runtime, isNot(contains('client?.auth.currentUser == null')));
+  });
+
   testWidgets('admin app renders shell under explicit admin override', (
     tester,
   ) async {

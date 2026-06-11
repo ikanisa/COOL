@@ -66,7 +66,7 @@ payload="$(
       password_hibp_enabled: true,
       password_min_length: 8,
       security_update_password_require_reauthentication: true,
-      sms_otp_exp: 300,
+      sms_otp_exp: 600,
       sms_otp_length: 6,
       sms_max_frequency: 30
     }

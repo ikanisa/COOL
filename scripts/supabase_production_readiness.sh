@@ -643,6 +643,7 @@ issues << "Password leaked-credential protection is disabled; treat as optional 
 expected_sms_hook_uri = "#{ENV.fetch("SUPABASE_URL")}/functions/v1/auth-send-whatsapp-otp"
 issues << "Phone auth is disabled; WhatsApp OTP login cannot work." if data["external_phone_enabled"] != true
 issues << "Send SMS Auth hook is disabled; WhatsApp OTP delivery will not use the Collect hook." if data["hook_send_sms_enabled"] != true
+issues << "Phone OTP expiry must be 600 seconds for the 10 minute admin WhatsApp login window." if data["sms_otp_exp"].to_i != 600
 if data["hook_send_sms_uri"].to_s != expected_sms_hook_uri
   issues << "Send SMS Auth hook URI does not point to the deployed WhatsApp OTP function."
 end

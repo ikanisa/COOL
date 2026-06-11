@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-11T18:57:04Z",
+  "generated_at": "2026-06-11T19:27:51Z",
   "deployments": {
     "admin_pwa": {
       "provider": "cloudflare_workers_static_assets",
@@ -7,7 +7,7 @@
       "url": "https://collect.ikanisa.com",
       "deployment_url": "https://collect.ikanisa.com",
       "branch": "main",
-      "version_id": "2457aeb1-c0f3-4cb4-9f69-87a4e4fa23ea",
+      "version_id": "37f6d7e2-d4f8-4c7f-a38a-0b245553bbfe",
       "live_gate_status": "pass",
       "evidence": "RUBYOPT=-rresolv-replace ADMIN_PWA_LIVE_URL=https://collect.ikanisa.com ./scripts/admin_pwa_live_gate.sh --json"
     }
