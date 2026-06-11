@@ -5,7 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 FLUTTER="${FLUTTER:-/Volumes/PRO-G40/flutter_3_44/bin/flutter}"
-BUILD_ARGS="${FLUTTER_ADMIN_WEB_BUILD_ARGS:---release --no-wasm-dry-run --no-pub}"
+BUILD_ARGS="${FLUTTER_ADMIN_WEB_BUILD_ARGS:---release --no-wasm-dry-run --no-web-resources-cdn --no-pub}"
 
 # shellcheck disable=SC2086
 "$FLUTTER" build web -t lib/main_admin.dart $BUILD_ARGS
