@@ -33,6 +33,18 @@ void main() {
   final smsFirstGroupPaymentIntents = File(
     'supabase/migrations/202605270001_sms_first_group_payment_intents.sql',
   ).readAsStringSync();
+  final adminPaymentEventServerPaging = File(
+    'supabase/migrations/20260612110000_admin_payment_event_server_paging.sql',
+  ).readAsStringSync();
+  final dropLegacyPaymentEventQueueOverloads = File(
+    'supabase/migrations/20260612111500_drop_legacy_payment_event_queue_overloads.sql',
+  ).readAsStringSync();
+  final revokeAnonAdminQueuePaging = File(
+    'supabase/migrations/20260612113000_revoke_anon_admin_queue_paging.sql',
+  ).readAsStringSync();
+  final schemaInventoryScript = File(
+    'scripts/supabase_schema_inventory.sh',
+  ).readAsStringSync();
   final contributionIntentSenderHash = File(
     'supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql',
   ).readAsStringSync();
@@ -53,6 +65,9 @@ void main() {
   ).readAsStringSync();
   final adminWhatsappOperatorPhoneLookup = File(
     'supabase/migrations/20260611184934_fix_admin_whatsapp_bootstrap_phone_lookup.sql',
+  ).readAsStringSync();
+  final disabledBrowserAdminBootstrap = File(
+    'supabase/migrations/20260612103000_disable_browser_admin_bootstrap.sql',
   ).readAsStringSync();
   final hardenedNotificationRlsInitPlan = File(
     'supabase/migrations/20260611113000_harden_notification_rls_initplan.sql',
@@ -292,57 +307,43 @@ void main() {
     );
   });
 
-  test('admin WhatsApp OTP login is restricted to the registered operator', () {
-    final adminRuntime = File(
-      'lib/admin/core/admin_runtime.dart',
-    ).readAsStringSync();
+  test(
+    'admin WhatsApp OTP login does not bootstrap platform owner in browser',
+    () {
+      final adminRuntime = File(
+        'lib/admin/core/admin_runtime.dart',
+      ).readAsStringSync();
 
-    expect(adminRuntime, contains("'+250788767816'"));
-    expect(adminRuntime, contains('OtpChannel.whatsapp'));
-    expect(adminRuntime, contains('admin_bootstrap_whatsapp_operator'));
-    expect(adminRuntime, contains('Use the registered admin WhatsApp number.'));
+      expect(adminRuntime, contains("'+250788767816'"));
+      expect(adminRuntime, contains('OtpChannel.whatsapp'));
+      expect(
+        adminRuntime,
+        isNot(contains('admin_bootstrap_whatsapp_operator')),
+      );
+      expect(
+        adminRuntime,
+        contains('Use the registered admin WhatsApp number.'),
+      );
 
-    expect(
-      adminWhatsappOperatorLogin,
-      contains(
-        'create or replace function admin_bootstrap_whatsapp_operator()',
-      ),
-    );
-    expect(adminWhatsappOperatorLogin, contains("'+250788767816'"));
-    expect(adminWhatsappOperatorLogin, contains("auth.jwt() ->> 'phone'"));
-    expect(adminWhatsappOperatorPhoneLookup, contains('from auth.users u'));
-    expect(
-      adminWhatsappOperatorPhoneLookup,
-      contains('where u.id = auth.uid()'),
-    );
-    expect(adminWhatsappOperatorPhoneLookup, contains("'250788767816'"));
-    expect(
-      adminWhatsappOperatorPhoneLookup,
-      contains("auth.jwt() ->> 'phone'"),
-    );
-    expect(
-      adminWhatsappOperatorLogin,
-      contains('current_phone <> allowed_phone'),
-    );
-    expect(adminWhatsappOperatorLogin, contains('is_platform_admin = true'));
-    expect(adminWhatsappOperatorLogin, contains("'platform_owner'"));
-    expect(
-      adminWhatsappOperatorLogin,
-      contains('Verified admin WhatsApp operator login'),
-    );
-    expect(
-      adminWhatsappOperatorLogin,
-      contains(
-        'revoke execute on function admin_bootstrap_whatsapp_operator()',
-      ),
-    );
-    expect(
-      adminWhatsappOperatorLogin,
-      contains(
-        'grant execute on function admin_bootstrap_whatsapp_operator() to authenticated',
-      ),
-    );
-  });
+      expect(adminWhatsappOperatorLogin, contains("'+250788767816'"));
+      expect(adminWhatsappOperatorPhoneLookup, contains('from auth.users u'));
+      expect(
+        disabledBrowserAdminBootstrap,
+        contains(
+          'create or replace function admin_bootstrap_whatsapp_operator()',
+        ),
+      );
+      expect(
+        disabledBrowserAdminBootstrap,
+        contains('from public, anon, authenticated'),
+      );
+      expect(disabledBrowserAdminBootstrap, contains('to service_role'));
+      expect(
+        disabledBrowserAdminBootstrap,
+        contains('admin_bootstrap_whatsapp_operator is disabled'),
+      );
+    },
+  );
 
   test('WhatsApp OTP auth can pass CAPTCHA tokens when enabled', () {
     final authScreen = File(
@@ -459,6 +460,76 @@ void main() {
     expect(adminFilterContracts, contains("p_status = 'logged'"));
     expect(adminFilterContracts, contains('or ar.name = p_status'));
     expect(adminFilterContracts, contains("'id', coalesce(nullif(p_id, '')"));
+  });
+
+  test('payment event admin queues expose server paging contract', () {
+    for (final functionName in [
+      'admin_list_payment_events',
+      'admin_list_allocations',
+      'admin_list_unallocated',
+    ]) {
+      expect(
+        adminPaymentEventServerPaging,
+        contains('create or replace function $functionName('),
+      );
+    }
+
+    expect(
+      adminPaymentEventServerPaging,
+      contains('p_limit integer default 25'),
+    );
+    expect(
+      adminPaymentEventServerPaging,
+      contains('p_offset integer default 0'),
+    );
+    expect(
+      adminPaymentEventServerPaging,
+      contains("p_sort text default 'created_at_desc'"),
+    );
+    expect(adminPaymentEventServerPaging, contains('limit v_limit'));
+    expect(adminPaymentEventServerPaging, contains('offset v_offset'));
+    expect(adminPaymentEventServerPaging, contains("'total'"));
+    expect(adminPaymentEventServerPaging, contains("'amount_desc'"));
+    expect(
+      adminPaymentEventServerPaging,
+      contains(
+        'grant execute on function admin_list_payment_events(text, text, integer, integer, text)',
+      ),
+    );
+    expect(
+      dropLegacyPaymentEventQueueOverloads,
+      contains('drop function if exists admin_list_payment_events(text, text)'),
+    );
+    expect(
+      dropLegacyPaymentEventQueueOverloads,
+      contains('drop function if exists admin_list_allocations(text, text)'),
+    );
+    expect(
+      dropLegacyPaymentEventQueueOverloads,
+      contains('drop function if exists admin_list_unallocated(text, text)'),
+    );
+    expect(
+      revokeAnonAdminQueuePaging,
+      contains(
+        'revoke execute on function admin_list_payment_events(text, text, integer, integer, text)',
+      ),
+    );
+    expect(revokeAnonAdminQueuePaging, contains('from public, anon'));
+    expect(
+      revokeAnonAdminQueuePaging,
+      contains(
+        'grant execute on function admin_list_payment_events(text, text, integer, integer, text)',
+      ),
+    );
+    expect(revokeAnonAdminQueuePaging, contains('to authenticated'));
+    expect(
+      schemaInventoryScript,
+      contains('"function|admin_list_payment_events"'),
+    );
+    expect(
+      schemaInventoryScript,
+      contains('logical_overload_replacements.include?(object_key)'),
+    );
   });
 
   test('admin roles are least-privilege by operational lane', () {

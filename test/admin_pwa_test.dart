@@ -66,6 +66,35 @@ void main() {
     expect(find.text('Operations overview'), findsNothing);
   });
 
+  testWidgets('admin login exposes accessible controls and status', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await tester.pumpWidget(const ProviderScope(child: CollectAdminApp()));
+      await tester.pumpAndSettle();
+
+      expect(find.semantics.byLabel('Collect admin login'), findsOne);
+      expect(find.semantics.byLabel('WhatsApp phone'), findsWidgets);
+      expect(
+        find.semantics.byHint(
+          'Registered Rwanda WhatsApp number used for Collect admin sign-in.',
+        ),
+        findsOne,
+      );
+      expect(find.semantics.byLabel('Send admin WhatsApp OTP'), findsOne);
+      expect(
+        find.semantics.byHint(
+          'Sends a WhatsApp one-time password to the registered admin number.',
+        ),
+        findsOne,
+      );
+      expect(find.semantics.byLabel(RegExp('Secure')), findsWidgets);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
   test('admin login does not render raw Supabase hook errors', () {
     final runtime = File(
       'lib/admin/core/admin_runtime.dart',
@@ -75,7 +104,7 @@ void main() {
     expect(runtime, contains('That code is expired or already used.'));
     expect(
       runtime,
-      contains('WhatsApp verified, but admin profile setup failed.'),
+      contains('WhatsApp verified, but this profile is not approved'),
     );
     expect(runtime, contains('status code returned from hook'));
     expect(runtime, contains('AuthRetryableFetchException'));
@@ -97,9 +126,52 @@ void main() {
     expect(guard, contains('auth.currentSession != null'));
     expect(runtime, contains('final response = await client.auth.verifyOTP'));
     expect(runtime, contains('response.session == null'));
-    expect(runtime, contains('admin_bootstrap_whatsapp_operator'));
+    expect(runtime, isNot(contains("rpc<dynamic>('admin_bootstrap")));
     expect(runtime, contains('ref.invalidate(adminAuthGuardProvider)'));
     expect(runtime, isNot(contains('client?.auth.currentUser == null')));
+  });
+
+  test('admin bootstrap is disabled for browser roles', () {
+    final migration = File(
+      'supabase/migrations/20260612103000_disable_browser_admin_bootstrap.sql',
+    ).readAsStringSync();
+    final uat = File(
+      'scripts/collect_admin_security_uat.sh',
+    ).readAsStringSync();
+    final readiness = File(
+      'scripts/supabase_production_readiness.sh',
+    ).readAsStringSync();
+
+    expect(migration, contains('revoke execute'));
+    expect(migration, contains('from public, anon, authenticated'));
+    expect(migration, contains('to service_role'));
+    expect(
+      migration,
+      contains('admin_bootstrap_whatsapp_operator is disabled'),
+    );
+    expect(
+      uat,
+      contains('admin_bootstrap_whatsapp_operator must not be executable'),
+    );
+    expect(
+      readiness,
+      isNot(
+        contains(
+          "('authenticated', 'admin_bootstrap_whatsapp_operator', 'EXECUTE')",
+        ),
+      ),
+    );
+  });
+
+  test('release status requires fresh Admin PWA live gate', () {
+    final script = File('scripts/release_status.sh').readAsStringSync();
+
+    expect(script, contains('scripts/admin_pwa_live_gate.sh'));
+    expect(script, contains('admin_pwa_live_gate'));
+    expect(
+      script,
+      contains('Admin PWA live deployment gate failed for the current URL.'),
+    );
   });
 
   testWidgets('admin app renders shell under explicit admin override', (
@@ -119,9 +191,43 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Collect Admin'), findsWidgets);
     expect(find.text('Operations overview'), findsOneWidget);
+    expect(find.text('Groups'), findsNothing);
+    expect(find.text('SMS'), findsNothing);
   });
 
   testWidgets('admin shell can render directly', (tester) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            adminIdentityProvider.overrideWith((ref) async => _adminIdentity),
+          ],
+          child: const MaterialApp(
+            home: AdminShell(
+              location: '/admin',
+              child: Text('Operations overview'),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Collect Admin'), findsWidgets);
+      expect(find.text('Operations overview'), findsOneWidget);
+      expect(find.text('Groups'), findsNothing);
+      expect(
+        find.semantics.byLabel('Collect admin primary navigation'),
+        findsOne,
+      );
+      expect(find.semantics.byLabel('Overview admin section'), findsOne);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('admin shell denies direct route without permission', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -129,15 +235,99 @@ void main() {
         ],
         child: const MaterialApp(
           home: AdminShell(
-            location: '/admin',
-            child: Text('Operations overview'),
+            location: '/admin/sms',
+            child: Text('Raw SMS queue'),
           ),
         ),
       ),
     );
     await tester.pumpAndSettle();
-    expect(find.text('Collect Admin'), findsWidgets);
-    expect(find.text('Operations overview'), findsOneWidget);
+    expect(find.text('Raw SMS queue'), findsNothing);
+    expect(find.text('Admin access required'), findsOneWidget);
+    expect(
+      find.text(
+        'Your Supabase session is active, but this profile is missing sms.metadata.read.',
+      ),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('admin shell matches seeded role-matrix navigation', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1200, 1400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await _pumpAdminShell(
+      tester,
+      identity: _supportIdentity,
+      location: '/admin/payment-events',
+      child: const Text('Support payment queue'),
+    );
+    expect(find.text('Support payment queue'), findsOneWidget);
+    expect(find.text('Groups'), findsOneWidget);
+    expect(find.text('Members'), findsOneWidget);
+    expect(find.text('Ledger'), findsNothing);
+    expect(find.text('Settings'), findsNothing);
+    expect(find.text('Admin users'), findsNothing);
+
+    await _pumpAdminShell(
+      tester,
+      identity: _complianceIdentity,
+      location: '/admin/sms',
+      child: const Text('Compliance SMS metadata'),
+    );
+    expect(find.text('Compliance SMS metadata'), findsOneWidget);
+    expect(find.text('SMS'), findsOneWidget);
+    expect(find.text('Audit logs'), findsOneWidget);
+    expect(find.text('Groups'), findsNothing);
+    expect(find.text('Receivers'), findsNothing);
+    expect(find.text('Settings'), findsNothing);
+
+    await _pumpAdminShell(
+      tester,
+      identity: _paymentsIdentity,
+      location: '/admin/receivers',
+      child: const Text('Payments receiver routes'),
+    );
+    expect(find.text('Payments receiver routes'), findsOneWidget);
+    expect(find.text('Payment intents'), findsOneWidget);
+    expect(find.text('SMS parsing'), findsOneWidget);
+    expect(find.text('Receivers'), findsOneWidget);
+    expect(find.text('Members'), findsNothing);
+    expect(find.text('Admin users'), findsNothing);
+
+    await _pumpAdminShell(
+      tester,
+      identity: _readOnlyFullIdentity,
+      location: '/admin/settings',
+      child: const Text('Read-only settings catalog'),
+    );
+    expect(find.text('Read-only settings catalog'), findsOneWidget);
+    expect(find.text('Settings'), findsOneWidget);
+    expect(find.text('Feature flags'), findsOneWidget);
+    expect(find.text('Admin users'), findsOneWidget);
+  });
+
+  testWidgets('admin shell explains missing permission for role direct routes', (
+    tester,
+  ) async {
+    await _pumpAdminShell(
+      tester,
+      identity: _supportIdentity,
+      location: '/admin/settings',
+      child: const Text('Settings content'),
+    );
+    expect(find.text('Settings content'), findsNothing);
+    expect(find.text('Admin access required'), findsOneWidget);
+    expect(
+      find.text(
+        'Your Supabase session is active, but this profile is missing settings.read.',
+      ),
+      findsOneWidget,
+    );
   });
 
   testWidgets('admin shell does not show fake actions or metrics', (
@@ -158,6 +348,278 @@ void main() {
     expect(find.textContaining('BioPay'), findsNothing);
     expect(find.textContaining('wallet'), findsNothing);
   });
+
+  testWidgets('admin list pages page high-volume queues', (tester) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      tester.view.physicalSize = const Size(1200, 2200);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            adminRepositoryProvider.overrideWithValue(_PagingAdminRepository()),
+          ],
+          child: const MaterialApp(
+            home: Scaffold(
+              body: AdminRpcListPage(
+                title: 'SMS parsing',
+                rpcName: 'admin_list_payment_events',
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Showing 1-25 of 30'), findsOneWidget);
+      expect(find.text('Investigate ambiguous parser matches'), findsOneWidget);
+      expect(find.text('Ambiguous'), findsOneWidget);
+      expect(find.semantics.byLabel('Next admin results page'), findsOne);
+      expect(
+        find.semantics.byHint('Shows the next page of admin queue results.'),
+        findsOne,
+      );
+      expect(find.text('Queue item 1'), findsOneWidget);
+      expect(find.text('Queue item 25'), findsOneWidget);
+      expect(find.text('Queue item 26'), findsNothing);
+
+      await tester.tap(find.byTooltip('Next page'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Showing 26-30 of 30'), findsOneWidget);
+      expect(find.text('Queue item 25'), findsNothing);
+      expect(find.text('Queue item 26'), findsOneWidget);
+      expect(find.text('Queue item 30'), findsOneWidget);
+      expect(
+        _PagingAdminRepository.lastQuery,
+        contains(
+          'admin_list_payment_events:limit=25:offset=25:sort=created_at_desc',
+        ),
+      );
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('payment event detail renders operator workflow panel', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      final repository = _DetailAdminRepository();
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            adminRepositoryProvider.overrideWithValue(repository),
+            adminIdentityProvider.overrideWith(
+              (ref) async => _paymentReparseIdentity,
+            ),
+          ],
+          child: const MaterialApp(
+            home: Scaffold(
+              body: AdminDetailPage(
+                title: 'Payment event detail',
+                rpcName: 'admin_get_payment_event',
+                id: 'event-1',
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('SMS payment event review'), findsOneWidget);
+      expect(
+        find.text(
+          'Parsed payment event context for allocation, exception handling, and audit.',
+        ),
+        findsOneWidget,
+      );
+      expect(find.text('Transaction'), findsOneWidget);
+      expect(find.text('MOMO-001'), findsOneWidget);
+      expect(find.text('Amount'), findsOneWidget);
+      expect(find.text('RWF 7,777'), findsOneWidget);
+      expect(
+        find.semantics.byLabel('SMS payment event review detail panel'),
+        findsOne,
+      );
+      expect(
+        find.semantics.byHint(
+          'Parsed payment event context for allocation, exception handling, and audit.',
+        ),
+        findsOne,
+      );
+      expect(find.semantics.byValue('MOMO-001'), findsOne);
+      expect(
+        find.semantics.byLabel('Request SMS payment event reparse'),
+        findsOne,
+      );
+      expect(
+        find.semantics.byHint(
+          'Opens a reason dialog before queuing this payment event for parser review.',
+        ),
+        findsOne,
+      );
+      expect(find.text('MOMO payment received from REDACTED.'), findsNothing);
+      expect(find.textContaining('"raw_body"'), findsNothing);
+      expect(find.textContaining('{'), findsNothing);
+
+      await tester.tap(find.widgetWithText(FilledButton, 'Request reparse'));
+      await tester.pumpAndSettle();
+      await tester.enterText(
+        find.byType(TextField),
+        'Parser missed allocation',
+      );
+      await tester.tap(
+        find.widgetWithText(FilledButton, 'Request reparse').last,
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        repository.actions,
+        contains('admin_reparse_payment_event:Parser missed allocation'),
+      );
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('payment event actions hide without reparse permission', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          adminRepositoryProvider.overrideWithValue(_DetailAdminRepository()),
+          adminIdentityProvider.overrideWith(
+            (ref) async => _paymentReadOnlyIdentity,
+          ),
+        ],
+        child: const MaterialApp(
+          home: Scaffold(
+            body: AdminRpcListPage(
+              title: 'SMS parsing',
+              rpcName: 'admin_list_payment_events',
+              actionKind: 'payment_event_reparse',
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Parsed MOMO event'), findsOneWidget);
+    expect(find.text('Reparse'), findsNothing);
+  });
+
+  testWidgets('raw SMS reveal is gated by compliance permission', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1200, 1200);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    final repository = _DetailAdminRepository();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          adminRepositoryProvider.overrideWithValue(repository),
+          adminIdentityProvider.overrideWith((ref) async => _supportIdentity),
+        ],
+        child: const MaterialApp(
+          home: Scaffold(body: AdminSmsDetailPage(id: 'sms-1')),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Raw SMS restricted'), findsOneWidget);
+    expect(find.text('Reveal raw SMS'), findsNothing);
+    expect(repository.actions, isEmpty);
+
+    final semantics = tester.ensureSemantics();
+    try {
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump();
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            adminRepositoryProvider.overrideWithValue(repository),
+            adminIdentityProvider.overrideWith(
+              (ref) async => _complianceIdentity,
+            ),
+          ],
+          child: const MaterialApp(
+            home: Scaffold(body: AdminSmsDetailPage(id: 'sms-1')),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is Semantics &&
+              widget.properties.label == 'Raw SMS sensitive data reveal gate',
+        ),
+        findsOne,
+      );
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is Semantics &&
+              widget.properties.label == 'Raw SMS reveal reason',
+        ),
+        findsOne,
+      );
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is Semantics &&
+              widget.properties.label == 'Reveal Raw SMS',
+        ),
+        findsOne,
+      );
+
+      await tester.enterText(
+        find.widgetWithText(TextField, 'Reveal reason'),
+        'Compliance audit sample',
+      );
+      await tester.tap(find.widgetWithText(FilledButton, 'Reveal raw SMS'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('MOMO body redacted for test'), findsOneWidget);
+      expect(
+        repository.actions,
+        contains('admin_reveal_raw_sms:Compliance audit sample'),
+      );
+    } finally {
+      semantics.dispose();
+    }
+  });
+}
+
+Future<void> _pumpAdminShell(
+  WidgetTester tester, {
+  required AdminIdentity identity,
+  required String location,
+  required Widget child,
+}) async {
+  await tester.pumpWidget(const SizedBox.shrink());
+  await tester.pump();
+  await tester.pumpWidget(
+    ProviderScope(
+      overrides: [adminIdentityProvider.overrideWith((ref) async => identity)],
+      child: MaterialApp(
+        home: AdminShell(location: location, child: child),
+      ),
+    ),
+  );
+  await tester.pumpAndSettle();
 }
 
 const _adminIdentity = AdminIdentity(
@@ -166,3 +628,195 @@ const _adminIdentity = AdminIdentity(
   roles: ['platform_owner'],
   permissions: ['overview.read'],
 );
+
+const _supportIdentity = AdminIdentity(
+  userId: '00000000-0000-0000-0000-000000000010',
+  displayName: 'Collect support admin',
+  roles: ['support_admin'],
+  permissions: [
+    'overview.read',
+    'public_requests.read',
+    'collections.read',
+    'users.read',
+    'receivers.read',
+    'sms.metadata.read',
+    'payment_events.read',
+    'payments.read',
+    'audit.read',
+    'system_health.read',
+  ],
+);
+
+const _complianceIdentity = AdminIdentity(
+  userId: '00000000-0000-0000-0000-000000000011',
+  displayName: 'Collect compliance admin',
+  roles: ['compliance_admin'],
+  permissions: [
+    'overview.read',
+    'users.read',
+    'sms.metadata.read',
+    'sms.raw.reveal',
+    'payment_events.read',
+    'payments.read',
+    'ledger.read',
+    'audit.read',
+    'system_health.read',
+  ],
+);
+
+const _paymentsIdentity = AdminIdentity(
+  userId: '00000000-0000-0000-0000-000000000012',
+  displayName: 'Collect payments admin',
+  roles: ['payments_admin'],
+  permissions: [
+    'overview.read',
+    'collections.read',
+    'receivers.read',
+    'sms.metadata.read',
+    'payment_events.read',
+    'payment_events.reparse',
+    'payments.read',
+    'payments.allocate',
+    'ledger.read',
+    'audit.read',
+    'system_health.read',
+  ],
+);
+
+const _readOnlyFullIdentity = AdminIdentity(
+  userId: '00000000-0000-0000-0000-000000000013',
+  displayName: 'Collect read-only admin',
+  roles: ['read_only_admin'],
+  permissions: [
+    'overview.read',
+    'public_requests.read',
+    'collections.read',
+    'users.read',
+    'receivers.read',
+    'sms.metadata.read',
+    'payment_events.read',
+    'payments.read',
+    'ledger.read',
+    'audit.read',
+    'feature_flags.read',
+    'settings.read',
+    'system_health.read',
+    'admin_users.read',
+  ],
+);
+
+const _paymentReparseIdentity = AdminIdentity(
+  userId: '00000000-0000-0000-0000-000000000002',
+  displayName: 'Collect payments admin',
+  roles: ['payments_admin'],
+  permissions: ['payment_events.read', 'payment_events.reparse'],
+);
+
+const _paymentReadOnlyIdentity = AdminIdentity(
+  userId: '00000000-0000-0000-0000-000000000003',
+  displayName: 'Collect read-only admin',
+  roles: ['read_only_admin'],
+  permissions: ['payment_events.read'],
+);
+
+class _PagingAdminRepository extends AdminRepository {
+  _PagingAdminRepository() : super(null);
+
+  @override
+  Future<AdminListResult> list(
+    String rpcName, {
+    String? search,
+    String? status,
+    int? limit,
+    int? offset,
+    String? sortBy,
+  }) async {
+    lastQuery = '$rpcName:limit=$limit:offset=$offset:sort=$sortBy';
+    final allRows = [
+      for (var index = 1; index <= 30; index += 1)
+        AdminTableRowData(
+          id: 'row-$index',
+          title: 'Queue item $index',
+          subtitle: 'Payment event review',
+          status: 'needs_review',
+          amount: 'RWF $index',
+        ),
+    ];
+    final start = (offset ?? 0).clamp(0, allRows.length);
+    final end = (start + (limit ?? allRows.length)).clamp(
+      start,
+      allRows.length,
+    );
+    return AdminListResult(
+      rows: allRows.sublist(start, end),
+      total: allRows.length,
+    );
+  }
+
+  static String lastQuery = '';
+}
+
+class _DetailAdminRepository extends AdminRepository {
+  _DetailAdminRepository() : super(null);
+
+  final actions = <String>[];
+
+  @override
+  Future<AdminListResult> list(
+    String rpcName, {
+    String? search,
+    String? status,
+    int? limit,
+    int? offset,
+    String? sortBy,
+  }) async {
+    return const AdminListResult(
+      rows: [
+        AdminTableRowData(
+          id: 'event-1',
+          title: 'Parsed MOMO event',
+          subtitle: 'Waiting for review',
+          status: 'needs_review',
+          amount: 'RWF 7,777',
+        ),
+      ],
+    );
+  }
+
+  @override
+  Future<Map<String, dynamic>> detail(String rpcName, String id) async {
+    return switch (rpcName) {
+      'admin_get_sms_metadata' => {
+        'id': id,
+        'sender_masked': 'MOMO',
+        'receiver_masked': '+250***1222',
+        'status': 'needs_review',
+        'received_at': '2026-06-12T05:00:00Z',
+        'raw_body': 'MOMO body redacted for test',
+      },
+      _ => {
+        'id': id,
+        'transaction_id': 'MOMO-001',
+        'amount': 'RWF 7,777',
+        'sender_masked': '+250***4321',
+        'receiver_masked': '+250***1222',
+        'payment_intent_id': 'intent-1',
+        'status': 'needs_review',
+        'created_at': '2026-06-12T05:00:00Z',
+        'raw_body': 'MOMO payment received from REDACTED.',
+      },
+    };
+  }
+
+  @override
+  Future<Map<String, dynamic>> action(
+    String rpcName,
+    Map<String, dynamic> params,
+  ) async {
+    actions.add('$rpcName:${params['p_reason']}');
+    if (rpcName == 'admin_reveal_raw_sms') {
+      return {'message': 'MOMO body redacted for test'};
+    }
+    return {'status': 'queued'};
+  }
+}

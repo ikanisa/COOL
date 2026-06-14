@@ -300,6 +300,9 @@ class _FakeAdminRepository extends AdminRepository {
     String rpcName, {
     String? search,
     String? status,
+    int? limit,
+    int? offset,
+    String? sortBy,
   }) async {
     return AdminListResult(
       rows: switch (rpcName) {

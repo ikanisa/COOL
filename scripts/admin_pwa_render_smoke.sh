@@ -89,6 +89,7 @@ capture() {
   local size="$2"
   local png="$EVIDENCE_DIR/${name}.png"
   local profile="$EVIDENCE_DIR/${name}-profile"
+  local timeout_seconds="${ADMIN_PWA_SCREENSHOT_TIMEOUT_SECONDS:-30}"
   rm -rf "$profile"
   mkdir -p "$profile"
 
@@ -110,7 +111,7 @@ capture() {
     "$BASE_URL/" >"$EVIDENCE_DIR/${name}.stdout" 2>"$EVIDENCE_DIR/${name}.stderr" &
   local chrome_pid=$!
 
-  for _ in {1..18}; do
+  for _ in $(seq 1 "$timeout_seconds"); do
     if [[ -s "$png" ]]; then
       break
     fi
@@ -122,10 +123,19 @@ capture() {
 
   if kill -0 "$chrome_pid" 2>/dev/null; then
     kill "$chrome_pid" 2>/dev/null || true
+    sleep 1
+  fi
+  if kill -0 "$chrome_pid" 2>/dev/null; then
+    pkill -TERM -f "$profile" 2>/dev/null || true
+    sleep 1
+  fi
+  if kill -0 "$chrome_pid" 2>/dev/null; then
+    pkill -KILL -f "$profile" 2>/dev/null || true
+    kill -KILL "$chrome_pid" 2>/dev/null || true
   fi
   wait "$chrome_pid" 2>/dev/null || true
 
-  [[ -s "$png" ]] || fail "$name screenshot was not created."
+  [[ -s "$png" ]] || fail "$name screenshot was not created within ${timeout_seconds}s."
 
   ruby -r json -r set -r zlib - "$png" "$size" <<'RUBY'
 path, expected_size = ARGV

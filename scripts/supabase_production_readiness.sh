@@ -350,7 +350,6 @@ check_sql_privileges() {
       values
         ('anon', 'user_can_read_collection', 'EXECUTE'),
         ('anon', 'user_is_collection_admin', 'EXECUTE'),
-        ('authenticated', 'admin_bootstrap_whatsapp_operator', 'EXECUTE'),
         ('authenticated', 'admin_current_user', 'EXECUTE'),
         ('authenticated', 'admin_get_collection', 'EXECUTE'),
         ('authenticated', 'admin_get_payment', 'EXECUTE'),

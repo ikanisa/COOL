@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/admin_error_boundary.dart';
+
 class AdminSensitiveDataGate extends StatefulWidget {
   const AdminSensitiveDataGate({
     required this.label,
@@ -28,45 +30,67 @@ class _AdminSensitiveDataGateState extends State<AdminSensitiveDataGate> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(widget.label, style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 8),
-            const Text(
-              'Reveal only for support, compliance, or audit work. The reason is written to the audit trail.',
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _reason,
-              minLines: 2,
-              maxLines: 3,
-              decoration: const InputDecoration(
-                labelText: 'Reveal reason',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 12),
-            FilledButton.icon(
-              onPressed: _isBusy ? null : _reveal,
-              icon: const Icon(Icons.visibility),
-              label: const Text('Reveal raw SMS'),
-            ),
-            if (_error != null) ...[
-              const SizedBox(height: 12),
+    return Semantics(
+      container: true,
+      explicitChildNodes: true,
+      label: '${widget.label} sensitive data reveal gate',
+      hint: 'Requires an audit reason before revealing sensitive admin data.',
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Text(
-                _error!,
-                style: TextStyle(color: Theme.of(context).colorScheme.error),
+                widget.label,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
-            ],
-            if (_revealed != null) ...[
+              const SizedBox(height: 8),
+              const Text(
+                'Reveal only for support, compliance, or audit work. The reason is written to the audit trail.',
+              ),
               const SizedBox(height: 12),
-              SelectableText(_revealed!),
+              Semantics(
+                textField: true,
+                label: '${widget.label} reveal reason',
+                hint:
+                    'Audit reason required before this sensitive value can be revealed.',
+                child: TextField(
+                  controller: _reason,
+                  minLines: 2,
+                  maxLines: 3,
+                  decoration: const InputDecoration(
+                    labelText: 'Reveal reason',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Semantics(
+                button: true,
+                label: 'Reveal ${widget.label}',
+                hint:
+                    'Reveals sensitive data after recording the entered audit reason.',
+                enabled: !_isBusy,
+                child: FilledButton.icon(
+                  onPressed: _isBusy ? null : _reveal,
+                  icon: const Icon(Icons.visibility),
+                  label: const Text('Reveal raw SMS'),
+                ),
+              ),
+              if (_error != null) ...[
+                const SizedBox(height: 12),
+                Text(
+                  _error!,
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              ],
+              if (_revealed != null) ...[
+                const SizedBox(height: 12),
+                SelectableText(_revealed!),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -88,7 +112,7 @@ class _AdminSensitiveDataGateState extends State<AdminSensitiveDataGate> {
       final value = await widget.onReveal(reason);
       if (mounted) setState(() => _revealed = value);
     } catch (error) {
-      if (mounted) setState(() => _error = error.toString());
+      if (mounted) setState(() => _error = adminSafeErrorMessage(error));
     } finally {
       if (mounted) setState(() => _isBusy = false);
     }

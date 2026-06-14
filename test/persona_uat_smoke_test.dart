@@ -1146,9 +1146,13 @@ const _platformOwnerIdentity = AdminIdentity(
   displayName: 'Collect platform owner',
   roles: ['platform_owner'],
   permissions: [
+    'overview.read',
+    'collections.read',
+    'payment_events.read',
     'payment_events.reparse',
-    'sms.reveal_raw',
-    'audit_logs.read',
+    'sms.metadata.read',
+    'sms.raw.reveal',
+    'audit.read',
     'system_health.read',
   ],
 );
@@ -1210,6 +1214,9 @@ class _FakeAdminRepository extends AdminRepository {
     String rpcName, {
     String? search,
     String? status,
+    int? limit,
+    int? offset,
+    String? sortBy,
   }) async {
     return AdminListResult(
       rows: switch (rpcName) {

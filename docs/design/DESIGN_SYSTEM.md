@@ -4,7 +4,7 @@ This file mirrors the enforceable contract in `DESIGN.md` and explains how it ma
 
 ## Design Direction
 
-The 2026-06-08 Revolut screenshots are a reference for mobile fintech quality: gradient page canvases, floating glass controls, compact account/payment hierarchy, rounded bottom navigation, and translucent content panels. Collect applies those principles with its own product model, assets, copy, four primary paint colors, Paper canvas, and selected supporting surface/status tokens.
+The 2026-06-08 Revolut screenshots are a reference for mobile fintech quality: gradient page canvases, floating glass controls, compact account/payment hierarchy, rounded bottom navigation, and translucent content panels. Collect applies those principles with its own product model, assets, copy, four primary colors, Paper canvas, and selected supporting surface/status tokens.
 
 Collect does not copy Revolut or Monzo visual assets, logos, trademarks, exact colors, fonts, screens, account labels, crypto/invest tabs, or product layouts.
 
@@ -22,9 +22,9 @@ Collect does not copy Revolut or Monzo visual assets, logos, trademarks, exact c
 
 Tokens live in `lib/app/theme/collect_colors.dart`.
 
-- Primary paint palette: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, Orange `#FF5E43`.
+- Primary palette: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, Orange `#FF5E43`.
 - Canvas: Paper `#FAF8F5`.
-- Page canvas: `screenBase`, `screenGradient`.
+- Page canvas: `screenBase`, `screenGradient`, with Paper as the base and the four primary colors as the gradient paints.
 - Glass surfaces: `glassPanel`, `glassPanelStrong`, `glassControl`, `glassBorder`, `glassPanelGradient`.
 - Secondary/support palette: Ink Primary `#252044`, Ink Secondary `#4B4664`, Ink Muted `#5F5A76`, Surface Readable `#FFFDFB`, Surface Muted `#F1ECF7`, Border Soft `#DED8EA`, Border Accent `#CDC7F5`, Focus Ring `#6F67E8`.
 - Semantic palette: Success Foreground `#137A3F` on `#E7F8ED`, Info Foreground `#514DD2` on `#ECEBFF`, Warning Foreground `#B9472E` on `#FFE9E3`, Danger Foreground `#B3261E` on `#FFE5DF`, Neutral Container `#F1ECF7`.

@@ -36,14 +36,31 @@ class HomeScreen extends ConsumerWidget {
       title: 'Home',
       showHeader: false,
       compact: true,
+      persistentPill: CollectTopChrome(
+        avatarLabel: profile?.publicId,
+        searchLabel: 'Search groups',
+        onSearchTap: () => context.go('/groups'),
+        onAvatarTap: () => context.go('/settings/profile'),
+        hasUnread: paymentIntents.isNotEmpty,
+        actions: [
+          CollectTopChromeAction(
+            icon: CollectIcons.pending,
+            tooltip: 'Notifications',
+            hasBadge: paymentIntents.isNotEmpty,
+            onPressed: () => context.go('/notifications'),
+          ),
+          CollectTopChromeAction(
+            icon: CollectIcons.profile,
+            tooltip: 'Profile',
+            onPressed: () => context.go('/settings/profile'),
+          ),
+        ],
+      ),
       children: [
-        _HomeBrandHeader(
-          publicId: profile?.publicId,
-          hasUnread: paymentIntents.isNotEmpty,
-        ),
         _HomeTotalCollectedCard(
           totalAmount: raisedTotal,
           collectionCount: collectionCount,
+          publicId: profile?.publicId,
         ),
         _HomeActionStrip(
           primaryCollection: collections.isEmpty ? null : collections.first,
@@ -120,133 +137,16 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-class _HomeBrandHeader extends StatelessWidget {
-  const _HomeBrandHeader({required this.hasUnread, this.publicId});
-
-  final String? publicId;
-  final bool hasUnread;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 2),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CollectBrandMark(
-                  compact: true,
-                  framed: false,
-                  width: 106,
-                  height: 31,
-                ),
-                if (publicId != null) ...[
-                  CollectSpacing.gap8,
-                  Row(
-                    children: [
-                      Icon(
-                        CollectIcons.profile,
-                        color: colors.textSecondary,
-                        size: 18,
-                      ),
-                      CollectSpacing.gapW8,
-                      Text(
-                        publicId!,
-                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: colors.textSecondary,
-                          fontWeight: FontWeight.w800,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ),
-        _HomeHeaderAction(
-          icon: CollectIcons.pending,
-          tooltip: 'Notifications',
-          hasBadge: hasUnread,
-          onPressed: () => context.go('/notifications'),
-        ),
-        CollectSpacing.gapW8,
-        _HomeHeaderAction(
-          icon: CollectIcons.profile,
-          tooltip: 'Profile',
-          onPressed: () => context.go('/settings/profile'),
-        ),
-      ],
-    );
-  }
-}
-
-class _HomeHeaderAction extends StatelessWidget {
-  const _HomeHeaderAction({
-    required this.icon,
-    required this.tooltip,
-    required this.onPressed,
-    this.hasBadge = false,
-  });
-
-  final IconData icon;
-  final String tooltip;
-  final VoidCallback onPressed;
-  final bool hasBadge;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Tooltip(
-      message: tooltip,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Material(
-            color: colors.glassControl,
-            shape: const CircleBorder(),
-            child: InkWell(
-              customBorder: const CircleBorder(),
-              onTap: onPressed,
-              child: SizedBox.square(
-                dimension: 48,
-                child: Icon(icon, color: colors.textPrimary, size: 24),
-              ),
-            ),
-          ),
-          if (hasBadge)
-            Positioned(
-              right: 3,
-              top: 3,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: colors.brandAction,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: colors.screenBase, width: 2),
-                ),
-                child: const SizedBox.square(dimension: 11),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
 class _HomeTotalCollectedCard extends StatelessWidget {
   const _HomeTotalCollectedCard({
     required this.totalAmount,
     required this.collectionCount,
+    this.publicId,
   });
 
   final int totalAmount;
   final int collectionCount;
+  final String? publicId;
 
   @override
   Widget build(BuildContext context) {
@@ -274,6 +174,25 @@ class _HomeTotalCollectedCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const CollectBrandMark(
+                compact: true,
+                framed: false,
+                width: 104,
+                height: 30,
+              ),
+              if (publicId != null) ...[
+                CollectSpacing.gap8,
+                Text(
+                  publicId!,
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.w800,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+              CollectSpacing.gap16,
               Text(
                 'TOTAL COLLECTED',
                 style: CollectTypography.eyebrowLabel(colors.textPrimary),

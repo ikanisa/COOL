@@ -14,7 +14,7 @@ brand-assets:
   source-preview: assets/brand/source_variants/collect_logo_preview_checkerboard_1254.png
 canvas:
   paper: '#FAF8F5'
-primary-paint-colors:
+primary-colors:
   periwinkle: '#8885F0'
   mint-green: '#3CD070'
   dusty-rose: '#D38B96'
@@ -51,10 +51,11 @@ Collect must feel like a modern fintech mobile app while staying fully Collect-o
 
 ## Non-Negotiables
 
-- Every member-facing production route must render on a gradient background derived from Collect's four primary paint colors over the Paper canvas.
-- Collect keeps four primary paint colors from the corrected brand assets: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, and Orange `#FF5E43`.
-- Paper `#FAF8F5` is the canvas/foundation color. It is not counted as a primary paint color.
-- Secondary/support colors are allowed only as named UI tokens for readable ink, glass surfaces, borders, focus, and semantic status foreground/container roles. They do not replace or expand the four primary paint colors.
+- Every member-facing production route must render on a gradient background derived from Collect's four primary colors over the Paper canvas.
+- Collect keeps four primary colors from the corrected brand assets: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, and Orange `#FF5E43`.
+- Paper `#FAF8F5` is the canvas/foundation color. It is not counted as a primary color.
+- Ink `#252044` is the high-contrast text/chrome anchor. It is a support token, not a primary color.
+- Secondary/support colors are allowed only as named UI tokens for readable surfaces, borders, focus, and semantic status foreground/container roles. They do not replace or expand the four primary colors.
 - Use Collect brand assets only: `CollectBrandMark` renders `assets/brand/generated/collect_wordmark_transparent.png`; launcher/platform icon use stays on generated PNG icon assets.
 - Route surfaces must use `ScreenScaffold`, `ScreenScaffoldLayout`, `PremiumScaffold`, or `CollectGradientBackground`.
 - Standalone flows that bypass `ScreenScaffold`, such as share/QR export surfaces, must explicitly wrap their page in `CollectGradientBackground`.
@@ -67,7 +68,7 @@ Collect must feel like a modern fintech mobile app while staying fully Collect-o
 
 Use the screenshots for these patterns:
 
-- Gradient canvas: every screen starts with a full-height gradient field built from the four paint colors over Paper.
+- Gradient canvas: every screen starts with a full-height gradient field built from the four primary colors over Paper.
 - Top chrome: brand/search/action areas read as compact floating pills or glass controls, not flat app bars.
 - Bottom navigation: rounded, translucent, fixed, thumb-first, and visually separated from the gradient.
 - Finance hierarchy: the main amount, state, group, or payment action is obvious within the first viewport.
@@ -78,13 +79,13 @@ Use the screenshots for these patterns:
 Do not copy these elements:
 
 - Revolut logo, trademarks, iconography, text, tab names, exact colors, exact card order, account names, crypto/invest labels, or screenshots.
-- Any brand palette outside Collect's approved four paint colors and Paper canvas.
+- Any brand palette outside Collect's approved four primary colors, Paper canvas, and named support tokens.
 
 ## Color And Gradient Tokens
 
 `CollectColors` is the source of truth.
 
-- `brandPrimaryColors` and `brandPrimaryHexes` lock the four approved primary paint colors in asset-sheet order.
+- `brandPrimaryColors` and `brandPrimaryHexes` lock the four approved primary colors in reference order.
 - `screenBase` and `screenGradient` own the page background.
 - `glassPanel`, `glassPanelStrong`, `glassControl`, `glassBorder`, and `glassPanelGradient` own translucent surfaces and chrome.
 - `surfaceReadable`, `surfaceMuted`, `borderSoft`, `borderAccent`, `focusRing`, and the `semantic*` token constants provide the secondary/support palette.

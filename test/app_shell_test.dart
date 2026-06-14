@@ -138,7 +138,7 @@ void main() {
 
     expect(qaRunner, contains('collect_mobile_design_compliance_audit'));
     expect(qaRunner, contains('mobile_design_compliance'));
-    expect(designAudit, contains('four_primary_paint_color_contract'));
+    expect(designAudit, contains('four_primary_color_contract'));
     expect(designAudit, contains('revolut_reference_collect_owned_contract'));
     expect(designAudit, contains('gradient_glass_screen_contract'));
     expect(designAudit, contains('mobile_brand_asset_contract'));

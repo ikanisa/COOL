@@ -3,11 +3,11 @@
 ## Status
 
 This file records the color-system cleanup performed after the repo-wide audit.
-The active design contract is now the four-primary-paint Collect palette in
+The active design contract is now the four-primary-color Collect palette in
 `DESIGN.md`, implemented through `CollectColors`. Paper `#FAF8F5` is the
-canvas/foundation color, not a primary paint swatch.
+canvas/foundation color, and Ink `#252044` is the high-contrast support token.
 
-## Approved Primary Paint Colors
+## Approved Primary Colors
 
 | Role | Hex |
 | --- | --- |
@@ -16,11 +16,12 @@ canvas/foundation color, not a primary paint swatch.
 | Brand orange-red | `#FF5E43` |
 | Brand mint green | `#3CD070` |
 
-## Approved Canvas Color
+## Approved Canvas And Support Anchors
 
 | Role | Hex |
 | --- | --- |
 | Paper canvas | `#FAF8F5` |
+| Ink support | `#252044` |
 
 ## Cleanup Completed
 
@@ -46,7 +47,7 @@ Future color work should follow these rules:
 
 - Feature, shared, core, and admin UI should not introduce literal color values.
 - Screens should use `context.collectColors` or shared component APIs.
-- The four brand paint colors belong in `CollectColors`, `DESIGN.md`, tests, and
+- The four brand primary colors belong in `CollectColors`, `DESIGN.md`, tests, and
   platform metadata only.
 - Platform resources and web metadata must match the `DESIGN.md` palette.
 - Camera and export surfaces may use special-case colors only through named

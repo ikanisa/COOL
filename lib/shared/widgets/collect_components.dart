@@ -167,19 +167,33 @@ class CollectCard extends StatelessWidget {
       ],
       _ => CollectShadows.card(),
     };
-    final decorated = AnimatedContainer(
-      duration: CollectMotion.duration(context, CollectMotion.fast),
-      curve: CollectMotion.standard,
-      decoration: BoxDecoration(
-        color: backgroundGradient == null
-            ? background.withValues(alpha: backgroundOpacity)
-            : null,
-        gradient: backgroundGradient,
-        borderRadius: radius,
-        border: border,
-        boxShadow: shadows,
+    final sigma = switch (emphasis) {
+      CollectCardEmphasis.flat => 0.0,
+      CollectCardEmphasis.compact => 8.0,
+      CollectCardEmphasis.outline => 10.0,
+      CollectCardEmphasis.tonal => 12.0,
+      CollectCardEmphasis.normal => 14.0,
+      CollectCardEmphasis.hero || CollectCardEmphasis.glow => 18.0,
+    };
+    final decorated = ClipRRect(
+      borderRadius: radius,
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
+        child: AnimatedContainer(
+          duration: CollectMotion.duration(context, CollectMotion.fast),
+          curve: CollectMotion.standard,
+          decoration: BoxDecoration(
+            color: backgroundGradient == null
+                ? background.withValues(alpha: backgroundOpacity)
+                : null,
+            gradient: backgroundGradient,
+            borderRadius: radius,
+            border: border,
+            boxShadow: shadows,
+          ),
+          child: Padding(padding: padding, child: child),
+        ),
       ),
-      child: Padding(padding: padding, child: child),
     );
     return Material(
       color: colors.transparent,
@@ -1031,6 +1045,10 @@ class MinimalStatePanel extends StatelessWidget {
           _ToneIcon(icon: icon, tone: tone, large: true),
           CollectSpacing.gap20,
           Text(title, style: Theme.of(context).textTheme.headlineMedium),
+          if (message.trim().isNotEmpty) ...[
+            CollectSpacing.gap8,
+            Text(message, style: Theme.of(context).textTheme.bodyMedium),
+          ],
           if (primaryAction != null || secondaryAction != null) ...[
             CollectSpacing.gap20,
             ?primaryAction,

@@ -24,14 +24,14 @@ class CollectShell extends StatelessWidget {
             ? SafeArea(
                 top: false,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+                  padding: const EdgeInsets.fromLTRB(14, 0, 14, 10),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(28),
+                    borderRadius: BorderRadius.circular(32),
                     child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                      filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          color: colors.glassControl,
+                          color: colors.glassControl.withValues(alpha: 0.86),
                           border: Border.all(color: colors.glassBorder),
                         ),
                         child: _CollectBottomNav(
@@ -100,7 +100,7 @@ class _CollectBottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     final textScale = MediaQuery.textScalerOf(context).scale(1);
     final showLabels = textScale <= 1.35;
-    final height = showLabels ? 66.0 : 58.0;
+    final height = showLabels ? 68.0 : 60.0;
     return Semantics(
       container: true,
       label: 'Primary navigation',
@@ -142,7 +142,12 @@ class _CollectBottomNavItem extends StatelessWidget {
     final colors = context.collectColors;
     final textTheme = Theme.of(context).textTheme;
     final foreground = selected ? colors.textPrimary : colors.textMuted;
-    final indicator = colors.actionColor.withValues(alpha: 0.18);
+    final indicator = LinearGradient(
+      colors: [
+        colors.actionColor.withValues(alpha: 0.22),
+        colors.periwinklePaint.withValues(alpha: 0.16),
+      ],
+    );
     return Tooltip(
       message: destination.label,
       child: Semantics(
@@ -154,20 +159,24 @@ class _CollectBottomNavItem extends StatelessWidget {
           containedInkWell: true,
           highlightShape: BoxShape.rectangle,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 7),
+            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 7),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
                 DecoratedBox(
                   decoration: BoxDecoration(
-                    color: selected ? indicator : colors.transparent,
-                    borderRadius: BorderRadius.circular(22),
+                    color: selected ? null : colors.transparent,
+                    gradient: selected ? indicator : null,
+                    borderRadius: BorderRadius.circular(999),
+                    border: selected
+                        ? Border.all(color: colors.glassBorder)
+                        : null,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 5,
+                      horizontal: 18,
+                      vertical: 6,
                     ),
                     child: Icon(
                       selected ? destination.selectedIcon : destination.icon,

@@ -43,6 +43,17 @@ declare
   receiver_phone text := '+250788111222';
   receiver_hash text := encode(extensions.digest('+250788111222', 'sha256'), 'hex');
 begin
+  if exists (
+    select 1
+    from information_schema.routine_privileges
+    where specific_schema = 'public'
+      and routine_name = 'admin_bootstrap_whatsapp_operator'
+      and privilege_type = 'EXECUTE'
+      and grantee in ('PUBLIC', 'anon', 'authenticated')
+  ) then
+    raise exception 'admin_bootstrap_whatsapp_operator must not be executable by browser roles';
+  end if;
+
   insert into auth.users (
     id,
     aud,

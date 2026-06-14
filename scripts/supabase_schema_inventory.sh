@@ -224,6 +224,11 @@ row = data.fetch("rows").first || {}
 inventory = row.fetch("inventory", row)
 
 expected = []
+logical_overload_replacements = [
+  "function|admin_list_allocations",
+  "function|admin_list_payment_events",
+  "function|admin_list_unallocated"
+]
 Dir["supabase/migrations/*.sql"].sort.each do |path|
   sql = File.read(path)
   events = []
@@ -263,6 +268,8 @@ Dir["supabase/migrations/*.sql"].sort.each do |path|
       table = object_key.split("|", 2).last
       expected.delete(object_key)
       expected.delete_if { |entry| entry.start_with?("policy|#{table}|") }
+    elsif logical_overload_replacements.include?(object_key)
+      next
     else
       expected.delete(object_key)
     end

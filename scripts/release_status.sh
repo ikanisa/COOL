@@ -22,7 +22,8 @@ blockers=()
 blocker_keys=()
 approval_gate_json="$(mktemp)"
 mobile_gate_json="$(mktemp)"
-trap 'rm -f "$approval_gate_json" "$mobile_gate_json"' EXIT
+admin_live_gate_json="$(mktemp)"
+trap 'rm -f "$approval_gate_json" "$mobile_gate_json" "$admin_live_gate_json"' EXIT
 
 add_blocker() {
   blocker_keys+=("$1")
@@ -93,8 +94,21 @@ else
   fi
 fi
 
+admin_pwa_live_status="missing"
 if [[ -z "$admin_pwa_live_url" ]]; then
   add_blocker "admin_pwa_live_url" "Admin PWA live deployment URL is missing."
+else
+  if ADMIN_PWA_LIVE_URL="$admin_pwa_live_url" "$ROOT_DIR/scripts/admin_pwa_live_gate.sh" --json >"$admin_live_gate_json"; then
+    admin_pwa_live_status="pass"
+  else
+    admin_live_gate_exit=$?
+    admin_pwa_live_status="fail"
+    if [[ "$admin_live_gate_exit" -eq 99 ]]; then
+      add_blocker "admin_pwa_live_gate" "Admin PWA live deployment gate is blocked."
+    else
+      add_blocker "admin_pwa_live_gate" "Admin PWA live deployment gate failed for the current URL."
+    fi
+  fi
 fi
 
 linked_sms_first_uat="${COLLECT_LINKED_SMS_FIRST_UAT_PASSED:-}"
@@ -146,6 +160,7 @@ if [[ "$output_format" == "json" ]]; then
     printf '    "android_release_signing_review": %s,\n' "$(json_escape "$(has_blocker android_release_signing_review && printf missing || printf current)")"
     printf '    "ios_release_scope": %s,\n' "$(json_escape "$(has_blocker ios_release_scope && printf missing || printf current)")"
     printf '    "admin_pwa_live_url": %s,\n' "$(json_escape "${admin_pwa_live_url:+present}")"
+    printf '    "admin_pwa_live_gate": %s,\n' "$(json_escape "$admin_pwa_live_status")"
     printf '    "linked_sms_first_uat": %s,\n' "$(json_escape "$linked_sms_first_uat")"
     printf '    "release_owner_signoff": %s\n' "$(json_escape "$release_owner_signoff_approved")"
     printf '  }\n'

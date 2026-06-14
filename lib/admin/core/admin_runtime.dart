@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -19,10 +18,12 @@ import '../shared/components/admin_filter_bar.dart';
 import '../shared/components/admin_metric_card.dart';
 import '../shared/components/admin_page.dart';
 import '../shared/components/admin_sensitive_data_gate.dart';
+import '../shared/components/admin_status_chip.dart';
 import 'admin_auth_guard.dart';
+import 'admin_error_boundary.dart';
 import 'admin_repository_base.dart';
 
-final adminRepositoryProvider = Provider<AdminRepository>((ref) {
+final adminRepositoryProvider = Provider<AdminRepositoryBase>((ref) {
   return AdminRepository(ref.watch(supabaseClientProvider));
 });
 
@@ -59,6 +60,7 @@ class AdminRepository extends AdminRepositoryBase {
 
   final SupabaseClient? _supabase;
 
+  @override
   Future<void> sendOtp({required String phone}) async {
     final normalizedPhone = _normalizeAdminPhone(phone);
     await _requireClient().auth.signInWithOtp(
@@ -67,6 +69,7 @@ class AdminRepository extends AdminRepositoryBase {
     );
   }
 
+  @override
   Future<AdminIdentity?> verifyOtp({
     required String phone,
     required String otp,
@@ -83,12 +86,13 @@ class AdminRepository extends AdminRepositoryBase {
         'Admin OTP verification did not create a session.',
       );
     }
-    await client.rpc<dynamic>('admin_bootstrap_whatsapp_operator');
     return currentIdentity();
   }
 
+  @override
   Future<void> signOut() async => _supabase?.auth.signOut();
 
+  @override
   Future<AdminIdentity?> currentIdentity() async {
     final client = _supabase;
     if (client == null) return null;
@@ -99,6 +103,7 @@ class AdminRepository extends AdminRepositoryBase {
     return AdminIdentity.fromJson(data);
   }
 
+  @override
   Future<List<AdminMetric>> overviewMetrics() async {
     final row = await rpcMap('admin_overview');
     final metrics = row['metrics'];
@@ -109,25 +114,61 @@ class AdminRepository extends AdminRepositoryBase {
     ];
   }
 
+  @override
   Future<AdminListResult> list(
     String rpcName, {
     String? search,
     String? status,
+    int? limit,
+    int? offset,
+    String? sortBy,
   }) async {
+    final trimmedSearch = search?.trim();
+    final normalizedSearch = trimmedSearch?.isEmpty == true
+        ? null
+        : trimmedSearch;
+    final normalizedStatus = status?.trim().isEmpty == true
+        ? null
+        : status?.trim();
+    final wantsServerWindow =
+        limit != null || offset != null || sortBy?.trim().isNotEmpty == true;
+    if (wantsServerWindow) {
+      try {
+        final row = await rpcMap(
+          rpcName,
+          params: {
+            'p_search': normalizedSearch,
+            'p_status': normalizedStatus,
+            'p_limit': limit,
+            'p_offset': offset ?? 0,
+            'p_sort': sortBy?.trim().isEmpty == true ? null : sortBy?.trim(),
+          },
+        );
+        return AdminListResult.fromJson(row);
+      } on PostgrestException catch (error) {
+        if (!_isLegacyListSignatureError(error)) rethrow;
+      }
+    }
     final row = await rpcMap(
       rpcName,
-      params: {
-        'p_search': search?.trim().isEmpty == true ? null : search?.trim(),
-        'p_status': status?.trim().isEmpty == true ? null : status?.trim(),
-      },
+      params: {'p_search': normalizedSearch, 'p_status': normalizedStatus},
     );
-    return AdminListResult.fromJson(row);
+    final legacyResult = AdminListResult.fromJson(row);
+    if (!wantsServerWindow || limit == null) return legacyResult;
+    final start = (offset ?? 0).clamp(0, legacyResult.rows.length);
+    final end = (start + limit).clamp(start, legacyResult.rows.length);
+    return AdminListResult(
+      rows: legacyResult.rows.sublist(start, end),
+      total: legacyResult.total ?? legacyResult.rows.length,
+    );
   }
 
+  @override
   Future<Map<String, dynamic>> detail(String rpcName, String id) {
     return rpcMap(rpcName, params: {'p_id': id});
   }
 
+  @override
   Future<Map<String, dynamic>> action(
     String rpcName,
     Map<String, dynamic> params,
@@ -163,6 +204,17 @@ class AdminRepository extends AdminRepositoryBase {
     }
     return normalized;
   }
+
+  bool _isLegacyListSignatureError(PostgrestException error) {
+    final message =
+        '${error.message} ${error.details ?? ''} ${error.hint ?? ''}'
+            .toLowerCase();
+    return message.contains('p_limit') ||
+        message.contains('p_offset') ||
+        message.contains('p_sort') ||
+        message.contains('function') && message.contains('not found') ||
+        error.code == 'PGRST202';
+  }
 }
 
 class AdminLoginPage extends ConsumerStatefulWidget {
@@ -191,7 +243,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
     final colors = context.collectColors;
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: colors.surfaceMuted,
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isCompact = constraints.maxWidth < 600;
@@ -211,14 +263,16 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                   width: contentWidth,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: colors.surfaceReadable,
                       borderRadius: BorderRadius.circular(28),
-                      border: Border.all(color: const Color(0xFFE8EAF0)),
-                      boxShadow: const [
+                      border: Border.all(color: colors.borderSoft),
+                      boxShadow: [
                         BoxShadow(
-                          color: Color(0x140B1020),
+                          color: CollectColors.inkPrimary.withValues(
+                            alpha: 0.08,
+                          ),
                           blurRadius: 40,
-                          offset: Offset(0, 22),
+                          offset: const Offset(0, 22),
                         ),
                       ],
                     ),
@@ -234,12 +288,12 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                                 width: 44,
                                 height: 44,
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFF0D1117),
+                                  color: CollectColors.inkPrimary,
                                   borderRadius: BorderRadius.circular(14),
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.lock_outline,
-                                  color: Colors.white,
+                                  color: colors.surfaceReadable,
                                   size: 21,
                                 ),
                               ),
@@ -251,7 +305,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                           Text(
                             'Collect admin login',
                             style: textTheme.headlineSmall?.copyWith(
-                              color: const Color(0xFF101217),
+                              color: colors.textPrimary,
                               fontWeight: FontWeight.w800,
                               height: 1.05,
                             ),
@@ -260,7 +314,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                           Text(
                             'Sign in with the registered admin WhatsApp number.',
                             style: textTheme.bodyLarge?.copyWith(
-                              color: const Color(0xFF596070),
+                              color: colors.textSecondary,
                               height: 1.45,
                             ),
                           ),
@@ -268,7 +322,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                           Text(
                             'WhatsApp phone',
                             style: textTheme.labelLarge?.copyWith(
-                              color: const Color(0xFF303541),
+                              color: colors.textPrimary,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -279,7 +333,7 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                             Text(
                               'OTP code',
                               style: textTheme.labelLarge?.copyWith(
-                                color: const Color(0xFF303541),
+                                color: colors.textPrimary,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -291,40 +345,51 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
                             _AdminLoginError(message: _error!),
                           ],
                           const SizedBox(height: 24),
-                          FilledButton.icon(
-                            onPressed: _isBusy ? null : _submit,
-                            style: FilledButton.styleFrom(
-                              minimumSize: const Size.fromHeight(58),
-                              backgroundColor: const Color(0xFF111318),
-                              foregroundColor: Colors.white,
-                              disabledBackgroundColor: const Color(0xFFE4E7EE),
-                              disabledForegroundColor: const Color(0xFF8B93A3),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  CollectRadius.md,
+                          Semantics(
+                            button: true,
+                            label: _otpSent
+                                ? 'Verify admin WhatsApp OTP'
+                                : 'Send admin WhatsApp OTP',
+                            hint: _otpSent
+                                ? 'Submits the one-time code and opens the admin console if this profile is approved.'
+                                : 'Sends a WhatsApp one-time password to the registered admin number.',
+                            enabled: !_isBusy,
+                            child: FilledButton.icon(
+                              onPressed: _isBusy ? null : _submit,
+                              style: FilledButton.styleFrom(
+                                minimumSize: const Size.fromHeight(58),
+                                backgroundColor: CollectColors.inkPrimary,
+                                foregroundColor: colors.surfaceReadable,
+                                disabledBackgroundColor:
+                                    colors.neutralContainer,
+                                disabledForegroundColor: colors.textMuted,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    CollectRadius.md,
+                                  ),
+                                ),
+                                textStyle: textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w800,
                                 ),
                               ),
-                              textStyle: textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                            icon: _isBusy
-                                ? const SizedBox(
-                                    width: 18,
-                                    height: 18,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Colors.white,
+                              icon: _isBusy
+                                  ? SizedBox(
+                                      width: 18,
+                                      height: 18,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: colors.surfaceReadable,
+                                      ),
+                                    )
+                                  : Icon(
+                                      _otpSent
+                                          ? Icons.verified_user_outlined
+                                          : Icons.chat_bubble_outline,
+                                      size: 20,
                                     ),
-                                  )
-                                : Icon(
-                                    _otpSent
-                                        ? Icons.verified_user_outlined
-                                        : Icons.chat_bubble_outline,
-                                    size: 20,
-                                  ),
-                            label: Text(
-                              _otpSent ? 'Verify code' : 'Send WhatsApp OTP',
+                              label: Text(
+                                _otpSent ? 'Verify code' : 'Send WhatsApp OTP',
+                              ),
                             ),
                           ),
                           const SizedBox(height: 18),
@@ -388,10 +453,10 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
     if (message.contains('registered admin WhatsApp number')) {
       return 'Use the registered admin WhatsApp number.';
     }
-    if (message.contains('admin_bootstrap_whatsapp_operator') ||
-        message.contains('profile setup') ||
-        message.contains('Platform owner role')) {
-      return 'WhatsApp verified, but admin profile setup failed. Request a new OTP and try again.';
+    if (message.contains('not authorized') ||
+        message.contains('overview.read') ||
+        message.contains('platform admin')) {
+      return 'WhatsApp verified, but this profile is not approved for admin access.';
     }
     return 'Admin sign-in failed. Try again.';
   }
@@ -404,38 +469,40 @@ class _AdminPhoneInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.collectColors;
     return Semantics(
       textField: true,
       label: 'WhatsApp phone',
+      hint: 'Registered Rwanda WhatsApp number used for Collect admin sign-in.',
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: const Color(0xFFF5F7FA),
+          color: colors.surfaceMuted,
           borderRadius: BorderRadius.circular(CollectRadius.md),
-          border: Border.all(color: const Color(0xFFDDE2EA)),
+          border: Border.all(color: colors.borderSoft),
         ),
         child: Row(
           children: [
             Container(
               height: 58,
               padding: const EdgeInsets.symmetric(horizontal: 14),
-              decoration: const BoxDecoration(
-                border: Border(right: BorderSide(color: Color(0xFFDDE2EA))),
+              decoration: BoxDecoration(
+                border: Border(right: BorderSide(color: colors.borderSoft)),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     'RW',
                     style: TextStyle(
-                      color: Color(0xFF111318),
+                      color: colors.textPrimary,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0,
                     ),
                   ),
-                  SizedBox(width: 6),
+                  const SizedBox(width: 6),
                   Icon(
                     Icons.keyboard_arrow_down,
-                    color: Color(0xFF596070),
+                    color: colors.textSecondary,
                     size: 18,
                   ),
                 ],
@@ -447,7 +514,7 @@ class _AdminPhoneInput extends StatelessWidget {
                 keyboardType: TextInputType.phone,
                 textInputAction: TextInputAction.next,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: const Color(0xFF111318),
+                  color: colors.textPrimary,
                   fontWeight: FontWeight.w700,
                 ),
                 decoration: const InputDecoration(
@@ -473,36 +540,41 @@ class _AdminOtpInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.collectColors;
     return Semantics(
       textField: true,
       label: 'OTP code',
+      hint: 'Six digit WhatsApp one-time password for admin sign-in.',
       child: TextField(
         controller: controller,
         keyboardType: TextInputType.number,
         textInputAction: TextInputAction.done,
         style: Theme.of(context).textTheme.titleMedium?.copyWith(
-          color: const Color(0xFF111318),
+          color: colors.textPrimary,
           fontWeight: FontWeight.w700,
         ),
         decoration: InputDecoration(
           hintText: '6-digit code',
           filled: true,
-          fillColor: const Color(0xFFF5F7FA),
+          fillColor: colors.surfaceMuted,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 18,
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(CollectRadius.md),
-            borderSide: const BorderSide(color: Color(0xFFDDE2EA)),
+            borderSide: BorderSide(color: colors.borderSoft),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(CollectRadius.md),
-            borderSide: const BorderSide(color: Color(0xFFDDE2EA)),
+            borderSide: BorderSide(color: colors.borderSoft),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(CollectRadius.md),
-            borderSide: const BorderSide(color: Color(0xFF111318), width: 2),
+            borderSide: const BorderSide(
+              color: CollectColors.inkPrimary,
+              width: 2,
+            ),
           ),
         ),
       ),
@@ -519,6 +591,7 @@ class _AdminLoginStatusChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       label: 'Secure admin area',
+      hint: 'Restricted console with audited operator activity.',
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: colors.successContainer,
@@ -552,18 +625,14 @@ class _AdminLoginAssuranceRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = Theme.of(context).textTheme.bodySmall?.copyWith(
-      color: const Color(0xFF6A7280),
-      height: 1.35,
-    );
+    final colors = context.collectColors;
+    final style = Theme.of(
+      context,
+    ).textTheme.bodySmall?.copyWith(color: colors.textMuted, height: 1.35);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Icon(
-          Icons.verified_user_outlined,
-          size: 18,
-          color: Color(0xFF4F7D5C),
-        ),
+        Icon(Icons.verified_user_outlined, size: 18, color: colors.success),
         const SizedBox(width: 8),
         Expanded(
           child: Text(
@@ -583,30 +652,29 @@ class _AdminLoginError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.collectColors;
     return Semantics(
       liveRegion: true,
+      label: 'Admin sign-in error',
+      value: message,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: const Color(0xFFFFECE8),
+          color: colors.dangerContainer,
           borderRadius: BorderRadius.circular(CollectRadius.md),
-          border: Border.all(color: const Color(0xFFFFC6BA)),
+          border: Border.all(color: colors.danger.withValues(alpha: 0.2)),
         ),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(
-                Icons.error_outline,
-                color: Color(0xFFB3261E),
-                size: 18,
-              ),
+              Icon(Icons.error_outline, color: colors.danger, size: 18),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   message,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: const Color(0xFF8F251C),
+                    color: colors.danger,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -620,14 +688,18 @@ class _AdminLoginError extends StatelessWidget {
 }
 
 class AdminDeniedPage extends StatelessWidget {
-  const AdminDeniedPage({super.key});
+  const AdminDeniedPage({this.requiredPermission, super.key});
+
+  final String? requiredPermission;
 
   @override
   Widget build(BuildContext context) {
-    return const AdminPage(
+    final permission = requiredPermission;
+    return AdminPage(
       title: 'Admin access required',
-      subtitle:
-          'Your Supabase session is active, but this profile does not have platform admin permissions.',
+      subtitle: permission == null
+          ? 'Your Supabase session is active, but this profile does not have platform admin permissions.'
+          : 'Your Supabase session is active, but this profile is missing $permission.',
     );
   }
 }
@@ -644,7 +716,7 @@ class AdminOverviewContent extends ConsumerWidget {
           'Live operational queues from Supabase. No raw SMS or private phone numbers are shown here.',
       child: metrics.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => Text(error.toString()),
+        error: (error, _) => AdminSafeErrorPanel(error: error),
         data: (items) {
           if (items.isEmpty) {
             return const AdminEmptyState(
@@ -682,10 +754,16 @@ class AdminRpcListPage extends ConsumerStatefulWidget {
 }
 
 class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
+  static const _pageSize = 25;
+
   final _search = TextEditingController();
   var _status = '';
+  var _sortBy = 'created_at_desc';
+  var _page = 0;
   late Future<AdminListResult> _future;
   var _lastRealtimeTick = 0;
+
+  _AdminListSpec get _spec => _AdminListSpec.forRpc(widget.rpcName);
 
   @override
   void initState() {
@@ -710,18 +788,30 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
     }
     return AdminPage(
       title: widget.title,
+      subtitle: _spec.subtitle,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AdminFilterBar(
             searchController: _search,
             status: _status,
+            sortBy: _sortBy,
+            statusOptions: _spec.statusOptions,
+            sortOptions: _spec.sortOptions,
             onStatusChanged: (value) => setState(() {
               _status = value;
+              _page = 0;
               _future = _load();
             }),
-            onRefresh: _refresh,
+            onSortChanged: (value) => setState(() {
+              _sortBy = value;
+              _page = 0;
+              _future = _load();
+            }),
+            onRefresh: () => _refresh(resetPage: true),
           ),
+          const SizedBox(height: 16),
+          _AdminQueueSummary(spec: _spec),
           const SizedBox(height: 16),
           FutureBuilder<AdminListResult>(
             future: _future,
@@ -729,24 +819,55 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
               if (snapshot.connectionState != ConnectionState.done) {
                 return const Center(child: CircularProgressIndicator());
               }
-              if (snapshot.hasError) return Text(snapshot.error.toString());
-              final rows = snapshot.data?.rows ?? const [];
+              if (snapshot.hasError) {
+                return AdminSafeErrorPanel(error: snapshot.error!);
+              }
+              final result = snapshot.data;
+              final rows = result?.rows ?? const [];
               if (rows.isEmpty) {
                 return AdminEmptyState(
                   title: 'No ${widget.title.toLowerCase()}',
                   message: 'Try another filter or refresh this queue.',
                 );
               }
-              return AdminDataTable(
-                rows: rows,
-                onOpen: _openRow,
-                trailingBuilder: widget.actionKind == null
-                    ? null
-                    : (row) => _AdminRowActions(
-                        row: row,
-                        actionKind: widget.actionKind!,
-                        onDone: _refresh,
-                      ),
+              final total = result?.total ?? rows.length;
+              final maxPage = total == 0
+                  ? 0
+                  : ((total - 1) / _pageSize).floor();
+              final page = _page.clamp(0, maxPage);
+              final start = page * _pageSize;
+              final end = (start + rows.length).clamp(0, total);
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AdminDataTable(
+                    rows: rows,
+                    onOpen: _openRow,
+                    trailingBuilder: widget.actionKind == null
+                        ? null
+                        : (row) => _AdminRowActions(
+                            row: row,
+                            actionKind: widget.actionKind!,
+                            onDone: () => _refresh(),
+                          ),
+                  ),
+                  const SizedBox(height: 12),
+                  _AdminPaginationBar(
+                    start: start + 1,
+                    end: end,
+                    total: total,
+                    canGoBack: page > 0,
+                    canGoNext: page < maxPage,
+                    onPrevious: () => setState(() {
+                      _page = page - 1;
+                      _future = _load();
+                    }),
+                    onNext: () => setState(() {
+                      _page = page + 1;
+                      _future = _load();
+                    }),
+                  ),
+                ],
               );
             },
           ),
@@ -758,11 +879,19 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   Future<AdminListResult> _load() {
     return ref
         .read(adminRepositoryProvider)
-        .list(widget.rpcName, search: _search.text, status: _status);
+        .list(
+          widget.rpcName,
+          search: _search.text,
+          status: _status,
+          limit: _pageSize,
+          offset: _page * _pageSize,
+          sortBy: _sortBy,
+        );
   }
 
-  void _refresh() {
+  void _refresh({bool resetPage = false}) {
     setState(() {
+      if (resetPage) _page = 0;
       _future = _load();
     });
   }
@@ -771,6 +900,249 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
     final prefix = widget.detailPathPrefix;
     if (prefix == null) return;
     context.go('$prefix/${row.id}');
+  }
+}
+
+class _AdminListSpec {
+  const _AdminListSpec({
+    required this.title,
+    required this.subtitle,
+    required this.statusOptions,
+    required this.sortOptions,
+    this.prioritySignals = const [],
+  });
+
+  final String title;
+  final String subtitle;
+  final List<AdminFilterOption> statusOptions;
+  final List<AdminFilterOption> sortOptions;
+  final List<_AdminQueueSignal> prioritySignals;
+
+  static const _defaultStatuses = [
+    AdminFilterOption(value: '', label: 'All'),
+    AdminFilterOption(value: 'pending', label: 'Pending'),
+    AdminFilterOption(value: 'active', label: 'Active'),
+    AdminFilterOption(value: 'needs_review', label: 'Review'),
+  ];
+
+  static const _defaultSorts = [
+    AdminFilterOption(value: 'created_at_desc', label: 'Newest'),
+    AdminFilterOption(value: 'created_at_asc', label: 'Oldest'),
+  ];
+
+  factory _AdminListSpec.forRpc(String rpcName) {
+    return switch (rpcName) {
+      'admin_list_payment_events' => const _AdminListSpec(
+        title: 'SMS parsing',
+        subtitle:
+            'Triage parsed MoMo SMS events, exceptions, and parser actions without exposing raw message bodies.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'needs_review', label: 'Review'),
+          AdminFilterOption(value: 'unallocated', label: 'Unallocated'),
+          AdminFilterOption(value: 'ambiguous', label: 'Ambiguous'),
+          AdminFilterOption(value: 'allocated', label: 'Allocated'),
+        ],
+        sortOptions: [
+          AdminFilterOption(value: 'created_at_desc', label: 'Newest'),
+          AdminFilterOption(value: 'created_at_asc', label: 'Oldest'),
+          AdminFilterOption(value: 'amount_desc', label: 'Amount high'),
+          AdminFilterOption(value: 'amount_asc', label: 'Amount low'),
+        ],
+        prioritySignals: [
+          _AdminQueueSignal(
+            Icons.rule_outlined,
+            'Investigate ambiguous parser matches',
+          ),
+          _AdminQueueSignal(
+            Icons.replay_outlined,
+            'Reason required before reparse',
+          ),
+          _AdminQueueSignal(
+            Icons.privacy_tip_outlined,
+            'Raw SMS hidden by default',
+          ),
+        ],
+      ),
+      'admin_list_allocations' => const _AdminListSpec(
+        title: 'Allocations',
+        subtitle:
+            'Review matched payment events and allocation history before operator escalation.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'allocated', label: 'Allocated'),
+          AdminFilterOption(value: 'needs_review', label: 'Review'),
+        ],
+        sortOptions: _defaultSorts,
+        prioritySignals: [
+          _AdminQueueSignal(Icons.account_tree_outlined, 'Matched events'),
+          _AdminQueueSignal(Icons.history_outlined, 'Audit history first'),
+        ],
+      ),
+      'admin_list_unallocated' => const _AdminListSpec(
+        title: 'Exceptions',
+        subtitle:
+            'Resolve unallocated, ambiguous, and needs-review MoMo events with audited operator context.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'Open'),
+          AdminFilterOption(value: 'needs_review', label: 'Review'),
+          AdminFilterOption(value: 'unallocated', label: 'Unallocated'),
+          AdminFilterOption(value: 'ambiguous', label: 'Ambiguous'),
+        ],
+        sortOptions: [
+          AdminFilterOption(value: 'created_at_desc', label: 'Newest'),
+          AdminFilterOption(value: 'created_at_asc', label: 'Oldest'),
+          AdminFilterOption(value: 'amount_desc', label: 'Amount high'),
+          AdminFilterOption(value: 'amount_asc', label: 'Amount low'),
+        ],
+        prioritySignals: [
+          _AdminQueueSignal(Icons.priority_high_outlined, 'Open exceptions'),
+          _AdminQueueSignal(Icons.notes_outlined, 'Document decisions'),
+          _AdminQueueSignal(Icons.lock_outline, 'No raw SMS in queue'),
+        ],
+      ),
+      'admin_list_sms_metadata' => const _AdminListSpec(
+        title: 'SMS metadata',
+        subtitle:
+            'Review parser metadata while raw SMS content remains behind audited reveal.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'needs_review', label: 'Review'),
+          AdminFilterOption(value: 'parsed', label: 'Parsed'),
+          AdminFilterOption(value: 'failed', label: 'Failed'),
+        ],
+        sortOptions: _defaultSorts,
+        prioritySignals: [
+          _AdminQueueSignal(Icons.sms_outlined, 'Metadata only'),
+          _AdminQueueSignal(Icons.verified_user_outlined, 'Reveal is audited'),
+        ],
+      ),
+      _ => const _AdminListSpec(
+        title: 'Admin queue',
+        subtitle: 'Filter, sort, and review operational records from Supabase.',
+        statusOptions: _defaultStatuses,
+        sortOptions: _defaultSorts,
+      ),
+    };
+  }
+}
+
+class _AdminQueueSignal {
+  const _AdminQueueSignal(this.icon, this.label);
+
+  final IconData icon;
+  final String label;
+}
+
+class _AdminQueueSummary extends StatelessWidget {
+  const _AdminQueueSummary({required this.spec});
+
+  final _AdminListSpec spec;
+
+  @override
+  Widget build(BuildContext context) {
+    if (spec.prioritySignals.isEmpty) return const SizedBox.shrink();
+    final colors = context.collectColors;
+    return Semantics(
+      container: true,
+      label: '${spec.title} operator workflow signals',
+      hint: spec.subtitle,
+      child: Wrap(
+        spacing: 10,
+        runSpacing: 10,
+        children: [
+          for (final signal in spec.prioritySignals)
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: colors.surfaceMuted,
+                borderRadius: BorderRadius.circular(CollectRadius.md),
+                border: Border.all(color: colors.borderSoft),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 10,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(signal.icon, size: 18, color: colors.textSecondary),
+                    const SizedBox(width: 8),
+                    Text(
+                      signal.label,
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: colors.textPrimary,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AdminPaginationBar extends StatelessWidget {
+  const _AdminPaginationBar({
+    required this.start,
+    required this.end,
+    required this.total,
+    required this.canGoBack,
+    required this.canGoNext,
+    required this.onPrevious,
+    required this.onNext,
+  });
+
+  final int start;
+  final int end;
+  final int total;
+  final bool canGoBack;
+  final bool canGoNext;
+  final VoidCallback onPrevious;
+  final VoidCallback onNext;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            'Showing $start-$end of $total',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ),
+        Semantics(
+          button: true,
+          label: 'Previous admin results page',
+          hint: canGoBack
+              ? 'Shows the previous page of admin queue results.'
+              : 'Unavailable on the first page.',
+          enabled: canGoBack,
+          child: IconButton.outlined(
+            tooltip: 'Previous page',
+            onPressed: canGoBack ? onPrevious : null,
+            icon: const Icon(Icons.chevron_left),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Semantics(
+          button: true,
+          label: 'Next admin results page',
+          hint: canGoNext
+              ? 'Shows the next page of admin queue results.'
+              : 'Unavailable on the last page.',
+          enabled: canGoNext,
+          child: IconButton.outlined(
+            tooltip: 'Next page',
+            onPressed: canGoNext ? onNext : null,
+            icon: const Icon(Icons.chevron_right),
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -787,15 +1159,26 @@ class _AdminRowActions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final identity = ref.watch(adminIdentityProvider).valueOrNull;
     return Wrap(
       spacing: 8,
       children: switch (actionKind) {
-        'payment_event_reparse' => [
-          TextButton(
-            onPressed: () => _reparse(context, ref),
-            child: const Text('Reparse'),
-          ),
-        ],
+        'payment_event_reparse'
+            when _adminHasPermission(identity, 'payment_events.reparse') =>
+          [
+            Semantics(
+              container: true,
+              button: true,
+              label: 'Request SMS reparse for ${row.title}',
+              hint: 'Opens a reason dialog before queuing a reparse action.',
+              child: ExcludeSemantics(
+                child: TextButton(
+                  onPressed: () => _reparse(context, ref),
+                  child: const Text('Reparse'),
+                ),
+              ),
+            ),
+          ],
         _ => const [],
       },
     );
@@ -839,12 +1222,19 @@ class AdminDetailPage extends ConsumerWidget {
           if (snapshot.connectionState != ConnectionState.done) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (snapshot.hasError) return Text(snapshot.error.toString());
+          if (snapshot.hasError) {
+            return AdminSafeErrorPanel(error: snapshot.error!);
+          }
           final data = snapshot.data ?? const {};
           if (data.isEmpty) {
             return const AdminEmptyState(title: 'Record not found');
           }
-          return _AdminJsonPanel(data: data);
+          return _AdminRecordDetailPanel(
+            title: title,
+            rpcName: rpcName,
+            id: id,
+            data: data,
+          );
         },
       ),
     );
@@ -859,6 +1249,7 @@ class AdminSmsDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(adminRealtimeTickProvider);
+    final identity = ref.watch(adminIdentityProvider).valueOrNull;
     return AdminPage(
       title: 'SMS metadata',
       subtitle:
@@ -871,24 +1262,38 @@ class AdminSmsDetailPage extends ConsumerWidget {
           if (snapshot.connectionState != ConnectionState.done) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (snapshot.hasError) return Text(snapshot.error.toString());
+          if (snapshot.hasError) {
+            return AdminSafeErrorPanel(error: snapshot.error!);
+          }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _AdminJsonPanel(data: snapshot.data ?? const {}),
-              const SizedBox(height: 16),
-              AdminSensitiveDataGate(
-                label: 'Raw SMS',
-                onReveal: (reason) async {
-                  final response = await ref
-                      .read(adminRepositoryProvider)
-                      .action('admin_reveal_raw_sms', {
-                        'p_sms_id': id,
-                        'p_reason': reason,
-                      });
-                  return (response['message'] as String?) ?? '';
-                },
+              _AdminRecordDetailPanel(
+                title: 'SMS metadata',
+                rpcName: 'admin_get_sms_metadata',
+                id: id,
+                data: snapshot.data ?? const {},
               ),
+              const SizedBox(height: 16),
+              if (identity?.permissions.contains('sms.raw.reveal') == true)
+                AdminSensitiveDataGate(
+                  label: 'Raw SMS',
+                  onReveal: (reason) async {
+                    final response = await ref
+                        .read(adminRepositoryProvider)
+                        .action('admin_reveal_raw_sms', {
+                          'p_sms_id': id,
+                          'p_reason': reason,
+                        });
+                    return (response['message'] as String?) ?? '';
+                  },
+                )
+              else
+                const AdminEmptyState(
+                  title: 'Raw SMS restricted',
+                  message:
+                      'This admin profile can review SMS metadata but cannot reveal raw message bodies.',
+                ),
             ],
           );
         },
@@ -897,23 +1302,381 @@ class AdminSmsDetailPage extends ConsumerWidget {
   }
 }
 
-class _AdminJsonPanel extends StatelessWidget {
-  const _AdminJsonPanel({required this.data});
+class _AdminRecordDetailPanel extends ConsumerWidget {
+  const _AdminRecordDetailPanel({
+    required this.title,
+    required this.rpcName,
+    required this.id,
+    required this.data,
+  });
 
+  final String title;
+  final String rpcName;
+  final String id;
   final Map<String, dynamic> data;
 
   @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SelectableText(
-          const JsonEncoder.withIndent('  ').convert(data),
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(fontFamily: 'monospace'),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final spec = _AdminDetailSpec.forRpc(rpcName, title);
+    final fields = _adminDetailFields(spec, data);
+    final identity = ref.watch(adminIdentityProvider).valueOrNull;
+    return Semantics(
+      container: true,
+      label: '${spec.heading} detail panel',
+      hint: spec.subtitle,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Wrap(
+                spacing: 12,
+                runSpacing: 8,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Text(
+                    spec.heading,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  if (_detailValue(data, const ['status']).isNotEmpty)
+                    AdminStatusChip(
+                      label: _detailValue(data, const ['status']),
+                    ),
+                ],
+              ),
+              if (spec.subtitle.isNotEmpty) ...[
+                const SizedBox(height: 8),
+                Text(
+                  spec.subtitle,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
+              const SizedBox(height: 16),
+              Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  for (final field in fields)
+                    _AdminDetailFieldCard(
+                      label: field.label,
+                      value: field.value,
+                    ),
+                ],
+              ),
+              if (rpcName == 'admin_get_payment_event' &&
+                  _adminHasPermission(identity, 'payment_events.reparse')) ...[
+                const SizedBox(height: 18),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Semantics(
+                    container: true,
+                    button: true,
+                    label: 'Request SMS payment event reparse',
+                    hint:
+                        'Opens a reason dialog before queuing this payment event for parser review.',
+                    child: ExcludeSemantics(
+                      child: FilledButton.icon(
+                        onPressed: () => _requestReparse(context, ref),
+                        icon: const Icon(Icons.replay_outlined),
+                        label: const Text('Request reparse'),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
         ),
       ),
     );
   }
+
+  Future<void> _requestReparse(BuildContext context, WidgetRef ref) async {
+    final reason = await showAdminReasonDialog(
+      context,
+      title: 'Request SMS reparse',
+      actionLabel: 'Request reparse',
+    );
+    if (reason == null) return;
+    await ref.read(adminRepositoryProvider).action(
+      'admin_reparse_payment_event',
+      {'p_event_id': id, 'p_reason': reason},
+    );
+  }
+}
+
+class _AdminDetailFieldCard extends StatelessWidget {
+  const _AdminDetailFieldCard({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Semantics(
+      label: label,
+      value: value,
+      readOnly: true,
+      child: ExcludeSemantics(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 220, maxWidth: 340),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+              borderRadius: BorderRadius.circular(CollectRadius.md),
+              border: Border.all(color: colorScheme.outlineVariant),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  SelectableText(
+                    value,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AdminDetailSpec {
+  const _AdminDetailSpec({
+    required this.heading,
+    required this.subtitle,
+    required this.fields,
+  });
+
+  final String heading;
+  final String subtitle;
+  final List<_AdminDetailFieldSpec> fields;
+
+  factory _AdminDetailSpec.forRpc(String rpcName, String fallbackTitle) {
+    return switch (rpcName) {
+      'admin_get_collection' => const _AdminDetailSpec(
+        heading: 'Group operations profile',
+        subtitle: 'Support and moderation context for this Collect group.',
+        fields: [
+          _AdminDetailFieldSpec('Group ID', ['id']),
+          _AdminDetailFieldSpec('Group name', ['name', 'title']),
+          _AdminDetailFieldSpec('Public ID', ['public_id', 'collect_id']),
+          _AdminDetailFieldSpec('Visibility', ['visibility']),
+          _AdminDetailFieldSpec('Members', ['member_count', 'members_count']),
+          _AdminDetailFieldSpec('Raised', ['total_raised', 'amount']),
+          _AdminDetailFieldSpec('Created', ['created_at']),
+        ],
+      ),
+      'admin_get_user' => const _AdminDetailSpec(
+        heading: 'Member support profile',
+        subtitle:
+            'Scoped member context for support without exposing raw identity data.',
+        fields: [
+          _AdminDetailFieldSpec('User ID', ['id', 'user_id']),
+          _AdminDetailFieldSpec('Collect ID', ['collect_id', 'public_id']),
+          _AdminDetailFieldSpec('Display name', ['display_name', 'name']),
+          _AdminDetailFieldSpec('Phone', ['phone_masked', 'phone']),
+          _AdminDetailFieldSpec('Status', ['status']),
+          _AdminDetailFieldSpec('Created', ['created_at']),
+        ],
+      ),
+      'admin_get_payment' => const _AdminDetailSpec(
+        heading: 'Payment intent review',
+        subtitle: 'Expected MoMo collection state and allocation context.',
+        fields: [
+          _AdminDetailFieldSpec('Intent ID', ['id']),
+          _AdminDetailFieldSpec('Group', ['collection_id', 'group_id']),
+          _AdminDetailFieldSpec('Member', ['user_id', 'member_id']),
+          _AdminDetailFieldSpec('Expected amount', [
+            'amount',
+            'expected_amount_rwf',
+          ]),
+          _AdminDetailFieldSpec('Status', ['status']),
+          _AdminDetailFieldSpec('Expires', ['expires_at']),
+          _AdminDetailFieldSpec('Created', ['created_at']),
+        ],
+      ),
+      'admin_get_payment_event' => const _AdminDetailSpec(
+        heading: 'SMS payment event review',
+        subtitle:
+            'Parsed payment event context for allocation, exception handling, and audit.',
+        fields: [
+          _AdminDetailFieldSpec('Event ID', ['id']),
+          _AdminDetailFieldSpec('Transaction', [
+            'transaction_id',
+            'momo_reference',
+          ]),
+          _AdminDetailFieldSpec('Amount', ['amount', 'amount_rwf']),
+          _AdminDetailFieldSpec('Sender', ['sender_masked', 'payer_masked']),
+          _AdminDetailFieldSpec('Receiver', [
+            'receiver_masked',
+            'receiver_momo_masked',
+          ]),
+          _AdminDetailFieldSpec('Payment intent', ['payment_intent_id']),
+          _AdminDetailFieldSpec('Status', ['status']),
+          _AdminDetailFieldSpec('Parsed', ['parsed_at', 'created_at']),
+        ],
+      ),
+      'admin_get_receiver' => const _AdminDetailSpec(
+        heading: 'Receiver route review',
+        subtitle:
+            'MoMo receiver routing context for payment allocation operations.',
+        fields: [
+          _AdminDetailFieldSpec('Receiver ID', ['id']),
+          _AdminDetailFieldSpec('Label', ['label', 'receiver_label']),
+          _AdminDetailFieldSpec('MoMo route', ['momo_masked', 'phone_masked']),
+          _AdminDetailFieldSpec('Group', ['collection_id', 'group_id']),
+          _AdminDetailFieldSpec('Status', ['status']),
+          _AdminDetailFieldSpec('Created', ['created_at']),
+        ],
+      ),
+      'admin_get_sms_metadata' => const _AdminDetailSpec(
+        heading: 'SMS metadata review',
+        subtitle:
+            'Message metadata only. Raw SMS content remains behind audited reveal.',
+        fields: [
+          _AdminDetailFieldSpec('SMS ID', ['id']),
+          _AdminDetailFieldSpec('Sender', ['sender_masked']),
+          _AdminDetailFieldSpec('Receiver', ['receiver_masked']),
+          _AdminDetailFieldSpec('Parser status', ['status', 'parser_status']),
+          _AdminDetailFieldSpec('Received', ['received_at', 'created_at']),
+        ],
+      ),
+      'admin_system_health' => const _AdminDetailSpec(
+        heading: 'System health',
+        subtitle: 'Live platform readiness signals for operators.',
+        fields: [
+          _AdminDetailFieldSpec('Status', ['status']),
+          _AdminDetailFieldSpec('Database', ['database', 'db']),
+          _AdminDetailFieldSpec('Edge functions', ['edge_functions']),
+          _AdminDetailFieldSpec('Realtime', ['realtime']),
+          _AdminDetailFieldSpec('Checked', ['checked_at', 'created_at']),
+        ],
+      ),
+      _ => _AdminDetailSpec(
+        heading: fallbackTitle,
+        subtitle: 'Structured operational fields for this admin record.',
+        fields: const [
+          _AdminDetailFieldSpec('Record ID', ['id']),
+          _AdminDetailFieldSpec('Status', ['status']),
+          _AdminDetailFieldSpec('Created', ['created_at']),
+        ],
+      ),
+    };
+  }
+}
+
+class _AdminDetailFieldSpec {
+  const _AdminDetailFieldSpec(this.label, this.keys);
+
+  final String label;
+  final List<String> keys;
+}
+
+class _AdminDetailFieldValue {
+  const _AdminDetailFieldValue({required this.label, required this.value});
+
+  final String label;
+  final String value;
+}
+
+List<_AdminDetailFieldValue> _adminDetailFields(
+  _AdminDetailSpec spec,
+  Map<String, dynamic> data,
+) {
+  final usedKeys = <String>{};
+  final fields = <_AdminDetailFieldValue>[];
+  for (final field in spec.fields) {
+    final value = _detailValue(data, field.keys, usedKeys: usedKeys);
+    if (value.isNotEmpty) {
+      fields.add(_AdminDetailFieldValue(label: field.label, value: value));
+    }
+  }
+  final extras = data.entries
+      .where((entry) {
+        return !usedKeys.contains(entry.key) && _isSafeDetailKey(entry.key);
+      })
+      .take(6);
+  for (final entry in extras) {
+    final value = _formatDetailValue(entry.value);
+    if (value.isNotEmpty) {
+      fields.add(
+        _AdminDetailFieldValue(
+          label: _labelizeDetailKey(entry.key),
+          value: value,
+        ),
+      );
+    }
+  }
+  return fields;
+}
+
+String _detailValue(
+  Map<String, dynamic> data,
+  List<String> keys, {
+  Set<String>? usedKeys,
+}) {
+  for (final key in keys) {
+    if (!_isSafeDetailKey(key)) continue;
+    if (!data.containsKey(key)) continue;
+    final value = _formatDetailValue(data[key]);
+    if (value.isEmpty) continue;
+    usedKeys?.add(key);
+    return value;
+  }
+  return '';
+}
+
+String _formatDetailValue(Object? value) {
+  if (value == null) return '';
+  if (value is DateTime) return _formatDetailDate(value);
+  if (value is num) return value.toString();
+  if (value is bool) return value ? 'Yes' : 'No';
+  if (value is List) {
+    return value.map(_formatDetailValue).where((v) => v.isNotEmpty).join(', ');
+  }
+  if (value is Map) return '';
+  return value.toString().trim();
+}
+
+String _labelizeDetailKey(String key) {
+  final words = key.split('_').where((word) => word.isNotEmpty).toList();
+  if (words.isEmpty) return 'Field';
+  final label = words.join(' ');
+  return label[0].toUpperCase() + label.substring(1);
+}
+
+bool _isSafeDetailKey(String key) {
+  final normalized = key.toLowerCase();
+  return !normalized.contains('raw') &&
+      !normalized.contains('secret') &&
+      !normalized.contains('token') &&
+      !normalized.contains('hash') &&
+      !normalized.contains('body') &&
+      !normalized.contains('pin');
+}
+
+String _formatDetailDate(DateTime value) {
+  return '${value.year.toString().padLeft(4, '0')}-'
+      '${value.month.toString().padLeft(2, '0')}-'
+      '${value.day.toString().padLeft(2, '0')}';
+}
+
+bool _adminHasPermission(AdminIdentity? identity, String permission) {
+  return identity?.permissions.contains(permission) == true;
 }

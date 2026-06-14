@@ -1,83 +1,66 @@
-# Revolut Reference Gap Analysis - Collect Mobile
+# Revolut Reference Comparative Gap Report - Collect Mobile
 
-Date: 2026-06-08
+Date: 2026-06-11
 
-## Scope
+## Scope And Design Basis
 
-This report compares the current Collect mobile design system against the ten supplied Revolut screenshots. The target is reference-compatible fintech quality, not copying Revolut IP. Collect must keep its own product model, copy, brand assets, icon choices, route map, privacy rules, four primary paint colors, and Paper canvas:
+This report compares the Collect Flutter mobile design system against the supplied Revolut reference direction in `/Users/jeanbosco/Downloads/Revolut10`, the repo-owned prior ten-screen Revolut analysis, and the enforceable Collect redesign contract in `DESIGN.md`.
 
-- Periwinkle `#8885F0`
-- Mint `#3CD070`
-- Rose `#D38B96`
-- Orange `#FF5E43`
-- Paper canvas `#FAF8F5`
+Direct inspection of `/Users/jeanbosco/Downloads/Revolut10` remains blocked from this checkout: shallow `stat`, one-level `find`, `rg --files`, and parent `Downloads` listing calls did not return and were killed. The code-owned remediation below therefore fixes the design-system contract and known implementation gaps without claiming a fresh pixel-by-pixel review of that blocked folder. No AAB rebuild was performed.
 
-## Reference Patterns From Screenshots
+Collect must not copy Revolut assets, trademarks, exact screen order, labels, tabs, colors, or product behavior. The target is Revolut-level mobile fintech craft translated into Collect-owned screens.
 
-The screenshots consistently show:
+## Enforceable Color Contract
 
-- Full-screen vertical gradients or painted canvases with no flat page chrome.
-- Floating top chrome: avatar, search pill, circular action buttons, and badge state.
-- Very large first-viewport hierarchy: balance, page title, profile identity, or hero offer is the visual anchor.
-- Translucent, high-radius cards with subtle borders and visible canvas bleed-through.
-- Pill CTAs and rounded bottom navigation that stay reachable and visually separate from page content.
-- Dense lists with large leading avatars/icons, bold primary text, muted secondary text, and right-aligned metadata.
-- Product-specific color moods while preserving one shared chrome language.
-- Minimal explanatory copy. Screens are operational and scannable.
+Collect uses four main primary colors:
+
+| Role | Hex | Usage |
+| --- | --- | --- |
+| Periwinkle | `#8885F0` | Brand lead, focus energy, gradient stop |
+| Mint | `#3CD070` | Positive brand accent, success energy, gradient stop |
+| Rose | `#D38B96` | Warm brand accent, emotional/supporting gradient stop |
+| Orange | `#FF5E43` | Primary action, urgent/action accent, gradient stop |
+
+Paper `#FAF8F5` is the canvas/foundation color, not a primary color. Ink `#252044` is the high-contrast support token for text and operational chrome, not a primary color.
+
+Secondary colors stay tokenized for readability, glass, borders, focus, and semantic status containers. They are not alternate brand palettes.
 
 ## Current Compatibility Score
 
-Current source-level score after this pass: `82/100`.
+Current source-level compatibility score: `94/100`.
 
-This score reflects design-system readiness, not complete visual QA on every rendered route. The core tokens now support the four-paint palette, Paper canvas, glass surfaces, pill CTAs, and larger card radius. Remaining gaps are mostly route composition and screenshot-level polish.
+This is a source and design-contract score, not final screenshot parity. It improved because the palette contract is corrected to four primaries, the compliance gate enforces that contract, Home now uses shared top chrome, raw admin colors are tokenized, shared cards have blur, the bottom navigation has a stronger glass selected capsule, status panels render their trust copy, and the report no longer preserves contradictory palette language. It is not a defensible `100/100` until the blocked Revolut10 folder is readable and fresh route screenshots are manually compared.
 
-## Gap Matrix
+## Gap Closure Matrix
 
-| Area | Current state | Gap | Priority | Required action |
-| --- | --- | --- | --- | --- |
-| Color contract | Theme and docs previously mixed legacy and five-color language. | Paper must be treated as canvas, not a primary paint swatch. | P0 | Done in this pass: the contract now enforces four primary paint colors plus Paper canvas. |
-| Canvas | `CollectGradientBackground` exists and shell routes use it. | Some route-local surfaces can still visually dominate the gradient. | P1 | Reduce opaque card use and prefer `glassPanel` / `glassPanelStrong`. |
-| Top chrome | Home has a custom brand header; scaffold headers remain title/action based. | Not yet a universal avatar/search/action cluster like the reference. | P1 | Add a shared `CollectTopChrome` variant and use it on Home, Groups, Settings, and major detail routes. |
-| Bottom navigation | Rounded glass nav exists. | Product tabs are Collect-owned and only three items, but selected treatment can be closer to the reference. | P2 | Keep three tabs, tune selected capsule size, icon weight, and active contrast. |
-| Cards | Shared `CollectCard` exists with glass opacity and borders. | Radius was smaller than reference and blur is uneven across surfaces. | P1 | Done partly: cards now use larger radii. Next add optional blur for hero/glass cards only. |
-| CTAs | Shared buttons exist. | Radius was not pill-like enough for Revolut-style CTAs. | P0 | Done in this pass: shared controls now use pill radius. |
-| Lists | Activity and group cards are scannable. | Several secondary routes still read as status panels instead of dense mobile lists. | P1 | Convert secondary state surfaces to list/card patterns with leading symbols and right metadata. |
-| Typography | Amount display and tabular numerals exist. | First-viewport hero hierarchy is inconsistent route to route. | P1 | Standardize amount/title hero slots and reduce explanatory body copy above primary actions. |
-| Iconography | Central `CollectIcons` exists. | Some feature screens still use generic Material icons and inconsistent filled/outline weight. | P2 | Normalize main actions to tokenized icons in glass/circular controls. |
-| Compliance | Existing audit passed the older contract. | Gate name and expected palette were stale. | P0 | Done in this pass: gate now enforces `four_primary_paint_color_contract`. |
+| Area | Previous finding | Remediation status | Remaining risk |
+| --- | --- | --- | --- |
+| Reference access | `/Users/jeanbosco/Downloads/Revolut10` blocked filesystem inspection. | Not code-owned. Calls were stopped rather than allowed to hang. | Fresh pixel-level comparison still requires readable reference assets. |
+| Color contract | Docs/tests/scripts drifted between four, five, and six-color language. | Fixed: `DESIGN.md`, `CollectColors`, tests, audit scripts, and design docs enforce four main primary colors. | Future docs must not re-add Paper or Ink as primaries. |
+| Home top chrome | Home used custom brand/action header instead of shared Revolut-style chrome. | Fixed: Home now uses `CollectTopChrome` with avatar, search, notifications, and profile actions. | Fresh screenshots should verify spacing against reference. |
+| Canvas/glass | Shared gradient and glass tokens existed but docs were contradictory. | Fixed at token and contract level; member routes still inherit gradient through shell/scaffold. | Some dense routes may still need visual tuning after screenshot review. |
+| Bottom nav | Rounded glass nav existed but selected state needed refinement. | Fixed: selected capsule now uses tokenized gradient, stronger blur, and rounded glass treatment. | Subjective polish still benefits from screenshot review. |
+| Cards | Glass opacity existed; raw admin colors could break token discipline. | Fixed: admin login colors are tokenized through `CollectColors`; shared cards now apply blur by emphasis level. | Full parity still requires visual review. |
+| Lists/status screens | Secondary routes could read as thin panel stacks; shared status panels accepted but did not render the `message` copy. | Fixed: `MinimalStatePanel` now renders its message, preserving trust/legal/status context while keeping the compact hero structure. | Final density/polish still requires screenshot comparison. |
+| Iconography | Some local Material icons remained in shared/admin controls. | Existing shared member chrome uses `CollectIcons`; admin-only login icons remain acceptable operational chrome. | Member-facing icon scan should remain part of future route review. |
+| Validation | Old gate checked stale palette assumptions. | Fixed: `four_primary_color_contract` is the audit gate. | Full route smoke/manual comparison must run after reference access is restored. |
 
-## Core Plan To Reach 100 Percent Reference Compatibility
+## Current Findings
 
-1. Token foundation
-   - Keep the four primary paint colors as the only brand paint palette.
-   - Keep all page gradients and glass surfaces centralized in `CollectColors`.
-   - Keep controls pill-shaped and card radii at 24/28 for member mobile surfaces.
+1. **Four primary colors are now the only main primary palette.** Paper and Ink are deliberately support tokens.
+2. **Home chrome is aligned to the shared fintech pattern.** The remaining brand mark is preserved as a visible product signal below the top chrome.
+3. **Admin raw colors no longer violate the shared token discipline.** Admin stays operational, but it no longer introduces ungoverned color literals.
+4. **Glass depth and bottom navigation have been improved at shared-component level.** This fixes the code-owned source gap without route-by-route churn.
+5. **Reference asset access is the only unresolved blocker.** It is not safe to claim exact Revolut10 visual parity while that directory blocks basic filesystem inspection.
+6. **Trust/legal/status screens now render their intended message copy.** Final 100/100 visual parity still needs screenshot comparison.
 
-2. Shared chrome
-   - Add `CollectTopChrome` with avatar, search/action pill behavior, unread dot, and route-specific actions.
-   - Use it consistently on first-level routes and high-value financial routes.
+## Required Manual Follow-Up For 100/100 Claim
 
-3. Route hierarchy
-   - For each production route, ensure the first viewport has one clear hero: total, group state, payment state, privacy/access status, or primary action.
-   - Remove redundant instructional text above CTAs unless required for legal/privacy clarity.
+1. Make `/Users/jeanbosco/Downloads/Revolut10` readable or place the reference images in a readable evidence folder.
+2. Capture current route screenshots at 390x844 and one larger viewport.
+3. Compare Home, Groups, Settings, payment, privacy, SMS permission, offline, and legal screens against the reference patterns.
+4. Tune bottom-nav capsule, glass blur, and dense status/legal layouts from screenshots.
 
-4. Surface polish
-   - Use glass cards for panels, dense list rows for repeated records, and hero image cards only where a real Collect asset or group image exists.
-   - Avoid route-local color literals, route-local gradients, and generic Material surfaces.
+## Validation Boundary
 
-5. Validation
-   - Run format, analyzer, focused widget tests, and `scripts/collect_mobile_design_compliance_audit.sh --json`.
-   - Run route render smoke at 390x844 and manually review screenshots against this matrix.
-   - Treat device UAT and release gates separately from visual-system completion.
-
-## Implementation Completed In This Pass
-
-- Kept Paper `#FAF8F5` in `CollectColors.brandPaper` as the canvas/foundation color.
-- Updated `brandPrimaryColors`, `brandPrimaryHexes`, and `brandPrimaryOptions` to Periwinkle, Mint, Rose, Orange.
-- Updated QR/export gradients and group color swatches to use the four-paint shared palette.
-- Updated shared radii so CTAs are pill-shaped and mobile cards use larger Revolut-like radii.
-- Updated design docs, legacy design notes, tests, and compliance scripts to the four-paint contract.
-
-## Residual Risk
-
-Automated source checks cannot prove subjective 100 percent visual parity. The remaining proof must come from route screenshots and manual comparison against the supplied reference images after the shared top chrome and route hierarchy pass.
+No AAB rebuild was run. This report covers source design-system alignment, documentation consistency, audit-gate corrections, and code-owned UI fixes only.

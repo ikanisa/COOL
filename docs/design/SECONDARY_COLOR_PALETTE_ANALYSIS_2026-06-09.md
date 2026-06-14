@@ -6,7 +6,7 @@ Basis: `DESIGN.md`, `CollectColors`, live Settings screen review, design-system/
 
 ## Executive Verdict
 
-Keep the four primary paints exactly as they are:
+Keep the four primary colors exactly as they are:
 
 | Role | Hex | Use |
 | --- | --- | --- |
@@ -17,7 +17,7 @@ Keep the four primary paints exactly as they are:
 
 The missing piece is not more primary color. The app needs a disciplined secondary system around those four colors: dark ink colors, pale glass/surface washes, border/divider colors, and darker semantic foregrounds for accessibility.
 
-The current four paints should stay as visible brand paints. Secondary colors should mostly be quiet support tokens that make the Revolut-style gradient/glass system feel premium, readable, and operational.
+Paper `#FAF8F5` should stay the canvas/foundation color. Ink `#252044` should stay the high-contrast support token. Secondary colors should mostly be quiet support tokens that make the Revolut-style gradient/glass system feel premium, readable, and operational.
 
 ## Critical Findings
 
@@ -177,7 +177,7 @@ Add or formalize secondary fields:
 Update behavior:
 
 - Body/list/card text uses `inkPrimary` or `inkSecondary`, never a primary paint.
-- Primary paints remain for gradient stops, hero accents, selected icons, illustration accents, group colors, and major visual anchors.
+- Primary colors remain for gradient stops, hero accents, selected icons, illustration accents, group colors, and major visual anchors.
 - Status chips use semantic foreground/container pairs.
 - Buttons using Orange should use `inkPrimary` text or a darker Orange action token, not white small text.
 - Borders default to `borderSoft`; only selected/focus states use stronger Periwinkle-derived borders.

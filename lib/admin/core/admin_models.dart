@@ -80,19 +80,19 @@ class AdminTableRowData {
 }
 
 class AdminListResult {
-  const AdminListResult({required this.rows});
+  const AdminListResult({required this.rows, this.total});
 
   final List<AdminTableRowData> rows;
+  final int? total;
 
   factory AdminListResult.fromJson(Map<String, dynamic> json) {
     final rows = json['rows'];
     if (rows is! List) return const AdminListResult(rows: []);
-    return AdminListResult(
-      rows: [
-        for (final row in rows)
-          AdminTableRowData.fromJson(Map<String, dynamic>.from(row as Map)),
-      ],
-    );
+    final parsedRows = [
+      for (final row in rows)
+        AdminTableRowData.fromJson(Map<String, dynamic>.from(row as Map)),
+    ];
+    return AdminListResult(rows: parsedRows, total: _intOrNull(json['total']));
   }
 }
 
@@ -113,5 +113,12 @@ List<String> _stringList(Object? value) {
 DateTime? _dateTimeOrNull(Object? value) {
   if (value is DateTime) return value;
   if (value is String && value.isNotEmpty) return DateTime.tryParse(value);
+  return null;
+}
+
+int? _intOrNull(Object? value) {
+  if (value is int) return value;
+  if (value is num) return value.toInt();
+  if (value is String) return int.tryParse(value);
   return null;
 }

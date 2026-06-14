@@ -6,7 +6,7 @@ Flutter app reviewed: `/Volumes/PRO-G40/COOL`
 
 Superseded palette note: this report is retained for historical screen-flow and
 interaction-pattern context only. The active color contract is the June 8
-Collect palette in `DESIGN.md`: four primary paint colors, Paper canvas, and
+Collect palette in `DESIGN.md`: four primary colors, Paper canvas, and
 semantic accessibility/status tokens. Any
 older legacy palette direction from the downloaded
 references is no longer current implementation guidance.
@@ -29,7 +29,7 @@ collapse multi-step financial flows into one card. The largest gaps are:
 
 - The visual identity was inconsistent with the reference system at the time
   of this report. That earlier reference palette is now superseded by the
-  Collect four-primary-paint color contract in `DESIGN.md`.
+  Collect four-primary color contract in `DESIGN.md`.
 - Several screens are present only as thin state cards with empty messages,
   which weakens trust in a payment/SMS verification product.
 - The contribution flow lacks the full amount entry, review, USSD/handoff,
