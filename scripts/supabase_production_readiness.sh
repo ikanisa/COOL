@@ -561,7 +561,7 @@ check_functions() {
     -H "x-hook-secret: $SEND_SMS_HOOK_SECRET" \
     --data '{"user":{"phone":"+250788123456"},"sms":{}}')"
   [[ "$status" == "400" ]] || fail "auth-send-whatsapp-otp probe expected HTTP 400, got $status"
-  grep -q 'Missing phone or OTP' "$body_file" || fail "auth-send-whatsapp-otp probe did not reach hook code"
+  grep -q 'Invalid OTP hook payload' "$body_file" || fail "auth-send-whatsapp-otp probe did not reach hook code"
 
   status="$(curl -sS -o "$body_file" -w '%{http_code}' \
     -X POST "$base_url/allocate-payment" \

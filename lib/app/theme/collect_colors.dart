@@ -86,6 +86,27 @@ class CollectColors extends ThemeExtension<CollectColors> {
   static const semanticWarningContainer = Color(0xFFFFE9E3);
   static const semanticDangerContainer = Color(0xFFFFE5DF);
   static const semanticNeutralContainer = Color(0xFFF1ECF7);
+  static const referenceAccountNavy = Color(0xFF000840);
+  static const referenceAccountNavyDeep = Color(0xFF000838);
+  static const referenceAccountBlue = Color(0xFF0818A0);
+  static const referenceAccountBlueMid = Color(0xFF0F198E);
+  static const referenceAccountBlueDeep = Color(0xFF070D60);
+  static const referencePaymentsPurple = Color(0xFF181038);
+  static const referencePaymentsPurpleMid = Color(0xFF302848);
+  static const referencePaymentsPurpleDeep = Color(0xFF100820);
+  static const referenceAssetNavy = Color(0xFF101830);
+  static const referenceAssetNavyMid = Color(0xFF303870);
+  static const referenceAssetNavySoft = Color(0xFF202858);
+  static const referenceRewardsViolet = Color(0xFF302878);
+  static const referenceRewardsVioletBright = Color(0xFF7050E8);
+  static const referenceRewardsVioletHot = Color(0xFF9838F0);
+  static const referenceWealthTeal = Color(0xFF102028);
+  static const referenceWealthTealMid = Color(0xFF204050);
+  static const referenceWealthTealSoft = Color(0xFF183848);
+  static const referenceContentDark = Color(0xFF101018);
+  static const referenceContentBronze = Color(0xFF303020);
+  static const referenceInvestTeal = Color(0xFF202828);
+  static const referenceStockTealBlack = Color(0xFF001010);
 
   static const brandPrimaryColors = <Color>[
     brandPeriwinkle,
@@ -132,6 +153,38 @@ class CollectColors extends ThemeExtension<CollectColors> {
     textMuted: inkMuted,
   );
 
+  static const dark = CollectColors(
+    periwinklePaint: brandPeriwinkle,
+    mintPaint: brandMintGreen,
+    rosePaint: brandDustyRose,
+    orangePaint: brandOrangeRed,
+    canvas: Color(0xFF080810),
+    surface: Color(0xFF080810),
+    surfaceReadable: Color(0xFF171624),
+    surfaceRaised: Color(0xFF201E32),
+    surfaceMuted: Color(0xFF2A2740),
+    border: Color(0xFF3E3A58),
+    borderSoft: Color(0xFF474263),
+    borderAccent: Color(0xFF6962AA),
+    focusRing: Color(0xFFA7A2FF),
+    success: Color(0xFF73E39B),
+    warning: Color(0xFFFFA487),
+    danger: Color(0xFFFF8C78),
+    info: Color(0xFFB8B4FF),
+    successForeground: Color(0xFF73E39B),
+    infoForeground: Color(0xFFB8B4FF),
+    warningForeground: Color(0xFFFFA487),
+    dangerForeground: Color(0xFFFF8C78),
+    successContainer: Color(0xFF123822),
+    infoContainer: Color(0xFF28234E),
+    warningContainer: Color(0xFF472117),
+    dangerContainer: Color(0xFF4B1D17),
+    neutralContainer: Color(0xFF2A2740),
+    textPrimary: Color(0xFFF7F4FF),
+    textSecondary: Color(0xFFD0CBDC),
+    textMuted: Color(0xFFAAA3BA),
+  );
+
   Color get paper => canvas;
   Color get surfaceLow => surfaceMuted;
   Color get surfaceHigh => surfaceRaised;
@@ -146,8 +199,8 @@ class CollectColors extends ThemeExtension<CollectColors> {
   Color get brandAction => brandOrangeRed;
   Color get brandSuccess => brandMintGreen;
   Color get transparent => transparentColor;
-  Color get onAccent => textPrimary;
-  Color get selectedOnAccent => textPrimary;
+  Color get onAccent => inkPrimary;
+  Color get selectedOnAccent => inkPrimary;
   Color get onImagePrimary => brandPaper;
   Color get onImageMuted => brandPaper.withValues(alpha: 0.72);
   Color get exportCanvas => brandPaper;
@@ -167,7 +220,7 @@ class CollectColors extends ThemeExtension<CollectColors> {
     CollectPaletteOption('#FF5E43', brandOrangeRed),
   ];
 
-  Color get screenBase => brandPaper;
+  Color get screenBase => referencePaymentsPurple;
 
   Color get glassPanel => surfaceReadable.withValues(alpha: 0.82);
 
@@ -179,22 +232,159 @@ class CollectColors extends ThemeExtension<CollectColors> {
 
   Color get glassScrim => inkPrimary.withValues(alpha: 0.08);
 
-  LinearGradient get screenGradient => LinearGradient(
+  LinearGradient get screenGradient => const LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      _screenTint(brandMintGreen, 0.34),
-      _screenTint(brandPeriwinkle, 0.38),
-      _screenTint(brandDustyRose, 0.24),
-      _screenTint(brandOrangeRed, 0.18),
-      brandPaper,
+      referencePaymentsPurpleMid,
+      referencePaymentsPurple,
+      referencePaymentsPurpleDeep,
     ],
-    stops: const [0, 0.22, 0.5, 0.78, 1],
+    stops: [0, 0.52, 1],
   );
 
-  Color _screenTint(Color brand, double alpha) {
-    return Color.alphaBlend(brand.withValues(alpha: alpha), brandPaper);
+  Gradient screenGradientForPath(String? path) {
+    final route = path ?? '';
+    if (route == '/home' ||
+        route.startsWith('/onboarding') ||
+        route.startsWith('/auth')) {
+      return referenceAccountGradient;
+    }
+    if (route.startsWith('/groups/create') ||
+        route.startsWith('/settings/profile') ||
+        route.startsWith('/settings/readiness') ||
+        route.startsWith('/permissions/sms') ||
+        route.startsWith('/permissions/camera') ||
+        route.startsWith('/permissions/device') ||
+        route.startsWith('/permissions/notifications-denied') ||
+        route.startsWith('/platform/iphone-create-unavailable')) {
+      return referenceWealthGradient;
+    }
+    if (route.contains('/pay/') ||
+        route.contains('/contribute') ||
+        route.contains('/support/payment') ||
+        route.contains('/state/') ||
+        route.contains('/ledger')) {
+      return referenceAssetGradient;
+    }
+    if (route.startsWith('/settings/account') ||
+        route.startsWith('/settings/privacy') ||
+        route.startsWith('/settings/help') ||
+        route.startsWith('/settings/legal')) {
+      return referenceContentGradient;
+    }
+    if (route.startsWith('/share') ||
+        route.contains('/share') ||
+        route.contains('/invite') ||
+        route == '/settings') {
+      return referenceRewardsGradient;
+    }
+    if (route == '/offline' || route == '/sync') return referenceInvestGradient;
+    if (route.startsWith('/notifications')) return referenceMarketGradient;
+    if (route.startsWith('/groups') || route.startsWith('/c/')) {
+      return referencePaymentsGradient;
+    }
+    return screenGradient;
   }
+
+  static const Gradient referenceAccountGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      referenceAccountBlue,
+      referenceAccountBlueMid,
+      referenceAccountNavyDeep,
+      Color(0xFF000030),
+    ],
+    stops: [0, 0.30, 0.68, 1],
+  );
+
+  static const Gradient referenceWealthGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      referenceWealthTealMid,
+      referenceWealthTealSoft,
+      referenceWealthTeal,
+      Color(0xFF081820),
+    ],
+    stops: [0, 0.36, 0.72, 1],
+  );
+
+  static const Gradient referencePaymentsGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      referencePaymentsPurpleMid,
+      referencePaymentsPurple,
+      referencePaymentsPurpleDeep,
+    ],
+    stops: [0, 0.54, 1],
+  );
+
+  static const Gradient referenceAssetGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      referenceAssetNavyMid,
+      referenceAssetNavySoft,
+      referenceAssetNavy,
+      Color(0xFF000818),
+    ],
+    stops: [0, 0.34, 0.72, 1],
+  );
+
+  static const Gradient referenceRewardsGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      referenceRewardsVioletHot,
+      referenceRewardsVioletBright,
+      referenceRewardsViolet,
+      referencePaymentsPurpleDeep,
+    ],
+    stops: [0, 0.32, 0.70, 1],
+  );
+
+  static const Gradient referenceMarketGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      referencePaymentsPurpleMid,
+      referencePaymentsPurple,
+      referenceContentDark,
+    ],
+    stops: [0, 0.58, 1],
+  );
+
+  static const Gradient referenceContentGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      referenceContentBronze,
+      referencePaymentsPurple,
+      referenceContentDark,
+    ],
+    stops: [0, 0.48, 1],
+  );
+
+  static const Gradient referenceInvestGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [referenceInvestTeal, referenceWealthTeal, referenceStockTealBlack],
+    stops: [0, 0.48, 1],
+  );
+
+  LinearGradient get adminScreenGradient => const LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      referenceStockTealBlack,
+      referenceAssetNavy,
+      referencePaymentsPurple,
+    ],
+    stops: [0, 0.54, 1],
+  );
 
   LinearGradient get glassPanelGradient => LinearGradient(
     begin: Alignment.topLeft,
@@ -364,6 +554,11 @@ class CollectPaletteOption {
 }
 
 extension CollectColorsTheme on BuildContext {
-  CollectColors get collectColors =>
-      Theme.of(this).extension<CollectColors>() ?? CollectColors.light;
+  CollectColors get collectColors {
+    final theme = Theme.of(this);
+    return theme.extension<CollectColors>() ??
+        (theme.brightness == Brightness.dark
+            ? CollectColors.dark
+            : CollectColors.light);
+  }
 }

@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:collect_app/admin/admin_app.dart';
 import 'package:collect_app/admin/admin_router.dart';
 import 'package:collect_app/admin/admin_shell.dart';
+import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
   const expectedAdminRoutes = <String>[
@@ -55,6 +57,32 @@ void main() {
     expect(script, isNot(contains('--dart-define=SUPABASE_SERVICE_ROLE_KEY')));
     expect(script, isNot(contains('--dart-define=WHATSAPP_CLOUD_API_TOKEN')));
     expect(script, isNot(contains('--dart-define=OPENAI_API_KEY')));
+    expect(script, isNot(contains('ADMIN_PWA_EVIDENCE_MODE')));
+  });
+
+  test('admin authenticated render evidence is explicit and masked', () {
+    final script = File(
+      'scripts/admin_pwa_authenticated_render_smoke.sh',
+    ).readAsStringSync();
+    final evidenceMode = File(
+      'lib/admin/core/admin_evidence_mode.dart',
+    ).readAsStringSync();
+
+    expect(script, contains('--dart-define=ADMIN_PWA_EVIDENCE_MODE=true'));
+    expect(script, contains('admin_pwa_evidence_mode'));
+    expect(script, contains('png_capture_check.mjs'));
+    expect(script, contains('/admin/payment-events'));
+    expect(script, contains('/admin/sms/sms-1'));
+    expect(evidenceMode, contains('bool.fromEnvironment'));
+    expect(evidenceMode, contains('Masked sender and allocation review'));
+    expect(evidenceMode, contains('+250***4321'));
+    expect(evidenceMode, isNot(contains('service_role')));
+    expect(evidenceMode, isNot(contains('MOMO body redacted for test')));
+  });
+
+  test('admin evidence overrides stay disabled by default', () {
+    expect(adminPwaEvidenceMode, isFalse);
+    expect(adminEvidenceOverrides(), isEmpty);
   });
 
   testWidgets('admin app blocks default non-admin state', (tester) async {
@@ -62,7 +90,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Collect admin login'), findsOneWidget);
     final phoneField = tester.widget<TextField>(find.byType(TextField).first);
-    expect(phoneField.controller?.text, '+250788767816');
+    expect(phoneField.controller?.text, isEmpty);
     expect(find.text('Operations overview'), findsNothing);
   });
 
@@ -83,16 +111,37 @@ void main() {
         findsOne,
       );
       expect(find.semantics.byLabel('Send admin WhatsApp OTP'), findsOne);
-      expect(
-        find.semantics.byHint(
-          'Sends a WhatsApp one-time password to the registered admin number.',
-        ),
-        findsOne,
-      );
+      expect(find.semantics.byHint('Sends the OTP.'), findsOne);
       expect(find.semantics.byLabel(RegExp('Secure')), findsWidgets);
     } finally {
       semantics.dispose();
     }
+  });
+
+  testWidgets('admin login sanitizes raw Supabase hook failures', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          adminRepositoryProvider.overrideWithValue(_RawHookErrorRepository()),
+        ],
+        child: const CollectAdminApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.widgetWithText(FilledButton, 'Send WhatsApp OTP'));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text(
+        'WhatsApp could not send the OTP. Check the approved template and try again.',
+      ),
+      findsOneWidget,
+    );
+    expect(find.textContaining('status code returned from hook'), findsNothing);
+    expect(find.textContaining('AuthRetryableFetchException'), findsNothing);
   });
 
   test('admin login does not render raw Supabase hook errors', () {
@@ -107,7 +156,8 @@ void main() {
       contains('WhatsApp verified, but this profile is not approved'),
     );
     expect(runtime, contains('status code returned from hook'));
-    expect(runtime, contains('AuthRetryableFetchException'));
+    expect(runtime, contains('authretryablefetchexception'));
+    expect(runtime, contains('error sending confirmation'));
     expect(runtime, isNot(contains('_error = error.toString()')));
   });
 
@@ -195,6 +245,34 @@ void main() {
     expect(find.text('SMS'), findsNothing);
   });
 
+  testWidgets('admin unknown routes render branded recovery actions', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          adminAuthGuardProvider.overrideWithValue(
+            const AdminAuthGuard(isAuthorized: true),
+          ),
+          adminIdentityProvider.overrideWith((ref) async => _adminIdentity),
+        ],
+        child: const CollectAdminApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    GoRouter.of(
+      tester.element(find.text('Operations overview')),
+    ).go('/admin/missing-screen');
+    await tester.pumpAndSettle();
+
+    expect(find.text('Admin route not found'), findsOneWidget);
+    expect(find.textContaining('/admin/missing-screen'), findsOneWidget);
+    expect(find.text('This admin screen is unavailable'), findsOneWidget);
+    expect(find.text('Operations overview'), findsOneWidget);
+    expect(find.text('Admin login'), findsOneWidget);
+  });
+
   testWidgets('admin shell can render directly', (tester) async {
     final semantics = tester.ensureSemantics();
     try {
@@ -244,12 +322,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Raw SMS queue'), findsNothing);
     expect(find.text('Admin access required'), findsOneWidget);
-    expect(
-      find.text(
-        'Your Supabase session is active, but this profile is missing sms.metadata.read.',
-      ),
-      findsOneWidget,
-    );
+    expect(find.text('Missing sms.metadata.read.'), findsOneWidget);
   });
 
   testWidgets('admin shell matches seeded role-matrix navigation', (
@@ -311,24 +384,20 @@ void main() {
     expect(find.text('Admin users'), findsOneWidget);
   });
 
-  testWidgets('admin shell explains missing permission for role direct routes', (
-    tester,
-  ) async {
-    await _pumpAdminShell(
-      tester,
-      identity: _supportIdentity,
-      location: '/admin/settings',
-      child: const Text('Settings content'),
-    );
-    expect(find.text('Settings content'), findsNothing);
-    expect(find.text('Admin access required'), findsOneWidget);
-    expect(
-      find.text(
-        'Your Supabase session is active, but this profile is missing settings.read.',
-      ),
-      findsOneWidget,
-    );
-  });
+  testWidgets(
+    'admin shell explains missing permission for role direct routes',
+    (tester) async {
+      await _pumpAdminShell(
+        tester,
+        identity: _supportIdentity,
+        location: '/admin/settings',
+        child: const Text('Settings content'),
+      );
+      expect(find.text('Settings content'), findsNothing);
+      expect(find.text('Admin access required'), findsOneWidget);
+      expect(find.text('Missing settings.read.'), findsOneWidget);
+    },
+  );
 
   testWidgets('admin shell does not show fake actions or metrics', (
     tester,
@@ -375,7 +444,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Showing 1-25 of 30'), findsOneWidget);
-      expect(find.text('Investigate ambiguous parser matches'), findsOneWidget);
+      expect(find.text('Ambiguous matches'), findsOneWidget);
       expect(find.text('Ambiguous'), findsOneWidget);
       expect(find.semantics.byLabel('Next admin results page'), findsOne);
       expect(
@@ -432,12 +501,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('SMS payment event review'), findsOneWidget);
-      expect(
-        find.text(
-          'Parsed payment event context for allocation, exception handling, and audit.',
-        ),
-        findsOneWidget,
-      );
+      expect(find.text('Parsed payment event.'), findsOneWidget);
       expect(find.text('Transaction'), findsOneWidget);
       expect(find.text('MOMO-001'), findsOneWidget);
       expect(find.text('Amount'), findsOneWidget);
@@ -446,12 +510,7 @@ void main() {
         find.semantics.byLabel('SMS payment event review detail panel'),
         findsOne,
       );
-      expect(
-        find.semantics.byHint(
-          'Parsed payment event context for allocation, exception handling, and audit.',
-        ),
-        findsOne,
-      );
+      expect(find.semantics.byHint('Parsed payment event.'), findsOne);
       expect(find.semantics.byValue('MOMO-001'), findsOne);
       expect(
         find.semantics.byLabel('Request SMS payment event reparse'),
@@ -718,6 +777,17 @@ const _paymentReadOnlyIdentity = AdminIdentity(
   roles: ['read_only_admin'],
   permissions: ['payment_events.read'],
 );
+
+class _RawHookErrorRepository extends AdminRepository {
+  _RawHookErrorRepository() : super(null);
+
+  @override
+  Future<void> sendOtp({required String phone}) async {
+    throw Exception(
+      'AuthRetryableFetchException: status code returned from hook: 500',
+    );
+  }
+}
 
 class _PagingAdminRepository extends AdminRepository {
   _PagingAdminRepository() : super(null);

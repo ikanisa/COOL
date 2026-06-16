@@ -219,7 +219,7 @@ void main() {
     expect(find.text('MEMBERS'), findsNothing);
     expect(find.byIcon(CollectIcons.money), findsWidgets);
     expect(find.byIcon(CollectIcons.people), findsWidgets);
-    expect(find.byIcon(CollectIcons.qr), findsWidgets);
+    expect(find.byTooltip('Share'), findsOneWidget);
     expect(find.textContaining('PARTICIP'), findsNothing);
     expectNoGlobalSecrets();
   });
@@ -250,12 +250,14 @@ void main() {
 
     expect(find.text('Waiting for MoMo SMS'), findsNothing);
     expect(find.text('Waiting for MoMo SMS verification.'), findsOneWidget);
+    await scrollToVisible(tester, find.text('St Michel treasury'));
     expect(find.text('St Michel treasury'), findsOneWidget);
-    expect(find.textContaining('+250788123456'), findsWidgets);
+    expect(find.textContaining('+250788123456'), findsNothing);
+    expect(find.text('+250***3456'), findsWidgets);
     router.go('/groups/col-church/ledger');
     await pumpLaunchFrames(tester);
 
-    expect(find.text('Ledger'), findsOneWidget);
+    expect(find.text('Ledger'), findsWidgets);
     expect(find.text('Private'), findsNothing);
     expect(find.text('Safe ledger'), findsNothing);
     expect(find.text('038491'), findsWidgets);
@@ -281,8 +283,8 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('St Michel building fund'), findsWidgets);
-    expect(find.text('Activity'), findsOneWidget);
-    expect(find.text('Share'), findsNothing);
+    await scrollToVisible(tester, find.text('Activity'));
+    expect(find.text('Activity'), findsWidgets);
     expect(find.text('Save'), findsNothing);
     expect(find.text('SMS'), findsNothing);
     expect(find.text('WhatsApp'), findsNothing);
@@ -461,6 +463,7 @@ void main() {
     );
 
     expect(find.text('Profile setup'), findsWidgets);
+    await scrollToVisible(tester, find.text('COLLECT ID'));
     expect(find.text('COLLECT ID'), findsOneWidget);
     expect(find.text('038491'), findsOneWidget);
 
@@ -503,7 +506,7 @@ void main() {
     await pumpMainAppAt(tester, '/permissions/device');
 
     expect(find.text('App access'), findsWidgets);
-    expect(find.text('Permission use'), findsOneWidget);
+    expect(find.text('Permission use'), findsNothing);
     expect(find.text('SMS access'), findsWidgets);
     expect(find.text('Notifications'), findsWidgets);
     await scrollToVisible(tester, find.text('Privacy'));
@@ -539,7 +542,8 @@ void main() {
     expect(find.text('Review contribution'), findsOneWidget);
     expect(find.text('St Michel building fund'), findsWidgets);
     expect(find.text('St Michel treasury'), findsOneWidget);
-    expect(find.text('+250788123456'), findsOneWidget);
+    expect(find.text('+250788123456'), findsNothing);
+    expect(find.text('+250***3456'), findsOneWidget);
     expect(find.text('038491'), findsNothing);
 
     await tapVisible(
@@ -575,7 +579,8 @@ void main() {
     expect(find.text('St Michel building fund'), findsWidgets);
     expect(find.text('RWF 12,000'), findsWidgets);
     expect(find.text('St Michel treasury'), findsOneWidget);
-    expect(find.text('+250788123456'), findsOneWidget);
+    expect(find.text('+250788123456'), findsNothing);
+    expect(find.text('+250***3456'), findsOneWidget);
     expect(find.byTooltip('Refresh payment status'), findsOneWidget);
 
     await scrollToVisible(tester, find.text('Waiting for MoMo SMS'));
@@ -700,6 +705,7 @@ void main() {
     await pumpMainAppAt(tester, '/settings');
 
     expect(find.text('Settings'), findsWidgets);
+    expect(find.text('Ready for group activity'), findsOneWidget);
     expect(find.text('Device permissions'), findsOneWidget);
     expect(find.text('SMS access'), findsNothing);
     expect(find.text('Linked MoMo'), findsNothing);
@@ -729,6 +735,7 @@ void main() {
     final router = GoRouter.of(
       tester.element(find.text('Privacy and data').first),
     );
+    expect(find.text('Private by default'), findsOneWidget);
     expect(find.text('Collect ID first.'), findsOneWidget);
     expect(find.textContaining('No names, no phone numbers'), findsNothing);
     expect(find.text('What SMS messages are read'), findsNothing);
@@ -736,26 +743,19 @@ void main() {
     expect(find.text('What is sent to Supabase'), findsNothing);
     expect(find.text('Retention and audit boundary'), findsNothing);
 
-    router.go('/permissions/sms');
-    await pumpLaunchFrames(tester);
-
-    expect(find.text('SMS access'), findsWidgets);
-    expect(find.textContaining('automatically record'), findsNothing);
-    expect(find.text('What Collect reads'), findsNothing);
-    expect(find.text('What is parsed'), findsNothing);
-    expect(find.text('What is synced'), findsNothing);
-    expect(find.text('Privacy details'), findsNothing);
-
     router.go('/notifications');
     await pumpLaunchFrames(tester);
 
     expect(find.text('Notifications'), findsWidgets);
+    expect(find.text('Signals that matter'), findsNothing);
     expect(find.text('Security notices'), findsOneWidget);
 
     router.go('/settings/legal/privacy');
     await pumpLaunchFrames(tester);
 
     expect(find.text('Privacy Policy'), findsWidgets);
+    expect(find.text('Data boundary'), findsNothing);
+    await scrollToVisible(tester, find.text('Data we collect'));
     expect(find.text('Data we collect'), findsOneWidget);
     expect(find.text('How we use data'), findsOneWidget);
     await scrollToVisible(tester, find.text('What stays private'));
@@ -939,9 +939,11 @@ void main() {
     await pumpMainAppAt(tester, '/settings/help');
 
     expect(find.text('WhatsApp support'), findsOneWidget);
+    expect(find.text('Support without secrets'), findsOneWidget);
     expect(find.text('Contact support on WhatsApp.'), findsNothing);
     expect(find.text('Support'), findsOneWidget);
     expect(find.text('+250795588248'), findsNothing);
+    await scrollToVisible(tester, find.text('Open WhatsApp'));
     expect(find.text('Open WhatsApp'), findsOneWidget);
     expect(find.text('Subject'), findsNothing);
     expect(find.text('Message'), findsNothing);
@@ -954,18 +956,24 @@ void main() {
     await pumpMainAppAt(tester, '/settings/legal/privacy');
 
     expect(find.text('Privacy Policy'), findsWidgets);
-    expect(find.text('Data we collect'), findsOneWidget);
-    expect(find.text('How we use data'), findsOneWidget);
     final router = GoRouter.of(
       tester.element(find.text('Privacy Policy').first),
     );
+    expect(find.text('Data boundary'), findsNothing);
+    await scrollToVisible(tester, find.text('Data we collect'));
+    expect(find.text('Data we collect'), findsOneWidget);
+    expect(find.text('How we use data'), findsOneWidget);
     await tester.drag(find.byType(ListView).last, const Offset(0, -700));
     await pumpLaunchFrames(tester);
-    expect(find.textContaining('not public group content'), findsNothing);
+    expect(find.textContaining('+250788'), findsNothing);
+    expect(find.textContaining('MoMo PIN'), findsNothing);
+    expect(find.textContaining('OTP'), findsNothing);
 
     router.go('/settings/legal/terms');
     await pumpLaunchFrames(tester);
     expect(find.text('Terms & Conditions'), findsWidgets);
+    expect(find.text('Trust boundary'), findsNothing);
+    await scrollToVisible(tester, find.text('Using Collect'));
     expect(find.text('Using Collect'), findsOneWidget);
     expect(find.text('MoMo payments'), findsOneWidget);
     expect(find.text('Group ownership'), findsOneWidget);

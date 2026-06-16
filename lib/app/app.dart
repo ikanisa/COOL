@@ -8,6 +8,7 @@ import '../shared/providers/collect_app_state.dart';
 import '../shared/repositories/collect_repository.dart';
 import 'router.dart';
 import 'theme/app_theme.dart';
+import 'theme/collect_theme_controller.dart';
 
 class CollectApp extends ConsumerWidget {
   const CollectApp({super.key});
@@ -15,13 +16,15 @@ class CollectApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
+    final themeMode = ref.watch(collectThemeModeProvider);
 
     return _SmsAccessSyncHost(
       child: MaterialApp.router(
         title: 'Collect',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light(),
-        themeMode: ThemeMode.light,
+        darkTheme: AppTheme.dark(),
+        themeMode: themeMode,
         routerConfig: router,
       ),
     );

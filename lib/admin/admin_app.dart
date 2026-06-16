@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app/theme/app_theme.dart';
+import '../app/theme/collect_theme_controller.dart';
 import 'admin_router.dart';
 import 'core/admin_error_boundary.dart';
 
@@ -15,7 +16,8 @@ class CollectAdminApp extends ConsumerWidget {
         title: 'Collect Admin',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light(),
-        themeMode: ThemeMode.light,
+        darkTheme: AppTheme.dark(),
+        themeMode: ref.watch(collectThemeModeProvider),
         routerConfig: ref.watch(adminRouterProvider),
       ),
     );

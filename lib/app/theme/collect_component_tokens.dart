@@ -17,7 +17,7 @@ class CollectComponentTokens {
       ),
       shape: RoundedRectangleBorder(borderRadius: CollectRadius.controlBorder),
       backgroundColor: colors.actionColor,
-      foregroundColor: colors.textPrimary,
+      foregroundColor: colors.onAccent,
       disabledBackgroundColor: colors.neutralContainer,
       disabledForegroundColor: colors.textMuted,
       textStyle: Theme.of(context).textTheme.labelLarge,

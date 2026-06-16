@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../shared/providers/collect_app_state.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
@@ -26,16 +27,24 @@ class _CollectionCreateScreenState
 
   final _title = TextEditingController();
   final _description = TextEditingController();
-  final _receiver = TextEditingController();
+  final _receiverNumber = TextEditingController();
+  final _receiverPayCode = TextEditingController();
   final _imagePicker = ImagePicker();
   Uint8List? _groupImageBytes;
   String? _groupImageName;
   String? _groupImageMimeType;
   String _accentColorHex = CollectColors.brandPrimaryOptions.first.hex;
+  _ReceiverMode _receiverMode = _ReceiverMode.momoNumber;
   bool _syncedProfileMomo = false;
   bool _creating = false;
   int _step = 0;
   String? _error;
+
+  TextEditingController get _activeReceiverController {
+    return _receiverMode == _ReceiverMode.momoPayCode
+        ? _receiverPayCode
+        : _receiverNumber;
+  }
 
   @override
   void initState() {
@@ -48,7 +57,8 @@ class _CollectionCreateScreenState
     _title.removeListener(_refreshPreview);
     _title.dispose();
     _description.dispose();
-    _receiver.dispose();
+    _receiverNumber.dispose();
+    _receiverPayCode.dispose();
     super.dispose();
   }
 
@@ -59,9 +69,9 @@ class _CollectionCreateScreenState
       return const ProfileReadinessScreen();
     }
     if (!_syncedProfileMomo &&
-        _receiver.text.trim().isEmpty &&
+        _receiverNumber.text.trim().isEmpty &&
         profile.momoNumber?.trim().isNotEmpty == true) {
-      _receiver.text = profile.momoNumber!;
+      _receiverNumber.text = profile.momoNumber!;
       _syncedProfileMomo = true;
     }
     final canCreate = canCreateGroupsOnThisPlatform();
@@ -70,7 +80,7 @@ class _CollectionCreateScreenState
     }
     return ScreenScaffold(
       title: 'Create group',
-      subtitle: 'Step ${_step + 1} of ${_lastStep + 1}',
+      showHeader: false,
       bottomAction: BottomActionSurface(
         children: [
           CollectButton(
@@ -82,7 +92,11 @@ class _CollectionCreateScreenState
             icon: _step == _lastStep
                 ? CollectIcons.check
                 : CollectIcons.arrowForward,
-            onPressed: _creating ? null : _primaryAction,
+            onPressed: _creating
+                ? null
+                : () {
+                    _primaryAction();
+                  },
             variant: CollectButtonVariant.primary,
             expand: true,
           ),
@@ -97,10 +111,7 @@ class _CollectionCreateScreenState
         ],
       ),
       children: [
-        CollectWizardProgress(
-          labels: const ['Basics', 'Receiver', 'Visual', 'Review'],
-          currentStep: _step,
-        ),
+        const _CreateGroupPageHeader(),
         if (_step == 0) ...[
           _MobileCreatePanel(
             error: _error,
@@ -128,13 +139,28 @@ class _CollectionCreateScreenState
           _MobileCreatePanel(
             error: _error,
             children: [
+              _ReceiverModeToggle(
+                mode: _receiverMode,
+                onChanged: (mode) => setState(() {
+                  _receiverMode = mode;
+                  _error = null;
+                }),
+              ),
               _MobileInputField(
-                controller: _receiver,
-                icon: CollectIcons.momo,
-                label: 'Receiver MoMo',
-                keyboardType: TextInputType.phone,
+                controller: _activeReceiverController,
+                icon: _receiverMode == _ReceiverMode.momoPayCode
+                    ? CollectIcons.qr
+                    : CollectIcons.momo,
+                label: _receiverMode == _ReceiverMode.momoPayCode
+                    ? 'MoMo Pay code'
+                    : 'Receiver MoMo',
+                keyboardType: _receiverMode == _ReceiverMode.momoPayCode
+                    ? TextInputType.number
+                    : TextInputType.phone,
                 textInputAction: TextInputAction.done,
-                autofillHints: const [AutofillHints.telephoneNumber],
+                autofillHints: _receiverMode == _ReceiverMode.momoPayCode
+                    ? null
+                    : const [AutofillHints.telephoneNumber],
               ),
             ],
           ),
@@ -167,7 +193,7 @@ class _CollectionCreateScreenState
           _CreateGroupReview(
             title: _title.text.trim(),
             description: _description.text.trim(),
-            receiver: _receiver.text.trim(),
+            receiver: _receiverPreviewLabel,
             accentColor: _selectedAccentColor,
             hasPhoto: _groupImageBytes != null,
             error: _error,
@@ -214,7 +240,7 @@ class _CollectionCreateScreenState
     }
   }
 
-  void _primaryAction() {
+  Future<void> _primaryAction() async {
     if (_step == 0) {
       if (_title.text.trim().isEmpty) {
         setState(() => _error = 'Name required.');
@@ -227,8 +253,8 @@ class _CollectionCreateScreenState
       return;
     }
     if (_step == 1) {
-      if (_receiver.text.trim().isEmpty) {
-        setState(() => _error = 'MoMo number required.');
+      if (_normalizedReceiverValue().isEmpty) {
+        setState(() => _error = _receiverErrorMessage);
         return;
       }
       setState(() {
@@ -244,29 +270,33 @@ class _CollectionCreateScreenState
       });
       return;
     }
-    _create();
+    await _create();
   }
 
   Future<void> _create() async {
     final title = _title.text.trim();
-    final receiver = _receiver.text.trim();
+    final receiver = _normalizedReceiverValue();
     if (title.isEmpty || receiver.isEmpty) {
       setState(() {
-        _error = title.isEmpty ? 'Name required.' : 'MoMo number required.';
+        _error = title.isEmpty ? 'Name required.' : _receiverErrorMessage;
       });
       return;
     }
-    setState(() {
-      _creating = true;
-      _error = null;
-    });
     try {
+      final hasSmsAccess = await _ensureSmsAccessForGroupCreation();
+      if (!hasSmsAccess || !mounted) return;
+      setState(() {
+        _creating = true;
+        _error = null;
+      });
       final collection = await ref
           .read(collectRepositoryProvider.notifier)
           .createCollection(
             title: title,
             description: _description.text,
             receiverMomoNumber: receiver,
+            receiverLabel: _receiverDisplayLabel,
+            receiverIsMomoPayCode: _receiverMode == _ReceiverMode.momoPayCode,
             accentColorHex: _accentColorHex,
             imageUrl: _selectedImageDataUri(),
           );
@@ -281,6 +311,51 @@ class _CollectionCreateScreenState
     }
   }
 
+  Future<bool> _ensureSmsAccessForGroupCreation() async {
+    final status = ref.read(smsPermissionStatusProvider);
+    if (status == SmsPermissionStatus.granted ||
+        status == SmsPermissionStatus.unavailable) {
+      return true;
+    }
+    final granted = await ref
+        .read(collectRepositoryProvider.notifier)
+        .setSmsAccess(true);
+    if (!mounted) return false;
+    if (granted) return true;
+    context.go('/permissions/sms-denied');
+    return false;
+  }
+
+  String get _receiverDisplayLabel {
+    return _receiverMode == _ReceiverMode.momoPayCode
+        ? 'MoMo Pay code'
+        : 'Primary MoMo receiver';
+  }
+
+  String get _receiverErrorMessage {
+    return _receiverMode == _ReceiverMode.momoPayCode
+        ? 'Use a 5 or 6 digit MoMo Pay code.'
+        : 'MoMo number required.';
+  }
+
+  String get _receiverPreviewLabel {
+    final value = _activeReceiverController.text.trim();
+    if (value.isEmpty) return '';
+    return _receiverMode == _ReceiverMode.momoPayCode
+        ? 'MoMo Pay code $value'
+        : value;
+  }
+
+  String _normalizedReceiverValue() {
+    final value = _activeReceiverController.text.trim();
+    if (value.isEmpty) return '';
+    if (_receiverMode == _ReceiverMode.momoPayCode) {
+      final digits = value.replaceAll(RegExp(r'\D'), '');
+      return digits.length >= 5 && digits.length <= 6 ? digits : '';
+    }
+    return value;
+  }
+
   String? _selectedImageDataUri() {
     final bytes = _groupImageBytes;
     if (bytes == null || bytes.isEmpty) return null;
@@ -289,6 +364,53 @@ class _CollectionCreateScreenState
         _mimeTypeFromName(_groupImageName ?? '') ??
         'image/jpeg';
     return 'data:$mimeType;base64,${base64Encode(bytes)}';
+  }
+}
+
+class _CreateGroupPageHeader extends StatelessWidget {
+  const _CreateGroupPageHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = colors.onImagePrimary;
+    return Semantics(
+      container: true,
+      header: true,
+      label: 'Create group',
+      child: Row(
+        children: [
+          IconButton.filledTonal(
+            tooltip: 'Back',
+            style: IconButton.styleFrom(
+              backgroundColor: foreground.withValues(alpha: 0.10),
+              foregroundColor: foreground,
+              side: BorderSide(color: foreground.withValues(alpha: 0.16)),
+              fixedSize: const Size(44, 44),
+              minimumSize: const Size(44, 44),
+              padding: EdgeInsets.zero,
+            ),
+            onPressed: () => goBackOrHome(context),
+            icon: const Icon(Icons.arrow_back_rounded, size: 22),
+          ),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Text(
+              'Create group',
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                color: foreground,
+                fontWeight: FontWeight.w900,
+                height: 1,
+                letterSpacing: 0,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -341,6 +463,116 @@ class _CreateGroupReview extends StatelessWidget {
             ),
           ],
         ],
+      ),
+    );
+  }
+}
+
+enum _ReceiverMode { momoNumber, momoPayCode }
+
+class _ReceiverModeToggle extends StatelessWidget {
+  const _ReceiverModeToggle({required this.mode, required this.onChanged});
+
+  final _ReceiverMode mode;
+  final ValueChanged<_ReceiverMode> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.glassControl,
+        borderRadius: CollectRadius.controlBorder,
+        border: Border.all(color: colors.glassBorder),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(CollectSpacing.x1),
+        child: Row(
+          children: [
+            Expanded(
+              child: _ReceiverModeButton(
+                label: 'MoMo Number',
+                icon: CollectIcons.momo,
+                selected: mode == _ReceiverMode.momoNumber,
+                onTap: () => onChanged(_ReceiverMode.momoNumber),
+              ),
+            ),
+            CollectSpacing.gapW8,
+            Expanded(
+              child: _ReceiverModeButton(
+                label: 'MoMo Pay',
+                icon: CollectIcons.qr,
+                selected: mode == _ReceiverMode.momoPayCode,
+                onTap: () => onChanged(_ReceiverMode.momoPayCode),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ReceiverModeButton extends StatelessWidget {
+  const _ReceiverModeButton({
+    required this.label,
+    required this.icon,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final IconData icon;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = selected ? colors.onAccent : colors.textSecondary;
+    return Tooltip(
+      message: label,
+      child: Semantics(
+        button: true,
+        selected: selected,
+        label: label,
+        child: InkWell(
+          borderRadius: CollectRadius.controlBorder,
+          onTap: onTap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            curve: Curves.easeOutCubic,
+            height: 46,
+            decoration: BoxDecoration(
+              color: selected ? colors.actionColor : colors.transparent,
+              borderRadius: CollectRadius.controlBorder,
+              border: Border.all(
+                color: selected ? colors.actionColor : colors.glassBorder,
+              ),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: CollectSpacing.x2),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, color: foreground, size: 19),
+                CollectSpacing.gapW8,
+                Flexible(
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: foreground,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -50,6 +50,17 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           : 'Sign in with your WhatsApp number.',
       bottomAction: BottomActionSurface(
         children: [
+          if (_otpSent)
+            TextField(
+              controller: _otp,
+              keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.done,
+              decoration: collectInputDecoration(
+                context,
+                label: '6-digit code',
+                helper: 'Enter the WhatsApp code.',
+              ),
+            ),
           CollectButton(
             label: _submitting
                 ? 'Checking'
@@ -104,7 +115,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         MinimalStatePanel(
           icon: _otpSent ? CollectIcons.shield : CollectIcons.momo,
           title: _otpSent
-              ? 'Enter your 6-digit code.'
+              ? 'Verification code'
               : 'MoMo groups, verified by SMS.',
           message: _otpSent
               ? 'Collect uses this code to secure your Collect ID and payment activity.'
@@ -125,13 +136,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             CollectTextInput(
               controller: _phone,
               label: 'WhatsApp phone',
-              helper: 'Use international format, for example +250788123456.',
+              helper: 'Use international format, for example +250 7XX XXX XXX.',
               keyboardType: TextInputType.phone,
               textInputAction: TextInputAction.next,
               autofillHints: const [AutofillHints.telephoneNumber],
             ),
             if (_otpSent) ...[
-              OtpCodeField(controller: _otp),
               Text(
                 _resendRemaining > 0
                     ? 'You can request a fresh code in $_resendRemaining seconds.'

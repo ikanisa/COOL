@@ -242,66 +242,6 @@ class ProfileReadinessScreen extends ConsumerWidget {
   }
 }
 
-class SmsPermissionEducationScreen extends ConsumerWidget {
-  const SmsPermissionEducationScreen({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ScreenScaffold(
-      title: 'SMS access',
-      bottomAction: CollectButton(
-        label: 'Enable SMS access',
-        icon: CollectIcons.check,
-        onPressed: () async {
-          final granted = await ref
-              .read(collectRepositoryProvider.notifier)
-              .setSmsAccess(true);
-          if (!context.mounted) return;
-          context.go(granted ? '/groups/create' : '/permissions/sms-denied');
-        },
-        expand: true,
-      ),
-      children: const [
-        MinimalStatePanel(
-          icon: CollectIcons.sms,
-          title: 'Keep MoMo checks on this phone.',
-          message: 'Android owner setup for verified group ledgers.',
-          tone: CollectStatusTone.privacy,
-        ),
-        CollectCard(
-          emphasis: CollectCardEmphasis.flat,
-          child: Column(
-            children: [
-              CollectListTile(
-                leading: CollectIcons.sms,
-                title: 'MoMo confirmations',
-                subtitle: 'Matched to group payments on device.',
-              ),
-              CollectListTile(
-                leading: CollectIcons.ledger,
-                title: 'Ledger updates',
-                subtitle: 'Confirmed payments move into the group ledger.',
-              ),
-              CollectListTile(
-                leading: CollectIcons.lock,
-                title: 'Private by default',
-                subtitle:
-                    'Payment credentials and message bodies stay private.',
-              ),
-            ],
-          ),
-        ),
-        InfoSecurityBanner(
-          title: 'Android permission',
-          message:
-              'iPhone members can join and contribute. Group owner verification uses Android SMS access.',
-          tone: CollectStatusTone.info,
-        ),
-      ],
-    );
-  }
-}
-
 class SmsPermissionDeniedScreen extends StatelessWidget {
   const SmsPermissionDeniedScreen({super.key});
 
@@ -329,7 +269,7 @@ class SmsPermissionDeniedScreen extends StatelessWidget {
               CollectButton(
                 label: 'Try again',
                 icon: CollectIcons.sync,
-                onPressed: () => context.go('/permissions/sms'),
+                onPressed: () => context.go('/groups/create'),
                 variant: CollectButtonVariant.secondary,
                 expand: true,
               ),
@@ -972,7 +912,7 @@ class _PaymentSupportReviewScreenState
         else ...[
           MinimalStatePanel(
             icon: CollectIcons.support,
-            title: 'Send a privacy-safe review.',
+            title: 'Safe note',
             message: intent == null
                 ? 'This payment is not on this device. Support can still review the group context.'
                 : 'Amount ${formatRwf(intent.expectedAmountRwf)} is ${paymentStatusLabel(intent.status).toLowerCase()}.',
@@ -982,6 +922,11 @@ class _PaymentSupportReviewScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  'Safe note',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                CollectSpacing.gap8,
                 Text(
                   'Issue type',
                   style: Theme.of(context).textTheme.titleSmall,
@@ -1288,6 +1233,7 @@ class NotificationPermissionScreen extends ConsumerWidget {
         notificationStatus == CollectDevicePermissionStatus.granted;
     return ScreenScaffold(
       title: 'App access',
+      showHeader: false,
       bottomAction: CollectButton(
         label: 'Done',
         icon: CollectIcons.check,
@@ -1295,12 +1241,7 @@ class NotificationPermissionScreen extends ConsumerWidget {
         expand: true,
       ),
       children: [
-        const MinimalStatePanel(
-          icon: CollectIcons.shield,
-          title: 'Permission use',
-          message: 'Only the access needed for group payment verification.',
-          tone: CollectStatusTone.privacy,
-        ),
+        const _DeviceAccessPageHeader(),
         CollectCard(
           emphasis: CollectCardEmphasis.glow,
           accentColor: smsGranted
@@ -1320,7 +1261,7 @@ class NotificationPermissionScreen extends ConsumerWidget {
                       ? 'Denied'
                       : 'Not enabled',
                   active: smsGranted,
-                  onTap: () => context.go('/permissions/sms'),
+                  onTap: () => context.go('/groups/create'),
                 ),
               _PermissionSettingRow(
                 icon: CollectIcons.pending,
@@ -1344,6 +1285,53 @@ class NotificationPermissionScreen extends ConsumerWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _DeviceAccessPageHeader extends StatelessWidget {
+  const _DeviceAccessPageHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = colors.onImagePrimary;
+    return Semantics(
+      container: true,
+      header: true,
+      label: 'App access',
+      child: Row(
+        children: [
+          IconButton.filledTonal(
+            tooltip: 'Back',
+            style: IconButton.styleFrom(
+              backgroundColor: foreground.withValues(alpha: 0.10),
+              foregroundColor: foreground,
+              side: BorderSide(color: foreground.withValues(alpha: 0.16)),
+              fixedSize: const Size(44, 44),
+              minimumSize: const Size(44, 44),
+              padding: EdgeInsets.zero,
+            ),
+            onPressed: () => goBackOrHome(context),
+            icon: const Icon(Icons.arrow_back_rounded, size: 22),
+          ),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Text(
+              'App access',
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                color: foreground,
+                fontWeight: FontWeight.w900,
+                height: 1,
+                letterSpacing: 0,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -1416,6 +1404,14 @@ class PrivacyDataScreen extends StatelessWidget {
     return ScreenScaffold(
       title: 'Privacy and data',
       children: [
+        const CollectVisualFeatureCard(
+          asset: 'assets/brand/generated/collect_visual_qr_share.png',
+          title: 'Private by default',
+          message:
+              'Public links use Collect IDs, safe amounts, group names, and payment status only.',
+          icon: CollectIcons.privacy,
+          tone: CollectStatusTone.privacy,
+        ),
         const MinimalStatePanel(
           icon: CollectIcons.privacy,
           title: 'Collect ID first.',
@@ -1504,7 +1500,9 @@ class NotificationCenterScreen extends ConsumerWidget {
     final preferences = state.notificationPreferences;
     return ScreenScaffold(
       title: 'Notifications',
+      showHeader: false,
       children: [
+        const _NotificationPageHeader(),
         CollectCard(
           emphasis: CollectCardEmphasis.glow,
           accentColor: notificationsGranted
@@ -1650,6 +1648,53 @@ class NotificationCenterScreen extends ConsumerWidget {
   }
 }
 
+class _NotificationPageHeader extends StatelessWidget {
+  const _NotificationPageHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = colors.onImagePrimary;
+    return Semantics(
+      container: true,
+      header: true,
+      label: 'Notifications',
+      child: Row(
+        children: [
+          IconButton.filledTonal(
+            tooltip: 'Back',
+            style: IconButton.styleFrom(
+              backgroundColor: foreground.withValues(alpha: 0.10),
+              foregroundColor: foreground,
+              side: BorderSide(color: foreground.withValues(alpha: 0.16)),
+              fixedSize: const Size(44, 44),
+              minimumSize: const Size(44, 44),
+              padding: EdgeInsets.zero,
+            ),
+            onPressed: () => goBackOrHome(context),
+            icon: const Icon(Icons.arrow_back_rounded, size: 22),
+          ),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Text(
+              'Notifications',
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                color: foreground,
+                fontWeight: FontWeight.w900,
+                height: 1,
+                letterSpacing: 0,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 Future<void> _saveNotificationPreference(
   WidgetRef ref,
   NotificationPreferences preferences,
@@ -1724,10 +1769,19 @@ class HelpSupportScreen extends StatelessWidget {
     return const ScreenScaffold(
       title: 'WhatsApp support',
       children: [
+        CollectVisualFeatureCard(
+          asset: 'assets/brand/generated/collect_visual_momo_signal.png',
+          title: 'Support without secrets',
+          message:
+              'Collect support never needs MoMo PINs, OTPs, raw SMS, or private credentials.',
+          icon: CollectIcons.support,
+          tone: CollectStatusTone.privacy,
+        ),
         MinimalStatePanel(
           icon: CollectIcons.support,
           title: 'Support',
-          message: '+250795588248',
+          message:
+              'Open WhatsApp to reach Collect support without exposing a phone number in the app.',
           tone: CollectStatusTone.info,
         ),
         CollectButton(
@@ -1750,17 +1804,12 @@ class LegalScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final isPrivacy = kind == 'privacy';
     final sections = isPrivacy ? _privacyPolicySections : _termsSections;
+    final title = isPrivacy ? 'Privacy Policy' : 'Terms & Conditions';
     return ScreenScaffold(
-      title: isPrivacy ? 'Privacy Policy' : 'Terms & Conditions',
+      title: title,
+      showHeader: false,
       children: [
-        MinimalStatePanel(
-          icon: isPrivacy ? CollectIcons.privacy : CollectIcons.info,
-          title: isPrivacy ? 'Collect Privacy Policy' : 'Collect Terms',
-          message: isPrivacy
-              ? 'Effective 6 June 2026. This policy explains how Collect handles profile, group, payment, and permission data.'
-              : 'Effective 6 June 2026. These terms explain how Collect supports group contributions, MoMo verification, and group administration.',
-          tone: isPrivacy ? CollectStatusTone.privacy : CollectStatusTone.info,
-        ),
+        _LegalPageHeader(title: title),
         CollectCard(
           emphasis: CollectCardEmphasis.flat,
           child: Column(
@@ -1778,6 +1827,55 @@ class LegalScreen extends StatelessWidget {
               : CollectStatusTone.warning,
         ),
       ],
+    );
+  }
+}
+
+class _LegalPageHeader extends StatelessWidget {
+  const _LegalPageHeader({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = colors.onImagePrimary;
+    return Semantics(
+      container: true,
+      header: true,
+      label: title,
+      child: Row(
+        children: [
+          IconButton.filledTonal(
+            tooltip: 'Back',
+            style: IconButton.styleFrom(
+              backgroundColor: foreground.withValues(alpha: 0.10),
+              foregroundColor: foreground,
+              side: BorderSide(color: foreground.withValues(alpha: 0.16)),
+              fixedSize: const Size(44, 44),
+              minimumSize: const Size(44, 44),
+              padding: EdgeInsets.zero,
+            ),
+            onPressed: () => goBackOrHome(context),
+            icon: const Icon(Icons.arrow_back_rounded, size: 22),
+          ),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Text(
+              title,
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                color: foreground,
+                fontWeight: FontWeight.w900,
+                height: 1,
+                letterSpacing: 0,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -2161,7 +2259,9 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
     }
     return ScreenScaffold(
       title: 'Members',
+      showHeader: false,
       children: [
+        const _MembersPageHeader(),
         SearchWithClearField(
           controller: _search,
           label: 'Search Collect ID',
@@ -2314,6 +2414,53 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
           ),
         );
       },
+    );
+  }
+}
+
+class _MembersPageHeader extends StatelessWidget {
+  const _MembersPageHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = colors.onImagePrimary;
+    return Semantics(
+      container: true,
+      header: true,
+      label: 'Members',
+      child: Row(
+        children: [
+          IconButton.filledTonal(
+            tooltip: 'Back',
+            style: IconButton.styleFrom(
+              backgroundColor: foreground.withValues(alpha: 0.10),
+              foregroundColor: foreground,
+              side: BorderSide(color: foreground.withValues(alpha: 0.16)),
+              fixedSize: const Size(44, 44),
+              minimumSize: const Size(44, 44),
+              padding: EdgeInsets.zero,
+            ),
+            onPressed: () => goBackOrHome(context),
+            icon: const Icon(Icons.arrow_back_rounded, size: 22),
+          ),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Text(
+              'Members',
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                color: foreground,
+                fontWeight: FontWeight.w900,
+                height: 1,
+                letterSpacing: 0,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -2708,24 +2855,39 @@ class _PaymentStatusHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textScale = MediaQuery.textScalerOf(context).scale(1);
     return CollectCard(
       emphasis: CollectCardEmphasis.glow,
       accentColor: context.collectColors.statusForeground(tone),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CollectStatusChip(label: title, tone: tone, icon: icon),
-          CollectSpacing.gapW12,
-          Expanded(
-            child: Text(
-              subtitle,
-              style: Theme.of(context).textTheme.titleSmall,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+      child: textScale > 1.3
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CollectStatusChip(label: title, tone: tone, icon: icon),
+                CollectSpacing.gap8,
+                Text(
+                  subtitle,
+                  style: Theme.of(context).textTheme.titleSmall,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            )
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CollectStatusChip(label: title, tone: tone, icon: icon),
+                CollectSpacing.gapW12,
+                Expanded(
+                  child: Text(
+                    subtitle,
+                    style: Theme.of(context).textTheme.titleSmall,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

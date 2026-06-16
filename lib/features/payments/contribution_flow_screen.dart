@@ -165,6 +165,14 @@ class _ContributionFlowScreenState
                   'A MoMo payment is already waiting for SMS verification. Open it before starting another payment.',
               tone: CollectStatusTone.warning,
             ),
+          const CollectVisualFeatureCard(
+            asset: 'assets/brand/generated/collect_visual_momo_signal.png',
+            title: 'MoMo handoff',
+            message:
+                'Choose an amount, open MoMo, then let SMS verification update the ledger.',
+            icon: CollectIcons.momo,
+            tone: CollectStatusTone.success,
+          ),
           AmountEntryPanel(
             controller: _amount,
             amount: amount,

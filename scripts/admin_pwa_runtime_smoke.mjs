@@ -258,6 +258,7 @@ const chromeProcess = spawn(chrome, [
   '--disable-component-update',
   '--disable-sync',
   '--disable-dev-shm-usage',
+  '--no-sandbox',
   '--no-first-run',
   '--no-default-browser-check',
   `--user-data-dir=${chromeProfile}`,
@@ -319,8 +320,13 @@ try {
   if (cdp) {
     cdp.close();
   }
-  chromeProcess.kill('SIGTERM');
-  await new Promise((resolve) => chromeProcess.once('exit', resolve));
+  if (chromeProcess.exitCode === null && chromeProcess.signalCode === null) {
+    chromeProcess.kill('SIGTERM');
+    await Promise.race([
+      new Promise((resolve) => chromeProcess.once('exit', resolve)),
+      sleep(2000),
+    ]);
+  }
   await rm(chromeProfile, { recursive: true, force: true });
 }
 

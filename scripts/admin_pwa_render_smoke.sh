@@ -93,47 +93,62 @@ capture() {
   rm -rf "$profile"
   mkdir -p "$profile"
 
-  "$CHROME" \
-    --headless \
-    --force-device-scale-factor=1 \
-    --disable-gpu \
-    --disable-background-networking \
-    --disable-component-update \
-    --disable-sync \
-    --disable-dev-shm-usage \
-    --no-first-run \
-    --no-default-browser-check \
-    --user-data-dir="$profile" \
-    --window-size="$size" \
-    --run-all-compositor-stages-before-draw \
-    --virtual-time-budget=8000 \
-    --screenshot="$png" \
-    "$BASE_URL/" >"$EVIDENCE_DIR/${name}.stdout" 2>"$EVIDENCE_DIR/${name}.stderr" &
-  local chrome_pid=$!
+  if [[ "$name" == mobile-* ]]; then
+    ADMIN_PWA_CHROME="$CHROME" "$ROOT_DIR/scripts/chrome_cdp_screenshot.mjs" \
+      --chrome "$CHROME" \
+      --url "$BASE_URL/" \
+      --output "$png" \
+      --profile "$profile" \
+      --viewport "$size" \
+      --wait-ms 9000 \
+      >"$EVIDENCE_DIR/${name}.stdout" 2>"$EVIDENCE_DIR/${name}.stderr" || {
+        [[ -s "$EVIDENCE_DIR/${name}.stderr" ]] && sed -n '1,160p' "$EVIDENCE_DIR/${name}.stderr" >&2
+        fail "$name CDP screenshot failed."
+      }
+  else
+    "$CHROME" \
+      --headless \
+      --force-device-scale-factor=1 \
+      --disable-gpu \
+      --disable-background-networking \
+      --disable-component-update \
+      --disable-sync \
+      --disable-dev-shm-usage \
+      --no-sandbox \
+      --no-first-run \
+      --no-default-browser-check \
+      --user-data-dir="$profile" \
+      --window-size="$size" \
+      --run-all-compositor-stages-before-draw \
+      --virtual-time-budget=8000 \
+      --screenshot="$png" \
+      "$BASE_URL/" >"$EVIDENCE_DIR/${name}.stdout" 2>"$EVIDENCE_DIR/${name}.stderr" &
+    local chrome_pid=$!
 
-  for _ in $(seq 1 "$timeout_seconds"); do
-    if [[ -s "$png" ]]; then
-      break
-    fi
-    if ! kill -0 "$chrome_pid" 2>/dev/null; then
-      break
-    fi
-    sleep 1
-  done
+    for _ in $(seq 1 "$timeout_seconds"); do
+      if [[ -s "$png" ]]; then
+        break
+      fi
+      if ! kill -0 "$chrome_pid" 2>/dev/null; then
+        break
+      fi
+      sleep 1
+    done
 
-  if kill -0 "$chrome_pid" 2>/dev/null; then
-    kill "$chrome_pid" 2>/dev/null || true
-    sleep 1
+    if kill -0 "$chrome_pid" 2>/dev/null; then
+      kill "$chrome_pid" 2>/dev/null || true
+      sleep 1
+    fi
+    if kill -0 "$chrome_pid" 2>/dev/null; then
+      pkill -TERM -f "$profile" 2>/dev/null || true
+      sleep 1
+    fi
+    if kill -0 "$chrome_pid" 2>/dev/null; then
+      pkill -KILL -f "$profile" 2>/dev/null || true
+      kill -KILL "$chrome_pid" 2>/dev/null || true
+    fi
+    wait "$chrome_pid" 2>/dev/null || true
   fi
-  if kill -0 "$chrome_pid" 2>/dev/null; then
-    pkill -TERM -f "$profile" 2>/dev/null || true
-    sleep 1
-  fi
-  if kill -0 "$chrome_pid" 2>/dev/null; then
-    pkill -KILL -f "$profile" 2>/dev/null || true
-    kill -KILL "$chrome_pid" 2>/dev/null || true
-  fi
-  wait "$chrome_pid" 2>/dev/null || true
 
   [[ -s "$png" ]] || fail "$name screenshot was not created within ${timeout_seconds}s."
 

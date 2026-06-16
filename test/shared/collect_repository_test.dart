@@ -22,6 +22,21 @@ void main() {
     expect(collection.receiverMomoNumber, '+250788123456');
   });
 
+  test('group creation accepts MoMo Pay code receiver mode', () async {
+    final repo = CollectRepository();
+    await repo.signInWithOtp(phone: '+250788123456', otp: '123456');
+    final collection = await repo.createCollection(
+      title: 'Merchant group',
+      description: 'MoMo Pay collections',
+      receiverMomoNumber: '12345',
+      receiverLabel: 'MoMo Pay code',
+      receiverIsMomoPayCode: true,
+    );
+
+    expect(collection.receiverMomoNumber, '12345');
+    expect(collection.receiverDisplayLabel, 'MoMo Pay code');
+  });
+
   test(
     'WhatsApp OTP sign-in accepts non-Rwanda international numbers',
     () async {

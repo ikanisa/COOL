@@ -1332,7 +1332,7 @@ checking Edge Function secret names
     expect(evidenceIndex, contains('mobile_route_render_summary = read_json'));
     expect(evidenceIndex, contains('required_mobile_routes'));
     expect(evidenceIndex, contains('/auth/success'));
-    expect(evidenceIndex, contains('/permissions/sms'));
+    expect(evidenceIndex, contains('/permissions/sms-denied'));
     expect(evidenceIndex, contains('/groups/create'));
     expect(evidenceIndex, contains('/platform/iphone-create-unavailable'));
     expect(evidenceIndex, contains('/groups/col-church/profile'));

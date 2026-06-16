@@ -1,9 +1,9 @@
 import 'dart:ui' as ui;
+import 'dart:typed_data';
 
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
@@ -13,8 +13,8 @@ import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import 'group_share_service.dart';
 
-const _transparentCollectWordmarkAsset =
-    'assets/brand/generated/collect_wordmark_transparent.png';
+const _shareBrandAsset =
+    'assets/brand/source_variants/collect_wordmark_transparent_4096.png';
 
 class ShareScreen extends ConsumerWidget {
   const ShareScreen({required this.collectionId, super.key});
@@ -62,21 +62,22 @@ class ShareScreen extends ConsumerWidget {
                     CollectSpacing.gap16,
                     Row(
                       children: [
-                        const _TransparentCollectLogo(width: 104, height: 34),
+                        const _ShareBrandMark(),
+                        CollectSpacing.gapW16,
+                        Expanded(
+                          child: Text(
+                            collection.title,
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(fontWeight: FontWeight.w900),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                         CollectSpacing.gapW12,
                         IconButton.filledTonal(
                           tooltip: 'Close',
                           onPressed: () => context.go('/groups/$collectionId'),
                           icon: const Icon(Icons.close_rounded),
-                        ),
-                        CollectSpacing.gapW12,
-                        Expanded(
-                          child: Text(
-                            collection.title,
-                            style: Theme.of(context).textTheme.titleLarge,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
                         ),
                       ],
                     ),
@@ -220,30 +221,6 @@ Future<Uint8List> _qrPngBytes(String link) async {
   canvas.translate(qrRect.left, qrRect.top);
   painter.paint(canvas, qrRect.size);
   canvas.restore();
-  final logoImage = await _transparentWordmarkImage();
-  final logoRect = Rect.fromCenter(
-    center: const Offset(size / 2, size / 2),
-    width: 240,
-    height: 66,
-  );
-  paintImage(
-    canvas: canvas,
-    image: logoImage,
-    rect: logoRect.translate(0, 3).inflate(4),
-    fit: BoxFit.contain,
-    colorFilter: ColorFilter.mode(
-      CollectColors.brandPaper.withValues(alpha: 0.92),
-      BlendMode.srcIn,
-    ),
-    filterQuality: FilterQuality.high,
-  );
-  paintImage(
-    canvas: canvas,
-    image: logoImage,
-    rect: logoRect,
-    fit: BoxFit.contain,
-    filterQuality: FilterQuality.high,
-  );
   final picture = recorder.endRecording();
   final image = await picture.toImage(size.toInt(), size.toInt());
   final data = await image.toByteData(format: ui.ImageByteFormat.png);
@@ -297,29 +274,20 @@ class _BrandedQrCard extends StatelessWidget {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                ShaderMask(
-                  shaderCallback: (bounds) => const LinearGradient(
-                    colors: CollectColors.brandPrimaryColors,
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ).createShader(bounds),
-                  blendMode: BlendMode.srcIn,
-                  child: QrImageView(
-                    data: data,
-                    size: 196,
-                    errorCorrectionLevel: QrErrorCorrectLevel.H,
-                    backgroundColor: colors.transparent,
-                    eyeStyle: const QrEyeStyle(
-                      eyeShape: QrEyeShape.circle,
-                      color: CollectColors.brandPeriwinkle,
-                    ),
-                    dataModuleStyle: const QrDataModuleStyle(
-                      dataModuleShape: QrDataModuleShape.circle,
-                      color: CollectColors.brandPeriwinkle,
-                    ),
+                QrImageView(
+                  data: data,
+                  size: 196,
+                  errorCorrectionLevel: QrErrorCorrectLevel.H,
+                  backgroundColor: colors.transparent,
+                  eyeStyle: const QrEyeStyle(
+                    eyeShape: QrEyeShape.circle,
+                    color: CollectColors.inkPrimary,
+                  ),
+                  dataModuleStyle: const QrDataModuleStyle(
+                    dataModuleShape: QrDataModuleShape.circle,
+                    color: CollectColors.inkPrimary,
                   ),
                 ),
-                const _TransparentCollectLogo(width: 104, height: 30),
               ],
             ),
           ),
@@ -329,44 +297,42 @@ class _BrandedQrCard extends StatelessWidget {
   }
 }
 
-class _TransparentCollectLogo extends StatelessWidget {
-  const _TransparentCollectLogo({required this.width, required this.height});
-
-  final double width;
-  final double height;
+class _ShareBrandMark extends StatelessWidget {
+  const _ShareBrandMark();
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      height: height,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Transform.translate(
-            offset: const Offset(0, 2),
-            child: Image.asset(
-              _transparentCollectWordmarkAsset,
-              fit: BoxFit.contain,
-              color: CollectColors.brandPaper.withValues(alpha: 0.92),
-              colorBlendMode: BlendMode.srcIn,
-              filterQuality: FilterQuality.high,
+    final colors = context.collectColors;
+    return Semantics(
+      label: 'Collect',
+      image: true,
+      child: ExcludeSemantics(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: colors.onImagePrimary.withValues(alpha: 0.10),
+            borderRadius: CollectRadius.pillBorder,
+            border: Border.all(
+              color: colors.onImagePrimary.withValues(alpha: 0.16),
             ),
           ),
-          Image.asset(
-            _transparentCollectWordmarkAsset,
-            fit: BoxFit.contain,
-            filterQuality: FilterQuality.high,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: CollectSpacing.x3,
+              vertical: CollectSpacing.x2,
+            ),
+            child: Image.asset(
+              _shareBrandAsset,
+              width: 104,
+              height: 30,
+              fit: BoxFit.contain,
+              filterQuality: FilterQuality.high,
+              gaplessPlayback: true,
+              errorBuilder: (context, error, stackTrace) =>
+                  const SizedBox.shrink(),
+            ),
           ),
-        ],
+        ),
       ),
     );
   }
-}
-
-Future<ui.Image> _transparentWordmarkImage() async {
-  final data = await rootBundle.load(_transparentCollectWordmarkAsset);
-  final codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
-  final frame = await codec.getNextFrame();
-  return frame.image;
 }

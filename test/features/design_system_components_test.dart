@@ -10,11 +10,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('Collect color tokens resolve to the unified Paper canvas', () {
+  test('Collect color tokens separate brand canvas from screen background', () {
     final light = AppTheme.light().extension<CollectColors>();
     expect(light, isNotNull);
     expect(light!.surface, CollectColors.brandPaper);
-    expect(light.screenBase, CollectColors.brandPaper);
+    expect(light.screenBase, CollectColors.referencePaymentsPurple);
+  });
+
+  test('Collect light and dark modes are visually distinctive', () {
+    final lightTheme = AppTheme.light();
+    final darkTheme = AppTheme.dark();
+    final light = lightTheme.extension<CollectColors>()!;
+    final dark = darkTheme.extension<CollectColors>()!;
+
+    expect(lightTheme.brightness, Brightness.light);
+    expect(darkTheme.brightness, Brightness.dark);
+    expect(light.surfaceReadable, isNot(dark.surfaceReadable));
+    expect(light.surfaceMuted, isNot(dark.surfaceMuted));
+    expect(light.textPrimary, isNot(dark.textPrimary));
+    expect(light.textSecondary, isNot(dark.textSecondary));
+    expect(light.neutralContainer, isNot(dark.neutralContainer));
+    expect(light.glassPanel, isNot(dark.glassPanel));
+    expect(light.onAccent, CollectColors.inkPrimary);
+    expect(dark.onAccent, CollectColors.inkPrimary);
+    expect(
+      _contrastRatio(dark.textPrimary, dark.surfaceReadable),
+      greaterThanOrEqualTo(4.5),
+    );
+    expect(
+      _contrastRatio(dark.onAccent, dark.actionColor),
+      greaterThanOrEqualTo(4.5),
+    );
   });
 
   test('official Collect brand tokens are source controlled', () {
@@ -35,6 +61,26 @@ void main() {
       '#D38B96',
       '#FF5E43',
     ]);
+    expect(CollectColors.referenceAccountNavy, const Color(0xFF000840));
+    expect(CollectColors.referenceAccountBlue, const Color(0xFF0818A0));
+    expect(CollectColors.referenceAccountBlueMid, const Color(0xFF0F198E));
+    expect(CollectColors.referenceAccountBlueDeep, const Color(0xFF070D60));
+    expect(CollectColors.referencePaymentsPurple, const Color(0xFF181038));
+    expect(CollectColors.referencePaymentsPurpleMid, const Color(0xFF302848));
+    expect(CollectColors.referencePaymentsPurpleDeep, const Color(0xFF100820));
+    expect(CollectColors.referenceAssetNavy, const Color(0xFF101830));
+    expect(CollectColors.referenceAssetNavyMid, const Color(0xFF303870));
+    expect(CollectColors.referenceAssetNavySoft, const Color(0xFF202858));
+    expect(CollectColors.referenceRewardsViolet, const Color(0xFF302878));
+    expect(CollectColors.referenceRewardsVioletBright, const Color(0xFF7050E8));
+    expect(CollectColors.referenceRewardsVioletHot, const Color(0xFF9838F0));
+    expect(CollectColors.referenceWealthTeal, const Color(0xFF102028));
+    expect(CollectColors.referenceWealthTealMid, const Color(0xFF204050));
+    expect(CollectColors.referenceWealthTealSoft, const Color(0xFF183848));
+    expect(CollectColors.referenceContentDark, const Color(0xFF101018));
+    expect(CollectColors.referenceContentBronze, const Color(0xFF303020));
+    expect(CollectColors.referenceInvestTeal, const Color(0xFF202828));
+    expect(CollectColors.referenceStockTealBlack, const Color(0xFF001010));
     expect(CollectColors.brandPrimaryColors, hasLength(4));
     expect(
       CollectColors.brandPrimaryColors,
@@ -43,6 +89,97 @@ void main() {
     expect(
       CollectColors.brandPrimaryColors,
       isNot(contains(CollectColors.transparentColor)),
+    );
+  });
+
+  test('Revolut reference background families are applied by route', () {
+    final light = AppTheme.light().extension<CollectColors>()!;
+
+    expect(_gradientColors(light.screenGradientForPath('/home')), const [
+      Color(0xFF0818A0),
+      Color(0xFF0F198E),
+      Color(0xFF000838),
+      Color(0xFF000030),
+    ]);
+    expect(_gradientColors(light.screenGradientForPath('/groups')), const [
+      Color(0xFF302848),
+      Color(0xFF181038),
+      Color(0xFF100820),
+    ]);
+    expect(
+      _gradientColors(
+        light.screenGradientForPath(
+          '/groups/group_1/pay/intent_1/state/pending',
+        ),
+      ),
+      const [
+        Color(0xFF303870),
+        Color(0xFF202858),
+        Color(0xFF101830),
+        Color(0xFF000818),
+      ],
+    );
+    expect(
+      _gradientColors(light.screenGradientForPath('/groups/group_1/share')),
+      const [
+        Color(0xFF9838F0),
+        Color(0xFF7050E8),
+        Color(0xFF302878),
+        Color(0xFF100820),
+      ],
+    );
+    expect(
+      _gradientColors(light.screenGradientForPath('/groups/create')),
+      const [
+        Color(0xFF204050),
+        Color(0xFF183848),
+        Color(0xFF102028),
+        Color(0xFF081820),
+      ],
+    );
+    expect(
+      _gradientColors(light.screenGradientForPath('/permissions/sms-denied')),
+      const [
+        Color(0xFF204050),
+        Color(0xFF183848),
+        Color(0xFF102028),
+        Color(0xFF081820),
+      ],
+    );
+    expect(
+      _gradientColors(
+        light.screenGradientForPath('/permissions/camera-denied'),
+      ),
+      const [
+        Color(0xFF204050),
+        Color(0xFF183848),
+        Color(0xFF102028),
+        Color(0xFF081820),
+      ],
+    );
+    expect(
+      _gradientColors(
+        light.screenGradientForPath('/platform/iphone-create-unavailable'),
+      ),
+      const [
+        Color(0xFF204050),
+        Color(0xFF183848),
+        Color(0xFF102028),
+        Color(0xFF081820),
+      ],
+    );
+    expect(
+      _gradientColors(light.screenGradientForPath('/settings/help')),
+      const [Color(0xFF303020), Color(0xFF181038), Color(0xFF101018)],
+    );
+    expect(_gradientColors(light.screenGradientForPath('/offline')), const [
+      Color(0xFF202828),
+      Color(0xFF102028),
+      Color(0xFF001010),
+    ]);
+    expect(
+      _gradientColors(light.screenGradientForPath('/notifications')),
+      const [Color(0xFF302848), Color(0xFF181038), Color(0xFF101018)],
     );
   });
 
@@ -198,6 +335,8 @@ void main() {
 
     expect(find.text('RWF 5,000'), findsOneWidget);
     expect(find.text('St Michel treasury'), findsOneWidget);
+    expect(find.text('+250788123456'), findsNothing);
+    expect(find.text('+250***3456'), findsOneWidget);
     expect(find.text('Payment intent'), findsNothing);
     expect(find.text('Intent'), findsNothing);
     expect(find.text('SMS verification'), findsOneWidget);
@@ -610,6 +749,8 @@ void main() {
       findsOneWidget,
     );
     expect(find.textContaining('SMS-first MoMo'), findsOneWidget);
+    expect(find.byType(CollectBrandMark), findsOneWidget);
+    expect(find.byIcon(CollectIcons.shield), findsOneWidget);
     expect(find.byIcon(CollectIcons.share), findsOneWidget);
     expect(find.byIcon(CollectIcons.copy), findsOneWidget);
   });
@@ -639,7 +780,8 @@ void main() {
       ),
     );
 
-    expect(find.text('91'), findsOneWidget);
+    expect(find.byIcon(CollectIcons.profile), findsOneWidget);
+    expect(find.text('91'), findsNothing);
     expect(find.text('Search groups'), findsOneWidget);
     expect(find.byIcon(CollectIcons.qr), findsOneWidget);
     expect(find.byIcon(CollectIcons.settings), findsOneWidget);
@@ -657,6 +799,15 @@ void main() {
     );
     expect(collectRoutePaths, isNot(contains('/admin')));
   });
+}
+
+List<Color> _gradientColors(Gradient gradient) {
+  return switch (gradient) {
+    LinearGradient(:final colors) => colors,
+    RadialGradient(:final colors) => colors,
+    SweepGradient(:final colors) => colors,
+    _ => fail('Unsupported gradient type: ${gradient.runtimeType}'),
+  };
 }
 
 Future<void> _pumpCollect(WidgetTester tester, Widget child) async {

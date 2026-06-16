@@ -17,6 +17,16 @@ type SmsHookPayload = {
   token?: string;
 };
 
+const otpDeliveryUnavailable =
+  "WhatsApp OTP delivery is temporarily unavailable";
+
+class PublicHookError extends Error {
+  constructor(message: string, readonly status: number) {
+    super(message);
+    this.name = "PublicHookError";
+  }
+}
+
 function whatsappAuthTemplateComponents(otp: string) {
   const otpText = String(otp);
   return [
@@ -39,7 +49,11 @@ async function verifyHookPayload(req: Request): Promise<SmsHookPayload> {
   const directSecret = req.headers.get("x-hook-secret") ??
     req.headers.get("x-collect-signature");
   if (directSecret && directSecret === hookSecret) {
-    return JSON.parse(rawBody);
+    try {
+      return JSON.parse(rawBody);
+    } catch (_error) {
+      throw new PublicHookError("Invalid OTP hook payload", 400);
+    }
   }
 
   const standardWebhookSecret = hookSecret.replace(/^v1,whsec_/, "");
@@ -49,7 +63,7 @@ async function verifyHookPayload(req: Request): Promise<SmsHookPayload> {
       Object.fromEntries(req.headers),
     ) as SmsHookPayload;
   } catch (_error) {
-    throw new Error("Unauthorized");
+    throw new PublicHookError("Unauthorized", 401);
   }
 }
 
@@ -67,7 +81,7 @@ Deno.serve(async (req) => {
     const otp = payload.sms?.otp ?? payload.otp ?? payload.code ??
       payload.token;
     if (!phone || !otp) {
-      return jsonResponse({ error: "Missing phone or OTP" }, 400);
+      return jsonResponse({ error: "Invalid OTP hook payload" }, 400);
     }
 
     const supabase = serviceClient();
@@ -122,18 +136,21 @@ Deno.serve(async (req) => {
         phone_hash: phoneHash,
       });
       return jsonResponse({
-        error: "WhatsApp OTP send failed",
+        error: otpDeliveryUnavailable,
         status: safeStatus,
       }, 502);
     }
 
     return jsonResponse({});
   } catch (error) {
-    if (error instanceof Error && error.message === "Unauthorized") {
-      return jsonResponse({ error: "Unauthorized" }, 401);
+    if (error instanceof PublicHookError) {
+      return jsonResponse({ error: error.message }, error.status);
     }
+    console.error("WhatsApp OTP hook failed", {
+      message: safeErrorMessage(error),
+    });
     return jsonResponse({
-      error: safeErrorMessage(error),
-    }, 500);
+      error: otpDeliveryUnavailable,
+    }, 502);
   }
 });

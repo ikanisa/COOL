@@ -40,9 +40,10 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
     }
     return ScreenScaffold(
       title: 'Profile setup',
-      subtitle: profile == null ? 'Sign in to create a Collect ID.' : null,
+      showHeader: false,
       bottomAction: _bottomAction(context, profile),
       children: [
+        const _ProfileSetupPageHeader(),
         if (profile == null)
           const MinimalStatePanel(
             icon: CollectIcons.profile,
@@ -158,5 +159,52 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
         });
       }
     }
+  }
+}
+
+class _ProfileSetupPageHeader extends StatelessWidget {
+  const _ProfileSetupPageHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = colors.onImagePrimary;
+    return Semantics(
+      container: true,
+      header: true,
+      label: 'Profile setup',
+      child: Row(
+        children: [
+          IconButton.filledTonal(
+            tooltip: 'Back',
+            style: IconButton.styleFrom(
+              backgroundColor: foreground.withValues(alpha: 0.10),
+              foregroundColor: foreground,
+              side: BorderSide(color: foreground.withValues(alpha: 0.16)),
+              fixedSize: const Size(44, 44),
+              minimumSize: const Size(44, 44),
+              padding: EdgeInsets.zero,
+            ),
+            onPressed: () => goBackOrHome(context),
+            icon: const Icon(Icons.arrow_back_rounded, size: 22),
+          ),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Text(
+              'Profile setup',
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                color: foreground,
+                fontWeight: FontWeight.w900,
+                height: 1,
+                letterSpacing: 0,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

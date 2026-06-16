@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/providers/collect_app_state.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -29,7 +30,7 @@ class _PaymentIntentStatusScreenState
 
   @override
   Widget build(BuildContext context) {
-    final repo = ref.read(collectRepositoryProvider.notifier);
+    final appState = ref.watch(collectRepositoryProvider);
     final uiStatus = ref.watch(
       paymentUiStatusProvider(
         PaymentStatusKey(
@@ -38,8 +39,57 @@ class _PaymentIntentStatusScreenState
         ),
       ),
     );
-    final intent = repo.intentById(widget.intentId);
-    final collection = repo.collectionById(widget.collectionId);
+    final intent = _maybeIntent(appState.paymentIntents, widget.intentId);
+    final collection = _maybeCollection(
+      appState.collections,
+      widget.collectionId,
+    );
+    final textScale = MediaQuery.textScalerOf(context).scale(1);
+    if (intent == null || collection == null) {
+      return ScreenScaffold(
+        title: 'Payment',
+        subtitle: 'Status unavailable',
+        showHeader: false,
+        persistentPill: CollectTopChrome(
+          avatarLabel: appState.currentProfile?.publicId,
+          searchLabel: 'Payment status',
+          onAvatarTap: () => context.go('/settings/profile'),
+          actions: [
+            CollectTopChromeAction(
+              icon: CollectIcons.ledger,
+              tooltip: 'Open groups',
+              onPressed: () => context.go('/groups'),
+            ),
+          ],
+        ),
+        bottomAction: BottomActionSurface(
+          children: [
+            CollectButton(
+              label: 'Open groups',
+              icon: CollectIcons.collections,
+              onPressed: () => context.go('/groups'),
+              expand: true,
+            ),
+            CollectButton(
+              label: 'Payment help',
+              icon: CollectIcons.support,
+              onPressed: () => context.go('/settings/help'),
+              variant: CollectButtonVariant.secondary,
+              expand: true,
+            ),
+          ],
+        ),
+        children: const [
+          MinimalStatePanel(
+            icon: CollectIcons.pending,
+            title: 'Payment status is loading.',
+            message:
+                'Open the group again if this payment was already completed or expired.',
+            tone: CollectStatusTone.info,
+          ),
+        ],
+      );
+    }
 
     return ScreenScaffold(
       title: 'Payment',
@@ -110,24 +160,50 @@ class _PaymentIntentStatusScreenState
           accentColor: context.collectColors.statusForeground(
             paymentStatusTone(intent.status),
           ),
-          child: Row(
-            children: [
-              CollectStatusChip(
-                label: paymentStatusLabel(intent.status),
-                tone: paymentStatusTone(intent.status),
-                icon: _stateActionIcon(uiStatus),
-              ),
-              CollectSpacing.gapW12,
-              Expanded(
-                child: Text(
-                  _statusMessage(uiStatus),
-                  style: Theme.of(context).textTheme.titleSmall,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+          child: textScale > 1.3
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CollectStatusChip(
+                      label: paymentStatusLabel(intent.status),
+                      tone: paymentStatusTone(intent.status),
+                      icon: _stateActionIcon(uiStatus),
+                    ),
+                    CollectSpacing.gap8,
+                    Text(
+                      _statusMessage(uiStatus),
+                      style: Theme.of(context).textTheme.titleSmall,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                )
+              : Row(
+                  children: [
+                    CollectStatusChip(
+                      label: paymentStatusLabel(intent.status),
+                      tone: paymentStatusTone(intent.status),
+                      icon: _stateActionIcon(uiStatus),
+                    ),
+                    CollectSpacing.gapW12,
+                    Expanded(
+                      child: Text(
+                        _statusMessage(uiStatus),
+                        style: Theme.of(context).textTheme.titleSmall,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
+        ),
+        const CollectVisualFeatureCard(
+          asset: 'assets/brand/generated/collect_visual_momo_signal.png',
+          title: 'Verification trail',
+          message:
+              'MoMo confirmation moves through SMS review before the group ledger changes.',
+          icon: CollectIcons.sms,
+          tone: CollectStatusTone.privacy,
         ),
         PaymentIntentStatusCard(
           amountRwf: intent.expectedAmountRwf,
@@ -178,6 +254,23 @@ class _PaymentIntentStatusScreenState
       if (mounted) setState(() => _refreshing = false);
     }
   }
+}
+
+PaymentIntentModel? _maybeIntent(List<PaymentIntentModel> intents, String id) {
+  for (final intent in intents) {
+    if (intent.id == id) return intent;
+  }
+  return null;
+}
+
+CollectCollection? _maybeCollection(
+  List<CollectCollection> collections,
+  String id,
+) {
+  for (final collection in collections) {
+    if (collection.id == id) return collection;
+  }
+  return null;
 }
 
 String _statePath(PaymentUiStatus status) {

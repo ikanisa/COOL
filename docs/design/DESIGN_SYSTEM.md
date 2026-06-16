@@ -6,15 +6,19 @@ This file mirrors the enforceable contract in `DESIGN.md` and explains how it ma
 
 The 2026-06-08 Revolut screenshots are a reference for mobile fintech quality: gradient page canvases, floating glass controls, compact account/payment hierarchy, rounded bottom navigation, and translucent content panels. Collect applies those principles with its own product model, assets, copy, four primary colors, Paper canvas, and selected supporting surface/status tokens.
 
-Collect does not copy Revolut or Monzo visual assets, logos, trademarks, exact colors, fonts, screens, account labels, crypto/invest tabs, or product layouts.
+Collect does not copy Revolut or Monzo visual assets, logos, trademarks, component colors, fonts, screens, account labels, crypto/invest tabs, or product layouts. Screen-background colors are the explicit exception: they are matched to the supplied Revolut reference screenshots while the product, brand, copy, components, and assets remain Collect-owned.
 
 ## Principles
 
 - Gradient first: member-facing screens render on `CollectGradientBackground`.
+- Distinct modes: light mode uses bright readable glass surfaces over the route gradients; dark mode uses night surfaces, pale text, darker borders, and stronger finance chrome. Both modes stay Revolut-like in gradient structure while using Collect-owned components.
 - Money first: every finance screen starts with the amount, progress, contribution, or payment state that matters most.
 - MoMo-first: copy, examples, and payment flows assume RWF and MoMo/USSD where relevant.
-- Collect ID only: member identity, receiver visibility, and SMS verification states are privacy-safe.
+- Collect ID only: member identity, receiver visibility, and SMS verification states are privacy-safe. Payment-state screenshots must use masked MoMo display such as `+250***3456`, not full receiver numbers.
 - Glass chrome: bottom navigation, bottom sheets, action buttons, search fields, and filters use translucent tokenized surfaces.
+- Dark route headers: shared secondary-route headers use dark glass, official `CollectBrandMark`, high-contrast title hierarchy, and tokenized action capsules.
+- Rich surfaces: home, Home Momentum, group, contribution, payment-state, settings, privacy, support, notification, and legal surfaces use Collect-owned generated visuals where the Revolut reference uses media, marketplace, reward, or product cards. Image-less group cards use generated Collect media instead of blank covers.
+- Compact labels: visible labels, helper text, chips, card titles, table cells, and admin status copy stay one line with ellipsis when constrained. Avoid explanatory in-app paragraphs where a concise label, state, icon, or command is enough.
 - Warm precision: user screens feel premium and human; admin/risk screens stay dense and exact.
 - Token-only implementation: screens compose centralized tokens and shared components rather than raw colors, spacing, radii, or font sizes.
 
@@ -24,7 +28,8 @@ Tokens live in `lib/app/theme/collect_colors.dart`.
 
 - Primary palette: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, Orange `#FF5E43`.
 - Canvas: Paper `#FAF8F5`.
-- Page canvas: `screenBase`, `screenGradient`, with Paper as the base and the four primary colors as the gradient paints.
+- Page canvas: `screenBase`, `screenGradient`, and `adminScreenGradient` use extracted Revolut reference background colors: Account Navy `#000840`, Payments Purple `#181038`, Asset Navy `#101830`, Rewards Violet `#302878`, Wealth Teal `#102028`, and Stock Teal-Black `#001010`. Paper remains the brand and launch foundation, not the runtime screen canvas.
+- Theme modes: `CollectColors.light` and `CollectColors.dark` intentionally differ in surfaces, text, borders, semantic containers, and glass values. `AppTheme.light()` and `AppTheme.dark()` are both registered by member and admin apps through the persisted `collectThemeModeProvider`, which defaults to dark and exposes an in-app Settings toggle.
 - Glass surfaces: `glassPanel`, `glassPanelStrong`, `glassControl`, `glassBorder`, `glassPanelGradient`.
 - Secondary/support palette: Ink Primary `#252044`, Ink Secondary `#4B4664`, Ink Muted `#5F5A76`, Surface Readable `#FFFDFB`, Surface Muted `#F1ECF7`, Border Soft `#DED8EA`, Border Accent `#CDC7F5`, Focus Ring `#6F67E8`.
 - Semantic palette: Success Foreground `#137A3F` on `#E7F8ED`, Info Foreground `#514DD2` on `#ECEBFF`, Warning Foreground `#B9472E` on `#FFE9E3`, Danger Foreground `#B3261E` on `#FFE5DF`, Neutral Container `#F1ECF7`.
@@ -33,12 +38,31 @@ Tokens live in `lib/app/theme/collect_colors.dart`.
 
 Do not add route-level gradients in feature files unless the route is a standalone visual/export surface and still uses Collect tokens.
 
+### Route Background Map
+
+`CollectColors.screenGradientForPath()` is the enforceable route map for the supplied Revolut background families:
+
+| Reference screenshots | Background colors | Route family |
+| --- | --- | --- |
+| `IMG_2739.PNG` | `#0818A0`, `#0F198E`, `#000838`, `#000030` | Home, onboarding, auth |
+| `IMG_2741.PNG`, `IMG_2747.PNG`, `IMG_2750.PNG` | `#302848`, `#181038`, `#100820` | Groups, group detail, member/share entry points, public group links |
+| `IMG_2742.PNG`, `IMG_2748.PNG` | `#303870`, `#202858`, `#101830`, `#000818` | Contribution, payment status, payment state, support payment, ledger |
+| `IMG_2749.PNG` | `#9838F0`, `#7050E8`, `#302878`, `#100820` | Group QR/share, invite/share recovery, settings root |
+| `IMG_2740.PNG` | `#204050`, `#183848`, `#102028`, `#081820` | Group creation, profile, readiness, SMS/device/camera/notification permission recovery, iPhone create-unavailable |
+| `IMG_2751.PNG`, `IMG_2752.PNG` | `#303020`, `#181038`, `#101018` | Settings account, privacy, help, legal |
+| `IMG_2755.PNG` | `#202828`, `#102028`, `#001010` | Offline and sync |
+
+The current route is provided by `CollectBackgroundRouteScope` in the shell and consumed by `CollectGradientBackground`, so shared scaffolds inherit the correct background without duplicating gradients in feature files.
+
 ## Asset Map
 
 - Launcher/app icon: `assets/brand/collect_app_icon_static.png`.
 - Generated icon rule: `assets/brand/generated/collect_app_icon_rule.png`.
 - Mobile wordmark: `assets/brand/generated/collect_wordmark_transparent.png`.
 - Reference sheet: `assets/brand/generated/collect_logo_color_variants_sheet.png`.
+- MoMo signal visual: `assets/brand/generated/collect_visual_momo_signal.png`.
+- Group momentum visual: `assets/brand/generated/collect_visual_group_momentum.png`.
+- QR share visual: `assets/brand/generated/collect_visual_qr_share.png`.
 - Corrected transparent wordmark source: `assets/brand/source_variants/collect_wordmark_transparent_4096.png`.
 - Corrected transparent app mark source: `assets/brand/source_variants/collect_mark_transparent_4096.png`.
 - Corrected gradient logo source: `assets/brand/source_variants/collect_logo_gradient_4096.png`.
@@ -52,8 +76,10 @@ Use the shared primitives before local UI:
 
 - `CollectGradientBackground`, `PremiumScaffold`, `ScreenScaffold`, `ScreenScaffoldLayout`.
 - `CollectBrandMark`.
-- `CollectCard`, `CollectBentoGrid`, `BentoMetricCell`, `GroupCard`.
+- `ScreenHeader` provides the shared dark finance-grade header for secondary routes.
+- `CollectCard`, `CollectVisualFeatureCard`, `CollectBentoGrid`, `BentoMetricCell`, `GroupCard`.
 - `CollectButton`, `SearchWithClearField`, `PremiumSegmentedFilter`.
+- Home rich visual rail cards, Home Momentum cards, image-backed `GroupCard` covers, and `CollectVisualFeatureCard` use runtime assets from `assets/brand/generated/` and Flutter-rendered text.
 - `CollectBottomSheet`, `BottomActionSurface`.
 - `LoadingStatePanel`, `EmptyIllustrationState`, `CollectErrorState`, `InfoSecurityBanner`.
 - `CollectDynamicIsland`, `PaymentPipelineIndicator`, `PaymentVerifiedRing`.
@@ -75,13 +101,14 @@ Feature-level widgets may control content density and order, but not introduce a
 - Card padding: 16 compact, 24 comfortable.
 - Card radii: 24 and 28.
 - Controls: pill by default for mobile CTAs, chips, and fintech chrome.
+- Labels: one line by default with ellipsis for bounded controls, cards, chips, and tables.
 - Bottom sheet radius: 28.
 - Shadows stay subtle and are defined in `CollectShadows`.
 
 ## Accessibility
 
 - Minimum touch targets: Android 48x48 and iOS 44x44 logical pixels.
-- Text must survive 200% scaling without clipped critical actions.
+- Text must survive 200% scaling without clipped critical actions. Rich Home cards must expose semantics for amount/progress/supporter context while preserving masked/private receiver data.
 - Custom controls require semantics labels or tooltips.
 - Status cannot be color-only.
 - Motion must respect `CollectMotion`.
@@ -92,4 +119,7 @@ Feature-level widgets may control content density and order, but not introduce a
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`.
 - Focused widget tests for shared components and shell.
 - `scripts/mobile_route_render_smoke.sh` for all production member routes.
+- `scripts/android_route_visual_evidence.sh` for physical Android route PNG evidence and route contact sheets when device proof is required or local Chromium/CDP is unavailable.
+- `scripts/admin_pwa_authenticated_render_smoke.sh` for authenticated Admin PWA browser PNG evidence with masked evidence-mode data.
+- `COLLECT_VISUAL_EVIDENCE_FRESH=1 scripts/collect_visual_evidence_capture.sh` for non-Chrome member-shell PNG/contact-sheet evidence when local Chromium/CDP is unavailable.
 - `scripts/collect_mobile_design_compliance_audit.sh --json` to verify the palette, docs, shared gradient ownership, route screenshot coverage, and Android evidence when available.

@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../app/env/app_env.dart';
+import '../app/theme/collect_colors.dart';
 import 'core/admin_error_boundary.dart';
 import 'core/admin_repository_base.dart';
+import 'shared/components/admin_loading_state.dart';
 
 class AdminShell extends ConsumerWidget {
   const AdminShell({required this.location, required this.child, super.key});
@@ -16,50 +18,61 @@ class AdminShell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final env = ref.watch(appEnvProvider);
     final identity = ref.watch(adminIdentityProvider);
+    final colors = context.collectColors;
     return Scaffold(
-      body: identity.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => Center(child: AdminSafeErrorPanel(error: error)),
-        data: (value) {
-          if (value == null) return const AdminDeniedPage();
-          ref.watch(adminRealtimeSubscriptionProvider);
-          final destinations = _adminNavDestinationsFor(value);
-          final requiredPermission = adminRequiredPermissionForPath(location);
-          final page = adminCanOpenPath(value, location)
-              ? child
-              : AdminDeniedPage(requiredPermission: requiredPermission);
-          final content = Semantics(
-            container: true,
-            label: 'Collect admin workspace',
-            child: Column(
-              children: [
-                _AdminTopbar(envName: env.environmentName, identity: value),
-                Expanded(child: page),
-              ],
-            ),
-          );
-          return LayoutBuilder(
-            builder: (context, constraints) {
-              if (constraints.maxWidth < 720) {
-                return Column(
+      backgroundColor: CollectColors.inkPrimary,
+      body: DecoratedBox(
+        decoration: BoxDecoration(gradient: colors.adminScreenGradient),
+        child: identity.when(
+          loading: () => const AdminLoadingState(
+            title: 'Loading admin workspace',
+            message: 'Checking access.',
+          ),
+          error: (error, _) => Center(child: AdminSafeErrorPanel(error: error)),
+          data: (value) {
+            if (value == null) return const AdminDeniedPage();
+            ref.watch(adminRealtimeSubscriptionProvider);
+            final destinations = _adminNavDestinationsFor(value);
+            final requiredPermission = adminRequiredPermissionForPath(location);
+            final page = adminCanOpenPath(value, location)
+                ? child
+                : AdminDeniedPage(requiredPermission: requiredPermission);
+            final content = Semantics(
+              container: true,
+              label: 'Collect admin workspace',
+              child: Column(
+                children: [
+                  _AdminTopbar(envName: env.environmentName, identity: value),
+                  Expanded(child: page),
+                ],
+              ),
+            );
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                if (constraints.maxWidth < 720) {
+                  return Column(
+                    children: [
+                      _AdminMobileNav(
+                        location: location,
+                        destinations: destinations,
+                      ),
+                      Expanded(child: content),
+                    ],
+                  );
+                }
+                return Row(
                   children: [
-                    _AdminMobileNav(
+                    _AdminSidebar(
                       location: location,
                       destinations: destinations,
                     ),
                     Expanded(child: content),
                   ],
                 );
-              }
-              return Row(
-                children: [
-                  _AdminSidebar(location: location, destinations: destinations),
-                  Expanded(child: content),
-                ],
-              );
-            },
-          );
-        },
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -180,23 +193,72 @@ class _AdminSidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final colors = context.collectColors;
     return Semantics(
       container: true,
       label: 'Collect admin primary navigation',
       child: SizedBox(
         width: 260,
         child: Material(
-          color: colorScheme.surfaceContainerHighest.withValues(alpha: .45),
+          color: CollectColors.inkPrimary.withValues(alpha: 0.94),
           child: SafeArea(
             child: ListView(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.fromLTRB(12, 16, 12, 16),
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Text(
-                    'Collect Admin',
-                    style: Theme.of(context).textTheme.titleLarge,
+                  padding: const EdgeInsets.fromLTRB(8, 2, 8, 18),
+                  child: Row(
+                    children: [
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: colors.onImagePrimary.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: colors.onImagePrimary.withValues(
+                              alpha: 0.16,
+                            ),
+                          ),
+                        ),
+                        child: SizedBox(
+                          width: 44,
+                          height: 44,
+                          child: Icon(
+                            Icons.admin_panel_settings_outlined,
+                            color: colors.onImagePrimary,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Collect Admin',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(
+                                    color: colors.onImagePrimary,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                            ),
+                            Text(
+                              'Operations',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.labelMedium
+                                  ?.copyWith(
+                                    color: colors.onImagePrimary.withValues(
+                                      alpha: 0.62,
+                                    ),
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 for (final destination in destinations)
@@ -218,19 +280,19 @@ class _AdminMobileNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final colors = context.collectColors;
     return Semantics(
       container: true,
       label: 'Collect admin mobile navigation',
       child: Material(
-        color: colorScheme.surfaceContainerHighest.withValues(alpha: .45),
+        color: CollectColors.inkPrimary.withValues(alpha: 0.96),
         child: SafeArea(
           bottom: false,
           child: SizedBox(
-            height: 56,
+            height: 64,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               itemCount: destinations.length,
               separatorBuilder: (_, _) => const SizedBox(width: 8),
               itemBuilder: (context, index) {
@@ -244,11 +306,14 @@ class _AdminMobileNav extends StatelessWidget {
                   child: FilledButton.tonalIcon(
                     style: FilledButton.styleFrom(
                       backgroundColor: selected
-                          ? colorScheme.primaryContainer
-                          : colorScheme.surface,
+                          ? colors.surfaceReadable
+                          : colors.onImagePrimary.withValues(alpha: 0.12),
                       foregroundColor: selected
-                          ? colorScheme.onPrimaryContainer
-                          : colorScheme.onSurfaceVariant,
+                          ? colors.textPrimary
+                          : colors.onImagePrimary,
+                      side: BorderSide(
+                        color: colors.onImagePrimary.withValues(alpha: 0.16),
+                      ),
                       visualDensity: VisualDensity.compact,
                     ),
                     onPressed: () => context.go(destination.path),
@@ -274,18 +339,41 @@ class _NavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selected = _isSelected(destination.path, location);
+    final colors = context.collectColors;
+    final foreground = selected ? colors.textPrimary : colors.onImagePrimary;
     return Semantics(
       button: true,
       selected: selected,
       label: '${destination.label} admin section',
       hint: 'Opens ${destination.label} in the admin console.',
-      child: ListTile(
-        selected: selected,
-        leading: Icon(destination.icon),
-        title: Text(destination.label),
-        dense: true,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        onTap: () => context.go(destination.path),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 3),
+        child: ListTile(
+          selected: selected,
+          selectedTileColor: colors.surfaceReadable,
+          tileColor: selected
+              ? colors.surfaceReadable
+              : colors.onImagePrimary.withValues(alpha: 0.07),
+          iconColor: foreground,
+          textColor: foreground,
+          leading: Icon(destination.icon, size: 20),
+          title: Text(
+            destination.label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontWeight: selected ? FontWeight.w900 : null),
+          ),
+          dense: true,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: BorderSide(
+              color: colors.surfaceReadable.withValues(
+                alpha: selected ? 0.0 : 0.10,
+              ),
+            ),
+          ),
+          onTap: () => context.go(destination.path),
+        ),
       ),
     );
   }
@@ -303,41 +391,82 @@ class _AdminTopbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.collectColors;
     return Semantics(
       container: true,
       label:
           'Signed in as ${identity.displayName}. Roles: ${identity.roles.join(', ')}. Environment: $envName.',
       child: Material(
-        color: Theme.of(context).colorScheme.surface,
+        color: CollectColors.inkPrimary.withValues(alpha: 0.90),
         child: SafeArea(
           bottom: false,
           child: Container(
-            height: 64,
-            padding: const EdgeInsets.symmetric(horizontal: 18),
+            height: 68,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  color: Theme.of(context).colorScheme.outlineVariant,
+                  color: colors.surfaceReadable.withValues(alpha: 0.10),
                 ),
               ),
             ),
             child: Row(
               children: [
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: colors.mintPaint.withValues(alpha: 0.14),
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: SizedBox(
+                    width: 10,
+                    height: 10,
+                    child: Center(
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: colors.mintPaint,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const SizedBox.square(dimension: 5),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     '${identity.displayName}  ${identity.roles.join(', ')}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: colors.onImagePrimary,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
-                Flexible(
-                  child: Text(
-                    envName.toUpperCase(),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.end,
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: colors.onImagePrimary.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(999),
+                    border: Border.all(
+                      color: colors.onImagePrimary.withValues(alpha: 0.16),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    child: Text(
+                      envName.toUpperCase(),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.end,
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        color: colors.onImagePrimary,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
                   ),
                 ),
               ],

@@ -440,13 +440,20 @@ class CollectRepository extends StateNotifier<CollectState> {
     required String title,
     required String description,
     required String receiverMomoNumber,
+    String receiverLabel = 'Primary MoMo receiver',
+    bool receiverIsMomoPayCode = false,
     String? accentColorHex,
     String? imageUrl,
   }) async {
     final profile = _requireProfile();
-    final normalizedReceiver = PhoneNormalizer.normalizeRwanda(
-      receiverMomoNumber,
-    );
+    final normalizedReceiver = receiverIsMomoPayCode
+        ? _normalizeMomoPayCode(receiverMomoNumber)
+        : PhoneNormalizer.normalizeRwanda(receiverMomoNumber);
+    final normalizedLabel = receiverLabel.trim().isEmpty
+        ? receiverIsMomoPayCode
+              ? 'MoMo Pay code'
+              : 'Primary MoMo receiver'
+        : receiverLabel.trim();
     final supabase = _supabase;
 
     if (supabase != null && supabase.auth.currentUser != null) {
@@ -457,7 +464,7 @@ class CollectRepository extends StateNotifier<CollectState> {
           'group_description': description.trim(),
           'receiver_momo_number': normalizedReceiver,
           'receiver_momo_number_hash': HashUtils.phoneHash(normalizedReceiver),
-          'receiver_label': 'Primary MoMo receiver',
+          'receiver_label': normalizedLabel,
         },
       );
       final collection = await _fetchCollection(collectionId);
@@ -476,6 +483,7 @@ class CollectRepository extends StateNotifier<CollectState> {
       title: title.trim(),
       description: description.trim(),
       receiverMomoNumber: normalizedReceiver,
+      receiverDisplayLabel: normalizedLabel,
       accentColorHex: accentColorHex,
       imageUrl: imageUrl,
       isPublic: false,
@@ -483,6 +491,12 @@ class CollectRepository extends StateNotifier<CollectState> {
     );
     state = state.copyWith(collections: [...state.collections, collection]);
     return collection;
+  }
+
+  String _normalizeMomoPayCode(String value) {
+    final digits = value.replaceAll(RegExp(r'\D'), '');
+    if (digits.length >= 5 && digits.length <= 6) return digits;
+    throw const FormatException('Use a 5 or 6 digit MoMo Pay code.');
   }
 
   Future<CollectCollection> updateCollectionReceiver({

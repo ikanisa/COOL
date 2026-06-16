@@ -165,6 +165,29 @@ void main() {
     expect(find.text('MoMo number'), findsOneWidget);
   });
 
+  testWidgets('home momentum feed supports large text and semantics', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await pumpRoute(tester, '/home', textScale: 2);
+
+      expect(tester.takeException(), isNull);
+      await tester.scrollUntilVisible(
+        find.byKey(const ValueKey('home_momentum_feed_semantics')),
+        300,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pump();
+
+      expect(find.text('Momentum'), findsOneWidget);
+      expect(find.bySemanticsLabel(RegExp('momentum card')), findsWidgets);
+      expect(find.bySemanticsLabel(RegExp('collected')), findsWidgets);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
   testWidgets('completion sheets and dialogs tolerate 200 percent text scale', (
     tester,
   ) async {
@@ -178,6 +201,25 @@ void main() {
       expect(tester.takeException(), isNull, reason: route);
       expect(find.byType(CollectApp), findsOneWidget, reason: route);
     }
+  });
+
+  testWidgets('payment handoff route tolerates Pixel width large text', (
+    tester,
+  ) async {
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(390, 844);
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await pumpRoute(
+      tester,
+      '/groups/col-church/pay/intent-render/handoff',
+      textScale: 2,
+    );
+
+    final exception = tester.takeException();
+    expect(exception, isNull);
+    expect(find.byType(CollectApp), findsOneWidget);
   });
 
   testWidgets('create group walks through five owner setup steps', (

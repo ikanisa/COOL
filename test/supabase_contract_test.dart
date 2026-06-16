@@ -289,6 +289,11 @@ void main() {
     expect(otp, contains('new Webhook(standardWebhookSecret).verify'));
     expect(otp, contains('payload.sms?.otp'));
     expect(otp, contains('whatsappAuthTemplateComponents'));
+    expect(otp, contains('otpDeliveryUnavailable'));
+    expect(otp, contains('PublicHookError'));
+    expect(otp, contains('Invalid OTP hook payload'));
+    expect(otp, contains('console.error("WhatsApp OTP hook failed"'));
+    expect(otp, isNot(contains('error: safeErrorMessage(error)')));
     expect(otp, contains('sub_type: "url"'));
     expect(otp, contains('index: "0"'));
     expect(config, contains('[functions.auth-send-whatsapp-otp]'));

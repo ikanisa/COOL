@@ -35,6 +35,18 @@ Repo-wide release verdict remains **NO-GO** for non-admin blockers: product sign
 | Render-smoke script | Pass after fix | `ADMIN_PWA_SCREENSHOT_TIMEOUT_SECONDS=20 scripts/admin_pwa_render_smoke.sh` passed at `.cache/admin_pwa_render_smoke/20260612T064358Z` |
 | Final repo release status | NO-GO | `scripts/release_status.sh --json` reported blockers unrelated to Admin PWA live hosting |
 
+## Design-Parity Addendum On 2026-06-15
+
+The Admin PWA received a design-parity pass for the Revolut-reference goal without changing the admin security model:
+
+- Mobile login clipping was fixed by sizing the login card from actual compact horizontal padding.
+- The login screen no longer visibly pre-fills the registered admin phone number, which prevents visual evidence from exposing a real/private phone number.
+- Login, page headers, and table/list surfaces now use stronger Collect gradient, glass, border, shadow, and dense operations styling.
+- Contact-sheet evidence can be generated with `scripts/collect_visual_evidence_capture.sh`; the latest June 15 combined contact-sheet run is at `.cache/collect_visual_evidence/20260615T163054Z` and uses fresh physical Android member screenshots plus existing Admin PWA evidence.
+- Fresh Admin PWA render-smoke evidence passed at `.cache/admin_pwa_render_smoke/20260615T164756Z`, including desktop 1440x900 and mobile 390x844 screenshots from rebuilt `build/web`.
+
+This is not a final Admin PWA 100 percent visual signoff. Authenticated operator list/detail browser review and stable repeat browser evidence are still required; a later rerun at `.cache/admin_pwa_render_smoke/20260615T165941Z` failed in the local Chrome/DevTools runtime step even though the local HTTP server served the app assets.
+
 ## Implementation Progress On 2026-06-12
 
 | Area | Status | Evidence |

@@ -10,6 +10,7 @@ class CollectTheme {
   const CollectTheme._();
 
   static ThemeData light() => _build(CollectColors.light, Brightness.light);
+  static ThemeData dark() => _build(CollectColors.dark, Brightness.dark);
 
   static ThemeData _build(CollectColors colors, Brightness brightness) {
     final scheme = ColorScheme(
@@ -69,6 +70,7 @@ class CollectTheme {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: ButtonStyle(
+          foregroundColor: WidgetStatePropertyAll(colors.onAccent),
           minimumSize: const WidgetStatePropertyAll(
             Size(CollectSpacing.target, CollectSpacing.target),
           ),

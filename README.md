@@ -18,18 +18,56 @@ The mobile bottom navigation is `Home`, `Groups`, and `Settings`.
 Mobile app routes:
 
 - `/auth`
+- `/auth/success`
+- `/auth/failure`
+- `/onboarding`
+- `/onboarding/legal`
 - `/home`
+- `/offline`
+- `/sync`
+- `/notifications`
+- `/permissions/sms`
+- `/permissions/sms-denied`
+- `/permissions/device`
+- `/permissions/notifications-denied`
+- `/permissions/camera-denied`
+- `/platform/iphone-create-unavailable`
 - `/groups`
+- `/groups/join`
+- `/groups/scan`
 - `/groups/create`
 - `/groups/:collectionId`
+- `/groups/:collectionId/created`
+- `/groups/:collectionId/joined`
+- `/groups/:collectionId/members`
+- `/groups/:collectionId/owner`
+- `/groups/:collectionId/owner/sms-health`
+- `/groups/:collectionId/owner/receiver`
 - `/groups/:collectionId/manage`
+- `/groups/:collectionId/profile`
 - `/groups/:collectionId/contribute`
+- `/groups/:collectionId/pay/:intentId/handoff`
+- `/groups/:collectionId/pay/:intentId/waiting`
+- `/groups/:collectionId/pay/:intentId/state/:state`
 - `/groups/:collectionId/pay/:intentId`
+- `/groups/:collectionId/support/payment/:intentId`
 - `/groups/:collectionId/share`
 - `/groups/:collectionId/invite`
 - `/groups/:collectionId/ledger`
-- `/profile/setup`
+- `/c/:slug`
+- `/share/invalid`
+- `/share/expired`
+- `/share/expired/request`
 - `/settings`
+- `/settings/profile`
+- `/settings/readiness`
+- `/settings/account`
+- `/settings/account/delete`
+- `/settings/privacy`
+- `/settings/help`
+- `/settings/legal/terms`
+- `/settings/legal/privacy`
+- `/share/confirmed`
 
 ## Core Workflow
 

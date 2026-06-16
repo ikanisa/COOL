@@ -18,6 +18,7 @@ const viewport = args.get('--viewport') ?? '390x844';
 const waitMs = Number(args.get('--wait-ms') ?? '9000');
 const devtoolsReadyMs = Number(args.get('--devtools-ready-ms') ?? '30000');
 const commandTimeoutMs = Number(args.get('--command-timeout-ms') ?? '30000');
+const headlessArg = process.env.CHROME_CDP_HEADLESS_ARG || '--headless';
 
 if (!chrome || !url || !output || !profile) {
   console.error(
@@ -68,7 +69,7 @@ rmSync(profile, { recursive: true, force: true });
 mkdirSync(profile, { recursive: true });
 
 const chromeArgs = [
-  '--headless=new',
+  headlessArg,
   '--force-device-scale-factor=1',
   '--disable-gpu',
   '--disable-background-networking',
@@ -77,6 +78,7 @@ const chromeArgs = [
   '--disable-dev-shm-usage',
   '--disable-extensions',
   '--disable-crash-reporter',
+  '--no-sandbox',
   '--no-first-run',
   '--no-default-browser-check',
   `--user-data-dir=${profile}`,
@@ -210,6 +212,32 @@ try {
   await command('Emulation.setTouchEmulationEnabled', { enabled: true });
   await command('Page.navigate', { url });
   await delay(waitMs);
+  const bootDeadline = Date.now() + commandTimeoutMs;
+  while (Date.now() < bootDeadline) {
+    const bootState = await command('Runtime.evaluate', {
+      expression: `(() => {
+        const hasFlutterSurface = Boolean(document.querySelector('flt-glass-pane, flutter-view, flt-scene-host, canvas'));
+        const hasMainBundle = Array.from(document.scripts).some((script) => script.src.endsWith('/main.dart.js'));
+        return {
+          readyState: document.readyState,
+          bodyChildren: document.body ? document.body.children.length : 0,
+          hasFlutterSurface,
+          hasMainBundle,
+        };
+      })()`,
+      returnByValue: true,
+    });
+    const value = bootState.result?.value;
+    if (
+      value?.readyState === 'complete' &&
+      value?.hasFlutterSurface &&
+      value?.hasMainBundle &&
+      value?.bodyChildren > 2
+    ) {
+      break;
+    }
+    await delay(250);
+  }
   const screenshot = await command('Page.captureScreenshot', {
     format: 'png',
     fromSurface: true,

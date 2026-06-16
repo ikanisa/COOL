@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../app/theme/collect_motion.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -263,9 +264,27 @@ class _GroupProfilePhotoCard extends StatelessWidget {
                   ),
                 ),
                 if (imageBytes != null)
-                  Image.memory(imageBytes!, fit: BoxFit.cover)
+                  Image.memory(
+                    imageBytes!,
+                    fit: BoxFit.cover,
+                    gaplessPlayback: true,
+                    filterQuality: FilterQuality.medium,
+                    frameBuilder: _fadeInGroupProfileImage,
+                  )
                 else if (_imageProviderUrl(imageUrl) case final url?)
-                  Image.network(url, fit: BoxFit.cover),
+                  Image.network(
+                    url,
+                    fit: BoxFit.cover,
+                    gaplessPlayback: true,
+                    filterQuality: FilterQuality.medium,
+                    frameBuilder: _fadeInGroupProfileImage,
+                    loadingBuilder: (context, child, loadingProgress) =>
+                        loadingProgress == null
+                        ? child
+                        : const SizedBox.shrink(),
+                    errorBuilder: (context, error, stackTrace) =>
+                        const SizedBox.shrink(),
+                  ),
                 Positioned.fill(
                   child: DecoratedBox(
                     decoration: BoxDecoration(
@@ -445,6 +464,21 @@ String? _mimeTypeFromName(String name) {
   if (lower.endsWith('.webp')) return 'image/webp';
   if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) return 'image/jpeg';
   return null;
+}
+
+Widget _fadeInGroupProfileImage(
+  BuildContext context,
+  Widget child,
+  int? frame,
+  bool wasSynchronouslyLoaded,
+) {
+  if (wasSynchronouslyLoaded) return child;
+  return AnimatedOpacity(
+    opacity: frame == null ? 0 : 1,
+    duration: CollectMotion.duration(context, CollectMotion.medium),
+    curve: CollectMotion.standard,
+    child: child,
+  );
 }
 
 String? _imageProviderUrl(String? value) {

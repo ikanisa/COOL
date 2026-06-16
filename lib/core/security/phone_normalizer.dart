@@ -39,7 +39,7 @@ class PhoneNormalizer {
     }
 
     throw const FormatException(
-      'Use a Rwanda phone number, for example +250788123456',
+      'Use a Rwanda phone number, for example +250 7XX XXX XXX',
     );
   }
 

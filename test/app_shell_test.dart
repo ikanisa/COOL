@@ -22,7 +22,9 @@ void main() {
       expect(find.byType(CollectBrandMark), findsOneWidget);
       expect(find.text('038491'), findsOneWidget);
       expect(find.text('TOTAL COLLECTED'), findsOneWidget);
-      expect(find.text('Public groups'), findsOneWidget);
+      expect(find.text('Home'), findsOneWidget);
+      expect(find.text('Groups'), findsOneWidget);
+      expect(find.text('Settings'), findsOneWidget);
       expect(find.text('CONFIRMED'), findsNothing);
       expect(find.text('PENDING'), findsNothing);
       expect(find.text('FAILED'), findsNothing);
@@ -32,6 +34,14 @@ void main() {
     } finally {
       semantics.dispose();
     }
+  });
+
+  testWidgets('app boots with persisted dark-first theme mode', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: CollectApp()));
+    await tester.pump();
+
+    final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
+    expect(app.themeMode, ThemeMode.dark);
   });
 
   testWidgets('unknown routes render branded recovery actions', (tester) async {
@@ -68,7 +78,7 @@ void main() {
         '/home',
         '/offline',
         '/sync',
-        '/permissions/sms',
+        '/notifications',
         '/permissions/sms-denied',
         '/permissions/device',
         '/permissions/notifications-denied',
@@ -76,19 +86,25 @@ void main() {
         '/platform/iphone-create-unavailable',
         '/groups',
         '/groups/join',
+        '/groups/scan',
         '/groups/create',
         '/groups/:collectionId',
         '/groups/:collectionId/created',
         '/groups/:collectionId/joined',
         '/groups/:collectionId/members',
+        '/groups/:collectionId/owner',
+        '/groups/:collectionId/owner/sms-health',
+        '/groups/:collectionId/owner/receiver',
         '/groups/:collectionId/manage',
         '/groups/:collectionId/profile',
         '/groups/:collectionId/contribute',
+        '/groups/:collectionId/pay/:intentId/handoff',
         '/groups/:collectionId/pay/:intentId/waiting',
         '/groups/:collectionId/pay/:intentId/state/:state',
         '/groups/:collectionId/pay/:intentId',
         '/groups/:collectionId/support/payment/:intentId',
         '/groups/:collectionId/share',
+        '/groups/:collectionId/invite',
         '/groups/:collectionId/ledger',
         '/c/:slug',
         '/share/invalid',
@@ -103,6 +119,7 @@ void main() {
         '/settings/help',
         '/settings/legal/terms',
         '/settings/legal/privacy',
+        '/share/confirmed',
         if (kDebugMode) '/dev/design-system',
       ]),
     );
@@ -127,6 +144,32 @@ void main() {
           .toSet();
 
       expect(smokeRoutes, containsAll(productionScreenRoutes));
+    },
+  );
+
+  test(
+    'physical-device route matrix covers mobile screenshot smoke routes',
+    () {
+      final smokeScript = File(
+        'scripts/mobile_route_render_smoke.sh',
+      ).readAsStringSync();
+      final deviceTest = File(
+        'integration_test/mobile_route_matrix_device_uat_test.dart',
+      ).readAsStringSync();
+      final smokeRouteBlock = smokeScript.substring(
+        smokeScript.indexOf('route_specs=('),
+        smokeScript.indexOf('\n)\n\ncaptures_json='),
+      );
+      final smokeRoutes = RegExp(
+        r'^\s*"[^"|]+\|([^"]+)"',
+        multiLine: true,
+      ).allMatches(smokeRouteBlock).map((match) => match.group(1)!).toSet();
+      final deviceRoutes = RegExp(
+        r"_RouteSpec\(\s*'[^']+',\s*'([^']+)'\s*,?\s*\)",
+        multiLine: true,
+      ).allMatches(deviceTest).map((match) => match.group(1)!).toSet();
+
+      expect(deviceRoutes, containsAll(smokeRoutes));
     },
   );
 
@@ -155,6 +198,18 @@ void main() {
 
   test('theme loads', () {
     expect(AppTheme.light(), isA<ThemeData>());
+    expect(AppTheme.dark(), isA<ThemeData>());
+    expect(AppTheme.dark().brightness, Brightness.dark);
+  });
+
+  test('member and admin apps use persisted Collect theme mode', () {
+    final memberApp = File('lib/app/app.dart').readAsStringSync();
+    final adminApp = File('lib/admin/admin_app.dart').readAsStringSync();
+
+    expect(memberApp, contains('collectThemeModeProvider'));
+    expect(adminApp, contains('collectThemeModeProvider'));
+    expect(memberApp, isNot(contains('themeMode: ThemeMode.system')));
+    expect(adminApp, isNot(contains('themeMode: ThemeMode.system')));
   });
 
   testWidgets('reduced motion returns zero animation duration', (tester) async {

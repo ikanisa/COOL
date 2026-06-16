@@ -15,6 +15,7 @@ import '../shared/components/admin_confirm_dialog.dart';
 import '../shared/components/admin_data_table.dart';
 import '../shared/components/admin_empty_state.dart';
 import '../shared/components/admin_filter_bar.dart';
+import '../shared/components/admin_loading_state.dart';
 import '../shared/components/admin_metric_card.dart';
 import '../shared/components/admin_page.dart';
 import '../shared/components/admin_sensitive_data_gate.dart';
@@ -225,7 +226,7 @@ class AdminLoginPage extends ConsumerStatefulWidget {
 }
 
 class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
-  final _phone = TextEditingController(text: _collectAdminWhatsAppPhone);
+  final _phone = TextEditingController();
   final _otp = TextEditingController();
   var _otpSent = false;
   var _isBusy = false;
@@ -243,166 +244,178 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
     final colors = context.collectColors;
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      backgroundColor: colors.surfaceMuted,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final isCompact = constraints.maxWidth < 600;
-          final contentWidth = math.max(
-            0.0,
-            math.min(isCompact ? 430.0 : 460.0, constraints.maxWidth - 32),
-          );
-          return SafeArea(
-            child: Align(
-              alignment: Alignment.center,
-              child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(
-                  horizontal: isCompact ? 20 : 32,
-                  vertical: 28,
-                ),
-                child: SizedBox(
-                  width: contentWidth,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: colors.surfaceReadable,
-                      borderRadius: BorderRadius.circular(28),
-                      border: Border.all(color: colors.borderSoft),
-                      boxShadow: [
-                        BoxShadow(
-                          color: CollectColors.inkPrimary.withValues(
-                            alpha: 0.08,
+      backgroundColor: colors.screenBase,
+      body: DecoratedBox(
+        decoration: BoxDecoration(gradient: colors.screenGradient),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final viewportWidth = MediaQuery.sizeOf(context).width;
+            final layoutWidth = math.min(constraints.maxWidth, viewportWidth);
+            final isCompact = layoutWidth < 600;
+            final outerPadding = isCompact ? 16.0 : 32.0;
+            final contentWidth = math.max(
+              0.0,
+              isCompact
+                  ? layoutWidth - (outerPadding * 2)
+                  : math.min(460.0, layoutWidth - (outerPadding * 2)),
+            );
+            return SafeArea(
+              child: Align(
+                alignment: Alignment.center,
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: outerPadding,
+                    vertical: 28,
+                  ),
+                  child: SizedBox(
+                    width: contentWidth,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: colors.surfaceReadable.withValues(alpha: 0.92),
+                        borderRadius: BorderRadius.circular(28),
+                        border: Border.all(color: colors.glassBorder),
+                        boxShadow: [
+                          BoxShadow(
+                            color: CollectColors.inkPrimary.withValues(
+                              alpha: 0.14,
+                            ),
+                            blurRadius: 48,
+                            offset: const Offset(0, 24),
                           ),
-                          blurRadius: 40,
-                          offset: const Offset(0, 22),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(isCompact ? 24 : 32),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: 44,
-                                height: 44,
-                                decoration: BoxDecoration(
-                                  color: CollectColors.inkPrimary,
-                                  borderRadius: BorderRadius.circular(14),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(isCompact ? 22 : 32),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  width: 44,
+                                  height: 44,
+                                  decoration: BoxDecoration(
+                                    color: CollectColors.inkPrimary,
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                  child: Icon(
+                                    Icons.lock_outline,
+                                    color: colors.surfaceReadable,
+                                    size: 21,
+                                  ),
                                 ),
-                                child: Icon(
-                                  Icons.lock_outline,
-                                  color: colors.surfaceReadable,
-                                  size: 21,
-                                ),
-                              ),
-                              const Spacer(),
-                              _AdminLoginStatusChip(colors: colors),
-                            ],
-                          ),
-                          const SizedBox(height: 28),
-                          Text(
-                            'Collect admin login',
-                            style: textTheme.headlineSmall?.copyWith(
-                              color: colors.textPrimary,
-                              fontWeight: FontWeight.w800,
-                              height: 1.05,
+                                const Spacer(),
+                                _AdminLoginStatusChip(colors: colors),
+                              ],
                             ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            'Sign in with the registered admin WhatsApp number.',
-                            style: textTheme.bodyLarge?.copyWith(
-                              color: colors.textSecondary,
-                              height: 1.45,
-                            ),
-                          ),
-                          const SizedBox(height: 28),
-                          Text(
-                            'WhatsApp phone',
-                            style: textTheme.labelLarge?.copyWith(
-                              color: colors.textPrimary,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          _AdminPhoneInput(controller: _phone),
-                          if (_otpSent) ...[
-                            const SizedBox(height: 18),
+                            const SizedBox(height: 28),
                             Text(
-                              'OTP code',
+                              'Collect admin login',
+                              style: textTheme.headlineSmall?.copyWith(
+                                color: colors.textPrimary,
+                                fontWeight: FontWeight.w800,
+                                height: 1.05,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              'Admin WhatsApp sign-in.',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: textTheme.bodyLarge?.copyWith(
+                                color: colors.textSecondary,
+                                height: 1.45,
+                              ),
+                            ),
+                            const SizedBox(height: 28),
+                            Text(
+                              'WhatsApp phone',
                               style: textTheme.labelLarge?.copyWith(
                                 color: colors.textPrimary,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
                             const SizedBox(height: 8),
-                            _AdminOtpInput(controller: _otp),
-                          ],
-                          if (_error != null) ...[
-                            const SizedBox(height: 14),
-                            _AdminLoginError(message: _error!),
-                          ],
-                          const SizedBox(height: 24),
-                          Semantics(
-                            button: true,
-                            label: _otpSent
-                                ? 'Verify admin WhatsApp OTP'
-                                : 'Send admin WhatsApp OTP',
-                            hint: _otpSent
-                                ? 'Submits the one-time code and opens the admin console if this profile is approved.'
-                                : 'Sends a WhatsApp one-time password to the registered admin number.',
-                            enabled: !_isBusy,
-                            child: FilledButton.icon(
-                              onPressed: _isBusy ? null : _submit,
-                              style: FilledButton.styleFrom(
-                                minimumSize: const Size.fromHeight(58),
-                                backgroundColor: CollectColors.inkPrimary,
-                                foregroundColor: colors.surfaceReadable,
-                                disabledBackgroundColor:
-                                    colors.neutralContainer,
-                                disabledForegroundColor: colors.textMuted,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    CollectRadius.md,
+                            _AdminPhoneInput(controller: _phone),
+                            if (_otpSent) ...[
+                              const SizedBox(height: 18),
+                              Text(
+                                'OTP code',
+                                style: textTheme.labelLarge?.copyWith(
+                                  color: colors.textPrimary,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              _AdminOtpInput(controller: _otp),
+                            ],
+                            if (_error != null) ...[
+                              const SizedBox(height: 14),
+                              _AdminLoginError(message: _error!),
+                            ],
+                            const SizedBox(height: 24),
+                            Semantics(
+                              button: true,
+                              label: _otpSent
+                                  ? 'Verify admin WhatsApp OTP'
+                                  : 'Send admin WhatsApp OTP',
+                              hint: _otpSent
+                                  ? 'Submits the code.'
+                                  : 'Sends the OTP.',
+                              enabled: !_isBusy,
+                              child: FilledButton.icon(
+                                onPressed: _isBusy ? null : _submit,
+                                style: FilledButton.styleFrom(
+                                  minimumSize: const Size.fromHeight(58),
+                                  backgroundColor: CollectColors.inkPrimary,
+                                  foregroundColor: colors.surfaceReadable,
+                                  disabledBackgroundColor:
+                                      colors.neutralContainer,
+                                  disabledForegroundColor: colors.textMuted,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      CollectRadius.md,
+                                    ),
+                                  ),
+                                  textStyle: textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w800,
                                   ),
                                 ),
-                                textStyle: textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.w800,
+                                icon: _isBusy
+                                    ? SizedBox(
+                                        width: 18,
+                                        height: 18,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: colors.surfaceReadable,
+                                        ),
+                                      )
+                                    : Icon(
+                                        _otpSent
+                                            ? Icons.verified_user_outlined
+                                            : Icons.chat_bubble_outline,
+                                        size: 20,
+                                      ),
+                                label: Text(
+                                  _otpSent
+                                      ? 'Verify code'
+                                      : 'Send WhatsApp OTP',
                                 ),
                               ),
-                              icon: _isBusy
-                                  ? SizedBox(
-                                      width: 18,
-                                      height: 18,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: colors.surfaceReadable,
-                                      ),
-                                    )
-                                  : Icon(
-                                      _otpSent
-                                          ? Icons.verified_user_outlined
-                                          : Icons.chat_bubble_outline,
-                                      size: 20,
-                                    ),
-                              label: Text(
-                                _otpSent ? 'Verify code' : 'Send WhatsApp OTP',
-                              ),
                             ),
-                          ),
-                          const SizedBox(height: 18),
-                          const _AdminLoginAssuranceRow(),
-                        ],
+                            const SizedBox(height: 18),
+                            const _AdminLoginAssuranceRow(),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -439,18 +452,22 @@ class _AdminLoginPageState extends ConsumerState<AdminLoginPage> {
   }
 
   String _adminLoginErrorMessage(Object error) {
-    final message = error.toString();
+    final message = error.toString().toLowerCase();
     if (message.contains('status code returned from hook') ||
-        message.contains('AuthRetryableFetchException') ||
-        message.contains('WhatsApp OTP send failed')) {
+        message.contains('authretryablefetchexception') ||
+        message.contains('error sending confirmation') ||
+        message.contains('send_sms') ||
+        message.contains('hook') && message.contains('sms') ||
+        message.contains('whatsapp otp delivery') ||
+        message.contains('whatsapp otp send failed')) {
       return 'WhatsApp could not send the OTP. Check the approved template and try again.';
     }
-    if (message.contains('Token has expired or is invalid') ||
+    if (message.contains('token has expired or is invalid') ||
         message.contains('expired or is invalid') ||
-        message.contains('Invalid token')) {
+        message.contains('invalid token')) {
       return 'That code is expired or already used. Request a new WhatsApp OTP.';
     }
-    if (message.contains('registered admin WhatsApp number')) {
+    if (message.contains('registered admin whatsapp number')) {
       return 'Use the registered admin WhatsApp number.';
     }
     if (message.contains('not authorized') ||
@@ -698,8 +715,8 @@ class AdminDeniedPage extends StatelessWidget {
     return AdminPage(
       title: 'Admin access required',
       subtitle: permission == null
-          ? 'Your Supabase session is active, but this profile does not have platform admin permissions.'
-          : 'Your Supabase session is active, but this profile is missing $permission.',
+          ? 'Admin permission missing.'
+          : 'Missing $permission.',
     );
   }
 }
@@ -712,10 +729,12 @@ class AdminOverviewContent extends ConsumerWidget {
     final metrics = ref.watch(_adminOverviewProvider);
     return AdminPage(
       title: 'Operations overview',
-      subtitle:
-          'Live operational queues from Supabase. No raw SMS or private phone numbers are shown here.',
+      subtitle: 'Live queues. Private data gated.',
       child: metrics.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const AdminLoadingState(
+          title: 'Loading operations overview',
+          message: 'Refreshing queues.',
+        ),
         error: (error, _) => AdminSafeErrorPanel(error: error),
         data: (items) {
           if (items.isEmpty) {
@@ -727,7 +746,10 @@ class AdminOverviewContent extends ConsumerWidget {
           return Wrap(
             spacing: 12,
             runSpacing: 12,
-            children: [for (final item in items) AdminMetricCard(metric: item)],
+            children: [
+              for (final item in items) AdminMetricCard(metric: item),
+              const _AdminOverviewSignalCard(),
+            ],
           );
         },
       ),
@@ -817,7 +839,10 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
             future: _future,
             builder: (context, snapshot) {
               if (snapshot.connectionState != ConnectionState.done) {
-                return const Center(child: CircularProgressIndicator());
+                return AdminLoadingState(
+                  title: 'Loading ${widget.title.toLowerCase()}',
+                  message: 'Fetching the latest rows and filters.',
+                );
               }
               if (snapshot.hasError) {
                 return AdminSafeErrorPanel(error: snapshot.error!);
@@ -934,8 +959,7 @@ class _AdminListSpec {
     return switch (rpcName) {
       'admin_list_payment_events' => const _AdminListSpec(
         title: 'SMS parsing',
-        subtitle:
-            'Triage parsed MoMo SMS events, exceptions, and parser actions without exposing raw message bodies.',
+        subtitle: 'Triage MoMo SMS events.',
         statusOptions: [
           AdminFilterOption(value: '', label: 'All'),
           AdminFilterOption(value: 'needs_review', label: 'Review'),
@@ -950,24 +974,14 @@ class _AdminListSpec {
           AdminFilterOption(value: 'amount_asc', label: 'Amount low'),
         ],
         prioritySignals: [
-          _AdminQueueSignal(
-            Icons.rule_outlined,
-            'Investigate ambiguous parser matches',
-          ),
-          _AdminQueueSignal(
-            Icons.replay_outlined,
-            'Reason required before reparse',
-          ),
-          _AdminQueueSignal(
-            Icons.privacy_tip_outlined,
-            'Raw SMS hidden by default',
-          ),
+          _AdminQueueSignal(Icons.rule_outlined, 'Ambiguous matches'),
+          _AdminQueueSignal(Icons.replay_outlined, 'Reason required'),
+          _AdminQueueSignal(Icons.privacy_tip_outlined, 'Raw SMS hidden'),
         ],
       ),
       'admin_list_allocations' => const _AdminListSpec(
         title: 'Allocations',
-        subtitle:
-            'Review matched payment events and allocation history before operator escalation.',
+        subtitle: 'Review matched payments.',
         statusOptions: [
           AdminFilterOption(value: '', label: 'All'),
           AdminFilterOption(value: 'allocated', label: 'Allocated'),
@@ -981,8 +995,7 @@ class _AdminListSpec {
       ),
       'admin_list_unallocated' => const _AdminListSpec(
         title: 'Exceptions',
-        subtitle:
-            'Resolve unallocated, ambiguous, and needs-review MoMo events with audited operator context.',
+        subtitle: 'Resolve open MoMo events.',
         statusOptions: [
           AdminFilterOption(value: '', label: 'Open'),
           AdminFilterOption(value: 'needs_review', label: 'Review'),
@@ -1003,8 +1016,7 @@ class _AdminListSpec {
       ),
       'admin_list_sms_metadata' => const _AdminListSpec(
         title: 'SMS metadata',
-        subtitle:
-            'Review parser metadata while raw SMS content remains behind audited reveal.',
+        subtitle: 'Review SMS metadata.',
         statusOptions: [
           AdminFilterOption(value: '', label: 'All'),
           AdminFilterOption(value: 'needs_review', label: 'Review'),
@@ -1019,7 +1031,7 @@ class _AdminListSpec {
       ),
       _ => const _AdminListSpec(
         title: 'Admin queue',
-        subtitle: 'Filter, sort, and review operational records from Supabase.',
+        subtitle: 'Review records.',
         statusOptions: _defaultStatuses,
         sortOptions: _defaultSorts,
       ),
@@ -1043,43 +1055,73 @@ class _AdminQueueSummary extends StatelessWidget {
   Widget build(BuildContext context) {
     if (spec.prioritySignals.isEmpty) return const SizedBox.shrink();
     final colors = context.collectColors;
+    final maxChipWidth = math.max(
+      0.0,
+      math.min(260.0, MediaQuery.sizeOf(context).width - 48),
+    );
     return Semantics(
       container: true,
       label: '${spec.title} operator workflow signals',
       hint: spec.subtitle,
-      child: Wrap(
-        spacing: 10,
-        runSpacing: 10,
-        children: [
-          for (final signal in spec.prioritySignals)
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: colors.surfaceMuted,
-                borderRadius: BorderRadius.circular(CollectRadius.md),
-                border: Border.all(color: colors.borderSoft),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 10,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(signal.icon, size: 18, color: colors.textSecondary),
-                    const SizedBox(width: 8),
-                    Text(
-                      signal.label,
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: colors.textPrimary,
-                        fontWeight: FontWeight.w800,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.textPrimary.withValues(alpha: 0.94),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            color: colors.surfaceReadable.withValues(alpha: 0.12),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              for (final signal in spec.prioritySignals)
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: colors.surfaceReadable.withValues(alpha: 0.11),
+                    borderRadius: BorderRadius.circular(CollectRadius.md),
+                    border: Border.all(
+                      color: colors.surfaceReadable.withValues(alpha: 0.14),
+                    ),
+                  ),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: maxChipWidth),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 10,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            signal.icon,
+                            size: 18,
+                            color: colors.surfaceReadable,
+                          ),
+                          const SizedBox(width: 8),
+                          Flexible(
+                            child: Text(
+                              signal.label,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.labelLarge
+                                  ?.copyWith(
+                                    color: colors.surfaceReadable,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-        ],
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -1106,42 +1148,117 @@ class _AdminPaginationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            'Showing $start-$end of $total',
-            style: Theme.of(context).textTheme.bodySmall,
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.surfaceReadable.withValues(alpha: 0.88),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: colors.borderAccent),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                'Showing $start-$end of $total',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: colors.textSecondary,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+            Semantics(
+              button: true,
+              label: 'Previous admin results page',
+              hint: canGoBack
+                  ? 'Shows the previous page of admin queue results.'
+                  : 'Unavailable on the first page.',
+              enabled: canGoBack,
+              child: IconButton.outlined(
+                tooltip: 'Previous page',
+                onPressed: canGoBack ? onPrevious : null,
+                icon: const Icon(Icons.chevron_left),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Semantics(
+              button: true,
+              label: 'Next admin results page',
+              hint: canGoNext
+                  ? 'Shows the next page of admin queue results.'
+                  : 'Unavailable on the last page.',
+              enabled: canGoNext,
+              child: IconButton.outlined(
+                tooltip: 'Next page',
+                onPressed: canGoNext ? onNext : null,
+                icon: const Icon(Icons.chevron_right),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _AdminOverviewSignalCard extends StatelessWidget {
+  const _AdminOverviewSignalCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return SizedBox(
+      width: 260,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.surfaceReadable.withValues(alpha: 0.96),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: colors.borderAccent),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: colors.textPrimary,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: Icon(
+                    Icons.privacy_tip_outlined,
+                    color: colors.surfaceReadable,
+                    size: 20,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Sensitive data gated',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Raw details stay gated.',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
+              ),
+            ],
           ),
         ),
-        Semantics(
-          button: true,
-          label: 'Previous admin results page',
-          hint: canGoBack
-              ? 'Shows the previous page of admin queue results.'
-              : 'Unavailable on the first page.',
-          enabled: canGoBack,
-          child: IconButton.outlined(
-            tooltip: 'Previous page',
-            onPressed: canGoBack ? onPrevious : null,
-            icon: const Icon(Icons.chevron_left),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Semantics(
-          button: true,
-          label: 'Next admin results page',
-          hint: canGoNext
-              ? 'Shows the next page of admin queue results.'
-              : 'Unavailable on the last page.',
-          enabled: canGoNext,
-          child: IconButton.outlined(
-            tooltip: 'Next page',
-            onPressed: canGoNext ? onNext : null,
-            icon: const Icon(Icons.chevron_right),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
@@ -1220,7 +1337,10 @@ class AdminDetailPage extends ConsumerWidget {
         future: ref.read(adminRepositoryProvider).detail(rpcName, id),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(child: CircularProgressIndicator());
+            return AdminLoadingState(
+              title: 'Loading ${title.toLowerCase()}',
+              message: 'Fetching record.',
+            );
           }
           if (snapshot.hasError) {
             return AdminSafeErrorPanel(error: snapshot.error!);
@@ -1252,15 +1372,17 @@ class AdminSmsDetailPage extends ConsumerWidget {
     final identity = ref.watch(adminIdentityProvider).valueOrNull;
     return AdminPage(
       title: 'SMS metadata',
-      subtitle:
-          'Raw SMS body stays hidden unless an authorized admin enters a reason.',
+      subtitle: 'Raw SMS stays gated.',
       child: FutureBuilder<Map<String, dynamic>>(
         future: ref
             .read(adminRepositoryProvider)
             .detail('admin_get_sms_metadata', id),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(child: CircularProgressIndicator());
+            return const AdminLoadingState(
+              title: 'Loading SMS metadata',
+              message: 'Fetching metadata.',
+            );
           }
           if (snapshot.hasError) {
             return AdminSafeErrorPanel(error: snapshot.error!);
@@ -1291,8 +1413,7 @@ class AdminSmsDetailPage extends ConsumerWidget {
               else
                 const AdminEmptyState(
                   title: 'Raw SMS restricted',
-                  message:
-                      'This admin profile can review SMS metadata but cannot reveal raw message bodies.',
+                  message: 'Reveal permission missing.',
                 ),
             ],
           );
@@ -1320,13 +1441,27 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
     final spec = _AdminDetailSpec.forRpc(rpcName, title);
     final fields = _adminDetailFields(spec, data);
     final identity = ref.watch(adminIdentityProvider).valueOrNull;
+    final colors = context.collectColors;
     return Semantics(
       container: true,
+      explicitChildNodes: true,
       label: '${spec.heading} detail panel',
       hint: spec.subtitle,
-      child: Card(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.surfaceReadable.withValues(alpha: 0.96),
+          borderRadius: BorderRadius.circular(26),
+          border: Border.all(color: colors.borderAccent),
+          boxShadow: [
+            BoxShadow(
+              color: colors.textPrimary.withValues(alpha: 0.12),
+              blurRadius: 28,
+              offset: const Offset(0, 14),
+            ),
+          ],
+        ),
         child: Padding(
-          padding: const EdgeInsets.all(18),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1337,7 +1472,10 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                 children: [
                   Text(
                     spec.heading,
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: colors.textPrimary,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                   if (_detailValue(data, const ['status']).isNotEmpty)
                     AdminStatusChip(
@@ -1349,7 +1487,18 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                 const SizedBox(height: 8),
                 Text(
                   spec.subtitle,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
+                ),
+              ],
+              if (_detailValue(data, const ['status']).isNotEmpty) ...[
+                const SizedBox(height: 8),
+                SelectableText(
+                  '"status": "${_detailValue(data, const ['status'])}"',
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],
               const SizedBox(height: 16),
@@ -1414,7 +1563,7 @@ class _AdminDetailFieldCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final colors = context.collectColors;
     return Semantics(
       label: label,
       value: value,
@@ -1424,9 +1573,9 @@ class _AdminDetailFieldCard extends StatelessWidget {
           constraints: const BoxConstraints(minWidth: 220, maxWidth: 340),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+              color: colors.surfaceMuted.withValues(alpha: 0.78),
               borderRadius: BorderRadius.circular(CollectRadius.md),
-              border: Border.all(color: colorScheme.outlineVariant),
+              border: Border.all(color: colors.borderAccent),
             ),
             child: Padding(
               padding: const EdgeInsets.all(14),
@@ -1436,13 +1585,15 @@ class _AdminDetailFieldCard extends StatelessWidget {
                   Text(
                     label,
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
+                      color: colors.textSecondary,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                   const SizedBox(height: 6),
                   SelectableText(
                     value,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: colors.textPrimary,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -1471,7 +1622,7 @@ class _AdminDetailSpec {
     return switch (rpcName) {
       'admin_get_collection' => const _AdminDetailSpec(
         heading: 'Group operations profile',
-        subtitle: 'Support and moderation context for this Collect group.',
+        subtitle: 'Group support context.',
         fields: [
           _AdminDetailFieldSpec('Group ID', ['id']),
           _AdminDetailFieldSpec('Group name', ['name', 'title']),
@@ -1484,8 +1635,7 @@ class _AdminDetailSpec {
       ),
       'admin_get_user' => const _AdminDetailSpec(
         heading: 'Member support profile',
-        subtitle:
-            'Scoped member context for support without exposing raw identity data.',
+        subtitle: 'Scoped member context.',
         fields: [
           _AdminDetailFieldSpec('User ID', ['id', 'user_id']),
           _AdminDetailFieldSpec('Collect ID', ['collect_id', 'public_id']),
@@ -1497,7 +1647,7 @@ class _AdminDetailSpec {
       ),
       'admin_get_payment' => const _AdminDetailSpec(
         heading: 'Payment intent review',
-        subtitle: 'Expected MoMo collection state and allocation context.',
+        subtitle: 'MoMo intent state.',
         fields: [
           _AdminDetailFieldSpec('Intent ID', ['id']),
           _AdminDetailFieldSpec('Group', ['collection_id', 'group_id']),
@@ -1513,8 +1663,7 @@ class _AdminDetailSpec {
       ),
       'admin_get_payment_event' => const _AdminDetailSpec(
         heading: 'SMS payment event review',
-        subtitle:
-            'Parsed payment event context for allocation, exception handling, and audit.',
+        subtitle: 'Parsed payment event.',
         fields: [
           _AdminDetailFieldSpec('Event ID', ['id']),
           _AdminDetailFieldSpec('Transaction', [
@@ -1534,8 +1683,7 @@ class _AdminDetailSpec {
       ),
       'admin_get_receiver' => const _AdminDetailSpec(
         heading: 'Receiver route review',
-        subtitle:
-            'MoMo receiver routing context for payment allocation operations.',
+        subtitle: 'MoMo receiver route.',
         fields: [
           _AdminDetailFieldSpec('Receiver ID', ['id']),
           _AdminDetailFieldSpec('Label', ['label', 'receiver_label']),
@@ -1547,8 +1695,7 @@ class _AdminDetailSpec {
       ),
       'admin_get_sms_metadata' => const _AdminDetailSpec(
         heading: 'SMS metadata review',
-        subtitle:
-            'Message metadata only. Raw SMS content remains behind audited reveal.',
+        subtitle: 'Metadata only.',
         fields: [
           _AdminDetailFieldSpec('SMS ID', ['id']),
           _AdminDetailFieldSpec('Sender', ['sender_masked']),
@@ -1559,7 +1706,7 @@ class _AdminDetailSpec {
       ),
       'admin_system_health' => const _AdminDetailSpec(
         heading: 'System health',
-        subtitle: 'Live platform readiness signals for operators.',
+        subtitle: 'Platform readiness.',
         fields: [
           _AdminDetailFieldSpec('Status', ['status']),
           _AdminDetailFieldSpec('Database', ['database', 'db']),
@@ -1570,7 +1717,7 @@ class _AdminDetailSpec {
       ),
       _ => _AdminDetailSpec(
         heading: fallbackTitle,
-        subtitle: 'Structured operational fields for this admin record.',
+        subtitle: 'Record fields.',
         fields: const [
           _AdminDetailFieldSpec('Record ID', ['id']),
           _AdminDetailFieldSpec('Status', ['status']),

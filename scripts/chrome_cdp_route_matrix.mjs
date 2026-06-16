@@ -20,6 +20,7 @@ const waitMs = Number(args.get('--wait-ms') ?? '9000');
 const devtoolsReadyMs = Number(args.get('--devtools-ready-ms') ?? '30000');
 const commandTimeoutMs = Number(args.get('--command-timeout-ms') ?? '45000');
 const routeTimeoutMs = Number(args.get('--route-timeout-ms') ?? String(Math.max(commandTimeoutMs + waitMs + 5000, 30000)));
+const headlessArg = process.env.CHROME_CDP_HEADLESS_ARG || '--headless';
 
 if (!chrome || !baseUrl || !outputDir || !profile || !Array.isArray(routes)) {
   console.error(
@@ -62,7 +63,7 @@ rmSync(profile, { recursive: true, force: true });
 mkdirSync(profile, { recursive: true });
 
 const chromeArgs = [
-  '--headless=new',
+  headlessArg,
   '--force-device-scale-factor=1',
   '--disable-gpu',
   '--disable-background-networking',

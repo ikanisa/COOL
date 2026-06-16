@@ -6,45 +6,78 @@ import 'package:go_router/go_router.dart';
 import '../../shared/widgets/collect_components.dart';
 
 class CollectShell extends StatelessWidget {
-  const CollectShell({required this.child, super.key});
+  const CollectShell({
+    required this.child,
+    this.currentPath,
+    this.onNavigate,
+    super.key,
+  });
 
   final Widget child;
+  final String? currentPath;
+  final ValueChanged<String>? onNavigate;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final path = GoRouterState.of(context).uri.path;
+    final path = currentPath ?? GoRouterState.of(context).uri.path;
     final showNav = !_isStandalone(path);
-    return CollectGradientBackground(
-      child: Scaffold(
-        backgroundColor: colors.transparent,
-        extendBody: true,
-        body: child,
-        bottomNavigationBar: showNav
-            ? SafeArea(
-                top: false,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(14, 0, 14, 10),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(32),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: colors.glassControl.withValues(alpha: 0.86),
-                          border: Border.all(color: colors.glassBorder),
-                        ),
-                        child: _CollectBottomNav(
-                          selectedIndex: _selectedIndex(context),
-                          onDestinationSelected: (index) =>
-                              context.go(_paths[index]),
+    return CollectBackgroundRouteScope(
+      routePath: path,
+      child: CollectGradientBackground(
+        routePath: path,
+        child: Scaffold(
+          backgroundColor: colors.transparent,
+          extendBody: true,
+          body: child,
+          bottomNavigationBar: showNav
+              ? SafeArea(
+                  top: false,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(14, 0, 14, 10),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(32),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: CollectColors.inkPrimary.withValues(
+                              alpha: 0.92,
+                            ),
+                            border: Border.all(
+                              color: colors.onImagePrimary.withValues(
+                                alpha: 0.34,
+                              ),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: CollectColors.inkPrimary.withValues(
+                                  alpha: 0.18,
+                                ),
+                                blurRadius: 26,
+                                offset: const Offset(0, 14),
+                              ),
+                            ],
+                          ),
+                          child: _CollectBottomNav(
+                            selectedIndex: _selectedIndexForPath(path),
+                            onDestinationSelected: (index) {
+                              final destination = _paths[index];
+                              final handler = onNavigate;
+                              if (handler != null) {
+                                handler(destination);
+                                return;
+                              }
+                              context.go(destination);
+                            },
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              )
-            : null,
+                )
+              : null,
+        ),
       ),
     );
   }
@@ -57,8 +90,7 @@ class CollectShell extends StatelessWidget {
         path.startsWith('/auth/');
   }
 
-  int _selectedIndex(BuildContext context) {
-    final path = GoRouterState.of(context).uri.path;
+  int _selectedIndexForPath(String path) {
     if (path.startsWith('/groups')) {
       return 1;
     }
@@ -86,8 +118,8 @@ class _CollectBottomNav extends StatelessWidget {
     ),
     _CollectNavDestination(
       label: 'Groups',
-      icon: CollectIcons.collectionsOutline,
-      selectedIcon: CollectIcons.collections,
+      icon: CollectIcons.people,
+      selectedIcon: CollectIcons.people,
     ),
     _CollectNavDestination(
       label: 'Settings',
@@ -99,8 +131,8 @@ class _CollectBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textScale = MediaQuery.textScalerOf(context).scale(1);
-    final showLabels = textScale <= 1.35;
-    final height = showLabels ? 68.0 : 60.0;
+    final showLabels = textScale <= 1.45;
+    final height = showLabels ? 76.0 : 64.0;
     return Semantics(
       container: true,
       label: 'Primary navigation',
@@ -141,12 +173,16 @@ class _CollectBottomNavItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final textTheme = Theme.of(context).textTheme;
-    final foreground = selected ? colors.textPrimary : colors.textMuted;
+    final foreground = selected
+        ? colors.onImagePrimary
+        : colors.onImagePrimary.withValues(alpha: 0.72);
     final indicator = LinearGradient(
       colors: [
-        colors.actionColor.withValues(alpha: 0.22),
-        colors.periwinklePaint.withValues(alpha: 0.16),
+        colors.onImagePrimary.withValues(alpha: 0.24),
+        colors.periwinklePaint.withValues(alpha: 0.34),
       ],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
     );
     return Tooltip(
       message: destination.label,
@@ -159,46 +195,53 @@ class _CollectBottomNavItem extends StatelessWidget {
           containedInkWell: true,
           highlightShape: BoxShape.rectangle,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 7),
+            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 8),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                DecoratedBox(
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 180),
+                  curve: Curves.easeOutCubic,
+                  width: selected ? 56 : 44,
+                  height: 32,
                   decoration: BoxDecoration(
-                    color: selected ? null : colors.transparent,
+                    color: selected
+                        ? null
+                        : colors.onImagePrimary.withValues(alpha: 0.04),
                     gradient: selected ? indicator : null,
-                    borderRadius: BorderRadius.circular(999),
-                    border: selected
-                        ? Border.all(color: colors.glassBorder)
-                        : null,
+                    borderRadius: CollectRadius.pillBorder,
+                    border: Border.all(
+                      color: colors.onImagePrimary.withValues(
+                        alpha: selected ? 0.24 : 0.08,
+                      ),
+                    ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 18,
-                      vertical: 6,
-                    ),
-                    child: Icon(
-                      selected ? destination.selectedIcon : destination.icon,
-                      size: 22,
-                      color: foreground,
-                    ),
+                  child: Icon(
+                    selected ? destination.selectedIcon : destination.icon,
+                    size: selected ? 22 : 21,
+                    color: foreground,
                   ),
                 ),
                 if (showLabel) ...[
-                  const SizedBox(height: 3),
-                  Flexible(
+                  const SizedBox(height: 5),
+                  SizedBox(
+                    height: 18,
+                    width: double.infinity,
                     child: Text(
                       destination.label,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: textTheme.labelSmall?.copyWith(
                         color: foreground,
+                        fontSize: selected ? 12.5 : 12,
                         fontWeight: selected
-                            ? FontWeight.w700
-                            : FontWeight.w500,
+                            ? FontWeight.w800
+                            : FontWeight.w700,
                         letterSpacing: 0,
+                        height: 1.0,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ],

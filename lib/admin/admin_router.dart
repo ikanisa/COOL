@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'admin_shell.dart';
 import 'core/admin_auth_guard.dart';
 import 'core/admin_repository_base.dart';
+import 'shared/components/admin_empty_state.dart';
+import 'shared/components/admin_page.dart';
 
 const adminRoutePaths = <String>[
   '/admin/login',
@@ -179,7 +181,7 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
       ),
     ],
     errorBuilder: (context, state) =>
-        const Scaffold(body: Center(child: Text('Admin route not found'))),
+        AdminUnknownRoutePage(location: state.uri.path),
   );
 });
 
@@ -199,6 +201,50 @@ GoRoute _listRoute(
       actionKind: actionKind,
     ),
   );
+}
+
+class AdminUnknownRoutePage extends StatelessWidget {
+  const AdminUnknownRoutePage({required this.location, super.key});
+
+  final String location;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: AdminPage(
+        title: 'Admin route not found',
+        subtitle: location.isEmpty
+            ? 'The requested admin screen is not registered.'
+            : '$location is not a registered admin screen.',
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const AdminEmptyState(
+              title: 'This admin screen is unavailable',
+              message: 'Return to overview.',
+            ),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: [
+                FilledButton.icon(
+                  onPressed: () => context.go('/admin'),
+                  icon: const Icon(Icons.dashboard_outlined),
+                  label: const Text('Operations overview'),
+                ),
+                OutlinedButton.icon(
+                  onPressed: () => context.go('/admin/login'),
+                  icon: const Icon(Icons.login_outlined),
+                  label: const Text('Admin login'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 GoRoute _detailRoute(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../app/theme/collect_colors.dart';
+
 class AdminFilterBar extends StatelessWidget {
   const AdminFilterBar({
     required this.searchController,
@@ -32,69 +34,105 @@ class AdminFilterBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 12,
-      runSpacing: 12,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      children: [
-        SizedBox(
-          width: 320,
-          child: Semantics(
-            textField: true,
-            label: 'Search admin queue',
-            hint:
-                'Filters the current admin queue by record, reference, or operator context.',
-            child: TextField(
-              controller: searchController,
-              onSubmitted: (_) => onRefresh(),
-              decoration: const InputDecoration(
-                labelText: 'Search',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.surfaceReadable.withValues(alpha: 0.92),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: colors.borderAccent),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Wrap(
+          spacing: 12,
+          runSpacing: 12,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            SizedBox(
+              width: 320,
+              child: Semantics(
+                textField: true,
+                label: 'Search admin queue',
+                hint:
+                    'Filters the current admin queue by record, reference, or operator context.',
+                child: TextField(
+                  controller: searchController,
+                  onSubmitted: (_) => onRefresh(),
+                  decoration: InputDecoration(
+                    labelText: 'Search',
+                    prefixIcon: const Icon(Icons.search),
+                    filled: true,
+                    fillColor: colors.surfaceMuted.withValues(alpha: 0.72),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-        Semantics(
-          label: 'Admin queue status filter',
-          hint: 'Limits results to the selected queue state.',
-          child: SegmentedButton<String>(
-            segments: [
-              for (final option in statusOptions)
-                ButtonSegment(value: option.value, label: Text(option.label)),
-            ],
-            selected: {status},
-            onSelectionChanged: (value) => onStatusChanged(value.single),
-          ),
-        ),
-        SizedBox(
-          width: 220,
-          child: DropdownButtonFormField<String>(
-            initialValue: sortBy,
-            isExpanded: true,
-            decoration: const InputDecoration(
-              labelText: 'Sort',
-              prefixIcon: Icon(Icons.sort),
-              border: OutlineInputBorder(),
-            ),
-            items: [
-              for (final option in sortOptions)
-                DropdownMenuItem(
-                  value: option.value,
-                  child: Text(option.label, overflow: TextOverflow.ellipsis),
+            Semantics(
+              label: 'Admin queue status filter',
+              hint: 'Limits results to the selected queue state.',
+              child: SegmentedButton<String>(
+                style: SegmentedButton.styleFrom(
+                  backgroundColor: colors.surfaceMuted.withValues(alpha: 0.62),
+                  selectedBackgroundColor: colors.textPrimary,
+                  selectedForegroundColor: colors.surfaceReadable,
+                  foregroundColor: colors.textPrimary,
+                  side: BorderSide(color: colors.borderAccent),
                 ),
-            ],
-            onChanged: (value) {
-              if (value != null) onSortChanged(value);
-            },
-          ),
+                segments: [
+                  for (final option in statusOptions)
+                    ButtonSegment(
+                      value: option.value,
+                      label: Text(option.label),
+                    ),
+                ],
+                selected: {status},
+                onSelectionChanged: (value) => onStatusChanged(value.single),
+              ),
+            ),
+            SizedBox(
+              width: 220,
+              child: DropdownButtonFormField<String>(
+                initialValue: sortBy,
+                isExpanded: true,
+                decoration: InputDecoration(
+                  labelText: 'Sort',
+                  prefixIcon: const Icon(Icons.sort),
+                  filled: true,
+                  fillColor: colors.surfaceMuted.withValues(alpha: 0.72),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                ),
+                items: [
+                  for (final option in sortOptions)
+                    DropdownMenuItem(
+                      value: option.value,
+                      child: Text(
+                        option.label,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                ],
+                onChanged: (value) {
+                  if (value != null) onSortChanged(value);
+                },
+              ),
+            ),
+            IconButton.filled(
+              tooltip: 'Refresh',
+              style: IconButton.styleFrom(
+                backgroundColor: colors.textPrimary,
+                foregroundColor: colors.surfaceReadable,
+              ),
+              onPressed: onRefresh,
+              icon: const Icon(Icons.refresh),
+            ),
+          ],
         ),
-        IconButton.filledTonal(
-          tooltip: 'Refresh',
-          onPressed: onRefresh,
-          icon: const Icon(Icons.refresh),
-        ),
-      ],
+      ),
     );
   }
 }

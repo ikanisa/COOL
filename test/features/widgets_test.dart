@@ -117,16 +117,16 @@ void main() {
       ),
     );
 
-    expect(find.byIcon(Icons.public_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.public_rounded), findsWidgets);
     expect(find.byIcon(Icons.lock_rounded), findsNothing);
-    expect(find.byType(BackdropFilter), findsNothing);
+    expect(find.byType(BackdropFilter), findsOneWidget);
     expect(tester.widget<Text>(find.text('Public building fund')).maxLines, 1);
     expect(find.text('Total collected'), findsNothing);
     expect(find.text('RWF 35,000'), findsOneWidget);
     expect(find.text('Members'), findsNothing);
   });
 
-  testWidgets('visual group card keeps title compact without blur chrome', (
+  testWidgets('visual group card keeps title compact with glass chrome', (
     tester,
   ) async {
     const title = 'St Michel building fund with a longer community name';
@@ -144,6 +144,7 @@ void main() {
                 creatorUserId: 'u1',
                 title: title,
                 description: 'Owner group',
+                isPublic: true,
                 createdAt: DateTime(2026),
               ),
               summary: const CollectionSummary(
@@ -157,7 +158,14 @@ void main() {
       ),
     );
 
-    expect(find.byType(BackdropFilter), findsNothing);
+    expect(find.byType(BackdropFilter), findsOneWidget);
+    final cover = tester.widget<Image>(find.byType(Image));
+    expect(
+      (cover.image as AssetImage).assetName,
+      'assets/brand/generated/collect_visual_momo_signal.png',
+    );
+    expect(find.text('Public'), findsNothing);
+    expect(find.byIcon(CollectIcons.public), findsOneWidget);
     expect(tester.widget<Text>(find.text(title)).maxLines, 1);
     expect(
       tester.widget<Text>(find.text(title)).overflow,
@@ -222,9 +230,15 @@ void main() {
       ),
     );
 
+    expect(find.text('Waiting for MoMo SMS verification.'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('St Michel treasury'),
+      300,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await tester.pump();
     expect(find.text('St Michel treasury'), findsOneWidget);
     expect(find.text('RWF 15,000'), findsWidgets);
-    expect(find.text('Waiting for MoMo SMS verification.'), findsOneWidget);
     await tester.drag(find.byType(ListView).last, const Offset(0, -500));
     await tester.pump();
     expect(find.text('Status'), findsOneWidget);
@@ -233,6 +247,30 @@ void main() {
       findsNothing,
     );
     expect(find.text('Waiting for MoMo SMS'), findsNothing);
+  });
+
+  testWidgets('payment status screen tolerates 200 percent text scale', (
+    tester,
+  ) async {
+    final repo = CollectRepository.seeded();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
+        child: const MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(textScaler: TextScaler.linear(2)),
+            child: PaymentIntentStatusScreen(
+              collectionId: 'col-church',
+              intentId: 'intent-render',
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(tester.takeException(), isNull);
+    expect(find.text('Waiting for MoMo SMS verification.'), findsOneWidget);
   });
 
   testWidgets('contribution flow keeps primary action pinned', (tester) async {

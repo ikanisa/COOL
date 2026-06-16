@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../app/theme/collect_theme_controller.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -39,6 +42,14 @@ class SettingsScreen extends ConsumerWidget {
       ),
       children: [
         CollectIdCard(publicId: profile?.publicId ?? ''),
+        const CollectVisualFeatureCard(
+          asset: 'assets/brand/generated/collect_visual_group_momentum.png',
+          title: 'Ready for group activity',
+          message:
+              'Profile, permissions, privacy, and support stay connected to verified MoMo groups.',
+          icon: CollectIcons.shield,
+          tone: CollectStatusTone.info,
+        ),
         _SettingsCluster(
           tone: CollectStatusTone.privacy,
           children: [
@@ -54,6 +65,7 @@ class SettingsScreen extends ConsumerWidget {
               subtitle: 'Payment and group alerts.',
               onTap: () => context.go('/notifications'),
             ),
+            const _ThemeModeTile(),
           ],
         ),
         _SettingsCluster(
@@ -104,6 +116,30 @@ class SettingsScreen extends ConsumerWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+class _ThemeModeTile extends ConsumerWidget {
+  const _ThemeModeTile();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(collectThemeModeProvider);
+    final isDark = themeMode == ThemeMode.dark;
+    return CollectListTile(
+      leading: CollectIcons.palette,
+      title: 'Dark mode',
+      subtitle: isDark ? 'Night surfaces.' : 'Light surfaces.',
+      onTap: () => unawaited(
+        ref.read(collectThemeModeProvider.notifier).setDarkMode(!isDark),
+      ),
+      trailing: Switch.adaptive(
+        value: isDark,
+        onChanged: (value) => unawaited(
+          ref.read(collectThemeModeProvider.notifier).setDarkMode(value),
+        ),
+      ),
     );
   }
 }

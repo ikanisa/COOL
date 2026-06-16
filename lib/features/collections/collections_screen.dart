@@ -51,9 +51,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
               (state) => state.currentProfile?.publicId,
             ),
           ),
-          searchController: _search,
-          searchLabel: 'Search groups',
-          onSearchChanged: (value) => setState(() => _query = value),
+          showSearch: false,
           onAvatarTap: () => context.go('/settings/profile'),
           actions: [
             CollectTopChromeAction(
@@ -99,9 +97,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
             (state) => state.currentProfile?.publicId,
           ),
         ),
-        searchController: _search,
-        searchLabel: 'Search groups',
-        onSearchChanged: (value) => setState(() => _query = value),
+        showSearch: false,
         onAvatarTap: () => context.go('/settings/profile'),
         actions: [
           CollectTopChromeAction(
@@ -276,16 +272,27 @@ class _GroupControlButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final fill = isDark
+        ? CollectColors.referencePaymentsPurpleDeep.withValues(alpha: 0.58)
+        : colors.glassControl;
+    final border = isDark
+        ? colors.onImagePrimary.withValues(alpha: 0.30)
+        : colors.glassBorder;
+    final titleColor = isDark
+        ? colors.onImagePrimary.withValues(alpha: 0.62)
+        : colors.textMuted;
+    final valueColor = isDark ? colors.onImagePrimary : colors.textPrimary;
     return Semantics(
       button: true,
       label: '$title $value',
       child: Material(
-        color: colors.glassControl,
+        color: fill,
         borderRadius: CollectRadius.pillBorder,
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: CollectRadius.pillBorder,
-            border: Border.all(color: colors.glassBorder),
+            border: Border.all(color: border),
           ),
           child: InkWell(
             borderRadius: CollectRadius.pillBorder,
@@ -297,7 +304,11 @@ class _GroupControlButton extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(icon, color: colors.actionColor, size: 20),
+                  Icon(
+                    icon,
+                    color: isDark ? colors.onImagePrimary : colors.actionColor,
+                    size: 20,
+                  ),
                   CollectSpacing.gapW8,
                   Expanded(
                     child: Column(
@@ -306,9 +317,7 @@ class _GroupControlButton extends StatelessWidget {
                       children: [
                         Text(
                           title.toUpperCase(),
-                          style: CollectTypography.eyebrowLabel(
-                            colors.textMuted,
-                          ),
+                          style: CollectTypography.eyebrowLabel(titleColor),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -316,7 +325,7 @@ class _GroupControlButton extends StatelessWidget {
                           value,
                           style: Theme.of(context).textTheme.labelLarge
                               ?.copyWith(
-                                color: colors.textPrimary,
+                                color: valueColor,
                                 fontWeight: FontWeight.w900,
                               ),
                           maxLines: 1,
@@ -325,7 +334,7 @@ class _GroupControlButton extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Icon(CollectIcons.chevron, size: 18),
+                  Icon(CollectIcons.chevron, size: 18, color: valueColor),
                 ],
               ),
             ),
