@@ -6,6 +6,7 @@ import 'app/app.dart';
 import 'app/env/app_env.dart';
 import 'app/theme/collect_colors.dart';
 import 'core/logging/app_logger.dart';
+import 'shared/repositories/collect_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,9 +27,19 @@ Future<void> main() async {
   final env = AppEnv.fromEnvironment();
   AppLogger.instance.i('Collect starting in ${env.environmentName} mode');
 
+  const mobileEvidenceMode = bool.fromEnvironment(
+    'COLLECT_MOBILE_EVIDENCE_MODE',
+  );
+
   runApp(
     ProviderScope(
-      overrides: [appEnvProvider.overrideWithValue(env)],
+      overrides: [
+        appEnvProvider.overrideWithValue(env),
+        if (mobileEvidenceMode)
+          collectRepositoryProvider.overrideWith(
+            (ref) => CollectRepository.fixture(),
+          ),
+      ],
       child: const CollectApp(),
     ),
   );

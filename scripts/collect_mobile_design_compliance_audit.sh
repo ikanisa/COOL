@@ -100,6 +100,8 @@ colors = read(File.join(root, "lib/app/theme/collect_colors.dart"))
 components = read(File.join(root, "lib/shared/widgets/collect_components.dart"))
 shell = read(File.join(root, "lib/core/widgets/collect_shell.dart"))
 share_screen = read(File.join(root, "lib/features/collections/share_screen.dart"))
+main_entry = read(File.join(root, "lib/main.dart"))
+route_smoke_script = read(File.join(root, "scripts/mobile_route_render_smoke.sh"))
 theme_parity_path = File.join(root, "test/features/theme_mode_visual_parity_test.dart")
 theme_parity_test = File.file?(theme_parity_path) ? read(theme_parity_path) : ""
 flutter_files = all_flutter_files(root)
@@ -266,6 +268,22 @@ checks << {
   "evidence" => [
     "test/features/theme_mode_visual_parity_test.dart",
     "DESIGN.md",
+    "docs/design/DESIGN_SYSTEM.md"
+  ]
+}
+
+route_evidence_failures = []
+route_evidence_failures << "main.dart must declare COLLECT_MOBILE_EVIDENCE_MODE." unless main_entry.include?("COLLECT_MOBILE_EVIDENCE_MODE")
+route_evidence_failures << "main.dart must seed CollectRepository.fixture() only behind evidence mode." unless main_entry.include?("CollectRepository.fixture()") && main_entry.include?("if (mobileEvidenceMode)")
+route_evidence_failures << "mobile_route_render_smoke.sh must build with COLLECT_MOBILE_EVIDENCE_MODE=true." unless route_smoke_script.include?("--dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true")
+route_evidence_failures << "DESIGN_SYSTEM.md must document sanitized fixture evidence mode for route screenshots." unless design_system.match?(/sanitized fixture evidence mode/i)
+checks << {
+  "id" => "route_screenshot_fixture_evidence_gate",
+  "status" => status_for(route_evidence_failures),
+  "failures" => route_evidence_failures,
+  "evidence" => [
+    "lib/main.dart",
+    "scripts/mobile_route_render_smoke.sh",
     "docs/design/DESIGN_SYSTEM.md"
   ]
 }

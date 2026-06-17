@@ -124,6 +124,9 @@ Feature-level widgets may control content density and order, but not introduce a
 - Focused widget tests for shared components and shell.
 - Focused dark/light widget checks for shell, top chrome, cards, and route background families, including `test/features/theme_mode_visual_parity_test.dart`.
 - `scripts/mobile_route_render_smoke.sh` for all production member routes.
+  It builds with sanitized fixture evidence mode through
+  `COLLECT_MOBILE_EVIDENCE_MODE=true`, so screenshots show realistic Collect
+  groups, balances, payment states, and activity without using production data.
 - `scripts/android_route_visual_evidence.sh` for physical Android route PNG evidence and route contact sheets when device proof is required or local Chromium/CDP is unavailable.
 - `scripts/admin_pwa_authenticated_render_smoke.sh` for authenticated Admin PWA browser PNG evidence with masked evidence-mode data.
 - `COLLECT_VISUAL_EVIDENCE_FRESH=1 scripts/collect_visual_evidence_capture.sh` for non-Chrome member-shell PNG/contact-sheet evidence when local Chromium/CDP is unavailable.

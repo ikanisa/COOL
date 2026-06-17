@@ -184,6 +184,7 @@ void main() {
     expect(designAudit, contains('four_primary_color_contract'));
     expect(designAudit, contains('revolut_reference_collect_owned_contract'));
     expect(designAudit, contains('gradient_glass_screen_contract'));
+    expect(designAudit, contains('theme_mode_visual_parity_gate'));
     expect(designAudit, contains('mobile_brand_asset_contract'));
     expect(designAudit, contains('no_raw_ui_colors_outside_tokens'));
     expect(designAudit, contains('share_domain_contract'));
@@ -211,6 +212,23 @@ void main() {
     expect(memberApp, isNot(contains('themeMode: ThemeMode.system')));
     expect(adminApp, isNot(contains('themeMode: ThemeMode.system')));
   });
+
+  test(
+    'mobile route smoke uses sanitized fixture evidence mode only by flag',
+    () {
+      final main = File('lib/main.dart').readAsStringSync();
+      final smokeScript = File(
+        'scripts/mobile_route_render_smoke.sh',
+      ).readAsStringSync();
+
+      expect(main, contains('COLLECT_MOBILE_EVIDENCE_MODE'));
+      expect(main, contains('CollectRepository.fixture()'));
+      expect(
+        smokeScript,
+        contains('--dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true'),
+      );
+    },
+  );
 
   testWidgets('reduced motion returns zero animation duration', (tester) async {
     late Duration duration;
