@@ -832,7 +832,8 @@ class CollectRepository extends StateNotifier<CollectState> {
   }
 
   Future<List<CollectMember>> membersForCollection(String collectionId) async {
-    final collection = collectionById(collectionId);
+    final collection = maybeCollectionById(collectionId);
+    if (collection == null) return const [];
     final supabase = _supabase;
     if (supabase != null && supabase.auth.currentUser != null) {
       final rows = await supabase.rpc<List<dynamic>>(

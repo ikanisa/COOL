@@ -622,11 +622,7 @@ class _PublicGroupsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (collections.isEmpty) {
-      return const EmptyIllustrationState(
-        icon: CollectIcons.collectionsOutline,
-        title: 'No public groups yet',
-        message: 'Groups that are safe to share will appear here.',
-      );
+      return const SizedBox.shrink();
     }
 
     final publicGroups = collections.take(4).toList();

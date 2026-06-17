@@ -3369,33 +3369,40 @@ class EmptyIllustrationState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return CollectCard(
-      emphasis: CollectCardEmphasis.hero,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: colors.statusBackground(CollectStatusTone.info),
-              borderRadius: CollectRadius.cardLargeBorder,
+    final theme = Theme.of(context);
+    return Semantics(
+      container: true,
+      label: '$title. $message',
+      child: CollectCard(
+        emphasis: CollectCardEmphasis.compact,
+        padding: const EdgeInsets.symmetric(
+          horizontal: CollectSpacing.x4,
+          vertical: CollectSpacing.x3,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                _ToneIcon(icon: icon, tone: CollectStatusTone.info),
+                CollectSpacing.gapW12,
+                Expanded(
+                  child: Text(
+                    title,
+                    style: theme.textTheme.titleMedium,
+                    maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
             ),
-            child: SizedBox.square(
-              dimension: 76,
-              child: Icon(icon, color: colors.orangePaint, size: 34),
-            ),
-          ),
-          CollectSpacing.gap16,
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleLarge,
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            softWrap: false,
-            overflow: TextOverflow.ellipsis,
-          ),
-          if (action != null) ...[CollectSpacing.gap20, action!],
-        ],
+            if (action != null) ...[
+              CollectSpacing.gap12,
+              SizedBox(width: double.infinity, child: action!),
+            ],
+          ],
+        ),
       ),
     );
   }
@@ -4231,37 +4238,41 @@ class _GroupCoverTitleOverlay extends StatelessWidget {
       ),
       child: Align(
         alignment: Alignment.bottomLeft,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: plateFill,
-            borderRadius: CollectRadius.pillBorder,
-            border: Border.all(color: plateBorder),
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: compact ? CollectSpacing.x2 : CollectSpacing.x3,
-              vertical: compact ? 5 : 7,
+        child: FractionallySizedBox(
+          widthFactor: compact ? 0.92 : 0.86,
+          alignment: Alignment.bottomLeft,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: plateFill,
+              borderRadius: CollectRadius.pillBorder,
+              border: Border.all(color: plateBorder),
             ),
-            child: Text(
-              collection.title,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: foreground,
-                fontWeight: FontWeight.w900,
-                fontSize: compact ? 15 : 18,
-                height: 1.0,
-                letterSpacing: 0,
-                shadows: [
-                  Shadow(
-                    color: CollectColors.referencePaymentsPurpleDeep.withValues(
-                      alpha: 0.88,
-                    ),
-                    offset: const Offset(0, 1),
-                    blurRadius: 8,
-                  ),
-                ],
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: compact ? CollectSpacing.x2 : CollectSpacing.x3,
+                vertical: compact ? 5 : 7,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+              child: Text(
+                collection.title,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: foreground,
+                  fontWeight: FontWeight.w900,
+                  fontSize: compact ? 15 : 18,
+                  height: 1.0,
+                  letterSpacing: 0,
+                  shadows: [
+                    Shadow(
+                      color: CollectColors.referencePaymentsPurpleDeep
+                          .withValues(alpha: 0.88),
+                      offset: const Offset(0, 1),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+                maxLines: 1,
+                softWrap: false,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
         ),
