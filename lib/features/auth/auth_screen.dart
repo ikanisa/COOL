@@ -241,7 +241,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     String phone,
     String captchaToken,
   ) async {
-    if (client == null) return;
+    if (client == null) {
+      throw StateError('WhatsApp sign-in is unavailable.');
+    }
     await client.auth.signInWithOtp(
       phone: phone,
       channel: OtpChannel.whatsapp,

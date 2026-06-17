@@ -217,7 +217,7 @@ void main() {
   });
 
   testWidgets('payment status screen renders receiver details', (tester) async {
-    final repo = CollectRepository.seeded();
+    final repo = CollectRepository.fixture();
     await tester.pumpWidget(
       ProviderScope(
         overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
@@ -252,7 +252,7 @@ void main() {
   testWidgets('payment status screen tolerates 200 percent text scale', (
     tester,
   ) async {
-    final repo = CollectRepository.seeded();
+    final repo = CollectRepository.fixture();
     await tester.pumpWidget(
       ProviderScope(
         overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
@@ -274,7 +274,7 @@ void main() {
   });
 
   testWidgets('contribution flow keeps primary action pinned', (tester) async {
-    final repo = CollectRepository.seeded();
+    final repo = CollectRepository.fixture();
     await tester.pumpWidget(
       ProviderScope(
         overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],

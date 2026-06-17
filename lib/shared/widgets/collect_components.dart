@@ -117,6 +117,7 @@ class CollectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final radius = switch (emphasis) {
       CollectCardEmphasis.hero ||
       CollectCardEmphasis.glow => CollectRadius.cardLargeBorder,
@@ -124,35 +125,57 @@ class CollectCard extends StatelessWidget {
       _ => CollectRadius.cardBorder,
     };
     final background = switch (emphasis) {
-      CollectCardEmphasis.flat => colors.surface,
-      CollectCardEmphasis.outline => colors.surfaceRaised,
+      CollectCardEmphasis.flat =>
+        isDark ? CollectColors.referenceContentDark : colors.surface,
+      CollectCardEmphasis.outline =>
+        isDark
+            ? CollectColors.referencePaymentsPurpleDeep
+            : colors.surfaceRaised,
       CollectCardEmphasis.tonal => Color.alphaBlend(
-        (accentColor ?? colors.actionColor).withValues(alpha: 0.08),
-        colors.surfaceRaised,
+        (accentColor ?? colors.actionColor).withValues(
+          alpha: isDark ? 0.18 : 0.08,
+        ),
+        isDark ? CollectColors.referenceAssetNavy : colors.surfaceRaised,
       ),
-      CollectCardEmphasis.glow => colors.surfaceRaised,
-      CollectCardEmphasis.compact => colors.surfaceRaised,
-      _ => colors.surfaceMuted,
+      CollectCardEmphasis.glow =>
+        isDark ? CollectColors.referenceAssetNavy : colors.surfaceRaised,
+      CollectCardEmphasis.compact =>
+        isDark
+            ? CollectColors.referencePaymentsPurpleDeep
+            : colors.surfaceRaised,
+      _ => isDark ? CollectColors.referencePaymentsPurple : colors.surfaceMuted,
     };
     final backgroundOpacity = switch (emphasis) {
-      CollectCardEmphasis.hero => 0.82,
-      CollectCardEmphasis.glow => 0.80,
-      CollectCardEmphasis.tonal => 0.78,
-      CollectCardEmphasis.compact => 0.76,
-      CollectCardEmphasis.flat => 0.70,
-      CollectCardEmphasis.outline => 0.74,
-      CollectCardEmphasis.normal => 0.78,
+      CollectCardEmphasis.hero => isDark ? 0.90 : 0.82,
+      CollectCardEmphasis.glow => isDark ? 0.88 : 0.80,
+      CollectCardEmphasis.tonal => isDark ? 0.86 : 0.78,
+      CollectCardEmphasis.compact => isDark ? 0.84 : 0.76,
+      CollectCardEmphasis.flat => isDark ? 0.82 : 0.70,
+      CollectCardEmphasis.outline => isDark ? 0.82 : 0.74,
+      CollectCardEmphasis.normal => isDark ? 0.84 : 0.78,
     };
     final border = switch (emphasis) {
       CollectCardEmphasis.flat => null,
       CollectCardEmphasis.glow => Border.all(
-        color: (accentColor ?? colors.actionColor).withValues(alpha: 0.24),
+        color: (accentColor ?? colors.actionColor).withValues(
+          alpha: isDark ? 0.34 : 0.24,
+        ),
       ),
-      CollectCardEmphasis.outline => Border.all(color: colors.border),
+      CollectCardEmphasis.outline => Border.all(
+        color: isDark
+            ? colors.onImagePrimary.withValues(alpha: 0.14)
+            : colors.border,
+      ),
       CollectCardEmphasis.compact => Border.all(
-        color: colors.border.withValues(alpha: 0.72),
+        color: isDark
+            ? colors.onImagePrimary.withValues(alpha: 0.12)
+            : colors.border.withValues(alpha: 0.72),
       ),
-      _ => Border.all(color: colors.border),
+      _ => Border.all(
+        color: isDark
+            ? colors.onImagePrimary.withValues(alpha: 0.12)
+            : colors.border,
+      ),
     };
     final shadows = switch (emphasis) {
       CollectCardEmphasis.flat ||
@@ -160,9 +183,11 @@ class CollectCard extends StatelessWidget {
       CollectCardEmphasis.compact => const <BoxShadow>[],
       CollectCardEmphasis.glow => [
         BoxShadow(
-          color: (accentColor ?? colors.actionColor).withValues(alpha: 0.13),
-          blurRadius: 28,
-          offset: const Offset(0, 16),
+          color: (accentColor ?? colors.actionColor).withValues(
+            alpha: isDark ? 0.20 : 0.13,
+          ),
+          blurRadius: isDark ? 34 : 28,
+          offset: const Offset(0, 18),
         ),
       ],
       _ => CollectShadows.card(),
@@ -325,7 +350,8 @@ class CollectVisualFeatureCard extends StatelessWidget {
                           color: foreground,
                           fontWeight: FontWeight.w900,
                         ),
-                        maxLines: 2,
+                        maxLines: 1,
+                        softWrap: false,
                         overflow: TextOverflow.ellipsis,
                       ),
                       CollectSpacing.gap8,
@@ -334,7 +360,8 @@ class CollectVisualFeatureCard extends StatelessWidget {
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: foreground.withValues(alpha: 0.76),
                         ),
-                        maxLines: 2,
+                        maxLines: 1,
+                        softWrap: false,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
@@ -730,6 +757,7 @@ class _TopChromeAvatar extends StatelessWidget {
     final colors = context.collectColors;
     final foreground = colors.onImagePrimary;
     final effectiveOnTap = onTap ?? () => context.go('/settings/profile');
+    final initials = _compactAvatarLabel(label);
     return Tooltip(
       message: 'Open profile',
       child: Semantics(
@@ -739,16 +767,51 @@ class _TopChromeAvatar extends StatelessWidget {
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            Material(
-              color: CollectColors.inkPrimary.withValues(alpha: 0.92),
-              shape: const CircleBorder(),
-              child: InkWell(
-                customBorder: const CircleBorder(),
-                onTap: effectiveOnTap,
-                child: SizedBox.square(
-                  dimension: 52,
-                  child: Center(
-                    child: Icon(CollectIcons.profile, color: foreground),
+            DecoratedBox(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    CollectColors.referencePaymentsPurple.withValues(
+                      alpha: 0.96,
+                    ),
+                    CollectColors.inkPrimary.withValues(alpha: 0.96),
+                  ],
+                ),
+                border: Border.all(
+                  color: foreground.withValues(alpha: 0.22),
+                  width: 1.1,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: CollectColors.inkPrimary.withValues(alpha: 0.24),
+                    blurRadius: 18,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
+              ),
+              child: Material(
+                color: colors.transparent,
+                shape: const CircleBorder(),
+                child: InkWell(
+                  customBorder: const CircleBorder(),
+                  onTap: effectiveOnTap,
+                  child: SizedBox.square(
+                    dimension: 52,
+                    child: Center(
+                      child: Text(
+                        initials,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: foreground,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 0,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -771,6 +834,23 @@ class _TopChromeAvatar extends StatelessWidget {
       ),
     );
   }
+}
+
+String _compactAvatarLabel(String? label) {
+  final trimmed = label?.trim() ?? '';
+  final digits = RegExp(r'\d+').allMatches(trimmed).map((m) => m.group(0)!);
+  final joinedDigits = digits.join();
+  if (joinedDigits.isNotEmpty) {
+    return joinedDigits.length <= 2
+        ? joinedDigits
+        : joinedDigits.substring(joinedDigits.length - 2);
+  }
+  if (trimmed.isEmpty) return 'C';
+  final compact = trimmed.replaceAll(RegExp(r'[^A-Za-z0-9]'), '');
+  if (compact.isEmpty) return 'C';
+  return compact.length <= 2
+      ? compact.toUpperCase()
+      : compact.substring(0, 2).toUpperCase();
 }
 
 class _TopChromeSearchButton extends StatelessWidget {
@@ -1558,20 +1638,30 @@ class NotificationUpdateRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: Theme.of(context).textTheme.titleSmall),
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleSmall,
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 CollectSpacing.gap4,
                 Text(
                   message,
                   style: Theme.of(
                     context,
                   ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
-                  maxLines: 2,
+                  maxLines: 1,
+                  softWrap: false,
                   overflow: TextOverflow.ellipsis,
                 ),
                 CollectSpacing.gap4,
                 Text(
                   meta,
                   style: CollectTypography.transactionMeta(colors.textMuted),
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
@@ -1969,22 +2059,43 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const foreground = CollectColors.brandPaper;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
           child: Text(
             title,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: foreground,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 0,
+            ),
             maxLines: 1,
+            softWrap: false,
             overflow: TextOverflow.ellipsis,
           ),
         ),
         if (actionLabel != null)
-          CollectButton(
-            label: actionLabel!,
+          TextButton(
             onPressed: onAction,
-            variant: CollectButtonVariant.subtle,
+            style: TextButton.styleFrom(
+              foregroundColor: foreground,
+              padding: const EdgeInsets.symmetric(
+                horizontal: CollectSpacing.x2,
+                vertical: CollectSpacing.x1,
+              ),
+              textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                fontWeight: FontWeight.w900,
+                letterSpacing: 0,
+              ),
+            ),
+            child: Text(
+              actionLabel!,
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
       ],
     );
@@ -2269,7 +2380,8 @@ class InfoSecurityBanner extends StatelessWidget {
                 Text(
                   title,
                   style: Theme.of(context).textTheme.titleSmall,
-                  maxLines: 2,
+                  maxLines: 1,
+                  softWrap: false,
                   overflow: TextOverflow.ellipsis,
                 ),
                 if (visibleMessage.isNotEmpty) ...[
@@ -2277,7 +2389,8 @@ class InfoSecurityBanner extends StatelessWidget {
                   Text(
                     visibleMessage,
                     style: Theme.of(context).textTheme.bodySmall,
-                    maxLines: 3,
+                    maxLines: 1,
+                    softWrap: false,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
@@ -3277,7 +3390,8 @@ class EmptyIllustrationState extends StatelessWidget {
             title,
             style: Theme.of(context).textTheme.titleLarge,
             textAlign: TextAlign.center,
-            maxLines: 2,
+            maxLines: 1,
+            softWrap: false,
             overflow: TextOverflow.ellipsis,
           ),
           if (action != null) ...[CollectSpacing.gap20, action!],
@@ -3562,7 +3676,8 @@ class _OwnedGroupCard extends StatelessWidget {
                     Text(
                       collection.title,
                       style: Theme.of(context).textTheme.titleLarge,
-                      maxLines: 2,
+                      maxLines: 1,
+                      softWrap: false,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
@@ -4455,146 +4570,117 @@ class ScreenHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.collectColors;
     final textTheme = Theme.of(context).textTheme;
-    final foreground = colors.onImagePrimary;
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final stackActions = constraints.maxWidth < 360 && actions.isNotEmpty;
-        final titleBlock = Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: foreground.withValues(alpha: 0.12),
-                borderRadius: CollectRadius.pillBorder,
-                border: Border.all(color: foreground.withValues(alpha: 0.18)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: CollectSpacing.x3,
-                  vertical: CollectSpacing.x2,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(CollectIcons.shield, color: foreground, size: 16),
-                    CollectSpacing.gapW8,
-                    const CollectBrandMark(
-                      compact: true,
-                      framed: false,
-                      width: 82,
-                      height: 24,
-                    ),
-                  ],
+    final foreground = context.collectColors.onImagePrimary;
+    final actionButtons = <Widget>[
+      for (final action in actions)
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: foreground.withValues(alpha: 0.10),
+            shape: BoxShape.circle,
+            border: Border.all(color: foreground.withValues(alpha: 0.16)),
+          ),
+          child: IconTheme.merge(
+            data: IconThemeData(color: foreground),
+            child: IconButtonTheme(
+              data: IconButtonThemeData(
+                style: IconButton.styleFrom(
+                  fixedSize: const Size(42, 42),
+                  minimumSize: const Size(42, 42),
+                  padding: EdgeInsets.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  foregroundColor: foreground,
                 ),
               ),
-            ),
-            CollectSpacing.gap16,
-            Text(
-              title,
-              style: textTheme.headlineMedium?.copyWith(
-                color: foreground,
-                fontWeight: FontWeight.w900,
-                height: 1,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            if (subtitle != null) ...[
-              CollectSpacing.gap8,
-              Text(
-                subtitle!,
-                style: textTheme.bodyMedium?.copyWith(
-                  color: foreground.withValues(alpha: 0.76),
-                  height: 1.35,
-                ),
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ],
-        );
-        final actionWrap = Wrap(
-          spacing: CollectSpacing.x2,
-          runSpacing: CollectSpacing.x2,
-          alignment: stackActions ? WrapAlignment.start : WrapAlignment.end,
-          children: [
-            for (final action in actions)
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  color: foreground.withValues(alpha: 0.12),
-                  borderRadius: CollectRadius.pillBorder,
-                  border: Border.all(color: foreground.withValues(alpha: 0.16)),
-                ),
-                child: IconTheme.merge(
-                  data: IconThemeData(color: foreground),
-                  child: action,
-                ),
-              ),
-          ],
-        );
-        final content = stackActions
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [titleBlock, CollectSpacing.gap12, actionWrap],
-              )
-            : Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(child: titleBlock),
-                  if (actions.isNotEmpty) ...[
-                    CollectSpacing.gapW12,
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 168),
-                      child: actionWrap,
-                    ),
-                  ],
-                ],
-              );
-        return ClipRRect(
-          borderRadius: CollectRadius.cardLargeBorder,
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    CollectColors.inkPrimary.withValues(alpha: 0.96),
-                    Color.alphaBlend(
-                      colors.periwinklePaint.withValues(alpha: 0.46),
-                      CollectColors.inkPrimary,
-                    ),
-                    Color.alphaBlend(
-                      colors.orangePaint.withValues(alpha: 0.20),
-                      CollectColors.inkPrimary,
-                    ),
-                  ],
-                ),
-                borderRadius: CollectRadius.cardLargeBorder,
-                border: Border.all(color: foreground.withValues(alpha: 0.18)),
-                boxShadow: [
-                  BoxShadow(
-                    color: CollectColors.inkPrimary.withValues(alpha: 0.20),
-                    blurRadius: 32,
-                    offset: const Offset(0, 18),
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(
-                  constraints.maxWidth < 360
-                      ? CollectSpacing.x4
-                      : CollectSpacing.x5,
-                ),
-                child: content,
+              child: SizedBox.square(
+                dimension: 42,
+                child: Center(child: action),
               ),
             ),
           ),
-        );
-      },
+        ),
+    ];
+    return ClipRRect(
+      borderRadius: CollectRadius.pillBorder,
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: CollectColors.inkPrimary.withValues(alpha: 0.74),
+            borderRadius: CollectRadius.pillBorder,
+            border: Border.all(color: foreground.withValues(alpha: 0.18)),
+            boxShadow: [
+              BoxShadow(
+                color: CollectColors.inkPrimary.withValues(alpha: 0.18),
+                blurRadius: 24,
+                offset: const Offset(0, 14),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: CollectSpacing.x2,
+              vertical: CollectSpacing.x1,
+            ),
+            child: Row(
+              children: [
+                IconButton(
+                  tooltip: 'Back',
+                  onPressed: () => goBackOrHome(context),
+                  icon: const Icon(Icons.arrow_back_rounded),
+                  color: foreground,
+                  style: IconButton.styleFrom(
+                    fixedSize: const Size(42, 42),
+                    minimumSize: const Size(42, 42),
+                    padding: EdgeInsets.zero,
+                    backgroundColor: foreground.withValues(alpha: 0.10),
+                    side: BorderSide(color: foreground.withValues(alpha: 0.12)),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        title,
+                        style: textTheme.titleLarge?.copyWith(
+                          color: foreground,
+                          fontWeight: FontWeight.w900,
+                          height: 1,
+                          letterSpacing: 0,
+                        ),
+                        maxLines: 1,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      if (subtitle != null) ...[
+                        CollectSpacing.gap4,
+                        Text(
+                          subtitle!,
+                          style: textTheme.bodySmall?.copyWith(
+                            color: foreground.withValues(alpha: 0.70),
+                            height: 1,
+                            letterSpacing: 0,
+                          ),
+                          maxLines: 1,
+                          softWrap: false,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                for (final action in actionButtons) ...[
+                  CollectSpacing.gapW8,
+                  action,
+                ],
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

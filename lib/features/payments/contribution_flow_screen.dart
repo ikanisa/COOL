@@ -9,6 +9,7 @@ import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import '../collections/group_empty_state.dart';
 
 class ContributionFlowScreen extends ConsumerStatefulWidget {
   const ContributionFlowScreen({required this.collectionId, super.key});
@@ -37,7 +38,8 @@ class _ContributionFlowScreenState
   Widget build(BuildContext context) {
     final collection = ref
         .read(collectRepositoryProvider.notifier)
-        .collectionById(widget.collectionId);
+        .maybeCollectionById(widget.collectionId);
+    if (collection == null) return const MissingGroupStateScreen();
     final profile = ref.watch(collectRepositoryProvider).currentProfile;
     final amount = int.tryParse(_amount.text) ?? 0;
     final activeIntent = _activePendingIntent();

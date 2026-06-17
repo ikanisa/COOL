@@ -730,7 +730,8 @@ class _CreateGroupPhotoCard extends StatelessWidget {
                             displayTitle,
                             style: Theme.of(context).textTheme.titleLarge
                                 ?.copyWith(fontWeight: FontWeight.w800),
-                            maxLines: 2,
+                            maxLines: 1,
+                            softWrap: false,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),

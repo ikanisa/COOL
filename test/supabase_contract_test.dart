@@ -1408,7 +1408,7 @@ void main() {
     expect(repository, contains('CollectRepository(supabase: supabase)'));
     expect(
       repository,
-      isNot(contains('CollectRepository.seeded(\n        supabase:')),
+      isNot(contains('CollectRepository.fixture(\n        supabase:')),
     );
 
     expect(

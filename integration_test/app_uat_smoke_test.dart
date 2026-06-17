@@ -95,7 +95,7 @@ void main() {
   testWidgets(
     'contributor creates intent and waits for receiver SMS allocation',
     (tester) async {
-      final repository = CollectRepository.seeded();
+      final repository = CollectRepository.fixture();
       await pumpMainAppAt(
         tester,
         '/groups/col-church/contribute',

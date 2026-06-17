@@ -34,28 +34,41 @@ class CollectShell extends StatelessWidget {
               ? SafeArea(
                   top: false,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(14, 0, 14, 10),
+                    padding: const EdgeInsets.fromLTRB(18, 0, 18, 12),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(32),
+                      borderRadius: BorderRadius.circular(40),
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
                         child: DecoratedBox(
                           decoration: BoxDecoration(
-                            color: CollectColors.inkPrimary.withValues(
-                              alpha: 0.92,
+                            color: CollectColors.referenceChromeBlack
+                                .withValues(alpha: 0.94),
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                colors.onImagePrimary.withValues(alpha: 0.08),
+                                CollectColors.inkPrimary.withValues(
+                                  alpha: 0.92,
+                                ),
+                                CollectColors.referenceChromeBlack.withValues(
+                                  alpha: 0.98,
+                                ),
+                              ],
                             ),
                             border: Border.all(
                               color: colors.onImagePrimary.withValues(
-                                alpha: 0.34,
+                                alpha: 0.44,
                               ),
+                              width: 1.15,
                             ),
                             boxShadow: [
                               BoxShadow(
                                 color: CollectColors.inkPrimary.withValues(
-                                  alpha: 0.18,
+                                  alpha: 0.32,
                                 ),
-                                blurRadius: 26,
-                                offset: const Offset(0, 14),
+                                blurRadius: 34,
+                                offset: const Offset(0, 18),
                               ),
                             ],
                           ),
@@ -132,7 +145,7 @@ class _CollectBottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     final textScale = MediaQuery.textScalerOf(context).scale(1);
     final showLabels = textScale <= 1.45;
-    final height = showLabels ? 76.0 : 64.0;
+    final height = showLabels ? 78.0 : 66.0;
     return Semantics(
       container: true,
       label: 'Primary navigation',
@@ -203,23 +216,23 @@ class _CollectBottomNavItem extends StatelessWidget {
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 180),
                   curve: Curves.easeOutCubic,
-                  width: selected ? 56 : 44,
-                  height: 32,
+                  width: selected ? 74 : 46,
+                  height: 36,
                   decoration: BoxDecoration(
                     color: selected
                         ? null
-                        : colors.onImagePrimary.withValues(alpha: 0.04),
+                        : colors.onImagePrimary.withValues(alpha: 0.025),
                     gradient: selected ? indicator : null,
                     borderRadius: CollectRadius.pillBorder,
                     border: Border.all(
                       color: colors.onImagePrimary.withValues(
-                        alpha: selected ? 0.24 : 0.08,
+                        alpha: selected ? 0.28 : 0.05,
                       ),
                     ),
                   ),
                   child: Icon(
                     selected ? destination.selectedIcon : destination.icon,
-                    size: selected ? 22 : 21,
+                    size: selected ? 23 : 21,
                     color: foreground,
                   ),
                 ),

@@ -11,7 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('group creation stores receiver MoMo from profile flow', () async {
-    final repo = CollectRepository();
+    final repo = CollectRepository.fixture(seeded: false);
     await repo.signInWithOtp(phone: '+250788123456', otp: '123456');
     final collection = await repo.createCollection(
       title: 'Family group',
@@ -23,7 +23,7 @@ void main() {
   });
 
   test('group creation accepts MoMo Pay code receiver mode', () async {
-    final repo = CollectRepository();
+    final repo = CollectRepository.fixture(seeded: false);
     await repo.signInWithOtp(phone: '+250788123456', otp: '123456');
     final collection = await repo.createCollection(
       title: 'Merchant group',
@@ -40,7 +40,7 @@ void main() {
   test(
     'WhatsApp OTP sign-in accepts non-Rwanda international numbers',
     () async {
-      final repo = CollectRepository();
+      final repo = CollectRepository.fixture(seeded: false);
       final profile = await repo.signInWithOtp(
         phone: '+1 (415) 555-0100',
         otp: '123456',
@@ -52,7 +52,7 @@ void main() {
   );
 
   test('payment intent stays pending for automated SMS allocation', () async {
-    final repo = CollectRepository.seeded();
+    final repo = CollectRepository.fixture();
     final collection = repo.state.collections.first;
     final intent = await repo.createPaymentIntent(
       PaymentIntentDraft(collectionId: collection.id, amountRwf: 5000),
@@ -63,8 +63,8 @@ void main() {
     expect(repo.contributionsFor(collection.id), hasLength(2));
   });
 
-  test('seeded state includes payment intent for render evidence routes', () {
-    final repo = CollectRepository.seeded();
+  test('fixture state includes payment intent for render evidence routes', () {
+    final repo = CollectRepository.fixture();
     final intent = repo.intentById('intent-render');
 
     expect(intent.collectionId, 'col-church');
@@ -79,7 +79,7 @@ void main() {
   test(
     'payment intent exposes receiver context without manual instructions',
     () async {
-      final repo = CollectRepository.seeded();
+      final repo = CollectRepository.fixture();
       final intent = await repo.createPaymentIntent(
         const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 7500),
       );
@@ -109,7 +109,7 @@ void main() {
   });
 
   test('MTN WhatsApp sign-in autofills local profile MoMo', () async {
-    final repo = CollectRepository();
+    final repo = CollectRepository.fixture(seeded: false);
     await repo.signInWithOtp(phone: '+250788123456', otp: '123456');
     final collection = await repo.createCollection(
       title: 'Family group',
@@ -137,7 +137,7 @@ void main() {
   });
 
   test('shared group link opens by slug', () async {
-    final repo = CollectRepository.seeded();
+    final repo = CollectRepository.fixture();
     final collection = await repo.joinGroupBySlug('st-michel-building-fund');
 
     expect(collection.id, 'col-church');
@@ -145,7 +145,7 @@ void main() {
   });
 
   test('group share links use Collect Ikanisa domain', () {
-    final repo = CollectRepository.seeded();
+    final repo = CollectRepository.fixture();
     final collection = repo.collectionById('col-church');
     const env = AppEnv(
       supabaseUrl: '',
@@ -189,7 +189,7 @@ void main() {
           ),
         ],
       );
-      final repo = CollectRepository.seeded(smsAccessChannel: channel);
+      final repo = CollectRepository.fixture(smsAccessChannel: channel);
 
       expect(await repo.syncPendingSmsAccess(), 0);
       expect(channel.drainCalls, 0);
@@ -203,7 +203,7 @@ void main() {
   );
 
   test('SMS access denial keeps group receiver ingestion disabled', () async {
-    final repo = CollectRepository.seeded(
+    final repo = CollectRepository.fixture(
       smsAccessChannel: _FakeSmsAccessChannel(pending: const [], grant: false),
     );
 
@@ -213,7 +213,7 @@ void main() {
   });
 
   test('local production interfaces expose members and owner health', () async {
-    final repo = CollectRepository.seeded();
+    final repo = CollectRepository.fixture();
 
     final members = await repo.membersForCollection('col-church');
     final health = await repo.ownerHealthFor('col-church');
@@ -224,7 +224,7 @@ void main() {
   });
 
   test('local receiver update and sign out mutate safe client state', () async {
-    final repo = CollectRepository.seeded();
+    final repo = CollectRepository.fixture();
 
     final collection = await repo.updateCollectionReceiver(
       collectionId: 'col-team',

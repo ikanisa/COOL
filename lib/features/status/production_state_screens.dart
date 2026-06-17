@@ -14,6 +14,7 @@ import '../../shared/repositories/collect_repository.dart';
 import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import '../collections/group_empty_state.dart';
 import '../collections/group_share_service.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
@@ -466,7 +467,8 @@ class _ReturnFromMomoWaitingScreenState
   @override
   Widget build(BuildContext context) {
     final repo = ref.read(collectRepositoryProvider.notifier);
-    final collection = repo.collectionById(widget.collectionId);
+    final collection = repo.maybeCollectionById(widget.collectionId);
+    if (collection == null) return const MissingGroupStateScreen();
     final intent = _safeIntent(repo, widget.intentId);
 
     if (intent == null) {
@@ -612,11 +614,7 @@ class _ReturnFromMomoWaitingScreenState
 }
 
 PaymentIntentModel? _safeIntent(CollectRepository repo, String intentId) {
-  try {
-    return repo.intentById(intentId);
-  } on StateError {
-    return null;
-  }
+  return repo.maybeIntentById(intentId);
 }
 
 String _relativeAge(DateTime startedAt) {
@@ -2868,7 +2866,8 @@ class _PaymentStatusHero extends StatelessWidget {
                 Text(
                   subtitle,
                   style: Theme.of(context).textTheme.titleSmall,
-                  maxLines: 3,
+                  maxLines: 1,
+                  softWrap: false,
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
@@ -2882,7 +2881,8 @@ class _PaymentStatusHero extends StatelessWidget {
                   child: Text(
                     subtitle,
                     style: Theme.of(context).textTheme.titleSmall,
-                    maxLines: 2,
+                    maxLines: 1,
+                    softWrap: false,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -2952,13 +2952,9 @@ class _ReadinessRow {
 }
 
 CollectCollection? _safeCollection(WidgetRef ref, String collectionId) {
-  try {
-    return ref
-        .read(collectRepositoryProvider.notifier)
-        .collectionById(collectionId);
-  } catch (_) {
-    return null;
-  }
+  return ref
+      .read(collectRepositoryProvider.notifier)
+      .maybeCollectionById(collectionId);
 }
 
 IconData _iconForTone(CollectStatusTone tone) {

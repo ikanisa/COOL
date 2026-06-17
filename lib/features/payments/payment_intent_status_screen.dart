@@ -173,7 +173,8 @@ class _PaymentIntentStatusScreenState
                     Text(
                       _statusMessage(uiStatus),
                       style: Theme.of(context).textTheme.titleSmall,
-                      maxLines: 3,
+                      maxLines: 1,
+                      softWrap: false,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
@@ -190,7 +191,8 @@ class _PaymentIntentStatusScreenState
                       child: Text(
                         _statusMessage(uiStatus),
                         style: Theme.of(context).textTheme.titleSmall,
-                        maxLines: 2,
+                        maxLines: 1,
+                        softWrap: false,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),

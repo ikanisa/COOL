@@ -20,7 +20,7 @@ void main() {
       await tester.pump();
 
       expect(find.byType(CollectBrandMark), findsOneWidget);
-      expect(find.text('038491'), findsOneWidget);
+      expect(find.byTooltip('Open profile'), findsOneWidget);
       expect(find.text('TOTAL COLLECTED'), findsOneWidget);
       expect(find.text('Home'), findsOneWidget);
       expect(find.text('Groups'), findsOneWidget);
@@ -56,7 +56,7 @@ void main() {
       await tester.pump();
 
       expect(find.text('Screen not found'), findsOneWidget);
-      expect(find.byType(CollectBrandMark), findsOneWidget);
+      expect(find.byTooltip('Back'), findsOneWidget);
       expect(find.text('This screen is unavailable.'), findsOneWidget);
       expect(find.textContaining('verified groups'), findsNothing);
       expect(find.text('Home'), findsOneWidget);

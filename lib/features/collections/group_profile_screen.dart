@@ -11,6 +11,7 @@ import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import 'group_empty_state.dart';
 
 class GroupProfileScreen extends ConsumerStatefulWidget {
   const GroupProfileScreen({required this.collectionId, super.key});
@@ -50,7 +51,8 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final repo = ref.read(collectRepositoryProvider.notifier);
-    final collection = repo.collectionById(widget.collectionId);
+    final collection = repo.maybeCollectionById(widget.collectionId);
+    if (collection == null) return const MissingGroupStateScreen();
     _loadOnce(collection);
 
     return ScreenScaffold(

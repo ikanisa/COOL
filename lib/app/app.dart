@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/notifications/collect_notification_service.dart';
@@ -8,6 +9,7 @@ import '../shared/providers/collect_app_state.dart';
 import '../shared/repositories/collect_repository.dart';
 import 'router.dart';
 import 'theme/app_theme.dart';
+import 'theme/collect_colors.dart';
 import 'theme/collect_theme_controller.dart';
 
 class CollectApp extends ConsumerWidget {
@@ -18,14 +20,24 @@ class CollectApp extends ConsumerWidget {
     final router = ref.watch(appRouterProvider);
     final themeMode = ref.watch(collectThemeModeProvider);
 
-    return _SmsAccessSyncHost(
-      child: MaterialApp.router(
-        title: 'Collect',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.light(),
-        darkTheme: AppTheme.dark(),
-        themeMode: themeMode,
-        routerConfig: router,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: CollectColors.transparentColor,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+        systemNavigationBarColor: CollectColors.referenceChromeBlack,
+        systemNavigationBarIconBrightness: Brightness.light,
+        systemNavigationBarDividerColor: CollectColors.transparentColor,
+      ),
+      child: _SmsAccessSyncHost(
+        child: MaterialApp.router(
+          title: 'Collect',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.light(),
+          darkTheme: AppTheme.dark(),
+          themeMode: themeMode,
+          routerConfig: router,
+        ),
       ),
     );
   }

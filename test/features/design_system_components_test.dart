@@ -95,6 +95,14 @@ void main() {
   test('Revolut reference background families are applied by route', () {
     final light = AppTheme.light().extension<CollectColors>()!;
 
+    expect(
+      (light.screenGradientForPath('/home') as LinearGradient).begin,
+      Alignment.topCenter,
+    );
+    expect(
+      (light.screenGradientForPath('/home') as LinearGradient).end,
+      Alignment.bottomCenter,
+    );
     expect(_gradientColors(light.screenGradientForPath('/home')), const [
       Color(0xFF0818A0),
       Color(0xFF0F198E),
@@ -181,6 +189,50 @@ void main() {
       _gradientColors(light.screenGradientForPath('/notifications')),
       const [Color(0xFF302848), Color(0xFF181038), Color(0xFF101018)],
     );
+  });
+
+  testWidgets('top chrome profile control is visible and links to profile', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await _pumpCollect(
+        tester,
+        CollectTopChrome(
+          avatarLabel: '038491',
+          showSearch: false,
+          actions: [
+            CollectTopChromeAction(
+              icon: CollectIcons.pending,
+              tooltip: 'Notifications',
+              onPressed: () {},
+            ),
+          ],
+        ),
+      );
+
+      expect(find.byTooltip('Open profile'), findsOneWidget);
+      expect(find.text('91'), findsOneWidget);
+      expect(find.byIcon(CollectIcons.profile), findsNothing);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  testWidgets('dark glass cards use deep reference surfaces', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.dark(),
+        home: const Scaffold(body: CollectCard(child: Text('Deep glass'))),
+      ),
+    );
+
+    final container = tester.widget<AnimatedContainer>(
+      find.byType(AnimatedContainer).first,
+    );
+    final decoration = container.decoration as BoxDecoration;
+    expect(decoration.color, isNotNull);
+    expect(decoration.color!.a, greaterThan(0.80));
   });
 
   test(
@@ -726,7 +778,7 @@ void main() {
     );
   });
 
-  testWidgets('screen header preserves long titles and wraps tight actions', (
+  testWidgets('screen header keeps compact one-line title with back action', (
     tester,
   ) async {
     await _pumpCollect(
@@ -744,13 +796,15 @@ void main() {
       ),
     );
 
+    expect(find.byTooltip('Back'), findsOneWidget);
+    expect(find.byIcon(Icons.arrow_back_rounded), findsOneWidget);
     expect(
       find.text('Collect verified support for St Michel medical group'),
       findsOneWidget,
     );
     expect(find.textContaining('SMS-first MoMo'), findsOneWidget);
-    expect(find.byType(CollectBrandMark), findsOneWidget);
-    expect(find.byIcon(CollectIcons.shield), findsOneWidget);
+    expect(find.byType(CollectBrandMark), findsNothing);
+    expect(find.byIcon(CollectIcons.shield), findsNothing);
     expect(find.byIcon(CollectIcons.share), findsOneWidget);
     expect(find.byIcon(CollectIcons.copy), findsOneWidget);
   });
@@ -780,8 +834,8 @@ void main() {
       ),
     );
 
-    expect(find.byIcon(CollectIcons.profile), findsOneWidget);
-    expect(find.text('91'), findsNothing);
+    expect(find.byIcon(CollectIcons.profile), findsNothing);
+    expect(find.text('91'), findsOneWidget);
     expect(find.text('Search groups'), findsOneWidget);
     expect(find.byIcon(CollectIcons.qr), findsOneWidget);
     expect(find.byIcon(CollectIcons.settings), findsOneWidget);

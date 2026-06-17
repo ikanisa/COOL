@@ -196,6 +196,39 @@ void main() {
     expect(releaseSecretScan, isNot(contains(r'echo "$text"')));
   });
 
+  test('mobile runtime does not wire fixture data or no-op auth fallbacks', () {
+    final repository = File(
+      'lib/shared/repositories/collect_repository.dart',
+    ).readAsStringSync();
+    final authScreen = File(
+      'lib/features/auth/auth_screen.dart',
+    ).readAsStringSync();
+    final libFiles = Directory('lib')
+        .listSync(recursive: true)
+        .whereType<File>()
+        .where((file) => file.path.endsWith('.dart'));
+
+    expect(
+      repository,
+      contains('final repository = CollectRepository(supabase: supabase);'),
+    );
+    expect(repository, contains("throw StateError('Live WhatsApp sign-in"));
+    expect(repository, contains('_emptyState(), false'));
+    expect(authScreen, contains("throw StateError('WhatsApp sign-in"));
+    expect(authScreen, isNot(contains('if (client == null) return;')));
+
+    for (final file in libFiles) {
+      final text = file.readAsStringSync();
+      final path = file.path;
+      if (path.endsWith('collect_repository.dart')) continue;
+      if (path.contains('/features/dev/')) continue;
+      expect(text, isNot(contains('CollectRepository.fixture')), reason: path);
+      expect(text, isNot(contains('col-church')), reason: path);
+      expect(text, isNot(contains('St Michel')), reason: path);
+      expect(text, isNot(contains('+250788123456')), reason: path);
+    }
+  });
+
   test('Supabase operator scripts use local CLI fallbacks', () {
     final scripts = [
       'scripts/supabase_production_readiness.sh',

@@ -8,6 +8,7 @@ import '../../shared/repositories/collect_repository.dart';
 import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import 'group_empty_state.dart';
 import 'group_share_service.dart';
 
 class CollectionManageScreen extends ConsumerWidget {
@@ -19,7 +20,8 @@ class CollectionManageScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(collectRepositoryProvider);
     final repo = ref.read(collectRepositoryProvider.notifier);
-    final collection = repo.collectionById(collectionId);
+    final collection = repo.maybeCollectionById(collectionId);
+    if (collection == null) return const MissingGroupStateScreen();
     final summary = repo.summaryFor(collectionId);
     final health = ref.watch(ownerGroupHealthProvider(collectionId));
     final profile = state.currentProfile;

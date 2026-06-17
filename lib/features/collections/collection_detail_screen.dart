@@ -8,6 +8,7 @@ import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import 'group_empty_state.dart';
 import 'group_share_service.dart';
 
 class CollectionDetailScreen extends ConsumerWidget {
@@ -19,7 +20,8 @@ class CollectionDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(collectRepositoryProvider);
     final repo = ref.read(collectRepositoryProvider.notifier);
-    final collection = repo.collectionById(collectionId);
+    final collection = repo.maybeCollectionById(collectionId);
+    if (collection == null) return const MissingGroupStateScreen();
     final summary = repo.summaryFor(collectionId);
     final visibleContributions = repo
         .contributionsFor(collectionId)
@@ -107,15 +109,17 @@ class _GroupHero extends StatelessWidget {
       accentColor: colors.actionColor,
       padding: EdgeInsets.zero,
       backgroundGradient: LinearGradient(
-        colors: [
-          Color.alphaBlend(
-            colors.actionColor.withValues(alpha: 0.14),
-            colors.glassPanel,
-          ),
-          colors.glassPanel,
-        ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
+        colors: [
+          CollectColors.referencePaymentsPurpleDeep,
+          Color.alphaBlend(
+            colors.actionColor.withValues(alpha: isDark ? 0.18 : 0.12),
+            CollectColors.referencePaymentsPurple,
+          ),
+          CollectColors.referenceContentDark,
+        ],
+        stops: const [0, 0.54, 1],
       ),
       child: ClipRRect(
         borderRadius: CollectRadius.cardLargeBorder,
@@ -165,6 +169,7 @@ class _GroupHero extends StatelessWidget {
                               collection.title,
                               style: Theme.of(context).textTheme.headlineMedium
                                   ?.copyWith(
+                                    color: colors.onImagePrimary,
                                     fontSize: titleSize,
                                     fontWeight: FontWeight.w900,
                                     height: 1,
@@ -257,7 +262,7 @@ class _GroupStatsCard extends StatelessWidget {
             child: Container(
               width: 1,
               height: 72,
-              color: colors.border.withValues(alpha: 0.42),
+              color: colors.onImagePrimary.withValues(alpha: 0.16),
             ),
           ),
           Expanded(
@@ -302,7 +307,7 @@ class _GroupStatMetric extends StatelessWidget {
           )
         : colors.statusBackground(tone);
     final iconBorder = iconForeground.withValues(alpha: isDark ? 0.26 : 0.18);
-    final amountColor = isDark ? colors.onImagePrimary : colors.textPrimary;
+    final amountColor = colors.onImagePrimary;
     final metric = Column(
       crossAxisAlignment: primary
           ? CrossAxisAlignment.start

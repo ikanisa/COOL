@@ -21,7 +21,7 @@ void main() {
         overrides: [
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith(
-            (ref) => CollectRepository.seeded(),
+            (ref) => CollectRepository.fixture(),
           ),
           legalConsentAcceptedProvider.overrideWith(
             (ref) => legalConsentAccepted,
@@ -55,6 +55,28 @@ void main() {
     }
   });
 
+  testWidgets('missing group deep link renders recovery empty state', (
+    tester,
+  ) async {
+    final router = createAppRouter(initialLocation: '/groups/missing-group');
+    addTearDown(router.dispose);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          appRouterProvider.overrideWithValue(router),
+          collectRepositoryProvider.overrideWith((ref) => CollectRepository()),
+        ],
+        child: const CollectApp(),
+      ),
+    );
+    await tester.pump();
+    await tester.pump();
+
+    expect(tester.takeException(), isNull);
+    expect(find.text('Group is not available.'), findsOneWidget);
+    expect(find.text('Open groups'), findsWidgets);
+  });
+
   testWidgets('onboarding requires legal consent before sign-in', (
     tester,
   ) async {
@@ -68,7 +90,7 @@ void main() {
     expect(find.text('Review terms'), findsOneWidget);
   });
 
-  testWidgets('auth resend cooldown disables resend after sending OTP', (
+  testWidgets('auth fails closed when Supabase auth is unavailable', (
     tester,
   ) async {
     await pumpRoute(tester, '/auth', legalConsentAccepted: true);
@@ -77,12 +99,12 @@ void main() {
     await tester.tap(find.widgetWithText(FilledButton, 'Send WhatsApp code'));
     await tester.pump();
 
-    expect(find.text('Verify WhatsApp'), findsOneWidget);
-    expect(find.text('Resend in 45s'), findsOneWidget);
-    final resend = tester.widget<TextButton>(
-      find.widgetWithText(TextButton, 'Resend in 45s'),
+    expect(find.text('Authentication failed'), findsOneWidget);
+    expect(
+      find.textContaining('WhatsApp sign-in is unavailable'),
+      findsOneWidget,
     );
-    expect(resend.onPressed, isNull);
+    expect(find.text('Verify WhatsApp'), findsNothing);
   });
 
   testWidgets('auth shows validation error for invalid WhatsApp number', (
@@ -149,7 +171,7 @@ void main() {
         overrides: [
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith(
-            (ref) => CollectRepository.seeded(),
+            (ref) => CollectRepository.fixture(),
           ),
         ],
         child: const MediaQuery(
@@ -229,22 +251,21 @@ void main() {
     try {
       await pumpRoute(tester, '/groups/create');
 
-      expect(find.text('Step 1 of 4'), findsOneWidget);
+      expect(find.text('Create group'), findsWidgets);
+      expect(find.text('Group name'), findsOneWidget);
       await tester.enterText(find.byType(TextField).first, 'Parish support');
       await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
       await tester.pump();
 
-      expect(find.text('Step 2 of 4'), findsOneWidget);
+      expect(find.text('Receiver MoMo'), findsOneWidget);
       expect(find.text('Receiver privacy'), findsNothing);
       await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
       await tester.pump();
 
-      expect(find.text('Step 3 of 4'), findsOneWidget);
       expect(find.text('Group color'), findsOneWidget);
       await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
       await tester.pump();
 
-      expect(find.text('Step 4 of 4'), findsOneWidget);
       expect(find.text('SMS readiness check.'), findsNothing);
       expect(find.text('Review group'), findsOneWidget);
     } finally {
@@ -256,7 +277,7 @@ void main() {
     tester,
   ) async {
     await pumpRoute(tester, '/groups/col-church/support/payment/intent-render');
-    expect(find.text('Safe note'), findsOneWidget);
+    expect(find.text('Safe note'), findsWidgets);
     await tester.tap(find.widgetWithText(FilledButton, 'Submit review'));
     await tester.pump();
     expect(find.text('Review submitted.'), findsOneWidget);

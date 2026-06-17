@@ -34,8 +34,9 @@ void main() {
       ProviderScope(
         overrides: [
           appRouterProvider.overrideWithValue(router),
-          if (repository != null)
-            collectRepositoryProvider.overrideWith((ref) => repository),
+          collectRepositoryProvider.overrideWith(
+            (ref) => repository ?? CollectRepository.fixture(),
+          ),
           legalConsentAcceptedProvider.overrideWith(
             (ref) => legalConsentAccepted,
           ),
@@ -158,9 +159,9 @@ void main() {
     await tester.pumpWidget(const ProviderScope(child: CollectApp()));
     await pumpLaunchFrames(tester);
 
-    expect(find.text('038491'), findsOneWidget);
     expect(find.text('TOTAL COLLECTED'), findsOneWidget);
-    expect(find.text('Public groups'), findsOneWidget);
+    expect(find.text('038491'), findsNothing);
+    expect(find.text('St Michel building fund'), findsNothing);
     expect(find.text('CONFIRMED'), findsNothing);
     expect(find.text('PENDING'), findsNothing);
     expect(find.text('FAILED'), findsNothing);
@@ -184,7 +185,7 @@ void main() {
   testWidgets('groups screen filters visibility and exposes native sorting', (
     tester,
   ) async {
-    final repository = CollectRepository.seeded();
+    final repository = CollectRepository.fixture();
     await repository.createCollection(
       title: 'Private family support',
       description: 'Family group',
@@ -227,7 +228,7 @@ void main() {
   testWidgets('contributor creates intent and waits for SMS allocation', (
     tester,
   ) async {
-    final repository = CollectRepository.seeded();
+    final repository = CollectRepository.fixture();
     await pumpMainAppAt(
       tester,
       '/groups/col-church/contribute',
@@ -393,7 +394,7 @@ void main() {
       await pumpMainAppAt(
         tester,
         '/permissions/sms-denied',
-        repository: CollectRepository.seeded(
+        repository: CollectRepository.fixture(
           smsAccessChannel: _DenySmsAccessChannel(),
         ),
       );
@@ -423,7 +424,7 @@ void main() {
     expectNoGlobalSecrets();
   });
 
-  testWidgets('auth phone and OTP flow uses Rwanda-first WhatsApp copy', (
+  testWidgets('auth phone flow fails closed without live Supabase auth', (
     tester,
   ) async {
     final repository = CollectRepository();
@@ -441,15 +442,13 @@ void main() {
     await tester.enterText(find.byType(TextField).first, '+250788123456');
     await tapVisible(tester, find.text('Send WhatsApp code'));
 
-    expect(find.text('Verify WhatsApp'), findsWidgets);
-    expect(find.text('Verification code'), findsOneWidget);
-    expect(find.text('Use another number'), findsOneWidget);
-
-    await tester.enterText(find.byType(TextField).last, '123456');
-    await tapVisible(tester, find.text('Verify and continue'));
-
-    expect(find.text('OTP verified'), findsOneWidget);
-    expect(repository.state.currentProfile?.publicId, isNotNull);
+    expect(find.text('Authentication failed'), findsOneWidget);
+    expect(
+      find.textContaining('WhatsApp sign-in is unavailable'),
+      findsOneWidget,
+    );
+    expect(find.text('Verify WhatsApp'), findsNothing);
+    expect(repository.state.currentProfile, isNull);
     expectNoGlobalSecrets();
   });
 
@@ -459,7 +458,7 @@ void main() {
     await pumpMainAppAt(
       tester,
       '/settings/profile',
-      repository: CollectRepository.seeded(),
+      repository: CollectRepository.fixture(),
     );
 
     expect(find.text('Profile setup'), findsWidgets);
@@ -486,7 +485,7 @@ void main() {
     await pumpMainAppAt(
       tester,
       '/settings/profile',
-      repository: CollectRepository.seeded(),
+      repository: CollectRepository.fixture(),
       pendingSharedGroupSlug: 'st-michel-building-fund',
     );
 
@@ -522,7 +521,7 @@ void main() {
   testWidgets('contribution review creates intent and waits for SMS', (
     tester,
   ) async {
-    final repository = CollectRepository.seeded();
+    final repository = CollectRepository.fixture();
     await pumpMainAppAt(
       tester,
       '/groups/col-church/contribute',
@@ -564,7 +563,7 @@ void main() {
   testWidgets('waiting for SMS route shows payment detail and recovery paths', (
     tester,
   ) async {
-    final repository = CollectRepository.seeded();
+    final repository = CollectRepository.fixture();
     final intent = await repository.createPaymentIntent(
       const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 12000),
     );
@@ -609,7 +608,7 @@ void main() {
   testWidgets(
     'contribution attempt without profile MoMo routes to link state',
     (tester) async {
-      final repository = CollectRepository();
+      final repository = CollectRepository.fixture(seeded: false);
       await repository.signInWithOtp(phone: '+250722123456', otp: '123456');
       final collection = await repository.createCollection(
         title: 'Family group',
@@ -634,7 +633,7 @@ void main() {
   testWidgets('ledger filters show confirmed and pending activity safely', (
     tester,
   ) async {
-    final repository = CollectRepository.seeded();
+    final repository = CollectRepository.fixture();
     final intent = await repository.createPaymentIntent(
       const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 7000),
     );
@@ -663,7 +662,7 @@ void main() {
   testWidgets('payment state detail routes provide retry and review copy', (
     tester,
   ) async {
-    final repository = CollectRepository.seeded();
+    final repository = CollectRepository.fixture();
     final intent = await repository.createPaymentIntent(
       const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 5000),
     );
@@ -877,7 +876,7 @@ void main() {
   testWidgets('payment state routes render clear recovery actions', (
     tester,
   ) async {
-    final repository = CollectRepository.seeded();
+    final repository = CollectRepository.fixture();
     final intent = await repository.createPaymentIntent(
       const PaymentIntentDraft(collectionId: 'col-church', amountRwf: 9000),
     );
@@ -1174,7 +1173,7 @@ class _DenySmsAccessChannel extends SmsAccessChannel {
 }
 
 class _LedgerScenarioRepository extends CollectRepository {
-  _LedgerScenarioRepository() : super.seeded() {
+  _LedgerScenarioRepository() : super.fixture() {
     final now = DateTime.now();
     state = state.copyWith(
       paymentIntents: [

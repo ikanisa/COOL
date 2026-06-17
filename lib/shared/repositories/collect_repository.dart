@@ -16,9 +16,7 @@ import '../models/collect_models.dart';
 final collectRepositoryProvider =
     StateNotifierProvider<CollectRepository, CollectState>((ref) {
       final supabase = ref.watch(supabaseClientProvider);
-      final repository = supabase == null
-          ? CollectRepository.seeded()
-          : CollectRepository(supabase: supabase);
+      final repository = CollectRepository(supabase: supabase);
       if (supabase != null) unawaited(repository.loadInitial());
       return repository;
     });
@@ -141,21 +139,29 @@ class CollectRepository extends StateNotifier<CollectState> {
   CollectRepository({
     SupabaseClient? supabase,
     SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
-  }) : this._(supabase, smsAccessChannel, _emptyState());
+  }) : this._(supabase, smsAccessChannel, _emptyState(), false);
 
-  CollectRepository.seeded({
+  CollectRepository.fixture({
     SupabaseClient? supabase,
     SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
-  }) : this._(supabase, smsAccessChannel, _seededState());
+    bool seeded = true,
+  }) : this._(
+         supabase,
+         smsAccessChannel,
+         seeded ? _fixtureState() : _emptyState(),
+         true,
+       );
 
   CollectRepository._(
     this._supabase,
     this._smsAccessChannel,
     CollectState initialState,
+    this._allowLocalWrites,
   ) : super(initialState);
 
   final SupabaseClient? _supabase;
   final SmsAccessChannel _smsAccessChannel;
+  final bool _allowLocalWrites;
   RealtimeInvalidationSubscription? _realtimeSync;
 
   static const _uuid = Uuid();
@@ -172,7 +178,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     );
   }
 
-  static CollectState _seededState() {
+  static CollectState _fixtureState() {
     final now = DateTime.now();
     const user = CollectProfile(
       id: 'local-user',
@@ -286,6 +292,9 @@ class CollectRepository extends StateNotifier<CollectState> {
       unawaited(loadInitial());
       return profile;
     }
+    if (!_allowLocalWrites) {
+      throw StateError('Live WhatsApp sign-in is unavailable.');
+    }
 
     final existingIds = state.currentProfile == null
         ? <String>{}
@@ -321,6 +330,9 @@ class CollectRepository extends StateNotifier<CollectState> {
           .eq('id', profile.id);
       state = state.copyWith(currentProfile: await _fetchProfile(profile.id));
       return;
+    }
+    if (!_allowLocalWrites) {
+      throw StateError('Sign in before updating your profile.');
     }
 
     state = state.copyWith(
@@ -474,6 +486,9 @@ class CollectRepository extends StateNotifier<CollectState> {
         imageUrl: imageUrl,
       );
     }
+    if (!_allowLocalWrites) {
+      throw StateError('Sign in before creating a group.');
+    }
 
     final slug = _slug(title);
     final collection = CollectCollection(
@@ -524,6 +539,9 @@ class CollectRepository extends StateNotifier<CollectState> {
       final collection = await _fetchCollection(collectionId);
       await loadInitial();
       return collection;
+    }
+    if (!_allowLocalWrites) {
+      throw StateError('Sign in before updating group receiver details.');
     }
 
     final collections = [...state.collections];
@@ -587,6 +605,9 @@ class CollectRepository extends StateNotifier<CollectState> {
       await loadInitial();
       return collection;
     }
+    if (!_allowLocalWrites) {
+      throw StateError('Sign in before updating group details.');
+    }
 
     final collections = [...state.collections];
     final index = collections.indexWhere((item) => item.id == collectionId);
@@ -635,6 +656,9 @@ class CollectRepository extends StateNotifier<CollectState> {
       );
       state = state.copyWith(paymentIntents: [...state.paymentIntents, intent]);
       return intent;
+    }
+    if (!_allowLocalWrites) {
+      throw StateError('Sign in before starting a contribution.');
     }
 
     final receiver = collection.receiverMomoNumber;
@@ -723,8 +747,22 @@ class CollectRepository extends StateNotifier<CollectState> {
   CollectCollection collectionById(String id) =>
       state.collections.firstWhere((collection) => collection.id == id);
 
+  CollectCollection? maybeCollectionById(String id) {
+    for (final collection in state.collections) {
+      if (collection.id == id) return collection;
+    }
+    return null;
+  }
+
   CollectCollection collectionBySlug(String slug) =>
       state.collections.firstWhere((collection) => collection.slug == slug);
+
+  CollectCollection? maybeCollectionBySlug(String slug) {
+    for (final collection in state.collections) {
+      if (collection.slug == slug) return collection;
+    }
+    return null;
+  }
 
   Future<CollectCollection> joinGroupBySlug(String slug) async {
     final normalizedSlug = slug.trim();
@@ -751,6 +789,9 @@ class CollectRepository extends StateNotifier<CollectState> {
       state = state.copyWith(collections: collections);
       return collection;
     }
+    if (!_allowLocalWrites) {
+      throw StateError('Sign in before joining a group.');
+    }
 
     return collectionBySlug(normalizedSlug);
   }
@@ -758,9 +799,19 @@ class CollectRepository extends StateNotifier<CollectState> {
   PaymentIntentModel intentById(String id) =>
       state.paymentIntents.firstWhere((intent) => intent.id == id);
 
+  PaymentIntentModel? maybeIntentById(String id) {
+    for (final intent in state.paymentIntents) {
+      if (intent.id == id) return intent;
+    }
+    return null;
+  }
+
   Future<PaymentIntentModel> refreshPaymentIntent(String id) async {
     final supabase = _supabase;
     if (supabase == null || supabase.auth.currentUser == null) {
+      if (!_allowLocalWrites) {
+        throw StateError('Sign in before refreshing payment status.');
+      }
       return intentById(id);
     }
     final row = await supabase

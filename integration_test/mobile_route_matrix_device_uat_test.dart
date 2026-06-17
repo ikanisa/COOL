@@ -16,7 +16,7 @@ void main() {
         overrides: [
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith(
-            (ref) => CollectRepository.seeded(),
+            (ref) => CollectRepository.fixture(),
           ),
         ],
         child: const CollectApp(),

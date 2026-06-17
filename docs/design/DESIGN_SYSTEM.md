@@ -4,23 +4,27 @@ This file mirrors the enforceable contract in `DESIGN.md` and explains how it ma
 
 ## Design Direction
 
-The 2026-06-08 Revolut screenshots are a reference for mobile fintech quality: gradient page canvases, floating glass controls, compact account/payment hierarchy, rounded bottom navigation, and translucent content panels. Collect applies those principles with its own product model, assets, copy, four primary colors, Paper canvas, and selected supporting surface/status tokens.
+The 11 Revolut screenshots in `/Users/jeanbosco/Downloads/Revolut10` are the active mobile UI/UX contract for fintech execution quality: vertical gradient page canvases, floating black glass controls, compact account/payment hierarchy, rounded bottom navigation, media-rich cards, and translucent content panels. Collect applies those patterns to its own product model: group collections, MoMo receiver setup, QR scan/share, contribution flows, member activity, profile, settings, notifications, and admin operations.
 
 Collect does not copy Revolut or Monzo visual assets, logos, trademarks, component colors, fonts, screens, account labels, crypto/invest tabs, or product layouts. Screen-background colors are the explicit exception: they are matched to the supplied Revolut reference screenshots while the product, brand, copy, components, and assets remain Collect-owned.
 
 ## Principles
 
 - Gradient first: member-facing screens render on `CollectGradientBackground`.
+- Reference first: page backgrounds are route-mapped from the supplied Revolut screenshots and stay vertical, atmospheric, and full-screen.
 - Distinct modes: light mode uses bright readable glass surfaces over the route gradients; dark mode uses night surfaces, pale text, darker borders, and stronger finance chrome. Both modes stay Revolut-like in gradient structure while using Collect-owned components.
 - Money first: every finance screen starts with the amount, progress, contribution, or payment state that matters most.
 - MoMo-first: copy, examples, and payment flows assume RWF and MoMo/USSD where relevant.
 - Collect ID only: member identity, receiver visibility, and SMS verification states are privacy-safe. Payment-state screenshots must use masked MoMo display such as `+250***3456`, not full receiver numbers.
 - Glass chrome: bottom navigation, bottom sheets, action buttons, search fields, and filters use translucent tokenized surfaces.
+- Top chrome: profile, search, and action controls are compact, visible, tappable, and semantically named. Profile controls route to profile.
+- Bottom dock: navigation remains Collect-owned in destination mapping, but visually follows the Revolut floating black glass dock with a selected capsule, one-line labels, stable touch targets, and safe-area anchoring.
 - Dark route headers: shared secondary-route headers use dark glass, official `CollectBrandMark`, high-contrast title hierarchy, and tokenized action capsules.
 - Rich surfaces: home, Home Momentum, group, contribution, payment-state, settings, privacy, support, notification, and legal surfaces use Collect-owned generated visuals where the Revolut reference uses media, marketplace, reward, or product cards. Image-less group cards use generated Collect media instead of blank covers.
 - Compact labels: visible labels, helper text, chips, card titles, table cells, and admin status copy stay one line with ellipsis when constrained. Avoid explanatory in-app paragraphs where a concise label, state, icon, or command is enough.
 - Warm precision: user screens feel premium and human; admin/risk screens stay dense and exact.
 - Token-only implementation: screens compose centralized tokens and shared components rather than raw colors, spacing, radii, or font sizes.
+- MOBI benchmark: use `/Volumes/PRO-G40/MOBI/mobi_app` as the process reference for route matrices, shared shell primitives, route visual coverage, and current evidence gates. Do not paste MOBI UI code or product concepts into Collect.
 
 ## Token Map
 
@@ -118,8 +122,22 @@ Feature-level widgets may control content density and order, but not introduce a
 - `dart format` on touched Dart files.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`.
 - Focused widget tests for shared components and shell.
+- Focused dark/light widget checks for shell, top chrome, cards, and route background families.
 - `scripts/mobile_route_render_smoke.sh` for all production member routes.
 - `scripts/android_route_visual_evidence.sh` for physical Android route PNG evidence and route contact sheets when device proof is required or local Chromium/CDP is unavailable.
 - `scripts/admin_pwa_authenticated_render_smoke.sh` for authenticated Admin PWA browser PNG evidence with masked evidence-mode data.
 - `COLLECT_VISUAL_EVIDENCE_FRESH=1 scripts/collect_visual_evidence_capture.sh` for non-Chrome member-shell PNG/contact-sheet evidence when local Chromium/CDP is unavailable.
 - `scripts/collect_mobile_design_compliance_audit.sh --json` to verify the palette, docs, shared gradient ownership, route screenshot coverage, and Android evidence when available.
+
+## 10/10 Parity Blockers
+
+The app is not allowed to claim 10/10 Revolut-reference parity while any of these remain:
+
+- A route uses a generic or unmapped page background.
+- A first viewport lacks a dominant amount, group, QR/share, profile, or payment state.
+- Top chrome profile/action controls are visually hidden, unclickable, or missing semantics.
+- Bottom navigation looks like a generic app nav instead of anchored fintech glass chrome.
+- Cards look like plain Material cards instead of translucent finance/media surfaces.
+- Labels wrap where the contract requires one-line ellipsis.
+- Dark and light modes are not visually distinguishable.
+- Any production member route, Admin PWA mobile viewport, or Admin PWA desktop viewport lacks fresh screenshot evidence.

@@ -49,7 +49,7 @@ class GroupLinkScreen extends ConsumerStatefulWidget {
 }
 
 class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
-  late final Future<void> _openGroup = _joinAndOpen();
+  late final Future<void> _openGroup = Future<void>.microtask(_joinAndOpen);
 
   Future<void> _joinAndOpen() async {
     if (_shouldOpenStoreFallback()) {

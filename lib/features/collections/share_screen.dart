@@ -11,10 +11,8 @@ import 'package:share_plus/share_plus.dart';
 import '../../app/env/app_env.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
+import 'group_empty_state.dart';
 import 'group_share_service.dart';
-
-const _shareBrandAsset =
-    'assets/brand/source_variants/collect_wordmark_transparent_4096.png';
 
 class ShareScreen extends ConsumerWidget {
   const ShareScreen({required this.collectionId, super.key});
@@ -26,7 +24,8 @@ class ShareScreen extends ConsumerWidget {
     final colors = context.collectColors;
     final env = ref.watch(appEnvProvider);
     final repo = ref.read(collectRepositoryProvider.notifier);
-    final collection = repo.collectionById(collectionId);
+    final collection = repo.maybeCollectionById(collectionId);
+    if (collection == null) return const MissingGroupStateScreen();
     final link = groupDeepLinkFor(env, collection);
     final filename = '${collection.slug}-qr';
     final shareText = groupShareMessageFor(env, collection);
@@ -315,20 +314,16 @@ class _ShareBrandMark extends StatelessWidget {
               color: colors.onImagePrimary.withValues(alpha: 0.16),
             ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
+          child: const Padding(
+            padding: EdgeInsets.symmetric(
               horizontal: CollectSpacing.x3,
               vertical: CollectSpacing.x2,
             ),
-            child: Image.asset(
-              _shareBrandAsset,
+            child: CollectBrandMark(
+              compact: true,
+              framed: false,
               width: 104,
               height: 30,
-              fit: BoxFit.contain,
-              filterQuality: FilterQuality.high,
-              gaplessPlayback: true,
-              errorBuilder: (context, error, stackTrace) =>
-                  const SizedBox.shrink(),
             ),
           ),
         ),

@@ -69,6 +69,7 @@ class CollectColors extends ThemeExtension<CollectColors> {
   static const brandDustyRose = Color(0xFFD38B96);
   static const brandOrangeRed = Color(0xFFFF5E43);
   static const inkPrimary = Color(0xFF252044);
+  static const referenceChromeBlack = Color(0xFF050510);
   static const inkSecondary = Color(0xFF4B4664);
   static const inkMuted = Color(0xFF5F5A76);
   static const transparentColor = Color(0x00000000);
@@ -233,8 +234,8 @@ class CollectColors extends ThemeExtension<CollectColors> {
   Color get glassScrim => inkPrimary.withValues(alpha: 0.08);
 
   LinearGradient get screenGradient => const LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: [
       referencePaymentsPurpleMid,
       referencePaymentsPurple,
@@ -288,8 +289,8 @@ class CollectColors extends ThemeExtension<CollectColors> {
   }
 
   static const Gradient referenceAccountGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: [
       referenceAccountBlue,
       referenceAccountBlueMid,
@@ -300,8 +301,8 @@ class CollectColors extends ThemeExtension<CollectColors> {
   );
 
   static const Gradient referenceWealthGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: [
       referenceWealthTealMid,
       referenceWealthTealSoft,
@@ -312,8 +313,8 @@ class CollectColors extends ThemeExtension<CollectColors> {
   );
 
   static const Gradient referencePaymentsGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: [
       referencePaymentsPurpleMid,
       referencePaymentsPurple,
@@ -323,8 +324,8 @@ class CollectColors extends ThemeExtension<CollectColors> {
   );
 
   static const Gradient referenceAssetGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: [
       referenceAssetNavyMid,
       referenceAssetNavySoft,
@@ -335,8 +336,8 @@ class CollectColors extends ThemeExtension<CollectColors> {
   );
 
   static const Gradient referenceRewardsGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: [
       referenceRewardsVioletHot,
       referenceRewardsVioletBright,
@@ -347,8 +348,8 @@ class CollectColors extends ThemeExtension<CollectColors> {
   );
 
   static const Gradient referenceMarketGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: [
       referencePaymentsPurpleMid,
       referencePaymentsPurple,
@@ -358,8 +359,8 @@ class CollectColors extends ThemeExtension<CollectColors> {
   );
 
   static const Gradient referenceContentGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: [
       referenceContentBronze,
       referencePaymentsPurple,
@@ -369,15 +370,15 @@ class CollectColors extends ThemeExtension<CollectColors> {
   );
 
   static const Gradient referenceInvestGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: [referenceInvestTeal, referenceWealthTeal, referenceStockTealBlack],
     stops: [0, 0.48, 1],
   );
 
   LinearGradient get adminScreenGradient => const LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: [
       referenceStockTealBlack,
       referenceAssetNavy,
