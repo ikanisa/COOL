@@ -100,6 +100,8 @@ colors = read(File.join(root, "lib/app/theme/collect_colors.dart"))
 components = read(File.join(root, "lib/shared/widgets/collect_components.dart"))
 shell = read(File.join(root, "lib/core/widgets/collect_shell.dart"))
 share_screen = read(File.join(root, "lib/features/collections/share_screen.dart"))
+theme_parity_path = File.join(root, "test/features/theme_mode_visual_parity_test.dart")
+theme_parity_test = File.file?(theme_parity_path) ? read(theme_parity_path) : ""
 flutter_files = all_flutter_files(root)
 route_summary = json_file(route_summary_path)
 android_uat_summary = json_file(android_uat_summary_path)
@@ -223,6 +225,48 @@ checks << {
     "lib/core/widgets/collect_shell.dart",
     "lib/shared/widgets/collect_components.dart",
     "lib/features/collections/share_screen.dart"
+  ]
+}
+
+theme_parity_failures = []
+theme_parity_failures << "Theme visual parity test is missing." unless File.file?(theme_parity_path)
+[
+  "light and dark mode surfaces have strong visual separation",
+  "route background families stay stable across light and dark modes",
+  "computeLuminance",
+  "Brightness.light",
+  "Brightness.dark",
+  "surfaceReadable",
+  "glassPanel",
+  "glassControl",
+  "borderAccent",
+  "screenGradientForPath"
+].each do |needle|
+  theme_parity_failures << "Theme visual parity test must assert #{needle}." unless theme_parity_test.include?(needle)
+end
+%w[
+  /home
+  /groups
+  /groups/create
+  /groups/col-church/pay/intent/state/pending
+  /groups/col-church/share
+  /settings/help
+  /offline
+].each do |route|
+  theme_parity_failures << "Theme visual parity test must cover route #{route}." unless theme_parity_test.include?(route)
+end
+theme_parity_failures << "DESIGN.md must name theme_mode_visual_parity_test.dart as a parity gate." unless design.include?("theme_mode_visual_parity_test.dart")
+theme_parity_failures << "DESIGN_SYSTEM.md must name theme_mode_visual_parity_test.dart as a parity gate." unless design_system.include?("theme_mode_visual_parity_test.dart")
+theme_parity_failures << "DESIGN.md must require visually distinct light and dark modes." unless design.match?(/Light and dark modes must be visually distinct/i)
+theme_parity_failures << "DESIGN_SYSTEM.md must require distinct modes." unless design_system.match?(/Distinct modes/i)
+checks << {
+  "id" => "theme_mode_visual_parity_gate",
+  "status" => status_for(theme_parity_failures),
+  "failures" => theme_parity_failures,
+  "evidence" => [
+    "test/features/theme_mode_visual_parity_test.dart",
+    "DESIGN.md",
+    "docs/design/DESIGN_SYSTEM.md"
   ]
 }
 

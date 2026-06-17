@@ -122,12 +122,12 @@ Feature-level widgets may control content density and order, but not introduce a
 - `dart format` on touched Dart files.
 - `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`.
 - Focused widget tests for shared components and shell.
-- Focused dark/light widget checks for shell, top chrome, cards, and route background families.
+- Focused dark/light widget checks for shell, top chrome, cards, and route background families, including `test/features/theme_mode_visual_parity_test.dart`.
 - `scripts/mobile_route_render_smoke.sh` for all production member routes.
 - `scripts/android_route_visual_evidence.sh` for physical Android route PNG evidence and route contact sheets when device proof is required or local Chromium/CDP is unavailable.
 - `scripts/admin_pwa_authenticated_render_smoke.sh` for authenticated Admin PWA browser PNG evidence with masked evidence-mode data.
 - `COLLECT_VISUAL_EVIDENCE_FRESH=1 scripts/collect_visual_evidence_capture.sh` for non-Chrome member-shell PNG/contact-sheet evidence when local Chromium/CDP is unavailable.
-- `scripts/collect_mobile_design_compliance_audit.sh --json` to verify the palette, docs, shared gradient ownership, route screenshot coverage, and Android evidence when available.
+- `scripts/collect_mobile_design_compliance_audit.sh --json` to verify the palette, docs, shared gradient ownership, dark/light theme parity gate, route screenshot coverage, and Android evidence when available.
 
 ## 10/10 Parity Blockers
 
