@@ -178,6 +178,9 @@ Before claiming design parity:
 - Run `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub`.
 - Run focused widget tests for theme tokens, brand mark, shared components, shell, and touched routes.
 - Run dark and light mode checks for shared shell/card/top chrome states.
+- Run `test/features/theme_mode_visual_parity_test.dart` to enforce strong
+  luminance separation between light and dark glass surfaces while preserving
+  the same Revolut-derived route background families.
 - Run `scripts/mobile_route_render_smoke.sh` for all production routes.
 - Run `scripts/android_route_visual_evidence.sh` for physical-device mobile route PNG evidence when Android device proof is required or browser route capture is unstable.
 - Run `scripts/admin_pwa_authenticated_render_smoke.sh` for authenticated Admin PWA browser screenshots using masked evidence-mode data.
