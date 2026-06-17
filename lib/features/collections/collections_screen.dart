@@ -68,23 +68,16 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           ],
         ),
         children: [
-          EmptyIllustrationState(
+          const EmptyIllustrationState(
             icon: CollectIcons.collectionsOutline,
             title: 'No groups yet',
-            message: 'Create an Android owner group, or scan a group QR code.',
-            action: CollectButton(
-              label: 'Scan',
-              icon: CollectIcons.qr,
-              onPressed: () => context.go('/groups/scan'),
-            ),
+            message: 'Scan a group QR or create one on Android.',
           ),
-          if (showCreate)
-            CollectButton(
-              label: 'Create group',
-              icon: CollectIcons.add,
-              onPressed: () => context.go('/groups/create'),
-              expand: true,
-            ),
+          _GroupEmptyActionRail(
+            showCreate: showCreate,
+            onScan: () => context.go('/groups/scan'),
+            onCreate: () => context.go('/groups/create'),
+          ),
         ],
       );
     }
@@ -441,6 +434,112 @@ class _GroupSheetPill<T> extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _GroupEmptyActionRail extends StatelessWidget {
+  const _GroupEmptyActionRail({
+    required this.showCreate,
+    required this.onScan,
+    required this.onCreate,
+  });
+
+  final bool showCreate;
+  final VoidCallback onScan;
+  final VoidCallback onCreate;
+
+  @override
+  Widget build(BuildContext context) {
+    final actions = [
+      _GroupEmptyActionItem(
+        icon: CollectIcons.qr,
+        label: 'Scan',
+        onTap: onScan,
+      ),
+      if (showCreate)
+        _GroupEmptyActionItem(
+          icon: CollectIcons.add,
+          label: 'Create group',
+          onTap: onCreate,
+        ),
+    ];
+
+    return SizedBox(
+      height: 78,
+      child: Row(
+        children: [
+          for (var index = 0; index < actions.length; index++) ...[
+            Expanded(child: actions[index]),
+            if (index != actions.length - 1) CollectSpacing.gapW12,
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _GroupEmptyActionItem extends StatelessWidget {
+  const _GroupEmptyActionItem({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final foreground = isDark ? colors.onImagePrimary : colors.surfaceReadable;
+    final iconFill = isDark
+        ? CollectColors.inkPrimary.withValues(alpha: 0.92)
+        : colors.textPrimary.withValues(alpha: 0.88);
+    final iconBorder = foreground.withValues(alpha: isDark ? 0.22 : 0.20);
+
+    return Semantics(
+      button: true,
+      label: label,
+      child: Tooltip(
+        message: label,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: CollectRadius.pillBorder,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: iconFill,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: iconBorder),
+                ),
+                child: SizedBox.square(
+                  dimension: 52,
+                  child: Icon(icon, color: foreground, size: 23),
+                ),
+              ),
+              CollectSpacing.gap4,
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: false,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: foreground,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

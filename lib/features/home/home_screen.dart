@@ -65,21 +65,10 @@ class HomeScreen extends ConsumerWidget {
         _HomeMomentumFeed(collections: collections, summaries: summaries),
         const SectionHeader(title: 'My groups'),
         if (collections.isEmpty)
-          EmptyIllustrationState(
+          const EmptyIllustrationState(
             icon: CollectIcons.collectionsOutline,
             title: 'No groups yet',
             message: 'Create a group or scan a group QR.',
-            action: showCreate
-                ? CollectButton(
-                    label: 'Create group',
-                    icon: CollectIcons.add,
-                    onPressed: () => context.go('/groups/create'),
-                  )
-                : CollectButton(
-                    label: 'Join group',
-                    icon: CollectIcons.qr,
-                    onPressed: () => context.go('/groups/scan'),
-                  ),
           )
         else
           for (final collection in collections)
