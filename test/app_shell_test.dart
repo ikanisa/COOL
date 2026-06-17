@@ -185,6 +185,7 @@ void main() {
     expect(designAudit, contains('revolut_reference_collect_owned_contract'));
     expect(designAudit, contains('gradient_glass_screen_contract'));
     expect(designAudit, contains('theme_mode_visual_parity_gate'));
+    expect(designAudit, contains('revolut_top_chrome_search_contract'));
     expect(designAudit, contains('mobile_brand_asset_contract'));
     expect(designAudit, contains('no_raw_ui_colors_outside_tokens'));
     expect(designAudit, contains('share_domain_contract'));
@@ -229,6 +230,24 @@ void main() {
       );
     },
   );
+
+  test('home and groups keep Revolut-style top search chrome', () {
+    final home = File('lib/features/home/home_screen.dart').readAsStringSync();
+    final groups = File(
+      'lib/features/collections/collections_screen.dart',
+    ).readAsStringSync();
+
+    expect(home, contains("searchLabel: 'Search'"));
+    expect(home, contains("onSearchTap: () => context.go('/groups')"));
+    expect(home, contains("tooltip: 'Notifications'"));
+    expect(home, contains("tooltip: 'Scan QR code'"));
+    expect(groups, contains("searchLabel: 'Search groups'"));
+    expect(
+      RegExp('searchController: _search').allMatches(groups),
+      hasLength(2),
+    );
+    expect(groups, isNot(contains('showSearch: false')));
+  });
 
   testWidgets('reduced motion returns zero animation duration', (tester) async {
     late Duration duration;

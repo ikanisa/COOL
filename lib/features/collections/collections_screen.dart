@@ -51,7 +51,9 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
               (state) => state.currentProfile?.publicId,
             ),
           ),
-          showSearch: false,
+          searchLabel: 'Search groups',
+          searchController: _search,
+          onSearchChanged: (value) => setState(() => _query = value),
           onAvatarTap: () => context.go('/settings/profile'),
           actions: [
             CollectTopChromeAction(
@@ -90,7 +92,9 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
             (state) => state.currentProfile?.publicId,
           ),
         ),
-        showSearch: false,
+        searchLabel: 'Search groups',
+        searchController: _search,
+        onSearchChanged: (value) => setState(() => _query = value),
         onAvatarTap: () => context.go('/settings/profile'),
         actions: [
           CollectTopChromeAction(

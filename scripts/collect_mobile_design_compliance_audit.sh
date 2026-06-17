@@ -100,6 +100,8 @@ colors = read(File.join(root, "lib/app/theme/collect_colors.dart"))
 components = read(File.join(root, "lib/shared/widgets/collect_components.dart"))
 shell = read(File.join(root, "lib/core/widgets/collect_shell.dart"))
 share_screen = read(File.join(root, "lib/features/collections/share_screen.dart"))
+home_screen = read(File.join(root, "lib/features/home/home_screen.dart"))
+collections_screen = read(File.join(root, "lib/features/collections/collections_screen.dart"))
 main_entry = read(File.join(root, "lib/main.dart"))
 route_smoke_script = read(File.join(root, "scripts/mobile_route_render_smoke.sh"))
 theme_parity_path = File.join(root, "test/features/theme_mode_visual_parity_test.dart")
@@ -285,6 +287,22 @@ checks << {
     "lib/main.dart",
     "scripts/mobile_route_render_smoke.sh",
     "docs/design/DESIGN_SYSTEM.md"
+  ]
+}
+
+top_chrome_failures = []
+top_chrome_failures << "Home top chrome must keep the Revolut-style search slot visible." unless home_screen.include?("searchLabel: 'Search'") && home_screen.include?("onSearchTap: () => context.go('/groups')")
+top_chrome_failures << "Home top chrome must expose two compact action circles." unless home_screen.include?("tooltip: 'Notifications'") && home_screen.include?("tooltip: 'Scan QR code'")
+top_chrome_failures << "Groups top chrome must bind the search controller." unless collections_screen.scan("searchController: _search").length >= 2
+top_chrome_failures << "Groups top chrome must update the visible search query." unless collections_screen.scan("onSearchChanged: (value) => setState(() => _query = value)").length >= 2
+top_chrome_failures << "Groups top chrome must not suppress search." if collections_screen.include?("showSearch: false")
+checks << {
+  "id" => "revolut_top_chrome_search_contract",
+  "status" => status_for(top_chrome_failures),
+  "failures" => top_chrome_failures,
+  "evidence" => [
+    "lib/features/home/home_screen.dart",
+    "lib/features/collections/collections_screen.dart"
   ]
 }
 

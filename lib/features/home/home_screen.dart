@@ -38,7 +38,8 @@ class HomeScreen extends ConsumerWidget {
       compact: true,
       persistentPill: CollectTopChrome(
         avatarLabel: profile?.publicId,
-        showSearch: false,
+        searchLabel: 'Search',
+        onSearchTap: () => context.go('/groups'),
         onAvatarTap: () => context.go('/settings/profile'),
         hasUnread: paymentIntents.isNotEmpty,
         actions: [
@@ -47,6 +48,11 @@ class HomeScreen extends ConsumerWidget {
             tooltip: 'Notifications',
             hasBadge: paymentIntents.isNotEmpty,
             onPressed: () => context.go('/notifications'),
+          ),
+          CollectTopChromeAction(
+            icon: CollectIcons.qr,
+            tooltip: 'Scan QR code',
+            onPressed: () => context.go('/groups/scan'),
           ),
         ],
       ),
