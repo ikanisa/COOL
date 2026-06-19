@@ -19,6 +19,7 @@ import '../../app/theme/collect_radius.dart';
 import '../../app/theme/collect_shadows.dart';
 import '../../app/theme/collect_spacing.dart';
 import '../../app/theme/collect_typography.dart';
+import '../../core/security/phone_normalizer.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/utils/money_format.dart';
 import '../models/collect_models.dart';
@@ -757,7 +758,6 @@ class _TopChromeAvatar extends StatelessWidget {
     final colors = context.collectColors;
     final foreground = colors.onImagePrimary;
     final effectiveOnTap = onTap ?? () => context.go('/settings/profile');
-    final initials = _compactAvatarLabel(label);
     return Tooltip(
       message: 'Open profile',
       child: Semantics(
@@ -801,15 +801,10 @@ class _TopChromeAvatar extends StatelessWidget {
                   child: SizedBox.square(
                     dimension: 52,
                     child: Center(
-                      child: Text(
-                        initials,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: foreground,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 0,
-                        ),
+                      child: _CollectProfileGlyph(
+                        backgroundColor: foreground.withValues(alpha: 0.14),
+                        color: foreground,
+                        size: 40,
                       ),
                     ),
                   ),
@@ -834,23 +829,6 @@ class _TopChromeAvatar extends StatelessWidget {
       ),
     );
   }
-}
-
-String _compactAvatarLabel(String? label) {
-  final trimmed = label?.trim() ?? '';
-  final digits = RegExp(r'\d+').allMatches(trimmed).map((m) => m.group(0)!);
-  final joinedDigits = digits.join();
-  if (joinedDigits.isNotEmpty) {
-    return joinedDigits.length <= 2
-        ? joinedDigits
-        : joinedDigits.substring(joinedDigits.length - 2);
-  }
-  if (trimmed.isEmpty) return 'C';
-  final compact = trimmed.replaceAll(RegExp(r'[^A-Za-z0-9]'), '');
-  if (compact.isEmpty) return 'C';
-  return compact.length <= 2
-      ? compact.toUpperCase()
-      : compact.substring(0, 2).toUpperCase();
 }
 
 class _TopChromeSearchButton extends StatelessWidget {
@@ -1126,33 +1104,81 @@ class AmountEntryPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final amountStyle = CollectTypography.amountDisplay(
+      colors.textPrimary,
+    ).copyWith(fontSize: 44, height: 1.05);
+    final prefixStyle = amountStyle.copyWith(color: colors.textSecondary);
     return CollectCard(
-      emphasis: CollectCardEmphasis.hero,
+      emphasis: CollectCardEmphasis.compact,
       padding: CollectSpacing.cardPaddingComfortable,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (label != null && label!.trim().isNotEmpty) ...[
-            Text(
-              label!.toUpperCase(),
-              style: CollectTypography.eyebrowLabel(colors.textMuted),
-            ),
-            CollectSpacing.gap12,
-          ],
-          TextField(
-            controller: controller,
-            keyboardType: TextInputType.number,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            decoration: collectInputDecoration(
-              context,
-              label: 'Amount',
-              prefix: 'RWF ',
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  (label?.trim().isNotEmpty == true ? label! : 'Amount'),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: colors.textSecondary,
+                    fontWeight: FontWeight.w800,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: colors.glassControl,
+                  borderRadius: CollectRadius.pillBorder,
+                  border: Border.all(color: colors.glassBorder),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: CollectSpacing.x3,
+                    vertical: CollectSpacing.x1,
+                  ),
+                  child: Text(
+                    'RWF',
+                    style: CollectTypography.eyebrowLabel(colors.textMuted),
+                  ),
+                ),
+              ),
+            ],
           ),
-          CollectSpacing.gap12,
-          Text(
-            formatRwf(amount),
-            style: CollectTypography.amountDisplay(colors.textPrimary),
+          CollectSpacing.gap16,
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: colors.glassControl,
+              borderRadius: CollectRadius.panelBorder,
+              border: Border.all(color: colors.glassBorder),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: CollectSpacing.x4,
+                vertical: CollectSpacing.x3,
+              ),
+              child: TextField(
+                controller: controller,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                style: amountStyle,
+                maxLines: 1,
+                decoration: InputDecoration(
+                  hintText: '0',
+                  prefixText: 'RWF ',
+                  prefixStyle: prefixStyle,
+                  hintStyle: amountStyle.copyWith(color: colors.textMuted),
+                  border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  focusedErrorBorder: InputBorder.none,
+                  isCollapsed: true,
+                  contentPadding: EdgeInsets.zero,
+                ),
+              ),
+            ),
           ),
           if (detail != null) ...[
             CollectSpacing.gap8,
@@ -1169,7 +1195,7 @@ class AmountEntryPanel extends StatelessWidget {
                   selected: amount == option,
                   selectedColor: CollectColors.brandPeriwinkle,
                   backgroundColor: colors.glassControl,
-                  checkmarkColor: colors.selectedOnAccent,
+                  showCheckmark: false,
                   side: BorderSide(
                     color: amount == option
                         ? colors.borderAccent
@@ -1225,6 +1251,199 @@ class BottomActionSurface extends StatelessWidget {
               children[index],
               if (index != children.length - 1) CollectSpacing.gap12,
             ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+enum CollectMomoReceiverMode { momoNumber, momoPayCode }
+
+class CollectMomoReceiverModeToggle extends StatelessWidget {
+  const CollectMomoReceiverModeToggle({
+    required this.mode,
+    required this.onChanged,
+    super.key,
+  });
+
+  final CollectMomoReceiverMode mode;
+  final ValueChanged<CollectMomoReceiverMode> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.glassControl,
+        borderRadius: CollectRadius.controlBorder,
+        border: Border.all(color: colors.glassBorder),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(CollectSpacing.x1),
+        child: Row(
+          children: [
+            Expanded(
+              child: _CollectMomoReceiverModeButton(
+                label: 'MoMo Number',
+                icon: CollectIcons.momo,
+                selected: mode == CollectMomoReceiverMode.momoNumber,
+                onTap: () => onChanged(CollectMomoReceiverMode.momoNumber),
+              ),
+            ),
+            CollectSpacing.gapW8,
+            Expanded(
+              child: _CollectMomoReceiverModeButton(
+                label: 'MoMo Pay',
+                icon: CollectIcons.qr,
+                selected: mode == CollectMomoReceiverMode.momoPayCode,
+                onTap: () => onChanged(CollectMomoReceiverMode.momoPayCode),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CollectMomoReceiverModeButton extends StatelessWidget {
+  const _CollectMomoReceiverModeButton({
+    required this.label,
+    required this.icon,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final IconData icon;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = selected ? colors.onAccent : colors.textSecondary;
+    return Tooltip(
+      message: label,
+      child: Semantics(
+        button: true,
+        selected: selected,
+        label: label,
+        child: InkWell(
+          borderRadius: CollectRadius.controlBorder,
+          onTap: onTap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            curve: Curves.easeOutCubic,
+            height: 46,
+            decoration: BoxDecoration(
+              color: selected ? colors.actionColor : colors.transparent,
+              borderRadius: CollectRadius.controlBorder,
+              border: Border.all(
+                color: selected ? colors.actionColor : colors.glassBorder,
+              ),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: CollectSpacing.x2),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, color: foreground, size: 19),
+                CollectSpacing.gapW8,
+                Flexible(
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: foreground,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CollectMobileInputField extends StatelessWidget {
+  const CollectMobileInputField({
+    required this.controller,
+    required this.icon,
+    required this.label,
+    this.keyboardType,
+    this.textInputAction,
+    this.autofillHints,
+    this.maxLines = 1,
+    this.textCapitalization = TextCapitalization.none,
+    this.autocorrect = false,
+    super.key,
+  });
+
+  final TextEditingController controller;
+  final IconData icon;
+  final String label;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final Iterable<String>? autofillHints;
+  final int maxLines;
+  final TextCapitalization textCapitalization;
+  final bool autocorrect;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.glassControl,
+        borderRadius: CollectRadius.controlBorder,
+        border: Border.all(color: colors.glassBorder),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: CollectSpacing.x3,
+          vertical: CollectSpacing.x1,
+        ),
+        child: Row(
+          crossAxisAlignment: maxLines > 1
+              ? CrossAxisAlignment.start
+              : CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                top: maxLines > 1 ? CollectSpacing.x2 : 0,
+              ),
+              child: Icon(icon, color: colors.textSecondary, size: 22),
+            ),
+            CollectSpacing.gapW12,
+            Expanded(
+              child: TextField(
+                controller: controller,
+                keyboardType: keyboardType,
+                textInputAction:
+                    textInputAction ??
+                    (maxLines > 1
+                        ? TextInputAction.newline
+                        : TextInputAction.next),
+                autofillHints: autofillHints,
+                maxLines: maxLines,
+                textCapitalization: textCapitalization,
+                autocorrect: autocorrect,
+                decoration: InputDecoration(
+                  labelText: label,
+                  border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  contentPadding: EdgeInsets.zero,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -1721,7 +1940,6 @@ class PaymentReviewSummary extends StatelessWidget {
           ),
           CollectSpacing.gap20,
           _ReviewLine(label: 'Group', value: groupTitle),
-          _ReviewLine(label: 'Receiver', value: receiverLabel),
           _ReviewLine(
             label: 'MoMo',
             value: maskMomoNumberForDisplay(receiverMomoNumber),
@@ -1868,17 +2086,74 @@ class CollectAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final initial = label.trim().isEmpty ? 'C' : label.trim()[0].toUpperCase();
+    final hasImage = imageUrl != null && imageUrl!.isNotEmpty;
     return CircleAvatar(
       radius: size / 2,
       backgroundColor: colors.statusBackground(CollectStatusTone.privacy),
       foregroundColor: colors.periwinklePaint,
-      backgroundImage: imageUrl == null || imageUrl!.isEmpty
+      backgroundImage: hasImage ? NetworkImage(imageUrl!) : null,
+      child: hasImage
           ? null
-          : NetworkImage(imageUrl!),
-      child: imageUrl == null || imageUrl!.isEmpty
-          ? Text(initial, style: Theme.of(context).textTheme.labelLarge)
-          : null,
+          : _CollectProfileGlyph(
+              backgroundColor: colors.periwinklePaint.withValues(alpha: 0.14),
+              color: colors.periwinklePaint,
+              size: (size * 0.74).clamp(24, 44).toDouble(),
+            ),
+    );
+  }
+}
+
+class _CollectProfileGlyph extends StatelessWidget {
+  const _CollectProfileGlyph({
+    required this.backgroundColor,
+    required this.color,
+    required this.size,
+  });
+
+  final Color backgroundColor;
+  final Color color;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    final headSize = size * 0.30;
+    return SizedBox.square(
+      dimension: size,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              shape: BoxShape.circle,
+              border: Border.all(color: color.withValues(alpha: 0.20)),
+            ),
+            child: SizedBox.square(dimension: size),
+          ),
+          Positioned(
+            top: size * 0.18,
+            child: DecoratedBox(
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+              child: SizedBox.square(dimension: headSize),
+            ),
+          ),
+          Positioned(
+            bottom: size * 0.16,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(size * 0.26),
+                  topRight: Radius.circular(size * 0.26),
+                  bottomLeft: Radius.circular(size * 0.12),
+                  bottomRight: Radius.circular(size * 0.12),
+                ),
+              ),
+              child: SizedBox(width: size * 0.58, height: size * 0.26),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -4026,9 +4301,9 @@ BoxDecoration _groupFooterDecoration(BuildContext context) {
   final isDark = Theme.of(context).brightness == Brightness.dark;
   if (isDark) {
     return BoxDecoration(
-      color: CollectColors.referenceAssetNavy.withValues(alpha: 0.94),
+      color: CollectColors.referenceAssetNavy.withValues(alpha: 0.88),
       border: Border(
-        top: BorderSide(color: colors.onImagePrimary.withValues(alpha: 0.16)),
+        top: BorderSide(color: colors.onImagePrimary.withValues(alpha: 0.20)),
       ),
     );
   }
@@ -4144,7 +4419,7 @@ class _GroupCoverImageTone extends StatelessWidget {
     if (Theme.of(context).brightness != Brightness.dark) return child;
     return ColorFiltered(
       colorFilter: ColorFilter.mode(
-        CollectColors.referencePaymentsPurpleDeep.withValues(alpha: 0.54),
+        CollectColors.referencePaymentsPurpleDeep.withValues(alpha: 0.28),
         BlendMode.multiply,
       ),
       child: child,
@@ -4163,9 +4438,9 @@ class _GroupCoverScrim extends StatelessWidget {
     final deep = isDark
         ? CollectColors.referencePaymentsPurpleDeep
         : CollectColors.inkPrimary;
-    final topAlpha = isDark ? 0.48 : 0.22;
-    final midAlpha = isDark ? 0.70 : 0.42;
-    final bottomAlpha = isDark ? 0.96 : 0.82;
+    final topAlpha = isDark ? 0.18 : 0.22;
+    final midAlpha = isDark ? 0.38 : 0.42;
+    final bottomAlpha = isDark ? 0.78 : 0.82;
     return DecoratedBox(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -4226,12 +4501,7 @@ class _GroupCoverTitleOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     final foreground = colors.onImagePrimary;
-    final plateFill = isDark
-        ? CollectColors.referencePaymentsPurpleDeep.withValues(alpha: 0.82)
-        : CollectColors.inkPrimary.withValues(alpha: 0.66);
-    final plateBorder = foreground.withValues(alpha: isDark ? 0.14 : 0.18);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: compact ? CollectSpacing.x1 : 0,
@@ -4241,38 +4511,32 @@ class _GroupCoverTitleOverlay extends StatelessWidget {
         child: FractionallySizedBox(
           widthFactor: compact ? 0.92 : 0.86,
           alignment: Alignment.bottomLeft,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: plateFill,
-              borderRadius: CollectRadius.pillBorder,
-              border: Border.all(color: plateBorder),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: compact ? CollectSpacing.x2 : CollectSpacing.x3,
+              vertical: compact ? 5 : 7,
             ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: compact ? CollectSpacing.x2 : CollectSpacing.x3,
-                vertical: compact ? 5 : 7,
-              ),
-              child: Text(
-                collection.title,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: foreground,
-                  fontWeight: FontWeight.w900,
-                  fontSize: compact ? 15 : 18,
-                  height: 1.0,
-                  letterSpacing: 0,
-                  shadows: [
-                    Shadow(
-                      color: CollectColors.referencePaymentsPurpleDeep
-                          .withValues(alpha: 0.88),
-                      offset: const Offset(0, 1),
-                      blurRadius: 8,
+            child: Text(
+              collection.title,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: foreground,
+                fontWeight: FontWeight.w900,
+                fontSize: compact ? 15 : 18,
+                height: 1.0,
+                letterSpacing: 0,
+                shadows: [
+                  Shadow(
+                    color: CollectColors.referencePaymentsPurpleDeep.withValues(
+                      alpha: 0.88,
                     ),
-                  ],
-                ),
-                maxLines: 1,
-                softWrap: false,
-                overflow: TextOverflow.ellipsis,
+                    offset: const Offset(0, 1),
+                    blurRadius: 8,
+                  ),
+                ],
               ),
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ),
@@ -4293,8 +4557,8 @@ class _GeneratedGroupCover extends StatelessWidget {
     final coverScrim = isDark
         ? CollectColors.referencePaymentsPurpleDeep
         : CollectColors.inkPrimary;
-    final topAlpha = isDark ? 0.36 : 0.16;
-    final bottomAlpha = isDark ? 0.84 : 0.70;
+    final topAlpha = isDark ? 0.16 : 0.16;
+    final bottomAlpha = isDark ? 0.62 : 0.70;
     final chipFill = isDark
         ? CollectColors.referenceContentDark.withValues(alpha: 0.88)
         : colors.surfaceReadable.withValues(alpha: 0.92);
@@ -4611,88 +4875,82 @@ class ScreenHeader extends StatelessWidget {
           ),
         ),
     ];
-    return ClipRRect(
-      borderRadius: CollectRadius.pillBorder,
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: CollectColors.inkPrimary.withValues(alpha: 0.74),
-            borderRadius: CollectRadius.pillBorder,
-            border: Border.all(color: foreground.withValues(alpha: 0.18)),
-            boxShadow: [
-              BoxShadow(
-                color: CollectColors.inkPrimary.withValues(alpha: 0.18),
-                blurRadius: 24,
-                offset: const Offset(0, 14),
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: CollectSpacing.x2,
-              vertical: CollectSpacing.x1,
+    return Semantics(
+      container: true,
+      header: true,
+      label: title,
+      child: Row(
+        children: [
+          IconButton(
+            tooltip: 'Back',
+            onPressed: () => goBackOrHome(context),
+            icon: const Icon(Icons.arrow_back_rounded),
+            color: foreground,
+            style: IconButton.styleFrom(
+              fixedSize: const Size(44, 44),
+              minimumSize: const Size(44, 44),
+              padding: EdgeInsets.zero,
+              backgroundColor: foreground.withValues(alpha: 0.10),
+              side: BorderSide(color: foreground.withValues(alpha: 0.16)),
             ),
-            child: Row(
+          ),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                  tooltip: 'Back',
-                  onPressed: () => goBackOrHome(context),
-                  icon: const Icon(Icons.arrow_back_rounded),
-                  color: foreground,
-                  style: IconButton.styleFrom(
-                    fixedSize: const Size(42, 42),
-                    minimumSize: const Size(42, 42),
-                    padding: EdgeInsets.zero,
-                    backgroundColor: foreground.withValues(alpha: 0.10),
-                    side: BorderSide(color: foreground.withValues(alpha: 0.12)),
+                Text(
+                  title,
+                  style: textTheme.headlineSmall?.copyWith(
+                    color: foreground,
+                    fontWeight: FontWeight.w900,
+                    height: 1,
+                    letterSpacing: 0,
                   ),
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        title,
-                        style: textTheme.titleLarge?.copyWith(
-                          color: foreground,
-                          fontWeight: FontWeight.w900,
-                          height: 1,
-                          letterSpacing: 0,
-                        ),
-                        maxLines: 1,
-                        softWrap: false,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      if (subtitle != null) ...[
-                        CollectSpacing.gap4,
-                        Text(
-                          subtitle!,
-                          style: textTheme.bodySmall?.copyWith(
-                            color: foreground.withValues(alpha: 0.70),
-                            height: 1,
-                            letterSpacing: 0,
-                          ),
-                          maxLines: 1,
-                          softWrap: false,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ],
+                if (subtitle != null) ...[
+                  CollectSpacing.gap4,
+                  Text(
+                    subtitle!,
+                    style: textTheme.bodySmall?.copyWith(
+                      color: foreground.withValues(alpha: 0.70),
+                      height: 1,
+                      letterSpacing: 0,
+                    ),
+                    maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                for (final action in actionButtons) ...[
-                  CollectSpacing.gapW8,
-                  action,
                 ],
               ],
             ),
           ),
-        ),
+          for (final action in actionButtons) ...[CollectSpacing.gapW8, action],
+        ],
       ),
     );
+  }
+}
+
+class CollectPlainPageHeader extends StatelessWidget {
+  const CollectPlainPageHeader({
+    required this.title,
+    this.subtitle,
+    this.actions = const [],
+    super.key,
+  });
+
+  final String title;
+  final String? subtitle;
+  final List<Widget> actions;
+
+  @override
+  Widget build(BuildContext context) {
+    return ScreenHeader(title: title, subtitle: subtitle, actions: actions);
   }
 }
 
@@ -5015,10 +5273,13 @@ CollectStatusTone statusToneFromText(String status) {
 String maskMomoNumberForDisplay(String value) {
   final trimmed = value.trim();
   if (trimmed.isEmpty || trimmed == 'Not configured') return trimmed;
+  final localMomo = PhoneNormalizer.tryNormalizeMtnMomoLocal(trimmed);
+  if (localMomo != null) {
+    return '${localMomo.substring(0, 3)}***${localMomo.substring(6)}';
+  }
   final digits = trimmed.replaceAll(RegExp(r'\D'), '');
   if (digits.length < 4) return 'MoMo linked';
   final suffix = digits.substring(digits.length - 4);
-  if (digits.startsWith('250')) return '+250***$suffix';
   return '***$suffix';
 }
 

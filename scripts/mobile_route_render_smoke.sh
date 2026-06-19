@@ -112,6 +112,7 @@ curl -fsSI "$BASE_URL/" >"$EVIDENCE_DIR/index.headers" || fail "index.html did n
 curl -fsSI "$BASE_URL/main.dart.js" >"$EVIDENCE_DIR/main.headers" || fail "main.dart.js did not serve over HTTP."
 
 route_specs=(
+  "root-redirect|/"
   "onboarding|/onboarding"
   "onboarding-legal|/onboarding/legal"
   "auth|/auth"
@@ -119,6 +120,7 @@ route_specs=(
   "auth-failure|/auth/failure"
   "profile|/settings/profile"
   "profile-readiness|/settings/readiness"
+  "sms-permission-redirect|/permissions/sms"
   "sms-denied|/permissions/sms-denied"
   "device-permission|/permissions/device"
   "notifications-denied|/permissions/notifications-denied"
@@ -142,6 +144,8 @@ route_specs=(
   "share-expired|/share/expired"
   "share-expired-request|/share/expired/request"
   "share-confirmed-redirect|/share/confirmed"
+  "app-share-entry|/app"
+  "app-invite-link|/invite/038491"
   "contribution|/groups/col-church/contribute"
   "payment-handoff-redirect|/groups/col-church/pay/intent-render/handoff"
   "payment-intent|/groups/col-church/pay/intent-render"

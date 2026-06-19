@@ -212,8 +212,8 @@ void main() {
       );
 
       expect(find.byTooltip('Open profile'), findsOneWidget);
-      expect(find.text('91'), findsOneWidget);
-      expect(find.byIcon(CollectIcons.profile), findsNothing);
+      expect(find.text('91'), findsNothing);
+      expect(find.bySemanticsLabel('Open profile for 038491'), findsOneWidget);
     } finally {
       semantics.dispose();
     }
@@ -265,6 +265,131 @@ void main() {
       );
     },
   );
+
+  test('native Android launch splash uses Collect brand resources', () {
+    final manifest = File(
+      'android/app/src/main/AndroidManifest.xml',
+    ).readAsStringSync();
+    expect(manifest, contains('android:theme="@style/LaunchTheme"'));
+    expect(
+      manifest,
+      contains('android:name="io.flutter.embedding.android.NormalTheme"'),
+    );
+    expect(manifest, contains('android:resource="@style/NormalTheme"'));
+
+    for (final path in <String>[
+      'android/app/src/main/res/values/styles.xml',
+      'android/app/src/main/res/values-night/styles.xml',
+    ]) {
+      final text = File(path).readAsStringSync();
+      expect(
+        text,
+        contains(
+          '<item name="android:windowBackground">'
+          '@drawable/launch_background</item>',
+        ),
+        reason: path,
+      );
+      expect(
+        text,
+        contains('<item name="android:forceDarkAllowed">false</item>'),
+        reason: path,
+      );
+    }
+
+    for (final path in <String>[
+      'android/app/src/main/res/values-v31/styles.xml',
+      'android/app/src/main/res/values-night-v31/styles.xml',
+    ]) {
+      final text = File(path).readAsStringSync();
+      expect(
+        text,
+        contains(
+          '<item name="android:windowSplashScreenBackground">'
+          '@color/collect_paper</item>',
+        ),
+        reason: path,
+      );
+      expect(
+        text,
+        contains(
+          '<item name="android:windowSplashScreenAnimatedIcon">'
+          '@drawable/collect_launcher_icon</item>',
+        ),
+        reason: path,
+      );
+      expect(
+        text,
+        contains('<item name="android:forceDarkAllowed">false</item>'),
+        reason: path,
+      );
+    }
+
+    for (final path in <String>[
+      'android/app/src/main/res/drawable/launch_background.xml',
+      'android/app/src/main/res/drawable-v21/launch_background.xml',
+      'android/app/src/main/res/drawable-night/launch_background.xml',
+      'android/app/src/main/res/drawable-night-v21/launch_background.xml',
+    ]) {
+      final text = File(path).readAsStringSync();
+      expect(text, contains('@color/collect_paper'), reason: path);
+      expect(text, contains('@drawable/collect_splash_logo'), reason: path);
+    }
+
+    final expectedSplashSizes = <String, ({int width, int height})>{
+      'android/app/src/main/res/drawable/collect_splash_logo.png': (
+        width: 280,
+        height: 82,
+      ),
+      'android/app/src/main/res/drawable-mdpi/collect_splash_logo.png': (
+        width: 280,
+        height: 82,
+      ),
+      'android/app/src/main/res/drawable-hdpi/collect_splash_logo.png': (
+        width: 420,
+        height: 123,
+      ),
+      'android/app/src/main/res/drawable-xhdpi/collect_splash_logo.png': (
+        width: 560,
+        height: 163,
+      ),
+      'android/app/src/main/res/drawable-xxhdpi/collect_splash_logo.png': (
+        width: 840,
+        height: 245,
+      ),
+      'android/app/src/main/res/drawable-xxxhdpi/collect_splash_logo.png': (
+        width: 1120,
+        height: 327,
+      ),
+      'android/app/src/main/res/drawable-night/collect_splash_logo.png': (
+        width: 280,
+        height: 82,
+      ),
+      'android/app/src/main/res/drawable-night-mdpi/collect_splash_logo.png': (
+        width: 280,
+        height: 82,
+      ),
+      'android/app/src/main/res/drawable-night-hdpi/collect_splash_logo.png': (
+        width: 420,
+        height: 123,
+      ),
+      'android/app/src/main/res/drawable-night-xhdpi/collect_splash_logo.png': (
+        width: 560,
+        height: 163,
+      ),
+      'android/app/src/main/res/drawable-night-xxhdpi/collect_splash_logo.png':
+          (width: 840, height: 245),
+      'android/app/src/main/res/drawable-night-xxxhdpi/collect_splash_logo.png':
+          (width: 1120, height: 327),
+      'android/app/src/main/res/drawable/collect_launcher_icon.png': (
+        width: 512,
+        height: 512,
+      ),
+    };
+    for (final entry in expectedSplashSizes.entries) {
+      expect(_pngSize(entry.key), entry.value, reason: entry.key);
+    }
+  });
 
   testWidgets('brand mark uses the bundled Collect logo asset', (tester) async {
     final semantics = tester.ensureSemantics();
@@ -388,7 +513,7 @@ void main() {
     expect(find.text('RWF 5,000'), findsOneWidget);
     expect(find.text('St Michel treasury'), findsOneWidget);
     expect(find.text('+250788123456'), findsNothing);
-    expect(find.text('+250***3456'), findsOneWidget);
+    expect(find.text('078***3456'), findsOneWidget);
     expect(find.text('Payment intent'), findsNothing);
     expect(find.text('Intent'), findsNothing);
     expect(find.text('SMS verification'), findsOneWidget);
@@ -834,8 +959,8 @@ void main() {
       ),
     );
 
-    expect(find.byIcon(CollectIcons.profile), findsNothing);
-    expect(find.text('91'), findsOneWidget);
+    expect(find.byTooltip('Open profile'), findsOneWidget);
+    expect(find.text('91'), findsNothing);
     expect(find.text('Search groups'), findsOneWidget);
     expect(find.byIcon(CollectIcons.qr), findsOneWidget);
     expect(find.byIcon(CollectIcons.settings), findsOneWidget);

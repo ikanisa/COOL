@@ -45,6 +45,7 @@ void main() {
 }
 
 const _routeSpecs = <_RouteSpec>[
+  _RouteSpec('root-redirect', '/'),
   _RouteSpec('onboarding', '/onboarding'),
   _RouteSpec('onboarding-legal', '/onboarding/legal'),
   _RouteSpec('auth', '/auth'),
@@ -52,6 +53,7 @@ const _routeSpecs = <_RouteSpec>[
   _RouteSpec('auth-failure', '/auth/failure'),
   _RouteSpec('profile', '/settings/profile'),
   _RouteSpec('profile-readiness', '/settings/readiness'),
+  _RouteSpec('sms-permission-redirect', '/permissions/sms'),
   _RouteSpec('sms-denied', '/permissions/sms-denied'),
   _RouteSpec('device-permission', '/permissions/device'),
   _RouteSpec('notifications-denied', '/permissions/notifications-denied'),
@@ -81,6 +83,8 @@ const _routeSpecs = <_RouteSpec>[
   _RouteSpec('share-expired', '/share/expired'),
   _RouteSpec('share-expired-request', '/share/expired/request'),
   _RouteSpec('share-confirmed-redirect', '/share/confirmed'),
+  _RouteSpec('app-share-entry', '/app'),
+  _RouteSpec('app-invite-link', '/invite/038491'),
   _RouteSpec('contribution', '/groups/col-church/contribute'),
   _RouteSpec(
     'payment-handoff-redirect',

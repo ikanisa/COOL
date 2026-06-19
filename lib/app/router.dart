@@ -27,6 +27,7 @@ import '../shared/widgets/collect_components.dart';
 final appRouterProvider = Provider<GoRouter>((ref) => createAppRouter());
 
 const collectRoutePaths = <String>[
+  '/',
   '/auth',
   '/auth/success',
   '/auth/failure',
@@ -36,6 +37,7 @@ const collectRoutePaths = <String>[
   '/offline',
   '/sync',
   '/notifications',
+  '/permissions/sms',
   '/permissions/sms-denied',
   '/permissions/device',
   '/permissions/notifications-denied',
@@ -67,6 +69,8 @@ const collectRoutePaths = <String>[
   '/share/invalid',
   '/share/expired',
   '/share/expired/request',
+  '/app',
+  '/invite/:publicId',
   '/settings',
   '/settings/profile',
   '/settings/readiness',
@@ -307,6 +311,11 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
             path: '/c/:slug',
             builder: (context, state) =>
                 GroupLinkScreen(slug: state.pathParameters['slug']!),
+          ),
+          GoRoute(path: '/app', redirect: (context, state) => '/home'),
+          GoRoute(
+            path: '/invite/:publicId',
+            redirect: (context, state) => '/home',
           ),
           GoRoute(
             path: '/settings',

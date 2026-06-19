@@ -26,12 +26,12 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   final _name = TextEditingController();
   final _description = TextEditingController();
   final _receiver = TextEditingController();
-  final _receiverLabel = TextEditingController();
   final _imagePicker = ImagePicker();
 
   Uint8List? _imageBytes;
   String? _imageName;
   String? _imageMimeType;
+  bool _removeExistingImage = false;
   String _accentColorHex = CollectColors.brandPrimaryOptions.first.hex;
   String _cadence = 'monthly';
   bool _isPublic = false;
@@ -44,7 +44,6 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
     _name.dispose();
     _description.dispose();
     _receiver.dispose();
-    _receiverLabel.dispose();
     super.dispose();
   }
 
@@ -57,11 +56,11 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
 
     return ScreenScaffold(
       title: 'Group profile',
-      subtitle: collection.title,
+      showHeader: false,
       bottomAction: BottomActionSurface(
         children: [
           CollectButton(
-            label: _saving ? 'Saving' : 'Save changes',
+            label: _saving ? 'Saving' : 'Save',
             icon: CollectIcons.check,
             onPressed: _saving ? null : () => _save(collection),
             expand: true,
@@ -69,19 +68,29 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
         ],
       ),
       children: [
-        _GroupProfilePhotoCard(
+        const CollectPlainPageHeader(title: 'Group profile'),
+        _GroupProfileMediaRow(
           title: _name.text.trim().isEmpty ? collection.title : _name.text,
+          subtitle: _isPublic ? 'Public group' : 'Private group',
           accentColor: _selectedColor,
           imageBytes: _imageBytes,
-          imageUrl: _imageBytes == null ? collection.imageUrl : null,
+          imageUrl: _imageBytes == null && !_removeExistingImage
+              ? collection.imageUrl
+              : null,
           onPick: _pickImage,
-          onRemove: () => setState(() {
-            _imageBytes = null;
-            _imageName = null;
-            _imageMimeType = null;
-          }),
+          onRemove:
+              _imageBytes != null ||
+                  (!_removeExistingImage &&
+                      _imageProviderUrl(collection.imageUrl) != null)
+              ? () => setState(() {
+                  _imageBytes = null;
+                  _imageName = null;
+                  _imageMimeType = null;
+                  _removeExistingImage = true;
+                })
+              : null,
         ),
-        FormSectionCard(
+        _GroupProfileEditSection(
           errorMessage: _error,
           children: [
             CollectTextInput(
@@ -116,21 +125,15 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
             ),
           ],
         ),
-        FormSectionCard(
+        _GroupProfileEditSection(
           title: 'Receiver MoMo',
           children: [
             CollectTextInput(
               controller: _receiver,
               label: 'MoMo number',
               keyboardType: TextInputType.phone,
-              textInputAction: TextInputAction.next,
+              textInputAction: TextInputAction.done,
               autofillHints: const [AutofillHints.telephoneNumber],
-            ),
-            CollectTextInput(
-              controller: _receiverLabel,
-              label: 'Receiver name',
-              textCapitalization: TextCapitalization.words,
-              autocorrect: true,
             ),
           ],
         ),
@@ -153,7 +156,6 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
     _name.text = collection.title;
     _description.text = collection.description;
     _receiver.text = collection.receiverMomoNumber ?? '';
-    _receiverLabel.text = collection.receiverDisplayLabel;
     _accentColorHex =
         collection.accentColorHex ??
         CollectColors.brandPrimaryOptions.first.hex;
@@ -175,6 +177,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
         _imageBytes = bytes;
         _imageName = image.name;
         _imageMimeType = image.mimeType ?? _mimeTypeFromName(image.name);
+        _removeExistingImage = false;
         _error = null;
       });
     } catch (_) {
@@ -189,7 +192,9 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
       _error = null;
     });
     try {
-      final imageUrl = _selectedImageDataUri() ?? collection.imageUrl;
+      final imageUrl = _removeExistingImage
+          ? null
+          : _selectedImageDataUri() ?? collection.imageUrl;
       await ref
           .read(collectRepositoryProvider.notifier)
           .updateCollectionProfile(
@@ -197,7 +202,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
             title: _name.text,
             description: _description.text,
             receiverMomoNumber: _receiver.text,
-            receiverLabel: _receiverLabel.text,
+            receiverLabel: collection.receiverDisplayLabel,
             recurringCadence: _cadence,
             accentColorHex: _accentColorHex,
             imageUrl: imageUrl,
@@ -223,122 +228,179 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   }
 }
 
-class _GroupProfilePhotoCard extends StatelessWidget {
-  const _GroupProfilePhotoCard({
+class _GroupProfileMediaRow extends StatelessWidget {
+  const _GroupProfileMediaRow({
     required this.title,
+    required this.subtitle,
     required this.accentColor,
     required this.onPick,
-    required this.onRemove,
+    this.onRemove,
     this.imageBytes,
     this.imageUrl,
   });
 
   final String title;
+  final String subtitle;
   final Color accentColor;
   final Uint8List? imageBytes;
   final String? imageUrl;
   final VoidCallback onPick;
-  final VoidCallback onRemove;
+  final VoidCallback? onRemove;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return CollectCard(
-      padding: EdgeInsets.zero,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+    final hasImage = imageBytes != null || _imageProviderUrl(imageUrl) != null;
+    final titleText = title.trim().isEmpty ? 'Group' : title.trim();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          AspectRatio(
-            aspectRatio: 1.9,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        accentColor.withValues(alpha: 0.62),
-                        colors.glassPanel,
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                  ),
-                ),
-                if (imageBytes != null)
-                  Image.memory(
-                    imageBytes!,
-                    fit: BoxFit.cover,
-                    gaplessPlayback: true,
-                    filterQuality: FilterQuality.medium,
-                    frameBuilder: _fadeInGroupProfileImage,
-                  )
-                else if (_imageProviderUrl(imageUrl) case final url?)
-                  Image.network(
-                    url,
-                    fit: BoxFit.cover,
-                    gaplessPlayback: true,
-                    filterQuality: FilterQuality.medium,
-                    frameBuilder: _fadeInGroupProfileImage,
-                    loadingBuilder: (context, child, loadingProgress) =>
-                        loadingProgress == null
-                        ? child
-                        : const SizedBox.shrink(),
-                    errorBuilder: (context, error, stackTrace) =>
-                        const SizedBox.shrink(),
-                  ),
-                Positioned.fill(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          colors.transparent,
-                          colors.periwinklePaint.withValues(alpha: 0.78),
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
+          Semantics(
+            image: true,
+            label: hasImage ? 'Group image' : 'Group image placeholder',
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(26),
+              child: SizedBox.square(
+                dimension: 92,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            accentColor.withValues(alpha: 0.58),
+                            colors.glassPanel.withValues(alpha: 0.78),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
                       ),
                     ),
-                  ),
+                    if (imageBytes != null)
+                      Image.memory(
+                        imageBytes!,
+                        fit: BoxFit.cover,
+                        gaplessPlayback: true,
+                        filterQuality: FilterQuality.medium,
+                        frameBuilder: _fadeInGroupProfileImage,
+                      )
+                    else if (_imageProviderUrl(imageUrl) case final url?)
+                      Image.network(
+                        url,
+                        fit: BoxFit.cover,
+                        gaplessPlayback: true,
+                        filterQuality: FilterQuality.medium,
+                        frameBuilder: _fadeInGroupProfileImage,
+                        loadingBuilder: (context, child, loadingProgress) =>
+                            loadingProgress == null
+                            ? child
+                            : const SizedBox.shrink(),
+                        errorBuilder: (context, error, stackTrace) =>
+                            const SizedBox.shrink(),
+                      ),
+                    if (!hasImage)
+                      Center(
+                        child: Text(
+                          titleText.characters.first.toUpperCase(),
+                          style: Theme.of(context).textTheme.headlineSmall
+                              ?.copyWith(
+                                color: colors.onImagePrimary,
+                                fontWeight: FontWeight.w900,
+                              ),
+                        ),
+                      ),
+                  ],
                 ),
-                Positioned(
-                  left: CollectSpacing.x4,
-                  right: CollectSpacing.x4,
-                  bottom: CollectSpacing.x4,
-                  child: Text(
-                    title,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: colors.onImagePrimary,
-                      fontWeight: FontWeight.w900,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(CollectSpacing.x3),
-            child: Row(
+          CollectSpacing.gapW16,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: CollectButton(
-                    label: 'Upload image',
-                    icon: CollectIcons.photo,
-                    onPressed: onPick,
-                    expand: true,
+                Text(
+                  titleText,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.w900,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                CollectSpacing.gapW12,
-                IconButton.filledTonal(
-                  tooltip: 'Remove image',
-                  onPressed: onRemove,
-                  icon: const Icon(Icons.close_rounded),
+                CollectSpacing.gap4,
+                Text(
+                  subtitle,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
           ),
+          IconButton.filledTonal(
+            tooltip: 'Upload image',
+            onPressed: onPick,
+            icon: const Icon(CollectIcons.photo),
+          ),
+          if (onRemove != null) ...[
+            CollectSpacing.gapW8,
+            IconButton.filledTonal(
+              tooltip: 'Remove image',
+              onPressed: onRemove,
+              icon: const Icon(Icons.close_rounded),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _GroupProfileEditSection extends StatelessWidget {
+  const _GroupProfileEditSection({
+    required this.children,
+    this.title,
+    this.errorMessage,
+  });
+
+  final String? title;
+  final String? errorMessage;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (title != null) ...[
+            Text(
+              title!,
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900),
+            ),
+            CollectSpacing.gap12,
+          ],
+          for (var index = 0; index < children.length; index += 1) ...[
+            children[index],
+            if (index != children.length - 1) CollectSpacing.gap16,
+          ],
+          if (errorMessage != null) ...[
+            CollectSpacing.gap12,
+            InfoSecurityBanner(
+              title: 'Profile not saved',
+              message: errorMessage!,
+              tone: CollectStatusTone.danger,
+            ),
+          ],
         ],
       ),
     );

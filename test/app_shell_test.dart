@@ -70,6 +70,7 @@ void main() {
     expect(
       collectRoutePaths,
       containsAll(<String>[
+        '/',
         '/auth',
         '/auth/success',
         '/auth/failure',
@@ -79,6 +80,7 @@ void main() {
         '/offline',
         '/sync',
         '/notifications',
+        '/permissions/sms',
         '/permissions/sms-denied',
         '/permissions/device',
         '/permissions/notifications-denied',
@@ -110,6 +112,8 @@ void main() {
         '/share/invalid',
         '/share/expired',
         '/share/expired/request',
+        '/app',
+        '/invite/:publicId',
         '/settings',
         '/settings/profile',
         '/settings/readiness',
@@ -231,23 +235,87 @@ void main() {
     },
   );
 
-  test('home and groups keep Revolut-style top search chrome', () {
+  test('home keeps top chrome while groups uses page heading', () {
     final home = File('lib/features/home/home_screen.dart').readAsStringSync();
     final groups = File(
       'lib/features/collections/collections_screen.dart',
     ).readAsStringSync();
+    final groupDetail = File(
+      'lib/features/collections/collection_detail_screen.dart',
+    ).readAsStringSync();
 
-    expect(home, contains("searchLabel: 'Search'"));
-    expect(home, contains("onSearchTap: () => context.go('/groups')"));
+    expect(home, contains('showSearch: false'));
+    expect(home, isNot(contains("searchLabel: 'Search'")));
+    expect(home, isNot(contains("onSearchTap: () => context.go('/groups')")));
     expect(home, contains("tooltip: 'Notifications'"));
-    expect(home, contains("tooltip: 'Scan QR code'"));
+    expect(home, isNot(contains("tooltip: 'Scan QR code'")));
+    expect(home, contains("label: 'Join'"));
+    expect(home, contains("onTap: () => context.go('/groups'),"));
+    expect(home, contains("label: 'Scan QR'"));
+    expect(home, contains("onTap: () => context.go('/groups/scan'),"));
+    expect(groups, contains('_GroupsPageHeading'));
+    expect(groups, contains("title: 'Groups'"));
     expect(groups, contains("searchLabel: 'Search groups'"));
-    expect(
-      RegExp('searchController: _search').allMatches(groups),
-      hasLength(2),
-    );
-    expect(groups, isNot(contains('showSearch: false')));
+    expect(groups, isNot(contains('CollectTopChrome')));
+    expect(groups, isNot(contains('persistentPill')));
+    expect(groups, isNot(contains("tooltip: 'Scan QR code'")));
+    expect(groups, isNot(contains("tooltip: 'Create group'")));
+    expect(groupDetail, isNot(contains('CollectTopChrome')));
+    expect(groupDetail, isNot(contains('persistentPill')));
   });
+
+  test(
+    'review-note cleanup removes verbose permission and group filter UI',
+    () {
+      final groups = File(
+        'lib/features/collections/collections_screen.dart',
+      ).readAsStringSync();
+      final profile = File(
+        'lib/features/profile/profile_setup_screen.dart',
+      ).readAsStringSync();
+      final statusScreens = File(
+        'lib/features/status/production_state_screens.dart',
+      ).readAsStringSync();
+      final settings = File(
+        'lib/features/settings/settings_screen.dart',
+      ).readAsStringSync();
+      final scanner = File(
+        'lib/features/collections/group_qr_scanner_screen.dart',
+      ).readAsStringSync();
+      final createGroup = File(
+        'lib/features/collections/collection_create_screen.dart',
+      ).readAsStringSync();
+      final collectComponents = File(
+        'lib/shared/widgets/collect_components.dart',
+      ).readAsStringSync();
+
+      expect(groups, isNot(contains('_GroupControlDock')));
+      expect(groups, isNot(contains('Visibility')));
+      expect(groups, isNot(contains('Sort groups')));
+      expect(profile, isNot(contains("label: 'Device permissions'")));
+      expect(
+        profile,
+        contains("CollectPlainPageHeader(title: 'Profile setup')"),
+      );
+      expect(settings, isNot(contains('Ready for group activity')));
+      expect(statusScreens, contains('Action-triggered'));
+      expect(
+        statusScreens,
+        contains("CollectPlainPageHeader(title: 'App access')"),
+      );
+      expect(
+        createGroup,
+        contains("CollectPlainPageHeader(title: 'Create group')"),
+      );
+      expect(scanner, contains("CollectPlainPageHeader(title: 'Scan QR')"));
+      expect(scanner, isNot(contains('analyzeImage')));
+      expect(scanner, isNot(contains("'Gallery'")));
+      expect(scanner, isNot(contains("label: 'Enter link'")));
+      expect(collectComponents, contains('_GroupCoverTitleOverlay'));
+      expect(collectComponents, isNot(contains('plateFill')));
+      expect(collectComponents, isNot(contains('plateBorder')));
+    },
+  );
 
   testWidgets('reduced motion returns zero animation duration', (tester) async {
     late Duration duration;
@@ -283,5 +351,6 @@ String _materializeRouteForSmoke(String route) {
       .replaceAll(':collectionId', 'col-church')
       .replaceAll(':intentId', 'intent-render')
       .replaceAll(':state', 'pending')
+      .replaceAll(':publicId', '038491')
       .replaceAll(':slug', 'st-michel-building-fund');
 }

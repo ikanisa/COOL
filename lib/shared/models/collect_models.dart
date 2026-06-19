@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+const _unsetProfileField = Object();
+
 @immutable
 class CollectProfile {
   const CollectProfile({
@@ -7,12 +9,14 @@ class CollectProfile {
     required this.publicId,
     required this.whatsappPhone,
     this.momoNumber,
+    this.momoPayCode,
   });
 
   final String id;
   final String publicId;
   final String whatsappPhone;
   final String? momoNumber;
+  final String? momoPayCode;
 
   factory CollectProfile.fromJson(Map<String, dynamic> json) {
     return CollectProfile(
@@ -20,17 +24,26 @@ class CollectProfile {
       publicId: json['public_id'] as String,
       whatsappPhone: (json['whatsapp_phone'] as String?) ?? '',
       momoNumber: json['momo_number'] as String?,
+      momoPayCode: json['momo_pay_code'] as String?,
     );
   }
 
   String get safeAlias => 'Collect ID $publicId';
 
-  CollectProfile copyWith({String? momoNumber}) {
+  CollectProfile copyWith({
+    Object? momoNumber = _unsetProfileField,
+    Object? momoPayCode = _unsetProfileField,
+  }) {
     return CollectProfile(
       id: id,
       publicId: publicId,
       whatsappPhone: whatsappPhone,
-      momoNumber: momoNumber ?? this.momoNumber,
+      momoNumber: identical(momoNumber, _unsetProfileField)
+          ? this.momoNumber
+          : momoNumber as String?,
+      momoPayCode: identical(momoPayCode, _unsetProfileField)
+          ? this.momoPayCode
+          : momoPayCode as String?,
     );
   }
 }

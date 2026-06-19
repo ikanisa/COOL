@@ -42,7 +42,6 @@ class _ContributionFlowScreenState
     if (collection == null) return const MissingGroupStateScreen();
     final profile = ref.watch(collectRepositoryProvider).currentProfile;
     final amount = int.tryParse(_amount.text) ?? 0;
-    final activeIntent = _activePendingIntent();
     if (profile == null || profile.momoNumber?.trim().isNotEmpty != true) {
       return ScreenScaffold(
         title: 'Profile required',
@@ -60,6 +59,7 @@ class _ContributionFlowScreenState
             ),
           ],
         ),
+        compact: true,
         children: [
           MinimalStatePanel(
             icon: CollectIcons.momo,
@@ -87,22 +87,14 @@ class _ContributionFlowScreenState
         onAvatarTap: () => context.go('/settings/profile'),
         actions: [
           CollectTopChromeAction(
-            icon: CollectIcons.pending,
-            tooltip: 'Pending payment',
-            onPressed: activeIntent == null
-                ? null
-                : () => context.go(
-                    '/groups/${widget.collectionId}/pay/${activeIntent.id}/waiting',
-                  ),
-          ),
-          CollectTopChromeAction(
             icon: CollectIcons.chevron,
             tooltip: 'Back to group',
             onPressed: () => context.go('/groups/${widget.collectionId}'),
           ),
         ],
       ),
-      bottomAction: BottomActionSurface(
+      compact: true,
+      bottomAction: _ContributionActionSurface(
         children: _reviewing
             ? [
                 CollectButton(
@@ -131,16 +123,6 @@ class _ContributionFlowScreenState
                 ),
               ]
             : [
-                if (activeIntent != null)
-                  CollectButton(
-                    label: 'View pending payment',
-                    icon: CollectIcons.pending,
-                    onPressed: () => context.go(
-                      '/groups/${widget.collectionId}/pay/${activeIntent.id}/waiting',
-                    ),
-                    variant: CollectButtonVariant.secondary,
-                    expand: true,
-                  ),
                 CollectButton(
                   label: 'Review contribution',
                   icon: CollectIcons.arrowForward,
@@ -160,21 +142,6 @@ class _ContributionFlowScreenState
       ),
       children: [
         if (!_reviewing) ...[
-          if (activeIntent != null)
-            const InfoSecurityBanner(
-              title: 'Pending payment',
-              message:
-                  'A MoMo payment is already waiting for SMS verification. Open it before starting another payment.',
-              tone: CollectStatusTone.warning,
-            ),
-          const CollectVisualFeatureCard(
-            asset: 'assets/brand/generated/collect_visual_momo_signal.png',
-            title: 'MoMo handoff',
-            message:
-                'Choose an amount, open MoMo, then let SMS verification update the ledger.',
-            icon: CollectIcons.momo,
-            tone: CollectStatusTone.success,
-          ),
           AmountEntryPanel(
             controller: _amount,
             amount: amount,
@@ -257,6 +224,25 @@ class _ContributionFlowScreenState
       return intent;
     }
     return null;
+  }
+}
+
+class _ContributionActionSurface extends StatelessWidget {
+  const _ContributionActionSurface({required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (var index = 0; index < children.length; index++) ...[
+          children[index],
+          if (index != children.length - 1) CollectSpacing.gap12,
+        ],
+      ],
+    );
   }
 }
 

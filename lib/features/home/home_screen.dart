@@ -9,7 +9,7 @@ import '../../shared/models/collect_models.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import '../collections/group_creation_platform.dart';
-import '../collections/group_share_service.dart';
+import 'app_share_service.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -23,8 +23,8 @@ class HomeScreen extends ConsumerWidget {
     final paymentIntents = ref.watch(
       collectRepositoryProvider.select((state) => state.paymentIntents),
     );
-    final collectionCount = ref.watch(
-      collectRepositoryProvider.select((state) => state.collections.length),
+    final contributedGroupCount = ref.watch(
+      contributedCollectionIdsProvider.select((ids) => ids.length),
     );
     final summaries = ref.watch(collectionSummariesProvider);
     final raisedTotal = ref.watch(raisedTotalProvider);
@@ -38,8 +38,7 @@ class HomeScreen extends ConsumerWidget {
       compact: true,
       persistentPill: CollectTopChrome(
         avatarLabel: profile?.publicId,
-        searchLabel: 'Search',
-        onSearchTap: () => context.go('/groups'),
+        showSearch: false,
         onAvatarTap: () => context.go('/settings/profile'),
         hasUnread: paymentIntents.isNotEmpty,
         actions: [
@@ -49,26 +48,21 @@ class HomeScreen extends ConsumerWidget {
             hasBadge: paymentIntents.isNotEmpty,
             onPressed: () => context.go('/notifications'),
           ),
-          CollectTopChromeAction(
-            icon: CollectIcons.qr,
-            tooltip: 'Scan QR code',
-            onPressed: () => context.go('/groups/scan'),
-          ),
         ],
       ),
       children: [
         _HomeTotalCollectedCard(
           totalAmount: raisedTotal,
-          collectionCount: collectionCount,
+          contributedGroupCount: contributedGroupCount,
           publicId: profile?.publicId,
+          onContributedGroupsTap: () =>
+              context.go('/groups?filter=contributed'),
         ),
         _HomeActionStrip(
-          primaryCollection: collections.isEmpty ? null : collections.first,
           showCreate: showCreate,
           onCreate: () => context.go('/groups/create'),
         ),
         _PublicGroupsSection(collections: collections, summaries: summaries),
-        _HomeMomentumFeed(collections: collections, summaries: summaries),
         const SectionHeader(title: 'My groups'),
         if (collections.isEmpty)
           const EmptyIllustrationState(
@@ -161,12 +155,14 @@ class _HomeContributeIconButton extends StatelessWidget {
 class _HomeTotalCollectedCard extends StatelessWidget {
   const _HomeTotalCollectedCard({
     required this.totalAmount,
-    required this.collectionCount,
+    required this.contributedGroupCount,
+    required this.onContributedGroupsTap,
     this.publicId,
   });
 
   final int totalAmount;
-  final int collectionCount;
+  final int contributedGroupCount;
+  final VoidCallback onContributedGroupsTap;
   final String? publicId;
 
   @override
@@ -290,44 +286,59 @@ class _HomeTotalCollectedCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 14),
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: foreground.withValues(alpha: 0.16),
-                      borderRadius: CollectRadius.pillBorder,
-                      border: Border.all(
-                        color: foreground.withValues(alpha: 0.12),
-                      ),
-                    ),
+                  Tooltip(
+                    message: 'Supported groups',
                     child: Semantics(
-                      label: collectionCount == 1
-                          ? '1 group'
-                          : '$collectionCount groups',
-                      child: ExcludeSemantics(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 9,
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                CollectIcons.collections,
-                                color: foreground,
-                                size: 18,
+                      button: true,
+                      label: contributedGroupCount == 1
+                          ? '1 supported group'
+                          : '$contributedGroupCount supported groups',
+                      child: Material(
+                        color: colors.transparent,
+                        borderRadius: CollectRadius.pillBorder,
+                        child: InkWell(
+                          key: const Key('home_supported_groups_chip'),
+                          borderRadius: CollectRadius.pillBorder,
+                          onTap: onContributedGroupsTap,
+                          child: Ink(
+                            decoration: BoxDecoration(
+                              color: foreground.withValues(alpha: 0.16),
+                              borderRadius: CollectRadius.pillBorder,
+                              border: Border.all(
+                                color: foreground.withValues(alpha: 0.12),
                               ),
-                              CollectSpacing.gapW8,
-                              Text(
-                                '$collectionCount',
-                                style: Theme.of(context).textTheme.labelLarge
-                                    ?.copyWith(
+                            ),
+                            child: ExcludeSemantics(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 9,
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      CollectIcons.collections,
                                       color: foreground,
-                                      fontWeight: FontWeight.w900,
+                                      size: 18,
                                     ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                                    CollectSpacing.gapW8,
+                                    Text(
+                                      '$contributedGroupCount',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge
+                                          ?.copyWith(
+                                            color: foreground,
+                                            fontWeight: FontWeight.w900,
+                                          ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
@@ -371,240 +382,6 @@ class _HomeAngledPanel extends StatelessWidget {
   }
 }
 
-class _HomeMomentumFeed extends StatelessWidget {
-  const _HomeMomentumFeed({required this.collections, required this.summaries});
-
-  static const _assets = [
-    'assets/brand/generated/collect_visual_group_momentum.png',
-    'assets/brand/generated/collect_visual_qr_share.png',
-    'assets/brand/generated/collect_visual_momo_signal.png',
-  ];
-
-  final List<CollectCollection> collections;
-  final Map<String, CollectionSummary> summaries;
-
-  @override
-  Widget build(BuildContext context) {
-    final featured = collections.take(3).toList();
-    if (featured.isEmpty) return const SizedBox.shrink();
-    return Semantics(
-      key: const ValueKey('home_momentum_feed_semantics'),
-      container: true,
-      label: 'momentum card list, collected progress',
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Semantics(
-            container: true,
-            label: 'momentum card list, collected progress',
-            child: SectionHeader(
-              title: 'Momentum',
-              actionLabel: 'Browse',
-              onAction: () => context.go('/groups'),
-            ),
-          ),
-          CollectSpacing.gap12,
-          for (var index = 0; index < featured.length; index += 1) ...[
-            _HomeMomentumCard(
-              collection: featured[index],
-              summary:
-                  summaries[featured[index].id] ??
-                  const CollectionSummary(
-                    amountRaisedRwf: 0,
-                    supporterCount: 0,
-                  ),
-              asset: _assets[index % _assets.length],
-              onTap: () => context.go('/groups/${featured[index].id}'),
-            ),
-            if (index != featured.length - 1) CollectSpacing.gap12,
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class _HomeMomentumCard extends StatelessWidget {
-  const _HomeMomentumCard({
-    required this.collection,
-    required this.summary,
-    required this.asset,
-    required this.onTap,
-  });
-
-  final CollectCollection collection;
-  final CollectionSummary summary;
-  final String asset;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final foreground = isDark ? colors.onImagePrimary : colors.textPrimary;
-    final cardFill = isDark
-        ? CollectColors.referenceAssetNavy.withValues(alpha: 0.90)
-        : colors.surfaceReadable.withValues(alpha: 0.92);
-    final border = isDark
-        ? colors.onImagePrimary.withValues(alpha: 0.12)
-        : colors.glassBorder;
-    final scrimBase = isDark
-        ? CollectColors.referencePaymentsPurpleDeep
-        : colors.textPrimary;
-    Widget coverImage = Image.asset(
-      asset,
-      fit: BoxFit.cover,
-      gaplessPlayback: true,
-      filterQuality: FilterQuality.medium,
-      errorBuilder: (context, error, stackTrace) => DecoratedBox(
-        decoration: BoxDecoration(gradient: colors.screenGradient),
-      ),
-    );
-    if (isDark) {
-      coverImage = ColorFiltered(
-        colorFilter: ColorFilter.mode(
-          scrimBase.withValues(alpha: 0.42),
-          BlendMode.multiply,
-        ),
-        child: coverImage,
-      );
-    }
-    final textScale = MediaQuery.textScalerOf(context).scale(1);
-    final imageHeight = textScale > 1.3 ? 150.0 : 128.0;
-    final title = collection.title;
-    final amount = formatRwf(summary.amountRaisedRwf);
-    final supporters = summary.supporterCount == 1
-        ? '1 supporter'
-        : '${summary.supporterCount} supporters';
-    return Semantics(
-      container: true,
-      explicitChildNodes: false,
-      excludeSemantics: true,
-      button: true,
-      label: '$title momentum card, $amount collected, $supporters',
-      value: '$amount collected, $supporters',
-      hint: 'Opens the public group detail.',
-      child: InkWell(
-        borderRadius: CollectRadius.cardLargeBorder,
-        onTap: onTap,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: cardFill,
-            borderRadius: CollectRadius.cardLargeBorder,
-            border: Border.all(color: border),
-            boxShadow: [
-              BoxShadow(
-                color: CollectColors.inkPrimary.withValues(
-                  alpha: isDark ? 0.20 : 0.07,
-                ),
-                blurRadius: 24,
-                offset: const Offset(0, 12),
-              ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: CollectRadius.cardLargeBorder,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: imageHeight,
-                  width: double.infinity,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      coverImage,
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              scrimBase.withValues(alpha: isDark ? 0.24 : 0.02),
-                              scrimBase.withValues(alpha: isDark ? 0.70 : 0.42),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        left: 16,
-                        bottom: 14,
-                        child: _PublicIconBadge(),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(18),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(
-                              color: foreground,
-                              fontWeight: FontWeight.w900,
-                            ),
-                      ),
-                      CollectSpacing.gap8,
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: [
-                          CollectStatusChip(
-                            label: amount,
-                            tone: CollectStatusTone.info,
-                            icon: CollectIcons.money,
-                          ),
-                          CollectStatusChip(
-                            label: supporters,
-                            tone: CollectStatusTone.privacy,
-                            icon: CollectIcons.people,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _PublicIconBadge extends StatelessWidget {
-  const _PublicIconBadge();
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Tooltip(
-      message: 'Public group',
-      child: Semantics(
-        label: 'Public group',
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: colors.glassPanel.withValues(alpha: 0.90),
-            shape: BoxShape.circle,
-            border: Border.all(color: colors.glassBorder),
-          ),
-          child: const SizedBox.square(
-            dimension: 34,
-            child: Icon(CollectIcons.public, size: 18),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _PublicGroupsSection extends StatelessWidget {
   const _PublicGroupsSection({
     required this.collections,
@@ -625,7 +402,7 @@ class _PublicGroupsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionHeader(
-          title: 'Public groups',
+          title: 'Featured Groups',
           actionLabel: 'View all',
           onAction: () => context.go('/groups'),
         ),
@@ -705,19 +482,13 @@ class _PublicGroupsSection extends StatelessWidget {
 }
 
 class _HomeActionStrip extends ConsumerWidget {
-  const _HomeActionStrip({
-    required this.onCreate,
-    required this.showCreate,
-    this.primaryCollection,
-  });
+  const _HomeActionStrip({required this.onCreate, required this.showCreate});
 
   final VoidCallback onCreate;
   final bool showCreate;
-  final CollectCollection? primaryCollection;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final collection = primaryCollection;
     final actions = [
       if (showCreate)
         _HomeActionItem(
@@ -728,7 +499,7 @@ class _HomeActionStrip extends ConsumerWidget {
       _HomeActionItem(
         icon: CollectIcons.people,
         label: 'Join',
-        onTap: () => context.go('/groups/scan'),
+        onTap: () => context.go('/groups'),
       ),
       _HomeActionItem(
         icon: CollectIcons.qr,
@@ -738,13 +509,7 @@ class _HomeActionStrip extends ConsumerWidget {
       _HomeActionItem(
         icon: CollectIcons.share,
         label: 'Share',
-        onTap: () => collection == null
-            ? context.go('/groups')
-            : shareGroupDeepLink(
-                context: context,
-                ref: ref,
-                collection: collection,
-              ),
+        onTap: () => shareCollectApp(context: context, ref: ref),
       ),
     ];
 

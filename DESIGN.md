@@ -1,6 +1,6 @@
 ---
 name: Collect
-updated: 2026-06-16
+updated: 2026-06-17
 scope: Flutter mobile member app and Flutter web surfaces that share the Collect theme
 reference-contract: The 11 Revolut screenshots in /Users/jeanbosco/Downloads/Revolut10 are the active UI/UX contract for mobile gradient backgrounds, glass chrome, compact finance hierarchy, media-rich cards, and thumb-first navigation adapted to Collect group collections.
 brand-assets:
@@ -70,7 +70,7 @@ The implementation target is 10/10 Revolut-reference execution quality adapted t
 - Route surfaces must use `ScreenScaffold`, `ScreenScaffoldLayout`, `PremiumScaffold`, or `CollectGradientBackground`.
 - Standalone flows that bypass `ScreenScaffold`, such as share/QR export surfaces, must explicitly wrap their page in `CollectGradientBackground`.
 - Visible page chrome uses glass tokens: `glassPanel`, `glassPanelStrong`, `glassControl`, and `glassBorder`.
-- Secondary-route headers use a dark finance-grade glass treatment with the official `CollectBrandMark`, high-contrast title text, and tokenized action capsules so non-home first viewports do not regress to pale utility cards.
+- Secondary-route headers use a plain finance-grade row: back arrow, one-line title, optional one-line subtitle, and tokenized action circles. Utility, legal, permission, profile, create, and scanner routes must not use decorative brand header cards.
 - Visible labels must stay compact: use one line with ellipsis for section headers, chips, tiles, status labels, table cells, card titles, and explanatory helper copy. Do not add verbose instructional text inside the app when an icon, state, or concise command can carry the meaning.
 - Primary mobile destinations remain Collect-owned. The current functional destinations are `Home`, `Groups`, and `Settings`; any additional dock action must map to an existing Collect task such as scan, notifications, or share, not invented Revolut product tabs.
 - Identity remains privacy-safe: Collect ID only. Do not expose raw phone numbers, raw receiver MoMo numbers, raw SMS, PINs, OTPs, MoMo transaction IDs, or public member names. Payment-state surfaces that must show receiver context use masked MoMo display such as `+250***3456`.
@@ -85,7 +85,7 @@ Use the screenshots for these patterns:
 - Bottom navigation: rounded, translucent, fixed, thumb-first, and visually separated from the gradient.
 - Finance hierarchy: the main amount, state, group, or payment action is obvious within the first viewport.
 - Cards: content sits on translucent glass surfaces with subtle borders and blur; cards should not fully hide the gradient.
-- Rich product surfaces: where the reference uses media, marketplace, rewards, or content cards, Collect must use Collect-owned generated product visuals through shared components such as `CollectVisualFeatureCard`, image-backed `GroupCard` covers, and the Home Momentum feed instead of copied screenshots or generic decoration. Utility routes such as settings, privacy, support, notifications, and legal pages should still carry at least one product-context visual surface.
+- Rich product surfaces: where the reference uses media, marketplace, rewards, or content cards, Collect must use Collect-owned generated product visuals through shared components such as `CollectVisualFeatureCard`, image-backed `GroupCard` covers, and the Home Momentum feed instead of copied screenshots or generic decoration. Utility routes should stay plain and scannable when review notes call for headers plus back navigation only.
 - CTAs: buttons are large, pill-like, reachable, and high-contrast.
 - Lists: rows stay compact and scannable, with clear leading icons/avatars and right-aligned amounts/status where relevant.
 - Copy density: labels, helper text, and admin table/status copy are concise, one-line, and ellipsized when constrained.
@@ -149,9 +149,11 @@ Use these shared primitives first:
 - Brand: `CollectBrandMark`.
 - Cards: `CollectCard` with glass opacity, `CollectVisualFeatureCard`, `CollectBentoGrid`, `BentoMetricCell`, `GroupCard`. Image-less group cards must fall back to Collect-owned generated media, not blank blocks.
 - Controls: `CollectButton`, `SearchWithClearField`, `PremiumSegmentedFilter`, icon buttons styled with `colors.glassControl`.
+- Headers: `ScreenHeader` and `CollectPlainPageHeader` provide the shared plain secondary header with back navigation and one-line title text.
 - Bottom surfaces: `CollectBottomSheet`, `BottomActionSurface`.
 - State: `LoadingStatePanel`, `EmptyIllustrationState`, `CollectErrorState`, `InfoSecurityBanner`.
 - Payments: `CollectDynamicIsland`, `PaymentPipelineIndicator`, `PaymentVerifiedRing`.
+- Scanner: QR joining is camera-first with a dark live-preview overlay, corner guides, torch and camera-switch controls, gallery QR decode where the platform supports file analysis, and a compact link/code entry fallback. Scanner copy must not imply manual payment proof or SMS paste workflows.
 
 Feature screens may add local layout, but not local design language. If a feature needs a new visual pattern, add it to shared components or tokens first.
 
@@ -160,6 +162,8 @@ Feature screens may add local layout, but not local design language. If a featur
 The production member route list in `lib/app/router.dart` is the design scope. The route-render smoke must cover every registered production route, including onboarding, auth, home, groups, share, payment states, settings, privacy, permissions, offline, notifications, and sync.
 
 Camera preview overlays use tokenized Periwinkle scrims because they sit on top of live camera pixels. Their visible instructional controls still use Collect glass tokens.
+
+Permission routes are recovery/status surfaces only. Native SMS, camera, and notification prompts are triggered by the related action flow: group creation, QR scanning/gallery access, or notification enablement.
 
 ## Accessibility And Responsive Rules
 

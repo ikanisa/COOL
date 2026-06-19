@@ -61,7 +61,7 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
         ],
       ),
       children: [
-        const _ScanQrPageHeader(),
+        const CollectPlainPageHeader(title: 'Scan QR'),
         _ScannerViewport(
           controller: _scanner,
           joining: _joining,
@@ -131,13 +131,19 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
 
   void _onDetect(BarcodeCapture capture) {
     if (_joining || !_scanning) return;
-    for (final barcode in capture.barcodes) {
-      final value = barcode.rawValue;
-      if (value != null && value.trim().isNotEmpty) {
-        _openValue(value);
-        return;
-      }
+    final value = _firstCaptureValue(capture);
+    if (value != null) {
+      _openValue(value);
+      return;
     }
+  }
+
+  String? _firstCaptureValue(BarcodeCapture capture) {
+    for (final barcode in capture.barcodes) {
+      final value = barcode.rawValue?.trim();
+      if (value != null && value.isNotEmpty) return value;
+    }
+    return null;
   }
 
   Future<void> _openValue(String value) async {
@@ -165,53 +171,6 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
         _error = error.toString();
       });
     }
-  }
-}
-
-class _ScanQrPageHeader extends StatelessWidget {
-  const _ScanQrPageHeader();
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
-    return Semantics(
-      container: true,
-      header: true,
-      label: 'Scan QR',
-      child: Row(
-        children: [
-          IconButton.filledTonal(
-            tooltip: 'Back',
-            style: IconButton.styleFrom(
-              backgroundColor: foreground.withValues(alpha: 0.10),
-              foregroundColor: foreground,
-              side: BorderSide(color: foreground.withValues(alpha: 0.16)),
-              fixedSize: const Size(44, 44),
-              minimumSize: const Size(44, 44),
-              padding: EdgeInsets.zero,
-            ),
-            onPressed: () => goBackOrHome(context),
-            icon: const Icon(Icons.arrow_back_rounded, size: 22),
-          ),
-          CollectSpacing.gapW12,
-          Expanded(
-            child: Text(
-              'Scan QR',
-              maxLines: 1,
-              softWrap: false,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: foreground,
-                fontWeight: FontWeight.w900,
-                height: 1,
-                letterSpacing: 0,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
 

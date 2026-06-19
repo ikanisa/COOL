@@ -22,43 +22,12 @@ class SettingsScreen extends ConsumerWidget {
     return ScreenScaffold(
       title: 'Settings',
       showHeader: false,
-      persistentPill: CollectTopChrome(
-        avatarLabel: profile?.publicId,
-        searchLabel: 'Settings',
-        showSearch: false,
-        onAvatarTap: () => context.go('/settings/profile'),
-        actions: [
-          CollectTopChromeAction(
-            icon: CollectIcons.profile,
-            tooltip: 'Profile',
-            onPressed: () => context.go('/settings/profile'),
-          ),
-          CollectTopChromeAction(
-            icon: CollectIcons.pending,
-            tooltip: 'Notifications',
-            onPressed: () => context.go('/notifications'),
-          ),
-        ],
-      ),
+      compact: true,
       children: [
         CollectIdCard(publicId: profile?.publicId ?? ''),
-        const CollectVisualFeatureCard(
-          asset: 'assets/brand/generated/collect_visual_group_momentum.png',
-          title: 'Ready for group activity',
-          message:
-              'Profile, permissions, privacy, and support stay connected to verified MoMo groups.',
-          icon: CollectIcons.shield,
-          tone: CollectStatusTone.info,
-        ),
         _SettingsCluster(
           tone: CollectStatusTone.privacy,
           children: [
-            CollectListTile(
-              leading: CollectIcons.tune,
-              title: 'Device permissions',
-              subtitle: 'SMS and notifications.',
-              onTap: () => context.go('/permissions/device'),
-            ),
             CollectListTile(
               leading: CollectIcons.pending,
               title: 'Notifications',

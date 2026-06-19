@@ -18,8 +18,6 @@ class CollectionsScreen extends ConsumerStatefulWidget {
 class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
   final _search = TextEditingController();
   String _query = '';
-  _GroupVisibilityFilter _visibilityFilter = _GroupVisibilityFilter.all;
-  _GroupSort _sort = _GroupSort.collected;
 
   @override
   void dispose() {
@@ -33,43 +31,32 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
       collectRepositoryProvider.select((state) => state.collections),
     );
     final summaries = ref.watch(collectionSummariesProvider);
+    final contributedCollectionIds = ref.watch(
+      contributedCollectionIdsProvider,
+    );
+    final routeUri = GoRouterState.of(context).uri;
+    final showContributedOnly =
+        routeUri.queryParameters['filter'] == 'contributed';
     final query = _query.trim().toLowerCase();
     final visibleCollections = [
       for (final collection in collections)
         if (_matchesQuery(collection, query) &&
-            _matchesVisibility(collection, _visibilityFilter))
+            (!showContributedOnly ||
+                contributedCollectionIds.contains(collection.id)))
           collection,
-    ]..sort((left, right) => _compareGroups(left, right, summaries, _sort));
+    ]..sort((left, right) => _compareGroups(left, right, summaries));
     final showCreate = shouldShowGroupCreationEntryOnThisPlatform();
     if (collections.isEmpty) {
       return ScreenScaffold(
         title: 'Groups',
         showHeader: false,
-        persistentPill: CollectTopChrome(
-          avatarLabel: ref.watch(
-            collectRepositoryProvider.select(
-              (state) => state.currentProfile?.publicId,
-            ),
-          ),
-          searchLabel: 'Search groups',
-          searchController: _search,
-          onSearchChanged: (value) => setState(() => _query = value),
-          onAvatarTap: () => context.go('/settings/profile'),
-          actions: [
-            CollectTopChromeAction(
-              icon: CollectIcons.qr,
-              tooltip: 'Scan QR code',
-              onPressed: () => context.go('/groups/scan'),
-            ),
-            if (showCreate)
-              CollectTopChromeAction(
-                icon: CollectIcons.add,
-                tooltip: 'Create group',
-                onPressed: () => context.go('/groups/create'),
-              ),
-          ],
-        ),
         children: [
+          _GroupsPageHeading(
+            title: 'Groups',
+            searchController: _search,
+            searchLabel: 'Search groups',
+            onSearchChanged: (value) => setState(() => _query = value),
+          ),
           const EmptyIllustrationState(
             icon: CollectIcons.collectionsOutline,
             title: 'No groups yet',
@@ -86,46 +73,30 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
     return ScreenScaffold(
       title: 'Groups',
       showHeader: false,
-      persistentPill: CollectTopChrome(
-        avatarLabel: ref.watch(
-          collectRepositoryProvider.select(
-            (state) => state.currentProfile?.publicId,
-          ),
-        ),
-        searchLabel: 'Search groups',
-        searchController: _search,
-        onSearchChanged: (value) => setState(() => _query = value),
-        onAvatarTap: () => context.go('/settings/profile'),
-        actions: [
-          CollectTopChromeAction(
-            icon: CollectIcons.qr,
-            tooltip: 'Scan QR code',
-            onPressed: () => context.go('/groups/scan'),
-          ),
-          if (showCreate)
-            CollectTopChromeAction(
-              icon: CollectIcons.add,
-              tooltip: 'Create group',
-              onPressed: () => context.go('/groups/create'),
-            ),
-        ],
-      ),
       children: [
-        _GroupControlDock(
-          filterLabel: _visibilityFilterLabel(_visibilityFilter),
-          sortLabel: _sortLabel(_sort),
-          onFilterTap: _showFilterSheet,
-          onSortTap: _showSortSheet,
+        _GroupsPageHeading(
+          title: showContributedOnly ? 'Supported groups' : 'Groups',
+          searchController: _search,
+          searchLabel: showContributedOnly
+              ? 'Supported groups'
+              : 'Search groups',
+          onSearchChanged: (value) => setState(() => _query = value),
         ),
         if (visibleCollections.isEmpty)
           EmptySearchState(
-            title: 'No groups found',
-            message: 'No group matches the current search or filter.',
+            title: showContributedOnly
+                ? 'No supported groups'
+                : 'No groups found',
+            message: showContributedOnly
+                ? 'Groups you support will appear here.'
+                : 'No group matches this search.',
             onClear: () => setState(() {
-              _search.clear();
-              _query = '';
-              _visibilityFilter = _GroupVisibilityFilter.all;
-              _sort = _GroupSort.collected;
+              if (showContributedOnly && query.isEmpty) {
+                context.go('/groups');
+              } else {
+                _search.clear();
+                _query = '';
+              }
             }),
           )
         else
@@ -166,281 +137,46 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
       ],
     );
   }
-
-  void _showSortSheet() {
-    showModalBottomSheet<void>(
-      context: context,
-      useRootNavigator: true,
-      backgroundColor: context.collectColors.transparent,
-      isScrollControlled: true,
-      builder: (context) {
-        return CollectBottomSheet(
-          child: _GroupOptionSheet<_GroupSort>(
-            title: 'Sort groups',
-            values: _GroupSort.values,
-            selected: _sort,
-            labelFor: _sortLabel,
-            onSelected: (sort) {
-              setState(() => _sort = sort);
-              Navigator.of(context).pop();
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  void _showFilterSheet() {
-    showModalBottomSheet<void>(
-      context: context,
-      useRootNavigator: true,
-      backgroundColor: context.collectColors.transparent,
-      isScrollControlled: true,
-      builder: (context) {
-        return CollectBottomSheet(
-          child: _GroupOptionSheet<_GroupVisibilityFilter>(
-            title: 'Filter groups',
-            values: _GroupVisibilityFilter.values,
-            selected: _visibilityFilter,
-            labelFor: _visibilityFilterLabel,
-            onSelected: (filter) {
-              setState(() => _visibilityFilter = filter);
-              Navigator.of(context).pop();
-            },
-          ),
-        );
-      },
-    );
-  }
 }
 
-class _GroupControlDock extends StatelessWidget {
-  const _GroupControlDock({
-    required this.filterLabel,
-    required this.sortLabel,
-    required this.onFilterTap,
-    required this.onSortTap,
+class _GroupsPageHeading extends StatelessWidget {
+  const _GroupsPageHeading({
+    required this.title,
+    required this.searchController,
+    required this.searchLabel,
+    required this.onSearchChanged,
   });
 
-  final String filterLabel;
-  final String sortLabel;
-  final VoidCallback onFilterTap;
-  final VoidCallback onSortTap;
+  final String title;
+  final TextEditingController searchController;
+  final String searchLabel;
+  final ValueChanged<String> onSearchChanged;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    final colors = context.collectColors;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: _GroupControlButton(
-            icon: CollectIcons.public,
-            title: 'Visibility',
-            value: filterLabel,
-            onTap: onFilterTap,
+        Text(
+          title,
+          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            color: colors.onImagePrimary,
+            fontWeight: FontWeight.w900,
+            height: 1,
+            letterSpacing: 0,
           ),
+          maxLines: 1,
+          softWrap: false,
+          overflow: TextOverflow.ellipsis,
         ),
-        CollectSpacing.gapW12,
-        Expanded(
-          child: _GroupControlButton(
-            icon: CollectIcons.activity,
-            title: 'Sort',
-            value: sortLabel,
-            onTap: onSortTap,
-          ),
+        CollectSpacing.gap16,
+        SearchWithClearField(
+          controller: searchController,
+          label: searchLabel,
+          onChanged: onSearchChanged,
         ),
       ],
-    );
-  }
-}
-
-class _GroupControlButton extends StatelessWidget {
-  const _GroupControlButton({
-    required this.icon,
-    required this.title,
-    required this.value,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String title;
-  final String value;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final fill = isDark
-        ? CollectColors.referencePaymentsPurpleDeep.withValues(alpha: 0.58)
-        : colors.glassControl;
-    final border = isDark
-        ? colors.onImagePrimary.withValues(alpha: 0.30)
-        : colors.glassBorder;
-    final titleColor = isDark
-        ? colors.onImagePrimary.withValues(alpha: 0.62)
-        : colors.textMuted;
-    final valueColor = isDark ? colors.onImagePrimary : colors.textPrimary;
-    return Semantics(
-      button: true,
-      label: '$title $value',
-      child: Material(
-        color: fill,
-        borderRadius: CollectRadius.pillBorder,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            borderRadius: CollectRadius.pillBorder,
-            border: Border.all(color: border),
-          ),
-          child: InkWell(
-            borderRadius: CollectRadius.pillBorder,
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: CollectSpacing.x3,
-                vertical: CollectSpacing.x2,
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    icon,
-                    color: isDark ? colors.onImagePrimary : colors.actionColor,
-                    size: 20,
-                  ),
-                  CollectSpacing.gapW8,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          title.toUpperCase(),
-                          style: CollectTypography.eyebrowLabel(titleColor),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          value,
-                          style: Theme.of(context).textTheme.labelLarge
-                              ?.copyWith(
-                                color: valueColor,
-                                fontWeight: FontWeight.w900,
-                              ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Icon(CollectIcons.chevron, size: 18, color: valueColor),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _GroupOptionSheet<T> extends StatelessWidget {
-  const _GroupOptionSheet({
-    required this.title,
-    required this.values,
-    required this.selected,
-    required this.labelFor,
-    required this.onSelected,
-  });
-
-  final String title;
-  final List<T> values;
-  final T selected;
-  final String Function(T value) labelFor;
-  final ValueChanged<T> onSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: Theme.of(context).textTheme.titleLarge),
-          CollectSpacing.gap12,
-          Wrap(
-            spacing: CollectSpacing.x2,
-            runSpacing: CollectSpacing.x2,
-            children: [
-              for (final value in values)
-                _GroupSheetPill<T>(
-                  value: value,
-                  label: labelFor(value),
-                  selected: selected == value,
-                  onSelected: onSelected,
-                ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _GroupSheetPill<T> extends StatelessWidget {
-  const _GroupSheetPill({
-    required this.value,
-    required this.label,
-    required this.selected,
-    required this.onSelected,
-  });
-
-  final T value;
-  final String label;
-  final bool selected;
-  final ValueChanged<T> onSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Semantics(
-      button: true,
-      selected: selected,
-      label: 'Filter option $label',
-      child: Material(
-        color: selected ? colors.actionColor : colors.glassControl,
-        borderRadius: CollectRadius.pillBorder,
-        child: InkWell(
-          borderRadius: CollectRadius.pillBorder,
-          onTap: () => onSelected(value),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: CollectSpacing.x3,
-              vertical: CollectSpacing.x2,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  selected ? CollectIcons.check : CollectIcons.filter,
-                  size: 18,
-                  color: selected
-                      ? colors.selectedOnAccent
-                      : colors.textSecondary,
-                ),
-                CollectSpacing.gapW8,
-                Text(
-                  label,
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: selected
-                        ? colors.selectedOnAccent
-                        : colors.textPrimary,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
@@ -551,32 +287,16 @@ class _GroupEmptyActionItem extends StatelessWidget {
   }
 }
 
-enum _GroupVisibilityFilter { all, public, private }
-
-enum _GroupSort { recent, collected, members }
-
 bool _matchesQuery(CollectCollection collection, String query) {
   if (query.isEmpty) return true;
   return collection.title.toLowerCase().contains(query) ||
       collection.slug.toLowerCase().contains(query);
 }
 
-bool _matchesVisibility(
-  CollectCollection collection,
-  _GroupVisibilityFilter filter,
-) {
-  return switch (filter) {
-    _GroupVisibilityFilter.all => true,
-    _GroupVisibilityFilter.public => collection.isPublic,
-    _GroupVisibilityFilter.private => !collection.isPublic,
-  };
-}
-
 int _compareGroups(
   CollectCollection left,
   CollectCollection right,
   Map<String, CollectionSummary> summaries,
-  _GroupSort sort,
 ) {
   final leftSummary =
       summaries[left.id] ??
@@ -584,31 +304,9 @@ int _compareGroups(
   final rightSummary =
       summaries[right.id] ??
       const CollectionSummary(amountRaisedRwf: 0, supporterCount: 0);
-  final result = switch (sort) {
-    _GroupSort.recent => right.createdAt.compareTo(left.createdAt),
-    _GroupSort.collected => rightSummary.amountRaisedRwf.compareTo(
-      leftSummary.amountRaisedRwf,
-    ),
-    _GroupSort.members => rightSummary.supporterCount.compareTo(
-      leftSummary.supporterCount,
-    ),
-  };
+  final result = rightSummary.amountRaisedRwf.compareTo(
+    leftSummary.amountRaisedRwf,
+  );
   if (result != 0) return result;
   return left.title.toLowerCase().compareTo(right.title.toLowerCase());
-}
-
-String _visibilityFilterLabel(_GroupVisibilityFilter filter) {
-  return switch (filter) {
-    _GroupVisibilityFilter.all => 'All',
-    _GroupVisibilityFilter.public => 'Public',
-    _GroupVisibilityFilter.private => 'Private',
-  };
-}
-
-String _sortLabel(_GroupSort sort) {
-  return switch (sort) {
-    _GroupSort.recent => 'Recent',
-    _GroupSort.collected => 'Collected',
-    _GroupSort.members => 'Members',
-  };
 }

@@ -73,6 +73,17 @@ final raisedTotalProvider = Provider<int>((ref) {
   );
 });
 
+final contributedCollectionIdsProvider = Provider<Set<String>>((ref) {
+  final state = ref.watch(collectRepositoryProvider);
+  final profile = state.currentProfile;
+  if (profile == null) return const <String>{};
+  return Set<String>.unmodifiable({
+    for (final contribution in state.contributions)
+      if (_contributionBelongsToProfile(contribution, profile))
+        contribution.collectionId,
+  });
+});
+
 final contributionsForCollectionProvider =
     Provider.family<List<Contribution>, String>((ref, collectionId) {
       final contributions = ref.watch(
@@ -85,6 +96,18 @@ final contributionsForCollectionProvider =
       );
       return List<Contribution>.unmodifiable(contributions);
     });
+
+bool _contributionBelongsToProfile(
+  Contribution contribution,
+  CollectProfile profile,
+) {
+  final publicId = profile.publicId.trim();
+  if (publicId.isEmpty) return false;
+  if (contribution.supporterLabel.contains(publicId)) return true;
+  final labelDigits = contribution.supporterLabel.replaceAll(RegExp(r'\D'), '');
+  final publicIdDigits = publicId.replaceAll(RegExp(r'\D'), '');
+  return publicIdDigits.isNotEmpty && labelDigits.endsWith(publicIdDigits);
+}
 
 class CollectState {
   const CollectState({
@@ -311,11 +334,18 @@ class CollectRepository extends StateNotifier<CollectState> {
     return profile;
   }
 
-  Future<void> updateProfile({required String momoNumber}) async {
+  Future<void> updateProfile({String? momoNumber, String? momoPayCode}) async {
     final profile = _requireProfile();
-    final normalizedMomo = momoNumber.trim().isEmpty
+    final normalizedMomo = momoNumber == null
+        ? profile.momoNumber
+        : momoNumber.trim().isEmpty
         ? null
         : PhoneNormalizer.normalizeMtnMomoLocal(momoNumber);
+    final normalizedMomoPayCode = momoPayCode == null
+        ? profile.momoPayCode
+        : momoPayCode.trim().isEmpty
+        ? null
+        : _normalizeMomoPayCode(momoPayCode);
     final supabase = _supabase;
 
     if (supabase != null && supabase.auth.currentUser != null) {
@@ -326,6 +356,7 @@ class CollectRepository extends StateNotifier<CollectState> {
             'momo_number_hash': normalizedMomo == null
                 ? null
                 : HashUtils.phoneHash(normalizedMomo),
+            'momo_pay_code': normalizedMomoPayCode,
           })
           .eq('id', profile.id);
       state = state.copyWith(currentProfile: await _fetchProfile(profile.id));
@@ -336,7 +367,10 @@ class CollectRepository extends StateNotifier<CollectState> {
     }
 
     state = state.copyWith(
-      currentProfile: profile.copyWith(momoNumber: normalizedMomo),
+      currentProfile: profile.copyWith(
+        momoNumber: normalizedMomo,
+        momoPayCode: normalizedMomoPayCode,
+      ),
     );
   }
 

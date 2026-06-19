@@ -34,19 +34,6 @@ class CollectionDetailScreen extends ConsumerWidget {
       title: 'Collect',
       subtitle: profile?.publicId,
       showHeader: false,
-      persistentPill: CollectTopChrome(
-        avatarLabel: profile?.publicId,
-        showSearch: false,
-        onAvatarTap: () => context.go('/settings/profile'),
-        actions: [
-          if (isAdmin)
-            CollectTopChromeAction(
-              icon: CollectIcons.settings,
-              tooltip: 'Group settings',
-              onPressed: () => context.go('/groups/$collectionId/manage'),
-            ),
-        ],
-      ),
       bottomAction: isAdmin
           ? null
           : CollectButton(
@@ -56,6 +43,7 @@ class CollectionDetailScreen extends ConsumerWidget {
               expand: true,
             ),
       children: [
+        CollectPlainPageHeader(title: collection.title),
         _GroupHero(
           collectionId: collectionId,
           collection: collection,
@@ -151,16 +139,16 @@ class _GroupHero extends StatelessWidget {
                           border: Border.all(color: iconBorder),
                         ),
                         child: SizedBox(
-                          width: 58,
-                          height: 58,
+                          width: 48,
+                          height: 48,
                           child: Icon(
                             CollectIcons.collections,
                             color: iconForeground,
-                            size: 28,
+                            size: 24,
                           ),
                         ),
                       ),
-                      CollectSpacing.gapW16,
+                      CollectSpacing.gapW12,
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,7 +171,7 @@ class _GroupHero extends StatelessWidget {
                         ),
                       ),
                       if (canManage) ...[
-                        CollectSpacing.gapW12,
+                        CollectSpacing.gapW8,
                         Tooltip(
                           message: 'Group settings',
                           child: DecoratedBox(
@@ -200,10 +188,10 @@ class _GroupHero extends StatelessWidget {
                                 onTap: () =>
                                     context.go('/groups/$collectionId/manage'),
                                 child: SizedBox.square(
-                                  dimension: 48,
+                                  dimension: 44,
                                   child: Icon(
                                     CollectIcons.settings,
-                                    size: 24,
+                                    size: 22,
                                     color: iconForeground,
                                   ),
                                 ),
@@ -367,22 +355,22 @@ class _GroupActionStrip extends ConsumerWidget {
     final actions = [
       _GroupActionButton(
         icon: CollectIcons.donate,
-        label: 'Contribute',
+        tooltip: 'Contribute',
         onTap: () => context.go('/groups/$collectionId/contribute'),
       ),
       _GroupActionButton(
         icon: CollectIcons.ledger,
-        label: 'Activity',
+        tooltip: 'Activity',
         onTap: () => context.go('/groups/$collectionId/ledger'),
       ),
       _GroupActionButton(
         icon: CollectIcons.qr,
-        label: 'Group QR',
+        tooltip: 'Group QR',
         onTap: () => context.go('/groups/$collectionId/share'),
       ),
       _GroupActionButton(
         icon: CollectIcons.share,
-        label: 'Share',
+        tooltip: 'Share',
         onTap: () => shareGroupDeepLink(
           context: context,
           ref: ref,
@@ -392,7 +380,7 @@ class _GroupActionStrip extends ConsumerWidget {
     ];
 
     return SizedBox(
-      height: 62,
+      height: 64,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         clipBehavior: Clip.none,
@@ -407,12 +395,12 @@ class _GroupActionStrip extends ConsumerWidget {
 class _GroupActionButton extends StatelessWidget {
   const _GroupActionButton({
     required this.icon,
-    required this.label,
+    required this.tooltip,
     required this.onTap,
   });
 
   final IconData icon;
-  final String label;
+  final String tooltip;
   final VoidCallback onTap;
 
   @override
@@ -426,66 +414,34 @@ class _GroupActionButton extends StatelessWidget {
     final border = isDark
         ? colors.onImagePrimary.withValues(alpha: 0.14)
         : colors.glassBorder;
-    final iconFill = isDark
-        ? colors.onImagePrimary.withValues(alpha: 0.10)
-        : colors.surfaceReadable.withValues(alpha: 0.74);
     return Tooltip(
-      message: label,
+      message: tooltip,
       child: Semantics(
-        label: label,
+        label: tooltip,
         button: true,
         child: Material(
           color: fill,
-          borderRadius: CollectRadius.pillBorder,
+          shape: const CircleBorder(),
           child: InkWell(
-            borderRadius: CollectRadius.pillBorder,
+            customBorder: const CircleBorder(),
             onTap: onTap,
             child: DecoratedBox(
               decoration: BoxDecoration(
-                borderRadius: CollectRadius.pillBorder,
+                shape: BoxShape.circle,
                 border: Border.all(color: border),
+                boxShadow: [
+                  BoxShadow(
+                    color: colors.shadowPaint.withValues(
+                      alpha: isDark ? 0.18 : 0.08,
+                    ),
+                    blurRadius: 18,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
               ),
-              child: SizedBox(
-                width: 136,
-                height: 62,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: CollectSpacing.x2,
-                    vertical: CollectSpacing.x1,
-                  ),
-                  child: Row(
-                    children: [
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: iconFill,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: foreground.withValues(
-                              alpha: isDark ? 0.18 : 0.12,
-                            ),
-                          ),
-                        ),
-                        child: SizedBox.square(
-                          dimension: 42,
-                          child: Icon(icon, color: foreground, size: 22),
-                        ),
-                      ),
-                      CollectSpacing.gapW8,
-                      Expanded(
-                        child: Text(
-                          label,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.labelMedium
-                              ?.copyWith(
-                                color: foreground,
-                                fontWeight: FontWeight.w900,
-                              ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              child: SizedBox.square(
+                dimension: 64,
+                child: Icon(icon, color: foreground, size: 27),
               ),
             ),
           ),
@@ -548,10 +504,10 @@ class _TimelineRow extends StatelessWidget {
                                 ),
                               ),
                               child: SizedBox.square(
-                                dimension: 30,
+                                dimension: 40,
                                 child: Icon(
                                   CollectIcons.profile,
-                                  size: 17,
+                                  size: 21,
                                   color: colors.statusForeground(
                                     CollectStatusTone.info,
                                   ),
@@ -571,26 +527,15 @@ class _TimelineRow extends StatelessWidget {
                             ),
                           ],
                         ),
-                        if (contribution.transactionId != null) ...[
-                          CollectSpacing.gap4,
-                          Padding(
-                            padding: const EdgeInsets.only(left: 38),
-                            child: Text(
-                              contribution.transactionId!,
-                              style: CollectTypography.transactionMeta(
-                                colors.textMuted,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
                         CollectSpacing.gap4,
-                        Text(
-                          formatCollectDateTime(contribution.createdAt),
-                          style: Theme.of(context).textTheme.bodySmall,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 48),
+                          child: Text(
+                            formatCollectDateTime(contribution.createdAt),
+                            style: Theme.of(context).textTheme.bodySmall,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),

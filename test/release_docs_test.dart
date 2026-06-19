@@ -375,6 +375,167 @@ Date/time: 2026-06-01T12:30:00Z
     );
   });
 
+  test('Revolut parity evidence stays NO-GO until human signoffs exist', () {
+    final evidence = File(
+      'docs/design/REVOLUT_PARITY_EVIDENCE_2026-06-18.md',
+    ).readAsStringSync();
+    final checklist = File(
+      'docs/design/REVOLUT_PARITY_SIGNOFF_CHECKLIST_2026-06-18.md',
+    ).readAsStringSync();
+    final approvals = File(
+      'docs/release/RELEASE_APPROVALS.json',
+    ).readAsStringSync();
+
+    expect(evidence, contains('Status: **NO-GO'));
+    expect(evidence, contains('NO-GO for a 100 percent parity claim'));
+    expect(evidence, contains('20260618T_large_text_pixel4a'));
+    expect(evidence, contains('20260618T_after_root_sms_redirect_contract'));
+    expect(evidence, contains('20260618T_native_launch_splash_contract'));
+    expect(evidence, contains('native_android_launch_splash_contract'));
+    expect(evidence, contains('20260618T_native_permission_contract'));
+    expect(evidence, contains('android_permission_device_evidence.sh'));
+    expect(evidence, contains('restricted SMS permissions are absent'));
+    expect(evidence, contains('20260618T_talkback_structural_refresh'));
+    expect(evidence, contains('android_accessibility_structural_evidence.sh'));
+    expect(evidence, contains('structural evidence only'));
+    expect(evidence, contains('android_release_signing_review'));
+    expect(evidence, contains('ios_release_scope'));
+    expect(evidence, contains('Human auditory TalkBack review'));
+    expect(evidence, contains('iOS VoiceOver review'));
+    expect(evidence, contains('REVOLUT_PARITY_SIGNOFF_CHECKLIST_2026-06-18'));
+    expect(evidence, isNot(contains('Status: **GO')));
+    expect(evidence, isNot(contains('100 percent parity complete')));
+
+    expect(checklist, contains('Current decision: **NO-GO until signed**'));
+    for (final signoff in <String>[
+      'Revolut reference visual parity',
+      'Android TalkBack auditory review',
+      'iOS VoiceOver or scope decision',
+      'Android release signing / Play App Signing review',
+      'Final release-owner parity decision',
+    ]) {
+      expect(checklist, contains('| $signoff | Open |'));
+    }
+    expect(checklist, contains('signed or explicitly waived'));
+    expect(checklist, contains('reviewer, timestamp, evidence reference'));
+    expect(checklist, contains('Do not add secrets'));
+    expect(checklist, contains('production customer data'));
+
+    expect(approvals, contains('"status": "pending"'));
+    expect(approvals, contains('"key": "android_release_signing_review"'));
+    expect(approvals, contains('"key": "ios_release_scope"'));
+    expect(approvals, isNot(contains('"status": "approved"')));
+  });
+
+  test('Revolut parity signoff gate blocks current open approvals', () {
+    final result = Process.runSync('./scripts/revolut_parity_signoff_gate.sh', [
+      '--json',
+    ]);
+
+    expect(result.exitCode, 99);
+    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
+    expect(decoded['status'], 'blocked');
+    expect(decoded['decision'], 'NO-GO');
+    expect(decoded['blocker_keys'], contains('human_revolut_parity_signoff'));
+    expect(
+      decoded['blockers'],
+      contains('Checklist decision is still explicitly NO-GO.'),
+    );
+    expect(
+      decoded['blockers'],
+      contains(
+        'Release approval android_release_signing_review is not signed for parity completion.',
+      ),
+    );
+    expect(
+      decoded['blockers'],
+      contains(
+        'Release approval ios_release_scope is not signed for parity completion.',
+      ),
+    );
+  });
+
+  test('Revolut parity signoff gate can pass with sanitized signed metadata', () {
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_revolut_parity_signoff_',
+    );
+    try {
+      final checklist = File('${tempDir.path}/parity_signoff.md')
+        ..writeAsStringSync('''
+# Collect Revolut-Style Parity Signoff Checklist
+
+Date: 2026-06-18
+Repo: `/Volumes/PRO-G40/COOL`
+Current decision: **GO after signed review**
+
+## Required Signoffs
+
+| Signoff | Status | Required reviewer action | Evidence reference | Reviewer | Signed at |
+| --- | --- | --- | --- | --- | --- |
+| Revolut reference visual parity | Signed | Compared required route families against supplied references. | `docs/design/REVOLUT_PARITY_EVIDENCE_2026-06-18.md` | Design Reviewer Ana | 2026-06-18T18:45:00Z |
+| Android TalkBack auditory review | Signed | Listened through representative Android flows. | `.cache/android_route_visual_evidence/20260618T_large_text_pixel4a/summary.json` | Accessibility Reviewer Ben | 2026-06-18T18:46:00Z |
+| iOS VoiceOver or scope decision | Waived | Android-only scope accepted for this parity claim. | `docs/release/RELEASE_APPROVAL_PACKET.md` | Scope Reviewer Cy | 2026-06-18T18:47:00Z |
+| Android release signing / Play App Signing review | Signed | Release signing metadata reviewed without exposing keys. | `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256` | Release Reviewer Dee | 2026-06-18T18:48:00Z |
+| Final release-owner parity decision | Signed | Evidence packet and signoff rows reviewed. | `docs/design/REVOLUT_PARITY_EVIDENCE_2026-06-18.md` | Release Owner Eli | 2026-06-18T18:49:00Z |
+''');
+
+      final approvals = File('${tempDir.path}/approvals.json')
+        ..writeAsStringSync(
+          jsonEncode(<String, dynamic>{
+            'approvals': <Map<String, dynamic>>[
+              <String, dynamic>{
+                'key': 'android_release_signing_review',
+                'status': 'approved',
+                'decision': 'GO',
+                'reviewer': 'Release Reviewer Dee',
+                'signed_at': '2026-06-18T18:48:00Z',
+                'evidence_reference':
+                    'docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256',
+                'sanitized_evidence': true,
+                'contains_production_customer_data': false,
+                'signing_keys_exposed': false,
+                'notes':
+                    'Release artifacts and Play App Signing metadata reviewed.',
+              },
+              <String, dynamic>{
+                'key': 'ios_release_scope',
+                'status': 'out_of_scope',
+                'decision': 'OUT_OF_SCOPE',
+                'reviewer': 'Scope Reviewer Cy',
+                'signed_at': '2026-06-18T18:47:00Z',
+                'evidence_reference': 'docs/release/RELEASE_APPROVAL_PACKET.md',
+                'sanitized_evidence': true,
+                'contains_production_customer_data': false,
+                'notes': 'Android-only scope accepted for this parity claim.',
+              },
+            ],
+          }),
+        );
+
+      final result = Process.runSync(
+        './scripts/revolut_parity_signoff_gate.sh',
+        ['--json'],
+        environment: {
+          'REVOLUT_PARITY_SIGNOFF_CHECKLIST': checklist.path,
+          'RELEASE_APPROVALS_JSON': approvals.path,
+        },
+      );
+
+      expect(result.exitCode, 0);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'pass');
+      expect(decoded['decision'], 'GO');
+      expect(decoded['blockers'], isEmpty);
+      expect(
+        decoded['signoffs']['Final release-owner parity decision']['approved'],
+        true,
+      );
+    } finally {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
   test('release status reports current blocker keys', () {
     final result = Process.runSync(
       './scripts/release_status.sh',

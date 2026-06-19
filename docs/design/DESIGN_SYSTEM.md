@@ -19,7 +19,7 @@ Collect does not copy Revolut or Monzo visual assets, logos, trademarks, compone
 - Glass chrome: bottom navigation, bottom sheets, action buttons, search fields, and filters use translucent tokenized surfaces.
 - Top chrome: profile, search, and action controls are compact, visible, tappable, and semantically named. Profile controls route to profile.
 - Bottom dock: navigation remains Collect-owned in destination mapping, but visually follows the Revolut floating black glass dock with a selected capsule, one-line labels, stable touch targets, and safe-area anchoring.
-- Dark route headers: shared secondary-route headers use dark glass, official `CollectBrandMark`, high-contrast title hierarchy, and tokenized action capsules.
+- Plain route headers: shared secondary-route headers use a back arrow, one-line title, optional one-line subtitle, and tokenized action circles. They must not be decorative brand cards on utility, legal, permission, profile, create, or scanner routes.
 - Rich surfaces: home, Home Momentum, group, contribution, payment-state, settings, privacy, support, notification, and legal surfaces use Collect-owned generated visuals where the Revolut reference uses media, marketplace, reward, or product cards. Image-less group cards use generated Collect media instead of blank covers.
 - Compact labels: visible labels, helper text, chips, card titles, table cells, and admin status copy stay one line with ellipsis when constrained. Avoid explanatory in-app paragraphs where a concise label, state, icon, or command is enough.
 - Warm precision: user screens feel premium and human; admin/risk screens stay dense and exact.
@@ -80,10 +80,11 @@ Use the shared primitives before local UI:
 
 - `CollectGradientBackground`, `PremiumScaffold`, `ScreenScaffold`, `ScreenScaffoldLayout`.
 - `CollectBrandMark`.
-- `ScreenHeader` provides the shared dark finance-grade header for secondary routes.
+- `ScreenHeader` and `CollectPlainPageHeader` provide the shared plain header for secondary routes: back arrow, one-line title, optional one-line subtitle, and no decorative card shell.
 - `CollectCard`, `CollectVisualFeatureCard`, `CollectBentoGrid`, `BentoMetricCell`, `GroupCard`.
 - `CollectButton`, `SearchWithClearField`, `PremiumSegmentedFilter`.
 - Home rich visual rail cards, Home Momentum cards, image-backed `GroupCard` covers, and `CollectVisualFeatureCard` use runtime assets from `assets/brand/generated/` and Flutter-rendered text.
+- QR scanner surfaces use the shared plain header plus a camera-first preview with dark overlay, corner guides, torch and camera-switch icon controls, gallery QR decoding where supported, and compact link/code entry fallback. Fallback copy must stay about group links/codes, not payment proof.
 - `CollectBottomSheet`, `BottomActionSurface`.
 - `LoadingStatePanel`, `EmptyIllustrationState`, `CollectErrorState`, `InfoSecurityBanner`.
 - `CollectDynamicIsland`, `PaymentPipelineIndicator`, `PaymentVerifiedRing`.
@@ -97,6 +98,7 @@ Feature-level widgets may control content density and order, but not introduce a
 - Shell routes inherit the gradient through `CollectShell`.
 - Standalone routes such as share/export screens must wrap their page with `CollectGradientBackground`.
 - Camera preview scrims use tokenized Periwinkle overlays because they sit on top of live camera pixels; their visible labels and panels still use glass tokens.
+- Permission routes are recovery/status surfaces only. Native SMS, camera, gallery, and notification prompts are triggered by the related action flow: group creation, QR scanning/gallery import, or notification enablement.
 
 ## Layout Model
 

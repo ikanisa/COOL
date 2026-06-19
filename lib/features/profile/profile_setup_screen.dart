@@ -17,25 +17,42 @@ class ProfileSetupScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
-  final _momo = TextEditingController();
+  final _momoNumber = TextEditingController();
+  final _momoPayCode = TextEditingController();
+  CollectMomoReceiverMode _momoMode = CollectMomoReceiverMode.momoNumber;
   bool _synced = false;
   bool _saving = false;
   bool _saved = false;
   String? _error;
 
+  TextEditingController get _activeMomoController {
+    return _momoMode == CollectMomoReceiverMode.momoPayCode
+        ? _momoPayCode
+        : _momoNumber;
+  }
+
   @override
   void dispose() {
-    _momo.dispose();
+    _momoNumber.dispose();
+    _momoPayCode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final profile = ref.watch(collectRepositoryProvider).currentProfile;
-    if (!_synced && profile?.momoNumber?.trim().isNotEmpty == true) {
-      _momo.text =
-          PhoneNormalizer.tryNormalizeMtnMomoLocal(profile!.momoNumber!) ??
-          profile.momoNumber!;
+    if (!_synced && profile != null) {
+      if (profile.momoNumber?.trim().isNotEmpty == true) {
+        _momoNumber.text =
+            PhoneNormalizer.tryNormalizeMtnMomoLocal(profile.momoNumber!) ??
+            profile.momoNumber!;
+      }
+      if (profile.momoPayCode?.trim().isNotEmpty == true) {
+        _momoPayCode.text = profile.momoPayCode!;
+        if (_momoNumber.text.trim().isEmpty) {
+          _momoMode = CollectMomoReceiverMode.momoPayCode;
+        }
+      }
       _synced = true;
     }
     return ScreenScaffold(
@@ -43,7 +60,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
       showHeader: false,
       bottomAction: _bottomAction(context, profile),
       children: [
-        const _ProfileSetupPageHeader(),
+        const CollectPlainPageHeader(title: 'Profile setup'),
         if (profile == null)
           const MinimalStatePanel(
             icon: CollectIcons.profile,
@@ -56,20 +73,35 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
           if (_saved)
             const InfoSecurityBanner(
               title: 'Profile saved',
-              message: 'Your MoMo account is ready for group activity.',
+              message: 'Your MoMo details are saved.',
               tone: CollectStatusTone.success,
             ),
-          FormSectionCard(
-            title: 'Linked MoMo',
+          _ProfileSetupPanel(
             errorTitle: 'Profile not saved',
             errorMessage: _error,
             children: [
-              CollectTextInput(
-                controller: _momo,
-                label: 'MoMo number',
-                keyboardType: TextInputType.phone,
+              CollectMomoReceiverModeToggle(
+                mode: _momoMode,
+                onChanged: (mode) => setState(() {
+                  _momoMode = mode;
+                  _error = null;
+                }),
+              ),
+              CollectMobileInputField(
+                controller: _activeMomoController,
+                icon: _momoMode == CollectMomoReceiverMode.momoPayCode
+                    ? CollectIcons.qr
+                    : CollectIcons.momo,
+                label: _momoMode == CollectMomoReceiverMode.momoPayCode
+                    ? 'MoMo Pay code'
+                    : 'MoMo number',
+                keyboardType: _momoMode == CollectMomoReceiverMode.momoPayCode
+                    ? TextInputType.number
+                    : TextInputType.phone,
                 textInputAction: TextInputAction.done,
-                autofillHints: const [AutofillHints.telephoneNumber],
+                autofillHints: _momoMode == CollectMomoReceiverMode.momoPayCode
+                    ? null
+                    : const [AutofillHints.telephoneNumber],
               ),
             ],
           ),
@@ -102,16 +134,13 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
     return BottomActionSurface(
       children: [
         CollectButton(
-          label: _saving ? 'Saving' : 'Save MoMo number',
+          label: _saving
+              ? 'Saving'
+              : _momoMode == CollectMomoReceiverMode.momoPayCode
+              ? 'Save MoMo Pay'
+              : 'Save MoMo number',
           icon: CollectIcons.check,
           onPressed: _saving ? null : _saveMomoNumber,
-          expand: true,
-        ),
-        CollectButton(
-          label: 'Device permissions',
-          icon: CollectIcons.tune,
-          onPressed: () => context.go('/permissions/device'),
-          variant: CollectButtonVariant.secondary,
           expand: true,
         ),
         CollectButton(
@@ -126,8 +155,12 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
   }
 
   Future<void> _saveMomoNumber() async {
-    if (_momo.text.trim().isEmpty) {
-      setState(() => _error = 'Enter your MTN MoMo number.');
+    if (_activeMomoController.text.trim().isEmpty) {
+      setState(
+        () => _error = _momoMode == CollectMomoReceiverMode.momoPayCode
+            ? 'Enter your MoMo Pay code.'
+            : 'Enter your MTN MoMo number.',
+      );
       return;
     }
     setState(() {
@@ -136,7 +169,10 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
     });
     try {
       final repository = ref.read(collectRepositoryProvider.notifier);
-      await repository.updateProfile(momoNumber: _momo.text);
+      await repository.updateProfile(
+        momoNumber: _momoNumber.text,
+        momoPayCode: _momoPayCode.text,
+      );
       if (!mounted) return;
       final pendingSlug = ref.read(pendingSharedGroupSlugProvider)?.trim();
       if (pendingSlug != null && pendingSlug.isNotEmpty) {
@@ -162,47 +198,36 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
   }
 }
 
-class _ProfileSetupPageHeader extends StatelessWidget {
-  const _ProfileSetupPageHeader();
+class _ProfileSetupPanel extends StatelessWidget {
+  const _ProfileSetupPanel({
+    required this.children,
+    this.errorTitle,
+    this.errorMessage,
+  });
+
+  final String? errorTitle;
+  final String? errorMessage;
+  final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
-    return Semantics(
-      container: true,
-      header: true,
-      label: 'Profile setup',
-      child: Row(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          IconButton.filledTonal(
-            tooltip: 'Back',
-            style: IconButton.styleFrom(
-              backgroundColor: foreground.withValues(alpha: 0.10),
-              foregroundColor: foreground,
-              side: BorderSide(color: foreground.withValues(alpha: 0.16)),
-              fixedSize: const Size(44, 44),
-              minimumSize: const Size(44, 44),
-              padding: EdgeInsets.zero,
+          for (var index = 0; index < children.length; index += 1) ...[
+            children[index],
+            if (index != children.length - 1) CollectSpacing.gap16,
+          ],
+          if (errorMessage != null) ...[
+            CollectSpacing.gap12,
+            InfoSecurityBanner(
+              title: errorTitle ?? 'Action failed',
+              message: errorMessage!,
+              tone: CollectStatusTone.danger,
             ),
-            onPressed: () => goBackOrHome(context),
-            icon: const Icon(Icons.arrow_back_rounded, size: 22),
-          ),
-          CollectSpacing.gapW12,
-          Expanded(
-            child: Text(
-              'Profile setup',
-              maxLines: 1,
-              softWrap: false,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: foreground,
-                fontWeight: FontWeight.w900,
-                height: 1,
-                letterSpacing: 0,
-              ),
-            ),
-          ),
+          ],
         ],
       ),
     );

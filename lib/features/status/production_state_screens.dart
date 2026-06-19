@@ -1232,55 +1232,47 @@ class NotificationPermissionScreen extends ConsumerWidget {
     return ScreenScaffold(
       title: 'App access',
       showHeader: false,
-      bottomAction: CollectButton(
-        label: 'Done',
-        icon: CollectIcons.check,
-        onPressed: () => context.go('/home'),
-        expand: true,
+      bottomAction: BottomActionSurface(
+        children: [
+          CollectButton(
+            label: 'Done',
+            icon: CollectIcons.check,
+            onPressed: () => goBackOrHome(context),
+            expand: true,
+          ),
+        ],
       ),
       children: [
         const _DeviceAccessPageHeader(),
-        CollectCard(
-          emphasis: CollectCardEmphasis.glow,
-          accentColor: smsGranted
-              ? context.collectColors.statusForeground(
-                  CollectStatusTone.success,
-                )
-              : context.collectColors.actionColor,
-          child: Column(
-            children: [
-              if (showSmsAccess)
-                _PermissionSettingRow(
-                  icon: CollectIcons.sms,
-                  title: 'SMS access',
-                  status: smsGranted
-                      ? 'Allowed'
-                      : smsStatus == SmsPermissionStatus.denied
-                      ? 'Denied'
-                      : 'Not enabled',
-                  active: smsGranted,
-                  onTap: () => context.go('/groups/create'),
-                ),
-              _PermissionSettingRow(
-                icon: CollectIcons.pending,
-                title: 'Notifications',
-                status: notificationGranted
-                    ? 'Allowed'
-                    : notificationStatus == CollectDevicePermissionStatus.denied
-                    ? 'Denied'
-                    : 'Not enabled',
-                active: notificationGranted,
-                onTap: () => context.go('/notifications'),
-              ),
-              _PermissionSettingRow(
-                icon: CollectIcons.privacy,
-                title: 'Privacy',
-                status: 'Protected',
-                active: true,
-                onTap: () => context.go('/settings/legal/privacy'),
-              ),
-            ],
+        if (showSmsAccess)
+          _PermissionSettingRow(
+            icon: CollectIcons.sms,
+            title: 'SMS access',
+            status: smsGranted
+                ? 'Allowed'
+                : smsStatus == SmsPermissionStatus.denied
+                ? 'Denied'
+                : 'Action-triggered',
+            active: smsGranted,
+            onTap: () => context.go('/groups/create'),
           ),
+        _PermissionSettingRow(
+          icon: CollectIcons.pending,
+          title: 'Notifications',
+          status: notificationGranted
+              ? 'Allowed'
+              : notificationStatus == CollectDevicePermissionStatus.denied
+              ? 'Denied'
+              : 'Action-triggered',
+          active: notificationGranted,
+          onTap: () => context.go('/notifications'),
+        ),
+        _PermissionSettingRow(
+          icon: CollectIcons.privacy,
+          title: 'Privacy',
+          status: 'Protected',
+          active: true,
+          onTap: () => context.go('/settings/legal/privacy'),
         ),
       ],
     );
@@ -1292,45 +1284,7 @@ class _DeviceAccessPageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
-    return Semantics(
-      container: true,
-      header: true,
-      label: 'App access',
-      child: Row(
-        children: [
-          IconButton.filledTonal(
-            tooltip: 'Back',
-            style: IconButton.styleFrom(
-              backgroundColor: foreground.withValues(alpha: 0.10),
-              foregroundColor: foreground,
-              side: BorderSide(color: foreground.withValues(alpha: 0.16)),
-              fixedSize: const Size(44, 44),
-              minimumSize: const Size(44, 44),
-              padding: EdgeInsets.zero,
-            ),
-            onPressed: () => goBackOrHome(context),
-            icon: const Icon(Icons.arrow_back_rounded, size: 22),
-          ),
-          CollectSpacing.gapW12,
-          Expanded(
-            child: Text(
-              'App access',
-              maxLines: 1,
-              softWrap: false,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: foreground,
-                fontWeight: FontWeight.w900,
-                height: 1,
-                letterSpacing: 0,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+    return const CollectPlainPageHeader(title: 'App access');
   }
 }
 
@@ -1344,52 +1298,28 @@ class _PermissionSettingRow extends StatelessWidget {
     required this.title,
     required this.status,
     required this.active,
-    required this.onTap,
+    this.onTap,
   });
 
   final IconData icon;
   final String title;
   final String status;
   final bool active;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return InkWell(
-      borderRadius: CollectRadius.cardBorder,
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x3),
-        child: Row(
-          children: [
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: colors.actionColor.withValues(alpha: 0.14),
-                shape: BoxShape.circle,
-              ),
-              child: SizedBox(
-                width: 52,
-                height: 52,
-                child: Icon(icon, color: colors.actionColor),
-              ),
-            ),
-            CollectSpacing.gapW12,
-            Expanded(
-              child: Text(
-                title,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800),
-              ),
-            ),
-            CollectStatusChip(
-              label: status,
-              tone: active ? CollectStatusTone.success : CollectStatusTone.info,
-            ),
-          ],
-        ),
+    final tone = active ? CollectStatusTone.success : CollectStatusTone.warning;
+    return CollectListTile(
+      leading: icon,
+      title: title,
+      subtitle: status,
+      trailing: CollectStatusChip(
+        label: status,
+        tone: tone,
+        icon: active ? CollectIcons.check : CollectIcons.pending,
       ),
+      onTap: onTap,
     );
   }
 }
@@ -2305,23 +2235,9 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
                 }),
               );
             }
-            final totalRaised = filtered.fold<int>(
-              0,
-              (sum, item) => sum + (contributionTotals[item.safeLabel] ?? 0),
-            );
-            final ownerCount = items
-                .where((item) => item.role == 'owner')
-                .length;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _MemberSummaryStrip(
-                  visibleCount: filtered.length,
-                  totalCount: items.length,
-                  ownerCount: ownerCount,
-                  totalRaised: totalRaised,
-                ),
-                CollectSpacing.gap12,
                 _MemberControlDock(
                   filterLabel: _memberFilterLabel(_filter),
                   sortLabel: _memberSortLabel(_sort),
@@ -2456,56 +2372,6 @@ class _MembersPageHeader extends StatelessWidget {
                 letterSpacing: 0,
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _MemberSummaryStrip extends StatelessWidget {
-  const _MemberSummaryStrip({
-    required this.visibleCount,
-    required this.totalCount,
-    required this.ownerCount,
-    required this.totalRaised,
-  });
-
-  final int visibleCount;
-  final int totalCount;
-  final int ownerCount;
-  final int totalRaised;
-
-  @override
-  Widget build(BuildContext context) {
-    return CollectCard(
-      emphasis: CollectCardEmphasis.glow,
-      accentColor: context.collectColors.statusForeground(
-        CollectStatusTone.success,
-      ),
-      child: Wrap(
-        spacing: CollectSpacing.x2,
-        runSpacing: CollectSpacing.x2,
-        children: [
-          CollectStatusChip(
-            label: '$visibleCount shown',
-            tone: CollectStatusTone.success,
-            icon: CollectIcons.people,
-          ),
-          CollectStatusChip(
-            label: '$totalCount total',
-            tone: CollectStatusTone.info,
-            icon: CollectIcons.collections,
-          ),
-          CollectStatusChip(
-            label: '$ownerCount owner${ownerCount == 1 ? '' : 's'}',
-            tone: CollectStatusTone.privacy,
-            icon: CollectIcons.shield,
-          ),
-          CollectStatusChip(
-            label: formatRwf(totalRaised),
-            tone: CollectStatusTone.success,
-            icon: CollectIcons.money,
           ),
         ],
       ),

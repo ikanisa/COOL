@@ -187,7 +187,7 @@ void main() {
     expect(find.text('MoMo number'), findsOneWidget);
   });
 
-  testWidgets('home momentum feed supports large text and semantics', (
+  testWidgets('home groups and activity sections support large text', (
     tester,
   ) async {
     final semantics = tester.ensureSemantics();
@@ -196,15 +196,15 @@ void main() {
 
       expect(tester.takeException(), isNull);
       await tester.scrollUntilVisible(
-        find.byKey(const ValueKey('home_momentum_feed_semantics')),
+        find.text('My groups'),
         300,
         scrollable: find.byType(Scrollable).first,
       );
       await tester.pump();
 
-      expect(find.text('Momentum'), findsOneWidget);
-      expect(find.bySemanticsLabel(RegExp('momentum card')), findsWidgets);
-      expect(find.bySemanticsLabel(RegExp('collected')), findsWidgets);
+      expect(find.text('Momentum'), findsNothing);
+      expect(find.text('My groups'), findsOneWidget);
+      expect(find.text('Activity'), findsOneWidget);
     } finally {
       semantics.dispose();
     }

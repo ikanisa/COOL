@@ -228,6 +228,8 @@ JSON
     "share|/groups/col-church/share"
     "share-invalid|/share/invalid"
     "share-expired|/share/expired"
+    "app-share-entry|/app"
+    "app-invite-link|/invite/038491"
     "contribution|/groups/col-church/contribute"
     "payment-waiting|/groups/col-church/pay/intent-render/waiting"
     "payment-pending|/groups/col-church/pay/intent-render/state/pending"

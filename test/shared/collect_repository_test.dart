@@ -1,6 +1,7 @@
 import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/features/collections/group_link_screen.dart';
 import 'package:collect_app/features/collections/group_share_service.dart';
+import 'package:collect_app/features/home/app_share_service.dart';
 import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/core/security/hash_utils.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
@@ -127,6 +128,10 @@ void main() {
     await repo.updateProfile(momoNumber: '+250788123456');
     expect(repo.state.currentProfile?.momoNumber, '0788123456');
 
+    await repo.updateProfile(momoPayCode: '123456');
+    expect(repo.state.currentProfile?.momoNumber, '0788123456');
+    expect(repo.state.currentProfile?.momoPayCode, '123456');
+
     expect(container.read(profileReadinessProvider).readyForContribution, true);
     expect(
       await repo.createPaymentIntent(
@@ -174,6 +179,58 @@ void main() {
         'https://collect.ikanisa.com/c/st-michel-building-fund',
       ),
       'st-michel-building-fund',
+    );
+  });
+
+  test('app share links use Collect invite route without group data', () {
+    final repo = CollectRepository.fixture();
+    const env = AppEnv(
+      supabaseUrl: '',
+      supabaseAnonKey: '',
+      publicUrl: '',
+      adminAppUrl: '',
+      enableSmsReader: false,
+      enableAndroidSmsAccess: false,
+      enableAdminPanel: false,
+      enableAdminDevTools: false,
+      authCaptchaEnabled: false,
+      authCaptchaProvider: '',
+      authCaptchaSiteKey: '',
+    );
+    const customEnv = AppEnv(
+      supabaseUrl: '',
+      supabaseAnonKey: '',
+      publicUrl: 'https://collect.example.com/',
+      adminAppUrl: '',
+      enableSmsReader: false,
+      enableAndroidSmsAccess: false,
+      enableAdminPanel: false,
+      enableAdminDevTools: false,
+      authCaptchaEnabled: false,
+      authCaptchaProvider: '',
+      authCaptchaSiteKey: '',
+    );
+
+    expect(
+      collectAppInviteLinkFor(env, repo.state.currentProfile),
+      'https://collect.ikanisa.com/invite/038491',
+    );
+    expect(
+      collectAppInviteLinkFor(env, null),
+      'https://collect.ikanisa.com/app',
+    );
+    expect(
+      collectAppInviteLinkFor(customEnv, repo.state.currentProfile),
+      'https://collect.example.com/invite/038491',
+    );
+    expect(
+      collectAppShareMessageFor(env, repo.state.currentProfile),
+      'Join me on Collect for group contributions in Rwanda: '
+      'https://collect.ikanisa.com/invite/038491',
+    );
+    expect(
+      collectAppShareMessageFor(env, repo.state.currentProfile),
+      isNot(contains('St Michel building fund')),
     );
   });
 

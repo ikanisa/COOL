@@ -45,6 +45,18 @@ def read(path)
   File.read(path)
 end
 
+def png_size(path)
+  bytes = File.binread(path)
+  return nil unless bytes.bytesize >= 24 && bytes.byteslice(1, 3) == "PNG"
+
+  {
+    "width" => bytes.byteslice(16, 4).unpack1("N"),
+    "height" => bytes.byteslice(20, 4).unpack1("N")
+  }
+rescue Errno::ENOENT
+  nil
+end
+
 def json_file(path)
   return nil if path.to_s.empty? || !File.exist?(path)
 
@@ -374,6 +386,76 @@ checks << {
   "status" => platform_color_hits.empty? && legacy_platform_hits.empty? ? "pass" : "fail",
   "hits" => platform_color_hits + legacy_platform_hits,
   "evidence" => platform_color_files
+}
+
+native_launch_failures = []
+manifest = read(File.join(root, "android/app/src/main/AndroidManifest.xml"))
+native_launch_failures << "Android MainActivity must use @style/LaunchTheme." unless manifest.include?('android:theme="@style/LaunchTheme"')
+native_launch_failures << "Android MainActivity must declare NormalTheme metadata." unless manifest.include?('android:name="io.flutter.embedding.android.NormalTheme"') && manifest.include?('android:resource="@style/NormalTheme"')
+
+%w[
+  android/app/src/main/res/values/styles.xml
+  android/app/src/main/res/values-night/styles.xml
+].each do |relative|
+  text = read(File.join(root, relative))
+  native_launch_failures << "#{relative} must use @drawable/launch_background for LaunchTheme." unless text.include?("<item name=\"android:windowBackground\">@drawable/launch_background</item>")
+  native_launch_failures << "#{relative} must disable forceDark for launch." unless text.include?("<item name=\"android:forceDarkAllowed\">false</item>")
+end
+
+%w[
+  android/app/src/main/res/values-v31/styles.xml
+  android/app/src/main/res/values-night-v31/styles.xml
+].each do |relative|
+  text = read(File.join(root, relative))
+  native_launch_failures << "#{relative} must use @color/collect_paper as Android 12+ splash background." unless text.include?("<item name=\"android:windowSplashScreenBackground\">@color/collect_paper</item>")
+  native_launch_failures << "#{relative} must use the Collect launcher icon as Android 12+ splash icon." unless text.include?("<item name=\"android:windowSplashScreenAnimatedIcon\">@drawable/collect_launcher_icon</item>")
+end
+
+%w[
+  android/app/src/main/res/drawable/launch_background.xml
+  android/app/src/main/res/drawable-v21/launch_background.xml
+  android/app/src/main/res/drawable-night/launch_background.xml
+  android/app/src/main/res/drawable-night-v21/launch_background.xml
+].each do |relative|
+  text = read(File.join(root, relative))
+  native_launch_failures << "#{relative} must use collect_paper launch foundation." unless text.include?('@color/collect_paper')
+  native_launch_failures << "#{relative} must center the Collect splash logo." unless text.include?('@drawable/collect_splash_logo')
+end
+
+expected_splash_sizes = {
+  "android/app/src/main/res/drawable/collect_splash_logo.png" => [280, 82],
+  "android/app/src/main/res/drawable-mdpi/collect_splash_logo.png" => [280, 82],
+  "android/app/src/main/res/drawable-hdpi/collect_splash_logo.png" => [420, 123],
+  "android/app/src/main/res/drawable-xhdpi/collect_splash_logo.png" => [560, 163],
+  "android/app/src/main/res/drawable-xxhdpi/collect_splash_logo.png" => [840, 245],
+  "android/app/src/main/res/drawable-xxxhdpi/collect_splash_logo.png" => [1120, 327],
+  "android/app/src/main/res/drawable-night/collect_splash_logo.png" => [280, 82],
+  "android/app/src/main/res/drawable-night-mdpi/collect_splash_logo.png" => [280, 82],
+  "android/app/src/main/res/drawable-night-hdpi/collect_splash_logo.png" => [420, 123],
+  "android/app/src/main/res/drawable-night-xhdpi/collect_splash_logo.png" => [560, 163],
+  "android/app/src/main/res/drawable-night-xxhdpi/collect_splash_logo.png" => [840, 245],
+  "android/app/src/main/res/drawable-night-xxxhdpi/collect_splash_logo.png" => [1120, 327],
+  "android/app/src/main/res/drawable/collect_launcher_icon.png" => [512, 512]
+}
+expected_splash_sizes.each do |relative, expected|
+  size = png_size(File.join(root, relative))
+  native_launch_failures << "#{relative} must be a #{expected[0]}x#{expected[1]} PNG." unless size && [size["width"], size["height"]] == expected
+end
+
+checks << {
+  "id" => "native_android_launch_splash_contract",
+  "status" => status_for(native_launch_failures),
+  "failures" => native_launch_failures,
+  "evidence" => [
+    "android/app/src/main/AndroidManifest.xml",
+    "android/app/src/main/res/values/styles.xml",
+    "android/app/src/main/res/values-v31/styles.xml",
+    "android/app/src/main/res/values-night/styles.xml",
+    "android/app/src/main/res/values-night-v31/styles.xml",
+    "android/app/src/main/res/drawable*/launch_background.xml",
+    "android/app/src/main/res/drawable*/collect_splash_logo.png",
+    "android/app/src/main/res/drawable/collect_launcher_icon.png"
+  ]
 }
 
 domain_hits = scan_files(
