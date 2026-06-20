@@ -15,6 +15,7 @@ import '../features/collections/group_qr_scanner_screen.dart';
 import '../features/collections/share_screen.dart';
 import '../features/dev/design_system_catalog_screen.dart';
 import '../features/home/home_screen.dart';
+import '../features/launch/launch_splash_screen.dart';
 import '../features/ledger/ledger_screen.dart';
 import '../features/payments/contribution_flow_screen.dart';
 import '../features/payments/payment_intent_status_screen.dart';
@@ -44,6 +45,7 @@ const collectRoutePaths = <String>[
   '/permissions/camera-denied',
   '/platform/iphone-create-unavailable',
   '/groups',
+  '/groups/search',
   '/groups/join',
   '/groups/scan',
   '/groups/create',
@@ -84,26 +86,24 @@ const collectRoutePaths = <String>[
   if (kDebugMode) '/dev/design-system',
 ];
 
-GoRouter createAppRouter({String initialLocation = '/home'}) {
+GoRouter createAppRouter({String initialLocation = '/'}) {
   return GoRouter(
     initialLocation: initialLocation,
-    redirect: (context, state) {
-      if (state.uri.path == '/') {
-        return '/home';
-      }
-      return null;
-    },
     routes: [
       ShellRoute(
         builder: (context, state, child) => CollectShell(child: child),
         routes: [
+          GoRoute(
+            path: '/',
+            builder: (context, state) => const LaunchSplashScreen(),
+          ),
           GoRoute(
             path: '/onboarding',
             builder: (context, state) => const OnboardingScreen(),
           ),
           GoRoute(
             path: '/onboarding/legal',
-            builder: (context, state) => const LegalConsentScreen(),
+            redirect: (context, state) => '/auth',
           ),
           GoRoute(
             path: '/auth',
@@ -163,6 +163,10 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
             path: '/groups',
             builder: (context, state) => const CollectionsScreen(),
             routes: [
+              GoRoute(
+                path: 'search',
+                builder: (context, state) => const GroupsSearchScreen(),
+              ),
               GoRoute(
                 path: 'join',
                 builder: (context, state) => const JoinGroupPortalScreen(),

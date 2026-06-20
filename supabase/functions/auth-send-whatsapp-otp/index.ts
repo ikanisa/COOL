@@ -19,6 +19,7 @@ type SmsHookPayload = {
 
 const otpDeliveryUnavailable =
   "WhatsApp OTP delivery is temporarily unavailable";
+const defaultWhatsAppGraphApiVersion = "v25.0";
 
 class PublicHookError extends Error {
   constructor(message: string, readonly status: number) {
@@ -41,6 +42,12 @@ function whatsappAuthTemplateComponents(otp: string) {
       parameters: [{ type: "text", text: otpText }],
     },
   ];
+}
+
+function whatsappGraphApiVersion() {
+  const configured = Deno.env.get("WHATSAPP_GRAPH_API_VERSION")?.trim();
+  if (!configured) return defaultWhatsAppGraphApiVersion;
+  return configured.startsWith("v") ? configured : `v${configured}`;
 }
 
 async function verifyHookPayload(req: Request): Promise<SmsHookPayload> {
@@ -107,9 +114,10 @@ Deno.serve(async (req) => {
     const token = requireEnv("WHATSAPP_CLOUD_API_TOKEN");
     const phoneNumberId = requireEnv("WHATSAPP_PHONE_NUMBER_ID");
     const template = requireEnv("WHATSAPP_AUTH_TEMPLATE_NAME");
+    const graphApiVersion = whatsappGraphApiVersion();
 
     const response = await fetch(
-      `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`,
+      `https://graph.facebook.com/${graphApiVersion}/${phoneNumberId}/messages`,
       {
         method: "POST",
         headers: {
@@ -144,6 +152,9 @@ Deno.serve(async (req) => {
     return jsonResponse({});
   } catch (error) {
     if (error instanceof PublicHookError) {
+      if (error.status === 401 && error.message === "Unauthorized") {
+        return jsonResponse({ error: "Unauthorized" }, 401);
+      }
       return jsonResponse({ error: error.message }, error.status);
     }
     console.error("WhatsApp OTP hook failed", {

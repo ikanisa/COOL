@@ -7,6 +7,7 @@ import '../../core/utils/money_format.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/collect_group_cards.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import '../collections/group_creation_platform.dart';
 import 'app_share_service.dart';
@@ -38,7 +39,8 @@ class HomeScreen extends ConsumerWidget {
       compact: true,
       persistentPill: CollectTopChrome(
         avatarLabel: profile?.publicId,
-        showSearch: false,
+        searchLabel: 'Search',
+        onSearchTap: () => context.go('/groups/search'),
         onAvatarTap: () => context.go('/settings/profile'),
         hasUnread: paymentIntents.isNotEmpty,
         actions: [
@@ -47,6 +49,11 @@ class HomeScreen extends ConsumerWidget {
             tooltip: 'Notifications',
             hasBadge: paymentIntents.isNotEmpty,
             onPressed: () => context.go('/notifications'),
+          ),
+          CollectTopChromeAction(
+            icon: CollectIcons.qr,
+            tooltip: 'Scan QR code',
+            onPressed: () => context.go('/groups/scan'),
           ),
         ],
       ),
@@ -499,7 +506,7 @@ class _HomeActionStrip extends ConsumerWidget {
       _HomeActionItem(
         icon: CollectIcons.people,
         label: 'Join',
-        onTap: () => context.go('/groups'),
+        onTap: () => context.go('/groups/join'),
       ),
       _HomeActionItem(
         icon: CollectIcons.qr,

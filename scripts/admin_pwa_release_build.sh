@@ -16,7 +16,7 @@ fi
 SUPABASE_PUBLIC_URL="${SUPABASE_PRODUCTION_URL:-${SUPABASE_URL:-}}"
 SUPABASE_PUBLIC_ANON_KEY="${SUPABASE_PRODUCTION_ANON_KEY:-${SUPABASE_ANON_KEY:-}}"
 APP_PUBLIC_URL="${APP_PUBLIC_URL:-https://collect.ikanisa.com}"
-ADMIN_APP_URL="${ADMIN_APP_URL:-https://collect.ikanisa.com}"
+ADMIN_APP_URL="${ADMIN_APP_URL:-https://admin.collect.ikanisa.com}"
 export SUPABASE_PUBLIC_URL SUPABASE_PUBLIC_ANON_KEY APP_PUBLIC_URL ADMIN_APP_URL
 
 if [[ -z "${FLUTTER_ADMIN_WEB_BUILD_ARGS:-}" ]]; then
@@ -35,7 +35,8 @@ File.write(
     "APP_PUBLIC_URL" => ENV.fetch("APP_PUBLIC_URL"),
     "ADMIN_APP_URL" => ENV.fetch("ADMIN_APP_URL"),
     "APP_ENVIRONMENT" => "production",
-    "ENABLE_ADMIN_PANEL" => "true"
+    "ENABLE_ADMIN_PANEL" => "true",
+    "COLLECT_PUBLIC_LANDING_HOME" => "true"
   })
 )
 RUBY

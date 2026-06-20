@@ -145,7 +145,9 @@ void main() {
     await tester.pumpWidget(const ProviderScope(child: CollectApp()));
     await pumpLaunchFrames(tester);
 
-    expect(find.text('TOTAL COLLECTED'), findsOneWidget);
+    expect(find.text('Collect'), findsOneWidget);
+    expect(find.text('Groups. MoMo. Done.'), findsOneWidget);
+    expect(find.text('TOTAL COLLECTED'), findsNothing);
     expect(find.text('038491'), findsNothing);
     expect(find.text('St Michel building fund'), findsNothing);
     expect(find.text('CONFIRMED'), findsNothing);
@@ -213,7 +215,7 @@ void main() {
     expect(find.text('Private family support'), findsWidgets);
     expect(find.text('VISIBILITY'), findsNothing);
     expect(find.text('SORT'), findsNothing);
-    expect(find.byTooltip('Scan QR code'), findsNothing);
+    expect(find.byTooltip('Scan QR code'), findsOneWidget);
     expect(find.text('Search groups'), findsOneWidget);
 
     await tester.enterText(find.byType(TextField).first, 'Private');
@@ -365,9 +367,11 @@ void main() {
     await pumpMainAppAt(tester, '/groups/join');
 
     expect(find.text('Join group'), findsWidgets);
-    expect(find.text('Scan group QR.'), findsOneWidget);
-    expect(find.text('Scan'), findsOneWidget);
-    expect(find.byType(TextField), findsNothing);
+    expect(find.text('Join with a code.'), findsOneWidget);
+    expect(find.text('Group code or link'), findsOneWidget);
+    expect(find.text('Join group'), findsWidgets);
+    expect(find.text('Scan QR'), findsOneWidget);
+    expect(find.byType(TextField), findsOneWidget);
     expect(find.textContaining('+250788'), findsNothing);
     expectNoGlobalSecrets();
   });
@@ -455,8 +459,8 @@ void main() {
       legalConsentAccepted: true,
     );
 
-    expect(find.text('Collect'), findsWidgets);
-    expect(find.text('WhatsApp phone'), findsOneWidget);
+    expect(find.text('Sign in'), findsOneWidget);
+    expect(find.text('WhatsApp'), findsOneWidget);
     expect(find.text('Send WhatsApp code'), findsOneWidget);
 
     await tester.enterText(find.byType(TextField).first, '+250788123456');

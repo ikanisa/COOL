@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final appEnvProvider = Provider<AppEnv>((ref) => AppEnv.fromEnvironment());
 
 const defaultCollectPublicUrl = 'https://collect.ikanisa.com';
+const defaultCollectAdminUrl = 'https://admin.collect.ikanisa.com';
 
 class AppEnv {
   const AppEnv({

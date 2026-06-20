@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../shared/models/collect_models.dart';
 import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/collect_group_cards.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
 class DesignSystemCatalogScreen extends StatelessWidget {

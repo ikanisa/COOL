@@ -19,6 +19,7 @@ import 'package:collect_app/features/collections/group_profile_screen.dart';
 import 'package:collect_app/features/collections/group_qr_scanner_screen.dart';
 import 'package:collect_app/features/collections/share_screen.dart';
 import 'package:collect_app/features/home/home_screen.dart';
+import 'package:collect_app/features/launch/launch_splash_screen.dart';
 import 'package:collect_app/features/ledger/ledger_screen.dart';
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/features/payments/payment_intent_status_screen.dart';
@@ -294,6 +295,7 @@ Widget _mobileRouteScreen(String route) {
   const collectionId = 'col-church';
   const intentId = 'intent-render';
   return switch (route) {
+    '/' => const LaunchSplashScreen(),
     '/onboarding' => const OnboardingScreen(),
     '/onboarding/legal' => const LegalConsentScreen(),
     '/auth' => const AuthScreen(),

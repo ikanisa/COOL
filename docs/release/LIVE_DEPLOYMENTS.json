@@ -1,15 +1,25 @@
 {
-  "generated_at": "2026-06-15T11:22:24Z",
+  "generated_at": "2026-06-20T03:22:11Z",
   "deployments": {
-    "admin_pwa": {
+    "public_landing": {
       "provider": "cloudflare_workers_static_assets",
-      "project": "collect-admin",
+      "project": "collect-public",
       "url": "https://collect.ikanisa.com",
       "deployment_url": "https://collect.ikanisa.com",
       "branch": "main",
-      "version_id": "0f5486c0-8f4f-49c5-b391-9c6caf641f43",
+      "version_id": "8846365f-e805-4e61-b346-2a4a78e922bb",
       "live_gate_status": "pass",
-      "evidence": "RUBYOPT=-rresolv-replace ADMIN_PWA_LIVE_URL=https://collect.ikanisa.com ./scripts/admin_pwa_live_gate.sh --json"
+      "evidence": "curl -I -L https://collect.ikanisa.com"
+    },
+    "admin_pwa": {
+      "provider": "cloudflare_workers_static_assets",
+      "project": "collect-admin",
+      "url": "https://admin.collect.ikanisa.com",
+      "deployment_url": "https://admin.collect.ikanisa.com",
+      "branch": "main",
+      "version_id": "f3398179-a855-4762-8c51-6db9e499063f",
+      "live_gate_status": "pass",
+      "evidence": "ADMIN_PWA_LIVE_URL=https://admin.collect.ikanisa.com ./scripts/admin_pwa_live_gate.sh --json"
     }
   },
   "secret_handling": "Deployment metadata contains public URLs only. Do not add credentials, cookies, API tokens, service-role keys, signing keys, or production customer data."

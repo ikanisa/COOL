@@ -222,7 +222,16 @@ void main() {
       final path = file.path;
       if (path.endsWith('collect_repository.dart')) continue;
       if (path.contains('/features/dev/')) continue;
-      expect(text, isNot(contains('CollectRepository.fixture')), reason: path);
+      if (path.endsWith('lib/main.dart')) {
+        expect(text, contains("'COLLECT_MOBILE_EVIDENCE_MODE'"), reason: path);
+        expect(text, contains('if (mobileEvidenceMode)'), reason: path);
+      } else {
+        expect(
+          text,
+          isNot(contains('CollectRepository.fixture')),
+          reason: path,
+        );
+      }
       expect(text, isNot(contains('col-church')), reason: path);
       expect(text, isNot(contains('St Michel')), reason: path);
       expect(text, isNot(contains('+250788123456')), reason: path);

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/collect_group_cards.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import 'group_creation_platform.dart';
 
@@ -13,6 +14,140 @@ class CollectionsScreen extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<CollectionsScreen> createState() => _CollectionsScreenState();
+}
+
+class GroupsSearchScreen extends ConsumerStatefulWidget {
+  const GroupsSearchScreen({super.key});
+
+  @override
+  ConsumerState<GroupsSearchScreen> createState() => _GroupsSearchScreenState();
+}
+
+class _GroupsSearchScreenState extends ConsumerState<GroupsSearchScreen> {
+  final _search = TextEditingController();
+  String _query = '';
+
+  @override
+  void dispose() {
+    _search.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final collections = ref.watch(
+      collectRepositoryProvider.select((state) => state.collections),
+    );
+    final summaries = ref.watch(collectionSummariesProvider);
+    final profile = ref.watch(
+      collectRepositoryProvider.select((state) => state.currentProfile),
+    );
+    final query = _query.trim().toLowerCase();
+    final visibleCollections = [
+      for (final collection in collections)
+        if (_matchesQuery(collection, query)) collection,
+    ]..sort((left, right) => _compareGroups(left, right, summaries));
+    final showCreate = shouldShowGroupCreationEntryOnThisPlatform();
+
+    return ScreenScaffold(
+      title: 'Search groups',
+      showHeader: false,
+      compact: true,
+      persistentPill: CollectTopChrome(
+        avatarLabel: profile?.publicId,
+        searchController: _search,
+        searchLabel: 'Search groups',
+        onSearchChanged: (value) => setState(() => _query = value),
+        onAvatarTap: () => context.go('/settings/profile'),
+        actions: [
+          CollectTopChromeAction(
+            icon: CollectIcons.qr,
+            tooltip: 'Scan QR code',
+            onPressed: () => context.go('/groups/scan'),
+          ),
+          if (showCreate)
+            CollectTopChromeAction(
+              icon: CollectIcons.add,
+              tooltip: 'Create group',
+              onPressed: () => context.go('/groups/create'),
+            ),
+        ],
+      ),
+      children: [
+        const MinimalStatePanel(
+          icon: CollectIcons.search,
+          title: 'Find a group.',
+          message: 'Search by group name, paste a group link, or scan a QR.',
+          tone: CollectStatusTone.info,
+          titleMaxLines: 2,
+          messageMaxLines: 2,
+          contentMaxWidth: 420,
+        ),
+        if (collections.isEmpty)
+          EmptyIllustrationState(
+            icon: CollectIcons.collectionsOutline,
+            title: 'No groups yet',
+            message: 'Scan a QR or create a group to start.',
+            action: CollectButton(
+              label: 'Join with code',
+              icon: CollectIcons.people,
+              onPressed: () => context.go('/groups/join'),
+              expand: true,
+            ),
+          )
+        else if (query.isEmpty)
+          const InfoSecurityBanner(
+            title: 'Start typing',
+            message: 'Results appear here as you search.',
+            tone: CollectStatusTone.info,
+          )
+        else if (visibleCollections.isEmpty)
+          EmptySearchState(
+            title: 'No groups found',
+            message: 'Try another name or scan a QR code.',
+            onClear: () => setState(() {
+              _search.clear();
+              _query = '';
+            }),
+          )
+        else
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final columns = constraints.maxWidth >= 640 ? 2 : 1;
+              const gap = CollectSpacing.x3;
+              final columnWidth =
+                  (constraints.maxWidth - (gap * (columns - 1))) / columns;
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                clipBehavior: Clip.none,
+                itemCount: visibleCollections.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: columns,
+                  crossAxisSpacing: gap,
+                  mainAxisSpacing: gap,
+                  childAspectRatio: columnWidth / 220,
+                ),
+                itemBuilder: (context, index) {
+                  final collection = visibleCollections[index];
+                  return GroupCard(
+                    collection: collection,
+                    summary:
+                        summaries[collection.id] ??
+                        const CollectionSummary(
+                          amountRaisedRwf: 0,
+                          supporterCount: 0,
+                        ),
+                    variant: GroupCardVariant.visual,
+                    onTap: () => context.go('/groups/${collection.id}'),
+                  );
+                },
+              );
+            },
+          ),
+      ],
+    );
+  }
 }
 
 class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
@@ -46,17 +181,42 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           collection,
     ]..sort((left, right) => _compareGroups(left, right, summaries));
     final showCreate = shouldShowGroupCreationEntryOnThisPlatform();
+    final profile = ref.watch(
+      collectRepositoryProvider.select((state) => state.currentProfile),
+    );
+    final paymentIntents = ref.watch(
+      collectRepositoryProvider.select((state) => state.paymentIntents),
+    );
+    final pageTitle = showContributedOnly ? 'Supported groups' : 'Groups';
+    final groupsTopChrome = CollectTopChrome(
+      avatarLabel: profile?.publicId,
+      searchController: _search,
+      searchLabel: showContributedOnly ? 'Supported groups' : 'Search groups',
+      onSearchChanged: (value) => setState(() => _query = value),
+      onAvatarTap: () => context.go('/settings/profile'),
+      hasUnread: paymentIntents.isNotEmpty,
+      actions: [
+        CollectTopChromeAction(
+          icon: CollectIcons.qr,
+          tooltip: 'Scan QR code',
+          onPressed: () => context.go('/groups/scan'),
+        ),
+        if (showCreate)
+          CollectTopChromeAction(
+            icon: CollectIcons.add,
+            tooltip: 'Create group',
+            onPressed: () => context.go('/groups/create'),
+          ),
+      ],
+    );
     if (collections.isEmpty) {
       return ScreenScaffold(
         title: 'Groups',
         showHeader: false,
+        compact: true,
+        persistentPill: groupsTopChrome,
         children: [
-          _GroupsPageHeading(
-            title: 'Groups',
-            searchController: _search,
-            searchLabel: 'Search groups',
-            onSearchChanged: (value) => setState(() => _query = value),
-          ),
+          SectionHeader(title: pageTitle),
           const EmptyIllustrationState(
             icon: CollectIcons.collectionsOutline,
             title: 'No groups yet',
@@ -73,15 +233,10 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
     return ScreenScaffold(
       title: 'Groups',
       showHeader: false,
+      compact: true,
+      persistentPill: groupsTopChrome,
       children: [
-        _GroupsPageHeading(
-          title: showContributedOnly ? 'Supported groups' : 'Groups',
-          searchController: _search,
-          searchLabel: showContributedOnly
-              ? 'Supported groups'
-              : 'Search groups',
-          onSearchChanged: (value) => setState(() => _query = value),
-        ),
+        SectionHeader(title: pageTitle),
         if (visibleCollections.isEmpty)
           EmptySearchState(
             title: showContributedOnly
@@ -134,48 +289,6 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
               );
             },
           ),
-      ],
-    );
-  }
-}
-
-class _GroupsPageHeading extends StatelessWidget {
-  const _GroupsPageHeading({
-    required this.title,
-    required this.searchController,
-    required this.searchLabel,
-    required this.onSearchChanged,
-  });
-
-  final String title;
-  final TextEditingController searchController;
-  final String searchLabel;
-  final ValueChanged<String> onSearchChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            color: colors.onImagePrimary,
-            fontWeight: FontWeight.w900,
-            height: 1,
-            letterSpacing: 0,
-          ),
-          maxLines: 1,
-          softWrap: false,
-          overflow: TextOverflow.ellipsis,
-        ),
-        CollectSpacing.gap16,
-        SearchWithClearField(
-          controller: searchController,
-          label: searchLabel,
-          onChanged: onSearchChanged,
-        ),
       ],
     );
   }

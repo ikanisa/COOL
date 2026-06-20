@@ -77,9 +77,7 @@ void main() {
     expect(find.text('Open groups'), findsWidgets);
   });
 
-  testWidgets('onboarding requires legal consent before sign-in', (
-    tester,
-  ) async {
+  testWidgets('onboarding continues directly to sign-in', (tester) async {
     await pumpRoute(tester, '/onboarding');
 
     expect(find.text('Step 1 of 3'), findsOneWidget);
@@ -87,24 +85,48 @@ void main() {
     await tester.pump();
     await tester.tap(find.text('Continue'));
     await tester.pump();
-    expect(find.text('Review terms'), findsOneWidget);
+    expect(find.text('Get started'), findsOneWidget);
+    await tester.tap(find.text('Get started'));
+    await tester.pumpAndSettle();
+    expect(find.text('Sign in'), findsOneWidget);
+    expect(find.text('Before you continue'), findsNothing);
   });
 
-  testWidgets('auth fails closed when Supabase auth is unavailable', (
+  testWidgets('auth OTP submit does not detour to legal consent', (
     tester,
   ) async {
-    await pumpRoute(tester, '/auth', legalConsentAccepted: true);
+    await pumpRoute(tester, '/auth');
 
     await tester.enterText(find.byType(TextField).first, '+250788123456');
     await tester.tap(find.widgetWithText(FilledButton, 'Send WhatsApp code'));
     await tester.pump();
 
+    expect(find.text('Before you continue'), findsNothing);
     expect(find.text('Authentication failed'), findsOneWidget);
     expect(
       find.textContaining('WhatsApp sign-in is unavailable'),
       findsOneWidget,
     );
     expect(find.text('Verify WhatsApp'), findsNothing);
+  });
+
+  testWidgets('auth country code chip opens all-country picker', (
+    tester,
+  ) async {
+    await pumpRoute(tester, '/auth', legalConsentAccepted: true);
+
+    expect(
+      find.byKey(const ValueKey('auth_country_code_picker')),
+      findsOneWidget,
+    );
+    expect(find.text('+250'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('auth_country_code_picker')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Search country'), findsOneWidget);
+    expect(find.textContaining('Rwanda'), findsWidgets);
+    expect(find.textContaining('+250'), findsWidgets);
   });
 
   testWidgets('auth shows validation error for invalid WhatsApp number', (
@@ -119,12 +141,44 @@ void main() {
     expect(find.text('Authentication failed'), findsOneWidget);
   });
 
-  testWidgets('legal consent route meets core accessibility guidelines', (
+  testWidgets('home search opens dedicated group search screen', (
+    tester,
+  ) async {
+    await pumpRoute(tester, '/home', legalConsentAccepted: true);
+
+    await tester.tap(find.text('Search'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Find a group.'), findsOneWidget);
+    expect(find.text('Search groups'), findsOneWidget);
+    expect(find.text('No groups yet'), findsNothing);
+  });
+
+  testWidgets('home join opens direct group code entry', (tester) async {
+    await pumpRoute(tester, '/home', legalConsentAccepted: true);
+
+    await tester.tap(find.text('Join'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Join with a code.'), findsOneWidget);
+    expect(find.text('Group code or link'), findsOneWidget);
+    expect(find.widgetWithText(FilledButton, 'Join group'), findsOneWidget);
+    expect(find.text('Scan QR'), findsOneWidget);
+  });
+
+  testWidgets('onboarding legal route redirects away from OTP terms gate', (
     tester,
   ) async {
     final semantics = tester.ensureSemantics();
     try {
       await pumpRoute(tester, '/onboarding/legal');
+
+      expect(find.text('Sign in'), findsOneWidget);
+      expect(find.text('Before you continue'), findsNothing);
+      expect(find.text('Accept and continue'), findsNothing);
+      expect(find.text('Accept before using Collect.'), findsNothing);
+      expect(find.text('Required acknowledgement'), findsNothing);
+      expect(find.text('Read privacy policy'), findsNothing);
 
       await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
       await expectLater(tester, meetsGuideline(iOSTapTargetGuideline));

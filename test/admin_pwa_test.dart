@@ -54,6 +54,7 @@ void main() {
     expect(script, contains('"SUPABASE_ANON_KEY"'));
     expect(script, contains('"ADMIN_APP_URL"'));
     expect(script, contains('"APP_ENVIRONMENT" => "production"'));
+    expect(script, contains('"COLLECT_PUBLIC_LANDING_HOME" => "true"'));
     expect(script, isNot(contains('--dart-define=SUPABASE_SERVICE_ROLE_KEY')));
     expect(script, isNot(contains('--dart-define=WHATSAPP_CLOUD_API_TOKEN')));
     expect(script, isNot(contains('--dart-define=OPENAI_API_KEY')));

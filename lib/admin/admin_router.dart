@@ -5,8 +5,12 @@ import 'package:go_router/go_router.dart';
 import 'admin_shell.dart';
 import 'core/admin_auth_guard.dart';
 import 'core/admin_repository_base.dart';
+import '../features/landing/collect_landing_page.dart';
 import 'shared/components/admin_empty_state.dart';
 import 'shared/components/admin_page.dart';
+
+const publicLandingHome = bool.fromEnvironment('COLLECT_PUBLIC_LANDING_HOME');
+const _adminDomain = 'admin.collect.ikanisa.com';
 
 const adminRoutePaths = <String>[
   '/admin/login',
@@ -36,11 +40,19 @@ const adminRoutePaths = <String>[
 
 final adminRouterProvider = Provider<GoRouter>((ref) {
   final guard = ref.watch(adminAuthGuardProvider);
+  final showPublicHome = _shouldShowPublicLandingHome();
   return GoRouter(
-    initialLocation: '/admin',
+    initialLocation: showPublicHome ? _publicInitialLocation() : '/admin',
     redirect: (context, state) {
       final path = state.uri.path;
-      if (path == '/') return '/admin';
+      if (path == '/') return showPublicHome ? null : '/admin';
+      if (showPublicHome && path.length > 1 && path.endsWith('/')) {
+        final normalized = path.substring(0, path.length - 1);
+        if (publicWebsitePaths.contains(normalized)) return normalized;
+      }
+      if (!showPublicHome && publicWebsitePaths.contains(path)) {
+        return '/admin';
+      }
       if (path == '/admin/login') return null;
       if (path.startsWith('/admin') && !guard.isAuthorized) {
         return '/admin/login';
@@ -48,6 +60,15 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const CollectLandingPage(),
+      ),
+      for (final page in _publicPagesForRouter)
+        GoRoute(
+          path: page.path,
+          builder: (context, state) => CollectPublicPage(data: page),
+        ),
       GoRoute(
         path: '/admin/login',
         builder: (context, state) => const AdminLoginPage(),
@@ -184,6 +205,26 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
         AdminUnknownRoutePage(location: state.uri.path),
   );
 });
+
+bool _shouldShowPublicLandingHome() {
+  if (!publicLandingHome) return false;
+  return Uri.base.host.toLowerCase() != _adminDomain;
+}
+
+String _publicInitialLocation() {
+  final path = Uri.base.path;
+  if (path.length > 1 && path.endsWith('/')) {
+    final normalized = path.substring(0, path.length - 1);
+    if (publicWebsitePaths.contains(normalized)) return normalized;
+  }
+  if (publicWebsitePaths.contains(path)) return path;
+  return '/';
+}
+
+final _publicPagesForRouter = publicWebsitePaths
+    .where((path) => path != '/')
+    .map(publicPageForPath)
+    .toList(growable: false);
 
 GoRoute _listRoute(
   String path, {

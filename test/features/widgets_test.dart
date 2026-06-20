@@ -6,6 +6,7 @@ import 'package:collect_app/core/utils/date_format.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
+import 'package:collect_app/shared/widgets/collect_group_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

@@ -29,7 +29,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final accepted = ref.watch(legalConsentAcceptedProvider);
     const steps = [
       (
         icon: CollectIcons.shield,
@@ -60,21 +59,13 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       bottomAction: BottomActionSurface(
         children: [
           CollectButton(
-            label: _step == steps.length - 1
-                ? accepted
-                      ? 'Get started'
-                      : 'Review terms'
-                : 'Continue',
+            label: _step == steps.length - 1 ? 'Get started' : 'Continue',
             icon: _step == steps.length - 1
                 ? CollectIcons.arrowForward
                 : CollectIcons.check,
             onPressed: () {
               if (_step < steps.length - 1) {
                 setState(() => _step += 1);
-                return;
-              }
-              if (!accepted) {
-                context.go('/onboarding/legal');
                 return;
               }
               ref.read(onboardingCompleteProvider.notifier).state = true;
@@ -102,6 +93,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           title: current.title,
           message: current.message,
           tone: current.tone,
+          titleMaxLines: 2,
+          messageMaxLines: 3,
+          contentMaxWidth: 430,
         ),
         const _StepList(
           steps: [
@@ -112,13 +106,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             'Pay through MoMo USSD',
           ],
         ),
-        if (!accepted)
-          CollectListTile(
-            leading: CollectIcons.info,
-            title: 'Terms and privacy',
-            subtitle: 'Required before sign-in.',
-            onTap: () => context.go('/onboarding/legal'),
-          ),
       ],
     );
   }
@@ -130,44 +117,100 @@ class LegalConsentScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final accepted = ref.watch(legalConsentAcceptedProvider);
-    return ScreenScaffold(
-      title: 'Terms and privacy',
-      bottomAction: BottomActionSurface(
-        children: [
-          CollectButton(
-            label: accepted ? 'Continue' : 'Accept and continue',
-            icon: CollectIcons.check,
-            onPressed: () {
-              ref.read(legalConsentAcceptedProvider.notifier).state = true;
-              ref.read(onboardingCompleteProvider.notifier).state = true;
-              context.go('/auth');
-            },
-            expand: true,
+    final foreground = context.collectColors.onImagePrimary;
+    final textTheme = Theme.of(context).textTheme;
+    return Scaffold(
+      backgroundColor: context.collectColors.transparent,
+      body: CollectGradientBackground(
+        routePath: '/onboarding/legal',
+        child: SafeArea(
+          child: Stack(
+            children: [
+              ListView(
+                padding: const EdgeInsets.fromLTRB(
+                  CollectSpacing.x5,
+                  CollectSpacing.x5,
+                  CollectSpacing.x5,
+                  140,
+                ),
+                children: [
+                  const ScreenHeader(title: 'Terms and privacy'),
+                  SizedBox(height: MediaQuery.sizeOf(context).height * 0.14),
+                  Text(
+                    'Before you continue',
+                    style: textTheme.displaySmall?.copyWith(
+                      color: foreground,
+                      fontWeight: FontWeight.w900,
+                      height: 1,
+                      letterSpacing: 0,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  CollectSpacing.gap16,
+                  Text(
+                    'By continuing, you agree to Collect terms and privacy policy.',
+                    style: textTheme.titleMedium?.copyWith(
+                      color: foreground.withValues(alpha: 0.72),
+                      fontWeight: FontWeight.w700,
+                      height: 1.16,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    CollectSpacing.x4,
+                    CollectSpacing.x2,
+                    CollectSpacing.x4,
+                    CollectSpacing.x4,
+                  ),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: CollectColors.referenceChromeBlack.withValues(
+                        alpha: 0.72,
+                      ),
+                      borderRadius: CollectRadius.cardLargeBorder,
+                      border: Border.all(
+                        color: foreground.withValues(alpha: 0.16),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: CollectColors.referenceChromeBlack.withValues(
+                            alpha: 0.32,
+                          ),
+                          blurRadius: 34,
+                          offset: const Offset(0, 16),
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(CollectSpacing.x4),
+                      child: CollectButton(
+                        label: accepted ? 'Continue' : 'Accept and continue',
+                        icon: CollectIcons.check,
+                        onPressed: () {
+                          ref
+                                  .read(legalConsentAcceptedProvider.notifier)
+                                  .state =
+                              true;
+                          ref.read(onboardingCompleteProvider.notifier).state =
+                              true;
+                          context.go('/auth');
+                        },
+                        expand: true,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-          CollectButton(
-            label: 'Read privacy policy',
-            icon: CollectIcons.privacy,
-            onPressed: () => context.go('/settings/legal/privacy'),
-            variant: CollectButtonVariant.secondary,
-            expand: true,
-          ),
-        ],
+        ),
       ),
-      children: const [
-        MinimalStatePanel(
-          icon: CollectIcons.shield,
-          title: 'Accept before using Collect.',
-          message:
-              'Collect supports group contributions, MoMo verification, and privacy-bounded support review. Keep payment credentials and private confirmation messages out of public group spaces.',
-          tone: CollectStatusTone.privacy,
-        ),
-        InfoSecurityBanner(
-          title: 'Required acknowledgement',
-          message:
-              'By continuing you agree to the Collect terms and privacy policy effective 6 June 2026.',
-          tone: CollectStatusTone.info,
-        ),
-      ],
     );
   }
 }
@@ -189,6 +232,9 @@ class AuthResultScreen extends StatelessWidget {
               ? 'Your Collect session is active. Finish profile setup so MoMo contributions can be verified safely.'
               : 'Use the latest WhatsApp code or request a fresh one before trying again.',
           tone: success ? CollectStatusTone.success : CollectStatusTone.danger,
+          titleMaxLines: 2,
+          messageMaxLines: success ? 3 : 2,
+          contentMaxWidth: success ? 430 : 360,
           primaryAction: CollectButton(
             label: success ? 'Profile setup' : 'Try again',
             icon: success ? CollectIcons.profile : CollectIcons.sms,

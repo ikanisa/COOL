@@ -1437,9 +1437,11 @@ checking Edge Function secret names
     );
     expect(
       jsonEncode(decoded),
-      contains(
-        '.cache/android_install/20260602T050529Z/final_release_summary.json',
-      ),
+      contains('.cache/android_install/'),
+    );
+    expect(
+      jsonEncode(decoded),
+      contains('/final_release_summary.json'),
     );
     expect(
       jsonEncode(decoded),

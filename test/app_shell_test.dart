@@ -5,7 +5,6 @@ import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/app/theme/collect_motion.dart';
-import 'package:collect_app/shared/widgets/collect_components.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,18 +12,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('app boots with Collect home shell', (tester) async {
+  testWidgets('app opens with Collect launch splash', (tester) async {
     final semantics = tester.ensureSemantics();
     try {
       await tester.pumpWidget(const ProviderScope(child: CollectApp()));
       await tester.pump();
 
-      expect(find.byType(CollectBrandMark), findsOneWidget);
-      expect(find.byTooltip('Open profile'), findsOneWidget);
-      expect(find.text('TOTAL COLLECTED'), findsOneWidget);
-      expect(find.text('Home'), findsOneWidget);
-      expect(find.text('Groups'), findsOneWidget);
-      expect(find.text('Settings'), findsOneWidget);
+      expect(find.text('Collect'), findsOneWidget);
+      expect(find.text('Groups. MoMo. Done.'), findsOneWidget);
+      expect(find.byTooltip('Open profile'), findsNothing);
+      expect(find.text('TOTAL COLLECTED'), findsNothing);
+      expect(find.text('Home'), findsNothing);
+      expect(find.text('Settings'), findsNothing);
       expect(find.text('CONFIRMED'), findsNothing);
       expect(find.text('PENDING'), findsNothing);
       expect(find.text('FAILED'), findsNothing);
@@ -235,7 +234,7 @@ void main() {
     },
   );
 
-  test('home keeps top chrome while groups uses page heading', () {
+  test('home and groups keep Revolut-style searchable top chrome', () {
     final home = File('lib/features/home/home_screen.dart').readAsStringSync();
     final groups = File(
       'lib/features/collections/collections_screen.dart',
@@ -243,25 +242,53 @@ void main() {
     final groupDetail = File(
       'lib/features/collections/collection_detail_screen.dart',
     ).readAsStringSync();
+    final sharedBarrel = File(
+      'lib/shared/widgets/collect_components.dart',
+    ).readAsStringSync();
+    final chromeModule = File(
+      'lib/shared/widgets/collect_chrome.dart',
+    ).readAsStringSync();
 
-    expect(home, contains('showSearch: false'));
-    expect(home, isNot(contains("searchLabel: 'Search'")));
-    expect(home, isNot(contains("onSearchTap: () => context.go('/groups')")));
+    expect(home, contains('CollectTopChrome('));
+    expect(home, contains("searchLabel: 'Search'"));
+    expect(home, contains("onSearchTap: () => context.go('/groups')"));
     expect(home, contains("tooltip: 'Notifications'"));
-    expect(home, isNot(contains("tooltip: 'Scan QR code'")));
+    expect(home, contains("tooltip: 'Scan QR code'"));
     expect(home, contains("label: 'Join'"));
     expect(home, contains("onTap: () => context.go('/groups'),"));
     expect(home, contains("label: 'Scan QR'"));
     expect(home, contains("onTap: () => context.go('/groups/scan'),"));
-    expect(groups, contains('_GroupsPageHeading'));
-    expect(groups, contains("title: 'Groups'"));
-    expect(groups, contains("searchLabel: 'Search groups'"));
-    expect(groups, isNot(contains('CollectTopChrome')));
-    expect(groups, isNot(contains('persistentPill')));
-    expect(groups, isNot(contains("tooltip: 'Scan QR code'")));
-    expect(groups, isNot(contains("tooltip: 'Create group'")));
+    expect(groups, contains('CollectTopChrome('));
+    expect(groups, contains('persistentPill: groupsTopChrome'));
+    expect(groups, contains("'Search groups'"));
+    expect(groups, contains("tooltip: 'Scan QR code'"));
+    expect(groups, contains("tooltip: 'Create group'"));
     expect(groupDetail, isNot(contains('CollectTopChrome')));
     expect(groupDetail, isNot(contains('persistentPill')));
+    expect(sharedBarrel, contains("export 'collect_chrome.dart';"));
+    expect(sharedBarrel, isNot(contains('class CollectTopChrome')));
+    expect(chromeModule, contains('class CollectTopChrome'));
+    expect(chromeModule, contains('class ScreenHeader'));
+  });
+
+  test('group card media primitives stay out of the base component barrel', () {
+    final sharedBarrel = File(
+      'lib/shared/widgets/collect_components.dart',
+    ).readAsStringSync();
+    final groupCards = File(
+      'lib/shared/widgets/collect_group_cards.dart',
+    ).readAsStringSync();
+    final home = File('lib/features/home/home_screen.dart').readAsStringSync();
+    final groups = File(
+      'lib/features/collections/collections_screen.dart',
+    ).readAsStringSync();
+
+    expect(sharedBarrel, isNot(contains('class GroupCard')));
+    expect(sharedBarrel, isNot(contains('_GroupCoverMedia')));
+    expect(groupCards, contains('class GroupCard'));
+    expect(groupCards, contains('_GroupCoverMedia'));
+    expect(home, contains('widgets/collect_group_cards.dart'));
+    expect(groups, contains('widgets/collect_group_cards.dart'));
   });
 
   test(
@@ -281,6 +308,9 @@ void main() {
       ).readAsStringSync();
       final scanner = File(
         'lib/features/collections/group_qr_scanner_screen.dart',
+      ).readAsStringSync();
+      final groupCards = File(
+        'lib/shared/widgets/collect_group_cards.dart',
       ).readAsStringSync();
       final createGroup = File(
         'lib/features/collections/collection_create_screen.dart',
@@ -311,7 +341,7 @@ void main() {
       expect(scanner, isNot(contains('analyzeImage')));
       expect(scanner, isNot(contains("'Gallery'")));
       expect(scanner, isNot(contains("label: 'Enter link'")));
-      expect(collectComponents, contains('_GroupCoverTitleOverlay'));
+      expect(groupCards, contains('_GroupCoverTitleOverlay'));
       expect(collectComponents, isNot(contains('plateFill')));
       expect(collectComponents, isNot(contains('plateBorder')));
     },

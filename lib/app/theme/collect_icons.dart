@@ -35,8 +35,9 @@ class CollectIcons {
   static const search = Icons.search_rounded;
   static const filter = Icons.tune_rounded;
   static const chevron = Icons.chevron_right_rounded;
+  static const chevronDown = Icons.keyboard_arrow_down_rounded;
   static const sync = Icons.sync_rounded;
-  static const profile = Icons.person_rounded;
+  static const profile = Icons.face_rounded;
   static const lock = Icons.lock_rounded;
   static const dashboard = Icons.space_dashboard_rounded;
   static const target = Icons.flag_rounded;

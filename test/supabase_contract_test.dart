@@ -294,6 +294,9 @@ void main() {
     expect(otp, contains('Invalid OTP hook payload'));
     expect(otp, contains('console.error("WhatsApp OTP hook failed"'));
     expect(otp, isNot(contains('error: safeErrorMessage(error)')));
+    expect(otp, contains('defaultWhatsAppGraphApiVersion = "v25.0"'));
+    expect(otp, contains('WHATSAPP_GRAPH_API_VERSION'));
+    expect(otp, isNot(contains('graph.facebook.com/v19.0')));
     expect(otp, contains('sub_type: "url"'));
     expect(otp, contains('index: "0"'));
     expect(config, contains('[functions.auth-send-whatsapp-otp]'));
