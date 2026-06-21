@@ -37,16 +37,16 @@ rollout design, testing-track use, distribution review, and monetization status.
 | Release upload | `scripts/google_play_production_upload.sh --json` validates the AAB and `--submit` performs Android Publisher upload when scoped credentials are available. | Dry-run pass; submit auth blocked. |
 | Policy/app content | `scripts/google_play_console_audit_packet.sh --json` validates public policy URLs, Data safety categories, production permission scope, and app-content prompts. | Pass. |
 | Deep links | `scripts/google_play_optimization_gate.sh --json` validates manifest App Links and live `assetlinks.json`. | Pass. |
+| Play Integrity | Native Android `collect/play_integrity` MethodChannel requests standard Play Integrity tokens when `PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER` is configured. `lib/core/security/play_integrity_service.dart` builds request hashes and calls `verify-play-integrity`. `supabase/functions/verify-play-integrity` verifies tokens with Google using `PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON` from Supabase secrets. | Implemented, deploy/config blocked until Play/Cloud secrets are available. |
 | Android vitals/reporting | `scripts/google_play_reporting_snapshot.sh --json` queries crash rate, ANR rate, slow start rate, slow rendering rate, excessive wakeup rate, stuck background wakelock rate, and error count metric sets when the Play Developer Reporting scope is available. | Auth blocked until Play reporting credentials are available. |
 | Evidence index | `scripts/release_evidence_index.sh --json` includes the Google Play goal, submission evidence, surface matrix, and Console audit packet. | Document section pass. |
 
 ## Play Integrity Strategy
 
 Current Play Console evidence says Play App Signing and automatic protection are
-enabled. The repo should not add a client-only Play Integrity dependency and
-claim protection without a backend verification path, because the official
-model expects the app server to use a decrypted, verified verdict to decide how
-to handle the action.
+enabled. The repo now includes the backend verification path, and the native
+client stays disabled until the Play/Cloud project number is injected at build
+time.
 
 Production rollout plan:
 
@@ -55,9 +55,9 @@ Production rollout plan:
 2. Add a backend endpoint for high-risk actions only: account recovery,
    payment/reference review, group ownership changes, suspicious support
    actions, and SMS/payment evidence submission.
-3. The Android app requests a standard integrity token immediately before the
-   high-risk server call.
-4. The backend decodes/verifies the token with Google, checks package name,
+3. The Android app requests a standard integrity token through
+   `collect/play_integrity` immediately before the high-risk server call.
+4. The `verify-play-integrity` Edge Function decodes/verifies the token with Google, checks package name,
    certificate digest, request hash/nonce, app verdict, device verdict, account
    licensing where available, and recent timestamp.
 5. The backend records only coarse pass/challenge/deny decisions and non-secret
@@ -67,9 +67,9 @@ Production rollout plan:
    support recovery paths available with step-up review so legitimate users are
    not locked out by device compatibility issues.
 
-Repo status: design recorded, Console settings recorded, backend/client token
-implementation intentionally pending until the Google Cloud project and service
-account are available.
+Repo status: client channel, Flutter service, and backend verification function
+are implemented. Production activation remains pending until the Google Cloud
+project number and Play Integrity service-account secret are configured.
 
 ## Vitals And Reporting Strategy
 

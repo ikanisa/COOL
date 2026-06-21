@@ -55,6 +55,7 @@ Make Collect's Google Play production setup complete, evidence-backed, and repea
 - Added `scripts/google_play_metadata_export.sh` to generate fastlane-compatible Play listing metadata and release notes from the Console audit packet.
 - Added `fastlane/Supplyfile` and `fastlane/Fastfile` for a standard, non-secret `supply` upload path after Play service-account JSON is available through the environment.
 - Added `scripts/google_play_reporting_snapshot.sh` and `docs/release/GOOGLE_PLAY_OPERATIONAL_READINESS_2026-06-21.md` for Android vitals/reporting automation, Play Integrity rollout design, testing-track use, distribution review, and monetization readiness.
+- Added native Android, Flutter, and Supabase Play Integrity implementation surfaces: `collect/play_integrity`, `PlayIntegrityService`, and `verify-play-integrity`.
 
 ## Play Console Completion Workstreams
 
@@ -99,7 +100,7 @@ Make Collect's Google Play production setup complete, evidence-backed, and repea
 - `google_play_upload_auth`: `gcloud auth application-default print-access-token --scopes=https://www.googleapis.com/auth/androidpublisher` is rejected because ADC was not granted the Android Publisher scope; unscoped ADC and both local gcloud user accounts require interactive reauthentication.
 - `chrome_file_upload_permission`: Play Console file chooser opens, but `fileChooser.setFiles` fails with `Not allowed`, which indicates the Codex Chrome Extension cannot attach local files from this Chrome profile until file URL access/upload permission is enabled.
 - `play_console_surface_audit_required`: account-controlled Play Console pages still need recorded current audit evidence after the new build is uploaded/submitted.
-- `play_integrity_backend_design`: Play App Signing and automatic protection are enabled in Console, and `docs/release/GOOGLE_PLAY_OPERATIONAL_READINESS_2026-06-21.md` records the server-verified rollout design, but app/server Play Integrity token request and verification are not implemented until the Google Cloud project and service account are available.
+- `play_integrity_live_config`: Play App Signing and automatic protection are enabled in Console, and native/server Play Integrity code now exists, but live activation still needs `PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER`, a deployed `verify-play-integrity` function, and a Supabase `PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON` secret.
 - `play_reporting_api_auth`: Android vitals reporting can be automated through the Play Developer Reporting API, but the same Play developer auth blocker prevents live metric retrieval.
 
 ## Done Criteria

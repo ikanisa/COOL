@@ -50,6 +50,7 @@ Generated: 2026-06-21
 - `scripts/google_play_console_audit_packet.sh --json` validates the repo-owned store listing, app content, Data safety, permission, policy URL, release, testing, integrity, vitals, and reporting packet before Console submission.
 - `scripts/google_play_metadata_export.sh --json` writes fastlane-compatible listing metadata and release notes under `fastlane/metadata/android/en-US/`.
 - `fastlane/Supplyfile` and `fastlane/Fastfile` define a non-secret `supply` production upload lane that requires `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` from the environment.
+- Native Android, Flutter, and Supabase Play Integrity surfaces are implemented, but live activation requires Play/Cloud project number and Supabase service-account secret configuration.
 - `scripts/google_play_reporting_snapshot.sh --json` exits `99` with `play_developer_reporting_auth_unavailable`, proving the reporting/vitals automation path exists but live metric retrieval needs Play Developer Reporting scope.
 - `scripts/google_play_production_upload.sh --submit --json` exited `99` with `android_publisher_auth_unavailable` before creating any Play edit.
 - `scripts/google_play_optimization_gate.sh --json` exited `99` only for `play_console_surface_audit_required`; artifact, target API, permission, App Links, policy URL, and Admin PWA live checks passed.

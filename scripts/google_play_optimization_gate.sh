@@ -291,6 +291,32 @@ checks["play_upload_tooling"] =
     check("blocked", "Fastlane supply upload tooling is missing or would require unsafe credential handling.", "missing_or_invalid" => fastlane_missing, "files" => fastlane_items)
   end
 
+integrity_sources = {
+  "android_gradle" => "android/app/build.gradle.kts",
+  "main_activity" => "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+  "flutter_service" => "lib/core/security/play_integrity_service.dart",
+  "supabase_function" => "supabase/functions/verify-play-integrity/index.ts",
+  "operational_readiness" => "docs/release/GOOGLE_PLAY_OPERATIONAL_READINESS_2026-06-21.md"
+}
+integrity_items = integrity_sources.transform_values do |relative|
+  path = File.join(root, relative)
+  text = File.file?(path) ? File.read(path) : ""
+  {
+    "path" => relative,
+    "exists" => File.file?(path),
+    "bytes" => File.file?(path) ? File.size(path) : 0,
+    "has_integrity_marker" => text.include?("Play Integrity") || text.include?("play_integrity") || text.include?("collect/play_integrity"),
+    "has_secret_material" => text.match?(/-----BEGIN PRIVATE KEY-----|\"private_key\"\s*:\s*\"|ya29\.|eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+/)
+  }
+end
+integrity_missing = integrity_items.select { |_name, item| item["exists"] != true || item["has_integrity_marker"] != true || item["has_secret_material"] == true }.keys
+checks["play_integrity_implementation"] =
+  if integrity_missing.empty?
+    check("pass", "Play Integrity native token request, Flutter service, Supabase verification endpoint, and rollout evidence are present without embedded secret material.", "files" => integrity_items)
+  else
+    check("blocked", "Play Integrity implementation is missing, incomplete, or contains unsafe secret material.", "missing_or_invalid" => integrity_missing, "files" => integrity_items)
+  end
+
 reporting_snapshot_path = File.join(root, ".cache/google_play_optimization/google_play_reporting_snapshot.json")
 reporting_snapshot = JSON.parse(read(reporting_snapshot_path)) rescue {}
 checks["play_reporting_api_snapshot"] =
