@@ -1305,6 +1305,42 @@ void main() {
     expect(repository, contains('unawaited(syncPendingSmsAccess())'));
   });
 
+  test('Play Integrity uses native token requests and server verification', () {
+    final mainActivity = File(
+      'android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt',
+    ).readAsStringSync();
+    final androidGradle = File(
+      'android/app/build.gradle.kts',
+    ).readAsStringSync();
+    final flutterService = File(
+      'lib/core/security/play_integrity_service.dart',
+    ).readAsStringSync();
+    final edgeFunction = File(
+      'supabase/functions/verify-play-integrity/index.ts',
+    ).readAsStringSync();
+
+    expect(androidGradle, contains('com.google.android.play:integrity:1.6.0'));
+    expect(androidGradle, contains('PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER'));
+    expect(mainActivity, contains('"collect/play_integrity"'));
+    expect(mainActivity, contains('requestStandardToken'));
+    expect(mainActivity, contains('StandardIntegrityTokenRequest.builder()'));
+    expect(mainActivity, contains('setRequestHash(requestHash)'));
+    expect(flutterService, contains("MethodChannel('collect/play_integrity')"));
+    expect(flutterService, contains('verify-play-integrity'));
+    expect(flutterService, contains('buildRequestHash'));
+    expect(edgeFunction, contains('PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON'));
+    expect(edgeFunction, contains('decodeIntegrityToken'));
+    expect(
+      edgeFunction,
+      contains('https://www.googleapis.com/auth/playintegrity'),
+    );
+    expect(edgeFunction, contains('appRecognitionVerdict'));
+    expect(edgeFunction, contains('MEETS_DEVICE_INTEGRITY'));
+    expect(edgeFunction, contains('request_hash_mismatch'));
+    expect(edgeFunction, isNot(contains('console.log')));
+    expect(edgeFunction, isNot(contains('integrity_token: integrityToken')));
+  });
+
   test('Supabase realtime uses safe invalidation events only', () {
     final mobileRepository = File(
       'lib/shared/repositories/collect_repository.dart',

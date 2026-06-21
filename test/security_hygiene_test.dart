@@ -126,6 +126,33 @@ void main() {
     }
   });
 
+  test(
+    'Play Integrity implementation keeps token and key material out of logs',
+    () {
+      final mainActivity = File(
+        'android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt',
+      ).readAsStringSync();
+      final service = File(
+        'lib/core/security/play_integrity_service.dart',
+      ).readAsStringSync();
+      final edgeFunction = File(
+        'supabase/functions/verify-play-integrity/index.ts',
+      ).readAsStringSync();
+      final playGate = File(
+        'scripts/google_play_optimization_gate.sh',
+      ).readAsStringSync();
+
+      expect(mainActivity, contains('play_integrity_not_configured'));
+      expect(service, contains('MissingPluginException'));
+      expect(edgeFunction, contains('PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON'));
+      expect(edgeFunction, isNot(contains('-----BEGIN PRIVATE KEY-----')));
+      expect(edgeFunction, isNot(contains('console.log')));
+      expect(edgeFunction, isNot(contains('console.error')));
+      expect(playGate, contains('play_integrity_implementation'));
+      expect(playGate, contains('has_secret_material'));
+    },
+  );
+
   test('Collect product boundary scan rejects forbidden app concepts', () {
     final result = Process.runSync(
       './scripts/collect_product_boundary_scan.sh',

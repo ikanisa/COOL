@@ -34,7 +34,8 @@ class PlayIntegrityVerdict {
       packageName: (map['package_name'] as String?) ?? '',
       appVerdict: (map['app_verdict'] as String?) ?? 'UNKNOWN',
       deviceVerdicts: [
-        for (final item in (map['device_verdicts'] as List<dynamic>? ?? const []))
+        for (final item
+            in (map['device_verdicts'] as List<dynamic>? ?? const []))
           if (item is String) item,
       ],
       licensingVerdict: (map['licensing_verdict'] as String?) ?? 'UNKNOWN',
