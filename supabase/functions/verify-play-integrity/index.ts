@@ -135,6 +135,16 @@ function sanitizedVerdict(
     tokenRequestHash === requestHash &&
     tokenFresh &&
     recognizedDevice;
+  const failureReasons: string[] = [];
+  if (verdictPackage !== packageName) failureReasons.push("package_name_mismatch");
+  if (appVerdict !== "PLAY_RECOGNIZED") {
+    failureReasons.push("app_not_play_recognized");
+  }
+  if (tokenRequestHash !== requestHash) {
+    failureReasons.push("request_hash_mismatch");
+  }
+  if (!tokenFresh) failureReasons.push("token_stale_or_missing_timestamp");
+  if (!recognizedDevice) failureReasons.push("device_integrity_not_met");
 
   return {
     status: passed ? "pass" : "fail",
@@ -145,13 +155,7 @@ function sanitizedVerdict(
     device_verdicts: deviceVerdicts,
     licensing_verdict: licensingVerdict,
     timestamp_millis: timestampMillis,
-    failure_reasons: [
-      if (verdictPackage !== packageName) "package_name_mismatch",
-      if (appVerdict !== "PLAY_RECOGNIZED") "app_not_play_recognized",
-      if (tokenRequestHash !== requestHash) "request_hash_mismatch",
-      if (!tokenFresh) "token_stale_or_missing_timestamp",
-      if (!recognizedDevice) "device_integrity_not_met",
-    ],
+    failure_reasons: failureReasons,
   };
 }
 
