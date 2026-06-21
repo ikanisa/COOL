@@ -60,6 +60,7 @@ const _routeSpecs = <_RouteSpec>[
   _RouteSpec('camera-denied', '/permissions/camera-denied'),
   _RouteSpec('home', '/home'),
   _RouteSpec('groups', '/groups'),
+  _RouteSpec('groups-search', '/groups/search'),
   _RouteSpec('group-create', '/groups/create'),
   _RouteSpec('group-scan', '/groups/scan'),
   _RouteSpec(

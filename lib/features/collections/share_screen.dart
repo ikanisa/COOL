@@ -42,9 +42,17 @@ class ShareScreen extends ConsumerWidget {
           child: Column(
             children: [
               Expanded(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () => context.go('/groups/$collectionId'),
+                child: Semantics(
+                  button: true,
+                  label: 'Return to ${collection.title}',
+                  hint: 'Closes the share sheet and opens the group page',
+                  child: Material(
+                    color: colors.transparent,
+                    child: InkWell(
+                      onTap: () => context.go('/groups/$collectionId'),
+                      child: const SizedBox.expand(),
+                    ),
+                  ),
                 ),
               ),
               CollectBottomSheet(

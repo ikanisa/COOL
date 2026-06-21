@@ -21,8 +21,12 @@ void main() {
       find.text("Credit-ready saving for Rwanda's daily economy"),
       findsOneWidget,
     );
-    expect(find.text('Get the app'), findsWidgets);
-    expect(find.text('Create group savings'), findsWidgets);
+    expect(find.text('Get the App'), findsWidgets);
+    expect(find.text('Create Group'), findsWidgets);
+    expect(find.text('96%'), findsNothing);
+    expect(find.text('Adults in ibimina'), findsNothing);
+    expect(find.text('Credit-ready records'), findsNothing);
+    expect(find.text('Credit-readiness agents'), findsNothing);
     expect(find.text('Three routes into one credit engine'), findsOneWidget);
     expect(
       find.textContaining('diaspora savings into verified ledgers'),
@@ -87,7 +91,11 @@ void main() {
       '/insurance',
       '/craas',
       '/community-groups',
+      '/impact',
+      '/our-partners',
       '/privacy',
+      '/account-deletion',
+      '/data-deletion',
       '/terms',
     ]) {
       final page = publicPageForPath(path);
@@ -102,19 +110,16 @@ void main() {
             widget is Scrollable && widget.axisDirection == AxisDirection.down,
       );
 
-      expect(find.text(page.title), findsOneWidget);
+      expect(find.text(page.title), findsWidgets);
+      expect(find.text('Get the App'), findsWidgets);
+      expect(find.text('Create Group'), findsWidgets);
       await tester.scrollUntilVisible(
         find.text(page.sections.first.title),
         700,
         scrollable: verticalScrollable,
       );
       expect(find.text(page.sections.first.title), findsOneWidget);
-      await tester.scrollUntilVisible(
-        find.text('Explore the Collect platform'),
-        700,
-        scrollable: verticalScrollable,
-      );
-      expect(find.text('Explore the Collect platform'), findsOneWidget);
+      expect(find.text('Explore the Collect platform'), findsNothing);
     }
   });
 
@@ -139,10 +144,6 @@ void main() {
       'admin',
       'pi'
           'lot',
-      'part'
-          'ner',
-      'part'
-          'ners',
       'reg'
           'ulator',
       'reg'
@@ -151,10 +152,186 @@ void main() {
           'estor',
       'inv'
           'estors',
-      'part'
-          'nership',
+      'request '
+          'deck',
+      'looking for '
+          'partners',
+      'partner '
+          'with collect',
     ]) {
       expect(visibleText, isNot(contains(banned)));
     }
   });
+
+  testWidgets('Group savings public page avoids implementation copy', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1200, 1500);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: CollectPublicPage(data: publicPageForPath('/group-savings')),
+      ),
+    );
+
+    final visibleText = find
+        .byType(Text)
+        .evaluate()
+        .map((element) => (element.widget as Text).data ?? '')
+        .join(' ')
+        .toLowerCase();
+
+    for (final banned in const [
+      'supabase',
+      'parser',
+      'parse',
+      'payment intent',
+      'receiver momo',
+      'raw sms',
+      'admin operators',
+      'backend',
+      'android',
+      'iphone',
+      'realtime',
+      'allocation',
+      'underwriting',
+      'risk flags',
+      'mitigants',
+      'buri munsi',
+      'deck',
+    ]) {
+      expect(visibleText, isNot(contains(banned)));
+    }
+  });
+
+  testWidgets('All public website pages avoid internal process copy', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1400, 1800);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    for (final path in publicWebsitePaths.where((path) => path != '/')) {
+      await tester.pumpWidget(
+        MaterialApp(
+          key: ValueKey('copy-$path'),
+          home: CollectPublicPage(data: publicPageForPath(path)),
+        ),
+      );
+
+      final visibleText = find
+          .byType(Text)
+          .evaluate()
+          .map((element) => (element.widget as Text).data ?? '')
+          .join(' ')
+          .toLowerCase();
+
+      for (final banned in const [
+        'supabase',
+        'parser',
+        'payment intent',
+        'raw sms',
+        'backend',
+        'android',
+        'iphone',
+        'realtime',
+        'allocation',
+        'underwriting',
+        'risk flags',
+        'mitigants',
+        'buri munsi',
+        'deck',
+        'service workflow',
+        'not a slogan',
+        'admin operator',
+        'formal credit analysis',
+        'ask for app access',
+        'start using collect',
+        'use momo ussd',
+        'open whatsapp and set up',
+        'provider handoff',
+        'support infrastructure',
+        'create group savings',
+        'ussd',
+      ]) {
+        expect(
+          visibleText,
+          isNot(contains(banned)),
+          reason: '$path should not expose "$banned"',
+        );
+      }
+    }
+  });
+
+  testWidgets(
+    'Impact and partners pages present public data without projections',
+    (tester) async {
+      tester.view.physicalSize = const Size(1400, 1900);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      for (final path in const ['/impact', '/our-partners']) {
+        await tester.pumpWidget(
+          MaterialApp(
+            key: ValueKey('numbers-$path'),
+            home: CollectPublicPage(data: publicPageForPath(path)),
+          ),
+        );
+
+        final visibleText = find
+            .byType(Text)
+            .evaluate()
+            .map((element) => (element.widget as Text).data ?? '')
+            .join(' ');
+
+        final requiredNumbers = switch (path) {
+          '/impact' => const [
+            '864M',
+            'RWF 19,807B',
+            '7,169,324',
+            '169,570',
+            '~60%',
+            'RWF 351.3B',
+            'RWF 67.6B',
+            '26.2%',
+            '25,000',
+            '70,000',
+          ],
+          '/our-partners' => const [
+            '864M',
+            'RWF 19,807B',
+            '7,169,324',
+            '169,570',
+            '~60%',
+            'RWF 351.3B',
+            'RWF 67.6B',
+            '26.2%',
+            '25,000',
+            '70,000',
+          ],
+          _ => const <String>[],
+        };
+
+        for (final required in requiredNumbers) {
+          expect(
+            visibleText,
+            contains(required),
+            reason: '$path should keep public-data metric "$required"',
+          );
+        }
+
+        expect(visibleText.toLowerCase(), isNot(contains('ppt')));
+        expect(visibleText.toLowerCase(), isNot(contains('projected')));
+        expect(visibleText.toLowerCase(), isNot(contains('projection')));
+        expect(visibleText.toLowerCase(), isNot(contains('base case')));
+        expect(visibleText.toLowerCase(), isNot(contains('phase 1')));
+        expect(visibleText.toLowerCase(), isNot(contains('phase 2')));
+      }
+    },
+  );
 }

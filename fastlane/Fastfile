@@ -1,0 +1,19 @@
+default_platform(:android)
+
+platform :android do
+  desc "Validate Google Play metadata and AAB paths without submitting to Play"
+  lane :play_validate_local do
+    sh("./scripts/google_play_console_audit_packet.sh --json")
+    sh("./scripts/google_play_metadata_export.sh --json")
+    sh("./scripts/google_play_optimization_gate.sh --json || test $? -eq 99")
+    sh("./scripts/google_play_production_upload.sh --json")
+  end
+
+  desc "Upload Collect production AAB and metadata to Google Play after credentials are available"
+  lane :play_production_submit do
+    UI.user_error!("GOOGLE_PLAY_SERVICE_ACCOUNT_JSON is required") if ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"].to_s.empty?
+    sh("./scripts/google_play_console_audit_packet.sh --json")
+    sh("./scripts/google_play_metadata_export.sh --json")
+    supply
+  end
+end

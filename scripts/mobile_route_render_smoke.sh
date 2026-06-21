@@ -13,6 +13,8 @@ PORT="${MOBILE_ROUTE_RENDER_PORT:-}"
 BUILD_ARGS="${MOBILE_ROUTE_RENDER_BUILD_ARGS:---release --no-wasm-dry-run --no-pub --dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true}"
 VIEWPORT="${MOBILE_ROUTE_RENDER_VIEWPORT:-390x844}"
 RENDER_WAIT_MS="${MOBILE_ROUTE_RENDER_WAIT_MS:-15000}"
+DEVTOOLS_READY_MS="${MOBILE_ROUTE_RENDER_DEVTOOLS_READY_MS:-30000}"
+COMMAND_TIMEOUT_MS="${MOBILE_ROUTE_RENDER_COMMAND_TIMEOUT_MS:-30000}"
 
 mkdir -p "$EVIDENCE_DIR"
 
@@ -127,6 +129,7 @@ route_specs=(
   "camera-denied|/permissions/camera-denied"
   "home|/home"
   "groups|/groups"
+  "groups-search|/groups/search"
   "group-create|/groups/create"
   "group-scan|/groups/scan"
   "iphone-create-unavailable|/platform/iphone-create-unavailable"
@@ -189,6 +192,8 @@ if [[ "${MOBILE_ROUTE_MATRIX_CAPTURE:-0}" == "1" ]]; then
       --profile "$EVIDENCE_DIR/chrome-profile" \
       --viewport "$VIEWPORT" \
       --wait-ms "$RENDER_WAIT_MS" \
+      --devtools-ready-ms "$DEVTOOLS_READY_MS" \
+      --command-timeout-ms "$COMMAND_TIMEOUT_MS" \
       --routes-json "$routes_json" >>"$EVIDENCE_DIR/capture.stdout" 2>>"$EVIDENCE_DIR/capture.stderr"
     matrix_capture_status=$?
     set -e
@@ -230,7 +235,9 @@ capture_route() {
         --output "$png" \
         --profile "$profile" \
         --viewport "$VIEWPORT" \
-        --wait-ms "$RENDER_WAIT_MS" >>"$stdout_log" 2>>"$stderr_log"
+        --wait-ms "$RENDER_WAIT_MS" \
+        --devtools-ready-ms "$DEVTOOLS_READY_MS" \
+        --command-timeout-ms "$COMMAND_TIMEOUT_MS" >>"$stdout_log" 2>>"$stderr_log"
       route_capture_status=$?
       set -e
       if [[ "$route_capture_status" -eq 0 && -s "$png" ]]; then

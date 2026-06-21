@@ -161,7 +161,8 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Join with a code.'), findsOneWidget);
-    expect(find.text('Group code or link'), findsOneWidget);
+    expect(find.text('Group code'), findsOneWidget);
+    expect(find.text('Group code or link'), findsNothing);
     expect(find.widgetWithText(FilledButton, 'Join group'), findsOneWidget);
     expect(find.text('Scan QR'), findsOneWidget);
   });
@@ -200,12 +201,12 @@ void main() {
       ),
       (
         route: '/permissions/notifications-denied',
-        title: 'Notification permission was blocked.',
+        title: 'Alerts blocked',
         action: 'App settings',
       ),
       (
         route: '/permissions/camera-denied',
-        title: 'Camera permission was blocked.',
+        title: 'Camera blocked',
         action: 'App settings',
       ),
     ];

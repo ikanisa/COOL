@@ -1,0 +1,221 @@
+{
+  "generated_at": "2026-06-21T00:00:00Z",
+  "package_name": "app.cool.mobile",
+  "target_release": {
+    "version_name": "1.2.2",
+    "version_code": 9,
+    "track": "production",
+    "release_name": "Collect 1.2.2 (9)",
+    "release_notes": {
+      "en-US": "Adds verified app links and refreshed Play policy readiness for Collect."
+    },
+    "aab_path": "build/app/outputs/bundle/productionRelease/app-production-release.aab",
+    "aab_sha256": "c403edcd24fab2fb7b11d1306ade42bfaa149a27b5e2c28cd064c6da1f048e0b"
+  },
+  "store_listing": {
+    "default_language": "en-US",
+    "app_name": "Collect",
+    "short_description": "Group savings, contribution records, and credit-readiness support.",
+    "full_description": "Collect helps savings groups organize members, track contributions, review group activity, and prepare credit-readiness records. Members can follow group rules, view contribution status, request support, and keep account and deletion choices accessible from the app. Collect is operated by IKANISA for customers using savings, support, and credit-readiness workflows.",
+    "category": "FINANCE",
+    "tags_to_confirm_in_console": [
+      "Savings",
+      "Budgeting",
+      "Personal finance"
+    ],
+    "contact": {
+      "website": "https://collect.ikanisa.com",
+      "email": "info@ikanisa.com",
+      "phone": "+250795588248"
+    },
+    "assets": {
+      "launcher_icon": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "brand_icon_source": "assets/brand/collect_app_icon_static.png",
+      "feature_graphic": {
+        "status": "exported",
+        "path": "fastlane/metadata/android/en-US/images/featureGraphic.png",
+        "required_size": "1024x500"
+      },
+      "phone_screenshots": {
+        "status": "exported",
+        "minimum_required": 2,
+        "path": "fastlane/metadata/android/en-US/images/phoneScreenshots",
+        "exported_count": 5,
+        "recommended_sources": [
+          ".cache/android_route_visual_evidence",
+          ".cache/mobile_route_render_smoke"
+        ]
+      }
+    },
+    "growth_surfaces": {
+      "custom_store_listings": [
+        {
+          "segment": "Rwanda savings groups",
+          "status": "defer_until_default_listing_approved"
+        },
+        {
+          "segment": "Diaspora group savings",
+          "status": "defer_until_default_listing_approved"
+        },
+        {
+          "segment": "Provider and partner credit-readiness",
+          "status": "defer_until_default_listing_approved"
+        }
+      ],
+      "store_listing_experiments": {
+        "status": "defer_until_production_listing_live",
+        "candidate_tests": [
+          "short_description",
+          "phone_screenshot_order",
+          "feature_graphic"
+        ]
+      }
+    }
+  },
+  "app_content": {
+    "privacy_policy_url": "https://collect.ikanisa.com/privacy/",
+    "account_deletion_url": "https://collect.ikanisa.com/account-deletion/",
+    "data_deletion_url": "https://collect.ikanisa.com/data-deletion/",
+    "app_access": {
+      "reviewer_access_required": "confirm_in_console",
+      "notes": "If Play reviewers cannot access post-login group workflows, add reviewer instructions or a test account through App access."
+    },
+    "data_safety": {
+      "collected_data_categories": [
+        {
+          "category": "Personal info",
+          "examples": [
+            "identity details",
+            "contact details",
+            "support requests"
+          ],
+          "purpose": [
+            "account management",
+            "app functionality",
+            "customer support",
+            "fraud prevention and security"
+          ]
+        },
+        {
+          "category": "Financial info",
+          "examples": [
+            "group contribution records",
+            "payment references",
+            "credit-readiness records"
+          ],
+          "purpose": [
+            "app functionality",
+            "analytics for group operations",
+            "fraud prevention and security"
+          ]
+        },
+        {
+          "category": "Photos and videos",
+          "examples": [
+            "camera or image input for QR, support, or evidence workflows when enabled"
+          ],
+          "purpose": [
+            "app functionality",
+            "customer support"
+          ]
+        },
+        {
+          "category": "App activity",
+          "examples": [
+            "group workflow status",
+            "support state",
+            "consent and deletion request state"
+          ],
+          "purpose": [
+            "app functionality",
+            "customer support",
+            "fraud prevention and security"
+          ]
+        }
+      ],
+      "sharing": {
+        "status": "confirm_in_console",
+        "expected_answer": "Only share data with service providers or partners required to operate savings, support, payment verification, credit-readiness, fraud prevention, legal, audit, or customer-requested workflows."
+      },
+      "security_practices": {
+        "data_encrypted_in_transit": "confirm_in_console",
+        "deletion_request_supported": true,
+        "users_can_request_data_deletion": true
+      }
+    },
+    "policy_declarations": {
+      "ads": "No ads dependency found; confirm no ads in Play Console.",
+      "target_audience": "Adults and general savings-group users; confirm children are not the target audience.",
+      "content_rating": "Complete questionnaire as finance/productivity style app; record certificate after submission.",
+      "financial_features": "Group savings, contribution records, support, credit-readiness records; no Play Billing dependency found.",
+      "health": "Not a health app.",
+      "news": "Not a news app.",
+      "government": "Not a government app."
+    },
+    "permissions": {
+      "production_permissions": [
+        "android.permission.INTERNET",
+        "android.permission.CAMERA",
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.VIBRATE",
+        "android.permission.ACCESS_NETWORK_STATE"
+      ],
+      "restricted_sms_permissions_in_production": false,
+      "sms_receiver_scope": "Restricted SMS permissions remain isolated to the internal_receiver flavor and are not in the production manifest."
+    }
+  },
+  "play_console_surfaces": {
+    "publishing_overview": {
+      "required_evidence": "Record submitted/in-review/published state, managed publishing setting, and pending changes."
+    },
+    "production_track": {
+      "required_evidence": "Record uploaded bundle version code, rollout status, release notes, countries, and review state."
+    },
+    "deep_links": {
+      "required_evidence": "Record collect.ikanisa.com /c App Link verification status in Play Console.",
+      "assetlinks_url": "https://collect.ikanisa.com/.well-known/assetlinks.json"
+    },
+    "android_vitals": {
+      "required_evidence": "Record crash rate, ANR rate, slow/frozen frames, excessive wakeups, and bad behavior threshold status.",
+      "api": "Play Developer Reporting API"
+    },
+    "pre_launch_report": {
+      "required_evidence": "Record stability, security, accessibility, performance, and device findings after Play processes the uploaded AAB."
+    },
+    "app_integrity": {
+      "required_evidence": "Record Play App Signing, automatic protection, and Play Integrity strategy state."
+    },
+    "device_catalog": {
+      "required_evidence": "Record device reach, exclusions, form-factor support, app size, and country distribution."
+    },
+    "testing_tracks": {
+      "required_evidence": "Record internal testing availability, closed/open testing status, tester lists, and opt-in links."
+    },
+    "monetization": {
+      "required_evidence": "Record no Play Billing/IAP unless product scope changes."
+    },
+    "reporting_exports": {
+      "required_evidence": "Record install/acquisition and quality exports or API status after auth is available."
+    }
+  },
+  "official_sources": [
+    "https://support.google.com/googleplay/android-developer/answer/11926878",
+    "https://developer.android.com/guide/practices/page-sizes",
+    "https://developer.android.com/training/app-links",
+    "https://support.google.com/googleplay/android-developer/answer/12463044",
+    "https://developers.google.com/digital-asset-links/v1/getting-started",
+    "https://developer.android.com/google/play/integrity",
+    "https://developer.android.com/topic/performance/vitals",
+    "https://developers.google.com/play/developer/reporting",
+    "https://support.google.com/googleplay/android-developer/answer/10787469",
+    "https://support.google.com/googleplay/android-developer/answer/13327111",
+    "https://support.google.com/googleplay/android-developer/answer/9214102",
+    "https://support.google.com/googleplay/android-developer/answer/9859654",
+    "https://developers.google.com/android-publisher",
+    "https://developers.google.com/android-publisher/api-ref/rest",
+    "https://support.google.com/googleplay/android-developer/answer/9845334",
+    "https://support.google.com/googleplay/android-developer/answer/9867158"
+  ],
+  "console_completion_status": "pending_live_console_verification",
+  "secret_handling": "This packet contains public listing text, public URLs, policy categories, artifact checksums, and checklist fields only. It must not contain signing keys, service account JSON, cookies, bearer tokens, raw SMS, payment identifiers, or customer data."
+}

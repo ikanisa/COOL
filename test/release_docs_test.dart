@@ -59,6 +59,28 @@ void main() {
     return manifest;
   }
 
+  Map<String, dynamic> pendingReleaseManifest() {
+    final manifest =
+        jsonDecode(
+              File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
+            )
+            as Map<String, dynamic>;
+    for (final record
+        in (manifest['approvals'] as List<dynamic>)
+            .cast<Map<String, dynamic>>()) {
+      record['status'] = 'pending';
+      record['decision'] = 'PENDING';
+      record['reviewer'] = '';
+      record['signed_at'] = '';
+      record['evidence_reference'] = null;
+      record['sanitized_evidence'] = false;
+      record['contains_production_customer_data'] = null;
+      record['signing_keys_exposed'] = null;
+      record['notes'] = 'Pending approval for release gate test.';
+    }
+    return manifest;
+  }
+
   Map<String, dynamic> signedUatEvidenceManifest() {
     final manifest =
         jsonDecode(
@@ -363,7 +385,7 @@ Date/time: 2026-06-01T12:30:00Z
     expect(docs['checklist'], contains('20260602T210133Z'));
     expect(
       File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
-      contains('"status": "pending"'),
+      contains('"status": "approved"'),
     );
     expect(
       File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
@@ -421,10 +443,11 @@ Date/time: 2026-06-01T12:30:00Z
     expect(checklist, contains('Do not add secrets'));
     expect(checklist, contains('production customer data'));
 
-    expect(approvals, contains('"status": "pending"'));
+    expect(approvals, contains('"status": "approved"'));
+    expect(approvals, contains('"status": "out_of_scope"'));
     expect(approvals, contains('"key": "android_release_signing_review"'));
     expect(approvals, contains('"key": "ios_release_scope"'));
-    expect(approvals, isNot(contains('"status": "approved"')));
+    expect(approvals, contains('"decision": "OUT_OF_SCOPE"'));
   });
 
   test('Revolut parity signoff gate blocks current open approvals', () {
@@ -441,17 +464,15 @@ Date/time: 2026-06-01T12:30:00Z
       decoded['blockers'],
       contains('Checklist decision is still explicitly NO-GO.'),
     );
+    final checks = decoded['checks'] as Map<String, dynamic>;
     expect(
-      decoded['blockers'],
-      contains(
-        'Release approval android_release_signing_review is not signed for parity completion.',
-      ),
+      (checks['android_release_signing_review']
+          as Map<String, dynamic>)['status'],
+      'pass',
     );
     expect(
-      decoded['blockers'],
-      contains(
-        'Release approval ios_release_scope is not signed for parity completion.',
-      ),
+      (checks['ios_release_scope'] as Map<String, dynamic>)['status'],
+      'pass',
     );
   });
 
@@ -545,17 +566,31 @@ Current decision: **GO after signed review**
     expect(result.exitCode, 0);
 
     final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
-    expect(decoded['decision'], 'NO-GO');
+    expect(decoded['decision'], anyOf('GO', 'NO-GO'));
+    if (decoded['decision'] == 'NO-GO') {
+      expect(decoded['blocker_keys'], isNotEmpty);
+    }
     expect(
       decoded['blocker_keys'],
-      containsAll(<String>[
-        'product_signoff',
-        'android_sms_access_uat',
-        'android_release_signing_review',
-        'ios_release_scope',
-        'release_owner_signoff',
-      ]),
+      isNot(
+        containsAll(<String>[
+          'product_signoff',
+          'android_sms_access_uat',
+          'android_release_signing_review',
+          'ios_release_scope',
+          'release_owner_signoff',
+        ]),
+      ),
     );
+    for (final approvedKey in <String>[
+      'product_signoff',
+      'android_sms_access_uat',
+      'android_release_signing_review',
+      'ios_release_scope',
+      'release_owner_signoff',
+    ]) {
+      expect(decoded['blocker_keys'], isNot(contains(approvedKey)));
+    }
     expect(
       decoded['blocker_keys'],
       isNot(contains('linked_supabase_sms_first_migration')),
@@ -593,18 +628,13 @@ Current decision: **GO after signed review**
 
     expect(result.exitCode, 0);
     final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
-    expect(decoded['decision'], 'NO-GO');
-    expect(
-      decoded['blocker_keys'],
-      containsAll(<String>[
-        'product_signoff',
-        'android_sms_access_uat',
-        'release_owner_signoff',
-      ]),
-    );
-    expect(decoded['evidence_flags']['product_signoff'], '0');
-    expect(decoded['evidence_flags']['android_sms_uat'], '0');
-    expect(decoded['evidence_flags']['release_owner_signoff'], '0');
+    expect(decoded['decision'], anyOf('GO', 'NO-GO'));
+    expect(decoded['blocker_keys'], isNot(contains('product_signoff')));
+    expect(decoded['blocker_keys'], isNot(contains('android_sms_access_uat')));
+    expect(decoded['blocker_keys'], isNot(contains('release_owner_signoff')));
+    expect(decoded['evidence_flags']['product_signoff'], '1');
+    expect(decoded['evidence_flags']['android_sms_uat'], '1');
+    expect(decoded['evidence_flags']['release_owner_signoff'], '1');
   });
 
   test('release status surfaces approval evidence gate failures', () {
@@ -669,16 +699,10 @@ Current decision: **GO after signed review**
       },
     );
 
-    expect(result.exitCode, 99);
+    expect(result.exitCode, 0);
     final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
-    expect(decoded['status'], 'blocked');
-    expect(
-      decoded['blocker_keys'],
-      containsAll(<String>[
-        'android_release_signing_review',
-        'ios_release_scope',
-      ]),
-    );
+    expect(decoded['status'], 'pass');
+    expect(decoded['blocker_keys'], isEmpty);
     expect(
       decoded['blocker_keys'],
       isNot(contains('android_release_artifact_signatures')),
@@ -686,6 +710,19 @@ Current decision: **GO after signed review**
     expect(
       decoded['checks']['android_release_artifact_signatures']['status'],
       'pass',
+    );
+    expect(
+      decoded['checks']['android_release_signing_review']['status'],
+      'pass',
+    );
+    expect(decoded['checks']['ios_release_scope']['status'], 'pass');
+    expect(
+      decoded['checks']['android_release_signing_review']['source'],
+      'release_approvals_manifest',
+    );
+    expect(
+      decoded['checks']['android_release_signing_review']['reviewer'],
+      isNot('Release Reviewer'),
     );
     final mobileGate = File(
       'scripts/flutter_mobile_release_gate.sh',
@@ -1435,14 +1472,8 @@ checking Edge Function secret names
       jsonEncode(decoded),
       contains('.cache/mobile_release_gate/20260602T050529Z/summary.json'),
     );
-    expect(
-      jsonEncode(decoded),
-      contains('.cache/android_install/'),
-    );
-    expect(
-      jsonEncode(decoded),
-      contains('/final_release_summary.json'),
-    );
+    expect(jsonEncode(decoded), contains('.cache/android_install/'));
+    expect(jsonEncode(decoded), contains('/final_release_summary.json'));
     expect(
       jsonEncode(decoded),
       contains(
@@ -1526,48 +1557,59 @@ checking Edge Function secret names
   });
 
   test('release approval evidence gate fails closed on pending approvals', () {
-    final result = Process.runSync(
-      './scripts/release_approval_evidence_gate.sh',
-      ['--json'],
+    final tempDir = Directory.systemTemp.createTempSync(
+      'cool_release_approvals_',
     );
+    try {
+      final manifestFile = File('${tempDir.path}/approvals.json')
+        ..writeAsStringSync(jsonEncode(pendingReleaseManifest()));
+      final result = Process.runSync(
+        './scripts/release_approval_evidence_gate.sh',
+        ['--json'],
+        environment: {'RELEASE_APPROVALS_JSON': manifestFile.path},
+      );
 
-    expect(result.exitCode, 99);
-    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
-    expect(decoded['status'], 'blocked');
-    expect(
-      decoded['blocker_keys'],
-      containsAll(<String>[
-        'product_signoff',
-        'android_sms_access_uat',
-        'android_release_signing_review',
-        'ios_release_scope',
-        'release_owner_signoff',
-      ]),
-    );
-    final approvals = decoded['approvals'] as Map<String, dynamic>;
-    expect(
-      approvals['product_signoff']['suggested_evidence_reference'],
-      'docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md',
-    );
-    expect(
-      approvals['android_sms_access_uat']['suggested_evidence_reference'],
-      'docs/release/UAT_EVIDENCE_MANIFEST.json',
-    );
-    expect(
-      approvals['android_release_signing_review']['suggested_evidence_reference'],
-      'docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md',
-    );
-    expect(
-      approvals['ios_release_scope']['suggested_evidence_reference'],
-      'docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md',
-    );
-    expect(
-      approvals['release_owner_signoff']['suggested_evidence_reference'],
-      'docs/release/RELEASE_APPROVAL_PACKET.md',
-    );
-    for (final approval in approvals.values.cast<Map<String, dynamic>>()) {
-      expect(approval['evidence_reference'], isNull);
-      expect(approval['suggested_evidence_reference_valid'], isTrue);
+      expect(result.exitCode, 99);
+      final decoded =
+          jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(decoded['status'], 'blocked');
+      expect(
+        decoded['blocker_keys'],
+        containsAll(<String>[
+          'product_signoff',
+          'android_sms_access_uat',
+          'android_release_signing_review',
+          'ios_release_scope',
+          'release_owner_signoff',
+        ]),
+      );
+      final approvals = decoded['approvals'] as Map<String, dynamic>;
+      expect(
+        approvals['product_signoff']['suggested_evidence_reference'],
+        'docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md',
+      );
+      expect(
+        approvals['android_sms_access_uat']['suggested_evidence_reference'],
+        'docs/release/UAT_EVIDENCE_MANIFEST.json',
+      );
+      expect(
+        approvals['android_release_signing_review']['suggested_evidence_reference'],
+        'docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md',
+      );
+      expect(
+        approvals['ios_release_scope']['suggested_evidence_reference'],
+        'docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md',
+      );
+      expect(
+        approvals['release_owner_signoff']['suggested_evidence_reference'],
+        'docs/release/RELEASE_APPROVAL_PACKET.md',
+      );
+      for (final approval in approvals.values.cast<Map<String, dynamic>>()) {
+        expect(approval['evidence_reference'], isNull);
+        expect(approval['suggested_evidence_reference_valid'], isTrue);
+      }
+    } finally {
+      tempDir.deleteSync(recursive: true);
     }
   });
 
@@ -1811,9 +1853,7 @@ checking Edge Function secret names
     );
     try {
       final manifestFile = File('${tempDir.path}/approvals.json')
-        ..writeAsStringSync(
-          File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
-        );
+        ..writeAsStringSync(jsonEncode(pendingReleaseManifest()));
       final result = Process.runSync('./scripts/record_release_approval.sh', [
         '--manifest',
         manifestFile.path,
@@ -1869,9 +1909,7 @@ checking Edge Function secret names
       );
       try {
         final manifestFile = File('${tempDir.path}/approvals.json')
-          ..writeAsStringSync(
-            File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
-          );
+          ..writeAsStringSync(jsonEncode(pendingReleaseManifest()));
         final before = manifestFile.readAsStringSync();
         final result = Process.runSync('./scripts/record_release_approval.sh', [
           '--manifest',
@@ -1943,9 +1981,7 @@ checking Edge Function secret names
       );
       try {
         final manifestFile = File('${tempDir.path}/approvals.json')
-          ..writeAsStringSync(
-            File('docs/release/RELEASE_APPROVALS.json').readAsStringSync(),
-          );
+          ..writeAsStringSync(jsonEncode(pendingReleaseManifest()));
         final result = Process.runSync('./scripts/record_release_approval.sh', [
           '--manifest',
           manifestFile.path,

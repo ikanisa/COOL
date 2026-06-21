@@ -251,11 +251,11 @@ void main() {
 
     expect(home, contains('CollectTopChrome('));
     expect(home, contains("searchLabel: 'Search'"));
-    expect(home, contains("onSearchTap: () => context.go('/groups')"));
+    expect(home, contains("onSearchTap: () => context.go('/groups/search')"));
     expect(home, contains("tooltip: 'Notifications'"));
     expect(home, contains("tooltip: 'Scan QR code'"));
     expect(home, contains("label: 'Join'"));
-    expect(home, contains("onTap: () => context.go('/groups'),"));
+    expect(home, contains("onTap: () => context.go('/groups/join'),"));
     expect(home, contains("label: 'Scan QR'"));
     expect(home, contains("onTap: () => context.go('/groups/scan'),"));
     expect(groups, contains('CollectTopChrome('));

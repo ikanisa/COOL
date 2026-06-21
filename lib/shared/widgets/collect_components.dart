@@ -1006,8 +1006,8 @@ class _CollectMomoReceiverModeButton extends StatelessWidget {
           borderRadius: CollectRadius.controlBorder,
           onTap: onTap,
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 180),
-            curve: Curves.easeOutCubic,
+            duration: CollectMotion.duration(context, CollectMotion.fast),
+            curve: CollectMotion.standard,
             height: 46,
             decoration: BoxDecoration(
               color: selected ? colors.actionColor : colors.transparent,

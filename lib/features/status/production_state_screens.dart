@@ -1147,8 +1147,9 @@ class PermissionRecoveryScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isCamera = kind == 'camera';
+    final title = isCamera ? 'Camera access' : 'Notifications';
     return ScreenScaffold(
-      title: isCamera ? 'Camera access' : 'Notifications',
+      title: title,
       bottomAction: BottomActionSurface(
         children: [
           CollectButton(
@@ -1186,6 +1187,41 @@ class PermissionRecoveryScreen extends ConsumerWidget {
         ],
       ),
       children: [
+        CollectVisualFeatureCard(
+          asset: isCamera
+              ? 'assets/brand/generated/collect_visual_qr_share.png'
+              : 'assets/brand/generated/collect_visual_momo_signal.png',
+          icon: isCamera ? CollectIcons.qr : CollectIcons.pending,
+          title: isCamera ? 'Camera blocked' : 'Alerts blocked',
+          message: isCamera
+              ? 'QR scan needs camera access. Group links still work.'
+              : 'Payment reminders and security notices need alerts.',
+          tone: isCamera ? CollectStatusTone.info : CollectStatusTone.warning,
+        ),
+        CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          child: Column(
+            children: [
+              CollectListTile(
+                leading: isCamera ? CollectIcons.qr : CollectIcons.pending,
+                title: isCamera ? 'Scan route' : 'Alert route',
+                subtitle: isCamera ? 'Camera-first QR join.' : 'Device alerts.',
+                trailing: const CollectStatusChip(
+                  label: 'Blocked',
+                  tone: CollectStatusTone.warning,
+                  icon: CollectIcons.warning,
+                ),
+              ),
+              const CollectListTile(
+                leading: CollectIcons.settings,
+                title: 'App settings',
+                subtitle: 'Restore access in the OS.',
+                trailing: Icon(CollectIcons.chevron),
+                onTap: permissions.openAppSettings,
+              ),
+            ],
+          ),
+        ),
         CollectPermissionRecoveryPanel(
           icon: isCamera ? CollectIcons.qr : CollectIcons.pending,
           title: isCamera
@@ -1211,18 +1247,44 @@ class OfflineStateScreen extends StatelessWidget {
     return ScreenScaffold(
       title: 'Connection issue',
       children: [
-        const MinimalStatePanel(
+        const CollectVisualFeatureCard(
+          asset: 'assets/brand/generated/collect_visual_group_momentum.png',
           icon: CollectIcons.warning,
-          title: 'Connection issue.',
-          message:
-              'Collect could not reach the service. Check the connection, then retry to refresh groups, payment status, and ledger updates.',
+          title: 'Connection issue',
+          message: 'Cached groups stay readable. Live payment checks pause.',
           tone: CollectStatusTone.warning,
         ),
-        const InfoSecurityBanner(
-          title: 'Offline-safe behavior',
-          message:
-              'Existing group, payment, and ledger screens stay visible on this device. Starting contributions and live payment verification need a stable connection.',
-          tone: CollectStatusTone.info,
+        const CollectBentoGrid(
+          primary: BentoMetricCell(
+            label: 'Offline-safe behavior',
+            value: 'Readable',
+            detail: 'Existing groups and ledgers',
+            icon: CollectIcons.collections,
+            tone: CollectStatusTone.success,
+            emphasis: true,
+          ),
+          top: BentoMetricCell(
+            label: 'Live checks',
+            value: 'Paused',
+            detail: 'MoMo verification',
+            icon: CollectIcons.pending,
+            tone: CollectStatusTone.warning,
+          ),
+          bottom: BentoMetricCell(
+            label: 'Next step',
+            value: 'Retry',
+            detail: 'Refresh sync state',
+            icon: CollectIcons.sync,
+            tone: CollectStatusTone.info,
+          ),
+        ),
+        const CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          child: CollectListTile(
+            leading: CollectIcons.info,
+            title: 'Offline-safe behavior',
+            subtitle: 'Existing screens stay visible.',
+          ),
         ),
         CollectButton(
           label: 'Retry sync',
@@ -1250,10 +1312,10 @@ class SyncStatusScreen extends ConsumerWidget {
       title: 'Sync status',
       heroTitle: title,
       message: status == RealtimeSyncStatus.current
-          ? 'Groups, payments, and ledger data are current on this device.'
+          ? 'Groups, payments, and ledger data are current.'
           : status == RealtimeSyncStatus.syncing
-          ? 'Collect is refreshing groups, payments, and ledger updates.'
-          : 'Collect could not refresh all live updates. Retry when the connection is stable.',
+          ? 'Refreshing groups, payments, and ledger updates.'
+          : 'Live updates need a stable connection.',
       icon: status == RealtimeSyncStatus.current
           ? CollectIcons.check
           : CollectIcons.sync,
@@ -1386,12 +1448,29 @@ class PrivacyDataScreen extends StatelessWidget {
           icon: CollectIcons.privacy,
           tone: CollectStatusTone.privacy,
         ),
-        const MinimalStatePanel(
-          icon: CollectIcons.privacy,
-          title: 'Collect ID first.',
-          message:
-              'Public group surfaces use Collect IDs, safe amounts, and status labels.',
-          tone: CollectStatusTone.privacy,
+        const CollectBentoGrid(
+          primary: BentoMetricCell(
+            label: 'Public surfaces',
+            value: 'Collect ID first.',
+            detail: 'No private phone display',
+            icon: CollectIcons.public,
+            tone: CollectStatusTone.privacy,
+            emphasis: true,
+          ),
+          top: BentoMetricCell(
+            label: 'Payment data',
+            value: 'Bounded',
+            detail: 'Owner and support flows',
+            icon: CollectIcons.momo,
+            tone: CollectStatusTone.info,
+          ),
+          bottom: BentoMetricCell(
+            label: 'Evidence',
+            value: 'Protected',
+            detail: 'SMS and ledger records',
+            icon: CollectIcons.lock,
+            tone: CollectStatusTone.success,
+          ),
         ),
         CollectCard(
           emphasis: CollectCardEmphasis.glow,
@@ -1404,6 +1483,11 @@ class PrivacyDataScreen extends StatelessWidget {
                 leading: CollectIcons.public,
                 title: 'Public group links',
                 subtitle: 'Group name, QR, Collect IDs, and safe status only.',
+              ),
+              CollectListTile(
+                leading: CollectIcons.privacy,
+                title: 'Collect ID first.',
+                subtitle: 'Public group surfaces stay member-safe.',
               ),
               CollectListTile(
                 leading: CollectIcons.lock,
@@ -1751,12 +1835,27 @@ class HelpSupportScreen extends StatelessWidget {
           icon: CollectIcons.support,
           tone: CollectStatusTone.privacy,
         ),
-        MinimalStatePanel(
-          icon: CollectIcons.support,
-          title: 'Support',
-          message:
-              'Open WhatsApp to reach Collect support without exposing a phone number in the app.',
-          tone: CollectStatusTone.info,
+        CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          child: Column(
+            children: [
+              CollectListTile(
+                leading: CollectIcons.privacy,
+                title: 'No PINs',
+                subtitle: 'Never share payment credentials.',
+              ),
+              CollectListTile(
+                leading: CollectIcons.sms,
+                title: 'No raw SMS',
+                subtitle: 'Use support review flows.',
+              ),
+              CollectListTile(
+                leading: CollectIcons.public,
+                title: 'Support',
+                subtitle: 'Share safe account context.',
+              ),
+            ],
+          ),
         ),
         CollectButton(
           label: 'Open WhatsApp',
@@ -1784,6 +1883,43 @@ class LegalScreen extends StatelessWidget {
       showHeader: false,
       children: [
         _LegalPageHeader(title: title),
+        CollectVisualFeatureCard(
+          asset: isPrivacy
+              ? 'assets/brand/generated/collect_visual_qr_share.png'
+              : 'assets/brand/generated/collect_visual_momo_signal.png',
+          title: isPrivacy ? 'Privacy boundary' : 'Safe use',
+          message: isPrivacy
+              ? 'Public sharing stays Collect ID first.'
+              : 'Approve MoMo only after checking group and amount.',
+          icon: isPrivacy ? CollectIcons.privacy : CollectIcons.warning,
+          tone: isPrivacy
+              ? CollectStatusTone.privacy
+              : CollectStatusTone.warning,
+        ),
+        CollectCard(
+          emphasis: CollectCardEmphasis.glow,
+          accentColor: context.collectColors.statusForeground(
+            isPrivacy ? CollectStatusTone.privacy : CollectStatusTone.warning,
+          ),
+          child: Column(
+            children: [
+              CollectListTile(
+                leading: CollectIcons.public,
+                title: isPrivacy ? 'Public data' : 'Group checks',
+                subtitle: isPrivacy
+                    ? 'Collect IDs and safe status.'
+                    : 'Group, receiver, amount.',
+              ),
+              CollectListTile(
+                leading: CollectIcons.lock,
+                title: isPrivacy ? 'Private data' : 'Secret boundary',
+                subtitle: isPrivacy
+                    ? 'Credentials never public.'
+                    : 'No OTPs, PINs, raw SMS.',
+              ),
+            ],
+          ),
+        ),
         CollectCard(
           emphasis: CollectCardEmphasis.flat,
           child: Column(
@@ -1957,17 +2093,31 @@ class AccountSessionScreen extends ConsumerWidget {
     final profile = ref.watch(
       collectRepositoryProvider.select((state) => state.currentProfile),
     );
+    final maskedMomo = profile?.momoNumber == null
+        ? 'MoMo not linked'
+        : maskMomoNumberForDisplay(profile!.momoNumber!);
     return ScreenScaffold(
       title: 'Account',
       subtitle: profile == null ? 'No active profile' : profile.publicId,
       children: [
+        CollectVisualFeatureCard(
+          asset: 'assets/brand/generated/collect_visual_momo_signal.png',
+          title: profile == null ? 'Account pending' : profile.publicId,
+          message: 'Profile, session, and data controls.',
+          icon: CollectIcons.profile,
+          tone: CollectStatusTone.info,
+        ),
         CollectCard(
+          emphasis: CollectCardEmphasis.glow,
+          accentColor: context.collectColors.statusForeground(
+            CollectStatusTone.info,
+          ),
           child: Column(
             children: [
               CollectListTile(
                 leading: CollectIcons.profile,
                 title: 'Profile and MoMo',
-                subtitle: profile?.momoNumber ?? 'MoMo not linked',
+                subtitle: maskedMomo,
                 onTap: () => context.go('/settings/profile'),
               ),
               CollectListTile(
@@ -2051,9 +2201,11 @@ class _DeleteAccountRequestScreenState
             message: _error!,
             tone: CollectStatusTone.warning,
           ),
-        const InfoSecurityBanner(
-          title: 'Auditable',
-          message: 'Some records may be retained.',
+        const CollectVisualFeatureCard(
+          asset: 'assets/brand/generated/collect_visual_momo_signal.png',
+          title: 'Auditable request',
+          message: 'Deletion is reviewed against ledger and security records.',
+          icon: CollectIcons.error,
           tone: CollectStatusTone.privacy,
         ),
         if (_submitted)

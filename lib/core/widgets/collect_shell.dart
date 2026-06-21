@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../app/theme/collect_motion.dart';
 import '../../shared/widgets/collect_components.dart';
 
 class CollectShell extends StatelessWidget {
@@ -215,8 +216,11 @@ class _CollectBottomNavItem extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 AnimatedContainer(
-                  duration: const Duration(milliseconds: 180),
-                  curve: Curves.easeOutCubic,
+                  duration: CollectMotion.duration(
+                    context,
+                    CollectMotion.medium,
+                  ),
+                  curve: CollectMotion.standard,
                   width: selected ? 74 : 46,
                   height: 36,
                   decoration: BoxDecoration(

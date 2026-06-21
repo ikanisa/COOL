@@ -173,7 +173,12 @@ required_docs = {
   "go_no_go_decision" => ["docs/release/GO_NO_GO_DECISION.md", ["NO-GO", "SMS-first"]],
   "release_blockers" => ["docs/release/RELEASE_BLOCKERS.md", ["P0-004", "SMS-first"]],
   "uat_signoff_checklist" => ["docs/release/UAT_SIGNOFF_CHECKLIST_2026-05-24.md", ["PENDING SIGNOFF", "Release Owner Decision"]],
-  "completion_audit" => ["docs/release/GO_LIVE_COMPLETION_AUDIT_2026-05-24.md", ["Requirement Audit", "Current Blocking Keys"]]
+  "completion_audit" => ["docs/release/GO_LIVE_COMPLETION_AUDIT_2026-05-24.md", ["Requirement Audit", "Current Blocking Keys"]],
+  "google_play_optimization_goal" => ["docs/release/GOOGLE_PLAY_OPTIMIZATION_GOAL_2026-06-21.md", ["Official Source Map", "Current Blockers"]],
+  "google_play_production_submission" => ["docs/release/GOOGLE_PLAY_PRODUCTION_SUBMISSION_2026-06-21.md", ["Target Release", "Blocked Upload Attempts"]],
+  "google_play_optimization_surface_matrix" => ["docs/release/GOOGLE_PLAY_OPTIMIZATION_SURFACE_MATRIX_2026-06-21.md", ["Audit Matrix", "Immediate Submission Commands"]],
+  "google_play_console_audit_packet" => ["docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET_2026-06-21.json", ["store_listing", "app_content", "play_console_surfaces"]],
+  "google_play_operational_readiness" => ["docs/release/GOOGLE_PLAY_OPERATIONAL_READINESS_2026-06-21.md", ["Play Integrity Strategy", "Vitals And Reporting Strategy", "Testing Tracks"]]
 }
 
 doc_items = required_docs.map do |name, (relative_path, markers)|
@@ -459,7 +464,9 @@ required_mobile_routes = %w[
   /permissions/camera-denied
   /home
   /groups
+  /groups/search
   /groups/create
+  /groups/scan
   /platform/iphone-create-unavailable
   /groups/col-church
   /groups/col-church/created

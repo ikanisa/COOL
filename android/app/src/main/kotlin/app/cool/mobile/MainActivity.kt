@@ -3,6 +3,8 @@ package app.cool.mobile
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import com.google.android.play.core.integrity.IntegrityManagerFactory
+import com.google.android.play.core.integrity.StandardIntegrityManager
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.plugin.common.MethodChannel
@@ -11,6 +13,10 @@ import org.json.JSONObject
 
 class MainActivity : FlutterActivity() {
     private var pendingSmsAccessResult: MethodChannel.Result? = null
+    private var standardIntegrityProvider:
+        StandardIntegrityManager.StandardIntegrityTokenProvider? = null
+    private var pendingIntegrityResults = mutableListOf<Pair<String, MethodChannel.Result>>()
+    private var preparingIntegrityProvider = false
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -67,6 +73,81 @@ class MainActivity : FlutterActivity() {
                 else -> result.notImplemented()
             }
         }
+
+        MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            "collect/play_integrity"
+        ).setMethodCallHandler { call, result ->
+            when (call.method) {
+                "requestStandardToken" -> {
+                    val requestHash = call.argument<String>("request_hash")?.trim().orEmpty()
+                    if (requestHash.isEmpty()) {
+                        result.error("play_integrity_bad_request", "request_hash is required", null)
+                        return@setMethodCallHandler
+                    }
+                    requestPlayIntegrityToken(requestHash, result)
+                }
+                else -> result.notImplemented()
+            }
+        }
+    }
+
+    private fun requestPlayIntegrityToken(requestHash: String, result: MethodChannel.Result) {
+        val cloudProjectNumber = BuildConfig.PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER
+        if (cloudProjectNumber <= 0L) {
+            result.error(
+                "play_integrity_not_configured",
+                "PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER is not configured",
+                null
+            )
+            return
+        }
+        val provider = standardIntegrityProvider
+        if (provider != null) {
+            provider.request(
+                StandardIntegrityManager.StandardIntegrityTokenRequest.builder()
+                    .setRequestHash(requestHash)
+                    .build()
+            )
+                .addOnSuccessListener { token -> result.success(token.token()) }
+                .addOnFailureListener { error ->
+                    result.error(
+                        "play_integrity_token_failed",
+                        error.message ?: "Play Integrity token request failed",
+                        null
+                    )
+                }
+            return
+        }
+
+        pendingIntegrityResults.add(Pair(requestHash, result))
+        if (preparingIntegrityProvider) return
+        preparingIntegrityProvider = true
+        IntegrityManagerFactory.createStandard(applicationContext)
+            .prepareIntegrityToken(
+                StandardIntegrityManager.PrepareIntegrityTokenRequest.builder()
+                    .setCloudProjectNumber(cloudProjectNumber)
+                    .build()
+            )
+            .addOnSuccessListener { prepared ->
+                standardIntegrityProvider = prepared
+                preparingIntegrityProvider = false
+                val pending = pendingIntegrityResults.toList()
+                pendingIntegrityResults.clear()
+                pending.forEach { requestPlayIntegrityToken(it.first, it.second) }
+            }
+            .addOnFailureListener { error ->
+                preparingIntegrityProvider = false
+                val pending = pendingIntegrityResults.toList()
+                pendingIntegrityResults.clear()
+                pending.forEach {
+                    it.second.error(
+                        "play_integrity_prepare_failed",
+                        error.message ?: "Play Integrity token provider preparation failed",
+                        null
+                    )
+                }
+            }
     }
 
     override fun onRequestPermissionsResult(

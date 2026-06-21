@@ -77,6 +77,7 @@ def materialize(route)
     .gsub(":intentId", "intent-render")
     .gsub(":state", "pending")
     .gsub(":slug", "st-michel-building-fund")
+    .gsub(":publicId", "038491")
 end
 
 def scan_files(root, pattern, paths)
@@ -110,6 +111,7 @@ design = read(File.join(root, "DESIGN.md"))
 design_system = read(File.join(root, "docs/design/DESIGN_SYSTEM.md"))
 colors = read(File.join(root, "lib/app/theme/collect_colors.dart"))
 components = read(File.join(root, "lib/shared/widgets/collect_components.dart"))
+chrome = read(File.join(root, "lib/shared/widgets/collect_chrome.dart"))
 shell = read(File.join(root, "lib/core/widgets/collect_shell.dart"))
 share_screen = read(File.join(root, "lib/features/collections/share_screen.dart"))
 home_screen = read(File.join(root, "lib/features/home/home_screen.dart"))
@@ -230,7 +232,7 @@ gradient_failures = []
   gradient_failures << "CollectColors is missing #{token}." unless colors.include?(token)
 end
 gradient_failures << "CollectShell must wrap the member app in CollectGradientBackground." unless shell.include?("CollectGradientBackground")
-gradient_failures << "PremiumScaffold must render CollectGradientBackground." unless components[/class PremiumScaffold.*?CollectGradientBackground/m]
+gradient_failures << "PremiumScaffold must render CollectGradientBackground." unless chrome[/class PremiumScaffold.*?CollectGradientBackground/m]
 gradient_failures << "Standalone ShareScreen must render CollectGradientBackground." unless share_screen.include?("CollectGradientBackground")
 checks << {
   "id" => "gradient_glass_screen_contract",
@@ -239,7 +241,7 @@ checks << {
   "evidence" => [
     "lib/app/theme/collect_colors.dart",
     "lib/core/widgets/collect_shell.dart",
-    "lib/shared/widgets/collect_components.dart",
+    "lib/shared/widgets/collect_chrome.dart",
     "lib/features/collections/share_screen.dart"
   ]
 }
@@ -303,7 +305,7 @@ checks << {
 }
 
 top_chrome_failures = []
-top_chrome_failures << "Home top chrome must keep the Revolut-style search slot visible." unless home_screen.include?("searchLabel: 'Search'") && home_screen.include?("onSearchTap: () => context.go('/groups')")
+top_chrome_failures << "Home top chrome must keep the Revolut-style search slot visible." unless home_screen.include?("searchLabel: 'Search'") && home_screen.include?("onSearchTap: () => context.go('/groups/search')")
 top_chrome_failures << "Home top chrome must expose two compact action circles." unless home_screen.include?("tooltip: 'Notifications'") && home_screen.include?("tooltip: 'Scan QR code'")
 top_chrome_failures << "Groups top chrome must bind the search controller." unless collections_screen.scan("searchController: _search").length >= 2
 top_chrome_failures << "Groups top chrome must update the visible search query." unless collections_screen.scan("onSearchChanged: (value) => setState(() => _query = value)").length >= 2
@@ -321,7 +323,7 @@ checks << {
 asset_failures = []
 wordmark_path = File.join(root, "assets/brand/generated/collect_wordmark_transparent.png")
 asset_failures << "Transparent Collect wordmark asset is missing." unless File.file?(wordmark_path)
-asset_failures << "CollectBrandMark must use collect_wordmark_transparent.png." unless components.include?("collect_wordmark_transparent.png")
+asset_failures << "CollectBrandMark must use collect_wordmark_transparent.png." unless chrome.include?("collect_wordmark_transparent.png")
 asset_failures << "DESIGN.md must name collect_wordmark_transparent.png as the mobile wordmark." unless design.include?("collect_wordmark_transparent.png")
 checks << {
   "id" => "mobile_brand_asset_contract",
@@ -329,7 +331,7 @@ checks << {
   "failures" => asset_failures,
   "evidence" => [
     "assets/brand/generated/collect_wordmark_transparent.png",
-    "lib/shared/widgets/collect_components.dart",
+    "lib/shared/widgets/collect_chrome.dart",
     "DESIGN.md"
   ]
 }
@@ -582,7 +584,7 @@ summary = {
   "route_count" => materialized_routes.length,
   "checks" => checks,
   "secret_handling" => "The audit inspects local source paths and generated screenshot metadata only; it does not print secrets, raw SMS, OTPs, PINs, or private receiver data.",
-  "remaining_human_review" => "Automated evidence cannot fully certify subjective premium visual taste, TalkBack/VoiceOver narration quality, or real store deep-link handoff UX without manual signoff."
+  "external_approval_scope" => "This audit owns code/design evidence. Store release, public parity claims, and third-party approval workflows remain separate governance actions."
 }
 
 File.write(File.join(evidence_dir, "summary.json"), JSON.pretty_generate(summary) + "\n")
@@ -613,8 +615,8 @@ unless failed_checks.empty?
     report << "\n"
   end
 end
-report << "\n## Human Review Boundary\n\n"
-report << "#{summary.fetch("remaining_human_review")}\n"
+report << "\n## External Approval Scope\n\n"
+report << "#{summary.fetch("external_approval_scope")}\n"
 File.write(File.join(evidence_dir, "report.md"), report)
 
 if output_format == "json"

@@ -213,7 +213,7 @@ class AuthPhoneEntry extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Material(
-          color: Colors.transparent,
+          color: CollectColors.transparentColor,
           borderRadius: CollectRadius.mdBorder,
           child: InkWell(
             key: const ValueKey('auth_country_code_picker'),

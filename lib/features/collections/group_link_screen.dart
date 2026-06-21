@@ -53,8 +53,7 @@ class _JoinGroupPortalScreenState extends ConsumerState<JoinGroupPortalScreen> {
         const MinimalStatePanel(
           icon: CollectIcons.qr,
           title: 'Join with a code.',
-          message:
-              'Paste a Collect link, enter a group code, or scan the group QR.',
+          message: 'Enter a Collect group code or scan the group QR.',
           tone: CollectStatusTone.privacy,
           titleMaxLines: 2,
           messageMaxLines: 3,
@@ -67,8 +66,8 @@ class _JoinGroupPortalScreenState extends ConsumerState<JoinGroupPortalScreen> {
             children: [
               CollectTextInput(
                 controller: _controller,
-                label: 'Group code or link',
-                helper: 'Example: st-michel-building-fund or a /c/ link.',
+                label: 'Group code',
+                helper: 'Example: st-michel-building-fund.',
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.done,
                 onSubmitted: (_) => _joinFromInput(),

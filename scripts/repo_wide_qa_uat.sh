@@ -219,6 +219,7 @@ JSON
     "device-permission|/permissions/device"
     "home|/home"
     "groups|/groups"
+    "groups-search|/groups/search"
     "group-create|/groups/create"
     "iphone-create-unavailable|/platform/iphone-create-unavailable"
     "group-detail|/groups/col-church"

@@ -108,6 +108,21 @@ class CollectColors extends ThemeExtension<CollectColors> {
   static const referenceContentBronze = Color(0xFF303020);
   static const referenceInvestTeal = Color(0xFF202828);
   static const referenceStockTealBlack = Color(0xFF001010);
+  static const publicWhite = Color(0xFFFFFFFF);
+  static const publicBlack = Color(0xFF000000);
+  static const publicMutedGrey = Color(0xFF84848C);
+  static const publicMintSurface = Color(0xFFF3FBF8);
+  static const publicHeroPurple = Color(0xFF151029);
+  static const publicInkPurple = Color(0xFF171032);
+  static const publicDarkInk = Color(0xFF111018);
+  static const publicDeepInk = Color(0xFF090912);
+  static const publicPanelInk = Color(0xFF131520);
+  static const publicSuccessAccent = Color(0xFF65C77B);
+  static const publicSoftDanger = Color(0xFFFFF4F4);
+  static const publicSoftInfo = Color(0xFFF0F2FF);
+  static const publicSoftNeutral = Color(0xFFF6F7FA);
+  static const publicSoftLavender = Color(0xFFF7F7FF);
+  static const publicLavenderBorder = Color(0xFFE8E3F2);
 
   static const brandPrimaryColors = <Color>[
     brandPeriwinkle,

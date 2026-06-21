@@ -24,14 +24,20 @@ class SettingsScreen extends ConsumerWidget {
       showHeader: false,
       compact: true,
       children: [
-        CollectIdCard(publicId: profile?.publicId ?? ''),
+        const CollectVisualFeatureCard(
+          asset: 'assets/brand/generated/collect_visual_qr_share.png',
+          title: 'Account center',
+          message: 'Profile, alerts, access, and privacy controls.',
+          icon: CollectIcons.profile,
+          tone: CollectStatusTone.privacy,
+        ),
+        _SettingsProfileCard(publicId: profile?.publicId ?? ''),
         _SettingsCluster(
           tone: CollectStatusTone.privacy,
           children: [
-            CollectListTile(
+            _SettingsTile(
               leading: CollectIcons.pending,
               title: 'Notifications',
-              subtitle: 'Payment and group alerts.',
               onTap: () => context.go('/notifications'),
             ),
             const _ThemeModeTile(),
@@ -40,52 +46,107 @@ class SettingsScreen extends ConsumerWidget {
         _SettingsCluster(
           tone: CollectStatusTone.info,
           children: [
-            CollectListTile(
+            _SettingsTile(
               leading: CollectIcons.profile,
               title: 'Account',
-              subtitle: 'Profile, session, and requests.',
               onTap: () => context.go('/settings/account'),
             ),
-            CollectListTile(
+            _SettingsTile(
               leading: CollectIcons.check,
               title: 'Readiness',
-              subtitle: 'Profile and groups.',
               onTap: () => context.go('/settings/readiness'),
             ),
           ],
         ),
+        const CollectBentoGrid(
+          primary: BentoMetricCell(
+            label: 'Identity',
+            value: 'Collect ID',
+            detail: 'Public-safe member label',
+            icon: CollectIcons.profile,
+            tone: CollectStatusTone.privacy,
+            emphasis: true,
+          ),
+          top: BentoMetricCell(
+            label: 'Access',
+            value: 'Action-led',
+            detail: 'Camera, SMS, alerts',
+            icon: CollectIcons.check,
+            tone: CollectStatusTone.success,
+          ),
+          bottom: BentoMetricCell(
+            label: 'Support',
+            value: 'No secrets',
+            detail: 'WhatsApp handoff',
+            icon: CollectIcons.support,
+            tone: CollectStatusTone.info,
+          ),
+        ),
         _SettingsCluster(
           tone: CollectStatusTone.success,
           children: [
-            const CollectListTile(
+            const _SettingsTile(
               leading: CollectIcons.support,
               title: 'Help',
-              subtitle: 'WhatsApp support.',
               onTap: openCollectWhatsAppSupport,
             ),
-            CollectListTile(
+            _SettingsTile(
               leading: CollectIcons.info,
               title: 'Terms',
-              subtitle: 'Collect product terms.',
               onTap: () => context.go('/settings/legal/terms'),
             ),
-            CollectListTile(
+            _SettingsTile(
               leading: CollectIcons.privacy,
               title: 'Privacy policy',
-              subtitle: 'Data and evidence handling.',
               onTap: () => context.go('/settings/legal/privacy'),
             ),
             if (kDebugMode)
-              CollectListTile(
+              _SettingsTile(
                 leading: CollectIcons.palette,
                 title: 'Design system',
-                subtitle: 'UI catalog.',
                 onTap: () => context.go('/dev/design-system'),
               ),
           ],
         ),
-        const SizedBox(height: 64),
+        const SizedBox(height: 18),
       ],
+    );
+  }
+}
+
+class _SettingsProfileCard extends StatelessWidget {
+  const _SettingsProfileCard({required this.publicId});
+
+  final String publicId;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final value = publicId.trim().isEmpty ? '------' : publicId.trim();
+    return CollectCard(
+      emphasis: CollectCardEmphasis.glow,
+      padding: const EdgeInsets.symmetric(
+        horizontal: CollectSpacing.x4,
+        vertical: CollectSpacing.x3,
+      ),
+      child: Row(
+        children: [
+          const _SettingsIconBadge(icon: CollectIcons.profile),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: Text(
+              value,
+              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                color: colors.textPrimary,
+                fontWeight: FontWeight.w900,
+                height: 0.96,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -97,10 +158,9 @@ class _ThemeModeTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(collectThemeModeProvider);
     final isDark = themeMode == ThemeMode.dark;
-    return CollectListTile(
+    return _SettingsTile(
       leading: CollectIcons.palette,
       title: 'Dark mode',
-      subtitle: isDark ? 'Night surfaces.' : 'Light surfaces.',
       onTap: () => unawaited(
         ref.read(collectThemeModeProvider.notifier).setDarkMode(!isDark),
       ),
@@ -109,6 +169,85 @@ class _ThemeModeTile extends ConsumerWidget {
         onChanged: (value) => unawaited(
           ref.read(collectThemeModeProvider.notifier).setDarkMode(value),
         ),
+      ),
+    );
+  }
+}
+
+class _SettingsTile extends StatelessWidget {
+  const _SettingsTile({
+    required this.leading,
+    required this.title,
+    this.trailing,
+    this.onTap,
+  });
+
+  final IconData leading;
+  final String title;
+  final Widget? trailing;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Semantics(
+      button: onTap != null,
+      label: title,
+      child: Material(
+        color: colors.transparent,
+        child: InkWell(
+          borderRadius: CollectRadius.mdBorder,
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: CollectSpacing.x1,
+              vertical: CollectSpacing.x2,
+            ),
+            child: Row(
+              children: [
+                _SettingsIconBadge(icon: leading),
+                CollectSpacing.gapW12,
+                Expanded(
+                  child: Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w900,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                CollectSpacing.gapW8,
+                trailing ??
+                    (onTap == null
+                        ? const SizedBox.shrink()
+                        : Icon(CollectIcons.chevron, color: colors.textMuted)),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SettingsIconBadge extends StatelessWidget {
+  const _SettingsIconBadge({required this.icon});
+
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.glassControl,
+        shape: BoxShape.circle,
+        border: Border.all(color: colors.glassBorder),
+      ),
+      child: SizedBox.square(
+        dimension: 44,
+        child: Icon(icon, color: colors.textSecondary, size: 22),
       ),
     );
   }
@@ -127,7 +266,10 @@ class _SettingsCluster extends StatelessWidget {
     return CollectCard(
       emphasis: CollectCardEmphasis.tonal,
       accentColor: accent,
-      padding: CollectSpacing.cardPaddingComfortable,
+      padding: const EdgeInsets.symmetric(
+        horizontal: CollectSpacing.x3,
+        vertical: CollectSpacing.x2,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: children,

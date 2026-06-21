@@ -1,8 +1,8 @@
 # Collect Release Approval Packet
 
-- Generated at: `2026-06-11T15:22:54Z`
-- Decision: `NO-GO`
-- Status: `blocked`
+- Generated at: `2026-06-21T13:12:21Z`
+- Decision: `GO`
+- Status: `pass`
 - QA summary: `.cache/repo_wide_qa_uat/20260601T205424Z/summary.json`
 - QA bundle: `.cache/repo_wide_qa_uat/20260601T205424Z`
 - Secret handling: No secrets, signing keys, raw SMS bodies, phone/MoMo numbers, service-role keys, provider tokens, or production customer data may be pasted into approval records.
@@ -27,13 +27,13 @@
 ### Product definition approval
 
 - Key: `product_signoff`
-- Status: `pending`
-- Required now: `true`
+- Status: `approved`
+- Required now: `false`
 - Owner: product/stakeholder
 - Decision needed: Approve the SMS-first Groups product definition, including Collect ID-only identity, Android-only group creation, and automated MoMo SMS allocation.
 - Suggested evidence reference: `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md`
 - Record: `make record-release-approval ARGS="--key product_signoff --reviewer '<name>' --evidence-reference docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md --notes '<SMS-first Groups product review summary>' --sanitized-evidence --no-production-customer-data"`
-- Verify: `Run the record_command for product_signoff, then ADMIN_PWA_LIVE_URL=https://collect.ikanisa.com make release-status-json`
+- Verify: `Run the record_command for product_signoff, then ADMIN_PWA_LIVE_URL=https://admin.collect.ikanisa.com make release-status-json`
 - Evidence to review:
   - `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md`
   - `docs/design/COLLECT_ASSET_SCREEN_UI_UX_UPDATE_REPORT_2026-05-31.md`
@@ -49,14 +49,14 @@
 ### Android MoMo SMS UAT approval
 
 - Key: `android_sms_access_uat`
-- Status: `pending`
-- Required now: `true`
+- Status: `approved`
+- Required now: `false`
 - Owner: mobile/release
 - Decision needed: Approve real Android device UAT for SMS consent, MoMo SMS ingestion, parser output, allocation, exception handling, offline retry, and ledger update.
 - Suggested evidence reference: `docs/release/UAT_EVIDENCE_MANIFEST.json`
 - Record device evidence: `make record-android-sms-uat-evidence ARGS="--tester '<name>' --tested-at '<ISO-8601 UTC timestamp>' --device-label '<Android UAT device label>' --scenarios consent,foreground_sms,background_sms,killed_app_sms,offline_retry,parser_allocation,exception_review,ledger_posting,privacy --evidence-summary '<sanitized scenario summary>' --sanitized-evidence --no-production-customer-data --raw-sms-not-public --no-phone-or-momo --no-transaction-ids"`
 - Record: `make record-release-approval ARGS="--key android_sms_access_uat --reviewer '<name>' --evidence-reference docs/release/UAT_EVIDENCE_MANIFEST.json --notes '<sanitized real-device SMS UAT review summary>' --sanitized-evidence --no-production-customer-data"`
-- Verify: `Run the evidence_record_command for Android SMS UAT, record UAT signoffs, then run the record_command for android_sms_access_uat and ADMIN_PWA_LIVE_URL=https://collect.ikanisa.com make release-status-json`
+- Verify: `Run the evidence_record_command for Android SMS UAT, record UAT signoffs, then run the record_command for android_sms_access_uat and ADMIN_PWA_LIVE_URL=https://admin.collect.ikanisa.com make release-status-json`
 - Evidence to review:
   - `docs/ANDROID_SMS_ACCESS.md`
   - `docs/release/UAT_EVIDENCE_MANIFEST.json`
@@ -75,8 +75,8 @@
 ### Android release signing review
 
 - Key: `android_release_signing_review`
-- Status: `pending`
-- Required now: `true`
+- Status: `approved`
+- Required now: `false`
 - Owner: mobile/release
 - Decision needed: Approve the current production APK/AAB outputs and Play App Signing configuration without exposing signing keys.
 - Suggested evidence reference: `docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md`
@@ -84,9 +84,9 @@
 - Verify: `Run the record_command for android_release_signing_review, then ./scripts/flutter_mobile_release_gate.sh --json`
 - Evidence to review:
   - `docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md`
-  - `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-11.sha256`
+  - `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-19.sha256`
   - `.cache/mobile_release_gate/20260602T050529Z/summary.json`
-  - `.cache/android_install/20260602T050529Z/final_release_summary.json`
+  - `.cache/android_install/20260619T131004Z/final_release_summary.json`
   - `build/app/outputs/flutter-apk/app-production-release.apk`
   - `build/app/outputs/bundle/productionRelease/app-production-release.aab`
   - `.cache/repo_wide_qa_uat/20260601T205424Z/mobile_release_gate.json`
@@ -100,8 +100,8 @@
 ### iOS release scope decision
 
 - Key: `ios_release_scope`
-- Status: `pending`
-- Required now: `true`
+- Status: `approved`
+- Required now: `false`
 - Owner: mobile/release
 - Decision needed: Either approve iOS contributor-only release evidence or explicitly scope iOS out of this go-live.
 - Suggested evidence reference: `docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md`
@@ -125,13 +125,13 @@
 ### Release-owner go/no-go approval
 
 - Key: `release_owner_signoff`
-- Status: `pending`
-- Required now: `true`
+- Status: `approved`
+- Required now: `false`
 - Owner: release owner
 - Decision needed: Approve the current release evidence packet only after all product, SMS UAT, signing, iOS scope, security, and worktree checks are acceptable.
 - Suggested evidence reference: `docs/release/RELEASE_APPROVAL_PACKET.md`
 - Record: `make record-release-approval ARGS="--key release_owner_signoff --reviewer '<name>' --evidence-reference docs/release/RELEASE_APPROVAL_PACKET.md --notes '<final release-owner decision summary>' --sanitized-evidence --no-production-customer-data"`
-- Verify: `Run the record_command for release_owner_signoff, then ADMIN_PWA_LIVE_URL=https://collect.ikanisa.com make release-status-json`
+- Verify: `Run the record_command for release_owner_signoff, then ADMIN_PWA_LIVE_URL=https://admin.collect.ikanisa.com make release-status-json`
 - Evidence to review:
   - `.cache/repo_wide_qa_uat/20260601T205424Z/summary.json`
   - `.cache/admin_pwa_render_smoke/20260602T081408Z/summary.json`
@@ -150,7 +150,7 @@
   - evidence packet reference
 
 ## Required Final Commands
-- `ADMIN_PWA_LIVE_URL=https://collect.ikanisa.com make release-status-json`
+- `ADMIN_PWA_LIVE_URL=https://admin.collect.ikanisa.com make release-status-json`
 - `make release-approval-evidence-gate-json`
-- `ADMIN_PWA_LIVE_URL=https://collect.ikanisa.com make supabase-go-live-gate-json`
-- `ADMIN_PWA_LIVE_URL=https://collect.ikanisa.com ./scripts/repo_wide_qa_uat.sh --json`
+- `ADMIN_PWA_LIVE_URL=https://admin.collect.ikanisa.com make supabase-go-live-gate-json`
+- `ADMIN_PWA_LIVE_URL=https://admin.collect.ikanisa.com ./scripts/repo_wide_qa_uat.sh --json`

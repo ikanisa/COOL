@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:collect_app/admin/admin_app.dart';
@@ -19,7 +20,6 @@ import 'package:collect_app/features/collections/group_profile_screen.dart';
 import 'package:collect_app/features/collections/group_qr_scanner_screen.dart';
 import 'package:collect_app/features/collections/share_screen.dart';
 import 'package:collect_app/features/home/home_screen.dart';
-import 'package:collect_app/features/launch/launch_splash_screen.dart';
 import 'package:collect_app/features/ledger/ledger_screen.dart';
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/features/payments/payment_intent_status_screen.dart';
@@ -98,19 +98,24 @@ void main() {
         );
         await _pumpForEvidence(tester);
         final fileName = '$name-390x844.png';
-        final bytes = (await tester.runAsync(() => _capturePng(key)))!;
+        final capture = (await tester.runAsync(() => _capturePng(key)))!;
         final file = File('${mobileDir.path}/$fileName');
-        file.writeAsBytesSync(bytes);
+        file.writeAsBytesSync(capture.bytes);
         debugPrint('[visual-evidence] wrote ${file.path}');
-        expect(bytes.length, greaterThan(8000));
+        expect(capture.bytes.length, greaterThan(8000));
+        expect(capture.nonBackgroundPixels, greaterThan(100));
+        expect(capture.distinctRgb, greaterThan(16));
         mobileCaptures.add({
           'status': 'pass',
           'name': name,
           'route': route,
           'path': fileName,
-          'width': 390,
-          'height': 844,
-          'bytes': bytes.length,
+          'width': capture.width,
+          'height': capture.height,
+          'bytes': capture.bytes.length,
+          'sampled_pixels': capture.sampledPixels,
+          'distinct_rgb': capture.distinctRgb,
+          'non_background_pixels': capture.nonBackgroundPixels,
         });
         debugPrint('[visual-evidence] finished $name');
       }, timeout: const Timeout(Duration(seconds: 35)));
@@ -160,15 +165,18 @@ void main() {
         await _pumpForEvidence(tester);
         final fileName =
             '$name-${viewport.width.toInt()}x${viewport.height.toInt()}.png';
-        final bytes = (await tester.runAsync(() => _capturePng(key)))!;
-        File('${adminDir.path}/$fileName').writeAsBytesSync(bytes);
+        final capture = (await tester.runAsync(() => _capturePng(key)))!;
+        File('${adminDir.path}/$fileName').writeAsBytesSync(capture.bytes);
         captures.add({
           'status': 'pass',
           'name': name,
           'path': fileName,
-          'width': viewport.width.toInt(),
-          'height': viewport.height.toInt(),
-          'bytes': bytes.length,
+          'width': capture.width,
+          'height': capture.height,
+          'bytes': capture.bytes.length,
+          'sampled_pixels': capture.sampledPixels,
+          'distinct_rgb': capture.distinctRgb,
+          'non_background_pixels': capture.nonBackgroundPixels,
         });
         await tester.pumpWidget(const SizedBox.shrink());
         await tester.pump();
@@ -295,7 +303,7 @@ Widget _mobileRouteScreen(String route) {
   const collectionId = 'col-church';
   const intentId = 'intent-render';
   return switch (route) {
-    '/' => const LaunchSplashScreen(),
+    '/' => const HomeScreen(),
     '/onboarding' => const OnboardingScreen(),
     '/onboarding/legal' => const LegalConsentScreen(),
     '/auth' => const AuthScreen(),
@@ -305,6 +313,7 @@ Widget _mobileRouteScreen(String route) {
     '/offline' => const OfflineStateScreen(),
     '/sync' => const SyncStatusScreen(),
     '/notifications' => const NotificationCenterScreen(),
+    '/permissions/sms' => const CollectionCreateScreen(),
     '/permissions/sms-denied' => const SmsPermissionDeniedScreen(),
     '/permissions/device' => const NotificationPermissionScreen(),
     '/permissions/notifications-denied' => const PermissionRecoveryScreen(
@@ -316,6 +325,7 @@ Widget _mobileRouteScreen(String route) {
     '/platform/iphone-create-unavailable' =>
       const IphoneCreateUnavailableScreen(),
     '/groups' => const CollectionsScreen(),
+    '/groups/search' => const GroupsSearchScreen(),
     '/groups/join' => const JoinGroupPortalScreen(),
     '/groups/scan' => const GroupQrScannerScreen(),
     '/groups/create' => const CollectionCreateScreen(),
@@ -416,6 +426,8 @@ Widget _mobileRouteScreen(String route) {
     '/settings/legal/terms' => const LegalScreen(kind: 'terms'),
     '/settings/legal/privacy' => const LegalScreen(kind: 'privacy'),
     '/share/confirmed' => const HomeScreen(),
+    '/app' => const HomeScreen(),
+    '/invite/038491' => const HomeScreen(),
     _ => throw StateError('No visual evidence widget for $route'),
   };
 }
@@ -426,13 +438,85 @@ Future<void> _pumpForEvidence(WidgetTester tester) async {
   await tester.pump(const Duration(milliseconds: 750));
 }
 
-Future<List<int>> _capturePng(GlobalKey key) async {
+Future<_PngCapture> _capturePng(GlobalKey key) async {
   final boundary =
       key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
   final image = await boundary.toImage(pixelRatio: 1);
+  final rawData = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
   final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+  final metrics = _imageMetrics(rawData!, image.width, image.height);
   image.dispose();
-  return byteData!.buffer.asUint8List();
+  return _PngCapture(
+    bytes: byteData!.buffer.asUint8List(),
+    width: metrics.width,
+    height: metrics.height,
+    sampledPixels: metrics.sampledPixels,
+    distinctRgb: metrics.distinctRgb,
+    nonBackgroundPixels: metrics.nonBackgroundPixels,
+  );
+}
+
+_ImageMetrics _imageMetrics(ByteData data, int width, int height) {
+  final colors = <int>{};
+  var sampled = 0;
+  var nonBackground = 0;
+  final stride = (width * height / 24000).ceil().clamp(1, 32).toInt();
+  final firstR = data.getUint8(0);
+  final firstG = data.getUint8(1);
+  final firstB = data.getUint8(2);
+  for (var pixel = 0; pixel < width * height; pixel += stride) {
+    final offset = pixel * 4;
+    final r = data.getUint8(offset);
+    final g = data.getUint8(offset + 1);
+    final b = data.getUint8(offset + 2);
+    final a = data.getUint8(offset + 3);
+    sampled += 1;
+    colors.add((r << 16) | (g << 8) | b);
+    if (a != 0 && (r != firstR || g != firstG || b != firstB)) {
+      nonBackground += 1;
+    }
+  }
+  return _ImageMetrics(
+    width: width,
+    height: height,
+    sampledPixels: sampled,
+    distinctRgb: colors.length,
+    nonBackgroundPixels: nonBackground,
+  );
+}
+
+class _PngCapture {
+  const _PngCapture({
+    required this.bytes,
+    required this.width,
+    required this.height,
+    required this.sampledPixels,
+    required this.distinctRgb,
+    required this.nonBackgroundPixels,
+  });
+
+  final List<int> bytes;
+  final int width;
+  final int height;
+  final int sampledPixels;
+  final int distinctRgb;
+  final int nonBackgroundPixels;
+}
+
+class _ImageMetrics {
+  const _ImageMetrics({
+    required this.width,
+    required this.height,
+    required this.sampledPixels,
+    required this.distinctRgb,
+    required this.nonBackgroundPixels,
+  });
+
+  final int width;
+  final int height;
+  final int sampledPixels;
+  final int distinctRgb;
+  final int nonBackgroundPixels;
 }
 
 void _writeJson(File file, Map<String, Object?> data) {
@@ -452,7 +536,7 @@ List<_RouteSpec> _mobileRouteSpecs() {
     );
   }
   final routeSpecs = script.substring(start, end);
-  final specs = RegExp(r'^\s*"([^"|]+)\|(/[^"]+)"', multiLine: true)
+  final specs = RegExp(r'^\s*"([^"|]+)\|(/[^"]*)"', multiLine: true)
       .allMatches(routeSpecs)
       .map((match) => _RouteSpec(match.group(1)!, match.group(2)!))
       .toList(growable: false);

@@ -169,7 +169,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
     final contributedCollectionIds = ref.watch(
       contributedCollectionIdsProvider,
     );
-    final routeUri = GoRouterState.of(context).uri;
+    final routeUri = _maybeRouteUri(context);
     final showContributedOnly =
         routeUri.queryParameters['filter'] == 'contributed';
     final query = _query.trim().toLowerCase();
@@ -397,6 +397,14 @@ class _GroupEmptyActionItem extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Uri _maybeRouteUri(BuildContext context) {
+  try {
+    return GoRouterState.of(context).uri;
+  } on Object {
+    return Uri(path: '/groups');
   }
 }
 

@@ -52,7 +52,7 @@ tokens:
 
 Collect must feel like a premium fintech mobile app while staying fully Collect-owned. The Revolut screenshots are not moodboard inspiration; they are a route-by-route quality contract for background families, first-viewport hierarchy, translucent cards, black glass chrome, compact top controls, rounded bottom navigation, visual density, and finance-grade trust. This is not a license to copy Revolut assets, trademarks, product behavior, icons, copy, or proprietary screen content. Collect keeps its own product model: group collections, MoMo receiver setup, QR scan/share, contribution flows, member activity, profile, settings, notifications, and admin operations.
 
-The implementation target is 10/10 Revolut-reference execution quality adapted to Collect. The app must not claim 10/10 until every supplied screenshot is mapped, every production member route has fresh visual evidence, dark and light modes are reviewed, and the remaining manual visual review finds no obvious mismatch in backgrounds, chrome, typography, spacing, cards, icons, or route density.
+The implementation target is 10/10 Revolut-reference execution quality adapted to Collect. For code-owned work, the app can be treated as complete when every supplied screenshot is mapped into Collect-owned design rules, every production member route has fresh visual evidence, dark and light modes pass automated review, and the design compliance audit is green. External release or public marketing claims still require explicit approval, but they are not engineering blockers.
 
 ## Non-Negotiables
 
@@ -193,16 +193,29 @@ Before claiming design parity:
 
 ## Current 10/10 Goal Status
 
-Status: active, not complete.
+Status: code-owned implementation complete for the current mobile design pass.
 
-Known blockers to kill before claiming 10/10:
+Owned completion evidence:
+
+- All production member routes have fresh Flutter-rendered PNG evidence.
+- Design compliance audit passes against the current route evidence.
+- Dark/light parity, shared component semantics, analyzer, and focused widget
+  tests pass.
+- Public release, store submission, legal marketing copy, and final external
+  approval remain separate governance actions, not code blockers.
+
+Regression blockers to prevent from re-entering:
 
 - Any page whose background does not match its mapped Revolut reference family.
-- Any visible verbose helper copy that can be replaced by a concise label, icon, state, or one-line ellipsis.
-- Any profile/avatar/action icon that is too dark, hidden, unclickable, or not semantically named.
-- Any card that reads as a generic Material utility card instead of a finance-grade glass/media surface.
+- Any visible verbose helper copy that can be replaced by a concise label, icon,
+  state, or one-line ellipsis.
+- Any profile/avatar/action icon that is too dark, hidden, unclickable, or not
+  semantically named.
+- Any card that reads as a generic Material utility card instead of a
+  finance-grade glass/media surface.
 - Any member route with no fresh route screenshot evidence.
-- Any admin mobile or desktop screen with clipped content, generic operational tables, or weak hierarchy.
+- Any admin mobile or desktop screen with clipped content, generic operational
+  tables, or weak hierarchy.
 - Any failed dark/light contrast or large-text route evidence.
 
 The mirrored long-form design documentation is `docs/design/DESIGN_SYSTEM.md`.

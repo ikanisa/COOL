@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-20T03:22:11Z",
+  "generated_at": "2026-06-21T15:16:42Z",
   "deployments": {
     "public_landing": {
       "provider": "cloudflare_workers_static_assets",
@@ -7,9 +7,9 @@
       "url": "https://collect.ikanisa.com",
       "deployment_url": "https://collect.ikanisa.com",
       "branch": "main",
-      "version_id": "8846365f-e805-4e61-b346-2a4a78e922bb",
+      "version_id": "b825f3bf-72af-4fe1-8f3f-9c56f3b99396",
       "live_gate_status": "pass",
-      "evidence": "curl -I -L https://collect.ikanisa.com"
+      "evidence": "wrangler deploy --name collect-public --assets build/public_web --compatibility-date 2026-06-21 --message \"Add Digital Asset Links for Play review\"; live HTTP 200 checks passed for https://collect.ikanisa.com/privacy/, https://collect.ikanisa.com/account-deletion/, https://collect.ikanisa.com/data-deletion/, and https://collect.ikanisa.com/.well-known/assetlinks.json."
     },
     "admin_pwa": {
       "provider": "cloudflare_workers_static_assets",

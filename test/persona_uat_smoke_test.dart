@@ -368,7 +368,8 @@ void main() {
 
     expect(find.text('Join group'), findsWidgets);
     expect(find.text('Join with a code.'), findsOneWidget);
-    expect(find.text('Group code or link'), findsOneWidget);
+    expect(find.text('Group code'), findsOneWidget);
+    expect(find.text('Group code or link'), findsNothing);
     expect(find.text('Join group'), findsWidgets);
     expect(find.text('Scan QR'), findsOneWidget);
     expect(find.byType(TextField), findsOneWidget);
