@@ -42,7 +42,12 @@ function sleep(ms) {
 }
 
 async function fetchJson(url, options = {}) {
-  const response = await fetch(url, options);
+  let response;
+  try {
+    response = await fetch(url, options);
+  } catch (error) {
+    throw new Error(`${options.method || 'GET'} ${url} failed: ${error.message}`);
+  }
   if (!response.ok) {
     throw new Error(`${options.method || 'GET'} ${url} returned HTTP ${response.status}`);
   }
@@ -51,12 +56,14 @@ async function fetchJson(url, options = {}) {
 
 async function waitForDevTools(baseUrl) {
   let lastError;
-  for (let attempt = 0; attempt < 50; attempt += 1) {
+  const timeoutMs = Number.parseInt(process.env.ADMIN_PWA_RUNTIME_DEVTOOLS_READY_MS || '60000', 10);
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
     try {
       return await fetchJson(`${baseUrl}/json/version`);
     } catch (error) {
       lastError = error;
-      await sleep(100);
+      await sleep(250);
     }
   }
   throw lastError || new Error('Chrome DevTools endpoint did not start');
@@ -251,7 +258,7 @@ const chromeLogPath = join(evidenceDir, 'pwa-runtime-chrome.log');
 const chromeLog = await import('node:fs').then((fs) => fs.createWriteStream(chromeLogPath));
 
 const chromeProcess = spawn(chrome, [
-  '--headless',
+  '--headless=new',
   '--force-device-scale-factor=1',
   '--disable-gpu',
   '--disable-background-networking',
@@ -262,6 +269,7 @@ const chromeProcess = spawn(chrome, [
   '--no-first-run',
   '--no-default-browser-check',
   `--user-data-dir=${chromeProfile}`,
+  '--remote-debugging-address=127.0.0.1',
   `--remote-debugging-port=${remotePort}`,
   'about:blank',
 ], {

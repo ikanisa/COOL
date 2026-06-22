@@ -89,11 +89,15 @@ void main() {
       RegExp(r'EAAG[A-Za-z0-9]{20,}'),
     ];
     final skippedRoots = {
+      '.cache',
       '.dart_tool',
       '.git',
       'build',
       'coverage',
+      'output',
       'ios/Pods',
+      'release-evidence',
+      'evidence-packs',
     };
     final files = Directory.current
         .listSync(recursive: true)

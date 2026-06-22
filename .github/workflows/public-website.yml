@@ -1,0 +1,80 @@
+name: Public Website Gates
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - '.github/workflows/public-website.yml'
+      - 'scripts/public_*.sh'
+      - 'scripts/public_*.rb'
+      - 'scripts/public_*.js'
+      - 'assets/brand/generated/**'
+      - 'web/.well-known/**'
+      - 'docs/design/COLLECT_PUBLIC_WEBSITE_*.md'
+      - 'docs/release/COLLECT_PUBLIC_WEBSITE_*.md'
+      - 'docs/release/collect_public_website_evidence_2026-06-22/**'
+  pull_request:
+    paths:
+      - '.github/workflows/public-website.yml'
+      - 'scripts/public_*.sh'
+      - 'scripts/public_*.rb'
+      - 'scripts/public_*.js'
+      - 'assets/brand/generated/**'
+      - 'web/.well-known/**'
+      - 'docs/design/COLLECT_PUBLIC_WEBSITE_*.md'
+      - 'docs/release/COLLECT_PUBLIC_WEBSITE_*.md'
+      - 'docs/release/collect_public_website_evidence_2026-06-22/**'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.sha || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  static-public-website:
+    name: Static public website
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run static public gates
+        run: bash scripts/public_website_ci_gate.sh static
+
+      - name: Upload public static evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-static-gates
+          path: |
+            build/public_website_ci/public-quality-gate.json
+            build/public_website_ci/public-indexnow-readiness.json
+            build/public_web/sitemap.xml
+            build/public_web/robots.txt
+          retention-days: 14
+
+  production-live-public-website:
+    name: Production live public website
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run production live public gates
+        run: bash scripts/public_website_ci_gate.sh live
+
+      - name: Upload production public evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-production-gates
+          path: |
+            build/public_website_ci/public-live-gate.json
+            build/public_website_ci/public-live-audit-evidence.json
+            build/public_website_ci/public-completion-gate.json
+          retention-days: 14

@@ -1,0 +1,11 @@
+{
+  "template": true,
+  "domain": "collect.ikanisa.com",
+  "required_final_filename": "google-search-console.json",
+  "accepted_evidence": [
+    "sitemap submitted",
+    "url inspection",
+    "indexing request"
+  ],
+  "notes": "This template intentionally does not satisfy the completion gate."
+}

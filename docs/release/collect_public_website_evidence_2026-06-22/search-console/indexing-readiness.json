@@ -1,0 +1,59 @@
+{
+  "checked_at_utc": "2026-06-22T08:17:38Z",
+  "domain": "collect.ikanisa.com",
+  "status": "ready_for_owner_submission",
+  "live_evidence": {
+    "robots_url": "https://collect.ikanisa.com/robots.txt",
+    "robots_allows_root": true,
+    "robots_references_sitemap": true,
+    "sitemap_url": "https://collect.ikanisa.com/sitemap.xml",
+    "sitemap_http_status": 200,
+    "sitemap_url_count": 18,
+    "sitemap_uses_absolute_urls": true,
+    "sitemap_uses_served_trailing_slash_urls": true,
+    "sitemap_urls_return_direct_http_200": true,
+    "sitemap_lastmod_values": [
+      "2026-06-22"
+    ],
+    "static_quality_gate": "pass 34/34",
+    "live_quality_gate": "pass 28/28",
+    "local_sitemap_route_metadata_verified": true,
+    "localized_hreflang_verified": true,
+    "indexnow_optional_key_build_supported": true,
+    "indexnow_key_published": false
+  },
+  "official_guidance_reviewed": [
+    {
+      "source": "Google Search Central",
+      "url": "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap",
+      "relevance": "Sitemap should be hosted at the site root, use fully-qualified absolute URLs, and may be submitted through Search Console."
+    },
+    {
+      "source": "Google Search Central Blog",
+      "url": "https://developers.google.com/search/blog/2023/06/sitemaps-lastmod-ping",
+      "relevance": "Google deprecated unauthenticated sitemap ping; submit through robots.txt and Search Console instead."
+    },
+    {
+      "source": "Bing Webmaster Tools IndexNow",
+      "url": "https://www.bing.com/indexnow/getstarted",
+      "relevance": "IndexNow requires an API key, hosted key file, URL submission, and Bing Webmaster verification."
+    },
+    {
+      "source": "IndexNow.org",
+      "url": "https://www.indexnow.org/documentation",
+      "relevance": "IndexNow keys must be 8-128 allowed characters and ownership is proven by hosting a UTF-8 key file in the host."
+    }
+  ],
+  "not_performed_by_codex": [
+    "Google Search Console sitemap submission",
+    "Google URL Inspection indexing request",
+    "Bing Webmaster Tools sitemap submission",
+    "IndexNow key publication",
+    "IndexNow URL submission"
+  ],
+  "reason_not_performed": "These are external platform submission or verification actions and require owner account access or explicit recorded owner approval.",
+  "accepted_completion_artifacts_still_required": [
+    "google-search-console.json or google-search-console.pdf or google-search-console.png",
+    "bing-webmaster.json or bing-webmaster.pdf or bing-webmaster.png or owner-approvals/bing-deferral.md"
+  ]
+}

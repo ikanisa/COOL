@@ -39,6 +39,22 @@ def pass_if(condition)
   condition ? "pass" : "fail"
 end
 
+def json_ld_types_for(html)
+  scripts = html.scan(%r{<script[^>]+type=["']application/ld\+json["'][^>]*>(.*?)</script>}m).flatten
+  types = []
+  parse_error = nil
+  begin
+    scripts.each do |script|
+      parsed = JSON.parse(script)
+      nodes = parsed.is_a?(Hash) && parsed["@graph"].is_a?(Array) ? parsed["@graph"] : [parsed]
+      types.concat(nodes.map { |node| node["@type"] if node.is_a?(Hash) }.compact)
+    end
+  rescue JSON::ParserError => e
+    parse_error = e.message
+  end
+  [scripts, types, parse_error]
+end
+
 headers_path = File.join(build_dir, "_headers")
 headers = read(headers_path)
 root_index = route_index(build_dir, "/")
@@ -117,6 +133,47 @@ end
   )
 end
 
+localized_hreflang_routes = {
+  "/" => {
+    "lang" => "en",
+    "locale" => "en_US",
+  },
+  "/rw/" => {
+    "lang" => "rw",
+    "locale" => "rw_RW",
+  },
+  "/fr/" => {
+    "lang" => "fr",
+    "locale" => "fr_FR",
+  },
+}
+hreflang_failures = []
+localized_hreflang_routes.each do |route, expected|
+  html = read(route_index(build_dir, route))
+  missing = []
+  missing << "html_lang" unless html.include?(%(<html lang="#{expected["lang"]}">))
+  missing << "og_locale" unless html.include?(%(property="og:locale" content="#{expected["locale"]}"))
+  hreflang_targets = {
+    "en" => "https://collect.ikanisa.com/",
+    "rw" => "https://collect.ikanisa.com/rw/",
+    "fr" => "https://collect.ikanisa.com/fr/",
+    "x-default" => "https://collect.ikanisa.com/",
+  }
+  hreflang_targets.each do |code, href|
+    missing << "hreflang_#{code}" unless html.include?(%(rel="alternate" hreflang="#{code}" href="#{href}"))
+  end
+  next if missing.empty?
+
+  hreflang_failures << { "route" => route, "missing" => missing }
+end
+check(
+  checks,
+  "localized_hreflang",
+  pass_if(hreflang_failures.empty?),
+  hreflang_failures.empty? ? "Localized home routes expose reciprocal hreflang and OG locale metadata." : "Localized home route hreflang metadata is incomplete.",
+  "failures" => hreflang_failures
+)
+
 raw_html_ok = root_html.include?("<main") &&
   root_html.include?("<h1") &&
   root_html.include?("Collect") &&
@@ -160,13 +217,29 @@ check(
   og_ok ? "Root social metadata exists." : "Root social metadata is incomplete."
 )
 
-json_ld_ok = root_html.include?('application/ld+json') &&
-  (root_html.include?('"Organization"') || root_html.include?('"FinancialService"') || root_html.include?('"SoftwareApplication"'))
+json_ld_scripts = root_html.scan(%r{<script[^>]+type=["']application/ld\+json["'][^>]*>(.*?)</script>}m).flatten
+json_ld_types = []
+json_ld_parse_error = nil
+begin
+  json_ld_scripts.each do |script|
+    parsed = JSON.parse(script)
+    nodes = parsed.is_a?(Hash) && parsed["@graph"].is_a?(Array) ? parsed["@graph"] : [parsed]
+    json_ld_types.concat(nodes.map { |node| node["@type"] if node.is_a?(Hash) }.compact)
+  end
+rescue JSON::ParserError => e
+  json_ld_parse_error = e.message
+end
+json_ld_ok = json_ld_scripts.any? &&
+  json_ld_parse_error.nil? &&
+  (json_ld_types.include?("Organization") || json_ld_types.include?("FinancialService")) &&
+  json_ld_types.include?("SoftwareApplication")
 check(
   checks,
   "structured_data",
   pass_if(json_ld_ok),
-  json_ld_ok ? "Structured data exists." : "Missing Organization/FinancialService/SoftwareApplication JSON-LD."
+  json_ld_ok ? "Structured data is valid JSON-LD." : "Missing or invalid Organization/FinancialService and SoftwareApplication JSON-LD.",
+  "types" => json_ld_types,
+  "parse_error" => json_ld_parse_error
 )
 
 robots_ok = robots.include?("User-agent: *") &&
@@ -189,6 +262,76 @@ check(
   missing_sitemap.empty? ? "Sitemap includes required public routes." : "Sitemap is missing required routes.",
   "missing" => missing_sitemap,
   "path" => sitemap_path
+)
+
+sitemap_url_count = sitemap.scan(%r{<url>}).length
+sitemap_lastmod_values = sitemap.scan(%r{<lastmod>([^<]+)</lastmod>}).flatten
+sitemap_lastmod_ok = sitemap_url_count.positive? &&
+  sitemap_lastmod_values.length == sitemap_url_count &&
+  sitemap_lastmod_values.all? { |value| value.match?(/\A\d{4}-\d{2}-\d{2}\z/) }
+check(
+  checks,
+  "sitemap_lastmod",
+  pass_if(sitemap_lastmod_ok),
+  sitemap_lastmod_ok ? "Sitemap includes ISO date lastmod for every URL." : "Sitemap is missing valid lastmod dates.",
+  "url_count" => sitemap_url_count,
+  "lastmod_count" => sitemap_lastmod_values.length,
+  "lastmod_values" => sitemap_lastmod_values.uniq,
+  "path" => sitemap_path
+)
+
+sitemap_route_failures = []
+sitemap.scan(%r{<loc>([^<]+)</loc>}).flatten.each do |url|
+  begin
+    uri = URI(url)
+  rescue URI::InvalidURIError
+    sitemap_route_failures << { "url" => url, "failure" => "invalid_uri" }
+    next
+  end
+
+  route = uri.path.empty? ? "/" : uri.path
+  unless uri.scheme == "https" && uri.host == "collect.ikanisa.com"
+    sitemap_route_failures << { "url" => url, "route" => route, "failure" => "wrong_host_or_scheme" }
+    next
+  end
+  unless route == "/" || route.end_with?("/")
+    sitemap_route_failures << { "url" => url, "route" => route, "failure" => "non_canonical_no_slash_route" }
+    next
+  end
+
+  path = route_index(build_dir, route)
+  html = read(path)
+  scripts, types, parse_error = json_ld_types_for(html)
+  route_ok = File.file?(path) &&
+    html.bytesize.positive? &&
+    !html.downcase.include?("noindex") &&
+    html.include?(%(<link rel="canonical" href="#{url}">)) &&
+    html.include?('property="og:title"') &&
+    html.include?('property="og:description"') &&
+    html.include?('name="twitter:card"') &&
+    scripts.any? &&
+    parse_error.nil? &&
+    types.include?("Organization") &&
+    types.include?("SoftwareApplication")
+
+  next if route_ok
+
+  sitemap_route_failures << {
+    "url" => url,
+    "route" => route,
+    "path" => path,
+    "file_exists" => File.file?(path),
+    "bytes" => html.bytesize,
+    "json_ld_types" => types,
+    "json_ld_parse_error" => parse_error,
+  }
+end
+check(
+  checks,
+  "sitemap_route_metadata",
+  pass_if(sitemap_route_failures.empty?),
+  sitemap_route_failures.empty? ? "Every sitemap route has local non-redirecting metadata-complete HTML." : "One or more sitemap routes lacks complete local metadata.",
+  "failures" => sitemap_route_failures
 )
 
 assetlinks_path = File.join(build_dir, ".well-known", "assetlinks.json")

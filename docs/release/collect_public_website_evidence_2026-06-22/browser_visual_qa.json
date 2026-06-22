@@ -1,0 +1,357 @@
+{
+  "checkedAt": "2026-06-22T07:57:41.101Z",
+  "baseUrl": "https://collect.ikanisa.com/",
+  "playwrightCore": "/Volumes/PRO-G40/Temp/caches/npm/_npx/705bc6b22212b352/node_modules/playwright-core/index.js",
+  "executablePath": "/Users/jeanbosco/Library/Caches/ms-playwright/chromium-1223/chrome-mac-x64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
+  "status": "pass",
+  "results": [
+    {
+      "viewport": "mobile_390x844",
+      "dimensions": {
+        "width": 390,
+        "height": 844
+      },
+      "screenshot": "/Volumes/PRO-G40/COOL/docs/release/collect_public_website_evidence_2026-06-22/screenshots/mobile_390x844.png",
+      "menuScreenshot": "/Volumes/PRO-G40/COOL/docs/release/collect_public_website_evidence_2026-06-22/screenshots/mobile_390x844_menu.png",
+      "checks": {
+        "http200": true,
+        "noConsoleErrors": true,
+        "noHorizontalOverflow": true,
+        "hasH1": true,
+        "ctaInFirstViewport": true,
+        "productSignalInFirstViewport": true,
+        "mobileMenuOpens": true,
+        "hasSelfServeForm": true,
+        "hasCreditExplainer": true,
+        "accessibleNames": true,
+        "localLoadUnder1500ms": true
+      },
+      "failures": [],
+      "metrics": {
+        "title": "Collect by IKANISA",
+        "h1": "Credit-ready saving for Rwanda's daily economy",
+        "lang": "en",
+        "bodyScrollWidth": 390,
+        "documentScrollWidth": 390,
+        "overflowX": false,
+        "header": {
+          "top": 0,
+          "bottom": 73,
+          "left": 0,
+          "right": 390,
+          "width": 390,
+          "height": 73
+        },
+        "hero": {
+          "top": 73,
+          "bottom": 1017,
+          "left": 0,
+          "right": 390,
+          "width": 390,
+          "height": 944
+        },
+        "h1Rect": {
+          "top": 167,
+          "bottom": 338,
+          "left": 20,
+          "right": 370,
+          "width": 350,
+          "height": 171
+        },
+        "primaryCta": {
+          "top": 470,
+          "bottom": 514,
+          "left": 20,
+          "right": 370,
+          "width": 350,
+          "height": 44
+        },
+        "productVisual": {
+          "top": 586,
+          "bottom": 973,
+          "left": 20,
+          "right": 370,
+          "width": 350,
+          "height": 388
+        },
+        "formPresent": true,
+        "formEmailInput": true,
+        "creditExplainer": true,
+        "noApprovalPromise": true,
+        "missingAltCount": 0,
+        "unnamedButtons": 0,
+        "unnamedLinksCount": 0,
+        "unlabeledInputs": 0,
+        "timing": {
+          "domContentLoadedMs": 333,
+          "loadMs": 335,
+          "transferSize": 3525,
+          "encodedBodySize": 3225
+        }
+      },
+      "consoleMessages": [],
+      "pageErrors": []
+    },
+    {
+      "viewport": "mobile_430x932",
+      "dimensions": {
+        "width": 430,
+        "height": 932
+      },
+      "screenshot": "/Volumes/PRO-G40/COOL/docs/release/collect_public_website_evidence_2026-06-22/screenshots/mobile_430x932.png",
+      "menuScreenshot": "/Volumes/PRO-G40/COOL/docs/release/collect_public_website_evidence_2026-06-22/screenshots/mobile_430x932_menu.png",
+      "checks": {
+        "http200": true,
+        "noConsoleErrors": true,
+        "noHorizontalOverflow": true,
+        "hasH1": true,
+        "ctaInFirstViewport": true,
+        "productSignalInFirstViewport": true,
+        "mobileMenuOpens": true,
+        "hasSelfServeForm": true,
+        "hasCreditExplainer": true,
+        "accessibleNames": true,
+        "localLoadUnder1500ms": true
+      },
+      "failures": [],
+      "metrics": {
+        "title": "Collect by IKANISA",
+        "h1": "Credit-ready saving for Rwanda's daily economy",
+        "lang": "en",
+        "bodyScrollWidth": 430,
+        "documentScrollWidth": 430,
+        "overflowX": false,
+        "header": {
+          "top": 0,
+          "bottom": 73,
+          "left": 0,
+          "right": 430,
+          "width": 430,
+          "height": 73
+        },
+        "hero": {
+          "top": 73,
+          "bottom": 995,
+          "left": 0,
+          "right": 430,
+          "width": 430,
+          "height": 922
+        },
+        "h1Rect": {
+          "top": 151,
+          "bottom": 339,
+          "left": 20,
+          "right": 410,
+          "width": 390,
+          "height": 188
+        },
+        "primaryCta": {
+          "top": 448,
+          "bottom": 492,
+          "left": 20,
+          "right": 410,
+          "width": 390,
+          "height": 44
+        },
+        "productVisual": {
+          "top": 564,
+          "bottom": 951,
+          "left": 20,
+          "right": 410,
+          "width": 390,
+          "height": 388
+        },
+        "formPresent": true,
+        "formEmailInput": true,
+        "creditExplainer": true,
+        "noApprovalPromise": true,
+        "missingAltCount": 0,
+        "unnamedButtons": 0,
+        "unnamedLinksCount": 0,
+        "unlabeledInputs": 0,
+        "timing": {
+          "domContentLoadedMs": 252,
+          "loadMs": 255,
+          "transferSize": 3525,
+          "encodedBodySize": 3225
+        }
+      },
+      "consoleMessages": [],
+      "pageErrors": []
+    },
+    {
+      "viewport": "tablet_768x1024",
+      "dimensions": {
+        "width": 768,
+        "height": 1024
+      },
+      "screenshot": "/Volumes/PRO-G40/COOL/docs/release/collect_public_website_evidence_2026-06-22/screenshots/tablet_768x1024.png",
+      "menuScreenshot": "/Volumes/PRO-G40/COOL/docs/release/collect_public_website_evidence_2026-06-22/screenshots/tablet_768x1024_menu.png",
+      "checks": {
+        "http200": true,
+        "noConsoleErrors": true,
+        "noHorizontalOverflow": true,
+        "hasH1": true,
+        "ctaInFirstViewport": true,
+        "productSignalInFirstViewport": true,
+        "mobileMenuOpens": true,
+        "hasSelfServeForm": true,
+        "hasCreditExplainer": true,
+        "accessibleNames": true,
+        "localLoadUnder1500ms": true
+      },
+      "failures": [],
+      "metrics": {
+        "title": "Collect by IKANISA",
+        "h1": "Credit-ready saving for Rwanda's daily economy",
+        "lang": "en",
+        "bodyScrollWidth": 768,
+        "documentScrollWidth": 768,
+        "overflowX": false,
+        "header": {
+          "top": 0,
+          "bottom": 81,
+          "left": 0,
+          "right": 768,
+          "width": 768,
+          "height": 81
+        },
+        "hero": {
+          "top": 81,
+          "bottom": 1033,
+          "left": 0,
+          "right": 768,
+          "width": 768,
+          "height": 952
+        },
+        "h1Rect": {
+          "top": 155,
+          "bottom": 328,
+          "left": 38,
+          "right": 730,
+          "width": 691,
+          "height": 173
+        },
+        "primaryCta": {
+          "top": 437,
+          "bottom": 481,
+          "left": 38,
+          "right": 171,
+          "width": 132,
+          "height": 44
+        },
+        "productVisual": {
+          "top": 519,
+          "bottom": 969,
+          "left": 38,
+          "right": 730,
+          "width": 691,
+          "height": 450
+        },
+        "formPresent": true,
+        "formEmailInput": true,
+        "creditExplainer": true,
+        "noApprovalPromise": true,
+        "missingAltCount": 0,
+        "unnamedButtons": 0,
+        "unnamedLinksCount": 0,
+        "unlabeledInputs": 0,
+        "timing": {
+          "domContentLoadedMs": 268,
+          "loadMs": 271,
+          "transferSize": 3525,
+          "encodedBodySize": 3225
+        }
+      },
+      "consoleMessages": [],
+      "pageErrors": []
+    },
+    {
+      "viewport": "desktop_1440x1000",
+      "dimensions": {
+        "width": 1440,
+        "height": 1000
+      },
+      "screenshot": "/Volumes/PRO-G40/COOL/docs/release/collect_public_website_evidence_2026-06-22/screenshots/desktop_1440x1000.png",
+      "menuScreenshot": null,
+      "checks": {
+        "http200": true,
+        "noConsoleErrors": true,
+        "noHorizontalOverflow": true,
+        "hasH1": true,
+        "ctaInFirstViewport": true,
+        "productSignalInFirstViewport": true,
+        "mobileMenuOpens": true,
+        "hasSelfServeForm": true,
+        "hasCreditExplainer": true,
+        "accessibleNames": true,
+        "localLoadUnder1500ms": true
+      },
+      "failures": [],
+      "metrics": {
+        "title": "Collect by IKANISA",
+        "h1": "Credit-ready saving for Rwanda's daily economy",
+        "lang": "en",
+        "bodyScrollWidth": 1440,
+        "documentScrollWidth": 1440,
+        "overflowX": false,
+        "header": {
+          "top": 0,
+          "bottom": 81,
+          "left": 0,
+          "right": 1440,
+          "width": 1440,
+          "height": 81
+        },
+        "hero": {
+          "top": 81,
+          "bottom": 1009,
+          "left": 0,
+          "right": 1440,
+          "width": 1440,
+          "height": 928
+        },
+        "h1Rect": {
+          "top": 300,
+          "bottom": 661,
+          "left": 64,
+          "right": 767,
+          "width": 703,
+          "height": 361
+        },
+        "primaryCta": {
+          "top": 820,
+          "bottom": 864,
+          "left": 64,
+          "right": 196,
+          "width": 132,
+          "height": 44
+        },
+        "productVisual": {
+          "top": 290,
+          "bottom": 840,
+          "left": 839,
+          "right": 1376,
+          "width": 537,
+          "height": 550
+        },
+        "formPresent": true,
+        "formEmailInput": true,
+        "creditExplainer": true,
+        "noApprovalPromise": true,
+        "missingAltCount": 0,
+        "unnamedButtons": 0,
+        "unnamedLinksCount": 0,
+        "unlabeledInputs": 0,
+        "timing": {
+          "domContentLoadedMs": 258,
+          "loadMs": 262,
+          "transferSize": 3525,
+          "encodedBodySize": 3225
+        }
+      },
+      "consoleMessages": [],
+      "pageErrors": []
+    }
+  ]
+}

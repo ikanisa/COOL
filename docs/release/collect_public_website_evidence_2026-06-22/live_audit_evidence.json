@@ -1,0 +1,152 @@
+{
+  "checked_at_utc": "2026-06-22T08:25:51Z",
+  "base_url": "https://collect.ikanisa.com",
+  "status": "pass",
+  "checks": {
+    "http_all_required_routes_200": true,
+    "root_cacheable_no_noindex": true,
+    "valid_structured_data": true,
+    "seo_metadata": true,
+    "no_flutter_or_wasm": true,
+    "static_accessibility_signals": true,
+    "localized_routes": true,
+    "performance_budgets": true,
+    "mobile_responsive_css": true
+  },
+  "metrics": {
+    "root_elapsed_ms": 240,
+    "root_html_bytes": 8871,
+    "css_bytes": 8534,
+    "js_bytes": 377,
+    "critical_first_party_bytes": 177445,
+    "json_ld_types": [
+      "Organization",
+      "SoftwareApplication"
+    ],
+    "json_ld_parse_error": null,
+    "root_cache_control": "public, max-age=300, must-revalidate",
+    "root_cf_cache_status": "HIT"
+  },
+  "route_matrix": {
+    "/": {
+      "status": 200,
+      "elapsed_ms": 240,
+      "bytes": 8871,
+      "content_type": "text/html",
+      "cache_control": "public, max-age=300, must-revalidate",
+      "cf_cache_status": "HIT"
+    },
+    "/privacy/": {
+      "status": 200,
+      "elapsed_ms": 117,
+      "bytes": 10663,
+      "content_type": "text/html",
+      "cache_control": "public, max-age=0, must-revalidate",
+      "cf_cache_status": "HIT"
+    },
+    "/terms/": {
+      "status": 200,
+      "elapsed_ms": 132,
+      "bytes": 8236,
+      "content_type": "text/html",
+      "cache_control": "public, max-age=0, must-revalidate",
+      "cf_cache_status": "HIT"
+    },
+    "/account-deletion/": {
+      "status": 200,
+      "elapsed_ms": 157,
+      "bytes": 8276,
+      "content_type": "text/html",
+      "cache_control": "public, max-age=0, must-revalidate",
+      "cf_cache_status": "HIT"
+    },
+    "/data-deletion/": {
+      "status": 200,
+      "elapsed_ms": 137,
+      "bytes": 8494,
+      "content_type": "text/html",
+      "cache_control": "public, max-age=0, must-revalidate",
+      "cf_cache_status": "HIT"
+    },
+    "/trust/": {
+      "status": 200,
+      "elapsed_ms": 118,
+      "bytes": 8909,
+      "content_type": "text/html",
+      "cache_control": "public, max-age=0, must-revalidate",
+      "cf_cache_status": "HIT"
+    },
+    "/security/": {
+      "status": 200,
+      "elapsed_ms": 108,
+      "bytes": 8914,
+      "content_type": "text/html",
+      "cache_control": "public, max-age=0, must-revalidate",
+      "cf_cache_status": "HIT"
+    },
+    "/rw/": {
+      "status": 200,
+      "elapsed_ms": 123,
+      "bytes": 9090,
+      "content_type": "text/html",
+      "cache_control": "public, max-age=0, must-revalidate",
+      "cf_cache_status": "HIT"
+    },
+    "/fr/": {
+      "status": 200,
+      "elapsed_ms": 128,
+      "bytes": 9159,
+      "content_type": "text/html",
+      "cache_control": "public, max-age=0, must-revalidate",
+      "cf_cache_status": "HIT"
+    },
+    "/sitemap.xml": {
+      "status": 200,
+      "elapsed_ms": 128,
+      "bytes": 1748,
+      "content_type": "application/xml",
+      "cache_control": "public, max-age=0, must-revalidate",
+      "cf_cache_status": "HIT"
+    },
+    "/robots.txt": {
+      "status": 200,
+      "elapsed_ms": 192,
+      "bytes": 72,
+      "content_type": "text/plain",
+      "cache_control": "public, max-age=0, must-revalidate",
+      "cf_cache_status": "HIT"
+    },
+    "/styles.css": {
+      "status": 200,
+      "elapsed_ms": 163,
+      "bytes": 8534,
+      "content_type": "text/css",
+      "cache_control": "public, max-age=31536000, immutable",
+      "cf_cache_status": "HIT"
+    },
+    "/site.js": {
+      "status": 200,
+      "elapsed_ms": 136,
+      "bytes": 377,
+      "content_type": "text/javascript",
+      "cache_control": "public, max-age=31536000, immutable",
+      "cf_cache_status": "HIT"
+    },
+    "/assets/brand/generated/collect_visual_group_momentum.png": {
+      "status": 200,
+      "elapsed_ms": 145,
+      "bytes": 56432,
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "cf_cache_status": "HIT"
+    },
+    "/icons/collect.png": {
+      "status": 200,
+      "elapsed_ms": 172,
+      "bytes": 103231,
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "cf_cache_status": "HIT"
+    }
+  }
+}

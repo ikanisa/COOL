@@ -17,6 +17,8 @@ BRAND_ASSET = "assets/brand/generated/collect_visual_group_momentum.png"
 MOMO_ASSET = "assets/brand/generated/collect_visual_momo_signal.png"
 QR_ASSET = "assets/brand/generated/collect_visual_qr_share.png"
 ICON_ASSET = "assets/brand/generated/collect_app_icon_rule.png"
+INDEXNOW_KEY = ENV.fetch("PUBLIC_INDEXNOW_KEY", "").strip
+INDEXNOW_KEY_PATTERN = /\A[A-Za-z0-9-]{8,128}\z/
 
 PRIMARY_NAV = [
   ["Group savings", "/group-savings/"],
@@ -244,7 +246,8 @@ def whatsapp_url(message)
 end
 
 def page_url(path)
-  "#{PUBLIC_URL}#{path == "/" ? "/" : path.delete_suffix("/")}"
+  normalized_path = path == "/" ? "/" : "#{path.delete_suffix("/")}/"
+  "#{PUBLIC_URL}#{normalized_path}"
 end
 
 def write_file(path, body)
@@ -265,38 +268,68 @@ def nav_html(current_path)
 end
 
 def language_links(current_path)
+  localized_home_paths = LANGUAGES.values.map { |data| data[:path] }
   LANGUAGES.map do |code, data|
-    href = code == "en" ? current_path : data[:path]
+    href = if localized_home_paths.include?(current_path)
+             data[:path]
+           elsif code == "en"
+             current_path
+           else
+             data[:path]
+           end
     %(<a href="#{href}" lang="#{code}">#{esc(data[:name])}</a>)
   end.join
 end
 
+def localized_home_path?(path)
+  LANGUAGES.values.map { |data| data[:path] }.include?(path)
+end
+
+def alternate_links(current_path)
+  return "" unless localized_home_path?(current_path)
+
+  links = LANGUAGES.map do |code, data|
+    %(<link rel="alternate" hreflang="#{code}" href="#{page_url(data[:path])}">)
+  end
+  links << %(<link rel="alternate" hreflang="x-default" href="#{page_url("/")}">)
+  links.join("\n  ")
+end
+
+def og_locale_for(code)
+  {
+    "en" => "en_US",
+    "rw" => "rw_RW",
+    "fr" => "fr_FR"
+  }.fetch(code, "en_US")
+end
+
 def json_ld(page)
-  [
-    {
-      "@context" => "https://schema.org",
-      "@type" => "Organization",
-      "name" => "IKANISA Ltd.",
-      "url" => PUBLIC_URL,
-      "email" => CONTACT_EMAIL,
-      "contactPoint" => {
-        "@type" => "ContactPoint",
-        "contactType" => "customer support",
-        "telephone" => DISPLAY_PHONE,
+  JSON.generate({
+    "@context" => "https://schema.org",
+    "@graph" => [
+      {
+        "@type" => "Organization",
+        "name" => "IKANISA Ltd.",
+        "url" => PUBLIC_URL,
         "email" => CONTACT_EMAIL,
-        "areaServed" => "RW"
+        "contactPoint" => {
+          "@type" => "ContactPoint",
+          "contactType" => "customer support",
+          "telephone" => DISPLAY_PHONE,
+          "email" => CONTACT_EMAIL,
+          "areaServed" => "RW"
+        }
+      },
+      {
+        "@type" => "SoftwareApplication",
+        "name" => "Collect by IKANISA",
+        "applicationCategory" => "FinanceApplication",
+        "operatingSystem" => "Android, Web",
+        "url" => page_url(page[:path]),
+        "description" => page[:description]
       }
-    },
-    {
-      "@context" => "https://schema.org",
-      "@type" => "SoftwareApplication",
-      "name" => "Collect by IKANISA",
-      "applicationCategory" => "FinanceApplication",
-      "operatingSystem" => "Android, Web",
-      "url" => page_url(page[:path]),
-      "description" => page[:description]
-    }
-  ].map { |item| JSON.generate(item) }.join("\n")
+    ]
+  })
 end
 
 def metric_grid(metrics)
@@ -347,10 +380,11 @@ def page_html(page, current_path: page[:path], localized: nil)
   intro = localized ? localized[:hero_body] : page[:intro]
   primary_cta = localized ? localized[:primary_cta] : "Start a group"
   secondary_cta = localized ? localized[:secondary_cta] : "Talk on WhatsApp"
+  lang_code = localized ? localized[:code] : "en"
 
   <<~HTML
     <!doctype html>
-    <html lang="#{localized ? localized[:code] : "en"}">
+    <html lang="#{lang_code}">
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -358,9 +392,11 @@ def page_html(page, current_path: page[:path], localized: nil)
       <meta name="description" content="#{esc(page[:description])}">
       <meta name="theme-color" content="#8885F0">
       <link rel="canonical" href="#{page_url(current_path)}">
+      #{alternate_links(current_path)}
       <link rel="icon" href="/icons/collect.png" type="image/png">
       <link rel="manifest" href="/manifest.json">
       <meta property="og:type" content="website">
+      <meta property="og:locale" content="#{og_locale_for(lang_code)}">
       <meta property="og:url" content="#{page_url(current_path)}">
       <meta property="og:title" content="#{esc(page[:title])}">
       <meta property="og:description" content="#{esc(page[:description])}">
@@ -421,7 +457,7 @@ def page_html(page, current_path: page[:path], localized: nil)
             <li><strong>Save consistently</strong><span>Groups contribute through familiar MoMo and app-supported workflows.</span></li>
             <li><strong>Build a ledger</strong><span>Collect organizes contribution history, roles, and progress into readable records.</span></li>
             <li><strong>Share with consent</strong><span>Members or groups control what can be shared for support or provider review.</span></li>
-            <li><strong>Provider decides</strong><span>Collect prepares evidence. Credit and insurance decisions remain with the provider.</span></li>
+            <li><strong>Provider decides</strong><span>Collect prepares evidence. Final credit decisions remain with the provider, and protection decisions remain with the relevant approved provider.</span></li>
           </ol>
         </section>
 
@@ -541,9 +577,9 @@ def stylesheet
     .site-footer nav { display: flex; flex-wrap: wrap; justify-content: flex-end; align-content: start; gap: 12px 18px; }
     .site-footer a { color: rgba(250,248,245,.82); font-weight: 800; }
     @media (max-width: 980px) {
-      .site-header { flex-wrap: wrap; }
+      .site-header { flex-wrap: nowrap; }
       .menu-button { display: inline-flex; margin-left: auto; }
-      .site-nav { display: none; flex-basis: 100%; justify-content: flex-start; overflow: visible; flex-wrap: wrap; }
+      .site-nav { display: none; position: absolute; top: 100%; left: 0; right: 0; padding: 12px clamp(20px, 5vw, 64px) 18px; justify-content: flex-start; overflow: visible; flex-wrap: wrap; background: #050510; border-bottom: 1px solid rgba(250,248,245,.1); box-shadow: 0 24px 60px rgba(0,0,0,.35); }
       .site-nav.open { display: flex; }
       .header-actions { display: none; }
       .hero { min-height: auto; grid-template-columns: 1fr; padding-top: 40px; }
@@ -556,13 +592,13 @@ def stylesheet
     @media (max-width: 560px) {
       .site-header { padding: 14px 20px; gap: 12px; }
       .brand strong { font-size: 18px; }
-      .hero { padding: 34px 20px 52px; gap: 24px; }
-      h1 { font-size: clamp(40px, 13vw, 58px); }
-      .hero-intro { font-size: 18px; margin: 20px 0 24px; }
+      .hero { padding: 28px 20px 44px; gap: 18px; }
+      h1 { font-size: clamp(38px, 11.4vw, 50px); line-height: .96; }
+      .hero-intro { font-size: 17px; margin: 18px 0 20px; }
       .hero-actions { display: grid; grid-template-columns: 1fr; }
       .button { width: 100%; }
-      .hero-device { min-height: 330px; }
-      .hero-device > img { opacity: .52; }
+      .hero-device { min-height: 275px; }
+      .hero-device > img { width: min(100%, 310px); opacity: .58; }
       .phone-panel { width: 94%; padding: 18px; }
       .phone-panel strong { font-size: 27px; }
       .metric-grid, .content-grid { grid-template-columns: 1fr; }
@@ -626,11 +662,17 @@ end
 
 FileUtils.rm_rf(BUILD_DIR)
 FileUtils.mkdir_p(BUILD_DIR)
+build_lastmod = Time.now.utc.strftime("%Y-%m-%d")
+
+unless INDEXNOW_KEY.empty? || INDEXNOW_KEY.match?(INDEXNOW_KEY_PATTERN)
+  abort("PUBLIC_INDEXNOW_KEY must be 8-128 characters using A-Z, a-z, 0-9, or dashes only")
+end
 
 write_file(File.join(BUILD_DIR, "styles.css"), stylesheet)
 write_file(File.join(BUILD_DIR, "site.js"), site_js)
 write_file(File.join(BUILD_DIR, "_headers"), headers)
 write_file(File.join(BUILD_DIR, "robots.txt"), "User-agent: *\nAllow: /\nSitemap: #{PUBLIC_URL}/sitemap.xml\n")
+write_file(File.join(BUILD_DIR, "#{INDEXNOW_KEY}.txt"), "#{INDEXNOW_KEY}\n") unless INDEXNOW_KEY.empty?
 
 assets = [
   BRAND_ASSET,
@@ -702,7 +744,7 @@ LANGUAGES.each do |code, data|
 end
 
 sitemap_urls = all_paths.uniq.sort.map do |path|
-  "  <url><loc>#{page_url(path)}</loc></url>"
+  "  <url><loc>#{page_url(path)}</loc><lastmod>#{build_lastmod}</lastmod></url>"
 end.join("\n")
 write_file(
   File.join(BUILD_DIR, "sitemap.xml"),
@@ -714,7 +756,8 @@ write_file(
   JSON.pretty_generate(
     "name" => "collect-public-static",
     "generated_at" => Time.now.utc.iso8601,
-    "routes" => all_paths.uniq.sort
+    "routes" => all_paths.uniq.sort,
+    "indexnow_key_file" => INDEXNOW_KEY.empty? ? nil : "#{INDEXNOW_KEY}.txt"
   ) + "\n"
 )
 
