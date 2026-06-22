@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-06-22T08:25:52Z",
+  "checked_at_utc": "2026-06-22T08:26:56Z",
   "status": "fail",
   "code_checks": {
     "static_quality_gate": true,
@@ -153,7 +153,7 @@
       "failed": 0
     },
     "audit_metrics": {
-      "root_elapsed_ms": 240,
+      "root_elapsed_ms": 199,
       "root_html_bytes": 8871,
       "css_bytes": 8534,
       "js_bytes": 377,

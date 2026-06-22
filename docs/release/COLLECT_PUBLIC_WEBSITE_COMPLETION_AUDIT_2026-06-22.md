@@ -1,6 +1,6 @@
 # Collect Public Website Completion Audit
 
-Generated: 2026-06-22T08:24:30Z
+Generated: 2026-06-22T08:26:01Z
 
 Overall status: **NO-GO**
 
@@ -15,7 +15,7 @@ The public website code-owned remediation is green, but the overall goal is not 
 
 ## Live Metrics
 
-- Root response: 159 ms
+- Root response: 316 ms
 - Root HTML: 8871 bytes
 - CSS: 8534 bytes
 - JS: 377 bytes

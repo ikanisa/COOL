@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-06-22T08:25:51Z",
+  "checked_at_utc": "2026-06-22T08:26:56Z",
   "base_url": "https://collect.ikanisa.com",
   "status": "pass",
   "checks": {
@@ -14,7 +14,7 @@
     "mobile_responsive_css": true
   },
   "metrics": {
-    "root_elapsed_ms": 240,
+    "root_elapsed_ms": 199,
     "root_html_bytes": 8871,
     "css_bytes": 8534,
     "js_bytes": 377,
@@ -30,7 +30,7 @@
   "route_matrix": {
     "/": {
       "status": 200,
-      "elapsed_ms": 240,
+      "elapsed_ms": 199,
       "bytes": 8871,
       "content_type": "text/html",
       "cache_control": "public, max-age=300, must-revalidate",
@@ -38,7 +38,7 @@
     },
     "/privacy/": {
       "status": 200,
-      "elapsed_ms": 117,
+      "elapsed_ms": 140,
       "bytes": 10663,
       "content_type": "text/html",
       "cache_control": "public, max-age=0, must-revalidate",
@@ -46,7 +46,7 @@
     },
     "/terms/": {
       "status": 200,
-      "elapsed_ms": 132,
+      "elapsed_ms": 139,
       "bytes": 8236,
       "content_type": "text/html",
       "cache_control": "public, max-age=0, must-revalidate",
@@ -54,7 +54,7 @@
     },
     "/account-deletion/": {
       "status": 200,
-      "elapsed_ms": 157,
+      "elapsed_ms": 152,
       "bytes": 8276,
       "content_type": "text/html",
       "cache_control": "public, max-age=0, must-revalidate",
@@ -62,7 +62,7 @@
     },
     "/data-deletion/": {
       "status": 200,
-      "elapsed_ms": 137,
+      "elapsed_ms": 155,
       "bytes": 8494,
       "content_type": "text/html",
       "cache_control": "public, max-age=0, must-revalidate",
@@ -70,7 +70,7 @@
     },
     "/trust/": {
       "status": 200,
-      "elapsed_ms": 118,
+      "elapsed_ms": 171,
       "bytes": 8909,
       "content_type": "text/html",
       "cache_control": "public, max-age=0, must-revalidate",
@@ -78,7 +78,7 @@
     },
     "/security/": {
       "status": 200,
-      "elapsed_ms": 108,
+      "elapsed_ms": 174,
       "bytes": 8914,
       "content_type": "text/html",
       "cache_control": "public, max-age=0, must-revalidate",
@@ -86,7 +86,7 @@
     },
     "/rw/": {
       "status": 200,
-      "elapsed_ms": 123,
+      "elapsed_ms": 153,
       "bytes": 9090,
       "content_type": "text/html",
       "cache_control": "public, max-age=0, must-revalidate",
@@ -94,7 +94,7 @@
     },
     "/fr/": {
       "status": 200,
-      "elapsed_ms": 128,
+      "elapsed_ms": 169,
       "bytes": 9159,
       "content_type": "text/html",
       "cache_control": "public, max-age=0, must-revalidate",
@@ -102,7 +102,7 @@
     },
     "/sitemap.xml": {
       "status": 200,
-      "elapsed_ms": 128,
+      "elapsed_ms": 163,
       "bytes": 1748,
       "content_type": "application/xml",
       "cache_control": "public, max-age=0, must-revalidate",
@@ -110,7 +110,7 @@
     },
     "/robots.txt": {
       "status": 200,
-      "elapsed_ms": 192,
+      "elapsed_ms": 149,
       "bytes": 72,
       "content_type": "text/plain",
       "cache_control": "public, max-age=0, must-revalidate",
@@ -118,7 +118,7 @@
     },
     "/styles.css": {
       "status": 200,
-      "elapsed_ms": 163,
+      "elapsed_ms": 166,
       "bytes": 8534,
       "content_type": "text/css",
       "cache_control": "public, max-age=31536000, immutable",
@@ -126,7 +126,7 @@
     },
     "/site.js": {
       "status": 200,
-      "elapsed_ms": 136,
+      "elapsed_ms": 148,
       "bytes": 377,
       "content_type": "text/javascript",
       "cache_control": "public, max-age=31536000, immutable",
@@ -134,7 +134,7 @@
     },
     "/assets/brand/generated/collect_visual_group_momentum.png": {
       "status": 200,
-      "elapsed_ms": 145,
+      "elapsed_ms": 188,
       "bytes": 56432,
       "content_type": "image/png",
       "cache_control": "public, max-age=31536000, immutable",
@@ -142,7 +142,7 @@
     },
     "/icons/collect.png": {
       "status": 200,
-      "elapsed_ms": 172,
+      "elapsed_ms": 265,
       "bytes": 103231,
       "content_type": "image/png",
       "cache_control": "public, max-age=31536000, immutable",

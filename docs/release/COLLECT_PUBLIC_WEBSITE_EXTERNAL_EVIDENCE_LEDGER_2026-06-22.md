@@ -24,7 +24,7 @@ Owner sign-off pack:
 | Performance budgets | Latest completion audit recorded root response 275 ms, root HTML 8,871 bytes, CSS 8,534 bytes, JS 377 bytes, and critical first-party bytes 177,445. Mobile Lighthouse scores are Performance 98, Accessibility 96, Best Practices 100, SEO 100; desktop Lighthouse scores are Performance 100, Accessibility 96, Best Practices 100, SEO 100. | Proven |
 | Visual QA | `scripts/public_website_playwright_visual_qa.js` captured exact-dimension screenshots at 390x844, 430x932, 768x1024, and 1440x1000, with no automated browser QA failures. | Proven |
 | Completion gate | `scripts/public_website_completion_gate.sh --json` runs static, live, audit-evidence, and external artifact checks. It validates Lighthouse JSON scores, approval-file content, and screenshot PNG dimensions. | Code-owned checks pass; five external artifacts missing or invalid |
-| CI automation | `.github/workflows/public-website.yml` runs the static public build, static quality gate, IndexNow readiness boundary, production live gate, live audit evidence, and code-owned completion checks. | Available |
+| CI automation | `scripts/public_website_ci_gate.sh` is the local/CI entrypoint; `.github/workflows/public-website.yml` runs the static public build, static quality gate, IndexNow readiness boundary, production live gate, live audit evidence, and code-owned completion checks. | Available |
 | External evidence audit | `scripts/public_website_external_evidence_audit.sh` prints a readable action list from the completion gate. | Available |
 | Completion report | `scripts/public_website_completion_report.sh` generates `docs/release/COLLECT_PUBLIC_WEBSITE_COMPLETION_AUDIT_2026-06-22.md`. | Available; current status NO-GO |
 
