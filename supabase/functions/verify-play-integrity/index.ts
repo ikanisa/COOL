@@ -37,8 +37,8 @@ function base64Url(input: ArrayBuffer | string): string {
 
 function pemToArrayBuffer(pem: string): ArrayBuffer {
   const body = pem
-    .replace(/-----BEGIN PRIVATE KEY-----/g, "")
-    .replace(/-----END PRIVATE KEY-----/g, "")
+    .replace(/-----BEGIN [^-]+-----/g, "")
+    .replace(/-----END [^-]+-----/g, "")
     .replace(/\s+/g, "");
   const binary = atob(body);
   const bytes = new Uint8Array(binary.length);

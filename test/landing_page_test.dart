@@ -123,6 +123,41 @@ void main() {
     }
   });
 
+  testWidgets('Public privacy page covers Play deletion requirements', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1200, 1600);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      MaterialApp(home: CollectPublicPage(data: publicPageForPath('/privacy'))),
+    );
+
+    final verticalScrollable = find.byWidgetPredicate(
+      (widget) =>
+          widget is Scrollable && widget.axisDirection == AxisDirection.down,
+    );
+
+    expect(find.text('Privacy Policy and Data Deletion'), findsWidgets);
+    await tester.scrollUntilVisible(
+      find.text('Account deletion request'),
+      700,
+      scrollable: verticalScrollable,
+    );
+    expect(find.text('Account deletion request'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('Data deletion and correction request'),
+      700,
+      scrollable: verticalScrollable,
+    );
+    expect(find.text('Data deletion and correction request'), findsOneWidget);
+    expect(find.textContaining('info@ikanisa.com'), findsWidgets);
+    expect(find.textContaining('+250 795 588 248'), findsWidgets);
+    expect(find.textContaining('without reinstalling the app'), findsOneWidget);
+  });
+
   testWidgets('Collect public website avoids internal and non-customer copy', (
     tester,
   ) async {

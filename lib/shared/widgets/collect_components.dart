@@ -97,6 +97,77 @@ class CollectButton extends StatelessWidget {
 
 enum CollectButtonVariant { primary, secondary, subtle, danger }
 
+IconData collectionTypeIcon(CollectionType type) {
+  return switch (type) {
+    CollectionType.ikimina => CollectIcons.savings,
+    CollectionType.sport => CollectIcons.sport,
+    CollectionType.church => CollectIcons.church,
+    CollectionType.wedding => CollectIcons.wedding,
+    CollectionType.other => CollectIcons.collections,
+  };
+}
+
+class CollectionTypeBadge extends StatelessWidget {
+  const CollectionTypeBadge({
+    required this.type,
+    this.compact = false,
+    super.key,
+  });
+
+  final CollectionType type;
+  final bool compact;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = colors.textPrimary;
+    final background = Color.alphaBlend(
+      colors.actionColor.withValues(alpha: 0.10),
+      colors.surfaceRaised,
+    );
+    return Semantics(
+      label: '${type.label} collection',
+      child: ExcludeSemantics(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: background,
+            borderRadius: CollectRadius.pillBorder,
+            border: Border.all(
+              color: colors.actionColor.withValues(alpha: 0.18),
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: compact ? CollectSpacing.x2 : CollectSpacing.x3,
+              vertical: compact ? CollectSpacing.x1 : CollectSpacing.x2,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  collectionTypeIcon(type),
+                  size: compact ? 15 : 17,
+                  color: foreground,
+                ),
+                CollectSpacing.gapW8,
+                Text(
+                  type.label,
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: foreground,
+                    fontWeight: FontWeight.w800,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class CollectCard extends StatelessWidget {
   const CollectCard({
     required this.child,

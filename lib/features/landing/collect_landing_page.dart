@@ -384,43 +384,86 @@ const _publicPages = <CollectPublicPageData>[
   CollectPublicPageData(
     path: '/privacy',
     navLabel: 'Privacy Policy',
-    title: 'Privacy Policy',
+    title: 'Privacy Policy and Data Deletion',
     intro:
-        'Collect protects customer information with clear consent, limited access and practical safeguards for savings, credit-readiness and insurance journeys.',
+        'Collect protects customer information with clear consent, limited access, practical safeguards, and account and data deletion request paths for savings, support, credit-readiness and insurance journeys.',
     imageAsset: 'assets/brand/generated/collect_visual_qr_share.png',
     metricA: 'Consent',
     metricALabel: 'Customer control',
-    metricB: 'Secure',
-    metricBLabel: 'Records handling',
+    metricB: 'Delete',
+    metricBLabel: 'Request path',
     sections: [
       CollectPublicSectionData(
         title: 'Information we collect',
         body:
-            'Collect may collect account details, group membership records, contribution activity, payment references, support messages and documents needed to run savings or credit-readiness services.',
+            'Collect may collect information needed to create and support an account, operate savings groups, keep contribution records, verify support requests, and prepare customer-requested credit-readiness or insurance records.',
         bullets: [
-          'Identity and contact details provided by the customer',
-          'Group rules, roles, contributions and payout records',
-          'Support requests, consent choices and service messages',
+          'Identity, contact, Collect ID and account details provided by the customer',
+          'Group membership, roles, rules, contribution activity and payout records',
+          'Payment references, support messages, consent choices and service notifications',
+          'Camera or image inputs only when a customer uses a QR, support, or evidence feature',
         ],
       ),
       CollectPublicSectionData(
         title: 'How information is used',
         body:
-            'Customer information is used to operate Collect, maintain ledgers, support savings groups, prepare credit-readiness files, improve service quality and respond to customer requests.',
+            'Customer information is used to operate Collect, maintain group records, support savings workflows, prepare records customers request, protect accounts, prevent misuse, and respond to customer support or deletion requests.',
         bullets: [
-          'Operate app, WhatsApp and group workflows',
-          'Prepare records customers request for savings and credit use',
-          'Protect accounts, prevent misuse and support recovery',
+          'Operate app, WhatsApp, support and group workflows',
+          'Prepare savings, contribution, credit-readiness and insurance support records',
+          'Protect accounts, prevent misuse, investigate disputes and support recovery',
+          'Improve reliability, customer support and service quality',
+        ],
+      ),
+      CollectPublicSectionData(
+        title: 'Sharing and service providers',
+        body:
+            'Collect does not sell customer personal data. Information may be shared only when needed to operate the service, support customer requests, process payment or support workflows, meet legal obligations, or work with service providers under appropriate controls.',
+        bullets: [
+          'Payment, messaging, hosting, analytics, security and support service providers',
+          'Banks, insurers, cooperatives, group leaders or partners only when required for a customer-requested workflow',
+          'Authorities, auditors or dispute handlers where legally required',
+        ],
+      ),
+      CollectPublicSectionData(
+        title: 'Security and retention',
+        body:
+            'Collect uses access controls, transport security and operational safeguards to protect customer information. Records are kept only as long as needed for the service, customer support, security, audit, dispute, payment reconciliation, tax, legal or regulatory reasons.',
+        bullets: [
+          'Data is protected in transit and access is limited by role',
+          'Raw sensitive records are minimized where possible',
+          'Ledger, security, dispute, payment and legal records may be retained where required',
+        ],
+      ),
+      CollectPublicSectionData(
+        title: 'Account deletion request',
+        body:
+            'Customers can request deletion of their Collect account and associated account data from inside the app or from this public web resource without reinstalling the app.',
+        bullets: [
+          'In app: Settings, then account deletion request',
+          'Email: info@ikanisa.com with the phone number or Collect ID connected to the account',
+          'WhatsApp: +250 795 588 248 with the same account details',
+          'IKANISA may verify account ownership before processing the request',
+        ],
+      ),
+      CollectPublicSectionData(
+        title: 'Data deletion and correction request',
+        body:
+            'Customers can also ask IKANISA to delete or correct personal data that is no longer needed for Collect. When an app account is deleted, associated user data is deleted unless limited retention is required for legitimate security, fraud-prevention, ledger, dispute, payment, audit, tax, legal or regulatory reasons.',
+        bullets: [
+          'Request deletion or correction by app, email or WhatsApp',
+          'Support reviews open groups, unresolved payments and required records',
+          'Support can confirm request status and explain retained record categories',
         ],
       ),
       CollectPublicSectionData(
         title: 'Customer choices and contact',
         body:
-            'Customers can ask for help, request corrections or raise privacy questions by email or WhatsApp.',
+            'Customers can ask privacy questions, request access, correction, account deletion or data deletion, and get support through IKANISA contact channels.',
         bullets: [
           'Email: info@ikanisa.com',
           'WhatsApp: +250 795 588 248',
-          'Support for customer records',
+          'Website: https://collect.ikanisa.com/#/privacy',
         ],
       ),
     ],

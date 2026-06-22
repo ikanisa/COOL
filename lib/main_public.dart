@@ -51,6 +51,16 @@ class CollectPublicWebsiteApp extends StatelessWidget {
 }
 
 String _initialPublicLocation() {
+  final fragment = Uri.base.fragment;
+  if (fragment.startsWith('/')) {
+    final fragmentPath = fragment.split('?').first;
+    if (publicWebsitePaths.contains(fragmentPath)) return fragmentPath;
+    if (fragmentPath.length > 1 && fragmentPath.endsWith('/')) {
+      final normalized = fragmentPath.substring(0, fragmentPath.length - 1);
+      if (publicWebsitePaths.contains(normalized)) return normalized;
+    }
+  }
+
   final path = Uri.base.path;
   if (publicWebsitePaths.contains(path)) return path;
   if (path.length > 1 && path.endsWith('/')) {

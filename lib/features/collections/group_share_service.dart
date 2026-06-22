@@ -13,7 +13,7 @@ String groupDeepLinkFor(AppEnv env, CollectCollection collection) {
 
 String groupShareMessageFor(AppEnv env, CollectCollection collection) {
   final link = groupDeepLinkFor(env, collection);
-  return 'Join ${collection.title} on Collect: $link';
+  return 'Join ${collection.title} for ${collection.collectionType.shortPurpose.toLowerCase()} on Collect: $link';
 }
 
 Future<void> shareGroupDeepLink({

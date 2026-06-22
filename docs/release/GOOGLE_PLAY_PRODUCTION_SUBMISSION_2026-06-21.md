@@ -7,8 +7,8 @@ Generated: 2026-06-21
 - Package: `app.cool.mobile`
 - Version: `1.2.2+9`
 - AAB: `build/app/outputs/bundle/productionRelease/app-production-release.aab`
-- AAB SHA-256: `c403edcd24fab2fb7b11d1306ade42bfaa149a27b5e2c28cd064c6da1f048e0b`
-- APK SHA-256: `ca0db6d131b3b07ddb3a11b9277b38365f51281adb85d17a9d289bd8d7603695`
+- AAB SHA-256: `a18d5ac50c3483a9c64c169da81a56618d23d223e72a4b9cca326f8aedaf57d0`
+- APK SHA-256: `0ef629998a3a05d39bd3d738c89aebccf65abed4c095b016dee7c3d02433deca`
 
 ## Completed
 
@@ -16,7 +16,10 @@ Generated: 2026-06-21
 - `scripts/flutter_mobile_release_gate.sh --json` passed.
 - `scripts/google_play_optimization_gate.sh --json` passed all code/live URL checks except the account-controlled Play Console audit blocker.
 - Deployed `/.well-known/assetlinks.json` to `https://collect.ikanisa.com/.well-known/assetlinks.json`.
-- Verified live policy URLs and Admin PWA JavaScript assets return HTTP 200.
+- Deployed the corrected public privacy/account/data deletion page to `https://collect.ikanisa.com/#/privacy`.
+- Verified `https://collect.ikanisa.com/#/privacy` returns HTTP 200 and the fetched HTML contains `Privacy Policy and Data Deletion`, account deletion request instructions, data deletion request instructions, `info@ikanisa.com`, and `+250 795 588 248`.
+- Verified the rejected legacy URL `https://gen-lang-client-0172279957.web.app/privacy` still returns HTTP 404 and must not be used in Play Console.
+- Verified live policy URL and Admin PWA JavaScript assets return HTTP 200.
 - Opened live Google Play Console production track and confirmed:
   - Release `8 (1.2.1)` is `Update rejected`.
   - Release `7 (1.2.0)` remains available on Google Play.
@@ -27,6 +30,12 @@ Generated: 2026-06-21
   - `bash -n scripts/google_play_production_upload.sh` passes.
   - `scripts/google_play_production_upload.sh --json` dry-runs against the exact AAB and SHA-256 into `.cache/google_play_optimization/android_publisher_upload_v9_dry_run.json`.
   - `scripts/google_play_production_upload.sh --submit --json` blocks cleanly on auth without printing secrets into `.cache/google_play_optimization/android_publisher_upload_v9.json`.
+- Corrected Play Console App content on 2026-06-22:
+  - Privacy policy URL saved as `https://collect.ikanisa.com/#/privacy`.
+  - Data safety `Delete account URL` saved as `https://collect.ikanisa.com/#/privacy`.
+  - Data safety `Delete data URL` saved as `https://collect.ikanisa.com/#/privacy`.
+  - Publishing overview showed three changes submitted for review: `Production` rollout `8 (1.2.1)`, `App content > Privacy policy`, and `Data safety`.
+  - Final Play Console verification showed `Changes in review` and `Your changes are now in review. We may find additional issues when reviewing your app.`
 
 ## Blocked Upload Attempts
 
@@ -56,6 +65,8 @@ Generated: 2026-06-21
 - `scripts/google_play_optimization_gate.sh --json` exited `99` only for `play_console_surface_audit_required`; artifact, target API, permission, App Links, policy URL, and Admin PWA live checks passed.
 - Chrome Play Console read-only check confirmed production release `9` is still waiting for bundle upload.
 - `flutter test --no-pub test/release_docs_test.dart` passed after updating stale release-governance assertions to use an explicit pending-approval fixture where a blocked manifest is required.
+- `flutter test --no-pub test/landing_page_test.dart` passed after adding coverage that the public privacy page includes account deletion and data deletion request language.
+- `flutter test --no-pub test/landing_page_test.dart test/release_docs_test.dart` currently fails in `test/release_docs_test.dart` on unrelated release-evidence drift around `mobile release gate ignores direct approval environment overrides` and the old expected Android UAT evidence path; the privacy page test itself passes.
 
 ## Remaining Action
 

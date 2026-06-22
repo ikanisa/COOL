@@ -294,7 +294,7 @@ void main() {
     await tester.pump();
 
     expect(find.text('Review contribution'), findsOneWidget);
-    expect(find.text('Pay with MoMo'), findsOneWidget);
+    expect(find.text('Give to this church collection'), findsOneWidget);
     expect(find.text('Edit amount'), findsWidgets);
   });
 }

@@ -411,7 +411,10 @@ Uri _maybeRouteUri(BuildContext context) {
 bool _matchesQuery(CollectCollection collection, String query) {
   if (query.isEmpty) return true;
   return collection.title.toLowerCase().contains(query) ||
-      collection.slug.toLowerCase().contains(query);
+      collection.slug.toLowerCase().contains(query) ||
+      collection.collectionType.label.toLowerCase().contains(query) ||
+      collection.collectionType.shortPurpose.toLowerCase().contains(query) ||
+      (collection.purposeLabel?.toLowerCase().contains(query) ?? false);
 }
 
 int _compareGroups(

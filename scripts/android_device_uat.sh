@@ -81,10 +81,19 @@ if [[ -f "$DRIVER" ]]; then
     --target="$TEST_TARGET"
     -d "$DEVICE_ID"
     --flavor "$FLAVOR"
+    --dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true
   )
   runner="drive"
 else
-  cmd=("$FLUTTER" test --no-pub -d "$DEVICE_ID" --flavor "$FLAVOR" "$TEST_TARGET")
+  cmd=(
+    "$FLUTTER"
+    test
+    --no-pub
+    -d "$DEVICE_ID"
+    --flavor "$FLAVOR"
+    --dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true
+    "$TEST_TARGET"
+  )
   runner="test"
 fi
 

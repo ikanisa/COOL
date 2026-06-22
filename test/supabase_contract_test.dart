@@ -81,6 +81,21 @@ void main() {
   final schemaInventory = File(
     'scripts/supabase_schema_inventory.sh',
   ).readAsStringSync();
+  final marketExpansion = File(
+    'supabase/migrations/20260622090000_market_expansion_categories_stripe_foundation.sql',
+  ).readAsStringSync();
+  final stripeShared = File(
+    'supabase/functions/_shared/stripe.ts',
+  ).readAsStringSync();
+  final stripeSetupIntentFunction = File(
+    'supabase/functions/stripe-create-setup-intent/index.ts',
+  ).readAsStringSync();
+  final stripeContributionFunction = File(
+    'supabase/functions/stripe-create-diaspora-contribution/index.ts',
+  ).readAsStringSync();
+  final stripeWebhookFunction = File(
+    'supabase/functions/stripe-webhook/index.ts',
+  ).readAsStringSync();
 
   String migrationSection(String text, String start, String end) {
     final startIndex = text.indexOf(start);
@@ -170,6 +185,146 @@ void main() {
     );
     expect(groupCreationFunction, isNot(contains('target_amount_rwf')));
     expect(groupCreationFunction, isNot(contains('cover_image_url')));
+  });
+
+  test(
+    'market expansion reintroduces approved collection categories safely',
+    () {
+      expect(marketExpansion, contains('collection_type text not null'));
+      for (final type in ['ikimina', 'sport', 'church', 'wedding', 'other']) {
+        expect(marketExpansion, contains("'$type'"));
+      }
+      expect(marketExpansion, contains('group_collection_type text default'));
+      expect(marketExpansion, contains('c.collection_type'));
+      expect(marketExpansion, contains('c.category_subtype'));
+      expect(marketExpansion, contains('c.purpose_label'));
+      expect(marketExpansion, contains('c.diaspora_enabled'));
+      expect(marketExpansion, isNot(contains('anonymity_choice')));
+      expect(marketExpansion, isNot(contains('display_name')));
+      expect(marketExpansion, isNot(contains('avatar_url')));
+    },
+  );
+
+  test(
+    'stripe diaspora foundation keeps raw bank data out of client tables',
+    () {
+      expect(
+        marketExpansion,
+        contains('create table if not exists stripe_customers'),
+      );
+      expect(
+        marketExpansion,
+        contains('create table if not exists stripe_payment_methods'),
+      );
+      expect(
+        marketExpansion,
+        contains('create table if not exists diaspora_contribution_intents'),
+      );
+      expect(
+        marketExpansion,
+        contains('create table if not exists stripe_webhook_events'),
+      );
+      for (final method in [
+        'us_bank_account',
+        'acss_debit',
+        'customer_balance_eur_bank_transfer',
+        'customer_balance_gbp_bank_transfer',
+      ]) {
+        expect(marketExpansion, contains("'$method'"));
+      }
+      expect(marketExpansion, contains("'GBP'"));
+      expect(marketExpansion, contains("'gb'"));
+      expect(marketExpansion, contains("'CAD'"));
+      expect(marketExpansion, contains("'ca'"));
+      expect(
+        marketExpansion,
+        contains('diaspora_contribution_intents_domestic_currency_check'),
+      );
+      expect(
+        marketExpansion,
+        contains('stripe_payment_methods_domestic_currency_check'),
+      );
+      expect(
+        marketExpansion,
+        contains(
+          "region = 'ca' and currency = 'CAD' and method_type = 'acss_debit'",
+        ),
+      );
+      expect(marketExpansion, isNot(contains('sepa_debit')));
+      expect(marketExpansion, contains('stripe_payment_methods_owner_select'));
+      expect(
+        marketExpansion,
+        contains('diaspora_contribution_intents_participant_select'),
+      );
+      expect(marketExpansion, contains('display_last4'));
+      expect(marketExpansion, isNot(contains('account_number')));
+      expect(marketExpansion, isNot(contains('routing_number')));
+      expect(marketExpansion, isNot(contains('iban')));
+    },
+  );
+
+  test('stripe functions use current bank-debit-first APIs', () {
+    expect(stripeShared, contains('2026-02-25.clover'));
+    expect(stripeShared, contains('us_bank_account'));
+    expect(stripeShared, contains('acss_debit'));
+    expect(stripeShared, contains('customer_balance_eur_bank_transfer'));
+    expect(stripeShared, contains('customer_balance_gbp_bank_transfer'));
+    expect(stripeShared, contains('eu_bank_transfer'));
+    expect(stripeShared, contains('gb_bank_transfer'));
+    expect(stripeShared, contains('"CAD"'));
+    expect(stripeShared, contains('"ca"'));
+    expect(
+      stripeShared,
+      contains(
+        'payment_method_options[acss_debit][mandate_options][payment_schedule]',
+      ),
+    );
+    expect(
+      stripeShared,
+      contains(
+        'payment_method_options[acss_debit][mandate_options][transaction_type]',
+      ),
+    );
+    expect(stripeShared, contains('"microdeposits"'));
+    expect(stripeShared, isNot(contains('sepa_debit')));
+    expect(stripeSetupIntentFunction, contains('"setup_intents"'));
+    expect(
+      stripeSetupIntentFunction,
+      contains('region !== "us" && region !== "ca"'),
+    );
+    expect(
+      stripeSetupIntentFunction,
+      contains('"payment_method_types[]", "acss_debit"'),
+    );
+    expect(stripeSetupIntentFunction, contains('"microdeposits"'));
+    expect(stripeContributionFunction, contains('"payment_intents"'));
+    expect(
+      stripeContributionFunction,
+      contains('appendPaymentIntentRailOptions'),
+    );
+    expect(stripeWebhookFunction, contains('stripe-signature'));
+    expect(stripeWebhookFunction, contains('STRIPE_WEBHOOK_SECRET'));
+    final stripeSurface = [
+      stripeShared,
+      stripeSetupIntentFunction,
+      stripeContributionFunction,
+      stripeWebhookFunction,
+    ].join('\n');
+    expect(stripeSurface, isNot(contains('/v1/charges')));
+    expect(stripeSurface, isNot(contains('/v1/sources')));
+    expect(stripeSurface, isNot(contains('/v1/tokens')));
+    expect(
+      stripeSurface.toLowerCase(),
+      isNot(contains('financial_connections')),
+    );
+    expect(
+      stripeSurface.toLowerCase(),
+      isNot(contains('verification_method]", "instant"')),
+    );
+    expect(
+      stripeSurface.toLowerCase(),
+      isNot(contains('verification_method]", "automatic"')),
+    );
   });
 
   test('public profile and contribution views expose only Collect IDs', () {

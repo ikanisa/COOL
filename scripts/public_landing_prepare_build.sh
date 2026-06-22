@@ -42,7 +42,7 @@ pages = [
   ["/community-groups", "Community Groups | Collect by IKANISA", "Community groups for saving and support", "A mobile app for trusted groups that save and support members."],
   ["/impact", "Impact | Collect by IKANISA", "Impact for Rwanda's daily economy", "Public market scale across payments, saving, insurance and reachable customer groups."],
   ["/our-partners", "Our Partners | Collect by IKANISA", "Our Partners", "Public data points for banks, insurers, cooperatives and payment partners."],
-  ["/privacy", "Privacy Policy | Collect by IKANISA", "Privacy Policy", "How Collect handles customer information."],
+  ["/privacy", "Privacy Policy and Data Deletion | Collect by IKANISA", "Privacy Policy and Data Deletion", "How Collect handles customer information, account deletion requests and data deletion requests."],
   ["/account-deletion", "Account Deletion | Collect by IKANISA", "Account Deletion", "Request account deletion from the Collect app or through IKANISA support at info@ikanisa.com or +250 795 588 248. Some ledger, security, dispute and legal records may be retained where required."],
   ["/data-deletion", "Data Deletion | Collect by IKANISA", "Data Deletion", "Ask IKANISA to delete or correct Collect personal data that is no longer needed for the service by using the app deletion request or contacting support."],
   ["/terms", "Terms of Service | Collect by IKANISA", "Terms of Service", "How customers use Collect services."]
@@ -88,6 +88,9 @@ unless index.include?('property="og:title"')
         #collect-static-landing .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
         #collect-static-landing .button { border: 1px solid rgba(250,248,245,.22); border-radius: 14px; padding: 13px 18px; text-decoration: none; }
         #collect-static-landing .primary { background: #8885f0; color: #fff; border-color: #8885f0; }
+        #collect-static-landing .policy-summary { border-top: 1px solid rgba(250,248,245,.16); margin-top: 44px; padding-top: 28px; }
+        #collect-static-landing .policy-summary h2 { color: #fff; font-size: 26px; line-height: 1.15; margin: 24px 0 10px; }
+        #collect-static-landing .policy-summary p { font-size: 17px; max-width: 860px; }
         #collect-static-landing .ussd { font-size: clamp(24px, 4vw, 42px); font-weight: 900; letter-spacing: 0; color: #fff; }
         #collect-static-landing .ussd-phone { width: min(100%, 340px); border-radius: 34px; padding: 16px; background: #08070d; border: 1px solid rgba(250,248,245,.18); box-shadow: 0 22px 50px rgba(136,133,240,.24); margin: 28px 0 18px; }
         #collect-static-landing .ussd-speaker { width: 72px; height: 5px; border-radius: 999px; background: rgba(250,248,245,.24); margin: 0 auto 16px; }
@@ -129,6 +132,13 @@ unless index.include?('id="collect-static-landing"')
           <a class="button primary" href="https://wa.me/250795588248?text=Hello%20IKANISA%2C%20I%20want%20to%20get%20the%20Collect%20app.">Get the App</a>
           <a class="button" href="https://wa.me/250795588248?text=Hello%20IKANISA%2C%20I%20want%20to%20create%20a%20Collect%20group.">Create Group</a>
         </div>
+        <section class="policy-summary" aria-label="Collect privacy and deletion summary">
+          <h2>Privacy Policy and Data Deletion</h2>
+          <p>The official Google Play privacy, account deletion and data deletion URL is <a href="https://collect.ikanisa.com/#/privacy">https://collect.ikanisa.com/#/privacy</a>.</p>
+          <p>Collect may collect identity, contact, Collect ID, group membership, contribution activity, payment reference, support, consent and service-message data needed to operate savings, support, credit-readiness and insurance workflows. Camera or image data is used only when a customer uses QR, support or evidence features.</p>
+          <p>Customers can request account deletion and associated data deletion in the app through Settings, or without reinstalling the app by emailing <a href="mailto:info@ikanisa.com">info@ikanisa.com</a> or messaging WhatsApp <a href="https://wa.me/250795588248">+250 795 588 248</a> with the phone number or Collect ID connected to the account. IKANISA may verify account ownership before processing the request.</p>
+          <p>When an app account is deleted, associated user data is deleted unless limited retention is required for security, fraud prevention, group ledger integrity, payment reconciliation, audit, tax, legal, regulatory or dispute reasons. Customers can also request correction or deletion of personal data that is no longer needed for Collect.</p>
+        </section>
       </div>
     </main>
   HTML
@@ -136,7 +146,27 @@ unless index.include?('id="collect-static-landing"')
 end
 File.write(index_path, index)
 
+def privacy_details_html
+  <<~HTML
+    <section class="policy-summary" aria-label="Collect privacy and deletion details">
+      <h2>What Collect collects</h2>
+      <p>Collect may collect identity, contact, Collect ID and account details, group membership, roles, rules, contribution activity, payout records, payment references, support messages, consent choices and service notifications. Camera or image inputs are used only when a customer chooses QR, support or evidence features.</p>
+      <h2>How Collect uses information</h2>
+      <p>Information is used to operate the app, WhatsApp, support and group workflows; maintain group records; prepare savings, contribution, credit-readiness and insurance support records requested by customers; protect accounts; prevent misuse; investigate disputes; and improve reliability and support.</p>
+      <h2>Sharing and service providers</h2>
+      <p>Collect does not sell customer personal data. Information may be shared with payment, messaging, hosting, analytics, security and support service providers; with banks, insurers, cooperatives, group leaders or partners only when required for a customer-requested workflow; or with authorities, auditors or dispute handlers where legally required.</p>
+      <h2>Security and retention</h2>
+      <p>Collect uses access controls, transport security and operational safeguards. Records are kept only as long as needed for the service, customer support, security, fraud prevention, audit, dispute, payment reconciliation, tax, legal or regulatory reasons.</p>
+      <h2>Account deletion request</h2>
+      <p>Customers can request deletion of their Collect account and associated data from inside the app through Settings, or from this public web resource without reinstalling the app. Email <a href="mailto:info@ikanisa.com">info@ikanisa.com</a> or message WhatsApp <a href="https://wa.me/250795588248">+250 795 588 248</a> with the phone number or Collect ID connected to the account. IKANISA may verify account ownership before processing the request.</p>
+      <h2>Data deletion and correction request</h2>
+      <p>Customers can ask IKANISA to delete or correct personal data that is no longer needed for Collect. When an app account is deleted, associated user data is deleted unless limited retention is required for legitimate security, fraud-prevention, ledger, dispute, payment, audit, tax, legal or regulatory reasons.</p>
+    </section>
+  HTML
+end
+
 def page_html(shell, title, heading, description, path)
+  extra_content = path == "/privacy" ? privacy_details_html : ""
   html = shell.dup
   html = html.sub(%r{<title>.*?</title>}m, "<title>#{title}</title>")
   html = html.sub(
@@ -168,6 +198,7 @@ def page_html(shell, title, heading, description, path)
           <div class="ussd-keys"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>*</span><span>0</span><span>#</span></div>
         </div>
         <p>Email: <a href="mailto:info@ikanisa.com">info@ikanisa.com</a> · WhatsApp: <a href="https://wa.me/250795588248">+250 795 588 248</a></p>
+        #{extra_content}
         <div class="ctas">
           <a class="button primary" href="https://wa.me/250795588248?text=Hello%20IKANISA%2C%20I%20want%20to%20get%20the%20Collect%20app.">Get the App</a>
           <a class="button" href="https://wa.me/250795588248?text=Hello%20IKANISA%2C%20I%20want%20to%20create%20a%20Collect%20group.">Create Group</a>

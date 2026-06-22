@@ -2,6 +2,73 @@ import 'package:flutter/foundation.dart';
 
 const _unsetProfileField = Object();
 
+enum CollectionType {
+  ikimina,
+  sport,
+  church,
+  wedding,
+  other;
+
+  static CollectionType fromJson(Object? value) {
+    final normalized = value?.toString().trim().toLowerCase();
+    return switch (normalized) {
+      'ikimina' ||
+      'ibimina' ||
+      'group_savings' ||
+      'group savings' => CollectionType.ikimina,
+      'sport' ||
+      'sports' ||
+      'fan_club' ||
+      'fan club' ||
+      'sports team' => CollectionType.sport,
+      'church' || 'offering' || 'tithe' => CollectionType.church,
+      'wedding' || 'wedding_contribution' => CollectionType.wedding,
+      _ => CollectionType.other,
+    };
+  }
+
+  String get storageValue => switch (this) {
+    CollectionType.ikimina => 'ikimina',
+    CollectionType.sport => 'sport',
+    CollectionType.church => 'church',
+    CollectionType.wedding => 'wedding',
+    CollectionType.other => 'other',
+  };
+
+  String get label => switch (this) {
+    CollectionType.ikimina => 'Ikimina',
+    CollectionType.sport => 'Sport',
+    CollectionType.church => 'Church',
+    CollectionType.wedding => 'Wedding',
+    CollectionType.other => 'Other',
+  };
+
+  String get shortPurpose => switch (this) {
+    CollectionType.ikimina => 'Group savings',
+    CollectionType.sport => 'Fan club support',
+    CollectionType.church => 'Offering and donations',
+    CollectionType.wedding => 'Wedding contributions',
+    CollectionType.other => 'Custom collection',
+  };
+
+  String get createPrompt => switch (this) {
+    CollectionType.ikimina => 'Savings cycles, obligations, and payouts.',
+    CollectionType.sport =>
+      'Fan support for clubs, match days, kits, and travel.',
+    CollectionType.church => 'Offerings, tithes, funds, and church events.',
+    CollectionType.wedding => 'Committee contributions, gifts, and budgets.',
+    CollectionType.other => 'Flexible support for any trusted group need.',
+  };
+
+  String get contributionPrompt => switch (this) {
+    CollectionType.ikimina => 'Contribute to the savings cycle',
+    CollectionType.sport => 'Support the fan club',
+    CollectionType.church => 'Give to this church collection',
+    CollectionType.wedding => 'Contribute to the wedding',
+    CollectionType.other => 'Support this collection',
+  };
+}
+
 @immutable
 class CollectProfile {
   const CollectProfile({
@@ -56,12 +123,19 @@ class CollectCollection {
     required this.creatorUserId,
     required this.title,
     required this.description,
+    this.collectionType = CollectionType.ikimina,
+    this.categorySubtype,
+    this.purposeLabel,
     this.receiverMomoNumber,
     this.receiverDisplayLabel = 'Primary MoMo receiver',
     this.imageUrl,
     this.accentColorHex,
     this.isPublic = false,
     this.recurringCadence = 'monthly',
+    this.suggestedAmountRwf,
+    this.diasporaEnabled = false,
+    this.diasporaRegions = const [],
+    this.moderationStatus = 'not_requested',
     required this.createdAt,
   });
 
@@ -70,12 +144,19 @@ class CollectCollection {
   final String creatorUserId;
   final String title;
   final String description;
+  final CollectionType collectionType;
+  final String? categorySubtype;
+  final String? purposeLabel;
   final String? receiverMomoNumber;
   final String receiverDisplayLabel;
   final String? imageUrl;
   final String? accentColorHex;
   final bool isPublic;
   final String recurringCadence;
+  final int? suggestedAmountRwf;
+  final bool diasporaEnabled;
+  final List<String> diasporaRegions;
+  final String moderationStatus;
   final DateTime createdAt;
 
   factory CollectCollection.fromJson(Map<String, dynamic> json) {
@@ -90,6 +171,11 @@ class CollectCollection {
       creatorUserId: json['creator_user_id'] as String,
       title: json['title'] as String,
       description: (json['description'] as String?) ?? '',
+      collectionType: CollectionType.fromJson(
+        json['collection_type'] ?? json['category'],
+      ),
+      categorySubtype: json['category_subtype'] as String?,
+      purposeLabel: json['purpose_label'] as String?,
       receiverMomoNumber:
           (receiver?['momo_number'] as String?) ??
           json['receiver_momo_number'] as String?,
@@ -111,6 +197,11 @@ class CollectCollection {
           (json['contribution_frequency'] as String?) ??
           (json['frequency'] as String?) ??
           'monthly',
+      suggestedAmountRwf: (json['suggested_amount_rwf'] as num?)?.toInt(),
+      diasporaEnabled: (json['diaspora_enabled'] as bool?) ?? false,
+      diasporaRegions: _stringList(json['diaspora_regions']),
+      moderationStatus:
+          (json['moderation_status'] as String?) ?? 'not_requested',
       createdAt: _dateTime(json['created_at']),
     );
   }
@@ -118,12 +209,19 @@ class CollectCollection {
   CollectCollection copyWith({
     String? title,
     String? description,
+    CollectionType? collectionType,
+    String? categorySubtype,
+    String? purposeLabel,
     String? receiverMomoNumber,
     String? receiverDisplayLabel,
     String? imageUrl,
     String? accentColorHex,
     bool? isPublic,
     String? recurringCadence,
+    int? suggestedAmountRwf,
+    bool? diasporaEnabled,
+    List<String>? diasporaRegions,
+    String? moderationStatus,
   }) {
     return CollectCollection(
       id: id,
@@ -131,15 +229,34 @@ class CollectCollection {
       creatorUserId: creatorUserId,
       title: title ?? this.title,
       description: description ?? this.description,
+      collectionType: collectionType ?? this.collectionType,
+      categorySubtype: categorySubtype ?? this.categorySubtype,
+      purposeLabel: purposeLabel ?? this.purposeLabel,
       receiverMomoNumber: receiverMomoNumber ?? this.receiverMomoNumber,
       receiverDisplayLabel: receiverDisplayLabel ?? this.receiverDisplayLabel,
       imageUrl: imageUrl ?? this.imageUrl,
       accentColorHex: accentColorHex ?? this.accentColorHex,
       isPublic: isPublic ?? this.isPublic,
       recurringCadence: recurringCadence ?? this.recurringCadence,
+      suggestedAmountRwf: suggestedAmountRwf ?? this.suggestedAmountRwf,
+      diasporaEnabled: diasporaEnabled ?? this.diasporaEnabled,
+      diasporaRegions: diasporaRegions ?? this.diasporaRegions,
+      moderationStatus: moderationStatus ?? this.moderationStatus,
       createdAt: createdAt,
     );
   }
+}
+
+List<String> _stringList(Object? value) {
+  if (value is List) {
+    return [
+      for (final item in value)
+        if (item != null && item.toString().trim().isNotEmpty)
+          item.toString().trim(),
+    ];
+  }
+  if (value is String && value.trim().isNotEmpty) return [value.trim()];
+  return const [];
 }
 
 bool _collectionIsPublic(Map<String, dynamic> json) {

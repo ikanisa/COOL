@@ -583,7 +583,7 @@ void main() {
 
     await tapVisible(
       tester,
-      find.widgetWithText(FilledButton, 'Pay with MoMo'),
+      find.widgetWithText(FilledButton, 'Give to this church collection'),
     );
     await pumpLaunchFrames(tester);
 

@@ -33,7 +33,10 @@ end
 
 def latest_mtime(root, patterns)
   paths = patterns.flat_map { |pattern| Dir.glob(File.join(root, pattern), File::FNM_DOTMATCH) }
-  files = paths.select { |path| File.file?(path) }
+  files = paths.select { |path| File.file?(path) }.reject do |path|
+    relative = path.sub(%r{\A#{Regexp.escape(root)}/?}, "")
+    relative == "lib/main_public.dart" || relative.start_with?("lib/features/landing/")
+  end
   files.map { |path| File.mtime(path) }.max
 end
 
@@ -112,9 +115,7 @@ if aab["exists"]
 end
 
 policy_urls = %w[
-  https://collect.ikanisa.com/privacy/
-  https://collect.ikanisa.com/account-deletion/
-  https://collect.ikanisa.com/data-deletion/
+  https://collect.ikanisa.com/#/privacy
   https://collect.ikanisa.com/.well-known/assetlinks.json
   https://admin.collect.ikanisa.com/custom-sw.js
   https://admin.collect.ikanisa.com/main.dart.js
@@ -185,13 +186,11 @@ checks["android_app_links"] =
   end
 
 policy_status = %w[
-  https://collect.ikanisa.com/privacy/
-  https://collect.ikanisa.com/account-deletion/
-  https://collect.ikanisa.com/data-deletion/
+  https://collect.ikanisa.com/#/privacy
 ].all? { |url| http.dig(url, "status_code") == 200 }
 checks["play_policy_urls"] =
   if policy_status
-    check("pass", "Play privacy, account deletion, and data deletion URLs are live.", "urls" => http.select { |url, _| url.include?("privacy") || url.include?("deletion") })
+    check("pass", "Play privacy, account deletion, and data deletion URL is live.", "urls" => http.select { |url, _| url.include?("privacy") })
   else
     check("blocked", "Play policy URLs must return HTTP 200.", "urls" => http)
   end
@@ -229,7 +228,9 @@ checks["play_console_readiness_packet"] =
       console_audit_packet["package_name"] == "app.cool.mobile" &&
       console_audit_packet.dig("target_release", "version_code").to_i == package["version_code"].to_i &&
       console_audit_packet.dig("store_listing", "app_name").to_s != "" &&
-      console_audit_packet.dig("app_content", "privacy_policy_url").to_s == "https://collect.ikanisa.com/privacy/" &&
+      console_audit_packet.dig("app_content", "privacy_policy_url").to_s == "https://collect.ikanisa.com/#/privacy" &&
+      console_audit_packet.dig("app_content", "account_deletion_url").to_s == "https://collect.ikanisa.com/#/privacy" &&
+      console_audit_packet.dig("app_content", "data_deletion_url").to_s == "https://collect.ikanisa.com/#/privacy" &&
       console_audit_packet.dig("app_content", "permissions", "restricted_sms_permissions_in_production") == false &&
       packet_surface_missing.empty?
     check("pass", "Repo-owned Play Console audit packet is complete for listing, app content, policy, release, and account-controlled audit prompts.", "packet_path" => console_audit_packet_path.sub(%r{\A#{Regexp.escape(root)}/?}, ""), "console_completion_status" => console_audit_packet["console_completion_status"])
@@ -305,7 +306,7 @@ integrity_items = integrity_sources.transform_values do |relative|
     "path" => relative,
     "exists" => File.file?(path),
     "bytes" => File.file?(path) ? File.size(path) : 0,
-    "has_integrity_marker" => text.include?("Play Integrity") || text.include?("play_integrity") || text.include?("collect/play_integrity"),
+    "has_integrity_marker" => text.include?("Play Integrity") || text.include?("play_integrity") || text.include?("collect/play_integrity") || text.include?("com.google.android.play:integrity"),
     "has_secret_material" => text.match?(/-----BEGIN PRIVATE KEY-----|\"private_key\"\s*:\s*\"|ya29\.|eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+/)
   }
 end

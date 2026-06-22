@@ -216,6 +216,9 @@ class CollectRepository extends StateNotifier<CollectState> {
       title: 'St Michel building fund',
       description:
           'Transparent support for materials, labor, and weekly updates from the building committee.',
+      collectionType: CollectionType.church,
+      categorySubtype: 'building_fund',
+      purposeLabel: 'Building fund',
       receiverMomoNumber: '+250788123456',
       receiverDisplayLabel: 'St Michel treasury',
       isPublic: true,
@@ -228,6 +231,9 @@ class CollectRepository extends StateNotifier<CollectState> {
       title: 'Kigali Lions away kit',
       description:
           'Fans are helping the team fund away jerseys and travel supplies for next month.',
+      collectionType: CollectionType.sport,
+      categorySubtype: 'fan_club',
+      purposeLabel: 'Away kit support',
       receiverMomoNumber: '+250788123456',
       isPublic: true,
       createdAt: now.subtract(const Duration(days: 1)),
@@ -486,6 +492,9 @@ class CollectRepository extends StateNotifier<CollectState> {
     required String title,
     required String description,
     required String receiverMomoNumber,
+    CollectionType collectionType = CollectionType.ikimina,
+    String? categorySubtype,
+    String? purposeLabel,
     String receiverLabel = 'Primary MoMo receiver',
     bool receiverIsMomoPayCode = false,
     String? accentColorHex,
@@ -511,6 +520,9 @@ class CollectRepository extends StateNotifier<CollectState> {
           'receiver_momo_number': normalizedReceiver,
           'receiver_momo_number_hash': HashUtils.phoneHash(normalizedReceiver),
           'receiver_label': normalizedLabel,
+          'group_collection_type': collectionType.storageValue,
+          'group_category_subtype': categorySubtype?.trim(),
+          'group_purpose_label': purposeLabel?.trim(),
         },
       );
       final collection = await _fetchCollection(collectionId);
@@ -531,6 +543,13 @@ class CollectRepository extends StateNotifier<CollectState> {
       creatorUserId: profile.id,
       title: title.trim(),
       description: description.trim(),
+      collectionType: collectionType,
+      categorySubtype: categorySubtype?.trim().isEmpty == true
+          ? null
+          : categorySubtype?.trim(),
+      purposeLabel: purposeLabel?.trim().isEmpty == true
+          ? null
+          : purposeLabel?.trim(),
       receiverMomoNumber: normalizedReceiver,
       receiverDisplayLabel: normalizedLabel,
       accentColorHex: accentColorHex,
@@ -598,6 +617,9 @@ class CollectRepository extends StateNotifier<CollectState> {
     required String receiverMomoNumber,
     required String receiverLabel,
     required String recurringCadence,
+    CollectionType? collectionType,
+    String? categorySubtype,
+    String? purposeLabel,
     String? accentColorHex,
     String? imageUrl,
     required bool isPublic,
@@ -628,6 +650,9 @@ class CollectRepository extends StateNotifier<CollectState> {
           'group_accent_color_hex': accentColorHex,
           'group_is_public': isPublic,
           'group_recurring_cadence': cadence,
+          'group_collection_type': collectionType?.storageValue,
+          'group_category_subtype': categorySubtype?.trim(),
+          'group_purpose_label': purposeLabel?.trim(),
         },
       );
       await updateCollectionReceiver(
@@ -651,6 +676,13 @@ class CollectRepository extends StateNotifier<CollectState> {
       description: description.trim(),
       receiverMomoNumber: normalizedReceiver,
       receiverDisplayLabel: cleanReceiverLabel,
+      collectionType: collectionType,
+      categorySubtype: categorySubtype?.trim().isEmpty == true
+          ? null
+          : categorySubtype?.trim(),
+      purposeLabel: purposeLabel?.trim().isEmpty == true
+          ? null
+          : purposeLabel?.trim(),
       imageUrl: imageUrl,
       accentColorHex: accentColorHex,
       isPublic: isPublic,

@@ -12,7 +12,9 @@ Make Collect's Google Play production setup complete, evidence-backed, and repea
 - Managed publishing was observed as off in that earlier Chrome check.
 - Live Play Console production track was rechecked on 2026-06-21: release `8 (1.2.1)` is `Update rejected`, and release `7 (1.2.0)` remains available on Google Play.
 - A fresh production APK/AAB build is available at version `1.2.2+9`.
-- `https://collect.ikanisa.com/privacy/`, `https://collect.ikanisa.com/account-deletion/`, and `https://collect.ikanisa.com/data-deletion/` return HTTP 200.
+- `https://collect.ikanisa.com/#/privacy` is the official Play privacy, account deletion, and data deletion URL, and the public fallback contains deletion request instructions for automated review.
+- On 2026-06-22, Play Console App content was updated so Privacy policy URL, Data safety Delete account URL, and Data safety Delete data URL all use `https://collect.ikanisa.com/#/privacy`.
+- Publishing overview then showed these App content changes under `Changes in review`; final browser verification said `Your changes are now in review. We may find additional issues when reviewing your app.`
 - `https://admin.collect.ikanisa.com/custom-sw.js` and `https://admin.collect.ikanisa.com/main.dart.js` return HTTP 200.
 - `https://collect.ikanisa.com/.well-known/assetlinks.json` is now deployed and returns HTTP 200.
 - Play Console draft release `9` was opened for the production track. A fresh Chrome check on 2026-06-21 confirmed it is still on `Create production release` with an `Upload` control and no uploaded app bundle for release `9`; local browser upload is blocked by Chrome automation file-chooser/file-access behavior and Android Publisher API auth is expired/non-interactive.
@@ -66,8 +68,8 @@ Make Collect's Google Play production setup complete, evidence-backed, and repea
    - Confirm production track rollout, release notes, country availability, managed publishing choice, and review status.
 
 2. App content and policy
-   - Confirm privacy policy URL is `https://collect.ikanisa.com/privacy/`.
-   - Confirm account deletion URL is `https://collect.ikanisa.com/account-deletion/`.
+   - Confirm privacy policy URL is `https://collect.ikanisa.com/#/privacy`.
+   - Confirm account deletion and data deletion URLs are `https://collect.ikanisa.com/#/privacy`.
    - Complete Data safety for account, financial/group ledger, device, camera, notification, and SMS-evidence processing exactly as implemented.
    - Confirm permissions declaration does not request restricted production SMS permissions.
    - Confirm financial features, content rating, target audience, ads, news, health, government, and data deletion answers match the app.
@@ -100,6 +102,7 @@ Make Collect's Google Play production setup complete, evidence-backed, and repea
 - `google_play_upload_auth`: `gcloud auth application-default print-access-token --scopes=https://www.googleapis.com/auth/androidpublisher` is rejected because ADC was not granted the Android Publisher scope; unscoped ADC and both local gcloud user accounts require interactive reauthentication.
 - `chrome_file_upload_permission`: Play Console file chooser opens, but `fileChooser.setFiles` fails with `Not allowed`, which indicates the Codex Chrome Extension cannot attach local files from this Chrome profile until file URL access/upload permission is enabled.
 - `play_console_surface_audit_required`: account-controlled Play Console pages still need recorded current audit evidence after the new build is uploaded/submitted.
+- `google_play_review_pending`: Publishing overview shows the privacy/Data safety correction under `Changes in review`; Google review has not yet accepted or published the corrected policy metadata.
 - `play_integrity_live_config`: Play App Signing and automatic protection are enabled in Console, and native/server Play Integrity code now exists, but live activation still needs `PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER`, a deployed `verify-play-integrity` function, and a Supabase `PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON` secret.
 - `play_reporting_api_auth`: Android vitals reporting can be automated through the Play Developer Reporting API, but the same Play developer auth blocker prevents live metric retrieval.
 

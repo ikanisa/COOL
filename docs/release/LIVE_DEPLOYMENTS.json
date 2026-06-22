@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-21T15:16:42Z",
+  "generated_at": "2026-06-22T06:05:28Z",
   "deployments": {
     "public_landing": {
       "provider": "cloudflare_workers_static_assets",
@@ -7,9 +7,9 @@
       "url": "https://collect.ikanisa.com",
       "deployment_url": "https://collect.ikanisa.com",
       "branch": "main",
-      "version_id": "b825f3bf-72af-4fe1-8f3f-9c56f3b99396",
+      "version_id": "c3378abf-a1f8-415d-9075-b40e6ca5ad7b",
       "live_gate_status": "pass",
-      "evidence": "wrangler deploy --name collect-public --assets build/public_web --compatibility-date 2026-06-21 --message \"Add Digital Asset Links for Play review\"; live HTTP 200 checks passed for https://collect.ikanisa.com/privacy/, https://collect.ikanisa.com/account-deletion/, https://collect.ikanisa.com/data-deletion/, and https://collect.ikanisa.com/.well-known/assetlinks.json."
+      "evidence": "wrangler deploy --name collect-public --assets build/public_web --compatibility-date 2026-06-22 --message \"Fix Play privacy and deletion URL content\"; live HTTP 200 check passed for https://collect.ikanisa.com/#/privacy, and fetched HTML contains Privacy Policy and Data Deletion plus account deletion/data deletion request instructions. Old rejected https://gen-lang-client-0172279957.web.app/privacy still returns 404 and must not be used in Play Console."
     },
     "admin_pwa": {
       "provider": "cloudflare_workers_static_assets",

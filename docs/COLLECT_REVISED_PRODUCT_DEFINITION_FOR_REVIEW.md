@@ -2,6 +2,11 @@
 
 Status: Draft for owner review  
 Date: 2026-05-27  
+Market expansion update: On 2026-06-21, the owner approved reintroducing
+first-class collection categories for ikimina, sport/fan clubs, churches,
+weddings, and other collections, plus a Stripe-powered diaspora rail. The
+privacy, Collect ID, no-manual-SMS, no-contributor-reported-transaction-ID, and
+non-custodial Rwanda MoMo rules remain in force.
 Purpose: Replace the incorrect prior product framing before implementation begins. This document is the proposed guiding product definition for the Collect/Cool refactor. It is not yet an implementation record.
 
 ## Source Of Truth

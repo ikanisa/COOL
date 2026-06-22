@@ -312,6 +312,11 @@ void main() {
       await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
       await tester.pump();
 
+      expect(find.text('Collection type'), findsOneWidget);
+      expect(find.text('Ikimina'), findsOneWidget);
+      await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
+      await tester.pump();
+
       expect(find.text('Receiver MoMo'), findsOneWidget);
       expect(find.text('Receiver privacy'), findsNothing);
       await tester.tap(find.widgetWithText(FilledButton, 'Continue'));

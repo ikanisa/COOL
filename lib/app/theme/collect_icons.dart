@@ -45,6 +45,11 @@ class CollectIcons {
   static const tips = Icons.lightbulb_rounded;
   static const visibility = Icons.visibility_rounded;
   static const wallet = Icons.account_balance_wallet_rounded;
+  static const bank = Icons.account_balance_rounded;
+  static const church = Icons.church_rounded;
+  static const sport = Icons.sports_soccer_rounded;
+  static const wedding = Icons.favorite_rounded;
+  static const savings = Icons.savings_rounded;
   static const tune = Icons.tune_rounded;
   static const support = Icons.support_agent_rounded;
   static const palette = Icons.palette_rounded;

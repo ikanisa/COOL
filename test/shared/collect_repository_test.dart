@@ -18,9 +18,35 @@ void main() {
       title: 'Family group',
       description: 'Family support',
       receiverMomoNumber: '+250788123456',
+      collectionType: CollectionType.wedding,
     );
 
     expect(collection.receiverMomoNumber, '+250788123456');
+    expect(collection.collectionType, CollectionType.wedding);
+  });
+
+  test('collection type model maps approved market categories', () {
+    final collection = CollectCollection.fromJson(const {
+      'id': 'col-sport',
+      'slug': 'rayon-away-day',
+      'creator_user_id': 'owner',
+      'title': 'Rayon away day support',
+      'description': 'Fan club travel support',
+      'collection_type': 'sport',
+      'category_subtype': 'fan_club',
+      'purpose_label': 'Away travel',
+      'diaspora_enabled': true,
+      'diaspora_regions': ['eu', 'us'],
+      'moderation_status': 'approved',
+      'created_at': '2026-06-22T08:00:00Z',
+    });
+
+    expect(collection.collectionType, CollectionType.sport);
+    expect(collection.categorySubtype, 'fan_club');
+    expect(collection.purposeLabel, 'Away travel');
+    expect(collection.diasporaEnabled, isTrue);
+    expect(collection.diasporaRegions, ['eu', 'us']);
+    expect(collection.moderationStatus, 'approved');
   });
 
   test('group creation accepts MoMo Pay code receiver mode', () async {
@@ -172,7 +198,7 @@ void main() {
     );
     expect(
       groupShareMessageFor(env, collection),
-      'Join St Michel building fund on Collect: https://collect.ikanisa.com/c/st-michel-building-fund',
+      'Join St Michel building fund for offering and donations on Collect: https://collect.ikanisa.com/c/st-michel-building-fund',
     );
     expect(
       collectGroupSlugFromInput(

@@ -34,6 +34,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   bool _removeExistingImage = false;
   String _accentColorHex = CollectColors.brandPrimaryOptions.first.hex;
   String _cadence = 'monthly';
+  CollectionType _collectionType = CollectionType.ikimina;
   bool _isPublic = false;
   bool _loaded = false;
   bool _saving = false;
@@ -71,7 +72,8 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
         const CollectPlainPageHeader(title: 'Group profile'),
         _GroupProfileMediaRow(
           title: _name.text.trim().isEmpty ? collection.title : _name.text,
-          subtitle: _isPublic ? 'Public group' : 'Private group',
+          subtitle:
+              '${_collectionType.label} · ${_isPublic ? 'Public group' : 'Private group'}',
           accentColor: _selectedColor,
           imageBytes: _imageBytes,
           imageUrl: _imageBytes == null && !_removeExistingImage
@@ -105,6 +107,10 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
               maxLines: 3,
               textCapitalization: TextCapitalization.sentences,
               autocorrect: true,
+            ),
+            _ProfileCollectionTypePicker(
+              selected: _collectionType,
+              onChanged: (value) => setState(() => _collectionType = value),
             ),
             Material(
               color: context.collectColors.transparent,
@@ -160,6 +166,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
         collection.accentColorHex ??
         CollectColors.brandPrimaryOptions.first.hex;
     _cadence = collection.recurringCadence;
+    _collectionType = collection.collectionType;
     _isPublic = collection.isPublic;
   }
 
@@ -204,6 +211,9 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
             receiverMomoNumber: _receiver.text,
             receiverLabel: collection.receiverDisplayLabel,
             recurringCadence: _cadence,
+            collectionType: _collectionType,
+            categorySubtype: _defaultProfileCategorySubtype(_collectionType),
+            purposeLabel: _collectionType.shortPurpose,
             accentColorHex: _accentColorHex,
             imageUrl: imageUrl,
             isPublic: _isPublic,
@@ -446,6 +456,40 @@ class _CadencePicker extends StatelessWidget {
   }
 }
 
+class _ProfileCollectionTypePicker extends StatelessWidget {
+  const _ProfileCollectionTypePicker({
+    required this.selected,
+    required this.onChanged,
+  });
+
+  final CollectionType selected;
+  final ValueChanged<CollectionType> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Collection type', style: Theme.of(context).textTheme.labelLarge),
+        CollectSpacing.gap8,
+        Wrap(
+          spacing: CollectSpacing.x2,
+          runSpacing: CollectSpacing.x2,
+          children: [
+            for (final type in CollectionType.values)
+              ChoiceChip(
+                avatar: Icon(collectionTypeIcon(type), size: 18),
+                label: Text(type.label),
+                selected: selected == type,
+                onSelected: (_) => onChanged(type),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
 class _ProfileColorPalette extends StatelessWidget {
   const _ProfileColorPalette({
     required this.selectedHex,
@@ -513,6 +557,16 @@ class _ProfileColorPalette extends StatelessWidget {
       ],
     );
   }
+}
+
+String _defaultProfileCategorySubtype(CollectionType type) {
+  return switch (type) {
+    CollectionType.ikimina => 'group_savings',
+    CollectionType.sport => 'fan_club',
+    CollectionType.church => 'offering',
+    CollectionType.wedding => 'committee',
+    CollectionType.other => 'custom',
+  };
 }
 
 class _CadenceOption {

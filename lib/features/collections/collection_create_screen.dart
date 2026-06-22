@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../shared/providers/collect_app_state.dart';
+import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
@@ -23,7 +24,7 @@ class CollectionCreateScreen extends ConsumerStatefulWidget {
 
 class _CollectionCreateScreenState
     extends ConsumerState<CollectionCreateScreen> {
-  static const _lastStep = 3;
+  static const _lastStep = 4;
 
   final _title = TextEditingController();
   final _description = TextEditingController();
@@ -35,6 +36,7 @@ class _CollectionCreateScreenState
   String? _groupImageMimeType;
   String _accentColorHex = CollectColors.brandPrimaryOptions.first.hex;
   CollectMomoReceiverMode _receiverMode = CollectMomoReceiverMode.momoNumber;
+  CollectionType _collectionType = CollectionType.ikimina;
   bool _syncedProfileMomo = false;
   bool _creating = false;
   int _step = 0;
@@ -136,6 +138,14 @@ class _CollectionCreateScreenState
             ],
           ),
         ] else if (_step == 1) ...[
+          _CollectionTypeGrid(
+            selected: _collectionType,
+            onChanged: (type) => setState(() {
+              _collectionType = type;
+              _error = null;
+            }),
+          ),
+        ] else if (_step == 2) ...[
           _MobileCreatePanel(
             error: _error,
             children: [
@@ -166,7 +176,7 @@ class _CollectionCreateScreenState
               ),
             ],
           ),
-        ] else if (_step == 2) ...[
+        ] else if (_step == 3) ...[
           _MobileCreatePanel(
             error: _error,
             children: [
@@ -195,6 +205,7 @@ class _CollectionCreateScreenState
           _CreateGroupReview(
             title: _title.text.trim(),
             description: _description.text.trim(),
+            collectionType: _collectionType,
             receiver: _receiverPreviewLabel,
             accentColor: _selectedAccentColor,
             hasPhoto: _groupImageBytes != null,
@@ -255,12 +266,19 @@ class _CollectionCreateScreenState
       return;
     }
     if (_step == 1) {
+      setState(() {
+        _step = 2;
+        _error = null;
+      });
+      return;
+    }
+    if (_step == 2) {
       if (_normalizedReceiverValue().isEmpty) {
         setState(() => _error = _receiverErrorMessage);
         return;
       }
       setState(() {
-        _step = 2;
+        _step = 3;
         _error = null;
       });
       return;
@@ -296,6 +314,9 @@ class _CollectionCreateScreenState
           .createCollection(
             title: title,
             description: _description.text,
+            collectionType: _collectionType,
+            categorySubtype: _defaultCategorySubtype(_collectionType),
+            purposeLabel: _collectionType.shortPurpose,
             receiverMomoNumber: receiver,
             receiverLabel: _receiverDisplayLabel,
             receiverIsMomoPayCode:
@@ -374,6 +395,7 @@ class _CreateGroupReview extends StatelessWidget {
   const _CreateGroupReview({
     required this.title,
     required this.description,
+    required this.collectionType,
     required this.receiver,
     required this.accentColor,
     required this.hasPhoto,
@@ -382,6 +404,7 @@ class _CreateGroupReview extends StatelessWidget {
 
   final String title;
   final String description;
+  final CollectionType collectionType;
   final String receiver;
   final Color accentColor;
   final bool hasPhoto;
@@ -397,6 +420,11 @@ class _CreateGroupReview extends StatelessWidget {
         children: [
           Text('Review group', style: Theme.of(context).textTheme.titleLarge),
           CollectSpacing.gap12,
+          CollectListTile(
+            leading: collectionTypeIcon(collectionType),
+            title: collectionType.label,
+            subtitle: collectionType.shortPurpose,
+          ),
           CollectListTile(
             leading: CollectIcons.collections,
             title: title.isEmpty ? 'Group name missing' : title,
@@ -422,6 +450,151 @@ class _CreateGroupReview extends StatelessWidget {
       ),
     );
   }
+}
+
+class _CollectionTypeGrid extends StatelessWidget {
+  const _CollectionTypeGrid({required this.selected, required this.onChanged});
+
+  final CollectionType selected;
+  final ValueChanged<CollectionType> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return _MobileCreatePanel(
+      children: [
+        Text(
+          'Collection type',
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900),
+        ),
+        CollectSpacing.gap12,
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final columns = constraints.maxWidth < 340
+                ? 1
+                : constraints.maxWidth >= 560
+                ? 3
+                : 2;
+            return GridView.count(
+              crossAxisCount: columns,
+              crossAxisSpacing: CollectSpacing.x2,
+              mainAxisSpacing: CollectSpacing.x2,
+              childAspectRatio: columns == 1 ? 4.6 : 2.35,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                for (final type in CollectionType.values)
+                  _CollectionTypeOption(
+                    key: ValueKey('collection-type-${type.storageValue}'),
+                    type: type,
+                    selected: selected == type,
+                    onTap: () => onChanged(type),
+                  ),
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _CollectionTypeOption extends StatelessWidget {
+  const _CollectionTypeOption({
+    required this.type,
+    required this.selected,
+    required this.onTap,
+    super.key,
+  });
+
+  final CollectionType type;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final borderColor = selected
+        ? colors.actionColor
+        : colors.textPrimary.withValues(alpha: 0.12);
+    final fill = selected
+        ? Color.alphaBlend(
+            colors.actionColor.withValues(alpha: 0.12),
+            colors.surfaceRaised,
+          )
+        : colors.surfaceRaised;
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: '${type.label} collection type',
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: CollectRadius.mdBorder,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: fill,
+            borderRadius: CollectRadius.mdBorder,
+            border: Border.all(color: borderColor),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(CollectSpacing.x3),
+            child: Row(
+              children: [
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: colors.actionColor.withValues(alpha: 0.12),
+                    borderRadius: CollectRadius.smBorder,
+                  ),
+                  child: SizedBox.square(
+                    dimension: 42,
+                    child: Icon(collectionTypeIcon(type), size: 22),
+                  ),
+                ),
+                CollectSpacing.gapW12,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        type.label,
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w900,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      CollectSpacing.gap4,
+                      Text(
+                        type.createPrompt,
+                        style: Theme.of(context).textTheme.bodySmall,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                if (selected) ...[
+                  CollectSpacing.gapW12,
+                  Icon(CollectIcons.check, color: colors.actionColor),
+                ],
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+String _defaultCategorySubtype(CollectionType type) {
+  return switch (type) {
+    CollectionType.ikimina => 'group_savings',
+    CollectionType.sport => 'fan_club',
+    CollectionType.church => 'offering',
+    CollectionType.wedding => 'committee',
+    CollectionType.other => 'custom',
+  };
 }
 
 class _GroupColorPalette extends StatelessWidget {

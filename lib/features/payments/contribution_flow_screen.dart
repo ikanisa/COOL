@@ -98,7 +98,9 @@ class _ContributionFlowScreenState
         children: _reviewing
             ? [
                 CollectButton(
-                  label: _creating ? 'Opening MoMo' : 'Pay with MoMo',
+                  label: _creating
+                      ? 'Opening MoMo'
+                      : collection.collectionType.contributionPrompt,
                   icon: CollectIcons.momo,
                   onPressed: _creating ? null : _createIntent,
                   expand: true,
@@ -141,7 +143,13 @@ class _ContributionFlowScreenState
               ],
       ),
       children: [
+        CollectionTypeBadge(type: collection.collectionType),
         if (!_reviewing) ...[
+          InfoSecurityBanner(
+            title: collection.collectionType.shortPurpose,
+            message: collection.collectionType.createPrompt,
+            tone: CollectStatusTone.info,
+          ),
           AmountEntryPanel(
             controller: _amount,
             amount: amount,

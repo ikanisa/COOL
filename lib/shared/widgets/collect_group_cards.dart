@@ -90,6 +90,11 @@ class _OwnedGroupCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    CollectionTypeBadge(
+                      type: collection.collectionType,
+                      compact: true,
+                    ),
+                    CollectSpacing.gap4,
                     Text(
                       collection.title,
                       style: Theme.of(context).textTheme.titleLarge,
@@ -278,7 +283,7 @@ class _CompactGroupCard extends StatelessWidget {
                 ),
                 CollectSpacing.gap4,
                 Text(
-                  '${formatRwf(summary.amountRaisedRwf)} · ${summary.supporterCount} members',
+                  '${collection.collectionType.label} · ${formatRwf(summary.amountRaisedRwf)} · ${summary.supporterCount} members',
                   style: Theme.of(context).textTheme.bodySmall,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -651,27 +656,42 @@ class _GroupCoverTitleOverlay extends StatelessWidget {
               horizontal: compact ? CollectSpacing.x2 : CollectSpacing.x3,
               vertical: compact ? 5 : 7,
             ),
-            child: Text(
-              collection.title,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: foreground,
-                fontWeight: FontWeight.w900,
-                fontSize: compact ? 15 : 18,
-                height: 1.0,
-                letterSpacing: 0,
-                shadows: [
-                  Shadow(
-                    color: CollectColors.referencePaymentsPurpleDeep.withValues(
-                      alpha: 0.88,
-                    ),
-                    offset: const Offset(0, 1),
-                    blurRadius: 8,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  collection.collectionType.label,
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: foreground.withValues(alpha: 0.88),
+                    fontWeight: FontWeight.w900,
                   ),
-                ],
-              ),
-              maxLines: 1,
-              softWrap: false,
-              overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                CollectSpacing.gap4,
+                Text(
+                  collection.title,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: foreground,
+                    fontWeight: FontWeight.w900,
+                    fontSize: compact ? 15 : 18,
+                    height: 1.0,
+                    letterSpacing: 0,
+                    shadows: [
+                      Shadow(
+                        color: CollectColors.referencePaymentsPurpleDeep
+                            .withValues(alpha: 0.88),
+                        offset: const Offset(0, 1),
+                        blurRadius: 8,
+                      ),
+                    ],
+                  ),
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
           ),
         ),

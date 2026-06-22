@@ -37,7 +37,7 @@ class CollectionDetailScreen extends ConsumerWidget {
       bottomAction: isAdmin
           ? null
           : CollectButton(
-              label: 'Pay with MoMo',
+              label: collection.collectionType.contributionPrompt,
               icon: CollectIcons.donate,
               onPressed: () => context.go('/groups/$collectionId/contribute'),
               expand: true,
@@ -166,6 +166,11 @@ class _GroupHero extends StatelessWidget {
                               maxLines: 1,
                               softWrap: false,
                               overflow: TextOverflow.ellipsis,
+                            ),
+                            CollectSpacing.gap8,
+                            CollectionTypeBadge(
+                              type: collection.collectionType,
+                              compact: true,
                             ),
                           ],
                         ),
