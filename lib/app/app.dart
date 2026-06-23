@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/notifications/collect_notification_service.dart';
 import '../shared/providers/collect_app_state.dart';
 import '../shared/repositories/collect_repository.dart';
+import 'env/app_env.dart';
 import 'router.dart';
 import 'theme/app_theme.dart';
 import 'theme/collect_colors.dart';
@@ -80,6 +81,8 @@ class _SmsAccessSyncHostState extends ConsumerState<_SmsAccessSyncHost>
 
   Future<void> _syncPendingSmsSafely() async {
     try {
+      final env = ref.read(appEnvProvider);
+      if (!env.enableAndroidSmsAccess && !env.enableSmsReader) return;
       final notifications = ref.read(collectNotificationServiceProvider);
       await notifications.initialize();
       final notificationsEnabled = await notifications

@@ -7,9 +7,8 @@
 - `CollectVisualFeatureCard`: shared generated-asset product surface for group, contribution, payment, and other rich first-viewport moments.
 - `MoneyHeroCard`, `MoneyCard`, and `AmountHero`: amount-first surfaces for raised, pending, and review metrics.
 - `CollectStatusChip`: icon and label status for neutral, success, warning, danger, info, and privacy.
-- `CollectProgressBar`: tokenized progress display for operational summaries.
-- `CollectAvatar` and `CollectAvatarStack`: safe identity presentation without exposing raw phone/MOMO.
-- `CollectListTile`, `ActivityRow`, `ActivityFeedItem`, and `FinancialListRow`: scan-friendly activity, ledger, and navigation rows.
+- `CollectAvatar`: safe identity presentation without exposing raw phone/MOMO.
+- `CollectListTile`, `ActivityFeedItem`, and `FinancialListRow`: scan-friendly activity, ledger, and navigation rows.
 - `SectionHeader`: consistent title/action layout.
 - `ScreenHeader`: shared dark finance-grade secondary-route header with official `CollectBrandMark`, high-contrast title text, and action capsules.
 - `CollectEmptyState`, `CollectErrorState`, `LoadingSkeleton`, and `LoadingStatePanel`: reusable state surfaces with semantic loading context.
@@ -23,7 +22,6 @@
 - `QRCard`: safe share link display.
 - `LedgerRow`: confirmed and review payment rows.
 - `ReceiverConsentCard`: Android SMS app-access consent, flags, and sync state.
-- `AdminReviewCard`: dense SMS exception and allocation review action card.
 - Admin page header panel and admin data table: compact operations surfaces with rounded borders, dense rows, status chips, and responsive pagination.
 
 ## Visual Evidence Utilities

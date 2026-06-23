@@ -382,7 +382,9 @@ legacy_platform_hits = scan_files(
   root,
   /collect_ink|Theme\.Black|#121212|#000000|#262B33|#FFFFFF/i,
   platform_color_files
-)
+).reject do |hit|
+  hit.fetch("text").include?('<style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">')
+end
 checks << {
   "id" => "platform_metadata_colors_match_contract",
   "status" => platform_color_hits.empty? && legacy_platform_hits.empty? ? "pass" : "fail",
@@ -409,7 +411,7 @@ end
   android/app/src/main/res/values-night-v31/styles.xml
 ].each do |relative|
   text = read(File.join(root, relative))
-  native_launch_failures << "#{relative} must use @color/collect_paper as Android 12+ splash background." unless text.include?("<item name=\"android:windowSplashScreenBackground\">@color/collect_paper</item>")
+  native_launch_failures << "#{relative} must use @color/collect_launch_background as Android 12+ splash background." unless text.include?("<item name=\"android:windowSplashScreenBackground\">@color/collect_launch_background</item>")
   native_launch_failures << "#{relative} must use the Collect launcher icon as Android 12+ splash icon." unless text.include?("<item name=\"android:windowSplashScreenAnimatedIcon\">@drawable/collect_launcher_icon</item>")
 end
 
@@ -420,7 +422,8 @@ end
   android/app/src/main/res/drawable-night-v21/launch_background.xml
 ].each do |relative|
   text = read(File.join(root, relative))
-  native_launch_failures << "#{relative} must use collect_paper launch foundation." unless text.include?('@color/collect_paper')
+  native_launch_failures << "#{relative} must use collect_launch_background launch foundation." unless text.include?('@color/collect_launch_background')
+  native_launch_failures << "#{relative} must not flash the paper launch foundation." if text.include?('@color/collect_paper')
   native_launch_failures << "#{relative} must center the Collect splash logo." unless text.include?('@drawable/collect_splash_logo')
 end
 
@@ -531,18 +534,40 @@ else
 
   captures = Array(route_summary["captures"])
   captures.each do |capture|
-    png_path = File.join(File.dirname(route_summary_path), capture.fetch("path", ""))
+    capture_path = capture.fetch("path", "")
+    png_path = if capture_path.start_with?(".cache/", "/", "build/", "docs/")
+      File.join(root, capture_path)
+    else
+      File.join(File.dirname(route_summary_path), capture_path)
+    end
+    width = capture.fetch("width", nil).to_i
+    height = capture.fetch("height", nil).to_i
+    if (width <= 0 || height <= 0) && File.file?(png_path)
+      size = png_size(png_path)
+      width = size&.fetch("width", 0).to_i
+      height = size&.fetch("height", 0).to_i
+    end
+    capture_status = capture.fetch("status", nil)
+    physical_device_capture = capture.key?("bytes") && !capture.key?("non_background_pixels")
     failures = []
     failures << "missing_png" unless File.file?(png_path)
-    failures << "too_few_pixels" if capture.fetch("non_background_pixels", 0).to_i < 100
-    failures << "too_few_colors" if capture.fetch("distinct_rgb", 0).to_i < 16
-    failures << "wrong_viewport" unless capture.fetch("width", 0).to_i == 390 && capture.fetch("height", 0).to_i == 844
+    failures << "capture_status_#{capture_status}" if capture_status && capture_status != "pass"
+    if physical_device_capture
+      failures << "too_small_file" if capture.fetch("bytes", 0).to_i < 8000
+      failures << "invalid_physical_viewport" if width < 320 || height < 640
+    else
+      failures << "too_few_pixels" if capture.fetch("non_background_pixels", 0).to_i < 100
+      failures << "too_few_colors" if capture.fetch("distinct_rgb", 0).to_i < 16
+      failures << "wrong_viewport" unless width == 390 && height == 844
+    end
     capture_checks << {
       "name" => capture["name"],
       "route" => capture["route"],
       "status" => failures.empty? ? "pass" : "fail",
       "failures" => failures,
-      "path" => rel(root, png_path)
+      "path" => rel(root, png_path),
+      "width" => width,
+      "height" => height
     }
   end
   failed_captures = capture_checks.select { |item| item.fetch("status") != "pass" }

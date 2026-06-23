@@ -2,7 +2,7 @@
 set -euo pipefail
 
 BASE_URL="${PUBLIC_WEBSITE_URL:-https://collect.ikanisa.com}"
-OUT_DIR="${PUBLIC_WEBSITE_EVIDENCE_DIR:-docs/release/collect_public_website_evidence_2026-06-22}"
+OUT_DIR="${PUBLIC_WEBSITE_EVIDENCE_DIR:-output/public_website_evidence}"
 mkdir -p "$OUT_DIR"
 
 ruby -r json -r net/http -r uri -r time - "$BASE_URL" "$OUT_DIR" <<'RUBY'
@@ -35,8 +35,6 @@ routes = [
   "/data-deletion/",
   "/trust/",
   "/security/",
-  "/rw/",
-  "/fr/",
   "/sitemap.xml",
   "/robots.txt",
   "/styles.css",
@@ -72,13 +70,18 @@ first_party_critical_bytes = [
 ].sum { |item| item.fetch("body").bytesize }
 
 checks = {
-  "http_all_required_routes_200" => responses.slice("/", "/privacy/", "/terms/", "/account-deletion/", "/data-deletion/", "/trust/", "/security/", "/rw/", "/fr/", "/sitemap.xml", "/robots.txt").all? { |_route, item| item.fetch("status") == 200 },
+  "http_all_required_routes_200" => responses.slice("/", "/privacy/", "/terms/", "/account-deletion/", "/data-deletion/", "/trust/", "/security/", "/sitemap.xml", "/robots.txt").all? { |_route, item| item.fetch("status") == 200 },
   "root_cacheable_no_noindex" => root.dig("headers", "cache-control").to_s.include?("public") && !root.dig("headers", "x-robots-tag").to_s.downcase.include?("noindex"),
   "valid_structured_data" => json_ld_parse_error.nil? && json_ld_types.include?("Organization") && json_ld_types.include?("SoftwareApplication"),
   "seo_metadata" => root_body.include?('rel="canonical"') && root_body.include?('property="og:title"') && root_body.include?('name="twitter:card"'),
   "no_flutter_or_wasm" => !root_body.match?(/flutter_bootstrap|flutter-view|main\.dart\.js|canvaskit|\.wasm/),
   "static_accessibility_signals" => root_body.include?('<html lang="en">') && root_body.include?('class="skip-link"') && root_body.scan(/<img\b[^>]*>/i).all? { |tag| tag.include?("alt=") } && styles_body.include?(":focus-visible"),
-  "localized_routes" => responses.fetch("/rw/").fetch("body").dup.force_encoding("UTF-8").include?('<html lang="rw">') && responses.fetch("/fr/").fetch("body").dup.force_encoding("UTF-8").include?('<html lang="fr">'),
+  "english_only_public_site" => root_body.include?('<html lang="en">') &&
+    root_body.include?('property="og:locale" content="en_US"') &&
+    !responses.fetch("/sitemap.xml").fetch("body").include?("#{base_url}/rw/") &&
+    !responses.fetch("/sitemap.xml").fetch("body").include?("#{base_url}/fr/") &&
+    !root_body.include?('hreflang="rw"') &&
+    !root_body.include?('hreflang="fr"'),
   "performance_budgets" => root.fetch("elapsed_ms") <= 1500 && root_body.bytesize <= 20_000 && styles_body.bytesize <= 30_000 && site_js.fetch("body").bytesize <= 153_600 && first_party_critical_bytes <= 400_000,
   "mobile_responsive_css" => styles_body.include?("@media (max-width: 980px)") && styles_body.include?("@media (max-width: 560px)") && styles_body.include?(".site-nav.open"),
 }

@@ -250,6 +250,22 @@ void main() {
         _pngSize('assets/brand/generated/collect_wordmark_transparent.png'),
         (width: 1024, height: 299),
       );
+      expect(_pngSize('assets/brand/generated/collect_mark_transparent.png'), (
+        width: 512,
+        height: 512,
+      ));
+      expect(
+        File(
+          'lib/features/launch/launch_splash_screen.dart',
+        ).readAsStringSync(),
+        contains('assets/brand/generated/collect_mark_transparent.png'),
+      );
+      expect(
+        File(
+          'lib/features/launch/launch_splash_screen.dart',
+        ).readAsStringSync(),
+        contains('SizedBox.expand'),
+      );
       expect(
         File('assets/brand/generated/collect_symbol_compact.png').existsSync(),
         isFalse,
@@ -285,6 +301,13 @@ void main() {
       expect(
         text,
         contains(
+          '<style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">',
+        ),
+        reason: path,
+      );
+      expect(
+        text,
+        contains(
           '<item name="android:windowBackground">'
           '@drawable/launch_background</item>',
         ),
@@ -293,6 +316,31 @@ void main() {
       expect(
         text,
         contains('<item name="android:forceDarkAllowed">false</item>'),
+        reason: path,
+      );
+      expect(
+        text,
+        contains('<item name="android:statusBarColor">@color/collect_launch_background</item>'),
+        reason: path,
+      );
+      expect(
+        text,
+        contains('<item name="android:navigationBarColor">@color/collect_launch_background</item>'),
+        reason: path,
+      );
+      expect(
+        text,
+        contains('<item name="android:windowLightStatusBar">false</item>'),
+        reason: path,
+      );
+      expect(
+        text,
+        contains('<item name="android:windowLightNavigationBar">false</item>'),
+        reason: path,
+      );
+      expect(
+        text,
+        contains('<item name="android:windowFullscreen">true</item>'),
         reason: path,
       );
     }
@@ -305,8 +353,15 @@ void main() {
       expect(
         text,
         contains(
+          '<style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">',
+        ),
+        reason: path,
+      );
+      expect(
+        text,
+        contains(
           '<item name="android:windowSplashScreenBackground">'
-          '@color/collect_paper</item>',
+          '@color/collect_launch_background</item>',
         ),
         reason: path,
       );
@@ -323,6 +378,31 @@ void main() {
         contains('<item name="android:forceDarkAllowed">false</item>'),
         reason: path,
       );
+      expect(
+        text,
+        contains('<item name="android:statusBarColor">@color/collect_launch_background</item>'),
+        reason: path,
+      );
+      expect(
+        text,
+        contains('<item name="android:navigationBarColor">@color/collect_launch_background</item>'),
+        reason: path,
+      );
+      expect(
+        text,
+        contains('<item name="android:windowLightStatusBar">false</item>'),
+        reason: path,
+      );
+      expect(
+        text,
+        contains('<item name="android:windowLightNavigationBar">false</item>'),
+        reason: path,
+      );
+      expect(
+        text,
+        contains('<item name="android:windowFullscreen">true</item>'),
+        reason: path,
+      );
     }
 
     for (final path in <String>[
@@ -332,7 +412,8 @@ void main() {
       'android/app/src/main/res/drawable-night-v21/launch_background.xml',
     ]) {
       final text = File(path).readAsStringSync();
-      expect(text, contains('@color/collect_paper'), reason: path);
+      expect(text, contains('@color/collect_launch_background'), reason: path);
+      expect(text, isNot(contains('@color/collect_paper')), reason: path);
       expect(text, contains('@drawable/collect_splash_logo'), reason: path);
     }
 

@@ -63,7 +63,7 @@ The implementation target is 10/10 Revolut-reference execution quality adapted t
 - Top chrome must use a compact profile control, optional black pill search, and circular action buttons. Profile controls must be visible, tappable, and route to profile.
 - Bottom navigation must remain functionally Collect-owned while visually matching the Revolut floating black glass dock: anchored, rounded, bordered, selected capsule, one-line labels, and stable touch targets.
 - Collect keeps four primary colors from the corrected brand assets: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, and Orange `#FF5E43`.
-- Paper `#FAF8F5` is the canvas/foundation color. It is not counted as a primary color.
+- Paper `#FAF8F5` is the canvas/foundation color. It is not counted as a primary color. Native Android launch uses Collect Periwinkle `#8885F0` instead of paper so cold starts do not flash a white screen before Flutter paints.
 - Ink `#252044` is the high-contrast text/chrome anchor. It is a support token, not a primary color.
 - Secondary/support colors are allowed only as named UI tokens for readable surfaces, borders, focus, and semantic status foreground/container roles. They do not replace or expand the four primary colors.
 - Use Collect brand assets only: `CollectBrandMark` renders `assets/brand/generated/collect_wordmark_transparent.png`; launcher/platform icon use stays on generated PNG icon assets.
@@ -152,7 +152,7 @@ Use these shared primitives first:
 - Headers: `ScreenHeader` and `CollectPlainPageHeader` provide the shared plain secondary header with back navigation and one-line title text.
 - Bottom surfaces: `CollectBottomSheet`, `BottomActionSurface`.
 - State: `LoadingStatePanel`, `EmptyIllustrationState`, `CollectErrorState`, `InfoSecurityBanner`.
-- Payments: `CollectDynamicIsland`, `PaymentPipelineIndicator`, `PaymentVerifiedRing`.
+- Payments: `PaymentPipelineIndicator`, `PaymentVerifiedRing`.
 - Scanner: QR joining is camera-first with a dark live-preview overlay, corner guides, torch and camera-switch controls, gallery QR decode where the platform supports file analysis, and a compact link/code entry fallback. Scanner copy must not imply manual payment proof or SMS paste workflows.
 
 Feature screens may add local layout, but not local design language. If a feature needs a new visual pattern, add it to shared components or tokens first.

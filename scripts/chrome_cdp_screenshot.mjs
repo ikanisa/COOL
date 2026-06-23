@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { spawn } from 'node:child_process';
-import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:net';
 import { dirname } from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
@@ -16,8 +16,8 @@ const output = args.get('--output');
 const profile = args.get('--profile');
 const viewport = args.get('--viewport') ?? '390x844';
 const waitMs = Number(args.get('--wait-ms') ?? '9000');
-const devtoolsReadyMs = Number(args.get('--devtools-ready-ms') ?? '30000');
-const commandTimeoutMs = Number(args.get('--command-timeout-ms') ?? '30000');
+const devtoolsReadyMs = Number(args.get('--devtools-ready-ms') ?? '120000');
+const commandTimeoutMs = Number(args.get('--command-timeout-ms') ?? '60000');
 const headlessArg = process.env.CHROME_CDP_HEADLESS_ARG || '--headless';
 
 if (!chrome || !url || !output || !profile) {
@@ -124,6 +124,98 @@ const chromeDiagnostics = () => {
   return parts.join('\n');
 };
 
+async function captureWithBuiltInScreenshot(reason) {
+  if (socket) {
+    socket.close();
+    socket = null;
+  }
+  chromeProcess.kill('SIGTERM');
+  await delay(1000);
+  if (!chromeExit) {
+    chromeProcess.kill('SIGKILL');
+    await delay(500);
+  }
+
+  const fallbackProfile = `${profile}-fallback`;
+  rmSync(fallbackProfile, { recursive: true, force: true });
+  mkdirSync(fallbackProfile, { recursive: true });
+  rmSync(output, { force: true });
+
+  const fallbackArgs = [
+    headlessArg,
+    '--force-device-scale-factor=1',
+    '--disable-gpu',
+    '--disable-background-networking',
+    '--disable-component-update',
+    '--disable-sync',
+    '--disable-dev-shm-usage',
+    '--disable-extensions',
+    '--disable-crash-reporter',
+    '--no-sandbox',
+    '--no-first-run',
+    '--no-default-browser-check',
+    `--user-data-dir=${fallbackProfile}`,
+    `--window-size=${width},${height}`,
+    '--run-all-compositor-stages-before-draw',
+    `--virtual-time-budget=${Math.max(waitMs, 8000)}`,
+    `--screenshot=${output}`,
+    url,
+  ];
+  const fallback = spawn(chrome, fallbackArgs, {
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+  let stdout = '';
+  let stderr = '';
+  fallback.stdout.setEncoding('utf8');
+  fallback.stderr.setEncoding('utf8');
+  fallback.stdout.on('data', (chunk) => {
+    stdout += chunk;
+  });
+  fallback.stderr.on('data', (chunk) => {
+    stderr += chunk;
+  });
+
+  const deadline = Date.now() + commandTimeoutMs;
+  while (Date.now() < deadline) {
+    if (existsSync(output) && statSync(output).size > 0) {
+      break;
+    }
+    if (fallback.exitCode !== null || fallback.signalCode !== null) {
+      break;
+    }
+    await delay(250);
+  }
+
+  if (fallback.exitCode === null && fallback.signalCode === null) {
+    fallback.kill('SIGTERM');
+    await delay(1000);
+  }
+  if (fallback.exitCode === null && fallback.signalCode === null) {
+    fallback.kill('SIGKILL');
+  }
+  rmSync(fallbackProfile, { recursive: true, force: true });
+
+  if (!existsSync(output) || statSync(output).size === 0) {
+    throw new Error(
+      [
+        `Chrome CDP capture failed, and built-in screenshot fallback did not create ${output}.`,
+        `CDP failure: ${reason.message}`,
+        `Fallback args: ${fallbackArgs.join(' ')}`,
+        stdout.trim() ? `Fallback stdout:\n${stdout.trim().slice(-4000)}` : '',
+        stderr.trim() ? `Fallback stderr:\n${stderr.trim().slice(-4000)}` : '',
+      ].filter(Boolean).join('\n'),
+    );
+  }
+
+  console.warn(
+    [
+      `CDP capture failed; used Chrome built-in screenshot fallback for ${output}.`,
+      `CDP failure: ${reason.message}`,
+      stderr.trim() ? `Fallback stderr:\n${stderr.trim().slice(-1200)}` : '',
+    ].filter(Boolean).join('\n'),
+  );
+}
+
 let socket;
 try {
   const baseUrl = `http://127.0.0.1:${port}`;
@@ -145,7 +237,10 @@ try {
     await delay(100);
   }
   if (!version?.webSocketDebuggerUrl) {
-    throw new Error(`Chrome DevTools endpoint did not become ready.\n${chromeDiagnostics()}`);
+    await captureWithBuiltInScreenshot(
+      new Error(`Chrome DevTools endpoint did not become ready.\n${chromeDiagnostics()}`),
+    );
+    process.exit(0);
   }
 
   const newTarget = await fetch(`${baseUrl}/json/new?${encodeURIComponent('about:blank')}`, {
@@ -245,6 +340,8 @@ try {
   });
   writeFileSync(output, Buffer.from(screenshot.data, 'base64'));
   console.log(`captured ${output} ${width}x${height}`);
+} catch (error) {
+  await captureWithBuiltInScreenshot(error);
 } finally {
   if (socket) socket.close();
   chromeProcess.kill('SIGTERM');

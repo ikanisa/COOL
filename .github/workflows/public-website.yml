@@ -13,7 +13,7 @@ on:
       - 'web/.well-known/**'
       - 'docs/design/COLLECT_PUBLIC_WEBSITE_*.md'
       - 'docs/release/COLLECT_PUBLIC_WEBSITE_*.md'
-      - 'docs/release/collect_public_website_evidence_2026-06-22/**'
+      - 'output/public_website_evidence/**'
   pull_request:
     paths:
       - '.github/workflows/public-website.yml'
@@ -24,7 +24,7 @@ on:
       - 'web/.well-known/**'
       - 'docs/design/COLLECT_PUBLIC_WEBSITE_*.md'
       - 'docs/release/COLLECT_PUBLIC_WEBSITE_*.md'
-      - 'docs/release/collect_public_website_evidence_2026-06-22/**'
+      - 'output/public_website_evidence/**'
   workflow_dispatch:
 
 concurrency:

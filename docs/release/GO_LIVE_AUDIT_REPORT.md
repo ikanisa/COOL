@@ -40,7 +40,7 @@ complete.
 | Supabase readiness | Pass | `scripts/supabase_production_readiness.sh` passed after applying linked migration history and mobile-state RLS hardening. |
 | Supabase release gate | Blocked | Supabase go-live remains NO-GO on product signoff, Android SMS UAT, signing/iOS scope, and release-owner signoff. |
 | Real Android SMS access UAT | Pending | Production-flavor Pixel smoke passed at `.cache/android_device_uat/20260602T042542Z/summary.json`; real MoMo SMS consent, ingestion, parser, allocation, and ledger scenario approval is still missing. |
-| Android release artifacts | Pass | `scripts/release_artifact_manifest.sh --json` passed and wrote `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`; APK/AAB signatures verify. |
+| Android release artifacts | Pass | `scripts/release_artifact_manifest.sh --json` passed and wrote `output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`; APK/AAB signatures verify. |
 | Android signing / iOS scope | Blocked | `scripts/flutter_mobile_release_gate.sh --json` reports `android_release_signing_review` and `ios_release_scope`; artifact signature checks pass. |
 | Stakeholder product signoff | Pending | `docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md` is ready for review. |
 

@@ -7,18 +7,12 @@
 - In-app brand assets: `assets/brand/generated/collect_wordmark_periwinkle.png`, generated color-cycle/contact-sheet assets.
 - Brand-critical app surfaces: `/home` and `/groups/create` at a 390x844 mobile viewport.
 
-**Evidence**
-- Source visual truth: `/tmp/codex-remote-attachments/019ea2f3-08c6-7573-95ac-5d17dac77062/5876CCD8-FF59-419B-B9D1-A01212F48E8C/1-Photo-1.jpg`.
-- Source visual truth: `/tmp/codex-remote-attachments/019ea2f3-08c6-7573-95ac-5d17dac77062/A7B6D850-803D-4089-B90D-D1E510C63813/1-Photo-1.jpg`.
-- Source visual truth: `/Volumes/PRO-G40/COOL/assets/brand/generated/collect_logo_color_variants_sheet.png`.
-- Source visual truth: `/Volumes/PRO-G40/COOL/assets/brand/generated/collect_logo_color_cycle_icon.gif`.
-- Full-view comparison evidence: `/Volumes/PRO-G40/COOL/docs/design/brand_qa/collect-app-icon-rule-comparison.png`.
-- Full-view comparison evidence: `/Volumes/PRO-G40/COOL/docs/design/brand_qa/collect-wordmark-rule-comparison.png`.
-- Rendered app screenshot: `/Volumes/PRO-G40/COOL/docs/design/brand_qa/home-390x844.png`.
-- Rendered app screenshot: `/Volumes/PRO-G40/COOL/docs/design/brand_qa/group-create-390x844.png`.
-- Physical device home screenshot: `/Volumes/PRO-G40/COOL/docs/design/device_qa/2026-06-07-pixel4a-brand/home-device.png`.
-- Physical device create-group screenshot: `/Volumes/PRO-G40/COOL/docs/design/device_qa/2026-06-07-pixel4a-brand/group-create-device.png`.
-- Physical device icon proof: `/Volumes/PRO-G40/COOL/docs/design/device_qa/2026-06-07-pixel4a-brand/recent-app-icon-device.png`.
+**Evidence Boundary**
+- Source visual truth remains in tracked brand assets under `assets/brand/generated/`.
+- Rendered screenshot and physical-device evidence files were removed from
+  source control during the repository cleanup. Regenerate current QA evidence
+  into ignored `.cache/` or `output/` directories when a fresh release review is
+  required.
 
 **Design QA Notes**
 - Color/token fidelity: official Collect brand colors are represented as stable tokens and integrated through semantic aliases instead of scattered raw colors.

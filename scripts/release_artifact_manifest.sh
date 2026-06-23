@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ARTIFACT_ROOT="${RELEASE_ARTIFACT_ROOT:-$ROOT_DIR}"
-MANIFEST_PATH="${RELEASE_ARTIFACT_MANIFEST_PATH:-$ROOT_DIR/docs/release/BUILD_ARTIFACT_CHECKSUMS_$(date -u +%Y-%m-%d).sha256}"
+MANIFEST_PATH="${RELEASE_ARTIFACT_MANIFEST_PATH:-$ROOT_DIR/output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_$(date -u +%Y-%m-%d).sha256}"
 
 output_format="text"
 if [[ "${1:-}" == "--json" ]]; then

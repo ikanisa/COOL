@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-22T08:10:00Z",
+  "generated_at": "2026-06-22T09:34:53Z",
   "deployments": {
     "public_landing": {
       "provider": "cloudflare_workers_static_assets",
@@ -7,9 +7,9 @@
       "url": "https://collect.ikanisa.com",
       "deployment_url": "https://collect.ikanisa.com",
       "branch": "main",
-      "version_id": "40b3f4a4-6a63-476e-b878-8c45ef13a9da",
+      "version_id": "2ca0058b-bd5f-4e21-9d20-5e0f93d38258",
       "live_gate_status": "pass",
-      "evidence": "wrangler deploy --name collect-public --assets build/public_web --compatibility-date 2026-06-22 --message \"Align sitemap canonical URLs with served slash routes\"; Current Version ID 40b3f4a4-6a63-476e-b878-8c45ef13a9da. scripts/public_website_quality_gate.sh --json passed 34/34 and scripts/public_website_live_gate.sh --json passed 28/28 against https://collect.ikanisa.com, including every sitemap URL having local metadata-complete HTML, every live sitemap URL returning non-empty HTTP 200 content, route-level canonical/social/valid JSON-LD checks, sitemap lastmod coverage, and reciprocal hreflang/OG locale metadata on /, /rw/, and /fr/. Live sitemap contains 18 absolute trailing-slash URLs with lastmod 2026-06-22 and no redirecting no-slash URL entries. scripts/public_website_audit_evidence.sh saved docs/release/collect_public_website_evidence_2026-06-22/live_audit_evidence.json with status pass, root 227 ms in the completion audit run, root HTML 8871 bytes, CSS 8534 bytes, JS 377 bytes, critical first-party bytes 177445, Cloudflare cache HIT, and valid JSON-LD types Organization and SoftwareApplication. Lighthouse evidence is green: mobile Performance 98, Accessibility 96, Best Practices 100, SEO 100; desktop Performance 100, Accessibility 96, Best Practices 100, SEO 100. Visual QA passes with four exact-dimension screenshots and zero browser QA failures. Remaining completion blockers are owner/platform evidence only: Google Search Console, Bing Webmaster or deferral, Collect product proof or deferral, translation approval, and Play Console proof or deferral."
+      "evidence": "wrangler deploy --name collect-public --assets build/public_web --compatibility-date 2026-06-22 --message \"Restore all original Collect public pages\"; Current Version ID 2ca0058b-bd5f-4e21-9d20-5e0f93d38258. scripts/public_website_quality_gate.sh --json passed 32/32 and scripts/public_website_live_gate.sh --json passed 25/25 against https://collect.ikanisa.com. The live sitemap contains 17 absolute trailing-slash URLs with lastmod 2026-06-22, including restored original public routes /community-groups/, /insurance/, /craas/, and /our-partners/ plus audit aliases /protection/, /credit-readiness/, and /partners/. Every sitemap URL returns non-empty direct HTTP 200 content; no /rw/ or /fr/ URLs, localized hreflang, or localized OG locale metadata are advertised. Root HTML is English-only with lang=en and og:locale en_US. One-by-one live content checks passed for Group Savings, Diaspora, Insurance, CRaaS, Community Groups, Impact, Our Partners, Privacy, Account Deletion, Data Deletion, and Terms. Live metrics recorded root HTML 15234 bytes, CSS 12206 bytes, JS 377 bytes, critical first-party bytes 187480, and valid JSON-LD types Organization and SoftwareApplication. Browser screenshot automation timed out in this environment after deployment, so fresh screenshot evidence was not claimed for this restore pass. Remaining completion blockers are Google Search Console proof, Bing Webmaster proof or deferral, and Collect product proof or deferral."
     },
     "admin_pwa": {
       "provider": "cloudflare_workers_static_assets",

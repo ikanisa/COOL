@@ -1,7 +1,7 @@
 {
   "status": "pending-human-signoff",
   "staging_only": false,
-  "evidence_root": ".cache/repo_wide_qa_uat/20260601T205424Z",
+  "evidence_root": "output/uat_evidence",
   "release_owner": {
     "name": "",
     "decision": "NO-GO",
@@ -15,12 +15,7 @@
       "signoff": "",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T205424Z/flutter_test.txt",
-        ".cache/mobile_route_render_smoke/20260602T210133Z/summary.json",
-        ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt",
-        ".cache/supabase_go_live_evidence/20260602T045205Z/summary.json"
-      ]
+      "evidence_files": []
     },
     {
       "id": "UAT-02",
@@ -29,12 +24,7 @@
       "signoff": "",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T205424Z/flutter_test.txt",
-        ".cache/mobile_route_render_smoke/20260602T210133Z/summary.json",
-        ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt",
-        ".cache/android_install/20260602T050529Z/final_release_package.txt"
-      ]
+      "evidence_files": []
     },
     {
       "id": "UAT-03",
@@ -43,12 +33,7 @@
       "signoff": "",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T205424Z/flutter_test.txt",
-        ".cache/mobile_route_render_smoke/20260602T210133Z/summary.json",
-        ".cache/repo_wide_qa_uat/20260601T205424Z/evidence_index.json",
-        ".cache/mobile_release_gate/20260602T050529Z/mobile_release_gate.json"
-      ]
+      "evidence_files": []
     },
     {
       "id": "UAT-04",
@@ -57,12 +42,7 @@
       "signoff": "",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T205424Z/flutter_test.txt",
-        ".cache/mobile_route_render_smoke/20260602T210133Z/summary.json",
-        ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt",
-        ".cache/supabase_go_live_evidence/20260602T045205Z/summary.json"
-      ]
+      "evidence_files": []
     },
     {
       "id": "UAT-05",
@@ -71,11 +51,7 @@
       "signoff": "",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": [
-        ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt",
-        ".cache/supabase_go_live_evidence/20260602T045205Z/summary.json",
-        "docs/ANDROID_SMS_ACCESS.md"
-      ]
+      "evidence_files": []
     },
     {
       "id": "UAT-06",
@@ -84,11 +60,7 @@
       "signoff": "",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_live_gate.json",
-        ".cache/admin_pwa_render_smoke/20260602T081408Z/summary.json",
-        ".cache/supabase_go_live_evidence/20260602T045205Z/summary.json"
-      ]
+      "evidence_files": []
     },
     {
       "id": "UAT-07",
@@ -97,11 +69,7 @@
       "signoff": "",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_live_gate.json",
-        ".cache/supabase_go_live_evidence/20260602T045205Z/summary.json",
-        ".cache/supabase_go_live_evidence/20260602T045205Z/acceptance_matrix.json"
-      ]
+      "evidence_files": []
     },
     {
       "id": "UAT-08",
@@ -110,11 +78,7 @@
       "signoff": "",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_live_gate.json",
-        ".cache/supabase_go_live_evidence/20260602T045205Z/summary.json",
-        ".cache/supabase_go_live_evidence/20260602T045205Z/go_live_gate.json"
-      ]
+      "evidence_files": []
     },
     {
       "id": "UAT-09",
@@ -123,12 +87,7 @@
       "signoff": "",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T205424Z/flutter_test.txt",
-        ".cache/mobile_route_render_smoke/20260602T210133Z/summary.json",
-        ".cache/android_device_uat/20260602T042542Z/android_device_uat.txt",
-        ".cache/repo_wide_qa_uat/20260601T205424Z/admin_pwa_live_gate.json"
-      ]
+      "evidence_files": []
     },
     {
       "id": "UAT-10",
@@ -137,12 +96,7 @@
       "signoff": "",
       "sanitized": true,
       "production_like": true,
-      "evidence_files": [
-        ".cache/repo_wide_qa_uat/20260601T205424Z/flutter_test.txt",
-        ".cache/mobile_route_render_smoke/20260602T210133Z/summary.json",
-        ".cache/supabase_go_live_evidence/20260602T045205Z/summary.json",
-        ".cache/repo_wide_qa_uat/20260601T205424Z/evidence_index.json"
-      ]
+      "evidence_files": []
     }
   ],
   "secret_handling": "This manifest records current automated, sanitized evidence only. Persona status and release owner approval remain pending until a human release owner signs the evidence packet. Do not add raw SMS, phone/MOMO numbers, provider secrets, service keys, OpenAI keys, or production customer data."

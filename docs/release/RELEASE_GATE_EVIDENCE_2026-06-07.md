@@ -15,7 +15,7 @@ The code-owned brand, artifact, admin web, live Admin PWA, and physical Android 
 - Admin PWA build, manifest gate, and hosting gate: passed.
 - Admin PWA live gate: passed for `https://cool-admin-212.pages.dev`.
 - Admin PWA live gate log: `.cache/release_gate/2026-06-08-admin-live-gate.json`.
-- Release artifact checksum manifest: `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-07.sha256`.
+- Release artifact checksum manifest: `output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_2026-06-07.sha256`.
 - Android release APK: `build/app/outputs/flutter-apk/app-production-release.apk`.
 - Android release APK SHA-256: `12b585bfa74f90c9136b5e30efe585e440523c5d7443d193c1f3afdd346db968`.
 - Android release AAB: `build/app/outputs/bundle/productionRelease/app-production-release.aab`.

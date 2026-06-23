@@ -1,7 +1,7 @@
 {
   "status": "approved",
   "approval_packet": "docs/release/RELEASE_APPROVAL_PACKET.md",
-  "qa_summary": ".cache/repo_wide_qa_uat/20260601T205424Z/summary.json",
+  "qa_summary": "docs/release/RELEASE_APPROVAL_PACKET.md",
   "approvals": [
     {
       "key": "product_signoff",

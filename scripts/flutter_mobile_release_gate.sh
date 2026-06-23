@@ -73,7 +73,7 @@ end
 MOBILE_APPROVAL_EVIDENCE_PATTERNS = {
   "android_release_signing_review" => [
     %r{\Adocs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02\.md\z},
-    %r{\Adocs/release/BUILD_ARTIFACT_CHECKSUMS_[0-9-]+\.sha256\z},
+    %r{\Aoutput/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_[0-9-]+\.sha256\z},
     %r{\A\.cache/mobile_release_gate/[^/]+/summary\.json\z},
     %r{\A\.cache/android_install/[^/]+/final_release_summary\.json\z}
   ],

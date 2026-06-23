@@ -34,9 +34,9 @@ This evidence covers the production Android release build installed and visually
 
 ## Visual Evidence
 
-- Physical device home screen: `docs/design/device_qa/2026-06-07-pixel4a-brand/home-device.png`
-- Physical device create-group screen: `docs/design/device_qa/2026-06-07-pixel4a-brand/group-create-device.png`
-- Physical device recent-apps icon proof: `docs/design/device_qa/2026-06-07-pixel4a-brand/recent-app-icon-device.png`
+- Physical device home screen: external device QA evidence, removed from the source repo
+- Physical device create-group screen: external device QA evidence, removed from the source repo
+- Physical device recent-apps icon proof: external device QA evidence, removed from the source repo
 
 ## Verification
 

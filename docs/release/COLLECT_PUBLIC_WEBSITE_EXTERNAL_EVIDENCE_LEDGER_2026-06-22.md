@@ -12,18 +12,19 @@ Owner sign-off pack:
 
 | Area | Evidence | Status |
 | --- | --- | --- |
-| Static-first public build | `scripts/public_website_quality_gate.sh --json` passes 34/34, including local sitemap route metadata checks. | Proven |
-| Live production routes | `scripts/public_website_live_gate.sh --json` passes 28/28 against `https://collect.ikanisa.com`, including every sitemap URL returning non-empty HTTP 200 content, route-level canonical/social/valid JSON-LD checks for every HTML route, sitemap `lastmod` coverage, and reciprocal localized `hreflang` metadata. | Proven |
-| Live audit evidence | `scripts/public_website_audit_evidence.sh` saved `docs/release/collect_public_website_evidence_2026-06-22/live_audit_evidence.json` with status `pass`. | Proven |
+| Static-first public build | `scripts/public_website_quality_gate.sh --json` passes 34/34, including local sitemap route metadata and English-only output checks. | Proven |
+| Live production routes | `scripts/public_website_live_gate.sh --json` passes 25/25 against `https://collect.ikanisa.com`, including every sitemap URL returning non-empty HTTP 200 content, route-level canonical/social/valid JSON-LD checks for every HTML route, sitemap `lastmod` coverage, and English-only metadata. | Proven |
+| Live audit evidence | `scripts/public_website_audit_evidence.sh` saved `output/public_website_evidence/live_audit_evidence.json` with status `pass`. | Proven |
 | Flutter/CanvasKit removal | Static and live gates find no `flutter_bootstrap`, `flutter-view`, `main.dart.js`, `canvaskit`, or `.wasm` markers on the live root. | Proven |
 | Policy routes | `/privacy/`, `/terms/`, `/account-deletion/`, `/data-deletion/`, and `/#/privacy` compatibility are verified by live gate. | Proven |
 | Trust and structured data | `/trust/`, `/security/`, security headers, social metadata, and valid JSON-LD graph with `Organization` and `SoftwareApplication` are verified live. | Proven |
-| Localization implementation | `/rw/` and `/fr/` routes, language attributes, language links, localized copy, reciprocal `hreflang`, and OG locale metadata are verified live. | Implemented; approval pending |
-| Crawlability | Live `robots.txt` allows `/` and references `https://collect.ikanisa.com/sitemap.xml`; live sitemap has 18 absolute trailing-slash URLs, every sitemap URL returns direct HTTP 200 content, and every URL has `lastmod=2026-06-22`. Readiness evidence is saved at `docs/release/collect_public_website_evidence_2026-06-22/search-console/indexing-readiness.json`. | Proven; console submission pending |
+| English-only language scope | Owner direction is English-only. The static build and live gate verify `<html lang="en">`, `og:locale` `en_US`, and no `/rw/` or `/fr/` sitemap or `hreflang` advertising. | Proven |
+| Crawlability | Live `robots.txt` allows `/` and references `https://collect.ikanisa.com/sitemap.xml`; live sitemap has 17 absolute trailing-slash URLs, every sitemap URL returns direct HTTP 200 content, and every URL has `lastmod=2026-06-22`. | Proven; console submission pending |
 | IndexNow readiness | `scripts/public_static_site_build.rb` supports an owner-provided `PUBLIC_INDEXNOW_KEY`, and `scripts/public_website_indexnow_readiness.sh --json` validates key-file readiness without submitting URLs. | Supported; no key published and no URL submission made |
-| Performance budgets | Latest completion audit recorded root response 275 ms, root HTML 8,871 bytes, CSS 8,534 bytes, JS 377 bytes, and critical first-party bytes 177,445. Mobile Lighthouse scores are Performance 98, Accessibility 96, Best Practices 100, SEO 100; desktop Lighthouse scores are Performance 100, Accessibility 96, Best Practices 100, SEO 100. | Proven |
-| Visual QA | `scripts/public_website_playwright_visual_qa.js` captured exact-dimension screenshots at 390x844, 430x932, 768x1024, and 1440x1000, with no automated browser QA failures. | Proven |
-| Completion gate | `scripts/public_website_completion_gate.sh --json` runs static, live, audit-evidence, and external artifact checks. It validates Lighthouse JSON scores, approval-file content, and screenshot PNG dimensions. | Code-owned checks pass; five external artifacts missing or invalid |
+| Performance budgets | Latest completion audit recorded root response 727 ms, root HTML 15,234 bytes, CSS 12,206 bytes, JS 377 bytes, and critical first-party bytes 187,480. | Proven by live gate and live audit evidence; fresh Lighthouse evidence missing |
+| Visual QA | In-app browser and Playwright/Chrome screenshot automation timed out after the full page restore. Fresh screenshot evidence is not claimed for this restore pass. | Open |
+| Completion gate | `PUBLIC_WEBSITE_EVIDENCE_DIR=output/public_website_evidence scripts/public_website_completion_gate.sh --json` runs static, live, audit-evidence, and external artifact checks. It validates Lighthouse JSON scores, approval-file content, and screenshot PNG dimensions. | Code-owned checks pass; seven evidence artifacts missing or invalid |
+| Play Console privacy URL evidence | The strict gate currently has no accepted Play Console proof artifact in `output/public_website_evidence/play-console/`. | Open |
 | CI automation | `scripts/public_website_ci_gate.sh` is the local/CI entrypoint; `.github/workflows/public-website.yml` runs the static public build, static quality gate, IndexNow readiness boundary, production live gate, live audit evidence, and code-owned completion checks. | Available |
 | External evidence audit | `scripts/public_website_external_evidence_audit.sh` prints a readable action list from the completion gate. | Available |
 | Completion report | `scripts/public_website_completion_report.sh` generates `docs/release/COLLECT_PUBLIC_WEBSITE_COMPLETION_AUDIT_2026-06-22.md`. | Available; current status NO-GO |
@@ -34,8 +35,9 @@ Owner sign-off pack:
 | --- | --- | --- | --- |
 | T-1 Search indexing | Google Search Console URL inspection or sitemap submission proof, plus Bing Webmaster Tools submission if required. | Open. Live crawlability is ready and documented, and owner-approved IndexNow key hosting is supported, but platform submission proof is still missing. Google guidance reviewed by Codex says sitemap discovery can happen through robots.txt and Search Console, while deprecated unauthenticated ping is no longer useful. Bing IndexNow guidance requires a key, hosted key file, URL submission, and Bing Webmaster verification. | Provide Search Console/Bing access or submit manually and record screenshots/export; alternatively approve Bing deferral. |
 | U-2 Collect-specific proof | Owner-approved Collect traction, pilot, reliability, customer, partner, or transparent early-stage proof with dated source notes. | Open. Site intentionally avoids unapproved claims and uses public market proof plus cautious early-stage language. | Approve exact metrics/testimonials/partner references or explicitly approve deferral. |
-| U-4 Translation approval | Human review/sign-off for Kinyarwanda and French wording. | Implemented but not closed. | Approve translations or provide corrected copy. |
-| Play Console privacy URL update | Explicit owner approval and Play Console evidence if the store listing must be updated/resubmitted. | Not performed by Codex. | Approve and perform Play Console update, then save evidence. |
+| Lighthouse evidence | Mobile and desktop Lighthouse/PageSpeed evidence after the full page restore. | Open. Browser automation timed out during this restore pass. | Regenerate Lighthouse/PageSpeed evidence and attach accepted JSON/HTML/PDF. |
+| Visual evidence | Exact-dimension screenshots or owner visual approval after the full page restore. | Open. Browser screenshot automation timed out during this restore pass. | Regenerate screenshots or approve visual state manually. |
+| Play Console evidence | Play Console privacy/account/data deletion URL update evidence, or owner deferral. | Open. Accepted artifact is not present in the current release evidence folder. | Attach proof or approve deferral. |
 
 Use the owner sign-off pack to record approvals, deferrals, corrections, and
 attachments for each row above.
@@ -52,6 +54,15 @@ The available search output returned IKANISA and related portfolio results, but
 did not surface a `collect.ikanisa.com` result. This is not a substitute for
 Search Console URL inspection, but it supports keeping T-1 open until platform
 submission/indexing evidence exists.
+
+## Search Console API Attempt
+
+Codex detected an active local `gcloud` account and attempted to obtain a
+Search Console scoped access token for sitemap submission on 2026-06-22. The
+credential refresh failed because Google required interactive reauthentication
+and the current execution environment cannot complete an interactive login.
+No Search Console sitemap submission was made by that failed attempt, and no
+token or credential value was written to repo evidence.
 
 ## Official Indexing Guidance Reviewed
 
@@ -72,6 +83,5 @@ Do not mark the overall public website goal complete until:
 - `scripts/public_website_completion_gate.sh --json` passes;
 - Search Console/Bing indexing evidence is attached or explicitly deferred by
   the owner;
-- product proof and translations are approved or explicitly deferred by the
-  owner;
+- product proof is approved or explicitly deferred by the owner;
 - no external submission is made without explicit recorded human approval.

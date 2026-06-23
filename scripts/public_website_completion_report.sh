@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-EVIDENCE_DIR="${PUBLIC_WEBSITE_EVIDENCE_DIR:-docs/release/collect_public_website_evidence_2026-06-22}"
+EVIDENCE_DIR="${PUBLIC_WEBSITE_EVIDENCE_DIR:-output/public_website_evidence}"
 OUT_PATH="${PUBLIC_WEBSITE_COMPLETION_REPORT:-docs/release/COLLECT_PUBLIC_WEBSITE_COMPLETION_AUDIT_2026-06-22.md}"
 
 mkdir -p "$EVIDENCE_DIR" "$(dirname "$OUT_PATH")"
@@ -21,7 +21,7 @@ ruby -r json -r time - "$COMPLETION_JSON" "$OUT_PATH" "$GATE_RC" <<'RUBY'
 completion_path, out_path, gate_rc = ARGV
 completion = JSON.parse(File.read(completion_path))
 metrics = completion.dig("gate_summaries", "audit_metrics") || {}
-evidence_dir = ENV.fetch("PUBLIC_WEBSITE_EVIDENCE_DIR", "docs/release/collect_public_website_evidence_2026-06-22")
+evidence_dir = ENV.fetch("PUBLIC_WEBSITE_EVIDENCE_DIR", "output/public_website_evidence")
 
 status = completion.fetch("status") == "pass" ? "GO" : "NO-GO"
 missing = completion.fetch("missing_external")
@@ -37,13 +37,13 @@ rows = [
   ["T-2 true privacy URL", "PASS", "Live gate verifies /privacy/, /terms/, /account-deletion/, /data-deletion/, and /#/privacy compatibility."],
   ["T-3 non-JS/low-bandwidth resilience", "PASS", "Live/static gates verify no Flutter, CanvasKit, main.dart.js, or WASM critical-path markers; JS is #{metrics["js_bytes"] || "unknown"} bytes."],
   ["T-4 trust/security/structured data", "PASS", "Live gate verifies /trust/, /security/, security headers, and valid JSON-LD types #{Array(metrics["json_ld_types"]).join(", ")}."],
-  ["U-1 non-WhatsApp conversion", "PASS", "Live gate verifies a self-serve lead form with email input."],
+  ["U-1 public app and WhatsApp support", "PASS", "Live gate verifies public app-download CTAs plus lean WhatsApp group/support CTAs with no support panel or email form."],
   ["U-2 Collect-specific proof", missing.key?("collect_product_proof") ? "NO-GO" : "PASS", "Requires owner-approved Collect-specific proof or explicit deferral."],
   ["U-3 credit-readiness explanation", "PASS", "Live gate verifies the near-top explainer and provider-decision language."],
-  ["U-4 localization", missing.key?("translation_approval") ? "NO-GO" : "PASS", "Live gate verifies /rw/ and /fr/ implementation; human translation approval still required if NO-GO."],
+  ["U-4 localization", "PASS", "Owner direction is English-only for the public website; no `/rw/` or `/fr/` routes or translation approval gate is required."],
   ["U-5 visual quality", missing.key?("visual_approval") ? "NO-GO" : "PASS", visual_evidence],
   ["Lighthouse/Core Web Vitals", missing.key?("lighthouse_mobile") || missing.key?("lighthouse_desktop") ? "NO-GO" : "PASS", lighthouse_evidence],
-  ["Play Console action boundary", missing.key?("play_console_approval") ? "NO-GO" : "PASS", "Requires Play Console update proof or owner deferral; no external submission by Codex."],
+  ["Play Console action boundary", missing.key?("play_console_approval") ? "NO-GO" : "PASS", missing.key?("play_console_approval") ? "Requires Play Console update proof or owner deferral; no external submission by Codex." : "Accepted Play Console privacy/account/data deletion URL evidence is recorded under #{evidence_dir}/play-console/."],
 ]
 
 lines = []
@@ -72,16 +72,27 @@ lines << "- Critical first-party bytes: #{metrics["critical_first_party_bytes"] 
 lines << "- Cloudflare cache: #{metrics["root_cf_cache_status"] || "unknown"}"
 lines << "- JSON-LD types: #{Array(metrics["json_ld_types"]).join(", ")}"
 lines << ""
-lines << "## Generated Evidence"
+lines << "## Code-Owned Evidence"
 lines << ""
 lines << "- Indexing readiness: `#{evidence_dir}/search-console/indexing-readiness.json`"
 lines << "- Optional IndexNow readiness: owner-provided `PUBLIC_INDEXNOW_KEY` support and `scripts/public_website_indexnow_readiness.sh --json`; no key or URL submission is published by Codex"
 lines << "- CI guard: `scripts/public_website_ci_gate.sh` and `.github/workflows/public-website.yml` run static public gates, production live gates, and code-owned completion checks"
-lines << "- Localized SEO: reciprocal `hreflang` alternates and OG locale metadata verified on `/`, `/rw/`, and `/fr/` by the live gate"
-lines << "- Visual QA: `#{evidence_dir}/browser_visual_qa.json`"
-lines << "- Screenshots: `#{evidence_dir}/screenshots/mobile_390x844.png`, `mobile_430x932.png`, `tablet_768x1024.png`, `desktop_1440x1000.png`"
-lines << "- Lighthouse mobile: `#{evidence_dir}/lighthouse/mobile.json`"
-lines << "- Lighthouse desktop: `#{evidence_dir}/lighthouse/desktop.json`"
+lines << "- English-only SEO: the live gate verifies `<html lang=\"en\">`, `og:locale` `en_US`, and no localized `/rw/` or `/fr/` sitemap or `hreflang` advertising"
+lines << ""
+lines << "## Required Pending Evidence"
+lines << ""
+if missing.key?("visual_approval")
+  lines << "- Visual QA or owner visual approval remains missing; accepted paths are listed under `visual_approval` below."
+else
+  lines << "- Visual QA: `#{evidence_dir}/browser_visual_qa.json`"
+  lines << "- Screenshots: `#{evidence_dir}/screenshots/mobile_390x844.png`, `mobile_430x932.png`, `tablet_768x1024.png`, `desktop_1440x1000.png`"
+end
+if missing.key?("lighthouse_mobile") || missing.key?("lighthouse_desktop")
+  lines << "- Lighthouse/PageSpeed evidence remains missing; accepted paths are listed under `lighthouse_mobile` and `lighthouse_desktop` below."
+else
+  lines << "- Lighthouse mobile: `#{evidence_dir}/lighthouse/mobile.json`"
+  lines << "- Lighthouse desktop: `#{evidence_dir}/lighthouse/desktop.json`"
+end
 lines << ""
 lines << "## Requirement Matrix"
 lines << ""

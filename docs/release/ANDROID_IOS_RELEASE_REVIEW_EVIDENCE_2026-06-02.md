@@ -16,7 +16,7 @@ still be recorded in `docs/release/RELEASE_APPROVALS.json`.
 
 Additional evidence:
 
-- `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-08.sha256` was refreshed
+- `output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_2026-06-08.sha256` was refreshed
   after rebuilding the production APK, AAB, and Admin PWA artifacts.
 - `docs/release/BRAND_DEVICE_QA_2026-06-07.md` records the signed production
   APK installed and visually checked on physical Pixel `13111JEC215558`.

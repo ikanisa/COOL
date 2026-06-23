@@ -11,6 +11,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
+String readAdminRuntimeLibrary() {
+  return [
+    'lib/admin/core/admin_runtime.dart',
+    'lib/admin/core/admin_login_runtime.dart',
+    'lib/admin/core/admin_list_runtime.dart',
+    'lib/admin/core/admin_detail_runtime.dart',
+  ].map((path) => File(path).readAsStringSync()).join('\n');
+}
+
 void main() {
   const expectedAdminRoutes = <String>[
     '/admin/login',
@@ -146,9 +155,7 @@ void main() {
   });
 
   test('admin login does not render raw Supabase hook errors', () {
-    final runtime = File(
-      'lib/admin/core/admin_runtime.dart',
-    ).readAsStringSync();
+    final runtime = readAdminRuntimeLibrary();
 
     expect(runtime, contains('WhatsApp could not send the OTP.'));
     expect(runtime, contains('That code is expired or already used.'));
@@ -163,9 +170,7 @@ void main() {
   });
 
   test('admin OTP login uses persistent session state', () {
-    final runtime = File(
-      'lib/admin/core/admin_runtime.dart',
-    ).readAsStringSync();
+    final runtime = readAdminRuntimeLibrary();
     final guard = File(
       'lib/admin/core/admin_auth_guard.dart',
     ).readAsStringSync();

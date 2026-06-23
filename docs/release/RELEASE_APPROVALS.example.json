@@ -1,7 +1,7 @@
 {
   "status": "approved",
   "approval_packet": "docs/release/RELEASE_APPROVAL_PACKET.md",
-  "qa_summary": ".cache/repo_wide_qa_uat/20260601T205424Z/summary.json",
+  "qa_summary": "docs/release/RELEASE_APPROVAL_PACKET.md",
   "approvals": [
     {
       "key": "product_signoff",
@@ -22,7 +22,7 @@
       "decision": "GO",
       "reviewer": "Mobile UAT Reviewer",
       "signed_at": "2026-06-01T00:00:00Z",
-      "evidence_reference": ".cache/repo_wide_qa_uat/20260601T205424Z/uat_evidence_gate.json",
+      "evidence_reference": "docs/release/UAT_EVIDENCE_MANIFEST.json",
       "sanitized_evidence": true,
       "contains_production_customer_data": false,
       "notes": "Approved sanitized Android SMS UAT evidence."
@@ -34,7 +34,7 @@
       "decision": "GO",
       "reviewer": "Android Release Reviewer",
       "signed_at": "2026-06-01T00:00:00Z",
-      "evidence_reference": "docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256",
+      "evidence_reference": "docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md",
       "sanitized_evidence": true,
       "contains_production_customer_data": false,
       "signing_keys_exposed": false,
@@ -59,7 +59,7 @@
       "decision": "GO",
       "reviewer": "Release Owner",
       "signed_at": "2026-06-01T00:00:00Z",
-      "evidence_reference": ".cache/repo_wide_qa_uat/20260601T205424Z/summary.json",
+      "evidence_reference": "docs/release/RELEASE_APPROVAL_PACKET.md",
       "sanitized_evidence": true,
       "contains_production_customer_data": false,
       "notes": "Approved after all prerequisite gates were approved."

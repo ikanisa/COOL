@@ -11,33 +11,35 @@ access, or human review.
 
 - Production URL: `https://collect.ikanisa.com`
 - Current Cloudflare Workers static-assets version:
-  `40b3f4a4-6a63-476e-b878-8c45ef13a9da`
+  `2ca0058b-bd5f-4e21-9d20-5e0f93d38258`
 - Static gate: `scripts/public_website_quality_gate.sh --json` passes 34/34.
-- Live gate: `scripts/public_website_live_gate.sh --json` passes 28/28.
+- Live gate: `scripts/public_website_live_gate.sh --json` passes 25/25.
 - Live evidence file:
-  `docs/release/collect_public_website_evidence_2026-06-22/live_audit_evidence.json`
+  `output/public_website_evidence/live_audit_evidence.json`
 - Latest live evidence recorded:
-  - root response: 275 ms in latest completion audit run;
-  - root HTML: 8,871 bytes;
-  - CSS: 8,534 bytes;
+  - root response: 727 ms in latest completion audit run;
+  - root HTML: 15,234 bytes;
+  - CSS: 12,206 bytes;
   - JS: 377 bytes;
-  - critical first-party bytes: 177,445;
+  - critical first-party bytes: 187,480;
   - Cloudflare cache: `HIT`;
   - valid JSON-LD types: `Organization`, `SoftwareApplication`.
+- Original-content restoration evidence:
+  - the live static root restores the original Collect positioning, CTA labels,
+    USSD example, ibimina flow, diaspora/collateral story, embedded insurance,
+    CRaaS, customer journey sections, and all original interior public pages.
 - Crawlability evidence:
   - `https://collect.ikanisa.com/robots.txt` allows `/` and references the sitemap;
-  - `https://collect.ikanisa.com/sitemap.xml` has 18 absolute trailing-slash URLs;
+  - `https://collect.ikanisa.com/sitemap.xml` has 17 absolute trailing-slash URLs;
   - every sitemap URL returns direct HTTP 200 content;
   - every live sitemap URL has `lastmod=2026-06-22`.
-- Localized SEO evidence:
-  - `/`, `/rw/`, and `/fr/` expose reciprocal `hreflang` alternates;
-  - OG locale metadata is `en_US`, `rw_RW`, and `fr_FR` respectively.
-- Lighthouse evidence:
-  - mobile: Performance 98, Accessibility 96, Best Practices 100, SEO 100;
-  - desktop: Performance 100, Accessibility 96, Best Practices 100, SEO 100.
-- Visual QA evidence:
-  - `docs/release/collect_public_website_evidence_2026-06-22/browser_visual_qa.json`;
-  - screenshots at 390x844, 430x932, 768x1024, and 1440x1000.
+- English-only SEO evidence:
+  - the root exposes `<html lang="en">` and OG locale metadata `en_US`;
+  - the sitemap and root metadata do not advertise `/rw/`, `/fr/`, or localized `hreflang`.
+- Browser visual and Lighthouse boundary:
+  - fresh screenshot and Lighthouse evidence is not currently attached after
+    the full page restore because browser automation timed out in this
+    environment.
 
 ## Required Owner Decisions
 
@@ -45,8 +47,6 @@ access, or human review.
 | --- | --- | --- | --- |
 | T-1 | Submit `https://collect.ikanisa.com/sitemap.xml` in Google Search Console and Bing Webmaster Tools, then record URL inspection/submission proof. Optionally approve IndexNow key publication and URL submission. | Pending | Screenshot/export from Search Console and Bing; IndexNow/Bing evidence if used. |
 | U-2 | Approve Collect-specific proof to publish, or approve deferral. | Pending | Exact metric/testimonial/partner wording with source/date, or signed deferral. |
-| U-4 | Approve Kinyarwanda and French public copy, or provide corrections. | Pending | Reviewer name, date, and final copy notes. |
-| Play Console | Approve any Play Console privacy URL/listing update or resubmission. | Pending | Play Console change evidence, if performed. |
 
 ## Claim Approval Rules
 
@@ -78,7 +78,7 @@ Approved claim text must include:
    - `https://collect.ikanisa.com/trust/`
 4. Request indexing where available.
 5. Save screenshots or exported evidence in:
-   `docs/release/collect_public_website_evidence_2026-06-22/search-console/`.
+   `output/public_website_evidence/search-console/`.
 6. Repeat equivalent sitemap/URL submission in Bing Webmaster Tools if required.
 
 Platform note: Codex verified the live sitemap and robots setup, but did not
@@ -92,35 +92,31 @@ IndexNow URL submission has been made.
 
 ## Lighthouse Evidence
 
-Codex generated local Lighthouse JSON evidence on 2026-06-22:
+Fresh Lighthouse evidence is still open after the full original-content
+restore. Browser automation timed out in this environment, so no current
+Lighthouse JSON/HTML/PDF artifact is claimed for the restored production
+version.
 
-- `docs/release/collect_public_website_evidence_2026-06-22/lighthouse/mobile.json`
-- `docs/release/collect_public_website_evidence_2026-06-22/lighthouse/desktop.json`
+Required destination when regenerated:
 
-Both reports pass the 90+ target for Performance, Accessibility, Best
-Practices, and SEO. Earlier PageSpeed Insights API attempts returned
-`429 RESOURCE_EXHAUSTED`; those raw responses are saved in
-`docs/release/collect_public_website_evidence_2026-06-22/pagespeed/`.
-
-## Translation Review Checklist
-
-Reviewer must confirm:
-
-- `/rw/` Kinyarwanda copy is accurate, respectful, and locally natural;
-- `/fr/` French copy is accurate, respectful, and locally natural;
-- financial and credit-readiness language does not imply guaranteed credit,
-  insurance, or regulated status;
-- WhatsApp/contact wording is appropriate for customers.
+- `output/public_website_evidence/lighthouse/mobile.json`
+- `output/public_website_evidence/lighthouse/desktop.json`
+- or accepted PageSpeed/Lighthouse exports under
+  `output/public_website_evidence/pagespeed/`
 
 ## Visual QA Evidence
 
-Codex generated the final viewport evidence on 2026-06-22:
+Fresh screenshot evidence is still open after the full original-content
+restore. In-app browser and Playwright screenshot automation timed out in this
+environment, so no current post-restore screenshot set is claimed.
 
-- `docs/release/collect_public_website_evidence_2026-06-22/browser_visual_qa.json`
-- `docs/release/collect_public_website_evidence_2026-06-22/screenshots/mobile_390x844.png`
-- `docs/release/collect_public_website_evidence_2026-06-22/screenshots/mobile_430x932.png`
-- `docs/release/collect_public_website_evidence_2026-06-22/screenshots/tablet_768x1024.png`
-- `docs/release/collect_public_website_evidence_2026-06-22/screenshots/desktop_1440x1000.png`
+Required destination when regenerated:
+
+- `output/public_website_evidence/browser_visual_qa.json`
+- `output/public_website_evidence/screenshots/mobile_390x844.png`
+- `output/public_website_evidence/screenshots/mobile_430x932.png`
+- `output/public_website_evidence/screenshots/tablet_768x1024.png`
+- `output/public_website_evidence/screenshots/desktop_1440x1000.png`
 
 ## Visual Review Checklist
 

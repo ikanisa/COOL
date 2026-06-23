@@ -1,6 +1,6 @@
 # Collect Public Website Completion Audit
 
-Generated: 2026-06-22T08:26:01Z
+Generated: 2026-06-22T09:48:57Z
 
 Overall status: **NO-GO**
 
@@ -9,30 +9,31 @@ The public website code-owned remediation is green, but the overall goal is not 
 ## Gate Summary
 
 - Static quality gate: 34/34 passed
-- Live quality gate: 28/28 passed
+- Live quality gate: 25/25 passed
 - Live audit evidence: pass
-- External missing or invalid artifacts: 5
+- External missing or invalid artifacts: 7
 
 ## Live Metrics
 
-- Root response: 316 ms
-- Root HTML: 8871 bytes
-- CSS: 8534 bytes
+- Root response: 258 ms
+- Root HTML: 15234 bytes
+- CSS: 12206 bytes
 - JS: 377 bytes
-- Critical first-party bytes: 177445
+- Critical first-party bytes: 187480
 - Cloudflare cache: HIT
 - JSON-LD types: Organization, SoftwareApplication
 
-## Generated Evidence
+## Code-Owned Evidence
 
-- Indexing readiness: `docs/release/collect_public_website_evidence_2026-06-22/search-console/indexing-readiness.json`
+- Indexing readiness: `output/public_website_evidence/search-console/indexing-readiness.json`
 - Optional IndexNow readiness: owner-provided `PUBLIC_INDEXNOW_KEY` support and `scripts/public_website_indexnow_readiness.sh --json`; no key or URL submission is published by Codex
-- CI guard: `.github/workflows/public-website.yml` runs static public gates, production live gates, and code-owned completion checks
-- Localized SEO: reciprocal `hreflang` alternates and OG locale metadata verified on `/`, `/rw/`, and `/fr/` by the live gate
-- Visual QA: `docs/release/collect_public_website_evidence_2026-06-22/browser_visual_qa.json`
-- Screenshots: `docs/release/collect_public_website_evidence_2026-06-22/screenshots/mobile_390x844.png`, `mobile_430x932.png`, `tablet_768x1024.png`, `desktop_1440x1000.png`
-- Lighthouse mobile: `docs/release/collect_public_website_evidence_2026-06-22/lighthouse/mobile.json`
-- Lighthouse desktop: `docs/release/collect_public_website_evidence_2026-06-22/lighthouse/desktop.json`
+- CI guard: `scripts/public_website_ci_gate.sh` and `.github/workflows/public-website.yml` run static public gates, production live gates, and code-owned completion checks
+- English-only SEO: the live gate verifies `<html lang="en">`, `og:locale` `en_US`, and no localized `/rw/` or `/fr/` sitemap or `hreflang` advertising
+
+## Required Pending Evidence
+
+- Visual QA or owner visual approval remains missing; accepted paths are listed under `visual_approval` below.
+- Lighthouse/PageSpeed evidence remains missing; accepted paths are listed under `lighthouse_mobile` and `lighthouse_desktop` below.
 
 ## Requirement Matrix
 
@@ -45,9 +46,9 @@ The public website code-owned remediation is green, but the overall goal is not 
 | U-1 non-WhatsApp conversion | PASS | Live gate verifies a self-serve lead form with email input. |
 | U-2 Collect-specific proof | NO-GO | Requires owner-approved Collect-specific proof or explicit deferral. |
 | U-3 credit-readiness explanation | PASS | Live gate verifies the near-top explainer and provider-decision language. |
-| U-4 localization | NO-GO | Live gate verifies /rw/ and /fr/ implementation; human translation approval still required if NO-GO. |
-| U-5 visual quality | PASS | Exact-dimension screenshots and browser QA evidence are recorded under docs/release/collect_public_website_evidence_2026-06-22/screenshots/ and docs/release/collect_public_website_evidence_2026-06-22/browser_visual_qa.json. |
-| Lighthouse/Core Web Vitals | PASS | Mobile and desktop Lighthouse JSON reports are recorded under docs/release/collect_public_website_evidence_2026-06-22/lighthouse/ with all checked categories at 90+. |
+| U-4 localization | PASS | Owner direction is English-only for the public website; no `/rw/` or `/fr/` routes or translation approval gate is required. |
+| U-5 visual quality | NO-GO | Requires owner visual approval or exact-dimension screenshot set. |
+| Lighthouse/Core Web Vitals | NO-GO | Requires mobile and desktop Lighthouse/PageSpeed evidence. |
 | Play Console action boundary | NO-GO | Requires Play Console update proof or owner deferral; no external submission by Codex. |
 
 ## Missing External Artifacts
@@ -57,43 +58,66 @@ The public website code-owned remediation is green, but the overall goal is not 
 Google Search Console sitemap submission or URL inspection proof.
 
 Accepted evidence paths:
-- `docs/release/collect_public_website_evidence_2026-06-22/search-console/google-search-console.json`
-- `docs/release/collect_public_website_evidence_2026-06-22/search-console/google-search-console.pdf`
-- `docs/release/collect_public_website_evidence_2026-06-22/search-console/google-search-console.png`
+- `output/public_website_evidence/search-console/google-search-console.json`
+- `output/public_website_evidence/search-console/google-search-console.pdf`
+- `output/public_website_evidence/search-console/google-search-console.png`
 
 ### bing_webmaster (T-1)
 
 Bing Webmaster Tools sitemap submission proof, or owner-approved deferral.
 
 Accepted evidence paths:
-- `docs/release/collect_public_website_evidence_2026-06-22/search-console/bing-webmaster.json`
-- `docs/release/collect_public_website_evidence_2026-06-22/search-console/bing-webmaster.pdf`
-- `docs/release/collect_public_website_evidence_2026-06-22/search-console/bing-webmaster.png`
-- `docs/release/collect_public_website_evidence_2026-06-22/owner-approvals/bing-deferral.md`
+- `output/public_website_evidence/search-console/bing-webmaster.json`
+- `output/public_website_evidence/search-console/bing-webmaster.pdf`
+- `output/public_website_evidence/search-console/bing-webmaster.png`
+- `output/public_website_evidence/owner-approvals/bing-deferral.md`
+
+### lighthouse_mobile (Lighthouse)
+
+Mobile Lighthouse/PageSpeed report with green target evidence.
+
+Accepted evidence paths:
+- `output/public_website_evidence/lighthouse/mobile.json`
+- `output/public_website_evidence/lighthouse/mobile.html`
+- `output/public_website_evidence/lighthouse/mobile.pdf`
+
+### lighthouse_desktop (Lighthouse)
+
+Desktop Lighthouse/PageSpeed report with green target evidence.
+
+Accepted evidence paths:
+- `output/public_website_evidence/lighthouse/desktop.json`
+- `output/public_website_evidence/lighthouse/desktop.html`
+- `output/public_website_evidence/lighthouse/desktop.pdf`
 
 ### collect_product_proof (U-2)
 
 Owner-approved Collect-specific traction/proof, or explicit deferral.
 
 Accepted evidence paths:
-- `docs/release/collect_public_website_evidence_2026-06-22/owner-approvals/collect-product-proof.md`
-- `docs/release/collect_public_website_evidence_2026-06-22/owner-approvals/collect-product-proof-deferral.md`
+- `output/public_website_evidence/owner-approvals/collect-product-proof.md`
+- `output/public_website_evidence/owner-approvals/collect-product-proof-deferral.md`
 
-### translation_approval (U-4)
+### visual_approval (U-5)
 
-Human approval or correction notes for Kinyarwanda and French copy.
+Final visual approval or complete screenshot set for required viewports.
 
 Accepted evidence paths:
-- `docs/release/collect_public_website_evidence_2026-06-22/owner-approvals/translation-approval.md`
+- `output/public_website_evidence/owner-approvals/visual-approval.md`
+- `output/public_website_evidence/browser_visual_qa.json`
+- `output/public_website_evidence/screenshots/mobile_390x844.png`
+- `output/public_website_evidence/screenshots/mobile_430x932.png`
+- `output/public_website_evidence/screenshots/tablet_768x1024.png`
+- `output/public_website_evidence/screenshots/desktop_1440x1000.png`
 
 ### play_console_approval (Play Console)
 
 Play Console privacy URL/listing update evidence, or explicit owner deferral.
 
 Accepted evidence paths:
-- `docs/release/collect_public_website_evidence_2026-06-22/play-console/privacy-url-update.md`
-- `docs/release/collect_public_website_evidence_2026-06-22/play-console/privacy-url-update.png`
-- `docs/release/collect_public_website_evidence_2026-06-22/owner-approvals/play-console-deferral.md`
+- `output/public_website_evidence/play-console/privacy-url-update.md`
+- `output/public_website_evidence/play-console/privacy-url-update.png`
+- `output/public_website_evidence/owner-approvals/play-console-deferral.md`
 
 ## Commands
 

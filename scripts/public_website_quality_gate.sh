@@ -73,7 +73,7 @@ check(
 )
 
 required_routes = {
-  "/" => ["Credit-ready", "Collect"],
+  "/" => ["Microsavings and group savings for daily earners", "Collect"],
   "/group-savings/" => ["Group savings"],
   "/diaspora/" => ["Diaspora"],
   "/impact/" => ["Impact"],
@@ -120,64 +120,27 @@ alternative_routes.each do |id, options|
   )
 end
 
-["/rw/", "/fr/"].each do |route|
-  path = route_index(build_dir, route)
-  html = read(path)
-  ok = File.file?(path) && html.include?("Collect")
-  check(
-    checks,
-    "localized#{route.gsub(%r{[^a-zA-Z0-9]+}, "_")}",
-    pass_if(ok),
-    ok ? "#{route} localized route exists." : "#{route} localized route is missing.",
-    "path" => path
-  )
-end
-
-localized_hreflang_routes = {
-  "/" => {
-    "lang" => "en",
-    "locale" => "en_US",
-  },
-  "/rw/" => {
-    "lang" => "rw",
-    "locale" => "rw_RW",
-  },
-  "/fr/" => {
-    "lang" => "fr",
-    "locale" => "fr_FR",
-  },
-}
-hreflang_failures = []
-localized_hreflang_routes.each do |route, expected|
-  html = read(route_index(build_dir, route))
-  missing = []
-  missing << "html_lang" unless html.include?(%(<html lang="#{expected["lang"]}">))
-  missing << "og_locale" unless html.include?(%(property="og:locale" content="#{expected["locale"]}"))
-  hreflang_targets = {
-    "en" => "https://collect.ikanisa.com/",
-    "rw" => "https://collect.ikanisa.com/rw/",
-    "fr" => "https://collect.ikanisa.com/fr/",
-    "x-default" => "https://collect.ikanisa.com/",
-  }
-  hreflang_targets.each do |code, href|
-    missing << "hreflang_#{code}" unless html.include?(%(rel="alternate" hreflang="#{code}" href="#{href}"))
-  end
-  next if missing.empty?
-
-  hreflang_failures << { "route" => route, "missing" => missing }
-end
+localized_routes = ["/rw/", "/fr/"]
+localized_route_files = localized_routes.select { |route| File.file?(route_index(build_dir, route)) }
+localized_markers = ["hreflang=\"rw\"", "hreflang=\"fr\"", "property=\"og:locale\" content=\"rw_RW\"", "property=\"og:locale\" content=\"fr_FR\""]
+localized_metadata = localized_markers.select { |marker| root_html.include?(marker) || sitemap.include?(marker) }
+english_only_ok = localized_route_files.empty? &&
+  localized_metadata.empty? &&
+  root_html.include?('<html lang="en">') &&
+  root_html.include?('property="og:locale" content="en_US"')
 check(
   checks,
-  "localized_hreflang",
-  pass_if(hreflang_failures.empty?),
-  hreflang_failures.empty? ? "Localized home routes expose reciprocal hreflang and OG locale metadata." : "Localized home route hreflang metadata is incomplete.",
-  "failures" => hreflang_failures
+  "english_only_public_site",
+  pass_if(english_only_ok),
+  english_only_ok ? "Public site is English-only with no localized route output." : "Public site still exposes localized route or metadata output.",
+  "localized_route_files" => localized_route_files,
+  "localized_metadata" => localized_metadata
 )
 
 raw_html_ok = root_html.include?("<main") &&
   root_html.include?("<h1") &&
   root_html.include?("Collect") &&
-  root_html.include?("Credit-ready")
+  root_html.include?("Microsavings and group savings for daily earners")
 check(
   checks,
   "root_raw_html_content",
@@ -422,8 +385,9 @@ check(
 privacy_text = read(route_index(build_dir, "/privacy/"))
 policy_ok = privacy_text.include?("Account deletion") &&
   privacy_text.include?("Data deletion") &&
-  privacy_text.include?("info@ikanisa.com") &&
-  privacy_text.include?("+250 795 588 248")
+  privacy_text.include?("+250 795 588 248") &&
+  !privacy_text.include?("Email:") &&
+  !privacy_text.include?("mailto:")
 check(
   checks,
   "policy_content",
@@ -431,34 +395,75 @@ check(
   policy_ok ? "Policy route contains Play deletion contact content." : "Policy route lacks required deletion/contact content."
 )
 
-self_serve_patterns = [
-  "app.cool.mobile",
-  "play.google.com",
-  "apps.apple.com",
-  "type=\"tel\"",
-  "type=\"email\"",
-  "name=\"phone\"",
-  "name=\"email\"",
-  "partner inquiry",
-  "group setup",
-]
 whatsapp_links = root_html.scan(/https:\/\/wa\.me\//).length
-self_serve = self_serve_patterns.any? { |pattern| root_html.downcase.include?(pattern.downcase) }
+app_download_url = "https://play.google.com/store/apps/details?id=app.cool.mobile"
+public_app_and_whatsapp_support = whatsapp_links >= 3 &&
+  root_html.include?(app_download_url) &&
+  root_html.include?("Get the App") &&
+  root_html.include?("Create Group") &&
+  root_html.include?("Get in Touch") &&
+  !root_html.include?("WhatsApp support options") &&
+  !root_html.include?("Partner Inquiry") &&
+  !root_html.include?("Privacy or Deletion") &&
+  !root_html.include?("WhatsApp for app access") &&
+  !root_html.include?("Ask for app access") &&
+  !root_html.include?("mailto:") &&
+  !root_html.include?('type="email"') &&
+  !root_html.include?('name="email"')
 check(
   checks,
-  "conversion_not_whatsapp_only",
-  pass_if(self_serve),
-  self_serve ? "Root includes a non-WhatsApp self-serve conversion path." : "Root conversion is still WhatsApp-only.",
+  "public_app_and_whatsapp_support_conversion",
+  pass_if(public_app_and_whatsapp_support),
+  public_app_and_whatsapp_support ? "Root exposes public app download and lean WhatsApp support CTAs with no support panel or email form." : "Root support path is missing public app download, WhatsApp support CTA, or still exposes wrong support content.",
   "whatsapp_link_count" => whatsapp_links
 )
 
-credit_readiness_ok = root_html.downcase.include?("how credit-readiness works") ||
-  root_html.downcase.include?("how credit readiness works")
+credit_readiness_ok = root_html.downcase.include?("credit-readiness") &&
+  root_html.include?("Payments work. Financial progress still does not.") &&
+  root_html.include?("Credit-readiness gap") &&
+  root_html.downcase.include?("bank-ready loan files")
 check(
   checks,
   "credit_readiness_explainer",
   pass_if(credit_readiness_ok),
-  credit_readiness_ok ? "Credit-readiness mechanism is explained on the home page." : "Missing near-top credit-readiness explainer."
+  credit_readiness_ok ? "Credit-readiness and provider boundaries are explained on the home page." : "Missing credit-readiness or provider-boundary explanation."
+)
+
+source_backed_market_context_ok = root_html.include?("96%") &&
+  root_html.include?("85%") &&
+  root_html.include?("72%") &&
+  root_html.include?("24%")
+check(
+  checks,
+  "source_backed_market_context",
+  pass_if(source_backed_market_context_ok),
+  source_backed_market_context_ok ? "Home market figures are present." : "Home market figures are missing."
+)
+
+public_html_paths = Dir.glob(File.join(build_dir, "**", "*.html")).select { |path| File.file?(path) }
+banned_public_claim_patterns = {
+  "consent" => /consent/i,
+  "email_support" => /\bemail\b|mailto:/i,
+  "projection_or_scenario" => /projection|scenario|estimate/i,
+  "unsupported_partner_names" => /Revolut|Malta|three Rwanda banks/i,
+  "deck_only_market_figures" => /RWF 50|150B|300K|100K|35B|3-5x|US\$0\.5B|864M|19,807B|351\.3B|169,570|7,169,324|67\.6B|26\.2%|25,000|70,000|~60%|~0%/i,
+  "restricted_financial_claims" => /host[- ]bank|custody|collateral lock|collateralized|underwrit|Stripe fallback|backup payment|Android\/iOS live/i,
+}
+public_claim_failures = []
+public_html_paths.each do |path|
+  html = read(path)
+  banned_public_claim_patterns.each do |id, pattern|
+    next unless html.match?(pattern)
+
+    public_claim_failures << { "file" => path.delete_prefix(build_dir + "/"), "pattern" => id }
+  end
+end
+check(
+  checks,
+  "public_claim_guard",
+  pass_if(public_claim_failures.empty?),
+  public_claim_failures.empty? ? "Generated public HTML avoids deck-only, unsupported, email, consent, projection, and restricted financial claims." : "Generated public HTML contains banned public-claim content.",
+  "failures" => public_claim_failures
 )
 
 failed = checks.select { |item| item["status"] != "pass" }

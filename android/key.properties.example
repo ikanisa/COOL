@@ -1,0 +1,17 @@
+# Copy to android/key.properties or provide the matching COOL_ANDROID_* environment variables locally.
+# Do not commit android/key.properties or keystore files.
+
+# This must point to the Play app-signing/original release key if you need to
+# install a locally built production APK over the Google Play installed app.
+# The current upload key is not enough when Google Play App Signing uses a
+# different app-signing certificate.
+storeFile=/absolute/path/to/play-app-signing-or-original-release-key.jks
+storePassword=replace-with-local-secret
+keyAlias=replace-with-local-alias
+keyPassword=replace-with-local-secret
+
+# Non-secret reference fingerprint captured from the Play-installed app.cool.mobile package.
+COOL_EXPECTED_PLAY_SIGNING_SHA256=45:17:38:E6:9A:DF:1B:4D:3F:AA:7A:65:90:20:28:2E:02:7B:47:86:26:71:C9:FC:32:45:AF:82:2B:4D:2A:92
+
+# Leave true for physical-device QA builds that must update the Play-installed package.
+COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY=true

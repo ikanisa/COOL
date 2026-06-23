@@ -13,8 +13,8 @@ PORT="${MOBILE_ROUTE_RENDER_PORT:-}"
 BUILD_ARGS="${MOBILE_ROUTE_RENDER_BUILD_ARGS:---release --no-wasm-dry-run --no-pub --dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true}"
 VIEWPORT="${MOBILE_ROUTE_RENDER_VIEWPORT:-390x844}"
 RENDER_WAIT_MS="${MOBILE_ROUTE_RENDER_WAIT_MS:-15000}"
-DEVTOOLS_READY_MS="${MOBILE_ROUTE_RENDER_DEVTOOLS_READY_MS:-30000}"
-COMMAND_TIMEOUT_MS="${MOBILE_ROUTE_RENDER_COMMAND_TIMEOUT_MS:-30000}"
+DEVTOOLS_READY_MS="${MOBILE_ROUTE_RENDER_DEVTOOLS_READY_MS:-120000}"
+COMMAND_TIMEOUT_MS="${MOBILE_ROUTE_RENDER_COMMAND_TIMEOUT_MS:-60000}"
 
 mkdir -p "$EVIDENCE_DIR"
 
@@ -48,6 +48,15 @@ find_chrome() {
     return 0
   fi
 
+  for candidate in \
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+    "/Applications/Chromium.app/Contents/MacOS/Chromium"; do
+    if [[ -x "$candidate" ]]; then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done
+
   while IFS= read -r candidate; do
     if [[ -x "$candidate" ]]; then
       printf '%s\n' "$candidate"
@@ -63,15 +72,6 @@ find_chrome() {
       \) \
       2>/dev/null | sort -r
   )
-
-  for candidate in \
-    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-    "/Applications/Chromium.app/Contents/MacOS/Chromium"; do
-    if [[ -x "$candidate" ]]; then
-      printf '%s\n' "$candidate"
-      return 0
-    fi
-  done
 
   for candidate in google-chrome chromium chromium-browser; do
     if command -v "$candidate" >/dev/null 2>&1; then

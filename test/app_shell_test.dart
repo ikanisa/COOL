@@ -275,9 +275,10 @@ void main() {
     final sharedBarrel = File(
       'lib/shared/widgets/collect_components.dart',
     ).readAsStringSync();
-    final groupCards = File(
+    final groupCards = [
       'lib/shared/widgets/collect_group_cards.dart',
-    ).readAsStringSync();
+      'lib/shared/widgets/collect_group_card_media.dart',
+    ].map((path) => File(path).readAsStringSync()).join('\n');
     final home = File('lib/features/home/home_screen.dart').readAsStringSync();
     final groups = File(
       'lib/features/collections/collections_screen.dart',
@@ -303,15 +304,19 @@ void main() {
       final statusScreens = File(
         'lib/features/status/production_state_screens.dart',
       ).readAsStringSync();
+      final devicePrivacyScreens = File(
+        'lib/features/status/device_privacy_screens.dart',
+      ).readAsStringSync();
       final settings = File(
         'lib/features/settings/settings_screen.dart',
       ).readAsStringSync();
       final scanner = File(
         'lib/features/collections/group_qr_scanner_screen.dart',
       ).readAsStringSync();
-      final groupCards = File(
+      final groupCards = [
         'lib/shared/widgets/collect_group_cards.dart',
-      ).readAsStringSync();
+        'lib/shared/widgets/collect_group_card_media.dart',
+      ].map((path) => File(path).readAsStringSync()).join('\n');
       final createGroup = File(
         'lib/features/collections/collection_create_screen.dart',
       ).readAsStringSync();
@@ -328,9 +333,10 @@ void main() {
         contains("CollectPlainPageHeader(title: 'Profile setup')"),
       );
       expect(settings, isNot(contains('Ready for group activity')));
-      expect(statusScreens, contains('Action-triggered'));
+      expect(statusScreens, contains("export 'device_privacy_screens.dart';"));
+      expect(devicePrivacyScreens, contains('Action-triggered'));
       expect(
-        statusScreens,
+        devicePrivacyScreens,
         contains("CollectPlainPageHeader(title: 'App access')"),
       );
       expect(
@@ -368,11 +374,18 @@ void main() {
 
   test('environment defaults keep Android SMS access disabled', () {
     final env = AppEnv.fromEnvironment();
+    final app = File('lib/app/app.dart').readAsStringSync();
 
     expect(env.enableSmsReader, isFalse);
     expect(env.enableAndroidSmsAccess, isFalse);
     expect(env.enableAdminPanel, isFalse);
     expect(env.enableAdminDevTools, isFalse);
+    expect(
+      app,
+      contains(
+        'if (!env.enableAndroidSmsAccess && !env.enableSmsReader) return;',
+      ),
+    );
   });
 }
 

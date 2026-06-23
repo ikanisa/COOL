@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 
 const baseUrl = process.env.PUBLIC_WEBSITE_QA_URL || "https://collect.ikanisa.com/";
-const outDir = path.resolve(process.env.PUBLIC_WEBSITE_QA_OUT || "docs/release/collect_public_website_evidence_2026-06-22");
+const outDir = path.resolve(process.env.PUBLIC_WEBSITE_QA_OUT || "output/public_website_evidence");
 const screenshotDir = path.join(outDir, "screenshots");
 const playwrightCoreCandidates = [
   process.env.PLAYWRIGHT_CORE_PATH,
@@ -49,7 +49,8 @@ async function auditPage(page, viewport) {
   });
   page.on("pageerror", (error) => pageErrors.push(error.message));
 
-  const response = await page.goto(baseUrl, { waitUntil: "networkidle", timeout: 30_000 });
+  const response = await page.goto(baseUrl, { waitUntil: "domcontentloaded", timeout: 30_000 });
+  await page.locator("h1").waitFor({ state: "visible", timeout: 10_000 });
   await page.waitForTimeout(200);
 
   const screenshot = path.join(screenshotDir, `${viewport.name}.png`);
@@ -101,10 +102,11 @@ async function auditPage(page, viewport) {
       h1Rect: rect("h1"),
       primaryCta: rect(".hero-actions .button.primary"),
       productVisual: rect(".hero-device"),
-      formPresent: Boolean(document.querySelector(".lead-form")),
-      formEmailInput: Boolean(document.querySelector("input[type='email']")),
-      creditExplainer: bodyText.includes("how credit-readiness works"),
-      noApprovalPromise: bodyText.includes("final credit decisions remain with the provider"),
+      whatsappLinkCount: document.querySelectorAll("a[href^='https://wa.me/']").length,
+      appDownloadLinkPresent: Boolean(document.querySelector("a[href='https://play.google.com/store/apps/details?id=app.cool.mobile']")),
+      emailSupportPresent: Boolean(document.querySelector("input[type='email'], a[href^='mailto:']")),
+      supportFileExplainer: bodyText.includes("prepare better support files for financial-service review"),
+      providerDecisionBoundary: bodyText.includes("final credit decisions remain with the provider"),
       missingAltCount: [...document.images].filter((image) => !image.hasAttribute("alt")).length,
       unnamedButtons: [...document.querySelectorAll("button")].filter((button) => !accessibleName(button)).length,
       unnamedLinksCount: [...document.querySelectorAll("a")].filter((link) => !accessibleName(link)).length,
@@ -122,12 +124,12 @@ async function auditPage(page, viewport) {
     http200: Boolean(response && response.status() >= 200 && response.status() < 300),
     noConsoleErrors: consoleMessages.length === 0 && pageErrors.length === 0,
     noHorizontalOverflow: !metrics.overflowX,
-    hasH1: /Credit-ready/.test(metrics.h1),
+    hasH1: /Clearer records for savings groups/.test(metrics.h1),
     ctaInFirstViewport: metrics.primaryCta && metrics.primaryCta.top >= 0 && metrics.primaryCta.bottom <= viewport.height,
     productSignalInFirstViewport: metrics.productVisual && metrics.productVisual.top < viewport.height,
     mobileMenuOpens: mobileMenuOpen,
-    hasSelfServeForm: metrics.formPresent && metrics.formEmailInput,
-    hasCreditExplainer: metrics.creditExplainer && metrics.noApprovalPromise,
+    hasPublicAppAndWhatsAppCtas: metrics.appDownloadLinkPresent && metrics.whatsappLinkCount >= 3 && !metrics.emailSupportPresent,
+    hasCreditExplainer: metrics.supportFileExplainer && metrics.providerDecisionBoundary,
     accessibleNames: metrics.missingAltCount === 0 && metrics.unnamedButtons === 0 && metrics.unnamedLinksCount === 0 && metrics.unlabeledInputs === 0,
     localLoadUnder1500ms: metrics.timing && metrics.timing.loadMs <= 1500,
   };

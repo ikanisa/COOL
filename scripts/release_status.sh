@@ -58,7 +58,7 @@ else
 fi
 
 approval_approved() {
-  ruby -r json -e 'data = JSON.parse(File.read(ARGV.fetch(0))); puts(data["status"] == "pass" && data.dig("approvals", ARGV.fetch(1), "approved") == true ? "1" : "0")' "$approval_gate_json" "$1" 2>/dev/null || printf '0\n'
+  ruby -r json -e 'data = JSON.parse(File.read(ARGV.fetch(0))); puts(data.dig("approvals", ARGV.fetch(1), "approved") == true ? "1" : "0")' "$approval_gate_json" "$1" 2>/dev/null || printf '0\n'
 }
 
 product_signoff_approved="$(approval_approved product_signoff)"

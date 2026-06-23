@@ -84,7 +84,7 @@
 - Verify: `Run the record_command for android_release_signing_review, then ./scripts/flutter_mobile_release_gate.sh --json`
 - Evidence to review:
   - `docs/release/ANDROID_IOS_RELEASE_REVIEW_EVIDENCE_2026-06-02.md`
-  - `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-19.sha256`
+  - `output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_2026-06-19.sha256`
   - `.cache/mobile_release_gate/20260602T050529Z/summary.json`
   - `.cache/android_install/20260619T131004Z/final_release_summary.json`
   - `build/app/outputs/flutter-apk/app-production-release.apk`

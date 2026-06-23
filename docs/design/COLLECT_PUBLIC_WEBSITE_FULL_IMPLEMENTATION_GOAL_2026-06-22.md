@@ -9,6 +9,7 @@ Implement the complete Collect public website remediation plan end to end.
 Use these as the source of truth:
 
 - `docs/design/COLLECT_PUBLIC_WEBSITE_WORLD_CLASS_REMEDIATION_PLAN_2026-06-22.md`
+- `docs/release/COLLECT_PUBLIC_WEBSITE_COMPLETION_AUDIT_2026-06-22.md`
 - Supplied audit: `Collect by IKANISA — Website Audit`, dated 2026-06-22
 - Current repo design contract: `DESIGN.md` and `docs/design/DESIGN_SYSTEM.md`
 
@@ -18,7 +19,9 @@ The target is a static-first, crawlable, benchmark-grade fintech public website 
 
 The work is not complete until:
 
-- `T-1` through `U-5` from the audit are closed or explicitly deferred with recorded owner approval.
+- `docs/release/COLLECT_PUBLIC_WEBSITE_COMPLETION_AUDIT_2026-06-22.md` shows `Overall status: GO`.
+- `scripts/public_website_completion_gate.sh --json` returns `"status": "pass"`.
+- `T-1` through `U-5`, Lighthouse/Core Web Vitals, and Play Console boundary items from the completion audit are closed or explicitly deferred with recorded owner approval.
 - The public website no longer requires Flutter, CanvasKit, or WASM for the home page critical path.
 - Every public route has content-complete HTML available to plain `curl`.
 - Desktop and mobile first viewports pass visual QA against the accepted design.
@@ -26,6 +29,26 @@ The work is not complete until:
 - Performance, SEO, accessibility, security headers, Cloudflare cache behavior, and localization gates pass.
 - Deployment evidence is recorded in repo docs.
 - External submissions, legal/regulatory claims, Play Console changes, or public partner/regulator claims are not made without explicit recorded human approval.
+
+## Completion Audit Closure Requirements
+
+The implementation must close every `NO-GO` and `missing_or_invalid` row in `docs/release/COLLECT_PUBLIC_WEBSITE_COMPLETION_AUDIT_2026-06-22.md`.
+
+Accepted closure evidence is limited to the paths and approval/deferral formats named by that audit:
+
+- Google Search Console sitemap submission or URL inspection proof for `T-1`.
+- Bing Webmaster sitemap submission proof, or owner-approved Bing deferral for `T-1`.
+- Owner-approved Collect-specific product proof, or explicit product-proof deferral for `U-2`.
+
+Code-owned gates must remain green while those external artifacts are added:
+
+- static quality gate: `34/34`;
+- live quality gate: `25/25`;
+- live audit evidence: `pass`;
+- visual QA and required screenshots present;
+- mobile and desktop Lighthouse evidence present and at target;
+- Cloudflare cache/header behavior verified live;
+- CI guard remains in `.github/workflows/public-website.yml`.
 
 ## Scope
 
@@ -50,16 +73,12 @@ Required public routes:
 - `/sitemap.xml`
 - `/robots.txt`
 
-### Localized Routes
+### Language
 
-Add Kinyarwanda and French coverage for the public marketing layer and WhatsApp prefill templates.
-
-Acceptable implementation options:
-
-- `/rw/...` and `/fr/...` route families; or
-- static localized pages with a clear language switcher.
-
-Policy/legal pages may keep English as the governing text, but they must include localized customer-facing summaries if localization is shipped.
+The public website must remain English-only unless the owner later records a
+new language-scope decision. Do not generate `/rw/` or `/fr/` public routes,
+language switchers, localized `hreflang`, or translation approval blockers for
+the current completion goal.
 
 ## Workstreams
 
@@ -74,7 +93,7 @@ Create a tracker for every supplied audit finding:
 - `U-1`: self-serve conversion path
 - `U-2`: Collect-specific product proof
 - `U-3`: credit-readiness explanation
-- `U-4`: Kinyarwanda/French localization
+- `U-4`: English-only language scope recorded against the original localization finding
 - `U-5`: distinctive brand and visual system
 
 Each tracker item must include:
@@ -205,7 +224,7 @@ It must fail on:
 - missing sitemap route;
 - missing policy route;
 - missing structured data;
-- missing localized route when localization is enabled;
+- unexpected localized route, language switcher, or localized metadata under the current English-only scope;
 - CanvasKit/Flutter on the home critical path;
 - JS bundle over budget;
 - bad cache/header policy;
@@ -262,7 +281,7 @@ Update:
 
 Stop only when one is true:
 
-- all implementation, QA, deploy, and evidence gates pass;
+- `scripts/public_website_completion_gate.sh --json` returns `"status": "pass"` and `docs/release/COLLECT_PUBLIC_WEBSITE_COMPLETION_AUDIT_2026-06-22.md` is updated to `Overall status: GO`;
 - an external approval blocker prevents completion and is recorded clearly;
 - a legal/regulatory/product claim cannot be made safely and is replaced with approved neutral language;
 - deployment credentials or account access are missing and the blocker is recorded with exact next action.
@@ -279,6 +298,6 @@ The final implementation response must include:
 - desktop and mobile screenshot evidence location;
 - performance/accessibility/SEO verdict;
 - unresolved human approval blockers;
-- explicit `GO` or `NO-GO` for public website quality.
+- explicit `GO` or `NO-GO` for the full Collect public website completion audit.
 
-Public website quality can be `GO` even if Play Console, legal, partner, or regulatory submissions remain externally approval-gated. Keep those boundaries separate.
+The full completion audit cannot be `GO` while Google Search Console proof, Bing proof or deferral, or Collect product proof or deferral is missing. Code-owned website quality may be reported separately as green, but it does not close the implementation goal by itself.

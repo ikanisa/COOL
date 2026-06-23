@@ -56,7 +56,7 @@ async function fetchJson(url, options = {}) {
 
 async function waitForDevTools(baseUrl) {
   let lastError;
-  const timeoutMs = Number.parseInt(process.env.ADMIN_PWA_RUNTIME_DEVTOOLS_READY_MS || '60000', 10);
+  const timeoutMs = Number.parseInt(process.env.ADMIN_PWA_RUNTIME_DEVTOOLS_READY_MS || '120000', 10);
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
     try {

@@ -51,16 +51,14 @@ def json_ld_types_for(html)
 end
 
 required_routes = {
-  "/" => ["Credit-ready", "How credit-readiness works"],
+  "/" => ["Microsavings and group savings for daily earners", "People earn daily. Finance still works monthly."],
   "/privacy/" => ["Privacy Policy", "Data Deletion", "Account deletion request"],
   "/terms/" => ["Terms"],
   "/account-deletion/" => ["Account Deletion"],
   "/data-deletion/" => ["Data Deletion"],
   "/trust/" => ["Trust", "deletion"],
   "/security/" => ["Trust", "deletion"],
-  "/rw/" => ["Collect"],
-  "/fr/" => ["Collect"],
-  "/sitemap.xml" => ["credit-readiness", "privacy", "trust", "rw", "fr"],
+  "/sitemap.xml" => ["credit-readiness", "privacy", "trust"],
   "/robots.txt" => ["Allow: /", "Sitemap:"],
 }
 
@@ -132,7 +130,7 @@ end
 check(
   checks,
   "sitemap_live_routes",
-  sitemap_routes.length >= 18 && sitemap_route_failures.empty?,
+  sitemap_routes.length >= 16 && sitemap_route_failures.empty?,
   "Every URL listed in the live sitemap returns non-empty HTTP 200 content.",
   {
     "route_count" => sitemap_routes.length,
@@ -151,10 +149,6 @@ privacy = responses.fetch("/privacy/")
 privacy_text = privacy.fetch(:body).dup.force_encoding("UTF-8")
 robots = responses.fetch("/robots.txt")
 sitemap = responses.fetch("/sitemap.xml")
-rw = responses.fetch("/rw/")
-rw_text = rw.fetch(:body).dup.force_encoding("UTF-8")
-fr = responses.fetch("/fr/")
-fr_text = fr.fetch(:body).dup.force_encoding("UTF-8")
 
 check(
   checks,
@@ -242,16 +236,41 @@ check(
 
 check(
   checks,
-  "self_serve_conversion",
-  root_body.include?("lead-form") && root_body.include?('type="email"'),
-  "Live root includes non-WhatsApp self-serve conversion path.",
+  "public_app_and_whatsapp_support_conversion",
+  root_body.scan(/https:\/\/wa\.me\//).length >= 3 &&
+    root_body.include?("https://play.google.com/store/apps/details?id=app.cool.mobile") &&
+    root_body.include?("Get the App") &&
+    root_body.include?("Create Group") &&
+    root_body.include?("Get in Touch") &&
+    !root_body.include?("WhatsApp support options") &&
+    !root_body.include?("Partner Inquiry") &&
+    !root_body.include?("Privacy or Deletion") &&
+    !root_body.include?("WhatsApp for app access") &&
+    !root_body.include?("Ask for app access") &&
+    !root_body.include?("mailto:") &&
+    !root_body.include?('type="email"') &&
+    !root_body.include?('name="email"'),
+  "Live root exposes public app download and lean WhatsApp support CTAs with no support panel or email form.",
+)
+
+check(
+  checks,
+  "source_backed_market_context",
+  root_body.include?("96%") &&
+    root_body.include?("85%") &&
+    root_body.include?("72%") &&
+    root_body.include?("24%"),
+  "Live root presents public market figures.",
 )
 
 check(
   checks,
   "hash_privacy_compatibility",
-  root_body.include?("Privacy Policy and Data Deletion") && root_body.include?("site.js"),
-  "Live root supports /#/privacy users with visible policy fallback and redirect script.",
+    root_body.include?("site.js") &&
+    site_js.fetch(:body).include?("window.location.hash === '#/privacy'") &&
+    privacy.fetch(:response).code.to_i == 200 &&
+    privacy_text.include?("Privacy Policy and Data Deletion"),
+  "Live root supports /#/privacy users by redirecting to the canonical privacy route.",
 )
 
 check(
@@ -259,7 +278,9 @@ check(
   "policy_deletion_content",
   privacy_text.include?("Collect does not sell customer personal data") &&
     privacy_text.include?("Account deletion request") &&
-    privacy_text.include?("info@ikanisa.com"),
+    privacy_text.include?("WhatsApp: +250 795 588 248") &&
+    !privacy_text.include?("Email:") &&
+    !privacy_text.include?("mailto:"),
   "Live privacy route contains deletion and support contact content.",
 )
 
@@ -330,59 +351,23 @@ check(
   "Live root has required static accessibility signals.",
 )
 
-localized_ok = rw_text.include?('<html lang="rw">') &&
-  rw_text.include?("Kuzigama") &&
-  fr_text.include?('<html lang="fr">') &&
-  fr_text.include?("épargne")
+localized_live_markers = {
+  "sitemap_rw" => sitemap.fetch(:body).include?("#{base_url}/rw/"),
+  "sitemap_fr" => sitemap.fetch(:body).include?("#{base_url}/fr/"),
+  "root_hreflang_rw" => root_text.include?('hreflang="rw"'),
+  "root_hreflang_fr" => root_text.include?('hreflang="fr"'),
+  "root_og_locale_rw" => root_text.include?('property="og:locale" content="rw_RW"'),
+  "root_og_locale_fr" => root_text.include?('property="og:locale" content="fr_FR"'),
+}
+english_only_ok = root_text.include?('<html lang="en">') &&
+  root_text.include?('property="og:locale" content="en_US"') &&
+  localized_live_markers.values.none?
 check(
   checks,
-  "localized_routes",
-  localized_ok,
-  "Live localized routes expose Kinyarwanda and French language attributes and localized copy.",
-)
-
-hreflang_targets = {
-  "en" => "#{base_url}/",
-  "rw" => "#{base_url}/rw/",
-  "fr" => "#{base_url}/fr/",
-  "x-default" => "#{base_url}/",
-}
-localized_hreflang_routes = {
-  "/" => {
-    "html" => root_text,
-    "lang" => "en",
-    "locale" => "en_US",
-  },
-  "/rw/" => {
-    "html" => rw_text,
-    "lang" => "rw",
-    "locale" => "rw_RW",
-  },
-  "/fr/" => {
-    "html" => fr_text,
-    "lang" => "fr",
-    "locale" => "fr_FR",
-  },
-}
-hreflang_failures = []
-localized_hreflang_routes.each do |route, data|
-  html = data.fetch("html")
-  missing = []
-  missing << "html_lang" unless html.include?(%(<html lang="#{data.fetch("lang")}">))
-  missing << "og_locale" unless html.include?(%(property="og:locale" content="#{data.fetch("locale")}"))
-  hreflang_targets.each do |code, href|
-    missing << "hreflang_#{code}" unless html.include?(%(rel="alternate" hreflang="#{code}" href="#{href}"))
-  end
-  next if missing.empty?
-
-  hreflang_failures << { "route" => route, "missing" => missing }
-end
-check(
-  checks,
-  "localized_hreflang",
-  hreflang_failures.empty?,
-  "Live localized home routes expose reciprocal hreflang and OG locale metadata.",
-  { "failures" => hreflang_failures },
+  "english_only_public_site",
+  english_only_ok,
+  "Live public site is English-only and does not advertise localized routes.",
+  { "localized_live_markers" => localized_live_markers.select { |_key, value| value } },
 )
 
 mobile_css_ok = styles_text.include?("@media (max-width: 980px)") &&

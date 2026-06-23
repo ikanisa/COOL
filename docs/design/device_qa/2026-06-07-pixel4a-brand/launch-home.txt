@@ -1,1 +1,0 @@
-Starting: Intent { cmp=app.cool.mobile/.MainActivity }

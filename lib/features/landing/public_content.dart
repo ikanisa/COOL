@@ -21,14 +21,14 @@ const _publicPages = <CollectPublicPageData>[
   CollectPublicPageData(
     path: '/group-savings',
     navLabel: 'Group Savings',
-    title: 'Group savings that become credit evidence',
+    title: 'Group savings with clearer records',
     intro:
-        'Cleaner records for ibimina, savings groups and members building financial proof together.',
+        'Cleaner records for ibimina, savings groups and members managing contributions together.',
     imageAsset: 'assets/brand/generated/collect_visual_group_momentum.png',
-    metricA: '52%',
-    metricALabel: 'Adults in ibimina',
-    metricB: 'Credit-ready',
-    metricBLabel: 'Saving records',
+    metricA: 'Setup',
+    metricALabel: 'Group rules',
+    metricB: 'Statements',
+    metricBLabel: 'Treasurer visibility',
     sections: [
       CollectPublicSectionData(
         title: 'Run the group clearly',
@@ -36,7 +36,7 @@ const _publicPages = <CollectPublicPageData>[
         bullets: [
           'Members and roles',
           'Contribution history',
-          'Privacy-safe Collect IDs',
+          'Private payment details protected',
         ],
       ),
       CollectPublicSectionData(
@@ -67,31 +67,28 @@ const _publicPages = <CollectPublicPageData>[
         ],
       ),
       CollectPublicSectionData(
-        title: 'Credit-ready evidence',
-        body: 'Turn saving discipline into records members can use later.',
-        bullets: [
-          'Group statements',
-          'Member histories',
-          'Credit-readiness support',
-        ],
+        title: 'Prepare support files',
+        body:
+            'Turn contribution history into records members can use when they ask for support.',
+        bullets: ['Group statements', 'Member histories', 'Request summaries'],
       ),
     ],
   ),
   CollectPublicPageData(
     path: '/diaspora',
     navLabel: 'Diaspora',
-    title: 'Diaspora savings with custody and collateral rules',
+    title: 'Diaspora group savings records',
     intro:
-        'A structured way for diaspora groups to save together and prepare Rwanda investment pathways.',
+        'Diaspora groups can organize savings records and prepare information for Rwanda-focused discussions.',
     imageAsset: 'assets/brand/generated/collect_visual_qr_share.png',
-    metricA: 'US\$0.5B+',
-    metricALabel: 'Remittance opportunity',
-    metricB: 'Custody',
-    metricBLabel: 'Ring-fenced rules',
+    metricA: 'Group records',
+    metricALabel: 'Member contributions',
+    metricB: 'Preparation',
+    metricBLabel: 'Rwanda discussions',
     sections: [
       CollectPublicSectionData(
-        title: 'Diaspora group saving structure',
-        body: 'Give members a shared record before funds are committed.',
+        title: 'Diaspora group structure',
+        body: 'Give members a shared record before decisions are made.',
         bullets: [
           'Rules and roles',
           'Member balances',
@@ -99,18 +96,14 @@ const _publicPages = <CollectPublicPageData>[
         ],
       ),
       CollectPublicSectionData(
-        title: 'Custody and collateral rules',
-        body: 'Separate free savings from locked commitments.',
-        bullets: [
-          'Custody records',
-          'Collateral rules',
-          'Approved member commitments',
-        ],
+        title: 'Readable contribution history',
+        body: 'Keep savings activity easier to review and explain.',
+        bullets: ['Group records', 'Member summaries', 'Support notes'],
       ),
       CollectPublicSectionData(
-        title: 'Rwanda investment pathways',
-        body: 'Prepare clearer records for productive investment back home.',
-        bullets: ['Property', 'SMEs', 'Agriculture and assets'],
+        title: 'Rwanda-focused preparation',
+        body: 'Prepare cleaner information for future Rwanda discussions.',
+        bullets: ['Purpose notes', 'Member requests', 'Supporting records'],
       ),
       CollectPublicSectionData(
         title: 'Trust and communication',
@@ -118,7 +111,7 @@ const _publicPages = <CollectPublicPageData>[
         bullets: [
           'Member visibility',
           'Support channel',
-          'Partner-ready records',
+          'Request-ready records',
         ],
       ),
     ],
@@ -126,42 +119,42 @@ const _publicPages = <CollectPublicPageData>[
   CollectPublicPageData(
     path: '/insurance',
     navLabel: 'Insurance',
-    title: 'Embedded insurance for resilient repayment',
+    title: 'Insurance record support',
     intro:
-        'Protection connected to saving, borrowing and repayment resilience.',
+        'Collect can help organize insurance-related records where approved providers are involved.',
     imageAsset: 'assets/brand/generated/collect_visual_momo_signal.png',
-    metricA: 'GIPI',
-    metricALabel: 'Group income protection',
-    metricB: 'CLMI/CIPI',
-    metricBLabel: 'Credit protection',
+    metricA: 'Records',
+    metricALabel: 'Customer support',
+    metricB: 'Providers',
+    metricBLabel: 'Final decisions',
     sections: [
       CollectPublicSectionData(
-        title: 'Protection at the point of saving',
-        body: 'Make protection part of the financial journey.',
+        title: 'Organize insurance-related records',
+        body:
+            'Keep relevant customer, group and contribution details easier to review.',
+        bullets: ['Customer details', 'Contribution history', 'Support notes'],
+      ),
+      CollectPublicSectionData(
+        title: 'Support approved provider workflows',
+        body:
+            'Collect supports records and communication; providers remain responsible for product decisions.',
         bullets: [
-          'Group income protection',
-          'Credit life cover',
-          'Credit income protection',
+          'Provider review',
+          'Customer follow-up',
+          'Decision boundaries',
         ],
       ),
       CollectPublicSectionData(
-        title: 'Prepare for premiums',
-        body: 'Help customers plan for cover before deadlines arrive.',
-        bullets: [
-          'Protection reserves',
-          'Premium support',
-          'Visible follow-up',
-        ],
-      ),
-      CollectPublicSectionData(
-        title: 'Simple product language',
-        body: 'Explain what is protected and when it applies.',
-        bullets: ['GIPI', 'CLMI', 'CIPI'],
+        title: 'Avoid unclear promises',
+        body:
+            'The website does not say IKANISA issues policies or pays insurance benefits.',
+        bullets: ['Records only', 'Provider decisions', 'WhatsApp support'],
       ),
       CollectPublicSectionData(
         title: 'Cleaner support records',
-        body: 'Keep the savings and protection context together.',
-        bullets: ['Member records', 'Protection history', 'Support path'],
+        body:
+            'Keep the savings and insurance-support context together when customers ask questions.',
+        bullets: ['Member records', 'Support history', 'Clear next steps'],
       ),
     ],
   ),
@@ -170,12 +163,12 @@ const _publicPages = <CollectPublicPageData>[
     navLabel: 'CRaaS',
     title: 'Credit Readiness as a Service',
     intro:
-        'Support that turns customer records into a cleaner credit-readiness file.',
+        'Collect helps customers organize documents, contribution history, and request summaries before a provider review.',
     imageAsset: 'assets/brand/generated/collect_visual_momo_signal.png',
     metricA: 'Readiness',
     metricALabel: 'File support',
-    metricB: 'Bank-ready',
-    metricBLabel: 'Customer handoff',
+    metricB: 'Provider',
+    metricBLabel: 'Final decision',
     sections: [
       CollectPublicSectionData(
         title: 'Prepare before asking for credit',
@@ -203,11 +196,7 @@ const _publicPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Clear next step',
         body: 'Prepare a cleaner file for review.',
-        bullets: [
-          'Organized records',
-          'Customer summary',
-          'No approval promise',
-        ],
+        bullets: ['Organized records', 'Customer summary', 'Provider decision'],
       ),
     ],
   ),
@@ -248,63 +237,54 @@ const _publicPages = <CollectPublicPageData>[
   CollectPublicPageData(
     path: '/impact',
     navLabel: 'Impact',
-    title: "Impact for Rwanda's daily economy",
+    title: 'Impact through clearer savings records',
     intro:
-        'Public market data shows the scale of the savings, payment, insurance and group-economy opportunity Collect is built to serve.',
+        'Collect describes impact through customer-facing outcomes and source-backed public facts only.',
     imageAsset: 'assets/brand/generated/collect_visual_group_momentum.png',
     metricA: '864M',
-    metricALabel: '2024 payment txns',
+    metricALabel: 'Adults financially included across Sub-Saharan Africa',
     metricB: 'RWF 19,807B',
-    metricBLabel: '2024 payment value',
+    metricBLabel: 'Rwanda financial inclusion transaction value reference',
     sections: [
       CollectPublicSectionData(
-        title: 'Payment rails already operate at scale',
+        title: 'Cleaner group records',
         body:
-            'Rwanda already has payment rails with national reach and everyday customer familiarity.',
+            'Savings groups can keep clearer member and contribution records.',
         bullets: [
-          'Large active mobile-payment subscriber base',
-          'Broad mobile-payment agent network',
-          'Daily micro-savings via MoMo is operationally viable',
+          'Member histories',
+          'Treasurer visibility',
+          'Meeting-ready statements',
         ],
       ),
       CollectPublicSectionData(
-        title: 'Informal saving is already a mass behavior',
+        title: 'Better prepared support requests',
         body:
-            'Informal group saving is already a mainstream household behavior.',
+            'Customers can organize documents, contribution history and request summaries before review.',
         bullets: [
-          'Informal groups and VSLAs are already active',
-          'Cooperative distribution can scale nationally',
-          'Savings behavior can become structured evidence',
+          'Customer summary',
+          'Contribution history',
+          'Missing-item checklist',
         ],
       ),
       CollectPublicSectionData(
-        title: 'Insurance market with a concrete renewal problem',
+        title: 'Careful public claims',
         body:
-            'Insurance is a material market, and motor cover creates a concrete renewal use case for saving-linked protection.',
+            'Published numbers require a source register before they appear on the website.',
         bullets: [
-          'Motor cover is a visible, recurring customer obligation',
-          'Moto-taxi associations create a reachable segment',
-          'Premium planning can be connected to savings behavior',
+          '864M adults financially included across Sub-Saharan Africa',
+          'RWF 19,807B transaction value reference',
+          '7,169,324 adults, 169,570 groups and ~60% savings participation references',
+          'RWF 351.3B, RWF 67.6B, 26.2%, 25,000 and 70,000 source-backed references',
         ],
       ),
       CollectPublicSectionData(
-        title: 'Moto-taxi customers are a visible distribution base',
+        title: 'Decision boundaries',
         body:
-            'Public market sizing identifies moto-taxi drivers as a concentrated, repeat-payment customer segment.',
+            'Collect prepares records and support files. Providers make financial-service decisions under their own rules.',
         bullets: [
-          'Kigali has a concentrated driver base',
-          'The national driver base expands the channel',
-          'Daily earning rhythm fits small recurring saving',
-        ],
-      ),
-      CollectPublicSectionData(
-        title: 'Public impact potential',
-        body:
-            'Collect connects existing savings behavior to cleaner records that can support inclusion, protection and future credit readiness.',
-        bullets: [
-          'More visible savings discipline',
-          'Better prepared credit conversations',
-          'Clearer insurance and repayment support',
+          'Credit provider review',
+          'Approved insurance provider review',
+          'WhatsApp support',
         ],
       ),
     ],
@@ -314,61 +294,48 @@ const _publicPages = <CollectPublicPageData>[
     navLabel: 'Our Partners',
     title: 'Our Partners',
     intro:
-        'Collect gives banks, insurers, cooperatives and mobile-money partners a public-data-backed opportunity to serve existing savings behavior more clearly.',
+        'Collect works with approved organizations that need clearer savings-group records and customer support files.',
     imageAsset: 'assets/brand/generated/collect_visual_momo_signal.png',
-    metricA: 'RWF 351.3B',
-    metricALabel: 'Insurance GWP',
-    metricB: '169,570',
-    metricBLabel: 'Payment agents',
+    metricA: '864M',
+    metricALabel: 'Adults financially included across Sub-Saharan Africa',
+    metricB: 'RWF 19,807B',
+    metricBLabel: 'Rwanda financial inclusion transaction value reference',
     sections: [
       CollectPublicSectionData(
-        title: 'Banks and deposit partners',
+        title: 'Financial-service providers',
         body:
-            'Rwanda already has large digital payment activity and a broad subscriber base for structured savings collection.',
+            'Collect can help customers prepare clearer records before a provider review.',
         bullets: [
-          'Mobile payments are already habitual',
-          'Payment value is already material',
-          'Savings collection can build on existing customer behavior',
-        ],
-      ),
-      CollectPublicSectionData(
-        title: 'Insurers',
-        body:
-            'The insurance market is already material, with motor cover a concrete use case for saving-linked protection.',
-        bullets: [
-          'Total insurance premiums show market depth',
-          'Motor premiums show a practical entry point',
-          'Recurring cover can be supported by recurring saving',
+          'Contribution history',
+          'Customer summary',
+          'Provider decision boundary',
         ],
       ),
       CollectPublicSectionData(
         title: 'Cooperatives and savings groups',
         body:
-            'Informal group saving is already part of household financial behavior and can become cleaner operating evidence.',
+            'Groups can use Collect to keep member activity and contribution records easier to review.',
+        bullets: ['Group setup', 'Member records', 'Treasurer visibility'],
+      ),
+      CollectPublicSectionData(
+        title: 'Community organizations',
+        body:
+            'Organizations can direct customers to the app and WhatsApp support for questions.',
         bullets: [
-          'Informal group saving is already widespread',
-          'Ibimina and VSLAs already operate locally',
-          'Groups can be stronger last-mile financial channels',
+          'Public app download',
+          'WhatsApp inquiries',
+          'Support follow-up',
         ],
       ),
       CollectPublicSectionData(
-        title: 'Mobile-money and agent networks',
+        title: 'Careful partner claims',
         body:
-            'Collect can sit on top of familiar payment rails rather than asking customers to learn a new payment behavior.',
+            'The website does not publish partner names, discussions or regulatory claims without separate approval.',
         bullets: [
-          'Agent networks are already broad',
-          'Subscriber reach is already large',
-          'Mobile money is already a familiar channel',
-        ],
-      ),
-      CollectPublicSectionData(
-        title: 'Moto-taxi associations',
-        body:
-            'Moto-taxi drivers are a visible segment for recurring saving, cover renewal and credit-readiness support.',
-        bullets: [
-          'Kigali has a concentrated driver base',
-          'The national driver base expands the channel',
-          'Daily income rhythm supports small repeated contributions',
+          '864M adults financially included across Sub-Saharan Africa',
+          'RWF 19,807B transaction value reference',
+          '7,169,324 adults, 169,570 groups and ~60% savings participation references',
+          'RWF 351.3B, RWF 67.6B, 26.2%, 25,000 and 70,000 source-backed references',
         ],
       ),
     ],
@@ -378,9 +345,9 @@ const _publicPages = <CollectPublicPageData>[
     navLabel: 'Privacy Policy',
     title: 'Privacy Policy and Data Deletion',
     intro:
-        'Collect protects customer information with clear consent, limited access, practical safeguards, and account and data deletion request paths for savings, support, credit-readiness and insurance journeys.',
+        'Collect protects customer information with clear customer choices, limited access, practical safeguards, and account and data deletion request paths for savings, support, credit-readiness and insurance journeys.',
     imageAsset: 'assets/brand/generated/collect_visual_qr_share.png',
-    metricA: 'Consent',
+    metricA: 'Choice',
     metricALabel: 'Customer control',
     metricB: 'Delete',
     metricBLabel: 'Request path',
@@ -392,7 +359,7 @@ const _publicPages = <CollectPublicPageData>[
         bullets: [
           'Identity, contact, Collect ID and account details provided by the customer',
           'Group membership, roles, rules, contribution activity and payout records',
-          'Payment references, support messages, consent choices and service notifications',
+          'Payment references, support messages, service choices and service notifications',
           'Camera or image inputs only when a customer uses a QR, support, or evidence feature',
         ],
       ),
@@ -433,8 +400,7 @@ const _publicPages = <CollectPublicPageData>[
             'Customers can request deletion of their Collect account and associated account data from inside the app or from this public web resource without reinstalling the app.',
         bullets: [
           'In app: Settings, then account deletion request',
-          'Email: info@ikanisa.com with the phone number or Collect ID connected to the account',
-          'WhatsApp: +250 795 588 248 with the same account details',
+          'WhatsApp: +250 795 588 248 with the phone number or Collect ID connected to the account',
           'IKANISA may verify account ownership before processing the request',
         ],
       ),
@@ -443,7 +409,8 @@ const _publicPages = <CollectPublicPageData>[
         body:
             'Customers can also ask IKANISA to delete or correct personal data that is no longer needed for Collect. When an app account is deleted, associated user data is deleted unless limited retention is required for legitimate security, fraud-prevention, ledger, dispute, payment, audit, tax, legal or regulatory reasons.',
         bullets: [
-          'Request deletion or correction by app, email or WhatsApp',
+          'Request deletion or correction by app or WhatsApp',
+          'Email: info@ikanisa.com',
           'Support reviews open groups, unresolved payments and required records',
           'Support can confirm request status and explain retained record categories',
         ],
@@ -478,7 +445,6 @@ const _publicPages = <CollectPublicPageData>[
             'Open Collect settings and use the account deletion request option, or contact IKANISA support if you cannot access the app.',
         bullets: [
           'In app: Settings, then account deletion request',
-          'Email: info@ikanisa.com',
           'WhatsApp: +250 795 588 248',
         ],
       ),
@@ -522,17 +488,16 @@ const _publicPages = <CollectPublicPageData>[
             'Use the in-app account deletion request, or contact IKANISA support with the phone number or Collect ID connected to your account.',
         bullets: [
           'In app: Settings, then account deletion request',
-          'Email: info@ikanisa.com',
           'WhatsApp: +250 795 588 248',
         ],
       ),
       CollectPublicSectionData(
         title: 'Data covered by the request',
         body:
-            'Requests may cover profile details, support messages, consent choices and other account data that Collect no longer needs to operate the service.',
+            'Requests may cover profile details, support messages, service choices and other account data that Collect no longer needs to operate the service.',
         bullets: [
           'Account and contact details',
-          'Support and consent records',
+          'Support and service records',
           'Service data no longer needed for active groups',
         ],
       ),
@@ -553,7 +518,7 @@ const _publicPages = <CollectPublicPageData>[
     navLabel: 'Terms of Service',
     title: 'Terms of Service',
     intro:
-        'These terms explain how customers use Collect for group savings, contribution records, credit-readiness support, insurance records and customer service.',
+        'These terms explain how customers use Collect for group savings, contribution records, credit-readiness support, insurance-related support records and customer service.',
     imageAsset: 'assets/brand/generated/collect_visual_group_momentum.png',
     metricA: 'Customer',
     metricALabel: 'Service terms',
@@ -571,21 +536,20 @@ const _publicPages = <CollectPublicPageData>[
         ],
       ),
       CollectPublicSectionData(
-        title: 'Savings, credit-readiness and protection',
+        title: 'Savings, credit-readiness and insurance support',
         body:
-            'Collect helps customers keep records, organize group savings, prepare credit-readiness files and track protection details. Final credit decisions remain with the chosen credit provider.',
+            'Collect helps customers keep records, organize group savings, prepare credit-readiness files and organize insurance-related support records. Final credit decisions remain with the chosen credit provider.',
         bullets: [
           'Collect records contributions and group activity',
-          'CRaaS prepares customer files before loan review',
-          'Insurance records support repayment resilience',
+          'CRaaS prepares customer files before provider review',
+          'Insurance-related records support customer questions',
         ],
       ),
       CollectPublicSectionData(
         title: 'Support and contact',
         body:
-            'Customers can contact IKANISA for app access, group savings setup, account support or questions about these terms.',
+            'Customers can contact IKANISA for group savings setup, account support, questions or inquiries about these terms.',
         bullets: [
-          'Email: info@ikanisa.com',
           'WhatsApp: +250 795 588 248',
           'Support for group savings setup',
         ],
@@ -657,7 +621,7 @@ String publicSummaryLabel(CollectPublicPageData data) {
     case '/group-savings':
       return 'Ibimina operating model';
     case '/diaspora':
-      return 'Diaspora custody model';
+      return 'Diaspora group records';
     case '/insurance':
       return 'Protection layer';
     case '/craas':
@@ -665,9 +629,9 @@ String publicSummaryLabel(CollectPublicPageData data) {
     case '/community-groups':
       return 'Mobile group operations';
     case '/impact':
-      return 'Inclusion to credit conversion';
+      return 'Source-backed public facts';
     case '/our-partners':
-      return 'Partner operating case';
+      return 'Partner support model';
     case '/privacy':
       return 'Customer information';
     case '/account-deletion':
@@ -687,15 +651,15 @@ String publicInfographicTitle(String path) {
     case '/diaspora':
       return 'Diaspora savings pathway';
     case '/insurance':
-      return 'Protection and premium flow';
+      return 'Insurance support workflow';
     case '/craas':
-      return 'From inquiry to bank-ready file';
+      return 'From inquiry to support file';
     case '/community-groups':
       return 'What the app enables for a group';
     case '/impact':
       return 'Impact chain';
     case '/our-partners':
-      return 'Partner value chain';
+      return 'Partner support workflow';
     case '/account-deletion':
       return 'Customer deletion request';
     case '/data-deletion':
@@ -711,15 +675,15 @@ String publicInfographicBody(String path) {
     case '/diaspora':
       return 'Save across borders with clearer rules and records.';
     case '/insurance':
-      return 'Link saving behavior with protection and repayment resilience.';
+      return 'Keep customer records clearer when an approved provider is involved.';
     case '/craas':
       return 'Turn customer activity into a cleaner readiness file.';
     case '/community-groups':
       return 'Give trusted groups a simple mobile operating layer.';
     case '/impact':
-      return 'Public market scale across payments, saving, insurance and reachable customer groups.';
+      return 'Collect keeps public impact claims tied to sourced facts and customer-facing outcomes.';
     case '/our-partners':
-      return 'Public data points for banks, insurers, cooperatives and payment partners.';
+      return 'The public website names no partner discussions unless separately approved.';
     case '/account-deletion':
       return 'Request deletion in app or through IKANISA support.';
     case '/data-deletion':
@@ -771,8 +735,7 @@ List<LandingStepData> publicInfographicSteps(String path) {
         LandingStepData(
           icon: Icons.receipt_long_outlined,
           title: 'Use the record',
-          body:
-              'Turn saving discipline into statements and credit-readiness evidence.',
+          body: 'Turn contribution history into statements and support files.',
           color: CollectColors.brandOrangeRed,
         ),
       ];
@@ -780,57 +743,54 @@ List<LandingStepData> publicInfographicSteps(String path) {
       return const [
         LandingStepData(
           icon: Icons.public_outlined,
-          title: 'Form pool',
-          body: 'Diaspora members agree rules, roles and saving objectives.',
+          title: 'Form the group',
+          body: 'Members agree roles, rules and saving objectives.',
           color: CollectColors.brandMintGreen,
         ),
         LandingStepData(
-          icon: Icons.account_balance_outlined,
-          title: 'Custody record',
-          body:
-              'Savings history is organized into traceable records and statements.',
+          icon: Icons.receipt_long_outlined,
+          title: 'Track contributions',
+          body: 'Savings history is organized into readable group records.',
           color: CollectColors.brandPeriwinkle,
         ),
         LandingStepData(
-          icon: Icons.lock_outline,
-          title: 'Collateral lock',
-          body: 'A defined portion can be ring-fenced under approved rules.',
+          icon: Icons.inventory_2_outlined,
+          title: 'Prepare information',
+          body: 'Members keep the records needed for discussion and support.',
           color: CollectColors.brandDustyRose,
         ),
         LandingStepData(
           icon: Icons.location_on_outlined,
-          title: 'Rwanda pathway',
+          title: 'Discuss next steps',
           body:
-              'Evidence supports property, SME, agriculture or asset finance review.',
+              'Any financial-service decision remains with the relevant provider.',
           color: CollectColors.brandOrangeRed,
         ),
       ];
     case '/insurance':
       return const [
         LandingStepData(
-          icon: Icons.savings_outlined,
-          title: 'Reserve',
-          body: 'Savings behavior can reserve toward premium obligations.',
+          icon: Icons.support_agent_outlined,
+          title: 'Customer request',
+          body: 'Understand the insurance-related question.',
           color: CollectColors.brandMintGreen,
         ),
         LandingStepData(
-          icon: Icons.verified_user_outlined,
-          title: 'Protect',
-          body:
-              'GIPI, CLMI and CIPI connect protection to the customer journey.',
+          icon: Icons.receipt_long_outlined,
+          title: 'Record support',
+          body: 'Organize relevant customer and group records.',
           color: CollectColors.brandDustyRose,
         ),
         LandingStepData(
-          icon: Icons.account_balance_wallet_outlined,
-          title: 'Finance gap',
-          body: 'Approved premium finance can pay the insurer directly.',
+          icon: Icons.verified_user_outlined,
+          title: 'Provider review',
+          body: 'Approved providers review under their own rules.',
           color: CollectColors.brandPeriwinkle,
         ),
         LandingStepData(
-          icon: Icons.health_and_safety_outlined,
-          title: 'Recover',
-          body:
-              'Claims and repayment support use contribution and premium context.',
+          icon: Icons.chat_bubble_outline,
+          title: 'Support follow-up',
+          body: 'IKANISA support helps customers understand next steps.',
           color: CollectColors.brandOrangeRed,
         ),
       ];
@@ -856,8 +816,8 @@ List<LandingStepData> publicInfographicSteps(String path) {
         ),
         LandingStepData(
           icon: Icons.account_balance_outlined,
-          title: 'Handoff',
-          body: 'Share a cleaner file for review.',
+          title: 'Provider review',
+          body: 'Credit decisions remain with the financial provider.',
           color: CollectColors.brandOrangeRed,
         ),
       ];
@@ -891,127 +851,55 @@ List<LandingStepData> publicInfographicSteps(String path) {
     case '/impact':
       return const [
         LandingStepData(
-          icon: Icons.payments_outlined,
-          title: '864M',
-          body: 'Mobile payment transfers',
+          icon: Icons.receipt_long_outlined,
+          title: 'Group records',
+          body: 'Cleaner contribution histories.',
           color: CollectColors.brandPeriwinkle,
         ),
         LandingStepData(
-          icon: Icons.account_balance_wallet_outlined,
-          title: 'RWF 19,807B',
-          body: 'Mobile payment transfer value',
+          icon: Icons.inventory_2_outlined,
+          title: 'Support files',
+          body: 'Better prepared customer requests.',
           color: CollectColors.brandMintGreen,
         ),
         LandingStepData(
-          icon: Icons.phone_android_outlined,
-          title: '7,169,324',
-          body: 'Active mobile payment subscribers',
+          icon: Icons.rule_outlined,
+          title: 'Provider boundaries',
+          body: 'Credit and insurance decisions remain with providers.',
           color: CollectColors.brandDustyRose,
         ),
         LandingStepData(
-          icon: Icons.storefront_outlined,
-          title: '169,570',
-          body: 'Mobile payment agents',
+          icon: Icons.fact_check_outlined,
+          title: 'Source register',
+          body: 'Public numbers require separate source evidence.',
           color: CollectColors.brandOrangeRed,
-        ),
-        LandingStepData(
-          icon: Icons.handshake_outlined,
-          title: '~60%',
-          body: 'Adult informal group saving prevalence',
-          color: CollectColors.brandPeriwinkle,
-        ),
-        LandingStepData(
-          icon: Icons.shield_outlined,
-          title: 'RWF 351.3B',
-          body: 'Total insurance GWP',
-          color: CollectColors.brandMintGreen,
-        ),
-        LandingStepData(
-          icon: Icons.two_wheeler_outlined,
-          title: 'RWF 67.6B',
-          body: 'Motor insurance premiums',
-          color: CollectColors.brandDustyRose,
-        ),
-        LandingStepData(
-          icon: Icons.trending_up_outlined,
-          title: '26.2%',
-          body: 'Motor premium growth',
-          color: CollectColors.brandOrangeRed,
-        ),
-        LandingStepData(
-          icon: Icons.groups_outlined,
-          title: '25,000',
-          body: 'Kigali moto-taxi drivers',
-          color: CollectColors.brandPeriwinkle,
-        ),
-        LandingStepData(
-          icon: Icons.map_outlined,
-          title: '70,000',
-          body: 'National moto-taxi drivers',
-          color: CollectColors.brandMintGreen,
         ),
       ];
     case '/our-partners':
       return const [
         LandingStepData(
-          icon: Icons.payments_outlined,
-          title: '864M',
-          body: 'Mobile payment transfers',
+          icon: Icons.support_agent_outlined,
+          title: 'Customer need',
+          body: 'A group or customer asks for support.',
           color: CollectColors.brandMintGreen,
         ),
         LandingStepData(
-          icon: Icons.account_balance_wallet_outlined,
-          title: 'RWF 19,807B',
-          body: 'Mobile payment transfer value',
+          icon: Icons.receipt_long_outlined,
+          title: 'Collect records',
+          body: 'Contribution history and request context are organized.',
           color: CollectColors.brandPeriwinkle,
         ),
         LandingStepData(
-          icon: Icons.phone_android_outlined,
-          title: '7,169,324',
-          body: 'Active mobile payment subscribers',
+          icon: Icons.rule_outlined,
+          title: 'Provider review',
+          body: 'The relevant organization reviews under its own rules.',
           color: CollectColors.brandDustyRose,
         ),
         LandingStepData(
-          icon: Icons.storefront_outlined,
-          title: '169,570',
-          body: 'Mobile payment agents',
+          icon: Icons.chat_bubble_outline,
+          title: 'Support follow-up',
+          body: 'IKANISA helps with questions and next steps.',
           color: CollectColors.brandOrangeRed,
-        ),
-        LandingStepData(
-          icon: Icons.handshake_outlined,
-          title: '~60%',
-          body: 'Adult informal group saving prevalence',
-          color: CollectColors.brandMintGreen,
-        ),
-        LandingStepData(
-          icon: Icons.shield_outlined,
-          title: 'RWF 351.3B',
-          body: 'Total insurance GWP',
-          color: CollectColors.brandMintGreen,
-        ),
-        LandingStepData(
-          icon: Icons.two_wheeler_outlined,
-          title: 'RWF 67.6B',
-          body: 'Motor insurance premiums',
-          color: CollectColors.brandPeriwinkle,
-        ),
-        LandingStepData(
-          icon: Icons.trending_up_outlined,
-          title: '26.2%',
-          body: 'Motor premium growth',
-          color: CollectColors.brandDustyRose,
-        ),
-        LandingStepData(
-          icon: Icons.groups_outlined,
-          title: '25,000',
-          body: 'Kigali moto-taxi drivers',
-          color: CollectColors.brandOrangeRed,
-        ),
-        LandingStepData(
-          icon: Icons.map_outlined,
-          title: '70,000',
-          body: 'National moto-taxi drivers',
-          color: CollectColors.brandMintGreen,
         ),
       ];
   }

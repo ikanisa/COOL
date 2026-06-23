@@ -2,6 +2,16 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
+String readCollectRepositoryLibrary() {
+  return [
+    'lib/shared/repositories/collect_repository.dart',
+    'lib/shared/repositories/collect_repository_providers.dart',
+    'lib/shared/repositories/collect_repository_state.dart',
+    'lib/shared/repositories/collect_repository_fixture.dart',
+    'lib/shared/repositories/collect_repository_live_reader.dart',
+  ].map((path) => File(path).readAsStringSync()).join('\n');
+}
+
 void main() {
   final migration = File(
     'supabase/migrations/202605230001_collect_baseline.sql',
@@ -813,9 +823,7 @@ void main() {
   });
 
   test('public payment feeds use safe views instead of base table reads', () {
-    final repository = File(
-      'lib/shared/repositories/collect_repository.dart',
-    ).readAsStringSync();
+    final repository = readCollectRepositoryLibrary();
 
     expect(
       smsFirstGroupPaymentIntents,
@@ -1130,9 +1138,7 @@ void main() {
   });
 
   test('Flutter client reads scoped views instead of private base tables', () {
-    final repository = File(
-      'lib/shared/repositories/collect_repository.dart',
-    ).readAsStringSync();
+    final repository = readCollectRepositoryLibrary();
     final readiness = File(
       'scripts/supabase_production_readiness.sh',
     ).readAsStringSync();
@@ -1166,9 +1172,7 @@ void main() {
   });
 
   test('payment intents are confirmed only by MoMo SMS allocation', () {
-    final repository = File(
-      'lib/shared/repositories/collect_repository.dart',
-    ).readAsStringSync();
+    final repository = readCollectRepositoryLibrary();
 
     expect(
       smsFirstGroupPaymentIntents,
@@ -1274,9 +1278,7 @@ void main() {
   });
 
   test('parsed payment review events are collection-scoped', () {
-    final repository = File(
-      'lib/shared/repositories/collect_repository.dart',
-    ).readAsStringSync();
+    final repository = readCollectRepositoryLibrary();
     final ledger = File(
       'lib/features/ledger/ledger_screen.dart',
     ).readAsStringSync();
@@ -1366,11 +1368,9 @@ void main() {
   );
 
   test('collection receiver details are hydrated separately under RLS', () {
-    final repository = File(
-      'lib/shared/repositories/collect_repository.dart',
-    ).readAsStringSync();
+    final repository = readCollectRepositoryLibrary();
 
-    expect(repository, contains('_attachAuthorizedReceivers'));
+    expect(repository, contains('attachAuthorizedReceivers'));
     expect(repository, contains("from('collection_receivers')"));
     expect(repository, isNot(contains("select('*, collection_receivers")));
   });
@@ -1438,9 +1438,7 @@ void main() {
     final channel = File(
       'lib/core/security/sms_access_channel.dart',
     ).readAsStringSync();
-    final repository = File(
-      'lib/shared/repositories/collect_repository.dart',
-    ).readAsStringSync();
+    final repository = readCollectRepositoryLibrary();
 
     expect(receiver, contains('if (!prefs.getBoolean(SMS_ACCESS_ENABLED_KEY'));
     expect(receiver, contains('pending_sms'));
@@ -1457,6 +1455,12 @@ void main() {
     expect(app, contains('WidgetsBindingObserver'));
     expect(app, contains('AppLifecycleState.resumed'));
     expect(app, contains('syncPendingSmsAccess'));
+    expect(
+      app,
+      contains(
+        'if (!env.enableAndroidSmsAccess && !env.enableSmsReader) return;',
+      ),
+    );
     expect(repository, contains('unawaited(syncPendingSmsAccess())'));
   });
 
@@ -1497,9 +1501,7 @@ void main() {
   });
 
   test('Supabase realtime uses safe invalidation events only', () {
-    final mobileRepository = File(
-      'lib/shared/repositories/collect_repository.dart',
-    ).readAsStringSync();
+    final mobileRepository = readCollectRepositoryLibrary();
     final adminRuntime = File(
       'lib/admin/core/admin_runtime.dart',
     ).readAsStringSync();
@@ -1595,9 +1597,7 @@ void main() {
   });
 
   test('mobile production state RPCs stay authenticated and safe', () {
-    final repository = File(
-      'lib/shared/repositories/collect_repository.dart',
-    ).readAsStringSync();
+    final repository = readCollectRepositoryLibrary();
     expect(repository, contains('supabase == null'));
     expect(repository, contains('CollectRepository(supabase: supabase)'));
     expect(

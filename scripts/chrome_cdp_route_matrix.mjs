@@ -17,8 +17,8 @@ const profile = args.get('--profile');
 const routes = JSON.parse(args.get('--routes-json') ?? '[]');
 const viewport = args.get('--viewport') ?? '390x844';
 const waitMs = Number(args.get('--wait-ms') ?? '9000');
-const devtoolsReadyMs = Number(args.get('--devtools-ready-ms') ?? '30000');
-const commandTimeoutMs = Number(args.get('--command-timeout-ms') ?? '45000');
+const devtoolsReadyMs = Number(args.get('--devtools-ready-ms') ?? '120000');
+const commandTimeoutMs = Number(args.get('--command-timeout-ms') ?? '60000');
 const routeTimeoutMs = Number(args.get('--route-timeout-ms') ?? String(Math.max(commandTimeoutMs + waitMs + 5000, 30000)));
 const headlessArg = process.env.CHROME_CDP_HEADLESS_ARG || '--headless';
 
@@ -72,6 +72,7 @@ const chromeArgs = [
   '--disable-dev-shm-usage',
   '--disable-extensions',
   '--disable-crash-reporter',
+  '--no-sandbox',
   '--no-first-run',
   '--no-default-browser-check',
   `--user-data-dir=${profile}`,
@@ -127,44 +128,58 @@ try {
     throw new Error(`Chrome DevTools endpoint did not become ready.\n${diagnostics()}`);
   }
 
-  const newTarget = await fetch(`${devtoolsUrl}/json/new?${encodeURIComponent('about:blank')}`, {
-    method: 'PUT',
-  });
-  if (!newTarget.ok) throw new Error(`Chrome target creation failed: ${newTarget.status}`);
-  const target = await newTarget.json();
-  socket = new WebSocket(target.webSocketDebuggerUrl);
-  await new Promise((resolve, reject) => {
-    socket.addEventListener('open', resolve, { once: true });
-    socket.addEventListener('error', reject, { once: true });
-  });
-
-  let nextId = 1;
-  const pending = new Map();
-  socket.addEventListener('message', (event) => {
-    const message = JSON.parse(event.data);
-    if (!message.id || !pending.has(message.id)) return;
-    const { resolve, reject, timeout } = pending.get(message.id);
-    pending.delete(message.id);
-    clearTimeout(timeout);
-    if (message.error) {
-      reject(new Error(`${message.error.message}: ${message.error.data ?? ''}`));
-    } else {
-      resolve(message.result ?? {});
-    }
-  });
-
-  const command = (method, params = {}) =>
-    new Promise((resolve, reject) => {
-      const id = nextId;
-      nextId += 1;
-      const timeout = setTimeout(() => {
-        if (!pending.has(id)) return;
-        pending.delete(id);
-        reject(new Error(`${method} timed out after ${commandTimeoutMs}ms`));
-      }, commandTimeoutMs);
-      pending.set(id, { resolve, reject, timeout });
-      socket.send(JSON.stringify({ id, method, params }));
+  const createSession = async () => {
+    const newTarget = await fetch(`${devtoolsUrl}/json/new?${encodeURIComponent('about:blank')}`, {
+      method: 'PUT',
     });
+    if (!newTarget.ok) throw new Error(`Chrome target creation failed: ${newTarget.status}`);
+    const target = await newTarget.json();
+    const targetSocket = new WebSocket(target.webSocketDebuggerUrl);
+    await new Promise((resolve, reject) => {
+      targetSocket.addEventListener('open', resolve, { once: true });
+      targetSocket.addEventListener('error', reject, { once: true });
+    });
+
+    let nextId = 1;
+    const pending = new Map();
+    targetSocket.addEventListener('message', (event) => {
+      const message = JSON.parse(event.data);
+      if (!message.id || !pending.has(message.id)) return;
+      const { resolve, reject, timeout } = pending.get(message.id);
+      pending.delete(message.id);
+      clearTimeout(timeout);
+      if (message.error) {
+        reject(new Error(`${message.error.message}: ${message.error.data ?? ''}`));
+      } else {
+        resolve(message.result ?? {});
+      }
+    });
+
+    const command = (method, params = {}) =>
+      new Promise((resolve, reject) => {
+        const id = nextId;
+        nextId += 1;
+        const timeout = setTimeout(() => {
+          if (!pending.has(id)) return;
+          pending.delete(id);
+          reject(new Error(`${method} timed out after ${commandTimeoutMs}ms`));
+        }, commandTimeoutMs);
+        pending.set(id, { resolve, reject, timeout });
+        targetSocket.send(JSON.stringify({ id, method, params }));
+      });
+
+    return {
+      command,
+      close: () => {
+        try {
+          targetSocket.close();
+        } catch (_) {
+          // Already closed.
+        }
+        fetch(`${devtoolsUrl}/json/close/${target.id}`).catch(() => {});
+      },
+    };
+  };
 
   const withTimeout = (promise, ms, label) =>
     new Promise((resolve, reject) => {
@@ -183,20 +198,6 @@ try {
       );
     });
 
-  await command('Page.enable');
-  await command('Runtime.enable');
-  await command('Emulation.setDeviceMetricsOverride', {
-    width,
-    height,
-    deviceScaleFactor: 1,
-    mobile: true,
-    screenWidth: width,
-    screenHeight: height,
-    positionX: 0,
-    positionY: 0,
-  });
-  await command('Emulation.setTouchEmulationEnabled', { enabled: true });
-
   for (const routeSpec of routes) {
     const { name, route } = routeSpec;
     if (!name || !route) throw new Error(`invalid route spec: ${JSON.stringify(routeSpec)}`);
@@ -204,7 +205,23 @@ try {
     const output = `${outputDir}/${name}-${viewport}.png`;
     mkdirSync(dirname(output), { recursive: true });
     for (let attempt = 1; attempt <= 3; attempt += 1) {
+      let session;
       try {
+        session = await createSession();
+        const { command } = session;
+        await command('Page.enable');
+        await command('Runtime.enable');
+        await command('Emulation.setDeviceMetricsOverride', {
+          width,
+          height,
+          deviceScaleFactor: 1,
+          mobile: true,
+          screenWidth: width,
+          screenHeight: height,
+          positionX: 0,
+          positionY: 0,
+        });
+        await command('Emulation.setTouchEmulationEnabled', { enabled: true });
         const screenshot = await withTimeout(
           (async () => {
             await command('Page.navigate', { url });
@@ -223,13 +240,10 @@ try {
         break;
       } catch (error) {
         console.error(`[${name}] attempt ${attempt}: ${error.message}`);
-        try {
-          await command('Page.stopLoading');
-        } catch (_) {
-          // Continue to retry; the next navigation may still recover the page.
-        }
         if (attempt === 3) throw error;
         await delay(1000 * attempt);
+      } finally {
+        if (session) session.close();
       }
     }
   }

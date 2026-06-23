@@ -72,7 +72,7 @@ refactor is deployed or tested against the linked project.
   - `supabase/functions/allocate-payment/index.ts`
 - `./scripts/migrations/validate_supabase_migrations.sh`: pass.
 - `scripts/release_artifact_manifest.sh --json`: pass and wrote
-  `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`.
+  `output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`.
 - `scripts/flutter_mobile_release_gate.sh --json`: Android APK/AAB freshness
   and signature checks pass; evidence at
   `.cache/mobile_release_gate/20260602T050529Z/summary.json`.

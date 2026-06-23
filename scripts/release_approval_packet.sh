@@ -129,7 +129,7 @@ latest_android_install_summary = Dir[File.join(root_dir, ".cache/android_install
   .sort
   .last
 latest_android_install_summary = rel(root_dir, latest_android_install_summary)
-latest_checksum_manifest = Dir[File.join(root_dir, "docs/release/BUILD_ARTIFACT_CHECKSUMS_*.sha256")]
+latest_checksum_manifest = Dir[File.join(root_dir, "output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_*.sha256")]
   .sort
   .last
 latest_checksum_manifest = rel(root_dir, latest_checksum_manifest)
@@ -299,8 +299,6 @@ approval_records = [
     "decision_needed" => "Approve the current release evidence packet only after all product, SMS UAT, signing, iOS scope, security, and worktree checks are acceptable.",
     "evidence_to_review" => [
       latest_summary,
-      ".cache/admin_pwa_render_smoke/20260602T081408Z/summary.json",
-      ".cache/mobile_route_render_smoke/20260602T210133Z/summary.json",
       latest_android_device_summary,
       latest_supabase_evidence_summary,
       "docs/release/UAT_GO_LIVE_PACKET_2026-05-24.md",
@@ -347,8 +345,6 @@ packet = {
   "file_checks" => [
     file_item(root_dir, "docs/release/RELEASE_APPROVALS.json"),
     file_item(root_dir, "docs/release/UAT_EVIDENCE_MANIFEST.json"),
-    file_item(root_dir, ".cache/admin_pwa_render_smoke/20260602T081408Z/summary.json"),
-    file_item(root_dir, ".cache/mobile_route_render_smoke/20260602T210133Z/summary.json"),
     latest_android_device_summary && file_item(root_dir, latest_android_device_summary),
     latest_supabase_evidence_summary && file_item(root_dir, latest_supabase_evidence_summary),
     latest_mobile_release_gate_summary && file_item(root_dir, latest_mobile_release_gate_summary),

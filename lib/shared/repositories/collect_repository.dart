@@ -13,156 +13,16 @@ import '../../core/supabase/realtime_invalidation.dart';
 import '../../core/supabase/supabase_module.dart';
 import '../models/collect_models.dart';
 
-final collectRepositoryProvider =
-    StateNotifierProvider<CollectRepository, CollectState>((ref) {
-      final supabase = ref.watch(supabaseClientProvider);
-      final repository = CollectRepository(supabase: supabase);
-      if (supabase != null) unawaited(repository.loadInitial());
-      return repository;
-    });
-
-final collectionSummariesProvider = Provider<Map<String, CollectionSummary>>((
-  ref,
-) {
-  final contributions = ref.watch(
-    collectRepositoryProvider.select((state) => state.contributions),
-  );
-  final totals = <String, ({int amountRaisedRwf, int supporterCount})>{};
-  for (final contribution in contributions) {
-    final current =
-        totals[contribution.collectionId] ??
-        (amountRaisedRwf: 0, supporterCount: 0);
-    totals[contribution.collectionId] = (
-      amountRaisedRwf: current.amountRaisedRwf + contribution.amountRwf,
-      supporterCount: current.supporterCount + 1,
-    );
-  }
-  return {
-    for (final entry in totals.entries)
-      entry.key: CollectionSummary(
-        amountRaisedRwf: entry.value.amountRaisedRwf,
-        supporterCount: entry.value.supporterCount,
-      ),
-  };
-});
-
-final homeCollectionsProvider = Provider<List<CollectCollection>>((ref) {
-  return ref.watch(
-    collectRepositoryProvider.select(
-      (state) =>
-          List<CollectCollection>.unmodifiable(state.collections.take(3)),
-    ),
-  );
-});
-
-final pendingPaymentCountProvider = Provider<int>((ref) {
-  return ref.watch(
-    collectRepositoryProvider.select(
-      (state) =>
-          state.paymentIntents.where((item) => item.status == 'pending').length,
-    ),
-  );
-});
-
-final raisedTotalProvider = Provider<int>((ref) {
-  return ref.watch(
-    collectRepositoryProvider.select(
-      (state) =>
-          state.contributions.fold<int>(0, (sum, item) => sum + item.amountRwf),
-    ),
-  );
-});
-
-final contributedCollectionIdsProvider = Provider<Set<String>>((ref) {
-  final state = ref.watch(collectRepositoryProvider);
-  final profile = state.currentProfile;
-  if (profile == null) return const <String>{};
-  return Set<String>.unmodifiable({
-    for (final contribution in state.contributions)
-      if (_contributionBelongsToProfile(contribution, profile))
-        contribution.collectionId,
-  });
-});
-
-final contributionsForCollectionProvider =
-    Provider.family<List<Contribution>, String>((ref, collectionId) {
-      final contributions = ref.watch(
-        collectRepositoryProvider.select(
-          (state) => [
-            for (final item in state.contributions)
-              if (item.collectionId == collectionId) item,
-          ]..sort((a, b) => b.createdAt.compareTo(a.createdAt)),
-        ),
-      );
-      return List<Contribution>.unmodifiable(contributions);
-    });
-
-bool _contributionBelongsToProfile(
-  Contribution contribution,
-  CollectProfile profile,
-) {
-  final publicId = profile.publicId.trim();
-  if (publicId.isEmpty) return false;
-  if (contribution.supporterLabel.contains(publicId)) return true;
-  final labelDigits = contribution.supporterLabel.replaceAll(RegExp(r'\D'), '');
-  final publicIdDigits = publicId.replaceAll(RegExp(r'\D'), '');
-  return publicIdDigits.isNotEmpty && labelDigits.endsWith(publicIdDigits);
-}
-
-class CollectState {
-  const CollectState({
-    required this.currentProfile,
-    required this.collections,
-    required this.paymentIntents,
-    required this.contributions,
-    this.notificationPreferences = NotificationPreferences.defaults,
-    this.smsAccessEnabled = false,
-    this.smsAccessDenied = false,
-    this.isLoading = false,
-    this.lastError,
-  });
-
-  final CollectProfile? currentProfile;
-  final List<CollectCollection> collections;
-  final List<PaymentIntentModel> paymentIntents;
-  final List<Contribution> contributions;
-  final NotificationPreferences notificationPreferences;
-  final bool smsAccessEnabled;
-  final bool smsAccessDenied;
-  final bool isLoading;
-  final String? lastError;
-
-  CollectState copyWith({
-    CollectProfile? currentProfile,
-    List<CollectCollection>? collections,
-    List<PaymentIntentModel>? paymentIntents,
-    List<Contribution>? contributions,
-    NotificationPreferences? notificationPreferences,
-    bool? smsAccessEnabled,
-    bool? smsAccessDenied,
-    bool? isLoading,
-    String? lastError,
-  }) {
-    return CollectState(
-      currentProfile: currentProfile ?? this.currentProfile,
-      collections: collections ?? this.collections,
-      paymentIntents: paymentIntents ?? this.paymentIntents,
-      contributions: contributions ?? this.contributions,
-      notificationPreferences:
-          notificationPreferences ?? this.notificationPreferences,
-      smsAccessEnabled: smsAccessEnabled ?? this.smsAccessEnabled,
-      smsAccessDenied: smsAccessDenied ?? this.smsAccessDenied,
-      isLoading: isLoading ?? this.isLoading,
-      lastError: lastError,
-    );
-  }
-}
+part 'collect_repository_providers.dart';
+part 'collect_repository_state.dart';
+part 'collect_repository_fixture.dart';
+part 'collect_repository_live_reader.dart';
 
 class CollectRepository extends StateNotifier<CollectState> {
   CollectRepository({
     SupabaseClient? supabase,
     SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
-  }) : this._(supabase, smsAccessChannel, _emptyState(), false);
+  }) : this._(supabase, smsAccessChannel, _emptyCollectState(), false);
 
   CollectRepository.fixture({
     SupabaseClient? supabase,
@@ -171,7 +31,7 @@ class CollectRepository extends StateNotifier<CollectState> {
   }) : this._(
          supabase,
          smsAccessChannel,
-         seeded ? _fixtureState() : _emptyState(),
+         seeded ? _fixtureCollectState() : _emptyCollectState(),
          true,
        );
 
@@ -183,6 +43,7 @@ class CollectRepository extends StateNotifier<CollectState> {
   ) : super(initialState);
 
   final SupabaseClient? _supabase;
+  late final _CollectLiveReader _liveReader = _CollectLiveReader(_supabase);
   final SmsAccessChannel _smsAccessChannel;
   final bool _allowLocalWrites;
   RealtimeInvalidationSubscription? _realtimeSync;
@@ -192,90 +53,6 @@ class CollectRepository extends StateNotifier<CollectState> {
 
   bool get isLive => _supabase?.auth.currentUser != null;
 
-  static CollectState _emptyState() {
-    return const CollectState(
-      currentProfile: null,
-      collections: [],
-      paymentIntents: [],
-      contributions: [],
-    );
-  }
-
-  static CollectState _fixtureState() {
-    final now = DateTime.now();
-    const user = CollectProfile(
-      id: 'local-user',
-      publicId: '038491',
-      whatsappPhone: '+250788123456',
-      momoNumber: '0788123456',
-    );
-    final church = CollectCollection(
-      id: 'col-church',
-      slug: 'st-michel-building-fund',
-      creatorUserId: user.id,
-      title: 'St Michel building fund',
-      description:
-          'Transparent support for materials, labor, and weekly updates from the building committee.',
-      collectionType: CollectionType.church,
-      categorySubtype: 'building_fund',
-      purposeLabel: 'Building fund',
-      receiverMomoNumber: '+250788123456',
-      receiverDisplayLabel: 'St Michel treasury',
-      isPublic: true,
-      createdAt: now.subtract(const Duration(days: 3)),
-    );
-    final team = CollectCollection(
-      id: 'col-team',
-      slug: 'kigali-lions-away-kit',
-      creatorUserId: user.id,
-      title: 'Kigali Lions away kit',
-      description:
-          'Fans are helping the team fund away jerseys and travel supplies for next month.',
-      collectionType: CollectionType.sport,
-      categorySubtype: 'fan_club',
-      purposeLabel: 'Away kit support',
-      receiverMomoNumber: '+250788123456',
-      isPublic: true,
-      createdAt: now.subtract(const Duration(days: 1)),
-    );
-    return CollectState(
-      currentProfile: user,
-      collections: [church, team],
-      paymentIntents: [
-        PaymentIntentModel(
-          id: 'intent-render',
-          collectionId: church.id,
-          expectedAmountRwf: 15000,
-          receiverMomoNumber: church.receiverMomoNumber ?? user.momoNumber!,
-          receiverLabel: church.receiverDisplayLabel,
-          network: 'mtn',
-          senderPhoneHash: HashUtils.phoneHash(user.momoNumber!),
-          status: 'pending',
-          createdAt: now.subtract(const Duration(minutes: 8)),
-          expiresAt: now.add(const Duration(hours: 23)),
-        ),
-      ],
-      contributions: [
-        Contribution(
-          id: 'pay-1',
-          collectionId: church.id,
-          amountRwf: 25000,
-          supporterLabel: 'Collect ID 038491',
-          createdAt: now.subtract(const Duration(hours: 5)),
-          transactionId: 'MTN12345',
-        ),
-        Contribution(
-          id: 'pay-2',
-          collectionId: church.id,
-          amountRwf: 10000,
-          supporterLabel: 'Collect ID 038491',
-          createdAt: now.subtract(const Duration(hours: 2)),
-          transactionId: 'MTN12346',
-        ),
-      ],
-    );
-  }
-
   Future<void> loadInitial() async {
     final supabase = _supabase;
     final user = supabase?.auth.currentUser;
@@ -283,13 +60,12 @@ class CollectRepository extends StateNotifier<CollectState> {
 
     state = state.copyWith(isLoading: true);
     try {
-      final profile = await _fetchProfile(user.id);
-      final collections = await _fetchCollections();
-      final paymentIntents = await _fetchPaymentIntents();
-      final contributions = await _fetchContributions();
-      final notificationPreferences = await _fetchNotificationPreferences(
-        profile,
-      );
+      final profile = await _liveReader.fetchProfile(user.id);
+      final collections = await _liveReader.fetchCollections();
+      final paymentIntents = await _liveReader.fetchPaymentIntents();
+      final contributions = await _liveReader.fetchContributions();
+      final notificationPreferences = await _liveReader
+          .fetchNotificationPreferences(profile);
       state = state.copyWith(
         currentProfile: profile,
         collections: collections,
@@ -316,7 +92,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     final supabase = _supabase;
     final user = supabase?.auth.currentUser;
     if (supabase != null && user != null) {
-      final profile = await _ensureLiveProfile(user.id, normalized);
+      final profile = await _liveReader.ensureLiveProfile(user.id, normalized);
       state = state.copyWith(currentProfile: profile);
       unawaited(loadInitial());
       return profile;
@@ -365,7 +141,9 @@ class CollectRepository extends StateNotifier<CollectState> {
             'momo_pay_code': normalizedMomoPayCode,
           })
           .eq('id', profile.id);
-      state = state.copyWith(currentProfile: await _fetchProfile(profile.id));
+      state = state.copyWith(
+        currentProfile: await _liveReader.fetchProfile(profile.id),
+      );
       return;
     }
     if (!_allowLocalWrites) {
@@ -382,7 +160,7 @@ class CollectRepository extends StateNotifier<CollectState> {
 
   Future<void> signOut() async {
     await _supabase?.auth.signOut();
-    state = _emptyState();
+    state = _emptyCollectState();
   }
 
   Future<void> requestAccountDeletion({required String reason}) async {
@@ -525,7 +303,7 @@ class CollectRepository extends StateNotifier<CollectState> {
           'group_purpose_label': purposeLabel?.trim(),
         },
       );
-      final collection = await _fetchCollection(collectionId);
+      final collection = await _liveReader.fetchCollection(collectionId);
       await loadInitial();
       return collection.copyWith(
         accentColorHex: accentColorHex,
@@ -589,7 +367,7 @@ class CollectRepository extends StateNotifier<CollectState> {
               : receiverLabel.trim(),
         },
       );
-      final collection = await _fetchCollection(collectionId);
+      final collection = await _liveReader.fetchCollection(collectionId);
       await loadInitial();
       return collection;
     }
@@ -660,7 +438,7 @@ class CollectRepository extends StateNotifier<CollectState> {
         receiverMomoNumber: normalizedReceiver,
         receiverLabel: cleanReceiverLabel,
       );
-      final collection = await _fetchCollection(collectionId);
+      final collection = await _liveReader.fetchCollection(collectionId);
       await loadInitial();
       return collection;
     }
@@ -842,7 +620,7 @@ class CollectRepository extends StateNotifier<CollectState> {
         'join_group_by_slug',
         params: {'group_slug': normalizedSlug},
       );
-      final collection = await _fetchCollection(response as String);
+      final collection = await _liveReader.fetchCollection(response as String);
       final existing = state.collections.indexWhere(
         (item) => item.id == collection.id,
       );
@@ -992,179 +770,6 @@ class CollectRepository extends StateNotifier<CollectState> {
     final profile = state.currentProfile;
     if (profile == null) throw StateError('Sign in first');
     return profile;
-  }
-
-  Future<CollectProfile?> _fetchProfile(String userId) async {
-    final supabase = _supabase;
-    if (supabase == null) return null;
-    final currentUser = supabase.auth.currentUser;
-    if (currentUser == null || currentUser.id != userId) return null;
-    final row = await supabase.rpc<dynamic>('get_current_profile');
-    if (row == null) return null;
-    return CollectProfile.fromJson(Map<String, dynamic>.from(row as Map));
-  }
-
-  Future<CollectProfile> _ensureLiveProfile(
-    String userId,
-    String normalizedPhone,
-  ) async {
-    final existing = await _fetchProfile(userId);
-    if (existing != null) {
-      return _applyWhatsappMomoDefault(existing, normalizedPhone);
-    }
-    final supabase = _supabase;
-    if (supabase == null || supabase.auth.currentUser == null) {
-      throw StateError('Sign in first');
-    }
-    final row = await supabase.rpc<dynamic>(
-      'ensure_current_profile',
-      params: {'whatsapp_phone': normalizedPhone},
-    );
-    if (row == null) {
-      throw StateError('Collect profile could not be created');
-    }
-    return _applyWhatsappMomoDefault(
-      CollectProfile.fromJson(Map<String, dynamic>.from(row as Map)),
-      normalizedPhone,
-    );
-  }
-
-  Future<CollectProfile> _applyWhatsappMomoDefault(
-    CollectProfile profile,
-    String normalizedPhone,
-  ) async {
-    if (profile.momoNumber?.trim().isNotEmpty == true) return profile;
-    final localMomo = PhoneNormalizer.tryNormalizeMtnMomoLocal(normalizedPhone);
-    if (localMomo == null) return profile;
-
-    final supabase = _supabase;
-    if (supabase != null && supabase.auth.currentUser != null) {
-      await supabase
-          .from('profiles')
-          .update({
-            'momo_number': localMomo,
-            'momo_number_hash': HashUtils.phoneHash(localMomo),
-          })
-          .eq('id', profile.id);
-    }
-    return profile.copyWith(momoNumber: localMomo);
-  }
-
-  Future<List<CollectCollection>> _fetchCollections() async {
-    final rows = await _supabase!
-        .from('member_collections_view')
-        .select()
-        .order('created_at', ascending: false);
-    final mappedRows = [
-      for (final row in rows) Map<String, dynamic>.from(row as Map),
-    ];
-    final collections = [
-      for (final row in mappedRows) CollectCollection.fromJson(row),
-    ];
-    return _attachAuthorizedReceivers(collections);
-  }
-
-  Future<CollectCollection> _fetchCollection(String id) async {
-    final row = await _supabase!
-        .from('member_collections_view')
-        .select()
-        .eq('id', id)
-        .single();
-    final collections = await _attachAuthorizedReceivers([
-      CollectCollection.fromJson(Map<String, dynamic>.from(row)),
-    ]);
-    return collections.single;
-  }
-
-  Future<List<CollectCollection>> _attachAuthorizedReceivers(
-    List<CollectCollection> collections,
-  ) async {
-    if (collections.isEmpty) return collections;
-    final collectionIds = [for (final collection in collections) collection.id];
-    final rows = await _supabase!
-        .from('collection_receivers')
-        .select('collection_id, momo_number, label')
-        .inFilter('collection_id', collectionIds)
-        .eq('is_active', true);
-    final receiversByCollection = <String, Map<String, dynamic>>{};
-    for (final row in rows) {
-      final mapped = Map<String, dynamic>.from(row as Map);
-      receiversByCollection.putIfAbsent(
-        mapped['collection_id'] as String,
-        () => mapped,
-      );
-    }
-    return [
-      for (final collection in collections)
-        if (receiversByCollection[collection.id] case final receiver?)
-          collection.copyWith(
-            receiverMomoNumber: receiver['momo_number'] as String?,
-            receiverDisplayLabel: receiver['label'] as String?,
-          )
-        else
-          collection,
-    ];
-  }
-
-  Future<List<PaymentIntentModel>> _fetchPaymentIntents() async {
-    final rows = await _supabase!
-        .from('payment_intents')
-        .select()
-        .order('created_at', ascending: false)
-        .limit(100);
-    return [
-      for (final row in rows)
-        PaymentIntentModel.fromJson(Map<String, dynamic>.from(row as Map)),
-    ];
-  }
-
-  Future<List<Contribution>> _fetchContributions() async {
-    final supabase = _supabase!;
-    final safeRows = await supabase
-        .from('public_contributions_view')
-        .select()
-        .order('posted_at', ascending: false)
-        .limit(200);
-    final memberRows = await supabase
-        .from('member_contributions_view')
-        .select()
-        .order('created_at', ascending: false)
-        .limit(200);
-
-    final byId = <String, Contribution>{};
-    for (final row in safeRows) {
-      final contribution = Contribution.fromJson(
-        Map<String, dynamic>.from(row as Map),
-      );
-      byId[contribution.id] = contribution;
-    }
-    for (final row in memberRows) {
-      final contribution = Contribution.fromJson(
-        Map<String, dynamic>.from(row as Map),
-      );
-      byId[contribution.id] = contribution;
-    }
-    final contributions = byId.values.toList()
-      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
-    return contributions;
-  }
-
-  Future<NotificationPreferences> _fetchNotificationPreferences(
-    CollectProfile? profile,
-  ) async {
-    final supabase = _supabase;
-    if (supabase == null || profile == null) {
-      return NotificationPreferences.defaults;
-    }
-    final rows = await supabase
-        .from('notification_preferences')
-        .select()
-        .eq('user_id', profile.id)
-        .limit(1);
-    if (rows.isEmpty) return NotificationPreferences.defaults;
-    return NotificationPreferences.fromJson(
-      Map<String, dynamic>.from(rows.first as Map),
-    );
   }
 
   static String _slug(String title) {

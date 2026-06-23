@@ -32,7 +32,7 @@ final production decision.
 | Linked SMS-first contribution UAT | Pass | `scripts/collect_linked_uat.sh` passed via linked database query after applying `supabase/migrations/20260601230000_preserve_contribution_sender_hash.sql`. |
 | Linked Supabase readiness | Pass | `scripts/supabase_production_readiness.sh` passed. It used linked query/advisor/schema gates because direct pooler lint/dry-run remains unavailable from this network because of Supabase tenant allow-listing. |
 | Android real SMS UAT | Pending | Fresh MoMo SMS consent/ingestion/parse/allocation/ledger evidence is not yet recorded. |
-| Android release APK/AAB | Pass | Production APK/AAB artifacts are newer than Android/mobile sources, checksums were refreshed, and signatures verify; `scripts/release_artifact_manifest.sh --json` passed and wrote `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`. |
+| Android release APK/AAB | Pass | Production APK/AAB artifacts are newer than Android/mobile sources, checksums were refreshed, and signatures verify; `scripts/release_artifact_manifest.sh --json` passed and wrote `output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_2026-06-02.sha256`. |
 | Release worktree review | Re-run on final tree | `scripts/release_worktree_review_gate.sh --json` must pass on the exact final release branch after any recorder, evidence, or release-doc refresh is committed and synced. |
 | Android signing and iOS scope | Blocked | `scripts/flutter_mobile_release_gate.sh --json` reports `android_release_signing_review` and `ios_release_scope`; artifact freshness/signature subchecks pass. |
 

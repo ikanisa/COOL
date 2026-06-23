@@ -2,6 +2,16 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
+String readCollectRepositoryLibrary() {
+  return [
+    'lib/shared/repositories/collect_repository.dart',
+    'lib/shared/repositories/collect_repository_providers.dart',
+    'lib/shared/repositories/collect_repository_state.dart',
+    'lib/shared/repositories/collect_repository_fixture.dart',
+    'lib/shared/repositories/collect_repository_live_reader.dart',
+  ].map((path) => File(path).readAsStringSync()).join('\n');
+}
+
 void main() {
   test('production Android manifest does not request SMS permissions', () {
     final productionManifest = File(
@@ -31,7 +41,7 @@ void main() {
         'lib/core/notifications/collect_notification_service.dart',
       ).readAsStringSync();
       final notificationScreen = File(
-        'lib/features/status/production_state_screens.dart',
+        'lib/features/status/device_privacy_screens.dart',
       ).readAsStringSync();
       final androidGradle = File(
         'android/app/build.gradle.kts',
@@ -228,9 +238,7 @@ void main() {
   });
 
   test('mobile runtime does not wire fixture data or no-op auth fallbacks', () {
-    final repository = File(
-      'lib/shared/repositories/collect_repository.dart',
-    ).readAsStringSync();
+    final repository = readCollectRepositoryLibrary();
     final authScreen = File(
       'lib/features/auth/auth_screen.dart',
     ).readAsStringSync();
@@ -244,14 +252,14 @@ void main() {
       contains('final repository = CollectRepository(supabase: supabase);'),
     );
     expect(repository, contains("throw StateError('Live WhatsApp sign-in"));
-    expect(repository, contains('_emptyState(), false'));
+    expect(repository, contains('_emptyCollectState(), false'));
     expect(authScreen, contains("throw StateError('WhatsApp sign-in"));
     expect(authScreen, isNot(contains('if (client == null) return;')));
 
     for (final file in libFiles) {
       final text = file.readAsStringSync();
       final path = file.path;
-      if (path.endsWith('collect_repository.dart')) continue;
+      if (path.contains('/shared/repositories/collect_repository')) continue;
       if (path.contains('/features/dev/')) continue;
       if (path.endsWith('lib/main.dart')) {
         expect(text, contains("'COLLECT_MOBILE_EVIDENCE_MODE'"), reason: path);

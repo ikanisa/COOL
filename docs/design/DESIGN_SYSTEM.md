@@ -32,7 +32,7 @@ Tokens live in `lib/app/theme/collect_colors.dart`.
 
 - Primary palette: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, Orange `#FF5E43`.
 - Canvas: Paper `#FAF8F5`.
-- Page canvas: `screenBase`, `screenGradient`, and `adminScreenGradient` use extracted Revolut reference background colors: Account Navy `#000840`, Payments Purple `#181038`, Asset Navy `#101830`, Rewards Violet `#302878`, Wealth Teal `#102028`, and Stock Teal-Black `#001010`. Paper remains the brand and launch foundation, not the runtime screen canvas.
+- Page canvas: `screenBase`, `screenGradient`, and `adminScreenGradient` use extracted Revolut reference background colors: Account Navy `#000840`, Payments Purple `#181038`, Asset Navy `#101830`, Rewards Violet `#302878`, Wealth Teal `#102028`, and Stock Teal-Black `#001010`. Paper remains the brand foundation, not the runtime screen canvas; native Android launch uses Collect Periwinkle `#8885F0` to avoid a paper flash and keep forced dark system icons readable on Pixel 4a.
 - Theme modes: `CollectColors.light` and `CollectColors.dark` intentionally differ in surfaces, text, borders, semantic containers, and glass values. `AppTheme.light()` and `AppTheme.dark()` are both registered by member and admin apps through the persisted `collectThemeModeProvider`, which defaults to dark and exposes an in-app Settings toggle.
 - Glass surfaces: `glassPanel`, `glassPanelStrong`, `glassControl`, `glassBorder`, `glassPanelGradient`.
 - Secondary/support palette: Ink Primary `#252044`, Ink Secondary `#4B4664`, Ink Muted `#5F5A76`, Surface Readable `#FFFDFB`, Surface Muted `#F1ECF7`, Border Soft `#DED8EA`, Border Accent `#CDC7F5`, Focus Ring `#6F67E8`.
@@ -87,7 +87,7 @@ Use the shared primitives before local UI:
 - QR scanner surfaces use the shared plain header plus a camera-first preview with dark overlay, corner guides, torch and camera-switch icon controls, gallery QR decoding where supported, and compact link/code entry fallback. Fallback copy must stay about group links/codes, not payment proof.
 - `CollectBottomSheet`, `BottomActionSurface`.
 - `LoadingStatePanel`, `EmptyIllustrationState`, `CollectErrorState`, `InfoSecurityBanner`.
-- `CollectDynamicIsland`, `PaymentPipelineIndicator`, `PaymentVerifiedRing`.
+- `PaymentPipelineIndicator`, `PaymentVerifiedRing`.
 
 Feature-level widgets may control content density and order, but not introduce a separate visual language.
 

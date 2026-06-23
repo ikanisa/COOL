@@ -152,7 +152,7 @@ The audit rebuilt release artifacts from the patched source tree:
 Result:
 
 - `scripts/release_artifact_manifest.sh --json` passes and wrote
-  `docs/release/BUILD_ARTIFACT_CHECKSUMS_2026-06-15.sha256`.
+  `output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_2026-06-15.sha256`.
 - APK: `build/app/outputs/flutter-apk/app-production-release.apk`
   - SHA-256:
     `fc0bdea987d65a9a2bfa9237918da7223b79d63a9d61fc99b9813960691c0377`

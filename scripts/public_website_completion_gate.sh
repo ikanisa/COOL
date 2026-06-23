@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-EVIDENCE_DIR="${PUBLIC_WEBSITE_EVIDENCE_DIR:-docs/release/collect_public_website_evidence_2026-06-22}"
+EVIDENCE_DIR="${PUBLIC_WEBSITE_EVIDENCE_DIR:-output/public_website_evidence}"
 MODE="${1:-}"
 
 mkdir -p "$EVIDENCE_DIR"
@@ -69,13 +69,6 @@ required_external = {
     "paths" => [
       File.join(evidence_dir, "owner-approvals", "collect-product-proof.md"),
       File.join(evidence_dir, "owner-approvals", "collect-product-proof-deferral.md"),
-    ],
-  },
-  "translation_approval" => {
-    "audit_id" => "U-4",
-    "description" => "Human approval or correction notes for Kinyarwanda and French copy.",
-    "paths" => [
-      File.join(evidence_dir, "owner-approvals", "translation-approval.md"),
     ],
   },
   "visual_approval" => {
@@ -208,8 +201,6 @@ def external_rule_valid?(id, rule)
         markdown_approval_valid?(path, ["collect", "proof", "approve"])
       end
     end
-  when "translation_approval"
-    paths.any? { |path| markdown_approval_valid?(path, ["translation", "kinyarwanda", "french", "approve"]) }
   when "visual_approval"
     approval = paths.first
     browser_qa = paths[1]
