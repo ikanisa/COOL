@@ -10,6 +10,7 @@ require "yaml"
 ROOT = File.expand_path("..", __dir__)
 BUILD_DIR = File.expand_path(ENV.fetch("PUBLIC_BUILD_DIR", "build/public_web"), ROOT)
 PUBLIC_URL = "https://collect.ikanisa.com"
+ASSET_VERSION = "20260623-mobile-fix"
 APP_DOWNLOAD_URL = "https://play.google.com/store/apps/details?id=app.cool.mobile"
 WHATSAPP_NUMBER = "250795588248"
 DISPLAY_PHONE = "+250 795 588 248"
@@ -1579,8 +1580,8 @@ def page_html(page, current_path: page[:path])
       <meta name="twitter:card" content="summary_large_image">
       <meta name="twitter:title" content="#{esc(page[:title])}">
       <meta name="twitter:description" content="#{esc(page[:description])}">
-      <link rel="stylesheet" href="/styles.css">
-      <link rel="stylesheet" href="/sections.css">
+      <link rel="stylesheet" href="/styles.css?v=#{ASSET_VERSION}">
+      <link rel="stylesheet" href="/sections.css?v=#{ASSET_VERSION}">
       <script type="application/ld+json">#{json_ld(page)}</script>
     </head>
     <body>
@@ -1671,7 +1672,7 @@ def page_html(page, current_path: page[:path])
           <a href="/trust/">Trust</a>
         </nav>
       </footer>
-      <script src="/site.js" defer></script>
+      <script src="/site.js?v=#{ASSET_VERSION}" defer></script>
     </body>
     </html>
   HTML
@@ -2129,15 +2130,16 @@ def stylesheet
     @media (max-width: 560px) {
       .site-header { padding: 14px 20px; gap: 12px; }
       .brand strong { font-size: 18px; }
-      .hero { padding: 28px 20px 44px; gap: 18px; }
-      h1 { font-size: clamp(38px, 11.4vw, 50px); line-height: .96; }
-      .hero-intro { font-size: 17px; margin: 18px 0 20px; }
-      .hero-actions { display: grid; grid-template-columns: 1fr; }
+      .hero { padding: 20px 20px 24px; gap: 12px; }
+      h1 { font-size: clamp(30px, 9vw, 38px); line-height: 1; }
+      .hero-intro { font-size: 15px; line-height: 1.32; margin: 14px 0 16px; }
+      .hero-actions { display: grid; grid-template-columns: 1fr; gap: 8px; }
       .button { width: 100%; }
-      .hero-device { min-height: 275px; }
+      .hero-actions .button { min-height: 42px; padding: 10px 14px; }
+      .hero-device { min-height: 160px; max-height: 160px; overflow: hidden; align-items: start; }
       .hero-widget { width: 100%; min-height: 300px; border-radius: 24px; padding: 20px; }
-      .phone-widget { width: min(100%, 340px); min-height: 620px; padding: 0; border-radius: 48px; }
-      .phone-shell { height: 620px; min-height: 620px; border-radius: 48px; }
+      .phone-widget { width: min(100%, 340px); height: 160px; min-height: 160px; padding: 0; border-radius: 38px; overflow: hidden; }
+      .phone-shell { width: 340px; max-width: 100%; height: 620px; min-height: 620px; border-radius: 48px; transform: scale(.42); transform-origin: top center; margin: 0 auto; }
       .phone-screen { height: 600px; min-height: 600px; border-radius: 38px; padding: 16px 14px 12px; }
       .ledger-summary { grid-template-columns: 1fr; }
       .statement-head, .ledger-widget .ledger-row { grid-template-columns: minmax(92px, 1fr) auto; }
