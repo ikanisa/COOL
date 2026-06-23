@@ -235,7 +235,12 @@ void main() {
   );
 
   test('home and groups keep Revolut-style searchable top chrome', () {
-    final home = File('lib/features/home/home_screen.dart').readAsStringSync();
+    final home = [
+      'lib/features/home/home_screen.dart',
+      'lib/features/home/home_action_strip.dart',
+      'lib/features/home/home_public_groups_section.dart',
+      'lib/features/home/home_total_collected_card.dart',
+    ].map((path) => File(path).readAsStringSync()).join('\n');
     final groups = File(
       'lib/features/collections/collections_screen.dart',
     ).readAsStringSync();
@@ -245,9 +250,11 @@ void main() {
     final sharedBarrel = File(
       'lib/shared/widgets/collect_components.dart',
     ).readAsStringSync();
-    final chromeModule = File(
+    final chromeModule = [
       'lib/shared/widgets/collect_chrome.dart',
-    ).readAsStringSync();
+      'lib/shared/widgets/collect_top_chrome.dart',
+      'lib/shared/widgets/collect_scaffold_chrome.dart',
+    ].map((path) => File(path).readAsStringSync()).join('\n');
 
     expect(home, contains('CollectTopChrome('));
     expect(home, contains("searchLabel: 'Search'"));
@@ -304,9 +311,13 @@ void main() {
       final statusScreens = File(
         'lib/features/status/production_state_screens.dart',
       ).readAsStringSync();
-      final devicePrivacyScreens = File(
+      final devicePrivacyScreens = [
         'lib/features/status/device_privacy_screens.dart',
-      ).readAsStringSync();
+        'lib/features/status/device_permission_screens.dart',
+        'lib/features/status/device_privacy_data_screen.dart',
+        'lib/features/status/device_notification_center.dart',
+        'lib/features/status/device_support_screen.dart',
+      ].map((path) => File(path).readAsStringSync()).join('\n');
       final settings = File(
         'lib/features/settings/settings_screen.dart',
       ).readAsStringSync();

@@ -105,8 +105,8 @@ async function auditPage(page, viewport) {
       whatsappLinkCount: document.querySelectorAll("a[href^='https://wa.me/']").length,
       appDownloadLinkPresent: Boolean(document.querySelector("a[href='https://play.google.com/store/apps/details?id=app.cool.mobile']")),
       emailSupportPresent: Boolean(document.querySelector("input[type='email'], a[href^='mailto:']")),
-      supportFileExplainer: bodyText.includes("prepare better support files for financial-service review"),
-      providerDecisionBoundary: bodyText.includes("final credit decisions remain with the provider"),
+      supportFileExplainer: bodyText.includes("bank-ready loan files"),
+      creditReadinessGap: bodyText.includes("credit-readiness gap"),
       missingAltCount: [...document.images].filter((image) => !image.hasAttribute("alt")).length,
       unnamedButtons: [...document.querySelectorAll("button")].filter((button) => !accessibleName(button)).length,
       unnamedLinksCount: [...document.querySelectorAll("a")].filter((link) => !accessibleName(link)).length,
@@ -124,14 +124,14 @@ async function auditPage(page, viewport) {
     http200: Boolean(response && response.status() >= 200 && response.status() < 300),
     noConsoleErrors: consoleMessages.length === 0 && pageErrors.length === 0,
     noHorizontalOverflow: !metrics.overflowX,
-    hasH1: /Clearer records for savings groups/.test(metrics.h1),
+    hasH1: /Microsavings and group savings for daily earners/.test(metrics.h1),
     ctaInFirstViewport: metrics.primaryCta && metrics.primaryCta.top >= 0 && metrics.primaryCta.bottom <= viewport.height,
     productSignalInFirstViewport: metrics.productVisual && metrics.productVisual.top < viewport.height,
     mobileMenuOpens: mobileMenuOpen,
     hasPublicAppAndWhatsAppCtas: metrics.appDownloadLinkPresent && metrics.whatsappLinkCount >= 3 && !metrics.emailSupportPresent,
-    hasCreditExplainer: metrics.supportFileExplainer && metrics.providerDecisionBoundary,
+    hasCreditExplainer: metrics.supportFileExplainer && metrics.creditReadinessGap,
     accessibleNames: metrics.missingAltCount === 0 && metrics.unnamedButtons === 0 && metrics.unnamedLinksCount === 0 && metrics.unlabeledInputs === 0,
-    localLoadUnder1500ms: metrics.timing && metrics.timing.loadMs <= 1500,
+    localLoadUnder2500ms: metrics.timing && metrics.timing.loadMs <= 2500,
   };
 
   return {

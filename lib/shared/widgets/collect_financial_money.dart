@@ -1,0 +1,567 @@
+part of 'collect_financial_components.dart';
+
+class MoneyCard extends StatelessWidget {
+  const MoneyCard({
+    required this.label,
+    required this.amount,
+    this.detail,
+    this.icon = CollectIcons.money,
+    this.tone = CollectStatusTone.info,
+    super.key,
+  });
+
+  final String label;
+  final int amount;
+  final String? detail;
+  final IconData icon;
+  final CollectStatusTone tone;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return CollectCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CollectToneIcon(icon: icon, tone: tone),
+              CollectSpacing.gapW12,
+              Expanded(
+                child: Text(
+                  label,
+                  style: Theme.of(context).textTheme.bodySmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+          CollectSpacing.gap12,
+          Text(
+            formatRwf(amount),
+            style: CollectTypography.amountLarge(colors.textPrimary),
+          ),
+          if (detail != null) ...[
+            CollectSpacing.gap4,
+            Text(
+              detail!,
+              style: Theme.of(context).textTheme.bodySmall,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class AmountHero extends StatelessWidget {
+  const AmountHero({
+    required this.amount,
+    required this.label,
+    this.detail,
+    super.key,
+  });
+
+  final int amount;
+  final String label;
+  final String? detail;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (label.trim().isNotEmpty) ...[
+          Text(
+            label,
+            style: Theme.of(context).textTheme.labelLarge,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          CollectSpacing.gap8,
+        ],
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Text(
+            formatRwf(amount),
+            maxLines: 1,
+            style: CollectTypography.amountHero(colors.textPrimary),
+          ),
+        ),
+        if (detail != null) ...[
+          CollectSpacing.gap8,
+          Text(
+            detail!,
+            style: Theme.of(context).textTheme.bodyMedium,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+class FinancialListRow extends StatelessWidget {
+  const FinancialListRow({
+    required this.title,
+    required this.meta,
+    this.amountRwf,
+    this.subtitle,
+    this.transactionId,
+    this.leading,
+    this.tone = CollectStatusTone.success,
+    this.onTap,
+    super.key,
+  });
+
+  final String title;
+  final int? amountRwf;
+  final String meta;
+  final String? subtitle;
+  final String? transactionId;
+  final IconData? leading;
+  final CollectStatusTone tone;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Material(
+      color: colors.transparent,
+      child: InkWell(
+        borderRadius: CollectRadius.controlBorder,
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x4),
+          child: Row(
+            children: [
+              CollectToneIcon(icon: leading ?? CollectIcons.money, tone: tone),
+              CollectSpacing.gapW12,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _IdentityTitle(title: title),
+                    if (subtitle != null) ...[
+                      CollectSpacing.gap4,
+                      Text(
+                        subtitle!,
+                        style: Theme.of(context).textTheme.bodySmall,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                    CollectSpacing.gap4,
+                    Text(
+                      meta,
+                      style: CollectTypography.transactionMeta(
+                        colors.textMuted,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    if (transactionId != null) ...[
+                      CollectSpacing.gap4,
+                      SelectableText(
+                        transactionId!,
+                        style: CollectTypography.transactionMeta(
+                          colors.textMuted,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              if (amountRwf != null) ...[
+                CollectSpacing.gapW12,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    formatRwf(amountRwf!),
+                    style: CollectTypography.amountCompact(colors.textPrimary),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AmountEntryPanel extends StatelessWidget {
+  const AmountEntryPanel({
+    required this.controller,
+    required this.amount,
+    required this.quickAmounts,
+    required this.onQuickAmount,
+    this.label,
+    this.detail,
+    this.error,
+    super.key,
+  });
+
+  final TextEditingController controller;
+  final int amount;
+  final List<int> quickAmounts;
+  final ValueChanged<int> onQuickAmount;
+  final String? label;
+  final String? detail;
+  final String? error;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final amountStyle = CollectTypography.amountDisplay(
+      colors.textPrimary,
+    ).copyWith(fontSize: 44, height: 1.05);
+    final prefixStyle = amountStyle.copyWith(color: colors.textSecondary);
+    return CollectCard(
+      emphasis: CollectCardEmphasis.compact,
+      padding: CollectSpacing.cardPaddingComfortable,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  (label?.trim().isNotEmpty == true ? label! : 'Amount'),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: colors.textSecondary,
+                    fontWeight: FontWeight.w800,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: colors.glassControl,
+                  borderRadius: CollectRadius.pillBorder,
+                  border: Border.all(color: colors.glassBorder),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: CollectSpacing.x3,
+                    vertical: CollectSpacing.x1,
+                  ),
+                  child: Text(
+                    'RWF',
+                    style: CollectTypography.eyebrowLabel(colors.textMuted),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          CollectSpacing.gap16,
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: colors.glassControl,
+              borderRadius: CollectRadius.panelBorder,
+              border: Border.all(color: colors.glassBorder),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: CollectSpacing.x4,
+                vertical: CollectSpacing.x3,
+              ),
+              child: TextField(
+                controller: controller,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                style: amountStyle,
+                maxLines: 1,
+                decoration: InputDecoration(
+                  hintText: '0',
+                  prefixText: 'RWF ',
+                  prefixStyle: prefixStyle,
+                  hintStyle: amountStyle.copyWith(color: colors.textMuted),
+                  border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  focusedErrorBorder: InputBorder.none,
+                  isCollapsed: true,
+                  contentPadding: EdgeInsets.zero,
+                ),
+              ),
+            ),
+          ),
+          if (detail != null) ...[
+            CollectSpacing.gap8,
+            Text(detail!, style: Theme.of(context).textTheme.bodyMedium),
+          ],
+          CollectSpacing.gap16,
+          Wrap(
+            spacing: CollectSpacing.x2,
+            runSpacing: CollectSpacing.x2,
+            children: [
+              for (final option in quickAmounts)
+                ChoiceChip(
+                  label: Text(_compactAmount(option)),
+                  selected: amount == option,
+                  selectedColor: CollectColors.brandPeriwinkle,
+                  backgroundColor: colors.glassControl,
+                  showCheckmark: false,
+                  side: BorderSide(
+                    color: amount == option
+                        ? colors.borderAccent
+                        : colors.borderSoft,
+                    width: amount == option ? 1.5 : 1,
+                  ),
+                  labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: amount == option
+                        ? colors.selectedOnAccent
+                        : colors.textPrimary,
+                    fontWeight: FontWeight.w900,
+                  ),
+                  onSelected: (_) => onQuickAmount(option),
+                ),
+            ],
+          ),
+          if (error != null) ...[
+            CollectSpacing.gap12,
+            Text(
+              error!,
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: colors.danger),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class CollectIdCard extends StatelessWidget {
+  const CollectIdCard({required this.publicId, super.key});
+
+  final String publicId;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final value = publicId.trim().isEmpty ? '------' : publicId.trim();
+    return CollectCard(
+      emphasis: CollectCardEmphasis.hero,
+      padding: CollectSpacing.cardPaddingComfortable,
+      child: Row(
+        children: [
+          _GroupIconBadge(
+            icon: CollectIcons.profile,
+            accent: colors.actionColor,
+            size: 52,
+          ),
+          CollectSpacing.gapW12,
+          Expanded(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                value,
+                style: CollectTypography.amountHero(colors.textPrimary),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MoneyHeroCard extends StatelessWidget {
+  const MoneyHeroCard({
+    required this.amount,
+    required this.label,
+    this.detail,
+    this.primaryAction,
+    this.secondaryAction,
+    this.chips = const [],
+    super.key,
+  });
+
+  final int amount;
+  final String label;
+  final String? detail;
+  final Widget? primaryAction;
+  final Widget? secondaryAction;
+  final List<Widget> chips;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final heroColor = colors.periwinklePaint;
+    return AnimatedContainer(
+      duration: CollectMotion.duration(context, CollectMotion.medium),
+      curve: CollectMotion.standard,
+      decoration: BoxDecoration(
+        color: heroColor,
+        borderRadius: CollectRadius.cardLargeBorder,
+        boxShadow: CollectShadows.card(),
+      ),
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: CollectRadius.cardLargeBorder,
+                border: Border.all(
+                  color: colors.onImagePrimary.withValues(alpha: 0.08),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: CollectSpacing.cardPaddingComfortable,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (label.trim().isNotEmpty) ...[
+                  Text(
+                    label,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: colors.onImagePrimary.withValues(alpha: 0.78),
+                    ),
+                  ),
+                  CollectSpacing.gap8,
+                ],
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    formatRwf(amount),
+                    style: CollectTypography.amountHero(colors.onImagePrimary),
+                  ),
+                ),
+                if (detail != null) ...[
+                  CollectSpacing.gap8,
+                  Text(
+                    detail!,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: colors.onImagePrimary.withValues(alpha: 0.76),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+                if (chips.isNotEmpty) ...[
+                  CollectSpacing.gap20,
+                  Wrap(
+                    spacing: CollectSpacing.x2,
+                    runSpacing: CollectSpacing.x2,
+                    children: chips,
+                  ),
+                ],
+                if (primaryAction != null || secondaryAction != null) ...[
+                  CollectSpacing.gap20,
+                  Wrap(
+                    spacing: CollectSpacing.x2,
+                    runSpacing: CollectSpacing.x2,
+                    children: [
+                      // ignore: use_null_aware_elements
+                      if (primaryAction != null) primaryAction!,
+                      // ignore: use_null_aware_elements
+                      if (secondaryAction != null) secondaryAction!,
+                    ],
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+String compactCollectIdLabel(String label) {
+  return label
+      .replaceFirst(RegExp(r'^Collect ID\s+'), '')
+      .replaceFirst(RegExp(r'^#'), '');
+}
+
+class _IdentityTitle extends StatelessWidget {
+  const _IdentityTitle({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    final cleaned = compactCollectIdLabel(title);
+    final isIdentity =
+        cleaned != title.replaceFirst(RegExp(r'^#'), '') ||
+        RegExp(r'^\d{4,}$').hasMatch(cleaned);
+    if (!isIdentity) {
+      return Text(
+        title,
+        style: Theme.of(context).textTheme.titleSmall,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      );
+    }
+    return Row(
+      children: [
+        Icon(
+          CollectIcons.profile,
+          size: 18,
+          color: context.collectColors.textSecondary,
+        ),
+        CollectSpacing.gapW8,
+        Expanded(
+          child: Text(
+            cleaned,
+            style: Theme.of(context).textTheme.titleSmall,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+String _compactAmount(int amount) {
+  if (amount >= 1000000 && amount % 1000000 == 0) {
+    return '${amount ~/ 1000000}M';
+  }
+  if (amount >= 1000 && amount % 1000 == 0) {
+    return '${amount ~/ 1000}k';
+  }
+  return formatRwf(amount);
+}
+
+class _GroupIconBadge extends StatelessWidget {
+  const _GroupIconBadge({
+    required this.icon,
+    required this.accent,
+    required this.size,
+  });
+
+  final IconData icon;
+  final Color accent;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: accent.withValues(alpha: 0.13),
+        borderRadius: BorderRadius.circular(size * 0.28),
+      ),
+      child: SizedBox(
+        width: size,
+        height: size,
+        child: Icon(icon, color: accent, size: size * 0.52),
+      ),
+    );
+  }
+}

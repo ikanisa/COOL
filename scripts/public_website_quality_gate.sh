@@ -76,8 +76,7 @@ required_routes = {
   "/" => ["Microsavings and group savings for daily earners", "Collect"],
   "/group-savings/" => ["Group savings"],
   "/diaspora/" => ["Diaspora"],
-  "/impact/" => ["Impact"],
-  "/privacy/" => ["Privacy Policy", "Data Deletion"],
+  "/privacy/" => ["Privacy Policy", "Account deletion and data deletion"],
   "/terms/" => ["Terms"],
   "/account-deletion/" => ["Account Deletion"],
   "/data-deletion/" => ["Data Deletion"],
@@ -104,6 +103,16 @@ required_routes.each do |route, required_text|
     "bytes" => file_size(path)
   )
 end
+
+retired_routes = ["/impact/"]
+retired_route_files = retired_routes.select { |route| File.exist?(route_index(build_dir, route)) }
+check(
+  checks,
+  "retired_routes_absent",
+  pass_if(retired_route_files.empty?),
+  retired_route_files.empty? ? "Retired public routes are absent from the generated build." : "Generated build still contains retired public routes.",
+  "retired_present" => retired_route_files
+)
 
 alternative_routes.each do |id, options|
   matches = options.select do |route, text|
@@ -216,14 +225,17 @@ check(
   "path" => robots_path
 )
 
-required_sitemap_paths = ["/", "/group-savings", "/diaspora", "/impact", "/privacy", "/terms", "/account-deletion", "/data-deletion"]
+required_sitemap_paths = ["/", "/group-savings", "/diaspora", "/privacy", "/terms", "/account-deletion", "/data-deletion"]
 missing_sitemap = required_sitemap_paths.reject { |path| sitemap.include?("https://collect.ikanisa.com#{path}") }
+retired_sitemap_paths = ["/impact"]
+retired_sitemap = retired_sitemap_paths.select { |path| sitemap.include?("https://collect.ikanisa.com#{path}") }
 check(
   checks,
   "sitemap_routes",
-  pass_if(missing_sitemap.empty?),
-  missing_sitemap.empty? ? "Sitemap includes required public routes." : "Sitemap is missing required routes.",
+  pass_if(missing_sitemap.empty? && retired_sitemap.empty?),
+  missing_sitemap.empty? && retired_sitemap.empty? ? "Sitemap includes required public routes and excludes retired routes." : "Sitemap is missing required routes or still includes retired routes.",
   "missing" => missing_sitemap,
+  "retired_present" => retired_sitemap,
   "path" => sitemap_path
 )
 
@@ -383,11 +395,12 @@ check(
 )
 
 privacy_text = read(route_index(build_dir, "/privacy/"))
-policy_ok = privacy_text.include?("Account deletion") &&
-  privacy_text.include?("Data deletion") &&
-  privacy_text.include?("+250 795 588 248") &&
-  !privacy_text.include?("Email:") &&
-  !privacy_text.include?("mailto:")
+policy_ok = privacy_text.include?("Privacy Policy") &&
+  privacy_text.include?("We do not sell personal data") &&
+  privacy_text.include?("Account deletion and data deletion") &&
+  privacy_text.include?("info@ikanisa.com") &&
+  !privacy_text.match?(/\b(?:privacy|support|complaints|partnerships)@ikanisa\.com\b/) &&
+  !privacy_text.match?(/\[[A-Za-z][A-Za-z ]+\]/)
 check(
   checks,
   "policy_content",
@@ -440,7 +453,13 @@ check(
   source_backed_market_context_ok ? "Home market figures are present." : "Home market figures are missing."
 )
 
-public_html_paths = Dir.glob(File.join(build_dir, "**", "*.html")).select { |path| File.file?(path) }
+legal_route_prefixes = %w[
+  privacy terms account-deletion data-deletion trust security
+]
+public_html_paths = Dir.glob(File.join(build_dir, "**", "*.html")).select { |path| File.file?(path) }.reject do |path|
+  relative = path.delete_prefix(build_dir + "/")
+  legal_route_prefixes.any? { |prefix| relative == "#{prefix}/index.html" }
+end
 banned_public_claim_patterns = {
   "consent" => /consent/i,
   "email_support" => /\bemail\b|mailto:/i,

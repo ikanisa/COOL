@@ -10,9 +10,20 @@ import 'public_content.dart';
 export 'public_content.dart';
 
 part 'collect_public_page.dart';
+part 'collect_public_page_hero.dart';
+part 'collect_public_page_infographic.dart';
+part 'collect_public_page_sections.dart';
+part 'collect_public_page_summary.dart';
 part 'collect_home_hero.dart';
 part 'collect_home_access_trust.dart';
+part 'collect_home_audience_metrics.dart';
+part 'collect_home_customer_action.dart';
+part 'collect_home_footer.dart';
+part 'collect_home_interactions.dart';
+part 'collect_home_offer_sections.dart';
 part 'collect_home_product_media.dart';
+part 'collect_home_phone_mockup.dart';
+part 'collect_home_evidence_media.dart';
 part 'collect_home_sections.dart';
 part 'collect_landing_primitives.dart';
 

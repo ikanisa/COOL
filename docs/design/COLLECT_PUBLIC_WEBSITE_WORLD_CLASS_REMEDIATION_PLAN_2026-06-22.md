@@ -80,7 +80,7 @@ Current evidence:
 - The build also carries CanvasKit/WASM artifacts, including approximately 6.9 MB `canvaskit.wasm`, 4.9 MB `skwasm_heavy.wasm`, and 3.4 MB `skwasm.wasm`.
 - The site serves a static HTML fallback first, then hides it when `flutter-view` appears.
 
-Impact:
+Effect:
 
 - High risk to LCP, TBT, INP, SEO resilience, and perceived quality.
 - Public fintech landing pages need immediate, indexable, responsive HTML/CSS with surgical JS, not a full Flutter runtime for primarily static marketing content.
@@ -100,7 +100,7 @@ Current browser capture at 390x844 showed:
 - Product mockup begins too low in the first screen.
 - The proposition is readable, but the screen does not feel intentionally composed.
 
-Impact:
+Effect:
 
 - Fails the first-screen bar expected from Revolut/Stripe-class mobile experiences.
 - Mobile visitors see clutter and repeated controls before product clarity.
@@ -119,7 +119,7 @@ Current evidence:
 - Supporting copy tries to cover payment inclusion, ibimina, diaspora, verified ledgers, credit-ready files, collateral rules, and insurance in one paragraph.
 - Page sections cover many valid themes but do not yet create a crisp conversion path for a specific visitor.
 
-Impact:
+Effect:
 
 - The user has to work too hard to understand what Collect is, who it is for, and what to do next.
 - Stripe and Revolut benchmark pages keep the top promise direct, then unfold depth through controlled sections and proof.
@@ -141,7 +141,7 @@ Current evidence:
 - Flutter app shows more polished product mockups but still uses large generic layout patterns and many card-like sections.
 - Public palette adds separate `public*` colors in `CollectColors`, creating a parallel public-site palette outside the core four-primary design discipline.
 
-Impact:
+Effect:
 
 - Users, bots, and browser timing can see materially different experiences.
 - The product feels assembled rather than art-directed.
@@ -157,7 +157,7 @@ Current browser logs:
 
 `Could not find a set of Noto fonts to display all missing characters. Please add a font asset for the missing characters.`
 
-Impact:
+Effect:
 
 - Typography may vary across devices.
 - Currency, apostrophe, and international text can trigger inconsistent rendering.
@@ -177,7 +177,7 @@ Current evidence:
 - Canonical URLs omit trailing slashes on generated subpages while routes are also served with slash paths.
 - Flutter app body text is not ordinary HTML once the app renders.
 
-Impact:
+Effect:
 
 - Crawl, preview, and cache behavior are weaker than they should be for a public fintech website.
 
@@ -194,7 +194,7 @@ Current evidence:
 - `test/landing_page_test.dart` checks text, banned terms, public page existence, and some policy requirements.
 - It does not catch mobile nav clipping, first-viewport composition, bundle budget, missing font warnings, fallback/Flutter mismatch, visual hierarchy, or benchmark fidelity.
 
-Impact:
+Effect:
 
 - The site can regress while tests stay green.
 
@@ -222,7 +222,7 @@ Current repo/live evidence:
 - `web/_headers` has strong security headers, but users do not see a trust model.
 - No Organization, FinancialService, or SoftwareApplication JSON-LD was found in the generated public page.
 
-Impact:
+Effect:
 
 - A fintech product asking users to trust savings records, contribution evidence, and payment references needs visible trust architecture, not just a privacy block.
 
@@ -244,7 +244,7 @@ Current repo/live evidence:
 - `_LandingButton` handlers route to `_openWhatsApp(...)` throughout the public site.
 - Static fallback CTAs also use `wa.me/250795588248`.
 
-Impact:
+Effect:
 
 - WhatsApp is appropriate for Rwanda and should remain prominent, but it cannot be the only acquisition path if the site is meant to scale, measure, and convert like a benchmark fintech site.
 
@@ -268,7 +268,7 @@ Current repo/live evidence:
 
 - Existing public pages contain strong public market sizing, but no verified Collect-specific metrics such as groups onboarded, members served, RWF saved, pilot scope, partner quotes, or reliability.
 
-Impact:
+Effect:
 
 - Macro numbers make the opportunity credible, but they do not prove Collect is credible.
 
@@ -290,7 +290,7 @@ Current repo/live evidence:
 - Visible public-site copy is English-only.
 - WhatsApp templates are English-only.
 
-Impact:
+Effect:
 
 - The target audience includes ibimina members, daily earners, moto-taxi customers, local group leaders, and diaspora families. Financial trust is materially weaker when the explanation is not in the user's strongest language.
 
@@ -310,7 +310,7 @@ Current repo/live evidence:
 
 - The Flutter-rendered page has more credit-readiness sections than the report's plain retrieval captured, but the first viewport still compresses too many ideas into one paragraph and does not give a crisp mechanism.
 
-Impact:
+Effect:
 
 - A visitor cannot tell what record is created, who accepts it, what consent is required, and what result is not guaranteed.
 
@@ -377,7 +377,6 @@ Tasks:
   - Credit Readiness;
   - Protection;
   - Partners;
-  - Impact;
   - Trust / Security;
   - Privacy / Terms.
 - Rewrite the first-screen message so it is direct and conversion-oriented.
@@ -519,7 +518,6 @@ Tasks:
   - `/credit-readiness/` or `/craas/`;
   - `/protection/` or `/insurance/`;
   - `/partners/` or `/our-partners/`;
-  - `/impact/`;
   - `/privacy/`;
   - `/trust/` or `/security/`;
   - `/#/privacy`;

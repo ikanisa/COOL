@@ -83,7 +83,7 @@ checks = {
     !root_body.include?('hreflang="rw"') &&
     !root_body.include?('hreflang="fr"'),
   "performance_budgets" => root.fetch("elapsed_ms") <= 1500 && root_body.bytesize <= 20_000 && styles_body.bytesize <= 30_000 && site_js.fetch("body").bytesize <= 153_600 && first_party_critical_bytes <= 400_000,
-  "mobile_responsive_css" => styles_body.include?("@media (max-width: 980px)") && styles_body.include?("@media (max-width: 560px)") && styles_body.include?(".site-nav.open"),
+  "mobile_responsive_css" => styles_body.match?(/@media\s*\(\s*max-width\s*:\s*980px\s*\)/) && styles_body.match?(/@media\s*\(\s*max-width\s*:\s*560px\s*\)/) && styles_body.include?(".site-nav.open"),
 }
 
 payload = {

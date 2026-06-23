@@ -1,0 +1,446 @@
+---
+page:
+  id: privacy
+  title: Privacy Policy
+  slug: "/privacy"
+  seo:
+    title: Privacy Policy | Collect by IKANISA
+    description: Learn how Collect by IKANISA collects, uses, shares, protects, retains and deletes personal data.
+  last_updated: 20 June 2026
+  hero:
+    eyebrow: PRIVACY AND TRUST
+    headline: Your data. Your choice. Your financial journey.
+    supporting_copy: >-
+      Collect uses personal data to operate your account, maintain accurate group-savings records, protect the platform,
+      support credit readiness and connect you with financial products you choose to explore.
+    trust_statement: We do not sell your personal data.
+  privacy_at_a_glance:
+  - title: We collect only what we need
+    copy: >-
+      We collect information needed to operate Collect, protect accounts, maintain financial records and deliver
+      requested services.
+  - title: You control partner access
+    copy: >-
+      We do not send your credit-readiness documents to a bank, insurer or professional service provider without
+      an appropriate legal basis and, where required, your instruction or consent.
+  - title: AI assists—it does not make final financial decisions
+    copy: >-
+      Collect may help organise information, identify missing documents and prepare applications. Banks and insurers
+      retain final decision-making authority.
+  - title: You can access, correct, export or request deletion
+    copy: You can manage certain information in the app or contact us to exercise your legal rights.
+  - title: Your funds are not held by Collect
+    copy: >-
+      Savings and financial products are provided through licensed financial institutions under their own regulatory
+      obligations.
+  sections:
+  - id: who-we-are
+    heading: 1. Who we are
+    body:
+    - 'Collect is operated by:'
+    details:
+      legal_entity: IKANISA
+      privacy_email: info@ikanisa.com
+      support_email: info@ikanisa.com
+    closing: >-
+      For the personal data described in this Policy, IKANISA acts as the data controller unless another organisation
+      is identified as the controller. A partner bank, insurer, payment provider or professional service provider
+      may act as a separate data controller for the products and services it provides.
+  - id: scope
+    heading: 2. What this Policy covers
+    intro: 'This Policy applies when you:'
+    bullets:
+    - Visit the Collect website
+    - Use the Collect Android or iOS application
+    - Use a Collect-supported USSD, SMS or WhatsApp journey
+    - Create or join a savings group
+    - Use credit-readiness services
+    - Submit documents for a loan application
+    - Express interest in an insurance product
+    - Join a diaspora savings group
+    - Contact customer support
+    - Participate in a pilot, event or survey
+    - Apply to become a bank, community or service partner
+    closing: >-
+      Partner banks, insurers and other external organisations may provide separate privacy notices for their services.
+  - id: data-we-collect
+    heading: 3. Personal data we may collect
+    subsections:
+    - heading: Account and contact information
+      bullets:
+      - Full name
+      - Telephone number
+      - Email address
+      - Country and address
+      - Date of birth
+      - Preferred language
+      - Profile photograph
+      - Account username and authentication details
+    - heading: Identity and verification information
+      intro: 'Where required:'
+      bullets:
+      - National ID, passport or other identification
+      - Identity-document image
+      - Nationality and residency status
+      - Proof of address
+      - Tax or business-identification numbers
+      - KYC and KYB verification results
+      - Sanctions, fraud or compliance screening results
+    - heading: Group-savings information
+      bullets:
+      - Group name and purpose
+      - Group membership and role
+      - Contribution schedule
+      - Individual and group balances
+      - Contribution history
+      - Missed or late contributions
+      - Group rules, approvals and mandates
+      - Collateral instructions and member consent
+      - Group communications and support records
+    - heading: Transaction and ledger information
+      bullets:
+      - Contribution amount, date and reference
+      - Mobile-money or bank-payment confirmation
+      - Payer and recipient identifiers
+      - Transaction status
+      - Refunds, reversals and reconciliations
+      - Repayment records
+      - Purpose-based savings goals
+      closing: >-
+        Collect may receive transaction evidence from banks, mobile-money providers or other authorised payment
+        partners. Collect does not require access to unrelated messages stored on your device.
+    - heading: Credit-readiness information
+      bullets:
+      - Business profile and ownership information
+      - Requested loan amount and purpose
+      - Income and repayment information
+      - Bank statements and financial records
+      - Cash-flow projections
+      - Business plans
+      - Tax and registration documents
+      - Collateral documents
+      - Valuation and notarial records
+      - Application checklists
+      - Readiness assessments
+      - Documents submitted to or received from service providers
+    - heading: Insurance information
+      intro: 'Where you request an insurance service:'
+      bullets:
+      - Product interest and eligibility information
+      - Premium-payment records
+      - Policy and certificate information
+      - Renewal dates
+      - Claim-notification information
+      - Supporting claim documents
+      closing: The licensed insurer determines what information is required for underwriting and claims.
+    - heading: Diaspora information
+      intro: 'Where relevant:'
+      bullets:
+      - Host country and residency information
+      - Host-country banking relationship
+      - Diaspora group membership
+      - Contribution and collateral instructions
+      - Loan-interest information
+      - Proposed Rwanda investment purpose
+    - heading: Device and technical information
+      bullets:
+      - Device type and operating system
+      - IP address
+      - App version
+      - Device identifiers
+      - Login date and time
+      - Security and fraud signals
+      - Crash and performance logs
+      - Website browser and cookie information
+    - heading: Communications
+      bullets:
+      - Support enquiries
+      - Call, email or chat records
+      - Complaints
+      - Survey responses
+      - Marketing preferences
+      - Feedback and product-research participation
+  - id: sources
+    heading: 4. How we obtain personal data
+    intro: 'We may obtain information:'
+    bullets:
+    - Directly from you
+    - From your savings group or authorised group leader
+    - From a partner bank or custodian
+    - From a payment or mobile-money provider
+    - From an insurer
+    - From a professional service provider you instruct us to coordinate
+    - From identity, KYC, fraud or compliance providers
+    - From publicly available official registers
+    - Automatically from your device when you use Collect
+    closing: >-
+      Where another person provides information about you, we may ask that person to confirm that they are authorised
+      to do so.
+  - id: uses
+    heading: 5. How we use personal data
+    intro: 'We use personal data to:'
+    bullets:
+    - Create and secure your account
+    - Verify identity and eligibility
+    - Create and administer savings groups
+    - Reconcile contributions and update ledgers
+    - Send statements and transaction confirmations
+    - Support savings goals and repayment schedules
+    - Prepare credit-readiness checklists
+    - Review and organise loan documents
+    - Coordinate requested professional services
+    - Prepare bank-review-ready application files
+    - Connect you to partner banks and insurers
+    - Support collateral and group-consent workflows
+    - Prevent fraud, misuse and unauthorised access
+    - Meet legal and regulatory obligations
+    - Resolve complaints and disputes
+    - Improve product accessibility and performance
+    - Send service messages and, where permitted, marketing communications
+    - Produce aggregated and de-identified statistics
+    closing: We do not use personal data for an unrelated purpose without an appropriate legal basis.
+  - id: legal-bases
+    heading: 6. Our legal bases
+    intro: 'Depending on the service and your location, we process personal data because:'
+    bullets:
+    - It is necessary to provide the service you requested
+    - You have given consent
+    - We must comply with a legal or regulatory obligation
+    - Processing is necessary to protect you, another person or the platform
+    - We or a partner have a legitimate interest that does not override your rights
+    - Processing is necessary to establish, exercise or defend a legal claim
+    closing: >-
+      You may withdraw consent where processing depends on consent. Withdrawal does not affect processing that was
+      lawful before withdrawal.
+  - id: sharing
+    heading: 7. How information is shared
+    subsections:
+    - heading: Members of your group
+      intro: 'Group members and authorised leaders may see information required for group transparency, such as:'
+      bullets:
+      - Your name or approved member identifier
+      - Contribution status
+      - Amount attributed to your group record
+      - Group role
+      - Approvals and votes
+      closing: >-
+        Your private identity documents, business records and credit-readiness documents are not automatically visible
+        to other members.
+    - heading: Banks and financial institutions
+      intro: 'We may share information with a partner bank when you:'
+      bullets:
+      - Open or link an account
+      - Contribute to bank-held savings
+      - Request a collateral arrangement
+      - Apply for credit
+      - Authorise a bank-ready file handoff
+      - Use a repayment service
+      closing: The bank independently determines its KYC, eligibility, credit and retention requirements.
+    - heading: Insurers
+      body: >-
+        We share relevant information when you request a quotation, policy, premium-finance arrangement or claims
+        support.
+    - heading: Professional service providers
+      body: >-
+        At your request, we may coordinate accountants, notaries, valuers, tax advisers, lawyers, business-plan
+        specialists and registration providers.
+    - heading: Technology and operational providers
+      intro: 'We may use providers supporting:'
+      bullets:
+      - Cloud hosting
+      - Communications
+      - Payment technology
+      - Identity verification
+      - Security and fraud prevention
+      - Analytics
+      - Document storage
+      - Customer support
+      closing: Providers may only use information according to their contract and applicable law.
+    - heading: Regulators and public authorities
+      body: >-
+        We may disclose data where legally required, including for regulatory supervision, fraud prevention, law
+        enforcement, court orders or protection of legal rights.
+    - heading: Business transfers
+      body: >-
+        If IKANISA is restructured, merged, financed or sold, relevant data may be transferred subject to confidentiality,
+        lawful processing and notice requirements.
+  - id: international-transfers
+    heading: 8. International transfers
+    body:
+    - >-
+      Collect may operate across Rwanda, Malta, the European Economic Area, the United Kingdom, Canada, the United
+      States and other jurisdictions.
+    - >-
+      Where information is stored or transferred outside your country, we use appropriate legal, contractual, organisational
+      and technical safeguards. Where required, we seek regulatory authorisation and use approved data-transfer
+      arrangements.
+    subprocessor_link: "/subprocessors"
+  - id: ai
+    heading: 9. AI and automated processing
+    intro: 'Collect may use artificial intelligence to:'
+    bullets:
+    - Guide application intake
+    - Map lender requirements
+    - Extract or organise document information
+    - Identify missing or inconsistent information
+    - Generate a preparation checklist
+    - Prepare a draft application summary
+    - Support fraud and security monitoring
+    not_final_decision_for:
+    - Approve or reject a loan
+    - Set final loan pricing
+    - Approve or reject an insurance claim
+    - Issue an insurance policy
+    closing: >-
+      Final lending decisions remain with the partner lender. Insurance decisions remain with the licensed insurer.
+      You may request human support, challenge inaccurate information and ask for correction of your records.
+    recommended_trust_commitment_subject_to_technical_confirmation: Collect does not use customers’ private financial
+      documents to train publicly available AI models.
+  - id: retention
+    heading: 10. How long we retain information
+    intro: 'We keep personal data only for as long as needed to:'
+    bullets:
+    - Operate your account and requested services
+    - Maintain accurate group and transaction records
+    - Meet KYC, AML, accounting, tax and regulatory requirements
+    - Prevent fraud and protect security
+    - Resolve disputes
+    - Establish or defend legal claims
+    - Enforce agreements
+    closing: >-
+      Retention periods may differ by data type and partner. When a retention period ends, information is securely
+      deleted, destroyed or irreversibly anonymised. Some records may be retained after account deletion where required
+      by law, contract, fraud-prevention requirements or an active legal dispute.
+  - id: rights
+    heading: 11. Your privacy rights
+    intro: 'Depending on applicable law, you may request to:'
+    bullets:
+    - Access personal data we hold about you
+    - Receive a copy of your data
+    - Correct inaccurate or incomplete information
+    - Export data in a structured format
+    - Object to certain processing
+    - Restrict processing
+    - Withdraw consent
+    - Stop direct marketing
+    - Request deletion
+    - Challenge a decision based solely on automated processing
+    - Ask who has received your data
+    - Complain to a data-protection authority
+    contact:
+      email: info@ikanisa.com
+      form: "/privacy-request"
+    closing: We may need to verify your identity before completing a request.
+  - id: account-and-data-deletion
+    heading: 12. Account deletion and data deletion
+    subsections:
+    - heading: Delete your account in the Collect app
+      steps:
+      - Open Collect
+      - Go to Profile
+      - Select Settings
+      - Select Privacy and Security
+      - Select Delete Account
+      - Review the consequences
+      - Verify your identity
+      - Confirm your request
+    - heading: Delete your account through the website
+      body: Use the public account-deletion page. You do not need to reinstall the app to submit a deletion request.
+      link: "/account-deletion"
+    - heading: What happens after a deletion request
+      bullets:
+      - We verify that the request comes from the account holder
+      - We explain any outstanding steps
+      - We restrict ordinary use of the account
+      - We delete or anonymise eligible personal data
+      - We notify relevant service providers where required
+      - We confirm completion
+      service_target: We aim to respond within 30 days or within the period required by applicable law.
+    - heading: What may need to happen first
+      bullets:
+      - Withdraw or transfer any available balance through the partner institution
+      - Resolve pending contributions or reversals
+      - Transfer a group-administrator role
+      - Complete or cancel an active credit-readiness handoff
+      - Address an unresolved dispute or fraud investigation
+    - heading: What account deletion does not do
+      bullets:
+      - Close a bank account
+      - Cancel a loan
+      - Remove a repayment obligation
+      - Cancel an insurance policy
+      - Cancel a subscription purchased through an app store
+      - Remove records held independently by a bank, insurer or payment provider
+    - heading: Data we may retain
+      bullets:
+      - Financial transaction and audit records
+      - KYC and AML obligations
+      - Accounting or tax compliance
+      - Fraud and security prevention
+      - Legal claims
+      - Regulatory reporting
+      - Protecting the rights of other group members
+      closing: >-
+        Where a ledger entry affects other members, the transaction record may remain while your profile is deleted,
+        restricted or de-identified as far as legally and technically possible. Deleted information may remain temporarily
+        in secured backups until those backups are overwritten under our backup schedule.
+  - id: security
+    heading: 13. Security and trust
+    intro: 'We use safeguards designed to protect personal data, including:'
+    bullets:
+    - Encryption in transit and at rest
+    - Role-based access controls
+    - Authentication and session controls
+    - Audit logs
+    - Secure development and testing
+    - Vendor due diligence
+    - Segregation of customer and operational data
+    - Incident monitoring and response
+    - Employee confidentiality and training
+    - Data minimisation
+    - Backup and recovery controls
+    risk_statement: >-
+      No technology system is completely risk-free. If a breach affects your rights or legally requires notification,
+      we will notify affected users and the appropriate authority.
+    trust_commitments:
+    - We do not sell personal data.
+    - We do not hold customer deposits on Collect’s balance sheet.
+    - We do not make final loan or insurance decisions.
+    - We explain when a partner will receive your information.
+    - We provide routes to access, correct and delete eligible data.
+    - We limit group-member visibility to information needed for group operation.
+    - We document important processing and partner access.
+  - id: cookies
+    heading: 14. Cookies and website analytics
+    intro: 'We may use:'
+    bullets:
+    - Essential cookies
+    - Security cookies
+    - Preference cookies
+    - Performance and analytics cookies
+    - Marketing cookies, where consent is required
+    closing: You can manage optional cookies through Cookie Settings. See the separate Cookie Policy.
+    link: "/cookies"
+  - id: children
+    heading: 15. Children
+    body: >-
+      Collect is not intended for people under the minimum age required by applicable law, except where a specific
+      youth product is lawfully offered with verified consent from a parent or guardian. We do not knowingly create
+      an ordinary financial account for a child without the required authorisation.
+  - id: marketing
+    heading: 16. Marketing
+    body: >-
+      You may opt out of marketing communications at any time by selecting Unsubscribe, changing app communication
+      settings or contacting info@ikanisa.com. We may still send essential security, transaction, policy or service
+      communications.
+  - id: changes
+    heading: 17. Changes to this Policy
+    body: >-
+      We may update this Policy as Collect, our partners or legal requirements change. Material changes will be
+      communicated through the app, website, email, SMS or another appropriate channel. The latest version will
+      always show its effective date.
+  - id: contact
+    heading: 18. Contact and complaints
+    details:
+      privacy_email: info@ikanisa.com
+    closing: You may also lodge a complaint with the competent data-protection authority.

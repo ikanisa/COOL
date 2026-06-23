@@ -1,0 +1,456 @@
+part of 'collect_financial_components.dart';
+
+class PaymentReviewSummary extends StatelessWidget {
+  const PaymentReviewSummary({
+    required this.amountRwf,
+    required this.groupTitle,
+    required this.receiverLabel,
+    required this.receiverMomoNumber,
+    this.onEdit,
+    super.key,
+  });
+
+  final int amountRwf;
+  final String groupTitle;
+  final String receiverLabel;
+  final String receiverMomoNumber;
+  final VoidCallback? onEdit;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return CollectCard(
+      emphasis: CollectCardEmphasis.hero,
+      padding: CollectSpacing.cardPaddingComfortable,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'Review contribution',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+              if (onEdit != null)
+                CollectButton(
+                  label: 'Edit',
+                  icon: CollectIcons.tune,
+                  onPressed: onEdit,
+                  variant: CollectButtonVariant.subtle,
+                ),
+            ],
+          ),
+          CollectSpacing.gap16,
+          Text(
+            formatRwf(amountRwf),
+            style: CollectTypography.amountDisplay(colors.textPrimary),
+          ),
+          CollectSpacing.gap20,
+          _ReviewLine(label: 'Group', value: groupTitle),
+          _ReviewLine(
+            label: 'MoMo',
+            value: maskMomoNumberForDisplay(receiverMomoNumber),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ReviewLine extends StatelessWidget {
+  const _ReviewLine({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x2),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 92,
+            child: Text(
+              label.toUpperCase(),
+              style: CollectTypography.eyebrowLabel(colors.textMuted),
+            ),
+          ),
+          Expanded(
+            child: SelectableText(
+              value,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PaymentIntentStatusCard extends StatelessWidget {
+  const PaymentIntentStatusCard({
+    required this.amountRwf,
+    required this.receiverLabel,
+    required this.receiverMomoNumber,
+    required this.status,
+    super.key,
+  });
+
+  final int amountRwf;
+  final String receiverLabel;
+  final String receiverMomoNumber;
+  final String status;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return CollectCard(
+      emphasis: CollectCardEmphasis.hero,
+      padding: CollectSpacing.cardPaddingComfortable,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AmountHero(amount: amountRwf, label: 'Payment amount'),
+          CollectSpacing.gap20,
+          Wrap(
+            spacing: CollectSpacing.x2,
+            runSpacing: CollectSpacing.x2,
+            children: [
+              CollectStatusChip(
+                label: paymentStatusLabel(status),
+                tone: paymentStatusTone(status),
+              ),
+            ],
+          ),
+          CollectSpacing.gap20,
+          Text(receiverLabel, style: Theme.of(context).textTheme.labelLarge),
+          CollectSpacing.gap4,
+          SelectableText(
+            maskMomoNumberForDisplay(receiverMomoNumber),
+            style: CollectTypography.amountLarge(colors.textPrimary),
+          ),
+          CollectSpacing.gap16,
+          const InfoSecurityBanner(
+            title: 'SMS verification',
+            message: 'Ledger updates after SMS.',
+            tone: CollectStatusTone.privacy,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PaymentPipelineIndicator extends StatelessWidget {
+  const PaymentPipelineIndicator({required this.status, super.key});
+
+  final String status;
+
+  @override
+  Widget build(BuildContext context) {
+    final activeStep = _pipelineStep(status);
+    const stages = [
+      (label: 'Start', icon: CollectIcons.pending),
+      (label: 'Check', icon: CollectIcons.sms),
+      (label: 'Done', icon: CollectIcons.ledger),
+    ];
+    return Semantics(
+      container: true,
+      explicitChildNodes: true,
+      label: 'Payment progress: ${paymentStatusLabel(status)}',
+      child: CollectCard(
+        emphasis: CollectCardEmphasis.flat,
+        padding: const EdgeInsets.all(CollectSpacing.x4),
+        child: Row(
+          children: [
+            for (var index = 0; index < stages.length; index++) ...[
+              Expanded(
+                child: _PipelineStage(
+                  label: stages[index].label,
+                  icon: stages[index].icon,
+                  complete: activeStep > index,
+                  current: activeStep == index,
+                ),
+              ),
+              if (index != stages.length - 1)
+                Expanded(child: _PipelineLine(active: activeStep > index + 1)),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PaymentVerifiedRing extends StatelessWidget {
+  const PaymentVerifiedRing({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return CollectCard(
+      padding: CollectSpacing.cardPaddingComfortable,
+      child: Column(
+        children: [
+          Container(
+            width: 96,
+            height: 96,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: colors.success, width: 6),
+              color: colors.statusBackground(CollectStatusTone.success),
+            ),
+            child: Icon(CollectIcons.check, color: colors.success, size: 42),
+          ),
+          CollectSpacing.gap20,
+          Text(
+            'Payment recorded',
+            style: Theme.of(context).textTheme.titleLarge,
+            textAlign: TextAlign.center,
+          ),
+          CollectSpacing.gap8,
+          Text(
+            'Ledger updated.',
+            style: Theme.of(context).textTheme.bodyMedium,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ReceiverConsentCard extends StatelessWidget {
+  const ReceiverConsentCard({
+    required this.flagsEnabled,
+    required this.consented,
+    required this.isSyncing,
+    required this.onConsentChanged,
+    required this.onSync,
+    super.key,
+  });
+
+  final bool flagsEnabled;
+  final bool consented;
+  final bool isSyncing;
+  final ValueChanged<bool>? onConsentChanged;
+  final VoidCallback? onSync;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return CollectCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Wrap(
+            spacing: CollectSpacing.x2,
+            runSpacing: CollectSpacing.x2,
+            children: [
+              CollectStatusChip(
+                label: flagsEnabled ? 'Enabled' : 'Off',
+                tone: flagsEnabled
+                    ? CollectStatusTone.success
+                    : CollectStatusTone.neutral,
+              ),
+              CollectStatusChip(
+                label: consented ? 'Active' : 'Required',
+                tone: consented
+                    ? CollectStatusTone.success
+                    : CollectStatusTone.warning,
+              ),
+            ],
+          ),
+          CollectSpacing.gap16,
+          const InfoSecurityBanner(
+            title: 'Consent',
+            message:
+                'Owner approval required. Private confirmation messages are used only for payment matching.',
+            tone: CollectStatusTone.privacy,
+          ),
+          CollectSpacing.gap16,
+          Material(
+            color: colors.transparent,
+            child: SwitchListTile.adaptive(
+              contentPadding: EdgeInsets.zero,
+              value: consented,
+              onChanged: flagsEnabled ? onConsentChanged : null,
+              title: const Text('Enable SMS app access'),
+              subtitle: const Text(
+                'Approved Android build and consent required.',
+              ),
+            ),
+          ),
+          CollectSpacing.gap12,
+          CollectButton(
+            label: isSyncing ? 'Syncing...' : 'Sync',
+            icon: CollectIcons.sync,
+            onPressed: flagsEnabled && consented && !isSyncing ? onSync : null,
+            variant: CollectButtonVariant.secondary,
+            expand: true,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+CollectStatusTone paymentStatusTone(String status) {
+  return switch (status) {
+    'matched' || 'confirmed' || 'paid' => CollectStatusTone.success,
+    'needs_review' || 'review' => CollectStatusTone.warning,
+    'expired' || 'failed' => CollectStatusTone.danger,
+    'pending' => CollectStatusTone.info,
+    _ => CollectStatusTone.neutral,
+  };
+}
+
+int _pipelineStep(String status) {
+  return switch (status) {
+    'matched' || 'confirmed' || 'paid' => 3,
+    'needs_review' || 'review' => 2,
+    'expired' || 'failed' => 1,
+    _ => 1,
+  };
+}
+
+class _PipelineStage extends StatelessWidget {
+  const _PipelineStage({
+    required this.label,
+    required this.icon,
+    required this.complete,
+    required this.current,
+  });
+
+  final String label;
+  final IconData icon;
+  final bool complete;
+  final bool current;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final tone = complete
+        ? CollectStatusTone.success
+        : current
+        ? CollectStatusTone.info
+        : CollectStatusTone.neutral;
+    final foreground = colors.statusForeground(tone);
+    final stateLabel = complete
+        ? 'complete'
+        : current
+        ? 'current'
+        : 'pending';
+    return Semantics(
+      container: true,
+      explicitChildNodes: true,
+      label: '$label step $stateLabel',
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: colors.statusBackground(tone),
+              border: Border.all(color: foreground.withValues(alpha: 0.26)),
+            ),
+            child: SizedBox.square(
+              dimension: 38,
+              child: Icon(
+                complete ? CollectIcons.check : icon,
+                color: foreground,
+              ),
+            ),
+          ),
+          CollectSpacing.gap8,
+          Text(
+            label,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              color: foreground,
+              fontWeight: FontWeight.w800,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PipelineLine extends StatelessWidget {
+  const _PipelineLine({required this.active});
+
+  final bool active;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 28),
+      child: Container(
+        height: 3,
+        decoration: BoxDecoration(
+          color: active
+              ? colors.success
+              : colors.border.withValues(alpha: 0.72),
+          borderRadius: CollectRadius.pillBorder,
+        ),
+      ),
+    );
+  }
+}
+
+String paymentStatusLabel(String status) {
+  return switch (status) {
+    'matched' => 'Matched',
+    'confirmed' || 'paid' => 'Confirmed',
+    'needs_review' || 'review' => 'Needs review',
+    'expired' => 'Expired',
+    'pending' => 'Pending',
+    _ => status.replaceAll('_', ' '),
+  };
+}
+
+CollectStatusTone statusToneFromText(String status) {
+  final normalized = status.toLowerCase();
+  if (normalized.contains('approved') ||
+      normalized.contains('allocated') ||
+      normalized.contains('matched') ||
+      normalized.contains('confirmed')) {
+    return CollectStatusTone.success;
+  }
+  if (normalized.contains('pending') ||
+      normalized.contains('review') ||
+      normalized.contains('requested')) {
+    return CollectStatusTone.warning;
+  }
+  if (normalized.contains('reject') ||
+      normalized.contains('danger') ||
+      normalized.contains('expired')) {
+    return CollectStatusTone.danger;
+  }
+  if (normalized.contains('private')) {
+    return CollectStatusTone.privacy;
+  }
+  return CollectStatusTone.neutral;
+}
+
+String maskMomoNumberForDisplay(String value) {
+  final trimmed = value.trim();
+  if (trimmed.isEmpty || trimmed == 'Not configured') return trimmed;
+  final localMomo = PhoneNormalizer.tryNormalizeMtnMomoLocal(trimmed);
+  if (localMomo != null) {
+    return '${localMomo.substring(0, 3)}***${localMomo.substring(6)}';
+  }
+  final digits = trimmed.replaceAll(RegExp(r'\D'), '');
+  if (digits.length < 4) return 'MoMo linked';
+  final suffix = digits.substring(digits.length - 4);
+  return '***$suffix';
+}

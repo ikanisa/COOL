@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-22T09:34:53Z",
+  "generated_at": "2026-06-23T20:20:14Z",
   "deployments": {
     "public_landing": {
       "provider": "cloudflare_workers_static_assets",
@@ -7,9 +7,9 @@
       "url": "https://collect.ikanisa.com",
       "deployment_url": "https://collect.ikanisa.com",
       "branch": "main",
-      "version_id": "2ca0058b-bd5f-4e21-9d20-5e0f93d38258",
+      "version_id": "f2dd3ba2-7b9a-4c7f-a716-e6dad057918d",
       "live_gate_status": "pass",
-      "evidence": "wrangler deploy --name collect-public --assets build/public_web --compatibility-date 2026-06-22 --message \"Restore all original Collect public pages\"; Current Version ID 2ca0058b-bd5f-4e21-9d20-5e0f93d38258. scripts/public_website_quality_gate.sh --json passed 32/32 and scripts/public_website_live_gate.sh --json passed 25/25 against https://collect.ikanisa.com. The live sitemap contains 17 absolute trailing-slash URLs with lastmod 2026-06-22, including restored original public routes /community-groups/, /insurance/, /craas/, and /our-partners/ plus audit aliases /protection/, /credit-readiness/, and /partners/. Every sitemap URL returns non-empty direct HTTP 200 content; no /rw/ or /fr/ URLs, localized hreflang, or localized OG locale metadata are advertised. Root HTML is English-only with lang=en and og:locale en_US. One-by-one live content checks passed for Group Savings, Diaspora, Insurance, CRaaS, Community Groups, Impact, Our Partners, Privacy, Account Deletion, Data Deletion, and Terms. Live metrics recorded root HTML 15234 bytes, CSS 12206 bytes, JS 377 bytes, critical first-party bytes 187480, and valid JSON-LD types Organization and SoftwareApplication. Browser screenshot automation timed out in this environment after deployment, so fresh screenshot evidence was not claimed for this restore pass. Remaining completion blockers are Google Search Console proof, Bing Webmaster proof or deferral, and Collect product proof or deferral."
+      "evidence": "wrangler deploy --name collect-public --assets build/public_web --compatibility-date 2026-06-23 --message \"Standardize public legal contact email to info@ikanisa.com\"; Current Version ID f2dd3ba2-7b9a-4c7f-a716-e6dad057918d. scripts/public_website_quality_gate.sh --json passed 34/34 locally. PUBLIC_WEBSITE_URL=https://collect.ikanisa.com scripts/public_website_live_gate.sh --json passed 26/26 against the custom domain. PUBLIC_WEBSITE_URL=https://collect.ikanisa.com PUBLIC_WEBSITE_EVIDENCE_DIR=output/public_website_evidence scripts/public_website_audit_evidence.sh passed. Focused live checks confirmed Privacy, Terms, Account deletion, Data deletion and Trust pages all return HTTP 200, expose only info@ikanisa.com, and contain no privacy@ikanisa.com, support@ikanisa.com, complaints@ikanisa.com, partnerships@ikanisa.com, or role-specific email labels. The live sitemap contains 16 absolute trailing-slash URLs with lastmod 2026-06-23 and excludes the retired /impact/ route. /impact/ returns HTTP 404. Root HTML is English-only with lang=en and og:locale en_US. Live metrics recorded root HTML 13360 bytes, critical CSS 27388 bytes, JS 377 bytes, critical first-party bytes 200788, and valid JSON-LD types Organization and SoftwareApplication."
     },
     "admin_pwa": {
       "provider": "cloudflare_workers_static_assets",

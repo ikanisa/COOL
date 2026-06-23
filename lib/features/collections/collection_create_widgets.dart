@@ -1,0 +1,421 @@
+part of 'collection_create_screen.dart';
+
+class _CreateGroupReview extends StatelessWidget {
+  const _CreateGroupReview({
+    required this.title,
+    required this.description,
+    required this.collectionType,
+    required this.receiver,
+    required this.accentColor,
+    required this.hasPhoto,
+    this.error,
+  });
+
+  final String title;
+  final String description;
+  final CollectionType collectionType;
+  final String receiver;
+  final Color accentColor;
+  final bool hasPhoto;
+  final String? error;
+
+  @override
+  Widget build(BuildContext context) {
+    return CollectCard(
+      emphasis: CollectCardEmphasis.glow,
+      accentColor: accentColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Review group', style: Theme.of(context).textTheme.titleLarge),
+          CollectSpacing.gap12,
+          CollectListTile(
+            leading: collectionTypeIcon(collectionType),
+            title: collectionType.label,
+            subtitle: collectionType.shortPurpose,
+          ),
+          CollectListTile(
+            leading: CollectIcons.collections,
+            title: title.isEmpty ? 'Group name missing' : title,
+            subtitle: description,
+          ),
+          CollectListTile(
+            leading: CollectIcons.momo,
+            title: receiver.isEmpty ? 'Receiver missing' : receiver,
+          ),
+          CollectListTile(
+            leading: CollectIcons.photo,
+            title: hasPhoto ? 'Group photo selected' : 'No group photo',
+          ),
+          if (error != null) ...[
+            CollectSpacing.gap12,
+            InfoSecurityBanner(
+              title: 'Create failed',
+              message: error!,
+              tone: CollectStatusTone.danger,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _CollectionTypeGrid extends StatelessWidget {
+  const _CollectionTypeGrid({required this.selected, required this.onChanged});
+
+  final CollectionType selected;
+  final ValueChanged<CollectionType> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return _MobileCreatePanel(
+      children: [
+        Text(
+          'Collection type',
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900),
+        ),
+        CollectSpacing.gap12,
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final columns = constraints.maxWidth < 340
+                ? 1
+                : constraints.maxWidth >= 560
+                ? 3
+                : 2;
+            return GridView.count(
+              crossAxisCount: columns,
+              crossAxisSpacing: CollectSpacing.x2,
+              mainAxisSpacing: CollectSpacing.x2,
+              childAspectRatio: columns == 1 ? 4.6 : 2.35,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                for (final type in CollectionType.values)
+                  _CollectionTypeOption(
+                    key: ValueKey('collection-type-${type.storageValue}'),
+                    type: type,
+                    selected: selected == type,
+                    onTap: () => onChanged(type),
+                  ),
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _CollectionTypeOption extends StatelessWidget {
+  const _CollectionTypeOption({
+    required this.type,
+    required this.selected,
+    required this.onTap,
+    super.key,
+  });
+
+  final CollectionType type;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final borderColor = selected
+        ? colors.actionColor
+        : colors.textPrimary.withValues(alpha: 0.12);
+    final fill = selected
+        ? Color.alphaBlend(
+            colors.actionColor.withValues(alpha: 0.12),
+            colors.surfaceRaised,
+          )
+        : colors.surfaceRaised;
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: '${type.label} collection type',
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: CollectRadius.mdBorder,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: fill,
+            borderRadius: CollectRadius.mdBorder,
+            border: Border.all(color: borderColor),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(CollectSpacing.x3),
+            child: Row(
+              children: [
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: colors.actionColor.withValues(alpha: 0.12),
+                    borderRadius: CollectRadius.smBorder,
+                  ),
+                  child: SizedBox.square(
+                    dimension: 42,
+                    child: Icon(collectionTypeIcon(type), size: 22),
+                  ),
+                ),
+                CollectSpacing.gapW12,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        type.label,
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w900,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      CollectSpacing.gap4,
+                      Text(
+                        type.createPrompt,
+                        style: Theme.of(context).textTheme.bodySmall,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                if (selected) ...[
+                  CollectSpacing.gapW12,
+                  Icon(CollectIcons.check, color: colors.actionColor),
+                ],
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+String _defaultCategorySubtype(CollectionType type) {
+  return switch (type) {
+    CollectionType.ikimina => 'group_savings',
+    CollectionType.sport => 'fan_club',
+    CollectionType.church => 'offering',
+    CollectionType.wedding => 'committee',
+    CollectionType.other => 'custom',
+  };
+}
+
+class _GroupColorPalette extends StatelessWidget {
+  const _GroupColorPalette({
+    required this.selectedHex,
+    required this.onChanged,
+  });
+
+  final String selectedHex;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Group color', style: Theme.of(context).textTheme.labelLarge),
+        CollectSpacing.gap8,
+        Wrap(
+          spacing: CollectSpacing.x2,
+          runSpacing: CollectSpacing.x2,
+          children: [
+            for (final option in CollectColors.brandPrimaryOptions)
+              _ColorSwatchButton(
+                option: option,
+                selected: selectedHex == option.hex,
+                onTap: () => onChanged(option.hex),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _CreateGroupPhotoRow extends StatelessWidget {
+  const _CreateGroupPhotoRow({
+    required this.title,
+    required this.accentColor,
+    required this.imageBytes,
+    required this.onPick,
+    this.onRemove,
+  });
+
+  final String title;
+  final Color accentColor;
+  final Uint8List? imageBytes;
+  final VoidCallback onPick;
+  final VoidCallback? onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final displayTitle = title.isEmpty ? 'Group image' : title;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(24),
+            child: SizedBox.square(
+              dimension: 82,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          accentColor.withValues(alpha: 0.52),
+                          colors.glassPanel.withValues(alpha: 0.76),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                    ),
+                  ),
+                  if (imageBytes != null)
+                    Image.memory(imageBytes!, fit: BoxFit.cover)
+                  else
+                    Icon(
+                      CollectIcons.photo,
+                      color: colors.onImagePrimary,
+                      size: 30,
+                    ),
+                ],
+              ),
+            ),
+          ),
+          CollectSpacing.gapW16,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  displayTitle,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.w900,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                CollectSpacing.gap4,
+                Text(
+                  imageBytes == null
+                      ? 'Optional group photo'
+                      : 'Photo selected',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          IconButton.filledTonal(
+            tooltip: imageBytes == null ? 'Add photo' : 'Change photo',
+            onPressed: onPick,
+            icon: const Icon(CollectIcons.photo),
+          ),
+          if (onRemove != null) ...[
+            CollectSpacing.gapW8,
+            IconButton.filledTonal(
+              tooltip: 'Remove photo',
+              onPressed: onRemove,
+              icon: const Icon(Icons.close_rounded),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _MobileCreatePanel extends StatelessWidget {
+  const _MobileCreatePanel({required this.children, this.error});
+
+  final List<Widget> children;
+  final String? error;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2),
+      child: Column(
+        children: [
+          for (var index = 0; index < children.length; index += 1) ...[
+            children[index],
+            if (index != children.length - 1) CollectSpacing.gap12,
+          ],
+          if (error != null) ...[
+            CollectSpacing.gap12,
+            InfoSecurityBanner(
+              title: 'Create failed',
+              message: error!,
+              tone: CollectStatusTone.danger,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+String? _mimeTypeFromName(String name) {
+  final lower = name.toLowerCase();
+  if (lower.endsWith('.png')) return 'image/png';
+  if (lower.endsWith('.webp')) return 'image/webp';
+  if (lower.endsWith('.gif')) return 'image/gif';
+  if (lower.endsWith('.heic') || lower.endsWith('.heif')) return 'image/heic';
+  if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) return 'image/jpeg';
+  return null;
+}
+
+class _ColorSwatchButton extends StatelessWidget {
+  const _ColorSwatchButton({
+    required this.option,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final CollectPaletteOption option;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final selectedForeground = option.color.computeLuminance() > 0.72
+        ? colors.textPrimary
+        : colors.onAccent;
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: 'Group color ${option.hex}',
+      child: Material(
+        color: option.color,
+        shape: const CircleBorder(),
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onTap,
+          child: SizedBox(
+            width: 40,
+            height: 40,
+            child: selected
+                ? Icon(CollectIcons.check, size: 20, color: selectedForeground)
+                : null,
+          ),
+        ),
+      ),
+    );
+  }
+}

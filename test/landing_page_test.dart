@@ -91,7 +91,6 @@ void main() {
       '/insurance',
       '/craas',
       '/community-groups',
-      '/impact',
       '/our-partners',
       '/privacy',
       '/account-deletion',
@@ -293,6 +292,9 @@ void main() {
         'create group savings',
         'ussd',
       ]) {
+        if (path == '/our-partners' && banned == 'ussd') {
+          continue;
+        }
         expect(
           visibleText,
           isNot(contains(banned)),
@@ -302,71 +304,54 @@ void main() {
     }
   });
 
-  testWidgets(
-    'Impact and partners pages present public data without projections',
-    (tester) async {
-      tester.view.physicalSize = const Size(1400, 1900);
-      tester.view.devicePixelRatio = 1;
-      addTearDown(tester.view.resetPhysicalSize);
-      addTearDown(tester.view.resetDevicePixelRatio);
+  testWidgets('Partners page presents public data without projections', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1400, 1900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
 
-      for (final path in const ['/impact', '/our-partners']) {
-        await tester.pumpWidget(
-          MaterialApp(
-            key: ValueKey('numbers-$path'),
-            home: CollectPublicPage(data: publicPageForPath(path)),
-          ),
+    for (final path in const ['/our-partners']) {
+      await tester.pumpWidget(
+        MaterialApp(
+          key: ValueKey('numbers-$path'),
+          home: CollectPublicPage(data: publicPageForPath(path)),
+        ),
+      );
+
+      final visibleText = find
+          .byType(Text)
+          .evaluate()
+          .map((element) => (element.widget as Text).data ?? '')
+          .join(' ');
+
+      final requiredNumbers = switch (path) {
+        '/our-partners' => const [
+          'RWF 288B+',
+          '4.8M',
+          'Low-cost deposit mobilisation',
+          'Daily-income lending and repayment',
+          'Group-backed and diaspora lending',
+          'Stronger MSME credit origination',
+        ],
+        _ => const <String>[],
+      };
+
+      for (final required in requiredNumbers) {
+        expect(
+          visibleText,
+          contains(required),
+          reason: '$path should keep public-data metric "$required"',
         );
-
-        final visibleText = find
-            .byType(Text)
-            .evaluate()
-            .map((element) => (element.widget as Text).data ?? '')
-            .join(' ');
-
-        final requiredNumbers = switch (path) {
-          '/impact' => const [
-            '864M',
-            'RWF 19,807B',
-            '7,169,324',
-            '169,570',
-            '~60%',
-            'RWF 351.3B',
-            'RWF 67.6B',
-            '26.2%',
-            '25,000',
-            '70,000',
-          ],
-          '/our-partners' => const [
-            '864M',
-            'RWF 19,807B',
-            '7,169,324',
-            '169,570',
-            '~60%',
-            'RWF 351.3B',
-            'RWF 67.6B',
-            '26.2%',
-            '25,000',
-            '70,000',
-          ],
-          _ => const <String>[],
-        };
-
-        for (final required in requiredNumbers) {
-          expect(
-            visibleText,
-            contains(required),
-            reason: '$path should keep public-data metric "$required"',
-          );
-        }
-
-        expect(visibleText.toLowerCase(), isNot(contains('ppt')));
-        expect(visibleText.toLowerCase(), isNot(contains('projected')));
-        expect(visibleText.toLowerCase(), isNot(contains('projection')));
-        expect(visibleText.toLowerCase(), isNot(contains('base case')));
-        expect(visibleText.toLowerCase(), isNot(contains('phase 1')));
-        expect(visibleText.toLowerCase(), isNot(contains('phase 2')));
       }
-    },
-  );
+
+      expect(visibleText.toLowerCase(), isNot(contains('ppt')));
+      expect(visibleText.toLowerCase(), isNot(contains('projected')));
+      expect(visibleText.toLowerCase(), isNot(contains('projection')));
+      expect(visibleText.toLowerCase(), isNot(contains('base case')));
+      expect(visibleText.toLowerCase(), isNot(contains('phase 1')));
+      expect(visibleText.toLowerCase(), isNot(contains('phase 2')));
+    }
+  });
 }

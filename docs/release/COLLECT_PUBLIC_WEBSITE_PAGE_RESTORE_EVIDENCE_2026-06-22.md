@@ -19,7 +19,6 @@ website generator without reintroducing `/rw/` or `/fr/` routes.
 | Insurance | `https://collect.ikanisa.com/insurance/` | `Protection and premium flow`, `Protection at the point of saving`, `Prepare for premiums`, `Simple product language`. |
 | CRaaS | `https://collect.ikanisa.com/craas/` | `From inquiry to bank-ready file`, `Prepare before asking for credit`, `Use Collect records as proof`, `Human support to complete the file`. |
 | Community Groups | `https://collect.ikanisa.com/community-groups/` | `What the app enables for a group`, `Member app`, `Leader support`, `Trusted group support`. |
-| Impact | `https://collect.ikanisa.com/impact/` | `Impact chain`, `Insurance market with a concrete renewal problem`, `Moto-taxi customers are a visible distribution base`, `70,000`. |
 | Our Partners | `https://collect.ikanisa.com/our-partners/` | `Partner value chain`, `Banks and deposit partners`, `Mobile-money and agent networks`, `Moto-taxi associations`. |
 | Privacy | `https://collect.ikanisa.com/privacy/` | `Information we collect`, `Camera or image inputs`, `Collect does not sell customer personal data`, `Customer choices and contact`. |
 | Account Deletion | `https://collect.ikanisa.com/account-deletion/` | `What happens next`, `Open groups or payment issues may need resolution first`, `Records we may retain`. |

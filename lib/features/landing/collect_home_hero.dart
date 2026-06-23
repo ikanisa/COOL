@@ -185,7 +185,6 @@ class _NavLinks extends StatelessWidget {
       ('Insurance', '/insurance'),
       ('CRaaS', '/craas'),
       ('Community Groups', '/community-groups'),
-      ('Impact', '/impact'),
       ('Our Partners', '/our-partners'),
     ];
     return LayoutBuilder(
@@ -227,7 +226,6 @@ class _CompactPublicLinks extends StatelessWidget {
       ('Insurance', '/insurance'),
       ('CRaaS', '/craas'),
       ('Community Groups', '/community-groups'),
-      ('Impact', '/impact'),
       ('Our Partners', '/our-partners'),
     ];
     return SingleChildScrollView(

@@ -62,7 +62,6 @@ Required public routes:
 - `/credit-readiness/` or retained `/craas/`
 - `/protection/` or retained `/insurance/`
 - `/partners/` or retained `/our-partners/`
-- `/impact/`
 - `/trust/` or `/security/`
 - `/privacy/`
 - `/terms/`

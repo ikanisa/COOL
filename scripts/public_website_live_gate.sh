@@ -52,12 +52,12 @@ end
 
 required_routes = {
   "/" => ["Microsavings and group savings for daily earners", "People earn daily. Finance still works monthly."],
-  "/privacy/" => ["Privacy Policy", "Data Deletion", "Account deletion request"],
-  "/terms/" => ["Terms"],
-  "/account-deletion/" => ["Account Deletion"],
-  "/data-deletion/" => ["Data Deletion"],
-  "/trust/" => ["Trust", "deletion"],
-  "/security/" => ["Trust", "deletion"],
+  "/privacy/" => ["Privacy Policy", "Your data. Your choice. Your financial journey."],
+  "/terms/" => ["Terms of Use", "Clear rules for using Collect."],
+  "/account-deletion/" => ["Delete Your Collect Account", "Delete your Collect account."],
+  "/data-deletion/" => ["Data Deletion", "Data deletion and retention"],
+  "/trust/" => ["Trust", "Security and trust"],
+  "/security/" => ["Trust", "Security and trust"],
   "/sitemap.xml" => ["credit-readiness", "privacy", "trust"],
   "/robots.txt" => ["Allow: /", "Sitemap:"],
 }
@@ -269,18 +269,18 @@ check(
     root_body.include?("site.js") &&
     site_js.fetch(:body).include?("window.location.hash === '#/privacy'") &&
     privacy.fetch(:response).code.to_i == 200 &&
-    privacy_text.include?("Privacy Policy and Data Deletion"),
+    privacy_text.include?("Privacy Policy"),
   "Live root supports /#/privacy users by redirecting to the canonical privacy route.",
 )
 
 check(
   checks,
   "policy_deletion_content",
-  privacy_text.include?("Collect does not sell customer personal data") &&
-    privacy_text.include?("Account deletion request") &&
-    privacy_text.include?("WhatsApp: +250 795 588 248") &&
-    !privacy_text.include?("Email:") &&
-    !privacy_text.include?("mailto:"),
+  privacy_text.include?("We do not sell personal data") &&
+    privacy_text.include?("Account deletion and data deletion") &&
+    privacy_text.include?("info@ikanisa.com") &&
+    !privacy_text.match?(/\b(?:privacy|support|complaints|partnerships)@ikanisa\.com\b/) &&
+    !privacy_text.match?(/\[[A-Za-z][A-Za-z ]+\]/),
   "Live privacy route contains deletion and support contact content.",
 )
 
@@ -370,11 +370,11 @@ check(
   { "localized_live_markers" => localized_live_markers.select { |_key, value| value } },
 )
 
-mobile_css_ok = styles_text.include?("@media (max-width: 980px)") &&
+mobile_css_ok = styles_text.match?(/@media\s*\(\s*max-width\s*:\s*980px\s*\)/) &&
   styles_text.include?(".site-nav.open") &&
-  styles_text.include?("position: absolute") &&
-  styles_text.include?("@media (max-width: 560px)") &&
-  styles_text.include?("overflow: visible")
+  styles_text.match?(/position\s*:\s*absolute/) &&
+  styles_text.match?(/@media\s*\(\s*max-width\s*:\s*560px\s*\)/) &&
+  styles_text.match?(/overflow\s*:\s*visible/)
 check(
   checks,
   "mobile_nav_css",

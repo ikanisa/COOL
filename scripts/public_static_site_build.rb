@@ -5,6 +5,7 @@ require "cgi"
 require "fileutils"
 require "json"
 require "time"
+require "yaml"
 
 ROOT = File.expand_path("..", __dir__)
 BUILD_DIR = File.expand_path(ENV.fetch("PUBLIC_BUILD_DIR", "build/public_web"), ROOT)
@@ -19,6 +20,11 @@ QR_ASSET = "assets/brand/generated/collect_visual_qr_share.png"
 ICON_ASSET = "assets/brand/generated/collect_app_icon_rule.png"
 INDEXNOW_KEY = ENV.fetch("PUBLIC_INDEXNOW_KEY", "").strip
 INDEXNOW_KEY_PATTERN = /\A[A-Za-z0-9-]{8,128}\z/
+LEGAL_CONTENT_DIR = File.join(ROOT, "content/legal")
+LEGAL_BUNDLE = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_legal_pages_bundle.yaml"))
+LEGAL_PRIVACY = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_privacy_policy.yaml")).fetch("page")
+LEGAL_TERMS = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_terms_of_use.yaml")).fetch("page")
+LEGAL_DELETE_ACCOUNT = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_delete_account.yaml")).fetch("page")
 
 PRIMARY_NAV = [
   ["Group Savings", "/group-savings/"],
@@ -26,7 +32,6 @@ PRIMARY_NAV = [
   ["Insurance", "/insurance/"],
   ["CRaaS", "/craas/"],
   ["Community Groups", "/community-groups/"],
-  ["Impact", "/impact/"],
   ["Our Partners", "/our-partners/"]
 ].freeze
 
@@ -56,7 +61,6 @@ PAGES = [
     path: "/group-savings/",
     title: "Group Savings | Collect by IKANISA",
     description: "Digitise group savings contributions, give every member a clear record, and grow accumulated group capital that financial institutions can understand.",
-    eyebrow: "Group Savings",
     h1: "Your group already has trust. Collect adds structure.",
     intro: "Digitise contributions, give every member a clear record and grow accumulated group capital that financial institutions can understand.",
     start_heading: "Give every contribution a clear purpose and a trusted record.",
@@ -67,9 +71,9 @@ PAGES = [
   {
     path: "/diaspora/",
     title: "Diaspora Savings | Collect by IKANISA",
-    description: "Diaspora groups can organize savings records and prepare information for Rwanda-focused discussions.",
-    h1: "Diaspora group savings records",
-    intro: "Diaspora groups can organize savings records and prepare information for Rwanda-focused discussions.",
+    description: "Collect enables diaspora groups to save through a bank in the host country. The bank holds the savings and lends to members against the pooled group savings as collateral.",
+    h1: "Group savings that strengthens access to bank credit",
+    intro: "Collect enables diaspora groups to save through a bank in the host country. The bank holds the savings and lends to members against the pooled group savings as collateral.",
     asset: QR_ASSET,
     nav_label: "Diaspora",
     summary_label: "Diaspora group records",
@@ -78,20 +82,23 @@ PAGES = [
       ["Preparation", "Rwanda discussions"]
     ],
     infographic: {
-      title: "Diaspora savings pathway",
-      body: "Save across borders with clearer rules and records.",
+      title: "Diaspora is not immune to financial exclusion",
+      body: "",
       steps: [
-        ["Form the group", "Members agree roles, rules and saving objectives."],
-        ["Track contributions", "Savings history is organized into readable group records."],
-        ["Prepare information", "Members keep the records needed for discussion and support."],
-        ["Discuss next steps", "Any financial-service decision remains with the relevant provider."]
+        ["Mobility and recovery risk", "Host-country banks may fear that a borrower could relocate or return to Rwanda before fully repaying a loan, making recovery and enforcement more difficult."],
+        ["Thin or no host-country credit history", "Credit history built in Rwanda is generally not portable, while newer migrants may not yet have enough local borrowing history or credit-score depth."],
+        ["Informal or unstable employment", "Temporary, gig, part-time, self-employed and variable-income work may not meet a bank's preference for permanent contracts and predictable monthly income."],
+        ["Insufficient acceptable security", "Individual applicants may lack locally recognised collateral, guarantees or pledged deposits that the host-country bank can control."]
       ]
     },
+    sections_heading: "How the diaspora use Collect",
     sections: [
-      ["Diaspora group structure", "Give members a shared record before decisions are made.", ["Rules and roles", "Member balances", "Contribution statements"]],
-      ["Readable contribution history", "Keep savings activity easier to review and explain.", ["Group records", "Member summaries", "Support notes"]],
-      ["Rwanda-focused preparation", "Prepare cleaner information for future Rwanda discussions.", ["Purpose notes", "Member requests", "Supporting records"]],
-      ["Clear communication", "Keep members aligned with fewer side conversations.", ["Member visibility", "Support channel", "Request-ready records"]]
+      ["Create a savings group", "Members agree on purpose, contribution amount, leadership and rules.", []],
+      ["Save regularly", "Members contribute through Collect into the host-country partner bank.", []],
+      ["Build the group pool", "Contributions accumulate while Collect maintains the group ledger.", []],
+      ["Agree the collateral rules", "An approved share of the pool may be pledged or ring-fenced for loan.", []],
+      ["Apply for credit", "A member submits an individual loan application to the host-country partner bank.", []],
+      ["Local Investment and Capital flow", "Borrow at low interest rates and invest Rwandan properties or Start-Ups.", []]
     ]
   },
   {
@@ -99,8 +106,8 @@ PAGES = [
     aliases: ["/protection/"],
     title: "Insurance | Collect by IKANISA",
     description: "Collect can help organize insurance-related records where approved providers are involved.",
-    h1: "Insurance record support",
-    intro: "Collect can help organize insurance-related records where approved providers are involved.",
+    h1: "Protection that fits how people earn.",
+    intro: "Collect works with licensed insurers to design simple protection products, flexible premium micro-payments and transparent claims journeys for informal and variable-income communities.",
     asset: MOMO_ASSET,
     nav_label: "Insurance",
     summary_label: "Insurance support records",
@@ -109,29 +116,32 @@ PAGES = [
       ["Providers", "Final decisions"]
     ],
     infographic: {
-      title: "Insurance support workflow",
-      body: "Keep customer records clearer when an approved provider is involved.",
+      title: "Why current insurance misses informal earners",
+      body: "Annual risks cannot always be funded with one large annual payment. Informal earners may understand the need for insurance but struggle with premiums and processes designed around regular monthly salaries. Insurers also face high costs when collecting many small payments and servicing customers outside traditional channels.",
       steps: [
-        ["Customer request", "Understand the insurance-related question."],
-        ["Record support", "Organize relevant customer and group records."],
-        ["Provider review", "Approved providers review under their own rules."],
-        ["Support follow-up", "IKANISA support helps customers understand next steps."]
+        ["Premiums do not match daily cash flow", ""],
+        ["Policies are difficult to understand", ""],
+        ["Insurance access is concentrated in formal channels", ""],
+        ["Small payments are costly to collect", ""],
+        ["Claims processes can weaken trust", ""],
+        ["Credit is exposed when income stops", ""]
       ]
     },
+    sections_heading: "Protection products",
     sections: [
-      ["Organize insurance-related records", "Keep relevant customer, group and contribution details easier to review.", ["Customer details", "Contribution history", "Support notes"]],
-      ["Support approved provider workflows", "Collect supports records and communication; providers remain responsible for product decisions.", ["Provider review", "Customer follow-up", "Decision boundaries"]],
-      ["Avoid unclear promises", "The website does not say IKANISA issues policies or pays insurance benefits.", ["Records only", "Provider decisions", "WhatsApp support"]],
-      ["Cleaner customer support", "Keep the savings and insurance-support context together when customers ask questions.", ["Member records", "Support history", "Clear next steps"]]
+      ["Income Protection", "A short-term benefit may be paid when a covered member experiences a verified interruption of income.", []],
+      ["Credit Life Protection", "An eligible outstanding partner-loan balance may be settled following the covered borrower's death or permanent disability.", []],
+      ["Credit Repayment Protection", "Scheduled repayments may be covered for a defined period following a verified temporary loss or interruption of income.", []],
+      ["Group Savings Protection", "Scheduled contribution may be covered for a defined period following a verified temporary loss or interruption of income.", []]
     ]
   },
   {
     path: "/craas/",
     aliases: ["/credit-readiness/"],
     title: "CRaaS | Collect by IKANISA",
-    description: "Collect helps customers organize documents, contribution history, and request summaries before a provider review.",
-    h1: "Credit Readiness as a Service",
-    intro: "Collect helps customers organize documents, contribution history, and request summaries before a provider review.",
+    description: "Helps businesses understand requirements, identify gaps, coordinate specialist services and prepare and submit a structured complete loan application file to the bank.",
+    h1: "From loan inquiry to bank-ready file.",
+    intro: "Helps businesses understand requirements, identify gaps, coordinate specialist services and prepare and submit a structured complete loan application file to the bank.",
     asset: MOMO_ASSET,
     nav_label: "CRaaS",
     summary_label: "Credit-readiness service",
@@ -140,28 +150,46 @@ PAGES = [
       ["Provider", "Final decision"]
     ],
     infographic: {
-      title: "From inquiry to support file",
-      body: "Turn customer activity into a cleaner readiness file.",
+      title: "Payment access is widespread. Loan preparation support is not. The missing credit-service infrastructure",
+      body: "Small businesses often need finance but do not know exactly what a bank requires. Many lack structured records, cash-flow forecasts, collateral evidence or the corporate documentation needed to complete a strong loan file. Preparation services are fragmented. Business owners may have to visit accountants, notaries, tax advisers, valuers, insurers and legal or registration specialists separately, adding cost, time and uncertainty before a bank can begin detailed review.",
       steps: [
-        ["Inquiry", "Understand the customer need."],
-        ["File support", "Organize records and missing items."],
-        ["Readiness notes", "Prepare a clear customer summary."],
-        ["Provider review", "Credit decisions remain with the financial provider."]
+        ["What businesses face", [
+          "Unclear lender and product requirements",
+          "Missing or expired documents",
+          "Weak business and cash-flow records",
+          "Incomplete collateral evidence",
+          "Expensive professional preparation services",
+          "Repeated bank follow-up",
+          "Long turnaround times",
+          "Rejection before full credit analysis begins"
+        ]],
+        ["What banks face", [
+          "Incomplete files",
+          "Repeated relationship-manager follow-up",
+          "Inconsistent applicant quality",
+          "Manual document checking",
+          "Weak pre-credit information",
+          "Delayed analyst review",
+          "High cost of small-business origination"
+        ]]
       ]
     },
+    sections_heading: "How CRaaS works",
     sections: [
-      ["Prepare before asking for credit", "Organize the customer story before the credit conversation.", ["Customer profile", "Loan purpose", "Missing-document support"]],
-      ["Use Collect records as proof", "Show discipline through real saving and group records.", ["Savings discipline", "Group participation", "Protection context"]],
-      ["Human support to complete the file", "Help customers close gaps before they submit.", ["Checklist support", "Customer summary", "WhatsApp help"]],
-      ["Clear next step", "Prepare a cleaner file for review.", ["Organized records", "Customer summary", "Provider decision"]]
+      ["Loan inquiry", "The business states the financing need, amount, purpose and repayment.", []],
+      ["Collect intake", "Captures the business profile and explains the preparation process.", []],
+      ["Requirement mapping", "The request is matched to relevant bank and product requirements.", []],
+      ["Document preparation", "Collect guides and supports on preparation of required documents.", []],
+      ["Service coordination", "Collect coordinates corporate and admin processes and specialist services.", []],
+      ["Bank-ready packaging", "The completed application is indexed and prepared for final bank review.", []]
     ]
   },
   {
     path: "/community-groups/",
     title: "Community Groups | Collect by IKANISA",
-    description: "A mobile app for trusted groups that save, contribute and support members.",
-    h1: "Community groups as distribution infrastructure",
-    intro: "A mobile app for trusted groups that save, contribute and support members.",
+    description: "Collect equips trusted groups with digital tools while preserving the relationships, leadership and governance that already make them work.",
+    h1: "Finance works better when communities lead.",
+    intro: "Collect equips trusted groups with digital tools while preserving the relationships, leadership and governance that already make them work.",
     asset: BRAND_ASSET,
     nav_label: "Community Groups",
     summary_label: "Mobile group operations",
@@ -171,169 +199,149 @@ PAGES = [
     ],
     infographic: {
       title: "What the app enables for a group",
-      body: "Give trusted groups a simple mobile operating layer.",
+      body: "",
       steps: [
-        ["Join", "Enter the group from a link or QR code."],
-        ["Save", "Contribute and follow the group record."],
-        ["Track", "See member activity and progress."],
-        ["Support", "Get help without exposing private data."]
+        ["For group leaders", [
+          "Create and manage groups",
+          "Define contribution rules",
+          "Assign leadership roles",
+          "Review member activity",
+          "Track missed contributions",
+          "Produce transparent statements",
+          "Communicate with members"
+        ]],
+        ["For members", [
+          "Contribute through app or USSD",
+          "Receive proof of each contribution",
+          "View personal and group progress",
+          "Understand group rules",
+          "Build a verified contribution history",
+          "Access to bank credit and insurance"
+        ]]
       ]
     },
+    sections_heading: "Community use cases",
     sections: [
-      ["Member app", "A simple place to join, contribute and follow progress.", ["Join groups", "Track contributions", "Use Collect ID"]],
-      ["Leader support", "Give group leaders cleaner records for meetings and follow-up.", ["Member activity", "Group sharing", "Meeting records"]],
-      ["Member journey", "Reduce confusion after a member contributes.", ["Join", "Contribute", "Follow status"]],
-      ["Trusted group support", "Use groups as trusted channels for saving and support.", ["Local trust", "Customer help", "Reusable records"]]
-    ]
-  },
-  {
-    path: "/impact/",
-    title: "Impact | Collect by IKANISA",
-    description: "Impact content for Collect is limited to source-backed public facts and customer-facing outcomes.",
-    h1: "Impact through clearer savings records",
-    intro: "Collect describes impact through customer-facing outcomes and source-backed public facts only.",
-    asset: BRAND_ASSET,
-    nav_label: "Impact",
-    summary_label: "Source-backed public facts",
-    metrics: [
-      ["Records", "Group visibility"],
-      ["Files", "Better prepared requests"]
+      ["Moto-taxi groups", "Save toward insurance, taxes, licensing and green-mobility assets.", []],
+      ["Agricultural cooperatives", "Accumulate capital for inputs, equipment, storage and working capital.", []],
+      ["Women and youth groups", "Build verified savings histories and access structured business-readiness support.", []],
+      ["MSME associations", "Prepare members for business loans and coordinate professional services.", []],
+      ["Diaspora associations", "Create partner-bank-linked group savings and eligible collateral arrangements.", []]
     ],
-    infographic: {
-      title: "Impact chain",
-      body: "Collect keeps public impact claims tied to sourced facts and customer-facing outcomes.",
-      steps: [
-        ["Group records", "Cleaner contribution histories."],
-        ["Support files", "Better prepared customer requests."],
-        ["Provider boundaries", "Credit and insurance decisions remain with providers."],
-        ["Source register", "Public numbers require separate source evidence."]
-      ]
-    },
-    sections: [
-      ["Cleaner group records", "Savings groups can keep clearer member and contribution records.", ["Member histories", "Treasurer visibility", "Meeting-ready statements"]],
-      ["Better prepared support requests", "Customers can organize documents, contribution history and request summaries before review.", ["Customer summary", "Contribution history", "Missing-item checklist"]],
-      ["Careful public claims", "Published numbers require a source register before they appear on the website.", ["Public source URL", "Source owner and date", "Exact approved wording"]],
-      ["Decision boundaries", "Collect prepares records and support files. Providers make financial-service decisions under their own rules.", ["Credit provider review", "Approved insurance provider review", "WhatsApp support"]]
+    supported_groups_heading: "Collect supports community groups",
+    supported_groups: [
+      "Ibimina",
+      "Cooperatives",
+      "Trade and business associations",
+      "Agricultural groups",
+      "Women-led groups",
+      "Youth savings groups",
+      "Religious and neighbourhood associations",
+      "Employer and professional groups",
+      "Diaspora associations",
+      "Family savings groups"
     ]
   },
   {
     path: "/our-partners/",
     aliases: ["/partners/"],
     title: "Our Partners | Collect by IKANISA",
-    description: "Collect works with approved organizations that need clearer savings-group records and customer support files.",
-    h1: "Our Partners",
-    intro: "Collect works with approved organizations that need clearer savings-group records and customer support files.",
+    description: "Collect helps banks convert existing informal savings discipline into formal deposits, reliable data and bankable credit relationships.",
+    h1: "The Banking Opportunity",
+    intro: "These customers already earn, save and borrow. The opportunity is to convert their existing financial discipline into formal deposits, reliable data and bankable credit relationships.",
     asset: MOMO_ASSET,
     nav_label: "Our Partners",
-    summary_label: "Partner support model",
+    summary_label: "Banking opportunity",
     metrics: [
-      ["Records", "Customer preparation"],
-      ["Support", "WhatsApp inquiries"]
+      ["RWF 288B+", "Annual ibimina savings flow"],
+      ["4.8M", "Informal and group savers"]
     ],
     infographic: {
-      title: "Partner support workflow",
-      body: "The public website names no partner discussions unless separately approved.",
+      title: "Bank growth workflow",
+      body: "Convert existing savings discipline into formal deposits, reliable data and bankable credit relationships.",
       steps: [
-        ["Customer need", "A group or customer asks for support."],
-        ["Collect records", "Contribution history and request context are organized."],
-        ["Provider review", "The relevant organization reviews under its own rules."],
-        ["Support follow-up", "IKANISA helps with questions and next steps."]
+        ["Mobilise deposits", "Bring daily and group savings into clearer bank-linked records."],
+        ["Build data", "Turn contribution history into repayment and credit-readiness signals."],
+        ["Prepare credit", "Package MSME and group-backed files for formal bank review."],
+        ["Grow relationships", "Support deposits, lending and diaspora banking under bank approval."]
       ]
     },
     sections: [
-      ["Financial-service providers", "Collect can help customers prepare clearer records before a provider review.", ["Contribution history", "Customer summary", "Provider decision boundary"]],
-      ["Cooperatives and savings groups", "Groups can use Collect to keep member activity and contribution records easier to review.", ["Group setup", "Member records", "Treasurer visibility"]],
-      ["Community organizations", "Organizations can direct customers to the app and WhatsApp support for questions.", ["Public app download", "WhatsApp inquiries", "Support follow-up"]],
-      ["Careful partner claims", "The website does not publish partner names, discussions or regulatory claims without separate approval.", ["No unapproved names", "No discussion claims", "Source-backed wording only"]]
+      ["Low-cost deposit mobilisation", "Reach millions of informal savers through existing ibimina, cooperatives and community networks.", ["Mobile app and USSD access", "Member and group accounts", "Purpose-based savings", "Automated ledger reconciliation"]],
+      ["Daily-income lending and repayment", "Collect helps banks design loans around how customers actually earn rather than forcing daily earners into a monthly salary model.", ["Daily or periodic micro-repayments", "Up to 365 repayment data points per borrower annually", "Earlier visibility of repayment stress", "More accurate portfolio monitoring"]],
+      ["Group-backed and diaspora lending", "Verified group savings can provide an additional risk-control layer for eligible lending, including diaspora savings-to-credit models subject to bank policy and approval.", ["Bank-held savings collateral", "Group accountability", "Contribution history", "Purpose-controlled disbursement"]],
+      ["Stronger MSME credit origination", "Collect Credit Readiness-as-a-Service prepares applicants before formal bank review so credit teams receive more complete, structured and decision-ready MSME files.", ["Requirement mapping", "Business-document checklist", "Gap closure before bank review", "Cleaner applicant summary"]]
     ]
   },
   {
     path: "/trust/",
     aliases: ["/security/"],
     title: "Trust and Security | Collect by IKANISA",
-    description: "How Collect handles records, privacy, deletion, support, and careful fintech claims.",
-    h1: "Trust starts with clear records and careful claims",
-    intro: "Collect keeps contribution records, support paths, and data-handling boundaries visible. Public product, partner, regulator, credit, and insurance claims are made only when approved.",
+    description: "How Collect protects personal data, supports privacy rights, and explains data, AI, partner and deletion boundaries.",
+    h1: "Security and trust",
+    intro: "Collect uses safeguards designed to protect personal data and gives customers clear routes to access, correct and delete eligible data.",
     asset: QR_ASSET,
-    sections: [
-      ["Data minimization", "Collect uses identity, contact, Collect ID, group, contribution, payment reference, customer choice, and support data only for the service and requested workflows."],
-      ["Deletion and correction", "Customers can request account deletion, data deletion, or correction through the app or WhatsApp after ownership verification."],
-      ["Dispute and support path", "IKANISA support can review account, group, contribution, and payment-reference questions through approved support channels."],
-      ["Provider decisions", "Collect prepares records. Credit, insurance, and provider decisions remain with the relevant provider under their own rules."]
-    ]
+    legal_key: :trust,
+    sections: []
   },
   {
     path: "/privacy/",
-    title: "Privacy Policy and Data Deletion | Collect by IKANISA",
-    description: "How Collect handles customer information, account deletion requests, and data deletion requests.",
-    h1: "Privacy Policy and Data Deletion",
-    intro: "Collect protects customer information with clear customer choices, limited access, practical safeguards, and account and data deletion request paths for savings, support, credit-readiness and insurance journeys.",
+    title: LEGAL_PRIVACY.dig("seo", "title"),
+    description: LEGAL_PRIVACY.dig("seo", "description"),
+    eyebrow: LEGAL_PRIVACY.dig("hero", "eyebrow"),
+    h1: LEGAL_PRIVACY.dig("hero", "headline"),
+    intro: LEGAL_PRIVACY.dig("hero", "supporting_copy"),
     asset: QR_ASSET,
-    nav_label: "Privacy Policy",
+    nav_label: LEGAL_PRIVACY.fetch("title"),
     summary_label: "Customer information",
     metrics: [
       ["Choice", "Customer control"],
       ["Delete", "Request path"]
     ],
-    sections: [
-      ["Information we collect", "Collect may collect information needed to create and support an account, operate savings groups, keep contribution records, verify support requests, and prepare customer-requested credit-readiness or insurance records.", ["Identity, contact, Collect ID and account details provided by the customer", "Group membership, roles, rules, contribution activity and payout records", "Payment references, support messages, service choices and service notifications", "Camera or image inputs only when a customer uses a QR, support, or evidence feature"]],
-      ["How information is used", "Customer information is used to operate Collect, maintain group records, support savings workflows, prepare records customers request, protect accounts, prevent misuse, and respond to customer support or deletion requests.", ["Operate app, WhatsApp, support and group workflows", "Prepare savings, contribution, credit-readiness and insurance support records", "Protect accounts, prevent misuse, investigate disputes and support recovery", "Improve reliability, customer support and service quality"]],
-      ["Sharing and service providers", "Collect does not sell customer personal data. Information may be shared only when needed to operate the service, support customer requests, process payment or support workflows, meet legal obligations, or work with service providers under appropriate controls.", ["Payment, messaging, hosting, analytics, security and support service providers", "Banks, insurers, cooperatives, group leaders or partners only when required for a customer-requested workflow", "Authorities, auditors or dispute handlers where legally required"]],
-      ["Security and retention", "Collect uses access controls, transport security and operational safeguards to protect customer information. Records are kept only as long as needed for the service, customer support, security, audit, dispute, payment reconciliation, tax, legal or regulatory reasons.", ["Data is protected in transit and access is limited by role", "Raw sensitive records are minimized where possible", "Ledger, security, dispute, payment and legal records may be retained where required"]],
-      ["Account deletion request", "Customers can request deletion of their Collect account and associated account data from inside the app or from this public web resource without reinstalling the app.", ["In app: Settings, then account deletion request", "WhatsApp: +250 795 588 248 with the phone number or Collect ID connected to the account", "IKANISA may verify account ownership before processing the request"]],
-      ["Data deletion and correction request", "Customers can also ask IKANISA to delete or correct personal data that is no longer needed for Collect. When an app account is deleted, associated user data is deleted unless limited retention is required for legitimate security, fraud-prevention, ledger, dispute, payment, audit, tax, legal or regulatory reasons.", ["Request deletion or correction by app or WhatsApp", "Support reviews open groups, unresolved payments and required records", "Support can confirm request status and explain retained record categories"]],
-      ["Customer choices and contact", "Customers can ask privacy questions, request access, correction, account deletion or data deletion, and get support through IKANISA contact channels.", ["WhatsApp: +250 795 588 248", "Website: https://collect.ikanisa.com/#/privacy"]]
-    ]
+    legal_key: :privacy,
+    sections: []
   },
   {
     path: "/terms/",
-    title: "Terms of Service | Collect by IKANISA",
-    description: "How customers use Collect services.",
-    h1: "Terms of Service",
-    intro: "These terms explain how customers use Collect for group savings, contribution records, credit-readiness support, insurance-related support records and customer service.",
+    title: LEGAL_TERMS.dig("seo", "title"),
+    description: LEGAL_TERMS.dig("seo", "description"),
+    eyebrow: LEGAL_TERMS.dig("hero", "eyebrow"),
+    h1: LEGAL_TERMS.dig("hero", "headline"),
+    intro: LEGAL_TERMS.dig("hero", "supporting_copy"),
     asset: BRAND_ASSET,
-    nav_label: "Terms of Service",
+    nav_label: LEGAL_TERMS.fetch("title"),
     summary_label: "Service terms",
     metrics: [
       ["Customer", "Service terms"],
       ["Clear", "Group rules"]
     ],
-    sections: [
-      ["Using Collect", "Customers are responsible for providing accurate information, following their group rules and using Collect only for lawful savings, contribution and support activities.", ["Keep account and group information accurate", "Use app and WhatsApp channels responsibly", "Follow savings group rules approved by members"]],
-      ["Savings, credit-readiness and insurance support", "Collect helps customers keep records, organize group savings, prepare credit-readiness files and organize insurance-related support records. Final credit decisions remain with the chosen credit provider.", ["Collect records contributions and group activity", "CRaaS prepares customer files before provider review", "Insurance-related records support customer questions"]],
-      ["Support and contact", "Customers can contact IKANISA on WhatsApp for group savings setup, account support, questions or inquiries about these terms.", ["WhatsApp: +250 795 588 248", "Support for group savings setup"]]
-    ]
+    legal_key: :terms,
+    sections: []
   },
   {
     path: "/account-deletion/",
-    title: "Account Deletion | Collect by IKANISA",
-    description: "Request account deletion from Collect.",
-    h1: "Account Deletion",
-    intro: "Collect customers can request account deletion from the app or by contacting IKANISA support.",
+    title: LEGAL_DELETE_ACCOUNT.dig("seo", "title"),
+    description: LEGAL_DELETE_ACCOUNT.dig("seo", "description"),
+    eyebrow: LEGAL_DELETE_ACCOUNT.dig("hero", "eyebrow"),
+    h1: LEGAL_DELETE_ACCOUNT.dig("hero", "headline"),
+    intro: LEGAL_DELETE_ACCOUNT.dig("hero", "supporting_copy"),
     asset: QR_ASSET,
-    nav_label: "Account Deletion",
+    nav_label: "Account deletion",
     summary_label: "Account deletion",
     metrics: [
       ["Request", "Customer control"],
       ["Review", "Required records"]
     ],
-    infographic: {
-      title: "Customer deletion request",
-      body: "Request deletion in app or through IKANISA support.",
-      steps: []
-    },
-    sections: [
-      ["How to request deletion", "Open Collect settings and use the account deletion request option, or contact IKANISA support on WhatsApp if you cannot access the app.", ["In app: Settings, then account deletion request", "WhatsApp: +250 795 588 248"]],
-      ["What happens next", "Support reviews the request, verifies account ownership where needed and starts deletion for account data that is no longer required to provide the service.", ["Access and profile data are reviewed", "Open groups or payment issues may need resolution first", "Support can confirm request status"]],
-      ["Records we may retain", "Some ledger, security, dispute, payment and legal records may be retained where required for audit, fraud prevention, customer support or legal compliance.", ["Savings ledger records needed for group accountability", "Security and abuse-prevention records", "Legal, tax, audit or dispute records"]]
-    ]
+    legal_key: :account_deletion,
+    sections: []
   },
   {
     path: "/data-deletion/",
     title: "Data Deletion | Collect by IKANISA",
-    description: "Ask IKANISA to delete or correct Collect personal data that is no longer needed for the service.",
-    h1: "Data Deletion",
-    intro: "Customers can ask IKANISA to delete or correct personal data that is no longer needed for Collect.",
+    description: "Request deletion or anonymisation of eligible Collect personal data and understand what records may be retained.",
+    eyebrow: "ACCOUNT AND DATA DELETION",
+    h1: "Data deletion and retention",
+    intro: "You may request deletion of eligible personal data. Some records may be retained where required by law or necessary for security, fraud prevention, disputes, regulatory compliance, or ledger integrity.",
     asset: BRAND_ASSET,
     nav_label: "Data Deletion",
     summary_label: "Data deletion",
@@ -341,16 +349,8 @@ PAGES = [
       ["Data", "Deletion request"],
       ["Support", "Customer review"]
     ],
-    infographic: {
-      title: "Data deletion request",
-      body: "Ask support to delete or correct data that is no longer needed.",
-      steps: []
-    },
-    sections: [
-      ["Submit a data deletion request", "Use the in-app account deletion request, or contact IKANISA support on WhatsApp with the phone number or Collect ID connected to your account.", ["In app: Settings, then account deletion request", "WhatsApp: +250 795 588 248"]],
-      ["Data covered by the request", "Requests may cover profile details, support messages, service choices and other account data that Collect no longer needs to operate the service.", ["Account and contact details", "Support and service records", "Service data no longer needed for active groups"]],
-      ["Limited retention", "Collect may retain limited records where needed for audit, group ledger integrity, security, disputes, payment reconciliation or legal obligations.", ["Ledger records needed by groups", "Fraud prevention and security records", "Legal, tax, audit or dispute records"]]
-    ]
+    legal_key: :data_deletion,
+    sections: []
   }
 ].freeze
 
@@ -439,17 +439,277 @@ def sections_html(sections)
   end.join
 end
 
+def legal_content_for(page)
+  case page[:legal_key]
+  when :privacy
+    LEGAL_PRIVACY
+  when :terms
+    LEGAL_TERMS
+  when :account_deletion
+    LEGAL_DELETE_ACCOUNT
+  when :data_deletion
+    {
+      "title" => "Data Deletion",
+      "important_notice" => LEGAL_DELETE_ACCOUNT["important_notice"],
+      "sections" => [
+        privacy_section("account-and-data-deletion"),
+        keyed_section("What happens next", LEGAL_DELETE_ACCOUNT["what_happens_next"]),
+        keyed_section("Data we may retain", LEGAL_DELETE_ACCOUNT["data_we_may_retain"]),
+        keyed_section("Products provided by partners", LEGAL_DELETE_ACCOUNT["partner_products"]),
+        keyed_section("Need help?", LEGAL_DELETE_ACCOUNT["contact"])
+      ].compact
+    }
+  when :trust
+    {
+      "title" => "Trust and Security",
+      "privacy_at_a_glance" => LEGAL_PRIVACY["privacy_at_a_glance"],
+      "sections" => [
+        privacy_section("security"),
+        privacy_section("ai"),
+        privacy_section("sharing"),
+        privacy_section("retention"),
+        privacy_section("rights")
+      ].compact
+    }
+  end
+end
+
+def privacy_section(id)
+  Array(LEGAL_PRIVACY["sections"]).find { |section| section["id"] == id }
+end
+
+def keyed_section(heading, content)
+  return nil unless content.is_a?(Hash)
+
+  content.merge("heading" => heading)
+end
+
+def legal_label(key)
+  key.to_s.tr("_", " ").split.map(&:capitalize).join(" ")
+end
+
+def legal_value_html(value)
+  case value
+  when String, Numeric
+    text = value.to_s.strip
+    return "" if text.empty?
+
+    %(<p>#{esc(text)}</p>)
+  when Array
+    legal_array_html(value)
+  when Hash
+    legal_hash_html(value)
+  else
+    ""
+  end
+end
+
+def legal_array_html(items)
+  items = Array(items).compact
+  return "" if items.empty?
+
+  if items.all? { |item| item.is_a?(String) || item.is_a?(Numeric) }
+    %(<ul class="bullet-list">#{items.map { |item| %(<li>#{esc(item)}</li>) }.join}</ul>)
+  else
+    %(<div class="legal-card-grid">#{items.map { |item| legal_hash_card_html(item) }.join}</div>)
+  end
+end
+
+def legal_hash_card_html(item)
+  return %(<article class="legal-card">#{legal_value_html(item)}</article>) unless item.is_a?(Hash)
+
+  title = item["title"] || item["heading"] || item["label"] || item["name"]
+  body_parts = item.reject { |key, _| %w[id title heading label name type required options].include?(key.to_s) }
+  <<~HTML
+    <article class="legal-card">
+      #{title ? %(<h3>#{esc(title)}</h3>) : ""}
+      #{body_parts.map { |key, value| legal_named_value_html(key, value) }.join}
+    </article>
+  HTML
+end
+
+def legal_hash_html(hash)
+  details = hash.select { |_key, value| value.is_a?(String) || value.is_a?(Numeric) }
+  nested = hash.reject { |key, value| details.key?(key) || %w[id].include?(key.to_s) || legal_internal_key?(key) || value.nil? || value.respond_to?(:empty?) && value.empty? }
+  <<~HTML
+    #{legal_details_html(details)}
+    #{nested.map { |key, value| legal_named_value_html(key, value) }.join}
+  HTML
+end
+
+def legal_details_html(details)
+  seen = {}
+  rows = details.reject { |key, value| legal_internal_key?(key) || value.to_s.strip.empty? }.filter_map do |key, value|
+    label = legal_contact_key?(key) ? "Email" : legal_label(key)
+    dedupe_key = [label, value.to_s.strip]
+    next if seen[dedupe_key]
+
+    seen[dedupe_key] = true
+    %(<dt>#{esc(label)}</dt><dd>#{esc(value)}</dd>)
+  end
+  return "" if rows.empty?
+
+  %(<dl class="legal-details">#{rows.join}</dl>)
+end
+
+def legal_contact_key?(key)
+  %w[email privacy_email support_email general_support privacy complaints partnerships].include?(key.to_s)
+end
+
+def legal_named_value_html(key, value)
+  return "" if legal_internal_key?(key) || value.nil? || value.respond_to?(:empty?) && value.empty?
+  return %(<p><strong>Email:</strong> #{esc(value)}</p>) if legal_contact_key?(key) && !value.is_a?(Hash) && !value.is_a?(Array)
+
+  case key.to_s
+  when "heading"
+    ""
+  when "body"
+    Array(value).map { |item| %(<p>#{esc(item)}</p>) }.join
+  when "intro", "closing", "risk_statement", "trust_statement", "important_notice",
+       "service_target", "copy", "clarification", "zero_fee_clarification",
+       "non_exclusion", "priority_rule"
+    %(<p>#{esc(value)}</p>)
+  when "details", "contact"
+    legal_details_html(value)
+  when "bullets", "steps", "uses", "not_final_decision_for", "additional_terms_may_include",
+       "availability_may_be_limited_by", "collect_does_not_guarantee",
+       "member_obligations", "group_leader_obligations", "transaction_may_remain_subject_to",
+       "collect_may_support", "credit_readiness_is_not", "providers_may_include",
+       "pre_acceptance_information", "partner_lender_controls", "insurer_controls",
+       "where_available", "fees_may_include", "acceptable_use", "may_apply_to",
+       "request_channels", "before_deletion_you_may_need_to", "deletion_does_not_cancel",
+       "availability_may_be_affected_by", "not_constitute",
+       "to_extent_permitted_collect_not_responsible_for", "updates_may_reflect",
+       "trust_commitments"
+    legal_array_html(value)
+  when "subsections"
+    Array(value).map { |section| legal_section_html(section) }.join
+  when "links"
+    legal_links_html(value)
+  when "path"
+    %(<p><span class="legal-path">#{esc(value)}</span></p>)
+  when "fields"
+    legal_form_fields_html(value)
+  else
+    if value.is_a?(Array)
+      %(<h3>#{esc(legal_label(key))}</h3>#{legal_array_html(value)})
+    elsif value.is_a?(Hash)
+      %(<h3>#{esc(legal_label(key))}</h3>#{legal_hash_html(value)})
+    else
+      %(<p><strong>#{esc(legal_label(key))}:</strong> #{esc(value)}</p>)
+    end
+  end
+end
+
+def legal_internal_key?(key)
+  %w[id slug seo hero legal_review_note must_be_finalised_for].include?(key.to_s)
+end
+
+def legal_links_html(links)
+  items = links.map do |label, href|
+    normalized = href.to_s == "/delete-account" ? "/account-deletion/" : href.to_s
+    linkable = ["/privacy", "/privacy/", "/terms", "/terms/", "/account-deletion", "/account-deletion/", "/data-deletion", "/data-deletion/", "/trust", "/trust/"].include?(normalized)
+    href_display = normalized.end_with?("/") ? normalized : "#{normalized}/"
+    content = linkable ? %(<a href="#{href_display}">#{esc(legal_label(label))}</a>) : esc(legal_label(label))
+    %(<li>#{content}</li>)
+  end
+  %(<ul class="bullet-list">#{items.join}</ul>)
+end
+
+def legal_form_fields_html(fields)
+  cards = Array(fields).map do |field|
+    label = field["label"] || legal_label(field["name"])
+    required = field["required"] ? "Required" : "Optional"
+    options = Array(field["options"])
+    <<~HTML
+      <article class="legal-card">
+        <h3>#{esc(label)}</h3>
+        <p>#{esc(required)} field.</p>
+        #{options.empty? ? "" : legal_array_html(options)}
+      </article>
+    HTML
+  end.join
+  %(<div class="legal-card-grid">#{cards}</div>)
+end
+
+def legal_section_html(section)
+  return "" unless section.is_a?(Hash)
+
+  heading = section["heading"] || section["title"] || legal_label(section["id"])
+  body = section.reject { |key, _| %w[id heading title].include?(key.to_s) }
+  seen_contact_values = {}
+  body = body.reject do |key, value|
+    next false unless legal_contact_key?(key)
+
+    contact_value = value.to_s.strip
+    duplicate = seen_contact_values[contact_value]
+    seen_contact_values[contact_value] = true
+    duplicate
+  end
+  <<~HTML
+    <article class="legal-section">
+      <h2>#{esc(heading)}</h2>
+      #{body.map { |key, value| legal_named_value_html(key, value) }.join}
+    </article>
+  HTML
+end
+
+def legal_page_html(page)
+  content = legal_content_for(page)
+  return "" unless content
+
+  meta = []
+  meta << "Effective date: #{content["effective_date"]}" if content["effective_date"]
+  meta << "Last updated: #{content["last_updated"]}" if content["last_updated"]
+  top_keys = content.reject { |key, _| %w[id slug seo hero title sections].include?(key.to_s) || legal_internal_key?(key) }
+  <<~HTML
+    <section class="legal-content" aria-label="#{esc(content["title"] || page[:h1])}">
+      #{meta.empty? ? "" : %(<p class="legal-meta">#{esc(meta.join(" · "))}</p>)}
+      #{top_keys.map { |key, value| legal_named_value_html(key, value) }.join}
+      #{Array(content["sections"]).map { |section| legal_section_html(section) }.join}
+    </section>
+  HTML
+end
+
+def supported_groups_html(page)
+  groups = Array(page[:supported_groups]).map { |group| group.to_s.strip }.reject(&:empty?)
+  return "" if groups.empty?
+
+  cards = groups.each_with_index.map do |group, index|
+    tone = (index % 4) + 1
+    %(<article class="supported-group-card supported-group-card-#{tone}"><strong>#{esc(group)}</strong></article>)
+  end.join
+
+  <<~HTML
+    <section class="supported-groups-section" aria-labelledby="supported-groups-heading">
+      <h2 id="supported-groups-heading">#{esc(page[:supported_groups_heading] || "Collect supports community groups")}</h2>
+      <div class="supported-groups-grid">
+        #{cards}
+      </div>
+    </section>
+  HTML
+end
+
 def infographic_html(page)
   infographic = page[:infographic]
   return "" unless infographic
 
   steps = Array(infographic[:steps])
+  body = infographic[:body].to_s.strip
+  body_html = body.empty? ? "" : %(<p>#{esc(body)}</p>)
   step_cards = steps.each_with_index.map do |(title, body), index|
+    step_body_html = if body.is_a?(Array)
+      items = body.map { |item| item.to_s.strip }.reject(&:empty?)
+      items.empty? ? "" : %(<ul>#{items.map { |item| %(<li>#{esc(item)}</li>) }.join}</ul>)
+    else
+      step_body = body.to_s.strip
+      step_body.empty? ? "" : %(<p>#{esc(step_body)}</p>)
+    end
     %(
       <article class="infographic-step">
         <span class="section-number">#{format("%02d", index + 1)}</span>
         <h3>#{esc(title)}</h3>
-        <p>#{esc(body)}</p>
+        #{step_body_html}
       </article>
     )
   end.join
@@ -457,9 +717,8 @@ def infographic_html(page)
   <<~HTML
     <section class="infographic-band" aria-labelledby="infographic-heading">
       <div class="infographic-copy">
-        <p class="section-kicker">Workflow</p>
         <h2 id="infographic-heading">#{esc(infographic[:title])}</h2>
-        <p>#{esc(infographic[:body])}</p>
+        #{body_html}
       </div>
       #{steps.empty? ? "" : %(<div class="infographic-grid">#{step_cards}</div>)}
     </section>
@@ -607,7 +866,7 @@ def group_savings_page_html
 
     <section class="group-accumulation-section" aria-labelledby="group-accumulation-heading">
       <div class="story-copy">
-        <h2 id="group-accumulation-heading">Keep the trust. Grow the capital.</h2>
+        <h2 id="group-accumulation-heading">From rotation to accumulation, keep the trust, grow the capital.</h2>
       </div>
       <div class="accumulation-panel">
         <p>Traditional rotational groups help members access a periodic lump sum, but the group capital is repeatedly distributed and depleted. Collect allows groups to add an accumulating model in which savings remain visible and can support shared goals, collateral arrangements and longer-term investment.</p>
@@ -618,10 +877,328 @@ def group_savings_page_html
 
     <section class="group-use-section" aria-labelledby="group-use-heading">
       <div class="story-copy">
-        <h2 id="group-use-heading">Group use cases</h2>
+        <h2 id="group-use-heading">Do more with your Group Savings</h2>
       </div>
       <div class="use-case-grid" aria-label="Group savings use cases">
         #{use_cases.map { |item| %(<article>#{esc(item)}</article>) }.join}
+      </div>
+    </section>
+  HTML
+end
+
+def diaspora_collect_changes_html
+  without_collect = [
+    "Individual borrower assessed without group support",
+    "Informal savings circle",
+    "Limited transaction evidence",
+    "Savings held outside the lending bank",
+    "No controlled collateral arrangement"
+  ]
+  with_collect = [
+    "Verified contribution history",
+    "Savings held by the potential lender",
+    "Agreed collateral structure",
+    "Group rules and accountability",
+    "Structured Rwanda investment support"
+  ]
+
+  <<~HTML
+    <section class="diaspora-change-section" aria-labelledby="diaspora-change-heading">
+      <div class="story-copy">
+        <h2 id="diaspora-change-heading">What Collect changes</h2>
+      </div>
+      <div class="change-compare-grid" aria-label="What Collect changes for diaspora groups">
+        <article>
+          <h3>Without Collect</h3>
+          <ul>
+            #{without_collect.map { |item| %(<li>#{esc(item)}</li>) }.join}
+          </ul>
+        </article>
+        <article>
+          <h3>With Collect and the partner bank</h3>
+          <ul>
+            #{with_collect.map { |item| %(<li>#{esc(item)}</li>) }.join}
+          </ul>
+        </article>
+      </div>
+    </section>
+  HTML
+end
+
+def insurance_page_html
+  how_steps = [
+    "Members see an eligible product in Collect.",
+    "Product terms, exclusions, price and insurer are displayed.",
+    "Premium is collected daily, or through a flexible schedule.",
+    "The member receives digital proof of cover.",
+    "Collect supports claim notification and evidence collection.",
+    "The insurer makes the claims decision and pays the valid claim."
+  ]
+
+  <<~HTML
+    <section class="insurance-work-section" aria-labelledby="insurance-work-heading">
+      <div class="story-copy">
+        <h2 id="insurance-work-heading">How it works</h2>
+      </div>
+      <div class="insurance-step-grid" aria-label="Insurance product journey">
+        #{how_steps.each_with_index.map { |body, index| %(<article><span>#{format("%02d", index + 1)}</span><p>#{esc(body)}</p></article>) }.join}
+      </div>
+    </section>
+
+    <section class="insurance-finance-section" aria-labelledby="insurance-finance-heading">
+      <div class="story-copy">
+        <p class="section-kicker">Premium finance</p>
+        <h2 id="insurance-finance-heading">Protection should not lapse because today's balance is short.</h2>
+      </div>
+      <div class="premium-finance-panel">
+        <p>A partner bank may provide purpose-locked premium financing. Repayment can then be aligned with the member's normal micro-contribution pattern.</p>
+      </div>
+    </section>
+  HTML
+end
+
+def craas_page_html
+  specialist_services = [
+    "Accounting",
+    "Business plan",
+    "Tax advisory",
+    "Notaries",
+    "Legal services",
+    "Insurers",
+    "Collateral documents",
+    "Property valuation"
+  ]
+
+  bank_receives = [
+    "Business profile summary",
+    "Loan request summary",
+    "Product-specific checklist",
+    "Indexed document folder",
+    "Financial evidence summary",
+    "Repayment and cash-flow notes",
+    "KYC/KYB support file",
+    "Identified risks and mitigants",
+    "Readiness review",
+    "Draft credit memo and working note"
+  ]
+
+  business_benefits = [
+    "Clearer requirements",
+    "Less confusion",
+    "Fewer unnecessary visits",
+    "Better file quality",
+    "Greater confidence",
+    "Faster handoff to a lender"
+  ]
+
+  bank_benefits = [
+    "Cleaner application pipeline",
+    "Less administrative rework",
+    "More consistent files",
+    "Faster pre-credit preparation",
+    "Better productivity",
+    "Improved applicant experience"
+  ]
+
+  <<~HTML
+    <section class="craas-specialist-section" aria-labelledby="craas-specialist-heading">
+      <div class="story-copy">
+        <h2 id="craas-specialist-heading">Specialist support services</h2>
+      </div>
+      <div class="craas-service-grid" aria-label="Specialist support services">
+        #{specialist_services.map { |item| %(<article><strong>#{esc(item)}</strong></article>) }.join}
+      </div>
+    </section>
+
+    <section class="craas-bank-section" aria-labelledby="craas-bank-heading">
+      <div class="story-copy">
+        <h2 id="craas-bank-heading">What the bank receives</h2>
+      </div>
+      <div class="craas-list-panel">
+        <ul>
+          #{bank_receives.map { |item| %(<li>#{esc(item)}</li>) }.join}
+        </ul>
+      </div>
+    </section>
+
+    <section class="craas-benefits-section" aria-labelledby="craas-benefits-heading">
+      <div class="story-copy">
+        <h2 id="craas-benefits-heading">Benefits</h2>
+      </div>
+      <div class="craas-benefit-grid">
+        <article>
+          <h3>For businesses</h3>
+          <ul>
+            #{business_benefits.map { |item| %(<li>#{esc(item)}</li>) }.join}
+          </ul>
+        </article>
+        <article>
+          <h3>For banks</h3>
+          <ul>
+            #{bank_benefits.map { |item| %(<li>#{esc(item)}</li>) }.join}
+          </ul>
+        </article>
+      </div>
+    </section>
+  HTML
+end
+
+def partner_page_html
+  opportunity_metrics = [
+    ["RWF 288B+", "Annual ibimina savings flow"],
+    ["4.8M", "Informal and group savers"],
+    ["94,000", "Savings groups nationwide"],
+    ["90.4%", "Employment operating informally"]
+  ]
+
+  deposit_mobilisation = [
+    "Daily and periodic microsavings",
+    "Mobile app and USSD access",
+    "Member and group accounts",
+    "Purpose-based savings",
+    "Automated ledger reconciliation",
+    "National community mobilisation"
+  ]
+
+  daily_income_lending = [
+    "Daily or periodic micro-repayments",
+    "Up to 365 repayment data points per borrower annually",
+    "Automated split between repayment and savings",
+    "Reduced branch and collection-agent dependence",
+    "Earlier visibility of repayment stress",
+    "More accurate portfolio monitoring"
+  ]
+
+  group_diaspora_lending = [
+    "Bank-held savings collateral",
+    "Group accountability",
+    "Contribution history",
+    "Purpose-controlled disbursement",
+    "Daily repayment visibility",
+    "Credit-life or income-protection cover"
+  ]
+
+  msme_origination = [
+    "Initial eligibility and requirement mapping",
+    "Business-document and financial-record checklist",
+    "Contribution, savings and repayment-history packaging",
+    "Gap closure before formal bank review",
+    "Cleaner applicant summary for credit teams",
+    "Less rework between customer, adviser and bank"
+  ]
+
+  collect_provides = [
+    "USSD-enabled microsavings",
+    "Group creation and administration",
+    "Member and group ledgers",
+    "Transaction reconciliation",
+    "Statements and contribution records",
+    "Savings mobilisation support",
+    "Loan application preparation",
+    "Credit Readiness guide and support",
+    "Daily loan micro-repayment",
+    "Group savings collateral workflow",
+    "Diaspora group-savings infrastructure"
+  ]
+
+  bank_provides = [
+    "Regulated savings accounts and account operations",
+    "KYC, KYB and AML/CFT controls",
+    "Account and product approval",
+    "Collateral documentation",
+    "Credit assessment and pricing",
+    "Final loan approval",
+    "Loan disbursement",
+    "Collections and recovery",
+    "Regulatory reporting"
+  ]
+
+  bank_value = [
+    "Growth in low-cost deposits",
+    "New retail and MSME customers",
+    "Increased loan origination",
+    "Net interest income",
+    "Reduced pre-credit administration",
+    "Lower application rework",
+    "Daily repayment visibility",
+    "Insurance-premium financing",
+    "Green and productive-asset finance",
+    "Purpose-controlled loan disbursement",
+    "Stronger customer retention",
+    "New diaspora banking relationships"
+  ]
+
+  <<~HTML
+    <section class="partner-opportunity-section" aria-labelledby="partner-opportunity-heading">
+      <div class="story-copy">
+        <h2 id="partner-opportunity-heading">A large savings and credit market already exists, mostly outside formal banking.</h2>
+      </div>
+      <div class="partner-metric-grid" aria-label="Banking opportunity metrics">
+        #{opportunity_metrics.map { |value, label| %(<article><strong>#{esc(value)}</strong><span>#{esc(label)}</span></article>) }.join}
+      </div>
+    </section>
+
+    <section class="partner-market-section" aria-labelledby="partner-growth-heading">
+      <div class="story-copy">
+        <h2 id="partner-growth-heading">Growth Engines for Banks</h2>
+      </div>
+      <div class="partner-engine-grid" aria-label="Growth engines for partner banks">
+        <article>
+          <strong>Low-cost deposit mobilisation</strong>
+          <p>Reach millions of informal savers through existing ibimina, cooperatives and community networks.</p>
+          <ul>
+            #{deposit_mobilisation.map { |item| %(<li>#{esc(item)}</li>) }.join}
+          </ul>
+        </article>
+        <article>
+          <strong>Daily-income lending and repayment</strong>
+          <p>Monthly repayment structures often do not match informal-sector cash flow. Collect helps banks design loans around how customers actually earn rather than forcing daily earners into a monthly salary model.</p>
+          <ul>
+            #{daily_income_lending.map { |item| %(<li>#{esc(item)}</li>) }.join}
+          </ul>
+        </article>
+        <article>
+          <strong>Group-backed and diaspora lending</strong>
+          <p>Verified group savings can provide an additional risk-control layer for eligible lending. For diaspora banking, group savings can remain with the regulated country partner bank, with an agreed portion pledged for loans to eligible members subject to the bank's credit policy and approval.</p>
+          <ul>
+            #{group_diaspora_lending.map { |item| %(<li>#{esc(item)}</li>) }.join}
+          </ul>
+          <p>The addressable Rwandan diaspora market is 300,000+ people across Europe, the United Kingdom, North America and other corridors. Collect's diaspora proposition is a regulated-country-bank savings and secured-credit model.</p>
+        </article>
+        <article>
+          <strong>Stronger MSME credit origination</strong>
+          <p>Collect's Credit Readiness-as-a-Service prepares applicants before formal bank review, helping credit teams receive more complete, structured and decision-ready MSME files.</p>
+          <ul>
+            #{msme_origination.map { |item| %(<li>#{esc(item)}</li>) }.join}
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="partner-operating-section" aria-labelledby="partner-operating-heading">
+      <div class="story-copy">
+        <h2 id="partner-operating-heading">What each side brings</h2>
+      </div>
+      <div class="partner-operating-grid">
+        <article>
+          <h3>What Collect Provides</h3>
+          <ul>
+            #{collect_provides.map { |item| %(<li>#{esc(item)}</li>) }.join}
+          </ul>
+        </article>
+        <article>
+          <h3>What the Partner Bank Provides</h3>
+          <ul>
+            #{bank_provides.map { |item| %(<li>#{esc(item)}</li>) }.join}
+          </ul>
+        </article>
+        <article>
+          <h3>The Commercial Value to Banks</h3>
+          <p>Partner banks can generate value through:</p>
+          <ul>
+            #{bank_value.map { |item| %(<li>#{esc(item)}</li>) }.join}
+          </ul>
+        </article>
       </div>
     </section>
   HTML
@@ -642,7 +1219,6 @@ def hero_visual_html(page)
               <button class="download-button" aria-label="Export ledger statement"><i aria-hidden="true"></i></button>
             </div>
             <section class="statement-card">
-              <span>Group ledger</span>
               <strong>RayonSport Fan Club</strong>
               <small>June 2026 contribution ledger</small>
             </section>
@@ -676,17 +1252,15 @@ def hero_visual_html(page)
               <button class="chat-button" aria-label="Open WhatsApp support"><i aria-hidden="true"></i></button>
             </div>
             <section class="diaspora-card">
-              <span>Rwanda savings prep</span>
-              <strong>Family group record</strong>
-              <small>Contribution notes and support questions in one place.</small>
+              <strong>Paris Saving Group</strong>
             </section>
             <div class="app-segments" aria-label="Diaspora workflow tabs">
               <span class="active">Records</span><span>Members</span><span>Support</span>
             </div>
-            <div class="app-list" role="list" aria-label="Diaspora record checklist">
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>Group record</strong><small>Member contributions and rules</small></span><em>Ready</em></div>
-              <div role="listitem"><i class="app-dot"></i><span><strong>Rwanda plan</strong><small>Purpose and preparation notes</small></span><em>Draft</em></div>
-              <div role="listitem"><i class="app-dot support"></i><span><strong>WhatsApp support</strong><small>Questions and inquiries</small></span><em>Open</em></div>
+            <div class="app-list" role="list" aria-label="Member contributions">
+              <div role="listitem"><i class="app-dot ready"></i><span><strong>482917</strong><small>Member contribution</small></span><em>Saved</em></div>
+              <div role="listitem"><i class="app-dot ready"></i><span><strong>739204</strong><small>Member contribution</small></span><em>Saved</em></div>
+              <div role="listitem"><i class="app-dot support"></i><span><strong>156883</strong><small>Member contribution</small></span><em>Pending</em></div>
             </div>
             <nav class="phone-tabs" aria-label="App navigation preview">
               <span>Home</span><span class="active">Diaspora</span><span>Support</span>
@@ -708,17 +1282,15 @@ def hero_visual_html(page)
               <button class="chat-button" aria-label="Open WhatsApp support"><i aria-hidden="true"></i></button>
             </div>
             <section class="protection-card">
-              <span>Support request</span>
               <strong>Insurance-related records</strong>
-              <small>Organize questions and records where approved providers are involved.</small>
             </section>
             <div class="app-segments" aria-label="Protection workflow tabs">
               <span class="active">Request</span><span>Records</span><span>Provider</span>
             </div>
-            <div class="app-list" role="list" aria-label="Protection support checklist">
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>Customer question</strong><small>Support topic and preferred follow-up</small></span><em>Open</em></div>
-              <div role="listitem"><i class="app-dot"></i><span><strong>Related records</strong><small>Contribution and account context</small></span><em>Added</em></div>
-              <div role="listitem"><i class="app-dot support"></i><span><strong>Provider review</strong><small>Final product decisions stay with provider</small></span><em>Provider</em></div>
+            <div class="app-list" role="list" aria-label="Insurance products">
+              <div role="listitem"><i class="app-dot ready"></i><span><strong>Income Protection</strong><small>Short-term income interruption support</small></span><em>Eligible</em></div>
+              <div role="listitem"><i class="app-dot"></i><span><strong>Credit Life Protection</strong><small>Partner-loan balance protection</small></span><em>Eligible</em></div>
+              <div role="listitem"><i class="app-dot support"></i><span><strong>Credit Repayment Protection</strong><small>Repayment support after income interruption</small></span><em>Eligible</em></div>
             </div>
             <nav class="phone-tabs" aria-label="App navigation preview">
               <span>Home</span><span class="active">Protection</span><span>Support</span>
@@ -740,18 +1312,18 @@ def hero_visual_html(page)
               <button class="download-button" aria-label="Export readiness file"><i aria-hidden="true"></i></button>
             </div>
             <section class="readiness-card">
-              <span>Provider review prep</span>
               <strong>Customer support file</strong>
-              <small>Documents, contribution history and request notes before review.</small>
             </section>
             <div class="app-segments" aria-label="Readiness file tabs">
               <span class="active">File</span><span>History</span><span>Notes</span>
             </div>
-            <div class="app-list" role="list" aria-label="Readiness file checklist">
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>Customer summary</strong><small>Request purpose and contact route</small></span><em>Ready</em></div>
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>Contribution history</strong><small>Group saving activity record</small></span><em>Ready</em></div>
-              <div role="listitem"><i class="app-dot"></i><span><strong>Missing items</strong><small>Documents still to prepare</small></span><em>Check</em></div>
-              <div role="listitem"><i class="app-dot support"></i><span><strong>Provider notes</strong><small>Credit decision stays with provider</small></span><em>Review</em></div>
+            <div class="app-list" role="list" aria-label="MSME credit-readiness support services">
+              <div role="listitem"><i class="app-dot ready"></i><span><strong>Accounting</strong><small>Financial records and statements</small></span><em>Support</em></div>
+              <div role="listitem"><i class="app-dot ready"></i><span><strong>Business-plan</strong><small>Loan purpose and repayment plan</small></span><em>Support</em></div>
+              <div role="listitem"><i class="app-dot"></i><span><strong>Tax advisory</strong><small>Tax records and compliance guidance</small></span><em>Support</em></div>
+              <div role="listitem"><i class="app-dot support"></i><span><strong>Notaries</strong><small>Document certification support</small></span><em>Support</em></div>
+              <div role="listitem"><i class="app-dot ready"></i><span><strong>Legal services</strong><small>Contracts and legal documents</small></span><em>Support</em></div>
+              <div role="listitem"><i class="app-dot"></i><span><strong>Insurers</strong><small>Protection and policy support</small></span><em>Support</em></div>
             </div>
             <nav class="phone-tabs" aria-label="App navigation preview">
               <span>Home</span><span class="active">File</span><span>Support</span>
@@ -773,9 +1345,7 @@ def hero_visual_html(page)
               <button class="chat-button" aria-label="Open WhatsApp support"><i aria-hidden="true"></i></button>
             </div>
             <section class="community-card">
-              <span>Group activity</span>
               <strong>Community savings group</strong>
-              <small>Member records, leader questions and contribution updates.</small>
             </section>
             <div class="app-segments" aria-label="Community group tabs">
               <span class="active">Activity</span><span>Members</span><span>Records</span>
@@ -783,45 +1353,13 @@ def hero_visual_html(page)
             <div class="member-strip" aria-label="Member preview">
               <i></i><i></i><i></i><i></i><span>Member records visible</span>
             </div>
-            <div class="app-list" role="list" aria-label="Community group activity">
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>Contributions updated</strong><small>Group ledger reflects the latest activity</small></span><em>Done</em></div>
-              <div role="listitem"><i class="app-dot"></i><span><strong>Leader questions</strong><small>Support questions stay attached to the group</small></span><em>Open</em></div>
-              <div role="listitem"><i class="app-dot support"></i><span><strong>Member records</strong><small>Shared records stay organized</small></span><em>Visible</em></div>
+            <div class="app-list" role="list" aria-label="Wedding group contributions">
+              <div role="listitem"><i class="app-dot ready"></i><span><strong>482917</strong><small>Wedding group contribution</small></span><em>RWF 10,000</em></div>
+              <div role="listitem"><i class="app-dot ready"></i><span><strong>739204</strong><small>Wedding group contribution</small></span><em>RWF 10,000</em></div>
+              <div role="listitem"><i class="app-dot ready"></i><span><strong>156883</strong><small>Wedding group contribution</small></span><em>RWF 5,000</em></div>
             </div>
             <nav class="phone-tabs" aria-label="App navigation preview">
               <span>Home</span><span class="active">Groups</span><span>Support</span>
-            </nav>
-          </div>
-        </div>
-      </div>
-    HTML
-  when "/impact/"
-    <<~HTML
-      <div class="hero-widget impact-widget phone-widget" aria-label="Impact source app screen preview">
-        <div class="phone-shell">
-          <div class="phone-notch" aria-hidden="true"></div>
-          <div class="phone-screen">
-            <div class="phone-status"><span>9:41</span><i></i><b></b></div>
-            <div class="app-bar">
-              <button class="back-button" aria-label="Back"><i aria-hidden="true"></i></button>
-              <strong>Impact</strong>
-              <button class="download-button" aria-label="Export source register"><i aria-hidden="true"></i></button>
-            </div>
-            <section class="impact-card">
-              <span>Public wording</span>
-              <strong>Source-backed claims</strong>
-              <small>Publish only facts that have a public source or approved wording.</small>
-            </section>
-            <div class="app-segments" aria-label="Impact tabs">
-              <span class="active">Sources</span><span>Records</span><span>Boundaries</span>
-            </div>
-            <div class="app-list" role="list" aria-label="Impact source register">
-              <div role="listitem"><i class="app-dot ready"></i><span><strong>Public facts</strong><small>Use source-backed wording</small></span><em>Checked</em></div>
-              <div role="listitem"><i class="app-dot"></i><span><strong>Customer outcomes</strong><small>Records and support files</small></span><em>Allowed</em></div>
-              <div role="listitem"><i class="app-dot support"></i><span><strong>Figures</strong><small>Need evidence before publishing</small></span><em>Hold</em></div>
-            </div>
-            <nav class="phone-tabs" aria-label="App navigation preview">
-              <span>Home</span><span class="active">Impact</span><span>Sources</span>
             </nav>
           </div>
         </div>
@@ -840,7 +1378,6 @@ def hero_visual_html(page)
               <button class="chat-button" aria-label="Open WhatsApp support"><i aria-hidden="true"></i></button>
             </div>
             <section class="partner-card">
-              <span>Partner workflow</span>
               <strong>Records before review</strong>
               <small>Groups keep records. Providers review under their own rules.</small>
             </section>
@@ -993,7 +1530,7 @@ def hero_visual_html(page)
             </div>
             <section class="home-dashboard-card">
               <strong>RayonSport Fan Club</strong>
-              <div class="dashboard-progress" aria-label="Group contribution progress"><i></i></div>
+              <div class="dashboard-progress" role="progressbar" aria-label="Group contribution progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="72"><i></i></div>
               <div class="dashboard-stats" aria-label="Group summary">
                 <span><b>RWF 18,000</b><small>Collected</small></span>
                 <span><b>3</b><small>Paid</small></span>
@@ -1043,12 +1580,13 @@ def page_html(page, current_path: page[:path])
       <meta name="twitter:title" content="#{esc(page[:title])}">
       <meta name="twitter:description" content="#{esc(page[:description])}">
       <link rel="stylesheet" href="/styles.css">
+      <link rel="stylesheet" href="/sections.css">
       <script type="application/ld+json">#{json_ld(page)}</script>
     </head>
     <body>
       <a class="skip-link" href="#content">Skip to content</a>
       <header class="site-header">
-        <a class="brand" href="/" aria-label="Collect home">
+        <a class="brand" href="/">
           <img src="/icons/collect.png" alt="" width="42" height="42">
           <span><strong>Collect</strong><small>by IKANISA</small></span>
         </a>
@@ -1086,12 +1624,25 @@ def page_html(page, current_path: page[:path])
 
         #{current_path == "/group-savings/" ? group_savings_page_html : ""}
 
-        #{current_path == "/" || current_path == "/group-savings/" ? "" : <<~HTML}
-        <section class="content-grid" aria-label="Page sections">
+        #{legal_page_html(page)}
+
+        #{current_path == "/" || current_path == "/group-savings/" || page[:legal_key] ? "" : <<~HTML}
+        <section class="content-grid" aria-label="#{esc(page[:sections_heading] || "Page sections")}">
+          #{page[:sections_heading] ? %(<h2 class="content-grid-heading">#{esc(page[:sections_heading])}</h2>) : ""}
           #{sections_html(page[:sections])}
         </section>
         HTML
         }
+
+        #{supported_groups_html(page)}
+
+        #{current_path == "/our-partners/" || current_path == "/partners/" ? partner_page_html : ""}
+
+        #{current_path == "/craas/" || current_path == "/credit-readiness/" ? craas_page_html : ""}
+
+        #{current_path == "/diaspora/" ? diaspora_collect_changes_html : ""}
+
+        #{current_path == "/insurance/" ? insurance_page_html : ""}
 
         #{current_path == "/" ? original_home_sections_html : ""}
 
@@ -1136,10 +1687,10 @@ def stylesheet
       --night: #050510;
       --panel: #12111c;
       --line: rgba(250, 248, 245, .14);
-      --periwinkle: #8885f0;
+      --periwinkle: #5f5ce6;
       --mint: #3cd070;
       --rose: #d38b96;
-      --orange: #ff5e43;
+      --orange: #c63126;
       --white: #fffdfb;
       --focus: #a7a2ff;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -1221,10 +1772,6 @@ def stylesheet
     .community-card span, .community-card small { display: block; color: rgba(255,255,255,.78); font-weight: 850; }
     .community-card strong { display: block; margin-top: 8px; font-size: 24px; line-height: 1.05; }
     .community-card small { margin-top: 18px; font-size: 12px; line-height: 1.35; }
-    .impact-card { margin-top: 10px; padding: 18px; border-radius: 24px; color: white; background: linear-gradient(145deg, #17142c, #4d3fb1 58%, #2f9ec8); box-shadow: 0 18px 36px rgba(77,63,177,.22); }
-    .impact-card span, .impact-card small { display: block; color: rgba(255,255,255,.78); font-weight: 850; }
-    .impact-card strong { display: block; margin-top: 8px; font-size: 25px; line-height: 1.05; }
-    .impact-card small { margin-top: 18px; font-size: 12px; line-height: 1.35; }
     .partner-card { margin-top: 10px; padding: 18px; border-radius: 24px; color: white; background: linear-gradient(145deg, #142f3a, #2f9ec8 58%, #6976f0); box-shadow: 0 18px 36px rgba(47,158,200,.22); }
     .partner-card span, .partner-card small { display: block; color: rgba(255,255,255,.78); font-weight: 850; }
     .partner-card strong { display: block; margin-top: 8px; font-size: 25px; line-height: 1.05; }
@@ -1306,7 +1853,7 @@ def stylesheet
     .statement-table { margin-top: 12px; border: 1px solid #e5e8f0; border-radius: 22px; overflow: hidden; background: #ffffff; box-shadow: 0 12px 24px rgba(23,20,44,.06); }
     .statement-head, .ledger-widget .ledger-row { display: grid; grid-template-columns: minmax(112px, 1fr) auto auto; gap: 10px; align-items: center; }
     .statement-head { padding: 12px 14px; background: #eef2f8; font-size: 10px; font-weight: 950; text-transform: uppercase; }
-    .ledger-row, .record-card, .protection-item, .file-widget li, .activity-list, .impact-widget:not(.phone-widget) > div, .policy-widget:not(.phone-widget) span, .terms-widget:not(.phone-widget) span, .deletion-widget:not(.phone-widget) span, .data-widget:not(.phone-widget) span { border: 1px solid rgba(250,248,245,.14); border-radius: 16px; padding: 14px; background: rgba(5,5,16,.38); }
+    .ledger-row, .record-card, .protection-item, .file-widget li, .activity-list, .policy-widget:not(.phone-widget) span, .terms-widget:not(.phone-widget) span, .deletion-widget:not(.phone-widget) span, .data-widget:not(.phone-widget) span { border: 1px solid rgba(250,248,245,.14); border-radius: 16px; padding: 14px; background: rgba(5,5,16,.38); }
     .ledger-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: center; }
     .ledger-widget .ledger-row { border: 0; border-radius: 0; border-top: 1px solid #edf0f5; padding: 13px 14px; background: transparent; color: #17142c; }
     .ledger-member { display: inline-flex; align-items: center; gap: 9px; min-width: 0; font-weight: 950; }
@@ -1318,12 +1865,12 @@ def stylesheet
     .ledger-row em { font-style: normal; color: var(--mint); font-weight: 950; }
     .ledger-row.pending em { color: #f5c65b; }
     .phone-tabs { margin-top: auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 10px 6px 4px; border-top: 1px solid #e7ebf2; }
-    .phone-tabs span { display: grid; place-items: center; min-height: 34px; border-radius: 13px; color: #77788c; font-size: 11px; font-weight: 950; }
+    .phone-tabs span { display: grid; place-items: center; min-height: 34px; border-radius: 13px; color: #5f6178; font-size: 11px; font-weight: 950; }
     .phone-tabs span.active { color: #17142c; background: #edf2ff; }
     .corridor-map { display: grid; grid-template-columns: auto minmax(68px, 1fr) auto; align-items: center; gap: 10px; font-weight: 900; }
     .corridor-map i, .home-flow i, .partner-line { display: block; height: 2px; background: linear-gradient(90deg, var(--mint), var(--periwinkle)); border-radius: 999px; }
-    .record-card strong, .record-card span, .protection-item strong, .protection-item span, .impact-widget strong, .impact-widget span, .activity-list strong, .activity-list span { display: block; }
-    .record-card span, .protection-item span, .impact-widget span, .activity-list span { margin-top: 6px; color: rgba(250,248,245,.68); line-height: 1.35; }
+    .record-card strong, .record-card span, .protection-item strong, .protection-item span, .activity-list strong, .activity-list span { display: block; }
+    .record-card span, .protection-item span, .activity-list span { margin-top: 6px; color: rgba(250,248,245,.68); line-height: 1.35; }
     .record-card.accent, .protection-item:nth-child(2), .policy-widget:not(.phone-widget) span:nth-of-type(2), .data-widget:not(.phone-widget) span:nth-of-type(2) { border-color: rgba(60,208,112,.36); }
     .protection-widget { grid-template-columns: 1fr; }
     .protection-item strong { font-size: 34px; line-height: 1; }
@@ -1338,8 +1885,7 @@ def stylesheet
     .member-ring small { font-weight: 900; }
     .activity-list { display: grid; gap: 8px; }
     .activity-list span { margin-top: 0; }
-    .impact-widget:not(.phone-widget), .policy-widget:not(.phone-widget), .terms-widget:not(.phone-widget), .deletion-widget:not(.phone-widget), .data-widget:not(.phone-widget) { align-content: stretch; }
-    .impact-widget > div { min-height: 96px; display: grid; align-content: center; }
+    .policy-widget:not(.phone-widget), .terms-widget:not(.phone-widget), .deletion-widget:not(.phone-widget), .data-widget:not(.phone-widget) { align-content: stretch; }
     .partner-widget { grid-template-columns: 1fr; align-content: center; }
     .partner-node { min-height: 78px; display: grid; place-items: center; border-radius: 18px; border: 1px solid rgba(250,248,245,.16); background: rgba(250,248,245,.1); font-weight: 950; }
     .partner-line { width: 70%; justify-self: center; }
@@ -1359,6 +1905,8 @@ def stylesheet
     .infographic-step { min-height: 150px; border: 1px solid #e1d9f0; border-radius: 18px; padding: 18px; background: rgba(255,253,251,.86); box-shadow: 0 14px 34px rgba(37,32,68,.06); }
     .infographic-step h3 { margin: 16px 0 8px; font-size: 19px; line-height: 1.12; }
     .infographic-step p { margin: 0; font-size: 14px; }
+    .infographic-step ul { margin: 10px 0 0; padding-left: 18px; color: var(--muted); line-height: 1.45; font-size: 14px; }
+    .infographic-step li + li { margin-top: 6px; }
     .explain-band, .start-section, .market-context { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: var(--paper); color: var(--ink); }
     .explain-band h2, .start-section h2, .market-context h2 { font-size: clamp(34px, 5vw, 64px); line-height: 1; margin: 0; }
     .brand-word { color: var(--orange); }
@@ -1376,6 +1924,29 @@ def stylesheet
     .step-list strong, .step-list span { display: block; }
     .step-list span { color: var(--muted); margin-top: 4px; line-height: 1.45; }
     .content-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: #fffdfb; color: var(--ink); }
+    .content-grid-heading { grid-column: 1 / -1; margin: 0 0 10px; font-size: clamp(42px, 6vw, 72px); line-height: .95; letter-spacing: 0; max-width: 920px; }
+    .legal-content { display: grid; gap: 18px; padding: clamp(48px, 7vw, 86px) clamp(20px, 5vw, 64px); background: #fffdfb; color: var(--ink); }
+    .legal-meta { margin: 0; color: var(--muted); font-weight: 900; }
+    .legal-section, .legal-card { border: 1px solid #e5deef; border-radius: 16px; padding: clamp(20px, 3vw, 30px); background: rgba(255,255,255,.82); box-shadow: 0 18px 48px rgba(37,32,68,.05); }
+    .legal-section h2, .legal-card h3 { margin: 0 0 12px; line-height: 1.08; color: var(--ink); }
+    .legal-section h2 { font-size: clamp(26px, 3vw, 40px); }
+    .legal-card h3 { font-size: 20px; }
+    .legal-section h3 { margin: 22px 0 10px; font-size: 19px; line-height: 1.15; }
+    .legal-section p, .legal-card p, .legal-details dd { color: var(--muted); line-height: 1.55; }
+    .legal-card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .legal-details { display: grid; grid-template-columns: minmax(140px, .35fr) minmax(0, 1fr); gap: 10px 18px; margin: 16px 0; }
+    .legal-details dt { color: var(--ink); font-weight: 950; }
+    .legal-details dd { margin: 0; overflow-wrap: anywhere; }
+    .legal-path { display: inline-flex; padding: 8px 10px; border-radius: 10px; background: #f2f4ff; color: var(--ink); font-weight: 900; }
+    .supported-groups-section { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: clamp(24px, 5vw, 72px); align-items: start; padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: #fffdfb; color: var(--ink); }
+    .supported-groups-section h2 { margin: 0; max-width: 620px; font-size: clamp(42px, 6vw, 72px); line-height: .96; letter-spacing: 0; }
+    .supported-groups-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .supported-group-card { min-height: 118px; border-radius: 18px; padding: 22px; display: flex; align-items: flex-start; color: #fff; box-shadow: 0 18px 40px rgba(20, 22, 45, .12); }
+    .supported-group-card strong { color: #fff; font-size: clamp(18px, 2vw, 24px); line-height: 1.05; font-weight: 950; letter-spacing: 0; }
+    .supported-group-card-1 { background: linear-gradient(135deg, #8885f0, #5f67e8); }
+    .supported-group-card-2 { background: linear-gradient(135deg, #35d071, #0a8f5b); }
+    .supported-group-card-3 { background: linear-gradient(135deg, #ff6148, #d63b2e); }
+    .supported-group-card-4 { background: linear-gradient(135deg, #f59bb3, #b4576d); }
     .section-number { color: var(--periwinkle); font-weight: 950; }
     .section-card h2 { margin: 18px 0 10px; font-size: 24px; line-height: 1.12; }
     .section-card p, .start-section p { color: var(--muted); line-height: 1.55; }
@@ -1400,7 +1971,7 @@ def stylesheet
     .story-grid strong, .story-grid span { display: block; }
     .story-grid strong { font-size: 18px; font-weight: 950; line-height: 1.05; }
     .story-grid span { margin-top: 10px; color: color-mix(in srgb, currentColor 68%, transparent); line-height: 1.35; }
-    .story-grid a { display: inline-flex; margin-top: 18px; color: #6976f0; font-weight: 950; text-decoration: none; }
+    .story-grid a { display: inline-flex; margin-top: 18px; color: #4b55c9; font-weight: 950; text-decoration: none; }
     .group-problem-section, .group-workflow-section, .group-feature-section, .group-accumulation-section, .group-use-section { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); }
     .group-problem-section { background: #fffdfb; color: var(--ink); }
     .group-workflow-section { background: #11101a; color: var(--paper); }
@@ -1436,6 +2007,88 @@ def stylesheet
     .journey-rail.group-journey article:nth-child(3n) { border-right: 1px solid rgba(250,248,245,.14); }
     .journey-rail.group-journey article:nth-child(4n) { border-right: 0; }
     .journey-rail.group-journey article:nth-last-child(-n+4) { border-bottom: 0; }
+    .diaspora-change-section { display: grid; grid-template-columns: minmax(240px, .55fr) minmax(0, 1.45fr); gap: clamp(24px, 4vw, 56px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: #11101a; color: var(--paper); }
+    .diaspora-change-section h2 { font-size: clamp(34px, 5vw, 62px); line-height: 1; margin: 0; }
+    .change-compare-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .change-compare-grid article { border: 1px solid rgba(250,248,245,.14); border-radius: 22px; padding: clamp(22px, 3vw, 34px); background: rgba(250,248,245,.07); min-height: 360px; }
+    .change-compare-grid article:nth-child(2) { background: linear-gradient(135deg, rgba(57,205,116,.22), rgba(136,133,240,.16)); }
+    .change-compare-grid h3 { margin: 0 0 18px; font-size: clamp(24px, 2.4vw, 34px); line-height: 1.04; }
+    .change-compare-grid ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .change-compare-grid li { position: relative; padding-left: 22px; color: rgba(250,248,245,.78); line-height: 1.35; font-weight: 750; }
+    .change-compare-grid li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 8px; border-radius: 999px; background: var(--mint); }
+    .insurance-work-section, .insurance-finance-section { display: grid; grid-template-columns: minmax(240px, .55fr) minmax(0, 1.45fr); gap: clamp(24px, 4vw, 56px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); }
+    .insurance-work-section { background: #11101a; color: var(--paper); }
+    .insurance-finance-section { background: #ecfbf1; color: var(--ink); }
+    .insurance-work-section h2, .insurance-finance-section h2 { font-size: clamp(34px, 5vw, 62px); line-height: 1; margin: 0; }
+    .insurance-step-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .insurance-step-grid article { min-height: 190px; border: 1px solid rgba(250,248,245,.14); border-radius: 22px; padding: 24px; background: rgba(250,248,245,.07); display: grid; align-content: end; }
+    .insurance-step-grid span { color: var(--mint); font-size: 13px; font-weight: 950; }
+    .insurance-step-grid p { margin: 42px 0 0; color: rgba(250,248,245,.78); line-height: 1.38; font-size: clamp(18px, 1.6vw, 22px); font-weight: 750; }
+    .premium-finance-panel { border: 1px solid rgba(37,32,68,.12); border-radius: 24px; padding: clamp(24px, 4vw, 42px); background: linear-gradient(135deg, rgba(57,205,116,.2), rgba(136,133,240,.14)); box-shadow: 0 18px 48px rgba(37,32,68,.06); }
+    .premium-finance-panel p { margin: 0; color: var(--muted); line-height: 1.55; font-size: clamp(20px, 2vw, 28px); font-weight: 800; }
+    .craas-specialist-section, .craas-bank-section, .craas-benefits-section { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); }
+    .craas-specialist-section { background: #11101a; color: var(--paper); }
+    .craas-bank-section { background: #fffdfb; color: var(--ink); }
+    .craas-benefits-section { background: #ecfbf1; color: var(--ink); }
+    .craas-specialist-section h2, .craas-bank-section h2, .craas-benefits-section h2 { font-size: clamp(34px, 5vw, 62px); line-height: 1; margin: 0; }
+    .craas-service-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .craas-service-grid article { min-height: 132px; border-radius: 20px; padding: 22px; color: #fffdfb; box-shadow: 0 18px 42px rgba(0,0,0,.18); display: grid; align-content: end; }
+    .craas-service-grid article:nth-child(4n+1) { background: linear-gradient(135deg, #8885f0, #5f6fe9); }
+    .craas-service-grid article:nth-child(4n+2) { background: linear-gradient(135deg, #39cd74, #11875d); }
+    .craas-service-grid article:nth-child(4n+3) { background: linear-gradient(135deg, #ff644a, #db2f25); }
+    .craas-service-grid article:nth-child(4n+4) { background: linear-gradient(135deg, #ef8fa4, #8e5369); }
+    .craas-service-grid strong { font-size: clamp(18px, 2vw, 28px); line-height: 1.05; font-weight: 950; }
+    .craas-list-panel, .craas-benefit-grid article { border: 1px solid rgba(37,32,68,.12); border-radius: 24px; padding: clamp(22px, 3vw, 34px); background: rgba(255,255,255,.78); box-shadow: 0 18px 48px rgba(37,32,68,.06); }
+    .craas-list-panel ul, .craas-benefit-grid ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .craas-list-panel ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .craas-list-panel li, .craas-benefit-grid li { position: relative; padding-left: 22px; color: var(--muted); line-height: 1.35; font-weight: 760; }
+    .craas-list-panel li::before, .craas-benefit-grid li::before { content: ""; position: absolute; left: 0; top: .58em; width: 8px; height: 8px; border-radius: 999px; background: var(--mint); }
+    .craas-benefit-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .craas-benefit-grid article:nth-child(2) { background: linear-gradient(135deg, rgba(57,205,116,.18), rgba(136,133,240,.12)); }
+    .craas-benefit-grid h3 { margin: 0 0 18px; font-size: clamp(24px, 2.4vw, 34px); line-height: 1.04; }
+    .partner-opportunity-section, .partner-market-section, .partner-operating-section { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); }
+    .partner-opportunity-section { background: #fffdfb; color: var(--ink); }
+    .partner-market-section { background: #f2f4ff; color: var(--ink); }
+    .partner-operating-section { background: #11101a; color: var(--paper); }
+    .partner-opportunity-section h2, .partner-market-section h2, .partner-operating-section h2 { font-size: clamp(34px, 5vw, 62px); line-height: 1; margin: 0; }
+    .partner-metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .partner-metric-grid article { min-height: 150px; border-radius: 22px; padding: 24px; background: #11101a; color: var(--paper); display: grid; align-content: end; box-shadow: 0 18px 42px rgba(37,32,68,.12); }
+    .partner-metric-grid article:nth-child(2) { background: linear-gradient(135deg, #39cd74, #11875d); }
+    .partner-metric-grid article:nth-child(3) { background: linear-gradient(135deg, #8885f0, #5f6fe9); }
+    .partner-metric-grid article:nth-child(4) { background: linear-gradient(135deg, #ff644a, #db2f25); }
+    .partner-metric-grid strong, .partner-metric-grid span { display: block; }
+    .partner-metric-grid strong { font-size: clamp(32px, 4vw, 54px); line-height: .95; font-weight: 950; }
+    .partner-metric-grid span { margin-top: 12px; color: rgba(255,253,251,.82); line-height: 1.25; font-weight: 850; }
+    .partner-engine-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .partner-engine-grid article { border: 1px solid rgba(37,32,68,.12); border-radius: 22px; padding: 24px; background: rgba(255,255,255,.78); box-shadow: 0 18px 48px rgba(37,32,68,.06); }
+    .partner-engine-grid article:nth-child(2) { background: linear-gradient(135deg, rgba(57,205,116,.18), rgba(255,255,255,.82)); }
+    .partner-engine-grid article:nth-child(3) { background: linear-gradient(135deg, rgba(136,133,240,.18), rgba(255,255,255,.82)); }
+    .partner-engine-grid article:nth-child(4) { background: linear-gradient(135deg, rgba(255,100,74,.15), rgba(255,255,255,.82)); }
+    .partner-engine-grid strong { display: block; font-size: clamp(22px, 2.2vw, 32px); line-height: 1.04; font-weight: 950; }
+    .partner-engine-grid p { margin: 16px 0 0; color: var(--muted); line-height: 1.45; font-weight: 760; }
+    .partner-engine-grid ul { display: grid; gap: 10px; margin: 18px 0 0; padding: 0; list-style: none; }
+    .partner-engine-grid li { position: relative; padding-left: 22px; color: var(--muted); line-height: 1.32; font-weight: 760; }
+    .partner-engine-grid li::before { content: ""; position: absolute; left: 0; top: .58em; width: 8px; height: 8px; border-radius: 999px; background: var(--mint); }
+    .partner-market-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .partner-market-grid article { min-height: 226px; border-radius: 22px; padding: 24px; color: #fffdfb; box-shadow: 0 18px 42px rgba(37,32,68,.12); display: grid; align-content: start; }
+    .partner-market-grid article:nth-child(1) { background: linear-gradient(135deg, #8885f0, #5f6fe9); }
+    .partner-market-grid article:nth-child(2) { background: linear-gradient(135deg, #39cd74, #11875d); }
+    .partner-market-grid article:nth-child(3) { background: linear-gradient(135deg, #ff644a, #db2f25); }
+    .partner-market-grid article:nth-child(4) { background: linear-gradient(135deg, #ef8fa4, #8e5369); }
+    .partner-market-grid article:nth-child(5) { grid-column: 1 / -1; background: linear-gradient(135deg, #39cd74, #8885f0 52%, #ff644a); }
+    .partner-market-grid strong, .partner-market-grid span, .partner-market-grid p { display: block; }
+    .partner-market-grid strong { font-size: clamp(22px, 2.4vw, 34px); line-height: 1.02; font-weight: 950; }
+    .partner-market-grid span { margin-top: 14px; color: rgba(255,253,251,.82); font-size: 15px; line-height: 1.25; font-weight: 950; }
+    .partner-market-grid p { margin: 20px 0 0; color: rgba(255,253,251,.82); line-height: 1.4; font-size: 16px; font-weight: 760; }
+    .partner-operating-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .partner-operating-grid article { min-height: 520px; border: 1px solid rgba(250,248,245,.14); border-radius: 22px; padding: 24px; background: rgba(250,248,245,.07); }
+    .partner-operating-grid article:nth-child(2) { background: linear-gradient(135deg, rgba(57,205,116,.2), rgba(250,248,245,.06)); }
+    .partner-operating-grid article:nth-child(3) { background: linear-gradient(135deg, rgba(255,100,74,.18), rgba(136,133,240,.15)); }
+    .partner-operating-grid h3 { margin: 0 0 18px; font-size: clamp(22px, 2vw, 30px); line-height: 1.05; }
+    .partner-operating-grid p { margin: 0 0 16px; color: rgba(250,248,245,.72); line-height: 1.45; font-weight: 760; }
+    .partner-operating-grid ul { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+    .partner-operating-grid li { position: relative; padding-left: 22px; color: rgba(250,248,245,.78); line-height: 1.3; font-weight: 760; }
+    .partner-operating-grid li::before { content: ""; position: absolute; left: 0; top: .58em; width: 8px; height: 8px; border-radius: 999px; background: var(--mint); }
     .start-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
     .button.on-light:not(.cta-app):not(.cta-group):not(.cta-touch) { color: var(--ink); border-color: #ded8ea; }
     .site-footer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .8fr); gap: 28px; padding: 36px clamp(20px, 5vw, 64px); border-top: 1px solid rgba(250,248,245,.12); background: #050510; }
@@ -1459,9 +2112,11 @@ def stylesheet
       .hero-widget { width: min(100%, 390px); min-height: 350px; }
       .phone-widget { width: min(100%, 366px); min-height: 650px; }
       .content-grid, .infographic-grid { grid-template-columns: 1fr 1fr; }
-      .explain-band, .start-section, .market-context, .original-story { grid-template-columns: 1fr; }
-      .group-problem-section, .group-workflow-section, .group-feature-section, .group-accumulation-section, .group-use-section { grid-template-columns: 1fr; }
+      .explain-band, .start-section, .market-context, .original-story, .supported-groups-section { grid-template-columns: 1fr; }
+      .group-problem-section, .group-workflow-section, .group-feature-section, .group-accumulation-section, .group-use-section, .diaspora-change-section, .insurance-work-section, .insurance-finance-section, .craas-specialist-section, .craas-bank-section, .craas-benefits-section, .partner-opportunity-section, .partner-market-section, .partner-operating-section { grid-template-columns: 1fr; }
       .problem-list.compact, .use-case-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .partner-engine-grid, .partner-operating-grid { grid-template-columns: 1fr; }
+      .craas-service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .story-grid, .story-grid.four, .story-grid.five, .story-grid.six { grid-template-columns: 1fr 1fr; }
       .journey-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .journey-rail.group-journey { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1494,11 +2149,14 @@ def stylesheet
       .member-ring { width: 128px; height: 128px; justify-self: center; }
       .home-flow { grid-template-columns: 1fr; }
       .home-flow i { height: 18px; width: 2px; justify-self: center; }
-      .content-grid, .infographic-grid { grid-template-columns: 1fr; }
+      .content-grid, .infographic-grid, .supported-groups-grid { grid-template-columns: 1fr; }
+      .legal-card-grid, .legal-details { grid-template-columns: 1fr; }
       .story-grid, .story-grid.four, .story-grid.five, .story-grid.six { grid-template-columns: 1fr; }
-      .explain-band, .start-section, .market-context, .content-grid { padding: 48px 20px; }
-      .group-problem-section, .group-workflow-section, .group-feature-section, .group-accumulation-section, .group-use-section { grid-template-columns: 1fr; padding: 48px 20px; }
-      .problem-list.compact, .use-case-grid, .journey-rail.group-journey { grid-template-columns: 1fr; }
+      .explain-band, .start-section, .market-context, .content-grid, .supported-groups-section { padding: 48px 20px; }
+      .legal-content { padding: 48px 20px; }
+      .group-problem-section, .group-workflow-section, .group-feature-section, .group-accumulation-section, .group-use-section, .diaspora-change-section, .insurance-work-section, .insurance-finance-section, .craas-specialist-section, .craas-bank-section, .craas-benefits-section, .partner-opportunity-section, .partner-market-section, .partner-operating-section { grid-template-columns: 1fr; padding: 48px 20px; }
+      .problem-list.compact, .use-case-grid, .journey-rail.group-journey, .change-compare-grid, .insurance-step-grid, .craas-service-grid, .craas-list-panel ul, .craas-benefit-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid { grid-template-columns: 1fr; }
+      .partner-market-grid article:nth-child(5) { grid-column: auto; }
       .market-grid { grid-template-columns: 1fr; }
       .market-grid article { min-height: 128px; border-right: 0; }
       .market-grid article:nth-last-child(2) { border-bottom: 1px solid #e5deef; }
@@ -1518,6 +2176,44 @@ def stylesheet
       .journey-rail article:nth-last-child(-n+2) { border-bottom: 0; }
     }
   CSS
+end
+
+def minify_css(css)
+  css
+    .gsub(%r{/\*.*?\*/}m, "")
+    .gsub(/\s+/, " ")
+    .gsub(/\s*([{}:;,>+~])\s*/, "\\1")
+    .gsub(/;}/, "}")
+    .gsub(/\b0+\./, ".")
+    .gsub(/(:|\s)0(px|rem|em|%)/, "\\10")
+    .gsub("#ffffff", "#fff")
+    .strip
+end
+
+def split_stylesheets(css)
+  section_prefixes = %w[
+    content-grid infographic supported-groups section-card bullet-list legal-
+    group-problem group-workflow group-feature group-accumulation group-use
+    problem-list use-case-grid group-journey accumulation-panel
+    diaspora-change change-compare insurance-work insurance-finance
+    insurance-step premium-finance craas- partner- story-grid.five story-grid.six
+    diaspora-card protection-card readiness-card community-card partner-card
+    trust-card policy-card terms-card deletion-card data-card
+  ]
+  sections_css = []
+  core_css = css.gsub(/^\s*([^@{}][^{}]*)\{([^{}]*)\}\n?/m) do |rule|
+    selector = Regexp.last_match(1)
+    section_rule = section_prefixes.any? do |prefix|
+      selector.include?(".#{prefix}") || selector.include?(prefix)
+    end
+    if section_rule
+      sections_css << rule
+      ""
+    else
+      rule
+    end
+  end
+  [minify_css(core_css), minify_css(sections_css.join("\n"))]
 end
 
 def site_js
@@ -1560,6 +2256,9 @@ def headers
     /site.js
       Cache-Control: public, max-age=31536000, immutable
 
+    /sections.css
+      Cache-Control: public, max-age=31536000, immutable
+
     /manifest.json
       Cache-Control: public, max-age=3600, must-revalidate
 
@@ -1579,7 +2278,9 @@ unless INDEXNOW_KEY.empty? || INDEXNOW_KEY.match?(INDEXNOW_KEY_PATTERN)
   abort("PUBLIC_INDEXNOW_KEY must be 8-128 characters using A-Z, a-z, 0-9, or dashes only")
 end
 
-write_file(File.join(BUILD_DIR, "styles.css"), stylesheet)
+core_stylesheet, section_stylesheet = split_stylesheets(stylesheet)
+write_file(File.join(BUILD_DIR, "styles.css"), core_stylesheet)
+write_file(File.join(BUILD_DIR, "sections.css"), section_stylesheet)
 write_file(File.join(BUILD_DIR, "site.js"), site_js)
 write_file(File.join(BUILD_DIR, "_headers"), headers)
 write_file(File.join(BUILD_DIR, "robots.txt"), "User-agent: *\nAllow: /\nSitemap: #{PUBLIC_URL}/sitemap.xml\n")
