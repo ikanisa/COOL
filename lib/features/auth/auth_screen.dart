@@ -137,6 +137,14 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         throw const FormatException('Complete CAPTCHA verification first.');
       }
       if (!_otpSent) {
+        if (_isAppReviewAuthPhone(env, phone)) {
+          if (!mounted) return;
+          setState(() {
+            _otpSent = true;
+            _submitting = false;
+          });
+          return;
+        }
         await _sendOtp(client, phone, captchaToken);
         if (!mounted) return;
         setState(() {
@@ -144,6 +152,17 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           _submitting = false;
         });
         _startResendCooldown();
+        return;
+      }
+      if (_isAppReviewAuthPhone(env, phone)) {
+        if (_otp.text.trim() != env.appReviewAuthOtp.trim()) {
+          throw const FormatException('Invalid Apple reviewer OTP.');
+        }
+        await ref
+            .read(collectRepositoryProvider.notifier)
+            .signInWithOtp(phone: phone, otp: _otp.text);
+        if (!mounted) return;
+        context.go('/auth/success');
         return;
       }
       if (client != null) {
@@ -169,6 +188,16 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     }
   }
 
+  bool _isAppReviewAuthPhone(AppEnv env, String phone) {
+    if (!env.hasAppReviewAuthConfig) return false;
+    try {
+      return PhoneNormalizer.normalizeInternational(env.appReviewAuthPhone) ==
+          PhoneNormalizer.normalizeInternational(phone);
+    } catch (_) {
+      return false;
+    }
+  }
+
   Future<void> _resendCode(AppEnv env) async {
     setState(() {
       _submitting = true;
@@ -182,6 +211,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           : '';
       if (env.authCaptchaEnabled && captchaToken.isEmpty) {
         throw const FormatException('Complete CAPTCHA verification first.');
+      }
+      if (_isAppReviewAuthPhone(env, phone)) {
+        if (!mounted) return;
+        setState(() => _submitting = false);
+        return;
       }
       await _sendOtp(ref.read(supabaseClientProvider), phone, captchaToken);
       if (!mounted) return;

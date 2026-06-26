@@ -18,6 +18,9 @@ class AppEnv {
     required this.authCaptchaEnabled,
     required this.authCaptchaProvider,
     required this.authCaptchaSiteKey,
+    this.appReviewAuthEnabled = false,
+    this.appReviewAuthPhone = '',
+    this.appReviewAuthOtp = '',
     this.environmentName = 'local',
   });
 
@@ -34,6 +37,15 @@ class AppEnv {
       authCaptchaEnabled: bool.fromEnvironment('AUTH_CAPTCHA_ENABLED'),
       authCaptchaProvider: String.fromEnvironment('AUTH_CAPTCHA_PROVIDER'),
       authCaptchaSiteKey: String.fromEnvironment('AUTH_CAPTCHA_SITE_KEY'),
+      appReviewAuthEnabled: bool.fromEnvironment('APP_REVIEW_AUTH_ENABLED'),
+      appReviewAuthPhone: String.fromEnvironment(
+        'APP_REVIEW_AUTH_PHONE',
+        defaultValue: '',
+      ),
+      appReviewAuthOtp: String.fromEnvironment(
+        'APP_REVIEW_AUTH_OTP',
+        defaultValue: '',
+      ),
       environmentName: String.fromEnvironment(
         'APP_ENVIRONMENT',
         defaultValue: 'local',
@@ -52,8 +64,15 @@ class AppEnv {
   final bool authCaptchaEnabled;
   final String authCaptchaProvider;
   final String authCaptchaSiteKey;
+  final bool appReviewAuthEnabled;
+  final String appReviewAuthPhone;
+  final String appReviewAuthOtp;
   final String environmentName;
 
   bool get hasSupabaseConfig =>
       supabaseUrl.trim().isNotEmpty && supabaseAnonKey.trim().isNotEmpty;
+  bool get hasAppReviewAuthConfig =>
+      appReviewAuthEnabled &&
+      appReviewAuthPhone.trim().isNotEmpty &&
+      appReviewAuthOtp.trim().isNotEmpty;
 }

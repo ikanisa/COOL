@@ -35,6 +35,11 @@ class CollectRepository extends StateNotifier<CollectState> {
          true,
        );
 
+  CollectRepository.appReviewDemo({
+    SupabaseClient? supabase,
+    SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
+  }) : this._(supabase, smsAccessChannel, _appReviewCollectState(), true);
+
   CollectRepository._(
     this._supabase,
     this._smsAccessChannel,

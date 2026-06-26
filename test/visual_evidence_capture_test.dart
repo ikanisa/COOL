@@ -57,7 +57,8 @@ void main() {
   group('mobile visual evidence', () {
     for (final spec in mobileSpecs) {
       testWidgets('captures ${spec.name}', (tester) async {
-        tester.view.physicalSize = const Size(390, 844);
+        final viewport = _mobileViewportFromEnv();
+        tester.view.physicalSize = viewport;
         tester.view.devicePixelRatio = 1;
         tester.platformDispatcher.platformBrightnessTestValue =
             visualThemeMode == ThemeMode.dark
@@ -97,7 +98,8 @@ void main() {
           ),
         );
         await _pumpForEvidence(tester);
-        final fileName = '$name-390x844.png';
+        final fileName =
+            '$name-${viewport.width.toInt()}x${viewport.height.toInt()}.png';
         final capture = (await tester.runAsync(() => _capturePng(key)))!;
         final file = File('${mobileDir.path}/$fileName');
         file.writeAsBytesSync(capture.bytes);
@@ -128,7 +130,8 @@ void main() {
             : 'partial',
         'capture_runtime': 'flutter_test_repaint_boundary_member_shell',
         'theme_mode': visualThemeMode.name,
-        'viewport': '390x844',
+        'viewport':
+            '${_mobileViewportFromEnv().width.toInt()}x${_mobileViewportFromEnv().height.toInt()}',
         'expected_route_count': mobileSpecs.length,
         'route_count': mobileCaptures.length,
         'routes': [for (final capture in mobileCaptures) capture['route']],
@@ -238,6 +241,20 @@ ThemeMode _visualThemeModeFromEnv(String? value) {
     'light' => ThemeMode.light,
     _ => ThemeMode.dark,
   };
+}
+
+Size _mobileViewportFromEnv() {
+  final value = Platform.environment['COLLECT_VISUAL_MOBILE_VIEWPORT']?.trim();
+  if (value == null || value.isEmpty) {
+    return const Size(390, 844);
+  }
+  final match = RegExp(r'^(\d+)x(\d+)$').firstMatch(value);
+  if (match == null) {
+    throw StateError(
+      'COLLECT_VISUAL_MOBILE_VIEWPORT must use WIDTHxHEIGHT, got "$value".',
+    );
+  }
+  return Size(double.parse(match.group(1)!), double.parse(match.group(2)!));
 }
 
 Widget _adminAppAt(String initialLocation) {
@@ -548,6 +565,22 @@ List<_RouteSpec> _mobileRouteSpecs() {
   );
   if (limit != null && limit > 0 && limit < specs.length) {
     return specs.take(limit).toList(growable: false);
+  }
+  final selected = Platform.environment['COLLECT_VISUAL_EVIDENCE_ROUTES']
+      ?.split(',')
+      .map((name) => name.trim())
+      .where((name) => name.isNotEmpty)
+      .toSet();
+  if (selected != null && selected.isNotEmpty) {
+    final selectedSpecs = specs
+        .where((spec) => selected.contains(spec.name))
+        .toList(growable: false);
+    if (selectedSpecs.length != selected.length) {
+      final found = selectedSpecs.map((spec) => spec.name).toSet();
+      final missing = selected.difference(found).join(', ');
+      throw StateError('Unknown visual evidence route name(s): $missing');
+    }
+    return selectedSpecs;
   }
   return specs;
 }

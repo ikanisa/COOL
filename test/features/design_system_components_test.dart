@@ -320,12 +320,16 @@ void main() {
       );
       expect(
         text,
-        contains('<item name="android:statusBarColor">@color/collect_launch_background</item>'),
+        contains(
+          '<item name="android:statusBarColor">@color/collect_launch_background</item>',
+        ),
         reason: path,
       );
       expect(
         text,
-        contains('<item name="android:navigationBarColor">@color/collect_launch_background</item>'),
+        contains(
+          '<item name="android:navigationBarColor">@color/collect_launch_background</item>',
+        ),
         reason: path,
       );
       expect(
@@ -380,12 +384,16 @@ void main() {
       );
       expect(
         text,
-        contains('<item name="android:statusBarColor">@color/collect_launch_background</item>'),
+        contains(
+          '<item name="android:statusBarColor">@color/collect_launch_background</item>',
+        ),
         reason: path,
       );
       expect(
         text,
-        contains('<item name="android:navigationBarColor">@color/collect_launch_background</item>'),
+        contains(
+          '<item name="android:navigationBarColor">@color/collect_launch_background</item>',
+        ),
         reason: path,
       );
       expect(

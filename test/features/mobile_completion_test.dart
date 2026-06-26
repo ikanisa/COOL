@@ -1,4 +1,5 @@
 import 'package:collect_app/app/app.dart';
+import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
@@ -13,6 +14,8 @@ void main() {
     String route, {
     bool legalConsentAccepted = false,
     double textScale = 1,
+    AppEnv? appEnv,
+    CollectRepository? repository,
   }) async {
     final router = createAppRouter(initialLocation: route);
     addTearDown(router.dispose);
@@ -20,8 +23,9 @@ void main() {
       ProviderScope(
         overrides: [
           appRouterProvider.overrideWithValue(router),
+          if (appEnv != null) appEnvProvider.overrideWithValue(appEnv),
           collectRepositoryProvider.overrideWith(
-            (ref) => CollectRepository.fixture(),
+            (ref) => repository ?? CollectRepository.fixture(),
           ),
           legalConsentAcceptedProvider.overrideWith(
             (ref) => legalConsentAccepted,
@@ -108,6 +112,56 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('Verify WhatsApp'), findsNothing);
+  });
+
+  testWidgets('app review OTP signs in with configured static code', (
+    tester,
+  ) async {
+    final repository = CollectRepository.appReviewDemo();
+    await pumpRoute(
+      tester,
+      '/auth',
+      legalConsentAccepted: true,
+      repository: repository,
+      appEnv: const AppEnv(
+        supabaseUrl: '',
+        supabaseAnonKey: '',
+        publicUrl: '',
+        adminAppUrl: '',
+        enableSmsReader: false,
+        enableAndroidSmsAccess: false,
+        enableAdminPanel: false,
+        enableAdminDevTools: false,
+        authCaptchaEnabled: false,
+        authCaptchaProvider: '',
+        authCaptchaSiteKey: '',
+        appReviewAuthEnabled: true,
+        appReviewAuthPhone: '+250700000001',
+        appReviewAuthOtp: '135790',
+      ),
+    );
+
+    await tester.enterText(find.byType(TextField).first, '+250700000001');
+    await tester.tap(find.widgetWithText(FilledButton, 'Send WhatsApp code'));
+    await tester.pump();
+
+    expect(find.text('OTP'), findsOneWidget);
+    expect(find.text('Authentication failed'), findsNothing);
+
+    await tester.enterText(find.byType(TextField).first, '000000');
+    await tester.tap(find.widgetWithText(FilledButton, 'Verify and continue'));
+    await tester.pump();
+
+    expect(find.text('Authentication failed'), findsOneWidget);
+    expect(repository.state.currentProfile, isNull);
+
+    await tester.enterText(find.byType(TextField).first, '135790');
+    await tester.tap(find.widgetWithText(FilledButton, 'Verify and continue'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('WhatsApp verified.'), findsOneWidget);
+    expect(repository.state.currentProfile?.whatsappPhone, '+250700000001');
+    expect(repository.state.collections, isNotEmpty);
   });
 
   testWidgets('auth country code chip opens all-country picker', (

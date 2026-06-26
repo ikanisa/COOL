@@ -2306,10 +2306,16 @@ end
 FileUtils.mkdir_p(File.join(BUILD_DIR, "icons"))
 FileUtils.cp(File.join(ROOT, ICON_ASSET), File.join(BUILD_DIR, "icons", "collect.png"))
 
-assetlinks_source = File.join(ROOT, "web", ".well-known", "assetlinks.json")
-if File.file?(assetlinks_source)
-  FileUtils.mkdir_p(File.join(BUILD_DIR, ".well-known"))
-  FileUtils.cp(assetlinks_source, File.join(BUILD_DIR, ".well-known", "assetlinks.json"))
+well_known_source = File.join(ROOT, "web", ".well-known")
+if Dir.exist?(well_known_source)
+  well_known_target = File.join(BUILD_DIR, ".well-known")
+  FileUtils.mkdir_p(well_known_target)
+  Dir.children(well_known_source).each do |entry|
+    source = File.join(well_known_source, entry)
+    next unless File.file?(source)
+
+    FileUtils.cp(source, File.join(well_known_target, entry))
+  end
 end
 
 manifest = {

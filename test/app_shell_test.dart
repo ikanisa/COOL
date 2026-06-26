@@ -196,6 +196,35 @@ void main() {
     expect(designAudit, contains('android_device_uat_evidence'));
   });
 
+  test('design compliance audit reads refactored chrome part files', () {
+    final designAudit = File(
+      'scripts/collect_mobile_design_compliance_audit.sh',
+    ).readAsStringSync();
+    final chromeLibrary = File(
+      'lib/shared/widgets/collect_chrome.dart',
+    ).readAsStringSync();
+    final topChromePart = File(
+      'lib/shared/widgets/collect_top_chrome.dart',
+    ).readAsStringSync();
+    final scaffoldPart = File(
+      'lib/shared/widgets/collect_scaffold_chrome.dart',
+    ).readAsStringSync();
+
+    expect(chromeLibrary, contains("part 'collect_top_chrome.dart';"));
+    expect(chromeLibrary, contains("part 'collect_scaffold_chrome.dart';"));
+    expect(topChromePart, contains('class CollectBrandMark'));
+    expect(topChromePart, contains('collect_wordmark_transparent.png'));
+    expect(scaffoldPart, contains('class PremiumScaffold'));
+    expect(scaffoldPart, contains('CollectGradientBackground'));
+    expect(designAudit, contains('def read_dart_library'));
+    expect(
+      designAudit,
+      contains(
+        'chrome = read_dart_library(root, "lib/shared/widgets/collect_chrome.dart")',
+      ),
+    );
+  });
+
   test('design system catalog route is debug-only', () {
     expect(kDebugMode, isTrue);
     expect(collectRoutePaths, contains('/dev/design-system'));

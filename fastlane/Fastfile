@@ -1,5 +1,50 @@
 default_platform(:android)
 
+COLLECT_IOS_APP_IDENTIFIER = "app.cool.mobile"
+COLLECT_IOS_APPLE_ID = "6783960331"
+COLLECT_IOS_TEAM_ID = "63STJ5N27W"
+COLLECT_IOS_VERSION = "1.2.2"
+
+def collect_required_env(name)
+  value = ENV[name].to_s.strip
+  UI.user_error!("#{name} is required") if value.empty?
+  value
+end
+
+def collect_review_phone
+  collect_required_env("COLLECT_REVIEW_PHONE")
+end
+
+def collect_review_otp
+  collect_required_env("COLLECT_REVIEW_OTP")
+end
+
+def collect_app_store_connect_api_key
+  key_id = ENV["ASC_KEY_ID"].to_s.strip
+  issuer_id = ENV["ASC_ISSUER_ID"].to_s.strip
+  key_path = ENV["ASC_PRIVATE_KEY_PATH"].to_s.strip
+  key_content = ENV["ASC_PRIVATE_KEY"].to_s.strip
+
+  UI.user_error!("ASC_KEY_ID is required") if key_id.empty?
+  UI.user_error!("ASC_ISSUER_ID is required") if issuer_id.empty?
+  UI.user_error!("ASC_PRIVATE_KEY_PATH or ASC_PRIVATE_KEY is required") if key_path.empty? && key_content.empty?
+
+  options = {
+    key_id: key_id,
+    issuer_id: issuer_id,
+    duration: 1200,
+    in_house: false
+  }
+
+  if !key_content.empty?
+    options[:key_content] = key_content.gsub("\\n", "\n")
+  else
+    options[:key_filepath] = key_path
+  end
+
+  app_store_connect_api_key(**options)
+end
+
 platform :android do
   desc "Validate Google Play metadata and AAB paths without submitting to Play"
   lane :play_validate_local do
@@ -15,5 +60,93 @@ platform :android do
     sh("./scripts/google_play_console_audit_packet.sh --json")
     sh("./scripts/google_play_metadata_export.sh --json")
     supply
+  end
+end
+
+platform :ios do
+  desc "Stage Collect App Store screenshots into Fastlane's upload layout"
+  lane :prepare_app_store_assets do
+    sh("rm -rf screenshots/en-GB")
+    sh("mkdir -p screenshots/en-GB")
+    sh("cp ../output/app_store/ios_screenshots/final/*.png screenshots/en-GB/")
+    sh("sips -g pixelWidth -g pixelHeight screenshots/en-GB/*.png >/dev/null")
+  end
+
+  desc "Upload Collect App Store metadata and screenshots without a binary or review submission"
+  lane :upload_metadata_screenshots do
+    api_key = collect_app_store_connect_api_key
+    review_phone = collect_review_phone
+    review_otp = collect_review_otp
+    prepare_app_store_assets
+
+    deliver(
+      api_key: api_key,
+      app_identifier: COLLECT_IOS_APP_IDENTIFIER,
+      app: COLLECT_IOS_APPLE_ID,
+      app_version: COLLECT_IOS_VERSION,
+      metadata_path: "metadata",
+      screenshots_path: "screenshots",
+      skip_binary_upload: true,
+      skip_metadata: false,
+      skip_screenshots: false,
+      submit_for_review: false,
+      automatic_release: false,
+      force: true,
+      app_review_information: {
+        first_name: "IKANISA",
+        last_name: "Support",
+        phone_number: review_phone,
+        email_address: "info@ikanisa.com",
+        demo_user: review_phone,
+        demo_password: review_otp,
+        notes: "Collect review build has deterministic reviewer access. Open Sign in, enter the provided demo phone number, tap Send WhatsApp code, then enter the provided review OTP. No WhatsApp delivery is required for the review build. Demo records are seeded for review only."
+      }
+    )
+  end
+
+  desc "Build the App Review IPA with deterministic reviewer OTP access enabled"
+  lane :build_review_ipa do
+    review_phone = collect_review_phone
+    review_otp = collect_review_otp
+    sh("cd .. && flutter pub get")
+    sh([
+      "cd .. &&",
+      "flutter build ipa",
+      "--flavor production",
+      "--release",
+      "--export-options-plist=ios/ExportOptionsAppStore.plist",
+      "--dart-define=APP_REVIEW_AUTH_ENABLED=true",
+      "--dart-define=APP_REVIEW_AUTH_PHONE=#{review_phone}",
+      "--dart-define=APP_REVIEW_AUTH_OTP=#{review_otp}"
+    ].join(" "))
+  end
+
+  desc "Upload the latest signed IPA to TestFlight without submitting for App Review"
+  lane :upload_review_build do
+    api_key = collect_app_store_connect_api_key
+    ipa_path = Dir["build/ios/ipa/*.ipa"].max_by { |path| File.mtime(path) }
+    UI.user_error!("No IPA found under build/ios/ipa. Run fastlane ios build_review_ipa first.") if ipa_path.to_s.empty?
+
+    pilot(
+      api_key: api_key,
+      app_identifier: COLLECT_IOS_APP_IDENTIFIER,
+      app_platform: "ios",
+      ipa: ipa_path,
+      skip_waiting_for_build_processing: false,
+      distribute_external: false
+    )
+  end
+
+  desc "Upload App Privacy details using an Apple ID web session and a reviewed JSON answers file"
+  lane :upload_app_privacy_details do
+    UI.user_error!("FASTLANE_USER must be the Apple ID email for App Store Connect") if ENV["FASTLANE_USER"].to_s.strip.empty?
+    UI.user_error!("fastlane/app_privacy_details.json is required") unless File.exist?("app_privacy_details.json")
+
+    upload_app_privacy_details_to_app_store(
+      app_identifier: COLLECT_IOS_APP_IDENTIFIER,
+      team_id: COLLECT_IOS_TEAM_ID,
+      json_path: "app_privacy_details.json",
+      skip_publish: false
+    )
   end
 end

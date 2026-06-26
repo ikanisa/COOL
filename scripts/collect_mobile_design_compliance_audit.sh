@@ -45,6 +45,14 @@ def read(path)
   File.read(path)
 end
 
+def read_dart_library(root, relative)
+  path = File.join(root, relative)
+  source = read(path)
+  library_dir = File.dirname(path)
+  parts = source.scan(/^\s*part\s+['"]([^'"]+)['"];/).flatten
+  ([source] + parts.map { |part| read(File.join(library_dir, part)) }).join("\n")
+end
+
 def png_size(path)
   bytes = File.binread(path)
   return nil unless bytes.bytesize >= 24 && bytes.byteslice(1, 3) == "PNG"
@@ -111,7 +119,7 @@ design = read(File.join(root, "DESIGN.md"))
 design_system = read(File.join(root, "docs/design/DESIGN_SYSTEM.md"))
 colors = read(File.join(root, "lib/app/theme/collect_colors.dart"))
 components = read(File.join(root, "lib/shared/widgets/collect_components.dart"))
-chrome = read(File.join(root, "lib/shared/widgets/collect_chrome.dart"))
+chrome = read_dart_library(root, "lib/shared/widgets/collect_chrome.dart")
 shell = read(File.join(root, "lib/core/widgets/collect_shell.dart"))
 share_screen = read(File.join(root, "lib/features/collections/share_screen.dart"))
 home_screen = read(File.join(root, "lib/features/home/home_screen.dart"))

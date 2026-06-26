@@ -38,6 +38,10 @@ Future<void> main() async {
         if (mobileEvidenceMode)
           collectRepositoryProvider.overrideWith(
             (ref) => CollectRepository.fixture(),
+          )
+        else if (env.hasAppReviewAuthConfig)
+          collectRepositoryProvider.overrideWith(
+            (ref) => CollectRepository.appReviewDemo(),
           ),
       ],
       child: const CollectApp(),

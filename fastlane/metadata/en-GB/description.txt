@@ -1,0 +1,13 @@
+Collect helps savings groups organize contributions, review member balances, and keep credit-readiness records in one mobile workspace.
+
+Groups can track collections, member participation, payment evidence, and account status without relying on scattered chat messages or paper notes. The app is designed for savings groups and administrators that need a clearer record of who contributed, what changed, and what still needs follow-up.
+
+Key capabilities:
+
+- Savings group overview and member activity tracking
+- Contribution and payment evidence review
+- Credit-readiness records for organized group review
+- Shareable group context for coordination
+- Account and privacy controls for members
+
+Collect is operated by IKANISA LTD for organized savings, contribution tracking, and financial-readiness workflows.
