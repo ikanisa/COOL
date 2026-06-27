@@ -236,6 +236,10 @@ void main() {
 
     expect(find.byTooltip('Back'), findsOneWidget);
     expect(find.text('St Michel building fund'), findsWidgets);
+    expect(find.text('Contribute'), findsOneWidget);
+    expect(find.text('Activity'), findsWidgets);
+    expect(find.text('Group QR'), findsOneWidget);
+    expect(find.text('Share'), findsOneWidget);
     expect(find.textContaining('Transparent support'), findsNothing);
     expect(find.text('MEMBERS'), findsNothing);
     expect(find.byIcon(CollectIcons.money), findsWidgets);
@@ -605,10 +609,12 @@ void main() {
 
     expect(find.text('Checking MoMo confirmation.'), findsOneWidget);
     expect(find.text('St Michel building fund'), findsWidgets);
-    expect(find.byTooltip('Refresh'), findsOneWidget);
     expect(find.text('Refresh status'), findsOneWidget);
     expect(find.text('Payment details'), findsOneWidget);
     expect(find.text('Open ledger'), findsOneWidget);
+    expect(find.text('What this means'), findsOneWidget);
+    expect(find.text('Next action'), findsOneWidget);
+    expect(find.text('Fallback'), findsOneWidget);
     await scrollToVisible(tester, find.text('RWF 12,000'));
     expect(find.text('RWF 12,000'), findsWidgets);
     expect(find.text('St Michel treasury'), findsOneWidget);
@@ -919,6 +925,9 @@ void main() {
     );
     expect(find.text('Payment pending'), findsWidgets);
     expect(find.text('RWF 9,000'), findsWidgets);
+    expect(find.text('What this means'), findsOneWidget);
+    expect(find.text('Next action'), findsOneWidget);
+    expect(find.text('Fallback'), findsOneWidget);
     expect(find.text('Reference'), findsNothing);
     expect(find.textContaining(intent.id), findsNothing);
     await scrollToVisible(tester, find.text('Open ledger'));

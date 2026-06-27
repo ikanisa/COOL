@@ -97,6 +97,14 @@ class PaymentStateDetailScreen extends ConsumerWidget {
             subtitle: message,
             tone: tone,
           ),
+        _PaymentStateGuidance(
+          status: state,
+          meaning: _stateMeaning(state),
+          nextAction: state == PaymentUiStatus.expired
+              ? 'Contribute again'
+              : 'Open ledger',
+          fallback: _stateFallback(state),
+        ),
         PaymentIntentStatusCard(
           amountRwf: intent.expectedAmountRwf,
           receiverLabel: intent.receiverLabel,
@@ -193,5 +201,75 @@ IconData _secondaryStateActionIcon(PaymentUiStatus state) {
     PaymentUiStatus.pending => CollectIcons.pending,
     PaymentUiStatus.expired ||
     PaymentUiStatus.needsReview => CollectIcons.support,
+  };
+}
+
+String _stateMeaning(PaymentUiStatus state) {
+  return switch (state) {
+    PaymentUiStatus.confirmed => 'The ledger now includes this contribution.',
+    PaymentUiStatus.expired => 'The old payment request can no longer be used.',
+    PaymentUiStatus.needsReview =>
+      'Collect could not safely match this payment automatically.',
+    PaymentUiStatus.pending => 'Collect is still checking MoMo confirmation.',
+  };
+}
+
+String _stateFallback(PaymentUiStatus state) {
+  return switch (state) {
+    PaymentUiStatus.confirmed => 'Open the group if you need more context.',
+    PaymentUiStatus.expired => 'Get help if you already paid.',
+    PaymentUiStatus.needsReview => 'Request support review.',
+    PaymentUiStatus.pending => 'Return to status or open ledger.',
+  };
+}
+
+class _PaymentStateGuidance extends StatelessWidget {
+  const _PaymentStateGuidance({
+    required this.status,
+    required this.meaning,
+    required this.nextAction,
+    required this.fallback,
+  });
+
+  final PaymentUiStatus status;
+  final String meaning;
+  final String nextAction;
+  final String fallback;
+
+  @override
+  Widget build(BuildContext context) {
+    return CollectCard(
+      emphasis: CollectCardEmphasis.flat,
+      child: Column(
+        children: [
+          CollectListTile(
+            leading: _stateGuidanceIcon(status),
+            title: 'What this means',
+            subtitle: meaning,
+          ),
+          CollectListTile(
+            leading: status == PaymentUiStatus.expired
+                ? CollectIcons.momo
+                : CollectIcons.ledger,
+            title: 'Next action',
+            subtitle: nextAction,
+          ),
+          CollectListTile(
+            leading: CollectIcons.support,
+            title: 'Fallback',
+            subtitle: fallback,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+IconData _stateGuidanceIcon(PaymentUiStatus state) {
+  return switch (state) {
+    PaymentUiStatus.confirmed => CollectIcons.check,
+    PaymentUiStatus.expired => CollectIcons.error,
+    PaymentUiStatus.needsReview => CollectIcons.warning,
+    PaymentUiStatus.pending => CollectIcons.pending,
   };
 }

@@ -84,16 +84,20 @@ class _GroupsSearchScreenState extends ConsumerState<GroupsSearchScreen> {
           contentMaxWidth: 420,
         ),
         if (collections.isEmpty)
-          EmptyIllustrationState(
-            icon: CollectIcons.collectionsOutline,
-            title: 'No groups yet',
-            message: 'Scan a QR or create a group to start.',
-            action: CollectButton(
-              label: 'Scan QR',
-              icon: CollectIcons.qr,
-              onPressed: () => context.go('/groups/scan'),
-              expand: true,
-            ),
+          Column(
+            children: [
+              const EmptyIllustrationState(
+                icon: CollectIcons.collectionsOutline,
+                title: 'No groups yet',
+                message: 'Scan a QR or create a group to start.',
+              ),
+              CollectSpacing.gap16,
+              _GroupEmptyActionRail(
+                showCreate: showCreate,
+                onScan: () => context.go('/groups/scan'),
+                onCreate: () => context.go('/groups/create'),
+              ),
+            ],
           )
         else if (query.isEmpty)
           const InfoSecurityBanner(
@@ -102,13 +106,23 @@ class _GroupsSearchScreenState extends ConsumerState<GroupsSearchScreen> {
             tone: CollectStatusTone.info,
           )
         else if (visibleCollections.isEmpty)
-          EmptySearchState(
-            title: 'No groups found',
-            message: 'Try another name or scan a QR code.',
-            onClear: () => setState(() {
-              _search.clear();
-              _query = '';
-            }),
+          Column(
+            children: [
+              EmptySearchState(
+                title: 'No groups found',
+                message: 'Try another name or scan a QR code.',
+                onClear: () => setState(() {
+                  _search.clear();
+                  _query = '';
+                }),
+              ),
+              CollectSpacing.gap16,
+              _GroupEmptyActionRail(
+                showCreate: showCreate,
+                onScan: () => context.go('/groups/scan'),
+                onCreate: () => context.go('/groups/create'),
+              ),
+            ],
           )
         else
           LayoutBuilder(
@@ -238,21 +252,33 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
       children: [
         SectionHeader(title: pageTitle),
         if (visibleCollections.isEmpty)
-          EmptySearchState(
-            title: showContributedOnly
-                ? 'No supported groups'
-                : 'No groups found',
-            message: showContributedOnly
-                ? 'Groups you support will appear here.'
-                : 'No group matches this search.',
-            onClear: () => setState(() {
-              if (showContributedOnly && query.isEmpty) {
-                context.go('/groups');
-              } else {
-                _search.clear();
-                _query = '';
-              }
-            }),
+          Column(
+            children: [
+              EmptySearchState(
+                title: showContributedOnly
+                    ? 'No supported groups'
+                    : 'No groups found',
+                message: showContributedOnly
+                    ? 'Groups you support will appear here.'
+                    : 'No group matches this search.',
+                onClear: () => setState(() {
+                  if (showContributedOnly && query.isEmpty) {
+                    context.go('/groups');
+                  } else {
+                    _search.clear();
+                    _query = '';
+                  }
+                }),
+              ),
+              if (!showContributedOnly) ...[
+                CollectSpacing.gap16,
+                _GroupEmptyActionRail(
+                  showCreate: showCreate,
+                  onScan: () => context.go('/groups/scan'),
+                  onCreate: () => context.go('/groups/create'),
+                ),
+              ],
+            ],
           )
         else
           LayoutBuilder(

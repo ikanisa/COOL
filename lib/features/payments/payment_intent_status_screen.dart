@@ -196,12 +196,12 @@ class _PaymentIntentStatusScreenState
                   ],
                 ),
         ),
-        const CollectVisualFeatureCard(
-          asset: 'assets/brand/generated/collect_visual_momo_signal.png',
-          title: 'Verification trail',
-          message: 'SMS confirms before ledger update.',
-          icon: CollectIcons.sms,
-          tone: CollectStatusTone.privacy,
+        _PaymentClarityCard(
+          status: uiStatus,
+          meaning: _statusMeaning(uiStatus),
+          nextAction: _primaryPaymentActionLabel(uiStatus),
+          nextActionIcon: _primaryPaymentActionIcon(uiStatus),
+          fallback: _paymentFallback(uiStatus),
         ),
         PaymentIntentStatusCard(
           amountRwf: intent.expectedAmountRwf,
@@ -330,4 +330,66 @@ String _statusMessage(PaymentUiStatus status) {
     PaymentUiStatus.needsReview => 'Support can match this safely.',
     PaymentUiStatus.pending => 'Checking MoMo confirmation.',
   };
+}
+
+String _statusMeaning(PaymentUiStatus status) {
+  return switch (status) {
+    PaymentUiStatus.confirmed => 'The group ledger has the confirmed payment.',
+    PaymentUiStatus.expired => 'The old payment request can no longer be used.',
+    PaymentUiStatus.needsReview =>
+      'Collect could not safely match this payment automatically.',
+    PaymentUiStatus.pending =>
+      'Collect is still waiting for MoMo confirmation.',
+  };
+}
+
+String _paymentFallback(PaymentUiStatus status) {
+  return switch (status) {
+    PaymentUiStatus.confirmed => 'Open the group if you need more context.',
+    PaymentUiStatus.expired => 'Open ledger or contact support if you paid.',
+    PaymentUiStatus.needsReview => 'Open ledger or contact support.',
+    PaymentUiStatus.pending => 'Open ledger if you want to leave this screen.',
+  };
+}
+
+class _PaymentClarityCard extends StatelessWidget {
+  const _PaymentClarityCard({
+    required this.status,
+    required this.meaning,
+    required this.nextAction,
+    required this.nextActionIcon,
+    required this.fallback,
+  });
+
+  final PaymentUiStatus status;
+  final String meaning;
+  final String nextAction;
+  final IconData nextActionIcon;
+  final String fallback;
+
+  @override
+  Widget build(BuildContext context) {
+    return CollectCard(
+      emphasis: CollectCardEmphasis.flat,
+      child: Column(
+        children: [
+          CollectListTile(
+            leading: _stateActionIcon(status),
+            title: 'What this means',
+            subtitle: meaning,
+          ),
+          CollectListTile(
+            leading: nextActionIcon,
+            title: 'Next action',
+            subtitle: nextAction,
+          ),
+          CollectListTile(
+            leading: CollectIcons.support,
+            title: 'Fallback',
+            subtitle: fallback,
+          ),
+        ],
+      ),
+    );
+  }
 }

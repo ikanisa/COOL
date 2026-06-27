@@ -755,10 +755,12 @@ class CollectRepository extends StateNotifier<CollectState> {
     if (!_allowLocalWrites) {
       throw StateError('Sign in before adding an admin.');
     }
-    state = state.copyWith(collections: [
-      for (final item in state.collections)
-        if (item.id == collection.id) item else item,
-    ]);
+    state = state.copyWith(
+      collections: [
+        for (final item in state.collections)
+          if (item.id == collection.id) item else item,
+      ],
+    );
   }
 
   Future<OwnerGroupHealth> ownerHealthFor(String collectionId) async {

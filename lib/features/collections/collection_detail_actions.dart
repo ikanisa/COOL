@@ -14,22 +14,22 @@ class _GroupActionStrip extends ConsumerWidget {
     final actions = [
       _GroupActionButton(
         icon: CollectIcons.donate,
-        tooltip: 'Contribute',
+        label: 'Contribute',
         onTap: () => context.go('/groups/$collectionId/contribute'),
       ),
       _GroupActionButton(
         icon: CollectIcons.ledger,
-        tooltip: 'Activity',
+        label: 'Activity',
         onTap: () => context.go('/groups/$collectionId/ledger'),
       ),
       _GroupActionButton(
         icon: CollectIcons.qr,
-        tooltip: 'Group QR',
+        label: 'Group QR',
         onTap: () => context.go('/groups/$collectionId/share'),
       ),
       _GroupActionButton(
         icon: CollectIcons.share,
-        tooltip: 'Share',
+        label: 'Share',
         onTap: () => shareGroupDeepLink(
           context: context,
           ref: ref,
@@ -39,7 +39,7 @@ class _GroupActionStrip extends ConsumerWidget {
     ];
 
     return SizedBox(
-      height: 88,
+      height: 96,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         clipBehavior: Clip.none,
@@ -54,12 +54,12 @@ class _GroupActionStrip extends ConsumerWidget {
 class _GroupActionButton extends StatelessWidget {
   const _GroupActionButton({
     required this.icon,
-    required this.tooltip,
+    required this.label,
     required this.onTap,
   });
 
   final IconData icon;
-  final String tooltip;
+  final String label;
   final VoidCallback onTap;
 
   @override
@@ -74,39 +74,55 @@ class _GroupActionButton extends StatelessWidget {
         ? colors.onImagePrimary.withValues(alpha: 0.14)
         : colors.glassBorder;
     return Semantics(
-      label: tooltip,
+      label: label,
       button: true,
       child: SizedBox(
-        width: 64,
+        width: 76,
         child: InkWell(
           borderRadius: CollectRadius.panelBorder,
           onTap: onTap,
           child: Tooltip(
-            message: tooltip,
-            child: Center(
-              child: Material(
-                color: fill,
-                shape: const CircleBorder(),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: border),
-                    boxShadow: [
-                      BoxShadow(
-                        color: colors.shadowPaint.withValues(
-                          alpha: isDark ? 0.18 : 0.08,
+            message: label,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Material(
+                  color: fill,
+                  shape: const CircleBorder(),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: border),
+                      boxShadow: [
+                        BoxShadow(
+                          color: colors.shadowPaint.withValues(
+                            alpha: isDark ? 0.18 : 0.08,
+                          ),
+                          blurRadius: 18,
+                          offset: const Offset(0, 8),
                         ),
-                        blurRadius: 18,
-                        offset: const Offset(0, 8),
-                      ),
-                    ],
-                  ),
-                  child: SizedBox.square(
-                    dimension: 56,
-                    child: Icon(icon, color: foreground, size: 25),
+                      ],
+                    ),
+                    child: SizedBox.square(
+                      dimension: 52,
+                      child: Icon(icon, color: foreground, size: 24),
+                    ),
                   ),
                 ),
-              ),
+                CollectSpacing.gap8,
+                Text(
+                  label,
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.clip,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: foreground.withValues(alpha: 0.92),
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 0,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

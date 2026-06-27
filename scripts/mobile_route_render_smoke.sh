@@ -129,7 +129,6 @@ route_specs=(
   "home|/home"
   "groups|/groups"
   "groups-search|/groups/search"
-  "join|/groups/join"
   "group-create|/groups/create"
   "group-scan|/groups/scan"
   "iphone-create-unavailable|/platform/iphone-create-unavailable"

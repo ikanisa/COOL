@@ -899,6 +899,18 @@ void main() {
 
     expect(find.text('Review contribution'), findsOneWidget);
     expect(find.text('Target account'), findsOneWidget);
+    expect(
+      tester.widget<Text>(find.text('Target account')).overflow,
+      TextOverflow.clip,
+    );
+    expect(
+      tester
+          .widget<Text>(
+            find.text('Receiver details are checked before handoff.'),
+          )
+          .overflow,
+      TextOverflow.clip,
+    );
   });
 
   testWidgets('form section card standardizes fields errors and actions', (

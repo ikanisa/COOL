@@ -217,12 +217,16 @@ class InfoSecurityBanner extends StatelessWidget {
     required this.message,
     this.title = 'Safety note',
     this.tone = CollectStatusTone.info,
+    this.titleMaxLines = 2,
+    this.messageMaxLines = 3,
     super.key,
   });
 
   final String title;
   final String message;
   final CollectStatusTone tone;
+  final int titleMaxLines;
+  final int messageMaxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -245,18 +249,18 @@ class InfoSecurityBanner extends StatelessWidget {
                 Text(
                   title,
                   style: Theme.of(context).textTheme.titleSmall,
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
+                  maxLines: titleMaxLines,
+                  softWrap: true,
+                  overflow: TextOverflow.clip,
                 ),
                 if (visibleMessage.isNotEmpty) ...[
                   CollectSpacing.gap4,
                   Text(
                     visibleMessage,
                     style: Theme.of(context).textTheme.bodySmall,
-                    maxLines: 1,
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
+                    maxLines: messageMaxLines,
+                    softWrap: true,
+                    overflow: TextOverflow.clip,
                   ),
                 ],
               ],

@@ -46,7 +46,6 @@ const collectRoutePaths = <String>[
   '/platform/iphone-create-unavailable',
   '/groups',
   '/groups/search',
-  '/groups/join',
   '/groups/scan',
   '/groups/create',
   '/groups/:collectionId',

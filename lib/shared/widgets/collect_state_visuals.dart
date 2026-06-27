@@ -8,8 +8,8 @@ class MinimalStatePanel extends StatelessWidget {
     this.tone = CollectStatusTone.info,
     this.primaryAction,
     this.secondaryAction,
-    this.titleMaxLines = 1,
-    this.messageMaxLines = 1,
+    this.titleMaxLines = 2,
+    this.messageMaxLines = 3,
     this.contentMaxWidth = 250,
     super.key,
   });
@@ -120,7 +120,8 @@ class MinimalStatePanel extends StatelessWidget {
                                 fontWeight: FontWeight.w900,
                               ),
                           maxLines: titleMaxLines,
-                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          overflow: TextOverflow.clip,
                         ),
                         if (message.trim().isNotEmpty) ...[
                           CollectSpacing.gap8,
@@ -131,7 +132,8 @@ class MinimalStatePanel extends StatelessWidget {
                                   color: foreground.withValues(alpha: 0.76),
                                 ),
                             maxLines: messageMaxLines,
-                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                            overflow: TextOverflow.clip,
                           ),
                         ],
                         if (primaryAction != null ||
