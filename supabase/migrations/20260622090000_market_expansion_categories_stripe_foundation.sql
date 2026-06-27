@@ -269,7 +269,9 @@ grant execute on function update_collection_profile(
   text
 ) to authenticated;
 
-create or replace view member_collections_view
+drop view if exists member_collections_view;
+
+create view member_collections_view
 with (security_invoker = true)
 as
 select

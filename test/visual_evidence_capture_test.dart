@@ -203,36 +203,24 @@ void main() {
       addTearDown(tester.view.resetDevicePixelRatio);
       addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
 
-      await captureAdmin(
-        name: 'admin-login-mobile',
-        viewport: const Size(390, 844),
-        child: const ProviderScope(child: CollectAdminApp()),
-      );
-      await captureAdmin(
-        name: 'admin-login-desktop',
-        viewport: const Size(1440, 900),
-        child: const ProviderScope(child: CollectAdminApp()),
-      );
-      await captureAdmin(
-        name: 'admin-overview-desktop',
-        viewport: const Size(1440, 900),
-        child: _adminAppAt('/admin'),
-      );
-      await captureAdmin(
-        name: 'admin-payment-events-mobile',
-        viewport: const Size(390, 844),
-        child: _adminAppAt('/admin/payment-events'),
-      );
-      await captureAdmin(
-        name: 'admin-sms-detail-desktop',
-        viewport: const Size(1440, 900),
-        child: _adminAppAt('/admin/sms/sms-1'),
-      );
+      for (final route in _adminEvidenceRoutes) {
+        for (final viewport in const [Size(390, 844), Size(1440, 900)]) {
+          final viewportName = viewport.width == 390 ? 'mobile' : 'desktop';
+          await captureAdmin(
+            name: 'admin-${route.name}-$viewportName',
+            viewport: viewport,
+            child: _adminAppAt(route.path),
+          );
+        }
+      }
 
       _writeJson(File('${adminDir.path}/summary.json'), {
         'status': 'pass',
         'capture_runtime': 'flutter_test_repaint_boundary',
         'theme_mode': visualThemeMode.name,
+        'route_count': _adminEvidenceRoutes.length,
+        'viewports': ['390x844', '1440x900'],
+        'expected_screenshot_count': _adminEvidenceRoutes.length * 2,
         'screenshots': [for (final capture in captures) capture['path']],
         'captures': captures,
         'privacy':
@@ -244,7 +232,7 @@ void main() {
         isTrue,
       );
     },
-    timeout: const Timeout(Duration(minutes: 6)),
+    timeout: const Timeout(Duration(minutes: 12)),
   );
 }
 
@@ -298,6 +286,42 @@ Widget _adminAppAt(String initialLocation) {
   );
 }
 
+const _adminEvidenceRoutes = <_AdminEvidenceRoute>[
+  _AdminEvidenceRoute('login', '/admin/login'),
+  _AdminEvidenceRoute('denied', '/admin/denied'),
+  _AdminEvidenceRoute('overview', '/admin'),
+  _AdminEvidenceRoute('groups', '/admin/groups'),
+  _AdminEvidenceRoute('group-detail', '/admin/groups/group-1'),
+  _AdminEvidenceRoute('members', '/admin/members'),
+  _AdminEvidenceRoute('member-detail', '/admin/members/member-1'),
+  _AdminEvidenceRoute('payment-intents', '/admin/payment-intents'),
+  _AdminEvidenceRoute(
+    'payment-intent-detail',
+    '/admin/payment-intents/intent-1',
+  ),
+  _AdminEvidenceRoute('payment-events', '/admin/payment-events'),
+  _AdminEvidenceRoute('payment-event-detail', '/admin/payment-events/event-1'),
+  _AdminEvidenceRoute('allocations', '/admin/allocations'),
+  _AdminEvidenceRoute('exceptions', '/admin/exceptions'),
+  _AdminEvidenceRoute('ledger', '/admin/ledger'),
+  _AdminEvidenceRoute('receivers', '/admin/receivers'),
+  _AdminEvidenceRoute('receiver-detail', '/admin/receivers/receiver-1'),
+  _AdminEvidenceRoute('sms', '/admin/sms'),
+  _AdminEvidenceRoute('sms-detail', '/admin/sms/sms-1'),
+  _AdminEvidenceRoute('audit-logs', '/admin/audit-logs'),
+  _AdminEvidenceRoute('settings', '/admin/settings'),
+  _AdminEvidenceRoute('feature-flags', '/admin/feature-flags'),
+  _AdminEvidenceRoute('system-health', '/admin/system-health'),
+  _AdminEvidenceRoute('admin-users', '/admin/admin-users'),
+];
+
+class _AdminEvidenceRoute {
+  const _AdminEvidenceRoute(this.name, this.path);
+
+  final String name;
+  final String path;
+}
+
 GoRouter createAdminRouterForEvidence(String initialLocation) {
   return GoRouter(
     initialLocation: initialLocation,
@@ -322,6 +346,39 @@ GoRouter createAdminRouterForEvidence(String initialLocation) {
             path: '/admin',
             builder: (context, state) => const AdminOverviewContent(),
           ),
+          _adminEvidenceListRoute(
+            '/admin/groups',
+            title: 'Groups',
+            rpcName: 'admin_list_collections',
+            detailPathPrefix: '/admin/groups',
+          ),
+          _adminEvidenceDetailRoute(
+            '/admin/groups/:id',
+            title: 'Group detail',
+            rpcName: 'admin_get_collection',
+          ),
+          _adminEvidenceListRoute(
+            '/admin/members',
+            title: 'Members',
+            rpcName: 'admin_list_users',
+            detailPathPrefix: '/admin/members',
+          ),
+          _adminEvidenceDetailRoute(
+            '/admin/members/:id',
+            title: 'Member detail',
+            rpcName: 'admin_get_user',
+          ),
+          _adminEvidenceListRoute(
+            '/admin/payment-intents',
+            title: 'Payment intents',
+            rpcName: 'admin_list_payments',
+            detailPathPrefix: '/admin/payment-intents',
+          ),
+          _adminEvidenceDetailRoute(
+            '/admin/payment-intents/:id',
+            title: 'Payment intent detail',
+            rpcName: 'admin_get_payment',
+          ),
           GoRoute(
             path: '/admin/payment-events',
             builder: (context, state) => const AdminRpcListPage(
@@ -331,14 +388,115 @@ GoRouter createAdminRouterForEvidence(String initialLocation) {
               actionKind: 'payment_event_reparse',
             ),
           ),
+          _adminEvidenceDetailRoute(
+            '/admin/payment-events/:id',
+            title: 'Payment event detail',
+            rpcName: 'admin_get_payment_event',
+          ),
+          _adminEvidenceListRoute(
+            '/admin/allocations',
+            title: 'Allocations',
+            rpcName: 'admin_list_allocations',
+            detailPathPrefix: '/admin/payment-events',
+          ),
+          _adminEvidenceListRoute(
+            '/admin/exceptions',
+            title: 'Exceptions',
+            rpcName: 'admin_list_unallocated',
+            detailPathPrefix: '/admin/payment-events',
+            actionKind: 'payment_event_reparse',
+          ),
+          _adminEvidenceListRoute(
+            '/admin/ledger',
+            title: 'Ledger',
+            rpcName: 'admin_list_ledger',
+          ),
+          _adminEvidenceListRoute(
+            '/admin/receivers',
+            title: 'Receivers',
+            rpcName: 'admin_list_receivers',
+            detailPathPrefix: '/admin/receivers',
+          ),
+          _adminEvidenceDetailRoute(
+            '/admin/receivers/:id',
+            title: 'Receiver detail',
+            rpcName: 'admin_get_receiver',
+          ),
+          _adminEvidenceListRoute(
+            '/admin/sms',
+            title: 'SMS metadata',
+            rpcName: 'admin_list_sms_metadata',
+            detailPathPrefix: '/admin/sms',
+          ),
           GoRoute(
             path: '/admin/sms/:id',
             builder: (context, state) =>
                 AdminSmsDetailPage(id: state.pathParameters['id']!),
           ),
+          _adminEvidenceListRoute(
+            '/admin/audit-logs',
+            title: 'Audit logs',
+            rpcName: 'admin_list_audit_logs',
+          ),
+          _adminEvidenceListRoute(
+            '/admin/settings',
+            title: 'Settings',
+            rpcName: 'admin_list_settings',
+          ),
+          _adminEvidenceListRoute(
+            '/admin/feature-flags',
+            title: 'Feature flags',
+            rpcName: 'admin_list_feature_flags',
+          ),
+          GoRoute(
+            path: '/admin/system-health',
+            builder: (context, state) => const AdminDetailPage(
+              title: 'System health',
+              rpcName: 'admin_system_health',
+              id: 'system',
+            ),
+          ),
+          _adminEvidenceListRoute(
+            '/admin/admin-users',
+            title: 'Admin users',
+            rpcName: 'admin_list_admin_users',
+          ),
         ],
       ),
     ],
+  );
+}
+
+GoRoute _adminEvidenceListRoute(
+  String path, {
+  required String title,
+  required String rpcName,
+  String? detailPathPrefix,
+  String? actionKind,
+}) {
+  return GoRoute(
+    path: path,
+    builder: (context, state) => AdminRpcListPage(
+      title: title,
+      rpcName: rpcName,
+      detailPathPrefix: detailPathPrefix,
+      actionKind: actionKind,
+    ),
+  );
+}
+
+GoRoute _adminEvidenceDetailRoute(
+  String path, {
+  required String title,
+  required String rpcName,
+}) {
+  return GoRoute(
+    path: path,
+    builder: (context, state) => AdminDetailPage(
+      title: title,
+      rpcName: rpcName,
+      id: state.pathParameters['id']!,
+    ),
   );
 }
 

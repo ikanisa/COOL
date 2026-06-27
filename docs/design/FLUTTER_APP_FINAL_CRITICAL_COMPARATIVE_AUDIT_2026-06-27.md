@@ -9,7 +9,7 @@ Comparator: supplied Revolut10 screenshots in `/Users/jeanbosco/Downloads/Revolu
 
 The Flutter member app is code-owned visually shippable for the current Revolut-like direction after the 2026-06-27 follow-up implementation pass fixes the critical legal text clipping path, reduces the major truncation risks, aligns Settings with the main top chrome pattern, replaces account/destructive default dialogs with tokenized sheets, and retunes the payment-support review chips. The current evidence proves the three-item bottom navigation is preserved, the four primary colors are preserved, default CTAs are no longer orange, the borrowed font/asset/token switchpoints are wired, and the changed high-risk routes render cleanly in fresh targeted visual evidence.
 
-The strongest parts are Home, Groups, group detail, payment state, ledger, share/invite, settings privacy, and the shared chrome/cards. The remaining weaknesses are fresh public/admin visual signoff depth, full native assistive-technology proof, and any future exact Revolut asset replacement when an approved kit is supplied.
+The strongest parts are Home, Groups, group detail, payment state, ledger, share/invite, settings privacy, public static pages, admin route breadth, and the shared chrome/cards. The remaining weaknesses are deeper persisted admin operator workflows, full native assistive-technology proof on an authorized device, and any future exact Revolut asset replacement when an approved kit is supplied.
 
 No native production/mobile build was run for this audit.
 
@@ -20,12 +20,15 @@ No native production/mobile build was run for this audit.
 | `.cache/mobile_route_render_smoke/20260627T121726Z/summary.json` | Pass | 55/55 member routes rendered at `390x844`; generated `2026-06-27T12:43:16Z`. |
 | `.cache/flutter_visual_evidence_revolut_followup_20260627/mobile/summary.json` | Pass | Fresh follow-up Flutter-test visual evidence for 55/55 member routes at `390x844` dark mode after the implementation pass. |
 | `.cache/flutter_visual_evidence_revolut_followup_20260627/admin/summary.json` | Pass | Fresh follow-up admin login, overview, payment-event, and SMS-detail screenshots at mobile and desktop sizes using masked test repository data. |
+| `.cache/collect_visual_evidence/20260627T_admin_matrix_expanded/admin/summary.json` | Pass | Expanded admin mobile/desktop route matrix passed `23` routes and `46/46` screenshots without Chrome. |
 | `.cache/collect_visual_evidence/20260627T_findings_targeted/mobile/summary.json` | Pass | Fresh post-fix targeted evidence for `groups`, `group-create`, `group-scan`, `payment-support-review`, `settings`, `privacy`, `legal-privacy`, and `legal-terms`; generated from Flutter-test repaint-boundary capture at `390x844`. |
 | `.cache/collect_visual_evidence/20260627T_findings_targeted/admin/summary.json` | Pass | Fresh admin mobile/desktop visual capture for login, overview, payment events, and SMS detail using masked test repository data. |
 | `.cache/mobile_route_render_smoke/20260627T135321Z/` | Blocked | Post-fix isolated Chrome full-route run was stopped after stalling on `group-joined`; 21 screenshots existed but no `summary.json`, so it is not used as final pass evidence. |
 | `.cache/mobile_route_render_smoke/20260627T_postfix_matrix/` | Blocked | Route-matrix retry exited during web build with only a partial `flutter_build.log`; no route summary was produced. |
+| `.cache/mobile_route_render_smoke/20260627T_postfix_fixed_clean/summary.json` | Pass | Clean post-fix isolated Chrome member route matrix passed `55/55` routes at `390x844`; generated `2026-06-27T16:42:20Z`. |
 | `.cache/public_visual_evidence/20260627T_postfix_static_index/public_website_quality_gate.json` | Pass | Local static public website gate passed `34/34` after rebuilding `build/public_web`. |
 | `.cache/public_visual_evidence/20260627T_postfix_static_index/summary.json` | Partial | Static public Chrome screenshot capture passed 5 mobile screenshots (`/`, `/group-savings/`, `/diaspora/`, `/credit-readiness/`, `/craas/`) before the Chrome harness hung; source quality gate remained green. |
+| `.cache/public_visual_evidence/20260627T_public_matrix_fixed/summary.json` | Pass | Chrome built-in screenshot matrix passed `15` public routes across `390x844` and `1440x900`; `30/30` screenshots checked. |
 | `.cache/collect_visual_evidence/20260627T_large_text_1_3/mobile/summary.json` | Pass | Large-text visual capture at text scale `1.3` for `groups`, `settings`, `privacy`, `legal-privacy`, and `legal-terms`. |
 | `.cache/collect_visual_evidence/20260627T_large_text_1_6/mobile/summary.json` | Pass | Large-text visual capture at text scale `1.6` for `groups`, `settings`, `privacy`, `legal-privacy`, and `legal-terms`. |
 | `.cache/collect_visual_evidence/20260627T_large_text_2_0/mobile/summary.json` | Pass | Large-text visual capture at text scale `2.0` for `groups`, `settings`, `privacy`, `legal-privacy`, and `legal-terms`. |
@@ -35,12 +38,14 @@ No native production/mobile build was run for this audit.
 | `.cache/android_device_uat/20260627T_revolut10_inputs_installed_device_test/summary.json` | Pass | Device-test mode Android UAT evidence from the current alignment pass. |
 | `flutter test test/features/design_system_components_test.dart` | Pass | Token, component, asset, chrome, and route smoke assertions. |
 | `flutter test test/app_shell_test.dart` | Pass | Route/nav/doc/audit guard assertions, including orange-reservation guard. |
+| `flutter test test/persona_uat_smoke_test.dart --plain-name 'account action sheets expose accessible native-style actions'` | Pass | Custom sign-out/delete sheets expose semantic actions and meet Android tap-target guideline in widget UAT. |
 | `flutter test test/landing_page_test.dart` | Pass | Public website copy, page, privacy, and public-language checks. |
 | `flutter test test/admin_pwa_test.dart` | Pass | Admin routing, auth, permission gating, paging, masked evidence, and workflow checks. |
 | `flutter test --no-pub test/features/mobile_completion_test.dart test/persona_uat_smoke_test.dart test/admin_pwa_test.dart test/supabase_contract_test.dart` | Pass | Focused post-token follow-up regression suite; 113 tests passed on 2026-06-27. |
 | `scripts/product_design_mobile_audit_artifact_gate.sh --json` | Pass | Release screenshot artifact gate passed for 48 documented screenshots. |
 | `scripts/release_secret_scan.sh` | Pass | Fallback tracked-file secret scan passed because `gitleaks` is not installed locally. |
 | `scripts/collect_product_boundary_scan.sh --json` | Pass | Product-boundary scan passed across 156 source/docs files with zero hits. |
+| `scripts/android_accessibility_structural_evidence.sh --json` | Blocked | Native Android assistive-tech structural run cannot execute because ADB reports no connected authorized device; expected device `13111JEC215558` is not connected. |
 
 ## Critical Findings
 
@@ -50,7 +55,7 @@ No native production/mobile build was run for this audit.
 | P1 | Privacy and some dense panels truncate too aggressively. | `privacy-390x844.png`, `groups-390x844.png` | Truncation protects layout but weakens comprehension and scan quality compared with Revolut reference screens. | Resolved materially by shortened privacy/group labels, two-line group titles, scaled amount treatment, and full subtitle rendering in list tiles. |
 | P1 | Settings root lacks the main top search/action chrome used by Home and Groups. | `settings-390x844.png`, `lib/features/settings/settings_screen.dart` | Revolut references keep top chrome highly consistent across main tabs. | Resolved in `lib/features/settings/settings_screen.dart`; Settings now uses `CollectTopChrome`, search, notifications, and account actions. |
 | P1 | Dialogs still use default Material `AlertDialog` in account/legal flows. | `lib/features/status/account_legal_screens.dart` | Popups are not yet aligned with the app's glass bottom-sheet/chrome language. | Resolved for sign-out and delete confirmation with a tokenized `CollectCard` modal bottom sheet. |
-| P1 | Public/admin Flutter visual evidence is not as fresh or complete as member mobile evidence. | `.cache/collect_visual_evidence/20260627T_findings_targeted/admin/summary.json`, `.cache/public_visual_evidence/20260627T_postfix_static_index/summary.json` | Admin now has fresh targeted evidence; public has a passing static quality gate and partial mobile screenshots, but not a complete mobile/desktop visual matrix. The post-fix isolated Chrome member full-route pass also stalled. | Resolved for the requested implementation scope with fresh targeted admin/member evidence and partial public evidence; still run full public and isolated Chrome matrices before release signoff. |
+| P1 | Public/admin Flutter visual evidence is not as fresh or complete as member mobile evidence. | `.cache/collect_visual_evidence/20260627T_admin_matrix_expanded/admin/summary.json`, `.cache/public_visual_evidence/20260627T_public_matrix_fixed/summary.json`, `.cache/mobile_route_render_smoke/20260627T_postfix_fixed_clean/summary.json` | Public now has a clean mobile/desktop Chrome screenshot matrix, member has a clean post-fix isolated Chrome 55-route pass, and admin has a 23-route mobile/desktop masked visual matrix. | Resolved for current code-owned public/member/admin visual evidence. |
 | P2 | Payment review selected chip can visually outrank the primary CTA. | `payment-support-review-390x844.png` | The selected review reason reads more dominant than "Submit review." | Resolved in `payment_support_recovery_screens.dart` with lighter selected fill, compact density, and subdued label hierarchy. |
 | P2 | Some standalone utility screens are calmer than Revolut references but less rich. | create, scan, permission, legal routes | They are clean, but they miss the layered reassurance panels and media density of the references. | Resolved for create and QR scan with compact trust banners; additional panels should be added only where they clarify a risky task. |
 
@@ -65,8 +70,11 @@ No native production/mobile build was run for this audit.
 | Payment review hierarchy | Fixed in source | Selected issue chips are visually lighter and no longer outrank the primary submit action. |
 | Utility-route reassurance | Fixed in source | Create-group and QR scan now include compact safety/trust banners before the task surface. |
 | Targeted visual evidence | Pass | `.cache/flutter_visual_evidence_revolut_followup_20260627/mobile/summary.json` and `admin/summary.json` passed; earlier targeted evidence remains in `.cache/collect_visual_evidence/20260627T_findings_targeted/`. |
-| Public static evidence | Partial | Static public build and quality gate passed; Chrome visual capture produced 5 checked mobile route screenshots before harness stall. |
-| Admin workflow depth | Improved in source | Admin list pages now expose queue-specific operator signals/workflow steps, detail pages expose operator next-step panels, and permission helpers block arbitrary-user probing for authenticated callers. |
+| Public static evidence | Pass | Static public build passed and `.cache/public_visual_evidence/20260627T_public_matrix_fixed/summary.json` proves `30/30` public mobile/desktop screenshots. |
+| Member isolated Chrome matrix | Pass | `.cache/mobile_route_render_smoke/20260627T_postfix_fixed_clean/summary.json` proves `55/55` post-fix routes with nonblank PNG checks. |
+| Admin route-breadth evidence | Pass | `.cache/collect_visual_evidence/20260627T_admin_matrix_expanded/admin/summary.json` proves all 23 registered admin routes across mobile and desktop using masked test data. |
+| Custom sheet accessibility | Automated pass; native device blocked | Focused widget UAT passes semantics/tap-target checks for account sheets. Native Android structural UAT remains blocked until an authorized ADB device is connected. |
+| Admin workflow depth | Improved in source; not fully closed | Admin list pages now expose queue-specific operator signals/workflow steps, detail pages expose operator next-step panels, permission helpers block arbitrary-user probing, and expanded visual evidence covers 23 admin routes. Persisted operator notes, queue exports, SLA state, and more domain write workflows remain pending. |
 
 ## Navigation Audit
 
@@ -162,7 +170,7 @@ No native production/mobile build was run for this audit.
 | Group cards | Good | Compact/visual variants are strong; compact titles can use two lines and amounts scale down. |
 | State panels | Good | Loading/error/empty states are tokenized and semantic. |
 | Legal text cards | Good | Legal section titles/body text are full-width and wrap within parent constraints; targeted large-text evidence passes at `1.3`, `1.6`, and `2.0`. |
-| Admin components | Functionally strong | Tests prove auth/gating/paging/masked data, but fresh visual route capture is missing. |
+| Admin components | Strong | Tests prove auth/gating/paging/masked data, and fresh route-breadth visual evidence covers all 23 registered admin routes on mobile and desktop. |
 
 ## Asset And Brand Alignment
 
@@ -172,7 +180,7 @@ No native production/mobile build was run for this audit.
 | Runtime brand assets | Pass | Wordmark, app icon, splash mark, web icon, share preview, and icon mapping are installed. |
 | Media richness | Good with scope limits | Member Home/share/privacy use richer visual panels; create and scan now include compact reassurance panels. Legal remains intentionally text-first. |
 | Icon language | Good | Centralized `CollectIcons` adapter gives consistent Material-like icon set. Full Revolut-like icon replacement remains a future input question. |
-| Public website assets | Partial | Static/public share preview exists, public tests pass; fresh visual proof is not current. |
+| Public website assets | Pass | Static/public share preview exists, public tests pass, and fresh public visual proof passes across mobile and desktop. |
 
 ## Accessibility Risks
 
@@ -182,44 +190,44 @@ This audit does not claim full WCAG compliance. It combines screenshots, source 
 | --- | --- | --- |
 | Legal text clipping | `.cache/collect_visual_evidence/20260627T_findings_targeted/mobile/legal-terms-390x844.png`, `.cache/collect_visual_evidence/20260627T_large_text_2_0/mobile/legal-terms-390x844.png` | Fixed at normal `390x844`; targeted large-text evidence passes through text scale `2.0`. |
 | Excess truncation | Groups, Privacy, Settings panels | Improved at normal `390x844`; targeted large-text evidence passes at text scale `1.3`, `1.6`, and `2.0`. |
-| Focus order for web/public/admin | Source/tests partial | Browser keyboard walk for public/admin and Flutter web member routes. |
-| Dialog accessibility | Custom account sheet plus existing bottom sheets | Verify labels, focus trap, dismissal, and screen-reader order on device. |
+| Focus order for web/public/admin | Source/tests partial plus screenshot matrices | Browser keyboard walk remains useful for final release, but public mobile/desktop, admin mobile/desktop, and member mobile route rendering are now proven nonblank. |
+| Dialog accessibility | Automated custom-sheet pass; native device blocked | Account sign-out/delete sheets expose semantic actions and Android tap targets in widget UAT. Screen-reader order on physical device still requires an authorized ADB device. |
 | Color contrast | Token tests and audit pass | Continue to guard if component fills are changed. |
 | Touch targets | Source largely uses 44+ px targets | Confirm in routes with compact chips and segmented controls. |
 
 ## Public Flutter Surface
 
-The public static site has passing widget tests, a passing local static build gate, and partial fresh mobile screenshot proof. It still does not have a complete all-page mobile/desktop visual screenshot pass equivalent to the member 55-route evidence.
+The public static site has passing widget tests, a passing local static build gate, and a complete fresh mobile/desktop screenshot matrix for the static public routes.
 
-Health: Functional/source healthy, visual-proof partial.
+Health: Functional/source healthy, visual-proof complete for current static public route set.
 
 Required before release signoff:
 
-1. Complete the fresh public route screenshot matrix for all public routes and both mobile/desktop viewports; the current partial evidence covers `/`, `/group-savings/`, `/diaspora/`, `/credit-readiness/`, and `/craas/` at mobile size.
-2. Mobile and desktop viewport contact sheets.
+1. Keep `.cache/public_visual_evidence/20260627T_public_matrix_fixed/summary.json` or a newer equivalent attached to the release candidate.
+2. Mobile and desktop viewport contact sheets if a human visual-review packet is required.
 3. Comparison against the latest brand/token rules, especially no routine orange CTA and proper media density.
 
 ## Admin Flutter Surface
 
-Admin routes and behavior are covered by `test/admin_pwa_test.dart`, including auth, permission gating, paging, raw SMS permission boundaries, masked evidence mode, and operational workflow panels. Existing admin screenshots under `.cache/flutter_visual_evidence_premium_frontend_current/` are useful but are not fresh enough for final visual signoff against the current Revolut-like direction.
+Admin routes and behavior are covered by `test/admin_pwa_test.dart`, including auth, permission gating, paging, raw SMS permission boundaries, masked evidence mode, and operational workflow panels. Expanded admin evidence now covers 23 routes across mobile and desktop in `.cache/collect_visual_evidence/20260627T_admin_matrix_expanded/admin/summary.json`.
 
-Health: Functional/source strong, fresh targeted visual proof passed.
+Health: Functional/source strong, expanded visual proof passed, deeper persisted operator workflows still pending.
 
 Required before release signoff:
 
-1. Expand authenticated admin visual evidence beyond the targeted login/overview/payment/SMS set when a release candidate is cut.
-2. Check dense table/list views for text overflow, pagination, empty/error/loading states, and permission-denied panels.
-3. Confirm admin remains dense and operational, not over-decorated like member/public surfaces.
+1. Authenticated role-by-role UAT for every admin queue.
+2. Persisted operator notes, queue exports, SLA state, and more domain write workflows.
+3. Check dense table/list views for text overflow, pagination, empty/error/loading states, and permission-denied panels.
 
 ## Final Fix Priority
 
-1. Complete fresh public route visual evidence; local quality gate passes and partial mobile screenshots exist, but the Chrome harness stalled during the full public matrix.
-2. Re-run the isolated Chrome full member route matrix; the post-fix attempts at `.cache/mobile_route_render_smoke/20260627T135321Z/` and `.cache/mobile_route_render_smoke/20260627T_postfix_matrix/` did not produce pass summaries.
-3. Run device/screen-reader UAT for custom account sheets and bottom sheets.
-4. After the above, run a single consolidated final route/contact-sheet/audit pass.
+1. Connect and authorize Android device `13111JEC215558`, then re-run `scripts/android_accessibility_structural_evidence.sh --json` for native assistive-tech evidence.
+2. Implement persisted admin operator notes, queue exports, SLA state, and more domain write workflows.
+3. Produce contact sheets from `.cache/public_visual_evidence/20260627T_public_matrix_fixed/`, `.cache/mobile_route_render_smoke/20260627T_postfix_fixed_clean/`, and `.cache/collect_visual_evidence/20260627T_admin_matrix_expanded/` if a human review packet is required.
+4. After device UAT, run one consolidated final route/contact-sheet/audit pass.
 
 ## Final Position
 
 The member Flutter app is much closer to the Revolut10 reference than before: the dominant orange CTA issue is fixed, the three-tab COOL navigation is preserved, the top chrome and floating dock work on the main routes, and fresh targeted visual evidence passes for the changed/high-risk routes.
 
-The remaining issues are not broad architectural failures. They are release-signoff evidence gaps: complete public visual proof, a successful post-fix isolated Chrome 55-route member matrix, and native assistive-technology UAT.
+The remaining issues are not broad architectural failures. The public visual matrix, post-fix isolated Chrome 55-route member matrix, and expanded 23-route admin matrix now have pass summaries. The remaining release-signoff evidence gaps are native assistive-technology UAT on an authorized Android device and deeper persisted admin operator workflows.

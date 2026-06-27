@@ -91,6 +91,9 @@ void main() {
   final restrictedAdminPermissionHelperProbing = File(
     'supabase/migrations/20260627143000_restrict_admin_permission_helper_probing.sql',
   ).readAsStringSync();
+  final hardenedDiasporaStripeTableGrants = File(
+    'supabase/migrations/20260627171000_harden_diaspora_stripe_table_grants.sql',
+  ).readAsStringSync();
   final sendNotificationFunction = File(
     'supabase/functions/send-notification/index.ts',
   ).readAsStringSync();
@@ -299,6 +302,28 @@ void main() {
       expect(marketExpansion, isNot(contains('iban')));
     },
   );
+
+  test('diaspora Stripe tables are service-role only after hardening', () {
+    for (final table in [
+      'stripe_customers',
+      'stripe_payment_methods',
+      'diaspora_contribution_intents',
+      'stripe_webhook_events',
+    ]) {
+      expect(
+        hardenedDiasporaStripeTableGrants,
+        contains('revoke select on $table from anon, authenticated'),
+      );
+      expect(
+        hardenedDiasporaStripeTableGrants,
+        contains('grant all on $table to service_role'),
+      );
+      expect(
+        hardenedDiasporaStripeTableGrants,
+        contains('comment on table $table is'),
+      );
+    }
+  });
 
   test('stripe functions use current bank-debit-first APIs', () {
     expect(stripeShared, contains('2026-02-25.clover'));
