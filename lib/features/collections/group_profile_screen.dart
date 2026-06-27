@@ -29,6 +29,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   final _name = TextEditingController();
   final _description = TextEditingController();
   final _receiver = TextEditingController();
+  final _adminPublicId = TextEditingController();
   final _imagePicker = ImagePicker();
 
   Uint8List? _imageBytes;
@@ -39,15 +40,19 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   String _cadence = 'monthly';
   CollectionType _collectionType = CollectionType.ikimina;
   bool _isPublic = false;
+  bool _recurringEnabled = true;
   bool _loaded = false;
   bool _saving = false;
+  bool _addingAdmin = false;
   String? _error;
+  String? _adminMessage;
 
   @override
   void dispose() {
     _name.dispose();
     _description.dispose();
     _receiver.dispose();
+    _adminPublicId.dispose();
     super.dispose();
   }
 
@@ -73,29 +78,33 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
       ),
       children: [
         const CollectPlainPageHeader(title: 'Group profile'),
-        _GroupProfileMediaRow(
-          title: _name.text.trim().isEmpty ? collection.title : _name.text,
-          subtitle:
-              '${_collectionType.label} · ${_isPublic ? 'Public group' : 'Private group'}',
-          accentColor: _selectedColor,
-          imageBytes: _imageBytes,
-          imageUrl: _imageBytes == null && !_removeExistingImage
-              ? collection.imageUrl
-              : null,
-          onPick: _pickImage,
-          onRemove:
-              _imageBytes != null ||
-                  (!_removeExistingImage &&
-                      _imageProviderUrl(collection.imageUrl) != null)
-              ? () => setState(() {
-                  _imageBytes = null;
-                  _imageName = null;
-                  _imageMimeType = null;
-                  _removeExistingImage = true;
-                })
-              : null,
+        CollectCard(
+          emphasis: CollectCardEmphasis.flat,
+          child: _GroupProfileMediaRow(
+            title: _name.text.trim().isEmpty ? collection.title : _name.text,
+            subtitle:
+                '${_collectionType.label} · ${_isPublic ? 'Public group' : 'Private group'}',
+            accentColor: _selectedColor,
+            imageBytes: _imageBytes,
+            imageUrl: _imageBytes == null && !_removeExistingImage
+                ? collection.imageUrl
+                : null,
+            onPick: _pickImage,
+            onRemove:
+                _imageBytes != null ||
+                    (!_removeExistingImage &&
+                        _imageProviderUrl(collection.imageUrl) != null)
+                ? () => setState(() {
+                    _imageBytes = null;
+                    _imageName = null;
+                    _imageMimeType = null;
+                    _removeExistingImage = true;
+                  })
+                : null,
+          ),
         ),
         _GroupProfileEditSection(
+          title: 'Details',
           errorMessage: _error,
           children: [
             CollectTextInput(
@@ -124,14 +133,42 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
                 onChanged: (value) => setState(() => _isPublic = value),
               ),
             ),
-            _CadencePicker(
+            _RecurringCadenceControl(
+              enabled: _recurringEnabled,
               selected: _cadence,
-              onChanged: (value) => setState(() => _cadence = value),
+              onEnabledChanged: (value) =>
+                  setState(() => _recurringEnabled = value),
+              onCadenceChanged: (value) => setState(() => _cadence = value),
             ),
             _ProfileColorPalette(
               selectedHex: _accentColorHex,
               onChanged: (value) => setState(() => _accentColorHex = value),
             ),
+          ],
+        ),
+        _GroupProfileEditSection(
+          title: 'Admins',
+          children: [
+            CollectTextInput(
+              controller: _adminPublicId,
+              label: 'Collect ID',
+              helper: 'Enter a 6 digit Collect ID to invite as admin.',
+              keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.done,
+            ),
+            CollectButton(
+              label: _addingAdmin ? 'Adding admin' : 'Add admin',
+              icon: CollectIcons.people,
+              onPressed: _addingAdmin ? null : () => _addAdmin(collection),
+              variant: CollectButtonVariant.secondary,
+              expand: true,
+            ),
+            if (_adminMessage != null)
+              InfoSecurityBanner(
+                title: 'Admin invite',
+                message: _adminMessage!,
+                tone: CollectStatusTone.info,
+              ),
           ],
         ),
         _GroupProfileEditSection(
@@ -169,6 +206,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
         collection.accentColorHex ??
         CollectColors.brandPrimaryOptions.first.hex;
     _cadence = collection.recurringCadence;
+    _recurringEnabled = collection.recurringCadence.trim().isNotEmpty;
     _collectionType = collection.collectionType;
     _isPublic = collection.isPublic;
   }
@@ -213,7 +251,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
             description: _description.text,
             receiverMomoNumber: _receiver.text,
             receiverLabel: collection.receiverDisplayLabel,
-            recurringCadence: _cadence,
+            recurringCadence: _recurringEnabled ? _cadence : 'monthly',
             collectionType: _collectionType,
             categorySubtype: _defaultProfileCategorySubtype(_collectionType),
             purposeLabel: _collectionType.shortPurpose,
@@ -229,6 +267,31 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
         _saving = false;
         _error = error.toString();
       });
+    }
+  }
+
+  Future<void> _addAdmin(CollectCollection collection) async {
+    setState(() {
+      _addingAdmin = true;
+      _adminMessage = null;
+    });
+    try {
+      await ref
+          .read(collectRepositoryProvider.notifier)
+          .inviteCollectionAdmin(
+            collectionId: collection.id,
+            publicId: _adminPublicId.text,
+          );
+      if (!mounted) return;
+      setState(() {
+        _adminPublicId.clear();
+        _adminMessage = 'Admin invite created.';
+      });
+    } catch (error) {
+      if (!mounted) return;
+      setState(() => _adminMessage = error.toString());
+    } finally {
+      if (mounted) setState(() => _addingAdmin = false);
     }
   }
 

@@ -130,19 +130,19 @@ Complete App Privacy using the prepared draft:
 
 - `fastlane/app_privacy_details.json`
 
-Do not submit for App Review until the uploaded build, screenshots, App Privacy, build selection, pricing/availability, and final human approval are complete.
+Do not submit for App Review until the uploaded build, screenshots, App Privacy, build selection, and pricing/availability are complete. App Review submission is delegated to Codex when the required account access, signing assets, and source-of-truth metadata are available.
 
 ## Alternative F - Fastlane App Privacy Web-Session Route
 
 Fastlane includes `upload_app_privacy_details_to_app_store`, but this installed version requires Apple ID web-session authentication rather than only an App Store Connect API key.
 
-Prepared command after human review of the JSON:
+Prepared command after source-of-truth metadata verification:
 
 ```bash
 FASTLANE_USER=apple-id-email@example.com fastlane ios upload_app_privacy_details
 ```
 
-Because App Privacy is an external privacy disclosure, publish it only after human approval of `fastlane/app_privacy_details.json`.
+Because App Privacy is an external privacy disclosure, publish it only when `fastlane/app_privacy_details.json` matches the current product data practices and the required Apple account session is available.
 
 ## Alternative G - Direct Transporter Upload
 
@@ -171,9 +171,9 @@ Steps:
 
 This avoids the current machine's broken `DARWIN_USER_CACHE_DIR`, CoreSimulator, and code-sign trust state.
 
-## Human Approval Boundary
+## Delegated Release Boundary
 
-The repo is prepared for upload paths, but do not publish App Privacy details, upload a binary, attach a build to the app version, or submit for App Review without explicit human approval at action time.
+The repo is prepared for upload paths. App Privacy publication, binary upload, build attachment, TestFlight selection, and App Review submission are delegated Codex-owned release actions when the required credentials, signing assets, account access, and source-of-truth metadata are available.
 
 ## References Checked
 

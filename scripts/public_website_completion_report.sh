@@ -43,7 +43,7 @@ rows = [
   ["U-4 localization", "PASS", "Owner direction is English-only for the public website; no `/rw/` or `/fr/` routes or translation approval gate is required."],
   ["U-5 visual quality", missing.key?("visual_approval") ? "NO-GO" : "PASS", visual_evidence],
   ["Lighthouse/Core Web Vitals", missing.key?("lighthouse_mobile") || missing.key?("lighthouse_desktop") ? "NO-GO" : "PASS", lighthouse_evidence],
-  ["Play Console action boundary", missing.key?("play_console_approval") ? "NO-GO" : "PASS", missing.key?("play_console_approval") ? "Requires Play Console update proof or owner deferral; no external submission by Codex." : "Accepted Play Console privacy/account/data deletion URL evidence is recorded under #{evidence_dir}/play-console/."],
+  ["Play Console action boundary", missing.key?("play_console_approval") ? "NO-GO" : "PASS", missing.key?("play_console_approval") ? "Requires Play Console update proof or explicit release-owner deferral; Play Console action is delegated to Codex when account access and source-of-truth metadata are available." : "Accepted Play Console privacy/account/data deletion URL evidence is recorded under #{evidence_dir}/play-console/."],
 ]
 
 lines = []

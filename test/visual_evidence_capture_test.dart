@@ -343,7 +343,6 @@ Widget _mobileRouteScreen(String route) {
       const IphoneCreateUnavailableScreen(),
     '/groups' => const CollectionsScreen(),
     '/groups/search' => const GroupsSearchScreen(),
-    '/groups/join' => const JoinGroupPortalScreen(),
     '/groups/scan' => const GroupQrScannerScreen(),
     '/groups/create' => const CollectionCreateScreen(),
     '/groups/$collectionId' => const CollectionDetailScreen(
@@ -376,12 +375,7 @@ Widget _mobileRouteScreen(String route) {
       collectionId: collectionId,
     ),
     '/groups/$collectionId/pay/$intentId/handoff' =>
-      const ReturnFromMomoWaitingScreen(
-        collectionId: collectionId,
-        intentId: intentId,
-      ),
-    '/groups/$collectionId/pay/$intentId/waiting' =>
-      const ReturnFromMomoWaitingScreen(
+      const PaymentIntentStatusScreen(
         collectionId: collectionId,
         intentId: intentId,
       ),
@@ -435,7 +429,6 @@ Widget _mobileRouteScreen(String route) {
     '/share/expired/request' => const FreshLinkRequestScreen(slug: ''),
     '/settings' => const SettingsScreen(),
     '/settings/profile' => const ProfileSetupScreen(),
-    '/settings/readiness' => const ProfileReadinessScreen(),
     '/settings/account' => const AccountSessionScreen(),
     '/settings/account/delete' => const DeleteAccountRequestScreen(),
     '/settings/privacy' => const PrivacyDataScreen(),

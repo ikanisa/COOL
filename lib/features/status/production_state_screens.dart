@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../shared/models/collect_models.dart';
-import '../../shared/providers/collect_app_state.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -16,47 +15,6 @@ export 'payment_status_screens.dart';
 export 'device_privacy_screens.dart';
 export 'account_legal_screens.dart';
 export 'group_members_screen.dart';
-
-class ProfileReadinessScreen extends ConsumerWidget {
-  const ProfileReadinessScreen({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final readiness = ref.watch(profileReadinessProvider);
-    return ScreenScaffold(
-      title: readiness.readyForGroupCreation
-          ? 'Profile ready'
-          : 'Finish profile',
-      children: [
-        if (readiness.collectId != null)
-          CollectIdDisplay(publicId: readiness.collectId!),
-        _ReadinessRows(
-          rows: [
-            _ReadinessRow(
-              label: readiness.collectId == null
-                  ? 'Profile'
-                  : readiness.collectId!,
-              ready: readiness.hasProfile,
-            ),
-            _ReadinessRow(label: 'MoMo saved', ready: readiness.hasMomoNumber),
-          ],
-        ),
-        CollectButton(
-          label: readiness.readyForGroupCreation
-              ? 'Open groups'
-              : 'Add MoMo number',
-          icon: readiness.readyForGroupCreation
-              ? CollectIcons.collections
-              : CollectIcons.momo,
-          onPressed: () => context.go(
-            readiness.readyForGroupCreation ? '/groups' : '/settings/profile',
-          ),
-          expand: true,
-        ),
-      ],
-    );
-  }
-}
 
 class GroupCreatedSuccessScreen extends ConsumerWidget {
   const GroupCreatedSuccessScreen({required this.collectionId, super.key});
@@ -212,40 +170,6 @@ class _StateHero extends StatelessWidget {
       ),
     );
   }
-}
-
-class _ReadinessRows extends StatelessWidget {
-  const _ReadinessRows({required this.rows});
-
-  final List<_ReadinessRow> rows;
-
-  @override
-  Widget build(BuildContext context) {
-    return CollectCard(
-      child: Column(
-        children: [
-          for (final row in rows)
-            CollectListTile(
-              leading: row.ready ? CollectIcons.check : CollectIcons.warning,
-              title: row.label,
-              trailing: CollectStatusChip(
-                label: row.ready ? 'Ready' : 'Needs action',
-                tone: row.ready
-                    ? CollectStatusTone.success
-                    : CollectStatusTone.warning,
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ReadinessRow {
-  const _ReadinessRow({required this.label, required this.ready});
-
-  final String label;
-  final bool ready;
 }
 
 CollectCollection? _safeCollection(WidgetRef ref, String collectionId) {

@@ -41,7 +41,7 @@ class CollectionDetailScreen extends ConsumerWidget {
       bottomAction: isAdmin
           ? null
           : CollectButton(
-              label: collection.collectionType.contributionPrompt,
+              label: 'Contribute',
               icon: CollectIcons.donate,
               onPressed: () => context.go('/groups/$collectionId/contribute'),
               expand: true,

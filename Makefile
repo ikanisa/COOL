@@ -2,7 +2,7 @@ SHELL := /bin/bash
 FLUTTER ?= /Volumes/PRO-G40/flutter_3_44/bin/flutter
 DART ?= /Volumes/PRO-G40/flutter_3_44/bin/dart
 
-.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke android-device-uat flutter-mobile-release-gate flutter-mobile-release-gate-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
+.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke product-design-mobile-audit-artifact-gate product-design-mobile-audit-artifact-gate-json android-device-uat flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
 
 help:
 	@echo "Collect workspace commands"
@@ -17,8 +17,11 @@ help:
 	@echo "  make admin-pwa-live-gate Validate deployed Admin PWA URL headers and PWA files"
 	@echo "  make admin-pwa-render-smoke Capture rendered desktop/mobile Admin PWA evidence"
 	@echo "  make mobile-route-render-smoke Capture representative mobile route screenshots"
+	@echo "  make product-design-mobile-audit-artifact-gate Validate saved product-design route screenshot evidence"
 	@echo "  make android-device-uat Run guarded Pixel 4a integration UAT"
 	@echo "  make flutter-mobile-release-gate Validate mobile release metadata, signing review, and iOS scope"
+	@echo "  make android-release-signing-preflight Check configured Android signing certificate against Play signing fingerprint"
+	@echo "  make android-kotlin-plugin-compat Check Android Flutter plugins for direct Kotlin Gradle Plugin usage"
 	@echo "  make uat-evidence-gate Validate sanitized human UAT evidence manifest"
 	@echo "  make record-android-sms-uat-evidence ARGS='...' Safely attach sanitized Android SMS UAT scenario evidence"
 	@echo "  make record-uat-evidence-signoff ARGS='...' Safely record one UAT persona or release-owner signoff"
@@ -94,6 +97,12 @@ admin-pwa-render-smoke:
 mobile-route-render-smoke:
 	@./scripts/mobile_route_render_smoke.sh
 
+product-design-mobile-audit-artifact-gate:
+	@./scripts/product_design_mobile_audit_artifact_gate.sh
+
+product-design-mobile-audit-artifact-gate-json:
+	@./scripts/product_design_mobile_audit_artifact_gate.sh --json
+
 android-device-uat:
 	@./scripts/android_device_uat.sh
 
@@ -102,6 +111,18 @@ flutter-mobile-release-gate:
 
 flutter-mobile-release-gate-json:
 	@./scripts/flutter_mobile_release_gate.sh --json
+
+android-release-signing-preflight:
+	@./scripts/android_release_signing_preflight.sh
+
+android-release-signing-preflight-json:
+	@./scripts/android_release_signing_preflight.sh --json
+
+android-kotlin-plugin-compat:
+	@./scripts/android_kotlin_plugin_compat_gate.sh
+
+android-kotlin-plugin-compat-json:
+	@./scripts/android_kotlin_plugin_compat_gate.sh --json
 
 uat-evidence-gate:
 	@./scripts/uat_evidence_gate.sh

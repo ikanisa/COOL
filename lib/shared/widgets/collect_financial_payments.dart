@@ -7,6 +7,7 @@ class PaymentReviewSummary extends StatelessWidget {
     required this.receiverLabel,
     required this.receiverMomoNumber,
     this.onEdit,
+    this.showFullReceiverNumber = false,
     super.key,
   });
 
@@ -15,6 +16,7 @@ class PaymentReviewSummary extends StatelessWidget {
   final String receiverLabel;
   final String receiverMomoNumber;
   final VoidCallback? onEdit;
+  final bool showFullReceiverNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,9 @@ class PaymentReviewSummary extends StatelessWidget {
           _ReviewLine(label: 'Group', value: groupTitle),
           _ReviewLine(
             label: 'MoMo',
-            value: maskMomoNumberForDisplay(receiverMomoNumber),
+            value: showFullReceiverNumber
+                ? receiverMomoNumber
+                : maskMomoNumberForDisplay(receiverMomoNumber),
           ),
         ],
       ),

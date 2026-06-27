@@ -39,7 +39,7 @@ class _GroupActionStrip extends ConsumerWidget {
     ];
 
     return SizedBox(
-      height: 64,
+      height: 88,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         clipBehavior: Clip.none,
@@ -73,34 +73,39 @@ class _GroupActionButton extends StatelessWidget {
     final border = isDark
         ? colors.onImagePrimary.withValues(alpha: 0.14)
         : colors.glassBorder;
-    return Tooltip(
-      message: tooltip,
-      child: Semantics(
-        label: tooltip,
-        button: true,
-        child: Material(
-          color: fill,
-          shape: const CircleBorder(),
-          child: InkWell(
-            customBorder: const CircleBorder(),
-            onTap: onTap,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: border),
-                boxShadow: [
-                  BoxShadow(
-                    color: colors.shadowPaint.withValues(
-                      alpha: isDark ? 0.18 : 0.08,
-                    ),
-                    blurRadius: 18,
-                    offset: const Offset(0, 8),
+    return Semantics(
+      label: tooltip,
+      button: true,
+      child: SizedBox(
+        width: 64,
+        child: InkWell(
+          borderRadius: CollectRadius.panelBorder,
+          onTap: onTap,
+          child: Tooltip(
+            message: tooltip,
+            child: Center(
+              child: Material(
+                color: fill,
+                shape: const CircleBorder(),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: border),
+                    boxShadow: [
+                      BoxShadow(
+                        color: colors.shadowPaint.withValues(
+                          alpha: isDark ? 0.18 : 0.08,
+                        ),
+                        blurRadius: 18,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: SizedBox.square(
-                dimension: 64,
-                child: Icon(icon, color: foreground, size: 27),
+                  child: SizedBox.square(
+                    dimension: 56,
+                    child: Icon(icon, color: foreground, size: 25),
+                  ),
+                ),
               ),
             ),
           ),

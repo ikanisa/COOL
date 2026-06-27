@@ -97,61 +97,56 @@ class _TopChromeAvatar extends StatelessWidget {
     final colors = context.collectColors;
     final foreground = colors.onImagePrimary;
     final effectiveOnTap = onTap ?? () => context.go('/settings/profile');
-    return Tooltip(
-      message: 'Open profile',
-      child: Semantics(
-        button: true,
-        label: label == null ? 'Open profile' : 'Open profile for $label',
-        hint: 'Opens the profile page',
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            DecoratedBox(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    CollectColors.referencePaymentsPurple.withValues(
-                      alpha: 0.96,
-                    ),
-                    CollectColors.inkPrimary.withValues(alpha: 0.96),
-                  ],
-                ),
-                border: Border.all(
-                  color: foreground.withValues(alpha: 0.22),
-                  width: 1.1,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: CollectColors.inkPrimary.withValues(alpha: 0.24),
-                    blurRadius: 18,
-                    offset: const Offset(0, 10),
-                  ),
+    return Semantics(
+      button: true,
+      label: label == null ? 'Open profile' : 'Open profile for $label',
+      hint: 'Opens the profile page',
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  CollectColors.referencePaymentsPurple.withValues(alpha: 0.96),
+                  CollectColors.inkPrimary.withValues(alpha: 0.96),
                 ],
               ),
-              child: Material(
-                color: colors.transparent,
-                shape: const CircleBorder(),
-                child: InkWell(
-                  customBorder: const CircleBorder(),
-                  onTap: effectiveOnTap,
-                  child: SizedBox.square(
-                    dimension: 52,
-                    child: Center(
-                      child: ClipOval(
-                        child: Image.asset(
-                          CollectBrandMark.appIconAssetPath,
-                          width: 38,
-                          height: 38,
-                          fit: BoxFit.cover,
-                          filterQuality: FilterQuality.high,
-                          errorBuilder: (context, error, stackTrace) => Icon(
-                            CollectIcons.people,
-                            color: foreground,
-                            size: 30,
-                          ),
+              border: Border.all(
+                color: foreground.withValues(alpha: 0.22),
+                width: 1.1,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: CollectColors.inkPrimary.withValues(alpha: 0.24),
+                  blurRadius: 18,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Material(
+              color: colors.transparent,
+              shape: const CircleBorder(),
+              child: InkWell(
+                customBorder: const CircleBorder(),
+                onTap: effectiveOnTap,
+                child: SizedBox.square(
+                  dimension: 52,
+                  child: Center(
+                    child: ClipOval(
+                      child: Image.asset(
+                        CollectBrandMark.appIconAssetPath,
+                        width: 38,
+                        height: 38,
+                        fit: BoxFit.cover,
+                        filterQuality: FilterQuality.high,
+                        errorBuilder: (context, error, stackTrace) => Icon(
+                          CollectIcons.people,
+                          color: foreground,
+                          size: 30,
                         ),
                       ),
                     ),
@@ -159,21 +154,21 @@ class _TopChromeAvatar extends StatelessWidget {
                 ),
               ),
             ),
-            if (hasUnread)
-              Positioned(
-                right: 2,
-                top: 2,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: colors.brandAction,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: foreground, width: 2),
-                  ),
-                  child: const SizedBox.square(dimension: 11),
+          ),
+          if (hasUnread)
+            Positioned(
+              right: 2,
+              top: 2,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: colors.brandAction,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: foreground, width: 2),
                 ),
+                child: const SizedBox.square(dimension: 11),
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }
@@ -188,8 +183,9 @@ class _TopChromeSearchButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final foreground = context.collectColors.onImagePrimary;
-    return Tooltip(
-      message: label,
+    return Semantics(
+      button: true,
+      label: label,
       child: Material(
         color: CollectColors.inkPrimary.withValues(alpha: 0.92),
         borderRadius: CollectRadius.pillBorder,
@@ -213,7 +209,7 @@ class _TopChromeSearchButton extends StatelessWidget {
                     child: Text(
                       label,
                       maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                      overflow: TextOverflow.clip,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         color: foreground,
                         fontWeight: FontWeight.w800,
@@ -298,41 +294,38 @@ class _TopChromeActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final foreground = colors.onImagePrimary;
-    return Tooltip(
-      message: action.tooltip,
-      child: Semantics(
-        button: true,
-        label: action.tooltip,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Material(
-              color: CollectColors.inkPrimary.withValues(alpha: 0.92),
-              shape: const CircleBorder(),
-              child: InkWell(
-                customBorder: const CircleBorder(),
-                onTap: action.onPressed,
-                child: SizedBox.square(
-                  dimension: 52,
-                  child: Icon(action.icon, color: foreground, size: 26),
-                ),
+    return Semantics(
+      button: true,
+      label: action.tooltip,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Material(
+            color: CollectColors.inkPrimary.withValues(alpha: 0.92),
+            shape: const CircleBorder(),
+            child: InkWell(
+              customBorder: const CircleBorder(),
+              onTap: action.onPressed,
+              child: SizedBox.square(
+                dimension: 52,
+                child: Icon(action.icon, color: foreground, size: 26),
               ),
             ),
-            if (action.hasBadge)
-              Positioned(
-                right: 4,
-                top: 4,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: colors.brandAction,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: foreground, width: 2),
-                  ),
-                  child: const SizedBox.square(dimension: 10),
+          ),
+          if (action.hasBadge)
+            Positioned(
+              right: 4,
+              top: 4,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: colors.brandAction,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: foreground, width: 2),
                 ),
+                child: const SizedBox.square(dimension: 10),
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }

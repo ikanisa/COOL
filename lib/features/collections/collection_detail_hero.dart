@@ -76,7 +76,7 @@ class _GroupHero extends StatelessWidget {
                           width: 48,
                           height: 48,
                           child: Icon(
-                            CollectIcons.collections,
+                            collectionTypeIcon(collection.collectionType),
                             color: iconForeground,
                             size: 24,
                           ),
@@ -94,7 +94,7 @@ class _GroupHero extends StatelessWidget {
                                     color: colors.onImagePrimary,
                                     fontSize: titleSize,
                                     fontWeight: FontWeight.w900,
-                                    height: 1,
+                                    height: 1.05,
                                     letterSpacing: 0,
                                   ),
                               maxLines: 1,
@@ -105,14 +105,16 @@ class _GroupHero extends StatelessWidget {
                             CollectionTypeBadge(
                               type: collection.collectionType,
                               compact: true,
+                              iconOnly: true,
                             ),
                           ],
                         ),
                       ),
                       if (canManage) ...[
                         CollectSpacing.gapW8,
-                        Tooltip(
-                          message: 'Group settings',
+                        Semantics(
+                          button: true,
+                          label: 'Group settings',
                           child: DecoratedBox(
                             decoration: BoxDecoration(
                               color: iconFill,

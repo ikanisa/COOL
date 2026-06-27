@@ -84,4 +84,8 @@ Do not mark the overall public website goal complete until:
 - Search Console/Bing indexing evidence is attached or explicitly deferred by
   the owner;
 - product proof is approved or explicitly deferred by the owner;
-- no external submission is made without explicit recorded human approval.
+- Play Console and app-release submissions are treated as delegated Codex-owned
+  release actions when account access, source-of-truth metadata, and evidence
+  are available; legal, regulatory, public partner, or other professional
+  submissions remain outside this website completion proof unless separately
+  authorized.

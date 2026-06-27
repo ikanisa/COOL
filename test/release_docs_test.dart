@@ -786,6 +786,166 @@ Current decision: **GO after signed review**
     expect(androidGradle, contains('signingConfig = signingConfigs'));
   });
 
+  test('Android artifact freshness includes Gradle property changes', () {
+    final mobileReleaseGate = File(
+      'scripts/flutter_mobile_release_gate.sh',
+    ).readAsStringSync();
+    final artifactManifest = File(
+      'scripts/release_artifact_manifest.sh',
+    ).readAsStringSync();
+
+    for (final script in [mobileReleaseGate, artifactManifest]) {
+      expect(script, contains('"android/app/build.gradle.kts"'));
+      expect(script, contains('"android/build.gradle.kts"'));
+      expect(script, contains('"android/gradle.properties"'));
+      expect(script, contains('"android/settings.gradle.kts"'));
+    }
+  });
+
+  test('Android signing preflight reports redacted certificate state', () {
+    final androidGradle = File(
+      'android/app/build.gradle.kts',
+    ).readAsStringSync();
+    final script = File(
+      'scripts/android_release_signing_preflight.sh',
+    ).readAsStringSync();
+    final makefile = File('Makefile').readAsStringSync();
+
+    expect(androidGradle, contains('printReleaseSigningCertificateStatus'));
+    expect(androidGradle, contains('configured_certificate_sha256'));
+    expect(androidGradle, contains('expected_upload_signing_sha256'));
+    expect(androidGradle, contains('matches_expected_upload_certificate'));
+    expect(androidGradle, contains('expected_play_signing_sha256'));
+    expect(androidGradle, contains('Google Play App Signing uses the upload key'));
+    expect(androidGradle, contains('does not print keystore passwords'));
+    expect(script, contains(':app:printReleaseSigningCertificateStatus'));
+    expect(script, contains('expected_upload_signing_sha256'));
+    expect(script, contains('does not print keystore passwords'));
+    expect(script, isNot(contains('keyAlias=')));
+    expect(makefile, contains('android-release-signing-preflight:'));
+    expect(makefile, contains('android-release-signing-preflight-json:'));
+
+    final result = Process.runSync(
+      './scripts/android_release_signing_preflight.sh',
+      ['--json'],
+    );
+    expect(result.exitCode, anyOf(0, 1));
+    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
+    expect(decoded['status'], anyOf('pass', 'blocked'));
+    expect(decoded['secret_handling'], contains('does not print'));
+    expect(decoded, contains('expected_upload_signing_sha256'));
+    expect(decoded, contains('matches_expected_upload_certificate'));
+    expect(decoded, contains('expected_play_signing_sha256'));
+    expect(decoded, contains('play_app_signing_certificate_note'));
+    expect(decoded, isNot(contains('key_alias')));
+    expect(jsonEncode(decoded), isNot(contains('storePassword')));
+    expect(jsonEncode(decoded), isNot(contains('keyPassword')));
+  });
+
+  test('Android device UAT timeout cleans up the process group', () {
+    final script = File('scripts/android_device_uat.sh').readAsStringSync();
+
+    expect(script, contains('RUNNER_RESULT_FILE='));
+    expect(script, contains('Process.spawn(*ARGV'));
+    expect(script, contains('pgroup: true'));
+    expect(script, contains('kill_process_group_or_pid("TERM", pid'));
+    expect(script, contains('kill_process_group_or_pid("KILL", pid'));
+    expect(script, contains('Process.kill(signal, -pid)'));
+    expect(script, contains('Process.kill(signal, pid)'));
+    expect(script, contains('"timed_out" => timed_out'));
+    expect(script, contains('rc=124'));
+  });
+
+  test('Product design mobile audit screenshots are valid PNG evidence', () {
+    final script = File(
+      'scripts/product_design_mobile_audit_artifact_gate.sh',
+    ).readAsStringSync();
+    final makefile = File('Makefile').readAsStringSync();
+    final repoWide = File('scripts/repo_wide_qa_uat.sh').readAsStringSync();
+    final evidenceIndex = File(
+      'scripts/release_evidence_index.sh',
+    ).readAsStringSync();
+
+    expect(script, contains('screenshot_manifest.json'));
+    expect(script, contains('png_header'));
+    expect(script, contains('route_count_must_be_48'));
+    expect(script, contains('viewport_must_be_390x844'));
+    expect(script, contains('manifest_bytes_stale'));
+    expect(makefile, contains('product-design-mobile-audit-artifact-gate:'));
+    expect(
+      makefile,
+      contains('product-design-mobile-audit-artifact-gate-json:'),
+    );
+    expect(repoWide, contains('product_design_mobile_audit_artifact_gate'));
+    expect(
+      repoWide,
+      contains('product_design_mobile_audit_artifact_gate.json'),
+    );
+    expect(
+      evidenceIndex,
+      contains('product_design_mobile_audit_artifact_gate'),
+    );
+
+    final result = Process.runSync(
+      './scripts/product_design_mobile_audit_artifact_gate.sh',
+      ['--json'],
+    );
+    expect(result.exitCode, 0);
+    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
+    expect(decoded['status'], 'pass');
+    expect(decoded['viewport'], '390x844');
+    expect(decoded['route_count'], 48);
+    expect(decoded['secret_handling'], contains('does not inspect secrets'));
+    final items = (decoded['items'] as List<dynamic>)
+        .cast<Map<String, dynamic>>();
+    expect(items, hasLength(48));
+    expect(items.every((item) => item['png_valid'] == true), isTrue);
+    expect(items.every((item) => item['width'] == 390), isTrue);
+    expect(items.every((item) => item['height'] == 844), isTrue);
+    expect(items.every((item) => item['console_error_count'] == 0), isTrue);
+  });
+
+  test('Android Kotlin plugin compatibility gate reports plugin risk', () {
+    final script = File(
+      'scripts/android_kotlin_plugin_compat_gate.sh',
+    ).readAsStringSync();
+    final makefile = File('Makefile').readAsStringSync();
+    final repoWide = File('scripts/repo_wide_qa_uat.sh').readAsStringSync();
+    final evidenceIndex = File(
+      'scripts/release_evidence_index.sh',
+    ).readAsStringSync();
+
+    expect(script, contains('.flutter-plugins-dependencies'));
+    expect(script, contains('apply plugin: \'kotlin-android\''));
+    expect(script, contains('org.jetbrains.kotlin:kotlin-gradle-plugin'));
+    expect(script, contains('"status" => status'));
+    expect(script, contains('status == "fail" ? 1 : 0'));
+    expect(makefile, contains('android-kotlin-plugin-compat:'));
+    expect(makefile, contains('android-kotlin-plugin-compat-json:'));
+    expect(repoWide, contains('android_kotlin_plugin_compat'));
+    expect(repoWide, contains('android_kotlin_plugin_compat.json'));
+    expect(repoWide, contains('"android_kotlin_plugin_compat" =>'));
+    expect(evidenceIndex, contains('android_kotlin_plugin_compat'));
+    expect(evidenceIndex, contains('android_kotlin_plugin_compat.json'));
+
+    final result = Process.runSync(
+      './scripts/android_kotlin_plugin_compat_gate.sh',
+      ['--json'],
+    );
+    expect(result.exitCode, 0);
+    final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
+    expect(decoded['status'], anyOf('pass', 'warning'));
+    expect(decoded['secret_handling'], contains('does not read or print'));
+    if (decoded['status'] == 'warning') {
+      final names =
+          ((decoded['direct_kotlin_plugins'] as List<dynamic>)
+                  .cast<Map<String, dynamic>>())
+              .map((plugin) => plugin['name'])
+              .toSet();
+      expect(names, containsAll(<String>['file_saver', 'mobile_scanner']));
+    }
+  });
+
   test('go-live gate blocks on current SMS-first blockers', () {
     final status = jsonEncode({
       'decision': 'NO-GO',
@@ -1055,6 +1215,11 @@ checking Edge Function secret names
           'flutter_test': 'flutter_test.txt',
           'release_secret_scan': 'release_secret_scan.txt',
           'collect_product_boundary_scan': 'collect_product_boundary_scan.json',
+          'product_design_mobile_audit_artifact_gate':
+              'product_design_mobile_audit_artifact_gate.json',
+          'android_release_signing_preflight':
+              'android_release_signing_preflight.json',
+          'android_kotlin_plugin_compat': 'android_kotlin_plugin_compat.json',
           'admin_pwa_build': 'admin_pwa_build.txt',
           'admin_pwa_manifest_gate': 'admin_pwa_manifest_gate.txt',
           'admin_pwa_hosting_gate': 'admin_pwa_hosting_gate.json',
@@ -1184,6 +1349,11 @@ checking Edge Function secret names
         'flutter_test': 'flutter_test.txt',
         'release_secret_scan': 'release_secret_scan.txt',
         'collect_product_boundary_scan': 'collect_product_boundary_scan.json',
+        'product_design_mobile_audit_artifact_gate':
+            'product_design_mobile_audit_artifact_gate.json',
+        'android_release_signing_preflight':
+            'android_release_signing_preflight.json',
+        'android_kotlin_plugin_compat': 'android_kotlin_plugin_compat.json',
         'admin_pwa_build': 'admin_pwa_build.txt',
         'admin_pwa_manifest_gate': 'admin_pwa_manifest_gate.txt',
         'admin_pwa_hosting_gate': 'admin_pwa_hosting_gate.json',
@@ -1526,10 +1696,37 @@ checking Edge Function secret names
     expect(repoWide, contains('mobile_route_render_smoke'));
     expect(repoWide, contains('collect_product_boundary_scan'));
     expect(repoWide, contains('collect_product_boundary_scan.json'));
+    expect(repoWide, contains('product_design_mobile_audit_artifact_gate'));
+    expect(
+      repoWide,
+      contains('product_design_mobile_audit_artifact_gate.json'),
+    );
+    expect(repoWide, contains('android_release_signing_preflight'));
+    expect(repoWide, contains('android_release_signing_preflight.json'));
+    expect(repoWide, contains('android_kotlin_plugin_compat'));
+    expect(repoWide, contains('android_kotlin_plugin_compat.json'));
     expect(
       repoWide,
       contains(
         'record_fixture "collect_product_boundary_scan" "collect_product_boundary_scan.json"',
+      ),
+    );
+    expect(
+      repoWide,
+      contains(
+        'record_fixture "product_design_mobile_audit_artifact_gate" "product_design_mobile_audit_artifact_gate.json"',
+      ),
+    );
+    expect(
+      repoWide,
+      contains(
+        'record_fixture "android_kotlin_plugin_compat" "android_kotlin_plugin_compat.json"',
+      ),
+    );
+    expect(
+      repoWide,
+      contains(
+        'record_fixture "android_release_signing_preflight" "android_release_signing_preflight.json"',
       ),
     );
     expect(repoWide, contains('MOBILE_ROUTE_RENDER_EVIDENCE_DIR'));
@@ -1542,6 +1739,12 @@ checking Edge Function secret names
     expect(evidenceIndex, contains('/permissions/notifications-denied'));
     expect(evidenceIndex, contains('/permissions/camera-denied'));
     expect(evidenceIndex, contains('collect_product_boundary_scan'));
+    expect(
+      evidenceIndex,
+      contains('product_design_mobile_audit_artifact_gate'),
+    );
+    expect(evidenceIndex, contains('android_release_signing_preflight'));
+    expect(evidenceIndex, contains('android_kotlin_plugin_compat'));
     expect(evidenceIndex, contains('mobile_route_render_summary = read_json'));
     expect(evidenceIndex, contains('required_mobile_routes'));
     expect(evidenceIndex, contains('/auth/success'));

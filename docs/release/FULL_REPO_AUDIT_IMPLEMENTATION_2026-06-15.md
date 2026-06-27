@@ -161,7 +161,8 @@ Result:
     `f20bba1d4d647f4961699748579c630f9d178fd6af54c615f82faa112c93db1d`
 - `scripts/flutter_mobile_release_gate.sh --json` passes artifact freshness,
   manifest, permission, and signature checks, then blocks only on required
-  human approval records for Android signing review and iOS release scope.
+  release-owner execution records for Android signing review and iOS release
+  scope.
 
 Dependency note: both Android release builds emitted Flutter's warning that
 `file_saver`, `mobile_scanner`, `share_plus`, and
@@ -237,8 +238,8 @@ Current release NO-GO blockers:
 - `ios_release_scope`
 - `release_owner_signoff`
 
-These are approval/UAT signoff blockers. The audit did not record or fabricate
-human approvals.
+These are release-owner execution/UAT signoff blockers. The audit did not record
+or fabricate release-owner evidence.
 
 Supabase readiness warnings retained for release-owner review:
 
@@ -258,5 +259,5 @@ The full goal is not complete. Remaining phases still require execution:
 - privacy, retention, SMS, account deletion, and WhatsApp approval review
 - accessibility pass across mobile and admin
 - physical-device validation where a device is available
-- human approval and UAT signoff packet completion for the five release
-  blockers above
+- release-owner execution evidence and UAT signoff packet completion for the
+  five release blockers above

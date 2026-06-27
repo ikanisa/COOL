@@ -6,7 +6,6 @@ import 'package:permission_handler/permission_handler.dart' as permissions;
 
 import '../../core/notifications/collect_notification_service.dart';
 import '../../core/utils/date_format.dart';
-import '../../core/utils/money_format.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/providers/collect_app_state.dart';
 import '../../shared/repositories/collect_repository.dart';

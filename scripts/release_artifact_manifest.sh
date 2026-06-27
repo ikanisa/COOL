@@ -37,6 +37,7 @@ source_patterns = {
     "android/app/src/**/*",
     "android/app/build.gradle.kts",
     "android/build.gradle.kts",
+    "android/gradle.properties",
     "android/settings.gradle.kts",
     "pubspec.yaml",
     "pubspec.lock"

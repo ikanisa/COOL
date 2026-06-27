@@ -80,7 +80,7 @@ This report covers local readiness and Apple account setup for App Store Connect
   - `ios/ExportOptionsAppStore.plist` records App Store export settings for team `63STJ5N27W`.
 - Draft App Privacy upload JSON prepared:
   - `fastlane/app_privacy_details.json`.
-  - Requires human approval before publishing because it is an external privacy disclosure.
+  - Requires source-of-truth metadata verification before publishing because it is an external privacy disclosure.
 - Completion alternatives are documented in:
   - `docs/release/IOS_APP_STORE_COMPLETION_ALTERNATIVES_2026-06-25.md`.
 - iOS app icon catalog: pass, `25` entries, no missing files, no PNG size mismatches.
@@ -141,7 +141,7 @@ This report covers local readiness and Apple account setup for App Store Connect
 6. App Privacy is still pending in App Store Connect.
    - Official Apple documentation says App Privacy details are required.
    - The current App Store Connect sidebar/session did not expose a working App Privacy editor for this app, and direct guessed privacy routes only loaded the shell.
-   - Draft Fastlane privacy details JSON now exists, but it has not been published and requires human approval before upload.
+   - Draft Fastlane privacy details JSON now exists, but it has not been published and requires source-of-truth metadata verification plus an authenticated Apple account path before upload.
 
 7. Swift Package Manager future warning.
    - Flutter warned that `file_saver` does not support Swift Package Manager for iOS.
@@ -193,8 +193,8 @@ Official references:
      - `flutter build ipa --flavor production --release --dart-define=APP_REVIEW_AUTH_ENABLED=false`
    - Or archive through Xcode Organizer using scheme `production`.
 
-5. Only after explicit human approval, upload the signed build to App Store Connect/TestFlight and complete App Store Connect metadata/privacy/review fields.
+5. After signing and required account access are available, Codex may upload the signed build to App Store Connect/TestFlight and complete App Store Connect metadata/privacy/review fields under delegated release authority.
 
 ## Current Verdict
 
-Local Flutter/Dart readiness is green, and App Review deterministic OTP access is implemented, tested, and saved in App Store Connect. Apple Developer/App Store Connect setup is complete for the App ID, app record, App Information metadata that was reachable, version metadata, age rating, content rights, review contact/notes, and Associated Domains web verification. App Store upload/submission is still blocked by local Xcode/CoreSimulator trust/service failure, missing Apple Distribution signing/provisioning, missing uploaded screenshots/App Privacy details, no uploaded build, and required human approval before any external submission.
+Local Flutter/Dart readiness is green, and App Review deterministic OTP access is implemented, tested, and saved in App Store Connect. Apple Developer/App Store Connect setup is complete for the App ID, app record, App Information metadata that was reachable, version metadata, age rating, content rights, review contact/notes, and Associated Domains web verification. App Store upload/submission is still blocked by local Xcode/CoreSimulator trust/service failure, missing Apple Distribution signing/provisioning, missing uploaded screenshots/App Privacy details, and no uploaded build; these are credential, signing, account, or evidence gaps rather than human-approval gates.

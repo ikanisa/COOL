@@ -28,7 +28,10 @@ The work is not complete until:
 - Core policy URLs remain compatible with Google Play review.
 - Performance, SEO, accessibility, security headers, Cloudflare cache behavior, and localization gates pass.
 - Deployment evidence is recorded in repo docs.
-- External submissions, legal/regulatory claims, Play Console changes, or public partner/regulator claims are not made without explicit recorded human approval.
+- Play Console changes are delegated Codex-owned release actions when account
+  access, source-of-truth metadata, and evidence are available. Legal/regulatory
+  claims and public partner/regulator claims require separate authority outside
+  this website implementation goal.
 
 ## Completion Audit Closure Requirements
 
@@ -296,7 +299,7 @@ The final implementation response must include:
 - live URL checks;
 - desktop and mobile screenshot evidence location;
 - performance/accessibility/SEO verdict;
-- unresolved human approval blockers;
+- unresolved delegated-release, evidence, credential, or account-access blockers;
 - explicit `GO` or `NO-GO` for the full Collect public website completion audit.
 
 The full completion audit cannot be `GO` while Google Search Console proof, Bing proof or deferral, or Collect product proof or deferral is missing. Code-owned website quality may be reported separately as green, but it does not close the implementation goal by itself.

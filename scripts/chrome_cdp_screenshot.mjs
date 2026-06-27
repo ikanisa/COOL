@@ -18,6 +18,9 @@ const viewport = args.get('--viewport') ?? '390x844';
 const waitMs = Number(args.get('--wait-ms') ?? '9000');
 const devtoolsReadyMs = Number(args.get('--devtools-ready-ms') ?? '120000');
 const commandTimeoutMs = Number(args.get('--command-timeout-ms') ?? '60000');
+const processTimeoutMs = Number(
+  args.get('--process-timeout-ms') ?? String(devtoolsReadyMs + commandTimeoutMs + waitMs + 15000),
+);
 const headlessArg = process.env.CHROME_CDP_HEADLESS_ARG || '--headless';
 
 if (!chrome || !url || !output || !profile) {
@@ -38,6 +41,10 @@ if (!Number.isFinite(devtoolsReadyMs) || devtoolsReadyMs <= 0) {
 }
 if (!Number.isFinite(commandTimeoutMs) || commandTimeoutMs <= 0) {
   console.error(`invalid CDP command timeout: ${commandTimeoutMs}`);
+  process.exit(2);
+}
+if (!Number.isFinite(processTimeoutMs) || processTimeoutMs <= 0) {
+  console.error(`invalid process timeout: ${processTimeoutMs}`);
   process.exit(2);
 }
 
@@ -106,6 +113,27 @@ chromeProcess.stderr.on('data', (chunk) => {
 chromeProcess.on('exit', (code, signal) => {
   chromeExit = { code, signal };
 });
+
+const hardExit = (message) => {
+  console.error(message);
+  try {
+    chromeProcess.kill('SIGTERM');
+  } catch (_) {
+    // Already exited.
+  }
+  setTimeout(() => {
+    try {
+      chromeProcess.kill('SIGKILL');
+    } catch (_) {
+      // Already exited.
+    }
+    process.exit(124);
+  }, 1000).unref?.();
+};
+const processDeadline = setTimeout(() => {
+  hardExit(`chrome_cdp_screenshot exceeded process timeout ${processTimeoutMs}ms for ${url}`);
+}, processTimeoutMs);
+processDeadline.unref?.();
 
 const chromeDiagnostics = () => {
   const parts = [
@@ -343,6 +371,7 @@ try {
 } catch (error) {
   await captureWithBuiltInScreenshot(error);
 } finally {
+  clearTimeout(processDeadline);
   if (socket) socket.close();
   chromeProcess.kill('SIGTERM');
   await delay(1000);

@@ -102,7 +102,17 @@ class CollectShell extends StatelessWidget {
     return path == '/' ||
         path.startsWith('/onboarding') ||
         path == '/auth' ||
-        path.startsWith('/auth/');
+        path.startsWith('/auth/') ||
+        path == '/groups/create' ||
+        path == '/groups/scan' ||
+        path.contains('/contribute') ||
+        path.contains('/pay/') ||
+        path.contains('/support/payment/') ||
+        path.contains('/share') ||
+        path.startsWith('/permissions/') ||
+        path.startsWith('/platform/') ||
+        path == '/settings/account/delete' ||
+        path.startsWith('/settings/legal/');
   }
 
   int _selectedIndexForPath(String path) {
@@ -199,72 +209,64 @@ class _CollectBottomNavItem extends StatelessWidget {
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
     );
-    return Tooltip(
-      message: destination.label,
-      child: Semantics(
-        button: true,
-        selected: selected,
-        label: destination.label,
-        child: InkResponse(
-          onTap: onTap,
-          containedInkWell: true,
-          highlightShape: BoxShape.rectangle,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 8),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AnimatedContainer(
-                  duration: CollectMotion.duration(
-                    context,
-                    CollectMotion.medium,
-                  ),
-                  curve: CollectMotion.standard,
-                  width: selected ? 74 : 46,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    color: selected
-                        ? null
-                        : colors.onImagePrimary.withValues(alpha: 0.025),
-                    gradient: selected ? indicator : null,
-                    borderRadius: CollectRadius.pillBorder,
-                    border: Border.all(
-                      color: colors.onImagePrimary.withValues(
-                        alpha: selected ? 0.28 : 0.05,
-                      ),
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: destination.label,
+      child: InkResponse(
+        onTap: onTap,
+        containedInkWell: true,
+        highlightShape: BoxShape.rectangle,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedContainer(
+                duration: CollectMotion.duration(context, CollectMotion.medium),
+                curve: CollectMotion.standard,
+                width: selected ? 74 : 46,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: selected
+                      ? null
+                      : colors.onImagePrimary.withValues(alpha: 0.025),
+                  gradient: selected ? indicator : null,
+                  borderRadius: CollectRadius.pillBorder,
+                  border: Border.all(
+                    color: colors.onImagePrimary.withValues(
+                      alpha: selected ? 0.28 : 0.05,
                     ),
-                  ),
-                  child: Icon(
-                    selected ? destination.selectedIcon : destination.icon,
-                    size: selected ? 23 : 21,
-                    color: foreground,
                   ),
                 ),
-                if (showLabel) ...[
-                  const SizedBox(height: 5),
-                  SizedBox(
-                    height: 18,
-                    width: double.infinity,
-                    child: Text(
-                      destination.label,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: textTheme.labelSmall?.copyWith(
-                        color: foreground,
-                        fontSize: selected ? 12.5 : 12,
-                        fontWeight: selected
-                            ? FontWeight.w800
-                            : FontWeight.w700,
-                        letterSpacing: 0,
-                        height: 1.0,
-                      ),
-                      textAlign: TextAlign.center,
+                child: Icon(
+                  selected ? destination.selectedIcon : destination.icon,
+                  size: selected ? 23 : 21,
+                  color: foreground,
+                ),
+              ),
+              if (showLabel) ...[
+                const SizedBox(height: 5),
+                SizedBox(
+                  height: 18,
+                  width: double.infinity,
+                  child: Text(
+                    destination.label,
+                    maxLines: 1,
+                    overflow: TextOverflow.clip,
+                    style: textTheme.labelSmall?.copyWith(
+                      color: foreground,
+                      fontSize: selected ? 12.5 : 12,
+                      fontWeight: selected ? FontWeight.w800 : FontWeight.w700,
+                      letterSpacing: 0,
+                      height: 1.0,
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                ],
+                ),
               ],
-            ),
+            ],
           ),
         ),
       ),

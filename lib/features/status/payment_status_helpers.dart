@@ -28,9 +28,9 @@ class _PaymentStatusHero extends StatelessWidget {
                 Text(
                   subtitle,
                   style: Theme.of(context).textTheme.titleSmall,
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  softWrap: true,
+                  overflow: TextOverflow.clip,
                 ),
               ],
             )
@@ -43,9 +43,9 @@ class _PaymentStatusHero extends StatelessWidget {
                   child: Text(
                     subtitle,
                     style: Theme.of(context).textTheme.titleSmall,
-                    maxLines: 1,
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    softWrap: true,
+                    overflow: TextOverflow.clip,
                   ),
                 ),
               ],
@@ -70,5 +70,3 @@ IconData _iconForTone(CollectStatusTone tone) {
     CollectStatusTone.neutral => CollectIcons.info,
   };
 }
-
-Uri _momoUssdUri() => Uri.parse('tel:${Uri.encodeComponent('*182#')}');

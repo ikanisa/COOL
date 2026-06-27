@@ -9,7 +9,7 @@ Bring the COOL repository to a defensible fullstack QA and cleanup state: active
 - Keep only actively used production source, tests, release gates, migrations, assets, and current operating evidence in the repo.
 - Remove or quarantine dead, duplicate, generated, archived, stale, misleading, or redundant material only after reference scans prove it is not active.
 - Preserve release safety gates, signing checks, UAT approvals, and evidence redaction. Do not weaken a gate to turn a red status green.
-- Separate code-owned blockers from human approval, Play Console, signing, device, and governance blockers.
+- Separate code-owned blockers from delegated release-owner execution, Play Console, signing, device, and governance blockers.
 - Validate with the pinned toolchain: `/Volumes/PRO-G40/flutter_3_44/bin/flutter` and `/Volumes/PRO-G40/flutter_3_44/bin/dart`.
 
 ## Workstreams

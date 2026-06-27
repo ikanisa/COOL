@@ -60,7 +60,6 @@ const collectRoutePaths = <String>[
   '/groups/:collectionId/profile',
   '/groups/:collectionId/contribute',
   '/groups/:collectionId/pay/:intentId/handoff',
-  '/groups/:collectionId/pay/:intentId/waiting',
   '/groups/:collectionId/pay/:intentId/state/:state',
   '/groups/:collectionId/pay/:intentId',
   '/groups/:collectionId/support/payment/:intentId',
@@ -75,7 +74,6 @@ const collectRoutePaths = <String>[
   '/invite/:publicId',
   '/settings',
   '/settings/profile',
-  '/settings/readiness',
   '/settings/account',
   '/settings/account/delete',
   '/settings/privacy',
@@ -169,7 +167,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
               ),
               GoRoute(
                 path: 'join',
-                builder: (context, state) => const JoinGroupPortalScreen(),
+                redirect: (context, state) => '/groups/scan',
               ),
               GoRoute(
                 path: 'scan',
@@ -240,14 +238,7 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                   GoRoute(
                     path: 'pay/:intentId/handoff',
                     redirect: (context, state) =>
-                        '/groups/${state.pathParameters['collectionId']}/pay/${state.pathParameters['intentId']}/waiting',
-                  ),
-                  GoRoute(
-                    path: 'pay/:intentId/waiting',
-                    builder: (context, state) => ReturnFromMomoWaitingScreen(
-                      collectionId: state.pathParameters['collectionId']!,
-                      intentId: state.pathParameters['intentId']!,
-                    ),
+                        '/groups/${state.pathParameters['collectionId']}/pay/${state.pathParameters['intentId']}',
                   ),
                   GoRoute(
                     path: 'pay/:intentId/state/:state',
@@ -328,10 +319,6 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
           GoRoute(
             path: '/settings/profile',
             builder: (context, state) => const ProfileSetupScreen(),
-          ),
-          GoRoute(
-            path: '/settings/readiness',
-            builder: (context, state) => const ProfileReadinessScreen(),
           ),
           GoRoute(
             path: '/settings/account',

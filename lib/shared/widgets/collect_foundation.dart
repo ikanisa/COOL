@@ -98,11 +98,13 @@ class CollectionTypeBadge extends StatelessWidget {
   const CollectionTypeBadge({
     required this.type,
     this.compact = false,
+    this.iconOnly = false,
     super.key,
   });
 
   final CollectionType type;
   final bool compact;
+  final bool iconOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +127,11 @@ class CollectionTypeBadge extends StatelessWidget {
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: compact ? CollectSpacing.x2 : CollectSpacing.x3,
+              horizontal: iconOnly
+                  ? CollectSpacing.x2
+                  : compact
+                  ? CollectSpacing.x2
+                  : CollectSpacing.x3,
               vertical: compact ? CollectSpacing.x1 : CollectSpacing.x2,
             ),
             child: Row(
@@ -136,16 +142,18 @@ class CollectionTypeBadge extends StatelessWidget {
                   size: compact ? 15 : 17,
                   color: foreground,
                 ),
-                CollectSpacing.gapW8,
-                Text(
-                  type.label,
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: foreground,
-                    fontWeight: FontWeight.w800,
+                if (!iconOnly) ...[
+                  CollectSpacing.gapW8,
+                  Text(
+                    type.label,
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: foreground,
+                      fontWeight: FontWeight.w800,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                ],
               ],
             ),
           ),

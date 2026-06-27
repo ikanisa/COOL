@@ -160,11 +160,7 @@ void main() {
     );
 
     expect(find.byType(BackdropFilter), findsOneWidget);
-    final cover = tester.widget<Image>(find.byType(Image));
-    expect(
-      (cover.image as AssetImage).assetName,
-      'assets/brand/generated/collect_visual_momo_signal.png',
-    );
+    expect(find.byType(Image), findsNothing);
     expect(find.text('Public'), findsNothing);
     expect(find.byIcon(CollectIcons.public), findsOneWidget);
     expect(tester.widget<Text>(find.text(title)).maxLines, 1);
@@ -231,7 +227,7 @@ void main() {
       ),
     );
 
-    expect(find.text('Waiting for MoMo SMS verification.'), findsOneWidget);
+    expect(find.text('Checking MoMo confirmation.'), findsOneWidget);
     await tester.scrollUntilVisible(
       find.text('St Michel treasury'),
       300,
@@ -242,7 +238,6 @@ void main() {
     expect(find.text('RWF 15,000'), findsWidgets);
     await tester.drag(find.byType(ListView).last, const Offset(0, -500));
     await tester.pump();
-    expect(find.text('Status'), findsOneWidget);
     expect(
       find.textContaining(HashUtils.phoneHash('+250788123456')),
       findsNothing,
@@ -271,7 +266,7 @@ void main() {
     await tester.pump();
 
     expect(tester.takeException(), isNull);
-    expect(find.text('Waiting for MoMo SMS verification.'), findsOneWidget);
+    expect(find.text('Checking MoMo confirmation.'), findsOneWidget);
   });
 
   testWidgets('contribution flow keeps primary action pinned', (tester) async {
@@ -289,12 +284,14 @@ void main() {
 
     expect(find.text('Target account'), findsNothing);
     expect(find.text('Review contribution'), findsOneWidget);
-
-    await tester.tap(find.text('Review contribution'));
+    await tester.enterText(find.byType(TextField).first, '6000');
     await tester.pump();
 
+    await tester.tap(find.widgetWithText(FilledButton, 'Review contribution'));
+    await tester.pumpAndSettle();
+
     expect(find.text('Review contribution'), findsOneWidget);
-    expect(find.text('Give to this church collection'), findsOneWidget);
+    expect(find.text('Pay with MOMO'), findsOneWidget);
     expect(find.text('Edit amount'), findsWidgets);
   });
 }

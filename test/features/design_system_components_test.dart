@@ -211,7 +211,6 @@ void main() {
         ),
       );
 
-      expect(find.byTooltip('Open profile'), findsOneWidget);
       expect(find.text('91'), findsNothing);
       expect(find.bySemanticsLabel('Open profile for 038491'), findsOneWidget);
     } finally {
@@ -1048,7 +1047,7 @@ void main() {
       ),
     );
 
-    expect(find.byTooltip('Open profile'), findsOneWidget);
+    expect(find.bySemanticsLabel('Open profile for 038491'), findsOneWidget);
     expect(find.text('91'), findsNothing);
     expect(find.text('Search groups'), findsOneWidget);
     expect(find.byIcon(CollectIcons.qr), findsOneWidget);

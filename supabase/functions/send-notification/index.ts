@@ -44,7 +44,11 @@ Deno.serve(async (req) => {
       },
     );
     if (error) throw error;
-    return jsonResponse({ ok: true, notification_event_id: data });
+    return jsonResponse({
+      ok: data !== null,
+      skipped: data === null,
+      notification_event_id: data,
+    });
   } catch (error) {
     const authStatus = authErrorStatus(error);
     if (authStatus) {

@@ -55,8 +55,8 @@ class PermissionRecoveryScreen extends ConsumerWidget {
           icon: isCamera ? CollectIcons.qr : CollectIcons.pending,
           title: isCamera ? 'Camera blocked' : 'Alerts blocked',
           message: isCamera
-              ? 'QR scan needs camera access. Group links still work.'
-              : 'Payment reminders and security notices need alerts.',
+              ? 'Scan QR codes or use a group link.'
+              : 'Turn on payment and security alerts.',
           tone: isCamera ? CollectStatusTone.info : CollectStatusTone.warning,
         ),
         CollectCard(
@@ -89,8 +89,8 @@ class PermissionRecoveryScreen extends ConsumerWidget {
               ? 'Camera permission was blocked.'
               : 'Notification permission was blocked.',
           message: isCamera
-              ? 'Allow camera access to scan group QR codes. You can still join by opening a valid group link.'
-              : 'Allow notifications for payment reminders, group updates, and security notices.',
+              ? 'Allow camera access for QR scan.'
+              : 'Allow notifications for payment updates.',
           settingsMessage: isCamera
               ? 'Open app settings if the OS keeps blocking camera access.'
               : 'Open app settings if notification permission remains denied.',

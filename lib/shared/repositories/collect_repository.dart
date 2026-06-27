@@ -71,11 +71,15 @@ class CollectRepository extends StateNotifier<CollectState> {
       final contributions = await _liveReader.fetchContributions();
       final notificationPreferences = await _liveReader
           .fetchNotificationPreferences(profile);
+      final notificationEvents = await _liveReader.fetchNotificationEvents(
+        profile,
+      );
       state = state.copyWith(
         currentProfile: profile,
         collections: collections,
         paymentIntents: paymentIntents,
         contributions: contributions,
+        notificationEvents: notificationEvents,
         notificationPreferences: notificationPreferences,
         isLoading: false,
       );
@@ -196,6 +200,27 @@ class CollectRepository extends StateNotifier<CollectState> {
     state = state.copyWith(notificationPreferences: preferences);
   }
 
+  Future<void> markNotificationRead(String eventId) async {
+    final cleanEventId = eventId.trim();
+    if (cleanEventId.isEmpty) return;
+    final supabase = _supabase;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      await supabase.rpc<void>(
+        'mark_notification_event_read',
+        params: {'p_event_id': cleanEventId},
+      );
+    }
+    final now = DateTime.now();
+    state = state.copyWith(
+      notificationEvents: [
+        for (final event in state.notificationEvents)
+          event.id == cleanEventId
+              ? event.copyWith(status: 'read', readAt: now)
+              : event,
+      ],
+    );
+  }
+
   Future<void> registerNotificationDevice({
     required String platform,
     required String tokenHash,
@@ -289,7 +314,7 @@ class CollectRepository extends StateNotifier<CollectState> {
         : PhoneNormalizer.normalizeRwanda(receiverMomoNumber);
     final normalizedLabel = receiverLabel.trim().isEmpty
         ? receiverIsMomoPayCode
-              ? 'MoMo Pay code'
+              ? 'MoMo code'
               : 'Primary MoMo receiver'
         : receiverLabel.trim();
     final supabase = _supabase;
@@ -347,7 +372,7 @@ class CollectRepository extends StateNotifier<CollectState> {
   String _normalizeMomoPayCode(String value) {
     final digits = value.replaceAll(RegExp(r'\D'), '');
     if (digits.length >= 5 && digits.length <= 6) return digits;
-    throw const FormatException('Use a 5 or 6 digit MoMo Pay code.');
+    throw const FormatException('Use a 5 or 6 digit MoMo code.');
   }
 
   Future<CollectCollection> updateCollectionReceiver({
@@ -704,6 +729,36 @@ class CollectRepository extends StateNotifier<CollectState> {
           joinedAt: collection.createdAt,
         ),
     ];
+  }
+
+  Future<void> inviteCollectionAdmin({
+    required String collectionId,
+    required String publicId,
+  }) async {
+    final cleanPublicId = publicId.replaceAll(RegExp(r'\D'), '');
+    if (!RegExp(r'^[0-9]{6}$').hasMatch(cleanPublicId)) {
+      throw const FormatException('Enter a 6 digit Collect ID.');
+    }
+    final collection = collectionById(collectionId);
+    final supabase = _supabase;
+    if (supabase != null && supabase.auth.currentUser != null) {
+      await supabase.rpc<dynamic>(
+        'create_collection_invite',
+        params: {
+          'collection': collectionId,
+          'target_public_id': cleanPublicId,
+          'invite_role': 'admin',
+        },
+      );
+      return;
+    }
+    if (!_allowLocalWrites) {
+      throw StateError('Sign in before adding an admin.');
+    }
+    state = state.copyWith(collections: [
+      for (final item in state.collections)
+        if (item.id == collection.id) item else item,
+    ]);
   }
 
   Future<OwnerGroupHealth> ownerHealthFor(String collectionId) async {

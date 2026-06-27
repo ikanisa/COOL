@@ -215,7 +215,7 @@ void main() {
     expect(find.text('Private family support'), findsWidgets);
     expect(find.text('VISIBILITY'), findsNothing);
     expect(find.text('SORT'), findsNothing);
-    expect(find.byTooltip('Scan QR code'), findsOneWidget);
+    expect(find.byIcon(CollectIcons.qr), findsOneWidget);
     expect(find.text('Search groups'), findsOneWidget);
 
     await tester.enterText(find.byType(TextField).first, 'Private');
@@ -240,12 +240,12 @@ void main() {
     expect(find.text('MEMBERS'), findsNothing);
     expect(find.byIcon(CollectIcons.money), findsWidgets);
     expect(find.byIcon(CollectIcons.people), findsWidgets);
-    expect(find.byTooltip('Share'), findsOneWidget);
+    expect(find.byIcon(CollectIcons.share), findsWidgets);
     expect(find.textContaining('PARTICIP'), findsNothing);
     expectNoGlobalSecrets();
   });
 
-  testWidgets('contributor creates intent and waits for SMS allocation', (
+  testWidgets('contributor creates intent and opens payment status', (
     tester,
   ) async {
     final repository = CollectRepository.fixture();
@@ -272,7 +272,7 @@ void main() {
     await pumpLaunchFrames(tester);
 
     expect(find.text('Waiting for MoMo SMS'), findsNothing);
-    expect(find.text('Waiting for MoMo SMS verification.'), findsOneWidget);
+    expect(find.text('Checking MoMo confirmation.'), findsOneWidget);
     await scrollToVisible(tester, find.text('St Michel treasury'));
     expect(find.text('St Michel treasury'), findsOneWidget);
     expect(find.textContaining('+250788123456'), findsNothing);
@@ -364,15 +364,12 @@ void main() {
   testWidgets('member joins from QR entry without receiver leakage', (
     tester,
   ) async {
-    await pumpMainAppAt(tester, '/groups/join');
+    await pumpMainAppAt(tester, '/groups/scan');
 
-    expect(find.text('Join group'), findsWidgets);
-    expect(find.text('Join with a code.'), findsOneWidget);
-    expect(find.text('Group code'), findsOneWidget);
+    expect(find.text('Scan QR'), findsWidgets);
+    expect(find.text('Join with a code.'), findsNothing);
+    expect(find.text('Group code'), findsNothing);
     expect(find.text('Group code or link'), findsNothing);
-    expect(find.text('Join group'), findsWidgets);
-    expect(find.text('Scan QR'), findsOneWidget);
-    expect(find.byType(TextField), findsOneWidget);
     expect(find.textContaining('+250788'), findsNothing);
     expectNoGlobalSecrets();
   });
@@ -401,10 +398,7 @@ void main() {
       expect(find.text('Create group'), findsWidgets);
       expect(find.text('Group name'), findsNothing);
       expect(find.text('Receiver MoMo number'), findsNothing);
-      expect(
-        find.text('Group creation is available only on Android'),
-        findsWidgets,
-      );
+      expect(find.text('Create groups on Android'), findsWidgets);
       expectNoGlobalSecrets();
     } finally {
       debugDefaultTargetPlatformOverride = null;
@@ -493,15 +487,15 @@ void main() {
 
     expect(find.text('Linked MoMo'), findsNothing);
     expect(find.text('MoMo Number'), findsOneWidget);
-    expect(find.text('MoMo Pay'), findsOneWidget);
+    expect(find.text('MoMo Code'), findsOneWidget);
     expect(find.text('MoMo number'), findsOneWidget);
     expect(find.text('MoMo Pay code'), findsNothing);
     expect(find.textContaining('public share links'), findsNothing);
     expect(find.textContaining('Rwanda format'), findsNothing);
 
-    await tapVisible(tester, find.text('MoMo Pay'));
-    expect(find.text('MoMo Pay code'), findsOneWidget);
-    expect(find.text('Save MoMo Pay'), findsOneWidget);
+    await tapVisible(tester, find.text('MoMo Code'));
+    expect(find.text('MoMo code'), findsOneWidget);
+    expect(find.text('Save MoMo code'), findsOneWidget);
     await tapVisible(tester, find.text('MoMo Number'));
     expect(find.text('Save MoMo number'), findsOneWidget);
 
@@ -554,7 +548,7 @@ void main() {
     expectNoGlobalSecrets();
   });
 
-  testWidgets('contribution review creates intent and waits for SMS', (
+  testWidgets('contribution review creates intent and opens status', (
     tester,
   ) async {
     final repository = CollectRepository.fixture();
@@ -568,6 +562,7 @@ void main() {
     await tester.drag(find.byType(ListView).last, const Offset(0, -500));
     await pumpLaunchFrames(tester);
     expect(find.text('Target account'), findsNothing);
+    await tester.enterText(find.byType(TextField).first, '6000');
 
     await tapVisible(
       tester,
@@ -577,26 +572,24 @@ void main() {
     expect(find.text('Review contribution'), findsOneWidget);
     expect(find.text('St Michel building fund'), findsWidgets);
     expect(find.text('St Michel treasury'), findsNothing);
-    expect(find.text('+250788123456'), findsNothing);
-    expect(find.text('078***3456'), findsOneWidget);
+    expect(find.text('+250788123456'), findsOneWidget);
+    expect(find.text('078***3456'), findsNothing);
     expect(find.text('038491'), findsNothing);
 
     await tapVisible(
       tester,
-      find.widgetWithText(FilledButton, 'Give to this church collection'),
+      find.widgetWithText(FilledButton, 'Pay with MOMO'),
     );
     await pumpLaunchFrames(tester);
 
     expect(repository.state.paymentIntents, isNotEmpty);
-    expect(find.text('Waiting for SMS'), findsOneWidget);
-    await scrollToVisible(tester, find.text('Waiting for MoMo SMS'));
-    expect(find.text('Waiting for MoMo SMS'), findsOneWidget);
+    expect(find.text('Checking MoMo confirmation.'), findsOneWidget);
     expect(find.text('Open MoMo'), findsNothing);
     expect(find.text('Open MoMo USSD'), findsNothing);
     expectNoGlobalSecrets();
   });
 
-  testWidgets('waiting for SMS route shows payment detail and recovery paths', (
+  testWidgets('payment status route shows detail and recovery paths', (
     tester,
   ) async {
     final repository = CollectRepository.fixture();
@@ -606,35 +599,25 @@ void main() {
 
     await pumpMainAppAt(
       tester,
-      '/groups/col-church/pay/${intent.id}/waiting',
+      '/groups/col-church/pay/${intent.id}',
       repository: repository,
     );
 
-    expect(find.text('Waiting for SMS'), findsOneWidget);
+    expect(find.text('Checking MoMo confirmation.'), findsOneWidget);
     expect(find.text('St Michel building fund'), findsWidgets);
+    expect(find.byTooltip('Refresh'), findsOneWidget);
+    expect(find.text('Refresh status'), findsOneWidget);
+    expect(find.text('Payment details'), findsOneWidget);
+    expect(find.text('Open ledger'), findsOneWidget);
+    await scrollToVisible(tester, find.text('RWF 12,000'));
     expect(find.text('RWF 12,000'), findsWidgets);
     expect(find.text('St Michel treasury'), findsOneWidget);
     expect(find.text('+250788123456'), findsNothing);
     expect(find.text('078***3456'), findsOneWidget);
-    expect(find.byTooltip('Refresh payment status'), findsOneWidget);
-
-    await scrollToVisible(tester, find.text('Waiting for MoMo SMS'));
-    expect(find.text('Waiting for MoMo SMS'), findsOneWidget);
-    await scrollToVisible(tester, find.text('Started'));
-    expect(find.text('Started'), findsOneWidget);
-    await scrollToVisible(tester, find.text('Expires'));
-    expect(find.text('Expires'), findsOneWidget);
+    expect(find.text('Started'), findsNothing);
+    expect(find.text('Expires'), findsNothing);
     expect(find.text('Reference'), findsNothing);
     expect(find.textContaining(intent.id), findsNothing);
-    await scrollToVisible(tester, find.text('Refresh status'));
-    expect(find.text('Refresh status'), findsOneWidget);
-
-    await scrollToVisible(tester, find.text('View status'));
-    expect(find.text('View status'), findsOneWidget);
-    await scrollToVisible(tester, find.text('Open MoMo again'));
-    expect(find.text('Open MoMo again'), findsOneWidget);
-    await scrollToVisible(tester, find.text('Get help'));
-    expect(find.text('Get help'), findsOneWidget);
     expect(find.textContaining('raw SMS'), findsNothing);
     expect(find.textContaining('manual instructions'), findsNothing);
     expect(find.textContaining('manual proof upload'), findsNothing);
@@ -738,11 +721,15 @@ void main() {
     await pumpMainAppAt(tester, '/settings');
 
     expect(find.text('Settings'), findsWidgets);
+    expect(find.text('Account center'), findsNothing);
+    expect(find.text('Collect ID'), findsNothing);
+    expect(find.text('Action-led'), findsNothing);
+    expect(find.text('No secrets'), findsNothing);
     expect(find.text('Ready for group activity'), findsNothing);
     expect(find.text('Device permissions'), findsNothing);
     expect(find.byTooltip('Profile'), findsNothing);
     expect(find.text('Notifications'), findsWidgets);
-    expect(find.text('Readiness'), findsOneWidget);
+    expect(find.text('Readiness'), findsNothing);
     expect(find.text('SMS access'), findsNothing);
     expect(find.text('Linked MoMo'), findsNothing);
     expect(find.textContaining('manual'), findsNothing);
@@ -784,6 +771,9 @@ void main() {
 
     expect(find.text('Notifications'), findsWidgets);
     expect(find.text('Signals that matter'), findsNothing);
+    expect(find.text('Notifications not enabled'), findsNothing);
+    expect(find.text('Notifications enabled'), findsNothing);
+    expect(find.text('Off'), findsNothing);
     expect(find.text('Security notices'), findsOneWidget);
 
     router.go('/settings/legal/privacy');
@@ -817,7 +807,7 @@ void main() {
     await pumpMainAppAt(tester, '/groups/col-church/owner');
 
     expect(find.text('Group settings'), findsWidgets);
-    expect(find.text('Group needs attention'), findsOneWidget);
+    expect(find.text('Group needs attention'), findsNothing);
     expect(find.text('Group profile'), findsOneWidget);
 
     final router = GoRouter.of(
@@ -869,7 +859,7 @@ void main() {
 
     expect(find.text('Group profile'), findsWidgets);
     await scrollToVisible(tester, find.text('Recurring contribution'));
-    expect(find.text('Recurring contribution'), findsOneWidget);
+    expect(find.text('Recurring contribution'), findsWidgets);
     await scrollToVisible(tester, find.text('Receiver MoMo'));
     expect(find.text('Receiver MoMo'), findsOneWidget);
     expect(find.text('Receiver name'), findsNothing);
@@ -1038,13 +1028,12 @@ void main() {
         '/settings/profile',
         '/home',
         '/groups',
-        '/groups/join',
+        '/groups/scan',
         '/groups/create',
         '/platform/iphone-create-unavailable',
         '/groups/col-church',
         '/groups/col-church/share',
         '/groups/col-church/contribute',
-        '/groups/col-church/pay/intent-pending/waiting',
         '/groups/col-church/pay/intent-pending',
         '/groups/col-church/pay/intent-pending/state/pending',
         '/groups/col-church/pay/intent-pending/state/expired',

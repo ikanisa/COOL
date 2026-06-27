@@ -6,63 +6,14 @@ class NotificationCenterScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(collectRepositoryProvider);
-    final latestContribution = state.contributions.isEmpty
-        ? null
-        : state.contributions.first;
-    final pendingCount = state.paymentIntents
-        .where((item) => item.status == 'pending')
-        .length;
-    final reviewCount = state.paymentIntents
-        .where((item) => item.status == 'needs_review')
-        .length;
-    final permissionStatus = ref.watch(notificationPermissionStatusProvider);
-    final notificationsGranted =
-        permissionStatus == CollectDevicePermissionStatus.granted;
     final preferences = state.notificationPreferences;
+    final events = state.notificationEvents;
+    final unreadCount = events.where((event) => event.unread).length;
     return ScreenScaffold(
       title: 'Notifications',
       showHeader: false,
       children: [
         const _NotificationPageHeader(),
-        CollectCard(
-          emphasis: CollectCardEmphasis.glow,
-          accentColor: notificationsGranted
-              ? context.collectColors.statusGranted
-              : context.collectColors.statusBlocked,
-          child: CollectListTile(
-            leading: notificationsGranted
-                ? CollectIcons.check
-                : CollectIcons.pending,
-            title: notificationsGranted
-                ? 'Notifications enabled'
-                : 'Notifications not enabled',
-            trailing: CollectStatusChip(
-              label: notificationsGranted ? 'On' : 'Off',
-              tone: notificationsGranted
-                  ? CollectStatusTone.success
-                  : CollectStatusTone.warning,
-              icon: notificationsGranted
-                  ? CollectIcons.check
-                  : CollectIcons.pending,
-            ),
-            onTap: () async {
-              if (permissionStatus == CollectDevicePermissionStatus.denied) {
-                await permissions.openAppSettings();
-                return;
-              }
-              final granted = await _enableNativeNotifications(ref);
-              final status = granted
-                  ? CollectDevicePermissionStatus.granted
-                  : CollectDevicePermissionStatus.denied;
-              if (!context.mounted) return;
-              ref.read(notificationPermissionStatusProvider.notifier).state =
-                  status;
-              if (status == CollectDevicePermissionStatus.denied) {
-                context.go('/permissions/notifications-denied');
-              }
-            },
-          ),
-        ),
         CollectCard(
           emphasis: CollectCardEmphasis.flat,
           child: Column(
@@ -106,7 +57,7 @@ class NotificationCenterScreen extends ConsumerWidget {
             ],
           ),
         ),
-        if (state.contributions.isEmpty && pendingCount == 0)
+        if (events.isEmpty)
           const MinimalStatePanel(
             icon: CollectIcons.pending,
             title: 'No updates yet.',
@@ -120,45 +71,22 @@ class NotificationCenterScreen extends ConsumerWidget {
             children: [
               SectionHeader(
                 title: 'Today',
-                actionLabel: pendingCount > 0 ? '$pendingCount pending' : null,
+                actionLabel: unreadCount > 0 ? '$unreadCount pending' : null,
               ),
               CollectCard(
                 emphasis: CollectCardEmphasis.flat,
                 child: Column(
                   children: [
-                    if (latestContribution != null)
+                    for (final event in events)
                       NotificationUpdateRow(
-                        title: 'Contribution confirmed',
-                        message:
-                            '${formatRwf(latestContribution.amountRwf)} was recorded on the ledger.',
-                        meta: formatCollectDateTime(
-                          latestContribution.createdAt,
-                        ),
-                        tone: CollectStatusTone.success,
+                        title: event.title,
+                        message: event.body,
+                        meta: _notificationMeta(event),
+                        tone: _notificationTone(event.type),
+                        onTap: event.unread
+                            ? () => _markNotificationRead(ref, event.id)
+                            : null,
                       ),
-                    if (pendingCount > 0)
-                      NotificationUpdateRow(
-                        title: 'Payment verification pending',
-                        message:
-                            '$pendingCount payment${pendingCount == 1 ? '' : 's'} waiting for MoMo SMS verification.',
-                        meta: 'Now',
-                        tone: CollectStatusTone.info,
-                      ),
-                    if (reviewCount > 0)
-                      NotificationUpdateRow(
-                        title: 'Payment review',
-                        message:
-                            '$reviewCount payment${reviewCount == 1 ? '' : 's'} need support review.',
-                        meta: 'Review',
-                        tone: CollectStatusTone.warning,
-                      ),
-                    const NotificationUpdateRow(
-                      title: 'Security notice',
-                      message:
-                          'Collect keeps receiver information inside payment and owner flows, not public share links.',
-                      meta: 'Protected',
-                      tone: CollectStatusTone.privacy,
-                    ),
                   ],
                 ),
               ),
@@ -167,6 +95,28 @@ class NotificationCenterScreen extends ConsumerWidget {
       ],
     );
   }
+}
+
+CollectStatusTone _notificationTone(String type) {
+  return switch (type) {
+    'contribution_confirmed' => CollectStatusTone.success,
+    'payment_reminder' => CollectStatusTone.info,
+    'security_notice' => CollectStatusTone.privacy,
+    'payment_review' => CollectStatusTone.warning,
+    _ => CollectStatusTone.info,
+  };
+}
+
+String _notificationMeta(NotificationEvent event) {
+  if (event.status == 'read') return 'Read';
+  if (event.status == 'queued') return 'Pending';
+  return formatCollectDateTime(event.createdAt);
+}
+
+Future<void> _markNotificationRead(WidgetRef ref, String eventId) {
+  return ref
+      .read(collectRepositoryProvider.notifier)
+      .markNotificationRead(eventId);
 }
 
 class _NotificationPageHeader extends StatelessWidget {

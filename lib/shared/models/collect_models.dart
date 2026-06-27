@@ -50,23 +50,6 @@ enum CollectionType {
     CollectionType.wedding => 'Wedding contributions',
     CollectionType.other => 'Custom collection',
   };
-
-  String get createPrompt => switch (this) {
-    CollectionType.ikimina => 'Savings cycles, obligations, and payouts.',
-    CollectionType.sport =>
-      'Fan support for clubs, match days, kits, and travel.',
-    CollectionType.church => 'Offerings, tithes, funds, and church events.',
-    CollectionType.wedding => 'Committee contributions, gifts, and budgets.',
-    CollectionType.other => 'Flexible support for any trusted group need.',
-  };
-
-  String get contributionPrompt => switch (this) {
-    CollectionType.ikimina => 'Contribute to the savings cycle',
-    CollectionType.sport => 'Support the fan club',
-    CollectionType.church => 'Give to this church collection',
-    CollectionType.wedding => 'Contribute to the wedding',
-    CollectionType.other => 'Support this collection',
-  };
 }
 
 @immutable
@@ -456,6 +439,69 @@ class NotificationPreferences {
       paymentReminders: paymentReminders ?? this.paymentReminders,
       groupUpdates: groupUpdates ?? this.groupUpdates,
       securityNotices: securityNotices ?? this.securityNotices,
+    );
+  }
+}
+
+@immutable
+class NotificationEvent {
+  const NotificationEvent({
+    required this.id,
+    required this.userId,
+    required this.type,
+    required this.title,
+    required this.body,
+    required this.status,
+    required this.createdAt,
+    this.collectionId,
+    this.deepLink,
+    this.sentAt,
+    this.readAt,
+  });
+
+  final String id;
+  final String userId;
+  final String type;
+  final String title;
+  final String body;
+  final String status;
+  final DateTime createdAt;
+  final String? collectionId;
+  final String? deepLink;
+  final DateTime? sentAt;
+  final DateTime? readAt;
+
+  factory NotificationEvent.fromJson(Map<String, dynamic> json) {
+    return NotificationEvent(
+      id: json['id'] as String,
+      userId: json['user_id'] as String,
+      collectionId: json['collection_id'] as String?,
+      type: (json['type'] as String?) ?? 'group_update',
+      title: (json['title'] as String?) ?? 'Notification',
+      body: (json['body'] as String?) ?? '',
+      deepLink: json['deep_link'] as String?,
+      status: (json['status'] as String?) ?? 'queued',
+      createdAt: _dateTime(json['created_at']),
+      sentAt: json['sent_at'] == null ? null : _dateTime(json['sent_at']),
+      readAt: json['read_at'] == null ? null : _dateTime(json['read_at']),
+    );
+  }
+
+  bool get unread => status != 'read';
+
+  NotificationEvent copyWith({String? status, DateTime? readAt}) {
+    return NotificationEvent(
+      id: id,
+      userId: userId,
+      collectionId: collectionId,
+      type: type,
+      title: title,
+      body: body,
+      deepLink: deepLink,
+      status: status ?? this.status,
+      createdAt: createdAt,
+      sentAt: sentAt,
+      readAt: readAt ?? this.readAt,
     );
   }
 }

@@ -120,14 +120,13 @@ class _PaymentIntentStatusScreenState
       bottomAction: BottomActionSurface(
         children: [
           CollectButton(
-            label: 'Open ledger',
-            icon: CollectIcons.ledger,
-            onPressed: () =>
-                context.go('/groups/${widget.collectionId}/ledger'),
+            label: _primaryPaymentActionLabel(uiStatus),
+            icon: _primaryPaymentActionIcon(uiStatus),
+            onPressed: _primaryPaymentAction(uiStatus),
             expand: true,
           ),
           CollectButton(
-            label: _stateActionLabel(uiStatus),
+            label: 'Payment details',
             icon: _stateActionIcon(uiStatus),
             onPressed: () => context.go(
               '/groups/${widget.collectionId}/pay/${widget.intentId}/state/${_statePath(uiStatus)}',
@@ -135,14 +134,12 @@ class _PaymentIntentStatusScreenState
             variant: CollectButtonVariant.secondary,
             expand: true,
           ),
-          if (uiStatus == PaymentUiStatus.expired ||
-              uiStatus == PaymentUiStatus.needsReview)
+          if (uiStatus != PaymentUiStatus.confirmed)
             CollectButton(
-              label: 'Support review',
-              icon: CollectIcons.support,
-              onPressed: () => context.go(
-                '/groups/${widget.collectionId}/support/payment/${widget.intentId}',
-              ),
+              label: 'Open ledger',
+              icon: CollectIcons.ledger,
+              onPressed: () =>
+                  context.go('/groups/${widget.collectionId}/ledger'),
               variant: CollectButtonVariant.subtle,
               expand: true,
             ),
@@ -173,9 +170,9 @@ class _PaymentIntentStatusScreenState
                     Text(
                       _statusMessage(uiStatus),
                       style: Theme.of(context).textTheme.titleSmall,
-                      maxLines: 1,
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      softWrap: true,
+                      overflow: TextOverflow.clip,
                     ),
                   ],
                 )
@@ -191,9 +188,9 @@ class _PaymentIntentStatusScreenState
                       child: Text(
                         _statusMessage(uiStatus),
                         style: Theme.of(context).textTheme.titleSmall,
-                        maxLines: 1,
-                        softWrap: false,
-                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        softWrap: true,
+                        overflow: TextOverflow.clip,
                       ),
                     ),
                   ],
@@ -202,8 +199,7 @@ class _PaymentIntentStatusScreenState
         const CollectVisualFeatureCard(
           asset: 'assets/brand/generated/collect_visual_momo_signal.png',
           title: 'Verification trail',
-          message:
-              'MoMo confirmation moves through SMS review before the group ledger changes.',
+          message: 'SMS confirms before ledger update.',
           icon: CollectIcons.sms,
           tone: CollectStatusTone.privacy,
         ),
@@ -256,6 +252,40 @@ class _PaymentIntentStatusScreenState
       if (mounted) setState(() => _refreshing = false);
     }
   }
+
+  String _primaryPaymentActionLabel(PaymentUiStatus status) {
+    return switch (status) {
+      PaymentUiStatus.confirmed => 'Open ledger',
+      PaymentUiStatus.expired => 'Contribute again',
+      PaymentUiStatus.needsReview => 'Request review',
+      PaymentUiStatus.pending => _refreshing ? 'Refreshing' : 'Refresh status',
+    };
+  }
+
+  IconData _primaryPaymentActionIcon(PaymentUiStatus status) {
+    return switch (status) {
+      PaymentUiStatus.confirmed => CollectIcons.ledger,
+      PaymentUiStatus.expired => CollectIcons.momo,
+      PaymentUiStatus.needsReview => CollectIcons.support,
+      PaymentUiStatus.pending => CollectIcons.sync,
+    };
+  }
+
+  VoidCallback? _primaryPaymentAction(PaymentUiStatus status) {
+    if (_refreshing) return null;
+    return switch (status) {
+      PaymentUiStatus.confirmed => () => context.go(
+        '/groups/${widget.collectionId}/ledger',
+      ),
+      PaymentUiStatus.expired => () => context.go(
+        '/groups/${widget.collectionId}/contribute',
+      ),
+      PaymentUiStatus.needsReview => () => context.go(
+        '/groups/${widget.collectionId}/support/payment/${widget.intentId}',
+      ),
+      PaymentUiStatus.pending => _refreshStatus,
+    };
+  }
 }
 
 PaymentIntentModel? _maybeIntent(List<PaymentIntentModel> intents, String id) {
@@ -284,15 +314,6 @@ String _statePath(PaymentUiStatus status) {
   };
 }
 
-String _stateActionLabel(PaymentUiStatus status) {
-  return switch (status) {
-    PaymentUiStatus.confirmed => 'Confirmed',
-    PaymentUiStatus.expired => 'Retry',
-    PaymentUiStatus.needsReview => 'Review',
-    PaymentUiStatus.pending => 'Status',
-  };
-}
-
 IconData _stateActionIcon(PaymentUiStatus status) {
   return switch (status) {
     PaymentUiStatus.confirmed => CollectIcons.check,
@@ -304,9 +325,9 @@ IconData _stateActionIcon(PaymentUiStatus status) {
 
 String _statusMessage(PaymentUiStatus status) {
   return switch (status) {
-    PaymentUiStatus.confirmed => 'Recorded on the group ledger.',
-    PaymentUiStatus.expired => 'Start a fresh contribution.',
-    PaymentUiStatus.needsReview => 'Support review is available.',
-    PaymentUiStatus.pending => 'Waiting for MoMo SMS verification.',
+    PaymentUiStatus.confirmed => 'Confirmed and recorded on the ledger.',
+    PaymentUiStatus.expired => 'This payment expired. Start again.',
+    PaymentUiStatus.needsReview => 'Support can match this safely.',
+    PaymentUiStatus.pending => 'Checking MoMo confirmation.',
   };
 }

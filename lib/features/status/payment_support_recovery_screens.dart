@@ -69,14 +69,13 @@ class _PaymentSupportReviewScreenState
           const MinimalStatePanel(
             icon: CollectIcons.check,
             title: 'Review submitted.',
-            message:
-                'Support can review the payment without public confirmation text or payment credentials.',
+            message: 'Support can match it without public SMS text.',
             tone: CollectStatusTone.success,
           )
         else ...[
           MinimalStatePanel(
             icon: CollectIcons.support,
-            title: 'Safe note',
+            title: 'Request payment review',
             message: intent == null
                 ? 'This payment is not on this device. Support can still review the group context.'
                 : 'Amount ${formatRwf(intent.expectedAmountRwf)} is ${paymentStatusLabel(intent.status).toLowerCase()}.',
@@ -87,12 +86,7 @@ class _PaymentSupportReviewScreenState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Safe note',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                CollectSpacing.gap8,
-                Text(
-                  'Issue type',
+                  'Review type',
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 CollectSpacing.gap8,
@@ -116,9 +110,8 @@ class _PaymentSupportReviewScreenState
                 CollectSpacing.gap16,
                 CollectTextInput(
                   controller: _note,
-                  label: 'Safe note',
-                  helper:
-                      'Do not paste payment credentials or full message text.',
+                  label: 'Short note',
+                  helper: 'No PINs, OTPs, or full SMS text.',
                   maxLines: 4,
                   textInputAction: TextInputAction.newline,
                   textCapitalization: TextCapitalization.sentences,
@@ -218,8 +211,8 @@ class _FreshLinkRequestScreenState
           icon: _submitted ? CollectIcons.check : CollectIcons.sync,
           title: _submitted ? 'Request sent.' : 'Ask for a fresh group link.',
           message: _submitted
-              ? 'Support can help the group owner issue a new privacy-safe link.'
-              : 'Expired links do not reveal receiver information. Ask support or the group owner for a new link.',
+              ? 'The owner can issue a new safe link.'
+              : 'Expired links hide receiver details.',
           tone: _submitted ? CollectStatusTone.success : CollectStatusTone.info,
         ),
         if (!_submitted)
@@ -229,7 +222,8 @@ class _FreshLinkRequestScreenState
             children: [
               CollectTextInput(
                 controller: _reason,
-                label: 'Reason, optional',
+                label: 'Note for the owner',
+                helper: 'Optional. Keep it short.',
                 maxLines: 3,
                 textInputAction: TextInputAction.newline,
                 textCapitalization: TextCapitalization.sentences,

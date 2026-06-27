@@ -38,6 +38,7 @@ timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
 EVIDENCE_DIR="${ANDROID_UAT_EVIDENCE_DIR:-$ROOT_DIR/.cache/android_device_uat/$timestamp}"
 LOG_FILE="$EVIDENCE_DIR/android_device_uat.txt"
 SUMMARY_FILE="$EVIDENCE_DIR/summary.json"
+RUNNER_RESULT_FILE="$EVIDENCE_DIR/runner_result.json"
 
 fail() {
   printf '[android-device-uat][FAIL] %s\n' "$*" >&2
@@ -63,11 +64,11 @@ if ! "$ADB" devices | awk 'NR > 1 && $1 == id && $2 == "device" { found = 1 } EN
 fi
 
 window_state="$("$ADB" -s "$DEVICE_ID" shell dumpsys window 2>/dev/null || true)"
-if grep -q 'mDreamingLockscreen=true' <<<"$window_state" ||
-  grep -q 'mKeyguardShowing=true' <<<"$window_state"; then
+if grep -q 'mKeyguardShowing=true' <<<"$window_state" ||
+  grep -Eiq 'm(CurrentFocus|FocusedApp)=.*(Keyguard|Lockscreen)' <<<"$window_state"; then
   printf '%s\n' "$window_state" |
     rg 'mCurrentFocus|mFocusedApp|mDreamingLockscreen|mKeyguardShowing' >&2 || true
-  fail "Pixel 4a $DEVICE_ID is locked. Unlock it manually and keep it awake before running Android UAT."
+  fail "Android device $DEVICE_ID is locked. Unlock it and keep it awake before running Android UAT."
 fi
 
 mkdir -p "$EVIDENCE_DIR"
@@ -101,33 +102,105 @@ printf '[android-device-uat] adb=%s device=%s flavor=%s target=%s runner=%s evid
   "$ADB" "$DEVICE_ID" "$FLAVOR" "$TEST_TARGET" "$runner" "${EVIDENCE_DIR#$ROOT_DIR/}" "$TIMEOUT_SECONDS" >&2
 
 set +e
-"${cmd[@]}" >"$LOG_FILE" 2>&1 &
-uat_pid=$!
-deadline=$((SECONDS + TIMEOUT_SECONDS))
-timed_out=0
-while kill -0 "$uat_pid" >/dev/null 2>&1; do
-  if ((SECONDS >= deadline)); then
-    timed_out=1
-    kill "$uat_pid" >/dev/null 2>&1 || true
-    sleep 2
-    kill -9 "$uat_pid" >/dev/null 2>&1 || true
-    break
-  fi
-  sleep 5
-done
-wait "$uat_pid" >/dev/null 2>&1
+ANDROID_UAT_LOG_FILE="$LOG_FILE" \
+ANDROID_UAT_TIMEOUT_SECONDS="$TIMEOUT_SECONDS" \
+ANDROID_UAT_RUNNER_RESULT_FILE="$RUNNER_RESULT_FILE" \
+ruby -r json -e '
+  def kill_process_group_or_pid(signal, pid, errors)
+    begin
+      Process.kill(signal, -pid)
+      return
+    rescue Errno::ESRCH
+      return
+    rescue Errno::EPERM => error
+      errors << "#{signal} process-group kill denied: #{error.message}"
+    end
+
+    begin
+      Process.kill(signal, pid)
+    rescue Errno::ESRCH
+    rescue Errno::EPERM => error
+      errors << "#{signal} direct kill denied: #{error.message}"
+    end
+  end
+
+  log = ENV.fetch("ANDROID_UAT_LOG_FILE")
+  timeout = Integer(ENV.fetch("ANDROID_UAT_TIMEOUT_SECONDS"))
+  result = ENV.fetch("ANDROID_UAT_RUNNER_RESULT_FILE")
+  started_at = Time.now
+  pid = Process.spawn(*ARGV, out: log, err: [:child, :out], pgroup: true)
+  timed_out = false
+  status = nil
+  kill_errors = []
+
+  loop do
+    waited_pid, process_status = Process.waitpid2(pid, Process::WNOHANG)
+    if waited_pid
+      status = process_status
+      break
+    end
+
+    if Time.now - started_at >= timeout
+      timed_out = true
+      kill_process_group_or_pid("TERM", pid, kill_errors)
+      sleep 2
+      kill_process_group_or_pid("KILL", pid, kill_errors)
+      begin
+        _waited_pid, process_status = Process.waitpid2(pid)
+        status = process_status
+      rescue Errno::ECHILD
+      end
+      break
+    end
+
+    sleep 5
+  end
+
+  exit_code =
+    if timed_out
+      124
+    elsif status
+      status.exitstatus || (status.termsig ? 128 + status.termsig : 1)
+    else
+      1
+    end
+
+  File.write(
+    result,
+    JSON.pretty_generate(
+      {
+        "exit_code" => exit_code,
+        "timed_out" => timed_out,
+        "pid" => pid,
+        "timeout_seconds" => timeout,
+        "kill_errors" => kill_errors
+      }
+    ) + "\n"
+  )
+  exit(exit_code)
+' -- "${cmd[@]}"
 rc=$?
 set -e
 
+timed_out="$(ruby -r json -e 'path = ARGV.fetch(0); data = File.exist?(path) ? JSON.parse(File.read(path)) : {}; puts(data["timed_out"] ? "1" : "0")' "$RUNNER_RESULT_FILE")"
+
 if [[ "$timed_out" == "1" ]]; then
   rc=124
+fi
+
+log_failed=0
+if [[ -f "$LOG_FILE" ]] && grep -Eq 'Some tests failed|Test failed\.|TimeoutException after|EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK' "$LOG_FILE"; then
+  log_failed=1
+  if [[ "$rc" -eq 0 ]]; then
+    rc=1
+  fi
 fi
 
 log_sha256="$(shasum -a 256 "$LOG_FILE" | awk '{print $1}')"
 status="pass"
 if [[ "$timed_out" == "1" ]]; then
   status="timeout"
-elif [[ "$rc" -ne 0 ]]; then
+elif [[ "$rc" -ne 0 || "$log_failed" == "1" ]]; then
   status="fail"
 fi
 

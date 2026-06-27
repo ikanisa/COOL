@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/utils/money_format.dart';
-import '../../shared/providers/collect_app_state.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -23,7 +22,6 @@ class CollectionManageScreen extends ConsumerWidget {
     final collection = repo.maybeCollectionById(collectionId);
     if (collection == null) return const MissingGroupStateScreen();
     final summary = repo.summaryFor(collectionId);
-    final health = ref.watch(ownerGroupHealthProvider(collectionId));
     final profile = state.currentProfile;
     final isOwner = profile != null && collection.creatorUserId == profile.id;
 
@@ -53,24 +51,6 @@ class CollectionManageScreen extends ConsumerWidget {
       title: 'Group settings',
       subtitle: collection.title,
       children: [
-        health.when(
-          data: (item) {
-            if (item.ready) return const SizedBox.shrink();
-            return CollectListTile(
-              leading: CollectIcons.warning,
-              title: 'Group needs attention',
-              subtitle:
-                  '${item.pendingPaymentIntents} pending · ${item.needsReviewEvents} review',
-              onTap: () => context.go('/groups/$collectionId/ledger'),
-            );
-          },
-          loading: () => const SizedBox.shrink(),
-          error: (error, _) => InfoSecurityBanner(
-            title: 'Health unavailable',
-            message: error.toString(),
-            tone: CollectStatusTone.warning,
-          ),
-        ),
         CollectCard(
           emphasis: CollectCardEmphasis.glow,
           child: Column(

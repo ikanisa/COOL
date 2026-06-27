@@ -80,28 +80,15 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
             errorTitle: 'Profile not saved',
             errorMessage: _error,
             children: [
-              CollectMomoReceiverModeToggle(
+              CollectMomoReceiverCard(
                 mode: _momoMode,
                 onChanged: (mode) => setState(() {
                   _momoMode = mode;
                   _error = null;
                 }),
-              ),
-              CollectMobileInputField(
                 controller: _activeMomoController,
-                icon: _momoMode == CollectMomoReceiverMode.momoPayCode
-                    ? CollectIcons.qr
-                    : CollectIcons.momo,
-                label: _momoMode == CollectMomoReceiverMode.momoPayCode
-                    ? 'MoMo Pay code'
-                    : 'MoMo number',
-                keyboardType: _momoMode == CollectMomoReceiverMode.momoPayCode
-                    ? TextInputType.number
-                    : TextInputType.phone,
-                textInputAction: TextInputAction.done,
-                autofillHints: _momoMode == CollectMomoReceiverMode.momoPayCode
-                    ? null
-                    : const [AutofillHints.telephoneNumber],
+                numberInputLabel: 'MoMo number',
+                codeInputLabel: 'MoMo code',
               ),
             ],
           ),
@@ -137,7 +124,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
           label: _saving
               ? 'Saving'
               : _momoMode == CollectMomoReceiverMode.momoPayCode
-              ? 'Save MoMo Pay'
+              ? 'Save MoMo code'
               : 'Save MoMo number',
           icon: CollectIcons.check,
           onPressed: _saving ? null : _saveMomoNumber,
@@ -158,7 +145,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
     if (_activeMomoController.text.trim().isEmpty) {
       setState(
         () => _error = _momoMode == CollectMomoReceiverMode.momoPayCode
-            ? 'Enter your MoMo Pay code.'
+            ? 'Enter your MoMo code.'
             : 'Enter your MTN MoMo number.',
       );
       return;

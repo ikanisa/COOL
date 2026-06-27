@@ -49,7 +49,7 @@ The public website code-owned remediation is green, but the overall goal is not 
 | U-4 localization | PASS | Owner direction is English-only for the public website; no `/rw/` or `/fr/` routes or translation approval gate is required. |
 | U-5 visual quality | NO-GO | Requires owner visual approval or exact-dimension screenshot set. |
 | Lighthouse/Core Web Vitals | NO-GO | Requires mobile and desktop Lighthouse/PageSpeed evidence. |
-| Play Console action boundary | NO-GO | Requires Play Console update proof or owner deferral; no external submission by Codex. |
+| Play Console action boundary | NO-GO | Requires Play Console update proof or explicit release-owner deferral; Play Console action is delegated to Codex when account access and source-of-truth metadata are available. |
 
 ## Missing External Artifacts
 

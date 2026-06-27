@@ -16,11 +16,6 @@ class _HomeActionStrip extends ConsumerWidget {
           onTap: onCreate,
         ),
       _HomeActionItem(
-        icon: CollectIcons.people,
-        label: 'Join',
-        onTap: () => context.go('/groups/join'),
-      ),
-      _HomeActionItem(
         icon: CollectIcons.qr,
         label: 'Scan QR',
         onTap: () => context.go('/groups/scan'),
@@ -71,40 +66,37 @@ class _HomeActionItem extends StatelessWidget {
     return Semantics(
       button: true,
       label: label,
-      child: Tooltip(
-        message: label,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: CollectRadius.pillBorder,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  color: iconFill,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: iconBorder),
-                ),
-                child: SizedBox.square(
-                  dimension: 52,
-                  child: Icon(icon, color: foreground, size: 23),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: CollectRadius.pillBorder,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: iconFill,
+                shape: BoxShape.circle,
+                border: Border.all(color: iconBorder),
+              ),
+              child: SizedBox.square(
+                dimension: 52,
+                child: Icon(icon, color: foreground, size: 23),
+              ),
+            ),
+            SizedBox(height: textScale > 1.3 ? 4 : 6),
+            Flexible(
+              child: Text(
+                label,
+                maxLines: textScale > 1.3 ? 2 : 1,
+                overflow: TextOverflow.clip,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: foreground,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
-              SizedBox(height: textScale > 1.3 ? 4 : 6),
-              Flexible(
-                child: Text(
-                  label,
-                  maxLines: textScale > 1.3 ? 2 : 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: foreground,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

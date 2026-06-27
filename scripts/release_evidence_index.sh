@@ -161,6 +161,7 @@ mobile_route_render_summary = read_json(File.join(bundle_dir, "mobile_route_rend
 admin_hosting = read_json(File.join(bundle_dir, "admin_pwa_hosting_gate.json"))
 admin_live = read_json(File.join(bundle_dir, "admin_pwa_live_gate.json"))
 admin_live_fixture = admin_live["fixture_mode"] == true
+android_release_signing_preflight = read_json(File.join(bundle_dir, "android_release_signing_preflight.json"))
 supabase_summary = read_json(File.join(bundle_dir, "supabase", "summary.json"))
 bundle_redaction = bundle_redaction_scan(bundle_dir)
 
@@ -202,6 +203,9 @@ required_commands = %w[
   flutter_test
   release_secret_scan
   collect_product_boundary_scan
+  product_design_mobile_audit_artifact_gate
+  android_release_signing_preflight
+  android_kotlin_plugin_compat
   admin_pwa_build
   admin_pwa_manifest_gate
   admin_pwa_hosting_gate
@@ -243,6 +247,9 @@ command_items = required_commands.map do |name|
     "blocked"
   elsif name == "release_worktree_review" && worktree_review["status"] == "blocked"
     "blocked"
+  elsif name == "android_release_signing_preflight" &&
+      android_release_signing_preflight["status"].to_s == "blocked"
+    "blocked"
   elsif name == "supabase_go_live_gate_json" && go_live_gate_consistent?(go_live_gate)
     "pass"
   elsif name == "supabase_go_live_gate_json" &&
@@ -258,6 +265,7 @@ command_items = required_commands.map do |name|
   elsif row.fetch("exit_code") == 99 ||
       (name == "supabase_go_live_gate_json" && go_live_gate["go_live_approved"] == false) ||
       (name == "admin_pwa_live_gate" && admin_live["status"] == "blocked") ||
+      (name == "android_release_signing_preflight" && android_release_signing_preflight["status"].to_s == "blocked") ||
       (name == "uat_evidence_gate" && uat_evidence["status"] == "blocked") ||
       (name == "uat_signoff_gate" && uat_signoff["blocker_keys"].to_a.include?("human_uat_signoff"))
     "blocked"
@@ -456,7 +464,6 @@ required_mobile_routes = %w[
   /auth/success
   /auth/failure
   /settings/profile
-  /settings/readiness
   /permissions/sms
   /permissions/sms-denied
   /permissions/device
@@ -471,13 +478,11 @@ required_mobile_routes = %w[
   /groups/col-church
   /groups/col-church/created
   /groups/col-church/joined
-  /groups/join
   /groups/col-church/share
   /share/invalid
   /share/expired
   /share/expired/request
   /groups/col-church/contribute
-  /groups/col-church/pay/intent-render/waiting
   /groups/col-church/pay/intent-render/state/pending
   /groups/col-church/pay/intent-render/state/confirmed
   /groups/col-church/pay/intent-render/state/expired
@@ -614,6 +619,9 @@ bundle_files = [
   file_item(File.join(bundle_dir, "uat_evidence_gate.json"), required: false),
   file_item(File.join(bundle_dir, "uat_signoff_gate.json"), required: false),
   file_item(File.join(bundle_dir, "mobile_release_gate.json"), required: false),
+  file_item(File.join(bundle_dir, "product_design_mobile_audit_artifact_gate.json"), required: false),
+  file_item(File.join(bundle_dir, "android_release_signing_preflight.json"), required: false),
+  file_item(File.join(bundle_dir, "android_kotlin_plugin_compat.json"), required: false),
   file_item(File.join(bundle_dir, "admin_pwa_hosting_gate.json"), required: false),
   file_item(File.join(bundle_dir, "admin_pwa_live_gate.json"), required: false),
   file_item(File.join(bundle_dir, "BUILD_ARTIFACT_CHECKSUMS.sha256"), required: false),

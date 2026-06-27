@@ -48,7 +48,7 @@ The expanded search tested 53 Android-signing-relevant candidate files, 4 `key.p
 
 `android/app/build.gradle.kts` now refuses production release and production-debug packaging when production signing material is missing or when the configured signing certificate does not match the expected Play certificate. This prevents installing a locally built `app.cool.mobile` package over the Play-installed app with the wrong signature.
 
-To perform physical-device QA over the Play-installed package, provide the actual Play app-signing/original release keystore locally through `android/key.properties` or `COOL_ANDROID_*` environment variables. The expected non-secret fingerprint is documented in `android/key.properties.example`. The repo must not be pointed at `android/upload-keystore.jks` for production overwrite QA because that key does not match the Play-installed package signature.
+To perform physical-device QA over the Play-installed package, provide the actual Play app-signing/original release keystore locally through `android/key.properties` or `COOL_ANDROID_*` environment variables. For normal Google Play upload artifacts, use the registered upload key instead; Play App Signing re-signs uploaded bundles with the Play app-signing key for user-delivered APKs. The expected non-secret Play app-signing fingerprint is documented in `android/key.properties.example`. The repo must not use `android/upload-keystore.jks` for production overwrite QA because that key does not match the Play-installed package signature, but the upload key is valid for Play upload artifact creation when it is the registered upload certificate.
 
 ## Validation
 

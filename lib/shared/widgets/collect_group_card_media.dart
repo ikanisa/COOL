@@ -215,19 +215,26 @@ class _GeneratedGroupCover extends StatelessWidget {
         ? colors.onImagePrimary.withValues(alpha: 0.18)
         : colors.textPrimary.withValues(alpha: 0.12);
     final chipText = isDark ? colors.onImagePrimary : colors.textPrimary;
-    final asset = _generatedGroupAsset(collection);
     return Stack(
       fit: StackFit.expand,
       children: [
-        _GroupCoverImageTone(
-          child: Image.asset(
-            asset,
-            fit: BoxFit.cover,
-            gaplessPlayback: true,
-            filterQuality: FilterQuality.medium,
-            frameBuilder: _fadeInImageFrame,
-            errorBuilder: (context, error, stackTrace) => DecoratedBox(
-              decoration: BoxDecoration(gradient: colors.screenGradient),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.alphaBlend(
+                  collection.collectionType == CollectionType.sport
+                      ? colors.orangePaint.withValues(alpha: 0.24)
+                      : colors.actionColor.withValues(alpha: 0.24),
+                  coverScrim.withValues(alpha: topAlpha),
+                ),
+                Color.alphaBlend(
+                  colors.mintPaint.withValues(alpha: 0.12),
+                  coverScrim.withValues(alpha: bottomAlpha),
+                ),
+              ],
             ),
           ),
         ),
@@ -273,24 +280,6 @@ class _GeneratedGroupCover extends StatelessWidget {
       ],
     );
   }
-}
-
-String _generatedGroupAsset(CollectCollection collection) {
-  final key = '${collection.id} ${collection.slug} ${collection.title}'
-      .toLowerCase();
-  if (key.contains('qr') ||
-      key.contains('share') ||
-      key.contains('invite') ||
-      key.contains('link')) {
-    return 'assets/brand/generated/collect_visual_qr_share.png';
-  }
-  if (key.contains('pay') ||
-      key.contains('momo') ||
-      key.contains('treasury') ||
-      key.contains('fund')) {
-    return 'assets/brand/generated/collect_visual_momo_signal.png';
-  }
-  return 'assets/brand/generated/collect_visual_group_momentum.png';
 }
 
 class _PrivacyGlyph extends StatelessWidget {

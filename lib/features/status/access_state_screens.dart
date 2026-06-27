@@ -22,8 +22,7 @@ class SmsPermissionDeniedScreen extends StatelessWidget {
               const MinimalStatePanel(
                 icon: CollectIcons.sms,
                 title: 'Enable Android SMS access',
-                message:
-                    'Group creation needs Android SMS access for owner-side MoMo verification.',
+                message: 'Needed to create receiver groups.',
                 tone: CollectStatusTone.warning,
               ),
               CollectSpacing.gap16,
@@ -58,9 +57,8 @@ class IphoneCreateUnavailableScreen extends StatelessWidget {
       children: [
         const MinimalStatePanel(
           icon: CollectIcons.momo,
-          title: 'Group creation is available only on Android',
-          message:
-              'You can still join groups and contribute from iPhone. Group creation needs Android SMS capture for owner-side MoMo verification.',
+          title: 'Create groups on Android',
+          message: 'iPhone can join, pay, and scan.',
           tone: CollectStatusTone.info,
         ),
         CollectButton(
@@ -93,7 +91,7 @@ class OfflineStateScreen extends StatelessWidget {
           asset: 'assets/brand/generated/collect_visual_group_momentum.png',
           icon: CollectIcons.warning,
           title: 'Connection issue',
-          message: 'Cached groups stay readable. Live payment checks pause.',
+          message: 'Saved groups stay readable.',
           tone: CollectStatusTone.warning,
         ),
         const CollectBentoGrid(
@@ -159,9 +157,9 @@ class SyncStatusScreen extends ConsumerWidget {
               : CollectIcons.sync,
           title: title,
           message: status == RealtimeSyncStatus.current
-              ? 'Groups, payments, and ledger data are current.'
+              ? 'Groups, payments, and ledgers are current.'
               : status == RealtimeSyncStatus.syncing
-              ? 'Refreshing groups, payments, and ledger updates.'
+              ? 'Refreshing updates.'
               : 'Live updates need a stable connection.',
           tone: status == RealtimeSyncStatus.needsAttention
               ? CollectStatusTone.warning

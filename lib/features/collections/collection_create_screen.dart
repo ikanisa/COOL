@@ -11,6 +11,7 @@ import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import '../profile/profile_setup_screen.dart';
 import '../status/production_state_screens.dart';
 import 'group_creation_platform.dart';
 
@@ -70,7 +71,7 @@ class _CollectionCreateScreenState
   Widget build(BuildContext context) {
     final profile = ref.watch(collectRepositoryProvider).currentProfile;
     if (profile == null || profile.momoNumber?.trim().isNotEmpty != true) {
-      return const ProfileReadinessScreen();
+      return const ProfileSetupScreen();
     }
     if (!_syncedProfileMomo &&
         _receiverNumber.text.trim().isEmpty &&
@@ -115,7 +116,10 @@ class _CollectionCreateScreenState
         ],
       ),
       children: [
-        const CollectPlainPageHeader(title: 'Create group'),
+        CollectPlainPageHeader(
+          title: 'Create group',
+          subtitle: _createStepSubtitle(_step),
+        ),
         if (_step == 0) ...[
           _MobileCreatePanel(
             error: _error,
@@ -131,7 +135,7 @@ class _CollectionCreateScreenState
               CollectMobileInputField(
                 controller: _description,
                 icon: CollectIcons.info,
-                label: 'Description',
+                label: 'Description, optional',
                 maxLines: 2,
                 textInputAction: TextInputAction.newline,
                 textCapitalization: TextCapitalization.sentences,
@@ -151,30 +155,15 @@ class _CollectionCreateScreenState
           _MobileCreatePanel(
             error: _error,
             children: [
-              CollectMomoReceiverModeToggle(
+              CollectMomoReceiverCard(
                 mode: _receiverMode,
                 onChanged: (mode) => setState(() {
                   _receiverMode = mode;
                   _error = null;
                 }),
-              ),
-              CollectMobileInputField(
                 controller: _activeReceiverController,
-                icon: _receiverMode == CollectMomoReceiverMode.momoPayCode
-                    ? CollectIcons.qr
-                    : CollectIcons.momo,
-                label: _receiverMode == CollectMomoReceiverMode.momoPayCode
-                    ? 'MoMo Pay code'
-                    : 'Receiver MoMo',
-                keyboardType:
-                    _receiverMode == CollectMomoReceiverMode.momoPayCode
-                    ? TextInputType.number
-                    : TextInputType.phone,
-                textInputAction: TextInputAction.done,
-                autofillHints:
-                    _receiverMode == CollectMomoReceiverMode.momoPayCode
-                    ? null
-                    : const [AutofillHints.telephoneNumber],
+                numberInputLabel: 'Receiver MoMo',
+                codeInputLabel: 'MoMo code',
               ),
             ],
           ),
@@ -354,13 +343,13 @@ class _CollectionCreateScreenState
 
   String get _receiverDisplayLabel {
     return _receiverMode == CollectMomoReceiverMode.momoPayCode
-        ? 'MoMo Pay code'
+        ? 'MoMo code'
         : 'Primary MoMo receiver';
   }
 
   String get _receiverErrorMessage {
     return _receiverMode == CollectMomoReceiverMode.momoPayCode
-        ? 'Use a 5 or 6 digit MoMo Pay code.'
+        ? 'Use a 5 or 6 digit MoMo code.'
         : 'MoMo number required.';
   }
 
@@ -368,7 +357,7 @@ class _CollectionCreateScreenState
     final value = _activeReceiverController.text.trim();
     if (value.isEmpty) return '';
     return _receiverMode == CollectMomoReceiverMode.momoPayCode
-        ? 'MoMo Pay code $value'
+        ? 'MoMo code $value'
         : value;
   }
 
@@ -391,4 +380,14 @@ class _CollectionCreateScreenState
         'image/jpeg';
     return 'data:$mimeType;base64,${base64Encode(bytes)}';
   }
+}
+
+String _createStepSubtitle(int step) {
+  return switch (step) {
+    0 => 'Name the group.',
+    1 => 'Choose the type.',
+    2 => 'Set the receiver.',
+    3 => 'Choose the look.',
+    _ => 'Review and create.',
+  };
 }

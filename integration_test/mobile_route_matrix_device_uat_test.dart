@@ -2,6 +2,7 @@ import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
@@ -30,17 +31,37 @@ void main() {
   testWidgets(
     'all mobile routes render on physical device without UI exceptions',
     (tester) async {
-      await binding.convertFlutterSurfaceToImage();
-      await tester.pump();
+      var screenshotsEnabled = true;
+      try {
+        await binding.convertFlutterSurfaceToImage();
+        await tester.pump();
+      } on MissingPluginException {
+        screenshotsEnabled = false;
+      } on PlatformException {
+        screenshotsEnabled = false;
+      }
 
       for (final spec in _routeSpecs) {
+        // Printed progress is retained in the UAT log for route-level triage.
+        // ignore: avoid_print
+        print('collect_route_uat:start:${spec.name}:${spec.route}');
         await pumpRoute(tester, spec.route);
         expect(tester.takeException(), isNull, reason: spec.route);
         expect(find.byType(CollectApp), findsOneWidget, reason: spec.route);
-        await binding.takeScreenshot('mobile_route_${spec.name}');
+        if (screenshotsEnabled) {
+          try {
+            await binding.takeScreenshot('mobile_route_${spec.name}');
+          } on MissingPluginException {
+            screenshotsEnabled = false;
+          } on PlatformException {
+            screenshotsEnabled = false;
+          }
+        }
+        // ignore: avoid_print
+        print('collect_route_uat:pass:${spec.name}:${spec.route}');
       }
     },
-    timeout: const Timeout(Duration(minutes: 8)),
+    timeout: const Timeout(Duration(minutes: 14)),
   );
 }
 

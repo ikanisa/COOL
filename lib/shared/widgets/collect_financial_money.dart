@@ -205,6 +205,8 @@ class AmountEntryPanel extends StatelessWidget {
     this.label,
     this.detail,
     this.error,
+    this.showCurrencyChip = true,
+    this.showQuickAmounts = true,
     super.key,
   });
 
@@ -215,6 +217,8 @@ class AmountEntryPanel extends StatelessWidget {
   final String? label;
   final String? detail;
   final String? error;
+  final bool showCurrencyChip;
+  final bool showQuickAmounts;
 
   @override
   Widget build(BuildContext context) {
@@ -242,23 +246,24 @@ class AmountEntryPanel extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  color: colors.glassControl,
-                  borderRadius: CollectRadius.pillBorder,
-                  border: Border.all(color: colors.glassBorder),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: CollectSpacing.x3,
-                    vertical: CollectSpacing.x1,
+              if (showCurrencyChip)
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: colors.glassControl,
+                    borderRadius: CollectRadius.pillBorder,
+                    border: Border.all(color: colors.glassBorder),
                   ),
-                  child: Text(
-                    'RWF',
-                    style: CollectTypography.eyebrowLabel(colors.textMuted),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: CollectSpacing.x3,
+                      vertical: CollectSpacing.x1,
+                    ),
+                    child: Text(
+                      'RWF',
+                      style: CollectTypography.eyebrowLabel(colors.textMuted),
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
           CollectSpacing.gap16,
@@ -299,34 +304,37 @@ class AmountEntryPanel extends StatelessWidget {
             CollectSpacing.gap8,
             Text(detail!, style: Theme.of(context).textTheme.bodyMedium),
           ],
-          CollectSpacing.gap16,
-          Wrap(
-            spacing: CollectSpacing.x2,
-            runSpacing: CollectSpacing.x2,
-            children: [
-              for (final option in quickAmounts)
-                ChoiceChip(
-                  label: Text(_compactAmount(option)),
-                  selected: amount == option,
-                  selectedColor: CollectColors.brandPeriwinkle,
-                  backgroundColor: colors.glassControl,
-                  showCheckmark: false,
-                  side: BorderSide(
-                    color: amount == option
-                        ? colors.borderAccent
-                        : colors.borderSoft,
-                    width: amount == option ? 1.5 : 1,
+          if (showQuickAmounts && quickAmounts.isNotEmpty) ...[
+            CollectSpacing.gap16,
+            Wrap(
+              spacing: CollectSpacing.x2,
+              runSpacing: CollectSpacing.x2,
+              children: [
+                for (final option in quickAmounts)
+                  ChoiceChip(
+                    label: Text(_compactAmount(option)),
+                    selected: amount == option,
+                    selectedColor: CollectColors.brandPeriwinkle,
+                    backgroundColor: colors.glassControl,
+                    showCheckmark: false,
+                    side: BorderSide(
+                      color: amount == option
+                          ? colors.borderAccent
+                          : colors.borderSoft,
+                      width: amount == option ? 1.5 : 1,
+                    ),
+                    labelStyle: Theme.of(context).textTheme.labelLarge
+                        ?.copyWith(
+                          color: amount == option
+                              ? colors.selectedOnAccent
+                              : colors.textPrimary,
+                          fontWeight: FontWeight.w900,
+                        ),
+                    onSelected: (_) => onQuickAmount(option),
                   ),
-                  labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: amount == option
-                        ? colors.selectedOnAccent
-                        : colors.textPrimary,
-                    fontWeight: FontWeight.w900,
-                  ),
-                  onSelected: (_) => onQuickAmount(option),
-                ),
-            ],
-          ),
+              ],
+            ),
+          ],
           if (error != null) ...[
             CollectSpacing.gap12,
             Text(

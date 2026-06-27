@@ -208,17 +208,14 @@ void main() {
     expect(find.text('No groups yet'), findsNothing);
   });
 
-  testWidgets('home join opens direct group code entry', (tester) async {
+  testWidgets('home keeps scan as the only join entry', (tester) async {
     await pumpRoute(tester, '/home', legalConsentAccepted: true);
 
-    await tester.tap(find.text('Join'));
-    await tester.pumpAndSettle();
-
-    expect(find.text('Join with a code.'), findsOneWidget);
-    expect(find.text('Group code'), findsOneWidget);
-    expect(find.text('Group code or link'), findsNothing);
-    expect(find.widgetWithText(FilledButton, 'Join group'), findsOneWidget);
+    expect(find.text('Join'), findsNothing);
     expect(find.text('Scan QR'), findsOneWidget);
+    expect(find.text('Join with a code.'), findsNothing);
+    expect(find.text('Group code'), findsNothing);
+    expect(find.text('Group code or link'), findsNothing);
   });
 
   testWidgets('onboarding legal route redirects away from OTP terms gate', (
@@ -362,12 +359,14 @@ void main() {
 
       expect(find.text('Create group'), findsWidgets);
       expect(find.text('Group name'), findsOneWidget);
+      expect(find.text('Description, optional'), findsOneWidget);
       await tester.enterText(find.byType(TextField).first, 'Parish support');
       await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
       await tester.pump();
 
-      expect(find.text('Collection type'), findsOneWidget);
+      expect(find.text('Collection type'), findsNothing);
       expect(find.text('Ikimina'), findsOneWidget);
+      expect(find.textContaining('Savings cycles'), findsNothing);
       await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
       await tester.pump();
 
@@ -391,7 +390,7 @@ void main() {
     tester,
   ) async {
     await pumpRoute(tester, '/groups/col-church/support/payment/intent-render');
-    expect(find.text('Safe note'), findsWidgets);
+    expect(find.text('Request payment review'), findsWidgets);
     await tester.tap(find.widgetWithText(FilledButton, 'Submit review'));
     await tester.pump();
     expect(find.text('Review submitted.'), findsOneWidget);

@@ -13,8 +13,8 @@ class _GroupProfileEditSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 2),
+    return CollectCard(
+      emphasis: CollectCardEmphasis.flat,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -41,6 +41,42 @@ class _GroupProfileEditSection extends StatelessWidget {
           ],
         ],
       ),
+    );
+  }
+}
+
+class _RecurringCadenceControl extends StatelessWidget {
+  const _RecurringCadenceControl({
+    required this.enabled,
+    required this.selected,
+    required this.onEnabledChanged,
+    required this.onCadenceChanged,
+  });
+
+  final bool enabled;
+  final String selected;
+  final ValueChanged<bool> onEnabledChanged;
+  final ValueChanged<String> onCadenceChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Material(
+          color: context.collectColors.transparent,
+          child: SwitchListTile.adaptive(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Recurring contribution'),
+            value: enabled,
+            onChanged: onEnabledChanged,
+          ),
+        ),
+        if (enabled) ...[
+          CollectSpacing.gap8,
+          _CadencePicker(selected: selected, onChanged: onCadenceChanged),
+        ],
+      ],
     );
   }
 }

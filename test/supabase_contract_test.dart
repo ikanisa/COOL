@@ -85,6 +85,12 @@ void main() {
   final tightenedNotificationRpcGrants = File(
     'supabase/migrations/20260611114500_tighten_notification_rpc_grants.sql',
   ).readAsStringSync();
+  final notificationPreferenceGatedEnqueue = File(
+    'supabase/migrations/20260626193000_gate_notification_enqueue_by_preferences.sql',
+  ).readAsStringSync();
+  final sendNotificationFunction = File(
+    'supabase/functions/send-notification/index.ts',
+  ).readAsStringSync();
   final readiness = File(
     'scripts/supabase_production_readiness.sh',
   ).readAsStringSync();
@@ -214,6 +220,24 @@ void main() {
       expect(marketExpansion, isNot(contains('avatar_url')));
     },
   );
+
+  test('notification enqueue respects mobile preference toggles', () {
+    expect(
+      notificationPreferenceGatedEnqueue,
+      contains('create or replace function enqueue_notification_event'),
+    );
+    expect(
+      notificationPreferenceGatedEnqueue,
+      contains('contribution_confirmations'),
+    );
+    expect(notificationPreferenceGatedEnqueue, contains('payment_reminders'));
+    expect(notificationPreferenceGatedEnqueue, contains('group_updates'));
+    expect(notificationPreferenceGatedEnqueue, contains('security_notices'));
+    expect(notificationPreferenceGatedEnqueue, contains('return null'));
+    expect(notificationPreferenceGatedEnqueue, contains('to service_role'));
+    expect(sendNotificationFunction, contains('skipped: data === null'));
+    expect(sendNotificationFunction, contains('notification_event_id: data'));
+  });
 
   test(
     'stripe diaspora foundation keeps raw bank data out of client tables',

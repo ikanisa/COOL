@@ -71,13 +71,6 @@ class _CollectionTypeGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return _MobileCreatePanel(
       children: [
-        Text(
-          'Collection type',
-          style: Theme.of(
-            context,
-          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900),
-        ),
-        CollectSpacing.gap12,
         LayoutBuilder(
           builder: (context, constraints) {
             final columns = constraints.maxWidth < 340
@@ -171,13 +164,6 @@ class _CollectionTypeOption extends StatelessWidget {
                           fontWeight: FontWeight.w900,
                         ),
                         maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      CollectSpacing.gap4,
-                      Text(
-                        type.createPrompt,
-                        style: Theme.of(context).textTheme.bodySmall,
-                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],

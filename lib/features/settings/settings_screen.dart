@@ -24,13 +24,6 @@ class SettingsScreen extends ConsumerWidget {
       showHeader: false,
       compact: true,
       children: [
-        const CollectVisualFeatureCard(
-          asset: 'assets/brand/generated/collect_visual_qr_share.png',
-          title: 'Account center',
-          message: 'Profile, alerts, access, and privacy controls.',
-          icon: CollectIcons.profile,
-          tone: CollectStatusTone.privacy,
-        ),
         _SettingsProfileCard(publicId: profile?.publicId ?? ''),
         _SettingsCluster(
           tone: CollectStatusTone.privacy,
@@ -51,36 +44,7 @@ class SettingsScreen extends ConsumerWidget {
               title: 'Account',
               onTap: () => context.go('/settings/account'),
             ),
-            _SettingsTile(
-              leading: CollectIcons.check,
-              title: 'Readiness',
-              onTap: () => context.go('/settings/readiness'),
-            ),
           ],
-        ),
-        const CollectBentoGrid(
-          primary: BentoMetricCell(
-            label: 'Identity',
-            value: 'Collect ID',
-            detail: 'Public-safe member label',
-            icon: CollectIcons.profile,
-            tone: CollectStatusTone.privacy,
-            emphasis: true,
-          ),
-          top: BentoMetricCell(
-            label: 'Access',
-            value: 'Action-led',
-            detail: 'Camera, SMS, alerts',
-            icon: CollectIcons.check,
-            tone: CollectStatusTone.success,
-          ),
-          bottom: BentoMetricCell(
-            label: 'Support',
-            value: 'No secrets',
-            detail: 'WhatsApp handoff',
-            icon: CollectIcons.support,
-            tone: CollectStatusTone.info,
-          ),
         ),
         _SettingsCluster(
           tone: CollectStatusTone.success,

@@ -74,7 +74,7 @@ class CollectMomoReceiverModeToggle extends StatelessWidget {
             CollectSpacing.gapW8,
             Expanded(
               child: _CollectMomoReceiverModeButton(
-                label: 'MoMo Pay',
+                label: 'MoMo Code',
                 icon: CollectIcons.qr,
                 selected: mode == CollectMomoReceiverMode.momoPayCode,
                 onTap: () => onChanged(CollectMomoReceiverMode.momoPayCode),
@@ -225,6 +225,163 @@ class CollectMobileInputField extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class CollectMomoReceiverCard extends StatelessWidget {
+  const CollectMomoReceiverCard({
+    required this.mode,
+    required this.onChanged,
+    required this.controller,
+    this.numberInputLabel = 'MoMo number',
+    this.codeInputLabel = 'MoMo code',
+    super.key,
+  });
+
+  final CollectMomoReceiverMode mode;
+  final ValueChanged<CollectMomoReceiverMode> onChanged;
+  final TextEditingController controller;
+  final String numberInputLabel;
+  final String codeInputLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final isCode = mode == CollectMomoReceiverMode.momoPayCode;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.glassControl,
+        borderRadius: CollectRadius.controlBorder,
+        border: Border.all(color: colors.glassBorder),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(CollectSpacing.x1),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: _CollectMomoReceiverModeSegment(
+                    label: 'MoMo Number',
+                    icon: CollectIcons.momo,
+                    selected: !isCode,
+                    onTap: () => onChanged(CollectMomoReceiverMode.momoNumber),
+                  ),
+                ),
+                CollectSpacing.gapW8,
+                Expanded(
+                  child: _CollectMomoReceiverModeSegment(
+                    label: 'MoMo Code',
+                    icon: CollectIcons.qr,
+                    selected: isCode,
+                    onTap: () => onChanged(CollectMomoReceiverMode.momoPayCode),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                CollectSpacing.x3,
+                CollectSpacing.x1,
+                CollectSpacing.x3,
+                CollectSpacing.x1,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    isCode ? CollectIcons.qr : CollectIcons.momo,
+                    color: colors.textSecondary,
+                    size: 22,
+                  ),
+                  CollectSpacing.gapW12,
+                  Expanded(
+                    child: TextField(
+                      controller: controller,
+                      keyboardType: isCode
+                          ? TextInputType.number
+                          : TextInputType.phone,
+                      textInputAction: TextInputAction.done,
+                      autofillHints: isCode
+                          ? null
+                          : const [AutofillHints.telephoneNumber],
+                      decoration: InputDecoration(
+                        hintText: isCode ? codeInputLabel : numberInputLabel,
+                        border: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.zero,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CollectMomoReceiverModeSegment extends StatelessWidget {
+  const _CollectMomoReceiverModeSegment({
+    required this.label,
+    required this.icon,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final IconData icon;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = selected ? colors.onAccent : colors.textSecondary;
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: label,
+      child: InkWell(
+        borderRadius: CollectRadius.controlBorder,
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: CollectMotion.duration(context, CollectMotion.fast),
+          curve: CollectMotion.standard,
+          height: 48,
+          decoration: BoxDecoration(
+            color: selected ? colors.actionColor : colors.transparent,
+            borderRadius: CollectRadius.controlBorder,
+            border: Border.all(
+              color: selected ? colors.actionColor : colors.glassBorder,
+            ),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: CollectSpacing.x2),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: foreground, size: 19),
+              CollectSpacing.gapW8,
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.clip,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: foreground,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 0,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

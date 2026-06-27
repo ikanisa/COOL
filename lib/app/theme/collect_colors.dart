@@ -268,7 +268,6 @@ class CollectColors extends ThemeExtension<CollectColors> {
     }
     if (route.startsWith('/groups/create') ||
         route.startsWith('/settings/profile') ||
-        route.startsWith('/settings/readiness') ||
         route.startsWith('/permissions/sms') ||
         route.startsWith('/permissions/camera') ||
         route.startsWith('/permissions/device') ||

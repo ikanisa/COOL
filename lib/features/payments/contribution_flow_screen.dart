@@ -23,15 +23,26 @@ class ContributionFlowScreen extends ConsumerStatefulWidget {
 
 class _ContributionFlowScreenState
     extends ConsumerState<ContributionFlowScreen> {
-  final _amount = TextEditingController(text: '5000');
+  final _amount = TextEditingController();
   String? _error;
   bool _reviewing = false;
   bool _creating = false;
 
   @override
+  void initState() {
+    super.initState();
+    _amount.addListener(_onAmountChanged);
+  }
+
+  @override
   void dispose() {
+    _amount.removeListener(_onAmountChanged);
     _amount.dispose();
     super.dispose();
+  }
+
+  void _onAmountChanged() {
+    if (mounted) setState(() {});
   }
 
   @override
@@ -47,20 +58,12 @@ class _ContributionFlowScreenState
         title: 'Profile required',
         subtitle: collection.title,
         showHeader: false,
-        persistentPill: CollectTopChrome(
-          avatarLabel: profile?.publicId,
-          searchLabel: collection.title,
-          onAvatarTap: () => context.go('/settings/profile'),
-          actions: [
-            CollectTopChromeAction(
-              icon: CollectIcons.chevron,
-              tooltip: 'Back to group',
-              onPressed: () => context.go('/groups/${widget.collectionId}'),
-            ),
-          ],
-        ),
         compact: true,
         children: [
+          _ContributionHeader(
+            title: collection.title,
+            onBack: () => context.go('/groups/${widget.collectionId}'),
+          ),
           MinimalStatePanel(
             icon: CollectIcons.momo,
             title: 'Link your MoMo number first.',
@@ -81,26 +84,12 @@ class _ContributionFlowScreenState
       title: _reviewing ? 'Review' : 'Contribute',
       subtitle: collection.title,
       showHeader: false,
-      persistentPill: CollectTopChrome(
-        avatarLabel: profile.publicId,
-        searchLabel: collection.title,
-        onAvatarTap: () => context.go('/settings/profile'),
-        actions: [
-          CollectTopChromeAction(
-            icon: CollectIcons.chevron,
-            tooltip: 'Back to group',
-            onPressed: () => context.go('/groups/${widget.collectionId}'),
-          ),
-        ],
-      ),
       compact: true,
       bottomAction: _ContributionActionSurface(
         children: _reviewing
             ? [
                 CollectButton(
-                  label: _creating
-                      ? 'Opening MoMo'
-                      : collection.collectionType.contributionPrompt,
+                  label: _creating ? 'Opening MOMO' : 'Pay with MOMO',
                   icon: CollectIcons.momo,
                   onPressed: _creating ? null : _createIntent,
                   expand: true,
@@ -112,15 +101,6 @@ class _ContributionFlowScreenState
                       ? null
                       : () => setState(() => _reviewing = false),
                   variant: CollectButtonVariant.secondary,
-                  expand: true,
-                ),
-                CollectButton(
-                  label: 'Cancel',
-                  icon: CollectIcons.chevron,
-                  onPressed: _creating
-                      ? null
-                      : () => context.go('/groups/${widget.collectionId}'),
-                  variant: CollectButtonVariant.subtle,
                   expand: true,
                 ),
               ]
@@ -143,22 +123,19 @@ class _ContributionFlowScreenState
               ],
       ),
       children: [
-        CollectionTypeBadge(type: collection.collectionType),
+        _ContributionHeader(
+          title: collection.title,
+          onBack: () => context.go('/groups/${widget.collectionId}'),
+        ),
         if (!_reviewing) ...[
-          InfoSecurityBanner(
-            title: collection.collectionType.shortPurpose,
-            message: collection.collectionType.createPrompt,
-            tone: CollectStatusTone.info,
-          ),
           AmountEntryPanel(
             controller: _amount,
             amount: amount,
-            quickAmounts: const [1000, 5000, 10000, 20000],
+            quickAmounts: const [],
             error: _error,
-            onQuickAmount: (value) => setState(() {
-              _amount.text = value.toString();
-              _error = null;
-            }),
+            showCurrencyChip: false,
+            showQuickAmounts: false,
+            onQuickAmount: (_) {},
           ),
         ] else ...[
           PaymentReviewSummary(
@@ -167,6 +144,7 @@ class _ContributionFlowScreenState
             receiverLabel: collection.receiverDisplayLabel,
             receiverMomoNumber:
                 collection.receiverMomoNumber ?? 'Not configured',
+            showFullReceiverNumber: true,
             onEdit: () => setState(() => _reviewing = false),
           ),
         ],
@@ -188,9 +166,7 @@ class _ContributionFlowScreenState
       final activeIntent = _activePendingIntent(amountRwf: amount);
       if (activeIntent != null) {
         if (!mounted) return;
-        context.go(
-          '/groups/${widget.collectionId}/pay/${activeIntent.id}/waiting',
-        );
+        context.go('/groups/${widget.collectionId}/pay/${activeIntent.id}');
         return;
       }
       final intent = await ref
@@ -204,7 +180,7 @@ class _ContributionFlowScreenState
       if (!mounted) return;
       unawaited(_launchMomoDialer());
       if (!mounted) return;
-      context.go('/groups/${widget.collectionId}/pay/${intent.id}/waiting');
+      context.go('/groups/${widget.collectionId}/pay/${intent.id}');
     } catch (error) {
       if (!mounted) return;
       setState(() {
@@ -218,8 +194,8 @@ class _ContributionFlowScreenState
     try {
       await launchUrl(momoUssdUri(), mode: LaunchMode.externalApplication);
     } catch (_) {
-      // Web and some desktops cannot handle tel: links; the waiting screen
-      // still gives the user a recoverable payment state.
+      // Web and some desktops cannot handle tel: links; payment status still
+      // gives the user a recoverable payment state.
     }
   }
 
@@ -232,6 +208,51 @@ class _ContributionFlowScreenState
       return intent;
     }
     return null;
+  }
+}
+
+class _ContributionHeader extends StatelessWidget {
+  const _ContributionHeader({required this.title, required this.onBack});
+
+  final String title;
+  final VoidCallback onBack;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = colors.onImagePrimary;
+    return Row(
+      children: [
+        IconButton.filledTonal(
+          tooltip: 'Back to group',
+          style: IconButton.styleFrom(
+            backgroundColor: foreground.withValues(alpha: 0.10),
+            foregroundColor: foreground,
+            side: BorderSide(color: foreground.withValues(alpha: 0.16)),
+            fixedSize: const Size(44, 44),
+            minimumSize: const Size(44, 44),
+            padding: EdgeInsets.zero,
+          ),
+          onPressed: onBack,
+          icon: const Icon(Icons.arrow_back_rounded, size: 22),
+        ),
+        CollectSpacing.gapW12,
+        Expanded(
+          child: Text(
+            title,
+            maxLines: 1,
+            softWrap: false,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              color: foreground,
+              fontWeight: FontWeight.w900,
+              height: 1,
+              letterSpacing: 0,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
 

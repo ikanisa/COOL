@@ -144,6 +144,7 @@ class NotificationUpdateRow extends StatelessWidget {
     required this.message,
     required this.meta,
     this.tone = CollectStatusTone.info,
+    this.onTap,
     super.key,
   });
 
@@ -151,11 +152,12 @@ class NotificationUpdateRow extends StatelessWidget {
   final String message;
   final String meta;
   final CollectStatusTone tone;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return Padding(
+    final row = Padding(
       padding: const EdgeInsets.symmetric(vertical: CollectSpacing.x3),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,6 +197,16 @@ class NotificationUpdateRow extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+    if (onTap == null) return row;
+    return Semantics(
+      button: true,
+      label: 'Mark $title as read',
+      child: InkWell(
+        borderRadius: CollectRadius.mdBorder,
+        onTap: onTap,
+        child: row,
       ),
     );
   }

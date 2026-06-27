@@ -50,6 +50,11 @@ val expectedPlaySigningSha256 = (
         ?: System.getenv("COOL_EXPECTED_PLAY_SIGNING_SHA256")
         ?: "45:17:38:E6:9A:DF:1B:4D:3F:AA:7A:65:90:20:28:2E:02:7B:47:86:26:71:C9:FC:32:45:AF:82:2B:4D:2A:92"
 ).normalizedSha256()
+val expectedUploadSigningSha256 = (
+    (keystoreProperties["COOL_EXPECTED_UPLOAD_SIGNING_SHA256"] as String?)
+        ?: (findProperty("COOL_EXPECTED_UPLOAD_SIGNING_SHA256") as String?)
+        ?: System.getenv("COOL_EXPECTED_UPLOAD_SIGNING_SHA256")
+)?.normalizedSha256()
 val releaseStoreFileValue = signingValue("storeFile")
 val releaseStoreFile = releaseStoreFileValue?.let { value ->
     val moduleRelative = file(value)
@@ -74,6 +79,8 @@ val releaseSigningSha256 = if (hasReleaseSigning) {
     null
 }
 val releaseSigningMatchesPlay = releaseSigningSha256 == expectedPlaySigningSha256
+val releaseSigningMatchesExpectedUpload =
+    expectedUploadSigningSha256 == null || releaseSigningSha256 == expectedUploadSigningSha256
 val signProductionDebugWithPlayKey = (
     (keystoreProperties["COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY"] as String?)
         ?: (findProperty("COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY") as String?)
@@ -164,25 +171,31 @@ flutter {
 }
 
 gradle.taskGraph.whenReady {
-    val productionSigningTaskRequested = gradle.startParameter.taskNames.any { taskName ->
-        taskName.contains("ProductionRelease", ignoreCase = true) ||
-            (
-                signProductionDebugWithPlayKey &&
-                    taskName.contains("ProductionDebug", ignoreCase = true)
-            )
+    val productionReleaseTaskRequested = gradle.startParameter.taskNames.any { taskName ->
+        taskName.contains("ProductionRelease", ignoreCase = true)
     }
-    if (productionSigningTaskRequested) {
+    val playInstalledOverwriteTaskRequested = gradle.startParameter.taskNames.any { taskName ->
+        signProductionDebugWithPlayKey && taskName.contains("ProductionDebug", ignoreCase = true)
+    }
+    if (productionReleaseTaskRequested || playInstalledOverwriteTaskRequested) {
         if (!hasReleaseSigning) {
             throw GradleException(
                 "Production Android signing requires android/key.properties or COOL_ANDROID_* environment variables " +
-                    "pointing at the Play app-signing/original release key."
+                    "pointing at the Google Play upload key."
             )
         }
-        if (!releaseSigningMatchesPlay) {
+        if (productionReleaseTaskRequested && !releaseSigningMatchesExpectedUpload) {
+            throw GradleException(
+                "Configured Android upload signing certificate SHA-256 $releaseSigningSha256 does not match " +
+                    "the expected upload certificate SHA-256 $expectedUploadSigningSha256. " +
+                    "Point android/key.properties or COOL_ANDROID_* environment variables at the registered Google Play upload key."
+            )
+        }
+        if (playInstalledOverwriteTaskRequested && !releaseSigningMatchesPlay) {
             throw GradleException(
                 "Configured Android signing certificate SHA-256 $releaseSigningSha256 does not match " +
                     "the expected Play app-signing certificate SHA-256 $expectedPlaySigningSha256. " +
-                    "Point android/key.properties or COOL_ANDROID_* environment variables at the Play app-signing/original release key."
+                    "Set COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY=false for upload-key debug builds, or point signing at the Play app-signing/original release key for Play-installed package overwrite QA."
             )
         }
     }
@@ -191,4 +204,54 @@ gradle.taskGraph.whenReady {
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
     implementation("com.google.android.play:integrity:1.6.0")
+}
+
+tasks.register("printReleaseSigningCertificateStatus") {
+    group = "verification"
+    description = "Print redacted production signing certificate status as JSON."
+
+    fun jsonString(value: String?): String =
+        if (value == null) {
+            "null"
+        } else {
+            "\"" + value
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n") + "\""
+        }
+
+    doLast {
+        val status = when {
+            !hasReleaseSigning -> "blocked"
+            !releaseSigningMatchesExpectedUpload -> "blocked"
+            else -> "pass"
+        }
+        val message = when {
+            !hasReleaseSigning -> "Production Android signing material is missing."
+            !releaseSigningMatchesExpectedUpload -> "Configured Android signing certificate does not match the expected Google Play upload certificate."
+            expectedUploadSigningSha256 == null -> "Configured Android upload signing material is present; upload certificate pinning is not configured."
+            else -> "Configured Android signing certificate matches the expected Google Play upload certificate."
+        }
+
+        println(
+            """
+            {
+              "status": ${jsonString(status)},
+              "message": ${jsonString(message)},
+              "store_file_configured": ${releaseStoreFileValue != null},
+              "store_file_exists": ${releaseStoreFile?.exists() == true},
+              "key_alias_configured": ${releaseKeyAlias != null},
+              "store_password_configured": ${releaseStorePassword != null},
+              "key_password_configured": ${releaseKeyPassword != null},
+              "configured_certificate_sha256": ${jsonString(releaseSigningSha256)},
+              "expected_upload_signing_sha256": ${jsonString(expectedUploadSigningSha256)},
+              "matches_expected_upload_certificate": $releaseSigningMatchesExpectedUpload,
+              "expected_play_signing_sha256": ${jsonString(expectedPlaySigningSha256)},
+              "matches_expected_play_signing_certificate": $releaseSigningMatchesPlay,
+              "play_app_signing_certificate_note": "Google Play App Signing uses the upload key for uploaded bundles and the Play app-signing key for APKs delivered to users.",
+              "secret_handling": "This task prints certificate fingerprints and boolean configuration state only; it does not print keystore passwords or key aliases."
+            }
+            """.trimIndent()
+        )
+    }
 }

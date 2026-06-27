@@ -89,9 +89,9 @@ class _GroupsSearchScreenState extends ConsumerState<GroupsSearchScreen> {
             title: 'No groups yet',
             message: 'Scan a QR or create a group to start.',
             action: CollectButton(
-              label: 'Join with code',
-              icon: CollectIcons.people,
-              onPressed: () => context.go('/groups/join'),
+              label: 'Scan QR',
+              icon: CollectIcons.qr,
+              onPressed: () => context.go('/groups/scan'),
               expand: true,
             ),
           )

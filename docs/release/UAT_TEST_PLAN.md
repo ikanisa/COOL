@@ -2,9 +2,8 @@
 
 Audit date: 2026-06-02
 
-Decision context: **NO-GO pending human approvals, Android SMS scenario
-approval, Android signing review, iOS scope decision, and release-owner
-signoff**.
+Decision context: **NO-GO pending Android SMS scenario evidence, Android
+signing review, iOS scope evidence, and release-owner execution records**.
 
 This plan covers the corrected SMS-first Groups product definition. It excludes old
 goals, campaign/public-directory flows, manual SMS paste, self-reported payment

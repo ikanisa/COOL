@@ -21,43 +21,6 @@ class LegalScreen extends StatelessWidget {
       showHeader: false,
       children: [
         _LegalPageHeader(title: title),
-        CollectVisualFeatureCard(
-          asset: isPrivacy
-              ? 'assets/brand/generated/collect_visual_qr_share.png'
-              : 'assets/brand/generated/collect_visual_momo_signal.png',
-          title: isPrivacy ? 'Privacy boundary' : 'Safe use',
-          message: isPrivacy
-              ? 'Public sharing stays Collect ID first.'
-              : 'Approve MoMo only after checking group and amount.',
-          icon: isPrivacy ? CollectIcons.privacy : CollectIcons.warning,
-          tone: isPrivacy
-              ? CollectStatusTone.privacy
-              : CollectStatusTone.warning,
-        ),
-        CollectCard(
-          emphasis: CollectCardEmphasis.glow,
-          accentColor: context.collectColors.statusForeground(
-            isPrivacy ? CollectStatusTone.privacy : CollectStatusTone.warning,
-          ),
-          child: Column(
-            children: [
-              CollectListTile(
-                leading: CollectIcons.public,
-                title: isPrivacy ? 'Public data' : 'Group checks',
-                subtitle: isPrivacy
-                    ? 'Collect IDs and safe status.'
-                    : 'Group, receiver, amount.',
-              ),
-              CollectListTile(
-                leading: CollectIcons.lock,
-                title: isPrivacy ? 'Private data' : 'Secret boundary',
-                subtitle: isPrivacy
-                    ? 'Credentials never public.'
-                    : 'No OTPs, PINs, raw SMS.',
-              ),
-            ],
-          ),
-        ),
         CollectCard(
           emphasis: CollectCardEmphasis.flat,
           child: Column(
@@ -238,13 +201,6 @@ class AccountSessionScreen extends ConsumerWidget {
       title: 'Account',
       subtitle: profile == null ? 'No active profile' : profile.publicId,
       children: [
-        CollectVisualFeatureCard(
-          asset: 'assets/brand/generated/collect_visual_momo_signal.png',
-          title: profile == null ? 'Account pending' : profile.publicId,
-          message: 'Profile, session, and data controls.',
-          icon: CollectIcons.profile,
-          tone: CollectStatusTone.info,
-        ),
         CollectCard(
           emphasis: CollectCardEmphasis.glow,
           accentColor: context.collectColors.statusForeground(
@@ -261,7 +217,6 @@ class AccountSessionScreen extends ConsumerWidget {
               CollectListTile(
                 leading: CollectIcons.error,
                 title: 'Delete data',
-                subtitle: 'Auditable request.',
                 onTap: () => context.go('/settings/account/delete'),
               ),
               CollectListTile(
@@ -339,13 +294,6 @@ class _DeleteAccountRequestScreenState
             message: _error!,
             tone: CollectStatusTone.warning,
           ),
-        const CollectVisualFeatureCard(
-          asset: 'assets/brand/generated/collect_visual_momo_signal.png',
-          title: 'Auditable request',
-          message: 'Deletion is reviewed against ledger and security records.',
-          icon: CollectIcons.error,
-          tone: CollectStatusTone.privacy,
-        ),
         if (_submitted)
           const _StateHero(
             icon: CollectIcons.check,
@@ -372,6 +320,16 @@ class _DeleteAccountRequestScreenState
                     },
                   ),
                 CollectSpacing.gap16,
+                Text(
+                  _selectedReasons.isEmpty
+                      ? 'Select a reason to submit.'
+                      : 'Ready to submit.',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: context.collectColors.textSecondary,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                CollectSpacing.gap8,
                 CollectButton(
                   label: _submitting ? 'Submitting' : 'Submit',
                   icon: CollectIcons.error,

@@ -4,7 +4,7 @@
 
 Status: NO-GO for production release.
 
-The code-owned brand, artifact, admin web, live Admin PWA, and physical Android device checks have been refreshed. Production remains blocked by human approval and platform-scope evidence that cannot be completed by code changes alone.
+The code-owned brand, artifact, admin web, live Admin PWA, and physical Android device checks have been refreshed. Production remains blocked by release-owner execution records and platform-scope evidence that cannot be completed by code changes alone.
 
 ## Passed Evidence
 

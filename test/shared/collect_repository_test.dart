@@ -56,12 +56,12 @@ void main() {
       title: 'Merchant group',
       description: 'MoMo Pay collections',
       receiverMomoNumber: '12345',
-      receiverLabel: 'MoMo Pay code',
+      receiverLabel: 'MoMo code',
       receiverIsMomoPayCode: true,
     );
 
     expect(collection.receiverMomoNumber, '12345');
-    expect(collection.receiverDisplayLabel, 'MoMo Pay code');
+    expect(collection.receiverDisplayLabel, 'MoMo code');
   });
 
   test(
@@ -102,6 +102,46 @@ void main() {
     expect(intent.status, 'pending');
     expect(intent.expiresAt.isAfter(DateTime.now()), isTrue);
   });
+
+  test('fixture state includes backend notification events', () {
+    final repo = CollectRepository.fixture();
+    final events = repo.state.notificationEvents;
+
+    expect(events, hasLength(3));
+    expect(events.first.type, 'contribution_confirmed');
+    expect(events.first.title, 'Contribution confirmed');
+    expect(events.where((event) => event.unread), hasLength(2));
+  });
+
+  test(
+    'notification event parser and mark-read state are implemented',
+    () async {
+      final event = NotificationEvent.fromJson(const {
+        'id': 'notif-1',
+        'user_id': 'user-1',
+        'collection_id': 'col-1',
+        'type': 'payment_reminder',
+        'title': 'Payment verification pending',
+        'body': '1 payment waiting for MoMo SMS verification.',
+        'deep_link': '/notifications',
+        'status': 'queued',
+        'created_at': '2026-06-26T12:00:00Z',
+      });
+
+      expect(event.unread, isTrue);
+      expect(event.deepLink, '/notifications');
+
+      final repo = CollectRepository.fixture();
+      await repo.markNotificationRead('notif-payment-pending');
+      final marked = repo.state.notificationEvents.singleWhere(
+        (item) => item.id == 'notif-payment-pending',
+      );
+
+      expect(marked.status, 'read');
+      expect(marked.unread, isFalse);
+      expect(marked.readAt, isNotNull);
+    },
+  );
 
   test(
     'payment intent exposes receiver context without manual instructions',

@@ -131,6 +131,62 @@ if [[ "${QA_UAT_FIXTURE:-0}" == "1" ]]; then
     record_fixture "$name" "$name.txt" 0 "[repo-wide-qa-uat][fixture] $name passed"
   done
   record_fixture "collect_product_boundary_scan" "collect_product_boundary_scan.json" 0 "[repo-wide-qa-uat][fixture] collect_product_boundary_scan passed"
+  cat > "$bundle_dir/product_design_mobile_audit_artifact_gate.json" <<'JSON'
+{
+  "status": "pass",
+  "audit_dir": "docs/release/product_design_mobile_audit_2026-06-26",
+  "manifest": "docs/release/product_design_mobile_audit_2026-06-26/screenshot_manifest.json",
+  "viewport": "390x844",
+  "route_count": 48,
+  "failures": [],
+  "secret_handling": "Fixture reports screenshot paths, dimensions, byte counts, and console-error counts only."
+}
+JSON
+  record_fixture "product_design_mobile_audit_artifact_gate" "product_design_mobile_audit_artifact_gate.json" 0 "$(cat "$bundle_dir/product_design_mobile_audit_artifact_gate.json")"
+  cat > "$bundle_dir/android_release_signing_preflight.json" <<'JSON'
+{
+  "status": "pass",
+  "message": "Fixture mode reports Android upload signing material present without an upload certificate pin.",
+  "store_file_configured": true,
+  "store_file_exists": true,
+  "key_alias_configured": true,
+  "store_password_configured": true,
+  "key_password_configured": true,
+  "configured_certificate_sha256": "9EE12172C78A8A487906D9159BFDD17B4D78ABA3541F17B410659E6D60DDCC10",
+  "expected_upload_signing_sha256": null,
+  "matches_expected_upload_certificate": true,
+  "expected_play_signing_sha256": "451738E69ADF1B4D3FAA7A659020282E027B47862671C9FC3245AF822B4D2A92",
+  "matches_expected_play_signing_certificate": false,
+  "play_app_signing_certificate_note": "Google Play App Signing uses the upload key for uploaded bundles and the Play app-signing key for APKs delivered to users.",
+  "secret_handling": "Fixture reports certificate fingerprints and boolean configuration state only; it does not print keystore passwords or key aliases."
+}
+JSON
+  record_fixture "android_release_signing_preflight" "android_release_signing_preflight.json" 0 "$(cat "$bundle_dir/android_release_signing_preflight.json")"
+  cat > "$bundle_dir/android_kotlin_plugin_compat.json" <<'JSON'
+{
+  "status": "warning",
+  "plugin_count": 12,
+  "direct_kotlin_plugin_count": 2,
+  "direct_kotlin_plugins": [
+    {
+      "name": "file_saver",
+      "markers": [
+        "apply plugin: 'kotlin-android'",
+        "org.jetbrains.kotlin:kotlin-gradle-plugin"
+      ]
+    },
+    {
+      "name": "mobile_scanner",
+      "markers": [
+        "apply plugin: 'kotlin-android'",
+        "org.jetbrains.kotlin:kotlin-gradle-plugin"
+      ]
+    }
+  ],
+  "secret_handling": "Fixture reports plugin names and marker names only; it does not read or print signing keys or environment secrets."
+}
+JSON
+  record_fixture "android_kotlin_plugin_compat" "android_kotlin_plugin_compat.json" 0 "$(cat "$bundle_dir/android_kotlin_plugin_compat.json")"
   cat > "$bundle_dir/admin_pwa_hosting_gate.json" <<'JSON'
 {
   "status": "pass",
@@ -213,7 +269,6 @@ JSON
     "auth-success|/auth/success"
     "auth-failure|/auth/failure"
     "profile|/settings/profile"
-    "profile-readiness|/settings/readiness"
     "sms-permission|/permissions/sms"
     "sms-denied|/permissions/sms-denied"
     "device-permission|/permissions/device"
@@ -225,14 +280,12 @@ JSON
     "group-detail|/groups/col-church"
     "group-created|/groups/col-church/created"
     "group-joined|/groups/col-church/joined"
-    "join|/groups/join"
     "share|/groups/col-church/share"
     "share-invalid|/share/invalid"
     "share-expired|/share/expired"
     "app-share-entry|/app"
     "app-invite-link|/invite/038491"
     "contribution|/groups/col-church/contribute"
-    "payment-waiting|/groups/col-church/pay/intent-render/waiting"
     "payment-pending|/groups/col-church/pay/intent-render/state/pending"
     "payment-confirmed|/groups/col-church/pay/intent-render/state/confirmed"
     "payment-expired|/groups/col-church/pay/intent-render/state/expired"
@@ -493,6 +546,9 @@ else
   run_capture "flutter_test" "flutter_test.txt" "$FLUTTER" test --no-pub --concurrency=1
   run_capture "release_secret_scan" "release_secret_scan.txt" "$ROOT_DIR/scripts/release_secret_scan.sh"
   run_capture "collect_product_boundary_scan" "collect_product_boundary_scan.json" "$ROOT_DIR/scripts/collect_product_boundary_scan.sh" --json
+  run_capture "product_design_mobile_audit_artifact_gate" "product_design_mobile_audit_artifact_gate.json" "$ROOT_DIR/scripts/product_design_mobile_audit_artifact_gate.sh" --json
+  run_capture "android_release_signing_preflight" "android_release_signing_preflight.json" "$ROOT_DIR/scripts/android_release_signing_preflight.sh" --json
+  run_capture "android_kotlin_plugin_compat" "android_kotlin_plugin_compat.json" "$ROOT_DIR/scripts/android_kotlin_plugin_compat_gate.sh" --json
   run_capture "release_worktree_review" "worktree_review.json" "$ROOT_DIR/scripts/release_worktree_review_gate.sh" --json
   run_capture "admin_pwa_build" "admin_pwa_build.txt" "$ROOT_DIR/scripts/admin_pwa_release_build.sh"
   run_capture "admin_pwa_manifest_gate" "admin_pwa_manifest_gate.txt" "$ROOT_DIR/scripts/admin_pwa_manifest_gate.sh"
@@ -611,6 +667,9 @@ artifact_manifest = read_json(File.join(bundle_dir, "release_artifact_manifest.j
 admin_hosting = read_json(File.join(bundle_dir, "admin_pwa_hosting_gate.json"))
 evidence_index = read_json(File.join(bundle_dir, "evidence_index.json"))
 design_compliance = read_json(File.join(bundle_dir, "collect_mobile_design_compliance", "summary.json"))
+product_design_mobile_audit_artifact = read_json(File.join(bundle_dir, "product_design_mobile_audit_artifact_gate.json"))
+android_release_signing_preflight = read_json(File.join(bundle_dir, "android_release_signing_preflight.json"))
+android_kotlin_plugin_compat = read_json(File.join(bundle_dir, "android_kotlin_plugin_compat.json"))
 
 admin_live_surface =
   if admin_live_gate["fixture_mode"] == true
@@ -728,6 +787,35 @@ release_evidence_index_surface =
     "fail"
   end
 
+android_kotlin_plugin_compat_surface =
+  if command_ok?(commands, "android_kotlin_plugin_compat") &&
+      %w[pass warning].include?(android_kotlin_plugin_compat["status"].to_s)
+    android_kotlin_plugin_compat["status"].to_s
+  elsif command_blocked?(commands, "android_kotlin_plugin_compat")
+    "blocked"
+  else
+    "fail"
+  end
+
+android_release_signing_preflight_surface =
+  if command_ok?(commands, "android_release_signing_preflight") &&
+      android_release_signing_preflight["status"].to_s == "pass"
+    "pass"
+  elsif command_exit_code(commands, "android_release_signing_preflight") == 1 &&
+      android_release_signing_preflight["status"].to_s == "blocked"
+    "blocked"
+  else
+    "fail"
+  end
+
+product_design_mobile_audit_surface =
+  if command_ok?(commands, "product_design_mobile_audit_artifact_gate") &&
+      product_design_mobile_audit_artifact["status"].to_s == "pass"
+    "pass"
+  else
+    "fail"
+  end
+
 supabase_evidence_bundle_surface =
   if command_ok?(commands, "supabase_go_live_evidence") && supabase_summary["status"] == "pass"
     "pass"
@@ -745,9 +833,12 @@ surfaces = {
   "flutter_app" => %w[flutter_version dart_version format_check flutter_analyze flutter_test release_secret_scan collect_product_boundary_scan].all? { |name| command_ok?(commands, name) } ? "pass" : "fail",
   "admin_pwa" => admin_pwa_surface,
   "mobile_route_render" => mobile_route_render_surface,
+  "product_design_mobile_audit_artifacts" => product_design_mobile_audit_surface,
   "mobile_design_compliance" => mobile_design_surface,
   "admin_pwa_live_deployment" => admin_live_surface,
   "worktree_review" => worktree_surface,
+  "android_release_signing_preflight" => android_release_signing_preflight_surface,
+  "android_kotlin_plugin_compat" => android_kotlin_plugin_compat_surface,
   "human_uat_evidence" => human_evidence_surface,
   "human_uat_signoff" => human_signoff_surface,
   "android_release_artifacts" => %w[android_apk_release_build android_aab_release_build].all? { |name| command_ok?(commands, name) } ? "pass" : (%w[android_apk_release_build android_aab_release_build].any? { |name| command_blocked?(commands, name) } ? "blocked" : "fail"),
@@ -798,7 +889,9 @@ blocker_keys = (
       worktree_review,
       artifact_manifest,
       admin_hosting,
-      evidence_index
+      evidence_index,
+      product_design_mobile_audit_artifact,
+      android_release_signing_preflight
     ],
     %w[blocker_keys failure_keys missing_artifacts]
   )
@@ -833,6 +926,9 @@ summary = {
     "acceptance_matrix" => supabase_summary["acceptance_matrix"] || {}
   },
   "release_evidence_index" => evidence_index,
+  "product_design_mobile_audit_artifacts" => product_design_mobile_audit_artifact,
+  "android_release_signing_preflight" => android_release_signing_preflight,
+  "android_kotlin_plugin_compat" => android_kotlin_plugin_compat,
   "commands" => commands,
   "secret_handling" => "Outputs are captured into local .cache evidence and release commands must not print raw .env values."
 }
@@ -863,9 +959,12 @@ File.write(
     - `admin_pwa_hosting_gate.json`: static hosting headers, cache, CSP, and robots gate
     - `admin_pwa_live_gate.json`: deployed Admin PWA URL headers and PWA file gate
     - `mobile_route_render_smoke/`: representative mobile route screenshots and nonblank PNG checks
+    - `product_design_mobile_audit_artifact_gate.json`: product-design route screenshot manifest, PNG header, dimension, and console-error gate
     - `collect_mobile_design_compliance/`: DESIGN.md four-primary color, route screenshot, product-domain, and Android UAT compliance gate
     - `worktree_review.json`: release branch/worktree review gate
     - `collect_product_boundary_scan.json`: Collect app product-boundary scan for forbidden Buro/crypto/trading/legacy navigation concepts
+    - `android_release_signing_preflight.json`: redacted Android Play signing certificate preflight
+    - `android_kotlin_plugin_compat.json`: warning-level Android Flutter plugin Kotlin Gradle Plugin compatibility inventory
     - `uat_evidence_gate.json`: sanitized human UAT evidence manifest gate
     - `uat_signoff_gate.json`: human UAT release-owner signoff gate
     - `mobile_release_gate.json`: Flutter mobile release metadata, signing-review, and iOS-scope gate

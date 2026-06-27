@@ -85,7 +85,12 @@ class ActivityFeedItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _IdentityTitle(title: title),
+                    Text(
+                      compactCollectIdLabel(title),
+                      style: Theme.of(context).textTheme.titleSmall,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     CollectSpacing.gap4,
                     Text(
                       meta,

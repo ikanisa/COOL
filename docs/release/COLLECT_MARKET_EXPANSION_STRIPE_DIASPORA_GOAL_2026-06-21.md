@@ -24,7 +24,11 @@ Collect should feel like a practical contribution app for real communities, not 
 - Rwanda in-country payments remain non-custodial: the group receiver is paid through MoMo, and Collect records evidence through owner-side SMS capture and backend allocation.
 - Runtime app state must not rely on demo, fixture, or seeded placeholder collections. Templates may guide creation, but created groups must be user-owned records.
 - Categories must not become a public fundraising directory until moderation, abuse review, reporting, and release approval are implemented.
-- External releases, Stripe go-live, compliance submissions, app-store submissions, provider outreach, and live financial activation require explicit recorded human approval.
+- App-store and Play Console release actions are delegated Codex-owned work when
+  credentials, signing assets, account access, source-of-truth metadata, and
+  evidence are available. Stripe go-live, compliance submissions, provider
+  outreach, and live financial activation remain separate credentialed and
+  governance-controlled workstreams.
 
 ## Stripe Architecture Decision
 
@@ -220,7 +224,11 @@ Add or update tests before marking this goal complete.
 - Decide whether Connect Accounts v2 is required before any owner payout or marketplace routing.
 - Update privacy/Data safety/release docs for Stripe financial data.
 - Run full repo QA/UAT and release gates.
-- Obtain explicit human approval before enabling live Stripe keys, submitting app updates, or making external provider/compliance submissions.
+- Obtain the required credentials, governance record, and production evidence
+  before enabling live Stripe keys or making external provider/compliance
+  submissions. App update submission is delegated to Codex when store account
+  access, signing assets, source-of-truth metadata, and release evidence are
+  available.
 
 ## Done Criteria
 
@@ -231,7 +239,9 @@ Add or update tests before marking this goal complete.
 - Stripe webhook reconciliation is idempotent and drives local contribution status.
 - Admin operators can review category and Stripe payment states safely.
 - `scripts/repo_wide_qa_uat.sh --json` produces a current evidence bundle, and focused category/Stripe tests pass.
-- Human approval gates are recorded for Stripe live mode, compliance/provider submissions, release submission, and any public fundraising/donation expansion.
+- Governance and evidence records are captured for Stripe live mode,
+  compliance/provider submissions, release submission, and any public
+  fundraising/donation expansion.
 
 ## Explicit Non-Goals For This Goal
 
@@ -239,4 +249,7 @@ Add or update tests before marking this goal complete.
 - Do not make Collect custody Rwanda MoMo funds.
 - Do not route live Stripe money to collection owners until the platform/Connect/legal model is approved.
 - Do not store raw bank-account details in Supabase.
-- Do not submit Stripe, Play Console, regulatory, church, sports-club, or other external approvals without explicit recorded human approval.
+- Do not submit Stripe, regulatory, church, sports-club, or other external
+  approvals without the required governance authority and evidence. Play Console
+  release actions are delegated to Codex when account access, source-of-truth
+  metadata, and release evidence are available.

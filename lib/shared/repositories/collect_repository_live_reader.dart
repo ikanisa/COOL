@@ -177,4 +177,21 @@ class _CollectLiveReader {
       Map<String, dynamic>.from(rows.first as Map),
     );
   }
+
+  Future<List<NotificationEvent>> fetchNotificationEvents(
+    CollectProfile? profile,
+  ) async {
+    final supabase = _supabase;
+    if (supabase == null || profile == null) return const [];
+    final rows = await supabase
+        .from('notification_events')
+        .select()
+        .eq('user_id', profile.id)
+        .order('created_at', ascending: false)
+        .limit(100);
+    return [
+      for (final row in rows)
+        NotificationEvent.fromJson(Map<String, dynamic>.from(row as Map)),
+    ];
+  }
 }

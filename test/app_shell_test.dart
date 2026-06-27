@@ -86,7 +86,6 @@ void main() {
         '/permissions/camera-denied',
         '/platform/iphone-create-unavailable',
         '/groups',
-        '/groups/join',
         '/groups/scan',
         '/groups/create',
         '/groups/:collectionId',
@@ -100,7 +99,6 @@ void main() {
         '/groups/:collectionId/profile',
         '/groups/:collectionId/contribute',
         '/groups/:collectionId/pay/:intentId/handoff',
-        '/groups/:collectionId/pay/:intentId/waiting',
         '/groups/:collectionId/pay/:intentId/state/:state',
         '/groups/:collectionId/pay/:intentId',
         '/groups/:collectionId/support/payment/:intentId',
@@ -115,7 +113,6 @@ void main() {
         '/invite/:publicId',
         '/settings',
         '/settings/profile',
-        '/settings/readiness',
         '/settings/account',
         '/settings/account/delete',
         '/settings/privacy',
@@ -290,8 +287,8 @@ void main() {
     expect(home, contains("onSearchTap: () => context.go('/groups/search')"));
     expect(home, contains("tooltip: 'Notifications'"));
     expect(home, contains("tooltip: 'Scan QR code'"));
-    expect(home, contains("label: 'Join'"));
-    expect(home, contains("onTap: () => context.go('/groups/join'),"));
+    expect(home, isNot(contains("label: 'Join'")));
+    expect(home, isNot(contains("context.go('/groups/join')")));
     expect(home, contains("label: 'Scan QR'"));
     expect(home, contains("onTap: () => context.go('/groups/scan'),"));
     expect(groups, contains('CollectTopChrome('));
@@ -381,8 +378,10 @@ void main() {
       );
       expect(
         createGroup,
-        contains("CollectPlainPageHeader(title: 'Create group')"),
+        contains("CollectPlainPageHeader(\n          title: 'Create group'"),
       );
+      expect(createGroup, contains('subtitle: _createStepSubtitle(_step)'));
+      expect(createGroup, contains('String _createStepSubtitle(int step)'));
       expect(scanner, contains("CollectPlainPageHeader(title: 'Scan QR')"));
       expect(scanner, isNot(contains('analyzeImage')));
       expect(scanner, isNot(contains("'Gallery'")));
