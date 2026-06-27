@@ -11,7 +11,7 @@ The Flutter member app is code-owned visually shippable for the current Revolut-
 
 The strongest parts are Home, Groups, group detail, payment state, ledger, share/invite, settings privacy, public static pages, admin route breadth, and the shared chrome/cards. The remaining weaknesses are deeper persisted admin operator workflows, full native assistive-technology proof on an authorized device, and any future exact Revolut asset replacement when an approved kit is supplied.
 
-No native production/mobile build was run for this audit.
+The original audit pass did not run a native production/mobile build. The 2026-06-27 follow-up rebuilt the production Android APK/AAB and the release gate now reports `GO`.
 
 ## Evidence Used
 
@@ -46,6 +46,8 @@ No native production/mobile build was run for this audit.
 | `scripts/release_secret_scan.sh` | Pass | Fallback tracked-file secret scan passed because `gitleaks` is not installed locally. |
 | `scripts/collect_product_boundary_scan.sh --json` | Pass | Product-boundary scan passed across 156 source/docs files with zero hits. |
 | `scripts/android_accessibility_structural_evidence.sh --json` | Blocked | Native Android assistive-tech structural run cannot execute because ADB reports no connected authorized device; expected device `13111JEC215558` is not connected. |
+| `scripts/flutter_mobile_release_gate.sh --json` | Pass | Production Android APK/AAB artifacts are current and signature verification passed. |
+| `scripts/release_status.sh --json` | Pass | Final release status reports `GO`, `supabase_strict: pass`, and no blocker keys. |
 
 ## Critical Findings
 
