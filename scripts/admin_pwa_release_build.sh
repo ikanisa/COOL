@@ -91,7 +91,11 @@ index = index.sub(
   %r{<meta name="description" content=".*?">}m,
   '<meta name="description" content="Collect platform operations console.">'
 )
-unless index.include?('rel="icon"')
+index = index.gsub(
+  %r{\n\s*<link\s+rel="icon"[^>]*>}i,
+  ""
+)
+unless index.include?('rel="icon" href="icons/collect-admin.png"')
   index = index.sub(
     %r{</head>}m,
     '  <link rel="icon" href="icons/collect-admin.png" type="image/png">' + "\n</head>"
@@ -115,6 +119,10 @@ index = index.gsub(%r{\n\s*<!-- Collect Admin PWA service worker -->.*?</script>
 File.write(index_path, index)
 
 bootstrap = File.read(bootstrap_path)
+bootstrap = bootstrap.gsub(
+  %r{custom-sw\.js\?v=collect-admin-[0-9a-f]{16}},
+  "custom-sw.js?v=__COLLECT_ADMIN_SW_VERSION__"
+)
 unless bootstrap.include?("__COLLECT_ADMIN_SW_VERSION__")
   abort("flutter_bootstrap.js is missing Collect Admin service worker placeholder")
 end

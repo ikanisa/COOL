@@ -35,6 +35,27 @@ Repo-wide release verdict remains **NO-GO** for non-admin blockers: product sign
 | Render-smoke script | Pass after fix | `ADMIN_PWA_SCREENSHOT_TIMEOUT_SECONDS=20 scripts/admin_pwa_render_smoke.sh` passed at `.cache/admin_pwa_render_smoke/20260612T064358Z` |
 | Final repo release status | NO-GO | `scripts/release_status.sh --json` reported blockers unrelated to Admin PWA live hosting |
 
+## Implementation Addendum On 2026-06-27
+
+The Admin PWA received a targeted workflow/security follow-up for the Revolut-alignment findings:
+
+- Generic list queues now expose route-specific operator signals and workflow steps for groups, members, payment intents, SMS parsing, allocations, exceptions, ledger, receivers, SMS metadata, audit logs, settings, feature flags, and admin users.
+- Detail pages now include operator next-step panels for group, member, payment, payment-event, receiver, SMS metadata, and system-health records while keeping the payment-event reparse action above the guidance panel.
+- The arbitrary-user admin permission probing risk is addressed by forward migration `20260627143000_restrict_admin_permission_helper_probing.sql`: authenticated callers can evaluate only `auth.uid()`, while `service_role` remains able to evaluate arbitrary users for controlled administration.
+- `scripts/supabase_production_readiness.sh` now allowlists the browser-safe `current_user_has_admin_permission(text)` helper, and `test/supabase_contract_test.dart` enforces the helper-probing restriction.
+- The migration was applied to the linked COOL Supabase project on 2026-06-27 through `supabase db query --linked`; verification confirmed the three helper functions have the expected guard/wrapper logic, comments, and execute grants, and migration history includes version `20260627143000`.
+
+Current focused validation after this addendum:
+
+- `/Volumes/PRO-G40/flutter_3_44/bin/flutter analyze --no-pub` passed.
+- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/admin_pwa_test.dart test/supabase_contract_test.dart` passed.
+- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/features/mobile_completion_test.dart test/persona_uat_smoke_test.dart test/admin_pwa_test.dart test/supabase_contract_test.dart` passed with 113 focused regression tests after the final tokenized modal-sheet color change.
+- `/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/supabase_contract_test.dart` passed after live Supabase migration application.
+- Fresh follow-up visual evidence passed at `.cache/flutter_visual_evidence_revolut_followup_20260627/admin/summary.json`, covering admin login, overview, payment events, and SMS detail at mobile and desktop sizes.
+- `scripts/release_secret_scan.sh` passed using the fallback tracked-file scanner because `gitleaks` is not installed locally.
+- `scripts/collect_product_boundary_scan.sh --json` passed with zero hits across 156 scanned files.
+- `scripts/admin_pwa_release_build.sh` now restamps an existing generated `collect-admin-<hash>` service-worker cache name and replaces any inherited favicon link with `icons/collect-admin.png`; the Admin PWA build, manifest gate, and hosting gate passed after this fix.
+
 ## Design-Parity Addendum On 2026-06-15
 
 The Admin PWA received a design-parity pass for the Revolut-reference goal without changing the admin security model:
@@ -75,10 +96,10 @@ This is not a final Admin PWA 100 percent visual signoff. Authenticated operator
 | Authentication | WhatsApp OTP login with Supabase Auth; browser owner bootstrap removed and disabled in linked Supabase; default form still uses a single registered admin phone. | Admin identity should support managed enrollment, MFA/approval, revocation, and emergency access controls. | **Partially ready** |
 | Authorization | Server RPCs generally call `assert_admin_permission(...)`; `AdminShell` filters navigation and denies direct route content by permission; key reparse actions are permission-gated. The pre-shell guard still checks only active session before identity load. | Expand role-aware behavior to every domain action and test platform owner, read-only, support, payments, compliance, and non-admin views. | **Partially ready** |
 | Sensitive data | Raw SMS reveal requires reason and backend action. | Keep, but sanitize all UI errors and add role-specific tests for reveal denial/approval paths. | **Partially ready** |
-| Admin workflows | Generic list routes remain for several domains; structured domain detail panels exist for core records; payment-event, allocation, and exception queues now use linked server-side paging/sorting and queue-specific filters. | Domain-specific queues, review states, histories, notes, exports, broader server-backed pagination, and deeper action panels. | **Partially ready** |
+| Admin workflows | Generic route shells remain, but list pages now expose domain-specific operator signals/workflow steps and detail pages expose next-step panels. Payment-event, allocation, and exception queues use linked server-side paging/sorting and queue-specific filters. | Domain-specific write workflows, persisted notes, exports, broader server-backed pagination, and live role-by-role UAT. | **Partially ready** |
 | Static deployment | Strong: manifest, CSP, noindex, cache rules, immutable bundle, service worker, live gate, and final release-status integration. | Keep the live gate mandatory in final release status and add regression tests for failing live-gate JSON. | **Mostly ready** |
 | Testing | Analyzer/admin contract tests pass; widget tests now cover login semantics, shell navigation semantics, paging semantics, structured detail semantics, and gated action semantics. Several checks still use source-string assertions. | Role matrix, fake repository workflow tests, error states, responsive behavior, authenticated route tests, and all domain action tests. | **Partially ready** |
-| Accessibility/automation | Widget-level semantics are explicit and tested for critical admin paths; visual Browser validation passes, but Browser DOM snapshot still exposes only Flutter's accessibility bootstrap button in the production web build. | Assistive-tech semantics should be proven in the shipped renderer and automated QA should not need coordinate clicks for core fields/actions. | **Partially ready** |
+| Accessibility/automation | Widget-level semantics are explicit and tested for critical admin paths; operator workflow panels are semantic containers. Visual Browser validation passes, but Browser DOM snapshot still exposes only Flutter's accessibility bootstrap button in the production web build. | Assistive-tech semantics should be proven in the shipped renderer and automated QA should not need coordinate clicks for core fields/actions. | **Partially ready** |
 | Operations readiness | Docs acknowledge remaining role-by-role UAT and runbooks. | Production runbooks, escalation flows, SLA queues, audit review, and break-glass procedures must be complete. | **Not ready** |
 
 ## Findings
@@ -93,11 +114,11 @@ Current evidence: `scripts/collect_admin_security_uat.sh` passes via linked data
 
 ### P1 - Generic list browser still needs production operator workflows
 
-Most routes in `lib/admin/admin_router.dart` are still wired through `_listRoute`, so list pages collapse domains into `Record`, `Status`, `Amount`, and `Created` columns. Detail pages now render structured operator panels rather than formatted JSON and payment-event details expose a reasoned reparse action.
+Most routes in `lib/admin/admin_router.dart` are still wired through `_listRoute`, so the table shell remains shared. The 2026-06-27 follow-up reduces the workflow gap by adding route-specific operator signals and workflow steps to list pages, plus next-step panels to detail pages. Detail pages render structured operator panels rather than formatted JSON and payment-event details expose a reasoned reparse action.
 
 Production comparison: an admin console should support the operator decisions it claims to own: payment-event triage, exception investigation, group/member support, receiver review, audit review, settings governance, feature flag review, and admin-user oversight. Those workflows need domain-specific fields, action histories, status transitions, notes, exports, and escalation context.
 
-Required fix: replace generic list queues with domain-specific admin pages for payment events, exceptions, SMS metadata, users, groups, admin users, and settings. Add audit timelines, notes, SLA context, exports, and deeper action panels before broad production use.
+Remaining fix: add persisted notes, exports, SLA context, domain-specific write workflows, and live role-by-role UAT before broad production use.
 
 ### P1 - Role-aware shell needs wider workflow coverage
 
@@ -123,11 +144,11 @@ Production comparison: a final release gate should run the live gate against the
 
 Remaining fix: keep this gate in the final GO path and add regression tests around failing live-gate JSON once the shell script has a test harness.
 
-### P2 - Authenticated helper RPCs allow arbitrary admin-permission probing
+### Resolved P2 - Authenticated helper RPCs allowed arbitrary admin-permission probing
 
-`is_platform_admin(user_uuid)` and `has_admin_permission(permission, user_uuid)` accept arbitrary user UUIDs and are granted to authenticated users. `scripts/supabase_production_readiness.sh:387-388` allowlists those grants.
+`is_platform_admin(user_uuid)` and `has_admin_permission(permission, user_uuid)` previously accepted arbitrary user UUIDs and were granted to authenticated users. Forward migration `20260627143000_restrict_admin_permission_helper_probing.sql` now keeps authenticated execution for existing RLS/helper compatibility but returns permission data only when `user_uuid = auth.uid()`. `service_role` remains allowed to evaluate arbitrary users for controlled operator administration. The migration also adds `current_user_has_admin_permission(text)` as the browser-safe helper.
 
-Production comparison: browser-callable helpers should evaluate only `auth.uid()` or be wrapped behind admin-only RPCs. Arbitrary-user permission probes should be service-role/internal only.
+Production comparison: browser-callable helpers now evaluate only `auth.uid()`; arbitrary-user permission probes are service-role/internal only.
 
 Required fix: restrict helper signatures or revoke direct browser execute grants, then expose only current-user helpers to authenticated clients.
 

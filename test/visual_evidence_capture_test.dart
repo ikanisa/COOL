@@ -39,6 +39,7 @@ void main() {
   final visualThemeMode = _visualThemeModeFromEnv(
     Platform.environment['COLLECT_VISUAL_THEME_MODE'],
   );
+  final mobileTextScale = _mobileTextScaleFromEnv();
   if (evidenceRoot == null || evidenceRoot.isEmpty) {
     test(
       'visual evidence capture is opt-in',
@@ -88,6 +89,12 @@ void main() {
                 theme: AppTheme.light(),
                 darkTheme: AppTheme.dark(),
                 themeMode: visualThemeMode,
+                builder: (context, child) => MediaQuery(
+                  data: MediaQuery.of(
+                    context,
+                  ).copyWith(textScaler: TextScaler.linear(mobileTextScale)),
+                  child: child!,
+                ),
                 home: Material(
                   color: Colors.transparent,
                   child: TickerMode(
@@ -136,6 +143,7 @@ void main() {
             : 'partial',
         'capture_runtime': 'flutter_test_repaint_boundary_member_shell',
         'theme_mode': visualThemeMode.name,
+        'text_scale': mobileTextScale,
         'viewport':
             '${_mobileViewportFromEnv().width.toInt()}x${_mobileViewportFromEnv().height.toInt()}',
         'expected_route_count': mobileSpecs.length,
@@ -261,6 +269,18 @@ Size _mobileViewportFromEnv() {
     );
   }
   return Size(double.parse(match.group(1)!), double.parse(match.group(2)!));
+}
+
+double _mobileTextScaleFromEnv() {
+  final value = Platform.environment['COLLECT_VISUAL_TEXT_SCALE']?.trim();
+  if (value == null || value.isEmpty) return 1;
+  final parsed = double.tryParse(value);
+  if (parsed == null || parsed < 0.8 || parsed > 2.5) {
+    throw StateError(
+      'COLLECT_VISUAL_TEXT_SCALE must be a number from 0.8 to 2.5, got "$value".',
+    );
+  }
+  return parsed;
 }
 
 Widget _adminAppAt(String initialLocation) {

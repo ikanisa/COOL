@@ -35,7 +35,7 @@ class _AudienceConversionSection extends StatelessWidget {
                   'Prepare stronger credit records and keep repayment plans protected against shocks.',
               action: 'Prepare credit file',
               icon: Icons.account_balance_outlined,
-              color: CollectColors.brandOrangeRed,
+              color: CollectColors.brandDustyRose,
             ),
           ];
           return Column(

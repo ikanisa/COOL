@@ -540,14 +540,14 @@ end
 
 def legal_details_html(details)
   seen = {}
-  rows = details.reject { |key, value| legal_internal_key?(key) || value.to_s.strip.empty? }.filter_map do |key, value|
+  rows = details.reject { |key, value| legal_internal_key?(key) || value.to_s.strip.empty? }.map do |key, value|
     label = legal_contact_key?(key) ? "Email" : legal_label(key)
     dedupe_key = [label, value.to_s.strip]
     next if seen[dedupe_key]
 
     seen[dedupe_key] = true
     %(<dt>#{esc(label)}</dt><dd>#{esc(value)}</dd>)
-  end
+  end.compact
   return "" if rows.empty?
 
   %(<dl class="legal-details">#{rows.join}</dl>)
@@ -1691,7 +1691,7 @@ def stylesheet
       --periwinkle: #5f5ce6;
       --mint: #3cd070;
       --rose: #d38b96;
-      --orange: #c63126;
+      --urgent: #ff5e43;
       --white: #fffdfb;
       --focus: #a7a2ff;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -1721,7 +1721,7 @@ def stylesheet
     .button.ghost { background: transparent; color: var(--paper); }
     .button.cta-app { background: var(--periwinkle); color: #fffdfb; border-color: var(--periwinkle); box-shadow: 0 14px 34px rgba(136,133,240,.28); }
     .button.cta-group { background: var(--mint); color: #050510; border-color: var(--mint); box-shadow: 0 14px 34px rgba(60,208,112,.22); }
-    .button.cta-touch { background: var(--orange); color: #fffdfb; border-color: var(--orange); box-shadow: 0 14px 34px rgba(255,94,67,.24); }
+    .button.cta-touch { background: var(--rose); color: var(--night); border-color: var(--rose); box-shadow: 0 14px 34px rgba(211,139,150,.22); }
     .menu-button { display: none; background: rgba(250,248,245,.08); color: var(--paper); }
     .hero { min-height: calc(100svh - 72px); display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(320px, .78fr); gap: clamp(28px, 5vw, 72px); align-items: center; padding: clamp(48px, 8vw, 104px) clamp(20px, 5vw, 64px) 64px; background: radial-gradient(circle at 72% 18%, rgba(136,133,240,.28), transparent 32%), radial-gradient(circle at 18% 80%, rgba(60,208,112,.16), transparent 32%), #050510; }
     .section-kicker { color: var(--mint); font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; margin: 0 0 18px; }
@@ -1910,7 +1910,7 @@ def stylesheet
     .infographic-step li + li { margin-top: 6px; }
     .explain-band, .start-section, .market-context { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: var(--paper); color: var(--ink); }
     .explain-band h2, .start-section h2, .market-context h2 { font-size: clamp(34px, 5vw, 64px); line-height: 1; margin: 0; }
-    .brand-word { color: var(--orange); }
+    .brand-word { color: var(--periwinkle); }
     .market-context p { color: var(--muted); line-height: 1.55; }
     .source-note { font-size: 13px; max-width: 680px; }
     .source-note a { color: #2f3db9; font-weight: 850; }

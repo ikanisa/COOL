@@ -1025,7 +1025,7 @@ void main() {
     );
   });
 
-  testWidgets('list tile separates static information from actions', (
+  testWidgets('list tile shows bounded helper text and action affordance', (
     tester,
   ) async {
     await _pumpCollect(
@@ -1052,7 +1052,7 @@ void main() {
     expect(find.text('SMS matching'), findsOneWidget);
     expect(
       find.textContaining('without exposing raw SMS bodies'),
-      findsNothing,
+      findsOneWidget,
     );
   });
 

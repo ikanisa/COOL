@@ -271,6 +271,7 @@ class _CompactGroupCard extends StatelessWidget {
       padding: const EdgeInsets.all(CollectSpacing.x4),
       accentColor: accent,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           DecoratedBox(
             decoration: BoxDecoration(
@@ -298,7 +299,7 @@ class _CompactGroupCard extends StatelessWidget {
                     fontWeight: FontWeight.w900,
                     letterSpacing: 0,
                   ),
-                  maxLines: 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
                 CollectSpacing.gap4,
@@ -315,25 +316,32 @@ class _CompactGroupCard extends StatelessWidget {
             ),
           ),
           CollectSpacing.gapW12,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                formatRwf(summary.amountRaisedRwf),
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: colors.textPrimary,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 0,
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 104),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    formatRwf(summary.amountRaisedRwf),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: colors.textPrimary,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0,
+                    ),
+                    maxLines: 1,
+                  ),
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              CollectSpacing.gap4,
-              Icon(
-                CollectIcons.chevron,
-                color: colors.textSecondary.withValues(alpha: 0.84),
-              ),
-            ],
+                CollectSpacing.gap4,
+                Icon(
+                  CollectIcons.chevron,
+                  color: colors.textSecondary.withValues(alpha: 0.84),
+                ),
+              ],
+            ),
           ),
           if (primaryAction != null) ...[CollectSpacing.gapW12, primaryAction!],
         ],

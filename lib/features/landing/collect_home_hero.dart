@@ -403,7 +403,7 @@ class _HeroFlow extends StatelessWidget {
         icon: Icons.account_balance_outlined,
         title: 'Borrow',
         body: '',
-        color: CollectColors.brandOrangeRed,
+        color: CollectColors.brandDustyRose,
       ),
       LandingStepData(
         icon: Icons.verified_user_outlined,

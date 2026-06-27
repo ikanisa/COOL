@@ -88,6 +88,9 @@ void main() {
   final notificationPreferenceGatedEnqueue = File(
     'supabase/migrations/20260626193000_gate_notification_enqueue_by_preferences.sql',
   ).readAsStringSync();
+  final restrictedAdminPermissionHelperProbing = File(
+    'supabase/migrations/20260627143000_restrict_admin_permission_helper_probing.sql',
+  ).readAsStringSync();
   final sendNotificationFunction = File(
     'supabase/functions/send-notification/index.ts',
   ).readAsStringSync();
@@ -837,6 +840,26 @@ void main() {
       contains('select public.is_platform_admin(auth.uid())'),
     );
     expect(readiness, contains('collect_admin_security_uat.sh'));
+    expect(
+      restrictedAdminPermissionHelperProbing,
+      contains("auth.role() = 'service_role' or user_uuid = auth.uid()"),
+    );
+    expect(
+      restrictedAdminPermissionHelperProbing,
+      contains('current_user_has_admin_permission(permission text)'),
+    );
+    expect(
+      restrictedAdminPermissionHelperProbing,
+      contains(
+        'Authenticated callers may evaluate only auth.uid(); service_role may evaluate arbitrary users',
+      ),
+    );
+    expect(
+      readiness,
+      contains(
+        "('authenticated', 'current_user_has_admin_permission', 'EXECUTE')",
+      ),
+    );
     expect(adminUat, contains('support_admin unexpectedly revealed raw SMS'));
     expect(
       adminUat,

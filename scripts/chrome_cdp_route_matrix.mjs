@@ -20,6 +20,10 @@ const waitMs = Number(args.get('--wait-ms') ?? '9000');
 const devtoolsReadyMs = Number(args.get('--devtools-ready-ms') ?? '120000');
 const commandTimeoutMs = Number(args.get('--command-timeout-ms') ?? '60000');
 const routeTimeoutMs = Number(args.get('--route-timeout-ms') ?? String(Math.max(commandTimeoutMs + waitMs + 5000, 30000)));
+const processTimeoutMs = Number(
+  args.get('--process-timeout-ms') ??
+    String(devtoolsReadyMs + routes.length * routeTimeoutMs + 30000),
+);
 const headlessArg = process.env.CHROME_CDP_HEADLESS_ARG || '--headless';
 
 if (!chrome || !baseUrl || !outputDir || !profile || !Array.isArray(routes)) {
@@ -32,6 +36,10 @@ if (!chrome || !baseUrl || !outputDir || !profile || !Array.isArray(routes)) {
 const [width, height] = viewport.split('x').map((value) => Number(value));
 if (!Number.isInteger(width) || !Number.isInteger(height) || width <= 0 || height <= 0) {
   console.error(`invalid viewport: ${viewport}`);
+  process.exit(2);
+}
+if (!Number.isFinite(processTimeoutMs) || processTimeoutMs <= 0) {
+  console.error(`invalid process timeout: ${processTimeoutMs}`);
   process.exit(2);
 }
 
@@ -98,6 +106,27 @@ chromeProcess.stderr.on('data', (chunk) => {
 chromeProcess.on('exit', (code, signal) => {
   chromeExit = { code, signal };
 });
+
+const hardExit = (message) => {
+  console.error(message);
+  try {
+    chromeProcess.kill('SIGTERM');
+  } catch (_) {
+    // Already exited.
+  }
+  setTimeout(() => {
+    try {
+      chromeProcess.kill('SIGKILL');
+    } catch (_) {
+      // Already exited.
+    }
+    process.exit(124);
+  }, 1000).unref?.();
+};
+const processDeadline = setTimeout(() => {
+  hardExit(`chrome_cdp_route_matrix exceeded process timeout ${processTimeoutMs}ms`);
+}, processTimeoutMs);
+processDeadline.unref?.();
 
 const diagnostics = () => {
   const parts = [`Chrome path: ${chrome}`, `Chrome args: ${chromeArgs.join(' ')}`];
@@ -248,6 +277,7 @@ try {
     }
   }
 } finally {
+  clearTimeout(processDeadline);
   if (socket) socket.close();
   chromeProcess.kill('SIGTERM');
   await delay(1000);

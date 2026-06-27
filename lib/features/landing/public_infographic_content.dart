@@ -102,7 +102,7 @@ List<LandingStepData> publicInfographicSteps(String path) {
           icon: Icons.receipt_long_outlined,
           title: 'Use the record',
           body: 'Turn contribution history into statements and support files.',
-          color: CollectColors.brandOrangeRed,
+          color: CollectColors.brandPeriwinkle,
         ),
       ];
     case '/diaspora':
@@ -130,7 +130,7 @@ List<LandingStepData> publicInfographicSteps(String path) {
           title: 'Discuss next steps',
           body:
               'Any financial-service decision remains with the relevant provider.',
-          color: CollectColors.brandOrangeRed,
+          color: CollectColors.brandDustyRose,
         ),
       ];
     case '/insurance':
@@ -157,7 +157,7 @@ List<LandingStepData> publicInfographicSteps(String path) {
           icon: Icons.chat_bubble_outline,
           title: 'Support follow-up',
           body: 'IKANISA support helps customers understand next steps.',
-          color: CollectColors.brandOrangeRed,
+          color: CollectColors.brandPeriwinkle,
         ),
       ];
     case '/craas':
@@ -184,7 +184,7 @@ List<LandingStepData> publicInfographicSteps(String path) {
           icon: Icons.account_balance_outlined,
           title: 'Provider review',
           body: 'Credit decisions remain with the financial provider.',
-          color: CollectColors.brandOrangeRed,
+          color: CollectColors.brandDustyRose,
         ),
       ];
     case '/community-groups':
@@ -211,7 +211,7 @@ List<LandingStepData> publicInfographicSteps(String path) {
           icon: Icons.support_agent_outlined,
           title: 'Support',
           body: 'Get help without exposing private data.',
-          color: CollectColors.brandOrangeRed,
+          color: CollectColors.brandPeriwinkle,
         ),
       ];
     case '/our-partners':
@@ -241,7 +241,7 @@ List<LandingStepData> publicInfographicSteps(String path) {
           title: 'Grow relationships',
           body:
               'Support deposits, lending and diaspora banking under bank approval.',
-          color: CollectColors.brandOrangeRed,
+          color: CollectColors.brandDustyRose,
         ),
       ];
   }

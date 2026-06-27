@@ -4,7 +4,7 @@ Date: 2026-06-27
 Repo: `/Volumes/PRO-G40/COOL`
 Current decision: **CODE-OWNED VISUAL REVIEW PASS**
 
-This matrix fixes the route-reference gap for the supplied `Revolut10` screenshots. The current review uses the fresh mobile route contact sheets generated at `.cache/mobile_route_render_smoke/20260627T113336Z/contact_sheets/`.
+This matrix fixes the route-reference gap for the supplied `Revolut10` screenshots. The current review uses the fresh mobile route contact sheets generated at `.cache/mobile_route_render_smoke/20260627T121726Z/contact_sheets/`.
 
 ## Locked Product Constraints
 
@@ -34,11 +34,11 @@ This matrix fixes the route-reference gap for the supplied `Revolut10` screensho
 
 | Evidence | Status | Notes |
 | --- | --- | --- |
-| `.cache/mobile_route_render_smoke/20260627T113336Z/summary.json` | Pass | Reports 55/55 routes at `390x844`; generated after borrowed input installation and calm default-action retokenization. |
-| `.cache/mobile_route_render_smoke/20260627T113336Z/contact_sheets/collect-mobile-route-contact-sheet.png` | Pass | Fresh current-source mobile contact sheet reviewed. |
-| `.cache/mobile_route_render_smoke/20260627T113336Z/contact_sheets/revolut-reference-contact-sheet.png` | Pass | Contains all 11 supplied `Revolut10` screenshots. |
+| `.cache/mobile_route_render_smoke/20260627T121726Z/summary.json` | Pass | Reports 55/55 routes at `390x844`; generated after borrowed input installation, calm default-action retokenization, and orange-reserved sweep. |
+| `.cache/mobile_route_render_smoke/20260627T121726Z/contact_sheets/collect-mobile-route-contact-sheet.png` | Pass | Fresh current-source mobile contact sheet reviewed. |
+| `.cache/mobile_route_render_smoke/20260627T121726Z/contact_sheets/revolut-reference-contact-sheet.png` | Pass | Contains all 11 supplied `Revolut10` screenshots. |
 | `.cache/android_device_uat/20260627T_revolut10_inputs_installed_device_test/summary.json` | Pass | Current-source Pixel 4a Android UAT passed in device-test mode. |
-| `.cache/collect_mobile_design_compliance/20260627T_calm_primary_action/summary.json` | Pass | Final design compliance audit passed after calm default-action retokenization. |
+| `.cache/collect_mobile_design_compliance/20260627T_orange_reserved_sweep/summary.json` | Pass | Final design compliance audit passed after orange-reserved sweep. |
 
 ## Review Checklist
 
@@ -57,4 +57,4 @@ For each mapped route family, the reviewer must confirm:
 
 | Reviewer | Role | Evidence reviewed | Decision | Signed at | Notes |
 | --- | --- | --- | --- | --- | --- |
-| Codex implementation review | Code-owned mobile visual QA | Fresh mobile/reference contact sheets, Android UAT summary, final design audit summary | Pass | 2026-06-27T12:00:09Z | Three-item bottom nav preserved; 55/55 routes nonblank; supplied 11-reference sheet present; dominant default CTAs now use Periwinkle instead of Orange. |
+| Codex implementation review | Code-owned mobile visual QA | Fresh mobile/reference contact sheets, Android UAT summary, final design audit summary | Pass | 2026-06-27T12:51:13Z | Three-item bottom nav preserved; 55/55 routes nonblank; supplied 11-reference sheet present; dominant default CTAs now use Periwinkle and routine decorative orange has been removed. |

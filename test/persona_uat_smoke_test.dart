@@ -609,7 +609,7 @@ void main() {
 
     expect(find.text('Checking MoMo confirmation.'), findsOneWidget);
     expect(find.text('St Michel building fund'), findsWidgets);
-    expect(find.text('Refresh status'), findsOneWidget);
+    expect(find.text('Refresh status'), findsWidgets);
     expect(find.text('Payment details'), findsOneWidget);
     expect(find.text('Open ledger'), findsOneWidget);
     expect(find.text('What this means'), findsOneWidget);
@@ -755,6 +755,45 @@ void main() {
     expectNoGlobalSecrets();
   });
 
+  testWidgets('account action sheets expose accessible native-style actions', (
+    tester,
+  ) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    final semantics = tester.ensureSemantics();
+    try {
+      await pumpMainAppAt(tester, '/settings/account');
+
+      await tapVisible(tester, find.text('Sign out'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Sign out?'), findsOneWidget);
+      expect(
+        find.textContaining('Group ledgers and verified records'),
+        findsOneWidget,
+      );
+      expect(find.semantics.byLabel('Cancel'), findsOne);
+      expect(find.semantics.byLabel('Sign out'), findsWidgets);
+      await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
+
+      await pumpMainAppAt(tester, '/settings/account/delete');
+      await tapVisible(tester, find.text('I no longer use Collect'));
+      await tapVisible(tester, find.widgetWithText(FilledButton, 'Submit'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Submit delete request?'), findsOneWidget);
+      expect(
+        find.textContaining('auditable data deletion request'),
+        findsOneWidget,
+      );
+      expect(find.semantics.byLabel('Cancel'), findsOne);
+      expect(find.semantics.byLabel('Submit'), findsWidgets);
+      await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
+    } finally {
+      semantics.dispose();
+      debugDefaultTargetPlatformOverride = null;
+    }
+  });
+
   testWidgets('privacy, notifications, and terms routes have useful copy', (
     tester,
   ) async {
@@ -765,7 +804,7 @@ void main() {
       tester.element(find.text('Privacy and data').first),
     );
     expect(find.text('Private by default'), findsOneWidget);
-    expect(find.text('Collect ID first.'), findsOneWidget);
+    expect(find.text('ID first.'), findsOneWidget);
     expect(find.textContaining('No names, no phone numbers'), findsNothing);
     expect(find.text('What SMS messages are read'), findsNothing);
     expect(find.text('What is parsed locally'), findsNothing);

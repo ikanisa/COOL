@@ -160,6 +160,7 @@ class CollectListTile extends StatelessWidget {
     this.leading,
     this.trailing,
     this.onTap,
+    this.subtitleMaxLines = 2,
     super.key,
   });
 
@@ -168,11 +169,12 @@ class CollectListTile extends StatelessWidget {
   final IconData? leading;
   final Widget? trailing;
   final VoidCallback? onTap;
+  final int subtitleMaxLines;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final visibleSubtitle = _compactDataSubtitle(subtitle);
+    final visibleSubtitle = _visibleSubtitle(subtitle);
     return InkWell(
       borderRadius: CollectRadius.mdBorder,
       onTap: onTap,
@@ -191,7 +193,7 @@ class CollectListTile extends StatelessWidget {
                   Text(
                     title,
                     style: Theme.of(context).textTheme.titleSmall,
-                    maxLines: 1,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   if (visibleSubtitle != null) ...[
@@ -201,7 +203,7 @@ class CollectListTile extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: colors.textSecondary,
                       ),
-                      maxLines: 1,
+                      maxLines: subtitleMaxLines,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
@@ -219,17 +221,10 @@ class CollectListTile extends StatelessWidget {
   }
 }
 
-String? _compactDataSubtitle(String? value) {
+String? _visibleSubtitle(String? value) {
   final text = value?.trim();
   if (text == null || text.isEmpty) return null;
-  if (text.length > 28) return null;
-  if (text.startsWith('#') ||
-      text.startsWith('+') ||
-      text.startsWith('RWF') ||
-      text.contains('MoMo')) {
-    return text;
-  }
-  return null;
+  return text;
 }
 
 class EmptyIllustrationState extends StatelessWidget {

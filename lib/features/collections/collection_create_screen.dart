@@ -120,6 +120,12 @@ class _CollectionCreateScreenState
           title: 'Create group',
           subtitle: _createStepSubtitle(_step),
         ),
+        const InfoSecurityBanner(
+          title: 'Review before sharing',
+          message:
+              'Group details, receiver setup, and visibility are confirmed before members can use the QR or public link.',
+          tone: CollectStatusTone.info,
+        ),
         if (_step == 0) ...[
           _MobileCreatePanel(
             error: _error,

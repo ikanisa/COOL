@@ -226,7 +226,7 @@ class _GeneratedGroupCover extends StatelessWidget {
               colors: [
                 Color.alphaBlend(
                   collection.collectionType == CollectionType.sport
-                      ? colors.orangePaint.withValues(alpha: 0.24)
+                      ? colors.rosePaint.withValues(alpha: 0.24)
                       : colors.actionColor.withValues(alpha: 0.24),
                   coverScrim.withValues(alpha: topAlpha),
                 ),
@@ -343,8 +343,8 @@ Color _groupAccent(BuildContext context, CollectCollection collection) {
   final palette = [
     colors.brandPrimary,
     colors.brandSecondary,
-    colors.brandAction,
     colors.brandSuccess,
+    colors.priorityColor,
   ];
   final key = '${collection.id}${collection.title}';
   final index =

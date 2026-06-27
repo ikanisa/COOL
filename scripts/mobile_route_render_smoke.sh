@@ -15,6 +15,8 @@ VIEWPORT="${MOBILE_ROUTE_RENDER_VIEWPORT:-390x844}"
 RENDER_WAIT_MS="${MOBILE_ROUTE_RENDER_WAIT_MS:-15000}"
 DEVTOOLS_READY_MS="${MOBILE_ROUTE_RENDER_DEVTOOLS_READY_MS:-120000}"
 COMMAND_TIMEOUT_MS="${MOBILE_ROUTE_RENDER_COMMAND_TIMEOUT_MS:-60000}"
+ROUTE_TIMEOUT_MS="${MOBILE_ROUTE_RENDER_ROUTE_TIMEOUT_MS:-90000}"
+PROCESS_TIMEOUT_MS="${MOBILE_ROUTE_RENDER_PROCESS_TIMEOUT_MS:-900000}"
 
 mkdir -p "$EVIDENCE_DIR"
 
@@ -191,6 +193,8 @@ if [[ "${MOBILE_ROUTE_MATRIX_CAPTURE:-0}" == "1" ]]; then
       --wait-ms "$RENDER_WAIT_MS" \
       --devtools-ready-ms "$DEVTOOLS_READY_MS" \
       --command-timeout-ms "$COMMAND_TIMEOUT_MS" \
+      --route-timeout-ms "$ROUTE_TIMEOUT_MS" \
+      --process-timeout-ms "$PROCESS_TIMEOUT_MS" \
       --routes-json "$routes_json" >>"$EVIDENCE_DIR/capture.stdout" 2>>"$EVIDENCE_DIR/capture.stderr"
     matrix_capture_status=$?
     set -e
@@ -234,7 +238,8 @@ capture_route() {
         --viewport "$VIEWPORT" \
         --wait-ms "$RENDER_WAIT_MS" \
         --devtools-ready-ms "$DEVTOOLS_READY_MS" \
-        --command-timeout-ms "$COMMAND_TIMEOUT_MS" >>"$stdout_log" 2>>"$stderr_log"
+        --command-timeout-ms "$COMMAND_TIMEOUT_MS" \
+        --process-timeout-ms "$PROCESS_TIMEOUT_MS" >>"$stdout_log" 2>>"$stderr_log"
       route_capture_status=$?
       set -e
       if [[ "$route_capture_status" -eq 0 && -s "$png" ]]; then

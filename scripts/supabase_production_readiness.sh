@@ -380,6 +380,7 @@ check_sql_privileges() {
         ('authenticated', 'create_payment_intent', 'EXECUTE'),
         ('authenticated', 'create_contribution_intent', 'EXECUTE'),
         ('authenticated', 'current_user_is_platform_admin', 'EXECUTE'),
+        ('authenticated', 'current_user_has_admin_permission', 'EXECUTE'),
         ('authenticated', 'ensure_current_profile', 'EXECUTE'),
         ('authenticated', 'get_owner_group_health', 'EXECUTE'),
         ('authenticated', 'get_current_profile', 'EXECUTE'),

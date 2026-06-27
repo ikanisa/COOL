@@ -25,7 +25,7 @@ Scope: COOL Flutter mobile app Revolut-like borrowed alignment, based on current
 | Top chrome | Source aligned to supplied screenshots | `lib/shared/widgets/collect_top_chrome.dart` uses 58 px circular/avatar action controls and black glass search treatment. |
 | Route background families | Source mapped | `CollectColors.screenGradientForPath()` maps Home, Groups, payment/contribution, share/settings, wealth/profile, content/legal, offline/sync, notifications, and admin families to extracted Revolut-like background tokens. |
 | Four primary colors | Source locked | `CollectColors.brandPrimaryHexes` and design audit contract preserve `#8885F0`, `#3CD070`, `#D38B96`, `#FF5E43`. |
-| Default CTA color | Source corrected | `CollectColors.actionColor` resolves to Periwinkle `#8885F0`; `urgentAction`/`brandAction` preserve Orange `#FF5E43` for non-default high-emphasis accents. |
+| Default CTA color | Source corrected and guarded | `CollectColors.actionColor` resolves to Periwinkle `#8885F0`; routine landing, public static CTA, and group-card decorative surfaces no longer use Orange; `urgentAction`/`brandAction` preserve Orange `#FF5E43` for non-default high-emphasis accents. |
 | Full secondary colors | Source exposed | `RevolutBorrowedTokens.secondaryColorRoles` and `secondaryColorHexes` expose full support and semantic token roles. |
 | Card radius and compact density | Source aligned further | `CollectRadius.card = 32`; Groups uses `GroupCardVariant.compact` for the primary mobile list. |
 | Payment status UAT assertions | Source patched, not device-proven | `integration_test/app_uat_smoke_test.dart` now scrolls to `Verification trail` and accepts multiple `Activity` labels. |
@@ -36,10 +36,10 @@ Scope: COOL Flutter mobile app Revolut-like borrowed alignment, based on current
 
 | Evidence | Status | Path |
 | --- | --- | --- |
-| Full web route render smoke | Pass | `.cache/mobile_route_render_smoke/20260627T113336Z/summary.json` reports `status=pass`, `route_count=55`, viewport `390x844`, generated `2026-06-27T11:53:28Z`. |
-| Mobile contact sheet | Pass | `.cache/mobile_route_render_smoke/20260627T113336Z/contact_sheets/collect-mobile-route-contact-sheet.png`. |
-| Revolut10 reference contact sheet | Pass | `.cache/mobile_route_render_smoke/20260627T113336Z/contact_sheets/revolut-reference-contact-sheet.png`. |
-| Mobile design compliance audit | Pass | `.cache/collect_mobile_design_compliance/20260627T_calm_primary_action/summary.json`. |
+| Full web route render smoke | Pass | `.cache/mobile_route_render_smoke/20260627T121726Z/summary.json` reports `status=pass`, `route_count=55`, viewport `390x844`, generated `2026-06-27T12:43:16Z`. |
+| Mobile contact sheet | Pass | `.cache/mobile_route_render_smoke/20260627T121726Z/contact_sheets/collect-mobile-route-contact-sheet.png`. |
+| Revolut10 reference contact sheet | Pass | `.cache/mobile_route_render_smoke/20260627T121726Z/contact_sheets/revolut-reference-contact-sheet.png`. |
+| Mobile design compliance audit | Pass | `.cache/collect_mobile_design_compliance/20260627T_orange_reserved_sweep/summary.json`. |
 | Android device UAT first run | Failed before app tests were patched | `.cache/android_device_uat/20260627T_revolut10_alignment/summary.json`. |
 | Android device UAT upload-debug run | Failed before app tests were patched | `.cache/android_device_uat/20260627T_revolut10_alignment_upload_debug/summary.json`. |
 | Android device UAT fixed-source attempt | Failed on assertions now patched in source | `.cache/android_device_uat/20260627T_revolut10_alignment_fixed/summary.json`; stale failure log cites missing visible `Verification trail` and duplicate `Activity`. |
@@ -56,7 +56,7 @@ Scope: COOL Flutter mobile app Revolut-like borrowed alignment, based on current
 | G3 | Borrowed/Revolut-like font files | Fixed | Local Revolut-like font bundle installed, registered, and audit-passed | No |
 | G4 | Borrowed/Revolut-like brand/media/icon kit | Fixed | Runtime assets installed, switchpoints wired, route screenshots and audit passed | No |
 | G5 | Icon mapping still local | Fixed | Icon mapping file installed while runtime continues to use `CollectIcons` as the adapter layer | No |
-| G6 | Existing web route evidence URL was temporary | Fixed | Fresh route evidence generated at `.cache/mobile_route_render_smoke/20260627T113336Z/summary.json`; the temporary URL is no longer used as proof | No |
+| G6 | Existing web route evidence URL was temporary | Fixed | Fresh route evidence generated at `.cache/mobile_route_render_smoke/20260627T121726Z/summary.json`; the temporary URL is no longer used as proof | No |
 | G7 | Full visual screenshot review is not signed off | Fixed for code-owned mobile review | Fresh contact sheets reviewed and matrix signed as code-owned mobile visual QA | No |
 | G8 | Old parity docs still contain historical "Revolut-style" language | Release-facing docs can be confused with current borrowed alignment status | Fixed by archive notices in the 2026-06-18 evidence/checklist docs | No |
 | G9 | Route evidence may not cover every latest design nuance | Fixed for current mobile source | 55-route screenshot pass, contact-sheet review, Android UAT, and final design audit are current | No |

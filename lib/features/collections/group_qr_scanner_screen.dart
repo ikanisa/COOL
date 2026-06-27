@@ -62,6 +62,12 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
       ),
       children: [
         const CollectPlainPageHeader(title: 'Scan QR'),
+        const InfoSecurityBanner(
+          title: 'Safe QR join',
+          message:
+              'Collect checks the group link before opening it. Receiver details stay hidden until the group context is valid.',
+          tone: CollectStatusTone.privacy,
+        ),
         _ScannerViewport(
           controller: _scanner,
           joining: _joining,

@@ -239,6 +239,35 @@ void main() {
     }
   });
 
+  test('orange is reserved away from routine CTA and decorative surfaces', () {
+    for (final path in <String>[
+      'lib/features/landing/collect_landing_page.dart',
+      'lib/features/landing/collect_home_access_trust.dart',
+      'lib/features/landing/collect_home_hero.dart',
+      'lib/features/landing/public_infographic_content.dart',
+    ]) {
+      expect(
+        File(path).readAsStringSync(),
+        isNot(contains('brandOrangeRed')),
+        reason: path,
+      );
+    }
+
+    final groupCardMedia = File(
+      'lib/shared/widgets/collect_group_card_media.dart',
+    ).readAsStringSync();
+    expect(groupCardMedia, isNot(contains('orangePaint')));
+    expect(groupCardMedia, isNot(contains('brandAction,')));
+    expect(groupCardMedia, contains('colors.rosePaint'));
+
+    final staticSite = File(
+      'scripts/public_static_site_build.rb',
+    ).readAsStringSync();
+    expect(staticSite, isNot(contains('var(--orange)')));
+    expect(staticSite, contains('.button.cta-touch { background: var(--rose)'));
+    expect(staticSite, contains('.brand-word { color: var(--periwinkle); }'));
+  });
+
   test('design compliance audit reads refactored chrome part files', () {
     final designAudit = File(
       'scripts/collect_mobile_design_compliance_audit.sh',
@@ -332,6 +361,9 @@ void main() {
     final groupDetail = File(
       'lib/features/collections/collection_detail_screen.dart',
     ).readAsStringSync();
+    final settings = File(
+      'lib/features/settings/settings_screen.dart',
+    ).readAsStringSync();
     final sharedBarrel = File(
       'lib/shared/widgets/collect_components.dart',
     ).readAsStringSync();
@@ -355,6 +387,10 @@ void main() {
     expect(groups, contains("'Search groups'"));
     expect(groups, contains("tooltip: 'Scan QR code'"));
     expect(groups, contains("tooltip: 'Create group'"));
+    expect(settings, contains('CollectTopChrome('));
+    expect(settings, contains("'Search settings'"));
+    expect(settings, contains("tooltip: 'Notifications'"));
+    expect(settings, contains("tooltip: 'Account'"));
     expect(groupDetail, isNot(contains('CollectTopChrome')));
     expect(groupDetail, isNot(contains('persistentPill')));
     expect(sharedBarrel, contains("export 'collect_chrome.dart';"));

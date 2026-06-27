@@ -218,6 +218,8 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                   ),
                 ),
               ],
+              const SizedBox(height: 18),
+              _AdminDetailWorkflowPanel(spec: spec),
             ],
           ),
         ),
@@ -291,22 +293,118 @@ class _AdminDetailFieldCard extends StatelessWidget {
   }
 }
 
+class _AdminDetailWorkflowPanel extends StatelessWidget {
+  const _AdminDetailWorkflowPanel({required this.spec});
+
+  final _AdminDetailSpec spec;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Semantics(
+      container: true,
+      label: '${spec.heading} operator next steps',
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.textPrimary.withValues(alpha: 0.94),
+          borderRadius: BorderRadius.circular(22),
+          border: Border.all(
+            color: colors.surfaceReadable.withValues(alpha: 0.12),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              for (final action in spec.actions)
+                _AdminDetailActionChip(action: action),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AdminDetailActionChip extends StatelessWidget {
+  const _AdminDetailActionChip({required this.action});
+
+  final _AdminDetailAction action;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 300),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.surfaceReadable.withValues(alpha: 0.11),
+          borderRadius: BorderRadius.circular(CollectRadius.md),
+          border: Border.all(
+            color: colors.surfaceReadable.withValues(alpha: 0.14),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(action.icon, size: 18, color: colors.surfaceReadable),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  action.label,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: colors.surfaceReadable,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _AdminDetailSpec {
   const _AdminDetailSpec({
     required this.heading,
     required this.subtitle,
     required this.fields,
+    this.actions = const [
+      _AdminDetailAction(Icons.history_outlined, 'Review history'),
+      _AdminDetailAction(Icons.note_alt_outlined, 'Add support note'),
+      _AdminDetailAction(
+        Icons.escalator_warning_outlined,
+        'Escalate if needed',
+      ),
+    ],
   });
 
   final String heading;
   final String subtitle;
   final List<_AdminDetailFieldSpec> fields;
+  final List<_AdminDetailAction> actions;
 
   factory _AdminDetailSpec.forRpc(String rpcName, String fallbackTitle) {
     return switch (rpcName) {
       'admin_get_collection' => const _AdminDetailSpec(
         heading: 'Group operations profile',
         subtitle: 'Group support context.',
+        actions: [
+          _AdminDetailAction(Icons.groups_outlined, 'Review members'),
+          _AdminDetailAction(
+            Icons.settings_phone_outlined,
+            'Check receiver setup',
+          ),
+          _AdminDetailAction(Icons.note_alt_outlined, 'Record support note'),
+        ],
         fields: [
           _AdminDetailFieldSpec('Group ID', ['id']),
           _AdminDetailFieldSpec('Group name', ['name', 'title']),
@@ -320,6 +418,14 @@ class _AdminDetailSpec {
       'admin_get_user' => const _AdminDetailSpec(
         heading: 'Member support profile',
         subtitle: 'Scoped member context.',
+        actions: [
+          _AdminDetailAction(Icons.group_outlined, 'Review memberships'),
+          _AdminDetailAction(Icons.privacy_tip_outlined, 'Keep phone masked'),
+          _AdminDetailAction(
+            Icons.support_agent_outlined,
+            'Escalate support path',
+          ),
+        ],
         fields: [
           _AdminDetailFieldSpec('User ID', ['id', 'user_id']),
           _AdminDetailFieldSpec('Collect ID', ['collect_id', 'public_id']),
@@ -332,6 +438,17 @@ class _AdminDetailSpec {
       'admin_get_payment' => const _AdminDetailSpec(
         heading: 'Payment intent review',
         subtitle: 'MoMo intent state.',
+        actions: [
+          _AdminDetailAction(
+            Icons.compare_arrows_outlined,
+            'Compare SMS events',
+          ),
+          _AdminDetailAction(
+            Icons.receipt_long_outlined,
+            'Check ledger impact',
+          ),
+          _AdminDetailAction(Icons.note_alt_outlined, 'Document decision'),
+        ],
         fields: [
           _AdminDetailFieldSpec('Intent ID', ['id']),
           _AdminDetailFieldSpec('Group', ['collection_id', 'group_id']),
@@ -348,6 +465,14 @@ class _AdminDetailSpec {
       'admin_get_payment_event' => const _AdminDetailSpec(
         heading: 'SMS payment event review',
         subtitle: 'Parsed payment event.',
+        actions: [
+          _AdminDetailAction(
+            Icons.replay_outlined,
+            'Request reparse if needed',
+          ),
+          _AdminDetailAction(Icons.rule_outlined, 'Resolve allocation status'),
+          _AdminDetailAction(Icons.policy_outlined, 'Reason is required'),
+        ],
         fields: [
           _AdminDetailFieldSpec('Event ID', ['id']),
           _AdminDetailFieldSpec('Transaction', [
@@ -368,6 +493,14 @@ class _AdminDetailSpec {
       'admin_get_receiver' => const _AdminDetailSpec(
         heading: 'Receiver route review',
         subtitle: 'MoMo receiver route.',
+        actions: [
+          _AdminDetailAction(
+            Icons.verified_user_outlined,
+            'Confirm owner scope',
+          ),
+          _AdminDetailAction(Icons.visibility_off_outlined, 'Keep MoMo masked'),
+          _AdminDetailAction(Icons.history_outlined, 'Review receiver changes'),
+        ],
         fields: [
           _AdminDetailFieldSpec('Receiver ID', ['id']),
           _AdminDetailFieldSpec('Label', ['label', 'receiver_label']),
@@ -380,6 +513,14 @@ class _AdminDetailSpec {
       'admin_get_sms_metadata' => const _AdminDetailSpec(
         heading: 'SMS metadata review',
         subtitle: 'Metadata only.',
+        actions: [
+          _AdminDetailAction(Icons.security_outlined, 'Gate raw reveal'),
+          _AdminDetailAction(Icons.policy_outlined, 'Capture reveal reason'),
+          _AdminDetailAction(
+            Icons.note_alt_outlined,
+            'Document support context',
+          ),
+        ],
         fields: [
           _AdminDetailFieldSpec('SMS ID', ['id']),
           _AdminDetailFieldSpec('Sender', ['sender_masked']),
@@ -391,6 +532,17 @@ class _AdminDetailSpec {
       'admin_system_health' => const _AdminDetailSpec(
         heading: 'System health',
         subtitle: 'Platform readiness.',
+        actions: [
+          _AdminDetailAction(
+            Icons.monitor_heart_outlined,
+            'Review health signal',
+          ),
+          _AdminDetailAction(
+            Icons.warning_amber_outlined,
+            'Escalate degraded checks',
+          ),
+          _AdminDetailAction(Icons.history_outlined, 'Compare latest run'),
+        ],
         fields: [
           _AdminDetailFieldSpec('Status', ['status']),
           _AdminDetailFieldSpec('Database', ['database', 'db']),
@@ -410,6 +562,13 @@ class _AdminDetailSpec {
       ),
     };
   }
+}
+
+class _AdminDetailAction {
+  const _AdminDetailAction(this.icon, this.label);
+
+  final IconData icon;
+  final String label;
 }
 
 class _AdminDetailFieldSpec {

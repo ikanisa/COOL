@@ -34,6 +34,7 @@ class _PaymentSupportReviewScreenState
     final repo = ref.read(collectRepositoryProvider.notifier);
     final collection = _safeCollection(ref, widget.collectionId);
     final intent = _safeIntent(repo, widget.intentId);
+    final colors = context.collectColors;
     return ScreenScaffold(
       title: 'Payment review',
       subtitle: collection?.title,
@@ -100,10 +101,46 @@ class _PaymentSupportReviewScreenState
                       'Duplicate payment',
                       'Other',
                     ])
-                      ChoiceChip(
-                        label: Text(issue),
-                        selected: _issueType == issue,
-                        onSelected: (_) => setState(() => _issueType = issue),
+                      Builder(
+                        builder: (context) {
+                          final selected = _issueType == issue;
+                          return ChoiceChip(
+                            label: Text(issue),
+                            selected: selected,
+                            selectedColor: colors.periwinklePaint.withValues(
+                              alpha: 0.18,
+                            ),
+                            backgroundColor: colors.glassControl,
+                            side: BorderSide(
+                              color: selected
+                                  ? colors.periwinklePaint.withValues(
+                                      alpha: 0.70,
+                                    )
+                                  : colors.glassBorder,
+                            ),
+                            shape: const StadiumBorder(),
+                            showCheckmark: false,
+                            labelStyle: Theme.of(context).textTheme.labelLarge
+                                ?.copyWith(
+                                  color: selected
+                                      ? colors.textPrimary
+                                      : colors.textSecondary,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                            avatar: selected
+                                ? Icon(
+                                    CollectIcons.check,
+                                    size: 16,
+                                    color: colors.periwinklePaint,
+                                  )
+                                : null,
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: VisualDensity.compact,
+                            onSelected: (_) =>
+                                setState(() => _issueType = issue),
+                          );
+                        },
                       ),
                   ],
                 ),

@@ -417,9 +417,9 @@ class _GroupsMomentumPanel extends StatelessWidget {
     return CollectBentoGrid(
       dense: true,
       primary: BentoMetricCell(
-        label: showContributedOnly ? 'Supported total' : 'Group momentum',
+        label: showContributedOnly ? 'Supported' : 'Groups',
         value: formatRwf(totalRaised),
-        detail: '${collections.length} active groups',
+        detail: '${collections.length} active',
         icon: CollectIcons.money,
         tone: CollectStatusTone.success,
         emphasis: true,
@@ -427,14 +427,14 @@ class _GroupsMomentumPanel extends StatelessWidget {
       top: BentoMetricCell(
         label: 'Supporters',
         value: '$supporters',
-        detail: 'Across visible groups',
+        detail: 'Visible groups',
         icon: CollectIcons.people,
         tone: CollectStatusTone.info,
       ),
       bottom: BentoMetricCell(
-        label: 'Public links',
+        label: 'Public',
         value: '$publicCount',
-        detail: 'Ready to share',
+        detail: 'Share-ready',
         icon: CollectIcons.share,
         tone: CollectStatusTone.privacy,
       ),
