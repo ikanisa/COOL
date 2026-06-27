@@ -4,6 +4,9 @@ Collect is a Flutter and Supabase platform for SMS-first MoMo group contribution
 Members contribute through payment intents created in the app; MoMo SMS
 is ingested, parsed with OpenAI, allocated in Supabase, and posted to the ledger.
 
+Current product scope is documented in `docs/PRODUCT.md`. Current release
+status is documented in `docs/release/RELEASE_STATUS.md`.
+
 ## Product Surface
 
 - Mobile app entrypoint: `lib/main.dart`
@@ -83,8 +86,10 @@ Mobile app routes:
 8. MoMo SMS is uploaded to Supabase, parsed, matched to the pending intent,
    and posted to the immutable ledger.
 
-There is no manual SMS paste, no reported transaction ID field, no anonymity
-picker, no public directory flow, and no campaign target/category/cover workflow.
+There is no manual SMS paste, no reported transaction ID field, and no anonymity
+picker. Category-specific collection context and diaspora rails are allowed only
+where explicitly implemented and approval-gated; the default Rwanda MoMo flow
+remains non-custodial and Collect-ID-first.
 
 ## Admin Boundary
 

@@ -49,7 +49,7 @@ The app is not a general wallet and does not custody money. Payment happens thro
 - Payment initiation: contributors enter amount and tap `Contribute`; Supabase creates a payment intent linked to the member's 6-digit Collect ID, then the app opens the MoMo USSD dialer through a `tel:` link. The contributor completes the payment outside the app with MoMo PIN.
 - Confirmation: payment confirmation is not entered by the contributor. It arrives through the group owner's MoMo SMS and is processed by Supabase/OpenAI/allocation logic.
 - No fallback manual SMS input in the member app.
-- No category, target amount, cover URL, public directory, or campaign-style fundraising flow in the simplified group creation journey unless explicitly reintroduced later.
+- Category-specific collection context and diaspora rails are allowed only where explicitly implemented and approval-gated. Public directory, target amount, cover image, and campaign-style fundraising behavior remain out of the default journey unless explicitly approved and implemented.
 
 ## Core Roles
 
@@ -175,7 +175,7 @@ No real name is requested. No anonymity choice is shown.
 8. Android SMS monitoring is active for official MoMo sender IDs.
 9. Group creator can share the group by link, QR code, deep link, chat app, SMS, or the native share sheet.
 
-No category, target amount, cover URL, anonymity choice, or manual SMS screen is part of this journey.
+No anonymity choice, manual SMS screen, contributor-reported transaction ID, or public directory flow is part of this journey. Category context is allowed only for approved category-specific collection surfaces.
 
 ### Journey 3: iPhone User Sees Disabled Group Creation
 
@@ -358,7 +358,7 @@ Admin must not present fake metrics, demo operational content, or manual user fa
 - No reported transaction ID field.
 - No anonymity picker.
 - No display-name/real-name field.
-- No category/target/cover/public-directory campaign workflow in the default product.
+- No public-directory campaign workflow in the default product. Category, target, cover, and diaspora behavior require explicit approval-gated implementation.
 
 ### Android SMS Layer
 
@@ -416,7 +416,7 @@ Admin must not present fake metrics, demo operational content, or manual user fa
 - Use Collect ID everywhere identity is needed.
 - Avoid asking for or showing real names.
 - Avoid repeated privacy/anonymity prompts.
-- Avoid category, target, cover image, campaign storytelling, or public directory unless explicitly approved later.
+- Avoid target, cover image, campaign storytelling, public directory, or diaspora payment claims unless explicitly approved and implemented. Category-specific collection context is allowed only where the approved market-expansion scope is implemented.
 - iPhone create group button is inactive; tapping it shows exactly `group creation is available only on Android`.
 - SMS access consent must be plain and specific: Collect reads MoMo SMS notifications to automate group contribution records.
 

@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../app/theme/collect_motion.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';

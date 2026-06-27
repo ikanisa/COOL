@@ -127,7 +127,7 @@ Reviewer must confirm:
 - no duplicate CTA clutter in the first viewport;
 - product visual appears in the first viewport on mobile and desktop;
 - trust/security/policy surfaces are easy to find;
-- the visual system feels Collect-owned and not copied from Stripe, Revolut,
+- the visual system follows the borrowed Revolut alignment target,
   Wise, M-Pesa, Tala, or MoMo.
 
 ## Sign-Off

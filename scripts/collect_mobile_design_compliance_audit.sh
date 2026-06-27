@@ -117,9 +117,19 @@ end
 
 design = read(File.join(root, "DESIGN.md"))
 design_system = read(File.join(root, "docs/design/DESIGN_SYSTEM.md"))
+revolut_alignment_plan = read(File.join(root, "docs/design/REVOLUT_BORROWED_ALIGNMENT_PLAN_2026-06-27.md"))
+revolut_asset_intake = read(File.join(root, "docs/design/REVOLUT_BORROWED_ASSET_INTAKE_2026-06-27.md"))
+revolut_blocker_register = read(File.join(root, "docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md"))
+pubspec = read(File.join(root, "pubspec.yaml"))
 colors = read(File.join(root, "lib/app/theme/collect_colors.dart"))
+component_tokens = read(File.join(root, "lib/app/theme/collect_component_tokens.dart"))
+revolut_tokens = read(File.join(root, "lib/app/theme/revolut_borrowed_tokens.dart"))
 components = read(File.join(root, "lib/shared/widgets/collect_components.dart"))
 chrome = read_dart_library(root, "lib/shared/widgets/collect_chrome.dart")
+borrowed_assets = read(File.join(root, "lib/app/theme/revolut_borrowed_assets.dart"))
+foundation = read(File.join(root, "lib/shared/widgets/collect_foundation.dart"))
+inputs = read(File.join(root, "lib/shared/widgets/collect_inputs.dart"))
+financial_components = read_dart_library(root, "lib/shared/widgets/collect_financial_components.dart")
 shell = read(File.join(root, "lib/core/widgets/collect_shell.dart"))
 share_screen = read(File.join(root, "lib/features/collections/share_screen.dart"))
 home_screen = read(File.join(root, "lib/features/home/home_screen.dart"))
@@ -132,6 +142,24 @@ flutter_files = all_flutter_files(root)
 route_summary = json_file(route_summary_path)
 android_uat_summary = json_file(android_uat_summary_path)
 
+revolut_font_files = Dir[
+  File.join(root, "assets/fonts/revolut/**/*.{ttf,otf,woff,woff2}")
+]
+revolut_brand_asset_files = Dir[
+  File.join(root, "assets/brand/revolut_borrowed/**/*.{png,jpg,jpeg,webp,svg,gif,json}")
+].reject { |path| File.basename(path).casecmp("README.md").zero? }
+borrowed_asset_roots = %w[
+  assets/brand/revolut_borrowed/
+  assets/brand/revolut_borrowed/logos/
+  assets/brand/revolut_borrowed/app_icons/
+  assets/brand/revolut_borrowed/splash/
+  assets/brand/revolut_borrowed/icons/
+  assets/brand/revolut_borrowed/media/
+]
+blocker_recorded = lambda do |key|
+  revolut_blocker_register.match?(/\|\s*#{Regexp.escape(key)}\s*\|[^|\n]*\|\s*Blocked\s*\|/i)
+end
+
 primary_color_block = design[/primary-colors:\n(.*?)secondary-support-colors:/m, 1] || ""
 primary_hexes = primary_color_block.scan(/(?:periwinkle|mint-green|dusty-rose|orange-red):\s*'?(#[0-9A-Fa-f]{6})'?/).flatten
 expected_primary_hexes = ["#8885F0", "#3CD070", "#D38B96", "#FF5E43"]
@@ -140,12 +168,12 @@ canvas_hex = "#FAF8F5"
 checks = []
 
 color_failures = []
-color_failures << "DESIGN.md primary colors must be exactly #{expected_primary_hexes.join(", ")}." unless primary_hexes == expected_primary_hexes
+color_failures << "DESIGN.md primary colors must preserve exactly #{expected_primary_hexes.join(", ")} as the only distinct brand colors." unless primary_hexes == expected_primary_hexes
 color_failures << "DESIGN.md must define Paper #{canvas_hex} as canvas, not as a primary color." unless design.match?(/canvas:\s+paper:\s*'#{Regexp.escape(canvas_hex)}'/m)
 expected_primary_hexes.each do |hex|
-  color_failures << "CollectColors.brandPrimaryHexes is missing #{hex}." unless colors.include?(hex)
+  color_failures << "CollectColors.brandPrimaryHexes is missing required primary #{hex}." unless colors.include?(hex)
   dart_hex = "0xFF#{hex.delete_prefix("#")}"
-  color_failures << "CollectColors is missing #{dart_hex}." unless colors.include?(dart_hex)
+  color_failures << "CollectColors is missing required primary #{dart_hex}." unless colors.include?(dart_hex)
 end
 color_failures << "CollectColors must keep Paper #{canvas_hex} as brandPaper canvas." unless colors.include?("0xFF#{canvas_hex.delete_prefix("#")}")
 brand_primary_block = colors[/brandPrimaryColors = <Color>\[(.*?)\];/m, 1].to_s
@@ -153,7 +181,7 @@ color_failures << "CollectColors.brandPrimaryColors must not include Paper canva
 color_failures << "CollectColors.brandPrimaryColors must not include Ink support tokens." if brand_primary_block.include?("inkPrimary")
 color_failures << "CollectColors.brandPrimaryColors must not include transparent foundation." if brand_primary_block.include?("transparentColor")
 checks << {
-  "id" => "four_primary_color_contract",
+  "id" => "four_primary_color_distinction_contract",
   "status" => status_for(color_failures),
   "failures" => color_failures,
   "evidence" => ["DESIGN.md", "lib/app/theme/collect_colors.dart"]
@@ -226,13 +254,200 @@ reference_failures = []
   reference_failures << "DESIGN.md must include #{term} reference contract." unless design.include?(term)
   reference_failures << "docs/design/DESIGN_SYSTEM.md must include #{term} implementation contract." unless design_system.include?(term)
 end
-reference_failures << "DESIGN.md must explicitly reject copying Revolut assets/trademarks." unless design.match?(/not a license to copy Revolut assets/i)
-reference_failures << "DESIGN_SYSTEM.md must explicitly reject copying Revolut or Monzo assets." unless design_system.match?(/does not copy Revolut or Monzo/i)
+reference_failures << "DESIGN.md must define borrowed Revolut inputs." unless design.match?(/Borrowed Revolut inputs/i)
+reference_failures << "DESIGN_SYSTEM.md must define borrowed Revolut material as a valid implementation source." unless design_system.match?(/Borrowed Revolut material is a valid implementation source/i)
+reference_failures << "The borrowed Revolut alignment plan must define the 100 percent alignment target." unless revolut_alignment_plan.match?(/100 percent borrowed Revolut alignment/i)
+reference_failures << "The borrowed Revolut asset intake must define intake paths." unless revolut_asset_intake.match?(/assets\/fonts\/revolut/) && revolut_asset_intake.match?(/assets\/brand\/revolut_borrowed/)
+reference_failures << "The Revolut alignment blocker register must keep the current decision blocked while inputs are missing." unless revolut_blocker_register.match?(/Current decision:\s+\*\*BLOCKED\*\*/i)
 checks << {
-  "id" => "revolut_reference_collect_owned_contract",
+  "id" => "revolut_borrowed_alignment_contract",
   "status" => status_for(reference_failures),
   "failures" => reference_failures,
-  "evidence" => ["DESIGN.md", "docs/design/DESIGN_SYSTEM.md"]
+  "evidence" => [
+    "DESIGN.md",
+    "docs/design/DESIGN_SYSTEM.md",
+    "docs/design/REVOLUT_BORROWED_ALIGNMENT_PLAN_2026-06-27.md",
+    "docs/design/REVOLUT_BORROWED_ASSET_INTAKE_2026-06-27.md",
+    "docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md"
+  ]
+}
+
+font_failures = []
+font_installed = !revolut_font_files.empty? &&
+  pubspec.match?(/fonts:\s*\n/m) &&
+  pubspec.include?("assets/fonts/revolut/")
+unless font_installed || blocker_recorded.call("revolut_font_files")
+  font_failures << "Approved Revolut font files are missing and blocker key revolut_font_files is not recorded as Blocked."
+end
+unless font_installed || blocker_recorded.call("revolut_font_license_metadata")
+  font_failures << "Revolut font approval/license metadata is missing and blocker key revolut_font_license_metadata is not recorded as Blocked."
+end
+checks << {
+  "id" => "revolut_font_installed_or_blocked",
+  "status" => status_for(font_failures),
+  "failures" => font_failures,
+  "installed" => font_installed,
+  "font_file_count" => revolut_font_files.length,
+  "evidence" => [
+    "pubspec.yaml",
+    "assets/fonts/revolut/",
+    "docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md"
+  ]
+}
+
+asset_failures_for_borrowed = []
+borrowed_asset_installed = !revolut_brand_asset_files.empty?
+borrowed_asset_roots.each do |asset_root|
+  asset_failures_for_borrowed << "pubspec.yaml must declare #{asset_root} for borrowed Revolut runtime intake." unless pubspec.include?("- #{asset_root}")
+end
+%w[
+  revolut_logo_wordmark_assets
+  revolut_platform_icon_assets
+  revolut_splash_launch_assets
+  revolut_icon_set_mapping
+  revolut_component_tokens
+  revolut_route_reference_matrix
+  revolut_public_web_assets
+].each do |key|
+  next if borrowed_asset_installed && key == "revolut_logo_wordmark_assets"
+  asset_failures_for_borrowed << "Required borrowed Revolut input #{key} is not installed and is not recorded as Blocked." unless blocker_recorded.call(key)
+end
+checks << {
+  "id" => "revolut_brand_assets_installed_or_blocked",
+  "status" => status_for(asset_failures_for_borrowed),
+  "failures" => asset_failures_for_borrowed,
+  "installed" => borrowed_asset_installed,
+  "asset_file_count" => revolut_brand_asset_files.length,
+  "evidence" => [
+    "assets/brand/revolut_borrowed/",
+    "docs/design/REVOLUT_BORROWED_ASSET_INTAKE_2026-06-27.md",
+    "docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md"
+  ]
+}
+
+switchpoint_failures = []
+switchpoint_failures << "RevolutBorrowedAssets must expose the borrowed asset root." unless borrowed_assets.include?("borrowedAssetRoot = 'assets/brand/revolut_borrowed'")
+switchpoint_failures << "RevolutBorrowedAssets must expose the logo intake root." unless borrowed_assets.include?(%q{logoAssetRoot = '$borrowedAssetRoot/logos'})
+switchpoint_failures << "RevolutBorrowedAssets must expose the app-icon intake root." unless borrowed_assets.include?(%q{appIconAssetRoot = '$borrowedAssetRoot/app_icons'})
+switchpoint_failures << "RevolutBorrowedAssets must expose the splash intake root." unless borrowed_assets.include?(%q{splashAssetRoot = '$borrowedAssetRoot/splash'})
+switchpoint_failures << "CollectBrandMark must route wordmark rendering through RevolutBorrowedAssets." unless chrome.include?("RevolutBorrowedAssets.wordmarkAssetPath")
+switchpoint_failures << "CollectBrandMark must route app-icon rendering through RevolutBorrowedAssets." unless chrome.include?("RevolutBorrowedAssets.appIconAssetPath")
+switchpoint_failures << "LaunchSplashScreen must route splash mark rendering through RevolutBorrowedAssets." unless read(File.join(root, "lib/features/launch/launch_splash_screen.dart")).include?("RevolutBorrowedAssets.splashMarkAssetPath")
+
+borrowed_wordmark_path = File.join(root, "assets/brand/revolut_borrowed/logos/wordmark.png")
+borrowed_app_icon_path = File.join(root, "assets/brand/revolut_borrowed/app_icons/app_icon.png")
+borrowed_splash_mark_path = File.join(root, "assets/brand/revolut_borrowed/splash/splash_mark.png")
+borrowed_web_icon_path = File.join(root, "assets/brand/revolut_borrowed/app_icons/web-512.png")
+borrowed_share_preview_path = File.join(root, "assets/brand/revolut_borrowed/media/share-preview.png")
+switchpoint_failures << "Borrowed wordmark is installed but RevolutBorrowedAssets.wordmarkAssetPath still uses the fallback." if File.file?(borrowed_wordmark_path) && !borrowed_assets.match?(/wordmarkAssetPath\s*=\s*expectedWordmarkPath/)
+switchpoint_failures << "Borrowed app icon is installed but RevolutBorrowedAssets.appIconAssetPath still uses the fallback." if File.file?(borrowed_app_icon_path) && !borrowed_assets.match?(/appIconAssetPath\s*=\s*expectedAppIconPath/)
+switchpoint_failures << "Borrowed splash mark is installed but RevolutBorrowedAssets.splashMarkAssetPath still uses the fallback." if File.file?(borrowed_splash_mark_path) && !borrowed_assets.match?(/splashMarkAssetPath\s*=\s*expectedSplashMarkPath/)
+if File.file?(borrowed_web_icon_path)
+  web_manifest = read(File.join(root, "web/manifest.json"))
+  web_index = read(File.join(root, "web/index.html"))
+  switchpoint_failures << "Borrowed web icon is installed but web/manifest.json still points to collect-admin.png." if web_manifest.include?("collect-admin.png")
+  switchpoint_failures << "Borrowed web icon is installed but web/index.html still points to collect-admin.png." if web_index.include?("collect-admin.png")
+end
+if File.file?(borrowed_share_preview_path)
+  public_assets = read(File.join(root, "scripts/public_website_audit_evidence.sh"))
+  switchpoint_failures << "Borrowed share preview is installed but public website evidence still uses Collect-generated visuals only." unless public_assets.include?("revolut_borrowed") || public_assets.include?("share-preview.png")
+end
+checks << {
+  "id" => "revolut_borrowed_runtime_switchpoints",
+  "status" => status_for(switchpoint_failures),
+  "failures" => switchpoint_failures,
+  "evidence" => [
+    "pubspec.yaml",
+    "lib/app/theme/revolut_borrowed_assets.dart",
+    "lib/shared/widgets/collect_chrome.dart",
+    "lib/features/launch/launch_splash_screen.dart",
+    "web/manifest.json",
+    "web/index.html"
+  ]
+}
+
+token_failures = []
+token_failures << "RevolutBorrowedTokens must define the full secondary color role map." unless revolut_tokens.include?("secondaryColorRoles")
+%w[
+  inkPrimary
+  inkSecondary
+  inkMuted
+  surfaceReadable
+  surfaceMuted
+  borderSoft
+  borderAccent
+  focusRing
+  successForeground
+  infoForeground
+  warningForeground
+  dangerForeground
+  successContainer
+  infoContainer
+  warningContainer
+  dangerContainer
+  neutralContainer
+].each do |role|
+  token_failures << "RevolutBorrowedTokens.secondaryColorRoles must include #{role}." unless revolut_tokens.include?("'#{role}'")
+end
+%w[
+  #252044
+  #4B4664
+  #5F5A76
+  #FFFDFB
+  #F1ECF7
+  #DED8EA
+  #CDC7F5
+  #6F67E8
+  #137A3F
+  #514DD2
+  #B9472E
+  #B3261E
+  #E7F8ED
+  #ECEBFF
+  #FFE9E3
+  #FFE5DF
+].each do |hex|
+  token_failures << "RevolutBorrowedTokens.secondaryColorHexes must include #{hex}." unless revolut_tokens.include?("'#{hex}'")
+end
+{
+  "lib/app/theme/collect_component_tokens.dart" => component_tokens,
+  "lib/shared/widgets/collect_chrome.dart" => chrome,
+  "lib/shared/widgets/collect_foundation.dart" => foundation,
+  "lib/shared/widgets/collect_inputs.dart" => inputs,
+  "lib/shared/widgets/collect_financial_components.dart" => financial_components
+}.each do |relative, text|
+  token_failures << "#{relative} must use RevolutBorrowedTokens." unless text.include?("RevolutBorrowedTokens")
+end
+token_failures << "collect_components.dart must export RevolutBorrowedTokens." unless components.include?("revolut_borrowed_tokens.dart")
+checks << {
+  "id" => "revolut_borrowed_component_token_switchpoints",
+  "status" => status_for(token_failures),
+  "failures" => token_failures,
+  "evidence" => [
+    "lib/app/theme/revolut_borrowed_tokens.dart",
+    "lib/app/theme/collect_component_tokens.dart",
+    "lib/shared/widgets/collect_chrome.dart",
+    "lib/shared/widgets/collect_foundation.dart",
+    "lib/shared/widgets/collect_inputs.dart",
+    "lib/shared/widgets/collect_financial_components.dart",
+    "test/features/design_system_components_test.dart"
+  ]
+}
+
+claim_guard_failures = []
+if revolut_blocker_register.match?(/Current decision:\s+\*\*BLOCKED\*\*/i)
+  claim_guard_failures << "Blocker register must explicitly prohibit 100 percent alignment claims while rows are blocked." unless revolut_blocker_register.match?(/Do not claim 100 percent borrowed Revolut alignment/i)
+end
+claim_guard_failures << "Alignment plan must require approved Revolut fonts before final claim." unless revolut_alignment_plan.match?(/Approved Revolut fonts are bundled/i)
+claim_guard_failures << "Alignment plan must preserve the four primary colors." unless revolut_alignment_plan.match?(/#8885F0/) && revolut_alignment_plan.match?(/#3CD070/) && revolut_alignment_plan.match?(/#D38B96/) && revolut_alignment_plan.match?(/#FF5E43/)
+checks << {
+  "id" => "revolut_100_percent_claim_guard",
+  "status" => status_for(claim_guard_failures),
+  "failures" => claim_guard_failures,
+  "evidence" => [
+    "docs/design/REVOLUT_BORROWED_ALIGNMENT_PLAN_2026-06-27.md",
+    "docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md"
+  ]
 }
 
 gradient_failures = []
@@ -331,7 +546,8 @@ checks << {
 asset_failures = []
 wordmark_path = File.join(root, "assets/brand/generated/collect_wordmark_transparent.png")
 asset_failures << "Transparent Collect wordmark asset is missing." unless File.file?(wordmark_path)
-asset_failures << "CollectBrandMark must use collect_wordmark_transparent.png." unless chrome.include?("collect_wordmark_transparent.png")
+asset_failures << "CollectBrandMark must use the borrowed Revolut asset registry." unless chrome.include?("RevolutBorrowedAssets.wordmarkAssetPath")
+asset_failures << "Borrowed Revolut asset registry must keep the current Collect wordmark fallback until the borrowed kit is installed." unless borrowed_assets.include?("collect_wordmark_transparent.png")
 asset_failures << "DESIGN.md must name collect_wordmark_transparent.png as the mobile wordmark." unless design.include?("collect_wordmark_transparent.png")
 checks << {
   "id" => "mobile_brand_asset_contract",
@@ -612,7 +828,7 @@ summary = {
   "status" => status_for(failed_checks),
   "design_contract" => "DESIGN.md",
   "design_system" => "docs/design/DESIGN_SYSTEM.md",
-  "reference_contract" => "Revolut screenshots inform gradient/glass fintech quality; Collect-owned colors, assets, copy, and product behavior remain mandatory.",
+  "reference_contract" => "Borrowed Revolut alignment is the target; missing approved fonts, assets, colors, icons, or component tokens must be recorded as blockers rather than hidden behind Collect-owned substitutes.",
   "primary_colors" => expected_primary_hexes,
   "route_count" => materialized_routes.length,
   "checks" => checks,

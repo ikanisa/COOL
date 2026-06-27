@@ -156,7 +156,7 @@ approval_records = [
     "decision_needed" => "Approve the SMS-first Groups product definition, including Collect ID-only identity, Android-only group creation, and automated MoMo SMS allocation.",
     "evidence_to_review" => [
       "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md",
-      "docs/design/COLLECT_ASSET_SCREEN_UI_UX_UPDATE_REPORT_2026-05-31.md",
+      "docs/archive/2026-05/design/COLLECT_ASSET_SCREEN_UI_UX_UPDATE_REPORT_2026-05-31.md",
       "scripts/collect_product_boundary_scan.sh",
       bundle_dir && File.join(bundle_dir, "collect_product_boundary_scan.json"),
       latest_summary

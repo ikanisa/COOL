@@ -3,9 +3,13 @@ import 'package:flutter/services.dart';
 
 export '../../app/theme/collect_colors.dart';
 export '../../app/theme/collect_icons.dart';
+export '../../app/theme/collect_motion.dart';
 export '../../app/theme/collect_radius.dart';
 export '../../app/theme/collect_spacing.dart';
 export '../../app/theme/collect_typography.dart';
+export '../../app/theme/revolut_borrowed_assets.dart';
+export '../../app/theme/revolut_borrowed_tokens.dart';
+export '../../app/theme/revolut_borrowed_typography.dart';
 export 'collect_action_controls.dart';
 export 'collect_chrome.dart';
 export 'collect_display_primitives.dart';

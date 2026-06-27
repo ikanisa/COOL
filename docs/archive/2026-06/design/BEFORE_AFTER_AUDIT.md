@@ -20,6 +20,6 @@
 
 ## Implementation Limitations
 
-- No proprietary reference assets, exact screens, trademarks, or fonts are used.
+- Superseded by `docs/design/REVOLUT_BORROWED_ALIGNMENT_PLAN_2026-06-27.md`: approved borrowed Revolut assets, exact screens, trademarks, and fonts are valid implementation inputs when supplied through the authorized brand kit or explicitly approved reference material.
 - Golden tests are optional and should only be added after the sequential Flutter test runner is stable.
 - This pass keeps payment execution outside the app; it redesigns payment-intent creation, MoMo USSD launch, and automated receiver-SMS verification.

@@ -363,7 +363,31 @@ RUBY
   "route_count": 48,
   "checks": [
     {
-      "id": "four_primary_color_contract",
+      "id": "four_primary_color_distinction_contract",
+      "status": "pass"
+    },
+    {
+      "id": "revolut_borrowed_alignment_contract",
+      "status": "pass"
+    },
+    {
+      "id": "revolut_font_installed_or_blocked",
+      "status": "pass"
+    },
+    {
+      "id": "revolut_brand_assets_installed_or_blocked",
+      "status": "pass"
+    },
+    {
+      "id": "revolut_borrowed_runtime_switchpoints",
+      "status": "pass"
+    },
+    {
+      "id": "revolut_borrowed_component_token_switchpoints",
+      "status": "pass"
+    },
+    {
+      "id": "revolut_100_percent_claim_guard",
       "status": "pass"
     },
     {

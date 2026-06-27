@@ -5,12 +5,14 @@ class CollectBentoGrid extends StatelessWidget {
     required this.primary,
     required this.top,
     required this.bottom,
+    this.dense = false,
     super.key,
   });
 
   final Widget primary;
   final Widget top;
   final Widget bottom;
+  final bool dense;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +20,21 @@ class CollectBentoGrid extends StatelessWidget {
       builder: (context, constraints) {
         final textScale = MediaQuery.textScalerOf(context).scale(1);
         final compact = constraints.maxWidth < 340 || textScale > 1.15;
+        if (dense && !compact) {
+          return SizedBox(
+            height: 132,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(flex: 6, child: primary),
+                CollectSpacing.gapW8,
+                Expanded(flex: 5, child: top),
+                CollectSpacing.gapW8,
+                Expanded(flex: 5, child: bottom),
+              ],
+            ),
+          );
+        }
         if (compact) {
           return Column(
             children: [

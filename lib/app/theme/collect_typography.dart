@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'revolut_borrowed_typography.dart';
+
 class CollectTypography {
   const CollectTypography._();
 
-  static const _family = <String>['Hanken Grotesk', 'Inter', 'Roboto'];
-  static const _monoFamily = <String>['JetBrains Mono', 'Roboto Mono'];
+  static const _family = RevolutBorrowedTypography.fontFamilyFallback;
+  static const _monoFamily = RevolutBorrowedTypography.monoFontFamilyFallback;
 
   static const _tabular = <FontFeature>[FontFeature.tabularFigures()];
 
@@ -82,6 +84,7 @@ class CollectTypography {
     Color color,
   ) {
     return TextStyle(
+      fontFamily: RevolutBorrowedTypography.fontFamily,
       fontFamilyFallback: _family,
       fontSize: size,
       height: height,

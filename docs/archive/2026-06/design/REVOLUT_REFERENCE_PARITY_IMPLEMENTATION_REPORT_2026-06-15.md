@@ -265,4 +265,4 @@ Still required before a final 100 percent claim:
 
 ## Boundary
 
-Collect must not copy Revolut assets, trademarks, exact labels, component colors, screenshots, product claims, account names, tab names, or proprietary product behavior. Screen-background color matching is the explicit exception requested by the user; all product surfaces, runtime assets, copy, workflows, and component colors remain Collect-owned.
+The old brand-separation boundary is superseded by `docs/design/REVOLUT_BORROWED_ALIGNMENT_PLAN_2026-06-27.md`. The next implementation pass must install and verify approved borrowed Revolut fonts, runtime logos, iconography, platform assets, colors, component tokens, navigation patterns, and route-by-route visual mappings. Current evidence remains useful for route coverage and privacy masking, but it is not enough for a 100 percent borrowed Revolut alignment claim.

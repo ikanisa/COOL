@@ -92,6 +92,37 @@ void main() {
     );
   });
 
+  test('borrowed Revolut token layer preserves full secondary colors', () {
+    expect(RevolutBorrowedTokens.secondaryColorRoles, hasLength(17));
+    expect(
+      RevolutBorrowedTokens.secondaryColorHexes,
+      containsAll(<String>[
+        '#252044',
+        '#4B4664',
+        '#5F5A76',
+        '#FFFDFB',
+        '#F1ECF7',
+        '#DED8EA',
+        '#CDC7F5',
+        '#6F67E8',
+        '#137A3F',
+        '#514DD2',
+        '#B9472E',
+        '#B3261E',
+        '#E7F8ED',
+        '#ECEBFF',
+        '#FFE9E3',
+        '#FFE5DF',
+      ]),
+    );
+    expect(
+      RevolutBorrowedTokens.secondaryColorRoles.values.toSet().intersection(
+        CollectColors.brandPrimaryColors.toSet(),
+      ),
+      isEmpty,
+    );
+  });
+
   test('Revolut reference background families are applied by route', () {
     final light = AppTheme.light().extension<CollectColors>()!;
 
@@ -235,7 +266,7 @@ void main() {
   });
 
   test(
-    'Collect app icon source is 512 PNG and live SVG assets are removed',
+    'borrowed asset switchpoints keep current Collect fallbacks until intake',
     () {
       expect(_pngSize('assets/brand/collect_app_icon_static.png'), (
         width: 512,
@@ -257,7 +288,23 @@ void main() {
         File(
           'lib/features/launch/launch_splash_screen.dart',
         ).readAsStringSync(),
+        contains('RevolutBorrowedAssets.splashMarkAssetPath'),
+      );
+      expect(
+        RevolutBorrowedAssets.splashMarkAssetPath,
         contains('assets/brand/generated/collect_mark_transparent.png'),
+      );
+      expect(
+        RevolutBorrowedAssets.expectedWordmarkPath,
+        'assets/brand/revolut_borrowed/logos/wordmark.png',
+      );
+      expect(
+        RevolutBorrowedAssets.expectedAppIconPath,
+        'assets/brand/revolut_borrowed/app_icons/app_icon.png',
+      );
+      expect(
+        RevolutBorrowedAssets.expectedSplashMarkPath,
+        'assets/brand/revolut_borrowed/splash/splash_mark.png',
       );
       expect(
         File(
@@ -479,7 +526,7 @@ void main() {
     }
   });
 
-  testWidgets('brand mark uses the bundled Collect logo asset', (tester) async {
+  testWidgets('brand mark uses the borrowed asset switchpoint', (tester) async {
     final semantics = tester.ensureSemantics();
     try {
       await _pumpCollect(tester, const CollectBrandMark());
@@ -490,7 +537,7 @@ void main() {
       expect((image.image as AssetImage).assetName, CollectBrandMark.assetPath);
       expect(
         CollectBrandMark.assetPath,
-        contains('collect_wordmark_transparent.png'),
+        RevolutBorrowedAssets.wordmarkAssetPath,
       );
     } finally {
       semantics.dispose();

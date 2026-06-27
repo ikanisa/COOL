@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-import '../../app/theme/collect_motion.dart';
 import '../../core/utils/money_format.dart';
 import '../models/collect_models.dart';
 import 'collect_components.dart';
@@ -264,34 +263,77 @@ class _CompactGroupCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.collectColors;
     final accent = _groupAccent(context, collection);
     return CollectCard(
       onTap: onTap,
-      emphasis: CollectCardEmphasis.compact,
-      padding: const EdgeInsets.all(CollectSpacing.x3),
+      emphasis: CollectCardEmphasis.normal,
+      padding: const EdgeInsets.all(CollectSpacing.x4),
       accentColor: accent,
-      backgroundGradient: _groupCardGradient(context, accent),
       child: Row(
         children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: accent.withValues(alpha: 0.18),
+              shape: BoxShape.circle,
+            ),
+            child: SizedBox.square(
+              dimension: 64,
+              child: Icon(
+                collectionTypeIcon(collection.collectionType),
+                color: colors.onImagePrimary,
+                size: 30,
+              ),
+            ),
+          ),
+          CollectSpacing.gapW16,
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   collection.title,
-                  style: Theme.of(context).textTheme.titleSmall,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 0,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 CollectSpacing.gap4,
                 Text(
-                  '${collection.collectionType.label} · ${formatRwf(summary.amountRaisedRwf)} · ${summary.supporterCount} members',
-                  style: Theme.of(context).textTheme.bodySmall,
+                  '${collection.collectionType.label} · ${summary.supporterCount} supporters',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: colors.textSecondary,
+                    fontWeight: FontWeight.w700,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
+          ),
+          CollectSpacing.gapW12,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                formatRwf(summary.amountRaisedRwf),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 0,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              CollectSpacing.gap4,
+              Icon(
+                CollectIcons.chevron,
+                color: colors.textSecondary.withValues(alpha: 0.84),
+              ),
+            ],
           ),
           if (primaryAction != null) ...[CollectSpacing.gapW12, primaryAction!],
         ],

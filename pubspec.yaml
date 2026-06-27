@@ -42,3 +42,9 @@ flutter:
   assets:
     - assets/brand/collect_app_icon_static.png
     - assets/brand/generated/
+    - assets/brand/revolut_borrowed/
+    - assets/brand/revolut_borrowed/logos/
+    - assets/brand/revolut_borrowed/app_icons/
+    - assets/brand/revolut_borrowed/splash/
+    - assets/brand/revolut_borrowed/icons/
+    - assets/brand/revolut_borrowed/media/

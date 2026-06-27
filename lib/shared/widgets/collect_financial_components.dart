@@ -8,6 +8,7 @@ import '../../app/theme/collect_radius.dart';
 import '../../app/theme/collect_shadows.dart';
 import '../../app/theme/collect_spacing.dart';
 import '../../app/theme/collect_typography.dart';
+import '../../app/theme/revolut_borrowed_tokens.dart';
 import '../../core/security/phone_normalizer.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/utils/money_format.dart';

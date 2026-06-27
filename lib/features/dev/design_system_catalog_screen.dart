@@ -42,7 +42,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
         const InfoSecurityBanner(
           title: 'Reference boundary',
           message:
-              'Collect uses original tokens and components. No reference brand assets, fonts, colors, or screens are copied.',
+              'Borrowed Revolut assets, fonts, colors, and component patterns are the active alignment target.',
           tone: CollectStatusTone.info,
         ),
         const MoneyHeroCard(

@@ -7,8 +7,8 @@ import '../../app/theme/collect_component_tokens.dart';
 import '../../app/theme/collect_icons.dart';
 import '../../app/theme/collect_motion.dart';
 import '../../app/theme/collect_radius.dart';
-import '../../app/theme/collect_shadows.dart';
 import '../../app/theme/collect_spacing.dart';
+import '../../app/theme/revolut_borrowed_tokens.dart';
 import '../models/collect_models.dart';
 
 class CollectButton extends StatelessWidget {
@@ -109,11 +109,9 @@ class CollectionTypeBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final accent = colors.actionColor;
     final foreground = colors.textPrimary;
-    final background = Color.alphaBlend(
-      colors.actionColor.withValues(alpha: 0.10),
-      colors.surfaceRaised,
-    );
+    final background = RevolutBorrowedTokens.badgeBackground(colors, accent);
     return Semantics(
       label: '${type.label} collection',
       child: ExcludeSemantics(
@@ -122,7 +120,7 @@ class CollectionTypeBadge extends StatelessWidget {
             color: background,
             borderRadius: CollectRadius.pillBorder,
             border: Border.all(
-              color: colors.actionColor.withValues(alpha: 0.18),
+              color: RevolutBorrowedTokens.badgeBorder(colors, accent),
             ),
           ),
           child: Padding(
@@ -184,81 +182,31 @@ class CollectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final radius = switch (emphasis) {
-      CollectCardEmphasis.hero ||
-      CollectCardEmphasis.glow => CollectRadius.cardLargeBorder,
-      CollectCardEmphasis.compact => CollectRadius.mdBorder,
-      _ => CollectRadius.cardBorder,
-    };
-    final background = switch (emphasis) {
-      CollectCardEmphasis.flat =>
-        isDark ? CollectColors.referenceContentDark : colors.surface,
-      CollectCardEmphasis.outline =>
-        isDark
-            ? CollectColors.referencePaymentsPurpleDeep
-            : colors.surfaceRaised,
-      CollectCardEmphasis.tonal => Color.alphaBlend(
-        (accentColor ?? colors.actionColor).withValues(
-          alpha: isDark ? 0.18 : 0.08,
-        ),
-        isDark ? CollectColors.referenceAssetNavy : colors.surfaceRaised,
-      ),
-      CollectCardEmphasis.glow =>
-        isDark ? CollectColors.referenceAssetNavy : colors.surfaceRaised,
-      CollectCardEmphasis.compact =>
-        isDark
-            ? CollectColors.referencePaymentsPurpleDeep
-            : colors.surfaceRaised,
-      _ => isDark ? CollectColors.referencePaymentsPurple : colors.surfaceMuted,
-    };
-    final backgroundOpacity = switch (emphasis) {
-      CollectCardEmphasis.hero => isDark ? 0.90 : 0.82,
-      CollectCardEmphasis.glow => isDark ? 0.88 : 0.80,
-      CollectCardEmphasis.tonal => isDark ? 0.86 : 0.78,
-      CollectCardEmphasis.compact => isDark ? 0.84 : 0.76,
-      CollectCardEmphasis.flat => isDark ? 0.82 : 0.70,
-      CollectCardEmphasis.outline => isDark ? 0.82 : 0.74,
-      CollectCardEmphasis.normal => isDark ? 0.84 : 0.78,
-    };
-    final border = switch (emphasis) {
-      CollectCardEmphasis.flat => null,
-      CollectCardEmphasis.glow => Border.all(
-        color: (accentColor ?? colors.actionColor).withValues(
-          alpha: isDark ? 0.34 : 0.24,
-        ),
-      ),
-      CollectCardEmphasis.outline => Border.all(
-        color: isDark
-            ? colors.onImagePrimary.withValues(alpha: 0.14)
-            : colors.border,
-      ),
-      CollectCardEmphasis.compact => Border.all(
-        color: isDark
-            ? colors.onImagePrimary.withValues(alpha: 0.12)
-            : colors.border.withValues(alpha: 0.72),
-      ),
-      _ => Border.all(
-        color: isDark
-            ? colors.onImagePrimary.withValues(alpha: 0.12)
-            : colors.border,
-      ),
-    };
-    final shadows = switch (emphasis) {
-      CollectCardEmphasis.flat ||
-      CollectCardEmphasis.outline ||
-      CollectCardEmphasis.compact => const <BoxShadow>[],
-      CollectCardEmphasis.glow => [
-        BoxShadow(
-          color: (accentColor ?? colors.actionColor).withValues(
-            alpha: isDark ? 0.20 : 0.13,
-          ),
-          blurRadius: isDark ? 34 : 28,
-          offset: const Offset(0, 18),
-        ),
-      ],
-      _ => CollectShadows.card(),
-    };
+    final brightness = Theme.of(context).brightness;
+    final tokenEmphasis = emphasis.borrowedToken;
+    final radius = RevolutBorrowedTokens.cardRadius(tokenEmphasis);
+    final background = RevolutBorrowedTokens.cardBackground(
+      colors,
+      brightness,
+      tokenEmphasis,
+      accentColor,
+    );
+    final backgroundOpacity = RevolutBorrowedTokens.cardOpacity(
+      brightness,
+      tokenEmphasis,
+    );
+    final border = RevolutBorrowedTokens.cardBorder(
+      colors,
+      brightness,
+      tokenEmphasis,
+      accentColor,
+    );
+    final shadows = RevolutBorrowedTokens.cardShadows(
+      colors,
+      brightness,
+      tokenEmphasis,
+      accentColor,
+    );
     final container = AnimatedContainer(
       duration: CollectMotion.duration(context, CollectMotion.fast),
       curve: CollectMotion.standard,
@@ -291,3 +239,17 @@ class CollectCard extends StatelessWidget {
 }
 
 enum CollectCardEmphasis { flat, normal, hero, tonal, glow, outline, compact }
+
+extension on CollectCardEmphasis {
+  CollectBorrowedCardEmphasis get borrowedToken {
+    return switch (this) {
+      CollectCardEmphasis.flat => CollectBorrowedCardEmphasis.flat,
+      CollectCardEmphasis.normal => CollectBorrowedCardEmphasis.normal,
+      CollectCardEmphasis.hero => CollectBorrowedCardEmphasis.hero,
+      CollectCardEmphasis.tonal => CollectBorrowedCardEmphasis.tonal,
+      CollectCardEmphasis.glow => CollectBorrowedCardEmphasis.glow,
+      CollectCardEmphasis.outline => CollectBorrowedCardEmphasis.outline,
+      CollectCardEmphasis.compact => CollectBorrowedCardEmphasis.compact,
+    };
+  }
+}

@@ -9,7 +9,7 @@ now been applied through the linked Supabase query path and linked contribution
 UAT passes.
 
 Update 2026-06-07: mobile screen/popup/wizard completion is now governed by
-`docs/design/COLLECT_MOBILE_100_PERCENT_COMPLETION_GOALBOOK_2026-06-07.md`.
+`docs/archive/2026-06/design/COLLECT_MOBILE_100_PERCENT_COMPLETION_GOALBOOK_2026-06-07.md`.
 Any evidence below predates that 100% completion goal unless rerun on the final
 current worktree.
 

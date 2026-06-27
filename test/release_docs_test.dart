@@ -310,7 +310,7 @@ Date/time: 2026-06-01T12:30:00Z
         'docs/release/PRODUCTION_READINESS_CHECKLIST.md',
       ).readAsStringSync(),
       'goalbook': File(
-        'docs/design/COLLECT_UI_IMPLEMENTATION_GOALBOOK_2026-05-31.md',
+        'docs/archive/2026-05/design/COLLECT_UI_IMPLEMENTATION_GOALBOOK_2026-05-31.md',
       ).readAsStringSync(),
       'qa': File('docs/release/QA_TEST_REPORT.md').readAsStringSync(),
       'uat': File('docs/release/UAT_EXECUTION_REPORT.md').readAsStringSync(),
@@ -823,7 +823,10 @@ Current decision: **GO after signed review**
     expect(androidGradle, contains('expected_upload_signing_sha256'));
     expect(androidGradle, contains('matches_expected_upload_certificate'));
     expect(androidGradle, contains('expected_play_signing_sha256'));
-    expect(androidGradle, contains('Google Play App Signing uses the upload key'));
+    expect(
+      androidGradle,
+      contains('Google Play App Signing uses the upload key'),
+    );
     expect(androidGradle, contains('does not print keystore passwords'));
     expect(script, contains(':app:printReleaseSigningCertificateStatus'));
     expect(script, contains('expected_upload_signing_sha256'));

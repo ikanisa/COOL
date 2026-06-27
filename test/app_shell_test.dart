@@ -181,8 +181,16 @@ void main() {
 
     expect(qaRunner, contains('collect_mobile_design_compliance_audit'));
     expect(qaRunner, contains('mobile_design_compliance'));
-    expect(designAudit, contains('four_primary_color_contract'));
-    expect(designAudit, contains('revolut_reference_collect_owned_contract'));
+    expect(designAudit, contains('four_primary_color_distinction_contract'));
+    expect(designAudit, contains('revolut_borrowed_alignment_contract'));
+    expect(designAudit, contains('revolut_font_installed_or_blocked'));
+    expect(designAudit, contains('revolut_brand_assets_installed_or_blocked'));
+    expect(designAudit, contains('revolut_borrowed_runtime_switchpoints'));
+    expect(
+      designAudit,
+      contains('revolut_borrowed_component_token_switchpoints'),
+    );
+    expect(designAudit, contains('revolut_100_percent_claim_guard'));
     expect(designAudit, contains('gradient_glass_screen_contract'));
     expect(designAudit, contains('theme_mode_visual_parity_gate'));
     expect(designAudit, contains('revolut_top_chrome_search_contract'));
@@ -203,6 +211,9 @@ void main() {
     final topChromePart = File(
       'lib/shared/widgets/collect_top_chrome.dart',
     ).readAsStringSync();
+    final borrowedAssets = File(
+      'lib/app/theme/revolut_borrowed_assets.dart',
+    ).readAsStringSync();
     final scaffoldPart = File(
       'lib/shared/widgets/collect_scaffold_chrome.dart',
     ).readAsStringSync();
@@ -210,7 +221,10 @@ void main() {
     expect(chromeLibrary, contains("part 'collect_top_chrome.dart';"));
     expect(chromeLibrary, contains("part 'collect_scaffold_chrome.dart';"));
     expect(topChromePart, contains('class CollectBrandMark'));
-    expect(topChromePart, contains('collect_wordmark_transparent.png'));
+    expect(topChromePart, contains('RevolutBorrowedAssets.wordmarkAssetPath'));
+    expect(topChromePart, contains('RevolutBorrowedAssets.appIconAssetPath'));
+    expect(borrowedAssets, contains('collect_wordmark_transparent.png'));
+    expect(borrowedAssets, contains('collect_app_icon_static.png'));
     expect(scaffoldPart, contains('class PremiumScaffold'));
     expect(scaffoldPart, contains('CollectGradientBackground'));
     expect(designAudit, contains('def read_dart_library'));

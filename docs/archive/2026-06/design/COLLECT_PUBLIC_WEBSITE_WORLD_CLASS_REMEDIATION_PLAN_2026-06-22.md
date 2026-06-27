@@ -327,7 +327,7 @@ Required direction:
 Ship a public Collect website that passes these gates:
 
 - Design: senior fintech landing quality, with a first viewport that clearly communicates Collect, shows a real product/use-case signal, and exposes one primary conversion action.
-- Benchmark: comparable in discipline to Revolut and Stripe, without copying their assets, trademarks, product claims, or layouts.
+- Benchmark: borrowed Revolut alignment for Revolut brand/UI direction, with Stripe and other fintech references remaining research-only unless separately approved.
 - Performance: Core Web Vitals target is LCP <= 2.5s, INP <= 200ms, CLS <= 0.1 at the 75th percentile for mobile and desktop; Lighthouse target is 90+.
 - Bundle: public home page critical path should be static HTML/CSS with a strict JavaScript budget. Flutter runtime must not be required for first paint or basic content.
 - SEO: all public pages have stable canonical URLs, title, description, OG/Twitter metadata, crawlable primary content, sitemap coverage, and no accidental noindex.

@@ -130,3 +130,54 @@ class _GroupActionButton extends StatelessWidget {
     );
   }
 }
+
+class _GroupMomentumRail extends StatelessWidget {
+  const _GroupMomentumRail({
+    required this.collection,
+    required this.summary,
+    required this.visibleContributionCount,
+  });
+
+  final CollectCollection collection;
+  final CollectionSummary summary;
+  final int visibleContributionCount;
+
+  @override
+  Widget build(BuildContext context) {
+    final cadence = collection.recurringCadence.trim().isEmpty
+        ? 'monthly'
+        : collection.recurringCadence;
+    final receiverReady =
+        collection.receiverMomoNumber?.trim().isNotEmpty == true;
+    return CollectBentoGrid(
+      dense: true,
+      primary: BentoMetricCell(
+        label: 'Collected',
+        value: formatRwf(summary.amountRaisedRwf),
+        detail:
+            collection.purposeLabel ?? collection.collectionType.shortPurpose,
+        icon: CollectIcons.money,
+        tone: CollectStatusTone.success,
+        emphasis: true,
+      ),
+      top: BentoMetricCell(
+        label: 'Cadence',
+        value: cadence,
+        detail: '${summary.supporterCount} supporters',
+        icon: CollectIcons.pending,
+        tone: CollectStatusTone.info,
+      ),
+      bottom: BentoMetricCell(
+        label: receiverReady ? 'Receiver ready' : 'Receiver pending',
+        value: visibleContributionCount == 1
+            ? '1 activity'
+            : '$visibleContributionCount activities',
+        detail: collection.isPublic ? 'Public link active' : 'Private group',
+        icon: receiverReady ? CollectIcons.momo : CollectIcons.warning,
+        tone: receiverReady
+            ? CollectStatusTone.success
+            : CollectStatusTone.warning,
+      ),
+    );
+  }
+}

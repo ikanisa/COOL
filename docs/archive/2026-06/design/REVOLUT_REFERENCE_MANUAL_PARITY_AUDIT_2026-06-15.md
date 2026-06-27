@@ -17,9 +17,9 @@ Honest current rating against the supplied references:
 | --- | --- | --- |
 | Mobile app visual parity | In progress from 5/10 | The new background token now uses extracted Revolut reference background colors, Home has a richer Collect-owned rewards/discovery hub, and fresh post-background screenshots now exist for 54/54 member routes. Human visual scoring is still required before claiming 10/10. |
 | Admin panel visual parity | In progress from 5/10 | The Admin shell, topbar, navigation, page headers, filters, metrics, tables, empty states, and detail cards now use a darker operational fintech console treatment, with fresh Flutter-test admin screenshots. Production-session browser proof is still separate. |
-| Assets and product richness | In progress | Collect-owned MoMo, group momentum, QR, Home story rail, Home Momentum cards, and the new Home rewards/discovery hub improve density without copying Revolut assets. More route-wide visual distinction is still needed. |
+| Assets and product richness | In progress | Current MoMo, group momentum, QR, Home story rail, Home Momentum cards, and the new Home rewards/discovery hub improve density, but they are still legacy Collect-generated assets. The 100 percent alignment pass must replace them with borrowed Revolut assets or Revolut-like equivalents. |
 | Evidence strength | Strong code-owned evidence | Pixel 4a normal/200% route evidence, TalkBack structural capture, fresh 54-route Flutter-test screenshots, fresh admin screenshots, and design compliance now pass. Human auditory screen-reader and final visual signoff remain outside automation. |
-| Legal/brand separation | Pass with background exception | No Revolut runtime assets, trademarks, labels, account names, screenshots, or product behavior are copied. Screen-background colors are matched from the supplied references per user instruction. |
+| Brand alignment | Failing current target | The app has route-aware Revolut background colors and stronger fintech rhythm, but it does not yet bundle the Revolut font, partnership logos, approved icons, platform assets, or full token system. |
 
 Overall current working baseline: **above the user-rated 5/10 baseline, but not yet a defensible 10/10**. Fresh post-background evidence now exists, but the repo should not claim 10/10 or 100 percent parity until iOS VoiceOver, human auditory screen-reader signoff, and final human visual review against all 11 references pass.
 
@@ -94,9 +94,9 @@ Overall current working baseline: **above the user-rated 5/10 baseline, but not 
 ## Remaining Work For 10/10
 
 - Complete iOS VoiceOver and human auditory screen-reader signoff. Pixel 4a 200% font-scale route evidence and TalkBack structural node captures now pass, but automated node capture is not a substitute for a person listening to full narration quality.
-- Add production-backed marketplace/rewards/feed equivalents only if Collect's product scope grows to justify them. Do not invent misleading balances, perks, or merchant offers only to resemble Revolut.
+- Add production-backed marketplace/rewards/feed equivalents or Revolut-like placeholders so the missing Revolut-native product density is not left as generic Collect content.
 - Repeat production-session Admin browser render smoke reliably if live credentials are supplied; the authenticated design evidence now uses explicit masked evidence mode.
 
 ## Boundary
 
-Collect remains legally and product-wise distinct. The implementation uses Collect-owned primary colors for components, generated assets, copy, MoMo/SMS product behavior, and admin workflows. It does not copy Revolut-owned screenshots, trademarks, exact labels, component colors, product claims, account names, or proprietary behavior. The only explicit exception is screen-background color matching from the supplied references, per user instruction.
+The old brand-separation boundary is superseded by `docs/design/REVOLUT_BORROWED_ALIGNMENT_PLAN_2026-06-27.md`. Current evidence is not enough for 100 percent borrowed Revolut alignment because the app still lacks approved Revolut fonts, platform assets, runtime logos, iconography, and complete brand-token migration.

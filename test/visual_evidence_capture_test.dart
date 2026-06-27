@@ -27,6 +27,7 @@ import 'package:collect_app/features/profile/profile_setup_screen.dart';
 import 'package:collect_app/features/settings/settings_screen.dart';
 import 'package:collect_app/features/status/production_state_screens.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
+import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -74,6 +75,11 @@ void main() {
         final key = GlobalKey();
         await tester.pumpWidget(
           ProviderScope(
+            overrides: [
+              collectRepositoryProvider.overrideWith(
+                (ref) => CollectRepository.fixture(),
+              ),
+            ],
             child: RepaintBoundary(
               key: key,
               child: MaterialApp(

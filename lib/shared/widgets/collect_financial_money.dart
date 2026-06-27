@@ -249,9 +249,11 @@ class AmountEntryPanel extends StatelessWidget {
               if (showCurrencyChip)
                 DecoratedBox(
                   decoration: BoxDecoration(
-                    color: colors.glassControl,
+                    color: RevolutBorrowedTokens.chipBackground(colors),
                     borderRadius: CollectRadius.pillBorder,
-                    border: Border.all(color: colors.glassBorder),
+                    border: Border.all(
+                      color: RevolutBorrowedTokens.inputBorder(colors),
+                    ),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -269,9 +271,11 @@ class AmountEntryPanel extends StatelessWidget {
           CollectSpacing.gap16,
           DecoratedBox(
             decoration: BoxDecoration(
-              color: colors.glassControl,
+              color: RevolutBorrowedTokens.inputFill(colors),
               borderRadius: CollectRadius.panelBorder,
-              border: Border.all(color: colors.glassBorder),
+              border: Border.all(
+                color: RevolutBorrowedTokens.inputBorder(colors),
+              ),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -314,13 +318,18 @@ class AmountEntryPanel extends StatelessWidget {
                   ChoiceChip(
                     label: Text(_compactAmount(option)),
                     selected: amount == option,
-                    selectedColor: CollectColors.brandPeriwinkle,
-                    backgroundColor: colors.glassControl,
+                    selectedColor: RevolutBorrowedTokens.chipSelectedBackground(
+                      colors,
+                    ),
+                    backgroundColor: RevolutBorrowedTokens.chipBackground(
+                      colors,
+                    ),
                     showCheckmark: false,
                     side: BorderSide(
-                      color: amount == option
-                          ? colors.borderAccent
-                          : colors.borderSoft,
+                      color: RevolutBorrowedTokens.chipBorder(
+                        colors,
+                        selected: amount == option,
+                      ),
                       width: amount == option ? 1.5 : 1,
                     ),
                     labelStyle: Theme.of(context).textTheme.labelLarge

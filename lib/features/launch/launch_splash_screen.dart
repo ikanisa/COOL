@@ -13,8 +13,7 @@ class LaunchSplashScreen extends StatefulWidget {
 }
 
 class _LaunchSplashScreenState extends State<LaunchSplashScreen> {
-  static const _splashMarkAssetPath =
-      'assets/brand/generated/collect_mark_transparent.png';
+  static const _splashMarkAssetPath = RevolutBorrowedAssets.splashMarkAssetPath;
 
   Timer? _timer;
   var _scheduled = false;

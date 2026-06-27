@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/utils/money_format.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -127,6 +128,37 @@ class _GroupsSearchScreenState extends ConsumerState<GroupsSearchScreen> {
         else
           LayoutBuilder(
             builder: (context, constraints) {
+              if (constraints.maxWidth < 640) {
+                return Column(
+                  children: [
+                    for (
+                      var index = 0;
+                      index < visibleCollections.length;
+                      index += 1
+                    )
+                      Padding(
+                        padding: EdgeInsets.only(
+                          bottom: index == visibleCollections.length - 1
+                              ? 0
+                              : CollectSpacing.x3,
+                        ),
+                        child: GroupCard(
+                          collection: visibleCollections[index],
+                          summary:
+                              summaries[visibleCollections[index].id] ??
+                              const CollectionSummary(
+                                amountRaisedRwf: 0,
+                                supporterCount: 0,
+                              ),
+                          variant: GroupCardVariant.compact,
+                          onTap: () => context.go(
+                            '/groups/${visibleCollections[index].id}',
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              }
               final columns = constraints.maxWidth >= 640 ? 2 : 1;
               const gap = CollectSpacing.x3;
               final columnWidth =
@@ -251,6 +283,11 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
       persistentPill: groupsTopChrome,
       children: [
         SectionHeader(title: pageTitle),
+        _GroupsMomentumPanel(
+          collections: visibleCollections,
+          summaries: summaries,
+          showContributedOnly: showContributedOnly,
+        ),
         if (visibleCollections.isEmpty)
           Column(
             children: [
@@ -283,6 +320,37 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
         else
           LayoutBuilder(
             builder: (context, constraints) {
+              if (constraints.maxWidth < 640) {
+                return Column(
+                  children: [
+                    for (
+                      var index = 0;
+                      index < visibleCollections.length;
+                      index += 1
+                    )
+                      Padding(
+                        padding: EdgeInsets.only(
+                          bottom: index == visibleCollections.length - 1
+                              ? 0
+                              : CollectSpacing.x3,
+                        ),
+                        child: GroupCard(
+                          collection: visibleCollections[index],
+                          summary:
+                              summaries[visibleCollections[index].id] ??
+                              const CollectionSummary(
+                                amountRaisedRwf: 0,
+                                supporterCount: 0,
+                              ),
+                          variant: GroupCardVariant.compact,
+                          onTap: () => context.go(
+                            '/groups/${visibleCollections[index].id}',
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              }
               final columns = constraints.maxWidth >= 640 ? 2 : 1;
               const gap = CollectSpacing.x3;
               final columnWidth =
@@ -316,6 +384,60 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
             },
           ),
       ],
+    );
+  }
+}
+
+class _GroupsMomentumPanel extends StatelessWidget {
+  const _GroupsMomentumPanel({
+    required this.collections,
+    required this.summaries,
+    required this.showContributedOnly,
+  });
+
+  final List<CollectCollection> collections;
+  final Map<String, CollectionSummary> summaries;
+  final bool showContributedOnly;
+
+  @override
+  Widget build(BuildContext context) {
+    final totalRaised = collections.fold<int>(
+      0,
+      (total, collection) =>
+          total + (summaries[collection.id]?.amountRaisedRwf ?? 0),
+    );
+    final supporters = collections.fold<int>(
+      0,
+      (total, collection) =>
+          total + (summaries[collection.id]?.supporterCount ?? 0),
+    );
+    final publicCount = collections
+        .where((collection) => collection.isPublic)
+        .length;
+    return CollectBentoGrid(
+      dense: true,
+      primary: BentoMetricCell(
+        label: showContributedOnly ? 'Supported total' : 'Group momentum',
+        value: formatRwf(totalRaised),
+        detail: '${collections.length} active groups',
+        icon: CollectIcons.money,
+        tone: CollectStatusTone.success,
+        emphasis: true,
+      ),
+      top: BentoMetricCell(
+        label: 'Supporters',
+        value: '$supporters',
+        detail: 'Across visible groups',
+        icon: CollectIcons.people,
+        tone: CollectStatusTone.info,
+      ),
+      bottom: BentoMetricCell(
+        label: 'Public links',
+        value: '$publicCount',
+        detail: 'Ready to share',
+        icon: CollectIcons.share,
+        tone: CollectStatusTone.privacy,
+      ),
     );
   }
 }

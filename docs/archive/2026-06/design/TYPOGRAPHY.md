@@ -2,7 +2,9 @@
 
 ## Font Strategy
 
-Collect uses open/system fonts only. The Flutter app defaults to system rendering with `Inter`, `Plus Jakarta Sans`, and `Manrope` fallbacks where available. No proprietary reference fonts are used.
+The current Flutter implementation names `Hanken Grotesk`, `Inter`, and `Roboto` as fallback families in `lib/app/theme/collect_typography.dart`, but it does not bundle those font files and it does not yet use the borrowed Revolut typeface.
+
+The 100 percent borrowed Revolut alignment target is to install the approved Revolut font files, register them in `pubspec.yaml`, and make the borrowed Revolut family the primary app font across member, admin, and public surfaces. Fallback fonts are allowed only as resilience after the approved Revolut family is configured.
 
 ## Scale
 

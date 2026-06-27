@@ -117,6 +117,11 @@ void main() {
       await pumpLaunchFrames(tester);
 
       expect(find.text('Payment intent'), findsNothing);
+      await tester.scrollUntilVisible(
+        find.text('Verification trail'),
+        250,
+        scrollable: find.byType(Scrollable).first,
+      );
       expect(find.text('Verification trail'), findsWidgets);
       expect(find.text('St Michel treasury'), findsOneWidget);
       expect(intent.status, 'pending');
@@ -152,9 +157,9 @@ void main() {
       router.go('/groups/col-church/invite');
       await tester.pumpAndSettle();
 
-      expect(find.text('Share'), findsNothing);
+      expect(find.text('Share group'), findsNothing);
       expect(find.text('St Michel building fund'), findsWidgets);
-      expect(find.text('Activity'), findsOneWidget);
+      expect(find.text('Activity'), findsWidgets);
       expect(find.text('SMS'), findsNothing);
       expect(find.text('WhatsApp'), findsNothing);
       expect(find.text('Copy deep link'), findsNothing);

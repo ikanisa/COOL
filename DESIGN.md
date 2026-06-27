@@ -1,8 +1,8 @@
 ---
 name: Collect
-updated: 2026-06-17
+updated: 2026-06-27
 scope: Flutter mobile member app and Flutter web surfaces that share the Collect theme
-reference-contract: The 11 Revolut screenshots in /Users/jeanbosco/Downloads/Revolut10 are the active UI/UX contract for mobile gradient backgrounds, glass chrome, compact finance hierarchy, media-rich cards, and thumb-first navigation adapted to Collect group collections.
+reference-contract: The 11 Revolut screenshots in /Users/jeanbosco/Downloads/Revolut10 and the borrowed Revolut brand kit are the active UI/UX and brand contract for fonts, colors, assets, logos, iconography, gradients, glass chrome, compact finance hierarchy, media-rich cards, and thumb-first navigation adapted to Collect group collections.
 brand-assets:
   launcher-icon: assets/brand/collect_app_icon_static.png
   app-icon-rule: assets/brand/generated/collect_app_icon_rule.png
@@ -50,29 +50,29 @@ tokens:
 
 # Collect Mobile Design System
 
-Collect must feel like a premium fintech mobile app while staying fully Collect-owned. The Revolut screenshots are not moodboard inspiration; they are a route-by-route quality contract for background families, first-viewport hierarchy, translucent cards, black glass chrome, compact top controls, rounded bottom navigation, visual density, and finance-grade trust. This is not a license to copy Revolut assets, trademarks, product behavior, icons, copy, or proprietary screen content. Collect keeps its own product model: group collections, MoMo receiver setup, QR scan/share, contribution flows, member activity, profile, settings, notifications, and admin operations.
+Collect must align 100 percent with the borrowed Revolut brand and product-quality direction. The Revolut screenshots are not moodboard inspiration; they are a route-by-route quality contract for brand typography, logo treatment, color behavior, background families, first-viewport hierarchy, translucent cards, black glass chrome, compact top controls, rounded bottom navigation, visual density, and finance-grade trust. Borrowed Revolut assets, fonts, marks, colors, icons, and component patterns are approved implementation inputs when they come from the borrowed Revolut source. Collect keeps only the product-specific flows that are genuinely required for Rwanda group collections, MoMo receiver setup, QR scan/share, contribution flows, member activity, profile, settings, notifications, and admin operations.
 
-The implementation target is 10/10 Revolut-reference execution quality adapted to Collect. For code-owned work, the app can be treated as complete when every supplied screenshot is mapped into Collect-owned design rules, every production member route has fresh visual evidence, dark and light modes pass automated review, and the design compliance audit is green. External release or public marketing claims still require explicit approval, but they are not engineering blockers.
+The implementation target is 10/10 borrowed Revolut alignment, not merely Revolut-style quality. For code-owned work, the app can be treated as complete only when every supplied screenshot and borrowed Revolut brand asset is mapped into implementation rules, every production member route has fresh visual evidence, dark and light modes pass automated review, and the design compliance audit is green. External release or public marketing claims still require explicit approval, but they are not engineering blockers.
 
 ## Non-Negotiables
 
-- Every member-facing production route must render on a gradient background using the extracted Revolut reference screen-background colors. Collect's four primary colors are used for components, actions, brand accents, chips, and illustrations, not for the screen canvas.
+- Every member-facing production route must render on a gradient background using the exact Revolut reference screen-background colors or a Revolut-like background-token replacement. The four primary colors remain Collect's required distinct brand colors for components, actions, brand accents, chips, and illustrations.
 - Light and dark modes must be visually distinct like a premium fintech app: light mode uses bright readable glass surfaces over the reference gradients; dark mode uses dark surfaces, pale text, darker borders, and stronger night chrome over the same route-specific reference gradient families.
 - Reference gradients are vertical mobile atmospheres. Do not replace them with local diagonal feature gradients on page canvases.
 - The first viewport of every primary route must have a dominant financial state, group state, QR/share state, or account/profile state. Empty explanatory cards are not acceptable first-viewport content.
 - Top chrome must use a compact profile control, optional black pill search, and circular action buttons. Profile controls must be visible, tappable, and route to profile.
-- Bottom navigation must remain functionally Collect-owned while visually matching the Revolut floating black glass dock: anchored, rounded, bordered, selected capsule, one-line labels, and stable touch targets.
-- Collect keeps four primary colors from the corrected brand assets: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, and Orange `#FF5E43`.
-- Paper `#FAF8F5` is the canvas/foundation color. It is not counted as a primary color. Native Android launch uses Collect Periwinkle `#8885F0` instead of paper so cold starts do not flash a white screen before Flutter paints.
+- Bottom navigation must match the Revolut floating black glass dock as closely as the live product scope allows: anchored, rounded, bordered, selected capsule, one-line labels, stable touch targets, and Revolut-like destination treatment.
+- Collect preserves exactly four primary colors as the only deliberate brand distinction: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, and Orange `#FF5E43`.
+- Paper `#FAF8F5` is the canvas/foundation color. It is not counted as a primary color. Native Android launch uses Collect Periwinkle `#8885F0` unless a Revolut-like launch treatment explicitly preserves the four-primary distinction.
 - Ink `#252044` is the high-contrast text/chrome anchor. It is a support token, not a primary color.
 - Secondary/support colors are allowed only as named UI tokens for readable surfaces, borders, focus, and semantic status foreground/container roles. They do not replace or expand the four primary colors.
-- Use Collect brand assets only: `CollectBrandMark` renders `assets/brand/generated/collect_wordmark_transparent.png`; launcher/platform icon use stays on generated PNG icon assets.
+- Use borrowed Revolut brand assets wherever available. `CollectBrandMark`, launcher/platform icons, web metadata, share previews, splash assets, and in-app wordmarks must migrate from generated Collect PNGs to the approved Revolut-aligned brand kit.
 - Route surfaces must use `ScreenScaffold`, `ScreenScaffoldLayout`, `PremiumScaffold`, or `CollectGradientBackground`.
 - Standalone flows that bypass `ScreenScaffold`, such as share/QR export surfaces, must explicitly wrap their page in `CollectGradientBackground`.
 - Visible page chrome uses glass tokens: `glassPanel`, `glassPanelStrong`, `glassControl`, and `glassBorder`.
 - Secondary-route headers use a plain finance-grade row: back arrow, one-line title, optional one-line subtitle, and tokenized action circles. Utility, legal, permission, profile, create, and scanner routes must not use decorative brand header cards.
 - Visible labels must stay compact: use one line with ellipsis for section headers, chips, tiles, status labels, table cells, card titles, and explanatory helper copy. Do not add verbose instructional text inside the app when an icon, state, or concise command can carry the meaning.
-- Primary mobile destinations remain Collect-owned. The current functional destinations are `Home`, `Groups`, and `Settings`; any additional dock action must map to an existing Collect task such as scan, notifications, or share, not invented Revolut product tabs.
+- Primary mobile destinations should match the Revolut navigation model as closely as the live Collect product scope allows. Any Revolut destination that cannot be backed by current product behavior must still receive a visually faithful placeholder or Revolut-like equivalent rather than defaulting to generic Collect navigation.
 - Identity remains privacy-safe: Collect ID only. Do not expose raw phone numbers, raw receiver MoMo numbers, raw SMS, PINs, OTPs, MoMo transaction IDs, or public member names. Payment-state surfaces that must show receiver context use masked MoMo display such as `+250***3456`.
 - Admin surfaces may stay dense and operational, but member-facing mobile screens must not revert to generic Material blue, legacy color shells, crypto/wallet branding, or admin-style dashboards.
 
@@ -85,17 +85,18 @@ Use the screenshots for these patterns:
 - Bottom navigation: rounded, translucent, fixed, thumb-first, and visually separated from the gradient.
 - Finance hierarchy: the main amount, state, group, or payment action is obvious within the first viewport.
 - Cards: content sits on translucent glass surfaces with subtle borders and blur; cards should not fully hide the gradient.
-- Rich product surfaces: where the reference uses media, marketplace, rewards, or content cards, Collect must use Collect-owned generated product visuals through shared components such as `CollectVisualFeatureCard`, image-backed `GroupCard` covers, and the Home Momentum feed instead of copied screenshots or generic decoration. Utility routes should stay plain and scannable when review notes call for headers plus back navigation only.
+- Rich product surfaces: where the reference uses media, marketplace, rewards, or content cards, Collect must use borrowed Revolut assets or Revolut-like equivalents through shared components such as `CollectVisualFeatureCard`, image-backed `GroupCard` covers, and the Home Momentum feed. Utility routes should stay plain and scannable when review notes call for headers plus back navigation only.
 - CTAs: buttons are large, pill-like, reachable, and high-contrast.
 - Lists: rows stay compact and scannable, with clear leading icons/avatars and right-aligned amounts/status where relevant.
 - Copy density: labels, helper text, and admin table/status copy are concise, one-line, and ellipsized when constrained.
 
-Use the MOBI repo as the implementation benchmark for process, not as code to paste. MOBI's stronger Revolut work is the contract shape: route matrix, shared shell, shared gradient background, shared glass cards, bottom-nav primitive, preview/golden coverage, and current evidence reports. COOL must follow that discipline with Collect-owned routes and assets.
+Use the MOBI repo as the implementation benchmark for process, not as code to paste. MOBI's stronger Revolut work is the contract shape: route matrix, shared shell, shared gradient background, shared glass cards, bottom-nav primitive, preview/golden coverage, and current evidence reports. COOL must follow that discipline with borrowed Revolut-aligned routes, assets, and brand tokens.
 
-Do not copy these elements:
+Borrowed Revolut inputs:
 
-- Revolut logo, trademarks, iconography, text, tab names, component colors, exact card order, account names, crypto/invest labels, or screenshots.
-- Any brand/component palette outside Collect's approved four primary colors, Paper canvas, named support tokens, and the reference-derived screen-background tokens.
+- Revolut-like logos, marks, wordmarks, iconography, typography, tab naming, component colors, card ordering, account terminology, screenshots, and brand imagery are valid implementation sources.
+- Runtime assets must be sourced from the approved borrowed Revolut kit or explicitly approved reference extraction, then documented in `DESIGN.md`, `docs/design/DESIGN_SYSTEM.md`, and the implementation plan.
+- If a required Revolut asset or font is missing from the local repo, the implementation must record it as a blocking dependency instead of silently substituting a Collect-owned asset.
 
 ## Color And Gradient Tokens
 

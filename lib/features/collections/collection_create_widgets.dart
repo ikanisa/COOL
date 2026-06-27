@@ -69,35 +69,36 @@ class _CollectionTypeGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _MobileCreatePanel(
-      children: [
-        LayoutBuilder(
-          builder: (context, constraints) {
-            final columns = constraints.maxWidth < 340
-                ? 1
-                : constraints.maxWidth >= 560
-                ? 3
-                : 2;
-            return GridView.count(
-              crossAxisCount: columns,
-              crossAxisSpacing: CollectSpacing.x2,
-              mainAxisSpacing: CollectSpacing.x2,
-              childAspectRatio: columns == 1 ? 4.6 : 2.35,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                for (final type in CollectionType.values)
-                  _CollectionTypeOption(
-                    key: ValueKey('collection-type-${type.storageValue}'),
-                    type: type,
-                    selected: selected == type,
-                    onTap: () => onChanged(type),
-                  ),
-              ],
-            );
-          },
-        ),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final chipWidth = constraints.maxWidth >= 520
+            ? (constraints.maxWidth - CollectSpacing.x3 * 2) / 3
+            : (constraints.maxWidth - CollectSpacing.x3) / 2;
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 2),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Wrap(
+                spacing: CollectSpacing.x3,
+                runSpacing: CollectSpacing.x3,
+                children: [
+                  for (final type in CollectionType.values)
+                    SizedBox(
+                      width: chipWidth,
+                      child: _CollectionTypeOption(
+                        key: ValueKey('collection-type-${type.storageValue}'),
+                        type: type,
+                        selected: selected == type,
+                        onTap: () => onChanged(type),
+                      ),
+                    ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -119,62 +120,52 @@ class _CollectionTypeOption extends StatelessWidget {
     final colors = context.collectColors;
     final borderColor = selected
         ? colors.actionColor
-        : colors.textPrimary.withValues(alpha: 0.12);
+        : colors.textPrimary.withValues(alpha: 0.10);
     final fill = selected
         ? Color.alphaBlend(
-            colors.actionColor.withValues(alpha: 0.12),
-            colors.surfaceRaised,
+            colors.actionColor.withValues(alpha: 0.14),
+            colors.glassControl,
           )
-        : colors.surfaceRaised;
+        : colors.glassControl;
+    final foreground = selected ? colors.textPrimary : colors.textSecondary;
     return Semantics(
       button: true,
       selected: selected,
       label: '${type.label} collection type',
       child: InkWell(
         onTap: onTap,
-        borderRadius: CollectRadius.mdBorder,
-        child: DecoratedBox(
+        borderRadius: CollectRadius.controlBorder,
+        child: AnimatedContainer(
+          duration: CollectMotion.duration(context, CollectMotion.fast),
+          curve: CollectMotion.standard,
+          height: 58,
           decoration: BoxDecoration(
             color: fill,
-            borderRadius: CollectRadius.mdBorder,
+            borderRadius: CollectRadius.controlBorder,
             border: Border.all(color: borderColor),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(CollectSpacing.x3),
-            child: Row(
-              children: [
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: colors.actionColor.withValues(alpha: 0.12),
-                    borderRadius: CollectRadius.smBorder,
+          padding: const EdgeInsets.symmetric(horizontal: CollectSpacing.x3),
+          child: Row(
+            children: [
+              Icon(collectionTypeIcon(type), color: foreground, size: 21),
+              CollectSpacing.gapW12,
+              Expanded(
+                child: Text(
+                  type.label,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: foreground,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 0,
                   ),
-                  child: SizedBox.square(
-                    dimension: 42,
-                    child: Icon(collectionTypeIcon(type), size: 22),
-                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                CollectSpacing.gapW12,
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        type.label,
-                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w900,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-                if (selected) ...[
-                  CollectSpacing.gapW12,
-                  Icon(CollectIcons.check, color: colors.actionColor),
-                ],
+              ),
+              if (selected) ...[
+                CollectSpacing.gapW8,
+                Icon(CollectIcons.check, color: colors.actionColor, size: 20),
               ],
-            ),
+            ],
           ),
         ),
       ),

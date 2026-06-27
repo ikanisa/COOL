@@ -6,6 +6,21 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageOps
 
 
+REVOLUT10_REFERENCE_FILENAMES = [
+    "IMG_2739.PNG",
+    "IMG_2740.PNG",
+    "IMG_2741.PNG",
+    "IMG_2742.PNG",
+    "IMG_2747.PNG",
+    "IMG_2748.PNG",
+    "IMG_2749.PNG",
+    "IMG_2750.PNG",
+    "IMG_2751.PNG",
+    "IMG_2752.PNG",
+    "IMG_2755.PNG",
+]
+
+
 def load_font(draw):
     return None
 
@@ -44,6 +59,10 @@ def draw_sheet(title, items, output, thumb_width=220, columns=4):
 
 
 def reference_items(reference_dir):
+    known_paths = [reference_dir / name for name in REVOLUT10_REFERENCE_FILENAMES]
+    if all(path.is_file() for path in known_paths):
+        return [(path.name, path) for path in known_paths]
+
     paths = sorted(
         [
             *reference_dir.glob("*.PNG"),

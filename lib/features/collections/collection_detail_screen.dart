@@ -54,6 +54,11 @@ class CollectionDetailScreen extends ConsumerWidget {
           summary: summary,
           canManage: isAdmin,
         ),
+        _GroupMomentumRail(
+          collection: collection,
+          summary: summary,
+          visibleContributionCount: visibleContributions.length,
+        ),
         _GroupActionStrip(collectionId: collectionId, collection: collection),
         const SectionHeader(title: 'Activity'),
         if (visibleContributions.isEmpty)

@@ -45,7 +45,7 @@ class CollectTopChrome extends StatelessWidget {
       container: true,
       label: 'Primary screen actions',
       child: SizedBox(
-        height: 60,
+        height: 66,
         child: Row(
           children: [
             _TopChromeAvatar(
@@ -95,7 +95,7 @@ class _TopChromeAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
+    final foreground = RevolutBorrowedTokens.chromeForeground(colors);
     final effectiveOnTap = onTap ?? () => context.go('/settings/profile');
     return Semantics(
       button: true,
@@ -107,25 +107,12 @@ class _TopChromeAvatar extends StatelessWidget {
           DecoratedBox(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  CollectColors.referencePaymentsPurple.withValues(alpha: 0.96),
-                  CollectColors.inkPrimary.withValues(alpha: 0.96),
-                ],
-              ),
+              gradient: RevolutBorrowedTokens.chromeAvatarGradient(),
               border: Border.all(
-                color: foreground.withValues(alpha: 0.22),
+                color: RevolutBorrowedTokens.chromeAvatarBorder(colors),
                 width: 1.1,
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: CollectColors.inkPrimary.withValues(alpha: 0.24),
-                  blurRadius: 18,
-                  offset: const Offset(0, 10),
-                ),
-              ],
+              boxShadow: RevolutBorrowedTokens.chromeAvatarShadow(),
             ),
             child: Material(
               color: colors.transparent,
@@ -134,13 +121,13 @@ class _TopChromeAvatar extends StatelessWidget {
                 customBorder: const CircleBorder(),
                 onTap: effectiveOnTap,
                 child: SizedBox.square(
-                  dimension: 52,
+                  dimension: 58,
                   child: Center(
                     child: ClipOval(
                       child: Image.asset(
                         CollectBrandMark.appIconAssetPath,
-                        width: 38,
-                        height: 38,
+                        width: 42,
+                        height: 42,
                         fit: BoxFit.cover,
                         filterQuality: FilterQuality.high,
                         errorBuilder: (context, error, stackTrace) => Icon(
@@ -182,41 +169,49 @@ class _TopChromeSearchButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final foreground = context.collectColors.onImagePrimary;
+    final colors = context.collectColors;
+    final foreground = RevolutBorrowedTokens.chromeForeground(colors);
     return Semantics(
       button: true,
       label: label,
       child: Material(
-        color: CollectColors.inkPrimary.withValues(alpha: 0.92),
+        color: RevolutBorrowedTokens.chromeControl(colors),
         borderRadius: CollectRadius.pillBorder,
         child: InkWell(
           borderRadius: CollectRadius.pillBorder,
           onTap: onTap,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: CollectRadius.pillBorder,
-              border: Border.all(color: foreground.withValues(alpha: 0.24)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: CollectSpacing.x4,
+          child: SizedBox(
+            height: 58,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: CollectRadius.pillBorder,
+                border: Border.all(
+                  color: RevolutBorrowedTokens.chromeControlBorder(colors),
+                  width: 1.25,
+                ),
               ),
-              child: Row(
-                children: [
-                  Icon(CollectIcons.search, color: foreground),
-                  CollectSpacing.gapW12,
-                  Expanded(
-                    child: Text(
-                      label,
-                      maxLines: 1,
-                      overflow: TextOverflow.clip,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        color: foreground,
-                        fontWeight: FontWeight.w800,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: CollectSpacing.x4,
+                ),
+                child: Row(
+                  children: [
+                    Icon(CollectIcons.search, color: foreground, size: 30),
+                    CollectSpacing.gapW12,
+                    Expanded(
+                      child: Text(
+                        label,
+                        maxLines: 1,
+                        overflow: TextOverflow.clip,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: foreground,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -239,45 +234,52 @@ class _TopChromeSearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final foreground = context.collectColors.onImagePrimary;
+    final colors = context.collectColors;
+    final foreground = RevolutBorrowedTokens.chromeForeground(colors);
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: CollectColors.inkPrimary.withValues(alpha: 0.92),
+        color: RevolutBorrowedTokens.chromeControl(colors),
         borderRadius: CollectRadius.pillBorder,
-        border: Border.all(color: foreground.withValues(alpha: 0.24)),
-      ),
-      child: TextField(
-        controller: controller,
-        onChanged: onChanged,
-        minLines: 1,
-        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-          color: foreground,
-          fontWeight: FontWeight.w800,
+        border: Border.all(
+          color: RevolutBorrowedTokens.chromeControlBorder(colors),
+          width: 1.25,
         ),
-        textInputAction: TextInputAction.search,
-        decoration: InputDecoration(
-          hintText: label,
-          hintStyle: Theme.of(context).textTheme.titleSmall?.copyWith(
-            color: foreground.withValues(alpha: 0.76),
-            fontWeight: FontWeight.w800,
+      ),
+      child: SizedBox(
+        height: 58,
+        child: TextField(
+          controller: controller,
+          onChanged: onChanged,
+          minLines: 1,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            color: foreground,
+            fontWeight: FontWeight.w700,
           ),
-          prefixIcon: Icon(CollectIcons.search, color: foreground),
-          suffixIcon: controller.text.isEmpty
-              ? null
-              : IconButton(
-                  tooltip: 'Clear search',
-                  icon: Icon(Icons.close_rounded, color: foreground),
-                  onPressed: () {
-                    controller.clear();
-                    onChanged?.call('');
-                  },
-                ),
-          border: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: CollectSpacing.x3,
-            vertical: CollectSpacing.x3,
+          textInputAction: TextInputAction.search,
+          decoration: InputDecoration(
+            hintText: label,
+            hintStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: RevolutBorrowedTokens.chromeMutedForeground(colors),
+              fontWeight: FontWeight.w700,
+            ),
+            prefixIcon: Icon(CollectIcons.search, color: foreground, size: 30),
+            suffixIcon: controller.text.isEmpty
+                ? null
+                : IconButton(
+                    tooltip: 'Clear search',
+                    icon: Icon(Icons.close_rounded, color: foreground),
+                    onPressed: () {
+                      controller.clear();
+                      onChanged?.call('');
+                    },
+                  ),
+            border: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: CollectSpacing.x3,
+              vertical: CollectSpacing.x3,
+            ),
           ),
         ),
       ),
@@ -293,7 +295,7 @@ class _TopChromeActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
+    final foreground = RevolutBorrowedTokens.chromeForeground(colors);
     return Semantics(
       button: true,
       label: action.tooltip,
@@ -301,14 +303,14 @@ class _TopChromeActionButton extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Material(
-            color: CollectColors.inkPrimary.withValues(alpha: 0.92),
+            color: RevolutBorrowedTokens.chromeControl(colors),
             shape: const CircleBorder(),
             child: InkWell(
               customBorder: const CircleBorder(),
               onTap: action.onPressed,
               child: SizedBox.square(
-                dimension: 52,
-                child: Icon(action.icon, color: foreground, size: 26),
+                dimension: 58,
+                child: Icon(action.icon, color: foreground, size: 30),
               ),
             ),
           ),
@@ -341,9 +343,8 @@ class CollectBrandMark extends StatelessWidget {
     super.key,
   });
 
-  static const assetPath =
-      'assets/brand/generated/collect_wordmark_transparent.png';
-  static const appIconAssetPath = 'assets/brand/collect_app_icon_static.png';
+  static const assetPath = RevolutBorrowedAssets.wordmarkAssetPath;
+  static const appIconAssetPath = RevolutBorrowedAssets.appIconAssetPath;
 
   final bool compact;
   final bool framed;
@@ -354,6 +355,7 @@ class CollectBrandMark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
+    final tokenBorder = RevolutBorrowedTokens.inputBorder(colors);
     final markWidth = width ?? (compact ? 108.0 : 132.0);
     final markHeight = height ?? (compact ? 32.0 : 38.0);
     final wordmark = Image.asset(
@@ -371,9 +373,9 @@ class CollectBrandMark extends StatelessWidget {
         child: framed
             ? DecoratedBox(
                 decoration: BoxDecoration(
-                  color: colors.glassControl,
+                  color: RevolutBorrowedTokens.inputFill(colors),
                   borderRadius: BorderRadius.circular(markHeight * 0.5),
-                  border: Border.all(color: colors.glassBorder),
+                  border: Border.all(color: tokenBorder),
                   boxShadow: CollectShadows.soft(),
                 ),
                 child: ClipRRect(

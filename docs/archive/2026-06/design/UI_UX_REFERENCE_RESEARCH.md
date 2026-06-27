@@ -2,7 +2,9 @@
 
 ## Reference Boundaries
 
-Collect is not copying Revolut or Monzo assets, trademarks, fonts, colors, layouts, or screens. The references are used only to extract product-quality principles that can be translated into an original MoMo group collection experience.
+The active direction is borrowed Revolut alignment. Revolut references are not limited to product-quality principles; approved Revolut fonts, assets, colors, layouts, navigation patterns, and component treatments are valid implementation sources when supplied through the borrowed Revolut kit or explicitly approved reference material.
+
+Monzo remains research-only unless separately approved. Do not mix Monzo visual language into the Revolut alignment pass.
 
 ## Revolut-Informed Lessons
 

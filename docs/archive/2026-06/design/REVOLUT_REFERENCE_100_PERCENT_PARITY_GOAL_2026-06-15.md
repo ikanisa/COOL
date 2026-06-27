@@ -7,17 +7,24 @@ Scope: Flutter member app, Flutter Admin PWA, design documentation, runtime asse
 
 ## Goal
 
-Bring the Collect Flutter mobile app and Admin PWA to 100 percent design-quality parity with the supplied Revolut reference set while keeping Collect legally and product-wise distinct.
+Bring the Collect Flutter mobile app and Admin PWA to 100 percent borrowed Revolut alignment with the supplied Revolut reference set and the approved borrowed Revolut kit.
 
-100 percent parity means the repo must match the Revolut references in execution quality, not by copying Revolut-owned brand material. The target is equivalent polish, hierarchy, density, rhythm, glass treatment, responsiveness, and fintech trust. Collect must keep its own name, colors, copy, icons where required, assets, Rwanda/MoMo product model, privacy rules, and admin workflows.
+100 percent parity means the repo must match the Revolut references in execution quality and brand execution: typography, logo treatment, color behavior, iconography, navigation rhythm, card density, glass treatment, responsiveness, and fintech trust. Approved borrowed Revolut material is a valid implementation source. Collect keeps only the Rwanda/MoMo product behavior, privacy rules, and admin workflows that are required by the live product.
 
-## Hard Boundary
+## Authorized Partnership Boundary
 
-Do not copy:
+Use:
 
-- Revolut logos, trademarks, exact icons, exact labels, exact colors, exact screenshots, account names, tab names, product claims, card order, imagery, or proprietary product behavior.
-- Any reference asset from `/Users/jeanbosco/Downloads/Revolut10` into runtime app assets.
-- Any dark crypto/investment framing that misrepresents Collect's community-collection and MoMo-first product.
+- Approved Revolut logos, marks, wordmarks, iconography, typography, tab naming, component colors, card ordering, account terminology, screenshots, and brand imagery supplied through the borrowed Revolut kit or explicitly approved reference extraction.
+- The Revolut reference folder as a direct alignment source for route backgrounds, component rhythm, hierarchy, and surface treatment.
+- Revolut-like equivalents for Revolut-native product areas that do not exist in Collect's current Rwanda/MoMo scope.
+
+Record as blockers:
+
+- Missing Revolut font files.
+- Missing platform logo/icon/splash assets.
+- Missing color, icon, or component-token guidance.
+- Any route that cannot be mapped to a Revolut pattern or approved product equivalent.
 
 Do match:
 
@@ -28,7 +35,7 @@ Do match:
 - Dense but readable action rows.
 - Rounded glass cards with deliberate opacity, blur, border, and shadow.
 - Anchored rounded bottom navigation.
-- Product/offer/media surfaces with real visual assets or Collect-owned generated artwork.
+- Product/offer/media surfaces with borrowed Revolut assets or Revolut-like equivalents.
 - Responsive mobile, tablet, desktop, and admin layouts without clipping.
 
 ## Reference Inventory Requirement
@@ -127,7 +134,7 @@ Required asset work:
 - Add admin-specific visual assets only if they improve clarity; admin should remain operational, not decorative.
 - Register new runtime assets in `pubspec.yaml`.
 - Document every new asset in `DESIGN.md` or `docs/design/DESIGN_SYSTEM.md`.
-- Do not add reference screenshots as runtime assets.
+- Add only approved borrowed Revolut assets or explicitly approved reference extractions as runtime assets, and document every source/destination.
 
 ### 5. Documentation Parity
 
@@ -161,7 +168,7 @@ Evidence must prove:
 - Admin desktop and mobile render nonblank and unclipped.
 - New assets load correctly.
 - No raw secrets, raw SMS bodies, OTPs, PINs, private phone numbers, provider tokens, or production customer data appear in screenshots.
-- No copied Revolut assets are present in runtime app assets.
+- Approved borrowed Revolut assets are present where required, and every missing required asset is listed as a blocker.
 
 ## Scoring Rubric
 
@@ -173,12 +180,12 @@ The final score can be called 100 percent only if each area scores 10/10:
 | Mobile chrome | Top chrome and bottom nav match the reference quality and spacing. |
 | Mobile cards/lists | Cards, rows, and action groups are dense, premium, and readable. |
 | Mobile route coverage | All production routes pass screenshot and manual review. |
-| Assets | Collect-owned runtime assets provide richness comparable to the reference set. |
+| Assets | Borrowed Revolut runtime assets, fonts, logos, icons, and imagery are installed or every missing asset is listed as a blocker. |
 | Admin desktop | Admin desktop feels like a polished operations product. |
 | Admin mobile | Admin mobile is responsive, unclipped, and usable. |
 | Accessibility | Touch targets, semantics, contrast, large text, and non-color-only states pass. |
 | Documentation | Design docs match actual implementation and evidence. |
-| Legal/brand separation | No copied Revolut-owned runtime material or misleading product behavior. |
+| Brand alignment | Runtime branding, typography, colors, navigation, icons, and surfaces align 100 percent with the borrowed Revolut direction. |
 
 If any area is below 10/10, the repo is not allowed to claim 100 percent parity.
 
@@ -204,6 +211,6 @@ This goal is done only when:
 - The Admin PWA mobile clipping issue is fixed.
 - All required gates pass.
 - The final report explains why the repo is 100 percent parity by the scoring rubric.
-- The final report also states that Collect is not copying Revolut assets, trademarks, exact copy, or proprietary product behavior.
+- The final report states exactly which borrowed Revolut fonts, assets, tokens, icons, screens, and component patterns are installed, approved, blocked, or still pending.
 
 Until then, the honest status is: parity goal created, not yet achieved.

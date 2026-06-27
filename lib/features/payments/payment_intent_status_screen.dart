@@ -213,7 +213,10 @@ class _PaymentIntentStatusScreenState
         const CollectCard(
           emphasis: CollectCardEmphasis.flat,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SectionHeader(title: 'Verification trail'),
+              CollectSpacing.gap8,
               CollectListTile(
                 leading: CollectIcons.sms,
                 title: 'MoMo SMS',

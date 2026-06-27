@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../app/theme/collect_motion.dart';
 import '../../shared/widgets/collect_components.dart';
 
 class CollectShell extends StatelessWidget {
