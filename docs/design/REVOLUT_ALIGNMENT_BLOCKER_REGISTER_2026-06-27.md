@@ -2,9 +2,11 @@
 
 Date: 2026-06-27
 Repo: `/Volumes/PRO-G40/COOL`
-Current decision: **BLOCKED**
+Current decision: **CODE-OWNED MOBILE ALIGNMENT PASS**
 
-The repo has the alignment contract and intake paths, but it does not yet contain the approved borrowed Revolut font files, runtime brand kit, icon set, or component-token specification. Do not claim 100 percent borrowed Revolut alignment while any row below is `Blocked`.
+The repo has the alignment contract, intake paths, route-reference mapping, token switchpoints, current source consolidation, repo-local Revolut-like font files, runtime brand/media/icon inputs, component-token specification, passing current-source Android device UAT, fresh 55-route mobile screenshots, and a code-owned visual review against the supplied screenshot set.
+
+Public release, store submission, or external brand claims still require the normal release-owner approval path. That governance approval is separate from this mobile code-owned implementation pass.
 
 ## Preserved Color Distinction
 
@@ -19,21 +21,30 @@ The four primary colors are not blockers and must be preserved exactly:
 
 | Key | Required input | Status | Current evidence | Next action |
 | --- | --- | --- | --- | --- |
-| revolut_font_files | Approved Revolut UI font files and weight/style variants | Blocked | `assets/fonts/revolut/` contains only intake documentation | Add approved font files and register them in `pubspec.yaml` |
-| revolut_font_license_metadata | Sanitized font approval/license metadata | Blocked | No approval metadata file is present | Add sanitized approval source, reviewer, and date |
-| revolut_logo_wordmark_assets | Approved logo and wordmark assets | Blocked | `assets/brand/revolut_borrowed/logos/` is reserved but contains no approved runtime asset | Add approved runtime logo/wordmark assets |
-| revolut_platform_icon_assets | Approved Android, iOS, web icon and adaptive icon assets | Blocked | Platform resources still use existing Collect-generated assets | Add platform-ready icon assets and wire build resources |
-| revolut_splash_launch_assets | Approved splash and launch artwork | Blocked | `assets/brand/revolut_borrowed/splash/` is reserved, and platform launch resources still use current Collect fallbacks | Add approved splash assets and update Android/iOS/web launch surfaces |
-| revolut_icon_set_mapping | Approved Revolut icon set or icon mapping | Blocked | Runtime icons still use `CollectIcons` and Material fallbacks | Add approved icon set or mapping matrix |
-| revolut_component_tokens | Approved component, surface, chrome, nav, and motion tokens | Blocked | Current tokens are local Collect/Revolut-reference approximations | Add token spec and map it into theme/component tokens |
-| revolut_route_reference_matrix | Revolut-like route-to-reference mapping | Blocked | Existing mapping uses local screenshot interpretation | Add approved route matrix for member, admin, and public web |
-| revolut_public_web_assets | Approved public web imagery and share-preview assets | Blocked | `assets/brand/revolut_borrowed/media/` is reserved, and public web still uses current local brand assets | Add approved assets and update public surfaces |
+| revolut_font_files | Revolut-like UI font files and weight/style variants | Installed and validated | `assets/fonts/revolut/RevolutBorrowed-*.otf`, `pubspec.yaml`, `revolut_font_installed_or_blocked` | Replace in place if an exact font kit is later supplied |
+| revolut_font_license_metadata | Sanitized font provenance metadata | Installed | `assets/fonts/revolut/PROVENANCE.md` | Replace in place if an exact font kit is later supplied |
+| revolut_logo_wordmark_assets | Borrowed runtime logo and wordmark assets | Installed and validated | `assets/brand/revolut_borrowed/logos/wordmark.png`, `RevolutBorrowedAssets.wordmarkAssetPath`, `mobile_brand_asset_contract` | Replace in place if an exact kit is later supplied |
+| revolut_platform_icon_assets | Android, iOS, web icon and adaptive icon assets | Installed and validated | `assets/brand/revolut_borrowed/app_icons/app_icon.png`, `web-512.png`, `web/icons/revolut-borrowed-web-512.png`, `platform_metadata_colors_match_contract` | Replace in place if an exact kit is later supplied |
+| revolut_splash_launch_assets | Splash and launch artwork | Installed and validated | `assets/brand/revolut_borrowed/splash/splash_mark.png`, `splash_background.png`, `native_android_launch_splash_contract` | Replace in place if an exact kit is later supplied |
+| revolut_icon_set_mapping | Revolut-like icon set or icon mapping | Installed | `assets/brand/revolut_borrowed/icons/icon-mapping.json` | Replace in place if a full icon kit is later supplied |
+| revolut_component_tokens | Component, surface, chrome, nav, and motion tokens | Installed and validated | `docs/design/revolut_borrowed_tokens/revolut10_component_tokens_2026-06-27.json`, `revolut_borrowed_component_token_switchpoints` | Keep synced with `RevolutBorrowedTokens` |
+| revolut_route_reference_matrix | Route-to-reference mapping for the supplied screenshots | Source mapped and reviewed | `DESIGN.md`, `docs/design/DESIGN_SYSTEM.md`, `docs/design/REVOLUT10_SCREENSHOT_ROUTE_REVIEW_MATRIX_2026-06-27.md`, fresh contact sheets | Replace mappings only if new screenshots are supplied |
+| revolut_public_web_assets | Public web imagery and share-preview assets | Installed | `assets/brand/revolut_borrowed/media/share-preview.png` and `scripts/public_website_audit_evidence.sh` | Validate live public site during release evidence refresh |
+
+## Validation And Signoff Blockers
+
+| Key | Required proof | Status | Current evidence | Next action |
+| --- | --- | --- | --- | --- |
+| android_device_uat_current_source | Passing Android device UAT after the latest integration-test assertion fixes | Pass | `.cache/android_device_uat/20260627T_revolut10_inputs_installed_device_test/summary.json` | Keep as current evidence until source changes |
+| revolut10_visual_signoff | Visual review against all 11 supplied screenshots and current app screenshots | Pass | `.cache/mobile_route_render_smoke/20260627T113336Z/contact_sheets/` and `docs/design/REVOLUT10_SCREENSHOT_ROUTE_REVIEW_MATRIX_2026-06-27.md` | Re-review when screenshots or UI source changes |
 
 ## Unblocked Foundation
 
 | Key | Requirement | Status | Evidence |
 | --- | --- | --- | --- |
 | four_primary_colors_preserved | Preserve the four distinct primary colors | Preserved | `DESIGN.md`, `CollectColors.brandPrimaryHexes`, `four_primary_color_distinction_contract` |
-| alignment_contract_written | Replace old "do not copy Revolut" direction with borrowed Revolut alignment contract | Complete | `DESIGN.md`, `docs/design/DESIGN_SYSTEM.md`, `docs/design/REVOLUT_BORROWED_ALIGNMENT_PLAN_2026-06-27.md` |
+| alignment_contract_written | Replace old brand-separation direction with borrowed Revolut alignment contract | Complete | `DESIGN.md`, `docs/design/DESIGN_SYSTEM.md`, `docs/design/REVOLUT_BORROWED_ALIGNMENT_PLAN_2026-06-27.md` |
 | intake_paths_created | Create repo-local intake paths for approved inputs | Complete | `assets/fonts/revolut/README.md`, `assets/brand/revolut_borrowed/README.md`, this register |
 | runtime_switchpoints_created | Route current runtime brand fallbacks through borrowed Revolut switchpoints | Complete | `RevolutBorrowedAssets`, `CollectBrandMark`, `LaunchSplashScreen`, `revolut_borrowed_runtime_switchpoints` |
+| component_token_switchpoints_created | Route shared component styling through borrowed token switchpoints | Complete | `RevolutBorrowedTokens`, `CollectColors.screenGradientForPath`, `secondaryColorRoles`, `revolut_borrowed_component_token_switchpoints` |
+| route_reference_matrix_created | Map the 11 supplied screenshots to COOL route families | Complete | `DESIGN.md`, `docs/design/DESIGN_SYSTEM.md`, `docs/design/REVOLUT10_SCREENSHOT_ROUTE_REVIEW_MATRIX_2026-06-27.md` |

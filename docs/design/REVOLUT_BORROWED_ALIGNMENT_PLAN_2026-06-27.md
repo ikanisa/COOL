@@ -14,7 +14,7 @@ The target is not just similar polish. The target is full alignment of typograph
 
 - `lib/app/theme/collect_typography.dart` names `Hanken Grotesk`, `Inter`, and `Roboto`, but the app does not bundle font files and does not use the Revolut typeface.
 - `docs/archive/2026-06/design/TYPOGRAPHY.md` is stale and names a different fallback set.
-- `DESIGN.md`, `docs/design/DESIGN_SYSTEM.md`, `docs/archive/2026-06/design/UI_UX_REFERENCE_RESEARCH.md`, and older parity reports previously said not to copy Revolut brand material.
+- `DESIGN.md`, `docs/design/DESIGN_SYSTEM.md`, `docs/archive/2026-06/design/UI_UX_REFERENCE_RESEARCH.md`, and older parity reports previously used a brand-separation direction that has now been superseded.
 - `scripts/collect_mobile_design_compliance_audit.sh` still enforces the old "Collect-owned" separation contract.
 - Runtime assets under `assets/brand/` are Collect-generated assets, not a borrowed Revolut brand kit.
 - The existing visual parity evidence proves route coverage and quality improvements, but not 100 percent brand alignment.

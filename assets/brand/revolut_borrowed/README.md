@@ -1,6 +1,6 @@
 # Borrowed Revolut Brand Kit
 
-Place only approved borrowed Revolut brand assets in this directory.
+Place only approved or repo-approved Revolut-like borrowed brand assets in this directory.
 
 Expected runtime inputs:
 
@@ -15,5 +15,6 @@ Expected runtime inputs:
 The four Collect primary colors remain preserved as the only distinct palette:
 `#8885F0`, `#3CD070`, `#D38B96`, and `#FF5E43`.
 
-Current status: blocked until approved assets are supplied. Current Collect
-assets remain explicit fallbacks through `RevolutBorrowedAssets`.
+Current status: installed. `RevolutBorrowedAssets` now routes runtime brand
+surfaces through the expected paths in this directory. See `PROVENANCE.md` for
+source and replacement rules.

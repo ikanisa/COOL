@@ -148,6 +148,9 @@ revolut_font_files = Dir[
 revolut_brand_asset_files = Dir[
   File.join(root, "assets/brand/revolut_borrowed/**/*.{png,jpg,jpeg,webp,svg,gif,json}")
 ].reject { |path| File.basename(path).casecmp("README.md").zero? }
+borrowed_token_spec_files = Dir[
+  File.join(root, "docs/design/revolut_borrowed_tokens/**/*.{json,yaml,yml,md}")
+].reject { |path| File.basename(path).casecmp("README.md").zero? }
 borrowed_asset_roots = %w[
   assets/brand/revolut_borrowed/
   assets/brand/revolut_borrowed/logos/
@@ -258,7 +261,7 @@ reference_failures << "DESIGN.md must define borrowed Revolut inputs." unless de
 reference_failures << "DESIGN_SYSTEM.md must define borrowed Revolut material as a valid implementation source." unless design_system.match?(/Borrowed Revolut material is a valid implementation source/i)
 reference_failures << "The borrowed Revolut alignment plan must define the 100 percent alignment target." unless revolut_alignment_plan.match?(/100 percent borrowed Revolut alignment/i)
 reference_failures << "The borrowed Revolut asset intake must define intake paths." unless revolut_asset_intake.match?(/assets\/fonts\/revolut/) && revolut_asset_intake.match?(/assets\/brand\/revolut_borrowed/)
-reference_failures << "The Revolut alignment blocker register must keep the current decision blocked while inputs are missing." unless revolut_blocker_register.match?(/Current decision:\s+\*\*BLOCKED\*\*/i)
+reference_failures << "The Revolut alignment blocker register must state a blocked or code-owned pass decision." unless revolut_blocker_register.match?(/Current decision:\s+\*\*(BLOCKED|CODE-OWNED MOBILE ALIGNMENT PASS)/i)
 checks << {
   "id" => "revolut_borrowed_alignment_contract",
   "status" => status_for(reference_failures),
@@ -297,6 +300,22 @@ checks << {
 
 asset_failures_for_borrowed = []
 borrowed_asset_installed = !revolut_brand_asset_files.empty?
+installed_borrowed_inputs = {
+  "revolut_logo_wordmark_assets" => File.file?(File.join(root, "assets/brand/revolut_borrowed/logos/wordmark.png")),
+  "revolut_platform_icon_assets" =>
+    File.file?(File.join(root, "assets/brand/revolut_borrowed/app_icons/app_icon.png")) &&
+    File.file?(File.join(root, "assets/brand/revolut_borrowed/app_icons/web-512.png")),
+  "revolut_splash_launch_assets" =>
+    File.file?(File.join(root, "assets/brand/revolut_borrowed/splash/splash_mark.png")) &&
+    File.file?(File.join(root, "assets/brand/revolut_borrowed/splash/splash_background.png")),
+  "revolut_icon_set_mapping" =>
+    File.file?(File.join(root, "assets/brand/revolut_borrowed/icons/icon-mapping.json")),
+  "revolut_component_tokens" => !borrowed_token_spec_files.empty?,
+  "revolut_route_reference_matrix" =>
+    File.file?(File.join(root, "docs/design/REVOLUT10_SCREENSHOT_ROUTE_REVIEW_MATRIX_2026-06-27.md")),
+  "revolut_public_web_assets" =>
+    File.file?(File.join(root, "assets/brand/revolut_borrowed/media/share-preview.png"))
+}
 borrowed_asset_roots.each do |asset_root|
   asset_failures_for_borrowed << "pubspec.yaml must declare #{asset_root} for borrowed Revolut runtime intake." unless pubspec.include?("- #{asset_root}")
 end
@@ -309,7 +328,7 @@ end
   revolut_route_reference_matrix
   revolut_public_web_assets
 ].each do |key|
-  next if borrowed_asset_installed && key == "revolut_logo_wordmark_assets"
+  next if installed_borrowed_inputs.fetch(key, false)
   asset_failures_for_borrowed << "Required borrowed Revolut input #{key} is not installed and is not recorded as Blocked." unless blocker_recorded.call(key)
 end
 checks << {
@@ -544,19 +563,27 @@ checks << {
 }
 
 asset_failures = []
-wordmark_path = File.join(root, "assets/brand/generated/collect_wordmark_transparent.png")
-asset_failures << "Transparent Collect wordmark asset is missing." unless File.file?(wordmark_path)
+wordmark_path = File.join(root, "assets/brand/revolut_borrowed/logos/wordmark.png")
+app_icon_path = File.join(root, "assets/brand/revolut_borrowed/app_icons/app_icon.png")
+splash_mark_path = File.join(root, "assets/brand/revolut_borrowed/splash/splash_mark.png")
+asset_failures << "Borrowed wordmark asset is missing." unless File.file?(wordmark_path)
+asset_failures << "Borrowed app icon asset is missing." unless File.file?(app_icon_path)
+asset_failures << "Borrowed splash mark asset is missing." unless File.file?(splash_mark_path)
 asset_failures << "CollectBrandMark must use the borrowed Revolut asset registry." unless chrome.include?("RevolutBorrowedAssets.wordmarkAssetPath")
-asset_failures << "Borrowed Revolut asset registry must keep the current Collect wordmark fallback until the borrowed kit is installed." unless borrowed_assets.include?("collect_wordmark_transparent.png")
-asset_failures << "DESIGN.md must name collect_wordmark_transparent.png as the mobile wordmark." unless design.include?("collect_wordmark_transparent.png")
+asset_failures << "Borrowed Revolut asset registry must use expectedWordmarkPath once the kit is installed." unless borrowed_assets.match?(/wordmarkAssetPath\s*=\s*expectedWordmarkPath/)
+asset_failures << "Borrowed Revolut asset registry must use expectedAppIconPath once the kit is installed." unless borrowed_assets.match?(/appIconAssetPath\s*=\s*expectedAppIconPath/)
+asset_failures << "Borrowed Revolut asset registry must use expectedSplashMarkPath once the kit is installed." unless borrowed_assets.match?(/splashMarkAssetPath\s*=\s*expectedSplashMarkPath/)
+asset_failures << "DESIGN_SYSTEM.md must name the borrowed wordmark intake target." unless design_system.include?("assets/brand/revolut_borrowed/logos/wordmark.png")
 checks << {
   "id" => "mobile_brand_asset_contract",
   "status" => status_for(asset_failures),
   "failures" => asset_failures,
   "evidence" => [
-    "assets/brand/generated/collect_wordmark_transparent.png",
+    "assets/brand/revolut_borrowed/logos/wordmark.png",
+    "assets/brand/revolut_borrowed/app_icons/app_icon.png",
+    "assets/brand/revolut_borrowed/splash/splash_mark.png",
     "lib/shared/widgets/collect_chrome.dart",
-    "DESIGN.md"
+    "docs/design/DESIGN_SYSTEM.md"
   ]
 }
 

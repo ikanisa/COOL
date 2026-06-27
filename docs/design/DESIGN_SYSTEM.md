@@ -32,6 +32,7 @@ Tokens live in `lib/app/theme/collect_colors.dart`.
 Component-facing borrowed Revolut switchpoints live in `lib/app/theme/revolut_borrowed_tokens.dart`.
 
 - Required primary palette and only distinct brand colors: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, Orange `#FF5E43`.
+- Action role: `actionColor` uses Periwinkle `#8885F0` for default filled CTAs and selected controls. Orange `#FF5E43` remains in the primary palette as `brandAction`/`urgentAction`, but it is reserved for urgent, destructive, alert, notification, or small accent moments rather than dominant default buttons.
 - Canvas: Paper `#FAF8F5`.
 - Page canvas: `screenBase`, `screenGradient`, and `adminScreenGradient` use extracted Revolut reference background colors: Account Navy `#000840`, Payments Purple `#181038`, Asset Navy `#101830`, Rewards Violet `#302878`, Wealth Teal `#102028`, and Stock Teal-Black `#001010`. These can be confirmed or replaced by Revolut-like background tokens, but the four primary colors remain the required distinct palette for components, actions, brand accents, chips, and illustrations.
 - Theme modes: `CollectColors.light` and `CollectColors.dark` intentionally differ in surfaces, text, borders, semantic containers, and glass values. `AppTheme.light()` and `AppTheme.dark()` are both registered by member and admin apps through the persisted `collectThemeModeProvider`, which defaults to dark and exposes an in-app Settings toggle.

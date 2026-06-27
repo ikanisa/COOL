@@ -1,0 +1,54 @@
+{
+  "generated_at": "2026-06-27",
+  "source_reference_folder": "/Users/jeanbosco/Downloads/Revolut10",
+  "primary_color_constraint": [
+    "#8885F0",
+    "#3CD070",
+    "#D38B96",
+    "#FF5E43"
+  ],
+  "secondary_roles": {
+    "inkPrimary": "#252044",
+    "inkSecondary": "#4B4664",
+    "inkMuted": "#5F5A76",
+    "surfaceReadable": "#FFFDFB",
+    "surfaceMuted": "#F1ECF7",
+    "borderSoft": "#DED8EA",
+    "borderAccent": "#CDC7F5",
+    "focusRing": "#6F67E8",
+    "successForeground": "#137A3F",
+    "infoForeground": "#514DD2",
+    "warningForeground": "#B9472E",
+    "dangerForeground": "#B3261E",
+    "successContainer": "#E7F8ED",
+    "infoContainer": "#ECEBFF",
+    "warningContainer": "#FFE9E3",
+    "dangerContainer": "#FFE5DF",
+    "neutralContainer": "#F1ECF7"
+  },
+  "action_roles": {
+    "defaultAction": "#8885F0",
+    "urgentAction": "#FF5E43",
+    "rule": "Default filled CTAs and selected controls use Periwinkle. Orange stays available only for urgent, destructive, alert, notification, or small accent states."
+  },
+  "route_background_families": {
+    "account_blue": ["#0818A0", "#0F198E", "#000838", "#000030"],
+    "payments_purple": ["#302848", "#181038", "#100820"],
+    "asset_navy": ["#303870", "#202858", "#101830", "#000818"],
+    "rewards_violet": ["#9838F0", "#7050E8", "#302878", "#100820"],
+    "wealth_teal": ["#204050", "#183848", "#102028", "#081820"],
+    "content_dark": ["#303020", "#181038", "#101018"],
+    "invest_teal_black": ["#202828", "#102028", "#001010"]
+  },
+  "component_tokens": {
+    "top_chrome_height": 66,
+    "top_chrome_control_size": 58,
+    "bottom_nav_destinations": ["Home", "Groups", "Settings"],
+    "card_radius": 32,
+    "card_large_radius": 36,
+    "chrome_surface": "#050510",
+    "chrome_border_alpha": 0.44,
+    "selected_nav_capsule_alpha": 0.34,
+    "compact_row_density": "large circular leading icon, strong title, muted subtitle, amount or disclosure trailing"
+  }
+}

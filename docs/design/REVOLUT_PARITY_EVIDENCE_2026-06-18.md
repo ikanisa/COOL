@@ -1,8 +1,10 @@
-# Collect Revolut-Style Parity Evidence
+# Archived Collect Revolut-Style Parity Evidence
 
 Date: 2026-06-18
 Repo: `/Volumes/PRO-G40/COOL`
 Status: **NO-GO for final 100 percent parity claim**
+
+Archive notice, 2026-06-27: this report is historical evidence only. The active direction is the borrowed Revolut alignment contract in `DESIGN.md`, `docs/design/DESIGN_SYSTEM.md`, `docs/design/REVOLUT_BORROWED_ALIGNMENT_PLAN_2026-06-27.md`, `docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md`, and `docs/design/FLUTTER_MOBILE_CURRENT_STATUS_AND_GAP_REGISTER_2026-06-27.md`. The current shell must preserve exactly three bottom-nav destinations: `Home`, `Groups`, and `Settings`.
 
 ## Verdict
 

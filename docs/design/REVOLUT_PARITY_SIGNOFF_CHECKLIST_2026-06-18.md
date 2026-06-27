@@ -1,8 +1,10 @@
-# Collect Revolut-Style Parity Signoff Checklist
+# Archived Collect Revolut-Style Parity Signoff Checklist
 
 Date: 2026-06-18
 Repo: `/Volumes/PRO-G40/COOL`
 Current decision: **NO-GO until signed**
+
+Archive notice, 2026-06-27: this checklist belongs to the historical 2026-06-18 parity packet. Current borrowed Revolut alignment review must use `docs/design/REVOLUT10_SCREENSHOT_ROUTE_REVIEW_MATRIX_2026-06-27.md` and `docs/design/FLUTTER_MOBILE_CURRENT_STATUS_AND_GAP_REGISTER_2026-06-27.md`. The current app shell must preserve exactly three bottom-nav destinations: `Home`, `Groups`, and `Settings`.
 
 This checklist captures the human-only decisions that automation cannot honestly complete. Do not add secrets, signing keys, raw SMS bodies, OTPs, PINs, provider tokens, private phone numbers, raw receiver MoMo numbers, or production customer data.
 

@@ -9,12 +9,6 @@ class RevolutBorrowedAssets {
   static const mediaAssetRoot = '$borrowedAssetRoot/media';
   static const fallbackBrandRoot = 'assets/brand';
 
-  static const wordmarkAssetPath =
-      'assets/brand/generated/collect_wordmark_transparent.png';
-  static const appIconAssetPath = 'assets/brand/collect_app_icon_static.png';
-  static const splashMarkAssetPath =
-      'assets/brand/generated/collect_mark_transparent.png';
-
   static const expectedWordmarkPath = '$logoAssetRoot/wordmark.png';
   static const expectedAppIconPath = '$appIconAssetRoot/app_icon.png';
   static const expectedSplashMarkPath = '$splashAssetRoot/splash_mark.png';
@@ -22,6 +16,10 @@ class RevolutBorrowedAssets {
       '$splashAssetRoot/splash_background.png';
   static const expectedWebManifestIconPath = '$appIconAssetRoot/web-512.png';
   static const expectedSharePreviewPath = '$mediaAssetRoot/share-preview.png';
+
+  static const wordmarkAssetPath = expectedWordmarkPath;
+  static const appIconAssetPath = expectedAppIconPath;
+  static const splashMarkAssetPath = expectedSplashMarkPath;
 
   static const currentWebManifestIconPath = 'web/icons/collect-admin.png';
   static const currentAndroidSplashLogoPath =

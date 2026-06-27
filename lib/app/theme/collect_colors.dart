@@ -204,7 +204,7 @@ class CollectColors extends ThemeExtension<CollectColors> {
   Color get paper => canvas;
   Color get surfaceLow => surfaceMuted;
   Color get surfaceHigh => surfaceRaised;
-  Color get actionColor => orangePaint;
+  Color get actionColor => periwinklePaint;
   Color get priorityColor => periwinklePaint;
   Color get outlineSoft => borderSoft;
   Color get successInk => successForeground;
@@ -213,6 +213,7 @@ class CollectColors extends ThemeExtension<CollectColors> {
   Color get brandFoundation => brandPaper;
   Color get brandSecondary => brandDustyRose;
   Color get brandAction => brandOrangeRed;
+  Color get urgentAction => brandOrangeRed;
   Color get brandSuccess => brandMintGreen;
   Color get transparent => transparentColor;
   Color get onAccent => inkPrimary;

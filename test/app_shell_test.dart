@@ -201,6 +201,44 @@ void main() {
     expect(designAudit, contains('android_device_uat_evidence'));
   });
 
+  test('borrowed Revolut alignment docs preserve Collect nav contract', () {
+    final currentStatus = File(
+      'docs/design/FLUTTER_MOBILE_CURRENT_STATUS_AND_GAP_REGISTER_2026-06-27.md',
+    ).readAsStringSync();
+    final blockerRegister = File(
+      'docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md',
+    ).readAsStringSync();
+    final reviewMatrix = File(
+      'docs/design/REVOLUT10_SCREENSHOT_ROUTE_REVIEW_MATRIX_2026-06-27.md',
+    ).readAsStringSync();
+
+    expect(currentStatus, contains('`Home`, `Groups`, and `Settings`'));
+    expect(reviewMatrix, contains('`Home`, `Groups`, and `Settings`'));
+    final rewardsDestinationLabel = ['Rev', 'Points'].join();
+    expect(currentStatus, isNot(contains('`Payments`')));
+    expect(currentStatus, isNot(contains('`Crypto`')));
+    expect(currentStatus, isNot(contains('`$rewardsDestinationLabel`')));
+    expect(currentStatus, contains('Use Periwinkle, not Orange'));
+    expect(blockerRegister, contains('| revolut_route_reference_matrix |'));
+    expect(blockerRegister, contains('Source mapped and reviewed'));
+    expect(blockerRegister, contains('android_device_uat_current_source'));
+    for (final screenshot in <String>[
+      'IMG_2739.PNG',
+      'IMG_2740.PNG',
+      'IMG_2741.PNG',
+      'IMG_2742.PNG',
+      'IMG_2747.PNG',
+      'IMG_2748.PNG',
+      'IMG_2749.PNG',
+      'IMG_2750.PNG',
+      'IMG_2751.PNG',
+      'IMG_2752.PNG',
+      'IMG_2755.PNG',
+    ]) {
+      expect(reviewMatrix, contains(screenshot));
+    }
+  });
+
   test('design compliance audit reads refactored chrome part files', () {
     final designAudit = File(
       'scripts/collect_mobile_design_compliance_audit.sh',
@@ -223,8 +261,15 @@ void main() {
     expect(topChromePart, contains('class CollectBrandMark'));
     expect(topChromePart, contains('RevolutBorrowedAssets.wordmarkAssetPath'));
     expect(topChromePart, contains('RevolutBorrowedAssets.appIconAssetPath'));
-    expect(borrowedAssets, contains('collect_wordmark_transparent.png'));
-    expect(borrowedAssets, contains('collect_app_icon_static.png'));
+    expect(
+      borrowedAssets,
+      contains('wordmarkAssetPath = expectedWordmarkPath'),
+    );
+    expect(borrowedAssets, contains('appIconAssetPath = expectedAppIconPath'));
+    expect(
+      borrowedAssets,
+      contains('splashMarkAssetPath = expectedSplashMarkPath'),
+    );
     expect(scaffoldPart, contains('class PremiumScaffold'));
     expect(scaffoldPart, contains('CollectGradientBackground'));
     expect(designAudit, contains('def read_dart_library'));

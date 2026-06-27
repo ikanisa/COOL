@@ -1,6 +1,6 @@
 # Borrowed Revolut Token Intake
 
-Place approved borrowed Revolut token specifications in this directory.
+Place approved or repo-approved borrowed Revolut-like token specifications in this directory.
 
 Expected inputs:
 
@@ -9,4 +9,5 @@ Expected inputs:
 - Motion and density rules.
 - Route-to-reference mapping notes.
 
-Current status: blocked until approved token guidance is supplied.
+Current status: installed. The active token spec is
+`revolut10_component_tokens_2026-06-27.json`.

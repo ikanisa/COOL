@@ -265,68 +265,73 @@ void main() {
     expect(decoration.color!.a, greaterThan(0.80));
   });
 
-  test(
-    'borrowed asset switchpoints keep current Collect fallbacks until intake',
-    () {
-      expect(_pngSize('assets/brand/collect_app_icon_static.png'), (
-        width: 512,
-        height: 512,
-      ));
-      expect(_pngSize('assets/brand/generated/collect_app_icon_rule.png'), (
-        width: 512,
-        height: 512,
-      ));
-      expect(
-        _pngSize('assets/brand/generated/collect_wordmark_transparent.png'),
-        (width: 1024, height: 299),
-      );
-      expect(_pngSize('assets/brand/generated/collect_mark_transparent.png'), (
-        width: 512,
-        height: 512,
-      ));
-      expect(
-        File(
-          'lib/features/launch/launch_splash_screen.dart',
-        ).readAsStringSync(),
-        contains('RevolutBorrowedAssets.splashMarkAssetPath'),
-      );
-      expect(
-        RevolutBorrowedAssets.splashMarkAssetPath,
-        contains('assets/brand/generated/collect_mark_transparent.png'),
-      );
-      expect(
-        RevolutBorrowedAssets.expectedWordmarkPath,
-        'assets/brand/revolut_borrowed/logos/wordmark.png',
-      );
-      expect(
-        RevolutBorrowedAssets.expectedAppIconPath,
-        'assets/brand/revolut_borrowed/app_icons/app_icon.png',
-      );
-      expect(
-        RevolutBorrowedAssets.expectedSplashMarkPath,
-        'assets/brand/revolut_borrowed/splash/splash_mark.png',
-      );
-      expect(
-        File(
-          'lib/features/launch/launch_splash_screen.dart',
-        ).readAsStringSync(),
-        contains('SizedBox.expand'),
-      );
-      expect(
-        File('assets/brand/generated/collect_symbol_compact.png').existsSync(),
-        isFalse,
-      );
-      expect(_pngSize('web/icons/collect-admin.png'), (
-        width: 512,
-        height: 512,
-      ));
-      expect(File('web/icons/collect-admin.svg').existsSync(), isFalse);
-      expect(
-        File('android/app/src/main/res/drawable/ic_launcher.xml').existsSync(),
-        isFalse,
-      );
-    },
-  );
+  test('borrowed asset switchpoints use installed runtime inputs', () {
+    expect(_pngSize('assets/brand/collect_app_icon_static.png'), (
+      width: 512,
+      height: 512,
+    ));
+    expect(_pngSize('assets/brand/generated/collect_app_icon_rule.png'), (
+      width: 512,
+      height: 512,
+    ));
+    expect(
+      _pngSize('assets/brand/generated/collect_wordmark_transparent.png'),
+      (width: 1024, height: 299),
+    );
+    expect(_pngSize('assets/brand/generated/collect_mark_transparent.png'), (
+      width: 512,
+      height: 512,
+    ));
+    expect(
+      File('lib/features/launch/launch_splash_screen.dart').readAsStringSync(),
+      contains('RevolutBorrowedAssets.splashMarkAssetPath'),
+    );
+    expect(
+      RevolutBorrowedAssets.splashMarkAssetPath,
+      'assets/brand/revolut_borrowed/splash/splash_mark.png',
+    );
+    expect(_pngSize(RevolutBorrowedAssets.wordmarkAssetPath), (
+      width: 1024,
+      height: 299,
+    ));
+    expect(_pngSize(RevolutBorrowedAssets.appIconAssetPath), (
+      width: 512,
+      height: 512,
+    ));
+    expect(_pngSize(RevolutBorrowedAssets.splashMarkAssetPath), (
+      width: 512,
+      height: 512,
+    ));
+    expect(
+      RevolutBorrowedAssets.expectedWordmarkPath,
+      'assets/brand/revolut_borrowed/logos/wordmark.png',
+    );
+    expect(
+      RevolutBorrowedAssets.expectedAppIconPath,
+      'assets/brand/revolut_borrowed/app_icons/app_icon.png',
+    );
+    expect(
+      RevolutBorrowedAssets.expectedSplashMarkPath,
+      'assets/brand/revolut_borrowed/splash/splash_mark.png',
+    );
+    expect(
+      File('lib/features/launch/launch_splash_screen.dart').readAsStringSync(),
+      contains('SizedBox.expand'),
+    );
+    expect(
+      File('assets/brand/generated/collect_symbol_compact.png').existsSync(),
+      isFalse,
+    );
+    expect(_pngSize('web/icons/revolut-borrowed-web-512.png'), (
+      width: 512,
+      height: 512,
+    ));
+    expect(File('web/icons/collect-admin.svg').existsSync(), isFalse);
+    expect(
+      File('android/app/src/main/res/drawable/ic_launcher.xml').existsSync(),
+      isFalse,
+    );
+  });
 
   test('native Android launch splash uses Collect brand resources', () {
     final manifest = File(
@@ -547,7 +552,8 @@ void main() {
   test('secondary color system protects readable semantic roles', () {
     final light = AppTheme.light().extension<CollectColors>()!;
 
-    expect(light.actionColor, CollectColors.brandOrangeRed);
+    expect(light.actionColor, CollectColors.brandPeriwinkle);
+    expect(light.urgentAction, CollectColors.brandOrangeRed);
     expect(light.onAccent, CollectColors.inkPrimary);
     expect(light.selectedOnAccent, CollectColors.inkPrimary);
     expect(light.surfaceReadable, CollectColors.secondarySurfaceReadable);

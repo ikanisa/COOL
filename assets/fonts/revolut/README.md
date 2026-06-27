@@ -1,6 +1,6 @@
 # Borrowed Revolut Fonts
 
-Place only approved borrowed Revolut font files in this directory.
+Place only approved or repo-approved Revolut-like borrowed font files in this directory.
 
 Expected runtime inputs:
 
@@ -8,4 +8,4 @@ Expected runtime inputs:
 - Weight/style variants required by `CollectTypography`.
 - License or approval metadata stored in docs, not secrets.
 
-Current status: blocked until approved files are supplied.
+Current status: installed. See `PROVENANCE.md` for source and replacement rules.

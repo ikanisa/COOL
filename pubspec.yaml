@@ -48,3 +48,16 @@ flutter:
     - assets/brand/revolut_borrowed/splash/
     - assets/brand/revolut_borrowed/icons/
     - assets/brand/revolut_borrowed/media/
+  fonts:
+    - family: Revolut Borrowed
+      fonts:
+        - asset: assets/fonts/revolut/RevolutBorrowed-Regular.otf
+          weight: 400
+        - asset: assets/fonts/revolut/RevolutBorrowed-Medium.otf
+          weight: 500
+        - asset: assets/fonts/revolut/RevolutBorrowed-SemiBold.otf
+          weight: 600
+        - asset: assets/fonts/revolut/RevolutBorrowed-Bold.otf
+          weight: 700
+        - asset: assets/fonts/revolut/RevolutBorrowed-ExtraBold.otf
+          weight: 800
