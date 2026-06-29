@@ -1,14 +1,5 @@
 [
   {
-    "category": "CREDIT_AND_FRAUD",
-    "purposes": [
-      "APP_FUNCTIONALITY"
-    ],
-    "data_protections": [
-      "DATA_LINKED_TO_YOU"
-    ]
-  },
-  {
     "category": "CUSTOMER_SUPPORT",
     "purposes": [
       "APP_FUNCTIONALITY"
@@ -28,15 +19,6 @@
   },
   {
     "category": "OTHER_USER_CONTENT",
-    "purposes": [
-      "APP_FUNCTIONALITY"
-    ],
-    "data_protections": [
-      "DATA_LINKED_TO_YOU"
-    ]
-  },
-  {
-    "category": "PAYMENT_INFORMATION",
     "purposes": [
       "APP_FUNCTIONALITY"
     ],

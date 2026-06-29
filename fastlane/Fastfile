@@ -1,5 +1,7 @@
 default_platform(:android)
 
+require "shellwords"
+
 COLLECT_IOS_APP_IDENTIFIER = "app.cool.mobile"
 COLLECT_IOS_APPLE_ID = "6783960331"
 COLLECT_IOS_TEAM_ID = "63STJ5N27W"
@@ -68,7 +70,16 @@ platform :ios do
   lane :prepare_app_store_assets do
     sh("rm -rf screenshots/en-GB")
     sh("mkdir -p screenshots/en-GB")
-    sh("cp ../output/app_store/ios_screenshots/final/*.png screenshots/en-GB/")
+    Dir["../output/app_store/ios_screenshots/final/*.png"].sort.each do |source|
+      basename = File.basename(source).sub(/-1242x2688\.png\z/, ".png")
+      iphone_target = "screenshots/en-GB/iphone65-#{basename}"
+      ipad_target = "screenshots/en-GB/ipadPro129-#{basename}"
+
+      sh("cp #{source.shellescape} #{iphone_target.shellescape}")
+      sh("cp #{source.shellescape} #{ipad_target.shellescape}")
+      sh("sips --resampleHeight 2732 #{ipad_target.shellescape} >/dev/null")
+      sh("sips --padToHeightWidth 2732 2048 --padColor FFFFFF #{ipad_target.shellescape} >/dev/null")
+    end
     sh("sips -g pixelWidth -g pixelHeight screenshots/en-GB/*.png >/dev/null")
   end
 
@@ -90,6 +101,8 @@ platform :ios do
       skip_metadata: false,
       skip_screenshots: false,
       submit_for_review: false,
+      run_precheck_before_submit: false,
+      overwrite_screenshots: true,
       automatic_release: false,
       force: true,
       app_review_information: {
@@ -140,12 +153,13 @@ platform :ios do
   desc "Upload App Privacy details using an Apple ID web session and a reviewed JSON answers file"
   lane :upload_app_privacy_details do
     UI.user_error!("FASTLANE_USER must be the Apple ID email for App Store Connect") if ENV["FASTLANE_USER"].to_s.strip.empty?
-    UI.user_error!("fastlane/app_privacy_details.json is required") unless File.exist?("app_privacy_details.json")
+    privacy_details_path = File.expand_path("app_privacy_details.json", __dir__)
+    UI.user_error!("fastlane/app_privacy_details.json is required") unless File.exist?(privacy_details_path)
 
     upload_app_privacy_details_to_app_store(
       app_identifier: COLLECT_IOS_APP_IDENTIFIER,
       team_id: COLLECT_IOS_TEAM_ID,
-      json_path: "app_privacy_details.json",
+      json_path: privacy_details_path,
       skip_publish: false
     )
   end
