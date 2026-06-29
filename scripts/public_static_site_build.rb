@@ -33,7 +33,8 @@ PRIMARY_NAV = [
   ["Insurance", "/insurance/"],
   ["CRaaS", "/craas/"],
   ["Community Groups", "/community-groups/"],
-  ["Our Partners", "/our-partners/"]
+  ["Our Partners", "/our-partners/"],
+  ["Trust & Security", "/trust/"]
 ].freeze
 
 PAGES = [
@@ -61,9 +62,9 @@ PAGES = [
   {
     path: "/group-savings/",
     title: "Group Savings | Collect by IKANISA",
-    description: "Digitise group savings contributions, give every member a clear record, and grow accumulated group capital that financial institutions can understand.",
+    description: "Every contribution is recorded, every member has a statement, and group savings discipline becomes something a bank can understand.",
     h1: "Your group already has trust. Collect adds structure.",
-    intro: "Digitise contributions, give every member a clear record and grow accumulated group capital that financial institutions can understand.",
+    intro: "Every contribution is recorded, every member has a statement, and your group's savings discipline becomes something a bank can understand.",
     start_heading: "Give every contribution a clear purpose and a trusted record.",
     asset: BRAND_ASSET,
     nav_label: "Group Savings",
@@ -72,9 +73,9 @@ PAGES = [
   {
     path: "/diaspora/",
     title: "Diaspora Savings | Collect by IKANISA",
-    description: "Collect enables diaspora groups to save through a bank in the host country. The bank holds the savings and lends to members against the pooled group savings as collateral.",
-    h1: "Group savings that strengthens access to bank credit",
-    intro: "Collect enables diaspora groups to save through a bank in the host country. The bank holds the savings and lends to members against the pooled group savings as collateral.",
+    description: "Diaspora groups save through a bank in the host country. The bank holds the savings and can lend to members against the pooled group savings as collateral.",
+    h1: "Group savings that strengthen access to bank credit.",
+    intro: "Diaspora groups save through a bank in the host country. The bank holds the savings and can lend to members against the pooled group savings as collateral.",
     asset: QR_ASSET,
     nav_label: "Diaspora",
     summary_label: "Diaspora group records",
@@ -83,7 +84,7 @@ PAGES = [
       ["Preparation", "Rwanda discussions"]
     ],
     infographic: {
-      title: "Diaspora is not immune to financial exclusion",
+      title: "Diaspora savers face their own barriers to credit.",
       body: "",
       steps: [
         ["Mobility and recovery risk", "Host-country banks may fear that a borrower could relocate or return to Rwanda before fully repaying a loan, making recovery and enforcement more difficult."],
@@ -99,7 +100,7 @@ PAGES = [
       ["Build the group pool", "Contributions accumulate while Collect maintains the group ledger.", []],
       ["Agree the collateral rules", "An approved share of the pool may be pledged or ring-fenced for loan.", []],
       ["Apply for credit", "A member submits an individual loan application to the host-country partner bank.", []],
-      ["Local Investment and Capital flow", "Borrow at low interest rates and invest Rwandan properties or Start-Ups.", []]
+      ["Invest at home", "Use the loan to invest in property or a business in Rwanda.", []]
     ]
   },
   {
@@ -130,19 +131,19 @@ PAGES = [
     },
     sections_heading: "Protection products",
     sections: [
-      ["Income Protection", "A short-term benefit may be paid when a covered member experiences a verified interruption of income.", []],
-      ["Credit Life Protection", "An eligible outstanding partner-loan balance may be settled following the covered borrower's death or permanent disability.", []],
-      ["Credit Repayment Protection", "Scheduled repayments may be covered for a defined period following a verified temporary loss or interruption of income.", []],
-      ["Group Savings Protection", "Scheduled contribution may be covered for a defined period following a verified temporary loss or interruption of income.", []]
+      ["Income Protection", "Pays a short-term benefit when a covered member's income is verifiably interrupted.", []],
+      ["Credit Life Protection", "Settles an eligible loan balance if the covered borrower dies or becomes permanently disabled.", []],
+      ["Credit Repayment Protection", "Covers scheduled repayments for a defined period after a verified, temporary loss of income.", []],
+      ["Group Savings Protection", "Covers a scheduled contribution for a defined period after a verified, temporary loss of income.", []]
     ]
   },
   {
     path: "/craas/",
     aliases: ["/credit-readiness/"],
     title: "CRaaS | Collect by IKANISA",
-    description: "Helps businesses understand requirements, identify gaps, coordinate specialist services and prepare and submit a structured complete loan application file to the bank.",
+    description: "CRaaS helps a business understand what a lender needs, close the gaps, and submit one complete, bank-ready application file.",
     h1: "From loan inquiry to bank-ready file.",
-    intro: "Helps businesses understand requirements, identify gaps, coordinate specialist services and prepare and submit a structured complete loan application file to the bank.",
+    intro: "CRaaS helps a business understand what a lender needs, close the gaps, and submit one complete, bank-ready application file.",
     asset: MOMO_ASSET,
     nav_label: "CRaaS",
     summary_label: "Credit-readiness service",
@@ -151,25 +152,20 @@ PAGES = [
       ["Provider", "Final decision"]
     ],
     infographic: {
-      title: "Payment access is widespread. Loan preparation support is not. The missing credit-service infrastructure",
-      body: "Small businesses often need finance but do not know exactly what a bank requires. Many lack structured records, cash-flow forecasts, collateral evidence or the corporate documentation needed to complete a strong loan file. Preparation services are fragmented. Business owners may have to visit accountants, notaries, tax advisers, valuers, insurers and legal or registration specialists separately, adding cost, time and uncertainty before a bank can begin detailed review.",
+      title: "Payment access is widespread. Loan preparation support is not.",
+      body: "Small businesses often need finance but do not know exactly what a bank requires. Many lack structured records, cash-flow forecasts, collateral evidence or the corporate documentation needed to complete a strong loan file. Preparation services are fragmented.",
       steps: [
         ["What businesses face", [
           "Unclear lender and product requirements",
           "Missing or expired documents",
           "Weak business and cash-flow records",
-          "Incomplete collateral evidence",
           "Expensive professional preparation services",
-          "Repeated bank follow-up",
-          "Long turnaround times",
           "Rejection before full credit analysis begins"
         ]],
         ["What banks face", [
           "Incomplete files",
-          "Repeated relationship-manager follow-up",
           "Inconsistent applicant quality",
           "Manual document checking",
-          "Weak pre-credit information",
           "Delayed analyst review",
           "High cost of small-business origination"
         ]]
@@ -190,7 +186,7 @@ PAGES = [
     title: "Community Groups | Collect by IKANISA",
     description: "Collect equips trusted groups with digital tools while preserving the relationships, leadership and governance that already make them work.",
     h1: "Finance works better when communities lead.",
-    intro: "Collect equips trusted groups with digital tools while preserving the relationships, leadership and governance that already make them work.",
+    intro: "Collect adds digital tools without changing how your group already leads itself - same relationships, same governance, same rules.",
     asset: BRAND_ASSET,
     nav_label: "Community Groups",
     summary_label: "Mobile group operations",
@@ -206,10 +202,8 @@ PAGES = [
           "Create and manage groups",
           "Define contribution rules",
           "Assign leadership roles",
-          "Review member activity",
           "Track missed contributions",
-          "Produce transparent statements",
-          "Communicate with members"
+          "Produce transparent statements"
         ]],
         ["For members", [
           "Contribute through app or USSD",
@@ -231,16 +225,9 @@ PAGES = [
     ],
     supported_groups_heading: "Collect supports community groups",
     supported_groups: [
-      "Ibimina",
-      "Cooperatives",
-      "Trade and business associations",
-      "Agricultural groups",
-      "Women-led groups",
-      "Youth savings groups",
-      "Religious and neighbourhood associations",
-      "Employer and professional groups",
-      "Diaspora associations",
-      "Family savings groups"
+      "Community & faith: Ibimina, religious and neighbourhood associations, family savings groups",
+      "Economic: Cooperatives, trade and business associations, agricultural groups, employer and professional groups",
+      "Demographic: Women-led groups, youth savings groups, diaspora associations"
     ]
   },
   {
@@ -248,8 +235,8 @@ PAGES = [
     aliases: ["/partners/"],
     title: "Our Partners | Collect by IKANISA",
     description: "Collect helps banks convert existing informal savings discipline into formal deposits, reliable data and bankable credit relationships.",
-    h1: "The Banking Opportunity",
-    intro: "These customers already earn, save and borrow. The opportunity is to convert their existing financial discipline into formal deposits, reliable data and bankable credit relationships.",
+    h1: "The banking opportunity in Rwanda's informal economy.",
+    intro: "These customers already earn, save, and borrow - just outside the formal system. Collect turns that existing discipline into deposits, data, and bankable credit relationships.",
     asset: MOMO_ASSET,
     nav_label: "Our Partners",
     summary_label: "Banking opportunity",
@@ -803,10 +790,7 @@ def group_savings_page_html
   how_steps = [
     ["Create the group", "Define its purpose, leadership, rules and contribution schedule."],
     ["Invite members", "Onboard members individually through the app or supported assisted channels."],
-    ["Contribute", "Members save through the app, mobile money or USSD."],
-    ["Receive proof", "Each member receives confirmation when the transaction is completed."],
-    ["Update the ledger", "The member and group balances update automatically."],
-    ["Track progress", "Members and leaders can view balances, missed contributions and goals."],
+    ["Contribute and get proof", "Members save through the app, mobile money or USSD, and receive confirmation instantly."],
     ["Build financial history", "Contribution consistency becomes a verified record."],
     ["Connect to partners", "Eligible groups may access partner-led credit, insurance or purpose-based finance."]
   ]
@@ -817,7 +801,7 @@ def group_savings_page_html
     ["Group roles and approvals", "Set leaders, signatories, reviewers and maker-checker controls."],
     ["Purpose-based goals", "Save toward insurance, school fees, business assets, property, agriculture, taxes or green mobility."],
     ["Basic-phone access", "Supported USSD and SMS journeys make participation possible beyond smartphone users."],
-    ["Regulated fund handling", "Where approved provider arrangements apply, funds are handled through regulated financial-service partners rather than on Collect's own balance sheet."],
+    ["Regulated fund handling", "Funds are held by regulated financial-service partners, not on Collect's own balance sheet."],
     ["Credit-readiness record", "Contribution discipline can become part of a stronger partner-lender application."]
   ]
   use_cases = [
@@ -867,7 +851,7 @@ def group_savings_page_html
 
     <section class="group-accumulation-section" aria-labelledby="group-accumulation-heading">
       <div class="story-copy">
-        <h2 id="group-accumulation-heading">From rotation to accumulation, keep the trust, grow the capital.</h2>
+        <h2 id="group-accumulation-heading">From rotation to accumulation - keep the trust, grow the capital.</h2>
       </div>
       <div class="accumulation-panel">
         <p>Traditional rotational groups help members access a periodic lump sum, but the group capital is repeatedly distributed and depleted. Collect allows groups to add an accumulating model in which savings remain visible and can support shared goals, collateral arrangements and longer-term investment.</p>
@@ -878,7 +862,7 @@ def group_savings_page_html
 
     <section class="group-use-section" aria-labelledby="group-use-heading">
       <div class="story-copy">
-        <h2 id="group-use-heading">Do more with your Group Savings</h2>
+        <h2 id="group-use-heading">Do more with your group savings.</h2>
       </div>
       <div class="use-case-grid" aria-label="Group savings use cases">
         #{use_cases.map { |item| %(<article>#{esc(item)}</article>) }.join}
@@ -978,7 +962,7 @@ def craas_page_html
     "Financial evidence summary",
     "Repayment and cash-flow notes",
     "KYC/KYB support file",
-    "Identified risks and mitigants",
+    "Identified gaps and next steps",
     "Readiness review",
     "Draft credit memo and working note"
   ]

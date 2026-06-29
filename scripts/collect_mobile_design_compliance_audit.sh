@@ -257,10 +257,10 @@ reference_failures = []
   reference_failures << "DESIGN.md must include #{term} reference contract." unless design.include?(term)
   reference_failures << "docs/design/DESIGN_SYSTEM.md must include #{term} implementation contract." unless design_system.include?(term)
 end
-reference_failures << "DESIGN.md must define borrowed Revolut inputs." unless design.match?(/Borrowed Revolut inputs/i)
-reference_failures << "DESIGN_SYSTEM.md must define borrowed Revolut material as a valid implementation source." unless design_system.match?(/Borrowed Revolut material is a valid implementation source/i)
-reference_failures << "The borrowed Revolut alignment plan must define the 100 percent alignment target." unless revolut_alignment_plan.match?(/100 percent borrowed Revolut alignment/i)
-reference_failures << "The borrowed Revolut asset intake must define intake paths." unless revolut_asset_intake.match?(/assets\/fonts\/revolut/) && revolut_asset_intake.match?(/assets\/brand\/revolut_borrowed/)
+reference_failures << "DESIGN.md must define runtime reference inputs." unless design.match?(/Runtime reference inputs/i)
+reference_failures << "DESIGN_SYSTEM.md must define Collect-owned runtime branding with Revolut as a quality benchmark." unless design_system.match?(/Revolut references remain a quality and interaction benchmark/i) && design_system.match?(/shipped runtime branding uses Collect-owned assets/i)
+reference_failures << "The Revolut-quality alignment plan must define the 100 percent alignment target." unless revolut_alignment_plan.match?(/100 percent Revolut-quality alignment/i)
+reference_failures << "The runtime asset intake must define intake paths." unless revolut_asset_intake.match?(/assets\/fonts\/revolut/) && revolut_asset_intake.match?(/assets\/brand\/revolut_borrowed/)
 reference_failures << "The Revolut alignment blocker register must state a blocked or code-owned pass decision." unless revolut_blocker_register.match?(/Current decision:\s+\*\*(BLOCKED|CODE-OWNED MOBILE ALIGNMENT PASS)/i)
 checks << {
   "id" => "revolut_borrowed_alignment_contract",
@@ -317,7 +317,7 @@ installed_borrowed_inputs = {
     File.file?(File.join(root, "assets/brand/revolut_borrowed/media/share-preview.png"))
 }
 borrowed_asset_roots.each do |asset_root|
-  asset_failures_for_borrowed << "pubspec.yaml must declare #{asset_root} for borrowed Revolut runtime intake." unless pubspec.include?("- #{asset_root}")
+  asset_failures_for_borrowed << "pubspec.yaml must declare #{asset_root} for Collect runtime intake." unless pubspec.include?("- #{asset_root}")
 end
 %w[
   revolut_logo_wordmark_assets
@@ -329,8 +329,11 @@ end
   revolut_public_web_assets
 ].each do |key|
   next if installed_borrowed_inputs.fetch(key, false)
-  asset_failures_for_borrowed << "Required borrowed Revolut input #{key} is not installed and is not recorded as Blocked." unless blocker_recorded.call(key)
+  asset_failures_for_borrowed << "Required Collect runtime input #{key} is not installed and is not recorded as Blocked." unless blocker_recorded.call(key)
 end
+brand_provenance = read(File.join(root, "assets/brand/revolut_borrowed/PROVENANCE.md"))
+asset_failures_for_borrowed << "Runtime brand provenance must state Collect-owned sources." unless brand_provenance.include?("Collect Runtime Brand Kit Provenance") && brand_provenance.include?("Collect-owned")
+asset_failures_for_borrowed << "Runtime brand assets must not be sourced from external screenshots." if brand_provenance.include?("/Users/jeanbosco/Downloads/Revolut10")
 checks << {
   "id" => "revolut_brand_assets_installed_or_blocked",
   "status" => status_for(asset_failures_for_borrowed),
@@ -345,7 +348,7 @@ checks << {
 }
 
 switchpoint_failures = []
-switchpoint_failures << "RevolutBorrowedAssets must expose the borrowed asset root." unless borrowed_assets.include?("borrowedAssetRoot = 'assets/brand/revolut_borrowed'")
+switchpoint_failures << "RevolutBorrowedAssets must expose the stable asset root." unless borrowed_assets.include?("borrowedAssetRoot = 'assets/brand/revolut_borrowed'")
 switchpoint_failures << "RevolutBorrowedAssets must expose the logo intake root." unless borrowed_assets.include?(%q{logoAssetRoot = '$borrowedAssetRoot/logos'})
 switchpoint_failures << "RevolutBorrowedAssets must expose the app-icon intake root." unless borrowed_assets.include?(%q{appIconAssetRoot = '$borrowedAssetRoot/app_icons'})
 switchpoint_failures << "RevolutBorrowedAssets must expose the splash intake root." unless borrowed_assets.include?(%q{splashAssetRoot = '$borrowedAssetRoot/splash'})
@@ -358,18 +361,18 @@ borrowed_app_icon_path = File.join(root, "assets/brand/revolut_borrowed/app_icon
 borrowed_splash_mark_path = File.join(root, "assets/brand/revolut_borrowed/splash/splash_mark.png")
 borrowed_web_icon_path = File.join(root, "assets/brand/revolut_borrowed/app_icons/web-512.png")
 borrowed_share_preview_path = File.join(root, "assets/brand/revolut_borrowed/media/share-preview.png")
-switchpoint_failures << "Borrowed wordmark is installed but RevolutBorrowedAssets.wordmarkAssetPath still uses the fallback." if File.file?(borrowed_wordmark_path) && !borrowed_assets.match?(/wordmarkAssetPath\s*=\s*expectedWordmarkPath/)
-switchpoint_failures << "Borrowed app icon is installed but RevolutBorrowedAssets.appIconAssetPath still uses the fallback." if File.file?(borrowed_app_icon_path) && !borrowed_assets.match?(/appIconAssetPath\s*=\s*expectedAppIconPath/)
-switchpoint_failures << "Borrowed splash mark is installed but RevolutBorrowedAssets.splashMarkAssetPath still uses the fallback." if File.file?(borrowed_splash_mark_path) && !borrowed_assets.match?(/splashMarkAssetPath\s*=\s*expectedSplashMarkPath/)
+switchpoint_failures << "Collect runtime wordmark is installed but RevolutBorrowedAssets.wordmarkAssetPath still uses the fallback." if File.file?(borrowed_wordmark_path) && !borrowed_assets.match?(/wordmarkAssetPath\s*=\s*expectedWordmarkPath/)
+switchpoint_failures << "Collect runtime app icon is installed but RevolutBorrowedAssets.appIconAssetPath still uses the fallback." if File.file?(borrowed_app_icon_path) && !borrowed_assets.match?(/appIconAssetPath\s*=\s*expectedAppIconPath/)
+switchpoint_failures << "Collect runtime splash mark is installed but RevolutBorrowedAssets.splashMarkAssetPath still uses the fallback." if File.file?(borrowed_splash_mark_path) && !borrowed_assets.match?(/splashMarkAssetPath\s*=\s*expectedSplashMarkPath/)
 if File.file?(borrowed_web_icon_path)
   web_manifest = read(File.join(root, "web/manifest.json"))
   web_index = read(File.join(root, "web/index.html"))
-  switchpoint_failures << "Borrowed web icon is installed but web/manifest.json still points to collect-admin.png." if web_manifest.include?("collect-admin.png")
-  switchpoint_failures << "Borrowed web icon is installed but web/index.html still points to collect-admin.png." if web_index.include?("collect-admin.png")
+  switchpoint_failures << "Collect runtime web icon is installed but web/manifest.json still points to collect-admin.png." if web_manifest.include?("collect-admin.png")
+  switchpoint_failures << "Collect runtime web icon is installed but web/index.html still points to collect-admin.png." if web_index.include?("collect-admin.png")
 end
 if File.file?(borrowed_share_preview_path)
   public_assets = read(File.join(root, "scripts/public_website_audit_evidence.sh"))
-  switchpoint_failures << "Borrowed share preview is installed but public website evidence still uses Collect-generated visuals only." unless public_assets.include?("revolut_borrowed") || public_assets.include?("share-preview.png")
+  switchpoint_failures << "Collect runtime share preview is installed but public website evidence does not check it." unless public_assets.include?("revolut_borrowed") || public_assets.include?("share-preview.png")
 end
 checks << {
   "id" => "revolut_borrowed_runtime_switchpoints",
@@ -455,9 +458,9 @@ checks << {
 
 claim_guard_failures = []
 if revolut_blocker_register.match?(/Current decision:\s+\*\*BLOCKED\*\*/i)
-  claim_guard_failures << "Blocker register must explicitly prohibit 100 percent alignment claims while rows are blocked." unless revolut_blocker_register.match?(/Do not claim 100 percent borrowed Revolut alignment/i)
+  claim_guard_failures << "Blocker register must explicitly prohibit 100 percent alignment claims while rows are blocked." unless revolut_blocker_register.match?(/Do not claim 100 percent (borrowed Revolut|Revolut-quality) alignment/i)
 end
-claim_guard_failures << "Alignment plan must require approved Revolut fonts before final claim." unless revolut_alignment_plan.match?(/Approved Revolut fonts are bundled/i)
+claim_guard_failures << "Alignment plan must require approved runtime fonts before final claim." unless revolut_alignment_plan.match?(/Approved runtime fonts are bundled/i)
 claim_guard_failures << "Alignment plan must preserve the four primary colors." unless revolut_alignment_plan.match?(/#8885F0/) && revolut_alignment_plan.match?(/#3CD070/) && revolut_alignment_plan.match?(/#D38B96/) && revolut_alignment_plan.match?(/#FF5E43/)
 checks << {
   "id" => "revolut_100_percent_claim_guard",
@@ -566,14 +569,14 @@ asset_failures = []
 wordmark_path = File.join(root, "assets/brand/revolut_borrowed/logos/wordmark.png")
 app_icon_path = File.join(root, "assets/brand/revolut_borrowed/app_icons/app_icon.png")
 splash_mark_path = File.join(root, "assets/brand/revolut_borrowed/splash/splash_mark.png")
-asset_failures << "Borrowed wordmark asset is missing." unless File.file?(wordmark_path)
-asset_failures << "Borrowed app icon asset is missing." unless File.file?(app_icon_path)
-asset_failures << "Borrowed splash mark asset is missing." unless File.file?(splash_mark_path)
-asset_failures << "CollectBrandMark must use the borrowed Revolut asset registry." unless chrome.include?("RevolutBorrowedAssets.wordmarkAssetPath")
-asset_failures << "Borrowed Revolut asset registry must use expectedWordmarkPath once the kit is installed." unless borrowed_assets.match?(/wordmarkAssetPath\s*=\s*expectedWordmarkPath/)
-asset_failures << "Borrowed Revolut asset registry must use expectedAppIconPath once the kit is installed." unless borrowed_assets.match?(/appIconAssetPath\s*=\s*expectedAppIconPath/)
-asset_failures << "Borrowed Revolut asset registry must use expectedSplashMarkPath once the kit is installed." unless borrowed_assets.match?(/splashMarkAssetPath\s*=\s*expectedSplashMarkPath/)
-asset_failures << "DESIGN_SYSTEM.md must name the borrowed wordmark intake target." unless design_system.include?("assets/brand/revolut_borrowed/logos/wordmark.png")
+asset_failures << "Collect runtime wordmark asset is missing." unless File.file?(wordmark_path)
+asset_failures << "Collect runtime app icon asset is missing." unless File.file?(app_icon_path)
+asset_failures << "Collect runtime splash mark asset is missing." unless File.file?(splash_mark_path)
+asset_failures << "CollectBrandMark must use the stable runtime asset registry." unless chrome.include?("RevolutBorrowedAssets.wordmarkAssetPath")
+asset_failures << "Runtime asset registry must use expectedWordmarkPath once the kit is installed." unless borrowed_assets.match?(/wordmarkAssetPath\s*=\s*expectedWordmarkPath/)
+asset_failures << "Runtime asset registry must use expectedAppIconPath once the kit is installed." unless borrowed_assets.match?(/appIconAssetPath\s*=\s*expectedAppIconPath/)
+asset_failures << "Runtime asset registry must use expectedSplashMarkPath once the kit is installed." unless borrowed_assets.match?(/splashMarkAssetPath\s*=\s*expectedSplashMarkPath/)
+asset_failures << "DESIGN_SYSTEM.md must name the runtime wordmark intake target." unless design_system.include?("assets/brand/revolut_borrowed/logos/wordmark.png")
 checks << {
   "id" => "mobile_brand_asset_contract",
   "status" => status_for(asset_failures),
@@ -855,7 +858,7 @@ summary = {
   "status" => status_for(failed_checks),
   "design_contract" => "DESIGN.md",
   "design_system" => "docs/design/DESIGN_SYSTEM.md",
-  "reference_contract" => "Borrowed Revolut alignment is the target; missing approved fonts, assets, colors, icons, or component tokens must be recorded as blockers rather than hidden behind Collect-owned substitutes.",
+  "reference_contract" => "Revolut screenshots are the quality benchmark; shipped runtime branding uses documented Collect-owned assets unless a separately approved replacement kit is supplied.",
   "primary_colors" => expected_primary_hexes,
   "route_count" => materialized_routes.length,
   "checks" => checks,

@@ -92,6 +92,8 @@ void main() {
       '/craas',
       '/community-groups',
       '/our-partners',
+      '/trust',
+      '/security',
       '/privacy',
       '/account-deletion',
       '/data-deletion',
@@ -290,11 +292,7 @@ void main() {
         'provider handoff',
         'support infrastructure',
         'create group savings',
-        'ussd',
       ]) {
-        if (path == '/our-partners' && banned == 'ussd') {
-          continue;
-        }
         expect(
           visibleText,
           isNot(contains(banned)),
@@ -352,6 +350,77 @@ void main() {
       expect(visibleText.toLowerCase(), isNot(contains('base case')));
       expect(visibleText.toLowerCase(), isNot(contains('phase 1')));
       expect(visibleText.toLowerCase(), isNot(contains('phase 2')));
+    }
+  });
+
+  testWidgets('Public detail pages apply the full-site review copy updates', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1400, 1900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    final expectedCopy = <String, List<String>>{
+      '/group-savings': [
+        'Your group already has trust. Collect adds structure.',
+        'Contribute and get proof',
+        'Do more with your group savings.',
+      ],
+      '/diaspora': [
+        'Group savings that strengthen access to bank credit.',
+        'Diaspora savers face their own barriers to credit.',
+        'Use the loan to invest in property or a business in Rwanda',
+      ],
+      '/insurance': [
+        'Protection that fits how people earn.',
+        'Income Protection - pays a short-term benefit',
+        'Claims decisions stay with the insurer',
+      ],
+      '/craas': [
+        'From loan inquiry to bank-ready file.',
+        'Payment access is widespread. Loan preparation support is not.',
+        'Financial readiness: accounting, business plan and tax advisory',
+      ],
+      '/community-groups': [
+        'Finance works better when communities lead.',
+        'Community and faith: ibimina',
+        'Moto-taxi groups - save toward insurance',
+      ],
+      '/trust': [
+        'Security and trust',
+        "Collect does not use customers' private financial documents to train publicly available AI models.",
+        'Regulatory posture',
+      ],
+    };
+
+    for (final entry in expectedCopy.entries) {
+      final page = publicPageForPath(entry.key);
+      final pageText = [
+        page.title,
+        page.intro,
+        for (final section in page.sections) ...[
+          section.title,
+          section.body,
+          ...section.bullets,
+        ],
+      ].join(' ');
+
+      for (final expected in entry.value) {
+        expect(
+          pageText,
+          contains(expected),
+          reason: '${entry.key} should include reviewed copy "$expected"',
+        );
+      }
+      expect(
+        pageText,
+        isNot(
+          contains(
+            'Recommended Trust Commitment Subject To Technical Confirmation',
+          ),
+        ),
+      );
     }
   });
 }

@@ -4,9 +4,9 @@ This file mirrors the enforceable contract in `DESIGN.md` and explains how it ma
 
 ## Design Direction
 
-The 11 Revolut screenshots in `/Users/jeanbosco/Downloads/Revolut10` and the borrowed Revolut brand kit are the active mobile UI/UX and brand contract: typography, logo treatment, colors, icons, vertical gradient page canvases, floating black glass controls, compact account/payment hierarchy, rounded bottom navigation, media-rich cards, and translucent content panels. Collect applies those patterns to its required product model: group collections, MoMo receiver setup, QR scan/share, contribution flows, member activity, profile, settings, notifications, and admin operations.
+The 11 Revolut screenshots in `/Users/jeanbosco/Downloads/Revolut10` are the active mobile UI/UX benchmark for interaction quality, hierarchy, vertical gradient page canvases, floating black glass controls, compact account/payment hierarchy, rounded bottom navigation, media-rich cards, and translucent content panels. Runtime brand assets remain Collect-owned. Collect applies the benchmark patterns to its required product model: group collections, MoMo receiver setup, QR scan/share, contribution flows, member activity, profile, settings, notifications, and admin operations.
 
-Borrowed Revolut material is a valid implementation source. Borrowed Revolut assets, fonts, marks, icons, screenshots, and component patterns should replace the legacy Collect-generated brand layer wherever available. The exception is the four primary colors: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, and Orange `#FF5E43` remain the required distinct palette. If a required font or asset is not present locally, the implementation must record it as a blocker rather than silently substituting a Collect-owned asset.
+Revolut references remain a quality and interaction benchmark, but shipped runtime branding uses Collect-owned assets. The stable asset switchpoints created during the Revolut-alignment work remain in place to avoid app churn; their current source is the cleaned Collect artwork under `assets/brand/generated/` and `assets/brand/source_variants/`. The four primary colors remain required: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, and Orange `#FF5E43`.
 
 ## Principles
 
@@ -20,7 +20,7 @@ Borrowed Revolut material is a valid implementation source. Borrowed Revolut ass
 - Top chrome: profile, search, and action controls are compact, visible, tappable, and semantically named. Profile controls route to profile.
 - Bottom dock: navigation should follow the Revolut floating black glass dock with a selected capsule, one-line labels, stable touch targets, safe-area anchoring, and Revolut-like destination treatment.
 - Plain route headers: shared secondary-route headers use a back arrow, one-line title, optional one-line subtitle, and tokenized action circles. They must not be decorative brand cards on utility, legal, permission, profile, create, or scanner routes.
-- Rich surfaces: home, Home Momentum, group, contribution, payment-state, settings, privacy, support, notification, and legal surfaces should use borrowed Revolut assets or Revolut-like equivalents where the Revolut reference uses media, marketplace, reward, or product cards. Image-less group cards must not fall back to blank covers.
+- Rich surfaces: home, Home Momentum, group, contribution, payment-state, settings, privacy, support, notification, and legal surfaces should use Collect-owned generated assets or product-specific media where the reference uses media, marketplace, reward, or product cards. Image-less group cards must not fall back to blank covers.
 - Compact labels: visible labels, helper text, chips, card titles, table cells, and admin status copy stay one line with ellipsis when constrained. Avoid explanatory in-app paragraphs where a concise label, state, icon, or command is enough.
 - Warm precision: user screens feel premium and human; admin/risk screens stay dense and exact.
 - Token-only implementation: screens compose centralized tokens and shared components rather than raw colors, spacing, radii, or font sizes.
@@ -80,7 +80,7 @@ The current route is provided by `CollectBackgroundRouteScope` in the shell and 
 - Corrected gradient logo source: `assets/brand/source_variants/collect_logo_gradient_4096.png`.
 - Supplied checkerboard preview retained as source evidence only: `assets/brand/source_variants/collect_logo_preview_checkerboard_1254.png`.
 
-`CollectBrandMark` owns in-app brand rendering through `RevolutBorrowedAssets`. It must migrate from generated Collect fallbacks to the borrowed Revolut-aligned wordmark or lockup when the borrowed Revolut kit is installed. Feature screens should not hand-place app icon or wordmark assets directly unless the output is an exported/shareable artifact.
+`CollectBrandMark` owns in-app brand rendering through `RevolutBorrowedAssets`. The class name is legacy, but the current runtime assets are Collect-owned and documented in `assets/brand/revolut_borrowed/PROVENANCE.md`. Feature screens should not hand-place app icon or wordmark assets directly unless the output is an exported/shareable artifact.
 
 ## Component Model
 

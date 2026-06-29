@@ -1,15 +1,18 @@
-# Revolut-Like Borrowed Brand Kit Provenance
+# Collect Runtime Brand Kit Provenance
 
-Date: 2026-06-27
+Date: 2026-06-29
 
 Installed runtime inputs:
 
-- `logos/wordmark.png`: copied from the existing Collect transparent wordmark fallback.
-- `app_icons/app_icon.png`: copied from the existing Collect static app icon.
-- `app_icons/web-512.png`: copied and resized from the existing Collect static app icon.
-- `splash/splash_mark.png`: copied from the existing Collect transparent mark fallback.
-- `splash/splash_background.png`: copied from `/Users/jeanbosco/Downloads/Revolut10/IMG_2739.PNG` as the account-blue reference family background.
-- `media/share-preview.png`: copied from `/Users/jeanbosco/Downloads/Revolut10/IMG_2752.PNG` as the content-dark media-card reference.
-- `icons/icon-mapping.json`: maps current `CollectIcons` usage to the closest Revolut-like reference intent.
+- `logos/wordmark.png`: copied from `assets/brand/generated/collect_wordmark_transparent.png`.
+- `app_icons/app_icon.png`: copied from `assets/brand/generated/collect_app_icon_rule.png`.
+- `app_icons/web-512.png`: copied from `assets/brand/generated/collect_app_icon_rule.png`.
+- `splash/splash_mark.png`: copied from `assets/brand/generated/collect_mark_transparent.png`.
+- `splash/splash_background.png`: copied from `assets/brand/source_variants/collect_logo_gradient_4096.png`.
+- `media/share-preview.png`: copied from `assets/brand/generated/collect_visual_group_momentum.png`.
+- `icons/icon-mapping.json`: maps current `CollectIcons` usage to the active Collect product intent.
 
-These files close the empty runtime-input paths and make the app use the reserved borrowed asset switchpoints. If a later exact approved asset kit is supplied, replace these files in place without changing the runtime paths.
+These files keep the runtime switchpoints clean while preserving Collect-owned
+brand assets. Do not replace them with external screenshots. Future asset
+updates should be made from Collect-owned source artwork and copied into these
+stable runtime paths.

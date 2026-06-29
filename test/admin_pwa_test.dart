@@ -642,6 +642,88 @@ void main() {
     expect(find.text('Reparse'), findsNothing);
   });
 
+  testWidgets('group detail exposes audited support status actions', (
+    tester,
+  ) async {
+    final repository = _DetailAdminRepository();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          adminRepositoryProvider.overrideWithValue(repository),
+          adminIdentityProvider.overrideWith(
+            (ref) async => _collectionModerationIdentity,
+          ),
+        ],
+        child: const MaterialApp(
+          home: Scaffold(
+            body: AdminDetailPage(
+              title: 'Group detail',
+              rpcName: 'admin_get_collection',
+              id: 'collection-1',
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Group operations profile'), findsOneWidget);
+    expect(find.text('Group support status'), findsOneWidget);
+    expect(find.semantics.byLabel('Group support status actions'), findsOne);
+    expect(find.widgetWithText(OutlinedButton, 'Set private'), findsOneWidget);
+    expect(
+      find.widgetWithText(OutlinedButton, 'Reject public'),
+      findsOneWidget,
+    );
+    expect(find.widgetWithText(OutlinedButton, 'Archive'), findsOneWidget);
+
+    await tester.ensureVisible(find.widgetWithText(OutlinedButton, 'Archive'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(OutlinedButton, 'Archive'));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), 'Inactive duplicate group');
+    await tester.tap(find.widgetWithText(FilledButton, 'Archive'));
+    await tester.pumpAndSettle();
+
+    expect(
+      repository.actions,
+      contains(
+        'admin_update_collection_support_status:archived:Inactive duplicate group',
+      ),
+    );
+    expect(find.text('Group status updated: Archive'), findsOneWidget);
+  });
+
+  testWidgets(
+    'group support status actions hide without moderation permission',
+    (tester) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            adminRepositoryProvider.overrideWithValue(_DetailAdminRepository()),
+            adminIdentityProvider.overrideWith(
+              (ref) async => _collectionReadOnlyIdentity,
+            ),
+          ],
+          child: const MaterialApp(
+            home: Scaffold(
+              body: AdminDetailPage(
+                title: 'Group detail',
+                rpcName: 'admin_get_collection',
+                id: 'collection-1',
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Group operations profile'), findsOneWidget);
+      expect(find.text('Group support status'), findsNothing);
+      expect(find.widgetWithText(OutlinedButton, 'Archive'), findsNothing);
+    },
+  );
+
   testWidgets('raw SMS reveal is gated by compliance permission', (
     tester,
   ) async {
@@ -846,6 +928,20 @@ const _paymentReadOnlyIdentity = AdminIdentity(
   permissions: ['payment_events.read'],
 );
 
+const _collectionModerationIdentity = AdminIdentity(
+  userId: '00000000-0000-0000-0000-000000000004',
+  displayName: 'Collect operations admin',
+  roles: ['operations_admin'],
+  permissions: ['collections.read', 'collections.moderate'],
+);
+
+const _collectionReadOnlyIdentity = AdminIdentity(
+  userId: '00000000-0000-0000-0000-000000000005',
+  displayName: 'Collect read-only admin',
+  roles: ['read_only_admin'],
+  permissions: ['collections.read'],
+);
+
 class _RawHookErrorRepository extends AdminRepository {
   _RawHookErrorRepository() : super(null);
 
@@ -935,6 +1031,17 @@ class _DetailAdminRepository extends AdminRepository {
   @override
   Future<Map<String, dynamic>> detail(String rpcName, String id) async {
     return switch (rpcName) {
+      'admin_get_collection' => {
+        'id': id,
+        'title': 'St Michel building fund',
+        'slug': 'st-michel-building-fund',
+        'description': 'Church construction support',
+        'status': 'public_approved',
+        'active_members': '24',
+        'active_receivers': '1',
+        'pending_payment_intents': '2',
+        'created_at': '2026-06-12T05:00:00Z',
+      },
       'admin_get_sms_metadata' => {
         'id': id,
         'sender_masked': 'MOMO',
@@ -964,6 +1071,8 @@ class _DetailAdminRepository extends AdminRepository {
   ) async {
     if (rpcName == 'admin_record_operator_note') {
       actions.add('$rpcName:${params['p_entity_type']}:${params['p_body']}');
+    } else if (rpcName == 'admin_update_collection_support_status') {
+      actions.add('$rpcName:${params['p_status']}:${params['p_reason']}');
     } else {
       actions.add('$rpcName:${params['p_reason']}');
     }

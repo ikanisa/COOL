@@ -4,65 +4,85 @@ const _publicMarketingPages = <CollectPublicPageData>[
   CollectPublicPageData(
     path: '/group-savings',
     navLabel: 'Group Savings',
-    title: 'Group savings with clearer records',
+    title: 'Your group already has trust. Collect adds structure.',
     intro:
-        'Cleaner records for ibimina, savings groups and members managing contributions together.',
+        "Every contribution is recorded, every member has a statement, and your group's savings discipline becomes something a bank can understand.",
     imageAsset: 'assets/brand/generated/collect_visual_group_momentum.png',
     metricA: 'Setup',
     metricALabel: 'Group rules',
     metricB: 'Statements',
-    metricBLabel: 'Treasurer visibility',
+    metricBLabel: 'Member visibility',
     sections: [
       CollectPublicSectionData(
-        title: 'Run the group clearly',
-        body: 'Keep the trust of the group. Add clean records.',
-        bullets: [
-          'Members and roles',
-          'Contribution history',
-          'Private payment details protected',
-        ],
-      ),
-      CollectPublicSectionData(
-        title: 'Make contributions easier to follow',
-        body: 'Members pay in a familiar way and see a clear group record.',
-        bullets: [
-          'Amount and status',
-          'One group activity view',
-          'Less screenshot chasing',
-        ],
-      ),
-      CollectPublicSectionData(
-        title: 'Invite without friction',
-        body: 'Share the group through the channels members already use.',
-        bullets: [
-          'Links and QR codes',
-          'Chat app sharing',
-          'Private payment details protected',
-        ],
-      ),
-      CollectPublicSectionData(
-        title: 'Support treasurers',
-        body: 'Give leaders a cleaner way to answer member questions.',
-        bullets: [
-          'Paid and pending view',
-          'Meeting-ready records',
-          'Less manual follow-up',
-        ],
-      ),
-      CollectPublicSectionData(
-        title: 'Prepare support files',
+        title: 'Trusted savings should not remain invisible.',
         body:
-            'Turn contribution history into records members can use when they ask for support.',
-        bullets: ['Group statements', 'Member histories', 'Request summaries'],
+            "Many groups still depend on cash, notebooks, spreadsheets, WhatsApp messages or one person's mobile-money account. This makes reconciliation difficult, weakens transparency and prevents years of savings discipline from becoming a recognised financial record.",
+        bullets: [
+          'Manual contribution tracking',
+          'Missing or disputed records',
+          'Cash-handling and fraud risk',
+          'No independent member statements',
+          'Capital repeatedly distributed rather than accumulated',
+          'Limited visibility for banks and other partners',
+        ],
+      ),
+      CollectPublicSectionData(
+        title: 'How Collect works',
+        body:
+            'Create the group, invite members, contribute with proof, build financial history, and connect to partners where eligible.',
+        bullets: [
+          '01 - Create the group: define its purpose, leadership, rules and contribution schedule',
+          '02 - Invite members: onboard members through the app or supported assisted channels',
+          '03 - Contribute and get proof: members save through the app, mobile money, or USSD and receive confirmation',
+          '04 - Build financial history: contribution consistency becomes a verified record',
+          '05 - Connect to partners: eligible groups may access partner-led credit, insurance or purpose-based finance',
+        ],
+      ),
+      CollectPublicSectionData(
+        title: 'Features for groups that save together',
+        body:
+            'Collect gives leaders and members a cleaner operating record without replacing the trust and rules the group already has.',
+        bullets: [
+          'Transparent group ledger and member statements',
+          'Flexible contribution schedules and group roles',
+          'Purpose-based goals for insurance, school fees, assets, property, agriculture and mobility',
+          "Funds are held by regulated financial-service partners, not on Collect's own balance sheet",
+          'Credit-readiness record from contribution discipline',
+        ],
+      ),
+      CollectPublicSectionData(
+        title:
+            'From rotation to accumulation - keep the trust, grow the capital.',
+        body:
+            'Traditional rotational groups help members access a periodic lump sum, but the group capital is repeatedly distributed and depleted. Collect allows groups to add an accumulating model in which savings remain visible and can support shared goals, collateral arrangements and longer-term investment.',
+        bullets: [
+          'Each group chooses its rules',
+          'Collect does not force groups to abandon existing culture or governance',
+          'Savings remain visible for members and leaders',
+        ],
+      ),
+      CollectPublicSectionData(
+        title: 'Do more with your group savings.',
+        body: 'Give every contribution a clear purpose and a trusted record.',
+        bullets: [
+          'Business working-capital readiness',
+          'Insurance and compliance savings',
+          'School-fee and family goals',
+          'Agricultural inputs and equipment',
+          'Property and construction',
+          'Moto-taxi insurance and licensing',
+          'Green mobility and productive assets',
+          'Emergency and resilience funds',
+        ],
       ),
     ],
   ),
   CollectPublicPageData(
     path: '/diaspora',
     navLabel: 'Diaspora',
-    title: 'Diaspora group savings records',
+    title: 'Group savings that strengthen access to bank credit.',
     intro:
-        'Diaspora groups can organize savings records and prepare information for Rwanda-focused discussions.',
+        'Diaspora groups save through a bank in the host country. The bank holds the savings and can lend to members against the pooled group savings as collateral.',
     imageAsset: 'assets/brand/generated/collect_visual_qr_share.png',
     metricA: 'Group records',
     metricALabel: 'Member contributions',
@@ -70,31 +90,49 @@ const _publicMarketingPages = <CollectPublicPageData>[
     metricBLabel: 'Rwanda discussions',
     sections: [
       CollectPublicSectionData(
-        title: 'Diaspora group structure',
-        body: 'Give members a shared record before decisions are made.',
+        title: 'Diaspora savers face their own barriers to credit.',
+        body:
+            'Diaspora borrowers can be strong savers while still facing host-country lending requirements that make individual applications harder.',
         bullets: [
-          'Rules and roles',
-          'Member balances',
-          'Contribution statements',
+          'Mobility and recovery risk',
+          'Thin or no host-country credit history',
+          'Informal or unstable employment',
+          'Insufficient acceptable security',
         ],
       ),
       CollectPublicSectionData(
-        title: 'Readable contribution history',
-        body: 'Keep savings activity easier to review and explain.',
-        bullets: ['Group records', 'Member summaries', 'Support notes'],
-      ),
-      CollectPublicSectionData(
-        title: 'Rwanda-focused preparation',
-        body: 'Prepare cleaner information for future Rwanda discussions.',
-        bullets: ['Purpose notes', 'Member requests', 'Supporting records'],
-      ),
-      CollectPublicSectionData(
-        title: 'Trust and communication',
-        body: 'Keep members aligned with fewer side conversations.',
+        title: 'How the diaspora use Collect',
+        body:
+            'Members create a savings group, save regularly, build the group pool, agree collateral rules, apply for credit, and invest at home.',
         bullets: [
-          'Member visibility',
-          'Support channel',
-          'Request-ready records',
+          'Create a savings group with purpose, contribution amount, leadership and rules',
+          'Save regularly through Collect into the host-country partner bank',
+          'Build the group pool while Collect maintains the ledger',
+          'Agree what share may be pledged or ring-fenced',
+          'Apply for credit through the host-country partner bank',
+          'Use the loan to invest in property or a business in Rwanda',
+        ],
+      ),
+      CollectPublicSectionData(
+        title: 'Without Collect',
+        body:
+            'The individual borrower is assessed without group support, controlled collateral, or enough transaction evidence.',
+        bullets: [
+          'Informal savings circle',
+          'Limited transaction evidence',
+          'Savings held outside the lending bank',
+          'No controlled collateral arrangement',
+        ],
+      ),
+      CollectPublicSectionData(
+        title: 'With Collect and the partner bank',
+        body:
+            'The group keeps verified contribution history, bank-held savings, agreed collateral structure, and clearer support for investing back home.',
+        bullets: [
+          'Verified contribution history',
+          'Savings held by the potential lender',
+          'Group rules and accountability',
+          'Structured support for Rwanda investment',
         ],
       ),
     ],
@@ -102,9 +140,9 @@ const _publicMarketingPages = <CollectPublicPageData>[
   CollectPublicPageData(
     path: '/insurance',
     navLabel: 'Insurance',
-    title: 'Insurance record support',
+    title: 'Protection that fits how people earn.',
     intro:
-        'Collect can help organize insurance-related records where approved providers are involved.',
+        'Collect works with licensed insurers on simple protection products, flexible micro-payments, and transparent claims - built for informal and variable-income earners.',
     imageAsset: 'assets/brand/generated/collect_visual_momo_signal.png',
     metricA: 'Records',
     metricALabel: 'Customer support',
@@ -112,41 +150,58 @@ const _publicMarketingPages = <CollectPublicPageData>[
     metricBLabel: 'Final decisions',
     sections: [
       CollectPublicSectionData(
-        title: 'Organize insurance-related records',
+        title: 'Why current insurance misses informal earners',
         body:
-            'Keep relevant customer, group and contribution details easier to review.',
-        bullets: ['Customer details', 'Contribution history', 'Support notes'],
-      ),
-      CollectPublicSectionData(
-        title: 'Support approved provider workflows',
-        body:
-            'Collect supports records and communication; providers remain responsible for product decisions.',
+            'Annual risks cannot always be funded with one large annual payment. Informal earners may understand the need for insurance but struggle with premiums and processes designed around regular monthly salaries.',
         bullets: [
-          'Provider review',
-          'Customer follow-up',
-          'Decision boundaries',
+          'Premiums do not match daily cash flow',
+          'Policies are difficult to understand',
+          'Insurance access is concentrated in formal channels',
+          'Small payments are costly to collect',
+          'Claims processes can weaken trust',
+          'Credit is exposed when income stops',
         ],
       ),
       CollectPublicSectionData(
-        title: 'Avoid unclear promises',
+        title: 'Protection products',
         body:
-            'The website does not say IKANISA issues policies or pays insurance benefits.',
-        bullets: ['Records only', 'Provider decisions', 'WhatsApp support'],
+            'Collect supports simple protection records with licensed insurers and keeps product boundaries clear.',
+        bullets: [
+          "Income Protection - pays a short-term benefit when a covered member's income is verifiably interrupted",
+          'Credit Life Protection - settles an eligible loan balance if the covered borrower dies or becomes permanently disabled',
+          'Credit Repayment Protection - covers scheduled repayments after a verified temporary loss of income',
+          'Group Savings Protection - covers a scheduled contribution after a verified temporary loss of income',
+        ],
       ),
       CollectPublicSectionData(
-        title: 'Cleaner support records',
+        title: 'How it works',
         body:
-            'Keep the savings and insurance-support context together when customers ask questions.',
-        bullets: ['Member records', 'Support history', 'Clear next steps'],
+            'The customer sees eligible cover, reviews the terms, pays on a flexible schedule, receives proof, and can get support when a claim notification is needed.',
+        bullets: [
+          'Product terms, exclusions, price and insurer are displayed',
+          'Premium is collected daily or through a flexible schedule',
+          'The member receives digital proof of cover',
+          'Collect supports claim notification and evidence collection',
+        ],
+      ),
+      CollectPublicSectionData(
+        title: 'Provider decision boundary',
+        body:
+            "Protection should not lapse because today's balance is short, but the insurer remains responsible for the claims decision and valid claim payment.",
+        bullets: [
+          'Licensed insurer issues the cover',
+          'Collect supports records and communication',
+          'Claims decisions stay with the insurer',
+        ],
       ),
     ],
   ),
   CollectPublicPageData(
     path: '/craas',
     navLabel: 'CRaaS',
-    title: 'Credit Readiness as a Service',
+    title: 'From loan inquiry to bank-ready file.',
     intro:
-        'Collect helps customers organize documents, contribution history, and request summaries before a provider review.',
+        'CRaaS helps a business understand what a lender needs, close the gaps, and submit one complete, bank-ready application file.',
     imageAsset: 'assets/brand/generated/collect_visual_momo_signal.png',
     metricA: 'Readiness',
     metricALabel: 'File support',
@@ -154,41 +209,59 @@ const _publicMarketingPages = <CollectPublicPageData>[
     metricBLabel: 'Final decision',
     sections: [
       CollectPublicSectionData(
-        title: 'Prepare before asking for credit',
-        body: 'Organize the customer story before the credit conversation.',
+        title: 'Payment access is widespread. Loan preparation support is not.',
+        body:
+            'Small businesses often need finance but do not know exactly what a bank requires. Many lack structured records, cash-flow forecasts, collateral evidence or corporate documentation.',
         bullets: [
-          'Customer profile',
-          'Loan purpose',
-          'Missing-document support',
+          'Unclear lender and product requirements',
+          'Missing or expired documents',
+          'Weak business and cash-flow records',
+          'Expensive professional preparation services',
+          'Rejection before full credit analysis begins',
         ],
       ),
       CollectPublicSectionData(
-        title: 'Use Collect records as proof',
-        body: 'Show discipline through real saving and group records.',
+        title: 'What banks face',
+        body:
+            'Bank teams often receive incomplete files, inconsistent applicant quality, manual document checks, delayed analyst review, and high origination cost for small-business files.',
         bullets: [
-          'Savings discipline',
-          'Group participation',
-          'Protection context',
+          'Incomplete files',
+          'Inconsistent applicant quality',
+          'Manual document checking',
+          'Delayed analyst review',
+          'High cost of small-business origination',
         ],
       ),
       CollectPublicSectionData(
-        title: 'Human support to complete the file',
-        body: 'Help customers close gaps before they submit.',
-        bullets: ['Checklist support', 'Customer summary', 'WhatsApp help'],
+        title: 'How CRaaS works',
+        body:
+            'CRaaS moves a business from loan inquiry to intake, requirement mapping, document preparation, service coordination, and bank-ready packaging.',
+        bullets: [
+          'Loan inquiry and Collect intake',
+          'Requirement mapping against bank and product needs',
+          'Document preparation and service coordination',
+          'Completed application indexed for final bank review',
+        ],
       ),
       CollectPublicSectionData(
-        title: 'Clear next step',
-        body: 'Prepare a cleaner file for review.',
-        bullets: ['Organized records', 'Customer summary', 'Provider decision'],
+        title: 'Specialist support services',
+        body:
+            'Support is grouped so businesses can see the difference between financial readiness and legal or asset readiness.',
+        bullets: [
+          'Financial readiness: accounting, business plan and tax advisory',
+          'Legal and asset readiness: notaries, legal services, collateral documents and property valuation',
+          'Customer summary and indexed document folder',
+          'Readiness review with gaps and next steps',
+        ],
       ),
     ],
   ),
   CollectPublicPageData(
     path: '/community-groups',
     navLabel: 'Community Groups',
-    title: 'Community groups as distribution infrastructure',
+    title: 'Finance works better when communities lead.',
     intro:
-        'A mobile app for trusted groups that save, contribute and support members.',
+        'Collect adds digital tools without changing how your group already leads itself - same relationships, same governance, same rules.',
     imageAsset: 'assets/brand/generated/collect_visual_group_momentum.png',
     metricA: 'Group',
     metricALabel: 'Member records',
@@ -196,39 +269,76 @@ const _publicMarketingPages = <CollectPublicPageData>[
     metricBLabel: 'Group operations',
     sections: [
       CollectPublicSectionData(
-        title: 'Member app',
-        body: 'A simple place to join, contribute and follow progress.',
-        bullets: ['Join groups', 'Track contributions', 'Use Collect ID'],
+        title: 'What the app enables for group leaders',
+        body:
+            'Leaders get clearer records for running the group without replacing the existing leadership structure.',
+        bullets: [
+          'Create and manage the group',
+          'Set contribution rules',
+          'Assign leadership roles',
+          'Track activity and missed contributions',
+          'Produce transparent statements',
+        ],
       ),
       CollectPublicSectionData(
-        title: 'Leader support',
-        body: 'Give group leaders cleaner records for meetings and follow-up.',
-        bullets: ['Member activity', 'Group sharing', 'Meeting records'],
+        title: 'What the app enables for members',
+        body:
+            'Members can contribute, receive proof, understand group rules, and build a verified contribution history.',
+        bullets: [
+          'Contribute through app or USSD',
+          'Receive proof of each contribution',
+          'View personal and group progress',
+          'Understand group rules',
+          'Access bank credit and insurance where eligible',
+        ],
       ),
       CollectPublicSectionData(
-        title: 'Member journey',
-        body: 'Reduce confusion after a member contributes.',
-        bullets: ['Join', 'Contribute', 'Follow status'],
+        title: 'Community use cases',
+        body:
+            'Collect supports groups that already organize around work, family, savings, faith, business, agriculture and diaspora ties.',
+        bullets: [
+          'Moto-taxi groups - save toward insurance, taxes, licensing and green-mobility assets',
+          'Agricultural cooperatives - accumulate capital for inputs, equipment, storage and working capital',
+          'Women and youth groups - build verified savings histories and access structured business-readiness support',
+          'MSME associations - prepare members for business loans and coordinate professional services',
+          'Diaspora associations - create partner-bank-linked group savings and eligible collateral arrangements',
+        ],
       ),
       CollectPublicSectionData(
-        title: 'Trusted group support',
-        body: 'Use groups as trusted channels for saving and support.',
-        bullets: ['Local trust', 'Customer help', 'Reusable records'],
+        title: 'Collect supports community groups',
+        body:
+            'Use groups as trusted channels for saving, support, records, credit-readiness and protection journeys.',
+        bullets: [
+          'Community and faith: ibimina, religious and neighbourhood associations, family savings groups',
+          'Economic: cooperatives, trade and business associations, agricultural groups, employer and professional groups',
+          'Demographic: women-led groups, youth savings groups, diaspora associations',
+        ],
       ),
     ],
   ),
   CollectPublicPageData(
     path: '/our-partners',
     navLabel: 'Our Partners',
-    title: 'The Banking Opportunity',
+    title: "The banking opportunity in Rwanda's informal economy.",
     intro:
-        'These customers already earn, save and borrow. The opportunity is to convert their existing financial discipline into formal deposits, reliable data and bankable credit relationships.',
+        'These customers already earn, save, and borrow - just outside the formal system. Collect turns that existing discipline into deposits, data, and bankable credit relationships.',
     imageAsset: 'assets/brand/generated/collect_visual_momo_signal.png',
     metricA: 'RWF 288B+',
     metricALabel: 'Annual ibimina savings flow',
     metricB: '4.8M',
     metricBLabel: 'Informal and group savers',
     sections: [
+      CollectPublicSectionData(
+        title:
+            'A large savings and credit market already exists, mostly outside formal banking.',
+        body:
+            'Informal saving and borrowing are already active. The opportunity is to convert existing discipline into formal deposits, reliable data and bankable credit relationships.',
+        bullets: [
+          'RWF 288B+ informal savings market',
+          '4.8M active savers',
+          '94,000+ savings groups',
+        ],
+      ),
       CollectPublicSectionData(
         title: 'Low-cost deposit mobilisation',
         body:
@@ -254,7 +364,7 @@ const _publicMarketingPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Group-backed and diaspora lending',
         body:
-            'Verified group savings can provide an additional risk-control layer for eligible lending, including diaspora savings-to-credit models subject to bank policy and approval.',
+            "Verified group savings can provide an additional risk-control layer for eligible lending, including diaspora savings-to-credit models subject to bank policy and approval. The addressable Rwandan diaspora market is 300,000+ people across Europe, the United Kingdom, North America and other corridors.",
         bullets: [
           'Bank-held savings collateral',
           'Group accountability',

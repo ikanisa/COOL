@@ -311,8 +311,8 @@ pages:
       closing: >-
         Final lending decisions remain with the partner lender. Insurance decisions remain with the licensed insurer.
         You may request human support, challenge inaccurate information and ask for correction of your records.
-      recommended_trust_commitment_subject_to_technical_confirmation: Collect does not use customers’ private financial
-        documents to train publicly available AI models.
+      trust_commitments:
+      - Collect does not use customers' private financial documents to train publicly available AI models.
     - id: retention
       heading: 10. How long we retain information
       intro: 'We keep personal data only for as long as needed to:'

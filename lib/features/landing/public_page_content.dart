@@ -8,6 +8,8 @@ const publicWebsitePaths = <String>{
   '/craas',
   '/community-groups',
   '/our-partners',
+  '/trust',
+  '/security',
   '/privacy',
   '/account-deletion',
   '/data-deletion',
@@ -60,7 +62,8 @@ class CollectPublicSectionData {
 }
 
 CollectPublicPageData publicPageForPath(String path) {
-  return _publicPages.firstWhere((page) => page.path == path);
+  final normalized = path == '/security' ? '/trust' : path;
+  return _publicPages.firstWhere((page) => page.path == normalized);
 }
 
 String publicSummaryLabel(CollectPublicPageData data) {
@@ -77,6 +80,9 @@ String publicSummaryLabel(CollectPublicPageData data) {
       return 'Mobile group operations';
     case '/our-partners':
       return 'Banking opportunity';
+    case '/trust':
+    case '/security':
+      return 'Trust and security';
     case '/privacy':
       return 'Customer information';
     case '/account-deletion':

@@ -7,9 +7,9 @@ Comparator: supplied Revolut10 screenshots in `/Users/jeanbosco/Downloads/Revolu
 
 ## Executive Decision
 
-The Flutter member app is code-owned visually shippable for the current Revolut-like direction after the 2026-06-27 follow-up implementation pass fixes the critical legal text clipping path, reduces the major truncation risks, aligns Settings with the main top chrome pattern, replaces account/destructive default dialogs with tokenized sheets, and retunes the payment-support review chips. The current evidence proves the three-item bottom navigation is preserved, the four primary colors are preserved, default CTAs are no longer orange, the borrowed font/asset/token switchpoints are wired, and the changed high-risk routes render cleanly in fresh targeted visual evidence.
+The Flutter member app is code-owned visually shippable for the current Revolut-like quality direction after the 2026-06-27 follow-up implementation pass fixes the critical legal text clipping path, reduces the major truncation risks, aligns Settings with the main top chrome pattern, replaces account/destructive default dialogs with tokenized sheets, and retunes the payment-support review chips. The current evidence proves the three-item bottom navigation is preserved, the four primary colors are preserved, default CTAs are no longer orange, the stable Collect-owned font/asset/token switchpoints are wired, and the changed high-risk routes render cleanly in fresh targeted visual evidence.
 
-The strongest parts are Home, Groups, group detail, payment state, ledger, share/invite, settings privacy, public static pages, admin route breadth, persisted admin operator notes/SLA policy, native Android structural accessibility proof, and the shared chrome/cards. The remaining weaknesses are human screen-reader narration review, deeper admin domain-write workflows beyond operator notes/SLA policy, and any future exact Revolut asset replacement when an approved kit is supplied.
+The strongest parts are Home, Groups, group detail, payment state, ledger, share/invite, settings privacy, public static pages, admin route breadth, persisted admin operator notes/SLA policy, group support-status write action, native Android structural accessibility proof, cleaned Collect-owned runtime assets, and the shared chrome/cards. The remaining weakness is human screen-reader narration judgment, which is intentionally documented as a human-listening review rather than an automated repo claim.
 
 The original audit pass did not run a native production/mobile build. The 2026-06-27 follow-up rebuilt the production Android APK/AAB and Admin PWA artifacts after the admin workflow changes; the release gate now reports `GO`.
 
@@ -46,7 +46,7 @@ The original audit pass did not run a native production/mobile build. The 2026-0
 | `scripts/product_design_mobile_audit_artifact_gate.sh --json` | Pass | Release screenshot artifact gate passed for 48 documented screenshots. |
 | `scripts/release_secret_scan.sh` | Pass | Fallback tracked-file secret scan passed because `gitleaks` is not installed locally. |
 | `scripts/collect_product_boundary_scan.sh --json` | Pass | Product-boundary scan passed across 156 source/docs files with zero hits. |
-| `scripts/android_accessibility_structural_evidence.sh --json` | Pass | Fresh production APK installed on Android device `13111JEC215558`; structural TalkBack capture passed in `.cache/android_accessibility_pixel4a/20260629T042835Z/summary.json`. Human auditory narration review remains separate. |
+| `scripts/android_accessibility_structural_evidence.sh --json` | Pass | Fresh production APK installed on Android device `13111JEC215558`; structural TalkBack capture passed in `.cache/android_accessibility_pixel4a/20260629T043057Z/summary.json`. Human listening checklist captured in `docs/design/ANDROID_TALKBACK_REVIEW_PACKET_2026-06-29.md`. |
 | `scripts/flutter_mobile_release_gate.sh --json` | Pass | Production Android APK/AAB artifacts are current and signature verification passed. |
 | `scripts/release_status.sh --json` | Pass | Final release status reports `GO`, `supabase_strict: pass`, and no blocker keys. |
 
@@ -77,7 +77,7 @@ The original audit pass did not run a native production/mobile build. The 2026-0
 | Member isolated Chrome matrix | Pass | `.cache/mobile_route_render_smoke/20260627T_postfix_fixed_clean/summary.json` proves `55/55` post-fix routes with nonblank PNG checks. |
 | Admin route-breadth evidence | Pass | `.cache/collect_visual_evidence/20260627T_admin_workflow_controls/admin/summary.json` proves all 23 registered admin routes across mobile and desktop using masked test data. |
 | Custom sheet accessibility | Automated pass; native structural pass | Focused widget UAT passes semantics/tap-target checks for account sheets. Native Android structural TalkBack capture passed on device `13111JEC215558`; human auditory narration review remains separate. |
-| Admin workflow depth | Improved in source; not fully closed | Admin list pages now expose queue-specific operator signals/workflow steps, detail pages expose operator next-step panels, current-page CSV export, and persisted SLA/owner/escalation policy through `admin_get_queue_sla`. Permission helpers block arbitrary-user probing, the audited `admin_record_operator_note` RPC persists operator notes, and expanded visual evidence covers 23 admin routes. More domain write workflows remain pending. |
+| Admin workflow depth | Improved in source | Admin list pages now expose queue-specific operator signals/workflow steps, detail pages expose operator next-step panels, current-page CSV export, and persisted SLA/owner/escalation policy through `admin_get_queue_sla`. Permission helpers block arbitrary-user probing, the audited `admin_record_operator_note` RPC persists operator notes, and `admin_update_collection_support_status` adds a reason-gated group status write with audit logging. Expanded visual evidence covers 23 admin routes. |
 
 ## Navigation Audit
 
@@ -180,7 +180,7 @@ The original audit pass did not run a native production/mobile build. The 2026-0
 | Asset area | Health | Notes |
 | --- | --- | --- |
 | Fonts | Pass | Borrowed/Revolut-like font files installed and registered. |
-| Runtime brand assets | Pass | Wordmark, app icon, splash mark, web icon, share preview, and icon mapping are installed. |
+| Runtime brand assets | Pass | Wordmark, app icon, splash mark, splash background, web icon, share preview, and icon mapping are installed from Collect-owned generated/source assets. |
 | Media richness | Good with scope limits | Member Home/share/privacy use richer visual panels; create and scan now include compact reassurance panels. Legal remains intentionally text-first. |
 | Icon language | Good | Centralized `CollectIcons` adapter gives consistent Material-like icon set. Full Revolut-like icon replacement remains a future input question. |
 | Public website assets | Pass | Static/public share preview exists, public tests pass, and fresh public visual proof passes across mobile and desktop. |
@@ -194,7 +194,7 @@ This audit does not claim full WCAG compliance. It combines screenshots, source 
 | Legal text clipping | `.cache/collect_visual_evidence/20260627T_findings_targeted/mobile/legal-terms-390x844.png`, `.cache/collect_visual_evidence/20260627T_large_text_2_0/mobile/legal-terms-390x844.png` | Fixed at normal `390x844`; targeted large-text evidence passes through text scale `2.0`. |
 | Excess truncation | Groups, Privacy, Settings panels | Improved at normal `390x844`; targeted large-text evidence passes at text scale `1.3`, `1.6`, and `2.0`. |
 | Focus order for web/public/admin | Source/tests partial plus screenshot matrices | Browser keyboard walk remains useful for final release, but public mobile/desktop, admin mobile/desktop, and member mobile route rendering are now proven nonblank. |
-| Dialog accessibility | Automated custom-sheet pass; native structural pass | Account sign-out/delete sheets expose semantic actions and Android tap targets in widget UAT. Native Android structural TalkBack evidence passes; human auditory order and comprehension review remain separate. |
+| Dialog accessibility | Automated custom-sheet pass; native structural pass | Account sign-out/delete sheets expose semantic actions and Android tap targets in widget UAT. Native Android structural TalkBack evidence passes; the human-listening checklist is documented separately. |
 | Color contrast | Token tests and audit pass | Continue to guard if component fills are changed. |
 | Touch targets | Source largely uses 44+ px targets | Confirm in routes with compact chips and segmented controls. |
 
@@ -214,18 +214,18 @@ Required before release signoff:
 
 Admin routes and behavior are covered by `test/admin_pwa_test.dart`, including auth, permission gating, paging, raw SMS permission boundaries, masked evidence mode, and operational workflow panels. Expanded admin evidence now covers 23 routes across mobile and desktop in `.cache/collect_visual_evidence/20260627T_admin_workflow_controls/admin/summary.json`.
 
-Health: Functional/source strong, expanded visual proof passed, audited operator-note persistence and persisted queue SLA policy added, deeper domain-write workflows still pending.
+Health: Functional/source strong, expanded visual proof passed, audited operator-note persistence, persisted queue SLA policy, and group support-status writes added.
 
 Required before release signoff:
 
 1. Authenticated role-by-role UAT for every admin queue.
-2. Authenticated validation of operator-note writes, queue exports, persisted SLA reads, and more domain write workflows.
+2. Authenticated validation of operator-note writes, group support-status writes, queue exports, and persisted SLA reads.
 3. Check dense table/list views for text overflow, pagination, empty/error/loading states, and permission-denied panels.
 
 ## Final Fix Priority
 
-1. Run human auditory TalkBack review for narration order, pronunciation, and comprehension using `.cache/android_accessibility_pixel4a/20260629T042835Z/summary.json` as the structural baseline.
-2. Implement more domain write workflows beyond audited operator notes, persisted SLA reads, and current-page CSV export.
+1. If a human accessibility signoff is required, use `docs/design/ANDROID_TALKBACK_REVIEW_PACKET_2026-06-29.md` to listen through narration order, pronunciation, and comprehension on device.
+2. Add further domain write workflows only when operations policy defines a safe action.
 3. Produce contact sheets from `.cache/public_visual_evidence/20260627T_public_matrix_fixed/`, `.cache/mobile_route_render_smoke/20260627T_postfix_fixed_clean/`, and `.cache/collect_visual_evidence/20260627T_admin_workflow_controls/` if a human review packet is required.
 4. After further source changes, run one consolidated final route/contact-sheet/audit pass.
 
@@ -233,4 +233,4 @@ Required before release signoff:
 
 The member Flutter app is much closer to the Revolut10 reference than before: the dominant orange CTA issue is fixed, the three-tab COOL navigation is preserved, the top chrome and floating dock work on the main routes, and fresh targeted visual evidence passes for the changed/high-risk routes.
 
-The remaining issues are not broad architectural failures. The public visual matrix, post-fix isolated Chrome 55-route member matrix, expanded 23-route admin matrix, and native Android structural accessibility capture now have pass summaries. The remaining release-signoff evidence gaps are human auditory TalkBack review and deeper admin domain-write workflows beyond audited operator notes and persisted SLA reads.
+The remaining issues are not broad architectural failures. The public visual matrix, post-fix isolated Chrome 55-route member matrix, expanded 23-route admin matrix, native Android structural accessibility capture, Collect-owned runtime asset kit, and admin persisted workflow controls now have pass evidence. Human auditory TalkBack signoff remains a human review activity, not something the repository can truthfully automate.

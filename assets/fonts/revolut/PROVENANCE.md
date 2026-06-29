@@ -12,4 +12,6 @@ Installed runtime files:
 - `RevolutBorrowed-Bold.otf`
 - `RevolutBorrowed-ExtraBold.otf`
 
-This closes the empty-font-path implementation gap for the Flutter runtime. If an exact approved Revolut font package is later supplied, replace these files in the same path and keep the `Revolut Borrowed` family name stable.
+This closes the empty-font-path implementation gap for the Flutter runtime. Keep
+the `Revolut Borrowed` family name stable unless typography is renamed in a
+dedicated app-wide refactor.

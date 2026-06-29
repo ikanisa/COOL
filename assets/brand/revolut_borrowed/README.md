@@ -1,6 +1,9 @@
-# Borrowed Revolut Brand Kit
+# Collect Runtime Brand Kit
 
-Place only approved or repo-approved Revolut-like borrowed brand assets in this directory.
+This directory keeps the stable runtime asset paths used by the mobile app,
+Admin PWA, splash screens, web manifest, and public-share surfaces. The current
+source of truth is Collect-owned artwork under `assets/brand/generated/` and
+`assets/brand/source_variants/`.
 
 Expected runtime inputs:
 
@@ -12,9 +15,9 @@ Expected runtime inputs:
 - `icons/` for the approved icon set or mapping assets.
 - `media/` for Revolut-like product/media imagery.
 
-The four Collect primary colors remain preserved as the only distinct palette:
+The four Collect primary colors remain preserved:
 `#8885F0`, `#3CD070`, `#D38B96`, and `#FF5E43`.
 
-Current status: installed. `RevolutBorrowedAssets` now routes runtime brand
-surfaces through the expected paths in this directory. See `PROVENANCE.md` for
-source and replacement rules.
+Current status: installed and Collect-owned. `RevolutBorrowedAssets` keeps the
+legacy class name and routes runtime brand surfaces through these stable paths
+to avoid broad app churn. See `PROVENANCE.md` for source and replacement rules.

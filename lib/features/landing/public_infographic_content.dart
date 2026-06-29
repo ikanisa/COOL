@@ -17,15 +17,15 @@ class LandingStepData {
 String publicInfographicTitle(String path) {
   switch (path) {
     case '/group-savings':
-      return 'Group savings journey';
+      return 'How Collect works';
     case '/diaspora':
       return 'Diaspora savings pathway';
     case '/insurance':
-      return 'Insurance support workflow';
+      return 'How insurance support works';
     case '/craas':
       return 'From inquiry to support file';
     case '/community-groups':
-      return 'What the app enables for a group';
+      return 'What the app enables';
     case '/our-partners':
       return 'Bank growth workflow';
     case '/account-deletion':
@@ -39,15 +39,15 @@ String publicInfographicTitle(String path) {
 String publicInfographicBody(String path) {
   switch (path) {
     case '/group-savings':
-      return 'Start together. Save together. Build a record together.';
+      return 'Create the group, invite members, contribute with proof, build history, and connect to partners.';
     case '/diaspora':
       return 'Save across borders with clearer rules and records.';
     case '/insurance':
-      return 'Keep customer records clearer when an approved provider is involved.';
+      return 'Show terms, collect premiums flexibly, provide proof, and support claim notification.';
     case '/craas':
-      return 'Turn customer activity into a cleaner readiness file.';
+      return 'Move from inquiry to a complete, indexed application file.';
     case '/community-groups':
-      return 'Give trusted groups a simple mobile operating layer.';
+      return 'Give leaders and members cleaner records without changing group governance.';
     case '/our-partners':
       return 'Convert existing savings discipline into formal deposits, reliable data and bankable credit relationships.';
     case '/account-deletion':
@@ -79,30 +79,35 @@ List<LandingStepData> publicInfographicSteps(String path) {
       return const [
         LandingStepData(
           icon: Icons.group_add_outlined,
-          title: 'Start the group',
-          body:
-              'Set up a savings group with clear members, purpose and contribution rhythm.',
+          title: 'Create the group',
+          body: 'Define purpose, leadership, rules and contribution schedule.',
           color: CollectColors.brandPeriwinkle,
         ),
         LandingStepData(
           icon: Icons.dialpad_outlined,
           title: 'Invite members',
           body:
-              'Share a link or QR code through the channels members already use.',
+              'Onboard members through the app or supported assisted channels.',
           color: CollectColors.brandMintGreen,
         ),
         LandingStepData(
           icon: Icons.sms_outlined,
-          title: 'Track saving',
+          title: 'Contribute and get proof',
           body:
-              'Members contribute and the group follows progress from one record.',
+              'Members save through the app, mobile money, or USSD and receive confirmation.',
           color: CollectColors.brandDustyRose,
         ),
         LandingStepData(
           icon: Icons.receipt_long_outlined,
-          title: 'Use the record',
-          body: 'Turn contribution history into statements and support files.',
+          title: 'Build history',
+          body: 'Contribution consistency becomes a verified record.',
           color: CollectColors.brandPeriwinkle,
+        ),
+        LandingStepData(
+          icon: Icons.account_balance_outlined,
+          title: 'Connect to partners',
+          body: 'Eligible groups may access partner-led finance.',
+          color: CollectColors.brandMintGreen,
         ),
       ];
     case '/diaspora':
@@ -127,9 +132,8 @@ List<LandingStepData> publicInfographicSteps(String path) {
         ),
         LandingStepData(
           icon: Icons.location_on_outlined,
-          title: 'Discuss next steps',
-          body:
-              'Any financial-service decision remains with the relevant provider.',
+          title: 'Invest at home',
+          body: 'Use the loan to invest in property or a business in Rwanda.',
           color: CollectColors.brandDustyRose,
         ),
       ];
@@ -137,26 +141,26 @@ List<LandingStepData> publicInfographicSteps(String path) {
       return const [
         LandingStepData(
           icon: Icons.support_agent_outlined,
-          title: 'Customer request',
-          body: 'Understand the insurance-related question.',
+          title: 'Display terms',
+          body: 'Show product terms, exclusions, price and insurer.',
           color: CollectColors.brandMintGreen,
         ),
         LandingStepData(
           icon: Icons.receipt_long_outlined,
-          title: 'Record support',
-          body: 'Organize relevant customer and group records.',
+          title: 'Collect premium',
+          body: 'Collect daily or through a flexible schedule.',
           color: CollectColors.brandDustyRose,
         ),
         LandingStepData(
           icon: Icons.verified_user_outlined,
-          title: 'Provider review',
-          body: 'Approved providers review under their own rules.',
+          title: 'Provide proof',
+          body: 'Member receives digital proof of cover.',
           color: CollectColors.brandPeriwinkle,
         ),
         LandingStepData(
           icon: Icons.chat_bubble_outline,
-          title: 'Support follow-up',
-          body: 'IKANISA support helps customers understand next steps.',
+          title: 'Support claims',
+          body: 'Collect supports notification; insurer decides claims.',
           color: CollectColors.brandPeriwinkle,
         ),
       ];
@@ -170,20 +174,20 @@ List<LandingStepData> publicInfographicSteps(String path) {
         ),
         LandingStepData(
           icon: Icons.inventory_2_outlined,
-          title: 'File support',
-          body: 'Organize records and missing items.',
+          title: 'Requirement mapping',
+          body: 'Match the request to bank and product requirements.',
           color: CollectColors.brandMintGreen,
         ),
         LandingStepData(
           icon: Icons.rule_outlined,
-          title: 'Readiness notes',
-          body: 'Prepare a clear customer summary.',
+          title: 'Document preparation',
+          body: 'Guide preparation of required documents and services.',
           color: CollectColors.brandDustyRose,
         ),
         LandingStepData(
           icon: Icons.account_balance_outlined,
-          title: 'Provider review',
-          body: 'Credit decisions remain with the financial provider.',
+          title: 'Bank-ready package',
+          body: 'Index the completed application for bank review.',
           color: CollectColors.brandDustyRose,
         ),
       ];
@@ -191,26 +195,26 @@ List<LandingStepData> publicInfographicSteps(String path) {
       return const [
         LandingStepData(
           icon: Icons.home_outlined,
-          title: 'Join',
-          body: 'Enter the group from a link or QR code.',
+          title: 'Lead',
+          body: 'Create groups, set rules, assign roles and track activity.',
           color: CollectColors.brandPeriwinkle,
         ),
         LandingStepData(
           icon: Icons.groups_outlined,
-          title: 'Save',
-          body: 'Contribute and follow the group record.',
+          title: 'Contribute',
+          body: 'Members contribute and receive proof.',
           color: CollectColors.brandMintGreen,
         ),
         LandingStepData(
           icon: Icons.settings_outlined,
-          title: 'Track',
-          body: 'See member activity and progress.',
+          title: 'Follow progress',
+          body: 'Members view personal and group progress.',
           color: CollectColors.brandDustyRose,
         ),
         LandingStepData(
           icon: Icons.support_agent_outlined,
-          title: 'Support',
-          body: 'Get help without exposing private data.',
+          title: 'Build history',
+          body: 'Verified contribution records support next steps.',
           color: CollectColors.brandPeriwinkle,
         ),
       ];

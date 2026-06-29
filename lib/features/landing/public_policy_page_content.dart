@@ -2,6 +2,73 @@ part of 'public_content.dart';
 
 const _publicPolicyPages = <CollectPublicPageData>[
   CollectPublicPageData(
+    path: '/trust',
+    navLabel: 'Trust & Security',
+    title: 'Security and trust',
+    intro:
+        'Collect protects personal data with limited access, practical safeguards, clear AI boundaries, and customer routes to access, correct or delete eligible data.',
+    imageAsset: 'assets/brand/generated/collect_visual_qr_share.png',
+    metricA: 'Limited',
+    metricALabel: 'Data access',
+    metricB: 'Clear',
+    metricBLabel: 'Customer rights',
+    sections: [
+      CollectPublicSectionData(
+        title: 'Privacy at a glance',
+        body:
+            'Collect collects only the information needed to operate savings, contribution records, support, credit-readiness and insurance-related workflows.',
+        bullets: [
+          'Customer data is used to operate Collect and support requested workflows',
+          'Personal data is not sold',
+          'Sensitive access is limited by role and reason',
+          'Deletion and correction request paths are available',
+        ],
+      ),
+      CollectPublicSectionData(
+        title: 'What we collect',
+        body:
+            'Collect may collect account, group, contribution, payment-reference, support and service-choice information needed to run the product and support customer requests.',
+        bullets: [
+          'Identity, contact, Collect ID and account details',
+          'Group membership, roles, rules and contribution activity',
+          'Payment references, support messages and service notifications',
+          'Camera or image inputs only when a customer uses a QR, support or evidence feature',
+        ],
+      ),
+      CollectPublicSectionData(
+        title: 'How AI assists',
+        body:
+            "Collect does not use customers' private financial documents to train publicly available AI models.",
+        bullets: [
+          'AI may assist support, parsing, summaries or readiness workflows under controls',
+          'Human review remains part of sensitive support and provider-review workflows',
+          'Provider credit or insurance decisions are not made by Collect public website copy',
+        ],
+      ),
+      CollectPublicSectionData(
+        title: 'Security measures',
+        body:
+            'Collect uses access controls, transport security, audit logs and operational safeguards to protect customer information.',
+        bullets: [
+          'Data is protected in transit',
+          'Raw sensitive records are minimized where possible',
+          'Sensitive admin access is reason-gated and audited',
+          'Security, dispute, payment and legal records may be retained where required',
+        ],
+      ),
+      CollectPublicSectionData(
+        title: 'Regulatory posture',
+        body:
+            "Collect supports customer records and provider workflows. Where regulated products are involved, the bank, insurer or approved provider remains responsible for its own regulated decision.",
+        bullets: [
+          'Funds are held through regulated financial-service partners where approved arrangements apply',
+          'Banks and insurers make their own final decisions',
+          'Customer rights and deletion routes remain available through IKANISA support',
+        ],
+      ),
+    ],
+  ),
+  CollectPublicPageData(
     path: '/privacy',
     navLabel: 'Privacy Policy',
     title: 'Privacy Policy and Data Deletion',

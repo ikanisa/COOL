@@ -100,6 +100,9 @@ void main() {
   final adminQueueSlaPolicies = File(
     'supabase/migrations/20260627184500_add_admin_queue_sla_policies.sql',
   ).readAsStringSync();
+  final adminCollectionStatusRpc = File(
+    'supabase/migrations/20260627190000_add_admin_collection_status_rpc.sql',
+  ).readAsStringSync();
   final sendNotificationFunction = File(
     'supabase/functions/send-notification/index.ts',
   ).readAsStringSync();
@@ -387,6 +390,40 @@ void main() {
     expect(
       adminQueueSlaPolicies,
       contains('grant execute on function admin_get_queue_sla(text)'),
+    );
+  });
+
+  test('admin collection support status write is audited and scoped', () {
+    expect(
+      adminCollectionStatusRpc,
+      contains('admin_update_collection_support_status'),
+    );
+    expect(
+      adminCollectionStatusRpc,
+      contains("perform assert_admin_permission('collections.moderate')"),
+    );
+    expect(adminCollectionStatusRpc, contains('Reason is required'));
+    expect(
+      adminCollectionStatusRpc,
+      contains("p_status not in ('private', 'public_rejected', 'archived')"),
+    );
+    expect(adminCollectionStatusRpc, contains('update collections'));
+    expect(
+      adminCollectionStatusRpc,
+      contains("'collection.support_status.updated'"),
+    );
+    expect(adminCollectionStatusRpc, contains('create_audit_log'));
+    expect(
+      adminCollectionStatusRpc,
+      contains(
+        'revoke execute on function admin_update_collection_support_status(uuid, text, text)',
+      ),
+    );
+    expect(
+      adminCollectionStatusRpc,
+      contains(
+        'grant execute on function admin_update_collection_support_status(uuid, text, text)',
+      ),
     );
   });
 
@@ -1110,6 +1147,12 @@ void main() {
       readiness,
       contains("('authenticated', 'admin_record_operator_note', 'EXECUTE')"),
     );
+    expect(
+      readiness,
+      contains(
+        "('authenticated', 'admin_update_collection_support_status', 'EXECUTE')",
+      ),
+    );
     expect(readiness, contains('information_schema.column_privileges'));
     expect(readiness, contains('missing column grant:'));
     expect(advisorGate, contains('supabase_cli db advisors'));
@@ -1120,7 +1163,7 @@ void main() {
     expect(warningInventory, contains('pg_graphql_anon_table_exposed'));
     expect(
       warningInventory,
-      contains('"authenticated_security_definer_function_executable" => 48'),
+      contains('"authenticated_security_definer_function_executable" => 49'),
     );
     expect(warningInventory, contains('performance warnings=0'));
     expect(schemaInventory, contains('pg_policies'));

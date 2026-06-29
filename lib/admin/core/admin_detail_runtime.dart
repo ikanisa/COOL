@@ -243,6 +243,11 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                   ),
                 ),
               ],
+              if (rpcName == 'admin_get_collection' &&
+                  _adminHasPermission(identity, 'collections.moderate')) ...[
+                const SizedBox(height: 12),
+                _AdminCollectionStatusActions(collectionId: id),
+              ],
               const SizedBox(height: 18),
               _AdminDetailWorkflowPanel(spec: spec),
             ],
@@ -284,6 +289,131 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(const SnackBar(content: Text('Operator note recorded')));
+  }
+}
+
+class _AdminCollectionStatusActions extends ConsumerWidget {
+  const _AdminCollectionStatusActions({required this.collectionId});
+
+  final String collectionId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.collectColors;
+    return Semantics(
+      container: true,
+      explicitChildNodes: true,
+      label: 'Group support status actions',
+      hint: 'Updates group public support status with an audited reason.',
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.surfaceMuted.withValues(alpha: 0.84),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: colors.borderAccent),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Group support status',
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Reason-gated actions update the group state and audit trail.',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: colors.textSecondary,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  _AdminCollectionStatusButton(
+                    collectionId: collectionId,
+                    status: 'private',
+                    label: 'Set private',
+                    icon: Icons.lock_outline,
+                  ),
+                  _AdminCollectionStatusButton(
+                    collectionId: collectionId,
+                    status: 'public_rejected',
+                    label: 'Reject public',
+                    icon: Icons.block_outlined,
+                  ),
+                  _AdminCollectionStatusButton(
+                    collectionId: collectionId,
+                    status: 'archived',
+                    label: 'Archive',
+                    icon: Icons.archive_outlined,
+                    destructive: true,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AdminCollectionStatusButton extends ConsumerWidget {
+  const _AdminCollectionStatusButton({
+    required this.collectionId,
+    required this.status,
+    required this.label,
+    required this.icon,
+    this.destructive = false,
+  });
+
+  final String collectionId;
+  final String status;
+  final String label;
+  final IconData icon;
+  final bool destructive;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.collectColors;
+    final button = OutlinedButton.icon(
+      onPressed: () => _updateStatus(context, ref),
+      icon: Icon(icon),
+      label: Text(label),
+      style: destructive
+          ? OutlinedButton.styleFrom(foregroundColor: colors.danger)
+          : null,
+    );
+    return Semantics(
+      button: true,
+      label: '$label group support status',
+      hint: 'Opens a reason dialog before updating the group status.',
+      child: ExcludeSemantics(child: button),
+    );
+  }
+
+  Future<void> _updateStatus(BuildContext context, WidgetRef ref) async {
+    final reason = await showAdminReasonDialog(
+      context,
+      title: '$label group',
+      actionLabel: label,
+    );
+    if (reason == null) return;
+    await ref.read(adminRepositoryProvider).action(
+      'admin_update_collection_support_status',
+      {'p_collection_id': collectionId, 'p_status': status, 'p_reason': reason},
+    );
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('Group status updated: $label')));
   }
 }
 
