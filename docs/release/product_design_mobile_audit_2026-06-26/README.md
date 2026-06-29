@@ -155,8 +155,6 @@ Screens:
 - `01-launch.png`
 - `02-onboarding.png`
 - `03-auth-phone.png`
-- `04-auth-success.png`
-- `05-auth-failure.png`
 
 Health: Good foundation with clarity risks.
 
@@ -500,8 +498,6 @@ Recommendations:
 | 1 | `01-launch.png` | `/` | Needs review | Launch route captured as redirect/root state; verify loading and redirect timing on device. |
 | 2 | `02-onboarding.png` | `/onboarding` | Good with risk | Clear product story, but hero copy truncates. |
 | 3 | `03-auth-phone.png` | `/auth` | Needs review | Auth expectations and recovery must be explicit. |
-| 4 | `04-auth-success.png` | `/auth/success` | Good | Success state exists; verify next action clarity. |
-| 5 | `05-auth-failure.png` | `/auth/failure` | Needs review | Failure state exists; needs strongest retry/support guidance. |
 | 6 | `06-profile-setup.png` | `/settings/profile` | Needs review | Profile setup should show required fields and why they matter. |
 | 7 | `07-profile-readiness.png` | `/settings/readiness` | Needs review | Readiness should become a checklist, not an abstract status. |
 | 8 | `08-home.png` | `/home` | Strong with risk | Excellent product entry; dense top area and clipped cards. |

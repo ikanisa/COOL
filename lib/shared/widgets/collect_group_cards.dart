@@ -180,11 +180,6 @@ class _PublicDiscoveryGroupCard extends StatelessWidget {
                       _GroupCoverMedia(collection: collection),
                       _GroupCoverScrim(accent: accent),
                       Positioned(
-                        top: CollectSpacing.x3,
-                        right: CollectSpacing.x3,
-                        child: _PublicGlyph(accent: accent),
-                      ),
-                      Positioned(
                         left: CollectSpacing.x3,
                         right: CollectSpacing.x3,
                         bottom: CollectSpacing.x3,

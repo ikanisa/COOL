@@ -9,90 +9,96 @@ class NotificationCenterScreen extends ConsumerWidget {
     final preferences = state.notificationPreferences;
     final events = state.notificationEvents;
     final unreadCount = events.where((event) => event.unread).length;
+    final isInitialLoading = state.isLoading && events.isEmpty;
     return ScreenScaffold(
       title: 'Notifications',
       showHeader: false,
-      children: [
-        const _NotificationPageHeader(),
-        CollectCard(
-          emphasis: CollectCardEmphasis.flat,
-          child: Column(
-            children: [
-              _NotificationPreferenceTile(
-                icon: CollectIcons.money,
-                title: 'Contribution confirmations',
-                value: preferences.contributionConfirmations,
-                onChanged: (value) => _saveNotificationPreference(
-                  ref,
-                  preferences.copyWith(contributionConfirmations: value),
-                ),
-              ),
-              _NotificationPreferenceTile(
+      onRefresh: () =>
+          ref.read(collectRepositoryProvider.notifier).loadInitial(),
+      children: isInitialLoading
+          ? const [
+              _NotificationPageHeader(),
+              CollectScreenLoadingState(
+                title: 'Loading notifications',
+                message: 'Refreshing preferences and recent updates.',
                 icon: CollectIcons.pending,
-                title: 'Payment reminders',
-                value: preferences.paymentReminders,
-                onChanged: (value) => _saveNotificationPreference(
-                  ref,
-                  preferences.copyWith(paymentReminders: value),
-                ),
               ),
-              _NotificationPreferenceTile(
-                icon: CollectIcons.collections,
-                title: 'Group updates',
-                value: preferences.groupUpdates,
-                onChanged: (value) => _saveNotificationPreference(
-                  ref,
-                  preferences.copyWith(groupUpdates: value),
-                ),
-              ),
-              _NotificationPreferenceTile(
-                icon: CollectIcons.warning,
-                title: 'Security notices',
-                value: preferences.securityNotices,
-                onChanged: (value) => _saveNotificationPreference(
-                  ref,
-                  preferences.copyWith(securityNotices: value),
-                ),
-              ),
-            ],
-          ),
-        ),
-        if (events.isEmpty)
-          const MinimalStatePanel(
-            icon: CollectIcons.pending,
-            title: 'No updates yet.',
-            message:
-                'Contribution confirmations, pending payment reminders, and security notices will appear here.',
-            tone: CollectStatusTone.neutral,
-          )
-        else
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SectionHeader(
-                title: 'Today',
-                actionLabel: unreadCount > 0 ? '$unreadCount pending' : null,
-              ),
+            ]
+          : [
+              const _NotificationPageHeader(),
               CollectCard(
                 emphasis: CollectCardEmphasis.flat,
                 child: Column(
                   children: [
-                    for (final event in events)
-                      NotificationUpdateRow(
-                        title: event.title,
-                        message: event.body,
-                        meta: _notificationMeta(event),
-                        tone: _notificationTone(event.type),
-                        onTap: event.unread
-                            ? () => _markNotificationRead(ref, event.id)
-                            : null,
+                    _NotificationPreferenceTile(
+                      icon: CollectIcons.money,
+                      title: 'Contribution confirmations',
+                      value: preferences.contributionConfirmations,
+                      onChanged: (value) => _saveNotificationPreference(
+                        ref,
+                        preferences.copyWith(contributionConfirmations: value),
                       ),
+                    ),
+                    _NotificationPreferenceTile(
+                      icon: CollectIcons.pending,
+                      title: 'Payment reminders',
+                      value: preferences.paymentReminders,
+                      onChanged: (value) => _saveNotificationPreference(
+                        ref,
+                        preferences.copyWith(paymentReminders: value),
+                      ),
+                    ),
+                    _NotificationPreferenceTile(
+                      icon: CollectIcons.collections,
+                      title: 'Group updates',
+                      value: preferences.groupUpdates,
+                      onChanged: (value) => _saveNotificationPreference(
+                        ref,
+                        preferences.copyWith(groupUpdates: value),
+                      ),
+                    ),
+                    _NotificationPreferenceTile(
+                      icon: CollectIcons.warning,
+                      title: 'Security notices',
+                      value: preferences.securityNotices,
+                      onChanged: (value) => _saveNotificationPreference(
+                        ref,
+                        preferences.copyWith(securityNotices: value),
+                      ),
+                    ),
                   ],
                 ),
               ),
+              if (events.isNotEmpty)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SectionHeader(
+                      title: 'Today',
+                      actionLabel: unreadCount > 0
+                          ? '$unreadCount pending'
+                          : null,
+                    ),
+                    CollectCard(
+                      emphasis: CollectCardEmphasis.flat,
+                      child: Column(
+                        children: [
+                          for (final event in events)
+                            NotificationUpdateRow(
+                              title: event.title,
+                              message: event.body,
+                              meta: _notificationMeta(event),
+                              tone: _notificationTone(event.type),
+                              onTap: event.unread
+                                  ? () => _markNotificationRead(ref, event.id)
+                                  : null,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
             ],
-          ),
-      ],
     );
   }
 }

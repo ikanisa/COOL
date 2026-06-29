@@ -17,6 +17,8 @@ class CollectRuntimeAssets {
   static const expectedWebManifestIconPath =
       '$appIconAssetRoot/collect-web-512.png';
   static const expectedSharePreviewPath = '$mediaAssetRoot/share-preview.png';
+  static const sourceWordmarkPath =
+      '$fallbackBrandRoot/source_variants/collect_wordmark_transparent_4096.png';
 
   static const wordmarkAssetPath = expectedWordmarkPath;
   static const appIconAssetPath = expectedAppIconPath;

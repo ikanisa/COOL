@@ -45,11 +45,40 @@ class _PaymentIntentStatusScreenState
       widget.collectionId,
     );
     final textScale = MediaQuery.textScalerOf(context).scale(1);
+    if ((intent == null || collection == null) && appState.isLoading) {
+      return ScreenScaffold(
+        title: 'Payment',
+        subtitle: 'Loading status',
+        showHeader: false,
+        onRefresh: _refreshStatus,
+        persistentPill: CollectTopChrome(
+          avatarLabel: appState.currentProfile?.publicId,
+          searchLabel: 'Payment status',
+          onAvatarTap: () => context.go('/settings/profile'),
+          actions: [
+            CollectTopChromeAction(
+              icon: CollectIcons.ledger,
+              tooltip: 'Open groups',
+              onPressed: () => context.go('/groups'),
+            ),
+          ],
+        ),
+        children: const [
+          CollectScreenLoadingState(
+            title: 'Loading payment status',
+            message: 'Checking payment status and verification trail.',
+            icon: CollectIcons.momo,
+            skeletonCount: 3,
+          ),
+        ],
+      );
+    }
     if (intent == null || collection == null) {
       return ScreenScaffold(
         title: 'Payment',
         subtitle: 'Status unavailable',
         showHeader: false,
+        onRefresh: _refreshStatus,
         persistentPill: CollectTopChrome(
           avatarLabel: appState.currentProfile?.publicId,
           searchLabel: 'Payment status',
@@ -95,6 +124,7 @@ class _PaymentIntentStatusScreenState
       title: 'Payment',
       subtitle: collection.title,
       showHeader: false,
+      onRefresh: _refreshStatus,
       persistentPill: CollectTopChrome(
         avatarLabel: ref.watch(
           collectRepositoryProvider.select(

@@ -21,8 +21,11 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
   final _momoPayCode = TextEditingController();
   CollectMomoReceiverMode _momoMode = CollectMomoReceiverMode.momoNumber;
   bool _synced = false;
+  bool _syncingFields = false;
   bool _saving = false;
   bool _saved = false;
+  String _initialMomoNumber = '';
+  String _initialMomoPayCode = '';
   String? _error;
 
   TextEditingController get _activeMomoController {
@@ -32,7 +35,16 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _momoNumber.addListener(_handleMomoEdited);
+    _momoPayCode.addListener(_handleMomoEdited);
+  }
+
+  @override
   void dispose() {
+    _momoNumber.removeListener(_handleMomoEdited);
+    _momoPayCode.removeListener(_handleMomoEdited);
     _momoNumber.dispose();
     _momoPayCode.dispose();
     super.dispose();
@@ -42,6 +54,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
   Widget build(BuildContext context) {
     final profile = ref.watch(collectRepositoryProvider).currentProfile;
     if (!_synced && profile != null) {
+      _syncingFields = true;
       if (profile.momoNumber?.trim().isNotEmpty == true) {
         _momoNumber.text =
             PhoneNormalizer.tryNormalizeMtnMomoLocal(profile.momoNumber!) ??
@@ -53,6 +66,9 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
           _momoMode = CollectMomoReceiverMode.momoPayCode;
         }
       }
+      _initialMomoNumber = _momoNumber.text.trim();
+      _initialMomoPayCode = _momoPayCode.text.trim();
+      _syncingFields = false;
       _synced = true;
     }
     return ScreenScaffold(
@@ -86,7 +102,8 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                   _momoMode = mode;
                   _error = null;
                 }),
-                controller: _activeMomoController,
+                numberController: _momoNumber,
+                codeController: _momoPayCode,
                 numberInputLabel: 'MoMo number',
                 codeInputLabel: 'MoMo code',
               ),
@@ -127,7 +144,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
               ? 'Save MoMo code'
               : 'Save MoMo number',
           icon: CollectIcons.check,
-          onPressed: _saving ? null : _saveMomoNumber,
+          onPressed: _canSaveMomo ? _saveMomoNumber : null,
           expand: true,
         ),
         CollectButton(
@@ -139,6 +156,33 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
         ),
       ],
     );
+  }
+
+  void _handleMomoEdited() {
+    if (_syncingFields || !mounted) return;
+    setState(() {
+      _saved = false;
+      _error = null;
+    });
+  }
+
+  bool get _hasMomoChanges {
+    return _momoNumber.text.trim() != _initialMomoNumber ||
+        _momoPayCode.text.trim() != _initialMomoPayCode;
+  }
+
+  bool get _activeMomoValueIsValid {
+    final value = _activeMomoController.text.trim();
+    if (value.isEmpty) return false;
+    if (_momoMode == CollectMomoReceiverMode.momoPayCode) {
+      final digits = value.replaceAll(RegExp(r'\D'), '');
+      return digits.length >= 5 && digits.length <= 6;
+    }
+    return PhoneNormalizer.tryNormalizeMtnMomoLocal(value) != null;
+  }
+
+  bool get _canSaveMomo {
+    return !_saving && _hasMomoChanges && _activeMomoValueIsValid;
   }
 
   Future<void> _saveMomoNumber() async {
@@ -173,6 +217,8 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
         _saved = true;
         _saving = false;
         _error = null;
+        _initialMomoNumber = _momoNumber.text.trim();
+        _initialMomoPayCode = _momoPayCode.text.trim();
       });
     } catch (error) {
       if (mounted) {

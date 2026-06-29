@@ -190,6 +190,44 @@ class LoadingStatePanel extends StatelessWidget {
   }
 }
 
+class CollectScreenLoadingState extends StatelessWidget {
+  const CollectScreenLoadingState({
+    required this.title,
+    required this.message,
+    this.icon = CollectIcons.sync,
+    this.skeletonCount = 2,
+    super.key,
+  });
+
+  final String title;
+  final String message;
+  final IconData icon;
+  final int skeletonCount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      container: true,
+      liveRegion: true,
+      label: 'Loading screen: $title',
+      child: Column(
+        key: ValueKey<String>('loading-$title'),
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          LoadingStatePanel(title: title, message: message, icon: icon),
+          for (var index = 0; index < skeletonCount; index += 1) ...[
+            CollectSpacing.gap16,
+            LoadingSkeleton(
+              lines: index == 0 ? 4 : 3,
+              semanticsLabel: 'Loading section ${index + 1} for $title',
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
 class CollectBottomSheet extends StatelessWidget {
   const CollectBottomSheet({required this.child, super.key});
 

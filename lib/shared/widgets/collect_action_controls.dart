@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../app/theme/collect_colors.dart';
 import '../../app/theme/collect_icons.dart';
@@ -235,7 +236,8 @@ class CollectMomoReceiverCard extends StatelessWidget {
   const CollectMomoReceiverCard({
     required this.mode,
     required this.onChanged,
-    required this.controller,
+    required this.numberController,
+    required this.codeController,
     this.numberInputLabel = 'MoMo number',
     this.codeInputLabel = 'MoMo code',
     super.key,
@@ -243,14 +245,14 @@ class CollectMomoReceiverCard extends StatelessWidget {
 
   final CollectMomoReceiverMode mode;
   final ValueChanged<CollectMomoReceiverMode> onChanged;
-  final TextEditingController controller;
+  final TextEditingController numberController;
+  final TextEditingController codeController;
   final String numberInputLabel;
   final String codeInputLabel;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final isCode = mode == CollectMomoReceiverMode.momoPayCode;
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.glassControl,
@@ -258,66 +260,28 @@ class CollectMomoReceiverCard extends StatelessWidget {
         border: Border.all(color: colors.glassBorder),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(CollectSpacing.x1),
+        padding: const EdgeInsets.all(CollectSpacing.x3),
         child: Column(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: _CollectMomoReceiverModeSegment(
-                    label: 'MoMo Number',
-                    icon: CollectIcons.momo,
-                    selected: !isCode,
-                    onTap: () => onChanged(CollectMomoReceiverMode.momoNumber),
-                  ),
-                ),
-                CollectSpacing.gapW8,
-                Expanded(
-                  child: _CollectMomoReceiverModeSegment(
-                    label: 'MoMo Code',
-                    icon: CollectIcons.qr,
-                    selected: isCode,
-                    onTap: () => onChanged(CollectMomoReceiverMode.momoPayCode),
-                  ),
-                ),
-              ],
+            _MomoInputSurface(
+              controller: numberController,
+              label: numberInputLabel,
+              hintText: '07XXXXXXXX',
+              icon: CollectIcons.momo,
+              keyboardType: TextInputType.phone,
+              selected: mode == CollectMomoReceiverMode.momoNumber,
+              autofillHints: const [AutofillHints.telephoneNumber],
+              onSelected: () => onChanged(CollectMomoReceiverMode.momoNumber),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                CollectSpacing.x3,
-                CollectSpacing.x1,
-                CollectSpacing.x3,
-                CollectSpacing.x1,
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    isCode ? CollectIcons.qr : CollectIcons.momo,
-                    color: colors.textSecondary,
-                    size: 22,
-                  ),
-                  CollectSpacing.gapW12,
-                  Expanded(
-                    child: TextField(
-                      controller: controller,
-                      keyboardType: isCode
-                          ? TextInputType.number
-                          : TextInputType.phone,
-                      textInputAction: TextInputAction.done,
-                      autofillHints: isCode
-                          ? null
-                          : const [AutofillHints.telephoneNumber],
-                      decoration: InputDecoration(
-                        hintText: isCode ? codeInputLabel : numberInputLabel,
-                        border: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.zero,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            CollectSpacing.gap12,
+            _MomoInputSurface(
+              controller: codeController,
+              label: codeInputLabel,
+              hintText: 'Code',
+              icon: CollectIcons.qr,
+              keyboardType: TextInputType.number,
+              selected: mode == CollectMomoReceiverMode.momoPayCode,
+              onSelected: () => onChanged(CollectMomoReceiverMode.momoPayCode),
             ),
           ],
         ),
@@ -326,62 +290,70 @@ class CollectMomoReceiverCard extends StatelessWidget {
   }
 }
 
-class _CollectMomoReceiverModeSegment extends StatelessWidget {
-  const _CollectMomoReceiverModeSegment({
+class _MomoInputSurface extends StatelessWidget {
+  const _MomoInputSurface({
+    required this.controller,
     required this.label,
+    required this.hintText,
     required this.icon,
     required this.selected,
-    required this.onTap,
+    required this.keyboardType,
+    required this.onSelected,
+    this.autofillHints,
   });
 
+  final TextEditingController controller;
   final String label;
+  final String hintText;
   final IconData icon;
   final bool selected;
-  final VoidCallback onTap;
+  final TextInputType keyboardType;
+  final VoidCallback onSelected;
+  final Iterable<String>? autofillHints;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    final foreground = selected ? colors.onAccent : colors.textSecondary;
-    return Semantics(
-      button: true,
-      selected: selected,
-      label: label,
-      child: InkWell(
-        borderRadius: CollectRadius.controlBorder,
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: CollectMotion.duration(context, CollectMotion.fast),
-          curve: CollectMotion.standard,
-          height: 48,
-          decoration: BoxDecoration(
-            color: selected ? colors.actionColor : colors.transparent,
-            borderRadius: CollectRadius.controlBorder,
-            border: Border.all(
-              color: selected ? colors.actionColor : colors.glassBorder,
-            ),
+    return TextField(
+      controller: controller,
+      keyboardType: keyboardType,
+      textInputAction: TextInputAction.done,
+      autofillHints: autofillHints,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(12),
+      ],
+      onTap: onSelected,
+      onChanged: (_) => onSelected(),
+      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+        color: colors.textPrimary,
+        fontWeight: FontWeight.w800,
+      ),
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: hintText,
+        prefixIcon: Icon(icon),
+        filled: true,
+        fillColor: colors.glassPanel.withValues(alpha: 0.46),
+        border: OutlineInputBorder(
+          borderRadius: CollectRadius.controlBorder,
+          borderSide: BorderSide(
+            color: selected ? colors.actionColor : colors.glassBorder,
           ),
-          padding: const EdgeInsets.symmetric(horizontal: CollectSpacing.x2),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, color: foreground, size: 19),
-              CollectSpacing.gapW8,
-              Flexible(
-                child: Text(
-                  label,
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.clip,
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: foreground,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 0,
-                  ),
-                ),
-              ),
-            ],
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: CollectRadius.controlBorder,
+          borderSide: BorderSide(
+            color: selected ? colors.actionColor : colors.glassBorder,
           ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: CollectRadius.controlBorder,
+          borderSide: BorderSide(color: colors.actionColor),
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: CollectSpacing.x3,
+          vertical: CollectSpacing.x3,
         ),
       ),
     );

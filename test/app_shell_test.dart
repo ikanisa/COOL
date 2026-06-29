@@ -71,8 +71,6 @@ void main() {
       containsAll(<String>[
         '/',
         '/auth',
-        '/auth/success',
-        '/auth/failure',
         '/onboarding',
         '/onboarding/legal',
         '/home',
@@ -127,6 +125,98 @@ void main() {
     final router = createAppRouter();
     addTearDown(router.dispose);
     expect(router.configuration.routes, isNotEmpty);
+  });
+
+  test('main mobile routes use the shared transition page helper', () {
+    final routerSource = File('lib/app/router.dart').readAsStringSync();
+
+    expect(routerSource, contains('CustomTransitionPage<void>'));
+    expect(routerSource, contains('pageBuilder:'));
+    expect(
+      routerSource,
+      contains('MediaQuery.maybeOf(context)?.disableAnimations'),
+    );
+    expect(
+      routerSource,
+      isNot(contains('builder: (context, state) => const HomeScreen()')),
+    );
+    expect(
+      routerSource,
+      isNot(contains('builder: (context, state) => const CollectionsScreen()')),
+    );
+  });
+
+  test('mobile chrome exposes native refresh and haptic affordances', () {
+    final haptics = File(
+      'lib/shared/utils/collect_haptics.dart',
+    ).readAsStringSync();
+    final foundation = File(
+      'lib/shared/widgets/collect_foundation.dart',
+    ).readAsStringSync();
+    final chromeLibrary = File(
+      'lib/shared/widgets/collect_chrome.dart',
+    ).readAsStringSync();
+    final scaffoldChrome = File(
+      'lib/shared/widgets/collect_scaffold_chrome.dart',
+    ).readAsStringSync();
+    final topChrome = File(
+      'lib/shared/widgets/collect_top_chrome.dart',
+    ).readAsStringSync();
+    final shell = File(
+      'lib/core/widgets/collect_shell.dart',
+    ).readAsStringSync();
+    final primaryScreens = [
+      'lib/features/home/home_screen.dart',
+      'lib/features/collections/collections_screen.dart',
+      'lib/features/collections/collection_detail_screen.dart',
+      'lib/features/ledger/ledger_screen.dart',
+      'lib/features/payments/payment_intent_status_screen.dart',
+      'lib/features/status/device_notification_center.dart',
+      'lib/features/settings/settings_screen.dart',
+    ].map((path) => File(path).readAsStringSync()).join('\n');
+
+    expect(haptics, contains('HapticFeedback.selectionClick'));
+    expect(haptics, contains('HapticFeedback.lightImpact'));
+    expect(haptics, contains('HapticFeedback.mediumImpact'));
+    expect(haptics, contains('HapticFeedback.vibrate'));
+    expect(chromeLibrary, contains("import '../utils/collect_haptics.dart';"));
+    expect(foundation, contains('CollectHaptics.lightImpact();'));
+    expect(foundation, contains('CollectHaptics.selection();'));
+    expect(scaffoldChrome, contains('RefreshIndicator.adaptive'));
+    expect(scaffoldChrome, contains('AlwaysScrollableScrollPhysics'));
+    expect(scaffoldChrome, contains('CollectHaptics.lightImpact();'));
+    expect(topChrome, contains('CollectHaptics.selection();'));
+    expect(shell, contains('CollectHaptics.selection();'));
+    expect(primaryScreens, contains('onRefresh:'));
+    expect(primaryScreens, contains('collectRepositoryProvider.notifier'));
+    expect(primaryScreens, contains('loadInitial()'));
+    expect(primaryScreens, contains('_refreshStatus'));
+  });
+
+  test('mobile native performance profiling has a device evidence gate', () {
+    final profileScript = File(
+      'scripts/mobile_native_performance_profile.sh',
+    ).readAsStringSync();
+
+    expect(profileScript, contains('flutter'));
+    expect(profileScript, contains('drive'));
+    expect(profileScript, contains('--profile'));
+    expect(profileScript, contains('--trace-startup'));
+    expect(profileScript, contains(r'--trace-to-file="$TRACE_FILE"'));
+    expect(
+      profileScript,
+      contains('--dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true'),
+    );
+    expect(profileScript, contains('timeline.binpb'));
+    expect(profileScript, contains('runner_result.json'));
+    expect(profileScript, contains('summary.json'));
+    expect(profileScript, contains('trace_bytes'));
+    expect(
+      profileScript,
+      contains('Profile-mode runner did not exit cleanly.'),
+    );
+    expect(profileScript, contains('Perfetto timeline trace was not written.'));
+    expect(profileScript, contains('exit 99'));
   });
 
   test(
@@ -193,6 +283,7 @@ void main() {
       designAudit,
       contains('collect_runtime_component_token_switchpoints'),
     );
+    expect(designAudit, contains('native_mobile_interaction_contract'));
     expect(designAudit, contains('revolut_100_percent_claim_guard'));
     expect(designAudit, contains('gradient_glass_screen_contract'));
     expect(designAudit, contains('theme_mode_visual_parity_gate'));
@@ -473,7 +564,7 @@ void main() {
       );
       expect(
         createGroup,
-        contains("CollectPlainPageHeader(\n          title: 'Create group'"),
+        contains("CollectPlainPageHeader(title: 'Create group')"),
       );
       expect(createGroup, contains('subtitle: _createStepSubtitle(_step)'));
       expect(createGroup, contains('String _createStepSubtitle(int step)'));

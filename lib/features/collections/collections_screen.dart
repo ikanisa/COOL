@@ -17,200 +17,16 @@ class CollectionsScreen extends ConsumerStatefulWidget {
   ConsumerState<CollectionsScreen> createState() => _CollectionsScreenState();
 }
 
-class GroupsSearchScreen extends ConsumerStatefulWidget {
-  const GroupsSearchScreen({super.key});
-
-  @override
-  ConsumerState<GroupsSearchScreen> createState() => _GroupsSearchScreenState();
-}
-
-class _GroupsSearchScreenState extends ConsumerState<GroupsSearchScreen> {
-  final _search = TextEditingController();
-  String _query = '';
-
-  @override
-  void dispose() {
-    _search.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final collections = ref.watch(
-      collectRepositoryProvider.select((state) => state.collections),
-    );
-    final summaries = ref.watch(collectionSummariesProvider);
-    final profile = ref.watch(
-      collectRepositoryProvider.select((state) => state.currentProfile),
-    );
-    final query = _query.trim().toLowerCase();
-    final visibleCollections = [
-      for (final collection in collections)
-        if (_matchesQuery(collection, query)) collection,
-    ]..sort((left, right) => _compareGroups(left, right, summaries));
-    final showCreate = shouldShowGroupCreationEntryOnThisPlatform();
-
-    return ScreenScaffold(
-      title: 'Search groups',
-      showHeader: false,
-      compact: true,
-      persistentPill: CollectTopChrome(
-        avatarLabel: profile?.publicId,
-        searchController: _search,
-        searchLabel: 'Search groups',
-        onSearchChanged: (value) => setState(() => _query = value),
-        onAvatarTap: () => context.go('/settings/profile'),
-        actions: [
-          CollectTopChromeAction(
-            icon: CollectIcons.qr,
-            tooltip: 'Scan QR code',
-            onPressed: () => context.go('/groups/scan'),
-          ),
-          if (showCreate)
-            CollectTopChromeAction(
-              icon: CollectIcons.add,
-              tooltip: 'Create group',
-              onPressed: () => context.go('/groups/create'),
-            ),
-        ],
-      ),
-      children: [
-        const MinimalStatePanel(
-          icon: CollectIcons.search,
-          title: 'Find a group.',
-          message: 'Search by group name, paste a group link, or scan a QR.',
-          tone: CollectStatusTone.info,
-          titleMaxLines: 2,
-          messageMaxLines: 2,
-          contentMaxWidth: 420,
-        ),
-        if (collections.isEmpty)
-          Column(
-            children: [
-              const EmptyIllustrationState(
-                icon: CollectIcons.collectionsOutline,
-                title: 'No groups yet',
-                message: 'Scan a QR or create a group to start.',
-              ),
-              CollectSpacing.gap16,
-              _GroupEmptyActionRail(
-                showCreate: showCreate,
-                onScan: () => context.go('/groups/scan'),
-                onCreate: () => context.go('/groups/create'),
-              ),
-            ],
-          )
-        else if (query.isEmpty)
-          const InfoSecurityBanner(
-            title: 'Start typing',
-            message: 'Results appear here as you search.',
-            tone: CollectStatusTone.info,
-          )
-        else if (visibleCollections.isEmpty)
-          Column(
-            children: [
-              EmptySearchState(
-                title: 'No groups found',
-                message: 'Try another name or scan a QR code.',
-                onClear: () => setState(() {
-                  _search.clear();
-                  _query = '';
-                }),
-              ),
-              CollectSpacing.gap16,
-              _GroupEmptyActionRail(
-                showCreate: showCreate,
-                onScan: () => context.go('/groups/scan'),
-                onCreate: () => context.go('/groups/create'),
-              ),
-            ],
-          )
-        else
-          LayoutBuilder(
-            builder: (context, constraints) {
-              if (constraints.maxWidth < 640) {
-                return Column(
-                  children: [
-                    for (
-                      var index = 0;
-                      index < visibleCollections.length;
-                      index += 1
-                    )
-                      Padding(
-                        padding: EdgeInsets.only(
-                          bottom: index == visibleCollections.length - 1
-                              ? 0
-                              : CollectSpacing.x3,
-                        ),
-                        child: GroupCard(
-                          collection: visibleCollections[index],
-                          summary:
-                              summaries[visibleCollections[index].id] ??
-                              const CollectionSummary(
-                                amountRaisedRwf: 0,
-                                supporterCount: 0,
-                              ),
-                          variant: GroupCardVariant.compact,
-                          onTap: () => context.go(
-                            '/groups/${visibleCollections[index].id}',
-                          ),
-                        ),
-                      ),
-                  ],
-                );
-              }
-              final columns = constraints.maxWidth >= 640 ? 2 : 1;
-              const gap = CollectSpacing.x3;
-              final columnWidth =
-                  (constraints.maxWidth - (gap * (columns - 1))) / columns;
-              return GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                clipBehavior: Clip.none,
-                itemCount: visibleCollections.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: columns,
-                  crossAxisSpacing: gap,
-                  mainAxisSpacing: gap,
-                  childAspectRatio: columnWidth / 220,
-                ),
-                itemBuilder: (context, index) {
-                  final collection = visibleCollections[index];
-                  return GroupCard(
-                    collection: collection,
-                    summary:
-                        summaries[collection.id] ??
-                        const CollectionSummary(
-                          amountRaisedRwf: 0,
-                          supporterCount: 0,
-                        ),
-                    variant: GroupCardVariant.visual,
-                    onTap: () => context.go('/groups/${collection.id}'),
-                  );
-                },
-              );
-            },
-          ),
-      ],
-    );
-  }
-}
-
 class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
-  final _search = TextEditingController();
-  String _query = '';
-
-  @override
-  void dispose() {
-    _search.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final collections = ref.watch(
-      collectRepositoryProvider.select((state) => state.collections),
-    );
+    final state = ref.watch(collectRepositoryProvider);
+    final collections = state.collections;
+    final isInitialLoading =
+        state.isLoading &&
+        state.collections.isEmpty &&
+        state.contributions.isEmpty &&
+        state.paymentIntents.isEmpty;
     final summaries = ref.watch(collectionSummariesProvider);
     final contributedCollectionIds = ref.watch(
       contributedCollectionIdsProvider,
@@ -218,56 +34,39 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
     final routeUri = _maybeRouteUri(context);
     final showContributedOnly =
         routeUri.queryParameters['filter'] == 'contributed';
-    final query = _query.trim().toLowerCase();
     final visibleCollections = [
       for (final collection in collections)
-        if (_matchesQuery(collection, query) &&
-            (!showContributedOnly ||
-                contributedCollectionIds.contains(collection.id)))
+        if (!showContributedOnly ||
+            contributedCollectionIds.contains(collection.id))
           collection,
     ]..sort((left, right) => _compareGroups(left, right, summaries));
     final showCreate = shouldShowGroupCreationEntryOnThisPlatform();
-    final profile = ref.watch(
-      collectRepositoryProvider.select((state) => state.currentProfile),
-    );
-    final paymentIntents = ref.watch(
-      collectRepositoryProvider.select((state) => state.paymentIntents),
-    );
     final pageTitle = showContributedOnly ? 'Supported groups' : 'Groups';
-    final groupsTopChrome = CollectTopChrome(
-      avatarLabel: profile?.publicId,
-      searchController: _search,
-      searchLabel: showContributedOnly ? 'Supported groups' : 'Search groups',
-      onSearchChanged: (value) => setState(() => _query = value),
-      onAvatarTap: () => context.go('/settings/profile'),
-      hasUnread: paymentIntents.isNotEmpty,
-      actions: [
-        CollectTopChromeAction(
-          icon: CollectIcons.qr,
-          tooltip: 'Scan QR code',
-          onPressed: () => context.go('/groups/scan'),
-        ),
-        if (showCreate)
-          CollectTopChromeAction(
-            icon: CollectIcons.add,
-            tooltip: 'Create group',
-            onPressed: () => context.go('/groups/create'),
+    if (isInitialLoading) {
+      return ScreenScaffold(
+        title: 'Groups',
+        showHeader: false,
+        compact: true,
+        onRefresh: () =>
+            ref.read(collectRepositoryProvider.notifier).loadInitial(),
+        children: const [
+          CollectScreenLoadingState(
+            title: 'Loading groups',
+            message: 'Refreshing group cards, balances, and filters.',
+            icon: CollectIcons.collections,
+            skeletonCount: 3,
           ),
-      ],
-    );
+        ],
+      );
+    }
     if (collections.isEmpty) {
       return ScreenScaffold(
         title: 'Groups',
         showHeader: false,
         compact: true,
-        persistentPill: groupsTopChrome,
+        onRefresh: () =>
+            ref.read(collectRepositoryProvider.notifier).loadInitial(),
         children: [
-          SectionHeader(title: pageTitle),
-          const EmptyIllustrationState(
-            icon: CollectIcons.collectionsOutline,
-            title: 'No groups yet',
-            message: 'Scan a group QR or create one on Android.',
-          ),
           _GroupEmptyActionRail(
             showCreate: showCreate,
             onScan: () => context.go('/groups/scan'),
@@ -280,7 +79,8 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
       title: 'Groups',
       showHeader: false,
       compact: true,
-      persistentPill: groupsTopChrome,
+      onRefresh: () =>
+          ref.read(collectRepositoryProvider.notifier).loadInitial(),
       children: [
         SectionHeader(title: pageTitle),
         _GroupsMomentumPanel(
@@ -288,100 +88,13 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           summaries: summaries,
           showContributedOnly: showContributedOnly,
         ),
-        if (visibleCollections.isEmpty)
-          Column(
-            children: [
-              EmptySearchState(
-                title: showContributedOnly
-                    ? 'No supported groups'
-                    : 'No groups found',
-                message: showContributedOnly
-                    ? 'Groups you support will appear here.'
-                    : 'No group matches this search.',
-                onClear: () => setState(() {
-                  if (showContributedOnly && query.isEmpty) {
-                    context.go('/groups');
-                  } else {
-                    _search.clear();
-                    _query = '';
-                  }
-                }),
-              ),
-              if (!showContributedOnly) ...[
-                CollectSpacing.gap16,
-                _GroupEmptyActionRail(
-                  showCreate: showCreate,
-                  onScan: () => context.go('/groups/scan'),
-                  onCreate: () => context.go('/groups/create'),
-                ),
-              ],
-            ],
-          )
-        else
-          LayoutBuilder(
-            builder: (context, constraints) {
-              if (constraints.maxWidth < 640) {
-                return Column(
-                  children: [
-                    for (
-                      var index = 0;
-                      index < visibleCollections.length;
-                      index += 1
-                    )
-                      Padding(
-                        padding: EdgeInsets.only(
-                          bottom: index == visibleCollections.length - 1
-                              ? 0
-                              : CollectSpacing.x3,
-                        ),
-                        child: GroupCard(
-                          collection: visibleCollections[index],
-                          summary:
-                              summaries[visibleCollections[index].id] ??
-                              const CollectionSummary(
-                                amountRaisedRwf: 0,
-                                supporterCount: 0,
-                              ),
-                          variant: GroupCardVariant.compact,
-                          onTap: () => context.go(
-                            '/groups/${visibleCollections[index].id}',
-                          ),
-                        ),
-                      ),
-                  ],
-                );
-              }
-              final columns = constraints.maxWidth >= 640 ? 2 : 1;
-              const gap = CollectSpacing.x3;
-              final columnWidth =
-                  (constraints.maxWidth - (gap * (columns - 1))) / columns;
-              return GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                clipBehavior: Clip.none,
-                itemCount: visibleCollections.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: columns,
-                  crossAxisSpacing: gap,
-                  mainAxisSpacing: gap,
-                  childAspectRatio: columnWidth / 220,
-                ),
-                itemBuilder: (context, index) {
-                  final collection = visibleCollections[index];
-                  return GroupCard(
-                    collection: collection,
-                    summary:
-                        summaries[collection.id] ??
-                        const CollectionSummary(
-                          amountRaisedRwf: 0,
-                          supporterCount: 0,
-                        ),
-                    variant: GroupCardVariant.visual,
-                    onTap: () => context.go('/groups/${collection.id}'),
-                  );
-                },
-              );
-            },
+        if (visibleCollections.isNotEmpty)
+          _GroupsCardGrid(collections: visibleCollections, summaries: summaries)
+        else if (!showContributedOnly)
+          _GroupEmptyActionRail(
+            showCreate: showCreate,
+            onScan: () => context.go('/groups/scan'),
+            onCreate: () => context.go('/groups/create'),
           ),
       ],
     );
@@ -438,6 +151,83 @@ class _GroupsMomentumPanel extends StatelessWidget {
         icon: CollectIcons.share,
         tone: CollectStatusTone.privacy,
       ),
+    );
+  }
+}
+
+class _GroupsCardGrid extends StatelessWidget {
+  const _GroupsCardGrid({
+    required this.collections,
+    required this.summaries,
+    this.visualCards = false,
+  });
+
+  final List<CollectCollection> collections;
+  final Map<String, CollectionSummary> summaries;
+  final bool visualCards;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 640) {
+          return Column(
+            children: [
+              for (var index = 0; index < collections.length; index += 1)
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: index == collections.length - 1
+                        ? 0
+                        : CollectSpacing.x3,
+                  ),
+                  child: GroupCard(
+                    collection: collections[index],
+                    summary:
+                        summaries[collections[index].id] ??
+                        const CollectionSummary(
+                          amountRaisedRwf: 0,
+                          supporterCount: 0,
+                        ),
+                    variant: GroupCardVariant.compact,
+                    onTap: () => context.go('/groups/${collections[index].id}'),
+                  ),
+                ),
+            ],
+          );
+        }
+        final columns = constraints.maxWidth >= 640 ? 2 : 1;
+        const gap = CollectSpacing.x3;
+        final columnWidth =
+            (constraints.maxWidth - (gap * (columns - 1))) / columns;
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          clipBehavior: Clip.none,
+          itemCount: collections.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: columns,
+            crossAxisSpacing: gap,
+            mainAxisSpacing: gap,
+            childAspectRatio: columnWidth / 220,
+          ),
+          itemBuilder: (context, index) {
+            final collection = collections[index];
+            return GroupCard(
+              collection: collection,
+              summary:
+                  summaries[collection.id] ??
+                  const CollectionSummary(
+                    amountRaisedRwf: 0,
+                    supporterCount: 0,
+                  ),
+              variant: visualCards
+                  ? GroupCardVariant.visual
+                  : GroupCardVariant.compact,
+              onTap: () => context.go('/groups/${collection.id}'),
+            );
+          },
+        );
+      },
     );
   }
 }
@@ -554,15 +344,6 @@ Uri _maybeRouteUri(BuildContext context) {
   } on Object {
     return Uri(path: '/groups');
   }
-}
-
-bool _matchesQuery(CollectCollection collection, String query) {
-  if (query.isEmpty) return true;
-  return collection.title.toLowerCase().contains(query) ||
-      collection.slug.toLowerCase().contains(query) ||
-      collection.collectionType.label.toLowerCase().contains(query) ||
-      collection.collectionType.shortPurpose.toLowerCase().contains(query) ||
-      (collection.purposeLabel?.toLowerCase().contains(query) ?? false);
 }
 
 int _compareGroups(

@@ -878,7 +878,7 @@ Current decision: **GO after signed review**
 
     expect(script, contains('screenshot_manifest.json'));
     expect(script, contains('png_header'));
-    expect(script, contains('route_count_must_be_48'));
+    expect(script, contains('route_count_must_be_46'));
     expect(script, contains('viewport_must_be_390x844'));
     expect(script, contains('manifest_bytes_stale'));
     expect(makefile, contains('product-design-mobile-audit-artifact-gate:'));
@@ -904,11 +904,11 @@ Current decision: **GO after signed review**
     final decoded = jsonDecode(result.stdout as String) as Map<String, dynamic>;
     expect(decoded['status'], 'pass');
     expect(decoded['viewport'], '390x844');
-    expect(decoded['route_count'], 48);
+    expect(decoded['route_count'], 46);
     expect(decoded['secret_handling'], contains('does not inspect secrets'));
     final items = (decoded['items'] as List<dynamic>)
         .cast<Map<String, dynamic>>();
-    expect(items, hasLength(48));
+    expect(items, hasLength(46));
     expect(items.every((item) => item['png_valid'] == true), isTrue);
     expect(items.every((item) => item['width'] == 390), isTrue);
     expect(items.every((item) => item['height'] == 844), isTrue);
@@ -1741,7 +1741,8 @@ checking Edge Function secret names
     );
     expect(repoWide, contains('MOBILE_ROUTE_RENDER_EVIDENCE_DIR'));
     expect(repoWide, contains('"mobile_route_render"'));
-    expect(repoWide, contains('/auth/success'));
+    expect(repoWide, isNot(contains('/auth/success')));
+    expect(repoWide, isNot(contains('/auth/failure')));
     expect(repoWide, contains('/groups/create'));
     expect(repoWide, contains('/platform/iphone-create-unavailable'));
     expect(repoWide, contains('/settings/legal/privacy'));
@@ -1757,7 +1758,8 @@ checking Edge Function secret names
     expect(evidenceIndex, contains('android_kotlin_plugin_compat'));
     expect(evidenceIndex, contains('mobile_route_render_summary = read_json'));
     expect(evidenceIndex, contains('required_mobile_routes'));
-    expect(evidenceIndex, contains('/auth/success'));
+    expect(evidenceIndex, isNot(contains('/auth/success')));
+    expect(evidenceIndex, isNot(contains('/auth/failure')));
     expect(evidenceIndex, contains('/permissions/sms-denied'));
     expect(evidenceIndex, contains('/groups/create'));
     expect(evidenceIndex, contains('/platform/iphone-create-unavailable'));

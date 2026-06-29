@@ -74,9 +74,21 @@ void main() {
       );
 
       expect(profile.whatsappPhone, '+14155550100');
+      expect(profile.momoNumber, isNull);
       expect(profile.publicId, matches(RegExp(r'^[0-9]{6}$')));
     },
   );
+
+  test('non-MTN Rwanda WhatsApp sign-in does not auto-fill MoMo', () async {
+    final repo = CollectRepository.fixture(seeded: false);
+    final profile = await repo.signInWithOtp(
+      phone: '+250720000001',
+      otp: '123456',
+    );
+
+    expect(profile.whatsappPhone, '+250720000001');
+    expect(profile.momoNumber, isNull);
+  });
 
   test('payment intent stays pending for automated SMS allocation', () async {
     final repo = CollectRepository.fixture();

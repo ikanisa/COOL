@@ -335,10 +335,16 @@ class CollectRepository extends StateNotifier<CollectState> {
       );
       final collection = await _liveReader.fetchCollection(collectionId);
       await loadInitial();
-      return collection.copyWith(
+      final hydratedCollection = collection.copyWith(
         accentColorHex: accentColorHex,
         imageUrl: imageUrl,
       );
+      if (!state.collections.any((item) => item.id == collectionId)) {
+        state = state.copyWith(
+          collections: [hydratedCollection, ...state.collections],
+        );
+      }
+      return hydratedCollection;
     }
     if (!_allowLocalWrites) {
       throw StateError('Sign in before creating a group.');

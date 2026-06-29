@@ -55,11 +55,15 @@ class _CollectionCreateScreenState
   void initState() {
     super.initState();
     _title.addListener(_refreshPreview);
+    _receiverNumber.addListener(_refreshPreview);
+    _receiverPayCode.addListener(_refreshPreview);
   }
 
   @override
   void dispose() {
     _title.removeListener(_refreshPreview);
+    _receiverNumber.removeListener(_refreshPreview);
+    _receiverPayCode.removeListener(_refreshPreview);
     _title.dispose();
     _description.dispose();
     _receiverNumber.dispose();
@@ -70,7 +74,7 @@ class _CollectionCreateScreenState
   @override
   Widget build(BuildContext context) {
     final profile = ref.watch(collectRepositoryProvider).currentProfile;
-    if (profile == null || profile.momoNumber?.trim().isNotEmpty != true) {
+    if (profile == null) {
       return const ProfileSetupScreen();
     }
     if (!_syncedProfileMomo &&
@@ -85,6 +89,7 @@ class _CollectionCreateScreenState
     }
     return ScreenScaffold(
       title: 'Create group',
+      subtitle: _createStepSubtitle(_step),
       showHeader: false,
       bottomAction: BottomActionSurface(
         children: [
@@ -116,16 +121,7 @@ class _CollectionCreateScreenState
         ],
       ),
       children: [
-        CollectPlainPageHeader(
-          title: 'Create group',
-          subtitle: _createStepSubtitle(_step),
-        ),
-        const InfoSecurityBanner(
-          title: 'Review before sharing',
-          message:
-              'Group details, receiver setup, and visibility are confirmed before members can use the QR or public link.',
-          tone: CollectStatusTone.info,
-        ),
+        const CollectPlainPageHeader(title: 'Create group'),
         if (_step == 0) ...[
           _MobileCreatePanel(
             error: _error,
@@ -167,7 +163,8 @@ class _CollectionCreateScreenState
                   _receiverMode = mode;
                   _error = null;
                 }),
-                controller: _activeReceiverController,
+                numberController: _receiverNumber,
+                codeController: _receiverPayCode,
                 numberInputLabel: 'Receiver MoMo',
                 codeInputLabel: 'MoMo code',
               ),
@@ -224,6 +221,16 @@ class _CollectionCreateScreenState
 
   void _refreshPreview() {
     if (mounted) setState(() {});
+  }
+
+  String _createStepSubtitle(int step) {
+    return switch (step) {
+      0 => 'Name and describe the group',
+      1 => 'Choose the group type',
+      2 => 'Set the MoMo receiver',
+      3 => 'Choose the group look',
+      _ => 'Review and create',
+    };
   }
 
   Future<void> _pickGroupImage() async {
@@ -386,14 +393,4 @@ class _CollectionCreateScreenState
         'image/jpeg';
     return 'data:$mimeType;base64,${base64Encode(bytes)}';
   }
-}
-
-String _createStepSubtitle(int step) {
-  return switch (step) {
-    0 => 'Name the group.',
-    1 => 'Choose the type.',
-    2 => 'Set the receiver.',
-    3 => 'Choose the look.',
-    _ => 'Review and create.',
-  };
 }

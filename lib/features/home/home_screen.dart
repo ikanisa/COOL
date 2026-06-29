@@ -21,108 +21,93 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(collectRepositoryProvider);
+    final isInitialLoading =
+        state.isLoading &&
+        state.collections.isEmpty &&
+        state.contributions.isEmpty &&
+        state.paymentIntents.isEmpty;
     final collections = ref.watch(homeCollectionsProvider);
-    final profile = ref.watch(
-      collectRepositoryProvider.select((state) => state.currentProfile),
-    );
-    final paymentIntents = ref.watch(
-      collectRepositoryProvider.select((state) => state.paymentIntents),
-    );
+    final profile = state.currentProfile;
     final contributedGroupCount = ref.watch(
       contributedCollectionIdsProvider.select((ids) => ids.length),
     );
     final summaries = ref.watch(collectionSummariesProvider);
     final raisedTotal = ref.watch(raisedTotalProvider);
-    final contributions = ref.watch(
-      collectRepositoryProvider.select((state) => state.contributions),
-    );
+    final contributions = state.contributions;
     final showCreate = shouldShowGroupCreationEntryOnThisPlatform();
     return ScreenScaffold(
       title: 'Home',
       showHeader: false,
       compact: true,
-      persistentPill: CollectTopChrome(
-        avatarLabel: profile?.publicId,
-        searchLabel: 'Search',
-        onSearchTap: () => context.go('/groups/search'),
-        onAvatarTap: () => context.go('/settings/profile'),
-        hasUnread: paymentIntents.isNotEmpty,
-        actions: [
-          CollectTopChromeAction(
-            icon: CollectIcons.pending,
-            tooltip: 'Notifications',
-            hasBadge: paymentIntents.isNotEmpty,
-            onPressed: () => context.go('/notifications'),
-          ),
-          CollectTopChromeAction(
-            icon: CollectIcons.qr,
-            tooltip: 'Scan QR code',
-            onPressed: () => context.go('/groups/scan'),
-          ),
-        ],
-      ),
-      children: [
-        _HomeTotalCollectedCard(
-          totalAmount: raisedTotal,
-          contributedGroupCount: contributedGroupCount,
-          publicId: profile?.publicId,
-          onContributedGroupsTap: () =>
-              context.go('/groups?filter=contributed'),
-        ),
-        _HomeActionStrip(
-          showCreate: showCreate,
-          onCreate: () => context.go('/groups/create'),
-        ),
-        _PublicGroupsSection(collections: collections, summaries: summaries),
-        const SectionHeader(title: 'My groups'),
-        if (collections.isEmpty)
-          const EmptyIllustrationState(
-            icon: CollectIcons.collectionsOutline,
-            title: 'No groups yet',
-            message: 'Create a group or scan a group QR.',
-          )
-        else
-          for (final collection in collections)
-            GroupCard(
-              collection: collection,
-              summary:
-                  summaries[collection.id] ??
-                  const CollectionSummary(
-                    amountRaisedRwf: 0,
-                    supporterCount: 0,
-                  ),
-              onTap: () => context.go('/groups/${collection.id}'),
-              variant: GroupCardVariant.visual,
-              primaryAction: _HomeContributeIconButton(
-                tooltip: 'Contribute',
-                onPressed: () =>
-                    context.go('/groups/${collection.id}/contribute'),
+      onRefresh: () =>
+          ref.read(collectRepositoryProvider.notifier).loadInitial(),
+      children: isInitialLoading
+          ? const [
+              CollectScreenLoadingState(
+                title: 'Loading home',
+                message: 'Refreshing groups, balances, and recent activity.',
+                icon: CollectIcons.home,
+                skeletonCount: 3,
               ),
-            ),
-        const SectionHeader(title: 'Activity'),
-        if (contributions.isEmpty)
-          const EmptyIllustrationState(
-            icon: CollectIcons.activity,
-            title: 'No support yet',
-            message: 'MoMo confirmations appear here.',
-          )
-        else
-          CollectCard(
-            child: Column(
-              children: [
-                for (final contribution in contributions.take(5))
-                  ActivityFeedItem(
-                    title: compactCollectIdLabel(contribution.supporterLabel),
-                    amount: contribution.amountRwf,
-                    meta: formatCollectDateTime(contribution.createdAt),
-                    onTap: () => context.go(
-                      '/groups/${contribution.collectionId}/ledger',
+            ]
+          : [
+              _HomeTotalCollectedCard(
+                totalAmount: raisedTotal,
+                contributedGroupCount: contributedGroupCount,
+                publicId: profile?.publicId,
+                onContributedGroupsTap: () =>
+                    context.go('/groups?filter=contributed'),
+              ),
+              _HomeActionStrip(
+                showCreate: showCreate,
+                onCreate: () => context.go('/groups/create'),
+              ),
+              _PublicGroupsSection(
+                collections: collections,
+                summaries: summaries,
+              ),
+              if (collections.isNotEmpty) ...[
+                const SectionHeader(title: 'My groups'),
+                for (final collection in collections)
+                  GroupCard(
+                    collection: collection,
+                    summary:
+                        summaries[collection.id] ??
+                        const CollectionSummary(
+                          amountRaisedRwf: 0,
+                          supporterCount: 0,
+                        ),
+                    onTap: () => context.go('/groups/${collection.id}'),
+                    variant: GroupCardVariant.visual,
+                    primaryAction: _HomeContributeIconButton(
+                      tooltip: 'Contribute',
+                      onPressed: () =>
+                          context.go('/groups/${collection.id}/contribute'),
                     ),
                   ),
               ],
-            ),
-          ),
-      ],
+              if (contributions.isNotEmpty) ...[
+                const SectionHeader(title: 'Activity'),
+                CollectCard(
+                  child: Column(
+                    children: [
+                      for (final contribution in contributions.take(5))
+                        ActivityFeedItem(
+                          title: compactCollectIdLabel(
+                            contribution.supporterLabel,
+                          ),
+                          amount: contribution.amountRwf,
+                          meta: formatCollectDateTime(contribution.createdAt),
+                          onTap: () => context.go(
+                            '/groups/${contribution.collectionId}/ledger',
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ],
     );
   }
 }

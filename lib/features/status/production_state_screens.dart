@@ -7,7 +7,6 @@ import '../../shared/repositories/collect_repository.dart';
 import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
-import '../collections/group_share_service.dart';
 
 export 'onboarding_status_screens.dart';
 export 'access_state_screens.dart';
@@ -27,29 +26,31 @@ class GroupCreatedSuccessScreen extends ConsumerWidget {
     return ScreenScaffold(
       title: 'Group created',
       children: [
-        _StateHero(
-          icon: CollectIcons.check,
-          title: collection?.title ?? 'Group ready.',
-          tone: CollectStatusTone.success,
-        ),
-        CollectButton(
-          label: 'Share',
-          icon: CollectIcons.share,
-          onPressed: collection == null
-              ? null
-              : () => shareGroupDeepLink(
-                  context: context,
-                  ref: ref,
-                  collection: collection,
-                ),
-          expand: true,
-        ),
-        CollectButton(
-          label: 'Open group',
-          icon: CollectIcons.collections,
-          onPressed: () => context.go('/groups/$collectionId'),
-          variant: CollectButtonVariant.secondary,
-          expand: true,
+        CollectBottomSheet(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _StateHero(
+                icon: CollectIcons.check,
+                title: collection?.title ?? 'Group created.',
+                tone: CollectStatusTone.success,
+              ),
+              CollectSpacing.gap16,
+              CollectButton(
+                label: 'Open group',
+                icon: CollectIcons.collections,
+                onPressed: () => context.go('/groups/$collectionId'),
+                expand: true,
+              ),
+              CollectButton(
+                label: 'Share group',
+                icon: CollectIcons.share,
+                variant: CollectButtonVariant.secondary,
+                onPressed: () => context.go('/groups/$collectionId/share'),
+                expand: true,
+              ),
+            ],
+          ),
         ),
       ],
     );

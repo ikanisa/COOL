@@ -55,7 +55,10 @@ class ScreenHeader extends StatelessWidget {
         children: [
           IconButton(
             tooltip: 'Back',
-            onPressed: () => goBackOrHome(context),
+            onPressed: () {
+              CollectHaptics.selection();
+              goBackOrHome(context);
+            },
             icon: const Icon(Icons.arrow_back_rounded),
             color: foreground,
             style: IconButton.styleFrom(
@@ -91,9 +94,7 @@ class ScreenHeader extends StatelessWidget {
                   Text(
                     subtitle!,
                     style: textTheme.bodySmall?.copyWith(
-                      color: CollectRuntimeTokens.chromeMutedForeground(
-                        colors,
-                      ),
+                      color: CollectRuntimeTokens.chromeMutedForeground(colors),
                       height: 1.15,
                       letterSpacing: 0,
                     ),
@@ -190,6 +191,7 @@ class PremiumScaffold extends StatelessWidget {
     this.banner,
     this.persistentPill,
     this.bottomAction,
+    this.onRefresh,
     this.showHeader = true,
     this.compact = false,
     super.key,
@@ -201,43 +203,53 @@ class PremiumScaffold extends StatelessWidget {
   final Widget? banner;
   final Widget? persistentPill;
   final Widget? bottomAction;
+  final RefreshCallback? onRefresh;
   final List<Widget> children;
   final bool showHeader;
   final bool compact;
 
   @override
   Widget build(BuildContext context) {
+    final listView = ListView(
+      physics: onRefresh == null
+          ? null
+          : const AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics(),
+            ),
+      padding: CollectSpacing.screenPadding.copyWith(
+        bottom: bottomAction == null
+            ? CollectSpacing.screenCompact + 112
+            : CollectSpacing.x3,
+      ),
+      children: [
+        if (persistentPill != null) ...[
+          persistentPill!,
+          compact ? CollectSpacing.gap12 : CollectSpacing.gap20,
+        ],
+        if (showHeader)
+          ScreenHeader(title: title, subtitle: subtitle, actions: actions),
+        if (banner != null) ...[CollectSpacing.gap20, banner!],
+        compact ? CollectSpacing.gap12 : CollectSpacing.gap24,
+        ..._withGaps(
+          children,
+          gap: compact ? CollectSpacing.gap12 : CollectSpacing.gap16,
+        ),
+      ],
+    );
+    final scrollable = onRefresh == null
+        ? listView
+        : RefreshIndicator.adaptive(
+            onRefresh: () async {
+              CollectHaptics.lightImpact();
+              await onRefresh!();
+            },
+            child: listView,
+          );
     return CollectGradientBackground(
       child: SafeArea(
         child: Column(
           children: [
-            Expanded(
-              child: ListView(
-                padding: CollectSpacing.screenPadding.copyWith(
-                  bottom: bottomAction == null
-                      ? CollectSpacing.screenCompact + 112
-                      : CollectSpacing.x3,
-                ),
-                children: [
-                  if (persistentPill != null) ...[
-                    persistentPill!,
-                    compact ? CollectSpacing.gap12 : CollectSpacing.gap20,
-                  ],
-                  if (showHeader)
-                    ScreenHeader(
-                      title: title,
-                      subtitle: subtitle,
-                      actions: actions,
-                    ),
-                  if (banner != null) ...[CollectSpacing.gap20, banner!],
-                  compact ? CollectSpacing.gap12 : CollectSpacing.gap24,
-                  ..._withGaps(
-                    children,
-                    gap: compact ? CollectSpacing.gap12 : CollectSpacing.gap16,
-                  ),
-                ],
-              ),
-            ),
+            Expanded(child: scrollable),
             if (bottomAction != null)
               Padding(
                 padding: const EdgeInsets.fromLTRB(
@@ -273,6 +285,7 @@ class ScreenScaffoldLayout extends StatelessWidget {
     this.banner,
     this.persistentPill,
     this.bottomAction,
+    this.onRefresh,
     this.showHeader = true,
     this.compact = false,
     super.key,
@@ -284,6 +297,7 @@ class ScreenScaffoldLayout extends StatelessWidget {
   final Widget? banner;
   final Widget? persistentPill;
   final Widget? bottomAction;
+  final RefreshCallback? onRefresh;
   final List<Widget> children;
   final bool showHeader;
   final bool compact;
@@ -297,6 +311,7 @@ class ScreenScaffoldLayout extends StatelessWidget {
       banner: banner,
       persistentPill: persistentPill,
       bottomAction: bottomAction,
+      onRefresh: onRefresh,
       showHeader: showHeader,
       compact: compact,
       children: children,

@@ -42,6 +42,36 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     return '$_countryCode$digits';
   }
 
+  String? get _normalizedPhoneOrNull {
+    try {
+      return PhoneNormalizer.normalizeInternational(_phoneForAuth);
+    } on FormatException {
+      return null;
+    }
+  }
+
+  bool get _captchaReady {
+    final env = ref.read(appEnvProvider);
+    return !env.authCaptchaEnabled || _captchaToken.text.trim().isNotEmpty;
+  }
+
+  bool get _otpComplete =>
+      _otp.text.replaceAll(RegExp(r'\D'), '').length == AuthOtpEntry.digitCount;
+
+  bool get _canSubmit {
+    if (_submitting || !_captchaReady || _normalizedPhoneOrNull == null) {
+      return false;
+    }
+    return !_otpSent || _otpComplete;
+  }
+
+  bool get _canResend =>
+      _otpSent &&
+      !_submitting &&
+      _resendRemaining == 0 &&
+      _captchaReady &&
+      _normalizedPhoneOrNull != null;
+
   @override
   void dispose() {
     _phone.dispose();
@@ -55,6 +85,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   Widget build(BuildContext context) {
     final env = ref.watch(appEnvProvider);
     final displayPhone = _maskedPhoneForDisplay(_phoneForAuth);
+    final normalizedPhone = _normalizedPhoneOrNull;
+    final usesReviewAuth =
+        normalizedPhone != null && _isAppReviewAuthPhone(env, normalizedPhone);
     return Scaffold(
       backgroundColor: context.collectColors.transparent,
       body: CollectGradientBackground(
@@ -77,7 +110,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                           MediaQuery.sizeOf(context).height *
                           (_otpSent ? 0.04 : 0.12),
                     ),
-                    AuthHeadline(otpSent: _otpSent, phone: displayPhone),
+                    AuthHeadline(
+                      otpSent: _otpSent,
+                      phone: displayPhone,
+                      usesReviewAuth: usesReviewAuth,
+                    ),
                     CollectSpacing.gap24,
                     AuthInputPanel(
                       otpSent: _otpSent,
@@ -93,6 +130,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       onCountryTap: _showCountryPicker,
                       onPhoneChanged: () => setState(() => _error = null),
                       onOtpChanged: () => setState(() => _error = null),
+                      onCaptchaChanged: () => setState(() => _error = null),
                     ),
                   ],
                 ),
@@ -101,7 +139,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 otpSent: _otpSent,
                 submitting: _submitting,
                 resendRemaining: _resendRemaining,
-                onSubmit: () => _submit(env),
+                canSubmit: _canSubmit,
+                canResend: _canResend,
+                onSubmit: _canSubmit ? () => _submit(env) : null,
                 onAnotherNumber: _submitting
                     ? null
                     : () => setState(() {
@@ -111,9 +151,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                         _resendRemaining = 0;
                         _error = null;
                       }),
-                onResend: _submitting || _resendRemaining > 0
-                    ? null
-                    : () => _resendCode(env),
+                onResend: _canResend ? () => _resendCode(env) : null,
               ),
             ],
           ),
@@ -162,7 +200,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             .read(collectRepositoryProvider.notifier)
             .signInWithOtp(phone: phone, otp: _otp.text);
         if (!mounted) return;
-        context.go('/auth/success');
+        context.go('/home');
         return;
       }
       if (client != null) {
@@ -178,7 +216,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           .read(collectRepositoryProvider.notifier)
           .signInWithOtp(phone: phone, otp: _otp.text);
       if (!mounted) return;
-      context.go('/auth/success');
+      context.go('/home');
     } catch (error) {
       if (!mounted) return;
       setState(() {

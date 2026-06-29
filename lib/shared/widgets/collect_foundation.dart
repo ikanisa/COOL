@@ -10,6 +10,7 @@ import '../../app/theme/collect_radius.dart';
 import '../../app/theme/collect_spacing.dart';
 import '../../app/theme/collect_runtime_tokens.dart';
 import '../models/collect_models.dart';
+import '../utils/collect_haptics.dart';
 
 class CollectButton extends StatelessWidget {
   const CollectButton({
@@ -63,16 +64,31 @@ class CollectButton extends StatelessWidget {
               ),
             ],
           );
+    void handlePressed() {
+      if (variant == CollectButtonVariant.danger) {
+        CollectHaptics.warning();
+      } else if (variant == CollectButtonVariant.primary) {
+        CollectHaptics.lightImpact();
+      } else {
+        CollectHaptics.selection();
+      }
+      onPressed?.call();
+    }
+
     final button = switch (variant) {
-      CollectButtonVariant.primary || CollectButtonVariant.danger =>
-        FilledButton(onPressed: onPressed, style: style, child: child),
+      CollectButtonVariant.primary ||
+      CollectButtonVariant.danger => FilledButton(
+        onPressed: onPressed == null ? null : handlePressed,
+        style: style,
+        child: child,
+      ),
       CollectButtonVariant.secondary => OutlinedButton(
-        onPressed: onPressed,
+        onPressed: onPressed == null ? null : handlePressed,
         style: style,
         child: child,
       ),
       CollectButtonVariant.subtle => TextButton(
-        onPressed: onPressed,
+        onPressed: onPressed == null ? null : handlePressed,
         style: style,
         child: child,
       ),

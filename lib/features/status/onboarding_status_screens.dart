@@ -204,39 +204,6 @@ class LegalConsentScreen extends ConsumerWidget {
   }
 }
 
-class AuthResultScreen extends StatelessWidget {
-  const AuthResultScreen({required this.success, super.key});
-
-  final bool success;
-
-  @override
-  Widget build(BuildContext context) {
-    return ScreenScaffold(
-      title: success ? 'OTP verified' : 'OTP failed',
-      children: [
-        MinimalStatePanel(
-          icon: success ? CollectIcons.check : CollectIcons.error,
-          title: success ? 'WhatsApp verified.' : 'Code not verified.',
-          message: success
-              ? 'Your Collect session is active. Finish profile setup so MoMo contributions can be verified safely.'
-              : 'Use the latest WhatsApp code or request a fresh one before trying again.',
-          tone: success ? CollectStatusTone.success : CollectStatusTone.danger,
-          titleMaxLines: 2,
-          messageMaxLines: success ? 3 : 2,
-          contentMaxWidth: success ? 430 : 360,
-          primaryAction: CollectButton(
-            label: success ? 'Profile setup' : 'Try again',
-            icon: success ? CollectIcons.profile : CollectIcons.sms,
-            onPressed: () =>
-                context.go(success ? '/settings/profile' : '/auth'),
-            expand: true,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class _StepList extends StatelessWidget {
   const _StepList({required this.steps});
 

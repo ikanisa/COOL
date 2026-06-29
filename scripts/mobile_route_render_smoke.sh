@@ -120,8 +120,6 @@ route_specs=(
   "onboarding|/onboarding"
   "onboarding-legal|/onboarding/legal"
   "auth|/auth"
-  "auth-success|/auth/success"
-  "auth-failure|/auth/failure"
   "profile|/settings/profile"
   "sms-permission-redirect|/permissions/sms"
   "sms-denied|/permissions/sms-denied"

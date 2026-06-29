@@ -121,19 +121,32 @@ revolut_alignment_plan = read(File.join(root, "docs/design/REVOLUT_BORROWED_ALIG
 runtime_asset_intake = read(File.join(root, "docs/design/COLLECT_RUNTIME_ASSET_INTAKE_2026-06-29.md"))
 revolut_blocker_register = read(File.join(root, "docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md"))
 pubspec = read(File.join(root, "pubspec.yaml"))
+router_source = read(File.join(root, "lib/app/router.dart"))
 colors = read(File.join(root, "lib/app/theme/collect_colors.dart"))
 component_tokens = read(File.join(root, "lib/app/theme/collect_component_tokens.dart"))
 runtime_tokens = read(File.join(root, "lib/app/theme/collect_runtime_tokens.dart"))
 components = read(File.join(root, "lib/shared/widgets/collect_components.dart"))
 chrome = read_dart_library(root, "lib/shared/widgets/collect_chrome.dart")
+haptics = read(File.join(root, "lib/shared/utils/collect_haptics.dart"))
 runtime_assets = read(File.join(root, "lib/app/theme/collect_runtime_assets.dart"))
 foundation = read(File.join(root, "lib/shared/widgets/collect_foundation.dart"))
 inputs = read(File.join(root, "lib/shared/widgets/collect_inputs.dart"))
+loading_surfaces = read(File.join(root, "lib/shared/widgets/collect_loading_surfaces.dart"))
 financial_components = read_dart_library(root, "lib/shared/widgets/collect_financial_components.dart")
 shell = read(File.join(root, "lib/core/widgets/collect_shell.dart"))
+screen_scaffold = read(File.join(root, "lib/shared/widgets/screen_scaffold.dart"))
 share_screen = read(File.join(root, "lib/features/collections/share_screen.dart"))
 home_screen = read(File.join(root, "lib/features/home/home_screen.dart"))
 collections_screen = read(File.join(root, "lib/features/collections/collections_screen.dart"))
+native_primary_screens = {
+  "lib/features/home/home_screen.dart" => home_screen,
+  "lib/features/collections/collections_screen.dart" => collections_screen,
+  "lib/features/collections/collection_detail_screen.dart" => read(File.join(root, "lib/features/collections/collection_detail_screen.dart")),
+  "lib/features/ledger/ledger_screen.dart" => read(File.join(root, "lib/features/ledger/ledger_screen.dart")),
+  "lib/features/payments/payment_intent_status_screen.dart" => read(File.join(root, "lib/features/payments/payment_intent_status_screen.dart")),
+  "lib/features/status/device_notification_center.dart" => read(File.join(root, "lib/features/status/device_notification_center.dart")),
+  "lib/features/settings/settings_screen.dart" => read(File.join(root, "lib/features/settings/settings_screen.dart"))
+}
 main_entry = read(File.join(root, "lib/main.dart"))
 route_smoke_script = read(File.join(root, "scripts/mobile_route_render_smoke.sh"))
 theme_parity_path = File.join(root, "test/features/theme_mode_visual_parity_test.dart")
@@ -546,6 +559,90 @@ checks << {
     "lib/main.dart",
     "scripts/mobile_route_render_smoke.sh",
     "docs/design/DESIGN_SYSTEM.md"
+  ]
+}
+
+native_interaction_failures = []
+{
+  "CustomTransitionPage<void>" => "Router must use custom transition pages for production routes.",
+  "pageBuilder:" => "Router must route production screens through pageBuilder instead of builder-only pages.",
+  "_CollectRouteTransition" => "Router must classify route transition intent.",
+  "transitionDuration:" => "Router must set explicit transition durations.",
+  "reverseTransitionDuration:" => "Router must set explicit reverse transition durations.",
+  "MediaQuery.maybeOf(context)?.disableAnimations" => "Router must respect platform reduced-motion settings.",
+  "FadeTransition" => "Router must include a fade transition primitive.",
+  "SlideTransition" => "Router must include a spatial push transition primitive.",
+  "ScaleTransition" => "Router must include a confirmation/primary emphasis transition primitive."
+}.each do |needle, failure|
+  native_interaction_failures << failure unless router_source.include?(needle)
+end
+
+{
+  "HapticFeedback.selectionClick" => "CollectHaptics must expose selection feedback.",
+  "HapticFeedback.lightImpact" => "CollectHaptics must expose light impact feedback.",
+  "HapticFeedback.mediumImpact" => "CollectHaptics must expose medium impact feedback.",
+  "HapticFeedback.vibrate" => "CollectHaptics must expose warning/error feedback."
+}.each do |needle, failure|
+  native_interaction_failures << failure unless haptics.include?(needle)
+end
+native_interaction_failures << "Component barrel must export CollectHaptics." unless components.include?("export '../utils/collect_haptics.dart';")
+native_interaction_failures << "CollectButton must trigger haptic feedback for button presses." unless foundation.include?("CollectHaptics.lightImpact()") && foundation.include?("CollectHaptics.warning()")
+native_interaction_failures << "CollectShell bottom navigation must trigger selection haptics." unless shell.include?("CollectHaptics.selection()")
+native_interaction_failures << "Top chrome actions must trigger selection haptics." unless chrome.scan("CollectHaptics.selection()").length >= 3
+native_interaction_failures << "Screen chrome back navigation must trigger selection haptics." unless chrome.include?("goBackOrHome(context)") && chrome.include?("CollectHaptics.selection()")
+
+native_interaction_failures << "ScreenScaffold must expose an onRefresh callback." unless screen_scaffold.include?("final RefreshCallback? onRefresh;") && screen_scaffold.include?("onRefresh: onRefresh")
+native_interaction_failures << "PremiumScaffold must use adaptive pull-to-refresh." unless chrome.include?("RefreshIndicator.adaptive")
+native_interaction_failures << "Refreshable screens must remain scrollable when content is short." unless chrome.include?("AlwaysScrollableScrollPhysics") && chrome.include?("BouncingScrollPhysics")
+native_interaction_failures << "Pull-to-refresh must provide haptic acknowledgement." unless chrome.include?("CollectHaptics.lightImpact()") && chrome.include?("await onRefresh!();")
+
+{
+  "CollectScreenLoadingState" => "Shared screen loading surface must exist.",
+  "LoadingStatePanel" => "Shared loading panel must remain available.",
+  "LoadingSkeleton" => "Shared skeleton loading primitive must remain available.",
+  "liveRegion: true" => "Loading surfaces must announce dynamic loading changes to assistive technology.",
+  'Loading screen: $title' => "Screen loading state must expose a route-specific semantic label."
+}.each do |needle, failure|
+  native_interaction_failures << failure unless loading_surfaces.include?(needle)
+end
+
+native_primary_screens.each do |relative, source|
+  native_interaction_failures << "#{relative} must expose pull-to-refresh." unless source.include?("onRefresh:")
+end
+{
+  "lib/features/home/home_screen.dart" => "Loading home",
+  "lib/features/collections/collections_screen.dart" => "Loading groups",
+  "lib/features/collections/collection_detail_screen.dart" => "Loading group",
+  "lib/features/ledger/ledger_screen.dart" => "Loading ledger",
+  "lib/features/payments/payment_intent_status_screen.dart" => "Loading payment status",
+  "lib/features/status/device_notification_center.dart" => "Loading notifications",
+  "lib/features/settings/settings_screen.dart" => "Loading settings"
+}.each do |relative, loading_title|
+  source = native_primary_screens.fetch(relative)
+  native_interaction_failures << "#{relative} must show a first-load screen loading state." unless source.include?("CollectScreenLoadingState") && source.include?(loading_title)
+end
+native_interaction_failures << "Primary data screens must refresh through the Collect repository." unless native_primary_screens.values.join("\n").scan("collectRepositoryProvider.notifier").length >= 6
+native_interaction_failures << "Payment status must keep a route-specific refresh method." unless native_primary_screens.fetch("lib/features/payments/payment_intent_status_screen.dart").include?("_refreshStatus")
+
+checks << {
+  "id" => "native_mobile_interaction_contract",
+  "status" => status_for(native_interaction_failures),
+  "failures" => native_interaction_failures,
+  "evidence" => [
+    "lib/app/router.dart",
+    "lib/shared/utils/collect_haptics.dart",
+    "lib/shared/widgets/collect_chrome.dart",
+    "lib/shared/widgets/collect_foundation.dart",
+    "lib/shared/widgets/collect_loading_surfaces.dart",
+    "lib/shared/widgets/screen_scaffold.dart",
+    "lib/core/widgets/collect_shell.dart",
+    "lib/features/home/home_screen.dart",
+    "lib/features/collections/collections_screen.dart",
+    "lib/features/collections/collection_detail_screen.dart",
+    "lib/features/ledger/ledger_screen.dart",
+    "lib/features/payments/payment_intent_status_screen.dart",
+    "lib/features/status/device_notification_center.dart",
+    "lib/features/settings/settings_screen.dart"
   ]
 }
 

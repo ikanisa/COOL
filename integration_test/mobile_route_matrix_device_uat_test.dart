@@ -48,6 +48,12 @@ void main() {
         await pumpRoute(tester, spec.route);
         expect(tester.takeException(), isNull, reason: spec.route);
         expect(find.byType(CollectApp), findsOneWidget, reason: spec.route);
+        expect(find.text('Screen not found'), findsNothing, reason: spec.route);
+        expect(
+          find.text('This screen is unavailable.'),
+          findsNothing,
+          reason: spec.route,
+        );
         if (screenshotsEnabled) {
           try {
             await binding.takeScreenshot('mobile_route_${spec.name}');
@@ -70,10 +76,7 @@ const _routeSpecs = <_RouteSpec>[
   _RouteSpec('onboarding', '/onboarding'),
   _RouteSpec('onboarding-legal', '/onboarding/legal'),
   _RouteSpec('auth', '/auth'),
-  _RouteSpec('auth-success', '/auth/success'),
-  _RouteSpec('auth-failure', '/auth/failure'),
   _RouteSpec('profile', '/settings/profile'),
-  _RouteSpec('profile-readiness', '/settings/readiness'),
   _RouteSpec('sms-permission-redirect', '/permissions/sms'),
   _RouteSpec('sms-denied', '/permissions/sms-denied'),
   _RouteSpec('device-permission', '/permissions/device'),
@@ -91,7 +94,6 @@ const _routeSpecs = <_RouteSpec>[
   _RouteSpec('group-detail', '/groups/col-church'),
   _RouteSpec('group-created', '/groups/col-church/created'),
   _RouteSpec('group-joined', '/groups/col-church/joined'),
-  _RouteSpec('join', '/groups/join'),
   _RouteSpec('owner-redirect', '/groups/col-church/owner'),
   _RouteSpec(
     'owner-sms-health-redirect',
@@ -113,7 +115,6 @@ const _routeSpecs = <_RouteSpec>[
     '/groups/col-church/pay/intent-render/handoff',
   ),
   _RouteSpec('payment-intent', '/groups/col-church/pay/intent-render'),
-  _RouteSpec('payment-waiting', '/groups/col-church/pay/intent-render/waiting'),
   _RouteSpec(
     'payment-pending',
     '/groups/col-church/pay/intent-render/state/pending',

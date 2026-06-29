@@ -7,6 +7,8 @@ class AuthOtpEntry extends StatefulWidget {
     super.key,
   });
 
+  static const digitCount = 6;
+
   final TextEditingController controller;
   final VoidCallback onChanged;
 
@@ -15,7 +17,7 @@ class AuthOtpEntry extends StatefulWidget {
 }
 
 class AuthOtpEntryState extends State<AuthOtpEntry> {
-  static const _digitCount = 6;
+  static const _digitCount = AuthOtpEntry.digitCount;
 
   late final List<TextEditingController> _controllers;
   late final List<FocusNode> _nodes;

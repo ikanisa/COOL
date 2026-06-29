@@ -30,8 +30,6 @@ final appRouterProvider = Provider<GoRouter>((ref) => createAppRouter());
 const collectRoutePaths = <String>[
   '/',
   '/auth',
-  '/auth/success',
-  '/auth/failure',
   '/onboarding',
   '/onboarding/legal',
   '/home',
@@ -92,11 +90,19 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
         routes: [
           GoRoute(
             path: '/',
-            builder: (context, state) => const LaunchSplashScreen(),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const LaunchSplashScreen(),
+              transition: _CollectRouteTransition.fade,
+            ),
           ),
           GoRoute(
             path: '/onboarding',
-            builder: (context, state) => const OnboardingScreen(),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const OnboardingScreen(),
+              transition: _CollectRouteTransition.forward,
+            ),
           ),
           GoRoute(
             path: '/onboarding/legal',
@@ -104,31 +110,43 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
           ),
           GoRoute(
             path: '/auth',
-            builder: (context, state) => const AuthScreen(),
-          ),
-          GoRoute(
-            path: '/auth/success',
-            builder: (context, state) => const AuthResultScreen(success: true),
-          ),
-          GoRoute(
-            path: '/auth/failure',
-            builder: (context, state) => const AuthResultScreen(success: false),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const AuthScreen(),
+              transition: _CollectRouteTransition.forward,
+            ),
           ),
           GoRoute(
             path: '/home',
-            builder: (context, state) => const HomeScreen(),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const HomeScreen(),
+              transition: _CollectRouteTransition.primary,
+            ),
           ),
           GoRoute(
             path: '/offline',
-            builder: (context, state) => const OfflineStateScreen(),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const OfflineStateScreen(),
+              transition: _CollectRouteTransition.utility,
+            ),
           ),
           GoRoute(
             path: '/sync',
-            builder: (context, state) => const SyncStatusScreen(),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const SyncStatusScreen(),
+              transition: _CollectRouteTransition.utility,
+            ),
           ),
           GoRoute(
             path: '/notifications',
-            builder: (context, state) => const NotificationCenterScreen(),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const NotificationCenterScreen(),
+              transition: _CollectRouteTransition.detail,
+            ),
           ),
           GoRoute(
             path: '/permissions/sms',
@@ -136,68 +154,118 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
           ),
           GoRoute(
             path: '/permissions/sms-denied',
-            builder: (context, state) => const SmsPermissionDeniedScreen(),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const SmsPermissionDeniedScreen(),
+              transition: _CollectRouteTransition.utility,
+            ),
           ),
           GoRoute(
             path: '/permissions/device',
-            builder: (context, state) => const NotificationPermissionScreen(),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const NotificationPermissionScreen(),
+              transition: _CollectRouteTransition.utility,
+            ),
           ),
           GoRoute(
             path: '/permissions/notifications-denied',
-            builder: (context, state) =>
-                const PermissionRecoveryScreen(kind: 'notifications'),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const PermissionRecoveryScreen(kind: 'notifications'),
+              transition: _CollectRouteTransition.utility,
+            ),
           ),
           GoRoute(
             path: '/permissions/camera-denied',
-            builder: (context, state) =>
-                const PermissionRecoveryScreen(kind: 'camera'),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const PermissionRecoveryScreen(kind: 'camera'),
+              transition: _CollectRouteTransition.utility,
+            ),
           ),
           GoRoute(
             path: '/platform/iphone-create-unavailable',
-            builder: (context, state) => const IphoneCreateUnavailableScreen(),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const IphoneCreateUnavailableScreen(),
+              transition: _CollectRouteTransition.utility,
+            ),
           ),
           GoRoute(
             path: '/groups',
-            builder: (context, state) => const CollectionsScreen(),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const CollectionsScreen(),
+              transition: _CollectRouteTransition.primary,
+            ),
             routes: [
-              GoRoute(
-                path: 'search',
-                builder: (context, state) => const GroupsSearchScreen(),
-              ),
               GoRoute(
                 path: 'join',
                 redirect: (context, state) => '/groups/scan',
               ),
               GoRoute(
+                path: 'search',
+                pageBuilder: (context, state) => _collectPage(
+                  state,
+                  const GroupsSearchScreen(),
+                  transition: _CollectRouteTransition.detail,
+                ),
+              ),
+              GoRoute(
                 path: 'scan',
-                builder: (context, state) => const GroupQrScannerScreen(),
+                pageBuilder: (context, state) => _collectPage(
+                  state,
+                  const GroupQrScannerScreen(),
+                  transition: _CollectRouteTransition.modal,
+                ),
               ),
               GoRoute(
                 path: 'create',
-                builder: (context, state) => const CollectionCreateScreen(),
+                pageBuilder: (context, state) => _collectPage(
+                  state,
+                  const CollectionCreateScreen(),
+                  transition: _CollectRouteTransition.modal,
+                ),
               ),
               GoRoute(
                 path: ':collectionId',
-                builder: (context, state) => CollectionDetailScreen(
-                  collectionId: state.pathParameters['collectionId']!,
+                pageBuilder: (context, state) => _collectPage(
+                  state,
+                  CollectionDetailScreen(
+                    collectionId: state.pathParameters['collectionId']!,
+                  ),
+                  transition: _CollectRouteTransition.detail,
                 ),
                 routes: [
                   GoRoute(
                     path: 'created',
-                    builder: (context, state) => GroupCreatedSuccessScreen(
-                      collectionId: state.pathParameters['collectionId']!,
+                    pageBuilder: (context, state) => _collectPage(
+                      state,
+                      GroupCreatedSuccessScreen(
+                        collectionId: state.pathParameters['collectionId']!,
+                      ),
+                      transition: _CollectRouteTransition.confirmation,
                     ),
                   ),
                   GoRoute(
                     path: 'joined',
-                    builder: (context, state) => JoinGroupConfirmationScreen(
-                      collectionId: state.pathParameters['collectionId']!,
+                    pageBuilder: (context, state) => _collectPage(
+                      state,
+                      JoinGroupConfirmationScreen(
+                        collectionId: state.pathParameters['collectionId']!,
+                      ),
+                      transition: _CollectRouteTransition.confirmation,
                     ),
                   ),
                   GoRoute(
                     path: 'members',
-                    builder: (context, state) => GroupMembersScreen(
-                      collectionId: state.pathParameters['collectionId']!,
+                    pageBuilder: (context, state) => _collectPage(
+                      state,
+                      GroupMembersScreen(
+                        collectionId: state.pathParameters['collectionId']!,
+                      ),
+                      transition: _CollectRouteTransition.detail,
                     ),
                   ),
                   GoRoute(
@@ -218,20 +286,32 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                   ),
                   GoRoute(
                     path: 'manage',
-                    builder: (context, state) => CollectionManageScreen(
-                      collectionId: state.pathParameters['collectionId']!,
+                    pageBuilder: (context, state) => _collectPage(
+                      state,
+                      CollectionManageScreen(
+                        collectionId: state.pathParameters['collectionId']!,
+                      ),
+                      transition: _CollectRouteTransition.detail,
                     ),
                   ),
                   GoRoute(
                     path: 'profile',
-                    builder: (context, state) => GroupProfileScreen(
-                      collectionId: state.pathParameters['collectionId']!,
+                    pageBuilder: (context, state) => _collectPage(
+                      state,
+                      GroupProfileScreen(
+                        collectionId: state.pathParameters['collectionId']!,
+                      ),
+                      transition: _CollectRouteTransition.detail,
                     ),
                   ),
                   GoRoute(
                     path: 'contribute',
-                    builder: (context, state) => ContributionFlowScreen(
-                      collectionId: state.pathParameters['collectionId']!,
+                    pageBuilder: (context, state) => _collectPage(
+                      state,
+                      ContributionFlowScreen(
+                        collectionId: state.pathParameters['collectionId']!,
+                      ),
+                      transition: _CollectRouteTransition.modal,
                     ),
                   ),
                   GoRoute(
@@ -241,44 +321,68 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                   ),
                   GoRoute(
                     path: 'pay/:intentId/state/:state',
-                    builder: (context, state) => PaymentStateDetailScreen(
-                      collectionId: state.pathParameters['collectionId']!,
-                      intentId: state.pathParameters['intentId']!,
-                      state: _paymentStateFromPath(
-                        state.pathParameters['state'],
+                    pageBuilder: (context, state) => _collectPage(
+                      state,
+                      PaymentStateDetailScreen(
+                        collectionId: state.pathParameters['collectionId']!,
+                        intentId: state.pathParameters['intentId']!,
+                        state: _paymentStateFromPath(
+                          state.pathParameters['state'],
+                        ),
                       ),
+                      transition: _CollectRouteTransition.detail,
                     ),
                   ),
                   GoRoute(
                     path: 'pay/:intentId',
-                    builder: (context, state) => PaymentIntentStatusScreen(
-                      collectionId: state.pathParameters['collectionId']!,
-                      intentId: state.pathParameters['intentId']!,
+                    pageBuilder: (context, state) => _collectPage(
+                      state,
+                      PaymentIntentStatusScreen(
+                        collectionId: state.pathParameters['collectionId']!,
+                        intentId: state.pathParameters['intentId']!,
+                      ),
+                      transition: _CollectRouteTransition.detail,
                     ),
                   ),
                   GoRoute(
                     path: 'support/payment/:intentId',
-                    builder: (context, state) => PaymentSupportReviewScreen(
-                      collectionId: state.pathParameters['collectionId']!,
-                      intentId: state.pathParameters['intentId']!,
+                    pageBuilder: (context, state) => _collectPage(
+                      state,
+                      PaymentSupportReviewScreen(
+                        collectionId: state.pathParameters['collectionId']!,
+                        intentId: state.pathParameters['intentId']!,
+                      ),
+                      transition: _CollectRouteTransition.modal,
                     ),
                   ),
                   GoRoute(
                     path: 'share',
-                    builder: (context, state) => ShareScreen(
-                      collectionId: state.pathParameters['collectionId']!,
+                    pageBuilder: (context, state) => _collectPage(
+                      state,
+                      ShareScreen(
+                        collectionId: state.pathParameters['collectionId']!,
+                      ),
+                      transition: _CollectRouteTransition.modal,
                     ),
                   ),
                   GoRoute(
                     path: 'invite',
-                    builder: (context, state) => CollectionDetailScreen(
-                      collectionId: state.pathParameters['collectionId']!,
+                    pageBuilder: (context, state) => _collectPage(
+                      state,
+                      CollectionDetailScreen(
+                        collectionId: state.pathParameters['collectionId']!,
+                      ),
+                      transition: _CollectRouteTransition.detail,
                     ),
                   ),
                   GoRoute(
                     path: 'ledger',
-                    builder: (context, state) => LedgerScreen(
-                      collectionId: state.pathParameters['collectionId']!,
+                    pageBuilder: (context, state) => _collectPage(
+                      state,
+                      LedgerScreen(
+                        collectionId: state.pathParameters['collectionId']!,
+                      ),
+                      transition: _CollectRouteTransition.detail,
                     ),
                   ),
                 ],
@@ -287,24 +391,37 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
           ),
           GoRoute(
             path: '/share/invalid',
-            builder: (context, state) =>
-                const SharedLinkProblemScreen(expired: false),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const SharedLinkProblemScreen(expired: false),
+              transition: _CollectRouteTransition.utility,
+            ),
           ),
           GoRoute(
             path: '/share/expired',
-            builder: (context, state) =>
-                const SharedLinkProblemScreen(expired: true),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const SharedLinkProblemScreen(expired: true),
+              transition: _CollectRouteTransition.utility,
+            ),
           ),
           GoRoute(
             path: '/share/expired/request',
-            builder: (context, state) => FreshLinkRequestScreen(
-              slug: state.uri.queryParameters['slug'] ?? '',
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              FreshLinkRequestScreen(
+                slug: state.uri.queryParameters['slug'] ?? '',
+              ),
+              transition: _CollectRouteTransition.modal,
             ),
           ),
           GoRoute(
             path: '/c/:slug',
-            builder: (context, state) =>
-                GroupLinkScreen(slug: state.pathParameters['slug']!),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              GroupLinkScreen(slug: state.pathParameters['slug']!),
+              transition: _CollectRouteTransition.detail,
+            ),
           ),
           GoRoute(path: '/app', redirect: (context, state) => '/home'),
           GoRoute(
@@ -313,35 +430,67 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
           ),
           GoRoute(
             path: '/settings',
-            builder: (context, state) => const SettingsScreen(),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const SettingsScreen(),
+              transition: _CollectRouteTransition.primary,
+            ),
           ),
           GoRoute(
             path: '/settings/profile',
-            builder: (context, state) => const ProfileSetupScreen(),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const ProfileSetupScreen(),
+              transition: _CollectRouteTransition.detail,
+            ),
           ),
           GoRoute(
             path: '/settings/account',
-            builder: (context, state) => const AccountSessionScreen(),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const AccountSessionScreen(),
+              transition: _CollectRouteTransition.detail,
+            ),
           ),
           GoRoute(
             path: '/settings/account/delete',
-            builder: (context, state) => const DeleteAccountRequestScreen(),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const DeleteAccountRequestScreen(),
+              transition: _CollectRouteTransition.modal,
+            ),
           ),
           GoRoute(
             path: '/settings/privacy',
-            builder: (context, state) => const PrivacyDataScreen(),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const PrivacyDataScreen(),
+              transition: _CollectRouteTransition.detail,
+            ),
           ),
           GoRoute(
             path: '/settings/help',
-            builder: (context, state) => const HelpSupportScreen(),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const HelpSupportScreen(),
+              transition: _CollectRouteTransition.detail,
+            ),
           ),
           GoRoute(
             path: '/settings/legal/terms',
-            builder: (context, state) => const LegalScreen(kind: 'terms'),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const LegalScreen(kind: 'terms'),
+              transition: _CollectRouteTransition.detail,
+            ),
           ),
           GoRoute(
             path: '/settings/legal/privacy',
-            builder: (context, state) => const LegalScreen(kind: 'privacy'),
+            pageBuilder: (context, state) => _collectPage(
+              state,
+              const LegalScreen(kind: 'privacy'),
+              transition: _CollectRouteTransition.detail,
+            ),
           ),
           GoRoute(
             path: '/share/confirmed',
@@ -350,12 +499,92 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
           if (kDebugMode)
             GoRoute(
               path: '/dev/design-system',
-              builder: (context, state) => const DesignSystemCatalogScreen(),
+              pageBuilder: (context, state) => _collectPage(
+                state,
+                const DesignSystemCatalogScreen(),
+                transition: _CollectRouteTransition.utility,
+              ),
             ),
         ],
       ),
     ],
     errorBuilder: (context, state) => const _RouteNotFoundScreen(),
+  );
+}
+
+enum _CollectRouteTransition {
+  fade,
+  primary,
+  forward,
+  detail,
+  modal,
+  utility,
+  confirmation,
+}
+
+Page<void> _collectPage(
+  GoRouterState state,
+  Widget child, {
+  _CollectRouteTransition transition = _CollectRouteTransition.detail,
+}) {
+  final duration = switch (transition) {
+    _CollectRouteTransition.utility => CollectMotion.fast,
+    _CollectRouteTransition.confirmation => CollectMotion.slow,
+    _ => CollectMotion.medium,
+  };
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    name: state.name,
+    arguments: state.extra,
+    transitionDuration: duration,
+    reverseTransitionDuration: duration,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      if (MediaQuery.maybeOf(context)?.disableAnimations == true) {
+        return child;
+      }
+      final curved = CurvedAnimation(
+        parent: animation,
+        curve: CollectMotion.standard,
+        reverseCurve: Curves.easeInCubic,
+      );
+      return switch (transition) {
+        _CollectRouteTransition.fade => FadeTransition(
+          opacity: curved,
+          child: child,
+        ),
+        _CollectRouteTransition.primary => FadeTransition(
+          opacity: curved,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.985, end: 1).animate(curved),
+            child: child,
+          ),
+        ),
+        _CollectRouteTransition.forward ||
+        _CollectRouteTransition.detail => SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0.08, 0),
+            end: Offset.zero,
+          ).animate(curved),
+          child: FadeTransition(opacity: curved, child: child),
+        ),
+        _CollectRouteTransition.modal => SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, 0.08),
+            end: Offset.zero,
+          ).animate(curved),
+          child: FadeTransition(opacity: curved, child: child),
+        ),
+        _CollectRouteTransition.utility => FadeTransition(
+          opacity: curved,
+          child: child,
+        ),
+        _CollectRouteTransition.confirmation => ScaleTransition(
+          scale: Tween<double>(begin: 0.96, end: 1).animate(curved),
+          child: FadeTransition(opacity: curved, child: child),
+        ),
+      };
+    },
   );
 }
 

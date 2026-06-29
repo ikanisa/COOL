@@ -558,8 +558,6 @@ Widget _mobileRouteScreen(String route) {
     '/onboarding' => const OnboardingScreen(),
     '/onboarding/legal' => const LegalConsentScreen(),
     '/auth' => const AuthScreen(),
-    '/auth/success' => const AuthResultScreen(success: true),
-    '/auth/failure' => const AuthResultScreen(success: false),
     '/home' => const HomeScreen(),
     '/offline' => const OfflineStateScreen(),
     '/sync' => const SyncStatusScreen(),

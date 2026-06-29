@@ -48,6 +48,7 @@ class CollectTextInput extends StatelessWidget {
     this.maxLines = 1,
     this.textCapitalization = TextCapitalization.none,
     this.autocorrect = false,
+    this.onChanged,
     this.onSubmitted,
     super.key,
   });
@@ -61,6 +62,7 @@ class CollectTextInput extends StatelessWidget {
   final int maxLines;
   final TextCapitalization textCapitalization;
   final bool autocorrect;
+  final ValueChanged<String>? onChanged;
   final ValueChanged<String>? onSubmitted;
 
   @override
@@ -76,6 +78,7 @@ class CollectTextInput extends StatelessWidget {
       maxLines: maxLines,
       textCapitalization: textCapitalization,
       autocorrect: autocorrect,
+      onChanged: onChanged,
       onSubmitted: onSubmitted,
       decoration: collectInputDecoration(context, label: label, helper: helper),
     );

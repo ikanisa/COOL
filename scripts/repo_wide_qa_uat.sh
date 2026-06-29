@@ -266,8 +266,6 @@ JSON
   mobile_routes=(
     "onboarding|/onboarding"
     "auth|/auth"
-    "auth-success|/auth/success"
-    "auth-failure|/auth/failure"
     "profile|/settings/profile"
     "sms-permission|/permissions/sms"
     "sms-denied|/permissions/sms-denied"

@@ -43,6 +43,8 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
               paymentStatusTone(item.status) != CollectStatusTone.success,
         )
         .toList();
+    final isInitialLoading =
+        state.isLoading && contributions.isEmpty && pendingIntents.isEmpty;
     final filteredContributions = switch (_filter) {
       _LedgerFilter.all || _LedgerFilter.confirmed => contributions,
       _LedgerFilter.mine => [
@@ -92,73 +94,86 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
 
     return ScreenScaffold(
       title: 'Ledger',
-      children: [
-        MoneyHeroCard(
-          amount: total,
-          label: 'Confirmed ledger',
-          detail: '${contributions.length} entries',
-        ),
-        SearchWithClearField(
-          controller: _search,
-          label: 'Search Collect ID or transaction',
-          onChanged: (value) => setState(() => _query = value),
-        ),
-        _LedgerControlDock(
-          filterLabel: _ledgerFilterLabel(_filter),
-          sortLabel: _ledgerSortLabel(_sort),
-          onFilterTap: _showFilterSheet,
-          onSortTap: _showSortSheet,
-        ),
-        const SectionHeader(title: 'Activity'),
-        if (!hasAnyLedgerActivity)
-          EmptyIllustrationState(
-            icon: CollectIcons.ledger,
-            title: 'No ledger activity',
-            message:
-                'Confirmed MoMo contributions will appear here after SMS verification.',
-            action: CollectButton(
-              label: 'Contribute now',
-              icon: CollectIcons.momo,
-              onPressed: () =>
-                  context.go('/groups/${widget.collectionId}/contribute'),
-            ),
-          )
-        else if (!hasVisibleLedgerActivity)
-          EmptySearchState(
-            title: _emptyTitleForFilter(_filter),
-            message: _emptyMessageForFilter(_filter),
-            onClear: () => setState(() {
-              _search.clear();
-              _query = '';
-              _filter = _LedgerFilter.all;
-            }),
-          )
-        else
-          CollectCard(
-            emphasis: CollectCardEmphasis.flat,
-            child: Column(
-              children: [
-                for (final intent in visiblePending)
-                  FinancialListRow(
-                    title: paymentStatusLabel(intent.status),
-                    amountRwf: intent.expectedAmountRwf,
-                    meta: 'Awaiting MoMo confirmation',
-                    subtitle: intent.receiverLabel,
-                    leading: CollectIcons.pending,
-                    tone: paymentStatusTone(intent.status),
+      onRefresh: () =>
+          ref.read(collectRepositoryProvider.notifier).loadInitial(),
+      children: isInitialLoading
+          ? const [
+              CollectScreenLoadingState(
+                title: 'Loading ledger',
+                message: 'Refreshing confirmed and pending contributions.',
+                icon: CollectIcons.ledger,
+                skeletonCount: 3,
+              ),
+            ]
+          : [
+              MoneyHeroCard(
+                amount: total,
+                label: 'Confirmed ledger',
+                detail: '${contributions.length} entries',
+              ),
+              SearchWithClearField(
+                controller: _search,
+                label: 'Search Collect ID or transaction',
+                onChanged: (value) => setState(() => _query = value),
+              ),
+              _LedgerControlDock(
+                filterLabel: _ledgerFilterLabel(_filter),
+                sortLabel: _ledgerSortLabel(_sort),
+                onFilterTap: _showFilterSheet,
+                onSortTap: _showSortSheet,
+              ),
+              const SectionHeader(title: 'Activity'),
+              if (!hasAnyLedgerActivity)
+                EmptyIllustrationState(
+                  icon: CollectIcons.ledger,
+                  title: 'No ledger activity',
+                  message:
+                      'Confirmed MoMo contributions will appear here after SMS verification.',
+                  action: CollectButton(
+                    label: 'Contribute now',
+                    icon: CollectIcons.momo,
+                    onPressed: () =>
+                        context.go('/groups/${widget.collectionId}/contribute'),
                   ),
-                for (final contribution in visible)
-                  FinancialListRow(
-                    title: compactCollectIdLabel(contribution.supporterLabel),
-                    amountRwf: contribution.amountRwf,
-                    meta: formatCollectDateTime(contribution.createdAt),
-                    transactionId: contribution.transactionId,
-                    leading: CollectIcons.ledger,
+                )
+              else if (!hasVisibleLedgerActivity)
+                EmptySearchState(
+                  title: _emptyTitleForFilter(_filter),
+                  message: _emptyMessageForFilter(_filter),
+                  onClear: () => setState(() {
+                    _search.clear();
+                    _query = '';
+                    _filter = _LedgerFilter.all;
+                  }),
+                )
+              else
+                CollectCard(
+                  emphasis: CollectCardEmphasis.flat,
+                  child: Column(
+                    children: [
+                      for (final intent in visiblePending)
+                        FinancialListRow(
+                          title: paymentStatusLabel(intent.status),
+                          amountRwf: intent.expectedAmountRwf,
+                          meta: 'Awaiting MoMo confirmation',
+                          subtitle: intent.receiverLabel,
+                          leading: CollectIcons.pending,
+                          tone: paymentStatusTone(intent.status),
+                        ),
+                      for (final contribution in visible)
+                        FinancialListRow(
+                          title: compactCollectIdLabel(
+                            contribution.supporterLabel,
+                          ),
+                          amountRwf: contribution.amountRwf,
+                          meta: formatCollectDateTime(contribution.createdAt),
+                          transactionId: contribution.transactionId,
+                          leading: CollectIcons.ledger,
+                        ),
+                    ],
                   ),
-              ],
-            ),
-          ),
-      ],
+                ),
+            ],
     );
   }
 

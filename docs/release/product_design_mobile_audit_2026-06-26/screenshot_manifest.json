@@ -31,24 +31,6 @@
       "consoleErrors": []
     },
     {
-      "step": "04-auth-success",
-      "route": "/auth/success",
-      "url": "http://127.0.0.1:57124/#/auth/success",
-      "title": "Collect",
-      "file": "/Volumes/PRO-G40/COOL/docs/release/product_design_mobile_audit_2026-06-26/screenshots/04-auth-success.png",
-      "bytes": 111134,
-      "consoleErrors": []
-    },
-    {
-      "step": "05-auth-failure",
-      "route": "/auth/failure",
-      "url": "http://127.0.0.1:57124/#/auth/failure",
-      "title": "Collect",
-      "file": "/Volumes/PRO-G40/COOL/docs/release/product_design_mobile_audit_2026-06-26/screenshots/05-auth-failure.png",
-      "bytes": 100142,
-      "consoleErrors": []
-    },
-    {
       "step": "06-profile-setup",
       "route": "/settings/profile",
       "url": "http://127.0.0.1:57124/#/settings/profile",

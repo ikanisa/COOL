@@ -461,8 +461,6 @@ required_mobile_routes = %w[
   /onboarding
   /onboarding/legal
   /auth
-  /auth/success
-  /auth/failure
   /settings/profile
   /permissions/sms
   /permissions/sms-denied

@@ -4,11 +4,22 @@ import 'package:collect_app/app/router.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  bool authButtonEnabled(WidgetTester tester, String key) {
+    final button = tester.widget<CupertinoButton>(
+      find.descendant(
+        of: find.byKey(ValueKey(key)),
+        matching: find.byType(CupertinoButton),
+      ),
+    );
+    return button.onPressed != null;
+  }
+
   Future<void> pumpRoute(
     WidgetTester tester,
     String route, {
@@ -81,6 +92,46 @@ void main() {
     expect(find.text('Open groups'), findsWidgets);
   });
 
+  testWidgets('primary routes show loading panels during live startup', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      for (final entry in const <String, String>{
+        '/home': 'Loading home',
+        '/groups': 'Loading groups',
+        '/groups/col-church': 'Loading group',
+        '/notifications': 'Loading notifications',
+        '/settings': 'Loading settings',
+      }.entries) {
+        final router = createAppRouter(initialLocation: entry.key);
+        addTearDown(router.dispose);
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [
+              appRouterProvider.overrideWithValue(router),
+              collectRepositoryProvider.overrideWith(
+                (ref) => _LoadingCollectRepository(),
+              ),
+            ],
+            child: const CollectApp(),
+          ),
+        );
+        await tester.pump();
+        await tester.pump();
+
+        expect(find.text(entry.value), findsOneWidget, reason: entry.key);
+        expect(
+          find.bySemanticsLabel('Loading screen: ${entry.value}'),
+          findsOneWidget,
+          reason: entry.key,
+        );
+      }
+    } finally {
+      semantics.dispose();
+    }
+  });
+
   testWidgets('onboarding continues directly to sign-in', (tester) async {
     await pumpRoute(tester, '/onboarding');
 
@@ -101,8 +152,11 @@ void main() {
   ) async {
     await pumpRoute(tester, '/auth');
 
+    expect(authButtonEnabled(tester, 'auth_submit_button'), isFalse);
     await tester.enterText(find.byType(TextField).first, '+250788123456');
-    await tester.tap(find.widgetWithText(FilledButton, 'Send WhatsApp code'));
+    await tester.pump();
+    expect(authButtonEnabled(tester, 'auth_submit_button'), isTrue);
+    await tester.tap(find.text('Send WhatsApp code'));
     await tester.pump();
 
     expect(find.text('Before you continue'), findsNothing);
@@ -142,25 +196,34 @@ void main() {
     );
 
     await tester.enterText(find.byType(TextField).first, '+250700000001');
-    await tester.tap(find.widgetWithText(FilledButton, 'Send WhatsApp code'));
+    await tester.pump();
+    expect(authButtonEnabled(tester, 'auth_submit_button'), isTrue);
+    await tester.tap(find.text('Send WhatsApp code'));
     await tester.pump();
 
     expect(find.text('OTP'), findsOneWidget);
     expect(find.text('Authentication failed'), findsNothing);
+    expect(authButtonEnabled(tester, 'auth_submit_button'), isFalse);
+    expect(authButtonEnabled(tester, 'auth_change_button'), isTrue);
+    expect(authButtonEnabled(tester, 'auth_resend_button'), isTrue);
 
     await tester.enterText(find.byType(TextField).first, '000000');
-    await tester.tap(find.widgetWithText(FilledButton, 'Verify and continue'));
+    await tester.pump();
+    expect(authButtonEnabled(tester, 'auth_submit_button'), isTrue);
+    await tester.tap(find.text('Verify and continue'));
     await tester.pump();
 
     expect(find.text('Authentication failed'), findsOneWidget);
     expect(repository.state.currentProfile, isNull);
 
     await tester.enterText(find.byType(TextField).first, '135790');
-    await tester.tap(find.widgetWithText(FilledButton, 'Verify and continue'));
+    await tester.tap(find.text('Verify and continue'));
     await tester.pumpAndSettle();
 
-    expect(find.text('WhatsApp verified.'), findsOneWidget);
+    expect(find.text('TOTAL COLLECTED'), findsOneWidget);
+    expect(find.text('WhatsApp verified.'), findsNothing);
     expect(repository.state.currentProfile?.whatsappPhone, '+250700000001');
+    expect(repository.state.currentProfile?.momoNumber, isNull);
     expect(repository.state.collections, isNotEmpty);
   });
 
@@ -183,17 +246,51 @@ void main() {
     expect(find.textContaining('+250'), findsWidgets);
   });
 
-  testWidgets('auth shows validation error for invalid WhatsApp number', (
+  testWidgets('auth disables send until WhatsApp phone is valid', (
     tester,
   ) async {
     await pumpRoute(tester, '/auth', legalConsentAccepted: true);
 
+    expect(authButtonEnabled(tester, 'auth_submit_button'), isFalse);
     await tester.enterText(find.byType(TextField).first, 'bad-number');
-    await tester.tap(find.widgetWithText(FilledButton, 'Send WhatsApp code'));
     await tester.pump();
 
-    expect(find.text('Authentication failed'), findsOneWidget);
+    expect(authButtonEnabled(tester, 'auth_submit_button'), isFalse);
+    expect(find.text('Authentication failed'), findsNothing);
+
+    await tester.enterText(find.byType(TextField).first, '788123456');
+    await tester.pump();
+
+    expect(authButtonEnabled(tester, 'auth_submit_button'), isTrue);
   });
+
+  testWidgets(
+    'group creation accepts signed-in non-MTN users without MoMo prefill',
+    (tester) async {
+      final repository = CollectRepository.fixture(seeded: false);
+      await repository.signInWithOtp(phone: '+250720000001', otp: '123456');
+
+      await pumpRoute(
+        tester,
+        '/groups/create',
+        legalConsentAccepted: true,
+        repository: repository,
+      );
+
+      expect(find.text('Create group'), findsWidgets);
+      expect(find.text('Profile setup'), findsNothing);
+      expect(repository.state.currentProfile?.momoNumber, isNull);
+
+      await tester.enterText(find.byType(TextField).first, 'Parish support');
+      await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
+      await tester.pump();
+      await tester.tap(find.widgetWithText(FilledButton, 'Continue'));
+      await tester.pump();
+
+      expect(find.text('Receiver MoMo'), findsOneWidget);
+      expect(find.text('0788123456'), findsNothing);
+    },
+  );
 
   testWidgets('home search opens dedicated group search screen', (
     tester,
@@ -401,4 +498,10 @@ void main() {
     await tester.pump();
     expect(find.text('Request sent.'), findsOneWidget);
   });
+}
+
+class _LoadingCollectRepository extends CollectRepository {
+  _LoadingCollectRepository() : super.fixture(seeded: false) {
+    state = state.copyWith(isLoading: true);
+  }
 }

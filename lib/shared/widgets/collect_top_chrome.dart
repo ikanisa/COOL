@@ -119,7 +119,10 @@ class _TopChromeAvatar extends StatelessWidget {
               shape: const CircleBorder(),
               child: InkWell(
                 customBorder: const CircleBorder(),
-                onTap: effectiveOnTap,
+                onTap: () {
+                  CollectHaptics.selection();
+                  effectiveOnTap();
+                },
                 child: SizedBox.square(
                   dimension: 58,
                   child: Center(
@@ -179,7 +182,12 @@ class _TopChromeSearchButton extends StatelessWidget {
         borderRadius: CollectRadius.pillBorder,
         child: InkWell(
           borderRadius: CollectRadius.pillBorder,
-          onTap: onTap,
+          onTap: onTap == null
+              ? null
+              : () {
+                  CollectHaptics.selection();
+                  onTap!();
+                },
           child: SizedBox(
             height: 58,
             child: DecoratedBox(
@@ -307,7 +315,12 @@ class _TopChromeActionButton extends StatelessWidget {
             shape: const CircleBorder(),
             child: InkWell(
               customBorder: const CircleBorder(),
-              onTap: action.onPressed,
+              onTap: action.onPressed == null
+                  ? null
+                  : () {
+                      CollectHaptics.selection();
+                      action.onPressed!();
+                    },
               child: SizedBox.square(
                 dimension: 58,
                 child: Icon(action.icon, color: foreground, size: 30),

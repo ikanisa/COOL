@@ -44,7 +44,7 @@ class ShareScreen extends ConsumerWidget {
           ),
           child: LayoutBuilder(
             builder: (context, constraints) {
-              final showPreview = constraints.maxHeight >= 640;
+              final showPreview = constraints.maxHeight >= 700;
               return Column(
                 children: [
                   if (showPreview) ...[

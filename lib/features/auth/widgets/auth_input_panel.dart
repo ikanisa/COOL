@@ -15,6 +15,7 @@ class AuthInputPanel extends StatelessWidget {
     required this.onCountryTap,
     required this.onPhoneChanged,
     required this.onOtpChanged,
+    required this.onCaptchaChanged,
     super.key,
   });
 
@@ -31,6 +32,7 @@ class AuthInputPanel extends StatelessWidget {
   final VoidCallback onCountryTap;
   final VoidCallback onPhoneChanged;
   final VoidCallback onOtpChanged;
+  final VoidCallback onCaptchaChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +55,13 @@ class AuthInputPanel extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(
-                      otpSent ? CollectIcons.shield : CollectIcons.sms,
-                      color: CollectColors.brandMintGreen,
-                      size: 22,
-                    ),
+                    otpSent
+                        ? const Icon(
+                            CollectIcons.shield,
+                            color: CollectColors.brandMintGreen,
+                            size: 22,
+                          )
+                        : const AuthWhatsAppMark(size: 24),
                     CollectSpacing.gapW8,
                     Expanded(
                       child: Text(
@@ -112,6 +116,7 @@ class AuthInputPanel extends StatelessWidget {
                         ? 'CAPTCHA'
                         : env.authCaptchaProvider,
                     textInputAction: TextInputAction.done,
+                    onChanged: (_) => onCaptchaChanged(),
                   ),
                 ],
                 if (error != null) ...[
@@ -170,15 +175,15 @@ class AuthPhoneEntry extends StatelessWidget {
               ),
               child: SizedBox(
                 height: 58,
-                width: 126,
+                width: 108,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      countryFlag,
-                      style: Theme.of(context).textTheme.titleMedium,
+                    AuthCountryFlag(
+                      countryCode: countryCode,
+                      countryFlag: countryFlag,
                     ),
-                    const SizedBox(width: 6),
+                    const SizedBox(width: 8),
                     Flexible(
                       child: Text(
                         countryCode,
@@ -286,9 +291,10 @@ class AuthPhoneAnchor extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Center(
-                  child: Text(
-                    countryFlag,
-                    style: Theme.of(context).textTheme.titleMedium,
+                  child: AuthCountryFlag(
+                    countryCode: countryCode,
+                    countryFlag: countryFlag,
+                    size: 26,
                   ),
                 ),
               ),
@@ -307,6 +313,70 @@ class AuthPhoneAnchor extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class AuthWhatsAppMark extends StatelessWidget {
+  const AuthWhatsAppMark({this.size = 22, super.key});
+
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: 'WhatsApp',
+      image: true,
+      child: SvgPicture.asset(
+        'assets/brand/collect_runtime/icons/whatsapp.svg',
+        width: size,
+        height: size,
+      ),
+    );
+  }
+}
+
+class AuthCountryFlag extends StatelessWidget {
+  const AuthCountryFlag({
+    required this.countryCode,
+    required this.countryFlag,
+    this.size = 24,
+    super.key,
+  });
+
+  final String countryCode;
+  final String countryFlag;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    final normalizedCode = countryCode.replaceAll(RegExp(r'\D'), '');
+    if (normalizedCode == '250') {
+      return Semantics(
+        label: 'Rwanda',
+        image: true,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(size * 0.18),
+          child: SvgPicture.asset(
+            'assets/brand/collect_runtime/icons/flag_rw.svg',
+            width: size * 1.36,
+            height: size,
+            fit: BoxFit.cover,
+          ),
+        ),
+      );
+    }
+
+    return SizedBox(
+      width: size * 1.36,
+      height: size,
+      child: Center(
+        child: Text(
+          countryFlag,
+          style: TextStyle(fontSize: size * 0.82, height: 1),
+          textAlign: TextAlign.center,
         ),
       ),
     );

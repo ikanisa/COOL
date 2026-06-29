@@ -136,6 +136,7 @@ class _GroupCoverTitleOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final foreground = colors.onImagePrimary;
+    final categoryIcon = collectionTypeIcon(collection.collectionType);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: compact ? CollectSpacing.x1 : 0,
@@ -154,14 +155,28 @@ class _GroupCoverTitleOverlay extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  collection.collectionType.label,
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: foreground.withValues(alpha: 0.88),
-                    fontWeight: FontWeight.w900,
+                Tooltip(
+                  message: collection.collectionType.label,
+                  child: Semantics(
+                    label: '${collection.collectionType.label} group',
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: accent.withValues(alpha: 0.24),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: foreground.withValues(alpha: 0.18),
+                        ),
+                      ),
+                      child: SizedBox.square(
+                        dimension: compact ? 24 : 28,
+                        child: Icon(
+                          categoryIcon,
+                          color: foreground,
+                          size: compact ? 14 : 16,
+                        ),
+                      ),
+                    ),
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
                 CollectSpacing.gap4,
                 Text(
@@ -208,13 +223,6 @@ class _GeneratedGroupCover extends StatelessWidget {
         : CollectColors.inkPrimary;
     final topAlpha = isDark ? 0.16 : 0.16;
     final bottomAlpha = isDark ? 0.62 : 0.70;
-    final chipFill = isDark
-        ? CollectColors.referenceContentDark.withValues(alpha: 0.88)
-        : colors.surfaceReadable.withValues(alpha: 0.92);
-    final chipBorder = isDark
-        ? colors.onImagePrimary.withValues(alpha: 0.18)
-        : colors.textPrimary.withValues(alpha: 0.12);
-    final chipText = isDark ? colors.onImagePrimary : colors.textPrimary;
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -250,33 +258,6 @@ class _GeneratedGroupCover extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          left: CollectSpacing.x3,
-          top: CollectSpacing.x3,
-          child: Tooltip(
-            message: collection.isPublic ? 'Public group' : 'Private group',
-            child: Semantics(
-              label: collection.isPublic ? 'Public group' : 'Private group',
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: chipFill,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: chipBorder),
-                ),
-                child: SizedBox.square(
-                  dimension: 34,
-                  child: Icon(
-                    collection.isPublic
-                        ? CollectIcons.public
-                        : CollectIcons.privacy,
-                    size: 18,
-                    color: collection.isPublic ? colors.success : chipText,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }
@@ -302,33 +283,6 @@ class _PrivacyGlyph extends StatelessWidget {
             width: 38,
             height: 38,
             child: Icon(CollectIcons.shield, color: accent, size: 19),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _PublicGlyph extends StatelessWidget {
-  const _PublicGlyph({required this.accent});
-
-  final Color accent;
-
-  @override
-  Widget build(BuildContext context) {
-    return Tooltip(
-      message: 'Public group',
-      child: Semantics(
-        label: 'Public group',
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: accent.withValues(alpha: 0.10),
-            shape: BoxShape.circle,
-          ),
-          child: SizedBox(
-            width: 38,
-            height: 38,
-            child: Icon(CollectIcons.public, color: accent, size: 19),
           ),
         ),
       ),

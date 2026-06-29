@@ -25,6 +25,20 @@ class CollectionDetailScreen extends ConsumerWidget {
     final state = ref.watch(collectRepositoryProvider);
     final repo = ref.read(collectRepositoryProvider.notifier);
     final collection = repo.maybeCollectionById(collectionId);
+    if (collection == null && state.isLoading) {
+      return const ScreenScaffold(
+        title: 'Group',
+        showHeader: false,
+        children: [
+          CollectScreenLoadingState(
+            title: 'Loading group',
+            message: 'Refreshing group profile, balance, and activity.',
+            icon: CollectIcons.collections,
+            skeletonCount: 3,
+          ),
+        ],
+      );
+    }
     if (collection == null) return const MissingGroupStateScreen();
     final summary = repo.summaryFor(collectionId);
     final visibleContributions = repo
@@ -38,6 +52,8 @@ class CollectionDetailScreen extends ConsumerWidget {
       title: 'Collect',
       subtitle: profile?.publicId,
       showHeader: false,
+      onRefresh: () =>
+          ref.read(collectRepositoryProvider.notifier).loadInitial(),
       bottomAction: isAdmin
           ? null
           : CollectButton(

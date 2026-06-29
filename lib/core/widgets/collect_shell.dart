@@ -76,6 +76,7 @@ class CollectShell extends StatelessWidget {
                             selectedIndex: _selectedIndexForPath(path),
                             onDestinationSelected: (index) {
                               final destination = _paths[index];
+                              CollectHaptics.selection();
                               final handler = onNavigate;
                               if (handler != null) {
                                 handler(destination);

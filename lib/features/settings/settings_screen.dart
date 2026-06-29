@@ -19,50 +19,32 @@ class SettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
-  final _search = TextEditingController();
-  String _query = '';
-
-  @override
-  void dispose() {
-    _search.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final profile = ref.watch(
-      collectRepositoryProvider.select((state) => state.currentProfile),
-    );
-    final paymentIntents = ref.watch(
-      collectRepositoryProvider.select((state) => state.paymentIntents),
-    );
-    final systemEntries = _visibleEntries([
+    final state = ref.watch(collectRepositoryProvider);
+    final profile = state.currentProfile;
+    final isInitialLoading = state.isLoading && profile == null;
+    final systemEntries = [
       _SettingsEntry(
-        keywords: 'notifications alerts updates',
         child: _SettingsTile(
           leading: CollectIcons.pending,
           title: 'Notifications',
           onTap: () => context.go('/notifications'),
         ),
       ),
-      const _SettingsEntry(
-        keywords: 'dark mode theme appearance',
-        child: _ThemeModeTile(),
-      ),
-    ]);
-    final accountEntries = _visibleEntries([
+      const _SettingsEntry(child: _ThemeModeTile()),
+    ];
+    final accountEntries = [
       _SettingsEntry(
-        keywords: 'account profile momo sign out delete data',
         child: _SettingsTile(
           leading: CollectIcons.profile,
           title: 'Account',
           onTap: () => context.go('/settings/account'),
         ),
       ),
-    ]);
-    final supportEntries = _visibleEntries([
+    ];
+    final supportEntries = [
       const _SettingsEntry(
-        keywords: 'help support whatsapp',
         child: _SettingsTile(
           leading: CollectIcons.support,
           title: 'Help',
@@ -70,7 +52,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ),
       ),
       _SettingsEntry(
-        keywords: 'terms conditions legal',
         child: _SettingsTile(
           leading: CollectIcons.info,
           title: 'Terms',
@@ -78,7 +59,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ),
       ),
       _SettingsEntry(
-        keywords: 'privacy policy data legal',
         child: _SettingsTile(
           leading: CollectIcons.privacy,
           title: 'Privacy policy',
@@ -87,34 +67,28 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       ),
       if (kDebugMode)
         _SettingsEntry(
-          keywords: 'design system tokens components',
           child: _SettingsTile(
             leading: CollectIcons.palette,
             title: 'Design system',
             onTap: () => context.go('/dev/design-system'),
           ),
         ),
-    ]);
-    final hasResults =
-        systemEntries.isNotEmpty ||
-        accountEntries.isNotEmpty ||
-        supportEntries.isNotEmpty;
+    ];
     return ScreenScaffold(
       title: 'Settings',
       showHeader: false,
       compact: true,
+      onRefresh: () =>
+          ref.read(collectRepositoryProvider.notifier).loadInitial(),
       persistentPill: CollectTopChrome(
         avatarLabel: profile?.publicId,
-        searchController: _search,
         searchLabel: 'Search settings',
-        onSearchChanged: (value) => setState(() => _query = value),
+        onSearchTap: () => context.go('/settings/help'),
         onAvatarTap: () => context.go('/settings/profile'),
-        hasUnread: paymentIntents.isNotEmpty,
         actions: [
           CollectTopChromeAction(
             icon: CollectIcons.pending,
             tooltip: 'Notifications',
-            hasBadge: paymentIntents.isNotEmpty,
             onPressed: () => context.go('/notifications'),
           ),
           CollectTopChromeAction(
@@ -124,51 +98,41 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ),
         ],
       ),
-      children: [
-        _SettingsProfileCard(publicId: profile?.publicId ?? ''),
-        if (systemEntries.isNotEmpty)
-          _SettingsCluster(
-            tone: CollectStatusTone.privacy,
-            children: systemEntries.map((entry) => entry.child).toList(),
-          ),
-        if (accountEntries.isNotEmpty)
-          _SettingsCluster(
-            tone: CollectStatusTone.info,
-            children: accountEntries.map((entry) => entry.child).toList(),
-          ),
-        if (supportEntries.isNotEmpty)
-          _SettingsCluster(
-            tone: CollectStatusTone.success,
-            children: supportEntries.map((entry) => entry.child).toList(),
-          ),
-        if (!hasResults)
-          const EmptyIllustrationState(
-            icon: CollectIcons.search,
-            title: 'No settings found',
-            message: 'Try account, privacy, notifications, or help.',
-          ),
-        const SizedBox(height: 18),
-      ],
+      children: isInitialLoading
+          ? const [
+              CollectScreenLoadingState(
+                title: 'Loading settings',
+                message: 'Refreshing account and notification settings.',
+                icon: CollectIcons.settings,
+              ),
+            ]
+          : [
+              _SettingsProfileCard(publicId: profile?.publicId ?? ''),
+              if (systemEntries.isNotEmpty)
+                _SettingsCluster(
+                  tone: CollectStatusTone.privacy,
+                  children: systemEntries.map((entry) => entry.child).toList(),
+                ),
+              if (accountEntries.isNotEmpty)
+                _SettingsCluster(
+                  tone: CollectStatusTone.info,
+                  children: accountEntries.map((entry) => entry.child).toList(),
+                ),
+              if (supportEntries.isNotEmpty)
+                _SettingsCluster(
+                  tone: CollectStatusTone.success,
+                  children: supportEntries.map((entry) => entry.child).toList(),
+                ),
+              const SizedBox(height: 18),
+            ],
     );
-  }
-
-  List<_SettingsEntry> _visibleEntries(List<_SettingsEntry> entries) {
-    final normalized = _query.trim().toLowerCase();
-    if (normalized.isEmpty) return entries;
-    return [
-      for (final entry in entries)
-        if (entry.matches(normalized)) entry,
-    ];
   }
 }
 
 class _SettingsEntry {
-  const _SettingsEntry({required this.keywords, required this.child});
+  const _SettingsEntry({required this.child});
 
-  final String keywords;
   final Widget child;
-
-  bool matches(String query) => keywords.toLowerCase().contains(query);
 }
 
 class _SettingsProfileCard extends StatelessWidget {
