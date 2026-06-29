@@ -80,24 +80,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       compact: true,
       onRefresh: () =>
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
-      persistentPill: CollectTopChrome(
-        avatarLabel: profile?.publicId,
-        searchLabel: 'Search settings',
-        onSearchTap: () => context.go('/settings/help'),
-        onAvatarTap: () => context.go('/settings/profile'),
-        actions: [
-          CollectTopChromeAction(
-            icon: CollectIcons.pending,
-            tooltip: 'Notifications',
-            onPressed: () => context.go('/notifications'),
-          ),
-          CollectTopChromeAction(
-            icon: CollectIcons.profile,
-            tooltip: 'Account',
-            onPressed: () => context.go('/settings/account'),
-          ),
-        ],
-      ),
       children: isInitialLoading
           ? const [
               CollectScreenLoadingState(
