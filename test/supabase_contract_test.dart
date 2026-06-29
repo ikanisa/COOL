@@ -94,6 +94,12 @@ void main() {
   final hardenedDiasporaStripeTableGrants = File(
     'supabase/migrations/20260627171000_harden_diaspora_stripe_table_grants.sql',
   ).readAsStringSync();
+  final adminOperatorNoteRpc = File(
+    'supabase/migrations/20260627183000_add_admin_operator_note_rpc.sql',
+  ).readAsStringSync();
+  final adminQueueSlaPolicies = File(
+    'supabase/migrations/20260627184500_add_admin_queue_sla_policies.sql',
+  ).readAsStringSync();
   final sendNotificationFunction = File(
     'supabase/functions/send-notification/index.ts',
   ).readAsStringSync();
@@ -323,6 +329,65 @@ void main() {
         contains('comment on table $table is'),
       );
     }
+  });
+
+  test('admin operator notes are persisted through audited RPC', () {
+    expect(adminOperatorNoteRpc, contains('admin_record_operator_note'));
+    expect(adminOperatorNoteRpc, contains('insert into admin_notes'));
+    expect(adminOperatorNoteRpc, contains('admin.operator_note.recorded'));
+    expect(adminOperatorNoteRpc, contains('create_audit_log'));
+    expect(
+      adminOperatorNoteRpc,
+      contains(
+        "when 'parsed_payment_event' then perform assert_admin_permission('payment_events.read')",
+      ),
+    );
+    expect(
+      adminOperatorNoteRpc,
+      contains(
+        'revoke execute on function admin_record_operator_note(text, uuid, text)',
+      ),
+    );
+    expect(
+      adminOperatorNoteRpc,
+      contains(
+        'grant execute on function admin_record_operator_note(text, uuid, text)',
+      ),
+    );
+  });
+
+  test('admin queue SLA policies are persisted and permission scoped', () {
+    expect(
+      adminQueueSlaPolicies,
+      contains('create table if not exists admin_queue_sla_policies'),
+    );
+    expect(
+      adminQueueSlaPolicies,
+      contains(
+        'revoke all on admin_queue_sla_policies from anon, authenticated',
+      ),
+    );
+    expect(
+      adminQueueSlaPolicies,
+      contains('grant all on admin_queue_sla_policies to service_role'),
+    );
+    expect(adminQueueSlaPolicies, contains('admin_get_queue_sla'));
+    expect(
+      adminQueueSlaPolicies,
+      contains(
+        "when 'admin_list_payment_events' then perform assert_admin_permission('payment_events.read')",
+      ),
+    );
+    expect(
+      adminQueueSlaPolicies,
+      contains(
+        "when 'admin_list_settings' then perform assert_admin_permission('settings.read')",
+      ),
+    );
+    expect(
+      adminQueueSlaPolicies,
+      contains('grant execute on function admin_get_queue_sla(text)'),
+    );
   });
 
   test('stripe functions use current bank-debit-first APIs', () {
@@ -1037,6 +1102,14 @@ void main() {
       readiness,
       contains("('authenticated', 'app_realtime_events', 'SELECT')"),
     );
+    expect(
+      readiness,
+      contains("('authenticated', 'admin_get_queue_sla', 'EXECUTE')"),
+    );
+    expect(
+      readiness,
+      contains("('authenticated', 'admin_record_operator_note', 'EXECUTE')"),
+    );
     expect(readiness, contains('information_schema.column_privileges'));
     expect(readiness, contains('missing column grant:'));
     expect(advisorGate, contains('supabase_cli db advisors'));
@@ -1047,7 +1120,7 @@ void main() {
     expect(warningInventory, contains('pg_graphql_anon_table_exposed'));
     expect(
       warningInventory,
-      contains('"authenticated_security_definer_function_executable" => 46'),
+      contains('"authenticated_security_definer_function_executable" => 48'),
     );
     expect(warningInventory, contains('performance warnings=0'));
     expect(schemaInventory, contains('pg_policies'));

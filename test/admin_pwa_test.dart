@@ -8,6 +8,7 @@ import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
@@ -426,8 +427,25 @@ void main() {
 
   testWidgets('admin list pages page high-volume queues', (tester) async {
     final semantics = tester.ensureSemantics();
+    final clipboardCalls = <MethodCall>[];
+    _PagingAdminRepository.lastSlaKey = '';
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      (call) async {
+        if (call.method == 'Clipboard.setData') {
+          clipboardCalls.add(call);
+        }
+        return null;
+      },
+    );
+    addTearDown(() {
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        SystemChannels.platform,
+        null,
+      );
+    });
     try {
-      tester.view.physicalSize = const Size(1200, 2200);
+      tester.view.physicalSize = const Size(1200, 2800);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.resetPhysicalSize);
       addTearDown(tester.view.resetDevicePixelRatio);
@@ -452,6 +470,18 @@ void main() {
       expect(find.text('Showing 1-25 of 30'), findsOneWidget);
       expect(find.text('Ambiguous matches'), findsOneWidget);
       expect(find.text('Ambiguous'), findsOneWidget);
+      expect(find.text('SMS parsing export: current page CSV'), findsOneWidget);
+      expect(find.text('Export CSV'), findsOneWidget);
+      expect(
+        find.text('Target: Persisted SLA from admin policy'),
+        findsOneWidget,
+      );
+      expect(find.text('Owner: Live operations owner'), findsOneWidget);
+      expect(_PagingAdminRepository.lastSlaKey, 'admin_list_payment_events');
+      expect(
+        find.semantics.byLabel('Export SMS parsing current page CSV'),
+        findsOne,
+      );
       expect(find.semantics.byLabel('Next admin results page'), findsOne);
       expect(
         find.semantics.byHint('Shows the next page of admin queue results.'),
@@ -460,6 +490,17 @@ void main() {
       expect(find.text('Queue item 1'), findsOneWidget);
       expect(find.text('Queue item 25'), findsOneWidget);
       expect(find.text('Queue item 26'), findsNothing);
+
+      await tester.tap(find.widgetWithText(OutlinedButton, 'Export CSV'));
+      await tester.pumpAndSettle();
+
+      expect(clipboardCalls, hasLength(1));
+      expect(clipboardCalls.single.arguments, isA<Map<dynamic, dynamic>>());
+      final clipboardPayload =
+          clipboardCalls.single.arguments as Map<dynamic, dynamic>;
+      expect(clipboardPayload['text'], contains('id,title,subtitle,status'));
+      expect(clipboardPayload['text'], contains('row-1,Queue item 1'));
+      expect(find.text('SMS parsing CSV copied for export'), findsOneWidget);
 
       await tester.tap(find.byTooltip('Next page'));
       await tester.pumpAndSettle();
@@ -547,6 +588,27 @@ void main() {
         repository.actions,
         contains('admin_reparse_payment_event:Parser missed allocation'),
       );
+      expect(
+        find.semantics.byLabel('Record SMS payment event review operator note'),
+        findsOne,
+      );
+
+      await tester.tap(find.widgetWithText(OutlinedButton, 'Record note'));
+      await tester.pumpAndSettle();
+      await tester.enterText(
+        find.byType(TextField),
+        'Operator confirmed member impact',
+      );
+      await tester.tap(find.widgetWithText(FilledButton, 'Record note'));
+      await tester.pumpAndSettle();
+
+      expect(
+        repository.actions,
+        contains(
+          'admin_record_operator_note:parsed_payment_event:Operator confirmed member impact',
+        ),
+      );
+      expect(find.text('Operator note recorded'), findsOneWidget);
     } finally {
       semantics.dispose();
     }
@@ -830,6 +892,17 @@ class _PagingAdminRepository extends AdminRepository {
   }
 
   static String lastQuery = '';
+  static String lastSlaKey = '';
+
+  @override
+  Future<AdminQueueSla?> queueSla(String queueKey) async {
+    lastSlaKey = queueKey;
+    return const AdminQueueSla(
+      target: 'Persisted SLA from admin policy',
+      owner: 'Live operations owner',
+      escalation: 'Escalate from persisted policy',
+    );
+  }
 }
 
 class _DetailAdminRepository extends AdminRepository {
@@ -889,7 +962,11 @@ class _DetailAdminRepository extends AdminRepository {
     String rpcName,
     Map<String, dynamic> params,
   ) async {
-    actions.add('$rpcName:${params['p_reason']}');
+    if (rpcName == 'admin_record_operator_note') {
+      actions.add('$rpcName:${params['p_entity_type']}:${params['p_body']}');
+    } else {
+      actions.add('$rpcName:${params['p_reason']}');
+    }
     if (rpcName == 'admin_reveal_raw_sms') {
       return {'message': 'MOMO body redacted for test'};
     }

@@ -96,6 +96,26 @@ class AdminListResult {
   }
 }
 
+class AdminQueueSla {
+  const AdminQueueSla({
+    required this.target,
+    required this.owner,
+    required this.escalation,
+  });
+
+  final String target;
+  final String owner;
+  final String escalation;
+
+  factory AdminQueueSla.fromJson(Map<String, dynamic> json) {
+    return AdminQueueSla(
+      target: (json['target'] as String?) ?? 'Review queue daily',
+      owner: (json['owner'] as String?) ?? 'Operations',
+      escalation: (json['escalation'] as String?) ?? 'Escalate stale items',
+    );
+  }
+}
+
 const _tableFieldNames = {
   'id',
   'title',

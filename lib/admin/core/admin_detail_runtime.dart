@@ -218,6 +218,31 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
                   ),
                 ),
               ],
+              if (spec.noteEntityType != null &&
+                  _adminCanRecordNote(identity, spec.noteEntityType!)) ...[
+                const SizedBox(height: 12),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Semantics(
+                    container: true,
+                    button: true,
+                    label: 'Record ${spec.heading} operator note',
+                    hint:
+                        'Opens a note dialog and persists the operator note to the audit-backed admin notes table.',
+                    child: ExcludeSemantics(
+                      child: OutlinedButton.icon(
+                        onPressed: () => _recordOperatorNote(
+                          context,
+                          ref,
+                          spec.noteEntityType!,
+                        ),
+                        icon: const Icon(Icons.note_add_outlined),
+                        label: const Text('Record note'),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
               const SizedBox(height: 18),
               _AdminDetailWorkflowPanel(spec: spec),
             ],
@@ -238,6 +263,27 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
       'admin_reparse_payment_event',
       {'p_event_id': id, 'p_reason': reason},
     );
+  }
+
+  Future<void> _recordOperatorNote(
+    BuildContext context,
+    WidgetRef ref,
+    String entityType,
+  ) async {
+    final note = await showAdminReasonDialog(
+      context,
+      title: 'Record operator note',
+      actionLabel: 'Record note',
+    );
+    if (note == null) return;
+    await ref.read(adminRepositoryProvider).action(
+      'admin_record_operator_note',
+      {'p_entity_type': entityType, 'p_entity_id': id, 'p_body': note},
+    );
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Operator note recorded')));
   }
 }
 
@@ -377,6 +423,7 @@ class _AdminDetailSpec {
     required this.heading,
     required this.subtitle,
     required this.fields,
+    this.noteEntityType,
     this.actions = const [
       _AdminDetailAction(Icons.history_outlined, 'Review history'),
       _AdminDetailAction(Icons.note_alt_outlined, 'Add support note'),
@@ -390,6 +437,7 @@ class _AdminDetailSpec {
   final String heading;
   final String subtitle;
   final List<_AdminDetailFieldSpec> fields;
+  final String? noteEntityType;
   final List<_AdminDetailAction> actions;
 
   factory _AdminDetailSpec.forRpc(String rpcName, String fallbackTitle) {
@@ -397,6 +445,7 @@ class _AdminDetailSpec {
       'admin_get_collection' => const _AdminDetailSpec(
         heading: 'Group operations profile',
         subtitle: 'Group support context.',
+        noteEntityType: 'collection',
         actions: [
           _AdminDetailAction(Icons.groups_outlined, 'Review members'),
           _AdminDetailAction(
@@ -418,6 +467,7 @@ class _AdminDetailSpec {
       'admin_get_user' => const _AdminDetailSpec(
         heading: 'Member support profile',
         subtitle: 'Scoped member context.',
+        noteEntityType: 'profile',
         actions: [
           _AdminDetailAction(Icons.group_outlined, 'Review memberships'),
           _AdminDetailAction(Icons.privacy_tip_outlined, 'Keep phone masked'),
@@ -438,6 +488,7 @@ class _AdminDetailSpec {
       'admin_get_payment' => const _AdminDetailSpec(
         heading: 'Payment intent review',
         subtitle: 'MoMo intent state.',
+        noteEntityType: 'payment_intent',
         actions: [
           _AdminDetailAction(
             Icons.compare_arrows_outlined,
@@ -465,6 +516,7 @@ class _AdminDetailSpec {
       'admin_get_payment_event' => const _AdminDetailSpec(
         heading: 'SMS payment event review',
         subtitle: 'Parsed payment event.',
+        noteEntityType: 'parsed_payment_event',
         actions: [
           _AdminDetailAction(
             Icons.replay_outlined,
@@ -493,6 +545,7 @@ class _AdminDetailSpec {
       'admin_get_receiver' => const _AdminDetailSpec(
         heading: 'Receiver route review',
         subtitle: 'MoMo receiver route.',
+        noteEntityType: 'payment_receiver',
         actions: [
           _AdminDetailAction(
             Icons.verified_user_outlined,
@@ -513,6 +566,7 @@ class _AdminDetailSpec {
       'admin_get_sms_metadata' => const _AdminDetailSpec(
         heading: 'SMS metadata review',
         subtitle: 'Metadata only.',
+        noteEntityType: 'raw_payment_sms',
         actions: [
           _AdminDetailAction(Icons.security_outlined, 'Gate raw reveal'),
           _AdminDetailAction(Icons.policy_outlined, 'Capture reveal reason'),
@@ -669,4 +723,18 @@ String _formatDetailDate(DateTime value) {
 
 bool _adminHasPermission(AdminIdentity? identity, String permission) {
   return identity?.permissions.contains(permission) == true;
+}
+
+bool _adminCanRecordNote(AdminIdentity? identity, String entityType) {
+  return switch (entityType) {
+    'collection' => _adminHasPermission(identity, 'collections.read'),
+    'profile' => _adminHasPermission(identity, 'users.read'),
+    'payment_intent' => _adminHasPermission(identity, 'payments.read'),
+    'parsed_payment_event' =>
+      _adminHasPermission(identity, 'payment_events.read') ||
+          _adminHasPermission(identity, 'payments.read'),
+    'payment_receiver' => _adminHasPermission(identity, 'collections.read'),
+    'raw_payment_sms' => _adminHasPermission(identity, 'sms.metadata.read'),
+    _ => false,
+  };
 }

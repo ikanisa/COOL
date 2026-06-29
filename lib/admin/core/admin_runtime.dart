@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -174,6 +175,22 @@ class AdminRepository extends AdminRepositoryBase {
   }
 
   @override
+  Future<AdminQueueSla?> queueSla(String queueKey) async {
+    if (_supabase == null) return null;
+    try {
+      final row = await rpcMap(
+        'admin_get_queue_sla',
+        params: {'p_queue_key': queueKey},
+      );
+      if (row.isEmpty) return null;
+      return AdminQueueSla.fromJson(row);
+    } on PostgrestException catch (error) {
+      if (!_isLegacySlaSignatureError(error)) rethrow;
+      return null;
+    }
+  }
+
+  @override
   Future<Map<String, dynamic>> action(
     String rpcName,
     Map<String, dynamic> params,
@@ -217,6 +234,16 @@ class AdminRepository extends AdminRepositoryBase {
     return message.contains('p_limit') ||
         message.contains('p_offset') ||
         message.contains('p_sort') ||
+        message.contains('function') && message.contains('not found') ||
+        error.code == 'PGRST202';
+  }
+
+  bool _isLegacySlaSignatureError(PostgrestException error) {
+    final message =
+        '${error.message} ${error.details ?? ''} ${error.hint ?? ''}'
+            .toLowerCase();
+    return message.contains('p_queue_key') ||
+        message.contains('admin_get_queue_sla') ||
         message.contains('function') && message.contains('not found') ||
         error.code == 'PGRST202';
   }

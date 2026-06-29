@@ -26,6 +26,7 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   var _sortBy = 'created_at_desc';
   var _page = 0;
   late Future<AdminListResult> _future;
+  late Future<AdminQueueSla?> _slaFuture;
   var _lastRealtimeTick = 0;
 
   _AdminListSpec get _spec => _AdminListSpec.forRpc(widget.rpcName);
@@ -34,6 +35,7 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
   void initState() {
     super.initState();
     _future = _load();
+    _slaFuture = _loadSla();
   }
 
   @override
@@ -120,6 +122,8 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
                           ),
                   ),
                   const SizedBox(height: 12),
+                  _AdminQueueExportBar(spec: _spec, rows: rows),
+                  const SizedBox(height: 12),
                   _AdminPaginationBar(
                     start: start + 1,
                     end: end,
@@ -137,6 +141,8 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
                   ),
                   const SizedBox(height: 16),
                   _AdminWorkflowSteps(spec: _spec),
+                  const SizedBox(height: 16),
+                  _AdminSlaPanel(spec: _spec, future: _slaFuture),
                 ],
               );
             },
@@ -159,10 +165,15 @@ class _AdminRpcListPageState extends ConsumerState<AdminRpcListPage> {
         );
   }
 
+  Future<AdminQueueSla?> _loadSla() {
+    return ref.read(adminRepositoryProvider).queueSla(widget.rpcName);
+  }
+
   void _refresh({bool resetPage = false}) {
     setState(() {
       if (resetPage) _page = 0;
       _future = _load();
+      _slaFuture = _loadSla();
     });
   }
 
@@ -637,6 +648,288 @@ class _AdminWorkflowSteps extends StatelessWidget {
       ),
     );
   }
+}
+
+class _AdminQueueExportBar extends StatelessWidget {
+  const _AdminQueueExportBar({required this.spec, required this.rows});
+
+  final _AdminListSpec spec;
+  final List<AdminTableRowData> rows;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.surfaceReadable.withValues(alpha: 0.9),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: colors.borderAccent),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                '${spec.title} export: current page CSV',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: colors.textSecondary,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+            Semantics(
+              button: true,
+              label: 'Export ${spec.title} current page CSV',
+              hint: 'Copies the currently loaded admin queue rows as CSV.',
+              child: OutlinedButton.icon(
+                onPressed: rows.isEmpty
+                    ? null
+                    : () => _copyQueueCsv(context, spec.title, rows),
+                icon: const Icon(Icons.download_outlined),
+                label: const Text('Export CSV'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _copyQueueCsv(
+    BuildContext context,
+    String title,
+    List<AdminTableRowData> rows,
+  ) async {
+    await Clipboard.setData(ClipboardData(text: _adminRowsToCsv(rows)));
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('$title CSV copied for export')));
+  }
+}
+
+class _AdminSlaPanel extends StatelessWidget {
+  const _AdminSlaPanel({required this.spec, required this.future});
+
+  final _AdminListSpec spec;
+  final Future<AdminQueueSla?> future;
+
+  @override
+  Widget build(BuildContext context) {
+    final fallback = _slaForAdminQueue(spec.title);
+    return FutureBuilder<AdminQueueSla?>(
+      future: future,
+      initialData: fallback,
+      builder: (context, snapshot) {
+        return _AdminSlaContent(
+          spec: spec,
+          sla: snapshot.hasError ? fallback : snapshot.data ?? fallback,
+        );
+      },
+    );
+  }
+}
+
+class _AdminSlaContent extends StatelessWidget {
+  const _AdminSlaContent({required this.spec, required this.sla});
+
+  final _AdminListSpec spec;
+  final AdminQueueSla sla;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Semantics(
+      container: true,
+      label: '${spec.title} SLA state',
+      hint: '${sla.target}. ${sla.escalation}.',
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.surfaceReadable.withValues(alpha: 0.96),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: colors.borderAccent),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              _AdminSlaChip(
+                icon: Icons.timer_outlined,
+                label: 'Target',
+                value: sla.target,
+              ),
+              _AdminSlaChip(
+                icon: Icons.assignment_ind_outlined,
+                label: 'Owner',
+                value: sla.owner,
+              ),
+              _AdminSlaChip(
+                icon: Icons.escalator_warning_outlined,
+                label: 'Escalation',
+                value: sla.escalation,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AdminSlaChip extends StatelessWidget {
+  const _AdminSlaChip({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  final IconData icon;
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 320),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.surfaceMuted.withValues(alpha: 0.82),
+          borderRadius: BorderRadius.circular(CollectRadius.md),
+          border: Border.all(color: colors.borderAccent),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 18, color: colors.textSecondary),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  '$label: $value',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+AdminQueueSla _slaForAdminQueue(String title) {
+  return switch (title) {
+    'SMS parsing' => const AdminQueueSla(
+      target: 'Review ambiguous SMS within 4 business hours',
+      owner: 'Payments operations',
+      escalation: 'Escalate failed allocation after same-day retry',
+    ),
+    'Allocations' => const AdminQueueSla(
+      target: 'Clear allocation reviews by next business day',
+      owner: 'Payments operations',
+      escalation: 'Escalate mismatched ledger impact immediately',
+    ),
+    'Exceptions' => const AdminQueueSla(
+      target: 'Triage open exceptions within 4 business hours',
+      owner: 'Payments support',
+      escalation: 'Escalate unresolved member impact same day',
+    ),
+    'SMS metadata' => const AdminQueueSla(
+      target: 'Review failed parser metadata within 1 business day',
+      owner: 'Compliance support',
+      escalation: 'Escalate raw reveal requests to compliance owner',
+    ),
+    'Groups' => const AdminQueueSla(
+      target: 'Respond to group support requests within 1 business day',
+      owner: 'Group operations',
+      escalation: 'Escalate receiver-readiness blockers same day',
+    ),
+    'Members' => const AdminQueueSla(
+      target: 'Respond to account support requests within 1 business day',
+      owner: 'Member support',
+      escalation: 'Escalate identity or access risk immediately',
+    ),
+    'Payment intents' => const AdminQueueSla(
+      target: 'Review pending or expired intents within 1 business day',
+      owner: 'Payments support',
+      escalation: 'Escalate duplicate or disputed intent same day',
+    ),
+    'Receivers' => const AdminQueueSla(
+      target: 'Review receiver setup changes within 1 business day',
+      owner: 'Group operations',
+      escalation: 'Escalate inactive receiver routes before launch',
+    ),
+    'Ledger' => const AdminQueueSla(
+      target: 'Review ledger exceptions within 1 business day',
+      owner: 'Finance operations',
+      escalation: 'Escalate correction path before member messaging',
+    ),
+    'Audit logs' => const AdminQueueSla(
+      target: 'Review sensitive audit events daily',
+      owner: 'Compliance owner',
+      escalation: 'Escalate unexplained sensitive access immediately',
+    ),
+    'Settings' => const AdminQueueSla(
+      target: 'Review config changes before release window',
+      owner: 'Platform owner',
+      escalation: 'Escalate unapproved production change immediately',
+    ),
+    'Feature flags' => const AdminQueueSla(
+      target: 'Review rollout flags before activation',
+      owner: 'Product operations',
+      escalation: 'Escalate degraded health signal immediately',
+    ),
+    'Admin users' => const AdminQueueSla(
+      target: 'Review operator access weekly',
+      owner: 'Platform owner',
+      escalation: 'Revoke stale or overbroad access immediately',
+    ),
+    _ => const AdminQueueSla(
+      target: 'Review queue daily',
+      owner: 'Operations',
+      escalation: 'Escalate stale review items',
+    ),
+  };
+}
+
+String _adminRowsToCsv(List<AdminTableRowData> rows) {
+  final buffer = StringBuffer('id,title,subtitle,status,amount,created_at\n');
+  for (final row in rows) {
+    buffer.writeln(
+      [
+        row.id,
+        row.title,
+        row.subtitle,
+        row.status,
+        row.amount,
+        row.createdAt?.toIso8601String() ?? '',
+      ].map(_csvCell).join(','),
+    );
+  }
+  return buffer.toString();
+}
+
+String _csvCell(String value) {
+  final escaped = value.replaceAll('"', '""');
+  if (escaped.contains(',') ||
+      escaped.contains('"') ||
+      escaped.contains('\n') ||
+      escaped.contains('\r')) {
+    return '"$escaped"';
+  }
+  return escaped;
 }
 
 class _AdminWorkflowStepChip extends StatelessWidget {

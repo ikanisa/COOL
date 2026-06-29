@@ -30,6 +30,8 @@ abstract class AdminRepositoryBase {
 
   Future<Map<String, dynamic>> detail(String rpcName, String id);
 
+  Future<AdminQueueSla?> queueSla(String queueKey) async => null;
+
   Future<Map<String, dynamic>> action(
     String rpcName,
     Map<String, dynamic> params,
