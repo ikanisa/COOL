@@ -7,7 +7,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
     title: 'Security and trust',
     intro:
         'Collect protects personal data with limited access, practical safeguards, clear AI boundaries, and customer routes to access, correct or delete eligible data.',
-    imageAsset: 'assets/brand/generated/collect_visual_qr_share.png',
+    imageAsset: 'assets/brand/collect_runtime/media/qr-share.png',
     metricA: 'Limited',
     metricALabel: 'Data access',
     metricB: 'Clear',
@@ -59,7 +59,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Regulatory posture',
         body:
-            "Collect supports customer records and provider workflows. Where regulated products are involved, the bank, insurer or approved provider remains responsible for its own regulated decision.",
+            'Collect supports customer records and provider workflows. Where regulated products are involved, the bank, insurer or approved provider remains responsible for its own regulated decision.',
         bullets: [
           'Funds are held through regulated financial-service partners where approved arrangements apply',
           'Banks and insurers make their own final decisions',
@@ -74,7 +74,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
     title: 'Privacy Policy and Data Deletion',
     intro:
         'Collect protects customer information with clear customer choices, limited access, practical safeguards, and account and data deletion request paths for savings, support, credit-readiness and insurance journeys.',
-    imageAsset: 'assets/brand/generated/collect_visual_qr_share.png',
+    imageAsset: 'assets/brand/collect_runtime/media/qr-share.png',
     metricA: 'Choice',
     metricALabel: 'Customer control',
     metricB: 'Delete',
@@ -161,7 +161,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
     title: 'Account Deletion',
     intro:
         'Collect customers can request account deletion from the app or by contacting IKANISA support.',
-    imageAsset: 'assets/brand/generated/collect_visual_qr_share.png',
+    imageAsset: 'assets/brand/collect_runtime/media/qr-share.png',
     metricA: 'Request',
     metricALabel: 'Customer control',
     metricB: 'Review',
@@ -204,7 +204,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
     title: 'Data Deletion',
     intro:
         'Collect customers can ask IKANISA to delete or correct personal data that is no longer needed for the service.',
-    imageAsset: 'assets/brand/generated/collect_visual_group_momentum.png',
+    imageAsset: 'assets/brand/collect_runtime/media/group-momentum.png',
     metricA: 'Data',
     metricALabel: 'Deletion request',
     metricB: 'Support',
@@ -247,7 +247,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
     title: 'Terms of Service',
     intro:
         'These terms explain how customers use Collect for group savings, contribution records, credit-readiness support, insurance-related support records and customer service.',
-    imageAsset: 'assets/brand/generated/collect_visual_group_momentum.png',
+    imageAsset: 'assets/brand/collect_runtime/media/group-momentum.png',
     metricA: 'Customer',
     metricALabel: 'Service terms',
     metricB: 'Clear',

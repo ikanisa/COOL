@@ -367,23 +367,23 @@ RUBY
       "status": "pass"
     },
     {
-      "id": "revolut_borrowed_alignment_contract",
+      "id": "collect_runtime_alignment_contract",
       "status": "pass"
     },
     {
-      "id": "revolut_font_installed_or_blocked",
+      "id": "collect_font_installed_or_blocked",
       "status": "pass"
     },
     {
-      "id": "revolut_brand_assets_installed_or_blocked",
+      "id": "collect_runtime_assets_installed_or_blocked",
       "status": "pass"
     },
     {
-      "id": "revolut_borrowed_runtime_switchpoints",
+      "id": "collect_runtime_asset_switchpoints",
       "status": "pass"
     },
     {
-      "id": "revolut_borrowed_component_token_switchpoints",
+      "id": "collect_runtime_component_token_switchpoints",
       "status": "pass"
     },
     {

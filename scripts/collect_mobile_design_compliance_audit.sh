@@ -118,15 +118,15 @@ end
 design = read(File.join(root, "DESIGN.md"))
 design_system = read(File.join(root, "docs/design/DESIGN_SYSTEM.md"))
 revolut_alignment_plan = read(File.join(root, "docs/design/REVOLUT_BORROWED_ALIGNMENT_PLAN_2026-06-27.md"))
-revolut_asset_intake = read(File.join(root, "docs/design/REVOLUT_BORROWED_ASSET_INTAKE_2026-06-27.md"))
+runtime_asset_intake = read(File.join(root, "docs/design/COLLECT_RUNTIME_ASSET_INTAKE_2026-06-29.md"))
 revolut_blocker_register = read(File.join(root, "docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md"))
 pubspec = read(File.join(root, "pubspec.yaml"))
 colors = read(File.join(root, "lib/app/theme/collect_colors.dart"))
 component_tokens = read(File.join(root, "lib/app/theme/collect_component_tokens.dart"))
-revolut_tokens = read(File.join(root, "lib/app/theme/revolut_borrowed_tokens.dart"))
+runtime_tokens = read(File.join(root, "lib/app/theme/collect_runtime_tokens.dart"))
 components = read(File.join(root, "lib/shared/widgets/collect_components.dart"))
 chrome = read_dart_library(root, "lib/shared/widgets/collect_chrome.dart")
-borrowed_assets = read(File.join(root, "lib/app/theme/revolut_borrowed_assets.dart"))
+runtime_assets = read(File.join(root, "lib/app/theme/collect_runtime_assets.dart"))
 foundation = read(File.join(root, "lib/shared/widgets/collect_foundation.dart"))
 inputs = read(File.join(root, "lib/shared/widgets/collect_inputs.dart"))
 financial_components = read_dart_library(root, "lib/shared/widgets/collect_financial_components.dart")
@@ -142,22 +142,22 @@ flutter_files = all_flutter_files(root)
 route_summary = json_file(route_summary_path)
 android_uat_summary = json_file(android_uat_summary_path)
 
-revolut_font_files = Dir[
-  File.join(root, "assets/fonts/revolut/**/*.{ttf,otf,woff,woff2}")
+collect_font_files = Dir[
+  File.join(root, "assets/fonts/collect/**/*.{ttf,otf,woff,woff2}")
 ]
-revolut_brand_asset_files = Dir[
-  File.join(root, "assets/brand/revolut_borrowed/**/*.{png,jpg,jpeg,webp,svg,gif,json}")
+collect_runtime_brand_asset_files = Dir[
+  File.join(root, "assets/brand/collect_runtime/**/*.{png,jpg,jpeg,webp,svg,gif,json}")
 ].reject { |path| File.basename(path).casecmp("README.md").zero? }
-borrowed_token_spec_files = Dir[
-  File.join(root, "docs/design/revolut_borrowed_tokens/**/*.{json,yaml,yml,md}")
+runtime_token_spec_files = Dir[
+  File.join(root, "docs/design/collect_runtime_tokens/**/*.{json,yaml,yml,md}")
 ].reject { |path| File.basename(path).casecmp("README.md").zero? }
-borrowed_asset_roots = %w[
-  assets/brand/revolut_borrowed/
-  assets/brand/revolut_borrowed/logos/
-  assets/brand/revolut_borrowed/app_icons/
-  assets/brand/revolut_borrowed/splash/
-  assets/brand/revolut_borrowed/icons/
-  assets/brand/revolut_borrowed/media/
+runtime_asset_roots = %w[
+  assets/brand/collect_runtime/
+  assets/brand/collect_runtime/logos/
+  assets/brand/collect_runtime/app_icons/
+  assets/brand/collect_runtime/splash/
+  assets/brand/collect_runtime/icons/
+  assets/brand/collect_runtime/media/
 ]
 blocker_recorded = lambda do |key|
   revolut_blocker_register.match?(/\|\s*#{Regexp.escape(key)}\s*\|[^|\n]*\|\s*Blocked\s*\|/i)
@@ -260,127 +260,127 @@ end
 reference_failures << "DESIGN.md must define runtime reference inputs." unless design.match?(/Runtime reference inputs/i)
 reference_failures << "DESIGN_SYSTEM.md must define Collect-owned runtime branding with Revolut as a quality benchmark." unless design_system.match?(/Revolut references remain a quality and interaction benchmark/i) && design_system.match?(/shipped runtime branding uses Collect-owned assets/i)
 reference_failures << "The Revolut-quality alignment plan must define the 100 percent alignment target." unless revolut_alignment_plan.match?(/100 percent Revolut-quality alignment/i)
-reference_failures << "The runtime asset intake must define intake paths." unless revolut_asset_intake.match?(/assets\/fonts\/revolut/) && revolut_asset_intake.match?(/assets\/brand\/revolut_borrowed/)
+reference_failures << "The runtime asset intake must define intake paths." unless runtime_asset_intake.match?(/assets\/fonts\/collect/) && runtime_asset_intake.match?(/assets\/brand\/collect_runtime/)
 reference_failures << "The Revolut alignment blocker register must state a blocked or code-owned pass decision." unless revolut_blocker_register.match?(/Current decision:\s+\*\*(BLOCKED|CODE-OWNED MOBILE ALIGNMENT PASS)/i)
 checks << {
-  "id" => "revolut_borrowed_alignment_contract",
+  "id" => "collect_runtime_alignment_contract",
   "status" => status_for(reference_failures),
   "failures" => reference_failures,
   "evidence" => [
     "DESIGN.md",
     "docs/design/DESIGN_SYSTEM.md",
     "docs/design/REVOLUT_BORROWED_ALIGNMENT_PLAN_2026-06-27.md",
-    "docs/design/REVOLUT_BORROWED_ASSET_INTAKE_2026-06-27.md",
+    "docs/design/COLLECT_RUNTIME_ASSET_INTAKE_2026-06-29.md",
     "docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md"
   ]
 }
 
 font_failures = []
-font_installed = !revolut_font_files.empty? &&
+font_installed = !collect_font_files.empty? &&
   pubspec.match?(/fonts:\s*\n/m) &&
-  pubspec.include?("assets/fonts/revolut/")
-unless font_installed || blocker_recorded.call("revolut_font_files")
-  font_failures << "Approved Revolut font files are missing and blocker key revolut_font_files is not recorded as Blocked."
+  pubspec.include?("assets/fonts/collect/")
+unless font_installed || blocker_recorded.call("collect_font_files")
+  font_failures << "Collect runtime font files are missing and blocker key collect_font_files is not recorded as Blocked."
 end
-unless font_installed || blocker_recorded.call("revolut_font_license_metadata")
-  font_failures << "Revolut font approval/license metadata is missing and blocker key revolut_font_license_metadata is not recorded as Blocked."
+unless font_installed || blocker_recorded.call("collect_font_license_metadata")
+  font_failures << "Collect runtime font approval/license metadata is missing and blocker key collect_font_license_metadata is not recorded as Blocked."
 end
 checks << {
-  "id" => "revolut_font_installed_or_blocked",
+  "id" => "collect_font_installed_or_blocked",
   "status" => status_for(font_failures),
   "failures" => font_failures,
   "installed" => font_installed,
-  "font_file_count" => revolut_font_files.length,
+  "font_file_count" => collect_font_files.length,
   "evidence" => [
     "pubspec.yaml",
-    "assets/fonts/revolut/",
+    "assets/fonts/collect/",
     "docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md"
   ]
 }
 
-asset_failures_for_borrowed = []
-borrowed_asset_installed = !revolut_brand_asset_files.empty?
-installed_borrowed_inputs = {
-  "revolut_logo_wordmark_assets" => File.file?(File.join(root, "assets/brand/revolut_borrowed/logos/wordmark.png")),
-  "revolut_platform_icon_assets" =>
-    File.file?(File.join(root, "assets/brand/revolut_borrowed/app_icons/app_icon.png")) &&
-    File.file?(File.join(root, "assets/brand/revolut_borrowed/app_icons/web-512.png")),
-  "revolut_splash_launch_assets" =>
-    File.file?(File.join(root, "assets/brand/revolut_borrowed/splash/splash_mark.png")) &&
-    File.file?(File.join(root, "assets/brand/revolut_borrowed/splash/splash_background.png")),
-  "revolut_icon_set_mapping" =>
-    File.file?(File.join(root, "assets/brand/revolut_borrowed/icons/icon-mapping.json")),
-  "revolut_component_tokens" => !borrowed_token_spec_files.empty?,
-  "revolut_route_reference_matrix" =>
+runtime_asset_failures = []
+runtime_asset_installed = !collect_runtime_brand_asset_files.empty?
+installed_runtime_inputs = {
+  "collect_logo_wordmark_assets" => File.file?(File.join(root, "assets/brand/collect_runtime/logos/wordmark.png")),
+  "collect_platform_icon_assets" =>
+    File.file?(File.join(root, "assets/brand/collect_runtime/app_icons/app_icon.png")) &&
+    File.file?(File.join(root, "assets/brand/collect_runtime/app_icons/collect-web-512.png")),
+  "collect_splash_launch_assets" =>
+    File.file?(File.join(root, "assets/brand/collect_runtime/splash/splash_mark.png")) &&
+    File.file?(File.join(root, "assets/brand/collect_runtime/splash/splash_background.png")),
+  "collect_icon_set_mapping" =>
+    File.file?(File.join(root, "assets/brand/collect_runtime/icons/icon-mapping.json")),
+  "collect_component_tokens" => !runtime_token_spec_files.empty?,
+  "collect_route_reference_matrix" =>
     File.file?(File.join(root, "docs/design/REVOLUT10_SCREENSHOT_ROUTE_REVIEW_MATRIX_2026-06-27.md")),
-  "revolut_public_web_assets" =>
-    File.file?(File.join(root, "assets/brand/revolut_borrowed/media/share-preview.png"))
+  "collect_public_web_assets" =>
+    File.file?(File.join(root, "assets/brand/collect_runtime/media/share-preview.png"))
 }
-borrowed_asset_roots.each do |asset_root|
-  asset_failures_for_borrowed << "pubspec.yaml must declare #{asset_root} for Collect runtime intake." unless pubspec.include?("- #{asset_root}")
+runtime_asset_roots.each do |asset_root|
+  runtime_asset_failures << "pubspec.yaml must declare #{asset_root} for Collect runtime intake." unless pubspec.include?("- #{asset_root}")
 end
 %w[
-  revolut_logo_wordmark_assets
-  revolut_platform_icon_assets
-  revolut_splash_launch_assets
-  revolut_icon_set_mapping
-  revolut_component_tokens
-  revolut_route_reference_matrix
-  revolut_public_web_assets
+  collect_logo_wordmark_assets
+  collect_platform_icon_assets
+  collect_splash_launch_assets
+  collect_icon_set_mapping
+  collect_component_tokens
+  collect_route_reference_matrix
+  collect_public_web_assets
 ].each do |key|
-  next if installed_borrowed_inputs.fetch(key, false)
-  asset_failures_for_borrowed << "Required Collect runtime input #{key} is not installed and is not recorded as Blocked." unless blocker_recorded.call(key)
+  next if installed_runtime_inputs.fetch(key, false)
+  runtime_asset_failures << "Required Collect runtime input #{key} is not installed and is not recorded as Blocked." unless blocker_recorded.call(key)
 end
-brand_provenance = read(File.join(root, "assets/brand/revolut_borrowed/PROVENANCE.md"))
-asset_failures_for_borrowed << "Runtime brand provenance must state Collect-owned sources." unless brand_provenance.include?("Collect Runtime Brand Kit Provenance") && brand_provenance.include?("Collect-owned")
-asset_failures_for_borrowed << "Runtime brand assets must not be sourced from external screenshots." if brand_provenance.include?("/Users/jeanbosco/Downloads/Revolut10")
+brand_provenance = read(File.join(root, "assets/brand/collect_runtime/PROVENANCE.md"))
+runtime_asset_failures << "Runtime brand provenance must state Collect-owned sources." unless brand_provenance.include?("Collect Runtime Brand Kit Provenance") && brand_provenance.include?("Collect-owned")
+runtime_asset_failures << "Runtime brand assets must not be sourced from external screenshots." if brand_provenance.include?("/Users/jeanbosco/Downloads/Revolut10")
 checks << {
-  "id" => "revolut_brand_assets_installed_or_blocked",
-  "status" => status_for(asset_failures_for_borrowed),
-  "failures" => asset_failures_for_borrowed,
-  "installed" => borrowed_asset_installed,
-  "asset_file_count" => revolut_brand_asset_files.length,
+  "id" => "collect_runtime_assets_installed_or_blocked",
+  "status" => status_for(runtime_asset_failures),
+  "failures" => runtime_asset_failures,
+  "installed" => runtime_asset_installed,
+  "asset_file_count" => collect_runtime_brand_asset_files.length,
   "evidence" => [
-    "assets/brand/revolut_borrowed/",
-    "docs/design/REVOLUT_BORROWED_ASSET_INTAKE_2026-06-27.md",
+    "assets/brand/collect_runtime/",
+    "docs/design/COLLECT_RUNTIME_ASSET_INTAKE_2026-06-29.md",
     "docs/design/REVOLUT_ALIGNMENT_BLOCKER_REGISTER_2026-06-27.md"
   ]
 }
 
 switchpoint_failures = []
-switchpoint_failures << "RevolutBorrowedAssets must expose the stable asset root." unless borrowed_assets.include?("borrowedAssetRoot = 'assets/brand/revolut_borrowed'")
-switchpoint_failures << "RevolutBorrowedAssets must expose the logo intake root." unless borrowed_assets.include?(%q{logoAssetRoot = '$borrowedAssetRoot/logos'})
-switchpoint_failures << "RevolutBorrowedAssets must expose the app-icon intake root." unless borrowed_assets.include?(%q{appIconAssetRoot = '$borrowedAssetRoot/app_icons'})
-switchpoint_failures << "RevolutBorrowedAssets must expose the splash intake root." unless borrowed_assets.include?(%q{splashAssetRoot = '$borrowedAssetRoot/splash'})
-switchpoint_failures << "CollectBrandMark must route wordmark rendering through RevolutBorrowedAssets." unless chrome.include?("RevolutBorrowedAssets.wordmarkAssetPath")
-switchpoint_failures << "CollectBrandMark must route app-icon rendering through RevolutBorrowedAssets." unless chrome.include?("RevolutBorrowedAssets.appIconAssetPath")
-switchpoint_failures << "LaunchSplashScreen must route splash mark rendering through RevolutBorrowedAssets." unless read(File.join(root, "lib/features/launch/launch_splash_screen.dart")).include?("RevolutBorrowedAssets.splashMarkAssetPath")
+switchpoint_failures << "CollectRuntimeAssets must expose the stable asset root." unless runtime_assets.include?("collectAssetRoot = 'assets/brand/collect_runtime'")
+switchpoint_failures << "CollectRuntimeAssets must expose the logo intake root." unless runtime_assets.include?(%q{logoAssetRoot = '$collectAssetRoot/logos'})
+switchpoint_failures << "CollectRuntimeAssets must expose the app-icon intake root." unless runtime_assets.include?(%q{appIconAssetRoot = '$collectAssetRoot/app_icons'})
+switchpoint_failures << "CollectRuntimeAssets must expose the splash intake root." unless runtime_assets.include?(%q{splashAssetRoot = '$collectAssetRoot/splash'})
+switchpoint_failures << "CollectBrandMark must route wordmark rendering through CollectRuntimeAssets." unless chrome.include?("CollectRuntimeAssets.wordmarkAssetPath")
+switchpoint_failures << "CollectBrandMark must route app-icon rendering through CollectRuntimeAssets." unless chrome.include?("CollectRuntimeAssets.appIconAssetPath")
+switchpoint_failures << "LaunchSplashScreen must route splash mark rendering through CollectRuntimeAssets." unless read(File.join(root, "lib/features/launch/launch_splash_screen.dart")).include?("CollectRuntimeAssets.splashMarkAssetPath")
 
-borrowed_wordmark_path = File.join(root, "assets/brand/revolut_borrowed/logos/wordmark.png")
-borrowed_app_icon_path = File.join(root, "assets/brand/revolut_borrowed/app_icons/app_icon.png")
-borrowed_splash_mark_path = File.join(root, "assets/brand/revolut_borrowed/splash/splash_mark.png")
-borrowed_web_icon_path = File.join(root, "assets/brand/revolut_borrowed/app_icons/web-512.png")
-borrowed_share_preview_path = File.join(root, "assets/brand/revolut_borrowed/media/share-preview.png")
-switchpoint_failures << "Collect runtime wordmark is installed but RevolutBorrowedAssets.wordmarkAssetPath still uses the fallback." if File.file?(borrowed_wordmark_path) && !borrowed_assets.match?(/wordmarkAssetPath\s*=\s*expectedWordmarkPath/)
-switchpoint_failures << "Collect runtime app icon is installed but RevolutBorrowedAssets.appIconAssetPath still uses the fallback." if File.file?(borrowed_app_icon_path) && !borrowed_assets.match?(/appIconAssetPath\s*=\s*expectedAppIconPath/)
-switchpoint_failures << "Collect runtime splash mark is installed but RevolutBorrowedAssets.splashMarkAssetPath still uses the fallback." if File.file?(borrowed_splash_mark_path) && !borrowed_assets.match?(/splashMarkAssetPath\s*=\s*expectedSplashMarkPath/)
-if File.file?(borrowed_web_icon_path)
+runtime_wordmark_path = File.join(root, "assets/brand/collect_runtime/logos/wordmark.png")
+runtime_app_icon_path = File.join(root, "assets/brand/collect_runtime/app_icons/app_icon.png")
+runtime_splash_mark_path = File.join(root, "assets/brand/collect_runtime/splash/splash_mark.png")
+runtime_web_icon_path = File.join(root, "assets/brand/collect_runtime/app_icons/collect-web-512.png")
+runtime_share_preview_path = File.join(root, "assets/brand/collect_runtime/media/share-preview.png")
+switchpoint_failures << "Collect runtime wordmark is installed but CollectRuntimeAssets.wordmarkAssetPath still uses the fallback." if File.file?(runtime_wordmark_path) && !runtime_assets.match?(/wordmarkAssetPath\s*=\s*expectedWordmarkPath/)
+switchpoint_failures << "Collect runtime app icon is installed but CollectRuntimeAssets.appIconAssetPath still uses the fallback." if File.file?(runtime_app_icon_path) && !runtime_assets.match?(/appIconAssetPath\s*=\s*expectedAppIconPath/)
+switchpoint_failures << "Collect runtime splash mark is installed but CollectRuntimeAssets.splashMarkAssetPath still uses the fallback." if File.file?(runtime_splash_mark_path) && !runtime_assets.match?(/splashMarkAssetPath\s*=\s*expectedSplashMarkPath/)
+if File.file?(runtime_web_icon_path)
   web_manifest = read(File.join(root, "web/manifest.json"))
   web_index = read(File.join(root, "web/index.html"))
   switchpoint_failures << "Collect runtime web icon is installed but web/manifest.json still points to collect-admin.png." if web_manifest.include?("collect-admin.png")
   switchpoint_failures << "Collect runtime web icon is installed but web/index.html still points to collect-admin.png." if web_index.include?("collect-admin.png")
 end
-if File.file?(borrowed_share_preview_path)
+if File.file?(runtime_share_preview_path)
   public_assets = read(File.join(root, "scripts/public_website_audit_evidence.sh"))
-  switchpoint_failures << "Collect runtime share preview is installed but public website evidence does not check it." unless public_assets.include?("revolut_borrowed") || public_assets.include?("share-preview.png")
+  switchpoint_failures << "Collect runtime share preview is installed but public website evidence does not check it." unless public_assets.include?("collect_runtime") || public_assets.include?("share-preview.png")
 end
 checks << {
-  "id" => "revolut_borrowed_runtime_switchpoints",
+  "id" => "collect_runtime_asset_switchpoints",
   "status" => status_for(switchpoint_failures),
   "failures" => switchpoint_failures,
   "evidence" => [
     "pubspec.yaml",
-    "lib/app/theme/revolut_borrowed_assets.dart",
+    "lib/app/theme/collect_runtime_assets.dart",
     "lib/shared/widgets/collect_chrome.dart",
     "lib/features/launch/launch_splash_screen.dart",
     "web/manifest.json",
@@ -389,7 +389,7 @@ checks << {
 }
 
 token_failures = []
-token_failures << "RevolutBorrowedTokens must define the full secondary color role map." unless revolut_tokens.include?("secondaryColorRoles")
+token_failures << "CollectRuntimeTokens must define the full secondary color role map." unless runtime_tokens.include?("secondaryColorRoles")
 %w[
   inkPrimary
   inkSecondary
@@ -409,7 +409,7 @@ token_failures << "RevolutBorrowedTokens must define the full secondary color ro
   dangerContainer
   neutralContainer
 ].each do |role|
-  token_failures << "RevolutBorrowedTokens.secondaryColorRoles must include #{role}." unless revolut_tokens.include?("'#{role}'")
+  token_failures << "CollectRuntimeTokens.secondaryColorRoles must include #{role}." unless runtime_tokens.include?("'#{role}'")
 end
 %w[
   #252044
@@ -429,7 +429,7 @@ end
   #FFE9E3
   #FFE5DF
 ].each do |hex|
-  token_failures << "RevolutBorrowedTokens.secondaryColorHexes must include #{hex}." unless revolut_tokens.include?("'#{hex}'")
+  token_failures << "CollectRuntimeTokens.secondaryColorHexes must include #{hex}." unless runtime_tokens.include?("'#{hex}'")
 end
 {
   "lib/app/theme/collect_component_tokens.dart" => component_tokens,
@@ -438,15 +438,15 @@ end
   "lib/shared/widgets/collect_inputs.dart" => inputs,
   "lib/shared/widgets/collect_financial_components.dart" => financial_components
 }.each do |relative, text|
-  token_failures << "#{relative} must use RevolutBorrowedTokens." unless text.include?("RevolutBorrowedTokens")
+  token_failures << "#{relative} must use CollectRuntimeTokens." unless text.include?("CollectRuntimeTokens")
 end
-token_failures << "collect_components.dart must export RevolutBorrowedTokens." unless components.include?("revolut_borrowed_tokens.dart")
+token_failures << "collect_components.dart must export CollectRuntimeTokens." unless components.include?("collect_runtime_tokens.dart")
 checks << {
-  "id" => "revolut_borrowed_component_token_switchpoints",
+  "id" => "collect_runtime_component_token_switchpoints",
   "status" => status_for(token_failures),
   "failures" => token_failures,
   "evidence" => [
-    "lib/app/theme/revolut_borrowed_tokens.dart",
+    "lib/app/theme/collect_runtime_tokens.dart",
     "lib/app/theme/collect_component_tokens.dart",
     "lib/shared/widgets/collect_chrome.dart",
     "lib/shared/widgets/collect_foundation.dart",
@@ -458,7 +458,7 @@ checks << {
 
 claim_guard_failures = []
 if revolut_blocker_register.match?(/Current decision:\s+\*\*BLOCKED\*\*/i)
-  claim_guard_failures << "Blocker register must explicitly prohibit 100 percent alignment claims while rows are blocked." unless revolut_blocker_register.match?(/Do not claim 100 percent (borrowed Revolut|Revolut-quality) alignment/i)
+  claim_guard_failures << "Blocker register must explicitly prohibit 100 percent alignment claims while rows are blocked." unless revolut_blocker_register.match?(/Do not claim 100 percent (Collect runtime|Revolut-quality) alignment/i)
 end
 claim_guard_failures << "Alignment plan must require approved runtime fonts before final claim." unless revolut_alignment_plan.match?(/Approved runtime fonts are bundled/i)
 claim_guard_failures << "Alignment plan must preserve the four primary colors." unless revolut_alignment_plan.match?(/#8885F0/) && revolut_alignment_plan.match?(/#3CD070/) && revolut_alignment_plan.match?(/#D38B96/) && revolut_alignment_plan.match?(/#FF5E43/)
@@ -566,25 +566,25 @@ checks << {
 }
 
 asset_failures = []
-wordmark_path = File.join(root, "assets/brand/revolut_borrowed/logos/wordmark.png")
-app_icon_path = File.join(root, "assets/brand/revolut_borrowed/app_icons/app_icon.png")
-splash_mark_path = File.join(root, "assets/brand/revolut_borrowed/splash/splash_mark.png")
+wordmark_path = File.join(root, "assets/brand/collect_runtime/logos/wordmark.png")
+app_icon_path = File.join(root, "assets/brand/collect_runtime/app_icons/app_icon.png")
+splash_mark_path = File.join(root, "assets/brand/collect_runtime/splash/splash_mark.png")
 asset_failures << "Collect runtime wordmark asset is missing." unless File.file?(wordmark_path)
 asset_failures << "Collect runtime app icon asset is missing." unless File.file?(app_icon_path)
 asset_failures << "Collect runtime splash mark asset is missing." unless File.file?(splash_mark_path)
-asset_failures << "CollectBrandMark must use the stable runtime asset registry." unless chrome.include?("RevolutBorrowedAssets.wordmarkAssetPath")
-asset_failures << "Runtime asset registry must use expectedWordmarkPath once the kit is installed." unless borrowed_assets.match?(/wordmarkAssetPath\s*=\s*expectedWordmarkPath/)
-asset_failures << "Runtime asset registry must use expectedAppIconPath once the kit is installed." unless borrowed_assets.match?(/appIconAssetPath\s*=\s*expectedAppIconPath/)
-asset_failures << "Runtime asset registry must use expectedSplashMarkPath once the kit is installed." unless borrowed_assets.match?(/splashMarkAssetPath\s*=\s*expectedSplashMarkPath/)
-asset_failures << "DESIGN_SYSTEM.md must name the runtime wordmark intake target." unless design_system.include?("assets/brand/revolut_borrowed/logos/wordmark.png")
+asset_failures << "CollectBrandMark must use the stable runtime asset registry." unless chrome.include?("CollectRuntimeAssets.wordmarkAssetPath")
+asset_failures << "Runtime asset registry must use expectedWordmarkPath once the kit is installed." unless runtime_assets.match?(/wordmarkAssetPath\s*=\s*expectedWordmarkPath/)
+asset_failures << "Runtime asset registry must use expectedAppIconPath once the kit is installed." unless runtime_assets.match?(/appIconAssetPath\s*=\s*expectedAppIconPath/)
+asset_failures << "Runtime asset registry must use expectedSplashMarkPath once the kit is installed." unless runtime_assets.match?(/splashMarkAssetPath\s*=\s*expectedSplashMarkPath/)
+asset_failures << "DESIGN_SYSTEM.md must name the runtime wordmark intake target." unless design_system.include?("assets/brand/collect_runtime/logos/wordmark.png")
 checks << {
   "id" => "mobile_brand_asset_contract",
   "status" => status_for(asset_failures),
   "failures" => asset_failures,
   "evidence" => [
-    "assets/brand/revolut_borrowed/logos/wordmark.png",
-    "assets/brand/revolut_borrowed/app_icons/app_icon.png",
-    "assets/brand/revolut_borrowed/splash/splash_mark.png",
+    "assets/brand/collect_runtime/logos/wordmark.png",
+    "assets/brand/collect_runtime/app_icons/app_icon.png",
+    "assets/brand/collect_runtime/splash/splash_mark.png",
     "lib/shared/widgets/collect_chrome.dart",
     "docs/design/DESIGN_SYSTEM.md"
   ]

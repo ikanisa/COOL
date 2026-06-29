@@ -84,7 +84,7 @@ class _LandingNav extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset(
-              'assets/brand/generated/collect_app_icon_rule.png',
+              'assets/brand/collect_runtime/app_icons/app-icon-rule.png',
               width: compact ? 38 : 42,
               height: compact ? 38 : 42,
               fit: BoxFit.contain,
@@ -517,7 +517,7 @@ class _HeroProductVisual extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(34),
                   child: Image.asset(
-                    'assets/brand/generated/collect_visual_group_momentum.png',
+                    'assets/brand/collect_runtime/media/group-momentum.png',
                     height: 360,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) =>

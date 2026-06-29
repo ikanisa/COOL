@@ -47,8 +47,8 @@ class ShareScreen extends ConsumerWidget {
               final showPreview = constraints.maxHeight >= 640;
               return Column(
                 children: [
-                  Expanded(
-                    child: Semantics(
+                  if (showPreview) ...[
+                    Semantics(
                       button: true,
                       label: 'Return to ${collection.title}',
                       hint: 'Closes the share sheet and opens the group page',
@@ -56,19 +56,18 @@ class ShareScreen extends ConsumerWidget {
                         color: colors.transparent,
                         child: InkWell(
                           onTap: () => context.go('/groups/$collectionId'),
-                          child: showPreview
-                              ? Align(
-                                  alignment: Alignment.topCenter,
-                                  child: _SharePreviewCard(
-                                    collection: collection,
-                                    summary: summary,
-                                  ),
-                                )
-                              : const SizedBox.expand(),
+                          borderRadius: CollectRadius.cardLargeBorder,
+                          child: _SharePreviewCard(
+                            collection: collection,
+                            summary: summary,
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                    CollectSpacing.gap16,
+                    const Spacer(),
+                  ] else
+                    const Spacer(),
                   CollectBottomSheet(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -90,7 +89,7 @@ class ShareScreen extends ConsumerWidget {
                                 collection.title,
                                 style: Theme.of(context).textTheme.titleLarge
                                     ?.copyWith(fontWeight: FontWeight.w900),
-                                maxLines: 1,
+                                maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -238,7 +237,7 @@ class _SharePreviewCard extends StatelessWidget {
                     color: context.collectColors.onImagePrimary,
                     fontWeight: FontWeight.w900,
                   ),
-                  maxLines: 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),

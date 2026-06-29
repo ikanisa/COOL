@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'collect_colors.dart';
 import 'collect_radius.dart';
 import 'collect_spacing.dart';
-import 'revolut_borrowed_tokens.dart';
+import 'collect_runtime_tokens.dart';
 
 class CollectComponentTokens {
   const CollectComponentTokens._();
@@ -36,7 +36,7 @@ class CollectComponentTokens {
       shape: RoundedRectangleBorder(borderRadius: CollectRadius.controlBorder),
       foregroundColor: colors.textPrimary,
       side: BorderSide(
-        color: RevolutBorrowedTokens.chipBorder(colors, selected: false),
+        color: CollectRuntimeTokens.chipBorder(colors, selected: false),
       ),
       textStyle: Theme.of(context).textTheme.labelLarge,
     );
@@ -50,7 +50,7 @@ class CollectComponentTokens {
   }) {
     final colors = context.collectColors;
     final border = UnderlineInputBorder(
-      borderSide: BorderSide(color: RevolutBorrowedTokens.inputBorder(colors)),
+      borderSide: BorderSide(color: CollectRuntimeTokens.inputBorder(colors)),
     );
     return InputDecoration(
       labelText: label,

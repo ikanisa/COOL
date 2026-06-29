@@ -76,6 +76,11 @@ required_routes = {
   "/" => ["Microsavings and group savings for daily earners", "Collect"],
   "/group-savings/" => ["Group savings"],
   "/diaspora/" => ["Diaspora"],
+  "/rw/" => ["Ibimina", "Collect"],
+  "/rw/group-savings/" => ["Itsinda ryanyu rifite icyizere", "Collect"],
+  "/rw/community-groups/" => ["Imari ikora neza", "Collect"],
+  "/fr/diaspora/" => ["Une epargne de groupe", "Collect"],
+  "/fr/our-partners/" => ["opportunite bancaire", "Collect"],
   "/privacy/" => ["Privacy Policy", "Account deletion and data deletion"],
   "/terms/" => ["Terms"],
   "/account-deletion/" => ["Account Deletion"],
@@ -129,21 +134,32 @@ alternative_routes.each do |id, options|
   )
 end
 
-localized_routes = ["/rw/", "/fr/"]
-localized_route_files = localized_routes.select { |route| File.file?(route_index(build_dir, route)) }
-localized_markers = ["hreflang=\"rw\"", "hreflang=\"fr\"", "property=\"og:locale\" content=\"rw_RW\"", "property=\"og:locale\" content=\"fr_FR\""]
-localized_metadata = localized_markers.select { |marker| root_html.include?(marker) || sitemap.include?(marker) }
-english_only_ok = localized_route_files.empty? &&
-  localized_metadata.empty? &&
-  root_html.include?('<html lang="en">') &&
-  root_html.include?('property="og:locale" content="en_US"')
+localized_routes = {
+  "/rw/" => ["Ibimina", "Ibibazo bikunze kubazwa"],
+  "/rw/group-savings/" => ["Itsinda ryanyu rifite icyizere", "amatsinda"],
+  "/rw/community-groups/" => ["Imari ikora neza", "amatsinda"],
+  "/fr/diaspora/" => ["Une epargne de groupe", "Questions frequentes"],
+  "/fr/our-partners/" => ["opportunite bancaire", "Partenaires"],
+}
+localized_failures = localized_routes.reject do |route, required_text|
+  html = read(route_index(build_dir, route))
+  File.file?(route_index(build_dir, route)) &&
+    required_text.all? { |text| html.include?(text) } &&
+    html.include?(%(<link rel="canonical" href="https://collect.ikanisa.com#{route}">)) &&
+    html.include?('application/ld+json') &&
+    sitemap.include?("https://collect.ikanisa.com#{route}")
+end
+localized_metadata_ok = root_html.include?('hreflang="rw"') &&
+  root_html.include?('hreflang="fr"') &&
+  sitemap.include?("https://collect.ikanisa.com/rw/") &&
+  sitemap.include?("https://collect.ikanisa.com/fr/diaspora/")
 check(
   checks,
-  "english_only_public_site",
-  pass_if(english_only_ok),
-  english_only_ok ? "Public site is English-only with no localized route output." : "Public site still exposes localized route or metadata output.",
-  "localized_route_files" => localized_route_files,
-  "localized_metadata" => localized_metadata
+  "localized_public_routes",
+  pass_if(localized_failures.empty? && localized_metadata_ok),
+  localized_failures.empty? && localized_metadata_ok ? "Localized Kinyarwanda and French routes are generated with crawlable metadata." : "Localized routes or metadata are incomplete.",
+  "failures" => localized_failures.keys,
+  "metadata_ok" => localized_metadata_ok
 )
 
 raw_html_ok = root_html.include?("<main") &&
@@ -225,7 +241,7 @@ check(
   "path" => robots_path
 )
 
-required_sitemap_paths = ["/", "/group-savings", "/diaspora", "/privacy", "/terms", "/account-deletion", "/data-deletion"]
+required_sitemap_paths = ["/", "/group-savings", "/diaspora", "/rw", "/rw/group-savings", "/rw/community-groups", "/fr/diaspora", "/fr/our-partners", "/privacy", "/terms", "/account-deletion", "/data-deletion"]
 missing_sitemap = required_sitemap_paths.reject { |path| sitemap.include?("https://collect.ikanisa.com#{path}") }
 retired_sitemap_paths = ["/impact"]
 retired_sitemap = retired_sitemap_paths.select { |path| sitemap.include?("https://collect.ikanisa.com#{path}") }
@@ -413,14 +429,14 @@ app_download_url = "https://play.google.com/store/apps/details?id=app.cool.mobil
 public_app_and_whatsapp_support = whatsapp_links >= 3 &&
   root_html.include?(app_download_url) &&
   root_html.include?("Get the App") &&
-  root_html.include?("Create Group") &&
+  root_html.include?("Talk to us about starting a group") &&
   root_html.include?("Get in Touch") &&
+  root_html.include?("Available on Android now. iOS roadmap is being scoped.") &&
   !root_html.include?("WhatsApp support options") &&
   !root_html.include?("Partner Inquiry") &&
   !root_html.include?("Privacy or Deletion") &&
   !root_html.include?("WhatsApp for app access") &&
   !root_html.include?("Ask for app access") &&
-  !root_html.include?("mailto:") &&
   !root_html.include?('type="email"') &&
   !root_html.include?('name="email"')
 check(
@@ -429,6 +445,78 @@ check(
   pass_if(public_app_and_whatsapp_support),
   public_app_and_whatsapp_support ? "Root exposes public app download and lean WhatsApp support CTAs with no support panel or email form." : "Root support path is missing public app download, WhatsApp support CTA, or still exposes wrong support content.",
   "whatsapp_link_count" => whatsapp_links
+)
+
+all_html_paths = Dir.glob(File.join(build_dir, "**", "*.html")).select { |path| File.file?(path) }
+stray_brace_files = all_html_paths.select do |path|
+  read(path).lines.any? { |line| line.match?(/\A\s*}\s*\z/) }
+end
+check(
+  checks,
+  "no_stray_template_brace",
+  pass_if(stray_brace_files.empty?),
+  stray_brace_files.empty? ? "Generated public HTML has no visible standalone template brace." : "Generated public HTML contains standalone template brace text.",
+  "files" => stray_brace_files.map { |path| path.delete_prefix(build_dir + "/") }
+)
+
+trust_text = read(route_index(build_dir, "/trust/"))
+trust_page_ok = trust_text.include?("How Collect protects customer information") &&
+  trust_text.include?("What Collect will not do") &&
+  trust_text.include?("Partner and regulated-product boundary") &&
+  trust_text.include?("Customer rights and deletion support") &&
+  !trust_text.include?("13. Security and trust") &&
+  !trust_text.include?("9. AI and automated processing") &&
+  !trust_text.include?("Recommended Trust Commitment Subject To Technical Confirmation")
+check(
+  checks,
+  "trust_center_standalone",
+  pass_if(trust_page_ok),
+  trust_page_ok ? "Trust route is a standalone trust center, not a Privacy Policy duplicate." : "Trust route still duplicates numbered Privacy Policy sections or lacks trust-center content."
+)
+
+partners_text = read(route_index(build_dir, "/our-partners/"))
+cta_hierarchy_ok = partners_text.include?("Talk to our team") &&
+  partners_text.include?("Get the App") &&
+  !partners_text.include?("Talk to us about starting a group") &&
+  !partners_text.include?(">Create Group<")
+footer_trust_ok = root_html.include?("IKANISA Ltd. is a registered technology company") &&
+  root_html.include?("Savings, credit and insurance products are provided by licensed partner institutions") &&
+  root_html.include?("Support:") &&
+  root_html.include?("info@ikanisa.com") &&
+  root_html.include?("©")
+check(
+  checks,
+  "cta_and_footer_trust_hierarchy",
+  pass_if(cta_hierarchy_ok && footer_trust_ok),
+  cta_hierarchy_ok && footer_trust_ok ? "CTA hierarchy and footer trust signals match the current public-site audit fixes." : "CTA hierarchy or footer trust signals are incomplete.",
+  "cta_hierarchy_ok" => cta_hierarchy_ok,
+  "footer_trust_ok" => footer_trust_ok
+)
+
+faq_routes = ["/", "/group-savings/", "/diaspora/", "/insurance/", "/craas/", "/community-groups/", "/our-partners/", "/trust/"]
+faq_failures = faq_routes.reject do |route|
+  html = read(route_index(build_dir, route))
+  File.file?(route_index(build_dir, route)) &&
+    html.include?("faq-section") &&
+    html.include?("Questions visitors ask") &&
+    html.include?("section-kicker") &&
+    html.include?("<details>")
+end
+proof_html = read(route_index(build_dir, "/our-partners/"))
+proof_ok = root_html.include?("Verified public proof") &&
+  root_html.include?("app.cool.mobile") &&
+  root_html.include?("5+ downloads") &&
+  root_html.include?("raw HTML") &&
+  proof_html.include?("Verified public proof") &&
+  !root_html.include?("thousands of users") &&
+  !root_html.include?("approved partner names")
+check(
+  checks,
+  "faq_help_and_public_proof",
+  pass_if(faq_failures.empty? && proof_ok),
+  faq_failures.empty? && proof_ok ? "FAQ/help content and conservative public proof/social-proof signals are present." : "FAQ/help content or public proof is incomplete.",
+  "faq_failures" => faq_failures,
+  "proof_ok" => proof_ok
 )
 
 credit_readiness_ok = root_html.downcase.include?("credit-readiness") &&
@@ -462,7 +550,7 @@ public_html_paths = Dir.glob(File.join(build_dir, "**", "*.html")).select { |pat
 end
 banned_public_claim_patterns = {
   "consent" => /consent/i,
-  "email_support" => /\bemail\b|mailto:/i,
+  "email_form_or_unapproved_contact" => /type=["']email["']|name=["']email["']|\b(?:privacy|support|complaints|partnerships)@ikanisa\.com\b/i,
   "projection_or_scenario" => /projection|scenario|estimate/i,
   "unsupported_partner_names" => /Revolut|Malta|three Rwanda banks/i,
   "deck_only_market_figures" => /RWF 50|150B|300K|100K|35B|3-5x|US\$0\.5B|864M|19,807B|351\.3B|169,570|7,169,324|67\.6B|26\.2%|25,000|70,000|~60%|~0%/i,

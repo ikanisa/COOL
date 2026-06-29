@@ -2,7 +2,7 @@
 
 Date: 2026-06-27
 
-Scope: COOL Flutter mobile app Revolut-like borrowed alignment, based on current source, installed borrowed inputs, fresh route screenshots, passing Android UAT, and final design compliance evidence.
+Scope: COOL Flutter mobile app Revolut-benchmarked Collect runtime alignment, based on current source, installed Collect runtime inputs, fresh route screenshots, passing Android UAT, and final design compliance evidence.
 
 ## Non-Negotiable Product Decisions
 
@@ -15,7 +15,7 @@ Scope: COOL Flutter mobile app Revolut-like borrowed alignment, based on current
   - Orange `#FF5E43`
 - Use Periwinkle, not Orange, for default dominant CTAs and selected controls. Orange remains available only for urgent, destructive, alert, notification, or small accent states.
 - Preserve full secondary/support colors through named tokens for surfaces, borders, focus, and semantic foreground/container roles.
-- Use the supplied `Revolut10` screenshots and the borrowed Revolut kit as the active reference contract, but keep Collect-specific Rwanda group collection, MoMo, QR/share, contribution, settings, and admin behavior.
+- Use the supplied `Revolut10` screenshots and the Collect runtime kit as the active reference contract, but keep Collect-specific Rwanda group collection, MoMo, QR/share, contribution, settings, and admin behavior.
 
 ## Current Source Status
 
@@ -26,10 +26,10 @@ Scope: COOL Flutter mobile app Revolut-like borrowed alignment, based on current
 | Route background families | Source mapped | `CollectColors.screenGradientForPath()` maps Home, Groups, payment/contribution, share/settings, wealth/profile, content/legal, offline/sync, notifications, and admin families to extracted Revolut-like background tokens. |
 | Four primary colors | Source locked | `CollectColors.brandPrimaryHexes` and design audit contract preserve `#8885F0`, `#3CD070`, `#D38B96`, `#FF5E43`. |
 | Default CTA color | Source corrected and guarded | `CollectColors.actionColor` resolves to Periwinkle `#8885F0`; routine landing, public static CTA, and group-card decorative surfaces no longer use Orange; `urgentAction`/`brandAction` preserve Orange `#FF5E43` for non-default high-emphasis accents. |
-| Full secondary colors | Source exposed | `RevolutBorrowedTokens.secondaryColorRoles` and `secondaryColorHexes` expose full support and semantic token roles. |
+| Full secondary colors | Source exposed | `CollectRuntimeTokens.secondaryColorRoles` and `secondaryColorHexes` expose full support and semantic token roles. |
 | Card radius and compact density | Source aligned further | `CollectRadius.card = 32`; Groups uses `GroupCardVariant.compact` for the primary mobile list. |
 | Payment status UAT assertions | Source patched, not device-proven | `integration_test/app_uat_smoke_test.dart` now scrolls to `Verification trail` and accepts multiple `Activity` labels. |
-| Brand/font switchpoints | Inputs installed, pending validation | `RevolutBorrowedTypography`, `pubspec.yaml`, and `RevolutBorrowedAssets` now route through installed `assets/fonts/revolut/` and `assets/brand/revolut_borrowed/` inputs. |
+| Brand/font switchpoints | Inputs installed, pending validation | `CollectRuntimeTypography`, `pubspec.yaml`, and `CollectRuntimeAssets` now route through installed `assets/fonts/collect/` and `assets/brand/collect_runtime/` inputs. |
 | Naming cleanup | Source/docs checked | Targeted search found no partner-framed runtime names or old brand-separation language in active design/theme/pubspec paths checked for this register. |
 
 ## Existing Evidence Inventory
@@ -53,24 +53,24 @@ Scope: COOL Flutter mobile app Revolut-like borrowed alignment, based on current
 | --- | --- | --- | --- | --- |
 | G1 | Android UAT not rerun after current assertion patches | Fixed | Current-source Pixel 4a UAT passed at `.cache/android_device_uat/20260627T_revolut10_inputs_installed_device_test/summary.json` | No |
 | G2 | Android UAT used upload-debug signing, not Play app-signing overwrite path | Accepted for mobile code-owned UAT | Current UAT used local upload-debug signing override; Play signing remains a release-governance question, not a mobile UI gap | Release approval only |
-| G3 | Borrowed/Revolut-like font files | Fixed | Local Revolut-like font bundle installed, registered, and audit-passed | No |
-| G4 | Borrowed/Revolut-like brand/media/icon kit | Fixed | Runtime assets installed, switchpoints wired, route screenshots and audit passed | No |
+| G3 | Collect runtime/Revolut-like font files | Fixed | Local Revolut-like font bundle installed, registered, and audit-passed | No |
+| G4 | Collect runtime/Revolut-like brand/media/icon kit | Fixed | Runtime assets installed, switchpoints wired, route screenshots and audit passed | No |
 | G5 | Icon mapping still local | Fixed | Icon mapping file installed while runtime continues to use `CollectIcons` as the adapter layer | No |
 | G6 | Existing web route evidence URL was temporary | Fixed | Fresh route evidence generated at `.cache/mobile_route_render_smoke/20260627T121726Z/summary.json`; the temporary URL is no longer used as proof | No |
 | G7 | Full visual screenshot review is not signed off | Fixed for code-owned mobile review | Fresh contact sheets reviewed and matrix signed as code-owned mobile visual QA | No |
-| G8 | Old parity docs still contain historical "Revolut-style" language | Release-facing docs can be confused with current borrowed alignment status | Fixed by archive notices in the 2026-06-18 evidence/checklist docs | No |
+| G8 | Old parity docs still contain historical "Revolut-style" language | Release-facing docs can be confused with current Collect runtime alignment status | Fixed by archive notices in the 2026-06-18 evidence/checklist docs | No |
 | G9 | Route evidence may not cover every latest design nuance | Fixed for current mobile source | 55-route screenshot pass, contact-sheet review, Android UAT, and final design audit are current | No |
 | G10 | Public/admin surfaces need the same proof level | Moved out of mobile gap scope | Public share-preview assets are installed; admin/public release proof remains separate release evidence, not a Flutter mobile blocker | Release scope only |
 
 ## Fix Sequence
 
-1. Source contract is frozen: three bottom nav items, four primary colors, full secondary colors, borrowed Revolut-like route family mapping, installed runtime inputs, and code-owned validation evidence.
+1. Source contract is frozen: three bottom nav items, four primary colors, full secondary colors, Collect runtime-like route family mapping, installed runtime inputs, and code-owned validation evidence.
 2. Current-source Android UAT is green.
 3. Current 55-route screenshot render and contact sheets are green.
-4. Historical docs are archived and cannot override the current borrowed alignment contract.
+4. Historical docs are archived and cannot override the current Collect runtime alignment contract.
 5. Font, brand, media, icon mapping, and token inputs are installed and validated by the final audit.
 6. Release-owner approval remains separate from this mobile code-owned implementation pass.
 
 ## Approval Gate
 
-Current mobile code-owned action is complete. Rerun the evidence only after source, supplied screenshots, or runtime borrowed inputs change.
+Current mobile code-owned action is complete. Rerun the evidence only after source, supplied screenshots, or runtime Collect inputs change.

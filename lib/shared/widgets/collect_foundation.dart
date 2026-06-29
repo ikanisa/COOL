@@ -8,7 +8,7 @@ import '../../app/theme/collect_icons.dart';
 import '../../app/theme/collect_motion.dart';
 import '../../app/theme/collect_radius.dart';
 import '../../app/theme/collect_spacing.dart';
-import '../../app/theme/revolut_borrowed_tokens.dart';
+import '../../app/theme/collect_runtime_tokens.dart';
 import '../models/collect_models.dart';
 
 class CollectButton extends StatelessWidget {
@@ -111,7 +111,7 @@ class CollectionTypeBadge extends StatelessWidget {
     final colors = context.collectColors;
     final accent = colors.actionColor;
     final foreground = colors.textPrimary;
-    final background = RevolutBorrowedTokens.badgeBackground(colors, accent);
+    final background = CollectRuntimeTokens.badgeBackground(colors, accent);
     return Semantics(
       label: '${type.label} collection',
       child: ExcludeSemantics(
@@ -120,7 +120,7 @@ class CollectionTypeBadge extends StatelessWidget {
             color: background,
             borderRadius: CollectRadius.pillBorder,
             border: Border.all(
-              color: RevolutBorrowedTokens.badgeBorder(colors, accent),
+              color: CollectRuntimeTokens.badgeBorder(colors, accent),
             ),
           ),
           child: Padding(
@@ -183,25 +183,25 @@ class CollectCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final brightness = Theme.of(context).brightness;
-    final tokenEmphasis = emphasis.borrowedToken;
-    final radius = RevolutBorrowedTokens.cardRadius(tokenEmphasis);
-    final background = RevolutBorrowedTokens.cardBackground(
+    final tokenEmphasis = emphasis.runtimeToken;
+    final radius = CollectRuntimeTokens.cardRadius(tokenEmphasis);
+    final background = CollectRuntimeTokens.cardBackground(
       colors,
       brightness,
       tokenEmphasis,
       accentColor,
     );
-    final backgroundOpacity = RevolutBorrowedTokens.cardOpacity(
+    final backgroundOpacity = CollectRuntimeTokens.cardOpacity(
       brightness,
       tokenEmphasis,
     );
-    final border = RevolutBorrowedTokens.cardBorder(
+    final border = CollectRuntimeTokens.cardBorder(
       colors,
       brightness,
       tokenEmphasis,
       accentColor,
     );
-    final shadows = RevolutBorrowedTokens.cardShadows(
+    final shadows = CollectRuntimeTokens.cardShadows(
       colors,
       brightness,
       tokenEmphasis,
@@ -241,15 +241,15 @@ class CollectCard extends StatelessWidget {
 enum CollectCardEmphasis { flat, normal, hero, tonal, glow, outline, compact }
 
 extension on CollectCardEmphasis {
-  CollectBorrowedCardEmphasis get borrowedToken {
+  CollectRuntimeCardEmphasis get runtimeToken {
     return switch (this) {
-      CollectCardEmphasis.flat => CollectBorrowedCardEmphasis.flat,
-      CollectCardEmphasis.normal => CollectBorrowedCardEmphasis.normal,
-      CollectCardEmphasis.hero => CollectBorrowedCardEmphasis.hero,
-      CollectCardEmphasis.tonal => CollectBorrowedCardEmphasis.tonal,
-      CollectCardEmphasis.glow => CollectBorrowedCardEmphasis.glow,
-      CollectCardEmphasis.outline => CollectBorrowedCardEmphasis.outline,
-      CollectCardEmphasis.compact => CollectBorrowedCardEmphasis.compact,
+      CollectCardEmphasis.flat => CollectRuntimeCardEmphasis.flat,
+      CollectCardEmphasis.normal => CollectRuntimeCardEmphasis.normal,
+      CollectCardEmphasis.hero => CollectRuntimeCardEmphasis.hero,
+      CollectCardEmphasis.tonal => CollectRuntimeCardEmphasis.tonal,
+      CollectCardEmphasis.glow => CollectRuntimeCardEmphasis.glow,
+      CollectCardEmphasis.outline => CollectRuntimeCardEmphasis.outline,
+      CollectCardEmphasis.compact => CollectRuntimeCardEmphasis.compact,
     };
   }
 }

@@ -642,6 +642,88 @@ void main() {
     expect(find.text('Reparse'), findsNothing);
   });
 
+  testWidgets('feature flags expose audited toggle actions', (tester) async {
+    final repository = _FeatureFlagAdminRepository();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          adminRepositoryProvider.overrideWithValue(repository),
+          adminIdentityProvider.overrideWith(
+            (ref) async => _featureFlagManagerIdentity,
+          ),
+        ],
+        child: const MaterialApp(
+          home: Scaffold(
+            body: AdminRpcListPage(
+              title: 'Feature flags',
+              rpcName: 'admin_list_feature_flags',
+              actionKind: 'feature_flag_toggle',
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('enable_internal_receiver_mode'), findsOneWidget);
+    expect(find.widgetWithText(TextButton, 'Enable'), findsOneWidget);
+    expect(
+      find.semantics.byLabel(
+        'Enable feature flag enable_internal_receiver_mode',
+      ),
+      findsOne,
+    );
+
+    await tester.tap(find.widgetWithText(TextButton, 'Enable'));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.byType(TextField),
+      ),
+      'Enable for staged UAT',
+    );
+    await tester.tap(find.widgetWithText(FilledButton, 'Enable flag'));
+    await tester.pumpAndSettle();
+
+    expect(
+      repository.actions,
+      contains(
+        'admin_set_feature_flag:enable_internal_receiver_mode:true:Enable for staged UAT',
+      ),
+    );
+  });
+
+  testWidgets('feature flag actions hide without manage permission', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          adminRepositoryProvider.overrideWithValue(
+            _FeatureFlagAdminRepository(),
+          ),
+          adminIdentityProvider.overrideWith(
+            (ref) async => _readOnlyFullIdentity,
+          ),
+        ],
+        child: const MaterialApp(
+          home: Scaffold(
+            body: AdminRpcListPage(
+              title: 'Feature flags',
+              rpcName: 'admin_list_feature_flags',
+              actionKind: 'feature_flag_toggle',
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('enable_internal_receiver_mode'), findsOneWidget);
+    expect(find.widgetWithText(TextButton, 'Enable'), findsNothing);
+  });
+
   testWidgets('group detail exposes audited support status actions', (
     tester,
   ) async {
@@ -942,6 +1024,13 @@ const _collectionReadOnlyIdentity = AdminIdentity(
   permissions: ['collections.read'],
 );
 
+const _featureFlagManagerIdentity = AdminIdentity(
+  userId: '00000000-0000-0000-0000-000000000006',
+  displayName: 'Collect platform owner',
+  roles: ['platform_owner'],
+  permissions: ['feature_flags.read', 'feature_flags.manage'],
+);
+
 class _RawHookErrorRepository extends AdminRepository {
   _RawHookErrorRepository() : super(null);
 
@@ -998,6 +1087,46 @@ class _PagingAdminRepository extends AdminRepository {
       owner: 'Live operations owner',
       escalation: 'Escalate from persisted policy',
     );
+  }
+}
+
+class _FeatureFlagAdminRepository extends AdminRepository {
+  _FeatureFlagAdminRepository() : super(null);
+
+  final actions = <String>[];
+
+  @override
+  Future<AdminListResult> list(
+    String rpcName, {
+    String? search,
+    String? status,
+    int? limit,
+    int? offset,
+    String? sortBy,
+  }) async {
+    return const AdminListResult(
+      rows: [
+        AdminTableRowData(
+          id: 'flag-1',
+          title: 'enable_internal_receiver_mode',
+          subtitle: 'Internal Android SMS receiver',
+          status: 'disabled',
+          amount: '',
+        ),
+      ],
+      total: 1,
+    );
+  }
+
+  @override
+  Future<Map<String, dynamic>> action(
+    String rpcName,
+    Map<String, dynamic> params,
+  ) async {
+    actions.add(
+      '$rpcName:${params['p_key']}:${params['p_enabled']}:${params['p_reason']}',
+    );
+    return {'status': 'updated'};
   }
 }
 

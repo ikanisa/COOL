@@ -9,7 +9,7 @@ class PrivacyDataScreen extends StatelessWidget {
       title: 'Privacy and data',
       children: [
         const CollectVisualFeatureCard(
-          asset: 'assets/brand/generated/collect_visual_qr_share.png',
+          asset: 'assets/brand/collect_runtime/media/qr-share.png',
           title: 'Private by default',
           message:
               'Public links use Collect IDs, safe amounts, group names, and payment status only.',

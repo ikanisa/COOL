@@ -39,8 +39,8 @@ routes = [
   "/robots.txt",
   "/styles.css",
   "/site.js",
-  "/assets/brand/generated/collect_visual_group_momentum.png",
-  "/assets/brand/revolut_borrowed/media/share-preview.png",
+  "/assets/brand/collect_runtime/media/group-momentum.png",
+  "/assets/brand/collect_runtime/media/share-preview.png",
   "/icons/collect.png",
 ]
 responses = routes.to_h { |route| [route, fetch("#{base_url}#{route}")] }
@@ -66,8 +66,8 @@ first_party_critical_bytes = [
   responses.fetch("/"),
   responses.fetch("/styles.css"),
   responses.fetch("/site.js"),
-  responses.fetch("/assets/brand/generated/collect_visual_group_momentum.png"),
-  responses.fetch("/assets/brand/revolut_borrowed/media/share-preview.png"),
+  responses.fetch("/assets/brand/collect_runtime/media/group-momentum.png"),
+  responses.fetch("/assets/brand/collect_runtime/media/share-preview.png"),
   responses.fetch("/icons/collect.png"),
 ].sum { |item| item.fetch("body").bytesize }
 

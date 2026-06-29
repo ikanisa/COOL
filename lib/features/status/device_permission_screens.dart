@@ -50,8 +50,8 @@ class PermissionRecoveryScreen extends ConsumerWidget {
       children: [
         CollectVisualFeatureCard(
           asset: isCamera
-              ? 'assets/brand/generated/collect_visual_qr_share.png'
-              : 'assets/brand/generated/collect_visual_momo_signal.png',
+              ? 'assets/brand/collect_runtime/media/qr-share.png'
+              : 'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png',
           icon: isCamera ? CollectIcons.qr : CollectIcons.pending,
           title: isCamera ? 'Camera blocked' : 'Alerts blocked',
           message: isCamera

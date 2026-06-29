@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw, ImageFilter
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "assets" / "brand" / "generated"
+OUT = ROOT / "assets" / "brand" / "collect_runtime" / "media"
 
 INK = (37, 32, 68)
 PAPER = (250, 248, 245)
@@ -156,9 +156,9 @@ def make_qr_share():
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     assets = {
-        "collect_visual_momo_signal.png": make_momo_signal(),
-        "collect_visual_group_momentum.png": make_group_momentum(),
-        "collect_visual_qr_share.png": make_qr_share(),
+        "mobile-money-ussd-signal.png": make_momo_signal(),
+        "group-momentum.png": make_group_momentum(),
+        "qr-share.png": make_qr_share(),
     }
     for name, image in assets.items():
         image.convert("RGB").save(OUT / name, optimize=True)

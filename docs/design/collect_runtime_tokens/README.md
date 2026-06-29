@@ -1,6 +1,6 @@
-# Borrowed Revolut Token Intake
+# Collect runtime Revolut Token Intake
 
-Place approved or repo-approved borrowed Revolut-like token specifications in this directory.
+Place approved or repo-approved Collect runtime-like token specifications in this directory.
 
 Expected inputs:
 
@@ -10,4 +10,4 @@ Expected inputs:
 - Route-to-reference mapping notes.
 
 Current status: installed. The active token spec is
-`revolut10_component_tokens_2026-06-27.json`.
+`collect_component_tokens_2026-06-29.json`.

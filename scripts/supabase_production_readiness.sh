@@ -375,6 +375,7 @@ check_sql_privileges() {
         ('authenticated', 'admin_record_operator_note', 'EXECUTE'),
         ('authenticated', 'admin_reparse_payment_event', 'EXECUTE'),
         ('authenticated', 'admin_reveal_raw_sms', 'EXECUTE'),
+        ('authenticated', 'admin_set_feature_flag', 'EXECUTE'),
         ('authenticated', 'admin_system_health', 'EXECUTE'),
         ('authenticated', 'admin_update_collection_support_status', 'EXECUTE'),
         ('authenticated', 'create_mobile_support_request', 'EXECUTE'),

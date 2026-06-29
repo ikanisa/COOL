@@ -13,7 +13,7 @@ class LaunchSplashScreen extends StatefulWidget {
 }
 
 class _LaunchSplashScreenState extends State<LaunchSplashScreen> {
-  static const _splashMarkAssetPath = RevolutBorrowedAssets.splashMarkAssetPath;
+  static const _splashMarkAssetPath = CollectRuntimeAssets.splashMarkAssetPath;
 
   Timer? _timer;
   var _scheduled = false;

@@ -249,10 +249,10 @@ class AmountEntryPanel extends StatelessWidget {
               if (showCurrencyChip)
                 DecoratedBox(
                   decoration: BoxDecoration(
-                    color: RevolutBorrowedTokens.chipBackground(colors),
+                    color: CollectRuntimeTokens.chipBackground(colors),
                     borderRadius: CollectRadius.pillBorder,
                     border: Border.all(
-                      color: RevolutBorrowedTokens.inputBorder(colors),
+                      color: CollectRuntimeTokens.inputBorder(colors),
                     ),
                   ),
                   child: Padding(
@@ -271,10 +271,10 @@ class AmountEntryPanel extends StatelessWidget {
           CollectSpacing.gap16,
           DecoratedBox(
             decoration: BoxDecoration(
-              color: RevolutBorrowedTokens.inputFill(colors),
+              color: CollectRuntimeTokens.inputFill(colors),
               borderRadius: CollectRadius.panelBorder,
               border: Border.all(
-                color: RevolutBorrowedTokens.inputBorder(colors),
+                color: CollectRuntimeTokens.inputBorder(colors),
               ),
             ),
             child: Padding(
@@ -318,15 +318,15 @@ class AmountEntryPanel extends StatelessWidget {
                   ChoiceChip(
                     label: Text(_compactAmount(option)),
                     selected: amount == option,
-                    selectedColor: RevolutBorrowedTokens.chipSelectedBackground(
+                    selectedColor: CollectRuntimeTokens.chipSelectedBackground(
                       colors,
                     ),
-                    backgroundColor: RevolutBorrowedTokens.chipBackground(
+                    backgroundColor: CollectRuntimeTokens.chipBackground(
                       colors,
                     ),
                     showCheckmark: false,
                     side: BorderSide(
-                      color: RevolutBorrowedTokens.chipBorder(
+                      color: CollectRuntimeTokens.chipBorder(
                         colors,
                         selected: amount == option,
                       ),

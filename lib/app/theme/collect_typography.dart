@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'revolut_borrowed_typography.dart';
+import 'collect_runtime_typography.dart';
 
 class CollectTypography {
   const CollectTypography._();
 
-  static const _family = RevolutBorrowedTypography.fontFamilyFallback;
-  static const _monoFamily = RevolutBorrowedTypography.monoFontFamilyFallback;
+  static const _family = CollectRuntimeTypography.fontFamilyFallback;
+  static const _monoFamily = CollectRuntimeTypography.monoFontFamilyFallback;
 
   static const _tabular = <FontFeature>[FontFeature.tabularFigures()];
 
@@ -84,7 +84,7 @@ class CollectTypography {
     Color color,
   ) {
     return TextStyle(
-      fontFamily: RevolutBorrowedTypography.fontFamily,
+      fontFamily: CollectRuntimeTypography.fontFamily,
       fontFamilyFallback: _family,
       fontSize: size,
       height: height,

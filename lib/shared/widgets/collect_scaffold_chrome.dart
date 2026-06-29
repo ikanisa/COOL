@@ -16,15 +16,15 @@ class ScreenHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colors = context.collectColors;
-    final foreground = RevolutBorrowedTokens.chromeForeground(colors);
+    final foreground = CollectRuntimeTokens.chromeForeground(colors);
     final actionButtons = <Widget>[
       for (final action in actions)
         DecoratedBox(
           decoration: BoxDecoration(
-            color: RevolutBorrowedTokens.chromeControl(colors),
+            color: CollectRuntimeTokens.chromeControl(colors),
             shape: BoxShape.circle,
             border: Border.all(
-              color: RevolutBorrowedTokens.chromeControlBorder(colors),
+              color: CollectRuntimeTokens.chromeControlBorder(colors),
             ),
           ),
           child: IconTheme.merge(
@@ -62,9 +62,9 @@ class ScreenHeader extends StatelessWidget {
               fixedSize: const Size(44, 44),
               minimumSize: const Size(44, 44),
               padding: EdgeInsets.zero,
-              backgroundColor: RevolutBorrowedTokens.chromeControl(colors),
+              backgroundColor: CollectRuntimeTokens.chromeControl(colors),
               side: BorderSide(
-                color: RevolutBorrowedTokens.chromeControlBorder(colors),
+                color: CollectRuntimeTokens.chromeControlBorder(colors),
               ),
             ),
           ),
@@ -91,7 +91,7 @@ class ScreenHeader extends StatelessWidget {
                   Text(
                     subtitle!,
                     style: textTheme.bodySmall?.copyWith(
-                      color: RevolutBorrowedTokens.chromeMutedForeground(
+                      color: CollectRuntimeTokens.chromeMutedForeground(
                         colors,
                       ),
                       height: 1.15,

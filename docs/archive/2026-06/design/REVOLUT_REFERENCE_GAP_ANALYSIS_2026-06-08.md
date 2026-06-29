@@ -43,7 +43,7 @@ This is a source and design-contract score, not final screenshot parity. It impr
 | Cards | Glass opacity existed; raw admin colors could break token discipline. | Fixed: admin login colors are tokenized through `CollectColors`; shared cards now apply blur by emphasis level. | Full parity still requires visual review. |
 | Lists/status screens | Secondary routes could read as thin panel stacks; shared status panels accepted but did not render the `message` copy. | Fixed: `MinimalStatePanel` now renders its message, preserving trust/legal/status context while keeping the compact hero structure. | Final density/polish still requires screenshot comparison. |
 | Iconography | Some local Material icons remained in shared/admin controls. | Existing shared member chrome uses `CollectIcons`; admin-only login icons remain acceptable operational chrome. | Member-facing icon scan should remain part of future route review. |
-| Validation | Old gate checked stale palette assumptions. | Fixed: `four_primary_color_distinction_contract` and `revolut_borrowed_alignment_contract` are the audit gates. | Full route smoke/manual comparison must run after reference access is restored. |
+| Validation | Old gate checked stale palette assumptions. | Fixed: `four_primary_color_distinction_contract` and `collect_runtime_alignment_contract` are the audit gates. | Full route smoke/manual comparison must run after reference access is restored. |
 
 ## Current Findings
 

@@ -4,8 +4,8 @@ import 'collect_colors.dart';
 import 'collect_radius.dart';
 import 'collect_shadows.dart';
 
-class RevolutBorrowedTokens {
-  const RevolutBorrowedTokens._();
+class CollectRuntimeTokens {
+  const CollectRuntimeTokens._();
 
   static const secondaryColorRoles = <String, Color>{
     'inkPrimary': CollectColors.inkPrimary,
@@ -116,77 +116,77 @@ class RevolutBorrowedTokens {
   static Color cardBackground(
     CollectColors colors,
     Brightness brightness,
-    CollectBorrowedCardEmphasis emphasis,
+    CollectRuntimeCardEmphasis emphasis,
     Color? accentColor,
   ) {
     final isDark = brightness == Brightness.dark;
     return switch (emphasis) {
-      CollectBorrowedCardEmphasis.flat =>
+      CollectRuntimeCardEmphasis.flat =>
         isDark ? CollectColors.referenceContentDark : colors.surface,
-      CollectBorrowedCardEmphasis.outline =>
+      CollectRuntimeCardEmphasis.outline =>
         isDark
             ? CollectColors.referencePaymentsPurpleDeep
             : colors.surfaceRaised,
-      CollectBorrowedCardEmphasis.tonal => Color.alphaBlend(
+      CollectRuntimeCardEmphasis.tonal => Color.alphaBlend(
         (accentColor ?? colors.actionColor).withValues(
           alpha: isDark ? 0.18 : 0.08,
         ),
         isDark ? CollectColors.referenceAssetNavy : colors.surfaceRaised,
       ),
-      CollectBorrowedCardEmphasis.glow =>
+      CollectRuntimeCardEmphasis.glow =>
         isDark ? CollectColors.referenceAssetNavy : colors.surfaceRaised,
-      CollectBorrowedCardEmphasis.compact =>
+      CollectRuntimeCardEmphasis.compact =>
         isDark
             ? CollectColors.referencePaymentsPurpleDeep
             : colors.surfaceRaised,
-      CollectBorrowedCardEmphasis.hero || CollectBorrowedCardEmphasis.normal =>
+      CollectRuntimeCardEmphasis.hero || CollectRuntimeCardEmphasis.normal =>
         isDark ? CollectColors.referencePaymentsPurple : colors.surfaceMuted,
     };
   }
 
   static double cardOpacity(
     Brightness brightness,
-    CollectBorrowedCardEmphasis emphasis,
+    CollectRuntimeCardEmphasis emphasis,
   ) {
     final isDark = brightness == Brightness.dark;
     return switch (emphasis) {
-      CollectBorrowedCardEmphasis.hero => isDark ? 0.90 : 0.82,
-      CollectBorrowedCardEmphasis.glow => isDark ? 0.88 : 0.80,
-      CollectBorrowedCardEmphasis.tonal => isDark ? 0.86 : 0.78,
-      CollectBorrowedCardEmphasis.compact => isDark ? 0.84 : 0.76,
-      CollectBorrowedCardEmphasis.flat => isDark ? 0.82 : 0.70,
-      CollectBorrowedCardEmphasis.outline => isDark ? 0.82 : 0.74,
-      CollectBorrowedCardEmphasis.normal => isDark ? 0.84 : 0.78,
+      CollectRuntimeCardEmphasis.hero => isDark ? 0.90 : 0.82,
+      CollectRuntimeCardEmphasis.glow => isDark ? 0.88 : 0.80,
+      CollectRuntimeCardEmphasis.tonal => isDark ? 0.86 : 0.78,
+      CollectRuntimeCardEmphasis.compact => isDark ? 0.84 : 0.76,
+      CollectRuntimeCardEmphasis.flat => isDark ? 0.82 : 0.70,
+      CollectRuntimeCardEmphasis.outline => isDark ? 0.82 : 0.74,
+      CollectRuntimeCardEmphasis.normal => isDark ? 0.84 : 0.78,
     };
   }
 
   static Border? cardBorder(
     CollectColors colors,
     Brightness brightness,
-    CollectBorrowedCardEmphasis emphasis,
+    CollectRuntimeCardEmphasis emphasis,
     Color? accentColor,
   ) {
     final isDark = brightness == Brightness.dark;
     return switch (emphasis) {
-      CollectBorrowedCardEmphasis.flat => null,
-      CollectBorrowedCardEmphasis.glow => Border.all(
+      CollectRuntimeCardEmphasis.flat => null,
+      CollectRuntimeCardEmphasis.glow => Border.all(
         color: (accentColor ?? colors.actionColor).withValues(
           alpha: isDark ? 0.34 : 0.24,
         ),
       ),
-      CollectBorrowedCardEmphasis.outline => Border.all(
+      CollectRuntimeCardEmphasis.outline => Border.all(
         color: isDark
             ? colors.onImagePrimary.withValues(alpha: 0.14)
             : colors.border,
       ),
-      CollectBorrowedCardEmphasis.compact => Border.all(
+      CollectRuntimeCardEmphasis.compact => Border.all(
         color: isDark
             ? colors.onImagePrimary.withValues(alpha: 0.12)
             : colors.border.withValues(alpha: 0.72),
       ),
-      CollectBorrowedCardEmphasis.hero ||
-      CollectBorrowedCardEmphasis.tonal ||
-      CollectBorrowedCardEmphasis.normal => Border.all(
+      CollectRuntimeCardEmphasis.hero ||
+      CollectRuntimeCardEmphasis.tonal ||
+      CollectRuntimeCardEmphasis.normal => Border.all(
         color: isDark
             ? colors.onImagePrimary.withValues(alpha: 0.12)
             : colors.border,
@@ -197,15 +197,15 @@ class RevolutBorrowedTokens {
   static List<BoxShadow> cardShadows(
     CollectColors colors,
     Brightness brightness,
-    CollectBorrowedCardEmphasis emphasis,
+    CollectRuntimeCardEmphasis emphasis,
     Color? accentColor,
   ) {
     final isDark = brightness == Brightness.dark;
     return switch (emphasis) {
-      CollectBorrowedCardEmphasis.flat ||
-      CollectBorrowedCardEmphasis.outline ||
-      CollectBorrowedCardEmphasis.compact => const <BoxShadow>[],
-      CollectBorrowedCardEmphasis.glow => [
+      CollectRuntimeCardEmphasis.flat ||
+      CollectRuntimeCardEmphasis.outline ||
+      CollectRuntimeCardEmphasis.compact => const <BoxShadow>[],
+      CollectRuntimeCardEmphasis.glow => [
         BoxShadow(
           color: (accentColor ?? colors.actionColor).withValues(
             alpha: isDark ? 0.20 : 0.13,
@@ -214,21 +214,21 @@ class RevolutBorrowedTokens {
           offset: const Offset(0, 18),
         ),
       ],
-      CollectBorrowedCardEmphasis.hero ||
-      CollectBorrowedCardEmphasis.tonal ||
-      CollectBorrowedCardEmphasis.normal => CollectShadows.card(),
+      CollectRuntimeCardEmphasis.hero ||
+      CollectRuntimeCardEmphasis.tonal ||
+      CollectRuntimeCardEmphasis.normal => CollectShadows.card(),
     };
   }
 
-  static BorderRadius cardRadius(CollectBorrowedCardEmphasis emphasis) {
+  static BorderRadius cardRadius(CollectRuntimeCardEmphasis emphasis) {
     return switch (emphasis) {
-      CollectBorrowedCardEmphasis.hero ||
-      CollectBorrowedCardEmphasis.glow => CollectRadius.cardLargeBorder,
-      CollectBorrowedCardEmphasis.compact => CollectRadius.mdBorder,
-      CollectBorrowedCardEmphasis.flat ||
-      CollectBorrowedCardEmphasis.normal ||
-      CollectBorrowedCardEmphasis.tonal ||
-      CollectBorrowedCardEmphasis.outline => CollectRadius.cardBorder,
+      CollectRuntimeCardEmphasis.hero ||
+      CollectRuntimeCardEmphasis.glow => CollectRadius.cardLargeBorder,
+      CollectRuntimeCardEmphasis.compact => CollectRadius.mdBorder,
+      CollectRuntimeCardEmphasis.flat ||
+      CollectRuntimeCardEmphasis.normal ||
+      CollectRuntimeCardEmphasis.tonal ||
+      CollectRuntimeCardEmphasis.outline => CollectRadius.cardBorder,
     };
   }
 
@@ -237,7 +237,7 @@ class RevolutBorrowedTokens {
   }
 }
 
-enum CollectBorrowedCardEmphasis {
+enum CollectRuntimeCardEmphasis {
   flat,
   normal,
   hero,

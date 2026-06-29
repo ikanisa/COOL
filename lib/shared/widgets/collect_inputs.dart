@@ -7,7 +7,7 @@ import '../../app/theme/collect_icons.dart';
 import '../../app/theme/collect_radius.dart';
 import '../../app/theme/collect_spacing.dart';
 import '../../app/theme/collect_typography.dart';
-import '../../app/theme/revolut_borrowed_tokens.dart';
+import '../../app/theme/collect_runtime_tokens.dart';
 
 class OtpCodeField extends StatelessWidget {
   const OtpCodeField({required this.controller, this.length = 6, super.key});
@@ -99,12 +99,12 @@ class SearchWithClearField extends StatelessWidget {
     final colors = context.collectColors;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: RevolutBorrowedTokens.inputFill(colors),
+        color: CollectRuntimeTokens.inputFill(colors),
         borderRadius: CollectRadius.pillBorder,
-        border: Border.all(color: RevolutBorrowedTokens.inputBorder(colors)),
+        border: Border.all(color: CollectRuntimeTokens.inputBorder(colors)),
         boxShadow: [
           BoxShadow(
-            color: RevolutBorrowedTokens.inputShadow(colors),
+            color: CollectRuntimeTokens.inputShadow(colors),
             blurRadius: 22,
             offset: const Offset(0, 12),
           ),

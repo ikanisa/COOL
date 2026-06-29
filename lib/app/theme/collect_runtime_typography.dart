@@ -1,18 +1,18 @@
-class RevolutBorrowedTypography {
-  const RevolutBorrowedTypography._();
+class CollectRuntimeTypography {
+  const CollectRuntimeTypography._();
 
-  static const borrowedFamily = 'Revolut Borrowed';
+  static const collectFamily = 'Collect Runtime';
   static const fallbackFamilies = <String>['Hanken Grotesk', 'Inter', 'Roboto'];
   static const monoFallbackFamilies = <String>['JetBrains Mono', 'Roboto Mono'];
 
   static const requiredBlockerKeys = <String>[
-    'revolut_font_files',
-    'revolut_font_license_metadata',
+    'collect_font_files',
+    'collect_font_license_metadata',
   ];
 
-  static const borrowedFontAssetRoot = 'assets/fonts/revolut/';
+  static const collectFontAssetRoot = 'assets/fonts/collect/';
 
-  static const fontFamily = borrowedFamily;
+  static const fontFamily = collectFamily;
   static const fontFamilyFallback = fallbackFamilies;
   static const monoFontFamilyFallback = monoFallbackFamilies;
 }

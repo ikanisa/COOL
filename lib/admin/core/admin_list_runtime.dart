@@ -1163,6 +1163,27 @@ class _AdminRowActions extends ConsumerWidget {
               ),
             ),
           ],
+        'feature_flag_toggle'
+            when _adminHasPermission(identity, 'feature_flags.manage') =>
+          [
+            Semantics(
+              container: true,
+              button: true,
+              label:
+                  '${row.status == 'enabled' ? 'Disable' : 'Enable'} feature flag ${row.title}',
+              hint: 'Opens a reason dialog before changing this feature flag.',
+              child: ExcludeSemantics(
+                child: TextButton(
+                  onPressed: () => _setFeatureFlag(
+                    context,
+                    ref,
+                    enabled: row.status != 'enabled',
+                  ),
+                  child: Text(row.status == 'enabled' ? 'Disable' : 'Enable'),
+                ),
+              ),
+            ),
+          ],
         _ => const [],
       },
     );
@@ -1179,6 +1200,25 @@ class _AdminRowActions extends ConsumerWidget {
       'admin_reparse_payment_event',
       {'p_event_id': row.id, 'p_reason': reason},
     );
+    onDone();
+  }
+
+  Future<void> _setFeatureFlag(
+    BuildContext context,
+    WidgetRef ref, {
+    required bool enabled,
+  }) async {
+    final reason = await showAdminReasonDialog(
+      context,
+      title: enabled ? 'Enable feature flag' : 'Disable feature flag',
+      actionLabel: enabled ? 'Enable flag' : 'Disable flag',
+    );
+    if (reason == null) return;
+    await ref.read(adminRepositoryProvider).action('admin_set_feature_flag', {
+      'p_key': row.title,
+      'p_enabled': enabled,
+      'p_reason': reason,
+    });
     onDone();
   }
 }

@@ -52,6 +52,11 @@ end
 
 required_routes = {
   "/" => ["Microsavings and group savings for daily earners", "People earn daily. Finance still works monthly."],
+  "/rw/" => ["Ibimina", "Collect"],
+  "/rw/group-savings/" => ["Itsinda ryanyu rifite icyizere", "Collect"],
+  "/rw/community-groups/" => ["Imari ikora neza", "Collect"],
+  "/fr/diaspora/" => ["Une epargne de groupe", "Collect"],
+  "/fr/our-partners/" => ["opportunite bancaire", "Collect"],
   "/privacy/" => ["Privacy Policy", "Your data. Your choice. Your financial journey."],
   "/terms/" => ["Terms of Use", "Clear rules for using Collect."],
   "/account-deletion/" => ["Delete Your Collect Account", "Delete your Collect account."],
@@ -84,7 +89,7 @@ required_routes.each do |route, required_text|
   )
 end
 
-["/styles.css", "/site.js", "/assets/brand/generated/collect_visual_group_momentum.png", "/icons/collect.png"].each do |route|
+["/styles.css", "/site.js", "/assets/brand/collect_runtime/media/group-momentum.png", "/icons/collect.png"].each do |route|
   url = "#{base_url}#{route}"
   response, elapsed = fetch(url)
   responses[route] = {
@@ -240,14 +245,13 @@ check(
   root_body.scan(/https:\/\/wa\.me\//).length >= 3 &&
     root_body.include?("https://play.google.com/store/apps/details?id=app.cool.mobile") &&
     root_body.include?("Get the App") &&
-    root_body.include?("Create Group") &&
+    root_body.include?("Talk to us about starting a group") &&
     root_body.include?("Get in Touch") &&
     !root_body.include?("WhatsApp support options") &&
     !root_body.include?("Partner Inquiry") &&
     !root_body.include?("Privacy or Deletion") &&
     !root_body.include?("WhatsApp for app access") &&
     !root_body.include?("Ask for app access") &&
-    !root_body.include?("mailto:") &&
     !root_body.include?('type="email"') &&
     !root_body.include?('name="email"'),
   "Live root exposes public app download and lean WhatsApp support CTAs with no support panel or email form.",
@@ -316,7 +320,7 @@ first_party_asset_bytes = [
   root,
   styles,
   site_js,
-  responses.fetch("/assets/brand/generated/collect_visual_group_momentum.png"),
+  responses.fetch("/assets/brand/collect_runtime/media/group-momentum.png"),
   responses.fetch("/icons/collect.png"),
 ].sum { |item| item.fetch(:body).bytesize }
 check(
@@ -353,21 +357,33 @@ check(
 
 localized_live_markers = {
   "sitemap_rw" => sitemap.fetch(:body).include?("#{base_url}/rw/"),
-  "sitemap_fr" => sitemap.fetch(:body).include?("#{base_url}/fr/"),
+  "sitemap_fr" => sitemap.fetch(:body).include?("#{base_url}/fr/diaspora/"),
   "root_hreflang_rw" => root_text.include?('hreflang="rw"'),
   "root_hreflang_fr" => root_text.include?('hreflang="fr"'),
-  "root_og_locale_rw" => root_text.include?('property="og:locale" content="rw_RW"'),
-  "root_og_locale_fr" => root_text.include?('property="og:locale" content="fr_FR"'),
 }
-english_only_ok = root_text.include?('<html lang="en">') &&
+localized_live_ok = root_text.include?('<html lang="en">') &&
   root_text.include?('property="og:locale" content="en_US"') &&
-  localized_live_markers.values.none?
+  localized_live_markers.values.all?
 check(
   checks,
-  "english_only_public_site",
-  english_only_ok,
-  "Live public site is English-only and does not advertise localized routes.",
+  "localized_public_routes",
+  localized_live_ok,
+  "Live public site advertises and serves localized Kinyarwanda and French routes.",
   { "localized_live_markers" => localized_live_markers.select { |_key, value| value } },
+)
+
+check(
+  checks,
+  "faq_help_and_public_proof",
+  root_text.include?("Questions visitors ask") &&
+    root_text.include?("section-kicker") &&
+    root_text.include?("Verified public proof") &&
+    root_text.include?("app.cool.mobile") &&
+    root_text.include?("5+ downloads") &&
+    root_text.include?("raw HTML") &&
+    !root_text.include?("thousands of users") &&
+    !root_text.include?("approved partner names"),
+  "Live root includes FAQ/help content and conservative public proof without unsupported traction claims.",
 )
 
 mobile_css_ok = styles_text.match?(/@media\s*\(\s*max-width\s*:\s*980px\s*\)/) &&

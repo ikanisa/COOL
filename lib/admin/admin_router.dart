@@ -184,6 +184,7 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
             '/admin/feature-flags',
             title: 'Feature flags',
             rpcName: 'admin_list_feature_flags',
+            actionKind: 'feature_flag_toggle',
           ),
           GoRoute(
             path: '/admin/system-health',

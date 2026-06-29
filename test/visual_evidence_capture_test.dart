@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:collect_app/admin/admin_app.dart';
@@ -9,6 +8,7 @@ import 'package:collect_app/admin/admin_shell.dart';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
+import 'package:collect_app/app/theme/collect_runtime_typography.dart';
 import 'package:collect_app/core/widgets/collect_shell.dart';
 import 'package:collect_app/features/auth/auth_screen.dart';
 import 'package:collect_app/features/collections/collection_create_screen.dart';
@@ -30,6 +30,7 @@ import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -54,6 +55,8 @@ void main() {
     ..createSync(recursive: true);
   final adminDir = Directory('${root.path}/admin')..createSync(recursive: true);
 
+  setUpAll(_loadCollectRuntimeFontsForEvidence);
+
   final mobileSpecs = _mobileRouteSpecs();
   final mobileCaptures = <Map<String, Object?>>[];
   group('mobile visual evidence', () {
@@ -61,7 +64,7 @@ void main() {
       testWidgets('captures ${spec.name}', (tester) async {
         final viewport = _mobileViewportFromEnv();
         tester.view.physicalSize = viewport;
-        tester.view.devicePixelRatio = 1;
+        tester.view.devicePixelRatio = _visualDevicePixelRatioFromEnv();
         tester.platformDispatcher.platformBrightnessTestValue =
             visualThemeMode == ThemeMode.dark
             ? Brightness.dark
@@ -111,9 +114,10 @@ void main() {
           ),
         );
         await _pumpForEvidence(tester);
-        final fileName =
-            '$name-${viewport.width.toInt()}x${viewport.height.toInt()}.png';
-        final capture = (await tester.runAsync(() => _capturePng(key)))!;
+        final capture = (await tester.runAsync(
+          () => _capturePng(key, pixelRatio: _visualDevicePixelRatioFromEnv()),
+        ))!;
+        final fileName = '$name-${capture.width}x${capture.height}.png';
         final file = File('${mobileDir.path}/$fileName');
         file.writeAsBytesSync(capture.bytes);
         debugPrint('[visual-evidence] wrote ${file.path}');
@@ -180,9 +184,10 @@ void main() {
         final key = GlobalKey();
         await tester.pumpWidget(RepaintBoundary(key: key, child: child));
         await _pumpForEvidence(tester);
-        final fileName =
-            '$name-${viewport.width.toInt()}x${viewport.height.toInt()}.png';
-        final capture = (await tester.runAsync(() => _capturePng(key)))!;
+        final capture = (await tester.runAsync(
+          () => _capturePng(key, pixelRatio: 1),
+        ))!;
+        final fileName = '$name-${capture.width}x${capture.height}.png';
         File('${adminDir.path}/$fileName').writeAsBytesSync(capture.bytes);
         captures.add({
           'status': 'pass',
@@ -236,6 +241,38 @@ void main() {
   );
 }
 
+Future<void> _loadCollectRuntimeFontsForEvidence() async {
+  final collectLoader = FontLoader(CollectRuntimeTypography.fontFamily)
+    ..addFont(
+      rootBundle.load('assets/fonts/collect/CollectRuntime-Regular.otf'),
+    )
+    ..addFont(rootBundle.load('assets/fonts/collect/CollectRuntime-Medium.otf'))
+    ..addFont(
+      rootBundle.load('assets/fonts/collect/CollectRuntime-SemiBold.otf'),
+    )
+    ..addFont(rootBundle.load('assets/fonts/collect/CollectRuntime-Bold.otf'))
+    ..addFont(
+      rootBundle.load('assets/fonts/collect/CollectRuntime-ExtraBold.otf'),
+    );
+  await collectLoader.load();
+
+  final flutterRoot =
+      Platform.environment['FLUTTER_ROOT'] ?? '/Volumes/PRO-G40/flutter_3_44';
+  final materialIconsPath =
+      '$flutterRoot/bin/cache/artifacts/material_fonts/MaterialIcons-Regular.otf';
+  final materialIconsFile = File(materialIconsPath);
+  if (materialIconsFile.existsSync()) {
+    final materialIconsLoader = FontLoader('MaterialIcons')
+      ..addFont(_loadFontFile(materialIconsFile));
+    await materialIconsLoader.load();
+  }
+}
+
+Future<ByteData> _loadFontFile(File file) async {
+  final bytes = await file.readAsBytes();
+  return ByteData.sublistView(bytes);
+}
+
 ThemeMode _visualThemeModeFromEnv(String? value) {
   return switch (value?.trim().toLowerCase()) {
     'dark' => ThemeMode.dark,
@@ -266,6 +303,19 @@ double _mobileTextScaleFromEnv() {
   if (parsed == null || parsed < 0.8 || parsed > 2.5) {
     throw StateError(
       'COLLECT_VISUAL_TEXT_SCALE must be a number from 0.8 to 2.5, got "$value".',
+    );
+  }
+  return parsed;
+}
+
+double _visualDevicePixelRatioFromEnv() {
+  final value = Platform.environment['COLLECT_VISUAL_DEVICE_PIXEL_RATIO']
+      ?.trim();
+  if (value == null || value.isEmpty) return 1;
+  final parsed = double.tryParse(value);
+  if (parsed == null || parsed <= 0 || parsed > 4) {
+    throw StateError(
+      'COLLECT_VISUAL_DEVICE_PIXEL_RATIO must be a number from 0.1 to 4, got "$value".',
     );
   }
   return parsed;
@@ -632,10 +682,13 @@ Future<void> _pumpForEvidence(WidgetTester tester) async {
   await tester.pump(const Duration(milliseconds: 750));
 }
 
-Future<_PngCapture> _capturePng(GlobalKey key) async {
+Future<_PngCapture> _capturePng(
+  GlobalKey key, {
+  required double pixelRatio,
+}) async {
   final boundary =
       key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
-  final image = await boundary.toImage(pixelRatio: 1);
+  final image = await boundary.toImage(pixelRatio: pixelRatio);
   final rawData = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
   final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
   final metrics = _imageMetrics(rawData!, image.width, image.height);

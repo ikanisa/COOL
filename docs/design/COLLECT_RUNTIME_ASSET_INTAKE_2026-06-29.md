@@ -25,20 +25,20 @@ These are the active Collect brand colors.
 
 | Input | Destination | Runtime use |
 | --- | --- | --- |
-| Typography files | `assets/fonts/revolut/` | Registered in `pubspec.yaml`, then used by `CollectTypography` |
-| Collect logo and wordmark assets | `assets/brand/revolut_borrowed/logos/wordmark.png` | `CollectBrandMark`, headers, share cards, public web |
-| Collect app icon and adaptive icon layers | `assets/brand/revolut_borrowed/app_icons/app_icon.png`, `assets/brand/revolut_borrowed/app_icons/web-512.png` | Android, iOS, web manifest, favicon |
-| Collect splash and launch artwork | `assets/brand/revolut_borrowed/splash/splash_mark.png`, `assets/brand/revolut_borrowed/splash/splash_background.png` | Android launch, iOS launch storyboard, web boot surface |
-| Icon mapping | `assets/brand/revolut_borrowed/icons/` | `CollectIcons` and approved substitutes |
-| Collect product/media imagery | `assets/brand/revolut_borrowed/media/share-preview.png`, `assets/brand/revolut_borrowed/media/` | Rich cards, Home, Groups, public web |
-| Token guidance | `docs/design/revolut_borrowed_tokens/` | Theme, component, semantic, and contrast mapping |
+| Typography files | `assets/fonts/collect/` | Registered in `pubspec.yaml`, then used by `CollectTypography` |
+| Collect logo and wordmark assets | `assets/brand/collect_runtime/logos/wordmark.png` | `CollectBrandMark`, headers, share cards, public web |
+| Collect app icon and adaptive icon layers | `assets/brand/collect_runtime/app_icons/app_icon.png`, `assets/brand/collect_runtime/app_icons/collect-web-512.png` | Android, iOS, web manifest, favicon |
+| Collect splash and launch artwork | `assets/brand/collect_runtime/splash/splash_mark.png`, `assets/brand/collect_runtime/splash/splash_background.png` | Android launch, iOS launch storyboard, web boot surface |
+| Icon mapping | `assets/brand/collect_runtime/icons/` | `CollectIcons` and approved substitutes |
+| Collect product/media imagery | `assets/brand/collect_runtime/media/share-preview.png`, `assets/brand/collect_runtime/media/` | Rich cards, Home, Groups, public web |
+| Token guidance | `docs/design/collect_runtime_tokens/` | Theme, component, semantic, and contrast mapping |
 
 ## Intake Rules
 
 - Do not put secrets, credentials, private correspondence, or unpublished commercial terms in runtime assets.
 - Keep approval/license metadata in docs with sanitized names, timestamps, and source references.
 - Every runtime asset must have a source path, destination path, dimensions, and approval status.
-- Current installed inputs are routed through `RevolutBorrowedAssets`; keep these
+- Current installed inputs are routed through `CollectRuntimeAssets`; keep these
   paths stable unless the app registry is renamed in a dedicated refactor.
 - Runtime images must be Collect-owned generated/source artwork. Do not use
   third-party screenshots as shipped runtime assets.

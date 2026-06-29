@@ -15,10 +15,13 @@ APP_DOWNLOAD_URL = "https://play.google.com/store/apps/details?id=app.cool.mobil
 WHATSAPP_NUMBER = "250795588248"
 DISPLAY_PHONE = "+250 795 588 248"
 USSD_CODE = "*182*8*1*41258*2000#"
-BRAND_ASSET = "assets/brand/generated/collect_visual_group_momentum.png"
-MOMO_ASSET = "assets/brand/generated/collect_visual_momo_signal.png"
-QR_ASSET = "assets/brand/generated/collect_visual_qr_share.png"
-ICON_ASSET = "assets/brand/generated/collect_app_icon_rule.png"
+SUPPORT_EMAIL = "info@ikanisa.com"
+REGISTERED_ENTITY = "IKANISA Ltd."
+REGULATORY_FOOTER_NOTE = "IKANISA Ltd. is a registered technology company. Savings, credit and insurance products are provided by licensed partner institutions where approved arrangements apply."
+BRAND_ASSET = "assets/brand/collect_runtime/media/group-momentum.png"
+MOMO_ASSET = "assets/brand/collect_runtime/media/mobile-money-ussd-signal.png"
+QR_ASSET = "assets/brand/collect_runtime/media/qr-share.png"
+ICON_ASSET = "assets/brand/collect_runtime/app_icons/app-icon-rule.png"
 INDEXNOW_KEY = ENV.fetch("PUBLIC_INDEXNOW_KEY", "").strip
 INDEXNOW_KEY_PATTERN = /\A[A-Za-z0-9-]{8,128}\z/
 LEGAL_CONTENT_DIR = File.join(ROOT, "content/legal")
@@ -26,6 +29,167 @@ LEGAL_BUNDLE = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_legal_pages_
 LEGAL_PRIVACY = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_privacy_policy.yaml")).fetch("page")
 LEGAL_TERMS = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_terms_of_use.yaml")).fetch("page")
 LEGAL_DELETE_ACCOUNT = YAML.load_file(File.join(LEGAL_CONTENT_DIR, "collect_delete_account.yaml")).fetch("page")
+
+GOOGLE_PLAY_PROOF = [
+  ["Google Play listing", "Collect is publicly listed on Google Play under package app.cool.mobile by IKANISA in the Finance category."],
+  ["Public app signal", "The listing showed 5+ downloads and a June 21, 2026 update when this page was prepared on June 29, 2026."],
+  ["Data-safety signal", "The listing presents data-safety and deletion-request information, matching the public Privacy and Account Deletion routes."],
+  ["Crawl-ready web proof", "This public site ships raw HTML, canonical URLs, robots.txt, sitemap.xml, structured data, security headers and static assets without a Flutter critical path."]
+].freeze
+
+PUBLIC_FAQS = {
+  "/" => [
+    ["What is Collect?", "Collect helps savings groups and daily earners keep clearer contribution records, prepare credit-readiness files, and connect to approved provider workflows where eligible."],
+    ["Does Collect hold customer deposits?", "No. Where regulated products are involved, funds and financial products are provided through licensed partner institutions."],
+    ["Can I use Collect without a smartphone?", "The public product direction includes supported USSD and assisted channels so basic-phone users are not excluded."],
+    ["Is credit guaranteed?", "No. Collect can help prepare records and files, but banks and approved providers make their own final decisions."]
+  ],
+  "/group-savings/" => [
+    ["Can an existing ibimina use Collect?", "Yes. Collect is designed to add records, statements and structure without forcing the group to abandon its own rules."],
+    ["Can groups keep rotating rules?", "Yes. Groups can keep their culture and add accumulating goals where members agree."],
+    ["Who sees member records?", "Members and authorised leaders see the information needed for group transparency; private documents are not automatically visible to other members."],
+    ["How does a group start?", "The current assisted path is to talk to IKANISA support about starting a group, then complete setup through the app or supported channels."]
+  ],
+  "/diaspora/" => [
+    ["Who is the diaspora page for?", "It is for Rwandan diaspora groups that save together and want clearer records for host-country bank discussions and Rwanda investment goals."],
+    ["Does Collect approve diaspora loans?", "No. A partner bank or lender makes its own credit decision under its policy."],
+    ["Why do group records matter?", "Verified contribution history can help explain savings discipline, group rules and collateral arrangements during provider review."],
+    ["Is French support planned?", "French public content is now available for the diaspora and partner pages; human legal review is still recommended before using translated wording externally in regulated materials."]
+  ],
+  "/insurance/" => [
+    ["Does Collect issue insurance?", "No. Licensed insurers issue cover and make claim decisions. Collect supports records, communication and customer workflows."],
+    ["Why daily premiums?", "Daily or flexible micro-payments can better match the way informal earners receive income."],
+    ["What happens during a claim?", "Collect can help organise notification and evidence collection, but the insurer remains responsible for the final claim decision."],
+    ["Is every customer eligible?", "No. Eligibility, pricing, exclusions and claim rules depend on the insurer and product terms."]
+  ],
+  "/craas/" => [
+    ["What does CRaaS mean?", "Credit Readiness-as-a-Service helps a business understand lender requirements, close document gaps and package a bank-ready file."],
+    ["Does CRaaS replace a bank credit team?", "No. It improves preparation before bank review; the bank remains responsible for assessment, pricing and approval."],
+    ["Which services can be coordinated?", "Accounting, tax, business-plan, legal, notarial, valuation and collateral-document support can be coordinated where relevant."],
+    ["Who should use CRaaS?", "MSMEs and informal businesses that need a clearer loan file before approaching a lender."]
+  ],
+  "/community-groups/" => [
+    ["Which groups can use Collect?", "Ibimina, faith groups, family savings groups, cooperatives, trade associations, youth groups, women-led groups and diaspora associations can use the group-record model."],
+    ["Does Collect replace group leaders?", "No. Group leaders and members keep their governance; Collect supports clearer records and operations."],
+    ["Can groups save for specific goals?", "Yes. Groups can track purpose-based goals such as school fees, agricultural inputs, insurance, business assets or emergency funds."],
+    ["Can members use USSD?", "Supported USSD and assisted channels are part of the inclusion model for members without smartphones."]
+  ],
+  "/our-partners/" => [
+    ["What does a partner bank get?", "Cleaner deposit mobilisation, group ledgers, customer records, readiness files and clearer provider-review workflows."],
+    ["Does Collect take over regulated obligations?", "No. Banks and insurers keep KYC, AML/CFT, eligibility, pricing, approval, disbursement, recovery and reporting obligations."],
+    ["Are the market numbers Collect traction?", "No. Market figures describe the opportunity. Collect-specific public proof is shown separately and should not be read as customer-volume traction."],
+    ["How should an institution start?", "The right first step is to talk to the IKANISA team about product scope, risk boundaries and provider responsibilities."]
+  ],
+  "/trust/" => [
+    ["Does Collect sell personal data?", "No. The public trust and privacy pages state that personal data is not sold."],
+    ["Does AI make final financial decisions?", "No. AI may assist preparation or support workflows, but banks and insurers make their own final decisions."],
+    ["How do customers request deletion?", "Customers can use the in-app deletion path where available, WhatsApp support, or info@ikanisa.com."],
+    ["Why does limited retention exist?", "Ledger, security, dispute, payment, tax, audit, legal or regulatory records may need limited retention."]
+  ]
+}.freeze
+
+LOCALIZED_PAGES = [
+  {
+    path: "/rw/",
+    lang: "rw",
+    title: "Collect mu Kinyarwanda | Ibimina n'ubwizigame bwa buri munsi",
+    description: "Collect ifasha ibimina n'abinjiza amafaranga ya buri munsi kugira inyandiko zisobanutse, kwizigamira no kwitegura dosiye ishobora gusuzumwa n'abatanga serivisi.",
+    h1: "Ibimina n'ubwizigame bwa buri munsi bifite inyandiko zisobanutse",
+    intro: "Collect yongerera amatsinda uburyo bwo kubika inyandiko, kureba imisanzu no gutegura amakuru asabwa mbere y'isuzuma ry'umufatanyabikorwa wemerewe.",
+    cta: "Bona app",
+    secondary_cta: "Vugana natwe ku gutangiza itsinda",
+    sections: [
+      ["Icyo Collect ikora", "Ifasha amatsinda kubika imisanzu, amategeko y'itsinda, inshingano z'abayobozi n'amateka y'ubwizigame mu buryo busomeka."],
+      ["Uburyo bwo gutangira", "Itsinda rishobora kuvugana na IKANISA, gushyiraho intego n'amategeko, hanyuma rikoresha app cyangwa inzira zifashijwe."],
+      ["Icyitonderwa ku nguzanyo", "Collect itegura inyandiko n'amakuru. Banki cyangwa umufatanyabikorwa wemerewe ni we ufata icyemezo cya nyuma."]
+    ],
+    faqs: [
+      ["Collect isimbura ubuyobozi bw'itsinda?", "Oya. Itsinda rikomeza amategeko n'ubuyobozi bwaryo; Collect yongeraho inyandiko n'uburyo bwo gukurikirana."],
+      ["Abadafite smartphone bazakoresha iki?", "Uburyo bwa USSD n'inzira zifashijwe ziri mu cyerekezo cya serivisi kugira ngo abantu badafite smartphone batavamo."],
+      ["Collect isezeranya inguzanyo?", "Oya. Itanga inyandiko zifasha kwitegura; umutanga serivisi ni we usuzuma kandi agafata icyemezo."]
+    ]
+  },
+  {
+    path: "/rw/group-savings/",
+    lang: "rw",
+    title: "Ibimina | Collect mu Kinyarwanda",
+    description: "Collect ifasha ibimina n'amatsinda yo kwizigamira kugira amategeko, imisanzu, inyandiko n'amateka y'ubwizigame bisobanutse.",
+    h1: "Itsinda ryanyu rifite icyizere. Collect yongeraho imiterere.",
+    intro: "Buri musanzu ubikwa, buri munyamuryango akabona ishusho y'uruhare rwe, kandi amateka y'itsinda akagira inyandiko ishobora gusomwa.",
+    cta: "Bona app",
+    secondary_cta: "Vugana natwe ku gutangiza itsinda",
+    sections: [
+      ["Icyizere gisanzwe", "Collect ntikuraho umuco w'ibimina. Yongeraho uburyo bwo kwandika, gukurikirana no gusobanurira abanyamuryango ibyabaye."],
+      ["Uruhare rw'abanyamuryango", "Abanyamuryango bashobora kubona imisanzu, intego n'amategeko y'itsinda aho bishoboka."],
+      ["Inyandiko zishobora gufasha ejo", "Amateka y'ubwizigame ashobora gufasha mu kiganiro n'abafatanyabikorwa, ariko icyemezo cya nyuma kiguma kuri bo."]
+    ],
+    faqs: [
+      ["Itsinda rishobora kuguma ku buryo busanzwe?", "Yego. Collect ifasha itsinda kongera imiterere aho rishaka, itabahatira guhindura umuco wabo."],
+      ["Amafaranga abikwa na Collect?", "Oya. Aho serivisi z'imari zigenzurwa zikoreshwa, zicungwa n'abafatanyabikorwa babifitiye uburenganzira."],
+      ["Tangira ute?", "Vugana na IKANISA kugira ngo hasuzumwe intego, amategeko n'uburyo bukwiriye itsinda."]
+    ]
+  },
+  {
+    path: "/rw/community-groups/",
+    lang: "rw",
+    title: "Amatsinda y'abaturage | Collect mu Kinyarwanda",
+    description: "Collect yongerera amatsinda y'abaturage ibikoresho bya digitale ataretse imiyoborere n'icyizere asanzwe afite.",
+    h1: "Imari ikora neza iyo abaturage bayiyoboye.",
+    intro: "Amatsinda akomeza imiyoborere, amategeko n'umubano wayo. Collect yongeraho inyandiko zisobanutse, intego n'uburyo bwo gukurikirana.",
+    cta: "Bona app",
+    secondary_cta: "Vugana natwe ku itsinda",
+    sections: [
+      ["Ku bayobozi b'amatsinda", "Gushyiraho itsinda, amategeko, inshingano, gukurikirana imisanzu no gutanga ishusho isobanutse."],
+      ["Ku banyamuryango", "Gutanga umusanzu, kubona gihamya, gusobanukirwa amategeko n'iterambere ry'itsinda."],
+      ["Amatsinda akenerwa", "Ibimina, amatsinda y'imiryango, amadini, amakoperative, urubyiruko, abagore n'amatsinda ya diaspora."]
+    ],
+    faqs: [
+      ["Ni ayahe matsinda akwiye Collect?", "Ibimina, amakoperative, amatsinda y'imiryango, ay'urubyiruko, ay'abagore, ay'abahinzi n'aya diaspora."],
+      ["Collect ihindura abayobozi?", "Oya. Ifasha abayobozi n'abanyamuryango kubona inyandiko n'imiterere myiza."],
+      ["Intego zishobora gutandukana?", "Yego. Ishuri, ubuhinzi, ubwishingizi, ubucuruzi, ibikoresho cyangwa ikigega cyihutirwa bishobora gukurikiranwa."]
+    ]
+  },
+  {
+    path: "/fr/diaspora/",
+    lang: "fr",
+    title: "Epargne diaspora | Collect par IKANISA",
+    description: "Collect aide les groupes de la diaspora rwandaise a organiser leur epargne, leurs preuves de contribution et leurs discussions bancaires.",
+    h1: "Une epargne de groupe qui renforce l'acces au credit bancaire.",
+    intro: "Les groupes de la diaspora peuvent conserver des traces claires de contribution, definir des regles de garantie et preparer des projets d'investissement au Rwanda pour revue bancaire.",
+    cta: "Parler a l'equipe",
+    secondary_cta: "Voir l'app Android",
+    sections: [
+      ["Pour qui", "La page s'adresse aux groupes de la diaspora rwandaise en Europe, au Royaume-Uni, en Amerique du Nord et dans d'autres corridors."],
+      ["Ce que Collect clarifie", "Historique de contribution, regles de groupe, epargne detenue par le partenaire bancaire et documents utiles a la revue."],
+      ["Limite importante", "Collect ne prend pas la decision de credit. La banque partenaire applique ses propres regles de risque, KYC, prix et approbation."]
+    ],
+    faqs: [
+      ["Collect accorde-t-il le pret?", "Non. La decision finale appartient a la banque ou au preteur partenaire."],
+      ["Pourquoi l'epargne de groupe compte?", "Elle rend visible la discipline d'epargne et les regles du groupe avant la revue bancaire."],
+      ["Le contenu francais remplace-t-il les documents legaux?", "Non. Les pages juridiques anglaises restent la reference publique jusqu'a validation juridique traduite."]
+    ]
+  },
+  {
+    path: "/fr/our-partners/",
+    lang: "fr",
+    title: "Partenaires bancaires | Collect par IKANISA",
+    description: "Collect aide les institutions financieres a transformer une discipline d'epargne informelle en dossiers, depots et relations bancaires plus lisibles.",
+    h1: "L'opportunite bancaire dans l'economie informelle rwandaise.",
+    intro: "Collect aide les banques et assureurs a lire les flux d'epargne existants, sans transferer leurs obligations reglementaires ou decisions finales a Collect.",
+    cta: "Parler a l'equipe",
+    secondary_cta: "Voir l'app Android",
+    sections: [
+      ["Ce que Collect apporte", "Mobilisation d'epargne, dossiers de groupe, historique de contribution, preparation de dossiers et support client."],
+      ["Ce que le partenaire conserve", "KYC, AML/CFT, eligibilite, prix, approbation, decaissement, recouvrement, sinistres et reporting reglementaire."],
+      ["Preuves publiques actuelles", "Application Android publique, routes de confidentialite et suppression, sitemap, robots.txt et donnees structurees deployees."]
+    ],
+    faqs: [
+      ["Les chiffres de marche sont-ils la traction de Collect?", "Non. Ils decrivent le marche. Les preuves propres a Collect sont presentees separement."],
+      ["Collect remplace-t-il le credit scoring bancaire?", "Non. Collect prepare les dossiers; le partenaire decide."],
+      ["Comment commencer?", "La premiere etape est une discussion avec IKANISA sur le perimetre, les responsabilites et les controles."]
+    ]
+  }
+].freeze
 
 PRIMARY_NAV = [
   ["Group Savings", "/group-savings/"],
@@ -350,6 +514,10 @@ def whatsapp_url(message)
   "https://wa.me/#{WHATSAPP_NUMBER}?text=#{CGI.escape(message)}"
 end
 
+def mailto_url(subject)
+  "mailto:#{SUPPORT_EMAIL}?subject=#{CGI.escape(subject)}"
+end
+
 def page_url(path)
   normalized_path = path == "/" ? "/" : "#{path.delete_suffix("/")}/"
   "#{PUBLIC_URL}#{normalized_path}"
@@ -375,10 +543,279 @@ def nav_html(current_path)
   end.join
 end
 
-def alternate_links(current_path)
-  return "" unless current_path == "/"
+def institutional_path?(path)
+  ["/craas/", "/credit-readiness/", "/our-partners/", "/partners/"].include?(path)
+end
 
-  %(<link rel="alternate" hreflang="x-default" href="#{page_url("/")}">)
+def policy_path?(page)
+  page[:legal_key]
+end
+
+def primary_cta_label(current_path, page)
+  return "Talk to our team" if institutional_path?(current_path)
+  return "Get Support" if policy_path?(page)
+
+  "Get the App"
+end
+
+def primary_cta_href(current_path, page)
+  if institutional_path?(current_path)
+    return whatsapp_url("Hello IKANISA, I want to talk to your team about Collect.")
+  end
+
+  if policy_path?(page)
+    return whatsapp_url("Hello IKANISA, I need support with Collect.")
+  end
+
+  APP_DOWNLOAD_URL
+end
+
+def primary_cta_class(current_path, page, surface:)
+  classes = ["button"]
+  classes << (surface == :header ? "secondary" : "primary")
+  classes << (institutional_path?(current_path) ? "cta-touch" : "cta-app")
+  classes.join(" ")
+end
+
+def cta_links_html(current_path, page, surface:)
+  group_message = "Hello IKANISA, I want to talk about starting a Collect group."
+  touch_message = "Hello IKANISA, I have a question about Collect."
+  secondary_class = surface == :start ? "button ghost on-light" : "button ghost"
+  items = [
+    %(<a class="#{primary_cta_class(current_path, page, surface: surface)}" href="#{primary_cta_href(current_path, page)}">#{primary_cta_label(current_path, page)}</a>)
+  ]
+
+  unless policy_path?(page) || institutional_path?(current_path)
+    items << %(<a class="#{secondary_class} cta-group" href="#{whatsapp_url(group_message)}">Talk to us about starting a group</a>)
+  end
+
+  unless institutional_path?(current_path)
+    items << %(<a class="#{secondary_class} cta-touch" href="#{whatsapp_url(touch_message)}">Get in Touch</a>)
+  end
+
+  if institutional_path?(current_path)
+    items << %(<a class="#{secondary_class} cta-app" href="#{APP_DOWNLOAD_URL}">Get the App</a>)
+  end
+
+  items.join("\n")
+end
+
+def app_availability_note_html(current_path, page)
+  return "" if institutional_path?(current_path) || policy_path?(page)
+
+  %(<p class="app-availability">Available on Android now. iOS roadmap is being scoped.</p>)
+end
+
+def language_switcher_html(current_path)
+  links = [
+    ["EN", "/"],
+    ["RW", current_path.start_with?("/group-savings") ? "/rw/group-savings/" : "/rw/"],
+    ["FR", current_path.start_with?("/our-partners") || current_path.start_with?("/partners") ? "/fr/our-partners/" : "/fr/diaspora/"]
+  ]
+  %(<nav class="language-switcher" aria-label="Language selector">#{links.map { |label, href| %(<a href="#{href}">#{label}</a>) }.join}</nav>)
+end
+
+def content_grid_html(page, current_path)
+  return "" if current_path == "/" || current_path == "/group-savings/" || page[:legal_key]
+
+  <<~HTML
+    <section class="content-grid" aria-label="#{esc(page[:sections_heading] || "Page sections")}">
+      #{page[:sections_heading] ? %(<h2 class="content-grid-heading">#{esc(page[:sections_heading])}</h2>) : ""}
+      #{sections_html(page[:sections])}
+    </section>
+  HTML
+end
+
+def proof_section_html(current_path)
+  return "" unless ["/", "/our-partners/", "/partners/", "/trust/", "/security/"].include?(current_path)
+
+  cards = GOOGLE_PLAY_PROOF.map do |title, body|
+    %(<article><strong>#{esc(title)}</strong><span>#{esc(body)}</span></article>)
+  end.join
+  <<~HTML
+    <section class="proof-section" aria-labelledby="proof-heading">
+      <div class="story-copy">
+        <p class="section-kicker">Verified public proof</p>
+        <h2 id="proof-heading">What Collect can prove publicly today.</h2>
+        <p>These are current public signals, not inflated traction claims. Market-size figures elsewhere describe the opportunity, while this section describes Collect-specific proof points available for a reviewer to verify.</p>
+      </div>
+      <div class="proof-grid">
+        #{cards}
+      </div>
+    </section>
+  HTML
+end
+
+def faq_section_html(current_path)
+  faqs = PUBLIC_FAQS.fetch(current_path, nil)
+  faqs ||= PUBLIC_FAQS.fetch("/craas/") if current_path == "/credit-readiness/"
+  faqs ||= PUBLIC_FAQS.fetch("/insurance/") if current_path == "/protection/"
+  faqs ||= PUBLIC_FAQS.fetch("/our-partners/") if current_path == "/partners/"
+  faqs ||= PUBLIC_FAQS.fetch("/trust/") if current_path == "/security/"
+  return "" unless faqs
+
+  items = faqs.map do |question, answer|
+    <<~HTML
+      <details>
+        <summary>#{esc(question)}</summary>
+        <p>#{esc(answer)}</p>
+      </details>
+    HTML
+  end.join
+
+  <<~HTML
+    <section class="faq-section" aria-labelledby="faq-heading">
+      <div class="story-copy">
+        <p class="section-kicker">FAQ</p>
+        <h2 id="faq-heading">Questions visitors ask before taking the next step.</h2>
+      </div>
+      <div class="faq-list">
+        #{items}
+      </div>
+    </section>
+  HTML
+end
+
+def localized_route_file(path)
+  File.join(BUILD_DIR, path.delete_prefix("/").delete_suffix("/"), "index.html")
+end
+
+def localized_page_url(path)
+  "#{PUBLIC_URL}#{path}"
+end
+
+def localized_nav_html(lang)
+  if lang == "rw"
+    [
+      ["Ahabanza", "/rw/"],
+      ["Ibimina", "/rw/group-savings/"],
+      ["Amatsinda", "/rw/community-groups/"],
+      ["English", "/"]
+    ]
+  else
+    [
+      ["Diaspora", "/fr/diaspora/"],
+      ["Partenaires", "/fr/our-partners/"],
+      ["English", "/"]
+    ]
+  end.map { |label, href| %(<a class="nav-link" href="#{href}">#{esc(label)}</a>) }.join
+end
+
+def localized_page_html(page)
+  sections = Array(page[:sections]).map do |title, body|
+    %(<article class="section-card"><h2>#{esc(title)}</h2><p>#{esc(body)}</p></article>)
+  end.join
+  faqs = Array(page[:faqs]).map do |question, answer|
+    %(<details><summary>#{esc(question)}</summary><p>#{esc(answer)}</p></details>)
+  end.join
+  alternate_en = page[:path].include?("group-savings") ? "/group-savings/" : (page[:path].include?("our-partners") ? "/our-partners/" : "/")
+  <<~HTML
+    <!doctype html>
+    <html lang="#{esc(page[:lang])}">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>#{esc(page[:title])}</title>
+      <meta name="description" content="#{esc(page[:description])}">
+      <meta name="theme-color" content="#8885F0">
+      <link rel="canonical" href="#{localized_page_url(page[:path])}">
+      <link rel="alternate" hreflang="en" href="#{page_url(alternate_en)}">
+      <link rel="alternate" hreflang="#{esc(page[:lang])}" href="#{localized_page_url(page[:path])}">
+      <meta property="og:title" content="#{esc(page[:title])}">
+      <meta property="og:description" content="#{esc(page[:description])}">
+      <meta property="og:type" content="website">
+      <meta property="og:url" content="#{localized_page_url(page[:path])}">
+      <meta property="og:image" content="#{PUBLIC_URL}/icons/collect.png">
+      <meta property="og:locale" content="#{page[:lang] == "rw" ? "rw_RW" : "fr_FR"}">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:title" content="#{esc(page[:title])}">
+      <meta name="twitter:description" content="#{esc(page[:description])}">
+      <link rel="icon" href="/icons/collect.png" type="image/png">
+      <link rel="stylesheet" href="/styles.css?v=#{ASSET_VERSION}">
+      <link rel="stylesheet" href="/sections.css?v=#{ASSET_VERSION}">
+      <script type="application/ld+json">#{json_ld({ title: page[:title], description: page[:description], path: page[:path] })}</script>
+    </head>
+    <body>
+      <a class="skip-link" href="#content">Skip to content</a>
+      <header class="site-header">
+        <a class="brand" href="/">
+          <img src="/icons/collect.png" alt="" width="42" height="42">
+          <span><strong>Collect</strong><small>by IKANISA</small></span>
+        </a>
+        <nav class="site-nav localized-nav" aria-label="Localized navigation">
+          #{localized_nav_html(page[:lang])}
+        </nav>
+      </header>
+      <main id="content">
+        <section class="hero localized-hero">
+          <div class="hero-copy">
+            <h1>#{esc(page[:h1])}</h1>
+            <p class="hero-intro">#{esc(page[:intro])}</p>
+            <div class="hero-actions">
+              <a class="button primary" href="#{page[:lang] == "fr" ? whatsapp_url("Hello IKANISA, I want to talk to your team about Collect.") : APP_DOWNLOAD_URL}">#{esc(page[:cta])}</a>
+              <a class="button ghost" href="#{page[:lang] == "fr" ? APP_DOWNLOAD_URL : whatsapp_url("Hello IKANISA, I want to talk about starting a Collect group.")}">#{esc(page[:secondary_cta])}</a>
+            </div>
+          </div>
+          <div class="hero-device">
+            #{hero_visual_html(path: page[:path])}
+          </div>
+        </section>
+        <section class="content-grid localized-content" aria-label="Localized sections">
+          #{sections}
+        </section>
+        <section class="faq-section localized-faq" aria-labelledby="localized-faq-heading">
+          <div class="story-copy">
+            <p class="section-kicker">FAQ</p>
+            <h2 id="localized-faq-heading">#{page[:lang] == "rw" ? "Ibibazo bikunze kubazwa" : "Questions frequentes"}</h2>
+          </div>
+          <div class="faq-list">
+            #{faqs}
+          </div>
+        </section>
+      </main>
+      #{site_footer_html}
+      <script src="/site.js?v=#{ASSET_VERSION}" defer></script>
+    </body>
+    </html>
+  HTML
+end
+
+def site_footer_html
+  <<~HTML
+    <footer class="site-footer">
+      <div class="footer-identity">
+        <strong>Collect by IKANISA</strong>
+        <p>#{esc(REGISTERED_ENTITY)}</p>
+        <p>#{esc(REGULATORY_FOOTER_NOTE)}</p>
+        <p>Support: <a href="#{mailto_url("Collect support")}">#{esc(SUPPORT_EMAIL)}</a> · WhatsApp #{esc(DISPLAY_PHONE)}</p>
+        <p>© #{Time.now.utc.year} #{esc(REGISTERED_ENTITY)}. All rights reserved.</p>
+      </div>
+      <nav aria-label="Footer navigation">
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+        <a href="/account-deletion/">Account deletion</a>
+        <a href="/data-deletion/">Data deletion</a>
+        <a href="/trust/">Trust</a>
+        <a href="/rw/">Kinyarwanda</a>
+        <a href="/fr/diaspora/">Francais</a>
+      </nav>
+    </footer>
+  HTML
+end
+
+def alternate_links(current_path)
+  links = [%(<link rel="alternate" hreflang="x-default" href="#{page_url("/")}">)]
+  if current_path == "/"
+    links << %(<link rel="alternate" hreflang="rw" href="#{localized_page_url("/rw/")}">)
+    links << %(<link rel="alternate" hreflang="fr" href="#{localized_page_url("/fr/diaspora/")}">)
+  elsif current_path == "/group-savings/"
+    links << %(<link rel="alternate" hreflang="rw" href="#{localized_page_url("/rw/group-savings/")}">)
+  elsif current_path == "/diaspora/"
+    links << %(<link rel="alternate" hreflang="fr" href="#{localized_page_url("/fr/diaspora/")}">)
+  elsif current_path == "/our-partners/"
+    links << %(<link rel="alternate" hreflang="fr" href="#{localized_page_url("/fr/our-partners/")}">)
+  end
+  links.join("\n")
 end
 
 def json_ld(page)
@@ -450,13 +887,54 @@ def legal_content_for(page)
   when :trust
     {
       "title" => "Trust and Security",
-      "privacy_at_a_glance" => LEGAL_PRIVACY["privacy_at_a_glance"],
       "sections" => [
-        privacy_section("security"),
-        privacy_section("ai"),
-        privacy_section("sharing"),
-        privacy_section("retention"),
-        privacy_section("rights")
+        {
+          "heading" => "How Collect protects customer information",
+          "body" => [
+            "Collect limits access to customer data by role and reason, protects data in transit, keeps operational audit trails, and minimises raw sensitive records where possible."
+          ],
+          "trust_commitments" => [
+            "Personal data is not sold.",
+            "Customer funds are not held on Collect's own balance sheet.",
+            "Banks and insurers make their own regulated decisions.",
+            "Customer deletion and correction routes are available through app and support channels."
+          ]
+        },
+        {
+          "heading" => "What Collect will not do",
+          "body" => [
+            "Collect does not make final loan, pricing, policy or claim decisions for regulated providers, and it does not expose private credit-readiness documents to group members."
+          ],
+          "trust_commitments" => [
+            "No public training of private customer financial documents.",
+            "No sale of personal data.",
+            "No public promise of automatic credit, insurance or payout approval.",
+            "No unrestricted access to sensitive support records."
+          ]
+        },
+        {
+          "heading" => "Partner and regulated-product boundary",
+          "body" => [
+            "Collect supports records, preparation, communication and customer-requested workflows. Licensed banks, insurers or approved providers remain responsible for their own KYC, AML/CFT, eligibility, pricing, approval, disbursement, claim and regulatory obligations."
+          ],
+          "trust_commitments" => [
+            "Provider review remains separate from Collect public marketing copy.",
+            "Funds are handled through regulated financial-service partners where approved arrangements apply.",
+            "Partner handoff requires an appropriate legal basis and customer workflow."
+          ]
+        },
+        {
+          "heading" => "Customer rights and deletion support",
+          "body" => [
+            "Customers can request access, correction, account deletion or data deletion. Some ledger, security, dispute, payment, tax, audit, legal or regulatory records may need limited retention."
+          ],
+          "trust_commitments" => [
+            "Use the in-app account deletion request where available.",
+            "Contact WhatsApp support at +250 795 588 248.",
+            "Email info@ikanisa.com for privacy or deletion questions.",
+            "Support can confirm request status and explain retained record categories."
+          ]
+        }
       ].compact
     }
   end
@@ -1560,7 +2038,7 @@ def page_html(page, current_path: page[:path])
       <meta property="og:url" content="#{page_url(current_path)}">
       <meta property="og:title" content="#{esc(page[:title])}">
       <meta property="og:description" content="#{esc(page[:description])}">
-      <meta property="og:image" content="#{PUBLIC_URL}/assets/brand/generated/collect_visual_group_momentum.png">
+      <meta property="og:image" content="#{PUBLIC_URL}/assets/brand/collect_runtime/media/group-momentum.png">
       <meta name="twitter:card" content="summary_large_image">
       <meta name="twitter:title" content="#{esc(page[:title])}">
       <meta name="twitter:description" content="#{esc(page[:description])}">
@@ -1579,10 +2057,9 @@ def page_html(page, current_path: page[:path])
         <nav id="site-nav" class="site-nav" data-site-nav aria-label="Main navigation">
           #{nav_html(current_path)}
         </nav>
+        #{language_switcher_html(current_path)}
         <div class="header-actions">
-          <a class="button secondary cta-app" href="#{APP_DOWNLOAD_URL}">Get the App</a>
-          <a class="button ghost cta-group" href="#{whatsapp_url("Hello IKANISA, I want to create a Collect group.")}">Create Group</a>
-          <a class="button ghost cta-touch" href="#{whatsapp_url("Hello IKANISA, I have a question about Collect.")}">Get in Touch</a>
+          #{cta_links_html(current_path, page, surface: :header)}
         </div>
       </header>
 
@@ -1593,10 +2070,9 @@ def page_html(page, current_path: page[:path])
             <h1>#{esc(page[:h1])}</h1>
             <p class="hero-intro">#{esc(page[:intro])}</p>
             <div class="hero-actions">
-              <a class="button primary cta-app" href="#{APP_DOWNLOAD_URL}">Get the App</a>
-              <a class="button ghost cta-group" href="#{whatsapp_url("Hello IKANISA, I want to create a Collect group.")}">Create Group</a>
-              <a class="button ghost cta-touch" href="#{whatsapp_url("Hello IKANISA, I have a question about Collect.")}">Get in Touch</a>
+              #{cta_links_html(current_path, page, surface: :hero)}
             </div>
+            #{app_availability_note_html(current_path, page)}
           </div>
           <div class="hero-device">
             #{hero_visual_html(page)}
@@ -1611,13 +2087,7 @@ def page_html(page, current_path: page[:path])
 
         #{legal_page_html(page)}
 
-        #{current_path == "/" || current_path == "/group-savings/" || page[:legal_key] ? "" : <<~HTML}
-        <section class="content-grid" aria-label="#{esc(page[:sections_heading] || "Page sections")}">
-          #{page[:sections_heading] ? %(<h2 class="content-grid-heading">#{esc(page[:sections_heading])}</h2>) : ""}
-          #{sections_html(page[:sections])}
-        </section>
-        HTML
-        }
+        #{content_grid_html(page, current_path)}
 
         #{supported_groups_html(page)}
 
@@ -1631,31 +2101,23 @@ def page_html(page, current_path: page[:path])
 
         #{current_path == "/" ? original_home_sections_html : ""}
 
+        #{proof_section_html(current_path)}
+
+        #{faq_section_html(current_path)}
+
         <section id="start" class="start-section" aria-labelledby="start-heading">
           <div>
             <h2 id="start-heading">#{page[:start_heading] ? esc(page[:start_heading]) : "Download <span class=\"brand-word\">Collect</span> or Get in Touch"}</h2>
             <div class="start-actions">
-              <a class="button primary cta-app" href="#{APP_DOWNLOAD_URL}">Get the App</a>
-              <a class="button ghost on-light cta-group" href="#{whatsapp_url("Hello IKANISA, I want to create a Collect group.")}">Create Group</a>
-              <a class="button ghost on-light cta-touch" href="#{whatsapp_url("Hello IKANISA, I have a question about Collect.")}">Get in Touch</a>
+              #{cta_links_html(current_path, page, surface: :start)}
             </div>
+            #{app_availability_note_html(current_path, page)}
           </div>
         </section>
 
       </main>
 
-      <footer class="site-footer">
-        <div>
-          <strong>Collect by IKANISA</strong>
-        </div>
-        <nav aria-label="Footer navigation">
-          <a href="/privacy/">Privacy</a>
-          <a href="/terms/">Terms</a>
-          <a href="/account-deletion/">Account deletion</a>
-          <a href="/data-deletion/">Data deletion</a>
-          <a href="/trust/">Trust</a>
-        </nav>
-      </footer>
+      #{site_footer_html}
       <script src="/site.js?v=#{ASSET_VERSION}" defer></script>
     </body>
     </html>
@@ -1696,6 +2158,9 @@ def stylesheet
     .site-nav { display: flex; gap: 2px; align-items: center; flex: 1; justify-content: center; min-width: 0; }
     .nav-link { text-decoration: none; font-size: 12px; font-weight: 850; color: rgba(250,248,245,.72); padding: 10px 8px; border-radius: 10px; white-space: nowrap; }
     .nav-link:hover, .nav-link.active { color: var(--paper); background: rgba(250,248,245,.09); }
+    .language-switcher { display: inline-flex; align-items: center; gap: 4px; padding: 4px; border: 1px solid rgba(250,248,245,.14); border-radius: 12px; background: rgba(250,248,245,.06); }
+    .language-switcher a { min-width: 34px; min-height: 34px; display: inline-grid; place-items: center; border-radius: 9px; text-decoration: none; color: rgba(250,248,245,.78); font-size: 12px; font-weight: 950; }
+    .language-switcher a:hover { background: rgba(250,248,245,.12); color: var(--paper); }
     .header-actions, .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
     .header-actions { flex: 0 0 auto; flex-wrap: nowrap; gap: 8px; }
     .button, button { min-height: 44px; border: 1px solid rgba(250,248,245,.18); border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; padding: 12px 18px; text-decoration: none; font-size: 14px; font-weight: 900; cursor: pointer; }
@@ -1713,6 +2178,7 @@ def stylesheet
     section { scroll-margin-top: 96px; }
     h1 { font-size: clamp(44px, 8vw, 96px); line-height: .94; margin: 0; max-width: 920px; font-weight: 950; }
     .hero-intro { color: rgba(250,248,245,.74); font-size: clamp(19px, 2.1vw, 25px); line-height: 1.38; max-width: 760px; margin: 26px 0 30px; }
+    .app-availability { margin: 14px 0 0; color: rgba(250,248,245,.68); font-size: .88rem; font-weight: 800; line-height: 1.35; }
     .hero-device { position: relative; min-height: 520px; display: grid; place-items: center; }
     .hero-widget { width: min(94%, 450px); min-height: 430px; border-radius: 34px; padding: 28px; color: var(--paper); border: 1px solid rgba(250,248,245,.18); background: linear-gradient(145deg, rgba(250,248,245,.11), rgba(136,133,240,.16)); box-shadow: 0 34px 90px rgba(0,0,0,.42); display: grid; gap: 16px; align-content: center; overflow: hidden; }
     .hero-widget strong, .hero-widget span, .hero-widget em, .hero-widget small { overflow-wrap: anywhere; }
@@ -1892,8 +2358,10 @@ def stylesheet
     .infographic-step p { margin: 0; font-size: 14px; }
     .infographic-step ul { margin: 10px 0 0; padding-left: 18px; color: var(--muted); line-height: 1.45; font-size: 14px; }
     .infographic-step li + li { margin-top: 6px; }
-    .explain-band, .start-section, .market-context { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: var(--paper); color: var(--ink); }
-    .explain-band h2, .start-section h2, .market-context h2 { font-size: clamp(34px, 5vw, 64px); line-height: 1; margin: 0; }
+    .explain-band, .start-section, .market-context, .proof-section, .faq-section { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 64px); background: var(--paper); color: var(--ink); }
+    .proof-section { background: #11101a; color: var(--paper); }
+    .faq-section { background: #fffdfb; color: var(--ink); }
+    .explain-band h2, .start-section h2, .market-context h2, .proof-section h2, .faq-section h2 { font-size: clamp(34px, 5vw, 64px); line-height: 1; margin: 0; }
     .brand-word { color: var(--periwinkle); }
     .market-context p { color: var(--muted); line-height: 1.55; }
     .source-note { font-size: 13px; max-width: 680px; }
@@ -1935,6 +2403,18 @@ def stylesheet
     .section-number { color: var(--periwinkle); font-weight: 950; }
     .section-card h2 { margin: 18px 0 10px; font-size: 24px; line-height: 1.12; }
     .section-card p, .start-section p { color: var(--muted); line-height: 1.55; }
+    .start-section .app-availability { color: rgba(37,32,68,.68); }
+    .proof-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .proof-grid article { min-height: 158px; padding: 20px; border-radius: 18px; border: 1px solid rgba(250,248,245,.14); background: rgba(250,248,245,.08); }
+    .proof-grid strong, .proof-grid span { display: block; }
+    .proof-grid strong { font-size: 18px; line-height: 1.05; font-weight: 950; }
+    .proof-grid span { margin-top: 10px; color: rgba(250,248,245,.7); line-height: 1.45; }
+    .faq-list { display: grid; gap: 12px; }
+    .faq-list details { border: 1px solid rgba(136,133,240,.22); border-radius: 16px; background: #ffffff; padding: 0 18px; }
+    .faq-list summary { min-height: 58px; display: flex; align-items: center; cursor: pointer; color: var(--ink); font-weight: 950; line-height: 1.2; }
+    .faq-list details p { margin: 0 0 18px; color: var(--muted); line-height: 1.5; }
+    .localized-hero { min-height: auto; }
+    .localized-content { background: #f2f4ff; }
     .bullet-list { margin: 18px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
     .bullet-list li { position: relative; padding-left: 22px; color: var(--muted); line-height: 1.4; font-weight: 700; }
     .bullet-list li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 8px; border-radius: 999px; background: var(--mint); }
@@ -2077,6 +2557,8 @@ def stylesheet
     .start-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
     .button.on-light:not(.cta-app):not(.cta-group):not(.cta-touch) { color: var(--ink); border-color: #ded8ea; }
     .site-footer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .8fr); gap: 28px; padding: 36px clamp(20px, 5vw, 64px); border-top: 1px solid rgba(250,248,245,.12); background: #050510; }
+    .footer-identity { max-width: 760px; }
+    .footer-identity p { margin: 8px 0 0; color: rgba(250,248,245,.68); font-size: .88rem; line-height: 1.55; }
     .site-footer nav { display: flex; flex-wrap: wrap; justify-content: flex-end; align-content: start; gap: 12px 18px; }
     .site-footer a { color: rgba(250,248,245,.82); font-weight: 800; }
     @media (max-width: 1120px) and (min-width: 981px) {
@@ -2097,7 +2579,7 @@ def stylesheet
       .hero-widget { width: min(100%, 390px); min-height: 350px; }
       .phone-widget { width: min(100%, 366px); min-height: 650px; }
       .content-grid, .infographic-grid { grid-template-columns: 1fr 1fr; }
-      .explain-band, .start-section, .market-context, .original-story, .supported-groups-section { grid-template-columns: 1fr; }
+      .explain-band, .start-section, .market-context, .proof-section, .faq-section, .original-story, .supported-groups-section { grid-template-columns: 1fr; }
       .group-problem-section, .group-workflow-section, .group-feature-section, .group-accumulation-section, .group-use-section, .diaspora-change-section, .insurance-work-section, .insurance-finance-section, .craas-specialist-section, .craas-bank-section, .craas-benefits-section, .partner-opportunity-section, .partner-market-section, .partner-operating-section { grid-template-columns: 1fr; }
       .problem-list.compact, .use-case-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .partner-engine-grid, .partner-operating-grid { grid-template-columns: 1fr; }
@@ -2138,7 +2620,10 @@ def stylesheet
       .content-grid, .infographic-grid, .supported-groups-grid { grid-template-columns: 1fr; }
       .legal-card-grid, .legal-details { grid-template-columns: 1fr; }
       .story-grid, .story-grid.four, .story-grid.five, .story-grid.six { grid-template-columns: 1fr; }
-      .explain-band, .start-section, .market-context, .content-grid, .supported-groups-section { padding: 48px 20px; }
+      .language-switcher { display: none; }
+      .localized-nav { display: flex; position: static; padding: 0; background: transparent; border-bottom: 0; box-shadow: none; }
+      .proof-grid { grid-template-columns: 1fr; }
+      .explain-band, .start-section, .market-context, .proof-section, .faq-section, .content-grid, .supported-groups-section { padding: 48px 20px; }
       .legal-content { padding: 48px 20px; }
       .group-problem-section, .group-workflow-section, .group-feature-section, .group-accumulation-section, .group-use-section, .diaspora-change-section, .insurance-work-section, .insurance-finance-section, .craas-specialist-section, .craas-bank-section, .craas-benefits-section, .partner-opportunity-section, .partner-market-section, .partner-operating-section { grid-template-columns: 1fr; padding: 48px 20px; }
       .problem-list.compact, .use-case-grid, .journey-rail.group-journey, .change-compare-grid, .insurance-step-grid, .craas-service-grid, .craas-list-panel ul, .craas-benefit-grid, .partner-metric-grid, .partner-engine-grid, .partner-market-grid, .partner-operating-grid { grid-template-columns: 1fr; }
@@ -2331,6 +2816,11 @@ PAGES.each do |page|
     write_file(route_file(alias_path), page_html(alias_page, current_path: alias_path))
     all_paths << alias_path
   end
+end
+
+LOCALIZED_PAGES.each do |page|
+  write_file(localized_route_file(page[:path]), localized_page_html(page))
+  all_paths << page[:path]
 end
 
 sitemap_urls = all_paths.uniq.sort.map do |path|

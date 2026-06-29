@@ -88,7 +88,7 @@ class OfflineStateScreen extends StatelessWidget {
       title: 'Connection issue',
       children: [
         const CollectVisualFeatureCard(
-          asset: 'assets/brand/generated/collect_visual_group_momentum.png',
+          asset: 'assets/brand/collect_runtime/media/group-momentum.png',
           icon: CollectIcons.warning,
           title: 'Connection issue',
           message: 'Saved groups stay readable.',

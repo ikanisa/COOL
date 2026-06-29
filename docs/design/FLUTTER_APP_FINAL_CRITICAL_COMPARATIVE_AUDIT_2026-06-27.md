@@ -9,9 +9,9 @@ Comparator: supplied Revolut10 screenshots in `/Users/jeanbosco/Downloads/Revolu
 
 The Flutter member app is code-owned visually shippable for the current Revolut-like quality direction after the 2026-06-27 follow-up implementation pass fixes the critical legal text clipping path, reduces the major truncation risks, aligns Settings with the main top chrome pattern, replaces account/destructive default dialogs with tokenized sheets, and retunes the payment-support review chips. The current evidence proves the three-item bottom navigation is preserved, the four primary colors are preserved, default CTAs are no longer orange, the stable Collect-owned font/asset/token switchpoints are wired, and the changed high-risk routes render cleanly in fresh targeted visual evidence.
 
-The strongest parts are Home, Groups, group detail, payment state, ledger, share/invite, settings privacy, public static pages, admin route breadth, persisted admin operator notes/SLA policy, group support-status write action, native Android structural accessibility proof, cleaned Collect-owned runtime assets, and the shared chrome/cards. The remaining weakness is human screen-reader narration judgment, which is intentionally documented as a human-listening review rather than an automated repo claim.
+The strongest parts are Home, Groups, group detail, payment state, ledger, share/invite, settings privacy, public static pages, admin route breadth, persisted admin operator notes/SLA policy, group support-status write action, feature-flag toggle action, native Android structural accessibility proof, cleaned Collect-owned runtime assets, current Android/Admin PWA release artifacts, and the shared chrome/cards. The remaining production signoff weakness is linked Supabase readiness: the remote project is missing the latest feature-flag toggle RPC migration. Human screen-reader narration judgment is documented separately as a human-listening review rather than an automated repo claim.
 
-The original audit pass did not run a native production/mobile build. The 2026-06-27 follow-up rebuilt the production Android APK/AAB and Admin PWA artifacts after the admin workflow changes; the release gate now reports `GO`.
+After explicit build approval on 2026-06-29, the production APK, production AAB, and Admin PWA were rebuilt. `scripts/release_artifact_manifest.sh --json`, `scripts/flutter_mobile_release_gate.sh --json`, and `scripts/release_status.sh --json` now pass with `GO` and no blocker keys. The linked Supabase readiness rerun stops at migration history because remote is missing `20260627191000`.
 
 ## Evidence Used
 
@@ -40,15 +40,17 @@ The original audit pass did not run a native production/mobile build. The 2026-0
 | `flutter test test/app_shell_test.dart` | Pass | Route/nav/doc/audit guard assertions, including orange-reservation guard. |
 | `flutter test test/persona_uat_smoke_test.dart --plain-name 'account action sheets expose accessible native-style actions'` | Pass | Custom sign-out/delete sheets expose semantic actions and meet Android tap-target guideline in widget UAT. |
 | `flutter test test/landing_page_test.dart` | Pass | Public website copy, page, privacy, and public-language checks. |
-| `flutter test test/admin_pwa_test.dart` | Pass | Admin routing, auth, permission gating, paging, masked evidence, workflow checks, current-page CSV export, persisted SLA rendering, and operator-note action flow. |
-| `flutter test test/supabase_contract_test.dart` | Pass | Supabase contract checks include audited operator notes, persisted queue SLA policy, scoped function grants, and warning inventory. |
+| `flutter test test/admin_pwa_test.dart` | Pass | Admin routing, auth, permission gating, paging, masked evidence, workflow checks, current-page CSV export, persisted SLA rendering, operator-note action flow, collection support-status actions, and feature-flag toggles. |
+| `flutter test test/supabase_contract_test.dart` | Pass | Supabase contract checks include audited operator notes, persisted queue SLA policy, collection support-status writes, feature-flag toggles, scoped function grants, and warning inventory. |
 | `flutter test --no-pub test/features/mobile_completion_test.dart test/persona_uat_smoke_test.dart test/admin_pwa_test.dart test/supabase_contract_test.dart` | Pass | Focused post-token follow-up regression suite; 113 tests passed on 2026-06-27. |
 | `scripts/product_design_mobile_audit_artifact_gate.sh --json` | Pass | Release screenshot artifact gate passed for 48 documented screenshots. |
 | `scripts/release_secret_scan.sh` | Pass | Fallback tracked-file secret scan passed because `gitleaks` is not installed locally. |
 | `scripts/collect_product_boundary_scan.sh --json` | Pass | Product-boundary scan passed across 156 source/docs files with zero hits. |
-| `scripts/android_accessibility_structural_evidence.sh --json` | Pass | Fresh production APK installed on Android device `13111JEC215558`; structural TalkBack capture passed in `.cache/android_accessibility_pixel4a/20260629T043057Z/summary.json`. Human listening checklist captured in `docs/design/ANDROID_TALKBACK_REVIEW_PACKET_2026-06-29.md`. |
-| `scripts/flutter_mobile_release_gate.sh --json` | Pass | Production Android APK/AAB artifacts are current and signature verification passed. |
-| `scripts/release_status.sh --json` | Pass | Final release status reports `GO`, `supabase_strict: pass`, and no blocker keys. |
+| `scripts/android_accessibility_structural_evidence.sh --json` | Pass | Fresh structural TalkBack capture passed in `.cache/android_accessibility_pixel4a/20260629T053724Z/summary.json`. Human listening checklist captured in `docs/design/ANDROID_TALKBACK_REVIEW_PACKET_2026-06-29.md`. |
+| `scripts/release_artifact_manifest.sh --json` | Pass | Generated `2026-06-29T06:35:00Z`; manifest path `output/release_artifacts/BUILD_ARTIFACT_CHECKSUMS_2026-06-29.sha256`; 10/10 artifacts fresh, including APK, AAB, and Admin PWA files. |
+| `scripts/flutter_mobile_release_gate.sh --json` | Pass | Generated `2026-06-29T06:35:03Z`; production APK/AAB are fresh and signature checks pass. |
+| `scripts/release_status.sh --json` | GO | Generated after the approved rebuild; status `pass`, decision `GO`, blocker keys empty. |
+| `scripts/supabase_production_readiness.sh --json` | Blocked | Project health, local migration validation, and linked error-level advisors pass, but migration history reports remote missing `20260627191000`. |
 
 ## Critical Findings
 
@@ -77,7 +79,7 @@ The original audit pass did not run a native production/mobile build. The 2026-0
 | Member isolated Chrome matrix | Pass | `.cache/mobile_route_render_smoke/20260627T_postfix_fixed_clean/summary.json` proves `55/55` post-fix routes with nonblank PNG checks. |
 | Admin route-breadth evidence | Pass | `.cache/collect_visual_evidence/20260627T_admin_workflow_controls/admin/summary.json` proves all 23 registered admin routes across mobile and desktop using masked test data. |
 | Custom sheet accessibility | Automated pass; native structural pass | Focused widget UAT passes semantics/tap-target checks for account sheets. Native Android structural TalkBack capture passed on device `13111JEC215558`; human auditory narration review remains separate. |
-| Admin workflow depth | Improved in source | Admin list pages now expose queue-specific operator signals/workflow steps, detail pages expose operator next-step panels, current-page CSV export, and persisted SLA/owner/escalation policy through `admin_get_queue_sla`. Permission helpers block arbitrary-user probing, the audited `admin_record_operator_note` RPC persists operator notes, and `admin_update_collection_support_status` adds a reason-gated group status write with audit logging. Expanded visual evidence covers 23 admin routes. |
+| Admin workflow depth | Improved in source | Admin list pages now expose queue-specific operator signals/workflow steps, detail pages expose operator next-step panels, current-page CSV export, and persisted SLA/owner/escalation policy through `admin_get_queue_sla`. Permission helpers block arbitrary-user probing; audited RPCs now persist operator notes, collection support-status changes, and feature-flag toggles. Expanded visual evidence covers 23 admin routes. |
 
 ## Navigation Audit
 
@@ -179,7 +181,7 @@ The original audit pass did not run a native production/mobile build. The 2026-0
 
 | Asset area | Health | Notes |
 | --- | --- | --- |
-| Fonts | Pass | Borrowed/Revolut-like font files installed and registered. |
+| Fonts | Pass | Collect runtime/Revolut-like font files installed and registered. |
 | Runtime brand assets | Pass | Wordmark, app icon, splash mark, splash background, web icon, share preview, and icon mapping are installed from Collect-owned generated/source assets. |
 | Media richness | Good with scope limits | Member Home/share/privacy use richer visual panels; create and scan now include compact reassurance panels. Legal remains intentionally text-first. |
 | Icon language | Good | Centralized `CollectIcons` adapter gives consistent Material-like icon set. Full Revolut-like icon replacement remains a future input question. |
@@ -214,23 +216,24 @@ Required before release signoff:
 
 Admin routes and behavior are covered by `test/admin_pwa_test.dart`, including auth, permission gating, paging, raw SMS permission boundaries, masked evidence mode, and operational workflow panels. Expanded admin evidence now covers 23 routes across mobile and desktop in `.cache/collect_visual_evidence/20260627T_admin_workflow_controls/admin/summary.json`.
 
-Health: Functional/source strong, expanded visual proof passed, audited operator-note persistence, persisted queue SLA policy, and group support-status writes added.
+Health: Functional/source strong, expanded visual proof passed, audited operator-note persistence, persisted queue SLA policy, group support-status writes, and feature-flag toggles added.
 
 Required before release signoff:
 
 1. Authenticated role-by-role UAT for every admin queue.
-2. Authenticated validation of operator-note writes, group support-status writes, queue exports, and persisted SLA reads.
+2. Authenticated validation of operator-note writes, group support-status writes, feature-flag toggles, queue exports, and persisted SLA reads.
 3. Check dense table/list views for text overflow, pagination, empty/error/loading states, and permission-denied panels.
 
 ## Final Fix Priority
 
-1. If a human accessibility signoff is required, use `docs/design/ANDROID_TALKBACK_REVIEW_PACKET_2026-06-29.md` to listen through narration order, pronunciation, and comprehension on device.
-2. Add further domain write workflows only when operations policy defines a safe action.
-3. Produce contact sheets from `.cache/public_visual_evidence/20260627T_public_matrix_fixed/`, `.cache/mobile_route_render_smoke/20260627T_postfix_fixed_clean/`, and `.cache/collect_visual_evidence/20260627T_admin_workflow_controls/` if a human review packet is required.
-4. After further source changes, run one consolidated final route/contact-sheet/audit pass.
+1. Apply `20260627191000_add_admin_feature_flag_toggle_rpc.sql` to linked Supabase after explicit production-DB approval, then rerun `scripts/supabase_production_readiness.sh --json`.
+2. If a human accessibility signoff is required, use `docs/design/ANDROID_TALKBACK_REVIEW_PACKET_2026-06-29.md` to listen through narration order, pronunciation, and comprehension on device.
+3. Add further domain write workflows only when operations policy defines a safe action.
+4. Produce contact sheets from `.cache/public_visual_evidence/20260627T_public_matrix_fixed/`, `.cache/mobile_route_render_smoke/20260627T_postfix_fixed_clean/`, and `.cache/collect_visual_evidence/20260627T_admin_workflow_controls/` if a human review packet is required.
+5. After further source changes, run one consolidated final route/contact-sheet/audit pass.
 
 ## Final Position
 
 The member Flutter app is much closer to the Revolut10 reference than before: the dominant orange CTA issue is fixed, the three-tab COOL navigation is preserved, the top chrome and floating dock work on the main routes, and fresh targeted visual evidence passes for the changed/high-risk routes.
 
-The remaining issues are not broad architectural failures. The public visual matrix, post-fix isolated Chrome 55-route member matrix, expanded 23-route admin matrix, native Android structural accessibility capture, Collect-owned runtime asset kit, and admin persisted workflow controls now have pass evidence. Human auditory TalkBack signoff remains a human review activity, not something the repository can truthfully automate.
+The remaining issues are not broad architectural failures. The public visual matrix, post-fix isolated Chrome 55-route member matrix, expanded 23-route admin matrix, native Android structural accessibility capture, Collect-owned runtime asset kit, admin persisted workflow controls, and current Android/Admin PWA release artifacts now have pass evidence. The current app release gate is `GO`; linked Supabase production readiness remains blocked until `20260627191000` is approved for remote application and rerun. Human auditory TalkBack signoff remains a human review activity, not something the repository can truthfully automate.

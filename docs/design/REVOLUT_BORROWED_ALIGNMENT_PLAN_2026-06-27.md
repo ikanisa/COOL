@@ -15,7 +15,7 @@ The target is not copied branding. The target is full alignment of typography rh
 - `lib/app/theme/collect_typography.dart` names `Hanken Grotesk`, `Inter`, and `Roboto`, but the app does not bundle font files and does not use the Revolut typeface.
 - `docs/archive/2026-06/design/TYPOGRAPHY.md` is stale and names a different fallback set.
 - `DESIGN.md`, `docs/design/DESIGN_SYSTEM.md`, `docs/archive/2026-06/design/UI_UX_REFERENCE_RESEARCH.md`, and older parity reports previously used a brand-separation direction that has now been superseded.
-- Older wording in docs and scripts referred to a borrowed Revolut kit as a runtime input; the active decision is Collect-owned runtime assets with Revolut screenshots as the quality benchmark.
+- Older wording in docs and scripts referred to a Collect runtime kit as a runtime input; the active decision is Collect-owned runtime assets with Revolut screenshots as the quality benchmark.
 - Runtime assets under `assets/brand/` are Collect-owned and should remain the clean source unless a separately approved replacement kit is supplied.
 - The existing visual parity evidence proves route coverage and quality improvements, but human visual and human listening signoff remain separate review activities.
 
@@ -35,7 +35,7 @@ If a required Collect asset is unavailable, mark it as a blocker in the evidence
 
 ### 1. Typography
 
-- Keep approved local font files under the dedicated runtime font path, `assets/fonts/revolut/`.
+- Keep approved local font files under the dedicated runtime font path, `assets/fonts/collect/`.
 - Register the font family in `pubspec.yaml`.
 - Keep the current registered family as the primary family and remove misleading open-font documentation.
 - Add a test or audit check that fails unless the runtime font family is registered or the missing font input is explicitly recorded in the blocker register.

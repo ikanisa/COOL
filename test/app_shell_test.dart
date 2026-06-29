@@ -182,13 +182,16 @@ void main() {
     expect(qaRunner, contains('collect_mobile_design_compliance_audit'));
     expect(qaRunner, contains('mobile_design_compliance'));
     expect(designAudit, contains('four_primary_color_distinction_contract'));
-    expect(designAudit, contains('revolut_borrowed_alignment_contract'));
-    expect(designAudit, contains('revolut_font_installed_or_blocked'));
-    expect(designAudit, contains('revolut_brand_assets_installed_or_blocked'));
-    expect(designAudit, contains('revolut_borrowed_runtime_switchpoints'));
+    expect(designAudit, contains('collect_runtime_alignment_contract'));
+    expect(designAudit, contains('collect_font_installed_or_blocked'));
     expect(
       designAudit,
-      contains('revolut_borrowed_component_token_switchpoints'),
+      contains('collect_runtime_assets_installed_or_blocked'),
+    );
+    expect(designAudit, contains('collect_runtime_asset_switchpoints'));
+    expect(
+      designAudit,
+      contains('collect_runtime_component_token_switchpoints'),
     );
     expect(designAudit, contains('revolut_100_percent_claim_guard'));
     expect(designAudit, contains('gradient_glass_screen_contract'));
@@ -201,7 +204,7 @@ void main() {
     expect(designAudit, contains('android_device_uat_evidence'));
   });
 
-  test('borrowed Revolut alignment docs preserve Collect nav contract', () {
+  test('Collect runtime alignment docs preserve Collect nav contract', () {
     final currentStatus = File(
       'docs/design/FLUTTER_MOBILE_CURRENT_STATUS_AND_GAP_REGISTER_2026-06-27.md',
     ).readAsStringSync();
@@ -219,7 +222,7 @@ void main() {
     expect(currentStatus, isNot(contains('`Crypto`')));
     expect(currentStatus, isNot(contains('`$rewardsDestinationLabel`')));
     expect(currentStatus, contains('Use Periwinkle, not Orange'));
-    expect(blockerRegister, contains('| revolut_route_reference_matrix |'));
+    expect(blockerRegister, contains('| collect_route_reference_matrix |'));
     expect(blockerRegister, contains('Source mapped and reviewed'));
     expect(blockerRegister, contains('android_device_uat_current_source'));
     for (final screenshot in <String>[
@@ -278,8 +281,8 @@ void main() {
     final topChromePart = File(
       'lib/shared/widgets/collect_top_chrome.dart',
     ).readAsStringSync();
-    final borrowedAssets = File(
-      'lib/app/theme/revolut_borrowed_assets.dart',
+    final runtimeAssets = File(
+      'lib/app/theme/collect_runtime_assets.dart',
     ).readAsStringSync();
     final scaffoldPart = File(
       'lib/shared/widgets/collect_scaffold_chrome.dart',
@@ -288,15 +291,12 @@ void main() {
     expect(chromeLibrary, contains("part 'collect_top_chrome.dart';"));
     expect(chromeLibrary, contains("part 'collect_scaffold_chrome.dart';"));
     expect(topChromePart, contains('class CollectBrandMark'));
-    expect(topChromePart, contains('RevolutBorrowedAssets.wordmarkAssetPath'));
-    expect(topChromePart, contains('RevolutBorrowedAssets.appIconAssetPath'));
+    expect(topChromePart, contains('CollectRuntimeAssets.wordmarkAssetPath'));
+    expect(topChromePart, contains('CollectRuntimeAssets.appIconAssetPath'));
+    expect(runtimeAssets, contains('wordmarkAssetPath = expectedWordmarkPath'));
+    expect(runtimeAssets, contains('appIconAssetPath = expectedAppIconPath'));
     expect(
-      borrowedAssets,
-      contains('wordmarkAssetPath = expectedWordmarkPath'),
-    );
-    expect(borrowedAssets, contains('appIconAssetPath = expectedAppIconPath'));
-    expect(
-      borrowedAssets,
+      runtimeAssets,
       contains('splashMarkAssetPath = expectedSplashMarkPath'),
     );
     expect(scaffoldPart, contains('class PremiumScaffold'));

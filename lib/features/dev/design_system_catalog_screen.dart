@@ -42,7 +42,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
         const InfoSecurityBanner(
           title: 'Reference boundary',
           message:
-              'Borrowed Revolut assets, fonts, colors, and component patterns are the active alignment target.',
+              'Collect runtime Revolut assets, fonts, colors, and component patterns are the active alignment target.',
           tone: CollectStatusTone.info,
         ),
         const MoneyHeroCard(

@@ -60,7 +60,7 @@ allowed_security_max = {
   "pg_graphql_anon_table_exposed" => 9,
   "pg_graphql_authenticated_table_exposed" => 18,
   "anon_security_definer_function_executable" => 2,
-  "authenticated_security_definer_function_executable" => 49,
+  "authenticated_security_definer_function_executable" => 50,
   "auth_leaked_password_protection" => 1
 }
 

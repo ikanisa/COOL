@@ -5,12 +5,11 @@ scope: Flutter mobile member app and Flutter web surfaces that share the Collect
 reference-contract: The 11 Revolut screenshots in /Users/jeanbosco/Downloads/Revolut10 are the active UI/UX quality benchmark for typography rhythm, gradients, glass chrome, compact finance hierarchy, media-rich cards, and thumb-first navigation adapted to Collect group collections. Shipped runtime assets remain Collect-owned and documented.
 brand-assets:
   launcher-icon: assets/brand/collect_app_icon_static.png
-  app-icon-rule: assets/brand/generated/collect_app_icon_rule.png
-  mobile-wordmark: assets/brand/generated/collect_wordmark_transparent.png
-  reference-sheet: assets/brand/generated/collect_logo_color_variants_sheet.png
-  visual-momo-signal: assets/brand/generated/collect_visual_momo_signal.png
-  visual-group-momentum: assets/brand/generated/collect_visual_group_momentum.png
-  visual-qr-share: assets/brand/generated/collect_visual_qr_share.png
+  app-icon-rule: assets/brand/collect_runtime/app_icons/app-icon-rule.png
+  mobile-wordmark: assets/brand/collect_runtime/logos/wordmark.png
+  visual-momo-signal: assets/brand/collect_runtime/media/mobile-money-ussd-signal.png
+  visual-group-momentum: assets/brand/collect_runtime/media/group-momentum.png
+  visual-qr-share: assets/brand/collect_runtime/media/qr-share.png
   source-wordmark: assets/brand/source_variants/collect_wordmark_transparent_4096.png
   source-mark: assets/brand/source_variants/collect_mark_transparent_4096.png
   source-gradient-logo: assets/brand/source_variants/collect_logo_gradient_4096.png
@@ -66,7 +65,7 @@ The implementation target is 10/10 Revolut-quality alignment, not copied third-p
 - Paper `#FAF8F5` is the canvas/foundation color. It is not counted as a primary color. Native Android launch uses Collect Periwinkle `#8885F0` unless a Revolut-like launch treatment explicitly preserves the four-primary distinction.
 - Ink `#252044` is the high-contrast text/chrome anchor. It is a support token, not a primary color.
 - Secondary/support colors are allowed only as named UI tokens for readable surfaces, borders, focus, and semantic status foreground/container roles. They do not replace or expand the four primary colors.
-- Use the clean Collect runtime brand kit for `CollectBrandMark`, launcher/platform icons, web metadata, share previews, splash assets, and in-app wordmarks. The stable `RevolutBorrowedAssets` switchpoint name remains a compatibility layer, but its current sources are Collect-owned assets.
+- Use the clean Collect runtime brand kit for `CollectBrandMark`, launcher/platform icons, web metadata, share previews, splash assets, and in-app wordmarks. The stable `CollectRuntimeAssets` switchpoint name remains a compatibility layer, but its current sources are Collect-owned assets.
 - Route surfaces must use `ScreenScaffold`, `ScreenScaffoldLayout`, `PremiumScaffold`, or `CollectGradientBackground`.
 - Standalone flows that bypass `ScreenScaffold`, such as share/QR export surfaces, must explicitly wrap their page in `CollectGradientBackground`.
 - Visible page chrome uses glass tokens: `glassPanel`, `glassPanelStrong`, `glassControl`, and `glassBorder`.
@@ -129,18 +128,17 @@ The app shell passes the active route through `CollectBackgroundRouteScope` in `
 ## Asset Contract
 
 - `assets/brand/collect_app_icon_static.png`: launcher/app icon source.
-- `assets/brand/generated/collect_app_icon_rule.png`: generated icon rule reference.
-- `assets/brand/generated/collect_wordmark_transparent.png`: in-app mobile wordmark used by `CollectBrandMark`.
-- `assets/brand/generated/collect_logo_color_variants_sheet.png`: static color reference sheet.
-- `assets/brand/generated/collect_visual_momo_signal.png`: Collect-owned rich product visual for MoMo verification and payment-state surfaces.
-- `assets/brand/generated/collect_visual_group_momentum.png`: Collect-owned rich product visual for group momentum and public-support surfaces.
-- `assets/brand/generated/collect_visual_qr_share.png`: Collect-owned rich product visual for QR sharing and invite surfaces.
+- `assets/brand/collect_runtime/app_icons/app-icon-rule.png`: icon rule reference retained from the approved Collect kit.
+- `assets/brand/collect_runtime/logos/wordmark.png`: in-app mobile wordmark used by `CollectBrandMark`.
+- `assets/brand/collect_runtime/media/mobile-money-ussd-signal.png`: Collect-owned rich product visual for MoMo verification and payment-state surfaces.
+- `assets/brand/collect_runtime/media/group-momentum.png`: Collect-owned rich product visual for group momentum and public-support surfaces.
+- `assets/brand/collect_runtime/media/qr-share.png`: Collect-owned rich product visual for QR sharing and invite surfaces.
 - `assets/brand/source_variants/collect_wordmark_transparent_4096.png`: corrected transparent wordmark source.
 - `assets/brand/source_variants/collect_mark_transparent_4096.png`: corrected transparent launcher/app mark source.
 - `assets/brand/source_variants/collect_logo_gradient_4096.png`: corrected gradient logo source for reference.
 - `assets/brand/source_variants/collect_logo_preview_checkerboard_1254.png`: supplied preview image retained only as source evidence, not as a runtime logo.
 - No live SVG launcher fallback.
-- Generated brand assets must remain PNG/GIF only unless a platform-specific build pipeline requires otherwise.
+- Runtime brand assets must remain PNG unless a platform-specific build pipeline requires another checked-in format.
 
 ## Component Contract
 

@@ -6,13 +6,13 @@ This file mirrors the enforceable contract in `DESIGN.md` and explains how it ma
 
 The 11 Revolut screenshots in `/Users/jeanbosco/Downloads/Revolut10` are the active mobile UI/UX benchmark for interaction quality, hierarchy, vertical gradient page canvases, floating black glass controls, compact account/payment hierarchy, rounded bottom navigation, media-rich cards, and translucent content panels. Runtime brand assets remain Collect-owned. Collect applies the benchmark patterns to its required product model: group collections, MoMo receiver setup, QR scan/share, contribution flows, member activity, profile, settings, notifications, and admin operations.
 
-Revolut references remain a quality and interaction benchmark, but shipped runtime branding uses Collect-owned assets. The stable asset switchpoints created during the Revolut-alignment work remain in place to avoid app churn; their current source is the cleaned Collect artwork under `assets/brand/generated/` and `assets/brand/source_variants/`. The four primary colors remain required: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, and Orange `#FF5E43`.
+Revolut references remain a quality and interaction benchmark, but shipped runtime branding uses Collect-owned assets. Runtime app, web, splash, wordmark, and product-media assets live under `assets/brand/collect_runtime/`; source-only high-resolution variants live under `assets/brand/source_variants/`. The deleted `assets/brand/collect_runtime/` path must not be reintroduced as a runtime dependency. The four primary colors remain required: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, and Orange `#FF5E43`.
 
 ## Principles
 
 - Gradient first: member-facing screens render on `CollectGradientBackground`.
 - Reference first: page backgrounds are route-mapped from the supplied Revolut screenshots and stay vertical, atmospheric, and full-screen.
-- Distinct modes: light mode uses bright readable glass surfaces over the route gradients; dark mode uses night surfaces, pale text, darker borders, and stronger finance chrome. Both modes stay Revolut-aligned in gradient structure and should use borrowed Revolut component tokens where available.
+- Distinct modes: light mode uses bright readable glass surfaces over the route gradients; dark mode uses night surfaces, pale text, darker borders, and stronger finance chrome. Both modes stay Revolut-aligned in gradient structure and should use Collect runtime component tokens where available.
 - Money first: every finance screen starts with the amount, progress, contribution, or payment state that matters most.
 - MoMo-first: copy, examples, and payment flows assume RWF and MoMo/USSD where relevant.
 - Collect ID only: member identity, receiver visibility, and SMS verification states are privacy-safe. Payment-state screenshots must use masked MoMo display such as `+250***3456`, not full receiver numbers.
@@ -29,7 +29,7 @@ Revolut references remain a quality and interaction benchmark, but shipped runti
 ## Token Map
 
 Tokens live in `lib/app/theme/collect_colors.dart`.
-Component-facing borrowed Revolut switchpoints live in `lib/app/theme/revolut_borrowed_tokens.dart`.
+Component-facing Collect runtime switchpoints live in `lib/app/theme/collect_runtime_tokens.dart`.
 
 - Required primary palette and only distinct brand colors: Periwinkle `#8885F0`, Mint `#3CD070`, Rose `#D38B96`, Orange `#FF5E43`.
 - Action role: `actionColor` uses Periwinkle `#8885F0` for default filled CTAs and selected controls. Orange `#FF5E43` remains in the primary palette as `brandAction`/`urgentAction`, but it is reserved for urgent, destructive, alert, notification, or small accent moments rather than dominant default buttons.
@@ -39,7 +39,7 @@ Component-facing borrowed Revolut switchpoints live in `lib/app/theme/revolut_bo
 - Glass surfaces: `glassPanel`, `glassPanelStrong`, `glassControl`, `glassBorder`, `glassPanelGradient`.
 - Secondary/support palette: Ink Primary `#252044`, Ink Secondary `#4B4664`, Ink Muted `#5F5A76`, Surface Readable `#FFFDFB`, Surface Muted `#F1ECF7`, Border Soft `#DED8EA`, Border Accent `#CDC7F5`, Focus Ring `#6F67E8`.
 - Semantic palette: Success Foreground `#137A3F` on `#E7F8ED`, Info Foreground `#514DD2` on `#ECEBFF`, Warning Foreground `#B9472E` on `#FFE9E3`, Danger Foreground `#B3261E` on `#FFE5DF`, Neutral Container `#F1ECF7`.
-- Full secondary colors are also exposed by `RevolutBorrowedTokens.secondaryColorRoles` and must remain available to component tokens. The four primary colors remain the only distinct brand-color exception; secondary support and semantic colors are part of the required token system, not optional local styling.
+- Full secondary colors are also exposed by `CollectRuntimeTokens.secondaryColorRoles` and must remain available to component tokens. The four primary colors remain the only distinct brand-color exception; secondary support and semantic colors are part of the required token system, not optional local styling.
 - Runtime contrast: `actionColor`, `success`, `warning`, `danger`, `info`, `textPrimary`, `textSecondary`, `textMuted`, `statusForeground()`, and `statusBackground()`.
 - No legacy pastel, generic neutral, Material blue, or alternate low-luminance palette is part of the active token contract.
 
@@ -63,24 +63,22 @@ The current route is provided by `CollectBackgroundRouteScope` in the shell and 
 
 ## Asset Map
 
-- Borrowed Revolut runtime switchpoint: `lib/app/theme/revolut_borrowed_assets.dart`.
-- Borrowed wordmark intake target: `assets/brand/revolut_borrowed/logos/wordmark.png`.
-- Borrowed app-icon intake target: `assets/brand/revolut_borrowed/app_icons/app_icon.png`.
-- Borrowed splash-mark intake target: `assets/brand/revolut_borrowed/splash/splash_mark.png`.
-- Borrowed web icon intake target: `assets/brand/revolut_borrowed/app_icons/web-512.png`.
+- Collect runtime asset switchpoint: `lib/app/theme/collect_runtime_assets.dart`.
+- Collect wordmark asset: `assets/brand/collect_runtime/logos/wordmark.png`.
+- Collect app-icon asset: `assets/brand/collect_runtime/app_icons/app_icon.png`.
+- Collect splash-mark asset: `assets/brand/collect_runtime/splash/splash_mark.png`.
+- Collect web icon asset: `assets/brand/collect_runtime/app_icons/collect-web-512.png`.
 - Current launcher/app icon fallback: `assets/brand/collect_app_icon_static.png`.
-- Current mobile wordmark fallback: `assets/brand/generated/collect_wordmark_transparent.png`.
-- Generated icon rule: `assets/brand/generated/collect_app_icon_rule.png`.
-- Reference sheet: `assets/brand/generated/collect_logo_color_variants_sheet.png`.
-- MoMo signal visual: `assets/brand/generated/collect_visual_momo_signal.png`.
-- Group momentum visual: `assets/brand/generated/collect_visual_group_momentum.png`.
-- QR share visual: `assets/brand/generated/collect_visual_qr_share.png`.
+- Generated icon rule: `assets/brand/collect_runtime/app_icons/app-icon-rule.png`.
+- MoMo signal visual: `assets/brand/collect_runtime/media/mobile-money-ussd-signal.png`.
+- Group momentum visual: `assets/brand/collect_runtime/media/group-momentum.png`.
+- QR share visual: `assets/brand/collect_runtime/media/qr-share.png`.
 - Corrected transparent wordmark source: `assets/brand/source_variants/collect_wordmark_transparent_4096.png`.
 - Corrected transparent app mark source: `assets/brand/source_variants/collect_mark_transparent_4096.png`.
 - Corrected gradient logo source: `assets/brand/source_variants/collect_logo_gradient_4096.png`.
 - Supplied checkerboard preview retained as source evidence only: `assets/brand/source_variants/collect_logo_preview_checkerboard_1254.png`.
 
-`CollectBrandMark` owns in-app brand rendering through `RevolutBorrowedAssets`. The class name is legacy, but the current runtime assets are Collect-owned and documented in `assets/brand/revolut_borrowed/PROVENANCE.md`. Feature screens should not hand-place app icon or wordmark assets directly unless the output is an exported/shareable artifact.
+`CollectBrandMark` owns in-app brand rendering through `CollectRuntimeAssets`. Runtime assets are Collect-owned and documented in `assets/brand/collect_runtime/PROVENANCE.md`. Feature screens should not hand-place app icon or wordmark assets directly unless the output is an exported/shareable artifact.
 
 ## Component Model
 
@@ -91,7 +89,7 @@ Use the shared primitives before local UI:
 - `ScreenHeader` and `CollectPlainPageHeader` provide the shared plain header for secondary routes: back arrow, one-line title, optional one-line subtitle, and no decorative card shell.
 - `CollectCard`, `CollectVisualFeatureCard`, `CollectBentoGrid`, `BentoMetricCell`, `GroupCard`.
 - `CollectButton`, `SearchWithClearField`, `PremiumSegmentedFilter`.
-- Home rich visual rail cards, Home Momentum cards, image-backed `GroupCard` covers, and `CollectVisualFeatureCard` use runtime assets from `assets/brand/generated/` and Flutter-rendered text.
+- Home rich visual rail cards, Home Momentum cards, image-backed `GroupCard` covers, and `CollectVisualFeatureCard` use runtime assets from `assets/brand/collect_runtime/media/` and Flutter-rendered text.
 - QR scanner surfaces use the shared plain header plus a camera-first preview with dark overlay, corner guides, torch and camera-switch icon controls, gallery QR decoding where supported, and compact link/code entry fallback. Fallback copy must stay about group links/codes, not payment proof.
 - `CollectBottomSheet`, `BottomActionSurface`.
 - `LoadingStatePanel`, `EmptyIllustrationState`, `CollectErrorState`, `InfoSecurityBanner`.

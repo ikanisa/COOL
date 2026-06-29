@@ -92,10 +92,10 @@ void main() {
     );
   });
 
-  test('borrowed Revolut token layer preserves full secondary colors', () {
-    expect(RevolutBorrowedTokens.secondaryColorRoles, hasLength(17));
+  test('Collect runtime token layer preserves full secondary colors', () {
+    expect(CollectRuntimeTokens.secondaryColorRoles, hasLength(17));
     expect(
-      RevolutBorrowedTokens.secondaryColorHexes,
+      CollectRuntimeTokens.secondaryColorHexes,
       containsAll(<String>[
         '#252044',
         '#4B4664',
@@ -116,7 +116,7 @@ void main() {
       ]),
     );
     expect(
-      RevolutBorrowedTokens.secondaryColorRoles.values.toSet().intersection(
+      CollectRuntimeTokens.secondaryColorRoles.values.toSet().intersection(
         CollectColors.brandPrimaryColors.toSet(),
       ),
       isEmpty,
@@ -265,64 +265,61 @@ void main() {
     expect(decoration.color!.a, greaterThan(0.80));
   });
 
-  test('borrowed asset switchpoints use installed runtime inputs', () {
+  test('Collect runtime asset switchpoints use installed runtime inputs', () {
     expect(_pngSize('assets/brand/collect_app_icon_static.png'), (
       width: 512,
       height: 512,
     ));
-    expect(_pngSize('assets/brand/generated/collect_app_icon_rule.png'), (
-      width: 512,
-      height: 512,
-    ));
     expect(
-      _pngSize('assets/brand/generated/collect_wordmark_transparent.png'),
-      (width: 1024, height: 299),
+      _pngSize('assets/brand/collect_runtime/app_icons/app-icon-rule.png'),
+      (width: 512, height: 512),
     );
-    expect(_pngSize('assets/brand/generated/collect_mark_transparent.png'), (
+    expect(_pngSize('assets/brand/collect_runtime/logos/wordmark.png'), (
+      width: 1024,
+      height: 299,
+    ));
+    expect(_pngSize('assets/brand/collect_runtime/splash/splash_mark.png'), (
       width: 512,
       height: 512,
     ));
     expect(
       File('lib/features/launch/launch_splash_screen.dart').readAsStringSync(),
-      contains('RevolutBorrowedAssets.splashMarkAssetPath'),
+      contains('CollectRuntimeAssets.splashMarkAssetPath'),
     );
     expect(
-      RevolutBorrowedAssets.splashMarkAssetPath,
-      'assets/brand/revolut_borrowed/splash/splash_mark.png',
+      CollectRuntimeAssets.splashMarkAssetPath,
+      'assets/brand/collect_runtime/splash/splash_mark.png',
     );
-    expect(_pngSize(RevolutBorrowedAssets.wordmarkAssetPath), (
+    expect(_pngSize(CollectRuntimeAssets.wordmarkAssetPath), (
       width: 1024,
       height: 299,
     ));
-    expect(_pngSize(RevolutBorrowedAssets.appIconAssetPath), (
+    expect(_pngSize(CollectRuntimeAssets.appIconAssetPath), (
       width: 512,
       height: 512,
     ));
-    expect(_pngSize(RevolutBorrowedAssets.splashMarkAssetPath), (
+    expect(_pngSize(CollectRuntimeAssets.splashMarkAssetPath), (
       width: 512,
       height: 512,
     ));
     expect(
-      RevolutBorrowedAssets.expectedWordmarkPath,
-      'assets/brand/revolut_borrowed/logos/wordmark.png',
+      CollectRuntimeAssets.expectedWordmarkPath,
+      'assets/brand/collect_runtime/logos/wordmark.png',
     );
     expect(
-      RevolutBorrowedAssets.expectedAppIconPath,
-      'assets/brand/revolut_borrowed/app_icons/app_icon.png',
+      CollectRuntimeAssets.expectedAppIconPath,
+      'assets/brand/collect_runtime/app_icons/app_icon.png',
     );
     expect(
-      RevolutBorrowedAssets.expectedSplashMarkPath,
-      'assets/brand/revolut_borrowed/splash/splash_mark.png',
+      CollectRuntimeAssets.expectedSplashMarkPath,
+      'assets/brand/collect_runtime/splash/splash_mark.png',
     );
     expect(
       File('lib/features/launch/launch_splash_screen.dart').readAsStringSync(),
       contains('SizedBox.expand'),
     );
-    expect(
-      File('assets/brand/generated/collect_symbol_compact.png').existsSync(),
-      isFalse,
-    );
-    expect(_pngSize('web/icons/revolut-borrowed-web-512.png'), (
+    expect(Directory('assets/brand/generated').existsSync(), isFalse);
+    expect(_pngSize('web/icons/collect-web-512.png'), (
       width: 512,
       height: 512,
     ));
@@ -531,7 +528,9 @@ void main() {
     }
   });
 
-  testWidgets('brand mark uses the borrowed asset switchpoint', (tester) async {
+  testWidgets('brand mark uses the Collect runtime asset switchpoint', (
+    tester,
+  ) async {
     final semantics = tester.ensureSemantics();
     try {
       await _pumpCollect(tester, const CollectBrandMark());
@@ -542,7 +541,7 @@ void main() {
       expect((image.image as AssetImage).assetName, CollectBrandMark.assetPath);
       expect(
         CollectBrandMark.assetPath,
-        RevolutBorrowedAssets.wordmarkAssetPath,
+        CollectRuntimeAssets.wordmarkAssetPath,
       );
     } finally {
       semantics.dispose();

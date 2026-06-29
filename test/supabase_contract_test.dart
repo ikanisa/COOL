@@ -103,6 +103,9 @@ void main() {
   final adminCollectionStatusRpc = File(
     'supabase/migrations/20260627190000_add_admin_collection_status_rpc.sql',
   ).readAsStringSync();
+  final adminFeatureFlagToggleRpc = File(
+    'supabase/migrations/20260627191000_add_admin_feature_flag_toggle_rpc.sql',
+  ).readAsStringSync();
   final sendNotificationFunction = File(
     'supabase/functions/send-notification/index.ts',
   ).readAsStringSync();
@@ -423,6 +426,33 @@ void main() {
       adminCollectionStatusRpc,
       contains(
         'grant execute on function admin_update_collection_support_status(uuid, text, text)',
+      ),
+    );
+  });
+
+  test('admin feature flag toggle is audited and manage-scoped', () {
+    expect(adminFeatureFlagToggleRpc, contains('admin_set_feature_flag'));
+    expect(
+      adminFeatureFlagToggleRpc,
+      contains("perform assert_admin_permission('feature_flags.manage')"),
+    );
+    expect(
+      adminFeatureFlagToggleRpc,
+      contains('Feature flag change reason is required'),
+    );
+    expect(adminFeatureFlagToggleRpc, contains('update feature_flags'));
+    expect(adminFeatureFlagToggleRpc, contains("'admin.feature_flag.updated'"));
+    expect(adminFeatureFlagToggleRpc, contains('create_audit_log'));
+    expect(
+      adminFeatureFlagToggleRpc,
+      contains(
+        'revoke execute on function admin_set_feature_flag(text, boolean, text)',
+      ),
+    );
+    expect(
+      adminFeatureFlagToggleRpc,
+      contains(
+        'grant execute on function admin_set_feature_flag(text, boolean, text)',
       ),
     );
   });
@@ -1149,6 +1179,10 @@ void main() {
     );
     expect(
       readiness,
+      contains("('authenticated', 'admin_set_feature_flag', 'EXECUTE')"),
+    );
+    expect(
+      readiness,
       contains(
         "('authenticated', 'admin_update_collection_support_status', 'EXECUTE')",
       ),
@@ -1163,7 +1197,7 @@ void main() {
     expect(warningInventory, contains('pg_graphql_anon_table_exposed'));
     expect(
       warningInventory,
-      contains('"authenticated_security_definer_function_executable" => 49'),
+      contains('"authenticated_security_definer_function_executable" => 50'),
     );
     expect(warningInventory, contains('performance warnings=0'));
     expect(schemaInventory, contains('pg_policies'));

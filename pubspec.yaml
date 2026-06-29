@@ -41,23 +41,22 @@ flutter:
   uses-material-design: true
   assets:
     - assets/brand/collect_app_icon_static.png
-    - assets/brand/generated/
-    - assets/brand/revolut_borrowed/
-    - assets/brand/revolut_borrowed/logos/
-    - assets/brand/revolut_borrowed/app_icons/
-    - assets/brand/revolut_borrowed/splash/
-    - assets/brand/revolut_borrowed/icons/
-    - assets/brand/revolut_borrowed/media/
+    - assets/brand/collect_runtime/
+    - assets/brand/collect_runtime/logos/
+    - assets/brand/collect_runtime/app_icons/
+    - assets/brand/collect_runtime/splash/
+    - assets/brand/collect_runtime/icons/
+    - assets/brand/collect_runtime/media/
   fonts:
-    - family: Revolut Borrowed
+    - family: Collect Runtime
       fonts:
-        - asset: assets/fonts/revolut/RevolutBorrowed-Regular.otf
+        - asset: assets/fonts/collect/CollectRuntime-Regular.otf
           weight: 400
-        - asset: assets/fonts/revolut/RevolutBorrowed-Medium.otf
+        - asset: assets/fonts/collect/CollectRuntime-Medium.otf
           weight: 500
-        - asset: assets/fonts/revolut/RevolutBorrowed-SemiBold.otf
+        - asset: assets/fonts/collect/CollectRuntime-SemiBold.otf
           weight: 600
-        - asset: assets/fonts/revolut/RevolutBorrowed-Bold.otf
+        - asset: assets/fonts/collect/CollectRuntime-Bold.otf
           weight: 700
-        - asset: assets/fonts/revolut/RevolutBorrowed-ExtraBold.otf
+        - asset: assets/fonts/collect/CollectRuntime-ExtraBold.otf
           weight: 800

@@ -362,7 +362,7 @@ class _PipelineStage extends StatelessWidget {
               shape: BoxShape.circle,
               color: colors.statusBackground(tone),
               border: Border.all(
-                color: RevolutBorrowedTokens.badgeBorder(colors, foreground),
+                color: CollectRuntimeTokens.badgeBorder(colors, foreground),
               ),
             ),
             child: SizedBox.square(
@@ -403,7 +403,7 @@ class _PipelineLine extends StatelessWidget {
       child: Container(
         height: 3,
         decoration: BoxDecoration(
-          color: RevolutBorrowedTokens.paymentStepLine(colors, active: active),
+          color: CollectRuntimeTokens.paymentStepLine(colors, active: active),
           borderRadius: CollectRadius.pillBorder,
         ),
       ),

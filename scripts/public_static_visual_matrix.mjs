@@ -65,6 +65,11 @@ const routes = [
   ['data-deletion', '/data-deletion/', '/data-deletion/index.html'],
   ['trust', '/trust/', '/trust/index.html'],
   ['security', '/security/', '/security/index.html'],
+  ['rw-home', '/rw/', '/rw/index.html'],
+  ['rw-group-savings', '/rw/group-savings/', '/rw/group-savings/index.html'],
+  ['rw-community-groups', '/rw/community-groups/', '/rw/community-groups/index.html'],
+  ['fr-diaspora', '/fr/diaspora/', '/fr/diaspora/index.html'],
+  ['fr-our-partners', '/fr/our-partners/', '/fr/our-partners/index.html'],
 ];
 
 const reserveFreePort = () =>
