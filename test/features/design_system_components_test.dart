@@ -147,9 +147,7 @@ void main() {
     ]);
     expect(
       _gradientColors(
-        light.screenGradientForPath(
-          '/groups/group_1/pay/intent_1/state/pending',
-        ),
+        light.screenGradientForPath('/groups/group_1/contribute'),
       ),
       const [
         Color(0xFF303870),
@@ -177,37 +175,6 @@ void main() {
       ],
     );
     expect(
-      _gradientColors(light.screenGradientForPath('/permissions/sms-denied')),
-      const [
-        Color(0xFF204050),
-        Color(0xFF183848),
-        Color(0xFF102028),
-        Color(0xFF081820),
-      ],
-    );
-    expect(
-      _gradientColors(
-        light.screenGradientForPath('/permissions/camera-denied'),
-      ),
-      const [
-        Color(0xFF204050),
-        Color(0xFF183848),
-        Color(0xFF102028),
-        Color(0xFF081820),
-      ],
-    );
-    expect(
-      _gradientColors(
-        light.screenGradientForPath('/platform/iphone-create-unavailable'),
-      ),
-      const [
-        Color(0xFF204050),
-        Color(0xFF183848),
-        Color(0xFF102028),
-        Color(0xFF081820),
-      ],
-    );
-    expect(
       _gradientColors(light.screenGradientForPath('/settings/help')),
       const [Color(0xFF303020), Color(0xFF181038), Color(0xFF101018)],
     );
@@ -216,10 +183,6 @@ void main() {
       Color(0xFF102028),
       Color(0xFF001010),
     ]);
-    expect(
-      _gradientColors(light.screenGradientForPath('/notifications')),
-      const [Color(0xFF302848), Color(0xFF181038), Color(0xFF101018)],
-    );
   });
 
   testWidgets('top chrome profile control is visible and links to profile', (
@@ -609,6 +572,7 @@ void main() {
     final style = CollectTypography.amountHero(CollectColors.light.textPrimary);
 
     expect(formatRwf(1250000), 'RWF 1,250,000');
+    expect(style.fontFamily, CollectRuntimeTypography.displayFontFamily);
     expect(style.fontFeatures, contains(const FontFeature.tabularFigures()));
   });
 
@@ -859,6 +823,130 @@ void main() {
     expect(find.text('Total confirmed support'), findsOneWidget);
     expect(find.text('RWF 1,250,000'), findsOneWidget);
     expect(find.text('Payments'), findsOneWidget);
+  });
+
+  testWidgets('bento metrics can render icon-first metadata', (tester) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await _pumpCollect(
+        tester,
+        const SizedBox(
+          width: 320,
+          child: BentoMetricCell(
+            label: 'Supporters',
+            value: '42',
+            detail: 'Visible groups',
+            icon: CollectIcons.people,
+            iconOnly: true,
+            semanticLabel: '42 group members',
+          ),
+        ),
+      );
+
+      expect(find.byIcon(CollectIcons.people), findsOneWidget);
+      expect(find.text('42'), findsOneWidget);
+      expect(find.text('Supporters'), findsNothing);
+      expect(find.text('Visible groups'), findsNothing);
+      expect(find.bySemanticsLabel('42 group members'), findsOneWidget);
+    } finally {
+      semantics.dispose();
+    }
+  });
+
+  test('group metadata copy blockers are enforced by source contract', () {
+    final semanticIcons = File(
+      'lib/app/theme/collect_semantic_icons.dart',
+    ).readAsStringSync();
+    final keywordSpec = File(
+      'docs/design/collect_runtime_tokens/'
+      'collect_semantic_icon_keywords_2026-06-30.json',
+    ).readAsStringSync();
+    final groupCards = File(
+      'lib/shared/widgets/collect_group_cards.dart',
+    ).readAsStringSync();
+    final collectionCards =
+        groupCards +
+        File(
+          'lib/shared/widgets/collect_group_card_media.dart',
+        ).readAsStringSync();
+    final collectionsScreen = File(
+      'lib/features/collections/collections_screen.dart',
+    ).readAsStringSync();
+    final manageScreen = File(
+      'lib/features/collections/collection_manage_screen.dart',
+    ).readAsStringSync();
+    final detailActions = File(
+      'lib/features/collections/collection_detail_actions.dart',
+    ).readAsStringSync();
+    final detailHero = File(
+      'lib/features/collections/collection_detail_hero.dart',
+    ).readAsStringSync();
+    final shareScreen = File(
+      'lib/features/collections/share_screen.dart',
+    ).readAsStringSync();
+    final designSystemCatalog = File(
+      'lib/features/dev/design_system_catalog_screen.dart',
+    ).readAsStringSync();
+    final scaffoldChrome = File(
+      'lib/shared/widgets/collect_scaffold_chrome.dart',
+    ).readAsStringSync();
+    final runtimeSources = [
+      groupCards,
+      collectionsScreen,
+      manageScreen,
+      detailActions,
+      detailHero,
+      shareScreen,
+      designSystemCatalog,
+      scaffoldChrome,
+    ];
+
+    const requiredKeywords = [
+      'support',
+      'supporters',
+      'members',
+      'amount',
+      'church',
+      'football',
+      'public',
+      'private',
+      'sport',
+      'ikimina',
+      'wedding',
+      'momo',
+      'qr',
+      'owner',
+      'visibility',
+    ];
+    for (final keyword in requiredKeywords) {
+      expect(semanticIcons, contains("'$keyword':"));
+      expect(keywordSpec, contains('"$keyword"'));
+    }
+
+    expect(collectionCards, contains('maxLines: 1'));
+    expect(collectionCards, contains('softWrap: false'));
+    expect(groupCards, contains('iconOnly: true'));
+    expect(groupCards, isNot(contains('supporters\',')));
+    expect(collectionsScreen, contains('iconOnly: true'));
+    expect(detailActions, contains('iconOnly: true'));
+    expect(detailHero, contains('maxLines: 1'));
+    expect(detailHero, contains('softWrap: false'));
+    expect(shareScreen, contains('maxLines: 1'));
+    expect(shareScreen, contains('softWrap: false'));
+    expect(scaffoldChrome, contains('maxLines: 1'));
+    expect(scaffoldChrome, contains('TextOverflow.ellipsis'));
+    expect(collectionsScreen, isNot(contains("'Supporters'")));
+    expect(collectionsScreen, isNot(contains("'Visible groups'")));
+    expect(collectionsScreen, isNot(contains("'Share-ready'")));
+    for (final source in runtimeSources) {
+      expect(source, isNot(contains(' supporters')));
+    }
+    expect(
+      manageScreen,
+      isNot(contains('Name, image, visibility, recurrence, receiver.')),
+    );
+    expect(manageScreen, isNot(contains('Show, share, or save the QR image.')));
+    expect(manageScreen, isNot(contains('Native share invite link.')));
   });
 
   testWidgets('quick action rail exposes stable premium action semantics', (
@@ -1123,9 +1211,12 @@ void main() {
       containsAll(<String>[
         '/home',
         '/groups/:collectionId/contribute',
-        '/groups/:collectionId/pay/:intentId',
         '/dev/design-system',
       ]),
+    );
+    expect(
+      collectRoutePaths,
+      isNot(contains('/groups/:collectionId/pay/:intentId')),
     );
     expect(collectRoutePaths, isNot(contains('/admin')));
   });

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/collect_app_state.dart';
 import 'collect_components.dart';
 
 class ScreenScaffold extends ConsumerWidget {
@@ -28,11 +29,23 @@ class ScreenScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final offlineSnapshot = ref.watch(offlineSnapshotStatusProvider);
+    final stalePill = offlineSnapshot.usingStaleCache
+        ? Semantics(
+            liveRegion: true,
+            label: offlineSnapshot.label,
+            child: CollectStatusChip(
+              label: offlineSnapshot.label,
+              tone: CollectStatusTone.warning,
+              icon: CollectIcons.sync,
+            ),
+          )
+        : null;
     return ScreenScaffoldLayout(
       title: title,
       subtitle: subtitle,
       actions: actions,
-      persistentPill: persistentPill,
+      persistentPill: persistentPill ?? stalePill,
       bottomAction: bottomAction,
       onRefresh: onRefresh,
       showHeader: showHeader,

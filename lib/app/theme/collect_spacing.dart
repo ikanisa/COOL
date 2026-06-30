@@ -29,6 +29,7 @@ class CollectSpacing {
   static const gap24 = SizedBox(height: x6);
   static const gap32 = SizedBox(height: x8);
 
+  static const gapW4 = SizedBox(width: x1);
   static const gapW8 = SizedBox(width: x2);
   static const gapW12 = SizedBox(width: x3);
   static const gapW16 = SizedBox(width: x4);

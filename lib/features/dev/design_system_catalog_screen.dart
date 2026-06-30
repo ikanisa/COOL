@@ -141,11 +141,7 @@ class DesignSystemCatalogScreen extends StatelessWidget {
             expand: true,
           ),
         ),
-        const MoneyCard(
-          label: 'Total',
-          amount: 125000,
-          detail: '12 supporters · 50% funded',
-        ),
+        const MoneyCard(label: 'Total', amount: 125000, detail: '12 · 50%'),
         const PaymentIntentStatusCard(
           amountRwf: 5000,
           receiverLabel: 'St Michel treasury',

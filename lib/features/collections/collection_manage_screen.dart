@@ -32,9 +32,8 @@ class CollectionManageScreen extends ConsumerWidget {
         children: [
           const MinimalStatePanel(
             icon: CollectIcons.lock,
-            title: 'Owner only.',
-            message:
-                'Group settings are visible only to the group owner. Members can view activity, members, QR, and contribution screens.',
+            title: 'Owner only',
+            message: '',
             tone: CollectStatusTone.privacy,
           ),
           CollectButton(
@@ -58,19 +57,16 @@ class CollectionManageScreen extends ConsumerWidget {
               CollectListTile(
                 leading: CollectIcons.info,
                 title: 'Group profile',
-                subtitle: 'Name, image, visibility, recurrence, receiver.',
                 onTap: () => context.go('/groups/$collectionId/profile'),
               ),
               CollectListTile(
                 leading: CollectIcons.qr,
                 title: 'Group QR',
-                subtitle: 'Show, share, or save the QR image.',
                 onTap: () => context.go('/groups/$collectionId/share'),
               ),
               CollectListTile(
                 leading: CollectIcons.share,
                 title: 'Share group',
-                subtitle: 'Native share invite link.',
                 onTap: () => shareGroupDeepLink(
                   context: context,
                   ref: ref,

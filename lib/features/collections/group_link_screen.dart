@@ -33,7 +33,7 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
     if (profile == null) {
       ref.read(pendingSharedGroupSlugProvider.notifier).state = widget.slug;
       if (!mounted) return;
-      context.go('/onboarding');
+      context.go('/auth');
       return;
     }
     final collection = await ref
@@ -41,7 +41,7 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
         .joinGroupBySlug(widget.slug);
     ref.read(pendingSharedGroupSlugProvider.notifier).state = null;
     if (!mounted) return;
-    context.go('/groups/${collection.id}/joined');
+    context.go('/groups/${collection.id}');
   }
 
   @override

@@ -119,7 +119,7 @@ class _GroupsMomentumPanel extends StatelessWidget {
       (total, collection) =>
           total + (summaries[collection.id]?.amountRaisedRwf ?? 0),
     );
-    final supporters = collections.fold<int>(
+    final members = collections.fold<int>(
       0,
       (total, collection) =>
           total + (summaries[collection.id]?.supporterCount ?? 0),
@@ -136,20 +136,27 @@ class _GroupsMomentumPanel extends StatelessWidget {
         icon: CollectIcons.money,
         tone: CollectStatusTone.success,
         emphasis: true,
+        iconOnly: true,
+        semanticLabel:
+            'Total collected ${formatRwf(totalRaised)} across ${collections.length} groups',
       ),
       top: BentoMetricCell(
-        label: 'Supporters',
-        value: '$supporters',
-        detail: 'Visible groups',
+        label: 'Members',
+        value: '$members',
+        detail: null,
         icon: CollectIcons.people,
         tone: CollectStatusTone.info,
+        iconOnly: true,
+        semanticLabel: '$members group members',
       ),
       bottom: BentoMetricCell(
         label: 'Public',
         value: '$publicCount',
-        detail: 'Share-ready',
-        icon: CollectIcons.share,
+        detail: null,
+        icon: CollectIcons.public,
         tone: CollectStatusTone.privacy,
+        iconOnly: true,
+        semanticLabel: '$publicCount public groups',
       ),
     );
   }

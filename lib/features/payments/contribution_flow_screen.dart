@@ -166,10 +166,11 @@ class _ContributionFlowScreenState
       final activeIntent = _activePendingIntent(amountRwf: amount);
       if (activeIntent != null) {
         if (!mounted) return;
-        context.go('/groups/${widget.collectionId}/pay/${activeIntent.id}');
+        context.go('/groups/${widget.collectionId}');
+        unawaited(_launchMomoDialer());
         return;
       }
-      final intent = await ref
+      await ref
           .read(collectRepositoryProvider.notifier)
           .createPaymentIntent(
             PaymentIntentDraft(
@@ -178,9 +179,8 @@ class _ContributionFlowScreenState
             ),
           );
       if (!mounted) return;
+      context.go('/groups/${widget.collectionId}');
       unawaited(_launchMomoDialer());
-      if (!mounted) return;
-      context.go('/groups/${widget.collectionId}/pay/${intent.id}');
     } catch (error) {
       if (!mounted) return;
       setState(() {
@@ -194,8 +194,8 @@ class _ContributionFlowScreenState
     try {
       await launchUrl(momoUssdUri(), mode: LaunchMode.externalApplication);
     } catch (_) {
-      // Web and some desktops cannot handle tel: links; payment status still
-      // gives the user a recoverable payment state.
+      // Web and some desktops cannot handle tel: links; the group remains the
+      // source of truth until creator SMS parsing confirms the contribution.
     }
   }
 

@@ -6,17 +6,19 @@ class CollectTypography {
   const CollectTypography._();
 
   static const _family = CollectRuntimeTypography.fontFamilyFallback;
+  static const _displayFamily =
+      CollectRuntimeTypography.displayFontFamilyFallback;
   static const _monoFamily = CollectRuntimeTypography.monoFontFamilyFallback;
 
   static const _tabular = <FontFeature>[FontFeature.tabularFigures()];
 
   static TextTheme textTheme(Color textPrimary, Color textSecondary) {
     return TextTheme(
-      displaySmall: _style(48, 1.17, FontWeight.w700, textPrimary),
-      headlineLarge: _style(32, 1.25, FontWeight.w600, textPrimary),
-      headlineMedium: _style(24, 1.33, FontWeight.w600, textPrimary),
-      headlineSmall: _style(20, 1.4, FontWeight.w600, textPrimary),
-      titleLarge: _style(20, 1.4, FontWeight.w600, textPrimary),
+      displaySmall: _displayStyle(48, 1.17, FontWeight.w700, textPrimary),
+      headlineLarge: _displayStyle(32, 1.25, FontWeight.w600, textPrimary),
+      headlineMedium: _displayStyle(24, 1.33, FontWeight.w600, textPrimary),
+      headlineSmall: _displayStyle(20, 1.4, FontWeight.w600, textPrimary),
+      titleLarge: _displayStyle(20, 1.4, FontWeight.w600, textPrimary),
       titleMedium: _style(16, 1.5, FontWeight.w600, textPrimary),
       titleSmall: _style(14, 1.45, FontWeight.w600, textPrimary),
       bodyLarge: _style(18, 1.56, FontWeight.w400, textPrimary),
@@ -28,17 +30,29 @@ class CollectTypography {
     );
   }
 
-  static TextStyle amountHero(Color color) =>
-      _style(42, 1.02, FontWeight.w800, color).copyWith(fontFeatures: _tabular);
+  static TextStyle amountHero(Color color) => _displayStyle(
+    42,
+    1.02,
+    FontWeight.w700,
+    color,
+  ).copyWith(fontFeatures: _tabular);
 
-  static TextStyle amountDisplay(Color color) =>
-      _style(48, 1.0, FontWeight.w800, color).copyWith(fontFeatures: _tabular);
+  static TextStyle amountDisplay(Color color) => _displayStyle(
+    48,
+    1.0,
+    FontWeight.w700,
+    color,
+  ).copyWith(fontFeatures: _tabular);
 
-  static TextStyle amountLarge(Color color) =>
-      _style(28, 1.08, FontWeight.w800, color).copyWith(fontFeatures: _tabular);
+  static TextStyle amountLarge(Color color) => _displayStyle(
+    28,
+    1.08,
+    FontWeight.w700,
+    color,
+  ).copyWith(fontFeatures: _tabular);
 
   static TextStyle amountCompact(Color color) =>
-      _style(15, 1.25, FontWeight.w800, color).copyWith(fontFeatures: _tabular);
+      _style(15, 1.25, FontWeight.w700, color).copyWith(fontFeatures: _tabular);
 
   static TextStyle mono(Color color) =>
       _style(12, 1.33, FontWeight.w500, color).copyWith(
@@ -86,6 +100,23 @@ class CollectTypography {
     return TextStyle(
       fontFamily: CollectRuntimeTypography.fontFamily,
       fontFamilyFallback: _family,
+      fontSize: size,
+      height: height,
+      fontWeight: weight,
+      color: color,
+      letterSpacing: 0,
+    );
+  }
+
+  static TextStyle _displayStyle(
+    double size,
+    double height,
+    FontWeight weight,
+    Color color,
+  ) {
+    return TextStyle(
+      fontFamily: CollectRuntimeTypography.displayFontFamily,
+      fontFamilyFallback: _displayFamily,
       fontSize: size,
       height: height,
       fontWeight: weight,

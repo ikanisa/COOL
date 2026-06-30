@@ -9,6 +9,7 @@ import '../features/collections/collection_create_screen.dart';
 import '../features/collections/collection_detail_screen.dart';
 import '../features/collections/collection_manage_screen.dart';
 import '../features/collections/collections_screen.dart';
+import '../features/collections/group_creation_platform.dart';
 import '../features/collections/group_profile_screen.dart';
 import '../features/collections/group_link_screen.dart';
 import '../features/collections/group_qr_scanner_screen.dart';
@@ -18,11 +19,9 @@ import '../features/home/home_screen.dart';
 import '../features/launch/launch_splash_screen.dart';
 import '../features/ledger/ledger_screen.dart';
 import '../features/payments/contribution_flow_screen.dart';
-import '../features/payments/payment_intent_status_screen.dart';
 import '../features/profile/profile_setup_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../features/status/production_state_screens.dart';
-import '../shared/providers/collect_app_state.dart';
 import '../shared/widgets/collect_components.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) => createAppRouter());
@@ -30,34 +29,17 @@ final appRouterProvider = Provider<GoRouter>((ref) => createAppRouter());
 const collectRoutePaths = <String>[
   '/',
   '/auth',
-  '/onboarding',
-  '/onboarding/legal',
   '/home',
   '/offline',
   '/sync',
-  '/notifications',
-  '/permissions/sms',
-  '/permissions/sms-denied',
-  '/permissions/device',
-  '/permissions/notifications-denied',
-  '/permissions/camera-denied',
-  '/platform/iphone-create-unavailable',
   '/groups',
   '/groups/scan',
   '/groups/create',
   '/groups/:collectionId',
-  '/groups/:collectionId/joined',
   '/groups/:collectionId/members',
-  '/groups/:collectionId/owner',
-  '/groups/:collectionId/owner/sms-health',
-  '/groups/:collectionId/owner/receiver',
   '/groups/:collectionId/manage',
   '/groups/:collectionId/profile',
   '/groups/:collectionId/contribute',
-  '/groups/:collectionId/pay/:intentId/handoff',
-  '/groups/:collectionId/pay/:intentId/state/:state',
-  '/groups/:collectionId/pay/:intentId',
-  '/groups/:collectionId/support/payment/:intentId',
   '/groups/:collectionId/share',
   '/groups/:collectionId/invite',
   '/groups/:collectionId/ledger',
@@ -75,7 +57,6 @@ const collectRoutePaths = <String>[
   '/settings/help',
   '/settings/legal/terms',
   '/settings/legal/privacy',
-  '/share/confirmed',
   if (kDebugMode) '/dev/design-system',
 ];
 
@@ -93,18 +74,6 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
               const LaunchSplashScreen(),
               transition: _CollectRouteTransition.fade,
             ),
-          ),
-          GoRoute(
-            path: '/onboarding',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const OnboardingScreen(),
-              transition: _CollectRouteTransition.forward,
-            ),
-          ),
-          GoRoute(
-            path: '/onboarding/legal',
-            redirect: (context, state) => '/auth',
           ),
           GoRoute(
             path: '/auth',
@@ -139,58 +108,6 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
             ),
           ),
           GoRoute(
-            path: '/notifications',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const NotificationCenterScreen(),
-              transition: _CollectRouteTransition.detail,
-            ),
-          ),
-          GoRoute(
-            path: '/permissions/sms',
-            redirect: (context, state) => '/groups/create',
-          ),
-          GoRoute(
-            path: '/permissions/sms-denied',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const SmsPermissionDeniedScreen(),
-              transition: _CollectRouteTransition.utility,
-            ),
-          ),
-          GoRoute(
-            path: '/permissions/device',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const NotificationPermissionScreen(),
-              transition: _CollectRouteTransition.utility,
-            ),
-          ),
-          GoRoute(
-            path: '/permissions/notifications-denied',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const PermissionRecoveryScreen(kind: 'notifications'),
-              transition: _CollectRouteTransition.utility,
-            ),
-          ),
-          GoRoute(
-            path: '/permissions/camera-denied',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const PermissionRecoveryScreen(kind: 'camera'),
-              transition: _CollectRouteTransition.utility,
-            ),
-          ),
-          GoRoute(
-            path: '/platform/iphone-create-unavailable',
-            pageBuilder: (context, state) => _collectPage(
-              state,
-              const IphoneCreateUnavailableScreen(),
-              transition: _CollectRouteTransition.utility,
-            ),
-          ),
-          GoRoute(
             path: '/groups',
             pageBuilder: (context, state) => _collectPage(
               state,
@@ -212,6 +129,8 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
               ),
               GoRoute(
                 path: 'create',
+                redirect: (context, state) =>
+                    canCreateGroupsOnThisPlatform() ? null : '/groups',
                 pageBuilder: (context, state) => _collectPage(
                   state,
                   const CollectionCreateScreen(),
@@ -229,16 +148,6 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                 ),
                 routes: [
                   GoRoute(
-                    path: 'joined',
-                    pageBuilder: (context, state) => _collectPage(
-                      state,
-                      JoinGroupConfirmationScreen(
-                        collectionId: state.pathParameters['collectionId']!,
-                      ),
-                      transition: _CollectRouteTransition.confirmation,
-                    ),
-                  ),
-                  GoRoute(
                     path: 'members',
                     pageBuilder: (context, state) => _collectPage(
                       state,
@@ -247,22 +156,6 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                       ),
                       transition: _CollectRouteTransition.detail,
                     ),
-                  ),
-                  GoRoute(
-                    path: 'owner',
-                    redirect: (context, state) =>
-                        '/groups/${state.pathParameters['collectionId']}/manage',
-                    routes: [
-                      GoRoute(
-                        path: 'sms-health',
-                        redirect: (context, state) => '/permissions/device',
-                      ),
-                      GoRoute(
-                        path: 'receiver',
-                        redirect: (context, state) =>
-                            '/groups/${state.pathParameters['collectionId']}/profile',
-                      ),
-                    ],
                   ),
                   GoRoute(
                     path: 'manage',
@@ -295,47 +188,6 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                     ),
                   ),
                   GoRoute(
-                    path: 'pay/:intentId/handoff',
-                    redirect: (context, state) =>
-                        '/groups/${state.pathParameters['collectionId']}/pay/${state.pathParameters['intentId']}',
-                  ),
-                  GoRoute(
-                    path: 'pay/:intentId/state/:state',
-                    pageBuilder: (context, state) => _collectPage(
-                      state,
-                      PaymentStateDetailScreen(
-                        collectionId: state.pathParameters['collectionId']!,
-                        intentId: state.pathParameters['intentId']!,
-                        state: _paymentStateFromPath(
-                          state.pathParameters['state'],
-                        ),
-                      ),
-                      transition: _CollectRouteTransition.detail,
-                    ),
-                  ),
-                  GoRoute(
-                    path: 'pay/:intentId',
-                    pageBuilder: (context, state) => _collectPage(
-                      state,
-                      PaymentIntentStatusScreen(
-                        collectionId: state.pathParameters['collectionId']!,
-                        intentId: state.pathParameters['intentId']!,
-                      ),
-                      transition: _CollectRouteTransition.detail,
-                    ),
-                  ),
-                  GoRoute(
-                    path: 'support/payment/:intentId',
-                    pageBuilder: (context, state) => _collectPage(
-                      state,
-                      PaymentSupportReviewScreen(
-                        collectionId: state.pathParameters['collectionId']!,
-                        intentId: state.pathParameters['intentId']!,
-                      ),
-                      transition: _CollectRouteTransition.modal,
-                    ),
-                  ),
-                  GoRoute(
                     path: 'share',
                     pageBuilder: (context, state) => _collectPage(
                       state,
@@ -347,13 +199,8 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
                   ),
                   GoRoute(
                     path: 'invite',
-                    pageBuilder: (context, state) => _collectPage(
-                      state,
-                      CollectionDetailScreen(
-                        collectionId: state.pathParameters['collectionId']!,
-                      ),
-                      transition: _CollectRouteTransition.detail,
-                    ),
+                    redirect: (context, state) =>
+                        '/groups/${state.pathParameters['collectionId']}/share',
                   ),
                   GoRoute(
                     path: 'ledger',
@@ -472,10 +319,6 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
               transition: _CollectRouteTransition.detail,
             ),
           ),
-          GoRoute(
-            path: '/share/confirmed',
-            redirect: (context, state) => '/home',
-          ),
           if (kDebugMode)
             GoRoute(
               path: '/dev/design-system',
@@ -566,15 +409,6 @@ Page<void> _collectPage(
       };
     },
   );
-}
-
-PaymentUiStatus _paymentStateFromPath(String? value) {
-  return switch (value) {
-    'confirmed' => PaymentUiStatus.confirmed,
-    'expired' => PaymentUiStatus.expired,
-    'needs-review' => PaymentUiStatus.needsReview,
-    _ => PaymentUiStatus.pending,
-  };
 }
 
 class _RouteNotFoundScreen extends StatelessWidget {

@@ -72,86 +72,44 @@ void main() {
 }
 
 const _routeSpecs = <_RouteSpec>[
-  _RouteSpec('root-redirect', '/'),
-  _RouteSpec('onboarding', '/onboarding'),
-  _RouteSpec('onboarding-legal', '/onboarding/legal'),
-  _RouteSpec('auth', '/auth'),
-  _RouteSpec('profile', '/settings/profile'),
-  _RouteSpec('sms-permission-redirect', '/permissions/sms'),
-  _RouteSpec('sms-denied', '/permissions/sms-denied'),
-  _RouteSpec('device-permission', '/permissions/device'),
-  _RouteSpec('notifications-denied', '/permissions/notifications-denied'),
-  _RouteSpec('camera-denied', '/permissions/camera-denied'),
-  _RouteSpec('home', '/home'),
-  _RouteSpec('groups', '/groups'),
-  _RouteSpec('group-create', '/groups/create'),
-  _RouteSpec('group-scan', '/groups/scan'),
-  _RouteSpec(
-    'iphone-create-unavailable',
-    '/platform/iphone-create-unavailable',
-  ),
-  _RouteSpec('group-detail', '/groups/col-church'),
-  _RouteSpec('group-joined', '/groups/col-church/joined'),
-  _RouteSpec('owner-redirect', '/groups/col-church/owner'),
-  _RouteSpec(
-    'owner-sms-health-redirect',
-    '/groups/col-church/owner/sms-health',
-  ),
-  _RouteSpec('owner-receiver-redirect', '/groups/col-church/owner/receiver'),
-  _RouteSpec('share', '/groups/col-church/share'),
-  _RouteSpec('invite', '/groups/col-church/invite'),
-  _RouteSpec('shared-group-link', '/c/st-michel-building-fund'),
-  _RouteSpec('share-invalid', '/share/invalid'),
-  _RouteSpec('share-expired', '/share/expired'),
-  _RouteSpec('share-expired-request', '/share/expired/request'),
-  _RouteSpec('share-confirmed-redirect', '/share/confirmed'),
-  _RouteSpec('app-share-entry', '/app'),
-  _RouteSpec('app-invite-link', '/invite/038491'),
-  _RouteSpec('contribution', '/groups/col-church/contribute'),
-  _RouteSpec(
-    'payment-handoff-redirect',
-    '/groups/col-church/pay/intent-render/handoff',
-  ),
-  _RouteSpec('payment-intent', '/groups/col-church/pay/intent-render'),
-  _RouteSpec(
-    'payment-pending',
-    '/groups/col-church/pay/intent-render/state/pending',
-  ),
-  _RouteSpec(
-    'payment-confirmed',
-    '/groups/col-church/pay/intent-render/state/confirmed',
-  ),
-  _RouteSpec(
-    'payment-expired',
-    '/groups/col-church/pay/intent-render/state/expired',
-  ),
-  _RouteSpec(
-    'payment-needs-review',
-    '/groups/col-church/pay/intent-render/state/needs-review',
-  ),
-  _RouteSpec(
-    'payment-support-review',
-    '/groups/col-church/support/payment/intent-render',
-  ),
-  _RouteSpec('ledger', '/groups/col-church/ledger'),
-  _RouteSpec('manage', '/groups/col-church/manage'),
-  _RouteSpec('group-profile', '/groups/col-church/profile'),
-  _RouteSpec('members', '/groups/col-church/members'),
-  _RouteSpec('settings', '/settings'),
-  _RouteSpec('account', '/settings/account'),
-  _RouteSpec('account-delete', '/settings/account/delete'),
-  _RouteSpec('privacy', '/settings/privacy'),
-  _RouteSpec('legal-privacy', '/settings/legal/privacy'),
-  _RouteSpec('legal-terms', '/settings/legal/terms'),
-  _RouteSpec('help', '/settings/help'),
-  _RouteSpec('notifications', '/notifications'),
-  _RouteSpec('offline', '/offline'),
-  _RouteSpec('sync', '/sync'),
+  _RouteSpec('root-redirect', '/', 'entry'),
+  _RouteSpec('auth', '/auth', 'workflow'),
+  _RouteSpec('profile', '/settings/profile', 'workflow'),
+  _RouteSpec('home', '/home', 'primary'),
+  _RouteSpec('groups', '/groups', 'primary'),
+  _RouteSpec('group-create', '/groups/create', 'workflow'),
+  _RouteSpec('group-scan', '/groups/scan', 'workflow'),
+  _RouteSpec('group-detail', '/groups/col-church', 'workflow'),
+  _RouteSpec('share', '/groups/col-church/share', 'workflow'),
+  _RouteSpec('invite', '/groups/col-church/invite', 'compatibility'),
+  _RouteSpec('shared-group-link', '/c/st-michel-building-fund', 'entry'),
+  _RouteSpec('share-invalid', '/share/invalid', 'recovery'),
+  _RouteSpec('share-expired', '/share/expired', 'recovery'),
+  _RouteSpec('share-expired-request', '/share/expired/request', 'recovery'),
+  _RouteSpec('app-share-entry', '/app', 'compatibility'),
+  _RouteSpec('app-invite-link', '/invite/038491', 'compatibility'),
+  _RouteSpec('contribution', '/groups/col-church/contribute', 'workflow'),
+  _RouteSpec('ledger', '/groups/col-church/ledger', 'workflow'),
+  _RouteSpec('manage', '/groups/col-church/manage', 'workflow'),
+  _RouteSpec('group-profile', '/groups/col-church/profile', 'workflow'),
+  _RouteSpec('members', '/groups/col-church/members', 'workflow'),
+  _RouteSpec('settings', '/settings', 'primary'),
+  _RouteSpec('account', '/settings/account', 'utility'),
+  _RouteSpec('account-delete', '/settings/account/delete', 'utility'),
+  _RouteSpec('privacy', '/settings/privacy', 'utility'),
+  _RouteSpec('legal-privacy', '/settings/legal/privacy', 'utility'),
+  _RouteSpec('legal-terms', '/settings/legal/terms', 'utility'),
+  _RouteSpec('help', '/settings/help', 'utility'),
+  _RouteSpec('offline', '/offline', 'recovery'),
+  _RouteSpec('sync', '/sync', 'utility'),
 ];
 
 class _RouteSpec {
-  const _RouteSpec(this.name, this.route);
+  const _RouteSpec(this.name, this.route, this.routeClass);
 
   final String name;
   final String route;
+  final String routeClass;
+
+  bool get isProductScreen => routeClass != 'compatibility';
 }

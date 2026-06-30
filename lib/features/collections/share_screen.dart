@@ -89,7 +89,8 @@ class ShareScreen extends ConsumerWidget {
                                 collection.title,
                                 style: Theme.of(context).textTheme.titleLarge
                                     ?.copyWith(fontWeight: FontWeight.w900),
-                                maxLines: 2,
+                                maxLines: 1,
+                                softWrap: false,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -237,7 +238,8 @@ class _SharePreviewCard extends StatelessWidget {
                     color: context.collectColors.onImagePrimary,
                     fontWeight: FontWeight.w900,
                   ),
-                  maxLines: 2,
+                  maxLines: 1,
+                  softWrap: false,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -250,13 +252,15 @@ class _SharePreviewCard extends StatelessWidget {
                 child: _SharePreviewMetric(
                   label: 'Raised',
                   value: formatRwf(summary.amountRaisedRwf),
+                  icon: CollectSemanticIcons.forKeyword('amount'),
                 ),
               ),
               CollectSpacing.gapW12,
               Expanded(
                 child: _SharePreviewMetric(
-                  label: 'Supporters',
+                  label: 'Members',
                   value: '${summary.supporterCount}',
+                  icon: CollectSemanticIcons.forKeyword('members'),
                 ),
               ),
             ],
@@ -268,47 +272,52 @@ class _SharePreviewCard extends StatelessWidget {
 }
 
 class _SharePreviewMetric extends StatelessWidget {
-  const _SharePreviewMetric({required this.label, required this.value});
+  const _SharePreviewMetric({
+    required this.label,
+    required this.value,
+    required this.icon,
+  });
 
   final String label;
   final String value;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
     final foreground = context.collectColors.onImagePrimary;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: foreground.withValues(alpha: 0.10),
-        borderRadius: CollectRadius.panelBorder,
-        border: Border.all(color: foreground.withValues(alpha: 0.16)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(CollectSpacing.x3),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: foreground.withValues(alpha: 0.72),
-                fontWeight: FontWeight.w800,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            CollectSpacing.gap4,
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.centerLeft,
-              child: Text(
-                value,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: foreground,
-                  fontWeight: FontWeight.w900,
+    return Semantics(
+      label: '$label $value',
+      child: ExcludeSemantics(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: foreground.withValues(alpha: 0.10),
+            borderRadius: CollectRadius.panelBorder,
+            border: Border.all(color: foreground.withValues(alpha: 0.16)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(CollectSpacing.x3),
+            child: Row(
+              children: [
+                Icon(icon, color: foreground.withValues(alpha: 0.78), size: 18),
+                CollectSpacing.gapW8,
+                Expanded(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      value,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: foreground,
+                        fontWeight: FontWeight.w900,
+                      ),
+                      maxLines: 1,
+                      softWrap: false,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -455,21 +464,17 @@ class _ShareBrandMark extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: colors.onImagePrimary.withValues(alpha: 0.10),
-            borderRadius: CollectRadius.pillBorder,
+            shape: BoxShape.circle,
             border: Border.all(
               color: colors.onImagePrimary.withValues(alpha: 0.16),
             ),
           ),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: CollectSpacing.x3,
-              vertical: CollectSpacing.x2,
-            ),
-            child: CollectBrandMark(
-              compact: true,
-              framed: false,
-              width: 104,
-              height: 30,
+          child: SizedBox.square(
+            dimension: 44,
+            child: Icon(
+              CollectSemanticIcons.forKeyword('qr'),
+              color: colors.onImagePrimary,
+              size: 22,
             ),
           ),
         ),

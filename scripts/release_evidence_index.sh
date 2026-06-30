@@ -458,32 +458,21 @@ mobile_route_items = mobile_route_captures.map do |capture|
 end
 
 required_mobile_routes = %w[
-  /onboarding
-  /onboarding/legal
+  /
   /auth
   /settings/profile
-  /permissions/sms
-  /permissions/sms-denied
-  /permissions/device
-  /permissions/notifications-denied
-  /permissions/camera-denied
   /home
   /groups
   /groups/create
   /groups/scan
-  /platform/iphone-create-unavailable
   /groups/col-church
-  /groups/col-church/joined
   /groups/col-church/share
+  /groups/col-church/invite
+  /c/st-michel-building-fund
   /share/invalid
   /share/expired
   /share/expired/request
   /groups/col-church/contribute
-  /groups/col-church/pay/intent-render/state/pending
-  /groups/col-church/pay/intent-render/state/confirmed
-  /groups/col-church/pay/intent-render/state/expired
-  /groups/col-church/pay/intent-render/state/needs-review
-  /groups/col-church/support/payment/intent-render
   /groups/col-church/ledger
   /groups/col-church/manage
   /groups/col-church/profile
@@ -495,7 +484,6 @@ required_mobile_routes = %w[
   /settings/legal/privacy
   /settings/legal/terms
   /settings/help
-  /notifications
   /offline
   /sync
 ]

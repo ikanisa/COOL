@@ -32,6 +32,10 @@ final profileReadinessProvider = Provider<ProfileReadiness>((ref) {
 });
 
 final connectivityStatusProvider = Provider<ConnectivityStatus>((ref) {
+  final usingStaleCache = ref.watch(
+    collectRepositoryProvider.select((state) => state.usingStaleCache),
+  );
+  if (usingStaleCache) return ConnectivityStatus.offlineStale;
   final error = ref.watch(
     collectRepositoryProvider.select((state) => state.lastError),
   );
@@ -134,7 +138,16 @@ class PaymentStatusKey {
   final String intentId;
 }
 
-enum ConnectivityStatus { online, degraded, offline }
+final offlineSnapshotStatusProvider = Provider<OfflineSnapshotStatus>((ref) {
+  final state = ref.watch(collectRepositoryProvider);
+  return OfflineSnapshotStatus(
+    usingStaleCache: state.usingStaleCache,
+    hasReadableData: state.hasOfflineReadableData,
+    lastSuccessfulSyncAt: state.lastSuccessfulSyncAt,
+  );
+});
+
+enum ConnectivityStatus { online, degraded, offline, offlineStale }
 
 enum RealtimeSyncStatus { current, syncing, needsAttention }
 
@@ -143,3 +156,25 @@ enum SmsPermissionStatus { unavailable, notRequested, granted, denied }
 enum PaymentUiStatus { pending, confirmed, expired, needsReview }
 
 enum CollectDevicePermissionStatus { notRequested, granted, denied }
+
+class OfflineSnapshotStatus {
+  const OfflineSnapshotStatus({
+    required this.usingStaleCache,
+    required this.hasReadableData,
+    required this.lastSuccessfulSyncAt,
+  });
+
+  final bool usingStaleCache;
+  final bool hasReadableData;
+  final DateTime? lastSuccessfulSyncAt;
+
+  String get label {
+    if (!usingStaleCache) return 'Live data';
+    final syncedAt = lastSuccessfulSyncAt;
+    if (syncedAt == null) return 'Offline saved data';
+    final local = syncedAt.toLocal();
+    final hour = local.hour.toString().padLeft(2, '0');
+    final minute = local.minute.toString().padLeft(2, '0');
+    return 'Offline saved data, updated $hour:$minute';
+  }
+}

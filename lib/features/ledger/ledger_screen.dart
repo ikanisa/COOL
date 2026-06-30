@@ -36,15 +36,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
     final contributions = ref.watch(
       contributionsForCollectionProvider(widget.collectionId),
     );
-    final pendingIntents = state.paymentIntents
-        .where(
-          (item) =>
-              item.collectionId == widget.collectionId &&
-              paymentStatusTone(item.status) != CollectStatusTone.success,
-        )
-        .toList();
-    final isInitialLoading =
-        state.isLoading && contributions.isEmpty && pendingIntents.isEmpty;
+    final isInitialLoading = state.isLoading && contributions.isEmpty;
     final filteredContributions = switch (_filter) {
       _LedgerFilter.all || _LedgerFilter.confirmed => contributions,
       _LedgerFilter.mine => [
@@ -54,7 +46,6 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
                   item.supporterLabel == profile.safeAlias))
             item,
       ],
-      _LedgerFilter.pending || _LedgerFilter.review => <Contribution>[],
     };
     final visible = filteredContributions.where((item) {
       final query = _query.trim().toLowerCase();
@@ -62,31 +53,8 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
       return item.supporterLabel.toLowerCase().contains(query) ||
           (item.transactionId ?? '').toLowerCase().contains(query);
     }).toList()..sort((a, b) => _compareContributions(a, b, _sort));
-    final visiblePending =
-        pendingIntents.where((item) {
-          final query = _query.trim().toLowerCase();
-          final matchesStatus = switch (_filter) {
-            _LedgerFilter.all => true,
-            _LedgerFilter.pending => _isPendingStatus(item.status),
-            _LedgerFilter.review => _isReviewStatus(item.status),
-            _LedgerFilter.confirmed || _LedgerFilter.mine => false,
-          };
-          if (!matchesStatus) return false;
-          if (query.isEmpty) return true;
-          return item.id.toLowerCase().contains(query) ||
-              item.receiverLabel.toLowerCase().contains(query) ||
-              paymentStatusLabel(item.status).toLowerCase().contains(query);
-        }).toList()..sort((a, b) {
-          final statusSort = _ledgerIntentSort(
-            a.status,
-          ).compareTo(_ledgerIntentSort(b.status));
-          if (statusSort != 0) return statusSort;
-          return b.createdAt.compareTo(a.createdAt);
-        });
-    final hasAnyLedgerActivity =
-        contributions.isNotEmpty || pendingIntents.isNotEmpty;
-    final hasVisibleLedgerActivity =
-        visible.isNotEmpty || visiblePending.isNotEmpty;
+    final hasAnyLedgerActivity = contributions.isNotEmpty;
+    final hasVisibleLedgerActivity = visible.isNotEmpty;
     final total = contributions.fold<int>(
       0,
       (sum, item) => sum + item.amountRwf,
@@ -100,7 +68,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
           ? const [
               CollectScreenLoadingState(
                 title: 'Loading ledger',
-                message: 'Refreshing confirmed and pending contributions.',
+                message: 'Refreshing confirmed contributions.',
                 icon: CollectIcons.ledger,
                 skeletonCount: 3,
               ),
@@ -151,15 +119,6 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
                   emphasis: CollectCardEmphasis.flat,
                   child: Column(
                     children: [
-                      for (final intent in visiblePending)
-                        FinancialListRow(
-                          title: paymentStatusLabel(intent.status),
-                          amountRwf: intent.expectedAmountRwf,
-                          meta: 'Awaiting MoMo confirmation',
-                          subtitle: intent.receiverLabel,
-                          leading: CollectIcons.pending,
-                          tone: paymentStatusTone(intent.status),
-                        ),
                       for (final contribution in visible)
                         FinancialListRow(
                           title: compactCollectIdLabel(
@@ -442,28 +401,14 @@ class _LedgerSheetPill<T> extends StatelessWidget {
   }
 }
 
-enum _LedgerFilter { all, confirmed, pending, review, mine }
+enum _LedgerFilter { all, confirmed, mine }
 
 enum _LedgerSort { newest, oldest, highest, lowest }
-
-bool _isPendingStatus(String status) => status == 'pending';
-
-bool _isReviewStatus(String status) {
-  return status == 'needs_review' || status == 'review';
-}
-
-int _ledgerIntentSort(String status) {
-  if (_isReviewStatus(status)) return 0;
-  if (_isPendingStatus(status)) return 1;
-  return 2;
-}
 
 String _ledgerFilterLabel(_LedgerFilter filter) {
   return switch (filter) {
     _LedgerFilter.all => 'All',
     _LedgerFilter.confirmed => 'Confirmed',
-    _LedgerFilter.pending => 'Pending',
-    _LedgerFilter.review => 'Needs review',
     _LedgerFilter.mine => 'Mine',
   };
 }
@@ -492,8 +437,6 @@ int _compareContributions(
 
 String _emptyTitleForFilter(_LedgerFilter filter) {
   return switch (filter) {
-    _LedgerFilter.pending => 'No pending payments',
-    _LedgerFilter.review => 'No review items',
     _LedgerFilter.mine => 'No matching contributions',
     _ => 'No transactions found',
   };
@@ -501,10 +444,6 @@ String _emptyTitleForFilter(_LedgerFilter filter) {
 
 String _emptyMessageForFilter(_LedgerFilter filter) {
   return switch (filter) {
-    _LedgerFilter.pending =>
-      'Payments waiting for MoMo SMS verification will appear here.',
-    _LedgerFilter.review =>
-      'Payments that need support review will appear here without exposing private confirmation details.',
     _LedgerFilter.mine =>
       'No contribution from your Collect ID matches the current search.',
     _ =>

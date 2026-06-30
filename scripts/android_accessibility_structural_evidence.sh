@@ -64,6 +64,7 @@ esac
 ADB_BIN="$(resolve_adb)"
 DEVICE_ID="${ANDROID_ACCESSIBILITY_DEVICE_ID:-13111JEC215558}"
 PACKAGE="${ANDROID_ACCESSIBILITY_PACKAGE:-app.cool.mobile}"
+CLEAR_APP_DATA="${ANDROID_ACCESSIBILITY_CLEAR_APP_DATA:-1}"
 TALKBACK_SERVICE="com.google.android.marvin.talkback/.TalkBackService"
 timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
 EVIDENCE_DIR="${ANDROID_ACCESSIBILITY_EVIDENCE_DIR:-$ROOT_DIR/.cache/android_accessibility_pixel4a/$timestamp}"
@@ -125,6 +126,11 @@ if ! "$ADB_BIN" -s "$DEVICE_ID" shell pm list packages | grep -q 'com.google.and
   exit 1
 fi
 
+if ! "$ADB_BIN" -s "$DEVICE_ID" shell pm path "$PACKAGE" >/dev/null 2>&1; then
+  printf '[android-accessibility-structural][FAIL] Package %s is not installed on %s.\n' "$PACKAGE" "$DEVICE_ID" >&2
+  exit 1
+fi
+
 put_setting secure enabled_accessibility_services "$TALKBACK_SERVICE"
 put_setting secure accessibility_enabled 1
 put_setting system font_scale 1.0
@@ -139,8 +145,13 @@ capture() {
   local local_png="$EVIDENCE_DIR/${name}.png"
   local launch_log="$EVIDENCE_DIR/${name}_launch.txt"
 
+  "$ADB_BIN" -s "$DEVICE_ID" shell am force-stop "$PACKAGE" >/dev/null 2>&1 || true
+  if [[ "$CLEAR_APP_DATA" == "1" ]]; then
+    "$ADB_BIN" -s "$DEVICE_ID" shell pm clear "$PACKAGE" >/dev/null 2>&1 || true
+  fi
   "$@" >"$launch_log" 2>&1 || true
   sleep 4
+  "$ADB_BIN" -s "$DEVICE_ID" shell dumpsys window >"$EVIDENCE_DIR/${name}_window.txt" 2>&1 || true
   "$ADB_BIN" -s "$DEVICE_ID" shell uiautomator dump "$remote_xml" >"$EVIDENCE_DIR/${name}_uiautomator.txt" 2>&1
   "$ADB_BIN" -s "$DEVICE_ID" shell screencap -p "$remote_png" >/dev/null
   "$ADB_BIN" -s "$DEVICE_ID" pull "$remote_xml" "$local_xml" >/dev/null
@@ -197,6 +208,9 @@ captures = %w[launch_onboarding deeplink_onboarding_guard].map do |name|
     "name" => name,
     "screenshot" => "#{xml_path.delete_suffix(".xml")}.png",
     "xml" => xml_path,
+    "window" => File.join(root, "#{name}_window.txt"),
+    "active_package_match" => File.file?(File.join(root, "#{name}_window.txt")) &&
+      File.read(File.join(root, "#{name}_window.txt")).include?(ENV.fetch("ANDROID_ACCESSIBILITY_PACKAGE")),
     "node_label_count" => labels.length,
     "sample_labels" => labels.take(10)
   }
@@ -205,6 +219,7 @@ end
 failures = []
 captures.each do |capture|
   min_labels = 5
+  failures << "#{capture.fetch("name")} did not keep #{ENV.fetch("ANDROID_ACCESSIBILITY_PACKAGE")} focused for capture." unless capture.fetch("active_package_match")
   failures << "#{capture.fetch("name")} must expose at least #{min_labels} accessibility labels." if capture.fetch("node_label_count") < min_labels
 end
 failures << "Accessibility enabled setting was not restored." unless ENV.fetch("ANDROID_ACCESSIBILITY_AFTER_ENABLED") == ENV.fetch("ANDROID_ACCESSIBILITY_BEFORE_ENABLED")
@@ -219,7 +234,8 @@ summary = {
   "captures" => captures.map do |capture|
     capture.merge(
       "screenshot" => capture.fetch("screenshot").delete_prefix("#{Dir.pwd}/"),
-      "xml" => capture.fetch("xml").delete_prefix("#{Dir.pwd}/")
+      "xml" => capture.fetch("xml").delete_prefix("#{Dir.pwd}/"),
+      "window" => capture.fetch("window").delete_prefix("#{Dir.pwd}/")
     )
   end,
   "device" => ENV.fetch("ANDROID_ACCESSIBILITY_DEVICE").delete_prefix("#{Dir.pwd}/"),

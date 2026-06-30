@@ -52,7 +52,7 @@ void main() {
       '/home',
       '/groups',
       '/groups/create',
-      '/groups/col-church/pay/intent/state/pending',
+      '/groups/col-church/contribute',
       '/groups/col-church/share',
       '/settings/help',
       '/offline',

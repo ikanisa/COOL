@@ -1,83 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:permission_handler/permission_handler.dart' as permissions;
 
 import '../../shared/providers/collect_app_state.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
-
-class SmsPermissionDeniedScreen extends StatelessWidget {
-  const SmsPermissionDeniedScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ScreenScaffold(
-      title: 'SMS access needed',
-      children: [
-        CollectBottomSheet(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const MinimalStatePanel(
-                icon: CollectIcons.sms,
-                title: 'Enable Android SMS access',
-                message: 'Needed to create receiver groups.',
-                tone: CollectStatusTone.warning,
-              ),
-              CollectSpacing.gap16,
-              const CollectButton(
-                label: 'Open app settings',
-                icon: CollectIcons.settings,
-                onPressed: permissions.openAppSettings,
-                expand: true,
-              ),
-              CollectButton(
-                label: 'Try again',
-                icon: CollectIcons.sync,
-                onPressed: () => context.go('/groups/create'),
-                variant: CollectButtonVariant.secondary,
-                expand: true,
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class IphoneCreateUnavailableScreen extends StatelessWidget {
-  const IphoneCreateUnavailableScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ScreenScaffold(
-      title: 'Create group',
-      children: [
-        const MinimalStatePanel(
-          icon: CollectIcons.momo,
-          title: 'Create groups on Android',
-          message: 'iPhone can join, pay, and scan.',
-          tone: CollectStatusTone.info,
-        ),
-        CollectButton(
-          label: 'Scan QR',
-          icon: CollectIcons.qr,
-          onPressed: () => context.go('/groups/scan'),
-          expand: true,
-        ),
-        CollectButton(
-          label: 'Groups',
-          icon: CollectIcons.collections,
-          onPressed: () => context.go('/groups'),
-          variant: CollectButtonVariant.secondary,
-          expand: true,
-        ),
-      ],
-    );
-  }
-}
 
 class OfflineStateScreen extends StatelessWidget {
   const OfflineStateScreen({super.key});

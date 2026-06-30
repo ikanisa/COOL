@@ -1,5 +1,7 @@
 part of 'collect_repository.dart';
 
+const _unsetDateTimeField = Object();
+
 class CollectState {
   const CollectState({
     required this.currentProfile,
@@ -11,6 +13,8 @@ class CollectState {
     this.smsAccessEnabled = false,
     this.smsAccessDenied = false,
     this.isLoading = false,
+    this.usingStaleCache = false,
+    this.lastSuccessfulSyncAt,
     this.lastError,
   });
 
@@ -23,7 +27,16 @@ class CollectState {
   final bool smsAccessEnabled;
   final bool smsAccessDenied;
   final bool isLoading;
+  final bool usingStaleCache;
+  final DateTime? lastSuccessfulSyncAt;
   final String? lastError;
+
+  bool get hasOfflineReadableData {
+    return currentProfile != null ||
+        collections.isNotEmpty ||
+        paymentIntents.isNotEmpty ||
+        contributions.isNotEmpty;
+  }
 
   CollectState copyWith({
     CollectProfile? currentProfile,
@@ -35,6 +48,8 @@ class CollectState {
     bool? smsAccessEnabled,
     bool? smsAccessDenied,
     bool? isLoading,
+    bool? usingStaleCache,
+    Object? lastSuccessfulSyncAt = _unsetDateTimeField,
     String? lastError,
   }) {
     return CollectState(
@@ -48,6 +63,10 @@ class CollectState {
       smsAccessEnabled: smsAccessEnabled ?? this.smsAccessEnabled,
       smsAccessDenied: smsAccessDenied ?? this.smsAccessDenied,
       isLoading: isLoading ?? this.isLoading,
+      usingStaleCache: usingStaleCache ?? this.usingStaleCache,
+      lastSuccessfulSyncAt: identical(lastSuccessfulSyncAt, _unsetDateTimeField)
+          ? this.lastSuccessfulSyncAt
+          : lastSuccessfulSyncAt as DateTime?,
       lastError: lastError,
     );
   }

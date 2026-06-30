@@ -262,25 +262,14 @@ class CollectColors extends ThemeExtension<CollectColors> {
 
   Gradient screenGradientForPath(String? path) {
     final route = path ?? '';
-    if (route == '/home' ||
-        route.startsWith('/onboarding') ||
-        route.startsWith('/auth')) {
+    if (route == '/home' || route.startsWith('/auth')) {
       return referenceAccountGradient;
     }
     if (route.startsWith('/groups/create') ||
-        route.startsWith('/settings/profile') ||
-        route.startsWith('/permissions/sms') ||
-        route.startsWith('/permissions/camera') ||
-        route.startsWith('/permissions/device') ||
-        route.startsWith('/permissions/notifications-denied') ||
-        route.startsWith('/platform/iphone-create-unavailable')) {
+        route.startsWith('/settings/profile')) {
       return referenceWealthGradient;
     }
-    if (route.contains('/pay/') ||
-        route.contains('/contribute') ||
-        route.contains('/support/payment') ||
-        route.contains('/state/') ||
-        route.contains('/ledger')) {
+    if (route.contains('/contribute') || route.contains('/ledger')) {
       return referenceAssetGradient;
     }
     if (route.startsWith('/settings/account') ||
@@ -296,7 +285,6 @@ class CollectColors extends ThemeExtension<CollectColors> {
       return referenceRewardsGradient;
     }
     if (route == '/offline' || route == '/sync') return referenceInvestGradient;
-    if (route.startsWith('/notifications')) return referenceMarketGradient;
     if (route.startsWith('/groups') || route.startsWith('/c/')) {
       return referencePaymentsGradient;
     }

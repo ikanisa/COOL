@@ -9,7 +9,8 @@ class HelpSupportScreen extends StatelessWidget {
       title: 'WhatsApp support',
       children: [
         CollectVisualFeatureCard(
-          asset: 'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png',
+          asset:
+              'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png',
           title: 'Support without secrets',
           message:
               'Collect support never needs MoMo PINs, OTPs, raw SMS, or private credentials.',

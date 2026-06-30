@@ -1,54 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../shared/models/collect_models.dart';
-import '../../shared/repositories/collect_repository.dart';
 import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
-export 'onboarding_status_screens.dart';
 export 'access_state_screens.dart';
-export 'payment_status_screens.dart';
 export 'device_privacy_screens.dart';
 export 'account_legal_screens.dart';
 export 'group_members_screen.dart';
-
-class JoinGroupConfirmationScreen extends ConsumerWidget {
-  const JoinGroupConfirmationScreen({required this.collectionId, super.key});
-
-  final String collectionId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final collection = _safeCollection(ref, collectionId);
-    return ScreenScaffold(
-      title: 'Group joined',
-      children: [
-        CollectBottomSheet(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _StateHero(
-                icon: CollectIcons.check,
-                title: collection?.title ?? 'Joined.',
-                tone: CollectStatusTone.success,
-              ),
-              CollectSpacing.gap16,
-              CollectButton(
-                label: 'Open group',
-                icon: CollectIcons.collections,
-                onPressed: () => context.go('/groups/$collectionId'),
-                expand: true,
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 class SharedLinkProblemScreen extends StatelessWidget {
   const SharedLinkProblemScreen({required this.expired, super.key});
@@ -104,6 +64,62 @@ class SharedLinkProblemScreen extends StatelessWidget {
   }
 }
 
+class FreshLinkRequestScreen extends StatefulWidget {
+  const FreshLinkRequestScreen({required this.slug, super.key});
+
+  final String slug;
+
+  @override
+  State<FreshLinkRequestScreen> createState() => _FreshLinkRequestScreenState();
+}
+
+class _FreshLinkRequestScreenState extends State<FreshLinkRequestScreen> {
+  bool _submitted = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return ScreenScaffold(
+      title: 'Fresh link',
+      children: [
+        _StateHero(
+          icon: CollectIcons.sync,
+          title: _submitted ? 'Request sent.' : 'Request a fresh link.',
+          tone: _submitted ? CollectStatusTone.success : CollectStatusTone.info,
+        ),
+        InfoSecurityBanner(
+          title: 'Link safety',
+          message: widget.slug.trim().isEmpty
+              ? 'Ask the group owner for a new invite without sharing receiver or payment details.'
+              : 'Ask the group owner for a new invite to this group without sharing receiver or payment details.',
+          tone: CollectStatusTone.privacy,
+        ),
+        CollectButton(
+          label: _submitted ? 'Open groups' : 'Request fresh link',
+          icon: _submitted ? CollectIcons.collections : CollectIcons.sync,
+          onPressed: _submitted
+              ? () => context.go('/groups')
+              : () => setState(() => _submitted = true),
+          expand: true,
+        ),
+        CollectButton(
+          label: 'Scan QR',
+          icon: CollectIcons.qr,
+          onPressed: () => context.go('/groups/scan'),
+          variant: CollectButtonVariant.secondary,
+          expand: true,
+        ),
+        const CollectButton(
+          label: 'Get help',
+          icon: CollectIcons.support,
+          onPressed: openCollectWhatsAppSupport,
+          variant: CollectButtonVariant.subtle,
+          expand: true,
+        ),
+      ],
+    );
+  }
+}
+
 class _StateHero extends StatelessWidget {
   const _StateHero({
     required this.icon,
@@ -129,10 +145,4 @@ class _StateHero extends StatelessWidget {
       ),
     );
   }
-}
-
-CollectCollection? _safeCollection(WidgetRef ref, String collectionId) {
-  return ref
-      .read(collectRepositoryProvider.notifier)
-      .maybeCollectionById(collectionId);
 }

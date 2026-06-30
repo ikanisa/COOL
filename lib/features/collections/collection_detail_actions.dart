@@ -159,24 +159,29 @@ class _GroupMomentumRail extends StatelessWidget {
         icon: CollectIcons.money,
         tone: CollectStatusTone.success,
         emphasis: true,
+        iconOnly: true,
+        semanticLabel: 'Collected ${formatRwf(summary.amountRaisedRwf)}',
       ),
       top: BentoMetricCell(
         label: 'Cadence',
         value: cadence,
-        detail: '${summary.supporterCount} supporters',
+        detail: null,
         icon: CollectIcons.pending,
         tone: CollectStatusTone.info,
+        iconOnly: true,
+        semanticLabel: '$cadence cadence, ${summary.supporterCount} members',
       ),
       bottom: BentoMetricCell(
         label: receiverReady ? 'Receiver ready' : 'Receiver pending',
-        value: visibleContributionCount == 1
-            ? '1 activity'
-            : '$visibleContributionCount activities',
-        detail: collection.isPublic ? 'Public link active' : 'Private group',
-        icon: receiverReady ? CollectIcons.momo : CollectIcons.warning,
+        value: '$visibleContributionCount',
+        detail: null,
+        icon: collection.isPublic ? CollectIcons.public : CollectIcons.privacy,
         tone: receiverReady
             ? CollectStatusTone.success
             : CollectStatusTone.warning,
+        iconOnly: true,
+        semanticLabel:
+            '${visibleContributionCount == 1 ? '1 activity' : '$visibleContributionCount activities'}, ${collection.isPublic ? 'public' : 'private'}, ${receiverReady ? 'receiver ready' : 'receiver pending'}',
       ),
     );
   }

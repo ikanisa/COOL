@@ -12,6 +12,7 @@ import '../../core/security/sms_access_channel.dart';
 import '../../core/supabase/realtime_invalidation.dart';
 import '../../core/supabase/supabase_module.dart';
 import '../models/collect_models.dart';
+import 'collect_offline_cache.dart';
 
 part 'collect_repository_providers.dart';
 part 'collect_repository_state.dart';
@@ -22,35 +23,53 @@ class CollectRepository extends StateNotifier<CollectState> {
   CollectRepository({
     SupabaseClient? supabase,
     SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
-  }) : this._(supabase, smsAccessChannel, _emptyCollectState(), false);
+    CollectOfflineCache? offlineCache,
+  }) : this._(
+         supabase,
+         smsAccessChannel,
+         _emptyCollectState(),
+         false,
+         offlineCache ?? const CollectOfflineCache(),
+       );
 
   CollectRepository.fixture({
     SupabaseClient? supabase,
     SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
     bool seeded = true,
+    CollectOfflineCache? offlineCache,
   }) : this._(
          supabase,
          smsAccessChannel,
          seeded ? _fixtureCollectState() : _emptyCollectState(),
          true,
+         offlineCache ?? const CollectOfflineCache(),
        );
 
   CollectRepository.appReviewDemo({
     SupabaseClient? supabase,
     SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
-  }) : this._(supabase, smsAccessChannel, _appReviewCollectState(), true);
+    CollectOfflineCache? offlineCache,
+  }) : this._(
+         supabase,
+         smsAccessChannel,
+         _appReviewCollectState(),
+         true,
+         offlineCache ?? const CollectOfflineCache(),
+       );
 
   CollectRepository._(
     this._supabase,
     this._smsAccessChannel,
     CollectState initialState,
     this._allowLocalWrites,
+    this._offlineCache,
   ) : super(initialState);
 
   final SupabaseClient? _supabase;
   late final _CollectLiveReader _liveReader = _CollectLiveReader(_supabase);
   final SmsAccessChannel _smsAccessChannel;
   final bool _allowLocalWrites;
+  final CollectOfflineCache _offlineCache;
   RealtimeInvalidationSubscription? _realtimeSync;
 
   static const _uuid = Uuid();
@@ -63,7 +82,7 @@ class CollectRepository extends StateNotifier<CollectState> {
     final user = supabase?.auth.currentUser;
     if (supabase == null || user == null) return;
 
-    state = state.copyWith(isLoading: true);
+    state = state.copyWith(isLoading: true, usingStaleCache: false);
     try {
       final profile = await _liveReader.fetchProfile(user.id);
       final collections = await _liveReader.fetchCollections();
@@ -82,12 +101,48 @@ class CollectRepository extends StateNotifier<CollectState> {
         notificationEvents: notificationEvents,
         notificationPreferences: notificationPreferences,
         isLoading: false,
+        usingStaleCache: false,
+        lastSuccessfulSyncAt: DateTime.now().toUtc(),
       );
+      unawaited(_offlineCache.save(_offlineSnapshotFromState()));
       _ensureRealtimeSync();
       unawaited(syncPendingSmsAccess());
     } catch (error) {
-      state = state.copyWith(isLoading: false, lastError: error.toString());
+      final restored = await restoreOfflineSnapshot(reason: error.toString());
+      if (!restored) {
+        state = state.copyWith(
+          isLoading: false,
+          usingStaleCache: false,
+          lastError: error.toString(),
+        );
+      }
     }
+  }
+
+  Future<bool> restoreOfflineSnapshot({required String reason}) async {
+    final cached = await _offlineCache.read();
+    if (cached == null || !cached.hasReadableData) return false;
+    state = state.copyWith(
+      currentProfile: cached.currentProfile,
+      collections: cached.collections,
+      paymentIntents: cached.paymentIntents,
+      contributions: cached.contributions,
+      isLoading: false,
+      usingStaleCache: true,
+      lastSuccessfulSyncAt: cached.savedAt,
+      lastError: reason,
+    );
+    return true;
+  }
+
+  CollectOfflineSnapshot _offlineSnapshotFromState() {
+    return CollectOfflineSnapshot(
+      savedAt: state.lastSuccessfulSyncAt ?? DateTime.now().toUtc(),
+      currentProfile: state.currentProfile,
+      collections: state.collections,
+      paymentIntents: state.paymentIntents,
+      contributions: state.contributions,
+    );
   }
 
   Future<CollectProfile> signInWithOtp({

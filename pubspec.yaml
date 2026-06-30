@@ -62,3 +62,15 @@ flutter:
           weight: 700
         - asset: assets/fonts/collect/CollectRuntime-ExtraBold.otf
           weight: 800
+    - family: Collect Display
+      fonts:
+        - asset: assets/fonts/collect/CollectDisplay-Regular.otf
+          weight: 400
+        - asset: assets/fonts/collect/CollectDisplay-Medium.otf
+          weight: 500
+        - asset: assets/fonts/collect/CollectDisplay-SemiBold.otf
+          weight: 600
+        - asset: assets/fonts/collect/CollectDisplay-Bold.otf
+          weight: 700
+        - asset: assets/fonts/collect/CollectDisplay-ExtraBold.otf
+          weight: 800

@@ -10,6 +10,7 @@ import '../../shared/repositories/collect_repository.dart';
 import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import '../status/native_permission_sheets.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -29,7 +30,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         child: _SettingsTile(
           leading: CollectIcons.pending,
           title: 'Notifications',
-          onTap: () => context.go('/notifications'),
+          onTap: () => showNotificationSettingsSheet(context, ref),
         ),
       ),
       const _SettingsEntry(child: _ThemeModeTile()),

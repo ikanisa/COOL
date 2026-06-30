@@ -1533,7 +1533,7 @@ void main() {
       ledger,
       contains('contributionsForCollectionProvider(widget.collectionId)'),
     );
-    expect(ledger, contains('item.collectionId == widget.collectionId'));
+    expect(repository, contains('if (item.collectionId == collectionId) item'));
     expect(ingest, contains('collection_id: collectionId'));
     expect(parser, contains('collection_id: rawSms.collection_id'));
   });

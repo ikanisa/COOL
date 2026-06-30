@@ -7,6 +7,7 @@ import '../../shared/repositories/collect_repository.dart';
 import '../../shared/providers/collect_app_state.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
+import '../status/native_permission_sheets.dart';
 import 'group_link_screen.dart';
 
 class GroupQrScannerScreen extends ConsumerStatefulWidget {
@@ -162,7 +163,7 @@ class _GroupQrScannerScreenState extends ConsumerState<GroupQrScannerScreen> {
           .read(collectRepositoryProvider.notifier)
           .joinGroupBySlug(slug);
       if (!mounted) return;
-      context.go('/groups/${collection.id}/joined');
+      context.go('/groups/${collection.id}');
     } catch (error) {
       if (!mounted) return;
       setState(() {
@@ -493,7 +494,10 @@ class _ScannerUnavailable extends StatelessWidget {
                 CollectButton(
                   label: 'Recover camera access',
                   icon: CollectIcons.qr,
-                  onPressed: () => context.go('/permissions/camera-denied'),
+                  onPressed: () => showCameraAccessSheet(
+                    context,
+                    onRetry: () => context.go('/groups/scan'),
+                  ),
                   expand: true,
                 ),
               ],

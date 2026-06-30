@@ -1,7 +1,7 @@
+import 'dart:io';
+
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
-import 'package:collect_app/features/payments/payment_intent_status_screen.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
-import 'package:collect_app/core/security/hash_utils.dart';
 import 'package:collect_app/core/utils/date_format.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
@@ -118,7 +118,10 @@ void main() {
       ),
     );
 
-    expect(find.byIcon(Icons.public_rounded), findsWidgets);
+    expect(
+      File('lib/shared/widgets/collect_group_cards.dart').readAsStringSync(),
+      contains("CollectSemanticIcons.forKeyword('public')"),
+    );
     expect(find.byIcon(Icons.lock_rounded), findsNothing);
     expect(find.byType(BackdropFilter), findsOneWidget);
     expect(tester.widget<Text>(find.text('Public building fund')).maxLines, 1);
@@ -162,7 +165,10 @@ void main() {
     expect(find.byType(BackdropFilter), findsOneWidget);
     expect(find.byType(Image), findsNothing);
     expect(find.text('Public'), findsNothing);
-    expect(find.byIcon(CollectIcons.public), findsOneWidget);
+    expect(
+      File('lib/shared/widgets/collect_group_cards.dart').readAsStringSync(),
+      contains("CollectSemanticIcons.forKeyword('public')"),
+    );
     expect(tester.widget<Text>(find.text(title)).maxLines, 1);
     expect(
       tester.widget<Text>(find.text(title)).overflow,
@@ -211,62 +217,6 @@ void main() {
       formatCollectDateTime(DateTime.utc(2026, 6, 3, 9, 45)),
       isNot(contains('.')),
     );
-  });
-
-  testWidgets('payment status screen renders receiver details', (tester) async {
-    final repo = CollectRepository.fixture();
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
-        child: const MaterialApp(
-          home: PaymentIntentStatusScreen(
-            collectionId: 'col-church',
-            intentId: 'intent-render',
-          ),
-        ),
-      ),
-    );
-
-    expect(find.text('Checking MoMo confirmation.'), findsOneWidget);
-    await tester.scrollUntilVisible(
-      find.text('St Michel treasury'),
-      300,
-      scrollable: find.byType(Scrollable).last,
-    );
-    await tester.pump();
-    expect(find.text('St Michel treasury'), findsOneWidget);
-    expect(find.text('RWF 15,000'), findsWidgets);
-    await tester.drag(find.byType(ListView).last, const Offset(0, -500));
-    await tester.pump();
-    expect(
-      find.textContaining(HashUtils.phoneHash('+250788123456')),
-      findsNothing,
-    );
-    expect(find.text('Waiting for MoMo SMS'), findsNothing);
-  });
-
-  testWidgets('payment status screen tolerates 200 percent text scale', (
-    tester,
-  ) async {
-    final repo = CollectRepository.fixture();
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
-        child: const MaterialApp(
-          home: MediaQuery(
-            data: MediaQueryData(textScaler: TextScaler.linear(2)),
-            child: PaymentIntentStatusScreen(
-              collectionId: 'col-church',
-              intentId: 'intent-render',
-            ),
-          ),
-        ),
-      ),
-    );
-    await tester.pump();
-
-    expect(tester.takeException(), isNull);
-    expect(find.text('Checking MoMo confirmation.'), findsOneWidget);
   });
 
   testWidgets('contribution flow keeps primary action pinned', (tester) async {

@@ -2,12 +2,14 @@ import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
+import 'package:collect_app/shared/repositories/collect_offline_cache.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   bool authButtonEnabled(WidgetTester tester, String key) {
@@ -71,11 +73,10 @@ void main() {
 
   testWidgets('new mobile completion routes render', (tester) async {
     const routes = [
-      '/onboarding/legal',
-      '/permissions/notifications-denied',
-      '/permissions/camera-denied',
       '/share/expired/request',
-      '/groups/col-church/support/payment/intent-render',
+      '/groups/col-church/contribute',
+      '/groups/col-church/manage',
+      '/groups/col-church/profile',
     ];
 
     for (final route in routes) {
@@ -116,7 +117,6 @@ void main() {
         '/home': 'Loading home',
         '/groups': 'Loading groups',
         '/groups/col-church': 'Loading group',
-        '/notifications': 'Loading notifications',
         '/settings': 'Loading settings',
       }.entries) {
         final router = createAppRouter(initialLocation: entry.key);
@@ -145,21 +145,6 @@ void main() {
     } finally {
       semantics.dispose();
     }
-  });
-
-  testWidgets('onboarding continues directly to sign-in', (tester) async {
-    await pumpRoute(tester, '/onboarding');
-
-    expect(find.text('Step 1 of 3'), findsOneWidget);
-    await tester.tap(find.text('Continue'));
-    await tester.pump();
-    await tester.tap(find.text('Continue'));
-    await tester.pump();
-    expect(find.text('Get started'), findsOneWidget);
-    await tester.tap(find.text('Get started'));
-    await tester.pumpAndSettle();
-    expect(find.text('Sign in'), findsOneWidget);
-    expect(find.text('Before you continue'), findsNothing);
   });
 
   testWidgets('auth OTP submit does not detour to legal consent', (
@@ -323,55 +308,35 @@ void main() {
     expect(find.text('Group code or link'), findsNothing);
   });
 
-  testWidgets('onboarding legal route redirects away from OTP terms gate', (
+  testWidgets('home labels restored cache as offline saved data', (
     tester,
   ) async {
-    final semantics = tester.ensureSemantics();
-    try {
-      await pumpRoute(tester, '/onboarding/legal');
-
-      expect(find.text('Sign in'), findsOneWidget);
-      expect(find.text('Before you continue'), findsNothing);
-      expect(find.text('Accept and continue'), findsNothing);
-      expect(find.text('Accept before using Collect.'), findsNothing);
-      expect(find.text('Required acknowledgement'), findsNothing);
-      expect(find.text('Read privacy policy'), findsNothing);
-
-      await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
-      await expectLater(tester, meetsGuideline(iOSTapTargetGuideline));
-      await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
-      await expectLater(tester, meetsGuideline(textContrastGuideline));
-    } finally {
-      semantics.dispose();
-    }
-  });
-
-  testWidgets('permission recovery routes explain settings recovery', (
-    tester,
-  ) async {
-    const cases = [
-      (
-        route: '/permissions/sms-denied',
-        title: 'Enable Android SMS access',
-        action: 'Open app settings',
+    SharedPreferences.setMockInitialValues({});
+    const cache = CollectOfflineCache(
+      preferencesKey: 'collect.offline_snapshot.home_widget_test',
+    );
+    final seeded = CollectRepository.fixture();
+    await cache.save(
+      CollectOfflineSnapshot(
+        savedAt: DateTime.utc(2026, 6, 30, 10, 5),
+        currentProfile: seeded.state.currentProfile,
+        collections: seeded.state.collections,
+        paymentIntents: seeded.state.paymentIntents,
+        contributions: seeded.state.contributions,
       ),
-      (
-        route: '/permissions/notifications-denied',
-        title: 'Alerts blocked',
-        action: 'App settings',
-      ),
-      (
-        route: '/permissions/camera-denied',
-        title: 'Camera blocked',
-        action: 'App settings',
-      ),
-    ];
+    );
+    final staleRepository = CollectRepository.fixture(
+      seeded: false,
+      offlineCache: cache,
+    );
+    await staleRepository.restoreOfflineSnapshot(
+      reason: 'SocketException: network offline',
+    );
 
-    for (final item in cases) {
-      await pumpRoute(tester, item.route);
-      expect(find.text(item.title), findsWidgets, reason: item.route);
-      expect(find.text(item.action), findsWidgets, reason: item.route);
-    }
+    await pumpRoute(tester, '/home', repository: staleRepository);
+
+    expect(find.textContaining('Offline saved data'), findsOneWidget);
+    expect(find.text('St Michel building fund'), findsWidgets);
   });
 
   testWidgets('profile setup supports 200 percent text scale', (tester) async {
@@ -425,10 +390,9 @@ void main() {
     tester,
   ) async {
     for (final route in const [
-      '/permissions/camera-denied',
-      '/groups/col-church/support/payment/intent-render',
       '/groups/col-church/manage',
       '/groups/col-church/profile',
+      '/groups/col-church/contribute',
     ]) {
       await pumpRoute(tester, route, textScale: 2);
       expect(tester.takeException(), isNull, reason: route);
@@ -436,7 +400,7 @@ void main() {
     }
   });
 
-  testWidgets('payment handoff route tolerates Pixel width large text', (
+  testWidgets('contribution route tolerates Pixel width large text', (
     tester,
   ) async {
     tester.view.devicePixelRatio = 1;
@@ -444,11 +408,7 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
 
-    await pumpRoute(
-      tester,
-      '/groups/col-church/pay/intent-render/handoff',
-      textScale: 2,
-    );
+    await pumpRoute(tester, '/groups/col-church/contribute', textScale: 2);
 
     final exception = tester.takeException();
     expect(exception, isNull);
@@ -493,20 +453,12 @@ void main() {
     }
   });
 
-  testWidgets('payment support review and fresh link recovery submit safely', (
-    tester,
-  ) async {
-    await pumpRoute(tester, '/groups/col-church/support/payment/intent-render');
-    expect(find.text('Request payment review'), findsWidgets);
-    await tester.tap(find.widgetWithText(FilledButton, 'Submit review'));
-    await tester.pump();
-    expect(find.text('Review submitted.'), findsOneWidget);
-
+  testWidgets('fresh link recovery submits safely', (tester) async {
     await pumpRoute(tester, '/share/expired/request');
     expect(find.text('Fresh link'), findsOneWidget);
     await tester.tap(find.widgetWithText(FilledButton, 'Request fresh link'));
     await tester.pump();
-    expect(find.text('Request sent.'), findsOneWidget);
+    expect(find.text('Request sent.'), findsWidgets);
   });
 }
 

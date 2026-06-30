@@ -29,7 +29,7 @@ Scope: COOL Flutter mobile app Revolut-benchmarked Collect runtime alignment, ba
 | Full secondary colors | Source exposed | `CollectRuntimeTokens.secondaryColorRoles` and `secondaryColorHexes` expose full support and semantic token roles. |
 | Card radius and compact density | Source aligned further | `CollectRadius.card = 32`; Groups uses `GroupCardVariant.compact` for the primary mobile list. |
 | Payment status UAT assertions | Source patched, not device-proven | `integration_test/app_uat_smoke_test.dart` now scrolls to `Verification trail` and accepts multiple `Activity` labels. |
-| Brand/font switchpoints | Inputs installed, pending validation | `CollectRuntimeTypography`, `pubspec.yaml`, and `CollectRuntimeAssets` now route through installed `assets/fonts/collect/` and `assets/brand/collect_runtime/` inputs. |
+| Brand/font switchpoints | Inputs installed, pending validation | `CollectRuntimeTypography`, `pubspec.yaml`, and `CollectRuntimeAssets` now route through installed `assets/fonts/collect/` and `assets/brand/collect_runtime/` inputs. `Collect Runtime` is backed by Inter and `Collect Display` is backed by Inter Display to better match the Revolut10 UI/body and display rhythm while exact Aeonik files remain unavailable. |
 | Naming cleanup | Source/docs checked | Targeted search found no partner-framed runtime names or old brand-separation language in active design/theme/pubspec paths checked for this register. |
 
 ## Existing Evidence Inventory
@@ -46,6 +46,7 @@ Scope: COOL Flutter mobile app Revolut-benchmarked Collect runtime alignment, ba
 | Current post-patch Android device UAT | Pass | `.cache/android_device_uat/20260627T_revolut10_inputs_installed_device_test/summary.json`. |
 | Screenshot route review matrix | Pass | `docs/design/REVOLUT10_SCREENSHOT_ROUTE_REVIEW_MATRIX_2026-06-27.md` maps and reviews all 11 supplied screenshots against COOL route families. |
 | Visual review against all supplied screenshots | Pass | Fresh current mobile/reference contact sheets reviewed and recorded in `docs/design/REVOLUT10_SCREENSHOT_ROUTE_REVIEW_MATRIX_2026-06-27.md`. |
+| Inter typography refresh matrix | Pass | `.cache/mobile_visual_evidence_matrix/20260630T_inter_typography/summary.json` captures Home, Groups, and Settings after the Inter/Inter Display swap across compact, baseline, large, light, dark, and 200% text states. |
 
 ## Gap Register
 
@@ -53,7 +54,7 @@ Scope: COOL Flutter mobile app Revolut-benchmarked Collect runtime alignment, ba
 | --- | --- | --- | --- | --- |
 | G1 | Android UAT not rerun after current assertion patches | Fixed | Current-source Pixel 4a UAT passed at `.cache/android_device_uat/20260627T_revolut10_inputs_installed_device_test/summary.json` | No |
 | G2 | Android UAT used upload-debug signing, not Play app-signing overwrite path | Accepted for mobile code-owned UAT | Current UAT used local upload-debug signing override; Play signing remains a release-governance question, not a mobile UI gap | Release approval only |
-| G3 | Collect runtime/Revolut-like font files | Fixed | Local Revolut-like font bundle installed, registered, and audit-passed | No |
+| G3 | Collect runtime/Revolut-aligned font files | Fixed | Inter UI/body and Inter Display font bundles installed, registered, provenance-recorded, and audit-passed; licensed Aeonik/Aeonik Pro remains optional only if official files are supplied | No |
 | G4 | Collect runtime/Revolut-like brand/media/icon kit | Fixed | Runtime assets installed, switchpoints wired, route screenshots and audit passed | No |
 | G5 | Icon mapping still local | Fixed | Icon mapping file installed while runtime continues to use `CollectIcons` as the adapter layer | No |
 | G6 | Existing web route evidence URL was temporary | Fixed | Fresh route evidence generated at `.cache/mobile_route_render_smoke/20260627T121726Z/summary.json`; the temporary URL is no longer used as proof | No |
@@ -68,7 +69,7 @@ Scope: COOL Flutter mobile app Revolut-benchmarked Collect runtime alignment, ba
 2. Current-source Android UAT is green.
 3. Current 55-route screenshot render and contact sheets are green.
 4. Historical docs are archived and cannot override the current Collect runtime alignment contract.
-5. Font, brand, media, icon mapping, and token inputs are installed and validated by the final audit.
+5. Font, brand, media, icon mapping, and token inputs are installed and validated by the final audit. Font runtime now uses Inter for UI/body and Inter Display for large heading/money hierarchy.
 6. Release-owner approval remains separate from this mobile code-owned implementation pass.
 
 ## Approval Gate

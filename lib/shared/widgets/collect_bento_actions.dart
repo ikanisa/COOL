@@ -79,6 +79,8 @@ class BentoMetricCell extends StatelessWidget {
     this.icon = CollectIcons.dashboard,
     this.tone = CollectStatusTone.info,
     this.emphasis = false,
+    this.iconOnly = false,
+    this.semanticLabel,
     super.key,
   });
 
@@ -88,63 +90,142 @@ class BentoMetricCell extends StatelessWidget {
   final IconData icon;
   final CollectStatusTone tone;
   final bool emphasis;
+  final bool iconOnly;
+  final String? semanticLabel;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return CollectCard(
-      emphasis: emphasis ? CollectCardEmphasis.hero : CollectCardEmphasis.flat,
-      padding: EdgeInsets.all(emphasis ? CollectSpacing.x4 : CollectSpacing.x3),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              emphasis
-                  ? CollectToneIcon(icon: icon, tone: tone)
-                  : _BentoToneIcon(icon: icon, tone: tone),
-              CollectSpacing.gapW8,
-              Expanded(
-                child: Text(
-                  label,
-                  style: Theme.of(context).textTheme.labelMedium,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-          Column(
+    final semantics = semanticLabel ?? [label, value, ?detail].join(', ');
+    return Semantics(
+      container: true,
+      label: semantics,
+      child: CollectCard(
+        emphasis: emphasis
+            ? CollectCardEmphasis.hero
+            : CollectCardEmphasis.flat,
+        padding: EdgeInsets.all(
+          emphasis ? CollectSpacing.x4 : CollectSpacing.x3,
+        ),
+        child: ExcludeSemantics(
+          excluding: iconOnly,
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  value,
-                  style: emphasis
-                      ? CollectTypography.amountLarge(colors.textPrimary)
-                      : Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.w900,
-                        ),
-                ),
+              Row(
+                children: [
+                  emphasis
+                      ? CollectToneIcon(icon: icon, tone: tone)
+                      : _BentoToneIcon(icon: icon, tone: tone),
+                  if (!iconOnly) ...[
+                    CollectSpacing.gapW8,
+                    Expanded(
+                      child: Text(
+                        label,
+                        style: Theme.of(context).textTheme.labelMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ],
               ),
-              if (detail != null) ...[
-                CollectSpacing.gap4,
-                Text(
-                  detail!,
-                  style: Theme.of(context).textTheme.bodySmall,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      value,
+                      style: emphasis
+                          ? CollectTypography.amountLarge(colors.textPrimary)
+                          : Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.w900,
+                            ),
+                    ),
+                  ),
+                  if (!iconOnly && detail != null) ...[
+                    CollectSpacing.gap4,
+                    Text(
+                      detail!,
+                      style: Theme.of(context).textTheme.bodySmall,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ],
+              ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
+}
+
+class IconMetricStrip extends StatelessWidget {
+  const IconMetricStrip({required this.items, super.key});
+
+  final List<IconMetricItem> items;
+
+  @override
+  Widget build(BuildContext context) {
+    if (items.isEmpty) return const SizedBox.shrink();
+    final colors = context.collectColors;
+    return Wrap(
+      spacing: CollectSpacing.x3,
+      runSpacing: CollectSpacing.x2,
+      children: [
+        for (final item in items)
+          Semantics(
+            label: item.semanticLabel,
+            child: ExcludeSemantics(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    item.icon,
+                    color: item.color ?? colors.textMuted,
+                    size: item.iconSize,
+                  ),
+                  if (item.value != null) ...[
+                    CollectSpacing.gapW4,
+                    Text(
+                      item.value!,
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        color: colors.textSecondary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class IconMetricItem {
+  const IconMetricItem({
+    required this.icon,
+    required this.semanticLabel,
+    this.value,
+    this.color,
+    this.iconSize = 16,
+  });
+
+  final IconData icon;
+  final String semanticLabel;
+  final String? value;
+  final Color? color;
+  final double iconSize;
 }
 
 class _BentoToneIcon extends StatelessWidget {

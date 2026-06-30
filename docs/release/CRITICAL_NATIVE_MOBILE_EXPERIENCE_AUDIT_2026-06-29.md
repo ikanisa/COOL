@@ -4,7 +4,9 @@ Scope: Collect Flutter mobile member app in `/Volumes/PRO-G40/COOL`, with emphas
 
 This report is intentionally critical. The app is not broken at compile level, and it has a stronger design/test foundation than a typical prototype. The original issue was that the implementation proved mostly static screen rendering, not a complete native mobile experience.
 
-Implementation update on 2026-06-29: the first remediation pass added code-owned route transitions, screen loading states, haptics, pull-to-refresh, stronger route UAT assertions, a native interaction compliance gate, and a profile-mode performance evidence runner. The remaining gap is measured device proof: current profile-mode performance, human TalkBack/VoiceOver traversal, and broader device-form-factor evidence.
+Implementation update on 2026-06-29: the first remediation pass added code-owned route transitions, screen loading states, haptics, pull-to-refresh, stronger route UAT assertions, a native interaction compliance gate, and a profile-mode performance evidence runner.
+
+Implementation update on 2026-06-30: the second remediation pass added an explicit offline snapshot/cache model for profile, groups, ledger contributions, and payment intents; labels restored data as offline saved data; added deterministic cache and stale-UI tests; added a reusable mobile visual evidence matrix; captured compact/baseline/large-phone, light/dark, and 200 percent text evidence for 10 critical member routes; fixed the Android profile performance runner so it writes a Perfetto `timeline.binpb` and Android `gfxinfo.txt`; captured current Android profile-mode performance evidence on device `13111JEC215558`; and ran an iOS simulator production-scheme build/install/launch smoke on iPhone 17. The remaining gap is human auditory accessibility proof: Android TalkBack traversal and iOS VoiceOver traversal are still not signed off.
 
 ## Standards Consulted
 
@@ -77,26 +79,45 @@ scripts/mobile_native_performance_profile.sh --json
 
 The performance runner correctly returned `status=blocked` and exit code `99` when the configured Android device was unavailable. That is not performance proof; it is only proof that the performance gate fails closed instead of pretending device evidence exists.
 
+Current remediation validation on 2026-06-30:
+
+```bash
+/Volumes/PRO-G40/flutter_3_44/bin/dart analyze lib/shared/repositories/collect_repository.dart lib/shared/repositories/collect_offline_cache.dart lib/shared/repositories/collect_repository_state.dart lib/shared/providers/collect_app_state.dart lib/shared/widgets/screen_scaffold.dart test/shared/collect_repository_test.dart test/features/mobile_completion_test.dart
+/Volumes/PRO-G40/flutter_3_44/bin/flutter test --no-pub test/shared/collect_repository_test.dart test/features/mobile_completion_test.dart
+MOBILE_VISUAL_MATRIX_DIR=.cache/mobile_visual_evidence_matrix/20260630T_critical_routes scripts/mobile_visual_evidence_matrix.sh
+MOBILE_PERF_EVIDENCE_DIR=.cache/mobile_native_performance_profile/20260630T_device_profile_gfxinfo scripts/mobile_native_performance_profile.sh --json
+ANDROID_ACCESSIBILITY_EVIDENCE_DIR=.cache/android_accessibility_pixel4a/20260630T_member_structural_clean scripts/android_accessibility_structural_evidence.sh --json
+```
+
+Current evidence:
+
+- Offline/cache tests passed for profile, groups, payment intents, and ledger contribution snapshots.
+- Critical visual matrix passed in `.cache/mobile_visual_evidence_matrix/20260630T_current_refresh/summary.json` for 10 critical member routes across compact phone, baseline phone, large phone, light mode, dark mode, and 200 percent text.
+- Android profile performance passed in `.cache/mobile_native_performance_profile/20260630T_device_profile_gfxinfo/summary.json`; artifacts include `timeline.binpb`, `gfxinfo.txt`, `mobile_native_performance_profile.txt`, `runner_result.json`, and one launch screenshot.
+- Current profile metrics from that run: `scenario_seconds=12`, `trace_bytes=8465804`, `max_skipped_frames_logcat=60`, `gfxinfo_total_frames=3`, `gfxinfo_janky_frames=1`, `gfxinfo_janky_percent=33.33`, and `gfxinfo_90th_percentile_ms=29`. The small `gfxinfo` frame sample and skipped-frame log mean this is evidence capture, not proof of premium smoothness.
+- iOS simulator smoke passed in `.cache/ios_simulator_smoke/20260630T_current/summary.json` after `pod install`; XcodeBuildMCP built, installed, launched the `production` scheme on iPhone 17, and captured a screenshot.
+- Android structural accessibility evidence for the member app passed in `.cache/android_accessibility_pixel4a/20260630T_connected_app_refresh/summary.json` after the script was changed to force-stop, clear app state, and verify `app.cool.mobile` remained focused before each capture. This is still not a human TalkBack signoff.
+
 ## Executive Assessment
 
-Current native mobile experience rating after the code-owned remediation pass: **7.8 / 10**.
+Current native mobile experience rating after the 2026-06-30 remediation pass: **8.5 / 10**.
 
 Code-owned visual polish is strong in places: route-mapped gradients, glass bottom navigation, branded assets, large route screenshot coverage, semantic tests, Android/iOS platform folders, camera/share/notification/permission dependencies, focused widget coverage, route transitions, screen-level loading states, haptics, and adaptive pull-to-refresh.
 
 But the app is not yet a maximum native mobile experience. The highest-confidence remaining gaps are:
 
-- No current profile-mode performance evidence for startup, frame timing, scroll jank, or expensive effects.
-- Accessibility evidence is mostly structural/widget-level; current human TalkBack/VoiceOver traversal is not proven.
-- Expanded light/dark/compact/large-phone/tablet visual evidence is still not current.
-- Offline/connectivity still needs a deterministic cache/connectivity model rather than inferred error text.
-- iOS-specific behavior, including VoiceOver, share/photo/QR permission flows, keyboard behavior, and back gestures, is not proven.
+- Human Android TalkBack traversal is not signed off.
+- Human iOS VoiceOver traversal is not signed off.
+- Tablet/iPad visual evidence is not yet part of the primary mobile matrix.
+- iOS-specific behavior beyond build/install/launch, including VoiceOver, share/photo/QR permission flows, keyboard behavior, and back gestures, is not proven.
+- Android profile performance now has current evidence, but the log still recorded a `max_skipped_frames_logcat` value of 60 and the `gfxinfo` sample is small; this needs route-specific scroll/startup triage before claiming top-tier smoothness.
 
 ## Strengths To Preserve
 
 - `CollectMotion` already centralizes motion durations and respects reduced motion through `MediaQuery.disableAnimations`.
 - `CollectShell` provides a premium, safe-area-aware bottom navigation shell with semantic labels.
 - `LoadingSkeleton` and `LoadingStatePanel` exist and expose live-region semantics.
-- `CollectState` includes `isLoading` and `lastError`, and repository initial load sets `isLoading`.
+- `CollectState` includes `isLoading`, `lastError`, `usingStaleCache`, and `lastSuccessfulSyncAt`; repository initial load sets `isLoading` and restores stale cached data when live loading fails.
 - The app has substantial widget coverage for launch, routes, large text, design components, loading primitives, and mobile completion flows.
 - Android manifest declares concrete native capabilities for camera, notifications, app links, edge-to-edge, resize behavior, and predictive-back callback.
 - iOS metadata includes camera/photo usage descriptions and launch storyboard support.
@@ -428,6 +449,18 @@ Not ready to claim:
 3. Run iOS simulator/device smoke for auth keyboard, QR permission, share sheet, photo picker, back gestures, and VoiceOver.
 4. Expand route screenshot evidence beyond dark 390x844 to compact phone, large phone, light mode, and 200 percent text for critical flows.
 5. Add an explicit connectivity/cache model for offline stale data instead of deriving connectivity from error strings.
+
+## Current Next Fixes After 2026-06-30 Pass
+
+1. Run and record human Android TalkBack traversal for auth, home, groups, scanner, contribution, payment, share, settings, offline, and error states.
+2. Run and record human iOS VoiceOver traversal, or obtain an explicit human-approved waiver scoped to this release.
+3. Expand visual evidence to iPad/tablet form factors and iOS-specific flows.
+4. Add route-specific scroll/startup performance scenarios to reduce the current skipped-frame ambiguity before claiming maximum smoothness.
+
+The human accessibility closeout is now guarded by
+`scripts/native_mobile_accessibility_signoff_gate.sh --json` and the checklist at
+`docs/release/NATIVE_MOBILE_ACCESSIBILITY_SIGNOFF_CHECKLIST_2026-06-30.md`.
+Current expected status is `blocked` until those human rows are signed.
 
 ## Dirty Worktree Note
 

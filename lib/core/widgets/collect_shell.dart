@@ -100,17 +100,12 @@ class CollectShell extends StatelessWidget {
 
   bool _isStandalone(String path) {
     return path == '/' ||
-        path.startsWith('/onboarding') ||
         path == '/auth' ||
         path.startsWith('/auth/') ||
         path == '/groups/create' ||
         path == '/groups/scan' ||
         path.contains('/contribute') ||
-        path.contains('/pay/') ||
-        path.contains('/support/payment/') ||
         path.contains('/share') ||
-        path.startsWith('/permissions/') ||
-        path.startsWith('/platform/') ||
         path == '/settings/account/delete' ||
         path.startsWith('/settings/legal/');
   }
@@ -258,7 +253,7 @@ class _CollectBottomNavItem extends StatelessWidget {
                     style: textTheme.labelSmall?.copyWith(
                       color: foreground,
                       fontSize: selected ? 12.5 : 12,
-                      fontWeight: selected ? FontWeight.w800 : FontWeight.w700,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       letterSpacing: 0,
                       height: 1.0,
                     ),

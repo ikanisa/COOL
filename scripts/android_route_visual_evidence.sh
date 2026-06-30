@@ -41,8 +41,11 @@ device_uat_summary = ENV.fetch("DEVICE_UAT_SUMMARY")
 test_file = File.join(root, "integration_test/mobile_route_matrix_device_uat_test.dart")
 test_source = File.read(test_file)
 route_map = {}
-test_source.scan(/_RouteSpec\(\s*'([^']+)',\s*'([^']+)'\s*,?\s*\)/m) do |name, route|
-  route_map["mobile_route_#{name}"] = route
+test_source.scan(/_RouteSpec\(\s*'([^']+)',\s*'([^']+)',\s*'([^']+)'\s*,?\s*\)/m) do |name, route, route_class|
+  route_map["mobile_route_#{name}"] = {
+    "route" => route,
+    "route_class" => route_class
+  }
 end
 
 captures = File.readlines(File.join(screenshot_dir, "screenshots.jsonl"), chomp: true)
@@ -51,9 +54,11 @@ captures = File.readlines(File.join(screenshot_dir, "screenshots.jsonl"), chomp:
   .map do |capture|
     name = capture.fetch("name")
     route_name = name.delete_prefix("mobile_route_")
+    route_spec = route_map.fetch(name, {})
     capture.merge(
       "route_name" => route_name,
-      "route" => route_map.fetch(name, nil)
+      "route" => route_spec["route"],
+      "route_class" => route_spec["route_class"]
     )
   end
 

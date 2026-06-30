@@ -4,7 +4,7 @@ Date: 2026-06-27
 Repo: `/Volumes/PRO-G40/COOL`
 Current decision: **CODE-OWNED MOBILE ALIGNMENT PASS**
 
-The repo has the alignment contract, intake paths, route-reference mapping, token switchpoints, current source consolidation, repo-local Revolut-like font files, runtime brand/media/icon inputs, component-token specification, passing current-source Android device UAT, fresh 55-route mobile screenshots, and a code-owned visual review against the supplied screenshot set.
+The repo has the alignment contract, intake paths, route-reference mapping, token switchpoints, current source consolidation, repo-local Inter UI and Inter Display font files, runtime brand/media/icon inputs, component-token specification, passing current-source Android device UAT, fresh 55-route mobile screenshots, and a code-owned visual review against the supplied screenshot set.
 
 Public release, store submission, or external brand claims still require the normal release-owner approval path. That governance approval is separate from this mobile code-owned implementation pass.
 
@@ -21,13 +21,14 @@ The four primary colors are not blockers and must be preserved exactly:
 
 | Key | Required input | Status | Current evidence | Next action |
 | --- | --- | --- | --- | --- |
-| collect_font_files | Repo-local UI font files and weight/style variants | Installed and validated | `assets/fonts/collect/CollectRuntime-*.otf`, `pubspec.yaml`, `collect_font_installed_or_blocked` | Keep stable unless typography is refactored deliberately |
+| collect_font_files | Repo-local UI/display font files and weight/style variants | Installed and validated | `assets/fonts/collect/CollectRuntime-*.otf`, `assets/fonts/collect/CollectDisplay-*.otf`, `pubspec.yaml`, `collect_font_installed_or_blocked` | Keep stable unless typography is refactored deliberately; replace `Collect Display` with licensed Aeonik/Aeonik Pro only if official files are supplied |
 | collect_font_license_metadata | Sanitized font provenance metadata | Installed | `assets/fonts/collect/PROVENANCE.md` | Keep provenance current |
 | collect_logo_wordmark_assets | Collect-owned runtime logo and wordmark assets | Installed and validated | `assets/brand/collect_runtime/logos/wordmark.png`, `CollectRuntimeAssets.wordmarkAssetPath`, `mobile_brand_asset_contract` | Keep Collect-owned source artwork synced into the runtime path |
 | collect_platform_icon_assets | Collect-owned Android, iOS, web icon and adaptive icon assets | Installed and validated | `assets/brand/collect_runtime/app_icons/app_icon.png`, `collect-web-512.png`, `web/icons/collect-web-512.png`, `platform_metadata_colors_match_contract` | Keep generated Collect app icon synced |
 | collect_splash_launch_assets | Collect-owned splash and launch artwork | Installed and validated | `assets/brand/collect_runtime/splash/splash_mark.png`, `splash_background.png`, `native_android_launch_splash_contract` | Keep generated Collect mark/background synced |
 | collect_icon_set_mapping | Collect icon mapping | Installed | `assets/brand/collect_runtime/icons/icon-mapping.json` | Keep synced with `CollectIcons` |
 | collect_component_tokens | Component, surface, chrome, nav, and motion tokens | Installed and validated | `docs/design/collect_runtime_tokens/collect_component_tokens_2026-06-29.json`, `collect_runtime_component_token_switchpoints` | Keep synced with `CollectRuntimeTokens` |
+| collect_semantic_icon_keywords | Icon-first keyword mapping for support, members, amount, type, public/private, QR, receiver, owner, and visibility metadata | Installed and enforced | `lib/app/theme/collect_semantic_icons.dart`, `docs/design/collect_runtime_tokens/collect_semantic_icon_keywords_2026-06-30.json`, `icon_first_metadata_and_group_name_contract` | Add new operational metadata keywords to the mapping before adding visible labels |
 | collect_route_reference_matrix | Route-to-reference mapping for the supplied screenshots | Source mapped and reviewed | `DESIGN.md`, `docs/design/DESIGN_SYSTEM.md`, `docs/design/REVOLUT10_SCREENSHOT_ROUTE_REVIEW_MATRIX_2026-06-27.md`, fresh contact sheets | Replace mappings only if new screenshots are supplied |
 | collect_public_web_assets | Collect-owned public web imagery and share-preview assets | Installed | `assets/brand/collect_runtime/media/share-preview.png` and `scripts/public_website_audit_evidence.sh` | Validate live public site during release evidence refresh |
 

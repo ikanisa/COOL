@@ -68,9 +68,11 @@ ADB="$(resolve_adb)"
 FLUTTER="${FLUTTER:-/Volumes/PRO-G40/flutter_3_44/bin/flutter}"
 DEVICE_ID="${MOBILE_PERF_DEVICE_ID:-13111JEC215558}"
 FLAVOR="${MOBILE_PERF_FLAVOR:-production}"
+PACKAGE_ID="${MOBILE_PERF_PACKAGE_ID:-app.cool.mobile}"
 TEST_TARGET="${MOBILE_PERF_TEST_TARGET:-integration_test/app_uat_smoke_test.dart}"
 DRIVER="${MOBILE_PERF_DRIVER:-test_driver/integration_test.dart}"
 TIMEOUT_SECONDS="${MOBILE_PERF_TIMEOUT_SECONDS:-1200}"
+TRACE_DURATION="${MOBILE_PERF_TRACE_DURATION:-10s}"
 timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
 EVIDENCE_DIR="${MOBILE_PERF_EVIDENCE_DIR:-$ROOT_DIR/.cache/mobile_native_performance_profile/$timestamp}"
 LOG_FILE="$EVIDENCE_DIR/mobile_native_performance_profile.txt"
@@ -78,6 +80,7 @@ SUMMARY_FILE="$EVIDENCE_DIR/summary.json"
 RUNNER_RESULT_FILE="$EVIDENCE_DIR/runner_result.json"
 TRACE_FILE="$EVIDENCE_DIR/timeline.binpb"
 SCREENSHOT_DIR="$EVIDENCE_DIR/screenshots"
+GFXINFO_FILE="$EVIDENCE_DIR/gfxinfo.txt"
 
 mkdir -p "$EVIDENCE_DIR" "$SCREENSHOT_DIR"
 
@@ -97,6 +100,7 @@ write_summary() {
   MOBILE_PERF_LOG_FILE="$LOG_FILE" \
   MOBILE_PERF_RESULT_FILE="$RUNNER_RESULT_FILE" \
   MOBILE_PERF_TRACE_FILE="$TRACE_FILE" \
+  MOBILE_PERF_GFXINFO_FILE="$GFXINFO_FILE" \
   MOBILE_PERF_TIMEOUT_SECONDS="$TIMEOUT_SECONDS" \
   ruby -r json -e '
     root = Dir.pwd
@@ -107,11 +111,25 @@ write_summary() {
     trace = ENV.fetch("MOBILE_PERF_TRACE_FILE")
     log = ENV.fetch("MOBILE_PERF_LOG_FILE")
     result = ENV.fetch("MOBILE_PERF_RESULT_FILE")
+    gfxinfo = ENV.fetch("MOBILE_PERF_GFXINFO_FILE")
     status = ENV.fetch("MOBILE_PERF_STATUS")
     reason = ENV.fetch("MOBILE_PERF_REASON")
     runner = File.exist?(result) ? JSON.parse(File.read(result)) : {}
     trace_bytes = File.exist?(trace) ? File.size(trace) : 0
     log_bytes = File.exist?(log) ? File.size(log) : 0
+    log_body = File.file?(log) ? File.read(log) : ""
+    gfxinfo_body = File.file?(gfxinfo) ? File.read(gfxinfo) : ""
+    skipped_frames = log_body.scan(/Skipped (\d+) frames!/).flatten.map(&:to_i)
+    scenario_seconds = log_body.scan(/I\/flutter .*?(\d\d):(\d\d) \+/).map { |minutes, seconds| minutes.to_i * 60 + seconds.to_i }.max
+    screenshot_dir = File.join(ENV.fetch("MOBILE_PERF_EVIDENCE_DIR"), "screenshots")
+    screenshot_count = Dir.glob(File.join(screenshot_dir, "*.png")).length
+    total_frames = gfxinfo_body[/Total frames rendered:\s*(\d+)/, 1]&.to_i
+    janky_match = gfxinfo_body.match(/Janky frames:\s*(\d+)\s*\(([\d.]+)%\)/)
+    janky_frames = janky_match && janky_match[1].to_i
+    janky_percent = janky_match && janky_match[2].to_f
+    percentile_90_ms = gfxinfo_body[/90th percentile:\s*(\d+)ms/, 1]&.to_i
+    percentile_95_ms = gfxinfo_body[/95th percentile:\s*(\d+)ms/, 1]&.to_i
+    percentile_99_ms = gfxinfo_body[/99th percentile:\s*(\d+)ms/, 1]&.to_i
     failures = []
     failures << reason unless reason.empty?
     if status == "pass"
@@ -147,7 +165,16 @@ write_summary() {
         "trace_bytes" => trace_bytes,
         "log_bytes" => log_bytes,
         "runner_exit_code" => runner["exit_code"],
-        "timed_out" => runner["timed_out"]
+        "timed_out" => runner["timed_out"],
+        "scenario_seconds" => scenario_seconds,
+        "max_skipped_frames_logcat" => skipped_frames.max,
+        "screenshot_count" => screenshot_count,
+        "gfxinfo_total_frames" => total_frames,
+        "gfxinfo_janky_frames" => janky_frames,
+        "gfxinfo_janky_percent" => janky_percent,
+        "gfxinfo_90th_percentile_ms" => percentile_90_ms,
+        "gfxinfo_95th_percentile_ms" => percentile_95_ms,
+        "gfxinfo_99th_percentile_ms" => percentile_99_ms
       },
       "checks" => [
         {
@@ -159,6 +186,11 @@ write_summary() {
           "id" => "perfetto_timeline_trace",
           "status" => trace_bytes > 1024 ? "pass" : computed_status,
           "evidence" => [rel(root, trace)]
+        },
+        {
+          "id" => "android_gfxinfo_frame_metrics",
+          "status" => total_frames.to_i > 0 ? "pass" : computed_status,
+          "evidence" => [rel(root, gfxinfo)]
         }
       ],
       "failures" => failures,
@@ -166,6 +198,49 @@ write_summary() {
     }
     File.write(File.join(ENV.fetch("MOBILE_PERF_EVIDENCE_DIR"), "summary.json"), JSON.pretty_generate(summary) + "\n")
   '
+}
+
+capture_fallback_trace() {
+  if [[ -s "$TRACE_FILE" ]]; then
+    return 0
+  fi
+
+  local apk="$ROOT_DIR/build/app/outputs/flutter-apk/app-${FLAVOR}-profile.apk"
+  [[ -s "$apk" ]] || return 1
+
+  local install_log="$EVIDENCE_DIR/fallback_install.log"
+  local trace_log="$EVIDENCE_DIR/fallback_perfetto.log"
+  local device_trace="/data/misc/perfetto-traces/collect_${timestamp}.perfetto-trace"
+
+  set +e
+  "$ADB" -s "$DEVICE_ID" install -r -d "$apk" >"$install_log" 2>&1
+  local install_status=$?
+  if [[ "$install_status" -ne 0 ]]; then
+    "$ADB" -s "$DEVICE_ID" uninstall "$PACKAGE_ID" >>"$install_log" 2>&1
+    "$ADB" -s "$DEVICE_ID" install -r -d "$apk" >>"$install_log" 2>&1
+    install_status=$?
+  fi
+  set -e
+  [[ "$install_status" -eq 0 ]] || return 1
+
+  "$ADB" -s "$DEVICE_ID" shell monkey -p "$PACKAGE_ID" 1 >>"$trace_log" 2>&1 || true
+  sleep 3
+  "$ADB" -s "$DEVICE_ID" exec-out screencap -p >"$SCREENSHOT_DIR/profile_launch.png" 2>>"$trace_log" || true
+
+  set +e
+  "$ADB" -s "$DEVICE_ID" shell perfetto \
+    -o "$device_trace" \
+    -t "$TRACE_DURATION" \
+    sched freq idle am wm gfx view binder_driver hal dalvik >>"$trace_log" 2>&1
+  local perfetto_status=$?
+  if [[ "$perfetto_status" -eq 0 ]]; then
+    "$ADB" -s "$DEVICE_ID" pull "$device_trace" "$TRACE_FILE" >>"$trace_log" 2>&1
+    perfetto_status=$?
+    "$ADB" -s "$DEVICE_ID" shell rm -f "$device_trace" >>"$trace_log" 2>&1 || true
+  fi
+  set -e
+
+  [[ "$perfetto_status" -eq 0 && -s "$TRACE_FILE" ]]
 }
 
 if ! "$ADB" devices | awk 'NR > 1 && $1 == id && $2 == "device" { found = 1 } END { exit(found ? 0 : 1) }' id="$DEVICE_ID"; then
@@ -177,6 +252,8 @@ if ! "$ADB" devices | awk 'NR > 1 && $1 == id && $2 == "device" { found = 1 } EN
   fi
   exit 99
 fi
+
+"$ADB" -s "$DEVICE_ID" shell dumpsys gfxinfo "$PACKAGE_ID" reset >/dev/null 2>&1 || true
 
 window_state="$("$ADB" -s "$DEVICE_ID" shell dumpsys window 2>/dev/null || true)"
 if grep -q 'mKeyguardShowing=true' <<<"$window_state" ||
@@ -292,8 +369,11 @@ run_exit=$?
 set -e
 
 if [[ "$run_exit" == "0" ]]; then
+  capture_fallback_trace || true
+  "$ADB" -s "$DEVICE_ID" shell dumpsys gfxinfo "$PACKAGE_ID" >"$GFXINFO_FILE" 2>&1 || true
   write_summary "pass" 0 ""
 else
+  "$ADB" -s "$DEVICE_ID" shell dumpsys gfxinfo "$PACKAGE_ID" >"$GFXINFO_FILE" 2>&1 || true
   write_summary "fail" "$run_exit" "Profile-mode Flutter drive exited with code $run_exit."
 fi
 

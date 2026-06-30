@@ -40,8 +40,8 @@ void main() {
       final service = File(
         'lib/core/notifications/collect_notification_service.dart',
       ).readAsStringSync();
-      final notificationScreen = File(
-        'lib/features/status/device_privacy_screens.dart',
+      final nativePermissionSheets = File(
+        'lib/features/status/native_permission_sheets.dart',
       ).readAsStringSync();
       final androidGradle = File(
         'android/app/build.gradle.kts',
@@ -59,11 +59,15 @@ void main() {
       expect(service, contains('IOSFlutterLocalNotificationsPlugin'));
       expect(service, contains('registerDevice'));
       expect(service, contains('showNotification'));
-      expect(notificationScreen, contains('_enableNativeNotifications'));
+      expect(nativePermissionSheets, contains('showNotificationSettingsSheet'));
+      expect(nativePermissionSheets, contains('requestNativeNotifications'));
       expect(
-        notificationScreen,
+        nativePermissionSheets,
         contains('collectNotificationServiceProvider'),
       );
+      expect(nativePermissionSheets, contains('registerDevice(repository)'));
+      expect(nativePermissionSheets, contains('showNotification('));
+      expect(nativePermissionSheets, contains("payload: '/home'"));
       expect(androidGradle, contains('isCoreLibraryDesugaringEnabled = true'));
       expect(androidGradle, contains('desugar_jdk_libs:2.1.4'));
       expect(repository, contains('register_notification_device'));
@@ -252,7 +256,7 @@ void main() {
       contains('final repository = CollectRepository(supabase: supabase);'),
     );
     expect(repository, contains("throw StateError('Live WhatsApp sign-in"));
-    expect(repository, contains('_emptyCollectState(), false'));
+    expect(repository, matches(RegExp(r'_emptyCollectState\(\),\s*false')));
     expect(authScreen, contains("throw StateError('WhatsApp sign-in"));
     expect(authScreen, isNot(contains('if (client == null) return;')));
 
@@ -275,6 +279,37 @@ void main() {
       expect(text, isNot(contains('St Michel')), reason: path);
       expect(text, isNot(contains('+250788123456')), reason: path);
     }
+  });
+
+  test('user mobile app cannot import route or mount admin surfaces', () {
+    final mobileEntrypoints = {
+      'lib/main.dart': File('lib/main.dart').readAsStringSync(),
+      'lib/app/app.dart': File('lib/app/app.dart').readAsStringSync(),
+      'lib/app/router.dart': File('lib/app/router.dart').readAsStringSync(),
+      'integration_test/app_uat_smoke_test.dart': File(
+        'integration_test/app_uat_smoke_test.dart',
+      ).readAsStringSync(),
+    };
+    const forbiddenMobileAdminReferences = [
+      'package:collect_app/admin/',
+      "import '../admin/",
+      'CollectAdminApp',
+      'adminAuthGuardProvider',
+      'adminRepositoryProvider',
+      "path: '/admin",
+      "'/admin",
+      '"/admin',
+    ];
+
+    for (final entry in mobileEntrypoints.entries) {
+      for (final forbidden in forbiddenMobileAdminReferences) {
+        expect(entry.value, isNot(contains(forbidden)), reason: entry.key);
+      }
+    }
+
+    final router = mobileEntrypoints['lib/app/router.dart']!;
+    expect(router, contains('const collectRoutePaths = <String>['));
+    expect(router, isNot(contains('/admin')));
   });
 
   test('Supabase operator scripts use local CLI fallbacks', () {

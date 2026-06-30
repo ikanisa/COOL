@@ -116,63 +116,42 @@ curl -fsSI "$BASE_URL/" >"$EVIDENCE_DIR/index.headers" || fail "index.html did n
 curl -fsSI "$BASE_URL/main.dart.js" >"$EVIDENCE_DIR/main.headers" || fail "main.dart.js did not serve over HTTP."
 
 route_specs=(
-  "root-redirect|/"
-  "onboarding|/onboarding"
-  "onboarding-legal|/onboarding/legal"
-  "auth|/auth"
-  "profile|/settings/profile"
-  "sms-permission-redirect|/permissions/sms"
-  "sms-denied|/permissions/sms-denied"
-  "device-permission|/permissions/device"
-  "notifications-denied|/permissions/notifications-denied"
-  "camera-denied|/permissions/camera-denied"
-  "home|/home"
-  "groups|/groups"
-  "group-create|/groups/create"
-  "group-scan|/groups/scan"
-  "iphone-create-unavailable|/platform/iphone-create-unavailable"
-  "group-detail|/groups/col-church"
-  "group-joined|/groups/col-church/joined"
-  "owner-redirect|/groups/col-church/owner"
-  "owner-sms-health-redirect|/groups/col-church/owner/sms-health"
-  "owner-receiver-redirect|/groups/col-church/owner/receiver"
-  "share|/groups/col-church/share"
-  "invite|/groups/col-church/invite"
-  "shared-group-link|/c/st-michel-building-fund"
-  "share-invalid|/share/invalid"
-  "share-expired|/share/expired"
-  "share-expired-request|/share/expired/request"
-  "share-confirmed-redirect|/share/confirmed"
-  "app-share-entry|/app"
-  "app-invite-link|/invite/038491"
-  "contribution|/groups/col-church/contribute"
-  "payment-handoff-redirect|/groups/col-church/pay/intent-render/handoff"
-  "payment-intent|/groups/col-church/pay/intent-render"
-  "payment-pending|/groups/col-church/pay/intent-render/state/pending"
-  "payment-confirmed|/groups/col-church/pay/intent-render/state/confirmed"
-  "payment-expired|/groups/col-church/pay/intent-render/state/expired"
-  "payment-needs-review|/groups/col-church/pay/intent-render/state/needs-review"
-  "payment-support-review|/groups/col-church/support/payment/intent-render"
-  "ledger|/groups/col-church/ledger"
-  "manage|/groups/col-church/manage"
-  "group-profile|/groups/col-church/profile"
-  "members|/groups/col-church/members"
-  "settings|/settings"
-  "account|/settings/account"
-  "account-delete|/settings/account/delete"
-  "privacy|/settings/privacy"
-  "legal-privacy|/settings/legal/privacy"
-  "legal-terms|/settings/legal/terms"
-  "help|/settings/help"
-  "notifications|/notifications"
-  "offline|/offline"
-  "sync|/sync"
+  "root-redirect|/|entry"
+  "auth|/auth|workflow"
+  "profile|/settings/profile|workflow"
+  "home|/home|primary"
+  "groups|/groups|primary"
+  "group-create|/groups/create|workflow"
+  "group-scan|/groups/scan|workflow"
+  "group-detail|/groups/col-church|workflow"
+  "share|/groups/col-church/share|workflow"
+  "invite|/groups/col-church/invite|compatibility"
+  "shared-group-link|/c/st-michel-building-fund|entry"
+  "share-invalid|/share/invalid|recovery"
+  "share-expired|/share/expired|recovery"
+  "share-expired-request|/share/expired/request|recovery"
+  "app-share-entry|/app|compatibility"
+  "app-invite-link|/invite/038491|compatibility"
+  "contribution|/groups/col-church/contribute|workflow"
+  "ledger|/groups/col-church/ledger|workflow"
+  "manage|/groups/col-church/manage|workflow"
+  "group-profile|/groups/col-church/profile|workflow"
+  "members|/groups/col-church/members|workflow"
+  "settings|/settings|primary"
+  "account|/settings/account|utility"
+  "account-delete|/settings/account/delete|utility"
+  "privacy|/settings/privacy|utility"
+  "legal-privacy|/settings/legal/privacy|utility"
+  "legal-terms|/settings/legal/terms|utility"
+  "help|/settings/help|utility"
+  "offline|/offline|recovery"
+  "sync|/sync|utility"
 )
 
 captures_json="$EVIDENCE_DIR/captures.jsonl"
 : >"$captures_json"
 
-routes_json="$(ruby -r json -e 'puts JSON.generate(ARGV.map { |spec| name, route = spec.split("|", 2); { "name" => name, "route" => route } })' "${route_specs[@]}")"
+routes_json="$(ruby -r json -e 'puts JSON.generate(ARGV.map { |spec| name, route, route_class = spec.split("|", 3); route_class ||= "workflow"; { "name" => name, "route" => route, "route_class" => route_class, "product_screen" => route_class != "compatibility" } })' "${route_specs[@]}")"
 matrix_capture_status=1
 if [[ "${MOBILE_ROUTE_MATRIX_CAPTURE:-0}" == "1" ]]; then
   for attempt in 1 2 3; do
@@ -261,13 +240,24 @@ capture_route() {
 }
 
 for spec in "${route_specs[@]}"; do
-  IFS='|' read -r name route <<<"$spec"
+  IFS='|' read -r name route route_class <<<"$spec"
   capture_route "$name" "$route"
 done
 
 ruby -r json -r time -e '
-  evidence_dir, build_dir, base_url, viewport, captures_json = ARGV
-  captures = File.readlines(captures_json, chomp: true).reject(&:empty?).map { |line| JSON.parse(line) }
+  evidence_dir, build_dir, base_url, viewport, captures_json, routes_json = ARGV
+  route_specs = JSON.parse(routes_json)
+  metadata_by_name = route_specs.to_h { |item| [item.fetch("name"), item] }
+  captures = File.readlines(captures_json, chomp: true).reject(&:empty?).map do |line|
+    capture = JSON.parse(line)
+    metadata = metadata_by_name.fetch(capture.fetch("name"), {})
+    capture.merge(
+      "route_class" => metadata.fetch("route_class", "workflow"),
+      "product_screen" => metadata.fetch("product_screen", true)
+    )
+  end
+  product_screens = route_specs.select { |item| item.fetch("product_screen") }
+  compatibility_routes = route_specs.reject { |item| item.fetch("product_screen") }
   summary = {
     "status" => "pass",
     "generated_at" => Time.now.utc.iso8601,
@@ -275,13 +265,18 @@ ruby -r json -r time -e '
     "build_dir" => build_dir,
     "viewport" => viewport,
     "route_count" => captures.length,
+    "product_screen_count" => product_screens.length,
+    "compatibility_route_count" => compatibility_routes.length,
     "routes" => captures.map { |item| item.fetch("route") },
+    "route_specs" => route_specs,
+    "product_screens" => product_screens.map { |item| item.fetch("name") },
+    "compatibility_routes" => compatibility_routes.map { |item| item.fetch("name") },
     "screenshots" => captures.map { |item| item.fetch("path") },
     "screenshot_checks" => captures.map { |item| "#{item.fetch("path")}.json" },
     "captures" => captures,
     "secret_handling" => "Screenshots must not include secrets, raw SMS bodies, provider tokens, service-role keys, or production customer data."
   }
   File.write(File.join(evidence_dir, "summary.json"), JSON.pretty_generate(summary) + "\n")
-' "$EVIDENCE_DIR" "$BUILD_DIR" "$BASE_URL" "$VIEWPORT" "$captures_json"
+' "$EVIDENCE_DIR" "$BUILD_DIR" "$BASE_URL" "$VIEWPORT" "$captures_json" "$routes_json"
 
 printf '[mobile-route-render] pass evidence=%s\n' "$EVIDENCE_DIR"

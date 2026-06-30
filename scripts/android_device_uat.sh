@@ -63,6 +63,10 @@ if ! "$ADB" devices | awk 'NR > 1 && $1 == id && $2 == "device" { found = 1 } EN
   fail "Android device $DEVICE_ID is not connected and authorized over ADB."
 fi
 
+"$ADB" -s "$DEVICE_ID" shell svc power stayon true >/dev/null 2>&1 || true
+"$ADB" -s "$DEVICE_ID" shell input keyevent KEYCODE_WAKEUP >/dev/null 2>&1 || true
+sleep 1
+
 window_state="$("$ADB" -s "$DEVICE_ID" shell dumpsys window 2>/dev/null || true)"
 if grep -q 'mKeyguardShowing=true' <<<"$window_state" ||
   grep -Eiq 'm(CurrentFocus|FocusedApp)=.*(Keyguard|Lockscreen)' <<<"$window_state"; then

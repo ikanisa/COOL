@@ -135,16 +135,23 @@ loading_surfaces = read(File.join(root, "lib/shared/widgets/collect_loading_surf
 financial_components = read_dart_library(root, "lib/shared/widgets/collect_financial_components.dart")
 shell = read(File.join(root, "lib/core/widgets/collect_shell.dart"))
 screen_scaffold = read(File.join(root, "lib/shared/widgets/screen_scaffold.dart"))
+scaffold_chrome = read(File.join(root, "lib/shared/widgets/collect_scaffold_chrome.dart"))
 share_screen = read(File.join(root, "lib/features/collections/share_screen.dart"))
 home_screen = read(File.join(root, "lib/features/home/home_screen.dart"))
 collections_screen = read(File.join(root, "lib/features/collections/collections_screen.dart"))
+collection_manage_screen = read(File.join(root, "lib/features/collections/collection_manage_screen.dart"))
+collection_detail_actions = read(File.join(root, "lib/features/collections/collection_detail_actions.dart"))
+collection_detail_hero = read(File.join(root, "lib/features/collections/collection_detail_hero.dart"))
+design_system_catalog = read(File.join(root, "lib/features/dev/design_system_catalog_screen.dart"))
+group_cards = read_dart_library(root, "lib/shared/widgets/collect_group_cards.dart")
+semantic_icons = read(File.join(root, "lib/app/theme/collect_semantic_icons.dart"))
+semantic_icon_spec_path = "docs/design/collect_runtime_tokens/collect_semantic_icon_keywords_2026-06-30.json"
+semantic_icon_spec = read(File.join(root, semantic_icon_spec_path))
 native_primary_screens = {
   "lib/features/home/home_screen.dart" => home_screen,
   "lib/features/collections/collections_screen.dart" => collections_screen,
   "lib/features/collections/collection_detail_screen.dart" => read(File.join(root, "lib/features/collections/collection_detail_screen.dart")),
   "lib/features/ledger/ledger_screen.dart" => read(File.join(root, "lib/features/ledger/ledger_screen.dart")),
-  "lib/features/payments/payment_intent_status_screen.dart" => read(File.join(root, "lib/features/payments/payment_intent_status_screen.dart")),
-  "lib/features/status/device_notification_center.dart" => read(File.join(root, "lib/features/status/device_notification_center.dart")),
   "lib/features/settings/settings_screen.dart" => read(File.join(root, "lib/features/settings/settings_screen.dart"))
 }
 main_entry = read(File.join(root, "lib/main.dart"))
@@ -289,11 +296,20 @@ checks << {
 }
 
 font_failures = []
-font_installed = !collect_font_files.empty? &&
+runtime_font_files = collect_font_files.select do |path|
+  File.basename(path).start_with?("CollectRuntime-")
+end
+display_font_files = collect_font_files.select do |path|
+  File.basename(path).start_with?("CollectDisplay-")
+end
+font_installed = runtime_font_files.length >= 5 &&
+  display_font_files.length >= 5 &&
   pubspec.match?(/fonts:\s*\n/m) &&
-  pubspec.include?("assets/fonts/collect/")
+  pubspec.include?("assets/fonts/collect/") &&
+  pubspec.include?("family: Collect Runtime") &&
+  pubspec.include?("family: Collect Display")
 unless font_installed || blocker_recorded.call("collect_font_files")
-  font_failures << "Collect runtime font files are missing and blocker key collect_font_files is not recorded as Blocked."
+  font_failures << "Collect runtime/display font files are missing and blocker key collect_font_files is not recorded as Blocked."
 end
 unless font_installed || blocker_recorded.call("collect_font_license_metadata")
   font_failures << "Collect runtime font approval/license metadata is missing and blocker key collect_font_license_metadata is not recorded as Blocked."
@@ -304,6 +320,8 @@ checks << {
   "failures" => font_failures,
   "installed" => font_installed,
   "font_file_count" => collect_font_files.length,
+  "runtime_font_file_count" => runtime_font_files.length,
+  "display_font_file_count" => display_font_files.length,
   "evidence" => [
     "pubspec.yaml",
     "assets/fonts/collect/",
@@ -524,7 +542,7 @@ end
   /home
   /groups
   /groups/create
-  /groups/col-church/pay/intent/state/pending
+  /groups/col-church/contribute
   /groups/col-church/share
   /settings/help
   /offline
@@ -614,15 +632,13 @@ end
   "lib/features/collections/collections_screen.dart" => "Loading groups",
   "lib/features/collections/collection_detail_screen.dart" => "Loading group",
   "lib/features/ledger/ledger_screen.dart" => "Loading ledger",
-  "lib/features/payments/payment_intent_status_screen.dart" => "Loading payment status",
-  "lib/features/status/device_notification_center.dart" => "Loading notifications",
   "lib/features/settings/settings_screen.dart" => "Loading settings"
 }.each do |relative, loading_title|
   source = native_primary_screens.fetch(relative)
   native_interaction_failures << "#{relative} must show a first-load screen loading state." unless source.include?("CollectScreenLoadingState") && source.include?(loading_title)
 end
-native_interaction_failures << "Primary data screens must refresh through the Collect repository." unless native_primary_screens.values.join("\n").scan("collectRepositoryProvider.notifier").length >= 6
-native_interaction_failures << "Payment status must keep a route-specific refresh method." unless native_primary_screens.fetch("lib/features/payments/payment_intent_status_screen.dart").include?("_refreshStatus")
+native_interaction_failures << "Primary data screens must refresh through the Collect repository." unless native_primary_screens.values.join("\n").scan("collectRepositoryProvider.notifier").length >= 4
+native_interaction_failures << "Settings must use native notification settings sheets, not a notification center route." unless native_primary_screens.fetch("lib/features/settings/settings_screen.dart").include?("showNotificationSettingsSheet")
 
 checks << {
   "id" => "native_mobile_interaction_contract",
@@ -640,8 +656,6 @@ checks << {
     "lib/features/collections/collections_screen.dart",
     "lib/features/collections/collection_detail_screen.dart",
     "lib/features/ledger/ledger_screen.dart",
-    "lib/features/payments/payment_intent_status_screen.dart",
-    "lib/features/status/device_notification_center.dart",
     "lib/features/settings/settings_screen.dart"
   ]
 }
@@ -672,6 +686,78 @@ checks << {
     "lib/features/collections/collections_screen.dart",
     "lib/features/settings/settings_screen.dart",
     "lib/app/router.dart"
+  ]
+}
+
+icon_first_failures = []
+required_icon_keywords = %w[
+  support
+  supporters
+  members
+  amount
+  church
+  football
+  public
+  private
+  sport
+  ikimina
+  wedding
+  momo
+  qr
+  owner
+  visibility
+]
+required_icon_keywords.each do |keyword|
+  icon_first_failures << "CollectSemanticIcons is missing keyword #{keyword}." unless semantic_icons.include?("'#{keyword}':")
+  icon_first_failures << "#{semantic_icon_spec_path} is missing keyword #{keyword}." unless semantic_icon_spec.include?("\"#{keyword}\"")
+end
+icon_first_failures << "Group cards must enforce one-line title ellipsis." unless group_cards.include?("maxLines: 1") && group_cards.include?("softWrap: false")
+icon_first_failures << "Owned group cards must render type as an icon-only badge." unless group_cards.include?("iconOnly: true")
+icon_first_failures << "Compact group cards must use icon-first metadata." unless group_cards.include?("_GroupMetaIconRow")
+icon_first_failures << "Group summaries must hide visible metadata labels." unless collections_screen.scan("iconOnly: true").length >= 3
+icon_first_failures << "Group detail momentum must hide visible metadata labels." unless collection_detail_actions.scan("iconOnly: true").length >= 3
+icon_first_failures << "Group detail hero must keep group name one-line with ellipsis." unless collection_detail_hero.include?("maxLines: 1") && collection_detail_hero.include?("softWrap: false")
+icon_first_failures << "Share screen group titles must keep one-line ellipsis." unless share_screen.scan("maxLines: 1").length >= 2 && share_screen.include?("softWrap: false")
+icon_first_failures << "Plain route headers must keep title and subtitle one-line with ellipsis." unless scaffold_chrome.scan("maxLines: 1").length >= 2 && scaffold_chrome.scan("TextOverflow.ellipsis").length >= 2
+icon_first_sources = [
+  collections_screen,
+  collection_manage_screen,
+  collection_detail_actions,
+  collection_detail_hero,
+  share_screen,
+  group_cards,
+  design_system_catalog
+]
+[
+  "'Supporters'",
+  "'Visible groups'",
+  "'Share-ready'",
+  " supporters",
+  "Name, image, visibility, recurrence, receiver.",
+  "Show, share, or save the QR image.",
+  "Native share invite link."
+].each do |copy|
+  icon_first_failures << "Visible explanatory metadata copy remains: #{copy}." if icon_first_sources.any? { |source| source.include?(copy) }
+end
+icon_first_failures << "DESIGN_SYSTEM.md must document one-line group-name ellipsis." unless design_system.match?(/Group names.*one line.*ellipsis/i)
+icon_first_failures << "DESIGN_SYSTEM.md must document icon-first metadata." unless design_system.match?(/icon-first metadata/i)
+checks << {
+  "id" => "icon_first_metadata_and_group_name_contract",
+  "status" => status_for(icon_first_failures),
+  "failures" => icon_first_failures,
+  "evidence" => [
+    "lib/app/theme/collect_semantic_icons.dart",
+    semantic_icon_spec_path,
+    "lib/shared/widgets/collect_group_cards.dart",
+    "lib/shared/widgets/collect_group_card_media.dart",
+    "lib/features/collections/collections_screen.dart",
+    "lib/features/collections/collection_manage_screen.dart",
+    "lib/features/collections/collection_detail_actions.dart",
+    "lib/features/collections/collection_detail_hero.dart",
+    "lib/features/collections/share_screen.dart",
+    "lib/features/dev/design_system_catalog_screen.dart",
+    "lib/shared/widgets/collect_scaffold_chrome.dart",
+    "docs/design/DESIGN_SYSTEM.md"
   ]
 }
 
@@ -895,6 +981,11 @@ else
   extra = smoke_routes - materialized_routes
   route_failures << "Missing route screenshot coverage: #{missing.join(", ")}." unless missing.empty?
   route_failures << "Smoke summary contains unregistered route(s): #{extra.join(", ")}." unless extra.empty?
+  product_screen_count = route_summary.fetch("product_screen_count", nil).to_i
+  compatibility_route_count = route_summary.fetch("compatibility_route_count", nil).to_i
+  compatibility_routes = Array(route_summary["compatibility_routes"])
+  route_failures << "Mobile route summary must separate product screens from compatibility routes." if product_screen_count <= 0 || compatibility_route_count <= 0
+  route_failures << "Invite route must be classified as compatibility, not a separate product screen." unless compatibility_routes.include?("invite")
 
   captures = Array(route_summary["captures"])
   captures.each do |capture|
@@ -971,6 +1062,9 @@ summary = {
   "reference_contract" => "Revolut screenshots are the quality benchmark; shipped runtime branding uses documented Collect-owned assets unless a separately approved replacement kit is supplied.",
   "primary_colors" => expected_primary_hexes,
   "route_count" => materialized_routes.length,
+  "product_screen_count" => route_summary&.fetch("product_screen_count", nil),
+  "compatibility_route_count" => route_summary&.fetch("compatibility_route_count", nil),
+  "compatibility_routes" => route_summary ? Array(route_summary["compatibility_routes"]) : [],
   "checks" => checks,
   "secret_handling" => "The audit inspects local source paths and generated screenshot metadata only; it does not print secrets, raw SMS, OTPs, PINs, or private receiver data.",
   "external_approval_scope" => "This audit owns code/design evidence. Store release, public parity claims, and third-party approval workflows remain separate governance actions."

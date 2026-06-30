@@ -143,7 +143,8 @@ const _publicMarketingPages = <CollectPublicPageData>[
     title: 'Protection that fits how people earn.',
     intro:
         'Collect works with licensed insurers on simple protection products, flexible micro-payments, and transparent claims - built for informal and variable-income earners.',
-    imageAsset: 'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png',
+    imageAsset:
+        'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png',
     metricA: 'Records',
     metricALabel: 'Customer support',
     metricB: 'Providers',
@@ -202,7 +203,8 @@ const _publicMarketingPages = <CollectPublicPageData>[
     title: 'From loan inquiry to bank-ready file.',
     intro:
         'CRaaS helps a business understand what a lender needs, close the gaps, and submit one complete, bank-ready application file.',
-    imageAsset: 'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png',
+    imageAsset:
+        'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png',
     metricA: 'Readiness',
     metricALabel: 'File support',
     metricB: 'Provider',
@@ -322,7 +324,8 @@ const _publicMarketingPages = <CollectPublicPageData>[
     title: "The banking opportunity in Rwanda's informal economy.",
     intro:
         'These customers already earn, save, and borrow - just outside the formal system. Collect turns that existing discipline into deposits, data, and bankable credit relationships.',
-    imageAsset: 'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png',
+    imageAsset:
+        'assets/brand/collect_runtime/media/mobile-money-ussd-signal.png',
     metricA: 'RWF 288B+',
     metricALabel: 'Annual ibimina savings flow',
     metricB: '4.8M',

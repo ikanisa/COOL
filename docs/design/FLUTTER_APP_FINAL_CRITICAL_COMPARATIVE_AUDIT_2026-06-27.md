@@ -9,7 +9,7 @@ Comparator: supplied Revolut10 screenshots in `/Users/jeanbosco/Downloads/Revolu
 
 The Flutter member app is code-owned visually shippable for the current Revolut-like quality direction after the 2026-06-27 follow-up implementation pass fixes the critical legal text clipping path, reduces the major truncation risks, aligns Settings with the main top chrome pattern, replaces account/destructive default dialogs with tokenized sheets, and retunes the payment-support review chips. The current evidence proves the three-item bottom navigation is preserved, the four primary colors are preserved, default CTAs are no longer orange, the stable Collect-owned font/asset/token switchpoints are wired, and the changed high-risk routes render cleanly in fresh targeted visual evidence.
 
-The strongest parts are Home, Groups, group detail, payment state, ledger, share/invite, settings privacy, public static pages, admin route breadth, persisted admin operator notes/SLA policy, group support-status write action, feature-flag toggle action, native Android structural accessibility proof, cleaned Collect-owned runtime assets, current Android/Admin PWA release artifacts, and the shared chrome/cards. The remaining production signoff weakness is linked Supabase readiness: the remote project is missing the latest feature-flag toggle RPC migration. Human screen-reader narration judgment is documented separately as a human-listening review rather than an automated repo claim.
+The strongest parts are Home, Groups, group detail, payment state, ledger, share/invite, settings privacy, public static pages, admin route breadth, persisted admin operator notes/SLA policy, group support-status write action, feature-flag toggle action, native Android structural accessibility proof, Inter/Inter Display runtime typography correction, cleaned Collect-owned runtime assets, current Android/Admin PWA release artifacts, and the shared chrome/cards. The remaining production signoff weakness is linked Supabase readiness: the remote project is missing the latest feature-flag toggle RPC migration. Human screen-reader narration judgment is documented separately as a human-listening review rather than an automated repo claim.
 
 After explicit build approval on 2026-06-29, the production APK, production AAB, and Admin PWA were rebuilt. `scripts/release_artifact_manifest.sh --json`, `scripts/flutter_mobile_release_gate.sh --json`, and `scripts/release_status.sh --json` now pass with `GO` and no blocker keys. The linked Supabase readiness rerun stops at migration history because remote is missing `20260627191000`.
 
@@ -32,6 +32,7 @@ After explicit build approval on 2026-06-29, the production APK, production AAB,
 | `.cache/collect_visual_evidence/20260627T_large_text_1_3/mobile/summary.json` | Pass | Large-text visual capture at text scale `1.3` for `groups`, `settings`, `privacy`, `legal-privacy`, and `legal-terms`. |
 | `.cache/collect_visual_evidence/20260627T_large_text_1_6/mobile/summary.json` | Pass | Large-text visual capture at text scale `1.6` for `groups`, `settings`, `privacy`, `legal-privacy`, and `legal-terms`. |
 | `.cache/collect_visual_evidence/20260627T_large_text_2_0/mobile/summary.json` | Pass | Large-text visual capture at text scale `2.0` for `groups`, `settings`, `privacy`, `legal-privacy`, and `legal-terms`. |
+| `.cache/mobile_visual_evidence_matrix/20260630T_inter_typography/summary.json` | Pass | Targeted typography refresh evidence for Home, Groups, and Settings after replacing Poligon with Inter/Inter Display; covers compact, baseline, large, light mode, dark mode, and 200% text states. |
 | `.cache/mobile_route_render_smoke/20260627T121726Z/contact_sheets/collect-mobile-route-contact-sheet.png` | Reviewed | Full member route contact sheet, nonblank. |
 | `.cache/mobile_route_render_smoke/20260627T121726Z/contact_sheets/revolut-reference-contact-sheet.png` | Reviewed | All 11 supplied Revolut10 screenshots. |
 | `.cache/collect_mobile_design_compliance/20260627T_orange_reserved_sweep/summary.json` | Pass | Final design audit passed; generated `2026-06-27T12:51:13Z`. |
@@ -179,7 +180,7 @@ After explicit build approval on 2026-06-29, the production APK, production AAB,
 
 | Asset area | Health | Notes |
 | --- | --- | --- |
-| Fonts | Pass | Collect runtime/Revolut-like font files installed and registered. |
+| Fonts | Pass | `Collect Runtime` now uses Inter for app UI/body text and `Collect Display` uses Inter Display for large headings and money hierarchy. Exact licensed Aeonik/Aeonik Pro files are not bundled because they were not supplied. |
 | Runtime brand assets | Pass | Wordmark, app icon, splash mark, splash background, web icon, share preview, and icon mapping are installed from Collect-owned generated/source assets. |
 | Media richness | Good with scope limits | Member Home/share/privacy use richer visual panels; create and scan now include compact reassurance panels. Legal remains intentionally text-first. |
 | Icon language | Good | Centralized `CollectIcons` adapter gives consistent Material-like icon set. Full Revolut-like icon replacement remains a future input question. |

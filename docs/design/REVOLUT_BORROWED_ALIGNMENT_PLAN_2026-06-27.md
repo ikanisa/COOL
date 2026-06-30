@@ -12,7 +12,7 @@ The target is not copied branding. The target is full alignment of typography rh
 
 ## Current Contradictions
 
-- `lib/app/theme/collect_typography.dart` names `Hanken Grotesk`, `Inter`, and `Roboto`, but the app does not bundle font files and does not use the Revolut typeface.
+- The 2026-06-30 typography correction bundles Inter for app UI/body text and Inter Display for local display/money hierarchy under stable `Collect Runtime` and `Collect Display` family names. Exact licensed Aeonik/Aeonik Pro files remain unavailable unless supplied separately.
 - `docs/archive/2026-06/design/TYPOGRAPHY.md` is stale and names a different fallback set.
 - `DESIGN.md`, `docs/design/DESIGN_SYSTEM.md`, `docs/archive/2026-06/design/UI_UX_REFERENCE_RESEARCH.md`, and older parity reports previously used a brand-separation direction that has now been superseded.
 - Older wording in docs and scripts referred to a Collect runtime kit as a runtime input; the active decision is Collect-owned runtime assets with Revolut screenshots as the quality benchmark.
@@ -36,8 +36,8 @@ If a required Collect asset is unavailable, mark it as a blocker in the evidence
 ### 1. Typography
 
 - Keep approved local font files under the dedicated runtime font path, `assets/fonts/collect/`.
-- Register the font family in `pubspec.yaml`.
-- Keep the current registered family as the primary family and remove misleading open-font documentation.
+- Register the UI and display font families in `pubspec.yaml`.
+- Keep `Collect Runtime` as the primary UI/body family and `Collect Display` as the local display fallback. Replace `Collect Display` with licensed Aeonik/Aeonik Pro only when official files are supplied.
 - Add a test or audit check that fails unless the runtime font family is registered or the missing font input is explicitly recorded in the blocker register.
 - Verify Android, iOS, and web builds embed or load the font consistently.
 

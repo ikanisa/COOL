@@ -13,7 +13,7 @@ import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import '../profile/profile_setup_screen.dart';
-import '../status/production_state_screens.dart';
+import '../status/native_permission_sheets.dart';
 import 'group_creation_platform.dart';
 
 part 'collection_create_widgets.dart';
@@ -86,7 +86,7 @@ class _CollectionCreateScreenState
     }
     final canCreate = canCreateGroupsOnThisPlatform();
     if (!canCreate) {
-      return const IphoneCreateUnavailableScreen();
+      return const SizedBox.shrink();
     }
     return ScreenScaffold(
       title: 'Create group',
@@ -350,7 +350,7 @@ class _CollectionCreateScreenState
         .setSmsAccess(true);
     if (!mounted) return false;
     if (granted) return true;
-    context.go('/permissions/sms-denied');
+    await showSmsAccessSheet(context, onRetry: _create);
     return false;
   }
 

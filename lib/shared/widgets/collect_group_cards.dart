@@ -94,6 +94,7 @@ class _OwnedGroupCard extends StatelessWidget {
                     CollectionTypeBadge(
                       type: collection.collectionType,
                       compact: true,
+                      iconOnly: true,
                     ),
                     CollectSpacing.gap4,
                     Text(
@@ -291,21 +292,18 @@ class _CompactGroupCard extends StatelessWidget {
                   collection.title,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: colors.textPrimary,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w700,
                     letterSpacing: 0,
                   ),
-                  maxLines: 2,
+                  maxLines: 1,
+                  softWrap: false,
                   overflow: TextOverflow.ellipsis,
                 ),
                 CollectSpacing.gap4,
-                Text(
-                  '${collection.collectionType.label} · ${summary.supporterCount} supporters',
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    color: colors.textSecondary,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                _GroupMetaIconRow(
+                  collection: collection,
+                  summary: summary,
+                  accent: accent,
                 ),
               ],
             ),
@@ -324,7 +322,7 @@ class _CompactGroupCard extends StatelessWidget {
                     formatRwf(summary.amountRaisedRwf),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: colors.textPrimary,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: 0,
                     ),
                     maxLines: 1,
@@ -525,11 +523,11 @@ class _GroupIconMetric extends StatelessWidget {
     final textStyle = compactLargeText
         ? Theme.of(context).textTheme.labelMedium?.copyWith(
             color: metricColor,
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.w700,
           )
         : Theme.of(context).textTheme.titleSmall?.copyWith(
             color: metricColor,
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.w700,
           );
     return Semantics(
       label: semanticLabel,
@@ -550,6 +548,69 @@ class _GroupIconMetric extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _GroupMetaIconRow extends StatelessWidget {
+  const _GroupMetaIconRow({
+    required this.collection,
+    required this.summary,
+    required this.accent,
+  });
+
+  final CollectCollection collection;
+  final CollectionSummary summary;
+  final Color accent;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Semantics(
+      label:
+          '${collection.collectionType.label}, ${summary.supporterCount} members, ${collection.isPublic ? 'public' : 'private'}',
+      child: ExcludeSemantics(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _GroupMetaIcon(
+              icon: collectionTypeIcon(collection.collectionType),
+              color: accent,
+            ),
+            CollectSpacing.gapW8,
+            _GroupMetaIcon(icon: CollectSemanticIcons.forKeyword('members')),
+            CollectSpacing.gapW4,
+            Text(
+              '${summary.supporterCount}',
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                color: colors.textSecondary,
+                fontWeight: FontWeight.w600,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            CollectSpacing.gapW8,
+            _GroupMetaIcon(
+              icon: collection.isPublic
+                  ? CollectSemanticIcons.forKeyword('public')
+                  : CollectSemanticIcons.forKeyword('private'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _GroupMetaIcon extends StatelessWidget {
+  const _GroupMetaIcon({required this.icon, this.color});
+
+  final IconData icon;
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return Icon(icon, size: 15, color: color ?? colors.textMuted);
   }
 }
 

@@ -22,11 +22,9 @@ import 'package:collect_app/features/collections/share_screen.dart';
 import 'package:collect_app/features/home/home_screen.dart';
 import 'package:collect_app/features/ledger/ledger_screen.dart';
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
-import 'package:collect_app/features/payments/payment_intent_status_screen.dart';
 import 'package:collect_app/features/profile/profile_setup_screen.dart';
 import 'package:collect_app/features/settings/settings_screen.dart';
 import 'package:collect_app/features/status/production_state_screens.dart';
-import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -41,6 +39,8 @@ void main() {
     Platform.environment['COLLECT_VISUAL_THEME_MODE'],
   );
   final mobileTextScale = _mobileTextScaleFromEnv();
+  final captureAdminEvidence =
+      Platform.environment['COLLECT_VISUAL_CAPTURE_ADMIN'] != '0';
   if (evidenceRoot == null || evidenceRoot.isEmpty) {
     test(
       'visual evidence capture is opt-in',
@@ -128,6 +128,8 @@ void main() {
           'status': 'pass',
           'name': name,
           'route': route,
+          'route_class': spec.routeClass,
+          'product_screen': spec.isProductScreen,
           'path': fileName,
           'width': capture.width,
           'height': capture.height,
@@ -152,7 +154,30 @@ void main() {
             '${_mobileViewportFromEnv().width.toInt()}x${_mobileViewportFromEnv().height.toInt()}',
         'expected_route_count': mobileSpecs.length,
         'route_count': mobileCaptures.length,
+        'product_screen_count': mobileSpecs
+            .where((spec) => spec.isProductScreen)
+            .length,
+        'compatibility_route_count': mobileSpecs
+            .where((spec) => !spec.isProductScreen)
+            .length,
         'routes': [for (final capture in mobileCaptures) capture['route']],
+        'route_specs': [
+          for (final spec in mobileSpecs)
+            {
+              'name': spec.name,
+              'route': spec.route,
+              'route_class': spec.routeClass,
+              'product_screen': spec.isProductScreen,
+            },
+        ],
+        'product_screens': [
+          for (final spec in mobileSpecs)
+            if (spec.isProductScreen) spec.name,
+        ],
+        'compatibility_routes': [
+          for (final spec in mobileSpecs)
+            if (!spec.isProductScreen) spec.name,
+        ],
         'screenshots': [for (final capture in mobileCaptures) capture['path']],
         'captures': mobileCaptures,
         'privacy':
@@ -238,6 +263,7 @@ void main() {
       );
     },
     timeout: const Timeout(Duration(minutes: 12)),
+    skip: !captureAdminEvidence,
   );
 }
 
@@ -255,6 +281,20 @@ Future<void> _loadCollectRuntimeFontsForEvidence() async {
       rootBundle.load('assets/fonts/collect/CollectRuntime-ExtraBold.otf'),
     );
   await collectLoader.load();
+
+  final displayLoader = FontLoader(CollectRuntimeTypography.displayFontFamily)
+    ..addFont(
+      rootBundle.load('assets/fonts/collect/CollectDisplay-Regular.otf'),
+    )
+    ..addFont(rootBundle.load('assets/fonts/collect/CollectDisplay-Medium.otf'))
+    ..addFont(
+      rootBundle.load('assets/fonts/collect/CollectDisplay-SemiBold.otf'),
+    )
+    ..addFont(rootBundle.load('assets/fonts/collect/CollectDisplay-Bold.otf'))
+    ..addFont(
+      rootBundle.load('assets/fonts/collect/CollectDisplay-ExtraBold.otf'),
+    );
+  await displayLoader.load();
 
   final flutterRoot =
       Platform.environment['FLUTTER_ROOT'] ?? '/Volumes/PRO-G40/flutter_3_44';
@@ -552,45 +592,19 @@ GoRoute _adminEvidenceDetailRoute(
 
 Widget _mobileRouteScreen(String route) {
   const collectionId = 'col-church';
-  const intentId = 'intent-render';
   return switch (route) {
     '/' => const HomeScreen(),
-    '/onboarding' => const OnboardingScreen(),
-    '/onboarding/legal' => const LegalConsentScreen(),
     '/auth' => const AuthScreen(),
     '/home' => const HomeScreen(),
     '/offline' => const OfflineStateScreen(),
     '/sync' => const SyncStatusScreen(),
-    '/notifications' => const NotificationCenterScreen(),
-    '/permissions/sms' => const CollectionCreateScreen(),
-    '/permissions/sms-denied' => const SmsPermissionDeniedScreen(),
-    '/permissions/device' => const NotificationPermissionScreen(),
-    '/permissions/notifications-denied' => const PermissionRecoveryScreen(
-      kind: 'notifications',
-    ),
-    '/permissions/camera-denied' => const PermissionRecoveryScreen(
-      kind: 'camera',
-    ),
-    '/platform/iphone-create-unavailable' =>
-      const IphoneCreateUnavailableScreen(),
     '/groups' => const CollectionsScreen(),
     '/groups/scan' => const GroupQrScannerScreen(),
     '/groups/create' => const CollectionCreateScreen(),
     '/groups/$collectionId' => const CollectionDetailScreen(
       collectionId: collectionId,
     ),
-    '/groups/$collectionId/joined' => const JoinGroupConfirmationScreen(
-      collectionId: collectionId,
-    ),
     '/groups/$collectionId/members' => const GroupMembersScreen(
-      collectionId: collectionId,
-    ),
-    '/groups/$collectionId/owner' => const CollectionManageScreen(
-      collectionId: collectionId,
-    ),
-    '/groups/$collectionId/owner/sms-health' =>
-      const NotificationPermissionScreen(),
-    '/groups/$collectionId/owner/receiver' => const GroupProfileScreen(
       collectionId: collectionId,
     ),
     '/groups/$collectionId/manage' => const CollectionManageScreen(
@@ -602,48 +616,10 @@ Widget _mobileRouteScreen(String route) {
     '/groups/$collectionId/contribute' => const ContributionFlowScreen(
       collectionId: collectionId,
     ),
-    '/groups/$collectionId/pay/$intentId/handoff' =>
-      const PaymentIntentStatusScreen(
-        collectionId: collectionId,
-        intentId: intentId,
-      ),
-    '/groups/$collectionId/pay/$intentId/state/pending' =>
-      const PaymentStateDetailScreen(
-        collectionId: collectionId,
-        intentId: intentId,
-        state: PaymentUiStatus.pending,
-      ),
-    '/groups/$collectionId/pay/$intentId/state/confirmed' =>
-      const PaymentStateDetailScreen(
-        collectionId: collectionId,
-        intentId: intentId,
-        state: PaymentUiStatus.confirmed,
-      ),
-    '/groups/$collectionId/pay/$intentId/state/expired' =>
-      const PaymentStateDetailScreen(
-        collectionId: collectionId,
-        intentId: intentId,
-        state: PaymentUiStatus.expired,
-      ),
-    '/groups/$collectionId/pay/$intentId/state/needs-review' =>
-      const PaymentStateDetailScreen(
-        collectionId: collectionId,
-        intentId: intentId,
-        state: PaymentUiStatus.needsReview,
-      ),
-    '/groups/$collectionId/pay/$intentId' => const PaymentIntentStatusScreen(
-      collectionId: collectionId,
-      intentId: intentId,
-    ),
-    '/groups/$collectionId/support/payment/$intentId' =>
-      const PaymentSupportReviewScreen(
-        collectionId: collectionId,
-        intentId: intentId,
-      ),
     '/groups/$collectionId/share' => const ShareScreen(
       collectionId: collectionId,
     ),
-    '/groups/$collectionId/invite' => const CollectionDetailScreen(
+    '/groups/$collectionId/invite' => const ShareScreen(
       collectionId: collectionId,
     ),
     '/groups/$collectionId/ledger' => const LedgerScreen(
@@ -663,7 +639,6 @@ Widget _mobileRouteScreen(String route) {
     '/settings/help' => const HelpSupportScreen(),
     '/settings/legal/terms' => const LegalScreen(kind: 'terms'),
     '/settings/legal/privacy' => const LegalScreen(kind: 'privacy'),
-    '/share/confirmed' => const HomeScreen(),
     '/app' => const HomeScreen(),
     '/invite/038491' => const HomeScreen(),
     _ => throw StateError('No visual evidence widget for $route'),
@@ -777,10 +752,17 @@ List<_RouteSpec> _mobileRouteSpecs() {
     );
   }
   final routeSpecs = script.substring(start, end);
-  final specs = RegExp(r'^\s*"([^"|]+)\|(/[^"]*)"', multiLine: true)
-      .allMatches(routeSpecs)
-      .map((match) => _RouteSpec(match.group(1)!, match.group(2)!))
-      .toList(growable: false);
+  final specs =
+      RegExp(r'^\s*"([^"|]+)\|([^"|]+)(?:\|([^"]+))?"', multiLine: true)
+          .allMatches(routeSpecs)
+          .map(
+            (match) => _RouteSpec(
+              match.group(1)!,
+              match.group(2)!,
+              match.group(3) ?? 'workflow',
+            ),
+          )
+          .toList(growable: false);
   if (specs.isEmpty) {
     throw StateError('No route specs found in mobile route smoke script.');
   }
@@ -810,10 +792,13 @@ List<_RouteSpec> _mobileRouteSpecs() {
 }
 
 class _RouteSpec {
-  const _RouteSpec(this.name, this.route);
+  const _RouteSpec(this.name, this.route, this.routeClass);
 
   final String name;
   final String route;
+  final String routeClass;
+
+  bool get isProductScreen => routeClass != 'compatibility';
 }
 
 const _evidenceAdmin = AdminIdentity(

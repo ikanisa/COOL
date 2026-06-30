@@ -6,9 +6,11 @@ import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/core/security/hash_utils.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
+import 'package:collect_app/shared/repositories/collect_offline_cache.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   test('group creation stores receiver MoMo from profile flow', () async {
@@ -115,6 +117,98 @@ void main() {
     expect(intent.expiresAt.isAfter(DateTime.now()), isTrue);
   });
 
+  test(
+    'offline snapshot persists profile groups ledger and payment state',
+    () async {
+      SharedPreferences.setMockInitialValues({});
+      const cache = CollectOfflineCache(
+        preferencesKey: 'collect.offline_snapshot.repository_test',
+      );
+      final repo = CollectRepository.fixture();
+      final savedAt = DateTime.utc(2026, 6, 30, 8, 15);
+
+      await cache.save(
+        CollectOfflineSnapshot(
+          savedAt: savedAt,
+          currentProfile: repo.state.currentProfile,
+          collections: repo.state.collections,
+          paymentIntents: repo.state.paymentIntents,
+          contributions: repo.state.contributions,
+        ),
+      );
+
+      final restored = await cache.read();
+
+      expect(restored, isNotNull);
+      expect(restored!.savedAt, savedAt);
+      expect(restored.currentProfile?.publicId, '038491');
+      expect(
+        restored.collections.map((item) => item.id),
+        contains('col-church'),
+      );
+      expect(restored.paymentIntents.single.id, 'intent-render');
+      expect(restored.contributions, hasLength(2));
+      expect(
+        restored.contributions.any((item) => item.transactionId != null),
+        isFalse,
+        reason:
+            'Offline cache keeps ledger totals readable without transaction IDs.',
+      );
+    },
+  );
+
+  test(
+    'repository restores stale offline snapshot with explicit status',
+    () async {
+      SharedPreferences.setMockInitialValues({});
+      const cache = CollectOfflineCache(
+        preferencesKey: 'collect.offline_snapshot.restore_test',
+      );
+      final seeded = CollectRepository.fixture();
+      final savedAt = DateTime.utc(2026, 6, 30, 9, 30);
+      await cache.save(
+        CollectOfflineSnapshot(
+          savedAt: savedAt,
+          currentProfile: seeded.state.currentProfile,
+          collections: seeded.state.collections,
+          paymentIntents: seeded.state.paymentIntents,
+          contributions: seeded.state.contributions,
+        ),
+      );
+      final repo = CollectRepository.fixture(
+        seeded: false,
+        offlineCache: cache,
+      );
+
+      final restored = await repo.restoreOfflineSnapshot(
+        reason: 'SocketException: network is offline',
+      );
+
+      expect(restored, isTrue);
+      expect(repo.state.usingStaleCache, isTrue);
+      expect(repo.state.lastSuccessfulSyncAt, savedAt);
+      expect(repo.state.currentProfile?.publicId, '038491');
+      expect(repo.state.collections, hasLength(2));
+      expect(repo.state.paymentIntents.single.id, 'intent-render');
+      expect(repo.state.contributions, hasLength(2));
+      expect(repo.state.lastError, contains('SocketException'));
+
+      final container = ProviderContainer(
+        overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
+      );
+      addTearDown(container.dispose);
+
+      expect(
+        container.read(connectivityStatusProvider),
+        ConnectivityStatus.offlineStale,
+      );
+      expect(
+        container.read(offlineSnapshotStatusProvider).label,
+        contains('Offline saved data'),
+      );
+    },
+  );
+
   test('fixture state includes backend notification events', () {
     final repo = CollectRepository.fixture();
     final events = repo.state.notificationEvents;
@@ -132,21 +226,21 @@ void main() {
         'id': 'notif-1',
         'user_id': 'user-1',
         'collection_id': 'col-1',
-        'type': 'payment_reminder',
-        'title': 'Payment verification pending',
-        'body': '1 payment waiting for MoMo SMS verification.',
-        'deep_link': '/notifications',
+        'type': 'app_update',
+        'title': 'Collect updated',
+        'body': 'Group records refresh after confirmed MoMo SMS matching.',
+        'deep_link': '/home',
         'status': 'queued',
         'created_at': '2026-06-26T12:00:00Z',
       });
 
       expect(event.unread, isTrue);
-      expect(event.deepLink, '/notifications');
+      expect(event.deepLink, '/home');
 
       final repo = CollectRepository.fixture();
-      await repo.markNotificationRead('notif-payment-pending');
+      await repo.markNotificationRead('notif-app-update');
       final marked = repo.state.notificationEvents.singleWhere(
-        (item) => item.id == 'notif-payment-pending',
+        (item) => item.id == 'notif-app-update',
       );
 
       expect(marked.status, 'read');

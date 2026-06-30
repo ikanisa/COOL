@@ -210,7 +210,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
         final collection = await repository.joinGroupBySlug(pendingSlug);
         ref.read(pendingSharedGroupSlugProvider.notifier).state = null;
         if (!mounted) return;
-        context.go('/groups/${collection.id}/joined');
+        context.go('/groups/${collection.id}');
         return;
       }
       setState(() {

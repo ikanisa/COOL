@@ -71,34 +71,17 @@ void main() {
       containsAll(<String>[
         '/',
         '/auth',
-        '/onboarding',
-        '/onboarding/legal',
         '/home',
         '/offline',
         '/sync',
-        '/notifications',
-        '/permissions/sms',
-        '/permissions/sms-denied',
-        '/permissions/device',
-        '/permissions/notifications-denied',
-        '/permissions/camera-denied',
-        '/platform/iphone-create-unavailable',
         '/groups',
         '/groups/scan',
         '/groups/create',
         '/groups/:collectionId',
-        '/groups/:collectionId/joined',
         '/groups/:collectionId/members',
-        '/groups/:collectionId/owner',
-        '/groups/:collectionId/owner/sms-health',
-        '/groups/:collectionId/owner/receiver',
         '/groups/:collectionId/manage',
         '/groups/:collectionId/profile',
         '/groups/:collectionId/contribute',
-        '/groups/:collectionId/pay/:intentId/handoff',
-        '/groups/:collectionId/pay/:intentId/state/:state',
-        '/groups/:collectionId/pay/:intentId',
-        '/groups/:collectionId/support/payment/:intentId',
         '/groups/:collectionId/share',
         '/groups/:collectionId/invite',
         '/groups/:collectionId/ledger',
@@ -116,9 +99,20 @@ void main() {
         '/settings/help',
         '/settings/legal/terms',
         '/settings/legal/privacy',
-        '/share/confirmed',
         if (kDebugMode) '/dev/design-system',
       ]),
+    );
+    expect(
+      collectRoutePaths,
+      isNot(
+        containsAll(<String>[
+          '/onboarding',
+          '/notifications',
+          '/permissions/device',
+          '/groups/:collectionId/pay/:intentId/state/:state',
+          '/groups/:collectionId/support/payment/:intentId',
+        ]),
+      ),
     );
 
     final router = createAppRouter();
@@ -164,13 +158,14 @@ void main() {
     final shell = File(
       'lib/core/widgets/collect_shell.dart',
     ).readAsStringSync();
+    final nativePermissionSheets = File(
+      'lib/features/status/native_permission_sheets.dart',
+    ).readAsStringSync();
     final primaryScreens = [
       'lib/features/home/home_screen.dart',
       'lib/features/collections/collections_screen.dart',
       'lib/features/collections/collection_detail_screen.dart',
       'lib/features/ledger/ledger_screen.dart',
-      'lib/features/payments/payment_intent_status_screen.dart',
-      'lib/features/status/device_notification_center.dart',
       'lib/features/settings/settings_screen.dart',
     ].map((path) => File(path).readAsStringSync()).join('\n');
 
@@ -189,7 +184,7 @@ void main() {
     expect(primaryScreens, contains('onRefresh:'));
     expect(primaryScreens, contains('collectRepositoryProvider.notifier'));
     expect(primaryScreens, contains('loadInitial()'));
-    expect(primaryScreens, contains('_refreshStatus'));
+    expect(nativePermissionSheets, contains('requestNativeNotifications(ref)'));
   });
 
   test('mobile native performance profiling has a device evidence gate', () {
@@ -225,7 +220,7 @@ void main() {
         'scripts/mobile_route_render_smoke.sh',
       ).readAsStringSync();
       final smokeRoutes = RegExp(
-        r'"[^"|]+\|([^"]+)"',
+        r'"[^"|]+\|([^"|]+)(?:\|[^"]+)?"',
       ).allMatches(script).map((match) => match.group(1)!).toSet();
       final productionScreenRoutes = collectRoutePaths
           .where((route) => route != '/dev/design-system')
@@ -250,11 +245,11 @@ void main() {
         smokeScript.indexOf('\n)\n\ncaptures_json='),
       );
       final smokeRoutes = RegExp(
-        r'^\s*"[^"|]+\|([^"]+)"',
+        r'^\s*"[^"|]+\|([^"|]+)(?:\|[^"]+)?"',
         multiLine: true,
       ).allMatches(smokeRouteBlock).map((match) => match.group(1)!).toSet();
       final deviceRoutes = RegExp(
-        r"_RouteSpec\(\s*'[^']+',\s*'([^']+)'\s*,?\s*\)",
+        r"_RouteSpec\(\s*'[^']+',\s*'([^']+)'\s*,?\s*'[^']+'\s*,?\s*\)",
         multiLine: true,
       ).allMatches(deviceTest).map((match) => match.group(1)!).toSet();
 
@@ -357,7 +352,10 @@ void main() {
       'scripts/public_static_site_build.rb',
     ).readAsStringSync();
     expect(staticSite, isNot(contains('var(--orange)')));
-    expect(staticSite, contains('.button.cta-touch { background: var(--rose)'));
+    expect(
+      staticSite,
+      contains('.button.cta-touch { background: var(--black)'),
+    );
     expect(staticSite, contains('.brand-word { color: var(--periwinkle); }'));
   });
 
@@ -520,9 +518,8 @@ void main() {
       ).readAsStringSync();
       final devicePrivacyScreens = [
         'lib/features/status/device_privacy_screens.dart',
-        'lib/features/status/device_permission_screens.dart',
         'lib/features/status/device_privacy_data_screen.dart',
-        'lib/features/status/device_notification_center.dart',
+        'lib/features/status/native_permission_sheets.dart',
         'lib/features/status/device_support_screen.dart',
       ].map((path) => File(path).readAsStringSync()).join('\n');
       final settings = File(
@@ -552,11 +549,8 @@ void main() {
       );
       expect(settings, isNot(contains('Ready for group activity')));
       expect(statusScreens, contains("export 'device_privacy_screens.dart';"));
-      expect(devicePrivacyScreens, contains('Action-triggered'));
-      expect(
-        devicePrivacyScreens,
-        contains("CollectPlainPageHeader(title: 'App access')"),
-      );
+      expect(devicePrivacyScreens, contains('Open app settings'));
+      expect(devicePrivacyScreens, contains('openAppSettings()'));
       expect(
         createGroup,
         contains("CollectPlainPageHeader(title: 'Create group')"),
