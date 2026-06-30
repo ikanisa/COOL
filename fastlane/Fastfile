@@ -1,8 +1,6 @@
 default_platform(:android)
 
 require "shellwords"
-require "json"
-require "tempfile"
 
 COLLECT_IOS_APP_IDENTIFIER = "app.cool.mobile"
 COLLECT_IOS_APPLE_ID = "6783960331"
@@ -124,26 +122,16 @@ platform :ios do
     review_phone = collect_review_phone
     review_otp = collect_review_otp
     sh("cd .. && flutter pub get")
-    Tempfile.create(["collect_review_defines", ".json"]) do |defines_file|
-      defines_file.write(
-        JSON.generate(
-          {
-            "APP_REVIEW_AUTH_ENABLED" => "true",
-            "APP_REVIEW_AUTH_PHONE" => review_phone,
-            "APP_REVIEW_AUTH_OTP" => review_otp
-          }
-        )
-      )
-      defines_file.flush
-      sh([
-        "cd .. &&",
-        "flutter build ipa",
-        "--flavor production",
-        "--release",
-        "--export-options-plist=ios/ExportOptionsAppStore.plist",
-        "--dart-define-from-file=#{defines_file.path.shellescape}"
-      ].join(" "))
-    end
+    sh([
+      "cd .. &&",
+      "flutter build ipa",
+      "--flavor production",
+      "--release",
+      "--export-options-plist=ios/ExportOptionsAppStore.plist",
+      "--dart-define=APP_REVIEW_AUTH_ENABLED=true",
+      "--dart-define=APP_REVIEW_AUTH_PHONE=#{review_phone}",
+      "--dart-define=APP_REVIEW_AUTH_OTP=#{review_otp}"
+    ].join(" "))
   end
 
   desc "Upload the latest signed IPA to TestFlight without submitting for App Review"
